@@ -127,8 +127,8 @@ public:
 
     void addActionToMenu(QMenu& menu);
 
-    virtual void fill(NetworkMessageWriter& msg);
-    virtual void readMessage(NetworkMessageReader& msg);
+    // virtual void fill(NetworkMessageWriter& msg);
+    // virtual void readMessage(NetworkMessageReader& msg);
 
     bool isRemote() const;
     void setRemote(bool remote);

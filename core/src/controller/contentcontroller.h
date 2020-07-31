@@ -96,6 +96,7 @@ public:
     QString sessionPath() const;
     QString gameMasterId() const;
     QString localId() const;
+    bool localIsGM() const;
 
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
@@ -141,15 +142,6 @@ public slots:
 private:
     std::unique_ptr<SessionItemModel> m_sessionModel;
     std::map<Core::ContentType, std::unique_ptr<MediaUpdaterInterface>> m_mediaUpdaters;
-    /*std::unique_ptr<ImageMediaController> m_imageControllers;
-    std::unique_ptr<VectorialMapMediaController> m_vmapControllers;
-    std::unique_ptr<CharacterSheetMediaController> m_sheetMediaController;
-    std::unique_ptr<WebpageMediaController> m_webPageMediaController;
-    std::unique_ptr<SharedNoteMediaController> m_sharedNoteMediaController;
-#ifdef WITH_PDF
-    std::unique_ptr<PdfMediaController> m_pdfMediaController;
-#endif
-    std::unique_ptr<NoteMediaController> m_noteMediaController;*/
     std::unique_ptr<ContentModel> m_contentModel;
 
     PreferencesManager* m_preferences;

@@ -26,12 +26,12 @@ if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
 
     set(pdfHeader
         src/controller/view_controller/pdfcontroller.h
-        src/controller/media_controller/pdfmediacontroller.h
+        #src/controller/media_controller/pdfmediacontroller.h
         src/pdfviewer/pdfviewer.h)
 
     set(pdfSource
         src/pdfviewer/pdfviewer.cpp
-        src/controller/media_controller/pdfmediacontroller.cpp
+        #src/controller/media_controller/pdfmediacontroller.cpp
         src/controller/view_controller/pdfcontroller.cpp)
 
     set(pdfUiFiles src/pdfviewer/pdfviewer.ui)
@@ -54,13 +54,13 @@ set(HEADERS
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
     src/controller/view_controller/notecontroller.h
-    src/controller/media_controller/mediamanagerbase.h
-    src/controller/media_controller/charactersheetmediacontroller.h
-    src/controller/media_controller/vectorialmapmediacontroller.h
-    src/controller/media_controller/webpagemediacontroller.h
-    src/controller/media_controller/notemediacontroller.h
-    src/controller/media_controller/imagemediacontroller.h
-    src/controller/media_controller/sharednotemediacontroller.h
+    # src/controller/media_controller/mediamanagerbase.h
+    # src/controller/media_controller/charactersheetmediacontroller.h
+    # src/controller/media_controller/vectorialmapmediacontroller.h
+    # src/controller/media_controller/webpagemediacontroller.h
+    # src/controller/media_controller/notemediacontroller.h
+    # src/controller/media_controller/imagemediacontroller.h
+    # src/controller/media_controller/sharednotemediacontroller.h
     src/qmlchat/instantmessagingmodel.h
     src/qmlchat/messageinterface.h
     src/controller/contentcontroller.h
@@ -177,6 +177,9 @@ set(HEADERS
     src/diceparser/result/stringresult.h
     src/diceparser/validator.h
     src/media/image.h
+    src/media/mediafactory.h
+    src/model/contentmodel.h
+    src/model/singlecontenttypemodel.h
     src/model/playerproxymodel.h    
     src/network/channel.h
     src/network/channellistpanel.h
@@ -343,6 +346,7 @@ set(HEADERS
     src/updater/pathcontrollerupdater.h
     src/updater/characteritemupdater.h
     src/updater/charactersheetupdater.h
+    src/updater/mediaupdaterinterface.h
     )
 
 
@@ -355,13 +359,13 @@ set(SOURCES
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
     src/controller/instantmessagingcontroller.cpp
-    src/controller/media_controller/mediamanagerbase.cpp
-    src/controller/media_controller/imagemediacontroller.cpp
-    src/controller/media_controller/charactersheetmediacontroller.cpp
-    src/controller/media_controller/vectorialmapmediacontroller.cpp
-    src/controller/media_controller/webpagemediacontroller.cpp
-    src/controller/media_controller/sharednotemediacontroller.cpp
-    src/controller/media_controller/notemediacontroller.cpp
+    # src/controller/media_controller/mediamanagerbase.cpp
+    # src/controller/media_controller/imagemediacontroller.cpp
+    # src/controller/media_controller/charactersheetmediacontroller.cpp
+    # src/controller/media_controller/vectorialmapmediacontroller.cpp
+    # src/controller/media_controller/webpagemediacontroller.cpp
+    # src/controller/media_controller/sharednotemediacontroller.cpp
+    # src/controller/media_controller/notemediacontroller.cpp
     src/controller/view_controller/notecontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
     src/controller/view_controller/sharednotecontroller.cpp
@@ -480,7 +484,10 @@ set(SOURCES
     src/diceparser/validator.cpp
     src/diceparser/validatorlist.cpp
     src/media/image.cpp
+    src/media/mediafactory.cpp
     src/model/playerproxymodel.cpp
+    src/model/singlecontenttypemodel.cpp
+    src/model/contentmodel.cpp
     src/network/channel.cpp
     src/network/channellistpanel.cpp
     src/network/channelmodel.cpp
@@ -641,6 +648,7 @@ set(SOURCES
     src/worker/vectorialmapmessagehelper.cpp
     src/worker/playermessagehelper.cpp
     src/worker/convertionhelper.cpp
+    src/updater/mediaupdaterinterface.cpp
     )
 
 
