@@ -41,8 +41,7 @@ class SightController : public VisualItemController
     // Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(int characterCount READ characterCount NOTIFY characterCountChanged) // only playable character
 public:
-    SightController(VectorialMapController* ctrl, CharacterItemControllerManager* characterCtrl,
-                    QObject* parent= nullptr);
+    SightController(VectorialMapController* ctrl, QObject* parent= nullptr);
 
     void aboutToBeRemoved() override;
     void setCorner(const QPointF& move, int corner) override;
@@ -71,7 +70,6 @@ signals:
     void characterCountChanged();
 
 private:
-    QPointer<CharacterItemControllerManager> m_characterItems;
     std::vector<std::pair<QPolygonF, bool>> m_fogSingularityList;
     bool m_characterSight= false;
     CharacterVision::SHAPE m_defaultShape= CharacterVision::ANGLE;

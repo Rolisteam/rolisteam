@@ -67,14 +67,7 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() { m_currentPath= nullptr; });
 
     // item Managers
-    connect(m_ctrl->rectManager(), &RectControllerManager::rectControllerCreated, this, &VMap::addRectItem);
-    connect(m_ctrl->ellipseManager(), &EllipsControllerManager::ellipsControllerCreated, this, &VMap::addEllipseItem);
-    connect(m_ctrl->lineManager(), &LineControllerManager::LineControllerCreated, this, &VMap::addLineItem);
-    connect(m_ctrl->imageManager(), &ImageControllerManager::imageControllerCreated, this, &VMap::addImageItem);
-    connect(m_ctrl->pathManager(), &PathControllerManager::pathControllerCreated, this, &VMap::addPathItem);
-    connect(m_ctrl->textManager(), &TextControllerManager::textControllerCreated, this, &VMap::addTextItem);
-    connect(m_ctrl->characterManager(), &CharacterItemControllerManager::characterControllerCreated, this,
-            &VMap::addCharaterItem);
+    connect(m_ctrl, &VectorialMapController::visualItemControllerCreated, this, &VMap::addVisualItem);
 
     // initialization
     setBackgroundBrush(m_ctrl->backgroundColor());
@@ -140,8 +133,44 @@ void VMap::updateLayer()
         item->updateItemFlags();
     }
 }
+void VMap::addAndInit(QGraphicsItem* item)
+{
+    addItem(item);
+    item->setVisible(true);
+}
+void VMap::addVisualItem(vmap::VisualItemController* ctrl)
+{
+    switch(ctrl->itemType())
+    {
+    case vmap::VisualItemController::RECT:
+        addRectItem(dynamic_cast<vmap::RectController*>(ctrl), !ctrl->initialized());
+        break;
+    case vmap::VisualItemController::LINE:
+        addLineItem(dynamic_cast<vmap::LineController*>(ctrl), !ctrl->initialized());
+        break;
+    case vmap::VisualItemController::IMAGE:
+        addImageItem(dynamic_cast<vmap::ImageController*>(ctrl));
+        break;
+    case vmap::VisualItemController::PATH:
+        addPathItem(dynamic_cast<vmap::PathController*>(ctrl), !ctrl->initialized());
+        break;
+    case vmap::VisualItemController::TEXT:
+        addTextItem(dynamic_cast<vmap::TextController*>(ctrl));
+        break;
+    case vmap::VisualItemController::ELLIPSE:
+        addEllipseItem(dynamic_cast<vmap::EllipseController*>(ctrl), !ctrl->initialized());
+        break;
+    case vmap::VisualItemController::CHARACTER:
+        addCharaterItem(dynamic_cast<vmap::CharacterItemController*>(ctrl));
+        break;
+    default:
+        break;
+    }
+}
 void VMap::addLineItem(vmap::LineController* lineCtrl, bool editing)
 {
+    if(!lineCtrl)
+        return;
     auto item= new LineItem(lineCtrl);
     addAndInit(item);
     item->setPos(lineCtrl->pos());
@@ -149,14 +178,10 @@ void VMap::addLineItem(vmap::LineController* lineCtrl, bool editing)
         m_currentItem= item;
 }
 
-void VMap::addAndInit(QGraphicsItem* item)
-{
-    addItem(item);
-    item->setVisible(true);
-}
-
 void VMap::addImageItem(vmap::ImageController* imgCtrl)
 {
+    if(!imgCtrl)
+        return;
     auto img= new ImageItem(imgCtrl);
     addAndInit(img);
     img->setPos(imgCtrl->pos());
@@ -164,6 +189,8 @@ void VMap::addImageItem(vmap::ImageController* imgCtrl)
 
 void VMap::addRectItem(vmap::RectController* rectCtrl, bool editing)
 {
+    if(!rectCtrl)
+        return;
     qDebug() << "add rect Item editing:" << editing;
     auto item= new RectItem(rectCtrl);
     addAndInit(item);
@@ -174,6 +201,8 @@ void VMap::addRectItem(vmap::RectController* rectCtrl, bool editing)
 
 void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl, bool editing)
 {
+    if(!ellisCtrl)
+        return;
     auto item= new EllipsItem(ellisCtrl);
     addAndInit(item);
     item->setPos(ellisCtrl->pos());
@@ -183,6 +212,8 @@ void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl, bool editing)
 
 void VMap::addTextItem(vmap::TextController* textCtrl)
 {
+    if(!textCtrl)
+        return;
     auto tmp= new TextItem(textCtrl);
     addAndInit(tmp);
     tmp->setPos(textCtrl->pos());
@@ -190,6 +221,8 @@ void VMap::addTextItem(vmap::TextController* textCtrl)
 
 void VMap::addCharaterItem(vmap::CharacterItemController* itemCtrl)
 {
+    if(!itemCtrl)
+        return;
     auto tmp= new CharacterItem(itemCtrl);
     addAndInit(tmp);
     tmp->setPos(itemCtrl->pos());
@@ -197,6 +230,8 @@ void VMap::addCharaterItem(vmap::CharacterItemController* itemCtrl)
 
 void VMap::addPathItem(vmap::PathController* pathCtrl, bool editing)
 {
+    if(!pathCtrl)
+        return;
     auto path= new PathItem(pathCtrl);
 
     if(editing)

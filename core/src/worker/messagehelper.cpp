@@ -603,6 +603,76 @@ void addRectManager(RectControllerManager* ctrl, NetworkMessageWriter& msg)
                   [&msg](const vmap::RectController* ctrl) { addRectController(ctrl, msg); });
 }
 
+QHash<QString, QVariant> readLineManager(NetworkMessageReader* msg)
+{
+    QHash<QString, QVariant> result;
+    auto count= msg->uint64();
+    result["count"]= count;
+    for(quint64 i= 0; i < count; ++i)
+    {
+        auto param= MessageHelper::readLine(msg);
+        QHash<QString, QVariant> paramHash(param.begin(), param.end());
+        result[QString("param_%1").arg(i)]= paramHash;
+    }
+    return result;
+}
+
+QHash<QString, QVariant> readPathManager(NetworkMessageReader* msg)
+{
+    QHash<QString, QVariant> result;
+    auto count= msg->uint64();
+    result["count"]= count;
+    for(quint64 i= 0; i < count; ++i)
+    {
+        auto param= MessageHelper::readPath(msg);
+        QHash<QString, QVariant> paramHash(param.begin(), param.end());
+        result[QString("param_%1").arg(i)]= paramHash;
+    }
+    return result;
+}
+
+QHash<QString, QVariant> readImageManager(NetworkMessageReader* msg)
+{
+    QHash<QString, QVariant> result;
+    auto count= msg->uint64();
+    result["count"]= count;
+    for(quint64 i= 0; i < count; ++i)
+    {
+        auto param= MessageHelper::readImage(msg);
+        QHash<QString, QVariant> paramHash(param.begin(), param.end());
+        result[QString("param_%1").arg(i)]= paramHash;
+    }
+    return result;
+}
+
+QHash<QString, QVariant> readTextManager(NetworkMessageReader* msg)
+{
+    QHash<QString, QVariant> result;
+    auto count= msg->uint64();
+    result["count"]= count;
+    for(quint64 i= 0; i < count; ++i)
+    {
+        auto param= MessageHelper::readImage(msg);
+        QHash<QString, QVariant> paramHash(param.begin(), param.end());
+        result[QString("param_%1").arg(i)]= paramHash;
+    }
+    return result;
+}
+
+QHash<QString, QVariant> readCharacterManager(NetworkMessageReader* msg)
+{
+    QHash<QString, QVariant> result;
+    auto count= msg->uint64();
+    result["count"]= count;
+    for(quint64 i= 0; i < count; ++i)
+    {
+        auto param= MessageHelper::readImage(msg);
+        QHash<QString, QVariant> paramHash(param.begin(), param.end());
+        result[QString("param_%1").arg(i)]= paramHash;
+    }
+    return result;
+}
+
 void addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWriter& msg)
 {
     addVisualItemController(ctrl, msg);
@@ -879,12 +949,18 @@ QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReade
     hash["gridpattern"]= msg->uint8();
     hash["GridVisibility"]= msg->uint8();
     hash["GridSize"]= msg->uint32();
+    hash["GridAbove"]= msg->uint8();
     hash["Collision"]= msg->uint8();
     hash["GridColor"]= msg->rgb();
 
     hash["sight"]= readSightController(msg);
     hash["rect"]= readRectManager(msg);
     hash["ellipse"]= readEllipseManager(msg);
+    hash["line"]= readLineManager(msg);
+    hash["image"]= readImageManager(msg);
+    hash["path"]= readPathManager(msg);
+    hash["text"]= readTextManager(msg);
+    hash["character"]= readCharacterManager(msg);
 
     return hash;
 }
@@ -916,7 +992,7 @@ void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
     auto sightCtrl= ctrl->sightController();
     addSightController(sightCtrl, msg);
 
-    auto rectCtrl= ctrl->rectManager();
+    /*auto rectCtrl= ctrl->rectManager();
     addRectManager(rectCtrl, msg);
 
     auto ellipseCtrl= ctrl->ellipseManager();
@@ -935,7 +1011,7 @@ void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
     addTextManager(textCtrl, msg);
 
     auto characterCtrl= ctrl->characterManager();
-    addCharacterManager(characterCtrl, msg);
+    addCharacterManager(characterCtrl, msg);*/
 
     msg.sendToServer();
 }

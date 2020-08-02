@@ -94,20 +94,7 @@
      <addaction name="m_cascadeViewAction"/>
      <addaction name="m_tileViewAction"/>
     </widget>
-    <widget class="QMenu" name="menuMap">
-     <property name="title">
-      <string>Map</string>
-     </property>
-     <addaction name="m_showPcNameAction"/>
-     <addaction name="m_showNpcNameAction"/>
-     <addaction name="m_showNpcNumberAction"/>
-     <addaction name="m_showHealtStatusAction"/>
-     <addaction name="m_healthBarAct"/>
-     <addaction name="m_showInitiativeAct"/>
-    </widget>
     <addaction name="menuReorganize"/>
-    <addaction name="separator"/>
-    <addaction name="menuMap"/>
     <addaction name="separator"/>
     <addaction name="m_audioPlayerAct"/>
     <addaction name="m_characterListAct"/>
@@ -368,59 +355,6 @@
     <string>Ctrl+E</string>
    </property>
   </action>
-  <action name="m_showPcNameAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Show PC Name</string>
-   </property>
-   <property name="shortcut">
-    <string>F3</string>
-   </property>
-  </action>
-  <action name="m_showNpcNameAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Show Npc Name</string>
-   </property>
-   <property name="shortcut">
-    <string>F4</string>
-   </property>
-  </action>
-  <action name="m_showNpcNumberAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Show Npc Number</string>
-   </property>
-   <property name="shortcut">
-    <string>F5</string>
-   </property>
-  </action>
-  <action name="m_showMinutesEditorAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Minute Editor</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+M</string>
-   </property>
-  </action>
   <action name="m_openOnlinePictureAction">
    <property name="icon">
     <iconset theme="photo">
@@ -644,20 +578,6 @@
     <string>Ctrl+H</string>
    </property>
   </action>
-  <action name="m_healthBarAct">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Show Health Bar</string>
-   </property>
-   <property name="shortcut">
-    <string>F7</string>
-   </property>
-  </action>
   <action name="m_keyGeneratorAct">
    <property name="text">
     <string>Password Generator</string>
@@ -666,17 +586,6 @@
   <action name="m_currentMediaAs">
    <property name="text">
     <string>Current Media as…</string>
-   </property>
-  </action>
-  <action name="m_showInitiativeAct">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Show Initiative</string>
    </property>
   </action>
   <action name="m_patreon">

@@ -28,16 +28,14 @@
 namespace vmap
 {
 /////////////////////////////
-SightController::SightController(VectorialMapController* ctrl, CharacterItemControllerManager* characterCtrl,
-                                 QObject* parent)
+SightController::SightController(VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::SIGHT, std::map<QString, QVariant>(), ctrl, parent)
-    , m_characterItems(characterCtrl)
 {
     // constructor
-    connect(m_characterItems, &CharacterItemControllerManager::playableCharacterControllerCreated, this,
+    /*connect(m_characterItems, &CharacterItemControllerManager::playableCharacterControllerCreated, this,
             &SightController::characterCountChanged);
     connect(m_characterItems, &CharacterItemControllerManager::playableCharacterControllerDestroyed, this,
-            &SightController::characterCountChanged);
+            &SightController::characterCountChanged);*/
 
     connect(m_ctrl, &VectorialMapController::visibilityChanged, this,
             [this]() { setVisible(m_ctrl->visibility() == Core::VisibilityMode::FOGOFWAR); });
@@ -53,7 +51,7 @@ void SightController::aboutToBeRemoved()
 
 const std::vector<vmap::CharacterVisionData> SightController::visionData() const
 {
-    return m_characterItems->characterVisions();
+    return {}; // m_characterItems->characterVisions();
 }
 
 void SightController::setCorner(const QPointF& move, int corner) {}
@@ -67,7 +65,7 @@ int SightController::fowItemCount() const
 
 int SightController::characterCount() const
 {
-    return m_characterItems->playableCharacterCount();
+    return 0; // m_characterItems->playableCharacterCount();
 }
 
 bool SightController::characterSight() const

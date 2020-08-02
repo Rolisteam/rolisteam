@@ -360,6 +360,8 @@ protected:
 
     void addAndInit(QGraphicsItem* item);
 
+    void addVisualItem(vmap::VisualItemController* ctrl);
+
 private:
     QPointer<VectorialMapController> m_ctrl;
     /**

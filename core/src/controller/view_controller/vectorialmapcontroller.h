@@ -35,6 +35,7 @@ namespace vmap
 class GridController;
 class SightController;
 class VisualItemController;
+class VmapItemModel;
 } // namespace vmap
 
 class CleverURI;
@@ -82,7 +83,6 @@ class VectorialMapController : public MediaControllerBase
     Q_PROPERTY(QRectF visualRect READ visualRect WRITE setVisualRect NOTIFY visualRectChanged)
     Q_PROPERTY(bool idle READ idle WRITE setIdle NOTIFY idleChanged)
     Q_PROPERTY(int zIndex READ zIndex WRITE setZindex NOTIFY zIndexChanged)
-    Q_PROPERTY(std::vector<QString> orderList READ orderList NOTIFY orderListChanged)
 
 public:
     enum Method
@@ -134,30 +134,19 @@ public:
     QRectF visualRect() const;
     bool idle() const;
     int zIndex() const;
-    std::vector<QString> orderList() const;
-
     void saveData() const;
     void loadData() const;
 
     QString getLayerToText(Core::Layer id);
 
-    RectControllerManager* rectManager() const;
-    EllipsControllerManager* ellipseManager() const;
-    LineControllerManager* lineManager() const;
-    ImageControllerManager* imageManager() const;
-    PathControllerManager* pathManager() const;
-    TextControllerManager* textManager() const;
-    CharacterItemControllerManager* characterManager() const;
-
-    VisualItemControllerManager* manager(Core::SelectableTool tool) const;
-
+    vmap::VmapItemModel* model() const;
     vmap::GridController* gridController() const;
     vmap::SightController* sightController() const;
 
     void loadItems();
 
     QString addItemController(const std::map<QString, QVariant>& params);
-    void removeItemController(QString uuid);
+    void removeItemController(const QString& uuid);
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
 
     // Network
@@ -195,12 +184,10 @@ signals:
     void gridColorChanged(QColor);
     void characterVisionChanged(bool);
     void stateLabelVisibleChanged(bool);
-    void visualItemControllerCreated(VisualItemController* ctrl);
     void idleChanged(bool);
     void zIndexChanged(int);
-    void orderListChanged();
-
     void visualRectChanged(QRectF visualRect);
+    void visualItemControllerCreated(vmap::VisualItemController* ctrl);
 
 public slots:
     void setPermission(Core::PermissionMode mode);
@@ -276,17 +263,7 @@ private:
     Core::Layer m_layer= Core::Layer::GROUND;
     Core::SelectableTool m_tool= Core::HANDLER;
     Core::EditionMode m_editionMode= Core::EditionMode::Painting;
-    std::map<Core::SelectableTool, VisualItemControllerManager*> m_itemControllers;
-
-    std::unique_ptr<RectControllerManager> m_rectControllerManager;
-    std::unique_ptr<EllipsControllerManager> m_ellipseControllerManager;
-    std::unique_ptr<LineControllerManager> m_lineControllerManager;
-    std::unique_ptr<ImageControllerManager> m_imageControllerManager;
-    std::unique_ptr<PathControllerManager> m_pathControllerManager;
-    std::unique_ptr<TextControllerManager> m_textControllerManager;
-    std::unique_ptr<CharacterItemControllerManager> m_characterControllerManager;
-
-    std::vector<QString> m_order;
+    std::unique_ptr<vmap::VmapItemModel> m_vmapModel;
 
     std::unique_ptr<vmap::GridController> m_gridController;
     std::unique_ptr<vmap::SightController> m_sightController;
