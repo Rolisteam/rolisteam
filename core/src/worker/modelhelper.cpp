@@ -176,7 +176,7 @@ namespace ModelHelper
 
 bool saveSession(const QString& path, const QString& name, const ContentController* ctrl)
 {
-    QFile file(path);
+    /*QFile file(path);
     if(!file.open(QIODevice::WriteOnly))
     {
         return false;
@@ -192,10 +192,10 @@ bool saveSession(const QString& path, const QString& name, const ContentControll
         out << IOHelper::saveManager(manager);
     }
 
-    auto model= ctrl->model();
+    auto model= ctrl->sessionModel();
     if(!model)
         return false;
-    model->saveModel(out);
+    model->saveModel(out);*/
 
     return true;
 }
@@ -203,7 +203,7 @@ bool saveSession(const QString& path, const QString& name, const ContentControll
 QString loadSession(const QString& path, ContentController* ctrl)
 {
     QString name;
-    QFileInfo info(path);
+    /*QFileInfo info(path);
     name= info.baseName();
     QFile file(path);
     if(!file.open(QIODevice::ReadOnly))
@@ -221,10 +221,10 @@ QString loadSession(const QString& path, ContentController* ctrl)
         IOHelper::loadManager(manager, in);
     }
 
-    auto model= ctrl->model();
+    auto model= ctrl->sessionModel();
     if(!model)
         return {};
-    model->loadModel(in);
+    model->loadModel(in);*/
     return name;
 } // namespace ModelHelper
 

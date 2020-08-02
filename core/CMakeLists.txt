@@ -180,7 +180,8 @@ set(HEADERS
     src/media/mediafactory.h
     src/model/contentmodel.h
     src/model/singlecontenttypemodel.h
-    src/model/playerproxymodel.h    
+    src/model/playerproxymodel.h
+    src/model/vmapitemmodel.h
     src/network/channel.h
     src/network/channellistpanel.h
     src/network/channelmodel.h
@@ -255,6 +256,7 @@ set(HEADERS
     src/userlist/userlistdelegate.h
     src/userlist/userlistview.h
     src/utils/insertionsortedmap.h
+    src/vmap/controller/vmapitemfactory.h
     src/vmap/items/anchoritem.h
     src/vmap/items/characteritem.h
     src/vmap/items/childpointitem.h
@@ -378,8 +380,9 @@ set(SOURCES
     src/common/controller/theme.cpp
     src/model/profilemodel.cpp
     src/model/thememodel.cpp
+    src/model/vmapitemmodel.cpp
     src/model/charactermodel.cpp
-    src/audio/audioPlayer.cpp
+    src/audio/audioPlayer.cpp    
     src/audio/musicmodel.cpp
     src/audio/playerwidget.cpp
     src/qmlchat/textwritercontroller.cpp
@@ -573,6 +576,7 @@ set(SOURCES
     src/vmap/items/sightitem.cpp
     src/vmap/items/textitem.cpp
     src/vmap/items/visualitem.cpp
+    src/vmap/controller/vmapitemfactory.cpp
     src/vmap/manager/linecontrollermanager.cpp
     src/vmap/manager/ellipscontrollermanager.cpp
     src/vmap/manager/visualitemcontrollermanager.cpp

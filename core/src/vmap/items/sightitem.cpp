@@ -96,7 +96,7 @@ SightItem::SightItem(vmap::SightController* ctrl, QMap<QString, CharacterItem*>*
     , m_defaultShape(CharacterVision::ANGLE)
     , m_defaultAngle(120)
     , m_defaultRadius(50)
-    , m_characterItemMap(characterItemMap)
+//    , m_characterItemMap(characterItemMap)
 {
     auto updateFunc= [this]() { update(); };
     connect(m_sightCtrl, &vmap::SightController::visibleChanged, this, [this](bool b) { setVisible(b); });

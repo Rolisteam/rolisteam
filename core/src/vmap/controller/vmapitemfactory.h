@@ -1,8 +1,8 @@
 /***************************************************************************
- *	 Copyright (C) 2017 by Renaud Guezennec                                *
- *   https://rolisteam.org/contact                   *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,29 +17,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ADDVMAPITEMCOMMAND_H
-#define ADDVMAPITEMCOMMAND_H
+#ifndef VMAPITEMFACTORY_H
+#define VMAPITEMFACTORY_H
 
-#include "vmap/vmap.h"
-#include "vmap/vtoolbar.h"
-#include <QUndoCommand>
-
+#include "vmap/controller/visualitemcontroller.h"
 class VectorialMapController;
-class AddVmapItemCommand : public QUndoCommand
+namespace vmap
+{
+class VmapItemFactory
 {
 public:
-    AddVmapItemCommand(vmap::VmapItemModel* model, Core::SelectableTool tool, VectorialMapController* mapCtrl,
-                       const std::map<QString, QVariant>& args, QUndoCommand* parent= nullptr);
-
-    void undo() override;
-    void redo() override;
-
-private:
-    QPointer<vmap::VmapItemModel> m_model;
-    QPointer<VectorialMapController> m_mapCtrl;
-    std::map<QString, QVariant> m_params;
-    Core::SelectableTool m_tool;
-    QString m_uuid;
+    static vmap::VisualItemController* createVMapItem(VectorialMapController* mapCtrl, Core::SelectableTool tool, const std::map<QString, QVariant> &param);
 };
-
-#endif // ADDFIELDCOMMAND_H
+} // namespace vmap
+#endif // VMAPITEMFACTORY_H

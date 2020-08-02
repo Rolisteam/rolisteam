@@ -39,15 +39,9 @@
 #include "vmap/controller/rectcontroller.h"
 #include "vmap/controller/sightcontroller.h"
 #include "vmap/controller/textcontroller.h"
+#include "vmap/controller/vmapitemfactory.h"
 
-#include "vmap/manager/characteritemcontrollermanager.h"
-#include "vmap/manager/ellipscontrollermanager.h"
-#include "vmap/manager/imagecontrollermanager.h"
-#include "vmap/manager/linecontrollermanager.h"
-#include "vmap/manager/pathcontrollermanager.h"
-#include "vmap/manager/rectcontrollermanager.h"
-#include "vmap/manager/textcontrollermanager.h"
-
+#include "model/vmapitemmodel.h"
 #include "worker/iohelper.h"
 
 const std::set<VisualItemControllerManager*>
@@ -64,42 +58,14 @@ allControllers(const std::map<Core::SelectableTool, VisualItemControllerManager*
 
 VectorialMapController::VectorialMapController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::VECTORIALMAP, parent)
-    , m_rectControllerManager(new RectControllerManager(this))
-    , m_ellipseControllerManager(new EllipsControllerManager(this))
-    , m_lineControllerManager(new LineControllerManager(this))
-    , m_imageControllerManager(new ImageControllerManager(this))
-    , m_pathControllerManager(new PathControllerManager(this))
-    , m_textControllerManager(new TextControllerManager(this))
-    , m_characterControllerManager(new CharacterItemControllerManager(this))
+    , m_vmapModel(new vmap::VmapItemModel)
     , m_gridController(new vmap::GridController(this))
 
 {
-    m_sightController.reset(new vmap::SightController(this, m_characterControllerManager.get()));
+    m_sightController.reset(new vmap::SightController(this));
 
-    m_itemControllers.insert({Core::SelectableTool::EMPTYRECT, m_rectControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::FILLRECT, m_rectControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::FILLEDELLIPSE, m_ellipseControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::EMPTYELLIPSE, m_ellipseControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::LINE, m_lineControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::IMAGE, m_imageControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::PATH, m_pathControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::PEN, m_pathControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::TEXT, m_textControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::TEXTBORDER, m_textControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::NonPlayableCharacter, m_characterControllerManager.get()});
-    m_itemControllers.insert({Core::SelectableTool::PlayableCharacter, m_characterControllerManager.get()});
-
-    std::set<VisualItemControllerManager*> managers({m_rectControllerManager.get(), m_ellipseControllerManager.get(),
-                                                     m_characterControllerManager.get(), m_lineControllerManager.get(),
-                                                     m_imageControllerManager.get(), m_pathControllerManager.get(),
-                                                     m_textControllerManager.get()});
-    std::for_each(managers.begin(), managers.end(), [this](VisualItemControllerManager* ctrl) {
-        connect(ctrl, &VisualItemControllerManager::itemAdded, this, [this](const QString& id) {
-            if(id.isEmpty())
-                return;
-            m_order.push_back(id);
-        });
-    });
+    connect(m_vmapModel.get(), &vmap::VmapItemModel::itemControllerAdded, this,
+            &VectorialMapController::visualItemControllerCreated);
 }
 
 VectorialMapController::~VectorialMapController()= default;
@@ -116,13 +82,24 @@ vmap::SightController* VectorialMapController::sightController() const
 
 void VectorialMapController::loadItems()
 {
-    std::for_each(m_order.begin(), m_order.end(), [this](const QString& id) {
+    /*std::for_each(m_order.begin(), m_order.end(), [this](const QString& id) {
         for(auto ctrl : m_itemControllers)
         {
             if(ctrl.second->loadItem(id))
                 break;
         }
-    });
+    });*/
+}
+
+QString VectorialMapController::addItemController(const std::map<QString, QVariant>& params)
+{
+    auto tool= m_tool;
+    auto it= params.find("tool");
+    if(it != params.end())
+        tool= static_cast<Core::SelectableTool>(it->second.toInt());
+
+    auto item= vmap::VmapItemFactory::createVMapItem(this, tool, params);
+    m_vmapModel->appendItemController(item);
 }
 Core::PermissionMode VectorialMapController::permission() const
 {
@@ -283,6 +260,11 @@ QString VectorialMapController::getLayerToText(Core::Layer id)
 
     auto idx= qBound(0, static_cast<int>(id), layerNames.size());
     return layerNames.at(idx);
+}
+
+vmap::VmapItemModel* VectorialMapController::model() const
+{
+    return m_vmapModel.get();
 }
 
 void VectorialMapController::setPermission(Core::PermissionMode mode)
@@ -519,12 +501,8 @@ void VectorialMapController::insertItemAt(const std::map<QString, QVariant>& par
     if(params.end() != params.find(QStringLiteral("tool")))
         tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
 
-    if(m_itemControllers.end() == m_itemControllers.find(tool))
-        return;
-
-    auto ctrl= m_itemControllers.at(tool);
     setIdle(false);
-    emit performCommand(new AddVmapItemCommand(this, ctrl, params));
+    emit performCommand(new AddVmapItemCommand(m_vmapModel.get(), tool, this, params));
 }
 
 void VectorialMapController::aboutToRemove(const QList<vmap::VisualItemController*>& list)
@@ -581,7 +559,7 @@ void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
 //}
 void VectorialMapController::addHighLighter(const QPointF& point) {}
 
-RectControllerManager* VectorialMapController::rectManager() const
+/*RectControllerManager* VectorialMapController::rectManager() const
 {
     return m_rectControllerManager.get();
 }
@@ -622,7 +600,7 @@ VisualItemControllerManager* VectorialMapController::manager(Core::SelectableToo
         return nullptr;
 
     return m_itemControllers.at(tool);
-}
+}*/
 
 bool VectorialMapController::idle() const
 {
@@ -634,10 +612,10 @@ int VectorialMapController::zIndex() const
     return m_zIndex;
 }
 
-std::vector<QString> VectorialMapController::orderList() const
+/*std::vector<QString> VectorialMapController::orderList() const
 {
     return m_order;
-}
+}*/
 
 void VectorialMapController::setIdle(bool b)
 {
@@ -674,18 +652,19 @@ void VectorialMapController::hideOtherLayers()
     // TODO make a command to do so.
 }
 
-void VectorialMapController::removeItemController(QString uuid)
+void VectorialMapController::removeItemController(const QString& uuid)
 {
-    auto set= allControllers(m_itemControllers);
+    /*auto set= allControllers(m_itemControllers);
     std::for_each(set.begin(), set.end(),
-                  [uuid](VisualItemControllerManager* itemManager) { itemManager->removeItem(uuid); });
+                  [uuid](VisualItemControllerManager* itemManager) { itemManager->removeItem(uuid); });*/
+    m_vmapModel->removeItemController(uuid);
 }
 
 NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageReader* msg)
 {
     qDebug() << "received vmap message: " << msg->action();
     QSet<NetMsg::Action> actions({NetMsg::AddItem, NetMsg::UpdateItem, NetMsg::DeleteItem, NetMsg::MovePoint});
-    if(actions.contains(msg->action()))
+    /*if(actions.contains(msg->action()))
     {
         using IT= vmap::VisualItemController::ItemType;
         auto type= static_cast<IT>(msg->uint8());
@@ -715,7 +694,7 @@ NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageR
         default:
             break;
         }
-    }
+    }*/
     return NetWorkReceiver::NONE;
 }
 

@@ -39,16 +39,9 @@
 #include "controller/view_controller/pdfcontroller.h"
 #endif
 
-/*#include "controller/media_controller/charactersheetmediacontroller.h"
-#include "controller/media_controller/imagemediacontroller.h"
-#include "controller/media_controller/mediamanagerbase.h"
-#include "controller/media_controller/notemediacontroller.h"
-#include "controller/media_controller/sharednotemediacontroller.h"
-#include "controller/media_controller/vectorialmapmediacontroller.h"
-#include "controller/media_controller/webpagemediacontroller.h"*/
-
 #include "data/character.h"
 #include "data/cleveruri.h"
+#include "model/vmapitemmodel.h"
 #include "vmap/vmap.h"
 
 #include "vmap/controller/sightcontroller.h"
@@ -81,139 +74,6 @@
 #include "charactersheet/imagemodel.h"
 
 IOHelper::IOHelper() {}
-
-bool IOHelper::loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl)
-{
-    /*  if(vmap == nullptr || nullptr == uri || nullptr == ctrl)
-          return false;
-
-      auto path= uri->getUri();
-      QIODevice* device= nullptr;
-      if(!path.isEmpty() && uri->loadingMode() == CleverURI::Linked)
-          device= new QFile(path);
-      else if(uri->hasData() && uri->loadingMode() == CleverURI::Internal)
-      {
-          auto data= uri->getData();
-          device= new QBuffer(&data);
-      }
-
-      if(!device->open(QIODevice::ReadOnly))
-          return false;
-      QDataStream reader(device);
-      reader.setVersion(QDataStream::Qt_5_7);
-
-      int zIndex, propertyCount, itemCount;
-      QString name;
-      QColor bgColor;
-
-      reader >> name;
-      reader >> bgColor;
-      reader >> zIndex;
-      reader >> propertyCount;
-
-      ctrl->setName(name);
-      ctrl->setBackgroundColor(bgColor);
-
-      bool b;
-      reader >> b;
-      ctrl->setNpcNameVisible(b);
-      reader >> b;
-      ctrl->setPcNameVisible(b);
-      reader >> b;
-      ctrl->setNpcNumberVisible(b);
-      reader >> b;
-      ctrl->setHealthBarVisible(b);
-      reader >> b;
-      ctrl->setInitScoreVisible(b);
-      reader >> b;
-      ctrl->setGridVisibility(b);
-      int interger;
-      reader >> interger;
-      ctrl->setGridPattern(static_cast<Core::GridPattern>(interger));
-      QColor color;
-      reader >> color;
-      ctrl->setGridColor(color);
-      reader >> interger;
-      ctrl->setGridSize(interger);
-      qreal real;
-      reader >> real;
-      ctrl->setGridScale(real);
-      reader >> interger;
-      ctrl->setScaleUnit(static_cast<Core::ScaleUnit>(interger));
-      reader >> b;
-      ctrl->setCharacterVision(b);
-      reader >> interger;
-      ctrl->setPermission(static_cast<Core::PermissionMode>(interger));
-      reader >> b;
-      ctrl->setCollision(b);
-      reader >> b;
-      ctrl->setGridAbove(b);
-      reader >> interger;
-      ctrl->setVisibility(static_cast<Core::VisibilityMode>(interger));
-      reader >> b;
-      ctrl->setHealthBarVisible(b);
-      reader >> interger;
-      ctrl->setLayer(static_cast<Core::Layer>(interger));
-
-    auto fogItem= vmap->getFogItem();
-    reader >> *fogItem;
-
-     reader >> itemCount;
-     for(int i= 0; i < itemCount; ++i)
-     {
-         VisualItem* item= nullptr;
-         int contentType;
-         reader >> contentType;
-
-         switch(static_cast<VisualItem::ItemType>(contentType))
-         {
-         case VisualItem::TEXT:
-             item= new TextItem(ctrl);
-             break;
-         case VisualItem::CHARACTER:
-             item= new CharacterItem(ctrl);
-             break;
-         case VisualItem::LINE:
-             item= new LineItem(ctrl);
-
-             break;
-         case VisualItem::RECT:
-             item= new RectItem(ctrl);
-             break;
-         case VisualItem::ELLISPE:
-             item= new EllipsItem(ctrl);
-             break;
-         case VisualItem::PATH:
-             item= new PathItem(ctrl);
-             break;
-         case VisualItem::SIGHT:
-             item= vmap->getFogItem();
-             break;
-         case VisualItem::GRID:
-             item= vmap->getGridItem();
-             break;
-         case VisualItem::IMAGE:
-             item= new ImageItem(ctrl);
-             break;
-         default:
-             break;
-         }
-         if(nullptr == item)
-             continue;
-
-         reader >> *item;
-
-         qreal x, y;
-         reader >> x;
-         reader >> y;
-         // addNewItem(new AddVmapItemCommand(item, false, this), false);
-         vmap->addItem(item);
-
-         item->setPos(x, y);
-         item->initChildPointItem();
-     }*/
-    return true;
-}
 
 bool IOHelper::loadToken(const QString& filename, std::map<QString, QVariant>& params)
 {
@@ -343,10 +203,11 @@ void saveVisualItemController(const vmap::VisualItemController* ctrl, QDataStrea
     output << ctrl->tool();
 }
 
-void readVisualItemController(std::map<QString, QVariant>& map, QDataStream& input)
+void readVisualItemController(vmap::VisualItemController::ItemType type, std::map<QString, QVariant>& map,
+                              QDataStream& input)
 {
-    vmap::VisualItemController::ItemType type;
-    input >> type;
+    /*vmap::VisualItemController::ItemType type;
+    input >> type;*/
 
     bool selected;
     input >> selected;
@@ -423,22 +284,10 @@ void saveVMapRectItemController(const vmap::RectController* ctrl, QDataStream& o
     output << ctrl->penWidth();
 }
 
-void saveAllRects(const RectControllerManager* ctrl, QDataStream& output)
-{
-    if(!ctrl)
-        return;
-
-    auto ctrls= ctrl->controllers();
-    output << static_cast<int>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](vmap::RectController* ctrl) { saveVMapRectItemController(ctrl, output); });
-}
-
 std::map<QString, QVariant> readRectController(QDataStream& input)
 {
     std::map<QString, QVariant> maps;
-    readVisualItemController(maps, input);
+    readVisualItemController(vmap::VisualItemController::RECT, maps, input);
 
     QRectF rect;
     input >> rect;
@@ -468,22 +317,10 @@ void saveVMapEllipseItemController(const vmap::EllipseController* ctrl, QDataStr
     output << ctrl->penWidth();
 }
 
-void saveAllEllipses(const EllipsControllerManager* ctrl, QDataStream& output)
-{
-    if(!ctrl)
-        return;
-
-    auto ctrls= ctrl->controllers();
-    output << static_cast<int>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](vmap::EllipseController* ctrl) { saveVMapEllipseItemController(ctrl, output); });
-}
-
 std::map<QString, QVariant> readEllipseController(QDataStream& input)
 {
     std::map<QString, QVariant> maps;
-    readVisualItemController(maps, input);
+    readVisualItemController(vmap::VisualItemController::ELLIPSE, maps, input);
 
     qreal rx;
     input >> rx;
@@ -518,23 +355,10 @@ void saveVMapImageItemController(const vmap::ImageController* ctrl, QDataStream&
     output << ctrl->path();
     output << ctrl->ratio();
 }
-
-void saveAllImages(const ImageControllerManager* ctrl, QDataStream& output)
-{
-    if(!ctrl)
-        return;
-
-    auto ctrls= ctrl->controllers();
-    output << static_cast<int>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](vmap::ImageController* ctrl) { saveVMapImageItemController(ctrl, output); });
-}
-
 std::map<QString, QVariant> readImageController(QDataStream& input)
 {
     std::map<QString, QVariant> maps;
-    readVisualItemController(maps, input);
+    readVisualItemController(vmap::VisualItemController::IMAGE, maps, input);
 
     QPixmap pixmap;
     input >> pixmap;
@@ -572,22 +396,10 @@ void saveVMapLineItemController(const vmap::LineController* ctrl, QDataStream& o
     output << ctrl->penWidth();
 }
 
-void saveAllLines(const LineControllerManager* ctrl, QDataStream& output)
-{
-    if(!ctrl)
-        return;
-
-    auto ctrls= ctrl->controllers();
-    output << static_cast<int>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](vmap::LineController* ctrl) { saveVMapLineItemController(ctrl, output); });
-}
-
 std::map<QString, QVariant> readLineController(QDataStream& input)
 {
     std::map<QString, QVariant> maps;
-    readVisualItemController(maps, input);
+    readVisualItemController(vmap::VisualItemController::LINE, maps, input);
 
     QPointF startPoint;
     input >> startPoint;
@@ -624,7 +436,7 @@ void saveVMapPathItemController(const vmap::PathController* ctrl, QDataStream& o
 std::map<QString, QVariant> readPathController(QDataStream& input)
 {
     std::map<QString, QVariant> maps;
-    readVisualItemController(maps, input);
+    readVisualItemController(vmap::VisualItemController::PATH, maps, input);
 
     int pointCount;
     input >> pointCount;
@@ -690,7 +502,7 @@ void saveVMapTextItemController(const vmap::TextController* ctrl, QDataStream& o
 void readVmapSightController(vmap::SightController* sight, QDataStream& input)
 {
     std::map<QString, QVariant> maps;
-    readVisualItemController(maps, input);
+    readVisualItemController(vmap::VisualItemController::SIGHT, maps, input);
 
     bool characterSight;
     input >> characterSight;
@@ -725,7 +537,7 @@ void readVmapSightController(vmap::SightController* sight, QDataStream& input)
 std::map<QString, QVariant> readTextController(QDataStream& input)
 {
     std::map<QString, QVariant> maps;
-    readVisualItemController(maps, input);
+    readVisualItemController(vmap::VisualItemController::TEXT, maps, input);
 
     QString text;
     input >> text;
@@ -759,18 +571,6 @@ std::map<QString, QVariant> readTextController(QDataStream& input)
     return maps;
 }
 
-void saveAllTexts(const TextControllerManager* ctrl, QDataStream& output)
-{
-    if(!ctrl)
-        return;
-
-    auto ctrls= ctrl->controllers();
-    output << static_cast<int>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](vmap::TextController* ctrl) { saveVMapTextItemController(ctrl, output); });
-}
-
 void saveVMapCharacterItemController(const vmap::CharacterItemController* ctrl, QDataStream& output)
 {
     if(!ctrl)
@@ -800,7 +600,7 @@ void saveVMapCharacterItemController(const vmap::CharacterItemController* ctrl, 
 std::map<QString, QVariant> readCharacterController(QDataStream& input)
 {
     std::map<QString, QVariant> maps;
-    readVisualItemController(maps, input);
+    readVisualItemController(vmap::VisualItemController::CHARACTER, maps, input);
 
     qreal side;
     input >> side;
@@ -903,41 +703,50 @@ void saveVectorialMap(VectorialMapController* ctrl, QDataStream& output)
     output << ctrl->visualRect();
     output << ctrl->idle();
     output << ctrl->zIndex();
-    auto list= ctrl->orderList();
-    output << static_cast<int>(list.size());
-    std::for_each(list.begin(), list.end(), [&output](const QString& id) { output << id; });
 
-    // fog singularies
     auto sight= ctrl->sightController();
     saveVmapSightController(sight, output);
 
-    // Rects
-    auto rect= ctrl->rectManager();
-    saveAllRects(rect, output);
+    auto model= ctrl->model();
 
-    // Ellipse
-    auto ellipse= ctrl->ellipseManager();
-    saveAllEllipses(ellipse, output);
+    auto vec= model->items();
 
-    // line
-    auto line= ctrl->lineManager();
-    saveAllLines(line, output);
+    output << static_cast<quint64>(vec.size());
 
-    // image
-    auto images= ctrl->imageManager();
-    saveAllImages(images, output);
-
-    // path
-    auto path= ctrl->pathManager();
-    saveAllPaths(path, output);
-
-    // text
-    auto text= ctrl->textManager();
-    saveAllTexts(text, output);
-
-    // Character
-    auto character= ctrl->characterManager();
-    saveAllCharacters(character, output);
+    using vv= vmap::VisualItemController;
+    for(auto itemCtrl : vec)
+    {
+        switch(itemCtrl->itemType())
+        {
+        case vv::RECT:
+            saveVMapRectItemController(dynamic_cast<vmap::RectController*>(itemCtrl), output);
+            break;
+        case vv::PATH:
+            saveVMapPathItemController(dynamic_cast<vmap::PathController*>(itemCtrl), output);
+            break;
+        case vv::LINE:
+            saveVMapLineItemController(dynamic_cast<vmap::LineController*>(itemCtrl), output);
+            break;
+        case vv::ELLIPSE:
+            saveVMapEllipseItemController(dynamic_cast<vmap::EllipseController*>(itemCtrl), output);
+            break;
+        case vv::CHARACTER:
+            saveVMapCharacterItemController(dynamic_cast<vmap::CharacterItemController*>(itemCtrl), output);
+            break;
+        case vv::TEXT:
+            saveVMapTextItemController(dynamic_cast<vmap::TextController*>(itemCtrl), output);
+            break;
+        case vv::IMAGE:
+            saveVMapImageItemController(dynamic_cast<vmap::ImageController*>(itemCtrl), output);
+            break;
+        case vv::RULE:
+        case vv::SIGHT:
+        case vv::ANCHOR:
+        case vv::GRID:
+        case vv::HIGHLIGHTER:
+            break;
+        }
+    }
 }
 
 void saveNotes(NoteController* ctrl, QDataStream& output)
@@ -1013,159 +822,6 @@ void savePdfView(PdfController* ctrl, QDataStream& output)
     output << ctrl->data();
 }
 #endif
-
-/*void saveAllVectorialMaps(VectorialMapMediaController* manager, QDataStream& output)
-{
-    if(!manager)
-        return;
-
-    auto ctrls= manager->controllers();
-
-    output << static_cast<quint64>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](VectorialMapController* ctrl) { output << IOHelper::saveController(ctrl); });
-}
-
-void saveAllImageControllers(ImageMediaController* manager, QDataStream& output)
-{
-    if(!manager)
-        return;
-
-    auto ctrls= manager->controllers();
-
-    output << static_cast<quint64>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](ImageController* ctrl) { output << IOHelper::saveController(ctrl); });
-}
-
-void saveAllNoteControllers(NoteMediaController* manager, QDataStream& output)
-{
-    if(!manager)
-        return;
-
-    auto ctrls= manager->controllers();
-
-    output << static_cast<quint64>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](NoteController* ctrl) { output << IOHelper::saveController(ctrl); });
-}
-void saveAllCharacterSheetControllers(CharacterSheetMediaController* manager, QDataStream& output)
-{
-    if(!manager)
-        return;
-
-    auto ctrls= manager->controllers();
-    output << static_cast<quint64>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](CharacterSheetController* ctrl) { output << IOHelper::saveController(ctrl); });
-}
-
-void saveAllSharedNoteControllers(SharedNoteMediaController* manager, QDataStream& output)
-{
-    if(!manager)
-        return;
-
-    auto ctrls= manager->controllers();
-    output << static_cast<quint64>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](SharedNoteController* ctrl) { output << IOHelper::saveController(ctrl); });
-}
-
-void saveAllWebpageControllers(WebpageMediaController* manager, QDataStream& output)
-{
-    if(!manager)
-        return;
-
-    auto ctrls= manager->controllers();
-    output << static_cast<quint64>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](WebpageController* ctrl) { output << IOHelper::saveController(ctrl); });
-}
-#ifdef WITH_PDF
-void saveAllPdfControllers(PdfMediaController* manager, QDataStream& output)
-{
-    if(!manager)
-        return;
-
-    auto ctrls= manager->controllers();
-    output << static_cast<quint64>(ctrls.size());
-
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&output](PdfController* ctrl) { output << IOHelper::saveController(ctrl); });
-}
-#endif
-QByteArray IOHelper::saveManager(MediaManagerBase* manager)
-{
-    QByteArray data;
-
-    if(!manager)
-        return data;
-
-    QDataStream output(&data, QIODevice::WriteOnly);
-    output.setVersion(QDataStream::Qt_5_7);
-
-    auto uri= manager->type();
-    switch(uri)
-    {
-    case Core::ContentType::VECTORIALMAP:
-        saveAllVectorialMaps(dynamic_cast<VectorialMapMediaController*>(manager), output);
-        break;
-    case Core::ContentType::PICTURE:
-        saveAllImageControllers(dynamic_cast<ImageMediaController*>(manager), output);
-        break;
-    case Core::ContentType::NOTES:
-        saveAllNoteControllers(dynamic_cast<NoteMediaController*>(manager), output);
-        break;
-    case Core::ContentType::CHARACTERSHEET:
-        saveAllCharacterSheetControllers(dynamic_cast<CharacterSheetMediaController*>(manager), output);
-        break;
-    case Core::ContentType::SHAREDNOTE:
-        saveAllSharedNoteControllers(dynamic_cast<SharedNoteMediaController*>(manager), output);
-        break;
-    case Core::ContentType::WEBVIEW:
-        saveAllWebpageControllers(dynamic_cast<WebpageMediaController*>(manager), output);
-        break;
-#ifdef WITH_PDF
-    case Core::ContentType::PDF:
-        saveAllPdfControllers(dynamic_cast<PdfMediaController*>(manager), output);
-        break;
-#endif
-    default:
-        Q_ASSERT(false);
-        break;
-    }
-
-    return data;
-}*/
-
-bool IOHelper::loadManager(MediaManagerBase* manager, QDataStream& input)
-{
-    // auto type= manager->type();
-
-    QByteArray array;
-    input >> array;
-
-    QDataStream input2(&array, QIODevice::ReadOnly);
-    input2.setVersion(QDataStream::Qt_5_7);
-
-    quint64 size;
-    input2 >> size;
-
-    for(quint64 i= 0; i < size; ++i)
-    {
-        QByteArray array;
-        input2 >> array;
-        std::map<QString, QVariant> map({{"serializedData", array}});
-        // manager->openMedia(QString(), map);
-    }
-    return true;
-}
 
 QByteArray IOHelper::saveController(MediaControllerBase* media)
 {
@@ -1374,56 +1030,48 @@ void IOHelper::readSharedNoteController(SharedNoteController* ctrl, const QByteA
     ctrl->setText(text);
     ctrl->setHighligthedSyntax(syntax);
     ctrl->setPermission(perm);
-}
-
+}*/
 
 // QHash<QString, std::map<QString, QVariant>>
-void readAllController(VectorialMapController* ctrl, QDataStream& input, vmap::VisualItemController::ItemType type)
+void readModel(VectorialMapController* ctrl, QDataStream& input)
 {
-    QHash<QString, std::map<QString, QVariant>> rects;
-    int size;
+    quint64 size;
     input >> size;
-    for(int i= 0; i < size; ++i)
+
+    for(quint64 i= 0; i < size; ++i)
     {
-        std::map<QString, QVariant> map;
-        VisualItemControllerManager* manager= nullptr;
+        vmap::VisualItemController::ItemType type;
+        input >> type;
+
+        std::map<QString, QVariant> params;
         switch(type)
         {
-        case vmap::VisualItemController::RECT:
-            map= readRectController(input);
-            manager= ctrl->rectManager();
-            break;
-        case vmap::VisualItemController::LINE:
-            map= readLineController(input);
-            manager= ctrl->lineManager();
-            break;
         case vmap::VisualItemController::ELLIPSE:
-            map= readEllipseController(input);
-            manager= ctrl->ellipseManager();
-            break;
-        case vmap::VisualItemController::IMAGE:
-            map= readImageController(input);
-            manager= ctrl->imageManager();
-            break;
-        case vmap::VisualItemController::TEXT:
-            map= readTextController(input);
-            manager= ctrl->textManager();
-            break;
-        case vmap::VisualItemController::CHARACTER:
-            map= readCharacterController(input);
-            manager= ctrl->characterManager();
+            params= readEllipseController(input);
             break;
         case vmap::VisualItemController::PATH:
-            map= readPathController(input);
-            manager= ctrl->pathManager();
+            params= readPathController(input);
+            break;
+        case vmap::VisualItemController::RECT:
+            params= readRectController(input);
+            break;
+        case vmap::VisualItemController::TEXT:
+            params= readTextController(input);
+            break;
+        case vmap::VisualItemController::CHARACTER:
+            params= readCharacterController(input);
+            break;
+        case vmap::VisualItemController::LINE:
+            params= readLineController(input);
+            break;
+        case vmap::VisualItemController::IMAGE:
+            params= readImageController(input);
             break;
         default:
             break;
         }
-        if(map.empty() || !manager)
-            continue;
 
-        manager->addItem(map);
+        ctrl->addItemController(params);
     }
 }
 
@@ -1549,44 +1197,9 @@ void IOHelper::readVectorialMapController(VectorialMapController* ctrl, const QB
     input >> zIndex;
     ctrl->setZindex(zIndex);
 
-    int size;
-    input >> size;
-
-    std::vector<QString> orderList;
-    orderList.reserve(size);
-    for(int i= 0; i < size; ++i)
-    {
-        QString id;
-        input >> id;
-        orderList.push_back(id);
-    }
-
     // fog singularies
     auto sight= ctrl->sightController();
     readVmapSightController(sight, input);
 
-    using v= vmap::VisualItemController;
-
-    // Rects
-    readAllController(ctrl, input, v::RECT);
-    // auto rectManager = ctrl->rectManager();
-    // rectManager->addItem();
-
-    // Ellipse
-    readAllController(ctrl, input, v::ELLIPSE);
-
-    // line
-    readAllController(ctrl, input, v::LINE);
-
-    // image
-    readAllController(ctrl, input, v::IMAGE);
-
-    // path
-    readAllController(ctrl, input, v::PATH);
-
-    // text
-    readAllController(ctrl, input, v::TEXT);
-
-    // Character
-    readAllController(ctrl, input, v::CHARACTER);
-}*/
+    readModel(ctrl, input);
+}
