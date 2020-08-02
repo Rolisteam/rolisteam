@@ -68,7 +68,7 @@ signals:
     void closeContainer();
     void titleChanged();
     void activeChanged();
-    void localGMChanged();
+    void localGMChanged(bool b);
     void performCommand(QUndoCommand* cmd);
     void ownerIdChanged(QString id);
     void localIdChanged(QString id);
