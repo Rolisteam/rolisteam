@@ -89,7 +89,8 @@ Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instan
     m_instantMessageView= addSubWindow(new InstantMessagingView(instantCtrl));
     m_instantMessageView->setGeometry(0, 0, 400, 600);
     m_instantMessageView->setWindowIcon(QIcon::fromTheme("chatIcon"));
-    // m_instantMessageView->setVisible(false);
+    connect(instantCtrl, &InstantMessagingController::visibleChanged, m_instantMessageView, &QMdiSubWindow::setVisible);
+    m_instantMessageView->setVisible(instantCtrl->visible());
 
     auto imvAction= new QAction(tr("Instant Messging"), this);
     insertActionAndSubWindow(imvAction, m_instantMessageView);

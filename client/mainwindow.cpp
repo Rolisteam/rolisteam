@@ -232,7 +232,8 @@ void MainWindow::setupUi()
                                      m_commandLineProfile->m_pass);
     }
 
-    // setAnimated(false);
+    connect(m_ui->m_showChatAct, &QAction::triggered, m_gameController->instantMessagingController(),
+            &InstantMessagingController::setVisible);
     m_mdiArea.reset(
         new Workspace(m_gameController->contentController(), m_gameController->instantMessagingController()));
     setCentralWidget(m_mdiArea.get());
