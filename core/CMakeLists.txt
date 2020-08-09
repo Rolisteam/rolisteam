@@ -112,7 +112,6 @@ set(HEADERS
     src/common/task/uploadlogtoserver.h
     src/common/widgets/colorbutton.h
     src/common/widgets/logpanel.h
-    src/data/features.h
     src/data/chapter.h
     src/data/character.h
     src/data/characterstate.h
@@ -416,7 +415,6 @@ set(SOURCES
     src/common/task/uploadlogtoserver.cpp
     src/common/widgets/colorbutton.cpp
     src/common/widgets/logpanel.cpp
-    src/data/features.cpp
     src/data/chapter.cpp
     src/data/character.cpp
     src/data/characterstate.cpp

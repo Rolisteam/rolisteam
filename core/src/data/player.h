@@ -54,10 +54,6 @@ public:
     QString getUserVersion() const;
 
     void setUserVersion(QString softV);
-    bool hasFeature(const QString& getName, quint8 version= 0) const;
-
-    void setFeature(const QString& getName, quint8 version= 0);
-    const QMap<QString, quint8>& features() const;
 
     void addCharacter(const QString& name, const QColor& color, const QString& path, const QHash<QString, QVariant>&,
                       bool Npc);
@@ -79,12 +75,8 @@ public:
     void copyPlayer(Player* player);
 
 private:
-    friend class SendFeaturesIterator;
-
-private:
     std::vector<std::unique_ptr<Character>> m_characters;
     bool m_gameMaster= false;
-    QMap<QString, quint8> m_features;
     QString m_softVersion;
 };
 

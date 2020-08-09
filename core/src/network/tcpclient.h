@@ -100,7 +100,7 @@ public:
     void setInfoPlayer(NetworkMessageReader* msg);
     void fill(NetworkMessageWriter* msg);
 
-    void addPlayerFeature(QString uuid, QString name, quint8 version);
+    // void addPlayerFeature(QString uuid, QString name, quint8 version);
 
     bool isFullyDefined();
 

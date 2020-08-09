@@ -229,18 +229,6 @@ bool Player::isLeaf() const
     return false;
 }
 
-bool Player::hasFeature(const QString& name, quint8 version) const
-{
-    return m_features.contains(name) && m_features.value(name) >= version;
-}
-
-void Player::setFeature(const QString& name, quint8 version)
-{
-    if(hasFeature(name, version))
-        return;
-
-    m_features.insert(name, version);
-}
 QString Player::getUserVersion() const
 {
     return m_softVersion;
@@ -258,17 +246,12 @@ void Player::copyPlayer(Player* player)
     setName(player->name());
     setUserVersion(player->getUserVersion());
 }
-const QMap<QString, quint8>& Player::features() const
-{
-    return m_features;
-}
+
 bool Player::isFullyDefined()
 {
     if(m_uuid.isEmpty())
         return false;
     if(m_name.isEmpty())
-        return false;
-    if(m_features.isEmpty())
         return false;
 
     return true;

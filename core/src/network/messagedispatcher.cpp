@@ -54,14 +54,14 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     }
     else if(msg->category() == NetMsg::SetupCategory)
     {
-        if(msg->action() == NetMsg::AddFeatureAction)
+        /*if(msg->action() == NetMsg::AddFeatureAction)
         {
             QString uuid= msg->string8();
             QString name= msg->string8();
             quint8 version= msg->uint8();
-            emitter->addPlayerFeature(uuid, name, version);
-            saveIt= false;
-        }
+            //emitter->addPlayerFeature(uuid, name, version);
+        }*/
+        saveIt= false;
     }
 
     if((sendToAll) && (nullptr != channel))
