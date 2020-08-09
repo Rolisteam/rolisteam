@@ -264,9 +264,6 @@ public:
     void removeAction(const QString& name);
     void clearActions();
 
-    virtual void write(QDataStream& out, bool tag, bool saveData= true) const override;
-    virtual void read(QDataStream& in) override;
-
     int getHealthPointsMax() const;
     void setHealthPointsMax(int hpMax);
 

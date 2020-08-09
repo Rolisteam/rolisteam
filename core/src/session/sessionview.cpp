@@ -2,16 +2,15 @@
 #include <QDebug>
 #include <QMenu>
 
-#include "data/chapter.h"
 #include "session/sessionitemmodel.h"
 #include <QContextMenuEvent>
 #include <QHeaderView>
 
-CleverURI* voidToCleverUri(void* pointer)
+/*CleverURI* voidToCleverUri(void* pointer)
 {
     auto node= static_cast<ResourcesNode*>(pointer);
     return dynamic_cast<CleverURI*>(node);
-}
+}*/
 
 SessionView::SessionView(QWidget* parent) : QTreeView(parent)
 {
@@ -32,7 +31,7 @@ SessionView::SessionView(QWidget* parent) : QTreeView(parent)
     connect(m_defineAsCurrent, SIGNAL(triggered()), this, SIGNAL(defineCurrentChapter()));
 
     m_switchLoadingMode= new QAction("", this);
-    connect(m_switchLoadingMode, &QAction::triggered, this, [=]() {
+    /*connect(m_switchLoadingMode, &QAction::triggered, this, [=]() {
         auto index= currentIndex();
         if(!index.isValid())
             return;
@@ -44,7 +43,7 @@ SessionView::SessionView(QWidget* parent) : QTreeView(parent)
             uri->setLoadingMode(Core::LoadingMode::Linked);
         else
             uri->setLoadingMode(Core::LoadingMode::Internal);
-    });
+    });*/
 
     m_loadingModeColumn= new QAction(tr("Loading Mode"), this);
     m_loadingModeColumn->setCheckable(true);
@@ -89,19 +88,18 @@ void SessionView::startDrag(Qt::DropActions supportedActions)
 void SessionView::contextMenuEvent(QContextMenuEvent* event)
 {
     auto index= indexAt(event->pos());
-    auto uri= voidToCleverUri(index.internalPointer());
-    ;
+    // auto uri= voidToCleverUri(index.internalPointer());
 
     QMenu popMenu(this);
 
     popMenu.addAction(m_rename);
-    if(uri != nullptr)
-    {
-        auto text= tr("Switch loading mode to %1")
-                       .arg((uri->loadingMode() == Core::LoadingMode::Internal) ? tr("Linked") : tr("Internal"));
-        m_switchLoadingMode->setText(text);
-        popMenu.addAction(m_switchLoadingMode);
-    }
+    /*  if(uri != nullptr)
+      {
+          auto text= tr("Switch loading mode to %1")
+                         .arg((uri->loadingMode() == Core::LoadingMode::Internal) ? tr("Linked") : tr("Internal"));
+          m_switchLoadingMode->setText(text);
+          popMenu.addAction(m_switchLoadingMode);
+      }*/
     popMenu.addSeparator();
     popMenu.addAction(m_addChapterAction);
     popMenu.addAction(m_removeAction);

@@ -381,7 +381,7 @@ void Character::setHealthPointsMax(int hpMax)
 
 QString Character::getParentId() const
 {
-    if(nullptr != m_parent)
+    if(nullptr != m_parentPerson)
     {
         return m_parentPerson->uuid();
     }
@@ -640,7 +640,7 @@ void Character::setNpc(bool b)
     m_isNpc= b;
     emit npcChanged();
 }
-void Character::write(QDataStream& out, bool tag, bool) const
+/*void Character::write(QDataStream& out, bool tag, bool) const
 {
     if(tag)
     {
@@ -679,7 +679,7 @@ void Character::read(QDataStream& in)
     QByteArray array;
     in >> array;
     m_avatar= QImage::fromData(array);
-}
+}*/
 
 void Character::setCurrentShape(int index)
 {

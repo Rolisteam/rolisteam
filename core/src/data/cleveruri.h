@@ -82,8 +82,8 @@ public:
     // From  Resources
     bool hasChildren() const override;
     virtual QIcon icon() const override;
-    void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
-    void read(QDataStream& in) override;
+    void write(QDataStream& out, bool tag= true, bool saveData= true) const;
+    void read(QDataStream& in);
 
     QVariant getData(ResourcesNode::DataValue i) const override;
 
