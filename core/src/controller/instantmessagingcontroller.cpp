@@ -135,6 +135,11 @@ bool InstantMessagingController::nightMode() const
     return m_nightMode;
 }
 
+bool InstantMessagingController::visible() const
+{
+    return m_visible;
+}
+
 void InstantMessagingController::openLink(const QString& link)
 {
     qDebug() << "open link" << link;
@@ -144,6 +149,14 @@ void InstantMessagingController::openLink(const QString& link)
 void InstantMessagingController::setDiceParser(DiceParser* diceParser)
 {
     m_model->setDiceParser(diceParser);
+}
+
+void InstantMessagingController::setVisible(bool b)
+{
+    if(b == m_visible)
+        return;
+    m_visible= b;
+    emit visibleChanged(m_visible);
 }
 
 void InstantMessagingController::setGameController(GameController*) {}
