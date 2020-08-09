@@ -37,90 +37,54 @@ class Player;
 /**
  * @brief Abstract class for players and characters.
  */
-class Person : public ResourcesNode
+class Person : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QColor color READ getColor WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QImage avatar READ getAvatar WRITE setAvatar NOTIFY avatarChanged)
     Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
 public:
     Person();
     Person(const QString& name, const QColor& color, const QString& uuid= QString());
-    /**
-     * @brief ~Person
-     */
     virtual ~Person() override;
-    /**
-     * @brief color
-     * @return
-     */
+
+    QString name() const;
+    QString uuid() const;
+
     QColor getColor() const;
-    /**
-     * @brief parent
-     * @return
-     */
     virtual Person* parentPerson() const;
     void setParentPerson(Person* parent);
-    /**
-     * @brief gives access to person's avatar.
-     */
     virtual const QImage& getAvatar() const;
-
-    /**
-     * @brief gives access to person's avatar.
-     */
     virtual bool hasAvatar() const;
-    /**
-     * @brief checkedState
-     * @return
-     */
-    Qt::CheckState checkedState();
-    /**
-     * @brief isLeaf
-     * @return
-     */
-    virtual bool isLeaf() const override;
-    /**
-     * @brief setState
-     * @param c
-     */
-    void setState(Qt::CheckState c);
+    virtual bool isLeaf() const;
 
     virtual QHash<QString, QString> getVariableDictionnary()= 0;
-
-    virtual QVariant getData(ResourcesNode::DataValue) const override;
-
-    virtual QIcon icon() const override;
-
-    ResourcesNode::TypeResource type() const override;
-    virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
-    virtual void read(QDataStream& in) override;
+    virtual QIcon icon() const;
     virtual QString avatarPath() const;
 
 public slots:
-    /**
-     * @brief setColor
-     * @param color
-     * @return
-     */
     bool setColor(const QColor& color);
-    /**
-     * @brief set the person's avatar.
-     */
     virtual void setAvatar(const QImage& p);
     void setAvatarPath(const QString& avatarPath);
+    void setName(const QString& name);
+    void setUuid(const QString& uuid);
 
 signals:
+    void uuidChanged(QString id);
+    void nameChanged(QString id);
     void colorChanged();
     void avatarChanged();
     void avatarPathChanged();
 
 protected:
+    QString m_name;
+    QString m_uuid;
     QColor m_color;
     QImage m_avatar;
     QString m_avatarPath;
     Person* m_parentPerson= nullptr;
-    Qt::CheckState m_checkState;
 };
 
 #endif

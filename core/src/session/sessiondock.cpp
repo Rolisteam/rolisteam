@@ -55,8 +55,7 @@ SessionDock::SessionDock(ContentController* ctrl, QWidget* parent)
     m_ui->m_view->setHeader(hHeader);*/
 
     // m_view->setColumnHidden(SessionItemModel::LoadingMode,true);
-    m_ui->m_view->setColumnHidden(SessionItemModel::Displayed, true);
-    m_ui->m_view->setColumnHidden(SessionItemModel::Path, true);
+    m_ui->m_view->setColumnHidden(session::SessionItemModel::Path, true);
 
     connect(m_ui->m_view, &SessionView::onDoubleClick, m_ctrl, &ContentController::openResources);
     connect(m_ui->m_view, &SessionView::addChapter, m_ctrl, &ContentController::addChapter);

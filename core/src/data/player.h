@@ -42,36 +42,30 @@ public:
     Player(const QString& uuid, const QString& getName, const QColor& getColor, bool master= false);
     virtual ~Player() override;
 
-    virtual int childrenCount() const override;
+    virtual int characterCount() const;
     Character* getCharacterByIndex(int index) const;
     Character* characterById(const QString& id) const;
     const std::vector<std::unique_ptr<Character>>& children();
 
-    int indexOf(ResourcesNode* character) const override;
+    // Children
+    int indexOf(Character* character) const;
+    void addCharacter(const QString& name, const QColor& color, const QString& path, const QHash<QString, QVariant>&,
+                      bool Npc);
+    void addCharacter(Character* character);
+    virtual bool removeChild(Character*);
+    void clearCharacterList();
+    bool searchCharacter(Character* character, int& index) const;
+    virtual bool isLeaf() const override;
 
     bool isGM() const;
+    void setGM(bool value);
 
     QString getUserVersion() const;
 
     void setUserVersion(QString softV);
 
-    void addCharacter(const QString& name, const QColor& color, const QString& path, const QHash<QString, QVariant>&,
-                      bool Npc);
-    void addCharacter(Character* character);
-
-    void setGM(bool value);
-
-    virtual bool removeChild(ResourcesNode*) override;
-
-    void clearCharacterList();
-    bool searchCharacter(Character* character, int& index) const;
-
     virtual QHash<QString, QString> getVariableDictionnary() override;
-
-    virtual bool isLeaf() const override;
-
     bool isFullyDefined();
-
     void copyPlayer(Player* player);
 
 private:

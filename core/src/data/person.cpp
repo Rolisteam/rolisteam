@@ -31,12 +31,18 @@
 /**********
  * Person *
  **********/
-Person::Person() : ResourcesNode(ResourcesNode::Person) {}
+Person::Person() : QObject(), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
 
 Person::Person(const QString& name, const QColor& color, const QString& uuid)
-    : ResourcesNode(ResourcesNode::Person, uuid), m_color(color)
+    : QObject(), m_name(name), m_uuid(uuid), m_color(color)
 {
-    m_name= name;
+    if(m_uuid.isNull())
+        m_uuid= QUuid::createUuid().toString(QUuid::WithoutBraces);
+}
+
+QString Person::name() const
+{
+    return m_name;
 }
 
 Person::~Person()= default;
@@ -45,7 +51,10 @@ QColor Person::getColor() const
 {
     return m_color;
 }
-
+QString Person::uuid() const
+{
+    return m_uuid;
+}
 Person* Person::parentPerson() const
 {
     return m_parentPerson;
@@ -82,50 +91,10 @@ bool Person::hasAvatar() const
 {
     return !m_avatar.isNull();
 }
-Qt::CheckState Person::checkedState()
-{
-    return m_checkState;
-}
 
 bool Person::isLeaf() const
 {
     return true;
-}
-void Person::setState(Qt::CheckState c)
-{
-    m_checkState= c;
-}
-ResourcesNode::TypeResource Person::type() const
-{
-    return ResourcesNode::Person;
-}
-QVariant Person::getData(ResourcesNode::DataValue data) const
-{
-    QVariant var;
-    switch(data)
-    {
-    case NAME:
-        var= m_name;
-        break;
-    case MODE:
-        var= QVariant::fromValue(Core::LoadingMode::Internal);
-        break;
-    case DISPLAYED:
-        var= true;
-        break;
-    case URI:
-        break;
-    }
-    return var;
-}
-
-void Person::write(QDataStream&, bool, bool) const
-{
-    // default implement does nothing [virtual]
-}
-void Person::read(QDataStream&)
-{
-    // default implement does nothing [virtual]
 }
 
 QIcon Person::icon() const
@@ -141,6 +110,22 @@ void Person::setAvatarPath(const QString& avatarPath)
     m_avatar= QImage(avatarPath);
     emit avatarPathChanged();
     emit avatarChanged();
+}
+
+void Person::setName(const QString& name)
+{
+    if(m_name == name)
+        return;
+    m_name= name;
+    emit nameChanged(m_name);
+}
+
+void Person::setUuid(const QString& uuid)
+{
+    if(m_uuid == uuid)
+        return;
+    m_uuid= uuid;
+    emit uuidChanged(m_uuid);
 }
 QString Person::avatarPath() const
 {

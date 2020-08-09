@@ -86,9 +86,6 @@ public:
 
     virtual ResourcesNode* findNode(const QString& id);
 
-    virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const= 0;
-    virtual void read(QDataStream& in)= 0;
-
 public slots:
     void setParentNode(ResourcesNode* parent);
 

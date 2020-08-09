@@ -111,7 +111,7 @@ Player::~Player()= default;
     return m_link;
 }*/
 
-int Player::childrenCount() const
+int Player::characterCount() const
 {
     return static_cast<int>(m_characters.size());
 }
@@ -137,7 +137,7 @@ Character* Player::characterById(const QString& id) const
     return it->get();
 }
 
-int Player::indexOf(ResourcesNode* character) const
+int Player::indexOf(Character* character) const
 {
     auto it= std::find_if(m_characters.begin(), m_characters.end(),
                           [character](const std::unique_ptr<Character>& data) { return character == data.get(); });
@@ -191,12 +191,10 @@ void Player::clearCharacterList()
     m_characters.clear();
 }
 
-bool Player::removeChild(ResourcesNode* node)
+bool Player::removeChild(Character* character)
 {
-    auto character= dynamic_cast<Character*>(node);
     if(nullptr == character)
         return false;
-
     auto id= character->uuid();
     auto size= m_characters.size();
     m_characters.erase(

@@ -22,13 +22,78 @@
 
 #include <QAbstractItemModel>
 #include <QMimeData>
+#include <media/mediatype.h>
 #include <memory>
 
-#include "data/chapter.h"
-#include "data/cleveruri.h"
+namespace session
+{
+Q_NAMESPACE
+enum SessionItemType
+{
+    Media,
+    Person,
+    Chapter
+};
+Q_ENUM_NS(SessionItemType)
+
+class SessionData
+{
+public:
+    SessionData();
+
+    void setUuid(const QString& uuid);
+    QString uuid() const;
+
+    void setName(const QString& name);
+    QString name() const;
+
+    void setPath(const QString& path);
+    QString path() const;
+
+    void setData(const QVariant& data);
+    QVariant data() const;
+
+    SessionItemType type() const;
+    void setType(SessionItemType type);
+
+private:
+    QString m_name;
+    QString m_uuid;
+    QString m_path;
+    QVariant m_data;
+    SessionItemType m_type= Chapter;
+};
+
+class SessionItem
+{
+public:
+    SessionItem();
+
+    bool isLeaf() const;
+    int childrenCount() const;
+    SessionData* data() const;
+    int indexOf(SessionItem*) const;
+    void insertChildAt(int row, SessionItem*);
+    SessionItem* childAt(int i) const;
+    void setParentNode(SessionItem* parent);
+    SessionItem* parentNode() const;
+    void removeChild(SessionItem* item);
+    bool contains(const QString& id) const;
+    QString uuid() const;
+    void clear();
+
+    SessionItem* find(const QString& id) const;
+
+    void setName(const QString& name);
+
+private:
+    std::vector<std::unique_ptr<SessionItem>> m_children;
+    std::unique_ptr<SessionData> m_data;
+    SessionItem* m_parent= nullptr;
+};
 
 /**
- * @brief subclassed model to fit the management of session (ressources)
+ * @brief Show opened resources and allow to sort and order them
  */
 class SessionItemModel : public QAbstractItemModel
 {
@@ -37,83 +102,23 @@ public:
     enum COLUMN_TYPE
     {
         Name,
-        LoadingMode,
-        Displayed,
         Path
     };
-    /**
-     * @brief default construtor
-     */
+
     SessionItemModel();
-    /**
-     * @brief ~SessionItemModel
-     */
     virtual ~SessionItemModel();
-    /**
-     * @brief pure virtual method to create index according the given position and parent
-     * @param row : row of the index (define position of the index into the parent's children list)
-     * @param column : column of the index (define position of the index into the parent's children list)
-     * @param parent : define the parent, if null parent is root item
-     * @return the created index
-     */
     virtual QModelIndex index(int row, int column, const QModelIndex& parent= QModelIndex()) const;
-    /**
-     * @brief get the parent of the given index
-     * @param child item
-     * @return parent
-     */
     virtual QModelIndex parent(const QModelIndex& index) const;
-    /**
-     * @brief accessor to the rowcount
-     * @param index
-     * @return the number of children
-     */
     virtual int rowCount(const QModelIndex&) const;
-    /**
-     * @brief accessor to the column count
-     * @param ignored
-     * @return always return 1
-     */
     virtual int columnCount(const QModelIndex&) const;
-    /**
-     * @brief main method to provide data to the view.
-     * @param index to display
-     * @param role of data
-     * @return appropriate data
-     */
     virtual QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const;
-    /**
-     * @brief provides data to header section
-     */
     QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const;
-    /**
-     * @brief remove item
-     */
+
     void remove(QModelIndex& index);
-    /**
-     * @brief addRessources
-     * @param uri
-     * @param index
-     * @return
-     */
-    void addResource(ResourcesNode* uri, const QModelIndex& index);
-    /**
-     * @brief Allows editing directly in the view
-     * @param index position
-     * @param new value
-     * @param role
-     */
+    void addResource(SessionItem* uri, const QModelIndex& index);
     virtual bool setData(const QModelIndex& index, const QVariant& value, int role= Qt::EditRole);
-    /**
-     * @brief otheridden method to define flag of items, chapter are selectable and enabled
-     * resource are also checkable
-     * @param position of the item
-     */
     virtual Qt::ItemFlags flags(const QModelIndex& index) const;
     void clearData();
-
-    virtual void saveModel(QDataStream& out) const;
-    virtual void loadModel(QDataStream& in);
 
     Qt::DropActions supportedDropActions() const;
     bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent);
@@ -123,18 +128,18 @@ public:
     void addMedia(const QString& id, const QString& path, Core::ContentType type, const QString& name);
     void removeMedia(const QString& id);
 public slots:
-    void removeNode(ResourcesNode*);
+    void removeNode(SessionItem*);
 
 signals:
-    void openResource(ResourcesNode*, bool);
+    void openResource(SessionItem*, bool);
 
 protected:
-    bool moveMediaItem(QList<ResourcesNode*> items, const QModelIndex& parentToBe, int row,
+    bool moveMediaItem(QList<SessionItem*> items, const QModelIndex& parentToBe, int row,
                        QList<QModelIndex>& formerPosition);
 
 private:
-    std::unique_ptr<Chapter> m_rootItem; /// root item address
+    std::unique_ptr<SessionItem> m_rootItem;
     QStringList m_header;
 };
-
+} // namespace session
 #endif // SESSIONITEMMODEL_H

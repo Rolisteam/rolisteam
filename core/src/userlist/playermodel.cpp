@@ -26,7 +26,6 @@
 #include "userlist/playermodel.h"
 
 #include "data/character.h"
-#include "data/features.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "network/networkmessagereader.h"
@@ -306,7 +305,7 @@ int PlayerModel::rowCount(const QModelIndex& parent) const
         auto player= dynamic_cast<Player*>(parentItem);
         if(player)
         {
-            result= player->childrenCount();
+            result= player->characterCount();
         }
     }
     return result;
@@ -371,7 +370,7 @@ QModelIndex PlayerModel::personToIndex(Person* person) const
         if(posIt != m_players.end())
         {
             parent= index(static_cast<int>(std::distance(m_players.begin(), posIt)), 0, QModelIndex());
-            row= player->indexOf(person);
+            row= player->indexOf(dynamic_cast<Character*>(person));
         }
     }
     else
