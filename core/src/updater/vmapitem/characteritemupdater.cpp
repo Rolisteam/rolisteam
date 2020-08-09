@@ -22,30 +22,40 @@
 #include "network/networkmessagereader.h"
 #include "vmap/controller/characteritemcontroller.h"
 #include "worker/convertionhelper.h"
+#include "worker/messagehelper.h"
 
 CharacterItemUpdater::CharacterItemUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}
 
-void CharacterItemUpdater::addCharacterItemController(vmap::CharacterItemController* ctrl)
+void CharacterItemUpdater::addItemController(vmap::VisualItemController* ctrl)
 {
     if(nullptr == ctrl)
         return;
 
+    auto itemCtrl= dynamic_cast<vmap::CharacterItemController*>(ctrl);
+
+    if(nullptr == itemCtrl)
+        return;
+
     VMapItemControllerUpdater::addItemController(ctrl);
 
-    connect(ctrl, &vmap::CharacterItemController::sideChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<qreal>(ctrl, QStringLiteral("side")); });
-    connect(ctrl, &vmap::CharacterItemController::stateColorChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QColor>(ctrl, QStringLiteral("stateColor")); });
-    connect(ctrl, &vmap::CharacterItemController::numberChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QColor>(ctrl, QStringLiteral("number")); });
-    connect(ctrl, &vmap::CharacterItemController::playableCharacterChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("playableCharacter")); });
-    connect(ctrl, &vmap::CharacterItemController::thumnailRectChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QRectF>(ctrl, QStringLiteral("thumnailRect")); });
-    connect(ctrl, &vmap::CharacterItemController::visionShapeChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<CharacterVision::SHAPE>(ctrl, QStringLiteral("visionShape")); });
-    connect(ctrl, &vmap::CharacterItemController::fontChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QFont>(ctrl, QStringLiteral("font")); });
+    connect(itemCtrl, &vmap::CharacterItemController::sideChanged, this,
+            [this, itemCtrl]() { sendOffVMapChanges<qreal>(itemCtrl, QStringLiteral("side")); });
+    connect(itemCtrl, &vmap::CharacterItemController::stateColorChanged, this,
+            [this, itemCtrl]() { sendOffVMapChanges<QColor>(itemCtrl, QStringLiteral("stateColor")); });
+    connect(itemCtrl, &vmap::CharacterItemController::numberChanged, this,
+            [this, itemCtrl]() { sendOffVMapChanges<QColor>(itemCtrl, QStringLiteral("number")); });
+    connect(itemCtrl, &vmap::CharacterItemController::playableCharacterChanged, this,
+            [this, itemCtrl]() { sendOffVMapChanges<bool>(itemCtrl, QStringLiteral("playableCharacter")); });
+    connect(itemCtrl, &vmap::CharacterItemController::thumnailRectChanged, this,
+            [this, itemCtrl]() { sendOffVMapChanges<QRectF>(itemCtrl, QStringLiteral("thumnailRect")); });
+    connect(itemCtrl, &vmap::CharacterItemController::visionShapeChanged, this, [this, itemCtrl]() {
+        sendOffVMapChanges<CharacterVision::SHAPE>(itemCtrl, QStringLiteral("visionShape"));
+    });
+    connect(itemCtrl, &vmap::CharacterItemController::fontChanged, this,
+            [this, itemCtrl]() { sendOffVMapChanges<QFont>(itemCtrl, QStringLiteral("font")); });
+
+    if(!ctrl->remote())
+        MessageHelper::sendOffCharacter(itemCtrl, ctrl->mapUuid());
 }
 
 bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

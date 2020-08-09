@@ -72,7 +72,7 @@ void LineControllerManager::prepareController(vmap::LineController* ctrl)
     auto id= m_ctrl->uuid();
     connect(ctrl, &vmap::LineController::initializedChanged, this, [id, ctrl, this]() {
         MessageHelper::sendOffLine(ctrl, id);
-        m_updater->addLineController(ctrl);
+        // m_updater->addLineController(ctrl);
     });
 }
 

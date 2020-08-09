@@ -48,7 +48,7 @@ class VisualItemController : public QObject
     Q_PROPERTY(Core::SelectableTool tool READ tool CONSTANT)
     Q_PROPERTY(ItemType itemType READ itemType CONSTANT)
     Q_PROPERTY(bool initialized READ initialized WRITE setInitialized NOTIFY initializedChanged)
-
+    Q_PROPERTY(bool remote READ remote WRITE setRemote NOTIFY remoteChanged)
 public:
     enum ItemType
     {
@@ -89,10 +89,12 @@ public:
     qreal rotation() const;
     bool localIsGM() const;
     bool initialized() const;
+    Core::VisibilityMode visibility() const;
     Core::SelectableTool tool() const;
     virtual QColor color() const;
     virtual QRectF rect() const= 0;
     virtual ItemType itemType() const;
+    bool remote() const;
 
     const QString mapUuid() const;
 
@@ -123,6 +125,8 @@ signals:
     void lockedChanged(bool locked);
     void posEditFinished();
     void rotationEditFinished();
+    void visibilityChanged(Core::VisibilityMode);
+    void remoteChanged(bool);
 
 public slots:
     void setSelected(bool b);
@@ -136,6 +140,7 @@ public slots:
     void setColor(const QColor& color);
     void setLocked(bool locked);
     void setInitialized(bool);
+    void setRemote(bool b);
 
 protected:
     virtual void computeEditable();
@@ -161,6 +166,7 @@ protected:
     bool m_initialized= false;
     bool m_posEditing= false;
     bool m_rotationEditing= false;
+    bool m_remote= false;
 };
 } // namespace vmap
 #endif // VISUALITEMCONTROLLER_H

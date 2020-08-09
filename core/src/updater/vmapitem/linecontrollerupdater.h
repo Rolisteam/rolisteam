@@ -35,7 +35,7 @@ public:
     LineControllerUpdater();
     virtual ~LineControllerUpdater() override= default;
 
-    void addLineController(vmap::LineController* ctrl);
+    void addItemController(vmap::VisualItemController* ctrl) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };

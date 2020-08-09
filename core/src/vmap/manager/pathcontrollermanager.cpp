@@ -79,7 +79,7 @@ void PathControllerManager::prepareController(vmap::PathController* ctrl)
     {
         connect(ctrl, &vmap::PathController::initializedChanged, this, [id, ctrl, this]() {
             MessageHelper::sendOffPath(ctrl, id);
-            m_updater->addPathController(ctrl);
+            // m_updater->addPathController(ctrl);
         });
     }
     else

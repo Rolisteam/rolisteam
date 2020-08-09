@@ -26,10 +26,49 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/cleveruri.h"
+#include "model/contentmodel.h"
 #include "network/networkmessagewriter.h"
+#include "vmap/controller/vmapitemfactory.h"
 #include "worker/convertionhelper.h"
 
-VMapUpdater::VMapUpdater(QObject* parent) : MediaUpdaterInterface(parent) {}
+#include "updater/vmapitem/characteritemupdater.h"
+#include "updater/vmapitem/ellipsecontrollerupdater.h"
+#include "updater/vmapitem/imagecontrollerupdater.h"
+#include "updater/vmapitem/linecontrollerupdater.h"
+#include "updater/vmapitem/pathcontrollerupdater.h"
+#include "updater/vmapitem/rectcontrollerupdater.h"
+#include "updater/vmapitem/textcontrollerupdater.h"
+#include "updater/vmapitem/vmapitemcontrollerupdater.h"
+
+VectorialMapController* findMap(const std::vector<VectorialMapController*>& vmaps, const QString& id)
+{
+    auto it
+        = std::find_if(vmaps.begin(), vmaps.end(), [id](VectorialMapController* ctrl) { return ctrl->uuid() == id; });
+    if(vmaps.end() == it)
+        return nullptr;
+    return (*it);
+}
+
+VMapUpdater::VMapUpdater(FilteredContentModel* model, QObject* parent)
+    : MediaUpdaterInterface(parent), m_vmapModel(model)
+{
+    m_updaters.insert(
+        {vmap::VisualItemController::LINE, std::unique_ptr<LineControllerUpdater>(new LineControllerUpdater)});
+    m_updaters.insert(
+        {vmap::VisualItemController::PATH, std::unique_ptr<PathControllerUpdater>(new PathControllerUpdater)});
+    m_updaters.insert(
+        {vmap::VisualItemController::RECT, std::unique_ptr<RectControllerUpdater>(new RectControllerUpdater)});
+    m_updaters.insert(
+        {vmap::VisualItemController::IMAGE, std::unique_ptr<ImageControllerUpdater>(new ImageControllerUpdater)});
+    m_updaters.insert(
+        {vmap::VisualItemController::CHARACTER, std::unique_ptr<CharacterItemUpdater>(new CharacterItemUpdater)});
+    m_updaters.insert(
+        {vmap::VisualItemController::ELLIPSE, std::unique_ptr<EllipseControllerUpdater>(new EllipseControllerUpdater)});
+    m_updaters.insert(
+        {vmap::VisualItemController::TEXT, std::unique_ptr<TextControllerUpdater>(new TextControllerUpdater)});
+
+    ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory, this);
+}
 
 void VMapUpdater::addMediaController(MediaControllerBase* base)
 {
@@ -69,6 +108,20 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
             [this, ctrl]() { sendOffChanges<Core::Layer>(ctrl, QStringLiteral("layer")); });
     connect(ctrl, &VectorialMapController::zIndexChanged, this,
             [this, ctrl]() { sendOffChanges<int>(ctrl, QStringLiteral("zIndex")); });
+
+    connect(ctrl, &VectorialMapController::visualItemControllerCreated, this,
+            [this](vmap::VisualItemController* itemCtrl) {
+                auto type= itemCtrl->itemType();
+
+                auto it= m_updaters.find(type);
+
+                if(it == m_updaters.end())
+                    return;
+
+                auto updater= it->second.get();
+                if(updater)
+                    updater->addItemController(itemCtrl);
+            });
 }
 
 bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapController* ctrl)
@@ -149,4 +202,47 @@ bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapCont
     updatingCtrl= nullptr;
 
     return feedback;
+}
+
+NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
+{
+    NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
+    qDebug() << "ProcessMessage VMapUpdater" << msg->action() << NetMsg::UpdateMediaProperty;
+    if(msg->action() == NetMsg::UpdateMediaProperty && msg->category() == NetMsg::MediaCategory)
+    {
+        QString vmapId= msg->string8();
+        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
+        updateVMapProperty(msg, map);
+    }
+    else if(msg->category() == NetMsg::VMapCategory && msg->action() == NetMsg::AddItem)
+    {
+        QString vmapId= msg->string8();
+        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
+
+        qDebug() << "before map is empty addItem" << map;
+        if(!map)
+            return type;
+
+        auto item= vmap::VmapItemFactory::createRemoteVMapItem(map, msg);
+        map->addRemoteItem(item);
+    }
+    else if(msg->category() == NetMsg::VMapCategory && msg->action() == NetMsg::UpdateItem)
+    {
+        QString vmapId= msg->string8();
+        auto itemType= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
+        QString itemId= msg->string8();
+        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
+        qDebug() << "before map is empty" << map;
+        if(nullptr == map)
+            return type;
+
+        auto itemCtrl= map->itemController(itemId);
+
+        auto it= m_updaters.find(itemType);
+        if(it != m_updaters.end())
+        {
+            it->second->updateItemProperty(msg, itemCtrl);
+        }
+    }
+    return type;
 }

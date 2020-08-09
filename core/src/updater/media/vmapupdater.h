@@ -21,23 +21,31 @@
 #define VMAPUPDATER_H
 
 #include "mediaupdaterinterface.h"
+#include "vmap/controller/visualitemcontroller.h"
+
 #include <QObject>
 
 class VectorialMapController;
+class VMapItemControllerUpdater;
 class NetworkMessageReader;
+class FilteredContentModel;
 class VMapUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
 public:
-    explicit VMapUpdater(QObject* parent= nullptr);
+    explicit VMapUpdater(FilteredContentModel* model, QObject* parent= nullptr);
 
     void addMediaController(MediaControllerBase* ctrl) override;
 
     bool updateVMapProperty(NetworkMessageReader* msg, VectorialMapController* ctrl);
 
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+
 private:
     bool m_updatingFromNetwork= false;
     VectorialMapController* updatingCtrl= nullptr;
+    std::map<vmap::VisualItemController::ItemType, std::unique_ptr<VMapItemControllerUpdater>> m_updaters;
+    QPointer<FilteredContentModel> m_vmapModel;
 };
 
 #endif // VMAPUPDATER_H

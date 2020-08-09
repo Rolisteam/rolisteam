@@ -26,20 +26,29 @@
 #include "network/networkmessagereader.h"
 #include "vmap/controller/imagecontroller.h"
 #include "worker/convertionhelper.h"
+#include "worker/messagehelper.h"
 
 ImageControllerUpdater::ImageControllerUpdater() {}
 
-void ImageControllerUpdater::addImageController(vmap::ImageController* ctrl)
+void ImageControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
 {
     if(nullptr == ctrl)
         return;
 
+    auto imgCtrl= dynamic_cast<vmap::ImageController*>(ctrl);
+
+    if(nullptr == imgCtrl)
+        return;
+
     VMapItemControllerUpdater::addItemController(ctrl);
 
-    connect(ctrl, &vmap::ImageController::dataChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QByteArray>(ctrl, QStringLiteral("data")); });
-    connect(ctrl, &vmap::ImageController::rectEditFinished, this,
-            [this, ctrl]() { sendOffVMapChanges<QRectF>(ctrl, QStringLiteral("rect")); });
+    connect(imgCtrl, &vmap::ImageController::dataChanged, this,
+            [this, imgCtrl]() { sendOffVMapChanges<QByteArray>(imgCtrl, QStringLiteral("data")); });
+    connect(imgCtrl, &vmap::ImageController::rectEditFinished, this,
+            [this, imgCtrl]() { sendOffVMapChanges<QRectF>(imgCtrl, QStringLiteral("rect")); });
+
+    if(!ctrl->remote())
+        MessageHelper::sendOffImage(imgCtrl, imgCtrl->mapUuid());
 }
 
 bool ImageControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

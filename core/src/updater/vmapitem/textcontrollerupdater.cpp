@@ -21,24 +21,32 @@
 
 #include "network/networkmessagereader.h"
 #include "vmap/controller/textcontroller.h"
+#include "worker/messagehelper.h"
 
 TextControllerUpdater::TextControllerUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}
 
-void TextControllerUpdater::addTextController(vmap::TextController* ctrl)
+void TextControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
 {
     if(nullptr == ctrl)
         return;
 
-    VMapItemControllerUpdater::addItemController(ctrl);
+    auto textCtrl= dynamic_cast<vmap::TextController*>(ctrl);
 
-    connect(ctrl, &vmap::TextController::textChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QString>(ctrl, QStringLiteral("text")); });
-    connect(ctrl, &vmap::TextController::borderRectEditFinished, this,
-            [this, ctrl]() { sendOffVMapChanges<QRectF>(ctrl, QStringLiteral("borderRect")); });
-    connect(ctrl, &vmap::TextController::fontChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QFont>(ctrl, QStringLiteral("font")); });
-    connect(ctrl, &vmap::TextController::textPosChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QPointF>(ctrl, QStringLiteral("textPos")); });
+    if(nullptr == textCtrl)
+        return;
+
+    VMapItemControllerUpdater::addItemController(textCtrl);
+
+    connect(textCtrl, &vmap::TextController::textChanged, this,
+            [this, textCtrl]() { sendOffVMapChanges<QString>(textCtrl, QStringLiteral("text")); });
+    connect(textCtrl, &vmap::TextController::borderRectEditFinished, this,
+            [this, textCtrl]() { sendOffVMapChanges<QRectF>(textCtrl, QStringLiteral("borderRect")); });
+    connect(textCtrl, &vmap::TextController::fontChanged, this,
+            [this, textCtrl]() { sendOffVMapChanges<QFont>(textCtrl, QStringLiteral("font")); });
+    connect(textCtrl, &vmap::TextController::textPosChanged, this,
+            [this, textCtrl]() { sendOffVMapChanges<QPointF>(textCtrl, QStringLiteral("textPos")); });
+    if(!ctrl->remote())
+        MessageHelper::sendOffText(textCtrl, ctrl->mapUuid());
 }
 
 bool TextControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

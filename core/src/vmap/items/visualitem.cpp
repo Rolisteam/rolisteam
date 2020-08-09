@@ -64,11 +64,13 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
     connect(m_ctrl, &vmap::VisualItemController::colorChanged, this, [this]() { update(); });
     connect(m_ctrl, &vmap::VisualItemController::editableChanged, this, &VisualItem::updateItemFlags);
     connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(m_ctrl->rotation()); });
-    connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, [this]() { setVisible(m_ctrl->visible()); });
+    auto func2
+        = [this]() { setVisible(m_ctrl->visible() && (m_ctrl->localIsGM() || m_ctrl->visibility() != Core::HIDDEN)); };
+    connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, func2);
+    connect(m_ctrl, &vmap::VisualItemController::visibilityChanged, this, func2);
 
     init();
-
-    setVisible(m_ctrl->visible());
+    func2();
     setRotation(m_ctrl->rotation());
     setPos(m_ctrl->pos());
 

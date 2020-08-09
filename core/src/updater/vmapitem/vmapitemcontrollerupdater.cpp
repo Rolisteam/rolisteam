@@ -20,17 +20,22 @@
 #include "vmapitemcontrollerupdater.h"
 
 #include <QFont>
-#include <QMetaObject>
-#include <QMetaProperty>
 #include <QSet>
 
 #include "data/charactervision.h"
 #include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-#include "vmap/controller/visualitemcontroller.h"
-#include "worker/convertionhelper.h"
 
-VMapItemControllerUpdater::VMapItemControllerUpdater(QObject* parent) {}
+VMapItemControllerUpdater::VMapItemControllerUpdater(QObject* parent)
+{
+    // Force template generation
+    /*sendOffVMapChanges<QRectF>(nullptr, "");
+    sendOffVMapChanges<quint16>(nullptr, "");
+    sendOffVMapChanges<QByteArray>(nullptr, "");
+    sendOffVMapChanges<QFont>(nullptr, "");
+    sendOffVMapChanges<QString>(nullptr, "");
+    sendOffVMapChanges<std::vector<QPointF>>(nullptr, "");
+    sendOffVMapChanges<CharacterVision::SHAPE>(nullptr, "");*/
+}
 
 void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
 {
@@ -51,15 +56,6 @@ void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ct
             [this, ctrl]() { sendOffVMapChanges<QColor>(ctrl, QStringLiteral("color")); });
     connect(ctrl, &vmap::VisualItemController::lockedChanged, this,
             [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("locked")); });
-
-    // Force template generation
-    sendOffVMapChanges<QRectF>(nullptr, "");
-    sendOffVMapChanges<quint16>(nullptr, "");
-    sendOffVMapChanges<QByteArray>(nullptr, "");
-    sendOffVMapChanges<QFont>(nullptr, "");
-    sendOffVMapChanges<QString>(nullptr, "");
-    sendOffVMapChanges<std::vector<QPointF>>(nullptr, "");
-    sendOffVMapChanges<CharacterVision::SHAPE>(nullptr, "");
 }
 
 bool VMapItemControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
@@ -129,20 +125,4 @@ void VMapItemControllerUpdater::setSynchronized(bool b)
         return;
     m_synchronized= b;
     emit synchronizedChanged(m_synchronized);
-}
-
-template <typename T>
-void VMapItemControllerUpdater::sendOffVMapChanges(vmap::VisualItemController* ctrl, const QString& property)
-{
-    if(nullptr == ctrl || property.isEmpty() || !m_synchronized || (m_updatingFromNetwork && updatingCtrl == ctrl))
-        return;
-
-    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::UpdateItem);
-    msg.string8(ctrl->mapUuid());
-    msg.uint8(ctrl->itemType());
-    msg.string8(ctrl->uuid());
-    msg.string16(property);
-    auto val= ctrl->property(property.toLocal8Bit().data());
-    Helper::variantToType<T>(val.value<T>(), msg);
-    msg.sendToServer();
 }

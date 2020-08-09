@@ -40,21 +40,24 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     if(params.end() != params.find("character"))
     {
         m_character= params.at(QStringLiteral("character")).value<Character*>();
-        connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
-        connect(m_character, &Character::colorChanged, this, [this]() { emit colorChanged(m_character->getColor()); });
-        connect(m_character, &Character::avatarChanged, this, &CharacterItemController::computeThumbnail);
-        connect(ctrl, &VectorialMapController::npcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
-        connect(ctrl, &VectorialMapController::pcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
-        connect(ctrl, &VectorialMapController::npcNumberVisibleChanged, this,
-                &CharacterItemController::refreshTextRect);
-        connect(ctrl, &VectorialMapController::stateLabelVisibleChanged, this,
-                &CharacterItemController::refreshTextRect);
+    }
+    else
+    {
+        m_character= new Character();
+        m_character->setColor(m_color);
+    }
+    connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
+    connect(m_character, &Character::colorChanged, this, [this]() { emit colorChanged(m_character->getColor()); });
+    connect(m_character, &Character::avatarChanged, this, &CharacterItemController::computeThumbnail);
+    connect(ctrl, &VectorialMapController::npcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
+    connect(ctrl, &VectorialMapController::pcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
+    connect(ctrl, &VectorialMapController::npcNumberVisibleChanged, this, &CharacterItemController::refreshTextRect);
+    connect(ctrl, &VectorialMapController::stateLabelVisibleChanged, this, &CharacterItemController::refreshTextRect);
 
-        if(!m_character->isNpc())
-        {
-            m_tool= Core::SelectableTool::PlayableCharacter;
-            m_vision.reset(new CharacterVision());
-        }
+    if(!m_character->isNpc())
+    {
+        m_tool= Core::SelectableTool::PlayableCharacter;
+        m_vision.reset(new CharacterVision());
     }
     Q_ASSERT(m_character);
 

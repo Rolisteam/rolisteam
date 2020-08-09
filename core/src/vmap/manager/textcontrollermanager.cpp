@@ -40,7 +40,7 @@ QString TextControllerManager::addItem(const std::map<QString, QVariant>& params
     auto id= text->uuid();
     emit itemAdded(id);
     MessageHelper::sendOffText(text.get(), m_ctrl->uuid());
-    m_updater->addTextController(text.get());
+    // m_updater->addTextController(text.get());
     m_controllers.push_back(std::move(text));
     return id;
 }

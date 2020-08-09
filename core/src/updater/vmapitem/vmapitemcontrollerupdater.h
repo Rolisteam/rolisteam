@@ -20,8 +20,14 @@
 #ifndef MEDIAUPDATER_H
 #define MEDIAUPDATER_H
 
+#include <QMetaObject>
+#include <QMetaProperty>
 #include <QObject>
 #include <QRectF>
+
+#include "network/networkmessagewriter.h"
+#include "vmap/controller/visualitemcontroller.h"
+#include "worker/convertionhelper.h"
 
 namespace vmap
 {
@@ -35,7 +41,7 @@ class VMapItemControllerUpdater : public QObject
 public:
     explicit VMapItemControllerUpdater(QObject* parent= nullptr);
 
-    void addItemController(vmap::VisualItemController* ctrl);
+    virtual void addItemController(vmap::VisualItemController* ctrl);
     virtual bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl);
 
     template <typename T>
@@ -44,6 +50,7 @@ public:
 
 public slots:
     void setSynchronized(bool);
+
 signals:
     void synchronizedChanged(bool);
 
@@ -53,4 +60,20 @@ protected:
     bool m_synchronized= true;
 };
 
+template <typename T>
+void VMapItemControllerUpdater::sendOffVMapChanges(vmap::VisualItemController* ctrl, const QString& property)
+{
+    if(nullptr == ctrl || property.isEmpty() || !m_synchronized || (m_updatingFromNetwork && updatingCtrl == ctrl)
+       || !ctrl->initialized())
+        return;
+
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::UpdateItem);
+    msg.string8(ctrl->mapUuid());
+    msg.uint8(ctrl->itemType());
+    msg.string8(ctrl->uuid());
+    msg.string16(property);
+    auto val= ctrl->property(property.toLocal8Bit().data());
+    Helper::variantToType<T>(val.value<T>(), msg);
+    msg.sendToServer();
+}
 #endif // MEDIAUPDATER_H

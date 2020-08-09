@@ -37,6 +37,7 @@ class SharedNoteController;
 class CharacterSheetController;
 class ContentController;
 class MediaManagerBase;
+class ContentModel;
 class IOHelper
 {
 public:
@@ -46,20 +47,21 @@ public:
     static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
 
     static QByteArray saveController(MediaControllerBase* media);
-    static bool loadManager(MediaManagerBase* manager, QDataStream& input);
+    static MediaControllerBase* loadController(QDataStream& input);
 
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
 
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
     static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
-    /*static void readImageController(ImageController* ctrl, const QByteArray& array);
+
+#ifdef WITH_PDF
+    static void readPdfController(PdfController* ctrl, const QByteArray& array);
+#endif
+    static void readImageController(ImageController* ctrl, const QByteArray& array);
     static void readNoteController(NoteController* ctrl, const QByteArray& array);
     static void readSharedNoteController(SharedNoteController* ctrl, const QByteArray& array);
     static void readWebpageController(WebpageController* ctrl, const QByteArray& array);
-#ifdef WITH_PDF
-    static void readPdfController(PdfController* ctrl, const QByteArray& array);*/
-    //#endif
 };
 
 #endif // IOHELPER_H

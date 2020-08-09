@@ -27,22 +27,32 @@
 #include "network/networkmessagereader.h"
 #include "vmap/controller/linecontroller.h"
 #include "worker/convertionhelper.h"
+#include "worker/messagehelper.h"
 
 LineControllerUpdater::LineControllerUpdater() {}
 
-void LineControllerUpdater::addLineController(vmap::LineController* ctrl)
+void LineControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
 {
     if(nullptr == ctrl)
         return;
 
-    VMapItemControllerUpdater::addItemController(ctrl);
+    auto lineCrtl= dynamic_cast<vmap::LineController*>(ctrl);
 
-    connect(ctrl, &vmap::LineController::endPointEditFinished, this,
-            [this, ctrl]() { sendOffVMapChanges<QPointF>(ctrl, QStringLiteral("endPoint")); });
-    connect(ctrl, &vmap::LineController::startPointEditFinished, this,
-            [this, ctrl]() { sendOffVMapChanges<QPointF>(ctrl, QStringLiteral("startPoint")); });
-    connect(ctrl, &vmap::LineController::penWidthChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<quint16>(ctrl, QStringLiteral("penWidth")); });
+    if(nullptr == lineCrtl)
+        return;
+
+    VMapItemControllerUpdater::addItemController(lineCrtl);
+
+    connect(lineCrtl, &vmap::LineController::endPointEditFinished, this,
+            [this, lineCrtl]() { sendOffVMapChanges<QPointF>(lineCrtl, QStringLiteral("endPoint")); });
+    connect(lineCrtl, &vmap::LineController::startPointEditFinished, this,
+            [this, lineCrtl]() { sendOffVMapChanges<QPointF>(lineCrtl, QStringLiteral("startPoint")); });
+    connect(lineCrtl, &vmap::LineController::penWidthChanged, this,
+            [this, lineCrtl]() { sendOffVMapChanges<quint16>(lineCrtl, QStringLiteral("penWidth")); });
+
+    if(!ctrl->remote())
+        connect(lineCrtl, &vmap::LineController::initializedChanged, this,
+                [lineCrtl]() { MessageHelper::sendOffLine(lineCrtl, lineCrtl->mapUuid()); });
 }
 
 bool LineControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

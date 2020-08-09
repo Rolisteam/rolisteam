@@ -160,4 +160,16 @@ std::vector<VisualItemController*> VmapItemModel::items() const
 
     return vec;
 }
+
+VisualItemController* VmapItemModel::item(const QString& id) const
+{
+    auto it= std::find_if(
+        std::begin(m_items), std::end(m_items),
+        [id](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) { return id == itemCtrl->uuid(); });
+
+    if(it == std::end(m_items))
+        return nullptr;
+
+    return it->get();
+}
 } // namespace vmap

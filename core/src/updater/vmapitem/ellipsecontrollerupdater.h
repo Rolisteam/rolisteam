@@ -35,7 +35,7 @@ public:
     explicit EllipseControllerUpdater(QObject* parent= nullptr);
     virtual ~EllipseControllerUpdater() override;
 
-    void addEllipseController(vmap::EllipseController* ctrl);
+    void addItemController(vmap::VisualItemController* ctrl) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };

@@ -34,7 +34,7 @@ class CharacterItemUpdater : public VMapItemControllerUpdater
 public:
     explicit CharacterItemUpdater(QObject* parent= nullptr);
 
-    void addCharacterItemController(vmap::CharacterItemController* ctrl);
+    void addItemController(vmap::VisualItemController* ctrl) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };
