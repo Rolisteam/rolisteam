@@ -44,23 +44,15 @@
 #include "model/vmapitemmodel.h"
 #include "vmap/vmap.h"
 
-#include "vmap/controller/sightcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
-#include "vmap/manager/characteritemcontrollermanager.h"
-#include "vmap/manager/ellipscontrollermanager.h"
-#include "vmap/manager/imagecontrollermanager.h"
-#include "vmap/manager/linecontrollermanager.h"
-#include "vmap/manager/pathcontrollermanager.h"
-#include "vmap/manager/rectcontrollermanager.h"
-#include "vmap/manager/textcontrollermanager.h"
-
 #include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
 #include "vmap/controller/imagecontroller.h"
 #include "vmap/controller/linecontroller.h"
 #include "vmap/controller/pathcontroller.h"
 #include "vmap/controller/rectcontroller.h"
+#include "vmap/controller/sightcontroller.h"
 #include "vmap/controller/textcontroller.h"
+#include "vmap/controller/visualitemcontroller.h"
 
 #include "vmap/items/characteritem.h"
 #include "vmap/items/ellipsitem.h"
@@ -471,7 +463,7 @@ std::map<QString, QVariant> readPathController(QDataStream& input)
     return maps;
 }
 
-void saveAllPaths(const PathControllerManager* ctrl, QDataStream& output)
+/*void saveAllPaths(const PathControllerManager* ctrl, QDataStream& output)
 {
     if(!ctrl)
         return;
@@ -481,7 +473,7 @@ void saveAllPaths(const PathControllerManager* ctrl, QDataStream& output)
 
     std::for_each(ctrls.begin(), ctrls.end(),
                   [&output](vmap::PathController* ctrl) { saveVMapPathItemController(ctrl, output); });
-}
+}*/
 
 void saveVMapTextItemController(const vmap::TextController* ctrl, QDataStream& output)
 {
@@ -656,7 +648,7 @@ std::map<QString, QVariant> readCharacterController(QDataStream& input)
     return maps;
 }
 
-void saveAllCharacters(const CharacterItemControllerManager* ctrl, QDataStream& output)
+/*void saveAllCharacters(const CharacterItemControllerManager* ctrl, QDataStream& output)
 {
     if(!ctrl)
         return;
@@ -666,7 +658,7 @@ void saveAllCharacters(const CharacterItemControllerManager* ctrl, QDataStream& 
 
     std::for_each(ctrls.begin(), ctrls.end(),
                   [&output](vmap::CharacterItemController* ctrl) { saveVMapCharacterItemController(ctrl, output); });
-}
+}*/
 
 void saveVectorialMap(VectorialMapController* ctrl, QDataStream& output)
 {
@@ -833,6 +825,7 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
     QDataStream output(&data, QIODevice::WriteOnly);
 
     auto uri= media->contentType();
+    output << uri;
     switch(uri)
     {
     case Core::ContentType::VECTORIALMAP:
@@ -861,9 +854,81 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
         savePdfView(dynamic_cast<PdfController*>(media), output);
         break;
 #endif
+    default:
+        break;
     }
 
     return data;
+}
+
+MediaControllerBase* IOHelper::loadController(QDataStream& input)
+{
+    Core::ContentType type;
+    input >> type;
+
+    QByteArray data;
+    input >> data;
+
+    MediaControllerBase* value= nullptr;
+    switch(type)
+    {
+    case Core::ContentType::VECTORIALMAP:
+    {
+        auto ctrl= new VectorialMapController("");
+        value= ctrl;
+        readVectorialMapController(ctrl, data);
+    }
+    break;
+    case Core::ContentType::PICTURE:
+    case Core::ContentType::ONLINEPICTURE:
+    {
+        auto ctrl= new ImageController("", "", "");
+        value= ctrl;
+        readImageController(ctrl, data);
+    }
+    break;
+    case Core::ContentType::NOTES:
+    {
+        auto ctrl= new NoteController("");
+        value= ctrl;
+        readNoteController(ctrl, data);
+    }
+    break;
+    case Core::ContentType::CHARACTERSHEET:
+    {
+        auto ctrl= new CharacterSheetController("", "");
+        value= ctrl;
+        readCharacterSheetController(ctrl, data);
+    }
+    break;
+    case Core::ContentType::SHAREDNOTE:
+    {
+        auto ctrl= new SharedNoteController("", "", "");
+        value= ctrl;
+        readSharedNoteController(ctrl, data);
+    }
+    break;
+    case Core::ContentType::WEBVIEW:
+    {
+        auto ctrl= new WebpageController("");
+        value= ctrl;
+        readWebpageController(ctrl, data);
+    }
+    break;
+#ifdef WITH_PDF
+    case Core::ContentType::PDF:
+    {
+        auto ctrl= new PdfController("", "");
+        value= ctrl;
+        readPdfController(ctrl, data);
+    }
+    break;
+#endif
+    default:
+        break;
+    }
+
+    return value;
 }
 
 void readBase(MediaControllerBase* base, QDataStream& input)
@@ -913,7 +978,23 @@ void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, cons
     imagesModel->load(images);
 }
 
-/*void IOHelper::readImageController(ImageController* ctrl, const QByteArray& array)
+#ifdef WITH_PDF
+void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
+{
+    if(!ctrl || array.isEmpty())
+        return;
+    auto data= array;
+    QDataStream input(&data, QIODevice::ReadOnly);
+
+    readBase(ctrl, input);
+
+    QByteArray pdfData;
+    input >> pdfData;
+    ctrl->setData(pdfData);
+}
+#endif
+
+void IOHelper::readImageController(ImageController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
         return;
@@ -975,22 +1056,6 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
     ctrl->setSharingMode(mode);
 }
 
-#ifdef WITH_PDF
-void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
-{
-    if(!ctrl || array.isEmpty())
-        return;
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
-
-    readBase(ctrl, input);
-
-    QByteArray pdfData;
-    input >> pdfData;
-    ctrl->setData(pdfData);
-}
-#endif
-
 void IOHelper::readNoteController(NoteController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
@@ -1030,7 +1095,7 @@ void IOHelper::readSharedNoteController(SharedNoteController* ctrl, const QByteA
     ctrl->setText(text);
     ctrl->setHighligthedSyntax(syntax);
     ctrl->setPermission(perm);
-}*/
+}
 
 // QHash<QString, std::map<QString, QVariant>>
 void readModel(VectorialMapController* ctrl, QDataStream& input)

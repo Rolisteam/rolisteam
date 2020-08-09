@@ -35,7 +35,7 @@ public:
     explicit RectControllerUpdater(QObject* parent= nullptr);
     virtual ~RectControllerUpdater() override;
 
-    void addRectController(vmap::RectController* ctrl);
+    void addItemController(vmap::VisualItemController* ctrl) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };

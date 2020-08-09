@@ -29,24 +29,34 @@
 #include "network/networkmessagewriter.h"
 #include "vmap/controller/rectcontroller.h"
 #include "worker/convertionhelper.h"
+#include "worker/messagehelper.h"
 
 RectControllerUpdater::RectControllerUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}
 
 RectControllerUpdater::~RectControllerUpdater() {}
 
-void RectControllerUpdater::addRectController(vmap::RectController* ctrl)
+void RectControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
 {
     if(nullptr == ctrl)
         return;
 
-    VMapItemControllerUpdater::addItemController(ctrl);
+    auto rectCtrl= dynamic_cast<vmap::RectController*>(ctrl);
 
-    connect(ctrl, &vmap::RectController::filledChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("filled")); });
-    connect(ctrl, &vmap::RectController::rectEditFinished, this,
-            [this, ctrl]() { sendOffVMapChanges<QRectF>(ctrl, QStringLiteral("rect")); });
-    connect(ctrl, &vmap::RectController::penWidthChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<quint16>(ctrl, QStringLiteral("penWidth")); });
+    if(nullptr == rectCtrl)
+        return;
+
+    VMapItemControllerUpdater::addItemController(rectCtrl);
+
+    connect(rectCtrl, &vmap::RectController::filledChanged, this,
+            [this, rectCtrl]() { sendOffVMapChanges<bool>(rectCtrl, QStringLiteral("filled")); });
+    connect(rectCtrl, &vmap::RectController::rectEditFinished, this,
+            [this, rectCtrl]() { sendOffVMapChanges<QRectF>(rectCtrl, QStringLiteral("rect")); });
+    connect(rectCtrl, &vmap::RectController::penWidthChanged, this,
+            [this, rectCtrl]() { sendOffVMapChanges<quint16>(rectCtrl, QStringLiteral("penWidth")); });
+
+    if(!ctrl->remote())
+        connect(rectCtrl, &vmap::RectController::initializedChanged, this,
+                [rectCtrl]() { MessageHelper::sendOffRect(rectCtrl, rectCtrl->mapUuid()); });
 }
 
 bool RectControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

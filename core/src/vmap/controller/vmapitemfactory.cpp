@@ -27,37 +27,41 @@
 #include "vmap/controller/rectcontroller.h"
 #include "vmap/controller/textcontroller.h"
 
+#include "network/networkmessagereader.h"
+#include "worker/messagehelper.h"
 
-vmap::VisualItemController *vmap::VmapItemFactory::createVMapItem(VectorialMapController* mapCtrl, Core::SelectableTool tool,const std::map<QString, QVariant> &param)
+vmap::VisualItemController* vmap::VmapItemFactory::createVMapItem(VectorialMapController* mapCtrl,
+                                                                  Core::SelectableTool tool,
+                                                                  const std::map<QString, QVariant>& param)
 {
-    vmap::VisualItemController* ctrl = nullptr;
+    vmap::VisualItemController* ctrl= nullptr;
     switch(tool)
     {
     case Core::SelectableTool::LINE:
-        ctrl = new LineController(param, mapCtrl);
+        ctrl= new LineController(param, mapCtrl);
         break;
     case Core::SelectableTool::FILLEDELLIPSE:
     case Core::SelectableTool::EMPTYELLIPSE:
-        ctrl = new vmap::EllipseController(param, mapCtrl);
+        ctrl= new vmap::EllipseController(param, mapCtrl);
         break;
     case Core::SelectableTool::EMPTYRECT:
     case Core::SelectableTool::FILLRECT:
-        ctrl = new vmap::RectController(param, mapCtrl);
+        ctrl= new vmap::RectController(param, mapCtrl);
         break;
     case Core::SelectableTool::TEXT:
     case Core::SelectableTool::TEXTBORDER:
-        ctrl = new vmap::TextController(param, mapCtrl);
+        ctrl= new vmap::TextController(param, mapCtrl);
         break;
     case Core::SelectableTool::NonPlayableCharacter:
     case Core::SelectableTool::PlayableCharacter:
-        ctrl = new vmap::CharacterItemController(param, mapCtrl);
+        ctrl= new vmap::CharacterItemController(param, mapCtrl);
         break;
     case Core::SelectableTool::IMAGE:
-        ctrl = new vmap::ImageController(param, mapCtrl);
+        ctrl= new vmap::ImageController(param, mapCtrl);
         break;
     case Core::SelectableTool::PEN:
     case Core::SelectableTool::PATH:
-        ctrl = new vmap::PathController(param, mapCtrl);
+        ctrl= new vmap::PathController(param, mapCtrl);
         break;
     case Core::SelectableTool::HANDLER:
     case Core::SelectableTool::RULE:
@@ -68,5 +72,63 @@ vmap::VisualItemController *vmap::VmapItemFactory::createVMapItem(VectorialMapCo
         break;
     }
     Q_ASSERT(ctrl != nullptr);
+    return ctrl;
+}
+
+vmap::VisualItemController* vmap::VmapItemFactory::createRemoteVMapItem(VectorialMapController* mapCtrl,
+                                                                        NetworkMessageReader* msg)
+{
+    auto itemType= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
+
+    vmap::VisualItemController* ctrl= nullptr;
+    switch(itemType)
+    {
+    case vmap::VisualItemController::LINE:
+    {
+        auto param= MessageHelper::readLine(msg);
+        ctrl= new LineController(param, mapCtrl);
+    }
+    break;
+    case vmap::VisualItemController::ELLIPSE:
+    {
+        auto param= MessageHelper::readEllipse(msg);
+        ctrl= new vmap::EllipseController(param, mapCtrl);
+    }
+    break;
+    case vmap::VisualItemController::RECT:
+    {
+        auto param= MessageHelper::readRect(msg);
+        ctrl= new vmap::RectController(param, mapCtrl);
+    }
+    break;
+    case vmap::VisualItemController::TEXT:
+    {
+        auto param= MessageHelper::readText(msg);
+        ctrl= new vmap::TextController(param, mapCtrl);
+    }
+    break;
+    case vmap::VisualItemController::CHARACTER:
+    {
+        auto param= MessageHelper::readCharacter(msg);
+        ctrl= new vmap::CharacterItemController(param, mapCtrl);
+    }
+    break;
+    case vmap::VisualItemController::IMAGE:
+    {
+        auto param= MessageHelper::readImage(msg);
+        ctrl= new vmap::ImageController(param, mapCtrl);
+    }
+    break;
+    case vmap::VisualItemController::PATH:
+    {
+        auto param= MessageHelper::readPath(msg);
+        ctrl= new vmap::PathController(param, mapCtrl);
+    }
+    break;
+    default:
+        break;
+    }
+    Q_ASSERT(ctrl != nullptr);
+    ctrl->setRemote(true);
     return ctrl;
 }

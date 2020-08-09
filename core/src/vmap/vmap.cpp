@@ -36,14 +36,6 @@
 #include "vmap/controller/sightcontroller.h"
 #include "vmap/controller/textcontroller.h"
 
-#include "vmap/manager/characteritemcontrollermanager.h"
-#include "vmap/manager/ellipscontrollermanager.h"
-#include "vmap/manager/imagecontrollermanager.h"
-#include "vmap/manager/linecontrollermanager.h"
-#include "vmap/manager/pathcontrollermanager.h"
-#include "vmap/manager/rectcontrollermanager.h"
-#include "vmap/manager/textcontrollermanager.h"
-
 #include "worker/iohelper.h"
 
 // Undo management

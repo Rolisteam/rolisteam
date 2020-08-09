@@ -32,7 +32,7 @@ VisualItemController::VisualItemController(ItemType itemType, const std::map<QSt
     : QObject(parent), m_ctrl(ctrl), m_itemType(itemType), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
     connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::selectableChanged);
-    connect(m_ctrl, &VectorialMapController::visibilityChanged, this, &VisualItemController::visibleChanged);
+    connect(m_ctrl, &VectorialMapController::visibilityChanged, this, &VisualItemController::visibilityChanged);
     connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::localIsGMChanged);
 
     connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VisualItemController::computeEditable);
@@ -111,6 +111,11 @@ VisualItemController::ItemType VisualItemController::itemType() const
     return m_itemType;
 }
 
+bool VisualItemController::remote() const
+{
+    return m_remote;
+}
+
 bool VisualItemController::editable() const
 {
     return (selectable() & m_editable);
@@ -123,14 +128,17 @@ bool VisualItemController::selectable() const
 
 bool VisualItemController::visible() const
 {
-    return (m_visible && ((m_ctrl->visibility() != Core::HIDDEN) || m_ctrl->localGM()));
+    return m_visible; // && ((m_ctrl->visibility() != Core::HIDDEN) || m_ctrl->localGM()));
 }
 
 qreal VisualItemController::opacity() const
 {
-    return m_visible;
+    return m_opacity;
 }
-
+Core::VisibilityMode VisualItemController::visibility() const
+{
+    return m_ctrl->visibility();
+}
 Core::Layer VisualItemController::layer() const
 {
     return m_layer;
@@ -278,6 +286,14 @@ void VisualItemController::setInitialized(bool b)
         return;
     m_initialized= b;
     emit initializedChanged(m_initialized);
+}
+
+void VisualItemController::setRemote(bool b)
+{
+    if(b == m_remote)
+        return;
+    m_remote= b;
+    emit remoteChanged(m_remote);
 }
 
 void VisualItemController::computeEditable()

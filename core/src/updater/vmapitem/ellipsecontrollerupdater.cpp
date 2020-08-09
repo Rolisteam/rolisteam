@@ -29,26 +29,36 @@
 #include "network/networkmessagewriter.h"
 #include "vmap/controller/ellipsecontroller.h"
 #include "worker/convertionhelper.h"
+#include "worker/messagehelper.h"
 
 EllipseControllerUpdater::EllipseControllerUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}
 
 EllipseControllerUpdater::~EllipseControllerUpdater() {}
 
-void EllipseControllerUpdater::addEllipseController(vmap::EllipseController* ctrl)
+void EllipseControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
 {
     if(nullptr == ctrl)
         return;
 
+    auto elliCtrl= dynamic_cast<vmap::EllipseController*>(ctrl);
+
+    if(nullptr == elliCtrl)
+        return;
+
     VMapItemControllerUpdater::addItemController(ctrl);
 
-    connect(ctrl, &vmap::EllipseController::filledChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("filled")); });
-    connect(ctrl, &vmap::EllipseController::ryEditionChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<qreal>(ctrl, QStringLiteral("ry")); });
-    connect(ctrl, &vmap::EllipseController::rxEditionChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<qreal>(ctrl, QStringLiteral("rx")); });
-    connect(ctrl, &vmap::EllipseController::penWidthChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<quint16>(ctrl, QStringLiteral("penWidth")); });
+    connect(elliCtrl, &vmap::EllipseController::filledChanged, this,
+            [this, elliCtrl]() { sendOffVMapChanges<bool>(elliCtrl, QStringLiteral("filled")); });
+    connect(elliCtrl, &vmap::EllipseController::ryEditionChanged, this,
+            [this, elliCtrl]() { sendOffVMapChanges<qreal>(elliCtrl, QStringLiteral("ry")); });
+    connect(elliCtrl, &vmap::EllipseController::rxEditionChanged, this,
+            [this, elliCtrl]() { sendOffVMapChanges<qreal>(elliCtrl, QStringLiteral("rx")); });
+    connect(elliCtrl, &vmap::EllipseController::penWidthChanged, this,
+            [this, elliCtrl]() { sendOffVMapChanges<quint16>(elliCtrl, QStringLiteral("penWidth")); });
+
+    if(!ctrl->remote())
+        connect(elliCtrl, &vmap::EllipseController::initializedChanged, this,
+                [elliCtrl]() { MessageHelper::sendOffEllispe(elliCtrl, elliCtrl->mapUuid()); });
 }
 
 bool EllipseControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

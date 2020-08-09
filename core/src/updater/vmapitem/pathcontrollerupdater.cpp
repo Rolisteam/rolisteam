@@ -24,36 +24,45 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "vmap/controller/pathcontroller.h"
+#include "worker/messagehelper.h"
 
 PathControllerUpdater::PathControllerUpdater() {}
 
-void PathControllerUpdater::addPathController(vmap::PathController* ctrl)
+void PathControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
 {
     if(nullptr == ctrl)
         return;
 
+    auto pathCtrl= dynamic_cast<vmap::PathController*>(ctrl);
+
+    if(nullptr == pathCtrl)
+        return;
+
     VMapItemControllerUpdater::addItemController(ctrl);
 
-    connect(ctrl, &vmap::PathController::pointCountChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<std::vector<QPointF>>(ctrl, QStringLiteral("points")); });
-    connect(ctrl, &vmap::PathController::penWidthChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<quint16>(ctrl, QStringLiteral("penWidth")); });
-    connect(ctrl, &vmap::PathController::closedChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("closed")); });
-    connect(ctrl, &vmap::PathController::filledChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("filled")); });
-    connect(ctrl, &vmap::PathController::pointPositionEditFinished, this, [ctrl](int idx, const QPointF& pos) {
+    connect(pathCtrl, &vmap::PathController::pointCountChanged, this,
+            [this, pathCtrl]() { sendOffVMapChanges<std::vector<QPointF>>(pathCtrl, QStringLiteral("points")); });
+    connect(pathCtrl, &vmap::PathController::penWidthChanged, this,
+            [this, pathCtrl]() { sendOffVMapChanges<quint16>(pathCtrl, QStringLiteral("penWidth")); });
+    connect(pathCtrl, &vmap::PathController::closedChanged, this,
+            [this, pathCtrl]() { sendOffVMapChanges<bool>(pathCtrl, QStringLiteral("closed")); });
+    connect(pathCtrl, &vmap::PathController::filledChanged, this,
+            [this, pathCtrl]() { sendOffVMapChanges<bool>(pathCtrl, QStringLiteral("filled")); });
+
+    connect(pathCtrl, &vmap::PathController::pointPositionEditFinished, this, [pathCtrl](int idx, const QPointF& pos) {
         if(idx < 0)
             return;
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MovePoint);
-        msg.string8(ctrl->mapUuid());
-        msg.uint8(ctrl->itemType());
-        msg.string8(ctrl->uuid());
+        msg.string8(pathCtrl->mapUuid());
+        msg.uint8(pathCtrl->itemType());
+        msg.string8(pathCtrl->uuid());
         msg.int64(idx);
         msg.real(pos.x());
         msg.real(pos.y());
         msg.sendToServer();
     });
+    if(!ctrl->remote())
+        MessageHelper::sendOffPath(pathCtrl, pathCtrl->mapUuid());
 }
 
 bool PathControllerUpdater::movePoint(NetworkMessageReader* msg, vmap::PathController* ctrl)

@@ -66,6 +66,7 @@ public:
     void clearData();
 
     std::vector<vmap::VisualItemController*> items() const;
+    vmap::VisualItemController* item(const QString& id) const;
 
 signals:
     void itemControllerAdded(vmap::VisualItemController* ctrl);

@@ -33,7 +33,7 @@ class ImageControllerUpdater : public VMapItemControllerUpdater
 public:
     ImageControllerUpdater();
 
-    void addImageController(vmap::ImageController* ctrl);
+    void addItemController(vmap::VisualItemController* ctrl) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };

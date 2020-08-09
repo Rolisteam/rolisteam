@@ -107,6 +107,7 @@ signals:
     void avatarChanged();
     void fontChanged(QFont font);
     void radiusChanged(qreal radius);
+    void remoteChanged(bool);
 
 private:
     void refreshTextRect();

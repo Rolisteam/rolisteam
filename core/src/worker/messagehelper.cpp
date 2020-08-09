@@ -35,14 +35,6 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
-#include "vmap/manager/characteritemcontrollermanager.h"
-#include "vmap/manager/ellipscontrollermanager.h"
-#include "vmap/manager/imagecontrollermanager.h"
-#include "vmap/manager/linecontrollermanager.h"
-#include "vmap/manager/pathcontrollermanager.h"
-#include "vmap/manager/rectcontrollermanager.h"
-#include "vmap/manager/textcontrollermanager.h"
-
 #include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
 #include "vmap/controller/gridcontroller.h"
@@ -60,6 +52,7 @@
 #include "data/cleveruri.h"
 #include "data/player.h"
 #include "dicealias.h"
+#include "model/vmapitemmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "preferences/characterstatemodel.h"

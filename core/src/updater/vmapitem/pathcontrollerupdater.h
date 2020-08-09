@@ -34,7 +34,7 @@ class PathControllerUpdater : public VMapItemControllerUpdater
 public:
     PathControllerUpdater();
 
-    void addPathController(vmap::PathController* ctrl);
+    void addItemController(vmap::VisualItemController* ctrl) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
     bool movePoint(NetworkMessageReader* msg, vmap::PathController* ctrl);

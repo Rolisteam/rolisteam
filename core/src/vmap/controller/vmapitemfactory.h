@@ -21,13 +21,17 @@
 #define VMAPITEMFACTORY_H
 
 #include "vmap/controller/visualitemcontroller.h"
+
 class VectorialMapController;
+class NetworkMessageReader;
 namespace vmap
 {
 class VmapItemFactory
 {
 public:
-    static vmap::VisualItemController* createVMapItem(VectorialMapController* mapCtrl, Core::SelectableTool tool, const std::map<QString, QVariant> &param);
+    static vmap::VisualItemController* createVMapItem(VectorialMapController* mapCtrl, Core::SelectableTool tool,
+                                                      const std::map<QString, QVariant>& param);
+    static vmap::VisualItemController* createRemoteVMapItem(VectorialMapController* mapCtrl, NetworkMessageReader* msg);
 };
 } // namespace vmap
 #endif // VMAPITEMFACTORY_H
