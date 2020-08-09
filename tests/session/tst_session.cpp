@@ -43,7 +43,7 @@ private slots:
 
 private:
     // std::unique_ptr<SessionManager> m_sessionManager;
-    SessionItemModel* m_model;
+    session::SessionItemModel* m_model;
 };
 
 Q_DECLARE_METATYPE(std::vector<Core::ContentType>);
