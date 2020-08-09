@@ -33,7 +33,7 @@
 #include "qmlchat/instantmessagingmodel.h"
 #include "qmlchat/messagemodel.h"
 #include "qmlchat/textwritercontroller.h"
-#include "updater/instantmessagingupdater.h"
+#include "updater/media/instantmessagingupdater.h"
 #include "userlist/playermodel.h"
 
 void registerType()

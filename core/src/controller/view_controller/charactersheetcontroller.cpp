@@ -8,7 +8,7 @@
 #include "data/cleveruri.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
-#include "updater/charactersheetupdater.h"
+#include "updater/media/charactersheetupdater.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 

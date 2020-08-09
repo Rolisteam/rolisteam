@@ -41,7 +41,6 @@ endif()
 
 set(HEADERS
     src/controller/gamecontroller.h
-    src/controller/resourcescontroller.h
     src/controller/networkcontroller.h
     src/controller/playercontroller.h
     src/controller/controllerinterface.h
@@ -112,7 +111,6 @@ set(HEADERS
     src/common/task/uploadlogtoserver.h
     src/common/widgets/colorbutton.h
     src/common/widgets/logpanel.h
-    src/data/chapter.h
     src/data/character.h
     src/data/characterstate.h
     src/data/charactervision.h
@@ -317,7 +315,6 @@ set(HEADERS
     src/widgets/keygeneratordialog.h
     src/widgets/onlinepicturedialog.h
     src/widgets/overlay.h
-    src/updater/sharednotecontrollerupdater.h
     src/widgets/persondialog.h
     src/widgets/realslider.h
     src/widgets/shortcuteditordialog.h
@@ -327,25 +324,25 @@ set(HEADERS
     src/worker/vectorialmapmessagehelper.h
     src/worker/modelhelper.h
     src/worker/iohelper.h
-    src/updater/vmapupdater.h
     src/worker/convertionhelper.h
-    src/updater/rectcontrollerupdater.h
-    src/updater/instantmessagingupdater.h
-    src/updater/vmapitemcontrollerupdater.h
-    src/updater/ellipsecontrollerupdater.h
-    src/updater/textcontrollerupdater.h
-    src/updater/linecontrollerupdater.h
-    src/updater/imagecontrollerupdater.h
-    src/updater/pathcontrollerupdater.h
-    src/updater/characteritemupdater.h
-    src/updater/charactersheetupdater.h
-    src/updater/mediaupdaterinterface.h
+    src/updater/media/mediaupdaterinterface.h
+    src/updater/media/vmapupdater.h
+    src/updater/media/charactersheetupdater.h
+    src/updater/media/instantmessagingupdater.h
+    src/updater/media/sharednotecontrollerupdater.h
+    src/updater/vmapitem/rectcontrollerupdater.h
+    src/updater/vmapitem/vmapitemcontrollerupdater.h
+    src/updater/vmapitem/ellipsecontrollerupdater.h
+    src/updater/vmapitem/textcontrollerupdater.h
+    src/updater/vmapitem/linecontrollerupdater.h
+    src/updater/vmapitem/imagecontrollerupdater.h
+    src/updater/vmapitem/pathcontrollerupdater.h
+    src/updater/vmapitem/characteritemupdater.h
     )
 
 
 set(SOURCES
     src/controller/gamecontroller.cpp
-    src/controller/resourcescontroller.cpp
     src/controller/networkcontroller.cpp
     src/controller/preferencescontroller.cpp
     src/controller/view_controller/mediacontrollerbase.cpp
@@ -415,7 +412,6 @@ set(SOURCES
     src/common/task/uploadlogtoserver.cpp
     src/common/widgets/colorbutton.cpp
     src/common/widgets/logpanel.cpp
-    src/data/chapter.cpp
     src/data/character.cpp
     src/data/characterstate.cpp
     src/data/charactervision.cpp
@@ -552,7 +548,6 @@ set(SOURCES
     src/userlist/userlistdelegate.cpp
     src/userlist/userlistview.cpp
     src/vmap/items/anchoritem.cpp
-    src/updater/sharednotecontrollerupdater.cpp
     src/vmap/items/characteritem.cpp
     src/vmap/items/childpointitem.cpp
     src/vmap/items/ellipsitem.cpp
@@ -618,23 +613,24 @@ set(SOURCES
     src/widgets/realslider.cpp
     src/widgets/shortcuteditordialog.cpp
     src/widgets/tipofdayviewer.cpp
-    src/updater/vmapupdater.cpp
-    src/updater/rectcontrollerupdater.cpp
-    src/updater/vmapitemcontrollerupdater.cpp
-    src/updater/instantmessagingupdater.cpp
-    src/updater/textcontrollerupdater.cpp
-    src/updater/ellipsecontrollerupdater.cpp
-    src/updater/linecontrollerupdater.cpp
-    src/updater/imagecontrollerupdater.cpp
-    src/updater/pathcontrollerupdater.cpp
-    src/updater/characteritemupdater.cpp
-    src/updater/charactersheetupdater.cpp
+    src/updater/media/sharednotecontrollerupdater.cpp
+    src/updater/media/vmapupdater.cpp
+    src/updater/media/mediaupdaterinterface.cpp
+    src/updater/media/charactersheetupdater.cpp
+    src/updater/media/instantmessagingupdater.cpp
+    src/updater/vmapitem/rectcontrollerupdater.cpp
+    src/updater/vmapitem/vmapitemcontrollerupdater.cpp
+    src/updater/vmapitem/textcontrollerupdater.cpp
+    src/updater/vmapitem/ellipsecontrollerupdater.cpp
+    src/updater/vmapitem/linecontrollerupdater.cpp
+    src/updater/vmapitem/imagecontrollerupdater.cpp
+    src/updater/vmapitem/pathcontrollerupdater.cpp
+    src/updater/vmapitem/characteritemupdater.cpp
     src/worker/messagehelper.cpp
     src/worker/modelhelper.cpp
     src/worker/vectorialmapmessagehelper.cpp
     src/worker/playermessagehelper.cpp
     src/worker/convertionhelper.cpp
-    src/updater/mediaupdaterinterface.cpp
     )
 
 
@@ -706,7 +702,6 @@ set(Network_HEADER
     src/network/rserver.h
     src/network/messagedispatcher.h
     src/network/receiveevent.h
-    src/data/features.h
     src/data/person.h
     src/data/player.h
     src/data/character.h
@@ -736,7 +731,6 @@ set(Network_SRC
     src/network/receiveevent.cpp
     src/data/person.cpp
     src/data/player.cpp
-    src/data/features.cpp
     src/data/character.cpp
     src/data/characterstate.cpp
     src/data/resourcesnode.cpp
