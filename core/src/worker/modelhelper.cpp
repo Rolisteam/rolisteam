@@ -24,6 +24,7 @@
 #include "controller/contentcontroller.h"
 #include "data/character.h"
 #include "data/player.h"
+#include "model/contentmodel.h"
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
 #include "session/sessionitemmodel.h"
@@ -176,7 +177,7 @@ namespace ModelHelper
 
 bool saveSession(const QString& path, const QString& name, const ContentController* ctrl)
 {
-    /*QFile file(path);
+    QFile file(path);
     if(!file.open(QIODevice::WriteOnly))
     {
         return false;
@@ -185,25 +186,23 @@ bool saveSession(const QString& path, const QString& name, const ContentControll
     out.setVersion(QDataStream::Qt_5_7);
     out << name;
 
-    auto managers= ctrl->mediaManagers();
-
-    for(auto manager : managers)
-    {
-        out << IOHelper::saveManager(manager);
-    }
-
-    auto model= ctrl->sessionModel();
-    if(!model)
+    auto model= ctrl->contentModel();
+    if(model == nullptr)
         return false;
-    model->saveModel(out);*/
 
+    auto ctrls= model->controllers();
+    out << static_cast<quint64>(ctrls.size());
+    for(auto ctrl : ctrls)
+    {
+        out << IOHelper::saveController(ctrl);
+    }
     return true;
 }
 
 QString loadSession(const QString& path, ContentController* ctrl)
 {
     QString name;
-    /*QFileInfo info(path);
+    QFileInfo info(path);
     name= info.baseName();
     QFile file(path);
     if(!file.open(QIODevice::ReadOnly))
@@ -214,17 +213,18 @@ QString loadSession(const QString& path, ContentController* ctrl)
     in.setVersion(QDataStream::Qt_5_7);
 
     in >> name;
-    auto managers= ctrl->mediaManagers();
+    auto model= ctrl->contentModel();
 
-    for(auto manager : managers)
+    quint64 size;
+    in >> size;
+
+    for(quint64 i= 0; i < size; ++i)
     {
-        IOHelper::loadManager(manager, in);
+        auto ctrl= IOHelper::loadController(in);
+
+        model->appendMedia(ctrl);
     }
 
-    auto model= ctrl->sessionModel();
-    if(!model)
-        return {};
-    model->loadModel(in);*/
     return name;
 } // namespace ModelHelper
 

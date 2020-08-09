@@ -74,15 +74,6 @@ Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instan
 
     connect(m_ctrl, &ContentController::mediaControllerCreated, this, &Workspace::addMedia);
 
-    /* connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
-       connect(m_ctrl->noteCtrl(), &NoteMediaController::noteControllerCreated, this, &Workspace::addNote);
-       connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this,
-   &Workspace::addVectorialMap); connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpageControllerCreated, this,
-   &Workspace::addWebpage); #ifdef WITH_PDF connect(m_ctrl->pdfCtrl(), &PdfMediaController::pdfControllerCreated, this,
-   &Workspace::addPdf); #endif connect(m_ctrl->sheetCtrl(), &CharacterSheetMediaController::characterSheetCreated, this,
-               &Workspace::addCharacterSheet);
-       connect(m_ctrl->sharedCtrl(), &SharedNoteMediaController::sharedNoteControllerCreated, this,
-               &Workspace::addSharedNote);*/
 
     connect(this, &Workspace::subWindowActivated, this, &Workspace::updateActiveMediaContainer);
 
