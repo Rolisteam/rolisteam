@@ -42,6 +42,7 @@ class DiceAliasModel;
 class DiceAlias;
 class CharacterStateModel;
 class CharacterState;
+class MediaControllerBase;
 class ImageController;
 class NetworkMessageWriter;
 class NetworkMessageReader;
@@ -69,28 +70,31 @@ public:
     static void sendOffOneCharacterState(CharacterState* da, int row);
 
     static QString readPlayerId(NetworkMessageReader& msg);
+    static void sendOffMediaControllerBase(const MediaControllerBase* ctrl, NetworkMessageWriter& msg);
 
     // vmap
     static QHash<QString, QVariant> readVectorialMapData(NetworkMessageReader* msg);
     static void sendOffVMap(VectorialMapController* ctrl);
 
-    static void sendOffRect(const vmap::RectController* ctrl, const QString& mapId);
     static const std::map<QString, QVariant> readRect(NetworkMessageReader* msg);
     static const std::map<QString, QVariant> readLine(NetworkMessageReader* msg);
     static const std::map<QString, QVariant> readEllipse(NetworkMessageReader* msg);
     static const std::map<QString, QVariant> readImage(NetworkMessageReader* msg);
     static const std::map<QString, QVariant> readText(NetworkMessageReader* msg);
     static const std::map<QString, QVariant> readPath(NetworkMessageReader* msg);
+    static const std::map<QString, QVariant> readCharacter(NetworkMessageReader* msg);
 
-    static void sendOffText(const vmap::TextController* ctrl, const QString& mapId);
+    static void sendOffRect(const vmap::RectController* ctrl, const QString& mapId);
     static void sendOffLine(const vmap::LineController* ctrl, const QString& mapId);
     static void sendOffEllispe(const vmap::EllipseController* ctrl, const QString& mapId);
+    static void sendOffText(const vmap::TextController* ctrl, const QString& mapId);
     static void sendOffPath(const vmap::PathController* ctrl, const QString& mapId);
     static void sendOffImage(const vmap::ImageController* ctrl, const QString& mapId);
     static void sendOffCharacter(const vmap::CharacterItemController* ctrl, const QString& mapId);
 
     // media
     static QString readMediaId(NetworkMessageReader* msg);
+    static QHash<QString, QVariant> readMediaData(NetworkMessageReader* msg);
 
     // image
     static void sendOffImage(ImageController* ctrl);

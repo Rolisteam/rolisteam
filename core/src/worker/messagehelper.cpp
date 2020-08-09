@@ -171,7 +171,23 @@ QString MessageHelper::readMediaId(NetworkMessageReader* msg)
     return msg->string8();
 }
 
-void MessageHelper::sendOffOpenMedia(AbstractMediaController* ctrl) {}
+QHash<QString, QVariant> MessageHelper::readMediaData(NetworkMessageReader* msg)
+{
+    auto uuid= msg->string8();
+    auto name= msg->string32();
+    auto contentType= msg->uint8();
+    auto ownerId= msg->string32();
+
+    return {{"uuid", uuid}, {"name", name}, {"contentType", contentType}, {"ownerId", ownerId}};
+}
+
+void MessageHelper::sendOffMediaControllerBase(const MediaControllerBase* ctrl, NetworkMessageWriter& msg)
+{
+    msg.string8(ctrl->uuid());
+    msg.string32(ctrl->name());
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
+    msg.string32(ctrl->ownerId());
+}
 
 void MessageHelper::closeMedia(const QString& id, Core::ContentType type)
 {
@@ -188,9 +204,7 @@ void MessageHelper::sendOffImage(ImageController* ctrl)
 
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
     msg.uint8(static_cast<quint8>(ctrl->contentType()));
-    msg.string16(ctrl->name());
-    msg.string8(ctrl->uuid());
-    msg.string8(ctrl->ownerId());
+    sendOffMediaControllerBase(ctrl, msg);
     msg.byteArray32(ctrl->data());
 
     msg.sendToServer();
@@ -198,12 +212,10 @@ void MessageHelper::sendOffImage(ImageController* ctrl)
 
 QHash<QString, QVariant> MessageHelper::readImageData(NetworkMessageReader* msg)
 {
-    // QHash<QString, QVariant> data;
-    auto name= msg->string16();
-    auto id= msg->string8();
-    auto owner= msg->string8();
+    auto hash= readMediaData(msg);
     auto data= msg->byteArray32();
-    return {{"name", name}, {"uuid", id}, {"owner", id}, {"data", data}};
+    hash.insert("data", data);
+    return hash;
 }
 
 void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* playerModel)
@@ -252,12 +264,18 @@ QHash<QString, QVariant> MessageHelper::readWebPageData(NetworkMessageReader* ms
     if(nullptr == msg)
         return {};
 
+    auto hash= readMediaData(msg);
+
     auto id= msg->string8();
     auto mode= msg->uint8();
     auto data= msg->string32();
 
-    return QHash<QString, QVariant>(
-        {{"id", id}, {"mode", mode}, {"data", data}, {"state", static_cast<int>(WebpageController::RemoteView)}});
+    hash.insert("id", id);
+    hash.insert("mode", mode);
+    hash.insert("data", data);
+    hash.insert("state", static_cast<int>(WebpageController::RemoteView));
+
+    return hash;
 }
 
 void MessageHelper::stopSharingSheet(const QString& mediaId, const QString& characterId)
@@ -316,6 +334,7 @@ QHash<QString, QVariant> MessageHelper::readCharacterSheet(NetworkMessageReader*
     if(nullptr == msg)
         return {};
 
+    auto hash= readMediaData(msg);
     auto id= msg->string8();
     auto name= msg->string8();
     auto characterId= msg->string8();
@@ -324,8 +343,15 @@ QHash<QString, QVariant> MessageHelper::readCharacterSheet(NetworkMessageReader*
     auto imageData= msg->byteArray32();
     auto rootSection= msg->byteArray32();
 
-    return {{"id", id},   {"name", name},           {"characterId", characterId}, {"data", data},
-            {"qml", qml}, {"imageData", imageData}, {"rootSection", rootSection}};
+    hash.insert("id", id);
+    hash.insert("name", name);
+    hash.insert("characterId", characterId);
+    hash.insert("data", data);
+    hash.insert("qml", qml);
+    hash.insert("imageData", imageData);
+    hash.insert("rootSection", rootSection);
+
+    return hash;
 }
 
 void MessageHelper::readUpdateField(CharacterSheetController* ctrl, NetworkMessageReader* msg)
@@ -342,21 +368,6 @@ void MessageHelper::readUpdateField(CharacterSheetController* ctrl, NetworkMessa
     ctrl->updateFieldFrom(sheetId, obj, data);
 }
 
-void MessageHelper::shareNotesTo(const SharedNoteController* ctrl, const QStringList& recipiants)
-{
-    if(nullptr == ctrl)
-        return;
-
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
-    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-    msg.uint8(static_cast<quint8>(ctrl->contentType()));
-    msg.string8(ctrl->uuid());
-    msg.uint8(static_cast<bool>(ctrl->highligthedSyntax() == SharedNoteController::HighlightedSyntax::MarkDown));
-    msg.string8(ctrl->ownerId());
-    msg.string32(ctrl->text());
-    msg.sendToServer();
-}
-
 void MessageHelper::closeNoteTo(SharedNoteController* sharedCtrl, const QString& id)
 {
     if(nullptr == sharedCtrl)
@@ -369,17 +380,32 @@ void MessageHelper::closeNoteTo(SharedNoteController* sharedCtrl, const QString&
     msg.sendToServer();
 }
 
+void MessageHelper::shareNotesTo(const SharedNoteController* ctrl, const QStringList& recipiants)
+{
+    if(nullptr == ctrl)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
+    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
+    sendOffMediaControllerBase(ctrl, msg);
+    msg.uint8(static_cast<bool>(ctrl->highligthedSyntax() == SharedNoteController::HighlightedSyntax::MarkDown));
+    msg.string32(ctrl->text());
+    msg.sendToServer();
+}
 QHash<QString, QVariant> MessageHelper::readSharedNoteData(NetworkMessageReader* msg)
 {
     if(nullptr == msg)
         return {};
 
-    auto id= msg->string8();
+    auto hash= readMediaData(msg);
     auto mkH= static_cast<bool>(msg->uint8());
-    auto ownerId= msg->string8();
     auto text= msg->string32();
 
-    return QHash<QString, QVariant>({{"id", id}, {"markdown", mkH}, {"ownerId", ownerId}, {"text", text}});
+    hash.insert("markdown", mkH);
+    hash.insert("text", text);
+
+    return hash;
 }
 
 void MessageHelper::shareWebpage(WebpageController* ctrl)
@@ -444,6 +470,7 @@ QHash<QString, QVariant> MessageHelper::readPdfData(NetworkMessageReader* msg)
 #endif
 void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
 {
+    msg.uint8(ctrl->itemType());
     msg.uint8(ctrl->visible());
     msg.uint8(ctrl->initialized());
     msg.real(ctrl->opacity());
@@ -459,6 +486,7 @@ void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMess
 
 const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader* msg)
 {
+    auto itemtype= msg->uint8();
     auto visible= msg->uint8();
     auto initialized= msg->uint8();
     auto opacity= msg->real();
@@ -477,6 +505,7 @@ const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader*
                                         {"rotation", rotation},
                                         {"layer", layer},
                                         {"position", pos},
+                                        {"itemtype", itemtype},
                                         {"uuid", uuid},
                                         {"color", rgb},
                                         {"locked", locked}});
@@ -574,98 +603,6 @@ const std::map<QString, QVariant> MessageHelper::readRect(NetworkMessageReader* 
     return hash;
 }
 
-QHash<QString, QVariant> readRectManager(NetworkMessageReader* msg)
-{
-    QHash<QString, QVariant> result;
-    auto count= msg->uint64();
-    result["count"]= count;
-    for(quint64 i= 0; i < count; ++i)
-    {
-        auto param= MessageHelper::readRect(msg);
-        QHash<QString, QVariant> paramHash(param.begin(), param.end());
-        result[QString("param_%1").arg(i)]= paramHash;
-    }
-    return result;
-}
-
-void addRectManager(RectControllerManager* ctrl, NetworkMessageWriter& msg)
-{
-    auto ctrls= ctrl->controllers();
-    msg.uint64(static_cast<quint64>(ctrls.size()));
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&msg](const vmap::RectController* ctrl) { addRectController(ctrl, msg); });
-}
-
-QHash<QString, QVariant> readLineManager(NetworkMessageReader* msg)
-{
-    QHash<QString, QVariant> result;
-    auto count= msg->uint64();
-    result["count"]= count;
-    for(quint64 i= 0; i < count; ++i)
-    {
-        auto param= MessageHelper::readLine(msg);
-        QHash<QString, QVariant> paramHash(param.begin(), param.end());
-        result[QString("param_%1").arg(i)]= paramHash;
-    }
-    return result;
-}
-
-QHash<QString, QVariant> readPathManager(NetworkMessageReader* msg)
-{
-    QHash<QString, QVariant> result;
-    auto count= msg->uint64();
-    result["count"]= count;
-    for(quint64 i= 0; i < count; ++i)
-    {
-        auto param= MessageHelper::readPath(msg);
-        QHash<QString, QVariant> paramHash(param.begin(), param.end());
-        result[QString("param_%1").arg(i)]= paramHash;
-    }
-    return result;
-}
-
-QHash<QString, QVariant> readImageManager(NetworkMessageReader* msg)
-{
-    QHash<QString, QVariant> result;
-    auto count= msg->uint64();
-    result["count"]= count;
-    for(quint64 i= 0; i < count; ++i)
-    {
-        auto param= MessageHelper::readImage(msg);
-        QHash<QString, QVariant> paramHash(param.begin(), param.end());
-        result[QString("param_%1").arg(i)]= paramHash;
-    }
-    return result;
-}
-
-QHash<QString, QVariant> readTextManager(NetworkMessageReader* msg)
-{
-    QHash<QString, QVariant> result;
-    auto count= msg->uint64();
-    result["count"]= count;
-    for(quint64 i= 0; i < count; ++i)
-    {
-        auto param= MessageHelper::readImage(msg);
-        QHash<QString, QVariant> paramHash(param.begin(), param.end());
-        result[QString("param_%1").arg(i)]= paramHash;
-    }
-    return result;
-}
-
-QHash<QString, QVariant> readCharacterManager(NetworkMessageReader* msg)
-{
-    QHash<QString, QVariant> result;
-    auto count= msg->uint64();
-    result["count"]= count;
-    for(quint64 i= 0; i < count; ++i)
-    {
-        auto param= MessageHelper::readImage(msg);
-        QHash<QString, QVariant> paramHash(param.begin(), param.end());
-        result[QString("param_%1").arg(i)]= paramHash;
-    }
-    return result;
-}
-
 void addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWriter& msg)
 {
     addVisualItemController(ctrl, msg);
@@ -675,30 +612,10 @@ void addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWri
     msg.real(ctrl->ry());
 }
 
-QHash<QString, QVariant> readEllipseManager(NetworkMessageReader* msg)
-{
-    QHash<QString, QVariant> result;
-    auto count= msg->uint64();
-    result["count"]= count;
-    for(quint64 i= 0; i < count; ++i)
-    {
-        auto param= MessageHelper::readEllipse(msg);
-        QHash<QString, QVariant> paramHash(param.begin(), param.end());
-        result[QString("param_%1").arg(i)]= paramHash;
-    }
-    return result;
-}
-
-void addEllipseManager(EllipsControllerManager* ctrl, NetworkMessageWriter& msg)
-{
-    auto ctrls= ctrl->controllers();
-    msg.uint64(static_cast<quint64>(ctrls.size()));
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&msg](const vmap::EllipseController* ctrl) { addEllipseController(ctrl, msg); });
-}
-
 void addLineController(const vmap::LineController* ctrl, NetworkMessageWriter& msg)
 {
+    if(!ctrl)
+        return;
     addVisualItemController(ctrl, msg);
     auto start= ctrl->startPoint();
     msg.real(start.x());
@@ -727,16 +644,10 @@ const std::map<QString, QVariant> MessageHelper::readLine(NetworkMessageReader* 
     return hash;
 }
 
-void addLineManager(LineControllerManager* ctrl, NetworkMessageWriter& msg)
-{
-    auto ctrls= ctrl->controllers();
-    msg.uint64(static_cast<quint64>(ctrls.size()));
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&msg](const vmap::LineController* ctrl) { addLineController(ctrl, msg); });
-}
-
 void addImageController(const vmap::ImageController* ctrl, NetworkMessageWriter& msg)
 {
+    if(!ctrl)
+        return;
     addVisualItemController(ctrl, msg);
     msg.real(ctrl->ratio());
     msg.byteArray32(ctrl->data());
@@ -764,6 +675,8 @@ const std::map<QString, QVariant> MessageHelper::readImage(NetworkMessageReader*
 
 void addTextController(const vmap::TextController* ctrl, NetworkMessageWriter& msg)
 {
+    if(!ctrl)
+        return;
     addVisualItemController(ctrl, msg);
     msg.string32(ctrl->text());
     msg.uint16(ctrl->penWidth());
@@ -812,16 +725,10 @@ const std::map<QString, QVariant> MessageHelper::readText(NetworkMessageReader* 
     return hash;
 }
 
-void addImageManager(ImageControllerManager* ctrl, NetworkMessageWriter& msg)
-{
-    auto ctrls= ctrl->controllers();
-    msg.uint64(static_cast<quint64>(ctrls.size()));
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&msg](const vmap::ImageController* ctrl) { addImageController(ctrl, msg); });
-}
-
 void addPathController(const vmap::PathController* ctrl, NetworkMessageWriter& msg)
 {
+    if(!ctrl)
+        return;
     addVisualItemController(ctrl, msg);
     msg.uint8(ctrl->filled());
     msg.uint8(ctrl->closed());
@@ -862,24 +769,56 @@ const std::map<QString, QVariant> MessageHelper::readPath(NetworkMessageReader* 
     return hash;
 }
 
-void addPathManager(PathControllerManager* ctrl, NetworkMessageWriter& msg)
+const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageReader* msg)
 {
-    auto ctrls= ctrl->controllers();
-    msg.uint64(static_cast<quint64>(ctrls.size()));
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&msg](const vmap::PathController* ctrl) { addPathController(ctrl, msg); });
-}
+    auto hash= readVisualItemController(msg);
+    auto side= msg->real();
+    auto stateColor= QColor(msg->rgb());
+    auto number= msg->uint32();
+    auto playableCharacter= static_cast<bool>(msg->uint8());
 
-void addTextManager(TextControllerManager* ctrl, NetworkMessageWriter& msg)
-{
-    auto ctrls= ctrl->controllers();
-    msg.uint64(static_cast<quint64>(ctrls.size()));
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&msg](const vmap::TextController* ctrl) { addTextController(ctrl, msg); });
+    auto x= msg->real();
+    auto y= msg->real();
+    auto w= msg->real();
+    auto h= msg->real();
+    QRectF rect(x, y, w, h);
+
+    auto text= msg->string32();
+    auto hasAvatar= static_cast<bool>(msg->uint8());
+
+    auto img= msg->byteArray32();
+    auto font= QFont(msg->string32());
+    auto radius= msg->real();
+
+    auto count= msg->uint64();
+    std::vector<QPointF> points;
+    points.reserve(static_cast<std::size_t>(count));
+    for(unsigned int i= 0; i < count; ++i)
+    {
+        auto x= msg->real();
+        auto y= msg->real();
+        points.push_back(QPointF(x, y));
+    }
+    hash.insert({QStringLiteral("side"), side});
+    hash.insert({QStringLiteral("stateColor"), stateColor});
+    hash.insert({QStringLiteral("number"), number});
+    hash.insert({QStringLiteral("playableCharacter"), playableCharacter});
+    hash.insert({QStringLiteral("rect"), QVariant::fromValue(rect)});
+    hash.insert({QStringLiteral("text"), text});
+    hash.insert({QStringLiteral("hasAvatar"), hasAvatar});
+    hash.insert({QStringLiteral("img"), img});
+    hash.insert({QStringLiteral("font"), font});
+    hash.insert({QStringLiteral("radius"), radius});
+    hash.insert({QStringLiteral("count"), count});
+    hash.insert({QStringLiteral("points"), QVariant::fromValue(points)});
+
+    return hash;
 }
 
 void addCharacterController(const vmap::CharacterItemController* ctrl, NetworkMessageWriter& msg)
 {
+    if(!ctrl)
+        return;
     addVisualItemController(ctrl, msg);
     msg.real(ctrl->side());
     msg.rgb(ctrl->stateColor().rgb());
@@ -917,14 +856,6 @@ void addCharacterController(const vmap::CharacterItemController* ctrl, NetworkMe
     }
 }
 
-void addCharacterManager(CharacterItemControllerManager* ctrl, NetworkMessageWriter& msg)
-{
-    auto ctrls= ctrl->controllers();
-    msg.uint64(static_cast<quint64>(ctrls.size()));
-    std::for_each(ctrls.begin(), ctrls.end(),
-                  [&msg](const vmap::CharacterItemController* ctrl) { addCharacterController(ctrl, msg); });
-}
-
 QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReader* msg)
 {
     if(nullptr == msg)
@@ -935,7 +866,7 @@ QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReade
     hash["name"]= msg->string16();
     hash["layer"]= msg->uint8();
     hash["permission"]= msg->uint8();
-    hash["bgcolor"]= msg->rgb();
+    hash["bgcolor"]= QColor(msg->rgb());
     hash["visibility"]= msg->uint8();
     hash["zindex"]= msg->uint64();
     hash["charactervision"]= msg->uint8();
@@ -944,18 +875,85 @@ QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReade
     hash["GridSize"]= msg->uint32();
     hash["GridAbove"]= msg->uint8();
     hash["Collision"]= msg->uint8();
-    hash["GridColor"]= msg->rgb();
+    hash["GridColor"]= QColor(msg->rgb());
 
     hash["sight"]= readSightController(msg);
-    hash["rect"]= readRectManager(msg);
+
+    auto itemCount= msg->uint64();
+    QHash<QString, QVariant> items;
+    for(quint64 i= 0; i < itemCount; ++i)
+    {
+        auto type= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
+        std::map<QString, QVariant> map;
+        switch(type)
+        {
+        case vmap::VisualItemController::LINE:
+            map= readLine(msg);
+            break;
+        case vmap::VisualItemController::PATH:
+            map= readPath(msg);
+            break;
+        case vmap::VisualItemController::RECT:
+            map= readRect(msg);
+            break;
+        case vmap::VisualItemController::TEXT:
+            map= readText(msg);
+            break;
+        case vmap::VisualItemController::ELLIPSE:
+            map= readEllipse(msg);
+            break;
+        case vmap::VisualItemController::CHARACTER:
+            map= readCharacter(msg);
+            break;
+        case vmap::VisualItemController::IMAGE:
+            map= readImage(msg);
+            break;
+        default:
+            break;
+        }
+    }
+    hash["items"]= items;
+
+    // readModel();
+    /*hash["rect"]= readRectManager(msg);
     hash["ellipse"]= readEllipseManager(msg);
     hash["line"]= readLineManager(msg);
     hash["image"]= readImageManager(msg);
     hash["path"]= readPathManager(msg);
     hash["text"]= readTextManager(msg);
-    hash["character"]= readCharacterManager(msg);
+    hash["character"]= readCharacterManager(msg);*/
 
     return hash;
+}
+
+void convertVisualItemCtrlAndAdd(vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
+{
+    switch(ctrl->itemType())
+    {
+    case vmap::VisualItemController::LINE:
+        addLineController(dynamic_cast<vmap::LineController*>(ctrl), msg);
+        break;
+    case vmap::VisualItemController::PATH:
+        addPathController(dynamic_cast<vmap::PathController*>(ctrl), msg);
+        break;
+    case vmap::VisualItemController::RECT:
+        addRectController(dynamic_cast<vmap::RectController*>(ctrl), msg);
+        break;
+    case vmap::VisualItemController::TEXT:
+        addTextController(dynamic_cast<vmap::TextController*>(ctrl), msg);
+        break;
+    case vmap::VisualItemController::ELLIPSE:
+        addEllipseController(dynamic_cast<vmap::EllipseController*>(ctrl), msg);
+        break;
+    case vmap::VisualItemController::CHARACTER:
+        addCharacterController(dynamic_cast<vmap::CharacterItemController*>(ctrl), msg);
+        break;
+    case vmap::VisualItemController::IMAGE:
+        addImageController(dynamic_cast<vmap::ImageController*>(ctrl), msg);
+        break;
+    default:
+        break;
+    }
 }
 
 void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
@@ -985,26 +983,13 @@ void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
     auto sightCtrl= ctrl->sightController();
     addSightController(sightCtrl, msg);
 
-    /*auto rectCtrl= ctrl->rectManager();
-    addRectManager(rectCtrl, msg);
+    auto model= ctrl->model();
+    auto data= model->items();
 
-    auto ellipseCtrl= ctrl->ellipseManager();
-    addEllipseManager(ellipseCtrl, msg);
+    msg.uint64(data.size());
 
-    auto lineCtrl= ctrl->lineManager();
-    addLineManager(lineCtrl, msg);
-
-    auto imageCtrl= ctrl->imageManager();
-    addImageManager(imageCtrl, msg);
-
-    auto pathCtrl= ctrl->pathManager();
-    addPathManager(pathCtrl, msg);
-
-    auto textCtrl= ctrl->textManager();
-    addTextManager(textCtrl, msg);
-
-    auto characterCtrl= ctrl->characterManager();
-    addCharacterManager(characterCtrl, msg);*/
+    std::for_each(data.begin(), data.end(),
+                  [&](vmap::VisualItemController* ctrl) { addVisualItemController(ctrl, msg); });
 
     msg.sendToServer();
 }
