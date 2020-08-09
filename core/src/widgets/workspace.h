@@ -65,24 +65,8 @@ public:
     QWidget* addWindow(QWidget*, QAction* action);
 
     void insertActionAndSubWindow(QAction*, QMdiSubWindow*);
-    /**
-     * @brief getSubWindowFromId must be improved with polymorphism
-     * @param id
-     */
-    // QMdiSubWindow* getSubWindowFromId(QString id);
-    /**
-     * @brief addComteneurMedia
-     * @param mediac
-     */
     void addContainerMedia(MediaContainer* mediac);
-    /**
-     * @brief preferencesHasChanged
-     */
     void preferencesHasChanged(QString);
-    /**
-     * @brief removeMediaContainer
-     * @param mediac
-     */
     void removeMediaContainer(MediaContainer* mediac);
     QVector<QMdiSubWindow*> getAllSubWindowFromId(const QString& id) const;
     bool closeAllSubs();
@@ -127,6 +111,7 @@ private:
     QHash<QMdiSubWindow*, QString> m_titleBar;
     QPointer<MediaContainer> m_activeMediaContainer;
     QPointer<QMdiSubWindow> m_instantMessageView;
+    bool m_visible= false;
 };
 
 #endif

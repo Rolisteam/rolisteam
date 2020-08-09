@@ -33,7 +33,6 @@ struct TipOfDay
 };
 
 class QAbstractItemModel;
-class ResourcesController;
 class LogController;
 class LogSenderScheduler;
 class RemoteLogController;
@@ -122,7 +121,6 @@ private:
     void addCommand(QUndoCommand* cmd);
 
 private:
-    std::unique_ptr<ResourcesController> m_resourcesController;
     std::unique_ptr<LogController> m_logController;
     std::unique_ptr<RemoteLogController> m_remoteLogCtrl;
     std::unique_ptr<NetworkController> m_networkCtrl;

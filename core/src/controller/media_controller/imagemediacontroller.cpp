@@ -21,7 +21,6 @@
 
 #include "controller/view_controller/imagecontroller.h"
 #include "data/cleveruri.h"
-#include "model/singlecontenttypemodel.h"
 #include "undoCmd/removemediacontrollercommand.h"
 #include "worker/iohelper.h"
 
