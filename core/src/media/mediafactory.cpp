@@ -114,23 +114,76 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
 
     return vmapCtrl;
 }
-PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& map)
+PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& params)
 {
-    return nullptr;
+    auto ownerid= params.value(QStringLiteral("ownerId")).toString();
+    auto array= params.value(QStringLiteral("data")).toByteArray();
+    auto path= params.value(QStringLiteral("path")).toString();
+    auto seriaziledData= params.value(QStringLiteral("seriaziledData")).toByteArray();
+    auto pdfCtrl= new PdfController(uuid, path, array);
+    pdfCtrl->setOwnerId(ownerid);
+    if(!seriaziledData.isEmpty())
+        IOHelper::readPdfController(pdfCtrl, seriaziledData);
+    return pdfCtrl;
 }
 NoteController* note(const QString& uuid, const QHash<QString, QVariant>& map)
 {
-    return nullptr;
+    auto name= map.value(QStringLiteral("name")).toString();
+    auto path= map.value(QStringLiteral("path")).toString();
+
+    auto ownerid= map.value(QStringLiteral("ownerId")).toString();
+    auto serializedData= map.value(QStringLiteral("serializedData")).toByteArray();
+
+    auto noteCtrl= new NoteController(uuid);
+
+    if(!name.isEmpty())
+        noteCtrl->setName(name);
+    noteCtrl->setOwnerId(ownerid);
+    noteCtrl->setPath(path);
+
+    if(!serializedData.isEmpty())
+        IOHelper::readNoteController(noteCtrl, serializedData);
+
+    return noteCtrl;
 }
-SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVariant>& map)
+SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVariant>& params, const QString& localId)
 {
-    return nullptr;
+    auto ownerId= params.value(QStringLiteral("ownerId")).toString();
+    auto b= params.value(QStringLiteral("markdown"), false).toBool();
+    auto noteCtrl= new SharedNoteController(ownerId, localId, uuid);
+    noteCtrl->setHighligthedSyntax(b ? SharedNoteController::HighlightedSyntax::MarkDown :
+                                       SharedNoteController::HighlightedSyntax::None);
+    noteCtrl->setText(params.value(QStringLiteral("text")).toString());
+
+    return noteCtrl;
 }
-WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& map)
+WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& params)
 {
-    return nullptr;
+    QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
+    auto webCtrl= new WebpageController(uuid);
+
+    if(params.contains(QStringLiteral("mode")))
+    {
+        auto mode= static_cast<WebpageController::SharingMode>(params.value(QStringLiteral("mode")).toInt());
+        auto data= params.value(QStringLiteral("data")).toString();
+
+        if(mode == WebpageController::Url)
+            webCtrl->setPath(data);
+        else if(mode == WebpageController::Html)
+            webCtrl->setHtml(data);
+    }
+    if(params.contains(QStringLiteral("state")))
+    {
+        webCtrl->setState(static_cast<WebpageController::State>(params.value(QStringLiteral("state")).toInt()));
+    }
+    if(!serializedData.isEmpty())
+        IOHelper::readWebpageController(webCtrl, serializedData);
+
+    return webCtrl;
 }
 } // namespace
+
+QString MediaFactory::m_localId= "";
 
 MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::ContentType type,
                                                     const std::map<QString, QVariant>& map, bool localIsGM)
@@ -155,7 +208,7 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
         base= sheetCtrl(uuid, params);
         break;
     case C::SHAREDNOTE:
-        base= sharedNote(uuid, params);
+        base= sharedNote(uuid, params, m_localId);
         break;
     case C::PDF:
         base= pdf(uuid, params);
@@ -184,6 +237,7 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     case C::VECTORIALMAP:
     {
         auto data= MessageHelper::readVectorialMapData(msg);
+        uuid= data["uuid"].toString();
         base= vectorialMap(uuid, data);
     }
     break;
@@ -208,7 +262,7 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     case C::SHAREDNOTE:
     {
         auto data= MessageHelper::readSharedNoteData(msg);
-        base= sharedNote(uuid, data);
+        base= sharedNote(uuid, data, m_localId);
     }
     break;
     case C::PDF:
@@ -230,5 +284,10 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     base->setLocalGM(localIsGM);
     Q_ASSERT(base != nullptr);
     return base;
+}
+
+void MediaFactory::setLocalId(const QString& id)
+{
+    m_localId= id;
 }
 } // namespace Media

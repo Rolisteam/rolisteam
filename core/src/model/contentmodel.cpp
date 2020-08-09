@@ -19,9 +19,12 @@
  ***************************************************************************/
 #include "contentmodel.h"
 
+#include <QDebug>
 #include <set>
 
 #include "controller/view_controller/mediacontrollerbase.h"
+#include "controller/view_controller/sharednotecontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "worker/messagehelper.h"
 
 ContentModel::ContentModel(QObject* parent) : QAbstractListModel(parent) {}
@@ -42,7 +45,7 @@ QVariant ContentModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     std::set<int> acceptedRole({Qt::DisplayRole, Qt::EditRole, Qt::DecorationRole, NameRole, TitleRole, UuidRole,
-                                PathRole, ContentTypeRole, ActiveRole, ModifiedRole, OwnerIdRole});
+                                PathRole, ContentTypeRole, ActiveRole, ModifiedRole, OwnerIdRole, ControllerRole});
 
     if(acceptedRole.find(role) == acceptedRole.end())
         return {};
@@ -50,6 +53,9 @@ QVariant ContentModel::data(const QModelIndex& index, int role) const
     QVariant value;
 
     auto medium= m_medias[static_cast<std::size_t>(index.row())].get();
+
+    if(nullptr == medium)
+        return {};
 
     switch(role)
     {
@@ -78,6 +84,9 @@ QVariant ContentModel::data(const QModelIndex& index, int role) const
         break;
     case OwnerIdRole:
         value= medium->ownerId();
+        break;
+    case ControllerRole:
+        value= QVariant::fromValue(medium);
         break;
     }
 
@@ -118,9 +127,66 @@ bool ContentModel::removeMedia(const QString& uuid)
     return true;
 }
 
+std::vector<MediaControllerBase*> ContentModel::controllers() const
+{
+    std::vector<MediaControllerBase*> vec;
+    std::transform(std::begin(m_medias), std::end(m_medias), std::back_inserter(vec),
+                   [](const std::unique_ptr<MediaControllerBase>& media) { return media.get(); });
+    return vec;
+}
+
+QHash<int, QByteArray> ContentModel::roleNames() const
+{
+    return QHash<int, QByteArray>({{NameRole, "name"},
+                                   {TitleRole, "title"},
+                                   {UuidRole, "uuid"},
+                                   {PathRole, "path"},
+                                   {ContentTypeRole, "type"},
+                                   {ActiveRole, "active"},
+                                   {ModifiedRole, "modified"},
+                                   {OwnerIdRole, "owner"},
+                                   {ControllerRole, "controller"}});
+}
+
 void ContentModel::clearData()
 {
     beginResetModel();
     m_medias.clear();
     endResetModel();
+}
+
+///////////////////////////////////////////
+//
+//////////////////////////////////////////
+
+FilteredContentModel::FilteredContentModel(Core::ContentType type) : m_type(type)
+{
+    contentController<VectorialMapController*>();
+    contentController<SharedNoteController*>();
+    setFilterRole(ContentModel::ContentTypeRole);
+
+    setDynamicSortFilter(true);
+}
+
+bool FilteredContentModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+{
+    auto idx= sourceModel()->index(source_row, 0, source_parent);
+    return idx.data(ContentModel::ContentTypeRole).value<Core::ContentType>() == m_type;
+}
+
+template <class T>
+std::vector<T> FilteredContentModel::contentController() const
+{
+    std::vector<T> vec;
+    auto size= rowCount();
+    vec.reserve(size);
+    for(int i= 0; i < size; ++i)
+    {
+        QModelIndex idx= index(i, 0);
+        auto ctrl= idx.data(ContentModel::ControllerRole).value<MediaControllerBase*>();
+        auto itemctrl= dynamic_cast<T>(ctrl);
+        if(nullptr != itemctrl)
+            vec.push_back(itemctrl);
+    }
+    return vec;
 }
