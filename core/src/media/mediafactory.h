@@ -23,6 +23,7 @@
 #include "controller/view_controller/mediacontrollerbase.h"
 
 class NetworkMessageReader;
+class PlayerModel;
 namespace Media
 {
 class MediaFactory
@@ -31,6 +32,11 @@ public:
     static MediaControllerBase* createLocalMedia(const QString& uuid, Core::ContentType type,
                                                  const std::map<QString, QVariant>& map, bool localIsGM);
     static MediaControllerBase* createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg, bool localIsGM);
+
+    static void setLocalId(const QString& id);
+
+private:
+    static QString m_localId;
 };
 } // namespace Media
 

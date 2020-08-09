@@ -21,10 +21,28 @@
 #define CONTENTMODEL_H
 
 #include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 #include <memory>
 #include <vector>
 
+#include "media/mediatype.h"
+
 class MediaControllerBase;
+
+class FilteredContentModel : public QSortFilterProxyModel
+{
+public:
+    FilteredContentModel(Core::ContentType type);
+
+    template <class T>
+    std::vector<T> contentController() const;
+
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
+
+private:
+    Core::ContentType m_type;
+};
 
 class ContentModel : public QAbstractListModel
 {
@@ -40,7 +58,8 @@ public:
         ContentTypeRole,
         ActiveRole,
         ModifiedRole,
-        OwnerIdRole
+        OwnerIdRole,
+        ControllerRole
     };
     Q_ENUM(CustomRole)
     explicit ContentModel(QObject* parent= nullptr);
@@ -53,6 +72,10 @@ public:
 
     bool appendMedia(MediaControllerBase* media);
     bool removeMedia(const QString& uuid);
+
+    std::vector<MediaControllerBase*> controllers() const;
+
+    QHash<int, QByteArray> roleNames() const override;
 
     void clearData();
 
