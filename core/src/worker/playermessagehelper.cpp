@@ -24,7 +24,6 @@
 #include <QDebug>
 
 #include "data/character.h"
-#include "data/features.h"
 #include "data/player.h"
 #include "network/clientmanager.h"
 #include "userlist/playermodel.h"
@@ -48,7 +47,7 @@ void PlayerMessageHelper::sendOffConnectionInfo(Player* player, const QByteArray
 void PlayerMessageHelper::sendOffPlayerInformations(Player* player)
 {
     NetworkMessageWriter message(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
-    setLocalFeatures(*player);
+    // setLocalFeatures(*player);
     writePlayerIntoMessage(message, player);
     message.sendToServer();
 }
@@ -87,12 +86,12 @@ void PlayerMessageHelper::writePlayerIntoMessage(NetworkMessageWriter& msg, Play
         writeCharacterIntoMessage(msg, character.get());
     });
 
-    QByteArray array;
+    /*QByteArray array;
     QDataStream out(&array, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_7);
     out << player->features();
 
-    msg.byteArray32(array);
+    msg.byteArray32(array);*/
 }
 
 void PlayerMessageHelper::writeCharacterIntoMessage(NetworkMessageWriter& msg, Character* character)
@@ -183,7 +182,7 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
         qWarning() << "Network message OUT OF MEMORY player after character";
         return false;
     }
-    QByteArray array= msg.byteArray32();
+    /*QByteArray array= msg.byteArray32();
     QDataStream in(&array, QIODevice::ReadOnly);
     in.setVersion(QDataStream::Qt_5_7);
     QMap<QString, quint8> features;
@@ -192,7 +191,7 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
     {
         auto value= features.value(key);
         player->setFeature(key, value);
-    }
+    }*/
     return true;
 }
 

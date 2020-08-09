@@ -249,7 +249,7 @@ void TcpClient::closeConnection()
     emit clientSaysGoodBye();
 }
 
-void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
+/*void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
 {
     if(nullptr == m_player)
         return;
@@ -258,7 +258,7 @@ void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
     {
         m_player->setFeature(name, version);
     }
-}
+}*/
 
 void TcpClient::receivingData()
 {
