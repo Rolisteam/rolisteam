@@ -23,12 +23,16 @@
 
 #include "controller/view_controller/sharednotecontroller.h"
 #include "data/cleveruri.h"
+#include "model/contentmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
 
-SharedNoteControllerUpdater::SharedNoteControllerUpdater(QObject* parent) : MediaUpdaterInterface(parent) {}
+SharedNoteControllerUpdater::SharedNoteControllerUpdater(FilteredContentModel* model, QObject* parent)
+    : MediaUpdaterInterface(parent), m_notesModel(model)
+{
+}
 
 void SharedNoteControllerUpdater::addMediaController(MediaControllerBase* ctrl)
 {

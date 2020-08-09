@@ -31,8 +31,11 @@
 #include "network/receiveevent.h"
 #include "preferences/preferenceslistener.h"
 
-class MediaContainer;
+namespace session
+{
 class SessionItemModel;
+}
+class MediaContainer;
 class QAbstractItemModel;
 class ResourcesNode;
 class PreferencesManager;
@@ -52,7 +55,7 @@ class MediaUpdaterInterface;
 class ContentController : public AbstractControllerInterface, public PreferencesListener, public NetWorkReceiver
 {
     Q_OBJECT
-    Q_PROPERTY(SessionItemModel* sessionModel READ sessionModel CONSTANT)
+    Q_PROPERTY(session::SessionItemModel* sessionModel READ sessionModel CONSTANT)
     Q_PROPERTY(ContentModel* contentModel READ contentModel CONSTANT)
     Q_PROPERTY(QString workspaceFilename READ workspaceFilename NOTIFY workspaceFilenameChanged)
     Q_PROPERTY(QColor workspaceColor READ workspaceColor NOTIFY workspaceColorChanged)
@@ -68,9 +71,8 @@ public:
     explicit ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent= nullptr);
     ~ContentController() override;
 
-    SessionItemModel* sessionModel() const;
+    session::SessionItemModel* sessionModel() const;
     ContentModel* contentModel() const;
-
     std::vector<MediaManagerBase*> mediaUpdaters() const;
     int contentCount() const;
 
@@ -114,8 +116,8 @@ public slots:
     void openResources(const QModelIndex& index);
     void addChapter(const QModelIndex& index);
     void removeSelectedItems(const QModelIndexList& selection);
-    void addContent(ResourcesNode* node);
-    void removeContent(ResourcesNode* node);
+    // void addContent(ResourcesNode* node);
+    // void removeContent(ResourcesNode* node);
     void setSessionName(const QString& name);
     void setSessionPath(const QString& path);
     void addImageAs(const QPixmap& map, Core::ContentType type);
@@ -127,7 +129,7 @@ public slots:
     // void closeMedia(Core::ContentType type, const QString& id);
 
 private:
-    std::unique_ptr<SessionItemModel> m_sessionModel;
+    std::unique_ptr<session::SessionItemModel> m_sessionModel;
     std::map<Core::ContentType, std::unique_ptr<MediaUpdaterInterface>> m_mediaUpdaters;
     std::unique_ptr<ContentModel> m_contentModel;
 

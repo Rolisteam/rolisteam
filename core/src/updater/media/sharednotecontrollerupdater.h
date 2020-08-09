@@ -21,18 +21,20 @@
 #define SHAREDNOTECONTROLLERUPDATER_H
 
 #include <QObject>
+#include <QPointer>
 #include <map>
 
 #include "mediaupdaterinterface.h"
 
 class SharedNoteController;
 class NetworkMessageReader;
+class FilteredContentModel;
 class SharedNoteControllerUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
 
 public:
-    explicit SharedNoteControllerUpdater(QObject* parent= nullptr);
+    explicit SharedNoteControllerUpdater(FilteredContentModel* model, QObject* parent= nullptr);
 
     void addMediaController(MediaControllerBase* ctrl) override;
     void addSharedNoteController(SharedNoteController* sheet);
@@ -42,6 +44,7 @@ public:
 signals:
 
 private:
+    QPointer<FilteredContentModel> m_notesModel;
     std::map<SharedNoteController*, QSet<QString>> m_noteReaders;
     bool m_updatingFromNetwork= false;
 };
