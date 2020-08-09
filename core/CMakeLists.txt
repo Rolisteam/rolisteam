@@ -281,14 +281,6 @@ set(HEADERS
     src/vmap/controller/pathcontroller.h
     src/vmap/controller/sightcontroller.h
     src/vmap/controller/visualitemcontroller.h
-    src/vmap/manager/rectcontrollermanager.h
-    src/vmap/manager/imagecontrollermanager.h
-    src/vmap/manager/ellipscontrollermanager.h
-    src/vmap/manager/linecontrollermanager.h
-    src/vmap/manager/visualitemcontrollermanager.h
-    src/vmap/manager/pathcontrollermanager.h
-    src/vmap/manager/textcontrollermanager.h
-    src/vmap/manager/characteritemcontrollermanager.h
     src/vmap/patternmodel.h
     src/vmap/rgraphicsview.h
     src/vmap/vcolorselector.h
@@ -577,14 +569,6 @@ set(SOURCES
     src/vmap/items/textitem.cpp
     src/vmap/items/visualitem.cpp
     src/vmap/controller/vmapitemfactory.cpp
-    src/vmap/manager/linecontrollermanager.cpp
-    src/vmap/manager/ellipscontrollermanager.cpp
-    src/vmap/manager/visualitemcontrollermanager.cpp
-    src/vmap/manager/rectcontrollermanager.cpp
-    src/vmap/manager/imagecontrollermanager.cpp
-    src/vmap/manager/pathcontrollermanager.cpp
-    src/vmap/manager/textcontrollermanager.cpp
-    src/vmap/manager/characteritemcontrollermanager.cpp
     src/vmap/controller/ellipsecontroller.cpp
     src/vmap/controller/characteritemcontroller.cpp
     src/vmap/controller/linecontroller.cpp

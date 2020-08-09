@@ -98,21 +98,6 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
             it->second->addMediaController(ctrl);
     });
 
-    /*std::for_each(
-        m_mediaControllers.begin(), m_mediaControllers.end(),
-        [this](const std::pair<Core::ContentType, MediaManagerBase*>& pair) {
-            pair.second->registerNetworkReceiver();
-            connect(pair.second, &MediaManagerBase::mediaAdded, m_sessionModel.get(), &SessionItemModel::addMedia);
-            connect(pair.second, &MediaManagerBase::mediaClosed, m_sessionModel.get(), &SessionItemModel::removeMedia);
-        });*/
-
-    /*connect(this, &ContentController::gameMasterIdChanged, m_sheetMediaController.get(),
-            &CharacterSheetMediaController::setGameMasterId);*/
-    /*connect(this, &ContentController::localIdChanged, this, [this](const QString& id) {
-        std::for_each(
-            m_mediaControllers.begin(), m_mediaControllers.end(),
-            [id](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { pair.second->setLocalId(id); });
-    });*/
 }
 
 ContentController::~ContentController()= default;

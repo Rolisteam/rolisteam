@@ -42,7 +42,6 @@ class DiceAliasModel;
 class DiceAlias;
 class CharacterStateModel;
 class CharacterState;
-class AbstractMediaController;
 class ImageController;
 class NetworkMessageWriter;
 class NetworkMessageReader;
@@ -70,7 +69,6 @@ public:
     static void sendOffOneCharacterState(CharacterState* da, int row);
 
     static QString readPlayerId(NetworkMessageReader& msg);
-    static void sendOffOpenMedia(AbstractMediaController* ctrl);
 
     // vmap
     static QHash<QString, QVariant> readVectorialMapData(NetworkMessageReader* msg);

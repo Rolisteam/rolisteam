@@ -39,13 +39,9 @@ class PreferencesManager;
 class MediaManagerBase;
 class NetworkMessageReader;
 class ImageMediaController;
-class VectorialMapMediaController;
 class NetworkController;
-class CharacterSheetMediaController;
 class MapMediaController;
-class WebpageMediaController;
 class CharacterModel;
-class SharedNoteMediaController;
 class PdfMediaController;
 class PlayerModel;
 class NoteMediaController;
@@ -74,15 +70,6 @@ public:
 
     SessionItemModel* sessionModel() const;
     ContentModel* contentModel() const;
-    // ImageMediaController* imagesCtrl() const;
-    // VectorialMapMediaController* vmapCtrl() const;
-    // CharacterSheetMediaController* sheetCtrl() const;
-    // WebpageMediaController* webPageCtrl() const;
-    // SharedNoteMediaController* sharedCtrl() const;
-    //#ifdef WITH_PDF
-    // PdfMediaController* pdfCtrl() const;
-    //#endif
-    // NoteMediaController* noteCtrl() const;
 
     std::vector<MediaManagerBase*> mediaUpdaters() const;
     int contentCount() const;
