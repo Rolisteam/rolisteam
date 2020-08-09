@@ -17,7 +17,7 @@
    <string>Shared Note Editor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../rolisteam.qrc">
+   <iconset>
     <normaloff>:/resources/images/sharedEditor.png</normaloff>:/resources/images/sharedEditor.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
@@ -144,7 +144,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="undo">
      <normaloff>:/sharednote/resources/images/undo.png</normaloff>:/sharednote/resources/images/undo.png</iconset>
    </property>
    <property name="text">
@@ -162,7 +162,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="redo">
      <normaloff>:/sharednote/resources/images/redo.png</normaloff>:/sharednote/resources/images/redo.png</iconset>
    </property>
    <property name="text">
@@ -177,7 +177,7 @@
   </action>
   <action name="actionEdit_Cut">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="cut">
      <normaloff>:/sharednote/resources/images/cut.png</normaloff>:/sharednote/resources/images/cut.png</iconset>
    </property>
    <property name="text">
@@ -192,7 +192,7 @@
   </action>
   <action name="actionEdit_Copy">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="copy">
      <normaloff>:/sharednote/resources/images/copy.png</normaloff>:/sharednote/resources/images/copy.png</iconset>
    </property>
    <property name="text">
@@ -207,7 +207,7 @@
   </action>
   <action name="actionEdit_Paste">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="paste">
      <normaloff>:/sharednote/resources/images/paste.png</normaloff>:/sharednote/resources/images/paste.png</iconset>
    </property>
    <property name="text">
@@ -388,7 +388,7 @@
   </action>
   <action name="actionHelp_How_to_Collaborate">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="help">
      <normaloff>:/sharednote/resources/images/help.png</normaloff>:/sharednote/resources/images/help.png</iconset>
    </property>
    <property name="text">
@@ -400,7 +400,7 @@
   </action>
   <action name="actionFile_Print">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="print">
      <normaloff>:/sharednote/resources/images/print.png</normaloff>:/sharednote/resources/images/print.png</iconset>
    </property>
    <property name="text">
@@ -415,7 +415,7 @@
   </action>
   <action name="m_refresh">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="action-rotate">
      <normaloff>:/resources/images/action-rotate.png</normaloff>:/resources/images/action-rotate.png</iconset>
    </property>
    <property name="text">
@@ -427,7 +427,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="preview_markdown">
      <normaloff>:/resources/images/preview_markdown.svg</normaloff>:/resources/images/preview_markdown.svg</iconset>
    </property>
    <property name="text">
@@ -436,8 +436,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="../../../rolisteam.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
