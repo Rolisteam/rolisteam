@@ -21,46 +21,35 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <chrono>
-#include <data/chapter.h>
 #include <data/resourcesnode.h>
 
 #define COUNT_TURN 2000
-class TestChapter : public QObject
+/*class TestChapter : public QObject
 {
-    Q_OBJECT
+
 
 public:
     TestChapter(QObject* parent= nullptr);
 
 private Q_SLOTS:
-    /**
-     * @brief initTestCase creates instance of classes to be tested
-     */
+
     void initTestCase();
 
-    /**
-     * @brief clean data
-     */
+
     void cleanupTestCase();
-    /**
-     * @brief initTestCase creates instance of classes to be tested
-     */
+
     void testAddChapterHasChildren();
 
-    /**
-     * @brief test the set and get method for Chapter
-     */
+
     void testSetGetName();
 
-    /**
-     * @brief Add cleveruri to chapter and subchapter and remove them.
-     */
+
     void testAddCleverURIToChapter();
     void testInsertAtAndIndexOf();
     void testClear();
 
 private:
-    Chapter* m_chapter;
+    //Chapter* m_chapter;
 };
 
 TestChapter::TestChapter(QObject* parent) : QObject(parent) {}
@@ -137,8 +126,8 @@ void TestChapter::testClear()
 {
     m_chapter->clear();
     QVERIFY2(!m_chapter->hasChildren(), "all Children have not been removed");
-}
+}*/
 
-QTEST_MAIN(TestChapter);
+// QTEST_MAIN(TestChapter);
 
-#include "testChapter.moc"
+//#include "testChapter.moc"

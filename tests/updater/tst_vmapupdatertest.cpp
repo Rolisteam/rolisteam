@@ -23,7 +23,8 @@
 #include "data/cleveruri.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "updater/vmapupdater.h"
+#include "updater/media/vmapupdater.h"
+#include "updater/vmapitem/vmapitemcontrollerupdater.h"
 #include "worker/convertionhelper.h"
 #include <memory>
 
@@ -61,7 +62,7 @@ UpdaterVMapTest::UpdaterVMapTest() {}
 
 void UpdaterVMapTest::init()
 {
-    m_updater.reset(new VMapUpdater);
+    m_updater.reset(new VMapUpdater(nullptr));
 }
 
 void UpdaterVMapTest::cleanupTestCase() {}
