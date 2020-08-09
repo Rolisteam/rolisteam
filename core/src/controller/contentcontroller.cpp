@@ -74,7 +74,7 @@ void sendOffMediaController(MediaControllerBase* ctrl)
 
 ContentController::ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent)
     : AbstractControllerInterface(parent)
-    , m_sessionModel(new SessionItemModel)
+    , m_sessionModel(new session::SessionItemModel)
     , m_contentModel(new ContentModel)
     , m_sessionName(tr("default"))
 {
@@ -83,8 +83,14 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 
-    std::unique_ptr<VMapUpdater> vmapUpdater(new VMapUpdater);
-    std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater);
+    auto fModel= new FilteredContentModel(Core::ContentType::VECTORIALMAP);
+    fModel->setSourceModel(m_contentModel.get());
+
+    auto fModel2= new FilteredContentModel(Core::ContentType::SHAREDNOTE);
+    fModel2->setSourceModel(m_contentModel.get());
+
+    std::unique_ptr<VMapUpdater> vmapUpdater(new VMapUpdater(fModel));
+    std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater(fModel2));
     m_mediaUpdaters.insert({Core::ContentType::VECTORIALMAP, std::move(vmapUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::SHAREDNOTE, std::move(sharedNoteUpdater)});
 
@@ -98,7 +104,6 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
         if(it != m_mediaUpdaters.end())
             it->second->addMediaController(ctrl);
     });
-
 }
 
 ContentController::~ContentController()= default;
@@ -129,7 +134,11 @@ void ContentController::preferencesHasChanged(const QString& key)
 
 void ContentController::newMedia(Core::ContentType type, const std::map<QString, QVariant>& params)
 {
-    emit performCommand(new NewMediaController(type, m_contentModel.get(), params, localIsGM()));
+    auto arg= params;
+    arg.insert({"ownerId", m_localId});
+    arg.insert({"localId", m_localId});
+    arg.insert({"gamemasterId", m_gameMasterId});
+    emit performCommand(new NewMediaController(type, m_contentModel.get(), arg, localIsGM()));
 }
 
 void ContentController::openMedia(const std::map<QString, QVariant>& args)
@@ -144,7 +153,7 @@ void ContentController::openMedia(const std::map<QString, QVariant>& args)
     emit performCommand(new OpenMediaController(m_contentModel.get(), type, args, localIsGM()));
 }
 
-SessionItemModel* ContentController::sessionModel() const
+session::SessionItemModel* ContentController::sessionModel() const
 {
     return m_sessionModel.get();
 }
@@ -159,7 +168,7 @@ int ContentController::contentCount() const
     return m_contentModel->rowCount();
 }
 
-void ContentController::addContent(ResourcesNode* node)
+/*void ContentController::addContent(ResourcesNode* node)
 {
     m_sessionModel->addResource(node, QModelIndex());
 }
@@ -167,7 +176,7 @@ void ContentController::addContent(ResourcesNode* node)
 void ContentController::removeContent(ResourcesNode* node)
 {
     m_sessionModel->removeNode(node);
-}
+}*/
 
 void ContentController::setSessionName(const QString& name)
 {
@@ -228,6 +237,7 @@ void ContentController::setLocalId(const QString& id)
     if(m_localId == id)
         return;
     m_localId= id;
+    Media::MediaFactory::setLocalId(id);
     emit localIdChanged(m_localId);
 }
 
@@ -289,11 +299,25 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
         m_sessionModel->removeMedia(id);
         m_contentModel->removeMedia(id);
     }
-    else
+    else if(msg->action() == NetMsg::AddMedia)
     {
         auto type= static_cast<Core::ContentType>(msg->uint8());
         auto media= Media::MediaFactory::createRemoteMedia(type, msg, localIsGM());
         m_contentModel->appendMedia(media);
+    }
+    else if(msg->action() == NetMsg::UpdateMediaProperty)
+    {
+        auto type= static_cast<Core::ContentType>(msg->uint8());
+        auto it= m_mediaUpdaters.find(type);
+        if(it != m_mediaUpdaters.end())
+        {
+            auto updater= it->second.get();
+            updater->processMessage(msg);
+        }
+        else
+        {
+            QString mediaId= msg->string8();
+        }
     }
 
     return result;
