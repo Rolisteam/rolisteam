@@ -29,6 +29,7 @@
 #include "media/mediatype.h"
 #include "mediacontrollerbase.h"
 #include "network/networkreceiver.h"
+#include "vmap/controller/visualitemcontroller.h"
 
 namespace vmap
 {
@@ -41,15 +42,6 @@ class VmapItemModel;
 class CleverURI;
 class VMap;
 class NetworkMessageReader;
-class VisualItemController;
-class VisualItemControllerManager;
-class RectControllerManager;
-class EllipsControllerManager;
-class LineControllerManager;
-class ImageControllerManager;
-class PathControllerManager;
-class TextControllerManager;
-class CharacterItemControllerManager;
 class VectorialMapController : public MediaControllerBase
 {
     Q_OBJECT
@@ -142,15 +134,14 @@ public:
     vmap::VmapItemModel* model() const;
     vmap::GridController* gridController() const;
     vmap::SightController* sightController() const;
+    vmap::VisualItemController* itemController(const QString& id) const;
 
     void loadItems();
 
     QString addItemController(const std::map<QString, QVariant>& params);
+    void addRemoteItem(vmap::VisualItemController* ctrl);
     void removeItemController(const QString& uuid);
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
-
-    // Network
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
 public slots:
     void showTransparentItems();
@@ -264,6 +255,7 @@ private:
     Core::SelectableTool m_tool= Core::HANDLER;
     Core::EditionMode m_editionMode= Core::EditionMode::Painting;
     std::unique_ptr<vmap::VmapItemModel> m_vmapModel;
+    // std::map<vmap::VisualItemController::ItemType, std::unique_ptr<vmap::VisualItemController>> m_updaters;
 
     std::unique_ptr<vmap::GridController> m_gridController;
     std::unique_ptr<vmap::SightController> m_sightController;

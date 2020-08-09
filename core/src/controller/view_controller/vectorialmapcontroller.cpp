@@ -44,18 +44,6 @@
 #include "model/vmapitemmodel.h"
 #include "worker/iohelper.h"
 
-const std::set<VisualItemControllerManager*>
-allControllers(const std::map<Core::SelectableTool, VisualItemControllerManager*>& itemControllers)
-{
-    std::set<VisualItemControllerManager*> set;
-
-    std::transform(
-        itemControllers.begin(), itemControllers.end(), std::inserter(set, set.end()),
-        [](std::pair<Core::SelectableTool, VisualItemControllerManager*> itemManager) { return itemManager.second; });
-
-    return set;
-}
-
 VectorialMapController::VectorialMapController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::VECTORIALMAP, parent)
     , m_vmapModel(new vmap::VmapItemModel)
@@ -80,6 +68,11 @@ vmap::SightController* VectorialMapController::sightController() const
     return m_sightController.get();
 }
 
+vmap::VisualItemController* VectorialMapController::itemController(const QString& id) const
+{
+    return m_vmapModel->item(id);
+}
+
 void VectorialMapController::loadItems()
 {
     /*std::for_each(m_order.begin(), m_order.end(), [this](const QString& id) {
@@ -100,6 +93,12 @@ QString VectorialMapController::addItemController(const std::map<QString, QVaria
 
     auto item= vmap::VmapItemFactory::createVMapItem(this, tool, params);
     m_vmapModel->appendItemController(item);
+    return item->uuid();
+}
+
+void VectorialMapController::addRemoteItem(vmap::VisualItemController* ctrl)
+{
+    m_vmapModel->appendItemController(ctrl);
 }
 Core::PermissionMode VectorialMapController::permission() const
 {
@@ -660,11 +659,11 @@ void VectorialMapController::removeItemController(const QString& uuid)
     m_vmapModel->removeItemController(uuid);
 }
 
-NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageReader* msg)
+/*NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageReader* msg)
 {
     qDebug() << "received vmap message: " << msg->action();
     QSet<NetMsg::Action> actions({NetMsg::AddItem, NetMsg::UpdateItem, NetMsg::DeleteItem, NetMsg::MovePoint});
-    /*if(actions.contains(msg->action()))
+    if(actions.contains(msg->action()))
     {
         using IT= vmap::VisualItemController::ItemType;
         auto type= static_cast<IT>(msg->uint8());
@@ -694,9 +693,9 @@ NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageR
         default:
             break;
         }
-    }*/
+    }
     return NetWorkReceiver::NONE;
-}
+}*/
 
 /*
  * void VMap::processCharacterStateHasChanged(NetworkMessageReader& msg)

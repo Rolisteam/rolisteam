@@ -29,7 +29,6 @@
 #include "diceparser.h"
 #include "model/profilemodel.h"
 #include "preferences/preferencesmanager.h"
-#include "resourcescontroller.h"
 #include "services/tipchecker.h"
 #include "services/updatechecker.h"
 #include "worker/messagehelper.h"

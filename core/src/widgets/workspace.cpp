@@ -72,8 +72,6 @@ Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instan
     connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
 
     connect(m_ctrl, &ContentController::mediaControllerCreated, this, &Workspace::addMedia);
-
-
     connect(this, &Workspace::subWindowActivated, this, &Workspace::updateActiveMediaContainer);
 
     m_instantMessageView= addSubWindow(new InstantMessagingView(instantCtrl));
@@ -449,7 +447,7 @@ void Workspace::addMedia(MediaControllerBase* ctrl)
     }
 }
 
-void Workspace::addWidgetToMdi(QWidget* wid, QString title)
+void Workspace::addWidgetToMdi(QWidget* wid, const QString& title)
 {
     wid->setParent(this);
     QMdiSubWindow* sub= addSubWindow(wid);
