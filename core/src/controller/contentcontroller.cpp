@@ -35,9 +35,10 @@
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "updater/mediaupdaterinterface.h"
-#include "updater/sharednotecontrollerupdater.h"
-#include "updater/vmapupdater.h"
+#include "updater/media/mediaupdaterinterface.h"
+#include "updater/media/sharednotecontrollerupdater.h"
+#include "updater/media/vmapupdater.h"
+#include "updater/vmapitem/vmapitemcontrollerupdater.h"
 
 #include "gamecontroller.h"
 #include "media/mediafactory.h"
