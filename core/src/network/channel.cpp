@@ -288,29 +288,25 @@ void Channel::updateNewClient(TcpClient* newComer)
     // Sending players infos
     for(auto& child : m_child)
     {
-        if(child->isLeaf())
-        {
-            TcpClient* tcpConnection= dynamic_cast<TcpClient*>(child.data());
-            if(nullptr != tcpConnection)
-            {
-                if(tcpConnection != newComer && tcpConnection->isFullyDefined())
-                {
-                    NetworkMessageWriter* msg
-                        = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
-                    tcpConnection->fill(msg);
-                    qDebug() << "sending message first" << msg->getDataSize();
-                    QMetaObject::invokeMethod(newComer, "sendMessage", Qt::QueuedConnection,
-                                              Q_ARG(NetworkMessage*, msg), Q_ARG(bool, true));
+        if(!child->isLeaf())
+            continue;
 
-                    NetworkMessageWriter* msg2
-                        = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
-                    newComer->fill(msg2);
-                    qDebug() << "sending message second" << msg2->getDataSize();
-                    QMetaObject::invokeMethod(tcpConnection, "sendMessage", Qt::QueuedConnection,
-                                              Q_ARG(NetworkMessage*, msg2), Q_ARG(bool, true));
-                }
-            }
-        }
+        TcpClient* tcpConnection= dynamic_cast<TcpClient*>(child.data());
+        if(nullptr == tcpConnection)
+            continue;
+
+        if(tcpConnection == newComer || !tcpConnection->isFullyDefined())
+            continue;
+
+        NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+        tcpConnection->fill(msg);
+        QMetaObject::invokeMethod(newComer, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg),
+                                  Q_ARG(bool, true));
+
+        NetworkMessageWriter* msg2= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+        newComer->fill(msg2);
+        QMetaObject::invokeMethod(tcpConnection, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg2),
+                                  Q_ARG(bool, true));
     }
     // resend all previous data received
     for(auto& msg : m_dataToSend)
