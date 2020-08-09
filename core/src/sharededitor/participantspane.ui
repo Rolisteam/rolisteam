@@ -133,8 +133,8 @@
   </layout>
   <action name="m_promoteAction">
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
-     <normaloff>:/resources/images/go-up.png</normaloff>:/resources/images/go-up.png</iconset>
+    <iconset theme="go-top" resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/go-top.png</normaloff>:/resources/rolistheme/go-top.png</iconset>
    </property>
    <property name="text">
     <string>Promote</string>
@@ -142,7 +142,7 @@
   </action>
   <action name="m_demoteAction">
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
+    <iconset theme="go-bottom">
      <normaloff>:/resources/images/go-down.png</normaloff>:/resources/images/go-down.png</iconset>
    </property>
    <property name="text">
@@ -151,8 +151,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../../rolisteam.qrc"/>
-  <include location="../../rolisteam.qrc"/>
+  <include location="../../../rolisteam.qrc"/>
  </resources>
  <connections/>
 </ui>
