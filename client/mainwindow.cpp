@@ -996,18 +996,6 @@ void MainWindow::readSettings()
         m_recentScenarioActions.push_back(act);
         connect(act, &QAction::triggered, this, &MainWindow::openRecentScenario);
     }
-    settings.beginGroup("MapShow");
-    m_ui->m_showPcNameAction->setChecked(settings.value("showPcName", m_ui->m_showPcNameAction->isChecked()).toBool());
-    m_ui->m_showNpcNameAction->setChecked(
-        settings.value("showNpcName", m_ui->m_showNpcNameAction->isChecked()).toBool());
-    m_ui->m_showNpcNumberAction->setChecked(
-        settings.value("showNpcNumber", m_ui->m_showNpcNumberAction->isChecked()).toBool());
-    m_ui->m_showHealtStatusAction->setChecked(
-        settings.value("showHealthState", m_ui->m_showHealtStatusAction->isChecked()).toBool());
-    m_ui->m_healthBarAct->setChecked(settings.value("showHealthBar", m_ui->m_healthBarAct->isChecked()).toBool());
-    m_ui->m_showInitiativeAct->setChecked(
-        settings.value("showInitiative", m_ui->m_showInitiativeAct->isChecked()).toBool());
-    settings.endGroup();
 
     updateRecentFileActions();
     updateRecentScenarioAction();
@@ -1039,14 +1027,6 @@ void MainWindow::writeSettings()
     {
         gmtool->writeSettings();
     }
-    settings.beginGroup("MapShow");
-    settings.setValue("showPcName", m_ui->m_showPcNameAction->isChecked());
-    settings.setValue("showNpcName", m_ui->m_showNpcNameAction->isChecked());
-    settings.setValue("showNpcNumber", m_ui->m_showNpcNumberAction->isChecked());
-    settings.setValue("showHealthState", m_ui->m_showHealtStatusAction->isChecked());
-    settings.setValue("showHealthBar", m_ui->m_healthBarAct->isChecked());
-    settings.setValue("showInitiative", m_ui->m_showInitiativeAct->isChecked());
-    settings.endGroup();
 }
 void MainWindow::parseCommandLineArguments(const QStringList& list)
 {
