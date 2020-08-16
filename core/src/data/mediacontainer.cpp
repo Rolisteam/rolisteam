@@ -24,7 +24,6 @@ MediaContainer::MediaContainer(MediaControllerBase* ctrl, ContainerType containe
     : QMdiSubWindow(parent)
     , m_lifeCycleCtrl(ctrl)
     , m_preferences(PreferencesManager::getInstance())
-    , m_action(nullptr)
     , m_currentCursor(nullptr)
     , m_remote(false)
     , m_containerType(containerType)
@@ -102,13 +101,6 @@ void MediaContainer::error(QString err, QWidget* parent)
 }
 bool MediaContainer::isUriEndWith(QString str)
 {
-    /* if(nullptr != m_uri)
-     {
-         if(m_uri->getUri().endsWith(str))
-         {
-             return true;
-         }
-     }*/
     return false;
 }
 
@@ -117,25 +109,8 @@ void MediaContainer::setVisible(bool b)
     if(nullptr != widget())
     {
         widget()->setVisible(b);
-        if(nullptr != m_action)
-        {
-            m_action->setChecked(b);
-        }
     }
-    /*  if(nullptr != m_uri)
-      {
-          m_uri->setDisplayed(b);
-      }*/
     QMdiSubWindow::setVisible(b);
-}
-void MediaContainer::setAction(QAction* act)
-{
-    m_action= act;
-    connect(m_action, &QAction::triggered, this, &MediaContainer::setVisible);
-}
-QAction* MediaContainer::getAction()
-{
-    return m_action;
 }
 
 QString MediaContainer::mediaId() const
@@ -155,6 +130,16 @@ void MediaContainer::currentCursorChanged(QCursor* cursor)
 void MediaContainer::addActionToMenu(QMenu& menu)
 {
     menu.addAction(m_detachedDialog);
+}
+
+void MediaContainer::hideEvent(QHideEvent*)
+{
+    emit visibleChanged(false);
+}
+
+void MediaContainer::showEvent(QShowEvent*)
+{
+    emit visibleChanged(true);
 }
 
 void MediaContainer::detachView(bool b)
