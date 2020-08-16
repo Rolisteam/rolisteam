@@ -97,15 +97,6 @@ public:
      */
     void error(QString err, QWidget* parent);
     /**
-     * @brief setAction
-     */
-    void setAction(QAction*);
-    /**
-     * @brief getAction
-     * @return
-     */
-    QAction* getAction();
-    /**
      * @brief saveMedia must be implemented for each media container.
      */
     virtual void saveMedia()= 0;
@@ -143,19 +134,15 @@ public:
 
 protected:
     void closeEvent(QCloseEvent* event) override;
+    void showEvent(QShowEvent* showEvent) override;
+    void hideEvent(QHideEvent* hideEvent) override;
+
 signals:
-    /**
-     * @brief visibleChanged
-     */
     void visibleChanged(bool);
     void ownerIdChanged();
     void uriNameChanged();
 
 public slots:
-    /**
-     * @brief setVisible
-     * @param b
-     */
     void setVisible(bool b) override;
 
     void detachView(bool b);
@@ -167,11 +154,7 @@ protected:
     QPointer<MediaControllerBase> m_lifeCycleCtrl;
     QString m_filter;
     PreferencesManager* m_preferences;
-    QAction* m_action= nullptr;
     QCursor* m_currentCursor= nullptr;
-    /**
-     * @brief the current tool, it is an enum item.
-     */
     Core::SelectableTool m_currentTool;
     QAction* m_detachedDialog;
     bool m_remote= false;
