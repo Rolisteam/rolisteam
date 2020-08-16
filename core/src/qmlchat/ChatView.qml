@@ -11,6 +11,9 @@ Item {
     property alias localPersonModel: imEditText.model
     property alias chatroomModel: repeater.model
     property ChatRoom chatRoom:  chatroomModel.get(tabHeader.currentIndex)
+    property alias tabBarHeight: tabHeader.height
+    property int tabBarRightMargin: 0
+    property real fontFactor : 1.0
     signal addChat(var title, var all, var recipiants)
     signal split(var uuid, var index)
     signal detach(var uuid, var index)
@@ -62,6 +65,7 @@ Item {
             TabBar {
                 id: tabHeader
                 Layout.fillWidth: true
+                Layout.rightMargin: root.tabBarRightMargin
                 Repeater {
                     id: repeater
                     TabButton {
@@ -116,6 +120,7 @@ Item {
                     id: delegateComponent
                     Loader {
                         property bool isTextMessage: model.type === MessageInterface.Text
+                        property real fontFactor: root.fontFactor
                         anchors.right: (isTextMessage && model.local) ? parent.right : undefined
                         width:isTextMessage ? undefined:  parent.width-10
                         source: isTextMessage ? "TextMessageDelegate.qml" : "DiceMessageDelegate.qml"

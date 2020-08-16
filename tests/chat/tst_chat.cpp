@@ -19,16 +19,31 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-//#include "networklink.h"
+#include <QMetaMethod>
+#include <QMetaObject>
+#include <QMetaProperty>
 
-#include <chat/chat.h>
-#include <chat/chatwindow.h>
-#include <chat/improvedtextedit.h>
 #include <data/character.h>
 #include <data/localpersonmodel.h>
 #include <data/person.h>
 #include <data/player.h>
 #include <userlist/playermodel.h>
+
+#include "controller/instantmessagingcontroller.h"
+#include "qmlchat/avatarprovider.h"
+#include "qmlchat/chatroom.h"
+#include "qmlchat/chatroomfactory.h"
+#include "qmlchat/chatroomsplittermodel.h"
+#include "qmlchat/dicemessage.h"
+#include "qmlchat/filteredplayermodel.h"
+#include "qmlchat/filterinstantmessagingmodel.h"
+#include "qmlchat/instantmessagingmodel.h"
+#include "qmlchat/instantmessagingview.h"
+#include "qmlchat/messagefactory.h"
+#include "qmlchat/messageinterface.h"
+#include "qmlchat/messagemodel.h"
+#include "qmlchat/textmessage.h"
+#include "qmlchat/textwritercontroller.h"
 
 class Player;
 class NetworkLink;
@@ -42,93 +57,109 @@ public:
     ChatWindowTest();
 
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
-    void changeUser();
-    void showMessage();
-    void enterText();
-    void resendPrevious();
+    void init();
+    void cleanup();
 
-    void localPersonModelTest();
+    void propertiesSetGetTest();
+    void propertiesSetGetTest_data();
+
+    void chatRoomCountTest();
+    void chatRoomCountTest_data();
 
 private:
-    ImprovedTextEdit* m_impTextEditor;
-    ChatWindow* m_chatWindow;
-    Player* m_player;
-    Character* m_character;
-    std::unique_ptr<LocalPersonModel> m_localPersonModel;
+    std::unique_ptr<PlayerModel> m_playerModel;
+    std::unique_ptr<InstantMessagingController> m_imCtrl;
 };
 ChatWindowTest::ChatWindowTest() {}
-void ChatWindowTest::initTestCase()
+
+void ChatWindowTest::init()
 {
-    m_player= new Player("bob", Qt::black, false);
-    m_character= new Character("character", Qt::red, false);
-    m_player->addCharacter(m_character);
-    /*PlayerModel::instance()->setLocalPlayer(m_player);
-
-    m_localPersonModel.reset(new LocalPersonModel);
-
-    m_chatWindow= new ChatWindow(new PublicChat());
-    m_chatWindow->setLocalPlayer(m_player);
-    m_impTextEditor= m_chatWindow->getEditionZone();*/
+    m_playerModel.reset(new PlayerModel);
+    m_imCtrl.reset(new InstantMessagingController(m_playerModel.get()));
 }
 
-void ChatWindowTest::enterText()
+void ChatWindowTest::propertiesSetGetTest()
 {
-    QString test= QStringLiteral("Text Test Text Test");
-    m_impTextEditor->setText(test);
-    QSignalSpy spy(m_impTextEditor, SIGNAL(textValidated(bool, QString)));
-    QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
+    QFETCH(QString, propertyName);
+    QFETCH(QVariant, propertyVal);
+
+    auto meta= m_imCtrl->metaObject();
+
+    auto proper= meta->property(meta->indexOfProperty(propertyName.toUtf8()));
+
+    auto signal= proper.notifySignal();
+
+    QSignalSpy spy(m_imCtrl.get(), signal);
+
+    auto b= m_imCtrl->setProperty(propertyName.toUtf8(), propertyVal);
+
+    QVERIFY(b);
     QCOMPARE(spy.count(), 1);
 }
 
-void ChatWindowTest::changeUser()
+void ChatWindowTest::propertiesSetGetTest_data()
 {
-    QSignalSpy spy(m_impTextEditor, SIGNAL(ctrlUp()));
-    QTest::keyPress(m_impTextEditor, Qt::Key_Up, Qt::ControlModifier);
-    QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
-    QCOMPARE(spy.count(), 1);
+    QTest::addColumn<QString>("propertyName");
+    QTest::addColumn<QVariant>("propertyVal");
+
+    QTest::addRow("cmd 1") << "localId" << QVariant::fromValue(QString("tarniten"));
+    QTest::addRow("cmd 2") << "nightMode" << QVariant::fromValue(true);
+    QTest::addRow("cmd 3") << "visible" << QVariant::fromValue(true);
 }
 
-void ChatWindowTest::resendPrevious()
+void ChatWindowTest::chatRoomCountTest()
 {
-    QSignalSpy spy(m_impTextEditor, SIGNAL(textValidated(bool, QString)));
-    QTest::keyPress(m_impTextEditor, Qt::Key_Up);
-    QString txt= m_impTextEditor->document()->toPlainText();
-    QCOMPARE(txt, QStringLiteral("Text Test Text Test"));
-    QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
-    QCOMPARE(spy.count(), 1);
+    QFETCH(QList<Player*>, playerList);
+    QFETCH(int, expected);
+
+    auto model= m_imCtrl->mainModel();
+
+    auto chatrooms= model->data(model->index(0, 0), InstantMessaging::ChatroomSplitterModel::FilterModelRole)
+                        .value<InstantMessaging::FilterInstantMessagingModel*>();
+
+    for(auto player : playerList)
+        m_playerModel->addPlayer(player);
+
+    auto c= chatrooms->rowCount();
+    QCOMPARE(c, expected);
 }
 
-void ChatWindowTest::showMessage()
+void ChatWindowTest::chatRoomCountTest_data()
 {
-    QSignalSpy spy(m_chatWindow, SIGNAL(ChatWindowHasChanged(ChatWindow*)));
-    QTest::keyPress(m_impTextEditor, Qt::Key_Up, Qt::ControlModifier);
-    QString test= QStringLiteral("/me draws his weapons");
-    m_impTextEditor->setText(test);
-    QSignalSpy spy2(m_impTextEditor, SIGNAL(textValidated(bool, QString)));
-    QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
+    QTest::addColumn<QList<Player*>>("playerList");
+    QTest::addColumn<int>("expected");
 
-    QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy2.count(), 1);
+    QTest::addRow("cmd1") << QList<Player*>() << 1;
+
+    QList<Player*> list;
+    auto player= new Player();
+    player->setUuid("1");
+    list << player;
+    QTest::addRow("cmd2") << list << 2;
+
+    list.clear();
+    player= new Player();
+    player->setUuid("3");
+    list << player;
+    player= new Player();
+    player->setUuid("2");
+    list << player;
+    QTest::addRow("cmd3") << list << 3;
 }
 
-void ChatWindowTest::localPersonModelTest()
+/*void ChatWindowTest::localPersonModelTest()
 {
-    /*QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(0, 0), Qt::DisplayRole).toString(), m_player->name());
+    QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(0, 0), Qt::DisplayRole).toString(), m_player->name());
     QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(0, 0), PlayerModel::IdentifierRole).toString(),
              m_player->getUuid());
 
     QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(1, 0), Qt::DisplayRole).toString(),
              m_character->name());
     QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(1, 0), PlayerModel::IdentifierRole).toString(),
-             m_character->getUuid());*/
-}
+             m_character->getUuid());
+}*/
 
-void ChatWindowTest::cleanupTestCase()
-{
-    delete m_impTextEditor;
-}
+void ChatWindowTest::cleanup() {}
 
 QTEST_MAIN(ChatWindowTest);
 

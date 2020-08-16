@@ -9,6 +9,7 @@ Item {
     id: root
     anchors.fill: parent
     property QtObject styleSheet: Theme.styleSheet("InstantMessaging")
+    property alias fontFactor : sideMenu.fontFactor
 
     SideMenu {
         id: sideMenu
@@ -43,13 +44,17 @@ Item {
             id: reaper
             model: _ctrl.mainModel
             onCountChanged: console.log("count:"+count)
+            property real headerHeight: 0
             delegate: ChatView {
                 chatroomModel: model.filterModel
                 styleSheet: root.styleSheet
+                fontFactor: root.fontFactor
                 SplitView.minimumWidth: root.styleSheet.minimumWidth
                 SplitView.preferredWidth: root.width/reaper.count
                 SplitView.fillHeight: true
                 SplitView.fillWidth: true
+                tabBarRightMargin: index == reaper.count-1 ? listButton.width : 0
+                Component.onCompleted: reaper.headerHeight = tabBarHeight
                 localPersonModel: _ctrl.localPersonModel
                 onAddChat: _ctrl.addExtraChatroom(title, all, recipiants)
                 onSplit: _ctrl.splitScreen(uuid, model.index)
@@ -59,8 +64,10 @@ Item {
     }
 
     ToolButton {
+        id: listButton
         anchors.top: parent.top
         anchors.right: parent.right
+        height: reaper.headerHeight
         icon.name: "menu-rounded-solid"
         onClicked: menu.open()
     }

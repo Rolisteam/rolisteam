@@ -3,9 +3,10 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
 Drawer {
+    id: control
     width: pane.implicitWidth
     height: pane.implicitHeight
-    interactive: false
+    interactive: control.opened
     property alias nightMode: nightSwitch.checked
     property alias sound: sound.checked
     property alias fontFactor: size.value
