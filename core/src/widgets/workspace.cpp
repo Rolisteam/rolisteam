@@ -56,11 +56,9 @@
 
 #define GRAY_SCALE 191
 
-Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instantCtrl, QWidget* parent)
-    : QMdiArea(parent)
-    , m_ctrl(ctrl)
-    , m_variableSizeBackground(size())
-    , m_actionSubWindowMap(new QMap<QAction*, QMdiSubWindow*>())
+Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagingController* instantCtrl,
+                     QWidget* parent)
+    : QMdiArea(parent), m_ctrl(ctrl), m_variableSizeBackground(size()), m_toolbar(toolbar)
 {
 
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
@@ -82,7 +80,7 @@ Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instan
     m_instantMessageView->setVisible(instantCtrl->visible());
 
     auto imvAction= new QAction(tr("Instant Messging"), this);
-    insertActionAndSubWindow(imvAction, m_instantMessageView);
+    // insertActionAndSubWindow(imvAction, m_instantMessageView);
     connect(imvAction, &QAction::triggered, m_instantMessageView, &QDockWidget::setVisible);
     connect(imvAction, &QAction::triggered, m_instantMessageView->widget(), &InstantMessagingView::setVisible);
 
@@ -92,11 +90,11 @@ Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instan
 
 Workspace::~Workspace()
 {
-    if(nullptr != m_actionSubWindowMap)
+    /*if(nullptr != m_actionSubWindowMap)
     {
         delete m_actionSubWindowMap;
         m_actionSubWindowMap= nullptr;
-    }
+    }*/
 }
 
 void Workspace::updateBackGround()
@@ -190,7 +188,6 @@ QWidget* Workspace::addWindow(QWidget* child, QAction* action)
         sub->setVisible(true);
         child->setVisible(true);
     }
-    insertActionAndSubWindow(action, sub);
     connect(action, &QAction::triggered, this, &Workspace::ensurePresent);
     sub->setAttribute(Qt::WA_DeleteOnClose, false);
     child->setAttribute(Qt::WA_DeleteOnClose, false);
@@ -206,7 +203,6 @@ void Workspace::addContainerMedia(MediaContainer* mediac)
         return;
 
     addSubWindow(mediac);
-    insertActionAndSubWindow(mediac->getAction(), mediac);
     if(viewMode() == QMdiArea::TabbedView)
     {
         mediac->setVisible(true);
@@ -221,13 +217,9 @@ void Workspace::addContainerMedia(MediaContainer* mediac)
 void Workspace::removeMediaContainer(MediaContainer* mediac)
 {
     removeSubWindow(mediac);
-    m_actionSubWindowMap->remove(mediac->getAction());
     mediac->removeEventFilter(this);
 }
-void Workspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
-{
-    m_actionSubWindowMap->insert(act, sub);
-}
+
 void Workspace::setTabbedMode(bool isTabbed)
 {
     if(!isTabbed)
@@ -242,7 +234,7 @@ void Workspace::setTabbedMode(bool isTabbed)
     setTabsMovable(true);
     setTabPosition(QTabWidget::North);
     /// make all subwindows visible.
-    auto keys= m_actionSubWindowMap->keys();
+    /*auto keys= m_actionSubWindowMap->keys();
     for(QAction* act : keys)
     {
         auto tmp= m_actionSubWindowMap->value(act);
@@ -258,7 +250,7 @@ void Workspace::setTabbedMode(bool isTabbed)
                 tmp->widget()->setVisible(true);
             }
         }
-    }
+    }*/
     updateTitleTab();
 }
 bool Workspace::updateTitleTab()
@@ -267,7 +259,7 @@ bool Workspace::updateTitleTab()
     int textLength= m_ctrl->maxLengthTabName();
     if((viewMode() == QMdiArea::TabbedView) && (shortName))
     {
-        auto values= m_actionSubWindowMap->values();
+        /*auto values= m_actionSubWindowMap->values();
         for(auto& subwindow : values)
         {
             auto title= subwindow->windowTitle();
@@ -277,7 +269,7 @@ bool Workspace::updateTitleTab()
                 title= title.left(textLength);
                 subwindow->setWindowTitle(title);
             }
-        }
+        }*/
     }
     else
     {
@@ -310,11 +302,11 @@ void Workspace::ensurePresent()
     QAction* act= qobject_cast<QAction*>(sender());
     if(nullptr != act)
     {
-        if(!subWindowList().contains(m_actionSubWindowMap->value(act)))
+        /*if(!subWindowList().contains(m_actionSubWindowMap->value(act)))
         {
             m_actionSubWindowMap->value(act)->widget()->setVisible(true);
             addSubWindow(m_actionSubWindowMap->value(act));
-        }
+        }*/
     }
 }
 
@@ -447,12 +439,24 @@ void Workspace::addMedia(MediaControllerBase* ctrl)
     }
 }
 
-void Workspace::addWidgetToMdi(QWidget* wid, QString title)
+void Workspace::addWindowAction(const QString& name, MediaContainer* window)
+{
+    auto act= m_toolbar->addAction(window->windowIcon(), name);
+    act->setCheckable(true);
+    act->setChecked(true);
+
+    auto ctrl= window->ctrl();
+
+    connect(act, &QAction::triggered, window, &MediaContainer::setVisible);
+    connect(window, &MediaContainer::visibleChanged, act, &QAction::setChecked);
+    connect(ctrl, &MediaControllerBase::nameChanged, act, &QAction::setText);
+}
+
+void Workspace::addWidgetToMdi(MediaContainer* wid, QString title)
 {
     wid->setParent(this);
     QMdiSubWindow* sub= addSubWindow(wid);
-    // sub->setWindowTitle(title);
-    // wid->setWindowTitle(title);
+    addWindowAction(title, wid);
     sub->setVisible(true);
     wid->setVisible(true);
 }

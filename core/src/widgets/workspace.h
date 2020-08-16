@@ -57,14 +57,14 @@ public:
         Filled,
         Repeated
     };
-    Workspace(ContentController* ctrl, InstantMessagingController* instantCtrl, QWidget* parent= nullptr);
+    Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagingController* instantCtrl,
+              QWidget* parent= nullptr);
     ~Workspace();
 
     QString backgroundImagePath() const;
 
     QWidget* addWindow(QWidget*, QAction* action);
 
-    void insertActionAndSubWindow(QAction*, QMdiSubWindow*);
     void addContainerMedia(MediaContainer* mediac);
     void preferencesHasChanged(QString);
     void removeMediaContainer(MediaContainer* mediac);
@@ -77,7 +77,7 @@ signals:
 public slots:
     void setTabbedMode(bool);
     void ensurePresent();
-    void addWidgetToMdi(QWidget*, QString title);
+    void addWidgetToMdi(MediaContainer*, QString title);
     bool closeActiveSub();
 
 protected slots:
@@ -101,13 +101,14 @@ protected:
 private:
     void updateBackGround();
     void updateActiveMediaContainer(QMdiSubWindow* window);
+    void addWindowAction(const QString& name, MediaContainer* window);
 
 private:
     QPointer<ContentController> m_ctrl;
     std::vector<std::unique_ptr<MediaContainer>> m_mediaContainers;
     QPixmap m_backgroundPicture;
     QPixmap m_variableSizeBackground;
-    QMap<QAction*, QMdiSubWindow*>* m_actionSubWindowMap;
+    QPointer<QToolBar> m_toolbar;
     QHash<QMdiSubWindow*, QString> m_titleBar;
     QPointer<MediaContainer> m_activeMediaContainer;
     QPointer<QMdiSubWindow> m_instantMessageView;
