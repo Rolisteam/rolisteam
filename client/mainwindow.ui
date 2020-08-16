@@ -146,7 +146,7 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="m_toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -157,6 +157,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="m_showChatAct"/>
+   <addaction name="separator"/>
   </widget>
   <action name="m_saveAction">
    <property name="icon">
