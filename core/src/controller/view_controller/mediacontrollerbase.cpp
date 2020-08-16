@@ -150,7 +150,7 @@ void MediaControllerBase::setName(const QString& name)
     if(name == m_name)
         return;
     m_name= name;
-    emit nameChanged();
+    emit nameChanged(m_name);
 }
 void MediaControllerBase::setPath(const QString& path)
 {

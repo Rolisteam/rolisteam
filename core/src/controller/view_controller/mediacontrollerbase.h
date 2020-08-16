@@ -63,7 +63,7 @@ public:
     virtual void loadData() const= 0;
 
 signals:
-    void nameChanged();
+    void nameChanged(QString);
     void uuidChanged(QString);
     void closeContainer();
     void titleChanged();
