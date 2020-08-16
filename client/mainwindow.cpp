@@ -234,8 +234,8 @@ void MainWindow::setupUi()
 
     connect(m_ui->m_showChatAct, &QAction::triggered, m_gameController->instantMessagingController(),
             &InstantMessagingController::setVisible);
-    m_mdiArea.reset(
-        new Workspace(m_gameController->contentController(), m_gameController->instantMessagingController()));
+    m_mdiArea.reset(new Workspace(m_ui->m_toolBar, m_gameController->contentController(),
+                                  m_gameController->instantMessagingController()));
     setCentralWidget(m_mdiArea.get());
     connect(m_mdiArea.get(), &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 
