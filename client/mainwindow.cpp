@@ -2509,6 +2509,7 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     connect(window, &CharacterSheetWindow::errorOccurs, this,
             [this](QString msg) { m_logController->manageMessage(msg, LogController::Error); });
     connect(m_playerList, SIGNAL(playerDeleted(Player*)), window, SLOT(removeAllDisableTab()));
+    connect(m_playerList, &PlayersList::characterAdded, window, &CharacterSheetWindow::reshareFromDisconnectedList);
     // connect(m_playerList, &PlayersList::characterDeleted, window, SLOT(removeConnection(Player*)));
 }
 

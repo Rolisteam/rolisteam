@@ -48,6 +48,8 @@ private slots:
     void showMessage();
     void enterText();
     void resendPrevious();
+    void diceOutputTest();
+    void diceOutputTest_data();
 
     void localPersonModelTest();
 
@@ -129,6 +131,9 @@ void ChatWindowTest::cleanupTestCase()
 {
     delete m_impTextEditor;
 }
+
+void ChatWindowTest::diceOutputTest() {}
+void ChatWindowTest::diceOutputTest_data() {}
 
 QTEST_MAIN(ChatWindowTest);
 

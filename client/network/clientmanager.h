@@ -120,6 +120,7 @@ private:
     bool m_disconnectAsked= false;
     QTimer* m_reconnect= nullptr;
     bool m_isAdmin;
+    int m_tries= 10;
 
     PreferencesManager* m_preferences= nullptr;
     PlayersList* m_playersList= nullptr;

@@ -460,7 +460,11 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
                     }
                     else
                     {
-                        patternColor= QStringLiteral("<span style=\"color:%1;font-weight:bold\">").arg(tmp.getColor());
+                        if(tmp.isHighlighted())
+                            patternColor
+                                = QStringLiteral("<span style=\"color:%1;font-weight:bold\">").arg(tmp.getColor());
+                        else
+                            patternColor= QStringLiteral("<span style=\"color:%1\">").arg(tmp.getColor());
                     }
                 }
                 QStringList diceListStr;

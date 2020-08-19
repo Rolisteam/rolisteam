@@ -63,14 +63,14 @@ bool ImprovedWorkspace::showCleverUri(CleverURI* uri)
 {
     for(auto& i : *m_actionSubWindowMap)
     {
-        auto media= dynamic_cast<MediaContainer*>(i);
-        if(nullptr != media)
+        auto media= qobject_cast<MediaContainer*>(i);
+        if(nullptr == media)
+            continue;
+
+        if(media->getCleverUri() == uri)
         {
-            if(media->getCleverUri() == uri)
-            {
-                i->setVisible(true);
-                return true;
-            }
+            i->setVisible(true);
+            return true;
         }
     }
     return false;

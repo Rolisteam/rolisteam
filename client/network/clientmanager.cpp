@@ -43,6 +43,7 @@ ClientManager::ClientManager(ConnectionProfile* connection) : QObject(), m_conne
     qRegisterMetaType<char*>("char*");
 
     connect(this, &ClientManager::isReady, this, &ClientManager::startConnection);
+    connect(&m_states, &QStateMachine::started, this, [this]() { m_tries= 10; });
 
     m_reconnect= new QTimer(this);
     m_hbSender.setParent(this);
@@ -67,9 +68,15 @@ ClientManager::ClientManager(ConnectionProfile* connection) : QObject(), m_conne
     });
     connect(m_disconnected, &QAbstractState::entered, this, [=]() {
         qDebug() << "client disconnected state";
-        setConnectionState(DISCONNECTED);
-        emit isDisconnected();
-        emit connectionProcessEnd();
+        --m_tries;
+        if(m_tries == 0)
+            m_states.stop();
+        else
+        {
+            setConnectionState(DISCONNECTED);
+            emit isDisconnected();
+            emit connectionProcessEnd();
+        }
     });
     connect(m_authentified, &QAbstractState::entered, this, [=]() {
         qDebug() << "client authentified state";
@@ -116,11 +123,11 @@ void ClientManager::initializeLink()
 
         connect(m_networkLinkToServer, SIGNAL(disconnected()), this, SLOT(endingNetworkLink()));
         connect(m_networkLinkToServer, SIGNAL(readDataReceived(quint64, quint64)), this,
-            SIGNAL(dataReceived(quint64, quint64)));
+                SIGNAL(dataReceived(quint64, quint64)));
         connect(m_networkLinkToServer, SIGNAL(errorMessage(QString)), this, SIGNAL(errorOccur(QString)));
         connect(m_networkLinkToServer, SIGNAL(clearData()), this, SIGNAL(clearData()));
         connect(m_networkLinkToServer, &NetworkLink::gameMasterStatusChanged, this,
-            &ClientManager::gameMasterStatusChanged);
+                &ClientManager::gameMasterStatusChanged);
         connect(m_networkLinkToServer, &NetworkLink::moveToAnotherChannel, this, &ClientManager::moveToAnotherChannel);
         m_states.start();
     }
