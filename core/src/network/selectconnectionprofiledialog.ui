@@ -349,7 +349,8 @@
           <string>New Profile</string>
          </property>
          <property name="icon">
-          <iconset theme="add_round"/>
+          <iconset theme="add_round">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -368,7 +369,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset theme="delete"/>
+          <iconset theme="delete">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
@@ -422,8 +424,8 @@
   </layout>
   <action name="m_addCharacterAct">
    <property name="icon">
-    <iconset>
-     <normaloff>:/resources/images/add_round.png</normaloff>:/resources/images/add_round.png</iconset>
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/add_round.png</normaloff>:/resources/rolistheme/add_round.png</iconset>
    </property>
    <property name="text">
     <string>New Character</string>
@@ -431,8 +433,8 @@
   </action>
   <action name="m_removeCharacterAct">
    <property name="icon">
-    <iconset>
-     <normaloff>:/resources/images/delete.png</normaloff>:/resources/images/delete.png</iconset>
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/delete.png</normaloff>:/resources/rolistheme/delete.png</iconset>
    </property>
    <property name="text">
     <string>Remove character</string>
@@ -461,7 +463,9 @@
    <header>common/widgets/colorbutton.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../../rolisteam.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>m_isGmCheckbox</sender>
