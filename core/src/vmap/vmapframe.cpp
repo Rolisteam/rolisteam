@@ -95,11 +95,6 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     connect(m_ctrl, &VectorialMapController::layerChanged, this, &VMapFrame::updateTitle);
     connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VMapFrame::updateTitle);
 
-    // m_vmap= new VMap();
-
-    // connect(m_vmap, SIGNAL(mapStatutChanged()), this, SLOT(updateTitle()));
-    // connect(m_vmap, SIGNAL(mapChanged()), this, SLOT(updateTitle()));
-
     updateTitle();
 }
 
