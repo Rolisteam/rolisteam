@@ -314,14 +314,6 @@ void SharedNote::displaySharingPanel()
     m_document->displayParticipantPanel();
 }
 
-void SharedNote::on_actionTools_Preview_as_Html_triggered()
-{
-    if(nullptr == m_document)
-        return;
-
-    m_document->renderMarkdown();
-}
-
 void SharedNote::updateDocumentToAll(NetworkMessageWriter* msg)
 {
     /* if(nullptr != m_document)
@@ -450,4 +442,12 @@ void SharedNote::updateWindowTitle()
     setWindowTitle(
         tr("%1[*] - SharedNote - %2").arg(m_fileName, m_document->canWrite(player) ? tr("ReadWrite") :
     tr("ReadOnly")));*/
+}
+
+void SharedNote::on_m_markdownPreview_triggered()
+{
+    if(nullptr == m_document)
+        return;
+
+    m_document->renderMarkdown();
 }
