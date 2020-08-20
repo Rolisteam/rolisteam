@@ -29,6 +29,22 @@
 
 #include "data/mediacontainer.h"
 
+class PreventClosing : public QObject
+{
+    Q_OBJECT
+public:
+    PreventClosing(QObject* watched, QObject* parent= nullptr);
+
+protected:
+    bool eventFilter(QObject* obj, QEvent* event);
+
+signals:
+    void visibilityObjectChanged(bool);
+
+private:
+    QPointer<QObject> m_watched;
+};
+
 class ContentController;
 class ImageController;
 class VectorialMapController;
@@ -63,8 +79,6 @@ public:
 
     QString backgroundImagePath() const;
 
-    QWidget* addWindow(QWidget*, QAction* action);
-
     void addContainerMedia(MediaContainer* mediac);
     void preferencesHasChanged(QString);
     void removeMediaContainer(MediaContainer* mediac);
@@ -76,9 +90,8 @@ signals:
 
 public slots:
     void setTabbedMode(bool);
-    void ensurePresent();
     void addWidgetToMdi(MediaContainer*, QString title);
-    bool closeActiveSub();
+    void closeActiveSub();
 
 protected slots:
     void addMedia(MediaControllerBase* ctrl);
@@ -113,6 +126,7 @@ private:
     QPointer<MediaContainer> m_activeMediaContainer;
     QPointer<QMdiSubWindow> m_instantMessageView;
     bool m_visible= false;
+    std::unique_ptr<PreventClosing> m_prevent;
 };
 
 #endif
