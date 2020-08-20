@@ -42,7 +42,7 @@ void initializeThemeModel(ThemeModel* model)
 {
     // normal
     model->addTheme(new RolisteamTheme(QPalette(), ThemeModel::tr("default"), "", QStyleFactory::create("fusion"),
-                                       ":/resources/images/workspacebackground.jpg", 0,
+                                       ":/resources/rolistheme/workspacebackground.jpg", 0,
                                        QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
 
     // DarkOrange
@@ -51,7 +51,7 @@ void initializeThemeModel(ThemeModel* model)
     QByteArray bytes= styleFile.readAll();
     QString css(bytes);
     model->addTheme(new RolisteamTheme(QPalette(), ThemeModel::tr("darkorange"), css, QStyleFactory::create("fusion"),
-                                       ":/resources/images/workspacebackground.jpg", 0,
+                                       ":/resources/rolistheme/workspacebackground.jpg", 0,
                                        QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
 
     // DarkFusion
@@ -73,7 +73,7 @@ void initializeThemeModel(ThemeModel* model)
     palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
 
     model->addTheme(new RolisteamTheme(palette, ThemeModel::tr("darkfusion"), "", QStyleFactory::create("fusion"),
-                                       ":/resources/images/workspacebackground.jpg", 0,
+                                       ":/resources/rolistheme/workspacebackground.jpg", 0,
                                        QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
 }
 
