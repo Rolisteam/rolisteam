@@ -59,9 +59,6 @@ public:
     bool localIsOwner() const;
     bool remote() const;
 
-    virtual void saveData() const= 0;
-    virtual void loadData() const= 0;
-
 signals:
     void nameChanged(QString);
     void uuidChanged(QString);

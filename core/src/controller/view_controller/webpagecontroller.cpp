@@ -26,10 +26,6 @@ WebpageController::WebpageController(const QString& id, QObject* parent)
 {
 }
 
-void WebpageController::saveData() const {}
-
-void WebpageController::loadData() const {}
-
 bool WebpageController::hideUrl() const
 {
     return m_hideUrl;

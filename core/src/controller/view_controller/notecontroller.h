@@ -31,9 +31,6 @@ class NoteController : public MediaControllerBase
 public:
     explicit NoteController(const QString& id, QObject* parent= nullptr);
 
-    void saveData() const override;
-    void loadData() const override;
-
     QString text() const;
 
     void setText(const QString& text);

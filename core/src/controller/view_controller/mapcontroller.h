@@ -46,9 +46,6 @@ class MapController : public MediaControllerBase
 public:
     explicit MapController(CleverURI* uri, QObject* parent= nullptr);
 
-    void saveData() const override;
-    void loadData() const override;
-
     QImage backgroundImage() const;
     QImage originalBackgroundImage() const;
     QImage alphaLayer() const;

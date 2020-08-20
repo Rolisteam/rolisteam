@@ -52,9 +52,6 @@ public:
 
     explicit WebpageController(const QString& id, QObject* parent= nullptr);
 
-    void saveData() const override;
-    void loadData() const override;
-
     bool hideUrl() const;
     bool keepSharing() const;
     bool urlSharing() const;

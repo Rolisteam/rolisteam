@@ -41,10 +41,6 @@ CharacterSheetController::CharacterSheetController(const QString& id, const QStr
 
 CharacterSheetController::~CharacterSheetController() {}
 
-void CharacterSheetController::saveData() const {}
-
-void CharacterSheetController::loadData() const {}
-
 void CharacterSheetController::setQmlCode(const QString& qml)
 {
     m_qmlCode= qml;
