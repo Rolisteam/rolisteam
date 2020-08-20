@@ -44,6 +44,7 @@ public:
     IOHelper();
 
     static QByteArray loadFile(const QString& file);
+    static QString readTextFile(const QString& file);
     static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
 
     static QByteArray saveController(MediaControllerBase* media);

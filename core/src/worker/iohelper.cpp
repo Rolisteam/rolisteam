@@ -142,6 +142,18 @@ QByteArray IOHelper::loadFile(const QString& filepath)
     return data;
 }
 
+QString IOHelper::readTextFile(const QString& path)
+{
+    if(path.isEmpty())
+        return {};
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly))
+        return {};
+
+    QTextStream out(&file);
+    return out.readAll();
+}
+
 QJsonObject IOHelper::byteArrayToJsonObj(const QByteArray& data)
 {
     auto doc= QJsonDocument::fromBinaryData(data);
