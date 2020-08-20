@@ -23,13 +23,6 @@
 #include <QtGui>
 
 #include "controller/contentcontroller.h"
-/*#include "controller/media_controller/charactersheetmediacontroller.h"
-#include "controller/media_controller/imagemediacontroller.h"
-#include "controller/media_controller/notemediacontroller.h"
-#include "controller/media_controller/sharednotemediacontroller.h"
-#include "controller/media_controller/vectorialmapmediacontroller.h"
-#include "controller/media_controller/webpagemediacontroller.h"*/
-
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mapcontroller.h"
@@ -75,15 +68,16 @@ Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagin
 
     m_instantMessageView= addSubWindow(new InstantMessagingView(instantCtrl));
     m_instantMessageView->setGeometry(0, 0, 400, 600);
+    m_instantMessageView->setAttribute(Qt::WA_DeleteOnClose, false);
     m_instantMessageView->setWindowIcon(QIcon::fromTheme("chatIcon"));
     connect(instantCtrl, &InstantMessagingController::visibleChanged, m_instantMessageView, &QMdiSubWindow::setVisible);
     m_instantMessageView->setVisible(instantCtrl->visible());
 
-    auto imvAction= new QAction(tr("Instant Messging"), this);
-    // insertActionAndSubWindow(imvAction, m_instantMessageView);
-    connect(imvAction, &QAction::triggered, m_instantMessageView, &QDockWidget::setVisible);
-    connect(imvAction, &QAction::triggered, m_instantMessageView->widget(), &InstantMessagingView::setVisible);
+    m_prevent.reset(new PreventClosing(m_instantMessageView));
+    connect(m_prevent.get(), &PreventClosing::visibilityObjectChanged, instantCtrl,
+            &InstantMessagingController::setVisible);
 
+    qDebug() << m_ctrl->workspaceFilename(); //:/resources/rolistheme/workspacebackground.jpg
     m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
     updateBackGround();
 }
@@ -178,23 +172,6 @@ void Workspace::resizeEvent(QResizeEvent* event)
     updateBackGround();
 
     QMdiArea::resizeEvent(event);
-}
-QWidget* Workspace::addWindow(QWidget* child, QAction* action)
-{
-    QMdiSubWindow* sub= addSubWindow(child);
-    if(viewMode() == QMdiArea::TabbedView)
-    {
-        action->setChecked(true);
-        sub->setVisible(true);
-        child->setVisible(true);
-    }
-    connect(action, &QAction::triggered, this, &Workspace::ensurePresent);
-    sub->setAttribute(Qt::WA_DeleteOnClose, false);
-    child->setAttribute(Qt::WA_DeleteOnClose, false);
-    sub->setObjectName(child->objectName());
-
-    sub->installEventFilter(this);
-    return sub;
 }
 
 void Workspace::addContainerMedia(MediaContainer* mediac)
@@ -298,18 +275,6 @@ bool Workspace::eventFilter(QObject* object, QEvent* event)
     }
     return QMdiArea::eventFilter(object, event);
 }
-void Workspace::ensurePresent()
-{
-    QAction* act= qobject_cast<QAction*>(sender());
-    if(nullptr != act)
-    {
-        /*if(!subWindowList().contains(m_actionSubWindowMap->value(act)))
-        {
-            m_actionSubWindowMap->value(act)->widget()->setVisible(true);
-            addSubWindow(m_actionSubWindowMap->value(act));
-        }*/
-    }
-}
 
 QVector<QMdiSubWindow*> Workspace::getAllSubWindowFromId(const QString& id) const
 {
@@ -359,16 +324,9 @@ bool Workspace::closeAllSubs()
     return true;
 }
 
-bool Workspace::closeActiveSub()
+void Workspace::closeActiveSub()
 {
-    bool status= false;
-
-    if(m_activeMediaContainer.isNull())
-        return status;
-
-    status= closeSub(m_activeMediaContainer);
-
-    return status;
+    m_ctrl->closeCurrentMedia();
 }
 
 bool Workspace::closeSub(MediaContainer* container)
@@ -451,6 +409,7 @@ void Workspace::addWindowAction(const QString& name, MediaContainer* window)
     connect(act, &QAction::triggered, window, &MediaContainer::setVisible);
     connect(window, &MediaContainer::visibleChanged, act, &QAction::setChecked);
     connect(ctrl, &MediaControllerBase::nameChanged, act, &QAction::setText);
+    connect(ctrl, &MediaControllerBase::destroyed, act, &QAction::deleteLater);
 }
 
 void Workspace::addWidgetToMdi(MediaContainer* wid, QString title)
@@ -525,3 +484,21 @@ void Workspace::addPdf(PdfController* ctrl)
     m_mediaContainers.push_back(std::move(pdfViewer));
 }
 #endif
+
+PreventClosing::PreventClosing(QObject* watched, QObject* parent) : QObject(parent), m_watched(watched)
+{
+    m_watched->installEventFilter(this);
+}
+
+bool PreventClosing::eventFilter(QObject* obj, QEvent* event)
+{
+    qDebug() << event->type();
+    if(obj == m_watched && event->type() == QEvent::Hide)
+    {
+        event->accept();
+        emit visibilityObjectChanged(false);
+        return true;
+    }
+    else
+        return QObject::eventFilter(obj, event);
+}
