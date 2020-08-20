@@ -19,18 +19,6 @@
  ***************************************************************************/
 #include "contentcontroller.h"
 
-/*#include "controller/media_controller/charactersheetmediacontroller.h"
-#include "controller/media_controller/imagemediacontroller.h"
-#include "controller/media_controller/mediamanagerbase.h"
-#include "controller/media_controller/notemediacontroller.h"
-#include "controller/media_controller/sharednotemediacontroller.h"
-#include "controller/media_controller/vectorialmapmediacontroller.h"
-#include "controller/media_controller/webpagemediacontroller.h"*/
-
-#ifdef WITH_PDF
-//#include "controller/media_controller/pdfmediacontroller.h"
-#endif
-
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
@@ -168,16 +156,6 @@ int ContentController::contentCount() const
     return m_contentModel->rowCount();
 }
 
-/*void ContentController::addContent(ResourcesNode* node)
-{
-    m_sessionModel->addResource(node, QModelIndex());
-}
-
-void ContentController::removeContent(ResourcesNode* node)
-{
-    m_sessionModel->removeNode(node);
-}*/
-
 void ContentController::setSessionName(const QString& name)
 {
     if(name == m_sessionName)
@@ -245,6 +223,11 @@ void ContentController::clear()
 {
     m_sessionModel->clearData();
     m_contentModel->clearData();
+}
+
+void ContentController::closeCurrentMedia()
+{
+    m_contentModel->removeMedia(m_contentModel->activeMediaId());
 }
 
 void ContentController::saveMedia(const QString& uuid, const QString& path)
