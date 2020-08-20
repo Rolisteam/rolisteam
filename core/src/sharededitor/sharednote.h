@@ -90,7 +90,6 @@ private slots:
     void on_actionEdit_Find_triggered();
 
     void on_actionView_Line_Wrap_triggered();
-    void on_actionTools_Preview_as_Html_triggered();
     void on_actionText_Shift_Left_triggered();
     void on_actionText_Shift_Right_triggered();
     void on_actionText_Comment_Line_triggered();
@@ -110,6 +109,8 @@ private slots:
 
     void setEditorFont(QFont font);
     void setParticipantsFont(QFont font);
+
+    void on_m_markdownPreview_triggered();
 
 private:
     QPointer<SharedNoteController> m_sharedCtrl;
