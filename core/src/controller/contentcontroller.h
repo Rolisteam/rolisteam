@@ -92,6 +92,7 @@ public:
     void newMedia(Core::ContentType type, const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void openMedia(const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void clear();
+    void closeCurrentMedia();
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
 signals:
