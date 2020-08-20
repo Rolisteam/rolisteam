@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "mediafactory.h"
 
+#include <QFileInfo>
 #include <QVariant>
 
 #include "controller/view_controller/charactersheetcontroller.h"
@@ -150,10 +151,22 @@ SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVari
 {
     auto ownerId= params.value(QStringLiteral("ownerId")).toString();
     auto b= params.value(QStringLiteral("markdown"), false).toBool();
+    auto path= params.value(QStringLiteral("path")).toString();
+    auto text= params.value(QStringLiteral("text")).toString();
     auto noteCtrl= new SharedNoteController(ownerId, localId, uuid);
+
+    if(!path.isEmpty())
+    {
+        noteCtrl->setPath(path);
+        QFileInfo info(path);
+        noteCtrl->setName(info.fileName());
+        b= path.endsWith(".md");
+    }
+
     noteCtrl->setHighligthedSyntax(b ? SharedNoteController::HighlightedSyntax::MarkDown :
                                        SharedNoteController::HighlightedSyntax::None);
-    noteCtrl->setText(params.value(QStringLiteral("text")).toString());
+    if(!text.isEmpty())
+        noteCtrl->setText(text);
 
     return noteCtrl;
 }
