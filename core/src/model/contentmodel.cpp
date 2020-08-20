@@ -127,6 +127,17 @@ bool ContentModel::removeMedia(const QString& uuid)
     return true;
 }
 
+QString ContentModel::activeMediaId() const
+{
+    auto it= std::find_if(std::begin(m_medias), std::end(m_medias),
+                          [](const std::unique_ptr<MediaControllerBase>& medium) { return medium->isActive(); });
+
+    if(it == m_medias.end())
+        return {};
+
+    return (*it)->uuid();
+}
+
 std::vector<MediaControllerBase*> ContentModel::controllers() const
 {
     std::vector<MediaControllerBase*> vec;
