@@ -64,3 +64,9 @@ InstantMessagingView::~InstantMessagingView()
 {
     delete m_ui;
 }
+
+void InstantMessagingView::closeEvent(QCloseEvent* event)
+{
+    hide();
+    event->accept();
+}

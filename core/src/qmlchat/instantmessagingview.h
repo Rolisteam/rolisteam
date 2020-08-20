@@ -36,6 +36,9 @@ public:
     explicit InstantMessagingView(InstantMessagingController* ctrl, QWidget* parent= nullptr);
     ~InstantMessagingView();
 
+protected:
+    void closeEvent(QCloseEvent* event) override;
+
 private:
     Ui::InstantMessagingView* m_ui;
     std::unique_ptr<QQuickWidget> m_qmlViewer;
