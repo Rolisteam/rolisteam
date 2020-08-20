@@ -44,7 +44,6 @@
 #include "ui_mainwindow.h"
 
 #include "charactersheet/charactersheet.h"
-//#include "chat/chatlistwidget.h"
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/playercontroller.h"
@@ -54,8 +53,6 @@
 #include "data/player.h"
 #include "data/shortcutvisitor.h"
 
-#include "network/networkmessagewriter.h"
-#include "network/receiveevent.h"
 #include "network/servermanager.h"
 #include "pdfviewer/pdfviewer.h"
 #include "preferences/preferencesdialog.h"
@@ -74,7 +71,6 @@
 #include "worker/playermessagehelper.h"
 
 #ifdef HAVE_WEBVIEW
-#include "webview/webview.h"
 #include <QWebEngineSettings>
 #endif
 // LOG
@@ -87,23 +83,14 @@
 #include "controller/networkcontroller.h"
 
 // Text editor
-//#include "noteeditor/src/textedit.h"
 #include "widgets/aboutrolisteam.h"
 
 // GMToolBox
+#include "diceparser/qmltypesregister.h"
 #include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 #include "widgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
 #include "widgets/gmtoolbox/NpcMaker/npcmakerwidget.h"
 #include "widgets/gmtoolbox/UnitConvertor/convertor.h"
-
-// VMAP
-#include "vmap/vmap.h"
-#include "vmap/vmapframe.h"
-#include "vmap/vmapwizzarddialog.h"
-
-// character sheet
-#include "diceparser/qmltypesregister.h"
-#include "media/charactersheetwindow.h"
 
 // session
 #include "session/sessiondock.h"
@@ -130,7 +117,6 @@ MainWindow::MainWindow(const QStringList& args)
     // ALLOCATIONS
     m_dialog.reset(new SelectConnectionProfileDialog(m_gameController.get(), this));
     m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
-    // m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
     m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this), new NpcMakerWidget(this)});
     m_roomPanel= new ChannelListPanel(m_gameController->networkController(), this);
 
@@ -234,10 +220,12 @@ void MainWindow::setupUi()
 
     connect(m_ui->m_showChatAct, &QAction::triggered, m_gameController->instantMessagingController(),
             &InstantMessagingController::setVisible);
+    connect(m_gameController->instantMessagingController(), &InstantMessagingController::visibleChanged,
+            m_ui->m_showChatAct, &QAction::setChecked);
+
     m_mdiArea.reset(new Workspace(m_ui->m_toolBar, m_gameController->contentController(),
                                   m_gameController->instantMessagingController()));
     setCentralWidget(m_mdiArea.get());
-    connect(m_mdiArea.get(), &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 
     addDockWidget(Qt::RightDockWidgetArea, m_sessionDock.get());
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_sessionDock->toggleViewAction());
@@ -248,10 +236,6 @@ void MainWindow::setupUi()
     // PlayerList
     ///////////////////
     m_playersListWidget= new PlayersPanel(m_gameController->playerController(), this);
-    /* connect(m_playersListWidget, &PlayersPanel::runDiceForCharacter, this,
-             [this](const QString& cmd, const QString& uuid) {
-                 m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true);
-             });*/
 
     addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
     setWindowIcon(QIcon::fromTheme("logo"));
@@ -271,83 +255,12 @@ void MainWindow::setupUi()
 
     m_preferencesDialog= new PreferencesDialog(m_gameController->preferencesController(), this);
     linkActionToMenu();
-    /* if(nullptr != m_preferencesDialog->getStateModel())
-     {
-
-     }*/
-
-    // Initialisation des etats de sante des PJ/PNJ (variable declarees dans
-    // DessinPerso.cpp)
-    /*m_playerModel= PlayerModel::instance();
-
-    connect(m_playerModel, SIGNAL(playerAdded(Player*)), this,
-    SLOT(notifyAboutAddedPlayer(Player*))); connect(m_playerModel,
-    SIGNAL(playerDeleted(Player*)), this,
-    SLOT(notifyAboutDeletedPlayer(Player*)));*/
-    // connect(m_roomPanel, &ChannelListPanel::CurrentChannelGmIdChanged,
-    // m_playerModel, &PlayerModel::setCurrentGM);
-    /* connect(m_playerModel, &PlayerModel::characterAdded, this,
-     [this](Character* character) { if(character->isNpc())
-         {
-             m_sessionManager->addRessource(character);
-         }
-     });
-     connect(m_playerModel, &PlayerModel::eventOccurs, m_gameController.get(),
-     &GameController::addFeatureLog);*/
-
-    /*connect(m_dialog, &SelectConnectionProfileDialog::rejected, this, [this]() {
-        if(nullptr == m_server)
-            return;
-        if(m_server->getState() != ServerManager::Listening)
-        {
-            m_serverThread.quit();
-        }
-    });*/
 }
 
 void MainWindow::closeAllMediaContainer()
 {
-    /* auto const& values= m_mediaHash.values();
-     for(auto& tmp : values)
-     {
-         if(nullptr != tmp)
-         {
-             closeMediaContainer(tmp->getMediaId(), true);
-         }
-     }*/
-}
-void MainWindow::closeMediaContainer(QString id, bool redo)
-{
-    /*  if(m_mediaHash.contains(id))
-      {
-          MediaContainer* mediaCon= m_mediaHash.value(id);
-          if(nullptr != mediaCon)
-          {
-              // auto type= mediaCon->getContentType();*/
-
-    /*  DeleteMediaContainerCommand* cmd= new DeleteMediaContainerCommand(
-          mediaCon, m_ui->m_editMenu, m_mdiArea,
-      m_currentConnectionProfile->isGM(), m_mediaHash); if(redo)
-      {
-          // m_undoStack.push(cmd);
-      }
-      else
-      {
-          cmd->redo(); // can be undo
-          delete cmd;
-      }*/
-
-    // m_mediaHash.remove(id);
-    /*  if(Core::ContentType::VECTORIALMAP == type)
-      {
-          m_vmapToolBar->setCurrentMap(nullptr);
-      }
-      else if(CleverURI::MAP == type)
-      {
-          // m_playersListWidget->model()->setCurrentMap(nullptr);
-      }*/
-    //}
-    //}
+    auto content= m_gameController->contentController();
+    content->clear();
 }
 
 void MainWindow::showTipChecker()
@@ -359,83 +272,6 @@ void MainWindow::showTipChecker()
     m_preferences->registerValue(QStringLiteral("MainWindow::neverDisplayTips"), view.dontshowAgain());
 }
 
-void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
-{
-    /* if((nullptr == m_currentConnectionProfile) || (nullptr == subWindow))
-     {
-         m_ui->m_closeAction->setEnabled(false);
-         m_ui->m_saveAction->setEnabled(false);
-         m_ui->m_saveAsAction->setEnabled(false);
-         return;
-     }
-     auto media= dynamic_cast<MediaContainer*>(subWindow);
-     bool localPlayerIsGM= m_currentConnectionProfile->isGM();
-     if(nullptr == media)
-     {
-         m_ui->m_closeAction->setEnabled(false);
-         m_ui->m_saveAction->setEnabled(false);
-         m_ui->m_saveAsAction->setEnabled(false);
-         return;
-     }
-     m_vmapToolBar->setEnabled(false);
-     auto owner= media->ownerId();
-     auto localIsOwner= (m_gameController->localPlayerId() == owner);
-     if(localPlayerIsGM)
-         localIsOwner= true;
-
-     m_ui->m_closeAction->setEnabled(localIsOwner);
-     m_ui->m_saveAction->setEnabled(localIsOwner);
-     m_ui->m_saveAsAction->setEnabled(localIsOwner);
-
-     switch(media->getContainerType())
-     {
-     case MediaContainer::ContainerType::MapContainer:
-     {
-         m_toolBarStack->setCurrentWidget(m_toolBar);
-         subWindow->setFocus();
-     }
-     break;
-     case MediaContainer::ContainerType::VMapContainer:
-     {
-         // m_playersListWidget->model()->setCurrentMap(nullptr);
-         m_vmapToolBar->setEnabled(true);
-
-         if(localPlayerIsGM)
-             m_toolBarStack->setCurrentWidget(m_vToolBar);
-
-         VMapFrame* frame= dynamic_cast<VMapFrame*>(subWindow);
-         if(frame)
-         {
-             auto map= frame->getMap();
-             m_vmapToolBar->setCurrentMap(map);
-             if(map)
-             {
-                 auto mode= map->getPermissionMode();
-                 switch(mode)
-                 {
-                 case Core::PC_ALL:
-                     m_toolBarStack->setCurrentWidget(m_vToolBar);
-                     break;
-                 default:
-                     break;
-                 }
-                 // m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
-                 m_vToolBar->updateUi(mode);
-             }
-         }
-     }
-     break;
-     case MediaContainer::ContainerType::NoteContainer:
-     case MediaContainer::ContainerType::SharedNoteContainer:
-         // m_playersListWidget->model()->setCurrentMap(nullptr);
-         m_ui->m_saveAction->setEnabled(localIsOwner);
-         m_ui->m_saveAsAction->setEnabled(localIsOwner);
-         break;
-     default:
-         // m_playersListWidget->model()->setCurrentMap(nullptr);
-         break;
-     }*/
-}
 void MainWindow::closeEvent(QCloseEvent* event)
 {
     if(mayBeSaved())
@@ -519,7 +355,6 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openOnlinePictureAction->setData(static_cast<int>(Core::ContentType::ONLINEPICTURE));
     m_ui->m_openCharacterSheet->setData(static_cast<int>(Core::ContentType::CHARACTERSHEET));
     m_ui->m_openVectorialMap->setData(static_cast<int>(Core::ContentType::VECTORIALMAP));
-    // m_ui->m_openStoryAction->setData(static_cast<int>(CleverURI::SCENARIO));
     m_ui->m_openNoteAction->setData(static_cast<int>(Core::ContentType::NOTES));
     m_ui->m_openShareNote->setData(static_cast<int>(Core::ContentType::SHAREDNOTE));
 #ifdef WITH_PDF
@@ -648,15 +483,6 @@ void MainWindow::showAsPreferences()
     showConnectionDialog();
 }
 
-void MainWindow::updateWorkspace()
-{
-    QMdiSubWindow* active= m_mdiArea->currentSubWindow();
-    if(nullptr != active)
-    {
-        activeWindowChanged(active);
-    }
-}
-
 void MainWindow::newVMap()
 {
     MapWizzardDialog mapWizzard(m_mdiArea.get());
@@ -736,10 +562,6 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
     }*/
     return true;
 }
-/*QWidget* MainWindow::registerSubWindow(QWidget* subWindow, QAction* action)
-{
-    return m_mdiArea->addWindow(subWindow, action);
-}*/
 
 void MainWindow::openStory()
 {
@@ -1118,22 +940,6 @@ void MainWindow::parseCommandLineArguments(const QStringList& list)
     }
 }
 
-void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
-{
-#ifdef HAVE_WEBVIEW
-    /*  if(msg->action() == NetMsg::UpdateContent)
-      {
-          QString idMedia= msg->string8();
-          if(m_mediaHash.contains(idMedia))
-          {
-              MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
-              WebView* note= dynamic_cast<WebView*>(mediaContainer);
-              note->readMessage(*msg);
-          }
-      }*/
-#endif
-}
-
 void MainWindow::showConnectionDialog(bool forced)
 {
     if((!m_profileDefined) || (forced))
@@ -1141,57 +947,6 @@ void MainWindow::showConnectionDialog(bool forced)
         m_dialog->open();
     }
 }
-
-/*
-void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
-{
-    if(msg->action() == NetMsg::EndConnectionAction)
-    {
-        m_gameController->addInfoLog(tr("End of the connection process"));
-        updateWorkspace();
-    }
-    else if((msg->action() == NetMsg::SetChannelList) || (NetMsg::AdminAuthFail
-== msg->action())
-            || (NetMsg::AdminAuthSucessed == msg->action()))
-    {
-        ChannelListPanel* roomPanel=
-qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget()); if(nullptr !=
-roomPanel)
-        {
-            roomPanel->processMessage(msg);
-        }
-    }
-    else if(NetMsg::AuthentificationFail == msg->action())
-    {
-        m_dialog->errorOccurs(tr("Error: Wrong password!"));
-        closeConnection();
-    }
-}
-*/
-/*void MainWindow::initializedClientManager()
-{
-    if(nullptr == m_currentConnectionProfile)
-        return;
-
-    if(nullptr == m_currentConnectionProfile->getPlayer())
-        return;
-
-    m_localPlayerId= m_currentConnectionProfile->getPlayer()->getUuid();
-    m_roomPanel->setLocalPlayerId(m_localPlayerId);
-
-    if((nullptr != m_currentConnectionProfile) && (nullptr != m_clientManager))
-    {
-        if(m_currentConnectionProfile->isServer())
-        {
-            m_ipChecker->startCheck();
-        }
-        if(nullptr != m_playerList)
-        {
-            m_playerList->completeListClean();
-            m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
-        }
-    }
-}*/
 
 void MainWindow::cleanUpData()
 {
@@ -1226,70 +981,6 @@ void MainWindow::postConnection()
     }
 }
 
-/*void MainWindow::processMapMessage(NetworkMessageReader* msg)
-{
-    if(msg->action() == NetMsg::CloseMap)
-    {
-        QString idMap= msg->string8();
-        closeMediaContainer(idMap, false);
-    }
-    else
-    {
-        MapFrame* mapFrame= new MapFrame(nullptr, m_mdiArea);
-        if((nullptr != m_currentConnectionProfile)
-           && (!mapFrame->processMapMessage(msg,
-!m_currentConnectionProfile->isGM())))
-        {
-            delete mapFrame;
-        }
-        else
-        {
-            prepareMap(mapFrame);
-            addMediaToMdiArea(mapFrame);
-            mapFrame->setVisible(true);
-        }
-    }
-}*/
-
-/*void MainWindow::processNpcMessage(NetworkMessageReader* msg)
-{
-    QString idMap= msg->string8();
-    if(msg->action() == NetMsg::addNpc)
-    {
-        Map* map= findMapById(idMap);
-        extractCharacter(map, msg);
-    }
-    else if(msg->action() == NetMsg::delNpc)
-    {
-        QString idNpc= msg->string8();
-        Map* map= findMapById(idMap);
-        if(nullptr != map)
-        {
-            map->eraseCharacter(idNpc);
-        }
-    }
-}
-
-void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
-{
-    QString idMap= msg->string8();
-    QString idCharacter= msg->string8();
-    Map* map= findMapById(idMap);
-    if(nullptr == map)
-        return;
-
-quint8 param= msg->uint8();
-if(msg->action() == NetMsg::ToggleViewPlayerCharacterAction)
-{
-    map->showPc(idCharacter, param);
-}
-else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
-{
-    map->selectCharacter(idCharacter);
-    map->changePcSize(param + 11);
-}
-}
-*/
 void MainWindow::openGenericContent()
 {
     QAction* action= static_cast<QAction*>(sender());
@@ -1303,8 +994,6 @@ void MainWindow::openGenericContent()
     auto contentCtrl= m_gameController->contentController();
     for(auto const& path : list)
     {
-        /* auto uri= new CleverURI(getShortNameFromPath(path), path,
-                                 m_gameController->playerController()->localPlayer()->uuid(), type);*/
         contentCtrl->openMedia({{"path", path},
                                 {"type", QVariant::fromValue(type)},
                                 {"name", getShortNameFromPath(path)},
