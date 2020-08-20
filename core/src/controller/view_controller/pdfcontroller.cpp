@@ -39,10 +39,6 @@ PdfController::PdfController(const QString& id, const QString& path, const QByte
 
 PdfController::~PdfController()= default;
 
-void PdfController::saveData() const {}
-
-void PdfController::loadData() const {}
-
 QByteArray PdfController::data() const
 {
     return m_data;

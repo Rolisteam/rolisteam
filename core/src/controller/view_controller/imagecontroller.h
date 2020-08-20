@@ -64,9 +64,6 @@ public:
     qreal ratioV() const;
     qreal ratioH() const;
 
-    void saveData() const override;
-    void loadData() const override;
-
 signals:
     void fitWindowChanged();
     void zoomLevelChanged();

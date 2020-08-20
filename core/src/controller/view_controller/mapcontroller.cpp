@@ -45,10 +45,6 @@ void MapController::init()
     clearImage(m_eraseAlpha, Qt::black);
 }
 
-void MapController::saveData() const {}
-
-void MapController::loadData() const {}
-
 QImage MapController::backgroundImage() const
 {
     return m_backgroundImage;

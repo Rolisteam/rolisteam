@@ -37,10 +37,6 @@ NoteController::NoteController(const QString& id, QObject* parent)
     });*/
 }
 
-void NoteController::saveData() const {}
-
-void NoteController::loadData() const {}
-
 QString NoteController::text() const
 {
     return m_text;

@@ -70,9 +70,6 @@ public:
     HighlightedSyntax highligthedSyntax() const;
     bool markdownVisible() const;
 
-    void saveData() const override;
-    void loadData() const override;
-
     PlayerModel* playerModel() const;
 
     bool canWrite(Player* player) const;

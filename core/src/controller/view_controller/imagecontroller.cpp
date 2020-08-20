@@ -94,10 +94,6 @@ qreal ImageController::ratioH() const
     return static_cast<qreal>(m_image.size().height()) / m_image.size().width();
 }
 
-void ImageController::saveData() const {}
-
-void ImageController::loadData() const {}
-
 void ImageController::setZoomLevel(qreal lvl)
 {
     lvl= qBound(0.2, lvl, 4.0);

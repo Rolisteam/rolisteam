@@ -22,6 +22,8 @@
 #include "data/player.h"
 #include "sharededitor/participantmodel.h"
 #include "userlist/playermodel.h"
+#include "worker/iohelper.h"
+
 QPointer<PlayerModel> SharedNoteController::m_playerModel;
 
 SharedNoteController::SharedNoteController(const QString& ownerId, const QString& local, const QString& uuid,
@@ -36,6 +38,10 @@ SharedNoteController::SharedNoteController(const QString& ownerId, const QString
     connect(this, &SharedNoteController::localIdChanged, this, [this]() {
 
     });
+
+    connect(this, &SharedNoteController::pathChanged, this,
+            [this](const QString& path) { setText(IOHelper::readTextFile(path)); });
+
     connect(m_participantModel.get(), &ParticipantModel::userReadPermissionChanged, this,
             [this](const QString& id, bool b) {
                 if(b)
@@ -73,10 +79,6 @@ QString SharedNoteController::textUpdate() const
 {
     return m_latestCommand;
 }
-
-void SharedNoteController::saveData() const {}
-
-void SharedNoteController::loadData() const {}
 
 SharedNoteController::Permission SharedNoteController::permission() const
 {

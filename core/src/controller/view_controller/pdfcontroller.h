@@ -37,9 +37,6 @@ public:
                            QObject* parent= nullptr);
     ~PdfController() override;
 
-    void saveData() const override;
-    void loadData() const override;
-
     QByteArray data() const;
     QBuffer* buffer();
     qreal zoomFactor() const;

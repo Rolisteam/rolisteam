@@ -56,9 +56,6 @@ public:
     CharacterSheetController(const QString& id, const QString& path, QObject* parent= nullptr);
     ~CharacterSheetController() override;
 
-    virtual void saveData() const override;
-    virtual void loadData() const override;
-
     CharacterSheetModel* model() const;
     ImageModel* imageModel() const;
     CharacterModel* characterModel() const;
