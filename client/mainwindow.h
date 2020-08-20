@@ -38,8 +38,6 @@
 #include "data/cleveruri.h"
 #include "data/mediacontainer.h"
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 #include "network/networkreceiver.h"
 #include "preferences/preferencesmanager.h"
 
@@ -192,53 +190,6 @@ protected:
     virtual void focusInEvent(QFocusEvent* event);
     virtual void focusOutEvent(QFocusEvent* event);
     /**
-     * @brief processImageMessage
-     * @param msg
-     */
-    void processImageMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processMapMessage
-     * @param msg
-     */
-    //  void processMapMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processNpcMessage
-     * @param msg
-     */
-    void processNpcMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processPaintingMessage
-     * @param msg
-     */
-    void processPaintingMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processCharacterMessage
-     * @param msg
-     */
-    void processCharacterMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processAdminstrationMessage
-     * @param msg
-     */
-    void processAdminstrationMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processCharacterPlayerMessage
-     * @param msg
-     */
-    void processCharacterPlayerMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processMediaMessage
-     * @param msg
-     */
-    void processMediaMessage(NetworkMessageReader* msg);
-    void processWebPageMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processVMapMessage
-     * @param msg
-     * @return
-     */
-    //    NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
-    /**
      * @brief contentToPath
      * @param type
      * @param save
@@ -256,11 +207,6 @@ protected:
      */
     void dragEnterEvent(QDragEnterEvent* ev);
     /**
-     * @brief prepareCharacterSheetWindow
-     * @param window
-     */
-    void prepareCharacterSheetWindow(CharacterSheetWindow* window);
-    /**
      * @brief saveAllMediaContainer
      */
     void saveAllMediaContainer();
@@ -277,11 +223,6 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent* event);
     void createPostSettings();
 protected slots:
-    /**
-     * @brief closeMediaContainer
-     * @param id
-     */
-    void closeMediaContainer(QString id, bool redo);
     void cleanUpData();
 private slots:
     void showSupportPage();
@@ -290,11 +231,6 @@ private slots:
      * @param isGM
      */
     void userNatureChange(bool isGM);
-    /**
-     * @brief activeWindowChanged
-     * @param widget
-     */
-    void activeWindowChanged(QMdiSubWindow* widget);
     /**
      * @brief openStory
      */

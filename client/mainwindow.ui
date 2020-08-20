@@ -36,7 +36,6 @@
       <string>&amp;New</string>
      </property>
      <addaction name="m_addVectorialMap"/>
-     <addaction name="m_newChatAction"/>
      <addaction name="m_newNoteAction"/>
      <addaction name="m_newSharedNote"/>
      <addaction name="m_newWebViewACt"/>
@@ -603,8 +602,8 @@
   </action>
   <action name="m_patreon">
    <property name="icon">
-    <iconset theme="Patreon_Mark_Coral">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/Patreon_Mark_Coral.jpg</normaloff>:/resources/rolistheme/Patreon_Mark_Coral.jpg</iconset>
    </property>
    <property name="text">
     <string>Support Rolisteam</string>
@@ -620,6 +619,12 @@
    </property>
    <property name="text">
     <string>ShowChat</string>
+   </property>
+   <property name="iconText">
+    <string>show Instant Message Window</string>
+   </property>
+   <property name="toolTip">
+    <string>show Instant Message Window</string>
    </property>
   </action>
  </widget>
