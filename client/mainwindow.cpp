@@ -153,7 +153,9 @@ MainWindow::MainWindow(const QStringList& args)
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"), func2);
 
-    // addToolBar(Qt::TopToolBarArea, m_vmapToolBar);
+    connect(m_ui->m_mediaTitleAct, &QAction::toggled, this, [this](bool b) {
+        m_ui->m_toolBar->setToolButtonStyle(b ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly);
+    });
 
     connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
             &MainWindow::setWindowModified);
@@ -786,6 +788,7 @@ void MainWindow::readSettings()
 
     restoreState(settings.value("windowState").toByteArray());
     bool maxi= settings.value("Maximized", false).toBool();
+    m_ui->m_mediaTitleAct->setChecked(settings.value("show_media_title_in_tool_bar", false).toBool());
     if(!maxi)
     {
         restoreGeometry(settings.value("geometry").toByteArray());
@@ -832,6 +835,7 @@ void MainWindow::writeSettings()
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
+    settings.setValue("show_media_title_in_tool_bar", m_ui->m_mediaTitleAct->isChecked());
 
     settings.beginWriteArray("recentFiles", m_recentFiles.size());
     auto i= 0;
