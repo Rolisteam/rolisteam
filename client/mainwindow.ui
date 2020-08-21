@@ -93,6 +93,7 @@
      <addaction name="m_cascadeViewAction"/>
      <addaction name="m_tileViewAction"/>
     </widget>
+    <addaction name="m_mediaTitleAct"/>
     <addaction name="menuReorganize"/>
     <addaction name="separator"/>
     <addaction name="m_audioPlayerAct"/>
@@ -621,10 +622,18 @@
     <string>ShowChat</string>
    </property>
    <property name="iconText">
-    <string>show Instant Message Window</string>
+    <string>Instant Messaging</string>
    </property>
    <property name="toolTip">
     <string>show Instant Message Window</string>
+   </property>
+  </action>
+  <action name="m_mediaTitleAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Media title in toolbar</string>
    </property>
   </action>
  </widget>
