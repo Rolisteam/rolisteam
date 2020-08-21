@@ -77,7 +77,6 @@ Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagin
     connect(m_prevent.get(), &PreventClosing::visibilityObjectChanged, instantCtrl,
             &InstantMessagingController::setVisible);
 
-    qDebug() << m_ctrl->workspaceFilename(); //:/resources/rolistheme/workspacebackground.jpg
     m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
     updateBackGround();
 }
@@ -492,7 +491,6 @@ PreventClosing::PreventClosing(QObject* watched, QObject* parent) : QObject(pare
 
 bool PreventClosing::eventFilter(QObject* obj, QEvent* event)
 {
-    qDebug() << event->type();
     if(obj == m_watched && event->type() == QEvent::Hide)
     {
         event->accept();
