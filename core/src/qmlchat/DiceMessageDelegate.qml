@@ -29,7 +29,7 @@ Frame {
                 Label {
                     id: timestamp
                     text: model.time
-                    anchors.right: model.local ? parent.right : undefined
+                    //anchors.right: model.local ? parent.right : undefined
                     font.pixelSize: root.styleSheet.fontSize
                     opacity: root.styleSheet.opacityTime
                 }
