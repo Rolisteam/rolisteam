@@ -20,7 +20,6 @@
 #include "sharednotecontroller.h"
 
 #include "data/player.h"
-#include "sharededitor/participantmodel.h"
 #include "userlist/playermodel.h"
 #include "worker/iohelper.h"
 
@@ -51,9 +50,12 @@ SharedNoteController::SharedNoteController(const QString& ownerId, const QString
             });
     connect(m_participantModel.get(), &ParticipantModel::userWritePermissionChanged, this,
             &SharedNoteController::userCanWrite);
-
-    if(localIsOwner())
-        setPermission(Permission::READWRITE);
+    connect(m_participantModel.get(), &ParticipantModel::userWritePermissionChanged, this,
+            [this](const QString& playerId, bool) {
+                if(playerId != localId())
+                    return;
+                emit permissionChanged(permission());
+            });
 
     setParticipantPanelVisible(localIsOwner());
 }
@@ -65,6 +67,11 @@ void SharedNoteController::setPlayerModel(PlayerModel* model)
     m_playerModel= model;
 }
 
+void SharedNoteController::setPermission(ParticipantModel::Permission perm)
+{
+    m_participantModel->setPlayerPermission(localId(), perm);
+}
+
 QString SharedNoteController::text() const
 {
     return m_text;
@@ -72,7 +79,7 @@ QString SharedNoteController::text() const
 
 bool SharedNoteController::localCanWrite() const
 {
-    return (m_permission == SharedNoteController::Permission::READWRITE);
+    return m_participantModel->permissionFor(localId()) == ParticipantModel::Permission::readWrite;
 }
 
 QString SharedNoteController::textUpdate() const
@@ -80,9 +87,9 @@ QString SharedNoteController::textUpdate() const
     return m_latestCommand;
 }
 
-SharedNoteController::Permission SharedNoteController::permission() const
+ParticipantModel::Permission SharedNoteController::permission() const
 {
-    return m_permission;
+    return m_participantModel->permissionFor(localId());
 }
 
 bool SharedNoteController::participantPanelVisible() const
@@ -137,14 +144,6 @@ void SharedNoteController::setParticipantPanelVisible(bool b)
         return;
     m_participantVisible= b;
     emit participantPanelVisibleChanged(m_participantVisible);
-}
-
-void SharedNoteController::setPermission(SharedNoteController::Permission permission)
-{
-    if(permission == m_permission)
-        return;
-    m_permission= permission;
-    emit permissionChanged(m_permission);
 }
 
 void SharedNoteController::setText(const QString& text)

@@ -80,6 +80,9 @@ void SharedNoteControllerUpdater::addSharedNoteController(SharedNoteController* 
 
 void SharedNoteControllerUpdater::sendOffPermissionChanged(SharedNoteController* ctrl, bool b, const QString& id)
 {
+    if(m_updatingFromNetwork)
+        return;
+
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
     if(!id.isEmpty())
     {
@@ -88,9 +91,24 @@ void SharedNoteControllerUpdater::sendOffPermissionChanged(SharedNoteController*
     msg.uint8(static_cast<int>(Core::ContentType::SHAREDNOTE));
     msg.string8(ctrl->uuid());
     msg.string16(QStringLiteral("permission"));
-    auto perm= b ? SharedNoteController::Permission::READWRITE : SharedNoteController::Permission::READ;
-    Helper::variantToType<SharedNoteController::Permission>(perm, msg);
+    auto perm= b ? ParticipantModel::Permission::readWrite : ParticipantModel::Permission::readOnly;
+    Helper::variantToType<ParticipantModel::Permission>(perm, msg);
     msg.sendToServer();
+}
+
+NetWorkReceiver::SendType SharedNoteControllerUpdater::processMessage(NetworkMessageReader* msg)
+{
+    if(msg->category() == NetMsg::MediaCategory && NetMsg::UpdateMediaProperty)
+    {
+        auto id= msg->string8();
+        auto ctrls= m_notesModel->contentController<SharedNoteController*>();
+        auto it
+            = std::find_if(ctrls.begin(), ctrls.end(), [id](SharedNoteController* ctrl) { return id == ctrl->uuid(); });
+        if(it != ctrls.end())
+            updateProperty(msg, (*it));
+    }
+
+    return MediaUpdaterInterface::processMessage(msg);
 }
 
 void SharedNoteControllerUpdater::updateProperty(NetworkMessageReader* msg, SharedNoteController* ctrl)
@@ -108,7 +126,7 @@ void SharedNoteControllerUpdater::updateProperty(NetworkMessageReader* msg, Shar
     }
     else if(property == QStringLiteral("permission"))
     {
-        var= QVariant::fromValue(static_cast<SharedNoteController::Permission>(msg->uint8()));
+        var= QVariant::fromValue(static_cast<ParticipantModel::Permission>(msg->uint8()));
     }
 
     m_updatingFromNetwork= true;
