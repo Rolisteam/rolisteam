@@ -1091,7 +1091,7 @@ void IOHelper::readSharedNoteController(SharedNoteController* ctrl, const QByteA
 
     readBase(ctrl, input);
 
-    SharedNoteController::Permission perm;
+    ParticipantModel::Permission perm;
     input >> perm;
 
     QString text;

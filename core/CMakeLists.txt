@@ -330,6 +330,7 @@ set(HEADERS
     src/updater/media/charactersheetupdater.h
     src/updater/media/instantmessagingupdater.h
     src/updater/media/sharednotecontrollerupdater.h
+    src/updater/media/webviewupdater.h
     src/updater/vmapitem/rectcontrollerupdater.h
     src/updater/vmapitem/vmapitemcontrollerupdater.h
     src/updater/vmapitem/ellipsecontrollerupdater.h
@@ -618,6 +619,7 @@ set(SOURCES
     src/updater/media/mediaupdaterinterface.cpp
     src/updater/media/charactersheetupdater.cpp
     src/updater/media/instantmessagingupdater.cpp
+    src/updater/media/webviewupdater.cpp
     src/updater/vmapitem/rectcontrollerupdater.cpp
     src/updater/vmapitem/vmapitemcontrollerupdater.cpp
     src/updater/vmapitem/textcontrollerupdater.cpp
