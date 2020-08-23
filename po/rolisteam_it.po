@@ -752,27 +752,22 @@ msgctxt "ChatListWidget|"
 msgid "New chat"
 msgstr "Nuova chat"
 
-#: ../core/src/qmlchat/ChatView.qml:43
-msgctxt "ChatView|"
-msgid "Add chatroom"
-msgstr ""
-
-#: ../core/src/qmlchat/ChatView.qml:47
+#: ../core/src/qmlchat/ChatView.qml:44
 msgctxt "ChatView|"
 msgid "Split view"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:54
+#: ../core/src/qmlchat/ChatView.qml:51
 msgctxt "ChatView|"
-msgid "Detach current"
+msgid "Detach"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:58
+#: ../core/src/qmlchat/ChatView.qml:55
 msgctxt "ChatView|"
-msgid "Settings"
+msgid "Reatach"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:90
+#: ../core/src/qmlchat/ChatView.qml:88
 msgctxt "ChatView|"
 msgid "close"
 msgstr ""
@@ -986,11 +981,16 @@ msgctxt "ConnectionRetryDialog|"
 msgid "Connection has failed! Connection Retry in %1s."
 msgstr "Connessione non riuscita! Riprova connessione in %1s."
 
-#: ../core/src/controller/contentcontroller.cpp:59
+#, fuzzy
+#~ msgctxt "ContentController|"
+#~ msgid "Unknown"
+#~ msgstr "Sconosciuto"
+
+#: ../core/src/controller/contentcontroller.cpp:68
 #, fuzzy
 msgctxt "ContentController|"
-msgid "Unknown"
-msgstr "Sconosciuto"
+msgid "default"
+msgstr "di default"
 
 #: ../core/src/widgets/gmtoolbox/UnitConvertor/convertor.ui:14
 #: ../build/core/core_autogen/include/ui_convertor.h:299
@@ -1241,6 +1241,18 @@ msgstr "Alias"
 msgctxt "DiceBookMarkWidget|"
 msgid "DiceShortCut"
 msgstr "DiceShortCut"
+
+#: ../core/src/qmlchat/DiceMessageDelegate.qml:64
+#, qt-format
+msgctxt "DiceMessageDelegate|"
+msgid "Details: %1"
+msgstr ""
+
+#: ../core/src/qmlchat/DiceMessageDelegate.qml:69
+#, qt-format
+msgctxt "DiceMessageDelegate|"
+msgid "Command: %1"
+msgstr ""
 
 #: ../core/src/sharededitor/document.ui:14
 #: ../build/core/core_autogen/include/ui_document.h:79
@@ -1675,7 +1687,7 @@ msgctxt "ImageModel|"
 msgid "Is Background"
 msgstr "Sfondo"
 
-#: ../core/src/widgets/filepathdelegateitem.cpp:70
+#: ../core/src/widgets/filepathdelegateitem.cpp:71
 msgctxt "ImagePathEditor|"
 msgid "Get picture for Character State"
 msgstr "Ottieni immagine per lo stato del Personaggio"
@@ -1691,9 +1703,19 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Globale"
 
-#: ../core/src/qmlchat/InstantMessagingEditText.qml:137
+#: ../core/src/qmlchat/InstantMessagingEditText.qml:139
 msgctxt "InstantMessagingEditText|"
 msgid "send"
+msgstr ""
+
+#: ../core/src/qmlchat/InstantMessagingMain.qml:32
+msgctxt "InstantMessagingMain|"
+msgid "Settings"
+msgstr ""
+
+#: ../core/src/qmlchat/InstantMessagingMain.qml:36
+msgctxt "InstantMessagingMain|"
+msgid "Add chatroom"
 msgstr ""
 
 #: ../core/src/qmlchat/instantmessagingview.cpp:60
@@ -2132,12 +2154,12 @@ msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Tutti (*)"
 
-#: ../client/mainwindow.cpp:1603
+#: ../client/mainwindow.cpp:1252
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "sconosciuto"
 
-#: ../client/mainwindow.cpp:639
+#: ../client/mainwindow.cpp:457
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -2153,42 +2175,42 @@ msgstr ""
 #~ msgid "Open Map"
 #~ msgstr "Apri Mappa"
 
-#: ../client/mainwindow.cpp:1503
+#: ../client/mainwindow.cpp:1152
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Collegato"
 
-#: ../client/mainwindow.cpp:1503
+#: ../client/mainwindow.cpp:1152
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Non Connesso"
 
-#: ../client/mainwindow.cpp:1504
+#: ../client/mainwindow.cpp:1153
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: ../client/mainwindow.cpp:1504
+#: ../client/mainwindow.cpp:1153
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: ../client/mainwindow.cpp:1505
+#: ../client/mainwindow.cpp:1154
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: ../client/mainwindow.cpp:1505
+#: ../client/mainwindow.cpp:1154
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Giocatore"
 
-#: ../client/mainwindow.cpp:766
+#: ../client/mainwindow.cpp:571
 msgctxt "MainWindow|"
 msgid "Open scenario"
 msgstr "Apri scenario"
 
-#: ../client/mainwindow.cpp:799
+#: ../client/mainwindow.cpp:604
 msgctxt "MainWindow|"
 msgid "Save Scenario as"
 msgstr "Salva Scenario come"
@@ -2198,7 +2220,7 @@ msgstr "Salva Scenario come"
 #~ msgid "Save %1"
 #~ msgstr "Salva %1"
 
-#: ../client/mainwindow.ui:549
+#: ../client/mainwindow.ui:496
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:528
 msgctxt "MainWindow|"
 msgid "Save Scenario"
@@ -2209,10 +2231,9 @@ msgstr "Salva Scenario"
 #~ msgid "%1 cannot be opened (saveStory - MainWindow.cpp)"
 #~ msgstr "%1 non può essere aperto (saveStory - MainWindow.cpp)"
 
-#: ../client/mainwindow.cpp:243
-msgctxt "MainWindow|"
-msgid "ToolBox"
-msgstr "ToolBox"
+#~ msgctxt "MainWindow|"
+#~ msgid "ToolBox"
+#~ msgstr "ToolBox"
 
 #~ msgctxt "MainWindow|"
 #~ msgid "Open Picture"
@@ -2234,27 +2255,26 @@ msgctxt "MainWindow|"
 msgid "&New"
 msgstr "&nuovi"
 
-#: ../client/mainwindow.ui:46
+#: ../client/mainwindow.ui:45
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:572
 msgctxt "MainWindow|"
 msgid "&Open"
 msgstr "&Apri"
 
-#: ../client/mainwindow.ui:58
+#: ../client/mainwindow.ui:57
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:573
 msgctxt "MainWindow|"
 msgid "Recent Files"
 msgstr "File Recenti"
 
-#: ../client/mainwindow.ui:87
+#: ../client/mainwindow.ui:86
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:575
 msgctxt "MainWindow|"
 msgid "Sub-&Windows"
 msgstr "Sub-&Windows"
 
-#: ../client/mainwindow.ui:99 ../client/mainwindow.ui:293
-#: ../client/mainwindow.ui:329 ../client/mainwindow.ui:497
-#: ../client/mainwindow.ui:509
+#: ../client/mainwindow.ui:293 ../client/mainwindow.ui:329
+#: ../client/mainwindow.ui:444 ../client/mainwindow.ui:456
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:443
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:455
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:577
@@ -2262,13 +2282,13 @@ msgctxt "MainWindow|"
 msgid "Map"
 msgstr "Mappa"
 
-#: ../client/mainwindow.ui:63
+#: ../client/mainwindow.ui:62
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:574
 msgctxt "MainWindow|"
 msgid "Save"
 msgstr "Salva"
 
-#: ../client/mainwindow.ui:552
+#: ../client/mainwindow.ui:499
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:530
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
@@ -2294,7 +2314,7 @@ msgstr "Ctrl+P"
 
 #: ../client/mainwindow.ui:229
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:418
-#: ../client/mainwindow.cpp:703
+#: ../client/mainwindow.cpp:512
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Chiudere"
@@ -2335,6 +2355,11 @@ msgctxt "MainWindow|"
 msgid "Chat"
 msgstr "Chat"
 
+#: ../client/mainwindow.ui:151
+msgctxt "MainWindow|"
+msgid "toolBar"
+msgstr ""
+
 #: ../client/mainwindow.ui:197
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:406
 msgctxt "MainWindow|"
@@ -2371,7 +2396,7 @@ msgctxt "MainWindow|"
 msgid "online documentation"
 msgstr "documentazione in linea"
 
-#: ../client/mainwindow.ui:296 ../client/mainwindow.ui:500
+#: ../client/mainwindow.ui:296 ../client/mainwindow.ui:447
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:445
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
@@ -2390,7 +2415,7 @@ msgctxt "MainWindow|"
 msgid "Note"
 msgstr "Nota"
 
-#: ../client/mainwindow.ui:332 ../client/mainwindow.ui:512
+#: ../client/mainwindow.ui:332 ../client/mainwindow.ui:459
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:457
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
@@ -2420,133 +2445,143 @@ msgctxt "MainWindow|"
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: ../client/mainwindow.ui:379
+#: ../client/mainwindow.ui:622
+msgctxt "MainWindow|"
+msgid "ShowChat"
+msgstr ""
+
+#: ../client/mainwindow.ui:625
+msgctxt "MainWindow|"
+msgid "Instant Messaging"
+msgstr ""
+
+#: ../client/mainwindow.ui:628
+msgctxt "MainWindow|"
+msgid "show Instant Message Window"
+msgstr ""
+
+#: ../client/mainwindow.ui:636
+msgctxt "MainWindow|"
+msgid "Media title in toolbar"
+msgstr ""
+
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:471
 msgctxt "MainWindow|"
 msgid "Show PC Name"
 msgstr "Mostra Nome del PG"
 
-#: ../client/mainwindow.ui:382
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:473
 msgctxt "MainWindow|"
 msgid "F3"
 msgstr "F3"
 
-#: ../client/mainwindow.ui:396
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:477
 msgctxt "MainWindow|"
 msgid "F4"
 msgstr "F4"
 
-#: ../client/mainwindow.ui:410
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:481
 msgctxt "MainWindow|"
 msgid "F5"
 msgstr "F5"
 
-#: ../client/mainwindow.ui:663
+#: ../client/mainwindow.ui:596
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:566
 msgctxt "MainWindow|"
 msgid "Password Generator"
 msgstr "Generatore di password"
 
-#: ../client/mainwindow.ui:679
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:568
 msgctxt "MainWindow|"
 msgid "Show Initiative"
 msgstr "Mostra iniziativa"
 
-#: ../client/mainwindow.ui:393
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:475
 msgctxt "MainWindow|"
 msgid "Show Npc Name"
 msgstr "Mostra Nome del PNG"
 
-#: ../client/mainwindow.ui:523
+#: ../client/mainwindow.ui:470
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:521
 msgctxt "MainWindow|"
 msgid "F6"
 msgstr "F6"
 
-#: ../client/mainwindow.ui:407
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:479
 msgctxt "MainWindow|"
 msgid "Show Npc Number"
 msgstr "MostraNumero PNG"
 
-#: ../client/mainwindow.ui:658
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:564
 msgctxt "MainWindow|"
 msgid "F7"
 msgstr "F7"
 
-#: ../client/mainwindow.ui:418
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:483
 msgctxt "MainWindow|"
 msgid "Minute Editor"
 msgstr "Minuti Editor"
 
-#: ../client/mainwindow.ui:421
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:485
 msgctxt "MainWindow|"
 msgid "Alt+M"
 msgstr "Alt+M"
 
-#: ../client/mainwindow.ui:430
+#: ../client/mainwindow.ui:377
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:487
 msgctxt "MainWindow|"
 msgid "Online Picture"
 msgstr "Immagine Online"
 
-#: ../client/mainwindow.ui:433
+#: ../client/mainwindow.ui:380
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:489
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
 msgstr "Ctrl+Maiusc+I"
 
-#: ../client/mainwindow.ui:441
+#: ../client/mainwindow.ui:388
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:491
 msgctxt "MainWindow|"
 msgid "Audio Player"
 msgstr "Lettore Audio"
 
-#: ../client/mainwindow.ui:444
+#: ../client/mainwindow.ui:391
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:493
 msgctxt "MainWindow|"
 msgid "Alt+A"
 msgstr "Alt+A"
 
-#: ../client/mainwindow.ui:452
+#: ../client/mainwindow.ui:399
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:495
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Area Di Notifica"
 
-#: ../client/mainwindow.ui:455
+#: ../client/mainwindow.ui:402
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:497
 msgctxt "MainWindow|"
 msgid "Alt+N"
 msgstr "Alt+N"
 
-#: ../client/mainwindow.ui:463
+#: ../client/mainwindow.ui:410
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:499
 msgctxt "MainWindow|"
 msgid "Chat List"
 msgstr "Elenco Chat"
 
-#: ../client/mainwindow.ui:466
+#: ../client/mainwindow.ui:413
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:501
 msgctxt "MainWindow|"
 msgid "Alt+L"
 msgstr "Alt+L"
 
-#: ../client/mainwindow.ui:474
+#: ../client/mainwindow.ui:421
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:503
 msgctxt "MainWindow|"
 msgid "Character List"
 msgstr "Elenco Personaggi"
 
-#: ../client/mainwindow.ui:485
+#: ../client/mainwindow.ui:432
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:507
 msgctxt "MainWindow|"
 msgid "ToolBar"
@@ -2558,13 +2593,13 @@ msgctxt "MainWindow|"
 msgid "Vectorial Map"
 msgstr "Mappa Vettoriale"
 
-#: ../client/mainwindow.ui:528
+#: ../client/mainwindow.ui:475
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:523
 msgctxt "MainWindow|"
 msgid "Change Profile…"
 msgstr "Cambiare Profilo..."
 
-#: ../client/mainwindow.ui:563
+#: ../client/mainwindow.ui:510
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:534
 msgctxt "MainWindow|"
 msgid "F10"
@@ -2576,7 +2611,7 @@ msgctxt "MainWindow|"
 msgid "Alt+S"
 msgstr "Alt+S"
 
-#: ../client/mainwindow.ui:151
+#: ../client/mainwindow.ui:138
 msgctxt "MainWindow|"
 msgid "GM ToolBoxes"
 msgstr ""
@@ -2587,7 +2622,7 @@ msgctxt "MainWindow|"
 msgid "Current Media"
 msgstr "Media Corrente"
 
-#: ../client/mainwindow.ui:180 ../client/mainwindow.ui:668
+#: ../client/mainwindow.ui:180 ../client/mainwindow.ui:601
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:401
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:567
 msgctxt "MainWindow|"
@@ -2612,75 +2647,74 @@ msgctxt "MainWindow|"
 msgid "Open Scenario"
 msgstr "Apri Scenario"
 
-#: ../client/mainwindow.ui:560
+#: ../client/mainwindow.ui:507
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:532
 msgctxt "MainWindow|"
 msgid "Room List"
 msgstr "Elenco Room"
 
-#: ../client/mainwindow.ui:572 ../client/mainwindow.ui:584
+#: ../client/mainwindow.ui:519 ../client/mainwindow.ui:531
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:536
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:540
 msgctxt "MainWindow|"
 msgid "Shared Note"
 msgstr "Nota Condivisa"
 
-#: ../client/mainwindow.ui:575
+#: ../client/mainwindow.ui:522
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:538
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../client/mainwindow.ui:587
+#: ../client/mainwindow.ui:534
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:542
 msgctxt "MainWindow|"
 msgid "Ctrl+L"
 msgstr "Ctrl+L"
 
-#: ../client/mainwindow.ui:596 ../client/mainwindow.ui:688
+#: ../client/mainwindow.ui:543 ../client/mainwindow.ui:610
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:544
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:569
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
 msgstr "Supporta Rolisteam"
 
-#: ../client/mainwindow.ui:601
+#: ../client/mainwindow.ui:548
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:545
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
 msgstr "Visualizzatore Scorciatoie..."
 
-#: ../client/mainwindow.ui:632
+#: ../client/mainwindow.ui:579
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:557
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
 msgstr "Copia Link Collegamento..."
 
-#: ../client/mainwindow.ui:644
+#: ../client/mainwindow.ui:591
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:560
 msgctxt "MainWindow|"
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: ../client/mainwindow.ui:655
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:562
 msgctxt "MainWindow|"
 msgid "Show Health Bar"
 msgstr "Mostra La Barra di Salute"
 
-#: ../client/mainwindow.ui:604
+#: ../client/mainwindow.ui:551
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:547
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
 msgstr "Ctrl+F1"
 
-#: ../client/mainwindow.ui:121
+#: ../client/mainwindow.ui:108
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:578
 msgctxt "MainWindow|"
 msgid "&Network"
 msgstr "&rete"
 
-#: ../client/mainwindow.ui:133
+#: ../client/mainwindow.ui:120
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:579
 msgctxt "MainWindow|"
 msgid "&Help"
@@ -2691,49 +2725,49 @@ msgctxt "MainWindow|"
 msgid "&GM ToolBox"
 msgstr "&GM ToolBox"
 
-#: ../client/mainwindow.ui:143
+#: ../client/mainwindow.ui:130
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:581
 msgctxt "MainWindow|"
 msgid "&Edit"
 msgstr "&modifica"
 
-#: ../client/mainwindow.ui:612
+#: ../client/mainwindow.ui:559
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:549
 msgctxt "MainWindow|"
 msgid "Full Screen"
 msgstr "Schermo Intero"
 
-#: ../client/mainwindow.ui:615
+#: ../client/mainwindow.ui:562
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:551
 msgctxt "MainWindow|"
 msgid "F11"
 msgstr "F11"
 
-#: ../client/mainwindow.ui:624
+#: ../client/mainwindow.ui:571
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:553
 msgctxt "MainWindow|"
 msgid "PDF File"
 msgstr "File PDF"
 
-#: ../client/mainwindow.ui:627
+#: ../client/mainwindow.ui:574
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:555
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: ../client/mainwindow.ui:520
+#: ../client/mainwindow.ui:467
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:519
 msgctxt "MainWindow|"
 msgid "Show Health State"
 msgstr "Mostra Stato Salute"
 
-#: ../client/mainwindow.ui:488
+#: ../client/mainwindow.ui:435
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:509
 msgctxt "MainWindow|"
 msgid "F8"
 msgstr "F8"
 
-#: ../client/mainwindow.ui:537
+#: ../client/mainwindow.ui:484
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:524
 msgctxt "MainWindow|"
 msgid "Character Sheet"
@@ -2749,13 +2783,13 @@ msgctxt "MainWindow|"
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: ../client/mainwindow.ui:641
+#: ../client/mainwindow.ui:588
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:558
 msgctxt "MainWindow|"
 msgid "WebPage"
 msgstr "Pagina web"
 
-#: ../client/mainwindow.ui:540
+#: ../client/mainwindow.ui:487
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:526
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
@@ -2767,7 +2801,7 @@ msgctxt "MainWindow|"
 msgid "Rolisteam"
 msgstr "Rolisteam"
 
-#: ../client/mainwindow.ui:91
+#: ../client/mainwindow.ui:90
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:576
 msgctxt "MainWindow|"
 msgid "Reorganize"
@@ -2785,7 +2819,7 @@ msgctxt "MainWindow|"
 msgid "Cascade"
 msgstr "Cascata"
 
-#: ../client/mainwindow.ui:251 ../client/mainwindow.ui:477
+#: ../client/mainwindow.ui:251 ../client/mainwindow.ui:424
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:428
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:505
 msgctxt "MainWindow|"
@@ -2798,48 +2832,48 @@ msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Quadretti"
 
-#: ../client/mainwindow.cpp:917
+#: ../client/mainwindow.cpp:722
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Aiuto"
 
-#: ../client/mainwindow.cpp:956
+#: ../client/mainwindow.cpp:756
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Notifica d'Aggiornamento"
 
-#: ../client/mainwindow.cpp:971
+#: ../client/mainwindow.cpp:771
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 non è la versione giusta: %2."
 
-#: ../client/mainwindow.cpp:1084
+#: ../client/mainwindow.cpp:866
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Configura rolisteam ad usare <porta> per la connessione"
 
-#: ../client/mainwindow.cpp:1087
+#: ../client/mainwindow.cpp:869
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Configura rolisteam a connettersi al server<>.<server>."
 
-#: ../client/mainwindow.cpp:1090
+#: ../client/mainwindow.cpp:872
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definire il <ruolo>: gm o pc"
 
-#: ../client/mainwindow.cpp:1092
+#: ../client/mainwindow.cpp:874
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Cancellare le impostazioni e utilizzare i parametri di default"
 
-#: ../client/mainwindow.cpp:1095
+#: ../client/mainwindow.cpp:877
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definire il <username>"
 
-#: ../client/mainwindow.cpp:1098
+#: ../client/mainwindow.cpp:880
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Rimuovere limite di dimensione per i file PDF"
@@ -2848,7 +2882,7 @@ msgstr "Rimuovere limite di dimensione per i file PDF"
 #~ msgid "End of the connection process"
 #~ msgstr "Fine del processo di connessione"
 
-#: ../client/mainwindow.cpp:1602
+#: ../client/mainwindow.cpp:1251
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
@@ -2858,29 +2892,29 @@ msgstr "Esporta da %1"
 #~ msgid "Resources Explorer"
 #~ msgstr "Esplora Risorse"
 
-#: ../client/mainwindow.cpp:1344
+#: ../client/mainwindow.cpp:995
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Apri %1"
 
-#: ../client/mainwindow.cpp:711
+#: ../client/mainwindow.cpp:520
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Connessione interrotta. %1 è vicino"
 
-#: ../client/mainwindow.cpp:587
+#: ../client/mainwindow.cpp:405
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Rifai"
 
-#: ../client/mainwindow.cpp:588
+#: ../client/mainwindow.cpp:406
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Annulla"
 
-#: ../client/mainwindow.cpp:638
+#: ../client/mainwindow.cpp:456
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Supporto"
@@ -2889,12 +2923,12 @@ msgstr "Supporto"
 #~ msgid "Untitled"
 #~ msgstr "Senza titolo"
 
-#: ../client/mainwindow.cpp:713
+#: ../client/mainwindow.cpp:522
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Connessione persa"
 
-#: ../client/mainwindow.cpp:719
+#: ../client/mainwindow.cpp:528
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
@@ -2910,7 +2944,7 @@ msgstr "Esci %1 "
 #~ msgid "Do you want to save your scenario before to quit %1?"
 #~ msgstr "Desideri salvare il scenario prima di uscire %1?"
 
-#: ../client/mainwindow.cpp:767 ../client/mainwindow.cpp:800
+#: ../client/mainwindow.cpp:572 ../client/mainwindow.cpp:605
 msgctxt "MainWindow|"
 msgid "Scenarios (*.sce)"
 msgstr "Scenari (*.sce)"
@@ -2921,7 +2955,7 @@ msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Su Rolisteam"
 
-#: ../client/mainwindow.cpp:918
+#: ../client/mainwindow.cpp:723
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2931,7 +2965,7 @@ msgstr ""
 "La documentazione di %1 può essere trovata online all'indirizzo :<br> <a "
 "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
-#: ../client/mainwindow.cpp:957
+#: ../client/mainwindow.cpp:757
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2943,13 +2977,13 @@ msgstr ""
 "href=\"http://www.rolisteam.org/download\">pagina di Download</a> per "
 "ulteriori informazioni"
 
-#: ../client/mainwindow.cpp:967
+#: ../client/mainwindow.cpp:767
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 unisciti solo al gioco."
 
-#: ../client/mainwindow.cpp:977
+#: ../client/mainwindow.cpp:777
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
@@ -3425,7 +3459,7 @@ msgstr "Tutto visibile"
 #~ msgid "Unknown"
 #~ msgstr "Sconosciuto"
 
-#: ../core/src/data/mediacontainer.cpp:33
+#: ../core/src/data/mediacontainer.cpp:32
 msgctxt "MediaContainer|"
 msgid "Detach the view"
 msgstr "Sganciare vista"
@@ -4200,12 +4234,18 @@ msgstr "Esagono"
 #~ msgid "Export as Image"
 #~ msgstr "Esporta come Immagine"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:143
+#: ../core/src/pdfviewer/pdfviewer.cpp:109
+#, qt-format
+msgctxt "PdfViewer|Current page/ total page"
+msgid "%1/%2"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.cpp:171
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "Condivisione File Pdf"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:144
+#: ../core/src/pdfviewer/pdfviewer.cpp:172
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfert can be really heavy.\n"
@@ -4214,7 +4254,7 @@ msgstr ""
 "Trasferire PDF può essere davvero pesante.\n"
 "Vuoi continuare e condividere il PDF?"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:158
+#: ../core/src/pdfviewer/pdfviewer.cpp:186
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -4332,13 +4372,13 @@ msgctxt "PersonDialog|"
 msgid "Load Avatar"
 msgstr "Caricare L'Avatar"
 
-#: ../core/src/userlist/playermodel.cpp:172
+#: ../core/src/userlist/playermodel.cpp:171
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "Not defined"
 msgstr "Non definito"
 
-#: ../core/src/userlist/playermodel.cpp:175
+#: ../core/src/userlist/playermodel.cpp:174
 #, fuzzy, qt-format
 msgctxt "PlayerModel|"
 msgid ""
@@ -4356,25 +4396,25 @@ msgstr ""
 "movimento per Turno: %6\n"
 "tipo: %7\n"
 
-#: ../core/src/userlist/playermodel.cpp:187
+#: ../core/src/userlist/playermodel.cpp:186
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "NPC"
 msgstr "PNG"
 
-#: ../core/src/userlist/playermodel.cpp:187
+#: ../core/src/userlist/playermodel.cpp:186
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "PC"
 msgstr "PG"
 
-#: ../core/src/userlist/playermodel.cpp:248
+#: ../core/src/userlist/playermodel.cpp:247
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "Players List"
 msgstr "Elenco Giocatori"
 
-#: ../core/src/userlist/playermodel.cpp:763
+#: ../core/src/userlist/playermodel.cpp:762
 msgctxt "PlayerModel|"
 msgid "Dupplicated player or uuid"
 msgstr ""
@@ -5679,19 +5719,19 @@ msgctxt "PublicChat|"
 msgid "Global"
 msgstr "Globale"
 
-#: ../client/main.cpp:110 ../core/src/network/connectionprofile.cpp:7
+#: ../client/main.cpp:102 ../core/src/network/connectionprofile.cpp:7
 #: ../core/src/network/main.cpp:91 ../core/src/undoCmd/addfieldcommand.cpp:84
 #: ../server/main.cpp:99
 msgctxt "QObject|"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: ../core/src/data/mediacontainer.cpp:93
+#: ../core/src/data/mediacontainer.cpp:92
 msgctxt "QObject|"
 msgid "Loading error"
 msgstr "Errore di caricamento"
 
-#: ../core/src/diceparser/diceparser.cpp:74
+#: ../core/src/diceparser/diceparser.cpp:77
 msgctxt "QObject|"
 msgid ""
 "Nothing was understood. To roll dice: !1d6 - full documation: <a "
@@ -5700,19 +5740,19 @@ msgstr ""
 "Comando incomprensibile. Per i dadi: !1d6 - Documentazione completa: <a "
 "href=\"https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md\">https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md</a>"
 
-#: ../core/src/diceparser/diceparser.cpp:84
+#: ../core/src/diceparser/diceparser.cpp:88
 #, qt-format
 msgctxt "QObject|"
 msgid "Unexpected character at %1 - end of command was ignored \"%2\""
 msgstr "Carattere imprevisto %1 - fine di comando ignorato \"%2\""
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1043
+#: ../core/src/diceparser/parsingtoolbox.cpp:1385
 msgctxt "QObject|"
 msgid "Expected closing parenthesis - can't validate the inside."
 msgstr ""
 "Prevista la chiusura di parentesi - non è possibile convalidare il contenuto."
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1608
+#: ../core/src/diceparser/parsingtoolbox.cpp:1960
 #, qt-format
 msgctxt "QObject|"
 msgid "Dice with %1 face(s) does not exist. Please, put a value higher than 0"
@@ -5720,7 +5760,7 @@ msgstr ""
 "Dadi con %1 faccia (e) non esiste. Si prega di inserire un valore maggiore "
 "di 0"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1663
+#: ../core/src/diceparser/parsingtoolbox.cpp:2015
 msgctxt "QObject|"
 msgid ""
 "List is missing after the L operator. Please, add it (e.g : "
@@ -5729,18 +5769,18 @@ msgstr ""
 "Elenco mancante dopo l'operatore L. Si prega di aggiungerlo (e.g : 1L[la "
 "spada,la lancia,pistola,freccia])"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1290
+#: ../core/src/diceparser/parsingtoolbox.cpp:1632
 msgctxt "QObject|"
 msgid "Validator is missing after the c operator. Please, change it"
 msgstr "Validatore è scomparso dopo la c operatore. Si prega di cambiare"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1310
+#: ../core/src/diceparser/parsingtoolbox.cpp:1652
 #, qt-format
 msgctxt "QObject|"
 msgid "Validator is always true for the %1 operator. Please, change it"
 msgstr "Il validatore è sempre vero per l'operatore %1. Per favore, cambialo"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1319
+#: ../core/src/diceparser/parsingtoolbox.cpp:1661
 #, qt-format
 msgctxt "QObject|"
 msgid ""
@@ -5750,24 +5790,24 @@ msgstr ""
 "Impossibile raggiungere la condizione, causando un loop infinito. Modifica "
 "la condizione dell'opzione %1"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1346
+#: ../core/src/diceparser/parsingtoolbox.cpp:1688
 #, qt-format
 msgctxt "QObject|"
 msgid "Validator is missing after the %1 operator. Please, change it"
 msgstr "Validatore è mancante dopo l' %1 operatore. Si prega di cambiare"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1358
+#: ../core/src/diceparser/parsingtoolbox.cpp:1700
 #, qt-format
 msgctxt "QObject|"
 msgid "This condition %1 introduces an endless loop. Please, change it"
 msgstr "Questa condizione %1 introduce un ciclo infinito. Si prega di cambiare"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1370
+#: ../core/src/diceparser/parsingtoolbox.cpp:1712
 msgctxt "QObject|"
 msgid "Validator is missing after the e operator. Please, change it"
 msgstr "Validatore è mancante dopo il e dell'operatore. Si prega di cambiare"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1438
+#: ../core/src/diceparser/parsingtoolbox.cpp:1780
 msgctxt "QObject|"
 msgid "Missing parameter for Painter node (p)"
 msgstr "Parametro mancante per il nodo pittore (p)"
@@ -5777,12 +5817,12 @@ msgctxt "QObject|"
 msgid "List of Alias:\n"
 msgstr "Elenco di Alias:\n"
 
-#: ../client/mainwindow.cpp:1101
+#: ../client/mainwindow.cpp:883
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "percorso per il file di traduzione: <translationfile>"
 
-#: ../client/mainwindow.cpp:1104
+#: ../client/mainwindow.cpp:886
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definire URL per la connessione al server: <url>"
@@ -5825,10 +5865,61 @@ msgctxt "QObject|"
 msgid "Online Picture"
 msgstr "Online Immagine"
 
+#: ../core/src/undoCmd/addvmapitem.cpp:46
+#, fuzzy
+msgctxt "QObject|"
+msgid "Filled Ellipse"
+msgstr "Ellisse Piena"
+
+#: ../core/src/undoCmd/addvmapitem.cpp:47
+#, fuzzy
+msgctxt "QObject|"
+msgid "Empty Ellipse"
+msgstr "Vuoto Ellisse"
+
+#: ../core/src/undoCmd/addvmapitem.cpp:48
+#, fuzzy
+msgctxt "QObject|"
+msgid "Empty Rectangle"
+msgstr "Rettangolo Vuoto"
+
+#: ../core/src/undoCmd/addvmapitem.cpp:49
+msgctxt "QObject|"
+msgid "Filled Rectangle"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:50
 #: ../core/src/vmap/items/visualitem.cpp:43
 msgctxt "QObject|"
 msgid "Text"
 msgstr "Testo"
+
+#: ../core/src/undoCmd/addvmapitem.cpp:51
+msgctxt "QObject|"
+msgid "Text with border"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:52
+msgctxt "QObject|"
+msgid "NPC Token"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:53
+msgctxt "QObject|"
+msgid "PC Token"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:55
+#, fuzzy
+msgctxt "QObject|"
+msgid "Pen"
+msgstr "Penna"
+
+#: ../core/src/undoCmd/addvmapitem.cpp:59
+#, qt-format
+msgctxt "QObject|"
+msgid "add %1 item"
+msgstr ""
 
 #: ../core/src/data/cleveruri.cpp:276
 msgctxt "QObject|"
@@ -6033,7 +6124,7 @@ msgstr "Errore: errore di divisione per Zero"
 #~ msgid "Add vmap item"
 #~ msgstr "Aggiungere vmap voce"
 
-#: ../core/src/undoCmd/removemediacontrollercommand.cpp:38
+#: ../core/src/undoCmd/removemediacontrollercommand.cpp:40
 #, qt-format
 msgctxt "QObject|"
 msgid "Close %1"
@@ -6072,11 +6163,13 @@ msgstr ""
 " L'operatore si aspetta il risultato del dado. Si prega di controllare la "
 "documentazione e riparare il vostro comando."
 
+#: ../core/src/undoCmd/addvmapitem.cpp:56
 #: ../core/src/vmap/items/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Path"
 msgstr "Percorso"
 
+#: ../core/src/undoCmd/addvmapitem.cpp:45
 #: ../core/src/vmap/items/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Line"
@@ -6087,7 +6180,7 @@ msgctxt "QObject|"
 msgid "Ellipse"
 msgstr "Ellisse"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
 #: ../core/src/vmap/items/visualitem.cpp:42 ../core/src/vmap/vmapframe.cpp:64
 msgctxt "QObject|"
 msgid "Character"
@@ -6129,6 +6222,7 @@ msgid "Table"
 msgstr ""
 
 #: ../core/src/undoCmd/addfieldcommand.cpp:69
+#: ../core/src/undoCmd/addvmapitem.cpp:54
 #: ../core/src/vmap/items/visualitem.cpp:43
 msgctxt "QObject|"
 msgid "Image"
@@ -6150,13 +6244,13 @@ msgctxt "QObject|"
 msgid "Add %1 Field"
 msgstr ""
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
 #: ../core/src/vmap/vmapframe.cpp:58
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Terra"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
 #: ../core/src/vmap/vmapframe.cpp:61
 msgctxt "QObject|"
 msgid "Object"
@@ -6286,12 +6380,6 @@ msgctxt "QObject|"
 msgid "Add character to %1"
 msgstr ""
 
-#: ../core/src/undoCmd/addvmapitem.cpp:43
-#, qt-format
-msgctxt "QObject|"
-msgid "add item at (%1:%2)"
-msgstr ""
-
 #: ../core/src/undoCmd/deletevmapitem.cpp:30
 #, qt-format
 msgctxt "QObject|"
@@ -6346,13 +6434,13 @@ msgctxt "QObject|"
 msgid "No Layer"
 msgstr ""
 
-#: ../core/src/undoCmd/newmediacontroller.cpp:35
+#: ../core/src/undoCmd/newmediacontroller.cpp:36
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
 msgstr ""
 
-#: ../core/src/undoCmd/openmediacontroller.cpp:39
+#: ../core/src/undoCmd/openmediacontroller.cpp:42
 #, fuzzy, qt-format
 msgctxt "QObject|"
 msgid "Open %1"
@@ -6906,25 +6994,21 @@ msgctxt "SessionDock|"
 msgid "Resources Explorer"
 msgstr ""
 
-#: ../core/src/session/sessionitemmodel.cpp:35
-msgctxt "SessionItemModel|"
-msgid "Name"
-msgstr "Nome"
+#~ msgctxt "SessionItemModel|"
+#~ msgid "Name"
+#~ msgstr "Nome"
 
-#: ../core/src/session/sessionitemmodel.cpp:35
-msgctxt "SessionItemModel|"
-msgid "Loading Mode"
-msgstr "Modalità Di Carico"
+#~ msgctxt "SessionItemModel|"
+#~ msgid "Loading Mode"
+#~ msgstr "Modalità Di Carico"
 
-#: ../core/src/session/sessionitemmodel.cpp:35
-msgctxt "SessionItemModel|"
-msgid "Displayed"
-msgstr "Visualizzato"
+#~ msgctxt "SessionItemModel|"
+#~ msgid "Displayed"
+#~ msgstr "Visualizzato"
 
-#: ../core/src/session/sessionitemmodel.cpp:35
-msgctxt "SessionItemModel|"
-msgid "Path"
-msgstr "Percorso"
+#~ msgctxt "SessionItemModel|"
+#~ msgid "Path"
+#~ msgstr "Percorso"
 
 #~ msgctxt "SessionManager|"
 #~ msgid "Unknown"
@@ -6939,58 +7023,55 @@ msgstr "Percorso"
 #~ msgid "Chapter %1"
 #~ msgstr "Capitolo %1"
 
-#: ../core/src/session/sessionview.cpp:25
+#: ../core/src/session/sessionview.cpp:24
 msgctxt "SessionView|"
 msgid "Add Chapter…"
 msgstr "Aggiungi Capitolo..."
 
-#: ../core/src/session/sessionview.cpp:28
+#: ../core/src/session/sessionview.cpp:27
 msgctxt "SessionView|"
 msgid "Remove items"
 msgstr "Rimuovere gli elementi"
 
-#: ../core/src/session/sessionview.cpp:31
+#: ../core/src/session/sessionview.cpp:30
 msgctxt "SessionView|"
 msgid "Current Chapter"
 msgstr "Attuale Capitolo"
 
-#: ../core/src/session/sessionview.cpp:49
+#: ../core/src/session/sessionview.cpp:48
 msgctxt "SessionView|"
 msgid "Loading Mode"
 msgstr "Modalità Di Carico"
 
-#: ../core/src/session/sessionview.cpp:55
+#: ../core/src/session/sessionview.cpp:54
 msgctxt "SessionView|"
 msgid "Displayed Status"
 msgstr "Stato Visualizzato"
 
-#: ../core/src/session/sessionview.cpp:60
+#: ../core/src/session/sessionview.cpp:59
 msgctxt "SessionView|"
 msgid "Path"
 msgstr "Percorso"
 
-#: ../core/src/session/sessionview.cpp:65
+#: ../core/src/session/sessionview.cpp:64
 msgctxt "SessionView|"
 msgid "Rename"
 msgstr "Rinominare"
 
-#: ../core/src/session/sessionview.cpp:100
 #, qt-format
-msgctxt "SessionView|"
-msgid "Switch loading mode to %1"
-msgstr "Interruttore di modalità di carico in %1"
+#~ msgctxt "SessionView|"
+#~ msgid "Switch loading mode to %1"
+#~ msgstr "Interruttore di modalità di carico in %1"
 
-#: ../core/src/session/sessionview.cpp:101
-msgctxt "SessionView|"
-msgid "Linked"
-msgstr "Collegati"
+#~ msgctxt "SessionView|"
+#~ msgid "Linked"
+#~ msgstr "Collegati"
 
-#: ../core/src/session/sessionview.cpp:101
-msgctxt "SessionView|"
-msgid "Internal"
-msgstr "Interno"
+#~ msgctxt "SessionView|"
+#~ msgid "Internal"
+#~ msgstr "Interno"
 
-#: ../core/src/session/sessionview.cpp:109
+#: ../core/src/session/sessionview.cpp:107
 msgctxt "SessionView|"
 msgid "Show/hide Column"
 msgstr "Mostra/nascondi Colonna"
@@ -7452,17 +7533,17 @@ msgctxt "ShortCutModel|"
 msgid "Key"
 msgstr "Chiave"
 
-#: ../core/src/qmlchat/SideMenu.qml:17
+#: ../core/src/qmlchat/SideMenu.qml:19
 msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr ""
 
-#: ../core/src/qmlchat/SideMenu.qml:26
+#: ../core/src/qmlchat/SideMenu.qml:28
 msgctxt "SideMenu|"
 msgid "Sound Notification"
 msgstr ""
 
-#: ../core/src/qmlchat/SideMenu.qml:35
+#: ../core/src/qmlchat/SideMenu.qml:37
 #, fuzzy
 msgctxt "SideMenu|"
 msgid "Font size"
@@ -7990,7 +8071,7 @@ msgstr "Rosso: %1, Verde: %2, Blu: %3"
 #~ msgid "Unknown Map"
 #~ msgstr "Mappa Unknown"
 
-#: ../core/src/vmap/vmapframe.cpp:122
+#: ../core/src/vmap/vmapframe.cpp:120
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
@@ -8076,52 +8157,52 @@ msgctxt "VToolsBar|"
 msgid "Paint Bucket"
 msgstr "Secchio Di Vernice"
 
-#: ../core/src/vmap/vtoolbar.cpp:137
+#: ../core/src/vmap/vtoolbar.cpp:136
 msgctxt "VToolsBar|"
 msgid "Text With Border"
 msgstr "Testo Con Bordo"
 
-#: ../core/src/vmap/vtoolbar.cpp:140
+#: ../core/src/vmap/vtoolbar.cpp:139
 msgctxt "VToolsBar|"
 msgid "Reset NPC counter"
 msgstr "Reset contatore NPC"
 
-#: ../core/src/vmap/vtoolbar.cpp:271
+#: ../core/src/vmap/vtoolbar.cpp:270
 msgctxt "VToolsBar|"
 msgid "NPC Name"
 msgstr "NPC di Nome"
 
-#: ../core/src/vmap/vtoolbar.cpp:276
+#: ../core/src/vmap/vtoolbar.cpp:275
 msgctxt "VToolsBar|"
 msgid "NPC's number"
 msgstr "NPC numero"
 
-#: ../core/src/vmap/vtoolbar.cpp:282
+#: ../core/src/vmap/vtoolbar.cpp:281
 msgctxt "VToolsBar|"
 msgid "Normal"
 msgstr "Normale"
 
-#: ../core/src/vmap/vtoolbar.cpp:284
+#: ../core/src/vmap/vtoolbar.cpp:283
 msgctxt "VToolsBar|"
 msgid "Mask"
 msgstr "Maschera"
 
-#: ../core/src/vmap/vtoolbar.cpp:286
+#: ../core/src/vmap/vtoolbar.cpp:285
 msgctxt "VToolsBar|"
 msgid "Unmask"
 msgstr "Smascherare"
 
-#: ../core/src/vmap/vtoolbar.cpp:316
+#: ../core/src/vmap/vtoolbar.cpp:315
 msgctxt "VToolsBar|"
 msgid "height of the pen"
 msgstr "altezza della penna"
 
-#: ../core/src/vmap/vtoolbar.cpp:328
+#: ../core/src/vmap/vtoolbar.cpp:327
 msgctxt "VToolsBar|"
 msgid "Opacity:"
 msgstr "Opacità:"
 
-#: ../core/src/vmap/items/visualitem.cpp:247
+#: ../core/src/vmap/items/visualitem.cpp:249
 msgctxt "VisualItem|"
 msgid "Duplicate Item"
 msgstr "Elemento Duplicato"
@@ -8131,152 +8212,198 @@ msgctxt "VmapToolBar|"
 msgid "Toolbar for VMap"
 msgstr "Barra degli strumenti per VMap"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:35
-msgctxt "VmapToolBar|"
-msgid "Show Grid"
-msgstr "Mostra Griglia"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Show Grid"
+#~ msgstr "Mostra Griglia"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:36
-msgctxt "VmapToolBar|"
-msgid "Show/Hide Grid"
-msgstr "Mostra/Nascondi Griglia"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Show/Hide Grid"
+#~ msgstr "Mostra/Nascondi Griglia"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:39 ../core/src/vmap/vmaptoolbar.cpp:40
+#: ../core/src/vmap/vmaptoolbar.cpp:63
 msgctxt "VmapToolBar|"
 msgid "Grid Above"
 msgstr "Griglia Sopra"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:46
-msgctxt "VmapToolBar|"
-msgid "GM Only"
-msgstr "GM Solo"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "GM Only"
+#~ msgstr "GM Solo"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:46
+#: ../core/src/vmap/vmaptoolbar.cpp:72
 msgctxt "VmapToolBar|"
 msgid "PC Move"
 msgstr "Mossa di PC"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:46
-msgctxt "VmapToolBar|"
-msgid "ALL"
-msgstr "TUTTI"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "ALL"
+#~ msgstr "TUTTI"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:51
+#: ../core/src/vmap/vmaptoolbar.cpp:44
+msgctxt "VmapToolBar|"
+msgid "Square Grid"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:47
+msgctxt "VmapToolBar|"
+msgid "Hexagonal Grid"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:68
+msgctxt "VmapToolBar|"
+msgid "GM only"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:101
+msgctxt "VmapToolBar|"
+msgid "Fog"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:126
 msgctxt "VmapToolBar|"
 msgid "Ground"
 msgstr "Terra"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:51
+#: ../core/src/vmap/vmaptoolbar.cpp:130
 msgctxt "VmapToolBar|"
 msgid "Object"
 msgstr "Oggetto"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:51
+#: ../core/src/vmap/vmaptoolbar.cpp:134
 msgctxt "VmapToolBar|"
 msgid "Character"
 msgstr "Carattere"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:56
+#: ../core/src/vmap/vmaptoolbar.cpp:155
 msgctxt "VmapToolBar|"
-msgid "None"
-msgstr "Nessuno"
+msgid "hide other layers"
+msgstr ""
 
-#: ../core/src/vmap/vmaptoolbar.cpp:56
+#: ../core/src/vmap/vmaptoolbar.cpp:160
 msgctxt "VmapToolBar|"
-msgid "Square"
-msgstr "Piazza"
+msgid "Show Transparent Item"
+msgstr ""
 
-#: ../core/src/vmap/vmaptoolbar.cpp:56
+#: ../core/src/vmap/vmaptoolbar.cpp:163
+msgctxt "VmapToolBar|PC = playable character"
+msgid "PC name"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:164
+#, fuzzy
+msgctxt "VmapToolBar|NPC = non-playable character"
+msgid "NPC name"
+msgstr "NPC di nome"
+
+#: ../core/src/vmap/vmaptoolbar.cpp:165
 msgctxt "VmapToolBar|"
-msgid "Hexagon"
-msgstr "Esagono"
+msgid "NPC number"
+msgstr ""
 
-#: ../core/src/vmap/vmaptoolbar.cpp:62
+#: ../core/src/vmap/vmaptoolbar.cpp:166
+#, fuzzy
+msgctxt "VmapToolBar|"
+msgid "State"
+msgstr " Stato"
+
+#: ../core/src/vmap/vmaptoolbar.cpp:167
+msgctxt "VmapToolBar|"
+msgid "Health Bar"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:168
+#, fuzzy
+msgctxt "VmapToolBar|"
+msgid "Initiative"
+msgstr "Iniziativa"
+
+#~ msgctxt "VmapToolBar|"
+#~ msgid "None"
+#~ msgstr "Nessuno"
+
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Square"
+#~ msgstr "Piazza"
+
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Hexagon"
+#~ msgstr "Esagono"
+
+#: ../core/src/vmap/vmaptoolbar.cpp:217
 msgctxt "VmapToolBar|"
 msgid "inch"
 msgstr "pollici"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:62
+#: ../core/src/vmap/vmaptoolbar.cpp:217
 msgctxt "VmapToolBar|"
 msgid "foot"
 msgstr "piede"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:62
+#: ../core/src/vmap/vmaptoolbar.cpp:217 ../core/src/vmap/vmaptoolbar.cpp:233
 msgctxt "VmapToolBar|"
 msgid "px"
 msgstr "px"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:67
+#: ../core/src/vmap/vmaptoolbar.cpp:97
 msgctxt "VmapToolBar|"
 msgid "Hidden"
 msgstr "Nascosto"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:67
-msgctxt "VmapToolBar|"
-msgid "Fog of War"
-msgstr "La nebbia di Guerra"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Fog of War"
+#~ msgstr "La nebbia di Guerra"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:67
+#: ../core/src/vmap/vmaptoolbar.cpp:76 ../core/src/vmap/vmaptoolbar.cpp:105
 msgctxt "VmapToolBar|"
 msgid "All"
 msgstr "Tutti"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:77
-msgctxt "VmapToolBar|"
-msgid "Background:"
-msgstr "Sfondo:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Background:"
+#~ msgstr "Sfondo:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:80
-msgctxt "VmapToolBar|"
-msgid "Grid:"
-msgstr "Griglia:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Grid:"
+#~ msgstr "Griglia:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:85
-msgctxt "VmapToolBar|"
-msgid "px :"
-msgstr "px :"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "px :"
+#~ msgstr "px :"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:89
-msgctxt "VmapToolBar|"
-msgid "Permission:"
-msgstr "Autorizzazione:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Permission:"
+#~ msgstr "Autorizzazione:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:92
-msgctxt "VmapToolBar|"
-msgid "Visibility:"
-msgstr "Visibilità:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Visibility:"
+#~ msgstr "Visibilità:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:94
-msgctxt "VmapToolBar|"
-msgid "Layer:"
-msgstr "Livello:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Layer:"
+#~ msgstr "Livello:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:97
-msgctxt "VmapToolBar|"
-msgid "Hide other Layers"
-msgstr "Nascondere altri Livelli"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Hide other Layers"
+#~ msgstr "Nascondere altri Livelli"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:102
+#: ../core/src/vmap/vmaptoolbar.cpp:158
 msgctxt "VmapToolBar|"
 msgid "Character Vision"
 msgstr "Carattere Visione"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:107
-msgctxt "VmapToolBar|"
-msgid "Collision"
-msgstr "Collisione"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Collision"
+#~ msgstr "Collisione"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:110
-msgctxt "VmapToolBar|"
-msgid "Show transparent Item"
-msgstr "Vedi Oggetto trasparente"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Show transparent Item"
+#~ msgstr "Vedi Oggetto trasparente"
 
 #: ../core/src/webview/webview.ui:14
 msgctxt "WebView|"
 msgid "Form"
 msgstr "Modulo"
 
-#: ../core/src/webview/webview.cpp:123
+#: ../core/src/webview/webview.cpp:120
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
@@ -8348,11 +8475,6 @@ msgstr "Mantenere La Condivisione"
 #~ msgid "Stop Sharing"
 #~ msgstr "Interrompere la Condivisione"
 
-#: ../core/src/widgets/workspace.cpp:94
-msgctxt "Workspace|"
-msgid "Instant Messging"
-msgstr ""
-
 #: ../core/src/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
 msgctxt "XMLTextEdit|"
 msgid "Found xml error"
@@ -8416,6 +8538,18 @@ msgstr "Nome"
 msgctxt "main|"
 msgid "Command"
 msgstr "Comando"
+
+#: ../core/src/session/sessionitemmodel.cpp:34
+#, fuzzy
+msgctxt "session::SessionItemModel|"
+msgid "Name"
+msgstr "Nome"
+
+#: ../core/src/session/sessionitemmodel.cpp:34
+#, fuzzy
+msgctxt "session::SessionItemModel|"
+msgid "Path"
+msgstr "Percorso"
 
 #: ../core/src/vmap/controller/textcontroller.cpp:66
 #, fuzzy

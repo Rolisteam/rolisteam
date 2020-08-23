@@ -752,27 +752,22 @@ msgctxt "ChatListWidget|"
 msgid "New chat"
 msgstr "Chat nou"
 
-#: ../core/src/qmlchat/ChatView.qml:43
-msgctxt "ChatView|"
-msgid "Add chatroom"
-msgstr ""
-
-#: ../core/src/qmlchat/ChatView.qml:47
+#: ../core/src/qmlchat/ChatView.qml:44
 msgctxt "ChatView|"
 msgid "Split view"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:54
+#: ../core/src/qmlchat/ChatView.qml:51
 msgctxt "ChatView|"
-msgid "Detach current"
+msgid "Detach"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:58
+#: ../core/src/qmlchat/ChatView.qml:55
 msgctxt "ChatView|"
-msgid "Settings"
+msgid "Reatach"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:90
+#: ../core/src/qmlchat/ChatView.qml:88
 msgctxt "ChatView|"
 msgid "close"
 msgstr ""
@@ -985,11 +980,16 @@ msgctxt "ConnectionRetryDialog|"
 msgid "Connection has failed! Connection Retry in %1s."
 msgstr "Conexiunea a eșuat! Se reîncearcă în %1s."
 
-#: ../core/src/controller/contentcontroller.cpp:59
+#, fuzzy
+#~ msgctxt "ContentController|"
+#~ msgid "Unknown"
+#~ msgstr "Necunoscut"
+
+#: ../core/src/controller/contentcontroller.cpp:68
 #, fuzzy
 msgctxt "ContentController|"
-msgid "Unknown"
-msgstr "Necunoscut"
+msgid "default"
+msgstr "implicit"
 
 #: ../core/src/widgets/gmtoolbox/UnitConvertor/convertor.ui:14
 #: ../build/core/core_autogen/include/ui_convertor.h:299
@@ -1240,6 +1240,18 @@ msgstr "Alias"
 msgctxt "DiceBookMarkWidget|"
 msgid "DiceShortCut"
 msgstr "DiceShortCut"
+
+#: ../core/src/qmlchat/DiceMessageDelegate.qml:64
+#, qt-format
+msgctxt "DiceMessageDelegate|"
+msgid "Details: %1"
+msgstr ""
+
+#: ../core/src/qmlchat/DiceMessageDelegate.qml:69
+#, qt-format
+msgctxt "DiceMessageDelegate|"
+msgid "Command: %1"
+msgstr ""
 
 #: ../core/src/sharededitor/document.ui:14
 #: ../build/core/core_autogen/include/ui_document.h:79
@@ -1674,7 +1686,7 @@ msgctxt "ImageModel|"
 msgid "Is Background"
 msgstr "Fundal"
 
-#: ../core/src/widgets/filepathdelegateitem.cpp:70
+#: ../core/src/widgets/filepathdelegateitem.cpp:71
 msgctxt "ImagePathEditor|"
 msgid "Get picture for Character State"
 msgstr "Obținere imagine pentru stare personaj"
@@ -1690,9 +1702,19 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Global"
 
-#: ../core/src/qmlchat/InstantMessagingEditText.qml:137
+#: ../core/src/qmlchat/InstantMessagingEditText.qml:139
 msgctxt "InstantMessagingEditText|"
 msgid "send"
+msgstr ""
+
+#: ../core/src/qmlchat/InstantMessagingMain.qml:32
+msgctxt "InstantMessagingMain|"
+msgid "Settings"
+msgstr ""
+
+#: ../core/src/qmlchat/InstantMessagingMain.qml:36
+msgctxt "InstantMessagingMain|"
+msgid "Add chatroom"
 msgstr ""
 
 #, fuzzy
@@ -2136,12 +2158,12 @@ msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 
-#: ../client/mainwindow.cpp:1603
+#: ../client/mainwindow.cpp:1252
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "necunoscut"
 
-#: ../client/mainwindow.cpp:639
+#: ../client/mainwindow.cpp:457
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -2156,42 +2178,42 @@ msgstr ""
 #~ msgid "Open Map"
 #~ msgstr "Deschide harta"
 
-#: ../client/mainwindow.cpp:1503
+#: ../client/mainwindow.cpp:1152
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Conectat"
 
-#: ../client/mainwindow.cpp:1503
+#: ../client/mainwindow.cpp:1152
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Neconectat"
 
-#: ../client/mainwindow.cpp:1504
+#: ../client/mainwindow.cpp:1153
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: ../client/mainwindow.cpp:1504
+#: ../client/mainwindow.cpp:1153
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: ../client/mainwindow.cpp:1505
+#: ../client/mainwindow.cpp:1154
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: ../client/mainwindow.cpp:1505
+#: ../client/mainwindow.cpp:1154
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Jucător"
 
-#: ../client/mainwindow.cpp:766
+#: ../client/mainwindow.cpp:571
 msgctxt "MainWindow|"
 msgid "Open scenario"
 msgstr "Deschide scenariul"
 
-#: ../client/mainwindow.cpp:799
+#: ../client/mainwindow.cpp:604
 msgctxt "MainWindow|"
 msgid "Save Scenario as"
 msgstr "Salvare scenariu ca"
@@ -2201,7 +2223,7 @@ msgstr "Salvare scenariu ca"
 #~ msgid "Save %1"
 #~ msgstr "Salvare %1"
 
-#: ../client/mainwindow.ui:549
+#: ../client/mainwindow.ui:496
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:528
 msgctxt "MainWindow|"
 msgid "Save Scenario"
@@ -2212,10 +2234,9 @@ msgstr "Salvare scenariu"
 #~ msgid "%1 cannot be opened (saveStory - MainWindow.cpp)"
 #~ msgstr "%1 nu poate fi deschis (salvare poveste - MainWindow.cpp)"
 
-#: ../client/mainwindow.cpp:243
-msgctxt "MainWindow|"
-msgid "ToolBox"
-msgstr "Casetă de instrumente"
+#~ msgctxt "MainWindow|"
+#~ msgid "ToolBox"
+#~ msgstr "Casetă de instrumente"
 
 #~ msgctxt "MainWindow|"
 #~ msgid "Open Picture"
@@ -2237,27 +2258,26 @@ msgctxt "MainWindow|"
 msgid "&New"
 msgstr "&Nou"
 
-#: ../client/mainwindow.ui:46
+#: ../client/mainwindow.ui:45
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:572
 msgctxt "MainWindow|"
 msgid "&Open"
 msgstr "&Deschide"
 
-#: ../client/mainwindow.ui:58
+#: ../client/mainwindow.ui:57
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:573
 msgctxt "MainWindow|"
 msgid "Recent Files"
 msgstr "Fișiere recente"
 
-#: ../client/mainwindow.ui:87
+#: ../client/mainwindow.ui:86
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:575
 msgctxt "MainWindow|"
 msgid "Sub-&Windows"
 msgstr "Sub - &Windows"
 
-#: ../client/mainwindow.ui:99 ../client/mainwindow.ui:293
-#: ../client/mainwindow.ui:329 ../client/mainwindow.ui:497
-#: ../client/mainwindow.ui:509
+#: ../client/mainwindow.ui:293 ../client/mainwindow.ui:329
+#: ../client/mainwindow.ui:444 ../client/mainwindow.ui:456
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:443
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:455
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:577
@@ -2265,13 +2285,13 @@ msgctxt "MainWindow|"
 msgid "Map"
 msgstr "Harta"
 
-#: ../client/mainwindow.ui:63
+#: ../client/mainwindow.ui:62
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:574
 msgctxt "MainWindow|"
 msgid "Save"
 msgstr "Salvează"
 
-#: ../client/mainwindow.ui:552
+#: ../client/mainwindow.ui:499
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:530
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
@@ -2297,7 +2317,7 @@ msgstr "Ctrl+P"
 
 #: ../client/mainwindow.ui:229
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:418
-#: ../client/mainwindow.cpp:703
+#: ../client/mainwindow.cpp:512
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Ieși"
@@ -2338,6 +2358,11 @@ msgctxt "MainWindow|"
 msgid "Chat"
 msgstr "Chat"
 
+#: ../client/mainwindow.ui:151
+msgctxt "MainWindow|"
+msgid "toolBar"
+msgstr ""
+
 #: ../client/mainwindow.ui:197
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:406
 msgctxt "MainWindow|"
@@ -2374,7 +2399,7 @@ msgctxt "MainWindow|"
 msgid "online documentation"
 msgstr "documentație online"
 
-#: ../client/mainwindow.ui:296 ../client/mainwindow.ui:500
+#: ../client/mainwindow.ui:296 ../client/mainwindow.ui:447
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:445
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
@@ -2393,7 +2418,7 @@ msgctxt "MainWindow|"
 msgid "Note"
 msgstr "Notă"
 
-#: ../client/mainwindow.ui:332 ../client/mainwindow.ui:512
+#: ../client/mainwindow.ui:332 ../client/mainwindow.ui:459
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:457
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
@@ -2423,133 +2448,143 @@ msgctxt "MainWindow|"
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: ../client/mainwindow.ui:379
+#: ../client/mainwindow.ui:622
+msgctxt "MainWindow|"
+msgid "ShowChat"
+msgstr ""
+
+#: ../client/mainwindow.ui:625
+msgctxt "MainWindow|"
+msgid "Instant Messaging"
+msgstr ""
+
+#: ../client/mainwindow.ui:628
+msgctxt "MainWindow|"
+msgid "show Instant Message Window"
+msgstr ""
+
+#: ../client/mainwindow.ui:636
+msgctxt "MainWindow|"
+msgid "Media title in toolbar"
+msgstr ""
+
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:471
 msgctxt "MainWindow|"
 msgid "Show PC Name"
 msgstr "Arată numele PC-ului"
 
-#: ../client/mainwindow.ui:382
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:473
 msgctxt "MainWindow|"
 msgid "F3"
 msgstr "F3"
 
-#: ../client/mainwindow.ui:396
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:477
 msgctxt "MainWindow|"
 msgid "F4"
 msgstr "F4"
 
-#: ../client/mainwindow.ui:410
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:481
 msgctxt "MainWindow|"
 msgid "F5"
 msgstr "F5"
 
-#: ../client/mainwindow.ui:663
+#: ../client/mainwindow.ui:596
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:566
 msgctxt "MainWindow|"
 msgid "Password Generator"
 msgstr "Generator de parole"
 
-#: ../client/mainwindow.ui:679
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:568
 msgctxt "MainWindow|"
 msgid "Show Initiative"
 msgstr "Arată inițiativa"
 
-#: ../client/mainwindow.ui:393
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:475
 msgctxt "MainWindow|"
 msgid "Show Npc Name"
 msgstr "Arată numele NPC-ului"
 
-#: ../client/mainwindow.ui:523
+#: ../client/mainwindow.ui:470
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:521
 msgctxt "MainWindow|"
 msgid "F6"
 msgstr "F6"
 
-#: ../client/mainwindow.ui:407
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:479
 msgctxt "MainWindow|"
 msgid "Show Npc Number"
 msgstr "Arată numărul NPC-ului"
 
-#: ../client/mainwindow.ui:658
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:564
 msgctxt "MainWindow|"
 msgid "F7"
 msgstr "F7"
 
-#: ../client/mainwindow.ui:418
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:483
 msgctxt "MainWindow|"
 msgid "Minute Editor"
 msgstr "Editorul de minute"
 
-#: ../client/mainwindow.ui:421
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:485
 msgctxt "MainWindow|"
 msgid "Alt+M"
 msgstr "Alt+M"
 
-#: ../client/mainwindow.ui:430
+#: ../client/mainwindow.ui:377
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:487
 msgctxt "MainWindow|"
 msgid "Online Picture"
 msgstr "Imagine online"
 
-#: ../client/mainwindow.ui:433
+#: ../client/mainwindow.ui:380
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:489
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
 msgstr "Ctrl+Shift+I"
 
-#: ../client/mainwindow.ui:441
+#: ../client/mainwindow.ui:388
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:491
 msgctxt "MainWindow|"
 msgid "Audio Player"
 msgstr "Player audio"
 
-#: ../client/mainwindow.ui:444
+#: ../client/mainwindow.ui:391
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:493
 msgctxt "MainWindow|"
 msgid "Alt+A"
 msgstr "Alt+A"
 
-#: ../client/mainwindow.ui:452
+#: ../client/mainwindow.ui:399
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:495
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Zonă de notificare"
 
-#: ../client/mainwindow.ui:455
+#: ../client/mainwindow.ui:402
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:497
 msgctxt "MainWindow|"
 msgid "Alt+N"
 msgstr "Alt+N"
 
-#: ../client/mainwindow.ui:463
+#: ../client/mainwindow.ui:410
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:499
 msgctxt "MainWindow|"
 msgid "Chat List"
 msgstr "Listă de chaturi"
 
-#: ../client/mainwindow.ui:466
+#: ../client/mainwindow.ui:413
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:501
 msgctxt "MainWindow|"
 msgid "Alt+L"
 msgstr "Alt+L"
 
-#: ../client/mainwindow.ui:474
+#: ../client/mainwindow.ui:421
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:503
 msgctxt "MainWindow|"
 msgid "Character List"
 msgstr "Listă de personaje"
 
-#: ../client/mainwindow.ui:485
+#: ../client/mainwindow.ui:432
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:507
 msgctxt "MainWindow|"
 msgid "ToolBar"
@@ -2561,13 +2596,13 @@ msgctxt "MainWindow|"
 msgid "Vectorial Map"
 msgstr "Hartă vectorială"
 
-#: ../client/mainwindow.ui:528
+#: ../client/mainwindow.ui:475
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:523
 msgctxt "MainWindow|"
 msgid "Change Profile…"
 msgstr "Schimbare profil…"
 
-#: ../client/mainwindow.ui:563
+#: ../client/mainwindow.ui:510
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:534
 msgctxt "MainWindow|"
 msgid "F10"
@@ -2579,7 +2614,7 @@ msgctxt "MainWindow|"
 msgid "Alt+S"
 msgstr "Alt+S"
 
-#: ../client/mainwindow.ui:151
+#: ../client/mainwindow.ui:138
 msgctxt "MainWindow|"
 msgid "GM ToolBoxes"
 msgstr ""
@@ -2590,7 +2625,7 @@ msgctxt "MainWindow|"
 msgid "Current Media"
 msgstr "Fișiere media actuale"
 
-#: ../client/mainwindow.ui:180 ../client/mainwindow.ui:668
+#: ../client/mainwindow.ui:180 ../client/mainwindow.ui:601
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:401
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:567
 msgctxt "MainWindow|"
@@ -2615,75 +2650,74 @@ msgctxt "MainWindow|"
 msgid "Open Scenario"
 msgstr "Scenariu deschis"
 
-#: ../client/mainwindow.ui:560
+#: ../client/mainwindow.ui:507
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:532
 msgctxt "MainWindow|"
 msgid "Room List"
 msgstr "Lista camerelor"
 
-#: ../client/mainwindow.ui:572 ../client/mainwindow.ui:584
+#: ../client/mainwindow.ui:519 ../client/mainwindow.ui:531
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:536
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:540
 msgctxt "MainWindow|"
 msgid "Shared Note"
 msgstr "Notă partajată"
 
-#: ../client/mainwindow.ui:575
+#: ../client/mainwindow.ui:522
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:538
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: ../client/mainwindow.ui:587
+#: ../client/mainwindow.ui:534
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:542
 msgctxt "MainWindow|"
 msgid "Ctrl+L"
 msgstr "Ctrl+L"
 
-#: ../client/mainwindow.ui:596 ../client/mainwindow.ui:688
+#: ../client/mainwindow.ui:543 ../client/mainwindow.ui:610
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:544
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:569
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
 msgstr "Sprijină echipa Rolisteam"
 
-#: ../client/mainwindow.ui:601
+#: ../client/mainwindow.ui:548
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:545
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
 msgstr "Vizualizator scurtături…"
 
-#: ../client/mainwindow.ui:632
+#: ../client/mainwindow.ui:579
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:557
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
 msgstr "Copiază linkul de conectare…"
 
-#: ../client/mainwindow.ui:644
+#: ../client/mainwindow.ui:591
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:560
 msgctxt "MainWindow|"
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: ../client/mainwindow.ui:655
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:562
 msgctxt "MainWindow|"
 msgid "Show Health Bar"
 msgstr "Afișează bara de sănătate"
 
-#: ../client/mainwindow.ui:604
+#: ../client/mainwindow.ui:551
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:547
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
 msgstr "Ctrl+F1"
 
-#: ../client/mainwindow.ui:121
+#: ../client/mainwindow.ui:108
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:578
 msgctxt "MainWindow|"
 msgid "&Network"
 msgstr "&Rețea"
 
-#: ../client/mainwindow.ui:133
+#: ../client/mainwindow.ui:120
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:579
 msgctxt "MainWindow|"
 msgid "&Help"
@@ -2694,49 +2728,49 @@ msgctxt "MainWindow|"
 msgid "&GM ToolBox"
 msgstr "&GM ToolBox"
 
-#: ../client/mainwindow.ui:143
+#: ../client/mainwindow.ui:130
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:581
 msgctxt "MainWindow|"
 msgid "&Edit"
 msgstr "&Editare"
 
-#: ../client/mainwindow.ui:612
+#: ../client/mainwindow.ui:559
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:549
 msgctxt "MainWindow|"
 msgid "Full Screen"
 msgstr "Ecran complet"
 
-#: ../client/mainwindow.ui:615
+#: ../client/mainwindow.ui:562
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:551
 msgctxt "MainWindow|"
 msgid "F11"
 msgstr "F11"
 
-#: ../client/mainwindow.ui:624
+#: ../client/mainwindow.ui:571
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:553
 msgctxt "MainWindow|"
 msgid "PDF File"
 msgstr "Fișier PDF"
 
-#: ../client/mainwindow.ui:627
+#: ../client/mainwindow.ui:574
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:555
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: ../client/mainwindow.ui:520
+#: ../client/mainwindow.ui:467
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:519
 msgctxt "MainWindow|"
 msgid "Show Health State"
 msgstr "Afișare stare sănătate"
 
-#: ../client/mainwindow.ui:488
+#: ../client/mainwindow.ui:435
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:509
 msgctxt "MainWindow|"
 msgid "F8"
 msgstr "F8"
 
-#: ../client/mainwindow.ui:537
+#: ../client/mainwindow.ui:484
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:524
 msgctxt "MainWindow|"
 msgid "Character Sheet"
@@ -2752,13 +2786,13 @@ msgctxt "MainWindow|"
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: ../client/mainwindow.ui:641
+#: ../client/mainwindow.ui:588
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:558
 msgctxt "MainWindow|"
 msgid "WebPage"
 msgstr "Pagină de internet"
 
-#: ../client/mainwindow.ui:540
+#: ../client/mainwindow.ui:487
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:526
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
@@ -2770,7 +2804,7 @@ msgctxt "MainWindow|"
 msgid "Rolisteam"
 msgstr "Rolisteam"
 
-#: ../client/mainwindow.ui:91
+#: ../client/mainwindow.ui:90
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:576
 msgctxt "MainWindow|"
 msgid "Reorganize"
@@ -2788,7 +2822,7 @@ msgctxt "MainWindow|"
 msgid "Cascade"
 msgstr "Cascadă"
 
-#: ../client/mainwindow.ui:251 ../client/mainwindow.ui:477
+#: ../client/mainwindow.ui:251 ../client/mainwindow.ui:424
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:428
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:505
 msgctxt "MainWindow|"
@@ -2801,48 +2835,48 @@ msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Pavaj"
 
-#: ../client/mainwindow.cpp:917
+#: ../client/mainwindow.cpp:722
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Ajutor"
 
-#: ../client/mainwindow.cpp:956
+#: ../client/mainwindow.cpp:756
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Actualizează notificarea"
 
-#: ../client/mainwindow.cpp:971
+#: ../client/mainwindow.cpp:771
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 nu are versiunea corectă: %2."
 
-#: ../client/mainwindow.cpp:1084
+#: ../client/mainwindow.cpp:866
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Setează rolisteam să folosească <port> pentru conexiune"
 
-#: ../client/mainwindow.cpp:1087
+#: ../client/mainwindow.cpp:869
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Setează conectarea rolisteam la <server>."
 
-#: ../client/mainwindow.cpp:1090
+#: ../client/mainwindow.cpp:872
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definește <role>: gm sau pc"
 
-#: ../client/mainwindow.cpp:1092
+#: ../client/mainwindow.cpp:874
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Șterge setările și utilizează parametrii impliciți"
 
-#: ../client/mainwindow.cpp:1095
+#: ../client/mainwindow.cpp:877
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definește <username>"
 
-#: ../client/mainwindow.cpp:1098
+#: ../client/mainwindow.cpp:880
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Elimină limita de dimensiune a fișierului PDF"
@@ -2851,7 +2885,7 @@ msgstr "Elimină limita de dimensiune a fișierului PDF"
 #~ msgid "End of the connection process"
 #~ msgstr "Termină procesul de conectare"
 
-#: ../client/mainwindow.cpp:1602
+#: ../client/mainwindow.cpp:1251
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
@@ -2861,29 +2895,29 @@ msgstr "Export din %1"
 #~ msgid "Resources Explorer"
 #~ msgstr "Explorator de resurse"
 
-#: ../client/mainwindow.cpp:1344
+#: ../client/mainwindow.cpp:995
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Deschidere %1"
 
-#: ../client/mainwindow.cpp:711
+#: ../client/mainwindow.cpp:520
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "S-a pierdut conexiunea. %1 se va închide"
 
-#: ../client/mainwindow.cpp:587
+#: ../client/mainwindow.cpp:405
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Refacere"
 
-#: ../client/mainwindow.cpp:588
+#: ../client/mainwindow.cpp:406
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "An&ulare"
 
-#: ../client/mainwindow.cpp:638
+#: ../client/mainwindow.cpp:456
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Sprijină"
@@ -2892,12 +2926,12 @@ msgstr "Sprijină"
 #~ msgid "Untitled"
 #~ msgstr "Fără titlu"
 
-#: ../client/mainwindow.cpp:713
+#: ../client/mainwindow.cpp:522
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Conexiune pierdută"
 
-#: ../client/mainwindow.cpp:719
+#: ../client/mainwindow.cpp:528
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
@@ -2913,7 +2947,7 @@ msgstr "Ieși din %1"
 #~ msgid "Do you want to save your scenario before to quit %1?"
 #~ msgstr "Dorești să salvezi scenariul înainte de a părăsi %1?"
 
-#: ../client/mainwindow.cpp:767 ../client/mainwindow.cpp:800
+#: ../client/mainwindow.cpp:572 ../client/mainwindow.cpp:605
 msgctxt "MainWindow|"
 msgid "Scenarios (*.sce)"
 msgstr "Scenarii (*.sce)"
@@ -2924,7 +2958,7 @@ msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Despre Rolisteam"
 
-#: ../client/mainwindow.cpp:918
+#: ../client/mainwindow.cpp:723
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2934,7 +2968,7 @@ msgstr ""
 "Documentația pentru %1 poate fi găsită online la :<br> <a "
 "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
-#: ../client/mainwindow.cpp:957
+#: ../client/mainwindow.cpp:757
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2946,13 +2980,13 @@ msgstr ""
 "href=\"http://www.rolisteam.org/download\">Pagina de descărcări</a> pentru "
 "mai multe informații"
 
-#: ../client/mainwindow.cpp:967
+#: ../client/mainwindow.cpp:767
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 s-a alăturat jocului."
 
-#: ../client/mainwindow.cpp:977
+#: ../client/mainwindow.cpp:777
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
@@ -3428,7 +3462,7 @@ msgstr "Toate vizibile"
 #~ msgid "Unknown"
 #~ msgstr "Necunoscut"
 
-#: ../core/src/data/mediacontainer.cpp:33
+#: ../core/src/data/mediacontainer.cpp:32
 msgctxt "MediaContainer|"
 msgid "Detach the view"
 msgstr "Detașează vizualizarea"
@@ -4202,12 +4236,18 @@ msgstr "Hexagon"
 #~ msgid "Export as Image"
 #~ msgstr "Exportă ca imagine"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:143
+#: ../core/src/pdfviewer/pdfviewer.cpp:109
+#, qt-format
+msgctxt "PdfViewer|Current page/ total page"
+msgid "%1/%2"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.cpp:171
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "Se partajează fișierul Pdf"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:144
+#: ../core/src/pdfviewer/pdfviewer.cpp:172
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfert can be really heavy.\n"
@@ -4216,7 +4256,7 @@ msgstr ""
 "Transferul PDF poate fi foarte greu.\n"
 "Vrei să continuăm și să partajăm PDF-ul?"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:158
+#: ../core/src/pdfviewer/pdfviewer.cpp:186
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -4333,13 +4373,13 @@ msgctxt "PersonDialog|"
 msgid "Load Avatar"
 msgstr "Încărcare avatar"
 
-#: ../core/src/userlist/playermodel.cpp:172
+#: ../core/src/userlist/playermodel.cpp:171
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "Not defined"
 msgstr "Nedefinit"
 
-#: ../core/src/userlist/playermodel.cpp:175
+#: ../core/src/userlist/playermodel.cpp:174
 #, fuzzy, qt-format
 msgctxt "PlayerModel|"
 msgid ""
@@ -4357,25 +4397,25 @@ msgstr ""
 "Distanța per tură: %6\n"
 "Tip: %7\n"
 
-#: ../core/src/userlist/playermodel.cpp:187
+#: ../core/src/userlist/playermodel.cpp:186
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "NPC"
 msgstr "NPC"
 
-#: ../core/src/userlist/playermodel.cpp:187
+#: ../core/src/userlist/playermodel.cpp:186
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "PC"
 msgstr "PC"
 
-#: ../core/src/userlist/playermodel.cpp:248
+#: ../core/src/userlist/playermodel.cpp:247
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "Players List"
 msgstr "Listă de jucători"
 
-#: ../core/src/userlist/playermodel.cpp:763
+#: ../core/src/userlist/playermodel.cpp:762
 msgctxt "PlayerModel|"
 msgid "Dupplicated player or uuid"
 msgstr ""
@@ -5682,19 +5722,19 @@ msgctxt "PublicChat|"
 msgid "Global"
 msgstr "Global"
 
-#: ../client/main.cpp:110 ../core/src/network/connectionprofile.cpp:7
+#: ../client/main.cpp:102 ../core/src/network/connectionprofile.cpp:7
 #: ../core/src/network/main.cpp:91 ../core/src/undoCmd/addfieldcommand.cpp:84
 #: ../server/main.cpp:99
 msgctxt "QObject|"
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: ../core/src/data/mediacontainer.cpp:93
+#: ../core/src/data/mediacontainer.cpp:92
 msgctxt "QObject|"
 msgid "Loading error"
 msgstr "Eroare la încărcare"
 
-#: ../core/src/diceparser/diceparser.cpp:74
+#: ../core/src/diceparser/diceparser.cpp:77
 msgctxt "QObject|"
 msgid ""
 "Nothing was understood. To roll dice: !1d6 - full documation: <a "
@@ -5704,24 +5744,24 @@ msgstr ""
 "completă: <a "
 "href=\"https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md\">https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md</a>"
 
-#: ../core/src/diceparser/diceparser.cpp:84
+#: ../core/src/diceparser/diceparser.cpp:88
 #, qt-format
 msgctxt "QObject|"
 msgid "Unexpected character at %1 - end of command was ignored \"%2\""
 msgstr "Caracter neașteptat la %1 - sfârșitul comenzii a fost ignorat \"%2\""
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1043
+#: ../core/src/diceparser/parsingtoolbox.cpp:1385
 msgctxt "QObject|"
 msgid "Expected closing parenthesis - can't validate the inside."
 msgstr "Paranteză de închidere așteptată - interiorul nu poate fi validat."
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1608
+#: ../core/src/diceparser/parsingtoolbox.cpp:1960
 #, qt-format
 msgctxt "QObject|"
 msgid "Dice with %1 face(s) does not exist. Please, put a value higher than 0"
 msgstr "Zarul cu %1 fețe nu există. Te rugăm să pui o valoare mai mare de 0"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1663
+#: ../core/src/diceparser/parsingtoolbox.cpp:2015
 msgctxt "QObject|"
 msgid ""
 "List is missing after the L operator. Please, add it (e.g : "
@@ -5730,12 +5770,12 @@ msgstr ""
 "Lista lipsește după operatorul L. Te rugăm să o adaugi (de ex. "
 "1L[sword,spear,gun,arrow])"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1290
+#: ../core/src/diceparser/parsingtoolbox.cpp:1632
 msgctxt "QObject|"
 msgid "Validator is missing after the c operator. Please, change it"
 msgstr "Lipsește validatorul după operatorul c. Te rugăm să modifici"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1310
+#: ../core/src/diceparser/parsingtoolbox.cpp:1652
 #, qt-format
 msgctxt "QObject|"
 msgid "Validator is always true for the %1 operator. Please, change it"
@@ -5743,7 +5783,7 @@ msgstr ""
 "Validatorul este întotdeauna adevărat pentru operatorul 1%. Te rugăm să îl "
 "modifici."
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1319
+#: ../core/src/diceparser/parsingtoolbox.cpp:1661
 #, qt-format
 msgctxt "QObject|"
 msgid ""
@@ -5753,24 +5793,24 @@ msgstr ""
 "Condiția nu poate fi atinsă, cauzând o buclă infinită. Te rugăm să modifici "
 "condiția opțiunii %1"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1346
+#: ../core/src/diceparser/parsingtoolbox.cpp:1688
 #, qt-format
 msgctxt "QObject|"
 msgid "Validator is missing after the %1 operator. Please, change it"
 msgstr "Lipsește validatorul după operatorul %1. Te rugăm să modifici"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1358
+#: ../core/src/diceparser/parsingtoolbox.cpp:1700
 #, qt-format
 msgctxt "QObject|"
 msgid "This condition %1 introduces an endless loop. Please, change it"
 msgstr "Această condiție %1 introduce o buclă infinită. Te rugăm să modifici"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1370
+#: ../core/src/diceparser/parsingtoolbox.cpp:1712
 msgctxt "QObject|"
 msgid "Validator is missing after the e operator. Please, change it"
 msgstr "Lipsește validatorul după operatorul e. Te rugăm să modifici"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1438
+#: ../core/src/diceparser/parsingtoolbox.cpp:1780
 msgctxt "QObject|"
 msgid "Missing parameter for Painter node (p)"
 msgstr "Parametru lipsă pentru nodul pictor (p)"
@@ -5780,12 +5820,12 @@ msgctxt "QObject|"
 msgid "List of Alias:\n"
 msgstr "Listă de aliasuri:\n"
 
-#: ../client/mainwindow.cpp:1101
+#: ../client/mainwindow.cpp:883
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "calea către fișierul de traduceri: <translationfile>"
 
-#: ../client/mainwindow.cpp:1104
+#: ../client/mainwindow.cpp:886
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definește URL pentru conectarea la server: <url>"
@@ -5828,10 +5868,58 @@ msgctxt "QObject|"
 msgid "Online Picture"
 msgstr "Imagine online"
 
+#: ../core/src/undoCmd/addvmapitem.cpp:46
+msgctxt "QObject|"
+msgid "Filled Ellipse"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:47
+msgctxt "QObject|"
+msgid "Empty Ellipse"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:48
+msgctxt "QObject|"
+msgid "Empty Rectangle"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:49
+msgctxt "QObject|"
+msgid "Filled Rectangle"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:50
 #: ../core/src/vmap/items/visualitem.cpp:43
 msgctxt "QObject|"
 msgid "Text"
 msgstr "Text"
+
+#: ../core/src/undoCmd/addvmapitem.cpp:51
+msgctxt "QObject|"
+msgid "Text with border"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:52
+msgctxt "QObject|"
+msgid "NPC Token"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:53
+msgctxt "QObject|"
+msgid "PC Token"
+msgstr ""
+
+#: ../core/src/undoCmd/addvmapitem.cpp:55
+#, fuzzy
+msgctxt "QObject|"
+msgid "Pen"
+msgstr "Stilou"
+
+#: ../core/src/undoCmd/addvmapitem.cpp:59
+#, qt-format
+msgctxt "QObject|"
+msgid "add %1 item"
+msgstr ""
 
 #: ../core/src/data/cleveruri.cpp:276
 msgctxt "QObject|"
@@ -6036,7 +6124,7 @@ msgstr "Eroare: împărțire la zero"
 #~ msgid "Add vmap item"
 #~ msgstr "Adaugă element vmap"
 
-#: ../core/src/undoCmd/removemediacontrollercommand.cpp:38
+#: ../core/src/undoCmd/removemediacontrollercommand.cpp:40
 #, qt-format
 msgctxt "QObject|"
 msgid "Close %1"
@@ -6076,11 +6164,13 @@ msgstr ""
 "Operatorul a așteaptă rezultatul zarurilor. Te rugăm să verifici "
 "documentația și să repari comanda."
 
+#: ../core/src/undoCmd/addvmapitem.cpp:56
 #: ../core/src/vmap/items/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Path"
 msgstr "Cale"
 
+#: ../core/src/undoCmd/addvmapitem.cpp:45
 #: ../core/src/vmap/items/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Line"
@@ -6091,7 +6181,7 @@ msgctxt "QObject|"
 msgid "Ellipse"
 msgstr "Elipsă"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
 #: ../core/src/vmap/items/visualitem.cpp:42 ../core/src/vmap/vmapframe.cpp:64
 msgctxt "QObject|"
 msgid "Character"
@@ -6133,6 +6223,7 @@ msgid "Table"
 msgstr ""
 
 #: ../core/src/undoCmd/addfieldcommand.cpp:69
+#: ../core/src/undoCmd/addvmapitem.cpp:54
 #: ../core/src/vmap/items/visualitem.cpp:43
 msgctxt "QObject|"
 msgid "Image"
@@ -6154,13 +6245,13 @@ msgctxt "QObject|"
 msgid "Add %1 Field"
 msgstr ""
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
 #: ../core/src/vmap/vmapframe.cpp:58
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Sol"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
 #: ../core/src/vmap/vmapframe.cpp:61
 msgctxt "QObject|"
 msgid "Object"
@@ -6290,12 +6381,6 @@ msgctxt "QObject|"
 msgid "Add character to %1"
 msgstr ""
 
-#: ../core/src/undoCmd/addvmapitem.cpp:43
-#, qt-format
-msgctxt "QObject|"
-msgid "add item at (%1:%2)"
-msgstr ""
-
 #: ../core/src/undoCmd/deletevmapitem.cpp:30
 #, qt-format
 msgctxt "QObject|"
@@ -6353,13 +6438,13 @@ msgctxt "QObject|"
 msgid "No Layer"
 msgstr ""
 
-#: ../core/src/undoCmd/newmediacontroller.cpp:35
+#: ../core/src/undoCmd/newmediacontroller.cpp:36
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
 msgstr ""
 
-#: ../core/src/undoCmd/openmediacontroller.cpp:39
+#: ../core/src/undoCmd/openmediacontroller.cpp:42
 #, fuzzy, qt-format
 msgctxt "QObject|"
 msgid "Open %1"
@@ -6913,25 +6998,21 @@ msgctxt "SessionDock|"
 msgid "Resources Explorer"
 msgstr "Explorator de resurse"
 
-#: ../core/src/session/sessionitemmodel.cpp:35
-msgctxt "SessionItemModel|"
-msgid "Name"
-msgstr "Nume"
+#~ msgctxt "SessionItemModel|"
+#~ msgid "Name"
+#~ msgstr "Nume"
 
-#: ../core/src/session/sessionitemmodel.cpp:35
-msgctxt "SessionItemModel|"
-msgid "Loading Mode"
-msgstr "Încărcare mod"
+#~ msgctxt "SessionItemModel|"
+#~ msgid "Loading Mode"
+#~ msgstr "Încărcare mod"
 
-#: ../core/src/session/sessionitemmodel.cpp:35
-msgctxt "SessionItemModel|"
-msgid "Displayed"
-msgstr "Afișat"
+#~ msgctxt "SessionItemModel|"
+#~ msgid "Displayed"
+#~ msgstr "Afișat"
 
-#: ../core/src/session/sessionitemmodel.cpp:35
-msgctxt "SessionItemModel|"
-msgid "Path"
-msgstr "Cale"
+#~ msgctxt "SessionItemModel|"
+#~ msgid "Path"
+#~ msgstr "Cale"
 
 #~ msgctxt "SessionManager|"
 #~ msgid "Unknown"
@@ -6946,58 +7027,55 @@ msgstr "Cale"
 #~ msgid "Chapter %1"
 #~ msgstr "Capitolul %1"
 
-#: ../core/src/session/sessionview.cpp:25
+#: ../core/src/session/sessionview.cpp:24
 msgctxt "SessionView|"
 msgid "Add Chapter…"
 msgstr "Adăugare capitol..."
 
-#: ../core/src/session/sessionview.cpp:28
+#: ../core/src/session/sessionview.cpp:27
 msgctxt "SessionView|"
 msgid "Remove items"
 msgstr "Eliminare elemente"
 
-#: ../core/src/session/sessionview.cpp:31
+#: ../core/src/session/sessionview.cpp:30
 msgctxt "SessionView|"
 msgid "Current Chapter"
 msgstr "Capitolul actual"
 
-#: ../core/src/session/sessionview.cpp:49
+#: ../core/src/session/sessionview.cpp:48
 msgctxt "SessionView|"
 msgid "Loading Mode"
 msgstr "Mod încărcare"
 
-#: ../core/src/session/sessionview.cpp:55
+#: ../core/src/session/sessionview.cpp:54
 msgctxt "SessionView|"
 msgid "Displayed Status"
 msgstr "Stare afișată"
 
-#: ../core/src/session/sessionview.cpp:60
+#: ../core/src/session/sessionview.cpp:59
 msgctxt "SessionView|"
 msgid "Path"
 msgstr "Cale"
 
-#: ../core/src/session/sessionview.cpp:65
+#: ../core/src/session/sessionview.cpp:64
 msgctxt "SessionView|"
 msgid "Rename"
 msgstr "Redenumește"
 
-#: ../core/src/session/sessionview.cpp:100
 #, qt-format
-msgctxt "SessionView|"
-msgid "Switch loading mode to %1"
-msgstr "Comută modul de încărcare la %1"
+#~ msgctxt "SessionView|"
+#~ msgid "Switch loading mode to %1"
+#~ msgstr "Comută modul de încărcare la %1"
 
-#: ../core/src/session/sessionview.cpp:101
-msgctxt "SessionView|"
-msgid "Linked"
-msgstr "Legate"
+#~ msgctxt "SessionView|"
+#~ msgid "Linked"
+#~ msgstr "Legate"
 
-#: ../core/src/session/sessionview.cpp:101
-msgctxt "SessionView|"
-msgid "Internal"
-msgstr "Intern"
+#~ msgctxt "SessionView|"
+#~ msgid "Internal"
+#~ msgstr "Intern"
 
-#: ../core/src/session/sessionview.cpp:109
+#: ../core/src/session/sessionview.cpp:107
 msgctxt "SessionView|"
 msgid "Show/hide Column"
 msgstr "Afișare/ascundere coloană"
@@ -7459,17 +7537,17 @@ msgctxt "ShortCutModel|"
 msgid "Key"
 msgstr "Cheie"
 
-#: ../core/src/qmlchat/SideMenu.qml:17
+#: ../core/src/qmlchat/SideMenu.qml:19
 msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr ""
 
-#: ../core/src/qmlchat/SideMenu.qml:26
+#: ../core/src/qmlchat/SideMenu.qml:28
 msgctxt "SideMenu|"
 msgid "Sound Notification"
 msgstr ""
 
-#: ../core/src/qmlchat/SideMenu.qml:35
+#: ../core/src/qmlchat/SideMenu.qml:37
 #, fuzzy
 msgctxt "SideMenu|"
 msgid "Font size"
@@ -7997,7 +8075,7 @@ msgstr "Roșu: %1, Verde: %2, Albastru: %3"
 #~ msgid "Unknown Map"
 #~ msgstr "Hartă necunoscută"
 
-#: ../core/src/vmap/vmapframe.cpp:122
+#: ../core/src/vmap/vmapframe.cpp:120
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
@@ -8083,52 +8161,52 @@ msgctxt "VToolsBar|"
 msgid "Paint Bucket"
 msgstr "Găleată de vopsea"
 
-#: ../core/src/vmap/vtoolbar.cpp:137
+#: ../core/src/vmap/vtoolbar.cpp:136
 msgctxt "VToolsBar|"
 msgid "Text With Border"
 msgstr "Text cu margine"
 
-#: ../core/src/vmap/vtoolbar.cpp:140
+#: ../core/src/vmap/vtoolbar.cpp:139
 msgctxt "VToolsBar|"
 msgid "Reset NPC counter"
 msgstr "Resetare contor NPC-uri"
 
-#: ../core/src/vmap/vtoolbar.cpp:271
+#: ../core/src/vmap/vtoolbar.cpp:270
 msgctxt "VToolsBar|"
 msgid "NPC Name"
 msgstr "Nume NPC"
 
-#: ../core/src/vmap/vtoolbar.cpp:276
+#: ../core/src/vmap/vtoolbar.cpp:275
 msgctxt "VToolsBar|"
 msgid "NPC's number"
 msgstr "Număr NPC"
 
-#: ../core/src/vmap/vtoolbar.cpp:282
+#: ../core/src/vmap/vtoolbar.cpp:281
 msgctxt "VToolsBar|"
 msgid "Normal"
 msgstr "Normal"
 
-#: ../core/src/vmap/vtoolbar.cpp:284
+#: ../core/src/vmap/vtoolbar.cpp:283
 msgctxt "VToolsBar|"
 msgid "Mask"
 msgstr "Mască"
 
-#: ../core/src/vmap/vtoolbar.cpp:286
+#: ../core/src/vmap/vtoolbar.cpp:285
 msgctxt "VToolsBar|"
 msgid "Unmask"
 msgstr "Anulare mască"
 
-#: ../core/src/vmap/vtoolbar.cpp:316
+#: ../core/src/vmap/vtoolbar.cpp:315
 msgctxt "VToolsBar|"
 msgid "height of the pen"
 msgstr "înălțimea stiloului"
 
-#: ../core/src/vmap/vtoolbar.cpp:328
+#: ../core/src/vmap/vtoolbar.cpp:327
 msgctxt "VToolsBar|"
 msgid "Opacity:"
 msgstr "Opacitate:"
 
-#: ../core/src/vmap/items/visualitem.cpp:247
+#: ../core/src/vmap/items/visualitem.cpp:249
 msgctxt "VisualItem|"
 msgid "Duplicate Item"
 msgstr "Duplicare element"
@@ -8138,152 +8216,198 @@ msgctxt "VmapToolBar|"
 msgid "Toolbar for VMap"
 msgstr "Bară de instrumente pentru VMap"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:35
-msgctxt "VmapToolBar|"
-msgid "Show Grid"
-msgstr "Afișare grilă"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Show Grid"
+#~ msgstr "Afișare grilă"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:36
-msgctxt "VmapToolBar|"
-msgid "Show/Hide Grid"
-msgstr "Afișare/ascundere grilă"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Show/Hide Grid"
+#~ msgstr "Afișare/ascundere grilă"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:39 ../core/src/vmap/vmaptoolbar.cpp:40
+#: ../core/src/vmap/vmaptoolbar.cpp:63
 msgctxt "VmapToolBar|"
 msgid "Grid Above"
 msgstr "Grila de deasupra"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:46
-msgctxt "VmapToolBar|"
-msgid "GM Only"
-msgstr "Numai GM"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "GM Only"
+#~ msgstr "Numai GM"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:46
+#: ../core/src/vmap/vmaptoolbar.cpp:72
 msgctxt "VmapToolBar|"
 msgid "PC Move"
 msgstr "Mutare PC"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:46
-msgctxt "VmapToolBar|"
-msgid "ALL"
-msgstr "TOATE"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "ALL"
+#~ msgstr "TOATE"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:51
+#: ../core/src/vmap/vmaptoolbar.cpp:44
+msgctxt "VmapToolBar|"
+msgid "Square Grid"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:47
+msgctxt "VmapToolBar|"
+msgid "Hexagonal Grid"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:68
+msgctxt "VmapToolBar|"
+msgid "GM only"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:101
+msgctxt "VmapToolBar|"
+msgid "Fog"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:126
 msgctxt "VmapToolBar|"
 msgid "Ground"
 msgstr "Sol"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:51
+#: ../core/src/vmap/vmaptoolbar.cpp:130
 msgctxt "VmapToolBar|"
 msgid "Object"
 msgstr "Obiect"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:51
+#: ../core/src/vmap/vmaptoolbar.cpp:134
 msgctxt "VmapToolBar|"
 msgid "Character"
 msgstr "Personaj"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:56
+#: ../core/src/vmap/vmaptoolbar.cpp:155
 msgctxt "VmapToolBar|"
-msgid "None"
-msgstr "Niciunul"
+msgid "hide other layers"
+msgstr ""
 
-#: ../core/src/vmap/vmaptoolbar.cpp:56
+#: ../core/src/vmap/vmaptoolbar.cpp:160
 msgctxt "VmapToolBar|"
-msgid "Square"
-msgstr "Pătrat"
+msgid "Show Transparent Item"
+msgstr ""
 
-#: ../core/src/vmap/vmaptoolbar.cpp:56
+#: ../core/src/vmap/vmaptoolbar.cpp:163
+msgctxt "VmapToolBar|PC = playable character"
+msgid "PC name"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:164
+#, fuzzy
+msgctxt "VmapToolBar|NPC = non-playable character"
+msgid "NPC name"
+msgstr "Numele NPC-ului"
+
+#: ../core/src/vmap/vmaptoolbar.cpp:165
 msgctxt "VmapToolBar|"
-msgid "Hexagon"
-msgstr "Hexagon"
+msgid "NPC number"
+msgstr ""
 
-#: ../core/src/vmap/vmaptoolbar.cpp:62
+#: ../core/src/vmap/vmaptoolbar.cpp:166
+#, fuzzy
+msgctxt "VmapToolBar|"
+msgid "State"
+msgstr "Stat"
+
+#: ../core/src/vmap/vmaptoolbar.cpp:167
+msgctxt "VmapToolBar|"
+msgid "Health Bar"
+msgstr ""
+
+#: ../core/src/vmap/vmaptoolbar.cpp:168
+#, fuzzy
+msgctxt "VmapToolBar|"
+msgid "Initiative"
+msgstr "Inițiativă"
+
+#~ msgctxt "VmapToolBar|"
+#~ msgid "None"
+#~ msgstr "Niciunul"
+
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Square"
+#~ msgstr "Pătrat"
+
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Hexagon"
+#~ msgstr "Hexagon"
+
+#: ../core/src/vmap/vmaptoolbar.cpp:217
 msgctxt "VmapToolBar|"
 msgid "inch"
 msgstr "inch"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:62
+#: ../core/src/vmap/vmaptoolbar.cpp:217
 msgctxt "VmapToolBar|"
 msgid "foot"
 msgstr "picior"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:62
+#: ../core/src/vmap/vmaptoolbar.cpp:217 ../core/src/vmap/vmaptoolbar.cpp:233
 msgctxt "VmapToolBar|"
 msgid "px"
 msgstr "px"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:67
+#: ../core/src/vmap/vmaptoolbar.cpp:97
 msgctxt "VmapToolBar|"
 msgid "Hidden"
 msgstr "Ascuns"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:67
-msgctxt "VmapToolBar|"
-msgid "Fog of War"
-msgstr "Ceață de război"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Fog of War"
+#~ msgstr "Ceață de război"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:67
+#: ../core/src/vmap/vmaptoolbar.cpp:76 ../core/src/vmap/vmaptoolbar.cpp:105
 msgctxt "VmapToolBar|"
 msgid "All"
 msgstr "Toate"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:77
-msgctxt "VmapToolBar|"
-msgid "Background:"
-msgstr "Fundal:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Background:"
+#~ msgstr "Fundal:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:80
-msgctxt "VmapToolBar|"
-msgid "Grid:"
-msgstr "Grilă"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Grid:"
+#~ msgstr "Grilă"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:85
-msgctxt "VmapToolBar|"
-msgid "px :"
-msgstr "px:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "px :"
+#~ msgstr "px:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:89
-msgctxt "VmapToolBar|"
-msgid "Permission:"
-msgstr "Permisiune:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Permission:"
+#~ msgstr "Permisiune:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:92
-msgctxt "VmapToolBar|"
-msgid "Visibility:"
-msgstr "Vizibilitate:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Visibility:"
+#~ msgstr "Vizibilitate:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:94
-msgctxt "VmapToolBar|"
-msgid "Layer:"
-msgstr "Strat:"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Layer:"
+#~ msgstr "Strat:"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:97
-msgctxt "VmapToolBar|"
-msgid "Hide other Layers"
-msgstr "Ascundere celelalte straturi"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Hide other Layers"
+#~ msgstr "Ascundere celelalte straturi"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:102
+#: ../core/src/vmap/vmaptoolbar.cpp:158
 msgctxt "VmapToolBar|"
 msgid "Character Vision"
 msgstr "Viziune personaj"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:107
-msgctxt "VmapToolBar|"
-msgid "Collision"
-msgstr "Coliziune"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Collision"
+#~ msgstr "Coliziune"
 
-#: ../core/src/vmap/vmaptoolbar.cpp:110
-msgctxt "VmapToolBar|"
-msgid "Show transparent Item"
-msgstr "Afișare element transparent"
+#~ msgctxt "VmapToolBar|"
+#~ msgid "Show transparent Item"
+#~ msgstr "Afișare element transparent"
 
 #: ../core/src/webview/webview.ui:14
 msgctxt "WebView|"
 msgid "Form"
 msgstr "Formular"
 
-#: ../core/src/webview/webview.cpp:123
+#: ../core/src/webview/webview.cpp:120
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
@@ -8355,11 +8479,6 @@ msgstr "Continuă partajarea"
 #~ msgid "Stop Sharing"
 #~ msgstr "Oprire partajare"
 
-#: ../core/src/widgets/workspace.cpp:94
-msgctxt "Workspace|"
-msgid "Instant Messging"
-msgstr ""
-
 #: ../core/src/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
 msgctxt "XMLTextEdit|"
 msgid "Found xml error"
@@ -8423,6 +8542,18 @@ msgstr "Nume"
 msgctxt "main|"
 msgid "Command"
 msgstr "Comandă"
+
+#: ../core/src/session/sessionitemmodel.cpp:34
+#, fuzzy
+msgctxt "session::SessionItemModel|"
+msgid "Name"
+msgstr "Nume"
+
+#: ../core/src/session/sessionitemmodel.cpp:34
+#, fuzzy
+msgctxt "session::SessionItemModel|"
+msgid "Path"
+msgstr "Cale"
 
 #: ../core/src/vmap/controller/textcontroller.cpp:66
 msgctxt "vmap::TextController|"
