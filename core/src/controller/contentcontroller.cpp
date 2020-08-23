@@ -26,6 +26,7 @@
 #include "updater/media/mediaupdaterinterface.h"
 #include "updater/media/sharednotecontrollerupdater.h"
 #include "updater/media/vmapupdater.h"
+#include "updater/media/webviewupdater.h"
 #include "updater/vmapitem/vmapitemcontrollerupdater.h"
 
 #include "gamecontroller.h"
@@ -79,8 +80,11 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
 
     std::unique_ptr<VMapUpdater> vmapUpdater(new VMapUpdater(fModel));
     std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater(fModel2));
+    std::unique_ptr<WebViewUpdater> webviewUpdater(new WebViewUpdater());
+
     m_mediaUpdaters.insert({Core::ContentType::VECTORIALMAP, std::move(vmapUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::SHAREDNOTE, std::move(sharedNoteUpdater)});
+    m_mediaUpdaters.insert({Core::ContentType::WEBVIEW, std::move(webviewUpdater)});
 
     connect(m_contentModel.get(), &ContentModel::mediaControllerAdded, this, [this](MediaControllerBase* ctrl) {
         if(nullptr == ctrl)
