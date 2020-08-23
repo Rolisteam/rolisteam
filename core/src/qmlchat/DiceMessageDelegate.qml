@@ -18,8 +18,11 @@ Frame {
         }
         RowLayout {
             Layout.fillWidth: true
-            Layout.preferredHeight: frame.styleSheet.imageSize+2*spacing
+            Layout.preferredHeight: Math.max(frame.styleSheet.imageSize+2*spacing, mainText.height+2*spacing)
+            Layout.maximumHeight: layout.showDetails ? Number.POSITIVE_INFINITY : Math.max(frame.styleSheet.imageSize+2*spacing, mainText.height+2*spacing)
+
             ColumnLayout {
+                id: iconPart
                 Image {
                     source: "image://avatar/%1".arg(model.writerId)
                     sourceSize.width:  frame.styleSheet.imageSize
@@ -29,32 +32,31 @@ Frame {
                 Label {
                     id: timestamp
                     text: model.time
-                    //anchors.right: model.local ? parent.right : undefined
-                    font.pixelSize: root.styleSheet.fontSize
+                    font.pixelSize: root.styleSheet.fontSize*root.fontFactor
                     opacity: root.styleSheet.opacityTime
                 }
             }
             Label {
-                text: frame.message.text
+                id: mainText
+                text: "this texte is very long to test the behaviour."//frame.message.text
                 font.bold: true
                 Layout.fillWidth: true
-                Layout.fillHeight: true
                 textFormat: Label.RichText
+                antialiasing: false
                 minimumPixelSize: 10;
-                font.pixelSize: frame.styleSheet.imageSize
+                font.pixelSize: frame.styleSheet.imageSize*root.fontFactor
                 horizontalAlignment: Text.AlignHCenter
-                elide:  Label.ElideRight
                 wrapMode: Label.WordWrap
-                clip: true
                 ToolTip.visible: activeFocus
                 ToolTip.text: frame.message.text
             }
 
             ToolButton {
                 id: details
-                icon.source: "qrc:/resources/images/add_round.png"
+                icon.source: "qrc:/resources/rolistheme/add_round.png"
                 icon.color: "transparent"
                 checkable: true
+                rotation: checked ? 45 : 0
                 flat: true
             }
         }
@@ -83,7 +85,7 @@ Frame {
         opacity: 0.5
 
         Image {
-            source: "qrc:/resources/images/logo/1000-symbole.png"
+            source: "qrc:/resources/rolistheme/1000-symbole.png"
             anchors.fill: parent
             sourceSize.width: layout.implicitWidth
             sourceSize.height: layout.implicitHeight

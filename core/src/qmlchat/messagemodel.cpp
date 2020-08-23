@@ -113,6 +113,8 @@ void MessageModel::addMessage(const QString& text, const QDateTime& time, const 
                               InstantMessaging::MessageInterface::MessageType type)
 {
     auto msg= InstantMessaging::MessageFactory::createMessage(owner, writerId, time, type);
+    if(!msg)
+        return;
     msg->setText(text);
     addMessageInterface(msg);
     messageAdded(msg);
