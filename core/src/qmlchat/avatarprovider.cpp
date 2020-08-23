@@ -23,7 +23,9 @@
 #include "userlist/playermodel.h"
 
 AvatarProvider::AvatarProvider(PlayerModel* model)
-    : QQuickImageProvider(QQmlImageProviderBase::Image), m_players(model), m_default(":/resources/images/contact.svg")
+    : QQuickImageProvider(QQmlImageProviderBase::Image)
+    , m_players(model)
+    , m_default(":/resources/rolistheme/contact.svg")
 {
 }
 
