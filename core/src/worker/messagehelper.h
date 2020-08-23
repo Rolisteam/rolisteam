@@ -110,6 +110,7 @@ public:
     static void shareWebpage(WebpageController* ctrl);
     static void updateWebpage(WebpageController* ctrl);
     static QHash<QString, QVariant> readWebPageData(NetworkMessageReader* msg);
+    static void readUpdateWebpage(WebpageController* ctrl, NetworkMessageReader* msg);
 
     // charactersheet
     static void stopSharingSheet(const QString& mediaId, const QString& characterId);

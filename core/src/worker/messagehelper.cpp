@@ -259,25 +259,6 @@ void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* player
     playerModel->setData(idx, var, role);
 }
 
-QHash<QString, QVariant> MessageHelper::readWebPageData(NetworkMessageReader* msg)
-{
-    if(nullptr == msg)
-        return {};
-
-    auto hash= readMediaData(msg);
-
-    auto id= msg->string8();
-    auto mode= msg->uint8();
-    auto data= msg->string32();
-
-    hash.insert("id", id);
-    hash.insert("mode", mode);
-    hash.insert("data", data);
-    hash.insert("state", static_cast<int>(WebpageController::RemoteView));
-
-    return hash;
-}
-
 void MessageHelper::stopSharingSheet(const QString& mediaId, const QString& characterId)
 {
     NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
@@ -408,6 +389,23 @@ QHash<QString, QVariant> MessageHelper::readSharedNoteData(NetworkMessageReader*
     return hash;
 }
 
+QHash<QString, QVariant> MessageHelper::readWebPageData(NetworkMessageReader* msg)
+{
+    if(nullptr == msg)
+        return {};
+
+    auto hash= readMediaData(msg);
+
+    auto mode= msg->uint8();
+    auto data= msg->string32();
+
+    hash.insert("mode", mode);
+    hash.insert("data", data);
+    hash.insert("state", static_cast<int>(WebpageController::RemoteView));
+
+    return hash;
+}
+
 void MessageHelper::shareWebpage(WebpageController* ctrl)
 {
     if(nullptr == ctrl)
@@ -415,7 +413,7 @@ void MessageHelper::shareWebpage(WebpageController* ctrl)
 
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
     msg.uint8(static_cast<quint8>(ctrl->contentType()));
-    msg.string8(ctrl->uuid());
+    sendOffMediaControllerBase(ctrl, msg);
     auto mode= ctrl->sharingMode();
     msg.uint8(mode);
     if(mode == WebpageController::Html)
@@ -427,6 +425,7 @@ void MessageHelper::shareWebpage(WebpageController* ctrl)
 
 void MessageHelper::updateWebpage(WebpageController* ctrl)
 {
+    qDebug() << "update WebPage NetworkMessageWriter" << NetMsg::UpdateContent;
     if(nullptr == ctrl)
         return;
 
@@ -444,6 +443,22 @@ void MessageHelper::updateWebpage(WebpageController* ctrl)
 
     msg.sendToServer();
 }
+
+void MessageHelper::readUpdateWebpage(WebpageController* ctrl, NetworkMessageReader* msg)
+{
+    qDebug() << "readUpdateWebpage WebPage NetworkMessageReader";
+    if(msg == nullptr || nullptr == ctrl)
+        return;
+
+    auto mode= static_cast<WebpageController::SharingMode>(msg->uint8());
+    auto data= msg->string32();
+
+    if(mode == WebpageController::Html)
+        ctrl->setHtml(data);
+    else if(mode == WebpageController::Url)
+        ctrl->setPath(data);
+}
+
 #ifdef WITH_PDF
 void MessageHelper::sendOffPdfFile(PdfController* ctrl)
 {
