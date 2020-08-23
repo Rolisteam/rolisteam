@@ -379,6 +379,9 @@ void SessionItemModel::remove(QModelIndex& index)
 
 void SessionItemModel::removeNode(SessionItem* node)
 {
+    if(nullptr == node)
+        return;
+
     auto parent= node->parentNode();
     if(parent == nullptr)
         return;
