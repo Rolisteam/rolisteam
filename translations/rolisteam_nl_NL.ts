@@ -685,27 +685,22 @@
 <context>
     <name>ChatView</name>
     <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="43"/>
-        <source>Add chatroom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="47"/>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="44"/>
         <source>Split view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="54"/>
-        <source>Detach current</source>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="51"/>
+        <source>Detach</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="58"/>
-        <source>Settings</source>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="55"/>
+        <source>Reatach</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="90"/>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="88"/>
         <source>close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -923,9 +918,13 @@
 <context>
     <name>ContentController</name>
     <message>
-        <location filename="../core/src/controller/contentcontroller.cpp" line="59"/>
         <source>Unknown</source>
-        <translation type="unfinished">Onbekend</translation>
+        <translation type="obsolete">Onbekend</translation>
+    </message>
+    <message>
+        <location filename="../core/src/controller/contentcontroller.cpp" line="68"/>
+        <source>default</source>
+        <translation type="unfinished">standaard</translation>
     </message>
 </context>
 <context>
@@ -1186,6 +1185,19 @@
         <location filename="../build/core/network_autogen/include/ui_dicebookmarkwidget.h" line="102"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_dicebookmarkwidget.h" line="102"/>
         <source>DiceShortCut</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiceMessageDelegate</name>
+    <message>
+        <location filename="../core/src/qmlchat/DiceMessageDelegate.qml" line="64"/>
+        <source>Details: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/DiceMessageDelegate.qml" line="69"/>
+        <source>Command: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1594,7 +1606,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ImagePathEditor</name>
     <message>
-        <location filename="../core/src/widgets/filepathdelegateitem.cpp" line="70"/>
+        <location filename="../core/src/widgets/filepathdelegateitem.cpp" line="71"/>
         <source>Get picture for Character State</source>
         <translation>Afbeelding verkrijgen voor karakterstatus</translation>
     </message>
@@ -1617,8 +1629,21 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>InstantMessagingEditText</name>
     <message>
-        <location filename="../core/src/qmlchat/InstantMessagingEditText.qml" line="137"/>
+        <location filename="../core/src/qmlchat/InstantMessagingEditText.qml" line="139"/>
         <source>send</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InstantMessagingMain</name>
+    <message>
+        <location filename="../core/src/qmlchat/InstantMessagingMain.qml" line="32"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/InstantMessagingMain.qml" line="36"/>
+        <source>Add chatroom</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2079,12 +2104,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1603"/>
+        <location filename="../client/mainwindow.cpp" line="1252"/>
         <source>unknown</source>
         <translation>onbekend</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="639"/>
+        <location filename="../client/mainwindow.cpp" line="457"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2093,42 +2118,42 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Kaart openen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1503"/>
+        <location filename="../client/mainwindow.cpp" line="1152"/>
         <source>Connected</source>
         <translation>Verbonden</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1503"/>
+        <location filename="../client/mainwindow.cpp" line="1152"/>
         <source>Not Connected</source>
         <translation>Niet verbonden</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1504"/>
+        <location filename="../client/mainwindow.cpp" line="1153"/>
         <source>Server</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1504"/>
+        <location filename="../client/mainwindow.cpp" line="1153"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1505"/>
+        <location filename="../client/mainwindow.cpp" line="1154"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1505"/>
+        <location filename="../client/mainwindow.cpp" line="1154"/>
         <source>Player</source>
         <translation>Speler</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="766"/>
+        <location filename="../client/mainwindow.cpp" line="571"/>
         <source>Open scenario</source>
         <translation>Scenario openen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="799"/>
+        <location filename="../client/mainwindow.cpp" line="604"/>
         <source>Save Scenario as</source>
         <translation>Scenario opslaan als</translation>
     </message>
@@ -2137,7 +2162,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Opslaan %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="549"/>
+        <location filename="../client/mainwindow.ui" line="496"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="528"/>
         <source>Save Scenario</source>
         <translation>Scenario opslaan</translation>
@@ -2147,9 +2172,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">%1 kan niet worden geopend (saveStory - MainWindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="243"/>
         <source>ToolBox</source>
-        <translation>Gereedschap</translation>
+        <translation type="vanished">Gereedschap</translation>
     </message>
     <message>
         <source>Open Picture</source>
@@ -2172,29 +2196,28 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Nieuw</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="46"/>
+        <location filename="../client/mainwindow.ui" line="45"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="572"/>
         <source>&amp;Open</source>
         <translation>&amp;Openen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="58"/>
+        <location filename="../client/mainwindow.ui" line="57"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="573"/>
         <source>Recent Files</source>
         <translation>Recente bestanden</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="87"/>
+        <location filename="../client/mainwindow.ui" line="86"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="575"/>
         <source>Sub-&amp;Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="99"/>
         <location filename="../client/mainwindow.ui" line="293"/>
         <location filename="../client/mainwindow.ui" line="329"/>
-        <location filename="../client/mainwindow.ui" line="497"/>
-        <location filename="../client/mainwindow.ui" line="509"/>
+        <location filename="../client/mainwindow.ui" line="444"/>
+        <location filename="../client/mainwindow.ui" line="456"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="443"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="455"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="577"/>
@@ -2202,13 +2225,13 @@ p, li { white-space: pre-wrap; }
         <translation>Kaart</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="63"/>
+        <location filename="../client/mainwindow.ui" line="62"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="574"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="552"/>
+        <location filename="../client/mainwindow.ui" line="499"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="530"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+s</translation>
@@ -2234,7 +2257,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/mainwindow.ui" line="229"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="418"/>
-        <location filename="../client/mainwindow.cpp" line="703"/>
+        <location filename="../client/mainwindow.cpp" line="512"/>
         <source>Quit</source>
         <translation>Afsluiten</translation>
     </message>
@@ -2275,6 +2298,11 @@ p, li { white-space: pre-wrap; }
         <translation>Chatten</translation>
     </message>
     <message>
+        <location filename="../client/mainwindow.ui" line="151"/>
+        <source>toolBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../client/mainwindow.ui" line="197"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="406"/>
         <source>Save Scenario As…</source>
@@ -2312,7 +2340,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="296"/>
-        <location filename="../client/mainwindow.ui" line="500"/>
+        <location filename="../client/mainwindow.ui" line="447"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="445"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
@@ -2333,7 +2361,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="332"/>
-        <location filename="../client/mainwindow.ui" line="512"/>
+        <location filename="../client/mainwindow.ui" line="459"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="457"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
@@ -2363,133 +2391,143 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="379"/>
+        <location filename="../client/mainwindow.ui" line="622"/>
+        <source>ShowChat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="625"/>
+        <source>Instant Messaging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="628"/>
+        <source>show Instant Message Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="636"/>
+        <source>Media title in toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="471"/>
         <source>Show PC Name</source>
         <translation>PC-naam weergeven</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="382"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="473"/>
         <source>F3</source>
         <translation type="unfinished">F3</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="396"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="477"/>
         <source>F4</source>
         <translation type="unfinished">F4</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="410"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="481"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="663"/>
+        <location filename="../client/mainwindow.ui" line="596"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="566"/>
         <source>Password Generator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="679"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="568"/>
         <source>Show Initiative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="393"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="475"/>
         <source>Show Npc Name</source>
         <translation>Npc-naam weergeven</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="523"/>
+        <location filename="../client/mainwindow.ui" line="470"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="521"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="407"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="479"/>
         <source>Show Npc Number</source>
         <translation>Npc-nummer weergeven</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="658"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="564"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="418"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="483"/>
         <source>Minute Editor</source>
         <translation>Notulenbewerker</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="421"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="485"/>
         <source>Alt+M</source>
         <translation>Alt+M</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="430"/>
+        <location filename="../client/mainwindow.ui" line="377"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="487"/>
         <source>Online Picture</source>
         <translation>Online afbeelding</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="433"/>
+        <location filename="../client/mainwindow.ui" line="380"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="489"/>
         <source>Ctrl+Shift+I</source>
         <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="441"/>
+        <location filename="../client/mainwindow.ui" line="388"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="491"/>
         <source>Audio Player</source>
         <translation>Audiospeler</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="444"/>
+        <location filename="../client/mainwindow.ui" line="391"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="493"/>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="452"/>
+        <location filename="../client/mainwindow.ui" line="399"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="495"/>
         <source>Notification Zone</source>
         <translation>Meldingengebied</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="455"/>
+        <location filename="../client/mainwindow.ui" line="402"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="497"/>
         <source>Alt+N</source>
         <translation>Alt+N</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="463"/>
+        <location filename="../client/mainwindow.ui" line="410"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="499"/>
         <source>Chat List</source>
         <translation>Chatlijst</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="466"/>
+        <location filename="../client/mainwindow.ui" line="413"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="501"/>
         <source>Alt+L</source>
         <translation>Alt+L</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="474"/>
+        <location filename="../client/mainwindow.ui" line="421"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="503"/>
         <source>Character List</source>
         <translation>Karakterlijst</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="485"/>
+        <location filename="../client/mainwindow.ui" line="432"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="507"/>
         <source>ToolBar</source>
         <translation>Werkbalk</translation>
@@ -2501,13 +2539,13 @@ p, li { white-space: pre-wrap; }
         <translation>Vectoriële kaart</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="528"/>
+        <location filename="../client/mainwindow.ui" line="475"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="523"/>
         <source>Change Profile…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="563"/>
+        <location filename="../client/mainwindow.ui" line="510"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="534"/>
         <source>F10</source>
         <translation type="unfinished">F10</translation>
@@ -2519,7 +2557,7 @@ p, li { white-space: pre-wrap; }
         <translation>Alt+S</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="151"/>
+        <location filename="../client/mainwindow.ui" line="138"/>
         <source>GM ToolBoxes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2531,7 +2569,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="180"/>
-        <location filename="../client/mainwindow.ui" line="668"/>
+        <location filename="../client/mainwindow.ui" line="601"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="401"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="567"/>
         <source>Current Media as…</source>
@@ -2556,77 +2594,76 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="560"/>
+        <location filename="../client/mainwindow.ui" line="507"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="532"/>
         <source>Room List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="572"/>
-        <location filename="../client/mainwindow.ui" line="584"/>
+        <location filename="../client/mainwindow.ui" line="519"/>
+        <location filename="../client/mainwindow.ui" line="531"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="536"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="540"/>
         <source>Shared Note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="575"/>
+        <location filename="../client/mainwindow.ui" line="522"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="538"/>
         <source>Ctrl+K</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="587"/>
+        <location filename="../client/mainwindow.ui" line="534"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="542"/>
         <source>Ctrl+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="596"/>
-        <location filename="../client/mainwindow.ui" line="688"/>
+        <location filename="../client/mainwindow.ui" line="543"/>
+        <location filename="../client/mainwindow.ui" line="610"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="544"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="569"/>
         <source>Support Rolisteam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="601"/>
+        <location filename="../client/mainwindow.ui" line="548"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="545"/>
         <source>Shortcut Viewer…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="632"/>
+        <location filename="../client/mainwindow.ui" line="579"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="557"/>
         <source>Copy Connection Link…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="644"/>
+        <location filename="../client/mainwindow.ui" line="591"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="560"/>
         <source>Ctrl+H</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="655"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="562"/>
         <source>Show Health Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="604"/>
+        <location filename="../client/mainwindow.ui" line="551"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="547"/>
         <source>Ctrl+F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="121"/>
+        <location filename="../client/mainwindow.ui" line="108"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="578"/>
         <source>&amp;Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="133"/>
+        <location filename="../client/mainwindow.ui" line="120"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="579"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
@@ -2637,49 +2674,49 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="143"/>
+        <location filename="../client/mainwindow.ui" line="130"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="581"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bewerken</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="612"/>
+        <location filename="../client/mainwindow.ui" line="559"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="549"/>
         <source>Full Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="615"/>
+        <location filename="../client/mainwindow.ui" line="562"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="551"/>
         <source>F11</source>
         <translation type="unfinished">F11</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="624"/>
+        <location filename="../client/mainwindow.ui" line="571"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="553"/>
         <source>PDF File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="627"/>
+        <location filename="../client/mainwindow.ui" line="574"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="555"/>
         <source>Ctrl+D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="520"/>
+        <location filename="../client/mainwindow.ui" line="467"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="519"/>
         <source>Show Health State</source>
         <translation>Gezondheidsstatus weergeven</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="488"/>
+        <location filename="../client/mainwindow.ui" line="435"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="509"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="537"/>
+        <location filename="../client/mainwindow.ui" line="484"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="524"/>
         <source>Character Sheet</source>
         <translation>Character Sheet</translation>
@@ -2695,13 +2732,13 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="641"/>
+        <location filename="../client/mainwindow.ui" line="588"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="558"/>
         <source>WebPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="540"/>
+        <location filename="../client/mainwindow.ui" line="487"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="526"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
@@ -2713,7 +2750,7 @@ p, li { white-space: pre-wrap; }
         <translation>Rolisteam</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="91"/>
+        <location filename="../client/mainwindow.ui" line="90"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="576"/>
         <source>Reorganize</source>
         <translation>Herorganiseren</translation>
@@ -2732,7 +2769,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="251"/>
-        <location filename="../client/mainwindow.ui" line="477"/>
+        <location filename="../client/mainwindow.ui" line="424"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="428"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="505"/>
         <source>Alt+C</source>
@@ -2745,47 +2782,47 @@ p, li { white-space: pre-wrap; }
         <translation>Tegelen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="917"/>
+        <location filename="../client/mainwindow.cpp" line="722"/>
         <source>Help</source>
         <translation>Hulp</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="956"/>
+        <location filename="../client/mainwindow.cpp" line="756"/>
         <source>Update Notification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="971"/>
+        <location filename="../client/mainwindow.cpp" line="771"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 heeft niet de juiste versie: %2.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1084"/>
+        <location filename="../client/mainwindow.cpp" line="866"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam instellen om &lt;port&gt; te gebruiken voor de verbinding</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1087"/>
+        <location filename="../client/mainwindow.cpp" line="869"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam instellen om te verbinden met &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1090"/>
+        <location filename="../client/mainwindow.cpp" line="872"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>&lt;role&gt; definiëren: gm of pc</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1092"/>
+        <location filename="../client/mainwindow.cpp" line="874"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Instellingen wissen en standaard parameters gebruiken</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1095"/>
+        <location filename="../client/mainwindow.cpp" line="877"/>
         <source>Define the &lt;username&gt;</source>
         <translation>&lt;username&gt; definiëren</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1098"/>
+        <location filename="../client/mainwindow.cpp" line="880"/>
         <source>Remove limit to PDF file size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2794,7 +2831,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Eind van het verbindproces</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1602"/>
+        <location filename="../client/mainwindow.cpp" line="1251"/>
         <source>Export from %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2803,37 +2840,37 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Bronnenverkenner</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1344"/>
+        <location filename="../client/mainwindow.cpp" line="995"/>
         <source>Open %1</source>
         <translation>%1 openen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="711"/>
+        <location filename="../client/mainwindow.cpp" line="520"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>De verbinding is verbroken. %1 zal sluiten</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="587"/>
+        <location filename="../client/mainwindow.cpp" line="405"/>
         <source>&amp;Redo</source>
         <translation type="unfinished">&amp;Opnieuw</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="588"/>
+        <location filename="../client/mainwindow.cpp" line="406"/>
         <source>&amp;Undo</source>
         <translation type="unfinished">&amp;Ongedaan maken</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="638"/>
+        <location filename="../client/mainwindow.cpp" line="456"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="713"/>
+        <location filename="../client/mainwindow.cpp" line="522"/>
         <source>Connection lost</source>
         <translation>Verbinding verbroken</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="719"/>
+        <location filename="../client/mainwindow.cpp" line="528"/>
         <source>Quit %1 </source>
         <translation>Afsluiten %1</translation>
     </message>
@@ -2846,8 +2883,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Wilt u uw scenario opslaan alvorens %1 af te sluiten?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="767"/>
-        <location filename="../client/mainwindow.cpp" line="800"/>
+        <location filename="../client/mainwindow.cpp" line="572"/>
+        <location filename="../client/mainwindow.cpp" line="605"/>
         <source>Scenarios (*.sce)</source>
         <translation>Scenario&apos;s (*.sce)</translation>
     </message>
@@ -2858,22 +2895,22 @@ p, li { white-space: pre-wrap; }
         <translation>Over Rolisteam</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="918"/>
+        <location filename="../client/mainwindow.cpp" line="723"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>De documentatie van %1 kan online worden gevonden op :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="957"/>
+        <location filename="../client/mainwindow.cpp" line="757"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>Versie %1 is uitgebracht. Neem een kijkje op de &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download-pagina&lt;/a&gt; voor meer informatie</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="967"/>
+        <location filename="../client/mainwindow.cpp" line="767"/>
         <source>%1 just joins the game.</source>
         <translation>%1 heeft deelgenomen aan het spel.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="977"/>
+        <location filename="../client/mainwindow.cpp" line="777"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 heeft het spel verlaten.</translation>
     </message>
@@ -3299,7 +3336,7 @@ het een speciale kleur is.</translation>
         <translation type="vanished">Onbekend</translation>
     </message>
     <message>
-        <location filename="../core/src/data/mediacontainer.cpp" line="33"/>
+        <location filename="../core/src/data/mediacontainer.cpp" line="32"/>
         <source>Detach the view</source>
         <translation type="unfinished">De weergave losmaken</translation>
     </message>
@@ -4077,18 +4114,24 @@ het een speciale kleur is.</translation>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="143"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="109"/>
+        <source>%1/%2</source>
+        <comment>Current page/ total page</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="171"/>
         <source>Sharing Pdf File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="144"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="172"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="158"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="186"/>
         <source>%1 - (PDF)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4209,12 +4252,12 @@ Do you want to continue and share the PDF?</source>
 <context>
     <name>PlayerModel</name>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="172"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="171"/>
         <source>Not defined</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="175"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="174"/>
         <source>%1:
 HP: %2/%3
 State: %4
@@ -4225,22 +4268,22 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="187"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="186"/>
         <source>NPC</source>
         <translation type="unfinished">NPC</translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="187"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="186"/>
         <source>PC</source>
         <translation type="unfinished">PC</translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="248"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="247"/>
         <source>Players List</source>
         <translation type="unfinished">Spelerlijst</translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="763"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="762"/>
         <source>Dupplicated player or uuid</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5512,7 +5555,7 @@ type: %7
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../client/main.cpp" line="110"/>
+        <location filename="../client/main.cpp" line="102"/>
         <location filename="../core/src/network/connectionprofile.cpp" line="7"/>
         <location filename="../core/src/network/main.cpp" line="91"/>
         <location filename="../core/src/undoCmd/addfieldcommand.cpp" line="84"/>
@@ -5521,67 +5564,67 @@ type: %7
         <translation>Onbekend</translation>
     </message>
     <message>
-        <location filename="../core/src/data/mediacontainer.cpp" line="93"/>
+        <location filename="../core/src/data/mediacontainer.cpp" line="92"/>
         <source>Loading error</source>
         <translation>Laadfout</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="74"/>
+        <location filename="../core/src/diceparser/diceparser.cpp" line="77"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="84"/>
+        <location filename="../core/src/diceparser/diceparser.cpp" line="88"/>
         <source>Unexpected character at %1 - end of command was ignored &quot;%2&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1043"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1385"/>
         <source>Expected closing parenthesis - can&apos;t validate the inside.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1608"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1960"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Dobbelsteen met %1 kant(en) bestaat niet. Voer een waarde hoger dan 0 in</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1663"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="2015"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>De lijst ontbreekt na de L-operator. Voeg het toe (bijv. : 1L[zwaard,speer,pistool,pijl])</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1290"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1632"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>De valideerder ontbreekt na de c-operator. Wijzig deze</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1310"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1652"/>
         <source>Validator is always true for the %1 operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1319"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1661"/>
         <source>Condition can&apos;t be reached, causing endless loop. Please, change the %1 option condition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1346"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1688"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>De valideerder ontbreekt na de %1-operator. Wijzig deze</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1358"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1700"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>De omstandigheid %1 introduceert een oneindige herhaling. Wijzig het</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1370"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1712"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>De valideerder ontbreekt na de e-operator. Wijzig deze</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1438"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1780"/>
         <source>Missing parameter for Painter node (p)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5593,12 +5636,12 @@ type: %7
 </translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1101"/>
+        <location filename="../client/mainwindow.cpp" line="883"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>pad na het vertaalbestand: &lt;translationfile&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1104"/>
+        <location filename="../client/mainwindow.cpp" line="886"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5640,9 +5683,55 @@ type: %7
         <translation>Online afbeelding</translation>
     </message>
     <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="46"/>
+        <source>Filled Ellipse</source>
+        <translation type="unfinished">Gevulde ellips</translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="47"/>
+        <source>Empty Ellipse</source>
+        <translation type="unfinished">Lege ellips</translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="48"/>
+        <source>Empty Rectangle</source>
+        <translation type="unfinished">Lege rechthoek</translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="49"/>
+        <source>Filled Rectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="50"/>
         <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
         <source>Text</source>
         <translation>Tekst</translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="51"/>
+        <source>Text with border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="52"/>
+        <source>NPC Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="53"/>
+        <source>PC Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="55"/>
+        <source>Pen</source>
+        <translation type="unfinished">Pen</translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="59"/>
+        <source>add %1 item</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/src/data/cleveruri.cpp" line="276"/>
@@ -5826,7 +5915,7 @@ type: %7
         <translation>Fout: gedeeld door nul</translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/removemediacontrollercommand.cpp" line="38"/>
+        <location filename="../core/src/undoCmd/removemediacontrollercommand.cpp" line="40"/>
         <source>Close %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5854,11 +5943,13 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="56"/>
         <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <source>Path</source>
         <translation>Pad</translation>
     </message>
     <message>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="45"/>
         <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <source>Line</source>
         <translation>Lijn </translation>
@@ -5869,7 +5960,7 @@ type: %7
         <translation>Ellips</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="258"/>
         <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="64"/>
         <source>Character</source>
@@ -5912,6 +6003,7 @@ type: %7
     </message>
     <message>
         <location filename="../core/src/undoCmd/addfieldcommand.cpp" line="69"/>
+        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="54"/>
         <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
         <source>Image</source>
         <translation>Afbeelding</translation>
@@ -5932,13 +6024,13 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="258"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="58"/>
         <source>Ground</source>
         <translation>Grond</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="258"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="61"/>
         <source>Object</source>
         <translation>Object</translation>
@@ -6055,11 +6147,6 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/addvmapitem.cpp" line="43"/>
-        <source>add item at (%1:%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../core/src/undoCmd/deletevmapitem.cpp" line="30"/>
         <source>Delete %1 Item(s) From Map %1</source>
         <translation type="unfinished"></translation>
@@ -6110,12 +6197,12 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/newmediacontroller.cpp" line="35"/>
+        <location filename="../core/src/undoCmd/newmediacontroller.cpp" line="36"/>
         <source>Create new %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="39"/>
+        <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="42"/>
         <source>Open %1</source>
         <translation type="unfinished">%1 openen</translation>
     </message>
@@ -6662,24 +6749,20 @@ Full documentation at: %1</source>
 <context>
     <name>SessionItemModel</name>
     <message>
-        <location filename="../core/src/session/sessionitemmodel.cpp" line="35"/>
         <source>Name</source>
-        <translation>Naam</translation>
+        <translation type="vanished">Naam</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionitemmodel.cpp" line="35"/>
         <source>Loading Mode</source>
-        <translation>Laadmodus</translation>
+        <translation type="vanished">Laadmodus</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionitemmodel.cpp" line="35"/>
         <source>Displayed</source>
-        <translation>Weergegeven</translation>
+        <translation type="vanished">Weergegeven</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionitemmodel.cpp" line="35"/>
         <source>Path</source>
-        <translation>Pad</translation>
+        <translation type="vanished">Pad</translation>
     </message>
 </context>
 <context>
@@ -6700,57 +6783,50 @@ Full documentation at: %1</source>
 <context>
     <name>SessionView</name>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="25"/>
+        <location filename="../core/src/session/sessionview.cpp" line="24"/>
         <source>Add Chapter…</source>
         <translation>Hoofdstuk toevoegen...</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="28"/>
+        <location filename="../core/src/session/sessionview.cpp" line="27"/>
         <source>Remove items</source>
         <translation>Items verwijderen</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="31"/>
+        <location filename="../core/src/session/sessionview.cpp" line="30"/>
         <source>Current Chapter</source>
         <translation>Huidig hoofdstuk</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="49"/>
+        <location filename="../core/src/session/sessionview.cpp" line="48"/>
         <source>Loading Mode</source>
         <translation>Laadmodus</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="55"/>
+        <location filename="../core/src/session/sessionview.cpp" line="54"/>
         <source>Displayed Status</source>
         <translation>Weergegeven status</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="60"/>
+        <location filename="../core/src/session/sessionview.cpp" line="59"/>
         <source>Path</source>
         <translation>Pad</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="65"/>
+        <location filename="../core/src/session/sessionview.cpp" line="64"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="100"/>
-        <source>Switch loading mode to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/session/sessionview.cpp" line="101"/>
         <source>Linked</source>
-        <translation>Gelinkt</translation>
+        <translation type="vanished">Gelinkt</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="101"/>
         <source>Internal</source>
-        <translation>Intern</translation>
+        <translation type="vanished">Intern</translation>
     </message>
     <message>
-        <location filename="../core/src/session/sessionview.cpp" line="109"/>
+        <location filename="../core/src/session/sessionview.cpp" line="107"/>
         <source>Show/hide Column</source>
         <translation>Kolom weergeven/verbergen</translation>
     </message>
@@ -7210,17 +7286,17 @@ Full documentation at: %1</source>
 <context>
     <name>SideMenu</name>
     <message>
-        <location filename="../core/src/qmlchat/SideMenu.qml" line="17"/>
+        <location filename="../core/src/qmlchat/SideMenu.qml" line="19"/>
         <source>Night Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/SideMenu.qml" line="26"/>
+        <location filename="../core/src/qmlchat/SideMenu.qml" line="28"/>
         <source>Sound Notification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/SideMenu.qml" line="35"/>
+        <location filename="../core/src/qmlchat/SideMenu.qml" line="37"/>
         <source>Font size</source>
         <translation type="unfinished">Lettertypegrootte</translation>
     </message>
@@ -7761,7 +7837,7 @@ Wilt u uw wijzigingen opslaan?</translation>
         <translation type="vanished">Onbekende kaart</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="122"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="120"/>
         <source>%1 - visibility: %2 - permission: %3 - layer: %4</source>
         <translation>%1 - zichtbaarheid: %2 - rechten: %3 - laag: %4</translation>
     </message>
@@ -7849,47 +7925,47 @@ Wilt u uw wijzigingen opslaan?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="137"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="136"/>
         <source>Text With Border</source>
         <translation>Tekst met rand</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="140"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="139"/>
         <source>Reset NPC counter</source>
         <translation>NPC-teller herstellen naar standaardwaarden</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="271"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="270"/>
         <source>NPC Name</source>
         <translation>NPC-naam</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="276"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="275"/>
         <source>NPC&apos;s number</source>
         <translation>NPC-nummer</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="282"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="281"/>
         <source>Normal</source>
         <translation>Normaal</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="284"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="283"/>
         <source>Mask</source>
         <translation>Maskeren</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="286"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="285"/>
         <source>Unmask</source>
         <translation>De-maskeren</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="316"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="315"/>
         <source>height of the pen</source>
         <translation>penhoogte</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="328"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="327"/>
         <source>Opacity:</source>
         <translation>Ondoorzichtigheid:</translation>
     </message>
@@ -7897,7 +7973,7 @@ Wilt u uw wijzigingen opslaan?</translation>
 <context>
     <name>VisualItem</name>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="247"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="249"/>
         <source>Duplicate Item</source>
         <translation>Item dupliceren</translation>
     </message>
@@ -7910,145 +7986,191 @@ Wilt u uw wijzigingen opslaan?</translation>
         <translation>Werkbalk voor VMap</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="35"/>
         <source>Show Grid</source>
-        <translation>Rooster weergeven</translation>
+        <translation type="vanished">Rooster weergeven</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="36"/>
         <source>Show/Hide Grid</source>
-        <translation>Rooster weergeven/verbergen</translation>
+        <translation type="vanished">Rooster weergeven/verbergen</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="39"/>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="40"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="63"/>
         <source>Grid Above</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="46"/>
         <source>GM Only</source>
-        <translation>Alleen GM</translation>
+        <translation type="vanished">Alleen GM</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="46"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="72"/>
         <source>PC Move</source>
         <translation>PC-zet</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="46"/>
         <source>ALL</source>
-        <translation>ALLES</translation>
+        <translation type="vanished">ALLES</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="51"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="44"/>
+        <source>Square Grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="47"/>
+        <source>Hexagonal Grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="68"/>
+        <source>GM only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="101"/>
+        <source>Fog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="126"/>
         <source>Ground</source>
         <translation>Grond</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="51"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="130"/>
         <source>Object</source>
         <translation>Object</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="51"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="134"/>
         <source>Character</source>
         <translation>Karakter</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="56"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="155"/>
+        <source>hide other layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="160"/>
+        <source>Show Transparent Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="163"/>
+        <source>PC name</source>
+        <comment>PC = playable character</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="164"/>
+        <source>NPC name</source>
+        <comment>NPC = non-playable character</comment>
+        <translation type="unfinished">NPC-naam</translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="165"/>
+        <source>NPC number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="166"/>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="167"/>
+        <source>Health Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="168"/>
+        <source>Initiative</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>None</source>
-        <translation>Geen</translation>
+        <translation type="vanished">Geen</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="56"/>
         <source>Square</source>
-        <translation>Vierkant</translation>
+        <translation type="vanished">Vierkant</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="56"/>
         <source>Hexagon</source>
-        <translation>Zeshoek</translation>
+        <translation type="vanished">Zeshoek</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="62"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="217"/>
         <source>inch</source>
         <translation>inch</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="62"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="217"/>
         <source>foot</source>
         <translation>voet</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="62"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="217"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="233"/>
         <source>px</source>
         <translation>px</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="67"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="97"/>
         <source>Hidden</source>
         <translation>Verborgen</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="67"/>
         <source>Fog of War</source>
-        <translation>Mist van oorlog</translation>
+        <translation type="vanished">Mist van oorlog</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="67"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="76"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="105"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="77"/>
         <source>Background:</source>
-        <translation>Achtergrond:</translation>
+        <translation type="vanished">Achtergrond:</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="80"/>
         <source>Grid:</source>
-        <translation>Rooster:</translation>
+        <translation type="vanished">Rooster:</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="85"/>
         <source>px :</source>
-        <translation>px :</translation>
+        <translation type="vanished">px :</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="89"/>
         <source>Permission:</source>
-        <translation>Rechten:</translation>
+        <translation type="vanished">Rechten:</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="92"/>
         <source>Visibility:</source>
-        <translation>Zichtbaarheid:</translation>
+        <translation type="vanished">Zichtbaarheid:</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="94"/>
         <source>Layer:</source>
-        <translation>Laag:</translation>
+        <translation type="vanished">Laag:</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="97"/>
         <source>Hide other Layers</source>
-        <translation>Andere lagen verbergen</translation>
+        <translation type="vanished">Andere lagen verbergen</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="102"/>
+        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="158"/>
         <source>Character Vision</source>
         <translation>Karaktervisie</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="107"/>
         <source>Collision</source>
-        <translation>Botsing</translation>
+        <translation type="vanished">Botsing</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmaptoolbar.cpp" line="110"/>
         <source>Show transparent Item</source>
-        <translation>Doorzichtig item weergeven</translation>
+        <translation type="vanished">Doorzichtig item weergeven</translation>
     </message>
 </context>
 <context>
@@ -8059,7 +8181,7 @@ Wilt u uw wijzigingen opslaan?</translation>
         <translation>Formulier</translation>
     </message>
     <message>
-        <location filename="../core/src/webview/webview.cpp" line="123"/>
+        <location filename="../core/src/webview/webview.cpp" line="120"/>
         <source>%1 - WebPage</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8119,11 +8241,6 @@ Wilt u uw wijzigingen opslaan?</translation>
     <message>
         <source>Stop Sharing</source>
         <translation type="obsolete">Stoppen met delen</translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/workspace.cpp" line="94"/>
-        <source>Instant Messging</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8192,6 +8309,19 @@ Wilt u uw wijzigingen opslaan?</translation>
         <location filename="../core/src/diceparser/mobile/main.qml" line="115"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>session::SessionItemModel</name>
+    <message>
+        <location filename="../core/src/session/sessionitemmodel.cpp" line="34"/>
+        <source>Name</source>
+        <translation type="unfinished">Naam</translation>
+    </message>
+    <message>
+        <location filename="../core/src/session/sessionitemmodel.cpp" line="34"/>
+        <source>Path</source>
+        <translation type="unfinished">Pad</translation>
     </message>
 </context>
 <context>
