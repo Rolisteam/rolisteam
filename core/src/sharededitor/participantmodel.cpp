@@ -38,7 +38,7 @@ Player* findPlayer(const QString& id, PlayerModel* model)
 
 ParticipantItem* findItem(const QString& id, ParticipantItem* root)
 {
-    ParticipantItem* parent= nullptr;
+    ParticipantItem* wantedItem= nullptr;
     for(int i= 0; i < root->childCount(); ++i)
     {
         auto item= root->childAt(i);
@@ -49,11 +49,11 @@ ParticipantItem* findItem(const QString& id, ParticipantItem* root)
                 continue;
             if(child->player()->uuid() == id)
             {
-                parent= item;
+                wantedItem= child;
             }
         }
     }
-    return parent;
+    return wantedItem;
 }
 ParticipantItem::ParticipantItem(const QString& name) : m_name(name) {}
 
@@ -346,7 +346,8 @@ ParticipantModel::Permission ParticipantModel::permissionFor(const QModelIndex& 
 
 ParticipantModel::Permission ParticipantModel::permissionFor(const QString& id)
 {
-    auto parent= findItem(id, m_root.get());
+    auto item= findItem(id, m_root.get());
+    auto parent= item->parent();
     auto val= m_root->indexOf(parent);
 
     if(val < 0)
@@ -401,9 +402,11 @@ void ParticipantModel::setPlayerInto(const QModelIndex& index, Permission level)
 
 void ParticipantModel::setPlayerPermission(const QString& id, ParticipantModel::Permission level)
 {
-    auto parent= findItem(id, m_root.get());
-    auto idx= index(m_root->indexOf(parent), 0, QModelIndex());
-    setPlayerInto(idx, level);
+    auto item= findItem(id, m_root.get());
+    auto parent= item->parent();
+    auto parentIdx= index(m_root->indexOf(parent), 0, QModelIndex());
+    auto itemIdx= index(parent->indexOf(item), 0, parentIdx);
+    setPlayerInto(itemIdx, level);
 }
 
 void ParticipantModel::saveModel(QJsonObject& root)

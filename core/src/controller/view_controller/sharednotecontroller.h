@@ -26,6 +26,7 @@
 #include <memory>
 
 #include "mediacontrollerbase.h"
+#include "sharededitor/participantmodel.h"
 
 class ParticipantModel;
 class PlayerModel;
@@ -34,7 +35,7 @@ class SharedNoteController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(PlayerModel* playerModel READ playerModel NOTIFY playerModelChanged)
-    Q_PROPERTY(Permission permission READ permission WRITE setPermission NOTIFY permissionChanged)
+    Q_PROPERTY(ParticipantModel::Permission permission READ permission WRITE setPermission NOTIFY permissionChanged)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(bool participantPanelVisible READ participantPanelVisible WRITE setParticipantPanelVisible NOTIFY
                    participantPanelVisibleChanged)
@@ -45,13 +46,13 @@ class SharedNoteController : public MediaControllerBase
     Q_PROPERTY(QString textUpdate READ textUpdate WRITE setTextUpdate NOTIFY textUpdateChanged)
     Q_PROPERTY(QString updateCmd READ updateCmd WRITE setUpdateCmd NOTIFY updateCmdChanged)
 public:
-    enum class Permission : quint8
+    /*enum class Permission : quint8
     {
         NONE,
         READ,
         READWRITE
     };
-    Q_ENUM(Permission)
+    Q_ENUM(Permission)*/
 
     enum class HighlightedSyntax : quint8
     {
@@ -65,7 +66,7 @@ public:
 
     QString text() const;
     ParticipantModel* participantModel() const;
-    Permission permission() const;
+    ParticipantModel::Permission permission() const;
     bool participantPanelVisible() const;
     HighlightedSyntax highligthedSyntax() const;
     bool markdownVisible() const;
@@ -80,7 +81,7 @@ public:
     static void setPlayerModel(PlayerModel* model);
 
 public slots:
-    void setPermission(Permission);
+    void setPermission(ParticipantModel::Permission);
     void setText(const QString& text);
     void setHighligthedSyntax(SharedNoteController::HighlightedSyntax syntax);
     void setParticipantPanelVisible(bool b);
@@ -94,7 +95,7 @@ public slots:
 
 signals:
     void playerModelChanged();
-    void permissionChanged(Permission);
+    void permissionChanged(ParticipantModel::Permission);
     void textChanged(QString str);
     void highligthedSyntaxChanged();
     void participantPanelVisibleChanged(bool);
@@ -113,7 +114,7 @@ private:
     static QPointer<PlayerModel> m_playerModel;
     QString m_text;
     QString m_latestCommand;
-    Permission m_permission= Permission::READ;
+    // Permission m_permission= Permission::READ;
     HighlightedSyntax m_highlightedSyntax= HighlightedSyntax::MarkDown;
     bool m_participantVisible= true;
     bool m_markdownPreview= false;

@@ -41,7 +41,8 @@ public:
 
     void updateProperty(NetworkMessageReader* msg, SharedNoteController* ctrl);
     void sendOffPermissionChanged(SharedNoteController* ctrl, bool b, const QString& id);
-signals:
+
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
 private:
     QPointer<FilteredContentModel> m_notesModel;

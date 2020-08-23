@@ -19,8 +19,12 @@ CodeEditor::CodeEditor(SharedNoteController* ctrl, QWidget* parent) : QPlainText
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
     connect(this, &CodeEditor::textChanged, this, [this]() { m_sharedCtrl->setText(toPlainText()); });
     connect(m_sharedCtrl, &SharedNoteController::collabTextChanged, this, &CodeEditor::collabTextChange);
+    connect(m_sharedCtrl, &SharedNoteController::permissionChanged, this,
+            [this]() { setReadOnly(m_sharedCtrl->permission() == ParticipantModel::readOnly); });
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
+
+    setReadOnly(m_sharedCtrl->permission() == ParticipantModel::readOnly);
 
     isFirstTime= true;
 }
