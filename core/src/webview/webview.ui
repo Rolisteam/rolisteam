@@ -134,7 +134,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../../rolisteam.qrc">
-     <normaloff>:/resources/images/mask.png</normaloff>:/resources/images/mask.png</iconset>
+     <normaloff>:/resources/rolistheme/mask.png</normaloff>:/resources/rolistheme/mask.png</iconset>
    </property>
    <property name="text">
     <string>Hide Address</string>
@@ -146,7 +146,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../../rolisteam.qrc">
-     <normaloff>:/resources/images/document-share.svg</normaloff>:/resources/images/document-share.svg</iconset>
+     <normaloff>:/resources/rolistheme/document-share.svg</normaloff>:/resources/rolistheme/document-share.svg</iconset>
    </property>
    <property name="text">
     <string>Share</string>
