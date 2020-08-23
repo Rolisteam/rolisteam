@@ -200,7 +200,7 @@ QString TcpClient::playerId() const
 
 QString TcpClient::playerName() const
 {
-    if(nullptr != m_player)
+    if(m_player)
         return m_player->name();
 
     return {};
