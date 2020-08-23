@@ -136,8 +136,7 @@ void variantToType<QSize>(const QSize& size, NetworkMessageWriter& msg)
 }
 
 template <>
-void variantToType<SharedNoteController::Permission>(const SharedNoteController::Permission& perm,
-                                                     NetworkMessageWriter& msg)
+void variantToType<ParticipantModel::Permission>(const ParticipantModel::Permission& perm, NetworkMessageWriter& msg)
 {
     msg.uint8(static_cast<quint8>(perm));
 }

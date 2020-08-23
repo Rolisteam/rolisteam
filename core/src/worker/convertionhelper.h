@@ -78,8 +78,7 @@ void variantToType<CharacterVision::SHAPE>(const CharacterVision::SHAPE& shape, 
 template <>
 void variantToType<QSize>(const QSize& size, NetworkMessageWriter& msg);
 template <>
-void variantToType<SharedNoteController::Permission>(const SharedNoteController::Permission& perm,
-                                                     NetworkMessageWriter& msg);
+void variantToType<ParticipantModel::Permission>(const ParticipantModel::Permission& perm, NetworkMessageWriter& msg);
 
 } // namespace Helper
 
