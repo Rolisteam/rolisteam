@@ -79,11 +79,11 @@ public slots:
     void setSharingMode(SharingMode mode);
 
 private:
-    bool m_hideUrl;
-    bool m_keepSharing;
+    bool m_hideUrl= false;
+    bool m_keepSharing= false;
     QString m_html;
     State m_state;
-    SharingMode m_mode;
+    SharingMode m_mode= None;
 };
 
 #endif // WEBPAGECONTROLLER_H

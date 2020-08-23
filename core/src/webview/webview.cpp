@@ -52,6 +52,8 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     connect(m_ui->m_keepSharing, &QCheckBox::clicked, m_webCtrl, &WebpageController::setKeepSharing);
     connect(m_webCtrl, &WebpageController::nameChanged, this, &WebView::updateTitle);
     connect(m_ui->m_webview, &QWebEngineView::titleChanged, m_webCtrl, &WebpageController::setName);
+    connect(m_ui->m_webview, &QWebEngineView::urlChanged, this,
+            [this](const QUrl& url) { m_webCtrl->setPath(url.toString(QUrl::None)); });
     connect(m_ui->m_addressEdit, &QLineEdit::editingFinished, this,
             [this]() { m_webCtrl->setPath(m_ui->m_addressEdit->text()); });
     connect(m_webCtrl, &WebpageController::pathChanged, this,
@@ -106,11 +108,6 @@ WebView::~WebView() {}
 
 bool WebView::readFileFromUri()
 {
-    /*if(nullptr == m_uri)
-        return false;
-
-    m_addressEdit->setText(m_uri->getUri());
-    m_view->setUrl(QUrl(m_uri->getUri()));*/
     return true;
 }
 
@@ -122,13 +119,6 @@ void WebView::updateTitle()
 {
     setWindowTitle(tr("%1 - WebPage").arg(m_webCtrl->title()));
 }
-
-/*void WebView::sendOffClose()
-{
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::closeMedia);
-    msg.string8(m_mediaId);
-    msg.sendToServer();
-}*/
 
 void WebView::mousePressEvent(QMouseEvent* mouseEvent)
 {
@@ -142,111 +132,6 @@ void WebView::mousePressEvent(QMouseEvent* mouseEvent)
     }
     MediaContainer::mousePressEvent(mouseEvent);
 }
-
-/*void WebView::fill(NetworkMessageWriter& message)
-{
-    message.string8(m_mediaId);
-    // auto url= m_uri->getUri();
-    // message.string16(getUriName());
-    // message.string32(url);
-}
-
-void WebView::readMessage(NetworkMessageReader& msg)
-{
-   setUriName(msg.string16());
-    auto typeMsg= static_cast<ShareType>(msg.uint8());
-    auto url= msg.string32();
-    qDebug() << "url: " << url << "name: " << getUriName() << typeMsg << "action:" << msg.action();
-    if(typeMsg == HTML)
-    {
-        auto html= msg.string32();
-        m_ui->m_webview->setHtml(html, QUrl::fromUserInput(url));
-    }
-    else if(typeMsg == URL)
-    {
-        m_ui->m_webview->setUrl(QUrl::fromUserInput(url));
-    }
-    // m_uri->setUri(url);
-}*/
-
-/*void WebView::createActions()
-{
-    if(m_webCtrl->state() == WebpageController::RemoteView)
-        return;
-*/
-/*connect(m_shareAsLink, &QAction::triggered, this, [=](bool checked) {
-     m_shareAsHtml->setEnabled(!checked);
-     if(checked)
-     {
-         NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
-         // msg.uint8(getContentType());
-         msg.string8(m_mediaId);
-         msg.string16(getUriName());
-         msg.int8(URL);
-         // msg.string32(m_uri->getUri());
-         msg.sendToServer();
-     }
-     else
-     {
-         sendOffClose();
-     }
- });*/
-
-/*connect(m_shareAsHtml, &QAction::triggered, this, [=](bool checked) {
-    m_shareAsLink->setEnabled(!checked);
-    if(checked)
-    {
-        m_view->page()->toHtml([=](QString html) {
-            NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
-            // msg.uint8(getContentType());
-            msg.string8(m_mediaId);
-            msg.string16(getUriName());
-            msg.uint8(HTML);
-            // msg.string32(m_uri->getUri());
-            msg.string32(html);
-            msg.sendToServer();
-        });
-    }
-    else
-    {
-        sendOffClose();
-    }
-});*/
-//}
-
-/*void WebView::creationToolBar()
-{
-*/
-
-/* connect(m_view, &QWebEngineView::urlChanged, this, [=]() {
-     auto url= m_view->url().toString();
-     // m_uri->setUri(url);
-     if((m_shareAsHtml->isChecked() || m_shareAsLink->isChecked()) && m_webCtrl->keepSharing())
-     {
-         if(m_shareAsLink->isChecked())
-         {
-             NetworkMessageWriter msg(NetMsg::WebPageCategory, NetMsg::UpdateContent);
-             msg.string8(m_mediaId);
-             msg.string16(getUriName());
-             msg.int8(URL);
-             msg.string32(url);
-             msg.sendToServer();
-         }
-         else if(m_shareAsHtml->isChecked())
-         {
-             m_view->page()->toHtml([=](QString html) {
-                 NetworkMessageWriter msg(NetMsg::WebPageCategory, NetMsg::UpdateContent);
-                 msg.string8(m_mediaId);
-                 msg.string16(getUriName());
-                 msg.uint8(HTML);
-                 // msg.string32(m_uri->getUri());
-                 msg.string32(html);
-                 msg.sendToServer();
-             });
-         }
-     }
- });*/
-//}
 
 void WebView::showEvent(QShowEvent* event)
 {
