@@ -174,6 +174,7 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
 {
     QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
     auto webCtrl= new WebpageController(uuid);
+    webCtrl->setOwnerId(params.value(QStringLiteral("ownerId")).toString());
 
     if(params.contains(QStringLiteral("mode")))
     {
@@ -258,6 +259,7 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     case C::ONLINEPICTURE:
     {
         auto data= MessageHelper::readImageData(msg);
+        uuid= data["uuid"].toString();
         base= image(uuid, data);
     }
     break;
@@ -269,24 +271,28 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     case C::CHARACTERSHEET:
     {
         auto data= MessageHelper::readCharacterSheet(msg);
+        uuid= data["uuid"].toString();
         base= sheetCtrl(uuid, data);
     }
     break;
     case C::SHAREDNOTE:
     {
         auto data= MessageHelper::readSharedNoteData(msg);
+        uuid= data["uuid"].toString();
         base= sharedNote(uuid, data, m_localId);
     }
     break;
     case C::PDF:
     {
         auto data= MessageHelper::readPdfData(msg);
+        uuid= data["uuid"].toString();
         base= pdf(uuid, data);
     }
     break;
     case C::WEBVIEW:
     {
         auto data= MessageHelper::readWebPageData(msg);
+        uuid= data["uuid"].toString();
         base= webPage(uuid, data);
     }
     break;
