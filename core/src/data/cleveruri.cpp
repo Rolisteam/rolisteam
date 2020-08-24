@@ -23,6 +23,7 @@
 
 #include <QDataStream>
 #include <QFileInfo>
+#include <set>
 
 #include "media/mediatype.h"
 #include "preferences/preferencesmanager.h"
@@ -293,6 +294,58 @@ QString CleverURI::getPreferenceDirectoryKey(Core::ContentType type)
         return m_typeToPreferenceDirectory.at(static_cast<int>(type));
     }
     return QString();
+}
+
+Core::ContentType CleverURI::extensionToContentType(const QString& filename)
+{
+    std::set<QString> characterSheet({".rcs"});
+    std::set<QString> map({".vmap"});
+    std::set<QString> image({".jpg", ".jpeg", ".png", ".bmp", ".svg", ".gif"});
+    std::set<QString> notes({".odt", ".htm", ".html", ".txt", ".md"});
+    std::set<QString> sharedNote({".rsn", ".txt", ".md"});
+    std::set<QString> webview({".htm", ".html", ".xhtml"});
+#ifdef WITH_PDF
+    std::set<QString> pdf({"*.pdf"});
+#endif
+
+    auto func= [filename](std::set<QString> set, Core::ContentType type) {
+        for(auto ext : set)
+        {
+            if(filename.endsWith(ext))
+                return type;
+        }
+        return Core::ContentType::UNKNOWN;
+    };
+    auto contentType= Core::ContentType::UNKNOWN;
+
+    contentType= func(characterSheet, Core::ContentType::CHARACTERSHEET);
+    if(contentType != Core::ContentType::UNKNOWN)
+        return contentType;
+
+    contentType= func(map, Core::ContentType::VECTORIALMAP);
+    if(contentType != Core::ContentType::UNKNOWN)
+        return contentType;
+
+#ifdef WITH_PDF
+    contentType= func(pdf, Core::ContentType::PDF);
+    if(contentType != Core::ContentType::UNKNOWN)
+        return contentType;
+#endif
+
+    contentType= func(image, Core::ContentType::PICTURE);
+    if(contentType != Core::ContentType::UNKNOWN)
+        return contentType;
+
+    contentType= func(sharedNote, Core::ContentType::SHAREDNOTE);
+    if(contentType != Core::ContentType::UNKNOWN)
+        return contentType;
+
+    contentType= func(webview, Core::ContentType::WEBVIEW);
+    if(contentType != Core::ContentType::UNKNOWN)
+        return contentType;
+
+    contentType= func(notes, Core::ContentType::NOTES);
+    return contentType;
 }
 void CleverURI::loadFileFromUri(QByteArray& array) const
 {

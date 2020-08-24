@@ -295,12 +295,6 @@ private:
      */
     void linkActionToMenu();
     /**
-     * @brief getContentType
-     * @param str
-     * @return
-     */
-    Core::ContentType getContentType(QString str);
-    /**
      * @brief findCharacterSheetWindowById
      * @param id
      * @return

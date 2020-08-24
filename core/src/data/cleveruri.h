@@ -96,6 +96,7 @@ public:
     static QString typeToIconPath(Core::ContentType);
     static QString typeToString(Core::ContentType);
     static QString getPreferenceDirectoryKey(Core::ContentType);
+    static Core::ContentType extensionToContentType(const QString& filename);
 
 signals:
     void nameChanged();

@@ -680,17 +680,7 @@ void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
 
 bool MainWindow::saveMinutes()
 {
-    // auto const& values= m_mediaHash.values();
-    //  for(auto& edit : values)
     {
-        /*  if(Core::ContentType::NOTES == edit->getContentType())
-          {
-              NoteContainer* note= dynamic_cast<NoteContainer*>(edit);
-              if(nullptr != note)
-              {
-                  note->saveMedia();
-              }
-          }*/
     }
     return true;
 }
@@ -1167,70 +1157,55 @@ void MainWindow::dragEnterEvent(QDragEnterEvent* event)
     }
     QMainWindow::dragEnterEvent(event);
 }
-Core::ContentType MainWindow::getContentType(QString str)
-{
-    /*QImage imag(str);
-    if(!imag.isNull())
-    {
-        return Core::ContentType::PICTURE;
-    }
-    else if(str.endsWith(".vmap"))
-    {
-        return Core::ContentType::VECTORIALMAP;
-    }
-    else if(str.endsWith(".m3u"))
-    {
-        return CleverURI::SONGLIST;
-    }
-    else if(str.endsWith(".rcs"))
-    {
-        return Core::ContentType::CHARACTERSHEET;
-    }
-    else if(str.endsWith(".md"))
-    {
-        return Core::ContentType::SHAREDNOTE;
-    }
-    else if(str.endsWith(".odt") || str.endsWith(".txt"))
-    {
-        return Core::ContentType::NOTES;
-    }
-#ifdef WITH_PDF
-    else if(str.endsWith(".pdf"))
-    {
-        return Core::ContentType::PDF;
-    }
-#endif
-    else
-    {
-        QStringList list
-            = m_preferences->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac").toString().split(' ');
-        int i= 0;
-        while(i < list.size())
-        {
-            QString filter= list.at(i);
-            filter.replace("*", "");
-            if(str.endsWith(filter))
-            {
-                return CleverURI::SONG;
-            }
-            ++i;
-        }
-    }*/
-    return Core::ContentType::NOTES;
-}
+#include "worker/networkdownloader.h"
 void MainWindow::dropEvent(QDropEvent* event)
 {
     const QMimeData* data= event->mimeData();
     if(!data->hasUrls())
         return;
 
+    qDebug() << data->formats();
     QList<QUrl> list= data->urls();
+    auto contentCtrl= m_gameController->contentController();
     for(auto url : list)
     {
-        Core::ContentType type= getContentType(url.toLocalFile());
-        qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
-        CleverURI* uri= new CleverURI(getShortNameFromPath(url.toLocalFile()), url.toLocalFile(), type);
-        // openCleverURI(uri, true);
+        auto path= url.toLocalFile();
+        if(!path.isEmpty()) // local file
+        {
+
+            Core::ContentType type= CleverURI::extensionToContentType(path);
+            if(type == Core::ContentType::UNKNOWN)
+                continue;
+            qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
+            contentCtrl->openMedia({{"path", path},
+                                    {"type", QVariant::fromValue(type)},
+                                    {"name", getShortNameFromPath(path)},
+                                    {"ownerId", m_gameController->playerController()->localPlayer()->uuid()}});
+        }
+        else // remote
+        {
+            auto urltext= url.toString(QUrl::None);
+            Core::ContentType type= CleverURI::extensionToContentType(urltext);
+            qDebug() << urltext << type;
+            if(type != Core::ContentType::PICTURE)
+                continue;
+
+#ifdef HAVE_QT_NETWORK
+            auto downloader= new NetworkDownloader(url);
+            connect(downloader, &NetworkDownloader::finished, this,
+                    [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data) {
+                        qDebug() << data << "download";
+                        contentCtrl->openMedia(
+                            {{"path", urltext},
+                             {"type", QVariant::fromValue(type)},
+                             {"data", data},
+                             {"name", getShortNameFromPath(url.fileName())},
+                             {"ownerId", m_gameController->playerController()->localPlayer()->uuid()}});
+                        downloader->deleteLater();
+                    });
+            downloader->download();
+#endif
+        }
     }
     event->acceptProposedAction();
 }
