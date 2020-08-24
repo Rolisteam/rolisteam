@@ -38,7 +38,7 @@ Frame {
             }
             Label {
                 id: mainText
-                text: "this texte is very long to test the behaviour."//frame.message.text
+                text: frame.message.text
                 font.bold: true
                 Layout.fillWidth: true
                 textFormat: Label.RichText

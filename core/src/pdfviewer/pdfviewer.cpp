@@ -174,10 +174,6 @@ void PdfViewer::sharePdfTo()
     if(answer == QMessageBox::Yes)
     {
         m_pdfCtrl->shareAsPdf();
-        /*NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
-        // msg.uint8(getContentType());
-        fill(msg);
-        msg.sendToServer();*/
     }
 }
 
