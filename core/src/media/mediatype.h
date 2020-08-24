@@ -47,7 +47,8 @@ enum class ContentType : int
     SHAREDNOTE,
     PDF,
     WEBVIEW,
-    INSTANTMESSAGING
+    INSTANTMESSAGING,
+    UNKNOWN
 };
 Q_ENUM_NS(ContentType)
 

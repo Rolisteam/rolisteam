@@ -324,6 +324,7 @@ set(HEADERS
     src/worker/vectorialmapmessagehelper.h
     src/worker/modelhelper.h
     src/worker/iohelper.h
+    src/worker/networkdownloader.h
     src/worker/convertionhelper.h
     src/updater/media/mediaupdaterinterface.h
     src/updater/media/vmapupdater.h
@@ -629,6 +630,7 @@ set(SOURCES
     src/updater/vmapitem/pathcontrollerupdater.cpp
     src/updater/vmapitem/characteritemupdater.cpp
     src/worker/messagehelper.cpp
+    src/worker/networkdownloader.cpp
     src/worker/modelhelper.cpp
     src/worker/vectorialmapmessagehelper.cpp
     src/worker/playermessagehelper.cpp
