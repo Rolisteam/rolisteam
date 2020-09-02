@@ -4,6 +4,8 @@ import QtQuick.Controls 2.4
 TextField {
     id:root
     property alias backgroundColor: rect.color
+    property alias border: rect.border
+    property alias radius: rect.radius
     property alias hAlign: root.horizontalAlignment
     property alias vAlign: root.verticalAlignment
     property bool clippedText: false
