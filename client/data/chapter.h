@@ -89,7 +89,7 @@ private:
     friend QDataStream& operator<<(QDataStream& os, const Chapter&);
     friend QDataStream& operator>>(QDataStream& is, Chapter&);
 };
-typedef QList<Chapter> ChapterList;
+// typedef QList<Chapter> ChapterList;
 Q_DECLARE_METATYPE(Chapter)
-Q_DECLARE_METATYPE(ChapterList)
+// Q_DECLARE_METATYPE(ChapterList)
 #endif // CHAPTER_H
