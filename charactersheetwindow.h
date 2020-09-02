@@ -52,6 +52,8 @@ struct SharingInfo
     QPointer<CharacterSheet> sheet;
     QPointer<Character> character;
     std::vector<QPointer<SheetWidget>> tabs;
+    QString playerName;
+    QString characterName;
 };
 
 /**
@@ -208,6 +210,7 @@ public slots:
      */
     void exportPDF();
     void removeAllDisableTab();
+    void reshareFromDisconnectedList(Character* character);
 protected slots:
     /**
      * @brief addTabWithSheetView
@@ -236,7 +239,7 @@ protected slots:
     /**
      * @brief affectSheetToCharacter
      */
-    void affectSheetToCharacter();
+    void affectSheetToCharacter(Character* character, CharacterSheet* sheet);
     /**
      * @brief displayError
      * @param warnings
@@ -262,6 +265,8 @@ protected slots:
      * @brief copyTab
      */
     void copyTab();
+
+    void shareToCharacter();
 
 protected:
     /**
@@ -351,6 +356,7 @@ private:
     QQmlComponent* m_sheetComponent;
 
     std::vector<SharingInfo> m_sheetToCharacter;
+    std::vector<SharingInfo> m_disconnectedCharacter;
     std::unique_ptr<ImageModel> m_imageModel;
 
     QJsonObject m_data;

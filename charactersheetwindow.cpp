@@ -254,7 +254,7 @@ void CharacterSheetWindow::addSharingMenu(QMenu* share)
     {
         QAction* action= share->addAction(QPixmap::fromImage(character->getAvatar()), character->name());
         action->setData(character->getUuid());
-        connect(action, &QAction::triggered, this, &CharacterSheetWindow::affectSheetToCharacter);
+        connect(action, &QAction::triggered, this, &CharacterSheetWindow::shareToCharacter);
     }
 }
 
@@ -375,9 +375,43 @@ void CharacterSheetWindow::copyTab()
     infoIt->tabs.push_back(tab);
 }
 
+void CharacterSheetWindow::reshareFromDisconnectedList(Character* character)
+{
+    if(!character)
+        return;
+    auto key= character->name();
+
+    for(auto info : m_disconnectedCharacter)
+    {
+        if(info.characterName != key)
+            continue;
+
+        auto it= std::find_if(m_sheetToCharacter.begin(), m_sheetToCharacter.end(), [info](const SharingInfo& sharing) {
+            return info.characterName == sharing.characterName;
+        });
+
+        if(it == m_sheetToCharacter.end())
+            affectSheetToCharacter(character, info.sheet);
+    }
+}
+
 void CharacterSheetWindow::removeAllDisableTab()
 {
     std::vector<CharacterSheet*> widgets;
+
+    std::vector<SharingInfo> newDisconnected;
+    std::copy_if(m_sheetToCharacter.begin(), m_sheetToCharacter.end(), std::back_inserter(newDisconnected),
+                 [](const SharingInfo& info) { return info.character.isNull(); });
+
+    for(auto sharing : newDisconnected)
+    {
+        auto it= std::find_if(
+            m_disconnectedCharacter.begin(), m_disconnectedCharacter.end(), [sharing](const SharingInfo& info) {
+                return info.playerName == sharing.playerName && info.characterName == sharing.characterName;
+            });
+        if(it == m_disconnectedCharacter.end())
+            m_disconnectedCharacter.push_back(sharing);
+    }
 
     std::for_each(m_sheetToCharacter.begin(), m_sheetToCharacter.end(), [this](const SharingInfo& info) {
         if(info.character)
@@ -391,16 +425,19 @@ void CharacterSheetWindow::removeAllDisableTab()
                              m_sheetToCharacter.end());
 }
 
-void CharacterSheetWindow::affectSheetToCharacter()
+void CharacterSheetWindow::shareToCharacter()
 {
     QAction* action= qobject_cast<QAction*>(sender());
     QString key= action->data().toString();
     Character* character= PlayersList::instance()->getCharacter(key);
-    if(!character)
-        return;
+    affectSheetToCharacter(character, m_currentCharacterSheet);
+}
 
-    CharacterSheet* sheet= m_currentCharacterSheet;
-    if(sheet == nullptr)
+void CharacterSheetWindow::affectSheetToCharacter(Character* character, CharacterSheet* sheet)
+{
+    Player* parent= character->getParentPlayer();
+
+    if(sheet == nullptr || parent == nullptr || character == nullptr)
         return;
 
     SheetWidget* quickWid= nullptr;
@@ -420,11 +457,10 @@ void CharacterSheetWindow::affectSheetToCharacter()
     if(nullptr == tab)
         return;
 
-    m_sheetToCharacter.push_back({sheet, character, {tab}});
+    m_sheetToCharacter.push_back({sheet, character, {tab}, parent->name(), character->name()});
     sheet->setName(character->name());
     m_tabs->setTabText(m_tabs->indexOf(quickWid), sheet->getName());
 
-    Player* parent= character->getParentPlayer();
     Player* localItem= PlayersList::instance()->getLocalPlayer();
     if((nullptr != parent) && (nullptr != localItem) && (localItem->isGM()))
     {
@@ -441,6 +477,7 @@ void CharacterSheetWindow::affectSheetToCharacter()
         }
     }
 }
+
 void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
 {
 
