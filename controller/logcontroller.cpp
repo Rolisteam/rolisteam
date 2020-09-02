@@ -19,7 +19,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
         return;
 
     QByteArray localMsg= msg.toLocal8Bit();
-    auto msgFormated   = QStringLiteral("%1 (%2:%3), %4")
+    auto msgFormated= QStringLiteral("%1 (%2:%3), %4")
                           .arg(QString(localMsg.constData()), QString(context.file), QString(context.line),
                                QString(context.function));
     LogController::LogLevel cLevel= LogController::Error;
@@ -147,9 +147,9 @@ void LogController::actionActivated()
 
 void LogController::signalActivated()
 {
-    auto obj   = sender();
-    auto index = senderSignalIndex();
-    auto meta  = obj->metaObject();
+    auto obj= sender();
+    auto index= senderSignalIndex();
+    auto meta= obj->metaObject();
     auto method= meta->method(index);
     manageMessage(QStringLiteral("[signal] - %1").arg(QString::fromUtf8(method.name())), Info);
 }
@@ -162,10 +162,10 @@ QString LogController::typeToText(LogController::LogLevel type)
 void LogController::setLogPath(const QString& path)
 {
     m_logfile.reset(new QFile(path));
-    if(m_logfile->open(QFile::WriteOnly))
-    {
-        m_file.setDevice(m_logfile.get());
-    }
+    if(!m_logfile->open(QFile::WriteOnly))
+        manageMessage(QStringLiteral("[log] file open failed. %1 is unwritable. Please, check permissions").arg(path),
+                      Error);
+    m_file.reset(new QTextStream(m_logfile.get()));
 }
 
 bool LogController::signalInspection() const
@@ -208,7 +208,7 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
         {
             if((m_currentModes & File) && (m_logfile))
             {
-                m_file << str;
+                *m_file << str << "\n";
             }
             if(m_currentModes & Gui)
             {
