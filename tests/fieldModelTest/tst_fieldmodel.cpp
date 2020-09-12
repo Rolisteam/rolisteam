@@ -39,7 +39,7 @@ private Q_SLOTS:
     void initTestCase();
 
 private:
-    GenericModel* m_model;
+    std::unique_ptr<GenericModel> m_model;
     CharacterProperty propriety;
     CharacterProperty propriety1;
     CharacterProperty propriety2;
@@ -51,7 +51,7 @@ void FieldModelTest::initTestCase()
     QStringList list;
     list << "column1"
          << "column2";
-    m_model= new GenericModel(list, this);
+    m_model.reset(new GenericModel(list));
 }
 
 void FieldModelTest::testHeader()
@@ -65,7 +65,7 @@ void FieldModelTest::testHeader()
 }
 void FieldModelTest::testAdd()
 {
-    QSignalSpy spy(m_model, &GenericModel::rowsAboutToBeInserted);
+    QSignalSpy spy(m_model.get(), &GenericModel::rowsAboutToBeInserted);
     QVERIFY(m_model->rowCount() == 0);
     m_model->addData(&propriety);
     QVERIFY(m_model->rowCount() == 1);
@@ -78,7 +78,7 @@ void FieldModelTest::testAdd()
 }
 void FieldModelTest::testDelete()
 {
-    QSignalSpy spy(m_model, &GenericModel::rowsAboutToBeRemoved);
+    QSignalSpy spy(m_model.get(), &GenericModel::rowsAboutToBeRemoved);
     QVERIFY(m_model->rowCount() == 3);
 
     m_model->removeData(m_model->index(0, 0));

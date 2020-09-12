@@ -188,7 +188,7 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
                 if(m_diceParser->parseLine(initCmd))
                 {
                     m_diceParser->start();
-                    auto valueList= m_diceParser->getSumOfDiceResult();
+                    auto valueList= m_diceParser->scalarResultsFromEachInstruction();
                     if(valueList.isEmpty())
                         return;
 

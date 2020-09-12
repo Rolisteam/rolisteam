@@ -55,6 +55,7 @@ class ChatWindow : public QWidget
     Q_OBJECT
 
 public:
+    friend class ChatWindowTest;
     enum CHAT_OPERATOR
     {
         NONE,
@@ -97,7 +98,7 @@ public:
      * @param msgtype
      */
     void showMessage(const QString& utilisateur, const QColor& couleur, const QString& message,
-        const QString& comment= QString(), NetMsg::Action msgtype= NetMsg::ChatMessageAction);
+                     const QString& comment= QString(), NetMsg::Action msgtype= NetMsg::ChatMessageAction);
     /**
      * @brief hasUnseenMessage
      * @return

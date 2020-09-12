@@ -320,7 +320,8 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             painter->drawEllipse(square);
             painter->restore();
             painter->drawText(rect, Qt::AlignCenter, init);
-            // toShow+= QString(" %1: %2").arg(tr("Init", "short for Initiative"), init);
+            // toShow+= QString(" %1: %2").arg(tr("Init", "short for Initiative"),
+            // init);
             painter->restore();
         }
     }
@@ -928,6 +929,7 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
             connect(action, &QAction::triggered, this, [=]() {
                 if(nullptr == m_character)
                     return;
+
                 m_character->setCurrentShape(nullptr);
                 update();
             });
@@ -947,9 +949,9 @@ void CharacterItem::runInit()
     if(m_diceParser.parseLine(cmd))
     {
         m_diceParser.start();
-        if(!m_diceParser.getErrorMap().isEmpty())
+        if(!m_diceParser.errorMap().isEmpty())
             qWarning() << m_diceParser.humanReadableError();
-        auto result= m_diceParser.getLastIntegerResults();
+        auto result= m_diceParser.scalarResultsFromEachInstruction();
         int sum= std::accumulate(result.begin(), result.end(), 0);
         m_character->setInitiativeScore(sum);
         update();
