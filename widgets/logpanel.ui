@@ -47,17 +47,17 @@
        </item>
        <item>
         <property name="text">
-         <string>Debug</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
          <string>warning</string>
         </property>
        </item>
        <item>
         <property name="text">
          <string>Info</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Debug</string>
         </property>
        </item>
       </widget>

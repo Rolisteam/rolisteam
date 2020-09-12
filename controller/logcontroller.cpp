@@ -153,10 +153,14 @@ void LogController::signalActivated()
     auto method= meta->method(index);
     manageMessage(QStringLiteral("[signal] - %1").arg(QString::fromUtf8(method.name())), Info);
 }
+
 QString LogController::typeToText(LogController::LogLevel type)
 {
-    static QStringList list= {"Error", "Debug", "Warning", "Info", "Feature", "Feature", "Search"};
-    return list.at(type);
+    static QHash<LogController::LogLevel, QString> list
+        = {{LogController::Debug, "Debug"},  {LogController::Error, "Error"},      {LogController::Warning, "Warning"},
+           {LogController::Info, "Info"},    {LogController::Features, "Feature"}, {LogController::Hidden, "Feature"},
+           {LogController::Search, "Search"}};
+    return list.value(type);
 }
 
 void LogController::setLogPath(const QString& path)
@@ -195,29 +199,33 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
     QString category; // WARNING unused
     timestamps= QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
 
-    if(type != Search)
+    if(type == Hidden)
     {
-        if(m_currentModes & Console || m_logLevel == Debug || m_logLevel >= type || type == Error)
-        {
-            if(type == Error)
-                std::cerr << str.toStdString() << std::endl;
-            else
-                std::cout << str.toStdString() << std::endl;
-        }
-        if(m_logLevel >= type || type == Features || type == Hidden)
-        {
-            if((m_currentModes & File) && (m_logfile))
-            {
-                *m_file << str << "\n";
-            }
-            if(m_currentModes & Gui)
-            {
-                emit showMessage(str, type);
-            }
-        }
+        emit showMessage(str, type);
+        return;
     }
-    if((m_currentModes & Network) && (type != Hidden))
+
+    if(type == Search || (m_currentModes & Network))
     {
         emit sendOffMessage(str, type, category, timestamps);
+    }
+
+    if(type > m_logLevel)
+        return;
+
+    if(m_currentModes & Console)
+    {
+        if(type == Error)
+            std::cerr << str.toStdString() << std::endl;
+        else
+            std::cout << str.toStdString() << std::endl;
+    }
+    if((m_currentModes & File) && (m_logfile))
+    {
+        *m_file << str << "\n";
+    }
+    if(m_currentModes & Gui)
+    {
+        emit showMessage(str, type);
     }
 }

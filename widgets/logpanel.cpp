@@ -37,6 +37,9 @@ void LogPanel::showMessage(QString msg, LogController::LogLevel level)
 {
     static bool alternance= false;
 
+    if(level > m_controller->logLevel())
+        return;
+
     QColor color;
     alternance= !alternance;
 

@@ -16,13 +16,13 @@ class LogController : public QObject
 public:
     enum LogLevel
     {
-        Debug= 0,
-        Error,
+        Features= -1,
+        Error= 0,
         Warning,
         Info,
+        Debug,
         Hidden,
         Search,
-        Features
     };
     Q_ENUM(LogLevel)
 
