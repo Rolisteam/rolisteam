@@ -159,5 +159,6 @@
         <file>resources/rolistheme/npcNumber.svg</file>
         <file>resources/rolistheme/npcName.svg</file>
         <file>resources/rolistheme/stateName.svg</file>
+        <file>resources/rolistheme/cloning.svg</file>
     </qresource>
 </RCC>

@@ -72,6 +72,7 @@ public slots:
     void errorOccurs(QString);
     void checkConnection();
     void selectPlayerAvatar();
+    void cloneProfile();
 
 private:
     Ui::SelectConnectionProfileDialog* ui;

@@ -97,18 +97,20 @@ ConnectionProfile* ProfileModel::getProfile(const QModelIndex& index)
     return getProfile(index.row());
 }
 
-void ProfileModel::cloneProfile(const QModelIndex& index)
+int ProfileModel::cloneProfile(const QModelIndex& index)
 {
     auto profileSrc= getProfile(index.row());
 
-    if(nullptr != profileSrc)
-    {
-        ConnectionProfile* clonedProfile= new ConnectionProfile();
-        clonedProfile->cloneProfile(profileSrc);
-        auto name= clonedProfile->profileTitle();
-        clonedProfile->setProfileTitle(name.append(tr(" (clone)")));
-        appendProfile(clonedProfile);
-    }
+    if(nullptr == profileSrc)
+        return -1;
+
+    ConnectionProfile* clonedProfile= new ConnectionProfile();
+    clonedProfile->cloneProfile(profileSrc);
+    auto name= clonedProfile->profileTitle();
+    clonedProfile->setProfileTitle(name.append(tr(" (clone)")));
+    appendProfile(clonedProfile);
+
+    return indexOf(clonedProfile);
 }
 
 int ProfileModel::indexOf(ConnectionProfile* tmp)
