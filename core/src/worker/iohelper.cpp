@@ -794,7 +794,7 @@ void saveSharedNote(SharedNoteController* ctrl, QDataStream& output)
 
     saveBase(ctrl, output);
 
-    output << ctrl->permission();
+    // output << ctrl->permission();
     output << ctrl->text();
     output << ctrl->highligthedSyntax();
     output << ctrl->markdownVisible();
@@ -1091,8 +1091,8 @@ void IOHelper::readSharedNoteController(SharedNoteController* ctrl, const QByteA
 
     readBase(ctrl, input);
 
-    ParticipantModel::Permission perm;
-    input >> perm;
+    /*ParticipantModel::Permission perm;
+    input >> perm;*/
 
     QString text;
     input >> text;
@@ -1106,7 +1106,7 @@ void IOHelper::readSharedNoteController(SharedNoteController* ctrl, const QByteA
     ctrl->setMarkdownVisible(b);
     ctrl->setText(text);
     ctrl->setHighligthedSyntax(syntax);
-    ctrl->setPermission(perm);
+    // ctrl->setPermission(perm);
 }
 
 // QHash<QString, std::map<QString, QVariant>>

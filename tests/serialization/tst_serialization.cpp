@@ -57,6 +57,8 @@ void ContentControllerTest::init()
     m_playerCtrl.reset(new PlayerController);
     m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel()));
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
+
+    m_ctrl->setLocalId("localid");
 }
 
 void ContentControllerTest::serializeTest()
