@@ -138,6 +138,18 @@ QString ContentModel::activeMediaId() const
     return (*it)->uuid();
 }
 
+MediaControllerBase* ContentModel::media(const QString& mediaId)
+{
+    auto it= std::find_if(
+        std::begin(m_medias), std::end(m_medias),
+        [mediaId](const std::unique_ptr<MediaControllerBase>& medium) { return mediaId == medium->uuid(); });
+
+    if(it == m_medias.end())
+        return nullptr;
+
+    return it->get();
+}
+
 std::vector<MediaControllerBase*> ContentModel::controllers() const
 {
     std::vector<MediaControllerBase*> vec;

@@ -84,6 +84,8 @@ public:
     QString sessionName() const;
     QString sessionPath() const;
     QString gameMasterId() const;
+    QString currentMediaId() const;
+    MediaControllerBase* media(const QString& id) const;
     QString localId() const;
     bool localIsGM() const;
 
@@ -117,17 +119,13 @@ public slots:
     void openResources(const QModelIndex& index);
     void addChapter(const QModelIndex& index);
     void removeSelectedItems(const QModelIndexList& selection);
-    // void addContent(ResourcesNode* node);
-    // void removeContent(ResourcesNode* node);
     void setSessionName(const QString& name);
     void setSessionPath(const QString& path);
     void addImageAs(const QPixmap& map, Core::ContentType type);
-    // void setActiveMediaController(AbstractMediaContainerController* mediaCtrl);
     void saveSession();
     void loadSession();
     void setGameMasterId(const QString& id);
     void setLocalId(const QString& id);
-    // void closeMedia(Core::ContentType type, const QString& id);
 
 private:
     std::unique_ptr<session::SessionItemModel> m_sessionModel;

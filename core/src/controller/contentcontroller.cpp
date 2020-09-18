@@ -182,6 +182,7 @@ void ContentController::removeSelectedItems(const QModelIndexList& selection) {}
 void ContentController::openResources(const QModelIndex& index) {}
 void ContentController::saveSession()
 {
+    Q_ASSERT(!m_localId.isEmpty());
     // saveAllMediaContainer();
     ModelHelper::saveSession(m_sessionPath, m_sessionName, this);
 }
@@ -194,6 +195,16 @@ void ContentController::loadSession()
 QString ContentController::gameMasterId() const
 {
     return m_gameMasterId;
+}
+
+QString ContentController::currentMediaId() const
+{
+    return m_contentModel->activeMediaId();
+}
+
+MediaControllerBase* ContentController::media(const QString& id) const
+{
+    return m_contentModel->media(id);
 }
 
 QString ContentController::localId() const

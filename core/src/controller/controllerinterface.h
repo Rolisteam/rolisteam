@@ -33,6 +33,8 @@ public:
 
 signals:
     void performCommand(QUndoCommand* command);
+    void errorOccurs(QString);
+    void infoOccurs(QString);
 };
 
 #endif // CONTROLLERINTERFACE_H
