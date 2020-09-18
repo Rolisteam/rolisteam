@@ -66,9 +66,7 @@ signals:
 private:
     Ui::PlayersPanel* m_ui;
     QPointer<PlayerController> m_ctrl;
-    // PersonDialog* m_personDialog;
     QItemSelectionModel* m_selectionModel;
-    QPointer<PlayerOnMapModel> m_model;
 };
 
 #endif

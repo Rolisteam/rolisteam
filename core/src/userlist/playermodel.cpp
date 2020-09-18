@@ -237,7 +237,7 @@ Qt::ItemFlags PlayerModel::flags(const QModelIndex& index) const
     if(!index.isValid())
         return Qt::ItemIsEnabled;
 
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
 QVariant PlayerModel::headerData(int section, Qt::Orientation orientation, int role) const

@@ -26,15 +26,20 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     ui->m_progressBar->setVisible(false);
 
     connect(ui->m_profileList->selectionModel(), &QItemSelectionModel::currentChanged, this,
-            [this](const QModelIndex& selected, const QModelIndex&) { setCurrentProfile(selected); });
+            [this](const QModelIndex& selected, const QModelIndex&) {
+                setCurrentProfile(selected);
+                ui->m_cloneProfileAct->setEnabled(selected.isValid());
+            });
     connect(ui->m_profileList, &QListView::doubleClicked, this, &SelectConnectionProfileDialog::connectToIndex);
     connect(ui->m_playerAvatarAct, &QAction::triggered, this, &SelectConnectionProfileDialog::selectPlayerAvatar);
+    connect(ui->m_cloneProfileAct, &QAction::triggered, this, &SelectConnectionProfileDialog::cloneProfile);
 
     ui->m_avatarPlayer->setDefaultAction(ui->m_playerAvatarAct);
 
     ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
     setCurrentProfile(ui->m_profileList->currentIndex());
     ui->m_addCharacterBtn->setDefaultAction(ui->m_addCharacterAct);
+    ui->m_cloneProfileBtn->setDefaultAction(ui->m_cloneProfileAct);
     ui->m_removeCharacterBtn->setDefaultAction(ui->m_removeCharacterAct);
     ui->m_characterList->setModel(m_characterModel.get());
     auto vh= ui->m_characterList->horizontalHeader();
@@ -257,11 +262,22 @@ void SelectConnectionProfileDialog::connectTo()
 
     m_ctrl->startConnection(m_currentProfileIndex);
 }
+
+void SelectConnectionProfileDialog::cloneProfile()
+{
+    auto idx= m_model->cloneProfile(ui->m_profileList->currentIndex());
+    if(idx < 0)
+        return;
+
+    ui->m_profileList->setCurrentIndex(m_model->index(idx, 0));
+}
+
 QString SelectConnectionProfileDialog::openImage(const QString& path)
 {
     QFileInfo info(path);
     return QFileDialog::getOpenFileName(this, tr("Load Avatar"), info.absolutePath());
 }
+
 void SelectConnectionProfileDialog::checkConnection()
 {
     bool valid= false;

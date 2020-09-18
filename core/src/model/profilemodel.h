@@ -64,7 +64,7 @@ public:
 
     ConnectionProfile* getProfile(const QModelIndex&);
 
-    void cloneProfile(const QModelIndex& index);
+    int cloneProfile(const QModelIndex& index);
 
     int indexOf(ConnectionProfile* tmp);
     ConnectionProfile* getProfile(int index);
