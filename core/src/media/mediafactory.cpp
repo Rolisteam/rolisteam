@@ -100,7 +100,7 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
     if(!params.isEmpty())
     {
         vmapCtrl->setPermission(params.value(QStringLiteral("permission")).value<Core::PermissionMode>());
-        vmapCtrl->setName(params.value(QStringLiteral("title")).toString());
+        vmapCtrl->setName(params.value(QStringLiteral("name")).toString());
         vmapCtrl->setBackgroundColor(params.value(QStringLiteral("bgcolor")).value<QColor>());
         vmapCtrl->setGridSize(params.value(QStringLiteral("gridSize")).toInt());
         vmapCtrl->setGridPattern(params.value(QStringLiteral("gridPattern")).value<Core::GridPattern>());
