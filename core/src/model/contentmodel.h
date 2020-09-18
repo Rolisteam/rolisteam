@@ -73,6 +73,7 @@ public:
     bool appendMedia(MediaControllerBase* media);
     bool removeMedia(const QString& uuid);
     QString activeMediaId() const;
+    MediaControllerBase* media(const QString& mediaId);
 
     std::vector<MediaControllerBase*> controllers() const;
 
