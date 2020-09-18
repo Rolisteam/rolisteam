@@ -719,15 +719,11 @@ void MainWindow::helpOnLine()
 }
 void MainWindow::updateUi()
 {
-    if(nullptr == m_currentConnectionProfile)
-    {
-        return;
-    }
+    auto isGM= m_gameController->localIsGM();
+
 #ifndef NULL_PLAYER
-    m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
+    m_audioPlayer->updateUi(isGM);
 #endif
-    bool isGM= m_currentConnectionProfile->isGM();
-    // m_ui->m_newMapAction->setEnabled(isGM);
     m_ui->m_addVectorialMap->setEnabled(isGM);
     m_ui->m_openMapAction->setEnabled(isGM);
     m_ui->m_openStoryAction->setEnabled(isGM);
