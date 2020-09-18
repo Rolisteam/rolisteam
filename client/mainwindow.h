@@ -206,17 +206,6 @@ protected:
      * @param ev
      */
     void dragEnterEvent(QDragEnterEvent* ev);
-    /**
-     * @brief saveAllMediaContainer
-     */
-    void saveAllMediaContainer();
-    /**
-     * @brief saveMedia
-     * @param mediaC
-     * @param AskPath
-     * @param saveAs
-     */
-    void saveMedia(MediaContainer* mediaC, bool saveAs);
     void readStory(QString fileName);
     void processSharedNoteMessage(NetworkMessageReader* msg);
     void showTipChecker();

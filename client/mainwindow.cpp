@@ -66,6 +66,7 @@
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/tipofdayviewer.h"
 #include "widgets/workspace.h"
+#include "worker/networkdownloader.h"
 
 #include "worker/messagehelper.h"
 #include "worker/playermessagehelper.h"
@@ -367,7 +368,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, &QAction::triggered, m_mdiArea.get(), &Workspace::closeActiveSub);
     connect(m_ui->m_saveAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
-    connect(m_ui->m_saveAllAction, &QAction::triggered, this, &MainWindow::saveAllMediaContainer);
+    // connect(m_ui->m_saveAllAction, &QAction::triggered, this, &MainWindow::saveAllMediaContainer);
     connect(m_ui->m_saveAsAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
     connect(m_ui->m_saveScenarioAction, &QAction::triggered, this, [this]() { saveStory(false); });
     connect(m_ui->m_saveScenarioAsAction, &QAction::triggered, this, [this]() { saveStory(true); });
@@ -492,7 +493,7 @@ void MainWindow::newVMap()
     {
         auto ctrl= m_gameController->contentController();
         std::map<QString, QVariant> params;
-        params.insert({QStringLiteral("title"), mapWizzard.name()});
+        params.insert({QStringLiteral("name"), mapWizzard.name()});
         params.insert({QStringLiteral("permission"), mapWizzard.permission()});
         params.insert({QStringLiteral("bgcolor"), mapWizzard.backgroundColor()});
         params.insert({QStringLiteral("gridSize"), mapWizzard.gridSize()});
@@ -624,58 +625,23 @@ bool MainWindow::saveStory(bool saveAs)
 ////////////////////////////////////////////////////
 void MainWindow::saveCurrentMedia()
 {
-    // auto mediaC= m_mdiArea->currentMediaContainer();
 
-    bool saveAs= false;
-    if(qobject_cast<QAction*>(sender()) == m_ui->m_saveAsAction)
-    {
-        saveAs= true;
-    }
-    QMdiSubWindow* active= m_mdiArea->currentSubWindow();
-    if(nullptr != active)
-    {
-        MediaContainer* currentMedia= dynamic_cast<MediaContainer*>(active);
-        if(nullptr != currentMedia)
-        {
-            saveMedia(currentMedia, saveAs);
-        }
-    }
-}
-void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
-{
-    if(nullptr == mediaC)
+    auto content= m_gameController->contentController();
+    auto mediaId= content->currentMediaId();
+    auto media= content->media(mediaId);
+
+    if(!media)
         return;
 
-    /*CleverURI* cleverURI= mediaC->getCleverUri();
-    if(nullptr == cleverURI)
-        return;
-
-    QString uri= cleverURI->getUri();
-    if(cleverURI->getCurrentMode() == CleverURI::Linked || saveAs)
+    QString dest= media->path();
+    QUrl url(dest);
+    if(qobject_cast<QAction*>(sender()) == m_ui->m_saveAsAction || dest.isEmpty() || !url.isLocalFile())
     {
-        if(uri.isEmpty() || saveAs)
-        {
-            QString key=
-    CleverURI::getPreferenceDirectoryKey(cleverURI->getType()); QString filter=
-    CleverURI::getFilterForType(cleverURI->getType()); QString media=
-    CleverURI::typeToString(cleverURI->getType()); QString fileName=
-    QFileDialog::getSaveFileName( this, tr("Save %1").arg(media),
-    m_preferences->value(key, QDir::homePath()).toString(), filter);
-            if(fileName.isEmpty())
-            {
-                return;
-            }
-            QFileInfo info(fileName);
-            m_preferences->registerValue(key, info.absolutePath());
-            cleverURI->setUri(fileName);
-        }
-        mediaC->saveMedia();
+        auto type= media->contentType();
+        auto filter= CleverURI::getFilterForType(type);
+        auto key= m_preferences->value(CleverURI::getPreferenceDirectoryKey(type), QDir::homePath()).toString();
+        QFileDialog::getSaveFileName(this, tr("Save %1").arg(media->name()), key, filter);
     }
-    else if(cleverURI->getCurrentMode() == CleverURI::Internal)
-    {
-        mediaC->putDataIntoCleverUri();
-    }
-    setLatestFile(cleverURI);*/
 }
 
 bool MainWindow::saveMinutes()
@@ -685,13 +651,6 @@ bool MainWindow::saveMinutes()
     return true;
 }
 
-void MainWindow::saveAllMediaContainer()
-{
-    /*  for(auto& media : m_mediaHash)
-      {
-          saveMedia(media, false);
-      }*/
-}
 void MainWindow::stopReconnection()
 {
     m_ui->m_changeProfileAct->setEnabled(true);
@@ -1153,7 +1112,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent* event)
     }
     QMainWindow::dragEnterEvent(event);
 }
-#include "worker/networkdownloader.h"
+
 void MainWindow::dropEvent(QDropEvent* event)
 {
     const QMimeData* data= event->mimeData();
@@ -1182,7 +1141,6 @@ void MainWindow::dropEvent(QDropEvent* event)
         {
             auto urltext= url.toString(QUrl::None);
             Core::ContentType type= CleverURI::extensionToContentType(urltext);
-            qDebug() << urltext << type;
             if(type != Core::ContentType::PICTURE)
                 continue;
 
@@ -1190,7 +1148,6 @@ void MainWindow::dropEvent(QDropEvent* event)
             auto downloader= new NetworkDownloader(url);
             connect(downloader, &NetworkDownloader::finished, this,
                     [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data) {
-                        qDebug() << data << "download";
                         contentCtrl->openMedia(
                             {{"path", urltext},
                              {"type", QVariant::fromValue(type)},
