@@ -114,7 +114,6 @@ private:
     static QPointer<PlayerModel> m_playerModel;
     QString m_text;
     QString m_latestCommand;
-    // Permission m_permission= Permission::READ;
     HighlightedSyntax m_highlightedSyntax= HighlightedSyntax::MarkDown;
     bool m_participantVisible= true;
     bool m_markdownPreview= false;

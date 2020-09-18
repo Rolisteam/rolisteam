@@ -347,6 +347,8 @@ ParticipantModel::Permission ParticipantModel::permissionFor(const QModelIndex& 
 ParticipantModel::Permission ParticipantModel::permissionFor(const QString& id)
 {
     auto item= findItem(id, m_root.get());
+    if(!item)
+        return hidden;
     auto parent= item->parent();
     auto val= m_root->indexOf(parent);
 
