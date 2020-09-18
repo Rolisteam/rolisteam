@@ -31,7 +31,7 @@ NewMediaController::NewMediaController(Core::ContentType contentType, ContentMod
                                        const std::map<QString, QVariant>& map, bool localIsGM, QUndoCommand* parent)
     : QUndoCommand(parent), m_contentType(contentType), m_args(map), m_model(model), m_localGM(localIsGM)
 {
-    m_title= m_args["title"].toString();
+    m_title= m_args["name"].toString();
 
     QString media(QObject::tr("Create new %1 %2"));
 
