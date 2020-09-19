@@ -47,19 +47,8 @@ public:
      * @brief constructor for Qt widget
      */
     VToolsBar(VectorialMapController* ctrl, QWidget* parent= nullptr);
-    // Selectable tools
-    /**
-     * @brief tools id
-     */
-
 public slots:
-    /**
-     * @brief updateUi
-     */
     void updateUi(Core::PermissionMode mode);
-    /**
-     * @brief setGM
-     */
     void setGM(bool);
 
 private slots:

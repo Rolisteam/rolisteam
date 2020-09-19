@@ -47,6 +47,8 @@ class CharacterItemController : public VisualItemController
     Q_OBJECT
     Q_PROPERTY(qreal side READ side WRITE setSide NOTIFY sideChanged)
     Q_PROPERTY(QColor stateColor READ stateColor WRITE setStateColor NOTIFY stateColorChanged)
+    Q_PROPERTY(QString stateId READ stateId WRITE setStateId NOTIFY stateIdChanged)
+    Q_PROPERTY(QImage stateImage READ stateImage NOTIFY stateImageChanged)
     Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
     Q_PROPERTY(bool playableCharacter READ playableCharacter WRITE setPlayableCharacter NOTIFY playableCharacterChanged)
     Q_PROPERTY(QRectF thumnailRect READ thumnailRect NOTIFY thumnailRectChanged)
@@ -58,12 +60,17 @@ class CharacterItemController : public VisualItemController
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(CharacterVision* vision READ vision NOTIFY visionChanged)
     Q_PROPERTY(qreal radius READ radius NOTIFY radiusChanged)
+    Q_PROPERTY(bool healthStatusVisible READ healthStatusVisible NOTIFY healthStatusVisibleChanged)
 public:
     CharacterItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                             QObject* parent= nullptr);
 
     qreal side() const;
+    // state
     QColor stateColor() const;
+    QString stateId() const;
+    QImage stateImage() const;
+
     int number() const;
     bool playableCharacter() const;
     QRectF thumnailRect() const;
@@ -77,12 +84,14 @@ public:
     Character* character() const;
     CharacterVision* vision() const;
     qreal radius() const;
-
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
     void setCorner(const QPointF& move, int corner) override;
     QColor color() const override;
     QRectF rect() const override;
+
+    // accessor to Map properties
+    bool healthStatusVisible() const;
 
 public slots:
     void setSide(qreal side);
@@ -92,6 +101,7 @@ public slots:
     void setVisionShape(CharacterVision::SHAPE visionShape);
     void setTextRect(QRectF textRect);
     void setFont(const QFont& font);
+    void setStateId(const QString& id);
 
 signals:
     void sideChanged(qreal side);
@@ -108,6 +118,9 @@ signals:
     void fontChanged(QFont font);
     void radiusChanged(qreal radius);
     void remoteChanged(bool);
+    void stateIdChanged(QString);
+    void stateImageChanged(QString);
+    void healthStatusVisibleChanged(bool);
 
 private:
     void refreshTextRect();

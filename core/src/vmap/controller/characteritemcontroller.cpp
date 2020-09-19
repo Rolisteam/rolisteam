@@ -53,6 +53,8 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     connect(ctrl, &VectorialMapController::pcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
     connect(ctrl, &VectorialMapController::npcNumberVisibleChanged, this, &CharacterItemController::refreshTextRect);
     connect(ctrl, &VectorialMapController::stateLabelVisibleChanged, this, &CharacterItemController::refreshTextRect);
+    connect(ctrl, &VectorialMapController::healthBarVisibleChanged, this,
+            &CharacterItemController::healthStatusVisibleChanged);
 
     if(!m_character->isNpc())
     {
@@ -262,6 +264,21 @@ QRectF CharacterItemController::rect() const
     return thumnailRect();
 }
 
+QString CharacterItemController::stateId() const
+{
+    return m_character ? m_character->stateId() : QString();
+}
+
+QImage CharacterItemController::stateImage() const
+{
+    return m_character ? m_character->currentStateImage() : QImage();
+}
+
+bool CharacterItemController::healthStatusVisible() const
+{
+    return m_ctrl->healthBarVisible();
+}
+
 void CharacterItemController::refreshTextRect()
 {
     auto subtext= text();
@@ -331,6 +348,12 @@ void CharacterItemController::setFont(const QFont& font)
         return;
     m_font= font;
     emit fontChanged(m_font);
+}
+
+void CharacterItemController::setStateId(const QString& id)
+{
+    if(m_character)
+        m_character->setStateId(id);
 }
 
 void CharacterItemController::computeThumbnail()

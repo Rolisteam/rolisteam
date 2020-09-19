@@ -56,241 +56,75 @@ public:
      */
     CharacterItem(vmap::CharacterItemController* ctrl);
     ~CharacterItem() override;
-    /**
-     * @brief serialisation function to write data
-     */
+
+    // Override
     virtual void writeData(QDataStream& out) const override;
-    /**
-     * @brief serialisation function to read data.
-     */
     virtual void readData(QDataStream& in) override;
-    /**
-     * @brief gives the bounding rect of the ellipse
-     */
     virtual QRectF boundingRect() const override;
-    /**
-     * @brief shape
-     * @return
-     */
     virtual QPainterPath shape() const override;
-    /**
-     * @brief modifies the ellipse size and shape.
-     */
     virtual void setNewEnd(const QPointF& nend) override;
-    /**
-     * @brief paint the ellipse at the correct position
-     */
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
-
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
     virtual void fillMessage(NetworkMessageWriter* msg) override;
-    /**
-     * @brief readItem
-     * @param msg
-     */
     virtual void readItem(NetworkMessageReader* msg) override;
-    /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
     void setGeometryPoint(qreal pointId, QPointF& pos) override;
-    /**
-     * @brief initChildPointItem
-     */
     virtual void initChildPointItem() override;
-    /**
-     * @brief resizeContents
-     * @param rect
-     * @param keepRatio
-     */
     void resizeContents(const QRectF& rect, int pointId, TransformType transformType= KeepRatio) override;
-    /**
-     * @brief updateChildPosition
-     */
     void updateChildPosition() override;
-    /**
-     * @brief itemChange
-     * @param change
-     * @param value
-     * @return
-     */
     QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
-
-    /**
-     * @brief addActionContextMenu
-     */
     virtual void addActionContextMenu(QMenu&) override;
-    /**
-     * @brief getItemCopy
-     * @return
-     */
     virtual VisualItem* getItemCopy() override;
-    /**
-     * @brief getCharacterId
-     * @return
-     */
-    QString getCharacterId() const;
-    /**
-     * @brief getParentId
-     * @return
-     */
-    QString getParentId() const;
-    /**
-     * @brief getCenter
-     * @return
-     */
-    const QPointF& getCenter() const;
-    /**
-     * @brief addChildPoint
-     * @param item
-     */
-    void addChildPoint(ChildPointItem* item);
-    /**
-     * @brief getChildPointCount
-     * @return
-     */
-    int getChildPointCount() const;
-    /**
-     * @brief getRadiusChildWidget
-     */
-    ChildPointItem* getRadiusChildWidget();
-    /**
-     * @brief isLocal
-     * @return
-     */
     virtual bool isLocal() const override;
-    /**
-     * @brief isPlayableCharacter
-     * @return
-     */
-    bool isPlayableCharacter();
-    /**
-     * @brief setSize
-     * @param size
-     */
     virtual void setSize(QSizeF size) override;
-    /**
-     * @brief setCharacterIsMovable if isMovable is true and the character is local then the item is mavable
-     */
-    void updateItemFlags() override;
-    /**
-     * @brief isNpc
-     * @return
-     */
-    bool isNpc();
-    /**
-     * @brief setRectSize
-     * @param x
-     * @param y
-     * @param w
-     * @param h
-     */
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
-    /**
-     * @brief readCharacterStateChanged
-     * @param msg
-     */
-    void readCharacterStateChanged(NetworkMessageReader& msg);
-    /**
-     * @brief readVisionMsg
-     * @param msg
-     */
-    void readVisionMsg(NetworkMessageReader* msg);
-    /**
-     * @brief sendVisionMsg
-     */
-    void sendVisionMsg();
-    /**
-     * @brief setChildrenVisible
-     * @param b
-     */
     void setChildrenVisible(bool b) override;
+
+    // accessors
+    QString getCharacterId() const;
+    bool isNpc() const;
+    QString getParentId() const;
+    const QPointF& getCenter() const;
+    int getChildPointCount() const;
+    ChildPointItem* getRadiusChildWidget() const;
+    bool isPlayableCharacter() const;
+    Character* getCharacter() const;
+
+    void updateItemFlags() override;
+    void addChildPoint(ChildPointItem* item);
+    void readCharacterStateChanged(NetworkMessageReader& msg);
+    void readVisionMsg(NetworkMessageReader* msg);
+    void sendVisionMsg();
     void updateCharacter();
     void readCharacterChanged(NetworkMessageReader& msg);
     void setCharacter(Character* character);
-    Character* getCharacter() const;
     void setTokenFile(QString);
     void setNumber(int);
     QString getName() const;
     int getNumber() const;
     const QPainterPath getTokenShape() const;
 signals:
-    /**
-     * @brief positionChanged
-     */
     void positionChanged();
-    /**
-     * @brief geometryChangeOnUnkownChild
-     * @param pointId
-     * @param F
-     */
     void geometryChangeOnUnkownChild(qreal pointId, QPointF& F);
-
-    /**
-     * @brief localItemZValueChange
-     */
     void localItemZValueChange(CharacterItem*);
-    /**
-     * @brief ownerChanged
-     * @param old
-     */
     void ownerChanged(Character* old, CharacterItem*);
-
     void runDiceCommand(QString cmd, QString uuid);
 
 public slots:
-    /**
-     * @brief changeVisionShape
-     */
     void changeVisionShape();
-    /**
-     * @brief sizeChanged
-     * @param m_size
-     */
     void sizeChanged(qreal m_size);
-    /**
-     * @brief readPositionMsg
-     * @param msg
-     */
     virtual void readPositionMsg(NetworkMessageReader* msg) override;
-    /**
-     * @brief endOfGeometryChange
-     */
     void endOfGeometryChange(ChildPointItem::Change change) override;
-    /**
-     * @brief generatedThumbnail
-     */
     void generatedThumbnail();
     void cleanInit();
     void runInit();
 
 protected:
-    /**
-     * @brief canBeMoved
-     * @return
-     */
-    // virtual bool canBeMoved() const;
-
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event) override;
 protected slots:
     void runCommand();
     void setShape();
 private slots:
-    /**
-     * @brief createActions
-     */
     void createActions() override;
-    /**
-     * @brief characterStateChange
-     */
     void characterStateChange();
-    /**
-     * @brief changeCharacter
-     */
     void changeCharacter();
 
 private:
@@ -299,17 +133,12 @@ private:
 
 private:
     QPointer<vmap::CharacterItemController> m_itemCtrl;
-    // DiceParser m_diceParser;
 
-    // QAction*
+    // QAction
     QAction* m_visionShapeDisk= nullptr;
     QAction* m_visionShapeAngle= nullptr;
     QAction* m_reduceLife= nullptr;
     QAction* m_increaseLife= nullptr;
-
-    // sight
-    // QPointF m_oldPosition;
-    // QPointF m_newPosition;
 
     bool m_protectGeometryChange;
     bool m_visionChanged;

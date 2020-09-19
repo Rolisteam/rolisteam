@@ -212,10 +212,6 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    /*if(m_thumnails == nullptr)
-    {
-        generatedThumbnail();
-    }*/
     bool hasFocusOrChildren= hasFocusOrChild();
     setChildrenVisible(hasFocusOrChildren);
     emit selectStateChange(hasFocusOrChildren);
@@ -240,63 +236,30 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 
     QPen pen= painter->pen();
     pen.setWidth(PEN_WIDTH);
-    /*if(nullptr != m_character)
+    auto character= m_itemCtrl->character();
+    if(nullptr != character)
     {
-        // TODO management of state
-        / *if(m_character->stateId())
+        auto stateImg= m_itemCtrl->stateImage();
+        if(!stateImg.isNull())
         {
-            if(getOption(VisualItem::ShowHealthStatus).toBool())
-            {
-                toShow+= QString(" %1").arg(m_character->getState()->getLabel());
-            }
-            if(!m_character->getState()->getImage().isNull())
-            {
-                painter->drawPixmap(m_rect, m_character->getState()->getImage(),
-                                    m_character->getState()->getImage().rect());
-            }
-            else if(!m_character->hasAvatar())
-            {
-                pen.setColor(m_character->getState()->getColor());
-                painter->setPen(pen);
-                painter->drawEllipse(m_rect.adjusted(PEN_RADIUS, PEN_RADIUS, -PEN_RADIUS, -PEN_RADIUS));
-            }
-            else
-            {
-                pen.setWidth(PEN_WIDTH / 2);
-                pen.setColor(m_character->getState()->getColor());
-                painter->setPen(pen);
-                int diam= static_cast<int>(m_diameter);
-                painter->drawRoundedRect(0, 0, diam, diam, m_diameter / RADIUS_CORNER, m_diameter / RADIUS_CORNER);
-            }
+            painter->drawImage(m_itemCtrl->thumnailRect(), stateImg, stateImg.rect());
         }
-        * /
-        // if(m_ctrl->initScoreVisible() && m_character->hasInitScore())
+        else if(!character->hasAvatar())
         {
-            painter->save();
-            auto init= QString("%1").arg(m_character->getInitiativeScore());
-            auto chColor= m_character->getColor();
-            auto color= ContrastColor(chColor);
-            painter->setPen(color);
-            auto font= painter->font();
-            font.setBold(true);
-            font.setPointSizeF(font.pointSizeF() * 2);
-            painter->setFont(font);
-            //  auto tl= m_rect.topLeft().toPoint();
-            auto metric= painter->fontMetrics();
-            auto rect= metric.boundingRect(init);
-            //   rect.moveCenter(tl);
-            painter->save();
-            painter->setPen(Qt::NoPen);
-            painter->setBrush(QBrush(chColor, Qt::SolidPattern));
-            auto square= makeSquare(rect);
-            // square.moveCenter(tl);
-            painter->drawEllipse(square);
-            painter->restore();
-            painter->drawText(rect, Qt::AlignCenter, init);
-            // toShow+= QString(" %1: %2").arg(tr("Init", "short for Initiative"), init);
-            painter->restore();
+            pen.setColor(m_itemCtrl->stateColor());
+            painter->setPen(pen);
+            painter->drawEllipse(m_itemCtrl->thumnailRect().adjusted(PEN_RADIUS, PEN_RADIUS, -PEN_RADIUS, -PEN_RADIUS));
         }
-    }*/
+        else
+        {
+            pen.setWidth(PEN_WIDTH / 2);
+            pen.setColor(m_itemCtrl->stateColor());
+            painter->setPen(pen);
+            int diam= static_cast<int>(m_itemCtrl->side());
+            painter->drawRoundedRect(0, 0, diam, diam, m_itemCtrl->side() / RADIUS_CORNER,
+                                     m_itemCtrl->side() / RADIUS_CORNER);
+        }
+    }
     // QRectF rectText;
     QFontMetrics metric(painter->font());
 
@@ -322,30 +285,31 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         painter->restore();
     }
 
-    /*   if(m_ctrl->healthBarVisible())
+    if(m_itemCtrl->healthStatusVisible())
     {
-        if(nullptr != m_character)
-        {
-            auto max= m_character->getHealthPointsMax();
-            auto color= m_character->getLifeColor();
-            auto min= m_character->getHealthPointsMin();
-            auto current= m_character->getHealthPointsCurrent();
-            QPen pen= painter->pen();
-            pen.setColor(color);
+        auto character= m_itemCtrl->character();
+        if(nullptr == character)
+            return;
 
-            if(min < max)
-            {
-                / *QRectF bar(m_rect.x(), m_rect.height() - PEN_WIDTH, m_rect.width(), PEN_WIDTH);
-                painter->save();
-                auto newWidth= (current - min) * bar.width() / (max - min);
-                painter->drawRect(bar);
-                QRectF value(m_rect.x(), m_rect.height() - PEN_WIDTH, newWidth, PEN_WIDTH);
-                painter->fillRect(value, color);
-                painter->restore();
-                * /
-            }
+        auto max= character->getHealthPointsMax();
+        auto color= character->getLifeColor();
+        auto min= character->getHealthPointsMin();
+        auto current= character->getHealthPointsCurrent();
+        QPen pen= painter->pen();
+        pen.setColor(color);
+
+        if(min < max)
+        {
+            auto rect= m_itemCtrl->thumnailRect();
+            QRectF bar(rect.x(), rect.height() - PEN_WIDTH, rect.width(), PEN_WIDTH);
+            painter->save();
+            auto newWidth= (current - min) * bar.width() / (max - min);
+            painter->drawRect(bar);
+            QRectF value(rect.x(), rect.height() - PEN_WIDTH, newWidth, PEN_WIDTH);
+            painter->fillRect(value, color);
+            painter->restore();
         }
-    }*/
+    }
 
     /// debug collision
     /*painter->save();
@@ -771,7 +735,7 @@ void CharacterItem::initChildPointItemMotion()
        }*/
 }
 
-ChildPointItem* CharacterItem::getRadiusChildWidget()
+ChildPointItem* CharacterItem::getRadiusChildWidget() const
 {
     /*  if(m_child->size() >= 5)
       {
@@ -1213,7 +1177,7 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
     }
 }*/
 
-bool CharacterItem::isNpc()
+bool CharacterItem::isNpc() const
 {
     /*    if(nullptr != m_character)
         {
@@ -1222,7 +1186,7 @@ bool CharacterItem::isNpc()
     return false;
 }
 
-bool CharacterItem::isPlayableCharacter()
+bool CharacterItem::isPlayableCharacter() const
 {
     /*   if(nullptr != m_character)
        {

@@ -11,7 +11,10 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
     msg->setData(data);
 
-    // TODO sometime the channel is nullptr so no message are forwarded.
+    if(channel == nullptr)
+    {
+        qWarning() << "####\nchannel is nullptr\n####";
+    }
     qInfo() << "[Server][Received Message]" << cat2String(msg->header()) << act2String(msg->header()) << channel
             << emitter->getName() << msg->getSize();
 

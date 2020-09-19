@@ -276,10 +276,10 @@ Character::Character(const QString& uuid, const QString& name, const QColor& col
 {
 }
 
-Character::Character(NetworkMessageReader& data) : Person(), m_sheet(nullptr)
+/*Character::Character(NetworkMessageReader& data) : Person(), m_sheet(nullptr)
 {
     read(data);
-}
+}*/
 
 Character::~Character() {}
 
@@ -496,7 +496,7 @@ CharacterState* Character::getStateFromIndex(int i)
     return nullptr;
 }
 
-QString Character::read(NetworkMessageReader& msg)
+/*QString Character::read(NetworkMessageReader& msg)
 {
     if(!msg.isValid())
         return {};
@@ -524,7 +524,7 @@ QString Character::read(NetworkMessageReader& msg)
     }
 
     return parentId;
-}
+}*/
 
 Player* Character::getParentPlayer() const
 {
@@ -591,6 +591,19 @@ QString Character::currentStateLabel() const
     return (*it)->getLabel();
 }
 
+QImage Character::currentStateImage() const
+{
+    auto it= std::find_if(m_stateList->begin(), m_stateList->end(), [this](const CharacterState* state) {
+        if(nullptr == state)
+            return false;
+        return state->id() == m_stateId;
+    });
+
+    if(it == m_stateList->end())
+        return {};
+    return (*it)->getImage().toImage();
+}
+
 bool Character::hasInitScore() const
 {
     return m_hasInitScore;
@@ -608,7 +621,7 @@ QString Character::stateId() const
 {
     return m_stateId;
 }
-void Character::writeData(QDataStream& out) const
+/*void Character::writeData(QDataStream& out) const
 {
     out << m_uuid;
     out << m_name;
@@ -627,7 +640,8 @@ void Character::readData(QDataStream& in)
     in >> m_number;
     in >> m_color;
     in >> m_avatar;
-}
+}*/
+
 QList<CharacterState*>* Character::getCharacterStateList()
 {
     return m_stateList;
