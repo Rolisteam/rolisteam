@@ -176,7 +176,7 @@ public:
      * @brief Character
      * @param data
      */
-    Character(NetworkMessageReader& data);
+    // Character(NetworkMessageReader& data);
     /**
      * @brief ~Character
      */
@@ -186,7 +186,7 @@ public:
      * @param msg
      * @return parentId
      */
-    QString read(NetworkMessageReader& msg);
+    // QString read(NetworkMessageReader& msg);
     /**
      * @brief isBool
      * @return
@@ -215,11 +215,11 @@ public:
     /**
      * @brief serialisation function to write data
      */
-    virtual void writeData(QDataStream& out) const;
+    // virtual void writeData(QDataStream& out) const;
     /**
      * @brief serialisation function to read data.
      */
-    virtual void readData(QDataStream& in);
+    // virtual void readData(QDataStream& in);
 
     /**
      * @brief setListOfCharacterState
@@ -245,6 +245,7 @@ public:
     static CharacterState* getStateFromIndex(int i);
     void setStateId(const QString& stateId);
 
+    QImage currentStateImage() const;
     QString currentStateLabel() const;
 
     bool hasInitScore() const;

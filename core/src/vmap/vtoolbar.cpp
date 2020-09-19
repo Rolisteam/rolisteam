@@ -26,7 +26,7 @@
 #include "widgets/flowlayout.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-
+#include "preferences/preferencesmanager.h"
 VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(parent), m_ctrl(ctrl)
 {
     setWindowTitle(tr("Tools"));
@@ -222,12 +222,9 @@ void VToolsBar::makeTools()
     bucketButton->setAutoRaise(true);
     //   unveilRect->setAutoRaise(true);
 
-    /**
-     *
-     * @todo  TODO used preferencemanager to get icon Size.
-     *
-     */
-    QSize iconSize(20, 20);
+    auto pref= PreferencesManager::getInstance();
+    auto iconSideSize= pref->value(QStringLiteral("IconSize"), 20).toInt();
+    QSize iconSize(iconSideSize, iconSideSize);
     penButton->setIconSize(iconSize);
     lineButton->setIconSize(iconSize);
     emptyRectButton->setIconSize(iconSize);
