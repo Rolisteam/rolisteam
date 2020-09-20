@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "singlecontenttypemodel.h"
 
+#include "controller/view_controller/mediacontrollerbase.h"
 #include "model/contentmodel.h"
 
 SingleContentTypeModel::SingleContentTypeModel(Core::ContentType type, QObject* parent)
@@ -38,12 +39,27 @@ Core::ContentType SingleContentTypeModel::type() const
     return m_type;
 }
 
-bool SingleContentTypeModel::contains(const QString &uuid) const
+bool SingleContentTypeModel::contains(const QString& uuid) const
 {
-    return false;// TODO do it.
+    bool found= false;
+    for(int i= 0; i < rowCount() && !found; ++i)
+    {
+        auto idx= index(i, 0);
+        auto id= idx.data(ContentModel::UuidRole);
+        found= id == uuid;
+    }
+    return found;
 }
 
 MediaControllerBase* SingleContentTypeModel::controller(const QString& uuid) const
 {
-    return nullptr;// TODO do it.
+    QModelIndex idx;
+    for(int i= 0; i < rowCount() && !idx.isValid(); ++i)
+    {
+        auto modelIndex= index(i, 0);
+        auto id= modelIndex.data(ContentModel::UuidRole);
+        if(id == uuid)
+            idx= modelIndex;
+    }
+    return idx.data(ContentModel::ControllerRole).value<MediaControllerBase*>();
 }

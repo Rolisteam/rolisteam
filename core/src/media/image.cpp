@@ -426,20 +426,6 @@ void Image::setParent(QWidget* parent)
     fitWorkSpace();
 }
 
-/*void Image::setCurrentTool(ToolsBar::SelectableTool tool)
-{
-    /// @todo code inline to remove useless functions.
-    switch(tool)
-    {
-    case ToolsBar::Handler:
-        m_imageLabel->setCursor(Qt::OpenHandCursor);
-        break;
-    default:
-        m_imageLabel->setCursor(Qt::ForbiddenCursor);
-        break;
-    }
-}*/
-
 void Image::putDataIntoCleverUri()
 {
     QByteArray data;

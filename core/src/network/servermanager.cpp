@@ -347,8 +347,11 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
     }
     break;
     case NetMsg::BanUser:
-        // TODO
-        break;
+    {
+        QString id= msg->string8();
+        banClient(id, isAdmin, sourceId);
+    }
+    break;
     case NetMsg::RenameChannel:
     {
         if(isAdmin)

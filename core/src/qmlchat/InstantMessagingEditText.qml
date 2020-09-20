@@ -7,6 +7,7 @@ Frame {
     id: root
     property alias model: selector.model
     property alias currentPersonId: selector.currentValue
+    property alias currentPersonName: selector.currentText
     signal sendClicked(var text)
     signal focusGained()
     padding: 0
