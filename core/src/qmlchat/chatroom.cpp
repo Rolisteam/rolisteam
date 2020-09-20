@@ -118,25 +118,30 @@ void ChatRoom::setUnreadMessage(bool b)
     emit unreadMessageChanged(m_unreadMessage);
 }
 
-void ChatRoom::addMessage(const QString& text, const QString& personId)
+void ChatRoom::addMessage(const QString& text, const QString& personId, const QString& personName)
 {
     auto type= textToType(text);
     using IM= InstantMessaging::MessageInterface;
-    std::set<IM::MessageType> normalType({IM::Text, IM::Command});
-    if(normalType.find(type) != normalType.end())
+    bool valid= false;
+    if(type == IM::Dice)
+    { // dice
+        auto command= text;
+        valid= rollDice(command.remove(0, 1), personId);
+    }
+    else if(type == IM::Command)
+    {
+        auto command= text;
+        valid= runCommand(command.remove(0, 1), personId, personName);
+    }
+
+    if(type == IM::Text || !valid)
     {
         m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(),
                                    personId.isEmpty() ? localId() : personId, type);
     }
-    else if(type == IM::Dice)
-    { // dice
-        auto command= text;
-
-        rollDice(command.remove(0, 1), personId);
-    }
 }
 
-void ChatRoom::rollDice(const QString& command, const QString& personId)
+bool ChatRoom::rollDice(const QString& command, const QString& personId)
 {
     using IM= InstantMessaging::MessageInterface;
     auto id= personId.isEmpty() ? localId() : personId;
@@ -182,6 +187,27 @@ void ChatRoom::rollDice(const QString& command, const QString& personId)
         return {true, result};
     });
     watcher->setFuture(future);
+    return true;
+}
+
+bool ChatRoom::runCommand(const QString& command, const QString& personId, const QString& personName)
+{
+    QStringList meCommand({"emote ", "me ", "em ", "e "});
+    auto text= command;
+    for(auto e : meCommand)
+    {
+        if(text.startsWith(e))
+        {
+            text.remove(0, e.size());
+            text= QString("<i>%2 %1<\\i>").arg(text).arg(personName);
+            m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(),
+                                       personId.isEmpty() ? localId() : personId,
+                                       InstantMessaging::MessageInterface::Command);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void ChatRoom::addMessageInterface(MessageInterface* message)
