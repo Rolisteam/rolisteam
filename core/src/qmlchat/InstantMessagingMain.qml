@@ -49,6 +49,7 @@ Item {
                 chatroomModel: model.filterModel
                 styleSheet: root.styleSheet
                 fontFactor: root.fontFactor
+                onZoomChanged: sideMenu.fontFactor += delta
                 SplitView.minimumWidth: root.styleSheet.minimumWidth
                 SplitView.preferredWidth: root.width/reaper.count
                 SplitView.fillHeight: true

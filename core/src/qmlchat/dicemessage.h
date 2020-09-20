@@ -50,7 +50,6 @@ private:
     void computeResult();
 
 private:
-    // QJsonObject m_resultJson;
     QString m_text;
     QString m_comment;
     QString m_command;

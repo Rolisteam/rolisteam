@@ -36,6 +36,7 @@ public:
     QStringList recipiantIds() const;
 
     bool hasRecipiant(const QString& uuid);
+    QString recipiantName(const QString& uuid);
 
     bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 

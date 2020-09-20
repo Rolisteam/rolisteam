@@ -40,7 +40,9 @@ public:
         MessageRole,
         LocalRole,
         WriterRole,
-        OwnerRole
+        OwnerRole,
+        OwnerColorRole,
+        OwnerNameRole,
     };
     explicit MessageModel(QObject* parent= nullptr);
     virtual ~MessageModel() override;

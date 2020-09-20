@@ -14,6 +14,7 @@ Item {
     property alias tabBarHeight: tabHeader.height
     property int tabBarRightMargin: 0
     property real fontFactor : 1.0
+    signal zoomChanged(var delta)
     signal addChat(var title, var all, var recipiants)
     signal split(var uuid, var index)
     signal detach(var uuid, var index)
@@ -36,6 +37,17 @@ Item {
         onPressAndHold: {
             if (mouse.source === Qt.MouseEventNotSynthesized)
                 contextMenu.popup()
+        }
+
+        onWheel: {
+            if (wheel.modifiers & Qt.ControlModifier) {
+                zoomChanged(wheel.angleDelta.y / 240)
+                /*fontFactor += wheel.angleDelta.y / 240;
+                if(fontFactor<1.0)
+                    fontFactor=1.0
+                else if(fontFactor>10.0)
+                    fontFactor=10.0*/
+            }
         }
 
         Menu {
