@@ -49,7 +49,8 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
     if(role == Qt::DisplayRole)
         item= TextRole;
 
-    std::set<int> map({MessageTypeRole, TextRole, TimeRole, OwnerRole, LocalRole, MessageRole, WriterRole});
+    std::set<int> map({MessageTypeRole, TextRole, TimeRole, OwnerRole, LocalRole, MessageRole, WriterRole,
+                       OwnerNameRole, OwnerColorRole});
 
     if(map.find(item) == map.end())
         return {};
@@ -80,6 +81,12 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
     case OwnerRole:
         var= message->owner();
         break;
+    case OwnerNameRole:
+        var= message->owner();
+        break;
+    case OwnerColorRole:
+        var= message->owner();
+        break;
     }
 
     return var;
@@ -91,6 +98,8 @@ QHash<int, QByteArray> MessageModel::roleNames() const
                                    {TextRole, "text"},
                                    {TimeRole, "time"},
                                    {OwnerRole, "ownerId"},
+                                   {OwnerNameRole, "ownerName"},
+                                   {OwnerColorRole, "ownerColor"},
                                    {MessageRole, "message"},
                                    {WriterRole, "writerId"},
                                    {LocalRole, "local"}});

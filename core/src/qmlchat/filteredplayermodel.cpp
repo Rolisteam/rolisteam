@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "filteredplayermodel.h"
+#include "userlist/playermodel.h"
+
 namespace InstantMessaging
 {
 FilteredPlayerModel::FilteredPlayerModel(const QStringList& list, QObject* parent)
@@ -41,6 +43,15 @@ QStringList FilteredPlayerModel::recipiantIds() const
 bool FilteredPlayerModel::hasRecipiant(const QString& uuid)
 {
     return m_participants.contains(uuid);
+}
+
+QString FilteredPlayerModel::recipiantName(const QString& uuid)
+{
+    for(int i= 0; i < rowCount(); ++i)
+    {
+        auto indexModel= index(i, 0);
+        auto uuid= indexModel.data().toString();
+    }
 }
 
 bool FilteredPlayerModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
