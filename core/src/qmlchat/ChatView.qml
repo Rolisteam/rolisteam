@@ -120,10 +120,13 @@ Item {
                     id: delegateComponent
                     Loader {
                         property bool isTextMessage: model.type === MessageInterface.Text
+                        property bool isDiceMessage: model.type === MessageInterface.Dice
+                        property bool isCommandMessage: model.type === MessageInterface.Command
+                        property bool mustBeOnTheRight: model.local && (isTextMessage || isCommandMessage)
                         property real fontFactor: root.fontFactor
-                        anchors.right: (isTextMessage && model.local) ? parent.right : undefined
-                        width:isTextMessage ? undefined:  parent.width-10
-                        source: isTextMessage ? "TextMessageDelegate.qml" : "DiceMessageDelegate.qml"
+                        anchors.right: mustBeOnTheRight ? parent.right : undefined
+                        width: isDiceMessage ?  parent.width-10 : undefined
+                        source: isTextMessage ? "TextMessageDelegate.qml" : isCommandMessage ? "CommandMessageDelegate.qml" : "DiceMessageDelegate.qml"
                     }
                 }
             }
@@ -133,7 +136,7 @@ Item {
                 SplitView.fillWidth: true
                 SplitView.preferredHeight: root.styleSheet.preferredHeight
 
-                onSendClicked: root.chatRoom.addMessage(text, imEditText.currentPersonId)
+                onSendClicked: root.chatRoom.addMessage(text, imEditText.currentPersonId, imEditText.currentPersonName)
                 function updateUnread() {
                     root.chatRoom.unreadMessage = false
                 }

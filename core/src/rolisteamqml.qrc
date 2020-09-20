@@ -26,5 +26,6 @@
         <file>qmlchat/ChatView.qml</file>
         <file>qmlchat/TextMessageDelegate.qml</file>
         <file>qmlchat/DiceMessageDelegate.qml</file>
+        <file>qmlchat/CommandMessageDelegate.qml</file>
     </qresource>
 </RCC>

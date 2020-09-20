@@ -17,35 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "messagefactory.h"
+#ifndef COMMANDMESSAGE_H
+#define COMMANDMESSAGE_H
 
-#include "qmlchat/commandmessage.h"
-#include "qmlchat/dicemessage.h"
-#include "qmlchat/messageinterface.h"
-#include "qmlchat/textmessage.h"
-
+#include "messageinterface.h"
 namespace InstantMessaging
 {
-MessageInterface* MessageFactory::createMessage(const QString& uuid, const QString& writerId, const QDateTime& time,
-                                                InstantMessaging::MessageInterface::MessageType type)
+class CommandMessage : public MessageBase
 {
-    using IM= InstantMessaging::MessageInterface;
-    MessageInterface* msg= nullptr;
-    switch(type)
-    {
-    case IM::Text:
-        msg= new TextMessage(uuid, writerId, time);
-        break;
-    case IM::Dice:
-        msg= new DiceMessage(uuid, writerId, time);
-        break;
-    case IM::Command:
-        msg= new CommandMessage(uuid, writerId, time);
-        break;
-    case IM::Error:
-        // TODO ERROR MESSAGE
-        break;
-    }
-    return msg;
-}
+    Q_OBJECT
+public:
+    CommandMessage(const QString& ownerId, const QString& writerId, const QDateTime& time, QObject* parent= nullptr);
+
+    QString text() const override;
+
+public:
+    void setText(const QString& text) override;
+
+private:
+    QString m_text;
+};
 } // namespace InstantMessaging
+#endif // COMMANDMESSAGE_H

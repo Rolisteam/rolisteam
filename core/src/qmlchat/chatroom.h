@@ -70,7 +70,7 @@ public slots:
     void setUuid(const QString& id);
     void setTitle(const QString& title);
     void setUnreadMessage(bool b);
-    void addMessage(const QString& text, const QString& personId);
+    void addMessage(const QString& text, const QString& personId, const QString& personName);
     void addMessageInterface(MessageInterface* message);
     void setLocalId(const QString& id);
 
@@ -82,7 +82,8 @@ signals:
     void localIdChanged(QString);
 
 private:
-    void rollDice(const QString& command, const QString& personId);
+    bool runCommand(const QString& command, const QString& personId, const QString& personName);
+    bool rollDice(const QString& command, const QString& personId);
 
 private:
     std::unique_ptr<FilteredPlayerModel> m_recipiants;

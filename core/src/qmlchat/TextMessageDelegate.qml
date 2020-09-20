@@ -35,7 +35,6 @@ Column {
                 text: model.text
                 font.pixelSize: root.styleSheet.fontSize * root.factor
                 anchors.centerIn: parent
-                //anchors.margins: root.styleSheet.verticalMargin
                 wrapMode: Text.WordWrap
                 onLinkActivated: _ctrl.openLink(link)
             }
