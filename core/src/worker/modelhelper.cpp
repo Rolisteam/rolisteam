@@ -44,8 +44,7 @@ const static QStringList CharacterFields({"CharacterHp", "CharacterMaxHp", "Char
                                           "CharacterHasInit"});
 void readConnectionProfileModel(ProfileModel* model)
 {
-    /// TODO change rolisteam1.10 to rolisteam
-    QSettings settings("rolisteam", "rolisteam1.10");
+    QSettings settings("rolisteam", "rolisteam");
     settings.beginGroup("ConnectionProfiles");
     int size= settings.beginReadArray("ConnectionProfilesArray");
     for(int i= 0; i < size; ++i)
@@ -106,8 +105,7 @@ void readConnectionProfileModel(ProfileModel* model)
 
 void writeConnectionProfileModel(ProfileModel* model)
 {
-    /// TODO change rolisteam1.10 to rolisteam
-    QSettings settings("rolisteam", "rolisteam1.10");
+    QSettings settings("rolisteam", "rolisteam");
     settings.beginGroup("ConnectionProfiles");
 
     auto size= model->rowCount(QModelIndex());

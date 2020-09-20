@@ -214,9 +214,7 @@ void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
     if(PlayerMessageHelper::readPlayer(*msg, m_player.get()))
     {
         m_knownUser= true;
-        /// @todo make it nicer.
-        auto name= m_player->name();
-        setName(name);
+        setName(m_player->name());
         setId(m_player->uuid());
         emit playerInfoDefined();
     }

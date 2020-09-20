@@ -105,6 +105,7 @@ set(HEADERS
     src/qmlchat/avatarprovider.h
     src/qmlchat/textwritercontroller.h
     src/qmlchat/chatroomfactory.h
+    src/qmlchat/commandmessage.h
     src/qmlchat/chatroomsplittermodel.h
     src/common/controller/logcontroller.h
     src/common/controller/remotelogcontroller.h
@@ -381,6 +382,7 @@ set(SOURCES
     src/qmlchat/dicemessage.cpp
     src/qmlchat/filteredplayermodel.cpp
     src/qmlchat/messagefactory.cpp
+    src/qmlchat/commandmessage.cpp
     src/qmlchat/filterinstantmessagingmodel.cpp
     src/qmlchat/chatroomsplittermodel.cpp
     src/qmlchat/instantmessagingview.cpp
