@@ -15,7 +15,7 @@ LogPanel::LogPanel(QWidget* parent) : QWidget(parent), ui(new Ui::LogPanel)
     ui->m_saveBtn->setDefaultAction(ui->m_saveAct);
 
     ui->m_eraseAllAct->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
-    ui->m_saveAct->setIcon(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")));
+    ui->m_saveAct->setIcon(QIcon::fromTheme("document-save", QIcon::fromTheme("save")));
 }
 
 LogPanel::~LogPanel()
