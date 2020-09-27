@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "nodestyle.h"
+namespace mindmap
+{
 
 NodeStyle::NodeStyle(QObject* parent) : QObject(parent) {}
 
@@ -57,3 +59,4 @@ void NodeStyle::setTextColor(const QColor& color)
     m_textColor= color;
     emit textColorChanged();
 }
+} // namespace mindmap

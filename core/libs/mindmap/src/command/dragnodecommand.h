@@ -24,6 +24,9 @@
 #include <QPointer>
 #include <QUndoCommand>
 
+namespace mindmap
+{
+
 class MindNode;
 
 class DragNodeCommand : public QUndoCommand
@@ -44,4 +47,5 @@ private:
     std::vector<QPointer<MindNode>> m_mindNodes;
 };
 
+} // namespace mindmap
 #endif // DRAGNODECOMMAND_H

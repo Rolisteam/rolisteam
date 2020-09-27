@@ -21,6 +21,8 @@
 #define SPACINGCONTROLLER_H
 
 #include <QObject>
+namespace mindmap
+{
 
 class MindNode;
 class LinkModel;
@@ -53,5 +55,5 @@ private:
     LinkModel* m_linkModel;
     bool m_running= true;
 };
-
+} // namespace mindmap
 #endif // SPACINGCONTROLLER_H

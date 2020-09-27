@@ -24,6 +24,7 @@
 
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/notecontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
@@ -147,6 +148,26 @@ NoteController* note(const QString& uuid, const QHash<QString, QVariant>& map)
 
     return noteCtrl;
 }
+MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& map)
+{
+    auto name= map.value(QStringLiteral("name")).toString();
+    auto path= map.value(QStringLiteral("path")).toString();
+
+    auto ownerid= map.value(QStringLiteral("ownerId")).toString();
+    auto serializedData= map.value(QStringLiteral("serializedData")).toByteArray();
+
+    auto mindmapCtrl= new MindMapController(uuid);
+
+    if(!name.isEmpty())
+        mindmapCtrl->setName(name);
+    mindmapCtrl->setOwnerId(ownerid);
+    mindmapCtrl->setPath(path);
+
+    if(!serializedData.isEmpty())
+        IOHelper::readMindmapController(mindmapCtrl, serializedData);
+
+    return mindmapCtrl;
+}
 SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVariant>& params, const QString& localId)
 {
     auto ownerId= params.value(QStringLiteral("ownerId")).toString();
@@ -229,6 +250,9 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
         break;
     case C::WEBVIEW:
         base= webPage(uuid, params);
+        break;
+    case C::MINDMAP:
+        base= mindmap(uuid, params);
         break;
     default:
         break;

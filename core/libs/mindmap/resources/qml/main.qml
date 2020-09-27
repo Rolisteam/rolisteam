@@ -5,76 +5,30 @@ import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.3
 import QtQuick.Controls.Universal 2.12
 import RMindMap 1.0
+import Customization 1.0
 
-ApplicationWindow {
+Item {
     id: root
     visible: true
     width: 800
     height: 400
+    property QtObject styleSheet: Theme.styleSheet("mindmap")
     property real viewScale: 1
     property int idx: 0
     property bool darkMode: false
+    property QtObject ctrl: _ctrl
 
-    onDarkModeChanged: _engineCtrl.nightMode = root.darkMode
+    onDarkModeChanged: Theme.nightMode = root.darkMode
 
     Universal.theme: root.darkMode ? Universal.Dark: Universal.Light
 
-    MindMapController {
-        id: ctrl
-    }
-
-    FileDialog {
-        id: importDialog
-        title: qsTr("Please, select a file to import")
-        folder: shortcuts.home
-        selectMultiple: false
-        nameFilters: ["Text file (*.txt)"]
-        onAccepted: {
-            ctrl.importFile(importDialog.fileUrl)
-            close()
-        }
-        onRejected: close()
-    }
-
-    FileDialog {
-        id: openDialog
-        title: qsTr("Load Mindmap from File")
-        folder: shortcuts.home
-        selectMultiple: false
-        nameFilters: ["Rolisteam MindMap (*.rmap)"]
-        onAccepted: {
-            ctrl.setFilename(openDialog.fileUrl)
-            ctrl.loadFile();
-            close()
-        }
-        onRejected: close()
-    }
-
-    FileDialog {
-        id: saveDialog
-        title: qsTr("Save Mindmap into File")
-        folder: shortcuts.home
-        selectExisting: false
-        selectMultiple: false
-        defaultSuffix: "rmap"
-        nameFilters: ["Rolisteam MindMap (*.rmap)"]
-        onAccepted: {
-            ctrl.setFilename(saveDialog.fileUrl)
-            ctrl.saveFile();
-            close()
-        }
-        onRejected: close()
-    }
-
-
-
     MindMap {
         anchors.fill: parent
-        ctrl: ctrl
+        ctrl: root.ctrl
     }
     MindMenu {
         id: menu
-        ctrl: ctrl
+        ctrl: root.ctrl
     }
 
 
@@ -84,17 +38,17 @@ ApplicationWindow {
         anchors.rightMargin: 14
         anchors.topMargin: 14
         IconButton {//undo
-            source: _engineCtrl.undoIcon
+            //source: _engineCtrl.undoIcon
             enabled: ctrl.canUndo
             onClicked: ctrl.undo()
         }
         IconButton {//redo
-            source: _engineCtrl.redoIcon
+            //source: _engineCtrl.redoIcon
             enabled: ctrl.canRedo
             onClicked: ctrl.redo()
         }
         IconButton {
-            source: _engineCtrl.listIcon
+            //source: _engineCtrl.listIcon
             onClicked: drawer.open()
         }
     }
@@ -102,7 +56,7 @@ ApplicationWindow {
     Drawer {
         id: drawer
         edge: Qt.RightEdge
-        width: 0.33 * root.width
+        width: root.styleSheet.drawerPropertion * root.width
         height: root.height
         ColumnLayout {
             anchors.fill: parent
@@ -119,23 +73,23 @@ ApplicationWindow {
                 }
                 ComboBox {
                     id: combo
-                    model: ctrl.styleModel
+                    model: root.ctrl.styleModel
                     currentIndex: 0
                     onCurrentIndexChanged: ctrl.defaultStyleIndex = currentIndex
 
                    contentItem: Rectangle {
-                        radius: 8
-                        width: 80
-                        height: 15
-                        border.width: 1
-                        border.color: "black"
+                        radius: root.styleSheet.styleButtonRadius
+                        width: root.styleSheet.styleButtonWidth
+                        height: root.styleSheet.styleButtonHeight
+                        border.width: root.styleSheet.borderSize
+                        border.color: root.styleSheet.borderColor
                         gradient: Gradient {
                             GradientStop { position: 0.0; color: ctrl.getStyle(combo.currentIndex).colorOne }
                             GradientStop { position: 1.0; color: ctrl.getStyle(combo.currentIndex).colorTwo }
                         }
                         Text {
                             anchors.centerIn: parent
-                            color: ctrl.getStyle(combo.currentIndex).textColor
+                            color: root.ctrl.getStyle(combo.currentIndex).textColor
                             text: qsTr("Text")
                         }
                     }
@@ -143,15 +97,15 @@ ApplicationWindow {
 
                     delegate: ItemDelegate {
                         width: combo.width
-                        height: 20
+                        height: root.styleSheet.delegateHeight
 
                         Rectangle {
-                            radius: 8
-                            width: 80
-                            height: 15
+                            radius: root.styleSheet.styleButtonRadius
+                            width: root.styleSheet.styleButtonWidth
+                            height: root.styleSheet.styleButtonHeight
                             anchors.centerIn: parent
-                            border.width: 1
-                            border.color: "black"
+                            border.width: root.styleSheet.borderSize
+                            border.color: root.styleSheet.borderColor
                             gradient: Gradient {
                                 GradientStop { position: 0.0; color: colorOne }
                                 GradientStop { position: 1.0; color: colorTwo }

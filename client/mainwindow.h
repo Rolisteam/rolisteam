@@ -143,9 +143,6 @@ public:
     void updateRecentScenarioAction();
     void openGenericContent();
     void openOnlineImage();
-    void openVMap();
-    void openMap();
-    void newMap();
 public slots:
     /**
      * @brief
@@ -256,11 +253,6 @@ private slots:
      *
      */
     bool saveStory(bool saveAs);
-    /**
-     * @brief saveMinutes saves notes into file.
-     * @return
-     */
-    bool saveMinutes();
     /**
      * @brief notifyAboutAddedPlayer
      * @param player

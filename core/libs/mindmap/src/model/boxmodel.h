@@ -24,6 +24,8 @@
 
 #include "data/mindnode.h"
 #include "model/linkmodel.h"
+namespace mindmap
+{
 
 class BoxModel : public QAbstractItemModel
 {
@@ -100,5 +102,5 @@ private:
     qreal m_nodeWidth= 0.;
     qreal m_nodeHeight= 0.;
 };
-
+} // namespace mindmap
 #endif // BOXMODEL_H

@@ -21,6 +21,8 @@
 
 #include "data/nodestyle.h"
 
+namespace mindmap
+{
 NodeStyleModel::NodeStyleModel(QObject* parent) : QAbstractListModel(parent)
 {
     initStyles();
@@ -133,4 +135,5 @@ void NodeStyleModel::initStyles()
     endResetModel();
 
 
+}
 }

@@ -38,6 +38,7 @@ class CharacterSheetController;
 class ContentController;
 class MediaManagerBase;
 class ContentModel;
+class MindMapController;
 class IOHelper
 {
 public:
@@ -63,6 +64,7 @@ public:
     static void readNoteController(NoteController* ctrl, const QByteArray& array);
     static void readSharedNoteController(SharedNoteController* ctrl, const QByteArray& array);
     static void readWebpageController(WebpageController* ctrl, const QByteArray& array);
+    static void readMindmapController(MindMapController* ctrl, const QByteArray& array);
 };
 
 #endif // IOHELPER_H

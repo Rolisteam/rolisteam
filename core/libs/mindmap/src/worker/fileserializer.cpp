@@ -29,7 +29,8 @@
 #include <QJsonObject>
 #include <QUrl>
 #include <random>
-
+namespace mindmap
+{
 FileSerializer::FileSerializer() {}
 
 bool FileSerializer::readTextFile(BoxModel* nodeModel, LinkModel* linkModel, const QString& filepath)
@@ -178,3 +179,4 @@ bool FileSerializer::writeFile(BoxModel* nodeModel, LinkModel* linkModel, const 
     file.write(doc.toJson());
     return true;
 }
+} // namespace mindmap

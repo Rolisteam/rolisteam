@@ -52,20 +52,12 @@ public:
     bool defineMenu(QMenu* /*menu*/);
     bool openFile(const QString& file);
     bool createMap();
-    virtual bool readFileFromUri();
-    void saveMedia() override;
-    void putDataIntoCleverUri() override;
-public slots:
-    virtual void currentCursorChanged(QCursor*) override;
-    virtual void currentToolChanged(Core::SelectableTool) override;
+
 signals:
     void defineCurrentTool(Core::SelectableTool tool);
 
 protected:
     virtual void keyPressEvent(QKeyEvent* event) override;
-
-protected slots:
-    virtual void updateTitle() override;
 
 private: // functions
     void setupUi();

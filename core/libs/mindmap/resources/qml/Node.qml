@@ -61,8 +61,8 @@ Pane
             visible: source
             source: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTEzkD2vu5XtWwvH_LjybftQPmxVjdCrIMbjQ&usqp=CAU"
             fillMode: Image.PreserveAspectFit
-            sourceSize.height: 200
-            sourceSize.width: 200
+            sourceSize.height: 100
+            sourceSize.width: 100
 
         }
         TextInput{

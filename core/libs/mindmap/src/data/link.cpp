@@ -22,6 +22,8 @@
 #include "mindnode.h"
 #include <QRectF>
 #include <cmath>
+namespace mindmap
+{
 
 Link::Link(QObject* parent) : QObject(parent)
 {
@@ -146,3 +148,4 @@ QString Link::text() const
 {
     return m_text;
 }
+} // namespace mindmap

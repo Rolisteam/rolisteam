@@ -23,6 +23,8 @@
 #include <QAbstractItemModel>
 
 #include "data/link.h"
+namespace mindmap
+{
 
 class LinkModel : public QAbstractItemModel
 {
@@ -70,5 +72,5 @@ public slots:
 private:
     std::vector<Link*> m_data;
 };
-
+} // namespace mindmap
 #endif // LINKMODEL_H

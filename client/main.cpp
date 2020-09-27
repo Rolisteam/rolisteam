@@ -111,6 +111,17 @@ int main(int argc, char* argv[])
     Q_INIT_RESOURCE(rolisteamqml);
     Q_INIT_RESOURCE(textedit);
 
+    auto format= QSurfaceFormat::defaultFormat();
+    if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
+    {
+        format.setVersion(3, 2);
+        format.setProfile(QSurfaceFormat::CoreProfile);
+    }
+    format.setDepthBufferSize(24);
+    format.setStencilBufferSize(8);
+    format.setSamples(8);
+    QSurfaceFormat::setDefaultFormat(format);
+
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QString locale= QLocale::system().name();
 

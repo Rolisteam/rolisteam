@@ -22,6 +22,9 @@
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
 
+namespace mindmap
+{
+
 AddNodeCommand::AddNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, const QString& idParent)
     : m_nodeModel(nodeModel), m_linkModel(linkModel), m_idParent(idParent)
 {
@@ -47,3 +50,4 @@ void AddNodeCommand::redo()
         m_linkModel->append(m_link);
     }
 }
+} // namespace mindmap

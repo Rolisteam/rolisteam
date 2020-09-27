@@ -22,7 +22,8 @@
 #include <QColor>
 #include <QDebug>
 #include <QRectF>
-
+namespace mindmap
+{
 BoxModel::BoxModel(QObject* parent) : QAbstractItemModel(parent) {}
 
 BoxModel::~BoxModel() {}
@@ -284,3 +285,4 @@ qreal BoxModel::nodeHeight() const
 {
     return m_nodeHeight;
 }
+} // namespace mindmap

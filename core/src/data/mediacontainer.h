@@ -51,78 +51,26 @@ public:
         ChatContainer,
         CharacterSheetContainer,
         PDFContainer,
-        WebViewContainer
+        WebViewContainer,
+        MindMapContainer
     };
     Q_ENUM(ContainerType)
     /**
      * @brief MediaContainer
      */
-    MediaContainer(MediaControllerBase* ctrl, ContainerType containerType, bool localIsGM, QWidget* parent= nullptr);
+    MediaContainer(MediaControllerBase* ctrl, ContainerType containerType, QWidget* parent= nullptr);
 
     MediaControllerBase* ctrl() const;
     /**
      * @brief ~MediaContainer
      */
     virtual ~MediaContainer() override;
-
-    /**
-     * @brief setLocalPlayerId
-     * @param id
-     */
-    void setLocalPlayerId(QString id);
-    /**
-     * @brief getLocalPlayerId
-     * @return
-     */
-    QString getLocalPlayerId();
-    /**
-     * @brief isUriEndWith
-     * @return
-     */
-    virtual bool isUriEndWith(QString);
-
-    /**
-     * @brief readFile
-     * @return
-     */
-    // virtual bool readFileFromUri()= 0;
-    /**
-     * @brief openFile
-     * @return
-     */
-    virtual bool openMedia();
     /**
      * @brief error
      * @param err - error message to display
      */
     void error(QString err, QWidget* parent);
-    /**
-     * @brief saveMedia must be implemented for each media container.
-     */
-    virtual void saveMedia(const QString& formerPath= QString())= 0;
-    /**
-     * @brief putDataIntoCleverUri when the uri is empty, save media into cleverURI data
-     */
-    virtual void putDataIntoCleverUri()= 0;
-    /**
-     * @brief is called when the selected tool changes.
-     * @param the current tool.
-     */
-    virtual void currentToolChanged(Core::SelectableTool);
-    /**
-     * @brief is called when the cursor must be changed.
-     * @param the new cursor.
-     * @todo gathering this function and currentToolChanged should be a better choice.
-     */
-    virtual void currentCursorChanged(QCursor*);
-
     void addActionToMenu(QMenu& menu);
-
-    // virtual void fill(NetworkMessageWriter& msg);
-    // virtual void readMessage(NetworkMessageReader& msg);
-
-    bool isRemote() const;
-    void setRemote(bool remote);
 
     QString ownerId() const;
     void setOwnerId(const QString& ownerId);
@@ -144,20 +92,14 @@ signals:
 
 public slots:
     void setVisible(bool b) override;
-
     void detachView(bool b);
-
-protected slots:
-    virtual void updateTitle()= 0;
 
 protected:
     QPointer<MediaControllerBase> m_lifeCycleCtrl;
     QString m_filter;
     PreferencesManager* m_preferences;
     QCursor* m_currentCursor= nullptr;
-    Core::SelectableTool m_currentTool;
     QAction* m_detachedDialog;
-    bool m_remote= false;
     ContainerType m_containerType;
 };
 

@@ -21,7 +21,6 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Svg Quic
 
 set(mindmap_header
     src/command/commandhelper.h
-    src/controller/mindmapcontroller.h
     src/controller/selectioncontroller.h
     src/controller/spacingcontroller.h
     src/data/link.h
@@ -36,12 +35,10 @@ set(mindmap_header
     src/command/reparentingnodecommand.h
     src/command/dragnodecommand.h
     src/command/removenodecommand.h
-    src/model/boxmodel.h
-    src/worker/theme.h)
+    src/model/boxmodel.h)
 
         # main.cpp
 set(mindmap_src
-    src/controller/mindmapcontroller.cpp
     src/controller/selectioncontroller.cpp
     src/controller/spacingcontroller.cpp
     src/data/link.cpp
@@ -56,8 +53,7 @@ set(mindmap_src
     src/command/reparentingnodecommand.cpp
     src/geometry/linknode.cpp
     src/qmlItems/linkitem.cpp
-    src/model/boxmodel.cpp
-    src/worker/theme.cpp)
+    src/model/boxmodel.cpp)
 
 set(mindmap_qml
     resources/qml/IconButton.qml
@@ -69,7 +65,11 @@ set(mindmap_qml
 
 
 
-set(mindmap_bin_src main.cpp)
+set(mindmap_bin_src 
+    main.cpp 
+    src/controller/mindmapcontroller.cpp
+    src/controller/mindmapcontroller.h
+    )
 
 add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
 target_link_libraries(rmindmap PUBLIC Qt5::Core Qt5::Svg Qt5::Svg Qt5::Qml Qt5::Quick Qt5::QuickControls2)

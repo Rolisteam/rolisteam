@@ -24,6 +24,8 @@
 #include <QQuickItem>
 
 typedef QList<QPointF> PointList;
+namespace mindmap
+{
 
 class LinkItem : public QQuickItem
 {
@@ -87,5 +89,5 @@ private:
     PointList m_points;
     bool m_colorChanged= false;
 };
-
+} // namespace mindmap
 #endif // LINKITEM_H

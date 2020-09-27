@@ -20,12 +20,18 @@
 #ifndef MINDMAPCONTROLLER_H
 #define MINDMAPCONTROLLER_H
 
-#include <QObject>
+#include "mediacontrollerbase.h"
+
+#include <QPointer>
 #include <QRectF>
 #include <QUndoStack>
 #include <memory>
 
 class QAbstractItemModel;
+
+class PlayerModel;
+namespace mindmap
+{
 class BoxModel;
 class LinkModel;
 class MindNode;
@@ -33,33 +39,33 @@ class SpacingController;
 class SelectionController;
 class NodeStyleModel;
 class NodeStyle;
+} // namespace mindmap
 
-namespace mindmap
-{
-
-class MindMapController : public QObject
+class MindMapController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* nodeModel READ nodeModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* linkModel READ linkModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* styleModel READ styleModel CONSTANT)
+    Q_PROPERTY(PlayerModel* playerModel READ playerModel CONSTANT)
     Q_PROPERTY(int defaultStyleIndex READ defaultStyleIndex WRITE setDefaultStyleIndex NOTIFY defaultStyleIndexChanged)
     Q_PROPERTY(QString filename READ filename WRITE setFilename NOTIFY filenameChanged)
     Q_PROPERTY(bool spacing READ spacing WRITE setSpacing NOTIFY spacingChanged)
-    Q_PROPERTY(SelectionController* selectionCtrl READ selectionController CONSTANT)
+    Q_PROPERTY(mindmap::SelectionController* selectionCtrl READ selectionController CONSTANT)
     Q_PROPERTY(bool canRedo READ canRedo NOTIFY canRedoChanged)
     Q_PROPERTY(bool canUndo READ canUndo NOTIFY canUndoChanged)
     Q_PROPERTY(QString errorMsg READ errorMsg WRITE setErrorMsg NOTIFY errorMsgChanged)
     Q_PROPERTY(QRectF contentRect READ contentRect NOTIFY contentRectChanged)
 public:
-    explicit MindMapController(QObject* parent= nullptr);
+    explicit MindMapController(const QString& id, QObject* parent= nullptr);
     ~MindMapController();
 
     QAbstractItemModel* nodeModel() const;
     QAbstractItemModel* linkModel() const;
     QAbstractItemModel* styleModel() const;
+    PlayerModel* playerModel() const;
 
-    SelectionController* selectionController() const;
+    mindmap::SelectionController* selectionController() const;
     const QString& filename() const;
     const QString& errorMsg() const;
     QRectF contentRect() const;
@@ -68,6 +74,9 @@ public:
     bool canRedo() const;
     bool canUndo() const;
     int defaultStyleIndex() const;
+
+    static void setPlayerModel(PlayerModel* model);
+    static void registerQmlType();
 
 signals:
     void filenameChanged();
@@ -91,9 +100,9 @@ public slots:
     void setDefaultStyleIndex(int indx);
 
     void addBox(const QString& idparent);
-    void reparenting(MindNode* parent, const QString& id);
+    void reparenting(mindmap::MindNode* parent, const QString& id);
     void removeSelection();
-    NodeStyle* getStyle(int index) const;
+    mindmap::NodeStyle* getStyle(int index) const;
 
 protected:
     void clearData();
@@ -101,14 +110,14 @@ protected:
 private:
     QString m_filename;
     QString m_errorMsg;
-    std::unique_ptr<SpacingController> m_spacingController;
-    std::unique_ptr<SelectionController> m_selectionController;
-    std::unique_ptr<LinkModel> m_linkModel;
-    std::unique_ptr<BoxModel> m_nodeModel;
-    std::unique_ptr<NodeStyleModel> m_styleModel;
+    std::unique_ptr<mindmap::SpacingController> m_spacingController;
+    std::unique_ptr<mindmap::SelectionController> m_selectionController;
+    std::unique_ptr<mindmap::LinkModel> m_linkModel;
+    std::unique_ptr<mindmap::BoxModel> m_nodeModel;
+    std::unique_ptr<mindmap::NodeStyleModel> m_styleModel;
+    static QPointer<PlayerModel> m_playerModel;
     QThread* m_spacing= nullptr;
     QUndoStack m_stack;
 };
-} // namespace mindmap
 
 #endif // MINDMAPCONTROLLER_H

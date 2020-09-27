@@ -22,7 +22,8 @@
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
 #include <algorithm>
-
+namespace mindmap
+{
 RemoveNodeCommand::RemoveNodeCommand(const std::vector<MindNode*>& selection, BoxModel* nodeModel, LinkModel* linkModel)
     : m_nodeModel(nodeModel), m_linkModel(linkModel)
 {
@@ -46,3 +47,4 @@ void RemoveNodeCommand::redo()
     std::for_each(m_selection.begin(), m_selection.end(), [this](MindNode* node) { m_nodeModel->removeBox(node); });
     std::for_each(m_links.begin(), m_links.end(), [this](Link* link) { m_linkModel->removeLink(link); });
 }
+} // namespace mindmap

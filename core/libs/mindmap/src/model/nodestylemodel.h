@@ -21,6 +21,10 @@
 #define NODESTYLEMODEL_H
 
 #include <QAbstractListModel>
+
+namespace mindmap
+{
+
 class NodeStyle;
 
 class NodeStyleModel : public QAbstractListModel
@@ -50,5 +54,5 @@ private slots:
 private:
     std::vector<NodeStyle*> m_styles;
 };
-
+} // namespace mindmap
 #endif // NODESTYLEMODEL_H

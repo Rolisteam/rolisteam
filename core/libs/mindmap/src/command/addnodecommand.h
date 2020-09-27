@@ -23,6 +23,9 @@
 #include <QPointer>
 #include <QUndoCommand>
 
+namespace mindmap
+{
+
 class MindNode;
 class Link;
 class BoxModel;
@@ -43,4 +46,5 @@ private:
     QString m_idParent;
 };
 
+} // namespace mindmap
 #endif // ADDNODECOMMAND_H

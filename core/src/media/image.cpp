@@ -425,6 +425,7 @@ void Image::setParent(QWidget* parent)
     QMdiSubWindow::setParent(parent);
     fitWorkSpace();
 }
+<<<<<<< HEAD
 
 void Image::putDataIntoCleverUri()
 {

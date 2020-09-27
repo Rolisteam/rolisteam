@@ -255,7 +255,10 @@ QString CleverURI::getFilterForType(Core::ContentType type) // static
         break;
 #endif
     case Core::ContentType::VECTORIALMAP:
-        filterType= QObject::tr("Vectorial Map (%1)").arg(preferences->value("VictorialFilter", "*.vmap").toString());
+        filterType= QObject::tr("Vectorial Map (%1)").arg(preferences->value("VectorialFilter", "*.vmap").toString());
+        break;
+    case Core::ContentType::MINDMAP:
+        filterType= QObject::tr("Mindmap (%1)").arg(preferences->value("Mindmap", "*.rmap").toString());
         break;
     case Core::ContentType::ONLINEPICTURE:
     default:
@@ -275,7 +278,7 @@ QString CleverURI::typeToString(Core::ContentType type)
     names.insert(Core::ContentType::ONLINEPICTURE, QObject::tr("Online Picture"));
     names.insert(Core::ContentType::NOTES, QObject::tr("Minutes"));
     names.insert(Core::ContentType::CHARACTERSHEET, QObject::tr("Charecter Sheet"));
-    // names.insert(Core::ContentType::SONG, QObject::tr("Song"));
+    names.insert(Core::ContentType::MINDMAP, QObject::tr("Mindmap"));
     // names.insert(Core::ContentType::SONGLIST, QObject::tr("Song List"));
     names.insert(Core::ContentType::SHAREDNOTE, QObject::tr("Shared Notes"));
     // names.insert(Core::ContentType::TOKEN, QObject::tr("NPC Token"));
@@ -304,6 +307,7 @@ Core::ContentType CleverURI::extensionToContentType(const QString& filename)
     std::set<QString> notes({".odt", ".htm", ".html", ".txt", ".md"});
     std::set<QString> sharedNote({".rsn", ".txt", ".md"});
     std::set<QString> webview({".htm", ".html", ".xhtml"});
+    std::set<QString> mindmap({".rmap", ".txt"});
 #ifdef WITH_PDF
     std::set<QString> pdf({"*.pdf"});
 #endif
@@ -341,6 +345,10 @@ Core::ContentType CleverURI::extensionToContentType(const QString& filename)
         return contentType;
 
     contentType= func(webview, Core::ContentType::WEBVIEW);
+    if(contentType != Core::ContentType::UNKNOWN)
+        return contentType;
+
+    contentType= func(mindmap, Core::ContentType::MINDMAP);
     if(contentType != Core::ContentType::UNKNOWN)
         return contentType;
 

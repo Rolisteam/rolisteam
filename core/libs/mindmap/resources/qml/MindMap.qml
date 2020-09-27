@@ -140,8 +140,8 @@ Flickable {
                         selected ? ctrl.selectionCtrl.removeFromSelection(node) : ctrl.selectionCtrl.addToSelection(node)
                     }
                     else if(!selected){
-                        ctrl.selectionCtrl.clearSelection()
-                        ctrl.selectionCtrl.addToSelection(node)
+                        root.ctrl.selectionCtrl.clearSelection()
+                        root.ctrl.selectionCtrl.addToSelection(node)
                     }
                 }
 

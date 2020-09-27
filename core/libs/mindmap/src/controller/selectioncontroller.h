@@ -23,6 +23,8 @@
 #include <QObject>
 #include <QPointF>
 #include <QUndoStack>
+namespace mindmap
+{
 
 class MindNode;
 class SelectionController : public QObject
@@ -51,5 +53,5 @@ private:
     bool m_enabled= false;
     QUndoStack* m_undoStack;
 };
-
+} // namespace mindmap
 #endif // SELECTIONCONTROLLER_H

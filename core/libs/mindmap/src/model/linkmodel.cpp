@@ -22,7 +22,8 @@
 #include "data/mindnode.h"
 
 #include <QRectF>
-
+namespace mindmap
+{
 LinkModel::LinkModel(QObject* parent) : QAbstractItemModel(parent) {}
 
 QModelIndex LinkModel::index(int row, int column, const QModelIndex& parent) const
@@ -214,4 +215,5 @@ void LinkModel::clear()
     m_data.clear();
     endResetModel();
     qDeleteAll(backup);
+}
 }
