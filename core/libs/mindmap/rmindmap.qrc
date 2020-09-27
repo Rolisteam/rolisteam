@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>resources/icons/font.png</file>
+        <file>resources/icons/gathering.png</file>
+        <file>resources/icons/hierarchy.png</file>
+        <file>resources/icons/menu.png</file>
+        <file>resources/icons/palette.png</file>
+        <file>resources/icons/shape.png</file>
+        <file>resources/icons/+dark/list.svg</file>
+        <file>resources/icons/+dark/redo.svg</file>
+        <file>resources/icons/+dark/undo.svg</file>
+        <file>resources/icons/+light/list.svg</file>
+        <file>resources/icons/+light/redo.svg</file>
+        <file>resources/icons/+light/undo.svg</file>
+        <file>resources/icons/list.svg</file>
+        <file>resources/icons/redo.svg</file>
+        <file>resources/icons/undo.svg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>resources/qml/main.qml</file>
+        <file>resources/qml/Node.qml</file>
+        <file>resources/qml/Link.qml</file>
+        <file>resources/qml/MindMap.qml</file>
+        <file>resources/qml/MindMenu.qml</file>
+        <file>resources/qml/IconButton.qml</file>
+    </qresource>
+</RCC>
