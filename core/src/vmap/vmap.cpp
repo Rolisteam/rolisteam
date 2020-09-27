@@ -1433,24 +1433,6 @@ void VMap::insertCharacterInMap(CharacterItem* item)
 /*    }
     return result;
 }*/
-void VMap::hideOtherLayers(bool b)
-{
-    auto const& values= m_itemMap->values();
-    for(auto& item : values)
-    {
-        if(item == m_sightItem || item == m_gridItem)
-            continue;
-
-        /*if((b) && (item->getLayer() != m_ctrl->layer()))
-        {
-            item->setVisible(false);
-        }
-        else
-        {
-            item->setVisible(true);
-        }*/
-    }
-}
 
 /*QString VMap::getVisibilityModeText()
 {

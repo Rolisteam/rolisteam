@@ -101,10 +101,7 @@ void PreferencesManager::readSettings(const QString& version)
     settings.endArray();
     settings.endGroup();
 
-    for(auto& p : m_lambdaMap)
-    {
-        p.second(value(p.first, QVariant()));
-    }
+    notifyAllListener();
 }
 void PreferencesManager::writeSettings(const QString& version)
 {
@@ -132,6 +129,15 @@ void PreferencesManager::registerLambda(const QString& key, std::function<void(Q
 {
     m_lambdaMap.insert({key, func});
 }
+
+void PreferencesManager::notifyAllListener()
+{
+    for(auto key : m_optionDictionary->keys())
+    {
+        notifyListener(key, m_optionDictionary->value(key));
+    }
+}
+
 void PreferencesManager::notifyListener(const QString& key, const QVariant& value)
 {
     PreferencesListener* tmp= m_listernerMap.value(key);

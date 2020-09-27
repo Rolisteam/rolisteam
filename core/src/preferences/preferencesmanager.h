@@ -100,6 +100,7 @@ private:
      * @brief notifyListener
      */
     void notifyListener(const QString& key, const QVariant& value);
+    void notifyAllListener();
 
 private:
     /**

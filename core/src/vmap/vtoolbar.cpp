@@ -69,7 +69,7 @@ VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(pa
     connect(m_ctrl, &VectorialMapController::npcNumberChanged, m_displayNPCCounter,
             QOverload<int>::of(&QLCDNumber::display));
     connect(m_ctrl, &VectorialMapController::toolColorChanged, m_colorSelector, &VColorSelector::setCurrentColor);
-    connect(m_ctrl, &VectorialMapController::opacityChanged, m_opacitySlider, &RealSlider::setRealValue);
+    // connect(m_ctrl, &VectorialMapController::opacityChanged, m_opacitySlider, &RealSlider::setRealValue);
     connect(m_ctrl, &VectorialMapController::editionModeChanged, this,
             [this](Core::EditionMode mode) { m_editionModeCombo->setCurrentIndex(static_cast<int>(mode)); });
 }
