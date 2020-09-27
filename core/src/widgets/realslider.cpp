@@ -5,7 +5,7 @@
 RealSlider::RealSlider(QWidget* parent) : QSlider(parent), m_start(0.0), m_end(1.0), m_step(0.01)
 {
     updateRange();
-    connect(this, SIGNAL(sliderMoved(int)), this, SLOT(internalValueChanged(int)));
+    connect(this, &RealSlider::sliderMoved, this, &RealSlider::internalValueChanged);
 }
 
 qreal RealSlider::start() const
