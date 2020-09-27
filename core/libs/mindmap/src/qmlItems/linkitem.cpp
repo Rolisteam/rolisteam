@@ -21,6 +21,8 @@
 
 #include "geometry/linknode.h"
 
+namespace mindmap
+{
 LinkItem::LinkItem()
 {
     setFlag(QQuickItem::ItemHasContents, true);
@@ -142,3 +144,4 @@ QSGNode* LinkItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeDat
     link->update(QPointF(0, 0), abox, p2, bbox);
     return link;
 }
+} // namespace mindmap

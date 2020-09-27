@@ -48,6 +48,7 @@ enum class ContentType : int
     PDF,
     WEBVIEW,
     INSTANTMESSAGING,
+    MINDMAP,
     UNKNOWN
 };
 Q_ENUM_NS(ContentType)

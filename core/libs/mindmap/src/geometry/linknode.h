@@ -22,6 +22,8 @@
 
 #include <QSGFlatColorMaterial>
 #include <QSGGeometryNode>
+namespace mindmap
+{
 
 class LinkNode : public QSGGeometryNode
 {
@@ -34,5 +36,5 @@ private:
     QSGFlatColorMaterial m_material;
     QSGGeometry m_geometry;
 };
-
+} // namespace mindmap
 #endif // LINKNODE_H

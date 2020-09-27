@@ -4,14 +4,14 @@ import QtQuick.Controls 2.2
 Menu {
     id: menu
     property QtObject ctrl
-    MenuItem {
+    /*MenuItem {
         text: qsTr("New")
         onTriggered: ctrl.resetData()
     }
     MenuItem {
         text: qsTr("Open File…")
         onTriggered: openDialog.open()
-    }
+    }*/
     MenuItem {
         text: qsTr("Save")
 
@@ -22,12 +22,12 @@ Menu {
                 saveDialog.open()
         }
     }
-    MenuItem {
+    /*MenuItem {
         text: qsTr("Save As…")
         onTriggered: {
             saveDialog.open()
         }
-    }
+    }*/
     MenuItem {
         text: qsTr("Remove Selection")
         onTriggered: {
@@ -50,13 +50,13 @@ Menu {
         }
     }
     MenuSeparator { }
-    MenuItem {
+    /*MenuItem {
         text: qsTr("Import File…")
         onTriggered: {
             importDialog.open()
         }
-    }
-    MenuSeparator { }
+    }*/
+   // MenuSeparator { }
     MenuItem {
         text: qsTr("Automatic Spacing")
         checkable: true

@@ -23,7 +23,8 @@
 
 #include <QDebug>
 #include <QLineF>
-
+namespace mindmap
+{
 LinkNode::LinkNode() : m_geometry(QSGGeometry::defaultAttributes_Point2D(), 0)
 {
     setGeometry(&m_geometry);
@@ -97,3 +98,4 @@ void LinkNode::update(const QPointF& p1, const QRectF& rect1, const QPointF& p2,
     }
     markDirty(QSGNode::DirtyGeometry);
 }
+} // namespace mindmap

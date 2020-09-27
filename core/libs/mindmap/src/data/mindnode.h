@@ -22,6 +22,8 @@
 #include <QObject>
 #include <QPointF>
 #include <QVector2D>
+namespace mindmap
+{
 
 class Link;
 class MindNode : public QObject
@@ -141,5 +143,5 @@ private:
     QVector2D m_velocity;
     QVector2D m_acceleration;
 };
-
+} // namespace mindmap
 #endif // MINDNODE_H

@@ -23,6 +23,8 @@
 #include <QUuid>
 
 #include "link.h"
+namespace mindmap
+{
 
 MindNode::MindNode(QObject* parent) : QObject(parent), m_id(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
@@ -315,3 +317,4 @@ void MindNode::translate(const QPointF& motion)
 {
     setPosition(m_position + motion);
 }
+} // namespace mindmap

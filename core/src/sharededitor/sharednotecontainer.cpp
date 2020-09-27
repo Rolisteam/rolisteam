@@ -22,7 +22,7 @@
 #include "controller/view_controller/sharednotecontroller.h"
 
 SharedNoteContainer::SharedNoteContainer(SharedNoteController* ctrl, QWidget* parent)
-    : MediaContainer(ctrl, MediaContainer::ContainerType::SharedNoteContainer, ctrl, parent)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::SharedNoteContainer, parent)
     , m_sharedCtrl(ctrl)
     , m_edit(new SharedNote(ctrl))
 {

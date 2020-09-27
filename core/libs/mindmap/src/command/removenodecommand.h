@@ -22,7 +22,8 @@
 
 #include <QPointer>
 #include <QUndoCommand>
-
+namespace mindmap
+{
 class MindNode;
 class Link;
 class BoxModel;
@@ -40,5 +41,5 @@ private:
     BoxModel* m_nodeModel= nullptr;
     LinkModel* m_linkModel= nullptr;
 };
-
+} // namespace mindmap
 #endif // REMOVENODECOMMAND_H

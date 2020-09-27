@@ -22,6 +22,8 @@
 
 #include <QColor>
 #include <QObject>
+namespace mindmap
+{
 
 class NodeStyle : public QObject
 {
@@ -50,5 +52,5 @@ private:
     QColor m_colorTwo;
     QColor m_textColor;
 };
-
+} // namespace mindmap
 #endif // NODESTYLE_H

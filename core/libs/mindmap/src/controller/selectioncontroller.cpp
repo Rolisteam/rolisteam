@@ -21,6 +21,8 @@
 
 #include "command/dragnodecommand.h"
 #include "data/mindnode.h"
+namespace mindmap
+{
 
 SelectionController::SelectionController(QObject* parent) : QObject(parent) {}
 
@@ -81,3 +83,4 @@ void SelectionController::movingNode(const QPointF& motion)
 
     m_undoStack->push(cmd);
 }
+} // namespace mindmap

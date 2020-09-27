@@ -21,6 +21,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "data/mindnode.h"
+namespace mindmap
+{
 
 DragNodeCommand::DragNodeCommand(const QPointF& motion, const std::vector<QPointer<MindNode>>& selection)
     : m_motion(motion), m_mindNodes(selection)
@@ -76,3 +78,4 @@ const std::vector<QPointer<MindNode>> DragNodeCommand::getSelection() const
 {
     return m_mindNodes;
 }
+} // namespace mindmap

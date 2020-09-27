@@ -25,6 +25,9 @@
 
 class QQmlEngine;
 class QQmlFileSelector;
+namespace mindmap
+{
+
 class Theme : public QObject
 {
     Q_OBJECT
@@ -57,5 +60,5 @@ private:
     std::unique_ptr<QQmlFileSelector> m_selector;
     bool m_nightMode= false;
 };
-
+} // namespace mindmap
 #endif // QMLENGINECONTROLLER_H

@@ -23,6 +23,8 @@
 #include <QObject>
 #include <QPointF>
 #include <QPointer>
+namespace mindmap
+{
 
 class MindNode;
 class Link : public QObject
@@ -84,5 +86,5 @@ private:
     QString m_text;
     float m_stiffness= 400.0f;
 };
-
+} // namespace mindmap
 #endif // LINK_H

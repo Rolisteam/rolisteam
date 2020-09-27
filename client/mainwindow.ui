@@ -39,6 +39,7 @@
      <addaction name="m_newNoteAction"/>
      <addaction name="m_newSharedNote"/>
      <addaction name="m_newWebViewACt"/>
+     <addaction name="m_newMindmap"/>
     </widget>
     <widget class="QMenu" name="menu_Open">
      <property name="title">
@@ -51,6 +52,7 @@
      <addaction name="m_openCharacterSheet"/>
      <addaction name="m_openShareNote"/>
      <addaction name="m_openPdfAct"/>
+     <addaction name="m_openMindmap"/>
     </widget>
     <widget class="QMenu" name="m_recentFileMenu">
      <property name="title">
@@ -96,9 +98,9 @@
     <addaction name="m_mediaTitleAct"/>
     <addaction name="menuReorganize"/>
     <addaction name="separator"/>
+    <addaction name="m_showChatAct"/>
     <addaction name="m_audioPlayerAct"/>
     <addaction name="m_characterListAct"/>
-    <addaction name="m_chatListAct"/>
     <addaction name="m_toolBarAct"/>
     <addaction name="m_notificationAct"/>
     <addaction name="separator"/>
@@ -284,30 +286,6 @@
     <string>About Rolisteam</string>
    </property>
   </action>
-  <action name="m_newMapAction">
-   <property name="icon">
-    <iconset theme="map">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Map</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+M</string>
-   </property>
-  </action>
-  <action name="m_newChatAction">
-   <property name="icon">
-    <iconset theme="chatIcon">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Chat</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+T</string>
-   </property>
-  </action>
   <action name="m_newNoteAction">
    <property name="icon">
     <iconset theme="notes">
@@ -318,18 +296,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
-   </property>
-  </action>
-  <action name="m_openMapAction">
-   <property name="icon">
-    <iconset theme="map">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Map</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="m_openPictureAction">
@@ -353,7 +319,7 @@
     <string>Note</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+R</string>
+    <string>Ctrl+Shift+N</string>
    </property>
   </action>
   <action name="m_openStoryAction">
@@ -402,17 +368,6 @@
     <string>Alt+N</string>
    </property>
   </action>
-  <action name="m_chatListAct">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Chat List</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+L</string>
-   </property>
-  </action>
   <action name="m_characterListAct">
    <property name="checkable">
     <bool>true</bool>
@@ -456,7 +411,7 @@
     <string>Map</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string>Ctrl+Shift+M</string>
    </property>
   </action>
   <action name="m_showHealtStatusAction">
@@ -531,7 +486,7 @@
     <string>Shared Note</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+L</string>
+    <string>Ctrl+Shift+K</string>
    </property>
   </action>
   <action name="m_supportRolisteam">
@@ -588,7 +543,7 @@
     <string>WebPage</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+H</string>
+    <string>Ctrl+W</string>
    </property>
   </action>
   <action name="m_keyGeneratorAct">
@@ -610,6 +565,38 @@
     <string>Support Rolisteam</string>
    </property>
   </action>
+  <action name="m_mediaTitleAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Media title in toolbar</string>
+   </property>
+  </action>
+  <action name="m_newMindmap">
+   <property name="icon">
+    <iconset theme="mindmap" resource="../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/mindmap.svg</normaloff>:/resources/rolistheme/mindmap.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Mindmap</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="m_openMindmap">
+   <property name="icon">
+    <iconset theme="mindmap" resource="../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/mindmap.svg</normaloff>:/resources/rolistheme/mindmap.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Mindmap</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
+  </action>
   <action name="m_showChatAct">
    <property name="checkable">
     <bool>true</bool>
@@ -619,21 +606,13 @@
      <normaloff>:/resources/rolistheme/chatIcon.png</normaloff>:/resources/rolistheme/chatIcon.png</iconset>
    </property>
    <property name="text">
-    <string>ShowChat</string>
-   </property>
-   <property name="iconText">
-    <string>Instant Messaging</string>
+    <string>Instant messaging</string>
    </property>
    <property name="toolTip">
-    <string>show Instant Message Window</string>
+    <string>Instant Messaging Window</string>
    </property>
-  </action>
-  <action name="m_mediaTitleAct">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Media title in toolbar</string>
+   <property name="shortcut">
+    <string>Alt+I</string>
    </property>
   </action>
  </widget>

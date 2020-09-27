@@ -17,26 +17,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MEDIAFACTORY_H
-#define MEDIAFACTORY_H
+#include "mindmapview.h"
 
-#include "controller/view_controller/mediacontrollerbase.h"
+#include "qmlchat/avatarprovider.h"
 
-class NetworkMessageReader;
-namespace Media
+#include <QQmlContext>
+#include <QQmlEngine>
+
+#include "controller/view_controller/mindmapcontroller.h"
+
+MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::MindMapContainer, parent)
+    , m_qmlViewer(new QQuickWidget())
+    , m_ctrl(ctrl)
 {
-class MediaFactory
-{
-public:
-    static MediaControllerBase* createLocalMedia(const QString& uuid, Core::ContentType type,
-                                                 const std::map<QString, QVariant>& map, bool localIsGM);
-    static MediaControllerBase* createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg, bool localIsGM);
+    setObjectName("mindmap");
+    setWindowIcon(QIcon::fromTheme("mindmap"));
 
-    static void setLocalId(const QString& id);
+    auto engine= m_qmlViewer->engine();
+    engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
+    engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
 
-private:
-    static QString m_localId;
-};
-} // namespace Media
+    m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    m_qmlViewer->setSource(QUrl("qrc:/resources/qml/main.qml"));
 
-#endif // MEDIAFACTORY_H
+    auto wid= new QWidget(this);
+
+    auto layout= new QVBoxLayout(wid);
+    layout->setMargin(0);
+    wid->setLayout(layout);
+
+    layout->addWidget(m_qmlViewer.get());
+
+    setWindowTitle(tr("%1 - Mindmap").arg(ctrl->name()));
+
+    setWidget(wid);
+}

@@ -55,6 +55,7 @@ class MapController;
 class PdfController;
 class NoteController;
 class InstantMessagingController;
+class MindMapController;
 /**
  * @brief The ImprovedWorkspace class
  */
@@ -101,6 +102,7 @@ protected slots:
     void addWebpage(WebpageController* ctrl);
     void addSharedNote(SharedNoteController* ctrl);
     void addNote(NoteController* ctrl);
+    void addMindMap(MindMapController* ctrl);
 #ifdef WITH_PDF
     void addPdf(PdfController* ctrl);
 #endif

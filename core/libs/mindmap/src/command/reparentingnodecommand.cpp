@@ -21,7 +21,8 @@
 
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
-
+namespace mindmap
+{
 ReparentingNodeCommand::ReparentingNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, MindNode* newParent,
                                                const QString& id)
     : m_nodeModel(nodeModel), m_linkModel(linkModel), m_newParent(newParent)
@@ -60,3 +61,4 @@ void ReparentingNodeCommand::redo()
     else
         m_linkModel->append(m_newLink);
 }
+} // namespace mindmap

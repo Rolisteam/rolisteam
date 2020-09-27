@@ -29,6 +29,7 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mediacontrollerbase.h"
+#include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/notecontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
@@ -1067,7 +1068,17 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
     ctrl->setState(state);
     ctrl->setSharingMode(mode);
 }
+void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& array)
+{
+    if(!ctrl || array.isEmpty())
+        return;
+    auto data= array;
+    QDataStream input(&data, QIODevice::ReadOnly);
 
+    readBase(ctrl, input);
+
+    // todo read data to define mindmapcontroller.
+}
 void IOHelper::readNoteController(NoteController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())

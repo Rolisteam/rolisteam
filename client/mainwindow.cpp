@@ -53,8 +53,8 @@
 #include "data/player.h"
 #include "data/shortcutvisitor.h"
 
-#include "network/servermanager.h"
-#include "pdfviewer/pdfviewer.h"
+//#include "network/servermanager.h"
+//#include "pdfviewer/pdfviewer.h"
 #include "preferences/preferencesdialog.h"
 
 #include "userlist/playermodel.h"
@@ -68,7 +68,7 @@
 #include "widgets/workspace.h"
 #include "worker/networkdownloader.h"
 
-#include "worker/messagehelper.h"
+//#include "worker/messagehelper.h"
 #include "worker/playermessagehelper.h"
 
 #ifdef HAVE_WEBVIEW
@@ -231,8 +231,7 @@ void MainWindow::setupUi()
     setCentralWidget(m_mdiArea.get());
 
     addDockWidget(Qt::RightDockWidgetArea, m_sessionDock.get());
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_sessionDock->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct, m_sessionDock->toggleViewAction());
 
     createNotificationZone();
     ///////////////////
@@ -313,11 +312,6 @@ void MainWindow::createNotificationZone()
 
 void MainWindow::linkActionToMenu()
 {
-    m_ui->m_addVectorialMap->setData(static_cast<int>(Core::ContentType::VECTORIALMAP));
-    m_ui->m_newNoteAction->setData(static_cast<int>(Core::ContentType::NOTES));
-    m_ui->m_newSharedNote->setData(static_cast<int>(Core::ContentType::SHAREDNOTE));
-    m_ui->m_newWebViewACt->setData(static_cast<int>(Core::ContentType::WEBVIEW));
-
     connect(m_ui->m_addVectorialMap, &QAction::triggered, this, &MainWindow::newVMap);
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, [this]() {
         auto ctrl= m_gameController->contentController();
@@ -340,17 +334,26 @@ void MainWindow::linkActionToMenu()
         std::map<QString, QVariant> params;
         ctrl->newMedia(Core::ContentType::WEBVIEW, params);
     });
-    // connect(m_ui->m_newChatAction, &QAction::triggered, m_chatListWidget, &ChatListWidget::createPrivateChat);
+    connect(m_ui->m_newMindmap, &QAction::triggered, this, [this]() {
+        auto ctrl= m_gameController->contentController();
+        if(nullptr == ctrl)
+            return;
+        std::map<QString, QVariant> params;
+        ctrl->newMedia(Core::ContentType::MINDMAP, params);
+    });
 
     // open
     connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openOnlinePictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openCharacterSheet, &QAction::triggered, this, &MainWindow::openGenericContent);
-    connect(m_ui->m_openVectorialMap, &QAction::triggered, this, &MainWindow::openVMap);
+    connect(m_ui->m_openVectorialMap, &QAction::triggered, this, []() {
+        // TODO open vmap
+    });
     connect(m_ui->m_openStoryAction, &QAction::triggered, this, &MainWindow::openStory);
     connect(m_ui->m_openNoteAction, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openShareNote, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openPdfAct, &QAction::triggered, this, &MainWindow::openGenericContent);
+    connect(m_ui->m_openMindmap, &QAction::triggered, this, &MainWindow::openGenericContent);
 
     connect(m_ui->m_shortCutEditorAct, &QAction::triggered, this, &MainWindow::showShortCutEditor);
 
@@ -360,6 +363,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openVectorialMap->setData(static_cast<int>(Core::ContentType::VECTORIALMAP));
     m_ui->m_openNoteAction->setData(static_cast<int>(Core::ContentType::NOTES));
     m_ui->m_openShareNote->setData(static_cast<int>(Core::ContentType::SHAREDNOTE));
+    m_ui->m_openMindmap->setData(static_cast<int>(Core::ContentType::MINDMAP));
 #ifdef WITH_PDF
     m_ui->m_openPdfAct->setData(static_cast<int>(Core::ContentType::PDF));
 #else
@@ -387,7 +391,6 @@ void MainWindow::linkActionToMenu()
             m_mdiArea->addAction(m_ui->m_fullScreenAct);
             menuBar()->setVisible(false);
             m_mdiArea->setMouseTracking(true);
-            // m_vmapToolBar->setMouseTracking(true);
             setMouseTracking(true);
         }
         else
@@ -395,7 +398,6 @@ void MainWindow::linkActionToMenu()
             showNormal();
             menuBar()->setVisible(true);
             m_mdiArea->setMouseTracking(false);
-            // m_vmapToolBar->setMouseTracking(false);
             setMouseTracking(false);
             m_mdiArea->removeAction(m_ui->m_fullScreenAct);
         }
@@ -644,13 +646,6 @@ void MainWindow::saveCurrentMedia()
     }
 }
 
-bool MainWindow::saveMinutes()
-{
-    {
-    }
-    return true;
-}
-
 void MainWindow::stopReconnection()
 {
     m_ui->m_changeProfileAct->setEnabled(true);
@@ -684,7 +679,6 @@ void MainWindow::updateUi()
     m_audioPlayer->updateUi(isGM);
 #endif
     m_ui->m_addVectorialMap->setEnabled(isGM);
-    m_ui->m_openMapAction->setEnabled(isGM);
     m_ui->m_openStoryAction->setEnabled(isGM);
     m_ui->m_closeAction->setEnabled(isGM);
     m_ui->m_saveAction->setEnabled(isGM);
@@ -922,12 +916,6 @@ void MainWindow::postConnection()
     setUpNetworkConnection();
     updateWindowTitle();
     updateUi();
-
-    // if(m_currentConnectionProfile->isGM())
-    {
-        // m_preferencesDialog->sendOffAllDiceAlias();
-        // m_preferencesDialog->sendOffAllState();
-    }
 }
 
 void MainWindow::openGenericContent()
@@ -963,27 +951,6 @@ void MainWindow::openOnlineImage()
                                       {QStringLiteral("data"), dialog.getData()}});
 
     m_gameController->contentController()->openMedia(args);
-}
-
-void MainWindow::openVMap()
-{
-    /*MapWizzard mapWizzard(true, this);
-    mapWizzard.resetData();
-    if(mapWizzard.exec() != QMessageBox::Accepted)
-        return;
-
-    auto permission= mapWizzard.getPermissionMode();
-    auto filepath= mapWizzard.getFilepath();
-    auto hidden= mapWizzard.getHidden();
-
-    std::map<QString, QVariant> args({{QStringLiteral("permission"), permission}, {QStringLiteral("hidden"), hidden}});
-
-    auto uri= new CleverURI(mapWizzard.getTitle(), filepath,
-                            m_gameController->playerController()->localPlayer()->uuid(),
-    Core::ContentType::VECTORIALMAP); m_gameController->contentController()->openMedia(uri, args);
-
-    QFileInfo info(mapWizzard.getFilepath());
-    m_preferences->registerValue("MapDirectory", info.absolutePath());*/
 }
 
 void MainWindow::openRecentFile()
@@ -1205,7 +1172,7 @@ void MainWindow::openImageAs(const QPixmap& pix, Core::ContentType type)
     // if(destination)
     // destination->setUriName(title.arg(sourceName));
 
-    destination->setRemote(false);
+    // destination->setRemote(false);
     // destination->setCleverUri(new CleverURI(sourceName, "", type));
     // addMediaToMdiArea(destination, true);
 }

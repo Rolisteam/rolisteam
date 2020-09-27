@@ -10,6 +10,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(src)
+include_directories(libs/mindmap/src)
 include_directories(libs/diceparser)
 include_directories(libs/diceparser/include)
 include_directories(src/charactersheet)
@@ -56,12 +57,14 @@ set(HEADERS
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
     src/controller/view_controller/notecontroller.h
+    src/controller/view_controller/mindmapcontroller.h
     src/controller/contentcontroller.h
     src/common/controller/theme.h
     src/undoCmd/addlocalcharactercommand.h
     src/undoCmd/removelocalcharactercommand.h
     src/media/mediatype.h
     src/media/charactersheetwindow.h
+    src/media/mindmapview.h
     src/audio/audioPlayer.h
     src/audio/musicmodel.h
     src/audio/playerwidget.h
@@ -306,6 +309,7 @@ set(SOURCES
     src/controller/contentcontroller.cpp
     src/controller/instantmessagingcontroller.cpp
     src/controller/view_controller/notecontroller.cpp
+    src/controller/view_controller/mindmapcontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
     src/controller/view_controller/sharednotecontroller.cpp
     src/controller/view_controller/webpagecontroller.cpp
@@ -378,6 +382,7 @@ set(SOURCES
     src/data/shortcutvisitor.cpp
     src/media/image.cpp
     src/media/mediafactory.cpp
+    src/media/mindmapview.cpp
     src/model/playerproxymodel.cpp
     src/model/singlecontenttypemodel.cpp
     src/model/contentmodel.cpp

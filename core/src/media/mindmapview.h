@@ -17,26 +17,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MEDIAFACTORY_H
-#define MEDIAFACTORY_H
+#ifndef MINDMAPVIEW_H
+#define MINDMAPVIEW_H
 
-#include "controller/view_controller/mediacontrollerbase.h"
+#include <QPointer>
+#include <QQuickWidget>
+#include <memory>
 
-class NetworkMessageReader;
-namespace Media
+#include "data/mediacontainer.h"
+
+class MindMapController;
+
+class MindMapView : public MediaContainer
 {
-class MediaFactory
-{
+    Q_OBJECT
 public:
-    static MediaControllerBase* createLocalMedia(const QString& uuid, Core::ContentType type,
-                                                 const std::map<QString, QVariant>& map, bool localIsGM);
-    static MediaControllerBase* createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg, bool localIsGM);
-
-    static void setLocalId(const QString& id);
+    MindMapView(MindMapController* ctrl, QWidget* parent= nullptr);
 
 private:
-    static QString m_localId;
+    std::unique_ptr<QQuickWidget> m_qmlViewer;
+    QPointer<MindMapController> m_ctrl;
 };
-} // namespace Media
 
-#endif // MEDIAFACTORY_H
+#endif // MINDMAPVIEW_H

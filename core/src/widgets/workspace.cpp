@@ -26,6 +26,7 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mapcontroller.h"
+#include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/notecontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
@@ -41,6 +42,7 @@
 
 #include "media/charactersheetwindow.h"
 #include "media/image.h"
+#include "media/mindmapview.h"
 #include "noteeditor/src/notecontainer.h"
 #include "pdfviewer/pdfviewer.h"
 #include "sharededitor/sharednotecontainer.h"
@@ -391,6 +393,9 @@ void Workspace::addMedia(MediaControllerBase* ctrl)
     case Core::ContentType::CHARACTERSHEET:
         addCharacterSheet(dynamic_cast<CharacterSheetController*>(ctrl));
         break;
+    case Core::ContentType::MINDMAP:
+        addMindMap(dynamic_cast<MindMapController*>(ctrl));
+        break;
     default:
         break;
     }
@@ -461,6 +466,16 @@ void Workspace::addNote(NoteController* ctrl)
     SharedNote->setGeometry(0, 0, 800, 600);
     addWidgetToMdi(SharedNote.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(SharedNote));
+}
+
+void Workspace::addMindMap(MindMapController* ctrl)
+{
+    if(nullptr == ctrl)
+        return;
+    std::unique_ptr<MindMapView> mindMapView(new MindMapView(ctrl));
+    mindMapView->setGeometry(0, 0, 800, 600);
+    addWidgetToMdi(mindMapView.get(), ctrl->name());
+    m_mediaContainers.push_back(std::move(mindMapView));
 }
 
 void Workspace::addSharedNote(SharedNoteController* ctrl)

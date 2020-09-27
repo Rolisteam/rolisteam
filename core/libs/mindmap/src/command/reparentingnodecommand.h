@@ -22,6 +22,8 @@
 
 #include <QPointer>
 #include <QUndoCommand>
+namespace mindmap
+{
 class MindNode;
 class BoxModel;
 class LinkModel;
@@ -44,5 +46,5 @@ private:
     LinkModel* m_linkModel= nullptr;
     QPointer<MindNode> m_newParent;
 };
-
+} // namespace mindmap
 #endif // REPARENTINGNODECOMMAND_H

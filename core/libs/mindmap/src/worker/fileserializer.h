@@ -21,6 +21,9 @@
 #define FILESERIALIZER_H
 
 #include <QObject>
+namespace mindmap
+{
+
 class BoxModel;
 class LinkModel;
 class FileSerializer : public QObject
@@ -33,5 +36,5 @@ public:
     static bool readFile(BoxModel* nodeModel, LinkModel* linkModel, const QString& filepath);
     static bool writeFile(BoxModel* nodeModel, LinkModel* linkModel, const QString& filepath);
 };
-
+} // namespace mindmap
 #endif // FILESERIALIZER_H

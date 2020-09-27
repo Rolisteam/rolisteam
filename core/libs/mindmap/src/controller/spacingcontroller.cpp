@@ -27,7 +27,8 @@
 #include <chrono>
 #include <cmath>
 #include <thread>
-
+namespace mindmap
+{
 const float k_attraction= 0.1f;
 const float k_repulsion= 10000.f;
 
@@ -130,3 +131,4 @@ void SpacingController::applyHookesLaw(Link* link)
     node1->setVelocity(node1->getVelocity() + vect.normalized() * force * -1);
     node2->setVelocity(node2->getVelocity() + vect.normalized() * force);
 }
+} // namespace mindmap

@@ -23,8 +23,10 @@
 
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+
 #include "updater/media/mediaupdaterinterface.h"
 #include "updater/media/sharednotecontrollerupdater.h"
 #include "updater/media/vmapupdater.h"
@@ -71,6 +73,8 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
 {
     CharacterSheetController::setCharacterModel(characterModel);
     SharedNoteController::setPlayerModel(playerModel);
+    MindMapController::setPlayerModel(playerModel);
+    MindMapController::registerQmlType();
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 

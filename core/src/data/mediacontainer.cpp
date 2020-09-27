@@ -20,12 +20,11 @@
 #include "mediacontainer.h"
 #include <QMessageBox>
 
-MediaContainer::MediaContainer(MediaControllerBase* ctrl, ContainerType containerType, bool localIsGM, QWidget* parent)
+MediaContainer::MediaContainer(MediaControllerBase* ctrl, ContainerType containerType, QWidget* parent)
     : QMdiSubWindow(parent)
     , m_lifeCycleCtrl(ctrl)
     , m_preferences(PreferencesManager::getInstance())
     , m_currentCursor(nullptr)
-    , m_remote(false)
     , m_containerType(containerType)
 {
     setAttribute(Qt::WA_DeleteOnClose, false);
@@ -41,47 +40,11 @@ MediaContainer::MediaContainer(MediaControllerBase* ctrl, ContainerType containe
 
 MediaContainer::~MediaContainer() {}
 
-void MediaContainer::setLocalPlayerId(QString id)
-{
-    //  m_localPlayerId= id;
-}
-
-QString MediaContainer::getLocalPlayerId()
-{
-    return {}; // m_localPlayerId;
-}
-/*void MediaContainer::setCleverUri(CleverURI* uri)
-{
-    if(m_uri == uri)
-        return;
-
-    if(m_uri != nullptr)
-    {
-        delete m_uri;
-        m_uri= nullptr;
-    }
-    m_uri= uri;
-    if(nullptr != m_uri)
-    {
-        m_uri->setListener(this);
-    }
-    updateTitle();
-}
-
-CleverURI* MediaContainer::getCleverUri() const
-{
-    return m_uri;
-}*/
-
 MediaControllerBase* MediaContainer::ctrl() const
 {
     return m_lifeCycleCtrl;
 }
 
-bool MediaContainer::openMedia()
-{
-    return false;
-}
 void MediaContainer::error(QString err, QWidget* parent)
 {
     if(nullptr != parent)
@@ -99,10 +62,6 @@ void MediaContainer::error(QString err, QWidget* parent)
         msgBox.exec();
     }
 }
-bool MediaContainer::isUriEndWith(QString str)
-{
-    return false;
-}
 
 void MediaContainer::setVisible(bool b)
 {
@@ -116,15 +75,6 @@ void MediaContainer::setVisible(bool b)
 QString MediaContainer::mediaId() const
 {
     return m_lifeCycleCtrl->uuid();
-}
-
-void MediaContainer::currentToolChanged(Core::SelectableTool selectedtool)
-{
-    m_currentTool= selectedtool;
-}
-void MediaContainer::currentCursorChanged(QCursor* cursor)
-{
-    m_currentCursor= cursor;
 }
 
 void MediaContainer::addActionToMenu(QMenu& menu)
@@ -183,14 +133,4 @@ QString MediaContainer::ownerId() const
 void MediaContainer::setOwnerId(const QString& ownerId)
 {
     m_lifeCycleCtrl->setOwnerId(ownerId);
-}
-
-bool MediaContainer::isRemote() const
-{
-    return m_remote;
-}
-
-void MediaContainer::setRemote(bool remote)
-{
-    m_remote= remote;
 }
