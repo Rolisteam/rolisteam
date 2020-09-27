@@ -196,6 +196,8 @@ set(HEADERS
     src/undoCmd/newmediacontroller.h
     src/undoCmd/addfogofwarchangecommand.h
     src/undoCmd/changestackordervmapcommand.h
+    src/undoCmd/showtransparentitemcommand.h
+    src/undoCmd/hideotherlayercommand.h
     src/userlist/playermodel.h
     src/userlist/playerspanel.h
     src/userlist/rolisteammimedata.h
@@ -444,6 +446,8 @@ set(SOURCES
     src/undoCmd/movevmapitem.cpp
     src/undoCmd/addfogofwarchangecommand.cpp
     src/undoCmd/changestackordervmapcommand.cpp
+    src/undoCmd/showtransparentitemcommand.cpp
+    src/undoCmd/hideotherlayercommand.cpp
     src/userlist/playermodel.cpp
     src/userlist/playerspanel.cpp
     src/userlist/rolisteammimedata.cpp

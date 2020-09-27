@@ -144,8 +144,8 @@ public:
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
 
 public slots:
-    void showTransparentItems();
-    void hideOtherLayers();
+    void showTransparentItems(const QList<vmap::VisualItemController*>& list);
+    void hideOtherLayers(bool b);
 
 signals:
     void permissionChanged(Core::PermissionMode mode);

@@ -340,11 +340,6 @@ protected:
      */
     void dragMoveEvent(QGraphicsSceneDragDropEvent* event);
     /**
-     * @brief hideOtherLayers
-     * @param b
-     */
-    void hideOtherLayers(bool b);
-    /**
      * @brief ensureFogAboveAll
      */
     void ensureFogAboveAll();

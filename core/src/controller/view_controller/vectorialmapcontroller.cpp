@@ -29,6 +29,8 @@
 #include "undoCmd/changecoloritem.h"
 #include "undoCmd/changesizevmapitem.h"
 #include "undoCmd/deletevmapitem.h"
+#include "undoCmd/hideotherlayercommand.h"
+#include "undoCmd/showtransparentitemcommand.h"
 
 #include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
@@ -641,14 +643,16 @@ void VectorialMapController::normalizeSize(const QList<vmap::VisualItemControlle
     emit performCommand(new ChangeSizeVmapItemCommand(list, method, mousePos));
 }
 
-void VectorialMapController::showTransparentItems()
+void VectorialMapController::showTransparentItems(const QList<vmap::VisualItemController*>& list)
 {
-    // TODO make a command to do so.
+    if(list.isEmpty())
+        return;
+    emit performCommand(new ShowTransparentItemCommand(list));
 }
 
-void VectorialMapController::hideOtherLayers()
+void VectorialMapController::hideOtherLayers(bool b)
 {
-    // TODO make a command to do so.
+    emit performCommand(new HideOtherLayerCommand(m_layer, m_vmapModel.get(), b));
 }
 
 void VectorialMapController::removeItemController(const QString& uuid)
