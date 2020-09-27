@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "gamecontroller.h"
 
+#include <QTimer>
+
 #include "common/controller/logcontroller.h"
 #include "common/controller/remotelogcontroller.h"
 #include "controller/contentcontroller.h"
@@ -31,6 +33,7 @@
 #include "preferences/preferencesmanager.h"
 #include "services/tipchecker.h"
 #include "services/updatechecker.h"
+#include "worker/autosavecontroller.h"
 #include "worker/messagehelper.h"
 
 #include "network/connectionprofile.h"
@@ -48,6 +51,7 @@ GameController::GameController(QObject* parent)
     , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
     , m_undoStack(new QUndoStack)
     , m_diceParser(new DiceParser)
+    , m_autoSaveCtrl(new AutoSaveController(m_preferences.get()))
 {
 #ifdef VERSION_MINOR
 #ifdef VERSION_MAJOR
@@ -70,6 +74,7 @@ GameController::GameController(QObject* parent)
 
         emit connectedChanged(b);
     });
+    connect(m_autoSaveCtrl.get(), &AutoSaveController::saveData, m_contentCtrl.get(), &ContentController::saveSession);
 
     connect(m_playerController.get(), &PlayerController::gameMasterIdChanged, m_contentCtrl.get(),
             &ContentController::setGameMasterId);

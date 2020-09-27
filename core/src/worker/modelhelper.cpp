@@ -30,10 +30,12 @@
 #include "session/sessionitemmodel.h"
 #include "worker/iohelper.h"
 
+#include <QApplication>
 #include <QDebug>
 #include <QFileInfo>
 #include <QFontDatabase>
 #include <QJsonDocument>
+#include <QMessageBox>
 #include <QSettings>
 #include <QUuid>
 
@@ -175,6 +177,9 @@ namespace ModelHelper
 
 bool saveSession(const QString& path, const QString& name, const ContentController* ctrl)
 {
+    if(path.isEmpty())
+        return false;
+
     QFile file(path);
     if(!file.open(QIODevice::WriteOnly))
     {
@@ -199,10 +204,26 @@ bool saveSession(const QString& path, const QString& name, const ContentControll
 
 QString loadSession(const QString& path, ContentController* ctrl)
 {
-    QString name;
+
     QFileInfo info(path);
+
+    auto name= QStringLiteral("%1_back.sce").arg(info.baseName());
+    auto backUpPath= QStringLiteral("%1/%2").arg(info.absolutePath()).arg(name);
+
+    QFileInfo backUp(backUpPath);
+    auto finalPath= path;
+    if(backUp.exists() && backUp.lastModified() > info.lastModified())
+    {
+        auto answer= QMessageBox::question(
+            qApp->activeWindow(), QObject::tr("Load Backup ?"),
+            QObject::tr(
+                "A backup file has been found and seem more recent than the original file. Load the back up ?"));
+        if(answer == QMessageBox::Yes)
+            finalPath= backUpPath;
+    }
+
     name= info.baseName();
-    QFile file(path);
+    QFile file(finalPath);
     if(!file.open(QIODevice::ReadOnly))
     {
         return {};

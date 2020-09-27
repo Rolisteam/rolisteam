@@ -44,6 +44,7 @@ class ContentController;
 class QSystemTrayIcon;
 class InstantMessagingController;
 class DiceParser;
+class AutoSaveController;
 class GameController : public QObject
 {
     Q_OBJECT
@@ -137,6 +138,7 @@ private:
     TipOfDay m_tipOfTheDay;
     std::unique_ptr<QUndoStack> m_undoStack;
     std::unique_ptr<DiceParser> m_diceParser;
+    std::unique_ptr<AutoSaveController> m_autoSaveCtrl;
 };
 
 #endif // GAMECONTROLLER_H
