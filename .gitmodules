@@ -1,8 +1,8 @@
-[submodule "core/src/diceparser"]
-	path = core/src/diceparser
+[submodule "core/libs/diceparser"]
+	path = core/libs/diceparser
 	url = https://invent.kde.org/rolisteam/rolisteam-diceparser.git
 	pushURL = git@invent.kde.org:rolisteam/rolisteam-diceparser.git
-[submodule "client/widgets/gmtoolbox"]
+[submodule "core/src/widgets/gmtoolbox"]
 	path = core/src/widgets/gmtoolbox
 	url = https://invent.kde.org/rolisteam/rolisteam-plugins.git
 	pushURL = git@invent.kde.org:rolisteam/rolisteam-plugins.git
