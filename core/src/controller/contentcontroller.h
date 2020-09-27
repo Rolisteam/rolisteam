@@ -126,6 +126,7 @@ public slots:
     void loadSession();
     void setGameMasterId(const QString& id);
     void setLocalId(const QString& id);
+    void saveSessionBackUp();
 
 private:
     std::unique_ptr<session::SessionItemModel> m_sessionModel;

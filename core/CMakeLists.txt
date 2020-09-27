@@ -275,6 +275,7 @@ set(HEADERS
     src/worker/iohelper.h
     src/worker/networkdownloader.h
     src/worker/convertionhelper.h
+    src/worker/autosavecontroller.h
     src/updater/media/mediaupdaterinterface.h
     src/updater/media/vmapupdater.h
     src/updater/media/charactersheetupdater.h
@@ -534,6 +535,7 @@ set(SOURCES
     src/worker/vectorialmapmessagehelper.cpp
     src/worker/playermessagehelper.cpp
     src/worker/convertionhelper.cpp
+    src/worker/autosavecontroller.cpp
     libs/diceparser/qmltypesregister.cpp
     libs/diceparser/diceroller.cpp
     )

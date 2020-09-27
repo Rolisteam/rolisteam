@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "contentcontroller.h"
 
+#include <QFileInfo>
+
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
@@ -183,8 +185,18 @@ void ContentController::openResources(const QModelIndex& index) {}
 void ContentController::saveSession()
 {
     Q_ASSERT(!m_localId.isEmpty());
-    // saveAllMediaContainer();
     ModelHelper::saveSession(m_sessionPath, m_sessionName, this);
+}
+
+void ContentController::saveSessionBackUp()
+{
+    Q_ASSERT(!m_localId.isEmpty());
+    auto path= m_sessionPath;
+    QFileInfo info(path);
+
+    auto name= QStringLiteral("%1_back.sce").arg(info.baseName());
+    path= QStringLiteral("%1/%2").arg(info.absolutePath()).arg(name);
+    ModelHelper::saveSession(path, m_sessionName, this);
 }
 
 void ContentController::loadSession()
