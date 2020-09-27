@@ -212,27 +212,35 @@ Rolisteam est écrit en C++/Qt5</translation>
 <context>
     <name>BotIrcDiceParser</name>
     <message>
-        <location filename="../core/src/diceparser/irc/mainwindow.ui" line="14"/>
-        <location filename="../core/src/diceparser/irc/build/ui_mainwindow.h" line="94"/>
+        <location filename="../core/libs/diceparser/irc/mainwindow.ui" line="14"/>
+        <location filename="../core/libs/diceparser/irc/build/ui_mainwindow.h" line="94"/>
         <source>BotIrcDiceParser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/irc/mainwindow.ui" line="23"/>
-        <location filename="../core/src/diceparser/irc/build/ui_mainwindow.h" line="95"/>
+        <location filename="../core/libs/diceparser/irc/mainwindow.ui" line="23"/>
+        <location filename="../core/libs/diceparser/irc/build/ui_mainwindow.h" line="95"/>
         <source>Connect</source>
         <translation type="unfinished">Connexion</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/irc/mainwindow.ui" line="30"/>
-        <location filename="../core/src/diceparser/irc/build/ui_mainwindow.h" line="96"/>
+        <location filename="../core/libs/diceparser/irc/mainwindow.ui" line="30"/>
+        <location filename="../core/libs/diceparser/irc/build/ui_mainwindow.h" line="96"/>
         <source>join</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/irc/mainwindow.ui" line="50"/>
-        <location filename="../core/src/diceparser/irc/build/ui_mainwindow.h" line="97"/>
+        <location filename="../core/libs/diceparser/irc/mainwindow.ui" line="50"/>
+        <location filename="../core/libs/diceparser/irc/build/ui_mainwindow.h" line="97"/>
         <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BoxModel</name>
+    <message>
+        <location filename="../core/libs/mindmap/src/model/boxmodel.cpp" line="178"/>
+        <source>New Node</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -758,22 +766,22 @@ Type: %7
 <context>
     <name>ChatView</name>
     <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="44"/>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="56"/>
         <source>Split view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="51"/>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="63"/>
         <source>Detach</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="55"/>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="67"/>
         <source>Reatach</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/ChatView.qml" line="88"/>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="100"/>
         <source>close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -999,7 +1007,7 @@ Type: %7
         <translation type="obsolete">Inconnu</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/contentcontroller.cpp" line="68"/>
+        <location filename="../core/src/controller/contentcontroller.cpp" line="70"/>
         <source>default</source>
         <translation type="unfinished">défaut</translation>
     </message>
@@ -1706,7 +1714,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>InstantMessagingEditText</name>
     <message>
-        <location filename="../core/src/qmlchat/InstantMessagingEditText.qml" line="139"/>
+        <location filename="../core/src/qmlchat/InstantMessagingEditText.qml" line="140"/>
         <source>send</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1782,6 +1790,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_keygeneratordialog.h" line="88"/>
         <source>Copy/Paste result into server configuration file.</source>
         <translation>Copier/Coller le resultat dans le fichier de configuration du serveur.</translation>
+    </message>
+</context>
+<context>
+    <name>Link</name>
+    <message>
+        <location filename="../core/libs/mindmap/src/data/link.cpp" line="28"/>
+        <source>is linked</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2181,12 +2197,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1252"/>
+        <location filename="../client/mainwindow.cpp" line="1180"/>
         <source>unknown</source>
         <translation>inconnu</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="457"/>
+        <location filename="../client/mainwindow.cpp" line="458"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
         <translation>La page de soutien %1 peut-être trouvé à cette adresse :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</translation>
     </message>
@@ -2199,48 +2215,49 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ouvrir Plan</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1152"/>
+        <location filename="../client/mainwindow.cpp" line="1097"/>
         <source>Connected</source>
         <translation>Connecté</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1152"/>
+        <location filename="../client/mainwindow.cpp" line="1097"/>
         <source>Not Connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1153"/>
+        <location filename="../client/mainwindow.cpp" line="1098"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1153"/>
+        <location filename="../client/mainwindow.cpp" line="1098"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1154"/>
+        <location filename="../client/mainwindow.cpp" line="1099"/>
         <source>GM</source>
         <translation>MJ</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1154"/>
+        <location filename="../client/mainwindow.cpp" line="1099"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="571"/>
+        <location filename="../client/mainwindow.cpp" line="572"/>
         <source>Open scenario</source>
         <translation>Ouvrir Scénario</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="604"/>
+        <location filename="../client/mainwindow.cpp" line="605"/>
         <source>Save Scenario as</source>
         <translation>Sauvegarder le scénario sous</translation>
     </message>
     <message>
+        <location filename="../client/mainwindow.cpp" line="643"/>
         <source>Save %1</source>
-        <translation type="vanished">Sauvegarder %1</translation>
+        <translation>Sauvegarder %1</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="496"/>
@@ -2338,7 +2355,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/mainwindow.ui" line="229"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="418"/>
-        <location filename="../client/mainwindow.cpp" line="512"/>
+        <location filename="../client/mainwindow.cpp" line="513"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
@@ -2863,47 +2880,47 @@ p, li { white-space: pre-wrap; }
         <translation>Tuile</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="722"/>
+        <location filename="../client/mainwindow.cpp" line="671"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="756"/>
+        <location filename="../client/mainwindow.cpp" line="701"/>
         <source>Update Notification</source>
         <translation>Notification de mise à jour</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="771"/>
+        <location filename="../client/mainwindow.cpp" line="716"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 n&apos;a pas la même version: %2.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="866"/>
+        <location filename="../client/mainwindow.cpp" line="811"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam utilise le port &lt;port&gt; pour la connexion</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="869"/>
+        <location filename="../client/mainwindow.cpp" line="814"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam se connecte à &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="872"/>
+        <location filename="../client/mainwindow.cpp" line="817"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Définir le &lt;role&gt;: gm ou pc</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="874"/>
+        <location filename="../client/mainwindow.cpp" line="819"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Effacer les réglages et utiliser les paramètres par défaut</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="877"/>
+        <location filename="../client/mainwindow.cpp" line="822"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Définir le nom d&apos;&lt;utilisateur&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="880"/>
+        <location filename="../client/mainwindow.cpp" line="825"/>
         <source>Remove limit to PDF file size</source>
         <translation>Outrepasser la limite des fichiers PDF</translation>
     </message>
@@ -2912,7 +2929,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Fin du processus de connexion</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1251"/>
+        <location filename="../client/mainwindow.cpp" line="1179"/>
         <source>Export from %1</source>
         <translation>Exportation depuis %1</translation>
     </message>
@@ -2921,27 +2938,27 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Explorateur de Ressources</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="995"/>
+        <location filename="../client/mainwindow.cpp" line="940"/>
         <source>Open %1</source>
         <translation>Ouvrir %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="520"/>
+        <location filename="../client/mainwindow.cpp" line="521"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>La connexion a été perdue. %1 va s&apos;arrêter</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="405"/>
+        <location filename="../client/mainwindow.cpp" line="406"/>
         <source>&amp;Redo</source>
         <translation>&amp;Refaire</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="406"/>
+        <location filename="../client/mainwindow.cpp" line="407"/>
         <source>&amp;Undo</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="456"/>
+        <location filename="../client/mainwindow.cpp" line="457"/>
         <source>Support</source>
         <translation>Support</translation>
     </message>
@@ -2950,12 +2967,12 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Inconnu</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="522"/>
+        <location filename="../client/mainwindow.cpp" line="523"/>
         <source>Connection lost</source>
         <translation>Connexion perdue</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="528"/>
+        <location filename="../client/mainwindow.cpp" line="529"/>
         <source>Quit %1 </source>
         <translation>Quitter %1 </translation>
     </message>
@@ -2968,8 +2985,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Voulez-vous sauvegarder votre scénario avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="572"/>
-        <location filename="../client/mainwindow.cpp" line="605"/>
+        <location filename="../client/mainwindow.cpp" line="573"/>
+        <location filename="../client/mainwindow.cpp" line="606"/>
         <source>Scenarios (*.sce)</source>
         <translation>Scénarios (*.sce)</translation>
     </message>
@@ -2980,22 +2997,22 @@ p, li { white-space: pre-wrap; }
         <translation>À propos de Rolisteam</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="723"/>
+        <location filename="../client/mainwindow.cpp" line="672"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentation de %1 est accessible sur le web :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="757"/>
+        <location filename="../client/mainwindow.cpp" line="702"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>La version %1 est disponible. Pour plus d&apos;informations veuillez consulter &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;la page de téléchargement&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="767"/>
+        <location filename="../client/mainwindow.cpp" line="712"/>
         <source>%1 just joins the game.</source>
         <translation>%1 vient de rejoindre la partie.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="777"/>
+        <location filename="../client/mainwindow.cpp" line="722"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 vient de quitter la partie.</translation>
     </message>
@@ -3006,12 +3023,12 @@ Port:%2</source>
 Port:%2</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/gui/mainwindow.ui" line="14"/>
+        <location filename="../core/libs/diceparser/gui/mainwindow.ui" line="14"/>
         <source>MainWindow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/gui/mainwindow.ui" line="26"/>
+        <location filename="../core/libs/diceparser/gui/mainwindow.ui" line="26"/>
         <source>Roll</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3447,6 +3464,86 @@ Port:%2</translation>
         <location filename="../core/src/controller/view_controller/mediacontrollerbase.cpp" line="25"/>
         <source>Unknown</source>
         <translation type="unfinished">Inconnu</translation>
+    </message>
+</context>
+<context>
+    <name>MindMap</name>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMap.qml" line="36"/>
+        <source>Node Styles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMap.qml" line="70"/>
+        <source>Text</source>
+        <translation type="unfinished">Texte</translation>
+    </message>
+</context>
+<context>
+    <name>MindMapController</name>
+    <message>
+        <location filename="../core/libs/mindmap/src/controller/mindmapcontroller.cpp" line="130"/>
+        <source>Root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/src/controller/mindmapcontroller.cpp" line="137"/>
+        <location filename="../core/libs/mindmap/src/controller/mindmapcontroller.cpp" line="152"/>
+        <source>Error: File can&apos;t be loaded: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/src/controller/mindmapcontroller.cpp" line="159"/>
+        <source>File can&apos;t be loaded: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MindMenu</name>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="8"/>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="12"/>
+        <source>Open File…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="16"/>
+        <source>Save</source>
+        <translation type="unfinished">Enregistrer</translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="26"/>
+        <source>Save As…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="32"/>
+        <source>Remove Selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="39"/>
+        <source>Undo</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="46"/>
+        <source>Redo</source>
+        <translation type="unfinished">Refaire</translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="54"/>
+        <source>Import File…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/MindMenu.qml" line="61"/>
+        <source>Automatic Spacing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4264,7 +4361,7 @@ Do you want to continue and share the PDF?</source>
 Voulez-vous vraiment continuer le partage du document ?</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="186"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="182"/>
         <source>%1 - (PDF)</source>
         <translation>%1 - (PDF)</translation>
     </message>
@@ -5686,7 +5783,7 @@ Type: %7
         <translation type="vanished">Défaut</translation>
     </message>
     <message>
-        <location filename="../core/src/model/profilemodel.cpp" line="109"/>
+        <location filename="../core/src/model/profilemodel.cpp" line="110"/>
         <source> (clone)</source>
         <translation> (copie)</translation>
     </message>
@@ -5716,89 +5813,89 @@ Type: %7
         <translation>Erreur de chargement</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="77"/>
+        <location filename="../core/libs/diceparser/diceparser.cpp" line="78"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
         <translation>Commande incompréhensible. Pour jeter un dé: !1d6 - documation complète: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="88"/>
+        <location filename="../core/libs/diceparser/diceparser.cpp" line="89"/>
         <source>Unexpected character at %1 - end of command was ignored &quot;%2&quot;</source>
         <translation>Caractère inattendu en position %1 - la fin de la commande a été ignoré &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1385"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1385"/>
         <source>Expected closing parenthesis - can&apos;t validate the inside.</source>
         <translation>Parenthèse fermante attendu - Impossible de valider l&apos;intérieur.</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1960"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1960"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="2015"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="2015"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1632"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1632"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1652"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1652"/>
         <source>Validator is always true for the %1 operator. Please, change it</source>
         <translation>Le validateur est toujours vrai pour l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1661"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1661"/>
         <source>Condition can&apos;t be reached, causing endless loop. Please, change the %1 option condition</source>
         <translation>La condition ne peut pas être atteinte, causant une boucle infinie. Veuillez, changer la condition %1</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1688"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1688"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1700"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1700"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1712"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1712"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1780"/>
+        <location filename="../core/libs/diceparser/parsingtoolbox.cpp" line="1780"/>
         <source>Missing parameter for Painter node (p)</source>
         <translation>Paramètre manquant pour l&apos;operateur Peinture (p)</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/listaliasnode.cpp" line="48"/>
+        <location filename="../core/libs/diceparser/node/listaliasnode.cpp" line="48"/>
         <source>List of Alias:
 </source>
         <translation>Liste des alias:
 </translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="883"/>
+        <location filename="../client/mainwindow.cpp" line="828"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>chemin vers le fichier de traduction: &lt;traduction&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="886"/>
+        <location filename="../client/mainwindow.cpp" line="831"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation>Copier l&apos;url de connexion au serveur:&lt;url&gt;</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/scalaroperatornode.cpp" line="72"/>
+        <location filename="../core/libs/diceparser/node/scalaroperatornode.cpp" line="72"/>
         <source>No Valid result in arithmetic operation: %1</source>
         <translation>Aucun résultat valide pour l&apos;opération arithmétique: %1</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/scalaroperatornode.cpp" line="139"/>
+        <location filename="../core/libs/diceparser/node/scalaroperatornode.cpp" line="139"/>
         <source>Division by zero</source>
         <translation>Division par zéro</translation>
     </message>
@@ -5811,7 +5908,7 @@ Type: %7
         <translation type="vanished">Plan</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="271"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="272"/>
         <source>Vectorial Map</source>
         <translation>Plan Vectoriel</translation>
     </message>
@@ -5820,12 +5917,12 @@ Type: %7
         <translation type="vanished">Tchat</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="273"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="274"/>
         <source>Picture</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="274"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="275"/>
         <source>Online Picture</source>
         <translation>Image En Ligne</translation>
     </message>
@@ -5881,7 +5978,7 @@ Type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="276"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="277"/>
         <source>Charecter Sheet</source>
         <translation>Fiche de personnage</translation>
     </message>
@@ -5898,22 +5995,22 @@ Type: %7
         <translation type="vanished">Liste de lecture audio</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="279"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="280"/>
         <source>Shared Notes</source>
         <translation>Notes partagées</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="228"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="229"/>
         <source>Character Sheets files  (%1)</source>
         <translation>Fiches de personnage (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="232"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="233"/>
         <source>Supported Image formats (%1)</source>
         <translation>Formats d&apos;images supportés (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="236"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="237"/>
         <source>Supported Text Files (%1)</source>
         <translation>Fichier de texte (%1)</translation>
     </message>
@@ -5926,83 +6023,83 @@ Type: %7
         <translation type="vanished">Formats Audio supportés (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="244"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="245"/>
         <source>Supported Shared Note formats (%1)</source>
         <translation>Formats supportés pour les Notes partagées (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="248"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="249"/>
         <source>Supported WebPage (%1)</source>
         <translation>Page Web (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="253"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="254"/>
         <source>Pdf File (%1)</source>
         <translation>Pdf (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="257"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="258"/>
         <source>Vectorial Map (%1)</source>
         <translation>Plan vectoriel (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="275"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="276"/>
         <source>Minutes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="282"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="283"/>
         <source>Pdf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="284"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="285"/>
         <source>Webview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="315"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="368"/>
         <source>Internal</source>
         <translation>Interne</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="315"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="368"/>
         <source>Linked</source>
         <translation>Lié</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="320"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="373"/>
         <source>Closed</source>
         <translation>Fermé</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="320"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="373"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="36"/>
         <source>Hidden</source>
         <translation>Caché</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="320"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="373"/>
         <source>Displayed</source>
         <translation>Affiché</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/dicerollernode.cpp" line="25"/>
+        <location filename="../core/libs/diceparser/node/dicerollernode.cpp" line="25"/>
         <source>No dice to roll</source>
         <translation>Aucun dé a lancé</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/dicerollernode.cpp" line="34"/>
+        <location filename="../core/libs/diceparser/node/dicerollernode.cpp" line="34"/>
         <source>More unique values asked than possible values (D operator)</source>
         <translation>Demande de valeurs uniques supérieure aux valeurs possibles (Opérateur D)</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/jumpbackwardnode.cpp" line="123"/>
+        <location filename="../core/libs/diceparser/node/jumpbackwardnode.cpp" line="123"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
         <translation> L&apos;opérateur @ attend un résultat de dés. Veuillez vérifier la documentation afin de corriger votre commande.</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/keepdiceexecnode.cpp" line="62"/>
+        <location filename="../core/libs/diceparser/node/keepdiceexecnode.cpp" line="62"/>
         <source> You ask to keep %1 dice but the result only has %2</source>
         <translation> Vous voulez garder %1 dés mais le resultat n&apos;en contient que %2</translation>
     </message>
@@ -6087,17 +6184,17 @@ Type: %7
         </translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/listsetrollnode.cpp" line="71"/>
+        <location filename="../core/libs/diceparser/node/listsetrollnode.cpp" line="71"/>
         <source>More unique values asked than possible values (L operator)</source>
         <translation>Demande de valeurs uniques supérieure aux valeurs possibles (Opérateur L)</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/variablenode.cpp" line="36"/>
+        <location filename="../core/libs/diceparser/node/variablenode.cpp" line="36"/>
         <source>No variable at index:%1</source>
         <translation>Pas de variable à la position: %1</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/rerolldicenode.cpp" line="96"/>
+        <location filename="../core/libs/diceparser/node/rerolldicenode.cpp" line="96"/>
         <source> The a operator expects dice result. Please check the documentation and fix your command.</source>
         <translation> L&apos;opérateur a doit être précédé d&apos;un résultat de dés. Veuillez contrôler la documentation pour réparer votre commande.</translation>
     </message>
@@ -6119,7 +6216,7 @@ Type: %7
         <translation>Ellipse</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="258"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="260"/>
         <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="64"/>
         <source>Character</source>
@@ -6183,13 +6280,13 @@ Type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="258"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="260"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="58"/>
         <source>Ground</source>
         <translation>Sol</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="258"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="260"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="61"/>
         <source>Object</source>
         <translation>Objet</translation>
@@ -6220,7 +6317,7 @@ Type: %7
         <translation>AUTRE</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/helpnode.cpp" line="34"/>
+        <location filename="../core/libs/diceparser/node/helpnode.cpp" line="34"/>
         <source>Rolisteam Dice Parser:
 
 Example (with ! as prefix):
@@ -6249,23 +6346,23 @@ Document complète sur: %1</translation>
         <translation>Change la taille de %1 élément(s)</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/mergenode.cpp" line="32"/>
+        <location filename="../core/libs/diceparser/node/mergenode.cpp" line="32"/>
         <source>No previous node before Merge operator</source>
         <translation>Aucun nœud précède l’opérateur de fusion</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/occurencecountnode.cpp" line="149"/>
+        <location filename="../core/libs/diceparser/node/occurencecountnode.cpp" line="149"/>
         <source>No matching result</source>
         <translation>Aucun résultat trouvé</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/paintnode.cpp" line="63"/>
+        <location filename="../core/libs/diceparser/node/paintnode.cpp" line="63"/>
         <source>No previous node before Paint operator</source>
         <translation>Aucun nœud précède l’opérateur Peinture</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/explodedicenode.cpp" line="35"/>
-        <location filename="../core/src/diceparser/node/rerolldicenode.cpp" line="47"/>
+        <location filename="../core/libs/diceparser/node/explodedicenode.cpp" line="35"/>
+        <location filename="../core/libs/diceparser/node/rerolldicenode.cpp" line="47"/>
         <source>Condition (%1) cause an endless loop with this dice: %2</source>
         <translation>La condition (%1) provoque une boucle infinie avec le dé: %2</translation>
     </message>
@@ -6371,6 +6468,16 @@ Document complète sur: %1</translation>
         <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="42"/>
         <source>Open %1</source>
         <translation type="unfinished">Ouvrir %1</translation>
+    </message>
+    <message>
+        <location filename="../core/src/worker/modelhelper.cpp" line="218"/>
+        <source>Load Backup ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/worker/modelhelper.cpp" line="219"/>
+        <source>A backup file has been found and seem more recent than the original file. Load the back up ?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6767,6 +6874,7 @@ Document complète sur: %1</translation>
         <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="177"/>
         <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="284"/>
         <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="291"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="363"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6779,7 +6887,7 @@ Document complète sur: %1</translation>
         <translation>Nouveau Profil</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="363"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="383"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="380"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="380"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="380"/>
@@ -6787,7 +6895,7 @@ Document complète sur: %1</translation>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="366"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="386"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="383"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="383"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="383"/>
@@ -6795,8 +6903,8 @@ Document complète sur: %1</translation>
         <translation>Supprimer le profil sélectionné</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="393"/>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="445"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="413"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="465"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="386"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="386"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="386"/>
@@ -6804,7 +6912,7 @@ Document complète sur: %1</translation>
         <translation>Connexion</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="400"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="420"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="388"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="388"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="388"/>
@@ -6812,7 +6920,7 @@ Document complète sur: %1</translation>
         <translation>Mode hors ligne</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="403"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="423"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="390"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="390"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="390"/>
@@ -6820,32 +6928,37 @@ Document complète sur: %1</translation>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="431"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="451"/>
         <source>New Character</source>
         <translation type="unfinished">Nouveau Personnage</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="440"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="460"/>
         <source>Remove character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="450"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="470"/>
         <source>stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="455"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="475"/>
         <source>playerAvatar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="194"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="484"/>
+        <source>Clone profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="199"/>
         <source>Remove Current Profile</source>
         <translation>Supprimer le profil courant</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="195"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="200"/>
         <source>Do you really want to remove %1 from your connection list ?</source>
         <translation>Voulez vous vraiment que %1 soit supprimer de votre liste de connexions ?</translation>
     </message>
@@ -6858,7 +6971,7 @@ Document complète sur: %1</translation>
         <translation type="vanished">Inconnu</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="263"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="278"/>
         <source>Load Avatar</source>
         <translation>Charger Avatar</translation>
     </message>
@@ -6896,12 +7009,12 @@ Document complète sur: %1</translation>
         <translation>L&apos;utilisateur a été expulsé: %2 - %1.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="513"/>
+        <location filename="../core/src/network/servermanager.cpp" line="516"/>
         <source>New Incoming Connection!</source>
         <translation>Nouvelle connexion entrante!</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="561"/>
+        <location filename="../core/src/network/servermanager.cpp" line="564"/>
         <source>User %1 has been disconnected!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8125,37 +8238,37 @@ Voulez-vous sauvegarder vos changements ?</translation>
         <translation>Redémarrer le compteur des PNJ</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="270"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="267"/>
         <source>NPC Name</source>
         <translation>Nom des PNJ</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="275"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="272"/>
         <source>NPC&apos;s number</source>
         <translation>Numero de PNJ</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="281"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="278"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="283"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="280"/>
         <source>Mask</source>
         <translation>Masquer</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="285"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="282"/>
         <source>Unmask</source>
         <translation>Démasquer</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="315"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="312"/>
         <source>height of the pen</source>
         <translation>Taille du crayon</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vtoolbar.cpp" line="327"/>
+        <location filename="../core/src/vmap/vtoolbar.cpp" line="324"/>
         <source>Opacity:</source>
         <translation>Opacité:</translation>
     </message>
@@ -8503,14 +8616,51 @@ Voulez-vous sauvegarder vos changements ?</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../core/src/diceparser/mobile/main.qml" line="95"/>
+        <location filename="../core/libs/diceparser/mobile/main.qml" line="95"/>
         <source>Name</source>
         <translation type="unfinished">Nom</translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/mobile/main.qml" line="115"/>
+        <location filename="../core/libs/diceparser/mobile/main.qml" line="115"/>
         <source>Command</source>
         <translation type="unfinished">Commande</translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/main.qml" line="28"/>
+        <source>Please, select a file to import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/main.qml" line="41"/>
+        <source>Load Mindmap from File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/main.qml" line="55"/>
+        <source>Save Mindmap into File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/main.qml" line="111"/>
+        <source>Night Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/main.qml" line="118"/>
+        <source>Default Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/main.qml" line="139"/>
+        <location filename="../core/libs/mindmap/resources/qml/main.qml" line="162"/>
+        <source>Text</source>
+        <translation type="unfinished">Texte</translation>
+    </message>
+    <message>
+        <location filename="../core/libs/mindmap/resources/qml/main.qml" line="171"/>
+        <source>Errors:
+%1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

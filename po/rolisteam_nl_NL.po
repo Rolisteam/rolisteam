@@ -214,29 +214,34 @@ msgctxt "AudioWidgetUI|"
 msgid "repeat"
 msgstr "herhalen"
 
-#: ../core/src/diceparser/irc/mainwindow.ui:14
-#: ../core/src/diceparser/irc/build/ui_mainwindow.h:94
+#: ../core/libs/diceparser/irc/mainwindow.ui:14
+#: ../core/libs/diceparser/irc/build/ui_mainwindow.h:94
 msgctxt "BotIrcDiceParser|"
 msgid "BotIrcDiceParser"
 msgstr ""
 
-#: ../core/src/diceparser/irc/mainwindow.ui:23
-#: ../core/src/diceparser/irc/build/ui_mainwindow.h:95
+#: ../core/libs/diceparser/irc/mainwindow.ui:23
+#: ../core/libs/diceparser/irc/build/ui_mainwindow.h:95
 #, fuzzy
 msgctxt "BotIrcDiceParser|"
 msgid "Connect"
 msgstr "Verbinden"
 
-#: ../core/src/diceparser/irc/mainwindow.ui:30
-#: ../core/src/diceparser/irc/build/ui_mainwindow.h:96
+#: ../core/libs/diceparser/irc/mainwindow.ui:30
+#: ../core/libs/diceparser/irc/build/ui_mainwindow.h:96
 msgctxt "BotIrcDiceParser|"
 msgid "join"
 msgstr ""
 
-#: ../core/src/diceparser/irc/mainwindow.ui:50
-#: ../core/src/diceparser/irc/build/ui_mainwindow.h:97
+#: ../core/libs/diceparser/irc/mainwindow.ui:50
+#: ../core/libs/diceparser/irc/build/ui_mainwindow.h:97
 msgctxt "BotIrcDiceParser|"
 msgid "Disconnect"
+msgstr ""
+
+#: ../core/libs/mindmap/src/model/boxmodel.cpp:178
+msgctxt "BoxModel|"
+msgid "New Node"
 msgstr ""
 
 #: ../core/src/network/channellistpanel.ui:14
@@ -663,22 +668,22 @@ msgctxt "ChatListWidget|"
 msgid "New chat"
 msgstr "Nieuwe chat"
 
-#: ../core/src/qmlchat/ChatView.qml:44
+#: ../core/src/qmlchat/ChatView.qml:56
 msgctxt "ChatView|"
 msgid "Split view"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:51
+#: ../core/src/qmlchat/ChatView.qml:63
 msgctxt "ChatView|"
 msgid "Detach"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:55
+#: ../core/src/qmlchat/ChatView.qml:67
 msgctxt "ChatView|"
 msgid "Reatach"
 msgstr ""
 
-#: ../core/src/qmlchat/ChatView.qml:88
+#: ../core/src/qmlchat/ChatView.qml:100
 msgctxt "ChatView|"
 msgid "close"
 msgstr ""
@@ -894,7 +899,7 @@ msgstr "Het verbinden is mislukt! Opnieuw verbinden over %1s."
 #~ msgid "Unknown"
 #~ msgstr "Onbekend"
 
-#: ../core/src/controller/contentcontroller.cpp:68
+#: ../core/src/controller/contentcontroller.cpp:70
 #, fuzzy
 msgctxt "ContentController|"
 msgid "default"
@@ -1616,7 +1621,7 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Globaal"
 
-#: ../core/src/qmlchat/InstantMessagingEditText.qml:139
+#: ../core/src/qmlchat/InstantMessagingEditText.qml:140
 msgctxt "InstantMessagingEditText|"
 msgid "send"
 msgstr ""
@@ -1681,6 +1686,11 @@ msgstr "Genereren"
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_keygeneratordialog.h:88
 msgctxt "KeyGeneratorDialog|"
 msgid "Copy/Paste result into server configuration file."
+msgstr ""
+
+#: ../core/libs/mindmap/src/data/link.cpp:28
+msgctxt "Link|"
+msgid "is linked"
 msgstr ""
 
 #: ../core/src/common/widgets/logpanel.ui:14
@@ -2074,12 +2084,12 @@ msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Alles (*)"
 
-#: ../client/mainwindow.cpp:1252
+#: ../client/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "onbekend"
 
-#: ../client/mainwindow.cpp:457
+#: ../client/mainwindow.cpp:458
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -2089,50 +2099,51 @@ msgstr ""
 #~ msgid "Open Map"
 #~ msgstr "Kaart openen"
 
-#: ../client/mainwindow.cpp:1152
+#: ../client/mainwindow.cpp:1097
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Verbonden"
 
-#: ../client/mainwindow.cpp:1152
+#: ../client/mainwindow.cpp:1097
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Niet verbonden"
 
-#: ../client/mainwindow.cpp:1153
+#: ../client/mainwindow.cpp:1098
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: ../client/mainwindow.cpp:1153
+#: ../client/mainwindow.cpp:1098
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: ../client/mainwindow.cpp:1154
+#: ../client/mainwindow.cpp:1099
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: ../client/mainwindow.cpp:1154
+#: ../client/mainwindow.cpp:1099
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Speler"
 
-#: ../client/mainwindow.cpp:571
+#: ../client/mainwindow.cpp:572
 msgctxt "MainWindow|"
 msgid "Open scenario"
 msgstr "Scenario openen"
 
-#: ../client/mainwindow.cpp:604
+#: ../client/mainwindow.cpp:605
 msgctxt "MainWindow|"
 msgid "Save Scenario as"
 msgstr "Scenario opslaan als"
 
+#: ../client/mainwindow.cpp:643
 #, qt-format
-#~ msgctxt "MainWindow|"
-#~ msgid "Save %1"
-#~ msgstr "Opslaan %1"
+msgctxt "MainWindow|"
+msgid "Save %1"
+msgstr "Opslaan %1"
 
 #: ../client/mainwindow.ui:496
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:528
@@ -2228,7 +2239,7 @@ msgstr "Ctrl+P"
 
 #: ../client/mainwindow.ui:229
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:418
-#: ../client/mainwindow.cpp:512
+#: ../client/mainwindow.cpp:513
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Afsluiten"
@@ -2751,48 +2762,48 @@ msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Tegelen"
 
-#: ../client/mainwindow.cpp:722
+#: ../client/mainwindow.cpp:671
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Hulp"
 
-#: ../client/mainwindow.cpp:756
+#: ../client/mainwindow.cpp:701
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr ""
 
-#: ../client/mainwindow.cpp:771
+#: ../client/mainwindow.cpp:716
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 heeft niet de juiste versie: %2."
 
-#: ../client/mainwindow.cpp:866
+#: ../client/mainwindow.cpp:811
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Rolisteam instellen om <port> te gebruiken voor de verbinding"
 
-#: ../client/mainwindow.cpp:869
+#: ../client/mainwindow.cpp:814
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Rolisteam instellen om te verbinden met <server>."
 
-#: ../client/mainwindow.cpp:872
+#: ../client/mainwindow.cpp:817
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "<role> definiëren: gm of pc"
 
-#: ../client/mainwindow.cpp:874
+#: ../client/mainwindow.cpp:819
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Instellingen wissen en standaard parameters gebruiken"
 
-#: ../client/mainwindow.cpp:877
+#: ../client/mainwindow.cpp:822
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "<username> definiëren"
 
-#: ../client/mainwindow.cpp:880
+#: ../client/mainwindow.cpp:825
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr ""
@@ -2801,7 +2812,7 @@ msgstr ""
 #~ msgid "End of the connection process"
 #~ msgstr "Eind van het verbindproces"
 
-#: ../client/mainwindow.cpp:1251
+#: ../client/mainwindow.cpp:1179
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
@@ -2811,41 +2822,41 @@ msgstr ""
 #~ msgid "Resources Explorer"
 #~ msgstr "Bronnenverkenner"
 
-#: ../client/mainwindow.cpp:995
+#: ../client/mainwindow.cpp:940
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "%1 openen"
 
-#: ../client/mainwindow.cpp:520
+#: ../client/mainwindow.cpp:521
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "De verbinding is verbroken. %1 zal sluiten"
 
-#: ../client/mainwindow.cpp:405
+#: ../client/mainwindow.cpp:406
 #, fuzzy
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Opnieuw"
 
-#: ../client/mainwindow.cpp:406
+#: ../client/mainwindow.cpp:407
 #, fuzzy
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Ongedaan maken"
 
-#: ../client/mainwindow.cpp:456
+#: ../client/mainwindow.cpp:457
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr ""
 
-#: ../client/mainwindow.cpp:522
+#: ../client/mainwindow.cpp:523
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Verbinding verbroken"
 
-#: ../client/mainwindow.cpp:528
+#: ../client/mainwindow.cpp:529
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
@@ -2861,7 +2872,7 @@ msgstr "Afsluiten %1"
 #~ msgid "Do you want to save your scenario before to quit %1?"
 #~ msgstr "Wilt u uw scenario opslaan alvorens %1 af te sluiten?"
 
-#: ../client/mainwindow.cpp:572 ../client/mainwindow.cpp:605
+#: ../client/mainwindow.cpp:573 ../client/mainwindow.cpp:606
 msgctxt "MainWindow|"
 msgid "Scenarios (*.sce)"
 msgstr "Scenario's (*.sce)"
@@ -2872,7 +2883,7 @@ msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Over Rolisteam"
 
-#: ../client/mainwindow.cpp:723
+#: ../client/mainwindow.cpp:672
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2882,7 +2893,7 @@ msgstr ""
 "De documentatie van %1 kan online worden gevonden op :<br> <a "
 "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
-#: ../client/mainwindow.cpp:757
+#: ../client/mainwindow.cpp:702
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2894,13 +2905,13 @@ msgstr ""
 "href=\"http://www.rolisteam.org/download\">Download-pagina</a> voor meer "
 "informatie"
 
-#: ../client/mainwindow.cpp:767
+#: ../client/mainwindow.cpp:712
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 heeft deelgenomen aan het spel."
 
-#: ../client/mainwindow.cpp:777
+#: ../client/mainwindow.cpp:722
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
@@ -2915,12 +2926,12 @@ msgstr "%1 heeft het spel verlaten."
 #~ "Server IP-adres:%1\n"
 #~ "Poort:%2"
 
-#: ../core/src/diceparser/gui/mainwindow.ui:14
+#: ../core/libs/diceparser/gui/mainwindow.ui:14
 msgctxt "MainWindow|"
 msgid "MainWindow"
 msgstr ""
 
-#: ../core/src/diceparser/gui/mainwindow.ui:26
+#: ../core/libs/diceparser/gui/mainwindow.ui:26
 msgctxt "MainWindow|"
 msgid "Roll"
 msgstr ""
@@ -3361,6 +3372,83 @@ msgstr "De weergave losmaken"
 msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Onbekend"
+
+#: ../core/libs/mindmap/resources/qml/MindMap.qml:36
+msgctxt "MindMap|"
+msgid "Node Styles"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/MindMap.qml:70
+#, fuzzy
+msgctxt "MindMap|"
+msgid "Text"
+msgstr "Tekst"
+
+#: ../core/libs/mindmap/src/controller/mindmapcontroller.cpp:130
+msgctxt "MindMapController|"
+msgid "Root"
+msgstr ""
+
+#: ../core/libs/mindmap/src/controller/mindmapcontroller.cpp:137
+#: ../core/libs/mindmap/src/controller/mindmapcontroller.cpp:152
+#, qt-format
+msgctxt "MindMapController|"
+msgid "Error: File can't be loaded: %1"
+msgstr ""
+
+#: ../core/libs/mindmap/src/controller/mindmapcontroller.cpp:159
+#, qt-format
+msgctxt "MindMapController|"
+msgid "File can't be loaded: %1"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:8
+msgctxt "MindMenu|"
+msgid "New"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:12
+msgctxt "MindMenu|"
+msgid "Open File…"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:16
+#, fuzzy
+msgctxt "MindMenu|"
+msgid "Save"
+msgstr "Opslaan"
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:26
+msgctxt "MindMenu|"
+msgid "Save As…"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:32
+msgctxt "MindMenu|"
+msgid "Remove Selection"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:39
+#, fuzzy
+msgctxt "MindMenu|"
+msgid "Undo"
+msgstr "Ongedaan maken"
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:46
+#, fuzzy
+msgctxt "MindMenu|"
+msgid "Redo"
+msgstr "Opnieuw"
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:54
+msgctxt "MindMenu|"
+msgid "Import File…"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/MindMenu.qml:61
+msgctxt "MindMenu|"
+msgid "Automatic Spacing"
+msgstr ""
 
 #: ../core/src/audio/musicmodel.cpp:33
 msgctxt "MusicModel|"
@@ -4112,7 +4200,7 @@ msgid ""
 "Do you want to continue and share the PDF?"
 msgstr ""
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:186
+#: ../core/src/pdfviewer/pdfviewer.cpp:182
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -5532,7 +5620,7 @@ msgstr "&Speler :"
 #~ msgid "Default"
 #~ msgstr "Standaard"
 
-#: ../core/src/model/profilemodel.cpp:109
+#: ../core/src/model/profilemodel.cpp:110
 msgctxt "ProfileModel|"
 msgid " (clone)"
 msgstr ""
@@ -5554,32 +5642,32 @@ msgctxt "QObject|"
 msgid "Loading error"
 msgstr "Laadfout"
 
-#: ../core/src/diceparser/diceparser.cpp:77
+#: ../core/libs/diceparser/diceparser.cpp:78
 msgctxt "QObject|"
 msgid ""
 "Nothing was understood. To roll dice: !1d6 - full documation: <a "
 "href=\"https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md\">https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md</a>"
 msgstr ""
 
-#: ../core/src/diceparser/diceparser.cpp:88
+#: ../core/libs/diceparser/diceparser.cpp:89
 #, qt-format
 msgctxt "QObject|"
 msgid "Unexpected character at %1 - end of command was ignored \"%2\""
 msgstr ""
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1385
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1385
 msgctxt "QObject|"
 msgid "Expected closing parenthesis - can't validate the inside."
 msgstr ""
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1960
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1960
 #, qt-format
 msgctxt "QObject|"
 msgid "Dice with %1 face(s) does not exist. Please, put a value higher than 0"
 msgstr ""
 "Dobbelsteen met %1 kant(en) bestaat niet. Voer een waarde hoger dan 0 in"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:2015
+#: ../core/libs/diceparser/parsingtoolbox.cpp:2015
 msgctxt "QObject|"
 msgid ""
 "List is missing after the L operator. Please, add it (e.g : "
@@ -5588,18 +5676,18 @@ msgstr ""
 "De lijst ontbreekt na de L-operator. Voeg het toe (bijv. : "
 "1L[zwaard,speer,pistool,pijl])"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1632
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1632
 msgctxt "QObject|"
 msgid "Validator is missing after the c operator. Please, change it"
 msgstr "De valideerder ontbreekt na de c-operator. Wijzig deze"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1652
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1652
 #, qt-format
 msgctxt "QObject|"
 msgid "Validator is always true for the %1 operator. Please, change it"
 msgstr ""
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1661
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1661
 #, qt-format
 msgctxt "QObject|"
 msgid ""
@@ -5607,50 +5695,50 @@ msgid ""
 "option condition"
 msgstr ""
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1688
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1688
 #, qt-format
 msgctxt "QObject|"
 msgid "Validator is missing after the %1 operator. Please, change it"
 msgstr "De valideerder ontbreekt na de %1-operator. Wijzig deze"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1700
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1700
 #, qt-format
 msgctxt "QObject|"
 msgid "This condition %1 introduces an endless loop. Please, change it"
 msgstr "De omstandigheid %1 introduceert een oneindige herhaling. Wijzig het"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1712
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1712
 msgctxt "QObject|"
 msgid "Validator is missing after the e operator. Please, change it"
 msgstr "De valideerder ontbreekt na de e-operator. Wijzig deze"
 
-#: ../core/src/diceparser/parsingtoolbox.cpp:1780
+#: ../core/libs/diceparser/parsingtoolbox.cpp:1780
 msgctxt "QObject|"
 msgid "Missing parameter for Painter node (p)"
 msgstr ""
 
-#: ../core/src/diceparser/node/listaliasnode.cpp:48
+#: ../core/libs/diceparser/node/listaliasnode.cpp:48
 msgctxt "QObject|"
 msgid "List of Alias:\n"
 msgstr "Lijst van aliassen:\n"
 
-#: ../client/mainwindow.cpp:883
+#: ../client/mainwindow.cpp:828
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "pad na het vertaalbestand: <translationfile>"
 
-#: ../client/mainwindow.cpp:886
+#: ../client/mainwindow.cpp:831
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr ""
 
-#: ../core/src/diceparser/node/scalaroperatornode.cpp:72
+#: ../core/libs/diceparser/node/scalaroperatornode.cpp:72
 #, qt-format
 msgctxt "QObject|"
 msgid "No Valid result in arithmetic operation: %1"
 msgstr ""
 
-#: ../core/src/diceparser/node/scalaroperatornode.cpp:139
+#: ../core/libs/diceparser/node/scalaroperatornode.cpp:139
 msgctxt "QObject|"
 msgid "Division by zero"
 msgstr "Gedeeld door nul"
@@ -5663,7 +5751,7 @@ msgstr "Gedeeld door nul"
 #~ msgid "Map"
 #~ msgstr "Kaart"
 
-#: ../core/src/data/cleveruri.cpp:271
+#: ../core/src/data/cleveruri.cpp:272
 msgctxt "QObject|"
 msgid "Vectorial Map"
 msgstr "Vectoriële kaart"
@@ -5672,12 +5760,12 @@ msgstr "Vectoriële kaart"
 #~ msgid "Chat"
 #~ msgstr "Chatten"
 
-#: ../core/src/data/cleveruri.cpp:273
+#: ../core/src/data/cleveruri.cpp:274
 msgctxt "QObject|"
 msgid "Picture"
 msgstr "Afbeelding"
 
-#: ../core/src/data/cleveruri.cpp:274
+#: ../core/src/data/cleveruri.cpp:275
 msgctxt "QObject|"
 msgid "Online Picture"
 msgstr "Online afbeelding"
@@ -5738,7 +5826,7 @@ msgctxt "QObject|"
 msgid "add %1 item"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:276
+#: ../core/src/data/cleveruri.cpp:277
 msgctxt "QObject|"
 msgid "Charecter Sheet"
 msgstr "Character Sheet"
@@ -5755,24 +5843,24 @@ msgstr "Character Sheet"
 #~ msgid "Song List"
 #~ msgstr "Nummerlijst"
 
-#: ../core/src/data/cleveruri.cpp:279
+#: ../core/src/data/cleveruri.cpp:280
 msgctxt "QObject|"
 msgid "Shared Notes"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:228
+#: ../core/src/data/cleveruri.cpp:229
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
 msgstr "Character Sheet-bestanden (%1)"
 
-#: ../core/src/data/cleveruri.cpp:232
+#: ../core/src/data/cleveruri.cpp:233
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
 msgstr "Ondersteunde afbeeldingsformaten (%1)"
 
-#: ../core/src/data/cleveruri.cpp:236
+#: ../core/src/data/cleveruri.cpp:237
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
@@ -5788,81 +5876,81 @@ msgstr "Ondersteunde tekstbestanden (%1)"
 #~ msgid "Supported Audio formats (%1)"
 #~ msgstr "Ondersteunde audioformaten (%1)"
 
-#: ../core/src/data/cleveruri.cpp:244
+#: ../core/src/data/cleveruri.cpp:245
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:248
+#: ../core/src/data/cleveruri.cpp:249
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported WebPage (%1)"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:253
+#: ../core/src/data/cleveruri.cpp:254
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
 msgstr "PDF-bestand (%1)"
 
-#: ../core/src/data/cleveruri.cpp:257
+#: ../core/src/data/cleveruri.cpp:258
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:275
+#: ../core/src/data/cleveruri.cpp:276
 msgctxt "QObject|"
 msgid "Minutes"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:282
+#: ../core/src/data/cleveruri.cpp:283
 msgctxt "QObject|"
 msgid "Pdf"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:284
+#: ../core/src/data/cleveruri.cpp:285
 msgctxt "QObject|"
 msgid "Webview"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:315
+#: ../core/src/data/cleveruri.cpp:368
 msgctxt "QObject|"
 msgid "Internal"
 msgstr "Intern"
 
-#: ../core/src/data/cleveruri.cpp:315
+#: ../core/src/data/cleveruri.cpp:368
 msgctxt "QObject|"
 msgid "Linked"
 msgstr "Gelinkt"
 
-#: ../core/src/data/cleveruri.cpp:320
+#: ../core/src/data/cleveruri.cpp:373
 msgctxt "QObject|"
 msgid "Closed"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:320 ../core/src/vmap/vmapframe.cpp:36
+#: ../core/src/data/cleveruri.cpp:373 ../core/src/vmap/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Hidden"
 msgstr "Verborgen"
 
-#: ../core/src/data/cleveruri.cpp:320
+#: ../core/src/data/cleveruri.cpp:373
 msgctxt "QObject|"
 msgid "Displayed"
 msgstr "Weergegeven"
 
-#: ../core/src/diceparser/node/dicerollernode.cpp:25
+#: ../core/libs/diceparser/node/dicerollernode.cpp:25
 msgctxt "QObject|"
 msgid "No dice to roll"
 msgstr "Geen dobbelsteen om te rollen"
 
-#: ../core/src/diceparser/node/dicerollernode.cpp:34
+#: ../core/libs/diceparser/node/dicerollernode.cpp:34
 msgctxt "QObject|"
 msgid "More unique values asked than possible values (D operator)"
 msgstr ""
 
-#: ../core/src/diceparser/node/jumpbackwardnode.cpp:123
+#: ../core/libs/diceparser/node/jumpbackwardnode.cpp:123
 msgctxt "QObject|"
 msgid ""
 " The @ operator expects dice result. Please check the documentation to fix "
@@ -5871,7 +5959,7 @@ msgstr ""
 "De @-operator verwacht een dobbelsteenresultaat. Raadpleeg de documentatie "
 "om uw opdracht te repareren."
 
-#: ../core/src/diceparser/node/keepdiceexecnode.cpp:62
+#: ../core/libs/diceparser/node/keepdiceexecnode.cpp:62
 #, qt-format
 msgctxt "QObject|"
 msgid " You ask to keep %1 dice but the result only has %2"
@@ -5947,18 +6035,18 @@ msgid_plural "Move %n item(s)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../core/src/diceparser/node/listsetrollnode.cpp:71
+#: ../core/libs/diceparser/node/listsetrollnode.cpp:71
 msgctxt "QObject|"
 msgid "More unique values asked than possible values (L operator)"
 msgstr ""
 
-#: ../core/src/diceparser/node/variablenode.cpp:36
+#: ../core/libs/diceparser/node/variablenode.cpp:36
 #, qt-format
 msgctxt "QObject|"
 msgid "No variable at index:%1"
 msgstr ""
 
-#: ../core/src/diceparser/node/rerolldicenode.cpp:96
+#: ../core/libs/diceparser/node/rerolldicenode.cpp:96
 msgctxt "QObject|"
 msgid ""
 " The a operator expects dice result. Please check the documentation and fix "
@@ -5982,7 +6070,7 @@ msgctxt "QObject|"
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:260
 #: ../core/src/vmap/items/visualitem.cpp:42 ../core/src/vmap/vmapframe.cpp:64
 msgctxt "QObject|"
 msgid "Character"
@@ -6046,13 +6134,13 @@ msgctxt "QObject|"
 msgid "Add %1 Field"
 msgstr ""
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:260
 #: ../core/src/vmap/vmapframe.cpp:58
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Grond"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:258
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:260
 #: ../core/src/vmap/vmapframe.cpp:61
 msgctxt "QObject|"
 msgid "Object"
@@ -6083,7 +6171,7 @@ msgctxt "QObject|"
 msgid "OTHER"
 msgstr ""
 
-#: ../core/src/diceparser/node/helpnode.cpp:34
+#: ../core/libs/diceparser/node/helpnode.cpp:34
 #, qt-format
 msgctxt "QObject|"
 msgid ""
@@ -6109,23 +6197,23 @@ msgctxt "QObject|"
 msgid "Change size of %1 item(s)"
 msgstr ""
 
-#: ../core/src/diceparser/node/mergenode.cpp:32
+#: ../core/libs/diceparser/node/mergenode.cpp:32
 msgctxt "QObject|"
 msgid "No previous node before Merge operator"
 msgstr ""
 
-#: ../core/src/diceparser/node/occurencecountnode.cpp:149
+#: ../core/libs/diceparser/node/occurencecountnode.cpp:149
 msgctxt "QObject|"
 msgid "No matching result"
 msgstr ""
 
-#: ../core/src/diceparser/node/paintnode.cpp:63
+#: ../core/libs/diceparser/node/paintnode.cpp:63
 msgctxt "QObject|"
 msgid "No previous node before Paint operator"
 msgstr ""
 
-#: ../core/src/diceparser/node/explodedicenode.cpp:35
-#: ../core/src/diceparser/node/rerolldicenode.cpp:47
+#: ../core/libs/diceparser/node/explodedicenode.cpp:35
+#: ../core/libs/diceparser/node/rerolldicenode.cpp:47
 #, qt-format
 msgctxt "QObject|"
 msgid "Condition (%1) cause an endless loop with this dice: %2"
@@ -6242,6 +6330,18 @@ msgstr ""
 msgctxt "QObject|"
 msgid "Open %1"
 msgstr "%1 openen"
+
+#: ../core/src/worker/modelhelper.cpp:218
+msgctxt "QObject|"
+msgid "Load Backup ?"
+msgstr ""
+
+#: ../core/src/worker/modelhelper.cpp:219
+msgctxt "QObject|"
+msgid ""
+"A backup file has been found and seem more recent than the original file. "
+"Load the back up ?"
+msgstr ""
 
 #: ../core/src/vmap/rgraphicsview.cpp:309
 msgctxt "RGraphicsView|"
@@ -6631,6 +6731,7 @@ msgstr ""
 #: ../core/src/network/selectconnectionprofiledialog.ui:177
 #: ../core/src/network/selectconnectionprofiledialog.ui:284
 #: ../core/src/network/selectconnectionprofiledialog.ui:291
+#: ../core/src/network/selectconnectionprofiledialog.ui:363
 #, fuzzy
 msgctxt "SelectConnectionProfileDialog|"
 msgid "..."
@@ -6644,7 +6745,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "New Profile"
 msgstr "Nieuw profiel"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:363
+#: ../core/src/network/selectconnectionprofiledialog.ui:383
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:380
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:380
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:380
@@ -6652,7 +6753,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:366
+#: ../core/src/network/selectconnectionprofiledialog.ui:386
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:383
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:383
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:383
@@ -6660,8 +6761,8 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Delete selected profile"
 msgstr "Geselecteerd profiel verwijderen"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:393
-#: ../core/src/network/selectconnectionprofiledialog.ui:445
+#: ../core/src/network/selectconnectionprofiledialog.ui:413
+#: ../core/src/network/selectconnectionprofiledialog.ui:465
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:386
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:386
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:386
@@ -6669,7 +6770,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Connect"
 msgstr "Verbinden"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:400
+#: ../core/src/network/selectconnectionprofiledialog.ui:420
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:388
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:388
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:388
@@ -6677,7 +6778,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "OffLine Mode"
 msgstr "Offline-modus"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:403
+#: ../core/src/network/selectconnectionprofiledialog.ui:423
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:390
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:390
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:390
@@ -6685,33 +6786,38 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:431
+#: ../core/src/network/selectconnectionprofiledialog.ui:451
 #, fuzzy
 msgctxt "SelectConnectionProfileDialog|"
 msgid "New Character"
 msgstr "Nieuw karakter"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:440
+#: ../core/src/network/selectconnectionprofiledialog.ui:460
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove character"
 msgstr ""
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:450
+#: ../core/src/network/selectconnectionprofiledialog.ui:470
 msgctxt "SelectConnectionProfileDialog|"
 msgid "stop"
 msgstr ""
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:455
+#: ../core/src/network/selectconnectionprofiledialog.ui:475
 msgctxt "SelectConnectionProfileDialog|"
 msgid "playerAvatar"
 msgstr ""
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:194
+#: ../core/src/network/selectconnectionprofiledialog.ui:484
+msgctxt "SelectConnectionProfileDialog|"
+msgid "Clone profile"
+msgstr ""
+
+#: ../core/src/network/selectconnectionprofiledialog.cpp:199
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove Current Profile"
 msgstr "Huidig profiel verwijderen"
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:195
+#: ../core/src/network/selectconnectionprofiledialog.cpp:200
 #, qt-format
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Do you really want to remove %1 from your connection list ?"
@@ -6722,7 +6828,7 @@ msgstr "Weet u zeker dat u %1 wilt verwijderen uit verbindingslijst?"
 #~ msgid "Unknown"
 #~ msgstr "Onbekend"
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:263
+#: ../core/src/network/selectconnectionprofiledialog.cpp:278
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Load Avatar"
 msgstr "Afbeelding laden"
@@ -6762,12 +6868,12 @@ msgctxt "ServerManager|"
 msgid "User has been kick out: %2 - %1."
 msgstr ""
 
-#: ../core/src/network/servermanager.cpp:513
+#: ../core/src/network/servermanager.cpp:516
 msgctxt "ServerManager|"
 msgid "New Incoming Connection!"
 msgstr ""
 
-#: ../core/src/network/servermanager.cpp:561
+#: ../core/src/network/servermanager.cpp:564
 #, qt-format
 msgctxt "ServerManager|"
 msgid "User %1 has been disconnected!"
@@ -7950,37 +8056,37 @@ msgctxt "VToolsBar|"
 msgid "Reset NPC counter"
 msgstr "NPC-teller herstellen naar standaardwaarden"
 
-#: ../core/src/vmap/vtoolbar.cpp:270
+#: ../core/src/vmap/vtoolbar.cpp:267
 msgctxt "VToolsBar|"
 msgid "NPC Name"
 msgstr "NPC-naam"
 
-#: ../core/src/vmap/vtoolbar.cpp:275
+#: ../core/src/vmap/vtoolbar.cpp:272
 msgctxt "VToolsBar|"
 msgid "NPC's number"
 msgstr "NPC-nummer"
 
-#: ../core/src/vmap/vtoolbar.cpp:281
+#: ../core/src/vmap/vtoolbar.cpp:278
 msgctxt "VToolsBar|"
 msgid "Normal"
 msgstr "Normaal"
 
-#: ../core/src/vmap/vtoolbar.cpp:283
+#: ../core/src/vmap/vtoolbar.cpp:280
 msgctxt "VToolsBar|"
 msgid "Mask"
 msgstr "Maskeren"
 
-#: ../core/src/vmap/vtoolbar.cpp:285
+#: ../core/src/vmap/vtoolbar.cpp:282
 msgctxt "VToolsBar|"
 msgid "Unmask"
 msgstr "De-maskeren"
 
-#: ../core/src/vmap/vtoolbar.cpp:315
+#: ../core/src/vmap/vtoolbar.cpp:312
 msgctxt "VToolsBar|"
 msgid "height of the pen"
 msgstr "penhoogte"
 
-#: ../core/src/vmap/vtoolbar.cpp:327
+#: ../core/src/vmap/vtoolbar.cpp:324
 msgctxt "VToolsBar|"
 msgid "Opacity:"
 msgstr "Ondoorzichtigheid:"
@@ -8295,15 +8401,55 @@ msgstr "Controleer XML-syntax"
 #~ msgid "Title"
 #~ msgstr "Titel"
 
-#: ../core/src/diceparser/mobile/main.qml:95
+#: ../core/libs/diceparser/mobile/main.qml:95
 #, fuzzy
 msgctxt "main|"
 msgid "Name"
 msgstr "Naam"
 
-#: ../core/src/diceparser/mobile/main.qml:115
+#: ../core/libs/diceparser/mobile/main.qml:115
 msgctxt "main|"
 msgid "Command"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/main.qml:28
+msgctxt "main|"
+msgid "Please, select a file to import"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/main.qml:41
+msgctxt "main|"
+msgid "Load Mindmap from File"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/main.qml:55
+msgctxt "main|"
+msgid "Save Mindmap into File"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/main.qml:111
+msgctxt "main|"
+msgid "Night Mode"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/main.qml:118
+msgctxt "main|"
+msgid "Default Style"
+msgstr ""
+
+#: ../core/libs/mindmap/resources/qml/main.qml:139
+#: ../core/libs/mindmap/resources/qml/main.qml:162
+#, fuzzy
+msgctxt "main|"
+msgid "Text"
+msgstr "Tekst"
+
+#: ../core/libs/mindmap/resources/qml/main.qml:171
+#, qt-format
+msgctxt "main|"
+msgid ""
+"Errors:\n"
+"%1"
 msgstr ""
 
 #: ../core/src/session/sessionitemmodel.cpp:34
