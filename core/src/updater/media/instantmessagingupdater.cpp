@@ -96,6 +96,10 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room, bool
 
     auto model= room->messageModel();
     connect(model, &InstantMessaging::MessageModel::messageAdded, this, [room](MessageInterface* message) {
+        if(!message)
+            return;
+        if(message->type() == InstantMessaging::MessageInterface::Error)
+            return;
         auto type= room->type();
         NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::InstantMessageAction);
         if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("global"))

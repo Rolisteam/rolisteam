@@ -17,45 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef DICEMESSAGE_H
-#define DICEMESSAGE_H
-
-#include <QJsonObject>
-#include <QObject>
-
-#include "messageinterface.h"
-
+#include "errormessage.h"
 namespace InstantMessaging
 {
-class DiceMessage : public MessageBase
+ErrorMessage::ErrorMessage(const QString& ownerId, const QString& writer, const QDateTime& time, QObject* parent)
+    : MessageBase(ownerId, writer, time, MessageInterface::MessageType::Error, parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString result READ result CONSTANT)
-    Q_PROPERTY(QString comment READ comment CONSTANT)
-    Q_PROPERTY(QString command READ command CONSTANT)
-    Q_PROPERTY(QString details READ details CONSTANT)
-public:
-    DiceMessage(const QString& ownerId, const QString& writer, const QDateTime& time, QObject* parent= nullptr);
+}
 
-    QString text() const override;
-    QString command() const;
-    QString details() const;
-    QString result() const;
-    QString comment() const;
+QString InstantMessaging::ErrorMessage::text() const
+{
+    return m_text;
+}
 
-public slots:
-    void setText(const QString& text) override;
-
-private:
-    void computeResult();
-
-private:
-    QString m_text;
-    QString m_comment;
-    QString m_command;
-    QString m_details;
-    QString m_result;
-};
+void InstantMessaging::ErrorMessage::setText(const QString& text)
+{
+    if(text == m_text)
+        return;
+    emit textChanged();
+    m_text= text;
+}
 
 } // namespace InstantMessaging
-#endif // DICEMESSAGE_H

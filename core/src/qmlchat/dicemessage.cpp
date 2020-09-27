@@ -71,7 +71,7 @@ DiceMessage::DiceMessage(const QString& ownerId, const QString& writer, const QD
 
 QString DiceMessage::text() const
 {
-    return m_result;
+    return m_text;
 }
 
 QString DiceMessage::command() const
@@ -84,9 +84,9 @@ QString DiceMessage::details() const
     return m_details;
 }
 
-QString DiceMessage::json() const
+QString DiceMessage::result() const
 {
-    return m_text;
+    return m_result;
 }
 
 QString DiceMessage::comment() const

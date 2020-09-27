@@ -38,7 +38,7 @@ Frame {
             }
             Label {
                 id: mainText
-                text: frame.message.text
+                text: frame.message.result
                 font.bold: true
                 Layout.fillWidth: true
                 textFormat: Label.RichText
@@ -48,7 +48,7 @@ Frame {
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Label.WordWrap
                 ToolTip.visible: activeFocus
-                ToolTip.text: frame.message.text
+                ToolTip.text: frame.message.result
             }
 
             ToolButton {
@@ -71,7 +71,7 @@ Frame {
         }
 
         TextArea {
-            text: frame.message.json
+            text: frame.message.result
             visible: layout.showDetails
         }
 

@@ -134,11 +134,12 @@ Item {
                         property bool isTextMessage: model.type === MessageInterface.Text
                         property bool isDiceMessage: model.type === MessageInterface.Dice
                         property bool isCommandMessage: model.type === MessageInterface.Command
+                        property bool isErrorMessage: model.type === MessageInterface.Error
                         property bool mustBeOnTheRight: model.local && (isTextMessage || isCommandMessage)
                         property real fontFactor: root.fontFactor
                         anchors.right: mustBeOnTheRight ? parent.right : undefined
-                        width: isDiceMessage ?  parent.width-10 : undefined
-                        source: isTextMessage ? "TextMessageDelegate.qml" : isCommandMessage ? "CommandMessageDelegate.qml" : "DiceMessageDelegate.qml"
+                        width: (isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
+                        source: isTextMessage ? "TextMessageDelegate.qml" : isCommandMessage ? "CommandMessageDelegate.qml" : isDiceMessage ? "DiceMessageDelegate.qml" : "ErrorMessageDelegate.qml"
                     }
                 }
             }
