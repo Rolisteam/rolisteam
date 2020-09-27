@@ -1,15 +1,20 @@
 cmake_minimum_required(VERSION 3.10)
 
+
+# Libs
+add_subdirectory(libs)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(src)
-include_directories(src/diceparser)
-include_directories(src/diceparser/include)
+include_directories(libs/diceparser)
+include_directories(libs/diceparser/include)
 include_directories(src/charactersheet)
 include_directories(src/widgets/MRichTextEditor)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(QT_REQUIRED_VERSION "5.15.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets Concurrent)
@@ -26,12 +31,10 @@ if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
 
     set(pdfHeader
         src/controller/view_controller/pdfcontroller.h
-        #src/controller/media_controller/pdfmediacontroller.h
         src/pdfviewer/pdfviewer.h)
 
     set(pdfSource
         src/pdfviewer/pdfviewer.cpp
-        #src/controller/media_controller/pdfmediacontroller.cpp
         src/controller/view_controller/pdfcontroller.cpp)
 
     set(pdfUiFiles src/pdfviewer/pdfviewer.ui)
@@ -53,13 +56,6 @@ set(HEADERS
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
     src/controller/view_controller/notecontroller.h
-    # src/controller/media_controller/mediamanagerbase.h
-    # src/controller/media_controller/charactersheetmediacontroller.h
-    # src/controller/media_controller/vectorialmapmediacontroller.h
-    # src/controller/media_controller/webpagemediacontroller.h
-    # src/controller/media_controller/notemediacontroller.h
-    # src/controller/media_controller/imagemediacontroller.h
-    # src/controller/media_controller/sharednotemediacontroller.h
     src/qmlchat/instantmessagingmodel.h
     src/qmlchat/messageinterface.h
     src/controller/contentcontroller.h
@@ -125,55 +121,6 @@ set(HEADERS
     src/data/resourcesnode.h
     src/data/shortcutmodel.h
     src/data/shortcutvisitor.h
-    src/diceparser/booleancondition.h
-    src/diceparser/cli/displaytoolbox.h
-    src/diceparser/compositevalidator.h
-    src/diceparser/diceroller.h
-    src/diceparser/die.h
-    src/diceparser/include/dicealias.h
-    src/diceparser/include/diceparser.h
-    src/diceparser/include/diceparserhelper.h
-    src/diceparser/include/highlightdice.h
-    src/diceparser/include/parsingtoolbox.h
-    src/diceparser/node/bind.h
-    src/diceparser/node/countexecutenode.h
-    src/diceparser/node/dicerollernode.h
-    src/diceparser/node/executionnode.h
-    src/diceparser/node/explodedicenode.h
-    src/diceparser/node/filternode.h
-    src/diceparser/node/forloopnode.h
-    src/diceparser/node/groupnode.h
-    src/diceparser/node/helpnode.h
-    src/diceparser/node/ifnode.h
-    src/diceparser/node/jumpbackwardnode.h
-    src/diceparser/node/keepdiceexecnode.h
-    src/diceparser/node/listaliasnode.h
-    src/diceparser/node/listsetrollnode.h
-    src/diceparser/node/allsamenode.h
-    src/diceparser/node/mergenode.h
-    src/diceparser/node/numbernode.h
-    src/diceparser/node/occurencecountnode.h
-    src/diceparser/node/paintnode.h
-    src/diceparser/node/parenthesesnode.h
-    src/diceparser/node/rerolldicenode.h
-    src/diceparser/node/scalaroperatornode.h
-    src/diceparser/node/sortresult.h
-    src/diceparser/node/splitnode.h
-    src/diceparser/node/startingnode.h
-    src/diceparser/node/stringnode.h
-    src/diceparser/node/uniquenode.h
-    src/diceparser/node/valueslistnode.h
-    src/diceparser/node/repeaternode.h
-    src/diceparser/node/variablenode.h
-    src/diceparser/validatorlist.h
-    src/diceparser/operationcondition.h
-    src/diceparser/qmltypesregister.h
-    src/diceparser/range.h
-    src/diceparser/result/diceresult.h
-    src/diceparser/result/result.h
-    src/diceparser/result/scalarresult.h
-    src/diceparser/result/stringresult.h
-    src/diceparser/validator.h
     src/media/image.h
     src/media/mediafactory.h
     src/model/contentmodel.h
@@ -341,6 +288,8 @@ set(HEADERS
     src/updater/vmapitem/imagecontrollerupdater.h
     src/updater/vmapitem/pathcontrollerupdater.h
     src/updater/vmapitem/characteritemupdater.h
+    libs/diceparser/qmltypesregister.h
+    libs/diceparser/diceroller.h
     )
 
 
@@ -352,13 +301,6 @@ set(SOURCES
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
     src/controller/instantmessagingcontroller.cpp
-    # src/controller/media_controller/mediamanagerbase.cpp
-    # src/controller/media_controller/imagemediacontroller.cpp
-    # src/controller/media_controller/charactersheetmediacontroller.cpp
-    # src/controller/media_controller/vectorialmapmediacontroller.cpp
-    # src/controller/media_controller/webpagemediacontroller.cpp
-    # src/controller/media_controller/sharednotemediacontroller.cpp
-    # src/controller/media_controller/notemediacontroller.cpp
     src/controller/view_controller/notecontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
     src/controller/view_controller/sharednotecontroller.cpp
@@ -429,53 +371,6 @@ set(SOURCES
     src/data/resourcesnode.cpp
     src/data/shortcutmodel.cpp
     src/data/shortcutvisitor.cpp
-    src/diceparser/booleancondition.cpp
-    src/diceparser/compositevalidator.cpp
-    src/diceparser/dicealias.cpp
-    src/diceparser/diceparser.cpp
-    src/diceparser/diceroller.cpp
-    src/diceparser/die.cpp
-    src/diceparser/highlightdice.cpp
-    src/diceparser/node/bind.cpp
-    src/diceparser/node/repeaternode.cpp
-    src/diceparser/node/allsamenode.cpp
-    src/diceparser/node/countexecutenode.cpp
-    src/diceparser/node/dicerollernode.cpp
-    src/diceparser/node/executionnode.cpp
-    src/diceparser/node/explodedicenode.cpp
-    src/diceparser/node/filternode.cpp
-    src/diceparser/node/forloopnode.cpp
-    src/diceparser/node/groupnode.cpp
-    src/diceparser/node/helpnode.cpp
-    src/diceparser/node/ifnode.cpp
-    src/diceparser/node/jumpbackwardnode.cpp
-    src/diceparser/node/keepdiceexecnode.cpp
-    src/diceparser/node/listaliasnode.cpp
-    src/diceparser/node/listsetrollnode.cpp
-    src/diceparser/node/mergenode.cpp
-    src/diceparser/node/numbernode.cpp
-    src/diceparser/node/occurencecountnode.cpp
-    src/diceparser/node/paintnode.cpp
-    src/diceparser/node/parenthesesnode.cpp
-    src/diceparser/node/rerolldicenode.cpp
-    src/diceparser/node/scalaroperatornode.cpp
-    src/diceparser/node/sortresult.cpp
-    src/diceparser/node/splitnode.cpp
-    src/diceparser/node/startingnode.cpp
-    src/diceparser/node/stringnode.cpp
-    src/diceparser/node/uniquenode.cpp
-    src/diceparser/node/valueslistnode.cpp
-    src/diceparser/node/variablenode.cpp
-    src/diceparser/operationcondition.cpp
-    src/diceparser/parsingtoolbox.cpp
-    src/diceparser/qmltypesregister.cpp
-    src/diceparser/range.cpp
-    src/diceparser/result/diceresult.cpp
-    src/diceparser/result/result.cpp
-    src/diceparser/result/scalarresult.cpp
-    src/diceparser/result/stringresult.cpp
-    src/diceparser/validator.cpp
-    src/diceparser/validatorlist.cpp
     src/media/image.cpp
     src/media/mediafactory.cpp
     src/model/playerproxymodel.cpp
@@ -637,6 +532,8 @@ set(SOURCES
     src/worker/vectorialmapmessagehelper.cpp
     src/worker/playermessagehelper.cpp
     src/worker/convertionhelper.cpp
+    libs/diceparser/qmltypesregister.cpp
+    libs/diceparser/diceroller.cpp
     )
 
 
