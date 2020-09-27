@@ -157,12 +157,15 @@ bool ChatRoom::rollDice(const QString& command, const QString& personId)
 
     QFuture<std::pair<bool, QString>> future= QtConcurrent::run([this, command, id]() -> std::pair<bool, QString> {
         if(!m_diceParser->parseLine(command))
-            return {};
+        {
+            auto error= m_diceParser->humanReadableError();
+            return {false, error};
+        }
 
         m_diceParser->start();
-        auto error= m_diceParser->errorMap();
+        auto error= m_diceParser->humanReadableError();
         if(!error.isEmpty())
-            return {false, error.first()};
+            return {false, error};
 
         auto result= m_diceParser->resultAsJSon([](const QString& value, const QString& color, bool highlight) {
             QString result= value;

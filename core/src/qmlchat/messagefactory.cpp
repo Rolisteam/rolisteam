@@ -21,6 +21,7 @@
 
 #include "qmlchat/commandmessage.h"
 #include "qmlchat/dicemessage.h"
+#include "qmlchat/errormessage.h"
 #include "qmlchat/messageinterface.h"
 #include "qmlchat/textmessage.h"
 
@@ -43,7 +44,7 @@ MessageInterface* MessageFactory::createMessage(const QString& uuid, const QStri
         msg= new CommandMessage(uuid, writerId, time);
         break;
     case IM::Error:
-        // TODO ERROR MESSAGE
+        msg= new ErrorMessage(uuid, writerId, time);
         break;
     }
     return msg;

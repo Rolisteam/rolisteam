@@ -126,7 +126,7 @@ void MessageModel::addMessage(const QString& text, const QDateTime& time, const 
         return;
     msg->setText(text);
     addMessageInterface(msg);
-    messageAdded(msg);
+    emit messageAdded(msg);
 }
 
 void MessageModel::addMessageInterface(MessageInterface* msg)

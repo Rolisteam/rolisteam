@@ -27,5 +27,6 @@
         <file>qmlchat/TextMessageDelegate.qml</file>
         <file>qmlchat/DiceMessageDelegate.qml</file>
         <file>qmlchat/CommandMessageDelegate.qml</file>
+        <file>qmlchat/ErrorMessageDelegate.qml</file>
     </qresource>
 </RCC>

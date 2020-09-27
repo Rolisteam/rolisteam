@@ -56,8 +56,6 @@ set(HEADERS
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
     src/controller/view_controller/notecontroller.h
-    src/qmlchat/instantmessagingmodel.h
-    src/qmlchat/messageinterface.h
     src/controller/contentcontroller.h
     src/common/controller/theme.h
     src/undoCmd/addlocalcharactercommand.h
@@ -90,7 +88,10 @@ set(HEADERS
     src/charactersheet/section.h
     src/charactersheet/sheetwidget.h
     src/charactersheet/tablefield.h
+    src/qmlchat/instantmessagingmodel.h
+    src/qmlchat/messageinterface.h
     src/qmlchat/chatroom.h
+    src/qmlchat/errormessage.h
     src/qmlchat/messagemodel.h
     src/qmlchat/textmessage.h
     src/qmlchat/messagefactory.h
@@ -319,6 +320,7 @@ set(SOURCES
     src/audio/musicmodel.cpp
     src/audio/playerwidget.cpp
     src/qmlchat/textwritercontroller.cpp
+    src/qmlchat/errormessage.cpp
     src/qmlchat/chatroom.cpp
     src/qmlchat/messagemodel.cpp
     src/qmlchat/dicemessage.cpp
