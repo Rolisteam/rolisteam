@@ -35,20 +35,21 @@ Item {
     RowLayout{
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.rightMargin: 14
-        anchors.topMargin: 14
+        anchors.rightMargin: root.styleSheet.margin
+        anchors.topMargin: root.styleSheet.margin
+
         IconButton {//undo
-            //source: _engineCtrl.undoIcon
+            source: root.styleSheet.undoIcon
             enabled: ctrl.canUndo
             onClicked: ctrl.undo()
         }
         IconButton {//redo
-            //source: _engineCtrl.redoIcon
+            source: root.styleSheet.redoIcon
             enabled: ctrl.canRedo
             onClicked: ctrl.redo()
         }
         IconButton {
-            //source: _engineCtrl.listIcon
+            source: root.styleSheet.listIcon
             onClicked: drawer.open()
         }
     }

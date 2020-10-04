@@ -25,6 +25,7 @@ Pane
     signal selectStyle()
     signal reparenting(var id)
     signal addChild()
+    signal addCharacter(var name, var source, var color)
 
 
     onWidthChanged: object.contentWidth = width
@@ -59,7 +60,6 @@ Pane
         Image {
             id: img
             visible: source
-            source: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTEzkD2vu5XtWwvH_LjybftQPmxVjdCrIMbjQ&usqp=CAU"
             fillMode: Image.PreserveAspectFit
             sourceSize.height: 100
             sourceSize.width: 100
@@ -188,9 +188,24 @@ Pane
 
         DropArea {
             anchors.fill: parent
-            keys: [ "rmindmap/reparenting","text/plain" ]
-            onDropped: {
-                reparenting(drop.text)
+            keys: [ "rmindmap/reparenting","text/plain", "rolisteam/userlist-item" ]
+            onDropped: {               
+                var reparenting = false
+                for(var i=0; i< drop.keys.length; ++i)
+                {
+                    if(drop.keys[i] === "rmindmap/reparenting")
+                        reparenting = true
+                }
+                if(reparenting)
+                {
+                    console.log("reparenting")
+                    root.reparenting(drop.text)
+                }
+                else
+                {
+                    console.log("add character")
+                    root.addCharacter(drop.text, drop.urls[0], drop.colorData)
+                }
                 root.dropOver = false
             }
             onEntered: {

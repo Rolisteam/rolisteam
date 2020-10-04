@@ -3,10 +3,11 @@ import QtQuick.Controls 2.12
 
 Button {
     id: root
-    property string source: value
+    property alias source: img.source
     implicitHeight: 32
     implicitWidth: 32
     contentItem: Image {
+        id: img
         source: root.source
         fillMode: Image.PreserveAspectFit
         sourceSize.height: 32

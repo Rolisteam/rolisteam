@@ -69,27 +69,14 @@ void ProfileModel::appendProfile(ConnectionProfile* profile)
     if(nullptr == profile)
         return;
 
+    if(profile->playerId().isEmpty())
+        profile->setPlayerId(QUuid::createUuid().toString(QUuid::WithoutBraces));
+
     auto idx= static_cast<int>(m_connectionProfileList.size());
 
     beginInsertRows(QModelIndex(), idx, idx);
     m_connectionProfileList.push_back(std::unique_ptr<ConnectionProfile>(std::move(profile)));
     endInsertRows();
-
-    // auto player= profile->getPlayer();
-    // if(nullptr == player)
-    //     return;
-    /*connect(player, &Player::nameChanged, this, &ProfileModel::writeSettings);
-    connect(player, &Player::colorChanged, this, &ProfileModel::writeSettings);
-    connect(player, &Player::avatarChanged, this, &ProfileModel::writeSettings);*/
-
-    // auto character= profile->getCharacter();
-
-    // if(nullptr == character)
-    //     return;
-
-    /*connect(character, &Player::nameChanged, this, &ProfileModel::writeSettings);
-    connect(character, &Player::colorChanged, this, &ProfileModel::writeSettings);
-    connect(character, &Player::avatarChanged, this, &ProfileModel::writeSettings);*/
 }
 
 ConnectionProfile* ProfileModel::getProfile(const QModelIndex& index)

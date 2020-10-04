@@ -124,13 +124,18 @@ Flickable {
                 object: node
                 nodeStyle: ctrl.getStyle(node.styleIndex)
                 focus: true
-                text : label
+                text : node.text
+                source: node.imageUri
                 visible: node.visible
                 selected: node.selected
                 buttonColor: Universal.foreground
                 onAddChild: ctrl.addBox(node.id)
                 onOpenChanged: ctrl.nodeModel.openNode(node.id, open)
                 onReparenting: ctrl.reparenting(node,id)
+                onAddCharacter: {
+                    ctrl.addCharacterBox(node.id, name, source, color)
+                }
+
                 onSelectStyle: {
                     stylePopup.parent = nodeItem
                     stylePopup.open()

@@ -100,6 +100,7 @@ public slots:
     void setDefaultStyleIndex(int indx);
 
     void addBox(const QString& idparent);
+    void addCharacterBox(const QString& idparent, const QString& name, const QString& url, const QColor& color);
     void reparenting(mindmap::MindNode* parent, const QString& id);
     void removeSelection();
     mindmap::NodeStyle* getStyle(int index) const;

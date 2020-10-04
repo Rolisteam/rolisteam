@@ -161,5 +161,7 @@
         <file>resources/rolistheme/stateName.svg</file>
         <file>resources/rolistheme/cloning.svg</file>
         <file>resources/rolistheme/mindmap.svg</file>
+        <file>resources/rolistheme/undo.svg</file>
+        <file>resources/rolistheme/redo.svg</file>
     </qresource>
 </RCC>
