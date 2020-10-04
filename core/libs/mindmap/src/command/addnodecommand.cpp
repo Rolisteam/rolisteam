@@ -30,6 +30,12 @@ AddNodeCommand::AddNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, const 
 {
 }
 
+void AddNodeCommand::setData(const QString& text, const QString& imgUrl)
+{
+    m_text= text;
+    m_imgUrl= imgUrl;
+}
+
 void AddNodeCommand::undo()
 {
     m_nodeModel->removeBox(m_mindNode);
@@ -41,7 +47,12 @@ void AddNodeCommand::redo()
     if(m_mindNode.isNull())
     {
         auto pair= m_nodeModel->addBox(m_idParent);
+
         m_mindNode= pair.first;
+        if(!m_imgUrl.isNull())
+            m_mindNode->setImageUri(m_imgUrl);
+        if(!m_text.isNull())
+            m_mindNode->setText(m_text);
         m_link= pair.second;
     }
     else

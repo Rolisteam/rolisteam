@@ -1,5 +1,7 @@
 #include "rolisteammimedata.h"
 
+#include <QUrl>
+
 RolisteamMimeData::RolisteamMimeData() : m_data(nullptr)
 {
     // m_format = "rolisteam/userlist-item";
@@ -19,8 +21,16 @@ bool RolisteamMimeData::hasFormat(const QString& mimeType) const
 
 void RolisteamMimeData::setPerson(Person* data)
 {
-    m_format= "rolisteam/userlist-item";
     m_data= data;
+
+    if(!data)
+        return;
+
+    setText(data->name());
+    QList<QUrl> urls;
+    urls << QUrl(QString("image://avatar/%1").arg(data->uuid()));
+    setUrls(urls);
+    setColorData(data->getColor());
 }
 bool RolisteamMimeData::hasPerson() const
 {
@@ -39,7 +49,6 @@ DiceShortCut RolisteamMimeData::getAlias() const
 }
 void RolisteamMimeData::setAlias(QString key, QString command, bool usedAlias)
 {
-    m_format= "rolisteam/dice-command";
     m_alias.setText(key);
     m_alias.setCommand(command);
     m_alias.setAlias(usedAlias);

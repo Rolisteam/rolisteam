@@ -43,7 +43,6 @@ public:
     void setAlias(QString, QString, bool);
 
 private:
-    QString m_format;     /// const string representing the minetype of person
     Person* m_data;       /// pointer to stored data
     DiceShortCut m_alias; /// alias
 };

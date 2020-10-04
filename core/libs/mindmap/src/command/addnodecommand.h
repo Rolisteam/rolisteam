@@ -34,6 +34,9 @@ class AddNodeCommand : public QUndoCommand
 {
 public:
     AddNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, const QString& idParent);
+
+    void setData(const QString& text, const QString& imgUrl);
+
     void undo() override;
     void redo() override;
 
@@ -42,6 +45,9 @@ private:
     QPointer<Link> m_link;
     BoxModel* m_nodeModel= nullptr;
     LinkModel* m_linkModel= nullptr;
+
+    QString m_text;
+    QString m_imgUrl;
 
     QString m_idParent;
 };

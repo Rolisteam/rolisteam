@@ -244,6 +244,13 @@ void MindMapController::addBox(const QString& idparent)
     m_stack.push(cmd);
 }
 
+void MindMapController::addCharacterBox(const QString& idparent, const QString& name, const QString& url, const QColor&)
+{
+    auto cmd= new mindmap::AddNodeCommand(m_nodeModel.get(), m_linkModel.get(), idparent);
+    cmd->setData(name, url);
+    m_stack.push(cmd);
+}
+
 void MindMapController::reparenting(mindmap::MindNode* parent, const QString& id)
 {
     auto cmd= new mindmap::ReparentingNodeCommand(m_nodeModel.get(), m_linkModel.get(), parent, id);

@@ -38,18 +38,18 @@ public:
 
     void setEnabled(bool enable);
     bool enabled() const;
-    const std::vector<MindNode*>& selectedNodes() const;
+    const std::vector<mindmap::MindNode*>& selectedNodes() const;
 signals:
     void enabledChanged();
 
 public slots:
-    void addToSelection(MindNode* node);
-    void removeFromSelection(MindNode* node);
+    void addToSelection(mindmap::MindNode* node);
+    void removeFromSelection(mindmap::MindNode* node);
     void movingNode(const QPointF& motion);
     void clearSelection();
 
 private:
-    std::vector<MindNode*> m_selection;
+    std::vector<mindmap::MindNode*> m_selection;
     bool m_enabled= false;
     QUndoStack* m_undoStack;
 };
