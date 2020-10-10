@@ -106,7 +106,10 @@ ChannelModel* NetworkController::channelModel() const
 void NetworkController::startConnection()
 {
     if(hosting())
+    {
+        setHost(QStringLiteral("localhost"));
         startServer();
+    }
     startClient();
 }
 
@@ -188,6 +191,15 @@ void NetworkController::startServer()
     m_server.reset(new ServerManager());
     m_serverThread.reset(new QThread);
     m_server->moveToThread(m_serverThread.get());
+
+    m_server->insertField("port", m_port);
+    m_server->insertField("ThreadCount", 1);
+    m_server->insertField("ChannelCount", 1);
+    m_server->insertField("LogLevel", 3);
+    m_server->insertField("ServerPassword", serverPassword());
+    m_server->insertField("TimeToRetry", 5000);
+    m_server->insertField("AdminPassword", adminPassword());
+
     m_server->initServerManager();
     connect(m_serverThread.get(), &QThread::started, m_server.get(), &ServerManager::startListening);
     // connect(m_serverThread.get(), &QThread::finished, m_server.get(), &ServerManager::stopListening);
@@ -227,14 +239,6 @@ void NetworkController::startServer()
             });
     // connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager,
     // Qt::QueuedConnection);
-
-    m_server->insertField("port", m_port);
-    m_server->insertField("ThreadCount", 1);
-    m_server->insertField("ChannelCount", 1);
-    m_server->insertField("LogLevel", 3);
-    m_server->insertField("ServerPassword", serverPassword());
-    m_server->insertField("TimeToRetry", 5000);
-    m_server->insertField("AdminPassword", adminPassword());
 
     m_ipChecker.reset(new IpChecker());
     connect(m_ipChecker.get(), &IpChecker::ipAddressChanged, this, [this](const QString& ip) {
