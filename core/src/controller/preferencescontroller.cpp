@@ -318,7 +318,7 @@ void PreferencesController::loadPreferences()
     /*   ui->m_styleCombo->clear();
        ui->m_styleCombo->addItems(QStyleFactory::keys());*/
 
-    setCurrentThemeIndex(static_cast<std::size_t>(preferences->value("currentThemeIndex", "Default").toInt()));
+    setCurrentThemeIndex(static_cast<std::size_t>(preferences->value("currentThemeIndex", 0).toInt()));
 
     // connect(ui->m_themeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTheme()));
     // connect(ui->m_styleCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setStyle()));
