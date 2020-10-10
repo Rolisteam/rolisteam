@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import QtQuick.Controls.Universal 2.12
 
 Flickable {
     id: flick
@@ -103,7 +102,6 @@ Flickable {
             delegate: Link {
                 x: position.x
                 y: position.y
-                color: Universal.foreground
                 width: widthLink
                 height: heightLink
                 start: position
@@ -128,7 +126,6 @@ Flickable {
                 source: node.imageUri
                 visible: node.visible
                 selected: node.selected
-                buttonColor: Universal.foreground
                 onAddChild: ctrl.addBox(node.id)
                 onOpenChanged: ctrl.nodeModel.openNode(node.id, open)
                 onReparenting: ctrl.reparenting(node,id)
