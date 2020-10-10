@@ -23,6 +23,7 @@
 
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QQuickStyle>
 
 #include "controller/view_controller/mindmapcontroller.h"
 
@@ -31,12 +32,25 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     , m_qmlViewer(new QQuickWidget())
     , m_ctrl(ctrl)
 {
+    auto format= QSurfaceFormat::defaultFormat();
+    if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
+    {
+        format.setVersion(3, 2);
+        format.setProfile(QSurfaceFormat::CoreProfile);
+    }
+    format.setDepthBufferSize(24);
+    format.setStencilBufferSize(8);
+    format.setSamples(8);
+    m_qmlViewer->setFormat(format);
+
     setObjectName("mindmap");
     setWindowIcon(QIcon::fromTheme("mindmap"));
 
     auto engine= m_qmlViewer->engine();
     engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
+    engine->addImportPath(QStringLiteral("qrc:/qml"));
+    // qrc:/qml/CustomItems/PermissionSlider.qml
 
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_qmlViewer->setSource(QUrl("qrc:/resources/qml/main.qml"));

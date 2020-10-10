@@ -23,5 +23,6 @@
         <file>resources/qml/MindMap.qml</file>
         <file>resources/qml/MindMenu.qml</file>
         <file>resources/qml/IconButton.qml</file>
+        <file>resources/qml/DrawerMenu.qml</file>
     </qresource>
 </RCC>
