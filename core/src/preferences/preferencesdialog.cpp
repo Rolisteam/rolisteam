@@ -213,6 +213,10 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     horizontalHeader->setSectionResizeMode(DiceAliasModel::COMMENT, QHeaderView::ResizeToContents);
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD, new CheckBoxDelegate());
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::DISABLE, new CheckBoxDelegate());
+    connect(m_ctrl, &PreferencesController::currentThemeIndexChanged, this, [this]() {
+        m_preferences->registerValue("currentThemeIndex", QVariant::fromValue(m_ctrl->currentThemeIndex()), true);
+        updateTheme();
+    });
 
     // m_paletteModel->setPalette(palette());
     ui->m_paletteTableView->setModel(m_ctrl->paletteModel());
