@@ -28,5 +28,8 @@
         <file>qmlchat/DiceMessageDelegate.qml</file>
         <file>qmlchat/CommandMessageDelegate.qml</file>
         <file>qmlchat/ErrorMessageDelegate.qml</file>
+        <file>qml/CustomItems/qmldir</file>
+        <file>qml/CustomItems/PermissionSlider.qml</file>
+        <file>rolistyle/Pane.qml</file>
     </qresource>
 </RCC>
