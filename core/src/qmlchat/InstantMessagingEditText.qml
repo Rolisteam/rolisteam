@@ -42,7 +42,7 @@ Frame {
 
                         contentItem:  RowLayout {
                             Image {
-                                source: "image://avatar/%1".arg(selector.currentValue)
+                                source: selector.currentValue ? "image://avatar/%1".arg(selector.currentValue) : ""
                                 fillMode: Image.PreserveAspectFit
                                 Layout.fillHeight: true
                                 Layout.leftMargin: 10
