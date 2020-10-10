@@ -408,8 +408,16 @@ void MainWindow::linkActionToMenu()
     auto redo= undoStack->createRedoAction(this, tr("&Redo"));
     auto undo= undoStack->createUndoAction(this, tr("&Undo"));
 
+    redo->setIcon(QIcon::fromTheme("redo"));
+    undo->setIcon(QIcon::fromTheme("undo"));
+
     undo->setShortcut(QKeySequence::Undo);
     redo->setShortcut(QKeySequence::Redo);
+    auto acts= m_ui->m_toolBar->actions();
+    auto firstAct= acts.first();
+
+    m_ui->m_toolBar->insertAction(firstAct, undo);
+    m_ui->m_toolBar->insertAction(firstAct, redo);
 
     connect(undoStack, &QUndoStack::cleanChanged, this, [this](bool clean) { setWindowModified(!clean); });
 

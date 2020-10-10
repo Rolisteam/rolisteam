@@ -158,6 +158,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="separator"/>
    <addaction name="m_showChatAct"/>
    <addaction name="separator"/>
   </widget>
