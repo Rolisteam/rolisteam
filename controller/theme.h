@@ -32,31 +32,46 @@ class StyleSheet : public QQmlPropertyMap
     Q_OBJECT
 public:
     explicit StyleSheet(Theme* parent);
+    void insertOrUpdate(const QString& key, const QVariant& value);
 
-protected:
-    QVariant updateProperty(const QString& key, const QVariant& input);
+    // protected:
+    //    QVariant updateProperty(const QString& key, const QVariant& input);
 };
 
 class Theme : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)
+    Q_PROPERTY(QString folder READ folder NOTIFY folderChanged)
 public:
-    explicit Theme(QObject *parent = nullptr);
+    explicit Theme(QObject* parent= nullptr);
 
     Q_INVOKABLE customization::StyleSheet* styleSheet(const QString& id);
+    bool nightMode() const;
+
+    QString folder() const;
 
     static Theme* instance();
 
     static void setPath(const QString& path);
+
+public slots:
+    void setNightMode(bool b);
+
+signals:
+    void nightModeChanged(bool b);
+    void folderChanged(QString f);
+
 private:
     void loadData(const QString& source);
     StyleSheet* addStyleSheet(const QString& name);
-
+    QColor darkColor(const QColor& color);
 
 private:
     static QString m_dataPath;
-    std::map<QString, StyleSheet *> m_styleSheets;
+    std::map<QString, StyleSheet*> m_styleSheets;
+    bool m_nightMode= false;
 };
-}
+} // namespace customization
 
 #endif // THEME_H
