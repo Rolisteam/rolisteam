@@ -1,20 +1,23 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
-import QtQuick.Controls.Universal 2.12
 import RMindMap 1.0
+import Customization 1.0
 
 MindLink {
     id: root
+    property QtObject style: Theme.styleSheet("Controls")
     property alias text: label.text
     property bool editable: false
     property alias visibleLabel: label.visible
     property alias opacityLabel: label.opacity
-    property color colorBorder: "gray"
+    property color colorBorder: root.style.borderColor
     property int borderWidth: 1
-    property color backgroundLabel: Universal.background
+    property color backgroundLabel: root.style.backgroundColor
     property int radius: 5
     property real opacityLabel: 0.8
     property QtObject object
+
+    color: root.style.textColor
 
     FocusScope {
         id: focusScope

@@ -1,12 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import QtQuick.Controls.Universal 2.12
+import Customization 1.0
 
 Pane
 {
     id: root
     //Properties
+    property QtObject style: Theme.styleSheet("Controls")
     property alias source: img.source
     property alias text: text.text
     property bool isEditable: false
@@ -123,7 +124,7 @@ Pane
             topPadding: 0
             padding: 0
             rotation: control.checked ? 180 : 0
-            property color foreground: Universal.foreground
+            property color foreground: root.style.textColor
             onForegroundChanged: canvas.requestPaint()
             contentItem: Canvas {
                 id: canvas
