@@ -25,6 +25,7 @@
 #include <QCommandLineParser>
 #include <QDateTime>
 #include <QDebug>
+#include <QQuickStyle>
 #include <QResource>
 #include <QTextCodec>
 #include <QTranslator>
@@ -121,6 +122,8 @@ int main(int argc, char* argv[])
     format.setStencilBufferSize(8);
     format.setSamples(8);
     QSurfaceFormat::setDefaultFormat(format);
+    QQuickStyle::setStyle(":/rolistyle");
+    QQuickStyle::setFallbackStyle("Default");
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QString locale= QLocale::system().name();
