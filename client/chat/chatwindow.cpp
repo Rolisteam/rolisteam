@@ -472,7 +472,6 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
                                 patternColor= QStringLiteral("<span style=\"color:%1\">").arg(tmp.color());
                         }
                     }
-                    QStringList diceListStr;
                     if((previousHighlight) && (!tmp.isHighlighted()))
                     {
                         if(!currentStreak.isEmpty())
@@ -496,6 +495,9 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
                     previousHighlight= tmp.isHighlighted();
                     previousColor= tmp.color();
                     auto const& result= tmp.result();
+                    QStringList diceListStr;
+                    if(result.size() > 1)
+                        diceListStr << QString::number(std::accumulate(result.begin(), result.end(), 0));
                     for(auto& dievalue : result)
                     {
                         diceListStr << QString::number(dievalue);
