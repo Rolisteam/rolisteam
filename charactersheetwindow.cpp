@@ -926,7 +926,7 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
     {
         character->setSheet(sheet);
     }
-    m_sheetToCharacter.push_back({sheet, character, {}});
+    m_sheetToCharacter.push_back({sheet, character, {}, {}, {}});
     addCharacterSheet(sheet);
 
     m_model.readRootSection(&msg);
