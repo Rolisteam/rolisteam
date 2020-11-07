@@ -1576,7 +1576,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
         {
         case CleverURI::MAP:
         {
-            MapFrame* mapf= new MapFrame();
+            MapFrame* mapf= new MapFrame(nullptr, m_mdiArea);
             mapf->readMessage(*msg);
             prepareMap(mapf);
             addMediaToMdiArea(mapf, false);
@@ -1585,7 +1585,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
         break;
         case CleverURI::VMAP:
         {
-            VMapFrame* mapFrame= new VMapFrame(false);
+            VMapFrame* mapFrame= new VMapFrame(false, m_mdiArea);
             mapFrame->readMessage(*msg); // create the vmap
             prepareVMap(mapFrame);
             addMediaToMdiArea(mapFrame, false);
@@ -2551,7 +2551,7 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
         break;
     case CleverURI::VMAP:
     {
-        VMapFrame* mapFrame= new VMapFrame(localIsGM);
+        VMapFrame* mapFrame= new VMapFrame(localIsGM, m_mdiArea);
         VMap* map= mapFrame->getMap();
         if((nullptr != map) && (nullptr != m_currentConnectionProfile))
         {
@@ -2840,7 +2840,7 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
     }
     else if(type == CleverURI::MAP)
     {
-        auto mapframe= new MapFrame();
+        auto mapframe= new MapFrame(nullptr, m_mdiArea);
         mapframe->setUriName(title);
         auto img= new QImage(pix.toImage());
         auto map= new Map(m_localPlayerId, mapframe->getMediaId(), img, false);

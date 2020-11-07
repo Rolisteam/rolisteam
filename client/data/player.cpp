@@ -57,7 +57,7 @@ void Player::readFromMsg(NetworkMessageReader& data)
 
     m_color= QColor(data.rgb());
     m_gameMaster= (data.uint8() != 0);
-    m_softVersion= data.string16();
+    setUserVersion(data.string16());
 
     bool hasAvatar= static_cast<bool>(data.uint8());
     if(hasAvatar)
@@ -162,7 +162,6 @@ int Player::indexOf(ResourcesNode* character) const
 }
 int Player::getIndexOf(QString id) const
 {
-
     auto it= std::find_if(m_characters.begin(), m_characters.end(),
                           [id](const Character* character) { return id == character->getUuid(); });
     return static_cast<int>(std::distance(m_characters.begin(), it));

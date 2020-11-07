@@ -46,7 +46,7 @@ MapFrame::MapFrame(Map* map, QWidget* parent)
     setFocusPolicy(Qt::StrongFocus);
     m_widgetArea->setAlignment(Qt::AlignCenter);
 
-    m_mapWizzard= new MapWizzard(false, this);
+    m_mapWizzard= new MapWizzard(false, parent);
 
     initMap();
 
@@ -189,6 +189,7 @@ bool MapFrame::readFileFromUri()
         QString filepath= m_mapWizzard->getFilepath();
 
         m_isHidden= m_mapWizzard->getHidden();
+        setUriName(m_mapWizzard->getTitle());
         m_uri= new CleverURI(m_mapWizzard->getTitle(), filepath, CleverURI::MAP);
 
         if(filepath.endsWith(".pla"))
@@ -202,6 +203,7 @@ bool MapFrame::readFileFromUri()
         {
             QString str("");
             m_uri->setUri(str);
+            setUriName(m_mapWizzard->getTitle());
             QImage image(filepath);
             if(image.isNull())
             {
@@ -225,14 +227,16 @@ bool MapFrame::readFileFromUri()
                 return false;
             }
 
-            NetworkMessageWriter msg(NetMsg::MapCategory, NetMsg::LoadMap);
+            m_uri->setData(byteArray);
+
+            /*NetworkMessageWriter msg(NetMsg::MapCategory, NetMsg::LoadMap);
             msg.string16(getUriName());
             msg.string8(idMap);
             msg.uint8(12);
             msg.uint8(m_map->getPermissionMode());
             msg.uint8(m_isHidden);
             msg.byteArray32(byteArray);
-            msg.sendToServer();
+            msg.sendToServer();*/
         }
     }
     initMap();
@@ -512,17 +516,28 @@ void MapFrame::putDataIntoCleverUri()
 
 void MapFrame::fill(NetworkMessageWriter& msg)
 {
-    if(nullptr != m_map)
+    if(nullptr == m_map)
+        return;
+
+    // NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
+    msg.string16(getUriName());
+    msg.string8(m_map->getMapId());
+    msg.rgb(m_color.rgb());
+    msg.uint16(m_width);
+    msg.uint16(m_height);
+    msg.uint8(12);
+    msg.uint8(static_cast<quint8>(m_map->getPermissionMode()));
+
+    auto img= m_map->backgroundImage();
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    bool ok= img.save(&buffer, "jpeg", 60);
+    if(!ok)
     {
-        // NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
-        msg.string16(getUriName());
-        msg.string8(m_map->getMapId());
-        msg.rgb(m_color.rgb());
-        msg.uint16(m_width);
-        msg.uint16(m_height);
-        msg.uint8(12);
-        msg.uint8(static_cast<quint8>(m_map->getPermissionMode()));
+        error(tr("Compressing image goes wrong (ouvrirPlan - mapframe.cpp)"), this);
+        return;
     }
+    msg.byteArray32(byteArray);
 }
 
 void MapFrame::readMessage(NetworkMessageReader& msg)
@@ -536,12 +551,23 @@ void MapFrame::readMessage(NetworkMessageReader& msg)
         m_height= msg.uint16();
         quint8 npSize= msg.uint8();
         quint8 permission= msg.uint8();
-        QSize mapSize(m_width, m_height);
+        auto data= msg.byteArray32();
 
-        QImage image(mapSize, QImage::Format_ARGB32_Premultiplied);
-        image.fill(m_color.rgb());
+        QImage bg;
+        auto ok= bg.loadFromData(data, "jpeg");
+        if(!ok)
+            error(tr("Compressing image goes wrong (ouvrirPlan - mapframe.cpp)"), this);
 
-        m_map= new Map(m_localPlayerId, idMap, &image);
+        if(bg.isNull())
+        {
+            QSize mapSize(m_width, m_height);
+
+            QImage image(mapSize, QImage::Format_ARGB32_Premultiplied);
+            image.fill(m_color.rgb());
+            bg= image;
+        }
+
+        m_map= new Map(m_localPlayerId, idMap, &bg);
         m_map->setLocalIsPlayer(true);
         m_map->setPermissionMode(static_cast<Map::PermissionMode>(permission));
         m_map->changePcSize(npSize, false);

@@ -73,11 +73,11 @@ public:
     void sendMap(QString titre, QString idPlayer);
     void sendOffAllCharacters();
     void sendOffAllCharacters(QString idPlayer);
-    void paintPenLine(
-        QList<QPoint>* listePoints, QRect zoneToRefresh, quint8 diametre, SelectedColor couleur, bool joueurLocal);
+    void paintPenLine(QList<QPoint>* listePoints, QRect zoneToRefresh, quint8 diametre, SelectedColor couleur,
+                      bool joueurLocal);
     void paintText(QString texte, QPoint positionSouris, QRect zoneToRefresh, SelectedColor couleur);
     void paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneToRefresh, quint8 diametre,
-        SelectedColor couleur);
+                    SelectedColor couleur);
     void adaptAlphaLayer(quint8 intensiteAlpha);
     void startCharacterMove(QString idPerso, QList<QPoint> listePoints);
 
@@ -100,6 +100,7 @@ public:
 
     void setHasPermissionMode(bool b);
     bool hasPermissionMode();
+    QImage backgroundImage() const;
 public slots:
     void setPointeur(ToolsBar::SelectableTool currentTool);
     void moveAllCharacters();

@@ -147,10 +147,11 @@ QString MediaContainer::getMediaId() const
 
 QString MediaContainer::getUriName() const
 {
-    if(nullptr == m_uri)
-        return m_name;
+    QString result= m_name;
+    if(nullptr != m_uri) // && !m_uri->name().isEmpty()
+        result= m_uri->name();
 
-    return m_uri->name();
+    return result;
 }
 
 void MediaContainer::setUriName(const QString& name)
@@ -158,7 +159,7 @@ void MediaContainer::setUriName(const QString& name)
     if(nullptr != m_uri)
         m_uri->setName(name);
     m_name= name;
-    if(nullptr!=m_action)
+    if(nullptr != m_action)
         m_action->setText(getUriName());
     updateTitle();
 }
@@ -175,7 +176,7 @@ void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue fi
 
     if(field == CleverURI::NAME)
     {
-        if(nullptr!=m_action)
+        if(nullptr != m_action)
             m_action->setText(getUriName());
         updateTitle();
     }
