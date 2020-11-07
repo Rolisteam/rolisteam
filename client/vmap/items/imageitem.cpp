@@ -100,7 +100,7 @@ void ImageItem::readData(QDataStream& in)
 
     m_initialized= false;
 
-    dataToMedia();
+    loadImage();
 }
 void ImageItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -299,7 +299,8 @@ void ImageItem::initImage()
 {
     if(m_image.isNull())
         return;
-    m_rect= m_image.rect();
+    if(m_rect.isNull())
+        m_rect= m_image.rect();
     if(m_image.width() != 0)
     {
         m_ratio= m_image.height() / m_image.width();
