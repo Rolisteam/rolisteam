@@ -42,6 +42,7 @@
 #include "network/networkmessagereader.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
+#include "worker/vectorialmapmessagehelper.h"
 
 namespace Media
 {
@@ -117,7 +118,7 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
     }
 
     if(!serializedData.isEmpty())
-        IOHelper::readVectorialMapController(vmapCtrl, serializedData);
+        VectorialMapMessageHelper::readVectorialMapController(vmapCtrl, serializedData);
 
     return vmapCtrl;
 }

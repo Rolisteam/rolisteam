@@ -255,7 +255,7 @@ void VectorialMapController::saveData() const {}
 
 void VectorialMapController::loadData() const {}
 
-QString VectorialMapController::getLayerToText(Core::Layer id)
+QString VectorialMapController::layerToText(Core::Layer id)
 {
     static QStringList layerNames({QObject::tr("Ground"), QObject::tr("Object"), QObject::tr("Character")});
 

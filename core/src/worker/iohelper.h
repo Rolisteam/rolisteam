@@ -49,13 +49,16 @@ public:
     static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
 
     static QByteArray saveController(MediaControllerBase* media);
-    static MediaControllerBase* loadController(QDataStream& input);
+    static MediaControllerBase* loadController(const QByteArray& data);
 
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
 
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
-    static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
+
+    // Controller Generic method
+    static void saveBase(MediaControllerBase* base, QDataStream& output);
+    static void readBase(MediaControllerBase* base, QDataStream& input);
 
 #ifdef WITH_PDF
     static void readPdfController(PdfController* ctrl, const QByteArray& array);

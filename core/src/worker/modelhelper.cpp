@@ -239,7 +239,10 @@ QString loadSession(const QString& path, ContentController* ctrl)
 
     for(quint64 i= 0; i < size; ++i)
     {
-        auto ctrl= IOHelper::loadController(in);
+        QByteArray data;
+        in >> data;
+
+        auto ctrl= IOHelper::loadController(data);
 
         model->appendMedia(ctrl);
     }
