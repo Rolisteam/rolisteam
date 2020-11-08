@@ -71,8 +71,8 @@ void RGraphicsView::mousePressEvent(QMouseEvent* event)
             {
                 // list.removeAll(m_vmap->getFogItem());
                 list.erase(std::remove_if(list.begin(), list.end(),
-                               [this](const QGraphicsItem* item) { return !m_vmap->isNormalItem(item); }),
-                    list.end());
+                                          [this](const QGraphicsItem* item) { return !m_vmap->isNormalItem(item); }),
+                           list.end());
                 bool rubber= true;
                 if(!list.isEmpty())
                 {
@@ -97,7 +97,7 @@ void RGraphicsView::mousePressEvent(QMouseEvent* event)
 }
 void RGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 {
-    m_lastPoint= QPoint();
+    m_lastPoint= QPointF();
     QGraphicsView::mouseReleaseEvent(event);
     if(dragMode() == QGraphicsView::ScrollHandDrag)
     {
@@ -107,18 +107,18 @@ void RGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 void RGraphicsView::mouseMoveEvent(QMouseEvent* event)
 {
     if((VToolsBar::HANDLER == m_currentTool) && (event->modifiers() & Qt::ShiftModifier)
-        && (event->buttons() & Qt::LeftButton) && (dragMode() == QGraphicsView::RubberBandDrag))
+       && (event->buttons() & Qt::LeftButton) && (dragMode() == QGraphicsView::RubberBandDrag))
     {
         if(!m_lastPoint.isNull())
         {
             QRectF rect= sceneRect();
-            int dx= event->x() - m_lastPoint.x();
-            int dy= event->y() - m_lastPoint.y();
+            auto current= mapToScene(event->pos());
+            auto dx= current.x() - m_lastPoint.x();
+            auto dy= current.y() - m_lastPoint.y();
             rect.translate(-dx, -dy);
-            m_lastPoint= event->pos();
             setSceneRect(rect);
         }
-        m_lastPoint= event->pos();
+        m_lastPoint= mapToScene(event->pos());
     }
     else
     {
@@ -168,7 +168,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
     m_menuPoint= event->pos();
     if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())
-        || (m_vmap->getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL))
+       || (m_vmap->getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL))
     {
         licenseToModify= true;
     }
@@ -382,8 +382,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         }
         else if(selectedAction == angleRotationAct)
         {
-            int angle= QInputDialog::getInt(
-                this, tr("Rotation Value ?"), tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
+            int angle= QInputDialog::getInt(this, tr("Rotation Value ?"),
+                                            tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
             setRotation(list, angle);
         }
         else if((m_backOrderAction == selectedAction) || (m_frontOrderAction == selectedAction)
@@ -765,7 +765,7 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
     if((nullptr != scene()) && (m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
     {
         if((geometry().width() > scene()->sceneRect().width())
-            || ((geometry().height() > scene()->sceneRect().height())))
+           || ((geometry().height() > scene()->sceneRect().height())))
         {
             scene()->setSceneRect(geometry());
             m_vmap->setWidth(geometry().width());
@@ -808,8 +808,8 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
 }
 void RGraphicsView::addImageToMap()
 {
-    QString imageToLoad= QFileDialog::getOpenFileName(this, tr("Open image file"),
-        m_preferences->value("ImageDirectory", QDir::homePath()).toString(),
+    QString imageToLoad= QFileDialog::getOpenFileName(
+        this, tr("Open image file"), m_preferences->value("ImageDirectory", QDir::homePath()).toString(),
         m_preferences->value("ImageFileFilter", "*.jpg *.jpeg *.png *.bmp *.svg").toString());
 
     if(nullptr != m_vmap)
