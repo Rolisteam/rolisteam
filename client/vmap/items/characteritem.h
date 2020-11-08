@@ -324,6 +324,7 @@ private:
     QString getSubTitle() const;
     void visionChanged();
     void initChildPointItemMotion();
+    bool canBeMoved() const override;
 
 private:
     Character* m_character= nullptr;

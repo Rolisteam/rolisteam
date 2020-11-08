@@ -668,7 +668,15 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
     if(!vItem)
         return false;
 
-    if(vItem->getLayer() != m_currentLayer)
+    bool sameLayer= (vItem->getLayer() == m_currentLayer);
+    bool isPC_MOVE= (getOption(VisualItem::PermissionMode) == Map::PC_MOVE);
+    bool localIsGM= getOption(VisualItem::LocalIsGM).toBool();
+    bool isCharacter= vItem->getType() == VisualItem::CHARACTER;
+
+    if(!sameLayer && !isPC_MOVE) //|| vItem->type() != VisualItem::CHARACTER)
+        return false;
+
+    if(!localIsGM && isPC_MOVE && !isCharacter)
         return false;
 
     return true;

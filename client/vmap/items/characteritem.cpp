@@ -1211,6 +1211,10 @@ void CharacterItem::endOfGeometryChange()
     }
     VisualItem::endOfGeometryChange();
 }
+bool CharacterItem::canBeMoved() const
+{
+    return hasPermissionToMove();
+}
 void CharacterItem::updateItemFlags()
 {
     VisualItem::updateItemFlags();
