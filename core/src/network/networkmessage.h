@@ -52,7 +52,8 @@ enum Category
     VMapCategory,
     MediaCategory,
     SharedNoteCategory,
-    WebPageCategory
+    WebPageCategory,
+    MindMapCategory
 };
 
 enum Action
@@ -179,7 +180,16 @@ enum Action
     updatePermissionOneUser,
 
     // WebPage
-    UpdateContent= 0
+    UpdateContent= 0,
+
+    // Mindmap
+    AddNode= 0,
+    RemoveNode,
+    UpdateNode,
+    AddLink,
+    RemoveLink,
+    UpdateLink,
+    UpdateMindMapPermission
 };
 } // namespace NetMsg
 

@@ -467,7 +467,7 @@ void PreferencesDialog::editColor(QModelIndex index)
     auto theme= m_ctrl->currentTheme();
     if(nullptr == theme)
         return;
-    qApp->setPalette(theme->getPalette());
+    // qApp->setPalette(theme->getPalette());
 }
 
 void PreferencesDialog::updateTheme()
@@ -493,16 +493,16 @@ void PreferencesDialog::updateTheme()
 
     ui->m_diceHighlightColorBtn->setColor(theme->getDiceHighlightColor());
 
-    qApp->setStyle(theme->getStyle());
-    qApp->setPalette(theme->getPalette());
+    // qApp->setStyle(theme->getStyle());
+    // qApp->setPalette(theme->getPalette());
     // applyBackground();
-    qApp->setStyleSheet(theme->getCss());
+    // qApp->setStyleSheet(theme->getCss());
 }
 void PreferencesDialog::setStyle()
 {
     auto style= QStyleFactory::create(ui->m_styleCombo->currentText());
     m_ctrl->setCurrentThemeStyle(style);
-    qApp->setStyle(style);
+    // qApp->setStyle(style);
 }
 void PreferencesDialog::editCss()
 {
@@ -516,7 +516,7 @@ void PreferencesDialog::editCss()
     if(ok)
     {
         m_ctrl->setCurrentThemeCss(text);
-        qApp->setStyleSheet(theme->getCss());
+        // qApp->setStyleSheet(theme->getCss());
     }
 }
 

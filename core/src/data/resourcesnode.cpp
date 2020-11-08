@@ -127,6 +127,7 @@ bool ResourcesNode::hasChildren() const
 }
 bool ResourcesNode::contains(const QString& id)
 {
+    Q_UNUSED(id)
     return false;
 }
 bool ResourcesNode::removeChild(ResourcesNode*)
@@ -138,5 +139,6 @@ void ResourcesNode::insertChildAt(int, ResourcesNode*) {}
 
 ResourcesNode* ResourcesNode::findNode(const QString& id)
 {
+    Q_UNUSED(id)
     return nullptr;
 }

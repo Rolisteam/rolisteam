@@ -53,7 +53,7 @@ public:
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     int columnCount(const QModelIndex& parent= QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex& index) const override;
+    QModelIndex parent(const QModelIndex&) const override;
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
     // Editable:
@@ -80,6 +80,8 @@ signals:
     void defaultStyleIndexChanged();
     void nodeHeightChanged();
     void nodeWidthChanged();
+    void nodeAdded(MindNode* node);
+    void nodeRemoved(const QString& id);
 
 public slots:
     // Add data:

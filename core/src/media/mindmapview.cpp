@@ -21,6 +21,7 @@
 
 #include "qmlchat/avatarprovider.h"
 
+#include <QJSValue>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickStyle>
@@ -45,8 +46,24 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
 
     setObjectName("mindmap");
     setWindowIcon(QIcon::fromTheme("mindmap"));
-
     auto engine= m_qmlViewer->engine();
+
+    qmlRegisterSingletonType<MindmapManager>(
+        "org.rolisteam.mindmap", 1, 0, "MindMapManager",
+        [ctrl, engine](QQmlEngine* qmlengine, QJSEngine* scriptEngine) -> QObject* {
+            Q_UNUSED(scriptEngine)
+            if(qmlengine != engine)
+                return {};
+            static MindmapManager manager;
+            static bool initialized= false;
+            if(!initialized)
+            {
+                manager.setCtrl(ctrl);
+                initialized= true;
+            }
+            return &manager;
+        });
+
     engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
     engine->addImportPath(QStringLiteral("qrc:/qml"));
@@ -66,4 +83,19 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     setWindowTitle(tr("%1 - Mindmap").arg(ctrl->name()));
 
     setWidget(wid);
+}
+
+MindmapManager::MindmapManager(QObject* parent) : QObject(parent) {}
+
+MindMapController* MindmapManager::ctrl() const
+{
+    return m_ctrl;
+}
+
+void MindmapManager::setCtrl(MindMapController* ctrl)
+{
+    if(m_ctrl == ctrl)
+        return;
+    m_ctrl= ctrl;
+    emit ctrlChanged();
 }

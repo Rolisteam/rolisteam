@@ -39,8 +39,8 @@ QString replacePlaceHolder(const QString& str, const QJsonObject& obj)
     QStringList allDiceResult;
     std::transform(instructions.begin(), instructions.end(), std::back_inserter(allDiceResult),
                    [](const QJsonValue& jsonVal) {
-                       auto obj= jsonVal.toObject();
-                       auto diceval= obj["diceval"].toObject();
+                       auto instruction= jsonVal.toObject();
+                       auto diceval= instruction["diceval"].toObject();
                        return diceval["string"].toString();
                    });
 
@@ -50,8 +50,8 @@ QString replacePlaceHolder(const QString& str, const QJsonObject& obj)
 
     QStringList values;
     std::transform(instructions.begin(), instructions.end(), std::back_inserter(values), [](const QJsonValue& jsonVal) {
-        auto obj= jsonVal.toObject();
-        auto scalar= obj["scalar"].toDouble();
+        auto inst= jsonVal.toObject();
+        auto scalar= inst["scalar"].toDouble();
         return QString::number(scalar);
     });
 

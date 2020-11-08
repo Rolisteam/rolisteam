@@ -62,7 +62,7 @@ QVariant CharacterDataModel::data(const QModelIndex& index, int role) const
     }
     else
     {
-        auto map= matrix[index.column()];
+        auto map= matrix[static_cast<std::size_t>(index.column())];
         auto it= map.find(role);
 
         if(it != map.end())

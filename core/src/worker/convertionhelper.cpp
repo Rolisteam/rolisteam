@@ -140,4 +140,11 @@ void variantToType<ParticipantModel::Permission>(const ParticipantModel::Permiss
 {
     msg.uint8(static_cast<quint8>(perm));
 }
+
+template <>
+void variantToType<mindmap::Link::Direction>(const mindmap::Link::Direction& perm, NetworkMessageWriter& msg)
+{
+    msg.uint8(static_cast<quint8>(perm));
+}
+
 } // namespace Helper

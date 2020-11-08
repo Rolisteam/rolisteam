@@ -168,7 +168,7 @@ bool ChatRoom::rollDice(const QString& command, const QString& personId)
             return {false, error};
 
         auto result= m_diceParser->resultAsJSon([](const QString& value, const QString& color, bool highlight) {
-            QString result= value;
+            QString resultTmp= value;
             bool hasColor= !color.isEmpty();
             QString style;
             if(hasColor)
@@ -183,8 +183,8 @@ bool ChatRoom::rollDice(const QString& command, const QString& personId)
                 style+= QStringLiteral("font-weight:bold;");
             }
             if(!style.isEmpty())
-                result= QString("<span style=\"%2\">%1</span>").arg(value).arg(style);
-            return result;
+                resultTmp= QString("<span style=\"%2\">%1</span>").arg(value).arg(style);
+            return resultTmp;
         });
 
         return {true, result};

@@ -82,7 +82,7 @@ void AudioPlayer::setupUi()
 {
     setWindowTitle(tr("Background Music"));
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    setFeatures(QDockWidget::AllDockWidgetFeatures);
+    setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     setMinimumWidth(255);
     m_mainWidget= new QWidget(this);
 

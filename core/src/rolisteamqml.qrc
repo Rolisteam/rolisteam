@@ -31,5 +31,8 @@
         <file>qml/CustomItems/qmldir</file>
         <file>qml/CustomItems/PermissionSlider.qml</file>
         <file>rolistyle/Pane.qml</file>
+        <file>rolistyle/Drawer.qml</file>
+        <file>rolistyle/Label.qml</file>
+        <file>rolistyle/Switch.qml</file>
     </qresource>
 </RCC>

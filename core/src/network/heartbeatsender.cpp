@@ -12,7 +12,7 @@ HeartBeatSender::HeartBeatSender(QObject* parent) : QObject(parent)
 
     updateStatus();
 }
-void HeartBeatSender::preferencesHasChanged(QString)
+void HeartBeatSender::preferencesHasChanged(const QString&)
 {
     updateStatus();
 }

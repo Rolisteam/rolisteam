@@ -83,6 +83,6 @@ private:
 };
 } // namespace vmap
 
-Q_DECLARE_METATYPE(std::vector<QPointF>);
+Q_DECLARE_METATYPE(std::vector<QPointF>)
 
 #endif // VMAP_PATHITEMCONTROLLER_H

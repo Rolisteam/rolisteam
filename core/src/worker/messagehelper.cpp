@@ -31,6 +31,7 @@
 #ifdef WITH_PDF
 #include "controller/view_controller/pdfcontroller.h"
 #endif
+#include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
@@ -52,6 +53,8 @@
 #include "data/cleveruri.h"
 #include "data/player.h"
 #include "dicealias.h"
+#include "model/boxmodel.h"
+#include "model/linkmodel.h"
 #include "model/vmapitemmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -349,6 +352,157 @@ void MessageHelper::readUpdateField(CharacterSheetController* ctrl, NetworkMessa
     ctrl->updateFieldFrom(sheetId, obj, data);
 }
 
+// mindmap
+void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl)
+{
+    if(ctrl == nullptr)
+        return;
+
+    msg.string8(ctrl->uuid());
+    msg.uint8(false);
+    msg.uint64(ctrl->defaultStyleIndex());
+
+    auto nodeModel= dynamic_cast<mindmap::BoxModel*>(ctrl->nodeModel());
+    auto linkModel= dynamic_cast<mindmap::LinkModel*>(ctrl->linkModel());
+
+    auto nodes= nodeModel->nodes();
+
+    msg.uint64(static_cast<quint64>(nodes.size()));
+    for(auto node : nodes)
+    {
+        msg.string8(node->id());
+        msg.string8(node->parentId());
+        msg.string32(node->text());
+        msg.uint64(node->styleIndex());
+        msg.real(node->position().x());
+        msg.real(node->position().y());
+        msg.string16(node->imageUri());
+    }
+    auto links= linkModel->getDataSet();
+    msg.uint64(links.size());
+    for(auto link : links)
+    {
+        msg.string8(link->id());
+        msg.uint8(link->direction());
+        msg.string8(link->start()->id());
+        msg.string8(link->end()->id());
+        msg.string8(link->text());
+    }
+}
+
+void MessageHelper::sendOffMindmapToAll(MindMapController* ctrl)
+{
+    if(nullptr == ctrl)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
+    sendOffMediaControllerBase(ctrl, msg);
+    fillUpMessageWithMindmap(msg, ctrl);
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffMindmapPermissionUpdate(Core::SharingPermission perm, MindMapController* ctrl)
+{
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMindMapPermission);
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
+    msg.string8(ctrl->uuid());
+    msg.uint8(perm == Core::SharingPermission::ReadWrite);
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffMindmapPermissionUpdateTo(Core::SharingPermission perm, MindMapController* ctrl,
+                                                     const QString& id)
+{
+    QStringList list;
+    list << id;
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMindMapPermission);
+    msg.setRecipientList(list, NetworkMessage::OneOrMany);
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
+    msg.string8(ctrl->uuid());
+    msg.uint8(perm == Core::SharingPermission::ReadWrite);
+    msg.sendToServer();
+}
+
+void MessageHelper::openMindmapTo(MindMapController* ctrl, const QString& id)
+{
+    if(nullptr == ctrl)
+        return;
+
+    QStringList recipiants;
+    recipiants << id;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
+    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
+    sendOffMediaControllerBase(ctrl, msg);
+    fillUpMessageWithMindmap(msg, ctrl);
+    msg.sendToServer();
+}
+
+void MessageHelper::closeMindmapTo(MindMapController* ctrl, const QString& id)
+{
+    if(nullptr == ctrl)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
+    msg.setRecipientList({id}, NetworkMessage::OneOrMany);
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
+    msg.string8(ctrl->uuid());
+    msg.sendToServer();
+}
+
+QHash<QString, QVariant> MessageHelper::readMindMap(NetworkMessageReader* msg)
+{
+    if(nullptr == msg)
+        return {};
+
+    auto hash= readMediaData(msg);
+
+    hash["uuid"]= msg->string8();
+    hash["readwrite"]= msg->uint8();
+    hash["indexStyle"]= msg->uint64();
+
+    QHash<QString, QVariant> nodes;
+
+    auto size= msg->uint64();
+
+    for(quint64 i= 0; i < size; ++i)
+    {
+        QHash<QString, QVariant> node;
+        node["uuid"]= msg->string8();
+        node["parentId"]= msg->string8();
+        node["text"]= msg->string32();
+        node["index"]= msg->uint64();
+        node["x"]= msg->real();
+        node["y"]= msg->real();
+        node["imageUri"]= msg->string16();
+
+        nodes.insert(QString("node_").arg(i), node);
+    }
+
+    hash["nodes"]= nodes;
+
+    QHash<QString, QVariant> links;
+    size= msg->uint64();
+
+    for(quint64 i= 0; i < size; ++i)
+    {
+        QHash<QString, QVariant> link;
+        link["uuid"]= msg->string8();
+        link["direction"]= msg->uint8();
+        link["startId"]= msg->string8();
+        link["endId"]= msg->string8();
+        link["text"]= msg->string16();
+        nodes.insert(QString("link_").arg(i), link);
+    }
+    hash["links"]= links;
+
+    return hash;
+}
+// end - mindmap
+
+// Shared Notes
 void MessageHelper::closeNoteTo(SharedNoteController* sharedCtrl, const QString& id)
 {
     if(nullptr == sharedCtrl)
@@ -388,7 +542,9 @@ QHash<QString, QVariant> MessageHelper::readSharedNoteData(NetworkMessageReader*
 
     return hash;
 }
+// End - Shared Notes
 
+// Webpage
 QHash<QString, QVariant> MessageHelper::readWebPageData(NetworkMessageReader* msg)
 {
     if(nullptr == msg)
@@ -458,6 +614,7 @@ void MessageHelper::readUpdateWebpage(WebpageController* ctrl, NetworkMessageRea
     else if(mode == WebpageController::Url)
         ctrl->setPath(data);
 }
+// end - Webpage
 
 #ifdef WITH_PDF
 void MessageHelper::sendOffPdfFile(PdfController* ctrl)
@@ -926,17 +1083,11 @@ QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReade
         default:
             break;
         }
+
+        QHash<QString, QVariant> qvals(map.begin(), map.end());
+        items.insert(QString("Item_%1").arg(i), qvals);
     }
     hash["items"]= items;
-
-    // readModel();
-    /*hash["rect"]= readRectManager(msg);
-    hash["ellipse"]= readEllipseManager(msg);
-    hash["line"]= readLineManager(msg);
-    hash["image"]= readImageManager(msg);
-    hash["path"]= readPathManager(msg);
-    hash["text"]= readTextManager(msg);
-    hash["character"]= readCharacterManager(msg);*/
 
     return hash;
 }
@@ -1081,4 +1232,36 @@ void MessageHelper::sendOffCharacter(const vmap::CharacterItemController* ctrl, 
     msg.uint8(ctrl->itemType());
     addCharacterController(ctrl, msg);
     msg.sendToServer();
+}
+
+void MessageHelper::readAddMindMapNode(MindMapController* ctrl, NetworkMessageReader* msg)
+{
+    auto id= msg->string8();
+    auto text= msg->string32();
+    auto uri= msg->string8();
+    auto parentId= msg->string8();
+    auto indx= msg->uint64();
+
+    auto count= msg->uint64();
+    QStringList list;
+    for(quint64 i= 0; i < count; ++i)
+    {
+        list << msg->string8();
+    }
+
+    mindmap::MindNode* node= new mindmap::MindNode(ctrl);
+    node->setText(text);
+    node->setId(id);
+    node->setImageUri(uri);
+    auto parent= ctrl->nodeFromId(parentId);
+    node->setParentNode(parent);
+    node->setStyleIndex(indx);
+
+    ctrl->addNode(node);
+
+    if(!parentId.isNull())
+        ctrl->createLink(parentId, id);
+
+    for(auto tmp : list)
+        ctrl->createLink(id, tmp);
 }

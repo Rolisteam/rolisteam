@@ -90,7 +90,7 @@ MindMapController::MindMapController(const QString& id, QObject* parent)
     connect(m_spacingController.get(), &mindmap::SpacingController::finished, m_spacing, &QThread::quit);
     m_spacing->start();
 
-    resetData();
+    clearData();
 }
 
 MindMapController::~MindMapController()
@@ -145,19 +145,23 @@ QRectF MindMapController::contentRect() const
     return {0, 0, m_nodeModel->nodeWidth(), m_nodeModel->nodeHeight()};
 }
 
+bool MindMapController::readWrite() const
+{
+    return (localIsOwner() || m_readWrite);
+}
+
+void MindMapController::setReadWrite(bool b)
+{
+    if(b == m_readWrite)
+        return;
+    m_readWrite= b;
+    emit readWriteChanged();
+}
+
 void MindMapController::clearData()
 {
     m_linkModel->clear();
     m_nodeModel->clear();
-}
-
-void MindMapController::resetData()
-{
-    clearData();
-
-    auto root= new mindmap::MindNode();
-    root->setText(tr("Root"));
-    m_nodeModel->appendNode(root);
 }
 
 void MindMapController::saveFile()
@@ -191,6 +195,52 @@ void MindMapController::importFile(const QString& path)
 void MindMapController::setDefaultStyleIndex(int indx)
 {
     m_nodeModel->setDefaultStyleIndex(indx);
+}
+
+void MindMapController::setSharingToAll(int b)
+{
+    auto realPerm= static_cast<Core::SharingPermission>(b);
+    if(m_sharingToAll == realPerm)
+        return;
+    auto old= m_sharingToAll;
+    m_sharingToAll= realPerm;
+    emit sharingToAllChanged(m_sharingToAll, old);
+}
+
+Core::SharingPermission MindMapController::sharingToAll() const
+{
+    return m_sharingToAll;
+}
+
+void MindMapController::setPermissionForUser(const QString& userId, int perm)
+{
+    auto realPerm= static_cast<Core::SharingPermission>(perm);
+    switch(realPerm)
+    {
+    case Core::SharingPermission::None:
+        m_permissions.remove(userId);
+        emit closeMindMapTo(userId);
+        break;
+    case Core::SharingPermission::ReadOnly:
+    {
+        if(m_permissions.contains(userId))
+        {
+            auto p= m_permissions.find(userId);
+            Q_ASSERT(p.value() == Core::SharingPermission::ReadWrite);
+            emit permissionChangedForUser(userId, realPerm);
+        }
+        else
+        {
+            m_permissions.insert(userId, realPerm);
+            emit openMindMapTo(userId);
+        }
+    }
+    break;
+    case Core::SharingPermission::ReadWrite:
+        m_permissions.insert(userId, realPerm);
+        emit permissionChangedForUser(userId, realPerm);
+        break;
+    }
 }
 
 void MindMapController::setFilename(const QString& path)
@@ -249,6 +299,25 @@ void MindMapController::addCharacterBox(const QString& idparent, const QString& 
     auto cmd= new mindmap::AddNodeCommand(m_nodeModel.get(), m_linkModel.get(), idparent);
     cmd->setData(name, url);
     m_stack.push(cmd);
+}
+
+void MindMapController::addNode(mindmap::MindNode* node)
+{
+    m_nodeModel->appendNode(node);
+}
+
+mindmap::Link* MindMapController::linkFromId(const QString& id) const
+{
+    return m_linkModel->linkFromId(id);
+}
+mindmap::MindNode* MindMapController::nodeFromId(const QString& id) const
+{
+    return m_nodeModel->node(id);
+}
+
+void MindMapController::createLink(const QString& id, const QString& id2)
+{
+    m_linkModel->addLink(nodeFromId(id), nodeFromId(id2));
 }
 
 void MindMapController::reparenting(mindmap::MindNode* parent, const QString& id)

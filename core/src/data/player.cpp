@@ -123,8 +123,8 @@ const std::vector<std::unique_ptr<Character>>& Player::children()
 
 Character* Player::getCharacterByIndex(int index) const
 {
-    if(index < m_characters.size() && index >= 0)
-        return m_characters[index].get();
+    if(index < static_cast<int>(m_characters.size()) && index >= 0)
+        return m_characters[static_cast<std::size_t>(index)].get();
     return nullptr;
 }
 
@@ -161,6 +161,7 @@ void Player::setGM(bool value)
 void Player::addCharacter(const QString& name, const QColor& color, const QString& path,
                           const QHash<QString, QVariant>& params, bool Npc)
 {
+    Q_UNUSED(params)
     if(containsCharacter(name, color, path, m_characters))
         return;
 
@@ -197,15 +198,16 @@ bool Player::removeChild(Character* character)
         return false;
     auto id= character->uuid();
     auto size= m_characters.size();
-    m_characters.erase(
-        std::remove_if(m_characters.begin(), m_characters.end(),
-                       [id](const std::unique_ptr<Character>& character) { return character->uuid() == id; }));
+    m_characters.erase(std::remove_if(m_characters.begin(), m_characters.end(),
+                                      [id](const std::unique_ptr<Character>& tmp) { return tmp->uuid() == id; }));
 
     return size != m_characters.size();
 }
 
 bool Player::searchCharacter(Character* character, int& index) const
 {
+    Q_UNUSED(character)
+    Q_UNUSED(index)
     /* for(int i= 0; i < m_characters.size(); i++)
      {
          if(m_characters.at(i) == character)

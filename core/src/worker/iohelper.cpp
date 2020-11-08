@@ -154,17 +154,17 @@ QString IOHelper::readTextFile(const QString& path)
     QTextStream out(&file);
     return out.readAll();
 }
-
+#include <QCborValue>
 QJsonObject IOHelper::byteArrayToJsonObj(const QByteArray& data)
 {
-    auto doc= QJsonDocument::fromBinaryData(data);
-    return doc.object();
+    auto doc= QCborValue(data);
+    return doc.toJsonValue().toObject();
 }
 
 QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)
 {
-    auto doc= QJsonDocument::fromBinaryData(data);
-    return doc.array();
+    auto doc= QCborValue(data);
+    return doc.toJsonValue().toArray();
 }
 
 void saveBase(MediaControllerBase* base, QDataStream& output)
@@ -447,7 +447,7 @@ std::map<QString, QVariant> readPathController(QDataStream& input)
     input >> pointCount;
 
     std::vector<QPointF> vec;
-    vec.reserve(pointCount);
+    vec.reserve(static_cast<std::size_t>(pointCount));
     for(int i= 0; i < pointCount; i++)
     {
         QPointF p;
@@ -785,7 +785,8 @@ void saveCharacterSheet(CharacterSheetController* ctrl, QDataStream& output)
 
     doc.setObject(obj);
 
-    output << doc.toBinaryData();
+    QCborValue val(doc.toJson());
+    output << val;
 }
 
 void saveSharedNote(SharedNoteController* ctrl, QDataStream& output)
@@ -977,10 +978,12 @@ void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, cons
 
     readBase(ctrl, input);
 
-    QByteArray json;
-    input >> json;
+    QByteArray charactersheetData;
+    input >> charactersheetData;
 
-    QJsonDocument doc= QJsonDocument::fromBinaryData(json);
+    QCborValue value(charactersheetData);
+
+    QJsonDocument doc= QJsonDocument::fromJson(value.toByteArray());
     auto obj= doc.object();
     auto charactersData= obj["character"].toObject();
     auto images= obj["images"].toArray();
@@ -1077,7 +1080,7 @@ void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& 
 
     readBase(ctrl, input);
 
-    // todo read data to define mindmapcontroller.
+    // TODO read data to define mindmapcontroller.
 }
 void IOHelper::readNoteController(NoteController* ctrl, const QByteArray& array)
 {

@@ -25,9 +25,8 @@
 #include <memory>
 #include <vector>
 
+#include "controller/view_controller/mediacontrollerbase.h"
 #include "media/mediatype.h"
-
-class MediaControllerBase;
 
 class FilteredContentModel : public QSortFilterProxyModel
 {
@@ -87,4 +86,21 @@ signals:
 private:
     std::vector<std::unique_ptr<MediaControllerBase>> m_medias;
 };
+
+template <class T>
+std::vector<T> FilteredContentModel::contentController() const
+{
+    std::vector<T> vec;
+    auto size= rowCount();
+    vec.reserve(size);
+    for(int i= 0; i < size; ++i)
+    {
+        QModelIndex idx= index(i, 0);
+        auto ctrl= idx.data(ContentModel::ControllerRole).value<MediaControllerBase*>();
+        auto itemctrl= dynamic_cast<T>(ctrl);
+        if(nullptr != itemctrl)
+            vec.push_back(itemctrl);
+    }
+    return vec;
+}
 #endif // CONTENTMODEL_H

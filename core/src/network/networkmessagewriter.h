@@ -56,7 +56,7 @@ public:
 
     void rgb(unsigned int color);
 
-    int getDataSize() const;
+    quint32 getDataSize() const;
 
     void int8(qint8 data);
     void int16(qint16 data);
@@ -91,8 +91,8 @@ private:
 
     void string(const QString& data, int sizeQChar);
     void makeRoom(int size);
-    int m_sizeBuffer;
-    int m_sizeData;
+    long long int m_sizeBuffer;
+    long long int m_sizeData;
     QStringList m_recipientList;
     NetworkMessage::RecipientMode m_mode;
 };

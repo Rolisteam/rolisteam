@@ -75,8 +75,8 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
         break;
     case NetMsg::SetChannelList:
     {
-        QByteArray data= msg->byteArray32();
-        QJsonDocument doc= QJsonDocument::fromJson(data);
+        QByteArray channelData= msg->byteArray32();
+        QJsonDocument doc= QJsonDocument::fromJson(channelData);
         if(!doc.isEmpty())
         {
             QJsonObject obj= doc.object();
@@ -130,7 +130,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     bool isGmChannel= false;
     bool isCurrentChannel= false;
     bool isOwnUser= false;
-    bool hasPassword= false;
+    // bool hasPassword= false;
 
     m_index= ui->m_channelView->indexAt(pos);
 
@@ -140,21 +140,21 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     }
     else
     {
-        TreeItem* data= indexToPointer<TreeItem*>(m_index);
-        if(data->isLeaf())
+        TreeItem* dataItem= indexToPointer<TreeItem*>(m_index);
+        if(dataItem->isLeaf())
         {
             state= OnUser;
-            isOwnUser= (m_localPlayerId == data->getId());
+            isOwnUser= (m_localPlayerId == dataItem->getId());
         }
         else
         {
             state= OnChannel;
 
-            auto channel= dynamic_cast<Channel*>(data);
+            auto channel= dynamic_cast<Channel*>(dataItem);
             if(channel)
             {
-                if(!channel->password().isEmpty())
-                    hasPassword= true;
+                /*if(!channel->password().isEmpty())
+                    hasPassword= true;*/
                 auto child= channel->getChildById(m_localPlayerId);
                 if(child != nullptr)
                 {

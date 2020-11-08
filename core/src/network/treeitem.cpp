@@ -4,7 +4,7 @@
 
 TreeItem::TreeItem(QObject* parent) : QObject(parent), m_id(QUuid::createUuid().toString()), m_parentItem(nullptr) {}
 
-void TreeItem::addChild() {}
+void TreeItem::appendChild() {}
 
 bool TreeItem::isLeaf() const
 {

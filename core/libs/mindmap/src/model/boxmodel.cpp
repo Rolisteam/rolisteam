@@ -44,7 +44,7 @@ int BoxModel::columnCount(const QModelIndex& parent) const
     return 1;
 }
 
-QModelIndex BoxModel::parent(const QModelIndex& index) const
+QModelIndex BoxModel::parent(const QModelIndex&) const
 {
     return QModelIndex();
 }
@@ -169,6 +169,7 @@ void BoxModel::appendNode(MindNode* node)
     m_data.push_back(node);
     endInsertRows();
     computeContentSize(node);
+    emit nodeAdded(node);
 }
 
 std::pair<MindNode*, Link*> BoxModel::addBox(const QString& idparent)
@@ -176,27 +177,29 @@ std::pair<MindNode*, Link*> BoxModel::addBox(const QString& idparent)
     auto row= static_cast<int>(m_data.size());
     beginInsertRows(QModelIndex(), row, row);
     auto root= new MindNode();
-    root->setText(tr("New Node"));
+
+    root->setText(idparent.isNull() ? tr("Root") : tr("New Node"));
     root->setStyleIndex(m_defaultStyleIndex);
 
     m_data.push_back(root);
-    if(idparent.isEmpty())
-        return {};
 
-    auto id= std::find_if(m_data.begin(), m_data.end(),
-                          [idparent](const MindNode* node) { return idparent == node->id(); });
-    if(id == m_data.end())
-        return {};
-
-    auto rectParent= (*id)->boundingRect();
-    auto pos= rectParent.topLeft() + QPointF(rectParent.width() * 1.5, rectParent.height() * 1.5);
-    root->setPosition(pos);
-    endInsertRows();
+    Link* link= nullptr;
+    if(!idparent.isEmpty())
+    {
+        auto id= std::find_if(m_data.begin(), m_data.end(),
+                              [idparent](const MindNode* node) { return idparent == node->id(); });
+        if(id != m_data.end())
+        {
+            auto rectParent= (*id)->boundingRect();
+            auto pos= rectParent.topLeft() + QPointF(rectParent.width() * 1.5, rectParent.height() * 1.5);
+            root->setPosition(pos);
+        }
+        link= m_linkModel->addLink(*id, root);
+    }
 
     computeContentSize(root);
-
-    auto link= m_linkModel->addLink(*id, root);
-
+    emit nodeAdded(root);
+    endInsertRows();
     return std::make_pair(root, link);
 }
 
@@ -205,11 +208,17 @@ bool BoxModel::removeBox(const MindNode* node)
     if(node == nullptr)
         return false;
     auto it= std::find(m_data.begin(), m_data.end(), node);
+    if(it == m_data.end())
+        return false;
+
     auto idx= static_cast<int>(std::distance(m_data.begin(), it));
+
+    auto id= (*it)->id();
 
     beginRemoveRows(QModelIndex(), idx, idx);
     m_data.erase(it);
     endRemoveRows();
+    emit nodeRemoved(id);
     return true;
 }
 

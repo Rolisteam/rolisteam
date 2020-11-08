@@ -53,6 +53,13 @@ enum class ContentType : int
 };
 Q_ENUM_NS(ContentType)
 
+enum class SharingPermission : quint8
+{
+    None,
+    ReadOnly,
+    ReadWrite
+};
+
 inline uint qHash(Core::ContentType type, uint seed)
 {
     return ::qHash(static_cast<uint>(type), seed);

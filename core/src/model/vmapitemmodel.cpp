@@ -32,7 +32,7 @@ int VmapItemModel::rowCount(const QModelIndex& parent) const
     if(!parent.isValid())
         return 0;
 
-    return m_items.size();
+    return static_cast<int>(m_items.size());
 }
 
 QVariant VmapItemModel::data(const QModelIndex& index, int role) const
@@ -47,7 +47,7 @@ QVariant VmapItemModel::data(const QModelIndex& index, int role) const
     if(allowedRoles.find(role) == allowedRoles.end())
         return QVariant();
 
-    auto item= m_items.at(index.row()).get();
+    auto item= m_items.at(static_cast<std::size_t>(index.row())).get();
 
     if(nullptr == item)
         return {};
@@ -111,7 +111,7 @@ QVariant VmapItemModel::data(const QModelIndex& index, int role) const
 
 bool vmap::VmapItemModel::appendItemController(vmap::VisualItemController* item)
 {
-    auto size= m_items.size();
+    auto size= static_cast<int>(m_items.size());
     std::unique_ptr<vmap::VisualItemController> ctrl(item);
     beginInsertRows(QModelIndex(), size, size);
     m_items.push_back(std::move(ctrl));
@@ -134,7 +134,7 @@ bool vmap::VmapItemModel::removeItemController(const QString& uuid)
      if((*it)->localIsOwner())
          MessageHelper::closeMedia(uuid, (*it)->contentType());*/
 
-    auto pos= std::distance(std::begin(m_items), it);
+    auto pos= static_cast<int>(std::distance(std::begin(m_items), it));
 
     beginRemoveRows(QModelIndex(), pos, pos);
     m_items.erase(it);

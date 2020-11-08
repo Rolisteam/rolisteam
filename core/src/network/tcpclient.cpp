@@ -156,7 +156,7 @@ void TcpClient::startReading()
     m_socket= new QTcpSocket();
     connect(m_socket, &QTcpSocket::disconnected, this, &TcpClient::socketDisconnection);
     connect(m_socket, &QTcpSocket::readyRead, this, &TcpClient::receivingData);
-    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error), this,
+    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::errorOccurred), this,
             &TcpClient::connectionError);
 
     m_socket->setSocketDescriptor(getSocketHandleId());
@@ -274,12 +274,13 @@ void TcpClient::receivingData()
             char* tmp= reinterpret_cast<char*>(&m_header);
 
             // To do only if there is enough data
-            readDataSize= m_socket->read(tmp + m_headerRead, sizeof(NetworkMessageHeader) - m_headerRead);
+            readDataSize= m_socket->read(tmp + m_headerRead, static_cast<qint64>(sizeof(NetworkMessageHeader))
+                                                                 - static_cast<qint64>(m_headerRead));
 
-            if(readDataSize != sizeof(NetworkMessageHeader)
-               && readDataSize + m_headerRead != sizeof(NetworkMessageHeader))
+            if(readDataSize != static_cast<qint64>(sizeof(NetworkMessageHeader))
+               && readDataSize + static_cast<qint64>(m_headerRead) != static_cast<qint64>(sizeof(NetworkMessageHeader)))
             {
-                m_headerRead+= readDataSize;
+                m_headerRead+= static_cast<quint64>(readDataSize);
                 continue;
             }
             else
@@ -291,7 +292,9 @@ void TcpClient::receivingData()
             emit readDataReceived(m_header.dataSize, m_header.dataSize);
         }
         // To do only if there is enough data
-        dataRead= m_socket->read(&(m_buffer[m_header.dataSize - m_remainingData]), m_remainingData);
+        dataRead
+            = m_socket->read(&(m_buffer[static_cast<int>(static_cast<quint64>(m_header.dataSize) - m_remainingData)]),
+                             static_cast<qint64>(m_remainingData));
         m_dataReceivedTotal+= dataRead;
 
         if(dataRead < m_remainingData)

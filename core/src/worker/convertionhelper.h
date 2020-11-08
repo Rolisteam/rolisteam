@@ -30,6 +30,7 @@
 
 #include "controller/view_controller/sharednotecontroller.h"
 #include "data/charactervision.h"
+#include "data/link.h"
 #include "media/mediatype.h"
 #include "network/networkmessagewriter.h"
 
@@ -79,6 +80,8 @@ template <>
 void variantToType<QSize>(const QSize& size, NetworkMessageWriter& msg);
 template <>
 void variantToType<ParticipantModel::Permission>(const ParticipantModel::Permission& perm, NetworkMessageWriter& msg);
+template <>
+void variantToType<mindmap::Link::Direction>(const mindmap::Link::Direction& perm, NetworkMessageWriter& msg);
 
 } // namespace Helper
 

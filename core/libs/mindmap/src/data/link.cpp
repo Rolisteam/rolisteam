@@ -75,6 +75,11 @@ void Link::setEnd(MindNode* end)
     m_end= end;
     connect(m_end, &MindNode::positionChanged, this, &Link::linkChanged);
 }
+
+QString Link::id() const
+{
+    return m_uuid;
+}
 void Link::computePosition()
 {
     auto pos1= m_start->position();
@@ -88,6 +93,14 @@ void Link::setText(const QString& text)
         return;
     m_text= text;
     emit textChanged();
+}
+
+void Link::setId(const QString& text)
+{
+    if(m_uuid == text)
+        return;
+    m_uuid= text;
+    emit idChanged();
 }
 
 float Link::getStiffness() const
@@ -120,7 +133,7 @@ float Link::getLength() const
     if(m_end == nullptr || m_start == nullptr)
         return length1;
 
-    auto nodeCount= static_cast<int>(m_start->getSubLinks().size());
+    auto nodeCount= static_cast<int>(m_start->subLinks().size());
 
     auto endNodeCount= (m_end->subNodeCount() + nodeCount) / 3;
     auto length2= static_cast<float>(length * (1 + endNodeCount));

@@ -514,6 +514,8 @@ void VectorialMapController::aboutToRemove(const QList<vmap::VisualItemControlle
 void VectorialMapController::askForChangeStackOrder(const QList<vmap::VisualItemController*>& list,
                                                     VectorialMapController::StackOrder order)
 {
+    Q_UNUSED(list)
+    Q_UNUSED(order)
     // emit performCommand(new DeleteVmapItemCommand(this, list));
 }
 
@@ -558,7 +560,10 @@ void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
  m_items.push_back(std::move(ctrl));
  return pCtrl;*/
 //}
-void VectorialMapController::addHighLighter(const QPointF& point) {}
+void VectorialMapController::addHighLighter(const QPointF& point)
+{
+    Q_UNUSED(point)
+}
 
 /*RectControllerManager* VectorialMapController::rectManager() const
 {

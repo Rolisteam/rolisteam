@@ -56,7 +56,7 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
         return {};
 
     QVariant var;
-    auto message= m_messages[index.row()].get();
+    auto message= m_messages[static_cast<std::size_t>(index.row())].get();
 
     switch(item)
     {

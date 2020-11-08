@@ -50,8 +50,11 @@ QString FilteredPlayerModel::recipiantName(const QString& uuid)
     for(int i= 0; i < rowCount(); ++i)
     {
         auto indexModel= index(i, 0);
-        auto uuid= indexModel.data().toString();
+        auto id= indexModel.data(PlayerModel::IdentifierRole).toString();
+        if(uuid == id)
+            return indexModel.data(PlayerModel::NameRole).toString();
     }
+    return {};
 }
 
 bool FilteredPlayerModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const

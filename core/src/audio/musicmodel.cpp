@@ -207,21 +207,17 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
             }
             else
             {
-                QStringList list= PreferencesManager::getInstance()
-                                      ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
-                                      .toString()
-                                      .split(' ');
-                // QStringList list = audioFileFilter.split(' ');
-                int i= 0;
-                while(i < list.size())
+                QStringList filters= PreferencesManager::getInstance()
+                                         ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
+                                         .toString()
+                                         .split(' ');
+                for(auto filter : filters)
                 {
-                    QString filter= list.at(i);
                     filter.replace("*", "");
                     if(str.endsWith(filter))
                     {
                         insertSong(row, str);
                     }
-                    ++i;
                 }
             }
         }

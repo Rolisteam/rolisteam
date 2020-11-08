@@ -28,6 +28,25 @@ namespace Ui
 class InstantMessagingView;
 }
 class InstantMessagingController;
+
+class InstantMessagerManager : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(InstantMessagingController* ctrl READ ctrl NOTIFY ctrlChanged)
+public:
+    InstantMessagerManager(QObject* object= nullptr);
+
+    InstantMessagingController* ctrl() const;
+
+    void setCtrl(InstantMessagingController* ctrl);
+
+signals:
+    void ctrlChanged();
+
+private:
+    QPointer<InstantMessagingController> m_ctrl;
+};
+
 class InstantMessagingView : public QWidget
 {
     Q_OBJECT

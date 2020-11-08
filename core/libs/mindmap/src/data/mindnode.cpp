@@ -114,7 +114,7 @@ void MindNode::setText(QString text)
     emit textChanged(m_text);
 }
 
-const std::vector<QPointer<Link>>& MindNode::getSubLinks() const
+const std::vector<QPointer<Link>>& MindNode::subLinks() const
 {
     return m_subNodelinks;
 }
@@ -285,6 +285,11 @@ void MindNode::setDragged(bool isdragged)
         return;
     m_isDragged= isdragged;
     emit isDraggedChanged();
+}
+
+QString MindNode::parentId() const
+{
+    return !m_parent ? QString("") : m_parent->id();
 }
 
 void MindNode::setSelected(bool isSelected)

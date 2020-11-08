@@ -47,6 +47,7 @@ void registerType()
     qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");
     qRegisterMetaType<InstantMessaging::ChatroomSplitterModel*>("ChatroomSplitterModel*");
 
+    qmlRegisterAnonymousType<InstantMessagingController>("InstantMessagingController", 1);
     qmlRegisterAnonymousType<InstantMessaging::FilterInstantMessagingModel>("FilterInstantMessagingModel", 1);
     qmlRegisterAnonymousType<InstantMessaging::MessageModel>("MessageModel", 1);
     qmlRegisterAnonymousType<LocalPersonModel>("LocalPersonModel", 1);
@@ -178,16 +179,24 @@ NetWorkReceiver::SendType InstantMessagingController::processMessage(NetworkMess
     return type;
 }
 
-void InstantMessagingController::detach(const QString& id, int index) {}
+void InstantMessagingController::detach(const QString& id, int index)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(id);
+}
 
-void InstantMessagingController::reattach(const QString& id, int index) {}
+void InstantMessagingController::reattach(const QString& id, int index)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(id);
+}
 
 void InstantMessagingController::splitScreen(const QString& id, int index)
 {
     if(index >= static_cast<int>(m_splitterModels.size()) || index < 0)
         return;
 
-    auto model= m_splitterModels.at(index).get();
+    auto model= m_splitterModels.at(static_cast<std::size_t>(index)).get();
     model->addFilterModel(m_model.get(), {id}, false);
 }
 

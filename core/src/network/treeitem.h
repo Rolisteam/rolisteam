@@ -14,7 +14,7 @@ class TreeItem : public QObject
 public:
     TreeItem(QObject* parent= nullptr);
 
-    virtual void addChild();
+    virtual void appendChild();
     virtual bool isLeaf() const;
     virtual int childCount() const;
     virtual int addChild(TreeItem*);
