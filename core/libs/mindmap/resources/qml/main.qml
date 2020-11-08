@@ -3,8 +3,9 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Dialogs 1.3
-import RMindMap 1.0
+import RMindMap 1.0 as RMM
 import Customization 1.0
+import org.rolisteam.mindmap 1.0
 
 Pane {
     id: root
@@ -15,7 +16,7 @@ Pane {
     property real viewScale: 1
     property int idx: 0
     property bool darkMode: false
-    property QtObject ctrl: _ctrl
+    property QtObject ctrl: MindMapManager.ctrl
 
     onDarkModeChanged: Theme.nightMode = root.darkMode
 

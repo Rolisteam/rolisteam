@@ -81,7 +81,8 @@ Pane
     background: Rectangle {
         radius: root.radius
         border.width: (root.dropOver || root.selected) ? 4 : 1
-        border.color: root.dropOver ? "red" : root.selected ? "blue": "black"
+        //border.color: root.dropOver ? "red" : root.selected ? "blue": "black"
+        border.color: root.dropOver ? root.style.overColor : root.selected ? root.style.highlightColor : root.style.textColor
         gradient: Gradient {
             GradientStop { position: 0.0; color: root.nodeStyle.colorOne }
             GradientStop { position: 1.0; color: root.nodeStyle.colorTwo }

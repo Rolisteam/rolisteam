@@ -86,11 +86,14 @@ Drawer {
                     }
 
                     PermissionSlider {
+                        id: everyone
                         Layout.fillWidth: true
+                        onPermissionChanged: ctrl.setSharingToAll(permission)
                     }
                 }
                 Repeater {
                     id: contactList
+                    model: ctrl.playerModel
                     RowLayout {
                         Layout.fillWidth: true
                         Image {
@@ -98,14 +101,20 @@ Drawer {
                             fillMode: Image.PreserveAspectFit
                             sourceSize.width: 50
                             sourceSize.height: 50
-                            opacity: everyone.checked ? 0.5 : 1.0
+                            enabled: everyone.permission === 0
+                            opacity: enabled ? 1.0 : 0.5
                         }
                         Label {
                             text: model.name
                             Layout.fillWidth: true
+                            enabled: everyone.permission === 0
+                            opacity: enabled ? 1.0 : 0.5
                         }
                         PermissionSlider {
                             Layout.fillWidth: true
+                            onPermissionChanged: ctrl.setPermissionForUser(model.uuid,permission)
+                            enabled: everyone.permission === 0
+                            opacity: enabled ? 1.0 : 0.5
                         }
                     }
                 }
