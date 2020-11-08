@@ -52,9 +52,9 @@ public:
     QByteArray password() const;
     void setPassword(const QByteArray& password);
 
-    virtual int childCount() const;
+    virtual int childCount() const override;
 
-    int indexOf(TreeItem* child);
+    int indexOf(TreeItem* child) override;
 
     QString description() const;
     void setDescription(const QString& description);
@@ -62,35 +62,35 @@ public:
     bool usersListed() const;
     void setUsersListed(bool usersListed);
 
-    bool isLeaf() const;
+    bool isLeaf() const override;
 
     void sendMessage(NetworkMessage*, TcpClient*, bool mustBeSaved);
     void sendToAll(NetworkMessage*, TcpClient* sender, bool deleteMsg= false);
     void sendToMany(NetworkMessage* msg, TcpClient* sender, bool deleteMsg= false);
 
-    void readFromJson(QJsonObject& json);
-    void writeIntoJson(QJsonObject& json);
-    TreeItem* getChildAt(int row);
+    void readFromJson(QJsonObject& json) override;
+    void writeIntoJson(QJsonObject& json) override;
+    TreeItem* getChildAt(int row) override;
 
-    int addChild(TreeItem*);
+    int addChild(TreeItem*) override;
 
-    bool addChildInto(QString id, TreeItem* child);
+    bool addChildInto(QString id, TreeItem* child) override;
 
-    virtual void clear();
+    virtual void clear() override;
 
     void updateNewClient(TcpClient* newComer);
 
     bool removeClient(TcpClient* client);
-    bool removeChild(TreeItem*);
-    bool removeChildById(const QString &);
+    bool removeChild(TreeItem*) override;
+    bool removeChildById(const QString&);
 
     TcpClient* currentGM() const;
     void setCurrentGM(TcpClient* currentGM);
 
     QString getCurrentGmId();
 
-    virtual void kick(const QString& str, bool isAdmin, const QString& sourceId);
-    TreeItem* getChildById(QString id);
+    virtual void kick(const QString& str, bool isAdmin, const QString& sourceId) override;
+    TreeItem* getChildById(QString id) override;
     TcpClient* getClientById(QString id);
 
     void fill(NetworkMessageWriter& msg);

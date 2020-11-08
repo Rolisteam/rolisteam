@@ -58,16 +58,20 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     Qt::ItemFlags flags(const QModelIndex& index) const override;
     std::vector<Link*>& getDataSet();
+    Link* linkFromId(const QString& id) const;
 
     Link* addLink(MindNode* p1, MindNode* p2);
     void openLinkAndChildren(const QString& id, bool status);
-
     void clear();
 
+public slots:
     void append(Link* link);
     void removeLink(Link* link);
-public slots:
     void linkHasChanged();
+
+signals:
+    void linkAdded(Link* link);
+    void linkRemoved(const QString& link);
 
 private:
     std::vector<Link*> m_data;

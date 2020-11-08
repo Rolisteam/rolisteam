@@ -28,6 +28,7 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 
 #include "updater/media/mediaupdaterinterface.h"
+#include "updater/media/mindmapupdater.h"
 #include "updater/media/sharednotecontrollerupdater.h"
 #include "updater/media/vmapupdater.h"
 #include "updater/media/webviewupdater.h"
@@ -84,13 +85,18 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
     auto fModel2= new FilteredContentModel(Core::ContentType::SHAREDNOTE);
     fModel2->setSourceModel(m_contentModel.get());
 
+    auto fModel3= new FilteredContentModel(Core::ContentType::MINDMAP);
+    fModel3->setSourceModel(m_contentModel.get());
+
     std::unique_ptr<VMapUpdater> vmapUpdater(new VMapUpdater(fModel));
     std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater(fModel2));
     std::unique_ptr<WebViewUpdater> webviewUpdater(new WebViewUpdater());
+    std::unique_ptr<MindMapUpdater> mindMapUpdater(new MindMapUpdater(fModel3));
 
     m_mediaUpdaters.insert({Core::ContentType::VECTORIALMAP, std::move(vmapUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::SHAREDNOTE, std::move(sharedNoteUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::WEBVIEW, std::move(webviewUpdater)});
+    m_mediaUpdaters.insert({Core::ContentType::MINDMAP, std::move(mindMapUpdater)});
 
     connect(m_contentModel.get(), &ContentModel::mediaControllerAdded, this, [this](MediaControllerBase* ctrl) {
         if(nullptr == ctrl)
@@ -182,10 +188,19 @@ void ContentController::setSessionPath(const QString& path)
     emit sessionPathChanged();
 }
 
-void ContentController::addChapter(const QModelIndex& index) {}
+void ContentController::addChapter(const QModelIndex& index)
+{
+    Q_UNUSED(index)
+}
 
-void ContentController::removeSelectedItems(const QModelIndexList& selection) {}
-void ContentController::openResources(const QModelIndex& index) {}
+void ContentController::removeSelectedItems(const QModelIndexList& selection)
+{
+    Q_UNUSED(selection)
+}
+void ContentController::openResources(const QModelIndex& index)
+{
+    Q_UNUSED(index)
+}
 void ContentController::saveSession()
 {
     Q_ASSERT(!m_localId.isEmpty());
@@ -263,6 +278,8 @@ void ContentController::closeCurrentMedia()
 
 void ContentController::saveMedia(const QString& uuid, const QString& path)
 {
+    Q_UNUSED(uuid)
+    Q_UNUSED(path)
     /*auto it= std::find_if(m_loadedResources.begin(), m_loadedResources.end(),
                           [uuid](const ResourcesNode* node) { return node->; });*/
 }
@@ -339,6 +356,8 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
 
 void ContentController::addImageAs(const QPixmap& map, Core::ContentType type)
 {
+    Q_UNUSED(map)
+    Q_UNUSED(type)
     /* if(type == Core::ContentType::PICTURE)
      {
          m_imageControllers->addImage(map);

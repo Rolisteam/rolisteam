@@ -429,9 +429,9 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
             auto item= m_model->getItemById(id);
             if(!item->isLeaf())
             {
-                auto chan= dynamic_cast<Channel*>(item);
-                if(chan)
-                    chan->clearData();
+                auto channel= dynamic_cast<Channel*>(item);
+                if(channel)
+                    channel->clearData();
             }
         }
     }

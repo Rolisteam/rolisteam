@@ -277,10 +277,10 @@ bool CharacterSheetWindow::eventFilter(QObject* object, QEvent* event)
 
 void CharacterSheetWindow::stopSharing()
 {
-    SheetWidget* wid= dynamic_cast<SheetWidget*>(m_ui->m_tabwidget->currentWidget());
-    if(nullptr != wid)
+    // SheetWidget* wid= dynamic_cast<SheetWidget*>(m_ui->m_tabwidget->currentWidget());
+    // if(nullptr != wid)
     {
-        CharacterSheet* sheet= wid->sheet();
+        // CharacterSheet* sheet= wid->sheet();
         /*        if(m_sheetToPerson.contains(sheet))
                 {
                     Player* currentPlayer= m_sheetToPerson.value(sheet);
@@ -326,6 +326,7 @@ void CharacterSheetWindow::copyTab()
 
 void CharacterSheetWindow::affectSheetToCharacter(const QString& uuid)
 {
+    Q_UNUSED(uuid)
 
     /*Character* character= PlayerModel::instance()->getCharacter(key);
     if(nullptr != character)
@@ -373,6 +374,7 @@ void CharacterSheetWindow::affectSheetToCharacter(const QString& uuid)
 }
 void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
 {
+    Q_UNUSED(sheet)
     /* if(m_sheetToPerson.contains(sheet))
      {
          Player* olderParent= m_sheetToPerson.value(sheet);
@@ -395,6 +397,7 @@ void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
 }
 bool CharacterSheetWindow::hasCharacterSheet(QString id)
 {
+    Q_UNUSED(id)
     /*if(nullptr == m_model.getCharacterSheetById(id))
     {
         return false;
@@ -403,10 +406,12 @@ bool CharacterSheetWindow::hasCharacterSheet(QString id)
     {
         return true;
     }*/
+    return false;
 }
 
 void CharacterSheetWindow::removeConnection(Player* player)
 {
+    Q_UNUSED(player)
     /*  CharacterSheet* key= m_sheetToPerson.key(player, nullptr);
       if(nullptr != key)
       {
@@ -436,7 +441,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet, Characte
 
     engineQml->addImageProvider(QLatin1String("rcs"), imageProvider);
     engineQml->addImportPath(QStringLiteral("qrc:/charactersheet/qml"));
-    qmlView->engine()->rootContext()->setContextProperty("_character", character);
+    engineQml->rootContext()->setContextProperty("_character", character);
 
     for(int i= 0; i < chSheet->getFieldCount(); ++i)
     {
@@ -504,6 +509,8 @@ void CharacterSheetWindow::rollDice(QString str, bool alias)
 
 void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg, const QString& idSheet)
 {
+    Q_UNUSED(msg)
+    Q_UNUSED(idSheet)
     /*CharacterSheet* currentSheet= m_model.getCharacterSheetById(idSheet);
 
     if(nullptr == currentSheet)
@@ -651,9 +658,9 @@ bool CharacterSheetWindow::readFileFromUri()
 }
 void CharacterSheetWindow::putDataIntoCleverUri()
 {
-    QByteArray data;
+    /*QByteArray data;
     QJsonDocument doc= saveFile();
-    data= doc.toBinaryData();
+    data= doc.toBinaryData();*/
     /* if(nullptr != m_uri)
      {
          m_uri->setData(data);
@@ -683,6 +690,9 @@ void CharacterSheetWindow::saveMedia()
 }
 void CharacterSheetWindow::fillMessage(NetworkMessageWriter* msg, CharacterSheet* sheet, QString idChar)
 {
+    Q_UNUSED(msg)
+    Q_UNUSED(sheet)
+    Q_UNUSED(idChar)
     /*msg->string8(m_mediaId);
     msg->string8(idChar);
     msg->string8(getUriName());
@@ -699,6 +709,7 @@ void CharacterSheetWindow::fillMessage(NetworkMessageWriter* msg, CharacterSheet
 
 void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
 {
+    Q_UNUSED(msg)
     /*CharacterSheet* sheet= new CharacterSheet();
 
     m_mediaId= msg.string8();

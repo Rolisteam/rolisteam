@@ -59,6 +59,17 @@ int LinkModel::columnCount(const QModelIndex& parent) const
     return 1;
 }
 
+Link* LinkModel::linkFromId(const QString& id) const
+{
+    if(id.isEmpty())
+        return nullptr;
+
+    auto it= std::find_if(m_data.begin(), m_data.end(), [id](const Link* link) { return link->id() == id; });
+    if(it == m_data.end())
+        return nullptr;
+    return (*it);
+}
+
 QVariant LinkModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())
@@ -158,6 +169,7 @@ void LinkModel::append(Link* link)
     m_data.push_back(link);
     p1->addLink(link);
     endInsertRows();
+    emit linkAdded(link);
 }
 
 void LinkModel::removeLink(Link* link)
@@ -176,6 +188,8 @@ void LinkModel::removeLink(Link* link)
     m_data.erase(id);
     p1->removeLink(link);
     endRemoveRows();
+
+    emit linkRemoved(link->id());
 }
 
 void LinkModel::linkHasChanged()

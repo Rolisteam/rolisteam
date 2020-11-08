@@ -203,16 +203,29 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         .split(' ');
 
 
-    for (QString& filter : filters) {
-        filter.replace("*", "");
-    }
-
-    for (QUrl url : list) {
-        QString file = url.toLocalFile();
-        for (const QString & filter : filters) {
-            if (file.endsWith(filter)) {
-                insertSong(row, file);
-                continue;
+    if(data->hasUrls())
+    {
+        QList<QUrl> list= data->urls();
+        for(int i= 0; i < list.size(); ++i)
+        {
+            QString str= list[i].toLocalFile();
+            if(str.endsWith(".m3u"))
+            {
+            }
+            else
+            {
+                QStringList filters= PreferencesManager::getInstance()
+                                         ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
+                                         .toString()
+                                         .split(' ');
+                for(auto filter : filters)
+                {
+                    filter.replace("*", "");
+                    if(str.endsWith(filter))
+                    {
+                        insertSong(row, str);
+                    }
+                }
             }
         }
     }

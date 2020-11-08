@@ -42,10 +42,26 @@ InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWi
             qDebug() << warn.toString();
         }
     });
-    engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
+    qmlRegisterSingletonType<InstantMessagerManager>(
+        "org.rolisteam.InstantMessaging", 1, 0, "InstantMessagerManager",
+        [this, engine](QQmlEngine* qmlengine, QJSEngine* scriptEngine) -> QObject* {
+            Q_UNUSED(scriptEngine)
+            if(qmlengine != engine)
+                return {};
+            static InstantMessagerManager manager;
+            qmlengine->setObjectOwnership(&manager, QQmlEngine::CppOwnership);
+            static bool initialized= false;
+            if(!initialized)
+            {
+                manager.setCtrl(m_ctrl);
+                initialized= true;
+            }
+            return &manager;
+        });
+
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
     connect(m_qmlViewer.get(), &QQuickWidget::sceneGraphError, this,
-            [](QQuickWindow::SceneGraphError error, const QString& msg) { qDebug() << msg; });
+            [](QQuickWindow::SceneGraphError, const QString& msg) { qDebug() << msg; });
     setMinimumWidth(200);
 
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -69,4 +85,19 @@ void InstantMessagingView::closeEvent(QCloseEvent* event)
 {
     hide();
     event->accept();
+}
+
+InstantMessagerManager::InstantMessagerManager(QObject* object) : QObject(object) {}
+
+InstantMessagingController* InstantMessagerManager::ctrl() const
+{
+    return m_ctrl;
+}
+
+void InstantMessagerManager::setCtrl(InstantMessagingController* ctrl)
+{
+    if(ctrl == m_ctrl)
+        return;
+    m_ctrl= ctrl;
+    emit ctrlChanged();
 }

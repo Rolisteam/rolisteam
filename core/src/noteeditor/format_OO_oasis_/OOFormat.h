@@ -112,7 +112,7 @@ public:
         start();
         if(f.open(QFile::WriteOnly))
         {
-            uint bi= f.write(d->readAll());
+            auto bi= f.write(d->readAll());
             f.close();
             start();
             return bi > 0 ? true : false;

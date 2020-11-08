@@ -30,6 +30,7 @@ class MindNode;
 class Link : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(Direction direction READ direction WRITE setDirection NOTIFY directionChanged)
     Q_PROPERTY(QPointF startPoint READ startPoint NOTIFY startPointChanged)
@@ -54,6 +55,8 @@ public:
     MindNode* end() const;
     void setEnd(MindNode* end);
 
+    QString id() const;
+
     QPointF endPoint() const;
     QPointF startPoint() const;
 
@@ -73,10 +76,12 @@ signals:
     void startPointChanged();
     void endPointChanged();
     void textChanged();
+    void idChanged();
 
 public slots:
     void computePosition();
     void setText(const QString& text);
+    void setId(const QString& text);
 
 private:
     Direction m_dir= StartToEnd;
@@ -84,6 +89,7 @@ private:
     QPointer<MindNode> m_start;
     QPointer<MindNode> m_end;
     QString m_text;
+    QString m_uuid;
     float m_stiffness= 400.0f;
 };
 } // namespace mindmap

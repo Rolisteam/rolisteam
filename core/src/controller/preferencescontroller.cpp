@@ -398,7 +398,6 @@ RolisteamTheme* PreferencesController::currentTheme() const
 
 void PreferencesController::exportTheme(const QString& filename, int pos)
 {
-    auto idx= static_cast<std::size_t>(pos);
     if(filename.isEmpty())
         return;
 

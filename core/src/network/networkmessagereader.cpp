@@ -41,9 +41,9 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader& header, c
 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader& other) : NetworkMessage()
 {
-    size_t size= other.m_end - reinterpret_cast<char*>(other.m_header);
+    auto size= other.m_end - reinterpret_cast<char*>(other.m_header);
     char* copy= new char[size];
-    memcpy(copy, other.m_header, size);
+    memcpy(copy, other.m_header, static_cast<std::size_t>(size));
 
     m_header= reinterpret_cast<NetworkMessageHeader*>(copy);
     m_buffer= copy + sizeof(NetworkMessageHeader);
@@ -55,7 +55,7 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader& other) : 
 
 NetworkMessageReader::~NetworkMessageReader()
 {
-    delete[]((char*)m_header);
+    delete[](reinterpret_cast<char*>(m_header));
 }
 
 bool NetworkMessageReader::isValid()
@@ -78,9 +78,9 @@ void NetworkMessageReader::setData(const QByteArray& bytes)
     const char* data= bytes.data();
 
     size_t headerSize= sizeof(NetworkMessageHeader);
-    m_buffer= new char[size + headerSize];
+    m_buffer= new char[size + static_cast<int>(headerSize)];
 
-    memcpy(m_buffer, data, size + headerSize);
+    memcpy(m_buffer, data, static_cast<std::size_t>(size) + headerSize);
 
     m_header= reinterpret_cast<NetworkMessageHeader*>(m_buffer);
 

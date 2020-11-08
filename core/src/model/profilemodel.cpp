@@ -53,7 +53,7 @@ QVariant ProfileModel::data(const QModelIndex& index, int role) const
 
     if(Qt::DisplayRole == role)
     {
-        return m_connectionProfileList.at(index.row())->profileTitle();
+        return m_connectionProfileList.at(static_cast<std::size_t>(index.row()))->profileTitle();
     }
     return QVariant();
 }
@@ -111,13 +111,14 @@ int ProfileModel::indexOf(ConnectionProfile* tmp)
 
     auto idx= std::distance(m_connectionProfileList.begin(), pos);
 
-    return idx;
+    return static_cast<int>(idx);
 }
 ConnectionProfile* ProfileModel::getProfile(int index)
 {
-    if((!m_connectionProfileList.empty()) && (m_connectionProfileList.size() > index))
+    auto idx= static_cast<std::size_t>(index);
+    if((!m_connectionProfileList.empty()) && (m_connectionProfileList.size() > idx))
     {
-        return m_connectionProfileList.at(index).get();
+        return m_connectionProfileList.at(idx).get();
     }
     return nullptr;
 }

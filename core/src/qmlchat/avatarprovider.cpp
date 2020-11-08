@@ -31,6 +31,7 @@ AvatarProvider::AvatarProvider(PlayerModel* model)
 
 QImage AvatarProvider::requestImage(const QString& id, QSize* size, const QSize& requestedSize)
 {
+    Q_UNUSED(size)
     auto resize= [requestedSize](const QImage& source) {
         return source.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     };

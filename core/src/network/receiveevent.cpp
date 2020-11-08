@@ -32,20 +32,23 @@
 
 const int ReceiveEvent::Type= QEvent::registerEventType();
 QMap<quint16, QObject*> ReceiveEvent::s_receiverMap;
-QMap<NetMsg::Category, NetWorkReceiver*> ReceiveEvent::ms_netWorkReceiverMap;
+QMultiMap<NetMsg::Category, NetWorkReceiver*> ReceiveEvent::ms_netWorkReceiverMap;
 
 quint16 makeKey(quint8 categorie, quint8 action)
 {
-    return ((quint16)categorie) + (((quint16)action) * 256);
+    return static_cast<quint16>(categorie + action * 256);
 }
 
 ReceiveEvent::ReceiveEvent(const NetworkMessageHeader& header, const char* buffer, NetworkLink* link)
-    : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(header, buffer), m_link(link), m_repost(0)
+    : QEvent(static_cast<QEvent::Type>(ReceiveEvent::Type)), m_data(header, buffer), m_link(link), m_repost(0)
 {
 }
 
 ReceiveEvent::ReceiveEvent(const ReceiveEvent& other)
-    : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(other.m_data), m_link(other.m_link), m_repost(other.m_repost + 1)
+    : QEvent(static_cast<QEvent::Type>(ReceiveEvent::Type))
+    , m_data(other.m_data)
+    , m_link(other.m_link)
+    , m_repost(static_cast<quint8>(other.m_repost + 1))
 {
 }
 
@@ -91,7 +94,7 @@ void ReceiveEvent::registerReceiver(NetMsg::Category categorie, NetMsg::Action a
 }
 void ReceiveEvent::registerNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver)
 {
-    ms_netWorkReceiverMap.insertMulti(categorie, receiver);
+    ms_netWorkReceiverMap.insert(categorie, receiver);
 }
 
 void ReceiveEvent::removeNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver)

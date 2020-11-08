@@ -28,6 +28,7 @@
 class NetWorkReceiver
 {
 public:
+    virtual ~NetWorkReceiver()= default;
     /**
      * @brief The SendType enum describes how the server should opperate the message. The decision is taken by the GM.
      */

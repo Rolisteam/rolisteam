@@ -174,7 +174,7 @@ private:
     QPointer<QTcpSocket> m_socket;
     NetworkMessageHeader m_header= {0, 0, 0};
     char* m_buffer= nullptr;
-    int m_headerRead;
+    quint64 m_headerRead;
     quint64 m_remainingData;
 
     QStateMachine* m_stateMachine= nullptr;

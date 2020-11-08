@@ -36,7 +36,7 @@ int ContentModel::rowCount(const QModelIndex& parent) const
     if(parent.isValid())
         return 0;
 
-    return m_medias.size();
+    return static_cast<int>(m_medias.size());
 }
 
 QVariant ContentModel::data(const QModelIndex& index, int role) const
@@ -95,7 +95,7 @@ QVariant ContentModel::data(const QModelIndex& index, int role) const
 
 bool ContentModel::appendMedia(MediaControllerBase* media)
 {
-    auto size= m_medias.size();
+    auto size= static_cast<int>(m_medias.size());
     std::unique_ptr<MediaControllerBase> ctrl(media);
     beginInsertRows(QModelIndex(), size, size);
     m_medias.push_back(std::move(ctrl));
@@ -118,7 +118,7 @@ bool ContentModel::removeMedia(const QString& uuid)
     if((*it)->localIsOwner())
         MessageHelper::closeMedia(uuid, (*it)->contentType());
 
-    auto pos= std::distance(std::begin(m_medias), it);
+    auto pos= static_cast<int>(std::distance(std::begin(m_medias), it));
 
     beginRemoveRows(QModelIndex(), pos, pos);
     m_medias.erase(it);
@@ -184,8 +184,8 @@ void ContentModel::clearData()
 
 FilteredContentModel::FilteredContentModel(Core::ContentType type) : m_type(type)
 {
-    contentController<VectorialMapController*>();
-    contentController<SharedNoteController*>();
+    // contentController<VectorialMapController*>();
+    // contentController<SharedNoteController*>();
     setFilterRole(ContentModel::ContentTypeRole);
 
     setDynamicSortFilter(true);
@@ -195,21 +195,4 @@ bool FilteredContentModel::filterAcceptsRow(int source_row, const QModelIndex& s
 {
     auto idx= sourceModel()->index(source_row, 0, source_parent);
     return idx.data(ContentModel::ContentTypeRole).value<Core::ContentType>() == m_type;
-}
-
-template <class T>
-std::vector<T> FilteredContentModel::contentController() const
-{
-    std::vector<T> vec;
-    auto size= rowCount();
-    vec.reserve(size);
-    for(int i= 0; i < size; ++i)
-    {
-        QModelIndex idx= index(i, 0);
-        auto ctrl= idx.data(ContentModel::ControllerRole).value<MediaControllerBase*>();
-        auto itemctrl= dynamic_cast<T>(ctrl);
-        if(nullptr != itemctrl)
-            vec.push_back(itemctrl);
-    }
-    return vec;
 }

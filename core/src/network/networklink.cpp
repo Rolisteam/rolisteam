@@ -136,11 +136,12 @@ void NetworkLink::receivingData()
         {
             qint64 readDataSize= 0;
             char* tmp= reinterpret_cast<char*>(&m_header);
-            readDataSize= m_socketTcp->read(tmp + m_headerRead,
-                                            static_cast<qint64>(sizeof(NetworkMessageHeader) - m_headerRead));
-            readDataSize+= m_headerRead;
+            readDataSize= m_socketTcp->read(tmp + m_headerRead, static_cast<qint64>(sizeof(NetworkMessageHeader))
+                                                                    - static_cast<qint64>(m_headerRead));
+            readDataSize+= static_cast<qint64>(m_headerRead);
 
-            if((readDataSize != sizeof(NetworkMessageHeader))) //||(m_header.category>=NetMsg::LastCategory)
+            if((readDataSize
+                != static_cast<qint64>(sizeof(NetworkMessageHeader)))) //||(m_header.category>=NetMsg::LastCategory)
             {
                 m_headerRead= static_cast<quint64>(readDataSize);
                 return;
@@ -153,10 +154,11 @@ void NetworkLink::receivingData()
             m_remainingData= m_header.dataSize;
             emit readDataReceived(m_header.dataSize, m_header.dataSize);
         }
-        readData= m_socketTcp->read(&(m_buffer[m_header.dataSize - m_remainingData]), m_remainingData);
-        if(readData < m_remainingData)
+        readData
+            = m_socketTcp->read(&(m_buffer[m_header.dataSize - m_remainingData]), static_cast<qint64>(m_remainingData));
+        if(readData < static_cast<qint64>(m_remainingData))
         {
-            m_remainingData-= readData;
+            m_remainingData-= static_cast<quint32>(readData);
             m_receivingData= true;
             emit readDataReceived(m_remainingData, m_header.dataSize);
         }

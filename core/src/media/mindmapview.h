@@ -28,6 +28,24 @@
 
 class MindMapController;
 
+class MindmapManager : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(MindMapController* ctrl READ ctrl NOTIFY ctrlChanged)
+public:
+    MindmapManager(QObject* object= nullptr);
+
+    MindMapController* ctrl() const;
+
+    void setCtrl(MindMapController* ctrl);
+
+signals:
+    void ctrlChanged();
+
+private:
+    QPointer<MindMapController> m_ctrl;
+};
+
 class MindMapView : public MediaContainer
 {
     Q_OBJECT

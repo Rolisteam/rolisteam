@@ -381,9 +381,9 @@ NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader* msg
             channel->read(*msg);
 
             auto item= getItemById(idParent);
-            Channel* parent= static_cast<Channel*>(item);
+            Channel* parentChannel= static_cast<Channel*>(item);
 
-            addChannelToChannel(channel, parent);
+            addChannelToChannel(channel, parentChannel);
         }
         return NetWorkReceiver::NONE;
     }
@@ -588,9 +588,9 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
     for(auto channelJson : channels)
     {
         Channel* tmp= new Channel();
-        QJsonObject obj= channelJson.toObject();
+        QJsonObject subObj= channelJson.toObject();
         tmp->setParentItem(nullptr);
-        tmp->readFromJson(obj);
+        tmp->readFromJson(subObj);
         appendChannel(tmp);
     }
     endResetModel();

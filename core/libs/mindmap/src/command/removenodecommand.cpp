@@ -31,7 +31,7 @@ RemoveNodeCommand::RemoveNodeCommand(const std::vector<MindNode*>& selection, Bo
                    [](MindNode* node) -> QPointer<MindNode> { return QPointer<MindNode>(node); });
 
     std::for_each(selection.begin(), selection.end(), [this](MindNode* node) {
-        auto sublinks= node->getSubLinks();
+        auto sublinks= node->subLinks();
         std::copy(sublinks.begin(), sublinks.end(), std::back_inserter(m_links));
     });
 }

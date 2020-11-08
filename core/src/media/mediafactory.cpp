@@ -34,6 +34,11 @@
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 
+#include "data/link.h"
+#include "data/mindnode.h"
+#include "model/boxmodel.h"
+#include "model/linkmodel.h"
+
 #include "network/networkmessagereader.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
@@ -158,8 +163,74 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
     auto mindmapCtrl= new MindMapController(uuid);
 
+    if(map.contains("indexStyle"))
+        mindmapCtrl->setReadWrite(map.value("indexStyle").toBool());
+
+    QHash<QString, mindmap::MindNode*> data;
+    if(map.contains("nodes"))
+    {
+        QHash<QString, QVariant> nodes= map.value("nodes").toHash();
+
+        auto model= dynamic_cast<mindmap::BoxModel*>(mindmapCtrl->nodeModel());
+        QHash<QString, QString> parentData;
+        for(auto var : nodes)
+        {
+            auto node= new mindmap::MindNode();
+            auto nodeV= var.toHash();
+            node->setId(nodeV["uuid"].toString());
+            node->setText(nodeV["text"].toString());
+            node->setImageUri(nodeV["imageUri"].toString());
+            QPointF pos(nodeV["x"].toReal(), nodeV["y"].toReal());
+            node->setPosition(pos);
+            node->setStyleIndex(nodeV["index"].toInt());
+            model->appendNode(node);
+
+            data.insert(node->id(), node);
+            parentData.insert(node->id(), nodeV["parentId"].toString());
+        }
+
+        for(auto key : data.keys())
+        {
+            auto node= data.value(key);
+            auto parentId= parentData.value(key);
+
+            if(!parentId.isEmpty())
+            {
+                auto parent= data.value(parentId);
+                if(parent)
+                    node->setParentNode(parent);
+            }
+        }
+    }
+
+    if(map.contains("links"))
+    {
+        QHash<QString, QVariant> links= map.value("links").toHash();
+
+        auto model= dynamic_cast<mindmap::LinkModel*>(mindmapCtrl->linkModel());
+
+        for(auto var : links)
+        {
+            auto link= new mindmap::Link();
+            auto linkV= var.toHash();
+            link->setId(linkV["uuid"].toString());
+            link->setText(linkV["text"].toString());
+            link->setDirection(static_cast<mindmap::Link::Direction>(linkV["direction"].toInt()));
+            auto startId= linkV["startId"].toString();
+            auto endId= linkV["endId"].toString();
+
+            Q_ASSERT(data.contains(endId) && data.contains(startId));
+
+            link->setStart(data.value(startId));
+            link->setEnd(data.value(endId));
+
+            model->append(link);
+        }
+    }
+
     if(!name.isEmpty())
         mindmapCtrl->setName(name);
+
     mindmapCtrl->setOwnerId(ownerid);
     mindmapCtrl->setPath(path);
 
@@ -257,9 +328,9 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
     default:
         break;
     }
-    base->setLocalGM(localIsGM);
-
     Q_ASSERT(base != nullptr);
+    base->setLocalGM(localIsGM);
+    base->setLocalId(m_localId);
     return base;
 }
 
@@ -285,6 +356,13 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
         auto data= MessageHelper::readImageData(msg);
         uuid= data["uuid"].toString();
         base= image(uuid, data);
+    }
+    break;
+    case C::MINDMAP:
+    {
+        auto data= MessageHelper::readMindMap(msg);
+        uuid= data["uuid"].toString();
+        base= mindmap(uuid, data);
     }
     break;
     case C::NOTES:
@@ -323,9 +401,10 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     default:
         break;
     }
+    Q_ASSERT(base != nullptr);
     base->setRemote(true);
     base->setLocalGM(localIsGM);
-    Q_ASSERT(base != nullptr);
+    base->setLocalId(m_localId);
     return base;
 }
 

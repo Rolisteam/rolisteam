@@ -55,6 +55,7 @@ class Character;
 class CharacterSheet;
 class CharacterSheetController;
 class SharedNoteController;
+class MindMapController;
 class MessageHelper
 {
 public:
@@ -122,6 +123,16 @@ public:
     static void shareNotesTo(const SharedNoteController* ctrl, const QStringList& recipiants);
     static QHash<QString, QVariant> readSharedNoteData(NetworkMessageReader* msg);
     static void closeNoteTo(SharedNoteController* sharedCtrl, const QString& id);
+
+    // Mindmap
+    static void sendOffMindmapToAll(MindMapController* ctrl);
+    static void sendOffMindmapPermissionUpdate(Core::SharingPermission perm, MindMapController* ctrl);
+    static void openMindmapTo(MindMapController* ctrl, const QString& id);
+    static void closeMindmapTo(MindMapController* ctrl, const QString& id);
+    static void sendOffMindmapPermissionUpdateTo(Core::SharingPermission perm, MindMapController* ctrl,
+                                                 const QString& id);
+    static QHash<QString, QVariant> readMindMap(NetworkMessageReader* msg);
+    static void readAddMindMapNode(MindMapController* ctrl, NetworkMessageReader* msg);
 
     // data
     static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);

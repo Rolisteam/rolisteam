@@ -63,7 +63,7 @@ QVariant InstantMessagingModel::data(const QModelIndex& index, int role) const
         return {};
 
     QVariant var;
-    auto chatroom= m_chats[index.row()].get();
+    auto chatroom= m_chats[static_cast<std::size_t>(index.row())].get();
 
     switch(item)
     {
@@ -145,13 +145,14 @@ void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)
     connect(room, &ChatRoom::unreadMessageChanged, this, [room, this]() {
         auto it= std::find_if(m_chats.begin(), m_chats.end(),
                               [room](const std::unique_ptr<ChatRoom>& chatRoom) { return room == chatRoom.get(); });
-        auto idx= std::distance(m_chats.begin(), it);
+        auto idx= static_cast<int>(std::distance(m_chats.begin(), it));
         emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()), {HasUnreadMessageRole, TitleRole});
     });
     chatroom->setLocalId(localId());
     chatroom->setDiceParser(m_diceParser);
 
-    beginInsertRows(QModelIndex(), m_chats.size(), m_chats.size());
+    auto size= static_cast<int>(m_chats.size());
+    beginInsertRows(QModelIndex(), size, size);
     m_chats.push_back(std::move(chatroom));
     endInsertRows();
 
@@ -198,7 +199,7 @@ void InstantMessagingModel::removePlayer(const QString& id)
     if(it == m_chats.end())
         return;
 
-    auto idx= std::distance(m_chats.begin(), it);
+    auto idx= static_cast<int>(std::distance(m_chats.begin(), it));
 
     beginRemoveRows(QModelIndex(), idx, idx);
     m_chats.erase(it);

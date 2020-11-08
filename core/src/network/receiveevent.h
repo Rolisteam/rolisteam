@@ -105,7 +105,7 @@ private:
     quint8 m_repost;
 
     static QMap<quint16, QObject*> s_receiverMap;
-    static QMap<NetMsg::Category, NetWorkReceiver*> ms_netWorkReceiverMap;
+    static QMultiMap<NetMsg::Category, NetWorkReceiver*> ms_netWorkReceiverMap;
 };
 /**
  * @brief The DelayReceiveEvent class

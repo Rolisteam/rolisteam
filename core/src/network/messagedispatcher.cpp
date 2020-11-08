@@ -57,13 +57,6 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     }
     else if(msg->category() == NetMsg::SetupCategory)
     {
-        /*if(msg->action() == NetMsg::AddFeatureAction)
-        {
-            QString uuid= msg->string8();
-            QString name= msg->string8();
-            quint8 version= msg->uint8();
-            //emitter->addPlayerFeature(uuid, name, version);
-        }*/
         saveIt= false;
     }
 
@@ -123,6 +116,9 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
         break;
     case NetMsg::WebPageCategory:
         str= QStringLiteral("WebPageCategory");
+        break;
+    case NetMsg::MindMapCategory:
+        str= QStringLiteral("MindMapCategory");
         break;
     }
     return str;
@@ -445,9 +441,6 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::addVmap:
             str= QStringLiteral("addVmap");
             break;
-        /*case NetMsg::vmapChanges:
-            str= QStringLiteral("vmapChanges");
-            break;*/
         case NetMsg::loadVmap:
             str= QStringLiteral("loadVmap");
             break;
@@ -460,33 +453,10 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::AddItem:
             str= QStringLiteral("AddItem");
             break;
-        /*case NetMsg::DelItem:
-            str= QStringLiteral("DelItem");
-            break;
-        case NetMsg::MoveItem:
-            str= QStringLiteral("MoveItem");
-            break;
-        case NetMsg::ZValueItem:
-            str= QStringLiteral("ZValueItem");
-            break;
-        case NetMsg::RotationItem:
-            str= QStringLiteral("RotationItem");
-            break;
-        case NetMsg::RectGeometryItem:
-            str= QStringLiteral("RectGeometryItem");
-            break;*/
         case NetMsg::DeletePoint:
             str= QStringLiteral("DeletePoint");
             break;
-        /*case NetMsg::OpacityItemChanged:
-            str= QStringLiteral("OpacityItemChanged");
-            break;
-        case NetMsg::LayerItemChanged:
-            str= QStringLiteral("LayerItemChanged");
-            break;
-        case NetMsg::GeometryItemChanged:
-            str= QStringLiteral("GeometryItemChanged");
-            break;*/
+
         case NetMsg::AddPoint:
             str= QStringLiteral("AddPoint");
             break;
@@ -505,9 +475,6 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::MovePoint:
             str= QStringLiteral("MovePoint");
             break;
-        /*case NetMsg::VisionChanged:
-            str= QStringLiteral("VisionChanged");
-            break;*/
         default:
             str= QStringLiteral("Unknown Action");
             break;
@@ -551,6 +518,35 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         }
     }
-
+    else if(cat == NetMsg::MindMapCategory)
+    {
+        switch(act)
+        {
+        case NetMsg::AddNode:
+            str= QStringLiteral("AddNode");
+            break;
+        case NetMsg::RemoveNode:
+            str= QStringLiteral("RemoveNode");
+            break;
+        case NetMsg::UpdateNode:
+            str= QStringLiteral("UpdateNode");
+            break;
+        case NetMsg::AddLink:
+            str= QStringLiteral("AddLink");
+            break;
+        case NetMsg::RemoveLink:
+            str= QStringLiteral("RemoveLink");
+            break;
+        case NetMsg::UpdateLink:
+            str= QStringLiteral("UpdateLink");
+            break;
+        case NetMsg::UpdateMindMapPermission:
+            str= QStringLiteral("UpdateMindMapPermission");
+            break;
+        default:
+            str= QStringLiteral("Unknown Action");
+            break;
+        }
+    }
     return str;
 }

@@ -89,9 +89,11 @@ public:
     bool selected() const;
     int styleIndex() const;
 
-    const std::vector<QPointer<Link>>& getSubLinks() const;
+    const std::vector<QPointer<Link>>& subLinks() const;
 
     int subNodeCount() const;
+
+    QString parentId() const;
 
 public slots:
     void setText(QString text);

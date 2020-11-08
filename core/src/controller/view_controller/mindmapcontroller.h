@@ -34,6 +34,7 @@ namespace mindmap
 {
 class BoxModel;
 class LinkModel;
+class Link;
 class MindNode;
 class SpacingController;
 class SelectionController;
@@ -56,6 +57,9 @@ class MindMapController : public MediaControllerBase
     Q_PROPERTY(bool canUndo READ canUndo NOTIFY canUndoChanged)
     Q_PROPERTY(QString errorMsg READ errorMsg WRITE setErrorMsg NOTIFY errorMsgChanged)
     Q_PROPERTY(QRectF contentRect READ contentRect NOTIFY contentRectChanged)
+    Q_PROPERTY(bool readWrite READ readWrite NOTIFY readWriteChanged)
+    Q_PROPERTY(Core::SharingPermission sharingToAll READ sharingToAll NOTIFY sharingToAllChanged)
+
 public:
     explicit MindMapController(const QString& id, QObject* parent= nullptr);
     ~MindMapController();
@@ -70,10 +74,19 @@ public:
     const QString& errorMsg() const;
     QRectF contentRect() const;
 
+    bool readWrite() const;
+
     bool spacing() const;
     bool canRedo() const;
     bool canUndo() const;
+
     int defaultStyleIndex() const;
+    Core::SharingPermission sharingToAll() const;
+
+    void addNode(mindmap::MindNode* node);
+    mindmap::Link* linkFromId(const QString& id) const;
+    mindmap::MindNode* nodeFromId(const QString& id) const;
+    void createLink(const QString& id, const QString& id2);
 
     static void setPlayerModel(PlayerModel* model);
     static void registerQmlType();
@@ -86,18 +99,27 @@ signals:
     void errorMsgChanged();
     void defaultStyleIndexChanged();
     void contentRectChanged();
+    void sharingToAllChanged(Core::SharingPermission newPerm, Core::SharingPermission formerPerm);
+    void recipientsChanged();
+    void readWriteChanged();
+
+    void openMindMapTo(QString id);
+    void closeMindMapTo(QString id);
+    void permissionChangedForUser(QString id, Core::SharingPermission perm);
 
 public slots:
     void saveFile();
     void loadFile();
     void setFilename(const QString& path);
-    void resetData();
     void setSpacing(bool b);
     void redo();
     void undo();
     void setErrorMsg(const QString& msg);
     void importFile(const QString& path);
     void setDefaultStyleIndex(int indx);
+    void setSharingToAll(int perm);
+    void setPermissionForUser(const QString& userId, int perm);
+    void setReadWrite(bool b);
 
     void addBox(const QString& idparent);
     void addCharacterBox(const QString& idparent, const QString& name, const QString& url, const QColor& color);
@@ -119,6 +141,10 @@ private:
     static QPointer<PlayerModel> m_playerModel;
     QThread* m_spacing= nullptr;
     QUndoStack m_stack;
+    bool m_readWrite= false;
+
+    Core::SharingPermission m_sharingToAll= Core::SharingPermission::None;
+    QHash<QString, Core::SharingPermission> m_permissions;
 };
 
 #endif // MINDMAPCONTROLLER_H

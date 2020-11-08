@@ -32,7 +32,7 @@ int ChatroomSplitterModel::rowCount(const QModelIndex& parent) const
     if(parent.isValid())
         return 0;
 
-    return m_filterModels.size();
+    return static_cast<int>(m_filterModels.size());
 }
 
 QVariant ChatroomSplitterModel::data(const QModelIndex& index, int role) const
@@ -46,7 +46,7 @@ QVariant ChatroomSplitterModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     QVariant var;
-    auto model= m_filterModels.at(index.row()).get();
+    auto model= m_filterModels.at(static_cast<std::size_t>(index.row())).get();
     switch(role)
     {
     case FilterModelRole:
@@ -80,7 +80,9 @@ void ChatroomSplitterModel::addFilterModel(InstantMessaging::InstantMessagingMod
 
     model->setSourceModel(sourceModel);
 
-    beginInsertRows(QModelIndex(), m_filterModels.size(), m_filterModels.size());
+    auto size= static_cast<int>(m_filterModels.size());
+
+    beginInsertRows(QModelIndex(), size, size);
     m_filterModels.push_back(std::move(model));
     endInsertRows();
 }

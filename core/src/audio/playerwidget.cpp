@@ -94,12 +94,12 @@ void PlayerWidget::startMedia(QMediaContent* p, QString title, bool play)
 }
 void PlayerWidget::setDuration(qint64 duration)
 {
-    m_ui->m_timeSlider->setMaximum(duration);
+    m_ui->m_timeSlider->setMaximum(static_cast<int>(duration));
 }
 
 void PlayerWidget::positionChanged(qint64 time)
 {
-    QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
+    QTime displayTime(0, static_cast<int>((time / 60000) % 60), static_cast<int>((time / 1000) % 60));
 
     if(m_isGM && ((time > m_time + (FACTOR_WAIT * m_player.notifyInterval())) || (time < m_time)))
     {
@@ -477,7 +477,7 @@ void PlayerWidget::playerStatusChanged(QMediaPlayer::State newState)
         emit playerStopped(m_id);
         break;
     case QMediaPlayer::PlayingState:
-        emit playerIsPlaying(m_id, static_cast<qint64>(m_player.position()));
+        emit playerIsPlaying(m_id, m_player.position());
         break;
     case QMediaPlayer::PausedState:
         emit playerIsPaused(m_id);
@@ -722,10 +722,10 @@ void PlayerWidget::labelTextChanged()
 
 void PlayerWidget::dropEvent(QDropEvent* event)
 {
-    const QMimeData* data= event->mimeData();
-    if(data->hasUrls())
+    const QMimeData* mimeData= event->mimeData();
+    if(mimeData->hasUrls())
     {
-        QList<QUrl> list= data->urls();
+        QList<QUrl> list= mimeData->urls();
         for(auto& url : list)
         {
             if(url.toLocalFile().endsWith(".m3u")) // play list
