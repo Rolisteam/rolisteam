@@ -1,21 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
-
-# Libs
-add_subdirectory(libs)
-
 set(CMAKE_AUTOMOC ON)
+SET(CMAKE_AUTOMOC_MOC_OPTIONS "-nw")
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-include_directories(src)
-include_directories(libs/mindmap/src)
-include_directories(libs/diceparser)
-include_directories(libs/diceparser/include)
-include_directories(src/charactersheet)
-include_directories(src/widgets/MRichTextEditor)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+# Libs
+add_subdirectory(libs)
 
 set(QT_REQUIRED_VERSION "5.15.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets Concurrent)
@@ -40,7 +32,6 @@ if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
 
     set(pdfUiFiles src/pdfviewer/pdfviewer.ui)
 endif()
-
 
 
 set(HEADERS
@@ -281,9 +272,10 @@ set(HEADERS
     src/worker/networkdownloader.h
     src/worker/convertionhelper.h
     src/worker/autosavecontroller.h
-    src/updater/media/mediaupdaterinterface.h
     src/updater/media/vmapupdater.h
     src/updater/media/charactersheetupdater.h
+    src/updater/media/mediaupdaterinterface.h
+    src/updater/media/mindmapupdater.cpp
     src/updater/media/instantmessagingupdater.h
     src/updater/media/sharednotecontrollerupdater.h
     src/updater/media/webviewupdater.h
@@ -527,6 +519,7 @@ set(SOURCES
     src/updater/media/sharednotecontrollerupdater.cpp
     src/updater/media/vmapupdater.cpp
     src/updater/media/mediaupdaterinterface.cpp
+    src/updater/media/mindmapupdater.cpp
     src/updater/media/charactersheetupdater.cpp
     src/updater/media/instantmessagingupdater.cpp
     src/updater/media/webviewupdater.cpp
@@ -591,13 +584,28 @@ set(UI_FILES
 if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
     message("Link with PDF")
     add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${pdfSource} ${pdfHeader} ${pdfUiFile} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
-    target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent Qt5::PdfWidgets PRIVATE diceparser_shared rmindmap )
+    target_link_libraries(core PUBLIC project_warnings project_options Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent Qt5::PdfWidgets PRIVATE diceparser_shared rmindmap )
 else()
     message("Link without PDF")
     add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
-    target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent PRIVATE diceparser_shared rmindmap)
+    target_link_libraries(core PUBLIC project_warnings project_options Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent PRIVATE diceparser_shared rmindmap)
 endif()
 
+target_include_directories(core PUBLIC src)
+target_include_directories(core PUBLIC libs/mindmap/src)
+target_include_directories(core PUBLIC libs/diceparser)
+target_include_directories(core PUBLIC libs/diceparser/include)
+target_include_directories(core PUBLIC src/charactersheet)
+target_include_directories(core PUBLIC src/widgets/MRichTextEditor)
+target_include_directories(core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+message(${CMAKE_CURRENT_BINARY_DIR})
+message(${CMAKE_CURRENT_BINARY_DIR})
+message(${CMAKE_CURRENT_BINARY_DIR})
+message(${CMAKE_CURRENT_BINARY_DIR})
+
+set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/core_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
+set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/network_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 
 set(Network_HEADER    
     src/network/channelmodel.h
@@ -658,6 +666,13 @@ add_library(network SHARED ${Network_SRC} ${Network_HEADER})
 set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
 target_link_libraries(network PUBLIC Qt5::Core Qt5::Network Qt5::Gui)
 
+target_include_directories(network PUBLIC src)
+target_include_directories(network PUBLIC libs/mindmap/src)
+target_include_directories(network PUBLIC libs/diceparser)
+target_include_directories(network PUBLIC libs/diceparser/include)
+target_include_directories(network PUBLIC src/charactersheet)
+target_include_directories(network PUBLIC src/widgets/MRichTextEditor)
+target_include_directories(network PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 install(TARGETS core network
     RUNTIME DESTINATION bin

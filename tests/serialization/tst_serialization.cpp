@@ -19,13 +19,16 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/cleveruri.h"
+#include "vmap/controller/imagecontroller.h"
 #include <QMouseEvent>
 #include <controller/contentcontroller.h>
 #include <controller/playercontroller.h>
 #include <data/character.h>
 #include <helper.h>
 #include <map>
+#include <model/contentmodel.h>
 
 class ContentControllerTest : public QObject
 {
@@ -41,6 +44,8 @@ private slots:
 
     void completeSerializationTest();
     void completeSerializationTest_data();
+
+    void saveLoadImage();
 
 private:
     std::unique_ptr<ContentController> m_ctrl;
@@ -59,6 +64,68 @@ void ContentControllerTest::init()
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
 
     m_ctrl->setLocalId("localid");
+}
+
+void ContentControllerTest::saveLoadImage()
+{
+    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel()));
+    m_ctrl->setLocalId("localid");
+    connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
+    {
+        auto imgParams= std::map<QString, QVariant>({{"uuid", "test_unit_vmap"},
+                                                     {"path", ":/img/girafe3.jpg"},
+                                                     {"rect", QRectF(0, 0, 326, 244)},
+                                                     {"position", QPointF(500, 200)},
+                                                     {"tool", Core::SelectableTool::IMAGE}});
+        auto mapParams= std::map<QString, QVariant>({{"name", QString("Unit Test Map")}});
+
+        m_ctrl->newMedia(Core::ContentType::VECTORIALMAP, mapParams);
+
+        auto ctrls= m_ctrl->contentModel()->controllers();
+
+        QCOMPARE(ctrls.size(), 1);
+
+        auto ctrl= ctrls.front();
+
+        auto mapCtrl= dynamic_cast<VectorialMapController*>(ctrl);
+
+        QVERIFY(nullptr != mapCtrl);
+        QSignalSpy spy(mapCtrl, &VectorialMapController::visualItemControllerCreated);
+        mapCtrl->addItemController(imgParams);
+
+        QCOMPARE(spy.count(), 1);
+        auto itemCtrl= mapCtrl->itemController("test_unit_vmap");
+        QVERIFY(nullptr != itemCtrl);
+
+        auto rectCtrl= dynamic_cast<vmap::ImageController*>(itemCtrl);
+        QCOMPARE(rectCtrl->rect(), QRectF(0, 0, 326, 244));
+        QCOMPARE(rectCtrl->pos(), QPointF(500, 200));
+    }
+    auto path= QStringLiteral("%1/%2").arg(QDir::tempPath()).arg("scenario.sce");
+
+    m_ctrl->setSessionPath(path);
+    m_ctrl->saveSession();
+
+    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel()));
+    m_ctrl->setLocalId("localid");
+    connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
+    m_ctrl->setSessionPath(path);
+    m_ctrl->loadSession();
+
+    {
+        auto ctrls= m_ctrl->contentModel()->controllers();
+        QCOMPARE(ctrls.size(), 1);
+
+        auto ctrl= ctrls.front();
+        auto mapCtrl= dynamic_cast<VectorialMapController*>(ctrl);
+        QVERIFY(nullptr != mapCtrl);
+        auto itemCtrl= mapCtrl->itemController("test_unit_vmap");
+        auto rectCtrl= dynamic_cast<vmap::ImageController*>(itemCtrl);
+        QCOMPARE(rectCtrl->rect(), QRectF(0, 0, 326, 244));
+        QCOMPARE(rectCtrl->pos(), QPointF(500, 200));
+    }
+
+    QCOMPARE(m_ctrl->contentCount(), 1);
 }
 
 void ContentControllerTest::serializeTest()
@@ -150,7 +217,7 @@ void ContentControllerTest::completeSerializationTest()
             mapItem.insert({{"path", ":/pdf/01_personnages.pdf"}, {"name", "personnages"}});
             break;
         case Core::ContentType::VECTORIALMAP:
-            mapItem.insert({{"path", ":/sharednotes/scenario.md"}, {"name", "Markdown file"}});
+            mapItem.insert({{"path", ":/sharednotes/test.vmap"}, {"name", "Test VMap"}});
             break;
         case Core::ContentType::SHAREDNOTE:
             mapItem.insert({{"path", ":/sharednotes/scenario.md"}, {"name", "Markdown file"}});

@@ -24,6 +24,7 @@
 #include <QVariant>
 #include <map>
 
+class VectorialMapController;
 class VectorialMapMessageHelper
 {
 public:
@@ -33,6 +34,8 @@ public:
     static void sendOffNewItem(const std::map<QString, QVariant>& args, const QString& mapId);
 
     // read message items
+    static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
+    static QByteArray saveVectorialMap(VectorialMapController* ctrl);
 };
 
 #endif // VECTORIALMAPMESSAGEHELPER_H

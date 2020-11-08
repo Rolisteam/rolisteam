@@ -171,7 +171,7 @@ bool VisualItemController::locked() const
 
 QString VisualItemController::getLayerText(Core::Layer layer) const
 {
-    return m_ctrl->getLayerToText(layer);
+    return m_ctrl->layerToText(layer);
 }
 
 void VisualItemController::endGeometryChange()

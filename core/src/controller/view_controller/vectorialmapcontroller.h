@@ -129,7 +129,7 @@ public:
     void saveData() const;
     void loadData() const;
 
-    QString getLayerToText(Core::Layer id);
+    QString layerToText(Core::Layer id);
 
     vmap::VmapItemModel* model() const;
     vmap::GridController* gridController() const;

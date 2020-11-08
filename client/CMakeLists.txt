@@ -29,7 +29,7 @@ set(QT_REQUIRED_VERSION "5.12.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools)
 
 
-
+set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/rolisteam_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 
 add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ../rolisteam.qrc)
 
