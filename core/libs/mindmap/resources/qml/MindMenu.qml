@@ -4,6 +4,11 @@ import QtQuick.Controls 2.2
 Menu {
     id: menu
     property QtObject ctrl
+    MenuItem {
+        text: qsTr("Add Root")
+        onTriggered: ctrl.addBox("")
+    }
+    MenuSeparator { }
     /*MenuItem {
         text: qsTr("New")
         onTriggered: ctrl.resetData()

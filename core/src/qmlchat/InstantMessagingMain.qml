@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.15
 import QtMultimedia 5.15
 import InstantMessaging 1.0
 import Customization 1.0
+import org.rolisteam.InstantMessaging 1.0
 
 Item {
     id: root
@@ -20,7 +21,7 @@ Item {
     AddChatRoomDialog {
         id: newChatRoom
         x: -width+parent.width
-        model: _ctrl.playerModel
+        model: InstantMessagerManager.ctrl.playerModel
         onChatRoomAdded: {
             root.addChat(newChatRoom.title, newChatRoom.all, newChatRoom.recipiants)
         }
@@ -42,7 +43,7 @@ Item {
         anchors.fill: parent
         Repeater {
             id: reaper
-            model: _ctrl.mainModel
+            model: InstantMessagerManager.ctrl.mainModel
             onCountChanged: console.log("count:"+count)
             property real headerHeight: 0
             delegate: ChatView {
@@ -56,10 +57,10 @@ Item {
                 SplitView.fillWidth: true
                 tabBarRightMargin: index == reaper.count-1 ? listButton.width : 0
                 Component.onCompleted: reaper.headerHeight = tabBarHeight
-                localPersonModel: _ctrl.localPersonModel
-                onAddChat: _ctrl.addExtraChatroom(title, all, recipiants)
-                onSplit: _ctrl.splitScreen(uuid, model.index)
-                onDetach: _ctrl.detach(uuid, index, model.index)
+                localPersonModel: InstantMessagerManager.ctrl.localPersonModel
+                onAddChat: InstantMessagerManager.ctrl.addExtraChatroom(title, all, recipiants)
+                onSplit: InstantMessagerManager.ctrl.splitScreen(uuid, model.index)
+                onDetach: InstantMessagerManager.ctrl.detach(uuid, index, model.index)
             }
         }
     }
