@@ -32,7 +32,7 @@ QVariant ProfileModel::headerData(int, Qt::Orientation, int) const
 int ProfileModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
-            return m_connectionProfileList.size();
+        return m_connectionProfileList.size();
     return 0;
 }
 QVariant ProfileModel::data(const QModelIndex& index, int role) const
@@ -184,6 +184,9 @@ int ProfileModel::indexOf(ConnectionProfile* tmp)
 }
 ConnectionProfile* ProfileModel::getProfile(int index)
 {
+    if(index < 0)
+        return nullptr;
+
     if((!m_connectionProfileList.isEmpty()) && (m_connectionProfileList.size() > index))
     {
         return m_connectionProfileList.at(index);
@@ -303,7 +306,23 @@ void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
 }
 void SelectConnectionProfileDialog::updateGUI()
 {
-    if(nullptr != m_currentProfile)
+    if(nullptr == m_currentProfile)
+    {
+        ui->m_addresseLineEdit->setText("");
+        ui->m_name->setText("");
+        ui->m_profileTitle->setText("");
+        ui->m_port->setValue(6660);
+        ui->m_isServerCheckbox->setChecked(true);
+        ui->m_isGmCheckbox->setChecked(true);
+        ui->m_addresseLineEdit->setEnabled(false);
+        ui->m_colorBtn->setColor(QColor(Qt::red));
+        m_passChanged= false;
+        ui->m_passwordEdit->setText("");
+        ui->m_selectCharaterAvatar->setIcon(QIcon());
+        ui->m_characterName->setText("");
+        ui->m_characterColor->setColor("");
+    }
+    else
     {
         ui->m_addresseLineEdit->setText(m_currentProfile->getAddress());
         ui->m_name->setText(m_currentProfile->getName());
