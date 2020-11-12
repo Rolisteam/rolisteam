@@ -1132,15 +1132,15 @@ void VMap::processSetParentItem(NetworkMessageReader* msg)
 }
 void VMap::processZValueMsg(NetworkMessageReader* msg)
 {
-    if(nullptr != msg)
+    if(nullptr == msg)
+        return;
+
+    QString id= msg->string16();
+    VisualItem* item= m_itemMap->value(id);
+    if(nullptr != item)
     {
-        QString id= msg->string16();
-        VisualItem* item= m_itemMap->value(id);
-        if(nullptr != item)
-        {
-            item->readZValueMsg(msg);
-            ensureFogAboveAll();
-        }
+        item->readZValueMsg(msg);
+        ensureFogAboveAll();
     }
 }
 void VMap::ensureFogAboveAll()

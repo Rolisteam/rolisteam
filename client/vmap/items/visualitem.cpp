@@ -78,11 +78,21 @@ void VisualItem::init()
     group->addAction(m_putObjectLayer);
     group->addAction(m_putCharacterLayer);
 
+    connect(this, &VisualItem::zChanged, this, &VisualItem::sendZValueMsg);
+    connect(this, &VisualItem::opacityChanged, this, &VisualItem::sendOpacityMsg);
+
     updateItemFlags();
 }
 void VisualItem::updateItemFlags()
 {
     bool editable= canBeMoved();
+
+    disconnect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
+    disconnect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
+    disconnect(this, &VisualItem::widthChanged, this, &VisualItem::rectChange);
+    disconnect(this, &VisualItem::heightChanged, this, &VisualItem::rectChange);
+    disconnect(this, &VisualItem::rotationChanged, this, &VisualItem::rotationChange);
+
     if(editable)
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.
@@ -91,24 +101,16 @@ void VisualItem::updateItemFlags()
         setAcceptedMouseButtons(Qt::AllButtons);
         connect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
         connect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
-        connect(this, &VisualItem::zChanged, this, &VisualItem::sendZValueMsg);
         connect(this, &VisualItem::heightChanged, this, &VisualItem::rectChange);
         connect(this, &VisualItem::widthChanged, this, &VisualItem::rectChange);
         connect(this, &VisualItem::rotationChanged, this, &VisualItem::rotationChange); // sendRotationMsg
-        connect(this, &VisualItem::opacityChanged, this, &VisualItem::sendOpacityMsg);
     }
     else
     {
         setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
         setAcceptedMouseButtons(Qt::NoButton);
-        disconnect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
-        disconnect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
-        disconnect(this, &VisualItem::zChanged, this, &VisualItem::sendZValueMsg);
-        disconnect(this, &VisualItem::widthChanged, this, &VisualItem::rectChange);
-        disconnect(this, &VisualItem::heightChanged, this, &VisualItem::rectChange);
-        disconnect(this, &VisualItem::rotationChanged, this, &VisualItem::rotationChange);
-        disconnect(this, &VisualItem::opacityChanged, this, &VisualItem::sendOpacityMsg);
     }
+
     if(nullptr != m_child)
     {
         for(auto& itemChild : *m_child)
@@ -391,7 +393,7 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendZValueMsg()
 {
-    if(hasPermissionToMove() && !m_receivingZValue) // getOption PermissionMode
+    if(hasPermissionToMove() && !m_receivingZValue)
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::ZValueItem);
         msg.string8(m_mapId);
@@ -402,15 +404,15 @@ void VisualItem::sendZValueMsg()
 }
 void VisualItem::readZValueMsg(NetworkMessageReader* msg)
 {
-    if(nullptr != msg)
-    {
-        qreal z= msg->real();
-        m_receivingZValue= true;
-        setZValue(z);
-        m_receivingZValue= false;
-        // blockSignals(false);
-        update();
-    }
+    if(nullptr == msg)
+        return;
+
+    qreal z= msg->real();
+    m_receivingZValue= true;
+    setZValue(z);
+    m_receivingZValue= false;
+    // blockSignals(false);
+    update();
 }
 void VisualItem::sendRotationMsg()
 {
