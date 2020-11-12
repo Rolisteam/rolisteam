@@ -668,18 +668,30 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
     if(!vItem)
         return false;
 
-    bool sameLayer= (vItem->getLayer() == m_currentLayer);
-    bool isPC_MOVE= (getOption(VisualItem::PermissionMode) == Map::PC_MOVE);
-    bool localIsGM= getOption(VisualItem::LocalIsGM).toBool();
-    bool isCharacter= vItem->getType() == VisualItem::CHARACTER;
+    // The game master can only select objects on the current layer.
+    bool result= (vItem->getLayer() == m_currentLayer);
 
-    if(!sameLayer && !isPC_MOVE) //|| vItem->type() != VisualItem::CHARACTER)
-        return false;
+    if(!getOption(VisualItem::LocalIsGM).toBool())
+    {
+        // Player can't select anything in GM_ONLY
+        // They can select item in the current layer and character token items in PC_ALL
+        // They can select character token in PC_MOVE
+        switch(getOption(VisualItem::PermissionMode).value<Map::PermissionMode>())
+        {
+        case Map::PC_ALL:
+            result= (vItem->getLayer() == m_currentLayer
+                     || (vItem->getType() == VisualItem::CHARACTER && vItem->isLocal()));
+            break;
+        case Map::PC_MOVE:
+            result= (vItem->getType() == VisualItem::CHARACTER && vItem->isLocal());
+            break;
+        case Map::GM_ONLY:
+            result= false;
+            break;
+        }
+    }
 
-    if(!localIsGM && isPC_MOVE && !isCharacter)
-        return false;
-
-    return true;
+    return result;
 }
 
 void VMap::manageAnchor()

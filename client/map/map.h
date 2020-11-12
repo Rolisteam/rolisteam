@@ -64,6 +64,7 @@ public:
         PC_MOVE,
         PC_ALL
     };
+    Q_ENUM(PermissionMode)
 
     void showHideNPC(CharacterToken* pnjSeul= nullptr);
     void toggleCharacterView(Character* character);

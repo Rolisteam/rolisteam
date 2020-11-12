@@ -1213,7 +1213,12 @@ void CharacterItem::endOfGeometryChange()
 }
 bool CharacterItem::canBeMoved() const
 {
-    return hasPermissionToMove();
+    bool result= hasPermissionToMove();
+
+    if(getOption(VisualItem::LocalIsGM).toBool())
+        result= VisualItem::canBeMoved();
+
+    return result;
 }
 void CharacterItem::updateItemFlags()
 {
