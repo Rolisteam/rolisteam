@@ -69,7 +69,6 @@ void RGraphicsView::mousePressEvent(QMouseEvent* event)
             QList<QGraphicsItem*> list= items(event->pos());
             if(nullptr != m_vmap)
             {
-                // list.removeAll(m_vmap->getFogItem());
                 list.erase(std::remove_if(list.begin(), list.end(),
                                           [this](const QGraphicsItem* item) { return !m_vmap->isNormalItem(item); }),
                            list.end());
@@ -117,6 +116,7 @@ void RGraphicsView::mouseMoveEvent(QMouseEvent* event)
             auto dy= current.y() - m_lastPoint.y();
             rect.translate(-dx, -dy);
             setSceneRect(rect);
+            m_vmap->updateFog();
         }
         m_lastPoint= mapToScene(event->pos());
     }
@@ -761,8 +761,7 @@ void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 void RGraphicsView::resizeEvent(QResizeEvent* event)
 {
     // GM is the references
-
-    if((nullptr != scene()) && (m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
+    if(nullptr != scene())
     {
         if((geometry().width() > scene()->sceneRect().width())
            || ((geometry().height() > scene()->sceneRect().height())))
@@ -773,17 +772,22 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
             ensureVisible(geometry(), 0, 0);
         }
 
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::GeometryViewChanged);
-        msg.string8(m_vmap->getId());
-        QRectF r= sceneRect();
+        if(m_vmap->getOption(VisualItem::LocalIsGM).toBool())
+        {
+            NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::GeometryViewChanged);
+            msg.string8(m_vmap->getId());
+            QRectF r= sceneRect();
 
-        msg.real(r.x());
-        msg.real(r.y());
-        msg.real(r.width());
-        msg.real(r.height());
+            msg.real(r.x());
+            msg.real(r.y());
+            msg.real(r.width());
+            msg.real(r.height());
 
-        msg.sendToServer();
+            msg.sendToServer();
+        }
     }
+    if(m_vmap)
+        m_vmap->updateFog();
 
     setResizeAnchor(QGraphicsView::NoAnchor);
     setTransformationAnchor(QGraphicsView::NoAnchor);
@@ -800,6 +804,11 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
     Q_UNUSED(y)
     Q_UNUSED(width)
     Q_UNUSED(height)
+
+    if(m_vmap)
+    {
+        m_vmap->updateFog();
+    }
 
     // if(nullptr!=scene())
     //{

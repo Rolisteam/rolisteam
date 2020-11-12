@@ -122,6 +122,7 @@ void VMap::initScene()
 {
     addNewItem(new AddVmapItemCommand(m_sightItem, true, this), false);
     m_sightItem->initChildPointItem();
+    m_sightItem->monitorView();
     m_sightItem->setPos(0, 0);
     m_sightItem->setZValue(1);
     m_sightItem->setVisible(false);
@@ -167,6 +168,7 @@ void VMap::setBackGroundColor(QColor bgcolor)
 void VMap::setSceneRect()
 {
     QGraphicsScene::setSceneRect(0, 0, m_width, m_height);
+    m_sightItem->markDirty();
 }
 int VMap::mapWidth() const
 {
@@ -332,14 +334,19 @@ void VMap::setEditionMode(VToolsBar::EditionMode mode)
 }
 void VMap::cleanFogEdition()
 {
-    if(nullptr != m_fogItem)
+    if(nullptr == m_fogItem)
+        return;
+
+    if(nullptr != m_fogItem->scene())
     {
-        if(nullptr != m_fogItem->scene())
-        {
-            removeItem(m_fogItem);
-        }
-        m_fogItem= nullptr;
+        removeItem(m_fogItem);
     }
+    m_fogItem= nullptr;
+}
+
+void VMap::updateFog()
+{
+    m_sightItem->markDirty();
 }
 
 void VMap::updateItem()

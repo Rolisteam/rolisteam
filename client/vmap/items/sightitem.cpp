@@ -109,6 +109,21 @@ void SightItem::updateItemFlags()
     setAcceptedMouseButtons(Qt::NoButton);
     setFlag(QGraphicsItem::ItemIsMovable, false);
 }
+
+void SightItem::endOfGeometryChange()
+{
+    if(m_resizing)
+    {
+        markDirty();
+    }
+    VisualItem::endOfGeometryChange();
+}
+
+void SightItem::markDirty()
+{
+    m_fogChanged= true;
+    updateVeil();
+}
 QRectF SightItem::boundingRect() const
 {
     if(nullptr != scene())
@@ -158,6 +173,7 @@ void SightItem::readData(QDataStream& in)
 
         auto hole= new FogSingularity(poly, adding);
         m_fogHoleList.append(hole);
+        m_fogChanged= true;
     }
     updateVeil();
     update();
@@ -219,6 +235,7 @@ void SightItem::readItem(NetworkMessageReader* msg)
         FogSingularity* fogs= new FogSingularity();
         fogs->readItem(msg);
         m_fogHoleList.append(fogs);
+        m_fogChanged= true;
     }
 
     count= msg->uint64();
@@ -253,6 +270,34 @@ void SightItem::initChildPointItem()
 {
     m_child= new QVector<ChildPointItem*>();
 }
+
+void SightItem::monitorView()
+{
+    auto map= scene();
+    if(!map)
+        return;
+
+    QList<QGraphicsView*> list= map->views();
+    connect(map, &QGraphicsScene::sceneRectChanged, this, &SightItem::markDirty);
+    connect(map, &QGraphicsScene::changed, this, &SightItem::markDirty);
+
+    if(!list.isEmpty())
+    {
+        QGraphicsView* view= list.at(0);
+        auto viewport= view->viewport();
+        viewport->installEventFilter(this);
+    }
+}
+
+bool SightItem::eventFilter(QObject* watched, QEvent* event)
+{
+    if(event->type() == QEvent::Resize)
+    {
+        markDirty();
+    }
+    return QObject::eventFilter(watched, event);
+}
+
 VisualItem* SightItem::getItemCopy()
 {
     return nullptr;
@@ -410,6 +455,8 @@ void SightItem::moveVision(qreal id, QPointF& pos)
 }
 void SightItem::updateVeil()
 {
+    if(!m_fogChanged)
+        return;
     QPainterPath path;
     QRectF rect= boundingRect();
     if(m_rectOfVeil.isNull())
@@ -436,12 +483,15 @@ void SightItem::updateVeil()
         }
     }
     m_path= path;
+
+    m_fogChanged= false;
 }
 
 FogSingularity* SightItem::addFogPolygon(QPolygonF* a, bool adding)
 {
     FogSingularity* fogs= new FogSingularity(a, adding);
     m_fogHoleList << fogs;
+    m_fogChanged= true;
     updateVeil();
     update();
     return fogs;

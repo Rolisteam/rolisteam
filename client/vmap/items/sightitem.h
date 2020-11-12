@@ -64,59 +64,60 @@ public:
      * @brief setNewEnd
      * @param nend
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(QPointF& nend) override;
     /**
      * @brief writeData
      * @param out
      */
-    virtual void writeData(QDataStream& out) const;
+    virtual void writeData(QDataStream& out) const override;
     /**
      * @brief readData
      * @param in
      */
-    virtual void readData(QDataStream& in);
+    virtual void readData(QDataStream& in) override;
     /**
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const;
+    virtual VisualItem::ItemType getType() const override;
     /**
      * @brief fillMessage
      * @param msg
      */
-    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void fillMessage(NetworkMessageWriter* msg) override;
     /**
      * @brief readItem
      * @param msg
      */
-    virtual void readItem(NetworkMessageReader* msg);
+    virtual void readItem(NetworkMessageReader* msg) override;
     /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
+    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
     /**
      * @brief initChildPointItem
      */
-    virtual void initChildPointItem();
+    virtual void initChildPointItem() override;
     /**
      * @brief getItemCopy
      * @return
      */
-    virtual VisualItem* getItemCopy();
+    virtual VisualItem* getItemCopy() override;
     /**
      * @brief boundingRect
      * @return
      */
-    virtual QRectF boundingRect() const;
+    virtual QRectF boundingRect() const override;
+    void monitorView();
     /**
      * @brief paint
      * @param painter
      * @param option
      * @param widget
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     /**
      * @brief setDefaultShape
      * @param shape
@@ -135,11 +136,11 @@ public:
     /**
      * @brief updateChildPosition
      */
-    void updateChildPosition();
+    void updateChildPosition() override;
     /**
      * @brief createActions
      */
-    void createActions();
+    void createActions() override;
     /**
      * @brief setColor
      */
@@ -158,7 +159,10 @@ public:
      * @param a
      */
     FogSingularity* addFogPolygon(QPolygonF* a, bool adding);
-    virtual void updateItemFlags();
+    virtual void updateItemFlags() override;
+    virtual void endOfGeometryChange() override;
+
+    void markDirty();
 public slots:
     /**
      * @brief moveVision
@@ -175,6 +179,8 @@ public slots:
 protected:
     void updateVeil();
 
+    bool eventFilter(QObject* watched, QEvent* event) override;
+
 private:
     CharacterVision::SHAPE m_defaultShape;
     qreal m_defaultAngle;
@@ -186,6 +192,7 @@ private:
     QList<FogSingularity*> m_fogHoleList;
     QPainterPath m_path;
     QRectF m_rectOfVeil;
+    bool m_fogChanged= true;
 };
 
 #endif // SIGHTITEM_H

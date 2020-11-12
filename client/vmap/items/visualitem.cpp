@@ -87,12 +87,6 @@ void VisualItem::updateItemFlags()
 {
     bool editable= canBeMoved();
 
-    disconnect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
-    disconnect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
-    disconnect(this, &VisualItem::widthChanged, this, &VisualItem::rectChange);
-    disconnect(this, &VisualItem::heightChanged, this, &VisualItem::rectChange);
-    disconnect(this, &VisualItem::rotationChanged, this, &VisualItem::rotationChange);
-
     if(editable)
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.
@@ -109,6 +103,11 @@ void VisualItem::updateItemFlags()
     {
         setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
         setAcceptedMouseButtons(Qt::NoButton);
+        disconnect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
+        disconnect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
+        disconnect(this, &VisualItem::widthChanged, this, &VisualItem::rectChange);
+        disconnect(this, &VisualItem::heightChanged, this, &VisualItem::rectChange);
+        disconnect(this, &VisualItem::rotationChanged, this, &VisualItem::rotationChange);
     }
 
     if(nullptr != m_child)

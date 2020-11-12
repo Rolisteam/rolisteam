@@ -426,6 +426,7 @@ public slots:
      * @brief cleanFogEdition
      */
     void cleanFogEdition();
+    void updateFog();
     /**
      * @brief changeStackOrder triggered when VisualItem should change its z order. It recompute the zvalue of all
      * items.
