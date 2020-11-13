@@ -230,11 +230,21 @@ void SightItem::readItem(NetworkMessageReader* msg)
     setZValue(z);
 
     quint64 count= msg->uint64();
+
     for(unsigned int i= 0; i < count; ++i)
     {
-        FogSingularity* fogs= new FogSingularity();
+        FogSingularity* fogs= nullptr;
+        if(i < static_cast<unsigned int>(m_fogHoleList.size()))
+        {
+            fogs= m_fogHoleList[i];
+        }
+        else
+        {
+            fogs= new FogSingularity();
+            m_fogHoleList.append(fogs);
+        }
+        Q_ASSERT(fogs);
         fogs->readItem(msg);
-        m_fogHoleList.append(fogs);
         m_fogChanged= true;
     }
 
@@ -319,7 +329,6 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     {
         painter->setBrush(QColor(0, 0, 0));
     }
-
     updateVeil();
     QPainterPath path= m_path;
 
