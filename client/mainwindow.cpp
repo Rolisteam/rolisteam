@@ -343,7 +343,7 @@ void MainWindow::setupUi()
             m_logController->manageMessage(tr("Server Ip Address: %1\nPort: %2")
                                                .arg(m_connectionAddress)
                                                .arg(m_currentConnectionProfile->getPort()),
-                                           LogController::Hidden);
+                                           LogController::Features);
         }
     });
 }
