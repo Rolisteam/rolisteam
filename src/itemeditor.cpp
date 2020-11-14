@@ -25,7 +25,6 @@ bool ItemEditor::handle() const
 void ItemEditor::setHandle(bool handle)
 {
     m_handle= handle;
-    qDebug() << "setHandle band" << handle;
 }
 
 void ItemEditor::mousePressEvent(QMouseEvent* event)
