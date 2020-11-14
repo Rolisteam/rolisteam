@@ -44,10 +44,12 @@ void ItemEditor::mousePressEvent(QMouseEvent* event)
     {
         QList<QGraphicsItem*> list= items(event->pos());
 
-        list.erase(std::remove_if(list.begin(), list.end(), [](QGraphicsItem* item) {
-            static QGraphicsPixmapItem pix;
-            return item->type() == pix.type();
-        }));
+        list.erase(std::remove_if(list.begin(), list.end(),
+                                  [](QGraphicsItem* item) {
+                                      static QGraphicsPixmapItem pix;
+                                      return item->type() == pix.type();
+                                  }),
+                   list.end());
 
         if(!list.isEmpty())
         {
