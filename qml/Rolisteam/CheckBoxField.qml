@@ -20,8 +20,11 @@ CheckBox {
     topPadding: 0
     spacing: 0
     bottomPadding:0
+    checkState: (root.text === "0") ? Qt.Unchecked : (root.text === "1" && root.tristate) ? Qt.PartiallyChecked : Qt.Checked
+    onCheckStateChanged: console.log("state:"+checkState)
     enabled: !root.readOnly
-    checked: root.text === "1"  ? true :false
+    checked: root.checkState === Qt.Checked  ? true :false
+    onCheckedChanged: console.log("checked:"+checked)
     ToolTip.text: root.tooltip
     ToolTip.visible: root.tooltip.length >0 && checkbox.pressed
 
@@ -37,15 +40,24 @@ CheckBox {
             scale: 0.7
             radius: root.radius
             color: root.borderColor
-            visible: root.checked
+            visible: root.checkState != Qt.Unchecked
+            opacity: root.checkState == Qt.PartiallyChecked ? 0.5 : 1.0
         }
     }
 
     contentItem: Item {
     }
 
-    onToggled: {
-        field.value = checked ? "1": "0"
+    onClicked: {
+        console.log("toggled")
+        if(root.tristate)
+            field.value = checkState == Qt.Unchecked ? "0" : checkState == Qt.PartiallyChecked ? "1" : "2"
+        else
+            field.value = checked ? "1": "0"
     }
+
+    /*onToggled: {
+
+    }*/
 }
 

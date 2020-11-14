@@ -46,37 +46,11 @@ QVariant ImageModel::data(const QModelIndex& index, int role) const
 
     QVariant var;
     const auto& info= m_data[static_cast<std::size_t>(index.row())];
-    if(Qt::DisplayRole == role)
-    {
-        switch(index.column())
-        {
-        case Key:
-            var= QStringLiteral("image://rcs/%1").arg(info.key);
-            break;
-        case Filename:
-            var= info.filename;
-            break;
-        case Background:
-            var= info.isBackground;
-            break;
-        }
-    }
-    else if(Qt::EditRole == role)
-    {
-        switch(index.column())
-        {
-        case Key:
-            var= info.key;
-            break;
-        case Filename:
-            var= info.filename;
-            break;
-        case Background:
-            var= info.isBackground;
-            break;
-        }
-    }
-    else if(Qt::ToolTipRole == role)
+
+    auto trueRole= role;
+    auto col= index.column();
+
+    if(Qt::ToolTipRole == role)
     {
         auto key= info.key;
         const auto& image= info.pixmap;
@@ -84,8 +58,37 @@ QVariant ImageModel::data(const QModelIndex& index, int role) const
         QByteArray data;
         QBuffer buffer(&data);
         pixmap.save(&buffer, "PNG", 100);
-        var= QVariant::fromValue(QString("<img src='data:image/png;base64, %0'>").arg(QString(data.toBase64())));
+        return QVariant::fromValue(QString("<img src='data:image/png;base64, %0'>").arg(QString(data.toBase64())));
     }
+
+    std::vector<int> ap({Qt::EditRole, Qt::DisplayRole});
+
+    if(std::find(ap.begin(), ap.end(), role) == ap.end())
+        return {};
+
+    if(col == 0)
+        trueRole= (Qt::EditRole == role) ? KeyRole : UrlRole;
+    else if(col == 1)
+        trueRole= FilenameRole;
+    else if(col == 2)
+        trueRole= BackgroundRole;
+
+    switch(trueRole)
+    {
+    case KeyRole:
+        var= info.key;
+        break;
+    case UrlRole:
+        var= QStringLiteral("image://rcs/%1").arg(info.key);
+        break;
+    case FilenameRole:
+        var= info.filename;
+        break;
+    case BackgroundRole:
+        var= info.isBackground;
+        break;
+    }
+
     return var;
 }
 
@@ -97,15 +100,15 @@ bool ImageModel::setData(const QModelIndex& index, const QVariant& value, int ro
         auto& info= m_data[static_cast<std::size_t>(index.row())];
         switch(index.column())
         {
-        case Key:
+        case 0:
             info.key= value.toString();
             val= true;
             break;
-        case Background:
+        case 1:
             info.isBackground= value.toBool();
             val= true;
             break;
-        case Filename:
+        case 2:
             info.filename= value.toString();
             break;
         }
@@ -165,7 +168,7 @@ bool ImageModel::insertImage(const QPixmap& pix, const QString& key, const QStri
 
 Qt::ItemFlags ImageModel::flags(const QModelIndex& index) const
 {
-    if(index.column() == Key || index.column() == Background)
+    if(index.column() == 0 || index.column() == 1)
     {
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }
@@ -211,7 +214,7 @@ void ImageModel::setPathFor(const QModelIndex& idx, const QString& path)
         return;
 
     auto row= idx.row();
-    if(row < 0 || m_data.size() >= row)
+    if(row < 0 || row >= m_data.size())
         return;
 
     auto& info= m_data[static_cast<int>(row)];
@@ -257,6 +260,30 @@ void ImageModel::removeImage(int i)
     m_data.erase(m_data.begin() + i);
     endRemoveRows();
     emit internalDataChanged();
+}
+
+void ImageModel::reloadImage(const QModelIndex& idx)
+{
+    if(!idx.isValid())
+        return;
+
+    auto row= idx.row();
+    qDebug() << "reload image" << row << m_data.size();
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    qDebug() << "reload image" << row;
+    auto& info= m_data[static_cast<int>(row)];
+
+    QPixmap pix(info.filename);
+    if(pix.isNull())
+    {
+        qWarning() << "Can't open image: " << info.filename;
+        return;
+    }
+    qDebug() << "reload image" << row;
+    info.pixmap= pix;
+    emit dataChanged(idx, idx, QVector<int>() << Qt::DisplayRole);
 }
 
 #ifndef RCSE

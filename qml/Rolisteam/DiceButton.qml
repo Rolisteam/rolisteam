@@ -6,7 +6,7 @@ T.AbstractButton {
     id:root
     property color color: "#ff0000"
     property color pressedColor: "#990000"
-    property color backgroundColor: background.color
+    property color backgroundColor
     property color textColor: text.color
     property alias hAlign: text.horizontalAlignment
     property alias wrapMode: text.wrapMode

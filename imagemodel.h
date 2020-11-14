@@ -16,11 +16,12 @@ class ImageModel : public QAbstractTableModel
     Q_OBJECT
     Q_PROPERTY(QSize backgroundSize READ backgroundSize NOTIFY backgroundSizeChanged)
 public:
-    enum Headers
+    enum Role
     {
-        Key,
-        Filename,
-        Background
+        KeyRole= Qt::UserRole + 1,
+        UrlRole,
+        FilenameRole,
+        BackgroundRole
     };
     struct ImageInfo
     {
@@ -57,10 +58,11 @@ public:
     QSize backgroundSize() const;
     void removeImage(int i);
     QPixmap pixmapFromKey(QString id);
+    void reloadImage(const QModelIndex& index);
 
 #ifndef RCSE
     void fill(NetworkMessageWriter& msg) const;
-    void read(NetworkMessageReader &msg);
+    void read(NetworkMessageReader& msg);
 #endif
 
 signals:

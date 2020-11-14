@@ -39,14 +39,14 @@ class Section;
 class CharacterSheet : public QObject
 {
     Q_OBJECT
-
-    // Q_PROPERTY(QString values NOTIFY valuesChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
 public:
     /**
      * Constructor
      */
     CharacterSheet();
-    ~CharacterSheet();
+    virtual ~CharacterSheet();
     /**
      * @brief allows to get the key, this function is used for displaying the meaning of fields
      * @param int index : 0 refers to the title of the section, 1 refers to key of the first data of the first
@@ -102,17 +102,6 @@ public:
      * @param rootSection
      */
     void buildDataFromSection(Section* rootSection);
-
-    /**
-     * @brief getName
-     * @return
-     */
-    QString getName() const;
-    /**
-     * @brief setName
-     * @param name
-     */
-    void setName(const QString& name);
     /**
      * @brief getVariableDictionnary
      * @return
@@ -121,8 +110,10 @@ public:
 
     void insertCharacterItem(CharacterSheetItem* item);
 
-    QString getUuid() const;
+    QString uuid() const;
     void setUuid(const QString& uuid);
+    QString name() const;
+    void setName(const QString& name);
 
     void setFieldData(QJsonObject& obj, const QString& parent);
     void setOrigin(Section*);
@@ -145,6 +136,8 @@ public slots:
 signals:
     void updateField(CharacterSheet*, CharacterSheetItem*, const QString& path);
     void addLineToTableField(CharacterSheet*, CharacterSheetItem*);
+    void uuidChanged();
+    void nameChanged();
 
 protected:
     void insertField(QString key, CharacterSheetItem* itemSheet);

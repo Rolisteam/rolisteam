@@ -171,7 +171,7 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
 
     QVariant var;
     if((role == Qt::DisplayRole) || (role == Qt::EditRole) || (role == Qt::BackgroundRole) || (role == Qt::ToolTipRole)
-       || (role == Qt::UserRole) || (role == Formula) || (role == Value))
+       || (role == Qt::UserRole) || (role == FormulaRole) || (role == ValueRole)|| (role == UuidRole)|| (role == NameRole))
     {
         CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
         if(nullptr != childItem)
@@ -219,6 +219,12 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
                                 var= val;
                             }
                             break;
+                            case  UuidRole:
+                                var = sheet->uuid();
+                                break;
+                            case NameRole:
+                                var = sheet->name();
+                                break;
                             case Qt::ToolTipRole:
                                 var= child->getId();
                                 break;
@@ -229,7 +235,14 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
                     {
                         QString path= childItem->getPath();
                         CharacterSheet* sheet= m_characterList->at(index.column() - 1);
-                        var= sheet->getValue(path, static_cast<Qt::ItemDataRole>(role));
+                        if(role == UuidRole)
+                            var = sheet->uuid();
+                        else if(role == NameRole)
+                            var = sheet->name();
+                        else
+                            var= sheet->getValue(path, static_cast<Qt::ItemDataRole>(role));
+
+
                     }
                 }
             }
@@ -468,14 +481,16 @@ void CharacterSheetModel::removeCharacterSheet(int index)
 
 CharacterSheet* CharacterSheetModel::getCharacterSheetById(QString id)
 {
-    for(auto& sheet : *m_characterList)
-    {
-        if(sheet->getUuid() == id)
-        {
-            return sheet;
-        }
-    }
-    return nullptr;
+    if(nullptr==m_characterList)
+        return nullptr;
+
+    auto it = std::find_if(m_characterList->begin(), m_characterList->end(), [id](CharacterSheet* sheet){
+       return sheet->uuid() == id;
+    });
+    if(it == m_characterList->end())
+        return nullptr;
+    else
+        return (*it);
 }
 
 int CharacterSheetModel::getCharacterSheetCount() const
@@ -546,7 +561,7 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
             if(m_characterList->size() > (section - 1))
             {
                 auto character= m_characterList->at(section - 1);
-                return character->getName();
+                return character->name();
             }
             else
             {

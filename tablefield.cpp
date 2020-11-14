@@ -725,7 +725,7 @@ void TableField::loadDataItem(const QJsonObject& json)
     m_model->loadDataItem(childArray, this);
 }
 
-void TableField::setChildFieldData(QJsonObject& json)
+void TableField::setChildFieldData(const QJsonObject& json)
 {
     m_model->setChildFieldData(json);
 }

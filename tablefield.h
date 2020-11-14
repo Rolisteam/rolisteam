@@ -153,7 +153,7 @@ public:
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
     void saveDataItem(QJsonObject& json) override;
     void loadDataItem(const QJsonObject& json) override;
-    void setChildFieldData(QJsonObject& json);
+    void setChildFieldData(const QJsonObject &json);
 
     int getMaxVisibleRowCount() const;
 

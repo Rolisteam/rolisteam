@@ -123,7 +123,7 @@ const QVariant CharacterSheet::getValue(QString path, int role) const
         {
             return item->getId();
         }
-        else if(role == CharacterSheetModel::Formula)
+        else if(role == CharacterSheetModel::FormulaRole)
         {
             return item->getFormula();
         }
@@ -232,14 +232,32 @@ QStringList CharacterSheet::explosePath(QString str)
     return str.split('.');
 }
 
-QString CharacterSheet::getUuid() const
+QString CharacterSheet::uuid() const
 {
     return m_uuid;
 }
 
 void CharacterSheet::setUuid(const QString& uuid)
 {
+    if(uuid == m_uuid || uuid.isEmpty())
+        return;
+
     m_uuid= uuid;
+    emit uuidChanged();
+}
+
+QString CharacterSheet::name() const
+{
+    return m_name;
+}
+
+void CharacterSheet::setName(const QString& name)
+{
+    if(name== m_name )
+        return;
+
+    m_name= name;
+    emit nameChanged();
 }
 
 void CharacterSheet::setFieldData(QJsonObject& obj, const QString& parent)
@@ -262,16 +280,6 @@ void CharacterSheet::setFieldData(QJsonObject& obj, const QString& parent)
             table->setChildFieldData(obj);
         }
     }
-}
-
-QString CharacterSheet::getName() const
-{
-    return m_name;
-}
-
-void CharacterSheet::setName(const QString& name)
-{
-    m_name= name;
 }
 
 Section* CharacterSheet::getRootSection() const
@@ -300,8 +308,8 @@ void CharacterSheet::save(QJsonObject& json)
 
 void CharacterSheet::load(QJsonObject& json)
 {
-    m_name= json["name"].toString();
-    m_uuid= json["idSheet"].toString();
+    setName(json["name"].toString());
+    setUuid(json["idSheet"].toString());
     QJsonObject array= json["values"].toObject();
     for(auto& key : array.keys())
     {
