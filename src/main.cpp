@@ -50,17 +50,16 @@ int main(int argc, char* argv[])
     registerQmlTypes();
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QString locale= QLocale::system().name();
 
     // Ressources
     // QResource::registerResource(appName+".rcc");
 
     QTranslator rolisteamTranslator;
-    rolisteamTranslator.load(":/translations/rcse_" + locale);
+    rolisteamTranslator.load(QLocale(), ":/translations/rcse", "_");
     a.installTranslator(&rolisteamTranslator);
 
     QTranslator qtTranslator;
-    qtTranslator.load(":/translations/qt_" + locale);
+    qtTranslator.load(QLocale(), ":/translations/qt", "_");
     a.installTranslator(&qtTranslator);
 
     QCommandLineParser parser;

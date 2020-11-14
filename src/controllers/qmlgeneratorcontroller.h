@@ -15,6 +15,7 @@ class QTreeView;
 class ImageModel;
 class QQuickWidget;
 class ImageController;
+class CharacterController;
 class QmlGeneratorController : public QObject
 {
     Q_OBJECT
@@ -25,6 +26,7 @@ class QmlGeneratorController : public QObject
     Q_PROPERTY(qreal fixedScale READ fixedScale WRITE setFixedScale NOTIFY fixedScaleChanged)
     Q_PROPERTY(QStringList fonts READ fonts WRITE setFonts NOTIFY fontsChanged)
     Q_PROPERTY(bool textEdited READ textEdited NOTIFY textEditedChanged)
+    Q_PROPERTY(QString uuidCharacter READ uuidCharacter WRITE setUuidCharacter NOTIFY uuidCharacterChanged)
 public:
     explicit QmlGeneratorController(CodeEditor* codeEditor, QTreeView* view, QObject* parent= nullptr);
 
@@ -42,10 +44,13 @@ public:
 
     FieldModel* fieldModel() const;
 
-    void showQML(QQuickWidget* quickView, ImageController* imgCtrl);
+    void showQML(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController* characterCtrl);
 
     QStringList fonts() const;
     void generateQML(const ImageController* ctrl, QString& qml);
+
+    QString uuidCharacter() const;
+
 
 signals:
     void dataChanged();
@@ -59,6 +64,7 @@ signals:
     void errors(const QList<QQmlError>& warning);
     void sectionChanged(Section* section);
     void reportLog(const QString& log, LogController::LogLevel level= LogController::Features);
+    void uuidCharacterChanged(QString uuidCharacter);
 
 public slots:
     void setHeadCode(QString headCode);
@@ -69,7 +75,9 @@ public slots:
     void setLastPageId(unsigned int pageId);
     void setTextEdited(bool t);
     void setFonts(QStringList fonts);
-    void runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl);
+    void runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController *characterCtrl);
+    void setUuidCharacter(QString uuidCharacter);
+
 
 protected slots:
     void rollDice(QString cmd);
@@ -89,6 +97,7 @@ private:
     unsigned int m_lastPageId= 0;
     mutable bool m_textEdited= false;
     std::unique_ptr<MockCharacter> m_mockCharacter;
+    QString m_uuidCharacter;
 };
 
 #endif // QMLGENERATORCONTROLLER_H

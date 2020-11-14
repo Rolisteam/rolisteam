@@ -10,6 +10,7 @@
 
 #include "codeeditor.h"
 #include "imagecontroller.h"
+#include "charactercontroller.h"
 #include "rolisteamimageprovider.h"
 
 QmlGeneratorController::QmlGeneratorController(CodeEditor* codeEditor, QTreeView* view, QObject* parent)
@@ -222,15 +223,31 @@ void QmlGeneratorController::clearData()
     connect(m_mockCharacter.get(), &MockCharacter::log, this,
             [this](const QString& log) { emit reportLog(log, LogController::Features); });
 }
-void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* imgCtrl)
+void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController *characterCtrl)
 {
     QString data;
     generateQML(imgCtrl, data);
     m_codeEdit->setPlainText(data);
-    runQmlFromCode(quickView, imgCtrl);
+    runQmlFromCode(quickView, imgCtrl, characterCtrl);
 }
 
-void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl)
+QString QmlGeneratorController::uuidCharacter() const
+{
+    return m_uuidCharacter;
+}
+
+void QmlGeneratorController::setUuidCharacter(QString uuidCharacter)
+{
+    if (m_uuidCharacter == uuidCharacter)
+        return;
+
+    qDebug()<< "changed uuid" << uuidCharacter;
+
+    m_uuidCharacter = uuidCharacter;
+    emit uuidCharacterChanged(m_uuidCharacter);
+}
+
+void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController *characterCtrl)
 {
     QString data= m_codeEdit->toPlainText();
 
@@ -247,11 +264,28 @@ void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageContro
     quickView->engine()->clearComponentCache();
     quickView->engine()->addImportPath("qrc:/src/charactersheet/qml");
     quickView->engine()->addImageProvider(QLatin1String("rcs"), provider);
-    QList<CharacterSheetItem*> list= m_model->children();
-    for(CharacterSheetItem* item : list)
+
+    auto charactersheet = characterCtrl->characterSheetFromUuid(m_uuidCharacter);
+    if(nullptr != charactersheet)
     {
-        quickView->engine()->rootContext()->setContextProperty(item->getId(), item);
+        for(int i= 0; i < charactersheet->getFieldCount(); ++i)
+        {
+            CharacterSheetItem* field= charactersheet->getFieldAt(i);
+            if(nullptr != field)
+            {
+                quickView->engine()->rootContext()->setContextProperty(field->getId(), field);
+            }
+        }
     }
+    else
+    {
+        QList<CharacterSheetItem*> list= m_model->children();
+        for(CharacterSheetItem* item : list)
+        {
+            quickView->engine()->rootContext()->setContextProperty(item->getId(), item);
+        }
+    }
+
     quickView->engine()->rootContext()->setContextProperty("_character", m_mockCharacter.get());
 
     connect(quickView->engine(), &QQmlEngine::warnings, this, &QmlGeneratorController::errors);

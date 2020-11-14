@@ -67,6 +67,7 @@
 #include "controllers/qmlgeneratorcontroller.h"
 
 #include "delegate/pagedelegate.h"
+#include "data/characterlist.h"
 
 // Undo
 #include "undo/addpagecommand.h"
@@ -101,6 +102,16 @@ MainWindow::MainWindow(QWidget* parent)
     m_characterCtrl.reset(new CharacterController(m_undoStack, ui->m_characterView));
     m_qmlCtrl.reset(new QmlGeneratorController(ui->m_codeEdit, ui->treeView));
 
+    ui->m_characterSelectBox->setModel(m_characterCtrl->characters());
+    connect(m_characterCtrl->characters(), &CharacterList::dataChanged,this, [this](){
+        ui->m_characterSelectBox->setCurrentIndex(0);
+    });
+
+    connect(ui->m_characterSelectBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,[this](){
+        m_qmlCtrl->setUuidCharacter(ui->m_characterSelectBox->currentData().toString());
+    });
+
+    ui->m_characterSelectBox->setCurrentIndex(0);
     connect(m_editorCtrl.get(), &EditorController::canvasBackgroundChanged, m_imageCtrl.get(),
             &ImageController::addBackgroundImage);
 
@@ -837,7 +848,7 @@ void MainWindow::showQML()
         }
     }
     QString data;
-    m_qmlCtrl->showQML(ui->m_quickview, m_imageCtrl.get());
+    m_qmlCtrl->showQML(ui->m_quickview, m_imageCtrl.get(), m_characterCtrl.get());
 }
 
 void MainWindow::displayWarningsQML(const QList<QQmlError>& list)
@@ -869,7 +880,7 @@ void MainWindow::displayWarningsQML(const QList<QQmlError>& list)
 
 void MainWindow::showQMLFromCode()
 {
-    m_qmlCtrl->runQmlFromCode(ui->m_quickview, m_imageCtrl.get());
+    m_qmlCtrl->runQmlFromCode(ui->m_quickview, m_imageCtrl.get(),m_characterCtrl.get());
 }
 
 void MainWindow::saveQML()

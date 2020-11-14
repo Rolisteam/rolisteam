@@ -315,7 +315,7 @@ void EditorController::clearData(bool defaulCanvas)
 
 int EditorController::addPage()
 {
-    std::unique_ptr<Canvas> canvas(new Canvas(this));
+    std::unique_ptr<Canvas> canvas(new Canvas(this)); // not parenting
     int page= -1;
     for(const auto& canvas : m_canvasList)
     {

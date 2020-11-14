@@ -1,8 +1,11 @@
 #include "charactercontroller.h"
 
 #include <QAction>
+#include <QHeaderView>
 #include <QMenu>
 #include <QTreeView>
+
+#include "data/characterlist.h"
 
 // undo
 #include "undo/addcharactercommand.h"
@@ -10,7 +13,11 @@
 #include "undo/setpropertyonallcharacters.h"
 
 CharacterController::CharacterController(QUndoStack& undoStack, QTreeView* view, QObject* parent)
-    : QObject(parent), m_view(view), m_undoStack(undoStack), m_characterModel(new CharacterSheetModel)
+    : QObject(parent)
+    , m_view(view)
+    , m_undoStack(undoStack)
+    , m_characterModel(new CharacterSheetModel)
+    , m_characters(new CharacterList)
 {
     connect(m_view, &QTreeView::customContextMenuRequested, this, &CharacterController::contextMenu);
 
@@ -21,6 +28,8 @@ CharacterController::CharacterController(QUndoStack& undoStack, QTreeView* view,
 
     m_applyValueOnSelectedCharacterLines= new QAction(tr("Apply on Selection"), this);
     m_applyValueOnAllCharacters= new QAction(tr("Apply on all characters"), this);
+
+    m_characters->setSourceModel(m_characterModel.get());
 
     connect(m_addCharacter, &QAction::triggered, this, &CharacterController::sendAddCharacterCommand);
     connect(m_deleteCharacter, &QAction::triggered, this, &CharacterController::sendRemoveCharacterCommand);
@@ -37,19 +46,35 @@ CharacterController::CharacterController(QUndoStack& undoStack, QTreeView* view,
     });
 
     connect(m_characterModel.get(), &CharacterSheetModel::characterSheetHasBeenAdded, [this](CharacterSheet* sheet) {
-        int col= m_characterModel->columnCount();
-        m_view->resizeColumnToContents(col - 2);
         connect(sheet, &CharacterSheet::updateField, m_characterModel.get(), &CharacterSheetModel::fieldHasBeenChanged);
         connect(sheet, &CharacterSheet::addLineToTableField, m_characterModel.get(), &CharacterSheetModel::addSubChild);
         connect(sheet, &CharacterSheet::updateField, this, &CharacterController::dataChanged);
         connect(sheet, &CharacterSheet::addLineToTableField, this, &CharacterController::dataChanged);
         emit dataChanged();
     });
+
+    connect(m_characterModel.get(), &CharacterSheetModel::columnsInserted, this, [this]() {
+        auto count= m_characterModel->columnCount();
+        if(count < 2)
+            return;
+        auto w= m_view->geometry().width() / count;
+        for(int i= 0; i < count; ++i)
+        {
+            m_view->setColumnWidth(i, w);
+        }
+    });
 }
+
+CharacterController::~CharacterController()= default;
 
 void CharacterController::sendAddCharacterCommand()
 {
     m_undoStack.push(new AddCharacterCommand(this));
+}
+
+QAbstractItemModel* CharacterController::characters() const
+{
+    return m_characters.get();
 }
 
 void CharacterController::sendRemoveCharacterCommand()
@@ -65,6 +90,12 @@ CharacterSheet* CharacterController::characterSheetFromIndex(int index) const
 {
     return m_characterModel->getCharacterSheet(index);
 }
+
+CharacterSheet* CharacterController::characterSheetFromUuid(const QString& uuid) const
+{
+    return m_characterModel->getCharacterSheetById(uuid);
+}
+
 void CharacterController::addCharacter()
 {
     insertCharacter(characterCount(), new CharacterSheet);
@@ -85,7 +116,7 @@ void CharacterController::insertCharacter(int pos, CharacterSheet* sheet)
 
 void CharacterController::contextMenu(const QPoint& pos)
 {
-    Q_UNUSED(pos);
+    Q_UNUSED(pos)
     QMenu menu;
     menu.addAction(m_addCharacter);
     // menu.addAction(m_copyCharacter);
@@ -123,7 +154,7 @@ void CharacterController::applyOnAllCharacter()
 {
     auto index= m_view->currentIndex();
     QString value= index.data().toString();
-    QString formula= index.data(CharacterSheetModel::Formula).toString();
+    QString formula= index.data(CharacterSheetModel::FormulaRole).toString();
     auto characterItem= m_characterModel->indexToSection(index);
     if((!value.isEmpty()) && (nullptr != characterItem))
     {

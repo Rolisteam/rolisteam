@@ -94,6 +94,7 @@ SOURCES += main.cpp\
     controllers/editorcontroller.cpp \
     controllers/imagecontroller.cpp \
     controllers/qmlgeneratorcontroller.cpp \
+    data/characterlist.cpp \
     data/mockcharacter.cpp \
     mainwindow.cpp \
     canvas.cpp \
@@ -137,6 +138,7 @@ HEADERS  += mainwindow.h \
     controllers/editorcontroller.h \
     controllers/imagecontroller.h \
     controllers/qmlgeneratorcontroller.h \
+    data/characterlist.h \
     data/mockcharacter.h \
     fieldmodel.h \
     borderlisteditor.h \

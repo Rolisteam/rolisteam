@@ -46,6 +46,8 @@ public:
 
     void clearData(bool defaulCanvas);
 
+    QAbstractItemModel* characters() const;
+
     void load(QJsonObject& obj);
     void save(QJsonObject& obj);
     void setImageBackground(int idx, const QPixmap& pix, const QString& filepath);
