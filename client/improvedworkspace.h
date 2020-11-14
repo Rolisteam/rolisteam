@@ -104,7 +104,7 @@ private:
     QPixmap m_variableSizeBackground;
 
     PreferencesManager* m_preferences;
-    QMap<QAction*, QMdiSubWindow*>* m_actionSubWindowMap;
+    QMap<QAction*, QPointer<QMdiSubWindow>> m_actionSubWindowMap;
     QImage* imageFond; // Image de fond du workspace
 
     QString m_fileName;

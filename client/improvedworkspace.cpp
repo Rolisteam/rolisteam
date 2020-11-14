@@ -29,8 +29,7 @@
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-ImprovedWorkspace::ImprovedWorkspace(QWidget* parent)
-    : QMdiArea(parent), m_variableSizeBackground(size()), m_actionSubWindowMap(new QMap<QAction*, QMdiSubWindow*>())
+ImprovedWorkspace::ImprovedWorkspace(QWidget* parent) : QMdiArea(parent), m_variableSizeBackground(size())
 {
     m_preferences= PreferencesManager::getInstance();
 
@@ -53,16 +52,18 @@ ImprovedWorkspace::~ImprovedWorkspace()
         m_backgroundPicture= nullptr;
     }
 
-    if(nullptr != m_actionSubWindowMap)
+    /*if(nullptr != m_actionSubWindowMap)
     {
         delete m_actionSubWindowMap;
         m_actionSubWindowMap= nullptr;
-    }
+    }*/
 }
 bool ImprovedWorkspace::showCleverUri(CleverURI* uri)
 {
-    for(auto& i : *m_actionSubWindowMap)
+    for(auto& i : m_actionSubWindowMap)
     {
+        if(i.isNull())
+            continue;
         auto media= qobject_cast<MediaContainer*>(i);
         if(nullptr == media)
             continue;
@@ -208,12 +209,12 @@ void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
 void ImprovedWorkspace::removeMediaContainer(MediaContainer* mediac)
 {
     removeSubWindow(mediac);
-    m_actionSubWindowMap->remove(mediac->getAction());
+    m_actionSubWindowMap.remove(mediac->getAction());
     mediac->removeEventFilter(this);
 }
 void ImprovedWorkspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
 {
-    m_actionSubWindowMap->insert(act, sub);
+    m_actionSubWindowMap.insert(act, sub);
 }
 void ImprovedWorkspace::setTabbedMode(bool isTabbed)
 {
@@ -224,10 +225,10 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
         setTabsMovable(true);
         setTabPosition(QTabWidget::North);
         /// make all subwindows visible.
-        auto keys= m_actionSubWindowMap->keys();
+        auto keys= m_actionSubWindowMap.keys();
         for(QAction* act : keys)
         {
-            auto tmp= m_actionSubWindowMap->value(act);
+            auto tmp= m_actionSubWindowMap.value(act);
             if(nullptr == tmp)
             {
                 tmp->setVisible(true);
@@ -254,7 +255,7 @@ bool ImprovedWorkspace::updateTitleTab()
     int textLength= m_preferences->value("MaxLengthTabName", 10).toInt();
     if((viewMode() == QMdiArea::TabbedView) && (shortName))
     {
-        auto values= m_actionSubWindowMap->values();
+        auto values= m_actionSubWindowMap.values();
         for(auto& subwindow : values)
         {
             auto title= subwindow->windowTitle();
@@ -297,10 +298,10 @@ void ImprovedWorkspace::ensurePresent()
     QAction* act= qobject_cast<QAction*>(sender());
     if(nullptr != act)
     {
-        if(!subWindowList().contains(m_actionSubWindowMap->value(act)))
+        if(!subWindowList().contains(m_actionSubWindowMap.value(act)))
         {
-            m_actionSubWindowMap->value(act)->widget()->setVisible(true);
-            addSubWindow(m_actionSubWindowMap->value(act));
+            m_actionSubWindowMap.value(act)->widget()->setVisible(true);
+            addSubWindow(m_actionSubWindowMap.value(act));
         }
     }
 }
