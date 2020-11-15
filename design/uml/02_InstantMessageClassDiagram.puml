@@ -1,0 +1,24 @@
+@startuml
+
+title InstantMessaging - Class Diagram
+
+
+class InstantMessagingController {
+QString m_localId
+}
+
+class InstantMessaging::ChatRoom {
+QString m_localId
+}
+
+
+AbstractControllerInterface <|-- InstantMessagingController
+InstantMessagingController *-- InstantMessaging::InstantMessagingModel
+InstantMessagingController "1" *-- "many"  InstantMessaging::FilterInstantMessagingModel
+InstantMessagingController *-- InstantMessaging::InstantMessagingUpdater
+InstantMessagingController *-- InstantMessaging::LocalPersonModel
+InstantMessagingController o-- InstantMessaging::PlayerModel
+
+
+InstantMessaging::InstantMessagingModel  "1" *-- "many" InstantMessaging::ChatRoom
+@enduml
