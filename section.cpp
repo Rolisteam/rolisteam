@@ -316,9 +316,9 @@ void Section::buildDataInto(CharacterSheet* character)
             }
             else if(CharacterSheetItem::TableItem == childItem->getItemType())
             {
-                TableField* field= new TableField(false);
-                field->copyField(childItem, false);
-                newItem= field;
+                TableField* tablefield= new TableField(false);
+                tablefield->copyField(childItem, false);
+                newItem= tablefield;
             }
 
             if(nullptr != newItem)

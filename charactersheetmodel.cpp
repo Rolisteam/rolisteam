@@ -602,7 +602,7 @@ void CharacterSheetModel::addSection()
 CharacterSheetItem* CharacterSheetModel::addSection(QString title)
 {
     beginInsertRows(QModelIndex(), m_rootSection->getChildrenCount(), m_rootSection->getChildrenCount());
-    Section* rootSection= static_cast<Section*>(m_rootSection);
+    Section* rootSection= m_rootSection;
     Section* sec= new Section();
     sec->setLabel(title);
     sec->setId(tr("Section_%1").arg(m_rootSection->getChildrenCount() + 1));

@@ -168,9 +168,9 @@ void ImageModel::load(const QJsonArray& array)
         auto obj= ref.toObject();
         ImageInfo info;
         auto bin= obj["bin"].toString();
-        QByteArray array= QByteArray::fromBase64(bin.toLocal8Bit());
+        QByteArray data= QByteArray::fromBase64(bin.toLocal8Bit());
 
-        info.pixmap.loadFromData(array);
+        info.pixmap.loadFromData(data);
 
         info.key= obj["key"].toString();
         info.isBackground= obj["isBg"].toBool();
@@ -260,10 +260,10 @@ void ImageModel::setPathFor(const QModelIndex& idx, const QString& path)
         return;
 
     auto row= idx.row();
-    if(row < 0 || row >= m_data.size())
+    if(row < 0 || static_cast<int>(m_data.size()) >= row)
         return;
 
-    auto& info= m_data[static_cast<int>(row)];
+    auto& info= m_data[static_cast<std::size_t>(row)];
 
     QPixmap pix(path);
     if(pix.isNull())
@@ -284,7 +284,7 @@ void ImageModel::removeImageByKey(const QString& key)
     if(it == m_data.end())
         return; // unfound
 
-    removeImage(std::distance(m_data.begin(), it));
+    removeImage(static_cast<int>(std::distance(m_data.begin(), it)));
 }
 
 QSize ImageModel::backgroundSize() const

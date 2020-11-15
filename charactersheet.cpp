@@ -263,10 +263,10 @@ void CharacterSheet::setName(const QString& name)
 void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent)
 {
     QString id= obj["id"].toString();
-    CharacterSheetItem* item= m_valuesMap.value(id);
-    if(nullptr != item)
+    CharacterSheetItem* value= m_valuesMap.value(id);
+    if(nullptr != value)
     {
-        item->loadDataItem(obj);
+        value->loadDataItem(obj);
     }
     else
     {
