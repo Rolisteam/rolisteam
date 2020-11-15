@@ -124,7 +124,6 @@ void RGraphicsView::mouseMoveEvent(QMouseEvent* event)
             auto dy= current.y() - m_lastPoint.y();
             rect.translate(-dx, -dy);
             setSceneRect(rect);
-            m_vmap->updateFog();
         }
         m_lastPoint= mapToScene(event->pos());
     }
@@ -785,11 +784,6 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
     Q_UNUSED(y)
     Q_UNUSED(width)
     Q_UNUSED(height)
-
-    if(m_vmap)
-    {
-        m_vmap->updateFog();
-    }
 
     // if(nullptr!=scene())
     //{

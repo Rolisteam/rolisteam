@@ -131,7 +131,7 @@ private:
 
     Core::SelectableTool m_currentTool;
     PreferencesManager* m_preferences= nullptr;
-    QPoint m_lastPoint;
+    QPointF m_lastPoint;
     QPoint m_menuPoint;
     QGraphicsItem* m_centerOnItem= nullptr;
 };

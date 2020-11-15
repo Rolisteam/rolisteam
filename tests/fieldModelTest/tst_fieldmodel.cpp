@@ -51,7 +51,7 @@ void FieldModelTest::initTestCase()
     QStringList list;
     list << "column1"
          << "column2";
-    m_model= new GenericModel(list, QVector<int>(), this);
+    m_model.reset(new GenericModel(list, QVector<int>(), this));
 }
 
 void FieldModelTest::testHeader()

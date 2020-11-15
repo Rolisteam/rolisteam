@@ -618,7 +618,7 @@ void PreferencesDialog::exportTheme()
     QString pathExport= QFileDialog::getSaveFileName(
         this, tr("Export Rolisteam Theme"),
         m_preferences->value("ThemeDirectory", QDir::homePath()).toString().append("/%1.rskin").arg(name),
-        tr("Rolisteam Theme: %1").arg("*.rskin"))
+        tr("Rolisteam Theme: %1").arg("*.rskin"));
 
     m_ctrl->exportTheme(pathExport, i);
 }

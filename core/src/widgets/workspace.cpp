@@ -416,7 +416,7 @@ void Workspace::addWindowAction(const QString& name, MediaContainer* window)
     connect(ctrl, &MediaControllerBase::destroyed, act, &QAction::deleteLater);
 }
 
-void Workspace::addWidgetToMdi(MediaContainer* wid, QString title)
+void Workspace::addWidgetToMdi(MediaContainer* wid, const QString& title)
 {
     wid->setParent(this);
     QMdiSubWindow* sub= addSubWindow(wid);

@@ -130,7 +130,6 @@ private slots:
 private:
     void visionChanged();
     void initChildPointItemMotion();
-    bool canBeMoved() const override;
 
 private:
     QPointer<vmap::CharacterItemController> m_itemCtrl;

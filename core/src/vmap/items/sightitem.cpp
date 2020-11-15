@@ -121,20 +121,6 @@ void SightItem::updateItemFlags()
     setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 
-void SightItem::endOfGeometryChange()
-{
-    if(m_resizing)
-    {
-        markDirty();
-    }
-    VisualItem::endOfGeometryChange();
-}
-
-void SightItem::markDirty()
-{
-    m_fogChanged= true;
-    updateVeil();
-}
 QRectF SightItem::boundingRect() const
 {
     /*if(nullptr == scene())
@@ -283,15 +269,15 @@ void SightItem::initChildPointItem()
     m_sightCtrl->setRect(scene()->sceneRect());
 }
 
-void SightItem::monitorView()
+/*void SightItem::monitorView()
 {
     auto map= scene();
     if(!map)
         return;
 
     QList<QGraphicsView*> list= map->views();
-    connect(map, &QGraphicsScene::sceneRectChanged, this, &SightItem::markDirty);
-    connect(map, &QGraphicsScene::changed, this, &SightItem::markDirty);
+    //connect(map, &QGraphicsScene::sceneRectChanged, this, &SightItem::markDirty);
+    //connect(map, &QGraphicsScene::changed, this, &SightItem::markDirty);
 
     if(!list.isEmpty())
     {
@@ -299,16 +285,16 @@ void SightItem::monitorView()
         auto viewport= view->viewport();
         viewport->installEventFilter(this);
     }
-}
+}*/
 
-bool SightItem::eventFilter(QObject* watched, QEvent* event)
+/*bool SightItem::eventFilter(QObject* watched, QEvent* event)
 {
     if(event->type() == QEvent::Resize)
     {
-        markDirty();
+        //markDirty();
     }
     return QObject::eventFilter(watched, event);
-}
+}*/
 
 VisualItem* SightItem::getItemCopy()
 {

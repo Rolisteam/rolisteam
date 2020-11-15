@@ -67,7 +67,7 @@ public:
      * @brief setNewEnd
      * @param nend
      */
-    virtual void setNewEnd(const QPointF& nend);
+    virtual void setNewEnd(const QPointF& nend) override;
     /**
      * @brief writeData
      * @param out
@@ -108,7 +108,7 @@ public:
      * @return
      */
     virtual QRectF boundingRect() const override;
-    void monitorView();
+    // void monitorView();
     /**
      * @brief paint
      * @param painter
@@ -151,12 +151,8 @@ public:
      * @brief addFogPolygon
      * @param a
      */
-    
-
-    void markDirty();
     // FogSingularity* addFogPolygon(QPolygonF* a, bool adding);
-    virtual void updateItemFlags();
-    virtual void endOfGeometryChange() override;
+    virtual void updateItemFlags() override;
 public slots:
     /**
      * @brief moveVision
@@ -169,9 +165,6 @@ public slots:
      * @param item
      */
     // void removeVision(CharacterItem* item);
-
-    bool eventFilter(QObject* watched, QEvent* event) override;
-
 private:
     QPointer<vmap::SightController> m_sightCtrl;
     CharacterVision::SHAPE m_defaultShape;
