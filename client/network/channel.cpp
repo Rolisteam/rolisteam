@@ -121,19 +121,17 @@ void Channel::writeIntoJson(QJsonObject& json)
     json["locked"]= m_locked;
 
     QJsonArray array;
-    for(int i= 0; i < m_child.size(); ++i)
+    for(auto item : m_child)
     {
-        if(m_child.at(i)->isLeaf())
+        if(!item)
+            continue;
+
+        if(item->isLeaf())
         {
-            TreeItem* item= m_child.at(i);
-            // Channel* item = dynamic_cast<Channel*>(m_child.at(i));
-            if(nullptr != item)
-            {
-                QJsonObject jsonObj;
-                item->writeIntoJson(jsonObj);
-                jsonObj["gm"]= (item == m_currentGm);
-                array.append(jsonObj);
-            }
+            QJsonObject jsonObj;
+            item->writeIntoJson(jsonObj);
+            jsonObj["gm"]= (item == m_currentGm);
+            array.append(jsonObj);
         }
     }
     json["children"]= array;
@@ -171,6 +169,8 @@ void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
     int i= 0;
     for(auto& client : m_child)
     {
+        if(client.isNull())
+            continue;
         TcpClient* other= dynamic_cast<TcpClient*>(client.data());
 
         if((nullptr != other) && (other != tcp) && (recipient.contains(other->getId())))
@@ -190,6 +190,8 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
     int i= 0;
     for(auto& client : m_child)
     {
+        if(client.isNull())
+            continue;
         TcpClient* other= dynamic_cast<TcpClient*>(client.data());
         if((nullptr != other) && (other != tcp))
         {
@@ -207,7 +209,11 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 
 bool Channel::contains(QString id)
 {
-    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) { return item->getId() == id; });
+    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) {
+        if(!item)
+            return false;
+        return item->getId() == id;
+    });
 
     return dupplicate != m_child.end();
 }
@@ -288,6 +294,9 @@ void Channel::updateNewClient(TcpClient* newComer)
     // Sending players infos
     for(auto& child : m_child)
     {
+        if(child.isNull())
+            continue;
+
         if(child->isLeaf())
         {
             TcpClient* tcpConnection= dynamic_cast<TcpClient*>(child.data());
@@ -328,7 +337,7 @@ void Channel::kick(const QString& str, bool isAdmin, const QString& sourceId)
     QPointer<TreeItem> toKick;
     for(auto& item : m_child)
     {
-        if(item == nullptr)
+        if(item.isNull())
             continue;
         if(!hasRightToKick && item->getId() == sourceId)
         {
@@ -360,6 +369,8 @@ void Channel::kick(const QString& str, bool isAdmin, const QString& sourceId)
     // NOTE - could be useless
     for(auto& item : m_child)
     {
+        if(item.isNull())
+            continue;
         item->kick(str, isAdmin, sourceId);
     }
 }
@@ -368,6 +379,8 @@ void Channel::clear()
 {
     for(auto& item : m_child)
     {
+        if(item.isNull())
+            continue;
         item->clear();
     }
     qDeleteAll(m_child);
@@ -377,6 +390,8 @@ TreeItem* Channel::getChildById(QString id)
 {
     for(auto& item : m_child)
     {
+        if(item.isNull())
+            continue;
         if(item->getId() == id)
         {
             return item;
@@ -474,6 +489,8 @@ void Channel::clearData()
 
 bool Channel::removeChild(TreeItem* itm)
 {
+    if(nullptr == itm)
+        return false;
     if(itm->isLeaf())
     {
         return removeClient(static_cast<TcpClient*>(itm));
@@ -494,6 +511,8 @@ bool Channel::hasNoClient()
     bool hasNoClient= true;
     for(auto& child : m_child)
     {
+        if(child.isNull())
+            return false;
         if(child->isLeaf())
         {
             hasNoClient= false;
@@ -587,7 +606,12 @@ void Channel::setLocked(bool locked)
 }
 bool Channel::removeChildById(const QString& id)
 {
-    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) { return item->getId() == id; });
+    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) {
+        if(nullptr == item)
+            return false;
+        else
+            return item->getId() == id;
+    });
 
     if(dupplicate == m_child.end())
         return false;
