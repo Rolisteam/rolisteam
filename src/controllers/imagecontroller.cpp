@@ -34,7 +34,7 @@ ImageController::ImageController(QTableView* view, QObject* parent)
     m_reloadImageFromFile= new QAction(tr("Reload image from file"), this);
 
     connect(m_copyPath, &QAction::triggered, this, &ImageController::copyPath);
-    connect(m_copyUrl, &QAction::triggered, this, &ImageController::copyPath);
+    connect(m_copyUrl, &QAction::triggered, this, &ImageController::copyUrl);
     connect(m_replaceImage, &QAction::triggered, this, &ImageController::replaceImage);
     connect(m_removeImage, &QAction::triggered, this, &ImageController::removeImage);
     connect(m_reloadImageFromFile, &QAction::triggered, this, &ImageController::reloadImageFromFile);
