@@ -61,17 +61,22 @@ QVariant ImageModel::data(const QModelIndex& index, int role) const
         return QVariant::fromValue(QString("<img src='data:image/png;base64, %0'>").arg(QString(data.toBase64())));
     }
 
-    std::vector<int> ap({Qt::EditRole, Qt::DisplayRole});
+    std::vector<int> ap({Qt::EditRole, Qt::DisplayRole, FilenameRole, BackgroundRole, UrlRole, KeyRole});
 
     if(std::find(ap.begin(), ap.end(), role) == ap.end())
         return {};
 
-    if(col == 0)
-        trueRole= (Qt::EditRole == role) ? KeyRole : UrlRole;
-    else if(col == 1)
-        trueRole= FilenameRole;
-    else if(col == 2)
-        trueRole= BackgroundRole;
+    if(role == Qt::EditRole || role == Qt::DisplayRole)
+    {
+        if(col == 0)
+            trueRole= (Qt::EditRole == role) ? KeyRole : UrlRole;
+        else if(col == 1)
+            trueRole= FilenameRole;
+        else if(col == 2)
+            trueRole= BackgroundRole;
+    }
+    else
+        trueRole= role;
 
     switch(trueRole)
     {
