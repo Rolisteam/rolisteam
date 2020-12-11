@@ -379,7 +379,7 @@ void EditorController::insertPage(int i, Canvas* canvas)
 Canvas* EditorController::removePage(int i)
 {
     auto idx= static_cast<std::size_t>(i);
-    if(idx > m_canvasList.size() || i < 0)
+    if(idx > m_canvasList.size() || i < 0 || m_canvasList.size() == 0)
         return nullptr;
     auto p= m_canvasList[idx].release();
     m_canvasList.erase(m_canvasList.begin() + i);
