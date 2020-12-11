@@ -32,8 +32,8 @@
 
 int main(int argc, char* argv[])
 {
-    QApplication a(argc, argv);
     QtWebEngine::initialize();
+    QApplication a(argc, argv);
     a.setAttribute(Qt::AA_DontUseNativeMenuBar, true);
     QString appName("RCSE");
     a.setApplicationName(appName);
