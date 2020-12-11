@@ -9,7 +9,6 @@ TextField {
     property alias hAlign: root.horizontalAlignment
     property alias vAlign: root.verticalAlignment
     property bool clippedText: false
-    property bool readOnly: false
     property string tooltip: ""
     bottomPadding: 0
     topPadding: 0
