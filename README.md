@@ -1,4 +1,4 @@
-<p align='center'><img src="https://invent.kde.org/rolisteam/rolisteam/-/blob/2afd09d7185f7aa519366e82e46a56b776c04388/resources/rolistheme/1000-rolisteam.png"/></p>
+<p align='center'><img src="https://invent.kde.org/rolisteam/rolisteam/resources/rolistheme/1000-rolisteam.png"/></p>
 
 ---
 
