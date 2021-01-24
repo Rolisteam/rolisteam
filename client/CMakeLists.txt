@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-
 project(rolisteam)
 
 set(CMAKE_AUTOMOC ON)
@@ -28,10 +27,14 @@ include_directories(../core/libs)
 set(QT_REQUIRED_VERSION "5.15.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools)
 
+set(RESOURCE_FILES ../rolisteam.qrc)
+add_custom_target(resources ALL DEPENDS ${RESOURCE_FILES})
+add_dependencies(resources translations)
+
 
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/rolisteam_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
-
-add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ../rolisteam.qrc)
+add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ${RESOURCE_FILES})
+add_dependencies(rolisteam resources)
 
 if(${HAS_PDF})
     message("Client with PDF")
