@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.10)
 project(rolisteam VERSION 1.10.0 LANGUAGES CXX)
 add_definitions(-DVERSION_MAJOR=1 -DVERSION_MIDDLE=10 -DVERSION_MINOR=0 -DHAVE_SOUND -DHAVE_QT_NETWORK=1 -DHAVE_WEBVIEW=1)
 set(QT_REQUIRED_VERSION "5.15.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools QmlImportScanner)
+set(CMAKE_AUTORCC ON)
 
 #helper
 #include(cmake/TranslationHelper.cmake)
