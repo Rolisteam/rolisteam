@@ -87,8 +87,8 @@ void SaturationChooser::setColor(QColor& color)
 void SaturationChooser::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
-    QLinearGradient linearGrad(
-        QPointF(0, event->rect().height() / 2), QPointF(event->rect().width(), event->rect().height() / 2));
+    QLinearGradient linearGrad(QPointF(0, event->rect().height() / 2),
+                               QPointF(event->rect().width(), event->rect().height() / 2));
     linearGrad.setColorAt(0, Qt::black);
     linearGrad.setColorAt(1, m_color);
 
