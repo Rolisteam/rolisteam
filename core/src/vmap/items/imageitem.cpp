@@ -330,6 +330,7 @@ VisualItem* ImageItem::getItemCopy()
     // rectItem->resizeContents(m_rect, VisualItem::NoTransform);
     rectItem->setPos(pos());*/
     //  return rectItem;
+    return nullptr;
 }
 
 void ImageItem::endOfGeometryChange(ChildPointItem::Change change)

@@ -55,7 +55,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 
     memorySize= factor * maxMemorySize.toULongLong();
 
-    auto listIpBan= ipBan.split(",", QString::SkipEmptyParts);
+    auto listIpBan= ipBan.split(",", Qt::SkipEmptyParts);
 
     if(deepInspectionLog)
     {

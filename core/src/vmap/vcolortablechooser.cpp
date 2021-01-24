@@ -67,7 +67,7 @@ void SaturationChooser::mouseMoveEvent(QMouseEvent* e)
 
 void SaturationChooser::wheelEvent(QWheelEvent* event)
 {
-    int step= event->delta() / 8;
+    int step= event->angleDelta().x() / 8;
 
     if(step + m_currentValue > MAX_SATURATION)
         m_currentValue= MAX_SATURATION;

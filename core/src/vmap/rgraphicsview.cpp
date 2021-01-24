@@ -145,7 +145,7 @@ void RGraphicsView::wheelEvent(QWheelEvent* event)
         // Scale the view / do the zoom
         double scaleFactor= 1.1;
 
-        if((event->delta() > 0) && (m_counterZoom < 20))
+        if((event->angleDelta().x() > 0) && (m_counterZoom < 20))
         {
             scale(scaleFactor, scaleFactor);
             ++m_counterZoom;

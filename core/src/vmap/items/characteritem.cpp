@@ -522,6 +522,7 @@ QString CharacterItem::getName() const
          return {};
 
      return m_character->name();*/
+    return {};
 }
 int CharacterItem::getNumber() const
 {
@@ -529,6 +530,7 @@ int CharacterItem::getNumber() const
           return {};
 
       return m_character->number();*/
+    return 0;
 }
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
@@ -740,8 +742,8 @@ ChildPointItem* CharacterItem::getRadiusChildWidget() const
     /*  if(m_child->size() >= 5)
       {
           return m_child->value(DIRECTION_RADIUS_HANDLE);
-      }
-      return nullptr;*/
+      }*/
+    return nullptr;
 }
 
 void CharacterItem::updateChildPosition()

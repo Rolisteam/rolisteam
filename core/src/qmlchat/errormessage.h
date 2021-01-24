@@ -35,7 +35,7 @@ public:
 
     QString text() const override;
 public slots:
-    void setText(const QString& text);
+    void setText(const QString& text) override;
 
 private:
     QString m_text;

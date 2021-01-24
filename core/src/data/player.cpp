@@ -105,7 +105,7 @@ Player::~Player()= default;
     in.setVersion(QDataStream::Qt_5_7);
     in >> m_features;
 
-/*NetworkLink* Player::link() const
+NetworkLink* Player::link() const
 {
     return m_link;
 }*/

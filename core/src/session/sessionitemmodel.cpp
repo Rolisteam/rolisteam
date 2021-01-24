@@ -89,6 +89,7 @@ QStringList SessionItemModel::mimeTypes() const
 
 QMimeData* SessionItemModel::mimeData(const QModelIndexList& indexes) const
 {
+    Q_UNUSED(indexes)
     /*CleverUriMimeData* mimeData= new CleverUriMimeData();
 
     for(const QModelIndex& index : indexes)
@@ -100,6 +101,7 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList& indexes) const
         }
     }
     return mimeData;*/
+    return nullptr;
 }
 
 /*void SessionItemModel::updateNode(ResourcesNode* node)
