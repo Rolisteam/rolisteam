@@ -22,11 +22,12 @@
 #define NAMEGENERATORWIDGET_H
 
 #include "widgets/gmtoolbox/gamemastertool.h"
+#include <QRandomGenerator>
 #include <QWidget>
 
 namespace Ui
 {
-    class NameGeneratorWidget;
+class NameGeneratorWidget;
 }
 
 struct DataBase;
@@ -90,6 +91,7 @@ private:
     Ui::NameGeneratorWidget* ui;
     QStringList m_model;
     QHash<TypeOfGeneration, QHash<QString, DataBase>> m_complexName;
+    QRandomGenerator m_generator;
 };
 
 /**

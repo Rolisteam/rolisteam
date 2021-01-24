@@ -32,13 +32,14 @@
 #define LName "LastName"
 #define BothName "BothName"
 
-NameGeneratorWidget::NameGeneratorWidget(QWidget* parent) : QWidget(parent), ui(new Ui::NameGeneratorWidget)
+NameGeneratorWidget::NameGeneratorWidget(QWidget* parent)
+    : QWidget(parent)
+    , ui(new Ui::NameGeneratorWidget)
+    , m_generator(quintptr(this) + QDateTime::currentDateTime().toMSecsSinceEpoch())
 {
     setWindowTitle(QStringLiteral("Name Generator"));
     setObjectName(QStringLiteral("NameGenerator"));
     ui->setupUi(this);
-    uint seed= quintptr(this) + QDateTime::currentDateTime().toMSecsSinceEpoch();
-    qsrand(seed);
 
     m_model << tr("Chinese Name") << tr("Elve Name") << tr("English Name") << tr("French Name") << tr("Japanese Name")
             << tr("Star Wars Name") << tr("Russian Name");
@@ -312,7 +313,7 @@ QString NameGeneratorWidget::pickUpName(QStringList data)
 {
     if(data.isEmpty())
         return QString();
-    int len= (qrand() % data.size());
+    int len= m_generator.bounded(data.size());
 
     if(data.size() > len)
         return data.at(len);
@@ -322,10 +323,10 @@ QString NameGeneratorWidget::pickUpName(QStringList data)
 
 QString NameGeneratorWidget::buildName(const QJsonObject& json)
 {
-    int len= (qrand() % 10) + 2;
+    int len= m_generator.bounded(10) + 2;
     QString result;
     QJsonObject firstLetter= json["firstLetter"].toObject();
-    qreal first= (qreal)qrand() / (qreal)RAND_MAX;
+    qreal first= m_generator.generateDouble() / std::numeric_limits<qreal>::digits;
     qreal sum= 0;
 
     auto keys= firstLetter.keys();
@@ -377,7 +378,7 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json)
         }
         if(sumDict > 0)
         {
-            int value= qrand() % sumDict;
+            int value= m_generator.bounded(sumDict);
             sumDict= 0;
             bool unfound= true;
             for(i= duoJson.begin(); i != duoJson.end() && unfound; ++i)
