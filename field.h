@@ -67,7 +67,7 @@ public:
     QFont font() const;
     void setFont(const QFont& font);
 
-    CharacterSheetItem* getChildAt(QString) const;
+    CharacterSheetItem* getChildFromId(QString) const override;
 
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
