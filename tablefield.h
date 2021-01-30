@@ -141,7 +141,7 @@ public:
     /// Overriden from charactersheetitem
     virtual bool hasChildren() override;
     virtual int getChildrenCount() const override;
-    virtual CharacterSheetItem* getChildAt(QString) const override;
+    virtual CharacterSheetItem* getChildFromId(const QString& id) const override;
     virtual CharacterSheetItem* getChildAt(int) const override;
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json, EditorController* ctrl) override;
@@ -153,7 +153,7 @@ public:
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
     void saveDataItem(QJsonObject& json) override;
     void loadDataItem(const QJsonObject& json) override;
-    void setChildFieldData(const QJsonObject &json);
+    void setChildFieldData(const QJsonObject& json);
 
     int getMaxVisibleRowCount() const;
 

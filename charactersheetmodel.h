@@ -121,6 +121,8 @@ public:
 
     bool writeModel(QJsonObject& file, bool data= true);
     void readModel(const QJsonObject& file, bool readRootSection);
+    void setRootSection(const QJsonObject& file);
+    QJsonObject rootSectionData() const;
 
     CharacterSheetItem* addSection(QString title);
     void addLine(CharacterSheetItem* parentItem, QString name, const QModelIndex& parent);

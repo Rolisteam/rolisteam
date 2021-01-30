@@ -44,41 +44,41 @@ public:
      * @brief hasChildren
      * @return
      */
-    virtual bool hasChildren();
+    virtual bool hasChildren() override;
     /**
      * @brief getChildrenCount
      * @return
      */
-    virtual int getChildrenCount() const;
+    virtual int getChildrenCount() const override;
     /**
      * @brief getChildAt
      * @return
      */
-    virtual CharacterSheetItem* getChildAt(int) const;
+    virtual CharacterSheetItem* getChildAt(int) const override;
     /**
      * @brief getChildAt
      * @return
      */
-    virtual CharacterSheetItem* getChildAt(QString) const;
+    virtual CharacterSheetItem* getChildFromId(const QString&) const override;
 
     /**
      * @brief getValueFrom
      * @return
      */
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
     /**
      * @brief setValueFrom
      */
-    virtual void setValueFrom(CharacterSheetItem::ColumnId, QVariant);
+    virtual void setValueFrom(CharacterSheetItem::ColumnId, QVariant) override;
     /**
      * @brief mayHaveChildren
      * @return
      */
-    virtual bool mayHaveChildren() const;
+    virtual bool mayHaveChildren() const override;
     /**
      * @brief appendChild
      */
-    virtual void appendChild(CharacterSheetItem*);
+    virtual void appendChild(CharacterSheetItem*) override;
     void insertChild(CharacterSheetItem* item, int pos);
 
     /**
@@ -86,7 +86,7 @@ public:
      * @param itm
      * @return
      */
-    virtual int indexOfChild(CharacterSheetItem* itm);
+    virtual int indexOfChild(CharacterSheetItem* itm) override;
     /**
      * @brief getName
      * @return
@@ -102,22 +102,22 @@ public:
      * @param json
      * @param exp
      */
-    virtual void save(QJsonObject& json, bool exp= false);
+    virtual void save(QJsonObject& json, bool exp= false) override;
     /**
      * @brief load
      * @param json
      * @param scene
      */
-    virtual void load(const QJsonObject& json, EditorController* ctrl);
+    virtual void load(const QJsonObject& json, EditorController* ctrl) override;
     /**
      * @brief setNewEnd
      */
-    virtual void setNewEnd(QPointF) {}
+    virtual void setNewEnd(QPointF) override {}
     /**
      * @brief getItemType
      * @return
      */
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
     /**
      * @brief copySection
      * @param itm
@@ -127,8 +127,8 @@ public:
      * @brief removeChild
      * @return
      */
-    bool removeChild(CharacterSheetItem*);
-    bool deleteChild(CharacterSheetItem*);
+    bool removeChild(CharacterSheetItem*) override;
+    bool deleteChild(CharacterSheetItem*) override;
     /**
      * @brief setValueForAll
      * @param item
@@ -140,12 +140,12 @@ public:
      * @brief saveDataItem saves only data, no info about how to display the item.
      * @param json
      */
-    virtual void saveDataItem(QJsonObject& json);
+    virtual void saveDataItem(QJsonObject& json) override;
     /**
      * @brief loadDataItem load core data: id, value, label.
      * @param json
      */
-    virtual void loadDataItem(const QJsonObject& json);
+    virtual void loadDataItem(const QJsonObject& json) override;
     /**
      * @brief removeAll
      */
@@ -156,8 +156,8 @@ public:
      */
     void resetAllId(int& i);
 
-    void setOrig(CharacterSheetItem* orig);
-    void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem* child);
+    void setOrig(CharacterSheetItem* orig) override;
+    void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem* child) override;
     void getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list);
 public slots:
     /**

@@ -51,7 +51,7 @@ public:
 
     CharacterSheetItem::TypeField getFieldType() const;
 
-    virtual CharacterSheetItem* getChildAt(QString) const override;
+    virtual CharacterSheetItem* getChildFromId(const QString&) const override;
 
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
 

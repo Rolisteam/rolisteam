@@ -171,7 +171,8 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
 
     QVariant var;
     if((role == Qt::DisplayRole) || (role == Qt::EditRole) || (role == Qt::BackgroundRole) || (role == Qt::ToolTipRole)
-       || (role == Qt::UserRole) || (role == FormulaRole) || (role == ValueRole)|| (role == UuidRole)|| (role == NameRole))
+       || (role == Qt::UserRole) || (role == FormulaRole) || (role == ValueRole) || (role == UuidRole)
+       || (role == NameRole))
     {
         CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
         if(nullptr != childItem)
@@ -219,11 +220,11 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
                                 var= val;
                             }
                             break;
-                            case  UuidRole:
-                                var = sheet->uuid();
+                            case UuidRole:
+                                var= sheet->uuid();
                                 break;
                             case NameRole:
-                                var = sheet->name();
+                                var= sheet->name();
                                 break;
                             case Qt::ToolTipRole:
                                 var= child->getId();
@@ -236,13 +237,11 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
                         QString path= childItem->getPath();
                         CharacterSheet* sheet= m_characterList->at(index.column() - 1);
                         if(role == UuidRole)
-                            var = sheet->uuid();
+                            var= sheet->uuid();
                         else if(role == NameRole)
-                            var = sheet->name();
+                            var= sheet->name();
                         else
                             var= sheet->getValue(path, static_cast<Qt::ItemDataRole>(role));
-
-
                     }
                 }
             }
@@ -409,7 +408,7 @@ void CharacterSheetModel::addSubChildRoot(CharacterSheetItem* item)
     if(!m_rootSection)
         return;
 
-    auto parentItem= m_rootSection->getChildAt(item->getPath());
+    auto parentItem= m_rootSection->getChildFromId(item->getPath());
     auto r= m_rootSection->indexOfChild(parentItem);
     auto structTable= dynamic_cast<TableField*>(parentItem);
     if(structTable == nullptr)
@@ -428,7 +427,7 @@ void CharacterSheetModel::addSubChild(CharacterSheet* sheet, CharacterSheetItem*
         return;
 
     auto c= m_characterList->indexOf(sheet) + 1;
-    auto parentItem= m_rootSection->getChildAt(item->getPath());
+    auto parentItem= m_rootSection->getChildFromId(item->getPath());
     auto r= m_rootSection->indexOfChild(parentItem);
     auto table= dynamic_cast<TableField*>(item);
     auto structTable= dynamic_cast<TableField*>(parentItem);
@@ -481,12 +480,11 @@ void CharacterSheetModel::removeCharacterSheet(int index)
 
 CharacterSheet* CharacterSheetModel::getCharacterSheetById(QString id)
 {
-    if(nullptr==m_characterList)
+    if(nullptr == m_characterList)
         return nullptr;
 
-    auto it = std::find_if(m_characterList->begin(), m_characterList->end(), [id](CharacterSheet* sheet){
-       return sheet->uuid() == id;
-    });
+    auto it= std::find_if(m_characterList->begin(), m_characterList->end(),
+                          [id](CharacterSheet* sheet) { return sheet->uuid() == id; });
     if(it == m_characterList->end())
         return nullptr;
     else
@@ -528,6 +526,17 @@ void CharacterSheetModel::fillRootSection(NetworkMessageWriter* msg)
 Section* CharacterSheetModel::getRootSection() const
 {
     return m_rootSection;
+}
+
+void CharacterSheetModel::setRootSection(const QJsonObject& jsonObj)
+{
+    /// TODO: implement
+}
+
+QJsonObject CharacterSheetModel::rootSectionData() const
+{
+    /// TODO: implement
+    return {};
 }
 
 void CharacterSheetModel::setRootSection(Section* rootSection)

@@ -503,7 +503,7 @@ CharacterSheetItem* TableField::getRoot()
 #endif
 }
 
-CharacterSheetItem* TableField::getChildAt(QString id) const
+CharacterSheetItem* TableField::getChildFromId(const QString& id) const
 {
     return m_model->getFieldById(id);
 }

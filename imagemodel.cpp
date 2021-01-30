@@ -138,6 +138,24 @@ void ImageModel::save(QJsonArray& array) const
     }
 }
 
+void ImageModel::load(const QJsonArray& array)
+{
+    for(const auto& imgVal : array)
+    {
+        auto imgInfo= imgVal.toObject();
+        auto imgData= imgInfo["bin"].toString();
+        auto imgKey= imgInfo["key"].toString();
+        auto imgIsBg= imgInfo["isBg"].toBool();
+        auto filename= imgInfo["filename"].toString();
+
+        auto data= QByteArray::fromBase64(imgData.toLocal8Bit());
+        QPixmap map;
+        map.loadFromData(data, "PNG");
+
+        insertImage(map, imgKey, filename, imgIsBg);
+    }
+}
+
 bool ImageModel::insertImage(const QPixmap& pix, const QString& key, const QString& filename, bool isBg)
 {
     auto rect= pix.rect();

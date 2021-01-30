@@ -62,7 +62,7 @@ public:
      * @brief load
      * @param json
      */
-    virtual void load(QJsonObject& json);
+    virtual void load(const QJsonObject& json);
 
 #ifndef RCSE
     void fill(NetworkMessageWriter& message);
@@ -115,7 +115,7 @@ public:
     QString name() const;
     void setName(const QString& name);
 
-    void setFieldData(QJsonObject& obj, const QString& parent);
+    void setFieldData(const QJsonObject& obj, const QString& parent);
     void setOrigin(Section*);
 
     QList<QString> getAllDependancy(QString key);

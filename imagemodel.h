@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QPixmap>
+#include <vector>
 
 #ifndef RCSE
 #include "network/networkmessagereader.h"
@@ -48,6 +49,7 @@ public:
     void clear();
 
     void save(QJsonArray& array) const;
+    void load(const QJsonArray& array);
 
     void removeImageAt(const QModelIndex& index);
     void setPathFor(const QModelIndex& index, const QString& path);

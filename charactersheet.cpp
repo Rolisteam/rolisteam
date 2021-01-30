@@ -91,7 +91,7 @@ CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key) const
     if(keyList.size() > 1)
     {
         CharacterSheetItem* field= m_valuesMap[keyList.takeFirst()];
-        field= field->getChildAt(keyList.takeFirst());
+        field= field->getChildFromId(keyList.takeFirst());
         return field;
     }
     else if(m_valuesMap.contains(key))
@@ -253,14 +253,14 @@ QString CharacterSheet::name() const
 
 void CharacterSheet::setName(const QString& name)
 {
-    if(name== m_name )
+    if(name == m_name)
         return;
 
     m_name= name;
     emit nameChanged();
 }
 
-void CharacterSheet::setFieldData(QJsonObject& obj, const QString& parent)
+void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent)
 {
     QString id= obj["id"].toString();
     CharacterSheetItem* item= m_valuesMap.value(id);
@@ -306,7 +306,7 @@ void CharacterSheet::save(QJsonObject& json)
     json["values"]= array;
 }
 
-void CharacterSheet::load(QJsonObject& json)
+void CharacterSheet::load(const QJsonObject& json)
 {
     setName(json["name"].toString());
     setUuid(json["idSheet"].toString());
@@ -343,7 +343,7 @@ void CharacterSheet::setOrigin(Section* sec)
         auto value= m_valuesMap.value(key);
         if(nullptr != value)
         {
-            auto field= sec->getChildAt(key);
+            auto field= sec->getChildFromId(key);
             if(nullptr != field)
             {
                 value->setOrig(field);

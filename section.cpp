@@ -57,7 +57,7 @@ CharacterSheetItem* Section::getChildAt(int i) const
     }
     return nullptr;
 }
-CharacterSheetItem* Section::getChildAt(QString key) const
+CharacterSheetItem* Section::getChildFromId(const QString& key) const
 {
     return m_dataHash.value(key);
 }
@@ -279,7 +279,7 @@ void Section::setOrig(CharacterSheetItem* orig)
         auto value= m_dataHash.value(key);
         if(nullptr != value)
         {
-            auto field= orig->getChildAt(key);
+            auto field= orig->getChildFromId(key);
             if(nullptr != field)
             {
                 value->setOrig(field);

@@ -291,7 +291,7 @@ void Field::setClippedText(bool clippedText)
     m_clippedText= clippedText;
 }
 
-CharacterSheetItem* Field::getChildAt(QString) const
+CharacterSheetItem* Field::getChildFromId(const QString&) const
 {
     return nullptr;
 }

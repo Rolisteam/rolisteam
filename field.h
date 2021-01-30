@@ -67,31 +67,31 @@ public:
     QFont font() const;
     void setFont(const QFont& font);
 
-    CharacterSheetItem* getChildFromId(QString) const override;
+    CharacterSheetItem* getChildFromId(const QString& id) const override;
 
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
-    virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
+    virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var) override;
 
-    virtual void save(QJsonObject& json, bool exp= false);
-    virtual void load(const QJsonObject& json, EditorController* ctrl);
+    virtual void save(QJsonObject& json, bool exp= false) override;
+    virtual void load(const QJsonObject& json, EditorController* ctrl) override;
     /**
      * @brief saveDataItem
      * @param json
      */
-    virtual void saveDataItem(QJsonObject& json);
+    virtual void saveDataItem(QJsonObject& json) override;
     /**
      * @brief load
      * @param json
      * @param scene
      */
-    virtual void loadDataItem(const QJsonObject& json);
+    virtual void loadDataItem(const QJsonObject& json) override;
 
-    virtual QPointF mapFromScene(QPointF);
+    virtual QPointF mapFromScene(QPointF) override;
 
     QStringList getAvailableValue() const;
     void setAvailableValue(const QStringList& availableValue);
 
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
 
     void copyField(CharacterSheetItem*, bool copyData, bool sameId= true);
 
@@ -102,24 +102,24 @@ public:
 
     Field::TextAlign getTextAlignValue();
 
-    virtual void setNewEnd(QPointF nend);
+    virtual void setNewEnd(QPointF nend) override;
 
     CanvasField* getCanvasField() const;
     virtual void setCanvasField(CanvasField* canvasField);
 
-    void initGraphicsItem();
+    void initGraphicsItem() override;
 
-    virtual qreal getWidth() const;
-    virtual void setWidth(qreal width);
+    virtual qreal getWidth() const override;
+    virtual void setWidth(qreal width) override;
 
-    virtual qreal getHeight() const;
-    virtual void setHeight(qreal height);
+    virtual qreal getHeight() const override;
+    virtual void setHeight(qreal height) override;
 
-    virtual void setX(qreal x);
-    virtual qreal getX() const;
+    virtual void setX(qreal x) override;
+    virtual qreal getX() const override;
 
-    virtual void setY(qreal x);
-    virtual qreal getY() const;
+    virtual void setY(qreal x) override;
+    virtual qreal getY() const override;
 
     QString getGeneratedCode() const;
     void setGeneratedCode(const QString& generatedCode);
