@@ -38,15 +38,15 @@
 
 #include "network/connectionprofile.h"
 
-GameController::GameController(QObject* parent)
+GameController::GameController(QClipboard* clipboard, QObject* parent)
     : QObject(parent)
     , m_logController(new LogController(false))
     , m_remoteLogCtrl(new RemoteLogController())
     , m_networkCtrl(new NetworkController)
     , m_playerController(new PlayerController)
     , m_preferencesDialogController(new PreferencesController)
-    , m_contentCtrl(
-          new ContentController(m_playerController->model(), m_playerController->characterModel(), m_networkCtrl.get()))
+    , m_contentCtrl(new ContentController(m_playerController->model(), m_playerController->characterModel(), clipboard,
+                                          m_networkCtrl.get()))
     , m_preferences(new PreferencesManager)
     , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
     , m_undoStack(new QUndoStack)

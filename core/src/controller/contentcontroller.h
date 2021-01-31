@@ -20,8 +20,10 @@
 #ifndef CONTENTCONTROLLER_H
 #define CONTENTCONTROLLER_H
 
+#include <QClipboard>
 #include <QModelIndexList>
 #include <QObject>
+#include <QPointer>
 #include <map>
 #include <memory>
 
@@ -66,9 +68,11 @@ class ContentController : public AbstractControllerInterface, public Preferences
     Q_PROPERTY(QString sessionPath READ sessionPath WRITE setSessionPath NOTIFY sessionPathChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(bool canPaste READ canPaste NOTIFY canPasteChanged)
 
 public:
-    explicit ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent= nullptr);
+    explicit ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QClipboard* clipboard,
+                               QObject* parent= nullptr);
     ~ContentController() override;
 
     session::SessionItemModel* sessionModel() const;
@@ -88,6 +92,8 @@ public:
     MediaControllerBase* media(const QString& id) const;
     QString localId() const;
     bool localIsGM() const;
+    bool canPaste() const;
+    bool canCopy() const;
 
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
@@ -110,6 +116,7 @@ signals:
     void gameMasterIdChanged(const QString& gameMasterId);
     void localIdChanged(const QString& game);
     void mediaControllerCreated(MediaControllerBase* base);
+    void canPasteChanged(bool);
 
 public slots:
     // Media API
@@ -128,12 +135,20 @@ public slots:
     void setLocalId(const QString& id);
     void saveSessionBackUp();
 
+    void copyData();
+    void pasteData();
+
+private:
+    void readMimeData(const QMimeData& data);
+
 private:
     std::unique_ptr<session::SessionItemModel> m_sessionModel;
     std::map<Core::ContentType, std::unique_ptr<MediaUpdaterInterface>> m_mediaUpdaters;
     std::unique_ptr<ContentModel> m_contentModel;
 
-    PreferencesManager* m_preferences;
+    QPointer<QClipboard> m_clipboard;
+
+    PreferencesManager* m_preferences= nullptr;
     QString m_sessionName;
     QString m_sessionPath;
     QString m_gameMasterId;

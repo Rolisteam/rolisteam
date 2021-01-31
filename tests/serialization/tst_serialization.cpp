@@ -60,7 +60,7 @@ ContentControllerTest::ContentControllerTest() {}
 void ContentControllerTest::init()
 {
     m_playerCtrl.reset(new PlayerController);
-    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel()));
+    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
 
     m_ctrl->setLocalId("localid");
@@ -68,7 +68,7 @@ void ContentControllerTest::init()
 
 void ContentControllerTest::saveLoadImage()
 {
-    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel()));
+    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
     m_ctrl->setLocalId("localid");
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
     {
@@ -106,7 +106,7 @@ void ContentControllerTest::saveLoadImage()
     m_ctrl->setSessionPath(path);
     m_ctrl->saveSession();
 
-    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel()));
+    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
     m_ctrl->setLocalId("localid");
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
     m_ctrl->setSessionPath(path);
@@ -150,7 +150,7 @@ void ContentControllerTest::serializeTest()
     m_ctrl->setSessionPath(path);
     m_ctrl->saveSession();
 
-    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel()));
+    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
     m_ctrl->setSessionPath(path);
     m_ctrl->loadSession();
@@ -241,7 +241,7 @@ void ContentControllerTest::completeSerializationTest()
     m_ctrl->setSessionPath(path);
     m_ctrl->saveSession();
 
-    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel()));
+    m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
     m_ctrl->setSessionPath(path);
     m_ctrl->loadSession();

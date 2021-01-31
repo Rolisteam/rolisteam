@@ -19,9 +19,11 @@
  ***************************************************************************/
 #include "iohelper.h"
 
+#include <QBuffer>
 #include <QColor>
 #include <QDataStream>
 #include <QFile>
+#include <QMimeData>
 #include <QString>
 #include <QVariant>
 #include <map>
@@ -158,6 +160,31 @@ void IOHelper::saveBase(MediaControllerBase* base, QDataStream& output)
     output << base->path();
     output << base->name();
     output << base->ownerId();
+}
+
+QByteArray IOHelper::pixmapToData(const QPixmap& pix)
+{
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    buffer.open(QIODevice::WriteOnly);
+    pix.save(&buffer, "PNG");
+    return bytes;
+}
+
+QString IOHelper::htmlToTitle(const QMimeData& data, const QString& defaultName)
+{
+    QString name= defaultName;
+    if(data.hasHtml())
+    {
+        QRegularExpression reg("src=\\\"([^\\s]+)\\\"");
+        auto match= reg.match(data.html());
+        if(match.hasMatch())
+        {
+            auto urlString= QUrl::fromUserInput(match.captured(1));
+            name= urlString.fileName();
+        }
+    }
+    return name;
 }
 
 QByteArray saveImage(ImageController* ctrl)

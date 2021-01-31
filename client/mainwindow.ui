@@ -132,6 +132,9 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="separator"/>
+    <addaction name="m_copyAct"/>
+    <addaction name="m_pasteAct"/>
+    <addaction name="separator"/>
     <addaction name="m_shortCutEditorAct"/>
     <addaction name="m_fullScreenAct"/>
    </widget>
@@ -159,6 +162,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="separator"/>
+   <addaction name="m_copyAct"/>
+   <addaction name="m_pasteAct"/>
    <addaction name="m_showChatAct"/>
    <addaction name="separator"/>
   </widget>
@@ -614,6 +619,33 @@
    </property>
    <property name="shortcut">
     <string>Alt+I</string>
+   </property>
+  </action>
+  <action name="m_copyAct">
+   <property name="icon">
+    <iconset theme="edit-copy">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="m_pasteAct">
+   <property name="icon">
+    <iconset theme="edit-paste">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
  </widget>

@@ -20,6 +20,7 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
+#include <QClipboard>
 #include <QObject>
 #include <QUndoStack>
 #include <memory>
@@ -61,7 +62,7 @@ class GameController : public QObject
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(DiceParser* diceParser READ diceParser CONSTANT)
 public:
-    explicit GameController(QObject* parent= nullptr);
+    explicit GameController(QClipboard* clipboard, QObject* parent= nullptr);
     ~GameController();
 
     NetworkController* networkController() const;

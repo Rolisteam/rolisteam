@@ -45,6 +45,7 @@
 #include "undoCmd/newmediacontroller.h"
 #include "undoCmd/openmediacontroller.h"
 #include "undoCmd/removemediacontrollercommand.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 
@@ -66,10 +67,12 @@ void sendOffMediaController(MediaControllerBase* ctrl)
     }
 }
 
-ContentController::ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent)
+ContentController::ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QClipboard* clipboard,
+                                     QObject* parent)
     : AbstractControllerInterface(parent)
     , m_sessionModel(new session::SessionItemModel)
     , m_contentModel(new ContentModel)
+    , m_clipboard(clipboard)
     , m_sessionName(tr("default"))
 {
     CharacterSheetController::setCharacterModel(characterModel);
@@ -108,6 +111,8 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
         if(it != m_mediaUpdaters.end())
             it->second->addMediaController(ctrl);
     });
+
+    connect(m_clipboard, &QClipboard::dataChanged, this, [this]() { emit canPasteChanged(canPaste()); });
 }
 
 ContentController::~ContentController()= default;
@@ -368,6 +373,69 @@ void ContentController::addImageAs(const QPixmap& map, Core::ContentType type)
      }*/
 }
 
+void ContentController::copyData() {}
+
+void ContentController::pasteData()
+{
+    if(!m_clipboard)
+        return;
+
+    const QMimeData* mimeData= m_clipboard->mimeData();
+    readMimeData(*mimeData);
+}
+#include <QDebug>
+void ContentController::readMimeData(const QMimeData& data)
+{
+    qDebug() << data.formats();
+    if(data.hasImage())
+    {
+        qDebug() << "hasImage" << data.hasText() << "url" << data.hasUrls() << "html" << data.hasHtml() << "html code"
+                 << data.html();
+        auto pix= qvariant_cast<QPixmap>(data.imageData());
+        auto imageBytes= IOHelper::pixmapToData(pix);
+        QString name(IOHelper::htmlToTitle(data, tr("Copied Image")));
+
+        openMedia({{"type", QVariant::fromValue(Core::ContentType::PICTURE)},
+                   {"ownerId", m_localId},
+                   {"data", imageBytes},
+                   {"name", name}});
+    }
+    else if(data.hasUrls())
+    {
+        qDebug() << "hasURL";
+    }
+    else if(data.hasHtml())
+    {
+        qDebug() << "hasHTML";
+        // setText(data.html());
+        // setTextFormat(Qt::RichText);
+    }
+    else if(data.hasText())
+    {
+        qDebug() << "hasTEXT";
+        // setText(data.text());
+        // setTextFormat(Qt::PlainText);
+    }
+    else
+    {
+        qDebug() << "nothing";
+        // setText(tr("Cannot display data"));
+    }
+}
+
+bool ContentController::canPaste() const
+{
+    bool res= false;
+
+    if(!m_clipboard)
+        return res;
+
+    auto data= m_clipboard->mimeData();
+    res= data->hasImage();
+    return res;
+}
+
+bool ContentController::canCopy() const {}
 /*void ContentController::setActiveMediaController(AbstractMediaContainerController* mediaCtrl)
 {
     std::find_if(m_mediaControllers.begin(), m_mediaControllers.end(),

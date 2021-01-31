@@ -165,7 +165,7 @@ public slots:
     /**
      * @brief showConnectionDialog
      */
-    void showConnectionDialog(bool forced= false);
+    void showConnectionDialog();
     /**
      * @brief postConnection
      */
@@ -216,7 +216,7 @@ private slots:
      * @brief userNatureChange
      * @param isGM
      */
-    void userNatureChange(bool isGM);
+    void userNatureChange();
     /**
      * @brief openStory
      */
@@ -299,11 +299,9 @@ private:
     PreferencesDialog* m_preferencesDialog;
     PreferencesManager* m_preferences;
     NotificationZone* m_dockLogUtil;
-    PlayerModel* m_playerModel;
 
     // subwindow
     Ui::MainWindow* m_ui;
-    bool m_resetSettings;
 
     // Recent files managment
     int m_maxSizeRecentFile;
@@ -313,12 +311,10 @@ private:
     QAction* m_separatorAction;
     std::vector<FileInfo> m_recentFiles;
 
-    ConnectionProfile* m_currentConnectionProfile= nullptr;
     QList<GameMasterTool*> m_gmToolBoxList;
-    bool m_profileDefined= false;
     QDockWidget* m_roomPanelDockWidget;
     ChannelListPanel* m_roomPanel;
-    QString m_connectionAddress;
+
     bool m_isOut= false;
 
     std::unique_ptr<CommandLineProfile> m_commandLineProfile;

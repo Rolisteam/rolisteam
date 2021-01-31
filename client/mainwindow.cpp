@@ -103,11 +103,8 @@ MainWindow::MainWindow(const QStringList& args)
     : QMainWindow()
     , m_preferencesDialog(nullptr)
     , m_ui(new Ui::MainWindow)
-    , m_resetSettings(false)
-    , m_currentConnectionProfile(nullptr)
-    , m_profileDefined(false)
     , m_roomPanelDockWidget(new QDockWidget(this))
-    , m_gameController(new GameController)
+    , m_gameController(new GameController(QGuiApplication::clipboard()))
     , m_systemTray(new QSystemTrayIcon)
 {
     parseCommandLineArguments(args);
@@ -160,6 +157,8 @@ MainWindow::MainWindow(const QStringList& args)
 
     connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
             &MainWindow::setWindowModified);
+    connect(m_gameController->contentController(), &ContentController::canPasteChanged, m_ui->m_pasteAct,
+            &QAction::setEnabled);
     connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
         if(connected)
             postConnection();
@@ -190,6 +189,8 @@ MainWindow::MainWindow(const QStringList& args)
         widDock->setVisible(false);
     }
 
+    m_ui->m_pasteAct->setEnabled(m_gameController->contentController()->canPaste());
+
     // Room List
     m_roomPanelDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_roomPanelDockWidget->setWidget(m_roomPanel);
@@ -204,11 +205,12 @@ MainWindow::MainWindow(const QStringList& args)
     });
 
     setupUi();
-    readSettings();
     if(true)
         QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":resources/rolistheme");
     else
         QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":resources/rolistheme-dark");
+
+    readSettings();
 }
 
 MainWindow::~MainWindow()= default;
@@ -226,8 +228,11 @@ void MainWindow::setupUi()
     connect(m_gameController->instantMessagingController(), &InstantMessagingController::visibleChanged,
             m_ui->m_showChatAct, &QAction::setChecked);
 
-    m_mdiArea.reset(new Workspace(m_ui->m_toolBar, m_gameController->contentController(),
-                                  m_gameController->instantMessagingController()));
+    auto contentCtrl= m_gameController->contentController();
+
+    connect(m_ui->m_pasteAct, &QAction::triggered, contentCtrl, &ContentController::pasteData);
+
+    m_mdiArea.reset(new Workspace(m_ui->m_toolBar, contentCtrl, m_gameController->instantMessagingController()));
     setCentralWidget(m_mdiArea.get());
 
     addDockWidget(Qt::RightDockWidgetArea, m_sessionDock.get());
@@ -287,14 +292,10 @@ void MainWindow::closeEvent(QCloseEvent* event)
         event->ignore();
     }
 }
-void MainWindow::userNatureChange(bool isGM)
+void MainWindow::userNatureChange()
 {
-    if(nullptr != m_currentConnectionProfile)
-    {
-        m_currentConnectionProfile->setGm(isGM);
-        updateUi();
-        updateWindowTitle();
-    }
+    updateUi();
+    updateWindowTitle();
 }
 
 void MainWindow::createNotificationZone()
@@ -432,14 +433,14 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_disconnectAction, &QAction::triggered, m_gameController->networkController(),
             &NetworkController::disconnection);
     connect(m_ui->m_changeProfileAct, &QAction::triggered, this, &MainWindow::showConnectionDialog);
-    connect(m_ui->m_connectionLinkAct, &QAction::triggered, this, [=]() {
+    connect(m_ui->m_connectionLinkAct, &QAction::triggered, this, [this]() {
         QString str("rolisteam://%1/%2/%3");
-        if(m_currentConnectionProfile == nullptr)
-            return;
+        auto networkCtrl= m_gameController->networkController();
+
         auto* clipboard= QGuiApplication::clipboard();
-        clipboard->setText(str.arg(m_connectionAddress)
-                               .arg(m_currentConnectionProfile->port())
-                               .arg(QString::fromUtf8(m_currentConnectionProfile->password().toBase64())));
+        clipboard->setText(str.arg(networkCtrl->host())
+                               .arg(networkCtrl->port())
+                               .arg(QString::fromUtf8(networkCtrl->serverPassword().toBase64())));
     });
     connect(m_ui->m_roomListAct, &QAction::triggered, m_roomPanelDockWidget, &QDockWidget::setVisible);
     // Help
@@ -728,11 +729,6 @@ void MainWindow::readSettings()
 {
     QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(m_gameController->version()));
 
-    if(m_resetSettings)
-    {
-        settings.clear();
-    }
-
     restoreState(settings.value("windowState").toByteArray());
     bool maxi= settings.value("Maximized", false).toBool();
     m_ui->m_mediaTitleAct->setChecked(settings.value("show_media_title_in_tool_bar", false).toBool());
@@ -848,7 +844,7 @@ void MainWindow::parseCommandLineArguments(const QStringList& list)
     bool hasRole= parser.isSet(role);
     bool hasUser= parser.isSet(user);
     bool hasUrl= parser.isSet(url);
-    m_resetSettings= parser.isSet(reset);
+    bool hasResetSetting= parser.isSet(reset);
 
     QString portValue;
     QString hostnameValue;
@@ -872,6 +868,11 @@ void MainWindow::parseCommandLineArguments(const QStringList& list)
     {
         username= parser.value(user);
     }
+    if(hasResetSetting)
+    {
+        QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(m_gameController->version()));
+        settings.clear();
+    }
     if(hasUrl)
     {
         urlString= parser.value(url);
@@ -891,12 +892,9 @@ void MainWindow::parseCommandLineArguments(const QStringList& list)
     }
 }
 
-void MainWindow::showConnectionDialog(bool forced)
+void MainWindow::showConnectionDialog()
 {
-    if((!m_profileDefined) || (forced))
-    {
-        m_dialog->open();
-    }
+    m_dialog->open();
 }
 
 void MainWindow::cleanUpData()

@@ -21,6 +21,7 @@
 #define IOHELPER_H
 
 #include <QJsonDocument>
+#include <QMimeData>
 #include <QString>
 #include <QVariant>
 #include <map>
@@ -55,6 +56,8 @@ public:
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
 
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
+    static QByteArray pixmapToData(const QPixmap& pix);
+    static QString htmlToTitle(const QMimeData& data, const QString& defaultName);
 
     // Controller Generic method
     static void saveBase(MediaControllerBase* base, QDataStream& output);
