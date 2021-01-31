@@ -51,7 +51,7 @@ void CharacterSheetUpdater::addCharacterSheetUpdate(CharacterSheet* sheet, Chara
                     msg.setRecipientList(list, NetworkMessage::OneOrMany);
                 }
                 msg.string8(m_mediaId);
-                msg.string8(sheet->getUuid());
+                msg.string8(sheet->uuid());
                 msg.string32(path);
                 QJsonObject object;
                 itemSheet->saveDataItem(object);
