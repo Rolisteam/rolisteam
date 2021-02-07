@@ -36,6 +36,8 @@ class Link : public QObject
     Q_PROPERTY(QPointF startPoint READ startPoint NOTIFY startPointChanged)
     Q_PROPERTY(QPointF endPoint READ endPoint NOTIFY endPointChanged)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(QPointF p1 READ p1 NOTIFY startPointChanged)
+    Q_PROPERTY(QPointF p2 READ p2 NOTIFY endPointChanged)
 public:
     enum Direction
     {
@@ -60,6 +62,9 @@ public:
     QPointF endPoint() const;
     QPointF startPoint() const;
 
+    QPointF p1() const;
+    QPointF p2() const;
+
     float getLength() const;
 
     float getStiffness() const;
@@ -69,6 +74,8 @@ public:
     QString text() const;
 
     void cleanUpLink();
+
+    static void setMinimumLenght(float v);
 signals:
     void linkChanged();
     void visibleChanged();
@@ -80,6 +87,7 @@ signals:
 
 public slots:
     void computePosition();
+    QPointF computePoint(bool) const;
     void setText(const QString& text);
     void setId(const QString& text);
 
@@ -91,6 +99,7 @@ private:
     QString m_text;
     QString m_uuid;
     float m_stiffness= 400.0f;
+    static float m_minimunLenght;
 };
 } // namespace mindmap
 #endif // LINK_H

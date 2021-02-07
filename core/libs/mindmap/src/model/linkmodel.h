@@ -41,6 +41,8 @@ public:
         Height,
         StartBoxRole,
         EndBoxRole,
+        StartPointRole,
+        EndPointRole,
         LinkRole,
         Label
     };

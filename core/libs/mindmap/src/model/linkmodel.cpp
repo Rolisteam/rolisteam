@@ -89,10 +89,10 @@ QVariant LinkModel::data(const QModelIndex& index, int role) const
         result= link->endPoint();
         break;
     case Width:
-        result= link->end()->position().x() - link->start()->position().x();
+        result= link->p2().x() - link->p1().x();
         break;
     case Height:
-        result= link->end()->position().y() - link->start()->position().y();
+        result= link->p2().y() - link->p1().y();
         break;
     case LinkRole:
         result= QVariant::fromValue(link);
@@ -102,6 +102,12 @@ QVariant LinkModel::data(const QModelIndex& index, int role) const
         break;
     case EndBoxRole:
         result= QVariant::fromValue(link->end()->boundingRect());
+        break;
+    case StartPointRole:
+        result= QVariant::fromValue(link->p1());
+        break;
+    case EndPointRole:
+        result= QVariant::fromValue(link->p2());
         break;
     case Label:
         result= link->text();
@@ -132,6 +138,8 @@ QHash<int, QByteArray> LinkModel::roleNames() const
             {LinkModel::Last, "last"},
             {LinkModel::StartBoxRole,"startBoxRole"},
             {LinkModel::EndBoxRole,"endBoxRole"},
+            {LinkModel::StartPointRole,"startPointRole"},
+            {LinkModel::EndPointRole,"endPointRole"},
             {LinkModel::Height, "heightLink"},
             {LinkModel::Width, "widthLink"},
             {LinkModel::LinkRole, "link"},
@@ -199,7 +207,7 @@ void LinkModel::linkHasChanged()
     auto it= std::find(m_data.begin(), m_data.end(), link);
     auto offset= std::distance(m_data.begin(), it);
     auto idx1= index(offset, 0, parent);
-    Q_EMIT dataChanged(idx1, idx1, QVector<int>() << Position << Last << Width << Height);
+    Q_EMIT dataChanged(idx1, idx1, QVector<int>() << Position << Last << Width << Height << StartPointRole << EndPointRole);
 }
 
 Qt::ItemFlags LinkModel::flags(const QModelIndex& index) const

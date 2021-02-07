@@ -61,6 +61,7 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
                 manager.setCtrl(ctrl);
                 initialized= true;
             }
+            qmlengine->setObjectOwnership(&manager, QQmlEngine::CppOwnership);
             return &manager;
         });
 

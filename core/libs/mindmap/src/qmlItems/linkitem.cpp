@@ -134,14 +134,8 @@ QSGNode* LinkItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeDat
         m_colorChanged= false;
     }
 
-    auto abox= m_startBox;
-    abox.moveTo(-m_startBox.width() / 2, -m_startBox.height() / 2);
-    auto bbox= m_endBox;
-    auto p2= m_end - m_start;
-    auto hw= bbox.width() / 2;
-    auto hh= bbox.height() / 2;
-    bbox.setCoords(p2.x() - hw, p2.y() - hh, p2.x() + hw, p2.y() + hh);
-    link->update(QPointF(0, 0), abox, p2, bbox);
+    auto p2= m_end- m_start;
+    link->update(QPointF(0, 0), p2);
     return link;
 }
 } // namespace mindmap

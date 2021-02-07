@@ -100,14 +100,12 @@ Flickable {
             anchors.fill: parent
             model: ctrl.linkModel
             delegate: Link {
-                x: position.x
-                y: position.y
+                x: startPointRole.x
+                y: startPointRole.y
                 width: widthLink
                 height: heightLink
-                start: position
-                end:last
-                startBox: startBoxRole
-                endBox: endBoxRole
+                start: startPointRole
+                end: endPointRole
                 visible: link.visible
                 text: label
             }

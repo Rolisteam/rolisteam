@@ -20,11 +20,14 @@
 #include "link.h"
 
 #include "mindnode.h"
+
+#include <QLineF>
 #include <QRectF>
 #include <cmath>
+
 namespace mindmap
 {
-
+float Link::m_minimunLenght= 150.f;
 Link::Link(QObject* parent) : QObject(parent)
 {
     setText(tr("is linked"));
@@ -76,10 +79,46 @@ void Link::setEnd(MindNode* end)
     connect(m_end, &MindNode::positionChanged, this, &Link::linkChanged);
 }
 
+QPointF Link::computePoint(bool p1) const
+{
+    QLineF line(startPoint(), endPoint());
+
+    auto node= p1 ? m_start : m_end;
+
+    auto top= QLineF(node->boundingRect().topLeft(), node->boundingRect().topRight());
+    auto bottom= QLineF(node->boundingRect().bottomLeft(), node->boundingRect().bottomRight());
+    auto left= QLineF(node->boundingRect().topLeft(), node->boundingRect().bottomLeft());
+    auto right= QLineF(node->boundingRect().topRight(), node->boundingRect().bottomRight());
+
+    QPointF res;
+    auto intersect= line.intersects(top, &res);
+    if(intersect != QLineF::BoundedIntersection)
+        intersect= line.intersects(bottom, &res);
+
+    if(intersect != QLineF::BoundedIntersection)
+        intersect= line.intersects(left, &res);
+
+    if(intersect != QLineF::BoundedIntersection)
+        line.intersects(right, &res);
+
+    return res;
+}
+
+QPointF Link::p1() const
+{
+    return computePoint(true);
+}
+
+QPointF Link::p2() const
+{
+    return computePoint(false);
+}
+
 QString Link::id() const
 {
     return m_uuid;
 }
+
 void Link::computePosition()
 {
     auto pos1= m_start->position();
@@ -120,25 +159,18 @@ void Link::cleanUpLink()
 
 float Link::getLength() const
 {
-    auto length= 100.;
-    auto rect1= m_start->boundingRect();
-    auto diag1= std::sqrt(std::pow(rect1.width(), 2) + std::pow(rect1.height(), 2)) / 2;
+    QLineF line(p1(), p2());
+    auto length= std::max(static_cast<float>(line.length()), m_minimunLenght);
 
-    auto rect2= m_end->boundingRect();
-    auto diag2= std::sqrt(std::pow(rect2.width(), 2) + std::pow(rect2.height(), 2)) / 2;
-
-    auto realDiag= std::max(diag1, diag2);
-
-    auto length1= static_cast<float>(length + 2 * realDiag);
     if(m_end == nullptr || m_start == nullptr)
-        return length1;
+        return length;
 
     auto nodeCount= static_cast<int>(m_start->subLinks().size());
 
     auto endNodeCount= (m_end->subNodeCount() + nodeCount) / 3;
     auto length2= static_cast<float>(length * (1 + endNodeCount));
 
-    return std::max(length1, length2);
+    return std::max(length, length2);
 }
 
 void Link::setVisible(bool vi)
@@ -160,5 +192,10 @@ bool Link::isVisible() const
 QString Link::text() const
 {
     return m_text;
+}
+
+void Link::setMinimumLenght(float v)
+{
+    m_minimunLenght= v;
 }
 } // namespace mindmap

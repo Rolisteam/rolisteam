@@ -126,6 +126,7 @@ void SpacingController::applyHookesLaw(Link* link)
 
     auto vect= QVector2D(node1->position() - node2->position());
     auto length= vect.length();
+    //auto force= k_attraction * std::max(length - k_defaultSpringLength, 0.f);
     auto force= k_attraction * std::max(length - link->getLength(), 0.f);
 
     node1->setVelocity(node1->getVelocity() + vect.normalized() * force * -1);
