@@ -648,6 +648,21 @@ void VectorialMapController::normalizeSize(const QList<vmap::VisualItemControlle
     emit performCommand(new ChangeSizeVmapItemCommand(list, method, mousePos));
 }
 
+bool VectorialMapController::pasteData(const QMimeData& mimeData)
+{
+    if(!mimeData.hasImage())
+        return false;
+
+    auto pix= qvariant_cast<QPixmap>(mimeData.imageData());
+    if(pix.isNull())
+        return false;
+
+    auto databytes= IOHelper::pixmapToData(pix);
+
+    insertItemAt({{"tool", Core::SelectableTool::IMAGE}, {"data", databytes}});
+    return true;
+}
+
 void VectorialMapController::showTransparentItems(const QList<vmap::VisualItemController*>& list)
 {
     if(list.isEmpty())

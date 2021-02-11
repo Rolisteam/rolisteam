@@ -20,6 +20,7 @@
 #ifndef ABSTRACTMEDIACONTROLLER_H
 #define ABSTRACTMEDIACONTROLLER_H
 
+#include <QMimeData>
 #include <QObject>
 #include <memory>
 
@@ -58,6 +59,8 @@ public:
 
     bool localIsOwner() const;
     bool remote() const;
+
+    virtual bool pasteData(const QMimeData& mimeData);
 
 signals:
     void nameChanged(QString);

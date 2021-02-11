@@ -164,3 +164,9 @@ void MediaControllerBase::setRemote(bool remote)
 {
     m_remote= remote;
 }
+
+bool MediaControllerBase::pasteData(const QMimeData& mimeData)
+{
+    Q_UNUSED(mimeData);
+    return false;
+}

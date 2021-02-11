@@ -377,21 +377,28 @@ void ContentController::copyData() {}
 
 void ContentController::pasteData()
 {
+    auto mediaCtrl= m_contentModel->media(m_contentModel->activeMediaId());
     if(!m_clipboard)
         return;
-
     const QMimeData* mimeData= m_clipboard->mimeData();
-    readMimeData(*mimeData);
+    if(!mimeData)
+        return;
+
+    bool accepted= false;
+    if(mediaCtrl)
+        accepted= mediaCtrl->pasteData(*mimeData);
+
+    if(!accepted)
+        readMimeData(*mimeData);
 }
-#include <QDebug>
+
 void ContentController::readMimeData(const QMimeData& data)
 {
-    qDebug() << data.formats();
     if(data.hasImage())
     {
-        qDebug() << "hasImage" << data.hasText() << "url" << data.hasUrls() << "html" << data.hasHtml() << "html code"
-                 << data.html();
         auto pix= qvariant_cast<QPixmap>(data.imageData());
+        if(pix.isNull())
+            return;
         auto imageBytes= IOHelper::pixmapToData(pix);
         QString name(IOHelper::htmlToTitle(data, tr("Copied Image")));
 
@@ -402,23 +409,23 @@ void ContentController::readMimeData(const QMimeData& data)
     }
     else if(data.hasUrls())
     {
-        qDebug() << "hasURL";
+        // qDebug() << "hasURL";
     }
     else if(data.hasHtml())
     {
-        qDebug() << "hasHTML";
+        // qDebug() << "hasHTML";
         // setText(data.html());
         // setTextFormat(Qt::RichText);
     }
     else if(data.hasText())
     {
-        qDebug() << "hasTEXT";
+        // qDebug() << "hasTEXT";
         // setText(data.text());
         // setTextFormat(Qt::PlainText);
     }
     else
     {
-        qDebug() << "nothing";
+        // qDebug() << "nothing";
         // setText(tr("Cannot display data"));
     }
 }

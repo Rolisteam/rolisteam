@@ -20,9 +20,12 @@
 #include "iohelper.h"
 
 #include <QBuffer>
+#include <QCborValue>
+#include <QClipboard>
 #include <QColor>
 #include <QDataStream>
 #include <QFile>
+#include <QGuiApplication>
 #include <QMimeData>
 #include <QString>
 #include <QVariant>
@@ -137,7 +140,7 @@ QString IOHelper::readTextFile(const QString& path)
     QTextStream out(&file);
     return out.readAll();
 }
-#include <QCborValue>
+
 QJsonObject IOHelper::byteArrayToJsonObj(const QByteArray& data)
 {
     auto doc= QCborValue(data);
@@ -171,6 +174,15 @@ QByteArray IOHelper::pixmapToData(const QPixmap& pix)
     return bytes;
 }
 
+const QMimeData* IOHelper::clipboardMineData()
+{
+    auto clipboard= QGuiApplication::clipboard();
+    if(!clipboard)
+        return {};
+
+    return clipboard->mimeData();
+}
+
 QString IOHelper::htmlToTitle(const QMimeData& data, const QString& defaultName)
 {
     QString name= defaultName;
@@ -185,6 +197,22 @@ QString IOHelper::htmlToTitle(const QMimeData& data, const QString& defaultName)
         }
     }
     return name;
+}
+
+QPixmap IOHelper::readPixmapFromURL(const QUrl& url)
+{
+    QPixmap map;
+    if(url.isLocalFile())
+    {
+        map= readPixmapFromFile(url.toLocalFile());
+    }
+    return map;
+}
+
+QPixmap IOHelper::readPixmapFromFile(const QString& uri)
+{
+    QPixmap map(uri);
+    return map;
 }
 
 QByteArray saveImage(ImageController* ctrl)

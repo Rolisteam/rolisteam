@@ -143,6 +143,7 @@ public:
     void removeItemController(const QString& uuid);
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
 
+    bool pasteData(const QMimeData& data) override;
 public slots:
     void showTransparentItems(const QList<vmap::VisualItemController*>& list);
     void hideOtherLayers(bool b);

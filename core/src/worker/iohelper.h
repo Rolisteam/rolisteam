@@ -55,8 +55,12 @@ public:
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
 
+    static const QMimeData* clipboardMineData();
+
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
     static QByteArray pixmapToData(const QPixmap& pix);
+    static QPixmap readPixmapFromURL(const QUrl& url);
+    static QPixmap readPixmapFromFile(const QString& url);
     static QString htmlToTitle(const QMimeData& data, const QString& defaultName);
 
     // Controller Generic method
