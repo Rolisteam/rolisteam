@@ -14,7 +14,7 @@ Pane
     property bool selected: false
     property int radius: 8
     property alias open: control.open
-    property int expandButtonSize: 20
+    property int expandButtonSize: root.style.expandedButtonSize
     property QtObject object
     property QtObject nodeStyle
     property string ident: object.id
