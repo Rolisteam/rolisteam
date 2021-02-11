@@ -1323,7 +1323,7 @@ void VMap::ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem
 {
     if(nullptr != item)
     {
-        // Get all item with the key
+        // Get all items with the key
         QList<CharacterItem*> list= m_characterItemMap->values(item->uuid());
 
         // Remove them from the map
