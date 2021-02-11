@@ -82,6 +82,9 @@ QVariant BoxModel::data(const QModelIndex& index, int role) const
     case Node:
         result= QVariant::fromValue(mindNode);
         break;
+    case ImageUri:
+        result= mindNode->imageUri();
+        break;
     }
     return result;
 }
@@ -127,6 +130,18 @@ void BoxModel::setLinkModel(QAbstractItemModel* model)
     emit linkModelChanged();
 }
 
+void BoxModel::setImageUriToNode(const QString& id, const QString& url)
+{
+    auto it= std::find_if(m_data.begin(), m_data.end(), [id](const MindNode* node) { return node->id() == id; });
+    if(it == m_data.end())
+        return;
+
+    auto dis= std::distance(m_data.begin(), it);
+    (*it)->setImageUri(url);
+    auto idx= index(dis, 0, QModelIndex());
+    emit dataChanged(idx, idx, QVector<int>() << BoxModel::ImageUri);
+}
+
 Qt::ItemFlags BoxModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
@@ -144,7 +159,8 @@ QHash<int, QByteArray> BoxModel::roleNames() const
                                           {BoxModel::Position, "position"},
                                           {BoxModel::Node, "node"},
                                           {BoxModel::Posx, "posx"},
-                                          {BoxModel::Posy, "posy"}};
+                                          {BoxModel::Posy, "posy"},
+                                          {BoxModel::ImageUri, "imageUri"}};
     return roles;
 }
 

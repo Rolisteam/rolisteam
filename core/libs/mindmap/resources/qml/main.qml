@@ -23,10 +23,21 @@ Pane {
     MindMap {
         anchors.fill: parent
         ctrl: root.ctrl
+        onOpenImage:{
+          imgSelector.id = id
+          imgSelector.open()
+        }
     }
     MindMenu {
         id: menu
         ctrl: root.ctrl
+    }
+
+    FileDialog {
+      id: imgSelector
+      property string id
+      nameFilters: [qsTr("Images (*.jpg *.png *.jpeg *.gif *.bmp)")]
+      onAccepted: MindMapManager.ctrl.openImage(id, fileUrl)
     }
 
 

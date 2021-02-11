@@ -27,6 +27,7 @@
 #include <QQuickStyle>
 
 #include "controller/view_controller/mindmapcontroller.h"
+#include "model/nodeimageprovider.h"
 
 MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::MindMapContainer, parent)
@@ -67,6 +68,7 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
 
     engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
+    engine->addImageProvider("nodeImages", new mindmap::NodeImageProvider(m_ctrl->imageModel()));
     engine->addImportPath(QStringLiteral("qrc:/qml"));
     // qrc:/qml/CustomItems/PermissionSlider.qml
 

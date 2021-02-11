@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                                 *
+ *	Copyright (C) 2021 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,49 +17,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SELECTIONCONTROLLER_H
-#define SELECTIONCONTROLLER_H
+#ifndef NODEIMAGEPROVIDER_H
+#define NODEIMAGEPROVIDER_H
 
-#include <QObject>
-#include <QPointF>
-#include <QUndoStack>
+#include <QQuickImageProvider>
+
+class ImageModel;
+
 namespace mindmap
 {
-
-class MindNode;
-class SelectionController : public QObject
+class NodeImageProvider : public QQuickImageProvider
 {
-    Q_OBJECT
-    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
-    Q_PROPERTY(QString lastSelected READ lastSelected NOTIFY lastSelectedChanged)
 public:
-    explicit SelectionController(QObject* parent= nullptr);
+    NodeImageProvider(ImageModel* model);
 
-    void setUndoStack(QUndoStack* stack);
-
-    QString lastSelected() const;
-
-    void setEnabled(bool enable);
-    bool enabled() const;
-    const std::vector<mindmap::MindNode*>& selectedNodes() const;
-signals:
-    void enabledChanged();
-    void lastSelectedChanged();
-
-public slots:
-    void addToSelection(mindmap::MindNode* node);
-    void removeFromSelection(mindmap::MindNode* node);
-    void movingNode(const QPointF& motion);
-    void clearSelection();
+    QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize) override;
 
 private:
-    void setLastSelectedId(const QString& id);
-
-private:
-    std::vector<mindmap::MindNode*> m_selection;
-    bool m_enabled= false;
-    QUndoStack* m_undoStack;
-    QString m_lastSelectedId;
+    QPointer<ImageModel> m_dataModel;
 };
 } // namespace mindmap
-#endif // SELECTIONCONTROLLER_H
+#endif // NODEIMAGEPROVIDER_H

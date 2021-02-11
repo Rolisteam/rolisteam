@@ -39,6 +39,11 @@ void SelectionController::setUndoStack(QUndoStack* stack)
     m_undoStack= stack;
 }
 
+QString SelectionController::lastSelected() const
+{
+    return m_lastSelectedId;
+}
+
 bool SelectionController::enabled() const
 {
     return m_enabled;
@@ -55,6 +60,7 @@ void SelectionController::addToSelection(MindNode* node)
         return;
     m_selection.push_back(node);
     node->setSelected(true);
+    setLastSelectedId(node->id());
     connect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
 }
 
@@ -72,6 +78,7 @@ void SelectionController::clearSelection()
         disconnect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
     });
     m_selection.clear();
+    setLastSelectedId({});
 }
 
 void SelectionController::movingNode(const QPointF& motion)
@@ -82,5 +89,13 @@ void SelectionController::movingNode(const QPointF& motion)
     auto cmd= new DragNodeCommand(motion, vec);
 
     m_undoStack->push(cmd);
+}
+
+void SelectionController::setLastSelectedId(const QString& id)
+{
+    if(id == m_lastSelectedId)
+        return;
+    m_lastSelectedId= id;
+    emit lastSelectedChanged();
 }
 } // namespace mindmap

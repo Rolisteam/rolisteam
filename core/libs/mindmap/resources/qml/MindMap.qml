@@ -7,11 +7,10 @@ Flickable {
     id: flick
     property QtObject ctrl
     property QtObject styleSheet: Theme.styleSheet("mindmapinteral")
+    signal openImage(var id)
 
     contentHeight: mapmind.height
     contentWidth: mapmind.width
-    contentX: 0
-    contentY: 0
     interactive: true
     boundsBehavior: Flickable.StopAtBounds
 
@@ -21,27 +20,48 @@ Flickable {
     Shortcut {
         sequence: StandardKey.Undo
         onActivated:  ctrl.undo();
+        onActivatedAmbiguously: ctrl.undo()
     }
     Shortcut {
         sequence: StandardKey.Redo
         onActivated: ctrl.redo();
+        onActivatedAmbiguously: ctrl.redo()
     }
 
     Popup {
         id: stylePopup
+        property QtObject targetNode
+        property bool hasImage: targetNode != null ? stylePopup.targetNode.imageUri : false
         height: flick.styleSheet.popupHeight
+        x: parent.width
         y: flick.styleSheet.popupY
         modal: true
+        padding: flick.styleSheet.popupPadding
         ColumnLayout {
             anchors.fill: parent
+            spacing: flick.styleSheet.popupSpacing
+              Button {
                 icon.source: flick.styleSheet.addIcon
+                icon.color: "transparent"
+                Layout.fillWidth: true
+                text: stylePopup.hasImage ? qsTr("Change Image") : qsTr("Set Image")
+                onClicked: flick.openImage(stylePopup.targetNode.id)
+              }
+              ToolButton {
                 icon.name: flick.styleSheet.removeIconName
                 icon.source: flick.styleSheet.removeIconSource
+                icon.color: "transparent"
+                Layout.fillWidth: true
+                text: qsTr("Remove Image")
+                enabled: stylePopup.hasImage
+                onClicked: ctrl.removeImage(stylePopup.targetNode.id)
+              }
             GroupBox {
                 id: styleTab
                 title: qsTr("Node Styles")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+
                 contentWidth: flickable.contentWidth
                 contentHeight: flickable.contentHeight
                 ScrollView {
@@ -51,36 +71,35 @@ Flickable {
                     contentHeight: grid.implicitHeight
                     ScrollBar.vertical.policy: ScrollBar.AlwaysOn
                     clip: true
-                    GridLayout {
-                        id: grid
-                        columns: 3
+                      GridLayout {
+                          id: grid
+                          columns: flick.styleSheet.gridColumnCount
+                          Repeater {
+                              model: ctrl.styleModel
+                              Button {
+                                  id: control
+                                  width: flick.styleSheet.controlWidth
+                                  height: flick.styleSheet.controlHeight
+                                  background: Rectangle {
+                                      radius: flick.styleSheet.controlRadius
+                                      border.width: flick.styleSheet.borderWidth
+                                      border.color: flick.styleSheet.borderColor
+                                      gradient: Gradient {
+                                          GradientStop { position: 0.0; color: control.pressed ? colorTwo : colorOne }//
+                                          GradientStop { position: 1.0; color: control.pressed ? colorOne : colorTwo }//
+                                      }
 
-                        Repeater {
-                            model: ctrl.styleModel
-                            Button {
-                                id: control
-                                width: 80
-                                height: 30
-                                background: Rectangle {
-                                    radius: 8
-                                    border.width: 1
-                                    border.color: "black"
-                                    gradient: Gradient {
-                                        GradientStop { position: 0.0; color: control.pressed ? colorTwo : colorOne }//
-                                        GradientStop { position: 1.0; color: control.pressed ? colorOne : colorTwo }//
-                                    }
-
-                                }
-                                contentItem: Text {
-                                    color: textColor
-                                    text: qsTr("Text")
-                                }
-                                onClicked: {
-                                    stylePopup.parent.object.styleIndex = index
-                                    stylePopup.close()
-                                }
-                            }
-                        }
+                                  }
+                                  contentItem: Text {
+                                      color: textColor
+                                      text: qsTr("Text")
+                                  }
+                                  onClicked: {
+                                      stylePopup.parent.object.styleIndex = index
+                                      stylePopup.close()
+                                  }
+                              }
+                          }
                     }
                 }
             }
@@ -101,7 +120,10 @@ Flickable {
         MouseArea {
             anchors.fill:parent
             acceptedButtons:Qt.LeftButton
-            onClicked: ctrl.selectionCtrl.clearSelection()
+            onClicked: {
+              ctrl.selectionCtrl.clearSelection()
+              stylePopup.targetNode = null
+            }
         }
         Repeater {
             anchors.fill: parent
@@ -128,7 +150,7 @@ Flickable {
                 nodeStyle: ctrl.getStyle(node.styleIndex)
                 focus: true
                 text : node.text
-                source: node.imageUri
+                source: node.imageUri ? "image://nodeImages/%1".arg(node.imageUri) : ""
                 visible: node.visible
                 selected: node.selected
                 onAddChild: ctrl.addBox(node.id)
@@ -140,6 +162,7 @@ Flickable {
 
                 onSelectStyle: {
                     stylePopup.parent = nodeItem
+                    stylePopup.targetNode = node
                     stylePopup.open()
                 }
                 onClicked: {
@@ -149,9 +172,9 @@ Flickable {
                     else if(!selected){
                         root.ctrl.selectionCtrl.clearSelection()
                         root.ctrl.selectionCtrl.addToSelection(node)
+                        stylePopup.targetNode = node
                     }
                 }
-
             }
         }
 

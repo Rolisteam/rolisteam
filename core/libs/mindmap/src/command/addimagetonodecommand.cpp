@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                                 *
+ *	Copyright (C) 2021 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,49 +17,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SELECTIONCONTROLLER_H
-#define SELECTIONCONTROLLER_H
+#include "addimagetonodecommand.h"
 
-#include <QObject>
-#include <QPointF>
-#include <QUndoStack>
+#include "model/boxmodel.h"
+#include "model/imagemodel.h"
+#include "worker/iohelper.h"
+
 namespace mindmap
 {
-
-class MindNode;
-class SelectionController : public QObject
+AddImageToNodeCommand::AddImageToNodeCommand(BoxModel* nodeModel, ImageModel* imgModel, const QString& id,
+                                             const QPixmap& pix)
+    : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel), m_pixmap(pix)
 {
-    Q_OBJECT
-    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
-    Q_PROPERTY(QString lastSelected READ lastSelected NOTIFY lastSelectedChanged)
-public:
-    explicit SelectionController(QObject* parent= nullptr);
+}
+AddImageToNodeCommand::AddImageToNodeCommand(BoxModel* nodeModel, ImageModel* imgModel, const QString& id,
+                                             const QUrl& url)
+    : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel)
+{
+    m_pixmap= IOHelper::readPixmapFromURL(url);
+    setText(QObject::tr("Add %1 image").arg(url.fileName()));
+}
 
-    void setUndoStack(QUndoStack* stack);
+void mindmap::AddImageToNodeCommand::undo()
+{
+    m_imgModel->removePixmap(m_id);
+    m_nodeModel->setImageUriToNode(m_id, {});
+}
 
-    QString lastSelected() const;
-
-    void setEnabled(bool enable);
-    bool enabled() const;
-    const std::vector<mindmap::MindNode*>& selectedNodes() const;
-signals:
-    void enabledChanged();
-    void lastSelectedChanged();
-
-public slots:
-    void addToSelection(mindmap::MindNode* node);
-    void removeFromSelection(mindmap::MindNode* node);
-    void movingNode(const QPointF& motion);
-    void clearSelection();
-
-private:
-    void setLastSelectedId(const QString& id);
-
-private:
-    std::vector<mindmap::MindNode*> m_selection;
-    bool m_enabled= false;
-    QUndoStack* m_undoStack;
-    QString m_lastSelectedId;
-};
+void mindmap::AddImageToNodeCommand::redo()
+{
+    m_imgModel->insertPixmap(m_id, m_pixmap);
+    m_nodeModel->setImageUriToNode(m_id, m_id);
+}
 } // namespace mindmap
-#endif // SELECTIONCONTROLLER_H

@@ -28,9 +28,10 @@
 #include <memory>
 
 class QAbstractItemModel;
-
+class QQuickImageProvider;
 class PlayerModel;
 class ImageModel;
+
 namespace mindmap
 {
 class BoxModel;
@@ -41,6 +42,7 @@ class SpacingController;
 class SelectionController;
 class NodeStyleModel;
 class NodeStyle;
+class NodeImageProvider;
 } // namespace mindmap
 
 class MindMapController : public MediaControllerBase
@@ -69,6 +71,7 @@ public:
     QAbstractItemModel* linkModel() const;
     QAbstractItemModel* styleModel() const;
     PlayerModel* playerModel() const;
+    ImageModel* imageModel() const;
 
     mindmap::SelectionController* selectionController() const;
     const QString& filename() const;
@@ -88,6 +91,7 @@ public:
     mindmap::Link* linkFromId(const QString& id) const;
     mindmap::MindNode* nodeFromId(const QString& id) const;
     void createLink(const QString& id, const QString& id2);
+    bool pasteData(const QMimeData& mimeData) override;
 
     static void setPlayerModel(PlayerModel* model);
     static void registerQmlType();
@@ -127,6 +131,9 @@ public slots:
     void reparenting(mindmap::MindNode* parent, const QString& id);
     void removeSelection();
     mindmap::NodeStyle* getStyle(int index) const;
+
+    void openImage(const QString& id, const QUrl& path);
+    void removeImage(const QString& id);
 
 protected:
     void clearData();

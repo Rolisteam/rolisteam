@@ -45,7 +45,8 @@ public:
         Position,
         Node,
         Posx,
-        Posy
+        Posy,
+        ImageUri
     };
     explicit BoxModel(QObject* parent= nullptr);
     ~BoxModel() override;
@@ -86,6 +87,7 @@ signals:
 public slots:
     // Add data:
     std::pair<MindNode*, Link*> addBox(const QString& idparent);
+    void setImageUriToNode(const QString& id, const QString& url);
 
     // Remove data:
     bool removeBox(const MindNode* node);

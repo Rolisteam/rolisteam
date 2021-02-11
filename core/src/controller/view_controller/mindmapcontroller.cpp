@@ -29,7 +29,9 @@
 #include <QUrl>
 #include <random>
 
+#include "command/addimagetonodecommand.h"
 #include "command/addnodecommand.h"
+#include "command/removeimagefromnodecommand.h"
 #include "command/removenodecommand.h"
 #include "command/reparentingnodecommand.h"
 #include "controller/selectioncontroller.h"
@@ -43,6 +45,7 @@
 #include "qmlItems/nodeitem.h"
 #include "userlist/playermodel.h"
 #include "worker/fileserializer.h"
+#include "worker/iohelper.h"
 
 void MindMapController::registerQmlType()
 {
@@ -258,6 +261,33 @@ void MindMapController::setFilename(const QString& path)
     if(!m_filename.endsWith(".rmap"))
         m_filename+= QStringLiteral(".rmap");
     emit filenameChanged();
+}
+
+bool MindMapController::pasteData(const QMimeData& mimeData)
+{
+    if(!mimeData.hasImage())
+        return false;
+
+    auto pix= qvariant_cast<QPixmap>(mimeData.imageData());
+    auto id= m_selectionController->lastSelected();
+    if(pix.isNull() || id.isEmpty())
+        return false;
+
+    auto cmd= new mindmap::AddImageToNodeCommand(m_nodeModel.get(), m_imageModel.get(), id, pix);
+    m_stack.push(cmd);
+    return true;
+}
+
+void MindMapController::openImage(const QString& id, const QUrl& path)
+{
+    auto cmd= new mindmap::AddImageToNodeCommand(m_nodeModel.get(), m_imageModel.get(), id, path);
+    m_stack.push(cmd);
+}
+
+void MindMapController::removeImage(const QString& id)
+{
+    auto cmd= new mindmap::RemoveImageFromNodeCommand(m_nodeModel.get(), m_imageModel.get(), id);
+    m_stack.push(cmd);
 }
 
 mindmap::NodeStyle* MindMapController::getStyle(int index) const

@@ -35,7 +35,10 @@ set(mindmap_header
     src/command/reparentingnodecommand.h
     src/command/dragnodecommand.h
     src/command/removenodecommand.h
-    src/model/boxmodel.h)
+    src/command/addimagetonodecommand.h
+    src/command/removeimagefromnodecommand.h
+    src/model/boxmodel.h
+    src/model/nodeimageprovider.h)
 
         # main.cpp
 set(mindmap_src
@@ -48,12 +51,15 @@ set(mindmap_src
     src/command/dragnodecommand.cpp
     src/command/addnodecommand.cpp
     src/command/removenodecommand.cpp
+    src/command/addimagetonodecommand.cpp
+    src/command/removeimagefromnodecommand.cpp
     src/model/nodestylemodel.cpp
     src/worker/fileserializer.cpp
     src/command/reparentingnodecommand.cpp
     src/geometry/linknode.cpp
     src/qmlItems/linkitem.cpp
-    src/model/boxmodel.cpp)
+    src/model/boxmodel.cpp
+    src/model/nodeimageprovider.cpp)
 
 set(mindmap_qml
     resources/qml/IconButton.qml
@@ -71,10 +77,11 @@ set(mindmap_bin_src
     src/controller/mindmapcontroller.h
     )
 
+
 add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
 target_link_libraries(rmindmap PUBLIC Qt5::Core Qt5::Svg Qt5::Svg Qt5::Qml Qt5::Quick Qt5::QuickControls2)
 set_target_properties(rmindmap PROPERTIES VERSION ${PROJECT_VERSION})
-target_include_directories(rmindmap PRIVATE src)
+target_include_directories(rmindmap PRIVATE src ../../src)
 
 IF(BUILD_GUI)
     add_executable(rmindmap-gui ${mindmap_bin_src})

@@ -647,6 +647,9 @@
    <property name="shortcut">
     <string>Ctrl+V</string>
    </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
   </action>
  </widget>
  <resources>

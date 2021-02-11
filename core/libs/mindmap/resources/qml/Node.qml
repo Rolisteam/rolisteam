@@ -21,6 +21,8 @@ Pane
     property bool dropOver: false
     property alias buttonColor: control.foreground
 
+    focusPolicy: Qt.MouseFocusReason | Qt.ShortcutFocusReason | Qt.OtherFocusReason
+
     //Signals
     signal clicked(var mouse)
     signal selectStyle()
@@ -64,7 +66,7 @@ Pane
             fillMode: Image.PreserveAspectFit
             sourceSize.height: root.style.imageSize
             sourceSize.width: root.style.imageSize
-
+            Layout.alignment: Qt.AlignHCenter
         }
         TextInput{
             id: text
