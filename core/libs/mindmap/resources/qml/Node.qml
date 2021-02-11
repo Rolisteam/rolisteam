@@ -12,7 +12,7 @@ Pane
     property alias text: text.text
     property bool isEditable: false
     property bool selected: false
-    property int radius: 8
+    property int radius: root.style.radius
     property alias open: control.open
     property int expandButtonSize: root.style.expandedButtonSize
     property QtObject object
@@ -62,8 +62,8 @@ Pane
             id: img
             visible: source
             fillMode: Image.PreserveAspectFit
-            sourceSize.height: 100
-            sourceSize.width: 100
+            sourceSize.height: root.style.imageSize
+            sourceSize.width: root.style.imageSize
 
         }
         TextInput{
@@ -118,8 +118,8 @@ Pane
             property bool open: !checked
             checkable: true
             visible: object.hasLink
-            width: root.expandButtonSize
-            height: root.expandButtonSize
+            width: root.style.childrenButtonSize
+            height: root.style.childrenButtonSize
             anchors.verticalCenter: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             topPadding: 0

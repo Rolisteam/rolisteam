@@ -1,10 +1,12 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import Customization 1.0
 
 Flickable {
     id: flick
     property QtObject ctrl
+    property QtObject styleSheet: Theme.styleSheet("mindmapinteral")
 
     contentHeight: mapmind.height
     contentWidth: mapmind.width
@@ -27,9 +29,14 @@ Flickable {
 
     Popup {
         id: stylePopup
+        height: flick.styleSheet.popupHeight
+        y: flick.styleSheet.popupY
         modal: true
         ColumnLayout {
             anchors.fill: parent
+                icon.source: flick.styleSheet.addIcon
+                icon.name: flick.styleSheet.removeIconName
+                icon.source: flick.styleSheet.removeIconSource
             GroupBox {
                 id: styleTab
                 title: qsTr("Node Styles")
