@@ -17,7 +17,7 @@ QPointer<CharacterModel> CharacterSheetController::m_characterModel;
 CharacterSheetController::CharacterSheetController(const QString& id, const QString& path, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::CHARACTERSHEET, parent)
     , m_model(new CharacterSheetModel)
-    , m_imageModel(new ImageModel())
+    , m_imageModel(new charactersheet::ImageModel())
     , m_characterSheetUpdater(new CharacterSheetUpdater(id))
 {
     setPath(path);
@@ -79,7 +79,7 @@ CharacterSheetModel* CharacterSheetController::model() const
     return m_model.get();
 }
 
-ImageModel* CharacterSheetController::imageModel() const
+charactersheet::ImageModel* CharacterSheetController::imageModel() const
 {
     return m_imageModel.get();
 }

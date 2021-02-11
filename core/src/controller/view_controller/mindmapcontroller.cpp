@@ -36,6 +36,7 @@
 #include "controller/spacingcontroller.h"
 #include "data/nodestyle.h"
 #include "model/boxmodel.h"
+#include "model/imagemodel.h"
 #include "model/linkmodel.h"
 #include "model/nodestylemodel.h"
 #include "qmlItems/linkitem.h"
@@ -66,6 +67,7 @@ MindMapController::MindMapController(const QString& id, QObject* parent)
     , m_linkModel(new mindmap::LinkModel())
     , m_nodeModel(new mindmap::BoxModel())
     , m_styleModel(new mindmap::NodeStyleModel())
+    , m_imageModel(new ImageModel())
 {
     m_nodeModel->setLinkModel(m_linkModel.get());
     m_selectionController->setUndoStack(&m_stack);
@@ -128,6 +130,11 @@ QAbstractItemModel* MindMapController::styleModel() const
 PlayerModel* MindMapController::playerModel() const
 {
     return m_playerModel;
+}
+
+ImageModel* MindMapController::imageModel() const
+{
+    return m_imageModel.get();
 }
 
 const QString& MindMapController::filename() const

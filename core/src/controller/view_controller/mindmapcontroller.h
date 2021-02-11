@@ -30,6 +30,7 @@
 class QAbstractItemModel;
 
 class PlayerModel;
+class ImageModel;
 namespace mindmap
 {
 class BoxModel;
@@ -59,7 +60,7 @@ class MindMapController : public MediaControllerBase
     Q_PROPERTY(QRectF contentRect READ contentRect NOTIFY contentRectChanged)
     Q_PROPERTY(bool readWrite READ readWrite NOTIFY readWriteChanged)
     Q_PROPERTY(Core::SharingPermission sharingToAll READ sharingToAll NOTIFY sharingToAllChanged)
-
+    Q_PROPERTY(ImageModel* imageModel READ imageModel CONSTANT)
 public:
     explicit MindMapController(const QString& id, QObject* parent= nullptr);
     ~MindMapController();
@@ -138,6 +139,7 @@ private:
     std::unique_ptr<mindmap::LinkModel> m_linkModel;
     std::unique_ptr<mindmap::BoxModel> m_nodeModel;
     std::unique_ptr<mindmap::NodeStyleModel> m_styleModel;
+    std::unique_ptr<ImageModel> m_imageModel;
     static QPointer<PlayerModel> m_playerModel;
     QThread* m_spacing= nullptr;
     QUndoStack m_stack;

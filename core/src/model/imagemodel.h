@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2021 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,30 +17,42 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef IMAGEMODEL_H
+#define IMAGEMODEL_H
 
-#include <QJsonObject>
+#include <QAbstractListModel>
+#include <QPixmap>
 #include <QString>
+#include <QUrl>
 
-class SessionItemModel;
-class ProfileModel;
-class CharacterSheetModel;
-namespace charactersheet
+struct ImageInfo
 {
-class ImageModel;
-}
-class ContentController;
-namespace Settingshelper
-{
-void readConnectionProfileModel(ProfileModel* model);
-void writeConnectionProfileModel(ProfileModel* model);
-} // namespace Settingshelper
+    QPixmap m_pixmap;
+    QString m_id;
+    QUrl m_url;
+};
 
-namespace ModelHelper
+class ImageModel : public QAbstractListModel
 {
-bool saveSession(const QString& path, const QString& name, const ContentController* ctrl);
-QString loadSession(const QString& path, ContentController* ctrl);
+public:
+    enum Role
+    {
+        PixmapRole= Qt::UserRole + 1,
+        IdRole,
+        UrlRole,
+        LocalFileRole
+    };
+    ImageModel();
 
-bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model);
-bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charactersheet::ImageModel* imgModel,
-                        QJsonObject& root, QString& qmlCode);
-} // namespace ModelHelper
+    QVariant data(const QModelIndex& index, int role) const override;
+    int rowCount(const QModelIndex& index) const override;
+
+    void insertPixmap(const QString& id, const QPixmap& map, const QUrl& url= QUrl());
+    int removePixmap(const QString& id);
+    QPixmap pixmapFromId(const QString& id);
+
+private:
+    std::vector<ImageInfo> m_data;
+};
+
+#endif // IMAGEMODEL_H

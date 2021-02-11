@@ -40,14 +40,17 @@ struct CharacterSheetData
     Character* character;
 };
 
+namespace charactersheet
+{
 class ImageModel;
+}
 class CharacterSheetModel;
 class CharacterSheetItem;
 class CharacterSheetController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(CharacterSheetModel* model READ model CONSTANT)
-    Q_PROPERTY(ImageModel* imageModel READ imageModel CONSTANT)
+    Q_PROPERTY(charactersheet::ImageModel* imageModel READ imageModel CONSTANT)
     Q_PROPERTY(CharacterModel* characterModel READ characterModel CONSTANT)
     Q_PROPERTY(QString qmlCode READ qmlCode CONSTANT)
     Q_PROPERTY(bool cornerEnabled READ cornerEnabled NOTIFY cornerEnabledChanged)
@@ -57,7 +60,7 @@ public:
     ~CharacterSheetController() override;
 
     CharacterSheetModel* model() const;
-    ImageModel* imageModel() const;
+    charactersheet::ImageModel* imageModel() const;
     CharacterModel* characterModel() const;
     const QJsonObject& rootObject() const;
 
@@ -84,7 +87,7 @@ signals:
 
 private:
     std::unique_ptr<CharacterSheetModel> m_model;
-    std::unique_ptr<ImageModel> m_imageModel;
+    std::unique_ptr<charactersheet::ImageModel> m_imageModel;
     static QPointer<CharacterModel> m_characterModel;
     std::set<CharacterSheetData> m_sheetData;
     std::unique_ptr<CharacterSheetUpdater> m_characterSheetUpdater;

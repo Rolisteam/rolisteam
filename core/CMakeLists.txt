@@ -122,6 +122,7 @@ set(HEADERS
     src/model/singlecontenttypemodel.h
     src/model/playerproxymodel.h
     src/model/vmapitemmodel.h
+    src/model/imagemodel.h
     src/network/channel.h
     src/network/channellistpanel.h
     src/network/channelmodel.h
@@ -378,6 +379,7 @@ set(SOURCES
     src/model/playerproxymodel.cpp
     src/model/singlecontenttypemodel.cpp
     src/model/contentmodel.cpp
+    src/model/imagemodel.cpp
     src/network/channel.cpp
     src/network/channellistpanel.cpp
     src/network/channelmodel.cpp

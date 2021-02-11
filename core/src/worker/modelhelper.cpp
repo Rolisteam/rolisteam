@@ -252,8 +252,8 @@ QString loadSession(const QString& path, ContentController* ctrl)
 
 bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model) {}
 
-bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, ImageModel* imgModel, QJsonObject& root,
-                        QString& qmlCode)
+bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charactersheet::ImageModel* imgModel,
+                        QJsonObject& root, QString& qmlCode)
 {
     if(path.isEmpty())
         return false;
