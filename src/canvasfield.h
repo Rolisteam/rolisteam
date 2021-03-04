@@ -23,10 +23,10 @@ public:
     Field* getField() const;
     void setField(Field* field);
 
-    QRectF boundingRect() const;
-    virtual QPainterPath shape() const;
+    QRectF boundingRect() const override;
+    virtual QPainterPath shape() const override;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
     void setNewEnd(QPointF nend);
 
     void setWidth(qreal w);

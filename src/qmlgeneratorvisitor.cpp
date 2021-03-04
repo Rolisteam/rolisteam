@@ -177,7 +177,7 @@ bool QmlGeneratorVisitor::generateTextInput(Field* item)
                  "%5    color:\"%3\"\n"
                  "%5    backgroundColor: \"%4\"\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
-                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
+                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font(), false)
                  + "%5    onTextChanged: {\n"
                    "%5        %2.value = text\n"
                    "%5    }\n"
@@ -206,7 +206,7 @@ bool QmlGeneratorVisitor::generateTextArea(Field* item)
                  "%5    backgroundColor: \"%4\"\n"
                  "%5    field: %7\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
-                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font()) + "%5}\n");
+                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font(), false) + "%5}\n");
     /*                 + "%5    onEditingFinished: {\n"
                    "%5        %2.value = text\n"
                    "%5    }\n"*/
@@ -234,7 +234,7 @@ bool QmlGeneratorVisitor::generateTextField(Field* item)
                  "%5    color:\"%3\"\n"
                  "%5    backgroundColor: \"%4\"\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
-                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
+                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font(), false)
                  + "%5    onTextEdited: {\n"
                    "%5        %2.value = text\n"
                    "%5    }\n"
@@ -261,7 +261,7 @@ bool QmlGeneratorVisitor::generateLabelField(Field* item)
                  "%5    color:\"%3\"\n"
                  "%5    backgroundColor: \"%4\"\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
-                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font()) + "%5}\n");
+                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font(), true) + "%5}\n");
 
     m_out << text.arg(item->getLabel()) //%1
                  .arg(getId(item))
@@ -345,7 +345,7 @@ bool QmlGeneratorVisitor::generateFuncButton(Field* item)
                  "%6    backgroundColor: \"%8\"\n"
                  "%6    textColor: \"%9\"\n"
                  + getPageManagement(item, m_indenSpace) + "%6    readOnly: %2.readOnly\n" + getToolTip(item)
-                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
+                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font(), false)
                  + "%6    onClicked: {\n"
                    "%6        %5\n"
                    "%6    }\n"
@@ -379,7 +379,7 @@ bool QmlGeneratorVisitor::generateDiceButton(Field* item)
                  "%6    backgroundColor: \"%8\"\n"
                  "%6    textColor: \"%9\"\n"
                  + getPageManagement(item, m_indenSpace) + "%6    readOnly: %2.readOnly\n" + getToolTip(item)
-                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
+                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font(), false)
                  + "%6    onClicked:rollDiceCmd(%2.value,%5)\n"
                    "%6}\n");
 
@@ -527,7 +527,7 @@ QString QmlGeneratorVisitor::generateAlignment(Field* item)
     return alignments.arg(pair.first).arg(pair.second).arg(m_indenSpace);
 }
 
-QString QmlGeneratorVisitor::generateFont(QFont font)
+QString QmlGeneratorVisitor::generateFont(QFont font, bool fitfont)
 {
     QString fontStr("%8    font.family:  \"%1\"\n"
                     "%8    font.bold:    %2\n"
@@ -537,6 +537,11 @@ QString QmlGeneratorVisitor::generateFont(QFont font)
                     "%8    font.overline: %6\n"
                     "%8    font.strikeout: %7\n");
 
+    if(fitfont)
+    {
+        fontStr.append("%8    fontSizeMode: Text.Fit\n");
+        fontStr.replace("font.pointSize", "minimumPixelSize");
+    }
     return fontStr.arg(font.family())
         .arg(font.bold() ? QStringLiteral("true") : QStringLiteral("false"))
         .arg(font.italic() ? QStringLiteral("true") : QStringLiteral("false"))

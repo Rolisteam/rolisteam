@@ -20,7 +20,7 @@
 #include "qmltypesregister.h"
 
 #include <QQmlEngine>
-#include <diceparser/include/diceroller.h>
+#include <diceparser/diceroller.h>
 
 #ifndef UNIT_TEST
 #include "field.h"

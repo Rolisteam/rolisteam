@@ -5,14 +5,15 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+option(TRANSLATIONS "generate QM translation" ON)
 
 find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 include(FindPoppler)
 
-add_definitions(-DVERSION_MAJOR=1 -DVERSION_MIDDLE=10 -DVERSION_MINOR=0)
+add_definitions(-DVERSION_MAJOR=1 -DVERSION_MIDDLE=10 -DVERSION_MINOR=0  -DRCSE=1)
 set(QT_REQUIRED_VERSION "5.12.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Quick QuickWidgets WebEngineWidgets PrintSupport WebEngine)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Quick QuickWidgets WebEngineWidgets PrintSupport WebEngine)
 
 if (TESTS)
 add_subdirectory(tests)
@@ -48,6 +49,7 @@ set(sources  src/main.cpp
     src/itemeditor.cpp
     src/tablecanvasfield.cpp
     src/dialog/columndefinitiondialog.cpp
+    src/data/characterlist.cpp
     src/undo/addfieldcommand.cpp
     src/undo/deletefieldcommand.cpp
     src/undo/movefieldcommand.cpp
@@ -73,6 +75,7 @@ set(headers src/mainwindow.h
     src/controllers/editorcontroller.h
     src/controllers/imagecontroller.h
     src/controllers/qmlgeneratorcontroller.h
+    src/data/characterlist.h
     src/data/mockcharacter.h
     src/fieldmodel.h
     src/borderlisteditor.h
@@ -120,6 +123,27 @@ set(UI_files   src/mainwindow.ui
         src/dialog/codeeditordialog.ui
       src/common/widgets/logpanel.ui)
 
+
+set(TS_FILES translations/rcse_ca.ts
+    translations/rcse_de.ts
+    translations/rcse_es.ts
+    translations/rcse_fr.ts
+    translations/rcse_hu_HU.ts
+    translations/rcse_it_IT.ts
+    translations/rcse_nl_NL.ts
+    translations/rcse_pt_BR.ts
+    translations/rcse_ro_RO.ts
+    translations/rcse_tr.ts
+    translations/rcse.ts
+)
+
+
+IF(TRANSLATIONS)
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/translations)
+    qt5_add_translation(QM_FILES ${TS_FILES})
+    add_custom_target(translations ALL DEPENDS ${QM_FILES})
+ENDIF()
+
 add_subdirectory(src/charactersheet)
 add_subdirectory(src/diceparser)
 
@@ -140,4 +164,6 @@ endif()
 target_include_directories(rcse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/charactersheet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/preferences
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/diceparser)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/diceparser
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/diceparser/include)

@@ -35,7 +35,7 @@ protected:
 
     QString generatePosition(Field* item);
     QString generateAlignment(Field* item);
-    QString generateFont(QFont font);
+    QString generateFont(QFont font, bool fitfont);
 
     QString getId(Field* item);
 

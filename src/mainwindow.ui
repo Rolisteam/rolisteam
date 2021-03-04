@@ -14,7 +14,7 @@
    <string>Unknown[*] - Rolisteam Character Sheet Editor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../qmlfile.qrc">
+   <iconset resource="../rcse_resources.qrc">
     <normaloff>:/resources/logo/symbol2.png</normaloff>:/resources/logo/symbol2.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -53,7 +53,7 @@
                  <string>TextInput</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -88,7 +88,7 @@
                  <string>TextField</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -126,7 +126,7 @@
                  <string>Checkbox</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/checked_checkbox.png</normaloff>:/resources/icons/checked_checkbox.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -161,7 +161,7 @@
                  <string>TextArea</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/textarea.png</normaloff>:/resources/icons/textarea.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -196,7 +196,7 @@
                  <string>Dice Button</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/symbol.svg</normaloff>:/resources/icons/symbol.svg</iconset>
                 </property>
                 <property name="iconSize">
@@ -228,7 +228,7 @@
                  <string>Function btn</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/function.png</normaloff>:/resources/icons/function.png</iconset>
                 </property>
                 <property name="checkable">
@@ -257,7 +257,7 @@
                  <string>Table</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/table.png</normaloff>:/resources/icons/table.png</iconset>
                 </property>
                 <property name="checkable">
@@ -283,7 +283,7 @@
                  <string>Image</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
                 </property>
                 <property name="toolButtonStyle">
@@ -328,7 +328,7 @@
                  <string>WebView</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/webPage.svg</normaloff>:/resources/icons/webPage.svg</iconset>
                 </property>
                 <property name="toolButtonStyle">
@@ -402,7 +402,7 @@
                  <string>Move</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../qmlfile.qrc">
+                 <iconset resource="../rcse_resources.qrc">
                   <normaloff>:/resources/icons/moveNpc.png</normaloff>:/resources/icons/moveNpc.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -772,7 +772,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
    </property>
    <property name="text">
@@ -784,7 +784,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/moveNpc.png</normaloff>:/resources/icons/moveNpc.png</iconset>
    </property>
    <property name="text">
@@ -796,7 +796,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
@@ -820,7 +820,7 @@
   </action>
   <action name="m_genarateCodeAct">
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/gear.svg</normaloff>:/resources/icons/gear.svg</iconset>
    </property>
    <property name="text">
@@ -832,7 +832,7 @@
   </action>
   <action name="m_codeToViewAct">
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/arrow.svg</normaloff>:/resources/icons/arrow.svg</iconset>
    </property>
    <property name="text">
@@ -847,7 +847,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/symbol.svg</normaloff>:/resources/icons/symbol.svg</iconset>
    </property>
    <property name="text">
@@ -859,7 +859,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
    </property>
    <property name="text">
@@ -871,7 +871,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/checked_checkbox.png</normaloff>:/resources/icons/checked_checkbox.png</iconset>
    </property>
    <property name="text">
@@ -883,7 +883,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/textarea.png</normaloff>:/resources/icons/textarea.png</iconset>
    </property>
    <property name="text">
@@ -900,7 +900,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
    </property>
    <property name="text">
@@ -909,7 +909,7 @@
   </action>
   <action name="m_aboutRcseAct">
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/logo/symbol2.png</normaloff>:/resources/logo/symbol2.png</iconset>
    </property>
    <property name="text">
@@ -950,7 +950,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/function.png</normaloff>:/resources/icons/function.png</iconset>
    </property>
    <property name="text">
@@ -970,7 +970,7 @@
   </action>
   <action name="m_addImageAct">
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
    </property>
    <property name="text">
@@ -979,7 +979,7 @@
   </action>
   <action name="m_deleteImageAct">
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
@@ -996,7 +996,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/table.png</normaloff>:/resources/icons/table.png</iconset>
    </property>
    <property name="text">
@@ -1015,7 +1015,7 @@
   </action>
   <action name="m_openLiberapay">
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/liberapay.png</normaloff>:/resources/icons/liberapay.png</iconset>
    </property>
    <property name="text">
@@ -1032,7 +1032,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/webPage.svg</normaloff>:/resources/icons/webPage.svg</iconset>
    </property>
    <property name="text">
@@ -1044,7 +1044,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/arrow_next.svg</normaloff>:/resources/icons/arrow_next.svg</iconset>
    </property>
    <property name="text">
@@ -1056,7 +1056,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/arrow.svg</normaloff>:/resources/icons/arrow.svg</iconset>
    </property>
    <property name="text">
@@ -1108,7 +1108,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qmlfile.qrc">
+    <iconset resource="../rcse_resources.qrc">
      <normaloff>:/resources/icons/text-label.svg</normaloff>:/resources/icons/text-label.svg</iconset>
    </property>
    <property name="text">
@@ -1144,8 +1144,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../qmlfile.qrc"/>
-  <include location="../qmlfile.qrc"/>
+  <include location="../rcse_resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>

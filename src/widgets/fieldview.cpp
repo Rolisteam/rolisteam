@@ -47,7 +47,7 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
         showColumn(CharacterSheetItem::LABEL);
         showColumn(CharacterSheetItem::BGCOLOR);
         showColumn(CharacterSheetItem::BORDER);
-        showColumn(CharacterSheetItem::CLIPPED);
+        showColumn(CharacterSheetItem::FitFont);
         showColumn(CharacterSheetItem::FONT);
         showColumn(CharacterSheetItem::TEXT_ALIGN);
         showColumn(CharacterSheetItem::TEXTCOLOR);
@@ -92,7 +92,7 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
 
     setItemDelegateForColumn(CharacterSheetItem::BORDER, new BorderListEditor);
 
-    connect(m_mapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped), this,
+    connect(m_mapper, &QSignalMapper::mappedInt, this,
             [this](int i) { this->setColumnHidden(i, !this->isColumnHidden(i)); });
 }
 void FieldView::hideAllColumns(bool hidden)

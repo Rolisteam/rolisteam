@@ -66,8 +66,8 @@
 #include "controllers/imagecontroller.h"
 #include "controllers/qmlgeneratorcontroller.h"
 
-#include "delegate/pagedelegate.h"
 #include "data/characterlist.h"
+#include "delegate/pagedelegate.h"
 
 // Undo
 #include "undo/addpagecommand.h"
@@ -76,6 +76,8 @@
 #include "undo/setbackgroundimage.h"
 #include "undo/setfieldproperties.h"
 #include "undo/setpropertyonallcharacters.h"
+
+constexpr int minimalColumnSize= 350;
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), m_counterZoom(0), m_pdf(nullptr), m_undoStack(new QUndoStack(this))
@@ -103,13 +105,11 @@ MainWindow::MainWindow(QWidget* parent)
     m_qmlCtrl.reset(new QmlGeneratorController(ui->m_codeEdit, ui->treeView));
 
     ui->m_characterSelectBox->setModel(m_characterCtrl->characters());
-    connect(m_characterCtrl->characters(), &CharacterList::dataChanged,this, [this](){
-        ui->m_characterSelectBox->setCurrentIndex(0);
-    });
+    connect(m_characterCtrl->characters(), &CharacterList::dataChanged, this,
+            [this]() { ui->m_characterSelectBox->setCurrentIndex(0); });
 
-    connect(ui->m_characterSelectBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,[this](){
-        m_qmlCtrl->setUuidCharacter(ui->m_characterSelectBox->currentData().toString());
-    });
+    connect(ui->m_characterSelectBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+            [this]() { m_qmlCtrl->setUuidCharacter(ui->m_characterSelectBox->currentData().toString()); });
 
     ui->m_characterSelectBox->setCurrentIndex(0);
     connect(m_editorCtrl.get(), &EditorController::canvasBackgroundChanged, m_imageCtrl.get(),
@@ -291,6 +291,28 @@ MainWindow::MainWindow(QWidget* parent)
     m_characterCtrl->setRootSection(m_qmlCtrl->fieldModel()->getRootSection());
     ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
 
+    auto header= ui->m_characterView->header();
+    header->setMinimumWidth(minimalColumnSize);
+    // header->setSectionResizeMode(0, QHeaderView::Stretch);
+    auto resizeSection= [this](int= 0, int newCount= 1) {
+        auto header= ui->m_characterView->header();
+        if(!header)
+            return;
+        auto w= header->width() - minimalColumnSize;
+        auto count= std::max(newCount - 1, 1);
+        auto idealSize= w / count;
+        for(int i= 0; i < newCount; ++i)
+        {
+            if(i == 0)
+                header->resizeSection(i, newCount > 1 ? minimalColumnSize : idealSize);
+            else
+                header->resizeSection(i, idealSize >= minimalColumnSize ? idealSize : minimalColumnSize);
+        }
+    };
+    connect(header, &QHeaderView::sectionCountChanged, this, resizeSection);
+
+    resizeSection();
+
     connect(ui->m_scaleSlider, &QSlider::valueChanged, this, [this](int val) {
         qreal scale= val / 100.0;
         QTransform transform(scale, 0, 0, 0, scale, 0, 0, 0);
@@ -299,7 +321,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->m_newAct, &QAction::triggered, this, &MainWindow::clearData);
 
-    connect(ui->m_openLiberapay, &QAction::triggered, [=] {
+    connect(ui->m_openLiberapay, &QAction::triggered, this, [this] {
         if(!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
         {
             QMessageBox* msgBox= new QMessageBox(
@@ -481,7 +503,7 @@ bool MainWindow::wheelEventForView(QWheelEvent* event)
         // Scale the view / do the zoom
         double scaleFactor= 1.1;
 
-        if((event->delta() > 0) && (m_counterZoom < 20))
+        if((event->angleDelta().x() > 0) && (m_counterZoom < 20))
         {
             m_view->scale(scaleFactor, scaleFactor);
             ++m_counterZoom;
@@ -880,7 +902,7 @@ void MainWindow::displayWarningsQML(const QList<QQmlError>& list)
 
 void MainWindow::showQMLFromCode()
 {
-    m_qmlCtrl->runQmlFromCode(ui->m_quickview, m_imageCtrl.get(),m_characterCtrl.get());
+    m_qmlCtrl->runQmlFromCode(ui->m_quickview, m_imageCtrl.get(), m_characterCtrl.get());
 }
 
 void MainWindow::saveQML()
