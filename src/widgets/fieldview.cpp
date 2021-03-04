@@ -148,7 +148,7 @@ void FieldView::contextMenuEvent(QContextMenuEvent* event)
 
     if(act == m_delItem)
     {
-        auto itemData= static_cast<Field*>(index.internalPointer());
+        auto itemData= static_cast<FieldController*>(index.internalPointer());
         /*DeleteFieldCommand* deleteCommand
             = new DeleteFieldCommand(itemData, m_model, m_currentPage);
         m_undoStack->push(deleteCommand);*/
@@ -171,7 +171,7 @@ void FieldView::contextMenuEvent(QContextMenuEvent* event)
         if(!index.isValid())
             return;
 
-        Field* field= m_model->getFieldFromIndex(index);
+        FieldController* field= m_model->getFieldFromIndex(index);
 
         if(nullptr != field)
         {
@@ -190,7 +190,7 @@ void FieldView::lockItems()
         if(!index.isValid())
             return;
 
-        auto field= static_cast<Field*>(index.internalPointer());
+        auto field= static_cast<FieldController*>(index.internalPointer());
         auto value= field->isLocked();
         field->setLocked(!value);
     });
@@ -249,7 +249,7 @@ void FieldView::applyValue(QModelIndex& index, bool selection)
         {
             if(index.column() == col)
             {
-                auto field= static_cast<Field*>(index.internalPointer());
+                auto field= static_cast<FieldController*>(index.internalPointer());
                 listField.append(field);
             }
         }
@@ -268,7 +268,7 @@ void FieldView::defineItemCode(QModelIndex& index)
     if(!index.isValid())
         return;
 
-    Field* field= m_model->getFieldFromIndex(index);
+    FieldController* field= m_model->getFieldFromIndex(index);
 
     if(nullptr != field)
     {

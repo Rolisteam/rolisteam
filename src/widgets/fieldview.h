@@ -9,7 +9,7 @@
 class QUndoStack;
 class FieldModel;
 class Canvas;
-class Field;
+class FieldController;
 class FieldView : public QTreeView
 {
     Q_OBJECT
@@ -37,7 +37,7 @@ public slots:
     void setCurrentPage(int currentPage);
 
 signals:
-    void removeField(Field* field, int m_currentPage);
+    void removeField(FieldController* field, int m_currentPage);
 
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;

@@ -40,7 +40,7 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* 
     }
     else
     {
-        m_field= new Field(pos);
+        m_field= new FieldController(pos);
     }
     m_field->setPage(m_currentPage);
 
@@ -55,54 +55,54 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* 
     switch(m_tool) // TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
     {
     case Canvas::ADDCHECKBOX:
-        m_field->setCurrentType(Field::CHECKBOX);
+        m_field->setCurrentType(FieldController::CHECKBOX);
         type= QObject::tr("checkbox");
         break;
     case Canvas::ADDINPUT:
-        m_field->setCurrentType(Field::TEXTINPUT);
+        m_field->setCurrentType(FieldController::TEXTINPUT);
         type= QObject::tr("TextInput");
         break;
     case Canvas::ADDTEXTAREA:
-        m_field->setCurrentType(Field::TEXTAREA);
+        m_field->setCurrentType(FieldController::TEXTAREA);
         type= QObject::tr("TextArea");
         break;
     case Canvas::ADDTEXTFIELD:
-        m_field->setCurrentType(Field::TEXTFIELD);
+        m_field->setCurrentType(FieldController::TEXTFIELD);
         type= QObject::tr("TextField");
         break;
     case Canvas::ADDTABLE:
     {
-        m_field->setCurrentType(Field::TABLE);
+        m_field->setCurrentType(FieldController::TABLE);
         type= QObject::tr("Table");
     }
     break;
     case Canvas::ADDIMAGE:
-        m_field->setCurrentType(Field::IMAGE);
+        m_field->setCurrentType(FieldController::IMAGE);
         type= QObject::tr("Image");
         break;
     case Canvas::ADDLABEL:
-        m_field->setCurrentType(Field::RLABEL);
+        m_field->setCurrentType(FieldController::RLABEL);
         type= QObject::tr("LabelField");
         break;
     case Canvas::ADDFUNCBUTTON:
-        m_field->setCurrentType(Field::FUNCBUTTON);
+        m_field->setCurrentType(FieldController::FUNCBUTTON);
         type= QObject::tr("function");
         break;
     case Canvas::BUTTON:
-        m_field->setCurrentType(Field::DICEBUTTON);
+        m_field->setCurrentType(FieldController::DICEBUTTON);
         m_field->setBgColor(Qt::red);
         type= QObject::tr("Dice Button");
         break;
     case Canvas::ADDWEBPAGE:
-        m_field->setCurrentType(Field::WEBPAGE);
+        m_field->setCurrentType(FieldController::WEBPAGE);
         type= QObject::tr("Web Page");
         break;
     case Canvas::NEXTPAGE:
-        m_field->setCurrentType(Field::NEXTPAGE);
+        m_field->setCurrentType(FieldController::NEXTPAGE);
         type= QObject::tr("Next Page Button");
         break;
     case Canvas::PREVIOUSPAGE:
-        m_field->setCurrentType(Field::PREVIOUSPAGE);
+        m_field->setCurrentType(FieldController::PREVIOUSPAGE);
         type= QObject::tr("Previous Page Button");
         break;
     case Canvas::MOVE:
@@ -171,7 +171,7 @@ void AddFieldCommand::redo()
     m_addImage= m_imageModel->insertImage(pix, key, path, false);
 }
 
-Field* AddFieldCommand::getField() const
+FieldController* AddFieldCommand::getField() const
 {
     return m_field;
 }

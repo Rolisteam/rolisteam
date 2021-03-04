@@ -27,7 +27,7 @@
 class DeleteFieldCommand : public QUndoCommand
 {
 public:
-  DeleteFieldCommand(Field* fields, Canvas* canvas, FieldModel* model,int currentPage,QUndoCommand *parent = 0);
+  DeleteFieldCommand(FieldController* fields, Canvas* canvas, FieldModel* model,int currentPage,QUndoCommand *parent = 0);
   DeleteFieldCommand(QList<CharacterSheetItem*> fields, QList<Canvas*> canvas, FieldModel* model,QList<int> currentPage,QUndoCommand *parent = 0);
 
   void undo() override;
@@ -36,7 +36,7 @@ public:
 private:
   void init();
 private:
-  QList<Field*> m_fields;
+  QList<FieldController*> m_fields;
   QList<Canvas*> m_canvas;
   QList<QPointF> m_points;
   FieldModel* m_model;

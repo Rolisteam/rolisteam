@@ -117,7 +117,7 @@ bool compareHandles(HandleItem* first, HandleItem* two)
     return (first->pos().x() < two->pos().x());
 }
 
-TableCanvasField::TableCanvasField(Field* field)
+TableCanvasField::TableCanvasField(FieldController* field)
     : CanvasField(field), m_colunmCount(1), m_lineCount(1), m_dataReset(true)
 {
     m_addColumn= new ButtonCanvas();
@@ -375,10 +375,10 @@ void TableCanvasField::fillLineModel(LineModel* lineModel, TableField* parent)
         LineFieldItem* line= new LineFieldItem();
         for(CharacterSheetItem* child : model->children())
         {
-            Field* field= dynamic_cast<Field*>(child);
+            auto field= dynamic_cast<FieldController*>(child);
             if(nullptr != field)
             {
-                Field* newField= new Field();
+                auto newField= new FieldController();
                 newField->copyField(field, true, false);
                 newField->setParent(parent);
                 line->insertField(newField);

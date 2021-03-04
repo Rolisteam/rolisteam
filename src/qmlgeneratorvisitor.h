@@ -4,7 +4,7 @@
 #include <QTextStream>
 
 class CharacterSheetItem;
-class Field;
+class FieldController;
 class QmlGeneratorVisitor
 {
 public:
@@ -20,26 +20,26 @@ public:
     void setIndentation(int indentation);
 
 protected:
-    bool generateTextInput(Field* item);
-    bool generateTextArea(Field* item);
-    bool generateTextField(Field* item);
-    bool generateSelect(Field* item);
-    bool generateCheckBox(Field* item);
-    bool generateFuncButton(Field* item);
-    bool generateDiceButton(Field* item);
-    bool generateImage(Field* item);
-    bool generateWebPage(Field* item);
-    bool generateTable(Field* item);
-    bool generateChangePageBtn(Field* item, bool next);
-    bool generateLabelField(Field* item);
+    bool generateTextInput(FieldController* item);
+    bool generateTextArea(FieldController* item);
+    bool generateTextField(FieldController* item);
+    bool generateSelect(FieldController* item);
+    bool generateCheckBox(FieldController* item);
+    bool generateFuncButton(FieldController* item);
+    bool generateDiceButton(FieldController* item);
+    bool generateImage(FieldController* item);
+    bool generateWebPage(FieldController* item);
+    bool generateTable(FieldController* item);
+    bool generateChangePageBtn(FieldController* item, bool next);
+    bool generateLabelField(FieldController* item);
 
-    QString generatePosition(Field* item);
-    QString generateAlignment(Field* item);
+    QString generatePosition(FieldController* item);
+    QString generateAlignment(FieldController* item);
     QString generateFont(QFont font, bool fitfont);
 
-    QString getId(Field* item);
+    QString getId(FieldController* item);
 
-    QString getToolTip(Field* item);
+    QString getToolTip(FieldController* item);
 
 private:
     QTextStream& m_out;

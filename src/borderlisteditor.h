@@ -43,7 +43,7 @@ public:
     void setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const;
 
 private:
-    QMap<Field::BorderLine,QString> m_map;
+    QMap<FieldController::BorderLine,QString> m_map;
 
 };
 

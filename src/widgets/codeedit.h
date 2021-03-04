@@ -13,12 +13,12 @@ class CodeEdit : public QDialog
     Q_OBJECT
 
 public:
-    explicit CodeEdit(Field* m_field, QWidget *parent = 0);
+    explicit CodeEdit(FieldController* m_field, QWidget *parent = 0);
     ~CodeEdit();
 
 private:
     Ui::CodeEdit *ui;
-    Field* m_field;
+    FieldController* m_field;
 };
 
 #endif // CODEEDIT_H

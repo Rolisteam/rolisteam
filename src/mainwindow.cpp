@@ -138,7 +138,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_editorCtrl.get(), &EditorController::pageCountChanged, this,
             [this]() { ui->treeView->setCurrentPage(static_cast<int>(m_editorCtrl->pageCount())); });
     ui->treeView->setUndoStack(&m_undoStack);
-    connect(ui->treeView, &FieldView::removeField, this, [this](Field* field, int currentPage) {
+    connect(ui->treeView, &FieldView::removeField, this, [this](FieldController* field, int currentPage) {
         m_undoStack.push(
             new DeleteFieldCommand(field, m_editorCtrl->currentCanvas(), m_qmlCtrl->fieldModel(), currentPage));
     });

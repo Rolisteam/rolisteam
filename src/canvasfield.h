@@ -2,8 +2,9 @@
 #define CANVASFIELD_H
 #include <QGraphicsObject>
 #include <QMenu>
+#include <QPointer>
 //
-class Field;
+class FieldController;
 /**
  * @brief The CanvasField class is the representation of the field into GraphicsScene.
  */
@@ -16,12 +17,12 @@ public:
     {
         Type= UserType + 1
     };
-    CanvasField(Field* field);
+    CanvasField(FieldController* field);
 
     int type() const override { return Type; }
 
-    Field* getField() const;
-    void setField(Field* field);
+    FieldController* getField() const;
+    void setField(FieldController* field);
 
     QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
@@ -45,13 +46,15 @@ signals:
     void lockedChanged();
 
 protected:
-    Field* m_field;
+    QPointer<FieldController> m_field;
     QRectF m_rect;
-    static QHash<int, QString> m_pictureMap;
-    static bool m_showImageField;
     QPixmap m_pix;
     int m_currentType;
     bool m_locked= false;
+
+    // static members
+    static QHash<int, QString> m_pictureMap;
+    static bool m_showImageField;
 };
 
 #endif // CANVASFIELD_H

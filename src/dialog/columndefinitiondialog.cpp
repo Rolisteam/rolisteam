@@ -58,7 +58,7 @@ void ColumnDefinitionDialog::setData(QList<HandleItem*> list, qreal widthTotal, 
     int i= 0;
     for(auto handle : list)
     {
-        auto field= new Field();
+        auto field= new FieldController();
         field->setCurrentType(CharacterSheetItem::TEXTINPUT);
         m_model->appendField(field);
         field->setX(currentX);
@@ -68,7 +68,7 @@ void ColumnDefinitionDialog::setData(QList<HandleItem*> list, qreal widthTotal, 
         currentX= handle->pos().x();
         ++i;
     }
-    auto field= new Field();
+    auto field= new FieldController();
     field->setCurrentType(CharacterSheetItem::TEXTINPUT);
     m_model->appendField(field);
     field->setX(currentX);

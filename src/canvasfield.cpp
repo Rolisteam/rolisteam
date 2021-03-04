@@ -6,19 +6,20 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-QHash<int, QString> CanvasField::m_pictureMap({{Field::TEXTINPUT, ":/resources/icons/Actions-edit-rename-icon.png"},
-                                               {Field::TEXTAREA, ":/resources/icons/textarea.png"},
-                                               {Field::TEXTFIELD, ":/resources/icons/Actions-edit-rename-icon.png"},
-                                               {Field::RLABEL, ""},
-                                               {Field::SELECT, ""},
-                                               {Field::CHECKBOX, ":/resources/icons/checked_checkbox.png"},
-                                               {Field::IMAGE, ":/resources/icons/photo.png"},
-                                               {Field::WEBPAGE, ":/resources/icons/webPage.svg"},
-                                               {Field::DICEBUTTON, ""}});
+QHash<int, QString>
+    CanvasField::m_pictureMap({{FieldController::TEXTINPUT, ":/resources/icons/Actions-edit-rename-icon.png"},
+                               {FieldController::TEXTAREA, ":/resources/icons/textarea.png"},
+                               {FieldController::TEXTFIELD, ":/resources/icons/Actions-edit-rename-icon.png"},
+                               {FieldController::RLABEL, ""},
+                               {FieldController::SELECT, ""},
+                               {FieldController::CHECKBOX, ":/resources/icons/checked_checkbox.png"},
+                               {FieldController::IMAGE, ":/resources/icons/photo.png"},
+                               {FieldController::WEBPAGE, ":/resources/icons/webPage.svg"},
+                               {FieldController::DICEBUTTON, ""}});
 
 bool CanvasField::m_showImageField= true;
 
-CanvasField::CanvasField(Field* field) : m_field(field)
+CanvasField::CanvasField(FieldController* field) : m_field(field)
 {
     m_rect.setCoords(0, 0, 0, 0);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
@@ -29,12 +30,12 @@ void CanvasField::setNewEnd(QPointF nend)
     emit heightChanged();
     m_rect.setBottomRight(nend);
 }
-Field* CanvasField::getField() const
+FieldController* CanvasField::getField() const
 {
     return m_field;
 }
 
-void CanvasField::setField(Field* field)
+void CanvasField::setField(FieldController* field)
 {
     m_field= field;
 }
@@ -81,7 +82,7 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
     }
 
     int flags= 0;
-    Field::TextAlign align= m_field->getTextAlignValue();
+    FieldController::TextAlign align= m_field->getTextAlignValue();
     if(align < 3)
     {
         flags= Qt::AlignTop;

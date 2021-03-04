@@ -106,7 +106,7 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
     }
     if(role == Qt::BackgroundRole)
     {
-        auto field= dynamic_cast<Field*>(item);
+        auto field= dynamic_cast<FieldController*>(item);
         QVariant color;
         if(field && !field->getGeneratedCode().isEmpty())
         {
@@ -288,9 +288,9 @@ void FieldModel::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
     m_rootSection->getFieldFromPage(pagePos, list);
 }
 
-Field* FieldModel::getFieldFromIndex(const QModelIndex& index)
+FieldController* FieldModel::getFieldFromIndex(const QModelIndex& index)
 {
-    return static_cast<Field*>(index.internalPointer());
+    return static_cast<FieldController*>(index.internalPointer());
 }
 
 void FieldModel::updateItem(CSItem* item)
@@ -387,7 +387,7 @@ void FieldModel::removeItem(QModelIndex& index)
     }
 }
 
-void FieldModel::removeField(Field* field)
+void FieldModel::removeField(FieldController* field)
 {
     // int index = m_rootSection->indexOfChild(field);
     QList<CharacterSheetItem*> ancestors;
@@ -442,6 +442,6 @@ void FieldModel::resetAllId()
     beginResetModel();
     int i= 0;
     m_rootSection->resetAllId(i);
-    Field::setCount(i);
+    FieldController::setCount(i);
     endResetModel();
 }

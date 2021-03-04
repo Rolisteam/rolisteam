@@ -186,7 +186,7 @@ public:
      * @param index
      */
     void removeItem(QModelIndex& index);
-    void removeField(Field* field);
+    void removeField(FieldController* field);
     /**
      * @brief setValueForAll
      * @param index
@@ -209,7 +209,7 @@ public:
      * @brief getFieldFromIndex
      * @param index
      */
-    Field* getFieldFromIndex(const QModelIndex& index);
+    FieldController* getFieldFromIndex(const QModelIndex& index);
 signals:
     /**
      * @brief valuesChanged

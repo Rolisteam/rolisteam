@@ -4,7 +4,7 @@
 #include "field.h"
 #include "tablefield.h"
 
-QString getPageManagement(Field* item, QString indent)
+QString getPageManagement(FieldController* item, QString indent)
 {
     int page= item->getPage();
     if(page >= 0)
@@ -38,7 +38,7 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
         auto child= m_root->getChildAt(i);
         if(child->getItemType() == CharacterSheetItem::FieldItem)
         {
-            auto field= dynamic_cast<Field*>(child);
+            auto field= dynamic_cast<FieldController*>(child);
             if(field->getGeneratedCode().isEmpty())
             {
                 switch(field->getFieldType())
@@ -113,7 +113,7 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
 
     if(m_root->getItemType() == CharacterSheetItem::FieldItem)
     {
-        auto field= dynamic_cast<Field*>(m_root);
+        auto field= dynamic_cast<FieldController*>(m_root);
         switch(field->getFieldType())
         {
         case CharacterSheetItem::TEXTINPUT:
@@ -166,7 +166,7 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
     return true;
 }
 
-bool QmlGeneratorVisitor::generateTextInput(Field* item)
+bool QmlGeneratorVisitor::generateTextInput(FieldController* item)
 {
     if(!item)
         return false;
@@ -194,7 +194,7 @@ bool QmlGeneratorVisitor::generateTextInput(Field* item)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateTextArea(Field* item)
+bool QmlGeneratorVisitor::generateTextArea(FieldController* item)
 {
     if(!item)
         return false;
@@ -223,7 +223,7 @@ bool QmlGeneratorVisitor::generateTextArea(Field* item)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateTextField(Field* item)
+bool QmlGeneratorVisitor::generateTextField(FieldController* item)
 {
     if(!item)
         return false;
@@ -250,7 +250,7 @@ bool QmlGeneratorVisitor::generateTextField(Field* item)
 
     return true;
 }
-bool QmlGeneratorVisitor::generateLabelField(Field* item)
+bool QmlGeneratorVisitor::generateLabelField(FieldController* item)
 {
     if(!item)
         return false;
@@ -273,7 +273,7 @@ bool QmlGeneratorVisitor::generateLabelField(Field* item)
 
     return true;
 }
-bool QmlGeneratorVisitor::generateSelect(Field* item)
+bool QmlGeneratorVisitor::generateSelect(FieldController* item)
 {
     if(!item)
         return false;
@@ -306,7 +306,7 @@ bool QmlGeneratorVisitor::generateSelect(Field* item)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateCheckBox(Field* item)
+bool QmlGeneratorVisitor::generateCheckBox(FieldController* item)
 {
     if(!item)
         return false;
@@ -331,7 +331,7 @@ bool QmlGeneratorVisitor::generateCheckBox(Field* item)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateFuncButton(Field* item)
+bool QmlGeneratorVisitor::generateFuncButton(FieldController* item)
 {
     if(!item)
         return false;
@@ -365,7 +365,7 @@ bool QmlGeneratorVisitor::generateFuncButton(Field* item)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateDiceButton(Field* item)
+bool QmlGeneratorVisitor::generateDiceButton(FieldController* item)
 {
     if(!item)
         return false;
@@ -397,7 +397,7 @@ bool QmlGeneratorVisitor::generateDiceButton(Field* item)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateImage(Field* item)
+bool QmlGeneratorVisitor::generateImage(FieldController* item)
 {
     if(!item)
         return false;
@@ -419,7 +419,7 @@ bool QmlGeneratorVisitor::generateImage(Field* item)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateTable(Field* item)
+bool QmlGeneratorVisitor::generateTable(FieldController* item)
 {
     auto tablefield= dynamic_cast<TableField*>(item);
     if(!tablefield)
@@ -456,7 +456,7 @@ bool QmlGeneratorVisitor::generateTable(Field* item)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateChangePageBtn(Field* item, bool next)
+bool QmlGeneratorVisitor::generateChangePageBtn(FieldController* item, bool next)
 {
     if(!item)
         return false;
@@ -476,7 +476,7 @@ bool QmlGeneratorVisitor::generateChangePageBtn(Field* item, bool next)
     return true;
 }
 
-bool QmlGeneratorVisitor::generateWebPage(Field* item)
+bool QmlGeneratorVisitor::generateWebPage(FieldController* item)
 {
     if(!item)
         return false;
@@ -497,7 +497,7 @@ bool QmlGeneratorVisitor::generateWebPage(Field* item)
     return true;
 }
 
-QString QmlGeneratorVisitor::generatePosition(Field* item)
+QString QmlGeneratorVisitor::generatePosition(FieldController* item)
 {
     if(m_isTable)
     {
@@ -518,7 +518,7 @@ QString QmlGeneratorVisitor::generatePosition(Field* item)
         .arg(m_indenSpace);
 }
 
-QString QmlGeneratorVisitor::generateAlignment(Field* item)
+QString QmlGeneratorVisitor::generateAlignment(FieldController* item)
 {
     QPair<QString, QString> pair= item->getTextAlign();
     QString alignments("%3    hAlign: %1\n"
@@ -567,7 +567,7 @@ void QmlGeneratorVisitor::setIndentation(int indentation)
     }
 }
 
-QString QmlGeneratorVisitor::getId(Field* item)
+QString QmlGeneratorVisitor::getId(FieldController* item)
 {
     QString result= item->getId();
     if(m_isTable)
@@ -577,7 +577,7 @@ QString QmlGeneratorVisitor::getId(Field* item)
     return result;
 }
 
-QString QmlGeneratorVisitor::getToolTip(Field* item)
+QString QmlGeneratorVisitor::getToolTip(FieldController* item)
 {
     QString tooltip= item->getTooltip();
     return QStringLiteral("%1    tooltip:\"%2\"\n").arg(m_indenSpace).arg(tooltip);

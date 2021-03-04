@@ -30,6 +30,6 @@ void registerQmlTypes()
 {
     qmlRegisterType<DiceRoller>("Rolisteam", 1, 0, "DiceRoller");
 #ifndef UNIT_TEST
-    qmlRegisterType<Field>("Rolisteam", 1, 0, "Field");
+    qmlRegisterType<FieldController>("Rolisteam", 1, 0, "Field");
 #endif
 }

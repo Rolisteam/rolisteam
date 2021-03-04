@@ -28,7 +28,7 @@ DeletePageCommand::DeletePageCommand(EditorController* ctrl, FieldModel* model, 
     m_model->getFieldFromPage(m_pageId, m_subField);
     for(auto item : m_subField)
     {
-        auto field= dynamic_cast<Field*>(item);
+        auto field= dynamic_cast<FieldController*>(item);
         m_subCanvas.append(dynamic_cast<Canvas*>(field->getCanvasField()->scene()));
         m_subCurrentPage.append(field->getPage());
     }

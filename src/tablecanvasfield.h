@@ -117,7 +117,7 @@ class TableCanvasField : public CanvasField
 {
     Q_OBJECT
 public:
-    explicit TableCanvasField(Field* field);
+    explicit TableCanvasField(FieldController* field);
     virtual ~TableCanvasField();
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget* a= nullptr);
@@ -135,7 +135,7 @@ public:
 
     void fillLineModel(LineModel* model, TableField* parent);
 
-    Field* generateSubField(int i);
+    FieldController* generateSubField(int i);
 
     void generateSubFields(QTextStream& out);
 

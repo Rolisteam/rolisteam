@@ -26,10 +26,10 @@
 BorderListEditor::BorderListEditor(QObject *widget)
     : QStyledItemDelegate(widget)
 {
-    m_map.insert(Field::UP,tr("Up"));
-    m_map.insert(Field::LEFT,tr("Left"));
-    m_map.insert(Field::DOWN,tr("Down"));
-    m_map.insert(Field::RIGHT,tr("Right"));
+    m_map.insert(FieldController::UP,tr("Up"));
+    m_map.insert(FieldController::LEFT,tr("Left"));
+    m_map.insert(FieldController::DOWN,tr("Down"));
+    m_map.insert(FieldController::RIGHT,tr("Right"));
 }
 
 QString BorderListEditor::displayText(const QVariant &value, const QLocale &locale) const
@@ -49,7 +49,7 @@ QString BorderListEditor::displayText(const QVariant &value, const QLocale &loca
     else
     {
         QStringList list;
-        foreach (Field::BorderLine line, m_map.keys())
+        foreach (FieldController::BorderLine line, m_map.keys())
         {
             if(border & line)
             {
@@ -76,7 +76,7 @@ void BorderListEditor::setEditorData(QWidget *editor, const QModelIndex &index) 
     QListWidget* list = qobject_cast<QListWidget*>(editor);
     int i = index.data().toInt();
 
-    foreach (Field::BorderLine line, m_map.keys())
+    foreach (FieldController::BorderLine line, m_map.keys())
     {
         QListWidgetItem* item = new QListWidgetItem(list);
         item->setData(Qt::UserRole,(int)line);
