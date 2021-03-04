@@ -32,22 +32,22 @@
 #endif
 
 #ifndef RCSE
-CanvasField::CanvasField() {}
+CanvasFieldController::CanvasField() {}
 #endif
 
-Field::Field(bool addCount, QGraphicsItem* parent) : CSItem(parent, addCount)
+FieldController::FieldController(bool addCount, QGraphicsItem* parent) : CSItem(parent, addCount)
 {
     init();
 }
 
-Field::Field(QPointF topleft, bool addCount, QGraphicsItem* parent) : CSItem(parent, addCount)
+FieldController::FieldController(QPointF topleft, bool addCount, QGraphicsItem* parent) : CSItem(parent, addCount)
 {
     Q_UNUSED(topleft);
     m_hasDefaultValue= true;
     m_value= QString("value %1").arg(m_count);
     init();
 }
-Field::~Field()
+FieldController::~FieldController()
 {
 #ifdef RCSE
     if(nullptr != m_canvasField)
@@ -55,7 +55,7 @@ Field::~Field()
     m_canvasField= nullptr;
 #endif
 }
-void Field::init()
+void FieldController::init()
 {
 #ifdef RCSE
     m_canvasField= new CanvasField(this);
@@ -87,7 +87,7 @@ void Field::init()
 #endif
 }
 
-QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id, int role) const
+QVariant FieldController::getValueFrom(CharacterSheetItem::ColumnId id, int role) const
 {
     QVariant ret;
     switch(id)
@@ -168,7 +168,7 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id, int role) const
     return ret;
 }
 
-void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
+void FieldController::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
 {
     if(m_locked)
         return;
@@ -229,16 +229,16 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         if(var.toString().isEmpty())
         {
             m_availableValue.clear();
-            m_currentType= Field::TEXTINPUT;
+            m_currentType= FieldController::TEXTINPUT;
         }
         else
         {
             m_availableValue= var.toString().split(',');
-            m_currentType= Field::SELECT;
+            m_currentType= FieldController::SELECT;
         }
         break;
     case TYPE:
-        m_currentType= static_cast<Field::TypeField>(var.toInt());
+        m_currentType= static_cast<FieldController::TypeField>(var.toInt());
         break;
     case FitFont:
         m_fitFont= var.toBool();
@@ -255,7 +255,7 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
     }
     // update();
 }
-void Field::setNewEnd(QPointF nend)
+void FieldController::setNewEnd(QPointF nend)
 {
     if(m_locked)
         return;
@@ -266,7 +266,7 @@ void Field::setNewEnd(QPointF nend)
     emit widthChanged();
     emit heightChanged();
 }
-QPointF Field::mapFromScene(QPointF pos)
+QPointF FieldController::mapFromScene(QPointF pos)
 {
     if(nullptr != m_canvasField)
     {
@@ -275,12 +275,12 @@ QPointF Field::mapFromScene(QPointF pos)
     return QPointF();
 }
 
-QFont Field::font() const
+QFont FieldController::font() const
 {
     return m_font;
 }
 
-void Field::setFont(const QFont& font)
+void FieldController::setFont(const QFont& font)
 {
     if(m_locked)
         return;
@@ -288,7 +288,7 @@ void Field::setFont(const QFont& font)
     // drawField();
 }
 
-void Field::mousePressEvent(QMouseEvent* ev)
+void FieldController::mousePressEvent(QMouseEvent* ev)
 {
     if(ev->button() == Qt::LeftButton)
     {
@@ -296,12 +296,12 @@ void Field::mousePressEvent(QMouseEvent* ev)
     }
 }
 
-bool Field::fitFont() const
+bool FieldController::fitFont() const
 {
     return m_fitFont;
 }
 
-void Field::setFitFont(bool clippedText)
+void FieldController::setFitFont(bool clippedText)
 {
     if(m_locked || m_fitFont == clippedText)
         return;
@@ -309,27 +309,27 @@ void Field::setFitFont(bool clippedText)
     emit fitFontChanged(m_fitFont);
 }
 
-CharacterSheetItem* Field::getChildFromId(const QString&) const
+CharacterSheetItem* FieldController::getChildFromId(const QString&) const
 {
     return nullptr;
 }
-QStringList Field::getAvailableValue() const
+QStringList FieldController::getAvailableValue() const
 {
     return m_availableValue;
 }
 
-void Field::setAvailableValue(const QStringList& availableValue)
+void FieldController::setAvailableValue(const QStringList& availableValue)
 {
     if(m_locked)
         return;
     m_availableValue= availableValue;
 }
-CharacterSheetItem::CharacterSheetItemType Field::getItemType() const
+CharacterSheetItem::CharacterSheetItemType FieldController::getItemType() const
 {
     return CharacterSheetItem::FieldItem;
 }
 
-void Field::save(QJsonObject& json, bool exp)
+void FieldController::save(QJsonObject& json, bool exp)
 {
     if(exp)
     {
@@ -377,7 +377,7 @@ void Field::save(QJsonObject& json, bool exp)
     json["values"]= valuesArray;
 }
 
-void Field::load(const QJsonObject& json, EditorController* ctrl)
+void FieldController::load(const QJsonObject& json, EditorController* ctrl)
 {
     Q_UNUSED(ctrl);
     m_id= json["id"].toString();
@@ -386,7 +386,7 @@ void Field::load(const QJsonObject& json, EditorController* ctrl)
     m_label= json["label"].toString();
     m_tooltip= json["tooltip"].toString();
 
-    m_currentType= static_cast<Field::TypeField>(json["typefield"].toInt());
+    m_currentType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
     m_fitFont= json["clippedText"].toBool();
 
     m_formula= json["formula"].toString();
@@ -436,7 +436,7 @@ void Field::load(const QJsonObject& json, EditorController* ctrl)
 
     // update();
 }
-void Field::initGraphicsItem()
+void FieldController::initGraphicsItem()
 {
 #ifdef RCSE
     m_canvasField->setPos(m_rect.x(), m_rect.y());
@@ -445,7 +445,7 @@ void Field::initGraphicsItem()
 #endif
 }
 
-void Field::storeQMLCode()
+void FieldController::storeQMLCode()
 {
 #ifdef RCSE
     if(m_generatedCode.isEmpty())
@@ -459,64 +459,64 @@ void Field::storeQMLCode()
 #endif
 }
 
-qreal Field::getWidth() const
+qreal FieldController::getWidth() const
 {
     return getValueFrom(CharacterSheetItem::WIDTH, Qt::DisplayRole).toReal();
 }
 
-void Field::setWidth(qreal width)
+void FieldController::setWidth(qreal width)
 {
     if(m_locked)
         return;
     setValueFrom(CharacterSheetItem::WIDTH, width);
 }
 
-qreal Field::getHeight() const
+qreal FieldController::getHeight() const
 {
     return getValueFrom(CharacterSheetItem::HEIGHT, Qt::DisplayRole).toReal();
 }
 
-void Field::setHeight(qreal height)
+void FieldController::setHeight(qreal height)
 {
     if(m_locked)
         return;
     setValueFrom(CharacterSheetItem::HEIGHT, height);
 }
 
-void Field::setX(qreal x)
+void FieldController::setX(qreal x)
 {
     if(m_locked)
         return;
     setValueFrom(CharacterSheetItem::X, x);
 }
 
-qreal Field::getX() const
+qreal FieldController::getX() const
 {
     return getValueFrom(CharacterSheetItem::X, Qt::DisplayRole).toReal();
 }
 
-void Field::setY(qreal y)
+void FieldController::setY(qreal y)
 {
     if(m_locked)
         return;
     setValueFrom(CharacterSheetItem::Y, y);
 }
 
-qreal Field::getY() const
+qreal FieldController::getY() const
 {
     return getValueFrom(CharacterSheetItem::Y, Qt::DisplayRole).toReal();
 }
-void Field::loadDataItem(const QJsonObject& json)
+void FieldController::loadDataItem(const QJsonObject& json)
 {
     m_id= json["id"].toString();
     setValue(json["value"].toString(), true);
     setLabel(json["label"].toString());
     setFormula(json["formula"].toString());
     setReadOnly(json["readonly"].toBool());
-    m_currentType= static_cast<Field::TypeField>(json["typefield"].toInt());
+    m_currentType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
 }
 
-void Field::saveDataItem(QJsonObject& json)
+void FieldController::saveDataItem(QJsonObject& json)
 {
     json["type"]= "field";
     json["typefield"]= m_currentType;
@@ -527,12 +527,12 @@ void Field::saveDataItem(QJsonObject& json)
     json["readonly"]= m_readOnly;
 }
 
-CanvasField* Field::getCanvasField() const
+CanvasField* FieldController::getCanvasField() const
 {
     return m_canvasField;
 }
 
-void Field::setCanvasField(CanvasField* canvasField)
+void FieldController::setCanvasField(CanvasField* canvasField)
 {
     m_canvasField= canvasField;
 #ifdef RCSE
@@ -552,42 +552,42 @@ void Field::setCanvasField(CanvasField* canvasField)
 #endif
 }
 
-void Field::setTextAlign(const Field::TextAlign& textAlign)
+void FieldController::setTextAlign(const FieldController::TextAlign& textAlign)
 {
     if(m_locked)
         return;
     m_textAlign= textAlign;
 }
-Field::TextAlign Field::getTextAlignValue()
+FieldController::TextAlign FieldController::getTextAlignValue()
 {
     return m_textAlign;
 }
 
-bool Field::getAliasEnabled() const
+bool FieldController::getAliasEnabled() const
 {
     return m_aliasEnabled;
 }
 
-void Field::setAliasEnabled(bool aliasEnabled)
+void FieldController::setAliasEnabled(bool aliasEnabled)
 {
     if(m_locked)
         return;
     m_aliasEnabled= aliasEnabled;
 }
 
-QString Field::getGeneratedCode() const
+QString FieldController::getGeneratedCode() const
 {
     return m_generatedCode;
 }
 
-void Field::setGeneratedCode(const QString& generatedCode)
+void FieldController::setGeneratedCode(const QString& generatedCode)
 {
     if(m_locked)
         return;
     m_generatedCode= generatedCode;
 }
 
-QPair<QString, QString> Field::getTextAlign()
+QPair<QString, QString> FieldController::getTextAlign()
 {
     QPair<QString, QString> pair;
 
@@ -623,7 +623,7 @@ QPair<QString, QString> Field::getTextAlign()
     return pair;
 }
 
-bool Field::isLocked() const
+bool FieldController::isLocked() const
 {
 #ifdef RCSE
     if(nullptr == m_canvasField)
@@ -634,7 +634,7 @@ bool Field::isLocked() const
 #endif
 }
 
-void Field::setLocked(bool b)
+void FieldController::setLocked(bool b)
 {
     Q_UNUSED(b)
 #ifdef RCSE
@@ -644,9 +644,9 @@ void Field::setLocked(bool b)
 #endif
 }
 
-void Field::copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId)
+void FieldController::copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId)
 {
-    Field* oldField= dynamic_cast<Field*>(oldItem);
+    FieldController* oldField= dynamic_cast<FieldController*>(oldItem);
     if(nullptr != oldField)
     {
         if(sameId)

@@ -41,7 +41,7 @@ class CanvasField : public QGraphicsObject
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
-class Field : public CSItem
+class FieldController : public CSItem
 {
     Q_OBJECT
     Q_PROPERTY(bool fitFont READ fitFont WRITE setFitFont NOTIFY fitFontChanged)
@@ -59,9 +59,9 @@ public:
         BottomLeft
     };
 
-    explicit Field(bool addCount= true, QGraphicsItem* parent= nullptr);
-    explicit Field(QPointF topleft, bool addCount= true, QGraphicsItem* parent= nullptr);
-    virtual ~Field();
+    explicit FieldController(bool addCount= true, QGraphicsItem* parent= nullptr);
+    explicit FieldController(QPointF topleft, bool addCount= true, QGraphicsItem* parent= nullptr);
+    virtual ~FieldController();
 
     QSize size() const;
     void setSize(const QSize& size);
@@ -101,7 +101,7 @@ public:
 
     void setTextAlign(const TextAlign& textAlign);
 
-    Field::TextAlign getTextAlignValue();
+    FieldController::TextAlign getTextAlignValue();
 
     virtual void setNewEnd(QPointF nend) override;
 

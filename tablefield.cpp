@@ -50,12 +50,12 @@ LineFieldItem::LineFieldItem(QObject* parent) : QObject(parent) {}
 
 LineFieldItem::~LineFieldItem() {}
 
-void LineFieldItem::insertField(Field* field)
+void LineFieldItem::insertField(FieldController* field)
 {
     m_fields.append(field);
 }
 
-Field* LineFieldItem::getField(int k) const
+FieldController* LineFieldItem::getField(int k) const
 {
     if(m_fields.size() > k)
         return m_fields.at(k);
@@ -63,12 +63,12 @@ Field* LineFieldItem::getField(int k) const
         return nullptr;
 }
 
-QList<Field*> LineFieldItem::getFields() const
+QList<FieldController*> LineFieldItem::getFields() const
 {
     return m_fields;
 }
 
-void LineFieldItem::setFields(const QList<Field*>& fields)
+void LineFieldItem::setFields(const QList<FieldController*>& fields)
 {
     m_fields= fields;
 }
@@ -76,7 +76,7 @@ int LineFieldItem::getFieldCount() const
 {
     return m_fields.size();
 }
-Field* LineFieldItem::getFieldById(const QString& id)
+FieldController* LineFieldItem::getFieldById(const QString& id)
 {
     for(auto& field : m_fields)
     {
@@ -87,7 +87,7 @@ Field* LineFieldItem::getFieldById(const QString& id)
     }
     return nullptr;
 }
-Field* LineFieldItem::getFieldByLabel(const QString& label)
+FieldController* LineFieldItem::getFieldByLabel(const QString& label)
 {
     for(auto& field : m_fields)
     {
@@ -120,7 +120,7 @@ void LineFieldItem::load(QJsonArray& json, EditorController* ctrl, CharacterShee
 {
     for(auto const value : json)
     {
-        Field* field= new Field();
+        auto field= new FieldController();
         field->setParent(parent);
         QJsonObject obj= value.toObject();
         field->load(obj, ctrl);
@@ -131,10 +131,11 @@ void LineFieldItem::loadDataItem(QJsonArray& json, CharacterSheetItem* parent)
 {
     for(auto const value : json)
     {
-        Field* field= new Field();
+        auto field= new FieldController();
         field->setParent(parent);
-        connect(field, &Field::characterSheetItemChanged, parent, &CharacterSheetItem::characterSheetItemChanged);
-        connect(field, &Field::updateNeeded, parent, &CharacterSheetItem::updateNeeded);
+        connect(field, &FieldController::characterSheetItemChanged, parent,
+                &CharacterSheetItem::characterSheetItemChanged);
+        connect(field, &FieldController::updateNeeded, parent, &CharacterSheetItem::updateNeeded);
         QJsonObject obj= value.toObject();
         field->loadDataItem(obj);
         m_fields.append(field);
@@ -166,7 +167,7 @@ QVariant LineModel::data(const QModelIndex& index, int role) const
     else
     {
         int key= role - (LineRole + 1);
-        return QVariant::fromValue<Field*>(item->getField(key / 2));
+        return QVariant::fromValue<FieldController*>(item->getField(key / 2));
     }
     // return QVariant();
 }
@@ -224,7 +225,7 @@ int LineModel::getChildrenCount() const
     return 0;
 }
 
-Field* LineModel::getFieldById(const QString& id)
+FieldController* LineModel::getFieldById(const QString& id)
 {
     for(auto& line : m_lines)
     {
@@ -245,7 +246,7 @@ int LineModel::getColumnCount() const
     return -1;
 }
 
-Field* LineModel::getField(int line, int col)
+FieldController* LineModel::getField(int line, int col)
 {
     if(m_lines.size() > line)
     {
@@ -378,12 +379,13 @@ int LineModel::sumColumn(const QString& name) const
 /// \param addCount
 /// \param parent
 ///////////////////////////////////
-TableField::TableField(bool addCount, QGraphicsItem* parent) : Field(addCount, parent)
+TableField::TableField(bool addCount, QGraphicsItem* parent) : FieldController(addCount, parent)
 {
     init();
 }
 
-TableField::TableField(QPointF topleft, bool addCount, QGraphicsItem* parent) : Field(topleft, addCount, parent)
+TableField::TableField(QPointF topleft, bool addCount, QGraphicsItem* parent)
+    : FieldController(topleft, addCount, parent)
 {
     Q_UNUSED(topleft);
     m_value= QStringLiteral("value");
@@ -432,11 +434,11 @@ void TableField::init()
     m_canvasField= nullptr;
     m_tableCanvasField= nullptr;
     m_id= QStringLiteral("id_%1").arg(m_count);
-    m_currentType= Field::TABLE;
+    m_currentType= FieldController::TABLE;
     m_model= new LineModel();
 
     m_border= NONE;
-    m_textAlign= Field::TopLeft;
+    m_textAlign= FieldController::TopLeft;
     m_bgColor= Qt::transparent;
     m_textColor= Qt::black;
     m_font= font();
@@ -455,7 +457,7 @@ void TableField::setPosition(const ControlPosition& position)
 void TableField::setCanvasField(CanvasField* canvasField)
 {
     m_tableCanvasField= dynamic_cast<TableCanvasField*>(canvasField);
-    Field::setCanvasField(canvasField);
+    FieldController::setCanvasField(canvasField);
 }
 
 QVariant TableField::getValueFrom(CharacterSheetItem::ColumnId col, int role) const
@@ -464,7 +466,7 @@ QVariant TableField::getValueFrom(CharacterSheetItem::ColumnId col, int role) co
     {
         return m_model->getChildrenCount();
     }
-    return Field::getValueFrom(col, role);
+    return FieldController::getValueFrom(col, role);
 }
 
 bool TableField::hasChildren()
@@ -589,7 +591,7 @@ void TableField::load(const QJsonObject& json, EditorController* ctrl)
     m_label= json["label"].toString();
     m_tooltip= json["tooltip"].toString();
 
-    m_currentType= static_cast<Field::TypeField>(json["typefield"].toInt());
+    m_currentType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
     m_fitFont= json["clippedText"].toBool();
 
     m_formula= json["formula"].toString();
@@ -616,7 +618,7 @@ void TableField::load(const QJsonObject& json, EditorController* ctrl)
 
     m_font.fromString(json["font"].toString());
 
-    m_textAlign= static_cast<Field::TextAlign>(json["textalign"].toInt());
+    m_textAlign= static_cast<FieldController::TextAlign>(json["textalign"].toInt());
     qreal x, y, w, h;
     x= json["x"].toDouble();
     y= json["y"].toDouble();
@@ -711,7 +713,7 @@ void TableField::loadDataItem(const QJsonObject& json)
     setLabel(json["label"].toString());
     setFormula(json["formula"].toString());
     setReadOnly(json["readonly"].toBool());
-    m_currentType= static_cast<Field::TypeField>(json["typefield"].toInt());
+    m_currentType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
 
     QJsonArray childArray= json["children"].toArray();
     m_model->loadDataItem(childArray, this);
@@ -724,7 +726,7 @@ void TableField::setChildFieldData(const QJsonObject& json)
 
 void TableField::setFieldInDictionnary(QHash<QString, QString>& dict) const
 {
-    Field::setFieldInDictionnary(dict);
+    FieldController::setFieldInDictionnary(dict);
     m_model->setFieldInDictionnary(dict, m_id, m_label);
 }
 

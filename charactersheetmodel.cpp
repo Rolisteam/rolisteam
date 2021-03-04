@@ -76,7 +76,7 @@ int CharacterSheetModel::rowCount(const QModelIndex& parent) const
     if(parent.isValid())
     {
         CharacterSheetItem* tmp= static_cast<CharacterSheetItem*>(parent.internalPointer());
-        if(tmp->getFieldType() == Field::TABLE && !m_characterList->isEmpty())
+        if(tmp->getFieldType() == FieldController::TABLE && !m_characterList->isEmpty())
         {
             int max= tmp->getChildrenCount();
             auto result= std::max_element(m_characterList->begin(), m_characterList->end(),
@@ -217,7 +217,7 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
                 }
                 else
                 {
-                    if(parentItem && parentItem->getFieldType() == Field::TABLE)
+                    if(parentItem && parentItem->getFieldType() == FieldController::TABLE)
                     {
                         QString path= parentItem->getPath();
                         CharacterSheet* sheet= m_characterList->at(index.column() - 1);
@@ -286,7 +286,7 @@ bool CharacterSheetModel::setData(const QModelIndex& index, const QVariant& valu
                 CharacterSheetItem* parentItem= childItem->getParent();
                 QString formula;
                 auto valueStr= value.toString();
-                if(parentItem && parentItem->getFieldType() == Field::TABLE)
+                if(parentItem && parentItem->getFieldType() == FieldController::TABLE)
                 {
                     QString path= parentItem->getPath();
                     CharacterSheet* sheet= m_characterList->at(index.column() - 1);
@@ -375,7 +375,7 @@ void CharacterSheetModel::checkCharacter(Section* section)
             auto field= sheet->getFieldFromKey(id->getId());
             if(nullptr == field && id->getFieldType() != CharacterSheetItem::TABLE)
             {
-                Field* newField= new Field(false);
+                FieldController* newField= new FieldController(false);
                 newField->copyField(id, true);
                 sheet->insertCharacterItem(newField);
                 field= newField;
@@ -635,7 +635,7 @@ void CharacterSheetModel::addLine(CharacterSheetItem* parentItem, QString name, 
     {
         beginInsertRows(parent, parentItem->getChildrenCount(), parentItem->getChildrenCount());
         Section* section= static_cast<Section*>(parentItem);
-        Field* field= new Field();
+        FieldController* field= new FieldController();
         field->setId(name.replace(' ', '_'));
         field->setLabel(name);
         section->appendChild(field);

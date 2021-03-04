@@ -48,17 +48,17 @@ class LineFieldItem : public QObject
 public:
     explicit LineFieldItem(QObject* parent= nullptr);
     ~LineFieldItem();
-    void insertField(Field* field);
+    void insertField(FieldController* field);
 
-    Q_INVOKABLE Field* getField(int k) const;
+    Q_INVOKABLE FieldController* getField(int k) const;
 
-    QList<Field*> getFields() const;
-    void setFields(const QList<Field*>& fields);
+    QList<FieldController*> getFields() const;
+    void setFields(const QList<FieldController*>& fields);
 
     int getFieldCount() const;
 
-    Field* getFieldById(const QString& id);
-    Field* getFieldByLabel(const QString& label);
+    FieldController* getFieldById(const QString& id);
+    FieldController* getFieldByLabel(const QString& label);
 
     void save(QJsonArray& json);
     void load(QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent);
@@ -66,7 +66,7 @@ public:
     void loadDataItem(QJsonArray& json, CharacterSheetItem* parent);
 
 private:
-    QList<Field*> m_fields;
+    QList<FieldController*> m_fields;
 };
 
 /**
@@ -90,8 +90,8 @@ public:
     void clear();
     int getChildrenCount() const;
     int getColumnCount() const;
-    Field* getField(int line, int col);
-    Field* getFieldById(const QString& id);
+    FieldController* getField(int line, int col);
+    FieldController* getFieldById(const QString& id);
     void removeLine(int index);
     void save(QJsonArray& json);
     void load(const QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent);
@@ -108,7 +108,7 @@ private:
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
-class TableField : public Field
+class TableField : public FieldController
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* model READ getModel CONSTANT)

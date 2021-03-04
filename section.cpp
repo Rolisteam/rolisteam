@@ -162,7 +162,7 @@ void Section::load(const QJsonObject& json, EditorController* ctrl)
         }
         else
         {
-            Field* field= new Field();
+            auto field= new FieldController();
             item= field;
             item->load(obj, ctrl);
             gItem= field->getCanvasField();
@@ -205,7 +205,7 @@ void Section::copySection(Section* oldSection)
             CharacterSheetItem* newItem= nullptr;
             if(CharacterSheetItem::FieldItem == childItem->getItemType())
             {
-                Field* newField= new Field(false);
+                auto newField= new FieldController(false);
                 newField->copyField(childItem, false);
                 newItem= newField;
             }
@@ -309,7 +309,7 @@ void Section::buildDataInto(CharacterSheet* character)
             CharacterSheetItem* newItem= nullptr;
             if(CharacterSheetItem::FieldItem == childItem->getItemType())
             {
-                Field* newField= new Field(false);
+                auto newField= new FieldController(false);
                 newField->copyField(childItem, false);
                 newItem= newField;
             }
