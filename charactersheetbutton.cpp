@@ -41,8 +41,8 @@ void CharacterSheetButton::init()
 {
     ++m_count;
     m_id= QStringLiteral("id_%1").arg(m_count);
-    setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges | QGraphicsItem::ItemIsMovable
-             | QGraphicsItem::ItemIsFocusable);
+    // setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges | QGraphicsItem::ItemIsMovable
+    //          | QGraphicsItem::ItemIsFocusable);
 
     connect(this, &CharacterSheetButton::xChanged, [=]() { emit updateNeeded(this); });
     connect(this, &CharacterSheetButton::yChanged, [=]() { emit updateNeeded(this); });
@@ -85,7 +85,7 @@ QVariant CharacterSheetButton::getValueFrom(CharacterSheetItem::ColumnId id, int
     case TEXTCOLOR:
         return m_textColor.name(QColor::HexArgb);
     case TYPE:
-        return getCurrentType();
+        return getFieldType();
     }
     return QVariant();
 }
@@ -127,7 +127,7 @@ void CharacterSheetButton::setValueFrom(CharacterSheetItem::ColumnId id, QVarian
         m_textColor= var.value<QColor>();
         break;
     }
-    update();
+    // update();
 }
 void CharacterSheetButton::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {

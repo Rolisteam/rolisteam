@@ -44,6 +44,7 @@ class CanvasField : public QGraphicsObject
 class Field : public CSItem
 {
     Q_OBJECT
+    Q_PROPERTY(bool fitFont READ fitFont WRITE setFitFont NOTIFY fitFontChanged)
 public:
     enum TextAlign
     {
@@ -96,8 +97,7 @@ public:
 
     void copyField(CharacterSheetItem*, bool copyData, bool sameId= true);
 
-    bool getClippedText() const;
-    void setClippedText(bool clippedText);
+    bool fitFont() const;
 
     void setTextAlign(const TextAlign& textAlign);
 
@@ -133,8 +133,10 @@ public:
 public slots:
     void setLocked(bool b);
     void storeQMLCode();
+    void setFitFont(bool clippedText);
 signals:
     void updateNeeded(CSItem* c);
+    void fitFontChanged(bool b);
 
 protected:
     void init();
@@ -145,7 +147,7 @@ protected:
     QFont m_font;
     TextAlign m_textAlign= CenterMiddle;
     QStringList m_availableValue;
-    bool m_clippedText;
+    bool m_fitFont= false;
     CanvasField* m_canvasField;
     QString m_generatedCode;
     bool m_aliasEnabled= true;

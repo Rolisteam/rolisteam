@@ -417,8 +417,6 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
     endInsertColumns();
     emit characterSheetHasBeenAdded(sheet);
     emit dataCharacterChange();
-
-    /* */
 }
 
 void CharacterSheetModel::addSubChildRoot(CharacterSheetItem* item)

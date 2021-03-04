@@ -433,7 +433,6 @@ void TableField::init()
     m_tableCanvasField= nullptr;
     m_id= QStringLiteral("id_%1").arg(m_count);
     m_currentType= Field::TABLE;
-    m_clippedText= false;
     m_model= new LineModel();
 
     m_border= NONE;
@@ -535,7 +534,7 @@ void TableField::save(QJsonObject& json, bool exp)
     json["tooltip"]= m_tooltip;
     json["generatedCode"]= m_generatedCode;
 
-    json["clippedText"]= m_clippedText;
+    json["clippedText"]= m_fitFont;
 
     QJsonObject bgcolor;
     bgcolor["r"]= QJsonValue(m_bgColor.red());
@@ -591,7 +590,7 @@ void TableField::load(const QJsonObject& json, EditorController* ctrl)
     m_tooltip= json["tooltip"].toString();
 
     m_currentType= static_cast<Field::TypeField>(json["typefield"].toInt());
-    m_clippedText= json["clippedText"].toBool();
+    m_fitFont= json["clippedText"].toBool();
 
     m_formula= json["formula"].toString();
 

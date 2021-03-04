@@ -64,7 +64,6 @@ void Field::init()
 #endif
     m_id= QStringLiteral("id_%1").arg(m_count);
     m_currentType= TEXTINPUT;
-    m_clippedText= false;
 
     m_border= NONE;
     m_textAlign= CenterMiddle;
@@ -90,65 +89,83 @@ void Field::init()
 
 QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id, int role) const
 {
+    QVariant ret;
     switch(id)
     {
     case ID:
-        return m_id;
+        ret= m_id;
+        break;
     case LABEL:
-        return m_label;
+        ret= m_label;
+        break;
     case VALUE:
-        return role == Qt::DisplayRole ? m_value.left(50) : m_value;
+        ret= role == Qt::DisplayRole ? m_value.left(50) : m_value;
+        break;
     case X:
         // return m_rect.x();
         if(nullptr != m_canvasField)
-            return m_canvasField->pos().x();
+            ret= m_canvasField->pos().x();
         else
-            return 0;
+            ret= 0;
+        break;
     case Y:
         // return m_rect.y();
         if(nullptr != m_canvasField)
-            return m_canvasField->pos().y();
+            ret= m_canvasField->pos().y();
         else
-            return 0;
+            ret= 0;
+        break;
     case WIDTH:
         if(nullptr != m_canvasField)
-            return m_canvasField->boundingRect().width();
+            ret= m_canvasField->boundingRect().width();
         else
-            return 0;
+            ret= 0;
+        break;
     case HEIGHT:
         if(nullptr != m_canvasField)
-            return m_canvasField->boundingRect().height();
+            ret= m_canvasField->boundingRect().height();
         else
-            return 0;
+            ret= 0;
+        break;
     case BORDER:
-        return static_cast<int>(m_border);
+        ret= static_cast<int>(m_border);
+        break;
     case TEXT_ALIGN:
-        return static_cast<int>(m_textAlign);
+        ret= static_cast<int>(m_textAlign);
+        break;
     case BGCOLOR:
         if(role == Qt::DisplayRole)
         {
-            return m_bgColor.name(QColor::HexArgb);
+            ret= m_bgColor.name(QColor::HexArgb);
         }
         else
         {
-            return m_bgColor;
+            ret= m_bgColor;
         }
+        break;
     case TEXTCOLOR:
-        return m_textColor;
+        ret= m_textColor;
+        break;
     case VALUES:
-        return m_availableValue.join(',');
+        ret= m_availableValue.join(',');
+        break;
     case TYPE:
-        return m_currentType;
-    case CLIPPED:
-        return m_clippedText;
+        ret= m_currentType;
+        break;
+    case FitFont:
+        ret= m_fitFont;
+        break;
     case FONT:
-        return m_font.toString();
+        ret= m_font.toString();
+        break;
     case PAGE:
-        return m_page;
+        ret= m_page;
+        break;
     case TOOLTIP:
-        return m_tooltip;
+        ret= m_tooltip;
+        break;
     }
-    return QVariant();
+    return ret;
 }
 
 void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
@@ -223,8 +240,8 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
     case TYPE:
         m_currentType= static_cast<Field::TypeField>(var.toInt());
         break;
-    case CLIPPED:
-        m_clippedText= var.toBool();
+    case FitFont:
+        m_fitFont= var.toBool();
         break;
     case FONT:
         m_font.fromString(var.toString());
@@ -279,16 +296,17 @@ void Field::mousePressEvent(QMouseEvent* ev)
     }
 }
 
-bool Field::getClippedText() const
+bool Field::fitFont() const
 {
-    return m_clippedText;
+    return m_fitFont;
 }
 
-void Field::setClippedText(bool clippedText)
+void Field::setFitFont(bool clippedText)
 {
-    if(m_locked)
+    if(m_locked || m_fitFont == clippedText)
         return;
-    m_clippedText= clippedText;
+    m_fitFont= clippedText;
+    emit fitFontChanged(m_fitFont);
 }
 
 CharacterSheetItem* Field::getChildFromId(const QString&) const
@@ -332,7 +350,7 @@ void Field::save(QJsonObject& json, bool exp)
     json["tooltip"]= m_tooltip;
     json["generatedCode"]= m_generatedCode;
 
-    json["clippedText"]= m_clippedText;
+    json["clippedText"]= m_fitFont;
 
     QJsonObject bgcolor;
     bgcolor["r"]= QJsonValue(m_bgColor.red());
@@ -369,7 +387,7 @@ void Field::load(const QJsonObject& json, EditorController* ctrl)
     m_tooltip= json["tooltip"].toString();
 
     m_currentType= static_cast<Field::TypeField>(json["typefield"].toInt());
-    m_clippedText= json["clippedText"].toBool();
+    m_fitFont= json["clippedText"].toBool();
 
     m_formula= json["formula"].toString();
 

@@ -24,7 +24,6 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include "charactersheetbutton.h"
 #include "field.h"
 #include "tablefield.h"
 #ifdef RCSE

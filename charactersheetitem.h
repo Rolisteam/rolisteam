@@ -59,7 +59,7 @@ public:
         Y,
         WIDTH,
         HEIGHT,
-        CLIPPED,
+        FitFont,
         FONT,
         TEXT_ALIGN,
         TEXTCOLOR,

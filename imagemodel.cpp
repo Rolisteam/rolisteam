@@ -239,6 +239,11 @@ QPixmap ImageModel::pixmapFromKey(QString id)
     return it->pixmap;
 }
 
+void ImageModel::reloadImage(const QModelIndex& index)
+{
+    /// TODO
+}
+
 bool ImageModel::isBackgroundById(QString id) const
 {
     auto it= std::find_if(m_data.begin(), m_data.end(), [id](const ImageInfo& info) { return id == info.key; });
