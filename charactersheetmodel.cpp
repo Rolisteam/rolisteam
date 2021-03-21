@@ -38,6 +38,24 @@
 /// CharacterSheetModel
 /////////////////////////////
 
+/*Field* fieldFromIndex(const QModelIndex& index, bool& ok)
+{
+    ok= false;
+    CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
+    if(childItem == nullptr)
+        return nullptr;
+
+    QString path= childItem->getPath();
+    CharacterSheet* sheet= m_characterList->at(index.column() - 1);
+    bool isReadOnly= sheet->getValue(path, Qt::BackgroundRole).toBool();
+    if(isReadOnly)
+    {
+        var= QColor(128, 128, 128);
+    }
+
+    return nullptr;
+}*/
+
 CharacterSheetModel::CharacterSheetModel() : m_formulaManager(nullptr) // m_characterCount(0),
 {
     m_characterList= new QList<CharacterSheet*>;
@@ -581,12 +599,21 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
     }
     return QVariant();
 }
+
 Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
         return Qt::ItemIsEnabled;
 
-    return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+    if(index.column() == 0)
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+
+    CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
+
+    if(nullptr != childItem && childItem->isReadOnly())
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    else
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
 }
 void CharacterSheetModel::addSection()
 {

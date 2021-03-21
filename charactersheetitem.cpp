@@ -139,6 +139,9 @@ QString CharacterSheetItem::value() const
 
 void CharacterSheetItem::setValue(const QString& value, bool fromNetwork)
 {
+    if(m_readOnly && !fromNetwork)
+        return;
+
     /// @warning ugly solution to prevent html rich text to break the change check.
     m_hasDefaultValue= false;
     QString newValue;
