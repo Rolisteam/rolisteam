@@ -24,17 +24,15 @@
 #include <QFont>
 #include <QMediaContent>
 #include <QMimeData>
-#include <QUrl>
 #include <QNetworkRequest>
+#include <QUrl>
 
 #include <set>
 
 // https://api.soundcloud.com/tracks/293/stream?client_id=59632ff691d8ac46c637c1467d84b6c6
 
 MusicModel::MusicModel(QObject* parent)
-    : QAbstractListModel(parent)
-    , m_header({tr("Title")})
-    , m_player(new QMediaPlayer())
+    : QAbstractListModel(parent), m_header({tr("Title")}), m_player(new QMediaPlayer())
 {
 }
 
@@ -65,42 +63,49 @@ QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int ro
     return {};
 }
 
-namespace {
-    QFont boldFont() {
-        QFont font;
-        font.setBold(true);
-        return font;
-    }
-
-    QString normalizeUrl(const QUrl& url) {
-        if (url.isLocalFile() || url.host().contains("tabletopaudio.com") == false)
-            return url.fileName();
-
-        QString str= url.toString();
-        str= str.right(str.size() - (str.lastIndexOf("=") + 1));
-        return str.replace(".mp3", "").replace("_", " ");
-    }
+namespace
+{
+QFont boldFont()
+{
+    QFont font;
+    font.setBold(true);
+    return font;
 }
+
+QString normalizeUrl(const QUrl& url)
+{
+    if(url.isLocalFile() || url.host().contains("tabletopaudio.com") == false)
+        return url.fileName();
+
+    QString str= url.toString();
+    str= str.right(str.size() - (str.lastIndexOf("=") + 1));
+    return str.replace(".mp3", "").replace("_", " ");
+}
+} // namespace
 
 QVariant MusicModel::data(const QModelIndex& index, int role) const
 {
     // Break early if role is not Diplay or Font.
-    if (std::set<int>{Qt::DisplayRole, Qt::FontRole}.count(role) == 0) {
+    if(std::set<int>{Qt::DisplayRole, Qt::FontRole}.count(role) == 0)
+    {
         return {};
     }
 
-    switch(role) {
-        case Qt::DisplayRole:
-            if (index.column() == TITLE) {
-                return normalizeUrl(m_data.at(index.row())->canonicalUrl());
-            }
+    switch(role)
+    {
+    case Qt::DisplayRole:
+        if(index.column() == TITLE)
+        {
+            return normalizeUrl(m_data.at(index.row())->canonicalUrl());
+        }
         break;
-        case Qt::FontRole:
-            if(index == m_currentSong) {
-                return QVariant(boldFont());
-            }
+    case Qt::FontRole:
+        if(index == m_currentSong)
+        {
+            return QVariant(boldFont());
+        }
         break;
-        default:
+    default:
         break;
     }
 
@@ -117,6 +122,8 @@ void MusicModel::addSong(QStringList list)
 
     for(auto& tmp : list)
     {
+        if(tmp.isEmpty())
+            continue;
         QUrl tmpUrl= QUrl::fromUserInput(tmp);
         Q_ASSERT(tmpUrl.isValid());
         m_data.append(new QMediaContent(tmpUrl.isLocalFile() ? QUrl::fromLocalFile(tmp) : tmpUrl));
@@ -197,20 +204,23 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         return false;
 
     QList<QUrl> list= data->urls();
-    QStringList filters = PreferencesManager::getInstance()
-        ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
-        .toString()
-        .split(' ');
+    QStringList filters= PreferencesManager::getInstance()
+                             ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
+                             .toString()
+                             .split(' ');
 
-
-    for (QString& filter : filters) {
+    for(QString& filter : filters)
+    {
         filter.replace("*", "");
     }
 
-    for (QUrl url : list) {
-        QString file = url.toLocalFile();
-        for (const QString & filter : filters) {
-            if (file.endsWith(filter)) {
+    for(QUrl url : list)
+    {
+        QString file= url.toLocalFile();
+        for(const QString& filter : filters)
+        {
+            if(file.endsWith(filter))
+            {
                 insertSong(row, file);
                 continue;
             }
@@ -223,7 +233,7 @@ Qt::ItemFlags MusicModel::flags(const QModelIndex& index) const
 {
     Qt::ItemFlags defaultFlags= QAbstractListModel::flags(index);
     if(!index.isValid())
-        defaultFlags |= Qt::ItemIsDropEnabled;
+        defaultFlags|= Qt::ItemIsDropEnabled;
 
-    return  defaultFlags;
+    return defaultFlags;
 }
