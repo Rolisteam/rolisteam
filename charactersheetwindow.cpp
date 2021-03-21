@@ -342,7 +342,7 @@ void CharacterSheetWindow::stopSharing(SheetWidget* wid)
     recipiants << id;
     msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
     msg.string8(m_mediaId);
-    msg.string8(sheet->getUuid());
+    msg.string8(sheet->uuid());
     msg.sendToServer();
 }
 
@@ -459,7 +459,7 @@ void CharacterSheetWindow::affectSheetToCharacter(Character* character, Characte
 
     m_sheetToCharacter.push_back({sheet, character, {tab}, parent->name(), character->name()});
     sheet->setName(character->name());
-    m_tabs->setTabText(m_tabs->indexOf(quickWid), sheet->getName());
+    m_tabs->setTabText(m_tabs->indexOf(quickWid), sheet->name());
 
     Player* localItem= PlayersList::instance()->getLocalPlayer();
     if((nullptr != parent) && (nullptr != localItem) && (localItem->isGM()))
@@ -498,7 +498,7 @@ void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
     recipiants << id;
     msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
     msg.string8(m_mediaId);
-    msg.string8(sheet->getUuid());
+    msg.string8(sheet->uuid());
     msg.sendToServer();
 }
 bool CharacterSheetWindow::hasCharacterSheet(QString id)
@@ -626,7 +626,7 @@ void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheet
     recipiants << id;
     msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
     msg.string8(m_mediaId);
-    msg.string8(sheet->getUuid());
+    msg.string8(sheet->uuid());
     msg.string32(parentPath);
     QJsonObject object;
     item->saveDataItem(object);
