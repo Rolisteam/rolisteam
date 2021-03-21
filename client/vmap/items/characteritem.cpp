@@ -84,7 +84,7 @@ QColor ContrastColor(QColor color)
 }
 
 CharacterItem::CharacterItem()
-    : VisualItem(), m_character(nullptr), m_thumnails(nullptr), m_protectGeometryChange(false), m_visionChanged(false)
+    : VisualItem(), m_thumnails(nullptr), m_protectGeometryChange(false), m_visionChanged(false)
 {
     createActions();
 }
@@ -113,7 +113,7 @@ void CharacterItem::writeData(QDataStream& out) const
     out << opacity();
     out << static_cast<int>(m_layer);
     // out << zValue();
-    if(nullptr != m_character)
+    if(!m_character.isNull())
     {
         out << true;
         m_character->writeData(out);
@@ -195,6 +195,9 @@ void CharacterItem::setNewEnd(QPointF& nend)
 QString CharacterItem::getSubTitle() const
 {
     QString toShow;
+    if(m_character.isNull())
+        return toShow;
+
     if(m_character->isNpc())
     {
         if(getOption(VisualItem::ShowNpcName).toBool())
@@ -256,20 +259,23 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
 
     painter->save();
-    if(m_character->hasAvatar())
+    if(!m_character.isNull())
     {
-        painter->drawPixmap(m_rect, *m_thumnails, m_thumnails->rect());
-    }
-    else
-    {
-        painter->setPen(m_character->getColor());
-        painter->setBrush(QBrush(m_character->getColor(), Qt::SolidPattern));
-        painter->drawEllipse(m_rect);
+        if(m_character->hasAvatar())
+        {
+            painter->drawPixmap(m_rect, *m_thumnails, m_thumnails->rect());
+        }
+        else
+        {
+            painter->setPen(m_character->getColor());
+            painter->setBrush(QBrush(m_character->getColor(), Qt::SolidPattern));
+            painter->drawEllipse(m_rect);
+        }
     }
 
     QPen pen= painter->pen();
     pen.setWidth(PEN_WIDTH);
-    if(nullptr != m_character)
+    if(!m_character.isNull())
     {
         if(nullptr != m_character->getState())
         {
@@ -345,7 +351,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
                 setToolTip("");
             }
         }
-        painter->setPen(m_character->getColor());
+        painter->setPen(m_character.isNull() ? Qt::black : m_character->getColor());
         painter->drawText(m_rectText, Qt::AlignCenter, toShow);
     }
     painter->restore();
@@ -357,7 +363,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         pen.setColor(m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
-        if(m_character->hasAvatar())
+        if(!m_character.isNull() && m_character->hasAvatar())
             painter->drawRect(m_rect);
         else
             painter->drawEllipse(m_rect);
@@ -366,7 +372,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 
     if(getOption(VisualItem::ShowHealthBar).toBool())
     {
-        if(nullptr != m_character)
+        if(!m_character.isNull())
         {
             auto max= m_character->getHealthPointsMax();
             auto color= m_character->getLifeColor();
@@ -451,7 +457,13 @@ void CharacterItem::generatedThumbnail()
     m_thumnails->fill(Qt::transparent);
     QPainter painter(m_thumnails);
     QBrush brush;
-    if(m_character->getAvatar().isNull())
+    if(m_character.isNull())
+    {
+        painter.setPen(Qt::black);
+        brush.setColor(Qt::black);
+        brush.setStyle(Qt::SolidPattern);
+    }
+    else if(m_character->getAvatar().isNull())
     {
         painter.setPen(m_character->getColor());
         brush.setColor(m_character->getColor());
@@ -473,7 +485,7 @@ qreal CharacterItem::getRadius() const
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
-    if(nullptr == m_character || nullptr == m_vision || nullptr == msg)
+    if(m_character.isNull() || nullptr == m_vision || nullptr == msg)
         return;
 
     msg->string16(m_id);
@@ -585,7 +597,7 @@ void CharacterItem::resizeContents(const QRectF& rect, TransformType)
 }
 QString CharacterItem::getCharacterId() const
 {
-    if(nullptr != m_character)
+    if(!m_character.isNull())
     {
         return m_character->getUuid();
     }
@@ -593,21 +605,21 @@ QString CharacterItem::getCharacterId() const
 }
 void CharacterItem::setNumber(int n)
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return;
 
     m_character->setNumber(n);
 }
 QString CharacterItem::getName() const
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return {};
 
     return m_character->name();
 }
 int CharacterItem::getNumber() const
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return {};
 
     return m_character->number();
@@ -828,10 +840,10 @@ ChildPointItem* CharacterItem::getRadiusChildWidget()
 }
 QColor CharacterItem::getColor()
 {
-    if(nullptr != m_character)
-        return m_character->getColor();
+    if(m_character.isNull())
+        return {};
 
-    return {};
+    return m_character->getColor();
 }
 
 void CharacterItem::updateChildPosition()
@@ -939,7 +951,7 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
 
 void CharacterItem::runInit()
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return;
 
     auto cmd= m_character->getInitCommand();
@@ -959,14 +971,14 @@ void CharacterItem::runInit()
 }
 void CharacterItem::cleanInit()
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return;
     m_character->setHasInitiative(false);
     update();
 }
 void CharacterItem::runCommand()
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return;
     auto act= qobject_cast<QAction*>(sender());
     auto cmd= act->data().toString();
@@ -976,7 +988,7 @@ void CharacterItem::runCommand()
 
 void CharacterItem::setShape()
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return;
     auto act= qobject_cast<QAction*>(sender());
     auto index= act->data().toInt();
@@ -1019,14 +1031,14 @@ void CharacterItem::createActions()
     m_increaseLife= new QAction(tr("Increase Life"), this);
 
     connect(m_reduceLife, &QAction::triggered, this, [this]() {
-        if(nullptr == m_character)
+        if(m_character.isNull())
             return;
         auto i= m_character->getHealthPointsCurrent();
         m_character->setHealthPointsCurrent(i);
     });
 
     connect(m_increaseLife, &QAction::triggered, this, [this]() {
-        if(nullptr == m_character)
+        if(m_character.isNull())
             return;
         auto i= m_character->getHealthPointsCurrent();
         m_character->setHealthPointsCurrent(i);
@@ -1059,7 +1071,7 @@ void CharacterItem::characterStateChange()
     if(nullptr == act)
         return;
 
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return;
 
     int index= act->data().toInt();
@@ -1077,7 +1089,7 @@ void CharacterItem::characterStateChange()
 
 void CharacterItem::updateCharacter()
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return;
 
     NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::VMapCategory, NetMsg::CharacterChanged);
@@ -1097,40 +1109,43 @@ VisualItem* CharacterItem::getItemCopy()
 
 QString CharacterItem::getParentId() const
 {
-    if(nullptr != m_character)
+    if(m_character.isNull())
+        return {};
+
+    Person* pers= m_character->parentPerson();
+    QString res;
+    if(nullptr != pers)
     {
-        Person* pers= m_character->parentPerson();
-        if(nullptr != pers)
-        {
-            return pers->getUuid();
-        }
+        res= pers->getUuid();
     }
-    return QString();
+
+    return res;
 }
 void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
 {
     int index= msg.uint16();
-    if(nullptr != m_character)
-    {
-        QList<CharacterState*>* list= Character::getCharacterStateList();
-        if(nullptr != list)
-        {
-            if(!list->isEmpty() && index < list->size())
-            {
-                CharacterState* state= Character::getCharacterStateList()->at(index);
-                if(nullptr != state)
-                {
-                    m_character->setState(state);
-                    update();
-                }
-            }
-        }
-    }
+    if(m_character.isNull())
+        return;
+
+    QList<CharacterState*>* list= Character::getCharacterStateList();
+    if(nullptr == list)
+        return;
+
+    if(list->isEmpty() || index >= list->size())
+        return;
+
+    CharacterState* state= Character::getCharacterStateList()->at(index);
+
+    if(nullptr == state)
+        return;
+
+    m_character->setState(state);
+    update();
 }
 
 void CharacterItem::readCharacterChanged(NetworkMessageReader& msg)
 {
-    if(nullptr == m_character)
+    if(m_character.isNull())
         return;
 
     m_character->read(msg);
@@ -1141,7 +1156,7 @@ void CharacterItem::characterHasBeenDeleted(Character* pc)
 {
     if(pc == m_character)
     {
-        m_character= nullptr;
+        m_character.clear();
     }
 }
 

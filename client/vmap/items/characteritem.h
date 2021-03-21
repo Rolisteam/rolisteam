@@ -19,7 +19,9 @@
  ***************************************************************************/
 #ifndef CHARACTERITEM_H
 #define CHARACTERITEM_H
+
 #include <QAction>
+#include <QPointer>
 
 #include "data/characterstate.h"
 #include "data/charactervision.h"
@@ -327,7 +329,7 @@ private:
     bool canBeMoved() const override;
 
 private:
-    Character* m_character= nullptr;
+    QPointer<Character> m_character;
     QPointF m_center;
     qreal m_diameter;
     QPixmap* m_thumnails;
