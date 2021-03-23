@@ -19,8 +19,11 @@
  ***************************************************************************/
 #include "reparentingnodecommand.h"
 
+#include <QDebug>
+
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
+
 namespace mindmap
 {
 ReparentingNodeCommand::ReparentingNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, MindNode* newParent,
@@ -34,8 +37,10 @@ ReparentingNodeCommand::ReparentingNodeCommand(BoxModel* nodeModel, LinkModel* l
     if(m_oldParent)
     {
         auto links= m_oldParent->subLinks();
-        auto idxLink
-            = std::find_if(links.begin(), links.end(), [this](Link* link) { return link->end() == m_mindNode.data(); });
+        auto idxLink= std::find_if(links.begin(), links.end(), [this](Link* link) {
+            qDebug() << "find if reparentingNode";
+            return link->endNode() == m_mindNode.data();
+        });
         if(idxLink != links.end())
             m_oldLink= (*idxLink);
     }

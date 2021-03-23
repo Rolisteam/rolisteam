@@ -16,6 +16,7 @@ MindLink {
     property int radius: 5
     property real opacityLabel: 0.8
     property QtObject object
+    signal textEdited(var text)
 
     color: root.style.textColor
 
@@ -29,7 +30,11 @@ MindLink {
             readOnly: !root.editable
             focusReason: Qt.MouseFocusReason
             onReadOnlyChanged: focus = root.editable
-            onEditingFinished: root.editable = false
+            onEditingFinished: {
+              console.log("mindlink: "+label.text)
+              root.editable = false
+              root.textEdited(label.text)
+            }
             color: root.color
 
             background: Rectangle {

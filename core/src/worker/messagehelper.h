@@ -26,6 +26,7 @@
 #include <QVariant>
 
 #include "media/mediatype.h"
+#include "model/imagemodel.h"
 
 namespace vmap
 {
@@ -37,6 +38,12 @@ class ImageController;
 class CharacterItemController;
 class EllipseController;
 } // namespace vmap
+
+namespace mindmap
+{
+class Link;
+class MindNode;
+} // namespace mindmap
 
 class DiceAliasModel;
 class DiceAlias;
@@ -126,16 +133,25 @@ public:
 
     // Mindmap
     static void sendOffMindmapToAll(MindMapController* ctrl);
-    static void sendOffMindmapPermissionUpdate(Core::SharingPermission perm, MindMapController* ctrl);
+    static void sendOffMindmapPermissionUpdate(MindMapController* ctrl);
     static void openMindmapTo(MindMapController* ctrl, const QString& id);
     static void closeMindmapTo(MindMapController* ctrl, const QString& id);
     static void sendOffMindmapPermissionUpdateTo(Core::SharingPermission perm, MindMapController* ctrl,
                                                  const QString& id);
     static QHash<QString, QVariant> readMindMap(NetworkMessageReader* msg);
     static void readAddMindMapNode(MindMapController* ctrl, NetworkMessageReader* msg);
+    static void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg);
+    static void buildAddLinkMessage(NetworkMessageWriter& msg, mindmap::Link* link);
+    static void buildAddNodeMessage(NetworkMessageWriter& msg, mindmap::MindNode* node);
 
     // data
     static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);
+
+    // ImageModel
+    static void sendOffImageInfo(const ImageInfo& info, MediaControllerBase* ctrl);
+    static void sendOffRemoveImageInfo(const QString& id, MediaControllerBase* ctrl);
+    static void readAddSubImage(ImageModel* model, NetworkMessageReader* msg);
+    static void readRemoveSubImage(ImageModel* model, NetworkMessageReader* msg);
 };
 
 #endif // MESSAGEHELPER_H

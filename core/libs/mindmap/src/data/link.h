@@ -39,6 +39,7 @@ class Link : public QObject
     Q_PROPERTY(QPointF p1 READ p1 NOTIFY startPointChanged)
     Q_PROPERTY(QPointF p2 READ p2 NOTIFY endPointChanged)
 public:
+    // TODO : to move to another header file.
     enum Direction
     {
         StartToEnd,
@@ -54,7 +55,7 @@ public:
     MindNode* start() const;
     void setStart(MindNode* start);
 
-    MindNode* end() const;
+    MindNode* endNode() const;
     void setEnd(MindNode* end);
 
     QString id() const;
@@ -76,6 +77,8 @@ public:
     void cleanUpLink();
 
     static void setMinimumLenght(float v);
+
+    QString toString(bool withLabel);
 signals:
     void linkChanged();
     void visibleChanged();

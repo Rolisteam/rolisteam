@@ -66,7 +66,7 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
             return &manager;
         });
 
-    engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
+    // engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
     engine->addImageProvider("nodeImages", new mindmap::NodeImageProvider(m_ctrl->imageModel()));
     engine->addImportPath(QStringLiteral("qrc:/qml"));

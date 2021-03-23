@@ -67,7 +67,7 @@ public:
     void clear();
 
 public slots:
-    void append(Link* link);
+    void append(Link* link, bool network= false);
     void removeLink(Link* link);
     void linkHasChanged();
 

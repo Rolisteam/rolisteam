@@ -23,12 +23,13 @@
 
 #include <QLineF>
 #include <QRectF>
+#include <QUuid>
 #include <cmath>
 
 namespace mindmap
 {
 float Link::m_minimunLenght= 150.f;
-Link::Link(QObject* parent) : QObject(parent)
+Link::Link(QObject* parent) : QObject(parent), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
     setText(tr("is linked"));
 }
@@ -54,7 +55,7 @@ void Link::setStart(MindNode* start)
     connect(m_start, &MindNode::positionChanged, this, &Link::linkChanged);
 }
 
-MindNode* Link::end() const
+MindNode* Link::endNode() const
 {
     return m_end;
 }
@@ -84,6 +85,9 @@ QPointF Link::computePoint(bool p1) const
     QLineF line(startPoint(), endPoint());
 
     auto node= p1 ? m_start : m_end;
+
+    if(!node)
+        return {};
 
     auto top= QLineF(node->boundingRect().topLeft(), node->boundingRect().topRight());
     auto bottom= QLineF(node->boundingRect().bottomLeft(), node->boundingRect().bottomRight());
@@ -160,7 +164,12 @@ void Link::cleanUpLink()
 float Link::getLength() const
 {
     QLineF line(p1(), p2());
-    auto length= std::max(static_cast<float>(line.length()), m_minimunLenght);
+    auto r1= m_start->boundingRect();
+    auto r2= m_end->boundingRect();
+
+    auto diagonal= std::sqrt(r1.width() / 2 * r1.width() / 2 + r1.height() / 2 * r1.height() / 2)
+                   + std::sqrt(r2.width() / 2 * r2.width() / 2 + r2.height() / 2 * r2.height() / 2) + m_minimunLenght;
+    auto length= std::max(static_cast<float>(diagonal), std::max(static_cast<float>(line.length()), m_minimunLenght));
 
     if(m_end == nullptr || m_start == nullptr)
         return length;
@@ -197,5 +206,10 @@ QString Link::text() const
 void Link::setMinimumLenght(float v)
 {
     m_minimunLenght= v;
+}
+
+QString Link::toString(bool withLabel)
+{
+    return withLabel ? QStringLiteral("%1 [label=\"Link text:%2\"]").arg(m_uuid, m_text) : m_uuid;
 }
 } // namespace mindmap

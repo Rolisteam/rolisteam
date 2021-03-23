@@ -69,7 +69,7 @@ public:
     std::vector<MindNode*>& nodes();
 
     void clear();
-    void appendNode(MindNode* node);
+    void appendNode(MindNode* node, bool network= false);
     MindNode* node(const QString& id) const;
     int defaultStyleIndex() const;
 
@@ -98,6 +98,7 @@ private:
     void setNodeWidth(qreal w);
     void setNodeHeight(qreal h);
     void computeContentSize(const MindNode* newNode);
+    void preventSamePositionForParentAndChild();
 
 private:
     std::vector<MindNode*> m_data;

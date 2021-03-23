@@ -19,14 +19,17 @@
  ***************************************************************************/
 #include "mindnode.h"
 
+#include <QDebug>
 #include <QFontMetricsF>
+#include <QRectF>
 #include <QUuid>
 
 #include "link.h"
 namespace mindmap
 {
 
-MindNode::MindNode(QObject* parent) : QObject(parent), m_id(QUuid::createUuid().toString(QUuid::WithoutBraces))
+MindNode::MindNode(QObject* parent)
+    : QObject(parent), m_position(0, 0), m_id(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
     // comment
 }
@@ -34,6 +37,7 @@ MindNode::~MindNode()= default;
 
 void MindNode::setParentNode(MindNode* parent)
 {
+    distantFromParent(parent->boundingRect());
     m_parent= parent;
 }
 
@@ -56,13 +60,22 @@ QPointF MindNode::position() const
 
 void MindNode::setPosition(const QPointF& pos)
 {
-    if(m_position == pos)
+    if(m_position == pos || pos.isNull() || qIsNaN(pos.x()) || qIsNaN(pos.y()))
         return;
     auto motion= pos - m_position;
     m_position= pos;
     emit positionChanged(m_position);
     if(isDragged())
         emit itemDragged(motion);
+}
+
+void MindNode::distantFromParent(const QRectF& boundingRect)
+{
+    if(boundingRect.isNull())
+        return;
+
+    auto pos= boundingRect.topLeft() + QPointF(boundingRect.width() * 1.5, boundingRect.height() * 1.5);
+    setPosition(pos);
 }
 
 QVector2D MindNode::getVelocity() const
@@ -129,7 +142,7 @@ void MindNode::setContentWidth(qreal w)
     if(qFuzzyCompare(w, m_width))
         return;
     m_width= w;
-    emit contentWidth();
+    emit contentWidthChanged();
 }
 
 qreal MindNode::contentHeight() const
@@ -142,7 +155,7 @@ void MindNode::setContentHeight(qreal h)
     if(qFuzzyCompare(h, m_height))
         return;
     m_height= h;
-    emit contentHeight();
+    emit contentHeightChanged();
 }
 
 QPointF MindNode::centerPoint() const
@@ -219,6 +232,12 @@ void MindNode::setLinkVisibility()
 void MindNode::addLink(Link* link)
 {
     auto h= hasLink();
+    auto it= std::find_if(std::begin(m_subNodelinks), std::end(m_subNodelinks),
+                          [link](const Link* exsting) { return link == exsting; });
+
+    if(it != std::end(m_subNodelinks))
+        return;
+
     m_subNodelinks.push_back(link);
     if(h != hasLink())
         emit hasLinkChanged();
@@ -239,11 +258,12 @@ void MindNode::setStyleIndex(int idx)
 
 int MindNode::subNodeCount() const
 {
-    int sum= std::accumulate(m_subNodelinks.begin(), m_subNodelinks.end(), 0, [](int& a, Link* link) {
+    int sum= std::accumulate(m_subNodelinks.begin(), m_subNodelinks.end(), 0, [this](int& a, Link* link) {
         if(nullptr == link)
             return 0;
-        auto end= link->end();
-        if(nullptr == end)
+
+        auto end= link->endNode();
+        if(nullptr == end || end == this)
             return 0;
 
         return a + 1 + end->subNodeCount();
@@ -289,7 +309,12 @@ void MindNode::setDragged(bool isdragged)
 
 QString MindNode::parentId() const
 {
-    return !m_parent ? QString("") : m_parent->id();
+    return !m_parent ? QString() : m_parent->id();
+}
+
+QString MindNode::toString(bool withLabel)
+{
+    return withLabel ? QStringLiteral("%1 [label=\"MindNode text: %2\"]").arg(m_id, m_text) : m_id;
 }
 
 void MindNode::setSelected(bool isSelected)

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 include_directories(../core/src)
+include_directories(../core/libs)
 include_directories(../core/src/diceparser/include)
 
 # Helpers
@@ -26,6 +27,7 @@ add_subdirectory(updater )
 add_subdirectory(controller )
 add_subdirectory(playermodel)
 #add_subdirectory(sendToServer )
+add_subdirectory(mindmap)
 add_subdirectory(vmap )
 add_subdirectory(serialization )
 add_subdirectory(widgets )

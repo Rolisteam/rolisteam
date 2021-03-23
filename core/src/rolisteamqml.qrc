@@ -34,5 +34,6 @@
         <file>rolistyle/Drawer.qml</file>
         <file>rolistyle/Label.qml</file>
         <file>rolistyle/Switch.qml</file>
+        <file>qml/CustomItems/PermissionFrame.qml</file>
     </qresource>
 </RCC>

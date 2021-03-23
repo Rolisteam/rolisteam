@@ -95,6 +95,8 @@ public:
 
     QString parentId() const;
 
+    QString toString(bool withLabel);
+
 public slots:
     void setText(QString text);
     void setMass(int mass);
@@ -123,6 +125,7 @@ protected:
     void updatePosition();
     void computeContentSize();
     void setLinkVisibility();
+    void distantFromParent(const QRectF& boundingRect);
 
 private:
     MindNode* m_parent= nullptr;

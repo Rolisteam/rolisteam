@@ -72,55 +72,14 @@ Drawer {
             }
         }
 
-
-        GroupBox {
-            id: userlist
-            title: qsTr("Permission")
-            Layout.fillWidth: true
-            ColumnLayout {
-                anchors.fill: parent
-                RowLayout {
-                    Layout.fillWidth: true
-                    Label {
-                        text: qsTr("All")
-                    }
-
-                    PermissionSlider {
-                        id: everyone
-                        Layout.fillWidth: true
-                        onPermissionChanged: ctrl.setSharingToAll(permission)
-                    }
-                }
-                Repeater {
-                    id: contactList
-                    model: ctrl.playerModel
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Image {
-                            source: "image://avatar/%1".arg(model.uuid)
-                            fillMode: Image.PreserveAspectFit
-                            sourceSize.width: 50
-                            sourceSize.height: 50
-                            enabled: everyone.permission === 0
-                            opacity: enabled ? 1.0 : 0.5
-                        }
-                        Label {
-                            text: model.name
-                            Layout.fillWidth: true
-                            enabled: everyone.permission === 0
-                            opacity: enabled ? 1.0 : 0.5
-                        }
-                        PermissionSlider {
-                            Layout.fillWidth: true
-                            onPermissionChanged: ctrl.setPermissionForUser(model.uuid,permission)
-                            enabled: everyone.permission === 0
-                            opacity: enabled ? 1.0 : 0.5
-                        }
-                    }
-                }
-            }
+        PermissionFrame {
+          id: userlist
+          Layout.fillWidth: true
+          visible: !ctrl.remote
+          playerModel: ctrl.remotePlayerModel
+          onPermissionToAllChanged: ctrl.setSharingToAll(permissionToAll)
+          onPermissionForUserChanged: ctrl.setPermissionForUser(id, permission)
         }
-
 
         Label {
            property string logs

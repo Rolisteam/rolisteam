@@ -37,6 +37,7 @@
 #include "data/link.h"
 #include "data/mindnode.h"
 #include "model/boxmodel.h"
+#include "model/imagemodel.h"
 #include "model/linkmodel.h"
 
 #include "network/networkmessagereader.h"
@@ -165,7 +166,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
     auto mindmapCtrl= new MindMapController(uuid);
 
     if(map.contains("indexStyle"))
-        mindmapCtrl->setReadWrite(map.value("indexStyle").toBool());
+        mindmapCtrl->setDefaultStyleIndex(map.value("indexStyle").toBool());
 
     QHash<QString, mindmap::MindNode*> data;
     if(map.contains("nodes"))
@@ -174,7 +175,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
         auto model= dynamic_cast<mindmap::BoxModel*>(mindmapCtrl->nodeModel());
         QHash<QString, QString> parentData;
-        for(auto var : nodes)
+        for(const auto& var : nodes)
         {
             auto node= new mindmap::MindNode();
             auto nodeV= var.toHash();
@@ -190,7 +191,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             parentData.insert(node->id(), nodeV["parentId"].toString());
         }
 
-        for(auto key : data.keys())
+        for(const auto& key : data.keys())
         {
             auto node= data.value(key);
             auto parentId= parentData.value(key);
@@ -210,7 +211,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
         auto model= dynamic_cast<mindmap::LinkModel*>(mindmapCtrl->linkModel());
 
-        for(auto var : links)
+        for(const auto& var : links)
         {
             auto link= new mindmap::Link();
             auto linkV= var.toHash();
@@ -226,6 +227,20 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             link->setEnd(data.value(endId));
 
             model->append(link);
+        }
+    }
+
+    if(map.contains("imageInfoData"))
+    {
+        QHash<QString, QVariant> imgInfos= map.value("imageInfoData").toHash();
+        auto model= mindmapCtrl->imageModel();
+        for(const auto& var : imgInfos)
+        {
+            auto img= var.toHash();
+            auto pix= img["pixmap"].value<QPixmap>();
+            auto id= img["id"].toString();
+            auto url= QUrl(img["url"].toString());
+            model->insertPixmap(id, pix, url);
         }
     }
 

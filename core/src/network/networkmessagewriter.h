@@ -26,6 +26,10 @@
 #include <QDateTime>
 #include <QString>
 
+#ifdef QT_GUI_LIB
+#include <QPixmap>
+#endif
+
 /**
  * @brief The NetworkMessageWriter class
  */
@@ -54,6 +58,9 @@ public:
 
     void byteArray32(const QByteArray& data);
 
+#ifdef QT_GUI_LIB
+    void pixmap(const QPixmap& pix);
+#endif
     void rgb(unsigned int color);
 
     quint32 getDataSize() const;

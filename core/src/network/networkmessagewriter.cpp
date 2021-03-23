@@ -19,6 +19,7 @@
  *************************************************************************/
 
 #include "network/networkmessagewriter.h"
+#include <QBuffer>
 #include <QDataStream>
 #include <QDebug>
 

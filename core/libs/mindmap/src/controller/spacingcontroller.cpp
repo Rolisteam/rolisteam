@@ -23,17 +23,18 @@
 #include "data/mindnode.h"
 #include "model/linkmodel.h"
 
+#include <QDebug>
 #include <QLineF>
 #include <chrono>
 #include <cmath>
 #include <thread>
+
 namespace mindmap
 {
 const float k_attraction= 0.1f;
 const float k_repulsion= 10000.f;
 
 const float k_defaultDamping= 0.5f;
-const float k_defaultSpringLength= 100.f;
 
 bool isInside(QPointF pos1, QPointF pos2, float distance)
 {
@@ -118,15 +119,19 @@ void SpacingController::applyCoulombsLaw(MindNode* node, std::vector<MindNode*> 
 
 void SpacingController::applyHookesLaw(Link* link)
 {
+    if(!link)
+        return;
+
     auto node1= link->start();
-    auto node2= link->end();
+    qDebug() << "before end Node spacing controller";
+    auto node2= link->endNode();
 
     if(node1 == nullptr || node2 == nullptr)
         return;
 
     auto vect= QVector2D(node1->position() - node2->position());
     auto length= vect.length();
-    //auto force= k_attraction * std::max(length - k_defaultSpringLength, 0.f);
+    // auto force= k_attraction * std::max(length - k_defaultSpringLength, 0.f);
     auto force= k_attraction * std::max(length - link->getLength(), 0.f);
 
     node1->setVelocity(node1->getVelocity() + vect.normalized() * force * -1);

@@ -21,7 +21,9 @@
 
 #include "data/mindnode.h"
 
+#include <QDebug>
 #include <QRectF>
+
 namespace mindmap
 {
 LinkModel::LinkModel(QObject* parent) : QAbstractItemModel(parent) {}
@@ -101,8 +103,12 @@ QVariant LinkModel::data(const QModelIndex& index, int role) const
         result= QVariant::fromValue(link->start()->boundingRect());
         break;
     case EndBoxRole:
-        result= QVariant::fromValue(link->end()->boundingRect());
-        break;
+    {
+        auto end= link->endNode();
+        qDebug() << "data model 2";
+        result= end ? QVariant::fromValue(end->boundingRect()) : QVariant();
+    }
+    break;
     case StartPointRole:
         result= QVariant::fromValue(link->p1());
         break;
@@ -162,22 +168,30 @@ Link* LinkModel::addLink(MindNode* p1, MindNode* p2)
     link->setEnd(p2);
     m_data.push_back(link);
     endInsertRows();
+    emit linkAdded(link);
     return link;
 }
 
-void LinkModel::append(Link* link)
+void LinkModel::append(Link* link, bool network)
 {
     if(link == nullptr)
         return;
     auto p1 = link->start();
-    if(p1==nullptr)
+    auto p2 = link->endNode();
+    if(p1 == nullptr || p2 == nullptr)
         return;
-    beginInsertRows(QModelIndex(), static_cast<int>(m_data.size()), static_cast<int>(m_data.size()));
+
+
     connect(link, &Link::linkChanged, this, &LinkModel::linkHasChanged);
-    m_data.push_back(link);
+
+    beginInsertRows(QModelIndex(), static_cast<int>(m_data.size()), static_cast<int>(m_data.size()));
+    p2->setParentNode(p1);
     p1->addLink(link);
+    m_data.push_back(link);
     endInsertRows();
-    emit linkAdded(link);
+    if(!network)
+      emit linkAdded(link);
+    emit link->linkChanged();
 }
 
 void LinkModel::removeLink(Link* link)

@@ -37,6 +37,7 @@
 #include "gamecontroller.h"
 #include "media/mediafactory.h"
 #include "model/contentmodel.h"
+#include "model/remoteplayermodel.h"
 #include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
 #include "preferences/preferencesmanager.h"
@@ -45,6 +46,7 @@
 #include "undoCmd/newmediacontroller.h"
 #include "undoCmd/openmediacontroller.h"
 #include "undoCmd/removemediacontrollercommand.h"
+#include "userlist/playermodel.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
@@ -77,8 +79,7 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
 {
     CharacterSheetController::setCharacterModel(characterModel);
     SharedNoteController::setPlayerModel(playerModel);
-    MindMapController::setPlayerModel(playerModel);
-    MindMapController::registerQmlType();
+    MindMapController::setRemotePlayerModel(new RemotePlayerModel(playerModel));
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 
@@ -324,9 +325,13 @@ QString ContentController::sessionPath() const
 NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType result= NetWorkReceiver::NONE;
-    std::set<NetMsg::Action> actions({NetMsg::AddMedia, NetMsg::UpdateMediaProperty, NetMsg::CloseMedia});
+    std::set<NetMsg::Action> actions({NetMsg::AddMedia, NetMsg::UpdateMediaProperty, NetMsg::CloseMedia,
+                                      NetMsg::AddSubImage, NetMsg::RemoveSubImage});
+
     if(actions.find(msg->action()) == actions.end())
         return result;
+
+    QSet<NetMsg::Action> subActions{NetMsg::UpdateMediaProperty, NetMsg::AddSubImage, NetMsg::RemoveSubImage};
 
     if(msg->action() == NetMsg::CloseMedia)
     {
@@ -341,8 +346,9 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
         auto media= Media::MediaFactory::createRemoteMedia(type, msg, localIsGM());
         m_contentModel->appendMedia(media);
     }
-    else if(msg->action() == NetMsg::UpdateMediaProperty)
+    else if(subActions.contains(msg->action()))
     {
+        // qDebug() << "ContentController subaction";
         auto type= static_cast<Core::ContentType>(msg->uint8());
         auto it= m_mediaUpdaters.find(type);
         if(it != m_mediaUpdaters.end())

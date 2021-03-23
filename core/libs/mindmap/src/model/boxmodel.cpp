@@ -176,28 +176,37 @@ void BoxModel::clear()
     m_nodeWidth= 0.;
 }
 
-void BoxModel::appendNode(MindNode* node)
+void BoxModel::appendNode(MindNode* node, bool network)
 {
     if(node == nullptr)
+        return;
+
+    auto id= node->id();
+    auto it= std::find_if(std::begin(m_data), std::end(m_data), [id](MindNode* node) { return id == node->id(); });
+    if(it != std::end(m_data))
         return;
     auto row= static_cast<int>(m_data.size());
     beginInsertRows(QModelIndex(), row, row);
     m_data.push_back(node);
     endInsertRows();
     computeContentSize(node);
-    emit nodeAdded(node);
+    if(!network)
+        emit nodeAdded(node);
 }
+
+void BoxModel::preventSamePositionForParentAndChild() {}
 
 std::pair<MindNode*, Link*> BoxModel::addBox(const QString& idparent)
 {
     auto row= static_cast<int>(m_data.size());
     beginInsertRows(QModelIndex(), row, row);
     auto root= new MindNode();
-
     root->setText(idparent.isNull() ? tr("Root") : tr("New Node"));
     root->setStyleIndex(m_defaultStyleIndex);
 
     m_data.push_back(root);
+    computeContentSize(root);
+    endInsertRows();
 
     Link* link= nullptr;
     if(!idparent.isEmpty())
@@ -206,16 +215,10 @@ std::pair<MindNode*, Link*> BoxModel::addBox(const QString& idparent)
                               [idparent](const MindNode* node) { return idparent == node->id(); });
         if(id != m_data.end())
         {
-            auto rectParent= (*id)->boundingRect();
-            auto pos= rectParent.topLeft() + QPointF(rectParent.width() * 1.5, rectParent.height() * 1.5);
-            root->setPosition(pos);
+            link= m_linkModel->addLink(*id, root);
         }
-        link= m_linkModel->addLink(*id, root);
     }
-
-    computeContentSize(root);
     emit nodeAdded(root);
-    endInsertRows();
     return std::make_pair(root, link);
 }
 
