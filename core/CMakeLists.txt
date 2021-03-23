@@ -62,6 +62,7 @@ set(HEADERS
     src/model/profilemodel.h
     src/model/charactermodel.h
     src/model/thememodel.h
+    src/model/remoteplayermodel.h
     src/charactersheet/charactersheet.h
     src/charactersheet/charactersheetitem.h
     src/charactersheet/charactersheetmodel.h
@@ -377,6 +378,7 @@ set(SOURCES
     src/media/mediafactory.cpp
     src/media/mindmapview.cpp
     src/model/playerproxymodel.cpp
+    src/model/remoteplayermodel.cpp
     src/model/singlecontenttypemodel.cpp
     src/model/contentmodel.cpp
     src/model/imagemodel.cpp

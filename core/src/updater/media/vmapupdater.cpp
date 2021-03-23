@@ -207,7 +207,6 @@ bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapCont
 NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
-    qDebug() << "ProcessMessage VMapUpdater" << msg->action() << NetMsg::UpdateMediaProperty;
     if(msg->action() == NetMsg::UpdateMediaProperty && msg->category() == NetMsg::MediaCategory)
     {
         QString vmapId= msg->string8();
@@ -219,7 +218,6 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
         QString vmapId= msg->string8();
         auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
 
-        qDebug() << "before map is empty addItem" << map;
         if(!map)
             return type;
 
@@ -232,7 +230,6 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
         auto itemType= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
         QString itemId= msg->string8();
         auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
-        qDebug() << "before map is empty" << map;
         if(nullptr == map)
             return type;
 

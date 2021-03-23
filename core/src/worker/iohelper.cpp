@@ -215,6 +215,13 @@ QPixmap IOHelper::readPixmapFromFile(const QString& uri)
     return map;
 }
 
+QPixmap IOHelper::dataToPixmap(const QByteArray& data)
+{
+    QPixmap pix;
+    pix.loadFromData(data);
+    return pix;
+}
+
 QByteArray saveImage(ImageController* ctrl)
 {
     QByteArray data;

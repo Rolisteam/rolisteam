@@ -161,7 +161,9 @@ bool FileSerializer::writeFile(BoxModel* nodeModel, LinkModel* linkModel, const 
     {
         QJsonObject obj;
         obj["idStart"]= link->start()->id();
-        obj["idEnd"]= link->end()->id();
+        qDebug() << "serialization";
+        auto end= link->endNode();
+        obj["idEnd"]= end ? end->id() : QString();
         obj["visible"]= link->isVisible();
         obj["Direction"]= link->direction();
         obj["text"]= link->text();

@@ -217,7 +217,7 @@ void NetworkController::startServer()
     });
     connect(m_server.get(), &ServerManager::errorOccured, this,
             [this](const QString& str, LogController::LogLevel level) {
-                qDebug() << str << level;
+                // qDebug() << str << level;
                 /*switch(level)
                 {
                 case LogController::Error:
