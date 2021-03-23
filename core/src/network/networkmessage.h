@@ -173,6 +173,8 @@ enum Action
     AddMedia= 0,
     UpdateMediaProperty,
     CloseMedia,
+    AddSubImage,
+    RemoveSubImage,
 
     // SharedNoteCategory
     updateTextAndPermission= 0,
@@ -186,6 +188,7 @@ enum Action
     AddNode= 0,
     RemoveNode,
     UpdateNode,
+    UpdatePackage,
     AddLink,
     RemoveLink,
     UpdateLink,

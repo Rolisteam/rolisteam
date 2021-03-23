@@ -62,12 +62,14 @@ int ImageModel::rowCount(const QModelIndex& index) const
     return static_cast<int>(m_data.size());
 }
 
-void ImageModel::insertPixmap(const QString& id, const QPixmap& map, const QUrl& url)
+void ImageModel::insertPixmap(const QString& id, const QPixmap& map, const QUrl& url, bool network)
 {
     auto pos= static_cast<int>(m_data.size());
     beginInsertRows(QModelIndex(), pos, pos);
     m_data.push_back(ImageInfo{map, id, url});
     endInsertRows();
+    if(!network)
+        emit imageAdded(id);
 }
 
 int ImageModel::removePixmap(const QString& id)
@@ -84,11 +86,11 @@ int ImageModel::removePixmap(const QString& id)
     beginRemoveRows(QModelIndex(), pos, pos);
     m_data.erase(it);
     endRemoveRows();
-
+    emit imageRemoved(id);
     return size - m_data.size();
 }
 
-QPixmap ImageModel::pixmapFromId(const QString& id)
+QPixmap ImageModel::pixmapFromId(const QString& id) const
 {
     auto it
         = std::find_if(std::begin(m_data), std::end(m_data), [id](const ImageInfo& info) { return id == info.m_id; });
@@ -97,4 +99,20 @@ QPixmap ImageModel::pixmapFromId(const QString& id)
         return {};
 
     return it->m_pixmap;
+}
+
+const ImageInfo ImageModel::imageInfoFromId(const QString& id) const
+{
+    auto it
+        = std::find_if(std::begin(m_data), std::end(m_data), [id](const ImageInfo& info) { return id == info.m_id; });
+
+    if(it == std::end(m_data))
+        return {};
+
+    return *it;
+}
+
+const std::vector<ImageInfo>& ImageModel::imageInfos() const
+{
+    return m_data;
 }

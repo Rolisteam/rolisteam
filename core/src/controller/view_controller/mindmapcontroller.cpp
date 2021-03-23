@@ -41,13 +41,14 @@
 #include "model/imagemodel.h"
 #include "model/linkmodel.h"
 #include "model/nodestylemodel.h"
+#include "model/remoteplayermodel.h"
 #include "qmlItems/linkitem.h"
 #include "qmlItems/nodeitem.h"
 #include "userlist/playermodel.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 
-void MindMapController::registerQmlType()
+void registerQmlType()
 {
     static bool b= false;
 
@@ -57,12 +58,13 @@ void MindMapController::registerQmlType()
     qmlRegisterUncreatableType<MindMapController>("RMindMap", 1, 0, "MindMapController",
                                                   "MindMapController can't be created in qml");
     qmlRegisterType<mindmap::SelectionController>("RMindMap", 1, 0, "SelectionController");
+    qmlRegisterUncreatableType<RemotePlayerModel>("RMindMap", 1, 0, "RemotePlayerModel", "property values");
     qmlRegisterType<mindmap::LinkItem>("RMindMap", 1, 0, "MindLink");
     qmlRegisterType<mindmap::NodeStyle>("RMindMap", 1, 0, "NodeStyle");
     b= true;
 }
 
-QPointer<PlayerModel> MindMapController::m_playerModel;
+QPointer<RemotePlayerModel> MindMapController::m_remotePlayerModel;
 
 MindMapController::MindMapController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::MINDMAP, parent)
@@ -72,6 +74,7 @@ MindMapController::MindMapController(const QString& id, QObject* parent)
     , m_styleModel(new mindmap::NodeStyleModel())
     , m_imageModel(new ImageModel())
 {
+    registerQmlType();
     m_nodeModel->setLinkModel(m_linkModel.get());
     m_selectionController->setUndoStack(&m_stack);
 
@@ -94,6 +97,9 @@ MindMapController::MindMapController(const QString& id, QObject* parent)
     });
     connect(m_spacingController.get(), &mindmap::SpacingController::finished, m_spacing, &QThread::quit);
     m_spacing->start();
+
+    connect(m_nodeModel.get(), &mindmap::BoxModel::nodeAdded, this, &MindMapController::generateTree);
+    connect(m_linkModel.get(), &mindmap::LinkModel::linkAdded, this, &MindMapController::generateTree);
 
     clearData();
 }
@@ -130,9 +136,14 @@ QAbstractItemModel* MindMapController::styleModel() const
     return m_styleModel.get();
 }
 
+RemotePlayerModel* MindMapController::remotePlayerModel() const
+{
+    return m_remotePlayerModel;
+}
+
 PlayerModel* MindMapController::playerModel() const
 {
-    return m_playerModel;
+    return m_remotePlayerModel->sourceModel();
 }
 
 ImageModel* MindMapController::imageModel() const
@@ -143,6 +154,25 @@ ImageModel* MindMapController::imageModel() const
 const QString& MindMapController::filename() const
 {
     return m_filename;
+}
+
+QObject* MindMapController::subItem(const QString& id, SubItemType type)
+{
+    QObject* obj= nullptr;
+    switch(type)
+    {
+    case Node:
+        obj= m_nodeModel->node(id);
+        break;
+    case Link:
+        obj= m_linkModel->linkFromId(id);
+        break;
+    case Package:
+        /// TODO: must be implemented
+        break;
+    }
+
+    return obj;
 }
 
 const QString& MindMapController::errorMsg() const
@@ -157,16 +187,20 @@ QRectF MindMapController::contentRect() const
 
 bool MindMapController::readWrite() const
 {
-    return (localIsOwner() || m_readWrite);
+    bool hasDedicatedPermission= false;
+    if(m_permissions.contains(m_localId))
+        hasDedicatedPermission= (m_permissions[m_localId] == Core::SharingPermission::ReadWrite);
+
+    return (localIsOwner() || m_sharingToAll == Core::SharingPermission::ReadWrite || hasDedicatedPermission);
 }
 
-void MindMapController::setReadWrite(bool b)
+/*void MindMapController::setReadWrite(bool b)
 {
     if(b == m_readWrite)
         return;
     m_readWrite= b;
     emit readWriteChanged();
-}
+}*/
 
 void MindMapController::clearData()
 {
@@ -214,6 +248,7 @@ void MindMapController::setSharingToAll(int b)
         return;
     auto old= m_sharingToAll;
     m_sharingToAll= realPerm;
+    qDebug() << "mindmapcontroller" << static_cast<int>(m_sharingToAll) << this << static_cast<int>(old);
     emit sharingToAllChanged(m_sharingToAll, old);
 }
 
@@ -303,11 +338,13 @@ void MindMapController::setSpacing(bool status)
 void MindMapController::redo()
 {
     m_stack.redo();
+    generateTree();
 }
 
 void MindMapController::undo()
 {
     m_stack.undo();
+    generateTree();
 }
 
 bool MindMapController::spacing() const
@@ -338,9 +375,10 @@ void MindMapController::addCharacterBox(const QString& idparent, const QString& 
     m_stack.push(cmd);
 }
 
-void MindMapController::addNode(mindmap::MindNode* node)
+void MindMapController::addNode(mindmap::MindNode* node, bool network)
 {
-    m_nodeModel->appendNode(node);
+    m_nodeModel->appendNode(node, network);
+    generateTree();
 }
 
 mindmap::Link* MindMapController::linkFromId(const QString& id) const
@@ -354,7 +392,17 @@ mindmap::MindNode* MindMapController::nodeFromId(const QString& id) const
 
 void MindMapController::createLink(const QString& id, const QString& id2)
 {
+    qDebug() << " createLink1 :" << id << " id2:" << id2;
     m_linkModel->addLink(nodeFromId(id), nodeFromId(id2));
+    generateTree();
+}
+
+void MindMapController::addLink(mindmap::Link* link, bool network)
+{
+    qDebug() << " createLink2 :"
+             << " fromnetwork:" << network;
+    m_linkModel->append(link, network);
+    generateTree();
 }
 
 void MindMapController::reparenting(mindmap::MindNode* parent, const QString& id)
@@ -379,7 +427,63 @@ int MindMapController::defaultStyleIndex() const
     return m_nodeModel->defaultStyleIndex();
 }
 
-void MindMapController::setPlayerModel(PlayerModel* model)
+void MindMapController::setRemotePlayerModel(RemotePlayerModel* model)
 {
-    m_playerModel= model;
+    m_remotePlayerModel= model;
+}
+
+mindmap::SpacingController* MindMapController::spacingController() const
+{
+    return m_spacingController.get();
+}
+
+void MindMapController::generateTree()
+{
+    QString res;
+    {
+        QTextStream output(&res);
+
+        output << QString("digraph G {") << "\n";
+
+        auto nodes= m_nodeModel->nodes();
+        output << QString("    subgraph cluster_0 {") << "\n";
+        for(auto node : nodes)
+        {
+            output << "0_" << node->toString(true) << ";\n";
+            auto links= node->subLinks();
+            output << "# sublinks of :" << node->id();
+            for(auto link : links)
+            {
+                output << "0_" << link->toString(true) << ";\n";
+                output << "0_" << link->toString(false) << "->"
+                       << "0_" << node->toString(false) << ";\n";
+            }
+        }
+        output << "    }\n";
+        output << "# from link model point of view";
+        auto links= m_linkModel->getDataSet();
+        output << QString("    subgraph cluster_1 {") << "\n";
+        for(auto link : links)
+        {
+            // output << link->toString(true) << ";\n";
+            auto end= link->endNode();
+            auto start= link->start();
+
+            if(!end)
+                continue;
+
+            output << end->toString(true) << ";\n";
+
+            if(!start)
+                continue;
+
+            output << start->toString(true) << ";\n";
+            output << start->toString(false) << "->" << end->toString(false)
+                   << QString("[Label=\"Link-id:%1 text:%2\"]").arg(link->id(), link->text());
+        }
+        output << "    }\n";
+        output.flush();
+    }
+
+    qDebug() << res;
 }

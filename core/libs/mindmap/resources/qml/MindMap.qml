@@ -133,10 +133,21 @@ Flickable {
                 y: startPointRole.y
                 width: widthLink
                 height: heightLink
+                Timer {
+                  running: true
+                  repeat: true
+                  onTriggered: console.log("data: pos:"+startPointRole.x+","+startPointRole.y+
+                                           "size: "+widthLink+"x"+heightLink)
+                }
+
                 start: startPointRole
                 end: endPointRole
                 visible: link.visible
-                text: label
+                text: link.text
+                onTextEdited: {
+                  console.log("Link textEdited: "+text)
+                  link.text = text
+                }
             }
         }
         Repeater {
@@ -144,20 +155,20 @@ Flickable {
             model: ctrl.nodeModel
             delegate: Node {
                 id: nodeItem
-                x: position.x
-                y: position.y
-                object: node
                 nodeStyle: ctrl.getStyle(node.styleIndex)
                 focus: true
-                text : node.text
+                readWrite: ctrl.readWrite
+                currentNode: node
                 source: node.imageUri ? "image://nodeImages/%1".arg(node.imageUri) : ""
-                visible: node.visible
-                selected: node.selected
                 onAddChild: ctrl.addBox(node.id)
                 onOpenChanged: ctrl.nodeModel.openNode(node.id, open)
                 onReparenting: ctrl.reparenting(node,id)
+                foldingBtnVisible: node.hasLink
                 onAddCharacter: {
                     ctrl.addCharacterBox(node.id, name, source, color)
+                }
+                onTextEdited: {
+                  node.text = text
                 }
 
                 onSelectStyle: {

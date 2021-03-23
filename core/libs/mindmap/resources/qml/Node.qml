@@ -9,17 +9,44 @@ Pane
     //Properties
     property QtObject style: Theme.styleSheet("Controls")
     property alias source: img.source
-    property alias text: text.text
+    property alias text: _textlbl.text
+    property bool readWrite: false
     property bool isEditable: false
-    property bool selected: false
+    property bool selected: currentNode.selected
     property int radius: root.style.radius
     property alias open: control.open
     property int expandButtonSize: root.style.expandedButtonSize
-    property QtObject object
+    property QtObject currentNode
     property QtObject nodeStyle
-    property string ident: object.id
+    property alias foldingBtnVisible: control.visible
+
+    property string ident: currentNode.id
+    property bool isDragged: currentNode.isDragged
     property bool dropOver: false
     property alias buttonColor: control.foreground
+
+    x: currentNode.position.x
+    y: currentNode.position.y
+
+    visible: currentNode.visible
+    onWidthChanged: currentNode.contentWidth = width
+    onHeightChanged: currentNode.contentHeight = height
+
+    onXChanged: {
+        if(mouse.drag.active)
+            currentNode.position=Qt.point(x, y)
+    }
+    onYChanged: {
+       if(mouse.drag.active)
+            currentNode.position=Qt.point(x, y)
+   }
+    Connections {
+        target: currentNode
+        function onPositionChanged(position) {
+            x=position.x
+            y=position.y
+        }
+    }
 
     focusPolicy: Qt.MouseFocusReason | Qt.ShortcutFocusReason | Qt.OtherFocusReason
 
@@ -29,34 +56,14 @@ Pane
     signal reparenting(var id)
     signal addChild()
     signal addCharacter(var name, var source, var color)
-
-
-    onWidthChanged: object.contentWidth = width
-    onHeightChanged: object.contentHeight = height
-    onXChanged: {
-        if(mouse.drag.active)
-            object.position=Qt.point(x, y)
-    }
-    onYChanged: {
-       if(mouse.drag.active)
-            object.position=Qt.point(x, y)
-   }
+    signal textEdited(var text)
 
     //Drag
     Drag.active: mouse.drag.active
     Drag.keys: [ "rmindmap/reparenting","text/plain" ]
     Drag.supportedActions: Qt.MoveAction
     Drag.mimeData: {
-        "text/plain": node.id
-    }
-
-
-    Connections {
-        target: object
-        function onPositionChanged(position) {
-            x=position.x
-            y=position.y
-        }
+        "text/plain": root.ident
     }
 
     ColumnLayout {
@@ -69,12 +76,17 @@ Pane
             Layout.alignment: Qt.AlignHCenter
         }
         TextInput{
-            id: text
-            enabled: root.isEditable
+            id: _textlbl
+            text: root.currentNode.text
+            enabled: root.readWrite && root.isEditable
             color: root.nodeStyle.textColor
             Layout.alignment: Qt.AlignHCenter
             onEnabledChanged: focus = enabled
-            onEditingFinished: root.isEditable = false
+            onEditingFinished: {
+              console.log("editing finished!!!!!!!")
+              root.isEditable = false
+              root.textEdited(text)
+            }
         }
     }
 
@@ -112,14 +124,13 @@ Pane
             }
 
             onDoubleClicked: root.isEditable = true
-            drag.onActiveChanged: root.object.isDragged = drag.active
+            drag.onActiveChanged: root.isDragged = drag.active
         }
 
         AbstractButton {
             id: control
             property bool open: !checked
             checkable: true
-            visible: object.hasLink
             width: root.style.childrenButtonSize
             height: root.style.childrenButtonSize
             anchors.verticalCenter: parent.bottom
@@ -150,6 +161,7 @@ Pane
 
         Rectangle {
             color: "blue"
+            visible: root.readWrite
             width: 10
             opacity: 0.7
             radius: parent.radius
@@ -158,6 +170,7 @@ Pane
             anchors.verticalCenter: parent.verticalCenter
             MouseArea {
                 anchors.fill: parent
+                enabled: root.readWrite
                 onClicked: root.addChild()
             }
         }

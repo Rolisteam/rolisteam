@@ -30,6 +30,8 @@
 
 #include "network/networkmessagewriter.h"
 
+#include <QDebug>
+
 MindMapUpdater::MindMapUpdater(FilteredContentModel* model, QObject* parent)
     : MediaUpdaterInterface(parent), m_mindmaps(model)
 {
@@ -58,7 +60,7 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
                 }
                 else
                 {
-                    MessageHelper::sendOffMindmapPermissionUpdate(perm, ctrl);
+                    MessageHelper::sendOffMindmapPermissionUpdate(ctrl);
                 }
             });
 
@@ -73,60 +75,155 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
                 MessageHelper::sendOffMindmapPermissionUpdateTo(perm, ctrl, id);
             });
 
+    setConnection(ctrl);
+}
+
+bool MindMapUpdater::updateSubobjectProperty(NetworkMessageReader* msg, MindMapController* ctrl)
+{
+    if(nullptr == msg || nullptr == ctrl)
+        return false;
+
+    auto id= msg->string8();
+    QHash<NetMsg::Action, MindMapController::SubItemType> set{{NetMsg::UpdateLink, MindMapController::Link},
+                                                              {NetMsg::UpdateNode, MindMapController::Node},
+                                                              {NetMsg::UpdatePackage, MindMapController::Package}};
+
+    if(!set.contains(msg->action()))
+        return false;
+
+    auto subobject= ctrl->subItem(id, set.value(msg->action()));
+    if(!subobject)
+        return false;
+
+    auto property= msg->string16();
+    QVariant var;
+
+    if(property == QStringLiteral("text"))
+    {
+        var= msg->string32();
+    }
+    else if(property == QStringLiteral("imageUri"))
+    {
+        var= msg->string32();
+    }
+    else if(property == QStringLiteral("styleIndex"))
+    {
+        var= msg->int64();
+    }
+    else if(property == QStringLiteral("direction"))
+    {
+        var= static_cast<mindmap::Link::Direction>(msg->uint8());
+    }
+
+    return subobject->setProperty(property.toLocal8Bit().data(), var);
+}
+
+MindMapController* findController(const QString& id, FilteredContentModel* mindmaps)
+{
+    if(id.isEmpty() || !mindmaps)
+        return nullptr;
+
+    auto ctrls= mindmaps->contentController<MindMapController*>();
+
+    auto it= std::find_if(ctrls.begin(), ctrls.end(), [id](MindMapController* ctrl) { return id == ctrl->uuid(); });
+
+    if(it == ctrls.end())
+        return nullptr;
+    return *it;
+}
+
+void MindMapUpdater::setConnection(MindMapController* ctrl)
+{
+    if(ctrl == nullptr)
+        return;
+    disconnectController(ctrl);
+    ConnectionInfo info;
+    info.id= ctrl->uuid();
+
     auto nodeModel= dynamic_cast<mindmap::BoxModel*>(ctrl->nodeModel());
     auto linkModel= dynamic_cast<mindmap::LinkModel*>(ctrl->linkModel());
-    // auto styleModel= dynamic_cast<mindmap::NodeStyleModel*>(ctrl->styleModel());
+    auto imageModel= ctrl->imageModel();
+    info.connections << connect(imageModel, &ImageModel::imageAdded, this, [imageModel, ctrl](const QString& id) {
+        auto info= imageModel->imageInfoFromId(id);
+        if(info.m_pixmap.isNull())
+            return;
+        MessageHelper::sendOffImageInfo(info, ctrl);
+    });
+    auto idCtrl= ctrl->uuid();
 
-    connect(nodeModel, &mindmap::BoxModel::nodeAdded, this, [this, ctrl](mindmap::MindNode* node) {
-        if(!ctrl || !ctrl->localIsOwner())
+    info.connections << connect(imageModel, &ImageModel::imageRemoved, this,
+                                [ctrl](const QString& id) { MessageHelper::sendOffRemoveImageInfo(id, ctrl); });
+
+    // connect existing  data
+    auto nodes= nodeModel->nodes();
+    for(auto const& n : nodes)
+    {
+        info.connections << connect(n, &mindmap::MindNode::textChanged, this, [this, idCtrl, n]() {
+            sendOffChange<QString>(idCtrl, QStringLiteral("text"), n, true);
+        });
+        info.connections << connect(n, &mindmap::MindNode::imageUriChanged, this, [this, idCtrl, n]() {
+            sendOffChange<QString>(idCtrl, QStringLiteral("imageUri"), n, true);
+        });
+        info.connections << connect(n, &mindmap::MindNode::styleIndexChanged, this, [this, idCtrl, n]() {
+            sendOffChange<int>(idCtrl, QStringLiteral("styleIndex"), n, true);
+        });
+    }
+
+    auto links= linkModel->getDataSet();
+    for(auto link : links)
+    {
+        info.connections << connect(link, &mindmap::Link::textChanged, this, [this, idCtrl, link]() {
+            sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false);
+        });
+        info.connections << connect(link, &mindmap::Link::directionChanged, this, [this, idCtrl, link]() {
+            sendOffChange<mindmap::Link::Direction>(idCtrl, QStringLiteral("direction"), link, false);
+        });
+    }
+    // end of existing data
+
+    info.connections << connect(nodeModel, &mindmap::BoxModel::nodeAdded, this, [this, ctrl](mindmap::MindNode* node) {
+        if(!ctrl || (!ctrl->localIsOwner() && !ctrl->readWrite()))
             return;
 
         NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddNode);
         auto idCtrl= ctrl->uuid();
         msg.string8(idCtrl);
-        msg.string8(node->id());
-        msg.string32(node->text());
-        msg.string8(node->imageUri());
-        msg.string8(node->parentId());
-        msg.uint64(node->styleIndex());
-
-        auto subs= node->subLinks();
-        msg.uint64(static_cast<quint64>(subs.size()));
-        for(auto link : subs)
-        {
-            msg.string8(link->id());
-        }
+        MessageHelper::buildAddNodeMessage(msg, node);
 
         msg.sendToServer();
-        connect(node, &mindmap::MindNode::textChanged, this,
-                [this, idCtrl, node]() { sendOffChange<QString>(idCtrl, QStringLiteral("text"), node, true); });
-        connect(node, &mindmap::MindNode::imageUriChanged, this,
-                [this, idCtrl, node]() { sendOffChange<QString>(idCtrl, QStringLiteral("imageUri"), node, true); });
-        connect(node, &mindmap::MindNode::styleIndexChanged, this,
-                [this, idCtrl, node]() { sendOffChange<int>(idCtrl, QStringLiteral("styleIndex"), node, true); });
+        auto info= findConnectionInfo(idCtrl);
+        Q_ASSERT(info);
+        info->connections << connect(node, &mindmap::MindNode::textChanged, this, [this, idCtrl, node]() {
+            sendOffChange<QString>(idCtrl, QStringLiteral("text"), node, true);
+        });
+        info->connections << connect(node, &mindmap::MindNode::imageUriChanged, this, [this, idCtrl, node]() {
+            sendOffChange<QString>(idCtrl, QStringLiteral("imageUri"), node, true);
+        });
+        info->connections << connect(node, &mindmap::MindNode::styleIndexChanged, this, [this, idCtrl, node]() {
+            sendOffChange<int>(idCtrl, QStringLiteral("styleIndex"), node, true);
+        });
     });
 
-    connect(linkModel, &mindmap::LinkModel::linkAdded, this, [this, ctrl](mindmap::Link* link) {
-        if(!ctrl || !ctrl->localIsOwner())
+    info.connections << connect(linkModel, &mindmap::LinkModel::linkAdded, this, [this, ctrl](mindmap::Link* link) {
+        if(!ctrl || (!ctrl->localIsOwner() && !ctrl->readWrite()))
             return;
 
         NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddLink);
         auto idCtrl= ctrl->uuid();
         msg.string8(idCtrl);
-        msg.string8(link->id());
-        msg.string32(link->text());
-        msg.string8(link->start()->id());
-        msg.string8(link->end()->id());
-        msg.uint8(static_cast<int>(link->direction()));
+        MessageHelper::buildAddLinkMessage(msg, link);
         msg.sendToServer();
-        connect(link, &mindmap::Link::textChanged, this,
-                [this, idCtrl, link]() { sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false); });
-        connect(link, &mindmap::Link::directionChanged, this, [this, idCtrl, link]() {
+        auto info= findConnectionInfo(idCtrl);
+        Q_ASSERT(info);
+        info->connections << connect(link, &mindmap::Link::textChanged, this, [this, idCtrl, link]() {
+            sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false);
+        });
+        info->connections << connect(link, &mindmap::Link::directionChanged, this, [this, idCtrl, link]() {
             sendOffChange<mindmap::Link::Direction>(idCtrl, QStringLiteral("direction"), link, false);
         });
     });
 
-    connect(nodeModel, &mindmap::BoxModel::nodeRemoved, this, [ctrl](const QString& id) {
+    info.connections << connect(nodeModel, &mindmap::BoxModel::nodeRemoved, this, [ctrl](const QString& id) {
         if(!ctrl->localIsOwner())
             return;
         NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::RemoveNode);
@@ -135,7 +232,7 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
         msg.sendToServer();
     });
 
-    connect(linkModel, &mindmap::LinkModel::linkRemoved, this, [ctrl](const QString& id) {
+    info.connections << connect(linkModel, &mindmap::LinkModel::linkRemoved, this, [ctrl](const QString& id) {
         if(!ctrl->localIsOwner())
             return;
         NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::RemoveLink);
@@ -143,17 +240,81 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
         msg.string8(id);
         msg.sendToServer();
     });
+
+    m_connections.append(info);
+}
+
+ConnectionInfo* MindMapUpdater::findConnectionInfo(const QString& id)
+{
+    auto it= std::find_if(std::begin(m_connections), std::end(m_connections),
+                          [id](const ConnectionInfo& info) { return id == info.id; });
+
+    if(it == std::end(m_connections))
+        return nullptr;
+    else
+        return &(*it);
+}
+
+void MindMapUpdater::disconnectController(MindMapController* media)
+{
+    if(!media)
+        return;
+
+    auto it= std::find_if(std::begin(m_connections), std::end(m_connections),
+                          [media](const ConnectionInfo& info) { return media->uuid() == info.id; });
+
+    if(it == std::end(m_connections))
+        return;
+
+    std::for_each(std::begin(it->connections), std::end(it->connections),
+                  [](const QMetaObject::Connection& connection) { disconnect(connection); });
+
+    m_connections.erase(it);
 }
 
 NetWorkReceiver::SendType MindMapUpdater::processMessage(NetworkMessageReader* msg)
 {
-    if(msg->action() == NetMsg::AddNode)
+    if(msg->action() == NetMsg::AddNode && msg->category() == NetMsg::MindMapCategory)
     {
         auto id= msg->string8();
-        auto ctrls= m_mindmaps->contentController<MindMapController*>();
-        auto it= std::find_if(ctrls.begin(), ctrls.end(), [id](MindMapController* ctrl) { return id == ctrl->uuid(); });
-        if(it != ctrls.end())
-            MessageHelper::readAddMindMapNode((*it), msg);
+        MessageHelper::readAddMindMapNode(findController(id, m_mindmaps), msg);
+    }
+    else if(msg->action() == NetMsg::AddLink && msg->category() == NetMsg::MindMapCategory)
+    {
+        auto id= msg->string8();
+        MessageHelper::readMindMapLink(findController(id, m_mindmaps), msg);
+    }
+    else if((msg->action() == NetMsg::UpdateNode || msg->action() == NetMsg::UpdateLink)
+            && msg->category() == NetMsg::MindMapCategory)
+    {
+        auto id= msg->string8();
+        // auto idnode= msg->string8();
+        updateSubobjectProperty(msg, findController(id, m_mindmaps));
+    }
+    else if(msg->action() == NetMsg::UpdateMindMapPermission && msg->category() == NetMsg::MindMapCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id, m_mindmaps);
+        if(ctrl)
+        {
+            bool readWrite= static_cast<bool>(msg->uint8());
+
+            ctrl->setSharingToAll(readWrite ? static_cast<int>(Core::SharingPermission::ReadWrite) :
+                                              static_cast<int>(Core::SharingPermission::ReadOnly));
+            readWrite ? setConnection(ctrl) : disconnectController(ctrl);
+        }
+    }
+    else if(msg->action() == NetMsg::AddSubImage && msg->category() == NetMsg::MediaCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id, m_mindmaps);
+        MessageHelper::readAddSubImage(ctrl->imageModel(), msg);
+    }
+    else if(msg->action() == NetMsg::RemoveSubImage && msg->category() == NetMsg::MediaCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id, m_mindmaps);
+        MessageHelper::readRemoveSubImage(ctrl->imageModel(), msg);
     }
     return NetWorkReceiver::NONE;
 }

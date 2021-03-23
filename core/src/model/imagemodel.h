@@ -34,6 +34,7 @@ struct ImageInfo
 
 class ImageModel : public QAbstractListModel
 {
+    Q_OBJECT
 public:
     enum Role
     {
@@ -47,9 +48,15 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     int rowCount(const QModelIndex& index) const override;
 
-    void insertPixmap(const QString& id, const QPixmap& map, const QUrl& url= QUrl());
+    void insertPixmap(const QString& id, const QPixmap& map, const QUrl& url= QUrl(), bool network= false);
     int removePixmap(const QString& id);
-    QPixmap pixmapFromId(const QString& id);
+    QPixmap pixmapFromId(const QString& id) const;
+    const ImageInfo imageInfoFromId(const QString& id) const;
+
+    const std::vector<ImageInfo>& imageInfos() const;
+signals:
+    void imageAdded(const QString& id);
+    void imageRemoved(const QString& id);
 
 private:
     std::vector<ImageInfo> m_data;

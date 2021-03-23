@@ -493,7 +493,12 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::CloseMedia:
             str= QStringLiteral("closeMedia");
             break;
-
+        case NetMsg::AddSubImage:
+            str= QStringLiteral("AddSubImage");
+            break;
+        case NetMsg::RemoveSubImage:
+            str= QStringLiteral("RemoveSubImage");
+            break;
         default:
             str= QStringLiteral("Unknown Action");
             break;

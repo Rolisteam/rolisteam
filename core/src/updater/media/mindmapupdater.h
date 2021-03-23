@@ -20,7 +20,10 @@
 #ifndef MINDMAPUPDATER_H
 #define MINDMAPUPDATER_H
 
+#include <QDebug>
+#include <QMetaObject>
 #include <QPointer>
+#include <QVector>
 
 #include "data/mindnode.h"
 #include "mediaupdaterinterface.h"
@@ -33,6 +36,11 @@ class MindNode;
 class FilteredContentModel;
 class MindMapController;
 class NetworkMessageReader;
+struct ConnectionInfo
+{
+    QString id;
+    QVector<QMetaObject::Connection> connections;
+};
 class MindMapUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
@@ -41,30 +49,41 @@ public:
 
     void addMediaController(MediaControllerBase* base) override;
 
-    bool updateVMapProperty(NetworkMessageReader* msg, MindMapController* ctrl);
+    bool updateSubobjectProperty(NetworkMessageReader* msg, MindMapController* ctrl);
+
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
     template <typename T>
     void sendOffChange(const QString& mapId, const QString& property, QObject* node, bool b);
 
 private:
+    void setConnection(MindMapController* ctrl);
+    void disconnectController(MindMapController* media);
+
+    ConnectionInfo* findConnectionInfo(const QString& id);
+
+private:
     QPointer<FilteredContentModel> m_mindmaps;
+    QVector<ConnectionInfo> m_connections;
 };
 
 template <typename T>
 void MindMapUpdater::sendOffChange(const QString& mapId, const QString& property, QObject* node, bool b)
 {
+    qDebug() << "networkmessageWriter Id " << mapId << property << node << b;
     if(!node)
         return;
 
+    qDebug() << "networkmessageWriter Id " << mapId;
     NetworkMessageWriter msg(NetMsg::MindMapCategory, b ? NetMsg::UpdateNode : NetMsg::UpdateLink);
-    msg.uint8(static_cast<int>(Core::ContentType::MINDMAP));
     msg.string8(mapId);
     auto id= node->property("id").toString();
+    qDebug() << "id link" << id;
     msg.string8(id);
     msg.string16(property);
     auto val= node->property(property.toLocal8Bit().data());
     Helper::variantToType<T>(val.value<T>(), msg);
+
     msg.sendToServer();
 }
 
