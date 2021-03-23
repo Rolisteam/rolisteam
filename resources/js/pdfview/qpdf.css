@@ -1,8 +1,0 @@
-/*
-    qPdf related stylesheet amendments
-*/
-
-.openFile, .print, .download, .secondaryOpenFile, .secondaryPrint, .secondaryDownload {
-    display: none !important;
-    visibility: hidden !important;
-}
