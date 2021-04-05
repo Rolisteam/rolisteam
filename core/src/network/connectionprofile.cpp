@@ -11,7 +11,6 @@ ConnectionProfile::ConnectionProfile()
         addCharacter(data);
     }
     auto charact= character(0);
-    qDebug() << charact.m_name;
 }
 ConnectionProfile::~ConnectionProfile() {}
 void ConnectionProfile::setProfileTitle(const QString& str)

@@ -369,8 +369,6 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
 
     auto nodes= nodeModel->nodes();
 
-    qDebug() << "# Nodes count: " << nodes.size() << ctrl->uuid();
-
     msg.uint64(static_cast<quint64>(nodes.size()));
     for(auto node : nodes)
     {
@@ -384,7 +382,6 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
     }
 
     auto links= linkModel->getDataSet();
-    qDebug() << "# link count: " << links.size();
     msg.uint64(links.size());
     for(auto link : links)
     {
@@ -497,7 +494,6 @@ QHash<QString, QVariant> MessageHelper::readMindMap(NetworkMessageReader* msg)
     }
 
     hash["nodes"]= nodes;
-    qDebug() << "Mindmap nodes size:" << nodes.count();
 
     QHash<QString, QVariant> links;
     size= msg->uint64();
@@ -513,7 +509,6 @@ QHash<QString, QVariant> MessageHelper::readMindMap(NetworkMessageReader* msg)
         links.insert(QString("link_%1").arg(i), link);
     }
     hash["links"]= links;
-    qDebug() << "Mindmap links size:" << links.count();
 
     QHash<QString, QVariant> imageInfoData;
     size= msg->uint64();
@@ -610,7 +605,6 @@ void MessageHelper::shareWebpage(WebpageController* ctrl)
 
 void MessageHelper::updateWebpage(WebpageController* ctrl)
 {
-    qDebug() << "update WebPage NetworkMessageWriter" << NetMsg::UpdateContent;
     if(nullptr == ctrl)
         return;
 

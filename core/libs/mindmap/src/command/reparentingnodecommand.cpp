@@ -38,7 +38,7 @@ ReparentingNodeCommand::ReparentingNodeCommand(BoxModel* nodeModel, LinkModel* l
     {
         auto links= m_oldParent->subLinks();
         auto idxLink= std::find_if(links.begin(), links.end(), [this](Link* link) {
-            qDebug() << "find if reparentingNode";
+            //qDebug() << "find if reparentingNode";
             return link->endNode() == m_mindNode.data();
         });
         if(idxLink != links.end())

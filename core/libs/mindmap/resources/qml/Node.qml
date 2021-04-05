@@ -83,7 +83,6 @@ Pane
             Layout.alignment: Qt.AlignHCenter
             onEnabledChanged: focus = enabled
             onEditingFinished: {
-              console.log("editing finished!!!!!!!")
               root.isEditable = false
               root.textEdited(text)
             }

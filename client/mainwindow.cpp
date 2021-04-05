@@ -1092,7 +1092,7 @@ void MainWindow::dropEvent(QDropEvent* event)
     if(!data->hasUrls())
         return;
 
-    qDebug() << data->formats();
+    // qDebug() << data->formats();
     QList<QUrl> list= data->urls();
     auto contentCtrl= m_gameController->contentController();
     for(auto url : list)

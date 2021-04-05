@@ -248,7 +248,7 @@ void MindMapController::setSharingToAll(int b)
         return;
     auto old= m_sharingToAll;
     m_sharingToAll= realPerm;
-    qDebug() << "mindmapcontroller" << static_cast<int>(m_sharingToAll) << this << static_cast<int>(old);
+    //qDebug() << "mindmapcontroller" << static_cast<int>(m_sharingToAll) << this << static_cast<int>(old);
     emit sharingToAllChanged(m_sharingToAll, old);
 }
 
@@ -392,15 +392,12 @@ mindmap::MindNode* MindMapController::nodeFromId(const QString& id) const
 
 void MindMapController::createLink(const QString& id, const QString& id2)
 {
-    qDebug() << " createLink1 :" << id << " id2:" << id2;
     m_linkModel->addLink(nodeFromId(id), nodeFromId(id2));
     generateTree();
 }
 
 void MindMapController::addLink(mindmap::Link* link, bool network)
 {
-    qDebug() << " createLink2 :"
-             << " fromnetwork:" << network;
     m_linkModel->append(link, network);
     generateTree();
 }

@@ -166,20 +166,16 @@ void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSa
 void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 {
     auto const recipient= msg->getRecipientList();
-    qDebug() << "recipient sendToMany" << recipient;
     int i= 0;
     for(auto& client : m_child)
     {
         TcpClient* other= dynamic_cast<TcpClient*>(client.data());
-
-        qDebug() << "available client" << other->getId();
 
         if((nullptr != other) && (other != tcp) && (recipient.contains(other->getId())))
         {
             bool b= false;
             if(i + 1 == recipient.size())
                 b= deleteMsg;
-            qDebug() << "send to client" << other->getId();
 
             QMetaObject::invokeMethod(other, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg),
                                       Q_ARG(bool, b));

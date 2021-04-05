@@ -34,7 +34,7 @@ bool RolisteamApplication::notify(QObject* receiver, QEvent* e)
     {
         std::exception_ptr p= std::current_exception();
         std::clog << (p ? typeid(p).name() : "null") << std::endl;
-        qDebug() << e->type() << receiver << " other";
+        // qDebug() << e->type() << receiver << " other";
         return false;
     }
 }

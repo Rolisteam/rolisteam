@@ -123,7 +123,6 @@ void SpacingController::applyHookesLaw(Link* link)
         return;
 
     auto node1= link->start();
-    qDebug() << "before end Node spacing controller";
     auto node2= link->endNode();
 
     if(node1 == nullptr || node2 == nullptr)
