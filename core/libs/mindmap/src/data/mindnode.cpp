@@ -60,7 +60,7 @@ QPointF MindNode::position() const
 
 void MindNode::setPosition(const QPointF& pos)
 {
-    if(m_position == pos || pos.isNull() || qIsNaN(pos.x()) || qIsNaN(pos.y()))
+  if(m_position == pos || pos.isNull() || qIsNaN(pos.x()) || qIsNaN(pos.y()) || pos.x() < 0 || pos.y() < 0)
         return;
     auto motion= pos - m_position;
     m_position= pos;

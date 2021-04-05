@@ -105,6 +105,8 @@ Pane
             anchors.fill: parent
             drag.target: root
             drag.axis: Drag.XAndYAxis
+            drag.minimumX: 0
+            drag.minimumY: 0
             onPressed:{
                 root.clicked(mouse)
                 root.grabToImage(function(result) {
