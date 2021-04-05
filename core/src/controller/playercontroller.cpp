@@ -132,7 +132,6 @@ CharacterModel* PlayerController::characterModel() const
 
 void PlayerController::addPlayer(Player* player)
 {
-    qDebug() << "add player to model:" << player->uuid();
     m_model->addPlayer(player);
 }
 
