@@ -12,7 +12,7 @@ UI_DIR = ui
 DEFINES += UNIT_TEST
 
 isEmpty(PREFIX) {
- PREFIX = /usr/local/bin
+ PREFIX = /usr/bin
 }
 CONFIG += c++11
 
