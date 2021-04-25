@@ -186,6 +186,7 @@ public slots:
     void backgroundChanged();
     void manageHeartBeat();
     void manageMessagingPref();
+    void updateTranslationPref();
 private slots:
     /**
      * @brief load

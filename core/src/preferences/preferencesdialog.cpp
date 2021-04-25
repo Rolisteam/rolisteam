@@ -24,6 +24,7 @@
 #include "controller/preferencescontroller.h"
 #include "preferences/palettemodel.h"
 #include "widgets/filepathdelegateitem.h"
+#include <QComboBox>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QFontDatabase>
@@ -226,8 +227,18 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(this, &PreferencesDialog::accepted, m_ctrl, &PreferencesController::savePreferences);
 
     connect(ui->m_startDiag, SIGNAL(clicked()), this, SLOT(performDiag()));
-    // ui->m_fogColor->setTransparency(true);
 
+    // i18n
+    connect(ui->m_systemTranslation, &QCheckBox::clicked, this, &PreferencesDialog::updateTranslationPref);
+    connect(ui->m_customTranslation, &QCheckBox::clicked, this, &PreferencesDialog::updateTranslationPref);
+
+    connect(ui->m_systemTranslation, &QCheckBox::toggled, m_ctrl, &PreferencesController::setSystemLang);
+    connect(ui->m_customTranslation, &QCheckBox::toggled, m_ctrl, &PreferencesController::setHasCustomFile);
+    connect(ui->m_translationSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
+            &PreferencesController::setCurrentLangIndex);
+    connect(ui->m_translationFileEdit, &FileDirChooser::pathChanged, m_ctrl, &PreferencesController::setCustomFile);
+
+    ui->m_translationSelector->setModel(m_ctrl->languageModel());
     // set general panel as default.
     ui->tabWidget->setCurrentIndex(0);
 
@@ -326,6 +337,11 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
 
     ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::COLOR, new ColorDelegate(this));
     ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE, new FilePathDelegateItem(this));
+
+    connect(m_ctrl, &PreferencesController::currentLangIndexChanged, this,
+            [this]() { ui->m_translationSelector->setCurrentIndex(m_ctrl->currentLangIndex()); });
+
+    updateTranslationPref();
 }
 
 PreferencesDialog::~PreferencesDialog() {}
@@ -343,6 +359,22 @@ void PreferencesDialog::manageMessagingPref()
     m_preferences->registerValue("hideLongCommand", ui->m_hideLongCommand->isChecked());
 }
 
+void PreferencesDialog::updateTranslationPref()
+{
+    auto systemTrans= m_ctrl->systemLang();
+    auto customTrans= m_ctrl->hasCustomFile();
+
+    qDebug() << "trans" << systemTrans << customTrans;
+
+    ui->m_customTranslation->setEnabled(!systemTrans);
+
+    ui->m_availablesTranslationLbl->setEnabled(!systemTrans && !customTrans);
+    ui->m_translationSelector->setEnabled(!systemTrans && !customTrans);
+
+    ui->m_translationFileLbl->setEnabled(!systemTrans && customTrans);
+    ui->m_translationFileEdit->setEnabled(!systemTrans && customTrans);
+}
+
 void PreferencesDialog::show()
 {
     load();
@@ -358,7 +390,6 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("SessionDirectory", ui->m_scenarioDir->path());
     m_preferences->registerValue("MinutesDirectory", ui->m_minuteDir->path());
     m_preferences->registerValue("ChatDirectory", ui->m_chatDir->path());
-    m_preferences->registerValue("currentTranslationFile", ui->m_translationFileEdit->path());
     m_preferences->registerValue("MainWindow::MustBeChecked", ui->m_checkUpdate->isChecked());
     m_preferences->registerValue("defaultPermissionMap", ui->m_defaultMapModeCombo->currentIndex());
     m_preferences->registerValue("CharacterSheetDirectory", ui->m_characterSheetDir->path());
@@ -421,6 +452,11 @@ void PreferencesDialog::load()
     ui->m_highLightPenWidth->setValue(m_preferences->value("VMAP::highlightPenWidth", 6).toInt());
     ui->m_mapItemHighlightColor->setColor(
         m_preferences->value("VMAP::highlightColor", QColor(Qt::red)).value<QColor>());
+
+    ui->m_systemTranslation->setChecked(m_ctrl->systemLang());
+    ui->m_customTranslation->setChecked(m_ctrl->hasCustomFile());
+    ui->m_translationSelector->setCurrentIndex(m_ctrl->currentLangIndex());
+    ui->m_translationFileEdit->setPath(m_ctrl->customFilePath());
 
     ////////////////////////
     // MAP

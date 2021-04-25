@@ -13,20 +13,21 @@ option(UPDATE_TRANSLATIONS "generate TS translation files" OFF)
 #set(poRoot ${CMAKE_CURRENT_SOURCE_DIR}/po)
 
 set(TS_FILES rolisteam_hu_HU.ts
-    rolisteam_it.ts
+    rolisteam_it_IT.ts
     rolisteam_nl_NL.ts
-    rolisteam_ca.ts
+    rolisteam_ca_ES.ts
     rolisteam_pt_BR.ts
-    rolisteam_de.ts
+    rolisteam_de_DE.ts
     rolisteam_ro_RO.ts
-    rolisteam_es.ts
-    rolisteam_tr.ts
-    rolisteam_fr.ts
+    rolisteam_es_ES.ts
+    rolisteam_tr_TR.ts
+    rolisteam_fr_FR.ts
+    rolisteam_en_US.ts
     rolisteam.ts)
 
 
 IF(UPDATE_TRANSLATIONS)
-    qt5_create_translation(TS_PATH_FILES ${CMAKE_SOURCE_DIR}/client ${CMAKE_SOURCE_DIR}/core ${CMAKE_SOURCE_DIR}/server  ${TS_FILES} OPTION -source-language en_US)
+    qt5_create_translation(TS_PATH_FILES ${CMAKE_SOURCE_DIR}/client ${CMAKE_SOURCE_DIR}/core ${CMAKE_SOURCE_DIR}/server  ${TS_FILES} ) #OPTION -source-language en_US
 ENDIF()
 
 IF(TRANSLATIONS)

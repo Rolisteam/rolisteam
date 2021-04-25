@@ -5,6 +5,9 @@ SET(CMAKE_AUTOMOC_MOC_OPTIONS "-nw")
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Libs
 add_subdirectory(libs)
@@ -124,6 +127,7 @@ set(HEADERS
     src/model/playerproxymodel.h
     src/model/vmapitemmodel.h
     src/model/imagemodel.h
+    src/model/languagemodel.h
     src/network/channel.h
     src/network/channellistpanel.h
     src/network/channelmodel.h
@@ -382,6 +386,7 @@ set(SOURCES
     src/model/singlecontenttypemodel.cpp
     src/model/contentmodel.cpp
     src/model/imagemodel.cpp
+    src/model/languagemodel.cpp
     src/network/channel.cpp
     src/network/channellistpanel.cpp
     src/network/channelmodel.cpp
@@ -584,14 +589,16 @@ set(UI_FILES
     src/pdfviewer/pdfviewer.ui
     )
 
+set(QRC_SOURCES src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc src/widgets/gmtoolbox/NameGenerator/resources/resources.qrc)
+
 
 if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
     message("Link with PDF")
-    add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${pdfSource} ${pdfHeader} ${pdfUiFile} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
+    add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${pdfSource} ${pdfHeader} ${pdfUiFile} ${QRC_SOURCES})
     target_link_libraries(core PUBLIC project_warnings project_options Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent Qt5::PdfWidgets PRIVATE diceparser_shared rmindmap )
 else()
     message("Link without PDF")
-    add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
+    add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${QRC_SOURCES})
     target_link_libraries(core PUBLIC project_warnings project_options Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent PRIVATE diceparser_shared rmindmap)
 endif()
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *	Copyright (C) 2021 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,25 +17,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ROLISTEAMAPPLICATION_H
-#define ROLISTEAMAPPLICATION_H
+#ifndef LANGUAGEMODEL_H
+#define LANGUAGEMODEL_H
 
-#include <QApplication>
-
-class RolisteamApplication : public QApplication
+#include <QAbstractListModel>
+struct LanguageInfo
 {
-    Q_OBJECT
-public:
-    RolisteamApplication(int& argn, char* argv[]);
-
-    bool notify(QObject* receiver, QEvent* e);
-
-    void readSettings();
-
-    void setTranslator(const QStringList& list);
-
-private:
-    QList<QTranslator*> m_translators;
+    QStringList path;
+    QString code;
+    QString languageName;
+    QString commonLanguageName;
 };
 
-#endif // ROLISTEAMAPPLICATION_H
+class LanguageModel : public QAbstractListModel
+{
+    Q_OBJECT
+
+public:
+    explicit LanguageModel(QObject* parent= nullptr);
+
+    // Basic functionality:
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
+
+    QStringList pathFromIndex(const QModelIndex& index);
+
+    int indexSystemLocale(const QString& localeCode);
+
+private:
+    QList<LanguageInfo> m_languageInfoList;
+};
+
+#endif // LANGUAGEMODEL_H

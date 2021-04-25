@@ -30,6 +30,7 @@ class CharacterStateModel;
 class QAbstractItemModel;
 class RolisteamTheme;
 class ThemeModel;
+class LanguageModel;
 class QStyle;
 class PreferencesManager;
 class GameController;
@@ -41,8 +42,17 @@ class PreferencesController : public AbstractControllerInterface
     Q_PROPERTY(QAbstractItemModel* diceAliasModel READ diceAliasModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* paletteModel READ paletteModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* themeModel READ themeModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* languageModel READ languageModel CONSTANT)
+
     Q_PROPERTY(
         std::size_t currentThemeIndex READ currentThemeIndex WRITE setCurrentThemeIndex NOTIFY currentThemeIndexChanged)
+
+    Q_PROPERTY(bool systemLang READ systemLang WRITE setSystemLang NOTIFY systemLangChanged)
+    Q_PROPERTY(bool hasCustomFile READ hasCustomFile WRITE setHasCustomFile NOTIFY hasCustomFileChanged)
+    Q_PROPERTY(QString customFilePath READ customFilePath WRITE setCustomFile NOTIFY customFileChanged)
+    Q_PROPERTY(int currentLangIndex READ currentLangIndex WRITE setCurrentLangIndex NOTIFY currentLangIndexChanged)
+    Q_PROPERTY(QStringList currentLangPath READ currentLangPath NOTIFY currentLangIndexChanged)
+
 public:
     enum Move
     {
@@ -60,22 +70,39 @@ public:
     QAbstractItemModel* diceAliasModel() const;
     QAbstractItemModel* paletteModel() const;
     QAbstractItemModel* themeModel() const;
-    std::size_t currentThemeIndex() const;
+    QAbstractItemModel* languageModel() const;
 
+    // i18n
+    int currentLangIndex() const;
+    bool systemLang() const;
+    bool hasCustomFile() const;
+    QString customFilePath() const;
+    QStringList currentLangPath() const;
+
+    // theme
     QString themeName(int i) const;
     RolisteamTheme* currentTheme() const;
-
+    std::size_t currentThemeIndex() const;
     RolisteamTheme* currentEditableTheme();
 
     void setDiceHighLightColor(const QColor& color);
+
 signals:
     void currentThemeIndexChanged();
+    void currentLangIndexChanged();
+    void systemLangChanged();
+    void hasCustomFileChanged();
+    void customFileChanged();
 
 public slots:
+
+    // alias
     void addAlias();
     void deleteAlias(const QModelIndex& index);
     void moveAlias(const QModelIndex& index, PreferencesController::Move move);
+    QString convertAlias(const QString& str);
 
+    // states
     void addState();
     void deleteState(const QModelIndex& index);
     void moveState(const QModelIndex& index, PreferencesController::Move move);
@@ -87,22 +114,24 @@ public slots:
 
     void importData(const QString& filename);
     void exportData(const QString& filename);
-    void exportTheme(const QString& filename, int pos);
-    void importTheme(const QString& filename);
 
-    void dupplicateTheme(int pos, bool selectNew);
-    void removeTheme(int i);
+    // i18n
+    void setSystemLang(bool b);
+    void setHasCustomFile(bool b);
+    void setCustomFile(const QString& string);
+    void setCurrentLangIndex(int index);
 
+    // theme
     void setCurrentThemeIndex(std::size_t pos);
-
     void setCurrentThemeStyle(QStyle* style);
     void setColorCurrentTheme(const QColor& color, int palettePos);
     void setCurrentThemeBackground(const QString& path, int pos, const QColor& color);
     void setCurrentThemeCss(const QString& css);
-
+    void exportTheme(const QString& filename, int pos);
+    void importTheme(const QString& filename);
+    void dupplicateTheme(int pos, bool selectNew);
+    void removeTheme(int i);
     void setCurrentThemeTitle(const QString& title);
-
-    QString convertAlias(const QString& str);
 
 private:
     std::unique_ptr<CharacterStateModel> m_characterStateModel;
@@ -110,8 +139,14 @@ private:
     std::unique_ptr<PaletteModel> m_paletteModel;
     std::unique_ptr<ThemeModel> m_themeModel;
     std::unique_ptr<DiceParser> m_diceParser;
+    std::unique_ptr<LanguageModel> m_languageModel;
 
     std::size_t m_currentThemeIndex;
+    int m_currentLangIndex= -1;
+    bool m_systemLang= true;
+    bool m_customFile= false;
+    QString m_customFilePath;
+
     PreferencesManager* m_preferences;
 };
 

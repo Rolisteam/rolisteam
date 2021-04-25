@@ -25,6 +25,7 @@
 
 #include "controller/gamecontroller.h"
 #include "diceparser.h"
+#include "model/languagemodel.h"
 #include "model/thememodel.h"
 #include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
@@ -133,6 +134,7 @@ PreferencesController::PreferencesController(QObject* parent)
     , m_paletteModel(new PaletteModel)
     , m_themeModel(new ThemeModel)
     , m_diceParser(new DiceParser)
+    , m_languageModel(new LanguageModel)
 {
 
     // to remove
@@ -166,6 +168,10 @@ QAbstractItemModel* PreferencesController::diceAliasModel() const
 QAbstractItemModel* PreferencesController::paletteModel() const
 {
     return m_paletteModel.get();
+}
+QAbstractItemModel* PreferencesController::languageModel() const
+{
+    return m_languageModel.get();
 }
 QAbstractItemModel* PreferencesController::themeModel() const
 {
@@ -244,6 +250,14 @@ void PreferencesController::shareModels()
 void PreferencesController::savePreferences()
 { // paths
     m_preferences->registerValue("ThemeNumber", m_themeModel->rowCount(QModelIndex()));
+
+    // i18n
+    m_preferences->registerValue("i18n_system", systemLang());
+    m_preferences->registerValue("i18n_index", currentLangIndex());
+    m_preferences->registerValue("i18n_path", currentLangPath());
+    m_preferences->registerValue("i18n_hasCustomfile", hasCustomFile());
+    m_preferences->registerValue("i18n_customfile", customFilePath());
+
     int i= 0;
     for(const auto& tmp : m_themeModel->themes())
     {
@@ -291,6 +305,12 @@ void PreferencesController::savePreferences()
 void PreferencesController::loadPreferences()
 {
     auto preferences= m_preferences;
+    // Lang
+    setCurrentLangIndex(m_preferences->value("i18n_index", -1).toInt());
+    setSystemLang(m_preferences->value("i18n_system", true).toBool());
+    setHasCustomFile(m_preferences->value("i18n_hasCustomfile", false).toBool());
+    setCustomFile(m_preferences->value("i18n_customfile", "").toString());
+
     // theme
     int size= preferences->value("ThemeNumber", 0).toInt();
     m_currentThemeIndex= static_cast<std::size_t>(size);
@@ -315,9 +335,6 @@ void PreferencesController::loadPreferences()
         // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
     }
 
-    /*   ui->m_styleCombo->clear();
-       ui->m_styleCombo->addItems(QStyleFactory::keys());*/
-
     setCurrentThemeIndex(static_cast<std::size_t>(preferences->value("currentThemeIndex", 0).toInt()));
 
     // connect(ui->m_themeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTheme()));
@@ -336,7 +353,7 @@ void PreferencesController::loadPreferences()
         m_diceAliasModel->addAlias(tmpAlias);
     }
 
-    // DiceSystem
+    // character state
     size= preferences->value("CharacterStateNumber", 0).toInt();
     for(int i= 0; i < size; ++i)
     {
@@ -384,6 +401,38 @@ void PreferencesController::exportData(const QString& filename)
         doc.setObject(obj);
         file.write(doc.toJson());
     }
+}
+
+void PreferencesController::setSystemLang(bool b)
+{
+    if(m_systemLang == b)
+        return;
+    m_systemLang= b;
+    emit systemLangChanged();
+}
+
+void PreferencesController::setHasCustomFile(bool b)
+{
+    if(m_customFile == b)
+        return;
+    m_customFile= b;
+    emit hasCustomFileChanged();
+}
+
+void PreferencesController::setCustomFile(const QString& string)
+{
+    if(m_customFilePath == string)
+        return;
+    m_customFilePath= string;
+    emit customFileChanged();
+}
+
+void PreferencesController::setCurrentLangIndex(int index)
+{
+    if(m_currentLangIndex == index)
+        return;
+    m_currentLangIndex= index;
+    emit currentLangIndexChanged();
 }
 
 QString PreferencesController::themeName(int i) const
@@ -479,6 +528,33 @@ void PreferencesController::setCurrentThemeIndex(std::size_t pos)
 std::size_t PreferencesController::currentThemeIndex() const
 {
     return m_currentThemeIndex;
+}
+
+int PreferencesController::currentLangIndex() const
+{
+    return m_currentLangIndex;
+}
+
+bool PreferencesController::systemLang() const
+{
+    return m_systemLang;
+}
+
+bool PreferencesController::hasCustomFile() const
+{
+    return m_customFile;
+}
+
+QString PreferencesController::customFilePath() const
+{
+    return m_customFilePath;
+}
+
+QStringList PreferencesController::currentLangPath() const
+{
+    QStringList list;
+    list= m_languageModel->pathFromIndex(m_languageModel->index(m_currentLangIndex, 0));
+    return list;
 }
 
 RolisteamTheme* PreferencesController::currentEditableTheme()

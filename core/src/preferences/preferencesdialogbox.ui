@@ -20,13 +20,13 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_21">
+      <layout class="QVBoxLayout" name="verticalLayout_22">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -330,12 +330,65 @@
             </property>
            </widget>
           </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_11">
+         <property name="title">
+          <string>Application Language*</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_21">
+          <item>
+           <widget class="QCheckBox" name="m_systemTranslation">
+            <property name="text">
+             <string>Use system language</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_32">
+            <item>
+             <widget class="QLabel" name="m_availablesTranslationLbl">
+              <property name="text">
+               <string>Available translations:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="m_translationSelector"/>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_15">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="m_customTranslation">
+            <property name="text">
+             <string>Custom translation</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <item>
-             <widget class="QLabel" name="label_17">
+             <widget class="QLabel" name="m_translationFileLbl">
               <property name="text">
-               <string>Translation File*:</string>
+               <string>Translation File:</string>
               </property>
              </widget>
             </item>
@@ -1051,7 +1104,7 @@
                  <string>Add</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../rolisteam.qrc">
+                 <iconset>
                   <normaloff>:/resources/images/add_round.png</normaloff>:/resources/images/add_round.png</iconset>
                 </property>
                </widget>
@@ -1065,7 +1118,7 @@
                  <string>Delete</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../rolisteam.qrc">
+                 <iconset>
                   <normaloff>:/resources/images/delete.png</normaloff>:/resources/images/delete.png</iconset>
                 </property>
                </widget>
@@ -1079,7 +1132,7 @@
                  <string>Top</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../rolisteam.qrc">
+                 <iconset>
                   <normaloff>:/resources/images/go-top.png</normaloff>:/resources/images/go-top.png</iconset>
                 </property>
                </widget>
@@ -1093,7 +1146,7 @@
                  <string>Up</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../rolisteam.qrc">
+                 <iconset>
                   <normaloff>:/resources/images/go-up.png</normaloff>:/resources/images/go-up.png</iconset>
                 </property>
                </widget>
@@ -1107,7 +1160,7 @@
                  <string>Down</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../rolisteam.qrc">
+                 <iconset>
                   <normaloff>:/resources/images/go-down.png</normaloff>:/resources/images/go-down.png</iconset>
                 </property>
                </widget>
@@ -1121,7 +1174,7 @@
                  <string>Bottom</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../../rolisteam.qrc">
+                 <iconset>
                   <normaloff>:/resources/images/go-bottom.png</normaloff>:/resources/images/go-bottom.png</iconset>
                 </property>
                </widget>
@@ -1170,7 +1223,7 @@
                <string>Add</string>
               </property>
               <property name="icon">
-               <iconset resource="../../rolisteam.qrc">
+               <iconset>
                 <normaloff>:/resources/images/add_round.png</normaloff>:/resources/images/add_round.png</iconset>
               </property>
              </widget>
@@ -1184,7 +1237,7 @@
                <string>Delete</string>
               </property>
               <property name="icon">
-               <iconset resource="../../rolisteam.qrc">
+               <iconset>
                 <normaloff>:/resources/images/delete.png</normaloff>:/resources/images/delete.png</iconset>
               </property>
              </widget>
@@ -1198,7 +1251,7 @@
                <string>Top</string>
               </property>
               <property name="icon">
-               <iconset resource="../../rolisteam.qrc">
+               <iconset>
                 <normaloff>:/resources/images/go-top.png</normaloff>:/resources/images/go-top.png</iconset>
               </property>
              </widget>
@@ -1212,7 +1265,7 @@
                <string>Up</string>
               </property>
               <property name="icon">
-               <iconset resource="../../rolisteam.qrc">
+               <iconset>
                 <normaloff>:/resources/images/go-up.png</normaloff>:/resources/images/go-up.png</iconset>
               </property>
              </widget>
@@ -1226,7 +1279,7 @@
                <string>Down</string>
               </property>
               <property name="icon">
-               <iconset resource="../../rolisteam.qrc">
+               <iconset>
                 <normaloff>:/resources/images/go-down.png</normaloff>:/resources/images/go-down.png</iconset>
               </property>
              </widget>
@@ -1240,7 +1293,7 @@
                <string>Bottom</string>
               </property>
               <property name="icon">
-               <iconset resource="../../rolisteam.qrc">
+               <iconset>
                 <normaloff>:/resources/images/go-bottom.png</normaloff>:/resources/images/go-bottom.png</iconset>
               </property>
              </widget>
@@ -1450,9 +1503,7 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../rolisteam.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -1493,12 +1544,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>188</x>
-     <y>672</y>
+     <x>203</x>
+     <y>807</y>
     </hint>
     <hint type="destinationlabel">
-     <x>490</x>
-     <y>674</y>
+     <x>536</x>
+     <y>809</y>
     </hint>
    </hints>
   </connection>
@@ -1513,7 +1564,7 @@
      <y>430</y>
     </hint>
     <hint type="destinationlabel">
-     <x>489</x>
+     <x>535</x>
      <y>432</y>
     </hint>
    </hints>
@@ -1525,12 +1576,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>385</x>
-     <y>558</y>
+     <x>251</x>
+     <y>679</y>
     </hint>
     <hint type="destinationlabel">
-     <x>491</x>
-     <y>564</y>
+     <x>537</x>
+     <y>699</y>
     </hint>
    </hints>
   </connection>
@@ -1541,12 +1592,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>491</x>
-     <y>564</y>
+     <x>537</x>
+     <y>699</y>
     </hint>
     <hint type="destinationlabel">
-     <x>400</x>
-     <y>558</y>
+     <x>251</x>
+     <y>679</y>
     </hint>
    </hints>
   </connection>

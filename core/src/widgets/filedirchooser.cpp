@@ -43,7 +43,7 @@ FileDirChooser::FileDirChooser(bool isDirectory, QWidget* parent) : QWidget(pare
 
     // Connections
     connect(button, SIGNAL(clicked()), this, SLOT(browse()));
-    connect(m_lineEdit, SIGNAL(editingFinished()), this, SIGNAL(pathChanged()));
+    connect(m_lineEdit, &QLineEdit::editingFinished, this, [this]() { emit pathChanged(path()); });
 
     // Misc
     button->setMaximumWidth(28);
@@ -85,7 +85,7 @@ void FileDirChooser::browse()
     if(m_directory)
     {
         result= QFileDialog::getExistingDirectory(this, tr("Select directory"), m_lineEdit->text(),
-            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     }
     else
     {
@@ -94,6 +94,6 @@ void FileDirChooser::browse()
     if(!result.isEmpty())
     {
         m_lineEdit->setText(result);
-        emit pathChanged();
+        emit pathChanged(path());
     }
 }

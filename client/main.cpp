@@ -93,22 +93,7 @@ int main(int argc, char* argv[])
     // Application creation
     // QApplication app(nargs, args);
     RolisteamApplication app(argc, argv);
-    app.setAttribute(Qt::AA_DontUseNativeMenuBar, true);
-    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
 
-    QString appName("rolisteam");
-
-    app.setApplicationName(appName);
-    app.setOrganizationName(appName);
-    QString version= QObject::tr("Unknown");
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
-#endif
-    app.setApplicationVersion(version);
     Q_INIT_RESOURCE(rolisteamqml);
     Q_INIT_RESOURCE(textedit);
 
@@ -126,39 +111,12 @@ int main(int argc, char* argv[])
     QQuickStyle::setFallbackStyle("Default");
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QString locale= QLocale::system().name();
 
     // Ressources
-    QResource::registerResource(appName + ".rcc");
-
-    QTranslator rolisteamTranslator;
-    rolisteamTranslator.load(":/translations/rolisteam_" + locale);
-    app.installTranslator(&rolisteamTranslator);
-
-    QTranslator qtTranslator;
-    qtTranslator.load(":/translations/qt_" + locale);
-    app.installTranslator(&qtTranslator);
-
-    QStringList translationCLI;
-    translationCLI << "-t"
-                   << "--translation";
-    QStringList argList= app.arguments();
-    for(auto& str : translationCLI)
-    {
-        int pos= argList.indexOf(str);
-        if(pos != -1)
-        {
-            if(argList.size() > pos + 1)
-            {
-                auto cliTranslator= new QTranslator();
-                cliTranslator->load(argList.at(pos + 1));
-                app.installTranslator(cliTranslator);
-            }
-        }
-    }
+    QResource::registerResource("rolisteam.rcc");
 
     // Settings
-    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(version));
+    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(app.applicationVersion()));
     settings.beginGroup("rolisteam/preferences");
 
 #ifdef Q_OS_WIN
@@ -168,12 +126,12 @@ int main(int argc, char* argv[])
         fooKey.setValue(".", "URL:rolisteam Protocol");
         fooKey.setValue("URL Protocol", "");
         fooKey.sync();
-        qDebug() << fooKey.status();
+        // qDebug() << fooKey.status();
         QSettings fooOpenKey("HKEY_CLASSES_ROOT\\rolisteam\\shell\\open\\command", QSettings::NativeFormat);
         QFileInfo info(QCoreApplication::applicationFilePath());
         fooOpenKey.setValue(".", cmdLine.arg("%1").arg(info.absoluteFilePath()));
         fooOpenKey.sync();
-        qDebug() << fooOpenKey.status();
+        // qDebug() << fooOpenKey.status();
     }
 #endif
 
@@ -189,14 +147,6 @@ int main(int argc, char* argv[])
     }
     settings.endArray();
     settings.endGroup();
-
-    QString file= map.value("currentTranslationFile", "").toString();
-    if(!file.isEmpty())
-    {
-        QTranslator* currentTranslator= new QTranslator();
-        currentTranslator->load(file);
-        app.installTranslator(currentTranslator);
-    }
 
 #ifndef UNIT_TESTS
     UiWatchdog dog;

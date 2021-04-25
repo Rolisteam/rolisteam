@@ -72,7 +72,7 @@ signals:
     /**
      * @brief pathChanged
      */
-    void pathChanged();
+    void pathChanged(const QString& path);
 
 private slots:
     /**
