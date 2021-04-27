@@ -7,6 +7,9 @@
 
 #define TOOLTIP_SIZE 256
 
+namespace charactersheet
+{
+
 ImageModel::ImageModel(QObject* parent) : QAbstractTableModel(parent)
 {
     m_column << tr("Key") << tr("Filename") << tr("Is Background");
@@ -291,11 +294,11 @@ void ImageModel::reloadImage(const QModelIndex& idx)
         return;
 
     auto row= idx.row();
-    qDebug() << "reload image" << row << m_data.size();
+    //qDebug() << "reload image" << row << m_data.size();
     if(row < 0 || row >= m_data.size())
         return;
 
-    qDebug() << "reload image" << row;
+    //qDebug() << "reload image" << row;
     auto& info= m_data[static_cast<int>(row)];
 
     QPixmap pix(info.filename);
@@ -304,7 +307,7 @@ void ImageModel::reloadImage(const QModelIndex& idx)
         qWarning() << "Can't open image: " << info.filename;
         return;
     }
-    qDebug() << "reload image" << row;
+   //qDebug() << "reload image" << row;
     info.pixmap= pix;
     emit dataChanged(idx, idx, QVector<int>() << Qt::DisplayRole);
 }
@@ -319,7 +322,7 @@ void ImageModel::fill(NetworkMessageWriter& msg) const
         QByteArray array;
         QBuffer buffer(&array);
         buffer.open(QIODevice::WriteOnly);
-        pix.toImage().save(&buffer, "jpg");
+        pix.toImage().save(&buffer, "PNG");
         msg.byteArray32(array);
         msg.uint8(info.isBackground);
         msg.string32(info.key);
@@ -340,5 +343,6 @@ void ImageModel::read(NetworkMessageReader& msg)
         info.filename= msg.string32();
         m_data.push_back(info);
     }
+}
 }
 #endif

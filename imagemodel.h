@@ -1,5 +1,5 @@
-#ifndef IMAGEMODEL_H
-#define IMAGEMODEL_H
+#ifndef CHARACTERSHEET_IMAGEMODEL_H
+#define CHARACTERSHEET_IMAGEMODEL_H
 
 #include <QAbstractTableModel>
 #include <QJsonArray>
@@ -11,6 +11,9 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #endif
+
+namespace charactersheet
+{
 
 class ImageModel : public QAbstractTableModel
 {
@@ -75,5 +78,5 @@ private:
     QStringList m_column;
     std::vector<ImageInfo> m_data;
 };
-
-#endif // IMAGEMODEL_H
+} // namespace charactersheet
+#endif // CHARACTERSHEET_IMAGEMODEL_H

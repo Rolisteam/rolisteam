@@ -2,7 +2,8 @@
 #include <QBuffer>
 #include <QDebug>
 
-RolisteamImageProvider::RolisteamImageProvider(ImageModel* model) : QQuickImageProvider(QQuickImageProvider::Pixmap), m_model(model)
+RolisteamImageProvider::RolisteamImageProvider(charactersheet::ImageModel* model)
+    : QQuickImageProvider(QQuickImageProvider::Pixmap), m_model(model)
 {
 }
 
@@ -25,4 +26,3 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString& id, QSize* size, co
         return pixmap;
     }
 }
-
