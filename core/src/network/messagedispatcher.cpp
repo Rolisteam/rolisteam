@@ -527,20 +527,14 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
     {
         switch(act)
         {
-        case NetMsg::AddNode:
-            str= QStringLiteral("AddNode");
+        case NetMsg::AddMessage:
+            str= QStringLiteral("Add Node, Link, Item to mindmap");
             break;
-        case NetMsg::RemoveNode:
-            str= QStringLiteral("RemoveNode");
+        case NetMsg::RemoveMessage:
+            str= QStringLiteral("RemoveMessage Node, link");
             break;
         case NetMsg::UpdateNode:
             str= QStringLiteral("UpdateNode");
-            break;
-        case NetMsg::AddLink:
-            str= QStringLiteral("AddLink");
-            break;
-        case NetMsg::RemoveLink:
-            str= QStringLiteral("RemoveLink");
             break;
         case NetMsg::UpdateLink:
             str= QStringLiteral("UpdateLink");

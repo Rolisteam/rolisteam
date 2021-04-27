@@ -96,6 +96,7 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
     std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater(fModel2));
     std::unique_ptr<WebViewUpdater> webviewUpdater(new WebViewUpdater());
     std::unique_ptr<MindMapUpdater> mindMapUpdater(new MindMapUpdater(fModel3));
+    MindMapController::setMindMapUpdater(mindMapUpdater.get());
 
     m_mediaUpdaters.insert({Core::ContentType::VECTORIALMAP, std::move(vmapUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::SHAREDNOTE, std::move(sharedNoteUpdater)});

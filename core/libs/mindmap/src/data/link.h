@@ -38,6 +38,8 @@ class Link : public QObject
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QPointF p1 READ p1 NOTIFY startPointChanged)
     Q_PROPERTY(QPointF p2 READ p2 NOTIFY endPointChanged)
+    Q_PROPERTY(QString p1Id READ p1Id NOTIFY startPointChanged)
+    Q_PROPERTY(QString p2Id READ p2Id NOTIFY endPointChanged)
 public:
     // TODO : to move to another header file.
     enum Direction
@@ -62,6 +64,8 @@ public:
 
     QPointF endPoint() const;
     QPointF startPoint() const;
+    QString p1Id() const;
+    QString p2Id() const;
 
     QPointF p1() const;
     QPointF p2() const;

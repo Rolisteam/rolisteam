@@ -50,6 +50,9 @@ public:
     void addMediaController(MediaControllerBase* base) override;
 
     bool updateSubobjectProperty(NetworkMessageReader* msg, MindMapController* ctrl);
+    void sendOffAddingMessage(const QString& idCtrl, const QList<mindmap::MindNode*>& nodes,
+                              const QList<mindmap::Link*>& links);
+    void sendOffRemoveMessage(const QString& idCtrl, const QStringList& nodeids, const QStringList& linksId);
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 

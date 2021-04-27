@@ -139,13 +139,20 @@ public:
     static void sendOffMindmapPermissionUpdateTo(Core::SharingPermission perm, MindMapController* ctrl,
                                                  const QString& id);
     static QHash<QString, QVariant> readMindMap(NetworkMessageReader* msg);
-    static void readAddMindMapNode(MindMapController* ctrl, NetworkMessageReader* msg);
-    static void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg);
-    static void buildAddLinkMessage(NetworkMessageWriter& msg, mindmap::Link* link);
-    static void buildAddNodeMessage(NetworkMessageWriter& msg, mindmap::MindNode* node);
+    static void readMindMapAddItem(MindMapController* ctrl, NetworkMessageReader* msg);
+    static void buildAddItemMessage(NetworkMessageWriter& msg, const QList<mindmap::MindNode*>& nodes,
+                                    const QList<mindmap::Link*>& links);
+    static void buildRemoveItemMessage(NetworkMessageWriter& msg, const QStringList& nodes, const QStringList& links);
+    static void readMindMapRemoveMessage(MindMapController* ctrl, NetworkMessageReader* msg);
+
+    /* static void readAddMindMapNode(MindMapController* ctrl, NetworkMessageReader* msg);
+     static void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg);
+     static void buildAddLinkMessage(NetworkMessageWriter& msg, QList<mindmap::Link*> link);
+     static void buildAddNodeMessage(NetworkMessageWriter& msg, QList<mindmap::MindNode*> nodes);*/
 
     // data
     static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);
+    static QStringList readIdList(NetworkMessageReader& data);
 
     // ImageModel
     static void sendOffImageInfo(const ImageInfo& info, MediaControllerBase* ctrl);

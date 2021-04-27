@@ -175,6 +175,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
         auto model= dynamic_cast<mindmap::BoxModel*>(mindmapCtrl->nodeModel());
         QHash<QString, QString> parentData;
+        QList<mindmap::MindNode*> nodesList;
         for(const auto& var : nodes)
         {
             auto node= new mindmap::MindNode();
@@ -185,11 +186,11 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             QPointF pos(nodeV["x"].toReal(), nodeV["y"].toReal());
             node->setPosition(pos);
             node->setStyleIndex(nodeV["index"].toInt());
-            model->appendNode(node);
-
+            nodesList.append(node);
             data.insert(node->id(), node);
             parentData.insert(node->id(), nodeV["parentId"].toString());
         }
+        model->appendNode(nodesList);
 
         for(const auto& key : data.keys())
         {
@@ -211,6 +212,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
         auto model= dynamic_cast<mindmap::LinkModel*>(mindmapCtrl->linkModel());
 
+        QList<mindmap::Link*> linkList;
         for(const auto& var : links)
         {
             auto link= new mindmap::Link();
@@ -226,8 +228,9 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             link->setStart(data.value(startId));
             link->setEnd(data.value(endId));
 
-            model->append(link);
+            linkList << link;
         }
+        model->append(linkList);
     }
 
     if(map.contains("imageInfoData"))

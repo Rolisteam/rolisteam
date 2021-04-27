@@ -49,6 +49,16 @@ MindNode* Link::start() const
     return m_start;
 }
 
+QString Link::p1Id() const
+{
+    return m_start ? m_start->id() : QString();
+}
+
+QString Link::p2Id() const
+{
+    return m_end ? m_end->id() : QString();
+}
+
 void Link::setStart(MindNode* start)
 {
     m_start= start;

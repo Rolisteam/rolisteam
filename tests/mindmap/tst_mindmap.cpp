@@ -20,6 +20,7 @@
 #include <QtTest/QtTest>
 
 #include "controller/view_controller/mindmapcontroller.h"
+#include "mindmap/src/controller/selectioncontroller.h"
 #include "mindmap/src/data/link.h"
 #include "mindmap/src/data/mindnode.h"
 #include "mindmap/src/geometry/linknode.h"
@@ -31,6 +32,7 @@
 #include <memory>
 
 #include <QSignalSpy>
+#include <QTimer>
 
 class MindMapTest : public QObject
 {
@@ -41,6 +43,8 @@ public:
 private slots:
     void init();
     void remoteAddTest();
+    void removeNodeAndLinkTest();
+    void removeNodeAndLinkTest_data();
 
 private:
     std::unique_ptr<MindMapController> m_ctrl;
@@ -56,7 +60,7 @@ MindMapTest::MindMapTest() {}
 void MindMapTest::remoteAddTest()
 {
     // auto ctrl= new MindMapController("test_id_tmp");
-    auto spacerCtrl= m_ctrl->spacingController();
+    // auto spacerCtrl= m_ctrl->spacingController();
     auto nodeModel= dynamic_cast<mindmap::BoxModel*>(m_ctrl->nodeModel());
     auto linkModel= dynamic_cast<mindmap::LinkModel*>(m_ctrl->linkModel());
 
@@ -75,29 +79,23 @@ void MindMapTest::remoteAddTest()
     link->setStart(node1);
     link->setEnd(node2);
 
-    NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddNode);
-    MessageHelper::buildAddNodeMessage(msg, node1);
-
-    NetworkMessageWriter msg1(NetMsg::MindMapCategory, NetMsg::AddNode);
-    MessageHelper::buildAddNodeMessage(msg1, node2);
-
-    NetworkMessageWriter msgLink(NetMsg::MindMapCategory, NetMsg::AddLink);
-    MessageHelper::buildAddLinkMessage(msgLink, link);
+    NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddMessage);
+    MessageHelper::buildAddItemMessage(msg, {node1, node2}, {link});
 
     auto dataMsg= msg.getData();
     NetworkMessageReader readMsg;
     readMsg.setData(dataMsg);
-    MessageHelper::readAddMindMapNode(m_ctrl.get(), &readMsg);
+    MessageHelper::readMindMapAddItem(m_ctrl.get(), &readMsg);
 
-    auto dataMsg1= msg1.getData();
-    NetworkMessageReader readMsg1;
-    readMsg1.setData(dataMsg1);
-    MessageHelper::readAddMindMapNode(m_ctrl.get(), &readMsg1);
+    /*  auto dataMsg1= msg1.getData();
+      NetworkMessageReader readMsg1;
+      readMsg1.setData(dataMsg1);
+      MessageHelper::readAddMindMapNode(m_ctrl.get(), &readMsg1);
 
-    auto dataMsgLink= msgLink.getData();
-    NetworkMessageReader readMsgLink;
-    readMsgLink.setData(dataMsgLink);
-    MessageHelper::readMindMapLink(m_ctrl.get(), &readMsgLink);
+      auto dataMsgLink= msgLink.getData();
+      NetworkMessageReader readMsgLink;
+      readMsgLink.setData(dataMsgLink);
+      MessageHelper::readMindMapLink(m_ctrl.get(), &readMsgLink);*/
 
     QCOMPARE(nodeModel->rowCount(), 2);
     QCOMPARE(linkModel->rowCount(), 1);
@@ -111,8 +109,8 @@ void MindMapTest::remoteAddTest()
 
     spacer.wait(5001);
 
-    auto realNode1= nodeModel->node(node1->id());
-    auto realNode2= nodeModel->node(node2->id());
+    auto realNode1= nodeModel->nodeFromId(node1->id());
+    auto realNode2= nodeModel->nodeFromId(node2->id());
     auto realLink= linkModel->linkFromId(link->id());
     qDebug() << " ##########" << realNode1->centerPoint() << realNode1->position() << realNode1->boundingRect();
 
@@ -127,6 +125,132 @@ void MindMapTest::remoteAddTest()
     // QCOMPARE(realLink->endPoint(), link->endPoint());
     QVERIFY(realLink->p1() != QPointF());
     QVERIFY(realLink->p2() != QPointF());
+}
+
+void MindMapTest::removeNodeAndLinkTest()
+{
+    QFETCH(QList<QList<int>>, nodetree);
+    QFETCH(int, nodeCount);
+    QFETCH(int, linkCount);
+    QFETCH(int, indexToRemove);
+    QFETCH(int, restingNodes);
+    QFETCH(int, restingLinks);
+
+    auto nodeModel= dynamic_cast<mindmap::BoxModel*>(m_ctrl->nodeModel());
+    auto linkModel= dynamic_cast<mindmap::LinkModel*>(m_ctrl->linkModel());
+
+    auto& nodes= nodeModel->nodes();
+
+    QCOMPARE(linkModel->rowCount(), 0);
+    QCOMPARE(linkModel->rowCount(), 0);
+
+    int d= 0;
+    QList<QStringList> idLevels;
+    for(const auto& level : nodetree)
+    {
+        QStringList currentLevelIds;
+        int index= 0;
+        for(auto c : level)
+        {
+            for(int i= 0; i < c; ++i)
+            {
+                if(d == 0)
+                {
+                    m_ctrl->addBox(QString());
+                    auto last= nodes[nodes.size() - 1];
+
+                    currentLevelIds << last->id();
+                }
+                else
+                {
+                    // qDebug() << "parentId: "<< c-1 << index;
+                    auto parentId= idLevels[idLevels.size() - 1].at(index);
+                    m_ctrl->addBox(parentId);
+                    auto last= nodes[nodes.size() - 1];
+                    currentLevelIds << last->id();
+                }
+            }
+            index++;
+        }
+        idLevels << currentLevelIds;
+        ++d;
+    }
+
+    QCOMPARE(nodeModel->rowCount(), nodeCount);
+    QCOMPARE(linkModel->rowCount(), linkCount);
+
+    m_ctrl->undo();
+
+    QCOMPARE(nodeModel->rowCount(), std::max(nodeCount - 1, 0));
+    QCOMPARE(linkModel->rowCount(), std::max(linkCount - 1, 0));
+
+    m_ctrl->redo();
+
+    QCOMPARE(nodeModel->rowCount(), nodeCount);
+    QCOMPARE(linkModel->rowCount(), linkCount);
+
+    if(indexToRemove < 0)
+        return;
+    // Remove
+
+    QSignalSpy nodeSpy(nodeModel, &mindmap::BoxModel::rowsAboutToBeRemoved);
+    QSignalSpy nodeLink(linkModel, &mindmap::LinkModel::rowsAboutToBeRemoved);
+
+    auto selectionCtrl= m_ctrl->selectionController();
+    auto last= nodes[indexToRemove];
+    selectionCtrl->addToSelection(last);
+    m_ctrl->removeSelection();
+
+    QCOMPARE(nodeModel->rowCount(), restingNodes);
+    QCOMPARE(linkModel->rowCount(), restingLinks);
+
+    QCOMPARE(nodeSpy.count(), nodeCount - restingNodes);
+    QCOMPARE(nodeLink.count(), linkCount - restingLinks);
+
+    m_ctrl->undo();
+
+    QCOMPARE(nodeModel->rowCount(), nodeCount);
+    QCOMPARE(linkModel->rowCount(), linkCount);
+    nodeSpy.clear();
+    nodeLink.clear();
+
+    m_ctrl->redo();
+
+    QCOMPARE(nodeModel->rowCount(), restingNodes);
+    QCOMPARE(linkModel->rowCount(), restingLinks);
+
+    QCOMPARE(nodeSpy.count(), nodeCount - restingNodes);
+    QCOMPARE(nodeLink.count(), linkCount - restingLinks);
+}
+
+void MindMapTest::removeNodeAndLinkTest_data()
+{
+    QTest::addColumn<QList<QList<int>>>("nodetree");
+    QTest::addColumn<int>("nodeCount");
+    QTest::addColumn<int>("linkCount");
+    QTest::addColumn<int>("indexToRemove");
+    QTest::addColumn<int>("restingNodes");
+    QTest::addColumn<int>("restingLinks");
+
+    QTest::addRow("cmd 1") << QList<QList<int>>() << 0 << 0 << -1 << 0 << 0;
+    QTest::addRow("cmd 2") << QList<QList<int>>({{1}}) << 1 << 0 << 0 << 0 << 0;
+    QTest::addRow("cmd 3") << QList<QList<int>>({{1}, {1}}) << 2 << 1 << 0 << 0 << 0;
+    QTest::addRow("cmd 4") << QList<QList<int>>({{1}, {1}}) << 2 << 1 << 1 << 1 << 0;
+
+    QTest::addRow("cmd 5") << QList<QList<int>>({{1}, {2}}) << 3 << 2 << 0 << 0 << 0;
+    QTest::addRow("cmd 6") << QList<QList<int>>({{1}, {2}}) << 3 << 2 << 1 << 2 << 1;
+    QTest::addRow("cmd 7") << QList<QList<int>>({{1}, {2}}) << 3 << 2 << 2 << 2 << 1;
+
+    QTest::addRow("cmd 8") << QList<QList<int>>({{1}, {1}, {1}}) << 3 << 2 << 0 << 0 << 0;
+    QTest::addRow("cmd 9") << QList<QList<int>>({{1}, {1}, {1}}) << 3 << 2 << 1 << 1 << 0;
+    QTest::addRow("cmd 10") << QList<QList<int>>({{1}, {1}, {1}}) << 3 << 2 << 2 << 2 << 1;
+
+    QTest::addRow("cmd 11") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 0 << 0 << 0;
+    QTest::addRow("cmd 12") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 1 << 3 << 2;
+    QTest::addRow("cmd 13") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 2 << 4 << 3;
+    QTest::addRow("cmd 13") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 3 << 5 << 4;
+    QTest::addRow("cmd 13") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 4 << 5 << 4;
+    QTest::addRow("cmd 13") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 5 << 5 << 4;
 }
 
 QTEST_MAIN(MindMapTest);

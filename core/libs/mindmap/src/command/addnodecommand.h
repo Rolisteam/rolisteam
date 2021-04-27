@@ -23,9 +23,9 @@
 #include <QPointer>
 #include <QUndoCommand>
 
+class MindMapUpdater;
 namespace mindmap
 {
-
 class MindNode;
 class Link;
 class BoxModel;
@@ -33,7 +33,8 @@ class LinkModel;
 class AddNodeCommand : public QUndoCommand
 {
 public:
-    AddNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, const QString& idParent);
+    AddNodeCommand(const QString& idmap, MindMapUpdater* updater, BoxModel* nodeModel, LinkModel* linkModel,
+                   const QString& idParent);
 
     void setData(const QString& text, const QString& imgUrl);
 
@@ -41,7 +42,9 @@ public:
     void redo() override;
 
 private:
-    QPointer<MindNode> m_mindNode;
+    QString m_idmap;
+    QPointer<MindMapUpdater> m_updater;
+    QPointer<mindmap::MindNode> m_mindNode;
     QPointer<Link> m_link;
     BoxModel* m_nodeModel= nullptr;
     LinkModel* m_linkModel= nullptr;

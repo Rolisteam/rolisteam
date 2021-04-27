@@ -49,6 +49,11 @@ bool SelectionController::enabled() const
     return m_enabled;
 }
 
+bool SelectionController::hasSelection() const
+{
+    return !m_selection.empty();
+}
+
 const std::vector<MindNode*>& SelectionController::selectedNodes() const
 {
     return m_selection;
@@ -58,17 +63,24 @@ void SelectionController::addToSelection(MindNode* node)
 {
     if(node == nullptr)
         return;
+    auto selection= hasSelection();
     m_selection.push_back(node);
     node->setSelected(true);
     setLastSelectedId(node->id());
     connect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
+
+    if(selection != hasSelection())
+        emit hasSelectionChanged();
 }
 
 void SelectionController::removeFromSelection(MindNode* node)
 {
+    auto selection= hasSelection();
     node->setSelected(false);
     disconnect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
     m_selection.erase(std::find(m_selection.begin(), m_selection.end(), node));
+    if(selection != hasSelection())
+        emit hasSelectionChanged();
 }
 
 void SelectionController::clearSelection()
@@ -79,6 +91,7 @@ void SelectionController::clearSelection()
     });
     m_selection.clear();
     setLastSelectedId({});
+    emit hasSelectionChanged();
 }
 
 void SelectionController::movingNode(const QPointF& motion)

@@ -35,6 +35,7 @@ Menu {
     }*/
     MenuItem {
         text: qsTr("Remove Selection")
+        enabled: ctrl.hasSelection
         onTriggered: {
             ctrl.removeSelection();
         }

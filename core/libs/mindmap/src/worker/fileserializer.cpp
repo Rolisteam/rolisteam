@@ -47,6 +47,7 @@ bool FileSerializer::readTextFile(BoxModel* nodeModel, LinkModel* linkModel, con
     QVector<MindNode*> parent;
     MindNode* previousNode= nullptr;
     int depth= 0;
+    QList<MindNode*> nodes;
     while(!file.atEnd())
     {
         QByteArray line= file.readLine();
@@ -62,8 +63,7 @@ bool FileSerializer::readTextFile(BoxModel* nodeModel, LinkModel* linkModel, con
         node->setText(text.trimmed());
         std::uniform_real_distribution<> dist(0.0, 1600.0);
         node->setPosition({dist(gen), dist(gen)});
-        nodeModel->appendNode(node);
-
+        nodes.append(node);
         if(newdepth > depth && previousNode != nullptr)
         {
             parent.append(previousNode);
@@ -82,6 +82,8 @@ bool FileSerializer::readTextFile(BoxModel* nodeModel, LinkModel* linkModel, con
         previousNode= node;
         depth= newdepth;
     }
+
+    nodeModel->appendNode(nodes);
 
     return true;
 }
@@ -115,7 +117,7 @@ bool FileSerializer::readFile(BoxModel* nodeModel, LinkModel* linkModel, const Q
         node->setVisible(obj["visible"].toBool());
         node->setOpen(obj["open"].toBool());
 
-        nodeModel->appendNode(node);
+        nodeModel->appendNode({node});
         nodeMap.insert({node->id(), node});
     }
 
@@ -161,7 +163,7 @@ bool FileSerializer::writeFile(BoxModel* nodeModel, LinkModel* linkModel, const 
     {
         QJsonObject obj;
         obj["idStart"]= link->start()->id();
-        //qDebug() << "serialization";
+        // qDebug() << "serialization";
         auto end= link->endNode();
         obj["idEnd"]= end ? end->id() : QString();
         obj["visible"]= link->isVisible();

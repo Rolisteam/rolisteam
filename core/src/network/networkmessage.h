@@ -185,12 +185,10 @@ enum Action
     UpdateContent= 0,
 
     // Mindmap
-    AddNode= 0,
-    RemoveNode,
+    AddMessage= 0,
+    RemoveMessage,
     UpdateNode,
     UpdatePackage,
-    AddLink,
-    RemoveLink,
     UpdateLink,
     UpdateMindMapPermission
 };

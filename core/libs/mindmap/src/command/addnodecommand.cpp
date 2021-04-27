@@ -21,12 +21,16 @@
 
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
+#include "updater/media/mindmapupdater.h"
+
+#include <QDebug>
 
 namespace mindmap
 {
 
-AddNodeCommand::AddNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, const QString& idParent)
-    : m_nodeModel(nodeModel), m_linkModel(linkModel), m_idParent(idParent)
+AddNodeCommand::AddNodeCommand(const QString& idmap, MindMapUpdater* updater, BoxModel* nodeModel, LinkModel* linkModel,
+                               const QString& idParent)
+    : m_idmap(idmap), m_updater(updater), m_nodeModel(nodeModel), m_linkModel(linkModel), m_idParent(idParent)
 {
 }
 
@@ -38,8 +42,19 @@ void AddNodeCommand::setData(const QString& text, const QString& imgUrl)
 
 void AddNodeCommand::undo()
 {
-    m_nodeModel->removeBox(m_mindNode);
-    m_linkModel->removeLink(m_link);
+    auto nodeId= m_mindNode->id();
+    QString linkId;
+    m_nodeModel->removeBox({nodeId});
+    if(m_link)
+    {
+        linkId= m_link->id();
+        m_linkModel->removeLink({linkId});
+    }
+
+    if(m_updater)
+    {
+        m_updater->sendOffRemoveMessage(m_idmap, {nodeId}, linkId.isEmpty() ? QStringList{} : QStringList{linkId});
+    }
 }
 
 void AddNodeCommand::redo()
@@ -57,8 +72,12 @@ void AddNodeCommand::redo()
     }
     else
     {
-        m_nodeModel->appendNode(m_mindNode.data());
-        m_linkModel->append(m_link);
+        m_nodeModel->appendNode({m_mindNode.data()});
+        if(m_link)
+            m_linkModel->append({m_link});
     }
+    if(m_updater)
+        m_updater->sendOffAddingMessage(m_idmap, {m_mindNode.data()},
+                                        m_link ? QList<mindmap::Link*>{m_link} : QList<mindmap::Link*>{});
 }
 } // namespace mindmap

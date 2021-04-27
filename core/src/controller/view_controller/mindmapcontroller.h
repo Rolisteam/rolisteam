@@ -32,6 +32,7 @@ class QQuickImageProvider;
 class RemotePlayerModel;
 class PlayerModel;
 class ImageModel;
+class MindMapUpdater;
 
 namespace mindmap
 {
@@ -65,6 +66,7 @@ class MindMapController : public MediaControllerBase
     Q_PROPERTY(bool readWrite READ readWrite NOTIFY sharingToAllChanged)
     Q_PROPERTY(Core::SharingPermission sharingToAll READ sharingToAll NOTIFY sharingToAllChanged)
     Q_PROPERTY(ImageModel* imageModel READ imageModel CONSTANT)
+    Q_PROPERTY(bool hasSelection READ hasSelection NOTIFY hasSelectionChanged)
 public:
     enum SubItemType
     {
@@ -93,20 +95,22 @@ public:
     bool spacing() const;
     bool canRedo() const;
     bool canUndo() const;
+    bool hasSelection() const;
 
     int defaultStyleIndex() const;
     Core::SharingPermission sharingToAll() const;
 
-    void addNode(mindmap::MindNode* node, bool network= false);
+    void addNode(QList<mindmap::MindNode*> nodes, bool network= false);
     mindmap::Link* linkFromId(const QString& id) const;
     mindmap::MindNode* nodeFromId(const QString& id) const;
     void createLink(const QString& id, const QString& id2);
-    void addLink(mindmap::Link* link, bool network= false);
+    void addLink(const QList<mindmap::Link*>& link, bool network= false);
     bool pasteData(const QMimeData& mimeData) override;
 
     QObject* subItem(const QString& id, SubItemType type);
 
     static void setRemotePlayerModel(RemotePlayerModel* model);
+    static void setMindMapUpdater(MindMapUpdater* updater);
 
     // testing only
     mindmap::SpacingController* spacingController() const;
@@ -120,6 +124,7 @@ signals:
     void contentRectChanged();
     void sharingToAllChanged(Core::SharingPermission newPerm, Core::SharingPermission formerPerm);
     void recipientsChanged();
+    void hasSelectionChanged();
 
     void openMindMapTo(QString id);
     void closeMindMapTo(QString id);
@@ -148,6 +153,8 @@ public slots:
 
     void openImage(const QString& id, const QUrl& path);
     void removeImage(const QString& id);
+    void removeLink(const QStringList& id);
+    void removeNode(const QStringList& id);
 
 protected:
     void clearData();
@@ -162,6 +169,7 @@ private:
     std::unique_ptr<mindmap::NodeStyleModel> m_styleModel;
     std::unique_ptr<ImageModel> m_imageModel;
     static QPointer<RemotePlayerModel> m_remotePlayerModel;
+    static QPointer<MindMapUpdater> m_updater;
     QThread* m_spacing= nullptr;
     QUndoStack m_stack;
     // bool m_readWrite= false;

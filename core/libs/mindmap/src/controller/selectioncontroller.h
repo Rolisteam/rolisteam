@@ -32,6 +32,7 @@ class SelectionController : public QObject
     Q_OBJECT
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(QString lastSelected READ lastSelected NOTIFY lastSelectedChanged)
+    Q_PROPERTY(bool hasSelection READ hasSelection NOTIFY hasSelectionChanged)
 public:
     explicit SelectionController(QObject* parent= nullptr);
 
@@ -39,14 +40,17 @@ public:
 
     QString lastSelected() const;
 
-    void setEnabled(bool enable);
     bool enabled() const;
+    bool hasSelection() const;
+
     const std::vector<mindmap::MindNode*>& selectedNodes() const;
 signals:
     void enabledChanged();
     void lastSelectedChanged();
+    void hasSelectionChanged();
 
 public slots:
+    void setEnabled(bool enable);
     void addToSelection(mindmap::MindNode* node);
     void removeFromSelection(mindmap::MindNode* node);
     void movingNode(const QPointF& motion);

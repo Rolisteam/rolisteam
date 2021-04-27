@@ -44,6 +44,7 @@
 #include "model/remoteplayermodel.h"
 #include "qmlItems/linkitem.h"
 #include "qmlItems/nodeitem.h"
+#include "updater/media/mindmapupdater.h"
 #include "userlist/playermodel.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
@@ -65,6 +66,7 @@ void registerQmlType()
 }
 
 QPointer<RemotePlayerModel> MindMapController::m_remotePlayerModel;
+QPointer<MindMapUpdater> MindMapController::m_updater;
 
 MindMapController::MindMapController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::MINDMAP, parent)
@@ -77,6 +79,9 @@ MindMapController::MindMapController(const QString& id, QObject* parent)
     registerQmlType();
     m_nodeModel->setLinkModel(m_linkModel.get());
     m_selectionController->setUndoStack(&m_stack);
+
+    connect(m_selectionController.get(), &mindmap::SelectionController::hasSelectionChanged, this,
+            &MindMapController::hasSelectionChanged);
 
     connect(&m_stack, &QUndoStack::canRedoChanged, this, &MindMapController::canRedoChanged);
     connect(&m_stack, &QUndoStack::canUndoChanged, this, &MindMapController::canUndoChanged);
@@ -162,7 +167,7 @@ QObject* MindMapController::subItem(const QString& id, SubItemType type)
     switch(type)
     {
     case Node:
-        obj= m_nodeModel->node(id);
+        obj= m_nodeModel->nodeFromId(id);
         break;
     case Link:
         obj= m_linkModel->linkFromId(id);
@@ -248,7 +253,7 @@ void MindMapController::setSharingToAll(int b)
         return;
     auto old= m_sharingToAll;
     m_sharingToAll= realPerm;
-    //qDebug() << "mindmapcontroller" << static_cast<int>(m_sharingToAll) << this << static_cast<int>(old);
+    // qDebug() << "mindmapcontroller" << static_cast<int>(m_sharingToAll) << this << static_cast<int>(old);
     emit sharingToAllChanged(m_sharingToAll, old);
 }
 
@@ -325,6 +330,16 @@ void MindMapController::removeImage(const QString& id)
     m_stack.push(cmd);
 }
 
+void MindMapController::removeLink(const QStringList& id)
+{
+    m_linkModel->removeLink(id, true);
+}
+
+void MindMapController::removeNode(const QStringList& id)
+{
+    m_nodeModel->removeBox(id, true);
+}
+
 mindmap::NodeStyle* MindMapController::getStyle(int index) const
 {
     return m_styleModel->getStyle(index);
@@ -364,20 +379,33 @@ bool MindMapController::canRedo() const
 
 void MindMapController::addBox(const QString& idparent)
 {
-    auto cmd= new mindmap::AddNodeCommand(m_nodeModel.get(), m_linkModel.get(), idparent);
+    auto cmd= new mindmap::AddNodeCommand(uuid(), m_updater, m_nodeModel.get(), m_linkModel.get(), idparent);
     m_stack.push(cmd);
 }
 
 void MindMapController::addCharacterBox(const QString& idparent, const QString& name, const QString& url, const QColor&)
 {
-    auto cmd= new mindmap::AddNodeCommand(m_nodeModel.get(), m_linkModel.get(), idparent);
+    auto cmd= new mindmap::AddNodeCommand(uuid(), m_updater, m_nodeModel.get(), m_linkModel.get(), idparent);
     cmd->setData(name, url);
     m_stack.push(cmd);
 }
 
-void MindMapController::addNode(mindmap::MindNode* node, bool network)
+void MindMapController::reparenting(mindmap::MindNode* parent, const QString& id)
 {
-    m_nodeModel->appendNode(node, network);
+    auto cmd= new mindmap::ReparentingNodeCommand(m_nodeModel.get(), m_linkModel.get(), parent, id);
+    m_stack.push(cmd);
+}
+
+void MindMapController::removeSelection()
+{
+    auto nodes= m_selectionController->selectedNodes();
+    auto cmd= new mindmap::RemoveNodeCommand(uuid(), m_updater, nodes, m_nodeModel.get(), m_linkModel.get());
+    m_stack.push(cmd);
+}
+
+void MindMapController::addNode(QList<mindmap::MindNode*> nodes, bool network)
+{
+    m_nodeModel->appendNode(nodes, network);
     generateTree();
 }
 
@@ -387,7 +415,7 @@ mindmap::Link* MindMapController::linkFromId(const QString& id) const
 }
 mindmap::MindNode* MindMapController::nodeFromId(const QString& id) const
 {
-    return m_nodeModel->node(id);
+    return m_nodeModel->nodeFromId(id);
 }
 
 void MindMapController::createLink(const QString& id, const QString& id2)
@@ -396,27 +424,20 @@ void MindMapController::createLink(const QString& id, const QString& id2)
     generateTree();
 }
 
-void MindMapController::addLink(mindmap::Link* link, bool network)
+void MindMapController::addLink(const QList<mindmap::Link*>& link, bool network)
 {
     m_linkModel->append(link, network);
     generateTree();
 }
 
-void MindMapController::reparenting(mindmap::MindNode* parent, const QString& id)
-{
-    auto cmd= new mindmap::ReparentingNodeCommand(m_nodeModel.get(), m_linkModel.get(), parent, id);
-    m_stack.push(cmd);
-}
-void MindMapController::removeSelection()
-{
-    auto nodes= m_selectionController->selectedNodes();
-    auto cmd= new mindmap::RemoveNodeCommand(nodes, m_nodeModel.get(), m_linkModel.get());
-    m_stack.push(cmd);
-}
-
 bool MindMapController::canUndo() const
 {
     return m_stack.canUndo();
+}
+
+bool MindMapController::hasSelection() const
+{
+    return m_selectionController->hasSelection();
 }
 
 int MindMapController::defaultStyleIndex() const
@@ -429,6 +450,11 @@ void MindMapController::setRemotePlayerModel(RemotePlayerModel* model)
     m_remotePlayerModel= model;
 }
 
+void MindMapController::setMindMapUpdater(MindMapUpdater* updater)
+{
+    m_updater= updater;
+}
+
 mindmap::SpacingController* MindMapController::spacingController() const
 {
     return m_spacingController.get();
@@ -436,6 +462,7 @@ mindmap::SpacingController* MindMapController::spacingController() const
 
 void MindMapController::generateTree()
 {
+    return;
     QString res;
     {
         QTextStream output(&res);

@@ -1276,79 +1276,6 @@ void MessageHelper::readRemoveSubImage(ImageModel* model, NetworkMessageReader* 
     model->removePixmap(msg->string8());
 }
 
-void MessageHelper::readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg)
-{
-    if(!ctrl || !msg)
-        return;
-
-    auto id= msg->string8();
-    auto text= msg->string32();
-    auto idStart= msg->string8();
-    auto idEnd= msg->string8();
-
-    auto dir= static_cast<mindmap::Link::Direction>(msg->uint8());
-
-    auto start= ctrl->nodeFromId(idStart);
-    auto end= ctrl->nodeFromId(idEnd);
-
-    if(!start || !end)
-    {
-        return;
-    }
-
-    auto link= new mindmap::Link();
-    link->setId(id);
-    link->setText(text);
-    link->setDirection(dir);
-    link->setStart(start);
-    link->setEnd(end);
-    // start->addLink(link);
-    // end->addLink(link);
-    ctrl->addLink(link, true);
-}
-
-void MessageHelper::readAddMindMapNode(MindMapController* ctrl, NetworkMessageReader* msg)
-{
-    if(!ctrl || !msg)
-        return;
-
-    auto id= msg->string8();
-    auto x= msg->real();
-    auto y= msg->real();
-    auto text= msg->string32();
-    auto uri= msg->string8();
-    auto parentId= msg->string8();
-    auto indx= msg->uint64();
-
-    auto count= msg->uint64();
-    QStringList list;
-    for(quint64 i= 0; i < count; ++i)
-    {
-        list << msg->string8();
-    }
-
-    mindmap::MindNode* node= new mindmap::MindNode(ctrl);
-    qDebug() << "position on network: " << x << y;
-    node->setPosition(QPointF(x, y));
-    node->setText(text);
-    node->setId(id);
-    node->setImageUri(uri);
-    if(!parentId.isEmpty())
-    {
-        auto parent= ctrl->nodeFromId(parentId);
-        node->setParentNode(parent);
-    }
-    node->setStyleIndex(indx);
-
-    ctrl->addNode(node, true);
-
-    if(!parentId.isNull())
-        ctrl->createLink(parentId, id);
-
-    for(const auto& tmp : qAsConst(list))
-        ctrl->createLink(id, tmp);
-}
-
 void MessageHelper::sendOffImageInfo(const ImageInfo& info, MediaControllerBase* ctrl)
 {
     if(!ctrl || info.m_pixmap.isNull())
@@ -1375,32 +1302,177 @@ void MessageHelper::sendOffRemoveImageInfo(const QString& id, MediaControllerBas
     msg.sendToServer();
 }
 
-void MessageHelper::buildAddLinkMessage(NetworkMessageWriter& msg, mindmap::Link* link)
+void buildAddLinkMessage(NetworkMessageWriter& msg, QList<mindmap::Link*> links)
 {
-    msg.string8(link->id());
-    msg.string32(link->text());
-    msg.string8(link->start()->id());
-    auto end= link->endNode();
-    msg.string8(end ? end->id() : QString());
-    msg.uint8(static_cast<quint8>(link->direction()));
+    msg.uint64(links.size());
+    for(auto link : links)
+    {
+        Q_ASSERT(link);
+        msg.string8(link->id());
+        msg.string32(link->text());
+        msg.string8(link->start()->id());
+        auto end= link->endNode();
+        msg.string8(end ? end->id() : QString());
+        msg.uint8(static_cast<quint8>(link->direction()));
+    }
 }
 
-void MessageHelper::buildAddNodeMessage(NetworkMessageWriter& msg, mindmap::MindNode* node)
+void buildAddNodeMessage(NetworkMessageWriter& msg, QList<mindmap::MindNode*> nodes)
 {
-    msg.string8(node->id());
-    auto f= node->position();
-    qDebug() << "position on network: " << f;
-    msg.real(f.x());
-    msg.real(f.y());
-    msg.string32(node->text());
-    msg.string8(node->imageUri());
-    msg.string8(node->parentId());
-    msg.uint64(node->styleIndex());
-
-    auto subs= node->subLinks();
-    msg.uint64(static_cast<quint64>(subs.size()));
-    for(const auto& link : subs)
+    msg.uint64(nodes.size());
+    for(auto node : nodes)
     {
-        msg.string8(link->id());
+
+        msg.string8(node->id());
+        auto f= node->position();
+        msg.real(f.x());
+        msg.real(f.y());
+        msg.string32(node->text());
+        msg.string8(node->imageUri());
+        msg.string8(node->parentId());
+        msg.uint64(node->styleIndex());
+
+        auto subs= node->subLinks();
+        msg.uint64(static_cast<quint64>(subs.size()));
+        for(const auto& link : subs)
+        {
+            msg.string8(link->id());
+        }
     }
+}
+void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg)
+{
+    if(!ctrl || !msg)
+        return;
+
+    QList<mindmap::Link*> links;
+
+    auto count= msg->uint64();
+
+    for(quint64 i= 0; i < count; ++i)
+    {
+        auto id= msg->string8();
+        auto text= msg->string32();
+        auto idStart= msg->string8();
+        auto idEnd= msg->string8();
+
+        auto dir= static_cast<mindmap::Link::Direction>(msg->uint8());
+
+        auto start= ctrl->nodeFromId(idStart);
+        auto end= ctrl->nodeFromId(idEnd);
+
+        if(!start || !end)
+            continue;
+
+        auto link= new mindmap::Link();
+        link->setId(id);
+        link->setText(text);
+        link->setDirection(dir);
+        link->setStart(start);
+        link->setEnd(end);
+        links.append(link);
+    }
+
+    ctrl->addLink(links, true);
+}
+
+void readAddMindMapNode(MindMapController* ctrl, NetworkMessageReader* msg)
+{
+    if(!ctrl || !msg)
+        return;
+
+    QList<mindmap::MindNode*> nodes;
+    QList<QPair<QString, QString>> parentIdList;
+
+    auto count= msg->uint64();
+
+    for(quint64 i= 0; i < count; ++i)
+    {
+
+        auto id= msg->string8();
+        auto x= msg->real();
+        auto y= msg->real();
+        auto text= msg->string32();
+        auto uri= msg->string8();
+        auto parentId= msg->string8();
+        auto indx= msg->uint64();
+
+        auto count= msg->uint64();
+        QStringList list;
+        for(quint64 i= 0; i < count; ++i)
+        {
+            list << msg->string8();
+        }
+
+        mindmap::MindNode* node= new mindmap::MindNode(ctrl);
+        node->setPosition(QPointF(x, y));
+        node->setText(text);
+        node->setId(id);
+        node->setImageUri(uri);
+        if(!parentId.isEmpty())
+        {
+            auto parent= ctrl->nodeFromId(parentId);
+            node->setParentNode(parent);
+        }
+        node->setStyleIndex(indx);
+        ctrl->addNode({node}, true);
+
+        if(!parentId.isNull())
+            parentIdList.append({parentId, id});
+        // ctrl->createLink(parentId, id);
+
+        for(const auto& tmp : qAsConst(list))
+            parentIdList.append({id, tmp});
+        //  ctrl->createLink(id, tmp);
+    }
+    ctrl->addNode(nodes, true);
+}
+void MessageHelper::readMindMapAddItem(MindMapController* ctrl, NetworkMessageReader* msg)
+{
+    readAddMindMapNode(ctrl, msg);
+    readMindMapLink(ctrl, msg);
+}
+
+void MessageHelper::buildAddItemMessage(NetworkMessageWriter& msg, const QList<mindmap::MindNode*>& nodes,
+                                        const QList<mindmap::Link*>& links)
+{
+    /*NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddMessage);
+    msg.string8(idCtrl);*/
+    buildAddNodeMessage(msg, nodes);
+    buildAddLinkMessage(msg, links);
+    // msg.sendToServer();
+}
+void MessageHelper::buildRemoveItemMessage(NetworkMessageWriter& msg, const QStringList& nodes,
+                                           const QStringList& links)
+{
+
+    auto func= [&msg](const QString& id) { msg.string8(id); };
+    msg.uint64(nodes.size());
+    std::for_each(std::begin(nodes), std::end(nodes), func);
+
+    msg.uint64(links.size());
+    std::for_each(std::begin(links), std::end(links), func);
+}
+
+void MessageHelper::readMindMapRemoveMessage(MindMapController* ctrl, NetworkMessageReader* msg)
+{
+    auto nodes= readIdList(*msg);
+    auto links= readIdList(*msg);
+
+    ctrl->removeNode(nodes);
+    ctrl->removeLink(links);
+}
+
+QStringList MessageHelper::readIdList(NetworkMessageReader& data)
+{
+    QStringList res;
+    auto count= data.uint64();
+
+    for(quint64 i= 0; i < count; ++i)
+    {
+        if(data.isValid())
+            res << data.string8();
+    }
+
+    return res;
 }

@@ -20,8 +20,11 @@
 #ifndef REMOVENODECOMMAND_H
 #define REMOVENODECOMMAND_H
 
+#include <QList>
 #include <QPointer>
 #include <QUndoCommand>
+
+class MindMapUpdater;
 namespace mindmap
 {
 class MindNode;
@@ -31,15 +34,18 @@ class LinkModel;
 class RemoveNodeCommand : public QUndoCommand
 {
 public:
-    RemoveNodeCommand(const std::vector<MindNode*>& selection, BoxModel* nodeModel, LinkModel* linkModel);
+    RemoveNodeCommand(const QString& idmap, MindMapUpdater* updater, const std::vector<MindNode*>& selection,
+                      BoxModel* nodeModel, LinkModel* linkModel);
     void undo() override;
     void redo() override;
 
 private:
-    std::vector<QPointer<MindNode>> m_selection;
-    std::vector<QPointer<Link>> m_links;
+    QPointer<MindMapUpdater> m_updater;
+    QList<QPointer<MindNode>> m_selection;
+    QList<QPointer<Link>> m_links;
     BoxModel* m_nodeModel= nullptr;
     LinkModel* m_linkModel= nullptr;
+    QString m_idmap;
 };
 } // namespace mindmap
 #endif // REMOVENODECOMMAND_H

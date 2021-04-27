@@ -133,19 +133,11 @@ Flickable {
                 y: startPointRole.y
                 width: widthLink
                 height: heightLink
-                Timer {
-                  running: true
-                  repeat: true
-                  onTriggered: console.log("data: pos:"+startPointRole.x+","+startPointRole.y+
-                                           "size: "+widthLink+"x"+heightLink)
-                }
-
                 start: startPointRole
                 end: endPointRole
                 visible: link.visible
                 text: link.text
                 onTextEdited: {
-                  console.log("Link textEdited: "+text)
                   link.text = text
                 }
             }

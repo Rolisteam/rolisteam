@@ -69,8 +69,8 @@ public:
     std::vector<MindNode*>& nodes();
 
     void clear();
-    void appendNode(MindNode* node, bool network= false);
-    MindNode* node(const QString& id) const;
+    void appendNode(const QList<MindNode*>& nodes, bool network= false);
+    MindNode* nodeFromId(const QString& id) const;
     int defaultStyleIndex() const;
 
     qreal nodeWidth() const;
@@ -81,8 +81,8 @@ signals:
     void defaultStyleIndexChanged();
     void nodeHeightChanged();
     void nodeWidthChanged();
-    void nodeAdded(MindNode* node);
-    void nodeRemoved(const QString& id);
+    void nodeAdded(QList<MindNode*> nodes);
+    void nodeRemoved(const QStringList& id);
 
 public slots:
     // Add data:
@@ -90,7 +90,7 @@ public slots:
     void setImageUriToNode(const QString& id, const QString& url);
 
     // Remove data:
-    bool removeBox(const MindNode* node);
+    bool removeBox(const QStringList& id, bool network= false);
     void openNode(const QString& id, bool status);
     void setDefaultStyleIndex(int indx);
 

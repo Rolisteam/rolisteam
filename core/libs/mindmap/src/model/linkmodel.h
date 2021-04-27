@@ -39,6 +39,8 @@ public:
         Last,
         Width,
         Height,
+        StartNodeId,
+        EndNodeId,
         StartBoxRole,
         EndBoxRole,
         StartPointRole,
@@ -66,14 +68,16 @@ public:
     void openLinkAndChildren(const QString& id, bool status);
     void clear();
 
+    QList<Link*> allLinkWithNodeId(const QString& id);
+
 public slots:
-    void append(Link* link, bool network= false);
-    void removeLink(Link* link);
+    void append(const QList<Link*>& link, bool network= false);
+    void removeLink(const QStringList& ids, bool network= false);
     void linkHasChanged();
 
 signals:
-    void linkAdded(Link* link);
-    void linkRemoved(const QString& link);
+    void linkAdded(QList<Link*> links);
+    void linkRemoved(const QStringList& link);
 
 private:
     std::vector<Link*> m_data;

@@ -60,7 +60,7 @@ QPointF MindNode::position() const
 
 void MindNode::setPosition(const QPointF& pos)
 {
-  if(m_position == pos || pos.isNull() || qIsNaN(pos.x()) || qIsNaN(pos.y()) || pos.x() < 0 || pos.y() < 0)
+    if(m_position == pos || pos.isNull() || qIsNaN(pos.x()) || qIsNaN(pos.y()) || pos.x() < 0 || pos.y() < 0)
         return;
     auto motion= pos - m_position;
     m_position= pos;
@@ -273,12 +273,16 @@ int MindNode::subNodeCount() const
 
 void MindNode::removeLink(Link* link)
 {
+    auto hasLinkResult= hasLink();
     auto it= std::find(m_subNodelinks.begin(), m_subNodelinks.end(), link);
 
     if(it == m_subNodelinks.end())
         return;
 
     m_subNodelinks.erase(it);
+
+    if(hasLinkResult != hasLink())
+        emit hasLinkChanged();
 }
 
 bool MindNode::hasLink() const
