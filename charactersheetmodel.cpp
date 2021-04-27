@@ -674,19 +674,19 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex& index)
         return index;
 }
 
-QJsonObject CharacterSheetModel::rootSectionData() const
+/*QJsonObject CharacterSheetModel::rootSectionData() const
 {
     QJsonObject data;
     m_rootSection->save(data);
     return data;
-}
+}*/
 
-void CharacterSheetModel::setRootSection(const QJsonObject& object)
+/*void CharacterSheetModel::setRootSection(const QJsonObject& object)
 {
     beginResetModel();
     m_rootSection->load(object, nullptr);
     endResetModel();
-}
+}*/
 
 bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
 {

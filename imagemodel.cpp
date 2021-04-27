@@ -312,19 +312,19 @@ void ImageModel::removeImage(int i)
     endRemoveRows();
     emit internalDataChanged();
 }
+} // namespace charactersheet
 
-<<<<<<< HEAD
-void ImageModel::reloadImage(const QModelIndex& idx)
+/*void ImageModel::reloadImage(const QModelIndex& idx)
 {
     if(!idx.isValid())
         return;
 
     auto row= idx.row();
-    //qDebug() << "reload image" << row << m_data.size();
+    // qDebug() << "reload image" << row << m_data.size();
     if(row < 0 || row >= m_data.size())
         return;
 
-    //qDebug() << "reload image" << row;
+    // qDebug() << "reload image" << row;
     auto& info= m_data[static_cast<int>(row)];
 
     QPixmap pix(info.filename);
@@ -333,10 +333,10 @@ void ImageModel::reloadImage(const QModelIndex& idx)
         qWarning() << "Can't open image: " << info.filename;
         return;
     }
-   //qDebug() << "reload image" << row;
+    // qDebug() << "reload image" << row;
     info.pixmap= pix;
     emit dataChanged(idx, idx, QVector<int>() << Qt::DisplayRole);
-}
+}*/
 
 /*#ifndef RCSE
 void ImageModel::fill(NetworkMessageWriter& msg) const

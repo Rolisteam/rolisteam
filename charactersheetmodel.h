@@ -137,9 +137,6 @@ public:
 
     int getCharacterSheetCount() const;
 
-    QJsonObject rootSectionData() const;
-    void setRootSection(const QJsonObject& object);
-
     void removeCharacterSheet(int index);
     void removeCharacterSheet(CharacterSheet* sheet);
     /**

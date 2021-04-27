@@ -31,9 +31,9 @@
 #include "qmlgeneratorvisitor.h"
 #endif
 
-#ifndef RCSE
+/*#ifndef RCSE
 CanvasFieldController::CanvasField() {}
-#endif
+#endif*/
 
 FieldController::FieldController(bool addCount, QGraphicsItem* parent) : CSItem(parent, addCount)
 {

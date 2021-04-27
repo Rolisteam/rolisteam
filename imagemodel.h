@@ -7,7 +7,6 @@
 #include <QPixmap>
 #include <vector>
 
-<<<<<<< HEAD
 #ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -16,14 +15,6 @@
 namespace charactersheet
 {
 
-||||||| parent of 8457c1c... rework to be compliant with new controllers.
-#ifndef RCSE
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-#endif
-
-=======
->>>>>>> 8457c1c... rework to be compliant with new controllers.
 class ImageModel : public QAbstractTableModel
 {
     Q_OBJECT
