@@ -453,7 +453,7 @@ void ServerManager::sendOffModel(TcpClient* client)
 {
     if(nullptr == client)
         return;
-
+    qDebug() << "ServerManager Send off channel model";
     NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
     QJsonDocument doc;
     QJsonObject obj;

@@ -24,6 +24,7 @@
 #include <QClipboard>
 #include <QColor>
 #include <QDataStream>
+#include <QDir>
 #include <QFile>
 #include <QGuiApplication>
 #include <QMimeData>
@@ -51,6 +52,10 @@
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 #include "worker/vectorialmapmessagehelper.h"
+
+const QString k_language_dir_path= ":/translations";
+const QString k_rolisteam_pattern= "rolisteam";
+const QString k_qt_pattern= "qt";
 
 IOHelper::IOHelper() {}
 
@@ -151,6 +156,52 @@ QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)
 {
     auto doc= QCborValue(data);
     return doc.toJsonValue().toArray();
+}
+
+QJsonArray IOHelper::fetchLanguageModel()
+{
+    QJsonArray array;
+    QDir dir(k_language_dir_path);
+
+    auto list= dir.entryList(QStringList() << QStringLiteral("*.qm"), QDir::Files);
+
+    QRegularExpression reQt(QStringLiteral("%1_(.*)\\.qm").arg(k_qt_pattern));
+    QHash<QString, QString> hash;
+    for(auto info : list)
+    {
+        auto match= reQt.match(info);
+        if(match.hasMatch())
+        {
+            hash.insert(match.captured(1), info);
+        }
+    }
+
+    QRegularExpression reRolisteam(QStringLiteral("%1_(.*)\\.qm").arg(k_rolisteam_pattern));
+    for(auto info : list)
+    {
+        auto match= reRolisteam.match(info);
+        if(match.hasMatch())
+        {
+            auto iso= match.captured(1);
+            QJsonObject obj;
+            QJsonArray paths;
+            paths << QString("%1/%2").arg(k_language_dir_path, info);
+            if(hash.contains(iso))
+                paths << QString("%1/%2").arg(k_language_dir_path, hash.value(iso));
+            else
+                qWarning() << "No Qt translation for " << iso;
+
+            QLocale local(iso);
+
+            obj["path"]= paths;
+            obj["code"]= iso;
+            obj["commonName"]= QLocale::languageToString(local.language());
+            obj["langname"]= local.nativeLanguageName();
+            array.append(obj);
+        }
+    }
+
+    return array;
 }
 
 void IOHelper::saveBase(MediaControllerBase* base, QDataStream& output)

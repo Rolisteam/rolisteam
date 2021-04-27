@@ -55,6 +55,8 @@ public:
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
 
+    static QJsonArray fetchLanguageModel();
+
     static const QMimeData* clipboardMineData();
 
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);

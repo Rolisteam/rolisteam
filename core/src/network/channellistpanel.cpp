@@ -106,6 +106,7 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
 
 void ChannelListPanel::sendOffModel()
 {
+    qDebug() << "ChannelListPanel :: Send off channel model";
     NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
     QJsonDocument doc;
     QJsonObject obj;

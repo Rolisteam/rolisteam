@@ -33,7 +33,6 @@
         <file>resources/rolistheme/underlinestyle.png</file>
         <file>resources/rolistheme/remove.png</file>
         <file>resources/rolistheme/maplogo.png</file>
-        <file>translations/rolisteam_fr.qm</file>
         <file>resources/rolistheme/moveNpc.png</file>
         <file>resources/rolistheme/line.png</file>
         <file>resources/rolistheme/text.png</file>
@@ -132,14 +131,6 @@
         <file>resources/rolistheme/undo.png</file>
         <file>resources/rolistheme/500-symbole.png</file>
         <file>resources/stylesheet/qml/theme.ini</file>
-        <file>translations/rolisteam_tr.qm</file>
-        <file>translations/qt_fr.qm</file>
-        <file>translations/rolisteam_de.qm</file>
-        <file>translations/rolisteam_pt_BR.qm</file>
-        <file>translations/qt_de.qm</file>
-        <file>translations/qt_hu.qm</file>
-        <file>translations/qt_pt.qm</file>
-        <file>translations/rolisteam_hu_HU.qm</file>
         <file>resources/rolistheme/green_round.svg</file>
         <file>resources/rolistheme/orange_round.svg</file>
         <file>resources/rolistheme/red_round.svg</file>
@@ -163,5 +154,16 @@
         <file>resources/rolistheme/undo.svg</file>
         <file>resources/rolistheme/redo.svg</file>
         <file>resources/rolistheme/org.rolisteam.Rolisteam.svg</file>
+        <file>translations/rolisteam_fr_FR.qm</file>
+        <file>translations/rolisteam_en_US.qm</file>
+        <file>translations/rolisteam_tr_TR.qm</file>
+        <file>translations/rolisteam_ca_ES.qm</file>
+        <file>translations/rolisteam_ro_RO.qm</file>
+        <file>translations/rolisteam_es_ES.qm</file>
+        <file>translations/rolisteam_pt_BR.qm</file>
+        <file>translations/rolisteam_de_DE.qm</file>
+        <file>translations/rolisteam_hu_HU.qm</file>
+        <file>translations/rolisteam_it_IT.qm</file>
+        <file>translations/rolisteam_nl_NL.qm</file>
     </qresource>
 </RCC>

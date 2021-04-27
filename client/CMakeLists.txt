@@ -29,7 +29,7 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets 
 
 set(RESOURCE_FILES ../rolisteam.qrc)
 add_custom_target(resources ALL DEPENDS ${RESOURCE_FILES})
-add_dependencies(resources translations)
+#add_dependencies(resources translations)
 
 
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/rolisteam_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
