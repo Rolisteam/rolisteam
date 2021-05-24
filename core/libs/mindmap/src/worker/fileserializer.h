@@ -17,10 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FILESERIALIZER_H
-#define FILESERIALIZER_H
+#ifndef MINDMAP_FILESERIALIZER_H
+#define MINDMAP_FILESERIALIZER_H
 
 #include <QObject>
+
 namespace mindmap
 {
 
@@ -37,4 +38,5 @@ public:
     static bool writeFile(BoxModel* nodeModel, LinkModel* linkModel, const QString& filepath);
 };
 } // namespace mindmap
-#endif // FILESERIALIZER_H
+
+#endif // MINDMAP_FILESERIALIZER_H

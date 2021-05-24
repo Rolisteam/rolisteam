@@ -23,12 +23,14 @@
 #include "model/linkmodel.h"
 
 #include <QByteArray>
+#include <QDir>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QUrl>
 #include <random>
+
 namespace mindmap
 {
 FileSerializer::FileSerializer() {}
