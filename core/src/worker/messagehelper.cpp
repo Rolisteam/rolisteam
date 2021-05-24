@@ -53,11 +53,11 @@
 #include "data/player.h"
 #include "dicealias.h"
 #include "model/boxmodel.h"
+#include "model/characterstatemodel.h"
 #include "model/linkmodel.h"
 #include "model/vmapitemmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
 #include "userlist/playermodel.h"
 
@@ -127,45 +127,30 @@ void MessageHelper::sendOffAllCharacterState(CharacterStateModel* model)
     if(nullptr == model)
         return;
 
-    auto states= model->getCharacterStates();
+    auto const& states= model->statesList();
     quint64 i= 0;
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::CharactereStateModel);
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::CharactereStateModel);
     msg.uint32(static_cast<quint32>(states.size()));
-    for(auto state : states)
+    for(auto const& state : states)
     {
-        msg.uint64(i);
-        msg.string32(state->getLabel());
-        msg.rgb(state->getColor().rgb());
-        if(state->hasImage())
-        {
-            msg.uint8(static_cast<quint8>(true));
-
-            QByteArray array;
-            QBuffer buffer(&array);
-            if(!state->getPixmap()->save(&buffer, "PNG"))
-            {
-                qWarning("error during encoding png");
-            }
-            msg.byteArray32(array);
-        }
-        else
-        {
-            msg.uint8(static_cast<quint8>(false));
-        }
+        msg.string32(state->label());
+        msg.rgb(state->color().rgb());
+        msg.pixmap(state->pixmap());
         ++i;
     }
     msg.sendToServer();
 }
 
-void MessageHelper::sendOffOneCharacterState(CharacterState* state, int row)
+void MessageHelper::sendOffOneCharacterState(const CharacterState* state, int row)
 {
     if(nullptr == state)
         return;
 
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addCharacterState);
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::addCharacterState);
     msg.int64(row);
-    msg.string32(state->getLabel());
-    msg.rgb(state->getColor().rgb());
+    msg.string32(state->label());
+    msg.rgb(state->color().rgb());
+    msg.pixmap(state->pixmap());
     msg.sendToServer();
 }
 
@@ -1475,3 +1460,47 @@ QStringList MessageHelper::readIdList(NetworkMessageReader& data)
 
     return res;
 }
+
+void MessageHelper::fetchCharacterStatesFromNetwork(NetworkMessageReader* msg, CharacterStateModel* model)
+{
+    model->clear();
+    auto size= msg->uint32();
+    for(quint32 i= 0; i < size; ++i)
+    {
+        msg->uint64();
+
+        auto label= msg->string32();
+        auto color= msg->rgb();
+        auto pixmap= msg->pixmap();
+        CharacterState state;
+        state.setLabel(label);
+        state.setColor(color);
+        state.setPixmap(pixmap);
+        model->appendState(std::move(state));
+    }
+}
+
+/*void MessageHelper::AddCharacterStateFromNetwork(NetworkMessageReader* msg, QList<DiceAlias*>* list)
+{
+    CharacterState state;
+
+    quint64 id= msg->uint64();
+    state.setLabel(msg->string32());
+    state.setColor(msg->rgb());
+    state.setPixmap(msg->pixmap());
+
+    model->appendState(std::move(state));
+}
+void MessageHelper::moveStateFromNetwork(NetworkMessageReader* msg, CharacterStateModel* model)
+{
+    int from= msg->int64();
+    int to= msg->int64();
+
+    model->moveState(from, to);
+}
+void MessageHelper::removeState(NetworkMessageReader* msg, CharacterStateModel* model)
+{
+    int pos= static_cast<int>(msg->int64());
+    model->removeStateAt(pos);
+}
+*/

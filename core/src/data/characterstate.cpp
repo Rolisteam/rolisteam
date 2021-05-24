@@ -23,10 +23,10 @@ CharacterState::CharacterState() {}
 CharacterState::CharacterState(const CharacterState& copy)
 {
     m_id= copy.id();
-    m_color= copy.getColor();
-    m_label= copy.getLabel();
-    m_image= copy.getImage();
-    m_local= copy.isLocal();
+    m_color= copy.color();
+    m_label= copy.label();
+    m_imagePath= copy.imagePath();
+    m_pixmap= copy.pixmap();
 }
 
 QString CharacterState::id() const
@@ -49,39 +49,35 @@ void CharacterState::setColor(QColor str)
     m_color= str;
 }
 
-void CharacterState::setImage(QPixmap str)
+void CharacterState::setImagePath(const QString& str)
 {
-    m_image= str;
+    m_imagePath= str;
+    setPixmap(QPixmap(str));
 }
 
-const QString& CharacterState::getLabel() const
+void CharacterState::setPixmap(const QPixmap& pix)
+{
+    m_pixmap= pix;
+}
+
+const QString& CharacterState::label() const
 {
     return m_label;
 }
-const QColor& CharacterState::getColor() const
+const QColor& CharacterState::color() const
 {
     return m_color;
 }
-const QPixmap& CharacterState::getImage() const
+const QString& CharacterState::imagePath() const
 {
-    return m_image;
+    return m_imagePath;
 }
-QPixmap* CharacterState::getPixmap()
+const QPixmap& CharacterState::pixmap() const
 {
-    return &m_image;
+    return m_pixmap;
 }
 
 bool CharacterState::hasImage() const
 {
-    return !m_image.isNull();
-}
-
-bool CharacterState::isLocal() const
-{
-    return m_local;
-}
-
-void CharacterState::setIsLocal(bool isLocal)
-{
-    m_local= isLocal;
+    return !m_pixmap.isNull();
 }

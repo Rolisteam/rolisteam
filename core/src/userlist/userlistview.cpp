@@ -33,9 +33,9 @@
 
 #include "controller/playercontroller.h"
 #include "data/character.h"
+#include "model/characterstatemodel.h"
 #include "model/playeronmapmodel.h"
 #include "playermodel.h"
-#include "preferences/characterstatemodel.h"
 #include "preferences/preferencesmanager.h"
 #include "rolisteammimedata.h"
 #include <QInputDialog>

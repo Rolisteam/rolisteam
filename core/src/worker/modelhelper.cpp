@@ -24,6 +24,7 @@
 #include "controller/contentcontroller.h"
 #include "data/character.h"
 #include "data/player.h"
+#include "model/characterstatemodel.h"
 #include "model/contentmodel.h"
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
@@ -297,6 +298,29 @@ bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charact
     model->readModel(jsonObj, true);
     // displayError(m_errorList);
     return true;
+}
+void fetchCharacterStateModel(const QJsonArray& obj, CharacterStateModel* model)
+{
+    for(const auto& stateRef : obj)
+    {
+        auto state= stateRef.toObject();
+        CharacterState da;
+        da.setLabel(state["label"].toString());
+        // da->setIsLocal(state["local"].toBool());
+        auto base64= state["image"].toString();
+        da.setImagePath(base64);
+        /*if(!base64.isEmpty())
+        {
+            QByteArray array= QByteArray::fromBase64(base64.toUtf8());
+            QPixmap pix;
+            pix.loadFromData(array);
+            da.setImage(pix);
+        }*/
+        QColor col;
+        col.setNamedColor(state["color"].toString());
+        da.setColor(col);
+        model->appendState(std::move(da));
+    }
 }
 
 } // namespace ModelHelper

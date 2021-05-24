@@ -58,7 +58,7 @@ template <>
 void convertVariantToType<CharacterState*>(CharacterState* const& val, NetworkMessageWriter& msg)
 {
     if(val)
-        msg.string32(val->getLabel());
+        msg.string32(val->label());
     else
     {
         msg.string32(QStringLiteral(""));

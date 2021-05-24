@@ -474,7 +474,7 @@ CharacterState* Character::getStateFromLabel(QString label)
 {
     for(auto& state : *m_stateList)
     {
-        if(state->getLabel() == label)
+        if(state->label() == label)
         {
             return state;
         }
@@ -588,7 +588,7 @@ QString Character::currentStateLabel() const
 
     if(it == m_stateList->end())
         return {};
-    return (*it)->getLabel();
+    return (*it)->label();
 }
 
 QImage Character::currentStateImage() const
@@ -601,7 +601,7 @@ QImage Character::currentStateImage() const
 
     if(it == m_stateList->end())
         return {};
-    return (*it)->getImage().toImage();
+    return QImage((*it)->imagePath());
 }
 
 bool Character::hasInitScore() const

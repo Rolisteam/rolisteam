@@ -51,29 +51,27 @@ public:
      * @brief setImage
      * @param str
      */
-    void setImage(QPixmap str);
+    void setImagePath(const QString& str);
+    void setPixmap(const QPixmap& pix);
     /**
      * @brief getLabel
      * @return
      */
-    const QString& getLabel() const;
+    const QString& label() const;
     /**
      * @brief getColor
      * @return
      */
-    const QColor& getColor() const;
+    const QColor& color() const;
     /**
      * @brief getImage
      * @return
      */
-    const QPixmap& getImage() const;
+    const QString& imagePath() const;
 
-    QPixmap* getPixmap();
+    const QPixmap& pixmap() const;
 
     bool hasImage() const;
-
-    bool isLocal() const;
-    void setIsLocal(bool isLocal);
 
     QString id() const;
     void setId(const QString& id);
@@ -82,8 +80,8 @@ private:
     QString m_id;
     QString m_label;
     QColor m_color;
-    QPixmap m_image;
-    bool m_local= true;
+    QString m_imagePath;
+    QPixmap m_pixmap;
 };
 
 Q_DECLARE_METATYPE(CharacterState)

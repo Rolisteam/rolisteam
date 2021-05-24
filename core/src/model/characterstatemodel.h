@@ -23,19 +23,13 @@
 #include <QAbstractListModel>
 
 #include "data/characterstate.h"
-#include "network/networkreceiver.h"
-#include "preferenceslistener.h"
-
-struct CharacterStateInfo
-{
-    CharacterState* state= nullptr; // todo std::unique::ptr
-    bool remote= false;
-};
+#include <memory>
+#include <vector>
 
 /**
  * @brief The CharacterStateModel class
  */
-class CharacterStateModel : public QAbstractListModel, public PreferencesListener, public NetWorkReceiver
+class CharacterStateModel : public QAbstractListModel //, public PreferencesListener, public NetWorkReceiver
 {
     Q_OBJECT
 public:
@@ -46,9 +40,9 @@ public:
     {
         LABEL= Qt::UserRole + 1,
         COLOR,
+        PICTUREPATH,
         PICTURE,
-        ID,
-        REMOTE,
+        ID
     };
     /**
      * @brief CharacterStateModel
@@ -99,39 +93,30 @@ public:
      * @param role
      * @return
      */
-    bool setData(const QModelIndex& index, const QVariant& value, int role) override;
-
-    virtual void preferencesHasChanged(const QString&) override;
-
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    bool setData(const QModelIndex& idx, const QVariant& value, int role) override;
 
     /// new methods
-    void setStates(QList<CharacterState*>* map);
-    void appendState();
+    const std::vector<std::unique_ptr<CharacterState>>& statesList() const;
 
-    QList<CharacterState*> getCharacterStates();
-    void addState(CharacterState* state);
+    void appendState(CharacterState&& state);
     void deleteState(const QModelIndex& index);
+    void clear();
+
     void upState(const QModelIndex& index);
     void downState(const QModelIndex& index);
     void topState(const QModelIndex& index);
-    void moveState(int, int);
     void bottomState(const QModelIndex& index);
-    void clear();
-    /**
-     * @brief sendOffAllCharacterState
-     */
-    void sendOffAllCharacterState();
+    void moveState(int from, int to);
+    void removeStateAt(int i);
 
-    void processAddState(NetworkMessageReader* msg);
-    void processMoveState(NetworkMessageReader* msg);
-    void processRemoveState(NetworkMessageReader* msg);
-    void processModelState(NetworkMessageReader* msg);
-    void load(const QJsonObject& obj);
-    void save(QJsonObject& obj);
+signals:
+    void characterStateAdded(CharacterState* state, int i);
+    void stateRemoved(const QString& id);
+    void stateMoved(int from, int to);
+    void stateChanged();
 
 private:
-    std::vector<CharacterStateInfo> m_stateList;
+    std::vector<std::unique_ptr<CharacterState>> m_stateList;
     QStringList m_header;
 };
 

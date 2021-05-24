@@ -47,7 +47,6 @@
 #endif
 
 #include "data/character.h"
-#include "data/cleveruri.h"
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
