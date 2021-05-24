@@ -143,7 +143,18 @@
      <string>GM ToolBoxes</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuCampaign">
+    <property name="title">
+     <string>Campaign</string>
+    </property>
+    <addaction name="m_diceAliasAct"/>
+    <addaction name="m_statesAct"/>
+    <addaction name="m_statisticAct"/>
+    <addaction name="separator"/>
+    <addaction name="m_campaignPropertiesAct"/>
+   </widget>
    <addaction name="m_fileMenu"/>
+   <addaction name="menuCampaign"/>
    <addaction name="m_editMenu"/>
    <addaction name="m_menuSubWindows"/>
    <addaction name="menuNetwork"/>
@@ -649,6 +660,31 @@
    </property>
    <property name="shortcutContext">
     <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="m_campaignPropertiesAct">
+   <property name="text">
+    <string>Properties</string>
+   </property>
+  </action>
+  <action name="m_diceAliasAct">
+   <property name="text">
+    <string>Dice Alias</string>
+   </property>
+  </action>
+  <action name="m_statesAct">
+   <property name="text">
+    <string>Character States</string>
+   </property>
+  </action>
+  <action name="m_statisticAct">
+   <property name="text">
+    <string>Statistics</string>
+   </property>
+  </action>
+  <action name="actionTheme">
+   <property name="text">
+    <string>Theme</string>
    </property>
   </action>
  </widget>

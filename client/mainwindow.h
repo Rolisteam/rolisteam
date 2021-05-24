@@ -104,7 +104,7 @@ public:
     /**
      * @brief MainWindow
      */
-    MainWindow(const QStringList& args);
+    MainWindow(GameController* game, const QStringList& args);
     /**
      * @brief ~MainWindow
      */
@@ -161,11 +161,6 @@ public slots:
      * @brief closeAllImagesAndMap - remove all maps and Pictures
      */
     void closeAllMediaContainer();
-
-    /**
-     * @brief showConnectionDialog
-     */
-    void showConnectionDialog();
     /**
      * @brief postConnection
      */
@@ -176,7 +171,7 @@ public slots:
      * @param type
      */
     void openImageAs(const QPixmap& pix, Core::ContentType type);
-    void showAsPreferences();
+    void makeVisible(bool value);
 
 protected:
     /**
@@ -208,9 +203,9 @@ protected:
     void showTipChecker();
     virtual void mouseMoveEvent(QMouseEvent* event);
     void createPostSettings();
-protected slots:
-    void cleanUpData();
+
 private slots:
+    void cleanUpData();
     void showSupportPage();
     /**
      * @brief userNatureChange
@@ -281,27 +276,22 @@ private:
      * @return
      */
     CharacterSheetWindow* findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet);
-    /**
-     * @brief getShortNameFromPath generic tool to translate filepath to short
-     * name.
-     * @param path
-     * @return
-     */
-    QString getShortNameFromPath(QString path);
 
 private:
-    PlayersPanel* m_playersListWidget= nullptr;
-
+    QPointer<GameController> m_gameController;
 #ifndef NULL_PLAYER
-    AudioPlayer* m_audioPlayer;
+    std::unique_ptr<AudioPlayer> m_audioPlayer;
 #endif
-
-    PreferencesDialog* m_preferencesDialog;
-    PreferencesManager* m_preferences;
-    NotificationZone* m_dockLogUtil;
+    std::unique_ptr<NotificationZone> m_dockLogUtil;
+    std::unique_ptr<CommandLineProfile> m_commandLineProfile;
+    std::unique_ptr<SessionDock> m_sessionDock;
+    std::unique_ptr<QSystemTrayIcon> m_systemTray;
+    std::unique_ptr<Workspace> m_mdiArea;
 
     // subwindow
     Ui::MainWindow* m_ui;
+    QPointer<PreferencesDialog> m_preferencesDialog;
+    PreferencesManager* m_preferences;
 
     // Recent files managment
     int m_maxSizeRecentFile;
@@ -310,19 +300,11 @@ private:
     QStringList m_recentScenarios;
     QAction* m_separatorAction;
     std::vector<FileInfo> m_recentFiles;
-
     QList<GameMasterTool*> m_gmToolBoxList;
     QDockWidget* m_roomPanelDockWidget;
     ChannelListPanel* m_roomPanel;
 
     bool m_isOut= false;
-
-    std::unique_ptr<CommandLineProfile> m_commandLineProfile;
-    std::unique_ptr<GameController> m_gameController;
-    std::unique_ptr<SelectConnectionProfileDialog> m_dialog;
-    std::unique_ptr<SessionDock> m_sessionDock;
-    std::unique_ptr<QSystemTrayIcon> m_systemTray;
-    std::unique_ptr<Workspace> m_mdiArea;
 };
 
 #endif
