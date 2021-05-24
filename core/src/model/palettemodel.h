@@ -69,6 +69,7 @@ public:
     void writeTo(QJsonObject& json);
     bool readFrom(const QJsonObject& json);
     void setColor(int pos, QColor);
+    const QList<PaletteColor*>& data() const;
 
 private:
     QList<PaletteColor*> m_data;

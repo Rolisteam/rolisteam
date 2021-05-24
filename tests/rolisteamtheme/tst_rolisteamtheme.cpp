@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include <QObject>
 #include <QtTest/QtTest>
-#include <preferences/rolisteamtheme.h>
+#include <data/rolisteamtheme.h>
 
 class RolisteamThemeTest : public QObject
 {

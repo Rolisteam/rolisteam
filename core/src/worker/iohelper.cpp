@@ -29,6 +29,7 @@
 #include <QGuiApplication>
 #include <QMimeData>
 #include <QString>
+#include <QStyleFactory>
 #include <QVariant>
 #include <map>
 
@@ -41,12 +42,15 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
+#include "data/rolisteamtheme.h"
+
 #ifdef WITH_PDF
 #include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
 #endif
 
 #include "data/character.h"
+#include "dicealias.h"
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
@@ -55,6 +59,17 @@
 const QString k_language_dir_path= ":/translations";
 const QString k_rolisteam_pattern= "rolisteam";
 const QString k_qt_pattern= "qt";
+// json key of dice
+const QString k_dice_pattern{"pattern"};
+const QString k_dice_command{"command"};
+const QString k_dice_comment{"comment"};
+const QString k_dice_enabled{"enable"};
+const QString k_dice_replacement{"replace"};
+
+const QString k_state_id{"id"};
+const QString k_state_label{"label"};
+const QString k_state_color{"color"};
+const QString k_state_image{"image"};
 
 IOHelper::IOHelper() {}
 
@@ -133,6 +148,58 @@ QByteArray IOHelper::loadFile(const QString& filepath)
     return data;
 }
 
+bool makeSurePathExist(const QDir& dir)
+{
+    if(!dir.exists())
+        dir.mkpath(dir.path());
+
+    return dir.exists();
+}
+
+bool IOHelper::makeDir(const QString& dir)
+{
+    return makeSurePathExist(dir);
+}
+
+QString IOHelper::copyFile(const QString& source, const QString& destination)
+{
+    QFile src(source);
+    QFileInfo srcInfo(source);
+    QFileInfo dest(destination);
+    if(dest.isDir())
+        dest.setFile(QString("%1/%2").arg(destination, srcInfo.fileName()));
+
+    if(makeSurePathExist(dest.dir()))
+    {
+        src.copy(dest.absoluteFilePath());
+    }
+    return dest.absoluteFilePath();
+}
+
+void IOHelper::writeFile(const QString& path, const QByteArray& arry, bool override)
+{
+    QFile file(path);
+    if(file.open(override ? QIODevice::WriteOnly : QIODevice::Append))
+    {
+        file.write(arry);
+    }
+}
+
+void IOHelper::moveFile(const QString& source, const QString& destination)
+{
+    QFile src(source);
+    QFileInfo srcInfo(source);
+    QFileInfo dest(destination);
+
+    if(dest.isDir())
+        dest.setFile(QString("%1/%2").arg(destination, srcInfo.fileName()));
+
+    if(makeSurePathExist(dest.dir()))
+    {
+        src.rename(dest.absoluteFilePath());
+    }
+}
+
 QString IOHelper::readTextFile(const QString& path)
 {
     if(path.isEmpty())
@@ -157,6 +224,32 @@ QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)
     return doc.toJsonValue().toArray();
 }
 
+QJsonObject IOHelper::loadJsonFileIntoObject(const QString& filename, bool& ok)
+{
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        ok= false;
+        return {};
+    }
+    QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
+    ok= true;
+    return doc.object();
+}
+
+QJsonArray IOHelper::loadJsonFileIntoArray(const QString& filename, bool& ok)
+{
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        ok= false;
+        return {};
+    }
+    QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
+    ok= true;
+    return doc.array();
+}
+
 QJsonArray IOHelper::fetchLanguageModel()
 {
     QJsonArray array;
@@ -166,7 +259,7 @@ QJsonArray IOHelper::fetchLanguageModel()
 
     QRegularExpression reQt(QStringLiteral("%1_(.*)\\.qm").arg(k_qt_pattern));
     QHash<QString, QString> hash;
-    for(auto info : list)
+    for(auto info : qAsConst(list))
     {
         auto match= reQt.match(info);
         if(match.hasMatch())
@@ -632,6 +725,114 @@ void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& 
 
     // TODO read data to define mindmapcontroller.
 }
+
+QString IOHelper::shortNameFromPath(const QString& path)
+{
+    QFileInfo info(path);
+    return info.baseName();
+}
+
+QJsonObject IOHelper::stateToJSonObject(CharacterState* state, const QString& root)
+{
+    QJsonObject stateJson;
+
+    stateJson[k_state_id]= state->id();
+    stateJson[k_state_label]= state->label();
+    stateJson[k_state_color]= state->color().name();
+    auto pathImg= state->imagePath();
+    QFileInfo path(pathImg);
+    if(path.isAbsolute())
+    {
+        pathImg= pathImg.replace(root, "./");
+    }
+    stateJson[k_state_image]= pathImg;
+    return stateJson;
+}
+
+QJsonObject IOHelper::diceAliasToJSonObject(DiceAlias* alias)
+{
+    QJsonObject aliasJson;
+    aliasJson[k_dice_command]= alias->command();
+    aliasJson[k_dice_comment]= alias->comment();
+    aliasJson[k_dice_pattern]= alias->pattern();
+    aliasJson[k_dice_enabled]= alias->isEnable();
+    aliasJson[k_dice_replacement]= alias->isReplace();
+    return aliasJson;
+}
+
+RolisteamTheme* IOHelper::jsonToTheme(const QJsonObject& json)
+{
+    auto theme= new RolisteamTheme();
+    theme->setName(json["name"].toString());
+    theme->setRemovable(json["removable"].toBool());
+    theme->setCss(json["css"].toString());
+    theme->setBackgroundPosition(json["position"].toInt());
+    QString bgColorName= json["bgColor"].toString();
+    QColor color;
+    color.setNamedColor(bgColorName);
+    theme->setBackgroundColor(color);
+
+    theme->setBackgroundImage(json["bgPath"].toString());
+    theme->setStyle(QStyleFactory::create(json["stylename"].toString()));
+    QColor diceColor;
+    diceColor.setNamedColor(json["diceHighlight"].toString());
+    theme->setDiceHighlightColor(diceColor);
+    QJsonArray colors= json["colors"].toArray();
+    int i= 0;
+    auto model= theme->paletteModel();
+    for(auto const& ref : colors)
+    {
+        QJsonObject paletteObject= ref.toObject();
+        QColor color;
+        color.setNamedColor(paletteObject["color"].toString());
+        model->setColor(i, color);
+        ++i;
+    }
+
+    return theme;
+}
+
+QJsonObject IOHelper::themeToObject(const RolisteamTheme* theme)
+{
+    QJsonObject json;
+    json["name"]= theme->getName();
+    json["removable"]= theme->isRemovable();
+    json["css"]= theme->getCss();
+    json["position"]= theme->getBackgroundPosition();
+    json["bgColor"]= theme->getBackgroundColor().name();
+    json["diceHighlight"]= theme->getDiceHighlightColor().name();
+    json["bgPath"]= theme->getBackgroundImage();
+    json["stylename"]= theme->getStyleName();
+
+    QJsonArray colors;
+    auto const& data= theme->paletteModel()->data();
+    int i= 0;
+    for(auto const& tmp : data)
+    {
+        QJsonObject paletteObject;
+        tmp->writeTo(paletteObject);
+        /*json["role"]= static_cast<int>(tmp->getRole());
+        json["group"]= static_cast<int>(tmp->getGroup());
+        json["name"]= tmp->getName();*/
+        json["color"]= tmp->getColor().name();
+        colors.append(paletteObject);
+    }
+    json["colors"]= colors;
+    return json;
+}
+
+void IOHelper::writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array)
+{
+    QJsonDocument doc;
+    doc.setArray(array);
+
+    QFile file(destination);
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(doc.toJson(QJsonDocument::Indented));
+    }
+}
+
 void IOHelper::readNoteController(NoteController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())

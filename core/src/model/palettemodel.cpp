@@ -284,6 +284,11 @@ void PaletteModel::setColor(int pos, QColor color)
     auto idx= index(pos, 0);
     emit dataChanged(idx, idx);
 }
+
+const QList<PaletteColor*>& PaletteModel::data() const
+{
+    return m_data;
+}
 QPalette PaletteModel::getPalette()
 {
     QPalette palette;

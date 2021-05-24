@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2019 by Renaud Guezennec                                 *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,41 +17,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CORE_MODEL_HELPER_H
-#define CORE_MODEL_HELPER_H
+#ifndef CORE_FILESERIALIZER_H
+#define CORE_FILESERIALIZER_H
+
+#include <QJsonArray>
 #include <QJsonObject>
-#include <QString>
+#include <QObject>
+#include <QStringList>
 
-class SessionItemModel;
-class ProfileModel;
-class CharacterSheetModel;
-class DiceAliasModel;
-class CharacterStateModel;
-namespace charactersheet
+#include <memory>
+#include <vector>
+
+#include "media/mediatype.h"
+
+class DiceAlias;
+class CharacterState;
+namespace campaign
 {
-class ImageModel;
-}
-class ContentController;
-namespace Settingshelper
+class CampaignManager;
+struct CampaignInfo
 {
-void readConnectionProfileModel(ProfileModel* model);
-void writeConnectionProfileModel(ProfileModel* model);
-} // namespace Settingshelper
+    bool status;
+    QJsonObject asset;
+    QJsonObject theme;
+    QJsonArray dices;
+    QJsonArray states;
+    QStringList errors;
+    QStringList unmanagedFiles;
+    QStringList missingFiles;
+};
 
-namespace ModelHelper
+class FileSerializer
 {
-bool saveSession(const QString& path, const QString& name, const ContentController* ctrl);
-QString loadSession(const QString& path, ContentController* ctrl);
+public:
+    FileSerializer();
+    static Core::MediaType typeFromExtention(const QString& filename);
+    static CampaignInfo readCampaignDirectory(const QString& directory);
 
-bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model);
-bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charactersheet::ImageModel* imgModel,
-                        QJsonObject& root, QString& qmlCode);
+    static QJsonArray statesToArray(const std::vector<std::unique_ptr<CharacterState>>& vec,
+                                    const QString& destination);
+    static QJsonArray dicesToArray(const std::vector<std::unique_ptr<DiceAlias>>& vec);
 
-bool fetchThemeModel(const QJsonObject& themes, DiceAliasModel* model);
-void fetchDiceModel(const QJsonArray& dice, DiceAliasModel* model);
+    static void writeStatesIntoCampaign(const QString& destination, const QJsonArray& array);
+    static void writeDiceAliasIntoCampaign(const QString& destination, const QJsonArray& array);
+};
+} // namespace campaign
 
-void fetchCharacterStateModel(const QJsonArray& states, CharacterStateModel* model);
-QJsonArray saveCharacterStateModel(CharacterStateModel* model);
-
-} // namespace ModelHelper
-#endif
+#endif // CORE_FILESERIALIZER_H

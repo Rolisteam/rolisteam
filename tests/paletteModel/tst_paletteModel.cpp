@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include <preferences/palettemodel.h>
+#include <model/palettemodel.h>
 
 class PaletteModelTest : public QObject
 {

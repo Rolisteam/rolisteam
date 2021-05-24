@@ -71,10 +71,14 @@ public:
     static void closeMedia(const QString& id, Core::ContentType type);
 
     static void sendOffAllDiceAlias(DiceAliasModel* model);
-    static void sendOffOneDiceAlias(DiceAlias* da, int row);
+    static void sendOffDiceAliasRemoved(int i);
+    static void sendOffDiceAliasMoved(int i, int j);
+    static void sendOffOneDiceAlias(const DiceAlias* da, int row);
 
     static void sendOffAllCharacterState(CharacterStateModel* model);
-    static void sendOffOneCharacterState(CharacterState* da, int row);
+    static void sendOffOneCharacterState(const CharacterState* da, int row);
+    static void sendOffCharacterStateRemoved(const QString& id);
+    static void sendOffCharacterStateMoved(int i, int j);
 
     static QString readPlayerId(NetworkMessageReader& msg);
     static void sendOffMediaControllerBase(const MediaControllerBase* ctrl, NetworkMessageWriter& msg);
@@ -144,14 +148,11 @@ public:
     static void buildRemoveItemMessage(NetworkMessageWriter& msg, const QStringList& nodes, const QStringList& links);
     static void readMindMapRemoveMessage(MindMapController* ctrl, NetworkMessageReader* msg);
 
-    /* static void readAddMindMapNode(MindMapController* ctrl, NetworkMessageReader* msg);
-     static void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg);
-     static void buildAddLinkMessage(NetworkMessageWriter& msg, QList<mindmap::Link*> link);
-     static void buildAddNodeMessage(NetworkMessageWriter& msg, QList<mindmap::MindNode*> nodes);*/
-
     // data
     static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);
     static QStringList readIdList(NetworkMessageReader& data);
+    static void fetchCharacterStatesFromNetwork(NetworkMessageReader* data, CharacterStateModel* model);
+    static void fetchDiceAliasFromNetwork(NetworkMessageReader* data, QList<DiceAlias*>* list);
 
     // ImageModel
     static void sendOffImageInfo(const ImageInfo& info, MediaControllerBase* ctrl);

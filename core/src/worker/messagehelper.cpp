@@ -54,11 +54,11 @@
 #include "dicealias.h"
 #include "model/boxmodel.h"
 #include "model/characterstatemodel.h"
+#include "model/dicealiasmodel.h"
 #include "model/linkmodel.h"
 #include "model/vmapitemmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "preferences/dicealiasmodel.h"
 #include "userlist/playermodel.h"
 
 #include "worker/iohelper.h"
@@ -90,35 +90,64 @@ void MessageHelper::sendOffAllDiceAlias(DiceAliasModel* model)
     if(nullptr == model)
         return;
 
-    auto aliases= model->getAliases();
+    auto const& aliases= model->aliases();
     int i= 0;
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::DiceAliasModel);
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::DiceAliasModel);
     msg.uint32(static_cast<quint32>(i));
-    for(auto& alias : *aliases)
+    for(auto const& alias : aliases)
     {
         msg.int64(i);
-        msg.string32(alias->getCommand());
-        msg.string32(alias->getValue());
+        msg.string32(alias->pattern());
+        msg.string32(alias->command());
         msg.int8(alias->isReplace());
         msg.int8(alias->isEnable());
-        msg.string32(alias->getComment());
+        msg.string32(alias->comment());
         ++i;
     }
     msg.sendToServer();
 }
 
-void MessageHelper::sendOffOneDiceAlias(DiceAlias* da, int row)
+void MessageHelper::sendOffDiceAliasRemoved(int i)
+{
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::removeDiceAlias);
+    msg.int64(i);
+    msg.sendToServer();
+}
+void MessageHelper::sendOffDiceAliasMoved(int i, int j)
+{
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::moveDiceAlias);
+    msg.int64(i);
+    msg.int64(j);
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffOneDiceAlias(const DiceAlias* da, int row)
 {
     if(nullptr == da)
         return;
 
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addDiceAlias);
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::addDiceAlias);
     msg.int64(row);
-    msg.string32(da->getCommand());
-    msg.string32(da->getValue());
+    msg.string32(da->pattern());
+    msg.string32(da->command());
     msg.int8(da->isReplace());
     msg.int8(da->isEnable());
-    msg.string32(da->getComment());
+    msg.string32(da->comment());
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffCharacterStateRemoved(const QString& id)
+{
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::removeCharacterState);
+    msg.string8(id);
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffCharacterStateMoved(int i, int j)
+{
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::moveCharacterState);
+    msg.int64(i);
+    msg.int64(j);
     msg.sendToServer();
 }
 
@@ -1477,6 +1506,25 @@ void MessageHelper::fetchCharacterStatesFromNetwork(NetworkMessageReader* msg, C
         state.setColor(color);
         state.setPixmap(pixmap);
         model->appendState(std::move(state));
+    }
+}
+
+void MessageHelper::fetchDiceAliasFromNetwork(NetworkMessageReader* msg, QList<DiceAlias*>* list)
+{
+    qDeleteAll(*list);
+    list->clear();
+    auto size= msg->uint32();
+    for(quint32 i= 0; i < size; ++i)
+    {
+        msg->uint64();
+
+        auto pattern= msg->string32();
+        auto command= msg->string32();
+        auto replace= msg->int8();
+        auto enable= msg->int8();
+        auto comment= msg->string32();
+
+        list->append(new DiceAlias(pattern, command, comment, replace, enable));
     }
 }
 

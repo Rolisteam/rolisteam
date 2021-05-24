@@ -26,12 +26,15 @@
 #include "data/player.h"
 #include "model/characterstatemodel.h"
 #include "model/contentmodel.h"
+#include "model/dicealiasmodel.h"
+#include "model/palettemodel.h"
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
 #include "session/sessionitemmodel.h"
 #include "worker/iohelper.h"
 
 #include <QApplication>
+#include <QBuffer>
 #include <QDebug>
 #include <QFileInfo>
 #include <QFontDatabase>
@@ -61,6 +64,7 @@ void readConnectionProfileModel(ProfileModel* model)
         profile->setPort(static_cast<quint16>(settings.value("port").toInt()));
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
+        profile->setCampaignPath(settings.value("campaignPath").toString());
         profile->setHash(QByteArray::fromBase64(settings.value("password").toByteArray()));
 
         QColor color= settings.value("PlayerColor").value<QColor>();
@@ -77,7 +81,7 @@ void readConnectionProfileModel(ProfileModel* model)
             auto path= settings.value("CharacterPath").toString();
             auto color= settings.value("CharacterColor").value<QColor>();
             QHash<QString, QVariant> params;
-            for(auto key : CharacterFields)
+            for(const auto& key : CharacterFields)
             {
                 params.insert(key, settings.value(key));
             }
@@ -132,6 +136,7 @@ void writeConnectionProfileModel(ProfileModel* model)
         settings.setValue("password", profile->password().toBase64());
         settings.setValue("PlayerColor", profile->playerColor());
         settings.setValue("playerAvatarPath", profile->playerAvatar());
+        settings.setValue("campaignPath", profile->campaignPath());
 
         settings.beginWriteArray("characterCount");
         for(int j= 0; j < profile->characterCount(); ++j)
@@ -143,7 +148,7 @@ void writeConnectionProfileModel(ProfileModel* model)
             settings.setValue("CharacterPath", charact.m_avatarPath);
             settings.setValue("CharacterColor", charact.m_color);
 
-            for(auto key : CharacterFields)
+            for(const auto& key : CharacterFields)
             {
                 settings.setValue(key, charact.m_params[key]);
             }
@@ -249,9 +254,12 @@ QString loadSession(const QString& path, ContentController* ctrl)
     }
 
     return name;
-} // namespace ModelHelper
+}
 
-bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model) {}
+bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model)
+{
+    return false;
+}
 
 bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charactersheet::ImageModel* imgModel,
                         QJsonObject& root, QString& qmlCode)
@@ -320,6 +328,42 @@ void fetchCharacterStateModel(const QJsonArray& obj, CharacterStateModel* model)
         col.setNamedColor(state["color"].toString());
         da.setColor(col);
         model->appendState(std::move(da));
+    }
+}
+
+QJsonArray saveCharacterStateModel(CharacterStateModel* model)
+{
+    QJsonArray states;
+    auto const& statesList= model->statesList();
+    for(auto const& stateInfo : statesList)
+    {
+        QJsonObject stateObj;
+        stateObj["label"]= stateInfo->label();
+        stateObj["color"]= stateInfo->color().name();
+        QPixmap pix= stateInfo->imagePath();
+        if(!pix.isNull())
+        {
+            QByteArray bytes;
+            QBuffer buffer(&bytes);
+            buffer.open(QIODevice::WriteOnly);
+            pix.save(&buffer, "PNG");
+            stateObj["image"]= QString(buffer.data().toBase64());
+        }
+        states.append(stateObj);
+    }
+    return states;
+}
+
+void fetchDiceModel(const QJsonArray& dice, DiceAliasModel* model)
+{
+    for(const auto& obj : dice)
+    {
+        auto diceCmd= obj.toObject();
+
+        DiceAlias alias(diceCmd["pattern"].toString(), diceCmd["command"].toString(), diceCmd["comment"].toString(),
+                        diceCmd["replace"].toBool(), diceCmd["enabled"].toBool());
+
+        model->appendAlias(std::move(alias));
     }
 }
 

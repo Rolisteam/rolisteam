@@ -23,12 +23,12 @@
 #include <QAbstractListModel>
 
 #include "dicealias.h"
-#include "network/networkreceiver.h"
-#include "preferenceslistener.h"
+#include <memory>
+#include <vector>
 /**
  * @brief The DiceAliasModel class
  */
-class DiceAliasModel : public QAbstractListModel, public PreferencesListener
+class DiceAliasModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
@@ -38,7 +38,7 @@ public:
     enum COLUMN_TYPE
     {
         PATTERN,
-        VALUE,
+        COMMAND,
         METHOD,
         DISABLE,
         COMMENT
@@ -70,7 +70,7 @@ public:
      * @param parent
      * @return
      */
-    int columnCount(const QModelIndex& parent) const  override;
+    int columnCount(const QModelIndex& parent) const override;
     /**
      * @brief headerData
      * @param section
@@ -94,35 +94,29 @@ public:
      */
     bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 
-    virtual void preferencesHasChanged(const QString&) override;
-
     /// new methods
-    void setAliases(QList<DiceAlias*>* map);
-    void appendAlias();
-    QList<DiceAlias*>* getAliases();
-    void addAlias(DiceAlias* alias);
+    void appendAlias(DiceAlias&& alias);
     void deleteAlias(const QModelIndex& index);
+
+    const std::vector<std::unique_ptr<DiceAlias>>& aliases() const;
+
     void upAlias(const QModelIndex& index);
     void downAlias(const QModelIndex& index);
     void topAlias(const QModelIndex& index);
-    void moveAlias(int, int);
     void bottomAlias(const QModelIndex& index);
-    void setGM(bool);
     void clear();
-    /**
-     * @brief sendOffAllDiceAlias
-     */
-    void sendOffAllDiceAlias();
 
+    void setGM(bool);
     void setModified(bool);
 
-    void load(const QJsonObject& obj);
-    void save(QJsonObject& obj);
+signals:
+    void aliasAdded(DiceAlias* alias, int i);
+    void aliasRemoved(int i);
+    void aliasMoved(int, int);
+    void aliasChanged(DiceAlias* alias, int i);
 
 private:
-    QList<DiceAlias*>* m_diceAliasList;
-    bool m_isGM;
-    bool m_modified= false;
+    std::vector<std::unique_ptr<DiceAlias>> m_diceAliasList;
     QStringList m_header;
 };
 

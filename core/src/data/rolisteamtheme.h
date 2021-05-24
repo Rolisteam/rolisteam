@@ -25,6 +25,9 @@
 #include <QPalette>
 #include <QString>
 #include <QStyle>
+#include <memory>
+
+#include "model/palettemodel.h"
 
 /**
  * @brief The RolisteamTheme class should store all data required for theme.
@@ -67,7 +70,7 @@ public:
      * @brief getPalette
      * @return
      */
-    const QPalette& getPalette() const;
+    QPalette getPalette() const;
     /**
      * @brief getName
      * @return
@@ -106,12 +109,10 @@ public:
     void setDiceHighlightColor(QColor c);
 
     QString getStyleName() const;
-
-    void writeTo(QJsonObject& json) const;
-    bool readFrom(const QJsonObject& json);
+    PaletteModel* paletteModel() const;
 
 private:
-    QPalette m_palette;
+    std::unique_ptr<PaletteModel> m_paletteModel;
     QString m_name;
     QString m_css;
     bool m_removable;
@@ -122,6 +123,6 @@ private:
     QColor m_gmColor;
     QString m_styleName;
 };
-Q_DECLARE_METATYPE(RolisteamTheme)
-Q_DECLARE_METATYPE(RolisteamTheme*)
+// Q_DECLARE_METATYPE(RolisteamTheme)
+// Q_DECLARE_METATYPE(RolisteamTheme*)
 #endif // ROLISTEAMTHEME_H

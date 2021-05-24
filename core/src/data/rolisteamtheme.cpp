@@ -20,11 +20,11 @@
 #include "rolisteamtheme.h"
 
 #include <QStyleFactory>
-RolisteamTheme::RolisteamTheme() {}
+RolisteamTheme::RolisteamTheme() : m_paletteModel(new PaletteModel()) {}
 
 RolisteamTheme::RolisteamTheme(QPalette pal, QString name, QString css, QStyle* style, QString bgPath, int pos,
                                QColor bgColor, bool isRemovable)
-    : m_palette(pal)
+    : m_paletteModel(new PaletteModel())
     , m_name(name)
     , m_css(css)
     , m_removable(isRemovable)
@@ -33,13 +33,14 @@ RolisteamTheme::RolisteamTheme(QPalette pal, QString name, QString css, QStyle* 
     , m_position(pos)
 {
     setStyle(style);
+    m_paletteModel->setPalette(pal);
 }
 
 RolisteamTheme::~RolisteamTheme() {}
 
 void RolisteamTheme::setPalette(QPalette pal)
 {
-    m_palette= pal;
+    m_paletteModel->setPalette(pal);
 }
 
 void RolisteamTheme::setName(QString str)
@@ -57,9 +58,9 @@ void RolisteamTheme::setRemovable(bool b)
     m_removable= b;
 }
 
-const QPalette& RolisteamTheme::getPalette() const
+QPalette RolisteamTheme::getPalette() const
 {
-    return m_palette;
+    return m_paletteModel->getPalette();
 }
 const QString& RolisteamTheme::getName() const
 {
@@ -98,6 +99,11 @@ QString RolisteamTheme::getStyleName() const
 {
     return m_styleName;
 }
+
+PaletteModel* RolisteamTheme::paletteModel() const
+{
+    return m_paletteModel.get();
+}
 QString RolisteamTheme::getBackgroundImage() const
 {
     return m_bgPath;
@@ -122,29 +128,4 @@ void RolisteamTheme::setDiceHighlightColor(QColor c)
 QColor RolisteamTheme::getDiceHighlightColor() const
 {
     return m_diceHighlightColor;
-}
-void RolisteamTheme::writeTo(QJsonObject& json) const
-{
-    json["name"]= m_name;
-    json["removable"]= m_removable;
-    json["css"]= m_css;
-    json["position"]= m_position;
-    json["bgColor"]= m_bgColor.name();
-    json["diceHighlight"]= m_diceHighlightColor.name();
-    json["bgPath"]= m_bgPath;
-    json["stylename"]= m_styleName;
-}
-bool RolisteamTheme::readFrom(const QJsonObject& json)
-{
-    m_name= json["name"].toString();
-    m_removable= json["removable"].toBool();
-    m_css= json["css"].toString();
-    m_position= json["position"].toInt();
-    QString bgColorName= json["bgColor"].toString();
-    m_bgColor.setNamedColor(bgColorName);
-    m_bgPath= json["bgPath"].toString();
-    m_styleName= json["stylename"].toString();
-    QString diceColorName= json["diceHighlight"].toString();
-    m_diceHighlightColor.setNamedColor(diceColorName);
-    return true;
 }

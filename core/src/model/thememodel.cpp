@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "thememodel.h"
 
-#include "preferences/rolisteamtheme.h"
+#include "data/rolisteamtheme.h"
 
 ThemeModel::ThemeModel(QObject* parent) : QAbstractListModel(parent) {}
 
@@ -56,9 +56,6 @@ QVariant ThemeModel::data(const QModelIndex& index, int role) const
     {
     case Name:
         var= QVariant::fromValue(theme->getName());
-        break;
-    case Theme:
-        var= QVariant::fromValue(theme.get());
         break;
     }
     return var;

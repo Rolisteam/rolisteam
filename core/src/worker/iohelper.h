@@ -21,6 +21,7 @@
 #define IOHELPER_H
 
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QMimeData>
 #include <QString>
 #include <QVariant>
@@ -39,12 +40,21 @@ class ContentController;
 class MediaManagerBase;
 class ContentModel;
 class MindMapController;
+class DiceAlias;
+class CharacterState;
+class RolisteamTheme;
 class IOHelper
 {
 public:
     IOHelper();
 
     static QByteArray loadFile(const QString& file);
+    static void writeFile(const QString& path, const QByteArray& arry, bool override= true);
+    static void moveFile(const QString& source, const QString& destination);
+    static QString copyFile(const QString& source, const QString& destination);
+    static bool makeDir(const QString& dir);
+    static QString shortNameFromPath(const QString& path);
+
     static QString readTextFile(const QString& file);
     static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
 
@@ -53,6 +63,9 @@ public:
 
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
+    static QJsonArray loadJsonFileIntoArray(const QString& filename, bool& ok);
+    static QJsonObject loadJsonFileIntoObject(const QString& filename, bool& ok);
+    static void writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array);
 
     static QJsonArray fetchLanguageModel();
 
@@ -77,6 +90,15 @@ public:
     static void readSharedNoteController(SharedNoteController* ctrl, const QByteArray& array);
     static void readWebpageController(WebpageController* ctrl, const QByteArray& array);
     static void readMindmapController(MindMapController* ctrl, const QByteArray& array);
+
+    // dice alias
+    static QJsonObject diceAliasToJSonObject(DiceAlias* alias);
+    // states
+    static QJsonObject stateToJSonObject(CharacterState* state, const QString& root);
+
+    // read theme file
+    static RolisteamTheme* jsonToTheme(const QJsonObject& json);
+    static QJsonObject themeToObject(const RolisteamTheme* theme);
 };
 
 #endif // IOHELPER_H
