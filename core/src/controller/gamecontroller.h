@@ -33,6 +33,12 @@ struct TipOfDay
     int id;
 };
 
+namespace campaign
+{
+class CampaignManager;
+class Campaign;
+} // namespace campaign
+
 class QAbstractItemModel;
 class LogController;
 class LogSenderScheduler;
@@ -61,6 +67,8 @@ class GameController : public QObject
     Q_PROPERTY(bool updateAvailable READ updateAvailable WRITE setUpdateAvailable NOTIFY updateAvailableChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(DiceParser* diceParser READ diceParser CONSTANT)
+    Q_PROPERTY(campaign::CampaignManager* campaignManager READ campaignManager CONSTANT)
+    Q_PROPERTY(campaign::Campaign* campaign READ campaign NOTIFY campaignChanged)
 public:
     explicit GameController(QClipboard* clipboard, QObject* parent= nullptr);
     ~GameController();
@@ -71,6 +79,8 @@ public:
     PreferencesController* preferencesController() const;
     PreferencesManager* preferencesManager() const;
     InstantMessagingController* instantMessagingController() const;
+    campaign::CampaignManager* campaignManager() const;
+    campaign::Campaign* campaign() const;
 
     QString version() const;
     QString currentScenario() const;
@@ -97,6 +107,8 @@ signals:
     void connectedChanged(bool b);
     void remoteVersionChanged();
     void tipOfDayChanged();
+    void closingApp();
+    void campaignChanged();
 
 public slots:
     void addErrorLog(const QString& message);
@@ -115,9 +127,11 @@ public slots:
     void setUpdateAvailable(bool available);
     void startConnection(int profileIndex);
     void stopConnection();
-    void sendDataToServerAtConnection();
+    void postConnection();
     void aboutToClose();
     void setLocalPlayerId(const QString& id);
+
+    void openMedia(const std::map<QString, QVariant>& map);
 
 private:
     void addCommand(QUndoCommand* cmd);
@@ -131,6 +145,8 @@ private:
     std::unique_ptr<ContentController> m_contentCtrl;
     std::unique_ptr<PreferencesManager> m_preferences;
     std::unique_ptr<InstantMessagingController> m_instantMessagingCtrl;
+    std::unique_ptr<DiceParser> m_diceParser;
+    std::unique_ptr<campaign::CampaignManager> m_campaignManager;
 
     QString m_currentScenario;
     QString m_version;
@@ -138,7 +154,6 @@ private:
     bool m_updateAvailable= false;
     TipOfDay m_tipOfTheDay;
     std::unique_ptr<QUndoStack> m_undoStack;
-    std::unique_ptr<DiceParser> m_diceParser;
     std::unique_ptr<AutoSaveController> m_autoSaveCtrl;
 };
 

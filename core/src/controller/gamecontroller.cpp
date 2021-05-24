@@ -38,6 +38,7 @@
 #include "services/tipchecker.h"
 #include "services/updatechecker.h"
 #include "worker/autosavecontroller.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
 #include "network/connectionprofile.h"
@@ -53,8 +54,9 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
                                           m_networkCtrl.get()))
     , m_preferences(new PreferencesManager)
     , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
-    , m_undoStack(new QUndoStack)
     , m_diceParser(new DiceParser)
+    , m_campaignManager(new campaign::CampaignManager(m_diceParser.get()))
+    , m_undoStack(new QUndoStack)
     , m_autoSaveCtrl(new AutoSaveController(m_preferences.get()))
 {
 #ifdef VERSION_MINOR
@@ -74,25 +76,42 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
     connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, [this](bool b) {
         if(b)
-            sendDataToServerAtConnection();
-
+        {
+            m_campaignManager->shareModels();
+        }
         emit connectedChanged(b);
     });
+
+    /*connect(m_campaignManager.get(), &campaign::CampaignManager::fileImported, this,
+            [this](campaign::Media* media, Core::ContentType type) {
+                if(!media)
+                    return;
+                auto path= media->path();
+                m_contentCtrl->openMedia({{"path", path},
+                                          {"type", QVariant::fromValue(type)},
+                                          {"name", IOHelper::shortNameFromPath(path)},
+                                          {"ownerId", m_playerController->localPlayer()->uuid()}});
+            });*/
+    connect(m_campaignManager.get(), &campaign::CampaignManager::campaignChanged, this, [this]() {
+        auto cm= m_campaignManager->campaign();
+        m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
+    });
+    connect(m_campaignManager->campaign(), &campaign::Campaign::rootDirectoryChanged, this, [this]() {
+        auto cm= m_campaignManager->campaign();
+        m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
+    });
+    connect(m_campaignManager->editor(), &campaign::CampaignEditor::performCommand, this, &GameController::addCommand);
+
+    // clang-format off
     connect(m_autoSaveCtrl.get(), &AutoSaveController::saveData, m_contentCtrl.get(), &ContentController::saveSession);
-
-    connect(m_playerController.get(), &PlayerController::gameMasterIdChanged, m_contentCtrl.get(),
-            &ContentController::setGameMasterId);
+    connect(m_playerController.get(), &PlayerController::gameMasterIdChanged, m_contentCtrl.get(), &ContentController::setGameMasterId);
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
-    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(),
-            &RemoteLogController::setLocalUuid);
-    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(),
-            &RemoteLogController::setLocalUuid);
-    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_instantMessagingCtrl.get(),
-            &InstantMessagingController::setLocalId);
-    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_contentCtrl.get(),
-            &ContentController::setLocalId);
-
+    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(), &RemoteLogController::setLocalUuid);
+    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(), &RemoteLogController::setLocalUuid);
+    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_instantMessagingCtrl.get(), &InstantMessagingController::setLocalId);
+    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_contentCtrl.get(), &ContentController::setLocalId);
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
+    // clang-format on
 
     m_contentCtrl->setGameMasterId(m_playerController->gameMasterId());
     m_remoteLogCtrl->setLocalUuid(m_playerController->localPlayerId());
@@ -162,6 +181,26 @@ void GameController::setVersion(const QString& version)
 void GameController::setLocalPlayerId(const QString& id)
 {
     m_remoteLogCtrl->setLocalUuid(id);
+}
+
+void GameController::openMedia(const std::map<QString, QVariant>& map)
+{
+    QMap<QString, QVariant> other(map);
+    if(localIsGM())
+    {
+        if(other.contains(Core::keys::KEY_PATH))
+        {
+            auto path= other.value(Core::keys::KEY_PATH).toString();
+            other[Core::keys::KEY_PATH]= m_campaignManager->importFile(QUrl::fromLocalFile(path));
+        }
+        else if(other.contains(Core::keys::KEY_DATA))
+        {
+            auto name= other.value(Core::keys::KEY_NAME).toString();
+            auto data= other.value(Core::keys::KEY_DATA).toByteArray();
+            other[Core::keys::KEY_PATH]= m_campaignManager->createFileFromData(name, data);
+        }
+    }
+    m_contentCtrl->openMedia(other.toStdMap());
 }
 
 void GameController::setUpdateAvailable(bool available)
@@ -279,6 +318,16 @@ InstantMessagingController* GameController::instantMessagingController() const
     return m_instantMessagingCtrl.get();
 }
 
+campaign::CampaignManager* GameController::campaignManager() const
+{
+    return m_campaignManager.get();
+}
+
+campaign::Campaign* GameController::campaign() const
+{
+    return m_campaignManager->campaign();
+}
+
 QString GameController::localPlayerId() const
 {
     return m_playerController->localPlayerId();
@@ -321,7 +370,7 @@ void GameController::startConnection(int profileIndex)
     local->setName(profile->playerName());
     local->setColor(profile->playerColor());
     local->setAvatarPath(profile->playerAvatar());
-
+    m_campaignManager->openCampaign(QUrl::fromLocalFile(profile->campaignPath()));
     if(!local->isGM())
     {
         auto characters= profile->characters();
@@ -345,12 +394,14 @@ void GameController::stopConnection()
     networkController()->stopConnecting();
 }
 
-void GameController::sendDataToServerAtConnection()
+void GameController::postConnection()
 {
     /*m_preferencesDialog->sendOffAllDiceAlias();
     m_preferencesDialog->sendOffAllState();*/
-    if(localIsGM())
+    /*if(localIsGM())
+    {
         m_preferencesDialogController->shareModels();
+    }*/
 }
 
 void GameController::aboutToClose()
@@ -362,6 +413,7 @@ void GameController::aboutToClose()
     MessageHelper::sendOffGoodBye();
     m_networkCtrl->closeServer();
     m_preferences->writeSettings(m_version);
+    emit closingApp();
 }
 
 PreferencesController* GameController::preferencesController() const
