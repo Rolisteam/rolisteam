@@ -31,8 +31,9 @@
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
 
-namespace {
-    QString musicStatus = QStringLiteral("music_player_%1_status");
+namespace
+{
+QString musicStatus= QStringLiteral("music_player_%1_status");
 }
 
 AudioPlayer::AudioPlayer(QWidget* parent) : QDockWidget(parent) //,m_currentSource(nullptr)
@@ -43,12 +44,6 @@ AudioPlayer::AudioPlayer(QWidget* parent) : QDockWidget(parent) //,m_currentSour
     setObjectName("MusicPlayer");
     setupUi();
     setWidget(m_mainWidget);
-}
-
-AudioPlayer* AudioPlayer::getInstance(QWidget* parent)
-{
-    static auto *singleton= new AudioPlayer(parent);
-    return singleton;
 }
 
 void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
@@ -113,7 +108,7 @@ void AudioPlayer::setupUi()
 void AudioPlayer::showMusicPlayer(bool status)
 {
     QAction* act= qobject_cast<QAction*>(sender());
-    if (!act)
+    if(!act)
         return;
 
     int i= m_playerActionsList.indexOf(act);
@@ -145,8 +140,7 @@ void AudioPlayer::updateUi(bool isGM)
     }
     for(int i= 0; i < m_players.size(); ++i)
     {
-        m_playerActionsList[i]->setChecked(
-            m_preferences->value(musicStatus.arg(i), true).toBool());
+        m_playerActionsList[i]->setChecked(m_preferences->value(musicStatus.arg(i), true).toBool());
     }
     if(!isGM)
     {
@@ -184,7 +178,7 @@ void AudioPlayer::onePlayerPlays(int id, qint64 pos)
     }
 }
 
-void AudioPlayer::onePlayerHasNewSong(int id, const QString &str)
+void AudioPlayer::onePlayerHasNewSong(int id, const QString& str)
 {
     if(m_isGM)
     {
@@ -235,7 +229,7 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
     }
     return NetWorkReceiver::AllExceptSender;
 }
-void AudioPlayer::openSongList(const QString &str)
+void AudioPlayer::openSongList(const QString& str)
 {
     if(!m_players.isEmpty())
     {
@@ -243,7 +237,7 @@ void AudioPlayer::openSongList(const QString &str)
     }
 }
 
-void AudioPlayer::openSong(const QString &str)
+void AudioPlayer::openSong(const QString& str)
 {
     if(!m_players.isEmpty())
     {

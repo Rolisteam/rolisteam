@@ -55,11 +55,11 @@ class AudioPlayer : public QDockWidget, public NetWorkReceiver
     Q_OBJECT
 
 public:
-    ~AudioPlayer();
     /**
-     * @brief return a pointer to the unique audio player. Sigleton pattern
+     * @brief private constructor
      */
-    static AudioPlayer* getInstance(QWidget* parent= nullptr);
+    AudioPlayer(QWidget* parent= nullptr);
+    ~AudioPlayer();
     /**
      * @brief updateUi
      */
@@ -75,12 +75,12 @@ public:
      * @brief openSongList
      * @param str
      */
-    virtual void openSongList(const QString &str);
+    virtual void openSongList(const QString& str);
     /**
      * @brief openSong
      * @param str
      */
-    virtual void openSong(const QString &str);
+    virtual void openSong(const QString& str);
 
     void readSettings();
 
@@ -100,7 +100,7 @@ public slots:
     /**
      * @brief onePlayerHasNewSong
      */
-    void onePlayerHasNewSong(int, const QString &);
+    void onePlayerHasNewSong(int, const QString&);
     /**
      * @brief onePlayerHasChangedPosition
      */
@@ -121,10 +121,6 @@ private slots:
 
 private:
     /**
-     * @brief private constructor
-     */
-    AudioPlayer(QWidget* parent= 0);
-    /**
      * @brief playerWidget
      */
     void playerWidget();
@@ -132,10 +128,9 @@ private:
     //!< @brief static pointer to the unique instance of this audioplayer
     /**
      * @brief set the UI
-    */
+     */
     void setupUi();
 
-    // ################ MEMBERS ########################## //
 private:
     QWidget* m_mainWidget; //!< @brief brings together all subwidget
     QVBoxLayout* m_mainLayout;
