@@ -25,6 +25,9 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     ui->m_profileList->setModel(m_model);
     ui->m_progressBar->setVisible(false);
 
+    ui->m_rootDirCampEdit->setPath(QDir::homePath());
+    ui->m_rootDirCampEdit->setMode(true);
+
     connect(ui->m_profileList->selectionModel(), &QItemSelectionModel::currentChanged, this,
             [this](const QModelIndex& selected, const QModelIndex&) {
                 setCurrentProfile(selected);
@@ -132,6 +135,8 @@ void SelectConnectionProfileDialog::updateProfile()
         profile->setServerMode(ui->m_isServerCheckbox->isChecked());
         profile->setProfileTitle(ui->m_profileTitle->text());
         profile->setGm(ui->m_isGmCheckbox->isChecked());
+        if(ui->m_isGmCheckbox->isChecked())
+            profile->setCampaignPath(ui->m_rootDirCampEdit->path());
         if(m_passChanged)
         {
             profile->setPassword(ui->m_passwordEdit->text());
@@ -174,6 +179,7 @@ void SelectConnectionProfileDialog::updateGUI()
     m_passChanged= false;
     ui->m_passwordEdit->setText(profile->password());
     ui->m_playerAvatarAct->setIcon(QIcon(profile->playerAvatar()));
+    ui->m_rootDirCampEdit->setPath(profile->campaignPath());
 
     m_characterModel->setProfile(profile);
     /*if(!profile->isGM())

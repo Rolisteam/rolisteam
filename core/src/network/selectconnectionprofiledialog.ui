@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>611</width>
-    <height>563</height>
+    <height>579</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -227,6 +227,9 @@
            <string>I'm the Game Master</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="FileDirChooser" name="m_rootDirCampEdit" native="true"/>
         </item>
        </layout>
       </widget>
@@ -491,6 +494,12 @@
    <extends>QPushButton</extends>
    <header>common/widgets/colorbutton.h</header>
   </customwidget>
+  <customwidget>
+   <class>FileDirChooser</class>
+   <extends>QWidget</extends>
+   <header>widgets/filedirchooser.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../../../rolisteam.qrc"/>
@@ -503,12 +512,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>333</x>
-     <y>163</y>
+     <x>479</x>
+     <y>332</y>
     </hint>
     <hint type="destinationlabel">
-     <x>341</x>
-     <y>209</y>
+     <x>475</x>
+     <y>482</y>
     </hint>
    </hints>
   </connection>
@@ -519,12 +528,28 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>215</x>
-     <y>409</y>
+     <x>361</x>
+     <y>181</y>
     </hint>
     <hint type="destinationlabel">
-     <x>253</x>
-     <y>339</y>
+     <x>474</x>
+     <y>97</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_isGmCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_rootDirCampEdit</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>196</x>
+     <y>325</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>201</x>
+     <y>347</y>
     </hint>
    </hints>
   </connection>

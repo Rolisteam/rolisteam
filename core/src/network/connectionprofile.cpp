@@ -84,6 +84,16 @@ bool ConnectionProfile::isGM() const
     return m_isGM;
 }
 
+QString ConnectionProfile::campaignPath() const
+{
+    return m_campaignDir;
+}
+
+void ConnectionProfile::setCampaignPath(const QString& id)
+{
+    m_campaignDir= id;
+}
+
 QByteArray ConnectionProfile::password() const
 {
     return m_password;

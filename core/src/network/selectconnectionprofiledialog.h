@@ -3,6 +3,8 @@
 
 #include "connectionprofile.h"
 #include "data/player.h"
+#include "widgets/filedirchooser.h"
+
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QPointer>

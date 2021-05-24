@@ -44,6 +44,9 @@ public:
     void setGm(bool);
     bool isGM() const;
 
+    QString campaignPath() const;
+    void setCampaignPath(const QString& id);
+
     void setPassword(const QString& password);
     QByteArray password() const;
 
@@ -73,6 +76,9 @@ private:
     quint16 m_port= 6660;
     QString m_address;
     QByteArray m_password;
+
+    // campaign dir
+    QString m_campaignDir;
 
     // Character info
     std::vector<CharacterData> m_characters;
