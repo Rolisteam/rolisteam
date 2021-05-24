@@ -22,20 +22,48 @@
 
 #include <QApplication>
 
+#include "controller/gamecontroller.h"
+
+class QQmlApplicationEngine;
 class RolisteamApplication : public QApplication
 {
     Q_OBJECT
+    Q_PROPERTY(ApplicationState state READ state NOTIFY stateChanged)
 public:
+    enum class ApplicationState
+    {
+        SelectProfile,
+        Playing,
+        Exit
+    };
+    Q_ENUM(ApplicationState)
+
     RolisteamApplication(int& argn, char* argv[]);
 
     bool notify(QObject* receiver, QEvent* e);
 
+    GameController* gameCtrl();
+
     void readSettings();
+    ApplicationState state() const;
 
     void setTranslator(const QStringList& list);
 
+    void start();
+
+signals:
+    void stateChanged();
+
+protected:
+    void configureEnginePostLoad(QQmlApplicationEngine* engine);
+
+private:
+    void setState(ApplicationState state);
+
 private:
     QList<QTranslator*> m_translators;
+    GameController m_game;
+    ApplicationState m_state= ApplicationState::SelectProfile;
 };
 
 #endif // ROLISTEAMAPPLICATION_H

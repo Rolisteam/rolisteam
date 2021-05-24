@@ -25,9 +25,17 @@
 #include <QTranslator>
 #include <iostream>
 
-RolisteamApplication::RolisteamApplication(int& argn, char* argv[]) : QApplication(argn, argv)
+#include "controller/networkcontroller.h"
+
+RolisteamApplication::RolisteamApplication(int& argn, char* argv[])
+    : QApplication(argn, argv), m_game(GameController(clipboard()))
 {
     setAttribute(Qt::AA_DontUseNativeMenuBar, true);
+    connect(&m_game, &GameController::closingApp, this, [this]() { setState(ApplicationState::Exit); });
+    connect(m_game.networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
+        setState(connected ? ApplicationState::Playing : ApplicationState::SelectProfile);
+    });
+
     QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
     QString appName("rolisteam");
 
@@ -58,6 +66,11 @@ bool RolisteamApplication::notify(QObject* receiver, QEvent* e)
         // qDebug() << e->type() << receiver << " other";
         return false;
     }
+}
+
+GameController* RolisteamApplication::gameCtrl()
+{
+    return &m_game;
 }
 
 void RolisteamApplication::readSettings()
@@ -96,6 +109,11 @@ void RolisteamApplication::readSettings()
     }
 }
 
+RolisteamApplication::ApplicationState RolisteamApplication::state() const
+{
+    return m_state;
+}
+
 void RolisteamApplication::setTranslator(const QStringList& list)
 {
     for(auto trans : qAsConst(m_translators))
@@ -107,14 +125,27 @@ void RolisteamApplication::setTranslator(const QStringList& list)
     for(const auto& info : list)
     {
         QTranslator* trans= new QTranslator(this);
-        auto valid= trans->load(info);
+        trans->load(info);
         if(trans->isEmpty())
         {
-            qWarning() << "Error on translation file: " << info << valid;
             delete trans;
             continue;
         }
         installTranslator(trans);
         m_translators.append(trans);
     }
+}
+
+void RolisteamApplication::setState(ApplicationState state)
+{
+    if(m_state == state)
+        return;
+    m_state= state;
+    emit stateChanged();
+}
+
+void RolisteamApplication::configureEnginePostLoad(QQmlApplicationEngine* engine)
+{
+    Q_UNUSED(engine)
+    // engine->addstuff
 }

@@ -32,7 +32,6 @@
 #include <QUuid>
 
 #include "common/controller/theme.h"
-#include "data/cleveruri.h"
 #include "data/person.h"
 #include "mainwindow.h"
 #include "preferences/preferencesmanager.h"
@@ -114,10 +113,7 @@ int main(int argc, char* argv[])
 
     // Ressources
     QResource::registerResource("rolisteam.rcc");
-
-    // Settings
-    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(app.applicationVersion()));
-    settings.beginGroup("rolisteam/preferences");
+    customization::Theme::setPath(":/resources/stylesheet/qml/theme.ini");
 
 #ifdef Q_OS_WIN
     {
@@ -135,33 +131,36 @@ int main(int argc, char* argv[])
     }
 #endif
 
-    QMap<QString, QVariant> map;
-
-    int size= settings.beginReadArray("preferenceMap");
-    for(int i= 0; i < size; ++i)
-    {
-        settings.setArrayIndex(i);
-        QString key= settings.value("key").toString();
-        QVariant value= settings.value("value");
-        map.insert(key, value);
-    }
-    settings.endArray();
-    settings.endGroup();
-
 #ifndef UNIT_TESTS
     UiWatchdog dog;
     dog.start();
 #endif
 
-    customization::Theme::setPath(":/resources/stylesheet/qml/theme.ini");
+    SelectConnectionProfileDialog connectionDialog(app.gameCtrl());
+    MainWindow mainWindow(app.gameCtrl(), app.arguments());
 
-    // Create the main window
-    MainWindow* mainWindow= new MainWindow(app.arguments());
-    int value= 0;
-    mainWindow->showAsPreferences();
-    value= app.exec();
-    QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
+    QObject::connect(&app, &RolisteamApplication::stateChanged, &app, [&app, &connectionDialog, &mainWindow]() {
+        auto state= app.state();
+        using RA= RolisteamApplication::ApplicationState;
+        switch(state)
+        {
+        case RA::SelectProfile:
+            connectionDialog.setVisible(true);
+            mainWindow.makeVisible(false);
+            break;
+        case RA::Playing:
+            connectionDialog.accept();
+            mainWindow.makeVisible(true);
+            connectionDialog.setVisible(false);
+            break;
+        case RA::Exit:
+            mainWindow.makeVisible(false);
+            connectionDialog.setVisible(false);
+            QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
+            break;
+        }
+    });
 
-    delete mainWindow;
-    return value;
+    connectionDialog.setVisible(true);
+    return app.exec();
 }
