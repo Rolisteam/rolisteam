@@ -53,6 +53,22 @@ enum class ContentType : int
 };
 Q_ENUM_NS(ContentType)
 
+enum class MediaType : int
+{
+    Unknown,
+    TokenFile,
+    ImageFile,
+    MapFile,
+    TextFile,
+    CharacterSheetFile,
+    PdfFile,
+    WebpageFile,
+    MindmapFile,
+    AudioFile,
+    PlayListFile
+};
+Q_ENUM_NS(MediaType)
+
 enum class SharingPermission : quint8
 {
     None,
@@ -61,6 +77,11 @@ enum class SharingPermission : quint8
 };
 
 inline uint qHash(Core::ContentType type, uint seed)
+{
+    return ::qHash(static_cast<uint>(type), seed);
+}
+
+inline uint qHash(Core::MediaType type, uint seed)
 {
     return ::qHash(static_cast<uint>(type), seed);
 }
@@ -183,6 +204,17 @@ enum class Layer : quint8
     NONE
 };
 Q_ENUM_NS(Layer)
+
+namespace keys
+{
+constexpr char const* KEY_PATH{"path"};
+constexpr char const* KEY_DATA{"data"};
+constexpr char const* KEY_OWNERID{"ownerId"};
+constexpr char const* KEY_TYPE{"type"};
+constexpr char const* KEY_NAME{"name"};
+constexpr char const* KEY_LOCALID{"localId"};
+constexpr char const* KEY_GMID{"gamemasterId"};
+} // namespace keys
 
 } // namespace Core
 

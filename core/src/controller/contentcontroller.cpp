@@ -149,15 +149,15 @@ void ContentController::preferencesHasChanged(const QString& key)
 void ContentController::newMedia(Core::ContentType type, const std::map<QString, QVariant>& params)
 {
     auto arg= params;
-    arg.insert({"ownerId", m_localId});
-    arg.insert({"localId", m_localId});
-    arg.insert({"gamemasterId", m_gameMasterId});
+    arg.insert({Core::keys::KEY_OWNERID, m_localId});
+    arg.insert({Core::keys::KEY_LOCALID, m_localId});
+    arg.insert({Core::keys::KEY_GMID, m_gameMasterId});
     emit performCommand(new NewMediaController(type, m_contentModel.get(), arg, localIsGM()));
 }
 
 void ContentController::openMedia(const std::map<QString, QVariant>& args)
 {
-    auto it= args.find("type");
+    auto it= args.find(Core::keys::KEY_TYPE);
 
     if(it == args.end())
         return;
@@ -224,7 +224,7 @@ void ContentController::saveSessionBackUp()
     QFileInfo info(path);
 
     auto name= QStringLiteral("%1_back.sce").arg(info.baseName());
-    path= QStringLiteral("%1/%2").arg(info.absolutePath()).arg(name);
+    path= QStringLiteral("%1/%2").arg(info.absolutePath(), name);
     ModelHelper::saveSession(path, m_sessionName, this);
 }
 
