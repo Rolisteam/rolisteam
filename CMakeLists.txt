@@ -40,6 +40,7 @@ endif()
 
 add_subdirectory(translations)
 add_subdirectory(core)
+add_subdirectory(widget)
 add_subdirectory(client)
 add_subdirectory(server)
 

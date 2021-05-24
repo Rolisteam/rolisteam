@@ -5,50 +5,16 @@
 #include <QPushButton>
 #include <QStyledItemDelegate>
 
-/**
- * @brief The ImagePathEditor class get the path to image.
- */
-class ImagePathEditor : public QWidget
+namespace rwidgets
 {
-    Q_OBJECT
-
-public:
-    ImagePathEditor(QWidget* parent= 0);
-    ~ImagePathEditor();
-
-    void setPixmap(QPixmap);
-
-    QPixmap getData();
-
-signals:
-    void editingFinished();
-
-public slots:
-    void getFileName();
-    void readPixmap(QString str);
-    void clearPixmap();
-
-protected:
-    void setUi();
-
-    void mouseReleaseEvent(QMouseEvent* /* event */);
-    void focusInEvent(QFocusEvent* event);
-
-private:
-    QLineEdit* m_photoEdit;
-    QPushButton* m_photoBrowser;
-    QPushButton* m_cleanButton;
-    QPixmap m_pixmap;
-};
-
 /**
  * @brief The FilePathDelegateItem class displays path for image in the treeview
  */
-class FilePathDelegateItem : public QStyledItemDelegate
+class ImagePathDelegateItem : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    FilePathDelegateItem(QObject* parent= 0);
+    explicit ImagePathDelegateItem(const QString& root, QObject* parent= nullptr);
 
     virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
     void setEditorData(QWidget* editor, const QModelIndex& index) const;
@@ -59,6 +25,7 @@ public:
 
 private:
     QPixmap m_pix;
+    QString m_root;
 };
-
+} // namespace rwidgets
 #endif // FILEPATHDELEGATEITEM_H

@@ -1,4 +1,4 @@
-#include "filepathdelegateitem.h"
+#include "imagepathdelegateitem.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -7,126 +7,50 @@
 #include <QLineEdit>
 #include <QPainter>
 
-#include "preferences/preferencesmanager.h"
+#include "customs/imagepatheditor.h"
+#include "model/characterstatemodel.h"
 
-ImagePathEditor::ImagePathEditor(QWidget* parent) : QWidget(parent)
+namespace rwidgets
 {
-    setUi();
-}
-ImagePathEditor::~ImagePathEditor() {}
 
-void ImagePathEditor::focusInEvent(QFocusEvent* event)
+ImagePathDelegateItem::ImagePathDelegateItem(const QString& root, QObject* parent)
+    : QStyledItemDelegate(parent), m_root(root)
 {
-    QWidget::focusInEvent(event);
 }
 
-void ImagePathEditor::setUi()
+QWidget* ImagePathDelegateItem::createEditor(QWidget* parent, const QStyleOptionViewItem&, const QModelIndex&) const
 {
-    QHBoxLayout* hbox= new QHBoxLayout();
-    hbox->setMargin(0);
-    hbox->setSpacing(0);
-
-    setLayout(hbox);
-
-    m_photoBrowser= new QPushButton(style()->standardIcon(QStyle::SP_DialogOpenButton), "");
-
-    m_photoEdit= new QLineEdit();
-
-    m_cleanButton= new QPushButton(QIcon::fromTheme("delete"), "");
-
-    hbox->addWidget(m_photoEdit, 1);
-    hbox->addWidget(m_photoBrowser);
-    hbox->addWidget(m_cleanButton);
-
-    connect(m_photoBrowser, SIGNAL(pressed()), this, SLOT(getFileName()));
-    connect(m_photoEdit, SIGNAL(textEdited(QString)), this, SLOT(readPixmap(QString)));
-    connect(m_cleanButton, SIGNAL(pressed()), this, SLOT(clearPixmap()));
-}
-
-void ImagePathEditor::setPixmap(QPixmap str)
-{
-    m_pixmap= str;
-    // m_photoLabel->setPixmap(m_pixmap);
-}
-
-QPixmap ImagePathEditor::getData()
-{
-    return m_pixmap;
-}
-
-void ImagePathEditor::mouseReleaseEvent(QMouseEvent* /* event */)
-{
-    // emit editingFinished();
-}
-void ImagePathEditor::clearPixmap()
-{
-    m_pixmap= QPixmap();
-}
-
-void ImagePathEditor::getFileName()
-{
-    PreferencesManager* preferences= PreferencesManager::getInstance();
-
-    QString fileName= QFileDialog::getOpenFileName(
-        this, tr("Get picture for Character State"),
-        preferences->value("StateImageDirectory", QDir::homePath()).toString(),
-        preferences->value("ImageFileFilter", "*.jpg *jpeg *.png *.bmp *.svg").toString());
-    if(!fileName.isEmpty())
-    {
-        readPixmap(fileName);
-
-        QFileInfo info(fileName);
-        preferences->registerValue("StateImageDirectory", info.absolutePath());
-    }
-}
-void ImagePathEditor::readPixmap(QString str)
-{
-    if(!str.isEmpty())
-    {
-        QPixmap pix(str);
-        if(!pix.isNull())
-        {
-            m_pixmap= pix;
-            m_photoEdit->setText(str);
-        }
-    }
-}
-
-//////////////////////////////////////////////
-// Method of FilePathDelegateItem
-//////////////////////////////////////////////
-FilePathDelegateItem::FilePathDelegateItem(QObject* parent) : QStyledItemDelegate(parent) {}
-
-QWidget* FilePathDelegateItem::createEditor(QWidget* parent, const QStyleOptionViewItem&, const QModelIndex&) const
-{
-    ImagePathEditor* editor= new ImagePathEditor(parent);
+    ImagePathEditor* editor= new ImagePathEditor(m_root, parent);
 
     return editor;
 }
-void FilePathDelegateItem::setEditorData(QWidget* editor, const QModelIndex& index) const
+
+void ImagePathDelegateItem::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
     if(index.isValid())
     {
         ImagePathEditor* ImgEditor= qobject_cast<ImagePathEditor*>(editor);
         if(nullptr != ImgEditor)
         {
-            ImgEditor->setPixmap(index.data(Qt::DisplayRole).value<QPixmap>());
+            ImgEditor->setPixmap(index.data(CharacterStateModel::PICTURE).value<QPixmap>());
         }
     }
     QStyledItemDelegate::setEditorData(editor, index);
 }
-void FilePathDelegateItem::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option,
-                                                const QModelIndex& index) const
+
+void ImagePathDelegateItem::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option,
+                                                 const QModelIndex& index) const
 {
     QStyledItemDelegate::updateEditorGeometry(editor, option, index);
 }
-void FilePathDelegateItem::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+
+void ImagePathDelegateItem::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
     ImagePathEditor* imgEditor= qobject_cast<ImagePathEditor*>(editor);
     if(nullptr != imgEditor)
     {
         QVariant var;
-        var.setValue(imgEditor->getData());
+        var.setValue(imgEditor->filename());
         model->setData(index, var, Qt::EditRole);
     }
     else
@@ -134,7 +58,8 @@ void FilePathDelegateItem::setModelData(QWidget* editor, QAbstractItemModel* mod
         QStyledItemDelegate::setModelData(editor, model, index);
     }
 }
-void FilePathDelegateItem::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+
+void ImagePathDelegateItem::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     // paint selection
     QStyledItemDelegate::paint(painter, option, index);
@@ -165,9 +90,11 @@ void FilePathDelegateItem::paint(QPainter* painter, const QStyleOptionViewItem& 
 
     painter->drawImage(target, pix.toImage());
 }
-QSize FilePathDelegateItem::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+
+QSize ImagePathDelegateItem::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     QSize a= QStyledItemDelegate::sizeHint(option, index);
     a.setHeight(30);
     return a;
 }
+} // namespace rwidgets
