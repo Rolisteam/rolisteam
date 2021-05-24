@@ -20,6 +20,7 @@
 #include "contentcontroller.h"
 
 #include <QFileInfo>
+#include <QFileSystemModel>
 
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
@@ -72,7 +73,7 @@ void sendOffMediaController(MediaControllerBase* ctrl)
 ContentController::ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QClipboard* clipboard,
                                      QObject* parent)
     : AbstractControllerInterface(parent)
-    , m_sessionModel(new session::SessionItemModel)
+    , m_sessionModel(new QFileSystemModel()) // session::SessionItemModel)
     , m_contentModel(new ContentModel)
     , m_clipboard(clipboard)
     , m_sessionName(tr("default"))
@@ -80,6 +81,8 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
     CharacterSheetController::setCharacterModel(characterModel);
     SharedNoteController::setPlayerModel(playerModel);
     MindMapController::setRemotePlayerModel(new RemotePlayerModel(playerModel));
+
+    connect(m_sessionModel.get(), &QFileSystemModel::rootPathChanged, this, &ContentController::mediaRootChanged);
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 
@@ -164,7 +167,7 @@ void ContentController::openMedia(const std::map<QString, QVariant>& args)
     emit performCommand(new OpenMediaController(m_contentModel.get(), type, args, localIsGM()));
 }
 
-session::SessionItemModel* ContentController::sessionModel() const
+QFileSystemModel* ContentController::sessionModel() const
 {
     return m_sessionModel.get();
 }
@@ -225,6 +228,12 @@ void ContentController::saveSessionBackUp()
     ModelHelper::saveSession(path, m_sessionName, this);
 }
 
+void ContentController::setMediaRoot(const QString& path)
+{
+    m_sessionModel->setRootPath(path);
+    emit mediaRootChanged();
+}
+
 void ContentController::loadSession()
 {
     setSessionName(ModelHelper::loadSession(m_sessionPath, this));
@@ -274,7 +283,7 @@ void ContentController::setLocalId(const QString& id)
 
 void ContentController::clear()
 {
-    m_sessionModel->clearData();
+    // m_sessionModel->();
     m_contentModel->clearData();
 }
 
@@ -338,7 +347,7 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
     {
         Q_UNUSED(static_cast<Core::ContentType>(msg->uint8()));
         auto id= MessageHelper::readMediaId(msg);
-        m_sessionModel->removeMedia(id);
+        // m_sessionModel->removeMedia(id);
         m_contentModel->removeMedia(id);
     }
     else if(msg->action() == NetMsg::AddMedia)
@@ -450,6 +459,11 @@ bool ContentController::canPaste() const
 }
 
 bool ContentController::canCopy() const {}
+
+QString ContentController::mediaRoot() const
+{
+    return m_sessionModel->rootPath();
+}
 /*void ContentController::setActiveMediaController(AbstractMediaContainerController* mediaCtrl)
 {
     std::find_if(m_mediaControllers.begin(), m_mediaControllers.end(),

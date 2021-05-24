@@ -28,8 +28,8 @@
 #include <memory>
 
 #include "controller/controllerinterface.h"
-#include "data/cleveruri.h"
 
+#include "media/mediatype.h"
 #include "network/receiveevent.h"
 #include "preferences/preferenceslistener.h"
 
@@ -38,6 +38,7 @@ namespace session
 class SessionItemModel;
 }
 class MediaContainer;
+class QFileSystemModel;
 class QAbstractItemModel;
 class ResourcesNode;
 class PreferencesManager;
@@ -57,7 +58,7 @@ class MediaUpdaterInterface;
 class ContentController : public AbstractControllerInterface, public PreferencesListener, public NetWorkReceiver
 {
     Q_OBJECT
-    Q_PROPERTY(session::SessionItemModel* sessionModel READ sessionModel CONSTANT)
+    Q_PROPERTY(QFileSystemModel* sessionModel READ sessionModel CONSTANT)
     Q_PROPERTY(ContentModel* contentModel READ contentModel CONSTANT)
     Q_PROPERTY(QString workspaceFilename READ workspaceFilename NOTIFY workspaceFilenameChanged)
     Q_PROPERTY(QColor workspaceColor READ workspaceColor NOTIFY workspaceColorChanged)
@@ -68,6 +69,7 @@ class ContentController : public AbstractControllerInterface, public Preferences
     Q_PROPERTY(QString sessionPath READ sessionPath WRITE setSessionPath NOTIFY sessionPathChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(QString mediaRoot READ mediaRoot WRITE setMediaRoot NOTIFY mediaRootChanged)
     Q_PROPERTY(bool canPaste READ canPaste NOTIFY canPasteChanged)
 
 public:
@@ -75,7 +77,7 @@ public:
                                QObject* parent= nullptr);
     ~ContentController() override;
 
-    session::SessionItemModel* sessionModel() const;
+    QFileSystemModel* sessionModel() const;
     ContentModel* contentModel() const;
     std::vector<MediaManagerBase*> mediaUpdaters() const;
     int contentCount() const;
@@ -94,6 +96,7 @@ public:
     bool localIsGM() const;
     bool canPaste() const;
     bool canCopy() const;
+    QString mediaRoot() const;
 
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
@@ -109,6 +112,7 @@ signals:
     void workspacePositioningChanged();
     void shortTitleTabChanged();
     void maxLengthTabNameChanged();
+    void mediaRootChanged();
 
     void sessionChanged(bool);
     void sessionNameChanged();
@@ -134,6 +138,7 @@ public slots:
     void setGameMasterId(const QString& id);
     void setLocalId(const QString& id);
     void saveSessionBackUp();
+    void setMediaRoot(const QString& path);
 
     void copyData();
     void pasteData();
@@ -142,7 +147,7 @@ private:
     void readMimeData(const QMimeData& data);
 
 private:
-    std::unique_ptr<session::SessionItemModel> m_sessionModel;
+    std::unique_ptr<QFileSystemModel> m_sessionModel;
     std::map<Core::ContentType, std::unique_ptr<MediaUpdaterInterface>> m_mediaUpdaters;
     std::unique_ptr<ContentModel> m_contentModel;
 
