@@ -21,14 +21,20 @@
 #include <QJsonObject>
 #include <QModelIndex>
 #include <QModelIndexList>
+#include <QTemporaryFile>
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <memory>
 
 #include "data/character.h"
+#include "model/characterstatemodel.h"
+#include "worker/fileserializer.h"
+#include "worker/iohelper.h"
+#include "worker/messagehelper.h"
+#include "worker/modelhelper.h"
+
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "preferences/characterstatemodel.h"
 
 class TestCharacterStateModel : public QObject
 {
@@ -71,35 +77,36 @@ void TestCharacterStateModel::init()
 
 void TestCharacterStateModel::addDefaultState()
 {
-    CharacterState* state= new CharacterState();
-    state->setColor(Qt::black);
-    state->setLabel(tr("Healthy"));
-    m_model->addState(state);
+    CharacterState state;
+    state.setColor(Qt::black);
+    state.setLabel(tr("Healthy"));
 
-    state= new CharacterState();
-    state->setColor(QColor(255, 100, 100));
-    state->setLabel(tr("Lightly Wounded"));
-    m_model->addState(state);
+    CharacterState state2;
+    state2.setColor(QColor(255, 100, 100));
+    state2.setLabel(tr("Lightly Wounded"));
 
-    state= new CharacterState();
-    state->setColor(QColor(255, 0, 0));
-    state->setLabel(tr("Seriously injured"));
-    m_model->addState(state);
+    CharacterState state3;
+    state3.setColor(QColor(255, 0, 0));
+    state3.setLabel(tr("Seriously injured"));
 
-    state= new CharacterState();
-    state->setColor(Qt::gray);
-    state->setLabel(tr("Dead"));
-    m_model->addState(state);
+    CharacterState state4;
+    state4.setColor(Qt::gray);
+    state4.setLabel(tr("Dead"));
 
-    state= new CharacterState();
-    state->setColor(QColor(80, 80, 255));
-    state->setLabel(tr("Sleeping"));
-    m_model->addState(state);
+    CharacterState state5;
+    state5.setColor(QColor(80, 80, 255));
+    state5.setLabel(tr("Sleeping"));
 
-    state= new CharacterState();
-    state->setColor(QColor(0, 200, 0));
-    state->setLabel(tr("Bewitched"));
-    m_model->addState(state);
+    CharacterState state6;
+    state6.setColor(QColor(0, 200, 0));
+    state6.setLabel(tr("Bewitched"));
+
+    m_model->appendState(std::move(state));
+    m_model->appendState(std::move(state2));
+    m_model->appendState(std::move(state3));
+    m_model->appendState(std::move(state4));
+    m_model->appendState(std::move(state5));
+    m_model->appendState(std::move(state6));
 }
 
 void TestCharacterStateModel::addTest()
@@ -110,11 +117,11 @@ void TestCharacterStateModel::addTest()
 
     QVERIFY(m_model->rowCount() == 0);
 
-    auto state= new CharacterState();
-    state->setColor(color);
-    state->setImage(QPixmap(imgPath));
-    state->setLabel(label);
-    m_model->addState(state);
+    CharacterState state;
+    state.setColor(color);
+    state.setImagePath(imgPath);
+    state.setLabel(label);
+    m_model->appendState(std::move(state));
 
     QCOMPARE(m_model->rowCount(), 1);
 }
@@ -187,8 +194,8 @@ void TestCharacterStateModel::moveTest()
         m_model->bottomState(index);
         break;
     }
-    auto listState= m_model->getCharacterStates();
-    QCOMPARE(listState.at(destination)->getLabel(), text);
+    auto const& listState= m_model->statesList();
+    QCOMPARE(listState.at(destination)->label(), text);
 }
 
 void TestCharacterStateModel::moveTest_data()
@@ -209,16 +216,20 @@ void TestCharacterStateModel::saveModelTest()
     addDefaultState();
     QCOMPARE(m_model->rowCount(), 6);
 
-    QJsonObject obj;
-    m_model->save(obj);
+    QTemporaryFile file;
+    QVERIFY(file.open());
+
+    auto array= campaign::FileSerializer::statesToArray(m_model->statesList(), file.fileName());
+
+    // campaign::FileSerializer::writeStatesIntoCampaign(file.fileName(), );
 
     CharacterStateModel model;
+    ModelHelper::fetchCharacterStateModel(array, &model);
 
-    model.load(obj);
     QCOMPARE(model.rowCount(), 6);
-    auto list= model.getCharacterStates();
-    QCOMPARE(list.at(0)->getLabel(), "Healthy");
-    QCOMPARE(list.at(5)->getLabel(), "Bewitched");
+    auto const& list= model.statesList();
+    QCOMPARE(list.at(0)->label(), "Healthy");
+    QCOMPARE(list.at(5)->label(), "Bewitched");
 }
 
 void TestCharacterStateModel::networkTest()
@@ -226,29 +237,24 @@ void TestCharacterStateModel::networkTest()
     addDefaultState();
     QCOMPARE(m_model->rowCount(), 6);
 
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addCharacterState);
+    NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::DiceAliasModel);
     CharacterState state;
     state.setLabel("TestState");
     state.setColor(Qt::red);
+    msg.uint32(1);
 
     msg.uint64(0);
-    msg.string32(state.getLabel());
-    msg.rgb(state.getColor().rgb());
-    msg.uint8(state.hasImage());
-    if(state.hasImage())
-    {
-        auto img= state.getImage();
-        QByteArray array;
-        QBuffer buffer(&array);
-        img.save(&buffer, "PNG");
-        msg.byteArray32(array);
-    }
+    msg.string32(state.label());
+    msg.rgb(state.color().rgb());
+    msg.pixmap(state.pixmap());
     auto data= msg.getData();
     NetworkMessageReader msgReader;
     msgReader.setData(data);
 
-    m_model->processAddState(&msgReader);
-    QCOMPARE(m_model->rowCount(), 7);
+    MessageHelper::fetchCharacterStatesFromNetwork(&msgReader, m_model.get());
+
+    // m_model->processAddState(&msgReader);
+    QCOMPARE(m_model->rowCount(), 1);
 
     // m_model->setGM(false);
     auto list= Character::getCharacterStateList();
