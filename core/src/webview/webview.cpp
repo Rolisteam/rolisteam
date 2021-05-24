@@ -106,15 +106,6 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
 
 WebView::~WebView() {}
 
-bool WebView::readFileFromUri()
-{
-    return true;
-}
-
-void WebView::saveMedia(const QString&) {}
-
-void WebView::putDataIntoCleverUri() {}
-
 void WebView::updateTitle()
 {
     setWindowTitle(tr("%1 - WebPage").arg(m_webCtrl->title()));

@@ -50,7 +50,6 @@
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 #include "data/character.h"
-#include "data/cleveruri.h"
 #include "data/player.h"
 #include "dicealias.h"
 #include "model/boxmodel.h"

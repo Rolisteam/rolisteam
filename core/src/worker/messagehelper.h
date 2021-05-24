@@ -54,7 +54,6 @@ class ImageController;
 class NetworkMessageWriter;
 class NetworkMessageReader;
 class PlayerModel;
-class CleverURI;
 class WebpageController;
 class PdfController;
 class VectorialMapController;

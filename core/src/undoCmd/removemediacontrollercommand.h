@@ -25,7 +25,7 @@
 #include <QVariant>
 #include <map>
 
-#include "data/cleveruri.h"
+#include "media/mediatype.h"
 
 class MediaControllerBase;
 class MediaManagerBase;

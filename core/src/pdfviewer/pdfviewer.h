@@ -61,11 +61,6 @@ public:
     void savePdfToFile(QFile& file);
     void savePdfToFile(QDataStream& out);
     void setParent(Workspace* parent);
-
-    virtual bool openMedia();
-    virtual void saveMedia(const QString&);
-
-    virtual void putDataIntoCleverUri();
     void contextMenuEvent(QContextMenuEvent* event);
 
 protected:

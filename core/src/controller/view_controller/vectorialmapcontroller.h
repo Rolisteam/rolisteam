@@ -39,7 +39,6 @@ class VisualItemController;
 class VmapItemModel;
 } // namespace vmap
 
-class CleverURI;
 class VMap;
 class NetworkMessageReader;
 class VectorialMapController : public MediaControllerBase

@@ -19,8 +19,6 @@
  ***************************************************************************/
 #include "webpagecontroller.h"
 
-#include "data/cleveruri.h"
-
 WebpageController::WebpageController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::WEBVIEW, parent)
 {

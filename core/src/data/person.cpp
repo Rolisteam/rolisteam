@@ -24,7 +24,6 @@
 
 #include <QUuid>
 
-#include "cleveruri.h"
 #include "network/networkmessagewriter.h"
 #include "resourcesnode.h"
 

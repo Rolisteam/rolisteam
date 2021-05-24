@@ -22,10 +22,8 @@
 
 #include <QObject>
 
-#include "data/cleveruri.h"
 #include "mediacontrollerbase.h"
 
-class CleverURI;
 class QBuffer;
 class PdfController : public MediaControllerBase
 {

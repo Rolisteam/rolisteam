@@ -22,7 +22,6 @@
 #include <QSet>
 
 #include "controller/view_controller/sharednotecontroller.h"
-#include "data/cleveruri.h"
 #include "model/contentmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"

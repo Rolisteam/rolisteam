@@ -19,8 +19,6 @@
  ***************************************************************************/
 #include "imagecontroller.h"
 
-#include "data/cleveruri.h"
-
 #include <QBuffer>
 #include <QDebug>
 #include <QFile>

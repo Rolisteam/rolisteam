@@ -24,8 +24,6 @@
 #include <QMdiSubWindow>
 #include <QString>
 
-#include "cleveruri.h"
-#include "data/cleveruri.h"
 #include "preferences/preferencesmanager.h"
 #include "vmap/vtoolbar.h"
 

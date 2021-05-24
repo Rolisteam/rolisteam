@@ -19,7 +19,6 @@
  ***************************************************************************/
 #include "pdfcontroller.h"
 
-#include "data/cleveruri.h"
 #include "worker/iohelper.h"
 
 #include <QBuffer>

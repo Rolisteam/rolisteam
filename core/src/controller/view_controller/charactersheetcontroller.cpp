@@ -5,7 +5,7 @@
 #include "charactersheet/imagemodel.h"
 #include "charactersheetitem.h"
 #include "data/character.h"
-#include "data/cleveruri.h"
+
 #include "data/player.h"
 #include "model/charactermodel.h"
 #include "updater/media/charactersheetupdater.h"

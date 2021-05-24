@@ -48,10 +48,6 @@ public:
     explicit WebView(WebpageController* ctrl, QWidget* parent= nullptr);
     virtual ~WebView();
 
-    virtual bool readFileFromUri();
-    virtual void saveMedia(const QString&);
-    virtual void putDataIntoCleverUri();
-
 protected:
     void mousePressEvent(QMouseEvent* mouseEvent);
     void showEvent(QShowEvent* event);

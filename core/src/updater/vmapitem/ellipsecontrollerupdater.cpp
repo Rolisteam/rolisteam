@@ -25,7 +25,6 @@
 #include <QSet>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "data/cleveruri.h"
 #include "network/networkmessagewriter.h"
 #include "vmap/controller/ellipsecontroller.h"
 #include "worker/convertionhelper.h"

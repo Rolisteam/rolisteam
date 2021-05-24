@@ -27,7 +27,6 @@
 #include <map>
 
 class VMap;
-class CleverURI;
 class VectorialMapController;
 class MediaControllerBase;
 class ImageController;

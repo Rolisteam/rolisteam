@@ -255,22 +255,13 @@ void PdfViewer::contextMenuEvent(QContextMenuEvent* event)
     menu.exec(event->globalPos());
 }
 
-void PdfViewer::putDataIntoCleverUri()
+/*void PdfViewer::putDataIntoCleverUri()
 {
-    QByteArray data;
-    QDataStream out(&data, QIODevice::WriteOnly);
-    savePdfToFile(out);
-    /*if(nullptr != m_uri)
-    {
-        m_uri->setData(data);
-    }*/
-}
-
-bool PdfViewer::openMedia()
-{
-    return false;
-}
-void PdfViewer::saveMedia(const QString&)
-{
-    /// nothing to be done.
-}
+   QByteArray data;
+   QDataStream out(&data, QIODevice::WriteOnly);
+   savePdfToFile(out);
+   if(nullptr != m_uri)
+   {
+       m_uri->setData(data);
+   }
+}*/

@@ -21,7 +21,6 @@
 
 #include <set>
 
-#include "data/cleveruri.h"
 #include "vmap/vmap.h"
 
 #include "undoCmd/addfogofwarchangecommand.h"

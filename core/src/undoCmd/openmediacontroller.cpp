@@ -21,7 +21,6 @@
 
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
-#include "data/cleveruri.h"
 #include "media/mediafactory.h"
 #include "model/contentmodel.h"
 
