@@ -37,7 +37,7 @@ InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWi
     auto engine= m_qmlViewer->engine();
 
     connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& warnings) {
-        for(auto warn : warnings)
+        for(const auto& warn : warnings)
         {
             qDebug() << warn.toString();
         }

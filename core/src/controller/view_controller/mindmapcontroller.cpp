@@ -37,6 +37,7 @@
 #include "controller/selectioncontroller.h"
 #include "controller/spacingcontroller.h"
 #include "data/nodestyle.h"
+#include "libs/mindmap/src/worker/fileserializer.h"
 #include "model/boxmodel.h"
 #include "model/imagemodel.h"
 #include "model/linkmodel.h"
@@ -46,7 +47,6 @@
 #include "qmlItems/nodeitem.h"
 #include "updater/media/mindmapupdater.h"
 #include "userlist/playermodel.h"
-#include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 
 void registerQmlType()

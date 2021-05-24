@@ -104,7 +104,7 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
     }
 }
 
-void ChannelListPanel::sendOffModel()
+/*void ChannelListPanel::sendOffModel()
 {
     qDebug() << "ChannelListPanel :: Send off channel model";
     NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
@@ -115,7 +115,7 @@ void ChannelListPanel::sendOffModel()
 
     msg.byteArray32(doc.toJson());
     msg.sendToServer();
-}
+}*/
 void ChannelListPanel::showCustomMenu(QPoint pos)
 {
     QMenu menu(this);

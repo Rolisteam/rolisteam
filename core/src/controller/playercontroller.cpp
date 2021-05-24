@@ -23,8 +23,8 @@
 #include "controller/preferencescontroller.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
+#include "model/characterstatemodel.h"
 #include "network/receiveevent.h"
-#include "preferences/characterstatemodel.h"
 #include "undoCmd/addlocalcharactercommand.h"
 #include "undoCmd/removelocalcharactercommand.h"
 #include "userlist/playermodel.h"
@@ -97,7 +97,7 @@ NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader*
 
 void PlayerController::setGameController(GameController* gameCtrl)
 {
-    auto prefsCtrl= gameCtrl->preferencesController();
+    // auto prefsCtrl= gameCtrl->preferencesController();
 
     connect(gameCtrl, &GameController::connectedChanged, this, [this](bool b) {
         if(b)
@@ -106,8 +106,8 @@ void PlayerController::setGameController(GameController* gameCtrl)
             m_model->clear();
     });
 
-    m_characterStateModel= prefsCtrl->characterStateModel();
-    emit characterStateModelChanged();
+    // m_characterStateModel= prefsCtrl->characterStateModel();
+    // emit characterStateModelChanged();
 }
 
 Player* PlayerController::localPlayer() const

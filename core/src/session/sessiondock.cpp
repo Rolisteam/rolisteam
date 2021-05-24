@@ -20,13 +20,14 @@
 #include "sessiondock.h"
 #include <QCloseEvent>
 #include <QDebug>
+#include <QFileSystemModel>
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QTreeView>
 
 #include "controller/contentcontroller.h"
 #include "preferences/preferencesmanager.h"
-#include "sessionitemmodel.h"
+//#include "sessionitemmodel.h"
 #include "ui_sessiondock.h"
 
 SessionDock::SessionDock(ContentController* ctrl, QWidget* parent)
@@ -38,7 +39,9 @@ SessionDock::SessionDock(ContentController* ctrl, QWidget* parent)
     setWindowTitle(tr("Resources Explorer"));
 
     m_ui->m_view->setModel(m_ctrl->sessionModel());
-
+    connect(m_ctrl, &ContentController::mediaRootChanged, this,
+            [this]() { m_ui->m_view->setRootIndex(m_ctrl->sessionModel()->index(m_ctrl->mediaRoot())); });
+    m_ui->m_view->setRootIndex(m_ctrl->sessionModel()->index(m_ctrl->mediaRoot()));
     m_ui->m_view->setDragEnabled(true);
     m_ui->m_view->setAcceptDrops(true);
     m_ui->m_view->setDropIndicatorShown(true);
@@ -55,7 +58,7 @@ SessionDock::SessionDock(ContentController* ctrl, QWidget* parent)
     m_ui->m_view->setHeader(hHeader);*/
 
     // m_view->setColumnHidden(SessionItemModel::LoadingMode,true);
-    m_ui->m_view->setColumnHidden(session::SessionItemModel::Path, true);
+    // m_ui->m_view->setColumnHidden(session::SessionItemModel::Path, true);
 
     connect(m_ui->m_view, &SessionView::onDoubleClick, m_ctrl, &ContentController::openResources);
     connect(m_ui->m_view, &SessionView::addChapter, m_ctrl, &ContentController::addChapter);

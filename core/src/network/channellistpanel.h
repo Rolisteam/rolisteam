@@ -31,7 +31,7 @@ public:
     virtual ~ChannelListPanel();
 
     void processMessage(NetworkMessageReader* msg);
-    void sendOffModel();
+    // void sendOffModel();
 
     ChannelListPanel::Groups currentGroups() const;
     void setCurrentGroups(const Groups& currentGroups);
