@@ -30,135 +30,20 @@
 #include <QStyledItemDelegate>
 
 #include "common/widgets/colorbutton.h"
-#include "preferences/characterstatemodel.h"
-#include "preferences/dicealiasmodel.h"
-#include "preferences/palettemodel.h"
+#include "data/rolisteamtheme.h"
+#include "model/dicealiasmodel.h"
+#include "model/palettemodel.h"
 #include "preferences/preferencesmanager.h"
-#include "preferences/rolisteamtheme.h"
 #include "widgets/centeredcheckbox.h"
 #include "widgets/filedirchooser.h"
 
 class PreferencesController;
 
-/**
- * @brief The CheckBoxDelegate class
- */
-class CheckBoxDelegate : public QStyledItemDelegate
-{
-    Q_OBJECT
-public:
-    /**
-     * @brief CheckBoxDelegate
-     * @param aRedCheckBox
-     * @param parent
-     */
-    CheckBoxDelegate(bool aRedCheckBox= false, QObject* parent= nullptr);
-    /**
-     * @brief createEditor
-     * @param parent
-     * @param option
-     * @param index
-     * @return
-     */
-    virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-    /**
-     * @brief setEditorData
-     * @param editor
-     * @param index
-     */
-    virtual void setEditorData(QWidget* editor, const QModelIndex& index) const;
-    /**
-     * @brief setModelData
-     * @param editor
-     * @param model
-     * @param index
-     */
-    virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
-    /**
-     * @brief sizeHint
-     * @param option
-     * @param index
-     * @return
-     */
-    QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
-    /**
-     * @brief paint
-     * @param painter
-     * @param option
-     * @param index
-     */
-    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-
-public slots:
-    void commitEditor();
-
-private:
-    CenteredCheckBox* m_editor= nullptr;
-};
-
-/**
- * @brief The ColorListEditor class
- */
-class ColorListEditor : public QComboBox
-{
-    Q_OBJECT
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged USER true)
-
-public:
-    ColorListEditor(QWidget* widget= nullptr);
-
-    QColor color() const;
-    void setColor(QColor c);
-
-signals:
-    void colorChanged();
-
-private:
-    void populateList();
-};
-
 namespace Ui
 {
 class PreferencesDialogBox;
 }
-/**
- * @brief The ColorDelegate class
- */
-class ColorDelegate : public QStyledItemDelegate
-{
-    Q_OBJECT
-public:
-    /**
-     * @brief CheckBoxDelegate
-     * @param aRedCheckBox
-     * @param parent
-     */
-    ColorDelegate(QObject* parent= nullptr);
-    /**
-     * @brief createEditor
-     * @param parent
-     * @param option
-     * @param index
-     * @return
-     */
-    virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-    /**
-     * @brief setEditorData
-     * @param editor
-     * @param index
-     */
-    virtual void setEditorData(QWidget* editor, const QModelIndex& index) const;
-    /**
-     * @brief setModelData
-     * @param editor
-     * @param model
-     * @param index
-     */
-    virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
 
-private:
-    // ColorListEditor* m_editor;
-};
 /**
  * @brief Actually only to change directories.
  */

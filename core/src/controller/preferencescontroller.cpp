@@ -24,14 +24,15 @@
 #include <QStyleFactory>
 
 #include "controller/gamecontroller.h"
+#include "data/rolisteamtheme.h"
 #include "diceparser.h"
+#include "model/characterstatemodel.h"
+#include "model/dicealiasmodel.h"
 #include "model/languagemodel.h"
+#include "model/palettemodel.h"
 #include "model/thememodel.h"
-#include "preferences/characterstatemodel.h"
-#include "preferences/dicealiasmodel.h"
-#include "preferences/palettemodel.h"
 #include "preferences/preferencesmanager.h"
-#include "preferences/rolisteamtheme.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
 #include "network/networkmessage.h"
@@ -80,17 +81,17 @@ void initializeThemeModel(ThemeModel* model)
 
 void initializeDiceAliasModel(DiceAliasModel* model)
 {
-    model->addAlias(new DiceAlias("l5r", "D10k"));
+    /*appendAlias(new DiceAlias("l5r", "D10k"));
     model->addAlias(new DiceAlias("l5R", "D10K"));
     model->addAlias(new DiceAlias("DF", "D[-1-1]"));
     model->addAlias(new DiceAlias("nwod", "D10e10c[>7]"));
-    model->addAlias(new DiceAlias("(.*)wod(.*)", "\\1d10e[=10]c[>=\\2]-@c[=1]", false));
+    model->addAlias(new DiceAlias("(.*)wod(.*)", "\\1d10e[=10]c[>=\\2]-@c[=1]", false));*/
 }
 
 void initializeState(CharacterStateModel* model)
 {
     // healthy
-    CharacterState* state= new CharacterState();
+    /*CharacterState* state= new CharacterState();
     state->setId("0");
     state->setColor(Qt::black);
     state->setLabel(CharacterStateModel::tr("Healthy"));
@@ -124,21 +125,21 @@ void initializeState(CharacterStateModel* model)
     state->setId("6");
     state->setColor(QColor(0, 200, 0));
     state->setLabel(CharacterStateModel::tr("Bewitched"));
-    model->addState(state);
+    model->addState(state);*/
 }
 
 PreferencesController::PreferencesController(QObject* parent)
     : AbstractControllerInterface(parent)
-    , m_characterStateModel(new CharacterStateModel)
-    , m_diceAliasModel(new DiceAliasModel)
-    , m_paletteModel(new PaletteModel)
+    /* , m_characterStateModel(new CharacterStateModel)
+     , m_diceAliasModel(new DiceAliasModel)*/
+    //, m_paletteModel(new PaletteModel)
     , m_themeModel(new ThemeModel)
     , m_diceParser(new DiceParser)
     , m_languageModel(new LanguageModel)
 {
 
     // to remove
-    ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_characterStateModel.get());
+    // ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_characterStateModel.get());
 }
 
 PreferencesController::~PreferencesController()= default;
@@ -147,28 +148,28 @@ void PreferencesController::setGameController(GameController* game)
 {
     m_preferences= game->preferencesManager();
     loadPreferences();
-    if(m_diceAliasModel->rowCount() == 0)
-        initializeDiceAliasModel(m_diceAliasModel.get());
+    /*  if(m_diceAliasModel->rowCount() == 0)
+          initializeDiceAliasModel(m_diceAliasModel.get());*/
 
     if(m_themeModel->rowCount() == 0)
         initializeThemeModel(m_themeModel.get());
 
-    if(m_characterStateModel->rowCount() == 0)
-        initializeState(m_characterStateModel.get());
+    // if(m_characterStateModel->rowCount() == 0)
+    //  initializeState(m_characterStateModel.get());
 }
 
-QAbstractItemModel* PreferencesController::characterStateModel() const
+/*QAbstractItemModel* PreferencesController::characterStateModel() const
 {
     return m_characterStateModel.get();
 }
 QAbstractItemModel* PreferencesController::diceAliasModel() const
 {
     return m_diceAliasModel.get();
-}
-QAbstractItemModel* PreferencesController::paletteModel() const
+}*/
+/*QAbstractItemModel* PreferencesController::paletteModel() const
 {
     return m_paletteModel.get();
-}
+}*/
 QAbstractItemModel* PreferencesController::languageModel() const
 {
     return m_languageModel.get();
@@ -178,73 +179,10 @@ QAbstractItemModel* PreferencesController::themeModel() const
     return m_themeModel.get();
 }
 
-void PreferencesController::addAlias()
-{
-    m_diceAliasModel->appendAlias();
-}
-
-void PreferencesController::deleteAlias(const QModelIndex& index)
-{
-    m_diceAliasModel->deleteAlias(index);
-}
-
-QString PreferencesController::convertAlias(const QString& str)
-{
-    m_diceParser->constAliases();
-    return m_diceParser->convertAlias(str);
-}
-
-void PreferencesController::moveAlias(const QModelIndex& index, PreferencesController::Move move)
-{
-    switch(move)
-    {
-    case UP:
-        m_diceAliasModel->upAlias(index);
-        break;
-    case DOWN:
-        m_diceAliasModel->downAlias(index);
-        break;
-    case TOP:
-        m_diceAliasModel->topAlias(index);
-        break;
-    case BOTTOM:
-        m_diceAliasModel->bottomAlias(index);
-        break;
-    }
-}
-
-void PreferencesController::addState()
-{
-    m_characterStateModel->appendState();
-}
-
-void PreferencesController::deleteState(const QModelIndex& index)
-{
-    m_characterStateModel->deleteState(index);
-}
-
-void PreferencesController::moveState(const QModelIndex& index, PreferencesController::Move move)
-{
-    switch(move)
-    {
-    case UP:
-        m_characterStateModel->upState(index);
-        break;
-    case DOWN:
-        m_characterStateModel->downState(index);
-        break;
-    case TOP:
-        m_characterStateModel->topState(index);
-        break;
-    case BOTTOM:
-        m_characterStateModel->bottomState(index);
-        break;
-    }
-}
 void PreferencesController::shareModels()
 {
-    MessageHelper::sendOffAllDiceAlias(m_diceAliasModel.get());
-    MessageHelper::sendOffAllCharacterState(m_characterStateModel.get());
+    /*MessageHelper::sendOffAllDiceAlias(m_diceAliasModel.get());
+    MessageHelper::sendOffAllCharacterState(m_characterStateModel.get());*/
 }
 
 void PreferencesController::savePreferences()
@@ -276,20 +214,20 @@ void PreferencesController::savePreferences()
     }
 
     // DiceSystem
-    auto aliasList= m_diceAliasModel->getAliases();
-    m_preferences->registerValue("DiceAliasNumber", aliasList->size());
-    i= 0;
-    for(auto tmpAlias : *aliasList)
-    {
-        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_command").arg(i), tmpAlias->getCommand());
-        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_value").arg(i), tmpAlias->getValue());
-        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_type").arg(i), tmpAlias->isReplace());
-        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_enable").arg(i), tmpAlias->isEnable());
-        ++i;
-    }
+    /* auto aliasList= m_diceAliasModel->getAliases();
+     m_preferences->registerValue("DiceAliasNumber", aliasList->size());
+     i= 0;
+     for(auto tmpAlias : *aliasList)
+     {
+         m_preferences->registerValue(QStringLiteral("DiceAlias_%1_command").arg(i), tmpAlias->getCommand());
+         m_preferences->registerValue(QStringLiteral("DiceAlias_%1_value").arg(i), tmpAlias->getValue());
+         m_preferences->registerValue(QStringLiteral("DiceAlias_%1_type").arg(i), tmpAlias->isReplace());
+         m_preferences->registerValue(QStringLiteral("DiceAlias_%1_enable").arg(i), tmpAlias->isEnable());
+         ++i;
+     }*/
 
     // State
-    auto stateList= m_characterStateModel->getCharacterStates();
+    /*auto stateList= m_characterStateModel->getCharacterStates();
     m_preferences->registerValue("CharacterStateNumber", stateList.size());
     i= 0;
     for(auto tmpState : stateList)
@@ -299,7 +237,7 @@ void PreferencesController::savePreferences()
         m_preferences->registerValue(QStringLiteral("CharacterState_%1_color").arg(i), tmpState->getColor());
         m_preferences->registerValue(QStringLiteral("CharacterState_%1_pixmap").arg(i), tmpState->getImage());
         ++i;
-    }
+    }*/
 }
 
 void PreferencesController::loadPreferences()
@@ -341,34 +279,34 @@ void PreferencesController::loadPreferences()
     // connect(ui->m_styleCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setStyle()));
 
     // DiceSystem
-    size= preferences->value("DiceAliasNumber", 0).toInt();
-    for(int i= 0; i < size; ++i)
-    {
-        QString cmd= preferences->value(QStringLiteral("DiceAlias_%1_command").arg(i), "").toString();
-        QString value= preferences->value(QStringLiteral("DiceAlias_%1_value").arg(i), "").toString();
-        bool replace= preferences->value(QStringLiteral("DiceAlias_%1_type").arg(i), true).toBool();
-        bool enable= preferences->value(QStringLiteral("DiceAlias_%1_enable").arg(i), true).toBool();
+    // size= preferences->value("DiceAliasNumber", 0).toInt();
+    /* for(int i= 0; i < size; ++i)
+     {
+         QString cmd= preferences->value(QStringLiteral("DiceAlias_%1_command").arg(i), "").toString();
+         QString value= preferences->value(QStringLiteral("DiceAlias_%1_value").arg(i), "").toString();
+         bool replace= preferences->value(QStringLiteral("DiceAlias_%1_type").arg(i), true).toBool();
+         bool enable= preferences->value(QStringLiteral("DiceAlias_%1_enable").arg(i), true).toBool();
 
-        DiceAlias* tmpAlias= new DiceAlias(cmd, value, replace, enable);
-        m_diceAliasModel->addAlias(tmpAlias);
-    }
+         // DiceAlias* tmpAlias= new DiceAlias(cmd, value, replace, enable);
+         // m_diceAliasModel->addAlias(tmpAlias);
+     }*/
 
     // character state
-    size= preferences->value("CharacterStateNumber", 0).toInt();
-    for(int i= 0; i < size; ++i)
-    {
-        auto id= preferences->value(QStringLiteral("CharacterState_%1_id").arg(i), QString::number(i)).toString();
-        QString label= preferences->value(QStringLiteral("CharacterState_%1_label").arg(i), "").toString();
-        QColor color= preferences->value(QStringLiteral("CharacterState_%1_color").arg(i), "").value<QColor>();
-        QPixmap pixmap= preferences->value(QStringLiteral("CharacterState_%1_pixmap").arg(i), true).value<QPixmap>();
+    /* size= preferences->value("CharacterStateNumber", 0).toInt();
+     for(int i= 0; i < size; ++i)
+     {
+         auto id= preferences->value(QStringLiteral("CharacterState_%1_id").arg(i), QString::number(i)).toString();
+         QString label= preferences->value(QStringLiteral("CharacterState_%1_label").arg(i), "").toString();
+         QColor color= preferences->value(QStringLiteral("CharacterState_%1_color").arg(i), "").value<QColor>();
+         QPixmap pixmap= preferences->value(QStringLiteral("CharacterState_%1_pixmap").arg(i), true).value<QPixmap>();
 
-        CharacterState* tmpState= new CharacterState();
-        tmpState->setId(id);
-        tmpState->setLabel(label);
-        tmpState->setColor(color);
-        tmpState->setImage(pixmap);
-        m_characterStateModel->addState(tmpState);
-    }
+         CharacterState* tmpState= new CharacterState();
+         tmpState->setId(id);
+         tmpState->setLabel(label);
+         tmpState->setColor(color);
+         tmpState->setImage(pixmap);
+         // m_characterStateModel->addState(tmpState);
+     }*/
 }
 
 void PreferencesController::importData(const QString& filename)
@@ -381,8 +319,8 @@ void PreferencesController::importData(const QString& filename)
     {
         QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
         auto obj= doc.object();
-        m_characterStateModel->load(obj);
-        m_diceAliasModel->load(obj);
+        //       m_characterStateModel->load(obj);
+        //        m_diceAliasModel->load(obj);
     }
 }
 
@@ -392,8 +330,8 @@ void PreferencesController::exportData(const QString& filename)
         return;
 
     QJsonObject obj;
-    m_characterStateModel->save(obj);
-    m_diceAliasModel->save(obj);
+    // m_characterStateModel->save(obj);
+    // m_diceAliasModel->save(obj);
     QFile file(filename);
     if(file.open(QIODevice::WriteOnly))
     {
@@ -460,9 +398,10 @@ void PreferencesController::exportTheme(const QString& filename, int pos)
     {
         return;
     }
-    QJsonObject skinObject;
-    theme->writeTo(skinObject);
-    m_paletteModel->writeTo(skinObject);
+    // QJsonObject skinObject;
+    // theme->writeTo(skinObject);
+    auto skinObject= IOHelper::themeToObject(theme);
+    // m_paletteModel->writeTo(skinObject);
     QJsonDocument saveDoc(skinObject);
     exportFile.write(saveDoc.toJson());
 }
@@ -479,11 +418,13 @@ void PreferencesController::importTheme(const QString& filename)
     }
     QByteArray saveData= importFile.readAll();
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-    RolisteamTheme* theme
-        = new RolisteamTheme(QPalette(), "", "", QStyleFactory::create("fusion"), "", 0, QColor(), false);
-    theme->readFrom(loadDoc.object());
-    m_paletteModel->readFrom(loadDoc.object());
-    theme->setPalette(m_paletteModel->getPalette());
+    auto theme= IOHelper::jsonToTheme(loadDoc.object());
+
+    // RolisteamTheme* theme
+    //  = new RolisteamTheme(QPalette(), "", "", QStyleFactory::create("fusion"), "", 0, QColor(), false);
+    // theme->readFrom(loadDoc.object());
+    // m_paletteModel->readFrom(loadDoc.object());
+    // theme->setPalette(m_paletteModel->getPalette());
 
     m_themeModel->addTheme(theme);
 }
@@ -518,7 +459,7 @@ void PreferencesController::setCurrentThemeIndex(std::size_t pos)
     auto theme= currentTheme();
     if(nullptr == theme)
         return;
-    m_paletteModel->setPalette(theme->getPalette());
+    // m_paletteModel->setPalette(theme->getPalette());
 
     m_preferences->registerValue("PathOfBackgroundImage", theme->getBackgroundImage());
     m_preferences->registerValue("BackGroundColor", theme->getBackgroundColor());
@@ -600,9 +541,10 @@ void PreferencesController::setColorCurrentTheme(const QColor& color, int palett
     auto theme= currentEditableTheme();
     if(nullptr == theme)
         return;
+    auto model= theme->paletteModel();
 
-    m_paletteModel->setColor(palettePos, color);
-    theme->setPalette(m_paletteModel->getPalette());
+    model->setColor(palettePos, color);
+    theme->setPalette(model->getPalette());
 }
 
 void PreferencesController::setDiceHighLightColor(const QColor& color)

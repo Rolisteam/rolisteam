@@ -22,8 +22,8 @@
 #include "preferencesdialog.h"
 
 #include "controller/preferencescontroller.h"
-#include "preferences/palettemodel.h"
-#include "widgets/filepathdelegateitem.h"
+#include "model/palettemodel.h"
+//#include "widgets/filepathdelegateitem.h"
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -47,146 +47,6 @@
 
 #include "diceparser.h"
 
-CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject* parent)
-{
-    Q_UNUSED(aRedCheckBox)
-    Q_UNUSED(parent)
-    m_editor= new CenteredCheckBox();
-    // m_editor->setParent(parent);
-    connect(m_editor, SIGNAL(commitEditor()), this, SLOT(commitEditor()));
-}
-
-QWidget* CheckBoxDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
-                                        const QModelIndex& index) const
-{
-    Q_UNUSED(option)
-    Q_UNUSED(index)
-    CenteredCheckBox* cb= new CenteredCheckBox(parent);
-    return cb;
-}
-void CheckBoxDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
-{
-    CenteredCheckBox* cb= qobject_cast<CenteredCheckBox*>(editor);
-    bool checked= index.data().toBool();
-    cb->setCheckedDelegate(!checked);
-}
-void CheckBoxDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
-{
-    CenteredCheckBox* cb= qobject_cast<CenteredCheckBox*>(editor);
-    model->setData(index, cb->isCheckedDelegate());
-    QStyledItemDelegate::setEditorData(editor, index);
-}
-QSize CheckBoxDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
-{
-    QSize a= QStyledItemDelegate::sizeHint(option, index);
-    a.setHeight(30);
-    a.setWidth(150);
-    return a;
-}
-
-void CheckBoxDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
-{
-    painter->save();
-
-    if(!index.isValid())
-    {
-        return;
-    }
-
-    // QStyleOptionViewItemV4 opt = option;
-    // QStyledItemDelegate::initStyleOption(&option, index);
-
-    QVariant var= index.data();
-
-    bool checked= var.toBool();
-    // QVariant color= index.data(Qt::BackgroundRole);
-
-    if(option.state & QStyle::State_Selected)
-    {
-        painter->fillRect(option.rect, option.palette.highlight());
-    }
-
-    m_editor->setCheckedDelegate(checked);
-
-    m_editor->resize(option.rect.size());
-    m_editor->setAutoFillBackground(false);
-    painter->translate(option.rect.topLeft());
-    m_editor->render(painter, QPoint(), QRegion(), QWidget::DrawChildren);
-
-    painter->restore();
-}
-void CheckBoxDelegate::commitEditor()
-{
-    CenteredCheckBox* editor= qobject_cast<CenteredCheckBox*>(sender());
-    //	std::cout<<"commitEditor "<<(editor==m_editor)<<"  "<<editor->isCheckedDelegate()<<std::endl;
-    emit commitData(editor);
-}
-
-/*********************
- * ColorListEditor *
- *********************/
-
-ColorListEditor::ColorListEditor(QWidget* widget) : QComboBox(widget)
-{
-    populateList();
-}
-
-QColor ColorListEditor::color() const
-{
-    return qvariant_cast<QColor>(itemData(currentIndex(), Qt::DecorationRole));
-}
-
-void ColorListEditor::setColor(QColor color)
-{
-    setCurrentIndex(findData(color, int(Qt::DecorationRole)));
-    emit colorChanged();
-}
-
-void ColorListEditor::populateList()
-{
-    QStringList colorNames= QColor::colorNames();
-
-    for(int i= 0; i < colorNames.size(); ++i)
-    {
-        QColor color(colorNames[i]);
-
-        insertItem(i, colorNames[i]);
-        setItemData(i, color, Qt::DecorationRole);
-    }
-}
-
-/*********************
- * ColorDelegate *
- *********************/
-
-ColorDelegate::ColorDelegate(QObject* parent) : QStyledItemDelegate(parent) {}
-
-QWidget* ColorDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
-                                     const QModelIndex& index) const
-{
-    Q_UNUSED(option)
-    Q_UNUSED(index)
-    return new ColorListEditor(parent);
-}
-
-void ColorDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
-{
-    Q_UNUSED(index)
-    ColorListEditor* cb= qobject_cast<ColorListEditor*>(editor);
-    QColor checked= index.data().value<QColor>();
-    cb->setColor(checked);
-}
-
-void ColorDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
-{
-    ColorListEditor* cb= qobject_cast<ColorListEditor*>(editor);
-    if(nullptr != cb)
-    {
-        QColor color= cb->color();
-        model->setData(index, color);
-    }
-}
-
 /*********************
  * PreferencesDialog *
  *********************/
@@ -200,28 +60,15 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
 
     m_preferences= PreferencesManager::getInstance();
 
-    ui->m_tableViewAlias->setModel(m_ctrl->diceAliasModel());
-
-    ui->m_stateView->setModel(m_ctrl->characterStateModel());
     ui->m_themeComboBox->setModel(m_ctrl->themeModel());
     connect(ui->m_themeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             [this](int pos) { m_ctrl->setCurrentThemeIndex(static_cast<std::size_t>(pos)); });
 
-    QHeaderView* horizontalHeader= ui->m_tableViewAlias->horizontalHeader();
-    horizontalHeader->setSectionResizeMode(DiceAliasModel::PATTERN, QHeaderView::ResizeToContents);
-    horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE, QHeaderView::Stretch);
-    horizontalHeader->setSectionResizeMode(DiceAliasModel::METHOD, QHeaderView::ResizeToContents);
-    horizontalHeader->setSectionResizeMode(DiceAliasModel::COMMENT, QHeaderView::ResizeToContents);
-    ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD, new CheckBoxDelegate());
-    ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::DISABLE, new CheckBoxDelegate());
-    connect(m_ctrl, &PreferencesController::currentThemeIndexChanged, this, [this]() {
-        m_preferences->registerValue("currentThemeIndex", QVariant::fromValue(m_ctrl->currentThemeIndex()), true);
-        updateTheme();
-    });
-
     // m_paletteModel->setPalette(palette());
-    ui->m_paletteTableView->setModel(m_ctrl->paletteModel());
-    horizontalHeader= ui->m_paletteTableView->horizontalHeader();
+    connect(m_ctrl, &PreferencesController::currentThemeIndexChanged, this,
+            [this]() { ui->m_paletteTableView->setModel(m_ctrl->currentTheme()->paletteModel()); });
+    ui->m_paletteTableView->setModel(m_ctrl->currentTheme()->paletteModel());
+    auto horizontalHeader= ui->m_paletteTableView->horizontalHeader();
     horizontalHeader->setSectionResizeMode(0, QHeaderView::Stretch);
 
     connect(this, &PreferencesDialog::accepted, m_ctrl, &PreferencesController::savePreferences);
@@ -243,20 +90,8 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     ui->tabWidget->setCurrentIndex(0);
 
     // aliases
-    connect(ui->m_addDiceAliasAct, &QToolButton::clicked, m_ctrl, &PreferencesController::addAlias);
-    connect(ui->m_delDiceAliasAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->deleteAlias(ui->m_tableViewAlias->currentIndex()); });
-    connect(ui->m_upDiceAliasAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->moveAlias(ui->m_tableViewAlias->currentIndex(), PreferencesController::UP); });
-    connect(ui->m_downDiceAliasAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->moveAlias(ui->m_tableViewAlias->currentIndex(), PreferencesController::DOWN); });
-    connect(ui->m_topDiceAliasAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->moveAlias(ui->m_tableViewAlias->currentIndex(), PreferencesController::TOP); });
-    connect(ui->m_bottomDiceAliasAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->moveAlias(ui->m_tableViewAlias->currentIndex(), PreferencesController::BOTTOM); });
-    connect(ui->m_testPushButton, &QToolButton::clicked, this, &PreferencesDialog::testAliasCommand);
 
-    connect(ui->m_importDiceBtn, &QPushButton::clicked, this, [this]() {
+    /*connect(ui->m_importDiceBtn, &QPushButton::clicked, this, [this]() {
         auto filename= QFileDialog::getOpenFileName(this, tr("Import Dice Aliases or States"),
                                                     m_preferences->value("DataDirectory", QDir::homePath()).toString(),
                                                     tr("Supported Rule files (*.rr *.json)"));
@@ -273,21 +108,7 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
         if(!filename.endsWith(QStringLiteral(".json")) && !filename.endsWith(QStringLiteral(".rr")))
             filename.append(QStringLiteral(".rr"));
         m_ctrl->exportData(filename);
-    });
-
-    // States
-    connect(ui->m_addCharacterStateAct, &QToolButton::clicked, m_ctrl, &PreferencesController::addState);
-    connect(ui->m_delCharceterStateAct, &QToolButton::clicked, m_ctrl,
-            [this]() { m_ctrl->deleteState(ui->m_stateView->currentIndex()); });
-    connect(ui->m_upCharacterStateAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->moveState(ui->m_stateView->currentIndex(), PreferencesController::UP); });
-
-    connect(ui->m_downCharacterStateAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->moveState(ui->m_stateView->currentIndex(), PreferencesController::DOWN); });
-    connect(ui->m_topCharacterStateAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->moveState(ui->m_stateView->currentIndex(), PreferencesController::TOP); });
-    connect(ui->m_bottomCharacterStateAct, &QToolButton::clicked, this,
-            [this]() { m_ctrl->moveState(ui->m_stateView->currentIndex(), PreferencesController::BOTTOM); });
+    });*/
 
     connect(ui->m_highLightPenWidth, QOverload<int>::of(&QSpinBox::valueChanged), this,
             [=]() { m_preferences->registerValue("VMAP::highlightPenWidth", ui->m_highLightPenWidth->value(), true); });
@@ -295,7 +116,7 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
         m_preferences->registerValue("VMAP::highlightColor", ui->m_mapItemHighlightColor->color(), true);
     });
 
-    connect(ui->m_hideTipsOfTheDay, &QCheckBox::clicked, this, [=]() {
+    connect(ui->m_hideTipsOfTheDay, &QCheckBox::clicked, this, [this]() {
         m_preferences->registerValue("MainWindow::neverDisplayTips", ui->m_hideTipsOfTheDay->isChecked(), false);
     });
 
@@ -319,7 +140,7 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     // background
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(backgroundChanged()));
     connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(backgroundChanged()));
-    connect(ui->m_backgroundImage, SIGNAL(pathChanged()), this, SLOT(backgroundChanged()));
+    connect(ui->m_backgroundImage, &FileDirChooser::pathChanged, this, &PreferencesDialog::backgroundChanged);
     connect(ui->m_diceHighlightColorBtn, &ColorButton::colorChanged, m_ctrl,
             &PreferencesController::setDiceHighLightColor);
     // connect(ui->m_backgroundImage,ç)
@@ -334,9 +155,6 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_exportBtn, SIGNAL(clicked()), this, SLOT(exportTheme()));
     connect(ui->m_importBtn, SIGNAL(clicked()), this, SLOT(importTheme()));
     connect(ui->m_deleteTheme, SIGNAL(clicked()), this, SLOT(deleteTheme()));
-
-    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::COLOR, new ColorDelegate(this));
-    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE, new FilePathDelegateItem(this));
 
     connect(m_ctrl, &PreferencesController::currentLangIndexChanged, this,
             [this]() { ui->m_translationSelector->setCurrentIndex(m_ctrl->currentLangIndex()); });
@@ -382,17 +200,18 @@ void PreferencesDialog::show()
 }
 void PreferencesDialog::save() const
 {
-    m_preferences->registerValue("MusicDirectoryPlayer_0", ui->m_musicDirPath->path());
+    /*m_preferences->registerValue("MusicDirectoryPlayer_0", ui->m_musicDirPath->path());
     m_preferences->registerValue("MusicDirectoryPlayer_1", ui->m_musicDirPath2->path());
     m_preferences->registerValue("MusicDirectoryPlayer_2", ui->m_musicDirPath3->path());
     m_preferences->registerValue("ImageDirectory", ui->m_pictureDir->path());
     m_preferences->registerValue("MapDirectory", ui->m_mapDir->path());
     m_preferences->registerValue("SessionDirectory", ui->m_scenarioDir->path());
     m_preferences->registerValue("MinutesDirectory", ui->m_minuteDir->path());
-    m_preferences->registerValue("ChatDirectory", ui->m_chatDir->path());
+    m_preferences->registerValue("CharacterSheetDirectory", ui->m_characterSheetDir->path());
+    m_preferences->registerValue("ChatDirectory", ui->m_chatDir->path());*/
+
     m_preferences->registerValue("MainWindow::MustBeChecked", ui->m_checkUpdate->isChecked());
     m_preferences->registerValue("defaultPermissionMap", ui->m_defaultMapModeCombo->currentIndex());
-    m_preferences->registerValue("CharacterSheetDirectory", ui->m_characterSheetDir->path());
 
     // messaging
     m_preferences->registerValue("MessagingShowTime", ui->m_showTimeCheckBox->isChecked());
@@ -426,7 +245,7 @@ void PreferencesDialog::load()
     // Direcotry PATH
     ui->m_translationFileEdit->setMode(false);
     ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");
-    ui->m_musicDirPath->setPath(m_preferences->value("MusicDirectoryPlayer_0", QDir::homePath()).toString());
+    /*ui->m_musicDirPath->setPath(m_preferences->value("MusicDirectoryPlayer_0", QDir::homePath()).toString());
     ui->m_musicDirPath2->setPath(m_preferences->value("MusicDirectoryPlayer_1", QDir::homePath()).toString());
     ui->m_musicDirPath3->setPath(m_preferences->value("MusicDirectoryPlayer_2", QDir::homePath()).toString());
     ui->m_pictureDir->setPath(m_preferences->value("ImageDirectory", QDir::homePath()).toString());
@@ -434,7 +253,7 @@ void PreferencesDialog::load()
     ui->m_scenarioDir->setPath(m_preferences->value("SessionDirectory", QDir::homePath()).toString());
     ui->m_minuteDir->setPath(m_preferences->value("MinutesDirectory", QDir::homePath()).toString());
     ui->m_chatDir->setPath(m_preferences->value("ChatDirectory", QDir::homePath()).toString());
-    ui->m_characterSheetDir->setPath(m_preferences->value("CharacterSheetDirectory", QDir::homePath()).toString());
+    ui->m_characterSheetDir->setPath(m_preferences->value("CharacterSheetDirectory", QDir::homePath()).toString());*/
 
     ui->m_translationFileEdit->setPath(m_preferences->value("currentTranslationFile", "").toString());
     ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow::MustBeChecked", true).toBool());
@@ -643,7 +462,7 @@ void PreferencesDialog::performDiag()
 
 void PreferencesDialog::testAliasCommand()
 {
-    ui->m_convertedCmdEdit->setText(m_ctrl->convertAlias(ui->m_cmdDiceEdit->text()));
+    // ui->m_convertedCmdEdit->setText(m_ctrl->convertAlias(ui->m_cmdDiceEdit->text()));
 }
 
 void PreferencesDialog::exportTheme()

@@ -38,9 +38,7 @@ class DiceParser;
 class PreferencesController : public AbstractControllerInterface
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* diceAliasModel READ diceAliasModel CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* paletteModel READ paletteModel CONSTANT)
+    // Q_PROPERTY(QAbstractItemModel* paletteModel READ paletteModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* themeModel READ themeModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* languageModel READ languageModel CONSTANT)
 
@@ -54,21 +52,12 @@ class PreferencesController : public AbstractControllerInterface
     Q_PROPERTY(QStringList currentLangPath READ currentLangPath NOTIFY currentLangIndexChanged)
 
 public:
-    enum Move
-    {
-        UP,
-        DOWN,
-        BOTTOM,
-        TOP
-    };
     explicit PreferencesController(QObject* parent= nullptr);
     virtual ~PreferencesController() override;
 
     void setGameController(GameController*) override;
 
-    QAbstractItemModel* characterStateModel() const;
-    QAbstractItemModel* diceAliasModel() const;
-    QAbstractItemModel* paletteModel() const;
+    // QAbstractItemModel* paletteModel() const;
     QAbstractItemModel* themeModel() const;
     QAbstractItemModel* languageModel() const;
 
@@ -97,15 +86,15 @@ signals:
 public slots:
 
     // alias
-    void addAlias();
+    /*void addAlias();
     void deleteAlias(const QModelIndex& index);
     void moveAlias(const QModelIndex& index, PreferencesController::Move move);
-    QString convertAlias(const QString& str);
+    QString convertAlias(const QString& str);*/
 
     // states
-    void addState();
+    /*void addState();
     void deleteState(const QModelIndex& index);
-    void moveState(const QModelIndex& index, PreferencesController::Move move);
+    void moveState(const QModelIndex& index, PreferencesController::Move move);*/
 
     void shareModels();
 
@@ -134,9 +123,7 @@ public slots:
     void setCurrentThemeTitle(const QString& title);
 
 private:
-    std::unique_ptr<CharacterStateModel> m_characterStateModel;
-    std::unique_ptr<DiceAliasModel> m_diceAliasModel;
-    std::unique_ptr<PaletteModel> m_paletteModel;
+    // std::unique_ptr<PaletteModel> m_paletteModel;
     std::unique_ptr<ThemeModel> m_themeModel;
     std::unique_ptr<DiceParser> m_diceParser;
     std::unique_ptr<LanguageModel> m_languageModel;
