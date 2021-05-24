@@ -24,6 +24,9 @@
 #include "network/networkmessage.h"
 #include <QDateTime>
 #include <QString>
+#ifdef QT_GUI_LIB
+#include <QPixmap>
+#endif
 /**
  * @brief The NetworkMessageReader class
  */
@@ -64,6 +67,10 @@ public:
     qint16 int16();
     qint32 int32();
     qint64 int64();
+
+#ifdef QT_GUI_LIB
+    QPixmap pixmap();
+#endif
 
     QDateTime dateTime();
 

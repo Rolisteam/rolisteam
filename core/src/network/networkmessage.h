@@ -48,12 +48,12 @@ enum Category
     InstantMessageCategory,
     MusicCategory,
     SetupCategory,
-    SharePreferencesCategory,
+    CampaignCategory,
     VMapCategory,
     MediaCategory,
     SharedNoteCategory,
     WebPageCategory,
-    MindMapCategory
+    MindMapCategory,
 };
 
 enum Action
@@ -144,7 +144,7 @@ enum Action
     // SetupCategory
     AddFeatureAction= 2,
 
-    // SharePreferencesCategory
+    // CampaignCategory
     addDiceAlias= 0,
     moveDiceAlias,
     removeDiceAlias,

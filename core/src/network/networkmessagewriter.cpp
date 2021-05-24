@@ -152,6 +152,27 @@ void NetworkMessageWriter::byteArray32(const QByteArray& data)
     m_currentPos+= size;
 }
 
+#ifdef QT_GUI_LIB
+bool NetworkMessageWriter::pixmap(const QPixmap& pix)
+{
+    QByteArray baImage;
+    QBuffer bufImage(&baImage);
+    bool res= false;
+
+    if(pix.save(&bufImage, pix.hasAlpha() ? "png" : "jpg", 70))
+    {
+        uint8(true);
+        byteArray32(baImage);
+        res= true;
+    }
+    else
+    {
+        uint8(false);
+    }
+    return res;
+}
+#endif
+
 void NetworkMessageWriter::rgb(unsigned int color)
 {
     int size= sizeof(unsigned int);

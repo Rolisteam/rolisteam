@@ -321,6 +321,20 @@ qint64 NetworkMessageReader::int64()
     return 0;
 }
 
+#ifdef QT_GUI_LIB
+QPixmap NetworkMessageReader::pixmap()
+{
+    bool hasPix= uint8();
+    if(!hasPix)
+        return {};
+
+    auto data= byteArray32();
+    QPixmap res;
+    res.loadFromData(data);
+    return res;
+}
+#endif
+
 QDateTime NetworkMessageReader::dateTime()
 {
     auto byte= byteArray32();

@@ -59,7 +59,7 @@ public:
     void byteArray32(const QByteArray& data);
 
 #ifdef QT_GUI_LIB
-    void pixmap(const QPixmap& pix);
+    bool pixmap(const QPixmap& pix);
 #endif
     void rgb(unsigned int color);
 

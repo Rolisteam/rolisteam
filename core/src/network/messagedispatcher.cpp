@@ -102,8 +102,8 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
     case NetMsg::SetupCategory:
         str= QStringLiteral("SetupCategory");
         break;
-    case NetMsg::SharePreferencesCategory:
-        str= QStringLiteral("SharePreferencesCategory");
+    case NetMsg::CampaignCategory:
+        str= QStringLiteral("CampaignCategory");
         break;
     case NetMsg::VMapCategory:
         str= QStringLiteral("VMapCategory");
@@ -401,7 +401,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         }
     }
-    else if(cat == NetMsg::SharePreferencesCategory)
+    else if(cat == NetMsg::CampaignCategory)
     {
         switch(act)
         {
