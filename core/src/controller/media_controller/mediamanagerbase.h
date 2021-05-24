@@ -23,7 +23,6 @@
 #include <QObject>
 #include <QPointer>
 
-#include "data/cleveruri.h"
 #include "media/mediatype.h"
 #include "network/networkreceiver.h"
 

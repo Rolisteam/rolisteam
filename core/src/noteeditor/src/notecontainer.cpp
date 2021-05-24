@@ -57,53 +57,6 @@ void NoteContainer::updateTitle()
     setWindowTitle(tr("%1[*] - (Notes)").arg(showName));*/
 }
 
-bool NoteContainer::readFileFromUri()
-{
-    /* if((nullptr == m_uri) || (nullptr == m_edit))
-     {
-         return false;
-     }
-     bool val= false;
-     if(!m_uri->exists())
-     {
-         QByteArray array= m_uri->getData();
-         QDataStream in(&array, QIODevice::ReadOnly);
-         in.setVersion(QDataStream::Qt_5_7);
-         readFromFile(in);
-         val= true;
-     }
-     else
-     {
-         val= m_edit->load(m_uri->getUri());
-     }
-     updateTitle();*/
-    return false;
-}
-
-void NoteContainer::saveMedia(const QString&)
-{
-    if(nullptr != m_edit)
-    {
-        m_edit->fileSave();
-        QString uri= m_edit->getFileName();
-        // m_uri->setUri(uri);
-    }
-}
-void NoteContainer::putDataIntoCleverUri()
-{
-    if(nullptr != m_edit)
-    {
-        QByteArray data;
-        QDataStream out(&data, QIODevice::WriteOnly);
-        out.setVersion(QDataStream::Qt_5_7);
-        m_edit->saveFileAsBinary(out);
-        /*    if(nullptr != m_uri)
-            {
-                m_uri->setData(data);
-            }*/
-    }
-}
-
 void NoteContainer::setTitle(QString str)
 {
     if(nullptr != m_edit)

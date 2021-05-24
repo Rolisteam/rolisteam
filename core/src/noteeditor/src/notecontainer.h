@@ -30,13 +30,9 @@ class NoteContainer : public MediaContainer
     Q_OBJECT
 public:
     NoteContainer(NoteController* note, QWidget* parent= nullptr);
-    bool readFileFromUri();
-    void saveMedia(const QString& str= QString());
 
     void readFromFile(QDataStream& data);
     void saveInto(QDataStream& out);
-
-    void putDataIntoCleverUri();
 
     virtual void setTitle(QString str);
 public slots:

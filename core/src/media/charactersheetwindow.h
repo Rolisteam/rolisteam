@@ -79,15 +79,6 @@ public:
      */
     QJsonDocument saveFile();
     /**
-     * @brief readFileFromUri
-     * @return
-     */
-    bool readFileFromUri();
-    /**
-     * @brief saveMedia
-     */
-    void saveMedia();
-    /**
      * @brief addCharacterSheet
      */
     void addCharacterSheetSlot(CharacterSheet*);
@@ -209,10 +200,6 @@ protected slots:
      * @param warnings
      */
     void displayError(const QList<QQmlError>& warnings);
-    /**
-     * @brief putDataIntoCleverUri
-     */
-    void putDataIntoCleverUri();
     /**
      * @brief setReadOnlyOnSelection
      */

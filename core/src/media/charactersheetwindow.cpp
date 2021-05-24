@@ -636,9 +636,9 @@ void CharacterSheetWindow::addCharacterSheetSlot(CharacterSheet* sheet)
     }
 }
 
-bool CharacterSheetWindow::readFileFromUri()
+/*bool CharacterSheetWindow::readFileFromUri()
 {
-    /*  if(nullptr != m_uri)
+      if(nullptr != m_uri)
       {
           updateTitle();
 
@@ -653,41 +653,41 @@ bool CharacterSheetWindow::readFileFromUri()
           {
               return openFile(m_uri->getUri());
           }
-      }*/
+      }
     return false;
 }
 void CharacterSheetWindow::putDataIntoCleverUri()
 {
-    /*QByteArray data;
+    QByteArray data;
     QJsonDocument doc= saveFile();
     data= doc.toBinaryData();*/
-    /* if(nullptr != m_uri)
-     {
-         m_uri->setData(data);
-     }*/
+/* if(nullptr != m_uri)
+ {
+     m_uri->setData(data);
+ }
 }
 
 void CharacterSheetWindow::saveMedia()
 {
-    /*if((nullptr != m_uri) && (!m_uri->getUri().isEmpty()))
+if((nullptr != m_uri) && (!m_uri->getUri().isEmpty()))
+{
+    QString uri= m_uri->getUri();
+    if(!uri.isEmpty())
     {
-        QString uri= m_uri->getUri();
-        if(!uri.isEmpty())
+        if(!uri.endsWith(".rcs"))
         {
-            if(!uri.endsWith(".rcs"))
-            {
-                uri+= QLatin1String(".rcs");
-            }
-            QJsonDocument doc= saveFile();
-            QFile file(uri);
-            if(file.open(QIODevice::WriteOnly))
-            {
-                file.write(doc.toJson());
-                file.close();
-            }
+            uri+= QLatin1String(".rcs");
         }
-    }*/
+        QJsonDocument doc= saveFile();
+        QFile file(uri);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            file.write(doc.toJson());
+            file.close();
+        }
+    }
 }
+}*/
 void CharacterSheetWindow::fillMessage(NetworkMessageWriter* msg, CharacterSheet* sheet, QString idChar)
 {
     Q_UNUSED(msg)
