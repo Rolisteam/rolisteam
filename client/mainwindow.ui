@@ -59,23 +59,9 @@
       <string>Recent Files</string>
      </property>
     </widget>
-    <widget class="QMenu" name="menuSave">
-     <property name="title">
-      <string>Save</string>
-     </property>
-     <addaction name="m_saveAction"/>
-     <addaction name="m_saveAsAction"/>
-     <addaction name="m_saveAllAction"/>
-    </widget>
     <addaction name="menu_New"/>
     <addaction name="menu_Open"/>
     <addaction name="m_recentFileMenu"/>
-    <addaction name="separator"/>
-    <addaction name="menuSave"/>
-    <addaction name="separator"/>
-    <addaction name="m_openStoryAction"/>
-    <addaction name="m_saveScenarioAction"/>
-    <addaction name="m_saveScenarioAsAction"/>
     <addaction name="separator"/>
     <addaction name="m_closeAction"/>
     <addaction name="separator"/>
@@ -140,13 +126,18 @@
    </widget>
    <widget class="QMenu" name="m_gmToolBoxMenu">
     <property name="title">
-     <string>GM ToolBoxes</string>
+     <string>&amp;GM ToolBoxes</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuCampaign">
     <property name="title">
-     <string>Campaign</string>
+     <string>&amp;Campaign</string>
     </property>
+    <addaction name="m_newCampaignAct"/>
+    <addaction name="m_openCampaignAction"/>
+    <addaction name="m_saveCampaignAction"/>
+    <addaction name="m_saveCampaignAsAct"/>
+    <addaction name="separator"/>
     <addaction name="m_diceAliasAct"/>
     <addaction name="m_statesAct"/>
     <addaction name="m_statisticAct"/>
@@ -178,50 +169,9 @@
    <addaction name="m_showChatAct"/>
    <addaction name="separator"/>
   </widget>
-  <action name="m_saveAction">
-   <property name="icon">
-    <iconset theme="QStyle::SP_FileIcon">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Current Media</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+S</string>
-   </property>
-  </action>
-  <action name="m_saveAsAction">
-   <property name="icon">
-    <iconset theme="QStyle::SP_FileIcon">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Current Media as…</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+Shift+S</string>
-   </property>
-  </action>
-  <action name="m_saveAllAction">
-   <property name="text">
-    <string>All Media</string>
-   </property>
-  </action>
-  <action name="m_saveScenarioAsAction">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/story.png</normaloff>:/story.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save Scenario As…</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
-   </property>
-  </action>
   <action name="m_closeAction">
    <property name="text">
-    <string>Close</string>
+    <string>Close File</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Esc</string>
@@ -305,7 +255,7 @@
   </action>
   <action name="m_newNoteAction">
    <property name="icon">
-    <iconset theme="notes">
+    <iconset theme="text-x-generic">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -317,7 +267,7 @@
   </action>
   <action name="m_openPictureAction">
    <property name="icon">
-    <iconset theme="photo">
+    <iconset theme="image-x-generic">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -329,7 +279,7 @@
   </action>
   <action name="m_openNoteAction">
    <property name="icon">
-    <iconset theme="notes">
+    <iconset theme="text-x-generic">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -339,13 +289,13 @@
     <string>Ctrl+Shift+N</string>
    </property>
   </action>
-  <action name="m_openStoryAction">
+  <action name="m_openCampaignAction">
    <property name="icon">
     <iconset theme="story">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Open Scenario</string>
+    <string>Open Campaign</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
@@ -353,7 +303,7 @@
   </action>
   <action name="m_openOnlinePictureAction">
    <property name="icon">
-    <iconset theme="photo">
+    <iconset theme="image-x-generic">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -459,13 +409,13 @@
     <string>Ctrl+U</string>
    </property>
   </action>
-  <action name="m_saveScenarioAction">
+  <action name="m_saveCampaignAction">
    <property name="icon">
     <iconset theme="story">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Save Scenario</string>
+    <string>Save Campaign</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -553,7 +503,7 @@
   </action>
   <action name="m_newWebViewACt">
    <property name="icon">
-    <iconset theme="webPage">
+    <iconset theme="text-html">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -687,8 +637,19 @@
     <string>Theme</string>
    </property>
   </action>
+  <action name="m_newCampaignAct">
+   <property name="text">
+    <string>New Campaign</string>
+   </property>
+  </action>
+  <action name="m_saveCampaignAsAct">
+   <property name="text">
+    <string>Save Campaign As…</string>
+   </property>
+  </action>
  </widget>
  <resources>
+  <include location="../rolisteam.qrc"/>
   <include location="../rolisteam.qrc"/>
  </resources>
  <connections>

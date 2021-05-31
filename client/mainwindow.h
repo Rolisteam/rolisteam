@@ -70,6 +70,11 @@ struct FileInfo
     Core::ContentType type;
 };
 
+namespace campaign
+{
+class CampaignDock;
+}
+
 class UpdateChecker;
 // class ChatListWidget;
 class Image;
@@ -198,7 +203,6 @@ protected:
      * @param ev
      */
     void dragEnterEvent(QDragEnterEvent* ev);
-    void readStory(QString fileName);
     void processSharedNoteMessage(NetworkMessageReader* msg);
     void showTipChecker();
     virtual void mouseMoveEvent(QMouseEvent* event);
@@ -212,25 +216,15 @@ private slots:
      * @param isGM
      */
     void userNatureChange();
-    /**
-     * @brief openStory
-     */
-    void openStory();
+    void openCampaign();
     /**
      * @brief showUpdateNotification
      */
     void showUpdateNotification();
-    // save methods
-    /**
-     * @brief saveCurrentMedia
-     */
-    void saveCurrentMedia();
-    // Network private Slot
     /**
      * @brief stopReconnection
      */
     void stopReconnection();
-    void openResource(ResourcesNode* node, bool force);
     /**
      * @brief updateRecentFileActions
      */
@@ -284,7 +278,7 @@ private:
 #endif
     std::unique_ptr<NotificationZone> m_dockLogUtil;
     std::unique_ptr<CommandLineProfile> m_commandLineProfile;
-    std::unique_ptr<SessionDock> m_sessionDock;
+    std::unique_ptr<campaign::CampaignDock> m_campaignDock;
     std::unique_ptr<QSystemTrayIcon> m_systemTray;
     std::unique_ptr<Workspace> m_mdiArea;
 

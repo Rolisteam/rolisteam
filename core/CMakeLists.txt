@@ -114,6 +114,7 @@ set(HEADERS
     src/model/dicealiasmodel.h
     src/model/imagemodel.h
     src/model/languagemodel.h
+    src/model/mediamodel.h
     src/model/palettemodel.h
     src/model/playerproxymodel.h
     src/model/profilemodel.h
@@ -121,6 +122,7 @@ set(HEADERS
     src/model/singlecontenttypemodel.h
     src/model/thememodel.h
     src/model/vmapitemmodel.h
+    src/model/mediafilteredmodel.h
     src/network/channel.h
     src/network/channellistpanel.h
     src/network/channelmodel.h
@@ -177,9 +179,7 @@ set(HEADERS
     src/services/tipchecker.h
     src/services/updatechecker.h
     src/services/updaterwindow.h
-    src/session/sessiondock.h
     src/session/sessionitemmodel.h
-    src/session/sessionview.h
     src/sharededitor/codeeditor.h
     src/sharededitor/document.h
     src/sharededitor/enu.h
@@ -380,6 +380,7 @@ set(SOURCES
     src/model/dicealiasmodel.cpp
     src/model/imagemodel.cpp
     src/model/languagemodel.cpp
+    src/model/mediamodel.cpp
     src/model/palettemodel.cpp
     src/model/playerproxymodel.cpp
     src/model/profilemodel.cpp
@@ -387,6 +388,7 @@ set(SOURCES
     src/model/singlecontenttypemodel.cpp
     src/model/thememodel.cpp
     src/model/vmapitemmodel.cpp
+    src/model/mediafilteredmodel.cpp
     src/network/channel.cpp
     src/network/channellistpanel.cpp
     src/network/channelmodel.cpp
@@ -441,9 +443,7 @@ set(SOURCES
     src/services/tipchecker.cpp
     src/services/updatechecker.cpp
     src/services/updaterwindow.cpp
-    src/session/sessiondock.cpp
     src/session/sessionitemmodel.cpp
-    src/session/sessionview.cpp
     src/sharededitor/codeeditor.cpp
     src/sharededitor/document.cpp
     src/sharededitor/finddialog.cpp
@@ -601,7 +601,6 @@ set(UI_FILES
     src/network/selectconnectionprofiledialog.ui
     src/network/channellistpanel.ui
     src/network/connectionretrydialog.ui
-    src/session/sessiondock.ui
     src/qmlchat/instantmessagingview.ui
     src/pdfviewer/pdfviewer.ui
     )
