@@ -24,19 +24,26 @@
 
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
+#include "data/campaigneditor.h"
 #include "data/cleveruri.h"
 #include "media/mediafactory.h"
 #include "model/contentmodel.h"
 
-NewMediaController::NewMediaController(Core::ContentType contentType, ContentModel* model,
-                                       const std::map<QString, QVariant>& map, bool localIsGM, QUndoCommand* parent)
-    : QUndoCommand(parent), m_contentType(contentType), m_args(map), m_model(model), m_localGM(localIsGM)
+#include "worker/fileserializer.h"
+#include "worker/iohelper.h"
+
+NewMediaController::NewMediaController(ContentModel* model, const std::map<QString, QVariant>& map, bool localIsGM,
+                                       campaign::CampaignEditor* editor, QUndoCommand* parent)
+    : QUndoCommand(parent), m_args(map), m_model(model), m_localGM(localIsGM), m_editor(editor)
 {
-    m_title= m_args["name"].toString();
+    m_contentType= m_args[Core::keys::KEY_TYPE].value<Core::ContentType>();
+    m_title= m_args[Core::keys::KEY_NAME].toString();
+
+    m_fullPath= m_editor ? m_editor->mediaFullPath(m_title, m_contentType) : m_title;
 
     QString media(QObject::tr("Create new %1 %2"));
 
-    setText(media.arg(CleverURI::typeToString(contentType)).arg(m_title));
+    setText(media.arg(CleverURI::typeToString(m_contentType), m_title));
 }
 
 void NewMediaController::redo()
@@ -49,6 +56,11 @@ void NewMediaController::redo()
 
     qInfo() << QStringLiteral("Redo command newmediacontroller: %1 ").arg(text());
     auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args, m_localGM);
+    media->setPath(m_fullPath);
+    if(m_editor)
+    {
+        m_editor->addFile(m_fullPath, IOHelper::saveController(media));
+    }
     m_model->appendMedia(media);
 }
 
@@ -58,4 +70,8 @@ void NewMediaController::undo()
         return;
     qInfo() << QStringLiteral("Undo command newmediacontroller: %1 ").arg(text());
     m_model->removeMedia(m_uuidUri);
+    if(m_editor)
+    {
+        m_editor->removeFile(m_fullPath);
+    }
 }

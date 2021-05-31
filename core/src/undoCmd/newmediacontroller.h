@@ -28,11 +28,15 @@
 class MediaManagerBase;
 class ContentController;
 class ContentModel;
+namespace campaign
+{
+class CampaignEditor;
+}
 class NewMediaController : public QUndoCommand
 {
 public:
-    NewMediaController(Core::ContentType contentType, ContentModel* model, const std::map<QString, QVariant>& map,
-                       bool localIsGM, QUndoCommand* parent= nullptr);
+    NewMediaController(ContentModel* model, const std::map<QString, QVariant>& map, bool localIsGM,
+                       campaign::CampaignEditor* editor, QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
@@ -40,10 +44,12 @@ public:
 private:
     QString m_uuidUri;
     QString m_title;
+    QString m_fullPath;
     Core::ContentType m_contentType;
     std::map<QString, QVariant> m_args;
     QPointer<ContentModel> m_model;
     bool m_localGM;
+    QPointer<campaign::CampaignEditor> m_editor;
 };
 
 #endif // NEWMEDIACONTROLLER_H
