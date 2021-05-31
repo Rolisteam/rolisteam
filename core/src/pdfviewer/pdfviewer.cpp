@@ -34,10 +34,6 @@
 #include "ui_pdfviewer.h"
 #include "widgets/overlay.h"
 
-// TO BE REMOVED
-#include "qpdflib/qpdfwidget.h"
-// TO BE REMOVED
-
 #define MARGING 0
 #define ICON_SIZE 32
 

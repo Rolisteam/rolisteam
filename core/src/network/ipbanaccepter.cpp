@@ -21,6 +21,6 @@ bool IpBanAccepter::isValid(const QMap<QString, QVariant>& data) const
     bool result
         = ((!bannedIp.contains(currentIp)) && (!bannedIp.contains(currentIpV4)) && (!bannedIp.contains(currentIpV6)));
 
-    qInfo() << " Ip Ban:" << result << "current IP: " << currentIp;
+    // qInfo() << " Ip Ban:" << result << "current IP: " << currentIp;
     return result;
 }

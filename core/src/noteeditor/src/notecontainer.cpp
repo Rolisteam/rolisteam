@@ -46,15 +46,6 @@ void NoteContainer::setFileName(QString str)
         m_uri->setUri(str);
     }*/
     setWindowModified(false);
-    updateTitle();
-}
-
-void NoteContainer::updateTitle()
-{
-    /*QString showName= getUriName();
-    if(showName.isEmpty())
-        showName= "untitled.txt";
-    setWindowTitle(tr("%1[*] - (Notes)").arg(showName));*/
 }
 
 void NoteContainer::setTitle(QString str)

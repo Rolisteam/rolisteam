@@ -76,7 +76,7 @@ public:
     qint64 write(const QString dat)
     {
         QByteArray chunk;
-        chunk.append(dat);
+        chunk.append(dat.toUtf8());
         d->write(chunk);
         start();
         return d->bytesAvailable();

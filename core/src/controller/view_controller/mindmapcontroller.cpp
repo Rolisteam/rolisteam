@@ -509,5 +509,5 @@ void MindMapController::generateTree()
         output.flush();
     }
 
-    qDebug() << res;
+    // qDebug() << res;
 }

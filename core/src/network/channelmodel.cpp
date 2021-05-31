@@ -525,6 +525,7 @@ bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
 {
     if(m_defaultChannel.isEmpty())
     {
+        qDebug() << "call addConnectionToDefaultChannel while channel is empty";
         if(!m_root.isEmpty())
         {
             auto item= m_root.at(0);

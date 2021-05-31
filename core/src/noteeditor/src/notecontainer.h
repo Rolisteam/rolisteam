@@ -37,8 +37,6 @@ public:
     virtual void setTitle(QString str);
 public slots:
     void setFileName(QString);
-protected slots:
-    void updateTitle();
 
 private:
     QPointer<NoteController> m_noteCtrl;
