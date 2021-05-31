@@ -30,6 +30,8 @@
 #include <map>
 #include <model/contentmodel.h>
 
+#include "media/mediatype.h"
+
 class ContentControllerTest : public QObject
 {
     Q_OBJECT
@@ -72,14 +74,16 @@ void ContentControllerTest::saveLoadImage()
     m_ctrl->setLocalId("localid");
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
     {
-        auto imgParams= std::map<QString, QVariant>({{"uuid", "test_unit_vmap"},
-                                                     {"path", ":/img/girafe3.jpg"},
-                                                     {"rect", QRectF(0, 0, 326, 244)},
-                                                     {"position", QPointF(500, 200)},
-                                                     {"tool", Core::SelectableTool::IMAGE}});
+        auto imgParams
+            = std::map<QString, QVariant>({{Core::keys::KEY_UUID, "test_unit_vmap"},
+                                           {Core::keys::KEY_PATH, ":/img/girafe3.jpg"},
+                                           {Core::keys::KEY_RECT, QRectF(0, 0, 326, 244)},
+                                           {Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::VECTORIALMAP)},
+                                           {Core::keys::KEY_POSITION, QPointF(500, 200)},
+                                           {Core::keys::KEY_TOOL, Core::SelectableTool::IMAGE}});
         auto mapParams= std::map<QString, QVariant>({{"name", QString("Unit Test Map")}});
 
-        m_ctrl->newMedia(Core::ContentType::VECTORIALMAP, mapParams);
+        m_ctrl->newMedia(nullptr, mapParams);
 
         auto ctrls= m_ctrl->contentModel()->controllers();
 
@@ -139,9 +143,9 @@ void ContentControllerTest::serializeTest()
 
     for(int i= 0; i < contentType.size(); ++i)
     {
-        std::map<QString, QVariant> mapItem= map[i];
-        auto type= contentType[i];
-        m_ctrl->newMedia(type, mapItem);
+        auto mapItem= map[i];
+        mapItem.insert({Core::keys::KEY_TYPE, QVariant::fromValue(contentType[i])});
+        m_ctrl->newMedia(nullptr, mapItem);
     }
     QVERIFY2(m_ctrl->contentCount() == count, "After manual insertion");
 
@@ -208,30 +212,34 @@ void ContentControllerTest::completeSerializationTest()
         switch(content)
         {
         case Core::ContentType::PICTURE:
-            mapItem.insert({{"path", ":/img/girafe3.jpg"}, {"name", "girafe"}});
+            mapItem.insert({{Core::keys::KEY_PATH, ":/img/girafe3.jpg"}, {Core::keys::KEY_NAME, "girafe"}});
             break;
         case Core::ContentType::CHARACTERSHEET:
-            mapItem.insert({{"path", ":/charactersheet/bitume_fixed.rcs"}, {"name", "bitume"}});
+            mapItem.insert(
+                {{Core::keys::KEY_PATH, ":/charactersheet/bitume_fixed.rcs"}, {Core::keys::KEY_NAME, "bitume"}});
             break;
         case Core::ContentType::PDF:
-            mapItem.insert({{"path", ":/pdf/01_personnages.pdf"}, {"name", "personnages"}});
+            mapItem.insert({{Core::keys::KEY_PATH, ":/pdf/01_personnages.pdf"}, {Core::keys::KEY_NAME, "personnages"}});
             break;
         case Core::ContentType::VECTORIALMAP:
-            mapItem.insert({{"path", ":/sharednotes/test.vmap"}, {"name", "Test VMap"}});
+            mapItem.insert({{Core::keys::KEY_PATH, ":/sharednotes/test.vmap"}, {Core::keys::KEY_NAME, "Test VMap"}});
             break;
         case Core::ContentType::SHAREDNOTE:
-            mapItem.insert({{"path", ":/sharednotes/scenario.md"}, {"name", "Markdown file"}});
+            mapItem.insert(
+                {{Core::keys::KEY_PATH, ":/sharednotes/scenario.md"}, {Core::keys::KEY_NAME, "Markdown file"}});
             break;
         case Core::ContentType::NOTES:
-            mapItem.insert({{"path", ":/sharednotes/scenario.md"}, {"name", "Markdown file"}});
+            mapItem.insert(
+                {{Core::keys::KEY_PATH, ":/sharednotes/scenario.md"}, {Core::keys::KEY_NAME, "Markdown file"}});
             break;
         case Core::ContentType::WEBVIEW:
-            mapItem.insert({{"path", "https://rolisteam.org"}, {"name", "rolisteam"}});
+            mapItem.insert({{Core::keys::KEY_PATH, "https://rolisteam.org"}, {Core::keys::KEY_NAME, "rolisteam"}});
             break;
         default:
             break;
         }
-        m_ctrl->newMedia(content, mapItem);
+        mapItem.insert({{Core::keys::KEY_TYPE, QVariant::fromValue(content)}});
+        m_ctrl->newMedia(nullptr, mapItem);
     }
 
     QVERIFY2(m_ctrl->contentCount() == static_cast<int>(list.size()), "After manual insertion");
