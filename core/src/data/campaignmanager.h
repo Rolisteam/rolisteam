@@ -24,13 +24,13 @@
 #include <QString>
 #include <memory>
 
+#include "data/campaign.h"
 #include "media/mediatype.h"
 
 class DiceParser;
 namespace campaign
 {
 class Media;
-class Campaign;
 class CampaignEditor;
 class CampaignUpdater;
 
@@ -47,12 +47,14 @@ public:
     QString createFileFromData(const QString& name, const QByteArray& data);
 
     void saveCampaign();
+    void copyCampaign(const QUrl& dir);
     void openCampaign(const QUrl& dir);
 
     campaign::Campaign* campaign() const;
     campaign::CampaignEditor* editor() const;
 
     QString campaignDir() const;
+    QString placeDirectory(campaign::Campaign::Place place) const;
 public slots:
     void shareModels();
 

@@ -88,6 +88,9 @@ public:
 
     void addMedia(std::unique_ptr<Media> media);
     void removeMedia(const QString& id);
+    const std::vector<std::unique_ptr<Media>>& medias() const;
+    Media* mediaFromPath(const QString& path) const;
+    Media* mediaFromUuid(const QString& uuid) const;
 
     QString directory(Place place) const;
 

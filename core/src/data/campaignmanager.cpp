@@ -50,18 +50,22 @@ bool CampaignManager::createCampaign(const QUrl& dirUrl)
     auto dirPath= dirUrl.toLocalFile();
     auto dir= QDir(dirPath);
 
-    if(QDir(dirPath).exists())
+    if(dir.exists() && !dir.isEmpty())
     {
-        emit errorOccured(QString("'%1' alredy exists").arg(dirPath));
+        qInfo() << QString("'%1' alredy exists").arg(dirPath);
+        emit errorOccured(QString("'%1' is not empty").arg(dirPath));
         return false;
     }
-
-    auto parentDir= dir;
-    parentDir.cdUp();
-    if(!parentDir.mkdir(dirPath))
+    else if(!dir.exists())
     {
-        emit errorOccured(QString("Could not create '%1'").arg(dirPath));
-        return false;
+        auto parentDir= dir;
+        parentDir.cdUp();
+        if(!parentDir.mkdir(dirPath))
+        {
+            qInfo() << QString("Could not create '%1'").arg(dirPath);
+            emit errorOccured(QString("Could not create '%1'").arg(dirPath));
+            return false;
+        }
     }
 
     m_editor.reset(new CampaignEditor());
@@ -94,9 +98,8 @@ QString CampaignManager::createFileFromData(const QString& name, const QByteArra
 
     auto campaign= m_editor->campaign();
 
-    auto destPath= QString("%1/%2").arg(campaign->directory(Campaign::Place::MEDIA_ROOT), name);
-
-    auto cmd= new commands::ImportDataMedia(m_editor->campaign(), name, data, destPath);
+    auto cmd= new commands::ImportDataMedia(m_editor->campaign(), name, data,
+                                            campaign->directory(Campaign::Place::MEDIA_ROOT));
     auto res= cmd->destination();
     m_editor->doCommand(cmd);
 
@@ -108,6 +111,14 @@ void CampaignManager::saveCampaign()
     if(!m_editor)
         return;
     m_editor->save(m_editor->campaignDir());
+}
+
+void CampaignManager::copyCampaign(const QUrl& dir)
+{
+
+    if(!m_editor)
+        return;
+    m_editor->saveCopy(m_editor->campaignDir(), dir.toLocalFile());
 }
 
 void CampaignManager::openCampaign(const QUrl& dir)
@@ -125,6 +136,11 @@ Campaign* CampaignManager::campaign() const
 CampaignEditor* CampaignManager::editor() const
 {
     return m_editor.get();
+}
+
+QString CampaignManager::placeDirectory(campaign::Campaign::Place place) const
+{
+    return m_editor->campaign()->directory(place);
 }
 
 QString CampaignManager::campaignDir() const

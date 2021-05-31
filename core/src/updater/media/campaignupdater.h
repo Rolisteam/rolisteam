@@ -42,7 +42,7 @@ public slots:
 signals:
 
 private:
-    QPointer<Campaign> m_manager;
+    QPointer<Campaign> m_campaign;
     DiceParser* m_dice= nullptr;
 };
 } // namespace campaign

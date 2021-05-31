@@ -20,6 +20,7 @@
 #ifndef MEDIA_H
 #define MEDIA_H
 
+#include <QDateTime>
 #include <QObject>
 
 #include "media/mediatype.h"
@@ -33,14 +34,16 @@ class Media : public QObject
     Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
     Q_PROPERTY(Core::MediaType type READ type CONSTANT)
     Q_PROPERTY(QString id READ id CONSTANT)
+    Q_PROPERTY(QDateTime addedTime READ addedTime CONSTANT)
 public:
     explicit Media(const QString& id, const QString& name, const QString& path, Core::MediaType type,
-                   QObject* parent= nullptr);
+                   QDateTime creation= QDateTime::currentDateTime(), QObject* parent= nullptr);
 
     QString name() const;
     QString path() const;
     Core::MediaType type() const;
     QString id() const;
+    QDateTime addedTime() const;
 
     void setPath(const QString& path);
     void setName(const QString& name);
@@ -54,6 +57,7 @@ private:
     Core::MediaType m_type;
     QString m_name;
     QString m_path;
+    QDateTime m_creation;
 };
 } // namespace campaign
 #endif // MEDIA_H

@@ -20,8 +20,9 @@
 #include "media.h"
 namespace campaign
 {
-Media::Media(const QString& id, const QString& name, const QString& path, Core::MediaType type, QObject* parent)
-    : QObject(parent), m_id(id), m_type(type), m_name(name), m_path(path)
+Media::Media(const QString& id, const QString& name, const QString& path, Core::MediaType type, QDateTime creation,
+             QObject* parent)
+    : QObject(parent), m_id(id), m_type(type), m_name(name), m_path(path), m_creation(creation)
 {
 }
 
@@ -43,6 +44,11 @@ Core::MediaType Media::type() const
 QString Media::id() const
 {
     return m_id;
+}
+
+QDateTime Media::addedTime() const
+{
+    return m_creation;
 }
 
 void Media::setPath(const QString& path)

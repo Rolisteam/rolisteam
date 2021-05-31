@@ -20,6 +20,9 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets 
 set(HEADERS
   campaignproperties.h
 
+  campaigndock.h
+  campaignview.h
+
   customs/colorlisteditor.h
   customs/imagepatheditor.h
 
@@ -34,6 +37,9 @@ set(SOURCES
     customs/colorlisteditor.cpp
     customs/imagepatheditor.cpp
 
+    campaigndock.cpp
+    campaignview.cpp
+
     delegates/checkboxdelegate.cpp
     delegates/colordelegate.cpp
     delegates/imagepathdelegateitem.cpp
@@ -42,6 +48,7 @@ set(SOURCES
 
 set(UI_FILES
   campaignproperties.ui
+  campaigndock.ui
 )
 
 set(QRC_SOURCES ../rolisteam.qrc)

@@ -17,51 +17,56 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNEDITOR_H
-#define CAMPAIGNEDITOR_H
+#include "mediafilteredmodel.h"
 
-#include <QObject>
-#include <QUndoCommand>
+#include <QDebug>
 
-#include <memory>
-
-#include "media/mediatype.h"
-
-namespace campaign
+MediaFilteredModel::MediaFilteredModel()
 {
-class Campaign;
-class Media;
-class CampaignEditor : public QObject
+    setDynamicSortFilter(true);
+    connect(this, &MediaFilteredModel::typeChanged, this, &MediaFilteredModel::invalidateFilter);
+    connect(this, &MediaFilteredModel::patternChanged, this, &MediaFilteredModel::invalidateFilter);
+}
+
+Core::MediaType MediaFilteredModel::type() const
 {
-    Q_OBJECT
-    Q_PROPERTY(Campaign* campaign READ campaign NOTIFY campaignChanged)
-public:
-    explicit CampaignEditor(QObject* parent= nullptr);
+    return m_type;
+}
 
-    Campaign* campaign() const;
+QString MediaFilteredModel::pattern() const
+{
+    return m_pattern;
+}
 
-    void createNew(const QString& dir);
-    bool open(const QString& from, bool discard);
-    bool save(const QString& to);
-    bool saveCopy(const QString& src, const QString& to);
+void MediaFilteredModel::setType(Core::MediaType type)
+{
+    if(m_type == type)
+        return;
+    m_type= type;
+    emit typeChanged();
+}
 
-    bool addFile(const QString& src, const QByteArray& array);
-    bool removeFile(const QString& src);
+void MediaFilteredModel::setPattern(const QString& pattern)
+{
+    if(m_pattern == pattern)
+        return;
+    m_pattern= pattern;
+    emit patternChanged();
+}
 
-    QString mediaFullPath(const QString& file, Core::ContentType type);
-    void doCommand(QUndoCommand* command);
+bool MediaFilteredModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceparent) const
+{
+    QModelIndex index0= sourceModel()->index(sourceRow, 0, sourceparent);
+    QModelIndex index2= sourceModel()->index(sourceRow, 2, sourceparent);
+    auto mediaType= sourceModel()->data(index2).value<Core::MediaType>();
+    auto name= sourceModel()->data(index0).toString();
 
-    QString campaignDir() const;
-    QString currentDir() const;
+    QRegularExpression re(m_pattern);
+    auto match= re.match(name);
 
-signals:
-    void campaignChanged();
-    void performCommand(QUndoCommand* command);
-    void importedFile(campaign::Media* media);
+    auto respectPattern= m_pattern.isEmpty() ? true : match.hasMatch();
 
-private:
-    QString m_root;
-    std::unique_ptr<campaign::Campaign> m_campaign;
-};
-} // namespace campaign
-#endif // CAMPAIGNEDITOR_H
+    auto respectMediaType= m_type == Core::MediaType::Unknown ? true : mediaType == m_type;
+
+    return respectPattern && respectMediaType;
+}

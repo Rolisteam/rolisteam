@@ -78,6 +78,9 @@ QString Campaign::currentStorePath() const
 
 void Campaign::addMedia(std::unique_ptr<Media> media)
 {
+    if(nullptr != mediaFromPath(media->path()))
+        return;
+
     auto p= media.get();
     m_mediaList.push_back(std::move(media));
     emit mediaAdded(p);
@@ -92,6 +95,26 @@ void Campaign::removeMedia(const QString& id)
         m_mediaList.erase(it);
         emit mediaRemoved(id);
     }
+}
+
+const std::vector<std::unique_ptr<Media>>& Campaign::medias() const
+{
+    return m_mediaList;
+}
+
+Media* Campaign::mediaFromPath(const QString& path) const
+{
+    auto it= std::find_if(std::begin(m_mediaList), std::end(m_mediaList),
+                          [path](const std::unique_ptr<campaign::Media>& p) { return path == p->path(); });
+
+    return (it != std::end(m_mediaList)) ? (*it).get() : nullptr;
+}
+
+Media* Campaign::mediaFromUuid(const QString& uuid) const
+{
+    auto it= std::find_if(std::begin(m_mediaList), std::end(m_mediaList),
+                          [uuid](const std::unique_ptr<campaign::Media>& p) { return uuid == p->id(); });
+    return (it != std::end(m_mediaList)) ? (*it).get() : nullptr;
 }
 
 QString Campaign::directory(Place place) const

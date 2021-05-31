@@ -208,6 +208,12 @@ Q_ENUM_NS(Layer)
 namespace keys
 {
 constexpr char const* KEY_PATH{"path"};
+constexpr char const* KEY_SAVEAS{"saveas"};
+constexpr char const* KEY_URL{"URL"};
+constexpr char const* KEY_UUID{"uuid"};
+constexpr char const* KEY_POSITION{"position"};
+constexpr char const* KEY_TOOL{"tool"};
+constexpr char const* KEY_RECT{"rect"};
 constexpr char const* KEY_DATA{"data"};
 constexpr char const* KEY_OWNERID{"ownerId"};
 constexpr char const* KEY_TYPE{"type"};
@@ -215,6 +221,30 @@ constexpr char const* KEY_NAME{"name"};
 constexpr char const* KEY_LOCALID{"localId"};
 constexpr char const* KEY_GMID{"gamemasterId"};
 } // namespace keys
+
+namespace extentions
+{
+constexpr char const* EXT_TOKEN{".rtok"};
+constexpr char const* EXT_MAP{".vmap"};
+constexpr char const* EXT_IMG{".png"};
+constexpr char const* EXT_TEXT{".txt"};
+constexpr char const* EXT_SHEET{".rcs"};
+constexpr char const* EXT_MINDMAP{".rmindmap"};
+constexpr char const* EXT_PLAYLIST{".m3u"};
+constexpr char const* EXT_SHAREDNOTE{".md"};
+constexpr char const* EXT_PDF{".pdf"};
+constexpr char const* EXT_WEBVIEW{".html"};
+} // namespace extentions
+
+namespace JsonKey
+{
+constexpr char const* JSON_NAME{"name"};
+constexpr char const* JSON_MEDIAS{"medias"};
+constexpr char const* JSON_CURRENT_CHAPTER{"chapter"};
+constexpr char const* JSON_MEDIA_PATH{"path"};
+constexpr char const* JSON_MEDIA_CREATIONTIME{"ctime"};
+constexpr char const* JSON_MEDIA_ID{"uuid"};
+} // namespace JsonKey
 
 } // namespace Core
 

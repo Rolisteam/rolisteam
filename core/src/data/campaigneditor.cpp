@@ -39,9 +39,13 @@ void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
     ModelHelper::fetchDiceModel(info.dices, manager->diceAliases());
     ModelHelper::fetchCharacterStateModel(info.states, manager->stateModel());
     auto assets= info.asset;
-    manager->setName(assets["name"].toString());
-    manager->setCurrentChapter(assets["currentChapter"].toString());
+    ModelHelper::fetchMedia(assets[Core::JsonKey::JSON_MEDIAS].toArray(), manager);
+    manager->setName(assets[Core::JsonKey::JSON_NAME].toString());
+    manager->setCurrentChapter(assets[Core::JsonKey::JSON_CURRENT_CHAPTER].toString());
     manager->setCurrentTheme(IOHelper::jsonToTheme(info.theme));
+
+    qDebug() << "unamanaged file:" << info.unmanagedFiles;
+    qDebug() << "missingFiles file:" << info.missingFiles;
 }
 } // namespace
 CampaignEditor::CampaignEditor(QObject* parent) : QObject(parent), m_campaign(new Campaign)
@@ -54,7 +58,10 @@ Campaign* CampaignEditor::campaign() const
     return m_campaign.get();
 }
 
-void CampaignEditor::createNew(const QString& dir) {}
+void CampaignEditor::createNew(const QString& dir)
+{
+    FileSerializer::createCampaignDirectory(dir);
+}
 
 bool CampaignEditor::open(const QString& from, bool discard)
 {
@@ -73,7 +80,45 @@ bool CampaignEditor::open(const QString& from, bool discard)
 
 bool CampaignEditor::save(const QString& to) {}
 
-bool CampaignEditor::saveCopy(const QString& to) {}
+bool CampaignEditor::saveCopy(const QString& src, const QString& to)
+{
+    // save copy
+    // save
+    // copy to dest
+    // change root
+}
+
+bool CampaignEditor::removeFile(const QString& src)
+{
+    // remove from campaign
+    auto media= m_campaign->mediaFromPath(src);
+
+    if(!media)
+        return false;
+
+    m_campaign->removeMedia(media->id());
+
+    // remove file on disk
+    IOHelper::removeFile(src);
+
+    return true;
+}
+
+bool CampaignEditor::addFile(const QString& src, const QByteArray& array)
+{
+    QFileInfo file(src);
+    std::unique_ptr<Media> media(
+        new Media(QUuid::createUuid().toString(), file.baseName(), src, FileSerializer::typeFromExtention(src)));
+    m_campaign->addMedia(std::move(media));
+    IOHelper::writeFile(src, array, true);
+    return true;
+}
+
+QString CampaignEditor::mediaFullPath(const QString& file, Core::ContentType type)
+{
+    return QString("%1/%2").arg(m_campaign->directory(campaign::Campaign::Place::MEDIA_ROOT),
+                                campaign::FileSerializer::addExtention(file, type));
+}
 
 void CampaignEditor::doCommand(QUndoCommand* command)
 {

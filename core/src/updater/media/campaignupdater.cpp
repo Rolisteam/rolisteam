@@ -20,6 +20,7 @@
 #include "campaignupdater.h"
 
 #include "data/campaign.h"
+#include "data/media.h"
 #include "diceparser.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
@@ -30,18 +31,18 @@
 namespace campaign
 {
 CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* parent)
-    : QObject(parent), m_manager(manager), m_dice(dice)
+    : QObject(parent), m_campaign(manager), m_dice(dice)
 {
-    Q_ASSERT(m_manager);
-    Q_ASSERT(m_dice);
-    auto model= m_manager->diceAliases();
+    Q_ASSERT(m_campaign);
+    // Q_ASSERT(m_dice);
+    auto model= m_campaign->diceAliases();
     connect(model, &DiceAliasModel::aliasAdded, this,
             [](const DiceAlias* alias, int i) { MessageHelper::sendOffOneDiceAlias(alias, i); });
     connect(model, &DiceAliasModel::aliasRemoved, this, [](int i) { MessageHelper::sendOffDiceAliasRemoved(i); });
     connect(model, &DiceAliasModel::aliasMoved, this, [](int i, int j) { MessageHelper::sendOffDiceAliasMoved(i, j); });
     connect(model, &DiceAliasModel::modelReset, this, [model]() { MessageHelper::sendOffAllDiceAlias(model); });
 
-    auto states= m_manager->stateModel();
+    auto states= m_campaign->stateModel();
     connect(states, &CharacterStateModel::characterStateAdded, this,
             [](const CharacterState* state, int i) { MessageHelper::sendOffOneCharacterState(state, i); });
     connect(states, &CharacterStateModel::stateRemoved, this,
@@ -56,13 +57,14 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
         auto aliases= m_dice->aliases();
         qDeleteAll(*aliases);
         aliases->clear();
-        const auto& newAliases= m_manager->diceAliases()->aliases();
+        const auto& newAliases= m_campaign->diceAliases()->aliases();
         std::for_each(std::begin(newAliases), std::end(newAliases), [aliases](const std::unique_ptr<DiceAlias>& alias) {
             auto p= alias.get();
             aliases->append(new DiceAlias(*p));
         });
-        FileSerializer::writeDiceAliasIntoCampaign(m_manager->rootDirectory(),
+        FileSerializer::writeDiceAliasIntoCampaign(m_campaign->rootDirectory(),
                                                    FileSerializer::dicesToArray(newAliases));
+        updateDiceModel();
     };
 
     connect(model, &DiceAliasModel::aliasAdded, this, updateAlias);
@@ -74,9 +76,10 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
 
     // GM player
     auto updateState= [this]() {
-        auto const& states= m_manager->stateModel()->statesList();
-        FileSerializer::writeStatesIntoCampaign(m_manager->rootDirectory(),
-                                                FileSerializer::statesToArray(states, m_manager->rootDirectory()));
+        auto const& states= m_campaign->stateModel()->statesList();
+        FileSerializer::writeStatesIntoCampaign(m_campaign->rootDirectory(),
+                                                FileSerializer::statesToArray(states, m_campaign->rootDirectory()));
+        updateStateModel();
     };
 
     connect(states, &CharacterStateModel::characterStateAdded, this, updateState);
@@ -86,6 +89,15 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
     connect(states, &CharacterStateModel::dataChanged, this, updateState);
     connect(states, &CharacterStateModel::stateChanged, this, updateState);
 
+    auto updateCampaign= [this]() {
+        FileSerializer::writeCampaignInfo(m_campaign->rootDirectory(), FileSerializer::campaignToObject(m_campaign));
+    };
+
+    connect(m_campaign, &Campaign::nameChanged, this, updateCampaign);
+    connect(m_campaign, &Campaign::currentChapterChanged, this, updateCampaign);
+    connect(m_campaign, &Campaign::mediaAdded, this, updateCampaign);
+    connect(m_campaign, &Campaign::mediaRemoved, this, updateCampaign);
+
     ReceiveEvent::registerNetworkReceiver(NetMsg::CampaignCategory, this);
 }
 
@@ -93,7 +105,7 @@ NetWorkReceiver::SendType CampaignUpdater::processMessage(NetworkMessageReader* 
 {
     if(msg->action() == NetMsg::CharactereStateModel && msg->category() == NetMsg::CampaignCategory)
     {
-        MessageHelper::fetchCharacterStatesFromNetwork(msg, m_manager->stateModel());
+        MessageHelper::fetchCharacterStatesFromNetwork(msg, m_campaign->stateModel());
     }
     else if(msg->action() == NetMsg::DiceAliasModel && msg->category() == NetMsg::CampaignCategory)
     {
@@ -104,11 +116,11 @@ NetWorkReceiver::SendType CampaignUpdater::processMessage(NetworkMessageReader* 
 
 void CampaignUpdater::updateDiceModel()
 {
-    MessageHelper::sendOffAllDiceAlias(m_manager->diceAliases());
+    MessageHelper::sendOffAllDiceAlias(m_campaign->diceAliases());
 }
 
 void CampaignUpdater::updateStateModel()
 {
-    MessageHelper::sendOffAllCharacterState(m_manager->stateModel());
+    MessageHelper::sendOffAllCharacterState(m_campaign->stateModel());
 }
 } // namespace campaign

@@ -17,51 +17,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNEDITOR_H
-#define CAMPAIGNEDITOR_H
+#ifndef MEDIAFILTEREDMODEL_H
+#define MEDIAFILTEREDMODEL_H
 
 #include <QObject>
-#include <QUndoCommand>
-
-#include <memory>
+#include <QSortFilterProxyModel>
 
 #include "media/mediatype.h"
 
-namespace campaign
-{
-class Campaign;
-class Media;
-class CampaignEditor : public QObject
+class MediaFilteredModel : public QSortFilterProxyModel
 {
     Q_OBJECT
-    Q_PROPERTY(Campaign* campaign READ campaign NOTIFY campaignChanged)
+    Q_PROPERTY(QString pattern READ pattern WRITE setPattern NOTIFY patternChanged)
+    Q_PROPERTY(Core::MediaType type READ type WRITE setType NOTIFY typeChanged)
 public:
-    explicit CampaignEditor(QObject* parent= nullptr);
+    MediaFilteredModel();
 
-    Campaign* campaign() const;
+    Core::MediaType type() const;
+    QString pattern() const;
 
-    void createNew(const QString& dir);
-    bool open(const QString& from, bool discard);
-    bool save(const QString& to);
-    bool saveCopy(const QString& src, const QString& to);
-
-    bool addFile(const QString& src, const QByteArray& array);
-    bool removeFile(const QString& src);
-
-    QString mediaFullPath(const QString& file, Core::ContentType type);
-    void doCommand(QUndoCommand* command);
-
-    QString campaignDir() const;
-    QString currentDir() const;
+public slots:
+    void setType(Core::MediaType type);
+    void setPattern(const QString& pattern);
 
 signals:
-    void campaignChanged();
-    void performCommand(QUndoCommand* command);
-    void importedFile(campaign::Media* media);
+    void typeChanged();
+    void patternChanged();
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceparent) const override;
 
 private:
-    QString m_root;
-    std::unique_ptr<campaign::Campaign> m_campaign;
+    Core::MediaType m_type= Core::MediaType::Unknown;
+    QString m_pattern;
 };
-} // namespace campaign
-#endif // CAMPAIGNEDITOR_H
+
+#endif // MEDIAFILTEREDMODEL_H
