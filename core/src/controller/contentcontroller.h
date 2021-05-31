@@ -33,9 +33,9 @@
 #include "network/receiveevent.h"
 #include "preferences/preferenceslistener.h"
 
-namespace session
+namespace campaign
 {
-class SessionItemModel;
+class CampaignEditor;
 }
 class MediaContainer;
 class QFileSystemModel;
@@ -100,7 +100,8 @@ public:
 
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
-    void newMedia(Core::ContentType type, const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
+    void newMedia(campaign::CampaignEditor* editor,
+                  const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void openMedia(const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void clear();
     void closeCurrentMedia();

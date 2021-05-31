@@ -162,12 +162,10 @@ PreferencesManager* GameController::preferencesManager() const
     return m_preferences.get();
 }
 
-void GameController::setCurrentScenario(const QString& path)
+void GameController::setCampaignRoot(const QString& path)
 {
-    if(m_currentScenario == path)
-        return;
-    m_currentScenario= path;
-    emit currentScenarioChanged();
+    auto campaign= m_campaignManager->campaign();
+    campaign->setRootDirectory(path);
 }
 
 void GameController::setVersion(const QString& version)
@@ -181,6 +179,11 @@ void GameController::setVersion(const QString& version)
 void GameController::setLocalPlayerId(const QString& id)
 {
     m_remoteLogCtrl->setLocalUuid(id);
+}
+
+void GameController::newMedia(const std::map<QString, QVariant>& map)
+{
+    m_contentCtrl->newMedia(m_campaignManager->editor(), map);
 }
 
 void GameController::openMedia(const std::map<QString, QVariant>& map)
@@ -201,6 +204,16 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
         }
     }
     m_contentCtrl->openMedia(other.toStdMap());
+}
+
+void GameController::save()
+{
+    m_campaignManager->saveCampaign();
+}
+
+void GameController::saveAs(const QString& path)
+{
+    m_campaignManager->saveCampaign();
 }
 
 void GameController::setUpdateAvailable(bool available)
@@ -308,9 +321,9 @@ QString GameController::version() const
     return m_version;
 }
 
-QString GameController::currentScenario() const
+QString GameController::campaignRoot() const
 {
-    return m_currentScenario;
+    return m_campaignManager->campaignDir();
 }
 
 InstantMessagingController* GameController::instantMessagingController() const

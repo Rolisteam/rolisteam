@@ -146,13 +146,13 @@ void ContentController::preferencesHasChanged(const QString& key)
         emit maxLengthTabNameChanged();
 }
 
-void ContentController::newMedia(Core::ContentType type, const std::map<QString, QVariant>& params)
+void ContentController::newMedia(campaign::CampaignEditor* editor, const std::map<QString, QVariant>& params)
 {
     auto arg= params;
     arg.insert({Core::keys::KEY_OWNERID, m_localId});
     arg.insert({Core::keys::KEY_LOCALID, m_localId});
     arg.insert({Core::keys::KEY_GMID, m_gameMasterId});
-    emit performCommand(new NewMediaController(type, m_contentModel.get(), arg, localIsGM()));
+    emit performCommand(new NewMediaController(m_contentModel.get(), arg, localIsGM(), editor));
 }
 
 void ContentController::openMedia(const std::map<QString, QVariant>& args)

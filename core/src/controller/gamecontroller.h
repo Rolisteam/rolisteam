@@ -58,7 +58,7 @@ class GameController : public QObject
     Q_PROPERTY(PreferencesController* preferencesController READ preferencesController CONSTANT)
     Q_PROPERTY(PlayerController* playerController READ playerController CONSTANT)
     Q_PROPERTY(ContentController* contentController READ contentController CONSTANT)
-    Q_PROPERTY(QString currentScenario READ currentScenario WRITE setCurrentScenario NOTIFY currentScenarioChanged)
+    Q_PROPERTY(QString campaignRoot READ campaignRoot WRITE setCampaignRoot NOTIFY campaignRootChanged)
     Q_PROPERTY(QString version READ version WRITE setVersion NOTIFY versionChanged)
     Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
     Q_PROPERTY(QString remoteVersion READ remoteVersion NOTIFY remoteVersionChanged)
@@ -83,7 +83,7 @@ public:
     campaign::Campaign* campaign() const;
 
     QString version() const;
-    QString currentScenario() const;
+    QString campaignRoot() const;
     QString localPlayerId() const;
     QString remoteVersion() const;
     bool localIsGM() const;
@@ -99,7 +99,7 @@ public:
     void clear();
 
 signals:
-    void currentScenarioChanged();
+    void campaignRootChanged();
     void versionChanged();
     void localPlayerIdChanged();
     void localIsGMChanged(bool);
@@ -122,7 +122,7 @@ public slots:
     void startTipOfDay();
     void postSettingInit();
 
-    void setCurrentScenario(const QString& path);
+    void setCampaignRoot(const QString& path);
     void setVersion(const QString& version);
     void setUpdateAvailable(bool available);
     void startConnection(int profileIndex);
@@ -131,7 +131,10 @@ public slots:
     void aboutToClose();
     void setLocalPlayerId(const QString& id);
 
+    void newMedia(const std::map<QString, QVariant>& map);
     void openMedia(const std::map<QString, QVariant>& map);
+    void save();
+    void saveAs(const QString& path);
 
 private:
     void addCommand(QUndoCommand* cmd);
@@ -148,7 +151,6 @@ private:
     std::unique_ptr<DiceParser> m_diceParser;
     std::unique_ptr<campaign::CampaignManager> m_campaignManager;
 
-    QString m_currentScenario;
     QString m_version;
     QString m_remoteVersion;
     bool m_updateAvailable= false;
