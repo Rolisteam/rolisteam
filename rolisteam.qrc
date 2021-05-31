@@ -52,7 +52,7 @@
         <file>resources/rolistheme/Rolisteam-fond.svg</file>
         <file>resources/rolistheme/Rolisteam_big.svg</file>
         <file>resources/rolistheme/chatIcon.png</file>
-        <file>resources/rolistheme/notes.png</file>
+        <file>resources/rolistheme/text-x-generic.png</file>
         <file>resources/rolistheme/scenario.png</file>
         <file>resources/rolistheme/exit.png</file>
         <file>resources/rolistheme/settings.png</file>
@@ -69,7 +69,7 @@
         <file>resources/rolistheme/object-rotate-left-4.png</file>
         <file>resources/rolistheme/object-rotate-right-4.png</file>
         <file>resources/rolistheme/path.png</file>
-        <file>resources/rolistheme/photo.png</file>
+        <file>resources/rolistheme/image-x-generic.png</file>
         <file>resources/rolistheme/add_round.png</file>
         <file>resources/rolistheme/delete.png</file>
         <file>resources/rolistheme/edit-delete.png</file>
@@ -86,7 +86,7 @@
         <file>resources/rolistheme/eye.png</file>
         <file>resources/rolistheme/mask.png</file>
         <file>resources/rolistheme/treeview.png</file>
-        <file>resources/rolistheme/audiofile.svg</file>
+        <file>resources/rolistheme/audio-x-generic.svg</file>
         <file>resources/rolistheme/playlist.svg</file>
         <file>resources/rolistheme/liberapay.png</file>
         <file>resources/rolistheme/vmap.png</file>
@@ -94,7 +94,7 @@
         <file>resources/rolistheme/pdfLogo.png</file>
         <file>resources/rolistheme/crop.svg</file>
         <file>resources/rolistheme/document-share.svg</file>
-        <file>resources/rolistheme/webPage.svg</file>
+        <file>resources/rolistheme/text-html.svg</file>
         <file>resources/rolistheme/reverse.svg</file>
         <file>resources/rolistheme/list.svg</file>
         <file>resources/rolistheme/000000-paint-bucket-512.png</file>
