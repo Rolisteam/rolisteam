@@ -21,6 +21,7 @@
 
 #include "data/campaign.h"
 #include "data/campaignmanager.h"
+#include "data/media.h"
 #include "iohelper.h"
 #include "model/dicealiasmodel.h"
 
@@ -39,15 +40,16 @@ namespace
 
 } // namespace
 
-bool createCampaignDirectory(const QString& campaign)
+bool FileSerializer::createCampaignDirectory(const QString& campaign)
 {
     bool res= false;
     QDir dir(campaign);
 
     res= dir.mkdir(campaign::MEDIA_ROOT);
-    dir.cd(campaign::MEDIA_ROOT);
-    dir.mkdir(campaign::STATE_ROOT);
-    dir.mkdir(campaign::TRASH_FOLDER);
+    res&= dir.mkdir(campaign::STATE_ROOT);
+    res&= dir.mkdir(campaign::TRASH_FOLDER);
+
+    // dir.cd(campaign::MEDIA_ROOT);
 
     return res;
 }
@@ -116,13 +118,13 @@ CampaignInfo FileSerializer::readCampaignDirectory(const QString& directory)
 
     // read
     auto assetRoot= QString("%1/%2").arg(directory, campaign::MEDIA_ROOT);
-    auto array= info.asset["media"].toArray();
+    auto array= info.asset[Core::JsonKey::JSON_MEDIAS].toArray();
 
     QSet<QString> managedFiles;
     for(auto const& item : qAsConst(array))
     {
         auto asset= item.toObject();
-        auto path= asset["path"].toString();
+        auto path= asset[Core::JsonKey::JSON_MEDIA_PATH].toString();
         auto filepath= QStringLiteral("%1/%2").arg(assetRoot, path);
         QFileInfo fileInfo(filepath);
         managedFiles << filepath;
@@ -145,6 +147,25 @@ CampaignInfo FileSerializer::readCampaignDirectory(const QString& directory)
     // check integrity of data.json and files
 
     return info;
+}
+
+QJsonObject FileSerializer::campaignToObject(Campaign* campaign)
+{
+    QJsonObject root;
+    auto const& data= campaign->medias();
+    QJsonArray array;
+    for(auto const& media : data)
+    {
+        QJsonObject obj;
+        obj[Core::JsonKey::JSON_MEDIA_PATH]
+            = IOHelper::absoluteToRelative(media->path(), campaign->directory(Campaign::Place::MEDIA_ROOT));
+        obj[Core::JsonKey::JSON_MEDIA_CREATIONTIME]= media->addedTime().toString(Qt::ISODate);
+        obj[Core::JsonKey::JSON_MEDIA_ID]= media->id();
+        array.append(obj);
+    }
+    root[Core::JsonKey::JSON_MEDIAS]= array;
+    root[Core::JsonKey::JSON_NAME]= campaign->name();
+    return root;
 }
 
 QJsonArray FileSerializer::statesToArray(const std::vector<std::unique_ptr<CharacterState>>& vec,
@@ -179,5 +200,62 @@ void FileSerializer::writeDiceAliasIntoCampaign(const QString& destination, cons
     QtConcurrent::run([destination, array]() {
         IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::DICE_ALIAS_MODEL), array);
     });
+}
+
+void FileSerializer::writeCampaignInfo(const QString& destination, const QJsonObject& object)
+{
+    QtConcurrent::run([destination, object]() {
+        IOHelper::writeJsonObjectIntoFile(QString("%1/%2").arg(destination, campaign::MODEL_FILE), object);
+    });
+}
+
+QString FileSerializer::contentTypeToDefaultExtension(Core::ContentType type)
+{
+    using cc= Core::ContentType;
+
+    QString res;
+    switch(type)
+    {
+    case cc::VECTORIALMAP:
+        res= Core::extentions::EXT_MAP;
+        break;
+    case cc::PICTURE:
+    case cc::ONLINEPICTURE:
+        res= Core::extentions::EXT_IMG;
+        break;
+    case cc::NOTES:
+        res= Core::extentions::EXT_TEXT;
+        break;
+    case cc::CHARACTERSHEET:
+        res= Core::extentions::EXT_SHEET;
+        break;
+    case cc::SHAREDNOTE:
+        res= Core::extentions::EXT_SHAREDNOTE;
+        break;
+    case cc::PDF:
+        res= Core::extentions::EXT_PDF;
+        break;
+    case cc::WEBVIEW:
+        res= Core::extentions::EXT_WEBVIEW;
+        break;
+    case cc::INSTANTMESSAGING:
+        res= Core::extentions::EXT_TEXT;
+        break;
+    case cc::MINDMAP:
+        res= Core::extentions::EXT_MINDMAP;
+        break;
+    case cc::UNKNOWN:
+        break;
+    }
+    return res;
+}
+
+QString FileSerializer::addExtention(const QString& name, Core::ContentType type)
+{
+    auto ext= contentTypeToDefaultExtension(type);
+    QString ret= name;
+    if(!name.endsWith(ext))
+        ret= QString("%1%2").arg(name, ext);
+    return ret;
 }
 } // namespace campaign

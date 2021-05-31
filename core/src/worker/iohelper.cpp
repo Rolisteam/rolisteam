@@ -176,6 +176,11 @@ QString IOHelper::copyFile(const QString& source, const QString& destination)
     return dest.absoluteFilePath();
 }
 
+void IOHelper::removeFile(const QString& source)
+{
+    QFile::remove(source);
+}
+
 void IOHelper::writeFile(const QString& path, const QByteArray& arry, bool override)
 {
     QFile file(path);
@@ -732,6 +737,16 @@ QString IOHelper::shortNameFromPath(const QString& path)
     return info.baseName();
 }
 
+QString IOHelper::absoluteToRelative(const QString& absolute, const QString& root)
+{
+    QDir dir(root);
+    QFileInfo path(absolute);
+    if(!path.isAbsolute())
+        return absolute;
+
+    return dir.relativeFilePath(absolute);
+}
+
 QJsonObject IOHelper::stateToJSonObject(CharacterState* state, const QString& root)
 {
     QJsonObject stateJson;
@@ -740,11 +755,7 @@ QJsonObject IOHelper::stateToJSonObject(CharacterState* state, const QString& ro
     stateJson[k_state_label]= state->label();
     stateJson[k_state_color]= state->color().name();
     auto pathImg= state->imagePath();
-    QFileInfo path(pathImg);
-    if(path.isAbsolute())
-    {
-        pathImg= pathImg.replace(root, "./");
-    }
+    pathImg= absoluteToRelative(pathImg, root);
     stateJson[k_state_image]= pathImg;
     return stateJson;
 }
@@ -825,6 +836,18 @@ void IOHelper::writeJsonArrayIntoFile(const QString& destination, const QJsonArr
 {
     QJsonDocument doc;
     doc.setArray(array);
+
+    QFile file(destination);
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(doc.toJson(QJsonDocument::Indented));
+    }
+}
+
+void IOHelper::writeJsonObjectIntoFile(const QString& destination, const QJsonObject& obj)
+{
+    QJsonDocument doc;
+    doc.setObject(obj);
 
     QFile file(destination);
     if(file.open(QIODevice::WriteOnly))

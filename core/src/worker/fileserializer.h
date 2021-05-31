@@ -35,6 +35,7 @@ class CharacterState;
 namespace campaign
 {
 class CampaignManager;
+class Campaign;
 struct CampaignInfo
 {
     bool status;
@@ -54,12 +55,19 @@ public:
     static Core::MediaType typeFromExtention(const QString& filename);
     static CampaignInfo readCampaignDirectory(const QString& directory);
 
+    static QJsonObject campaignToObject(Campaign* campaign);
+
     static QJsonArray statesToArray(const std::vector<std::unique_ptr<CharacterState>>& vec,
                                     const QString& destination);
     static QJsonArray dicesToArray(const std::vector<std::unique_ptr<DiceAlias>>& vec);
 
     static void writeStatesIntoCampaign(const QString& destination, const QJsonArray& array);
     static void writeDiceAliasIntoCampaign(const QString& destination, const QJsonArray& array);
+    static void writeCampaignInfo(const QString& destination, const QJsonObject& object);
+    static bool createCampaignDirectory(const QString& path);
+
+    static QString contentTypeToDefaultExtension(Core::ContentType type);
+    static QString addExtention(const QString& name, Core::ContentType);
 };
 } // namespace campaign
 

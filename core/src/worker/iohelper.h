@@ -51,9 +51,11 @@ public:
     static QByteArray loadFile(const QString& file);
     static void writeFile(const QString& path, const QByteArray& arry, bool override= true);
     static void moveFile(const QString& source, const QString& destination);
+    static void removeFile(const QString& soursce);
     static QString copyFile(const QString& source, const QString& destination);
     static bool makeDir(const QString& dir);
     static QString shortNameFromPath(const QString& path);
+    static QString absoluteToRelative(const QString& absolute, const QString& root);
 
     static QString readTextFile(const QString& file);
     static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
@@ -66,6 +68,7 @@ public:
     static QJsonArray loadJsonFileIntoArray(const QString& filename, bool& ok);
     static QJsonObject loadJsonFileIntoObject(const QString& filename, bool& ok);
     static void writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array);
+    static void writeJsonObjectIntoFile(const QString& destination, const QJsonObject& obj);
 
     static QJsonArray fetchLanguageModel();
 
