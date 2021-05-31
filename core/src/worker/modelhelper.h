@@ -27,6 +27,10 @@ class ProfileModel;
 class CharacterSheetModel;
 class DiceAliasModel;
 class CharacterStateModel;
+namespace campaign
+{
+class Campaign;
+}
 namespace charactersheet
 {
 class ImageModel;
@@ -49,9 +53,12 @@ bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charact
 
 bool fetchThemeModel(const QJsonObject& themes, DiceAliasModel* model);
 void fetchDiceModel(const QJsonArray& dice, DiceAliasModel* model);
+void fetchMedia(const QJsonArray& medias, campaign::Campaign* campaign);
 
 void fetchCharacterStateModel(const QJsonArray& states, CharacterStateModel* model);
 QJsonArray saveCharacterStateModel(CharacterStateModel* model);
+
+QJsonObject saveCampaign();
 
 } // namespace ModelHelper
 #endif

@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *	Copyright (C) 2019 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
@@ -22,8 +22,11 @@
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 #include "controller/contentcontroller.h"
+#include "data/campaign.h"
 #include "data/character.h"
+#include "data/media.h"
 #include "data/player.h"
+#include "media/mediatype.h"
 #include "model/characterstatemodel.h"
 #include "model/contentmodel.h"
 #include "model/dicealiasmodel.h"
@@ -31,6 +34,7 @@
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
 #include "session/sessionitemmodel.h"
+#include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 
 #include <QApplication>
@@ -364,6 +368,23 @@ void fetchDiceModel(const QJsonArray& dice, DiceAliasModel* model)
                         diceCmd["replace"].toBool(), diceCmd["enabled"].toBool());
 
         model->appendAlias(std::move(alias));
+    }
+}
+
+void fetchMedia(const QJsonArray& medias, campaign::Campaign* campaign)
+{
+    for(const auto& obj : medias)
+    {
+        auto mediaRoot= campaign->directory(campaign::Campaign::Place::MEDIA_ROOT);
+        auto id= obj[Core::JsonKey::JSON_MEDIA_ID].toString();
+        auto path= QString("%1/%2").arg(mediaRoot, obj[Core::JsonKey::JSON_MEDIA_PATH].toString());
+        auto time= QDateTime::fromString(obj[Core::JsonKey::JSON_MEDIA_CREATIONTIME].toString(), Qt::ISODate);
+        auto type= campaign::FileSerializer::typeFromExtention(path);
+        QFileInfo info(path);
+        auto name= info.baseName();
+
+        std::unique_ptr<campaign::Media> media(new campaign::Media(id, name, path, type, time));
+        campaign->addMedia(std::move(media));
     }
 }
 
