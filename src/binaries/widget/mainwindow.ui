@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Rolisteam</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="500-symbole">
+    <normaloff>.</normaloff>.</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="m_fileMenu">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <widget class="QMenu" name="menu_New">
+     <property name="title">
+      <string>&amp;New</string>
+     </property>
+     <addaction name="m_addVectorialMap"/>
+     <addaction name="m_newNoteAction"/>
+     <addaction name="m_newSharedNote"/>
+     <addaction name="m_newWebViewACt"/>
+     <addaction name="m_newMindmap"/>
+    </widget>
+    <widget class="QMenu" name="menu_Open">
+     <property name="title">
+      <string>&amp;Open</string>
+     </property>
+     <addaction name="m_openVectorialMap"/>
+     <addaction name="m_openPictureAction"/>
+     <addaction name="m_openOnlinePictureAction"/>
+     <addaction name="m_openNoteAction"/>
+     <addaction name="m_openCharacterSheet"/>
+     <addaction name="m_openShareNote"/>
+     <addaction name="m_openPdfAct"/>
+     <addaction name="m_openMindmap"/>
+    </widget>
+    <widget class="QMenu" name="m_recentFileMenu">
+     <property name="title">
+      <string>Recent Files</string>
+     </property>
+    </widget>
+    <addaction name="menu_New"/>
+    <addaction name="menu_Open"/>
+    <addaction name="m_recentFileMenu"/>
+    <addaction name="separator"/>
+    <addaction name="m_closeAction"/>
+    <addaction name="separator"/>
+    <addaction name="m_preferencesAction"/>
+    <addaction name="separator"/>
+    <addaction name="m_quitAction"/>
+   </widget>
+   <widget class="QMenu" name="m_menuSubWindows">
+    <property name="title">
+     <string>Sub-&amp;Windows</string>
+    </property>
+    <widget class="QMenu" name="menuReorganize">
+     <property name="title">
+      <string>Reorganize</string>
+     </property>
+     <addaction name="m_tabViewAction"/>
+     <addaction name="m_cascadeViewAction"/>
+     <addaction name="m_tileViewAction"/>
+    </widget>
+    <addaction name="m_mediaTitleAct"/>
+    <addaction name="menuReorganize"/>
+    <addaction name="separator"/>
+    <addaction name="m_showChatAct"/>
+    <addaction name="m_audioPlayerAct"/>
+    <addaction name="m_characterListAct"/>
+    <addaction name="m_toolBarAct"/>
+    <addaction name="m_notificationAct"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuNetwork">
+    <property name="title">
+     <string>&amp;Network</string>
+    </property>
+    <addaction name="m_changeProfileAct"/>
+    <addaction name="m_disconnectAction"/>
+    <addaction name="separator"/>
+    <addaction name="m_connectionLinkAct"/>
+    <addaction name="m_keyGeneratorAct"/>
+    <addaction name="separator"/>
+    <addaction name="m_roomListAct"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="m_onlineHelpAction"/>
+    <addaction name="separator"/>
+    <addaction name="m_patreon"/>
+    <addaction name="m_supportRolisteam"/>
+    <addaction name="m_aboutAction"/>
+   </widget>
+   <widget class="QMenu" name="m_editMenu">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="m_copyAct"/>
+    <addaction name="m_pasteAct"/>
+    <addaction name="separator"/>
+    <addaction name="m_shortCutEditorAct"/>
+    <addaction name="m_fullScreenAct"/>
+   </widget>
+   <widget class="QMenu" name="m_gmToolBoxMenu">
+    <property name="title">
+     <string>&amp;GM ToolBoxes</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuCampaign">
+    <property name="title">
+     <string>&amp;Campaign</string>
+    </property>
+    <addaction name="m_newCampaignAct"/>
+    <addaction name="m_openCampaignAction"/>
+    <addaction name="m_saveCampaignAction"/>
+    <addaction name="m_saveCampaignAsAct"/>
+    <addaction name="separator"/>
+    <addaction name="m_diceAliasAct"/>
+    <addaction name="m_statesAct"/>
+    <addaction name="m_statisticAct"/>
+    <addaction name="separator"/>
+    <addaction name="m_campaignPropertiesAct"/>
+   </widget>
+   <addaction name="m_fileMenu"/>
+   <addaction name="menuCampaign"/>
+   <addaction name="m_editMenu"/>
+   <addaction name="m_menuSubWindows"/>
+   <addaction name="menuNetwork"/>
+   <addaction name="m_gmToolBoxMenu"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="m_toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+   <addaction name="m_copyAct"/>
+   <addaction name="m_pasteAct"/>
+   <addaction name="m_showChatAct"/>
+   <addaction name="separator"/>
+  </widget>
+  <action name="m_closeAction">
+   <property name="text">
+    <string>Close File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Esc</string>
+   </property>
+  </action>
+  <action name="m_preferencesAction">
+   <property name="icon">
+    <iconset theme="settings">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Preferences…</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="m_quitAction">
+   <property name="icon">
+    <iconset theme="exit">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="m_tabViewAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="m_cascadeViewAction">
+   <property name="text">
+    <string>Cascade</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+C</string>
+   </property>
+  </action>
+  <action name="m_tileViewAction">
+   <property name="text">
+    <string>Tile</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+T</string>
+   </property>
+  </action>
+  <action name="m_disconnectAction">
+   <property name="text">
+    <string>Disconnection…</string>
+   </property>
+  </action>
+  <action name="m_onlineHelpAction">
+   <property name="text">
+    <string>Rolisteam Help</string>
+   </property>
+   <property name="toolTip">
+    <string>online documentation</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="m_aboutAction">
+   <property name="icon">
+    <iconset theme="1000-symbole">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>About Rolisteam</string>
+   </property>
+  </action>
+  <action name="m_newNoteAction">
+   <property name="icon">
+    <iconset theme="text-x-generic">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Note</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="m_openPictureAction">
+   <property name="icon">
+    <iconset theme="image-x-generic">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Picture</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="m_openNoteAction">
+   <property name="icon">
+    <iconset theme="text-x-generic">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Note</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+N</string>
+   </property>
+  </action>
+  <action name="m_openCampaignAction">
+   <property name="icon">
+    <iconset theme="story">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Open Campaign</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="m_openOnlinePictureAction">
+   <property name="icon">
+    <iconset theme="image-x-generic">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Online Picture</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+I</string>
+   </property>
+  </action>
+  <action name="m_audioPlayerAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Audio Player</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+A</string>
+   </property>
+  </action>
+  <action name="m_notificationAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Notification Zone</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+N</string>
+   </property>
+  </action>
+  <action name="m_characterListAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Character List</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+C</string>
+   </property>
+  </action>
+  <action name="m_toolBarAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ToolBar</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
+   </property>
+  </action>
+  <action name="m_addVectorialMap">
+   <property name="icon">
+    <iconset theme="vmap">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Map</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="m_openVectorialMap">
+   <property name="icon">
+    <iconset theme="vmap">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Map</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+M</string>
+   </property>
+  </action>
+  <action name="m_showHealtStatusAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Health State</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+  </action>
+  <action name="m_changeProfileAct">
+   <property name="text">
+    <string>Change Profile…</string>
+   </property>
+  </action>
+  <action name="m_openCharacterSheet">
+   <property name="icon">
+    <iconset theme="treeview">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Character Sheet</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="m_saveCampaignAction">
+   <property name="icon">
+    <iconset theme="story">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Save Campaign</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="m_roomListAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Room List</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
+   </property>
+  </action>
+  <action name="m_newSharedNote">
+   <property name="icon">
+    <iconset theme="sharedEditor">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Shared Note</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="m_openShareNote">
+   <property name="icon">
+    <iconset theme="sharedEditor">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Shared Note</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+K</string>
+   </property>
+  </action>
+  <action name="m_supportRolisteam">
+   <property name="icon">
+    <iconset theme="liberapay">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Support Rolisteam</string>
+   </property>
+  </action>
+  <action name="m_shortCutEditorAct">
+   <property name="text">
+    <string>Shortcut Viewer…</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F1</string>
+   </property>
+  </action>
+  <action name="m_fullScreenAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Full Screen</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
+   </property>
+  </action>
+  <action name="m_openPdfAct">
+   <property name="icon">
+    <iconset theme="pdfLogo">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>PDF File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="m_connectionLinkAct">
+   <property name="text">
+    <string>Copy Connection Link…</string>
+   </property>
+  </action>
+  <action name="m_newWebViewACt">
+   <property name="icon">
+    <iconset theme="text-html">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>WebPage</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="m_keyGeneratorAct">
+   <property name="text">
+    <string>Password Generator</string>
+   </property>
+  </action>
+  <action name="m_currentMediaAs">
+   <property name="text">
+    <string>Current Media as…</string>
+   </property>
+  </action>
+  <action name="m_patreon">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/Patreon_Mark_Coral.jpg</normaloff>:/resources/rolistheme/Patreon_Mark_Coral.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Support Rolisteam</string>
+   </property>
+  </action>
+  <action name="m_mediaTitleAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Media title in toolbar</string>
+   </property>
+  </action>
+  <action name="m_newMindmap">
+   <property name="icon">
+    <iconset theme="mindmap" resource="../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/mindmap.svg</normaloff>:/resources/rolistheme/mindmap.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Mindmap</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="m_openMindmap">
+   <property name="icon">
+    <iconset theme="mindmap" resource="../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/mindmap.svg</normaloff>:/resources/rolistheme/mindmap.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Mindmap</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
+  </action>
+  <action name="m_showChatAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/chatIcon.png</normaloff>:/resources/rolistheme/chatIcon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Instant messaging</string>
+   </property>
+   <property name="toolTip">
+    <string>Instant Messaging Window</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+I</string>
+   </property>
+  </action>
+  <action name="m_copyAct">
+   <property name="icon">
+    <iconset theme="edit-copy">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="m_pasteAct">
+   <property name="icon">
+    <iconset theme="edit-paste">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="m_campaignPropertiesAct">
+   <property name="text">
+    <string>Properties</string>
+   </property>
+  </action>
+  <action name="m_diceAliasAct">
+   <property name="text">
+    <string>Dice Alias</string>
+   </property>
+  </action>
+  <action name="m_statesAct">
+   <property name="text">
+    <string>Character States</string>
+   </property>
+  </action>
+  <action name="m_statisticAct">
+   <property name="text">
+    <string>Statistics</string>
+   </property>
+  </action>
+  <action name="actionTheme">
+   <property name="text">
+    <string>Theme</string>
+   </property>
+  </action>
+  <action name="m_newCampaignAct">
+   <property name="text">
+    <string>New Campaign</string>
+   </property>
+  </action>
+  <action name="m_saveCampaignAsAct">
+   <property name="text">
+    <string>Save Campaign As…</string>
+   </property>
+  </action>
+  <action name="actionNon_Playable_Characters">
+   <property name="text">
+    <string>Non Playable Characters</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../rolisteam.qrc"/>
+  <include location="../rolisteam.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>m_tabViewAction</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_tileViewAction</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_tabViewAction</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_cascadeViewAction</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
