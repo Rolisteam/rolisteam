@@ -38,6 +38,7 @@ void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
 {
     ModelHelper::fetchDiceModel(info.dices, manager->diceAliases());
     ModelHelper::fetchCharacterStateModel(info.states, manager->stateModel());
+    ModelHelper::fetchNpcModel(info.npcs, manager->npcModel());
     auto assets= info.asset;
     ModelHelper::fetchMedia(assets[Core::JsonKey::JSON_MEDIAS].toArray(), manager);
     manager->setName(assets[Core::JsonKey::JSON_NAME].toString());
@@ -88,7 +89,7 @@ bool CampaignEditor::saveCopy(const QString& src, const QString& to)
     // change root
 }
 
-bool CampaignEditor::removeFile(const QString& src)
+bool CampaignEditor::removeMedia(const QString& src)
 {
     // remove from campaign
     auto media= m_campaign->mediaFromPath(src);
@@ -104,7 +105,19 @@ bool CampaignEditor::removeFile(const QString& src)
     return true;
 }
 
-bool CampaignEditor::addFile(const QString& src, const QByteArray& array)
+/*QString CampaignEditor::addFileIntoCharacters(const QString& src)
+{
+    // TODO create command
+    // IOHelper::copyFile();
+    // IOHelper::writeFile(src, array, true);
+}
+
+bool CampaignEditor::removeFileFromCharacters(const QString& path)
+{
+    // IOHelper::removeFile(path);
+}*/
+
+bool CampaignEditor::addMedia(const QString& src, const QByteArray& array)
 {
     QFileInfo file(src);
     std::unique_ptr<Media> media(

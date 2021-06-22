@@ -32,6 +32,7 @@ class RolisteamTheme;
 namespace campaign
 {
 class Media;
+class NonPlayableCharacterModel;
 constexpr char const* TRASH_FOLDER{".trash"};
 constexpr char const* MODEL_FILE{"data.json"};
 constexpr char const* THEME_FILE{"theme.json"};
@@ -39,6 +40,8 @@ constexpr char const* DICE_ALIAS_MODEL{"dice_command.json"};
 constexpr char const* STATE_MODEL{"states.json"};
 constexpr char const* MEDIA_ROOT{"media"};
 constexpr char const* STATE_ROOT{"states"};
+constexpr char const* CHARACTER_ROOT{"npcs"};
+constexpr char const* CHARACTER_MODEL{"npc.json"};
 
 class Campaign : public QObject
 {
@@ -48,6 +51,7 @@ class Campaign : public QObject
     Q_PROPERTY(QString currentChapter READ currentChapter WRITE setCurrentChapter NOTIFY currentChapterChanged)
     Q_PROPERTY(DiceAliasModel* diceAliases READ diceAliases NOTIFY diceAliasesChanged)
     Q_PROPERTY(CharacterStateModel* stateModel READ stateModel NOTIFY stateModelChanged)
+    Q_PROPERTY(NonPlayableCharacterModel* npcModel READ npcModel NOTIFY npcModelChanged)
     Q_PROPERTY(RolisteamTheme* currentTheme READ currentTheme WRITE setCurrentTheme NOTIFY currentThemeChanged)
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
 public:
@@ -70,7 +74,8 @@ public:
     {
         MEDIA_ROOT,
         STATE_ROOT,
-        TRASH_ROOT
+        TRASH_ROOT,
+        NPC_ROOT
     };
     Q_ENUM(Place);
 
@@ -82,6 +87,7 @@ public:
     DiceAliasModel* diceAliases() const;
     CharacterStateModel* stateModel() const;
     RolisteamTheme* currentTheme() const;
+    NonPlayableCharacterModel* npcModel() const;
     State state() const;
 
     QString currentStorePath() const;
@@ -112,14 +118,22 @@ public slots:
     void deleteState(const QModelIndex& index);
     void moveState(const QModelIndex& index, Move move);
 
+    // Characters
+    void addCharacter();
+    void removeCharacter(const QModelIndex& id);
+
 private slots:
     void setState(State state);
 
 signals:
     void rootDirectoryChanged();
     void currentChapterChanged();
+
+    // models
     void diceAliasesChanged();
     void stateModelChanged();
+    void npcModelChanged();
+
     void currentThemeChanged();
     void stateChanged();
     void nameChanged();
@@ -131,6 +145,7 @@ private:
     std::vector<std::unique_ptr<campaign::Media>> m_mediaList;
     std::unique_ptr<DiceAliasModel> m_diceModel;
     std::unique_ptr<CharacterStateModel> m_stateModel;
+    std::unique_ptr<campaign::NonPlayableCharacterModel> m_npcModel;
     QString m_name;
     QString m_root;
     QString m_currentChapter;

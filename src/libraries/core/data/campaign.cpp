@@ -23,13 +23,16 @@
 #include "data/rolisteamtheme.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
-//#include "model/palettemodel.h"
+#include "model/nonplayablecharactermodel.h"
 
 namespace campaign
 {
 
 Campaign::Campaign(QObject* parent)
-    : QObject(parent), m_diceModel(new DiceAliasModel), m_stateModel(new CharacterStateModel)
+    : QObject(parent)
+    , m_diceModel(new DiceAliasModel)
+    , m_stateModel(new CharacterStateModel)
+    , m_npcModel(new campaign::NonPlayableCharacterModel)
 {
 }
 
@@ -53,6 +56,11 @@ QString Campaign::currentChapter() const
 DiceAliasModel* Campaign::diceAliases() const
 {
     return m_diceModel.get();
+}
+
+NonPlayableCharacterModel* Campaign::npcModel() const
+{
+    return m_npcModel.get();
 }
 
 CharacterStateModel* Campaign::stateModel() const
@@ -130,6 +138,9 @@ QString Campaign::directory(Place place) const
         break;
     case Place::TRASH_ROOT:
         res= QString("%1/%2").arg(rootDirectory(), TRASH_FOLDER);
+        break;
+    case Place::NPC_ROOT:
+        res= QString("%1/%2").arg(rootDirectory(), CHARACTER_ROOT);
         break;
     }
     return res;
@@ -242,5 +253,17 @@ void Campaign::moveAlias(const QModelIndex& index, Move move)
         m_diceModel->bottomAlias(index);
         break;
     }
+}
+
+void Campaign::addCharacter()
+{
+    // TODO command
+    m_npcModel->append();
+}
+
+void Campaign::removeCharacter(const QModelIndex& id)
+{
+    // TODO command
+    m_npcModel->removeNpc(id);
 }
 } // namespace campaign

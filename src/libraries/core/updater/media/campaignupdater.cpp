@@ -21,9 +21,10 @@
 
 #include "data/campaign.h"
 #include "data/media.h"
-#include "diceparser.h"
+#include "diceparser/include/diceparser.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
+#include "model/nonplayablecharactermodel.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
@@ -55,6 +56,8 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
     // GM player
     auto updateAlias= [this]() {
         auto aliases= m_dice->aliases();
+        if(!aliases)
+            return;
         qDeleteAll(*aliases);
         aliases->clear();
         const auto& newAliases= m_campaign->diceAliases()->aliases();
@@ -88,6 +91,18 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
     connect(states, &CharacterStateModel::modelReset, this, updateState);
     connect(states, &CharacterStateModel::dataChanged, this, updateState);
     connect(states, &CharacterStateModel::stateChanged, this, updateState);
+
+    // updateNPCModel
+    auto npcModel= m_campaign->npcModel();
+    auto updateNpcModel= [this]() {
+        FileSerializer::writeNpcIntoCampaign(
+            m_campaign->rootDirectory(),
+            FileSerializer::npcToArray(m_campaign->npcModel()->npcList(), m_campaign->rootDirectory()));
+    };
+    connect(npcModel, &NonPlayableCharacterModel::characterAdded, this, updateNpcModel);
+    connect(npcModel, &NonPlayableCharacterModel::characterRemoved, this, updateNpcModel);
+    connect(npcModel, &NonPlayableCharacterModel::dataChanged, this, updateNpcModel);
+    connect(npcModel, &NonPlayableCharacterModel::modelReset, this, updateNpcModel);
 
     auto updateCampaign= [this]() {
         FileSerializer::writeCampaignInfo(m_campaign->rootDirectory(), FileSerializer::campaignToObject(m_campaign));
