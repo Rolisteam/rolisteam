@@ -2,7 +2,6 @@
 #define LOGPANEL_H
 
 #include "common/controller/logcontroller.h"
-#include "preferences/preferencesmanager.h"
 #include <QAbstractListModel>
 #include <QPointer>
 #include <QWidget>
@@ -11,7 +10,6 @@ namespace Ui
 {
 class LogPanel;
 }
-
 class LogPanel : public QWidget
 {
     Q_OBJECT
@@ -30,7 +28,6 @@ protected slots:
 
 private:
     Ui::LogPanel* ui;
-    PreferencesManager* m_prefManager= PreferencesManager::getInstance();
     QPointer<LogController> m_controller;
 };
 

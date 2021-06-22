@@ -3,6 +3,7 @@
 
 #include <QFileDialog>
 #include <QTextStream>
+
 /////////////////////////////////////
 //
 // LogPanel code
@@ -30,7 +31,6 @@ void LogPanel::setController(LogController* controller)
     connect(ui->m_logLevel, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() {
         auto logLevel= static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
         m_controller->setLogLevel(logLevel);
-        m_prefManager->registerValue("LogController_LogLevel", ui->m_logLevel->currentIndex());
     });
 
     connect(m_controller, &LogController::showMessage, this, &LogPanel::showMessage);
@@ -65,10 +65,10 @@ void LogPanel::showMessage(QString msg, LogController::LogLevel level)
 
 void LogPanel::initSetting()
 {
-    if(m_controller == nullptr || m_prefManager == nullptr)
+    if(m_controller == nullptr)
         return;
 
-    ui->m_logLevel->setCurrentIndex(m_prefManager->value("LogController_LogLevel", 0).toInt());
+    // ui->m_logLevel->setCurrentIndex(m_prefManager->value("LogController_LogLevel", 0).toInt());
     auto logLevel= static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
     m_controller->setLogLevel(logLevel);
 }
