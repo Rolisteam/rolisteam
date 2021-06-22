@@ -57,8 +57,8 @@
 #include "preferences/preferencesmanager.h"
 #include "rwidgets/customs/shortcutvisitor.h"
 #include "rwidgets/customs/workspace.h"
+#include "rwidgets/dialogs/imageselectordialog.h"
 #include "rwidgets/dialogs/keygeneratordialog.h"
-#include "rwidgets/dialogs/onlinepicturedialog.h"
 #include "rwidgets/dialogs/preferencesdialog.h"
 #include "rwidgets/dialogs/shortcuteditordialog.h"
 #include "rwidgets/dialogs/tipofdayviewer.h"
@@ -81,6 +81,7 @@
 // Controller
 #include "controller/instantmessagingcontroller.h"
 #include "controller/networkcontroller.h"
+#include "core/controller/view_controller/imageselectorcontroller.h"
 
 // Text editor
 #include "rwidgets/dialogs/aboutrolisteam.h"
@@ -242,6 +243,7 @@ void MainWindow::setupUi()
 
     addDockWidget(Qt::RightDockWidgetArea, playersListWidget);
     auto dock= new QDockWidget();
+    dock->setObjectName("AntagonistTable");
     dock->setWindowTitle(tr("Antagonist Table"));
     dock->setWidget(m_antagonistWidget.get());
     addDockWidget(Qt::RightDockWidgetArea, dock);
@@ -331,8 +333,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newMindmap, &QAction::triggered, this, callNewMedia);
 
     // open
-    connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
-    connect(m_ui->m_openOnlinePictureAction, &QAction::triggered, this, &MainWindow::openOnlineImage);
+    connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openImage);
     connect(m_ui->m_openCharacterSheet, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openVectorialMap, &QAction::triggered, this, []() {
         // TODO open vmap
@@ -924,18 +925,19 @@ void MainWindow::openGenericContent()
     }
 }
 
-void MainWindow::openOnlineImage()
+void MainWindow::openImage()
 {
-    OnlinePictureDialog dialog;
+    ImageSelectorController ctrl(false, ImageSelectorController::All);
+    ImageSelectorDialog dialog(&ctrl, this);
     if(QDialog::Accepted != dialog.exec())
         return;
 
     std::map<QString, QVariant> args(
-        {{Core::keys::KEY_NAME, dialog.getTitle()},
-         {Core::keys::KEY_URL, dialog.getPath()},
+        {{Core::keys::KEY_NAME, ctrl.title()},
+         {Core::keys::KEY_URL, ctrl.address()},
          {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()},
          {Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::PICTURE)},
-         {Core::keys::KEY_DATA, dialog.getData()}});
+         {Core::keys::KEY_DATA, ctrl.finalImageData()}});
 
     m_gameController->openMedia(args);
 }

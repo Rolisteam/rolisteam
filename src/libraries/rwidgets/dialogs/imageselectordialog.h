@@ -19,83 +19,49 @@
  * Free Software Foundation, Inc.,                                          *
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
-#ifndef ONLINEPICTUREDIALOG_H
-#define ONLINEPICTUREDIALOG_H
+#ifndef IMAGESELECTORDIALOG_H
+#define IMAGESELECTORDIALOG_H
 
 #include <QDialog>
 #include <QLabel>
-#include <QNetworkAccessManager>
+#include <QPointer>
 #include <memory>
 
+class Overlay;
 namespace Ui
 {
-class OnlinePictureDialog;
+class ImageSelectorDialog;
 }
-/**
- * @brief The OnlinePictureDialog class is dedicated to download image from the Internet. The user copies/pastes the
- * url, then the download starts. A preview of the image shows the image to the user. If the user valids the picture is
- * added in rolisteam. otherwise, the image is dropped.
- */
-class OnlinePictureDialog : public QDialog
+class ImageSelectorController;
+class QDragEnterEvent;
+class QDropEvent;
+class ImageSelectorDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    /**
-     * @brief OnlinePictureDialog
-     * @param parent
-     */
-    explicit OnlinePictureDialog(QWidget* parent= nullptr);
-    /**
-     * @brief ~OnlinePictureDialog
-     */
-    virtual ~OnlinePictureDialog();
-    /**
-     * @brief getPath
-     * @return
-     */
-    QString getPath();
-    /**
-     * @brief getPixmap
-     * @return
-     */
-    QByteArray getData();
-    /**
-     * @brief getTitle
-     * @return
-     */
-    QString getTitle();
+    explicit ImageSelectorDialog(ImageSelectorController* ctrl, QWidget* parent= nullptr);
+    virtual ~ImageSelectorDialog();
+
 private slots:
-    /**
-     * @brief uriChanged
-     */
-    void uriChanged();
-    /**
-     * @brief replyFinished
-     * @param reply
-     */
-    void replyFinished(QNetworkReply* reply);
+    void openImage();
 
 protected:
-    /**
-     * @brief resizeLabel
-     */
     void resizeLabel();
-    /**
-     * @brief resizeEvent
-     * @param event
-     */
-    void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event) override;
+
+    void dragEnterEvent(QDragEnterEvent* event) override;
+    void dropEvent(QDropEvent* event) override;
 
 private:
-    Ui::OnlinePictureDialog* ui;
-    std::unique_ptr<QNetworkAccessManager> m_manager;
-    QPixmap m_pix;
-    double m_zoomLevel;
+    QPointer<ImageSelectorController> m_ctrl;
+    Ui::ImageSelectorDialog* ui;
+    std::unique_ptr<Overlay> m_overlay;
+
+    qreal m_ratio= 1.;
+    qreal m_zoomLevel= 1.0;
     QLabel* m_imageViewerLabel;
-    bool m_isPosting;
     QString m_postingStr;
-    QByteArray m_data;
 };
 
-#endif // ONLINEPICTUREDIALOG_H
+#endif // IMAGESELECTORDIALOG_H

@@ -19,97 +19,139 @@
  * Free Software Foundation, Inc.,                                          *
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
-#include <QDebug>
+#include "imageselectordialog.h"
+#include "ui_imageselectordialog.h"
+
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QFileDialog>
 #include <QFileInfo>
-#include <QNetworkReply>
-#include <QNetworkRequest>
+#include <QMimeData>
+#include <QPixmap>
+#include <QPushButton>
 #include <QUrl>
 
-#include "onlinepicturedialog.h"
-#include "ui_onlinepicturedialog.h"
+#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "core/worker/iohelper.h"
+#include "core/worker/utilshelper.h"
+#include "rwidgets/customs/overlay.h"
 
-OnlinePictureDialog::OnlinePictureDialog(QWidget* parent)
-    : QDialog(parent), ui(new Ui::OnlinePictureDialog), m_isPosting(false)
+ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget* parent)
+    : QDialog(parent), m_ctrl(ctrl), ui(new Ui::ImageSelectorDialog), m_overlay(new Overlay())
 {
     ui->setupUi(this);
-    connect(ui->m_urlField, SIGNAL(editingFinished()), this, SLOT(uriChanged()));
-    connect(ui->m_downloadPush, SIGNAL(clicked()), this, SLOT(uriChanged()));
-#ifdef HAVE_QT_NETWORK
-    m_manager.reset(new QNetworkAccessManager());
-    connect(m_manager.get(), &QNetworkAccessManager::finished, this, &OnlinePictureDialog::replyFinished);
-#endif
+    auto download= [this]() { m_ctrl->downloadImageFrom(QUrl::fromUserInput(ui->m_textEdit->text())); };
+    connect(ui->m_textEdit, &QLineEdit::textEdited, m_ctrl, download);
+    connect(ui->m_downloadAct, &QAction::triggered, m_ctrl, download);
+    connect(ui->m_pasteAct, &QAction::triggered, m_ctrl, &ImageSelectorController::imageFromClipboard);
+    connect(ui->m_openFileAct, &QAction::triggered, this, &ImageSelectorDialog::openImage);
+    connect(m_ctrl, &ImageSelectorController::titleChanged, this,
+            [this]() { ui->m_titleLineEdit->setText(m_ctrl->title()); });
+    connect(ui->m_titleLineEdit, &QLineEdit::textEdited, this,
+            [this]() { m_ctrl->setTitle(ui->m_titleLineEdit->text()); });
+
+    connect(m_overlay.get(), &Overlay::selectedRectChanged, m_ctrl, [this](const QRect& rect) {
+        qreal scale= m_ctrl->pixmap().size().width() / m_imageViewerLabel->rect().width();
+        QRect scaledRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
+        m_ctrl->setRect(scaledRect);
+    });
+
+    setAcceptDrops(m_ctrl->canDrop());
+
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+
+    ui->m_downloadPush->setDefaultAction(ui->m_downloadAct);
+    ui->m_pasteBtn->setDefaultAction(ui->m_pasteAct);
+    ui->m_openBtn->setDefaultAction(ui->m_openFileAct);
+
+    ui->m_downloadPush->setVisible(m_ctrl->canDownload());
+    ui->m_pasteBtn->setVisible(m_ctrl->canPaste());
+
+    connect(m_ctrl, &ImageSelectorController::contentToPasteChanged, ui->m_pasteAct,
+            [this]() { ui->m_pasteAct->setEnabled(m_ctrl->hasContentToPaste()); });
+
+    ui->m_pasteAct->setEnabled(m_ctrl->hasContentToPaste());
+
     ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     ui->scrollArea->setAlignment(Qt::AlignCenter);
     m_imageViewerLabel= new QLabel(this);
-    m_imageViewerLabel->setPixmap(QPixmap(QString::fromUtf8(":/resources/images/preview.png")));
+    auto pix= QPixmap(QString::fromUtf8(":/resources/images/preview.png"));
+    m_imageViewerLabel->setPixmap(pix);
     m_imageViewerLabel->setLineWidth(0);
     m_imageViewerLabel->setFrameStyle(QFrame::NoFrame);
     m_imageViewerLabel->setScaledContents(true);
     m_imageViewerLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    m_imageViewerLabel->resize(m_pix.size());
+    m_imageViewerLabel->resize(pix.size());
+    m_overlay->setParent(m_imageViewerLabel);
+    m_overlay->resize(m_imageViewerLabel->rect().size());
+    m_overlay->setSelectedRect(m_imageViewerLabel->rect());
+
+    m_overlay->setRatio(m_ctrl->shape() == ImageSelectorController::Square ? Overlay::Ratio::Ratio_Square :
+                                                                             Overlay::Ratio::Ratio_Unconstrained);
+    m_overlay->initRect();
+
+    connect(m_ctrl, &ImageSelectorController::imageDataChanged, this, [this]() {
+        if(m_ctrl->isMovie())
+        {
+            auto movie= m_ctrl->movie();
+            m_imageViewerLabel->setMovie(movie);
+            m_imageViewerLabel->resize(movie->frameRect().size());
+        }
+        else
+        {
+            auto pix= m_ctrl->pixmap();
+            m_imageViewerLabel->setPixmap(pix);
+            m_imageViewerLabel->resize(pix.size());
+        }
+        auto button= ui->buttonBox->button(QDialogButtonBox::Ok);
+
+        if(button)
+            button->setEnabled(m_ctrl->validData());
+
+        m_overlay->setVisible(!m_ctrl->respectShape());
+        resizeLabel();
+        m_overlay->setSelectedRect(m_overlay->rect());
+        update();
+    });
 
     ui->scrollArea->setWidget(m_imageViewerLabel);
+
+    if(m_ctrl->askPath())
+    {
+        openImage();
+    }
 }
 
-OnlinePictureDialog::~OnlinePictureDialog()
+ImageSelectorDialog::~ImageSelectorDialog()
 {
     delete ui;
 }
-void OnlinePictureDialog::uriChanged()
-{
-    QFileInfo info(ui->m_urlField->text());
-    // if(ui->m_titleLineEdit->text().isEmpty())
-    {
-        ui->m_titleLineEdit->setText(info.baseName());
-    }
-    if((!m_isPosting) || (ui->m_urlField->text() != m_postingStr))
-    {
-        m_isPosting= true;
-        m_postingStr= ui->m_urlField->text();
-        if(m_manager)
-            m_manager->get(QNetworkRequest(QUrl(ui->m_urlField->text())));
-    }
-}
-void OnlinePictureDialog::replyFinished(QNetworkReply* reply)
-{
-    m_isPosting= false;
-    QByteArray data= reply->readAll();
-    QPixmap map;
-    bool ok= map.loadFromData(data);
-    if(ok)
-    {
-        m_data= data;
-        m_imageViewerLabel->setPixmap(map);
-        m_imageViewerLabel->resize(map.size());
-        m_pix= map;
 
-        resizeLabel();
-        update();
+void ImageSelectorDialog::openImage()
+{
+    auto filename
+        = QFileDialog::getOpenFileName(this, tr("Open Image file"), m_ctrl->currentDir(),
+                                       QString("Image File (%1)").arg(helper::utils::allSupportedImageFormatFilter()));
+
+    if(!filename.isEmpty())
+    {
+        m_ctrl->setAddress(filename);
+        ui->m_textEdit->setText(filename);
+        m_ctrl->openImageFromFile();
     }
 }
-QString OnlinePictureDialog::getPath()
-{
-    return ui->m_urlField->text();
-}
 
-QByteArray OnlinePictureDialog::getData()
+void ImageSelectorDialog::resizeLabel()
 {
-    return m_data;
-}
-QString OnlinePictureDialog::getTitle()
-{
-    return ui->m_titleLineEdit->text();
-}
-void OnlinePictureDialog::resizeLabel()
-{
-    int w= ui->scrollArea->viewport()->rect().width();
-    int h= ui->scrollArea->viewport()->rect().height();
+    int const w= ui->scrollArea->viewport()->rect().width();
+    int const h= ui->scrollArea->viewport()->rect().height();
+    auto pix= m_ctrl->pixmap();
 
-    double ratioImage= (double)m_pix.size().width() / m_pix.size().height();
-    double ratioImageBis= (double)m_pix.size().height() / m_pix.size().width();
-
+    double const ratioImage= static_cast<double>(pix.size().width()) / pix.size().height();
+    double const ratioImageBis= static_cast<double>(pix.size().height()) / pix.size().width();
     if(w > h * ratioImage)
     {
         m_imageViewerLabel->resize(h * ratioImage, h);
@@ -118,9 +160,41 @@ void OnlinePictureDialog::resizeLabel()
     {
         m_imageViewerLabel->resize(w, w * ratioImageBis);
     }
+    m_overlay->resize(m_imageViewerLabel->rect().size());
 }
-void OnlinePictureDialog::resizeEvent(QResizeEvent* event)
+
+void ImageSelectorDialog::resizeEvent(QResizeEvent* event)
 {
     resizeLabel();
     QDialog::resizeEvent(event);
+}
+
+void ImageSelectorDialog::dragEnterEvent(QDragEnterEvent* event)
+{
+    if(event->mimeData()->hasUrls() || event->mimeData()->hasImage())
+    {
+        event->acceptProposedAction();
+    }
+    QDialog::dragEnterEvent(event);
+}
+
+void ImageSelectorDialog::dropEvent(QDropEvent* event)
+{
+    const QMimeData* data= event->mimeData();
+    if(!data->hasUrls() && !data->hasImage())
+        return;
+
+    QList<QUrl> list= data->urls();
+    auto img= qvariant_cast<QImage>(data->imageData());
+    if(!img.isNull())
+    {
+        m_ctrl->setAddress({});
+        m_ctrl->setImageData(IOHelper::imageToData(img));
+    }
+    else if(!list.isEmpty())
+    {
+        auto first= list.first();
+        m_ctrl->downloadImageFrom(first);
+    }
+    event->acceptProposedAction();
 }

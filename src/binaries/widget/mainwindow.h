@@ -148,7 +148,7 @@ public:
     void openRecentScenario();
     void updateRecentScenarioAction();
     void openGenericContent();
-    void openOnlineImage();
+    void openImage();
 public slots:
     /**
      * @brief

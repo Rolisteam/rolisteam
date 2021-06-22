@@ -13,6 +13,8 @@
 #include "controller/networkcontroller.h"
 #include "controller/playercontroller.h"
 
+#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "imageselectordialog.h"
 #include "model/profilemodel.h"
 #include "network/characterdatamodel.h"
 
@@ -278,10 +280,17 @@ void SelectConnectionProfileDialog::cloneProfile()
     ui->m_profileList->setCurrentIndex(m_model->index(idx, 0));
 }
 
-QString SelectConnectionProfileDialog::openImage(const QString& path)
+QByteArray SelectConnectionProfileDialog::openImage(const QString& path)
 {
     QFileInfo info(path);
-    return QFileDialog::getOpenFileName(this, tr("Load Avatar"), info.absolutePath());
+    ImageSelectorController ctrl(true, ImageSelectorController::All, ImageSelectorController::Square,
+                                 info.absoluteFilePath());
+    ImageSelectorDialog dialog(&ctrl, this);
+
+    if(QDialog::Accepted != dialog.exec())
+        return {};
+
+    return ctrl.finalImageData();
 }
 
 void SelectConnectionProfileDialog::checkConnection()

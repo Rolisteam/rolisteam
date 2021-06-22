@@ -1,9 +1,9 @@
 #ifndef SELECTCONNECTIONPROFILEDIALOG_H
 #define SELECTCONNECTIONPROFILEDIALOG_H
 
-#include "connectionprofile.h"
+#include "customs/filedirchooser.h"
 #include "data/player.h"
-#include "widgets/filedirchooser.h"
+#include "network/connectionprofile.h"
 
 #include <QAbstractItemModel>
 #include <QDialog>
@@ -70,7 +70,7 @@ public slots:
     void connectTo();
     void stopConnecting();
     void connectToIndex(QModelIndex index);
-    QString openImage(const QString& path);
+    QByteArray openImage(const QString& path);
     void errorOccurs(QString);
     void checkConnection();
     void selectPlayerAvatar();

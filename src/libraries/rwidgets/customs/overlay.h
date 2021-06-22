@@ -6,6 +6,9 @@
 
 class Overlay : public QWidget
 {
+    Q_OBJECT
+    Q_PROPERTY(QRect selectedRect READ selectedRect WRITE setSelectedRect NOTIFY selectedRectChanged)
+    Q_PROPERTY(Ratio ratio READ ratio WRITE setRatio NOTIFY ratioChanged)
 public:
     enum Position
     {
@@ -16,10 +19,30 @@ public:
         Fourth,
         Center
     }; // follow clock,
-    Overlay(QRect rect, QWidget* parent= nullptr);
 
-    QRect rect() const;
-    void setRect(const QRect& rect);
+    enum class Ratio
+    {
+        Ratio_Unconstrained,
+        Ratio_Square,
+        Ratio_Tv,
+        Ratio_Film
+    };
+    Q_ENUM(Ratio)
+    Overlay(QWidget* parent= nullptr); // QRect rect, Ratio ratio= Ratio::Ratio_Unconstrained,
+
+    // Overlay(QRect rect, Ratio ratio= Ratio::Ratio_Unconstrained, QWidget* parent= nullptr);
+
+    Ratio ratio() const;
+    void setRatio(Ratio ratio);
+
+    QRect selectedRect() const;
+    void setSelectedRect(const QRect& rect);
+
+    void initRect();
+
+signals:
+    void selectedRectChanged(const QRect& rect);
+    void ratioChanged();
 
 protected:
     void paintEvent(QPaintEvent*) override;
@@ -27,13 +50,10 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
 
 private:
-    int computeDistance(QPoint p, QPoint r);
-
-private:
-    QRect m_rect;
-    QRect m_fullRect;
-    Position m_currentCorner;
+    QRect m_selectedRect;
+    Position m_currentCorner= None;
     QPoint m_lastPosition;
+    Ratio m_ratio= Ratio::Ratio_Unconstrained;
 };
 
 #endif // OVERLAY_H

@@ -6,83 +6,138 @@
 #include <QPainterPath>
 #include <QPen>
 
-#define DISTANCE_SELECTION 20
-#define GREY_COLOR_LEVEL 60
+constexpr int k_distance_selection= 10;
+constexpr int k_grey_color_level= 60;
+constexpr int k_pen_width= 4;
+constexpr int k_opacity= 200;
 
-Overlay::Overlay(QRect rect, QWidget* parent) : QWidget(parent), m_rect(rect), m_fullRect(rect)
+#include "core/worker/utilshelper.h"
+
+int computeDistance(QPoint p, QPoint r)
 {
-    auto y= m_rect.y();
-    m_rect.setY(0);
-    m_rect.setHeight(m_rect.height() - y);
+    auto result= p - r;
+    return result.manhattanLength();
+}
+
+qreal ratioFromEnum(Overlay::Ratio ratio)
+{
+    static QHash<Overlay::Ratio, qreal> hash(
+        {{Overlay::Ratio::Ratio_Square, 1}, {Overlay::Ratio::Ratio_Tv, 4. / 3.}, {Overlay::Ratio::Ratio_Tv, 16. / 9.}});
+    return hash.value(ratio);
+}
+
+inline uint qHash(const Overlay::Ratio& key, uint seed)
+{
+    return qHash(static_cast<int>(key), seed) ^ static_cast<int>(key);
+}
+
+QRect computeRectGivenRatio(const QRect& rect, Overlay::Ratio ratio)
+{
+    if(ratio == Overlay::Ratio::Ratio_Unconstrained)
+        return rect;
+
+    return helper::utils::computerBiggerRectInside(rect, ratioFromEnum(ratio)).toRect();
+}
+
+Overlay::Overlay(QWidget* parent) // QRect rect, Ratio ratio,, m_rect(rect), m_fullRect(rect), m_ratio(ratio)
+    : QWidget(parent), m_currentCorner(None), m_lastPosition()
+{
 
     setAttribute(Qt::WA_NoSystemBackground);
-    // setAttribute(Qt::WA_TransparentForMouseEvents);
 }
+
+Overlay::Ratio Overlay::ratio() const
+{
+    return m_ratio;
+}
+
+void Overlay::initRect()
+{
+    auto y= m_selectedRect.y();
+    m_selectedRect.setY(0);
+    m_selectedRect.setHeight(m_selectedRect.height() - y);
+
+    m_selectedRect= computeRectGivenRatio(m_selectedRect, m_ratio);
+}
+
+void Overlay::setRatio(Ratio ratio)
+{
+    if(ratio == m_ratio)
+        return;
+    m_ratio= ratio;
+    emit ratioChanged();
+}
+
 void Overlay::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
     QPainterPath toShow;
-    toShow.addRect(m_fullRect);
+    toShow.addRect(rect());
 
     QPainterPath toHide;
-    toHide.addRect(m_rect);
+    toHide.addRect(m_selectedRect);
     toShow= toShow.subtracted(toHide);
 
-    painter.fillPath(toShow, QColor(GREY_COLOR_LEVEL, GREY_COLOR_LEVEL, GREY_COLOR_LEVEL, 100));
+    // qDebug() << "paint event" << toShow << toHide << rect() << m_selectedRect;
+
+    painter.fillPath(toShow, QColor(k_grey_color_level, k_grey_color_level, k_grey_color_level, k_opacity));
+    painter.save();
     auto pen= painter.pen();
-    pen.setWidth(4);
+    pen.setWidth(k_pen_width);
     pen.setStyle(Qt::DashDotLine);
     pen.setColor(Qt::red);
     painter.setPen(pen);
+    painter.drawRect(m_selectedRect);
+    painter.restore();
 
-    painter.drawRect(m_rect);
-    auto offset= DISTANCE_SELECTION / 2;
-    painter.fillRect(
-        m_rect.topLeft().x() - offset, m_rect.topLeft().y() - offset, DISTANCE_SELECTION, DISTANCE_SELECTION, Qt::red);
-    painter.fillRect(m_rect.topRight().x() - offset, m_rect.topRight().y() - offset, DISTANCE_SELECTION,
-        DISTANCE_SELECTION, Qt::red);
-    painter.fillRect(m_rect.bottomLeft().x() - offset, m_rect.bottomLeft().y() - offset, DISTANCE_SELECTION,
-        DISTANCE_SELECTION, Qt::red);
-    painter.fillRect(m_rect.bottomRight().x() - offset, m_rect.bottomRight().y() - offset, DISTANCE_SELECTION,
-        DISTANCE_SELECTION, Qt::red);
+    auto offset= k_distance_selection / 2;
+    painter.fillRect(m_selectedRect.topLeft().x() - offset, m_selectedRect.topLeft().y() - offset, k_distance_selection,
+                     k_distance_selection, Qt::red);
+    painter.fillRect(m_selectedRect.topRight().x() - offset, m_selectedRect.topRight().y() - offset,
+                     k_distance_selection, k_distance_selection, Qt::red);
+    painter.fillRect(m_selectedRect.bottomLeft().x() - offset, m_selectedRect.bottomLeft().y() - offset,
+                     k_distance_selection, k_distance_selection, Qt::red);
+    painter.fillRect(m_selectedRect.bottomRight().x() - offset, m_selectedRect.bottomRight().y() - offset,
+                     k_distance_selection, k_distance_selection, Qt::red);
+    painter.fillRect(m_selectedRect.center().x() - offset, m_selectedRect.center().y() - offset, k_distance_selection,
+                     k_distance_selection, Qt::red);
 }
 
-QRect Overlay::rect() const
+QRect Overlay::selectedRect() const
 {
-    return m_rect;
+    return m_selectedRect;
 }
 
-void Overlay::setRect(const QRect& rect)
+void Overlay::setSelectedRect(const QRect& rect)
 {
-    m_rect= rect;
+    if(rect == m_selectedRect)
+        return;
+    m_selectedRect= computeRectGivenRatio(rect, m_ratio);
+    emit selectedRectChanged(m_selectedRect);
     update();
 }
-int Overlay::computeDistance(QPoint p, QPoint r)
-{
-    auto result= p - r;
-    return result.manhattanLength();
-}
+
 void Overlay::mousePressEvent(QMouseEvent* event)
 {
     auto pos= event->pos();
-    if(computeDistance(pos, m_rect.topLeft()) < DISTANCE_SELECTION)
+    if(computeDistance(pos, m_selectedRect.topLeft()) < k_distance_selection)
     {
         m_currentCorner= First;
     }
-    else if(computeDistance(pos, m_rect.topRight()) < DISTANCE_SELECTION)
+    else if(computeDistance(pos, m_selectedRect.topRight()) < k_distance_selection)
     {
         m_currentCorner= Second;
     }
-    else if(computeDistance(pos, m_rect.bottomRight()) < DISTANCE_SELECTION)
+    else if(computeDistance(pos, m_selectedRect.bottomRight()) < k_distance_selection)
     {
         m_currentCorner= Third;
     }
-    else if(computeDistance(pos, m_rect.bottomLeft()) < DISTANCE_SELECTION)
+    else if(computeDistance(pos, m_selectedRect.bottomLeft()) < k_distance_selection)
     {
         m_currentCorner= Fourth;
     }
-    else if(computeDistance(pos, m_rect.center()) < DISTANCE_SELECTION)
+    else if(computeDistance(pos, m_selectedRect.center()) < k_distance_selection)
     {
         m_currentCorner= Center;
     }
@@ -101,27 +156,34 @@ void Overlay::mouseMoveEvent(QMouseEvent* event)
 {
     auto pos= event->pos();
     auto deplace= pos - m_lastPosition;
+    auto oldRect= m_selectedRect;
 
     switch(m_currentCorner)
     {
     case First:
-        m_rect.setTopLeft(pos);
+        m_selectedRect.setTopLeft(pos);
         break;
     case Second:
-        m_rect.setTopRight(pos);
+        m_selectedRect.setTopRight(pos);
         break;
     case Third:
-        m_rect.setBottomRight(pos);
+        m_selectedRect.setBottomRight(pos);
         break;
     case Fourth:
-        m_rect.setBottomLeft(pos);
+        m_selectedRect.setBottomLeft(pos);
         break;
     case Center:
-        m_rect.translate(deplace);
+        m_selectedRect.translate(deplace);
         break;
     default:
         break;
     }
+    m_selectedRect= computeRectGivenRatio(m_selectedRect, m_ratio);
+
+    if(!rect().contains(m_selectedRect))
+        m_selectedRect= oldRect;
+
     m_lastPosition= event->pos();
     update();
+    emit selectedRectChanged(m_selectedRect);
 }
