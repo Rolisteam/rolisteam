@@ -3,13 +3,13 @@
 
 #include "data/diceshortcut.h"
 #include "dicebookmarkmodel.h"
-#include "widgets/gmtoolbox/gamemastertool.h"
+#include "rwidgets/gmtoolbox/gamemastertool.h"
 #include <QDialog>
 #include <QSettings>
 #include <QWidget>
 namespace Ui
 {
-    class DiceBookMarkWidget;
+class DiceBookMarkWidget;
 }
 
 class DiceBookMarkWidget : public QDialog

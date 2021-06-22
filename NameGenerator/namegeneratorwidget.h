@@ -21,7 +21,7 @@
 #ifndef NAMEGENERATORWIDGET_H
 #define NAMEGENERATORWIDGET_H
 
-#include "widgets/gmtoolbox/gamemastertool.h"
+#include "rwidgets/gmtoolbox/gamemastertool.h"
 #include <QRandomGenerator>
 #include <QWidget>
 

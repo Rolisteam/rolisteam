@@ -6,9 +6,9 @@
 
 #include "convertoroperator.h"
 #include "customrulemodel.h"
+#include "rwidgets/gmtoolbox/gamemastertool.h"
 #include "unit.h"
 #include "unitmodel.h"
-#include "widgets/gmtoolbox/gamemastertool.h"
 #include <QSettings>
 #include <memory>
 
@@ -51,9 +51,9 @@ public slots:
 private:
     Ui::Convertor* ui= nullptr;
     QMap<Unit::Category, QString> m_map;
-    std::unique_ptr<UnitModel> m_model                 = nullptr;
-    std::unique_ptr<CategoryModel> m_catModel          = nullptr;
-    std::unique_ptr<CategoryModel> m_toModel           = nullptr;
+    std::unique_ptr<UnitModel> m_model= nullptr;
+    std::unique_ptr<CategoryModel> m_catModel= nullptr;
+    std::unique_ptr<CategoryModel> m_toModel= nullptr;
     std::unique_ptr<CustomRuleModel> m_customRulesModel= nullptr;
 
     QHash<QPair<const Unit*, const Unit*>, ConvertorOperator*> m_convertorTable;

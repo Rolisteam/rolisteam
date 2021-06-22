@@ -1,5 +1,5 @@
 #include "dicebookmarkmodel.h"
-#include "userlist/rolisteammimedata.h"
+#include "data/rolisteammimedata.h"
 
 DiceBookMarkModel::DiceBookMarkModel(std::vector<DiceShortCut>& data, QObject* parent)
     : QAbstractTableModel(parent), m_data(data)
