@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "addfogofwarchangecommand.h"
 
-#include "vmap/controller/sightcontroller.h"
+#include "controller/item_controllers/sightcontroller.h"
 
 AddFogOfWarChangeCommand::AddFogOfWarChangeCommand(vmap::SightController* ctrl, const QPolygonF& gone, bool mask)
     : QUndoCommand(), m_ctrl(ctrl), m_poly(gone), m_mask(mask)

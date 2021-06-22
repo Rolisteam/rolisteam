@@ -20,7 +20,7 @@
 
 #include "anchoritem.h"
 
-#include "vmap/controller/visualitemcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include <QDebug>
 
 AnchorItem::AnchorItem() : m_pen(QColor(Qt::darkGray))

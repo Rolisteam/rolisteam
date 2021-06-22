@@ -19,11 +19,11 @@
  ***************************************************************************/
 #include "messagefactory.h"
 
-#include "qmlchat/commandmessage.h"
-#include "qmlchat/dicemessage.h"
-#include "qmlchat/errormessage.h"
-#include "qmlchat/messageinterface.h"
-#include "qmlchat/textmessage.h"
+#include "instantmessaging/commandmessage.h"
+#include "instantmessaging/dicemessage.h"
+#include "instantmessaging/errormessage.h"
+#include "instantmessaging/messageinterface.h"
+#include "instantmessaging/textmessage.h"
 
 namespace InstantMessaging
 {

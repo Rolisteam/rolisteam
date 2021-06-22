@@ -19,14 +19,14 @@
  ***************************************************************************/
 #include "instantmessagingupdater.h"
 
+#include "instantmessaging/chatroom.h"
+#include "instantmessaging/dicemessage.h"
+#include "instantmessaging/filteredplayermodel.h"
+#include "instantmessaging/instantmessagingmodel.h"
+#include "instantmessaging/messagefactory.h"
+#include "instantmessaging/messageinterface.h"
+#include "instantmessaging/messagemodel.h"
 #include "media/mediatype.h"
-#include "qmlchat/chatroom.h"
-#include "qmlchat/dicemessage.h"
-#include "qmlchat/filteredplayermodel.h"
-#include "qmlchat/instantmessagingmodel.h"
-#include "qmlchat/messagefactory.h"
-#include "qmlchat/messageinterface.h"
-#include "qmlchat/messagemodel.h"
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"

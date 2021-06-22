@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "changesizevmapitem.h"
 
-#include "vmap/controller/visualitemcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include <QDebug>
 
 ChangeSizeVmapItemCommand::ChangeSizeVmapItemCommand(const QList<vmap::VisualItemController*>& list,

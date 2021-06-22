@@ -205,6 +205,14 @@ enum class Layer : quint8
 };
 Q_ENUM_NS(Layer)
 
+enum class ArrowDirection : quint8
+{
+    StartToEnd,
+    EndToStart,
+    Both
+};
+Q_ENUM_NS(ArrowDirection)
+
 namespace keys
 {
 constexpr char const* KEY_PATH{"path"};
@@ -244,6 +252,21 @@ constexpr char const* JSON_CURRENT_CHAPTER{"chapter"};
 constexpr char const* JSON_MEDIA_PATH{"path"};
 constexpr char const* JSON_MEDIA_CREATIONTIME{"ctime"};
 constexpr char const* JSON_MEDIA_ID{"uuid"};
+
+constexpr char const* JSON_NPC_ID{"uuid"};
+constexpr char const* JSON_NPC_NAME{"name"};
+constexpr char const* JSON_NPC_INITCOMMAND{"initCmd"};
+constexpr char const* JSON_NPC_INITVALUE{"initVal"};
+constexpr char const* JSON_NPC_COLOR{"color"};
+constexpr char const* JSON_NPC_HP{"hp"};
+constexpr char const* JSON_NPC_MAXHP{"maxhp"};
+constexpr char const* JSON_NPC_MINHP{"minhp"};
+constexpr char const* JSON_NPC_DIST_PER_TURN{"distperturn"};
+constexpr char const* JSON_NPC_STATEID{"stateid"};
+constexpr char const* JSON_NPC_LIFECOLOR{"lifecolor"};
+constexpr char const* JSON_NPC_AVATAR{"avataruri"};
+constexpr char const* JSON_NPC_TAGS{"tags"};
+constexpr char const* JSON_NPC_TOKEN{"tokenpath"};
 } // namespace JsonKey
 
 } // namespace Core

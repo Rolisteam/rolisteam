@@ -22,8 +22,8 @@
 #include <QDebug>
 #include <QPolygonF>
 
+//#include "controller/item_controllers/characteritemcontrollermanager.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "vmap/manager/characteritemcontrollermanager.h"
 
 namespace vmap
 {

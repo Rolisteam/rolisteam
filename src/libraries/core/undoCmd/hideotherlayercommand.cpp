@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "hideotherlayercommand.h"
 
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "model/vmapitemmodel.h"
-#include "vmap/controller/visualitemcontroller.h"
 
 HideOtherLayerCommand::HideOtherLayerCommand(Core::Layer layer, vmap::VmapItemModel* model, bool b)
     : m_model(model), m_layer(layer), m_hide(b)

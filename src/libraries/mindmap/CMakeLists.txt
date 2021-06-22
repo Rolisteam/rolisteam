@@ -81,7 +81,7 @@ set(mindmap_bin_src
 add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
 target_link_libraries(rmindmap PUBLIC Qt5::Core Qt5::Svg Qt5::Svg Qt5::Qml Qt5::Quick Qt5::QuickControls2)
 set_target_properties(rmindmap PROPERTIES VERSION ${PROJECT_VERSION})
-target_include_directories(rmindmap PRIVATE src ../../src)
+target_include_directories(rmindmap PRIVATE src ../)
 
 IF(BUILD_GUI)
     add_executable(rmindmap-gui ${mindmap_bin_src})

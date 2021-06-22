@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "importmedia.h"
+#include "importimagestate.h"
 
 #include "data/campaign.h"
 #include "data/media.h"
@@ -26,8 +26,8 @@
 
 namespace commands
 {
-ImportMedia::ImportMedia(campaign::Campaign* campaign, const QString& name, const QString& sourcePath,
-                         const QString& destPath)
+ImportImageState::ImportImageState(campaign::Campaign* campaign, const QString& name, const QString& sourcePath,
+                                   const QString& destPath)
     : m_campaign(campaign)
     , m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
     , m_name(name)
@@ -38,7 +38,7 @@ ImportMedia::ImportMedia(campaign::Campaign* campaign, const QString& name, cons
     IOHelper::copyFile(sourcePath, m_tmpPath);
 }
 
-void ImportMedia::redo()
+void ImportImageState::redo()
 {
     auto it= std::unique_ptr<campaign::Media>(
         new campaign::Media(m_uuid, m_name, m_destPath, campaign::FileSerializer::typeFromExtention(m_destPath)));
@@ -46,7 +46,7 @@ void ImportMedia::redo()
     IOHelper::copyFile(m_tmpPath, m_destPath);
 }
 
-void ImportMedia::undo()
+void ImportImageState::undo()
 {
     m_campaign->removeMedia(m_uuid);
     IOHelper::copyFile(m_destPath, m_tmpPath);

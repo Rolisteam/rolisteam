@@ -23,6 +23,7 @@
 
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
+#include "core/network/networkmessagewriter.h"
 
 CharacterSheetUpdater::CharacterSheetUpdater(const QString& id, QObject* parent) : QObject(parent), m_mediaId(id)
 {

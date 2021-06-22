@@ -20,8 +20,8 @@
 #ifndef PATHITEM_H
 #define PATHITEM_H
 
+#include "controller/item_controllers/pathcontroller.h"
 #include "visualitem.h"
-#include "vmap/controller/pathcontroller.h"
 #include <QPen>
 
 namespace vmap

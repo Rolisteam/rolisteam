@@ -23,6 +23,9 @@
 #include <QObject>
 #include <QPointF>
 #include <QPointer>
+
+#include "core/media/mediatype.h"
+
 namespace mindmap
 {
 
@@ -32,7 +35,7 @@ class Link : public QObject
     Q_OBJECT
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
-    Q_PROPERTY(Direction direction READ direction WRITE setDirection NOTIFY directionChanged)
+    Q_PROPERTY(Core::ArrowDirection direction READ direction WRITE setDirection NOTIFY directionChanged)
     Q_PROPERTY(QPointF startPoint READ startPoint NOTIFY startPointChanged)
     Q_PROPERTY(QPointF endPoint READ endPoint NOTIFY endPointChanged)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
@@ -41,18 +44,10 @@ class Link : public QObject
     Q_PROPERTY(QString p1Id READ p1Id NOTIFY startPointChanged)
     Q_PROPERTY(QString p2Id READ p2Id NOTIFY endPointChanged)
 public:
-    // TODO : to move to another header file.
-    enum Direction
-    {
-        StartToEnd,
-        EndToStart,
-        Both
-    };
-    Q_ENUM(Direction)
     explicit Link(QObject* parent= nullptr);
 
-    Direction direction() const;
-    void setDirection(const Direction& direction);
+    Core::ArrowDirection direction() const;
+    void setDirection(const Core::ArrowDirection& direction);
 
     MindNode* start() const;
     void setStart(MindNode* start);
@@ -99,7 +94,7 @@ public slots:
     void setId(const QString& text);
 
 private:
-    Direction m_dir= StartToEnd;
+    Core::ArrowDirection m_dir= Core::ArrowDirection::StartToEnd;
     bool m_visible= true;
     QPointer<MindNode> m_start;
     QPointer<MindNode> m_end;

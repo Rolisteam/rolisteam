@@ -36,6 +36,7 @@ namespace campaign
 {
 class CampaignManager;
 class Campaign;
+class NonPlayableCharacter;
 struct CampaignInfo
 {
     bool status;
@@ -43,6 +44,7 @@ struct CampaignInfo
     QJsonObject theme;
     QJsonArray dices;
     QJsonArray states;
+    QJsonArray npcs;
     QStringList errors;
     QStringList unmanagedFiles;
     QStringList missingFiles;
@@ -60,10 +62,13 @@ public:
     static QJsonArray statesToArray(const std::vector<std::unique_ptr<CharacterState>>& vec,
                                     const QString& destination);
     static QJsonArray dicesToArray(const std::vector<std::unique_ptr<DiceAlias>>& vec);
+    static QJsonArray npcToArray(const std::vector<std::unique_ptr<campaign::NonPlayableCharacter>>& vec,
+                                 const QString& destination);
 
     static void writeStatesIntoCampaign(const QString& destination, const QJsonArray& array);
     static void writeDiceAliasIntoCampaign(const QString& destination, const QJsonArray& array);
     static void writeCampaignInfo(const QString& destination, const QJsonObject& object);
+    static void writeNpcIntoCampaign(const QString& destination, const QJsonArray& array);
     static bool createCampaignDirectory(const QString& path);
 
     static QString contentTypeToDefaultExtension(Core::ContentType type);

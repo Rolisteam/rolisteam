@@ -23,11 +23,12 @@
 #include <QDebug>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QQuickWidget>
 #include <QUrl>
 #include <QVBoxLayout>
 
-#include "avatarprovider.h"
 #include "controller/instantmessagingcontroller.h"
+#include "instantmessaging/avatarprovider.h"
 
 InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWidget* parent)
     : QWidget(parent), m_ui(new Ui::InstantMessagingView), m_qmlViewer(new QQuickWidget()), m_ctrl(ctrl)
@@ -65,7 +66,7 @@ InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWi
     setMinimumWidth(200);
 
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    m_qmlViewer->setSource(QUrl("qrc:/qmlchat/InstantMessagingMain.qml"));
+    m_qmlViewer->setSource(QUrl("qrc:/instantmessaging/InstantMessagingMain.qml"));
 
     auto layout= new QVBoxLayout();
     layout->setMargin(0);

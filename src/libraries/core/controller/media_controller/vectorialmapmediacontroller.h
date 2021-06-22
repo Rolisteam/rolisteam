@@ -21,7 +21,7 @@
 #define VECTORIALMAPMEDIACONTROLLER_H
 
 #include "mediamanagerbase.h"
-#include "vmap/vtoolbar.h"
+
 #include <memory>
 #include <vector>
 

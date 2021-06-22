@@ -20,7 +20,7 @@
 #ifndef USERLISTVIEW_H
 #define USERLISTVIEW_H
 
-#include "diceparser.h"
+#include "diceparser/include/diceparser.h"
 #include <QPointer>
 #include <QTreeView>
 #include <memory>

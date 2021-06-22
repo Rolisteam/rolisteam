@@ -27,8 +27,8 @@
 #include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
 #include "undoCmd/removemediacontrollercommand.h"
-#include "updater/vmapupdater.h"
-#include "vmap/vmapframe.h"
+#include "updater/media/vmapupdater.h"
+//#include "vmap/vmapframe.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 

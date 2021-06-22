@@ -76,7 +76,7 @@
   <customwidget>
    <class>campaign::CampaignView</class>
    <extends>QTreeView</extends>
-   <header>campaignview.h</header>
+   <header>rwidgets/modelviews/campaignview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

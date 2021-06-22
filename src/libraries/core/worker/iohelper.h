@@ -43,6 +43,12 @@ class MindMapController;
 class DiceAlias;
 class CharacterState;
 class RolisteamTheme;
+
+namespace campaign
+{
+class NonPlayableCharacter;
+}
+
 class IOHelper
 {
 public:
@@ -76,6 +82,7 @@ public:
 
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
     static QByteArray pixmapToData(const QPixmap& pix);
+    static QByteArray imageToData(const QImage& pix);
     static QPixmap dataToPixmap(const QByteArray& data);
     static QPixmap readPixmapFromURL(const QUrl& url);
     static QPixmap readPixmapFromFile(const QString& url);
@@ -98,6 +105,7 @@ public:
     static QJsonObject diceAliasToJSonObject(DiceAlias* alias);
     // states
     static QJsonObject stateToJSonObject(CharacterState* state, const QString& root);
+    static QJsonObject npcToJsonObject(campaign::NonPlayableCharacter* npc, const QString& destination);
 
     // read theme file
     static RolisteamTheme* jsonToTheme(const QJsonObject& json);

@@ -25,7 +25,7 @@
 
 #include "controller/gamecontroller.h"
 #include "data/rolisteamtheme.h"
-#include "diceparser.h"
+#include "diceparser/include/diceparser.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
 #include "model/languagemodel.h"

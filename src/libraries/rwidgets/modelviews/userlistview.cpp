@@ -27,17 +27,16 @@
 #include <QMouseEvent>
 #include <QPainter>
 
-#include "playerspanel.h"
-#include "userlistdelegate.h"
+#include "delegates/userlistdelegate.h"
+#include "docks/playerspanel.h"
 #include "userlistview.h"
 
 #include "controller/playercontroller.h"
 #include "data/character.h"
+#include "data/rolisteammimedata.h"
 #include "model/characterstatemodel.h"
-#include "model/playeronmapmodel.h"
-#include "playermodel.h"
+#include "model/playermodel.h"
 #include "preferences/preferencesmanager.h"
-#include "rolisteammimedata.h"
 #include <QInputDialog>
 
 UserListView::UserListView(QWidget* parent) : QTreeView(parent), m_diceParser(new DiceParser)

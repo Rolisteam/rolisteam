@@ -25,10 +25,10 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
 
-#include "vmap/controller/linecontroller.h"
+#include "controller/item_controllers/linecontroller.h"
 #include <QDebug>
 
 #include <math.h>

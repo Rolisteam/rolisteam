@@ -19,23 +19,24 @@
  ***************************************************************************/
 #include "addvmapitem.h"
 
-#include "vmap/items/anchoritem.h"
-#include "vmap/items/characteritem.h"
-#include "vmap/items/ellipsitem.h"
-#include "vmap/items/highlighteritem.h"
-#include "vmap/items/imageitem.h"
-#include "vmap/items/lineitem.h"
-#include "vmap/items/pathitem.h"
-#include "vmap/items/rectitem.h"
-#include "vmap/items/ruleitem.h"
-#include "vmap/items/textitem.h"
+/*#include "rwidgets/graphicsItems/anchoritem.h"
+#include "rwidgets/graphicsItems/characteritem.h"
+#include "rwidgets/graphicsItems/ellipsitem.h"
+#include "rwidgets/graphicsItems/highlighteritem.h"
+#include "rwidgets/graphicsItems/imageitem.h"
+#include "rwidgets/graphicsItems/lineitem.h"
+#include "rwidgets/graphicsItems/pathitem.h"
+#include "rwidgets/graphicsItems/rectitem.h"
+#include "rwidgets/graphicsItems/ruleitem.h"
+#include "rwidgets/graphicsItems/textitem.h"*/
+#include <QDebug>
 
+#include "controller/item_controllers/vmapitemfactory.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "data/character.h"
 #include "model/vmapitemmodel.h"
-#include "network/networkmessagewriter.h"
-#include "vmap/controller/vmapitemfactory.h"
-#include "vmap/manager/visualitemcontrollermanager.h"
+//#include "data/character.h"
+//#include "network/networkmessagewriter.h"
+//#include "vmap/manager/visualitemcontrollermanager.h"
 
 AddVmapItemCommand::AddVmapItemCommand(vmap::VmapItemModel* model, Core::SelectableTool tool,
                                        VectorialMapController* mapCtrl, const std::map<QString, QVariant>& args,
@@ -57,7 +58,6 @@ AddVmapItemCommand::AddVmapItemCommand(vmap::VmapItemModel* model, Core::Selecta
     auto string= data.value(tool);
 
     setText(QObject::tr("add %1 item").arg(string));
-
 }
 
 void AddVmapItemCommand::undo()

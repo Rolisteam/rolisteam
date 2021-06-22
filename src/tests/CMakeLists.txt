@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
-include_directories(../core/src)
-include_directories(../core/libs)
-include_directories(../core/src/diceparser/include)
+include_directories(../libraries)
+include_directories(../libraries/diceparser/include)
 
 # Helpers
 add_subdirectory(helper)

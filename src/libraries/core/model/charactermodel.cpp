@@ -22,7 +22,7 @@
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 
 CharacterModel::CharacterModel(QObject* parent) : QAbstractProxyModel(parent)
 {

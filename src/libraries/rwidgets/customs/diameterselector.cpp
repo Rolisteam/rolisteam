@@ -24,9 +24,9 @@
 #include <QFrame>
 #include <QVBoxLayout>
 
-#include "widgets/diameterselector.h"
+#include "rwidgets/customs/diameterselector.h"
 
-#include "widgets/circledisplayer.h"
+#include "rwidgets/customs/circledisplayer.h"
 
 #define DEFAULT_ICON_SIZE 20
 /********************************************************************/

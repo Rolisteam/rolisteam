@@ -29,7 +29,7 @@
 #include "image.h"
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
-#include "widgets/onlinepicturedialog.h"
+//#include "widgets/onlinepicturedialog.h"
 
 /********************************************************************/
 /* Constructeur                                                     */

@@ -9,8 +9,8 @@
 #include <QJsonObject>
 #include <QMenu>
 
+#include "network/tcpclient.h"
 #include "preferences/preferencesmanager.h"
-#include "tcpclient.h"
 
 ChannelListPanel::ChannelListPanel(NetworkController* ctrl, QWidget* parent)
     : QWidget(parent), ui(new Ui::ChannelListPanel), m_ctrl(ctrl), m_currentGroups(VIEWER)

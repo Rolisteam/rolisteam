@@ -21,8 +21,8 @@
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "rwidgets/mediacontainers/image.h"
 #include <data/cleveruri.h>
-#include <media/image.h>
 #include <memory>
 
 class PictureTest : public QObject

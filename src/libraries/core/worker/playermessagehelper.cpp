@@ -25,8 +25,8 @@
 
 #include "data/character.h"
 #include "data/player.h"
+#include "model/playermodel.h"
 #include "network/clientmanager.h"
-#include "userlist/playermodel.h"
 
 PlayerMessageHelper::PlayerMessageHelper() {}
 

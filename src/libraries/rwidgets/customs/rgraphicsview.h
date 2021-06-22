@@ -23,9 +23,9 @@
 #include <QGraphicsView>
 #include <QPointer>
 
+#include "customs/vmap.h"
+#include "dialogs/vmapwizzarddialog.h"
 #include "preferences/preferencesmanager.h"
-#include "vmap.h"
-#include "vmapwizzarddialog.h"
 
 class VectorialMapController;
 class VisualItemController;

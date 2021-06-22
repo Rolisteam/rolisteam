@@ -25,8 +25,8 @@
 #include <QObject>
 #include <QRectF>
 
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/controller/visualitemcontroller.h"
 #include "worker/convertionhelper.h"
 
 namespace vmap

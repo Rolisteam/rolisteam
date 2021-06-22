@@ -19,6 +19,16 @@
  ***************************************************************************/
 #include "modelhelper.h"
 
+#include <QApplication>
+#include <QBuffer>
+#include <QDebug>
+#include <QFileInfo>
+#include <QFontDatabase>
+#include <QJsonDocument>
+#include <QMessageBox>
+#include <QSettings>
+#include <QUuid>
+
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 #include "controller/contentcontroller.h"
@@ -30,22 +40,13 @@
 #include "model/characterstatemodel.h"
 #include "model/contentmodel.h"
 #include "model/dicealiasmodel.h"
+#include "model/nonplayablecharactermodel.h"
 #include "model/palettemodel.h"
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
 #include "session/sessionitemmodel.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
-
-#include <QApplication>
-#include <QBuffer>
-#include <QDebug>
-#include <QFileInfo>
-#include <QFontDatabase>
-#include <QJsonDocument>
-#include <QMessageBox>
-#include <QSettings>
-#include <QUuid>
 
 namespace Settingshelper
 {
@@ -386,6 +387,52 @@ void fetchMedia(const QJsonArray& medias, campaign::Campaign* campaign)
         std::unique_ptr<campaign::Media> media(new campaign::Media(id, name, path, type, time));
         campaign->addMedia(std::move(media));
     }
+}
+
+void fetchNpcModel(const QJsonArray& npc, campaign::NonPlayableCharacterModel* model)
+{
+    std::vector<campaign::NonPlayableCharacter*> vec;
+    for(const auto& obj : npc)
+    {
+        auto stateJson= obj.toObject();
+        auto uuid= stateJson[Core::JsonKey::JSON_NPC_ID].toString();
+        auto name= stateJson[Core::JsonKey::JSON_NPC_NAME].toString();
+        auto initcmd= stateJson[Core::JsonKey::JSON_NPC_INITCOMMAND].toString();
+        auto initvalue= stateJson[Core::JsonKey::JSON_NPC_INITVALUE].toInt();
+        auto color= QColor(stateJson[Core::JsonKey::JSON_NPC_COLOR].toString());
+        auto hp= stateJson[Core::JsonKey::JSON_NPC_HP].toInt();
+        auto hpmax= stateJson[Core::JsonKey::JSON_NPC_MAXHP].toInt();
+        auto hpmin= stateJson[Core::JsonKey::JSON_NPC_MINHP].toInt();
+        auto distancePerTurn= stateJson[Core::JsonKey::JSON_NPC_DIST_PER_TURN].toInt();
+        auto stateId= stateJson[Core::JsonKey::JSON_NPC_STATEID].toString();
+        auto lifeColor= QColor(stateJson[Core::JsonKey::JSON_NPC_LIFECOLOR].toString());
+        auto avatar= stateJson[Core::JsonKey::JSON_NPC_AVATAR].toString();
+        auto tags= stateJson[Core::JsonKey::JSON_NPC_TAGS].toArray();
+        auto tokenPath= stateJson[Core::JsonKey::JSON_NPC_TOKEN].toString();
+
+        QStringList list;
+        std::transform(std::begin(tags), std::end(tags), std::back_inserter(list),
+                       [](const QJsonValue& val) { return val.toString(); });
+
+        auto npc= new campaign::NonPlayableCharacter();
+        npc->setUuid(uuid);
+        npc->setName(name);
+        npc->setInitCommand(initcmd);
+        npc->setInitiativeScore(initvalue);
+        npc->setColor(color);
+        npc->setHealthPointsCurrent(hp);
+        npc->setHealthPointsMax(hpmax);
+        npc->setHealthPointsMin(hpmin);
+        npc->setDistancePerTurn(distancePerTurn);
+        npc->setStateId(stateId);
+        npc->setLifeColor(lifeColor);
+        npc->setAvatarPath(avatar);
+        npc->setTags(list);
+        npc->setTokenPath(tokenPath);
+
+        vec.push_back(npc);
+    }
+    model->setModelData(vec);
 }
 
 } // namespace ModelHelper

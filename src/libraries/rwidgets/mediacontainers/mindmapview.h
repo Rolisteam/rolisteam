@@ -24,7 +24,7 @@
 #include <QQuickWidget>
 #include <memory>
 
-#include "data/mediacontainer.h"
+#include "mediacontainers/mediacontainer.h"
 
 class MindMapController;
 

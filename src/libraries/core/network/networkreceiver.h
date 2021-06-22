@@ -20,7 +20,7 @@
 #ifndef NETWORKRECEIVER_H
 #define NETWORKRECEIVER_H
 
-#include "network/networkmessagereader.h"
+#include "core/network/networkmessagereader.h"
 /**
  * @brief The NetWorkReceiver class is an abstract class. It is part of the listener pattern. Any class which need to be
  * process some network message should subclass this class.

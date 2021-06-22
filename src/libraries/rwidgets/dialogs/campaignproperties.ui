@@ -445,7 +445,7 @@
   <customwidget>
    <class>FileDirChooser</class>
    <extends>QWidget</extends>
-   <header location="global">widgets/filedirchooser.h</header>
+   <header location="global">customs/filedirchooser.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

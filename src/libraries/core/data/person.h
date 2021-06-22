@@ -46,7 +46,7 @@ class Person : public QObject
     Q_PROPERTY(QImage avatar READ getAvatar WRITE setAvatar NOTIFY avatarChanged)
     Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
 public:
-    Person();
+    Person(QObject* parent= nullptr);
     Person(const QString& name, const QColor& color, const QString& uuid= QString());
     virtual ~Person() override;
 

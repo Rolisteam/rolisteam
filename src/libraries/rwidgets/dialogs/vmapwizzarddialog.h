@@ -23,8 +23,8 @@
 #include <QColor>
 #include <QDialog>
 
-#include "patternmodel.h"
-#include "vmap.h"
+#include "core/model/patternmodel.h"
+#include "customs/vmap.h"
 
 namespace Ui
 {

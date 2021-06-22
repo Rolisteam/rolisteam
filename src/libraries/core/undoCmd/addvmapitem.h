@@ -20,8 +20,7 @@
 #ifndef ADDVMAPITEMCOMMAND_H
 #define ADDVMAPITEMCOMMAND_H
 
-#include "vmap/vmap.h"
-#include "vmap/vtoolbar.h"
+#include "model/vmapitemmodel.h"
 #include <QUndoCommand>
 
 class VectorialMapController;

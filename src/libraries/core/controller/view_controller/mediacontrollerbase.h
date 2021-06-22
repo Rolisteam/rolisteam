@@ -24,7 +24,7 @@
 #include <QObject>
 #include <memory>
 
-#include "media/mediatype.h"
+#include "core/media/mediatype.h"
 
 class QUndoCommand;
 class MediaControllerBase : public QObject

@@ -32,11 +32,9 @@
 
 #include "character.h"
 #ifndef UNIT_TEST
-#include "charactersheet.h"
+#include "charactersheet/charactersheet.h"
 #endif
 #include "data/player.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
 //  Begin character field
 CharacterField::CharacterField() {}
@@ -264,7 +262,7 @@ bool CharacterProperty::setData(int col, QVariant value, int role)
 
 QList<CharacterState*>* Character::m_stateList= nullptr;
 
-Character::Character() : Person(), m_sheet(nullptr) {}
+Character::Character(QObject* parent) : Person(parent), m_sheet(nullptr) {}
 
 Character::Character(const QString& name, const QColor& color, bool npc, int number)
     : Person(name, color), m_isNpc(npc), m_number(number), m_sheet(nullptr)

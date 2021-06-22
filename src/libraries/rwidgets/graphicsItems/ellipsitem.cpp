@@ -25,10 +25,10 @@
 #include <cmath>
 #include <math.h>
 
+#include "controller/item_controllers/ellipsecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/controller/ellipsecontroller.h"
 
 EllipsItem::EllipsItem(vmap::EllipseController* ctrl) : VisualItem(ctrl), m_ellipseCtrl(ctrl)
 {

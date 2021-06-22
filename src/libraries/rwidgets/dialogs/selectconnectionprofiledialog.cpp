@@ -13,8 +13,8 @@
 #include "controller/networkcontroller.h"
 #include "controller/playercontroller.h"
 
-#include "characterdatamodel.h"
 #include "model/profilemodel.h"
+#include "network/characterdatamodel.h"
 
 /// ConnectionProfile
 SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctrl, QWidget* parent)

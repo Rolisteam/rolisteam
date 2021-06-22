@@ -23,6 +23,7 @@
 #include <QColor>
 #include <QFont>
 #include <QObject>
+#include <QPainterPath>
 #include <QPixmap>
 #include <QRectF>
 #include <memory>

@@ -51,6 +51,7 @@ private:
 
 private:
     std::unique_ptr<SharedNoteControllerUpdater> m_updater;
+    std::vector<std::unique_ptr<SharedNoteController>> m_sharedNotes;
     QPointer<PlayerModel> m_playerModel;
 };
 

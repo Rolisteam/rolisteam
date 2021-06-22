@@ -27,7 +27,7 @@
 
 //#include "network/networkmessagereader.h"
 //#include "network/networkmessagewriter.h"
-#include "participantmodel.h"
+#include "model/participantmodel.h"
 
 namespace Ui
 {

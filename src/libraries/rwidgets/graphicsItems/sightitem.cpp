@@ -29,9 +29,9 @@
 #include <QStyleOptionGraphicsItem>
 #include <math.h>
 
+#include "controller/item_controllers/sightcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "userlist/playermodel.h"
-#include "vmap/controller/sightcontroller.h"
+#include "model/playermodel.h"
 
 #include "data/character.h"
 #include "network/networkmessagereader.h"

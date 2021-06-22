@@ -22,10 +22,10 @@
 
 #include <QAbstractItemModel>
 
-#include "data/link.h"
 namespace mindmap
 {
-
+class Link;
+class MindNode;
 class LinkModel : public QAbstractItemModel
 {
     Q_OBJECT

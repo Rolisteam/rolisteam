@@ -23,27 +23,27 @@
 #include <QMetaObject>
 #include <QMetaProperty>
 
-#include <data/character.h>
-#include <data/localpersonmodel.h>
-#include <data/person.h>
-#include <data/player.h>
-#include <userlist/playermodel.h>
+#include "core/data/character.h"
+#include "core/data/localpersonmodel.h"
+#include "core/data/person.h"
+#include "core/data/player.h"
+#include "core/model/playermodel.h"
 
 #include "controller/instantmessagingcontroller.h"
-#include "qmlchat/avatarprovider.h"
-#include "qmlchat/chatroom.h"
-#include "qmlchat/chatroomfactory.h"
-#include "qmlchat/chatroomsplittermodel.h"
-#include "qmlchat/dicemessage.h"
-#include "qmlchat/filteredplayermodel.h"
-#include "qmlchat/filterinstantmessagingmodel.h"
-#include "qmlchat/instantmessagingmodel.h"
-#include "qmlchat/instantmessagingview.h"
-#include "qmlchat/messagefactory.h"
-#include "qmlchat/messageinterface.h"
-#include "qmlchat/messagemodel.h"
-#include "qmlchat/textmessage.h"
-#include "qmlchat/textwritercontroller.h"
+#include "instantmessaging/avatarprovider.h"
+#include "instantmessaging/chatroom.h"
+#include "instantmessaging/chatroomfactory.h"
+#include "instantmessaging/chatroomsplittermodel.h"
+#include "instantmessaging/dicemessage.h"
+#include "instantmessaging/filteredplayermodel.h"
+#include "instantmessaging/filterinstantmessagingmodel.h"
+#include "instantmessaging/instantmessagingmodel.h"
+#include "instantmessaging/messagefactory.h"
+#include "instantmessaging/messageinterface.h"
+#include "instantmessaging/messagemodel.h"
+#include "instantmessaging/textmessage.h"
+#include "instantmessaging/textwritercontroller.h"
+#include "rwidgets/mediacontainers/instantmessagingview.h"
 
 class Player;
 class NetworkLink;

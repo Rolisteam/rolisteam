@@ -80,7 +80,7 @@
   <customwidget>
    <class>UserListView</class>
    <extends>QTreeView</extends>
-   <header>userlist/userlistview.h</header>
+   <header>modelviews/userlistview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

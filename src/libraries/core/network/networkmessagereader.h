@@ -21,7 +21,7 @@
 #ifndef DATA_READER_H
 #define DATA_READER_H
 
-#include "network/networkmessage.h"
+#include "core/network/networkmessage.h"
 #include <QDateTime>
 #include <QString>
 #ifdef QT_GUI_LIB

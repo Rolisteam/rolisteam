@@ -22,10 +22,10 @@
 #include <QWidget>
 
 #include "codeeditor.h"
+#include "core/model/participantmodel.h"
+#include "core/network/networkmessagewriter.h"
 #include "enu.h"
 #include "findtoolbar.h"
-#include "network/networkmessagewriter.h"
-#include "participantmodel.h"
 #include "participantspane.h"
 #include <QSyntaxHighlighter>
 

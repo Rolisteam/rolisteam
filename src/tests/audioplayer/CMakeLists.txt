@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 set(QT_REQUIRED_VERSION "5.12.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core Gui Widgets)
 
 add_executable(tst_audioplayer tst_audioplayer.cpp ../assets/resources.qrc)
-target_link_libraries(tst_audioplayer PUBLIC Qt5::Core Qt5::Test PRIVATE core)
+target_link_libraries(tst_audioplayer PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Test PRIVATE core rwidgets instantmessaging common_core common_widget common_qml)

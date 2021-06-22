@@ -35,6 +35,7 @@ public:
         Theme
     };
     explicit ThemeModel(QObject* parent= nullptr);
+    ~ThemeModel();
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;

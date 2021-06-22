@@ -30,7 +30,8 @@ class CharacterStateModel;
 namespace campaign
 {
 class Campaign;
-}
+class NonPlayableCharacterModel;
+} // namespace campaign
 namespace charactersheet
 {
 class ImageModel;
@@ -54,6 +55,7 @@ bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charact
 bool fetchThemeModel(const QJsonObject& themes, DiceAliasModel* model);
 void fetchDiceModel(const QJsonArray& dice, DiceAliasModel* model);
 void fetchMedia(const QJsonArray& medias, campaign::Campaign* campaign);
+void fetchNpcModel(const QJsonArray& npcs, campaign::NonPlayableCharacterModel* model);
 
 void fetchCharacterStateModel(const QJsonArray& states, CharacterStateModel* model);
 QJsonArray saveCharacterStateModel(CharacterStateModel* model);

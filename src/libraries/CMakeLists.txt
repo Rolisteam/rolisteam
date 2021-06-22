@@ -1,2 +1,8 @@
+add_subdirectory(qml_views)
 add_subdirectory(diceparser)
+add_subdirectory(common)
+add_subdirectory(core)
 add_subdirectory(mindmap)
+add_subdirectory(rwidgets)
+add_subdirectory(instantmessaging)
+add_subdirectory(charactersheet)

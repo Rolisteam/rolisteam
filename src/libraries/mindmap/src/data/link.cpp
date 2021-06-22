@@ -34,12 +34,12 @@ Link::Link(QObject* parent) : QObject(parent), m_uuid(QUuid::createUuid().toStri
     setText(tr("is linked"));
 }
 
-void Link::setDirection(const Direction& direction)
+void Link::setDirection(const Core::ArrowDirection& direction)
 {
     m_dir= direction;
 }
 
-Link::Direction Link::direction() const
+Core::ArrowDirection Link::direction() const
 {
     return m_dir;
 }

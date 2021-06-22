@@ -1,9 +1,9 @@
 #include "charactersheetcontroller.h"
 
-#include "charactersheet.h"
+//#include "charactersheet.h"
+#include "charactersheet/charactersheetitem.h"
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
-#include "charactersheetitem.h"
 #include "data/character.h"
 
 #include "data/player.h"

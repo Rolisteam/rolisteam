@@ -1,6 +1,6 @@
 
-#include "data/character.h"
-#include "widgets/gmtoolbox/NpcMaker/genericmodel.h"
+#include "core/data/character.h"
+#include "core/model/genericmodel.h"
 #include <QtTest/QtTest>
 #include <memory>
 

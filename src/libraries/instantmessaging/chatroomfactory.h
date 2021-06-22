@@ -22,7 +22,7 @@
 
 #include <QString>
 
-#include "qmlchat/chatroom.h"
+#include "instantmessaging/chatroom.h"
 
 namespace InstantMessaging
 {

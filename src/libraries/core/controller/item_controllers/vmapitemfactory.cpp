@@ -19,13 +19,13 @@
  ***************************************************************************/
 #include "vmapitemfactory.h"
 
-#include "vmap/controller/characteritemcontroller.h"
-#include "vmap/controller/ellipsecontroller.h"
-#include "vmap/controller/imagecontroller.h"
-#include "vmap/controller/linecontroller.h"
-#include "vmap/controller/pathcontroller.h"
-#include "vmap/controller/rectcontroller.h"
-#include "vmap/controller/textcontroller.h"
+#include "controller/item_controllers/characteritemcontroller.h"
+#include "controller/item_controllers/ellipsecontroller.h"
+#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/linecontroller.h"
+#include "controller/item_controllers/pathcontroller.h"
+#include "controller/item_controllers/rectcontroller.h"
+#include "controller/item_controllers/textcontroller.h"
 
 #include "network/networkmessagereader.h"
 #include "worker/messagehelper.h"

@@ -28,11 +28,10 @@
 #include <QRectF>
 #include <QSize>
 
-#include "controller/view_controller/sharednotecontroller.h"
-#include "data/charactervision.h"
-#include "data/link.h"
-#include "media/mediatype.h"
-#include "network/networkmessagewriter.h"
+#include "core/controller/view_controller/sharednotecontroller.h"
+#include "core/data/charactervision.h"
+#include "core/media/mediatype.h"
+#include "core/network/networkmessagewriter.h"
 
 namespace Helper
 {
@@ -81,7 +80,7 @@ void variantToType<QSize>(const QSize& size, NetworkMessageWriter& msg);
 template <>
 void variantToType<ParticipantModel::Permission>(const ParticipantModel::Permission& perm, NetworkMessageWriter& msg);
 template <>
-void variantToType<mindmap::Link::Direction>(const mindmap::Link::Direction& perm, NetworkMessageWriter& msg);
+void variantToType<Core::ArrowDirection>(const Core::ArrowDirection& perm, NetworkMessageWriter& msg);
 
 } // namespace Helper
 

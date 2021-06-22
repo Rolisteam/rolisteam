@@ -26,7 +26,7 @@
 #include <QWebEngineView>
 #include <QWidget>
 
-#include "data/mediacontainer.h"
+#include "rwidgets/mediacontainers/mediacontainer.h"
 #include "network/networkmessagewriter.h"
 namespace Ui
 {

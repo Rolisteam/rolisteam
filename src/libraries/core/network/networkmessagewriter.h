@@ -21,7 +21,7 @@
 #ifndef NETWORK_MESSAGE_WRITER_H
 #define NETWORK_MESSAGE_WRITER_H
 
-#include "network/networkmessage.h"
+#include "core/network/networkmessage.h"
 
 #include <QDateTime>
 #include <QString>

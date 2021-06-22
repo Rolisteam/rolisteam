@@ -21,7 +21,7 @@
 #ifndef SHAREDNOTECONTAINER_H
 #define SHAREDNOTECONTAINER_H
 
-#include "data/mediacontainer.h"
+#include "mediacontainers/mediacontainer.h"
 #include "sharednote.h"
 
 #include <QPointer>

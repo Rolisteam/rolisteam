@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "nodeimageprovider.h"
 
-#include "model/imagemodel.h"
+#include "core/model/imagemodel.h"
 
 namespace mindmap
 {

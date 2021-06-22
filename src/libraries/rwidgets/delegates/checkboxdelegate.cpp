@@ -22,7 +22,7 @@
 
 #include <QPainter>
 
-#include "widgets/centeredcheckbox.h"
+#include "customs/centeredcheckbox.h"
 
 namespace rwidgets
 {

@@ -22,13 +22,13 @@
 #define CHARACTER_H
 
 #include "characterstate.h"
-#include "network/networkmessagereader.h"
 #include "person.h"
 
 #ifdef QT_QUICK_LIB
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/rolisteamimageprovider.h"
 #else
+
 class RolisteamImageProvider
 {
 };
@@ -160,7 +160,7 @@ class Character : public Person // public QObject,
 
 public:
     // enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
-    Character();
+    Character(QObject* parent= nullptr);
     /**
      * @brief construtor
      */
@@ -211,16 +211,6 @@ public:
      * @return
      */
     QString stateId() const;
-
-    /**
-     * @brief serialisation function to write data
-     */
-    // virtual void writeData(QDataStream& out) const;
-    /**
-     * @brief serialisation function to read data.
-     */
-    // virtual void readData(QDataStream& in);
-
     /**
      * @brief setListOfCharacterState
      */

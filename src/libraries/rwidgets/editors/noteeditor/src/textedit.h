@@ -49,7 +49,7 @@
 #include <QPointer>
 #include <QtPrintSupport/QPrinter>
 
-#include "noteeditor/format_OO_oasis_/OOReader.h"
+#include "editors/noteeditor/format_OO_oasis_/OOReader.h"
 
 #include <QTextDocumentWriter>
 

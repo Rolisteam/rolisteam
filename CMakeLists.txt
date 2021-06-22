@@ -8,7 +8,7 @@ set(CMAKE_AUTORCC ON)
 
 #helper
 #include(cmake/TranslationHelper.cmake)
-option(TESTS "enable tests compilation" OFF)
+
 option(WITH_PDF "enable PDF feature" ON)
 option(DEBUG_MODE "enable more debug report" OFF)
 option(WARNING_AS_ERROR "Set all warning as error" OFF)
@@ -29,21 +29,14 @@ enable_sanitizers(project_options)
 
 include(cmake/StaticAnalyzers.cmake)
 
-if (TESTS)
-enable_testing(true)
-add_subdirectory(tests)
-endif()
+
 
 if(DEBUG_MODE)
     add_definitions(-DDEBUG_MODE=1)
 endif()
 
 add_subdirectory(translations)
-add_subdirectory(core)
-add_subdirectory(widget)
-add_subdirectory(client)
-add_subdirectory(server)
-
+add_subdirectory(src)
 
 set(documentation README.md HelpMe.md)
 

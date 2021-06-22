@@ -31,8 +31,8 @@
 #include <QtGui>
 
 #include "controller/view_controller/pdfcontroller.h"
+#include "customs/overlay.h"
 #include "ui_pdfviewer.h"
-#include "widgets/overlay.h"
 
 #define MARGING 0
 #define ICON_SIZE 32

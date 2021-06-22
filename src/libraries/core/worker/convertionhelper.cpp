@@ -142,7 +142,7 @@ void variantToType<ParticipantModel::Permission>(const ParticipantModel::Permiss
 }
 
 template <>
-void variantToType<mindmap::Link::Direction>(const mindmap::Link::Direction& perm, NetworkMessageWriter& msg)
+void variantToType<Core::ArrowDirection>(const Core::ArrowDirection& perm, NetworkMessageWriter& msg)
 {
     msg.uint8(static_cast<quint8>(perm));
 }

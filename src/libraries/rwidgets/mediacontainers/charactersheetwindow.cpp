@@ -38,13 +38,13 @@
 
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/sheetwidget.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "data/character.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
+#include "model/playermodel.h"
 #include "preferences/preferencesmanager.h"
-#include "sheetwidget.h"
-#include "userlist/playermodel.h"
 
 CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::VMapContainer, parent)
@@ -507,11 +507,11 @@ void CharacterSheetWindow::rollDice(QString str, bool alias)
     emit rollDiceCmd(str, label, alias);
 }
 
-void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg, const QString& idSheet)
+/*void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg, const QString& idSheet)
 {
     Q_UNUSED(msg)
     Q_UNUSED(idSheet)
-    /*CharacterSheet* currentSheet= m_model.getCharacterSheetById(idSheet);
+    CharacterSheet* currentSheet= m_model.getCharacterSheetById(idSheet);
 
     if(nullptr == currentSheet)
         return;
@@ -523,8 +523,8 @@ void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg, 
 
     QJsonDocument doc= QJsonDocument::fromBinaryData(array);
     QJsonObject obj= doc.object();
-    currentSheet->setFieldData(obj, path);*/
-}
+    currentSheet->setFieldData(obj, path);
+}*/
 void CharacterSheetWindow::displayError(const QList<QQmlError>& warnings)
 {
     QString result= "";
@@ -687,13 +687,13 @@ if((nullptr != m_uri) && (!m_uri->getUri().isEmpty()))
         }
     }
 }
-}*/
+}
 void CharacterSheetWindow::fillMessage(NetworkMessageWriter* msg, CharacterSheet* sheet, QString idChar)
 {
     Q_UNUSED(msg)
     Q_UNUSED(sheet)
     Q_UNUSED(idChar)
-    /*msg->string8(m_mediaId);
+    msg->string8(m_mediaId);
     msg->string8(idChar);
     msg->string8(getUriName());
 
@@ -701,7 +701,7 @@ void CharacterSheetWindow::fillMessage(NetworkMessageWriter* msg, CharacterSheet
     {
         sheet->fill(*msg);
     }
-    msg->string32(m_qmlData);*/
+    msg->string32(m_qmlData);
     //   m_imageModel->fill(*msg);
 
     //  m_model.fillRootSection(msg);
@@ -710,7 +710,7 @@ void CharacterSheetWindow::fillMessage(NetworkMessageWriter* msg, CharacterSheet
 void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
 {
     Q_UNUSED(msg)
-    /*CharacterSheet* sheet= new CharacterSheet();
+    CharacterSheet* sheet= new CharacterSheet();
 
     m_mediaId= msg.string8();
     QString idChar= msg.string8();
@@ -720,19 +720,19 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
     {
         sheet->read(msg);
     }*/
-    // m_qmlData= msg.string32();
-    //  m_imageModel->read(msg);
+// m_qmlData= msg.string32();
+//  m_imageModel->read(msg);
 
-    /*Character* character= PlayerModel::instance()->getCharacter(idChar);
-    m_sheetToCharacter.insert(sheet, character);
+/*Character* character= PlayerModel::instance()->getCharacter(idChar);
+m_sheetToCharacter.insert(sheet, character);
 
-    addCharacterSheet(sheet);
-    m_model.readRootSection(&msg);
-    if(nullptr != character)
-    {
-        character->setSheet(sheet);
-    }*/
+addCharacterSheet(sheet);
+m_model.readRootSection(&msg);
+if(nullptr != character)
+{
+    character->setSheet(sheet);
 }
+}*/
 
 void CharacterSheetWindow::exportPDF()
 {

@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "mindmapview.h"
 
-#include "qmlchat/avatarprovider.h"
+#include "instantmessaging/avatarprovider.h"
 
 #include <QJSValue>
 #include <QQmlContext>
@@ -27,7 +27,7 @@
 #include <QQuickStyle>
 
 #include "controller/view_controller/mindmapcontroller.h"
-#include "model/nodeimageprovider.h"
+#include "mindmap/src/model/nodeimageprovider.h"
 
 MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::MindMapContainer, parent)

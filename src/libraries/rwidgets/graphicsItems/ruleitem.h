@@ -24,7 +24,6 @@
 #include "visualitem.h"
 
 #include "media/mediatype.h"
-#include "vmap/vmap.h"
 
 #include <QPen>
 

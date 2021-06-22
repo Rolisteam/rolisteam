@@ -24,10 +24,10 @@
 #include "data/player.h"
 #include "model/charactermodel.h"
 #include "model/characterstatemodel.h"
+#include "model/playermodel.h"
 #include "network/receiveevent.h"
 #include "undoCmd/addlocalcharactercommand.h"
 #include "undoCmd/removelocalcharactercommand.h"
-#include "userlist/playermodel.h"
 #include "worker/messagehelper.h"
 #include "worker/playermessagehelper.h"
 

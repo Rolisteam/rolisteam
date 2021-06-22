@@ -24,9 +24,9 @@
 #include <QMetaProperty>
 #include <QSet>
 
+#include "controller/item_controllers/rectcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/controller/rectcontroller.h"
 #include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
 

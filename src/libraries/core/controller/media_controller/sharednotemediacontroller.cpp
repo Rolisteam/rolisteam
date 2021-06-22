@@ -23,9 +23,9 @@
 #include <utility>
 
 #include "controller/view_controller/sharednotecontroller.h"
+#include "model/playermodel.h"
 #include "undoCmd/removemediacontrollercommand.h"
-#include "updater/sharednotecontrollerupdater.h"
-#include "userlist/playermodel.h"
+#include "updater/media/sharednotecontrollerupdater.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 

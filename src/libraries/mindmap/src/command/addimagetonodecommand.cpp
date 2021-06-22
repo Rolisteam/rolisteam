@@ -19,9 +19,9 @@
  ***************************************************************************/
 #include "addimagetonodecommand.h"
 
+#include "core/model/imagemodel.h"
+#include "core/worker/iohelper.h"
 #include "model/boxmodel.h"
-#include "model/imagemodel.h"
-#include "worker/iohelper.h"
 
 namespace mindmap
 {

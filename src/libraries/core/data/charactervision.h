@@ -21,9 +21,12 @@
 #ifndef CHARACTERVISION_H
 #define CHARACTERVISION_H
 
-#include "vmap/items/visualitem.h"
+//#include "vmap/items/visualitem.h"
 //#include "vmap/items/characteritem.h"
+#include <QObject>
+#include <QPointF>
 
+// class ChildPointItem;
 /**
  * @brief The Vision class
  */
@@ -35,6 +38,7 @@ class CharacterVision : public QObject
     Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(SHAPE shape READ shape WRITE setShape NOTIFY shapeChanged)
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
+    Q_PROPERTY(bool cornerVisible READ cornerVisible WRITE setCornerVisible NOTIFY cornerVisibleChanged)
 
 public:
     enum SHAPE
@@ -57,12 +61,13 @@ public:
     QPointF position() const;
     CharacterVision::SHAPE shape() const;
     bool visible() const;
+    bool cornerVisible() const;
 
-    void setCornerPoint(ChildPointItem*);
-    ChildPointItem* getCornerPoint();
+    // void setCornerPoint(ChildPointItem*);
+    // ChildPointItem* getCornerPoint();
 public slots:
     void updatePosition();
-    void showCorner(bool);
+    void setCornerVisible(bool b);
 
 signals:
     void radiusChanged(qreal);
@@ -70,12 +75,14 @@ signals:
     void positionChanged(QPointF);
     void shapeChanged(SHAPE);
     void visibleChanged(bool);
+    void cornerVisibleChanged(bool);
 
 private:
     CharacterVision::SHAPE m_shape= ANGLE;
     QPointF m_pos;
     qreal m_angle= 50;
-    ChildPointItem* m_cornerPoint= nullptr;
+    bool m_cornerVisible= false;
+    // ChildPointItem* m_cornerPoint= nullptr;
     bool m_visible= false;
     qreal m_radius= 50;
 };

@@ -21,6 +21,8 @@
 
 #include <QDebug>
 
+#include "data/link.h"
+#include "data/mindnode.h"
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
 

@@ -31,7 +31,7 @@ NoteMediaController::NoteMediaController(ContentModel* contentModel, QObject* pa
 
 NoteMediaController::~NoteMediaController()= default;
 
-bool NoteMediaController::openMedia(const QString& uuid, const std::map<QString, QVariant>& args)
+/*bool NoteMediaController::openMedia(const QString& uuid, const std::map<QString, QVariant>& args)
 {
     std::unique_ptr<NoteController> noteCtrl(new NoteController(uuid));
 
@@ -72,7 +72,7 @@ void NoteMediaController::closeMedia(const QString& id)
     (*it)->aboutToClose();
     emit mediaClosed(id);
     m_notes.erase(it, m_notes.end());
-}
+}*/
 
 void NoteMediaController::registerNetworkReceiver() {}
 

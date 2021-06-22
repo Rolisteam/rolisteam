@@ -41,10 +41,10 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include "musicmodel.h"
-#include "network/networkreceiver.h"
-#include "playerwidget.h"
+#include "core/model/musicmodel.h"
+#include "core/network/networkreceiver.h"
 #include "preferences/preferencesmanager.h"
+#include "rwidgets/customs/playerwidget.h"
 class NetworkLink;
 /**
  * @brief This player can be used by the GM to play songs.

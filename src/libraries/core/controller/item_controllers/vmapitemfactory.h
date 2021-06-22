@@ -20,7 +20,7 @@
 #ifndef VMAPITEMFACTORY_H
 #define VMAPITEMFACTORY_H
 
-#include "vmap/controller/visualitemcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 
 class VectorialMapController;
 class NetworkMessageReader;

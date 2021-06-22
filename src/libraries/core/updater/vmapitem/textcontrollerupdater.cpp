@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "textcontrollerupdater.h"
 
+#include "controller/item_controllers/textcontroller.h"
 #include "network/networkmessagereader.h"
-#include "vmap/controller/textcontroller.h"
 #include "worker/messagehelper.h"
 
 TextControllerUpdater::TextControllerUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}

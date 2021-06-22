@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "remoteplayermodel.h"
 
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 
 RemotePlayerModel::RemotePlayerModel(PlayerModel* model) : m_sourceModel(model)
 {

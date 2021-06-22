@@ -28,6 +28,8 @@ QVariant ThemeModel::headerData(int, Qt::Orientation, int) const
     return QVariant();
 }
 
+ThemeModel::~ThemeModel()= default;
+
 int ThemeModel::rowCount(const QModelIndex& parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all

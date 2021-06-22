@@ -20,11 +20,11 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include "widgets/circledisplayer.h"
-#include "widgets/colorselector.h"
-#include "widgets/diameterselector.h"
-#include "widgets/filedirchooser.h"
-#include "widgets/realslider.h"
+#include "rwidgets/customs/circledisplayer.h"
+#include "rwidgets/customs/colorselector.h"
+#include "rwidgets/customs/diameterselector.h"
+#include "rwidgets/customs/filedirchooser.h"
+#include "rwidgets/customs/realslider.h"
 
 class WidgetsTest : public QObject
 {

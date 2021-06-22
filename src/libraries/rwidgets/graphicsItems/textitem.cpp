@@ -29,14 +29,14 @@
 #include <QGraphicsSceneWheelEvent>
 #include <QStyleOptionGraphicsItem>
 
+#include "controller/item_controllers/textcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "editors/mrichtextedit.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/controller/textcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
-#include "widgets/MRichTextEditor/mrichtextedit.h"
 
-#include "vmap/vmap.h"
+#include "customs/vmap.h"
 
 ///////////////////////////////////////
 /// Code of TextLabel

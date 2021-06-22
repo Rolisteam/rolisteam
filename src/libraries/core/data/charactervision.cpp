@@ -19,10 +19,6 @@
  ***************************************************************************/
 
 #include "charactervision.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-
-#include <QDebug>
 
 CharacterVision::CharacterVision(QObject* parent) : QObject(parent) {}
 
@@ -80,16 +76,16 @@ CharacterVision::SHAPE CharacterVision::shape() const
     return m_shape;
 }
 
-void CharacterVision::showCorner(bool b)
+void CharacterVision::setCornerVisible(bool b)
 {
-    if(nullptr != m_cornerPoint)
-    {
-        m_cornerPoint->setVisible(b);
-    }
+    if(b == m_cornerVisible)
+        return;
+    m_cornerVisible= b;
+    emit cornerVisibleChanged(m_cornerVisible);
 }
 
 void CharacterVision::updatePosition() {}
-void CharacterVision::setCornerPoint(ChildPointItem* b)
+/*void CharacterVision::setCornerPoint(ChildPointItem* b)
 {
     m_cornerPoint= b;
 }
@@ -97,11 +93,16 @@ void CharacterVision::setCornerPoint(ChildPointItem* b)
 ChildPointItem* CharacterVision::getCornerPoint()
 {
     return m_cornerPoint;
-}
+}*/
 
 bool CharacterVision::visible() const
 {
     return m_visible;
+}
+
+bool CharacterVision::cornerVisible() const
+{
+    return m_cornerVisible;
 }
 
 void CharacterVision::setVisible(bool b)

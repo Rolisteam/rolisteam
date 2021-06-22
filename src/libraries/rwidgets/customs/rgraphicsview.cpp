@@ -20,19 +20,23 @@
 
 #include <QDebug>
 
+#include <QFileDialog>
+#include <QInputDialog>
+#include <QMenu>
+#include <QMouseEvent>
 #include <QOpenGLWidget>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "core/data/rolisteammimedata.h"
 #include "data/character.h"
-#include "data/mediacontainer.h"
 #include "data/person.h"
+#include "mediacontainers/mediacontainer.h"
 #include "rgraphicsview.h"
-#include "userlist/rolisteammimedata.h"
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
-#include "items/ruleitem.h"
+#include "graphicsItems/ruleitem.h"
 #include "undoCmd/changesizevmapitem.h"
 
 bool isNormalItem(const vmap::VisualItemController* itemCtrl)

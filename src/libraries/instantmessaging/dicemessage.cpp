@@ -24,7 +24,7 @@
 #include <QJsonObject>
 #include <QMap>
 
-#include "parsingtoolbox.h"
+#include "diceparser/include/parsingtoolbox.h"
 
 namespace InstantMessaging
 {

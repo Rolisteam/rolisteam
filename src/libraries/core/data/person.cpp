@@ -30,7 +30,7 @@
 /**********
  * Person *
  **********/
-Person::Person() : QObject(), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
+Person::Person(QObject* parent) : QObject(parent), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
 
 Person::Person(const QString& name, const QColor& color, const QString& uuid)
     : QObject(), m_name(name), m_uuid(uuid), m_color(color)

@@ -4,8 +4,7 @@
 #include <QPointer>
 #include <QUndoCommand>
 
-#include "vmap/items/visualitem.h"
-#include "vmap/vmap.h"
+#include "rwidgets/graphicsItems/visualitem.h"
 
 class VectorialMapController;
 

@@ -25,9 +25,9 @@
 #include <QPointer>
 #include <QVector>
 
-#include "data/mindnode.h"
+#include "core/network/networkmessagewriter.h"
 #include "mediaupdaterinterface.h"
-#include "network/networkmessagewriter.h"
+#include "mindmap/src/data/mindnode.h"
 
 namespace mindmap
 {

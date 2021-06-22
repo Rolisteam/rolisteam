@@ -21,7 +21,7 @@
 
 #include <set>
 
-#include "vmap/vmap.h"
+//#include "/vmap.h"
 
 #include "undoCmd/addfogofwarchangecommand.h"
 #include "undoCmd/addvmapitem.h"
@@ -31,16 +31,16 @@
 #include "undoCmd/hideotherlayercommand.h"
 #include "undoCmd/showtransparentitemcommand.h"
 
-#include "vmap/controller/characteritemcontroller.h"
-#include "vmap/controller/ellipsecontroller.h"
-#include "vmap/controller/gridcontroller.h"
-#include "vmap/controller/imagecontroller.h"
-#include "vmap/controller/linecontroller.h"
-#include "vmap/controller/pathcontroller.h"
-#include "vmap/controller/rectcontroller.h"
-#include "vmap/controller/sightcontroller.h"
-#include "vmap/controller/textcontroller.h"
-#include "vmap/controller/vmapitemfactory.h"
+#include "controller/item_controllers/characteritemcontroller.h"
+#include "controller/item_controllers/ellipsecontroller.h"
+#include "controller/item_controllers/gridcontroller.h"
+#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/linecontroller.h"
+#include "controller/item_controllers/pathcontroller.h"
+#include "controller/item_controllers/rectcontroller.h"
+#include "controller/item_controllers/sightcontroller.h"
+#include "controller/item_controllers/textcontroller.h"
+#include "controller/item_controllers/vmapitemfactory.h"
 
 #include "model/vmapitemmodel.h"
 #include "worker/iohelper.h"

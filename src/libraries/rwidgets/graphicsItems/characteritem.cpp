@@ -29,16 +29,16 @@
 
 #include "data/character.h"
 #include "data/player.h"
-#include "dicealias.h"
+#include "diceparser/include/dicealias.h"
+#include "model/playermodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "userlist/playermodel.h"
 
+#include "controller/item_controllers/characteritemcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "customs/vmap.h"
 #include "preferences/preferencesmanager.h"
-#include "vmap/controller/characteritemcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
-#include "vmap/vmap.h"
 
 #define MARGING 1
 #define MINI_VALUE 25

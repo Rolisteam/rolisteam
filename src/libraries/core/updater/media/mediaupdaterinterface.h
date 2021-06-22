@@ -20,12 +20,12 @@
 #ifndef MEDIAUPDATERINTERFACE_H
 #define MEDIAUPDATERINTERFACE_H
 
-#include "network/receiveevent.h"
+#include "core/network/receiveevent.h"
 #include <QObject>
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-#include "worker/convertionhelper.h"
+#include "core/network/networkmessagereader.h"
+#include "core/network/networkmessagewriter.h"
+#include "core/worker/convertionhelper.h"
 
 class MediaControllerBase;
 class MediaUpdaterInterface : public QObject, public NetWorkReceiver

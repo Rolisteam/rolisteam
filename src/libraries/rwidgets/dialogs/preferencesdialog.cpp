@@ -45,7 +45,7 @@
 
 #include "ui_preferencesdialogbox.h"
 
-#include "diceparser.h"
+#include "diceparser/include/diceparser.h"
 
 /*********************
  * PreferencesDialog *

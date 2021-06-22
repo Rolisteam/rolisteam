@@ -20,8 +20,6 @@
 
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 #include "person.h"
 
 #include <QMetaType>

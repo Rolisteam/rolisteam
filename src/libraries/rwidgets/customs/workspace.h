@@ -27,7 +27,7 @@
 #include <QPointer>
 #include <QWidget>
 
-#include "data/mediacontainer.h"
+#include "mediacontainers/mediacontainer.h"
 
 class PreventClosing : public QObject
 {

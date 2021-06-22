@@ -34,11 +34,11 @@
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 
-#include "data/link.h"
-#include "data/mindnode.h"
-#include "model/boxmodel.h"
+#include "mindmap/src/data/link.h"
+#include "mindmap/src/data/mindnode.h"
+#include "mindmap/src/model/boxmodel.h"
+#include "mindmap/src/model/linkmodel.h"
 #include "model/imagemodel.h"
-#include "model/linkmodel.h"
 
 #include "network/networkmessagereader.h"
 #include "worker/iohelper.h"
@@ -219,7 +219,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             auto linkV= var.toHash();
             link->setId(linkV["uuid"].toString());
             link->setText(linkV["text"].toString());
-            link->setDirection(static_cast<mindmap::Link::Direction>(linkV["direction"].toInt()));
+            link->setDirection(static_cast<Core::ArrowDirection>(linkV["direction"].toInt()));
             auto startId= linkV["startId"].toString();
             auto endId= linkV["endId"].toString();
 

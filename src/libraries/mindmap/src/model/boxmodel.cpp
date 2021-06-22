@@ -22,6 +22,10 @@
 #include <QColor>
 #include <QDebug>
 #include <QRectF>
+
+#include "data/mindnode.h"
+#include "model/linkmodel.h"
+
 namespace mindmap
 {
 BoxModel::BoxModel(QObject* parent) : QAbstractItemModel(parent) {}

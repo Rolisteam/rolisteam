@@ -28,15 +28,15 @@
 #include <QStyleOptionGraphicsItem>
 #include <math.h>
 
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "customs/vmap.h"
 #include "data/character.h"
 #include "media/mediatype.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/controller/visualitemcontroller.h"
-#include "vmap/vmap.h"
 
 #define PI 3.14159265
 

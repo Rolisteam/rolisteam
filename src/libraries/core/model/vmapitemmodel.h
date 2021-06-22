@@ -20,7 +20,7 @@
 #ifndef VMAPITEMMODEL_H
 #define VMAPITEMMODEL_H
 
-#include "vmap/controller/visualitemcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include <QAbstractListModel>
 #include <memory>
 #include <vector>

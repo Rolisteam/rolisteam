@@ -24,17 +24,17 @@
 #include <QMenu>
 #include <QVBoxLayout>
 
+#include "modelviews/userlistview.h"
 #include "playerspanel.h"
-#include "userlistview.h"
 
 #include "controller/playercontroller.h"
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
+#include "delegates/delegate.h"
+#include "dialogs/persondialog.h"
+#include "model/playermodel.h"
 #include "ui_playerspanel.h"
-#include "userlist/playermodel.h"
-#include "widgets/delegate.h"
-#include "widgets/persondialog.h"
 
 /********************
  * PlayersPanel *

@@ -2,19 +2,19 @@
 #include <QtCore/QCoreApplication>
 #include <QtTest/QtTest>
 
+#include "core/undoCmd/addvmapitem.h"
 #include "data/character.h"
 #include "data/player.h"
-#include "undoCmd/addvmapitem.h"
-#include "vmap/items/characteritem.h"
-#include "vmap/items/ellipsitem.h"
-#include "vmap/items/highlighteritem.h"
-#include "vmap/items/imageitem.h"
-#include "vmap/items/lineitem.h"
-#include "vmap/items/pathitem.h"
-#include "vmap/items/rectitem.h"
-#include "vmap/items/ruleitem.h"
-#include "vmap/items/textitem.h"
-#include "vmap/vmap.h"
+#include "rwidgets/customs/vmap.h"
+#include "rwidgets/graphicsItems/characteritem.h"
+#include "rwidgets/graphicsItems/ellipsitem.h"
+#include "rwidgets/graphicsItems/highlighteritem.h"
+#include "rwidgets/graphicsItems/imageitem.h"
+#include "rwidgets/graphicsItems/lineitem.h"
+#include "rwidgets/graphicsItems/pathitem.h"
+#include "rwidgets/graphicsItems/rectitem.h"
+#include "rwidgets/graphicsItems/ruleitem.h"
+#include "rwidgets/graphicsItems/textitem.h"
 
 class VMapTest : public QObject
 {

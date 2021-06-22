@@ -26,8 +26,8 @@
 #include <QStylePainter>
 #include <QTimer>
 
-#include "vmap/controller/rectcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
+#include "controller/item_controllers/rectcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"

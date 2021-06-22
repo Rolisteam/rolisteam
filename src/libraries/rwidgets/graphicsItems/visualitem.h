@@ -26,8 +26,8 @@
 #include <QVector>
 
 #include "childpointitem.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "media/mediatype.h"
-#include "vmap/controller/visualitemcontroller.h"
 
 class NetworkMessageWriter;
 class NetworkMessageReader;

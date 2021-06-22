@@ -29,10 +29,10 @@
 #include <QPointer>
 #include <QResizeEvent>
 
-#include "media/mediatype.h"
-#include "vcolorselector.h"
-#include "widgets/diameterselector.h"
-#include "widgets/realslider.h"
+#include "core/media/mediatype.h"
+#include "rwidgets/customs/diameterselector.h"
+#include "rwidgets/customs/realslider.h"
+#include "rwidgets/customs/vcolorselector.h"
 
 class VectorialMapController;
 /**

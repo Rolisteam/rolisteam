@@ -23,11 +23,14 @@
 #include "canvas.h"
 #include <QUndoCommand>
 
+class Canvas;
+class Field;
+class FieldModel;
 class AddFieldCommand : public QUndoCommand
 {
 public:
     AddFieldCommand(Canvas::Tool tool, Canvas* graphicsScene, FieldModel* model, int currentPage, QPointF pos,
-        QUndoCommand* parent= 0);
+                    QUndoCommand* parent= 0);
 
     void undo() override;
     void redo() override;

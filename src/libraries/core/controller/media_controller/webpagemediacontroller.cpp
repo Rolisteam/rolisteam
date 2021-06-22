@@ -35,7 +35,7 @@ WebpageMediaController::WebpageMediaController(ContentModel* contentModel)
 
 WebpageMediaController::~WebpageMediaController()= default;
 
-bool WebpageMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
+/*bool WebpageMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
 {
     if(id.isEmpty() && args.empty())
         return false;
@@ -60,7 +60,7 @@ void WebpageMediaController::closeMedia(const QString& id)
 
     (*it)->aboutToClose();
     m_webpages.erase(it, m_webpages.end());
-}
+}*/
 
 void WebpageMediaController::registerNetworkReceiver()
 {

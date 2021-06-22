@@ -25,11 +25,9 @@
 #include <QString>
 
 #include "preferences/preferencesmanager.h"
-#include "vmap/vtoolbar.h"
+#include "toolbars/vtoolbar.h"
 
 #include "controller/view_controller/mediacontrollerbase.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
 /**
  * @brief The MediaContainer class

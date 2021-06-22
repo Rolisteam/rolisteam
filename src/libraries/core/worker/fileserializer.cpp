@@ -24,6 +24,7 @@
 #include "data/media.h"
 #include "iohelper.h"
 #include "model/dicealiasmodel.h"
+#include "model/nonplayablecharactermodel.h"
 
 #include <QDir>
 #include <QDirIterator>
@@ -35,10 +36,6 @@
 
 namespace campaign
 {
-namespace
-{
-
-} // namespace
 
 bool FileSerializer::createCampaignDirectory(const QString& campaign)
 {
@@ -48,6 +45,7 @@ bool FileSerializer::createCampaignDirectory(const QString& campaign)
     res= dir.mkdir(campaign::MEDIA_ROOT);
     res&= dir.mkdir(campaign::STATE_ROOT);
     res&= dir.mkdir(campaign::TRASH_FOLDER);
+    res&= dir.mkdir(campaign::CHARACTER_ROOT);
 
     // dir.cd(campaign::MEDIA_ROOT);
 
@@ -116,6 +114,9 @@ CampaignInfo FileSerializer::readCampaignDirectory(const QString& directory)
     // read states.json
     info.states= IOHelper::loadJsonFileIntoArray(QStringLiteral("%1/%2").arg(directory, campaign::STATE_MODEL), ok);
 
+    // read npcs.json
+    info.npcs= IOHelper::loadJsonFileIntoArray(QStringLiteral("%1/%2").arg(directory, campaign::CHARACTER_MODEL), ok);
+
     // read
     auto assetRoot= QString("%1/%2").arg(directory, campaign::MEDIA_ROOT);
     auto array= info.asset[Core::JsonKey::JSON_MEDIAS].toArray();
@@ -168,6 +169,17 @@ QJsonObject FileSerializer::campaignToObject(Campaign* campaign)
     return root;
 }
 
+QJsonArray FileSerializer::npcToArray(const std::vector<std::unique_ptr<campaign::NonPlayableCharacter>>& vec,
+                                      const QString& destination)
+{
+    QJsonArray array;
+    std::transform(std::begin(vec), std::end(vec), std::back_inserter(array),
+                   [destination](const std::unique_ptr<campaign::NonPlayableCharacter>& npc) {
+                       return IOHelper::npcToJsonObject(npc.get(), destination);
+                   });
+    return array;
+}
+
 QJsonArray FileSerializer::statesToArray(const std::vector<std::unique_ptr<CharacterState>>& vec,
                                          const QString& destination)
 {
@@ -192,6 +204,13 @@ void FileSerializer::writeStatesIntoCampaign(const QString& destination, const Q
 {
     QtConcurrent::run([destination, array]() {
         IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::STATE_MODEL), array);
+    });
+}
+
+void FileSerializer::writeNpcIntoCampaign(const QString& destination, const QJsonArray& array)
+{
+    QtConcurrent::run([destination, array]() {
+        IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::CHARACTER_MODEL), array);
     });
 }
 

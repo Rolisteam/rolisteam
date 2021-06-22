@@ -22,7 +22,7 @@
 #ifndef LOCAL_PERSON_MODEL_H
 #define LOCAL_PERSON_MODEL_H
 
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 #include <QAbstractProxyModel>
 
 /**

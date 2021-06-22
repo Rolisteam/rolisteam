@@ -24,10 +24,10 @@
 #include <QMetaProperty>
 #include <QSet>
 
+#include "controller/item_controllers/vmapitemfactory.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "model/contentmodel.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/controller/vmapitemfactory.h"
 #include "worker/convertionhelper.h"
 
 #include "updater/vmapitem/characteritemupdater.h"

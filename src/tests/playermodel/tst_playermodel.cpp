@@ -1,8 +1,8 @@
 
-#include "data/character.h"
-#include "data/player.h"
-#include "sharededitor/participantmodel.h"
-#include "userlist/playermodel.h"
+#include "core/data/character.h"
+#include "core/data/player.h"
+#include "core/model/participantmodel.h"
+#include "core/model/playermodel.h"
 #include <QtTest/QtTest>
 #include <memory>
 

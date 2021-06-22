@@ -20,10 +20,10 @@
 #ifndef RWIDGET_CAMPAIGN_DOCK_H
 #define RWIDGET_CAMPAIGN_DOCK_H
 
-#include "campaignview.h"
 #include "media/mediatype.h"
 #include "model/mediafilteredmodel.h"
 #include "model/mediamodel.h"
+#include "rwidgets/modelviews/campaignview.h"
 
 #include <QDockWidget>
 #include <QPointer>

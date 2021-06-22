@@ -21,7 +21,7 @@
 #ifndef NOTECONTAINER_H
 #define NOTECONTAINER_H
 
-#include "data/mediacontainer.h"
+#include "mediacontainers/mediacontainer.h"
 #include "textedit.h"
 #include <QWidget>
 

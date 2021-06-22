@@ -26,10 +26,10 @@
 #include <memory>
 #include <vector>
 
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "media/mediatype.h"
 #include "mediacontrollerbase.h"
 #include "network/networkreceiver.h"
-#include "vmap/controller/visualitemcontroller.h"
 
 namespace vmap
 {

@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "removeimagefromnodecommand.h"
 
-#include "model/boxmodel.h"
-#include "model/imagemodel.h"
+#include "core/model/imagemodel.h"
+#include "mindmap/src/model/boxmodel.h"
 
 namespace mindmap
 {

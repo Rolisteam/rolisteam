@@ -21,9 +21,9 @@
 
 #include <QVariant>
 
+#include "controller/item_controllers/pathcontroller.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/controller/pathcontroller.h"
 #include "worker/messagehelper.h"
 
 PathControllerUpdater::PathControllerUpdater() {}

@@ -25,8 +25,8 @@
 #include <QPointer>
 #include <memory>
 
+#include "core/model/participantmodel.h"
 #include "mediacontrollerbase.h"
-#include "sharededitor/participantmodel.h"
 
 class ParticipantModel;
 class PlayerModel;

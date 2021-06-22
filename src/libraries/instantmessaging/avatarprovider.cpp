@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "avatarprovider.h"
 
-#include "data/person.h"
-#include "userlist/playermodel.h"
+#include "core/data/person.h"
+#include "core/model/playermodel.h"
 
 AvatarProvider::AvatarProvider(PlayerModel* model)
     : QQuickImageProvider(QQmlImageProviderBase::Image)

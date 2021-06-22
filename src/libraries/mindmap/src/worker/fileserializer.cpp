@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "fileserializer.h"
 
+#include "data/link.h"
+#include "data/mindnode.h"
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
 
@@ -135,7 +137,7 @@ bool FileSerializer::readFile(BoxModel* nodeModel, LinkModel* linkModel, const Q
         auto link= linkModel->addLink(nodeMap[idStart], nodeMap[idEnd]);
         link->setText(text);
         link->setVisible(obj["visible"].toBool());
-        link->setDirection(static_cast<Link::Direction>(obj["Direction"].toInt()));
+        link->setDirection(static_cast<Core::ArrowDirection>(obj["Direction"].toInt()));
     }
     return true;
 }
@@ -169,7 +171,7 @@ bool FileSerializer::writeFile(BoxModel* nodeModel, LinkModel* linkModel, const 
         auto end= link->endNode();
         obj["idEnd"]= end ? end->id() : QString();
         obj["visible"]= link->isVisible();
-        obj["Direction"]= link->direction();
+        obj["Direction"]= static_cast<int>(link->direction());
         obj["text"]= link->text();
         linkArray.append(obj);
     }

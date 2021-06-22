@@ -19,9 +19,10 @@
  ***************************************************************************/
 #include "addnodecommand.h"
 
+#include "core/updater/media/mindmapupdater.h"
+#include "data/link.h"
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
-#include "updater/media/mindmapupdater.h"
 
 #include <QDebug>
 

@@ -20,7 +20,7 @@
 #include "addlocalcharactercommand.h"
 
 #include "data/character.h"
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 
 AddLocalCharacterCommand::AddLocalCharacterCommand(PlayerModel* model, const QString& stateId, const QModelIndex& index)
     : m_model(model), m_character(new Character), m_index(index)

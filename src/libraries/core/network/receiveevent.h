@@ -28,8 +28,8 @@
 #include <QObject>
 #include <QString>
 
-#include "network/networkmessagereader.h"
-#include "network/networkreceiver.h"
+#include "core/network/networkmessagereader.h"
+#include "core/network/networkreceiver.h"
 
 class NetworkLink;
 /**

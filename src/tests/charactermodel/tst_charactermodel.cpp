@@ -1,9 +1,9 @@
 
+#include "core/model/playermodel.h"
 #include "data/character.h"
 #include "data/localpersonmodel.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
-#include "userlist/playermodel.h"
 #include <QtTest/QtTest>
 #include <memory>
 

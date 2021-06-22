@@ -20,8 +20,8 @@
 #ifndef VMAPUPDATER_H
 #define VMAPUPDATER_H
 
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "mediaupdaterinterface.h"
-#include "vmap/controller/visualitemcontroller.h"
 
 #include <QObject>
 

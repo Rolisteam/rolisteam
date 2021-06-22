@@ -26,7 +26,7 @@
 
 #include "data/person.h"
 #include "data/player.h"
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 
 Player* findPlayer(const QString& id, PlayerModel* model)
 {

@@ -23,7 +23,7 @@
 #include <QDebug>
 #include <QPalette>
 
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 
 #include "data/character.h"
 #include "data/person.h"

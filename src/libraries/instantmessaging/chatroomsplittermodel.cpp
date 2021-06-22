@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "chatroomsplittermodel.h"
 
-#include "qmlchat/filterinstantmessagingmodel.h"
-#include "qmlchat/instantmessagingmodel.h"
+#include "instantmessaging/filterinstantmessagingmodel.h"
+#include "instantmessaging/instantmessagingmodel.h"
 #include <set>
 
 namespace InstantMessaging

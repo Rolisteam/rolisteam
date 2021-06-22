@@ -20,7 +20,10 @@
 
 #include "ruleitem.h"
 
-#include "vmap/controller/visualitemcontroller.h"
+#include "core/controller/item_controllers/visualitemcontroller.h"
+#include "core/controller/view_controller/vectorialmapcontroller.h"
+#include <QPainter>
+#include <cmath>
 
 #define FONT_SIZE 15
 

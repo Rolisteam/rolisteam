@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "changecoloritem.h"
-#include "vmap/controller/visualitemcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include <QDebug>
 
 ChangeColorItemCmd::ChangeColorItemCmd(vmap::VisualItemController* item, QColor newColor, QUndoCommand* parent)

@@ -21,8 +21,8 @@
 #include "childpointitem.h"
 #include "visualitem.h"
 
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>

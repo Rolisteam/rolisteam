@@ -29,7 +29,7 @@
 
 #include "preferences/preferencesmanager.h"
 //#include "types.h"
-#include "flowlayout.h"
+#include "rwidgets/layouts/flowlayout.h"
 
 class QHBoxLayout;
 class QGridLayout;

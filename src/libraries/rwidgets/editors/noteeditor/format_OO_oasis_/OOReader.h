@@ -10,8 +10,8 @@
 #include <QDomDocument>
 #include <QTextTableFormat>
 
-#include "noteeditor/format_OO_oasis_/FoColorName.h"
-#include "noteeditor/format_OO_oasis_/OOFormat.h"
+#include "editors/noteeditor/format_OO_oasis_/FoColorName.h"
+#include "editors/noteeditor/format_OO_oasis_/OOFormat.h"
 
 QMap<QString, QByteArray> unzipstream(const QString file);
 

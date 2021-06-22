@@ -20,7 +20,7 @@
 #include "participantsmodel.h"
 
 #include "data/player.h"
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 #include <QJsonArray>
 
 ParticipantsModel::Permission permissionFor(const QModelIndex& index)

@@ -24,8 +24,8 @@
 #include <QMetaProperty>
 #include <QSet>
 
+#include "controller/item_controllers/linecontroller.h"
 #include "network/networkmessagereader.h"
-#include "vmap/controller/linecontroller.h"
 #include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
 

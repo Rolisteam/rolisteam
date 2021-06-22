@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "shortcutvisitor.h"
-#include "shortcutmodel.h"
+#include "core/data/shortcutmodel.h"
 
 #include <QAction>
 #include <QList>

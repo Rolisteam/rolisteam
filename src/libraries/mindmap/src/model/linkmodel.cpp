@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "linkmodel.h"
 
+#include "data/link.h"
 #include "data/mindnode.h"
 
 #include <QDebug>
@@ -85,7 +86,7 @@ QVariant LinkModel::data(const QModelIndex& index, int role) const
     switch(role)
     {
     case Direction:
-        result= link->direction();
+        result= QVariant::fromValue(link->direction());
         break;
     case Position:
         result= link->startPoint();

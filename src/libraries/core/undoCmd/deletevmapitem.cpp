@@ -19,9 +19,10 @@
  ***************************************************************************/
 #include "deletevmapitem.h"
 
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
-#include "vmap/manager/visualitemcontrollermanager.h"
+
+#include <QDebug>
 
 DeleteVmapItemCommand::DeleteVmapItemCommand(VectorialMapController* ctrl,
                                              const QList<vmap::VisualItemController*>& list, QUndoCommand* parent)

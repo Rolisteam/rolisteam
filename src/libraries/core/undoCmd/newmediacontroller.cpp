@@ -59,7 +59,7 @@ void NewMediaController::redo()
     media->setPath(m_fullPath);
     if(m_editor)
     {
-        m_editor->addFile(m_fullPath, IOHelper::saveController(media));
+        m_editor->addMedia(m_fullPath, IOHelper::saveController(media));
     }
     m_model->appendMedia(media);
 }
@@ -72,6 +72,6 @@ void NewMediaController::undo()
     m_model->removeMedia(m_uuidUri);
     if(m_editor)
     {
-        m_editor->removeFile(m_fullPath);
+        m_editor->removeMedia(m_fullPath);
     }
 }

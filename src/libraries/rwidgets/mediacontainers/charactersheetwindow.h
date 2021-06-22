@@ -30,7 +30,7 @@
 //#include "charactersheetmodel.h"
 #include "charactersheet/rolisteamimageprovider.h"
 #include "data/character.h"
-#include "data/mediacontainer.h"
+#include "mediacontainers/mediacontainer.h"
 
 /**
  * @page characterSheet CharacterSheet System
@@ -91,17 +91,17 @@ public:
      * @param sheet
      * @param idChar
      */
-    void fillMessage(NetworkMessageWriter* msg, CharacterSheet* sheet, QString idChar);
+    // void fillMessage(NetworkMessageWriter* msg, CharacterSheet* sheet, QString idChar);
     /**
      * @brief read
      * @param msg
      */
-    void readMessage(NetworkMessageReader& msg);
+    // void readMessage(NetworkMessageReader& msg);
     /**
      * @brief processUpdateFieldMessage
      * @param msg
      */
-    void processUpdateFieldMessage(NetworkMessageReader* msg, const QString& idSheet);
+    // void processUpdateFieldMessage(NetworkMessageReader* msg, const QString& idSheet);
     /**
      * @brief hasCharacterSheet
      * @param id

@@ -21,6 +21,11 @@
 #include "vmaptoolbar.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 
+#include <QAction>
+#include <QActionGroup>
+#include <QLabel>
+#include <QToolButton>
+
 VmapToolBar::VmapToolBar(VectorialMapController* ctrl, QWidget* parent) : QToolBar(parent), m_ctrl(ctrl)
 {
     setObjectName("VMapToolBar");

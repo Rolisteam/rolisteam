@@ -24,8 +24,8 @@
 #include <QtCore/QString>
 #include <memory>
 
-#include "audio/audioPlayer.h"
-#include "audio/playerwidget.h"
+#include "rwidgets/customs/playerwidget.h"
+#include "rwidgets/docks/audioPlayer.h"
 
 #define TIME_SONG 36
 

@@ -7,11 +7,11 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
+#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/controller/imagecontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
 
 #include "characteritem.h"
 #include "data/character.h"

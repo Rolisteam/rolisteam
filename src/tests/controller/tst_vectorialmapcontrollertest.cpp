@@ -24,20 +24,20 @@
 #include <QTest>
 #include <QUndoStack>
 
-#include "controller/view_controller/vectorialmapcontroller.h"
-#include "media/mediatype.h"
-#include "undoCmd/changesizevmapitem.h"
-#include "vmap/controller/characteritemcontroller.h"
-#include "vmap/controller/ellipsecontroller.h"
-#include "vmap/controller/imagecontroller.h"
-#include "vmap/controller/linecontroller.h"
-#include "vmap/controller/pathcontroller.h"
-#include "vmap/controller/rectcontroller.h"
-#include "vmap/controller/textcontroller.h"
-#include "vmap/controller/vmapitemfactory.h"
+#include "core/controller/item_controllers/characteritemcontroller.h"
+#include "core/controller/item_controllers/ellipsecontroller.h"
+#include "core/controller/item_controllers/imagecontroller.h"
+#include "core/controller/item_controllers/linecontroller.h"
+#include "core/controller/item_controllers/pathcontroller.h"
+#include "core/controller/item_controllers/rectcontroller.h"
+#include "core/controller/item_controllers/textcontroller.h"
+#include "core/controller/item_controllers/vmapitemfactory.h"
+#include "core/controller/view_controller/vectorialmapcontroller.h"
+#include "core/media/mediatype.h"
+#include "core/model/charactermodel.h"
+#include "core/model/playermodel.h"
+#include "core/undoCmd/changesizevmapitem.h"
 
-#include "model/charactermodel.h"
-#include "userlist/playermodel.h"
 #include <memory>
 #include <vector>
 

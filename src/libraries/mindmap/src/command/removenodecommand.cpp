@@ -18,10 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "removenodecommand.h"
+#include "core/updater/media/mindmapupdater.h"
+#include "data/link.h"
 #include "data/mindnode.h"
 #include "model/boxmodel.h"
 #include "model/linkmodel.h"
-#include "updater/media/mindmapupdater.h"
 #include <algorithm>
 
 namespace mindmap

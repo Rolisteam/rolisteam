@@ -27,9 +27,9 @@
 #include <QRadialGradient>
 
 #include "characteritem.h"
+#include "controller/item_controllers/gridcontroller.h"
 #include "data/charactervision.h"
 #include "visualitem.h"
-#include "vmap/controller/gridcontroller.h"
 
 namespace vmap
 {

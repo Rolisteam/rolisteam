@@ -11,7 +11,6 @@
 
 namespace campaign
 {
-
 CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
 {
     setAcceptDrops(true);
@@ -90,13 +89,13 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
 
 void CampaignView::startDrag(Qt::DropActions supportedActions)
 {
-    QDrag* drag= new QDrag(this);
     QModelIndexList indexes= selectionModel()->selectedRows();
 
     QMimeData* mimeData= model()->mimeData(indexes);
     if(nullptr == mimeData)
         return;
 
+    QDrag* drag= new QDrag(this);
     drag->setMimeData(mimeData);
     Qt::DropAction defaultDropAction= Qt::MoveAction;
 
@@ -180,7 +179,7 @@ void CampaignView::addOpenAsActs(QMenu* menu, MediaNode* node)
     menu->setEnabled(false);
 
     auto id= node->uuid();
-    if(id.isEmpty())
+    if(id.isEmpty() || !m_campaign)
         return;
 
     auto media= m_campaign->mediaFromUuid(id);

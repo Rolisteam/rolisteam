@@ -36,30 +36,32 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
-#include "vmap/controller/characteritemcontroller.h"
-#include "vmap/controller/ellipsecontroller.h"
-#include "vmap/controller/gridcontroller.h"
-#include "vmap/controller/imagecontroller.h"
-#include "vmap/controller/linecontroller.h"
-#include "vmap/controller/pathcontroller.h"
-#include "vmap/controller/rectcontroller.h"
-#include "vmap/controller/sightcontroller.h"
-#include "vmap/controller/textcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
+#include "controller/item_controllers/characteritemcontroller.h"
+#include "controller/item_controllers/ellipsecontroller.h"
+#include "controller/item_controllers/gridcontroller.h"
+#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/linecontroller.h"
+#include "controller/item_controllers/pathcontroller.h"
+#include "controller/item_controllers/rectcontroller.h"
+#include "controller/item_controllers/sightcontroller.h"
+#include "controller/item_controllers/textcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 #include "data/character.h"
 #include "data/player.h"
-#include "dicealias.h"
-#include "model/boxmodel.h"
+#include "diceparser/include/dicealias.h"
+#include "mindmap/src/data/link.h"
+#include "mindmap/src/data/mindnode.h"
+#include "mindmap/src/model/boxmodel.h"
+#include "mindmap/src/model/linkmodel.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
-#include "model/linkmodel.h"
+#include "model/playermodel.h"
 #include "model/vmapitemmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "userlist/playermodel.h"
 
 #include "worker/iohelper.h"
 #include "worker/playermessagehelper.h"
@@ -399,7 +401,7 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
     for(auto link : links)
     {
         msg.string8(link->id());
-        msg.uint8(link->direction());
+        msg.uint8(static_cast<quint8>(link->direction()));
         msg.string8(link->start()->id());
         auto end= link->endNode();
         msg.string8(end ? end->id() : QString());
@@ -1369,7 +1371,7 @@ void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg)
         auto idStart= msg->string8();
         auto idEnd= msg->string8();
 
-        auto dir= static_cast<mindmap::Link::Direction>(msg->uint8());
+        auto dir= static_cast<Core::ArrowDirection>(msg->uint8());
 
         auto start= ctrl->nodeFromId(idStart);
         auto end= ctrl->nodeFromId(idEnd);

@@ -20,7 +20,7 @@
 #include "sharednotecontroller.h"
 
 #include "data/player.h"
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 #include "worker/iohelper.h"
 
 QPointer<PlayerModel> SharedNoteController::m_playerModel;

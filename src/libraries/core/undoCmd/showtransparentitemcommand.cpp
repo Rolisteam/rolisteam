@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "showtransparentitemcommand.h"
 
-#include "vmap/controller/visualitemcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 
 ShowTransparentItemCommand::ShowTransparentItemCommand(const QList<vmap::VisualItemController*>& list)
 {

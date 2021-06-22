@@ -19,9 +19,9 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include "controller/view_controller/vectorialmapcontroller.h"
+#include "core/controller/item_controllers/imagecontroller.h"
+#include "core/controller/view_controller/vectorialmapcontroller.h"
 #include "data/cleveruri.h"
-#include "vmap/controller/imagecontroller.h"
 #include <QMouseEvent>
 #include <controller/contentcontroller.h>
 #include <controller/playercontroller.h>

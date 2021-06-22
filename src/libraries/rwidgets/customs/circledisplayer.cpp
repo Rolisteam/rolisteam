@@ -21,7 +21,7 @@
 #include <QDebug>
 #include <QtGui>
 
-#include "widgets/circledisplayer.h"
+#include "customs/circledisplayer.h"
 
 #define MARGIN_NPC 10
 #define MARGIN_PC 5
@@ -56,8 +56,8 @@ void CircleDisplayer::paintEvent(QPaintEvent* event)
         painter.setBrush(Qt::white);
         displayedDiameter= m_currentDiameter - m_minimumDiameter + 1;
     }
-    painter.drawEllipse(
-        (width() - m_currentDiameter) / 2, (height() - m_currentDiameter) / 2, m_currentDiameter, m_currentDiameter);
+    painter.drawEllipse((width() - m_currentDiameter) / 2, (height() - m_currentDiameter) / 2, m_currentDiameter,
+                        m_currentDiameter);
     painter.setPen(Qt::darkGray);
     painter.drawText(0, 0, width(), height(), Qt::AlignRight | Qt::AlignBottom, QString::number(displayedDiameter));
 }

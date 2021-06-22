@@ -20,7 +20,7 @@
 #include "removelocalcharactercommand.h"
 
 #include "data/character.h"
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 
 RemoveLocalCharacterCommand::RemoveLocalCharacterCommand(PlayerModel* model, const QModelIndex& index)
     : m_model(model)

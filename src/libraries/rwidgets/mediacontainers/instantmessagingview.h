@@ -21,14 +21,14 @@
 #define INSTANTMESSAGINGVIEW_H
 
 #include <QDockWidget>
-#include <QQuickWidget>
+#include <QPointer>
 
 namespace Ui
 {
 class InstantMessagingView;
 }
 class InstantMessagingController;
-
+class QQuickWidget;
 class InstantMessagerManager : public QObject
 {
     Q_OBJECT

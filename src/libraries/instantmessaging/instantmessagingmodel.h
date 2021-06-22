@@ -20,7 +20,7 @@
 #ifndef INSTANTMESSAGINGMODEL_H
 #define INSTANTMESSAGINGMODEL_H
 
-#include "qmlchat/chatroom.h"
+#include "instantmessaging/chatroom.h"
 #include <QAbstractListModel>
 #include <memory>
 

@@ -22,7 +22,7 @@
 
 #include <QAbstractListModel>
 
-#include "dicealias.h"
+#include "diceparser/include/dicealias.h"
 #include <memory>
 #include <vector>
 /**

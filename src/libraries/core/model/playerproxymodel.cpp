@@ -21,13 +21,9 @@
 
 #include "data/person.h"
 #include "data/player.h"
-#include "userlist/playermodel.h"
+#include "model/playermodel.h"
 
-PlayerProxyModel::PlayerProxyModel(QObject* parent)
-: QAbstractProxyModel(parent)
-{
-
-}
+PlayerProxyModel::PlayerProxyModel(QObject* parent) : QAbstractProxyModel(parent) {}
 
 int PlayerProxyModel::columnCount(const QModelIndex& parent) const
 {

@@ -22,7 +22,7 @@
 #include <QtConcurrent>
 #include <set>
 
-#include "diceparser.h"
+#include "diceparser/include/diceparser.h"
 #include "filteredplayermodel.h"
 #include "messagemodel.h"
 

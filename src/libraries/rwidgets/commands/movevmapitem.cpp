@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "movevmapitem.h"
-#include "vmap/items/visualitem.h"
+#include "graphicsItems/visualitem.h"
 #include <QDebug>
 
 MoveItemCommand::MoveItemCommand(QList<VisualItem*> selection, QList<QPointF> oldPosition, QUndoCommand* parent)

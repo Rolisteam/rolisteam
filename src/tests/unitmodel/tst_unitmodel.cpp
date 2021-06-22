@@ -24,8 +24,8 @@
 #include <QtTest/QtTest>
 #include <memory>
 
-#include "widgets/gmtoolbox/UnitConvertor/unit.h"
-#include "widgets/gmtoolbox/UnitConvertor/unitmodel.h"
+#include "rwidgets/gmtoolbox/UnitConvertor/unit.h"
+#include "rwidgets/gmtoolbox/UnitConvertor/unitmodel.h"
 
 using namespace GMTOOL;
 class TestUnitModel : public QObject

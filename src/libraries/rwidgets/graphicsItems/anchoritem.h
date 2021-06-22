@@ -23,7 +23,7 @@
 
 #include "visualitem.h"
 
-#include "vmap/vmap.h"
+#include "customs/vmap.h"
 
 #include <QPen>
 

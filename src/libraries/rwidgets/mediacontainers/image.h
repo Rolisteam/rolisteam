@@ -34,7 +34,7 @@
 
 #include "preferences/preferencesmanager.h"
 
-#include "data/mediacontainer.h"
+#include "rwidgets/mediacontainers/mediacontainer.h"
 
 class NetworkLink;
 class NetworkMessageWriter;
@@ -61,7 +61,6 @@ public:
     bool isImageOwner(QString id);
     void setParent(QWidget* parent);
     void setImage(QImage& img);
-
 
 protected:
     /**

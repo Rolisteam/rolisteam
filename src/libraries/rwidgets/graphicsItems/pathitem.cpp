@@ -24,9 +24,9 @@
 #include <QPainterPath>
 #include <QStyleOptionGraphicsItem>
 
+#include "controller/item_controllers/pathcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "vmap/controller/pathcontroller.h"
-#include "vmap/controller/visualitemcontroller.h"
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"

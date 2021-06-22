@@ -21,11 +21,12 @@
 #ifndef VMAPTOOLBAR_H
 #define VMAPTOOLBAR_H
 
+#include <QComboBox>
 #include <QDoubleSpinBox>
+#include <QPointer>
 #include <QToolBar>
 
 #include "common/widgets/colorbutton.h"
-#include "vmap.h"
 
 class VectorialMapController;
 /**

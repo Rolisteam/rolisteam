@@ -25,7 +25,6 @@
 #include "controller/contentcontroller.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
-#include "controller/view_controller/mapcontroller.h"
 #include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/notecontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
@@ -38,16 +37,16 @@
 #endif
 
 #include "controller/instantmessagingcontroller.h"
-#include "qmlchat/instantmessagingview.h"
+#include "mediacontainers/instantmessagingview.h"
 
-#include "media/charactersheetwindow.h"
-#include "media/image.h"
-#include "media/mindmapview.h"
-#include "noteeditor/src/notecontainer.h"
-#include "pdfviewer/pdfviewer.h"
-#include "sharededitor/sharednotecontainer.h"
-#include "vmap/vmapframe.h"
-#include "webview/webview.h"
+#include "editors/noteeditor/src/notecontainer.h"
+#include "editors/sharededitor/sharednotecontainer.h"
+#include "mediacontainers/charactersheetwindow.h"
+#include "mediacontainers/image.h"
+#include "mediacontainers/mindmapview.h"
+#include "mediacontainers/pdfviewer.h"
+#include "mediacontainers/vmapframe.h"
+#include "mediacontainers/webview.h"
 
 #define GRAY_SCALE 191
 

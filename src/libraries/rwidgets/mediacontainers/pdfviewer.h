@@ -29,10 +29,10 @@
 #include <QWidget>
 #include <memory>
 
+#include "customs/workspace.h"
 #include "preferences/preferencesmanager.h"
-#include "widgets/workspace.h"
 
-#include "data/mediacontainer.h"
+#include "rwidgets/mediacontainers/mediacontainer.h"
 
 class NetworkLink;
 class NetworkMessageWriter;

@@ -34,8 +34,8 @@
 #include "model/dicealiasmodel.h"
 #include "model/palettemodel.h"
 #include "preferences/preferencesmanager.h"
-#include "widgets/centeredcheckbox.h"
-#include "widgets/filedirchooser.h"
+#include "rwidgets/customs/centeredcheckbox.h"
+//#include "widgets/filedirchooser.h"
 
 class PreferencesController;
 

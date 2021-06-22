@@ -20,12 +20,12 @@
 #include "mindmapupdater.h"
 
 #include "controller/view_controller/mindmapcontroller.h"
-#include "data/link.h"
-#include "data/mindnode.h"
-#include "model/boxmodel.h"
+#include "mindmap/src/data/link.h"
+#include "mindmap/src/data/mindnode.h"
+#include "mindmap/src/model/boxmodel.h"
+#include "mindmap/src/model/linkmodel.h"
+#include "mindmap/src/model/nodestylemodel.h"
 #include "model/contentmodel.h"
-#include "model/linkmodel.h"
-#include "model/nodestylemodel.h"
 #include "worker/messagehelper.h"
 
 #include "network/networkmessagewriter.h"
@@ -112,7 +112,7 @@ bool MindMapUpdater::updateSubobjectProperty(NetworkMessageReader* msg, MindMapC
     }
     else if(property == QStringLiteral("direction"))
     {
-        var= static_cast<mindmap::Link::Direction>(msg->uint8());
+        var= QVariant::fromValue(static_cast<Core::ArrowDirection>(msg->uint8()));
     }
 
     return subobject->setProperty(property.toLocal8Bit().data(), var);
@@ -176,7 +176,7 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
             sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false);
         });
         info.connections << connect(link, &mindmap::Link::directionChanged, this, [this, idCtrl, link]() {
-            sendOffChange<mindmap::Link::Direction>(idCtrl, QStringLiteral("direction"), link, false);
+            sendOffChange<Core::ArrowDirection>(idCtrl, QStringLiteral("direction"), link, false);
         });
     }
     // end of existing data
@@ -265,7 +265,7 @@ void MindMapUpdater::sendOffAddingMessage(const QString& idCtrl, const QList<min
             sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false);
         });
         info->connections << connect(link, &mindmap::Link::directionChanged, this, [this, idCtrl, link]() {
-            sendOffChange<mindmap::Link::Direction>(idCtrl, QStringLiteral("direction"), link, false);
+            sendOffChange<Core::ArrowDirection>(idCtrl, QStringLiteral("direction"), link, false);
         });
     }
     NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddMessage);

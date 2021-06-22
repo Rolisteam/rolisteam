@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "characteritemupdater.h"
 
+#include "controller/item_controllers/characteritemcontroller.h"
 #include "network/networkmessagereader.h"
-#include "vmap/controller/characteritemcontroller.h"
 #include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
 

@@ -43,6 +43,8 @@
 #include "controller/view_controller/webpagecontroller.h"
 
 #include "data/rolisteamtheme.h"
+#include "media/mediatype.h"
+#include "model/nonplayablecharactermodel.h"
 
 #ifdef WITH_PDF
 #include "controller/media_controller/pdfmediacontroller.h"
@@ -50,7 +52,7 @@
 #endif
 
 #include "data/character.h"
-#include "dicealias.h"
+#include "diceparser/include/dicealias.h"
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
@@ -264,7 +266,7 @@ QJsonArray IOHelper::fetchLanguageModel()
 
     QRegularExpression reQt(QStringLiteral("%1_(.*)\\.qm").arg(k_qt_pattern));
     QHash<QString, QString> hash;
-    for(auto info : qAsConst(list))
+    for(const auto& info : qAsConst(list))
     {
         auto match= reQt.match(info);
         if(match.hasMatch())
@@ -314,6 +316,15 @@ void IOHelper::saveBase(MediaControllerBase* base, QDataStream& output)
 }
 
 QByteArray IOHelper::pixmapToData(const QPixmap& pix)
+{
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    buffer.open(QIODevice::WriteOnly);
+    pix.save(&buffer, "PNG");
+    return bytes;
+}
+
+QByteArray IOHelper::imageToData(const QImage& pix)
 {
     QByteArray bytes;
     QBuffer buffer(&bytes);
@@ -757,6 +768,33 @@ QJsonObject IOHelper::stateToJSonObject(CharacterState* state, const QString& ro
     auto pathImg= state->imagePath();
     pathImg= absoluteToRelative(pathImg, root);
     stateJson[k_state_image]= pathImg;
+    return stateJson;
+}
+
+QJsonObject IOHelper::npcToJsonObject(campaign::NonPlayableCharacter* npc, const QString& destination)
+{
+    QJsonObject stateJson;
+
+    stateJson[Core::JsonKey::JSON_NPC_ID]= npc->uuid();
+    stateJson[Core::JsonKey::JSON_NPC_NAME]= npc->name();
+    stateJson[Core::JsonKey::JSON_NPC_INITCOMMAND]= npc->getInitCommand();
+    stateJson[Core::JsonKey::JSON_NPC_INITVALUE]= npc->getInitiativeScore();
+    stateJson[Core::JsonKey::JSON_NPC_COLOR]= npc->getColor().name();
+    stateJson[Core::JsonKey::JSON_NPC_HP]= npc->getHealthPointsCurrent();
+    stateJson[Core::JsonKey::JSON_NPC_MAXHP]= npc->getHealthPointsMax();
+    stateJson[Core::JsonKey::JSON_NPC_MINHP]= npc->getHealthPointsMin();
+    stateJson[Core::JsonKey::JSON_NPC_DIST_PER_TURN]= npc->getDistancePerTurn();
+    stateJson[Core::JsonKey::JSON_NPC_STATEID]= npc->stateId();
+    stateJson[Core::JsonKey::JSON_NPC_LIFECOLOR]= npc->getLifeColor().name();
+    stateJson[Core::JsonKey::JSON_NPC_AVATAR]= absoluteToRelative(npc->avatarPath(), destination);
+    stateJson[Core::JsonKey::JSON_NPC_TAGS]= QJsonArray::fromStringList(npc->tags());
+    stateJson[Core::JsonKey::JSON_NPC_TOKEN]= absoluteToRelative(npc->tokenPath(), destination);
+
+    /*stateJson[k_state_label]= state->label();
+    stateJson[k_state_color]= state->color().name();
+    auto pathImg= state->imagePath();
+    pathImg= absoluteToRelative(pathImg, root);
+    stateJson[k_state_image]= pathImg;*/
     return stateJson;
 }
 

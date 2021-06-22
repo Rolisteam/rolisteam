@@ -23,7 +23,7 @@
 #include <QDateTime>
 #include <QString>
 
-#include "qmlchat/messageinterface.h"
+#include "instantmessaging/messageinterface.h"
 
 namespace InstantMessaging
 {
