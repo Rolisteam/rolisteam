@@ -32,7 +32,7 @@
 #include "data/campaigneditor.h"
 #include "data/campaignmanager.h"
 #include "data/media.h"
-#include "diceparser.h"
+#include "diceparser/include/diceparser.h"
 #include "model/profilemodel.h"
 #include "preferences/preferencesmanager.h"
 #include "services/tipchecker.h"

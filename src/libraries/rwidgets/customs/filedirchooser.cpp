@@ -42,7 +42,7 @@ FileDirChooser::FileDirChooser(bool isDirectory, QWidget* parent) : QWidget(pare
     setLayout(layout);
 
     // Connections
-    connect(button, SIGNAL(clicked()), this, SLOT(browse()));
+    connect(button, &QPushButton::clicked, this, &FileDirChooser::browse);
     connect(m_lineEdit, &QLineEdit::editingFinished, this, [this]() { emit pathChanged(path()); });
 
     // Misc

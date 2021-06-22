@@ -74,16 +74,13 @@ signals:
      */
     void pathChanged(const QString& path);
 
-private slots:
-    /**
-     * @brief browse
-     */
+public slots:
     void browse();
 
 private:
-    QLineEdit* m_lineEdit;
+    QLineEdit* m_lineEdit= nullptr;
     QString m_filter;
-    bool m_directory;
+    bool m_directory= true;
 };
 
 #endif // DIRCHOOSER_H

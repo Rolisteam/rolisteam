@@ -20,10 +20,10 @@
 
 #include <QtWidgets>
 
-#include "vtoolbar.h"
-#include "widgets/colorselector.h"
-#include "widgets/diameterselector.h"
-#include "widgets/flowlayout.h"
+#include "rwidgets/customs/colorselector.h"
+#include "rwidgets/customs/diameterselector.h"
+#include "rwidgets/layouts/flowlayout.h"
+#include "rwidgets/toolbars/vtoolbar.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "preferences/preferencesmanager.h"

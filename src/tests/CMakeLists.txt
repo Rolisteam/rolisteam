@@ -38,6 +38,7 @@ add_subdirectory(dicealiasmodel)
 add_subdirectory(genericmodel)
 add_subdirectory(charactermodel)
 add_subdirectory(unitmodel)
+add_subdirectory(worker)
 
 
 
