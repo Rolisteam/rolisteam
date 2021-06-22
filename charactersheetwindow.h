@@ -28,7 +28,7 @@
 #include <memory>
 
 #include "charactersheetmodel.h"
-#include "data/mediacontainer.h"
+#include "rwidgets/mediacontainers/mediacontainer.h"
 #include "rolisteamimageprovider.h"
 
 /**

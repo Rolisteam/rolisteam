@@ -8,11 +8,38 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 set(QT_REQUIRED_VERSION "5.14.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Test Gui Svg Qml Quick)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Test Gui Svg Qml Quick QuickWidgets WebEngineWidgets WebEngine)
 
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} result node)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
+
+
+set(formula_src
+  # formula
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/formulamanager.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/parsingtoolformula.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/formulanode.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/operator.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/parenthesesfnode.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/scalaroperatorfnode.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/startnode.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/valuefnode.cpp)
+
+set(formula_header
+  # formula
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/formulamanager.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/parsingtoolformula.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/formulanode.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/operator.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/parenthesesfnode.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/scalaroperatorfnode.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/startnode.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/valuefnode.h
+  )
+
+add_library(charactersheet_formula SHARED ${formula_src} ${formula_header})
+target_link_libraries(charactersheet_formula PUBLIC Qt5::Core)
 
 SET(character_sources
     #${CMAKE_CURRENT_SOURCE_DIR}/charactersheetbutton.cpp
@@ -26,17 +53,7 @@ SET(character_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/qqmlobjectlistmodel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/rolisteamimageprovider.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/section.cpp
-    #${CMAKE_CURRENT_SOURCE_DIR}/sheetwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tablefield.cpp
-    // formula
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/formulamanager.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/parsingtoolformula.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/formulanode.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/operator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/parenthesesfnode.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/scalaroperatorfnode.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/startnode.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/valuefnode.cpp
 )
 
 SET(character_headers
@@ -51,23 +68,10 @@ SET(character_headers
     ${CMAKE_CURRENT_SOURCE_DIR}/qqmlobjectlistmodel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/rolisteamimageprovider.h
     ${CMAKE_CURRENT_SOURCE_DIR}/section.h
-   # ${CMAKE_CURRENT_SOURCE_DIR}/sheetwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/tablefield.h
-    # formula
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/formulamanager.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/parsingtoolformula.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/formulanode.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/operator.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/parenthesesfnode.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/scalaroperatorfnode.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/startnode.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/valuefnode.h
 )
 
-if (TESTS)
-enable_testing(true)
-add_subdirectory(test)
-endif()
+
 
 set(qml_sources ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/CheckBoxField.qml
   ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/CheckBoxFieldv1.qml
@@ -91,6 +95,18 @@ set(qml_sources ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/CheckBoxField.qml
 )
 
 set(documentation Readme.md)
+set(charactersheet_QRC qml/charactersheet.qrc)
 
-add_library(charactersheet SHARED ${character_sources} ${character_headers} ${qml_sources}  ${documentation})
-target_link_libraries(charactersheet PUBLIC Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::WebEngineWidgets Qt5::WebEngine)
+add_library(charactersheet SHARED ${character_sources} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
+target_link_libraries(charactersheet PUBLIC Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::WebEngineWidgets Qt5::WebEngine PRIVATE charactersheet_formula)
+
+
+
+add_library(charactersheet_widgets SHARED ${CMAKE_CURRENT_SOURCE_DIR}/sheetwidget.cpp ${CMAKE_CURRENT_SOURCE_DIR}/sheetwidget.h ${charactersheet_QRC})
+target_link_libraries(charactersheet_widgets PUBLIC Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::WebEngineWidgets Qt5::WebEngine PRIVATE charactersheet)
+
+
+if (TESTS)
+enable_testing(true)
+add_subdirectory(test)
+endif()

@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/charactersheet/qml">
+        <file>Rolisteam/WebView.qml</file>
+        <file>Rolisteam/TextInputFieldv1.qml</file>
+        <file>Rolisteam/TextInputField.qml</file>
+        <file>Rolisteam/TextFieldFieldv1.qml</file>
+        <file>Rolisteam/TextFieldField.qml</file>
+        <file>Rolisteam/TextAreaFieldv1.qml</file>
+        <file>Rolisteam/TextAreaField.qml</file>
+        <file>Rolisteam/Table.qml</file>
+        <file>Rolisteam/SelectFieldv1.qml</file>
+        <file>Rolisteam/SelectField.qml</file>
+        <file>Rolisteam/RLabel.qml</file>
+        <file>Rolisteam/qmldir</file>
+        <file>Rolisteam/PageButton.qml</file>
+        <file>Rolisteam/ImageFieldv1.qml</file>
+        <file>Rolisteam/ImageField.qml</file>
+        <file>Rolisteam/DiceButtonv1.qml</file>
+        <file>Rolisteam/DiceButton.qml</file>
+        <file>Rolisteam/CheckBoxFieldv1.qml</file>
+        <file>Rolisteam/CheckBoxField.qml</file>
+    </qresource>
+</RCC>

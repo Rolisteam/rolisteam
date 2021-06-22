@@ -28,8 +28,8 @@
 #include <QTextStream>
 
 #ifndef RCSE
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
+//#include "network/networkmessagereader.h"
+//#include "network/networkmessagewriter.h"
 #endif
 #include "charactersheetitem.h"
 #include "formula/formulamanager.h"

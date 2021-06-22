@@ -25,7 +25,7 @@
 #include "section.h"
 #include "tablefield.h"
 #ifndef RCSE
-#include "network/networkmessagereader.h"
+//#include "network/networkmessagereader.h"
 #endif
 
 #include <QDebug>

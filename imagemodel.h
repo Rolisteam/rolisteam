@@ -8,8 +8,8 @@
 #include <vector>
 
 #ifndef RCSE
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
+//#include "network/networkmessagereader.h"
+//#include "network/networkmessagewriter.h"
 #endif
 
 namespace charactersheet
