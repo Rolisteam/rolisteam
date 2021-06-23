@@ -113,7 +113,6 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     m_systemTray->show();
 
     // ALLOCATIONS
-    // m_dialog.reset(new SelectConnectionProfileDialog(m_gameController, this));
     m_campaignDock.reset(new campaign::CampaignDock(m_gameController->campaign()));
 
     m_antagonistWidget.reset(new campaign::AntagonistBoard(m_gameController->campaignManager()->editor(), this));

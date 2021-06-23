@@ -91,7 +91,6 @@ class SessionDock;
 class CharacterSheetWindow;
 class GameMasterTool;
 class LogPanel;
-class ServerManager;
 class NotificationZone;
 
 struct CommandLineProfile
