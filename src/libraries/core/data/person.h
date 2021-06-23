@@ -43,8 +43,8 @@ class Person : public QObject
     Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QColor color READ getColor WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(QImage avatar READ getAvatar WRITE setAvatar NOTIFY avatarChanged)
-    Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
+    Q_PROPERTY(QByteArray avatar READ avatar WRITE setAvatar NOTIFY avatarChanged)
+    // Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
 public:
     Person(QObject* parent= nullptr);
     Person(const QString& name, const QColor& color, const QString& uuid= QString());
@@ -56,18 +56,16 @@ public:
     QColor getColor() const;
     virtual Person* parentPerson() const;
     void setParentPerson(Person* parent);
-    virtual const QImage& getAvatar() const;
+    virtual QByteArray avatar() const;
     virtual bool hasAvatar() const;
     virtual bool isLeaf() const;
 
     virtual QHash<QString, QString> getVariableDictionnary()= 0;
     virtual QIcon icon() const;
-    virtual QString avatarPath() const;
 
 public slots:
     bool setColor(const QColor& color);
-    virtual void setAvatar(const QImage& p);
-    void setAvatarPath(const QString& avatarPath);
+    virtual void setAvatar(const QByteArray& p);
     void setName(const QString& name);
     void setUuid(const QString& uuid);
 
@@ -76,14 +74,12 @@ signals:
     void nameChanged(QString id);
     void colorChanged();
     void avatarChanged();
-    void avatarPathChanged();
 
 protected:
     QString m_name;
     QString m_uuid;
     QColor m_color;
-    QImage m_avatar;
-    QString m_avatarPath;
+    QByteArray m_avatar;
     Person* m_parentPerson= nullptr;
 };
 

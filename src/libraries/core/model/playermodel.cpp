@@ -25,6 +25,7 @@
 
 #include "model/playermodel.h"
 
+#include "core/worker/iohelper.h"
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
@@ -189,9 +190,9 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
     }
     case Qt::DecorationRole:
     {
-        if(!person->getAvatar().isNull()) // (person->isLeaf()) &&
+        if(!person->avatar().isNull()) // (person->isLeaf()) &&
         {
-            var= person->getAvatar().scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            var= IOHelper::dataToImage(person->avatar()).scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
         else
             var= QVariant(person->getColor());
@@ -225,7 +226,7 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
         var= isGM;
         break;
     case PlayerModel::AvatarRole:
-        var= person->getAvatar();
+        var= IOHelper::dataToImage(person->avatar());
         break;
     }
 

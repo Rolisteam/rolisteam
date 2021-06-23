@@ -380,15 +380,17 @@ void GameController::startConnection(int profileIndex)
 
     auto local= m_playerController->localPlayer();
 
+    local->setUuid(profile->playerId());
     local->setName(profile->playerName());
     local->setColor(profile->playerColor());
-    local->setAvatarPath(profile->playerAvatar());
+    local->setAvatar(profile->playerAvatar());
+    local->setGM(profile->isGM());
     m_campaignManager->openCampaign(QUrl::fromLocalFile(profile->campaignPath()));
     if(!local->isGM())
     {
         auto characters= profile->characters();
         std::for_each(characters.begin(), characters.end(), [local](const CharacterData& data) {
-            local->addCharacter(data.m_name, data.m_color, data.m_avatarPath, data.m_params, false);
+            local->addCharacter(data.m_name, data.m_color, data.m_avatarData, data.m_params, false);
         });
     }
     m_networkCtrl->setHost(profile->address());
@@ -396,6 +398,7 @@ void GameController::startConnection(int profileIndex)
     m_networkCtrl->setServerPassword(profile->password());
     m_networkCtrl->setIsGM(profile->isGM());
     m_networkCtrl->setHosting(profile->isServer());
+    m_networkCtrl->setAskForGM(profile->isGM());
 
     m_playerController->addPlayer(local);
 

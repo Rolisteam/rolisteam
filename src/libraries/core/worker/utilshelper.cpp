@@ -60,9 +60,6 @@ QRectF computerBiggerRectInside(const QRect& rect, qreal ratio)
         }
     }
 
-    res.setX(rect.width() / 2 - res.width() / 2);
-    res.setY(rect.height() / 2 - res.height() / 2);
-
     return res;
 }
 } // namespace utils

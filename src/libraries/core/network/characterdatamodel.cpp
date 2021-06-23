@@ -23,6 +23,7 @@
 #include <QPixmap>
 
 #include "connectionprofile.h"
+#include "core/worker/iohelper.h"
 
 CharacterDataModel::CharacterDataModel(QObject* parent) : QAbstractTableModel(parent) {}
 
@@ -73,7 +74,7 @@ QVariant CharacterDataModel::data(const QModelIndex& index, int role) const
     {
     case Avatar:
     {
-        auto pix= QPixmap(character.m_avatarPath);
+        auto pix= IOHelper::dataToImage(character.m_avatarData);
         if(pix.isNull())
             var= tr("No Avatar");
         else
@@ -81,7 +82,7 @@ QVariant CharacterDataModel::data(const QModelIndex& index, int role) const
     }
     break;
     case AvatarPath:
-        var= character.m_avatarPath;
+        var= character.m_avatarData;
         break;
     case Name:
         var= character.m_name;
@@ -109,7 +110,7 @@ bool CharacterDataModel::setData(const QModelIndex& index, const QVariant& value
             character.m_color= value.value<QColor>();
             break;
         case 0:
-            character.m_avatarPath= value.toString();
+            character.m_avatarData= value.toByteArray();
             break;
         default:
             return false;

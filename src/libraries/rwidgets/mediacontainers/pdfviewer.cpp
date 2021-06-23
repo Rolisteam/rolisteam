@@ -21,7 +21,6 @@
 #include "pdfviewer.h"
 #include <QBuffer>
 #include <QDebug>
-#include <QFileDialog>
 #include <QPdfBookmarkModel>
 #include <QPdfDocument>
 #include <QPdfPageNavigation>

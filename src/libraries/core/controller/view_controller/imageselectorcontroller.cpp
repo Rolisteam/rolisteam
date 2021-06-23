@@ -239,7 +239,6 @@ void ImageSelectorController::setRect(const QRect& rect)
     if(rect == m_rect)
         return;
     m_rect= rect;
-    qDebug() << "controller" << m_rect;
     emit rectChanged();
 }
 

@@ -25,6 +25,7 @@
 #include <QPainter>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "core/worker/iohelper.h"
 #include "data/character.h"
 #include "data/characterstate.h"
 
@@ -363,7 +364,7 @@ void CharacterItemController::computeThumbnail()
     m_thumb->fill(Qt::transparent);
     QPainter painter(m_thumb.get());
     QBrush brush;
-    if(m_character->getAvatar().isNull())
+    if(m_character->avatar().isNull())
     {
         painter.setPen(m_character->getColor());
         brush.setColor(m_character->getColor());
@@ -372,7 +373,7 @@ void CharacterItemController::computeThumbnail()
     else
     {
         painter.setPen(Qt::NoPen);
-        QImage img= m_character->getAvatar();
+        QImage img= IOHelper::dataToImage(m_character->avatar());
         brush.setTextureImage(img.scaled(diam, diam));
     }
 

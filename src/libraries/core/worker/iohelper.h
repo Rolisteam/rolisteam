@@ -84,6 +84,7 @@ public:
     static QByteArray pixmapToData(const QPixmap& pix);
     static QByteArray imageToData(const QImage& pix);
     static QPixmap dataToPixmap(const QByteArray& data);
+    static QImage dataToImage(const QByteArray& data);
     static QPixmap readPixmapFromURL(const QUrl& url);
     static QPixmap readPixmapFromFile(const QString& url);
     static QString htmlToTitle(const QMimeData& data, const QString& defaultName);

@@ -794,14 +794,17 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
     // setSceneRect(x,y,width,height);
     //}
 }
+
+#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "rwidgets/dialogs/imageselectordialog.h"
 void RGraphicsView::addImageToMap()
 {
-    QString imageToLoad= QFileDialog::getOpenFileName(
-        this, tr("Open image file"), m_preferences->value("ImageDirectory", QDir::homePath()).toString(),
-        m_preferences->value("ImageFileFilter", "*.jpg *.jpeg *.png *.bmp *.svg").toString());
+    ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::AnyShape,
+                                 m_preferences->value("ImageDirectory", QDir::homePath()).toString());
+    ImageSelectorDialog dialog(&ctrl, this);
 
-    // if(nullptr != m_vmap)
-    {
-        // m_vmap->addImageItem(imageToLoad);
-    }
+    if(QDialog::Accepted != dialog.exec())
+        return;
+
+    // TODO use the image
 }

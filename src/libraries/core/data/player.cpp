@@ -24,14 +24,14 @@
 #include <QDebug>
 
 #include "data/character.h"
-bool containsCharacter(QString name, QColor color, QString path,
+bool containsCharacter(QString name, QColor color, QByteArray avatar,
                        const std::vector<std::unique_ptr<Character>>& characters)
 {
     return (characters.end()
             != std::find_if(characters.begin(), characters.end(),
-                            [name, color, path](const std::unique_ptr<Character>& character) {
+                            [name, color, avatar](const std::unique_ptr<Character>& character) {
                                 return character->name() == name && character->getColor() == color
-                                       && character->avatarPath() == path;
+                                       && character->avatar() == avatar;
                             }));
 }
 
@@ -157,15 +157,15 @@ void Player::setGM(bool value)
     m_gameMaster= value;
 }
 
-void Player::addCharacter(const QString& name, const QColor& color, const QString& path,
+void Player::addCharacter(const QString& name, const QColor& color, const QByteArray& data,
                           const QHash<QString, QVariant>& params, bool Npc)
 {
     Q_UNUSED(params)
-    if(containsCharacter(name, color, path, m_characters))
+    if(containsCharacter(name, color, data, m_characters))
         return;
 
     auto character= new Character(name, color, m_gameMaster, Npc);
-    character->setAvatarPath(path);
+    character->setAvatar(data);
     addCharacter(character);
     // params FIXME set value from params.
     // data->setLifeColor();
@@ -239,7 +239,7 @@ void Player::setUserVersion(QString softV)
 }
 void Player::copyPlayer(Player* player)
 {
-    setAvatar(player->getAvatar());
+    setAvatar(player->avatar());
     setColor(player->getColor());
     setGM(player->isGM());
     setName(player->name());

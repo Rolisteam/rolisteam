@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "userlistdelegate.h"
 #include <QDebug>
+#include <QImage>
 #include <QPainter>
 
 #include "data/person.h"
@@ -32,22 +33,24 @@ void UserListDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
         return;
     }
     Person* p= static_cast<Person*>(index.internalPointer());
+    if(p == nullptr)
+        return;
     painter->save();
-    if(p != nullptr)
-    {
-        QRect tmp= option.rect;
-        if(option.state & QStyle::State_Selected)
-        {
-            painter->fillRect(option.rect, option.palette.highlight());
-        }
 
-        painter->fillRect(option.rect.x(), option.rect.y(), option.decorationSize.width(), option.rect.height(),
-                          p->getColor());
-        QRectF target(option.rect.x(), option.rect.y(), option.decorationSize.width(), option.rect.height());
-        painter->drawImage(target, p->getAvatar(), p->getAvatar().rect());
-        tmp.adjust(option.decorationSize.width(), 1, 1, 1);
-        painter->drawText(tmp, Qt::AlignVCenter, p->name());
+    QRect tmp= option.rect;
+    if(option.state & QStyle::State_Selected)
+    {
+        painter->fillRect(option.rect, option.palette.highlight());
     }
+
+    painter->fillRect(option.rect.x(), option.rect.y(), option.decorationSize.width(), option.rect.height(),
+                      p->getColor());
+    QRectF target(option.rect.x(), option.rect.y(), option.decorationSize.width(), option.rect.height());
+    auto img= QImage::fromData(p->avatar());
+    painter->drawImage(target, img, img.rect());
+    tmp.adjust(option.decorationSize.width(), 1, 1, 1);
+    painter->drawText(tmp, Qt::AlignVCenter, p->name());
+
     painter->restore();
 }
 QSize UserListDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const

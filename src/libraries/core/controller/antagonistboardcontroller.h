@@ -93,8 +93,8 @@ public slots:
     void setCharacter(NonPlayableCharacter* character);
 
     void addCharacter();
-    void removeCharacter(const QModelIndex& id);
-    void changeImage(const QString& id, const QString& filename);
+    void removeCharacter(const QString& id);
+    void changeImage(const QString& id, const QByteArray& filename);
 signals:
     void characterChanged();
     void searchTextChanged();

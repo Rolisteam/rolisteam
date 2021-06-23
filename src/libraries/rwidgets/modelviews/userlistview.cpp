@@ -21,14 +21,16 @@
 #include <QColorDialog>
 #include <QDebug>
 #include <QDrag>
-#include <QFileDialog>
 #include <QHeaderView>
 #include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
 
+#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "core/worker/iohelper.h"
 #include "delegates/userlistdelegate.h"
 #include "docks/playerspanel.h"
+#include "rwidgets/dialogs/imageselectordialog.h"
 #include "userlistview.h"
 
 #include "controller/playercontroller.h"
@@ -280,18 +282,18 @@ void UserListView::addAvatar()
     {
         directory= m_preferencesManager->value("imageDirectory", QDir::homePath()).toString();
     }
-    QString path= QFileDialog::getOpenFileName(this, tr("Avatar"), directory,
-                                               tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
-    QModelIndex index= currentIndex();
-    if(path.isEmpty())
+    ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
+    ImageSelectorDialog dialog(&ctrl, this);
+    if(QDialog::Accepted != dialog.exec())
         return;
-    if(index.isValid())
-    {
-        Person* tmpperso= static_cast<Person*>(index.internalPointer());
-        QImage im(path);
-        tmpperso->setAvatarPath(path);
-        tmpperso->setAvatar(im);
-    }
+
+    QModelIndex index= currentIndex();
+    auto data= ctrl.finalImageData();
+    if(!index.isValid() || data.isEmpty())
+        return;
+
+    Person* tmpperso= static_cast<Person*>(index.internalPointer());
+    tmpperso->setAvatar(data);
 }
 
 void UserListView::deleteAvatar()
@@ -300,9 +302,7 @@ void UserListView::deleteAvatar()
     if(index.isValid())
     {
         Person* tmpperso= static_cast<Person*>(index.internalPointer());
-        QImage im;
-        tmpperso->setAvatarPath(QStringLiteral(""));
-        tmpperso->setAvatar(im);
+        tmpperso->setAvatar({});
     }
 }
 void UserListView::editCurrentItemColor()
@@ -350,7 +350,7 @@ QPixmap UserListView::generateAvatar(Person* p)
     img.fill(Qt::transparent);
     QPainter painter(&img);
     QBrush brush;
-    if(p->getAvatar().isNull())
+    if(p->avatar().isNull())
     {
         painter.setPen(p->getColor());
         brush.setColor(p->getColor());
@@ -358,7 +358,7 @@ QPixmap UserListView::generateAvatar(Person* p)
     }
     else
     {
-        QImage img= p->getAvatar();
+        QImage img= IOHelper::dataToImage(p->avatar());
         brush.setTextureImage(img.scaled(diameter, diameter));
     }
 

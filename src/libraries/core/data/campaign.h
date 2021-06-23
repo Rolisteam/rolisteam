@@ -120,7 +120,7 @@ public slots:
 
     // Characters
     void addCharacter();
-    void removeCharacter(const QModelIndex& id);
+    void removeCharacter(const QString& id);
 
 private slots:
     void setState(State state);

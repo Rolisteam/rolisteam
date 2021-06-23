@@ -47,7 +47,7 @@ public:
 
     // Children
     int indexOf(Character* character) const;
-    void addCharacter(const QString& name, const QColor& color, const QString& path, const QHash<QString, QVariant>&,
+    void addCharacter(const QString& name, const QColor& color, const QByteArray& data, const QHash<QString, QVariant>&,
                       bool Npc);
     void addCharacter(Character* character);
     virtual bool removeChild(Character*);

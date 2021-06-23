@@ -26,6 +26,9 @@
 #include "rwidgets/customs/filedirchooser.h"
 #include "rwidgets/customs/realslider.h"
 
+#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "rwidgets/dialogs/imageselectordialog.h"
+
 class WidgetsTest : public QObject
 {
     Q_OBJECT
@@ -40,6 +43,7 @@ private slots:
     void realSliderTest();
     void fileDirChooserTest();
     void diameterSelectorTest();
+    void imageSelectorTest();
 
 private:
     std::unique_ptr<RealSlider> m_realSlider;
@@ -103,6 +107,16 @@ void WidgetsTest::diameterSelectorTest()
     auto val= 50;
     m_diameter->setDiameter(val);
     QCOMPARE(m_diameter->getCurrentValue(), val);
+}
+
+void WidgetsTest::imageSelectorTest()
+{
+    ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
+    ImageSelectorDialog dialog(&ctrl);
+    if(QDialog::Accepted != dialog.exec())
+        return;
+    auto pix= QImage::fromData(ctrl.finalImageData());
+    QCOMPARE(pix.width(), pix.height());
 }
 
 QTEST_MAIN(WidgetsTest);

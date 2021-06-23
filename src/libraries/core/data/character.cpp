@@ -30,6 +30,8 @@
 #include <QPixmap>
 #include <QUuid>
 
+#include "core/worker/iohelper.h"
+
 #include "character.h"
 #ifndef UNIT_TEST
 #include "charactersheet/charactersheet.h"
@@ -326,16 +328,6 @@ void Character::setInitiativeScore(int intiativeScore)
     m_hasInitScore= true;
     m_initiativeScore= intiativeScore;
     emit initiativeChanged();
-}
-
-QString Character::avatarPath() const
-{
-    if(nullptr == m_currentShape)
-        return m_avatarPath;
-    else
-    {
-        return m_currentShape->uri();
-    }
 }
 
 int Character::getHealthPointsCurrent() const
@@ -734,12 +726,13 @@ void Character::addProperty(CharacterProperty* property)
     // TODO emit signal ?
 }
 
-const QImage& Character::getAvatar() const
+QByteArray Character::avatar() const
 {
     if(nullptr == m_currentShape)
-        return Person::getAvatar();
-    else
-        return m_currentShape->image();
+        return Person::avatar();
+    // else
+    //        return IOHelper::imageToData(m_currentShape->image());
+    // TODO change API of shapes
 }
 
 CharacterShape* Character::currentShape() const

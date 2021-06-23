@@ -10,12 +10,18 @@
 #include <QJsonValue>
 #include <QMenu>
 
-#include "controller/antagonistboardcontroller.h"
-#include "data/campaign.h"
-#include "data/character.h"
-#include "model/genericmodel.h"
-#include "model/nonplayablecharactermodel.h"
-#include "worker/utilshelper.h"
+#include "core/controller/antagonistboardcontroller.h"
+#include "core/data/campaign.h"
+#include "core/data/campaigneditor.h"
+#include "core/data/character.h"
+#include "core/model/genericmodel.h"
+#include "core/model/nonplayablecharactermodel.h"
+#include "core/worker/utilshelper.h"
+
+#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "core/worker/iohelper.h"
+#include "rwidgets/delegates/avatardelegate.h"
+#include "rwidgets/dialogs/imageselectordialog.h"
 
 namespace campaign
 {
@@ -42,6 +48,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     , m_createTokenAct(new QAction(tr("Edit Token")))
     , m_cloneCharacterAct(new QAction(tr("Clone Character")))
     , m_changeImageAct(new QAction(tr("Change Image")))
+    , m_fullModeAct(new QAction(tr("Main columns")))
 {
     ui->setupUi(this);
 
@@ -49,11 +56,54 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     ui->m_antogonistView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->m_antogonistView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->m_antogonistView->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->m_antogonistView->setItemDelegateForColumn(0, new AvatarDelegate(this));
     connect(ui->m_antogonistView, &QTableView::customContextMenuRequested, this, &AntagonistBoard::contextualMenu);
+    m_fullModeAct->setCheckable(true);
+
+    connect(m_fullModeAct.get(), &QAction::toggled, this, [this]() {
+        bool showMainCols= m_fullModeAct->isChecked();
+        int i= 0;
+        for(auto const& act : m_columnsAction)
+        {
+            act->setEnabled(!showMainCols);
+            if(i < 5)
+            {
+                ui->m_antogonistView->showColumn(i);
+            }
+            else if(showMainCols)
+            {
+                ui->m_antogonistView->hideColumn(i);
+            }
+            else if(act->isChecked())
+            {
+                ui->m_antogonistView->showColumn(i);
+            }
+            ++i;
+        }
+    });
+
+    auto cols= editor->campaign()->npcModel()->headers();
+
+    int i= 0;
+    std::for_each(std::begin(cols), std::end(cols), [&i, this](const QString& colname) {
+        std::unique_ptr<QAction> act(new QAction(colname));
+        act->setCheckable(true);
+        act->setChecked(true);
+        connect(act.get(), &QAction::triggered, this, &AntagonistBoard::hideColumn);
+        act->setData(i);
+        ++i;
+        m_columnsAction.push_back(std::move(act));
+    });
 
     connect(ui->m_addCharacterAct, &QAction::triggered, this, [this]() { m_ctrl->addCharacter(); });
-    connect(ui->m_removeCharacterAct, &QAction::triggered, this,
-            [this]() { m_ctrl->removeCharacter(ui->m_antogonistView->currentIndex()); });
+    connect(ui->m_removeCharacterAct, &QAction::triggered, this, [this]() {
+        auto index= ui->m_antogonistView->currentIndex();
+        if(!index.isValid())
+            return;
+
+        m_ctrl->removeCharacter(index.data(NonPlayableCharacterModel::RoleUuid).toString());
+    });
+    m_fullModeAct->setChecked(true);
 
     ui->m_addCharacterBtn->setDefaultAction(ui->m_addCharacterAct);
     ui->m_removeCharacterBtn->setDefaultAction(ui->m_removeCharacterAct);
@@ -74,11 +124,12 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     });
 
     connect(m_changeImageAct.get(), &QAction::triggered, m_ctrl.get(), [this]() {
-        auto filename= QFileDialog::getOpenFileName(this, tr("Select Image for character"), m_ctrl->imageFolder(),
-                                                    helper::utils::allSupportedImageFormatFilter());
+        ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
+        ImageSelectorDialog dialog(&ctrl, this);
+        if(QDialog::Accepted != dialog.exec())
+            return;
 
-        if(!filename.isEmpty())
-            m_ctrl->changeImage(m_currentItemId, filename);
+        m_ctrl->changeImage(m_currentItemId, ctrl.finalImageData());
     });
 
     connect(m_ctrl.get(), &AntagonistBoardController::characterChanged, this, [this]() {
@@ -92,7 +143,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
             ui->m_currentLife->setValue(character->getHealthPointsCurrent());
             ui->m_initCommand->setText(character->getInitCommand());
             ui->m_initValue->setValue(character->getInitiativeScore());
-            ui->m_avatarDisplay->setPixmap(QPixmap::fromImage(character->getAvatar()));
+            ui->m_avatarDisplay->setPixmap(IOHelper::dataToPixmap(character->avatar()));
             ui->stackedWidget->setCurrentIndex(1);
         }
         else
@@ -100,6 +151,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
             ui->stackedWidget->setCurrentIndex(0);
         }
     });
+    ui->stackedWidget->setCurrentIndex(0);
 
     ui->m_actionList->setModel(m_ctrl->actionModel());
     ui->m_propertyList->setModel(m_ctrl->propertyModel());
@@ -151,12 +203,13 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
             dir= info.absolutePath();
         }
 
-        auto file= QFileDialog::getOpenFileName(this, tr("Select Avatar"), dir,
-                                                tr("Images (*.jpg *.jpeg *.png *.bmp *.svg)"));
-        if(!file.isEmpty())
-        {
-            // m_shapeModel->setData(index, file);
-        }
+        ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
+        ImageSelectorDialog dialog(&ctrl, this);
+        if(QDialog::Accepted != dialog.exec())
+            return;
+
+        auto data= ctrl.finalImageData();
+        // m_shapeModel->setData(index, data);
     });
 
     connect(ui->m_sizeEdit, QOverload<int>::of(&QSpinBox::valueChanged), this, [=] {
@@ -165,15 +218,15 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
         // setAllRowToHeight(m_shapeModel, val, ui->m_shapeList);
     });
 
-    connect(ui->m_avatarEdit, &QLineEdit::textChanged, this, &AntagonistBoard::updateImage);
+    // sconnect(ui->m_avatarEdit, &QLineEdit::textChanged, this, &AntagonistBoard::updateImage);
     connect(ui->m_avatarOpenFileBtn, &QPushButton::clicked, this, [this]() {
-        auto file= QFileDialog::getOpenFileName(this, tr("Select Avatar"), QDir::homePath(),
-                                                tr("Images (*.jpg *.jpeg *.png *.bmp *.svg)"));
-        if(!file.isEmpty())
-        {
-            ui->m_avatarEdit->setText(file);
-            updateImage();
-        }
+        ImageSelectorController ctrl(true, ImageSelectorController::All, ImageSelectorController::Square);
+        ImageSelectorDialog dialog(&ctrl, this);
+        if(QDialog::Accepted != dialog.exec())
+            return;
+
+        auto data= ctrl.finalImageData();
+        updateImage(data);
     });
 #ifndef Q_OS_MAC
     ui->m_actionList->setAlternatingRowColors(true);
@@ -199,6 +252,13 @@ void AntagonistBoard::contextualMenu(const QPoint& pos)
     menu.addAction(ui->m_removeCharacterAct);
     menu.addAction(m_createTokenAct.get());
     menu.addAction(m_changeImageAct.get());
+    menu.addSeparator();
+    menu.addAction(m_fullModeAct.get());
+    auto colsMenu= menu.addMenu(tr("Show Columnns"));
+    for(auto const& act : m_columnsAction)
+    {
+        colsMenu->addAction(act.get());
+    }
 
     m_createTokenAct->setEnabled(index.isValid());
     m_cloneCharacterAct->setEnabled(index.isValid());
@@ -208,9 +268,21 @@ void AntagonistBoard::contextualMenu(const QPoint& pos)
     menu.exec(ui->m_antogonistView->mapToGlobal(pos));
 }
 
-void AntagonistBoard::updateImage()
+void AntagonistBoard::updateImage(const QByteArray& data)
 {
-    QPixmap pix(ui->m_avatarEdit->text());
+    QPixmap pix;
+    pix.loadFromData(data);
     ui->m_avatarDisplay->setPixmap(pix);
+}
+
+void AntagonistBoard::hideColumn()
+{
+    auto act= qobject_cast<QAction*>(sender());
+    auto i= act->data().toInt();
+
+    if(act->isChecked())
+        ui->m_antogonistView->showColumn(i);
+    else
+        ui->m_antogonistView->hideColumn(i);
 }
 } // namespace campaign

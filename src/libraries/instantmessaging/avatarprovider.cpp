@@ -21,6 +21,7 @@
 
 #include "core/data/person.h"
 #include "core/model/playermodel.h"
+#include "core/worker/iohelper.h"
 
 AvatarProvider::AvatarProvider(PlayerModel* model)
     : QQuickImageProvider(QQmlImageProviderBase::Image)
@@ -44,7 +45,7 @@ QImage AvatarProvider::requestImage(const QString& id, QSize* size, const QSize&
     if(!person)
         return resize(m_default);
 
-    auto img= person->getAvatar();
+    auto img= IOHelper::dataToImage(person->avatar());
 
     if(img.isNull())
         img= m_default;

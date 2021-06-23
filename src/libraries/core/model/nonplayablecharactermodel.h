@@ -61,7 +61,8 @@ class NonPlayableCharacterModel : public QAbstractListModel
 public:
     enum CustomRole
     {
-        RoleName= Qt::UserRole + 1,
+        RoleAvatar= Qt::UserRole + 1,
+        RoleName,
         RoleColor,
         RoleTokenPath,
         RoleMinHp,
@@ -73,7 +74,6 @@ public:
         RoleLifeColor,
         RoleInitCommand,
         RoleTags,
-        RoleAvatar,
         RoleUuid,
         RoleUnknown
     };
@@ -115,10 +115,13 @@ public:
     void append();
     void addCharacter(NonPlayableCharacter* character);
     void setModelData(const std::vector<NonPlayableCharacter*>& data);
-    void removeNpc(const QModelIndex& index);
+    void removeNpc(const QString& index);
     void clear();
 
     const std::vector<std::unique_ptr<NonPlayableCharacter>>& npcList() const;
+    QStringList headers();
+
+    QModelIndex indexFromUuid(const QString& id);
 
 signals:
     void characterAdded();

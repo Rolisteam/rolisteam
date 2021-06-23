@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QMessageBox>
 
+#include "core/worker/iohelper.h"
 #include "data/character.h"
 
 #include "controller/gamecontroller.h"
@@ -184,16 +185,6 @@ void SelectConnectionProfileDialog::updateGUI()
     ui->m_rootDirCampEdit->setPath(profile->campaignPath());
 
     m_characterModel->setProfile(profile);
-    /*if(!profile->isGM())
-    {
-        ui->m_characterName->setText(profile->getCharacter()->name());
-        ui->m_characterColor->setColor(profile->getCharacter()->getColor());
-        ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(profile->getCharacter()->getAvatar())));
-    }
-    else
-    {
-        ui->m_selectCharaterAvatar->setIcon(QIcon());
-    }*/
 }
 void SelectConnectionProfileDialog::removeProfile()
 {
@@ -248,26 +239,6 @@ void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
 void SelectConnectionProfileDialog::connectTo()
 {
     updateProfile();
-    auto networkCtrl= m_ctrl->networkController();
-    networkCtrl->setHost(ui->m_addresseLineEdit->text());
-    networkCtrl->setPort(ui->m_port->value());
-    networkCtrl->setHosting(ui->m_isServerCheckbox->isChecked());
-    networkCtrl->setIsGM(ui->m_isGmCheckbox->isChecked());
-    networkCtrl->setAskForGM(ui->m_isGmCheckbox->isChecked());
-    if(m_passChanged)
-        networkCtrl->setServerPassword(ui->m_passwordEdit->text().toUtf8());
-
-    auto profile= m_model->getProfile(m_currentProfileIndex);
-
-    auto playerCtrl= m_ctrl->playerController();
-    auto localPlayer= playerCtrl->localPlayer();
-    if(!localPlayer) // WARNING
-        return;
-    localPlayer->setUuid(profile->playerId());
-    localPlayer->setColor(ui->m_colorBtn->color());
-    localPlayer->setName(ui->m_name->text());
-    localPlayer->setGM(ui->m_isGmCheckbox->isChecked());
-
     m_ctrl->startConnection(m_currentProfileIndex);
 }
 
@@ -320,18 +291,11 @@ void SelectConnectionProfileDialog::selectPlayerAvatar()
 
     auto profile= m_model->getProfile(m_currentProfileIndex);
 
-    auto newpath= openImage(profile->playerAvatar());
+    auto data= openImage(profile->playerAvatar());
 
-    if(newpath.isEmpty())
+    if(data.isEmpty())
         return;
 
-    QImage img(newpath);
-
-    if(img.height() != img.width())
-    { // not square
-      // TODO chop picture if it is not square.
-    }
-
-    profile->setPlayerAvatar(newpath);
-    ui->m_playerAvatarAct->setIcon(QIcon(newpath));
+    profile->setPlayerAvatar(data);
+    ui->m_playerAvatarAct->setIcon(QIcon(IOHelper::dataToPixmap(data)));
 }

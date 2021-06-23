@@ -20,7 +20,8 @@
 #include "persondialog.h"
 #include "ui_persondialog.h"
 
-#include <QFileDialog>
+#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "rwidgets/dialogs/imageselectordialog.h"
 
 PersonDialog::PersonDialog(QWidget* parent) : QDialog(parent), ui(new Ui::PersonDialog)
 {
@@ -49,11 +50,19 @@ QString PersonDialog::getAvatarUri() const
 }
 void PersonDialog::openImage()
 {
-    m_avatar= QFileDialog::getOpenFileName(this, tr("Load Avatar"));
+    ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
+    ImageSelectorDialog dialog(&ctrl, this);
 
-    if(!m_avatar.isEmpty())
+    if(QDialog::Accepted != dialog.exec())
+        return;
+
+    auto data= ctrl.finalImageData();
+
+    if(!data.isEmpty())
     {
-        ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(QImage(m_avatar))));
+        QPixmap pix;
+        pix.loadFromData(data);
+        ui->m_selectCharaterAvatar->setIcon(QIcon(pix));
     }
 }
 int PersonDialog::edit(QString title, QString name, QColor color, QString icon)

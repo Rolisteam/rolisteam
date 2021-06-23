@@ -167,9 +167,13 @@ void AntagonistBoardController::addCharacter()
     m_editor->campaign()->addCharacter();
 }
 
-void AntagonistBoardController::changeImage(const QString& id, const QString& filename)
+void AntagonistBoardController::changeImage(const QString& id, const QByteArray& data)
 {
-    // TODO
+    auto campaign= m_editor->campaign();
+    auto const& model= campaign->npcModel();
+    auto index= model->indexFromUuid(id);
+
+    model->setData(index, data, NonPlayableCharacterModel::RoleAvatar);
 }
 
 QString AntagonistBoardController::imageFolder() const
@@ -177,7 +181,7 @@ QString AntagonistBoardController::imageFolder() const
     return m_editor->campaign()->directory(campaign::Campaign::Place::MEDIA_ROOT);
 }
 
-void AntagonistBoardController::removeCharacter(const QModelIndex& id)
+void AntagonistBoardController::removeCharacter(const QString& id)
 {
     m_editor->campaign()->removeCharacter(id);
 }

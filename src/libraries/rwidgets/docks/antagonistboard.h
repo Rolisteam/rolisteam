@@ -26,8 +26,10 @@ protected slots:
     /*void importNpc();
      void exportNpc();*/
 
-    void updateImage();
+    void updateImage(const QByteArray& data);
     void contextualMenu(const QPoint& pos);
+
+    void hideColumn();
 
 private:
     Ui::AntagonistBoard* ui;
@@ -38,6 +40,8 @@ private:
     std::unique_ptr<QAction> m_changeImageAct;
 
     QString m_currentItemId;
+    std::vector<std::unique_ptr<QAction>> m_columnsAction;
+    std::unique_ptr<QAction> m_fullModeAct;
 };
 } // namespace campaign
 #endif // CAMPAIGN_ANTAGONIST_BOARD_H

@@ -95,10 +95,10 @@ bool IOHelper::loadToken(const QString& filename, std::map<QString, QVariant>& p
     character->setHealthPointsCurrent(obj["lifeCurrent"].toInt());
     character->setInitiativeScore(obj["initValue"].toInt());
     character->setInitCommand(obj["initCommand"].toString());
-    character->setAvatarPath(obj["avatarUri"].toString());
+    // character->setAvatarPath(obj["avatarUri"].toString());
 
     auto array= QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
-    character->setAvatar(QImage::fromData(array));
+    character->setAvatar(array);
 
     auto actionArray= obj["actions"].toArray();
     for(auto act : actionArray)
@@ -379,6 +379,13 @@ QPixmap IOHelper::dataToPixmap(const QByteArray& data)
     QPixmap pix;
     pix.loadFromData(data);
     return pix;
+}
+
+QImage IOHelper::dataToImage(const QByteArray& data)
+{
+    QImage img;
+    img.loadFromData(data);
+    return img;
 }
 
 QByteArray saveImage(ImageController* ctrl)
@@ -786,7 +793,7 @@ QJsonObject IOHelper::npcToJsonObject(campaign::NonPlayableCharacter* npc, const
     stateJson[Core::JsonKey::JSON_NPC_DIST_PER_TURN]= npc->getDistancePerTurn();
     stateJson[Core::JsonKey::JSON_NPC_STATEID]= npc->stateId();
     stateJson[Core::JsonKey::JSON_NPC_LIFECOLOR]= npc->getLifeColor().name();
-    stateJson[Core::JsonKey::JSON_NPC_AVATAR]= absoluteToRelative(npc->avatarPath(), destination);
+    // stateJson[Core::JsonKey::JSON_NPC_AVATAR]= absoluteToRelative(npc->avatarPath(), destination);
     stateJson[Core::JsonKey::JSON_NPC_TAGS]= QJsonArray::fromStringList(npc->tags());
     stateJson[Core::JsonKey::JSON_NPC_TOKEN]= absoluteToRelative(npc->tokenPath(), destination);
 

@@ -285,8 +285,7 @@ public:
     CharacterShape* currentShape() const;
     void setCurrentShape(CharacterShape* shape);
 
-    virtual const QImage& getAvatar() const override;
-    QString avatarPath() const override;
+    virtual QByteArray avatar() const override;
 
 public slots:
     void setCurrentShape(int index);

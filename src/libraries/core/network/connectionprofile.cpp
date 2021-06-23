@@ -57,12 +57,12 @@ QColor ConnectionProfile::playerColor() const
     return m_playerColor;
 }
 
-void ConnectionProfile::setPlayerAvatar(const QString& path)
+void ConnectionProfile::setPlayerAvatar(const QByteArray& path)
 {
     m_playerAvatar= path;
 }
 
-QString ConnectionProfile::playerAvatar() const
+QByteArray ConnectionProfile::playerAvatar() const
 {
     return m_playerAvatar;
 }

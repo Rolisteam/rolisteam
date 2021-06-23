@@ -74,7 +74,7 @@ void readConnectionProfileModel(ProfileModel* model)
 
         QColor color= settings.value("PlayerColor").value<QColor>();
         profile->setPlayerColor(color);
-        profile->setPlayerAvatar(settings.value("playerAvatarPath").toString());
+        profile->setPlayerAvatar(settings.value("playerAvatarData").toByteArray());
 
         auto characterCount= settings.beginReadArray("characterCount");
         profile->clearCharacter();
@@ -83,7 +83,7 @@ void readConnectionProfileModel(ProfileModel* model)
             settings.setArrayIndex(j);
 
             auto name= settings.value("CharacterName").toString();
-            auto path= settings.value("CharacterPath").toString();
+            auto path= settings.value("CharacterData").toByteArray();
             auto color= settings.value("CharacterColor").value<QColor>();
             QHash<QString, QVariant> params;
             for(const auto& key : CharacterFields)
@@ -97,9 +97,9 @@ void readConnectionProfileModel(ProfileModel* model)
         if(characterCount == 0 && !profile->isGM())
         {
             auto name= settings.value("CharacterName").toString();
-            auto path= settings.value("CharacterPath").toString();
+            auto path= settings.value("CharacterData").toByteArray();
             auto color= settings.value("CharacterColor").value<QColor>();
-            qDebug() << name << path;
+
             QHash<QString, QVariant> params;
             profile->addCharacter(CharacterData({name, color, path, params}));
         }
@@ -140,7 +140,7 @@ void writeConnectionProfileModel(ProfileModel* model)
         settings.setValue("gm", profile->isGM());
         settings.setValue("password", profile->password().toBase64());
         settings.setValue("PlayerColor", profile->playerColor());
-        settings.setValue("playerAvatarPath", profile->playerAvatar());
+        settings.setValue("playerAvatarData", profile->playerAvatar());
         settings.setValue("campaignPath", profile->campaignPath());
 
         settings.beginWriteArray("characterCount");
@@ -150,7 +150,7 @@ void writeConnectionProfileModel(ProfileModel* model)
             auto charact= profile->character(j);
 
             settings.setValue("CharacterName", charact.m_name);
-            settings.setValue("CharacterPath", charact.m_avatarPath);
+            settings.setValue("CharacterData", charact.m_avatarData);
             settings.setValue("CharacterColor", charact.m_color);
 
             for(const auto& key : CharacterFields)
@@ -426,7 +426,7 @@ void fetchNpcModel(const QJsonArray& npc, campaign::NonPlayableCharacterModel* m
         npc->setDistancePerTurn(distancePerTurn);
         npc->setStateId(stateId);
         npc->setLifeColor(lifeColor);
-        npc->setAvatarPath(avatar);
+        // npc->setAvatarPath(avatar);
         npc->setTags(list);
         npc->setTokenPath(tokenPath);
 

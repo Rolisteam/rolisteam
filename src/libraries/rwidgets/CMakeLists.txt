@@ -50,6 +50,7 @@ set(HEADERS
   customs/vcolortablechooser.h
   customs/vmap.h
   customs/workspace.h
+  delegates/avatardelegate.h
   delegates/checkboxdelegate.h
   delegates/colordelegate.h
   delegates/delegate.h
@@ -149,6 +150,7 @@ set(SOURCES
   customs/vcolortablechooser.cpp
   customs/vmap.cpp
   customs/workspace.cpp
+  delegates/avatardelegate.cpp
   delegates/checkboxdelegate.cpp
   delegates/colordelegate.cpp
   delegates/delegate.cpp

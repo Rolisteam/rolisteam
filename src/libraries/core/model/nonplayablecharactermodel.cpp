@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "nonplayablecharactermodel.h"
+#include "core/worker/iohelper.h"
 namespace campaign
 {
 NonPlayableCharacter::NonPlayableCharacter(QObject* parent) : Character(parent)
@@ -53,9 +54,9 @@ void NonPlayableCharacter::setTags(const QStringList& list)
 
 NonPlayableCharacterModel::NonPlayableCharacterModel(QObject* parent) : QAbstractListModel(parent)
 {
-    m_header << tr("Name") << tr("Color") << tr("rtoken") << tr("Min HP") << tr("Current HP") << tr("Max HP")
-             << tr("Initiative") << tr("Distance Per turn") << tr("State") << tr("Life Color") << tr("Init Command")
-             << tr("Tags");
+    m_header << tr("Avatar") << tr("Name") << tr("Color") << tr("rtoken") << tr("Tags") << tr("Min HP")
+             << tr("Current HP") << tr("Max HP") << tr("Initiative") << tr("Distance Per turn") << tr("State")
+             << tr("Life Color") << tr("Init Command");
 }
 
 QVariant NonPlayableCharacterModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -86,13 +87,16 @@ int NonPlayableCharacterModel::columnCount(const QModelIndex&) const
 
 QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) const
 {
-    QSet<int> acceptedRole({Qt::DecorationRole, Qt::DisplayRole, Qt::BackgroundRole, Qt::EditRole, RoleUuid});
+    QSet<int> acceptedRole(
+        {Qt::DecorationRole, Qt::DisplayRole, Qt::BackgroundRole, Qt::EditRole, RoleUuid, RoleAvatar});
     if(!index.isValid() || !acceptedRole.contains(role))
         return QVariant();
 
     auto customRole= Qt::UserRole + 1 + index.column();
     if(role == Qt::DecorationRole)
         customRole= RoleAvatar;
+    if(role >= Qt::UserRole + 1)
+        customRole= role;
     if(role == Qt::BackgroundRole && (customRole != RoleColor && customRole != RoleLifeColor))
         return {};
 
@@ -100,8 +104,11 @@ QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) con
     QVariant res;
     switch(customRole)
     {
+    case RoleAvatar:
+        res= QVariant::fromValue(IOHelper::dataToPixmap(character->avatar()));
+        break;
     case RoleUuid:
-        res = character->uuid();
+        res= character->uuid();
         break;
     case RoleName:
         res= character->name();
@@ -139,9 +146,6 @@ QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) con
     case RoleTags:
         res= character->tags();
         break;
-    case RoleAvatar:
-        res= QVariant::fromValue(character->getAvatar());
-        break;
     }
 
     return res;
@@ -152,6 +156,8 @@ bool NonPlayableCharacterModel::setData(const QModelIndex& index, const QVariant
     if(data(index, role) != value)
     {
         auto customRole= Qt::UserRole + 1 + index.column();
+        if(role > Qt::UserRole)
+            customRole= role;
 
         bool res= true;
         auto const& character= m_data[index.row()];
@@ -192,6 +198,9 @@ bool NonPlayableCharacterModel::setData(const QModelIndex& index, const QVariant
             break;
         case RoleTags:
             character->setTags(value.toStringList());
+            break;
+        case RoleAvatar:
+            character->setAvatar(value.toByteArray());
             break;
         default:
             res= false;
@@ -237,20 +246,39 @@ void NonPlayableCharacterModel::setModelData(const std::vector<NonPlayableCharac
     endResetModel();
 }
 
-void NonPlayableCharacterModel::removeNpc(const QModelIndex& index)
+void NonPlayableCharacterModel::removeNpc(const QString& uuid)
 {
+    auto index= indexFromUuid(uuid);
     if(!index.isValid())
         return;
+
     beginRemoveRows(QModelIndex(), index.row(), index.row());
     auto const& it= m_data.begin() + index.row();
     m_data.erase(it);
     endRemoveRows();
 
-    emit characterRemoved((*it)->uuid());
+    emit characterRemoved(uuid);
+}
+
+QModelIndex NonPlayableCharacterModel::indexFromUuid(const QString& id)
+{
+    auto it= std::find_if(
+        std::begin(m_data), std::end(m_data),
+        [id](const std::unique_ptr<NonPlayableCharacter>& character) { return character->uuid() == id; });
+
+    if(it == std::end(m_data))
+        return {};
+    else
+        return index(std::distance(std::begin(m_data), it), 0);
 }
 
 const std::vector<std::unique_ptr<NonPlayableCharacter>>& NonPlayableCharacterModel::npcList() const
 {
     return m_data;
+}
+
+QStringList NonPlayableCharacterModel::headers()
+{
+    return m_header;
 }
 } // namespace campaign

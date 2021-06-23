@@ -24,6 +24,8 @@
 #include <data/character.h>
 #include <data/characterstate.h>
 
+#include "core/worker/iohelper.h"
+
 #define COUNT_TURN 2000
 class DataCharacterTest : public QObject
 {
@@ -60,7 +62,7 @@ void DataCharacterTest::testSetAndGet()
     m_character->setName("Name");
     QVERIFY2(m_character->name() == "Name", "names are different");
 
-    m_character->setAvatar(QImage(":/img/girafe.jpg"));
+    m_character->setAvatar(IOHelper::imageToData(QImage(":/img/girafe.jpg")));
     QVERIFY2(m_character->hasAvatar(), "has no avatar");
 
     m_character->setColor(Qt::red);

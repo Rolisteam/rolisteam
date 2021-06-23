@@ -7,7 +7,7 @@ struct CharacterData
 {
     QString m_name;
     QColor m_color;
-    QString m_avatarPath;
+    QByteArray m_avatarData;
     QHash<QString, QVariant> m_params;
 };
 
@@ -27,8 +27,8 @@ public:
     QString playerName() const;
     void setPlayerColor(const QColor&);
     QColor playerColor() const;
-    void setPlayerAvatar(const QString&);
-    QString playerAvatar() const;
+    void setPlayerAvatar(const QByteArray&);
+    QByteArray playerAvatar() const;
     QString playerId() const;
     void setPlayerId(const QString& playerId);
 
@@ -67,7 +67,7 @@ private:
     // Player data
     QString m_playerName;
     QColor m_playerColor;
-    QString m_playerAvatar;
+    QByteArray m_playerAvatar;
     QString m_playerId;
     bool m_isGM= false;
 

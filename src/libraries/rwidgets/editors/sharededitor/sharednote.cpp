@@ -23,7 +23,7 @@
 #include <QDebug>
 #include <QDesktopServices>
 #include <QDesktopWidget>
-#include <QFileDialog>
+#include <QFileInfo>
 #include <QFontDialog>
 #include <QMessageBox>
 #include <QPrintDialog>

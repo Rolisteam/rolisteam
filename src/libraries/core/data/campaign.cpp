@@ -261,7 +261,7 @@ void Campaign::addCharacter()
     m_npcModel->append();
 }
 
-void Campaign::removeCharacter(const QModelIndex& id)
+void Campaign::removeCharacter(const QString& id)
 {
     // TODO command
     m_npcModel->removeNpc(id);

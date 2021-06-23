@@ -7,7 +7,7 @@
 #include <QPen>
 
 constexpr int k_distance_selection= 10;
-constexpr int k_grey_color_level= 60;
+constexpr int k_grey_color_level= 40;
 constexpr int k_pen_width= 4;
 constexpr int k_opacity= 200;
 
@@ -114,6 +114,8 @@ void Overlay::setSelectedRect(const QRect& rect)
     if(rect == m_selectedRect)
         return;
     m_selectedRect= computeRectGivenRatio(rect, m_ratio);
+    m_selectedRect.setX(rect.width() / 2 - m_selectedRect.width() / 2);
+    m_selectedRect.setY(rect.height() / 2 - m_selectedRect.height() / 2);
     emit selectedRectChanged(m_selectedRect);
     update();
 }
@@ -178,10 +180,15 @@ void Overlay::mouseMoveEvent(QMouseEvent* event)
     default:
         break;
     }
+    if(oldRect == m_selectedRect)
+        return;
+
     m_selectedRect= computeRectGivenRatio(m_selectedRect, m_ratio);
 
     if(!rect().contains(m_selectedRect))
+    {
         m_selectedRect= oldRect;
+    }
 
     m_lastPosition= event->pos();
     update();

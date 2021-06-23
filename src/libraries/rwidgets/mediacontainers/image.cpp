@@ -20,7 +20,6 @@
  ***************************************************************************/
 
 #include <QDebug>
-#include <QFileDialog>
 #include <QScrollBar>
 #include <QShortcut>
 #include <QtGui>

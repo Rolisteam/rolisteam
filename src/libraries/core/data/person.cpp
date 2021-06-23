@@ -74,11 +74,12 @@ bool Person::setColor(const QColor& color)
     return true;
 }
 
-const QImage& Person::getAvatar() const
+QByteArray Person::avatar() const
 {
     return m_avatar;
 }
-void Person::setAvatar(const QImage& p)
+
+void Person::setAvatar(const QByteArray& p)
 {
     if(p == m_avatar)
         return;
@@ -98,17 +99,9 @@ bool Person::isLeaf() const
 
 QIcon Person::icon() const
 {
-    return QIcon(QPixmap::fromImage(m_avatar));
-}
-void Person::setAvatarPath(const QString& avatarPath)
-{
-    if(m_avatarPath == avatarPath)
-        return;
-
-    m_avatarPath= avatarPath;
-    m_avatar= QImage(avatarPath);
-    emit avatarPathChanged();
-    emit avatarChanged();
+    QPixmap pi;
+    pi.loadFromData(m_avatar);
+    return QIcon(pi);
 }
 
 void Person::setName(const QString& name)
@@ -125,8 +118,4 @@ void Person::setUuid(const QString& uuid)
         return;
     m_uuid= uuid;
     emit uuidChanged(m_uuid);
-}
-QString Person::avatarPath() const
-{
-    return m_avatarPath;
 }

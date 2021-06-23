@@ -65,17 +65,12 @@ void PlayerMessageHelper::writePlayerIntoMessage(NetworkMessageWriter& msg, Play
     msg.uint8(player->isGM() ? 1 : 0);
     msg.string16(QCoreApplication::instance()->applicationVersion());
 
-    auto avatar= player->getAvatar();
+    auto avatar= player->avatar();
 
     msg.uint8(static_cast<quint8>(!avatar.isNull()));
     if(!avatar.isNull())
     {
-        QByteArray baImage;
-        QBuffer bufImage(&baImage);
-        if(avatar.save(&bufImage, "PNG", 70))
-        {
-            msg.byteArray32(baImage);
-        }
+        msg.byteArray32(avatar);
     }
 
     const auto& characters= player->children();
@@ -117,20 +112,22 @@ void PlayerMessageHelper::writeCharacterIntoMessage(NetworkMessageWriter& msg, C
     msg.real(character->getDistancePerTurn());
     msg.uint8(static_cast<quint8>(character->hasInitScore()));
 
-    auto avatar= character->getAvatar();
+    auto avatar= character->avatar();
 
     msg.uint8(static_cast<quint8>(!avatar.isNull()));
     if(!avatar.isNull())
-    {
-        QByteArray baImage;
-        QBuffer bufImage(&baImage);
-        if(avatar.save(&bufImage, "PNG", 70))
-        {
-            msg.byteArray32(baImage);
-            qDebug() << "writeCharacterIntoMessage image data: " << baImage.size()
-                     << "size of message:" << msg.getDataSize() << msg.action() << " categoriy" << msg.category();
-        }
-    }
+        msg.byteArray32(avatar);
+    /* if(!avatar.isNull())
+     {
+         QByteArray baImage;
+         QBuffer bufImage(&baImage);
+         if(avatar.save(&bufImage, "PNG", 70))
+         {
+             msg.byteArray32(baImage);
+             qDebug() << "writeCharacterIntoMessage image data: " << baImage.size()
+                      << "size of message:" << msg.getDataSize() << msg.action() << " categoriy" << msg.category();
+         }
+     }*/
 }
 
 bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
@@ -158,8 +155,7 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
     bool hasAvatar= static_cast<bool>(msg.uint8());
     if(hasAvatar)
     {
-        auto avatar= QImage::fromData(msg.byteArray32());
-        player->setAvatar(avatar);
+        player->setAvatar(msg.byteArray32());
     }
 
     int childCount= msg.int32();
@@ -220,12 +216,7 @@ Character* PlayerMessageHelper::readCharacter(NetworkMessageReader& msg)
     if(hasAvatar)
     {
         auto byte= msg.byteArray32();
-        qDebug() << "readCharacter image data: " << byte.size() << "size of message:" << msg.getSize() << msg.action()
-                 << " categoriy" << msg.category();
-
-        auto avatar= QImage::fromData(byte, "PNG");
-        qDebug() << "avatar is null" << avatar.isNull() << character->name();
-        character->setAvatar(avatar);
+        character->setAvatar(byte);
     }
 
     return character;
