@@ -439,7 +439,7 @@ void MainWindow::linkActionToMenu()
 
     // network
     connect(m_ui->m_disconnectAction, &QAction::triggered, m_gameController->networkController(),
-            &NetworkController::disconnection);
+            &NetworkController::stopConnection);
     connect(m_ui->m_connectionLinkAct, &QAction::triggered, this, [this]() {
         QString str("rolisteam://%1/%2/%3");
         auto networkCtrl= m_gameController->networkController();

@@ -73,9 +73,6 @@ public:
 
     void setGameController(GameController* game) override;
 
-    void stopConnecting();
-    void disconnection();
-
     void insertNetWortReceiver(NetWorkReceiver*, NetMsg::Category cat);
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
@@ -96,7 +93,11 @@ signals:
     void authentificationFail();
 
 public slots:
+    // network
     void startConnection();
+    void stopConnecting();
+    void stopConnection();
+
     void setIsGM(bool b);
     void setHosting(bool b);
     void setAskForGM(bool b);
@@ -118,6 +119,9 @@ private slots:
 private:
     void startServer();
     void startClient();
+
+    void stopClient();
+    void stopServer();
 
 private:
     std::unique_ptr<ClientManager> m_clientManager;

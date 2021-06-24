@@ -186,6 +186,22 @@ void NetworkController::startClient()
 {
     m_clientManager->connectTo(m_host, m_port);
 }
+
+void NetworkController::stopClient()
+{
+    m_clientManager->disconnectAndClose();
+}
+
+void NetworkController::stopServer()
+{
+    if(m_serverThread)
+    {
+        m_serverThread->quit();
+        m_server.reset(nullptr);
+        m_serverThread->wait();
+    }
+}
+
 void NetworkController::startServer()
 {
     m_server.reset(new ServerManager());
@@ -255,10 +271,22 @@ void NetworkController::stopConnecting()
     if(!m_connecting)
         return;
 
-    disconnection();
+    stopConnection();
 }
 
-void NetworkController::disconnection()
+void NetworkController::stopConnection()
+{
+    if(!m_connected && !m_connecting)
+        return;
+
+    stopClient();
+    if(hosting())
+    {
+        stopServer();
+    }
+}
+
+/*void NetworkController::disconnection()
 {
     if(!m_connected && !m_connecting)
         return;
@@ -267,7 +295,7 @@ void NetworkController::disconnection()
 
     if(m_serverThread)
         m_serverThread->terminate();
-}
+}*/
 
 NetWorkReceiver::SendType NetworkController::processMessage(NetworkMessageReader* msg)
 {
