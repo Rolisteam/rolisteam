@@ -279,8 +279,13 @@ public:
     QString getInitCommand() const;
     void setInitCommand(const QString& init);
 
-    QList<CharacterAction*> getActionList() const;
-    QList<CharacterShape*> getShapeList() const;
+    QList<CharacterAction*> actionList() const;
+    QList<CharacterShape*> shapeList() const;
+    QList<CharacterProperty*> propertiesList() const;
+
+    void defineActionList(const QList<CharacterAction*>& actions);
+    void defineShapeList(const QList<CharacterShape*>& shape);
+    void definePropertiesList(const QList<CharacterProperty*>& props);
 
     CharacterShape* currentShape() const;
     void setCurrentShape(CharacterShape* shape);

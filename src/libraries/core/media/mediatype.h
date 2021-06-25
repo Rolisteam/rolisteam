@@ -255,6 +255,7 @@ constexpr char const* JSON_MEDIA_ID{"uuid"};
 
 constexpr char const* JSON_NPC_ID{"uuid"};
 constexpr char const* JSON_NPC_NAME{"name"};
+constexpr char const* JSON_NPC_DESCRIPTION{"description"};
 constexpr char const* JSON_NPC_INITCOMMAND{"initCmd"};
 constexpr char const* JSON_NPC_INITVALUE{"initVal"};
 constexpr char const* JSON_NPC_COLOR{"color"};
@@ -267,8 +268,33 @@ constexpr char const* JSON_NPC_LIFECOLOR{"lifecolor"};
 constexpr char const* JSON_NPC_AVATAR{"avataruri"};
 constexpr char const* JSON_NPC_TAGS{"tags"};
 constexpr char const* JSON_NPC_TOKEN{"tokenpath"};
+
+// action
+constexpr char const* JSON_NPC_ACTIONS{"actions"};
+constexpr char const* JSON_NPC_ACTION_COMMAND{"command"};
+constexpr char const* JSON_NPC_ACTION_NAME{"name"};
+
+// property
+constexpr char const* JSON_NPC_PROPERTIES{"properties"};
+constexpr char const* JSON_NPC_PROPERTY_NAME{"name"};
+constexpr char const* JSON_NPC_PROPERTY_VALUE{"value"};
+
+// shape
+constexpr char const* JSON_NPC_SHAPES{"shapes"};
+constexpr char const* JSON_NPC_SHAPE_NAME{"name"};
+constexpr char const* JSON_NPC_SHAPE_DATAIMG{"dataImg"};
+
+constexpr char const* JSON_TOKEN_SIZE{"size"};
 } // namespace JsonKey
 
+namespace mimedata
+{
+constexpr char const* MIME_KEY_NPC_ID{"rolisteam/non-playable-character-uuid"};
+// constexpr char const* MIME_KEY_IMAGE_DATA{"rolisteam/image-data"};
+constexpr char const* MIME_KEY_DICE_ALIAS_DATA{"rolisteam/dice-command"};
+constexpr char const* MIME_KEY_MEDIA_UUID{"rolisteam/media-uuid"};
+constexpr char const* MIME_KEY_PERSON_DATA{"rolisteam/userlist-item"};
+} // namespace mimedata
 } // namespace Core
 
 #endif // MEDIATYPE_H

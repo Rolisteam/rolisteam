@@ -1050,7 +1050,7 @@ void MainWindow::updateWindowTitle()
 
 void MainWindow::dragEnterEvent(QDragEnterEvent* event)
 {
-    if(event->mimeData()->hasUrls())
+    if(event->mimeData()->hasUrls() || event->mimeData()->hasImage())
     {
         event->acceptProposedAction();
     }
@@ -1060,50 +1060,69 @@ void MainWindow::dragEnterEvent(QDragEnterEvent* event)
 void MainWindow::dropEvent(QDropEvent* event)
 {
     const QMimeData* data= event->mimeData();
-    if(!data->hasUrls())
+    if(!data->hasUrls() && !data->hasImage())
         return;
 
-    // qDebug() << data->formats();
-    QList<QUrl> list= data->urls();
-    auto contentCtrl= m_gameController->contentController();
-    for(const auto& url : list)
+    if(data->hasUrls())
     {
-        auto path= url.toLocalFile();
-        if(!path.isEmpty()) // local file
+        QList<QUrl> list= data->urls();
+        auto contentCtrl= m_gameController->contentController();
+        for(const auto& url : list)
         {
+            auto path= url.toLocalFile();
+            if(!path.isEmpty()) // local file
+            {
 
-            Core::ContentType type= CleverURI::extensionToContentType(path);
-            if(type == Core::ContentType::UNKNOWN)
-                continue;
-            qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
-            contentCtrl->openMedia(
-                {{Core::keys::KEY_PATH, path},
-                 {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
-                 {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(path)},
-                 {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
-        }
-        else // remote
-        {
-            auto urltext= url.toString(QUrl::None);
-            Core::ContentType type= CleverURI::extensionToContentType(urltext);
-            if(type != Core::ContentType::PICTURE)
-                continue;
+                Core::ContentType type= CleverURI::extensionToContentType(path);
+                if(type == Core::ContentType::UNKNOWN)
+                    continue;
+                qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
+                contentCtrl->openMedia(
+                    {{Core::keys::KEY_PATH, path},
+                     {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
+                     {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(path)},
+                     {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
+            }
+            else // remote
+            {
+                auto urltext= url.toString(QUrl::None);
+                Core::ContentType type= CleverURI::extensionToContentType(urltext);
+                if(type != Core::ContentType::PICTURE)
+                    continue;
 
 #ifdef HAVE_QT_NETWORK
-            auto downloader= new NetworkDownloader(url);
-            connect(downloader, &NetworkDownloader::finished, this,
-                    [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data) {
-                        contentCtrl->openMedia(
-                            {{Core::keys::KEY_PATH, urltext},
-                             {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
-                             {Core::keys::KEY_DATA, data},
-                             {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(url.fileName())},
-                             {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
-                        downloader->deleteLater();
-                    });
-            downloader->download();
+                auto downloader= new NetworkDownloader(url);
+                connect(downloader, &NetworkDownloader::finished, this,
+                        [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data) {
+                            contentCtrl->openMedia({{Core::keys::KEY_PATH, urltext},
+                                                    {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
+                                                    {Core::keys::KEY_DATA, data},
+                                                    {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(url.fileName())},
+                                                    {Core::keys::KEY_OWNERID,
+                                                     m_gameController->playerController()->localPlayer()->uuid()}});
+                            downloader->deleteLater();
+                        });
+                downloader->download();
 #endif
+            }
         }
+    }
+    else if(data->hasImage())
+    {
+        auto contentCtrl= m_gameController->contentController();
+        auto img= qvariant_cast<QPixmap>(data->imageData());
+
+        auto name= tr("Unknown");
+        if(data->hasText())
+        {
+            name= data->text();
+        }
+
+        contentCtrl->openMedia(
+            {{Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::PICTURE)},
+             {Core::keys::KEY_DATA, IOHelper::pixmapToData(img)},
+             {Core::keys::KEY_NAME, name},
+             {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
     }
     event->acceptProposedAction();
 }

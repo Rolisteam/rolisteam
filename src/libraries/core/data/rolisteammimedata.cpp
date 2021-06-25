@@ -1,29 +1,36 @@
 #include "rolisteammimedata.h"
 
+#include "core/media/mediatype.h"
 #include <QUrl>
 
-RolisteamMimeData::RolisteamMimeData() : m_data(nullptr)
-{
-    // m_format = "rolisteam/userlist-item";
-}
+RolisteamMimeData::RolisteamMimeData() {}
+
 bool RolisteamMimeData::hasFormat(const QString& mimeType) const
 {
-    if(mimeType == QStringLiteral("rolisteam/userlist-item"))
+    if(mimeType == Core::mimedata::MIME_KEY_PERSON_DATA)
     {
-        return hasPerson();
+        return m_person;
     }
-    else if(mimeType == QStringLiteral("rolisteam/dice-command"))
+    else if(mimeType == Core::mimedata::MIME_KEY_DICE_ALIAS_DATA)
     {
         return !m_alias.text().isEmpty();
+    }
+    else if(mimeType == Core::mimedata::MIME_KEY_MEDIA_UUID)
+    {
+        return !m_mediaUuid.isEmpty();
+    }
+    else if(mimeType == Core::mimedata::MIME_KEY_NPC_ID)
+    {
+        return !m_npcUuid.isEmpty();
     }
     return QMimeData::hasFormat(mimeType);
 }
 
 void RolisteamMimeData::setPerson(Person* data)
 {
-    m_data= data;
+    m_person= data;
 
-    if(!data)
+    if(!m_person)
         return;
 
     setText(data->name());
@@ -32,24 +39,58 @@ void RolisteamMimeData::setPerson(Person* data)
     setUrls(urls);
     setColorData(data->getColor());
 }
-bool RolisteamMimeData::hasPerson() const
+
+/*void RolisteamMimeData::setImageData(const QByteArray& data)
 {
-    if(m_data != nullptr)
-        return true;
-    else
-        return false;
-}
-Person* RolisteamMimeData::getData() const
+    if(m_imageData == data)
+        return;
+    m_imageData= data;
+    emit imageDataChanged();
+}*/
+
+void RolisteamMimeData::setNpcUuid(const QString& str)
 {
-    return m_data;
+    if(m_npcUuid == str)
+        return;
+    m_npcUuid= str;
+    emit npcUuidChanged();
 }
-DiceShortCut RolisteamMimeData::getAlias() const
+
+void RolisteamMimeData::setMediaUuid(const QString& uuid)
+{
+    if(m_mediaUuid == uuid)
+        return;
+    m_mediaUuid= uuid;
+    emit mediaUuidChanged();
+}
+
+Person* RolisteamMimeData::person() const
+{
+    return m_person;
+}
+DiceShortCut RolisteamMimeData::alias() const
 {
     return m_alias;
 }
+
+QString RolisteamMimeData::npcUuid() const
+{
+    return m_npcUuid;
+}
+
+QString RolisteamMimeData::mediaUuid() const
+{
+    return m_mediaUuid;
+}
+
+/*QByteArray RolisteamMimeData::imageData() const
+{
+    return m_imageData;
+}*/
 void RolisteamMimeData::setAlias(QString key, QString command, bool usedAlias)
 {
     m_alias.setText(key);
     m_alias.setCommand(command);
     m_alias.setAlias(usedAlias);
+    emit aliasChanged();
 }

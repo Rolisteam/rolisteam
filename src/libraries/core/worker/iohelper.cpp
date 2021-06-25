@@ -42,6 +42,8 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
+#include "core/data/character.h"
+#include "core/model/genericmodel.h"
 #include "data/rolisteamtheme.h"
 #include "media/mediatype.h"
 #include "model/nonplayablecharactermodel.h"
@@ -73,61 +75,70 @@ const QString k_state_label{"label"};
 const QString k_state_color{"color"};
 const QString k_state_image{"image"};
 
+namespace
+{
+template <class T>
+T* convertField(CharacterField* field)
+{
+    return dynamic_cast<T*>(field);
+}
+} // namespace
+
 IOHelper::IOHelper() {}
 
-bool IOHelper::loadToken(const QString& filename, std::map<QString, QVariant>& params)
+/*bool IOHelper::loadToken(campaign::NonPlayableCharacter* character, const QString& root,
+                         std::map<QString, QVariant>& params)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly))
-    {
-        return false;
-    }
+    bool ok;
+    auto obj= loadJsonFileIntoObject(QString("%1/%2").arg(root, character->tokenPath()), ok);
 
-    QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
-    QJsonObject obj= doc.object();
-    params["side"]= obj["size"].toDouble();
-    auto character= new Character();
-    character->setNpc(true);
-    character->setName(obj["name"].toString());
-    character->setColor(obj["color"].toString());
-    character->setHealthPointsMax(obj["lifeMax"].toInt());
-    character->setHealthPointsMin(obj["lifeMin"].toInt());
-    character->setHealthPointsCurrent(obj["lifeCurrent"].toInt());
-    character->setInitiativeScore(obj["initValue"].toInt());
-    character->setInitCommand(obj["initCommand"].toString());
+    if(!ok)
+        return false;
+
+    params["side"]= obj[Core::JsonKey::JSON_TOKEN_SIZE].toDouble();
+
+
+    character->setName(obj[Core::JsonKey::JSON_TOKEN_SIZE].toString());
+    character->setColor(obj[Core::JsonKey::JSON_NPC_COLOR].toString());
+    character->setHealthPointsMax(obj[Core::JsonKey::JSON_NPC_MAXHP].toInt());
+    character->setHealthPointsMin(obj[Core::JsonKey::JSON_NPC_MINHP].toInt());
+    character->setHealthPointsCurrent(obj[Core::JsonKey::JSON_NPC_HP].toInt());
+
+    character->setInitiativeScore(obj[Core::JsonKey::JSON_NPC_INITVALUE].toInt());
+    character->setInitCommand(obj[Core::JsonKey::JSON_NPC_INITCOMMAND].toString());
     // character->setAvatarPath(obj["avatarUri"].toString());
 
-    auto array= QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
-    character->setAvatar(array);
+    auto img= loadFile(QString("%1/%2").arg(root, obj[Core::JsonKey::JSON_NPC_AVATAR].toString()));
 
-    auto actionArray= obj["actions"].toArray();
+    character->setAvatar(img);
+
+    auto actionArray= obj[Core::JsonKey::JSON_NPC_ACTIONS].toArray();
     for(auto act : actionArray)
     {
         auto actObj= act.toObject();
         auto action= new CharacterAction();
-        action->setName(actObj["name"].toString());
-        action->setCommand(actObj["command"].toString());
+        action->setName(actObj[Core::JsonKey::JSON_NPC_ACTION_NAME].toString());
+        action->setCommand(actObj[Core::JsonKey::JSON_NPC_ACTION_COMMAND].toString());
         character->addAction(action);
     }
 
-    auto propertyArray= obj["properties"].toArray();
+    auto propertyArray= obj[Core::JsonKey::JSON_NPC_PROPERTIES].toArray();
     for(auto pro : propertyArray)
     {
         auto proObj= pro.toObject();
         auto property= new CharacterProperty();
-        property->setName(proObj["name"].toString());
-        property->setValue(proObj["value"].toString());
+        property->setName(proObj[Core::JsonKey::JSON_NPC_PROPERTY_NAME].toString());
+        property->setValue(proObj[Core::JsonKey::JSON_NPC_PROPERTY_VALUE].toString());
         character->addProperty(property);
     }
 
-    auto shapeArray= obj["shapes"].toArray();
+    auto shapeArray= obj[Core::JsonKey::JSON_NPC_SHAPES].toArray();
     for(auto sha : shapeArray)
     {
         auto objSha= sha.toObject();
         auto shape= new CharacterShape();
-        shape->setName(objSha["name"].toString());
-        shape->setUri(objSha["uri"].toString());
-        auto avatarData= QByteArray::fromBase64(objSha["dataImg"].toString().toUtf8());
+        shape->setName(objSha[Core::JsonKey::JSON_NPC_SHAPE_NAME].toString());
+        auto avatarData= QByteArray::fromBase64(objSha[Core::JsonKey::JSON_NPC_SHAPE_DATAIMG].toString().toUtf8());
         QImage img= QImage::fromData(avatarData);
         shape->setImage(img);
         character->addShape(shape);
@@ -135,7 +146,7 @@ bool IOHelper::loadToken(const QString& filename, std::map<QString, QVariant>& p
 
     params["character"]= QVariant::fromValue(character);
     return true;
-}
+}*/
 
 QByteArray IOHelper::loadFile(const QString& filepath)
 {
@@ -231,6 +242,13 @@ QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)
     return doc.toJsonValue().toArray();
 }
 
+QByteArray IOHelper::jsonObjectToByteArray(const QJsonObject& obj)
+{
+    QJsonDocument doc;
+    doc.setObject(obj);
+    return doc.toJson(QJsonDocument::Indented);
+}
+
 QJsonObject IOHelper::loadJsonFileIntoObject(const QString& filename, bool& ok)
 {
     QFile file(filename);
@@ -276,7 +294,7 @@ QJsonArray IOHelper::fetchLanguageModel()
     }
 
     QRegularExpression reRolisteam(QStringLiteral("%1_(.*)\\.qm").arg(k_rolisteam_pattern));
-    for(auto info : list)
+    for(auto info : qAsConst(list))
     {
         auto match= reRolisteam.match(info);
         if(match.hasMatch())
@@ -778,31 +796,136 @@ QJsonObject IOHelper::stateToJSonObject(CharacterState* state, const QString& ro
     return stateJson;
 }
 
-QJsonObject IOHelper::npcToJsonObject(campaign::NonPlayableCharacter* npc, const QString& destination)
+QJsonObject IOHelper::npcToJsonObject(const campaign::NonPlayableCharacter* npc, const QString& destination)
 {
-    QJsonObject stateJson;
+    if(nullptr == npc)
+        return {};
+    QJsonObject obj;
 
-    stateJson[Core::JsonKey::JSON_NPC_ID]= npc->uuid();
-    stateJson[Core::JsonKey::JSON_NPC_NAME]= npc->name();
-    stateJson[Core::JsonKey::JSON_NPC_INITCOMMAND]= npc->getInitCommand();
-    stateJson[Core::JsonKey::JSON_NPC_INITVALUE]= npc->getInitiativeScore();
-    stateJson[Core::JsonKey::JSON_NPC_COLOR]= npc->getColor().name();
-    stateJson[Core::JsonKey::JSON_NPC_HP]= npc->getHealthPointsCurrent();
-    stateJson[Core::JsonKey::JSON_NPC_MAXHP]= npc->getHealthPointsMax();
-    stateJson[Core::JsonKey::JSON_NPC_MINHP]= npc->getHealthPointsMin();
-    stateJson[Core::JsonKey::JSON_NPC_DIST_PER_TURN]= npc->getDistancePerTurn();
-    stateJson[Core::JsonKey::JSON_NPC_STATEID]= npc->stateId();
-    stateJson[Core::JsonKey::JSON_NPC_LIFECOLOR]= npc->getLifeColor().name();
-    // stateJson[Core::JsonKey::JSON_NPC_AVATAR]= absoluteToRelative(npc->avatarPath(), destination);
-    stateJson[Core::JsonKey::JSON_NPC_TAGS]= QJsonArray::fromStringList(npc->tags());
-    stateJson[Core::JsonKey::JSON_NPC_TOKEN]= absoluteToRelative(npc->tokenPath(), destination);
+    obj[Core::JsonKey::JSON_NPC_ID]= npc->uuid();
+    obj[Core::JsonKey::JSON_NPC_NAME]= npc->name();
+    obj[Core::JsonKey::JSON_NPC_AVATAR]= absoluteToRelative(npc->avatarPath(), destination);
+    obj[Core::JsonKey::JSON_NPC_TAGS]= QJsonArray::fromStringList(npc->tags());
+    obj[Core::JsonKey::JSON_NPC_DESCRIPTION]= npc->description();
 
-    /*stateJson[k_state_label]= state->label();
-    stateJson[k_state_color]= state->color().name();
-    auto pathImg= state->imagePath();
-    pathImg= absoluteToRelative(pathImg, root);
-    stateJson[k_state_image]= pathImg;*/
-    return stateJson;
+    obj[Core::JsonKey::JSON_NPC_INITCOMMAND]= npc->getInitCommand();
+    obj[Core::JsonKey::JSON_NPC_INITVALUE]= npc->getInitiativeScore();
+    obj[Core::JsonKey::JSON_NPC_COLOR]= npc->getColor().name();
+    obj[Core::JsonKey::JSON_NPC_HP]= npc->getHealthPointsCurrent();
+    obj[Core::JsonKey::JSON_NPC_MAXHP]= npc->getHealthPointsMax();
+    obj[Core::JsonKey::JSON_NPC_MINHP]= npc->getHealthPointsMin();
+    obj[Core::JsonKey::JSON_NPC_DIST_PER_TURN]= npc->getDistancePerTurn();
+    obj[Core::JsonKey::JSON_NPC_STATEID]= npc->stateId();
+    obj[Core::JsonKey::JSON_NPC_LIFECOLOR]= npc->getLifeColor().name();
+    obj[Core::JsonKey::JSON_TOKEN_SIZE]= npc->size();
+
+    QJsonArray actionArray;
+    auto actionList= npc->actionList();
+    for(auto act : actionList)
+    {
+        if(act == nullptr)
+            continue;
+        QJsonObject actJson;
+        actJson[Core::JsonKey::JSON_NPC_ACTION_NAME]= act->name();
+        actJson[Core::JsonKey::JSON_NPC_ACTION_COMMAND]= act->command();
+        actionArray.append(actJson);
+    }
+    obj[Core::JsonKey::JSON_NPC_ACTIONS]= actionArray;
+
+    QJsonArray propertyArray;
+    auto properties= npc->propertiesList();
+    for(auto property : properties)
+    {
+        if(property == nullptr)
+            continue;
+        QJsonObject actJson;
+        actJson[Core::JsonKey::JSON_NPC_PROPERTY_NAME]= property->name();
+        actJson[Core::JsonKey::JSON_NPC_PROPERTY_VALUE]= property->value();
+        propertyArray.append(actJson);
+    }
+    obj[Core::JsonKey::JSON_NPC_PROPERTIES]= propertyArray;
+
+    QJsonArray shapeArray;
+    auto shapes= npc->shapeList();
+    for(auto shape : shapes)
+    {
+        if(shape == nullptr)
+            continue;
+        QJsonObject actJson;
+        actJson[Core::JsonKey::JSON_NPC_SHAPE_NAME]= shape->name();
+
+        auto data= IOHelper::imageToData(shape->image());
+
+        actJson[Core::JsonKey::JSON_NPC_SHAPE_DATAIMG]= QString::fromUtf8(data.toBase64());
+        shapeArray.append(actJson);
+    }
+    obj[Core::JsonKey::JSON_NPC_SHAPES]= shapeArray;
+
+    return obj;
+}
+
+campaign::NonPlayableCharacter* IOHelper::jsonObjectToNpc(const QJsonObject& obj, const QString& rootDir)
+{
+    auto npc= new campaign::NonPlayableCharacter();
+    auto uuid= obj[Core::JsonKey::JSON_NPC_ID].toString();
+    auto desc= obj[Core::JsonKey::JSON_NPC_DESCRIPTION].toString();
+    auto name= obj[Core::JsonKey::JSON_NPC_NAME].toString();
+    auto avatar= obj[Core::JsonKey::JSON_NPC_AVATAR].toString();
+    auto tags= obj[Core::JsonKey::JSON_NPC_TAGS].toArray();
+    auto tokenPath= obj[Core::JsonKey::JSON_NPC_TOKEN].toString();
+    QStringList list;
+    std::transform(std::begin(tags), std::end(tags), std::back_inserter(list),
+                   [](const QJsonValue& val) { return val.toString(); });
+
+    npc->setUuid(uuid);
+    npc->setName(name);
+    npc->setDescription(desc);
+    npc->setAvatar(IOHelper::loadFile(QString("%1/%2").arg(rootDir, avatar)));
+    npc->setAvatarPath(avatar);
+    npc->setTags(list);
+
+    npc->setSize(obj[Core::JsonKey::JSON_TOKEN_SIZE].toInt());
+    npc->setColor(obj[Core::JsonKey::JSON_NPC_COLOR].toString());
+    npc->setHealthPointsMax(obj[Core::JsonKey::JSON_NPC_MAXHP].toInt());
+    npc->setHealthPointsMin(obj[Core::JsonKey::JSON_NPC_MINHP].toInt());
+    npc->setHealthPointsCurrent(obj[Core::JsonKey::JSON_NPC_HP].toInt());
+
+    npc->setInitiativeScore(obj[Core::JsonKey::JSON_NPC_INITVALUE].toInt());
+    npc->setInitCommand(obj[Core::JsonKey::JSON_NPC_INITCOMMAND].toString());
+
+    auto actionArray= obj[Core::JsonKey::JSON_NPC_ACTIONS].toArray();
+    for(auto act : actionArray)
+    {
+        auto actObj= act.toObject();
+        auto action= new CharacterAction();
+        action->setName(actObj[Core::JsonKey::JSON_NPC_ACTION_NAME].toString());
+        action->setCommand(actObj[Core::JsonKey::JSON_NPC_ACTION_COMMAND].toString());
+        npc->addAction(action);
+    }
+
+    auto propertyArray= obj[Core::JsonKey::JSON_NPC_PROPERTIES].toArray();
+    for(auto pro : propertyArray)
+    {
+        auto proObj= pro.toObject();
+        auto property= new CharacterProperty();
+        property->setName(proObj[Core::JsonKey::JSON_NPC_PROPERTY_NAME].toString());
+        property->setValue(proObj[Core::JsonKey::JSON_NPC_PROPERTY_VALUE].toString());
+        npc->addProperty(property);
+    }
+
+    auto shapeArray= obj[Core::JsonKey::JSON_NPC_SHAPES].toArray();
+    for(auto sha : shapeArray)
+    {
+        auto objSha= sha.toObject();
+        auto shape= new CharacterShape();
+        shape->setName(objSha[Core::JsonKey::JSON_NPC_SHAPE_NAME].toString());
+        auto avatarData= QByteArray::fromBase64(objSha[Core::JsonKey::JSON_NPC_SHAPE_DATAIMG].toString().toUtf8());
+        QImage img= QImage::fromData(avatarData);
+        shape->setImage(img);
+        npc->addShape(shape);
+    }
+
+    return npc;
 }
 
 QJsonObject IOHelper::diceAliasToJSonObject(DiceAlias* alias)

@@ -46,7 +46,7 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     connect(m_ctrl, &ImageController::pixmapChanged, this, &Image::initImage);
     connect(m_ctrl, &ImageController::cursorChanged, this, [this]() { m_imageLabel->setCursor(m_ctrl->cursor()); });
 
-    setWindowIcon(QIcon::fromTheme("photo"));
+    setWindowIcon(QIcon::fromTheme("image"));
     createActions();
 
     if(m_ctrl->isMovie())
@@ -81,53 +81,6 @@ void Image::initImage()
     fitWorkSpace();
     fitWindow();
 }
-
-/*void Image::setImage(QImage& img)
-{
-    m_pixMap= QPixmap::fromImage(img);
-    initImage();
-}*/
-
-/*void Image::fill(NetworkMessageWriter& message)
-{
-    QByteArray baImage;
-    QBuffer bufImage(&baImage);
-    if(!m_pixMap.save(&bufImage, "jpg", 70))
-    {
-    }
-    // message.reset();
-    message.string16(m_ctrl->name());
-    message.string8(m_mediaId);
-    message.string8(m_ownerId);
-    message.byteArray32(baImage);
-}
-
-void Image::readMessage(NetworkMessageReader& msg)
-{
-    setUriName(msg.string16());
-
-    m_mediaId= msg.string8();
-    m_ownerId= msg.string8();
-    QByteArray data= msg.byteArray32();
-    QImage img= QImage::fromData(data);
-    setImage(img);
-    m_remote= true;
-}
-
-void Image::saveImageToFile(QDataStream& out)
-{
-    QByteArray baImage;
-    QBuffer bufImage(&baImage);
-    if(!m_pixMap.isNull())
-    {
-        if(!m_pixMap.save(&bufImage, "jpg", 70))
-        {
-            error(tr("Image Compression fails (saveImageToFile - Image.cpp)"), this);
-            return;
-        }
-        out << baImage;
-    }
-}*/
 
 void Image::mousePressEvent(QMouseEvent* event)
 {

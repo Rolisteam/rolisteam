@@ -283,14 +283,36 @@ Character::Character(const QString& uuid, const QString& name, const QColor& col
 
 Character::~Character() {}
 
-QList<CharacterShape*> Character::getShapeList() const
+QList<CharacterShape*> Character::shapeList() const
 {
     return m_shapeList;
 }
 
-QList<CharacterAction*> Character::getActionList() const
+QList<CharacterAction*> Character::actionList() const
 {
     return m_actionList;
+}
+
+QList<CharacterProperty*> Character::propertiesList() const
+{
+    return m_propertyList;
+}
+
+void Character::defineActionList(const QList<CharacterAction*>& actions)
+{
+    m_actionList.clear();
+    m_actionList << actions;
+}
+
+void Character::defineShapeList(const QList<CharacterShape*>& shape)
+{
+    m_shapeList.clear();
+    m_shapeList << shape;
+}
+void Character::definePropertiesList(const QList<CharacterProperty*>& props)
+{
+    m_propertyList.clear();
+    m_propertyList << props;
 }
 
 RolisteamImageProvider* Character::getImageProvider() const

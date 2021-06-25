@@ -1186,7 +1186,7 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
     {
         qInfo() << "VMAP dropEvent character";
         const RolisteamMimeData* rolisteamData= qobject_cast<const RolisteamMimeData*>(data);
-        Person* item= rolisteamData->getData();
+        Person* item= rolisteamData->person();
         Character* character= dynamic_cast<Character*>(item);
         if(character)
         {
@@ -1251,14 +1251,14 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
             {
                 qInfo() << "VMAP dropEvent: rtok from file";
                 std::map<QString, QVariant> params;
-                if(IOHelper::loadToken(url.toLocalFile(), params))
+                /*if(IOHelper::loadToken(url.toLocalFile(), params))
                 {
                     params.insert({QStringLiteral("position"), event->scenePos()});
                     params.insert({QStringLiteral("color"), m_ctrl->toolColor()});
                     params.insert({QStringLiteral("penWidth"), m_ctrl->penSize()});
                     params.insert({QStringLiteral("tool"), Core::SelectableTool::NonPlayableCharacter});
                     m_ctrl->insertItemAt(params);
-                }
+                }*/
             }
             else if(url.isLocalFile())
             {

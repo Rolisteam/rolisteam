@@ -11,39 +11,40 @@
 class RolisteamMimeData : public QMimeData
 {
     Q_OBJECT
+    Q_PROPERTY(Person* person READ person WRITE setPerson NOTIFY personChanged)
+    Q_PROPERTY(DiceShortCut alias READ alias NOTIFY aliasChanged)
+    Q_PROPERTY(QString npcUuid READ npcUuid WRITE setNpcUuid NOTIFY npcUuidChanged)
+    Q_PROPERTY(QString mediaUuid READ mediaUuid WRITE setMediaUuid NOTIFY mediaUuidChanged)
+    // Q_PROPERTY(QByteArray imageData READ imageData WRITE setImageData NOTIFY imageDataChanged)
 public:
-    /**
-     *  @brief default constructor
-     */
     RolisteamMimeData();
-    /**
-     *  @brief return true when given parameter describe a format is stored into the class
-     */
     bool hasFormat(const QString& mimeType) const;
-    // QStringList QMimeData::formats () const;
 
-    /**
-     *  @brief to define the draged and droped person.
-     */
-    void setPerson(Person*);
-    /**
-     *  @brief same utility of hasformat except is dedicated to person instance.
-     */
-    bool hasPerson() const;
-    /**
-     *  @brief return the person instance.
-     */
-    Person* getData() const;
+    Person* person() const;
+    DiceShortCut alias() const;
+    QString npcUuid() const;
+    QString mediaUuid() const;
+    // QByteArray imageData() const;
 
-    /**
-     * @brief getAlias
-     * @return
-     */
-    DiceShortCut getAlias() const;
+public slots:
     void setAlias(QString, QString, bool);
+    void setPerson(Person*);
+    // void setImageData(const QByteArray& data);
+    void setNpcUuid(const QString& str);
+    void setMediaUuid(const QString& uuid);
+
+signals:
+    void personChanged();
+    void aliasChanged();
+    void npcUuidChanged();
+    void mediaUuidChanged();
+    // void imageDataChanged();
 
 private:
-    Person* m_data;       /// pointer to stored data
-    DiceShortCut m_alias; /// alias
+    Person* m_person= nullptr; /// pointer to stored data
+    DiceShortCut m_alias;      /// alias
+    // QByteArray m_imageData;
+    QString m_npcUuid;
+    QString m_mediaUuid;
 };
 #endif // ROLISTEAMMIMEDATA_H

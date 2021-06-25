@@ -26,22 +26,24 @@ NonPlayableCharacter::NonPlayableCharacter(QObject* parent) : Character(parent)
     setNpc(true);
 }
 
-QString NonPlayableCharacter::tokenPath() const
-{
-    return m_tokenPath;
-}
-
 QStringList NonPlayableCharacter::tags() const
 {
     return m_tags;
 }
 
-void NonPlayableCharacter::setTokenPath(const QString& path)
+QString NonPlayableCharacter::avatarPath() const
 {
-    if(path == m_tokenPath)
-        return;
-    m_tokenPath= path;
-    emit tokenPathChanged();
+    return m_avatarPath;
+}
+
+int NonPlayableCharacter::size() const
+{
+    return m_size;
+}
+
+QString NonPlayableCharacter::description() const
+{
+    return m_description;
 }
 
 void NonPlayableCharacter::setTags(const QStringList& list)
@@ -52,9 +54,33 @@ void NonPlayableCharacter::setTags(const QStringList& list)
     emit tagsChanged();
 }
 
+void NonPlayableCharacter::setAvatarPath(const QString& path)
+{
+    if(path == m_avatarPath)
+        return;
+    m_avatarPath= path;
+    emit avatarPathChanged();
+}
+
+void NonPlayableCharacter::setSize(int size)
+{
+    if(size == m_size)
+        return;
+    m_size= size;
+    emit sizeChanged();
+}
+
+void NonPlayableCharacter::setDescription(const QString& desc)
+{
+    if(desc == m_description)
+        return;
+    m_description= desc;
+    emit descriptionChanged();
+}
+
 NonPlayableCharacterModel::NonPlayableCharacterModel(QObject* parent) : QAbstractListModel(parent)
 {
-    m_header << tr("Avatar") << tr("Name") << tr("Color") << tr("rtoken") << tr("Tags") << tr("Min HP")
+    m_header << tr("Avatar") << tr("Name") << tr("Description") << tr("Tags") << tr("Color") << tr("Min HP")
              << tr("Current HP") << tr("Max HP") << tr("Initiative") << tr("Distance Per turn") << tr("State")
              << tr("Life Color") << tr("Init Command");
 }
@@ -87,15 +113,19 @@ int NonPlayableCharacterModel::columnCount(const QModelIndex&) const
 
 QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) const
 {
-    QSet<int> acceptedRole(
-        {Qt::DecorationRole, Qt::DisplayRole, Qt::BackgroundRole, Qt::EditRole, RoleUuid, RoleAvatar});
+    QSet<int> acceptedRole({Qt::DecorationRole, Qt::DisplayRole, Qt::TextAlignmentRole, Qt::BackgroundRole,
+                            Qt::EditRole, RoleUuid, RoleAvatar, RoleAvatarPath, RoleName});
     if(!index.isValid() || !acceptedRole.contains(role))
         return QVariant();
 
+    if(role == Qt::TextAlignmentRole)
+        return Qt::AlignCenter;
+
     auto customRole= Qt::UserRole + 1 + index.column();
     if(role == Qt::DecorationRole)
-        customRole= RoleAvatar;
-    if(role >= Qt::UserRole + 1)
+        return {};
+
+    if(role == RoleAvatar || role == RoleUuid || role == RoleAvatarPath || role == RoleName)
         customRole= role;
     if(role == Qt::BackgroundRole && (customRole != RoleColor && customRole != RoleLifeColor))
         return {};
@@ -113,11 +143,11 @@ QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) con
     case RoleName:
         res= character->name();
         break;
+    case RoleDescription:
+        res= character->description();
+        break;
     case RoleColor:
         res= character->getColor();
-        break;
-    case RoleTokenPath:
-        res= character->tokenPath();
         break;
     case RoleMinHp:
         res= character->getHealthPointsMin();
@@ -144,7 +174,13 @@ QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) con
         res= character->getInitCommand();
         break;
     case RoleTags:
-        res= character->tags();
+        if(role == Qt::DisplayRole)
+            res= character->tags();
+        else if(role == Qt::EditRole)
+            res= character->tags().join(";");
+        break;
+    case RoleAvatarPath:
+        res= character->avatarPath();
         break;
     }
 
@@ -153,11 +189,15 @@ QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) con
 
 bool NonPlayableCharacterModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
+    if(!index.isValid())
+        return false;
+
+    auto customRole= Qt::UserRole + 1 + index.column();
+    if(role > Qt::UserRole)
+        customRole= role;
+
     if(data(index, role) != value)
     {
-        auto customRole= Qt::UserRole + 1 + index.column();
-        if(role > Qt::UserRole)
-            customRole= role;
 
         bool res= true;
         auto const& character= m_data[index.row()];
@@ -166,11 +206,11 @@ bool NonPlayableCharacterModel::setData(const QModelIndex& index, const QVariant
         case RoleName:
             character->setName(value.toString());
             break;
+        case RoleDescription:
+            character->setDescription(value.toString());
+            break;
         case RoleColor:
             character->setColor(value.value<QColor>());
-            break;
-        case RoleTokenPath:
-            character->setTokenPath(value.toString());
             break;
         case RoleMinHp:
             character->setHealthPointsMin(value.toInt());
@@ -197,10 +237,13 @@ bool NonPlayableCharacterModel::setData(const QModelIndex& index, const QVariant
             character->setInitCommand(value.toString());
             break;
         case RoleTags:
-            character->setTags(value.toStringList());
+            character->setTags(value.toString().split(';'));
             break;
         case RoleAvatar:
             character->setAvatar(value.toByteArray());
+            break;
+        case RoleAvatarPath:
+            character->setAvatarPath(value.toString());
             break;
         default:
             res= false;
@@ -258,6 +301,15 @@ void NonPlayableCharacterModel::removeNpc(const QString& uuid)
     endRemoveRows();
 
     emit characterRemoved(uuid);
+}
+
+void NonPlayableCharacterModel::refresh(const QString& uuid)
+{
+    auto index= indexFromUuid(uuid);
+    if(!index.isValid())
+        return;
+
+    emit dataChanged(index, index);
 }
 
 QModelIndex NonPlayableCharacterModel::indexFromUuid(const QString& id)

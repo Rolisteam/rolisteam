@@ -240,7 +240,7 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
         }
 
         popMenu.addSeparator();
-        auto actionList= charact->getActionList();
+        auto actionList= charact->actionList();
         if(!actionList.isEmpty())
         {
             auto actionMenu= popMenu.addMenu(tr("Action"));
@@ -252,7 +252,7 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
             }
         }
 
-        auto shapeList= charact->getShapeList();
+        auto shapeList= charact->shapeList();
         if(!shapeList.isEmpty())
         {
             auto shapeMenu= popMenu.addMenu(tr("Shape"));

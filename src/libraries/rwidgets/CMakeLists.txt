@@ -55,6 +55,7 @@ set(HEADERS
   delegates/colordelegate.h
   delegates/delegate.h
   delegates/imagepathdelegateitem.h
+  delegates/taglistdelegate.h
   delegates/userlistdelegate.h
   dialogs/aboutrolisteam.h
   dialogs/campaignproperties.h
@@ -126,6 +127,7 @@ set(HEADERS
   mediacontainers/vmapframe.h
   mediacontainers/webview.h
   modelviews/campaignview.h
+  modelviews/dragabletableview.h
   modelviews/userlistview.h
   toolbars/vtoolbar.h
 )
@@ -155,6 +157,7 @@ set(SOURCES
   delegates/colordelegate.cpp
   delegates/delegate.cpp
   delegates/imagepathdelegateitem.cpp
+  delegates/taglistdelegate.cpp
   delegates/userlistdelegate.cpp
   dialogs/aboutrolisteam.cpp
   dialogs/campaignproperties.cpp
@@ -225,6 +228,7 @@ set(SOURCES
   mediacontainers/vmapframe.cpp
   mediacontainers/webview.cpp
   modelviews/campaignview.cpp
+  modelviews/dragabletableview.cpp
   modelviews/userlistview.cpp
   toolbars/vtoolbar.cpp
 )

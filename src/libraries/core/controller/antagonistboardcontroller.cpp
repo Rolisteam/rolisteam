@@ -19,13 +19,39 @@
  ***************************************************************************/
 #include "antagonistboardcontroller.h"
 
-#include "data/campaign.h"
-#include "data/campaigneditor.h"
-#include "model/genericmodel.h"
-#include "model/nonplayablecharactermodel.h"
+#include "core/data/campaign.h"
+#include "core/data/campaigneditor.h"
+#include "core/data/character.h"
+#include "core/model/genericmodel.h"
+#include "core/model/nonplayablecharactermodel.h"
+#include "core/worker/iohelper.h"
 
 namespace campaign
 {
+
+template <typename T>
+QList<CharacterField*> convertToGeneric(QList<T> list)
+{
+    QList<CharacterField*> res;
+
+    std::transform(std::begin(list), std::end(list), std::back_inserter(res), [](T type) {
+        CharacterField* tmp= type;
+        return tmp;
+    });
+
+    return res;
+}
+
+template <typename T>
+QList<T> convertToSpecific(QList<CharacterField*> list)
+{
+    QList<T> res;
+
+    std::transform(std::begin(list), std::end(list), std::back_inserter(res),
+                   [](CharacterField* type) { return dynamic_cast<T>(type); });
+
+    return res;
+}
 
 FilteredCharacterModel::FilteredCharacterModel()
 {
@@ -159,7 +185,35 @@ void AntagonistBoardController::setCharacter(NonPlayableCharacter* character)
     if(character == m_character)
         return;
     m_character= character;
+
+    if(m_character)
+    {
+        auto actMo= actionModel();
+        actMo->resetData(convertToGeneric<CharacterAction*>(character->actionList()));
+
+        auto pros= propertyModel();
+        pros->resetData(convertToGeneric<CharacterProperty*>(character->propertiesList()));
+
+        auto shapes= shapeModel();
+        shapes->resetData(convertToGeneric<CharacterShape*>(character->shapeList()));
+    }
+
     emit characterChanged();
+}
+
+void AntagonistBoardController::saveToken()
+{
+    if(!m_character)
+        return;
+
+    m_character->defineActionList(convertToSpecific<CharacterAction*>(actionModel()->fields()));
+    m_character->definePropertiesList(convertToSpecific<CharacterProperty*>(propertyModel()->fields()));
+    m_character->defineShapeList(convertToSpecific<CharacterShape*>(shapeModel()->fields()));
+
+    auto model= m_editor->campaign()->npcModel();
+    model->refresh(m_character->uuid());
+
+    setCharacter(nullptr);
 }
 
 void AntagonistBoardController::addCharacter()
@@ -172,8 +226,9 @@ void AntagonistBoardController::changeImage(const QString& id, const QByteArray&
     auto campaign= m_editor->campaign();
     auto const& model= campaign->npcModel();
     auto index= model->indexFromUuid(id);
-
+    auto path= m_editor->saveAvatar(id, data);
     model->setData(index, data, NonPlayableCharacterModel::RoleAvatar);
+    model->setData(index, path, NonPlayableCharacterModel::RoleAvatarPath);
 }
 
 QString AntagonistBoardController::imageFolder() const

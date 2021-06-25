@@ -92,3 +92,16 @@ QList<CharacterField*>::iterator GenericModel::end()
 {
     return m_data.end();
 }
+
+void GenericModel::resetData(QList<CharacterField*> list)
+{
+    beginResetModel();
+    m_data.clear();
+    m_data << list;
+    endResetModel();
+}
+
+const QList<CharacterField*>& GenericModel::fields() const
+{
+    return m_data;
+}

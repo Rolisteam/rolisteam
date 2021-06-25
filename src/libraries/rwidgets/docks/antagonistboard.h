@@ -23,13 +23,12 @@ public:
     ~AntagonistBoard();
 
 protected slots:
-    /*void importNpc();
-     void exportNpc();*/
-
     void updateImage(const QByteArray& data);
     void contextualMenu(const QPoint& pos);
 
     void hideColumn();
+
+    virtual bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
     Ui::AntagonistBoard* ui;
@@ -38,10 +37,11 @@ private:
     std::unique_ptr<QAction> m_createTokenAct;
     std::unique_ptr<QAction> m_cloneCharacterAct;
     std::unique_ptr<QAction> m_changeImageAct;
+    std::unique_ptr<QAction> m_fullModeAct;
+    std::unique_ptr<QAction> m_saveTokenAct;
 
     QString m_currentItemId;
     std::vector<std::unique_ptr<QAction>> m_columnsAction;
-    std::unique_ptr<QAction> m_fullModeAct;
 };
 } // namespace campaign
 #endif // CAMPAIGN_ANTAGONIST_BOARD_H

@@ -55,7 +55,7 @@ bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charact
 bool fetchThemeModel(const QJsonObject& themes, DiceAliasModel* model);
 void fetchDiceModel(const QJsonArray& dice, DiceAliasModel* model);
 void fetchMedia(const QJsonArray& medias, campaign::Campaign* campaign);
-void fetchNpcModel(const QJsonArray& npcs, campaign::NonPlayableCharacterModel* model);
+void fetchNpcModel(const QJsonArray& npcs, campaign::NonPlayableCharacterModel* model, const QString& rootDir);
 
 void fetchCharacterStateModel(const QJsonArray& states, CharacterStateModel* model);
 QJsonArray saveCharacterStateModel(CharacterStateModel* model);

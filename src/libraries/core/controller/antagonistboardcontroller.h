@@ -91,13 +91,16 @@ public slots:
     void setSearchText(const QString& text);
     void editCharacter(const QString& id);
     void setCharacter(NonPlayableCharacter* character);
+    void saveToken();
 
     void addCharacter();
     void removeCharacter(const QString& id);
     void changeImage(const QString& id, const QByteArray& filename);
+
 signals:
     void characterChanged();
     void searchTextChanged();
+    void characterEditionChanged();
 
 private:
     QPointer<campaign::CampaignEditor> m_editor;
@@ -105,6 +108,7 @@ private:
     QPointer<NonPlayableCharacter> m_character;
     std::unique_ptr<FilteredCharacterModel> m_filteredModel;
     QString m_imageFolder;
+    int m_size= 64;
 };
 } // namespace campaign
 #endif // CAMPAIGN_ANTAGONISTBOARDCONTROLLER_H

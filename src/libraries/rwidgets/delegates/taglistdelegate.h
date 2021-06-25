@@ -17,21 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef UTILSHELPER_H
-#define UTILSHELPER_H
+#ifndef TAGLISTDELEGATE_H
+#define TAGLISTDELEGATE_H
 
-#include <QPixmap>
-#include <QRect>
-#include <QString>
+#include <QStyledItemDelegate>
 
-namespace helper
+class TagListDelegate : public QStyledItemDelegate
 {
-namespace utils
-{
-QString allSupportedImageFormatFilter();
-QRectF computerBiggerRectInside(const QRect& rect, qreal ratio);
-QPixmap roundCornerImage(const QPixmap& source, int size= 80, int radius= 8);
-} // namespace utils
-} // namespace helper
+    Q_OBJECT
+public:
+    TagListDelegate(QObject* parent= nullptr);
+    ~TagListDelegate();
 
-#endif // UTILSHELPER_H
+protected:
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+    QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+};
+
+#endif // TAGLISTDELEGATE_H

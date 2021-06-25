@@ -181,7 +181,7 @@ void SelectConnectionProfileDialog::updateGUI()
     ui->m_colorBtn->setColor(profile->playerColor());
     m_passChanged= false;
     ui->m_passwordEdit->setText(profile->password());
-    ui->m_playerAvatarAct->setIcon(QIcon(profile->playerAvatar()));
+    ui->m_playerAvatarAct->setIcon(QIcon(IOHelper::dataToPixmap(profile->playerAvatar())));
     ui->m_rootDirCampEdit->setPath(profile->campaignPath());
 
     m_characterModel->setProfile(profile);

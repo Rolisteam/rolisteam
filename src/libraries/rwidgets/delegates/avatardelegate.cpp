@@ -23,6 +23,10 @@
 
 #include "core/model/nonplayablecharactermodel.h"
 
+constexpr int k_divisor= 2;
+constexpr int k_half= 32;
+constexpr int k_full= 64;
+
 AvatarDelegate::AvatarDelegate(QObject* parent) : QStyledItemDelegate(parent) {}
 
 void AvatarDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
@@ -31,29 +35,20 @@ void AvatarDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
     {
         return;
     }
-    /// Person* p= static_cast<Person*>(index.internalPointer());
     painter->save();
 
     auto img= qvariant_cast<QPixmap>(index.data(campaign::NonPlayableCharacterModel::RoleAvatar));
 
-    QRect tmp= option.rect;
-    if(option.state & QStyle::State_Selected)
-    {
-        painter->fillRect(option.rect, option.palette.highlight());
-    }
-
-    QRectF target(option.rect.x(), option.rect.y(), option.decorationSize.width(), option.rect.height());
+    auto x= option.rect.width() / k_divisor - k_half;
+    QRectF target(x, option.rect.y(), k_full, k_full);
 
     painter->drawPixmap(target, img, img.rect());
-    tmp.adjust(option.decorationSize.width(), 1, 1, 1);
     painter->restore();
 }
+
 QSize AvatarDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    // QSize returnValue;
-
-    // returnValue.setWidth(option.fontMetrics.horizontalAdvance(p->name()));
-    // returnValue.setHeight(option.decorationSize.height());
-
-    return QSize(64, 64);
+    Q_UNUSED(option);
+    Q_UNUSED(index);
+    return QSize(k_full, k_full);
 }

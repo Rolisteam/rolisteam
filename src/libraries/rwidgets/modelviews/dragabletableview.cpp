@@ -17,21 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef UTILSHELPER_H
-#define UTILSHELPER_H
+#include "dragabletableview.h"
 
-#include <QPixmap>
-#include <QRect>
-#include <QString>
+#include <QMouseEvent>
 
-namespace helper
+DragableTableView::DragableTableView(QWidget* parent) : QTableView(parent) {}
+
+void DragableTableView::mouseMoveEvent(QMouseEvent* event)
 {
-namespace utils
-{
-QString allSupportedImageFormatFilter();
-QRectF computerBiggerRectInside(const QRect& rect, qreal ratio);
-QPixmap roundCornerImage(const QPixmap& source, int size= 80, int radius= 8);
-} // namespace utils
-} // namespace helper
+    QModelIndex tmp= indexAt(event->pos());
 
-#endif // UTILSHELPER_H
+    QTableView::mousePressEvent(event);
+
+    if((event->buttons() == Qt::LeftButton) && (tmp.isValid()))
+    {
+        emit dragItem(tmp);
+    }
+}

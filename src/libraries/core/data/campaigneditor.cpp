@@ -38,7 +38,7 @@ void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
 {
     ModelHelper::fetchDiceModel(info.dices, manager->diceAliases());
     ModelHelper::fetchCharacterStateModel(info.states, manager->stateModel());
-    ModelHelper::fetchNpcModel(info.npcs, manager->npcModel());
+    ModelHelper::fetchNpcModel(info.npcs, manager->npcModel(), manager->rootDirectory());
     auto assets= info.asset;
     ModelHelper::fetchMedia(assets[Core::JsonKey::JSON_MEDIAS].toArray(), manager);
     manager->setName(assets[Core::JsonKey::JSON_NAME].toString());
@@ -103,6 +103,13 @@ bool CampaignEditor::removeMedia(const QString& src)
     IOHelper::removeFile(src);
 
     return true;
+}
+
+QString CampaignEditor::saveAvatar(const QString& id, const QByteArray& array)
+{
+    auto dest= QString("%1/avatar_%2.png").arg(m_campaign->directory(campaign::Campaign::Place::NPC_ROOT), id);
+    IOHelper::writeFile(dest, array);
+    return dest;
 }
 
 /*QString CampaignEditor::addFileIntoCharacters(const QString& src)

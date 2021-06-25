@@ -447,7 +447,7 @@
   </layout>
   <action name="m_addCharacterAct">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset resource="../../../../rolisteam.qrc">
      <normaloff>:/resources/rolistheme/add_round.png</normaloff>:/resources/rolistheme/add_round.png</iconset>
    </property>
    <property name="text">
@@ -456,7 +456,7 @@
   </action>
   <action name="m_removeCharacterAct">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset resource="../../../../rolisteam.qrc">
      <normaloff>:/resources/rolistheme/delete.png</normaloff>:/resources/rolistheme/delete.png</iconset>
    </property>
    <property name="text">
@@ -480,7 +480,7 @@
   </action>
   <action name="m_cloneProfileAct">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset resource="../../../../rolisteam.qrc">
      <normaloff>:/resources/rolistheme/cloning.svg</normaloff>:/resources/rolistheme/cloning.svg</iconset>
    </property>
    <property name="text">
@@ -502,7 +502,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../rolisteam.qrc"/>
+  <include location="../../../../rolisteam.qrc"/>
+  <include location="../../../../rolisteam.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -30,41 +30,48 @@ namespace campaign
 class NonPlayableCharacter : public Character
 {
     Q_OBJECT
-    Q_PROPERTY(QString tokenPath READ tokenPath WRITE setTokenPath NOTIFY tokenPathChanged)
+    Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
     Q_PROPERTY(QStringList tags READ tags WRITE setTags NOTIFY tagsChanged)
+    Q_PROPERTY(int size READ size WRITE setSize NOTIFY sizeChanged)
+    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
 public:
     NonPlayableCharacter(QObject* parent= nullptr);
 
-    QString tokenPath() const;
     QStringList tags() const;
+    QString avatarPath() const;
+    int size() const;
+    QString description() const;
 
 public slots:
-    void setTokenPath(const QString& path);
     void setTags(const QStringList& list);
+    void setAvatarPath(const QString& path);
+    void setSize(int size);
+    void setDescription(const QString& desc);
 
 signals:
-    void tokenPathChanged();
     void tagsChanged();
+    void avatarPathChanged();
+    void sizeChanged();
+    void descriptionChanged();
 
 private:
-    QString m_tokenPath;
+    QString m_avatarPath;
     QStringList m_tags;
+    int m_size;
+    QString m_description;
 };
 
 class NonPlayableCharacterModel : public QAbstractListModel
 {
     Q_OBJECT
-    /*
-     * tr("Name") << tr("Color") << tr("rtoken") << tr("Min HP") << tr("Current HP")
-                 << tr("Max HP") << tr("Initiative") << tr("Distance Per turn") << tr("State") << tr("Life Color")
-                 << tr("Init Command");*/
 public:
     enum CustomRole
     {
         RoleAvatar= Qt::UserRole + 1,
         RoleName,
+        RoleDescription,
+        RoleTags,
         RoleColor,
-        RoleTokenPath,
         RoleMinHp,
         RoleCurrentHp,
         RoleMaxHp,
@@ -73,16 +80,18 @@ public:
         RoleState,
         RoleLifeColor,
         RoleInitCommand,
-        RoleTags,
         RoleUuid,
+        RoleAvatarPath,
         RoleUnknown
     };
     Q_ENUM(CustomRole)
     enum Columns
     {
+        ColAvatar,
         ColName,
+        ColDescription,
+        ColTags,
         ColColor,
-        ColTokenPath,
         ColMinHp,
         ColCurrentHp,
         ColMaxHp,
@@ -91,8 +100,6 @@ public:
         ColState,
         ColLifeColor,
         ColInitCommand,
-        ColTags,
-        ColAvatar,
         ColUnknown
     };
     Q_ENUM(Columns)
@@ -116,6 +123,7 @@ public:
     void addCharacter(NonPlayableCharacter* character);
     void setModelData(const std::vector<NonPlayableCharacter*>& data);
     void removeNpc(const QString& index);
+    void refresh(const QString& index);
     void clear();
 
     const std::vector<std::unique_ptr<NonPlayableCharacter>>& npcList() const;

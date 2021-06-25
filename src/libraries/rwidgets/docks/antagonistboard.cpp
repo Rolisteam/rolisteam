@@ -3,6 +3,7 @@
 
 #include <QBuffer>
 #include <QByteArray>
+#include <QDrag>
 #include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -19,8 +20,10 @@
 #include "core/worker/utilshelper.h"
 
 #include "core/controller/view_controller/imageselectorcontroller.h"
+#include "core/data/rolisteammimedata.h"
 #include "core/worker/iohelper.h"
 #include "rwidgets/delegates/avatardelegate.h"
+#include "rwidgets/delegates/taglistdelegate.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 
 namespace campaign
@@ -49,16 +52,40 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     , m_cloneCharacterAct(new QAction(tr("Clone Character")))
     , m_changeImageAct(new QAction(tr("Change Image")))
     , m_fullModeAct(new QAction(tr("Main columns")))
+    , m_saveTokenAct(new QAction(tr("Save")))
 {
     ui->setupUi(this);
 
     ui->m_antogonistView->setModel(m_ctrl->filteredModel());
+    ui->m_antogonistView->setDragEnabled(true);
     ui->m_antogonistView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->m_antogonistView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->m_antogonistView->setContextMenuPolicy(Qt::CustomContextMenu);
-    ui->m_antogonistView->setItemDelegateForColumn(0, new AvatarDelegate(this));
+    ui->m_antogonistView->setItemDelegateForColumn(NonPlayableCharacterModel::ColAvatar, new AvatarDelegate(this));
+    ui->m_antogonistView->setItemDelegateForColumn(NonPlayableCharacterModel::ColTags, new TagListDelegate(this));
     connect(ui->m_antogonistView, &QTableView::customContextMenuRequested, this, &AntagonistBoard::contextualMenu);
     m_fullModeAct->setCheckable(true);
+    ui->m_antogonistView->setIconSize(QSize(64, 64));
+
+    ui->m_saveBtn->setDefaultAction(m_saveTokenAct.get());
+
+    connect(m_saveTokenAct.get(), &QAction::triggered, this, [this] {
+        auto character= m_ctrl->character();
+
+        character->setName(ui->m_nameEdit->text());
+        character->setSize(ui->m_sizeEdit->value());
+        character->setInitCommand(ui->m_initCommand->text());
+        character->setInitiativeScore(ui->m_initValue->value());
+        character->setColor(ui->m_colorSelector->color());
+        character->setHealthPointsCurrent(ui->m_currentLife->value());
+        character->setHealthPointsMax(ui->m_maxLife->value());
+        character->setHealthPointsMin(ui->m_lifeMin->value());
+
+        m_ctrl->saveToken();
+        m_ctrl->setCharacter(nullptr);
+    });
+
+    ui->m_antogonistView->installEventFilter(this);
 
     connect(m_fullModeAct.get(), &QAction::toggled, this, [this]() {
         bool showMainCols= m_fullModeAct->isChecked();
@@ -66,7 +93,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
         for(auto const& act : m_columnsAction)
         {
             act->setEnabled(!showMainCols);
-            if(i < 5)
+            if(i < 4)
             {
                 ui->m_antogonistView->showColumn(i);
             }
@@ -116,11 +143,30 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     ui->m_removeShapeBtn->setDefaultAction(ui->m_removeShapeAct);
     ui->m_removePropertyBtn->setDefaultAction(ui->m_removePropertyAct);
 
-    connect(ui->m_antogonistView, &QTableView::doubleClicked, this, [this](const QModelIndex& index) {
-        if(!index.isValid() && index.column() != NonPlayableCharacterModel::ColTokenPath)
+    connect(ui->m_antogonistView, &DragableTableView::dragItem, this, [this](QModelIndex index) {
+        if(index.column() != NonPlayableCharacterModel::ColAvatar)
             return;
         auto uuid= index.data(NonPlayableCharacterModel::RoleUuid).toString();
-        m_ctrl->editCharacter(uuid);
+        auto name= index.data(NonPlayableCharacterModel::RoleName).toString();
+        auto img= index.data(NonPlayableCharacterModel::RoleAvatar);
+
+        if(img.isNull())
+            return;
+        QDrag* drag= new QDrag(this);
+        RolisteamMimeData* mimeData= new RolisteamMimeData();
+
+        mimeData->setNpcUuid(uuid);
+        mimeData->setImageData(img);
+        mimeData->setText(name);
+        drag->setMimeData(mimeData);
+        drag->setPixmap(helper::utils::roundCornerImage(qvariant_cast<QPixmap>(img)));
+        drag->exec();
+    });
+
+    connect(m_createTokenAct.get(), &QAction::triggered, this, [this]() {
+        if(m_currentItemId.isEmpty())
+            return;
+        m_ctrl->editCharacter(m_currentItemId);
     });
 
     connect(m_changeImageAct.get(), &QAction::triggered, m_ctrl.get(), [this]() {
@@ -245,8 +291,9 @@ void AntagonistBoard::contextualMenu(const QPoint& pos)
     QMenu menu;
 
     auto index= ui->m_antogonistView->indexAt(pos);
-    m_currentItemId= index.isValid() ? index.data(NonPlayableCharacterModel::RoleUuid).toString() : QString();
 
+    m_currentItemId= index.isValid() ? index.data(NonPlayableCharacterModel::RoleUuid).toString() : QString();
+    qDebug() << "index contextual menu:" << index.row() << m_currentItemId;
     menu.addAction(ui->m_addCharacterAct);
     menu.addAction(m_cloneCharacterAct.get());
     menu.addAction(ui->m_removeCharacterAct);
@@ -284,5 +331,22 @@ void AntagonistBoard::hideColumn()
         ui->m_antogonistView->showColumn(i);
     else
         ui->m_antogonistView->hideColumn(i);
+}
+
+bool AntagonistBoard::eventFilter(QObject* obj, QEvent* event)
+{
+    if(obj == ui->m_antogonistView)
+    {
+        if(event->type() == QEvent::MouseMove)
+        {
+            auto e= dynamic_cast<QMouseEvent*>(event);
+            if(e)
+            {
+                auto index= ui->m_antogonistView->indexAt(e->pos());
+            }
+        }
+    }
+
+    return QWidget::eventFilter(obj, event);
 }
 } // namespace campaign

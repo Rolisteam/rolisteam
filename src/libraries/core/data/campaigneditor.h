@@ -53,6 +53,8 @@ public:
     // QString addFileIntoCharacters(const QString& src);
     // bool removeFileFromCharacters(const QString& path);
 
+    QString saveAvatar(const QString& id, const QByteArray& array);
+
     QString mediaFullPath(const QString& file, Core::ContentType type);
     void doCommand(QUndoCommand* command);
 

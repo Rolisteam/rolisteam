@@ -30,6 +30,9 @@ public:
     QList<CharacterField*>::iterator begin();
     QList<CharacterField*>::iterator end();
 
+    void resetData(QList<CharacterField*> list);
+    const QList<CharacterField*>& fields() const;
+
 private:
     QList<CharacterField*> m_data;
     QStringList m_columnList;

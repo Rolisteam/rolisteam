@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>595</width>
-    <height>627</height>
+    <width>655</width>
+    <height>893</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableView" name="m_antogonistView">
+        <widget class="DragableTableView" name="m_antogonistView">
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
@@ -54,6 +54,12 @@
          </attribute>
          <attribute name="verticalHeaderVisible">
           <bool>false</bool>
+         </attribute>
+         <attribute name="verticalHeaderMinimumSectionSize">
+          <number>64</number>
+         </attribute>
+         <attribute name="verticalHeaderDefaultSectionSize">
+          <number>64</number>
          </attribute>
         </widget>
        </item>
@@ -104,32 +110,17 @@
           <attribute name="title">
            <string>Info</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,1">
-           <property name="spacing">
-            <number>2</number>
-           </property>
-           <property name="leftMargin">
-            <number>2</number>
-           </property>
-           <property name="topMargin">
-            <number>2</number>
-           </property>
-           <property name="rightMargin">
-            <number>2</number>
-           </property>
-           <property name="bottomMargin">
-            <number>2</number>
-           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
            <item>
-            <layout class="QFormLayout" name="formLayout">
-             <property name="horizontalSpacing">
-              <number>2</number>
-             </property>
-             <property name="verticalSpacing">
-              <number>2</number>
-             </property>
+            <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
               <widget class="QLabel" name="label">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Name:</string>
                </property>
@@ -138,8 +129,28 @@
              <item row="0" column="1">
               <widget class="QLineEdit" name="m_nameEdit"/>
              </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Initiative Command</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QLineEdit" name="m_initCommand">
+               <property name="placeholderText">
+                <string>2d10</string>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="0">
               <widget class="QLabel" name="label_6">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Color:</string>
                </property>
@@ -172,28 +183,14 @@
                </item>
               </layout>
              </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>Initiative Command</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QLineEdit" name="m_initCommand">
-               <property name="placeholderText">
-                <string>2d10</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
+             <item row="1" column="2">
               <widget class="QLabel" name="label_8">
                <property name="text">
                 <string>Initiative Value:</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
+             <item row="1" column="3">
               <layout class="QHBoxLayout" name="horizontalLayout_8">
                <item>
                 <widget class="QSpinBox" name="m_initValue">
@@ -217,35 +214,20 @@
                </item>
               </layout>
              </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>Avatar:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <item>
-                <widget class="QLineEdit" name="m_avatarEdit"/>
-               </item>
-               <item>
-                <widget class="QPushButton" name="m_avatarOpenFileBtn">
-                 <property name="text">
-                  <string>Open</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="5" column="0">
+             <item row="2" column="0">
               <widget class="QLabel" name="label_9">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Size:</string>
                </property>
               </widget>
              </item>
-             <item row="5" column="1">
+             <item row="2" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_10">
                <item>
                 <widget class="QSpinBox" name="m_sizeEdit">
@@ -280,7 +262,7 @@
            <item>
             <widget class="QGroupBox" name="groupBox_3">
              <property name="title">
-              <string>Life</string>
+              <string>Health Points</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <property name="spacing">
@@ -385,59 +367,105 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
-             <property name="spacing">
-              <number>2</number>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string>Avatar</string>
              </property>
-             <item>
-              <spacer name="horizontalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="m_avatarDisplay">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>150</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>150</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="scaledContents">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_7">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <property name="spacing">
+                 <number>2</number>
+                </property>
+                <item>
+                 <spacer name="horizontalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="m_avatarDisplay">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>150</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>150</width>
+                    <height>150</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_7">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_12">
+                <item>
+                 <spacer name="horizontalSpacer_9">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="m_avatarOpenFileBtn">
+                  <property name="text">
+                   <string>Change</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>189</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -626,21 +654,6 @@
            <string>Property</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_4">
-           <property name="spacing">
-            <number>2</number>
-           </property>
-           <property name="leftMargin">
-            <number>2</number>
-           </property>
-           <property name="topMargin">
-            <number>2</number>
-           </property>
-           <property name="rightMargin">
-            <number>2</number>
-           </property>
-           <property name="bottomMargin">
-            <number>2</number>
-           </property>
            <item>
             <widget class="QGroupBox" name="groupBox_4">
              <property name="title">
@@ -713,15 +726,54 @@
          </widget>
         </widget>
        </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,0,0">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <spacer name="horizontalSpacer_11">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="m_saveBtn">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_10">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2"/>
     </widget>
    </item>
   </layout>
   <action name="m_addActionAct">
    <property name="icon">
-    <iconset>
+    <iconset theme="add">
      <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
    </property>
    <property name="text">
@@ -733,7 +785,7 @@
   </action>
   <action name="m_removeActionAct">
    <property name="icon">
-    <iconset>
+    <iconset theme="remove">
      <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
@@ -745,7 +797,7 @@
   </action>
   <action name="m_addShapeAct">
    <property name="icon">
-    <iconset>
+    <iconset theme="add">
      <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
    </property>
    <property name="text">
@@ -757,7 +809,7 @@
   </action>
   <action name="m_removeShapeAct">
    <property name="icon">
-    <iconset>
+    <iconset theme="remove">
      <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
@@ -769,7 +821,7 @@
   </action>
   <action name="m_addPropertyAct">
    <property name="icon">
-    <iconset>
+    <iconset theme="add">
      <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
    </property>
    <property name="text">
@@ -781,7 +833,7 @@
   </action>
   <action name="m_removePropertyAct">
    <property name="icon">
-    <iconset>
+    <iconset theme="remove">
      <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
@@ -815,6 +867,11 @@
    <class>ColorButton</class>
    <extends>QPushButton</extends>
    <header>common/widgets/colorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DragableTableView</class>
+   <extends>QTableView</extends>
+   <header>rwidgets/modelviews/dragabletableview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

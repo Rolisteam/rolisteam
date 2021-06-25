@@ -389,13 +389,15 @@ void fetchMedia(const QJsonArray& medias, campaign::Campaign* campaign)
     }
 }
 
-void fetchNpcModel(const QJsonArray& npc, campaign::NonPlayableCharacterModel* model)
+void fetchNpcModel(const QJsonArray& npc, campaign::NonPlayableCharacterModel* model, const QString& rootDir)
 {
     std::vector<campaign::NonPlayableCharacter*> vec;
     for(const auto& obj : npc)
     {
-        auto stateJson= obj.toObject();
-        auto uuid= stateJson[Core::JsonKey::JSON_NPC_ID].toString();
+        auto npcObj= obj.toObject();
+
+        auto npc= IOHelper::jsonObjectToNpc(npcObj, rootDir);
+        /*auto uuid= stateJson[Core::JsonKey::JSON_NPC_ID].toString();
         auto name= stateJson[Core::JsonKey::JSON_NPC_NAME].toString();
         auto initcmd= stateJson[Core::JsonKey::JSON_NPC_INITCOMMAND].toString();
         auto initvalue= stateJson[Core::JsonKey::JSON_NPC_INITVALUE].toInt();
@@ -408,16 +410,11 @@ void fetchNpcModel(const QJsonArray& npc, campaign::NonPlayableCharacterModel* m
         auto lifeColor= QColor(stateJson[Core::JsonKey::JSON_NPC_LIFECOLOR].toString());
         auto avatar= stateJson[Core::JsonKey::JSON_NPC_AVATAR].toString();
         auto tags= stateJson[Core::JsonKey::JSON_NPC_TAGS].toArray();
-        auto tokenPath= stateJson[Core::JsonKey::JSON_NPC_TOKEN].toString();
+        auto tokenPath= stateJson[Core::JsonKey::JSON_NPC_TOKEN].toString();*/
 
-        QStringList list;
-        std::transform(std::begin(tags), std::end(tags), std::back_inserter(list),
-                       [](const QJsonValue& val) { return val.toString(); });
+        // auto npc= new campaign::NonPlayableCharacter();
 
-        auto npc= new campaign::NonPlayableCharacter();
-        npc->setUuid(uuid);
-        npc->setName(name);
-        npc->setInitCommand(initcmd);
+        /*npc->setInitCommand(initcmd);
         npc->setInitiativeScore(initvalue);
         npc->setColor(color);
         npc->setHealthPointsCurrent(hp);
@@ -426,9 +423,10 @@ void fetchNpcModel(const QJsonArray& npc, campaign::NonPlayableCharacterModel* m
         npc->setDistancePerTurn(distancePerTurn);
         npc->setStateId(stateId);
         npc->setLifeColor(lifeColor);
-        // npc->setAvatarPath(avatar);
+        npc->setAvatar(IOHelper::loadFile(QString("%1/%2").arg(rootDir, avatar)));
+        npc->setAvatarPath(avatar);
         npc->setTags(list);
-        npc->setTokenPath(tokenPath);
+        npc->setTokenPath(tokenPath);*/
 
         vec.push_back(npc);
     }

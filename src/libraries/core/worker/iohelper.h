@@ -43,7 +43,7 @@ class MindMapController;
 class DiceAlias;
 class CharacterState;
 class RolisteamTheme;
-
+class GenericModel;
 namespace campaign
 {
 class NonPlayableCharacter;
@@ -64,13 +64,19 @@ public:
     static QString absoluteToRelative(const QString& absolute, const QString& root);
 
     static QString readTextFile(const QString& file);
-    static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
+
+    // TOKEN
+    /*static QJsonObject characterToToken(const campaign::NonPlayableCharacter* character, const QString& destination,
+                                        const QMap<QString, QVariant>& map);
+    static bool loadToken(campaign::NonPlayableCharacter* character, const QString& root,
+                          std::map<QString, QVariant>& params);*/
 
     static QByteArray saveController(MediaControllerBase* media);
     static MediaControllerBase* loadController(const QByteArray& data);
 
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
+    static QByteArray jsonObjectToByteArray(const QJsonObject& obj);
     static QJsonArray loadJsonFileIntoArray(const QString& filename, bool& ok);
     static QJsonObject loadJsonFileIntoObject(const QString& filename, bool& ok);
     static void writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array);
@@ -104,9 +110,13 @@ public:
 
     // dice alias
     static QJsonObject diceAliasToJSonObject(DiceAlias* alias);
+
     // states
     static QJsonObject stateToJSonObject(CharacterState* state, const QString& root);
-    static QJsonObject npcToJsonObject(campaign::NonPlayableCharacter* npc, const QString& destination);
+
+    // NPC
+    static QJsonObject npcToJsonObject(const campaign::NonPlayableCharacter* npc, const QString& destination);
+    static campaign::NonPlayableCharacter* jsonObjectToNpc(const QJsonObject& obj, const QString& rootDir);
 
     // read theme file
     static RolisteamTheme* jsonToTheme(const QJsonObject& json);

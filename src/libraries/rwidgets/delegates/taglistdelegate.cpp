@@ -17,64 +17,58 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "utilshelper.h"
+#include "taglistdelegate.h"
 
-#include <QBrush>
-#include <QImageReader>
+#include <QDebug>
+#include <QFontMetrics>
 #include <QPainter>
 
-namespace helper
+TagListDelegate::TagListDelegate(QObject* parent) : QStyledItemDelegate(parent) {}
+
+TagListDelegate::~TagListDelegate() {}
+
+void TagListDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-namespace utils
-{
-QString allSupportedImageFormatFilter()
-{
-    auto allFormats= QImageReader::supportedImageFormats();
+    QStyledItemDelegate::paint(painter, option, index);
+    auto tags= index.data().toStringList();
 
-    QStringList list;
-    std::transform(std::begin(allFormats), std::end(allFormats), std::back_inserter(list),
-                   [](const QByteArray& array) { return QString("*.%1").arg(QString::fromLocal8Bit(array)); });
+    int margex= 4;
+    int margey= 4;
 
-    return list.join(" ");
-}
+    // qDebug() << option.palette.highlightedText() << option.palette.brightText();
 
-QRectF computerBiggerRectInside(const QRect& rect, qreal ratio)
-{
-    QRectF res(rect);
-    auto const r= ratio;
-
-    auto const reversed= 1 / r;
-
-    auto future_W= res.height() * r;
-    auto const future_H= res.width() * reversed;
-
-    if(future_W < future_H && future_W <= rect.width())
+    if(option.state & QStyle::State_Selected)
     {
-        res.setWidth(future_W);
+        painter->setPen(option.palette.highlightedText().color());
     }
     else
     {
-        if(future_H <= res.height())
-            res.setHeight(future_H);
-        else
-        {
-            res.setWidth(future_W);
-        }
+        painter->setPen(option.palette.text().color());
     }
 
-    return res;
+    int startx= option.rect.x() + margex;
+    int starty= option.rect.y() + margey;
+    auto fontmetrics= option.fontMetrics;
+    for(auto const& tag : qAsConst(tags))
+    {
+        auto rect= fontmetrics.boundingRect(tag);
+
+        if(startx + rect.width() > option.rect.x() + option.rect.width())
+        {
+            startx= option.rect.x() + margex;
+            starty+= rect.height() + margey;
+        }
+
+        rect.translate(startx, starty - rect.y());
+        painter->drawText(rect, tag);
+        painter->drawRoundedRect(rect, 2, 2);
+        startx+= rect.width() + margex;
+    }
 }
 
-QPixmap roundCornerImage(const QPixmap& source, int size, int radius)
+QSize TagListDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    QPixmap img(size, size);
-    img.fill(Qt::transparent);
-    QPainter painter(&img);
-    QBrush brush;
-    brush.setTextureImage(source.toImage().scaled(size, size));
-    painter.setBrush(brush);
-    painter.drawRoundedRect(0, 0, size, size, radius, radius);
-    return img;
+    QSize ret= QStyledItemDelegate::sizeHint(option, index);
+    ret= ret * 1.3; // add some more padding between items
+    return ret;
 }
-} // namespace utils
-} // namespace helper
