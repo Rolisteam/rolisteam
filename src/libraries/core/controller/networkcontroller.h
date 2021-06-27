@@ -53,6 +53,7 @@ class NetworkController : public AbstractControllerInterface, public NetWorkRece
     Q_PROPERTY(ProfileModel* profileModel READ profileModel CONSTANT)
     Q_PROPERTY(ChannelModel* channelModel READ channelModel CONSTANT)
     Q_PROPERTY(QString ipv4 READ ipv4 NOTIFY ipv4Changed)
+    Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)
 public:
     explicit NetworkController(QObject* parent= nullptr);
     ~NetworkController() override;
@@ -64,6 +65,7 @@ public:
     QString host() const;
     int port() const;
     QString ipv4() const;
+    QString lastError() const;
 
     ProfileModel* profileModel() const;
     ChannelModel* channelModel() const;
@@ -89,6 +91,7 @@ signals:
     void ipv4Changed();
     void downloadingData(quint64 readData, quint64 size);
     void tableChanged();
+    void lastErrorChanged(const QString& error);
 
     void authentificationFail();
 
@@ -114,6 +117,7 @@ public slots:
 private slots:
     void sendOffConnectionInfo();
 
+    void setLastError(const QString& error);
     void dispatchMessage(QByteArray array);
 
 private:
@@ -140,6 +144,7 @@ private:
     QString m_host;
     int m_port= 6660;
     QString m_ipv4Address;
+    QString m_lastError;
 
     // Data
     bool m_isGM= true;
