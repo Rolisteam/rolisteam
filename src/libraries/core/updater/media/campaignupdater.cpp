@@ -57,14 +57,9 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
         updateDiceModel();
     };
 
-    // connect(model, &DiceAliasModel::aliasAdded, this,
-    //  [](const DiceAlias* alias, int i) { MessageHelper::sendOffOneDiceAlias(alias, i); });
     connect(model, &DiceAliasModel::aliasAdded, this, updateAlias);
     connect(model, &DiceAliasModel::aliasRemoved, this, updateAlias);
-    //    connect(model, &DiceAliasModel::aliasRemoved, this, [](int i) { MessageHelper::sendOffDiceAliasRemoved(i); });
     connect(model, &DiceAliasModel::aliasMoved, this, updateAlias);
-    // connect(model, &DiceAliasModel::aliasMoved, this, [](int i, int j) { MessageHelper::sendOffDiceAliasMoved(i, j);
-    // });
     connect(model, &DiceAliasModel::modelReset, this, updateAlias);
     connect(model, &DiceAliasModel::dataChanged, this, updateAlias);
     connect(model, &DiceAliasModel::aliasChanged, this, updateAlias);
@@ -80,15 +75,6 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
                                                 FileSerializer::statesToArray(states, m_campaign->rootDirectory()));
         updateStateModel();
     };
-
-    /*connect(states, &CharacterStateModel::characterStateAdded, this,
-        [](const CharacterState* state, int i) { MessageHelper::sendOffOneCharacterState(state, i); });
-    connect(states, &CharacterStateModel::stateRemoved, this,
-        [](const QString& id) { MessageHelper::sendOffCharacterStateRemoved(id); });
-    connect(states, &CharacterStateModel::stateMoved, this,
-        [](int i, int j) { MessageHelper::sendOffCharacterStateMoved(i, j); });
-    connect(states, &CharacterStateModel::modelReset, this,
-        [states]() { MessageHelper::sendOffAllCharacterState(states); });*/
 
     connect(states, &CharacterStateModel::characterStateAdded, this, updateState);
     connect(states, &CharacterStateModel::stateRemoved, this, updateState);

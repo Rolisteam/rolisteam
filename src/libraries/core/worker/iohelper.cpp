@@ -28,6 +28,8 @@
 #include <QFile>
 #include <QGuiApplication>
 #include <QMimeData>
+#include <QMutex>
+#include <QMutexLocker>
 #include <QString>
 #include <QStyleFactory>
 #include <QVariant>
@@ -1010,6 +1012,8 @@ QJsonObject IOHelper::themeToObject(const RolisteamTheme* theme)
 
 void IOHelper::writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array)
 {
+    static QMutex mutex;
+    QMutexLocker locker(&mutex);
     QJsonDocument doc;
     doc.setArray(array);
 
@@ -1022,6 +1026,8 @@ void IOHelper::writeJsonArrayIntoFile(const QString& destination, const QJsonArr
 
 void IOHelper::writeJsonObjectIntoFile(const QString& destination, const QJsonObject& obj)
 {
+    static QMutex mutex;
+    QMutexLocker locker(&mutex);
     QJsonDocument doc;
     doc.setObject(obj);
 
