@@ -31,7 +31,7 @@ class MessageFactory
 {
 public:
     static MessageInterface* createMessage(const QString& uuid, const QString& writerId, const QDateTime& time,
-                                           InstantMessaging::MessageInterface::MessageType type);
+                                           InstantMessaging::MessageInterface::MessageType type, const QString& text);
 };
 } // namespace InstantMessaging
 

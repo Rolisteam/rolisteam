@@ -121,10 +121,9 @@ void MessageModel::setLocalId(const QString& localid)
 void MessageModel::addMessage(const QString& text, const QDateTime& time, const QString& owner, const QString& writerId,
                               InstantMessaging::MessageInterface::MessageType type)
 {
-    auto msg= InstantMessaging::MessageFactory::createMessage(owner, writerId, time, type);
+    auto msg= InstantMessaging::MessageFactory::createMessage(owner, writerId, time, type, text);
     if(!msg)
         return;
-    msg->setText(text);
     addMessageInterface(msg);
     emit messageAdded(msg);
 }

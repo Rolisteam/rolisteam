@@ -138,11 +138,11 @@ void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagi
     auto text= msg->string32();
     auto time= msg->dateTime();
 
-    MessageInterface* imMessage= InstantMessaging::MessageFactory::createMessage(owner, writer, time, messageType);
+    MessageInterface* imMessage
+        = InstantMessaging::MessageFactory::createMessage(owner, writer, time, messageType, text);
 
     if(imMessage == nullptr)
         return;
-    imMessage->setText(text);
 
     model->addMessageIntoChatroom(imMessage, type, uuid);
 }

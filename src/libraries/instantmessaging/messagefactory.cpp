@@ -29,10 +29,12 @@
 #include "instantmessaging/textmessage.h"
 
 QLoggingCategory rDice("rolisteam.dice");
+
 namespace InstantMessaging
 {
 MessageInterface* MessageFactory::createMessage(const QString& uuid, const QString& writerId, const QDateTime& time,
-                                                InstantMessaging::MessageInterface::MessageType type)
+                                                InstantMessaging::MessageInterface::MessageType type,
+                                                const QString& text)
 {
     using IM= InstantMessaging::MessageInterface;
     MessageInterface* msg= nullptr;
@@ -52,6 +54,8 @@ MessageInterface* MessageFactory::createMessage(const QString& uuid, const QStri
         msg= new ErrorMessage(uuid, writerId, time);
         break;
     }
+    if(msg)
+        msg->setText(text);
     return msg;
 }
 } // namespace InstantMessaging
