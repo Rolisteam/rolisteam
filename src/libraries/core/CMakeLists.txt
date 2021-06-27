@@ -157,6 +157,7 @@ set(HEADERS
   undoCmd/removelocalcharactercommand.h
   undoCmd/removemediacontrollercommand.h
   undoCmd/showtransparentitemcommand.h
+  updater/controller/servermanagerupdater.h
   updater/media/campaignupdater.h
   updater/media/charactersheetupdater.h
   updater/media/instantmessagingupdater.h
@@ -174,6 +175,7 @@ set(HEADERS
   updater/vmapitem/textcontrollerupdater.h
   updater/vmapitem/vmapitemcontrollerupdater.h
   utils/insertionsortedmap.h
+  worker/networkhelper.h
   worker/autosavecontroller.h
   worker/convertionhelper.h
   worker/fileserializer.h
@@ -309,6 +311,7 @@ set(SOURCES
   undoCmd/removelocalcharactercommand.cpp
   undoCmd/removemediacontrollercommand.cpp
   undoCmd/showtransparentitemcommand.cpp
+  updater/controller/servermanagerupdater.cpp
   updater/media/campaignupdater.cpp
   updater/media/charactersheetupdater.cpp
   updater/media/instantmessagingupdater.cpp
@@ -325,6 +328,7 @@ set(SOURCES
   updater/vmapitem/rectcontrollerupdater.cpp
   updater/vmapitem/textcontrollerupdater.cpp
   updater/vmapitem/vmapitemcontrollerupdater.cpp
+  worker/networkhelper.cpp
   worker/autosavecontroller.cpp
   worker/convertionhelper.cpp
   worker/fileserializer.cpp
@@ -356,7 +360,7 @@ message(${CMAKE_CURRENT_BINARY_DIR})
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/core_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/network_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 
-set(Network_HEADER    
+set(Network_HEADER
     network/channelmodel.h
     media/mediatype.h
     network/tcpclient.h
@@ -371,7 +375,9 @@ set(Network_HEADER
     network/networkmessage.h
     network/networkmessagereader.h
     network/networkmessagewriter.h
-    worker/messagehelper.h
+    #worker/messagehelper.h
+    worker/networkhelper.h
+    updater/controller/servermanagerupdater.h
     network/rserver.h
     network/messagedispatcher.h
     network/receiveevent.h
@@ -395,10 +401,12 @@ set(Network_SRC
     network/timeaccepter.cpp
     network/channel.cpp
     network/treeitem.cpp
-    worker/messagehelper.h
+    worker/networkhelper.cpp
+    #worker/messagehelper.cpp
     network/networkmessage.cpp
     network/networkmessagereader.cpp
     network/networkmessagewriter.cpp
+    updater/controller/servermanagerupdater.cpp
     network/rserver.cpp
     network/messagedispatcher.cpp
     network/receiveevent.cpp
