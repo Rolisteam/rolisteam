@@ -34,7 +34,7 @@ class Media;
 class CampaignEditor : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Campaign* campaign READ campaign NOTIFY campaignChanged)
+    Q_PROPERTY(Campaign* campaign READ campaign CONSTANT)
 public:
     explicit CampaignEditor(QObject* parent= nullptr);
 
@@ -62,7 +62,7 @@ public:
     QString currentDir() const;
 
 signals:
-    void campaignChanged();
+    void campaignLoaded();
     void performCommand(QUndoCommand* command);
     void importedFile(campaign::Media* media);
 

@@ -31,8 +31,10 @@
 #include "network/receiveevent.h"
 #include "network/servermanager.h"
 #include "services/ipchecker.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
+#include "worker/networkhelper.h"
 #include "worker/playermessagehelper.h"
 #include <iostream>
 
@@ -40,13 +42,9 @@ QLoggingCategory rNetwork("rolisteam.network");
 
 void readDataAndSetModel(NetworkMessageReader* msg, ChannelModel* model)
 {
-    auto byte= msg->byteArray32();
-    QJsonDocument doc= QJsonDocument::fromJson(byte);
-    if(!doc.isEmpty())
-    {
-        QJsonObject obj= doc.object();
-        model->readDataJson(obj);
-    }
+    auto data= msg->byteArray32();
+    auto jon= IOHelper::textByteArrayToJsonObj(data);
+    helper::network::fetchChannelModel(model, jon);
 }
 
 NetworkController::NetworkController(QObject* parent)
@@ -114,7 +112,8 @@ void NetworkController::startConnection()
         setHost(QStringLiteral("localhost"));
         startServer();
     }
-    startClient();
+    else
+        startClient();
 }
 
 void NetworkController::setIsGM(bool b)
@@ -122,7 +121,7 @@ void NetworkController::setIsGM(bool b)
     if(m_isGM == b)
         return;
     m_isGM= b;
-    emit isGMChanged();
+    emit isGMChanged(m_isGM);
 }
 
 void NetworkController::setHosting(bool b)
@@ -223,7 +222,7 @@ void NetworkController::startServer()
     m_server->initServerManager();
     connect(m_serverThread.get(), &QThread::started, m_server.get(), &ServerManager::startListening);
     // connect(m_serverThread.get(), &QThread::finished, m_server.get(), &ServerManager::stopListening);
-    connect(m_serverThread.get(), &QThread::finished, this, []() { qDebug() << "server thread terminated"; });
+    connect(m_serverThread.get(), &QThread::finished, this, []() { qCInfo(rNetwork) << "server has been closed"; });
     connect(m_server.get(), &ServerManager::stateChanged, this, [this]() {
         switch(m_server->state())
         {
@@ -232,13 +231,17 @@ void NetworkController::startServer()
             break;
         case ServerManager::Listening:
             qCInfo(rNetwork) << "server is on";
+            startClient();
+            break;
         case ServerManager::Error:
+            stopServer();
             break;
         }
     });
     connect(m_server.get(), &ServerManager::errorOccured, this,
             [this](const QString& str, LogController::LogLevel level) {
                 // qDebug() << str << level;
+                setLastError(str);
                 /*switch(level)
                 {
                 case LogController::Error:
@@ -352,6 +355,11 @@ QString NetworkController::ipv4() const
     return m_ipv4Address;
 }
 
+QString NetworkController::lastError() const
+{
+    return m_lastError;
+}
+
 bool NetworkController::isGM() const
 {
     return m_isGM;
@@ -399,6 +407,14 @@ void NetworkController::sendOffConnectionInfo()
     if(nullptr == playerCtrl)
         return;
     PlayerMessageHelper::sendOffConnectionInfo(playerCtrl->localPlayer(), m_serverPw);
+}
+
+void NetworkController::setLastError(const QString& error)
+{
+    if(error == m_lastError)
+        return;
+    m_lastError= error;
+    emit lastErrorChanged(m_lastError);
 }
 void NetworkController::closeServer()
 {

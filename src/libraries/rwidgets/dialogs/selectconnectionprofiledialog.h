@@ -26,6 +26,13 @@ class SelectConnectionProfileDialog : public QDialog
     Q_OBJECT
 
 public:
+    enum class State
+    {
+        IDLE,
+        LOADING,
+        LOADED,
+        CONNECTING
+    };
     /**
      * @brief SelectConnectionProfileDialog
      * @param parent
@@ -76,6 +83,9 @@ public slots:
     void selectPlayerAvatar();
     void cloneProfile();
 
+private slots:
+    void setState(State);
+
 private:
     Ui::SelectConnectionProfileDialog* ui;
     QPointer<GameController> m_ctrl;
@@ -84,6 +94,7 @@ private:
     QString m_avatarUri;
     int m_currentProfileIndex= -1;
     bool m_passChanged= false;
+    State m_state= State::IDLE;
 };
 
 #endif // SELECTCONNECTIONPROFILEDIALOG_H

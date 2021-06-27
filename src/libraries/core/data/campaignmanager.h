@@ -57,9 +57,11 @@ public:
     QString placeDirectory(campaign::Campaign::Place place) const;
 public slots:
     void shareModels();
+    void setLocalIsGM(bool b);
 
 signals:
     void campaignChanged(const QString& str);
+    void campaignLoaded();
     void fileImported(campaign::Media* path);
     void errorOccured(const QString& error);
 

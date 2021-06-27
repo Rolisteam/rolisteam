@@ -39,6 +39,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     connect(ui->m_profileList, &QListView::doubleClicked, this, &SelectConnectionProfileDialog::connectToIndex);
     connect(ui->m_playerAvatarAct, &QAction::triggered, this, &SelectConnectionProfileDialog::selectPlayerAvatar);
     connect(ui->m_cloneProfileAct, &QAction::triggered, this, &SelectConnectionProfileDialog::cloneProfile);
+    connect(m_ctrl, &GameController::dataLoaded, this, [this]() { setState(State::LOADED); });
 
     ui->m_avatarPlayer->setDefaultAction(ui->m_playerAvatarAct);
 
@@ -82,16 +83,19 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     connect(ui->m_delProfileAct, &QPushButton::clicked, this, &SelectConnectionProfileDialog::removeProfile);
     connect(ui->m_addresseLineEdit, &QLineEdit::textChanged, this, &SelectConnectionProfileDialog::checkConnection);
     connect(ui->m_isServerCheckbox, &QCheckBox::toggled, this, &SelectConnectionProfileDialog::checkConnection);
-    connect(m_ctrl->networkController(), &NetworkController::connectingChanged, ui->m_progressBar,
-            &QProgressBar::setVisible);
+    connect(m_ctrl->networkController(), &NetworkController::lastErrorChanged, ui->m_errorNotification,
+            &QLabel::setText);
     connect(m_ctrl->networkController(), &NetworkController::connectingChanged, this, [this](bool connecting) {
+        ui->m_progressBar->setVisible(connecting);
         if(connecting)
         {
+            setState(State::CONNECTING);
             ui->m_connectBtn->setDefaultAction(ui->m_stopConnectAct);
             ui->m_connectBtn->removeAction(ui->m_connectAct);
         }
         else
         {
+            setState(State::IDLE);
             ui->m_connectBtn->setDefaultAction(ui->m_connectAct);
             ui->m_connectBtn->removeAction(ui->m_stopConnectAct);
         }
@@ -117,6 +121,7 @@ void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
     //    updateProfile();
     m_avatarUri.clear();
     ui->m_connectAct->setEnabled(true);
+    setState(State::IDLE);
 }
 
 void SelectConnectionProfileDialog::stopConnecting()
@@ -236,10 +241,34 @@ void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
     updateGUI();
     connectTo();
 }
+
+void SelectConnectionProfileDialog::setState(State state)
+{
+    if(state == m_state)
+        return;
+
+    if(m_state == State::IDLE && state == State::LOADING)
+    {
+        m_state= state;
+    }
+    else if(m_state == State::LOADING && state == State::LOADED)
+    {
+        m_state= state;
+        m_ctrl->startConnection();
+    }
+    else if(m_state == State::LOADED && state == State::CONNECTING)
+    {
+        m_state= state;
+    }
+    if(state == State::IDLE)
+        m_state= state;
+}
+
 void SelectConnectionProfileDialog::connectTo()
 {
     updateProfile();
-    m_ctrl->startConnection(m_currentProfileIndex);
+    setState(State::LOADING);
+    m_ctrl->setDataFromProfile(m_currentProfileIndex);
 }
 
 void SelectConnectionProfileDialog::cloneProfile()

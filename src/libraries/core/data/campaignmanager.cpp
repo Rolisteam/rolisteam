@@ -41,6 +41,7 @@ CampaignManager::CampaignManager(DiceParser* diceparser, QObject* parent)
     , m_campaignUpdater(new CampaignUpdater(diceparser, m_editor->campaign()))
 {
     connect(m_editor.get(), &CampaignEditor::importedFile, this, &CampaignManager::fileImported);
+    connect(m_editor.get(), &CampaignEditor::campaignLoaded, this, &CampaignManager::campaignLoaded);
 }
 
 CampaignManager::~CampaignManager()= default;
@@ -151,5 +152,10 @@ void CampaignManager::shareModels()
 {
     m_campaignUpdater->updateDiceModel();
     m_campaignUpdater->updateStateModel();
+}
+
+void CampaignManager::setLocalIsGM(bool b)
+{
+    m_campaignUpdater->setLocalIsGM(b);
 }
 } // namespace campaign

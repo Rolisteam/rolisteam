@@ -114,6 +114,9 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_instantMessagingCtrl.get(), &InstantMessagingController::setLocalId);
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_contentCtrl.get(), &ContentController::setLocalId);
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
+    connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
+    connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, &GameController::dataLoaded);
+
     // clang-format on
 
     m_contentCtrl->setGameMasterId(m_playerController->gameMasterId());
@@ -378,7 +381,7 @@ DiceParser* GameController::diceParser() const
     return m_diceParser.get();
 }
 
-void GameController::startConnection(int profileIndex)
+void GameController::setDataFromProfile(int profileIndex)
 {
     auto profile= m_networkCtrl->profileModel()->getProfile(profileIndex);
 
@@ -392,7 +395,6 @@ void GameController::startConnection(int profileIndex)
     local->setColor(profile->playerColor());
     local->setAvatar(profile->playerAvatar());
     local->setGM(profile->isGM());
-    m_campaignManager->openCampaign(QUrl::fromLocalFile(profile->campaignPath()));
     if(!local->isGM())
     {
         auto characters= profile->characters();
@@ -408,7 +410,18 @@ void GameController::startConnection(int profileIndex)
     m_networkCtrl->setAskForGM(profile->isGM());
 
     m_playerController->addPlayer(local);
+    if(profile->isGM())
+    {
+        m_campaignManager->openCampaign(QUrl::fromLocalFile(profile->campaignPath()));
+    }
+    else
+    {
+        emit dataLoaded();
+    }
+}
 
+void GameController::startConnection()
+{
     m_networkCtrl->startConnection();
 }
 

@@ -89,6 +89,8 @@ CampaignInfo FileSerializer::readCampaignDirectory(const QString& directory)
 {
     CampaignInfo info;
     info.status= false;
+    if(directory.isEmpty())
+        return info;
 
     QDir dir(directory);
     if(!dir.exists() || !dir.isReadable())

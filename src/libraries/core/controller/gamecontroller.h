@@ -109,6 +109,7 @@ signals:
     void tipOfDayChanged();
     void closingApp();
     void campaignChanged();
+    void dataLoaded();
 
 public slots:
     void addErrorLog(const QString& message);
@@ -125,7 +126,8 @@ public slots:
     void setCampaignRoot(const QString& path);
     void setVersion(const QString& version);
     void setUpdateAvailable(bool available);
-    void startConnection(int profileIndex);
+    void setDataFromProfile(int profileIndex);
+    void startConnection();
     void stopConnection();
     void postConnection();
     void aboutToClose();

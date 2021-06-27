@@ -36,6 +36,8 @@ namespace
 {
 void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
 {
+    if(!info.status)
+        return;
     ModelHelper::fetchDiceModel(info.dices, manager->diceAliases());
     ModelHelper::fetchCharacterStateModel(info.states, manager->stateModel());
     ModelHelper::fetchNpcModel(info.npcs, manager->npcModel(), manager->rootDirectory());
@@ -71,7 +73,7 @@ bool CampaignEditor::open(const QString& from, bool discard)
     connect(watcher, &QFutureWatcher<CampaignInfo>::finished, watcher, [this, watcher]() {
         auto info= watcher->result();
         readCampaignInfo(info, m_campaign.get());
-        emit campaignChanged();
+        emit campaignLoaded();
         delete watcher;
     });
     m_campaign->setRootDirectory(from);
