@@ -28,6 +28,7 @@
 
 #include "core/controller/view_controller/imageselectorcontroller.h"
 #include "core/worker/iohelper.h"
+#include "core/worker/utilshelper.h"
 #include "delegates/userlistdelegate.h"
 #include "docks/playerspanel.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
@@ -41,7 +42,7 @@
 #include "preferences/preferencesmanager.h"
 #include <QInputDialog>
 
-UserListView::UserListView(QWidget* parent) : QTreeView(parent), m_diceParser(new DiceParser)
+UserListView::UserListView(QWidget* parent) : QTreeView(parent)
 {
     setHeaderHidden(true);
 
@@ -188,25 +189,25 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
     auto charact= dynamic_cast<Character*>(tmpperso);
     QMenu popMenu(this);
 
-    if(nullptr != charact)
+    /*if(nullptr != charact)
     {
         auto initCmd= charact->getInitCommand();
         if(!initCmd.isEmpty())
         {
-            auto act= popMenu.addAction(tr("Roll initiative"));
+            //auto act= popMenu.addAction(tr("Roll initiative"));
             connect(act, &QAction::triggered, this, [this, initCmd, charact]() {
                 if(m_diceParser->parseLine(initCmd))
                 {
                     m_diceParser->start();
-                    /*auto valueList= m_diceParser->getSumOfDiceResult();
+                    auto valueList= m_diceParser->getSumOfDiceResult();
                     if(valueList.isEmpty())
                         return;
 
-                    charact->setInitiativeScore(static_cast<int>(valueList.first()));*/
+                    charact->setInitiativeScore(static_cast<int>(valueList.first()))
                 }
             });
         }
-    }
+    }*/
 
     popMenu.addAction(m_addAvatarAct);
     popMenu.addAction(m_removeAvatarAct);
@@ -338,12 +339,12 @@ void UserListView::mouseMoveEvent(QMouseEvent* event)
 
             mimeData->setPerson(tmpperso);
             drag->setMimeData(mimeData);
-            drag->setPixmap(generateAvatar(tmpperso));
+            drag->setPixmap(helper::utils::roundCornerImage(IOHelper::dataToPixmap(tmpperso->avatar())));
             drag->exec();
         }
     }
 }
-QPixmap UserListView::generateAvatar(Person* p)
+/*QPixmap UserListView::generateAvatar(Person* p)
 {
     int diameter= 80;
     QPixmap img(diameter, diameter);
@@ -366,4 +367,4 @@ QPixmap UserListView::generateAvatar(Person* p)
     painter.drawRoundedRect(0, 0, diameter, diameter, diameter / 10, diameter / 10);
 
     return img;
-}
+}*/

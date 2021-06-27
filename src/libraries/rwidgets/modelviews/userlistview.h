@@ -20,7 +20,6 @@
 #ifndef USERLISTVIEW_H
 #define USERLISTVIEW_H
 
-#include "diceparser/include/diceparser.h"
 #include <QPointer>
 #include <QTreeView>
 #include <memory>
@@ -85,18 +84,15 @@ protected slots:
     void addAvatar();
     void deleteAvatar();
 
-    QPixmap generateAvatar(Person* p);
-
 private:
     QPointer<PlayerController> m_ctrl;
     QAction* m_addAvatarAct= nullptr;
     QAction* m_removeAvatarAct= nullptr;
-    QAction* m_rollInit= nullptr;
+    // QAction* m_rollInit= nullptr;
     QAction* m_defineCurrentHp= nullptr;
     QAction* m_changeState= nullptr;
     QAction* m_removeInit= nullptr;
     std::vector<QAction*> m_propertyActions;
-    std::unique_ptr<DiceParser> m_diceParser;
 };
 
 Q_DECLARE_METATYPE(UserListView::Type)
