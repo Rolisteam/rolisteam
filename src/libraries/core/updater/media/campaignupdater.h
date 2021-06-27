@@ -32,18 +32,29 @@ class Campaign;
 class CampaignUpdater : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
+    Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localIsGMChanged)
 public:
     explicit CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* parent= nullptr);
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+
+    bool localIsGM();
 public slots:
     void updateDiceModel();
     void updateStateModel();
+    void setLocalIsGM(bool b);
 signals:
+    void localIsGMChanged();
+
+private:
+    void setUpdating(bool b);
+    bool canForward();
 
 private:
     QPointer<Campaign> m_campaign;
     DiceParser* m_dice= nullptr;
+    bool m_localIsGm= true;
+    bool m_updatingModel= false;
 };
 } // namespace campaign
 #endif // CAMPAIGN_CAMPAIGNUPDATER_H

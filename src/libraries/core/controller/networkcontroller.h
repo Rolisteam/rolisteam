@@ -77,7 +77,7 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
 signals:
-    void isGMChanged();
+    void isGMChanged(bool);
     void connectedChanged(bool);
     void connectingChanged(bool);
     void hostingChanged();
