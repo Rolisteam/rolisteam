@@ -44,6 +44,8 @@
 
 #include "core/data/character.h"
 #include "core/model/genericmodel.h"
+#include "core/network/channel.h"
+#include "core/network/tcpclient.h"
 #include "data/rolisteamtheme.h"
 #include "media/mediatype.h"
 #include "model/nonplayablecharactermodel.h"
@@ -234,6 +236,12 @@ QJsonObject IOHelper::byteArrayToJsonObj(const QByteArray& data)
 {
     auto doc= QCborValue(data);
     return doc.toJsonValue().toObject();
+}
+
+QJsonObject IOHelper::textByteArrayToJsonObj(const QByteArray& data)
+{
+    QJsonDocument doc= QJsonDocument::fromJson(data);
+    return doc.object();
 }
 
 QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)

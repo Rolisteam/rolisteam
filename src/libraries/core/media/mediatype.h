@@ -287,6 +287,37 @@ constexpr char const* JSON_NPC_SHAPE_DATAIMG{"dataImg"};
 constexpr char const* JSON_TOKEN_SIZE{"size"};
 } // namespace JsonKey
 
+namespace jsonNetwork
+{
+constexpr char const* JSON_TYPE{"type"};
+constexpr char const* JSON_TYPE_CHANNEL{"channel"};
+constexpr char const* JSON_TYPE_CLIENT{"client"};
+
+constexpr char const* JSON_NAME{"name"};
+constexpr char const* JSON_GM{"type"};
+constexpr char const* JSON_ADMIN{"admin"};
+constexpr char const* JSON_ID{"id"};
+constexpr char const* JSON_IDPLAYER{"idPlayer"};
+
+constexpr char const* JSON_PASSWORD{"password"};
+constexpr char const* JSON_DESCRIPTION{"description"};
+constexpr char const* JSON_USERLISTED{"usersListed"};
+constexpr char const* JSON_MEMORYSIZE{"memorySize"};
+constexpr char const* JSON_LOCKED{"locked"};
+constexpr char const* JSON_CHANNELS{"channels"};
+constexpr char const* JSON_CHILDREN{"children"};
+} // namespace jsonNetwork
+
+namespace jsonDice
+{
+constexpr char const* JSON_COMMAND{"command"};
+constexpr char const* JSON_ERROR{"error"};
+constexpr char const* JSON_SCALAR{"scalar"};
+constexpr char const* JSON_INSTRUCTION{"instructions"};
+constexpr char const* JSON_DICE_FACE{"face"};
+constexpr char const* JSON_DICE_VALUE{"value"};
+} // namespace jsonDice
+
 namespace mimedata
 {
 constexpr char const* MIME_KEY_NPC_ID{"rolisteam/non-playable-character-uuid"};

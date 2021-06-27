@@ -35,8 +35,8 @@ public:
     virtual bool addChildInto(QString id, TreeItem* child);
 
     // serialization
-    virtual void readFromJson(QJsonObject& json)= 0;
-    virtual void writeIntoJson(QJsonObject& json)= 0;
+    // virtual void readFromJson(QJsonObject& json)= 0;
+    // virtual void writeIntoJson(QJsonObject& json)= 0;
 
     virtual void clear();
 

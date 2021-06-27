@@ -6,19 +6,18 @@
 
 #include "passwordaccepter.h"
 
+#include "core/updater/controller/servermanagerupdater.h"
 #include "ipbanaccepter.h"
 #include "iprangeaccepter.h"
 #include "network/networkmessagewriter.h"
 #include "timeaccepter.h"
 
-ServerManager::ServerManager(QObject* parent) : QObject(parent), m_server(nullptr)
+ServerManager::ServerManager(QObject* parent)
+    : QObject(parent), m_server(nullptr), m_model(new ChannelModel), m_serverUpdater(new ServerManagerUpdater(this))
 {
     qRegisterMetaType<NetworkMessage*>("NetworkMessage*");
 
-    m_model.reset(new ChannelModel());
-
     connect(m_model.get(), &ChannelModel::totalSizeChanged, this, &ServerManager::memoryChannelChanged);
-    connect(m_model.get(), &ChannelModel::modelChanged, this, &ServerManager::sendOffModelToAll);
 
     m_msgDispatcher= new MessageDispatcher(this);
     connect(this, &ServerManager::messageMustBeDispatched, m_msgDispatcher, &MessageDispatcher::dispatchMessage,
@@ -142,6 +141,7 @@ void ServerManager::initClient()
     TcpClient* client= qobject_cast<TcpClient*>(sender());
     if(nullptr != client)
     {
+        qDebug() << "client insert" << client << client->getName();
         m_connections.insert(client->getSocket(), client);
         sendEventToClient(client, TcpClient::CheckSuccessEvent);
     }
@@ -188,7 +188,7 @@ void ServerManager::checkAuthToServer(TcpClient* client)
     {
         m_model->addConnectionToDefaultChannel(client);
         sendEventToClient(client, TcpClient::ServerAuthSuccessEvent);
-        sendOffModel(client);
+        // sendOffModel(client);
     }
     else
     {
@@ -225,7 +225,11 @@ void ServerManager::checkAuthToChannel(TcpClient* client, QString channelId, QBy
     auto eventToSend= TcpClient::ChannelAuthSuccessEvent;
 
     if(nullptr == channel)
+    {
         eventToSend= TcpClient::ChannelAuthFailEvent;
+        sendEventToClient(client, eventToSend);
+        return;
+    }
 
     if(channel->password() != password)
         eventToSend= TcpClient::ChannelAuthFailEvent;
@@ -256,7 +260,7 @@ void ServerManager::sendOffAdminAuthSuccessed()
         NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::AdminAuthSucessed);
         QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
                                   Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
-        sendOffModel(client);
+        // sendOffModel(client);
     }
 }
 void ServerManager::sendOffAdminAuthFail()
@@ -281,7 +285,7 @@ void ServerManager::sendOffAuthSuccessed()
             = new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::AuthentificationSucessed);
         QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
                                   Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
-        sendOffModel(client);
+        // sendOffModel(client);
     }
 }
 void ServerManager::sendOffAuthFail()
@@ -301,7 +305,7 @@ void ServerManager::sendOffAuthFail()
 void ServerManager::kickClient(QString id, bool isAdmin, QString senderId)
 {
     m_model->kick(id, isAdmin, senderId);
-    sendOffModelToAll();
+    // sendOffModelToAll();
 
     TcpClient* client= nullptr;
     auto keys= m_connections.keys();
@@ -371,7 +375,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
             Channel* dest= static_cast<Channel*>(parentItem);
 
             auto channel= new Channel();
-            channel->read(*msg);
+            // channel->read(*msg);
             m_model->addChannelToChannel(channel, dest);
         }
     }
@@ -391,16 +395,17 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
     break;
     case NetMsg::SetChannelList:
     {
-        if(isAdmin)
+        qDebug() << "Server received channellist";
+        /*if(isAdmin)
         {
             QByteArray data= msg->byteArray32();
             QJsonDocument doc= QJsonDocument::fromJson(data);
             if(!doc.isEmpty())
             {
                 QJsonObject obj= doc.object();
-                m_model->readDataJson(obj);
+               // m_model->readDataJson(obj);
             }
-        }
+        }*/
     }
     break;
     case NetMsg::DeleteChannel:
@@ -409,7 +414,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
         {
             QString id= msg->string8();
             m_model->removeChild(id);
-            sendOffModelToAll();
+            // sendOffModelToAll();
         }
     }
     break;
@@ -449,21 +454,30 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
     }
 }
 
-void ServerManager::sendOffModel(TcpClient* client)
+/*void ServerManager::sendOffModel(TcpClient* client)
 {
     if(nullptr == client)
         return;
-    qDebug() << "ServerManager Send off channel model";
-    NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
+
+    qDebug() << "ServerManager Send off channel model" << sender();
+    static QMap<TcpClient*, QByteArray> model;
     QJsonDocument doc;
     QJsonObject obj;
     m_model->writeDataJson(obj);
     doc.setObject(obj);
 
-    msg->byteArray32(doc.toJson());
-    QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
-                              Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
-}
+    auto b= doc.toJson();
+
+    if(b != model[client])
+    {
+        model[client]= b;
+
+        NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
+        msg->byteArray32(doc.toJson());
+        QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
+                                  Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
+    }
+}*/
 
 void ServerManager::insertField(QString key, QVariant value, bool erase)
 {
@@ -487,6 +501,11 @@ ServerManager::ServerState ServerManager::state() const
 ChannelModel* ServerManager::channelModel() const
 {
     return m_model.get();
+}
+
+const QHash<QTcpSocket*, TcpClient*> ServerManager::connections() const
+{
+    return m_connections;
 }
 
 void ServerManager::setState(const ServerManager::ServerState& state)
@@ -525,7 +544,13 @@ void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* threa
     connect(connection, &TcpClient::adminAuthFailed, this, &ServerManager::sendOffAdminAuthFail, Qt::QueuedConnection);
     connect(connection, &TcpClient::adminAuthSucceed, this, &ServerManager::sendOffAdminAuthSuccessed,
             Qt::QueuedConnection);
-    connect(connection, &TcpClient::itemChanged, this, &ServerManager::sendOffModelToAll, Qt::QueuedConnection);
+    // connect(connection, &TcpClient::itemChanged, this, &ServerManager::sendOffModelToAll, Qt::QueuedConnection);
+    connect(connection, &TcpClient::itemChanged, this,
+            [this]() {
+                qDebug() << "connection ItemChanged";
+                // sendOffModelToAll();
+            },
+            Qt::QueuedConnection);
 
     connect(connection, &TcpClient::checkServerAcceptClient, this, &ServerManager::serverAcceptClient,
             Qt::QueuedConnection);
@@ -543,14 +568,15 @@ void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* threa
     QMetaObject::invokeMethod(connection, &TcpClient::startReading, Qt::QueuedConnection);
 }
 
-void ServerManager::sendOffModelToAll()
+/*void ServerManager::sendOffModelToAll()
 {
+    qDebug() << "sendoffModelToAll" << m_connections.size();
     auto values= m_connections.values();
     for(auto& connection : values)
     {
         sendOffModel(connection);
     }
-}
+}*/
 
 void ServerManager::disconnectedUser()
 {
@@ -584,7 +610,7 @@ void ServerManager::removeClient(TcpClient* client)
         }
         socket->deleteLater();
     }
-    sendOffModelToAll();
+    // sendOffModelToAll();
     client->deleteLater();
 }
 void ServerManager::setChannelPassword(QString chanId, QByteArray passwd)
@@ -598,7 +624,7 @@ void ServerManager::setChannelPassword(QString chanId, QByteArray passwd)
         return;
 
     channel->setPassword(passwd);
-    sendOffModelToAll();
+    // sendOffModelToAll();
 }
 
 void ServerManager::closeAllConnections()

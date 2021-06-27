@@ -44,6 +44,7 @@ class DiceAlias;
 class CharacterState;
 class RolisteamTheme;
 class GenericModel;
+
 namespace campaign
 {
 class NonPlayableCharacter;
@@ -75,6 +76,7 @@ public:
     static MediaControllerBase* loadController(const QByteArray& data);
 
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
+    static QJsonObject textByteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
     static QByteArray jsonObjectToByteArray(const QJsonObject& obj);
     static QJsonArray loadJsonFileIntoArray(const QString& filename, bool& ok);
@@ -110,6 +112,8 @@ public:
 
     // dice alias
     static QJsonObject diceAliasToJSonObject(DiceAlias* alias);
+
+    // channel model
 
     // states
     static QJsonObject stateToJSonObject(CharacterState* state, const QString& root);

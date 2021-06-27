@@ -16,6 +16,7 @@
  *
  *
  */
+class ServerManagerUpdater;
 class ServerManager : public QObject
 {
     Q_OBJECT
@@ -46,6 +47,7 @@ public:
     ServerManager::ServerState state() const;
     QVariant getValue(QString key) const;
     ChannelModel* channelModel() const;
+    const QHash<QTcpSocket*, TcpClient*> connections() const;
 
     void insertField(QString, QVariant, bool erase= true);
     void initServerManager();
@@ -79,8 +81,8 @@ public slots:
     void removeClient(TcpClient* socket);
     void disconnectedUser();
     void error(QAbstractSocket::SocketError socketError);
-    void sendOffModel(TcpClient*);
-    void sendOffModelToAll();
+    // void sendOffModel(TcpClient*);
+    // void sendOffModelToAll();
     void sendOffAdminAuthFail();
     void sendOffAdminAuthSuccessed();
 
@@ -108,6 +110,7 @@ protected:
 private:
     std::unique_ptr<RServer> m_server;
     std::unique_ptr<ChannelModel> m_model;
+    std::unique_ptr<ServerManagerUpdater> m_serverUpdater;
     std::unique_ptr<ConnectionAccepter> m_corEndProcess;
     std::unique_ptr<ConnectionAccepter> m_corConnection;
     std::unique_ptr<ConnectionAccepter> m_adminAccepter;

@@ -68,9 +68,10 @@ public:
     void sendToAll(NetworkMessage*, TcpClient* sender, bool deleteMsg= false);
     void sendToMany(NetworkMessage* msg, TcpClient* sender, bool deleteMsg= false);
 
-    void readFromJson(QJsonObject& json) override;
-    void writeIntoJson(QJsonObject& json) override;
+    // void readFromJson(QJsonObject& json) override;
+    // void writeIntoJson(QJsonObject& json) override;
     TreeItem* getChildAt(int row) override;
+    const QList<QPointer<TreeItem>> childrenItem() const;
 
     int addChild(TreeItem*) override;
 
@@ -92,9 +93,6 @@ public:
     virtual void kick(const QString& str, bool isAdmin, const QString& sourceId) override;
     TreeItem* getChildById(QString id) override;
     TcpClient* getClientById(QString id);
-
-    void fill(NetworkMessageWriter& msg);
-    void read(NetworkMessageReader& msg);
 
     quint64 memorySize() const;
     void setMemorySize(quint64 size);

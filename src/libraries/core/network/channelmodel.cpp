@@ -63,7 +63,7 @@ bool ClientMimeData::hasFormat(const QString& mimeType) const
 ChannelModel::ChannelModel()
 {
     // m_root = new Channel();
-    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
+    // ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
 }
 
 ChannelModel::~ChannelModel()
@@ -371,7 +371,7 @@ void ChannelModel::setLocalPlayerId(const QString& id)
 
 NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader* msg)
 {
-    if(NetMsg::AddChannel == msg->action())
+    /*if(NetMsg::AddChannel == msg->action())
     {
         QString idParent= msg->string8();
         auto parent= getItemById(idParent);
@@ -390,7 +390,7 @@ NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader* msg
     else if(NetMsg::AdminPassword == msg->action())
     {
         return NetWorkReceiver::ALL;
-    }
+    }*/
     return NetWorkReceiver::NONE;
 }
 Qt::ItemFlags ChannelModel::flags(const QModelIndex& index) const
@@ -577,7 +577,7 @@ bool ChannelModel::moveClient(Channel* origin, const QString& id, Channel* dest)
     return true;
 }
 
-void ChannelModel::readDataJson(const QJsonObject& obj)
+/*void ChannelModel::readDataJson(const QJsonObject& obj)
 {
     beginResetModel();
     for(auto& item : m_root)
@@ -605,9 +605,9 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
             emit localPlayerGMChanged(parent->getCurrentGmId());
         }
     }
-}
+}*/
 
-void ChannelModel::writeDataJson(QJsonObject& obj)
+/*void ChannelModel::writeDataJson(QJsonObject& obj)
 {
     QJsonArray array;
     for(auto& item : m_root) // int i = 0; i< m_root->childCount(); ++i)
@@ -620,24 +620,38 @@ void ChannelModel::writeDataJson(QJsonObject& obj)
         }
     }
     obj["channel"]= array;
+}*/
+
+const QList<TreeItem*>& ChannelModel::modelData()
+{
+    return m_root;
+}
+
+void ChannelModel::resetData(QList<TreeItem*> data)
+{
+    qDeleteAll(m_root);
+    m_root.clear();
+    beginResetModel();
+    m_root= data;
+    endResetModel();
 }
 
 void ChannelModel::readSettings()
 {
-    QSettings settings("Rolisteam", "roliserver");
+    /*QSettings settings("Rolisteam", "roliserver");
     QJsonDocument doc= QJsonDocument::fromVariant(settings.value("channeldata", ""));
     QJsonObject obj= doc.object();
-    readDataJson(obj);
+    readDataJson(obj);*/
 }
 
 void ChannelModel::writeSettings()
 {
-    QSettings settings("Rolisteam", "roliserver");
+    /*QSettings settings("Rolisteam", "roliserver");
     QJsonDocument doc;
     QJsonObject obj;
-    writeDataJson(obj);
+    // writeDataJson(obj);
     doc.setObject(obj);
-    settings.setValue("channeldata", doc);
+    settings.setValue("channeldata", doc);*/
 }
 
 void ChannelModel::kick(const QString& id, bool isAdmin, const QString& senderId)

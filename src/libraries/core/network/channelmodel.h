@@ -46,7 +46,7 @@ public:
     bool addConnectionToChannel(QString chanId, TcpClient* client);
 
     void readDataJson(const QJsonObject&);
-    void writeDataJson(QJsonObject&);
+    // void writeDataJson(QJsonObject&);
 
     void readSettings();
     void writeSettings();
@@ -79,7 +79,10 @@ public:
     void cleanUp();
     void emptyChannelMemory();
     void renameChannel(const QString& senderId, const QString& id, const QString& value);
-    bool moveClient(Channel *origin, const QString &id, Channel *dest);
+    bool moveClient(Channel* origin, const QString& id, Channel* dest);
+
+    const QList<TreeItem*>& modelData();
+    void resetData(QList<TreeItem*> data);
 signals:
     void totalSizeChanged(quint64);
     void localPlayerGMChanged(QString id);
@@ -89,8 +92,8 @@ public slots:
     void setChannelMemorySize(Channel* chan, quint64);
 
 protected:
-    bool moveMediaItem(
-        QList<TcpClient*> items, const QModelIndex& parentToBe, int row, QList<QModelIndex>& formerPosition);
+    bool moveMediaItem(QList<TcpClient*> items, const QModelIndex& parentToBe, int row,
+                       QList<QModelIndex>& formerPosition);
 
     void appendChannel(Channel* channel);
     bool localIsGM() const;

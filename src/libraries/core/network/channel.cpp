@@ -74,7 +74,7 @@ bool Channel::isLeaf() const
 {
     return false;
 }
-void Channel::readFromJson(QJsonObject& json)
+/*void Channel::readFromJson(QJsonObject& json)
 {
     m_password= QByteArray::fromBase64(json["password"].toString().toUtf8());
     m_name= json["title"].toString();
@@ -107,35 +107,7 @@ void Channel::readFromJson(QJsonObject& json)
         item->setParentItem(this);
         m_child.append(item);
     }
-}
-
-void Channel::writeIntoJson(QJsonObject& json)
-{
-    json["password"]= QString::fromUtf8(m_password.toBase64());
-    json["title"]= m_name;
-    json["description"]= m_description;
-    json["usersListed"]= m_usersListed;
-    json["id"]= m_id;
-    json["memorySize"]= static_cast<int>(m_memorySize);
-    json["type"]= "channel";
-    json["locked"]= m_locked;
-
-    QJsonArray array;
-    for(auto item : m_child)
-    {
-        if(!item)
-            continue;
-
-        if(item->isLeaf())
-        {
-            QJsonObject jsonObj;
-            item->writeIntoJson(jsonObj);
-            jsonObj["gm"]= (item == m_currentGm);
-            array.append(jsonObj);
-        }
-    }
-    json["children"]= array;
-}
+}*/
 
 TreeItem* Channel::getChildAt(int row)
 {
@@ -147,6 +119,12 @@ TreeItem* Channel::getChildAt(int row)
     }
     return nullptr;
 }
+
+const QList<QPointer<TreeItem>> Channel::childrenItem() const
+{
+    return m_child;
+}
+
 void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSaved)
 {
     if(msg->getRecipientMode() == NetworkMessage::All)
@@ -422,20 +400,6 @@ TcpClient* Channel::getClientById(QString id)
             break;
     }
     return result;
-}
-
-void Channel::fill(NetworkMessageWriter& msg)
-{
-    msg.string8(m_id);
-    msg.string16(m_name);
-    msg.string16(m_description);
-}
-
-void Channel::read(NetworkMessageReader& msg)
-{
-    m_id= msg.string8();
-    m_name= msg.string16();
-    m_description= msg.string16();
 }
 
 bool Channel::removeClient(TcpClient* client)
