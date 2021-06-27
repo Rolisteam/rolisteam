@@ -114,8 +114,8 @@ void Overlay::setSelectedRect(const QRect& rect)
     if(rect == m_selectedRect)
         return;
     m_selectedRect= computeRectGivenRatio(rect, m_ratio);
-    m_selectedRect.setX(rect.width() / 2 - m_selectedRect.width() / 2);
-    m_selectedRect.setY(rect.height() / 2 - m_selectedRect.height() / 2);
+    m_selectedRect.translate((rect.width() - m_selectedRect.width()) / 2,
+                             (rect.height() - m_selectedRect.height()) / 2);
     emit selectedRectChanged(m_selectedRect);
     update();
 }
