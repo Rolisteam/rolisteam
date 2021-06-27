@@ -45,7 +45,7 @@
 
 GameController::GameController(QClipboard* clipboard, QObject* parent)
     : QObject(parent)
-    , m_logController(new LogController(false))
+    , m_logController(new LogController(true))
     , m_remoteLogCtrl(new RemoteLogController())
     , m_networkCtrl(new NetworkController)
     , m_playerController(new PlayerController)
@@ -66,7 +66,9 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
 #endif
 #endif
 #endif
+
     m_preferences->readSettings(m_version);
+    postSettingInit();
 
     m_networkCtrl->setGameController(this);
     m_playerController->setGameController(this);
@@ -95,6 +97,7 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignChanged, this, [this]() {
         auto cm= m_campaignManager->campaign();
         m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
+        m_logController->setCurrentPath(QString("%1/rolisteam.log").arg(cm->rootDirectory()));
     });
     connect(m_campaignManager->campaign(), &campaign::Campaign::rootDirectoryChanged, this, [this]() {
         auto cm= m_campaignManager->campaign();
@@ -133,13 +136,17 @@ void GameController::postSettingInit()
 {
     // Log controller
     auto logDebug= m_preferences->value(QStringLiteral("LogDebug"), false).toBool();
-    m_logController->setMessageHandler(logDebug);
+    // m_logController->setMessageHandler(logDebug);
 
     auto LogResearch= m_preferences->value(QStringLiteral("LogResearch"), false).toBool();
     auto dataCollection= m_preferences->value(QStringLiteral("dataCollection"), false).toBool();
     m_logController->setSignalInspection(logDebug && (LogResearch || dataCollection));
 
-    LogController::StorageModes mode= LogController::Gui;
+    LogController::StorageModes mode= LogController::Gui | LogController::Console;
+
+    if(localIsGM())
+        mode|= LogController::File;
+
     if((LogResearch && dataCollection))
     {
         /*      m_logController->listenObjects(this);

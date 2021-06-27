@@ -21,6 +21,7 @@
  *************************************************************************/
 
 #include <QDebug>
+#include <QLoggingCategory>
 #include <QPalette>
 
 #include "model/playermodel.h"
@@ -32,6 +33,8 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
+
+QLoggingCategory rUser("rolisteam.user");
 
 template <typename T>
 void convertVariantToType(const T& val, NetworkMessageWriter& msg)

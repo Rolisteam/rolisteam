@@ -25,11 +25,13 @@
 #include <QCommandLineParser>
 #include <QDateTime>
 #include <QDebug>
+#include <QLoggingCategory>
 #include <QQuickStyle>
 #include <QResource>
 #include <QTextCodec>
 #include <QTranslator>
 #include <QUuid>
+#include <exception>
 
 #include "common/controller/theme.h"
 #include "data/person.h"
@@ -38,7 +40,10 @@
 #include "rolisteamapplication.h"
 #include "uiwatchdog.h"
 
-#include <exception>
+Q_DECLARE_LOGGING_CATEGORY(rNetwork);
+Q_LOGGING_CATEGORY(rNetwork, "rolisteam.network");
+Q_DECLARE_LOGGING_CATEGORY(rDice);
+Q_LOGGING_CATEGORY(rDice, "rolisteam.dice");
 
 /**
  * @mainpage Rolisteam

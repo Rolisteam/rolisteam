@@ -19,12 +19,16 @@
  ***************************************************************************/
 #include "messagefactory.h"
 
+#include <QLoggingCategory>
+
+#include "common/controller/logcontroller.h"
 #include "instantmessaging/commandmessage.h"
 #include "instantmessaging/dicemessage.h"
 #include "instantmessaging/errormessage.h"
 #include "instantmessaging/messageinterface.h"
 #include "instantmessaging/textmessage.h"
 
+QLoggingCategory rDice("rolisteam.dice");
 namespace InstantMessaging
 {
 MessageInterface* MessageFactory::createMessage(const QString& uuid, const QString& writerId, const QDateTime& time,
@@ -38,6 +42,7 @@ MessageInterface* MessageFactory::createMessage(const QString& uuid, const QStri
         msg= new TextMessage(uuid, writerId, time);
         break;
     case IM::Dice:
+        qCInfo(rDice) << QString("Player %1 just roll: %2").arg(writerId, helper::log::humanReadableDiceResult(text));
         msg= new DiceMessage(uuid, writerId, time);
         break;
     case IM::Command:

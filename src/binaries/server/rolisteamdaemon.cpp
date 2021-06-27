@@ -67,7 +67,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 
     if(!pathToLog.isEmpty())
     {
-        m_logController->setLogPath(pathToLog);
+        m_logController->setCurrentPath(pathToLog);
         modes|= LogController::File;
     }
 

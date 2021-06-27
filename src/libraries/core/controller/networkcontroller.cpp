@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "networkcontroller.h"
 
+#include <QLoggingCategory>
 #include <QMetaObject>
 #include <QThread>
 
@@ -33,6 +34,9 @@
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 #include "worker/playermessagehelper.h"
+#include <iostream>
+
+QLoggingCategory rNetwork("rolisteam.network");
 
 void readDataAndSetModel(NetworkMessageReader* msg, ChannelModel* model)
 {
@@ -227,6 +231,7 @@ void NetworkController::startServer()
             m_serverThread->quit();
             break;
         case ServerManager::Listening:
+            qCInfo(rNetwork) << "server is on";
         case ServerManager::Error:
             break;
         }
