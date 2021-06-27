@@ -198,6 +198,12 @@ QString TcpClient::playerId() const
     return {};
 }
 
+void TcpClient::setPlayerId(const QString& id)
+{
+    if(m_player)
+        m_player->setUuid(id);
+}
+
 QString TcpClient::playerName() const
 {
     if(m_player)

@@ -95,6 +95,7 @@ public:
 
     bool isGM() const;
     QString playerId() const;
+    void setPlayerId(const QString& id);
     QString playerName() const;
 
     void setInfoPlayer(NetworkMessageReader* msg);
