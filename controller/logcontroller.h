@@ -26,6 +26,13 @@
 #include <QObject>
 #include <QTextStream>
 #include <memory>
+namespace helper
+{
+namespace log
+{
+QString humanReadableDiceResult(const QString& json);
+}
+} // namespace helper
 /**
  * @brief The LogController class receives log messeges and displays them in the right sink.
  */
@@ -33,6 +40,7 @@ class LogController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(LogController::LogLevel logLevel READ logLevel WRITE setLogLevel NOTIFY logLevelChanged)
+    Q_PROPERTY(QString currentPath READ currentPath WRITE setCurrentPath NOTIFY currentPathChanged)
 public:
     enum LogLevel
     {
@@ -64,18 +72,20 @@ public:
     LogController::LogLevel logLevel() const;
 
     bool signalInspection() const;
+    QString currentPath() const;
     void setSignalInspection(bool signalInspection);
     void setListenOutSide(bool);
 
     void setMessageHandler(bool attachMessage);
     static QString typeToText(LogController::LogLevel type);
 
-    void setLogPath(const QString& path);
+    void setCurrentPath(const QString& path);
 
 signals:
     void showMessage(QString, LogController::LogLevel);
     void sendOffMessage(QString, QString, QString category, QString timestamps);
     void logLevelChanged();
+    void currentPathChanged();
 
 public slots:
     void manageMessage(QString message, LogController::LogLevel type);
@@ -84,17 +94,16 @@ public slots:
     void actionActivated();
     void setLogLevel(const LogController::LogLevel& logLevel);
     void setCurrentModes(const LogController::StorageModes& currentModes);
+    void logToFile(const QString& msg, const LogController::LogLevel& type, const QString& log);
 
 private:
     LogLevel m_logLevel= Error;
     StorageModes m_currentModes= Console;
     bool m_signalInspection= false;
     bool m_listenOutSide= false;
-    std::unique_ptr<QTextStream> m_file;
-    QFile m_currentFile;
+    QString m_currentFile;
     QMutex m_mutex;
     bool m_streamUp= false;
-    std::unique_ptr<QFile> m_logfile;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogController::StorageModes)
 #endif // LOGCONTROLLER_H

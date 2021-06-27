@@ -19,7 +19,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 #include "logcontroller.h"
+#include "core/media/mediatype.h"
 #include <QDateTime>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QMetaMethod>
 #include <QMetaObject>
 #include <QMutexLocker>
@@ -33,8 +36,30 @@
 
 LogController* controller= nullptr;
 
+namespace helper
+{
+namespace log
+{
+QString humanReadableDiceResult(const QString& json)
+{
+    QJsonDocument doc= QJsonDocument::fromJson(json.toUtf8());
+    auto obj= doc.object();
+
+    auto command= obj[Core::jsonDice::JSON_COMMAND].toString();
+    auto error= obj[Core::jsonDice::JSON_ERROR].toString();
+    auto scalar= obj[Core::jsonDice::JSON_SCALAR].toString();
+
+    auto base64= QString(json.toUtf8().toBase64());
+    return QString("%1;%2;%3;%4").arg(command).arg(scalar).arg(error).arg(base64);
+}
+} // namespace log
+} // namespace helper
+
 void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
+    static QMutex mutex;
+    QMutexLocker lock(&mutex);
+
     if(nullptr == controller)
         return;
 
@@ -47,6 +72,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
     {
     case QtDebugMsg:
         cLevel= LogController::Debug;
+        std::cout << msg.toStdString() << std::endl;
         break;
     case QtInfoMsg:
         cLevel= LogController::Info;
@@ -57,12 +83,16 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
     case QtCriticalMsg:
     case QtFatalMsg:
         cLevel= LogController::Error;
+        std::cerr << msg.toStdString() << std::endl;
         break;
     }
 
     // controller->manageMessage(msgFormated,cLevel);
     QMetaObject::invokeMethod(controller, "manageMessage", Qt::QueuedConnection, Q_ARG(QString, msgFormated),
                               Q_ARG(LogController::LogLevel, cLevel));
+    QMetaObject::invokeMethod(controller, "logToFile", Qt::QueuedConnection, Q_ARG(QString, msg),
+                              Q_ARG(LogController::LogLevel, cLevel),
+                              Q_ARG(QString, QString::fromLocal8Bit(context.category)));
 }
 
 LogController::LogController(bool attachMessage, QObject* parent) : QObject(parent)
@@ -78,7 +108,7 @@ LogController::~LogController()
 
 void LogController::setMessageHandler(bool attachMessage)
 {
-#ifndef QT_DEBUG
+    //#ifndef QT_DEBUG
     if((controller == nullptr) && (attachMessage))
     {
         qInstallMessageHandler(messageHandler);
@@ -89,9 +119,9 @@ void LogController::setMessageHandler(bool attachMessage)
         qInstallMessageHandler(nullptr);
         controller= nullptr;
     }
-#else
-    Q_UNUSED(attachMessage)
-#endif
+    /*#else
+        Q_UNUSED(attachMessage)
+    #endif*/
 }
 LogController::StorageModes LogController::currentModes() const
 {
@@ -183,18 +213,23 @@ QString LogController::typeToText(LogController::LogLevel type)
     return list.value(type);
 }
 
-void LogController::setLogPath(const QString& path)
+void LogController::setCurrentPath(const QString& path)
 {
-    m_logfile.reset(new QFile(path));
-    if(!m_logfile->open(QFile::WriteOnly))
-        manageMessage(QStringLiteral("[log] file open failed. %1 is unwritable. Please, check permissions").arg(path),
-                      Error);
-    m_file.reset(new QTextStream(m_logfile.get()));
+    std::cout << "path:" << path.toStdString() << std::endl;
+    if(m_currentFile == path)
+        return;
+    m_currentFile= path;
+    emit currentPathChanged();
 }
 
 bool LogController::signalInspection() const
 {
     return m_signalInspection;
+}
+
+QString LogController::currentPath() const
+{
+    return m_currentFile;
 }
 
 void LogController::setSignalInspection(bool signalInspection)
@@ -240,12 +275,23 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
         else
             std::cout << str.toStdString() << std::endl;
     }
-    if((m_currentModes & File) && (m_logfile))
-    {
-        *m_file << str << "\n";
-    }
     if(m_currentModes & Gui)
     {
         emit showMessage(str, type);
+    }
+}
+
+void LogController::logToFile(const QString& msg, const LogController::LogLevel& type, const QString& log)
+{
+    if(m_currentModes & File && !m_currentFile.isEmpty())
+    {
+        auto realMsg
+            = QString("%1;%2;%3;%4")
+                  .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz"), log, typeToText(type), msg);
+
+        QFile output(m_currentFile);
+        auto b= output.open(QIODevice::WriteOnly | QIODevice::Append);
+        QTextStream text(&output);
+        text << realMsg << "\n";
     }
 }
