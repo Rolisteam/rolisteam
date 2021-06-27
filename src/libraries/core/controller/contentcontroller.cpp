@@ -214,7 +214,7 @@ void ContentController::openResources(const QModelIndex& index)
 void ContentController::saveSession()
 {
     Q_ASSERT(!m_localId.isEmpty());
-    ModelHelper::saveSession(m_sessionPath, m_sessionName, this);
+    // ModelHelper::saveSession(m_sessionPath, m_sessionName, this);
 }
 
 void ContentController::saveSessionBackUp()

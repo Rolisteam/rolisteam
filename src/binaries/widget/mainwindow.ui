@@ -128,7 +128,7 @@
      <string>&amp;GM ToolBoxes</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menuCampaign">
+   <widget class="QMenu" name="m_campaignMenu">
     <property name="title">
      <string>&amp;Campaign</string>
     </property>
@@ -143,8 +143,18 @@
     <addaction name="separator"/>
     <addaction name="m_campaignPropertiesAct"/>
    </widget>
+   <widget class="QMenu" name="m_historyMenu">
+    <property name="title">
+     <string>&amp;History</string>
+    </property>
+    <addaction name="actionAdd"/>
+    <addaction name="actionRemove"/>
+    <addaction name="actionClean"/>
+    <addaction name="separator"/>
+   </widget>
    <addaction name="m_fileMenu"/>
-   <addaction name="menuCampaign"/>
+   <addaction name="m_historyMenu"/>
+   <addaction name="m_campaignMenu"/>
    <addaction name="m_editMenu"/>
    <addaction name="m_menuSubWindows"/>
    <addaction name="menuNetwork"/>
@@ -649,6 +659,21 @@
   <action name="actionNon_Playable_Characters">
    <property name="text">
     <string>Non Playable Characters</string>
+   </property>
+  </action>
+  <action name="actionAdd">
+   <property name="text">
+    <string>Add…</string>
+   </property>
+  </action>
+  <action name="actionRemove">
+   <property name="text">
+    <string>Remove…</string>
+   </property>
+  </action>
+  <action name="actionClean">
+   <property name="text">
+    <string>Clean</string>
    </property>
   </action>
  </widget>

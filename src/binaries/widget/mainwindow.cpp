@@ -681,6 +681,9 @@ void MainWindow::updateUi()
     m_ui->m_connectionLinkAct->setVisible(isGM);
     m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
+
+    // m_ui->menubar->hide();m_ui->m_campaignMenu->setVisible(isGM);
+    // m_ui->m_historyMenu->setVisible(!isGM);
     updateRecentFileActions();
 }
 void MainWindow::showUpdateNotification()

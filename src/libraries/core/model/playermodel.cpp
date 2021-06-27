@@ -439,6 +439,116 @@ Person* PlayerModel::personById(const QString& id) const
         return nullptr;
 }
 
+void PlayerModel::addPlayer(Player* player)
+{
+    if(nullptr == player)
+        return;
+
+    auto it= std::find_if(m_players.begin(), m_players.end(), [player](const std::unique_ptr<Player>& t) {
+        return (t.get() == player || t->uuid() == player->uuid());
+    });
+
+    if(it != m_players.end())
+    {
+        qWarning() << tr("Dupplicated player or uuid");
+        return;
+    }
+
+    if(player->isGM())
+    {
+        setGameMasterId(player->uuid());
+    }
+
+    int size= static_cast<int>(m_players.size());
+
+    beginInsertRows(QModelIndex(), size, size);
+    m_players.push_back(std::unique_ptr<Player>(player));
+    endInsertRows();
+
+    qCInfo(rUser) << QString("Player %1 just arrived").arg(player->name());
+    emit playerJoin(player);
+}
+
+void PlayerModel::addCharacter(const QModelIndex& parent, Character* character, int pos)
+{
+    if(!parent.isValid() || nullptr == character)
+        return;
+
+    int size= pos;
+    if(size < 0)
+        size= rowCount(parent.parent());
+
+    auto person= static_cast<Person*>(parent.internalPointer());
+    auto player= dynamic_cast<Player*>(person);
+
+    character->setNpc(player->isGM());
+
+    /* beginInsertRows(parent, size, size);
+     player->addCharacter(character);
+     endInsertRows();*/
+}
+
+void PlayerModel::removeCharacter(Character* character)
+{
+    if(nullptr == character)
+        return;
+
+    auto player= character->getParentPlayer();
+
+    if(nullptr == player)
+        return;
+
+    auto parent= personToIndex(player);
+    auto idx= player->indexOf(character);
+
+    beginRemoveRows(parent, idx, idx);
+    player->removeChild(character);
+    endRemoveRows();
+}
+
+void PlayerModel::setLocalPlayerId(const QString& uuid)
+{
+    if(uuid == m_localPlayerId)
+        return;
+    m_localPlayerId= uuid;
+    emit localPlayerIdChanged(m_localPlayerId);
+}
+
+void PlayerModel::removePlayer(Player* player)
+{
+    auto itPlayer= std::find_if(m_players.begin(), m_players.end(),
+                                [player](const std::unique_ptr<Player>& person) { return person.get() == player; });
+    if(itPlayer == m_players.end())
+        return;
+
+    //    int charactersCount= player->getChildrenCount();
+    /*    for(int i= 0; i < charactersCount; i++)
+        {
+            delCharacter(player, 0);
+        }*/
+
+    auto index= static_cast<int>(std::distance(m_players.begin(), itPlayer));
+    qCInfo(rUser) << QString("Player %s left").arg(player->name());
+
+    emit playerLeft(player);
+
+    if(player->isGM())
+    {
+        setGameMasterId("");
+    }
+
+    beginRemoveRows(QModelIndex(), index, index);
+    m_players.erase(itPlayer);
+    endRemoveRows();
+}
+
+void PlayerModel::setGameMasterId(const QString& id)
+{
+    if(id == m_gameMasterId)
+        return;
+    m_gameMasterId= id;
+    emit gameMasterIdChanged(m_gameMasterId);
+}
 /***********
  * Getters *
  ***********/
@@ -751,116 +861,6 @@ void PlayerModel::delLocalCharacter(int index)
 
     emit localPlayerChanged();
 }*/
-
-void PlayerModel::addPlayer(Player* player)
-{
-    if(nullptr == player)
-        return;
-
-    auto it= std::find_if(m_players.begin(), m_players.end(), [player](const std::unique_ptr<Player>& t) {
-        return (t.get() == player || t->uuid() == player->uuid());
-    });
-
-    if(it != m_players.end())
-    {
-        qWarning() << tr("Dupplicated player or uuid");
-        return;
-    }
-
-    if(player->isGM())
-    {
-        setGameMasterId(player->uuid());
-    }
-
-    int size= static_cast<int>(m_players.size());
-
-    beginInsertRows(QModelIndex(), size, size);
-    m_players.push_back(std::unique_ptr<Player>(player));
-    endInsertRows();
-
-    emit playerJoin(player);
-}
-
-void PlayerModel::addCharacter(const QModelIndex& parent, Character* character, int pos)
-{
-    if(!parent.isValid() || nullptr == character)
-        return;
-
-    int size= pos;
-    if(size < 0)
-        size= rowCount(parent.parent());
-
-    auto person= static_cast<Person*>(parent.internalPointer());
-    auto player= dynamic_cast<Player*>(person);
-
-    character->setNpc(player->isGM());
-
-    /* beginInsertRows(parent, size, size);
-     player->addCharacter(character);
-     endInsertRows();*/
-}
-
-void PlayerModel::removeCharacter(Character* character)
-{
-    if(nullptr == character)
-        return;
-
-    auto player= character->getParentPlayer();
-
-    if(nullptr == player)
-        return;
-
-    auto parent= personToIndex(player);
-    auto idx= player->indexOf(character);
-
-    beginRemoveRows(parent, idx, idx);
-    player->removeChild(character);
-    endRemoveRows();
-}
-
-void PlayerModel::setLocalPlayerId(const QString& uuid)
-{
-    if(uuid == m_localPlayerId)
-        return;
-    m_localPlayerId= uuid;
-    emit localPlayerIdChanged(m_localPlayerId);
-}
-
-void PlayerModel::removePlayer(Player* player)
-{
-    auto itPlayer= std::find_if(m_players.begin(), m_players.end(),
-                                [player](const std::unique_ptr<Player>& person) { return person.get() == player; });
-    if(itPlayer == m_players.end())
-        return;
-
-    //    int charactersCount= player->getChildrenCount();
-    /*    for(int i= 0; i < charactersCount; i++)
-        {
-            delCharacter(player, 0);
-        }*/
-
-    auto index= static_cast<int>(std::distance(m_players.begin(), itPlayer));
-
-    emit playerLeft(player);
-
-    if(player->isGM())
-    {
-        setGameMasterId("");
-    }
-
-    beginRemoveRows(QModelIndex(), index, index);
-    m_players.erase(itPlayer);
-    endRemoveRows();
-}
-
-void PlayerModel::setGameMasterId(const QString& id)
-{
-    if(id == m_gameMasterId)
-        return;
-    m_gameMasterId= id;
-    emit gameMasterIdChanged(m_gameMasterId);
-}
-
 /*void PlayerModel::delCharacter(Player* parent, int index)
 {
     Character* character= parent->getCharacterByIndex(index);
