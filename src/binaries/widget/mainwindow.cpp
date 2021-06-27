@@ -315,9 +315,9 @@ void MainWindow::linkActionToMenu()
 {
     connect(m_ui->m_addVectorialMap, &QAction::triggered, this, &MainWindow::newVMap);
     m_ui->m_newNoteAction->setData(QVariant::fromValue(Core::ContentType::NOTES));
-    m_ui->m_newNoteAction->setData(QVariant::fromValue(Core::ContentType::SHAREDNOTE));
-    m_ui->m_newNoteAction->setData(QVariant::fromValue(Core::ContentType::WEBVIEW));
-    m_ui->m_newNoteAction->setData(QVariant::fromValue(Core::ContentType::MINDMAP));
+    m_ui->m_newSharedNote->setData(QVariant::fromValue(Core::ContentType::SHAREDNOTE));
+    m_ui->m_newWebViewACt->setData(QVariant::fromValue(Core::ContentType::WEBVIEW));
+    m_ui->m_newMindmap->setData(QVariant::fromValue(Core::ContentType::MINDMAP));
 
     auto callNewMedia= [this]() {
         auto act= qobject_cast<QAction*>(sender());

@@ -148,6 +148,7 @@ CampaignInfo FileSerializer::readCampaignDirectory(const QString& directory)
     }
 
     // check integrity of data.json and files
+    info.status= true;
 
     return info;
 }

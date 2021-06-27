@@ -178,6 +178,13 @@ void ContentModel::clearData()
     endResetModel();
 }
 
+int ContentModel::mediaCount(Core::ContentType type)
+{
+    return std::count_if(
+        std::begin(m_medias), std::end(m_medias),
+        [type](const std::unique_ptr<MediaControllerBase>& media) { return media->contentType() == type; });
+}
+
 ///////////////////////////////////////////
 //
 //////////////////////////////////////////

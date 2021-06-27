@@ -20,6 +20,7 @@
 #include "newmediacontroller.h"
 
 #include <QDebug>
+#include <QFileInfo>
 #include <QUuid>
 
 #include "controller/contentcontroller.h"
@@ -38,8 +39,22 @@ NewMediaController::NewMediaController(ContentModel* model, const std::map<QStri
 {
     m_contentType= m_args[Core::keys::KEY_TYPE].value<Core::ContentType>();
     m_title= m_args[Core::keys::KEY_NAME].toString();
+    m_uuidUri= m_args[Core::keys::KEY_UUID].toString();
+
+    if(m_uuidUri.isEmpty())
+        m_uuidUri= QUuid::createUuid().toString(QUuid::WithoutBraces);
+
+    if(m_title.isEmpty())
+    {
+        m_title= QString("%1_%2").arg(CleverURI::typeToString(m_contentType)).arg(model->mediaCount(m_contentType) + 1);
+    }
 
     m_fullPath= m_editor ? m_editor->mediaFullPath(m_title, m_contentType) : m_title;
+
+    if(QFileInfo::exists(m_fullPath))
+    {
+        m_fullPath= m_editor ? m_editor->mediaFullPath(m_uuidUri, m_contentType) : m_title;
+    }
 
     QString media(QObject::tr("Create new %1 %2"));
 
@@ -50,9 +65,6 @@ void NewMediaController::redo()
 {
     if(m_model.isNull())
         return;
-
-    if(m_uuidUri.isEmpty())
-        m_uuidUri= QUuid::createUuid().toString(QUuid::WithoutBraces);
 
     qInfo() << QStringLiteral("Redo command newmediacontroller: %1 ").arg(text());
     auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args, m_localGM);

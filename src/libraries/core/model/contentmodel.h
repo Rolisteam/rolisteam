@@ -79,6 +79,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void clearData();
+    int mediaCount(Core::ContentType type);
 
 signals:
     void mediaControllerAdded(MediaControllerBase* newCtrl);
