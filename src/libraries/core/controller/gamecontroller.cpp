@@ -116,6 +116,17 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, &GameController::dataLoaded);
+    connect(m_campaignManager->campaign(), &campaign::Campaign::openAs, this, [this](const QString& path, Core::ContentType type){
+        std::map<QString, QVariant> vec;
+        vec.insert({Core::keys::KEY_PATH,path});
+        vec.insert({Core::keys::KEY_TYPE,QVariant::fromValue(type)});
+        vec.insert({Core::keys::KEY_SERIALIZED,IOHelper::loadFile(path)});
+        vec.insert({Core::keys::KEY_INTERNAL,true});
+        auto localId = m_playerController->localPlayer()->uuid();
+        vec.insert({Core::keys::KEY_OWNERID, localId});
+        vec.insert({Core::keys::KEY_LOCALID, localId});
+        openMedia(vec);
+    });
 
     // clang-format on
 
@@ -201,7 +212,7 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
     QMap<QString, QVariant> other(map);
     if(localIsGM())
     {
-        if(other.contains(Core::keys::KEY_PATH))
+        if(other.contains(Core::keys::KEY_PATH) && !other.contains(Core::keys::KEY_INTERNAL))
         {
             auto path= other.value(Core::keys::KEY_PATH).toString();
             other[Core::keys::KEY_PATH]= m_campaignManager->importFile(QUrl::fromLocalFile(path));
@@ -218,6 +229,7 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
 
 void GameController::save()
 {
+    m_contentCtrl->saveSession();
     m_campaignManager->saveCampaign();
 }
 

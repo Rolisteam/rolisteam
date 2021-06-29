@@ -6,6 +6,7 @@
 #include <QMenu>
 
 #include "data/campaign.h"
+#include "data/cleveruri.h"
 #include "data/media.h"
 #include "model/mediamodel.h"
 
@@ -56,11 +57,25 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     connect(m_defineAsCurrent, &QAction::triggered, this, [this]() {
 
     });
-    connect(m_openAct, &QAction::triggered, this, [this]() {
 
+    connect(m_openAct, &QAction::triggered, this, [this]() {
+        if(m_index.isValid())
+        {
+            auto path= m_index.data(MediaModel::Role_Path).toString();
+            emit openAs(path, CleverURI::extensionToContentType(path));
+        }
     });
     connect(m_openAsAct, &QAction::triggered, this, [this]() {
-
+        if(m_index.isValid())
+        {
+            auto mediaNode= static_cast<MediaNode*>(m_index.internalPointer());
+            auto path= mediaNode->path();
+            auto act= qobject_cast<QAction*>(sender());
+            if(act)
+            {
+                emit openAs(path, qvariant_cast<Core::ContentType>(act->data()));
+            }
+        }
     });
 
     auto hideshowCol= [this]() {
@@ -103,14 +118,20 @@ void CampaignView::startDrag(Qt::DropActions supportedActions)
 }
 void CampaignView::contextMenuEvent(QContextMenuEvent* event)
 {
-    auto index= indexAt(event->pos());
+    m_index= indexAt(event->pos());
 
-    MediaNode* mediaNode= nullptr;
-    if(index.isValid())
-        mediaNode= static_cast<MediaNode*>(index.internalPointer());
+    qDebug() << m_index << event->pos();
+
+    auto nodeType= m_index.data(MediaModel::Role_Type).value<Core::MediaType>();
+    auto isDir= m_index.data(MediaModel::Role_IsDir).toBool();
 
     QMenu popMenu(this);
 
+    popMenu.addAction(m_openAct);
+    auto openAs= popMenu.addMenu(tr("Open As…"));
+    if(!isDir)
+        addOpenAsActs(openAs, nodeType);
+    popMenu.addSeparator();
     popMenu.addAction(m_addDirectoryAct);
     popMenu.addAction(m_deleteFileAct);
     popMenu.addSeparator();
@@ -122,18 +143,14 @@ void CampaignView::contextMenuEvent(QContextMenuEvent* event)
     cols->addAction(m_modifiedColsAct);
 
     popMenu.addAction(m_defineAsCurrent);
-    popMenu.addAction(m_openAct);
-    auto openAs= popMenu.addMenu(tr("Open As…"));
-    addOpenAsActs(openAs, mediaNode);
 
-    auto isVoid= (mediaNode == nullptr);
-    auto isDirectory= mediaNode ? (mediaNode->nodeType() == MediaNode::NodeType::Directory) : false;
+    auto isVoid= !m_index.isValid();
 
-    m_addDirectoryAct->setEnabled(isDirectory || isVoid);
+    m_addDirectoryAct->setEnabled(isDir || isVoid);
     m_deleteFileAct->setEnabled(!isVoid);
-    m_defineAsCurrent->setEnabled(isDirectory);
-    m_openAct->setEnabled(!isDirectory && !isVoid);
-    openAs->setEnabled(!isDirectory && !isVoid);
+    m_defineAsCurrent->setEnabled(isDir);
+    m_openAct->setEnabled(!isDir && !isVoid);
+    openAs->setEnabled(!isDir && !isVoid);
 
     popMenu.exec(QCursor::pos());
 }
@@ -174,20 +191,10 @@ void CampaignView::setCampaign(Campaign* campaign)
     m_campaign= campaign;
 }
 
-void CampaignView::addOpenAsActs(QMenu* menu, MediaNode* node)
+void CampaignView::addOpenAsActs(QMenu* menu, Core::MediaType type)
 {
     menu->setEnabled(false);
-
-    auto id= node->uuid();
-    if(id.isEmpty() || !m_campaign)
-        return;
-
-    auto media= m_campaign->mediaFromUuid(id);
-
-    if(!media)
-        return;
-
-    auto const& values= m_convertionHash.value(media->type());
+    auto const& values= m_convertionHash.value(type);
 
     if(values.isEmpty())
         return;

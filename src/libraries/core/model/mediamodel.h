@@ -77,6 +77,8 @@ public:
         Role_AddedDate,
         Role_ModifiedDate,
         Role_Icon,
+        Role_Path,
+        Role_IsDir,
         Role_Unknown
     };
     explicit MediaModel(Campaign* campaign, QObject* parent= nullptr);

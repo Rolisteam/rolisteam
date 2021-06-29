@@ -36,6 +36,7 @@ OpenMediaController::OpenMediaController(ContentModel* contentModel, Core::Conte
     , m_args(args)
     , m_localIsGM(localIsGM)
 {
+
     auto it= args.find("name");
     if(it != args.end())
         setText(QObject::tr("Open %1").arg(it->second.toString()));

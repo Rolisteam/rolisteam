@@ -40,7 +40,7 @@ private slots:
     void setCurrentChapter(const QString& chapter);
     void onAddChapter();
 
-    void addOpenAsActs(QMenu* menu, MediaNode* node);
+    void addOpenAsActs(QMenu* menu, Core::MediaType type);
 
 private:
     QPointer<Campaign> m_campaign;
@@ -58,6 +58,7 @@ private:
     QAction* m_modifiedColsAct;
 
     QHash<Core::MediaType, QList<QAction*>> m_convertionHash;
+    QModelIndex m_index;
 };
 } // namespace campaign
 #endif // SESSIONVIEW_H

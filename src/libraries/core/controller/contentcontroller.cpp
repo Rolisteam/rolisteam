@@ -214,7 +214,11 @@ void ContentController::openResources(const QModelIndex& index)
 void ContentController::saveSession()
 {
     Q_ASSERT(!m_localId.isEmpty());
-    // ModelHelper::saveSession(m_sessionPath, m_sessionName, this);
+    ModelHelper::saveSession(this);
+    /*for(auto mediaCtrl : m_contentModel)
+    {
+
+    }*/
 }
 
 void ContentController::saveSessionBackUp()
@@ -225,7 +229,7 @@ void ContentController::saveSessionBackUp()
 
     auto name= QStringLiteral("%1_back.sce").arg(info.baseName());
     path= QStringLiteral("%1/%2").arg(info.absolutePath(), name);
-    ModelHelper::saveSession(path, m_sessionName, this);
+    // ModelHelper::saveSession(this);
 }
 
 void ContentController::setMediaRoot(const QString& path)

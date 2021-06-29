@@ -191,7 +191,7 @@ QVariant MediaNode::size() const
 
 MediaNode* MediaNode::childAt(int i) const
 {
-    if(i > m_children.size() || i < 0 || m_children.empty())
+    if(i > static_cast<int>(m_children.size()) || i < 0 || m_children.empty())
         return nullptr;
 
     return m_children[i].get();
@@ -246,6 +246,7 @@ QModelIndex MediaModel::index(int row, int column, const QModelIndex& parent) co
         parentNode= static_cast<MediaNode*>(parent.internalPointer());
 
     auto childNode= parentNode->childAt(row);
+
     if(childNode)
         return createIndex(row, column, childNode);
     else
@@ -313,6 +314,10 @@ QVariant MediaModel::data(const QModelIndex& index, int role) const
     {
         realrole= Role_Icon;
     }
+    else
+    {
+        realrole= role;
+    }
 
     auto media= m_campaign->mediaFromUuid(mediaNode->uuid());
 
@@ -337,6 +342,12 @@ QVariant MediaModel::data(const QModelIndex& index, int role) const
         break;
     case Role_Icon:
         res= (mediaNode->nodeType() == MediaNode::Directory) ? QIcon::fromTheme("folder") : IconFromMedia(media);
+        break;
+    case Role_Path:
+        res= mediaNode->path();
+        break;
+    case Role_IsDir:
+        res= (mediaNode->nodeType() == MediaNode::Directory);
         break;
     case Role_Unknown:
         break;
