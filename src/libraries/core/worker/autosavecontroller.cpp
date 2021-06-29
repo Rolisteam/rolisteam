@@ -23,6 +23,8 @@
 
 #include "preferences/preferencesmanager.h"
 
+constexpr int minutes= 6000;
+
 AutoSaveController::AutoSaveController(PreferencesManager* pref, QObject* parent)
     : QObject(parent), m_preferences(pref), m_timer(new QTimer)
 {
@@ -42,7 +44,7 @@ AutoSaveController::AutoSaveController(PreferencesManager* pref, QObject* parent
     connect(m_timer.get(), &QTimer::timeout, this, &AutoSaveController::saveData);
 
     auto autoSaveEnable= m_preferences->value("AutoSave", true).toBool();
-    auto autoSaveTime= m_preferences->value("AutoSaveTime", 600).toInt();
+    auto autoSaveTime= m_preferences->value("AutoSaveTime", minutes * 5).toInt();
 
     m_timer->setInterval(autoSaveTime);
 
