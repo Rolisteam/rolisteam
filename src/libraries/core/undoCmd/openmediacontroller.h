@@ -36,7 +36,6 @@ public:
     void undo() override;
 
 private:
-    CleverURI* m_uri= nullptr;
     QString m_uuid;
     QPointer<ContentModel> m_model;
     Core::ContentType m_type;
