@@ -543,9 +543,9 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
     case Core::ContentType::PICTURE:
         data= saveImage(dynamic_cast<ImageController*>(media));
         break;
-    case Core::ContentType::ONLINEPICTURE:
+    /*case Core::ContentType::ONLINEPICTURE:
         data= saveImage(dynamic_cast<ImageController*>(media));
-        break;
+        break;*/
     case Core::ContentType::NOTES:
         data= saveNotes(dynamic_cast<NoteController*>(media));
         break;
@@ -587,7 +587,6 @@ MediaControllerBase* IOHelper::loadController(const QByteArray& data)
     }
     break;
     case Core::ContentType::PICTURE:
-    case Core::ContentType::ONLINEPICTURE:
     {
         auto ctrl= new ImageController("", "", "");
         value= ctrl;

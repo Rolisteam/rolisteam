@@ -369,7 +369,7 @@ void Workspace::addMedia(MediaControllerBase* ctrl)
 {
     switch(ctrl->contentType())
     {
-    case Core::ContentType::ONLINEPICTURE:
+    // case Core::ContentType::ONLINEPICTURE:
     case Core::ContentType::PICTURE:
         addImage(dynamic_cast<ImageController*>(ctrl));
         break;

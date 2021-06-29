@@ -323,7 +323,7 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
         base= vectorialMap(uuid, params);
         break;
     case C::PICTURE:
-    case C::ONLINEPICTURE:
+        // case C::ONLINEPICTURE:
         base= image(uuid, params);
         break;
     case C::NOTES:
@@ -370,13 +370,13 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     }
     break;
     case C::PICTURE:
-    case C::ONLINEPICTURE:
-    {
-        auto data= MessageHelper::readImageData(msg);
-        uuid= data["uuid"].toString();
-        base= image(uuid, data);
-    }
-    break;
+        // case C::ONLINEPICTURE:
+        {
+            auto data= MessageHelper::readImageData(msg);
+            uuid= data["uuid"].toString();
+            base= image(uuid, data);
+        }
+        break;
     case C::MINDMAP:
     {
         auto data= MessageHelper::readMindMap(msg);

@@ -41,7 +41,6 @@ enum class ContentType : int
 {
     VECTORIALMAP,
     PICTURE,
-    ONLINEPICTURE,
     NOTES,
     CHARACTERSHEET,
     SHAREDNOTE,

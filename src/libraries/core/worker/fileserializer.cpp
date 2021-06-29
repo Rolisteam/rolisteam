@@ -242,7 +242,7 @@ QString FileSerializer::contentTypeToDefaultExtension(Core::ContentType type)
         res= Core::extentions::EXT_MAP;
         break;
     case cc::PICTURE:
-    case cc::ONLINEPICTURE:
+        // case cc::ONLINEPICTURE:
         res= Core::extentions::EXT_IMG;
         break;
     case cc::NOTES:

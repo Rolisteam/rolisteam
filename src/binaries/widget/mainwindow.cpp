@@ -169,6 +169,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
         m_ui->m_changeProfileAct->setEnabled(connected);
         m_ui->m_disconnectAction->setEnabled(connected);
     });
+
     // connect(m_sessionManager, &SessionManager::openResource, this,
     // &MainWindow::openResource);
 
@@ -346,7 +347,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_shortCutEditorAct, &QAction::triggered, this, &MainWindow::showShortCutEditor);
 
     m_ui->m_openPictureAction->setData(static_cast<int>(Core::ContentType::PICTURE));
-    m_ui->m_openOnlinePictureAction->setData(static_cast<int>(Core::ContentType::ONLINEPICTURE));
+    // m_ui->m_openOnlinePictureAction->setData(static_cast<int>(Core::ContentType::ONLINEPICTURE));
     m_ui->m_openCharacterSheet->setData(static_cast<int>(Core::ContentType::CHARACTERSHEET));
     m_ui->m_openVectorialMap->setData(static_cast<int>(Core::ContentType::VECTORIALMAP));
     m_ui->m_openNoteAction->setData(static_cast<int>(Core::ContentType::NOTES));

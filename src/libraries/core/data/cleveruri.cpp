@@ -64,7 +64,7 @@ QString CleverURI::typeToIconPath(Core::ContentType type)
     auto hash= QHash<Core::ContentType, QString>({
         {Core::ContentType::VECTORIALMAP, "vmap"},
         {Core::ContentType::PICTURE, "photo"},
-        {Core::ContentType::ONLINEPICTURE, "photo"},
+        //{Core::ContentType::ONLINEPICTURE, "photo"},
         {Core::ContentType::NOTES, "notes"},
         {Core::ContentType::CHARACTERSHEET, "treeview"},
         {Core::ContentType::SHAREDNOTE, "sharedEditor"},
@@ -260,7 +260,7 @@ QString CleverURI::getFilterForType(Core::ContentType type) // static
     case Core::ContentType::MINDMAP:
         filterType= QObject::tr("Mindmap (%1)").arg(preferences->value("Mindmap", "*.rmap").toString());
         break;
-    case Core::ContentType::ONLINEPICTURE:
+    // case Core::ContentType::ONLINEPICTURE:
     default:
         filterType= QString();
         break;
@@ -275,7 +275,7 @@ QString CleverURI::typeToString(Core::ContentType type)
     names.insert(Core::ContentType::VECTORIALMAP, QObject::tr("Vectorial Map"));
     // names.insert(Core::ContentType::CHAT, QObject::tr("Chat"));
     names.insert(Core::ContentType::PICTURE, QObject::tr("Picture"));
-    names.insert(Core::ContentType::ONLINEPICTURE, QObject::tr("Online Picture"));
+    // names.insert(Core::ContentType::ONLINEPICTURE, QObject::tr("Online Picture"));
     names.insert(Core::ContentType::NOTES, QObject::tr("Minutes"));
     names.insert(Core::ContentType::CHARACTERSHEET, QObject::tr("Charecter Sheet"));
     names.insert(Core::ContentType::MINDMAP, QObject::tr("Mindmap"));
