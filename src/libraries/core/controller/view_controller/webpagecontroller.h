@@ -21,6 +21,7 @@
 #define WEBPAGECONTROLLER_H
 
 #include <QObject>
+#include <QUrl>
 
 #include "mediacontrollerbase.h"
 
@@ -33,6 +34,7 @@ class WebpageController : public MediaControllerBase
     Q_PROPERTY(bool urlSharing READ urlSharing WRITE setUrlSharing NOTIFY urlSharingChanged)
     Q_PROPERTY(QString html READ html WRITE setHtml NOTIFY htmlChanged)
     Q_PROPERTY(WebpageController::State state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(QUrl url READ url WRITE setUrl NOTIFY urlChanged)
     Q_PROPERTY(
         WebpageController::SharingMode sharingMode READ sharingMode WRITE setSharingMode NOTIFY sharingModeChanged)
 public:
@@ -56,6 +58,7 @@ public:
     bool keepSharing() const;
     bool urlSharing() const;
     bool htmlSharing() const;
+    QUrl url() const;
     QString html() const;
     WebpageController::State state() const;
     WebpageController::SharingMode sharingMode() const;
@@ -68,6 +71,7 @@ signals:
     void sharingModeChanged(SharingMode mode);
     void htmlSharingChanged(bool htmlSharing);
     void urlSharingChanged(bool urlSharing);
+    void urlChanged();
 
 public slots:
     void setHideUrl(bool hideUrl);
@@ -77,12 +81,14 @@ public slots:
     void setHtmlSharing(bool b);
     void setUrlSharing(bool b);
     void setSharingMode(SharingMode mode);
+    void setUrl(const QUrl& url);
 
 private:
     bool m_hideUrl= false;
     bool m_keepSharing= false;
     QString m_html;
     State m_state;
+    QUrl m_url;
     SharingMode m_mode= None;
 };
 

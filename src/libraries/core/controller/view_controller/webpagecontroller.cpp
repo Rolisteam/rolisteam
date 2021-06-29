@@ -85,6 +85,11 @@ bool WebpageController::htmlSharing() const
     return Html == m_mode;
 }
 
+QUrl WebpageController::url() const
+{
+    return m_url;
+}
+
 bool WebpageController::urlSharing() const
 {
     return Url == m_mode;
@@ -132,4 +137,13 @@ void WebpageController::setSharingMode(WebpageController::SharingMode mode)
 WebpageController::SharingMode WebpageController::sharingMode() const
 {
     return m_mode;
+}
+
+void WebpageController::setUrl(const QUrl& url)
+{
+    if(m_url == url)
+        return;
+
+    m_url= url;
+    urlChanged();
 }
