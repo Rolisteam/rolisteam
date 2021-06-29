@@ -319,6 +319,43 @@ constexpr char const* JSON_DICE_FACE{"face"};
 constexpr char const* JSON_DICE_VALUE{"value"};
 } // namespace jsonDice
 
+namespace jsonctrl
+{
+namespace base
+{
+constexpr char const* JSON_CONTENT_TYPE{"contentType"};
+constexpr char const* JSON_UUID{"uuid"};
+constexpr char const* JSON_PATH{"path"};
+constexpr char const* JSON_NAME{"name"};
+constexpr char const* JSON_OWNERID{"ownerid"};
+} // namespace base
+namespace Mindmap
+{
+constexpr char const* JSON_NODE_ID{"id"};
+constexpr char const* JSON_NODE_X{"x"};
+constexpr char const* JSON_NODE_Y{"y"};
+constexpr char const* JSON_NODE_TEXT{"text"};
+constexpr char const* JSON_NODE_IMAGE{"image"};
+constexpr char const* JSON_NODE_VISIBLE{"visible"};
+constexpr char const* JSON_NODE_OPEN{"open"};
+constexpr char const* JSON_NODE_STYLE{"styleindex"};
+
+constexpr char const* JSON_NODES{"nodes"};
+
+constexpr char const* JSON_LINKS{"links"};
+constexpr char const* JSON_LINK_IDSTART{"idStart"};
+constexpr char const* JSON_LINK_IDEND{"idEnd"};
+constexpr char const* JSON_LINK_VISIBLE{"visible"};
+constexpr char const* JSON_LINK_DIRECTION{"direction"};
+constexpr char const* JSON_LINK_TEXT{"text"};
+
+constexpr char const* JSON_IMGS{"images"};
+constexpr char const* JSON_IMG_ID{"id"};
+constexpr char const* JSON_IMG_DATA{"data"};
+constexpr char const* JSON_IMG_URL{"url"};
+} // namespace Mindmap
+} // namespace jsonctrl
+
 namespace mimedata
 {
 constexpr char const* MIME_KEY_NPC_ID{"rolisteam/non-playable-character-uuid"};

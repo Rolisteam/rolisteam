@@ -44,6 +44,7 @@ CampaignDock::CampaignDock(Campaign* ctrl, QWidget* parent)
 {
     m_ui->setupUi(this);
     setObjectName("CampaignDock");
+    m_ui->m_view->setCampaign(ctrl);
 
     setWindowTitle(tr("Campaign Content"));
 
@@ -59,6 +60,7 @@ CampaignDock::CampaignDock(Campaign* ctrl, QWidget* parent)
     m_ui->m_typeCombobox->addItem(tr("Token"), QVariant::fromValue(Core::MediaType::TokenFile));
 
     connect(this, &CampaignDock::campaignChanged, this, [this]() { m_model->setCampaign(m_campaign); });
+    connect(m_ui->m_view, &CampaignView::openAs, m_campaign, &Campaign::openAs);
 
     m_filteredModel->setSourceModel(m_model.get());
     m_ui->m_view->setModel(m_filteredModel.get());

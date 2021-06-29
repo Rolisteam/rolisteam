@@ -165,87 +165,87 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
     auto mindmapCtrl= new MindMapController(uuid);
 
-    if(map.contains("indexStyle"))
-        mindmapCtrl->setDefaultStyleIndex(map.value("indexStyle").toBool());
+    /* if(map.contains("indexStyle"))
+         mindmapCtrl->setDefaultStyleIndex(map.value("indexStyle").toBool());
 
-    QHash<QString, mindmap::MindNode*> data;
-    if(map.contains("nodes"))
-    {
-        QHash<QString, QVariant> nodes= map.value("nodes").toHash();
+      QHash<QString, mindmap::MindNode*> data;
+     if(map.contains("nodes"))
+     {
+         QHash<QString, QVariant> nodes= map.value("nodes").toHash();
 
-        auto model= dynamic_cast<mindmap::BoxModel*>(mindmapCtrl->nodeModel());
-        QHash<QString, QString> parentData;
-        QList<mindmap::MindNode*> nodesList;
-        for(const auto& var : nodes)
-        {
-            auto node= new mindmap::MindNode();
-            auto nodeV= var.toHash();
-            node->setId(nodeV["uuid"].toString());
-            node->setText(nodeV["text"].toString());
-            node->setImageUri(nodeV["imageUri"].toString());
-            QPointF pos(nodeV["x"].toReal(), nodeV["y"].toReal());
-            node->setPosition(pos);
-            node->setStyleIndex(nodeV["index"].toInt());
-            nodesList.append(node);
-            data.insert(node->id(), node);
-            parentData.insert(node->id(), nodeV["parentId"].toString());
-        }
-        model->appendNode(nodesList);
+         auto model= dynamic_cast<mindmap::BoxModel*>(mindmapCtrl->nodeModel());
+         QHash<QString, QString> parentData;
+         QList<mindmap::MindNode*> nodesList;
+         for(const auto& var : nodes)
+         {
+             auto node= new mindmap::MindNode();
+             auto nodeV= var.toHash();
+             node->setId(nodeV["uuid"].toString());
+             node->setText(nodeV["text"].toString());
+             node->setImageUri(nodeV["imageUri"].toString());
+             QPointF pos(nodeV["x"].toReal(), nodeV["y"].toReal());
+             node->setPosition(pos);
+             node->setStyleIndex(nodeV["index"].toInt());
+             nodesList.append(node);
+             data.insert(node->id(), node);
+             parentData.insert(node->id(), nodeV["parentId"].toString());
+         }
+         model->appendNode(nodesList);
 
-        for(const auto& key : data.keys())
-        {
-            auto node= data.value(key);
-            auto parentId= parentData.value(key);
+         for(const auto& key : data.keys())
+         {
+             auto node= data.value(key);
+             auto parentId= parentData.value(key);
 
-            if(!parentId.isEmpty())
-            {
-                auto parent= data.value(parentId);
-                if(parent)
-                    node->setParentNode(parent);
-            }
-        }
-    }
+             if(!parentId.isEmpty())
+             {
+                 auto parent= data.value(parentId);
+                 if(parent)
+                     node->setParentNode(parent);
+             }
+         }
+     }
 
-    if(map.contains("links"))
-    {
-        QHash<QString, QVariant> links= map.value("links").toHash();
+     if(map.contains("links"))
+     {
+         QHash<QString, QVariant> links= map.value("links").toHash();
 
-        auto model= dynamic_cast<mindmap::LinkModel*>(mindmapCtrl->linkModel());
+         auto model= dynamic_cast<mindmap::LinkModel*>(mindmapCtrl->linkModel());
 
-        QList<mindmap::Link*> linkList;
-        for(const auto& var : links)
-        {
-            auto link= new mindmap::Link();
-            auto linkV= var.toHash();
-            link->setId(linkV["uuid"].toString());
-            link->setText(linkV["text"].toString());
-            link->setDirection(static_cast<Core::ArrowDirection>(linkV["direction"].toInt()));
-            auto startId= linkV["startId"].toString();
-            auto endId= linkV["endId"].toString();
+         QList<mindmap::Link*> linkList;
+         for(const auto& var : links)
+         {
+             auto link= new mindmap::Link();
+             auto linkV= var.toHash();
+             link->setId(linkV["uuid"].toString());
+             link->setText(linkV["text"].toString());
+             link->setDirection(static_cast<Core::ArrowDirection>(linkV["direction"].toInt()));
+             auto startId= linkV["startId"].toString();
+             auto endId= linkV["endId"].toString();
 
-            Q_ASSERT(data.contains(endId) && data.contains(startId));
+             Q_ASSERT(data.contains(endId) && data.contains(startId));
 
-            link->setStart(data.value(startId));
-            link->setEnd(data.value(endId));
+             link->setStart(data.value(startId));
+             link->setEnd(data.value(endId));
 
-            linkList << link;
-        }
-        model->append(linkList);
-    }
+             linkList << link;
+         }
+         model->append(linkList);
+     }
 
-    if(map.contains("imageInfoData"))
-    {
-        QHash<QString, QVariant> imgInfos= map.value("imageInfoData").toHash();
-        auto model= mindmapCtrl->imageModel();
-        for(const auto& var : imgInfos)
-        {
-            auto img= var.toHash();
-            auto pix= img["pixmap"].value<QPixmap>();
-            auto id= img["id"].toString();
-            auto url= QUrl(img["url"].toString());
-            model->insertPixmap(id, pix, url);
-        }
-    }
+     if(map.contains("imageInfoData"))
+     {
+         QHash<QString, QVariant> imgInfos= map.value("imageInfoData").toHash();
+         auto model= mindmapCtrl->imageModel();
+         for(const auto& var : imgInfos)
+         {
+             auto img= var.toHash();
+             auto pix= img["pixmap"].value<QPixmap>();
+             auto id= img["id"].toString();
+             auto url= QUrl(img["url"].toString());
+             model->insertPixmap(id, pix, url);
+         }
+     }*/
 
     if(!name.isEmpty())
         mindmapCtrl->setName(name);
@@ -286,6 +286,7 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
     QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
     auto webCtrl= new WebpageController(uuid);
     webCtrl->setOwnerId(params.value(QStringLiteral("ownerId")).toString());
+    auto path= params.value(QStringLiteral("path")).toString();
 
     if(params.contains(QStringLiteral("mode")))
     {
@@ -301,6 +302,7 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
     {
         webCtrl->setState(static_cast<WebpageController::State>(params.value(QStringLiteral("state")).toInt()));
     }
+
     if(!serializedData.isEmpty())
         IOHelper::readWebpageController(webCtrl, serializedData);
 

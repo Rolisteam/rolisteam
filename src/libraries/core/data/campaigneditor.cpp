@@ -81,7 +81,10 @@ bool CampaignEditor::open(const QString& from, bool discard)
     return true;
 }
 
-bool CampaignEditor::save(const QString& to) {}
+bool CampaignEditor::save(const QString& to)
+{
+    return true;
+}
 
 bool CampaignEditor::saveCopy(const QString& src, const QString& to)
 {
@@ -89,6 +92,7 @@ bool CampaignEditor::saveCopy(const QString& src, const QString& to)
     // save
     // copy to dest
     // change root
+    return true;
 }
 
 bool CampaignEditor::removeMedia(const QString& src)

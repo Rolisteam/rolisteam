@@ -186,29 +186,20 @@ void writeConnectionProfileModel(ProfileModel* model)
 namespace ModelHelper
 {
 
-bool saveSession(const QString& path, const QString& name, const ContentController* ctrl)
+bool saveSession(const ContentController* ctrl)
 {
-    if(path.isEmpty())
-        return false;
-
-    QFile file(path);
-    if(!file.open(QIODevice::WriteOnly))
-    {
-        return false;
-    }
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_5_7);
-    out << name;
-
     auto model= ctrl->contentModel();
     if(model == nullptr)
         return false;
 
     auto ctrls= model->controllers();
-    out << static_cast<quint64>(ctrls.size());
+
     for(auto ctrl : ctrls)
     {
-        out << IOHelper::saveController(ctrl);
+        if(nullptr == ctrl)
+            continue;
+
+        campaign::FileSerializer::writeFileIntoCampaign(ctrl->path(), IOHelper::saveController(ctrl));
     }
     return true;
 }
@@ -216,7 +207,7 @@ bool saveSession(const QString& path, const QString& name, const ContentControll
 QString loadSession(const QString& path, ContentController* ctrl)
 {
 
-    QFileInfo info(path);
+    /*QFileInfo info(path);
 
     auto name= QStringLiteral("%1_back.sce").arg(info.baseName());
     auto backUpPath= QStringLiteral("%1/%2").arg(info.absolutePath()).arg(name);
@@ -258,7 +249,7 @@ QString loadSession(const QString& path, ContentController* ctrl)
         model->appendMedia(ctrl);
     }
 
-    return name;
+    return name;*/
 }
 
 bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model)

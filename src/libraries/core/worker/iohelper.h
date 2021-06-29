@@ -87,6 +87,7 @@ public:
     static QJsonArray fetchLanguageModel();
 
     static const QMimeData* clipboardMineData();
+    static void saveMediaBaseIntoJSon(MediaControllerBase* base, QJsonObject& obj);
 
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
     static QByteArray pixmapToData(const QPixmap& pix);
@@ -100,6 +101,7 @@ public:
     // Controller Generic method
     static void saveBase(MediaControllerBase* base, QDataStream& output);
     static void readBase(MediaControllerBase* base, QDataStream& input);
+    static void readBaseFromJson(MediaControllerBase* base, QJsonObject& data);
 
 #ifdef WITH_PDF
     static void readPdfController(PdfController* ctrl, const QByteArray& array);

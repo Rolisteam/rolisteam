@@ -231,6 +231,11 @@ void FileSerializer::writeCampaignInfo(const QString& destination, const QJsonOb
     });
 }
 
+void FileSerializer::writeFileIntoCampaign(const QString& destination, const QByteArray& array)
+{
+    QtConcurrent::run([destination, array]() { IOHelper::writeFile(destination, array); });
+}
+
 QString FileSerializer::contentTypeToDefaultExtension(Core::ContentType type)
 {
     using cc= Core::ContentType;

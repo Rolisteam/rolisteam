@@ -62,6 +62,11 @@
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
+#include "core/model/imagemodel.h"
+#include "mindmap/src/data/link.h"
+#include "mindmap/src/data/mindnode.h"
+#include "mindmap/src/model/boxmodel.h"
+#include "mindmap/src/model/linkmodel.h"
 #include "worker/vectorialmapmessagehelper.h"
 
 const QString k_language_dir_path= ":/translations";
@@ -343,6 +348,18 @@ void IOHelper::saveBase(MediaControllerBase* base, QDataStream& output)
     output << base->ownerId();
 }
 
+void IOHelper::saveMediaBaseIntoJSon(MediaControllerBase* base, QJsonObject& obj)
+{
+    if(!base)
+        return;
+
+    obj[Core::jsonctrl::base::JSON_CONTENT_TYPE]= static_cast<int>(base->contentType());
+    obj[Core::jsonctrl::base::JSON_UUID]= base->uuid();
+    obj[Core::jsonctrl::base::JSON_PATH]= base->path();
+    obj[Core::jsonctrl::base::JSON_NAME]= base->name();
+    obj[Core::jsonctrl::base::JSON_OWNERID]= base->ownerId();
+}
+
 QByteArray IOHelper::pixmapToData(const QPixmap& pix)
 {
     QByteArray bytes;
@@ -505,9 +522,71 @@ QByteArray saveWebView(WebpageController* ctrl)
     output << ctrl->htmlSharing();
     output << ctrl->urlSharing();
     output << ctrl->html();
+    output << ctrl->url();
     output << ctrl->state();
     output << ctrl->sharingMode();
     return data;
+}
+
+QByteArray saveMindmap(MindMapController* ctrl)
+{
+    if(!ctrl)
+        return {};
+
+    QJsonObject objCtrl;
+    IOHelper::saveMediaBaseIntoJSon(ctrl, objCtrl);
+
+    auto model= dynamic_cast<mindmap::BoxModel*>(ctrl->nodeModel());
+    auto nodes= model->nodes();
+    QJsonArray nodeArray;
+    for(auto const& node : nodes)
+    {
+        QJsonObject obj;
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_ID]= node->id();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_X]= node->position().x();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_Y]= node->position().y();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_TEXT]= node->text();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_IMAGE]= node->imageUri();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_VISIBLE]= node->isVisible();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_OPEN]= node->open();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_STYLE]= node->styleIndex();
+
+        nodeArray.append(obj);
+    }
+
+    objCtrl[Core::jsonctrl::Mindmap::JSON_NODES]= nodeArray;
+
+    auto linkModel= dynamic_cast<mindmap::LinkModel*>(ctrl->linkModel());
+    QJsonArray linkArray;
+    auto links= linkModel->getDataSet();
+    for(auto const& link : links)
+    {
+        QJsonObject obj;
+        obj[Core::jsonctrl::Mindmap::JSON_LINK_IDSTART]= link->start()->id();
+        // qDebug() << "serialization";
+        auto end= link->endNode();
+        obj[Core::jsonctrl::Mindmap::JSON_LINK_IDEND]= end ? end->id() : QString();
+        obj[Core::jsonctrl::Mindmap::JSON_LINK_VISIBLE]= link->isVisible();
+        obj[Core::jsonctrl::Mindmap::JSON_LINK_DIRECTION]= static_cast<int>(link->direction());
+        obj[Core::jsonctrl::Mindmap::JSON_LINK_TEXT]= link->text();
+        linkArray.append(obj);
+    }
+    objCtrl[Core::jsonctrl::Mindmap::JSON_LINKS]= linkArray;
+
+    auto imgModel= ctrl->imageModel();
+    auto imgs= imgModel->imageInfos();
+    QJsonArray imgArray;
+    for(const auto& img : imgs)
+    {
+        QJsonObject obj;
+        obj[Core::jsonctrl::Mindmap::JSON_IMG_ID]= img.m_id;
+        obj[Core::jsonctrl::Mindmap::JSON_IMG_DATA]= QString::fromUtf8(IOHelper::pixmapToData(img.m_pixmap).toBase64());
+        obj[Core::jsonctrl::Mindmap::JSON_IMG_URL]= img.m_url.toString();
+        imgArray.append(obj);
+    }
+    objCtrl[Core::jsonctrl::Mindmap::JSON_IMGS]= imgArray;
+
+    return IOHelper::jsonObjectToByteArray(objCtrl);
 }
 
 #ifdef WITH_PDF
@@ -532,8 +611,6 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
     if(!media)
         return data;
 
-    //
-
     auto uri= media->contentType();
     switch(uri)
     {
@@ -557,6 +634,9 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
         break;
     case Core::ContentType::WEBVIEW:
         data= saveWebView(dynamic_cast<WebpageController*>(media));
+        break;
+    case Core::ContentType::MINDMAP:
+        data= saveMindmap(dynamic_cast<MindMapController*>(media));
         break;
 #ifdef WITH_PDF
     case Core::ContentType::PDF:
@@ -621,6 +701,12 @@ MediaControllerBase* IOHelper::loadController(const QByteArray& data)
         readWebpageController(ctrl, data);
     }
     break;
+    case Core::ContentType::MINDMAP:
+    {
+        auto ctrl= new MindMapController({});
+        value= ctrl;
+        readMindmapController(ctrl, data);
+    }
 #ifdef WITH_PDF
     case Core::ContentType::PDF:
     {
@@ -661,6 +747,8 @@ void IOHelper::readBase(MediaControllerBase* base, QDataStream& input)
     base->setPath(path);
     base->setOwnerId(ownerId);
 }
+
+void IOHelper::readBaseFromJson(MediaControllerBase* base, QJsonObject& data) {}
 
 void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array)
 {
@@ -751,6 +839,9 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
     QString html;
     input >> html;
 
+    QUrl url;
+    input >> url;
+
     WebpageController::State state;
     input >> state;
 
@@ -763,15 +854,70 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
     ctrl->setUrlSharing(urlSharing);
     ctrl->setState(state);
     ctrl->setSharingMode(mode);
+    ctrl->setUrl(url);
 }
 void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
         return;
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
 
-    IOHelper::readBase(ctrl, input);
+    auto objCtrl= IOHelper::textByteArrayToJsonObj(array);
+
+    IOHelper::readBaseFromJson(ctrl, objCtrl);
+
+    auto nodes= objCtrl[Core::jsonctrl::Mindmap::JSON_NODES].toArray();
+    auto model= dynamic_cast<mindmap::BoxModel*>(ctrl->nodeModel());
+    QList<mindmap::MindNode*> datanodes;
+    for(auto const& nodeRef : nodes)
+    {
+        auto nodeJson= nodeRef.toObject();
+        auto node= new mindmap::MindNode();
+        node->setId(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_ID].toString());
+        node->setPosition(QPoint(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_X].toInt(),
+                                 nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_Y].toInt()));
+
+        node->setText(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_TEXT].toString());
+        node->setImageUri(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_IMAGE].toString());
+        node->setVisible(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_VISIBLE].toBool());
+        node->setOpen(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_OPEN].toBool());
+        node->setStyleIndex(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_STYLE].toInt());
+        datanodes.append(node);
+    }
+
+    model->appendNode(datanodes, false);
+    auto linkArrays= objCtrl[Core::jsonctrl::Mindmap::JSON_LINKS].toArray();
+    QList<mindmap::Link*> linknodes;
+    for(auto const& linkRef : linkArrays)
+    {
+        auto obj= linkRef.toObject();
+        auto link= new mindmap::Link();
+        auto startId= obj[Core::jsonctrl::Mindmap::JSON_LINK_IDSTART].toString();
+        auto endId= obj[Core::jsonctrl::Mindmap::JSON_LINK_IDEND].toString();
+        auto start= model->nodeFromId(startId);
+        auto end= model->nodeFromId(endId);
+        link->setStart(start);
+        link->setEnd(end);
+        link->setVisible(obj[Core::jsonctrl::Mindmap::JSON_LINK_VISIBLE].toBool());
+        link->setDirection(
+            static_cast<Core::ArrowDirection>(obj[Core::jsonctrl::Mindmap::JSON_LINK_DIRECTION].toInt()));
+        link->setText(obj[Core::jsonctrl::Mindmap::JSON_LINK_TEXT].toString());
+        linknodes.append(link);
+    }
+
+    auto linkModel= dynamic_cast<mindmap::LinkModel*>(ctrl->linkModel());
+    linkModel->append(linknodes);
+
+    auto imgs= objCtrl[Core::jsonctrl::Mindmap::JSON_IMGS].toArray();
+    auto imgModel= ctrl->imageModel();
+    for(auto const& imgRef : imgs)
+    {
+        auto img= imgRef.toObject();
+        auto pixmap= IOHelper::dataToPixmap(
+            QByteArray::fromBase64(img[Core::jsonctrl::Mindmap::JSON_IMG_DATA].toString().toUtf8()));
+        auto id= img[Core::jsonctrl::Mindmap::JSON_IMG_ID].toString();
+        auto url= QUrl::fromUserInput(img[Core::jsonctrl::Mindmap::JSON_IMG_URL].toString());
+        imgModel->insertPixmap(id, pixmap, url);
+    }
 
     // TODO read data to define mindmapcontroller.
 }

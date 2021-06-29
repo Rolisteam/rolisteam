@@ -313,7 +313,7 @@ Core::ContentType CleverURI::extensionToContentType(const QString& filename)
 #endif
 
     auto func= [filename](std::set<QString> set, Core::ContentType type) {
-        for(auto ext : set)
+        for(const auto& ext : set)
         {
             if(filename.endsWith(ext))
                 return type;

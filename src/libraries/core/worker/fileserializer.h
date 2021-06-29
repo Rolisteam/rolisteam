@@ -70,6 +70,7 @@ public:
     static void writeCampaignInfo(const QString& destination, const QJsonObject& object);
     static void writeNpcIntoCampaign(const QString& destination, const QJsonArray& array);
     static bool createCampaignDirectory(const QString& path);
+    static void writeFileIntoCampaign(const QString& destination, const QByteArray& array);
 
     static QString contentTypeToDefaultExtension(Core::ContentType type);
     static QString addExtention(const QString& name, Core::ContentType);
