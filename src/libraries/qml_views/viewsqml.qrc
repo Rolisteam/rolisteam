@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/qml">
         <file>instantmessaging/InstantMessagingMain.qml</file>
         <file>instantmessaging/InstantMessagingEditText.qml</file>
         <file>instantmessaging/AddChatRoomDialog.qml</file>
@@ -9,9 +9,9 @@
         <file>instantmessaging/DiceMessageDelegate.qml</file>
         <file>instantmessaging/CommandMessageDelegate.qml</file>
         <file>instantmessaging/ErrorMessageDelegate.qml</file>
-        <file>customs/qmldir</file>
-        <file>customs/PermissionSlider.qml</file>
-        <file>customs/PermissionFrame.qml</file>
+        <file>CustomItems/qmldir</file>
+        <file>CustomItems/PermissionSlider.qml</file>
+        <file>CustomItems/PermissionFrame.qml</file>
         <file>rolistyle/Pane.qml</file>
         <file>rolistyle/Drawer.qml</file>
         <file>rolistyle/Label.qml</file>
