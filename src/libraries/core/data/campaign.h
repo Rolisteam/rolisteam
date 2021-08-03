@@ -140,7 +140,6 @@ signals:
     void errorOccured(QString msg);
     void mediaAdded(Media* media);
     void mediaRemoved(const QString& id);
-    void openAs(const QString& path, Core::ContentType type);
 
 private:
     std::vector<std::unique_ptr<campaign::Media>> m_mediaList;

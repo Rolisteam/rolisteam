@@ -45,6 +45,7 @@ public:
     bool createCampaign(const QUrl& dir);
     QString importFile(const QUrl& dir);
     QString createFileFromData(const QString& name, const QByteArray& data);
+    void removeFile(const QString& file);
 
     void saveCampaign();
     void copyCampaign(const QUrl& dir);

@@ -60,7 +60,8 @@ CampaignDock::CampaignDock(Campaign* ctrl, QWidget* parent)
     m_ui->m_typeCombobox->addItem(tr("Token"), QVariant::fromValue(Core::MediaType::TokenFile));
 
     connect(this, &CampaignDock::campaignChanged, this, [this]() { m_model->setCampaign(m_campaign); });
-    connect(m_ui->m_view, &CampaignView::openAs, m_campaign, &Campaign::openAs);
+    connect(m_ui->m_view, &CampaignView::openAs, this, &CampaignDock::openResource);
+    connect(m_ui->m_view, &CampaignView::removeSelection, this, &CampaignDock::removeFile);
 
     m_filteredModel->setSourceModel(m_model.get());
     m_ui->m_view->setModel(m_filteredModel.get());

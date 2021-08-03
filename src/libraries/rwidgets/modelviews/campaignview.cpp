@@ -22,7 +22,7 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     setDragDropMode(QAbstractItemView::InternalMove);
 
     m_addDirectoryAct= new QAction(tr("Add directory…"), this);
-    m_deleteFileAct= new QAction(tr("delete"), this);
+    m_deleteFileAct= new QAction(tr("Delete"), this);
     m_defineAsCurrent= new QAction(tr("Current Directory"), this);
     m_openAct= new QAction(tr("Open"), this);
     m_openAsAct= new QAction(tr("Open As…"), this);
@@ -53,7 +53,10 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     m_modifiedColsAct->setData(4);
 
     connect(m_addDirectoryAct, &QAction::triggered, this, &CampaignView::onAddChapter);
-    connect(m_deleteFileAct, &QAction::triggered, this, &CampaignView::removeSelection);
+    connect(m_deleteFileAct, &QAction::triggered, this, [this]() {
+        auto path= m_deleteFileAct->data().toString();
+        emit removeSelection(path);
+    });
     connect(m_defineAsCurrent, &QAction::triggered, this, [this]() {
 
     });
@@ -124,6 +127,7 @@ void CampaignView::contextMenuEvent(QContextMenuEvent* event)
 
     auto nodeType= m_index.data(MediaModel::Role_Type).value<Core::MediaType>();
     auto isDir= m_index.data(MediaModel::Role_IsDir).toBool();
+    auto path= m_index.data(MediaModel::Role_Path).toString();
 
     QMenu popMenu(this);
 
@@ -148,6 +152,7 @@ void CampaignView::contextMenuEvent(QContextMenuEvent* event)
 
     m_addDirectoryAct->setEnabled(isDir || isVoid);
     m_deleteFileAct->setEnabled(!isVoid);
+    m_deleteFileAct->setData(path);
     m_defineAsCurrent->setEnabled(isDir);
     m_openAct->setEnabled(!isDir && !isVoid);
     openAs->setEnabled(!isDir && !isVoid);

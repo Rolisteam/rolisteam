@@ -321,6 +321,9 @@ QVariant MediaModel::data(const QModelIndex& index, int role) const
 
     auto media= m_campaign->mediaFromUuid(mediaNode->uuid());
 
+    if(!media)
+        return {};
+
     QVariant res;
     switch(realrole)
     {

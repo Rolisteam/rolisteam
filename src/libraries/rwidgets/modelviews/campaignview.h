@@ -32,7 +32,7 @@ protected:
 
 signals:
     void addDirectory(QModelIndex&);
-    void removeSelection();
+    void removeSelection(const QString& uuid);
     void openAs(const QString& path, Core::ContentType type);
     void currentChapterChanged();
 

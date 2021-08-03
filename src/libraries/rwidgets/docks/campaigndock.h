@@ -54,6 +54,7 @@ public slots:
 signals:
     void campaignChanged();
     void openResource(const QString& path, Core::ContentType type);
+    void removeFile(const QString& path);
 
 protected:
     void closeEvent(QCloseEvent* event);

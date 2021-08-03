@@ -107,6 +107,12 @@ QString CampaignManager::createFileFromData(const QString& name, const QByteArra
     return res;
 }
 
+void CampaignManager::removeFile(const QString& file)
+{
+    if(m_editor)
+        m_editor->removeMedia(file);
+}
+
 void CampaignManager::saveCampaign()
 {
     if(!m_editor)

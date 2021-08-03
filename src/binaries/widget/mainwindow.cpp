@@ -114,6 +114,22 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 
     // ALLOCATIONS
     m_campaignDock.reset(new campaign::CampaignDock(m_gameController->campaign()));
+    connect(m_campaignDock.get(), &campaign::CampaignDock::openResource, this,
+            [this](const QString& path, Core::ContentType type) {
+                std::map<QString, QVariant> vec;
+                vec.insert({Core::keys::KEY_PATH, path});
+                vec.insert({Core::keys::KEY_TYPE, QVariant::fromValue(type)});
+                vec.insert({Core::keys::KEY_SERIALIZED, IOHelper::loadFile(path)});
+                vec.insert({Core::keys::KEY_INTERNAL, true});
+                auto localId= m_gameController->localPlayerId();
+                vec.insert({Core::keys::KEY_OWNERID, localId});
+                vec.insert({Core::keys::KEY_LOCALID, localId});
+                m_gameController->openMedia(vec);
+            });
+    connect(m_campaignDock.get(), &campaign::CampaignDock::removeFile, this, [this](const QString& path) {
+        auto campaignManager= m_gameController->campaignManager();
+        campaignManager->removeFile(path);
+    });
 
     m_antagonistWidget.reset(new campaign::AntagonistBoard(m_gameController->campaignManager()->editor(), this));
 

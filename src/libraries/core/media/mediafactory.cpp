@@ -286,7 +286,6 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
     QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
     auto webCtrl= new WebpageController(uuid);
     webCtrl->setOwnerId(params.value(QStringLiteral("ownerId")).toString());
-    auto path= params.value(QStringLiteral("path")).toString();
 
     if(params.contains(QStringLiteral("mode")))
     {
