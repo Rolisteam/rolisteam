@@ -17,58 +17,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNEDITOR_H
-#define CAMPAIGNEDITOR_H
+#ifndef ACTIONONLISTMODEL_H
+#define ACTIONONLISTMODEL_H
 
-#include <QObject>
-#include <QUndoCommand>
+#include <QAbstractListModel>
 
-#include <memory>
-
-#include "media/mediatype.h"
-
-namespace campaign
+struct ActionInfo
 {
-class Campaign;
-class Media;
-class CampaignEditor : public QObject
+    QString name;
+    QString icon;
+};
+
+struct DataInfo
+{
+    QString data;
+    QString action;
+};
+
+class ActionOnListModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(Campaign* campaign READ campaign CONSTANT)
+
 public:
-    explicit CampaignEditor(QObject* parent= nullptr);
+    enum Action_Role
+    {
+        Name= Qt::UserRole + 1,
+        Action,
+        PossibleAction
+    };
 
-    Campaign* campaign() const;
+    explicit ActionOnListModel(const QStringList& data, const QList<ActionInfo>& actions, QObject* parent= nullptr);
 
-    void createNew(const QString& dir);
-    bool open(const QString& from, bool discard);
-    bool save(const QString& to);
-    bool saveCopy(const QString& src, const QString& to);
+    // Basic functionality:
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
 
-    // media
-    bool addMedia(const QString& src, const QByteArray& array);
-    bool removeMedia(const QString& src);
-
-    // character
-    // QString addFileIntoCharacters(const QString& src);
-    // bool removeFileFromCharacters(const QString& path);
-
-    QString saveAvatar(const QString& id, const QByteArray& array);
-
-    QString mediaFullPath(const QString& file, Core::ContentType type);
-    void doCommand(QUndoCommand* command);
-
-    QString campaignDir() const;
-    QString currentDir() const;
-
-signals:
-    void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
-    void performCommand(QUndoCommand* command);
-    void importedFile(campaign::Media* media);
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
 private:
-    QString m_root;
-    std::unique_ptr<campaign::Campaign> m_campaign;
+    QList<DataInfo> m_data;
+    QList<ActionInfo> m_actions;
 };
-} // namespace campaign
-#endif // CAMPAIGNEDITOR_H
+
+#endif // ACTIONONLISTMODEL_H

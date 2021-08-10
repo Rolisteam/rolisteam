@@ -85,6 +85,7 @@
 
 // Text editor
 #include "rwidgets/dialogs/aboutrolisteam.h"
+#include "rwidgets/dialogs/campaignintegritydialog.h"
 
 // GMToolBox
 #include "diceparser/qmltypesregister.h"
@@ -130,6 +131,11 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
         auto campaignManager= m_gameController->campaignManager();
         campaignManager->removeFile(path);
     });
+
+    connect(m_gameController, &GameController::dataLoaded, this,
+            [this](const QStringList missignFiles, const QStringList unmanagedFile) {
+                campaign::CampaignIntegrityDialog dialog(missignFiles, unmanagedFile);
+            });
 
     m_antagonistWidget.reset(new campaign::AntagonistBoard(m_gameController->campaignManager()->editor(), this));
 

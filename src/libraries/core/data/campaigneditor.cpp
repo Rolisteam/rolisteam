@@ -46,9 +46,6 @@ void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
     manager->setName(assets[Core::JsonKey::JSON_NAME].toString());
     manager->setCurrentChapter(assets[Core::JsonKey::JSON_CURRENT_CHAPTER].toString());
     manager->setCurrentTheme(IOHelper::jsonToTheme(info.theme));
-
-    qDebug() << "unamanaged file:" << info.unmanagedFiles;
-    qDebug() << "missingFiles file:" << info.missingFiles;
 }
 } // namespace
 CampaignEditor::CampaignEditor(QObject* parent) : QObject(parent), m_campaign(new Campaign)
@@ -73,7 +70,7 @@ bool CampaignEditor::open(const QString& from, bool discard)
     connect(watcher, &QFutureWatcher<CampaignInfo>::finished, watcher, [this, watcher]() {
         auto info= watcher->result();
         readCampaignInfo(info, m_campaign.get());
-        emit campaignLoaded();
+        emit campaignLoaded(info.missingFiles, info.unmanagedFiles);
         delete watcher;
     });
     m_campaign->setRootDirectory(from);

@@ -81,11 +81,30 @@ QStringList buildParentList(const QString& path, const QString& root)
     return res;
 }
 
-MediaNode* findNode(const QString& path, int* i, MediaNode* root)
+int findIndexOf(MediaNode* parent, MediaNode* child)
+{
+    if(!parent || !child)
+        return -1;
+
+    auto const& children= parent->children();
+    auto it= std::find_if(
+        std::begin(children), std::end(children),
+        [child](const std::unique_ptr<MediaNode>& tmp) { return tmp.get() == child; });
+
+    if(it == std::end(children))
+        return -1;
+
+    return std::distance(std::begin(children), it);
+}
+
+MediaNode* findNode(const QString& path, MediaNode* root)
 {
     auto rootPath= root->path();
+    if(path == rootPath)
+        return root;
+
     QStringList parents= buildParentList(path, rootPath);
-    ///
+
     auto tmp= root;
     for(const auto& currentPath : parents)
     {
@@ -98,10 +117,6 @@ MediaNode* findNode(const QString& path, int* i, MediaNode* root)
             return nullptr;
 
         tmp= (*it).get();
-        if(tmp->path() == path)
-        {
-            *i= std::distance(std::begin(children), it);
-        }
     }
 
     if(tmp == root)
@@ -269,8 +284,8 @@ QModelIndex MediaModel::parent(const QModelIndex& index) const
         return {};
     }
 
-    int i= 0;
-    auto node= findNode(parentPath, &i, m_root.get());
+    auto node= findNode(parentPath, m_root.get());
+    int i= findIndexOf(node, indexNode);
 
     if(node == nullptr)
         return {};
@@ -365,8 +380,7 @@ void MediaModel::addMediaNode(Media* media)
         return;
     auto id= media->id();
     auto path= media->path();
-    int i;
-    auto node= findNode(path, &i, m_root.get());
+    auto node= findNode(path, m_root.get());
 
     if(node)
         return;
@@ -375,8 +389,8 @@ void MediaModel::addMediaNode(Media* media)
     QStringList parents= buildParentList(getParentPath(path), m_root->path());
     for(const auto& parent : parents)
     {
-        int i= -1;
-        auto node= findNode(parent, &i, m_root.get());
+        auto node= findNode(parent, m_root.get());
+        int i= findIndexOf(parentNode, node);
         if(!node)
         {
             i= parentNode->childrenCount();
@@ -401,14 +415,21 @@ void MediaModel::removeMediaNode(const QString& id)
     if(!node)
         return;
 
-    int i= -1;
-    auto parentNode= findNode(node->parentPath(), &i, m_root.get());
+    auto parentNode= findNode(node->parentPath(), m_root.get());
+    int i = findIndexOf(parentNode, node);
 
-    if(!parentNode)
+    qDebug() << i << "position of parent";
+    if(i<0)
+    {
         return;
+        //parentNode = m_root.get();
+    }
+
 
     auto idx= createIndex(i, 0, node);
     auto parentIdx= idx.parent();
+
+    qDebug() << "truc" << i << idx << parentIdx;
 
     beginRemoveRows(parentIdx, idx.row(), idx.row());
     parentNode->removeChild(idx.row());

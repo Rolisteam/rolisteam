@@ -62,7 +62,7 @@ public slots:
 
 signals:
     void campaignChanged(const QString& str);
-    void campaignLoaded();
+    void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
     void fileImported(campaign::Media* path);
     void errorOccured(const QString& error);
 

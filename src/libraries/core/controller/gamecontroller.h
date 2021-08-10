@@ -109,7 +109,7 @@ signals:
     void tipOfDayChanged();
     void closingApp();
     void campaignChanged();
-    void dataLoaded();
+    void dataLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
 
 public slots:
     void addErrorLog(const QString& message);

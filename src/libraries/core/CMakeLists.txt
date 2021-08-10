@@ -89,6 +89,7 @@ set(HEADERS
   data/shortcutmodel.h
   media/mediafactory.h
   media/mediatype.h
+  model/actiononlistmodel.h
   model/charactermodel.h
   model/characterstatemodel.h
   model/contentmodel.h
@@ -244,6 +245,7 @@ set(SOURCES
   data/rolisteamtheme.cpp
   data/shortcutmodel.cpp
   media/mediafactory.cpp
+  model/actiononlistmodel.cpp
   model/charactermodel.cpp
   model/characterstatemodel.cpp
   model/contentmodel.cpp

@@ -17,58 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNEDITOR_H
-#define CAMPAIGNEDITOR_H
-
-#include <QObject>
-#include <QUndoCommand>
-
-#include <memory>
-
-#include "media/mediatype.h"
-
+#include "campaignintegritydialog.h"
+#include "ui_campaignintegritydialog.h"
 namespace campaign
 {
-class Campaign;
-class Media;
-class CampaignEditor : public QObject
+CampaignIntegrityDialog::CampaignIntegrityDialog(QStringList missignFiles, const QStringList unmanagedFile,
+                                                 QWidget* parent)
+    : QDialog(parent), ui(new Ui::CampaignIntegrityDialog)
 {
-    Q_OBJECT
-    Q_PROPERTY(Campaign* campaign READ campaign CONSTANT)
-public:
-    explicit CampaignEditor(QObject* parent= nullptr);
+    ui->setupUi(this);
+}
 
-    Campaign* campaign() const;
+CampaignIntegrityDialog::~CampaignIntegrityDialog()
+{
+    delete ui;
+}
 
-    void createNew(const QString& dir);
-    bool open(const QString& from, bool discard);
-    bool save(const QString& to);
-    bool saveCopy(const QString& src, const QString& to);
-
-    // media
-    bool addMedia(const QString& src, const QByteArray& array);
-    bool removeMedia(const QString& src);
-
-    // character
-    // QString addFileIntoCharacters(const QString& src);
-    // bool removeFileFromCharacters(const QString& path);
-
-    QString saveAvatar(const QString& id, const QByteArray& array);
-
-    QString mediaFullPath(const QString& file, Core::ContentType type);
-    void doCommand(QUndoCommand* command);
-
-    QString campaignDir() const;
-    QString currentDir() const;
-
-signals:
-    void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
-    void performCommand(QUndoCommand* command);
-    void importedFile(campaign::Media* media);
-
-private:
-    QString m_root;
-    std::unique_ptr<campaign::Campaign> m_campaign;
-};
+void CampaignIntegrityDialog::changeEvent(QEvent* e)
+{
+    QDialog::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}
 } // namespace campaign
-#endif // CAMPAIGNEDITOR_H

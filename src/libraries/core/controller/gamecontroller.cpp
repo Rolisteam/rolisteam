@@ -416,7 +416,7 @@ void GameController::setDataFromProfile(int profileIndex)
     }
     else
     {
-        emit dataLoaded();
+        emit dataLoaded({}, {});
     }
 }
 

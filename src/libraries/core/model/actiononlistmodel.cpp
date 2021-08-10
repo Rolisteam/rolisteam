@@ -17,58 +17,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNEDITOR_H
-#define CAMPAIGNEDITOR_H
+#include "actiononlistmodel.h"
 
-#include <QObject>
-#include <QUndoCommand>
+ActionOnListModel::ActionOnListModel(const QStringList& data, const QList<ActionInfo>& actions, QObject* parent)
+    : QAbstractListModel(parent), m_actions(actions)
 
-#include <memory>
-
-#include "media/mediatype.h"
-
-namespace campaign
 {
-class Campaign;
-class Media;
-class CampaignEditor : public QObject
+    std::transform(std::begin(data), std::end(data), std::back_inserter(m_data), [](const QString& path) {
+        DataInfo info;
+        info.data= path;
+        return info;
+    });
+}
+
+int ActionOnListModel::rowCount(const QModelIndex& parent) const
 {
-    Q_OBJECT
-    Q_PROPERTY(Campaign* campaign READ campaign CONSTANT)
-public:
-    explicit CampaignEditor(QObject* parent= nullptr);
+    if(parent.isValid())
+        return 0;
 
-    Campaign* campaign() const;
+    return m_data.size();
+}
 
-    void createNew(const QString& dir);
-    bool open(const QString& from, bool discard);
-    bool save(const QString& to);
-    bool saveCopy(const QString& src, const QString& to);
+QVariant ActionOnListModel::data(const QModelIndex& index, int role) const
+{
+    if(!index.isValid())
+        return QVariant();
 
-    // media
-    bool addMedia(const QString& src, const QByteArray& array);
-    bool removeMedia(const QString& src);
-
-    // character
-    // QString addFileIntoCharacters(const QString& src);
-    // bool removeFileFromCharacters(const QString& path);
-
-    QString saveAvatar(const QString& id, const QByteArray& array);
-
-    QString mediaFullPath(const QString& file, Core::ContentType type);
-    void doCommand(QUndoCommand* command);
-
-    QString campaignDir() const;
-    QString currentDir() const;
-
-signals:
-    void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
-    void performCommand(QUndoCommand* command);
-    void importedFile(campaign::Media* media);
-
-private:
-    QString m_root;
-    std::unique_ptr<campaign::Campaign> m_campaign;
-};
-} // namespace campaign
-#endif // CAMPAIGNEDITOR_H
+    auto curr= m_data.at(index.row());
+    QVariant res;
+    if(role == Qt::DisplayRole || role == Name)
+        res= curr.data;
+    else if(role == Action)
+        res= curr.action;
+    else if(role == PossibleAction)
+    {
+        QVariantList list;
+        std::transform(std::begin(m_actions), std::end(m_actions), std::back_inserter(list),
+                       [](const ActionInfo& info) { return info.name; });
+        res= list;
+    }
+    return res;
+}

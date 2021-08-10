@@ -17,58 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNEDITOR_H
-#define CAMPAIGNEDITOR_H
+#ifndef CAMPAIGN_CAMPAIGNINTEGRITYDIALOG_H
+#define CAMPAIGN_CAMPAIGNINTEGRITYDIALOG_H
 
-#include <QObject>
-#include <QUndoCommand>
+#include <QDialog>
 
-#include <memory>
-
-#include "media/mediatype.h"
+namespace Ui
+{
+class CampaignIntegrityDialog;
+}
 
 namespace campaign
 {
-class Campaign;
-class Media;
-class CampaignEditor : public QObject
+
+class CampaignIntegrityDialog : public QDialog
 {
     Q_OBJECT
-    Q_PROPERTY(Campaign* campaign READ campaign CONSTANT)
+
 public:
-    explicit CampaignEditor(QObject* parent= nullptr);
+    explicit CampaignIntegrityDialog(QStringList missignFiles, const QStringList unmanagedFile,
+                                     QWidget* parent= nullptr);
+    ~CampaignIntegrityDialog();
 
-    Campaign* campaign() const;
-
-    void createNew(const QString& dir);
-    bool open(const QString& from, bool discard);
-    bool save(const QString& to);
-    bool saveCopy(const QString& src, const QString& to);
-
-    // media
-    bool addMedia(const QString& src, const QByteArray& array);
-    bool removeMedia(const QString& src);
-
-    // character
-    // QString addFileIntoCharacters(const QString& src);
-    // bool removeFileFromCharacters(const QString& path);
-
-    QString saveAvatar(const QString& id, const QByteArray& array);
-
-    QString mediaFullPath(const QString& file, Core::ContentType type);
-    void doCommand(QUndoCommand* command);
-
-    QString campaignDir() const;
-    QString currentDir() const;
-
-signals:
-    void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
-    void performCommand(QUndoCommand* command);
-    void importedFile(campaign::Media* media);
+protected:
+    void changeEvent(QEvent* e);
 
 private:
-    QString m_root;
-    std::unique_ptr<campaign::Campaign> m_campaign;
+    Ui::CampaignIntegrityDialog* ui;
 };
+
 } // namespace campaign
-#endif // CAMPAIGNEDITOR_H
+#endif // CAMPAIGN_CAMPAIGNINTEGRITYDIALOG_H

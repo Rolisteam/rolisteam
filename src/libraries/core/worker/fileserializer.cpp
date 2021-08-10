@@ -233,6 +233,7 @@ void FileSerializer::writeCampaignInfo(const QString& destination, const QJsonOb
 
 void FileSerializer::writeFileIntoCampaign(const QString& destination, const QByteArray& array)
 {
+    qDebug() << destination << array.size();
     QtConcurrent::run([destination, array]() { IOHelper::writeFile(destination, array); });
 }
 
