@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
 set(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTOMOC_MOC_OPTIONS "-nw")
@@ -9,9 +9,8 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-set(QT_REQUIRED_VERSION "5.15.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Multimedia Xml Quick QuickWidgets WebEngineWidgets QuickControls2 MultimediaWidgets)
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG COMPONENTS PdfWidgets)
+find_package(Qt6 COMPONENTS Core Widgets Gui Svg Multimedia Xml Quick QuickWidgets WebEngineWidgets QuickControls2 MultimediaWidgets REQUIRED)
+#find_package(Qt5 COMPONENTS PdfWidgets)
 
 if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
     set(HAS_PDF TRUE PARENT_SCOPE)

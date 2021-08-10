@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
 project(rolisteam)
 
@@ -24,9 +24,7 @@ set(HEADERS
 set(UIS mainwindow.ui)
 
 
-
-set(QT_REQUIRED_VERSION "5.15.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools Scxml MultimediaWidgets Multimedia)
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools Scxml MultimediaWidgets Multimedia)
 
 set(RESOURCE_FILES ${CMAKE_SOURCE_DIR}/rolisteam.qrc)
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
 set(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTOMOC_MOC_OPTIONS "-nw")
@@ -9,12 +9,11 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-set(QT_REQUIRED_VERSION "5.15.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets Concurrent Sql)
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG COMPONENTS PdfWidgets)
+find_package(Qt6 COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets Concurrent Sql REQUIRED)
+#find_package(Qt6 COMPONENTS PdfWidgets)
 
 if(TESTS)
-    find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test)
+    find_package(Qt6 COMPONENTS Test REQUIRED)
 endif()
 
 if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
@@ -349,6 +348,9 @@ if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
     message("Link with PDF")
     add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${pdfHeader} ${QRC_SOURCES})
     target_link_libraries(core PUBLIC project_warnings project_options Qt5::Core  Qt5::Network Qt5::Multimedia Qt5::Concurrent PRIVATE diceparser_shared rmindmap common_core charactersheet_widgets)
+else()
+  add_library(core SHARED ${SOURCES} ${HEADERS} ${QRC_SOURCES})
+  target_link_libraries(core PUBLIC project_warnings project_options Qt5::Core  Qt5::Network Qt5::Multimedia Qt5::Concurrent PRIVATE diceparser_shared rmindmap common_core charactersheet_widgets)
 endif()
 
 target_include_directories(core PUBLIC ../)

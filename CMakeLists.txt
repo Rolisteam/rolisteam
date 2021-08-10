@@ -1,13 +1,17 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
 project(rolisteam VERSION 1.10.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 add_definitions(-DVERSION_MAJOR=1 -DVERSION_MIDDLE=10 -DVERSION_MINOR=0 -DHAVE_SOUND -DHAVE_QT_NETWORK=1 -DHAVE_WEBVIEW=1)
-set(QT_REQUIRED_VERSION "5.15.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools QmlImportScanner)
+find_package(Qt6 COMPONENTS Core Widgets Gui LinguistTools QmlImportScanner REQUIRED)
 set(CMAKE_AUTORCC ON)
 
 #helper
 #include(cmake/TranslationHelper.cmake)
+add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 
 option(WITH_PDF "enable PDF feature" ON)
 option(DEBUG_MODE "enable more debug report" OFF)
