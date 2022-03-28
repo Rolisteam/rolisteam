@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.16)
 
 project(charactersheet VERSION 1.10.0 DESCRIPTION "Manage charactersheet")
 option(CHARACTERSHEET_TESTS "enable tests compilation" OFF)
@@ -13,6 +13,8 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Test Gui
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} result node)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 set(formula_src

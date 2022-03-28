@@ -36,7 +36,6 @@
 #include "charactersheetwindow.h"
 #include "data/character.h"
 #include "data/player.h"
-#include "preferences/preferencesmanager.h"
 #include "sheetwidget.h"
 
 QString parentId(Character* child)
@@ -249,7 +248,7 @@ void CharacterSheetWindow::addSharingMenu(QMenu* share)
     {
         QAction* action= share->addAction(QPixmap::fromImage(character->getAvatar()), character->name());
         action->setData(character->getUuid());
-	connect(action, &QAction::triggered, this, &CharacterSheetWindow::affectSheetToCharacter);
+    connect(action, &QAction::triggered, this, &CharacterSheetWindow::affectSheetToCharacter);
     }*/
 }
 
@@ -313,33 +312,33 @@ bool CharacterSheetWindow::eventFilter(QObject* object, QEvent* event)
 
 void CharacterSheetWindow::stopSharing(SheetWidget* wid)
 {
-/*
-    if(nullptr == wid)
-        return;
+    /*
+        if(nullptr == wid)
+            return;
 
-    CharacterSheet* sheet= wid->sheet();
-    auto idx= findSharingInfoIndex(sheet, m_sheetToCharacter);
-    auto character= m_sheetToCharacter[idx].character;
+        CharacterSheet* sheet= wid->sheet();
+        auto idx= findSharingInfoIndex(sheet, m_sheetToCharacter);
+        auto character= m_sheetToCharacter[idx].character;
 
-    m_tabs->removeTab(m_tabs->indexOf(wid));
+        m_tabs->removeTab(m_tabs->indexOf(wid));
 
-    if(idx < 0)
-        return;
+        if(idx < 0)
+            return;
 
-    m_sheetToCharacter.erase(m_sheetToCharacter.begin() + idx);
+        m_sheetToCharacter.erase(m_sheetToCharacter.begin() + idx);
 
-    if(!character)
-        return;
+        if(!character)
+            return;
 
-    auto parent= character->parentPerson();
-    auto id= parent->getUuid();
-    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
-    QStringList recipiants;
-    recipiants << id;
-    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-    msg.string8(m_mediaId);
-    msg.string8(sheet->uuid());
-    msg.sendToServer();*/
+        auto parent= character->parentPerson();
+        auto id= parent->getUuid();
+        NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
+        QStringList recipiants;
+        recipiants << id;
+        msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+        msg.string8(m_mediaId);
+        msg.string8(sheet->uuid());
+        msg.sendToServer();*/
 
     SheetWidget* wid= dynamic_cast<SheetWidget*>(m_tabs->currentWidget());
     if(nullptr != wid)
@@ -472,7 +471,7 @@ void CharacterSheetWindow::affectSheetToCharacter(Character* character, Characte
     {
         auto wid= dynamic_cast<SheetWidget*>(m_tabs->widget(i));
         if(wid != nullptr && sheet == wid->sheet())
-	//if((nullptr != parent) && (nullptr != localItem) && (localItem->isGM()))       
+    //if((nullptr != parent) && (nullptr != localItem) && (localItem->isGM()))
         {
             quickWid= wid;
         }
@@ -677,7 +676,7 @@ void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheet
             item->saveDataItem(object);
             QJsonDocument doc;
             doc.setObject(object);
-            msg.byteArray32(doc.toBinaryData());
+            msg.byteArray32(doc.toJson());
             msg.sendToServer();
         }
     }
@@ -696,7 +695,7 @@ void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheet
     item->saveDataItem(object);
     QJsonDocument doc;
     doc.setObject(object);
-    msg.byteArray32(doc.toBinaryData());
+    msg.byteArray32(doc.toJson());
     msg.sendToServer();
 }
 void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg, const QString& idSheet)
