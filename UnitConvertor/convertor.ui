@@ -271,7 +271,7 @@
   </layout>
   <action name="m_reverseAct">
    <property name="icon">
-    <iconset resource="../../../../rolisteam.qrc">
+    <iconset theme="reverse">
      <normaloff>:/resources/icons/reverse.svg</normaloff>:/resources/icons/reverse.svg</iconset>
    </property>
    <property name="text">
@@ -280,7 +280,7 @@
   </action>
   <action name="m_customRuleAct">
    <property name="icon">
-    <iconset resource="../../../../rolisteam.qrc">
+    <iconset theme="list">
      <normaloff>:/resources/icons/list.svg</normaloff>:/resources/icons/list.svg</iconset>
    </property>
    <property name="text">
@@ -289,7 +289,7 @@
   </action>
   <action name="m_addUnitAction">
    <property name="icon">
-    <iconset resource="../../../../rolisteam.qrc">
+    <iconset theme="add">
      <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
    </property>
    <property name="text">
@@ -301,7 +301,7 @@
   </action>
   <action name="m_removeUnit">
    <property name="icon">
-    <iconset resource="../../../../rolisteam.qrc">
+    <iconset theme="remove">
      <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
@@ -313,7 +313,7 @@
   </action>
   <action name="m_back">
    <property name="icon">
-    <iconset resource="../../../noteeditor/src/textedit.qrc">
+    <iconset resource="../../editors/noteeditor/src/textedit.qrc">
      <normaloff>:/trolltech/dialogs/qprintpreviewdialog/images/go-previous-24.png</normaloff>:/trolltech/dialogs/qprintpreviewdialog/images/go-previous-24.png</iconset>
    </property>
    <property name="text">
@@ -325,9 +325,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../../../../rolisteam.qrc"/>
-  <include location="../../../../rolisteam.qrc"/>
-  <include location="../../../noteeditor/src/textedit.qrc"/>
+  <include location="../../editors/noteeditor/src/textedit.qrc"/>
  </resources>
  <connections/>
 </ui>

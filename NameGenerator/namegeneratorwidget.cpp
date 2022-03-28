@@ -326,7 +326,7 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json)
     int len= m_generator.bounded(10) + 2;
     QString result;
     QJsonObject firstLetter= json["firstLetter"].toObject();
-    qreal first= m_generator.generateDouble() / std::numeric_limits<qreal>::digits;
+    qreal first= m_generator.generateDouble(); // / std::numeric_limits<qreal>::digits;
     qreal sum= 0;
 
     auto keys= firstLetter.keys();
