@@ -28,10 +28,11 @@
 namespace customization
 {
 StyleSheet::StyleSheet(Theme* parent) : QQmlPropertyMap(parent) {}
+
 void StyleSheet::insertOrUpdate(const QString& key, const QVariant& value)
 {
     insert(key, value);
-    //qDebug() << key << value << "updated";
+
     emit valueChanged(key, value);
 }
 

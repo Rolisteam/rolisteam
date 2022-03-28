@@ -76,9 +76,11 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
         break;
     case QtInfoMsg:
         cLevel= LogController::Info;
+        std::cout << msg.toStdString() << std::endl;
         break;
     case QtWarningMsg:
         cLevel= LogController::Warning;
+        std::cout << msg.toStdString() << std::endl;
         break;
     case QtCriticalMsg:
     case QtFatalMsg:
@@ -275,6 +277,7 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
         else
             std::cout << str.toStdString() << std::endl;
     }
+
     if(m_currentModes & Gui)
     {
         emit showMessage(str, type);
@@ -290,8 +293,10 @@ void LogController::logToFile(const QString& msg, const LogController::LogLevel&
                   .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz"), log, typeToText(type), msg);
 
         QFile output(m_currentFile);
-        auto b= output.open(QIODevice::WriteOnly | QIODevice::Append);
-        QTextStream text(&output);
-        text << realMsg << "\n";
+        if(output.open(QIODevice::WriteOnly | QIODevice::Append))
+        {
+            QTextStream text(&output);
+            text << realMsg << "\n";
+        }
     }
 }
