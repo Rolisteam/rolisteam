@@ -190,20 +190,20 @@ void SharedNoteController::setTextUpdate(const QString& cmd)
 
 void SharedNoteController::setUpdateCmd(const QString& cmd)
 {
-    QRegExp rx;
     auto tmpCmd= cmd;
     if(!cmd.startsWith("doc:"))
         return;
 
     tmpCmd.remove(0, 4);
-    rx= QRegExp("(\\d+)\\s(\\d+)\\s(\\d+)\\s(.*)");
-    if(!cmd.contains(rx))
+    auto rx= QRegularExpression("(\\d+)\\s(\\d+)\\s(\\d+)\\s(.*)");
+    QRegularExpressionMatch match;
+    if(!cmd.contains(rx, &match))
         return;
 
-    int pos= rx.cap(1).toInt();
-    int charsRemoved= rx.cap(2).toInt();
-    int charsAdded= rx.cap(3).toInt();
-    tmpCmd= rx.cap(4);
+    int pos= match.captured(1).toInt();
+    int charsRemoved= match.captured(2).toInt();
+    int charsAdded= match.captured(3).toInt();
+    tmpCmd= match.captured(4);
     emit updateCmdChanged();
     emit collabTextChanged(pos, charsRemoved, charsAdded, tmpCmd);
 }

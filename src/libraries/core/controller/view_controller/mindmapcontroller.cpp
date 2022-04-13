@@ -34,7 +34,6 @@
 #include "mindmap/src/command/removeimagefromnodecommand.h"
 #include "mindmap/src/command/removenodecommand.h"
 #include "mindmap/src/command/reparentingnodecommand.h"
-#include "mindmap/src/controller/selectioncontroller.h"
 #include "mindmap/src/controller/spacingcontroller.h"
 #include "mindmap/src/data/link.h"
 #include "mindmap/src/data/mindnode.h"
@@ -45,9 +44,7 @@
 #include "mindmap/src/qmlItems/linkitem.h"
 #include "mindmap/src/qmlItems/nodeitem.h"
 #include "mindmap/src/worker/fileserializer.h"
-#include "model/imagemodel.h"
 #include "model/playermodel.h"
-#include "model/remoteplayermodel.h"
 #include "updater/media/mindmapupdater.h"
 #include "worker/iohelper.h"
 

@@ -28,16 +28,17 @@
 #include "controllerinterface.h"
 #include "network/networkreceiver.h"
 
-class PlayerModel;
-class LocalPersonModel;
+#include "data/localpersonmodel.h"
+#include "instantmessaging/chatroom.h"
+#include "instantmessaging/chatroomsplittermodel.h"
+#include "model/playermodel.h"
+
 class DiceParser;
 namespace InstantMessaging
 {
 class InstantMessagingModel;
 class InstantMessagingUpdater;
 class FilterInstantMessagingModel;
-class ChatRoom;
-class ChatroomSplitterModel;
 } // namespace InstantMessaging
 
 class InstantMessagingController : public AbstractControllerInterface, public NetWorkReceiver

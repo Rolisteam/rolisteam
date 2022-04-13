@@ -80,7 +80,7 @@ void VToolsBar::setupUi()
     createActions();
     makeTools();
     QHBoxLayout* lay= new QHBoxLayout();
-    lay->setMargin(0);
+    lay->setContentsMargins(QMargins());
     lay->addWidget(m_centralWidget);
     setLayout(lay);
 }
@@ -242,12 +242,12 @@ void VToolsBar::makeTools()
     bucketButton->setIconSize(iconSize);
 
     QVBoxLayout* toolsVerticalLayout= new QVBoxLayout();
-    toolsVerticalLayout->setMargin(0);
+    toolsVerticalLayout->setContentsMargins(QMargins());
     toolsVerticalLayout->setSpacing(0);
 
     FlowLayout* toolsLayout= new FlowLayout();
     toolsLayout->setSpacing(0);
-    toolsLayout->setMargin(0);
+    toolsLayout->setContentsMargins(QMargins());
     toolsLayout->addWidget(penButton);
     toolsLayout->addWidget(lineButton);
     toolsLayout->addWidget(emptyRectButton);
@@ -301,7 +301,7 @@ void VToolsBar::makeTools()
              });*/
 
     FlowLayout* characterToolsLayout= new FlowLayout();
-    characterToolsLayout->setMargin(0);
+    characterToolsLayout->setContentsMargins(QMargins());
     characterToolsLayout->setSpacing(0);
     characterToolsLayout->addWidget(addNpcButton);
     characterToolsLayout->addWidget(resetNpcNumberButton);

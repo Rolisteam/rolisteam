@@ -20,7 +20,6 @@
 #ifndef PLAYERWIDGET_H
 #define PLAYERWIDGET_H
 #include <QContextMenuEvent>
-#include <QMediaContent>
 #include <QMediaPlayer>
 #include <QMenu>
 #include <QSlider>
@@ -57,7 +56,7 @@ public:
     /**
      * @brief startMedia
      */
-    void startMedia(QMediaContent*, QString title= QString(), bool play= true);
+    void startMedia(const QUrl& url, QString title= QString(), bool play= true);
     /**
      * @brief updateUi
      */
@@ -162,13 +161,13 @@ private slots:
      * @brief sourceChanged
      * @param media
      */
-    void sourceChanged(const QMediaContent& media);
+    void sourceChanged(const QUrl &media);
 
     /**
      * @brief playerStatusChanged
      * @param newState
      */
-    void playerStatusChanged(QMediaPlayer::State newState);
+    void playerStatusChanged(QMediaPlayer::PlaybackState newState);
     /**
      * @brief mediaStatusChanged
      * @param status
@@ -268,7 +267,7 @@ private:
     QSlider* m_volume;
     QSlider* m_seek;
     QMediaPlayer m_player;
-    QMediaContent* m_content;
+    QUrl m_content;
     QAction* m_playAct;
     QAction* m_stopAct;
     QAction* m_pauseAct;

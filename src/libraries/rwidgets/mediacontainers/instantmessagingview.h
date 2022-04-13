@@ -23,11 +23,13 @@
 #include <QDockWidget>
 #include <QPointer>
 
+#include "controller/instantmessagingcontroller.h"
+
 namespace Ui
 {
 class InstantMessagingView;
 }
-class InstantMessagingController;
+
 class QQuickWidget;
 class InstantMessagerManager : public QObject
 {

@@ -174,7 +174,7 @@ void ColorTable::resizeEvent(QResizeEvent* event)
 ColorTableChooser::ColorTableChooser(QWidget* parent) : QWidget(parent)
 {
     m_layout= new QVBoxLayout();
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins(QMargins());
     m_colorTable= new ColorTable();
     m_valueChooser= new SaturationChooser();
     m_layout->addWidget(m_colorTable);

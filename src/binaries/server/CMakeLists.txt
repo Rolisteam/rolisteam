@@ -10,13 +10,13 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
 include_directories(../core/src)
-set(QT_REQUIRED_VERSION "5.13.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Network DBus)
+set(QT_REQUIRED_VERSION "6.3.0")
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Network DBus)
 
 if(UNIX AND NOT APPLE)
     message("On linux")
-    qt5_generate_dbus_interface(rolisteamdaemon.h org.rolisteam.rolisteamdaemon.xml OPTIONS -S -M)
-    qt5_add_dbus_adaptor(DBUS_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/org.rolisteam.rolisteamdaemon.xml rolisteamdaemon.h RolisteamDaemon)
+    qt6_generate_dbus_interface(rolisteamdaemon.h org.rolisteam.rolisteamdaemon.xml OPTIONS -S -M)
+    qt6_add_dbus_adaptor(DBUS_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/org.rolisteam.rolisteamdaemon.xml rolisteamdaemon.h RolisteamDaemon)
     message("Dbus adaptor here: ${DBUS_SOURCES}")
 endif()
 
@@ -30,4 +30,4 @@ set(HEADERS rolisteamdaemon.h )
 
 add_executable(roliserver ${SOURCES} ${HEADERS} ${DBUS_SOURCES})
 
-target_link_libraries(roliserver PUBLIC Qt5::Core Qt5::Network Qt5::DBus PRIVATE network common_core)
+target_link_libraries(roliserver PUBLIC Qt6::Core Qt6::Network Qt6::DBus PRIVATE network common_core)

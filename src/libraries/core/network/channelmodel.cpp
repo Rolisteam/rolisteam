@@ -1,5 +1,6 @@
 #include "channelmodel.h"
 
+#include "channel.h"
 #include "tcpclient.h"
 #include "treeitem.h"
 

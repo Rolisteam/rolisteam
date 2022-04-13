@@ -83,7 +83,7 @@ void AudioPlayer::setupUi()
 
     m_mainLayout= new QVBoxLayout();
     m_mainLayout->setSpacing(0);
-    m_mainLayout->setMargin(0);
+    m_mainLayout->setContentsMargins(QMargins());
 
     for(int i= 0; i < 3; ++i)
     {

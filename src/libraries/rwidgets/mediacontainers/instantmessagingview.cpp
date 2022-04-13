@@ -69,7 +69,7 @@ InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWi
     m_qmlViewer->setSource(QUrl("qrc:/instantmessaging/InstantMessagingMain.qml"));
 
     auto layout= new QVBoxLayout();
-    layout->setMargin(0);
+    layout->setContentsMargins(QMargins());
     setLayout(layout);
 
     layout->addWidget(m_qmlViewer.get());

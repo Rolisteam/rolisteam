@@ -20,7 +20,6 @@
 #include "contentcontroller.h"
 
 #include <QFileInfo>
-#include <QFileSystemModel>
 
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
@@ -37,7 +36,6 @@
 
 #include "gamecontroller.h"
 #include "media/mediafactory.h"
-#include "model/contentmodel.h"
 #include "model/playermodel.h"
 #include "model/remoteplayermodel.h"
 #include "network/networkmessage.h"

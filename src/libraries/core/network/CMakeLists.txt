@@ -51,7 +51,7 @@ if(Qt5Core_FOUND)
 
     # guess plugins and libraries directory
     set(QT_PLUGINS_DIR "${Qt5Core_DIR}/../../../plugins")
-    get_target_property(QT_LIBRARY_DIR Qt5::Core LOCATION)
+    get_target_property(QT_LIBRARY_DIR Qt6::Core LOCATION)
     get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
 endif()
 

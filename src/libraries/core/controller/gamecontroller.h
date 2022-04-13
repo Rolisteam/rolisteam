@@ -25,6 +25,12 @@
 #include <QUndoStack>
 #include <memory>
 
+#include "controller/playercontroller.h"
+#include "controller/preferencescontroller.h"
+#include "data/campaign.h"
+#include "data/campaignmanager.h"
+#include "diceparser/include/diceparser.h"
+
 struct TipOfDay
 {
     QString title;
@@ -46,7 +52,6 @@ class RemoteLogController;
 class PreferencesManager;
 class NetworkController;
 class PlayerController;
-class PreferencesController;
 class ContentController;
 class QSystemTrayIcon;
 class InstantMessagingController;

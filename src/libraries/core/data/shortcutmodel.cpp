@@ -202,9 +202,14 @@ int ShortCutModel::rowCount(const QModelIndex& parent) const
     return 0;
 }
 
-int ShortCutModel::columnCount(const QModelIndex&) const
+int ShortCutModel::columnCount(const QModelIndex& index) const
 {
     return 2;
+}
+
+void ShortCutModel::removeCategory(const QString& category)
+{
+    // TODO implement it
 }
 
 QVariant ShortCutModel::data(const QModelIndex& index, int role) const

@@ -53,16 +53,16 @@ bool ShortcutVisitor::registerWidget(QWidget* widget, const QString& categoryNam
 
 bool ShortcutVisitor::unregisterWidget(QWidget* widget)
 {
-    if(m_categoriesNames.find(widget) == m_categoriesNames.end())
+    if(m_categoriesNames.contains(widget))
         return false;
 
-    const QString& categoryIndex= m_categoriesNames[widget];
+    const QString& category= m_categoriesNames[widget];
 
-    if(categoryIndex == -1)
+    if(category.isEmpty())
         return false;
 
     // disconnect(widget, SIGNAL(destroyed(QObject*)), this, SLOT(objectDeleted(QObject*)));
-    //  m_model->removeCategory(categoryIndex);
+    m_model->removeCategory(category);
     return true;
 }
 

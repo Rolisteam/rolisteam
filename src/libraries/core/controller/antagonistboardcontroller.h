@@ -25,12 +25,14 @@
 #include <QSortFilterProxyModel>
 #include <memory>
 
-class GenericModel;
+#include "model/genericmodel.h"
+#include "model/nonplayablecharactermodel.h"
+
 namespace campaign
 {
 Q_NAMESPACE
 class CampaignEditor;
-class NonPlayableCharacter;
+
 enum class ModelType
 {
     Model_Action,

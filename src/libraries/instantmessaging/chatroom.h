@@ -22,14 +22,14 @@
 
 #include <QObject>
 #include <QUuid>
-
 #include <memory>
+
+#include "filteredplayermodel.h"
+#include "messagemodel.h"
 
 class DiceParser;
 namespace InstantMessaging
 {
-class FilteredPlayerModel;
-class MessageModel;
 class MessageInterface;
 class ChatRoom : public QObject
 {

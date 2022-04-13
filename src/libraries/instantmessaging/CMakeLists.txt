@@ -53,5 +53,5 @@ textmessage.h)
 
 
 add_library(instantmessaging SHARED ${im_headers} ${im_sources})
-target_link_libraries(instantmessaging PUBLIC Qt5::Core Qt5::Network Qt5::Qml Qt5::Quick Qt5::Concurrent)
+target_link_libraries(instantmessaging PUBLIC Qt6::Core Qt6::Network Qt6::Qml Qt6::Quick Qt6::Concurrent)
 target_include_directories(instantmessaging PRIVATE ../  ../diceparser ../diceparser/include)

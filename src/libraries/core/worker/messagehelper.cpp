@@ -310,7 +310,7 @@ void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* charac
     sheet->save(object);
     QJsonDocument doc;
     doc.setObject(object);
-    msg.byteArray32(doc.toBinaryData());
+    msg.byteArray32(doc.toJson());
 
     msg.string32(ctrl->qmlCode());
 
@@ -319,12 +319,12 @@ void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* charac
     imageModel->save(array);
     QJsonDocument doc2;
     doc2.setArray(array);
-    msg.byteArray32(doc2.toBinaryData());
+    msg.byteArray32(doc2.toJson());
 
     auto model= ctrl->model();
     QJsonDocument doc3;
     doc3.setObject(model->rootSectionData());
-    msg.byteArray32(doc3.toBinaryData());
+    msg.byteArray32(doc3.toJson());
 
     msg.sendToServer();
 }
@@ -363,7 +363,7 @@ void MessageHelper::readUpdateField(CharacterSheetController* ctrl, NetworkMessa
     auto path= msg->string32();
     auto data= msg->byteArray32();
 
-    QJsonDocument doc= QJsonDocument::fromBinaryData(data);
+    QJsonDocument doc= QJsonDocument::fromJson(data);
     auto obj= doc.object();
     ctrl->updateFieldFrom(sheetId, obj, data);
 }

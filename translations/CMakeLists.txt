@@ -45,10 +45,10 @@ ENDIF()
 #    add_custom_command(OUTPUT ${_qmOutput}
 #        COMMAND cmake -E make_directory ${poRoot}
 #        #Get po from svn
-#        COMMAND Qt5::lconvert -if po -of ts -i ${_poOutput} -o ${TsFile}
-#        COMMAND Qt5::lupdate ${CMAKE_CURRENT_SOURCE_DIR} -ts ${TsFile}
-#        COMMAND Qt5::lrelease -compress -nounfinished ${TsFile} -qm ${_qmOutput}
-#        COMMAND Qt5::lconvert -if ts -of po -i ${TsFile} -o ${_poOutput})
+#        COMMAND Qt6::lconvert -if po -of ts -i ${_poOutput} -o ${TsFile}
+#        COMMAND Qt6::lupdate ${CMAKE_CURRENT_SOURCE_DIR} -ts ${TsFile}
+#        COMMAND Qt6::lrelease -compress -nounfinished ${TsFile} -qm ${_qmOutput}
+#        COMMAND Qt6::lconvert -if ts -of po -i ${TsFile} -o ${_poOutput})
 #        #Push updated po
 #    list(APPEND QM_FILES ${_qmOutput})
 #endforeach()

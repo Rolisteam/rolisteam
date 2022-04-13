@@ -48,7 +48,7 @@ void ImagePathEditor::focusInEvent(QFocusEvent* event)
 void ImagePathEditor::setUi()
 {
     QHBoxLayout* hbox= new QHBoxLayout();
-    hbox->setMargin(0);
+    hbox->setContentsMargins(QMargins());
     hbox->setSpacing(0);
 
     setLayout(hbox);

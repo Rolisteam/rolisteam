@@ -20,6 +20,7 @@
 
 #include "network/networkmessagereader.h"
 #include <QDataStream>
+#include <QIODevice>
 
 NetworkMessageReader::NetworkMessageReader() : NetworkMessage() {}
 

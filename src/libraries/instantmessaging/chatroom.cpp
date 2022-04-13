@@ -23,8 +23,6 @@
 #include <set>
 
 #include "diceparser/include/diceparser.h"
-#include "filteredplayermodel.h"
-#include "messagemodel.h"
 
 namespace InstantMessaging
 {

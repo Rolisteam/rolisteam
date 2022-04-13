@@ -24,15 +24,13 @@
 #include <QQuickStyle>
 
 #include "common/controller/theme.h"
-#include "data/localpersonmodel.h"
 #include "data/player.h"
-#include "instantmessaging/chatroom.h"
-#include "instantmessaging/chatroomsplittermodel.h"
+
 #include "instantmessaging/filterinstantmessagingmodel.h"
 #include "instantmessaging/instantmessagingmodel.h"
 #include "instantmessaging/messagemodel.h"
 #include "instantmessaging/textwritercontroller.h"
-#include "model/playermodel.h"
+
 #include "network/receiveevent.h"
 #include "updater/media/instantmessagingupdater.h"
 

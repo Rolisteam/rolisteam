@@ -75,5 +75,10 @@ void AddVmapItemCommand::redo()
         return;
 
     auto item= vmap::VmapItemFactory::createVMapItem(m_mapCtrl, m_tool, m_params);
-    m_uuid= m_model->appendItemController(item);
+    if(!item)
+        return;
+
+    auto id= item->uuid();
+    if(m_model->appendItemController(item))
+        m_uuid= id;
 }

@@ -26,13 +26,10 @@
 #include "controller/contentcontroller.h"
 #include "controller/instantmessagingcontroller.h"
 #include "controller/networkcontroller.h"
-#include "controller/playercontroller.h"
-#include "controller/preferencescontroller.h"
-#include "data/campaign.h"
+
 #include "data/campaigneditor.h"
-#include "data/campaignmanager.h"
+
 #include "data/media.h"
-#include "diceparser/include/diceparser.h"
 #include "model/profilemodel.h"
 #include "preferences/preferencesmanager.h"
 #include "services/tipchecker.h"

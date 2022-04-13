@@ -31,6 +31,8 @@
 #include "channelmodel.h"
 
 #include "networkmessage.h"
+#include "networkmessagereader.h"
+#include "networkmessagewriter.h"
 #include "treeitem.h"
 
 #include "data/player.h"

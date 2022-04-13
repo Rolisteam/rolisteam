@@ -25,7 +25,7 @@
 #include <QDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 #include <QUrl>
 /*****************
@@ -70,42 +70,20 @@ void UpdateChecker::readXML(QNetworkReply* p)
     }
 
     QByteArray a= p->readAll();
-
-    QRegExp versionMajor("<version_major>(.*)</version_major>");
-    QRegExp versionMiddle("<version_middle>(.*)</version_middle>");
-    QRegExp versionMinor("<version_minor>(.*)</version_minor>");
-    QRegExp date("<date>(.*)</date>");
-    QRegExp changelog("<date>(.*)</date>");
-
     QString string(a);
-    int pos= versionMajor.indexIn(string);
-    int major= 0;
-    int middle= 0;
-    int minor= 0;
-    if(pos != -1)
-    {
-        major= versionMajor.capturedTexts().at(1).toInt();
-    }
-    pos= versionMiddle.indexIn(string);
-    if(pos != -1)
-    {
-        middle= versionMiddle.capturedTexts().at(1).toInt();
-    }
-    pos= versionMinor.indexIn(string);
-    if(pos != -1)
-    {
-        minor= versionMinor.capturedTexts().at(1).toInt();
-    }
-    pos= date.indexIn(string);
-    if(pos != -1)
-    {
-        m_dateRemoteVersion= date.capturedTexts().at(1);
-    }
-    pos= changelog.indexIn(string);
-    if(pos != -1)
-    {
-        m_changeLog= changelog.capturedTexts().at(1);
-    }
+    auto func= [](const QString& string, const QRegularExpression& reg) -> QString {
+        auto match= reg.match(string);
+        if(match.hasMatch())
+            return match.captured(0);
+        return {};
+    };
+
+    int major= func(string, QRegularExpression("<version_major>(.*)</version_major>")).toInt();
+    int middle= func(string, QRegularExpression("<version_middle>(.*)</version_middle>")).toInt();
+    int minor= func(string, QRegularExpression("<version_minor>(.*)</version_minor>")).toInt();
+    m_dateRemoteVersion= func(string, QRegularExpression("<date>(.*)</date>"));
+    m_changeLog= func(string, QRegularExpression("<changelog>(.*)</changelog>"));
+
     m_remoteVersion= QString("%1.%2.%3").arg(major).arg(middle).arg(minor);
 
     setNeedUpdate(m_remoteVersion != m_localVersion);

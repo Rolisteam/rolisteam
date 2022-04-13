@@ -1319,62 +1319,61 @@ bool VMap::isIdle() const
 {
     return m_currentItem.isNull();
 }
-void VMap::ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem)
+void VMap::ownerHasChangedForCharacterItem(Character* person, CharacterItem* cItem)
 {
-    if(nullptr != item)
-    {
-        // Get all items with the key
-        QList<CharacterItem*> list= m_characterItemMap->values(item->uuid());
+    if(nullptr == person)
+        return;
+    // TODO make it with controller
 
-        // Remove them from the map
-        m_characterItemMap->remove(item->uuid());
-        // remove the changed characterItem
-        list.removeOne(cItem);
-        // add the others
-        for(CharacterItem* itemC : list)
-        {
-            m_characterItemMap->insertMulti(itemC->getCharacterId(), itemC);
-        }
-        // add item with its new key
-        m_characterItemMap->insertMulti(cItem->getCharacterId(), cItem);
-        if((cItem->isPlayableCharacter()) && (!m_ctrl->localGM()) && (cItem->isLocal()))
-        {
-            // changeStackOrder(cItem, VectorialMapController::FRONT);
-        }
+    // m_ctrl->
+
+    // Get all items with the key
+    /*auto item= m_characterItemMap->value(person->uuid());
+
+    //cItem->
+
+    // Remove them from the map
+    if(item)
+    {
+        m_characterItemMap->remove(person->uuid());
+        item->deleteLater();
     }
+
+    // add item with its new key
+    m_characterItemMap->insert(person->uuid(), cItem);=*/
 }
 
 void VMap::insertCharacterInMap(CharacterItem* item)
 {
-    if((nullptr != m_characterItemMap) && (nullptr != item))
+    if((nullptr == m_characterItemMap) && (nullptr == item))
+        return;
+
+    /*m_characterItemMap->insert(item->getCharacterId(), item);
+    connect(item, &CharacterItem::ownerChanged, this, &VMap::ownerHasChangedForCharacterItem);
+    connect(item, &CharacterItem::runDiceCommand, this, &VMap::runDiceCommandForCharacter);
+    if(!item->isNpc())
     {
-        m_characterItemMap->insertMulti(item->getCharacterId(), item);
-        connect(item, &CharacterItem::ownerChanged, this, &VMap::ownerHasChangedForCharacterItem);
-        connect(item, &CharacterItem::runDiceCommand, this, &VMap::runDiceCommandForCharacter);
-        if(!item->isNpc())
-        {
-            // m_sightItem->insertVision(item);
-        }
-        else
-        {
-            // auto list= PlayerModel::instance();
-            // list->addNpc(item->getCharacter());
-            auto search= item->getName();
-            auto items= m_characterItemMap->values();
-            items.removeAll(item);
-            QList<CharacterItem*> sameNameItems;
-            std::copy_if(items.begin(), items.end(), std::back_inserter(sameNameItems),
-                         [search](CharacterItem* item) { return item->getName() == search; });
-            auto it= std::max_element(
-                sameNameItems.begin(), sameNameItems.end(),
-                [](const CharacterItem* a, const CharacterItem* b) { return a->getNumber() < b->getNumber(); });
-            if(it != sameNameItems.end())
-            {
-                int max= (*it)->getNumber();
-                item->setNumber(++max);
-            }
-        }
+        // m_sightItem->insertVision(item);
     }
+    else
+    {
+        // auto list= PlayerModel::instance();
+        // list->addNpc(item->getCharacter());
+        auto search= item->getName();
+        auto items= m_characterItemMap->values();
+        items.removeAll(item);
+        QList<CharacterItem*> sameNameItems;
+        std::copy_if(items.begin(), items.end(), std::back_inserter(sameNameItems),
+                     [search](CharacterItem* item) { return item->getName() == search; });
+        auto it= std::max_element(
+            sameNameItems.begin(), sameNameItems.end(),
+            [](const CharacterItem* a, const CharacterItem* b) { return a->getNumber() < b->getNumber(); });
+        if(it != sameNameItems.end())
+        {
+            int max= (*it)->getNumber();
+            item->setNumber(++max);
+        }
+    }*/
 }
 
 /*bool VMap::setVisibilityMode(Core::VisibilityMode mode)

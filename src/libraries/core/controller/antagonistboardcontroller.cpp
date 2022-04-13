@@ -22,8 +22,6 @@
 #include "core/data/campaign.h"
 #include "core/data/campaigneditor.h"
 #include "core/data/character.h"
-#include "core/model/genericmodel.h"
-#include "core/model/nonplayablecharactermodel.h"
 #include "core/worker/iohelper.h"
 
 namespace campaign

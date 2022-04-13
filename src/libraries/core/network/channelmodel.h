@@ -5,13 +5,13 @@
 #include <QMimeData>
 #include <QObject>
 
-#include "channel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "networkreceiver.h"
 
 class TreeItem;
-
+class Channel;
+class TcpClient;
 class ClientMimeData : public QMimeData
 {
     Q_OBJECT

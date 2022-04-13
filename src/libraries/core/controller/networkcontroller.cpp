@@ -25,7 +25,6 @@
 
 #include "controller/gamecontroller.h"
 #include "controller/playercontroller.h"
-#include "model/profilemodel.h"
 #include "network/clientmanager.h"
 #include "network/networkmessage.h"
 #include "network/receiveevent.h"

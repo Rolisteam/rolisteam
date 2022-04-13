@@ -28,7 +28,7 @@ namespace mindmap
 LinkNode::LinkNode() : m_geometry(QSGGeometry::defaultAttributes_Point2D(), 0)
 {
     setGeometry(&m_geometry);
-    m_geometry.setDrawingMode(GL_LINE_STRIP);
+    m_geometry.setDrawingMode(QSGGeometry::DrawLineStrip);
     m_geometry.allocate(6);
     setMaterial(&m_material);
 }
@@ -56,8 +56,7 @@ void LinkNode::update(const QPointF& p1, const QPointF& p2)
     auto pointArrow2= arrowBase.pointAt(-arrowWidth / arrowBase.length());
     auto vertices= m_geometry.vertexDataAsPoint2D();
     {
-        vertices[0].set(static_cast<float>(p1.x() + diameter),
-                        static_cast<float>(p1.y() + diameter));
+        vertices[0].set(static_cast<float>(p1.x() + diameter), static_cast<float>(p1.y() + diameter));
         vertices[1].set(static_cast<float>(startArrow.x() + diameter), static_cast<float>(startArrow.y() + diameter));
         vertices[2].set(static_cast<float>(pointArrow.x() + diameter), static_cast<float>(pointArrow.y() + diameter));
         vertices[3].set(static_cast<float>(pArrow.x() + diameter), static_cast<float>(pArrow.y() + diameter));

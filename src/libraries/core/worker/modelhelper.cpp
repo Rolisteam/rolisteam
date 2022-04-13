@@ -365,8 +365,9 @@ void fetchDiceModel(const QJsonArray& dice, DiceAliasModel* model)
 
 void fetchMedia(const QJsonArray& medias, campaign::Campaign* campaign)
 {
-    for(const auto& obj : medias)
+    for(const auto& ref : medias)
     {
+        auto const& obj= ref.toObject();
         auto mediaRoot= campaign->directory(campaign::Campaign::Place::MEDIA_ROOT);
         auto id= obj[Core::JsonKey::JSON_MEDIA_ID].toString();
         auto path= QString("%1/%2").arg(mediaRoot, obj[Core::JsonKey::JSON_MEDIA_PATH].toString());

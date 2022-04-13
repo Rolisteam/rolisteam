@@ -20,9 +20,6 @@
 #include "campaign.h"
 
 #include "data/media.h"
-#include "data/rolisteamtheme.h"
-#include "model/characterstatemodel.h"
-#include "model/dicealiasmodel.h"
 #include "model/nonplayablecharactermodel.h"
 
 namespace campaign

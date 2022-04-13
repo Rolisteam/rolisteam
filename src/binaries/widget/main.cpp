@@ -28,7 +28,6 @@
 #include <QLoggingCategory>
 #include <QQuickStyle>
 #include <QResource>
-#include <QTextCodec>
 #include <QTranslator>
 #include <QUuid>
 #include <exception>
@@ -114,8 +113,6 @@ int main(int argc, char* argv[])
     QSurfaceFormat::setDefaultFormat(format);
     QQuickStyle::setStyle(":/rolistyle");
     QQuickStyle::setFallbackStyle("Default");
-
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
     // Ressources
     QResource::registerResource("rolisteam.rcc");

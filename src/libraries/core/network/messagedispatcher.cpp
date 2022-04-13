@@ -1,6 +1,8 @@
 #include "messagedispatcher.h"
 #include "network/networkmessagereader.h"
 
+#include "channel.h"
+
 MessageDispatcher::MessageDispatcher(QObject* parent) : QObject(parent) {}
 
 void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpClient* emitter)

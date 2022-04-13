@@ -21,8 +21,6 @@
 
 #include "controller/gamecontroller.h"
 #include "controller/preferencescontroller.h"
-#include "data/player.h"
-#include "model/charactermodel.h"
 #include "model/characterstatemodel.h"
 #include "model/playermodel.h"
 #include "network/receiveevent.h"

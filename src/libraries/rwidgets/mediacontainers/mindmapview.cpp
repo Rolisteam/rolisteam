@@ -78,7 +78,7 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     auto wid= new QWidget(this);
 
     auto layout= new QVBoxLayout(wid);
-    layout->setMargin(0);
+    layout->setContentsMargins(QMargins());
     wid->setLayout(layout);
 
     layout->addWidget(m_qmlViewer.get());

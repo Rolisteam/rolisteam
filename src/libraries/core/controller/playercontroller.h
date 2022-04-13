@@ -26,9 +26,10 @@
 #include <memory>
 
 #include "controllerinterface.h"
+#include "data/player.h"
+#include "model/charactermodel.h"
 #include "network/networkreceiver.h"
 
-class Player;
 class Character;
 class QAbstractItemModel;
 class PlayerModel;

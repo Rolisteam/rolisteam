@@ -78,7 +78,7 @@ set(mindmap_bin_src
 
 
 add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
-target_link_libraries(rmindmap PUBLIC Qt5::Core Qt5::Svg Qt5::Svg Qt5::Qml Qt5::Quick Qt5::QuickControls2)
+target_link_libraries(rmindmap PUBLIC Qt6::Core Qt6::Svg Qt6::Svg Qt6::Qml Qt6::Quick Qt6::QuickControls2)
 set_target_properties(rmindmap PROPERTIES VERSION ${PROJECT_VERSION})
 target_include_directories(rmindmap PRIVATE src ../)
 

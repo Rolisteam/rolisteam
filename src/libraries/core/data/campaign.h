@@ -24,11 +24,13 @@
 #include <QString>
 #include <memory>
 
+#include "data/rolisteamtheme.h"
 #include "media/mediatype.h"
+#include "model/characterstatemodel.h"
+#include "model/dicealiasmodel.h"
 
 class DiceAliasModel;
 class CharacterStateModel;
-class RolisteamTheme;
 namespace campaign
 {
 class Media;

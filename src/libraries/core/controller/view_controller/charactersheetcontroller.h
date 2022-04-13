@@ -26,6 +26,7 @@
 #include <memory>
 #include <set>
 
+#include "charactersheet/charactersheetmodel.h"
 #include "mediacontrollerbase.h"
 
 class Player;
@@ -44,7 +45,6 @@ namespace charactersheet
 {
 class ImageModel;
 }
-class CharacterSheetModel;
 class CharacterSheetItem;
 class CharacterSheetController : public MediaControllerBase
 {

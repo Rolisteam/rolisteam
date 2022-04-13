@@ -61,12 +61,14 @@
 #include <QPrintPreviewDialog>
 #include <QPrinter>
 #include <QStatusBar>
-#include <QTextCodec>
+#include <QStringConverter>
+#include <QStringDecoder>
 #include <QTextCursor>
 #include <QTextEdit>
 #include <QTextList>
 #include <QToolBar>
 #include <QtDebug>
+#include <optional>
 
 #include "controller/view_controller/notecontroller.h"
 
@@ -413,15 +415,16 @@ bool TextEdit::load(const QString& f)
             return false;
 
         QByteArray data= file.readAll();
-        QTextCodec* codec= Qt::codecForHtml(data);
-        QString str= codec->toUnicode(data);
+        auto encoding= QStringConverter::encodingForHtml(data);
+        auto toHtml= QStringDecoder(encoding.value());
+        QString str= toHtml.decode(data);
         if(Qt::mightBeRichText(str))
         {
             textEdit->setHtml(str);
         }
         else
         {
-            str= QString::fromLocal8Bit(data);
+            str= QString::fromLocal8Bit(QByteArrayView{data});
             textEdit->setPlainText(str);
         }
 
@@ -494,15 +497,15 @@ bool TextEdit::fileSave()
         if(!file.open(QFile::WriteOnly))
             return false;
         QTextStream ts(&file);
-        ts.setCodec(QTextCodec::codecForName("UTF-8"));
-        ts << textEdit->document()->toHtml("UTF-8");
+        ts.setEncoding(QStringConverter::Utf8);
+        ts << textEdit->document()->toHtml();
         textEdit->document()->setModified(false);
     }
     return true;
 }
 void TextEdit::saveFileAsBinary(QDataStream& data)
 {
-    data << textEdit->document()->toHtml("UTF-8");
+    data << textEdit->document()->toHtml();
     textEdit->document()->setModified(false);
 }
 void TextEdit::readFromBinary(QDataStream& data)
@@ -541,7 +544,7 @@ void TextEdit::filePrint()
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog* dlg= new QPrintDialog(&printer, this);
     if(textEdit->textCursor().hasSelection())
-        dlg->addEnabledOption(QAbstractPrintDialog::PrintSelection);
+        dlg->setOption(QAbstractPrintDialog::PrintSelection);
     dlg->setWindowTitle(tr("Print Document"));
     if(dlg->exec() == QDialog::Accepted)
     {

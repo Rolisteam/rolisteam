@@ -62,7 +62,7 @@ bool FileSerializer::readTextFile(BoxModel* nodeModel, LinkModel* linkModel, con
 
         auto node= new MindNode();
 
-        auto newdepth= std::max(0, (text.indexOf(trimmed[0])) / 2);
+        auto newdepth= std::max(static_cast<qsizetype>(0), (text.indexOf(trimmed[0])) / 2);
 
         node->setText(text.trimmed());
         std::uniform_real_distribution<> dist(0.0, 1600.0);

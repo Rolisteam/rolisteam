@@ -63,7 +63,7 @@ void CircleDisplayer::paintEvent(QPaintEvent* event)
 }
 void CircleDisplayer::wheelEvent(QWheelEvent* event)
 {
-    int step= event->delta() / 8;
+    auto step= event->angleDelta().y() / 8;
     if(step + m_currentDiameter > m_maximumDiameter)
         m_currentDiameter= m_maximumDiameter;
     else if(step + m_currentDiameter < m_minimumDiameter)

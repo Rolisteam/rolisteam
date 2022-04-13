@@ -9,13 +9,11 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(Qt6 COMPONENTS Core Widgets Gui Svg Multimedia Xml Quick QuickWidgets WebEngineWidgets QuickControls2 MultimediaWidgets REQUIRED)
-#find_package(Qt5 COMPONENTS PdfWidgets)
+find_package(Qt6 COMPONENTS Core Widgets Gui Svg Multimedia Xml Quick QuickWidgets WebEngineWidgets WebEngineCore Pdf PdfWidgets QuickControls2 MultimediaWidgets OpenGLWidgets REQUIRED)
 
-if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
+if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
     set(HAS_PDF TRUE PARENT_SCOPE)
     message("Enable PDF feature")
-    add_definitions(-DWITH_PDF=1)
 
     set(pdfHeader
         mediacontainers/pdfviewer.h)
@@ -58,6 +56,7 @@ set(HEADERS
   delegates/userlistdelegate.h
   dialogs/aboutrolisteam.h
   dialogs/campaignproperties.h
+  dialogs/campaignintegritydialog.h
   dialogs/connectionretrydialog.h
   dialogs/keygeneratordialog.h
   dialogs/imageselectordialog.h
@@ -160,6 +159,7 @@ set(SOURCES
   delegates/userlistdelegate.cpp
   dialogs/aboutrolisteam.cpp
   dialogs/campaignproperties.cpp
+  dialogs/campaignintegritydialog.cpp
   dialogs/connectionretrydialog.cpp
   dialogs/keygeneratordialog.cpp
   dialogs/imageselectordialog.cpp
@@ -248,12 +248,13 @@ set(QRC_SOURCES ${CMAKE_SOURCE_DIR}/rolisteam.qrc editors/noteeditor/src/textedi
 
 add_library(rwidgets SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${QRC_SOURCES} ${pdfSource} ${pdfHeader} ${pdfUiFiles})
 
-if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
+if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
     message("Link with PDF")
-    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt5::Core Qt5::Gui Qt5::Svg  Qt5::Widgets Qt5::Xml Qt5::QuickWidgets Qt5::Multimedia Qt5::PdfWidgets Qt5::Quick Qt5::WebEngineWidgets Qt5::QuickControls2 PRIVATE core charactersheet)
+    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt6::Core Qt6::Gui Qt6::Svg  Qt6::Widgets Qt6::Xml Qt6::QuickWidgets Qt6::Multimedia Qt6::Pdf Qt6::PdfWidgets Qt6::Quick Qt6::OpenGLWidgets Qt6::WebEngineWidgets Qt6::WebEngineCore Qt6::QuickControls2 PRIVATE core charactersheet)
+    target_compile_definitions(rwidgets PUBLIC WITH_PDF=1)
 else()
     message("Link without PDF")
-    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Multimedia Qt5::MultimediaWidgets Qt5::Xml Qt5::Quick Qt5::WebEngineWidgets Qt5::QuickControls2 PRIVATE core charactersheet)
+    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt6::Core Qt6::Gui Qt6::Svg Qt6::Widgets Qt6::Multimedia Qt6::MultimediaWidgets Qt6::Xml Qt6::OpenGLWidgets Qt6::Quick Qt6::WebEngineWidgets Qt6::WebEngineCore Qt6::QuickControls2 PRIVATE core charactersheet)
 endif()
 
 target_include_directories(rwidgets PUBLIC src)

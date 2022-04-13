@@ -10,4 +10,4 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core)
 
 add_executable(tst_chapter testChapter.cpp)
 #qt5_use_modules(tst_chapter Core Test)
-target_link_libraries(tst_chapter PUBLIC Qt5::Core Qt5::Test PRIVATE core)
+target_link_libraries(tst_chapter PUBLIC Qt6::Core Qt6::Test PRIVATE core)

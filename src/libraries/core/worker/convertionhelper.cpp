@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "convertionhelper.h"
 
+#include <QIODevice>
+
 namespace Helper
 {
 template <>

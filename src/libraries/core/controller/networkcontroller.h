@@ -26,6 +26,8 @@
 #include <QPointer>
 #include <memory>
 
+#include "model/profilemodel.h"
+#include "network/channelmodel.h"
 #include "network/networkreceiver.h"
 
 class ClientManager;
@@ -36,7 +38,6 @@ class ProfileModel;
 class QAbstractItemModel;
 class ConnectionProfile;
 class GameController;
-class ChannelModel;
 class IpChecker;
 class NetworkController : public AbstractControllerInterface, public NetWorkReceiver
 {

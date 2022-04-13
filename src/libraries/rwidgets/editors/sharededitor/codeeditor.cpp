@@ -1,5 +1,6 @@
 #include <QtGui>
 
+#include <QRegularExpression>
 #include <QTextCursor>
 #include <QTextDocument>
 
@@ -320,18 +321,20 @@ bool CodeEditor::findNext(QString searchString, Qt::CaseSensitivity sensitivity,
     int position;
     bool found= false;
 
-    QRegExp rx;
+    QRegularExpression rx;
     switch(mode)
     {
     case Enu::Contains:
-        rx= QRegExp(searchString, sensitivity);
+        rx= QRegularExpression(searchString);
         break;
     case Enu::StartsWith:
-        rx= QRegExp("\\b" + searchString, sensitivity);
+        rx= QRegularExpression("\\b" + searchString);
         break;
     case Enu::EntireWord:
-        rx= QRegExp("\\b" + searchString + "\\b", sensitivity);
+        rx= QRegularExpression("\\b" + searchString + "\\b");
     }
+    if(sensitivity == Qt::CaseInsensitive)
+        rx.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     position= textCursor().position();
 
@@ -376,18 +379,20 @@ bool CodeEditor::findPrev(QString searchString, Qt::CaseSensitivity sensitivity,
     int position;
     bool found= false;
 
-    QRegExp rx;
+    QRegularExpression rx;
     switch(mode)
     {
     case Enu::Contains:
-        rx= QRegExp(searchString, sensitivity);
+        rx= QRegularExpression(searchString);
         break;
     case Enu::StartsWith:
-        rx= QRegExp("\\b" + searchString, sensitivity);
+        rx= QRegularExpression("\\b" + searchString);
         break;
     case Enu::EntireWord:
-        rx= QRegExp("\\b" + searchString + "\\b", sensitivity);
+        rx= QRegularExpression("\\b" + searchString + "\\b");
     }
+    if(sensitivity == Qt::CaseInsensitive)
+        rx.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     if(textCursor().hasSelection())
     {
@@ -444,18 +449,20 @@ bool CodeEditor::replaceAll(QString searchString, QString replaceString, Qt::Cas
 
     int length= searchString.size();
 
-    QRegExp rx;
+    QRegularExpression rx;
     switch(mode)
     {
     case Enu::Contains:
-        rx= QRegExp(searchString, sensitivity);
+        rx= QRegularExpression(searchString);
         break;
     case Enu::StartsWith:
-        rx= QRegExp("\\b" + searchString, sensitivity);
+        rx= QRegularExpression("\\b" + searchString);
         break;
     case Enu::EntireWord:
-        rx= QRegExp("\\b" + searchString + "\\b", sensitivity);
+        rx= QRegularExpression("\\b" + searchString + "\\b");
     }
+    if(sensitivity == Qt::CaseInsensitive)
+        rx.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     //    int count = documentString.count(rx);
 

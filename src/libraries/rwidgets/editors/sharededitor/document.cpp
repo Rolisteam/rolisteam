@@ -23,7 +23,7 @@
 #include <QFontMetrics>
 #include <QLayout>
 #include <QMessageBox>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextDocumentFragment>
 
 #include "controller/view_controller/sharednotecontroller.h"

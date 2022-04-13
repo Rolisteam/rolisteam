@@ -24,7 +24,7 @@
 CenteredCheckBox::CenteredCheckBox(QWidget* wid) : QWidget(wid)
 {
     QHBoxLayout* layout= new QHBoxLayout();
-    layout->setMargin(0);
+    layout->setContentsMargins(QMargins());
     layout->setSpacing(0);
     setLayout(layout);
     layout->setAlignment(Qt::AlignCenter);

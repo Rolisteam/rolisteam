@@ -22,13 +22,12 @@
 #include <QCloseEvent>
 #include <QDebug>
 #include <QDesktopServices>
-#include <QDesktopWidget>
 #include <QFileInfo>
 #include <QFontDialog>
 #include <QMessageBox>
 #include <QPrintDialog>
 #include <QPrinter>
-#include <QTextCodec>
+#include <QScreen>
 #include <QTextDocument>
 #include <QTextDocumentFragment>
 
@@ -119,11 +118,11 @@ SharedNote::~SharedNote()
 void SharedNote::readSettings()
 {
     QSettings settings("rolisteam", "SharedNote");
-    QDesktopWidget* desktop= QApplication::desktop();
-    int width= static_cast<int>(desktop->width() * 0.80);
-    int height= static_cast<int>(desktop->height() * 0.70);
-    int screenWidth= desktop->width();
-    int screenHeight= desktop->height();
+    auto screen= QApplication::primaryScreen()->availableGeometry();
+    int width= static_cast<int>(screen.width() * 0.80);
+    int height= static_cast<int>(screen.height() * 0.70);
+    int screenWidth= screen.width();
+    int screenHeight= screen.height();
     QPoint pos= settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();
     QSize size= settings.value("size", QSize(width, height)).toSize();
     resize(size);

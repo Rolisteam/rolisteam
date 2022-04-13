@@ -83,7 +83,7 @@ ColorSelector::ColorSelector(QWidget* parent) : QWidget(parent)
     // Creation du layout principale
     // m_layoutSelector = new QVBoxLayout(this);
     m_layoutSelector= new FlowLayout(this);
-    m_layoutSelector->setMargin(2);
+    m_layoutSelector->setContentsMargins(QMargins(2, 2, 2, 2));
     m_layoutSelector->setSpacing(1);
 
     s_selectedColor.type= ColorType;
@@ -107,7 +107,7 @@ ColorSelector::ColorSelector(QWidget* parent) : QWidget(parent)
     // Création du layout de la grille de couleurs predefinies
     m_predefinedGrid= new QGridLayout();
     m_predefinedGrid->setSpacing(1);
-    m_predefinedGrid->setMargin(1);
+    m_predefinedGrid->setContentsMargins(QMargins(1, 1, 1, 1));
 
     QWidget* wid= new QWidget(this);
 
@@ -138,7 +138,7 @@ ColorSelector::ColorSelector(QWidget* parent) : QWidget(parent)
     // Création du layout de la grille de couleurs personnelles
     m_characterGrid= new QGridLayout();
     m_characterGrid->setSpacing(1);
-    m_characterGrid->setMargin(1);
+    m_characterGrid->setContentsMargins(QMargins(1, 1, 1, 1));
     // Ajout de la grille de couleurs personnelles dans le layout principal
     wid= new QWidget(this);
 
@@ -172,7 +172,7 @@ ColorSelector::ColorSelector(QWidget* parent) : QWidget(parent)
     // Création du layout des couleurs speciales
     m_specialColor= new QHBoxLayout();
     m_specialColor->setSpacing(1);
-    m_specialColor->setMargin(0);
+    m_specialColor->setContentsMargins(QMargins());
     // Ajout du layout des couleurs specuales dans le layout principal
     wid= new QWidget(this);
     wid->setLayout(m_specialColor);

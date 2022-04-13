@@ -9,17 +9,15 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(Qt6 COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets Concurrent Sql REQUIRED)
-#find_package(Qt6 COMPONENTS PdfWidgets)
+find_package(Qt6 COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets Concurrent Sql PdfWidgets StateMachine REQUIRED)
 
 if(TESTS)
     find_package(Qt6 COMPONENTS Test REQUIRED)
 endif()
 
-if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
+if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
     set(HAS_PDF TRUE PARENT_SCOPE)
     message("Enable PDF feature")
-    add_definitions(-DWITH_PDF=1)
     set(pdfHeader
         controller/view_controller/pdfcontroller.h)
 
@@ -343,14 +341,15 @@ set(SOURCES
 )
 
 
-# Qt5::PdfWidgets Qt5::Gui Qt5::Svg Qt5::Multimedia  Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets
-if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
+# Qt6::PdfWidgets Qt6::Gui Qt6::Svg Qt6::Multimedia  Qt6::PrintSupport Qt6::Qml Qt6::Quick Qt6::QuickControls2 Qt6::QuickWidgets Qt6::Xml Qt6::WebEngineWidgets
+if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
     message("Link with PDF")
     add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${pdfHeader} ${QRC_SOURCES})
-    target_link_libraries(core PUBLIC project_warnings project_options Qt5::Core  Qt5::Network Qt5::Multimedia Qt5::Concurrent PRIVATE diceparser_shared rmindmap common_core charactersheet_widgets)
+    target_compile_definitions(core PUBLIC WITH_PDF=1)
+    target_link_libraries(core PUBLIC project_warnings project_options Qt6::Core  Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::StateMachine PRIVATE diceparser_shared rmindmap common_core charactersheet_widgets)
 else()
   add_library(core SHARED ${SOURCES} ${HEADERS} ${QRC_SOURCES})
-  target_link_libraries(core PUBLIC project_warnings project_options Qt5::Core  Qt5::Network Qt5::Multimedia Qt5::Concurrent PRIVATE diceparser_shared rmindmap common_core charactersheet_widgets)
+  target_link_libraries(core PUBLIC project_warnings project_options Qt6::Core  Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::StateMachine PRIVATE diceparser_shared rmindmap common_core charactersheet_widgets)
 endif()
 
 target_include_directories(core PUBLIC ../)
@@ -424,7 +423,7 @@ set(Network_SRC
 
 add_library(network SHARED ${Network_SRC} ${Network_HEADER})
 set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
-target_link_libraries(network PUBLIC Qt5::Core Qt5::Network Qt5::Gui)
+target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Gui Qt6::StateMachine)
 
 target_include_directories(network PUBLIC ../)
 target_include_directories(network PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QMenu>
 
+#include "network/channel.h"
 #include "network/tcpclient.h"
 #include "preferences/preferencesmanager.h"
 

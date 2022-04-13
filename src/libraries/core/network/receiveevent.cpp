@@ -99,7 +99,7 @@ void ReceiveEvent::registerNetworkReceiver(NetMsg::Category categorie, NetWorkRe
 
 void ReceiveEvent::removeNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver)
 {
-    QMap<NetMsg::Category, NetWorkReceiver*>::iterator it= ms_netWorkReceiverMap.find(categorie);
+    auto it= ms_netWorkReceiverMap.find(categorie);
     while(it != ms_netWorkReceiverMap.end())
     {
         if(it.value() == receiver)

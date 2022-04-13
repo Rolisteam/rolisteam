@@ -24,9 +24,8 @@
 #include <QQuickWidget>
 #include <memory>
 
+#include "controller/view_controller/mindmapcontroller.h"
 #include "mediacontainers/mediacontainer.h"
-
-class MindMapController;
 
 class MindmapManager : public QObject
 {

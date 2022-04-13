@@ -239,13 +239,14 @@ void XmlHighlighter::highlightBlock(const QString& text)
     if(previousBlockState() == InComment)
     {
         // search for the end of the comment
-        QRegExp expression(EXPR_COMMENT_END);
-        pos= expression.indexIn(text, i);
+        QRegularExpression expression(EXPR_COMMENT_END);
+        QRegularExpressionMatch match;
+        pos= text.indexOf(expression, i, &match);
 
-        if(pos >= 0)
+        if(pos >= 0 && match.hasCaptured(0))
         {
             // end comment found
-            const int iLength= expression.matchedLength();
+            const int iLength= match.capturedLength();
             setFormat(0, iLength - 3, fmtComment);
             setFormat(iLength - 3, 3, fmtSyntaxChar);
             i+= iLength; // skip comment
@@ -327,12 +328,13 @@ void XmlHighlighter::highlightBlock(const QString& text)
             if(state == ExpectAttributeValue)
             {
                 // search attribute value
-                QRegExp expression(EXPR_ATTRIBUTE_VALUE);
-                pos= expression.indexIn(text, i);
+                QRegularExpression expression(EXPR_ATTRIBUTE_VALUE);
+                QRegularExpressionMatch match;
+                pos= text.indexOf(expression, i, &match);
 
-                if(pos == i) // attribute value found ?
+                if(pos == i && match.hasCaptured(0)) // attribute value found ?
                 {
-                    const int iLength= expression.matchedLength();
+                    const int iLength= match.captured(0).size();
 
                     setFormat(i, 1, fmtOther);
                     setFormat(i + 1, iLength - 2, fmtAttributeValue);
@@ -356,12 +358,13 @@ void XmlHighlighter::highlightBlock(const QString& text)
             if(state == ExpectElementNameOrSlash)
             {
                 // search comment
-                QRegExp expression(EXPR_COMMENT);
-                pos= expression.indexIn(text, i - 1);
+                QRegularExpression expression(EXPR_COMMENT);
+                QRegularExpressionMatch match;
+                pos= text.indexOf(expression, i - 1, &match);
 
-                if(pos == i - 1) // comment found ?
+                if(pos == i - 1 && match.hasCaptured(0)) // comment found ?
                 {
-                    const int iLength= expression.matchedLength();
+                    const int iLength= match.captured(0).size();
 
                     setFormat(pos, 4, fmtSyntaxChar);
                     setFormat(pos + 4, iLength - 7, fmtComment);
@@ -373,8 +376,9 @@ void XmlHighlighter::highlightBlock(const QString& text)
                 else
                 {
                     // Try find multiline comment
-                    QRegExp expression(EXPR_COMMENT_BEGIN); // search comment start
-                    pos= expression.indexIn(text, i - 1);
+                    QRegularExpression expression(EXPR_COMMENT_BEGIN); // search comment start
+                    QRegularExpressionMatch match;
+                    pos= text.indexOf(expression, i - 1, &match);
 
                     // if (pos == i - 1) // comment found ?
                     if(pos >= i - 1)
@@ -422,12 +426,13 @@ int XmlHighlighter::processDefaultText(int i, const QString& text)
     case ExpectElementName:
     {
         // search element name
-        QRegExp expression(EXPR_NAME);
-        const int pos= expression.indexIn(text, i);
+        QRegularExpression expression(EXPR_NAME);
+        QRegularExpressionMatch match;
+        auto const pos= text.indexOf(expression, i, &match);
 
-        if(pos == i) // found ?
+        if(pos == i && match.hasCaptured(0)) // found ?
         {
-            iLength= expression.matchedLength();
+            iLength= match.captured(0).size();
 
             setFormat(pos, iLength, fmtElementName);
             state= ExpectAttributeOrEndOfElement;
@@ -442,12 +447,13 @@ int XmlHighlighter::processDefaultText(int i, const QString& text)
     case ExpectAttributeOrEndOfElement:
     {
         // search attribute name
-        QRegExp expression(EXPR_NAME);
-        const int pos= expression.indexIn(text, i);
+        QRegularExpression expression(EXPR_NAME);
+        QRegularExpressionMatch match;
+        auto const pos= text.indexOf(expression, i, &match);
 
-        if(pos == i) // found ?
+        if(pos == i && match.hasCaptured(0)) // found ?
         {
-            iLength= expression.matchedLength();
+            iLength= match.captured(0).size();
 
             setFormat(pos, iLength, fmtAttributeName);
             state= ExpectEqual;

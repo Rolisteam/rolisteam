@@ -26,7 +26,6 @@
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QResource>
-#include <QTextCodec>
 #include <QTranslator>
 #include <QUuid>
 #include <iostream>
@@ -106,7 +105,7 @@ int main(int argc, char* argv[])
 #endif
     app.setApplicationVersion(version);
 
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    // QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     // QString locale = QLocale::system().name();
 
     QCommandLineParser parser;

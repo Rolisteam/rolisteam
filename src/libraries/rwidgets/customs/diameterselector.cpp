@@ -40,7 +40,7 @@ DiameterSelector::DiameterSelector(QWidget* parent, bool plein, int min, int max
 
     // Creation du layout
     QVBoxLayout* layout= new QVBoxLayout(this);
-    layout->setMargin(0);
+    layout->setContentsMargins(QMargins());
 
     // Creation du QFrame qui va contenir l'afficheur de disque
     QFrame* frame= new QFrame(this);
@@ -52,7 +52,7 @@ DiameterSelector::DiameterSelector(QWidget* parent, bool plein, int min, int max
 
     // Creation du layout du QFrame
     QVBoxLayout* frameLayout= new QVBoxLayout(frame);
-    frameLayout->setMargin(0);
+    frameLayout->setContentsMargins(QMargins());
 
     // Creation de l'afficheur de disque
     m_circle= new CircleDisplayer(frame, plein, minimum, maximum);

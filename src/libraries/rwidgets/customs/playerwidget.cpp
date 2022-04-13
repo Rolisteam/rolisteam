@@ -74,14 +74,14 @@ PlayerWidget::PlayerWidget(int id, QWidget* parent)
     updateUi(true);
 }
 
-void PlayerWidget::startMedia(QMediaContent* p, QString title, bool play)
+void PlayerWidget::startMedia(const QUrl& url, QString title, bool play)
 {
-    m_content= p;
-    m_player.setMedia(*m_content);
+    m_content= url;
+    m_player.setSource(url);
     m_ui->m_timeSlider->setMinimum(0);
     if(title.isEmpty())
     {
-        m_ui->m_label->setText(p->request().url().fileName());
+        m_ui->m_label->setText(url.fileName());
     }
     else
     {
@@ -101,7 +101,7 @@ void PlayerWidget::positionChanged(qint64 time)
 {
     QTime displayTime(0, static_cast<int>((time / 60000) % 60), static_cast<int>((time / 1000) % 60));
 
-    if(m_isGM && ((time > m_time + (FACTOR_WAIT * m_player.notifyInterval())) || (time < m_time)))
+    if(m_isGM && ((time > m_time + (FACTOR_WAIT * 1)) || (time < m_time)))
     {
         emit playerPositionChanged(m_id, m_time);
     }
@@ -316,7 +316,7 @@ void PlayerWidget::playSelectedSong()
     QModelIndex current= m_ui->m_songList->currentIndex();
     if((current.isValid())
        && ((m_player.mediaStatus() == QMediaPlayer::NoMedia) || (m_player.mediaStatus() == QMediaPlayer::EndOfMedia)
-           || (m_player.state() == QMediaPlayer::StoppedState)))
+           || (m_player.playbackState() == QMediaPlayer::StoppedState)))
     {
         startMedia(m_model->getMediaByModelIndex(current), current.data().toString());
     }
@@ -347,9 +347,10 @@ bool PlayerWidget::askToDeleteAll()
     if(m_model->rowCount() != 0)
     {
         if(QMessageBox::Ok
-            == QMessageBox::warning(this, tr("Attention!"),
-                   tr("You are about to load an new playlist. All previously load file will be dropped."),
-                   QMessageBox::Ok, QMessageBox::Cancel))
+           == QMessageBox::warning(
+               this, tr("Attention!"),
+               tr("You are about to load an new playlist. All previously load file will be dropped."), QMessageBox::Ok,
+               QMessageBox::Cancel))
         {
             m_model->removeAll();
             return true;
@@ -465,11 +466,11 @@ void PlayerWidget::setTime(int time)
 {
     m_player.setPosition(time);
 }
-void PlayerWidget::sourceChanged(const QMediaContent& media)
+void PlayerWidget::sourceChanged(const QUrl& media)
 {
-    emit newSongPlayed(m_id, media.request().url().toString());
+    emit newSongPlayed(m_id, media.toString());
 }
-void PlayerWidget::playerStatusChanged(QMediaPlayer::State newState)
+void PlayerWidget::playerStatusChanged(QMediaPlayer::PlaybackState newState)
 {
     switch(newState)
     {
@@ -515,7 +516,7 @@ void PlayerWidget::setPositionAt(qint64 pos)
 
 void PlayerWidget::setSourceSong(QString file)
 {
-    //qDebug() << "file" << file;
+    // qDebug() << "file" << file;
 
     QString dir= m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString();
     QUrl url(file, QUrl::StrictMode);
@@ -523,10 +524,9 @@ void PlayerWidget::setSourceSong(QString file)
     {
         url= QUrl::fromLocalFile(getExistingFile(dir, file));
     }
-    QMediaContent currentContent(url);
 
     m_ui->m_label->setText(file);
-    m_player.setMedia(currentContent);
+    m_player.setSource(url);
 }
 void PlayerWidget::changeDirectory()
 {
@@ -585,87 +585,87 @@ void PlayerWidget::setPlayingMode(PlayerWidget::PlayingMode mode)
 }
 void PlayerWidget::loadPlayList()
 {
-    QString url = QStringLiteral("http://tabletopaudio.com/download.php?downld_file=%1");
-    static QStringList list({
-        QStringLiteral("1_The_Inner_Core.mp3"),
-        QStringLiteral("2_Bubbling_Pools.mp3"),
-        QStringLiteral("3_The_March_of_the_Faithful.mp3"),
-        QStringLiteral("4_Solemn_Vow-a.mp3"),
-        QStringLiteral("5_Desert_Bazaar.mp3"),
-        QStringLiteral("6_Abyssal_Gaze.mp3"),
-        QStringLiteral("7_The_Desert_Awaits.mp3"),
-        QStringLiteral("8_New_Dust_to_Dust.mp3"),
-        QStringLiteral("9_Before_The_Storm.mp3"),
-        QStringLiteral("10_In_The_Shadows.mp3"),
-        QStringLiteral("11_Shelter_from_the_Storm.mp3"),
-        QStringLiteral("12_Disembodied_Spirits.mp3"),
-        QStringLiteral("13_Cave_of_Time.mp3"),
-        QStringLiteral("14_Protean_Fields.mp3"),
-        QStringLiteral("15_Alien_Machine_Shop.mp3"),
-        QStringLiteral("16_Busy_Space_Port.mp3"),
-        QStringLiteral("17_Alien_Night_Club.mp3"),
-        QStringLiteral("18_House_on_the_Hill.mp3"),
-        QStringLiteral("19_Age_of_Sail.mp3"),
-        QStringLiteral("20_Dark_Continent_aa.mp3"),
-        QStringLiteral("21_Derelict_Freighter.mp3"),
-        QStringLiteral("22_True_West_a.mp3"),
-        QStringLiteral("23_The_Slaughtered_Ox.mp3"),
-        QStringLiteral("24_Forbidden_Galaxy.mp3"),
-        QStringLiteral("25_Deep_Space_EVA.mp3"),
-        QStringLiteral("26_Uncommon_Valor_a.mp3"),
-        QStringLiteral("27_Xingu_Nights.mp3"),
-        QStringLiteral("28_Nephilim_Labs_FE.mp3"),
-        QStringLiteral("29_Kaltoran_Craft_FE.mp3"),
-        QStringLiteral("30_Los_Vangeles_3030.mp3"),
-        QStringLiteral("31_Frozen_Wastes.mp3"),
-        QStringLiteral("32_City_and_the_City.mp3"),
-        QStringLiteral("33_Far_Above_the_World.mp3"),
-        QStringLiteral("34_Clash_of_Kings.mp3"),
-        QStringLiteral("35_Swamplandia.mp3"),
-        QStringLiteral("36_Down_by_the_Sea.mp3"),
-        QStringLiteral("37_Catacombs.mp3"),
-        QStringLiteral("38_Into_the_Deep.mp3"),
-        QStringLiteral("39_Temple_of_the_Eye.mp3"),
-        QStringLiteral("40_The_Long_Rain.mp3"),
-        QStringLiteral("41_Starship_Bridge.mp3"),
-        QStringLiteral("42_Rise_of_the_Ancients.mp3"),
-        QStringLiteral("43_Dome_City_Center.mp3"),
-        QStringLiteral("44_Victorian_London.mp3"),
-        QStringLiteral("45_Samurai_HQ.mp3"),
-        QStringLiteral("46_Cathedral.mp3"),
-        QStringLiteral("47_There_be_Dragons.mp3"),
-        QStringLiteral("48_Overland_with_Oxen.mp3"),
-        QStringLiteral("49_Goblin's_Cave.mp3"),
-        QStringLiteral("50_Super_Hero.mp3"),
-        QStringLiteral("51_Woodland_Campsite.mp3"),
-        QStringLiteral("52_Warehouse_13.mp3"),
-        QStringLiteral("53_Strangers_on_a_Train.mp3"),
-        QStringLiteral("54_Mountain_Tavern.mp3"),
-        QStringLiteral("55_Ice_Cavern.mp3"),
-        QStringLiteral("56_Medieval_Town.mp3"),
-        QStringLiteral("57_Colosseum.mp3"),
-        QStringLiteral("58_Terror.mp3"),
-        QStringLiteral("59_Dinotopia.mp3"),
-        QStringLiteral("60_Dark_and_Stormy.mp3"),
-        QStringLiteral("61_Orbital_Platform.mp3"),
-        QStringLiteral("62_Middle_Earth_Dawn.mp3"),
-        QStringLiteral("63_Industrial_Shipyard.mp3"),
-        QStringLiteral("64_Mountain_Pass.mp3"),
-        QStringLiteral("65_Dungeon_I.mp3"),
-        QStringLiteral("66_Royal_Salon.mp3"),
-        QStringLiteral("67_Asylum.mp3"),
-        QStringLiteral("68_1940s_Office.mp3"),
-        QStringLiteral("69_Forest_Night.mp3"),
-        QStringLiteral("70_Age_of_Steam.mp3")
-    });
+    QString url= QStringLiteral("http://tabletopaudio.com/download.php?downld_file=%1");
+    static QStringList list({QStringLiteral("1_The_Inner_Core.mp3"),
+                             QStringLiteral("2_Bubbling_Pools.mp3"),
+                             QStringLiteral("3_The_March_of_the_Faithful.mp3"),
+                             QStringLiteral("4_Solemn_Vow-a.mp3"),
+                             QStringLiteral("5_Desert_Bazaar.mp3"),
+                             QStringLiteral("6_Abyssal_Gaze.mp3"),
+                             QStringLiteral("7_The_Desert_Awaits.mp3"),
+                             QStringLiteral("8_New_Dust_to_Dust.mp3"),
+                             QStringLiteral("9_Before_The_Storm.mp3"),
+                             QStringLiteral("10_In_The_Shadows.mp3"),
+                             QStringLiteral("11_Shelter_from_the_Storm.mp3"),
+                             QStringLiteral("12_Disembodied_Spirits.mp3"),
+                             QStringLiteral("13_Cave_of_Time.mp3"),
+                             QStringLiteral("14_Protean_Fields.mp3"),
+                             QStringLiteral("15_Alien_Machine_Shop.mp3"),
+                             QStringLiteral("16_Busy_Space_Port.mp3"),
+                             QStringLiteral("17_Alien_Night_Club.mp3"),
+                             QStringLiteral("18_House_on_the_Hill.mp3"),
+                             QStringLiteral("19_Age_of_Sail.mp3"),
+                             QStringLiteral("20_Dark_Continent_aa.mp3"),
+                             QStringLiteral("21_Derelict_Freighter.mp3"),
+                             QStringLiteral("22_True_West_a.mp3"),
+                             QStringLiteral("23_The_Slaughtered_Ox.mp3"),
+                             QStringLiteral("24_Forbidden_Galaxy.mp3"),
+                             QStringLiteral("25_Deep_Space_EVA.mp3"),
+                             QStringLiteral("26_Uncommon_Valor_a.mp3"),
+                             QStringLiteral("27_Xingu_Nights.mp3"),
+                             QStringLiteral("28_Nephilim_Labs_FE.mp3"),
+                             QStringLiteral("29_Kaltoran_Craft_FE.mp3"),
+                             QStringLiteral("30_Los_Vangeles_3030.mp3"),
+                             QStringLiteral("31_Frozen_Wastes.mp3"),
+                             QStringLiteral("32_City_and_the_City.mp3"),
+                             QStringLiteral("33_Far_Above_the_World.mp3"),
+                             QStringLiteral("34_Clash_of_Kings.mp3"),
+                             QStringLiteral("35_Swamplandia.mp3"),
+                             QStringLiteral("36_Down_by_the_Sea.mp3"),
+                             QStringLiteral("37_Catacombs.mp3"),
+                             QStringLiteral("38_Into_the_Deep.mp3"),
+                             QStringLiteral("39_Temple_of_the_Eye.mp3"),
+                             QStringLiteral("40_The_Long_Rain.mp3"),
+                             QStringLiteral("41_Starship_Bridge.mp3"),
+                             QStringLiteral("42_Rise_of_the_Ancients.mp3"),
+                             QStringLiteral("43_Dome_City_Center.mp3"),
+                             QStringLiteral("44_Victorian_London.mp3"),
+                             QStringLiteral("45_Samurai_HQ.mp3"),
+                             QStringLiteral("46_Cathedral.mp3"),
+                             QStringLiteral("47_There_be_Dragons.mp3"),
+                             QStringLiteral("48_Overland_with_Oxen.mp3"),
+                             QStringLiteral("49_Goblin's_Cave.mp3"),
+                             QStringLiteral("50_Super_Hero.mp3"),
+                             QStringLiteral("51_Woodland_Campsite.mp3"),
+                             QStringLiteral("52_Warehouse_13.mp3"),
+                             QStringLiteral("53_Strangers_on_a_Train.mp3"),
+                             QStringLiteral("54_Mountain_Tavern.mp3"),
+                             QStringLiteral("55_Ice_Cavern.mp3"),
+                             QStringLiteral("56_Medieval_Town.mp3"),
+                             QStringLiteral("57_Colosseum.mp3"),
+                             QStringLiteral("58_Terror.mp3"),
+                             QStringLiteral("59_Dinotopia.mp3"),
+                             QStringLiteral("60_Dark_and_Stormy.mp3"),
+                             QStringLiteral("61_Orbital_Platform.mp3"),
+                             QStringLiteral("62_Middle_Earth_Dawn.mp3"),
+                             QStringLiteral("63_Industrial_Shipyard.mp3"),
+                             QStringLiteral("64_Mountain_Pass.mp3"),
+                             QStringLiteral("65_Dungeon_I.mp3"),
+                             QStringLiteral("66_Royal_Salon.mp3"),
+                             QStringLiteral("67_Asylum.mp3"),
+                             QStringLiteral("68_1940s_Office.mp3"),
+                             QStringLiteral("69_Forest_Night.mp3"),
+                             QStringLiteral("70_Age_of_Steam.mp3")});
 
     // This is slower, but makes the above code *much* more readable.
-    static int initOnce = true;
-    if (initOnce) {
-        for(QString& str : list) {
+    static int initOnce= true;
+    if(initOnce)
+    {
+        for(QString& str : list)
+        {
             str.prepend(url);
         }
-        initOnce = false;
+        initOnce= false;
     }
 
     if(askToDeleteAll())
@@ -701,7 +701,7 @@ void PlayerWidget::errorOccurs(QMediaPlayer::Error e)
         return;
 
     QString Error("Error %1 : %2");
-    m_ui->m_label->setText(Error.arg(m_player.errorString(), m_player.currentMedia().request().url().toString()));
+    m_ui->m_label->setText(Error.arg(m_player.errorString(), m_player.source().toString()));
 }
 void PlayerWidget::labelTextChanged()
 {

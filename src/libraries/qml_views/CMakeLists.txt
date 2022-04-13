@@ -8,4 +8,4 @@ set(QRC_SOURCES viewsqml.qrc)
 
 add_library(qml_views SHARED ${QRC_SOURCES})
 find_package(Qt6 COMPONENTS Core Svg REQUIRED)
-target_link_libraries(qml_views PUBLIC Qt5::Core Qt5::Svg)
+target_link_libraries(qml_views PUBLIC Qt6::Core Qt6::Svg)

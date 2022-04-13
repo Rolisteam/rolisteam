@@ -27,6 +27,7 @@
 #include <QMenu>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <QTransform>
 #include <math.h>
 
 #include "controller/item_controllers/sightcontroller.h"
@@ -323,12 +324,12 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
         subArea.setFillRule(Qt::WindingFill);
         auto itemRadius= visionData.radius;
         qreal rot= visionData.rotation;
-        QMatrix mat;
+        QTransform trans;
         QPointF center= visionData.pos + QPointF(itemRadius, itemRadius);
-        mat.translate(center.x(), center.y());
-        mat.rotate(rot);
+        trans.translate(center.x(), center.y());
+        trans.rotate(rot);
 
-        path= path.subtracted(mat.map(visionData.shape.translated(-itemRadius, -itemRadius))); // always see the user
+        path= path.subtracted(trans.map(visionData.shape.translated(-itemRadius, -itemRadius))); // always see the user
         switch(vision->shape())
         {
         case CharacterVision::DISK:
@@ -344,7 +345,7 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
         break;
         }
         path.moveTo(visionData.pos);
-        path= path.subtracted(mat.map(subArea));
+        path= path.subtracted(trans.map(subArea));
     }
 
     /*  else

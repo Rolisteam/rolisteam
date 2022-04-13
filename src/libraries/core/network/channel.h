@@ -31,8 +31,8 @@
 #include <QString>
 
 #include "networkmessagewriter.h"
+#include "tcpclient.h"
 
-class TcpClient;
 class NetworkMessage;
 class NetworkMessageReader;
 /**

@@ -58,7 +58,7 @@ void CharacterSheetUpdater::addCharacterSheetUpdate(CharacterSheet* sheet, Chara
                 itemSheet->saveDataItem(object);
                 QJsonDocument doc;
                 doc.setObject(object);
-                msg.byteArray32(doc.toBinaryData());
+                msg.byteArray32(doc.toJson());
                 msg.sendToServer();
             });
 }

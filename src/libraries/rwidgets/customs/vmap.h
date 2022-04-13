@@ -234,7 +234,7 @@ public slots:
      * @param item
      * @param cItem
      */
-    void ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem);
+    void ownerHasChangedForCharacterItem(Character* person, CharacterItem* cItem);
     /**
      * @brief selectionPositionHasChanged
      */

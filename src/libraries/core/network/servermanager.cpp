@@ -9,6 +9,7 @@
 #include "core/updater/controller/servermanagerupdater.h"
 #include "ipbanaccepter.h"
 #include "iprangeaccepter.h"
+#include "network/channel.h"
 #include "network/networkmessagewriter.h"
 #include "timeaccepter.h"
 
@@ -545,12 +546,13 @@ void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* threa
     connect(connection, &TcpClient::adminAuthSucceed, this, &ServerManager::sendOffAdminAuthSuccessed,
             Qt::QueuedConnection);
     // connect(connection, &TcpClient::itemChanged, this, &ServerManager::sendOffModelToAll, Qt::QueuedConnection);
-    connect(connection, &TcpClient::itemChanged, this,
-            [this]() {
-                qDebug() << "connection ItemChanged";
-                // sendOffModelToAll();
-            },
-            Qt::QueuedConnection);
+    connect(
+        connection, &TcpClient::itemChanged, this,
+        [this]() {
+            qDebug() << "connection ItemChanged";
+            // sendOffModelToAll();
+        },
+        Qt::QueuedConnection);
 
     connect(connection, &TcpClient::checkServerAcceptClient, this, &ServerManager::serverAcceptClient,
             Qt::QueuedConnection);

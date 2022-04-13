@@ -21,6 +21,7 @@
 #define CONTENTCONTROLLER_H
 
 #include <QClipboard>
+#include <QFileSystemModel>
 #include <QModelIndexList>
 #include <QObject>
 #include <QPointer>
@@ -28,6 +29,7 @@
 #include <memory>
 
 #include "controller/controllerinterface.h"
+#include "model/contentmodel.h"
 
 #include "media/mediatype.h"
 #include "network/receiveevent.h"
@@ -38,7 +40,6 @@ namespace campaign
 class CampaignEditor;
 }
 class MediaContainer;
-class QFileSystemModel;
 class QAbstractItemModel;
 class ResourcesNode;
 class PreferencesManager;
@@ -51,7 +52,6 @@ class CharacterModel;
 class PdfMediaController;
 class PlayerModel;
 class NoteMediaController;
-class ContentModel;
 class MediaControllerBase;
 class MediaUpdaterInterface;
 // class AbstractMediaContainerController;

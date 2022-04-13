@@ -27,11 +27,13 @@
 #include <QUndoStack>
 #include <memory>
 
+#include "mindmap/src/controller/selectioncontroller.h"
+#include "model/imagemodel.h"
+#include "model/remoteplayermodel.h"
+
 class QAbstractItemModel;
 class QQuickImageProvider;
-class RemotePlayerModel;
 class PlayerModel;
-class ImageModel;
 class MindMapUpdater;
 
 namespace mindmap
@@ -41,7 +43,6 @@ class LinkModel;
 class Link;
 class MindNode;
 class SpacingController;
-class SelectionController;
 class NodeStyleModel;
 class NodeStyle;
 class NodeImageProvider;

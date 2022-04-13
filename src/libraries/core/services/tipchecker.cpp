@@ -27,7 +27,6 @@
 #include <QJsonObject>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QRegExp>
 #include <QStringList>
 #include <QUrl>
 /*****************
@@ -91,7 +90,7 @@ void TipChecker::readJSon(QNetworkReply* p)
     int pos= locale.indexOf('_');
     if(pos >= 0)
     {
-        locale.remove(locale.indexOf(pos, 1));
+        locale= locale.remove(0, pos);
     }
 
     if(!obj.contains(locale))

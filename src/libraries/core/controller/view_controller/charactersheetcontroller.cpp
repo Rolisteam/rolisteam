@@ -2,7 +2,6 @@
 
 //#include "charactersheet.h"
 #include "charactersheet/charactersheetitem.h"
-#include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 #include "data/character.h"
 

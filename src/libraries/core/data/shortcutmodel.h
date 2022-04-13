@@ -87,6 +87,7 @@ public:
 
     void insertShortCut(const QString& category, const QString& name, const QString& key);
     void addCategory(const QString& category);
+    void removeCategory(const QString& category);
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 

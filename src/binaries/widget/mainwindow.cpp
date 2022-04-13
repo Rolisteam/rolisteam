@@ -40,6 +40,7 @@
 #include <QUuid>
 #include <algorithm>
 #ifdef HAVE_WEBVIEW
+#include <QWebEngineProfile>
 #include <QWebEngineSettings>
 #endif
 
@@ -154,8 +155,10 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     // registerQmlTypes();
 
 #ifdef HAVE_WEBVIEW
-    QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, true);
-    QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::Accelerated2dCanvasEnabled, false);
+    auto defaultProfile= QWebEngineProfile::defaultProfile();
+    QWebEngineSettings* defaultSettings= defaultProfile->settings();
+    defaultSettings->setAttribute(QWebEngineSettings::PluginsEnabled, true);
+    defaultSettings->setAttribute(QWebEngineSettings::Accelerated2dCanvasEnabled, false);
 #endif
 
     m_preferences= m_gameController->preferencesManager();
