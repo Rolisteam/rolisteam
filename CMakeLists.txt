@@ -7,8 +7,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-set(QT_REQUIRED_VERSION "5.14.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Test Gui Svg Qml Quick QuickWidgets WebEngineWidgets WebEngine)
+set(QT_REQUIRED_VERSION "6.3.0")
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Test Gui Svg Qml Quick QuickWidgets WebEngineWidgets WebEngineCore)
 
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} result node)
@@ -41,7 +41,7 @@ set(formula_header
   )
 
 add_library(charactersheet_formula SHARED ${formula_src} ${formula_header})
-target_link_libraries(charactersheet_formula PUBLIC Qt5::Core)
+target_link_libraries(charactersheet_formula PUBLIC Qt6::Core)
 
 SET(character_sources
     #${CMAKE_CURRENT_SOURCE_DIR}/charactersheetbutton.cpp
@@ -52,7 +52,7 @@ SET(character_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/field.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/imagemodel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/qqmlhelpers.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/qqmlobjectlistmodel.cpp
+    #${CMAKE_CURRENT_SOURCE_DIR}/qqmlobjectlistmodel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/rolisteamimageprovider.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/section.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tablefield.cpp
@@ -67,7 +67,7 @@ SET(character_headers
     ${CMAKE_CURRENT_SOURCE_DIR}/field.h
     ${CMAKE_CURRENT_SOURCE_DIR}/imagemodel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/qqmlhelpers.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/qqmlobjectlistmodel.h
+    #${CMAKE_CURRENT_SOURCE_DIR}/qqmlobjectlistmodel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/rolisteamimageprovider.h
     ${CMAKE_CURRENT_SOURCE_DIR}/section.h
     ${CMAKE_CURRENT_SOURCE_DIR}/tablefield.h
@@ -100,12 +100,12 @@ set(documentation Readme.md)
 set(charactersheet_QRC qml/charactersheet.qrc)
 
 add_library(charactersheet SHARED ${character_sources} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
-target_link_libraries(charactersheet PUBLIC Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::WebEngineWidgets Qt5::WebEngine PRIVATE charactersheet_formula)
+target_link_libraries(charactersheet PUBLIC Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::QuickWidgets Qt6::WebEngineWidgets Qt6::WebEngineCore PRIVATE charactersheet_formula)
 
 
 
 add_library(charactersheet_widgets SHARED ${CMAKE_CURRENT_SOURCE_DIR}/sheetwidget.cpp ${CMAKE_CURRENT_SOURCE_DIR}/sheetwidget.h ${charactersheet_QRC})
-target_link_libraries(charactersheet_widgets PUBLIC Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::WebEngineWidgets Qt5::WebEngine PRIVATE charactersheet)
+target_link_libraries(charactersheet_widgets PUBLIC Qt6::Core Qt6::Widgets Qt6::Gui Qt6::Qml Qt6::Quick Qt6::QuickWidgets Qt6::WebEngineWidgets Qt6::WebEngineCore PRIVATE charactersheet)
 
 
 if (TESTS)

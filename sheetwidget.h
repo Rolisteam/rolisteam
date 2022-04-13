@@ -5,7 +5,8 @@
 #include <QPointF>
 #include <QQuickWidget>
 
-class CharacterSheet;
+#include "charactersheet.h"
+
 class SheetWidget : public QQuickWidget
 {
     Q_OBJECT
