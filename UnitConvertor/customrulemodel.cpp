@@ -181,9 +181,9 @@ bool CustomRuleModel::setData(const QModelIndex& idx, const QVariant& value, int
             auto valueStr= value.toString();
             auto pos= valueStr.indexOf("x+");
             bool ok, ok1;
-            auto a= valueStr.leftRef(pos).toDouble(&ok);
+            auto a= QStringView{valueStr}.left(pos).toDouble(&ok);
 
-            auto b= valueStr.rightRef(valueStr.length() - pos).toDouble(&ok1);
+            auto b= QStringView{valueStr}.right(valueStr.length() - pos).toDouble(&ok1);
 
             ConvertorOperator* convertor= nullptr;
 
