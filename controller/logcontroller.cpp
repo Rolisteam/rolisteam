@@ -65,7 +65,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
 
     QByteArray localMsg= msg.toLocal8Bit();
     auto msgFormated= QStringLiteral("%1 (%2:%3), %4")
-                          .arg(QString(localMsg.constData()), QString(context.file), QString(context.line),
+                          .arg(QString(localMsg.constData()), QString(context.file), QString::number(context.line),
                                QString(context.function));
     LogController::LogLevel cLevel= LogController::Error;
     switch(type)

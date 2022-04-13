@@ -35,7 +35,7 @@ set(common_core_src
 
 
 add_library(common_core SHARED ${common_core_header} ${common_core_src})
-target_link_libraries(common_core PUBLIC Qt5::Core Qt5::Network)
+target_link_libraries(common_core PUBLIC Qt6::Core Qt6::Network)
 target_include_directories(common_core PRIVATE ../)
 
 
@@ -49,7 +49,7 @@ widgets/colorbutton.cpp
 )
 
 add_library(common_widget SHARED ${common_widget_header} ${common_widget_src})
-target_link_libraries(common_widget PUBLIC Qt5::Core Qt5::Widgets)
+target_link_libraries(common_widget PUBLIC Qt6::Core Qt6::Widgets)
 target_include_directories(common_widget PRIVATE ../)
 
 
@@ -57,5 +57,5 @@ set(common_qml_header controller/theme.h)
 set(common_qml_src controller/theme.cpp)
 
 add_library(common_qml SHARED ${common_qml_header} ${common_qml_src})
-target_link_libraries(common_qml PUBLIC Qt5::Core Qt5::Qml Qt5::Gui)
+target_link_libraries(common_qml PUBLIC Qt6::Core Qt6::Qml Qt6::Gui)
 target_include_directories(common_qml PRIVATE ../)
