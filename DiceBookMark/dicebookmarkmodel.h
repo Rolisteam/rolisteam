@@ -2,12 +2,13 @@
 #define DICEBOOKMARKMODEL_H
 
 #include "data/diceshortcut.h"
+#include "rwidgets_global.h"
 #include <QAbstractTableModel>
 #include <QSettings>
 /**
  * @brief The DiceBookMarkModel class
  */
-class DiceBookMarkModel : public QAbstractTableModel
+class RWIDGET_EXPORT DiceBookMarkModel : public QAbstractTableModel
 {
     Q_OBJECT
 

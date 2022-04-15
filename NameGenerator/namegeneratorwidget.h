@@ -22,6 +22,7 @@
 #define NAMEGENERATORWIDGET_H
 
 #include "rwidgets/gmtoolbox/gamemastertool.h"
+#include "rwidgets_global.h"
 #include <QHash>
 #include <QRandomGenerator>
 #include <QWidget>
@@ -49,7 +50,7 @@ struct DataBase;
 /**
  * @brief The NameGeneratorWidget class
  */
-class NameGeneratorWidget : public QWidget, public GameMasterTool
+class RWIDGET_EXPORT NameGeneratorWidget : public QWidget, public GameMasterTool
 {
     Q_OBJECT
 
@@ -98,7 +99,7 @@ private:
 /**
  * @brief The DataBase struct stored data for database
  */
-struct DataBase
+struct RWIDGET_EXPORT DataBase
 {
     NameGeneratorWidget::AVAILABLE_GENDER gender;
     QString filepath;

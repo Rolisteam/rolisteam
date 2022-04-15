@@ -7,11 +7,11 @@
 #include "convertoroperator.h"
 #include "customrulemodel.h"
 #include "rwidgets/gmtoolbox/gamemastertool.h"
+#include "rwidgets_global.h"
 #include "unit.h"
 #include "unitmodel.h"
 #include <QSettings>
 #include <memory>
-
 namespace Ui
 {
 class Convertor;
@@ -33,7 +33,7 @@ namespace GMTOOL
  *
  */
 
-class Convertor : public QWidget, public GameMasterTool
+class RWIDGET_EXPORT Convertor : public QWidget, public GameMasterTool
 {
     Q_OBJECT
 

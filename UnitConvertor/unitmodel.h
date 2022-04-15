@@ -1,13 +1,14 @@
 #ifndef UNITMODEL_H
 #define UNITMODEL_H
 
+#include "rwidgets_global.h"
 #include "unit.h"
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
 
 namespace GMTOOL
 {
-class CategoryModel : public QSortFilterProxyModel
+class RWIDGET_EXPORT CategoryModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
@@ -23,7 +24,7 @@ protected:
     QString m_currentCategory;
 };
 
-class UnitModel : public QAbstractListModel
+class RWIDGET_EXPORT UnitModel : public QAbstractListModel
 {
     Q_OBJECT
 public:

@@ -1,7 +1,8 @@
 #ifndef GAMEMASTERTOOL_H
 #define GAMEMASTERTOOL_H
+#include "rwidgets_global.h"
 
-class GameMasterTool
+class RWIDGET_EXPORT GameMasterTool
 {
 public:
     explicit GameMasterTool();
