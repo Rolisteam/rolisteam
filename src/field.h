@@ -26,7 +26,7 @@
 #include <QGraphicsObject>
 #include <QMouseEvent>
 
-#include "charactersheetitem.h"
+#include "charactersheet/charactersheetitem.h"
 #include "csitem.h"
 
 #ifdef RCSE

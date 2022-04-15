@@ -22,7 +22,7 @@
 #ifndef TABLEFIELD_H
 #define TABLEFIELD_H
 
-#include "charactersheetitem.h"
+#include "charactersheet/charactersheetitem.h"
 #include "field.h"
 #include <QGraphicsItem>
 #include <QLabel>

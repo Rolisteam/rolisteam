@@ -27,20 +27,22 @@
 #include <QPointF>
 #include <QTextStream>
 
-#ifndef RCSE
-//#include "network/networkmessagereader.h"
-//#include "network/networkmessagewriter.h"
-#endif
+#include <charactersheet/charactersheet_global.h>
+
 #include "charactersheetitem.h"
-#include "formula/formulamanager.h"
 
 class CharacterSheet;
 class Section;
+
+namespace Formula
+{
+class FormulaManager;
+}
 /**
  * @brief CharacterSheetModel is part of the MVC architecture for charactersheet viewer. it herits from
  * QAbstractItemModel it also provides features for adding data into stored CharacterSheet.
  */
-class CharacterSheetModel : public QAbstractItemModel
+class CHARACTERSHEET_EXPORT CharacterSheetModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
@@ -166,9 +168,6 @@ private:
      * @brief QList which stores pointer to CharacterSheet.
      */
     QList<CharacterSheet*>* m_characterList= nullptr;
-
-    // int m_characterCount;
-
     Section* m_rootSection= nullptr;
     Formula::FormulaManager* m_formulaManager= nullptr;
 };

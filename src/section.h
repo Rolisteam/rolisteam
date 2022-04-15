@@ -21,8 +21,8 @@
  ***************************************************************************/
 #ifndef SECTION_H
 #define SECTION_H
-#include "charactersheet.h"
-#include "charactersheetitem.h"
+#include "charactersheet/charactersheet.h"
+#include "charactersheet/charactersheetitem.h"
 #include <QPointF>
 
 class CharacterSheet;

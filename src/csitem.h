@@ -20,7 +20,7 @@
 #ifndef CSITEM_H
 #define CSITEM_H
 
-#include "charactersheetitem.h"
+#include "charactersheet/charactersheetitem.h"
 #include <QColor>
 #include <QPointF>
 #include <QRectF>

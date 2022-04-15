@@ -12,10 +12,12 @@
 //#include "network/networkmessagewriter.h"
 #endif
 
+#include <charactersheet/charactersheet_global.h>
+
 namespace charactersheet
 {
 
-class ImageModel : public QAbstractTableModel
+class CHARACTERSHEET_EXPORT ImageModel : public QAbstractTableModel
 {
     Q_OBJECT
     Q_PROPERTY(QSize backgroundSize READ backgroundSize NOTIFY backgroundSizeChanged)

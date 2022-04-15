@@ -5,10 +5,12 @@
 #include <QQuickImageProvider>
 #include <QSharedPointer>
 
+#include <charactersheet/charactersheet_global.h>
+
 /**
  * @brief The RolisteamImageProvider class is providing images to qml engine for charactersheet.
  */
-class RolisteamImageProvider : public QQuickImageProvider
+class CHARACTERSHEET_EXPORT RolisteamImageProvider : public QQuickImageProvider
 {
 public:
     RolisteamImageProvider(charactersheet::ImageModel* model);

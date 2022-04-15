@@ -5,9 +5,10 @@
 #include <QPointF>
 #include <QQuickWidget>
 
-#include "charactersheet.h"
+#include <charactersheet/widget/charactersheet_widget_global.h>
+#include "charactersheet/charactersheet.h"
 
-class SheetWidget : public QQuickWidget
+class CHARACTERSHEET_WIDGET_EXPORT SheetWidget : public QQuickWidget
 {
     Q_OBJECT
     Q_PROPERTY(CharacterSheet* sheet READ sheet WRITE setSheet NOTIFY sheetChanged)

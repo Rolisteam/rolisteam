@@ -26,12 +26,14 @@
 #include <QTextStream>
 #include <QVariant>
 
+#include <charactersheet/charactersheet_global.h>
+
 class QGraphicsScene;
 class EditorController;
 /**
  * @brief The Item class
  */
-class CharacterSheetItem : public QObject
+class CHARACTERSHEET_EXPORT CharacterSheetItem : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ getId WRITE setId NOTIFY idChanged)

@@ -1,4 +1,4 @@
-#include "rolisteamimageprovider.h"
+#include "charactersheet/rolisteamimageprovider.h"
 #include <QBuffer>
 #include <QDebug>
 

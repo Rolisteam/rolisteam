@@ -20,9 +20,12 @@
 #ifndef FORMULAMANAGER_H
 #define FORMULAMANAGER_H
 
+#include <QHash>
 #include <QObject>
 #include <QString>
 #include <QVariant>
+
+#include <charactersheet/formula/formula_global.h>
 /**
  * @page FormulaManager Formula Manager
  *
@@ -43,17 +46,17 @@
  *
  */
 
-#include "nodes/startnode.h"
-#include "parsingtoolformula.h"
 /**
  * Formala namespace is gathering all classes required for formula management.
  */
 namespace Formula
 {
+class ParsingToolFormula;
+class StartNode;
 /**
  * @brief The FormulaManager class
  */
-class FormulaManager
+class CHARACTERSHEET_FORMULA_EXPORT FormulaManager
 {
 public:
     FormulaManager();

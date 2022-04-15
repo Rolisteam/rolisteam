@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "charactersheetmodel.h"
-#include "charactersheet.h"
+#include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/charactersheet.h"
 #include "field.h"
 
 #include "section.h"
@@ -33,6 +33,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+
+#include <charactersheet/formula/formulamanager.h>
 
 /////////////////////////////
 /// CharacterSheetModel
@@ -80,7 +82,8 @@ int CharacterSheetModel::rowCount(const QModelIndex& parent) const
         {
             int max= tmp->getChildrenCount();
             auto result= std::max_element(m_characterList->begin(), m_characterList->end(),
-                                          [tmp](CharacterSheet* a, CharacterSheet* b) {
+                                          [tmp](CharacterSheet* a, CharacterSheet* b)
+                                          {
                                               auto fieldA= a->getFieldFromKey(tmp->getId());
                                               auto fieldB= b->getFieldFromKey(tmp->getId());
                                               return fieldA->getChildrenCount() < fieldB->getChildrenCount();

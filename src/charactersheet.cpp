@@ -18,15 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "charactersheet.h"
+#include "charactersheet/charactersheet.h"
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QUuid>
 
+#include "charactersheet/charactersheetmodel.h"
 #include "charactersheetbutton.h"
-#include "charactersheetmodel.h"
 #include "section.h"
 #include "tablefield.h"
 /////////////////////////////////////////
@@ -356,14 +356,16 @@ void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
 {
     m_valuesMap.insert(key, itemSheet);
 
-    connect(itemSheet, &CharacterSheetItem::characterSheetItemChanged, this, [=](CharacterSheetItem* item) {
-        QString path;
-        auto parent= item->getParent();
-        if(nullptr != parent)
-            path= parent->getPath();
+    connect(itemSheet, &CharacterSheetItem::characterSheetItemChanged, this,
+            [=](CharacterSheetItem* item)
+            {
+                QString path;
+                auto parent= item->getParent();
+                if(nullptr != parent)
+                    path= parent->getPath();
 
-        emit updateField(this, item, path);
-    });
+                emit updateField(this, item, path);
+            });
 }
 
 QHash<QString, QString> CharacterSheet::getVariableDictionnary()

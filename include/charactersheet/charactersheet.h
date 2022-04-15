@@ -24,15 +24,17 @@
 #include <QString>
 #include <QVariant>
 
-#include "field.h"
+#include <charactersheet/charactersheet_global.h>
+
+//#include "field.h"
+
+#include <charactersheet/charactersheetitem.h>
 
 class Section;
-#include "charactersheetitem.h"
-
 /**
  * @brief the characterSheet stores Section as many as necessary
  */
-class CharacterSheet : public QObject
+class CHARACTERSHEET_EXPORT CharacterSheet : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)

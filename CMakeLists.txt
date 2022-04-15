@@ -8,104 +8,149 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 set(QT_REQUIRED_VERSION "6.3.0")
-find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Test Gui Svg Qml Quick QuickWidgets WebEngineWidgets WebEngineCore)
-
+set(QT_VERSION_MAJOR "6")
+find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Test Gui Svg Qml Quick QuickWidgets WebEngineWidgets WebEngineCore)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} result node)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(src_dir ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+set(formula_public_header
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet/formula/formula_global.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet/formula/formulamanager.h
+)
+
 
 set(formula_src
   # formula
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/formulamanager.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/parsingtoolformula.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/formulanode.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/operator.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/parenthesesfnode.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/scalaroperatorfnode.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/startnode.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/valuefnode.cpp)
+  ${src_dir}/formula/formulamanager.cpp
+  ${src_dir}/formula/parsingtoolformula.cpp
+  ${src_dir}/formula/nodes/formulanode.cpp
+  ${src_dir}/formula/nodes/operator.cpp
+  ${src_dir}/formula/nodes/parenthesesfnode.cpp
+  ${src_dir}/formula/nodes/scalaroperatorfnode.cpp
+  ${src_dir}/formula/nodes/startnode.cpp
+  ${src_dir}/formula/nodes/valuefnode.cpp)
 
 set(formula_header
   # formula
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/formulamanager.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/parsingtoolformula.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/formulanode.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/operator.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/parenthesesfnode.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/scalaroperatorfnode.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/startnode.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/formula/nodes/valuefnode.h
+
+  ${src_dir}/formula/parsingtoolformula.h
+  ${src_dir}/formula/nodes/formulanode.h
+  ${src_dir}/formula/nodes/operator.h
+  ${src_dir}/formula/nodes/parenthesesfnode.h
+  ${src_dir}/formula/nodes/scalaroperatorfnode.h
+  ${src_dir}/formula/nodes/startnode.h
+  ${src_dir}/formula/nodes/valuefnode.h
   )
 
-add_library(charactersheet_formula SHARED ${formula_src} ${formula_header})
-target_link_libraries(charactersheet_formula PUBLIC Qt6::Core)
+add_library(charactersheet_formula SHARED ${formula_src} ${formula_header} ${formula_public_header})
+target_link_libraries(charactersheet_formula PUBLIC Qt${QT_VERSION_MAJOR}::Core)
+set_target_properties(charactersheet_formula PROPERTIES PUBLIC_HEADER "${formula_public_header}")
+target_compile_definitions(charactersheet_formula PRIVATE CHARACTERSHEET_FORMULA_LIBRARY)
+target_include_directories(charactersheet_formula PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/formula
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+#===========================================================
+
+
+set(character_public_headers include/charactersheet/charactersheet_global.h
+    include/charactersheet/charactersheetitem.h
+    include/charactersheet/charactersheetmodel.h
+    include/charactersheet/charactersheet.h
+    include/charactersheet/imagemodel.h
+    include/charactersheet/rolisteamimageprovider.h
+)
 
 SET(character_sources
     #${CMAKE_CURRENT_SOURCE_DIR}/charactersheetbutton.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/charactersheet.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/charactersheetitem.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/charactersheetmodel.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/csitem.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/field.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/imagemodel.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/qqmlhelpers.cpp
-    #${CMAKE_CURRENT_SOURCE_DIR}/qqmlobjectlistmodel.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/rolisteamimageprovider.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/section.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/tablefield.cpp
+    ${src_dir}/charactersheet.cpp
+    ${src_dir}/charactersheetitem.cpp
+    ${src_dir}/charactersheetmodel.cpp
+    ${src_dir}/csitem.cpp
+    ${src_dir}/field.cpp
+    ${src_dir}/imagemodel.cpp
+    ${src_dir}/qqmlhelpers.cpp
+    #${src_dir}/qqmlobjectlistmodel.cpp
+    ${src_dir}/rolisteamimageprovider.cpp
+    ${src_dir}/section.cpp
+    ${src_dir}/tablefield.cpp
 )
 
 SET(character_headers
     #${CMAKE_CURRENT_SOURCE_DIR}/charactersheetbutton.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/charactersheet.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/charactersheetitem.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/charactersheetmodel.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/csitem.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/field.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/imagemodel.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/qqmlhelpers.h
-    #${CMAKE_CURRENT_SOURCE_DIR}/qqmlobjectlistmodel.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/rolisteamimageprovider.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/section.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/tablefield.h
+    ${src_dir}/csitem.h
+    ${src_dir}/field.h
+    ${src_dir}/qqmlhelpers.h
+    ${src_dir}/qqmlobjectlistmodel.h
+    ${src_dir}/section.h
+    ${src_dir}/tablefield.h
 )
 
 
 
-set(qml_sources ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/CheckBoxField.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/CheckBoxFieldv1.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/DiceButton.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/DiceButtonv1.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/ImageField.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/ImageFieldv1.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/main.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/PageButton.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/RLabel.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/SelectField.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/SelectFieldv1.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/Table.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextAreaField.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextAreaFieldv1.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextFieldField.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextFieldFieldv1.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextInputField.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextInputFieldv1.qml
-  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/WebView.qml
+set(qml_sources ${src_dir}/qml/Rolisteam/CheckBoxField.qml
+  ${src_dir}/qml/Rolisteam/CheckBoxFieldv1.qml
+  ${src_dir}/qml/Rolisteam/DiceButton.qml
+  ${src_dir}/qml/Rolisteam/DiceButtonv1.qml
+  ${src_dir}/qml/Rolisteam/ImageField.qml
+  ${src_dir}/qml/Rolisteam/ImageFieldv1.qml
+  ${src_dir}/qml/Rolisteam/main.qml
+  ${src_dir}/qml/Rolisteam/PageButton.qml
+  ${src_dir}/qml/Rolisteam/RLabel.qml
+  ${src_dir}/qml/Rolisteam/SelectField.qml
+  ${src_dir}/qml/Rolisteam/SelectFieldv1.qml
+  ${src_dir}/qml/Rolisteam/Table.qml
+  ${src_dir}/qml/Rolisteam/TextAreaField.qml
+  ${src_dir}/qml/Rolisteam/TextAreaFieldv1.qml
+  ${src_dir}/qml/Rolisteam/TextFieldField.qml
+  ${src_dir}/qml/Rolisteam/TextFieldFieldv1.qml
+  ${src_dir}/qml/Rolisteam/TextInputField.qml
+  ${src_dir}/qml/Rolisteam/TextInputFieldv1.qml
+  ${src_dir}/qml/Rolisteam/WebView.qml
 )
 
 set(documentation Readme.md)
-set(charactersheet_QRC qml/charactersheet.qrc)
-
-add_library(charactersheet SHARED ${character_sources} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
-target_link_libraries(charactersheet PUBLIC Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::QuickWidgets Qt6::WebEngineWidgets Qt6::WebEngineCore PRIVATE charactersheet_formula)
+set(charactersheet_QRC ${src_dir}/qml/charactersheet.qrc)
 
 
+add_library(charactersheet SHARED ${character_sources} ${character_public_headers} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
+target_link_libraries(charactersheet PUBLIC Qt5::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngine PRIVATE charactersheet_formula)
+set_target_properties(charactersheet PROPERTIES PUBLIC_HEADER "${character_public_headers}")
+target_compile_definitions(charactersheet PRIVATE CHARACTERSHEET_LIBRARY)
+target_include_directories(charactersheet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-add_library(charactersheet_widgets SHARED ${CMAKE_CURRENT_SOURCE_DIR}/sheetwidget.cpp ${CMAKE_CURRENT_SOURCE_DIR}/sheetwidget.h ${charactersheet_QRC})
-target_link_libraries(charactersheet_widgets PUBLIC Qt6::Core Qt6::Widgets Qt6::Gui Qt6::Qml Qt6::Quick Qt6::QuickWidgets Qt6::WebEngineWidgets Qt6::WebEngineCore PRIVATE charactersheet)
+#===========================================================
+
+
+
+set(public_header_widget
+    include/charactersheet/widget/charactersheet_widget_global.h
+    include/charactersheet/widget/sheetwidget.h
+)
+set(src_widget
+    ${src_dir}/widget/sheetwidget.cpp
+)
+
+
+
+add_library(charactersheet_widgets SHARED ${src_widget} ${public_header_widget} ${charactersheet_QRC})
+target_link_libraries(charactersheet_widgets PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngine PRIVATE charactersheet)
+set_target_properties(charactersheet_widgets PROPERTIES PUBLIC_HEADER "${public_header_widget}")
+target_compile_definitions(charactersheet_widgets PRIVATE CHARACTERSHEET_WIDGET_LIBRARY)
+target_include_directories(charactersheet_widgets PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
 
 
 if (TESTS)

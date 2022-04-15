@@ -17,19 +17,71 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef STARTNODE_H
-#define STARTNODE_H
+#include <charactersheet/formula/formulamanager.h>
 
-#include "formulanode.h"
+#include "nodes/formulanode.h"
+#include "nodes/startnode.h"
+#include "parsingtoolformula.h"
 
 namespace Formula
 {
-    class StartNode : public FormulaNode
+
+FormulaManager::FormulaManager() : m_startingNode(nullptr)
+{
+    m_parsingTool= new ParsingToolFormula();
+}
+FormulaManager::~FormulaManager()
+{
+    if(nullptr != m_parsingTool)
     {
-    public:
-        StartNode();
-        virtual ~StartNode();
-        virtual bool run(FormulaNode* previous);
-    };
+        delete m_parsingTool;
+    }
+}
+
+QVariant FormulaManager::getValue(QString i)
+{
+    m_formula= i;
+    if(parseLine(i))
+    {
+        return startComputing();
+    }
+    return QVariant();
+}
+
+bool FormulaManager::parseLine(QString& str)
+{
+    return readFormula(str);
+}
+
+QVariant FormulaManager::startComputing()
+{
+    m_startingNode->run(nullptr);
+
+    FormulaNode* node= m_startingNode;
+    while(nullptr != node->next())
+    {
+        node= node->next();
+    }
+
+    QVariant var= node->getResult();
+    delete m_startingNode;
+    return var;
+}
+
+bool FormulaManager::readFormula(QString& str)
+{
+    m_startingNode= new StartNode();
+    FormulaNode* node= nullptr;
+    bool a= m_parsingTool->readFormula(str, node);
+
+    m_startingNode->setNext(node);
+    return a;
+}
+void FormulaManager::setConstantHash(const QHash<QString, QString>& hash)
+{
+    if(nullptr != m_parsingTool)
+    {
+        m_parsingTool->setVariableHash(hash);
+    }
+}
 } // namespace Formula
-#endif // STARTNODE_H
