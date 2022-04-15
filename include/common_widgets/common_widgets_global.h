@@ -1,0 +1,12 @@
+#ifndef COMMON_WIDGETS_GLOBAL_H
+#define COMMON_WIDGETS_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(COMMON_WIDGET_LIBRARY)
+#define COMMON_WIDGET_EXPORT Q_DECL_EXPORT
+#else
+#define COMMON_WIDGET_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // COMMON_WIDGETS_GLOBAL_H

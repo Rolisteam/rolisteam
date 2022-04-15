@@ -64,18 +64,19 @@ void LogUploader::setUuid(const QString& uuid)
     m_uuid= uuid;
 }
 
-std::vector<Log> LogUploader::logs() const
+std::vector<common::Log> LogUploader::logs() const
 {
     return m_logs;
 }
 
-void LogUploader::setLogs(const std::vector<Log>& logs)
+void LogUploader::setLogs(const std::vector<common::Log>& logs)
 {
     m_logs= logs;
 }
 
 void LogUploader::uploadLog()
 {
+    // TODO Put json key into constexpr
     QJsonObject obj;
     obj["uuid"]= m_uuid;
     obj["version"]= m_version;

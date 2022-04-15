@@ -24,10 +24,12 @@
 #include <QColorDialog>
 #include <QPushButton>
 
+#include <common_widgets/common_widgets_global.h>
+
 /**
  * @brief A button to choose a color.
  */
-class ColorButton : public QPushButton
+class COMMON_WIDGET_EXPORT ColorButton : public QPushButton
 {
     Q_OBJECT
 

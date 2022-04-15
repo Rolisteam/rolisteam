@@ -22,12 +22,13 @@
 
 #include <QObject>
 #include <QQmlPropertyMap>
+#include <common_qml/common_qml_global.h>
 #include <map>
 
 namespace customization
 {
 class Theme;
-class StyleSheet : public QQmlPropertyMap
+class COMMON_QML_EXPORT StyleSheet : public QQmlPropertyMap
 {
     Q_OBJECT
 public:
@@ -38,7 +39,7 @@ public:
     //    QVariant updateProperty(const QString& key, const QVariant& input);
 };
 
-class Theme : public QObject
+class COMMON_QML_EXPORT Theme : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)

@@ -1,16 +1,17 @@
 #ifndef LOGPANEL_H
 #define LOGPANEL_H
 
-#include "common/controller/logcontroller.h"
 #include <QAbstractListModel>
 #include <QPointer>
 #include <QWidget>
+#include <common/logcontroller.h>
+#include <common_widgets/common_widgets_global.h>
 
 namespace Ui
 {
 class LogPanel;
 }
-class LogPanel : public QWidget
+class COMMON_WIDGET_EXPORT LogPanel : public QWidget
 {
     Q_OBJECT
 

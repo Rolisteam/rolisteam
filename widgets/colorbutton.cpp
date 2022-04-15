@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "colorbutton.h"
+#include <common_widgets/colorbutton.h>
 
 #include <QColorDialog>
 #include <QDebug>

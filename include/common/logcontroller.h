@@ -26,17 +26,20 @@
 #include <QObject>
 #include <QTextStream>
 #include <memory>
+
+#include <common/common_global.h>
+
 namespace helper
 {
 namespace log
 {
-QString humanReadableDiceResult(const QString& json);
+COMMON_EXPORT QString humanReadableDiceResult(const QString& json);
 }
 } // namespace helper
 /**
  * @brief The LogController class receives log messeges and displays them in the right sink.
  */
-class LogController : public QObject
+class COMMON_EXPORT LogController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(LogController::LogLevel logLevel READ logLevel WRITE setLogLevel NOTIFY logLevelChanged)

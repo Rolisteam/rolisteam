@@ -1,10 +1,11 @@
 #ifndef REMOTELOGCONTROLLER_H
 #define REMOTELOGCONTROLLER_H
 
-#include "../task/uploadlogtoserver.h"
+#include "common_global.h"
+#include "common_types.h"
 #include <QObject>
 
-class RemoteLogController : public QObject
+class COMMON_EXPORT RemoteLogController : public QObject
 {
     Q_OBJECT
 public:
@@ -21,7 +22,7 @@ public slots:
     void sendOffMessage();
 
 private:
-    std::vector<Log> m_temporyData;
+    std::vector<common::Log> m_temporyData;
     size_t m_numberPackages= 5;
     int m_appId= 0;
     QString m_localUuid;

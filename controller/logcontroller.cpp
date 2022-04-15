@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
-#include "logcontroller.h"
-#include "core/media/mediatype.h"
+#include <common/logcontroller.h>
+
 #include <QDateTime>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -45,12 +45,15 @@ QString humanReadableDiceResult(const QString& json)
     QJsonDocument doc= QJsonDocument::fromJson(json.toUtf8());
     auto obj= doc.object();
 
-    auto command= obj[Core::jsonDice::JSON_COMMAND].toString();
+    QStringList list;
+    std::transform(std::begin(obj), std::end(obj), std::back_inserter(list),
+                   [obj](const QJsonValueRef& ref) { return ref.toString(); });
+    /*auto command= obj[Core::jsonDice::JSON_COMMAND].toString();
     auto error= obj[Core::jsonDice::JSON_ERROR].toString();
-    auto scalar= obj[Core::jsonDice::JSON_SCALAR].toString();
+    auto scalar= obj[Core::jsonDice::JSON_SCALAR].toString();*/
 
-    auto base64= QString(json.toUtf8().toBase64());
-    return QString("%1;%2;%3;%4").arg(command).arg(scalar).arg(error).arg(base64);
+    list << QString(json.toUtf8().toBase64());
+    return list.join(";");
 }
 } // namespace log
 } // namespace helper

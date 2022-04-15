@@ -1,13 +1,13 @@
-#include "remotelogcontroller.h"
-#include "../task/uploadlogtoserver.h"
+#include "uploadlogtoserver.h"
 #include <QCoreApplication>
 #include <QThread>
+#include <common/remotelogcontroller.h>
 
 RemoteLogController::RemoteLogController() {}
 void RemoteLogController::addLog(const QString& msg, const QString& level, const QString& category,
                                  const QString& timestamp)
 {
-    Log tm= {category, msg, timestamp, level};
+    common::Log tm= {category, msg, timestamp, level};
     m_temporyData.push_back(tm);
     if(m_temporyData.size() == m_numberPackages)
         sendOffMessage();

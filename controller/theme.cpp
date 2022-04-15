@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "theme.h"
+#include <common_qml/theme.h>
 
 #include <QColor>
 #include <QDebug>
@@ -145,9 +145,8 @@ QColor Theme::darkColor(const QColor& color)
         return color;
 
     std::vector<int> c({color.red(), color.green(), color.blue()});
-    auto brighness= [](const QColor& current) {
-        return ((current.red() * 299) + (current.green() * 587) + (current.blue() * 114)) / 1000;
-    };
+    auto brighness= [](const QColor& current)
+    { return ((current.red() * 299) + (current.green() * 587) + (current.blue() * 114)) / 1000; };
     auto avg= std::accumulate(c.begin(), c.end(), 0.0) / static_cast<double>(c.size());
     auto allEqual= std::all_of(c.begin(), c.end(), [color](int tmp) { return color.red() == tmp; });
     QColor result= color;

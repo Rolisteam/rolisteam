@@ -23,13 +23,8 @@
 #include <QObject>
 #include <vector>
 
-struct Log
-{
-    QString m_category;
-    QString m_message;
-    QString m_timestamp;
-    QString m_level;
-};
+#include <common/common_types.h>
+
 class QNetworkAccessManager;
 /**
  * @brief The LogUploader class dedicated to be call from a thread to send its log messages.
@@ -49,8 +44,8 @@ public:
     QString uuid() const;
     void setUuid(const QString& uuid);
 
-    std::vector<Log> logs() const;
-    void setLogs(const std::vector<Log>& logs);
+    std::vector<common::Log> logs() const;
+    void setLogs(const std::vector<common::Log>& logs);
 
     QString conf() const;
     void setConf(const QString& conf);
@@ -61,12 +56,12 @@ signals:
     void finished();
 
 private:
-    std::vector<Log> m_logs;
-    int m_appId= 0;
+    std::vector<common::Log> m_logs;
+    int m_appId{0};
     QString m_version;
     QString m_uuid;
     QString m_conf;
-    QNetworkAccessManager* m_accessManager= nullptr;
+    QNetworkAccessManager* m_accessManager{nullptr};
     QByteArray m_postData;
 };
 
