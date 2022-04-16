@@ -26,12 +26,12 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
 #include "data/campaigneditor.h"
-#include "data/cleveruri.h"
 #include "media/mediafactory.h"
 #include "model/contentmodel.h"
 
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 
 NewMediaController::NewMediaController(ContentModel* model, const std::map<QString, QVariant>& map, bool localIsGM,
                                        campaign::CampaignEditor* editor, QUndoCommand* parent)
@@ -40,25 +40,33 @@ NewMediaController::NewMediaController(ContentModel* model, const std::map<QStri
     m_contentType= m_args[Core::keys::KEY_TYPE].value<Core::ContentType>();
     m_title= m_args[Core::keys::KEY_NAME].toString();
     m_uuidUri= m_args[Core::keys::KEY_UUID].toString();
+    m_fullPath= m_args[Core::keys::KEY_URL].toUrl();
 
     if(m_uuidUri.isEmpty())
         m_uuidUri= QUuid::createUuid().toString(QUuid::WithoutBraces);
 
     if(m_title.isEmpty())
     {
-        m_title= QString("%1_%2").arg(CleverURI::typeToString(m_contentType)).arg(model->mediaCount(m_contentType) + 1);
+        m_title= QString("%1_%2")
+                     .arg(helper::utils::typeToString(m_contentType))
+                     .arg(model->mediaCount(m_contentType) + 1);
     }
 
-    m_fullPath= m_editor ? m_editor->mediaFullPath(m_title, m_contentType) : m_title;
-
-    if(QFileInfo::exists(m_fullPath))
+    if(m_fullPath.isEmpty())
     {
-        m_fullPath= m_editor ? m_editor->mediaFullPath(m_uuidUri, m_contentType) : m_title;
+        m_fullPath
+            = QUrl::fromUserInput(m_editor ? m_editor->mediaFullPathWithExtension(m_title, m_contentType) : m_title);
+
+        if(QFileInfo::exists(m_fullPath.toLocalFile()))
+        {
+            m_fullPath= QUrl::fromUserInput(m_editor ? m_editor->mediaFullPathWithExtension(m_uuidUri, m_contentType) :
+                                                       m_title);
+        }
     }
 
     QString media(QObject::tr("Create new %1 %2"));
 
-    setText(media.arg(CleverURI::typeToString(m_contentType), m_title));
+    setText(media.arg(helper::utils::typeToString(m_contentType), m_title));
 }
 
 void NewMediaController::redo()
@@ -68,10 +76,10 @@ void NewMediaController::redo()
 
     qInfo() << QStringLiteral("Redo command newmediacontroller: %1 ").arg(text());
     auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args, m_localGM);
-    media->setPath(m_fullPath);
+    media->setUrl(m_fullPath);
     if(m_editor)
     {
-        m_editor->addMedia(m_fullPath, IOHelper::saveController(media));
+        m_editor->addMedia(m_uuidUri, m_fullPath.toLocalFile(), IOHelper::saveController(media));
     }
     m_model->appendMedia(media);
 }
@@ -84,6 +92,6 @@ void NewMediaController::undo()
     m_model->removeMedia(m_uuidUri);
     if(m_editor)
     {
-        m_editor->removeMedia(m_fullPath);
+        m_editor->removeMedia(m_fullPath.toLocalFile());
     }
 }

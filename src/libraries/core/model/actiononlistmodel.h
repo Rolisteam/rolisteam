@@ -31,7 +31,7 @@ struct ActionInfo
 struct DataInfo
 {
     QString data;
-    QString action;
+    int indexAction= -1;
 };
 
 class ActionOnListModel : public QAbstractListModel
@@ -43,19 +43,29 @@ public:
     {
         Name= Qt::UserRole + 1,
         Action,
-        PossibleAction
+        PossibleAction,
+        PossibleIcon,
     };
 
-    explicit ActionOnListModel(const QStringList& data, const QList<ActionInfo>& actions, QObject* parent= nullptr);
+    explicit ActionOnListModel(const QStringList& data, const QList<ActionInfo>& actions, const QString& root,
+                               QObject* parent= nullptr);
 
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
 
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
+
+    bool canValidate() const;
+
+    void setAction(int index, int action);
+
+    const QList<DataInfo>& dataset() const;
 
 private:
     QList<DataInfo> m_data;
     QList<ActionInfo> m_actions;
+    QString m_root;
 };
 
 #endif // ACTIONONLISTMODEL_H

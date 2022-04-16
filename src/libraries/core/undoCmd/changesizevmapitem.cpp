@@ -101,8 +101,6 @@ void ChangeSizeVmapItemCommand::undo()
 void ChangeSizeVmapItemCommand::redo()
 {
     qInfo() << QStringLiteral("redo command ChangeSizeVmapItemCommand: %1 ").arg(text());
-    std::for_each(std::begin(m_data), std::end(m_data), [](const ChangeSizeData& data) {
-        qDebug() << data.m_move;
-        data.m_ctrl->setCorner(data.m_move, 2);
-    });
+    std::for_each(std::begin(m_data), std::end(m_data),
+                  [](const ChangeSizeData& data) { data.m_ctrl->setCorner(data.m_move, 2); });
 }

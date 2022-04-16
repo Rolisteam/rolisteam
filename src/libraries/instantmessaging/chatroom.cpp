@@ -22,7 +22,11 @@
 #include <QtConcurrent>
 #include <set>
 
-#include "diceparser/include/diceparser.h"
+#include "core/model/playermodel.h"
+#include "core/worker/utilshelper.h"
+#include "diceparser/diceroller.h"
+#include "filteredplayermodel.h"
+#include "messagemodel.h"
 
 namespace InstantMessaging
 {
@@ -39,10 +43,11 @@ InstantMessaging::MessageInterface::MessageType textToType(const QString& text)
     return type;
 }
 } // namespace
-ChatRoom::ChatRoom(ChatRoomType type, const QStringList& recipiants, const QString& id, QObject* parent)
+ChatRoom::ChatRoom(PlayerModel* model, ChatRoomType type, const QStringList& recipiants, const QString& id,
+                   QObject* parent)
     : QObject(parent)
     , m_recipiants(new FilteredPlayerModel(recipiants))
-    , m_messageModel(new MessageModel)
+    , m_messageModel(new MessageModel(model))
     , m_type(type)
     , m_uuid(id)
 {
@@ -144,50 +149,47 @@ bool ChatRoom::rollDice(const QString& command, const QString& personId)
     using IM= InstantMessaging::MessageInterface;
     auto id= personId.isEmpty() ? localId() : personId;
 
-    QFutureWatcher<std::pair<bool, QString>>* watcher= new QFutureWatcher<std::pair<bool, QString>>();
+    helper::utils::setContinuation<std::pair<bool, QString>>(
+        QtConcurrent::run([this, command, id]() -> std::pair<bool, QString> {
+            auto diceParser= m_diceParser->parser();
 
-    connect(watcher, &QFutureWatcher<std::pair<bool, QString>>::finished, this, [this, watcher, id]() {
-        auto result= watcher->result();
-        m_messageModel->addMessage(result.second, QDateTime::currentDateTime(), localId(), id,
-                                   result.first ? IM::Dice : IM::Error);
-        delete watcher;
-    });
-
-    QFuture<std::pair<bool, QString>> future= QtConcurrent::run([this, command, id]() -> std::pair<bool, QString> {
-        if(!m_diceParser->parseLine(command))
-        {
-            auto error= m_diceParser->humanReadableError();
-            return {false, error};
-        }
-
-        m_diceParser->start();
-        auto error= m_diceParser->humanReadableError();
-        if(!error.isEmpty())
-            return {false, error};
-
-        auto result= m_diceParser->resultAsJSon([](const QString& value, const QString& color, bool highlight) {
-            QString resultTmp= value;
-            bool hasColor= !color.isEmpty();
-            QString style;
-            if(hasColor)
+            if(!diceParser->parseLine(command))
             {
-                style+= QStringLiteral("color:%1;").arg(color);
+                auto error= diceParser->humanReadableError();
+                return {false, error};
             }
-            if(highlight)
-            {
-                if(style.isEmpty())
-                    style+= QStringLiteral("color:%1;")
-                                .arg("red"); // default color must get the value from the setting object
-                style+= QStringLiteral("font-weight:bold;");
-            }
-            if(!style.isEmpty())
-                resultTmp= QString("<span style=\"%2\">%1</span>").arg(value).arg(style);
-            return resultTmp;
+
+            diceParser->start();
+            auto error= diceParser->humanReadableError();
+            if(!error.isEmpty())
+                return {false, error};
+
+            auto result= diceParser->resultAsJSon([](const QString& value, const QString& color, bool highlight) {
+                QString resultTmp= value;
+                bool hasColor= !color.isEmpty();
+                QString style;
+                if(hasColor)
+                {
+                    style+= QStringLiteral("color:%1;").arg(color);
+                }
+                if(highlight)
+                {
+                    if(style.isEmpty())
+                        style+= QStringLiteral("color:%1;")
+                                    .arg("red"); // default color must get the value from the setting object
+                    style+= QStringLiteral("font-weight:bold;");
+                }
+                if(!style.isEmpty())
+                    resultTmp= QString("<span style=\"%2\">%1</span>").arg(value).arg(style);
+                return resultTmp;
+            });
+            return {true, result};
+        }),
+        this, [this, id](const std::pair<bool, QString>& result) {
+            m_messageModel->addMessage(result.second, QDateTime::currentDateTime(), localId(), id,
+                                       result.first ? IM::Dice : IM::Error);
         });
 
-        return {true, result};
-    });
-    watcher->setFuture(future);
     return true;
 }
 
@@ -195,7 +197,7 @@ bool ChatRoom::runCommand(const QString& command, const QString& personId, const
 {
     QStringList meCommand({"emote ", "me ", "em ", "e "});
     auto text= command;
-    for(auto e : meCommand)
+    for(auto const& e : qAsConst(meCommand))
     {
         if(text.startsWith(e))
         {
@@ -225,7 +227,7 @@ bool ChatRoom::hasRecipiant(const QString& id)
     return m_recipiants->hasRecipiant(id);
 }
 
-void ChatRoom::setDiceParser(DiceParser* diceParser)
+void ChatRoom::setDiceParser(DiceRoller* diceParser)
 {
     m_diceParser= diceParser;
 }

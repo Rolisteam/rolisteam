@@ -70,7 +70,7 @@ Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagin
     m_instantMessageView= addSubWindow(new InstantMessagingView(instantCtrl));
     m_instantMessageView->setGeometry(0, 0, 400, 600);
     m_instantMessageView->setAttribute(Qt::WA_DeleteOnClose, false);
-    m_instantMessageView->setWindowIcon(QIcon::fromTheme("chatIcon"));
+    m_instantMessageView->setWindowIcon(QIcon::fromTheme("chaticon"));
     connect(instantCtrl, &InstantMessagingController::visibleChanged, m_instantMessageView, &QMdiSubWindow::setVisible);
     m_instantMessageView->setVisible(instantCtrl->visible());
 

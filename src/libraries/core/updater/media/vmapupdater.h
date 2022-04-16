@@ -29,11 +29,12 @@ class VectorialMapController;
 class VMapItemControllerUpdater;
 class NetworkMessageReader;
 class FilteredContentModel;
+class DiceRoller;
 class VMapUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
 public:
-    explicit VMapUpdater(FilteredContentModel* model, QObject* parent= nullptr);
+    explicit VMapUpdater(campaign::CampaignManager* manager, FilteredContentModel* model, QObject* parent= nullptr);
 
     void addMediaController(MediaControllerBase* ctrl) override;
 
@@ -46,6 +47,7 @@ private:
     VectorialMapController* updatingCtrl= nullptr;
     std::map<vmap::VisualItemController::ItemType, std::unique_ptr<VMapItemControllerUpdater>> m_updaters;
     QPointer<FilteredContentModel> m_vmapModel;
+    DiceRoller* m_diceParser;
 };
 
 #endif // VMAPUPDATER_H

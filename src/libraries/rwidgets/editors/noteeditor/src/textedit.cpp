@@ -86,7 +86,7 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent) : QMainWindow(parent),
     setupTextActions();
 
     // connect(m_noteCtrl, &NoteController::textChanged, this, &TextEdit::setCurrentFileName);
-    connect(m_noteCtrl, &NoteController::pathChanged, this, &TextEdit::load);
+    connect(m_noteCtrl, &NoteController::urlChanged, this, [this](const QUrl& url) { load(url.toLocalFile()); });
 
     //    {
     //        QMenu *helpMenu = new QMenu(tr("Help"), this);
@@ -141,7 +141,7 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent) : QMainWindow(parent),
     setStatusBar(statusbar);
 
     auto p= m_noteCtrl->text();
-    if(!load(m_noteCtrl->path()) && p.isEmpty())
+    if(!load(m_noteCtrl->url().toLocalFile()) && p.isEmpty())
         fileNew();
     else
         textEdit->setHtml(p);

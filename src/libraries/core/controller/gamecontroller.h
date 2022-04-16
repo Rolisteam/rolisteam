@@ -55,14 +55,16 @@ class PlayerController;
 class ContentController;
 class QSystemTrayIcon;
 class InstantMessagingController;
-class DiceParser;
+class DiceRoller;
 class AutoSaveController;
+class AudioController;
 class GameController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(PreferencesController* preferencesController READ preferencesController CONSTANT)
     Q_PROPERTY(PlayerController* playerController READ playerController CONSTANT)
     Q_PROPERTY(ContentController* contentController READ contentController CONSTANT)
+    Q_PROPERTY(AudioController* audioController READ audioController CONSTANT)
     Q_PROPERTY(QString campaignRoot READ campaignRoot WRITE setCampaignRoot NOTIFY campaignRootChanged)
     Q_PROPERTY(QString version READ version WRITE setVersion NOTIFY versionChanged)
     Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
@@ -71,11 +73,12 @@ class GameController : public QObject
     Q_PROPERTY(bool localIsGM READ localIsGM NOTIFY localIsGMChanged)
     Q_PROPERTY(bool updateAvailable READ updateAvailable WRITE setUpdateAvailable NOTIFY updateAvailableChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
-    Q_PROPERTY(DiceParser* diceParser READ diceParser CONSTANT)
+    Q_PROPERTY(DiceRoller* diceParser READ diceParser CONSTANT)
     Q_PROPERTY(campaign::CampaignManager* campaignManager READ campaignManager CONSTANT)
     Q_PROPERTY(campaign::Campaign* campaign READ campaign NOTIFY campaignChanged)
 public:
-    explicit GameController(QClipboard* clipboard, QObject* parent= nullptr);
+    explicit GameController(const QString& appname, const QString& version, QClipboard* clipboard,
+                            QObject* parent= nullptr);
     ~GameController();
 
     NetworkController* networkController() const;
@@ -86,6 +89,7 @@ public:
     InstantMessagingController* instantMessagingController() const;
     campaign::CampaignManager* campaignManager() const;
     campaign::Campaign* campaign() const;
+    AudioController* audioController() const;
 
     QString version() const;
     QString campaignRoot() const;
@@ -96,7 +100,7 @@ public:
     bool tipAvailable() const;
     bool connected() const;
     QUndoStack* undoStack() const;
-    DiceParser* diceParser() const;
+    DiceRoller* diceParser() const;
 
     LogController* logController() const;
     TipOfDay tipOfDay() const;
@@ -148,16 +152,17 @@ private:
     void addCommand(QUndoCommand* cmd);
 
 private:
+    std::unique_ptr<DiceRoller> m_diceParser;
     std::unique_ptr<LogController> m_logController;
     std::unique_ptr<RemoteLogController> m_remoteLogCtrl;
     std::unique_ptr<NetworkController> m_networkCtrl;
     std::unique_ptr<PlayerController> m_playerController;
     std::unique_ptr<PreferencesController> m_preferencesDialogController;
+    std::unique_ptr<campaign::CampaignManager> m_campaignManager;
     std::unique_ptr<ContentController> m_contentCtrl;
     std::unique_ptr<PreferencesManager> m_preferences;
     std::unique_ptr<InstantMessagingController> m_instantMessagingCtrl;
-    std::unique_ptr<DiceParser> m_diceParser;
-    std::unique_ptr<campaign::CampaignManager> m_campaignManager;
+    std::unique_ptr<AudioController> m_audioCtrl;
 
     QString m_version;
     QString m_remoteVersion;

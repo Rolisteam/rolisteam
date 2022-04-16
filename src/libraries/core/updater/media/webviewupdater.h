@@ -31,7 +31,7 @@ class WebViewUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
 public:
-    explicit WebViewUpdater(QObject* parent= nullptr);
+    explicit WebViewUpdater(campaign::CampaignManager* campaign, QObject* parent= nullptr);
 
     void addMediaController(MediaControllerBase* ctrl) override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;

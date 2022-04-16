@@ -45,7 +45,7 @@ class MindMapUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
 public:
-    explicit MindMapUpdater(FilteredContentModel* model, QObject* parent= nullptr);
+    explicit MindMapUpdater(FilteredContentModel* model, campaign::CampaignManager* manager, QObject* parent= nullptr);
 
     void addMediaController(MediaControllerBase* base) override;
 

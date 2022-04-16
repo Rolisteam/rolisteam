@@ -24,6 +24,7 @@
 #include <QUndoCommand>
 
 class VectorialMapController;
+class Character;
 class AddVmapItemCommand : public QUndoCommand
 {
 public:
@@ -40,5 +41,4 @@ private:
     Core::SelectableTool m_tool;
     QString m_uuid;
 };
-
 #endif // ADDFIELDCOMMAND_H

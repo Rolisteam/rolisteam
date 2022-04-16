@@ -57,7 +57,7 @@ void Overlay::initRect()
     m_selectedRect.setY(0);
     m_selectedRect.setHeight(m_selectedRect.height() - y);
 
-    m_selectedRect= computeRectGivenRatio(m_selectedRect, m_ratio);
+    setSelectedRect(computeRectGivenRatio(m_selectedRect, m_ratio));
 }
 
 void Overlay::setRatio(Ratio ratio)

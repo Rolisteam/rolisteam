@@ -22,8 +22,10 @@
 
 #include "messageinterface.h"
 #include <QAbstractListModel>
+#include <QPointer>
 #include <memory>
 
+class PlayerModel;
 namespace InstantMessaging
 {
 class MessageInterface;
@@ -43,8 +45,10 @@ public:
         OwnerRole,
         OwnerColorRole,
         OwnerNameRole,
+        WriterColorRole,
+        WriterNameRole
     };
-    explicit MessageModel(QObject* parent= nullptr);
+    explicit MessageModel(PlayerModel* playerModel, QObject* parent= nullptr);
     virtual ~MessageModel() override;
 
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
@@ -67,6 +71,7 @@ signals:
 
 private:
     std::vector<std::unique_ptr<MessageInterface>> m_messages;
+    QPointer<PlayerModel> m_personModel;
     QString m_localId;
 };
 } // namespace InstantMessaging

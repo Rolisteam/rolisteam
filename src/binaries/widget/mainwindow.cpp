@@ -28,6 +28,7 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QLoggingCategory>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QProcess>
@@ -51,6 +52,7 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/playercontroller.h"
+#include "core/model/historymodel.h"
 #include "core/model/playermodel.h"
 #include "data/character.h"
 #include "data/person.h"
@@ -58,6 +60,7 @@
 #include "preferences/preferencesmanager.h"
 #include "rwidgets/customs/shortcutvisitor.h"
 #include "rwidgets/customs/workspace.h"
+#include "rwidgets/dialogs/historyviewerdialog.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 #include "rwidgets/dialogs/keygeneratordialog.h"
 #include "rwidgets/dialogs/preferencesdialog.h"
@@ -67,11 +70,16 @@
 #include "rwidgets/docks/playerspanel.h"
 #include "rwidgets/gmtoolbox/gamemastertool.h"
 #include "rwidgets/mediacontainers/mediacontainer.h"
+
+// worker
 #include "worker/iohelper.h"
+#include "worker/modelhelper.h"
 #include "worker/networkdownloader.h"
 #include "worker/playermessagehelper.h"
+#include "worker/utilshelper.h"
 
 #include "data/campaignmanager.h"
+#include "model/actiononlistmodel.h"
 #include "rwidgets/dialogs/campaignproperties.h"
 
 // LOG
@@ -82,11 +90,14 @@
 // Controller
 #include "controller/instantmessagingcontroller.h"
 #include "controller/networkcontroller.h"
+#include "controller/preferencescontroller.h"
 #include "core/controller/view_controller/imageselectorcontroller.h"
 
-// Text editor
+// dialogs
 #include "rwidgets/dialogs/aboutrolisteam.h"
 #include "rwidgets/dialogs/campaignintegritydialog.h"
+#include "rwidgets/dialogs/importdatafromcampaigndialog.h"
+#include "rwidgets/dialogs/newfiledialog.h"
 
 // GMToolBox
 #include "diceparser/qmltypesregister.h"
@@ -98,11 +109,13 @@
 #include "rwidgets/docks/antagonistboard.h"
 #include "rwidgets/docks/campaigndock.h"
 
+Q_LOGGING_CATEGORY(WidgetClient, "WidgetClient")
+
 MainWindow::MainWindow(GameController* game, const QStringList& args)
     : QMainWindow()
     , m_gameController(game)
 #ifndef NULL_PLAYER
-    , m_audioPlayer(new AudioPlayer(this))
+    , m_audioPlayer(new AudioPlayer(m_gameController->audioController(), this))
 #endif
     , m_dockLogUtil(new NotificationZone(game->logController(), this))
     , m_systemTray(new QSystemTrayIcon)
@@ -115,11 +128,12 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     m_systemTray->show();
 
     // ALLOCATIONS
-    m_campaignDock.reset(new campaign::CampaignDock(m_gameController->campaign()));
+    m_campaignDock.reset(new campaign::CampaignDock(m_gameController->campaignManager()->editor()));
     connect(m_campaignDock.get(), &campaign::CampaignDock::openResource, this,
-            [this](const QString& path, Core::ContentType type) {
+            [this](const QString& id, const QString& path, Core::ContentType type) {
                 std::map<QString, QVariant> vec;
                 vec.insert({Core::keys::KEY_PATH, path});
+                vec.insert({Core::keys::KEY_UUID, id});
                 vec.insert({Core::keys::KEY_TYPE, QVariant::fromValue(type)});
                 vec.insert({Core::keys::KEY_SERIALIZED, IOHelper::loadFile(path)});
                 vec.insert({Core::keys::KEY_INTERNAL, true});
@@ -133,9 +147,46 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
         campaignManager->removeFile(path);
     });
 
+    connect(m_gameController->campaignManager(), &campaign::CampaignManager::createBlankFile, this,
+            [this](const QString& path, Core::MediaType mediaType) {
+                std::map<QString, QVariant> params;
+                /// TODO change mediaType to ContentType.
+                params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(mediaType)});
+                params.insert({Core::keys::KEY_PATH, path});
+                m_gameController->newMedia(params);
+            });
+
     connect(m_gameController, &GameController::dataLoaded, this,
             [this](const QStringList missignFiles, const QStringList unmanagedFile) {
-                campaign::CampaignIntegrityDialog dialog(missignFiles, unmanagedFile);
+                if(missignFiles.isEmpty() && unmanagedFile.isEmpty())
+                    return;
+                campaign::CampaignIntegrityDialog dialog(missignFiles, unmanagedFile, m_gameController->campaignRoot(),
+                                                         this);
+                auto val= dialog.exec();
+                if(val == QDialog::Accepted)
+                {
+                    auto const& missingActions= dialog.missingFileActions();
+                    auto const& unmanagedActions= dialog.unmanagedFileActions();
+                    auto ctrl= m_gameController->campaignManager();
+
+                    QList<QPair<QString, Core::CampaignAction>> list;
+                    std::transform(std::begin(missingActions), std::end(missingActions), std::back_inserter(list),
+                                   [](const DataInfo& info) {
+                                       return QPair<QString, Core::CampaignAction>(
+                                           {info.data, info.indexAction == 0 ? Core::CampaignAction::ForgetAction :
+                                                                               Core::CampaignAction::CreateAction});
+                                   });
+                    ctrl->performAction(list);
+
+                    QList<QPair<QString, Core::CampaignAction>> list2;
+                    std::transform(std::begin(unmanagedActions), std::end(unmanagedActions), std::back_inserter(list2),
+                                   [](const DataInfo& info) {
+                                       return QPair<QString, Core::CampaignAction>(
+                                           {info.data, info.indexAction == 0 ? Core::CampaignAction::ManageAction :
+                                                                               Core::CampaignAction::DeleteAction});
+                                   });
+                    ctrl->performAction(list2);
+                }
             });
 
     m_antagonistWidget.reset(new campaign::AntagonistBoard(m_gameController->campaignManager()->editor(), this));
@@ -189,11 +240,13 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
         if(connected)
             postConnection();
-        // m_dialog->setVisible(!connected);
+
         updateWindowTitle();
         m_ui->m_changeProfileAct->setEnabled(connected);
         m_ui->m_disconnectAction->setEnabled(connected);
     });
+
+    connect(m_gameController->campaign(), &campaign::Campaign::nameChanged, this, &MainWindow::updateWindowTitle);
 
     // connect(m_sessionManager, &SessionManager::openResource, this,
     // &MainWindow::openResource);
@@ -217,6 +270,12 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
         widDock->setVisible(false);
     }
 
+    connect(m_gameController->instantMessagingController(), &InstantMessagingController::unreadChanged, this, [this]() {
+        auto ctrl= m_gameController->instantMessagingController();
+        m_ui->m_showChatAct->setIcon(ctrl->unread() ? QIcon::fromTheme("chaticon_with_message") :
+                                                      QIcon::fromTheme("chaticon"));
+    });
+
     m_ui->m_pasteAct->setEnabled(m_gameController->contentController()->canPaste());
 
     // Room List
@@ -233,12 +292,13 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     });
 
     setupUi();
-    if(true)
-        QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":resources/rolistheme");
-    else
-        QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":resources/rolistheme-dark");
-
     readSettings();
+    connect(m_ui->m_cleanHistoryAct, &QAction::triggered, m_gameController->contentController(),
+            &ContentController::clearHistory);
+
+    connect(m_gameController->contentController(), &ContentController::historyChanged, this,
+            &MainWindow::updateFileHistoryMenu);
+    updateFileHistoryMenu();
 }
 
 MainWindow::~MainWindow()= default;
@@ -281,10 +341,12 @@ void MainWindow::setupUi()
     // Audio Player
     ///////////////////
 #ifndef NULL_PLAYER
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory, m_audioPlayer.get());
+    // ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory, m_audioPlayer.get());
     addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer.get());
     m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct, m_audioPlayer->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
+    connect(m_audioPlayer.get(), &AudioPlayer::changePlayerDirectory, this,
+            [this]() { m_preferencesDialog->show(PreferencesDialog::PreferenceTab::Player); });
 #endif
 
     m_preferencesDialog= new PreferencesDialog(m_gameController->preferencesController(), this);
@@ -342,24 +404,49 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_addVectorialMap, &QAction::triggered, this, &MainWindow::newVMap);
     m_ui->m_newNoteAction->setData(QVariant::fromValue(Core::ContentType::NOTES));
     m_ui->m_newSharedNote->setData(QVariant::fromValue(Core::ContentType::SHAREDNOTE));
-    m_ui->m_newWebViewACt->setData(QVariant::fromValue(Core::ContentType::WEBVIEW));
+    m_ui->m_openWebViewAct->setData(QVariant::fromValue(Core::ContentType::WEBVIEW));
     m_ui->m_newMindmap->setData(QVariant::fromValue(Core::ContentType::MINDMAP));
 
     auto callNewMedia= [this]() {
         auto act= qobject_cast<QAction*>(sender());
         std::map<QString, QVariant> params;
-        params.insert({Core::keys::KEY_TYPE, act->data()});
+        if(!m_gameController->localIsGM())
+        {
+            QUrl dir;
+            QString filter;
+            NewFileDialog dial(act->data().value<Core::ContentType>());
+            if(QDialog::Rejected == dial.exec())
+                return;
+            params.insert({Core::keys::KEY_TYPE, static_cast<int>(dial.type())});
+            params.insert({Core::keys::KEY_URL, dial.url()});
+            params.insert({Core::keys::KEY_NAME, dial.name()});
+        }
+        else
+        {
+            params.insert({Core::keys::KEY_TYPE, act->data()});
+        }
+
         m_gameController->newMedia(params);
     };
 
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, callNewMedia);
     connect(m_ui->m_newSharedNote, &QAction::triggered, this, callNewMedia);
-    connect(m_ui->m_newWebViewACt, &QAction::triggered, this, callNewMedia);
     connect(m_ui->m_newMindmap, &QAction::triggered, this, callNewMedia);
 
     // open
     connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openImage);
     connect(m_ui->m_openCharacterSheet, &QAction::triggered, this, &MainWindow::openGenericContent);
+    connect(m_ui->m_openWebViewAct, &QAction::triggered, this, [this]() {
+        auto str= QInputDialog::getText(this, tr("Open Webpage"), tr("Webpage url:"));
+        if(str.isEmpty())
+            return;
+        std::map<QString, QVariant> params;
+        params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::WEBVIEW)});
+        QUrl url= QUrl::fromUserInput(str);
+        params.insert({Core::keys::KEY_NAME, url.fileName()});
+        params.insert({Core::keys::KEY_PATH, str});
+        m_gameController->newMedia(params);
+    });
     connect(m_ui->m_openVectorialMap, &QAction::triggered, this, []() {
         // TODO open vmap
     });
@@ -368,6 +455,19 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openShareNote, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openPdfAct, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openMindmap, &QAction::triggered, this, &MainWindow::openGenericContent);
+
+    connect(m_ui->m_importFromCampaign, &QAction::triggered, this, [this]() {
+        ImportDataFromCampaignDialog dialog(m_gameController->campaignRoot(), this);
+
+        if(dialog.exec() == QDialog::Accepted)
+        {
+            /// TODO call controller to import data.
+            auto src= dialog.source();
+            auto cats= dialog.categoryList();
+            auto manager= m_gameController->campaignManager();
+            manager->importDataFrom(src, cats);
+        }
+    });
 
     connect(m_ui->m_shortCutEditorAct, &QAction::triggered, this, &MainWindow::showShortCutEditor);
 
@@ -383,7 +483,7 @@ void MainWindow::linkActionToMenu()
 #else
     m_ui->m_openPdfAct->setVisible(false);
 #endif
-    m_ui->m_recentFileMenu->setVisible(false);
+    // m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, &QAction::triggered, m_mdiArea.get(), &Workspace::closeActiveSub);
     connect(m_ui->m_saveCampaignAction, &QAction::triggered, m_gameController, &GameController::save);
     connect(m_ui->m_saveCampaignAsAct, &QAction::triggered, this, [this]() {
@@ -393,7 +493,8 @@ void MainWindow::linkActionToMenu()
             return;
         m_gameController->saveAs(fileName);
     });
-    connect(m_ui->m_preferencesAction, &QAction::triggered, m_preferencesDialog, &PreferencesDialog::show);
+    connect(m_ui->m_preferencesAction, &QAction::triggered, m_preferencesDialog,
+            [this]() { m_preferencesDialog->show(); });
 
     // Campaign
     auto func= [this]() {
@@ -401,7 +502,8 @@ void MainWindow::linkActionToMenu()
         if(nullptr == s)
             return;
         auto tab= s->data().value<CampaignProperties::Tab>();
-        CampaignProperties dialog(m_gameController->campaign(), this);
+        CampaignProperties dialog(m_gameController->campaign(), m_gameController->preferencesController()->themeModel(),
+                                  this);
         dialog.setCurrentTab(tab);
         dialog.exec();
     };
@@ -487,6 +589,13 @@ void MainWindow::linkActionToMenu()
     m_ui->m_patreon->setData(QStringLiteral("https://www.patreon.com/rolisteam"));
     connect(m_ui->m_supportRolisteam, &QAction::triggered, this, &MainWindow::showSupportPage);
     connect(m_ui->m_patreon, &QAction::triggered, this, &MainWindow::showSupportPage);
+
+    connect(m_ui->m_manageHistoryAct, &QAction::triggered, this, [this]() {
+        auto ctrl= m_gameController->contentController();
+        HistoryViewerDialog dialog(ctrl->historyModel(), this);
+        dialog.exec();
+        updateFileHistoryMenu();
+    });
 }
 
 void MainWindow::showSupportPage()
@@ -573,41 +682,6 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
         msgBox.addButton(QMessageBox::Cancel);
         msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
     }
-
-    /*if(nullptr != PlayerModel::instance()->getLocalPlayer())
-    {
-        if(!PlayerModel::instance()->getLocalPlayer()->isGM())
-        {
-            message+= tr("Do you want to save your minutes before to quit
-    %1?").arg(msg);
-        }
-        else
-        {
-            message+= tr("Do you want to save your scenario before to quit
-    %1?").arg(msg);
-        }
-
-        msgBox.setText(message);
-        msgBox.exec();
-        if(msgBox.clickedButton() == boutonQuitter)
-        {
-            return true;
-        }
-        else if(msgBox.clickedButton() == boutonSauvegarder) // saving
-        {
-            bool ok;
-            if(!PlayerModel::instance()->getLocalPlayer()->isGM())
-                ok= saveMinutes();
-            else
-                ok= saveStory(false);
-
-            if(ok || connectionLoss)
-            {
-                return true;
-            }
-        }
-        return false;
-    }*/
     return true;
 }
 
@@ -621,7 +695,7 @@ void MainWindow::openCampaign()
 
 bool MainWindow::saveStory(bool saveAs)
 {
-    auto contentCtrl= m_gameController->contentController();
+    /*auto contentCtrl= m_gameController->contentController();
     if(contentCtrl->sessionPath().isEmpty() || saveAs)
     {
         QString fileName= QFileDialog::getSaveFileName(
@@ -640,7 +714,7 @@ bool MainWindow::saveStory(bool saveAs)
     QFileInfo info(contentCtrl->sessionPath());
     m_preferences->registerValue("SessionDirectory", info.absolutePath());
     contentCtrl->saveSession();
-    updateWindowTitle();
+    updateWindowTitle();*/
     return true;
 }
 ////////////////////////////////////////////////////
@@ -662,7 +736,7 @@ bool MainWindow::saveStory(bool saveAs)
     {
         auto type= media->contentType();
         auto filter= CleverURI::getFilterForType(type);
-        auto key= m_preferences->value(CleverURI::getPreferenceDirectoryKey(type), QDir::homePath()).toString();
+        auto key= m_preferences->value(, QDir::homePath()).toString();
         QFileDialog::getSaveFileName(this, tr("Save %1").arg(media->name()), key, filter);
     }
 }*/
@@ -695,11 +769,10 @@ void MainWindow::helpOnLine()
 void MainWindow::updateUi()
 {
     auto isGM= m_gameController->localIsGM();
-
-#ifndef NULL_PLAYER
-    m_audioPlayer->updateUi(isGM);
-#endif
     m_ui->m_addVectorialMap->setEnabled(isGM);
+    m_ui->m_openVectorialMap->setEnabled(isGM);
+    m_ui->m_openCharacterSheet->setEnabled(isGM);
+
     m_ui->m_openCampaignAction->setEnabled(isGM);
     m_ui->m_closeAction->setEnabled(isGM);
     m_ui->m_saveCampaignAction->setEnabled(isGM);
@@ -708,9 +781,16 @@ void MainWindow::updateUi()
     m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
 
-    // m_ui->menubar->hide();m_ui->m_campaignMenu->setVisible(isGM);
-    // m_ui->m_historyMenu->setVisible(!isGM);
-    updateRecentFileActions();
+    if(isGM)
+    {
+        auto act= m_ui->m_historyMenu->menuAction();
+        m_ui->menubar->removeAction(act);
+    }
+    else
+    {
+        auto act= m_ui->m_campaignMenu->menuAction();
+        m_ui->menubar->removeAction(act);
+    }
 }
 void MainWindow::showUpdateNotification()
 {
@@ -750,39 +830,10 @@ void MainWindow::readSettings()
         restoreGeometry(settings.value("geometry").toByteArray());
     }
 
-    m_maxSizeRecentFile= m_preferences->value("recentfilemax", 5).toInt();
-
-    // Read recent files
-    int size= settings.beginReadArray("recentFiles");
-    for(int i= 0; i < size; ++i)
-    {
-        settings.setArrayIndex(i);
-        auto path= settings.value("path").toString();
-        auto type= settings.value("type").value<Core::ContentType>();
-        m_recentFiles.push_back(FileInfo({path, type}));
-    }
-    settings.endArray();
-
     // read recent scenario
-    m_recentScenarios= settings.value("recentScenario").toStringList();
-    for(int i= 0; i < m_maxSizeRecentFile; ++i)
-    {
-        auto act= m_ui->m_recentFileMenu->addAction(QStringLiteral("recentFile %1").arg(i));
-        m_recentFileActs.append(act);
-        act->setVisible(false);
-        connect(act, &QAction::triggered, this, &MainWindow::openRecentFile);
-
-        act= new QAction(QStringLiteral("Recent Scenario %1").arg(i + 1), this);
-        m_ui->m_fileMenu->insertAction(m_separatorAction, act);
-        act->setVisible(false);
-        m_recentScenarioActions.push_back(act);
-        connect(act, &QAction::triggered, this, &MainWindow::openRecentScenario);
-    }
-
-    updateRecentFileActions();
-    updateRecentScenarioAction();
-    // m_chatListWidget->readSettings(settings);
-    m_audioPlayer->readSettings();
+    auto ctrl= m_gameController->contentController();
+    SettingsHelper::readHistoryModel(ctrl->historyModel());
+    // m_audioPlayer->readSettings();
     m_dockLogUtil->initSetting();
 }
 void MainWindow::writeSettings()
@@ -793,19 +844,9 @@ void MainWindow::writeSettings()
     settings.setValue("Maximized", isMaximized());
     settings.setValue("show_media_title_in_tool_bar", m_ui->m_mediaTitleAct->isChecked());
 
-    settings.beginWriteArray("recentFiles", m_recentFiles.size());
-    auto i= 0;
-    for(auto p : m_recentFiles)
-    {
-        settings.setArrayIndex(i);
-        settings.setValue("path", p.path);
-        settings.setValue("type", QVariant::fromValue(p.type));
-        ++i;
-    }
-    settings.endArray();
-
-    settings.setValue("recentScenario", m_recentScenarios);
-    // m_chatListWidget->writeSettings(settings);
+    auto ctrl= m_gameController->contentController();
+    if(!m_gameController->localIsGM())
+        SettingsHelper::writeHistoryModel(ctrl->historyModel());
     for(auto& gmtool : m_gmToolBoxList)
     {
         gmtool->writeSettings();
@@ -918,11 +959,6 @@ void MainWindow::cleanUpData()
 
 void MainWindow::postConnection()
 {
-    if(nullptr != m_preferences)
-    {
-        m_preferences->registerValue("isClient", true);
-    }
-
     m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
 
@@ -935,21 +971,19 @@ void MainWindow::openGenericContent()
 {
     QAction* action= static_cast<QAction*>(sender());
     Core::ContentType type= static_cast<Core::ContentType>(action->data().toInt());
-    QString filter= CleverURI::getFilterForType(type);
 
-    QString folder= m_preferences->value(CleverURI::getPreferenceDirectoryKey(type), ".").toString();
-    QString title= tr("Open %1").arg(CleverURI::typeToString(type));
-    QStringList filepath= QFileDialog::getOpenFileNames(this, title, folder, filter);
+    QString folder= m_preferences->value(Core::preferences::KEY_OPEN_DIRECTORY, QDir::homePath()).toString();
+    QString title= tr("Open %1").arg(helper::utils::typeToString(type));
+    QStringList filepath= QFileDialog::getOpenFileNames(this, title, folder, helper::utils::filterForType(type, false));
     QStringList list= filepath;
 
     for(auto const& path : list)
     {
         m_gameController->openMedia(
-            {{Core::keys::KEY_PATH, path},
+            {{Core::keys::KEY_URL, QUrl::fromUserInput(path)},
              {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
              {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(path)},
              {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
-        // campaignManager->importFile(QUrl::fromLocalFile(path), type);
     }
 }
 
@@ -970,111 +1004,80 @@ void MainWindow::openImage()
     m_gameController->openMedia(args);
 }
 
-void MainWindow::openRecentFile()
+void MainWindow::updateFileHistoryMenu()
 {
-    QAction* action= qobject_cast<QAction*>(sender());
-    if(action)
-    {
-        // CleverURI* uri= new CleverURI();
-        //*uri= action->data().value<CleverURI>();
-        // ri->setDisplayed(false);
-        // openCleverURI(uri, true);
-    }
+    auto const& ctrl= m_gameController->contentController();
+    auto const& model= ctrl->historyModel();
+    auto const& data= model->data();
+
+    m_ui->m_historyMenu->clear();
+    m_ui->m_historyMenu->addAction(m_ui->m_manageHistoryAct);
+    m_ui->m_historyMenu->addAction(m_ui->m_cleanHistoryAct);
+    m_ui->m_historyMenu->addSeparator();
+    std::for_each(std::begin(data), std::end(data), [this](const history::LinkInfo& info) {
+        auto action= new QAction(info.displayName, this);
+        action->setData(info.id);
+        action->setIcon(QIcon(helper::utils::typeToIconPath(info.type)));
+        m_ui->m_historyMenu->addAction(action);
+        connect(action, &QAction::triggered, this, &MainWindow::openFileFromHistory);
+    });
+
+    SettingsHelper::writeHistoryModel(ctrl->historyModel());
 }
 
-void MainWindow::openRecentScenario()
+void MainWindow::openFileFromHistory()
 {
-    QAction* action= qobject_cast<QAction*>(sender());
-    if(action)
+    auto act= qobject_cast<QAction*>(sender());
+    auto id= act->data().toString();
+    auto const& ctrl= m_gameController->contentController();
+    auto const& model= ctrl->historyModel();
+    auto info= model->idToPath(id);
+    if(!info.url.isEmpty())
     {
-        // readStory(action->data().toString());
-    }
-}
-
-void MainWindow::updateRecentScenarioAction()
-{
-    m_recentScenarios.erase(std::remove_if(m_recentScenarios.begin(), m_recentScenarios.end(),
-                                           [](QString const& f) { return !QFile::exists(f); }),
-                            m_recentScenarios.end());
-
-    int i= 0;
-    for(auto act : m_recentScenarioActions)
-    {
-        if(i >= m_recentScenarios.size())
+        std::map<QString, QVariant> map{{Core::keys::KEY_URL, info.url},
+                                        {Core::keys::KEY_NAME, info.displayName},
+                                        {Core::keys::KEY_TYPE, QVariant::fromValue(info.type)}};
+        if(info.type == Core::ContentType::PICTURE)
         {
-            act->setVisible(false);
-            continue;
+            ImageSelectorController* ctrl= new ImageSelectorController(false, ImageSelectorController::All);
+            connect(ctrl, &ImageSelectorController::imageDataChanged, this, [this, ctrl, map]() {
+                std::map<QString, QVariant> map2(map);
+                auto data= ctrl->finalImageData();
+                map2.insert({Core::keys::KEY_DATA, data});
+                m_gameController->openMedia(map2);
+                ctrl->deleteLater();
+            });
+            ctrl->downloadImageFrom(info.url);
         }
         else
         {
-            act->setVisible(true);
-            act->setText(QStringLiteral("&%1  %2").arg(i + 1).arg(QFileInfo(m_recentScenarios[i]).fileName()));
-            act->setData(m_recentScenarios[i]);
+            m_gameController->openMedia(map);
         }
-        ++i;
     }
-    m_separatorAction->setVisible(!m_recentFiles.empty());
 }
 
-void MainWindow::updateRecentFileActions()
-{
-    m_recentFiles.erase(std::remove_if(m_recentFiles.begin(), m_recentFiles.end(),
-                                       [](const FileInfo& info) { return !QFileInfo::exists(info.path); }),
-                        m_recentFiles.end());
-
-    std::size_t i= 0;
-    for(auto& action : m_recentFileActs)
-    {
-        if(i >= m_recentFiles.size())
-        {
-            action->setVisible(false);
-        }
-        else
-        {
-            QString text= QStringLiteral("&%1 %2").arg(i + 1).arg(QFileInfo(m_recentFiles[i].path).fileName());
-            action->setText(text);
-            action->setData(static_cast<int>(i));
-            action->setIcon(QIcon::fromTheme(CleverURI::typeToIconPath(m_recentFiles[i].type)));
-            action->setVisible(true);
-        }
-        ++i;
-    }
-    m_ui->m_recentFileMenu->setEnabled(!m_recentFiles.empty());
-}
-
-void MainWindow::setLatestFile(CleverURI* fileName)
-{
-    // no online picture because they are handled in a really different way.
-    /* if((nullptr == fileName) || (fileName->contentType() == Core::ContentType::ONLINEPICTURE)
-        || (fileName->loadingMode() == CleverURI::Internal) || !QFileInfo::exists(fileName->getUri()))
-     {
-         return;
-     }
-     m_recentFiles.removeAll(*fileName);
-     m_recentFiles.prepend(*fileName);
-     while(m_recentFiles.size() > m_maxSizeRecentFile)
-     {
-         m_recentFiles.removeLast();
-     }
-     updateRecentFileActions();*/
-}
-
-/*for(auto const& uri : uriList)
-{
-    setLatestFile(uri);
-}*/
 void MainWindow::updateWindowTitle()
 {
     auto networkCtrl= m_gameController->networkController();
-    auto contentCtrl= m_gameController->contentController();
+
     auto const connectionStatus= m_gameController->connected() ? tr("Connected") : tr("Not Connected");
     auto const networkStatus= networkCtrl->hosting() ? tr("Server") : tr("Client");
-    auto const profileStatus= networkCtrl->isGM() ? tr("GM") : tr("Player");
 
-    setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1")
-                       .arg(m_preferences->value("applicationName", "Rolisteam").toString(),
-                            m_gameController->version(), connectionStatus, networkStatus, profileStatus,
-                            contentCtrl->sessionName()));
+    if(networkCtrl->isGM())
+    {
+        auto camp= m_gameController->campaign();
+        setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1")
+                           .arg(m_preferences->value("applicationName", "Rolisteam").toString(),
+                                m_gameController->version(), connectionStatus, networkStatus, tr("GM"), camp->name()));
+    }
+    else
+    {
+        setWindowTitle(QStringLiteral("%1 - v%2[*] - %3 - %4 - %5")
+                           .arg(m_preferences->value("applicationName", "Rolisteam").toString(),
+                                m_gameController->version(), connectionStatus, networkStatus, tr("Player")));
+    }
+
+    setWindowIcon(QIcon::fromTheme("500-symbole"));
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent* event)
@@ -1102,12 +1105,13 @@ void MainWindow::dropEvent(QDropEvent* event)
             if(!path.isEmpty()) // local file
             {
 
-                Core::ContentType type= CleverURI::extensionToContentType(path);
+                Core::ContentType type= helper::utils::extensionToContentType(path);
                 if(type == Core::ContentType::UNKNOWN)
                     continue;
-                qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
+                qCInfo(WidgetClient)
+                    << QStringLiteral("MainWindow: dropEvent for %1").arg(helper::utils::typeToString(type));
                 contentCtrl->openMedia(
-                    {{Core::keys::KEY_PATH, path},
+                    {{Core::keys::KEY_URL, path},
                      {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
                      {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(path)},
                      {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
@@ -1115,7 +1119,7 @@ void MainWindow::dropEvent(QDropEvent* event)
             else // remote
             {
                 auto urltext= url.toString(QUrl::None);
-                Core::ContentType type= CleverURI::extensionToContentType(urltext);
+                Core::ContentType type= helper::utils::extensionToContentType(urltext);
                 if(type != Core::ContentType::PICTURE)
                     continue;
 
@@ -1123,7 +1127,8 @@ void MainWindow::dropEvent(QDropEvent* event)
                 auto downloader= new NetworkDownloader(url);
                 connect(downloader, &NetworkDownloader::finished, this,
                         [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data) {
-                            contentCtrl->openMedia({{Core::keys::KEY_PATH, urltext},
+                            contentCtrl->openMedia({{Core::keys::KEY_URL, urltext},
+                                                    {Core::keys::KEY_PATH, urltext},
                                                     {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
                                                     {Core::keys::KEY_DATA, data},
                                                     {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(url.fileName())},

@@ -52,10 +52,11 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     connect(m_ui->m_keepSharing, &QCheckBox::clicked, m_webCtrl, &WebpageController::setKeepSharing);
     connect(m_webCtrl, &WebpageController::nameChanged, this, &WebView::updateTitle);
     connect(m_ui->m_webview, &QWebEngineView::titleChanged, m_webCtrl, &WebpageController::setName);
-    connect(m_ui->m_webview, &QWebEngineView::urlChanged, m_webCtrl, &WebpageController::setUrl);
+    connect(m_ui->m_webview, &QWebEngineView::urlChanged, m_webCtrl, &WebpageController::setPageUrl);
     connect(m_ui->m_addressEdit, &QLineEdit::editingFinished, this,
-            [this]() { m_webCtrl->setUrl(QUrl::fromUserInput(m_ui->m_addressEdit->text())); });
-    connect(m_webCtrl, &WebpageController::urlChanged, this, [this]() { m_ui->m_webview->setUrl(m_webCtrl->url()); });
+            [this]() { m_webCtrl->setPageUrl(QUrl::fromUserInput(m_ui->m_addressEdit->text())); });
+    connect(m_webCtrl, &WebpageController::pageUrlChanged, this,
+            [this]() { m_ui->m_webview->setUrl(m_webCtrl->pageUrl()); });
 
     connect(m_ui->m_webview, &QWebEngineView::loadFinished, this,
             [this]() { m_ui->m_webview->page()->toHtml([this](QString html) { m_webCtrl->setHtml(html); }); });
@@ -94,12 +95,12 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     }
 
     m_ui->m_webview->setHtml(m_webCtrl->html());
-    m_ui->m_webview->setUrl(m_webCtrl->url());
-    m_ui->m_addressEdit->setText(m_webCtrl->url().toString());
+    m_ui->m_webview->setUrl(m_webCtrl->pageUrl());
+    m_ui->m_addressEdit->setText(m_webCtrl->pageUrl().toString());
     m_ui->m_hideAddressAct->setChecked(m_webCtrl->hideUrl());
     m_ui->m_addressEdit->setEchoMode(m_webCtrl->hideUrl() ? QLineEdit::Password : QLineEdit::Normal);
 
-    qDebug() << "webview " << m_webCtrl->url() << m_webCtrl->html();
+    qDebug() << "webview " << m_webCtrl->pageUrl() << m_webCtrl->html();
 }
 
 WebView::~WebView() {}

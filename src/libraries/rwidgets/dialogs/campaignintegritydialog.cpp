@@ -19,18 +19,69 @@
  ***************************************************************************/
 #include "campaignintegritydialog.h"
 #include "ui_campaignintegritydialog.h"
+
+#include "delegates/actiondelegate.h"
+#include "model/actiononlistmodel.h"
+
+#include <QQmlContext>
+#include <QQmlEngine>
+
 namespace campaign
 {
-CampaignIntegrityDialog::CampaignIntegrityDialog(QStringList missignFiles, const QStringList unmanagedFile,
-                                                 QWidget* parent)
-    : QDialog(parent), ui(new Ui::CampaignIntegrityDialog)
+CampaignIntegrityDialog::CampaignIntegrityDialog(QStringList missingFiles, QStringList unmanagedFile,
+                                                 const QString& root, QWidget* parent)
+    : QDialog(parent)
+    , ui(new Ui::CampaignIntegrityDialog)
+    , m_missingFileModel(
+          new ActionOnListModel(missingFiles, {{"Forget", "edit-delete"}, {"Create", "document-new"}}, root))
+    , m_unmanagedFileModel(
+          new ActionOnListModel(unmanagedFile, {{"Add into project", "list-add"}, {"Delete", "list-remove"}}, root))
 {
     ui->setupUi(this);
+    auto engine= ui->quickWidget->engine();
+    engine->rootContext()->setContextProperty("_dialog", this);
+    engine->rootContext()->setContextProperty("_missingFilesModel", m_missingFileModel.get());
+    engine->rootContext()->setContextProperty("_unmanagedFilesModel", m_unmanagedFileModel.get());
+    ui->quickWidget->setSource(QUrl("qrc:/qml/Campaign/IntegrityPage.qml"));
+    // engine->;;
 }
 
 CampaignIntegrityDialog::~CampaignIntegrityDialog()
 {
     delete ui;
+}
+
+bool CampaignIntegrityDialog::canValidate() const
+{
+    return m_missingFileModel->canValidate() && m_unmanagedFileModel->canValidate();
+}
+
+const QList<DataInfo>& CampaignIntegrityDialog::missingFileActions() const
+{
+    return m_missingFileModel->dataset();
+}
+
+const QList<DataInfo>& CampaignIntegrityDialog::unmanagedFileActions() const
+{
+    return m_unmanagedFileModel->dataset();
+}
+
+void CampaignIntegrityDialog::validate()
+{
+    accept();
+}
+
+void CampaignIntegrityDialog::refuse()
+{
+    reject();
+}
+
+void CampaignIntegrityDialog::setAction(int modelId, int index, int actionId)
+{
+    auto model= (modelId == 0) ? m_missingFileModel.get() : m_unmanagedFileModel.get();
+
+    model->setAction(index, actionId);
+    emit canValidateChanged();
 }
 
 void CampaignIntegrityDialog::changeEvent(QEvent* e)

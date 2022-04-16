@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "vmapitemmodel.h"
 
+#include <QDebug>
 #include <set>
 
 namespace vmap
@@ -117,8 +118,15 @@ bool vmap::VmapItemModel::appendItemController(vmap::VisualItemController* item)
     m_items.push_back(std::move(ctrl));
     endInsertRows();
 
+    connect(item, &vmap::VisualItemController::modifiedChanged, this, &vmap::VmapItemModel::modifiedChanged);
     emit itemControllerAdded(item);
     return true;
+}
+
+void vmap::VmapItemModel::setModifiedToAllItem(bool b)
+{
+    std::for_each(std::begin(m_items), std::end(m_items),
+                  [b](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) { itemCtrl->setModified(b); });
 }
 
 bool vmap::VmapItemModel::removeItemController(const QString& uuid)
@@ -130,13 +138,10 @@ bool vmap::VmapItemModel::removeItemController(const QString& uuid)
     if(it == std::end(m_items))
         return false;
 
-    /* (*it)->aboutToClose();
-     if((*it)->localIsOwner())
-         MessageHelper::closeMedia(uuid, (*it)->contentType());*/
-
     auto pos= static_cast<int>(std::distance(std::begin(m_items), it));
 
     beginRemoveRows(QModelIndex(), pos, pos);
+    (*it)->aboutToBeRemoved();
     m_items.erase(it);
     endRemoveRows();
 
@@ -171,5 +176,11 @@ VisualItemController* VmapItemModel::item(const QString& id) const
         return nullptr;
 
     return it->get();
+}
+
+bool VmapItemModel::modified() const
+{
+    return std::any_of(std::begin(m_items), std::end(m_items),
+                       [](const std::unique_ptr<vmap::VisualItemController>& item) { return item->modified(); });
 }
 } // namespace vmap

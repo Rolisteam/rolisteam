@@ -573,7 +573,7 @@ void Character::setInitCommand(const QString& init)
     m_initiativeRoll.setCommand(init);
     emit initCommandChanged();
 }
-QString Character::getInitCommand() const
+QString Character::initCommand() const
 {
     return m_initiativeRoll.command();
 }
@@ -605,6 +605,9 @@ QString Character::currentStateLabel() const
 
 QImage Character::currentStateImage() const
 {
+    if(!m_stateList)
+        return {};
+
     auto it= std::find_if(m_stateList->begin(), m_stateList->end(), [this](const CharacterState* state) {
         if(nullptr == state)
             return false;
@@ -755,6 +758,7 @@ QByteArray Character::avatar() const
     // else
     //        return IOHelper::imageToData(m_currentShape->image());
     // TODO change API of shapes
+    return {};
 }
 
 CharacterShape* Character::currentShape() const

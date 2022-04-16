@@ -21,6 +21,7 @@
 
 #include "data/campaign.h"
 #include "data/media.h"
+#include "undoCmd/renamecampaignmedia.h"
 
 #include <QDebug>
 #include <QDir>
@@ -87,9 +88,8 @@ int findIndexOf(MediaNode* parent, MediaNode* child)
         return -1;
 
     auto const& children= parent->children();
-    auto it= std::find_if(
-        std::begin(children), std::end(children),
-        [child](const std::unique_ptr<MediaNode>& tmp) { return tmp.get() == child; });
+    auto it= std::find_if(std::begin(children), std::end(children),
+                          [child](const std::unique_ptr<MediaNode>& tmp) { return tmp.get() == child; });
 
     if(it == std::end(children))
         return -1;
@@ -156,6 +156,15 @@ MediaNode::NodeType MediaNode::nodeType() const
     return m_type;
 }
 
+void MediaNode::setPath(const QString& path)
+{
+    if(path == m_path)
+        return;
+    m_path= path;
+    m_info= QFileInfo(m_path);
+    emit pathChanged();
+}
+
 void MediaNode::addChild(std::unique_ptr<MediaNode> node)
 {
     m_children.push_back(std::move(node));
@@ -174,7 +183,7 @@ int MediaNode::childrenCount() const
 QString MediaNode::parentPath() const
 {
     QDir info= m_info.dir();
-    return info.canonicalPath();
+    return info.absolutePath();
 }
 
 void MediaNode::removeChild(int i)
@@ -278,7 +287,7 @@ QModelIndex MediaModel::parent(const QModelIndex& index) const
 
     // QFileInfo dir(parentPath);
 
-    if(parentPath.isEmpty() || parentPath == m_campaign->rootDirectory()
+    if(parentPath.isEmpty() || parentPath == m_campaign->directory(campaign::Campaign::Place::MEDIA_ROOT)
        || parentPath.size() < m_campaign->rootDirectory().size())
     {
         return {};
@@ -321,7 +330,7 @@ QVariant MediaModel::data(const QModelIndex& index, int role) const
     auto mediaNode= static_cast<MediaNode*>(index.internalPointer());
 
     int realrole= Role_Unknown;
-    if(role == Qt::DisplayRole)
+    if(role == Qt::DisplayRole || role == Qt::EditRole)
     {
         realrole= index.column() + Role_Name;
     }
@@ -363,6 +372,9 @@ QVariant MediaModel::data(const QModelIndex& index, int role) const
         break;
     case Role_Path:
         res= mediaNode->path();
+        break;
+    case Role_Uuid:
+        res= mediaNode->uuid();
         break;
     case Role_IsDir:
         res= (mediaNode->nodeType() == MediaNode::Directory);
@@ -416,20 +428,16 @@ void MediaModel::removeMediaNode(const QString& id)
         return;
 
     auto parentNode= findNode(node->parentPath(), m_root.get());
-    int i = findIndexOf(parentNode, node);
+    int i= findIndexOf(parentNode, node);
 
-    qDebug() << i << "position of parent";
-    if(i<0)
+    if(i < 0)
     {
+        qDebug() << "Error: parent node not found!!";
         return;
-        //parentNode = m_root.get();
     }
-
 
     auto idx= createIndex(i, 0, node);
     auto parentIdx= idx.parent();
-
-    qDebug() << "truc" << i << idx << parentIdx;
 
     beginRemoveRows(parentIdx, idx.row(), idx.row());
     parentNode->removeChild(idx.row());
@@ -438,13 +446,24 @@ void MediaModel::removeMediaNode(const QString& id)
 
 bool MediaModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
+    bool res= false;
     if(data(index, role) != value)
     {
-        // FIXME: Implement me!
+        if(index.column() != 0)
+            return res;
+
+        auto mediaNode= static_cast<MediaNode*>(index.internalPointer());
+        if(!mediaNode)
+            return res;
+
+        auto name= mediaNode->name();
+        auto newPath= mediaNode->path().replace(name, value.toString());
+        emit performCommand(new RenameCampaignMedia(mediaNode, newPath, mediaNode->path(), this, m_campaign));
+
         emit dataChanged(index, index, QVector<int>() << role);
-        return true;
+        res= true;
     }
-    return false;
+    return res;
 }
 
 Qt::ItemFlags MediaModel::flags(const QModelIndex& index) const
@@ -455,7 +474,31 @@ Qt::ItemFlags MediaModel::flags(const QModelIndex& index) const
     auto editable= Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     auto nonEditable= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-    return index.row() == 0 ? editable : nonEditable;
+    return index.column() == 0 ? editable : nonEditable;
+}
+
+void MediaModel::dataChangedFor(MediaNode* node)
+{
+    if(!node)
+        return;
+
+    auto id= node->uuid();
+    auto path= node->path();
+
+    MediaNode* parentNode= m_root.get();
+    QModelIndex parentIdx;
+    QStringList parents= buildParentList(getParentPath(path), m_root->path());
+    for(const auto& parent : parents)
+    {
+        auto node= findNode(parent, m_root.get());
+        int i= findIndexOf(parentNode, node);
+
+        parentIdx= index(i, 0, parentIdx);
+        parentNode= node;
+    }
+    auto r= findIndexOf(parentNode, node);
+    auto idx= index(r, 0, parentIdx);
+    emit dataChanged(idx, idx, QVector<int>());
 }
 
 void MediaModel::setCampaign(Campaign* campaign)

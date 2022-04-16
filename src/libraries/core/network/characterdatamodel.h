@@ -20,43 +20,48 @@
 #ifndef CHARACTERDATAMODEL_H
 #define CHARACTERDATAMODEL_H
 
+#include "core/network/network_type.h"
 #include <QAbstractTableModel>
+#include <QPointer>
 
 class ConnectionProfile;
-class CharacterDataModel : public QAbstractTableModel
+class CharacterDataModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
     enum Role
     {
-        None,
+        None= Qt::UserRole + 1,
         Avatar,
         Color,
-        AvatarPath,
+        AvatarData,
         Name
     };
     explicit CharacterDataModel(QObject* parent= nullptr);
 
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
-    int columnCount(const QModelIndex& parent= QModelIndex()) const override;
-
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
-
-    // Editable:
-    bool setData(const QModelIndex& index, const QVariant& value, int role= Qt::EditRole) override;
-
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    // Add data:
-    bool insertCharacter();
-    bool removeCharacter(const QModelIndex& index);
+    // Add data
+    connection::CharacterData character(int i) const;
 
+    QHash<int, QByteArray> roleNames() const override;
+
+public slots:
+    bool insertCharacter();
     void setProfile(ConnectionProfile* profile);
+    bool addCharacter(const connection::CharacterData& data);
+    bool removeCharacter(int index);
+
+    void setAvatar(int i, const QByteArray& img);
+    void setName(int i, const QString& string);
+    void setColor(int i, const QColor& color);
 
 private:
-    ConnectionProfile* m_profile;
+    QPointer<ConnectionProfile> m_profile;
 };
 
 #endif // CHARACTERDATAMODEL_H

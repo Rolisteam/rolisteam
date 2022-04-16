@@ -85,11 +85,6 @@ bool WebpageController::htmlSharing() const
     return Html == m_mode;
 }
 
-QUrl WebpageController::url() const
-{
-    return m_url;
-}
-
 bool WebpageController::urlSharing() const
 {
     return Url == m_mode;
@@ -134,16 +129,20 @@ void WebpageController::setSharingMode(WebpageController::SharingMode mode)
         emit sharingModeChanged(mode);
 }
 
+void WebpageController::setPageUrl(QUrl url)
+{
+    if(url == m_pageUrl)
+        return;
+    m_pageUrl= url;
+    emit pageUrlChanged();
+}
+
 WebpageController::SharingMode WebpageController::sharingMode() const
 {
     return m_mode;
 }
 
-void WebpageController::setUrl(const QUrl& url)
+QUrl WebpageController::pageUrl() const
 {
-    if(m_url == url)
-        return;
-
-    m_url= url;
-    urlChanged();
+    return m_pageUrl;
 }

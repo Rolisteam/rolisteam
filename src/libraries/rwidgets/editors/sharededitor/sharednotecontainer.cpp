@@ -120,7 +120,7 @@ void SharedNoteContainer::updateTitle()
     // m_edit->setFileName(getUriName()); // update the title too
 }
 
-void SharedNoteContainer::putDataIntoCleverUri()
+/*void SharedNoteContainer::putDataIntoCleverUri()
 {
     if(nullptr != m_edit)
     {
@@ -128,12 +128,12 @@ void SharedNoteContainer::putDataIntoCleverUri()
         QDataStream out(&data, QIODevice::WriteOnly);
         out.setVersion(QDataStream::Qt_5_7);
         m_edit->saveFile(out);
-        /* if(nullptr != m_uri)
-         {
-             m_uri->setData(data);
-         }*/
+        // if(nullptr != m_uri)
+        // {
+        //     m_uri->setData(data);
+        // }
     }
-}
+}*/
 void SharedNoteContainer::readFromFile(QDataStream& data)
 {
     if(nullptr != m_edit)

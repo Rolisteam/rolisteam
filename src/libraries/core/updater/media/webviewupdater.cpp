@@ -23,7 +23,8 @@
 #include "network/networkmessage.h"
 #include "worker/messagehelper.h"
 
-WebViewUpdater::WebViewUpdater(QObject* parent) : MediaUpdaterInterface(parent)
+WebViewUpdater::WebViewUpdater(campaign::CampaignManager* campaign, QObject* parent)
+    : MediaUpdaterInterface(campaign, parent)
 {
     ReceiveEvent::registerNetworkReceiver(NetMsg::WebPageCategory, this);
 }
@@ -53,12 +54,19 @@ void WebViewUpdater::addMediaController(MediaControllerBase* ctrl)
         };
 
         connect(webCtrl, &WebpageController::htmlChanged, this, updateWebPage);
-        connect(webCtrl, &WebpageController::pathChanged, this, updateWebPage);
+        connect(webCtrl, &WebpageController::urlChanged, this, updateWebPage);
     }
     else
     {
         m_webPages.insert(webCtrl->uuid(), webCtrl);
     }
+
+    connect(webCtrl, &WebpageController::modifiedChanged, this, [webCtrl, this]() {
+        if(webCtrl->modified())
+        {
+            saveMediaController(webCtrl);
+        }
+    });
 }
 
 NetWorkReceiver::SendType WebViewUpdater::processMessage(NetworkMessageReader* msg)

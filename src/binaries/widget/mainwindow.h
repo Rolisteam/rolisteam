@@ -25,6 +25,7 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
+#include "rwidgets/mediacontainers/mediacontainer.h"
 #include <QAction>
 #include <QMainWindow>
 #include <QMdiSubWindow>
@@ -34,9 +35,6 @@
 #include <QTextEdit>
 #include <QUndoStack>
 #include <memory>
-
-#include "core/data/cleveruri.h"
-#include "rwidgets/mediacontainers/mediacontainer.h"
 
 #include "network/networkreceiver.h"
 #include "preferences/preferencesmanager.h"
@@ -138,12 +136,6 @@ public:
      * @brief parseCommandLineArguments
      */
     void parseCommandLineArguments(const QStringList&);
-    /**
-     * @brief setLatestFile
-     * @param fileName
-     */
-    void setLatestFile(CleverURI* fileName);
-
     void openRecentScenario();
     void updateRecentScenarioAction();
     void openGenericContent();
@@ -187,13 +179,6 @@ protected:
     virtual void focusInEvent(QFocusEvent* event);
     virtual void focusOutEvent(QFocusEvent* event);
     /**
-     * @brief contentToPath
-     * @param type
-     * @param save
-     * @return
-     */
-    CleverURI* contentToPath(Core::ContentType type, bool save);
-    /**
      * @brief dropEvent
      * @param event
      */
@@ -211,10 +196,6 @@ protected:
 private slots:
     void cleanUpData();
     void showSupportPage();
-    /**
-     * @brief userNatureChange
-     * @param isGM
-     */
     void userNatureChange();
     void openCampaign();
     /**
@@ -225,21 +206,14 @@ private slots:
      * @brief stopReconnection
      */
     void stopReconnection();
-    /**
-     * @brief updateRecentFileActions
-     */
-    void updateRecentFileActions();
-    /**
-     * @brief openRecentFile
-     */
-    void openRecentFile();
+    void updateFileHistoryMenu();
+    void openFileFromHistory();
     /**
      * @brief helpOnLine
      */
     void helpOnLine();
     /**
      * @brief saveStory - saves all media contener into the current story file.
-     *
      */
     bool saveStory(bool saveAs);
     /**

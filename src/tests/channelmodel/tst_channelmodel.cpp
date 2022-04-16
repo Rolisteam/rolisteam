@@ -27,6 +27,7 @@
 #include "network/channel.h"
 #include "network/channelmodel.h"
 #include "network/tcpclient.h"
+#include "worker/networkhelper.h"
 
 class TestChannelModel : public QObject
 {
@@ -132,17 +133,16 @@ void TestChannelModel::writeAndRead()
     QFETCH(QByteArray, password);
     QFETCH(int, expected);
 
-    for(auto channel : channels)
+    for(const auto& channel : channels)
     {
         m_model->addChannel(channel, password);
     }
     QCOMPARE(m_model->rowCount(QModelIndex()), expected);
 
-    QJsonObject obj;
-    // m_model->writeDataJson(obj);
+    QJsonObject obj= helper::network::channelModelToJSonObject(m_model.get());
 
     ChannelModel model1;
-    // model1.readDataJson(obj);
+    helper::network::fetchChannelModel(&model1, obj);
 
     QCOMPARE(model1.rowCount(QModelIndex()), expected);
 }

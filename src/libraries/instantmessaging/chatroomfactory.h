@@ -24,13 +24,15 @@
 
 #include "instantmessaging/chatroom.h"
 
+class PlayerModel;
 namespace InstantMessaging
 {
 class ChatRoomFactory
 {
 public:
     static ChatRoom* createChatRoom(const QString& title, const QStringList& list, const QString& uuid,
-                                    ChatRoom::ChatRoomType type, const QString& localId, QObject* parent= nullptr);
+                                    ChatRoom::ChatRoomType type, const QString& localId, PlayerModel* personModel,
+                                    QObject* parent= nullptr);
 };
 } // namespace InstantMessaging
 #endif // CHATROOMFACTORY_H

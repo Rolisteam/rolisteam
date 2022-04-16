@@ -93,14 +93,22 @@ Q_LOGGING_CATEGORY(rDice, "rolisteam.dice");
  */
 int main(int argc, char* argv[])
 {
+    QString version= QObject::tr("Unknown");
+#ifdef VERSION_MINOR
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+#endif
+#endif
+#endif
     // Application creation
-    // QApplication app(nargs, args);
-    RolisteamApplication app(argc, argv);
+    RolisteamApplication app(QString("rolisteam"), version, argc, argv);
 
     Q_INIT_RESOURCE(viewsqml);
     Q_INIT_RESOURCE(charactersheet);
     Q_INIT_RESOURCE(textedit);
 
+    // INIT OPEN GL
     auto format= QSurfaceFormat::defaultFormat();
     if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
     {
@@ -111,12 +119,18 @@ int main(int argc, char* argv[])
     format.setStencilBufferSize(8);
     format.setSamples(8);
     QSurfaceFormat::setDefaultFormat(format);
-    QQuickStyle::setStyle(":/rolistyle");
-    QQuickStyle::setFallbackStyle("Default");
+
+    // INIT STYLE
+    QQuickStyle::setStyle(":/qml/rolistyle");
+    QQuickStyle::setFallbackStyle("Fusion");
 
     // Ressources
     QResource::registerResource("rolisteam.rcc");
     customization::Theme::setPath(":/resources/stylesheet/qml/theme.ini");
+    /*if(true)
+        QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
+    else
+        QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme-dark");*/
 
 #ifdef Q_OS_WIN
     {
@@ -135,8 +149,8 @@ int main(int argc, char* argv[])
 #endif
 
 #ifndef UNIT_TESTS
-    UiWatchdog dog;
-    dog.start();
+    // UiWatchdog dog;
+    // dog.start();
 #endif
 
     SelectConnectionProfileDialog connectionDialog(app.gameCtrl());

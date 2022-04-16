@@ -48,7 +48,7 @@ public:
     };
     Q_ENUM(Status);
 
-    explicit ImageController(const QString& id, const QString& name, const QString& path,
+    explicit ImageController(const QString& id= QString(), const QString& name= QString(), const QUrl& url= QUrl(),
                              const QByteArray& data= QByteArray(), QObject* parent= nullptr);
     virtual ~ImageController();
 

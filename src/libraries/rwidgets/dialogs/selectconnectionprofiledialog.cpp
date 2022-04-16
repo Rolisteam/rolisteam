@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QImage>
 #include <QMessageBox>
+#include <QPixmap>
 
 #include "core/worker/iohelper.h"
 #include "data/character.h"
@@ -15,205 +16,59 @@
 #include "controller/playercontroller.h"
 
 #include "core/controller/view_controller/imageselectorcontroller.h"
+#include "core/controller/view_controller/selectconnprofilecontroller.h"
 #include "imageselectordialog.h"
 #include "model/profilemodel.h"
 #include "network/characterdatamodel.h"
 
+#include "qml_views/src/image_selector.h"
+
 /// ConnectionProfile
 SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctrl, QWidget* parent)
-    : QDialog(parent), ui(new Ui::SelectConnectionProfileDialog), m_ctrl(ctrl), m_characterModel(new CharacterDataModel)
+    : QDialog(parent)
+    , ui(new Ui::SelectConnectionProfileDialog)
+    , m_gameCtrl{ctrl}
+    , m_ctrl{new SelectConnProfileController(ctrl->networkController()->profileModel(), ctrl)}
 {
     ui->setupUi(this);
-    m_model= m_ctrl->networkController()->profileModel();
-    ui->m_profileList->setModel(m_model);
-    ui->m_progressBar->setVisible(false);
 
-    ui->m_rootDirCampEdit->setPath(QDir::homePath());
-    ui->m_rootDirCampEdit->setMode(true);
-
-    connect(ui->m_profileList->selectionModel(), &QItemSelectionModel::currentChanged, this,
-            [this](const QModelIndex& selected, const QModelIndex&) {
-                setCurrentProfile(selected);
-                ui->m_cloneProfileAct->setEnabled(selected.isValid());
-            });
-    connect(ui->m_profileList, &QListView::doubleClicked, this, &SelectConnectionProfileDialog::connectToIndex);
-    connect(ui->m_playerAvatarAct, &QAction::triggered, this, &SelectConnectionProfileDialog::selectPlayerAvatar);
-    connect(ui->m_cloneProfileAct, &QAction::triggered, this, &SelectConnectionProfileDialog::cloneProfile);
-    connect(m_ctrl, &GameController::dataLoaded, this, [this]() { setState(State::LOADED); });
-
-    ui->m_avatarPlayer->setDefaultAction(ui->m_playerAvatarAct);
-
-    ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
-    setCurrentProfile(ui->m_profileList->currentIndex());
-    ui->m_addCharacterBtn->setDefaultAction(ui->m_addCharacterAct);
-    ui->m_cloneProfileBtn->setDefaultAction(ui->m_cloneProfileAct);
-    ui->m_removeCharacterBtn->setDefaultAction(ui->m_removeCharacterAct);
-    ui->m_characterList->setModel(m_characterModel.get());
-    auto vh= ui->m_characterList->horizontalHeader();
-    vh->resizeSection(0, 50);
-
-    connect(ui->m_addCharacterAct, &QAction::triggered, m_characterModel.get(), &CharacterDataModel::insertCharacter);
-    connect(ui->m_removeCharacterAct, &QAction::triggered, this, [this]() {
-        auto idx= ui->m_characterList->currentIndex();
-        if(idx.isValid())
-            m_characterModel->removeCharacter(idx);
+    // ui->m_detailPanel->setVisible(false);
+    connect(ui->m_quickWidget, &QQuickWidget::sceneGraphError, this,
+            [](QQuickWindow::SceneGraphError, const QString& message) { qDebug() << "ERROR" << message; });
+    connect(ui->m_quickWidget, &QQuickWidget::statusChanged, this, [this](QQuickWidget::Status status) {
+        if(status == QQuickWidget::Error)
+            qDebug() << "Errors: " << ui->m_quickWidget->errors();
     });
 
-    connect(ui->m_characterList, &QTableView::doubleClicked, this, [this](const QModelIndex& index) {
-        if(index.column() == 0)
-        {
-            auto img= openImage(index.data(Qt::EditRole).toString());
-            if(!img.isEmpty())
-                m_characterModel->setData(index, img);
-        }
-        else if(index.column() == 1)
-        {
-            auto color= QColorDialog::getColor(index.data(Qt::BackgroundRole).value<QColor>());
-            if(color.isValid())
-                m_characterModel->setData(index, color);
-        }
+    qRegisterMetaType<ProfileModel*>("ProfileModel*");
+    qRegisterMetaType<CharacterDataModel*>("CharacterDataModel*");
+    qmlRegisterSingletonInstance<SelectConnProfileController>("Profile", 1, 0, "ProfileController", m_ctrl.get());
+    qmlRegisterSingletonInstance<SelectConnectionProfileDialog>("Profile", 1, 0, "ProfileView", this);
+    qmlRegisterType<ImageSelector>("Profile", 1, 0, "ImageSelector");
+    auto engine= ui->m_quickWidget->engine();
+    engine->addImportPath(QStringLiteral("qrc:/qml"));
+
+    ui->m_quickWidget->setSource(QUrl("qrc:/qml/views/ConnectionForm.qml"));
+    ui->m_quickWidget->setVisible(true);
+
+    // link between game controller and profile controller
+    auto networkCtrl= m_gameCtrl->networkController();
+    connect(networkCtrl, &NetworkController::lastErrorChanged, m_ctrl.get(), &SelectConnProfileController::setErrorMsg);
+    connect(networkCtrl, &NetworkController::infoMessage, m_ctrl.get(), &SelectConnProfileController::setInfoMsg);
+    connect(networkCtrl, &NetworkController::connectingChanged, this, [this](bool connecting) {
+        m_ctrl->setConnectionState(connecting ? SelectConnProfileController::ConnectionState::CONNECTING :
+                                                SelectConnProfileController::ConnectionState::IDLE);
     });
-
-    connect(ui->m_passwordEdit, &QLineEdit::textEdited, this, [this]() { m_passChanged= true; });
-
-    connect(ui->m_addProfile, &QPushButton::clicked, this, [this]() { m_model->appendProfile(); });
-    connect(ui->m_cancel, &QPushButton::clicked, this, &SelectConnectionProfileDialog::reject);
-    connect(ui->m_connectAct, &QAction::triggered, this, &SelectConnectionProfileDialog::connectTo);
-    connect(ui->m_stopConnectAct, &QAction::triggered, this, &SelectConnectionProfileDialog::stopConnecting);
-    connect(ui->m_delProfileAct, &QPushButton::clicked, this, &SelectConnectionProfileDialog::removeProfile);
-    connect(ui->m_addresseLineEdit, &QLineEdit::textChanged, this, &SelectConnectionProfileDialog::checkConnection);
-    connect(ui->m_isServerCheckbox, &QCheckBox::toggled, this, &SelectConnectionProfileDialog::checkConnection);
-    connect(m_ctrl->networkController(), &NetworkController::lastErrorChanged, ui->m_errorNotification,
-            &QLabel::setText);
-    connect(m_ctrl->networkController(), &NetworkController::connectingChanged, this, [this](bool connecting) {
-        ui->m_progressBar->setVisible(connecting);
-        if(connecting)
-        {
-            setState(State::CONNECTING);
-            ui->m_connectBtn->setDefaultAction(ui->m_stopConnectAct);
-            ui->m_connectBtn->removeAction(ui->m_connectAct);
-        }
-        else
-        {
-            setState(State::IDLE);
-            ui->m_connectBtn->setDefaultAction(ui->m_connectAct);
-            ui->m_connectBtn->removeAction(ui->m_stopConnectAct);
-        }
-    });
-
-    ui->m_connectBtn->setDefaultAction(ui->m_connectAct);
+    connect(m_ctrl.get(), &SelectConnProfileController::startConnect, networkCtrl, &NetworkController::startConnection);
+    connect(m_ctrl.get(), &SelectConnProfileController::stopConnecting, networkCtrl,
+            &NetworkController::stopConnecting);
+    connect(ctrl, &GameController::dataLoaded, this,
+            [this]() { m_ctrl->setConnectionState(SelectConnProfileController::ConnectionState::LOADED); });
 }
 
 SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
 {
     delete ui;
-}
-
-void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
-{
-    qDebug() << "setCurrentProfile" << index.row();
-    if(m_currentProfileIndex == index.row())
-        return;
-    m_ctrl->networkController()->stopConnecting();
-    updateProfile();
-    m_currentProfileIndex= index.row();
-    updateGUI();
-    //    updateProfile();
-    m_avatarUri.clear();
-    ui->m_connectAct->setEnabled(true);
-    setState(State::IDLE);
-}
-
-void SelectConnectionProfileDialog::stopConnecting()
-{
-    m_ctrl->stopConnection();
-}
-
-void SelectConnectionProfileDialog::updateProfile()
-{
-    qDebug() << "updateProfile" << m_currentProfileIndex;
-    ui->m_errorNotification->setStyleSheet("");
-
-    auto profile= m_model->getProfile(m_currentProfileIndex);
-
-    if(nullptr != profile)
-    {
-        profile->setAddress(ui->m_addresseLineEdit->text());
-        profile->setPort(ui->m_port->value());
-        profile->setServerMode(ui->m_isServerCheckbox->isChecked());
-        profile->setProfileTitle(ui->m_profileTitle->text());
-        profile->setGm(ui->m_isGmCheckbox->isChecked());
-        if(ui->m_isGmCheckbox->isChecked())
-            profile->setCampaignPath(ui->m_rootDirCampEdit->path());
-        if(m_passChanged)
-        {
-            profile->setPassword(ui->m_passwordEdit->text());
-        }
-
-        profile->setPlayerColor(ui->m_colorBtn->color());
-        profile->setPlayerName(ui->m_name->text());
-        // profile->setPlayerAvatar(ui->m_isGmCheckbox->isChecked());
-
-        /*Character* character= profile->getCharacter();
-        if(character != nullptr)
-        {
-            if(!m_avatarUri.isEmpty())
-            {
-                character->setAvatarPath(m_avatarUri);
-                character->setAvatar(QImage(m_avatarUri));
-            }
-            character->setName(ui->m_characterName->text());
-            character->setColor(ui->m_characterColor->color());
-        }*/
-    }
-}
-
-void SelectConnectionProfileDialog::updateGUI()
-{
-    qDebug() << "updateGUI" << m_currentProfileIndex;
-    auto profile= m_model->getProfile(m_currentProfileIndex);
-
-    if(profile == nullptr)
-        return;
-
-    ui->m_addresseLineEdit->setText(profile->address());
-    ui->m_name->setText(profile->playerName());
-    ui->m_profileTitle->setText(profile->profileTitle());
-    ui->m_port->setValue(profile->port());
-    ui->m_isServerCheckbox->setChecked(profile->isServer());
-    ui->m_isGmCheckbox->setChecked(profile->isGM());
-    ui->m_addresseLineEdit->setEnabled(!profile->isServer());
-    ui->m_colorBtn->setColor(profile->playerColor());
-    m_passChanged= false;
-    ui->m_passwordEdit->setText(profile->password());
-    ui->m_playerAvatarAct->setIcon(QIcon(IOHelper::dataToPixmap(profile->playerAvatar())));
-    ui->m_rootDirCampEdit->setPath(profile->campaignPath());
-
-    m_characterModel->setProfile(profile);
-}
-void SelectConnectionProfileDialog::removeProfile()
-{
-    if(-1 == m_currentProfileIndex)
-        return;
-
-    auto profile= m_model->getProfile(m_currentProfileIndex);
-
-    if(QMessageBox::No
-       == QMessageBox::question(
-              this, tr("Remove Current Profile"),
-              tr("Do you really want to remove %1 from your connection list ?").arg(profile->profileTitle())))
-    {
-        return;
-    }
-
-    m_ctrl->networkController()->removeProfile(m_currentProfileIndex);
-
-    int size= m_model->rowCount(QModelIndex());
-    if(size <= m_currentProfileIndex)
-    {
-        m_currentProfileIndex= size - 1;
-    }
-    updateGUI();
 }
 
 void SelectConnectionProfileDialog::setArgumentProfile(QString host, int port, QByteArray password)
@@ -235,51 +90,6 @@ void SelectConnectionProfileDialog::setArgumentProfile(QString host, int port, Q
       updateProfile();*/
 }
 
-void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
-{
-    m_currentProfileIndex= index.row();
-    updateGUI();
-    connectTo();
-}
-
-void SelectConnectionProfileDialog::setState(State state)
-{
-    if(state == m_state)
-        return;
-
-    if(m_state == State::IDLE && state == State::LOADING)
-    {
-        m_state= state;
-    }
-    else if(m_state == State::LOADING && state == State::LOADED)
-    {
-        m_state= state;
-        m_ctrl->startConnection();
-    }
-    else if(m_state == State::LOADED && state == State::CONNECTING)
-    {
-        m_state= state;
-    }
-    if(state == State::IDLE)
-        m_state= state;
-}
-
-void SelectConnectionProfileDialog::connectTo()
-{
-    updateProfile();
-    setState(State::LOADING);
-    m_ctrl->setDataFromProfile(m_currentProfileIndex);
-}
-
-void SelectConnectionProfileDialog::cloneProfile()
-{
-    auto idx= m_model->cloneProfile(ui->m_profileList->currentIndex());
-    if(idx < 0)
-        return;
-
-    ui->m_profileList->setCurrentIndex(m_model->index(idx, 0));
-}
-
 QByteArray SelectConnectionProfileDialog::openImage(const QString& path)
 {
     QFileInfo info(path);
@@ -293,38 +103,44 @@ QByteArray SelectConnectionProfileDialog::openImage(const QString& path)
     return ctrl.finalImageData();
 }
 
-void SelectConnectionProfileDialog::checkConnection()
-{
-    bool valid= false;
-    if((!ui->m_addresseLineEdit->text().isEmpty()) && (!ui->m_isServerCheckbox->isChecked()))
-    {
-        valid= true;
-    }
-    else if(ui->m_isServerCheckbox->isChecked())
-    {
-        valid= true;
-    }
-    ui->m_connectAct->setEnabled(valid);
-}
-
-void SelectConnectionProfileDialog::errorOccurs(QString str)
-{
-    ui->m_errorNotification->setStyleSheet("font: 19pt ;\nbackground: rgb(255, 0, 0);\ncolor: rgb(0,0,0);");
-    ui->m_errorNotification->setText(str);
-}
-
 void SelectConnectionProfileDialog::selectPlayerAvatar()
 {
-    if(-1 == m_currentProfileIndex)
-        return;
-
-    auto profile= m_model->getProfile(m_currentProfileIndex);
-
-    auto data= openImage(profile->playerAvatar());
+    auto data= openImage(m_ctrl->playerAvatar());
 
     if(data.isEmpty())
         return;
 
-    profile->setPlayerAvatar(data);
+    m_ctrl->setPlayerAvatar(data);
     ui->m_playerAvatarAct->setIcon(QIcon(IOHelper::dataToPixmap(data)));
+}
+
+void SelectConnectionProfileDialog::selectCampaignPath()
+{
+
+    auto result= QFileDialog::getExistingDirectory(this, tr("Select directory"), m_ctrl->campaignPath(),
+                                                   QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if(!result.isEmpty())
+    {
+        m_ctrl->setCampaignPath(result);
+    }
+}
+
+void SelectConnectionProfileDialog::startNetworkConnection()
+{
+    m_ctrl->setConnectionState(SelectConnProfileController::ConnectionState::LOADING);
+    m_gameCtrl->setDataFromProfile(m_ctrl->currentProfileIndex());
+}
+
+void SelectConnectionProfileDialog::selectCharacterAvatar(int i)
+{
+    auto characters= m_ctrl->characterModel();
+    auto character= characters->character(i);
+
+    auto data= openImage(m_ctrl->playerAvatar());
+
+    if(data.isEmpty())
+        return;
+
+    characters->setAvatar(i, data);
 }

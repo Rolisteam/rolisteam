@@ -51,6 +51,7 @@ class InstantMessagingController : public AbstractControllerInterface, public Ne
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
     Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
+    Q_PROPERTY(bool unread READ unread NOTIFY unreadChanged)
 public:
     explicit InstantMessagingController(PlayerModel* player, QObject* parent= nullptr);
     virtual ~InstantMessagingController();
@@ -61,6 +62,7 @@ public:
     QString localId() const;
     bool nightMode() const;
     bool visible() const;
+    bool unread() const;
 
     void setGameController(GameController*) override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
@@ -74,7 +76,7 @@ public slots:
     void addExtraChatroom(const QString& title, bool everyone, const QVariantList& recipiant);
     void setNightMode(bool mode);
     void openLink(const QString& link);
-    void setDiceParser(DiceParser* diceParser);
+    void setDiceParser(DiceRoller* diceParser);
     void setVisible(bool b);
 
 signals:
@@ -83,6 +85,7 @@ signals:
     void nightModeChanged(bool);
     void openWebPage(QString);
     void visibleChanged(bool);
+    void unreadChanged();
 
 private:
     std::unique_ptr<LocalPersonModel> m_localPersonModel;
@@ -92,7 +95,7 @@ private:
     QPointer<PlayerModel> m_players;
     bool m_nightMode= false;
     int m_fontSizeFactor= false;
-    DiceParser* m_diceParser= nullptr;
+    QPointer<DiceRoller> m_diceParser;
     bool m_visible= false;
 };
 

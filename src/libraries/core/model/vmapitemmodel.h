@@ -31,7 +31,7 @@ namespace vmap
 class VmapItemModel : public QAbstractListModel
 {
     Q_OBJECT
-
+    Q_PROPERTY(bool modified READ modified WRITE setModifiedToAllItem NOTIFY modifiedChanged)
 public:
     enum CustomRole
     {
@@ -68,8 +68,13 @@ public:
     std::vector<vmap::VisualItemController*> items() const;
     vmap::VisualItemController* item(const QString& id) const;
 
+    bool modified() const;
+
+public slots:
+    void setModifiedToAllItem(bool b);
 signals:
     void itemControllerAdded(vmap::VisualItemController* ctrl);
+    void modifiedChanged(bool b);
 
 private:
     std::vector<std::unique_ptr<vmap::VisualItemController>> m_items;

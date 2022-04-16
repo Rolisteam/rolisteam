@@ -21,29 +21,47 @@
 #define CAMPAIGN_CAMPAIGNINTEGRITYDIALOG_H
 
 #include <QDialog>
+#include <memory>
+
+#include "model/actiononlistmodel.h"
 
 namespace Ui
 {
 class CampaignIntegrityDialog;
 }
-
+class ActionOnListModel;
 namespace campaign
 {
 
 class CampaignIntegrityDialog : public QDialog
 {
     Q_OBJECT
-
+    Q_PROPERTY(bool canValidate READ canValidate NOTIFY canValidateChanged)
 public:
-    explicit CampaignIntegrityDialog(QStringList missignFiles, const QStringList unmanagedFile,
+    explicit CampaignIntegrityDialog(QStringList missingFiles, QStringList unmanagedFile, const QString& root,
                                      QWidget* parent= nullptr);
     ~CampaignIntegrityDialog();
+
+    bool canValidate() const;
+
+    const QList<DataInfo>& missingFileActions() const;
+    const QList<DataInfo>& unmanagedFileActions() const;
+
+public slots:
+    void validate();
+    void refuse();
+    void setAction(int modelId, int index, int actionId);
 
 protected:
     void changeEvent(QEvent* e);
 
+signals:
+    void canValidateChanged();
+
 private:
     Ui::CampaignIntegrityDialog* ui;
+    std::unique_ptr<ActionOnListModel> m_missingFileModel;
+    std::unique_ptr<ActionOnListModel> m_unmanagedFileModel;
 };
 
 } // namespace campaign

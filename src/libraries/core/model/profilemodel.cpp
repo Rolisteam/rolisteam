@@ -51,11 +51,20 @@ QVariant ProfileModel::data(const QModelIndex& index, int role) const
     if(!index.isValid())
         return QVariant();
 
-    if(Qt::DisplayRole == role)
+    QVariant var;
+    switch(role)
     {
-        return m_connectionProfileList.at(static_cast<std::size_t>(index.row()))->profileTitle();
+    case Qt::DisplayRole:
+    case NameRole:
+        var= m_connectionProfileList.at(static_cast<std::size_t>(index.row()))->profileTitle();
+        break;
+    case IndexRole:
+        var= index.row();
+        break;
+    default:
+        break;
     }
-    return QVariant();
+    return var;
 }
 
 void ProfileModel::appendProfile()
@@ -84,9 +93,9 @@ ConnectionProfile* ProfileModel::getProfile(const QModelIndex& index)
     return getProfile(index.row());
 }
 
-int ProfileModel::cloneProfile(const QModelIndex& index)
+int ProfileModel::cloneProfile(int index)
 {
-    auto profileSrc= getProfile(index.row());
+    auto profileSrc= getProfile(index);
 
     if(nullptr == profileSrc)
         return -1;
@@ -115,12 +124,18 @@ int ProfileModel::indexOf(ConnectionProfile* tmp)
 }
 ConnectionProfile* ProfileModel::getProfile(int index)
 {
+    ConnectionProfile* profile= nullptr;
     auto idx= static_cast<std::size_t>(index);
     if((!m_connectionProfileList.empty()) && (m_connectionProfileList.size() > idx))
     {
-        return m_connectionProfileList.at(idx).get();
+        profile= m_connectionProfileList.at(idx).get();
     }
-    return nullptr;
+    return profile;
+}
+
+QHash<int, QByteArray> ProfileModel::roleNames() const
+{
+    return {{NameRole, "name"}, {IndexRole, "uuid"}};
 }
 void ProfileModel::removeProfile(int index)
 {

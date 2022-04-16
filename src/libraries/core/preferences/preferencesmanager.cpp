@@ -24,9 +24,10 @@
 #include <QMetaType>
 #include <QSettings>
 
-#include "data/cleveruri.h"
+PreferencesManager* PreferencesManager::m_singleton= nullptr;
 
-PreferencesManager::PreferencesManager() : m_optionDictionary(nullptr)
+PreferencesManager::PreferencesManager(const QString& applicationName, const QString& subname)
+    : m_optionDictionary(nullptr), m_applicationName(applicationName), m_subname(subname)
 {
     m_optionDictionary= new QMap<QString, QVariant>;
 
@@ -38,6 +39,9 @@ PreferencesManager::PreferencesManager() : m_optionDictionary(nullptr)
     m_optionDictionary->insert("MinutesDirectory", QDir::homePath());
     m_optionDictionary->insert("ChatDirectory", QDir::homePath());
     m_optionDictionary->insert("DataDirectory", QDir::homePath());
+
+    // TODO To remove
+    m_singleton= this;
 }
 
 PreferencesManager::~PreferencesManager()
@@ -45,18 +49,16 @@ PreferencesManager::~PreferencesManager()
     delete m_optionDictionary;
 }
 
-PreferencesManager* PreferencesManager::m_singleton= nullptr;
-
 PreferencesManager* PreferencesManager::getInstance()
 {
     if(m_singleton == nullptr)
     {
-        m_singleton= new PreferencesManager;
+        m_singleton= new PreferencesManager({}, {});
     }
 
     return m_singleton;
 }
-bool PreferencesManager::registerValue(QString key, QVariant value, bool overwrite)
+bool PreferencesManager::registerValue(const QString& key, QVariant value, bool overwrite)
 {
     if((overwrite) || (!m_optionDictionary->contains(key)))
     {
@@ -68,6 +70,8 @@ bool PreferencesManager::registerValue(QString key, QVariant value, bool overwri
         m_optionDictionary->insert(key, value);
         if(oldValue != value)
         {
+            writeSettings();
+            emit dataChanged(key, value);
             notifyListener(key, value);
         }
         return true;
@@ -77,18 +81,11 @@ bool PreferencesManager::registerValue(QString key, QVariant value, bool overwri
 }
 const QVariant PreferencesManager::value(const QString& key, const QVariant& defaultValue)
 {
-    if(m_optionDictionary->contains(key))
-    {
-        return m_optionDictionary->value(key);
-    }
-    else
-    {
-        return defaultValue;
-    }
+    return m_optionDictionary->contains(key) ? m_optionDictionary->value(key) : defaultValue;
 }
-void PreferencesManager::readSettings(const QString& version)
+void PreferencesManager::readSettings()
 {
-    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(version));
+    QSettings settings(m_applicationName, m_subname);
     settings.beginGroup("rolisteam/preferences");
     int size= settings.beginReadArray("preferenceMap");
     for(int i= 0; i < size; ++i)
@@ -103,12 +100,13 @@ void PreferencesManager::readSettings(const QString& version)
 
     notifyAllListener();
 }
-void PreferencesManager::writeSettings(const QString& version)
+void PreferencesManager::writeSettings()
 {
-    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(version));
+    QSettings settings(m_applicationName, m_subname);
 
     settings.beginGroup("rolisteam/preferences");
     settings.beginWriteArray("preferenceMap");
+    settings.clear();
     auto const& keys= m_optionDictionary->keys();
     for(int i= 0; i < m_optionDictionary->size(); ++i)
     {
@@ -132,7 +130,7 @@ void PreferencesManager::registerLambda(const QString& key, std::function<void(Q
 
 void PreferencesManager::notifyAllListener()
 {
-    for(auto key : m_optionDictionary->keys())
+    for(const auto& key : m_optionDictionary->keys())
     {
         notifyListener(key, m_optionDictionary->value(key));
     }

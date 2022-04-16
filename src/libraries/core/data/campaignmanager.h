@@ -27,7 +27,7 @@
 #include "data/campaign.h"
 #include "media/mediatype.h"
 
-class DiceParser;
+class DiceRoller;
 namespace campaign
 {
 class Media;
@@ -39,13 +39,14 @@ class CampaignManager : public QObject
     Q_OBJECT
     Q_PROPERTY(campaign::Campaign* campaign READ campaign NOTIFY campaignChanged)
 public:
-    explicit CampaignManager(DiceParser* diceparser, QObject* parent= nullptr);
+    explicit CampaignManager(DiceRoller* diceparser, QObject* parent= nullptr);
     virtual ~CampaignManager();
 
     bool createCampaign(const QUrl& dir);
     QString importFile(const QUrl& dir);
     QString createFileFromData(const QString& name, const QByteArray& data);
     void removeFile(const QString& file);
+    void reload();
 
     void saveCampaign();
     void copyCampaign(const QUrl& dir);
@@ -54,17 +55,23 @@ public:
     campaign::Campaign* campaign() const;
     campaign::CampaignEditor* editor() const;
 
+    DiceRoller* diceparser() const;
+
     QString campaignDir() const;
     QString placeDirectory(campaign::Campaign::Place place) const;
+
+    void performAction(const QList<QPair<QString, Core::CampaignAction>>& actions);
 public slots:
     void shareModels();
     void setLocalIsGM(bool b);
+    void importDataFrom(const QString& source, const QVector<Core::CampaignDataCategory>& categories);
 
 signals:
     void campaignChanged(const QString& str);
     void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
     void fileImported(campaign::Media* path);
     void errorOccured(const QString& error);
+    void createBlankFile(const QString& path, Core::MediaType mediaType);
 
 private:
     std::unique_ptr<CampaignEditor> m_editor;

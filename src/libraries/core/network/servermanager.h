@@ -23,7 +23,6 @@ class ServerManager : public QObject
     Q_PROPERTY(ServerState state READ state NOTIFY stateChanged)
     Q_PROPERTY(ChannelModel* channelModel READ channelModel CONSTANT)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
-    Q_PROPERTY(int tryCount READ tryCount WRITE setTryCount NOTIFY tryCountChanged)
 
 public:
     enum ServerState
@@ -43,7 +42,6 @@ public:
     ~ServerManager();
 
     int port() const;
-    int tryCount() const;
     ServerManager::ServerState state() const;
     QVariant getValue(QString key) const;
     ChannelModel* channelModel() const;
@@ -54,9 +52,8 @@ public:
 
 signals:
     void stateChanged(ServerManager::ServerState);
-    void errorOccured(QString, LogController::LogLevel);
+    void eventOccured(QString, LogController::LogLevel);
     void messageMustBeDispatched(QByteArray array, Channel* channel, TcpClient* client);
-    void tryCountChanged();
     void portChanged();
 
     // multithreading socket
@@ -64,7 +61,7 @@ signals:
 
 public slots:
     // controller
-    void startListening();
+    bool startListening();
     void stopListening();
     void quit();
 
@@ -97,7 +94,7 @@ public slots:
 
     // Accessors
     void setPort(int p);
-    void setTryCount(int tryCount);
+    // void setTryCount(int tryCount);
     void setChannelPassword(QString chanId, QByteArray passwd);
     // void sendMessage(NetworkMessage* msg);
 
@@ -122,7 +119,6 @@ private:
     MessageDispatcher* m_msgDispatcher= nullptr;
     QHash<QTcpSocket*, TcpClient*> m_connections;
     ServerState m_state= Stopped;
-    int m_tryCount= 0;
 };
 
 #endif // SERVERMANAGER_H

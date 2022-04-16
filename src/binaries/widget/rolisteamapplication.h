@@ -38,7 +38,7 @@ public:
     };
     Q_ENUM(ApplicationState)
 
-    RolisteamApplication(int& argn, char* argv[]);
+    RolisteamApplication(const QString& appName, const QString& version, int& argn, char* argv[]);
 
     bool notify(QObject* receiver, QEvent* e);
 

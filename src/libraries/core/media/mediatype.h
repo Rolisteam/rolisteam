@@ -75,12 +75,46 @@ enum class SharingPermission : quint8
     ReadWrite
 };
 
+enum class CampaignAction : quint8
+{
+    NoneAction,
+    ForgetAction,
+    CreateAction,
+    ManageAction,
+    DeleteAction
+};
+Q_ENUM_NS(CampaignAction)
+
+enum class CampaignDataCategory : quint8
+{
+    AudioPlayer1,
+    AudioPlayer2,
+    AudioPlayer3,
+    Images,
+    Maps,
+    MindMaps,
+    Notes,
+    WebLink,
+    PDFDoc,
+    DiceAlias,
+    CharacterStates,
+    Themes,
+    CharacterSheets,
+    AntagonistList
+};
+Q_ENUM_NS(CampaignDataCategory)
+
 inline uint qHash(Core::ContentType type, uint seed)
 {
     return ::qHash(static_cast<uint>(type), seed);
 }
 
 inline uint qHash(Core::MediaType type, uint seed)
+{
+    return ::qHash(static_cast<uint>(type), seed);
+}
+
+inline uint qHash(Core::CampaignDataCategory type, uint seed)
 {
     return ::qHash(static_cast<uint>(type), seed);
 }
@@ -136,6 +170,7 @@ enum CharacterScope
     AllCharacter,
     AllNPC
 };
+Q_ENUM_NS(CharacterScope)
 
 enum class EditionMode : int
 {
@@ -214,35 +249,124 @@ Q_ENUM_NS(ArrowDirection)
 
 namespace keys
 {
+constexpr char const* KEY_AVATAR{"avatar"};
+constexpr char const* KEY_BGCOLOR{"bgcolor"};
+constexpr char const* KEY_CHARACTERID{"characterId"};
+constexpr char const* KEY_CHARACTERVISION{"charactervision"};
+constexpr char const* KEY_COLLISION{"collision"};
+constexpr char const* KEY_COLOR{"color"};
+constexpr char const* KEY_DATA{"data"};
+constexpr char const* KEY_GMID{"gamemasterId"};
+constexpr char const* KEY_GRIDABOVE{"GridAbove"};
+constexpr char const* KEY_GRIDCOLOR{"gridColor"};
+constexpr char const* KEY_GRIDPATTERN{"gridPattern"};
+constexpr char const* KEY_GRIDSCALE{"gridScale"};
+constexpr char const* KEY_GRIDSIZE{"gridSize"};
+constexpr char const* KEY_GRIDVISIBILITY{"GridVisibility"};
+constexpr char const* KEY_ID{"id"};
+constexpr char const* KEY_IMAGEDATA{"imageData"};
+constexpr char const* KEY_INTERNAL{"internal"};
+constexpr char const* KEY_ITEMS{"items"};
+constexpr char const* KEY_LAYER{"layer"};
+constexpr char const* KEY_LOCALID{"localId"};
+constexpr char const* KEY_MARKDOWN{"markdown"};
+constexpr char const* KEY_MODE{"mode"};
+constexpr char const* KEY_NAME{"name"};
+constexpr char const* KEY_OWNERID{"ownerId"};
 constexpr char const* KEY_PATH{"path"};
+constexpr char const* KEY_PERMISSION{"permission"};
+constexpr char const* KEY_POSITION{"position"};
+constexpr char const* KEY_QML{"qml"};
+constexpr char const* KEY_RECT{"rect"};
+constexpr char const* KEY_ROOTSECTION{"rootSection"};
 constexpr char const* KEY_SAVEAS{"saveas"};
+constexpr char const* KEY_SCALE{"scale"};
+constexpr char const* KEY_SERIALIZED{"serializedData"};
+constexpr char const* KEY_SIGHT{"sight"};
+constexpr char const* KEY_STATE{"state"};
+constexpr char const* KEY_TEXT{"text"};
+constexpr char const* KEY_TOOL{"tool"};
+constexpr char const* KEY_TYPE{"type"};
+constexpr char const* KEY_UNIT{"unit"};
 constexpr char const* KEY_URL{"URL"};
 constexpr char const* KEY_UUID{"uuid"};
-constexpr char const* KEY_POSITION{"position"};
-constexpr char const* KEY_TOOL{"tool"};
-constexpr char const* KEY_RECT{"rect"};
-constexpr char const* KEY_DATA{"data"};
-constexpr char const* KEY_OWNERID{"ownerId"};
-constexpr char const* KEY_INTERNAL{"internal"};
-constexpr char const* KEY_TYPE{"type"};
-constexpr char const* KEY_NAME{"name"};
-constexpr char const* KEY_LOCALID{"localId"};
-constexpr char const* KEY_GMID{"gamemasterId"};
-constexpr char const* KEY_SERIALIZED{"serializedData"};
+constexpr char const* KEY_VISIBILITY{"visibility"};
+constexpr char const* KEY_ZINDEX{"zindex"};
 } // namespace keys
+
+namespace vmapkeys
+{
+constexpr char const* KEY_BORDERRECT{"borderRect"};
+constexpr char const* KEY_BORDER{"border"};
+constexpr char const* KEY_CHARACTER{"character"};
+constexpr char const* KEY_CLOSED{"closed"};
+constexpr char const* KEY_COLOR{"color"};
+constexpr char const* KEY_COUNT{"count"};
+constexpr char const* KEY_DATA{"data"};
+constexpr char const* KEY_ENDPOINT{"endPoint"};
+constexpr char const* KEY_FILLED{"filled"};
+constexpr char const* KEY_FONT{"font"};
+constexpr char const* KEY_HASAVATAR{"hasAvatar"};
+constexpr char const* KEY_IMAGE{"img"};
+constexpr char const* KEY_INITIALIZED{"initialized"};
+constexpr char const* KEY_LAYER{"layer"};
+constexpr char const* KEY_LOCKED{"locked"};
+constexpr char const* KEY_MARKDOWN{"markdown"};
+constexpr char const* KEY_NUMBER{"number"};
+constexpr char const* KEY_OPACITY{"opacity"};
+constexpr char const* KEY_ORIGINPOINT{"originPoint"};
+constexpr char const* KEY_PATH{"path"};
+constexpr char const* KEY_PENLINE{"penLine"};
+constexpr char const* KEY_PENWIDTH{"penWidth"};
+constexpr char const* KEY_PIXMAP{"pixmap"};
+constexpr char const* KEY_PLAYABLECHARACTER{"playablecharacter"};
+constexpr char const* KEY_POINTCOUNT{"pointCount"};
+constexpr char const* KEY_POINTS{"points"};
+constexpr char const* KEY_POS{"position"};
+constexpr char const* KEY_RADIUS{"radius"};
+constexpr char const* KEY_RATIO{"ratio"};
+constexpr char const* KEY_RECT{"rect"};
+constexpr char const* KEY_ROTATION{"rotation"};
+constexpr char const* KEY_RX{"rx"};
+constexpr char const* KEY_RY{"ry"};
+constexpr char const* KEY_SELECTED{"selected"};
+constexpr char const* KEY_SIDE{"side"};
+constexpr char const* KEY_STARTPOINT{"startPoint"};
+constexpr char const* KEY_STATECOLOR{"stateColor"};
+constexpr char const* KEY_TEXTPOS{"textPos"};
+constexpr char const* KEY_TEXTRECT{"textRect"};
+constexpr char const* KEY_TEXT{"text"};
+constexpr char const* KEY_TOOL{"tool"};
+constexpr char const* KEY_ITEMTYPE{"itemtype"};
+constexpr char const* KEY_UUID{"uuid"};
+constexpr char const* KEY_VISIBLE{"visible"};
+} // namespace vmapkeys
 
 namespace extentions
 {
 constexpr char const* EXT_TOKEN{".rtok"};
 constexpr char const* EXT_MAP{".vmap"};
-constexpr char const* EXT_IMG{".png"};
 constexpr char const* EXT_TEXT{".txt"};
 constexpr char const* EXT_SHEET{".rcs"};
 constexpr char const* EXT_MINDMAP{".rmap"};
 constexpr char const* EXT_PLAYLIST{".m3u"};
-constexpr char const* EXT_SHAREDNOTE{".md"};
+constexpr char const* EXT_SHAREDNOTE{".rsn"};
 constexpr char const* EXT_PDF{".pdf"};
-constexpr char const* EXT_WEBVIEW{".html"};
+constexpr char const* EXT_WEBVIEW{".rweb"};
+
+constexpr char const* EXT_HTML{".html"};
+constexpr char const* EXT_XHTML{".xhtml"};
+constexpr char const* EXT_HTM{".htm"};
+
+constexpr char const* EXT_MARKDOWN{".md"};
+constexpr char const* EXT_OPEN_DOCUMENT{".odt"};
+
+constexpr char const* EXT_IMG_JPG{".jpg"};
+constexpr char const* EXT_IMG_JPEG{".jpeg"};
+constexpr char const* EXT_IMG_PNG{".png"};
+constexpr char const* EXT_IMG_BMP{".bmp"};
+constexpr char const* EXT_IMG_SVG{".svg"};
+constexpr char const* EXT_IMG_GIF{".gif"};
 } // namespace extentions
 
 namespace JsonKey
@@ -318,6 +442,15 @@ constexpr char const* JSON_INSTRUCTION{"instructions"};
 constexpr char const* JSON_DICE_FACE{"face"};
 constexpr char const* JSON_DICE_VALUE{"value"};
 } // namespace jsonDice
+namespace DiceAlias
+{
+// Dice Alias
+constexpr char const* k_dice_pattern{"pattern"};
+constexpr char const* k_dice_command{"command"};
+constexpr char const* k_dice_comment{"comment"};
+constexpr char const* k_dice_enabled{"enable"};
+constexpr char const* k_dice_replacement{"replace"};
+} // namespace DiceAlias
 
 namespace jsonctrl
 {
@@ -354,6 +487,14 @@ constexpr char const* JSON_IMG_ID{"id"};
 constexpr char const* JSON_IMG_DATA{"data"};
 constexpr char const* JSON_IMG_URL{"url"};
 } // namespace Mindmap
+
+namespace Audio
+{
+constexpr char const* JSON_AUDIO_VOLUME{"volume"};
+constexpr char const* JSON_AUDIO_VISIBLE{"visible"};
+constexpr char const* JSON_PLAYING_MODE{"playingMode"};
+constexpr char const* JSON_AUDIO_URLS{"urls"};
+} // namespace Audio
 } // namespace jsonctrl
 
 namespace mimedata
@@ -364,6 +505,15 @@ constexpr char const* MIME_KEY_DICE_ALIAS_DATA{"rolisteam/dice-command"};
 constexpr char const* MIME_KEY_MEDIA_UUID{"rolisteam/media-uuid"};
 constexpr char const* MIME_KEY_PERSON_DATA{"rolisteam/userlist-item"};
 } // namespace mimedata
+
+namespace preferences
+{
+constexpr char const* KEY_DIRECTORY_AP1{"directories_audio_player1"};
+constexpr char const* KEY_DIRECTORY_AP2{"directories_audio_player2"};
+constexpr char const* KEY_DIRECTORY_AP3{"directories_audio_player3"};
+constexpr char const* KEY_OPEN_DIRECTORY{"default_open_directory"};
+} // namespace preferences
+
 } // namespace Core
 
 #endif // MEDIATYPE_H

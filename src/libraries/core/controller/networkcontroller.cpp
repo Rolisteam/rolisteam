@@ -30,12 +30,15 @@
 #include "network/receiveevent.h"
 #include "network/servermanager.h"
 #include "services/ipchecker.h"
+#include "utils/countdownobject.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 #include "worker/networkhelper.h"
 #include "worker/playermessagehelper.h"
+#include <chrono>
 #include <iostream>
+#include <thread>
 
 QLoggingCategory rNetwork("rolisteam.network");
 
@@ -51,14 +54,16 @@ NetworkController::NetworkController(QObject* parent)
     , m_clientManager(new ClientManager)
     , m_profileModel(new ProfileModel)
     , m_channelModel(new ChannelModel)
+    , m_countDown(new CountDownObject(10, 5000))
 {
     qRegisterMetaType<ServerManager::ServerState>();
-    Settingshelper::readConnectionProfileModel(m_profileModel.get());
+    SettingsHelper::readConnectionProfileModel(m_profileModel.get());
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
 
     connect(m_clientManager.get(), &ClientManager::connectionStateChanged, this,
             [this](ClientManager::ConnectionState state) {
+                qDebug() << "NETWORKCONTROLLER - ConnectionState" << state;
                 setConnected(state == ClientManager::AUTHENTIFIED);
                 setConnecting(state == ClientManager::CONNECTING);
             });
@@ -68,6 +73,7 @@ NetworkController::NetworkController(QObject* parent)
     connect(m_clientManager.get(), &ClientManager::connectedToServer, this, &NetworkController::sendOffConnectionInfo);
     connect(m_clientManager.get(), &ClientManager::gameMasterStatusChanged, this, &NetworkController::isGMChanged);
     connect(m_clientManager.get(), &ClientManager::moveToAnotherChannel, this, &NetworkController::tableChanged);
+    connect(m_countDown.get(), &CountDownObject::triggered, this, &NetworkController::startServer);
 
     // connect(m_clientManager.get(), SIGNAL(clearData()), this, SLOT(cleanUpData()));
     // connect(m_clientManager.get(), &ClientManager::notifyUser, m_gameController.get(),
@@ -109,7 +115,7 @@ void NetworkController::startConnection()
     if(hosting())
     {
         setHost(QStringLiteral("localhost"));
-        startServer();
+        m_countDown->start();
     }
     else
         startClient();
@@ -216,12 +222,13 @@ void NetworkController::startServer()
     m_server->insertField("LogLevel", 3);
     m_server->insertField("ServerPassword", serverPassword());
     m_server->insertField("TimeToRetry", 5000);
+    m_server->insertField("TryCount", 10);
     m_server->insertField("AdminPassword", adminPassword());
 
     m_server->initServerManager();
     connect(m_serverThread.get(), &QThread::started, m_server.get(), &ServerManager::startListening);
     // connect(m_serverThread.get(), &QThread::finished, m_server.get(), &ServerManager::stopListening);
-    connect(m_serverThread.get(), &QThread::finished, this, []() { qCInfo(rNetwork) << "server has been closed"; });
+    connect(m_serverThread.get(), &QThread::finished, this, [this]() { emit infoMessage("server has been closed"); });
     connect(m_server.get(), &ServerManager::stateChanged, this, [this]() {
         switch(m_server->state())
         {
@@ -229,7 +236,8 @@ void NetworkController::startServer()
             m_serverThread->quit();
             break;
         case ServerManager::Listening:
-            qCInfo(rNetwork) << "server is on";
+            m_countDown->stop();
+            emit infoMessage("server is on");
             startClient();
             break;
         case ServerManager::Error:
@@ -237,7 +245,7 @@ void NetworkController::startServer()
             break;
         }
     });
-    connect(m_server.get(), &ServerManager::errorOccured, this,
+    connect(m_server.get(), &ServerManager::eventOccured, this,
             [this](const QString& str, LogController::LogLevel level) {
                 // qDebug() << str << level;
                 setLastError(str);
@@ -317,9 +325,11 @@ NetWorkReceiver::SendType NetworkController::processMessage(NetworkMessageReader
     case NetMsg::AdminAuthSucessed:
         break;
     case NetMsg::AuthentificationFail:
+        qDebug() << "Authentification fail";
         m_clientManager->setAuthentificationStatus(false);
         break;
     case NetMsg::AuthentificationSucessed:
+        qDebug() << "Authentification sucessed";
         m_clientManager->setAuthentificationStatus(true);
         break;
     default:
@@ -425,5 +435,5 @@ void NetworkController::closeServer()
 
 void NetworkController::saveData()
 {
-    Settingshelper::writeConnectionProfileModel(m_profileModel.get());
+    SettingsHelper::writeConnectionProfileModel(m_profileModel.get());
 }

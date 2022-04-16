@@ -31,6 +31,7 @@
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
+#include "controller/audiocontroller.h"
 #include "controller/contentcontroller.h"
 #include "data/campaign.h"
 #include "data/character.h"
@@ -40,6 +41,8 @@
 #include "model/characterstatemodel.h"
 #include "model/contentmodel.h"
 #include "model/dicealiasmodel.h"
+#include "model/historymodel.h"
+#include "model/musicmodel.h"
 #include "model/nonplayablecharactermodel.h"
 #include "model/palettemodel.h"
 #include "model/profilemodel.h"
@@ -48,14 +51,26 @@
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 
-namespace Settingshelper
+namespace SettingsHelper
 {
+constexpr char const* rolisteam{"rolisteam"};
+constexpr char const* historyGroup{"History"};
+constexpr char const* historyArray{"HistoryArray"};
+constexpr char const* historyCapacity{"HistoryMaxCapacity"};
+
+constexpr char const* hist_key_id{"id"};
+constexpr char const* hist_key_displayName{"displayName"};
+constexpr char const* hist_key_path{"path"};
+constexpr char const* hist_key_lastaccess{"access"};
+constexpr char const* hist_key_bookmark{"bookmark"};
+constexpr char const* hist_key_type{"type"};
+
 const static QStringList CharacterFields({"CharacterHp", "CharacterMaxHp", "CharacterMinHp", "CharacterDistPerTurn",
                                           "CharacterStateId", "CharacterLifeColor", "CharacterInitCmd",
                                           "CharacterHasInit"});
 void readConnectionProfileModel(ProfileModel* model)
 {
-    QSettings settings("rolisteam", "rolisteam");
+    QSettings settings(rolisteam, rolisteam);
     settings.beginGroup("ConnectionProfiles");
     int size= settings.beginReadArray("ConnectionProfilesArray");
     for(int i= 0; i < size; ++i)
@@ -90,7 +105,7 @@ void readConnectionProfileModel(ProfileModel* model)
             {
                 params.insert(key, settings.value(key));
             }
-            profile->addCharacter(CharacterData({name, color, path, params}));
+            profile->addCharacter(connection::CharacterData({name, color, path, params}));
         }
         settings.endArray();
 
@@ -101,7 +116,7 @@ void readConnectionProfileModel(ProfileModel* model)
             auto color= settings.value("CharacterColor").value<QColor>();
 
             QHash<QString, QVariant> params;
-            profile->addCharacter(CharacterData({name, color, path, params}));
+            profile->addCharacter(connection::CharacterData({name, color, path, params}));
         }
         model->appendProfile(profile);
     }
@@ -117,7 +132,7 @@ void readConnectionProfileModel(ProfileModel* model)
 
 void writeConnectionProfileModel(ProfileModel* model)
 {
-    QSettings settings("rolisteam", "rolisteam");
+    QSettings settings(rolisteam, rolisteam);
     settings.beginGroup("ConnectionProfiles");
 
     auto size= model->rowCount(QModelIndex());
@@ -159,29 +174,57 @@ void writeConnectionProfileModel(ProfileModel* model)
             }
         }
         settings.endArray();
-
-        /*    settings.setValue("CharacterColor", character->getColor());
-            QImage img= character->getAvatar();
-            QVariant var;
-            var.setValue(img);
-            settings.setValue("CharacterPix", var);
-            settings.setValue("CharacterName", character->name());
-            settings.setValue("CharacterPath", character->avatarPath());
-            settings.setValue("CharacterHp", character->getHealthPointsCurrent());
-            settings.setValue("CharacterMaxHp", character->getHealthPointsMax());
-            settings.setValue("CharacterMinHp", character->getHealthPointsMin());
-            settings.setValue("CharacterDistPerTurn", character->getDistancePerTurn());
-            settings.setValue("CharacterStateId", character->stateId());
-            settings.setValue("CharacterLifeColor", character->getLifeColor());
-            settings.setValue("CharacterInitCmd", character->getInitCommand());
-            settings.setValue("CharacterHasInit", character->hasInitScore());*/
-
-        //++i;
     }
     settings.endArray();
     settings.endGroup();
 }
-} // namespace Settingshelper
+
+void readHistoryModel(history::HistoryModel* model)
+{
+    QSettings settings(rolisteam, rolisteam);
+    settings.beginGroup(historyGroup);
+    model->setMaxCapacity(settings.value(historyCapacity, 15).toInt());
+    int size= settings.beginReadArray(historyArray);
+    QList<history::LinkInfo> infos;
+    for(int i= 0; i < size; ++i)
+    {
+        settings.setArrayIndex(i);
+        history::LinkInfo info{settings.value(hist_key_id).toString(),
+                               settings.value(hist_key_displayName).toString(),
+                               settings.value(hist_key_path).toUrl(),
+                               static_cast<Core::ContentType>(settings.value(hist_key_type).toInt()),
+                               settings.value(hist_key_lastaccess).toDateTime(),
+                               settings.value(hist_key_bookmark).toBool()};
+
+        infos << info;
+    }
+    model->setLinks(infos);
+}
+
+void writeHistoryModel(history::HistoryModel* model)
+{
+    QSettings settings(rolisteam, rolisteam);
+    settings.beginGroup(historyGroup);
+    settings.setValue(historyCapacity, model->maxCapacity());
+    auto const& links= model->data();
+
+    settings.beginWriteArray(historyArray, links.size());
+    int i= 0;
+    for(auto const& info : links)
+    {
+        settings.setArrayIndex(i);
+        settings.setValue(hist_key_id, info.id);
+        settings.setValue(hist_key_displayName, info.displayName);
+        settings.setValue(hist_key_path, info.url);
+        settings.setValue(hist_key_lastaccess, info.lastAccess);
+        settings.setValue(hist_key_bookmark, info.bookmarked);
+        settings.setValue(hist_key_type, static_cast<int>(info.type));
+        ++i;
+    }
+    settings.endArray();
+    settings.endGroup();
+}
+} // namespace SettingsHelper
 
 namespace ModelHelper
 {
@@ -199,61 +242,20 @@ bool saveSession(const ContentController* ctrl)
         if(nullptr == ctrl)
             continue;
 
-        campaign::FileSerializer::writeFileIntoCampaign(ctrl->path(), IOHelper::saveController(ctrl));
+        campaign::FileSerializer::writeFileIntoCampaign(ctrl->url().toLocalFile(), IOHelper::saveController(ctrl));
     }
     return true;
 }
 
-QString loadSession(const QString& path, ContentController* ctrl)
+bool saveAudioController(const AudioController* ctrl)
 {
-
-    /*QFileInfo info(path);
-
-    auto name= QStringLiteral("%1_back.sce").arg(info.baseName());
-    auto backUpPath= QStringLiteral("%1/%2").arg(info.absolutePath()).arg(name);
-
-    QFileInfo backUp(backUpPath);
-    auto finalPath= path;
-    if(backUp.exists() && backUp.lastModified() > info.lastModified())
-    {
-        auto answer= QMessageBox::question(
-            qApp->activeWindow(), QObject::tr("Load Backup ?"),
-            QObject::tr(
-                "A backup file has been found and seem more recent than the original file. Load the back up ?"));
-        if(answer == QMessageBox::Yes)
-            finalPath= backUpPath;
-    }
-
-    name= info.baseName();
-    QFile file(finalPath);
-    if(!file.open(QIODevice::ReadOnly))
-    {
-        return {};
-    }
-    QDataStream in(&file);
-    in.setVersion(QDataStream::Qt_5_7);
-
-    in >> name;
-    auto model= ctrl->contentModel();
-
-    quint64 size;
-    in >> size;
-
-    for(quint64 i= 0; i < size; ++i)
-    {
-        QByteArray data;
-        in >> data;
-
-        auto ctrl= IOHelper::loadController(data);
-
-        model->appendMedia(ctrl);
-    }
-
-    return name;*/
+    // TODO
+    return false;
 }
 
 bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model)
 {
+    // TODO ??
     return false;
 }
 
@@ -309,17 +311,10 @@ void fetchCharacterStateModel(const QJsonArray& obj, CharacterStateModel* model)
     {
         auto state= stateRef.toObject();
         CharacterState da;
+        da.setId(state["id"].toString());
         da.setLabel(state["label"].toString());
-        // da->setIsLocal(state["local"].toBool());
         auto base64= state["image"].toString();
         da.setImagePath(base64);
-        /*if(!base64.isEmpty())
-        {
-            QByteArray array= QByteArray::fromBase64(base64.toUtf8());
-            QPixmap pix;
-            pix.loadFromData(array);
-            da.setImage(pix);
-        }*/
         QColor col;
         col.setNamedColor(state["color"].toString());
         da.setColor(col);
@@ -356,8 +351,10 @@ void fetchDiceModel(const QJsonArray& dice, DiceAliasModel* model)
     {
         auto diceCmd= obj.toObject();
 
-        DiceAlias alias(diceCmd["pattern"].toString(), diceCmd["command"].toString(), diceCmd["comment"].toString(),
-                        diceCmd["replace"].toBool(), diceCmd["enabled"].toBool());
+        DiceAlias alias(
+            diceCmd[Core::DiceAlias::k_dice_pattern].toString(), diceCmd[Core::DiceAlias::k_dice_command].toString(),
+            diceCmd[Core::DiceAlias::k_dice_comment].toString(), diceCmd[Core::DiceAlias::k_dice_replacement].toBool(),
+            diceCmd[Core::DiceAlias::k_dice_enabled].toBool());
 
         model->appendAlias(std::move(alias));
     }
@@ -389,40 +386,93 @@ void fetchNpcModel(const QJsonArray& npc, campaign::NonPlayableCharacterModel* m
         auto npcObj= obj.toObject();
 
         auto npc= IOHelper::jsonObjectToNpc(npcObj, rootDir);
-        /*auto uuid= stateJson[Core::JsonKey::JSON_NPC_ID].toString();
-        auto name= stateJson[Core::JsonKey::JSON_NPC_NAME].toString();
-        auto initcmd= stateJson[Core::JsonKey::JSON_NPC_INITCOMMAND].toString();
-        auto initvalue= stateJson[Core::JsonKey::JSON_NPC_INITVALUE].toInt();
-        auto color= QColor(stateJson[Core::JsonKey::JSON_NPC_COLOR].toString());
-        auto hp= stateJson[Core::JsonKey::JSON_NPC_HP].toInt();
-        auto hpmax= stateJson[Core::JsonKey::JSON_NPC_MAXHP].toInt();
-        auto hpmin= stateJson[Core::JsonKey::JSON_NPC_MINHP].toInt();
-        auto distancePerTurn= stateJson[Core::JsonKey::JSON_NPC_DIST_PER_TURN].toInt();
-        auto stateId= stateJson[Core::JsonKey::JSON_NPC_STATEID].toString();
-        auto lifeColor= QColor(stateJson[Core::JsonKey::JSON_NPC_LIFECOLOR].toString());
-        auto avatar= stateJson[Core::JsonKey::JSON_NPC_AVATAR].toString();
-        auto tags= stateJson[Core::JsonKey::JSON_NPC_TAGS].toArray();
-        auto tokenPath= stateJson[Core::JsonKey::JSON_NPC_TOKEN].toString();*/
-
-        // auto npc= new campaign::NonPlayableCharacter();
-
-        /*npc->setInitCommand(initcmd);
-        npc->setInitiativeScore(initvalue);
-        npc->setColor(color);
-        npc->setHealthPointsCurrent(hp);
-        npc->setHealthPointsMax(hpmax);
-        npc->setHealthPointsMin(hpmin);
-        npc->setDistancePerTurn(distancePerTurn);
-        npc->setStateId(stateId);
-        npc->setLifeColor(lifeColor);
-        npc->setAvatar(IOHelper::loadFile(QString("%1/%2").arg(rootDir, avatar)));
-        npc->setAvatarPath(avatar);
-        npc->setTags(list);
-        npc->setTokenPath(tokenPath);*/
-
         vec.push_back(npc);
     }
     model->setModelData(vec);
+}
+
+void fetchMusicModelWithTableTop(MusicModel* model)
+{
+    QString url= QStringLiteral("http://tabletopaudio.com/download.php?downld_file=%1");
+    static QStringList list({QStringLiteral("1_The_Inner_Core.mp3"),
+                             QStringLiteral("2_Bubbling_Pools.mp3"),
+                             QStringLiteral("3_The_March_of_the_Faithful.mp3"),
+                             QStringLiteral("4_Solemn_Vow-a.mp3"),
+                             QStringLiteral("5_Desert_Bazaar.mp3"),
+                             QStringLiteral("6_Abyssal_Gaze.mp3"),
+                             QStringLiteral("7_The_Desert_Awaits.mp3"),
+                             QStringLiteral("8_New_Dust_to_Dust.mp3"),
+                             QStringLiteral("9_Before_The_Storm.mp3"),
+                             QStringLiteral("10_In_The_Shadows.mp3"),
+                             QStringLiteral("11_Shelter_from_the_Storm.mp3"),
+                             QStringLiteral("12_Disembodied_Spirits.mp3"),
+                             QStringLiteral("13_Cave_of_Time.mp3"),
+                             QStringLiteral("14_Protean_Fields.mp3"),
+                             QStringLiteral("15_Alien_Machine_Shop.mp3"),
+                             QStringLiteral("16_Busy_Space_Port.mp3"),
+                             QStringLiteral("17_Alien_Night_Club.mp3"),
+                             QStringLiteral("18_House_on_the_Hill.mp3"),
+                             QStringLiteral("19_Age_of_Sail.mp3"),
+                             QStringLiteral("20_Dark_Continent_aa.mp3"),
+                             QStringLiteral("21_Derelict_Freighter.mp3"),
+                             QStringLiteral("22_True_West_a.mp3"),
+                             QStringLiteral("23_The_Slaughtered_Ox.mp3"),
+                             QStringLiteral("24_Forbidden_Galaxy.mp3"),
+                             QStringLiteral("25_Deep_Space_EVA.mp3"),
+                             QStringLiteral("26_Uncommon_Valor_a.mp3"),
+                             QStringLiteral("27_Xingu_Nights.mp3"),
+                             QStringLiteral("28_Nephilim_Labs_FE.mp3"),
+                             QStringLiteral("29_Kaltoran_Craft_FE.mp3"),
+                             QStringLiteral("30_Los_Vangeles_3030.mp3"),
+                             QStringLiteral("31_Frozen_Wastes.mp3"),
+                             QStringLiteral("32_City_and_the_City.mp3"),
+                             QStringLiteral("33_Far_Above_the_World.mp3"),
+                             QStringLiteral("34_Clash_of_Kings.mp3"),
+                             QStringLiteral("35_Swamplandia.mp3"),
+                             QStringLiteral("36_Down_by_the_Sea.mp3"),
+                             QStringLiteral("37_Catacombs.mp3"),
+                             QStringLiteral("38_Into_the_Deep.mp3"),
+                             QStringLiteral("39_Temple_of_the_Eye.mp3"),
+                             QStringLiteral("40_The_Long_Rain.mp3"),
+                             QStringLiteral("41_Starship_Bridge.mp3"),
+                             QStringLiteral("42_Rise_of_the_Ancients.mp3"),
+                             QStringLiteral("43_Dome_City_Center.mp3"),
+                             QStringLiteral("44_Victorian_London.mp3"),
+                             QStringLiteral("45_Samurai_HQ.mp3"),
+                             QStringLiteral("46_Cathedral.mp3"),
+                             QStringLiteral("47_There_be_Dragons.mp3"),
+                             QStringLiteral("48_Overland_with_Oxen.mp3"),
+                             QStringLiteral("49_Goblin's_Cave.mp3"),
+                             QStringLiteral("50_Super_Hero.mp3"),
+                             QStringLiteral("51_Woodland_Campsite.mp3"),
+                             QStringLiteral("52_Warehouse_13.mp3"),
+                             QStringLiteral("53_Strangers_on_a_Train.mp3"),
+                             QStringLiteral("54_Mountain_Tavern.mp3"),
+                             QStringLiteral("55_Ice_Cavern.mp3"),
+                             QStringLiteral("56_Medieval_Town.mp3"),
+                             QStringLiteral("57_Colosseum.mp3"),
+                             QStringLiteral("58_Terror.mp3"),
+                             QStringLiteral("59_Dinotopia.mp3"),
+                             QStringLiteral("60_Dark_and_Stormy.mp3"),
+                             QStringLiteral("61_Orbital_Platform.mp3"),
+                             QStringLiteral("62_Middle_Earth_Dawn.mp3"),
+                             QStringLiteral("63_Industrial_Shipyard.mp3"),
+                             QStringLiteral("64_Mountain_Pass.mp3"),
+                             QStringLiteral("65_Dungeon_I.mp3"),
+                             QStringLiteral("66_Royal_Salon.mp3"),
+                             QStringLiteral("67_Asylum.mp3"),
+                             QStringLiteral("68_1940s_Office.mp3"),
+                             QStringLiteral("69_Forest_Night.mp3"),
+                             QStringLiteral("70_Age_of_Steam.mp3")});
+
+    QList<QUrl> urls;
+
+    for(auto const& song : qAsConst(list))
+    {
+        urls.append(QUrl::fromUserInput(url.arg(song)));
+    }
+
+    model->addSong(urls);
 }
 
 } // namespace ModelHelper

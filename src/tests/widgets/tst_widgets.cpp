@@ -21,7 +21,6 @@
 #include <QtTest/QtTest>
 
 #include "rwidgets/customs/circledisplayer.h"
-#include "rwidgets/customs/colorselector.h"
 #include "rwidgets/customs/diameterselector.h"
 #include "rwidgets/customs/filedirchooser.h"
 #include "rwidgets/customs/realslider.h"

@@ -2,6 +2,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtTest/QtTest>
 
+#include "core/controller/view_controller/vectorialmapcontroller.h"
 #include "core/undoCmd/addvmapitem.h"
 #include "data/character.h"
 #include "data/player.h"
@@ -264,6 +265,7 @@ VisualItem* VMapTest::getItemFromId(int i)
        if(nullptr != item)
            item->setLayer(m_vmap->currentLayer());
        return item;*/
+    return nullptr;
 }
 
 void VMapTest::saveAndLoad_data()

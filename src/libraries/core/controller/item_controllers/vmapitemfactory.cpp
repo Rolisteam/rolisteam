@@ -71,6 +71,44 @@ vmap::VisualItemController* vmap::VmapItemFactory::createVMapItem(VectorialMapCo
     case Core::SelectableTool::HIGHLIGHTER:
         break;
     }
+    if(ctrl == nullptr)
+    {
+        auto it= param.find(Core::vmapkeys::KEY_ITEMTYPE);
+        if(it != param.end())
+        {
+            auto type= it->second.value<vmap::VisualItemController::ItemType>();
+            switch(type)
+            {
+            case vmap::VisualItemController::LINE:
+                ctrl= new LineController(param, mapCtrl);
+                break;
+            case vmap::VisualItemController::ELLIPSE:
+                ctrl= new vmap::EllipseController(param, mapCtrl);
+                break;
+            case vmap::VisualItemController::RECT:
+                ctrl= new vmap::RectController(param, mapCtrl);
+                break;
+            case vmap::VisualItemController::TEXT:
+                ctrl= new vmap::TextController(param, mapCtrl);
+                break;
+            case vmap::VisualItemController::CHARACTER:
+                ctrl= new vmap::CharacterItemController(param, mapCtrl);
+                break;
+            case vmap::VisualItemController::IMAGE:
+                ctrl= new vmap::ImageController(param, mapCtrl);
+                break;
+            case vmap::VisualItemController::PATH:
+                ctrl= new vmap::PathController(param, mapCtrl);
+                break;
+            case vmap::VisualItemController::HIGHLIGHTER:
+            case vmap::VisualItemController::RULE:
+            case vmap::VisualItemController::GRID:
+            case vmap::VisualItemController::ANCHOR:
+            case vmap::VisualItemController::SIGHT:
+                break;
+            }
+        }
+    }
     Q_ASSERT(ctrl != nullptr);
     return ctrl;
 }
@@ -78,7 +116,9 @@ vmap::VisualItemController* vmap::VmapItemFactory::createVMapItem(VectorialMapCo
 vmap::VisualItemController* vmap::VmapItemFactory::createRemoteVMapItem(VectorialMapController* mapCtrl,
                                                                         NetworkMessageReader* msg)
 {
+    auto restore= msg->pos();
     auto itemType= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
+    msg->resetToPos(restore);
 
     vmap::VisualItemController* ctrl= nullptr;
     switch(itemType)

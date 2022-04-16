@@ -582,74 +582,45 @@ void RGraphicsView::createAction()
 
     m_rollInitOnAllNpc= new QAction(tr("All Npcs"), this);
     m_rollInitOnAllNpc->setToolTip(tr("Roll Initiative on All Npcs"));
+    m_rollInitOnAllNpc->setData(Core::CharacterScope::AllNPC);
     connect(m_rollInitOnAllNpc, &QAction::triggered, this, &RGraphicsView::rollInit);
 
     m_rollInitOnSelection= new QAction(tr("Selection"), this);
     m_rollInitOnSelection->setToolTip(tr("Roll Initiative on Selection"));
+    m_rollInitOnSelection->setData(Core::CharacterScope::SelectionOnly);
     connect(m_rollInitOnSelection, &QAction::triggered, this, &RGraphicsView::rollInit);
 
     m_rollInitOnAllCharacter= new QAction(tr("All Characters"), this);
     m_rollInitOnAllCharacter->setToolTip(tr("Roll Initiative on All Characters"));
+    m_rollInitOnAllCharacter->setData(Core::CharacterScope::AllCharacter);
     connect(m_rollInitOnAllCharacter, &QAction::triggered, this, &RGraphicsView::rollInit);
 
     m_cleanInitOnAllNpc= new QAction(tr("All Npcs"), this);
     m_cleanInitOnAllNpc->setToolTip(tr("Clean Initiative on All Npcs"));
+    m_cleanInitOnAllNpc->setData(Core::CharacterScope::AllNPC);
     connect(m_cleanInitOnAllNpc, &QAction::triggered, this, &RGraphicsView::cleanInit);
 
     m_cleanInitOnSelection= new QAction(tr("Selection"), this);
     m_cleanInitOnSelection->setToolTip(tr("Clean Initiative on Selection"));
+    m_cleanInitOnSelection->setData(Core::CharacterScope::SelectionOnly);
     connect(m_cleanInitOnSelection, &QAction::triggered, this, &RGraphicsView::cleanInit);
 
     m_cleanInitOnAllCharacter= new QAction(tr("All Characters"), this);
     m_cleanInitOnAllCharacter->setToolTip(tr("Clean Initiative on All Characters"));
+    m_cleanInitOnAllCharacter->setData(Core::CharacterScope::AllCharacter);
     connect(m_cleanInitOnAllCharacter, &QAction::triggered, this, &RGraphicsView::cleanInit);
 }
-void RGraphicsView::showMapProperties()
-{
-    // MapWizzardDialog m_propertiesDialog;
-
-    // m_propertiesDialog.updateDataFrom(m_vmap);
-    // if(m_propertiesDialog.exec())
-    {
-        // m_propertiesDialog.setAllMap(m_vmap);
-
-        // sendOffMapChange();
-    }
-}
+void RGraphicsView::showMapProperties() {}
 
 void RGraphicsView::rollInit()
 {
-    Core::CharacterScope apply;
-    if(sender() == m_rollInitOnAllNpc)
-    {
-        apply= Core::AllNPC;
-    }
-    else if(sender() == m_rollInitOnAllCharacter)
-    {
-        apply= Core::AllCharacter;
-    }
-    else
-    {
-        apply= Core::SelectionOnly;
-    }
-    //  m_vmap->rollInit(apply);
+    auto act= qobject_cast<QAction*>(sender());
+    m_ctrl->rollInit(act->data().value<Core::CharacterScope>());
 }
 void RGraphicsView::cleanInit()
 {
-    Core::CharacterScope apply;
-    if(sender() == m_cleanInitOnAllNpc)
-    {
-        apply= Core::AllNPC;
-    }
-    else if(sender() == m_cleanInitOnAllCharacter)
-    {
-        apply= Core::AllCharacter;
-    }
-    else
-    {
-        apply= Core::SelectionOnly;
-    }
-    // m_vmap->cleanUpInit(apply);
+    auto act= qobject_cast<QAction*>(sender());
+    m_ctrl->cleanUpInit(act->data().value<Core::CharacterScope>());
 }
 
 void RGraphicsView::changeLayer()

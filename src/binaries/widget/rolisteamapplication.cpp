@@ -27,8 +27,8 @@
 
 #include "controller/networkcontroller.h"
 
-RolisteamApplication::RolisteamApplication(int& argn, char* argv[])
-    : QApplication(argn, argv), m_game(GameController(clipboard()))
+RolisteamApplication::RolisteamApplication(const QString& appName, const QString& version, int& argn, char* argv[])
+    : QApplication(argn, argv), m_game(GameController(appName, version, clipboard()))
 {
     setAttribute(Qt::AA_DontUseNativeMenuBar, true);
     connect(&m_game, &GameController::closingApp, this, [this]() { setState(ApplicationState::Exit); });
@@ -37,18 +37,11 @@ RolisteamApplication::RolisteamApplication(int& argn, char* argv[])
     });
 
     QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
-    QString appName("rolisteam");
 
     setApplicationName(appName);
     setOrganizationName(appName);
-    QString version= QObject::tr("Unknown");
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
-#endif
+    setWindowIcon(QIcon::fromTheme("500-symbole"));
+
     setApplicationVersion(version);
     readSettings();
 }

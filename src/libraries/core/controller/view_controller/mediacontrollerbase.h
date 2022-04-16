@@ -22,6 +22,7 @@
 
 #include <QMimeData>
 #include <QObject>
+#include <QUrl>
 #include <memory>
 
 #include "core/media/mediatype.h"
@@ -33,7 +34,7 @@ class MediaControllerBase : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString uuid READ uuid NOTIFY uuidChanged)
-    Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
+    Q_PROPERTY(QUrl url READ url WRITE setUrl NOTIFY urlChanged)
     Q_PROPERTY(Core::ContentType contentType READ contentType CONSTANT)
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(bool modified READ modified WRITE setModified NOTIFY modifiedChanged)
@@ -47,7 +48,7 @@ public:
 
     QString name() const;
     QString uuid() const;
-    QString path() const;
+    QUrl url() const;
     Core::ContentType contentType() const;
     virtual QString title() const;
     bool isActive() const;
@@ -73,7 +74,7 @@ signals:
     void ownerIdChanged(QString id);
     void localIdChanged(QString id);
     void modifiedChanged(bool b);
-    void pathChanged(QString path);
+    void urlChanged(QUrl path);
     void closeMe(QString id);
 
 public slots:
@@ -84,19 +85,19 @@ public slots:
     void setUuid(const QString& uuid);
     void setOwnerId(const QString& id);
     void setLocalId(const QString& id);
-    void setModified(bool b);
+    void setModified(bool b= true);
     void askToClose();
-    void setPath(const QString& path);
+    void setUrl(const QUrl& path);
     void setRemote(bool remote);
 
 protected:
     QString m_uuid;
     QString m_name;
-    QString m_path;
+    QUrl m_url;
     Core::ContentType m_type;
     bool m_active= false;
     bool m_localGM= false;
-    bool m_modified= true;
+    bool m_modified= false;
     bool m_remote= false;
     QString m_ownerId;
     QString m_localId;

@@ -14,7 +14,8 @@
    <string>InstantMessaging</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="chatIcon"/>
+   <iconset theme="chaticon">
+    <normaloff>.</normaloff>.</iconset>
   </property>
  </widget>
  <resources/>

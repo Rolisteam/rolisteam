@@ -45,11 +45,16 @@ RectItem::RectItem(vmap::RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ct
     }
 
     updateChildPosition();
+
+    {
+        setTransformOriginPoint(m_ctrl->rotationOriginPoint());
+        setRotation(m_ctrl->rotation());
+    }
 }
 
 QRectF RectItem::boundingRect() const
 {
-    return m_rectCtrl->rect();
+    return m_rectCtrl ? m_rectCtrl->rect() : QRectF();
 }
 QPainterPath RectItem::shape() const
 {
@@ -112,101 +117,6 @@ void RectItem::setNewEnd(const QPointF& p)
     m_ctrl->setCorner(p, 2);
 }
 
-void RectItem::writeData(QDataStream& out) const
-{
-    /*out << m_rect;
-    out << m_rectCtrl->filled();
-    out << m_color;
-    out << m_id;
-    out << m_penWidth;
-    out << opacity();
-    out << m_initialized;
-    out << scale();
-    out << rotation();
-    out << pos();
-    // out << zValue();
-    out << static_cast<int>(m_layer);*/
-}
-
-void RectItem::readData(QDataStream& in)
-{
-    /* in >> m_rect;
-     in >> m_filled;
-     in >> m_color;
-     in >> m_id;
-     in >> m_penWidth;
-     qreal opa= 0;
-     in >> opa;
-     setOpacity(opa);
-     in >> m_initialized;
-     qreal scale;
-     in >> scale;
-     setScale(scale);
-
-     qreal rotation;
-     in >> rotation;
-     setRotation(rotation);
-
-     QPointF p;
-     in >> p;
-     setPos(p);
-
-     int i;
-     in >> i;
-     m_layer= static_cast<Core::Layer>(i);*/
-}
-void RectItem::fillMessage(NetworkMessageWriter* msg)
-{
-    /* msg->string16(m_id);
-
-     // rect
-     msg->real(m_rect.x());
-     msg->real(m_rect.y());
-     msg->real(m_rect.width());
-     msg->real(m_rect.height());
-
-     msg->uint8((int)m_layer);
-     msg->real(zValue());
-     msg->real(opacity());
-
-     // pos
-     msg->real(pos().x());
-     msg->real(pos().y());
-
-     // others
-     msg->int8(m_filled);
-     msg->rgb(m_color.rgb());
-     msg->uint16(m_penWidth);
-
-     msg->real(scale());
-     msg->real(rotation());*/
-}
-void RectItem::readItem(NetworkMessageReader* msg)
-{
-    /* m_id= msg->string16();
-     // rect
-     m_rect.setX(msg->real());
-     m_rect.setY(msg->real());
-     m_rect.setWidth(msg->real());
-     m_rect.setHeight(msg->real());
-
-     m_layer= static_cast<Core::Layer>(msg->uint8());
-     setZValue(msg->real());
-     setOpacity(msg->real());
-
-     // pos
-     qreal x= msg->real();
-     qreal y= msg->real();
-     setPos(x, y);
-
-     m_filled= msg->int8();
-     m_color= msg->rgb();
-     m_penWidth= msg->uint16();
-
-     // setTransformOriginPoint(m_rect.center());
-     setScale(msg->real());
-     setRotation(msg->real());*/
-}
 void RectItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
     /*auto rect= m_rectCtrl->rect();
@@ -256,6 +166,11 @@ void RectItem::updateChildPosition()
     m_children.value(2)->setPlacement(ChildPointItem::ButtomRight);
     m_children.value(3)->setPos(rect.bottomLeft());
     m_children.value(3)->setPlacement(ChildPointItem::ButtomLeft);
+
+    if(!m_ctrl->localIsGM())
+    {
+        setTransformOriginPoint(m_rectCtrl->rect().center());
+    }
 
     update();
 }

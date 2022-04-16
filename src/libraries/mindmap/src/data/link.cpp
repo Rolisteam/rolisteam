@@ -36,7 +36,10 @@ Link::Link(QObject* parent) : QObject(parent), m_uuid(QUuid::createUuid().toStri
 
 void Link::setDirection(const Core::ArrowDirection& direction)
 {
+    if(direction == m_dir)
+        return;
     m_dir= direction;
+    emit directionChanged();
 }
 
 Core::ArrowDirection Link::direction() const
@@ -61,8 +64,14 @@ QString Link::p2Id() const
 
 void Link::setStart(MindNode* start)
 {
+    if(start == m_start)
+        return;
+    if(m_start)
+        disconnect(m_start, 0, this, 0);
     m_start= start;
-    connect(m_start, &MindNode::positionChanged, this, &Link::linkChanged);
+    emit startPointChanged();
+
+    connect(m_start, &MindNode::positionChanged, this, [this]() { emit startPositionChanged(); });
 }
 
 MindNode* Link::endNode() const
@@ -86,8 +95,14 @@ QPointF Link::startPoint() const
 
 void Link::setEnd(MindNode* end)
 {
+    if(end == m_end)
+        return;
+    if(m_end)
+        disconnect(m_end, 0, this, 0);
     m_end= end;
-    connect(m_end, &MindNode::positionChanged, this, &Link::linkChanged);
+    emit endPointChanged();
+
+    connect(m_end, &MindNode::positionChanged, this, [this]() { emit endPositionChanged(); });
 }
 
 QPointF Link::computePoint(bool p1) const

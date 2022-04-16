@@ -57,6 +57,7 @@ public:
     void dateTime(const QDateTime& time);
 
     void byteArray32(const QByteArray& data);
+    size_t currentPos() const;
 
 #ifdef QT_GUI_LIB
     bool pixmap(const QPixmap& pix);
@@ -79,12 +80,7 @@ public:
     void setRecipientList(QStringList, NetworkMessage::RecipientMode mode);
     virtual QStringList getRecipientList() const override;
     NetworkMessage::RecipientMode getRecipientMode() const override;
-
-    /**
-     * @brief getData - for testing only
-     * @return  data as QByteArray
-     */
-    QByteArray getData();
+    QByteArray data() const;
 
 protected:
     NetworkMessageHeader* buffer() const override;

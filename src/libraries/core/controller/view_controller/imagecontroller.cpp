@@ -24,22 +24,22 @@
 #include <QFile>
 #include <QMovie>
 
-QByteArray readImage(const QString& path)
-{
-    QFile file(path);
-    if(!file.open(QIODevice::ReadOnly))
-        return {};
-    return file.readAll();
-}
+#include "worker/iohelper.h"
 
-ImageController::ImageController(const QString& id, const QString& name, const QString& path, const QByteArray& data,
+constexpr char const* RESOURCE_SCHEME{"qrc"};
+ImageController::ImageController(const QString& id, const QString& name, const QUrl& url, const QByteArray& data,
                                  QObject* parent)
     : MediaControllerBase(id, Core::ContentType::PICTURE, parent), m_data(data)
 {
     setName(name);
-    setPath(path);
-    if(m_data.isEmpty() && !path.isEmpty())
-        m_data= readImage(path);
+    setUrl(url);
+    if(m_data.isEmpty() && !url.isEmpty() && (url.isLocalFile() || url.scheme() == RESOURCE_SCHEME))
+    {
+        QString path
+            = url.isLocalFile() ? url.toLocalFile() : QString(":%1").arg(url.toDisplayString(QUrl::RemoveScheme));
+
+        m_data= IOHelper::loadFile(path);
+    }
     checkMovie();
 }
 
@@ -84,11 +84,15 @@ ImageController::Status ImageController::status() const
 
 qreal ImageController::ratioV() const
 {
+    if(m_image.isNull())
+        return 0;
     return static_cast<qreal>(m_image.size().width()) / m_image.size().height();
 }
 
 qreal ImageController::ratioH() const
 {
+    if(m_image.isNull())
+        return 0;
     return static_cast<qreal>(m_image.size().height()) / m_image.size().width();
 }
 

@@ -20,6 +20,7 @@
 #ifndef IOHELPER_H
 #define IOHELPER_H
 
+#include "core/media/mediatype.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMimeData>
@@ -27,8 +28,6 @@
 #include <QVariant>
 #include <map>
 
-class VMap;
-class VectorialMapController;
 class MediaControllerBase;
 class ImageController;
 class WebpageController;
@@ -44,6 +43,7 @@ class DiceAlias;
 class CharacterState;
 class RolisteamTheme;
 class GenericModel;
+class AudioPlayerController;
 
 namespace campaign
 {
@@ -55,26 +55,26 @@ class IOHelper
 public:
     IOHelper();
 
+    // file API
     static QByteArray loadFile(const QString& file);
     static void writeFile(const QString& path, const QByteArray& arry, bool override= true);
-    static void moveFile(const QString& source, const QString& destination);
-    static void removeFile(const QString& soursce);
+    static bool moveFile(const QString& source, const QString& destination);
+    static bool removeFile(const QString& soursce);
+    static bool moveFilesToDirectory(const QString& files, const QString& dest);
     static QString copyFile(const QString& source, const QString& destination);
     static bool makeDir(const QString& dir);
     static QString shortNameFromPath(const QString& path);
+    static QString shortNameFromUrl(const QUrl& url);
     static QString absoluteToRelative(const QString& absolute, const QString& root);
-
     static QString readTextFile(const QString& file);
 
-    // TOKEN
-    /*static QJsonObject characterToToken(const campaign::NonPlayableCharacter* character, const QString& destination,
-                                        const QMap<QString, QVariant>& map);
-    static bool loadToken(campaign::NonPlayableCharacter* character, const QString& root,
-                          std::map<QString, QVariant>& params);*/
+    // Import data from campaign
+    static bool mergePlayList(const QString& source, const QString& dest);
+    static bool copyArrayModelAndFile(const QString& source, const QString& sourceDir, const QString& dest,
+                                      const QString& destDir);
+    static QStringList mediaList(const QString& source, Core::MediaType type);
 
-    static QByteArray saveController(MediaControllerBase* media);
-    static MediaControllerBase* loadController(const QByteArray& data);
-
+    // json to file
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonObject textByteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
@@ -83,22 +83,25 @@ public:
     static QJsonObject loadJsonFileIntoObject(const QString& filename, bool& ok);
     static void writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array);
     static void writeJsonObjectIntoFile(const QString& destination, const QJsonObject& obj);
-
+    static void saveMediaBaseIntoJSon(MediaControllerBase* base, QJsonObject& obj);
     static QJsonArray fetchLanguageModel();
 
     static const QMimeData* clipboardMineData();
-    static void saveMediaBaseIntoJSon(MediaControllerBase* base, QJsonObject& obj);
 
-    static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
+    // image to file
     static QByteArray pixmapToData(const QPixmap& pix);
     static QByteArray imageToData(const QImage& pix);
     static QPixmap dataToPixmap(const QByteArray& data);
     static QImage dataToImage(const QByteArray& data);
     static QPixmap readPixmapFromURL(const QUrl& url);
     static QPixmap readPixmapFromFile(const QString& url);
+    static QImage readImageFromURL(const QUrl& url);
+    static QImage readImageFromFile(const QString& url);
     static QString htmlToTitle(const QMimeData& data, const QString& defaultName);
 
     // Controller Generic method
+    static QByteArray saveController(MediaControllerBase* media);
+    static MediaControllerBase* loadController(const QByteArray& data);
     static void saveBase(MediaControllerBase* base, QDataStream& output);
     static void readBase(MediaControllerBase* base, QDataStream& input);
     static void readBaseFromJson(MediaControllerBase* base, QJsonObject& data);
@@ -115,8 +118,6 @@ public:
     // dice alias
     static QJsonObject diceAliasToJSonObject(DiceAlias* alias);
 
-    // channel model
-
     // states
     static QJsonObject stateToJSonObject(CharacterState* state, const QString& root);
 
@@ -127,6 +128,16 @@ public:
     // read theme file
     static RolisteamTheme* jsonToTheme(const QJsonObject& json);
     static QJsonObject themeToObject(const RolisteamTheme* theme);
+
+    // audio
+    static QUrl findSong(const QString& name, QStringList list);
+    static QList<QUrl> readM3uPlayList(const QString& filepath);
+    static void writePlaylist(const QString& path, const QList<QUrl>& url);
+    static QJsonObject saveAudioPlayerController(AudioPlayerController* controller);
+    static void fetchAudioPlayerController(AudioPlayerController* controller, const QJsonObject& obj);
+
+    // charactersheet
+    static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
 };
 
 #endif // IOHELPER_H

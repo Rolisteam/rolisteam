@@ -25,6 +25,7 @@
 #include <QString>
 #include <memory>
 
+#include "core/worker/iohelper.h"
 #include "core/worker/utilshelper.h"
 
 class WorkerTest : public QObject
@@ -39,6 +40,9 @@ private slots:
     void cleanupTestCase();
     void helperUtilsTest();
     void helperUtilsTest_data();
+
+    void imageIsSquare();
+    void imageIsSquare_data();
 };
 
 WorkerTest::WorkerTest() {}
@@ -51,33 +55,11 @@ void WorkerTest::helperUtilsTest()
 {
     QFETCH(QRect, rect);
     QFETCH(qreal, ratio);
-    static int i= 0;
 
     auto newRect= helper::utils::computerBiggerRectInside(rect, ratio);
 
     QVERIFY(newRect.width() <= rect.width());
     QVERIFY(newRect.height() <= rect.height());
-
-    // if(!qFuzzyCompare(static_cast<qreal>(newRect.width()) / newRect.height(), ratio))
-    {
-        // qDebug() << rect << ratio << newRect << (newRect.width() / newRect.height());
-
-        QImage image(rect.width(), rect.height(), QImage::Format_Mono);
-        image.fill(1);
-
-        QPainter painter(&image);
-        newRect.setX(rect.width() / 2 - newRect.width() / 2);
-        newRect.setY(rect.height() / 2 - newRect.height() / 2);
-        auto pen= painter.pen();
-        pen.setColor(Qt::black);
-        pen.setWidth(1);
-        painter.setPen(pen);
-        painter.drawRect(newRect);
-
-        painter.end();
-
-        image.save(QString("fileName_%1.jpg").arg(i++, 5, 10, QChar('0')), "jpg");
-    }
 
     QVERIFY(qFuzzyCompare(static_cast<qreal>(newRect.width()) / newRect.height(), ratio));
 }
@@ -105,6 +87,21 @@ void WorkerTest::helperUtilsTest_data()
             }
         }
     }
+}
+
+void WorkerTest::imageIsSquare()
+{
+    QFETCH(QByteArray, image);
+    QFETCH(bool, expected);
+    QCOMPARE(helper::utils::isSquareImage(image), expected);
+}
+void WorkerTest::imageIsSquare_data()
+{
+    QTest::addColumn<QByteArray>("image");
+    QTest::addColumn<bool>("expected");
+
+    QTest::addRow("cmd1") << IOHelper::imageToData(IOHelper::readImageFromFile(":/img/arbre_500.jpg")) << false;
+    QTest::addRow("cmd2") << IOHelper::imageToData(IOHelper::readImageFromFile(":/img/arbre_square_500.jpg")) << true;
 }
 
 QTEST_MAIN(WorkerTest);

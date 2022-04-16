@@ -42,19 +42,16 @@ class PreferencesListener;
  * @brief Store options and manage access to their value.
  * Save/load values in/from QSetting instance.
  */
-class PreferencesManager
+class PreferencesManager : public QObject
 {
+    Q_OBJECT
 public:
     /**
      * @brief Private constructor to make sure there is only one instance of this.
      */
-    PreferencesManager();
-    /**
-     * @brief Must be called instead of the constructor.
-     *
-     * @return instance of PreferencesManager
-     */
-    static PreferencesManager* getInstance();
+    PreferencesManager(const QString& applicationName, const QString& subname);
+
+    [[deprecated]] static PreferencesManager* getInstance();
 
     /**
      * @brief  desturctor
@@ -69,7 +66,7 @@ public:
      * @param overwrite replace or not the value associated to the key if there is already stored.
      * @return whether or not the insertion was successfully done
      */
-    bool registerValue(QString key, QVariant value, bool overwrite= true);
+    bool registerValue(const QString& key, QVariant value, bool overwrite= true);
 
     /**
      * @brief accessor to the map
@@ -79,16 +76,8 @@ public:
      * @return const reference to the value
      */
     const QVariant value(const QString& key, const QVariant& defaultValue);
-
-    /**
-     * Load informations from the previous rolisteam's execution
-     */
-    void readSettings(const QString& version);
-
-    /**
-     * Save parameters for next executions.
-     */
-    void writeSettings(const QString& version);
+    void readSettings();
+    void writeSettings();
     /**
      * @brief registerListener
      */
@@ -101,6 +90,9 @@ private:
      */
     void notifyListener(const QString& key, const QVariant& value);
     void notifyAllListener();
+
+signals:
+    void dataChanged(const QString& key, const QVariant& value);
 
 private:
     /**
@@ -121,6 +113,8 @@ private:
      * @brief m_lambdaMap
      */
     std::map<QString, std::function<void(QVariant)>> m_lambdaMap;
+    QString m_applicationName;
+    QString m_subname;
 };
 
 #endif // PREFERENCESMANAGER_H

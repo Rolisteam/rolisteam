@@ -55,24 +55,6 @@ public:
      * @brief gives the bounding rect of the ellipse
      */
     virtual QRectF boundingRect() const override;
-    /**
-     * @brief serialisation writing
-     */
-    virtual void writeData(QDataStream& out) const override;
-    /**
-     * @brief serialisation reading
-     */
-    virtual void readData(QDataStream& in) override;
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    virtual void fillMessage(NetworkMessageWriter* msg) override;
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    virtual void readItem(NetworkMessageReader* msg) override;
     void setGeometryPoint(qreal pointId, QPointF& pos) override;
     virtual void initChildPointItem() override;
     virtual VisualItem* getItemCopy() override;

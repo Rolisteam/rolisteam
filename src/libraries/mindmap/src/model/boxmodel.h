@@ -81,8 +81,8 @@ signals:
     void defaultStyleIndexChanged();
     void nodeHeightChanged();
     void nodeWidthChanged();
-    void nodeAdded(QList<MindNode*> nodes);
-    void nodeRemoved(const QStringList& id);
+    // void nodeAdded(QList<MindNode*> nodes);
+    // void nodeRemoved(const QStringList& id);
 
 public slots:
     // Add data:

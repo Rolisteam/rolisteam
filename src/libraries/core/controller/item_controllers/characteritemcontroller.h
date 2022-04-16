@@ -46,6 +46,7 @@ struct CharacterVisionData
 class CharacterItemController : public VisualItemController
 {
     Q_OBJECT
+    Q_PROPERTY(Character* character READ character CONSTANT)
     Q_PROPERTY(qreal side READ side WRITE setSide NOTIFY sideChanged)
     Q_PROPERTY(QColor stateColor READ stateColor WRITE setStateColor NOTIFY stateColorChanged)
     Q_PROPERTY(QString stateId READ stateId WRITE setStateId NOTIFY stateIdChanged)

@@ -155,10 +155,7 @@ enum Action
     CharactereStateModel,
 
     // Vmap
-    addVmap= 0,
-    loadVmap,
-    closeVmap,
-    AddItem,
+    AddItem= 0,
     DeleteItem,
     UpdateItem,
     AddPoint,

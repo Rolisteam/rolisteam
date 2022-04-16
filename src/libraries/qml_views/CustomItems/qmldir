@@ -2,3 +2,6 @@ module CustomItems
 
 PermissionFrame 1.0 PermissionFrame.qml
 PermissionSlider 1.0 PermissionSlider.qml
+RequiredTextField 1.0 RequiredTextField.qml
+PersonEdit 1.0 PersonEdit.qml
+ColorPicker 1.0 ColorPicker.qml

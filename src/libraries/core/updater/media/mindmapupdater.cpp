@@ -32,8 +32,8 @@
 
 #include <QDebug>
 
-MindMapUpdater::MindMapUpdater(FilteredContentModel* model, QObject* parent)
-    : MediaUpdaterInterface(parent), m_mindmaps(model)
+MindMapUpdater::MindMapUpdater(FilteredContentModel* model, campaign::CampaignManager* manager, QObject* parent)
+    : MediaUpdaterInterface(manager, parent), m_mindmaps(model)
 {
     ReceiveEvent::registerNetworkReceiver(NetMsg::MindMapCategory, this);
 }
@@ -75,6 +75,19 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
                 MessageHelper::sendOffMindmapPermissionUpdateTo(perm, ctrl, id);
             });
 
+    connect(ctrl, &MindMapController::modifiedChanged, this, [this, ctrl]() {
+        qDebug() << "is modified changed" << ctrl->modified();
+        if(ctrl->modified())
+        {
+            saveMediaController(ctrl);
+        }
+    });
+
+    qDebug() << "is modified changed" << ctrl->modified();
+    if(ctrl->modified())
+    {
+        saveMediaController(ctrl);
+    }
     setConnection(ctrl);
 }
 

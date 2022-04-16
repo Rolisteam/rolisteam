@@ -37,7 +37,7 @@ class CampaignDock;
 
 namespace campaign
 {
-class Campaign;
+class CampaignEditor;
 /**
  * @brief SessionManager is a dockwidget which displays all loaded resources in the current session. It provides
  * shortcut to open them. It is part of the MVC architecture. It manages the view and the model.
@@ -46,14 +46,14 @@ class CampaignDock : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit CampaignDock(Campaign* campaign, QWidget* parent= nullptr);
+    explicit CampaignDock(CampaignEditor* campaign, QWidget* parent= nullptr);
     virtual ~CampaignDock();
 
 public slots:
-    void setCampaign(Campaign* campaign);
+    void setCampaign(CampaignEditor* campaign);
 signals:
     void campaignChanged();
-    void openResource(const QString& path, Core::ContentType type);
+    void openResource(const QString& id, const QString& path, Core::ContentType type);
     void removeFile(const QString& path);
 
 protected:
@@ -61,7 +61,7 @@ protected:
 
 private:
     Ui::CampaignDock* m_ui;
-    QPointer<Campaign> m_campaign;
+    QPointer<CampaignEditor> m_campaignEditor;
     std::unique_ptr<MediaModel> m_model;
     std::unique_ptr<MediaFilteredModel> m_filteredModel;
 };

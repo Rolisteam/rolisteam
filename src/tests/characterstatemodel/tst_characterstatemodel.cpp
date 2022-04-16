@@ -247,7 +247,7 @@ void TestCharacterStateModel::networkTest()
     msg.string32(state.label());
     msg.rgb(state.color().rgb());
     msg.pixmap(state.pixmap());
-    auto data= msg.getData();
+    auto data= msg.data();
     NetworkMessageReader msgReader;
     msgReader.setData(data);
 

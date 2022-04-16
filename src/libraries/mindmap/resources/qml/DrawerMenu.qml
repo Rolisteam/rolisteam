@@ -13,11 +13,23 @@ Drawer {
     ColumnLayout {
         anchors.fill: parent
 
+        RowLayout {
+            Layout.fillWidth: true
+            Label {
+                text: qsTr("Name")
+            }
+            TextField {
+                text: ctrl.name
+                onEditingFinished: ctrl.name = text
+                Layout.fillWidth: true
+            }
+        }
         Switch {
             id: nightMode
             text: qsTr("Night Mode")
             checked: false
         }
+
         RowLayout {
             Layout.fillWidth: true
             Label {

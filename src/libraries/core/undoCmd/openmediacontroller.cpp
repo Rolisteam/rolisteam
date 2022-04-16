@@ -29,15 +29,16 @@
 
 OpenMediaController::OpenMediaController(ContentModel* contentModel, Core::ContentType type,
                                          const std::map<QString, QVariant>& args, bool localIsGM, QUndoCommand* parent)
-    : QUndoCommand(parent)
-    , m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
-    , m_model(contentModel)
-    , m_type(type)
-    , m_args(args)
-    , m_localIsGM(localIsGM)
+    : QUndoCommand(parent), m_model(contentModel), m_type(type), m_args(args), m_localIsGM(localIsGM)
 {
 
-    auto it= args.find("name");
+    auto it= args.find(Core::keys::KEY_UUID);
+    if(it != args.end())
+        m_uuid= it->second.toString();
+    else
+        m_uuid= QUuid::createUuid().toString(QUuid::WithoutBraces);
+
+    it= args.find(Core::keys::KEY_NAME);
     if(it != args.end())
         setText(QObject::tr("Open %1").arg(it->second.toString()));
 }

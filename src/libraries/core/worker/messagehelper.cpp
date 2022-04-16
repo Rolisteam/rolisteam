@@ -95,7 +95,7 @@ void MessageHelper::sendOffAllDiceAlias(DiceAliasModel* model)
     auto const& aliases= model->aliases();
     int i= 0;
     NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::DiceAliasModel);
-    msg.uint32(static_cast<quint32>(i));
+    msg.uint32(static_cast<quint32>(aliases.size()));
     for(auto const& alias : aliases)
     {
         msg.int64(i);
@@ -233,7 +233,7 @@ QHash<QString, QVariant> MessageHelper::readImageData(NetworkMessageReader* msg)
 {
     auto hash= readMediaData(msg);
     auto data= msg->byteArray32();
-    hash.insert("data", data);
+    hash.insert(Core::keys::KEY_DATA, data);
     return hash;
 }
 
@@ -248,11 +248,11 @@ void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* player
 
     auto property= data.string8();
     QVariant var;
-    if(property.contains("color"))
+    if(property.contains(Core::keys::KEY_COLOR))
     {
         var= QVariant::fromValue(QColor(data.rgb()));
     }
-    else if(property.contains("avatar"))
+    else if(property.contains(Core::keys::KEY_AVATAR))
     {
         auto array= data.byteArray32();
         QDataStream out(&array, QIODevice::ReadOnly);
@@ -261,7 +261,7 @@ void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* player
         out >> img;
         var= QVariant::fromValue(img);
     }
-    else if(property.contains(QStringLiteral("state")))
+    else if(property.contains(Core::keys::KEY_STATE))
     {
         auto label= data.string32();
         auto state= Character::getStateFromLabel(label);
@@ -343,13 +343,13 @@ QHash<QString, QVariant> MessageHelper::readCharacterSheet(NetworkMessageReader*
     auto imageData= msg->byteArray32();
     auto rootSection= msg->byteArray32();
 
-    hash.insert("id", id);
-    hash.insert("name", name);
-    hash.insert("characterId", characterId);
-    hash.insert("data", data);
-    hash.insert("qml", qml);
-    hash.insert("imageData", imageData);
-    hash.insert("rootSection", rootSection);
+    hash.insert(Core::keys::KEY_ID, id);
+    hash.insert(Core::keys::KEY_NAME, name);
+    hash.insert(Core::keys::KEY_CHARACTERID, characterId);
+    hash.insert(Core::keys::KEY_DATA, data);
+    hash.insert(Core::keys::KEY_QML, qml);
+    hash.insert(Core::keys::KEY_IMAGEDATA, imageData);
+    hash.insert(Core::keys::KEY_ROOTSECTION, rootSection);
 
     return hash;
 }
@@ -576,8 +576,8 @@ QHash<QString, QVariant> MessageHelper::readSharedNoteData(NetworkMessageReader*
     auto mkH= static_cast<bool>(msg->uint8());
     auto text= msg->string32();
 
-    hash.insert("markdown", mkH);
-    hash.insert("text", text);
+    hash.insert(Core::vmapkeys::KEY_MARKDOWN, mkH);
+    hash.insert(Core::vmapkeys::KEY_TEXT, text);
 
     return hash;
 }
@@ -594,9 +594,9 @@ QHash<QString, QVariant> MessageHelper::readWebPageData(NetworkMessageReader* ms
     auto mode= msg->uint8();
     auto data= msg->string32();
 
-    hash.insert("mode", mode);
-    hash.insert("data", data);
-    hash.insert("state", static_cast<int>(WebpageController::RemoteView));
+    hash.insert(Core::keys::KEY_MODE, mode);
+    hash.insert(Core::keys::KEY_DATA, data);
+    hash.insert(Core::keys::KEY_STATE, static_cast<int>(WebpageController::RemoteView));
 
     return hash;
 }
@@ -614,7 +614,7 @@ void MessageHelper::shareWebpage(WebpageController* ctrl)
     if(mode == WebpageController::Html)
         msg.string32(ctrl->html());
     else if(mode == WebpageController::Url)
-        msg.string32(ctrl->path());
+        msg.string32(ctrl->url().toString());
     msg.sendToServer();
 }
 
@@ -633,7 +633,7 @@ void MessageHelper::updateWebpage(WebpageController* ctrl)
     if(mode == WebpageController::Html)
         msg.string32(ctrl->html());
     else if(mode == WebpageController::Url)
-        msg.string32(ctrl->path());
+        msg.string32(ctrl->url().toString());
 
     msg.sendToServer();
 }
@@ -650,7 +650,7 @@ void MessageHelper::readUpdateWebpage(WebpageController* ctrl, NetworkMessageRea
     if(mode == WebpageController::Html)
         ctrl->setHtml(data);
     else if(mode == WebpageController::Url)
-        ctrl->setPath(data);
+        ctrl->setUrl(QUrl::fromUserInput(data));
 }
 // end - Webpage
 
@@ -675,7 +675,7 @@ QHash<QString, QVariant> MessageHelper::readPdfData(NetworkMessageReader* msg)
     auto id= msg->string8();
     auto data= msg->byteArray32();
 
-    return QHash<QString, QVariant>({{"id", id}, {"data", data}});
+    return QHash<QString, QVariant>({{Core::keys::KEY_ID, id}, {Core::keys::KEY_DATA, data}});
 }
 #endif
 void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
@@ -709,16 +709,16 @@ const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader*
     auto rgb= QColor(msg->rgb());
     auto locked= msg->uint8();
 
-    return std::map<QString, QVariant>({{"visible", visible},
-                                        {"initialized", initialized},
-                                        {"opacity", opacity},
-                                        {"rotation", rotation},
-                                        {"layer", layer},
-                                        {"position", pos},
-                                        {"itemtype", itemtype},
-                                        {"uuid", uuid},
-                                        {"color", rgb},
-                                        {"locked", locked}});
+    return std::map<QString, QVariant>({{Core::vmapkeys::KEY_VISIBLE, visible},
+                                        {Core::vmapkeys::KEY_INITIALIZED, initialized},
+                                        {Core::vmapkeys::KEY_OPACITY, opacity},
+                                        {Core::vmapkeys::KEY_ROTATION, rotation},
+                                        {Core::vmapkeys::KEY_LAYER, layer},
+                                        {Core::vmapkeys::KEY_POS, pos},
+                                        {Core::vmapkeys::KEY_ITEMTYPE, itemtype},
+                                        {Core::vmapkeys::KEY_UUID, uuid},
+                                        {Core::vmapkeys::KEY_COLOR, rgb},
+                                        {Core::vmapkeys::KEY_LOCKED, locked}});
 }
 
 QHash<QString, QVariant> readSightController(NetworkMessageReader* msg)
@@ -736,9 +736,9 @@ QHash<QString, QVariant> readSightController(NetworkMessageReader* msg)
     hash["posx"]= msg->real();
     hash["posy"]= msg->real();
 
-    hash["count"]= msg->uint64();
-
     auto count= msg->uint64();
+    hash["count"]= count;
+
     for(quint64 i= 0; i < count; ++i)
     {
         auto pointsCount= msg->uint64();
@@ -773,7 +773,7 @@ void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
     // msg.real(ctrl->zValue());
     auto singularity= ctrl->singularityList();
     msg.uint64(static_cast<quint64>(singularity.size()));
-    for(auto pair : singularity)
+    for(auto const& pair : qAsConst(singularity))
     {
         auto points= pair.first;
         msg.uint64(static_cast<quint64>(points.size()));
@@ -807,9 +807,9 @@ const std::map<QString, QVariant> MessageHelper::readRect(NetworkMessageReader* 
     auto y= msg->real();
     auto w= msg->real();
     auto h= msg->real();
-    hash.insert({"filled", filled});
-    hash.insert({"penWidth", penWidth});
-    hash.insert({"rect", QRectF(x, y, w, h)});
+    hash.insert({Core::vmapkeys::KEY_FILLED, filled});
+    hash.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
+    hash.insert({Core::vmapkeys::KEY_RECT, QRectF(x, y, w, h)});
     return hash;
 }
 
@@ -848,9 +848,9 @@ const std::map<QString, QVariant> MessageHelper::readLine(NetworkMessageReader* 
 
     auto x2= msg->real();
     auto y2= msg->real();
-    hash.insert({"endPoint", QPointF(x1, y1)});
-    hash.insert({"startPoint", QPointF(x2, y2)});
-    hash.insert({"penWidth", penWidth});
+    hash.insert({Core::vmapkeys::KEY_ENDPOINT, QPointF(x1, y1)});
+    hash.insert({Core::vmapkeys::KEY_STARTPOINT, QPointF(x2, y2)});
+    hash.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
     return hash;
 }
 
@@ -877,9 +877,9 @@ const std::map<QString, QVariant> MessageHelper::readImage(NetworkMessageReader*
     auto y= msg->real();
     auto w= msg->real();
     auto h= msg->real();
-    hash.insert({"ratio", ratio});
-    hash.insert({"data", data});
-    hash.insert({"rect", QRectF(x, y, w, h)});
+    hash.insert({Core::vmapkeys::KEY_RATIO, ratio});
+    hash.insert({Core::vmapkeys::KEY_DATA, data});
+    hash.insert({Core::vmapkeys::KEY_RECT, QRectF(x, y, w, h)});
     return hash;
 }
 
@@ -926,11 +926,18 @@ const std::map<QString, QVariant> MessageHelper::readText(NetworkMessageReader* 
     auto h= msg->real();
     QRectF textRect(x, y, w, h);
 
-    hash.insert({"text", text});
-    hash.insert({"penWidth", penWidth});
-    hash.insert({"border", border});
-    hash.insert({"textPos", textPos});
-    hash.insert({"textRect", textRect});
+    x= msg->real();
+    y= msg->real();
+    w= msg->real();
+    h= msg->real();
+    QRectF borderRect(x, y, w, h);
+
+    hash.insert({Core::vmapkeys::KEY_TEXT, text});
+    hash.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
+    hash.insert({Core::vmapkeys::KEY_BORDER, border});
+    hash.insert({Core::vmapkeys::KEY_BORDERRECT, borderRect});
+    hash.insert({Core::vmapkeys::KEY_TEXTPOS, textPos});
+    hash.insert({Core::vmapkeys::KEY_TEXTRECT, textRect});
 
     return hash;
 }
@@ -939,12 +946,13 @@ void addPathController(const vmap::PathController* ctrl, NetworkMessageWriter& m
 {
     if(!ctrl)
         return;
+
     addVisualItemController(ctrl, msg);
     msg.uint8(ctrl->filled());
     msg.uint8(ctrl->closed());
     msg.uint8(ctrl->penLine());
     msg.uint16(ctrl->penWidth());
-    auto points= ctrl->points();
+    auto const& points= ctrl->points();
     msg.uint64(static_cast<quint64>(points.size()));
     for(auto p : points)
     {
@@ -960,8 +968,8 @@ const std::map<QString, QVariant> MessageHelper::readPath(NetworkMessageReader* 
     auto closed= static_cast<bool>(msg->uint8());
     auto penLine= static_cast<bool>(msg->uint8());
     auto penWidth= msg->uint16();
-
     auto count= msg->uint64();
+
     std::vector<QPointF> points;
     points.reserve(static_cast<std::size_t>(count));
     for(unsigned int i= 0; i < count; ++i)
@@ -970,11 +978,11 @@ const std::map<QString, QVariant> MessageHelper::readPath(NetworkMessageReader* 
         auto y= msg->real();
         points.push_back(QPointF(x, y));
     }
-    hash.insert({QStringLiteral("filled"), filled});
-    hash.insert({QStringLiteral("closed"), closed});
-    hash.insert({QStringLiteral("penLine"), penLine});
-    hash.insert({QStringLiteral("penWidth"), penWidth});
-    hash.insert({QStringLiteral("points"), QVariant::fromValue(points)});
+    hash.insert({Core::vmapkeys::KEY_FILLED, filled});
+    hash.insert({Core::vmapkeys::KEY_CLOSED, closed});
+    hash.insert({Core::vmapkeys::KEY_PENLINE, penLine});
+    hash.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
+    hash.insert({Core::vmapkeys::KEY_POINTS, QVariant::fromValue(points)});
 
     return hash;
 }
@@ -1009,18 +1017,18 @@ const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageRea
         auto y= msg->real();
         points.push_back(QPointF(x, y));
     }
-    hash.insert({QStringLiteral("side"), side});
-    hash.insert({QStringLiteral("stateColor"), stateColor});
-    hash.insert({QStringLiteral("number"), number});
-    hash.insert({QStringLiteral("playableCharacter"), playableCharacter});
-    hash.insert({QStringLiteral("rect"), QVariant::fromValue(rect)});
-    hash.insert({QStringLiteral("text"), text});
-    hash.insert({QStringLiteral("hasAvatar"), hasAvatar});
-    hash.insert({QStringLiteral("img"), img});
-    hash.insert({QStringLiteral("font"), font});
-    hash.insert({QStringLiteral("radius"), radius});
-    hash.insert({QStringLiteral("count"), count});
-    hash.insert({QStringLiteral("points"), QVariant::fromValue(points)});
+    hash.insert({Core::vmapkeys::KEY_SIDE, side});
+    hash.insert({Core::vmapkeys::KEY_STATECOLOR, stateColor});
+    hash.insert({Core::vmapkeys::KEY_NUMBER, number});
+    hash.insert({Core::vmapkeys::KEY_PLAYABLECHARACTER, playableCharacter});
+    hash.insert({Core::vmapkeys::KEY_RECT, QVariant::fromValue(rect)});
+    hash.insert({Core::vmapkeys::KEY_TEXT, text});
+    hash.insert({Core::vmapkeys::KEY_HASAVATAR, hasAvatar});
+    hash.insert({Core::vmapkeys::KEY_IMAGE, img});
+    hash.insert({Core::vmapkeys::KEY_FONT, font});
+    hash.insert({Core::vmapkeys::KEY_RADIUS, radius});
+    hash.insert({Core::vmapkeys::KEY_COUNT, count});
+    hash.insert({Core::vmapkeys::KEY_POINTS, QVariant::fromValue(points)});
 
     return hash;
 }
@@ -1072,28 +1080,32 @@ QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReade
         return {};
 
     QHash<QString, QVariant> hash;
-    hash["uuid"]= msg->string8();
-    hash["name"]= msg->string16();
-    hash["layer"]= msg->uint8();
-    hash["permission"]= msg->uint8();
-    hash["bgcolor"]= QColor(msg->rgb());
-    hash["visibility"]= msg->uint8();
-    hash["zindex"]= msg->uint64();
-    hash["charactervision"]= msg->uint8();
-    hash["gridpattern"]= msg->uint8();
-    hash["GridVisibility"]= msg->uint8();
-    hash["GridSize"]= msg->uint32();
-    hash["GridAbove"]= msg->uint8();
-    hash["Collision"]= msg->uint8();
-    hash["GridColor"]= QColor(msg->rgb());
+    hash[Core::keys::KEY_UUID]= msg->string8();
+    hash[Core::keys::KEY_NAME]= msg->string16();
+    hash[Core::keys::KEY_LAYER]= msg->uint8();
+    hash[Core::keys::KEY_PERMISSION]= msg->uint8();
+    hash[Core::keys::KEY_BGCOLOR]= QColor(msg->rgb());
+    hash[Core::keys::KEY_VISIBILITY]= msg->uint8();
+    hash[Core::keys::KEY_ZINDEX]= msg->uint64();
+    hash[Core::keys::KEY_CHARACTERVISION]= msg->uint8();
+    hash[Core::keys::KEY_GRIDPATTERN]= msg->uint8();
+    hash[Core::keys::KEY_GRIDVISIBILITY]= msg->uint8();
+    hash[Core::keys::KEY_GRIDSIZE]= msg->uint32();
+    hash[Core::keys::KEY_GRIDSCALE]= msg->real();
+    hash[Core::keys::KEY_GRIDABOVE]= msg->uint8();
+    hash[Core::keys::KEY_COLLISION]= msg->uint8();
+    hash[Core::keys::KEY_UNIT]= msg->uint8();
+    hash[Core::keys::KEY_GRIDCOLOR]= QColor(msg->rgb());
 
-    hash["sight"]= readSightController(msg);
+    hash[Core::keys::KEY_SIGHT]= readSightController(msg);
 
     auto itemCount= msg->uint64();
     QHash<QString, QVariant> items;
     for(quint64 i= 0; i < itemCount; ++i)
     {
+        auto restore= msg->pos();
         auto type= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
+        msg->resetToPos(restore);
         std::map<QString, QVariant> map;
         switch(type)
         {
@@ -1121,11 +1133,10 @@ QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReade
         default:
             break;
         }
-
         QHash<QString, QVariant> qvals(map.begin(), map.end());
         items.insert(QString("Item_%1").arg(i), qvals);
     }
-    hash["items"]= items;
+    hash[Core::keys::KEY_ITEMS]= items;
 
     return hash;
 }
@@ -1179,8 +1190,10 @@ void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
     msg.uint8(static_cast<quint8>(ctrl->gridPattern()));
     msg.uint8(ctrl->gridVisibility());
     msg.uint32(static_cast<quint32>(ctrl->gridSize()));
+    msg.real(ctrl->gridScale());
     msg.uint8(ctrl->gridAbove());
     msg.uint8(ctrl->collision());
+    msg.uint8(static_cast<quint8>(ctrl->scaleUnit()));
     msg.rgb(ctrl->gridColor().rgb());
 
     // sight item
@@ -1193,7 +1206,7 @@ void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
     msg.uint64(data.size());
 
     std::for_each(data.begin(), data.end(),
-                  [&](vmap::VisualItemController* ctrl) { addVisualItemController(ctrl, msg); });
+                  [&](vmap::VisualItemController* ctrl) { convertVisualItemCtrlAndAdd(ctrl, msg); });
 
     msg.sendToServer();
 }
@@ -1214,10 +1227,10 @@ const std::map<QString, QVariant> MessageHelper::readEllipse(NetworkMessageReade
     auto penWidth= msg->uint16();
     auto rx= msg->real();
     auto ry= msg->real();
-    hash.insert({"filled", filled});
-    hash.insert({"penWidth", penWidth});
-    hash.insert({"rx", rx});
-    hash.insert({"ry", ry});
+    hash.insert({Core::vmapkeys::KEY_FILLED, filled});
+    hash.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
+    hash.insert({Core::vmapkeys::KEY_RX, rx});
+    hash.insert({Core::vmapkeys::KEY_RY, ry});
     return hash;
 }
 
@@ -1451,11 +1464,8 @@ void MessageHelper::readMindMapAddItem(MindMapController* ctrl, NetworkMessageRe
 void MessageHelper::buildAddItemMessage(NetworkMessageWriter& msg, const QList<mindmap::MindNode*>& nodes,
                                         const QList<mindmap::Link*>& links)
 {
-    /*NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddMessage);
-    msg.string8(idCtrl);*/
     buildAddNodeMessage(msg, nodes);
     buildAddLinkMessage(msg, links);
-    // msg.sendToServer();
 }
 void MessageHelper::buildRemoveItemMessage(NetworkMessageWriter& msg, const QStringList& nodes,
                                            const QStringList& links)
@@ -1554,3 +1564,28 @@ void MessageHelper::removeState(NetworkMessageReader* msg, CharacterStateModel* 
     model->removeStateAt(pos);
 }
 */
+
+void MessageHelper::sendOffPlaySong(const QString& songName, qint64 time, int player)
+{
+    qDebug() << "sendOffPlaySong: " << songName << player;
+    NetworkMessageWriter msg(NetMsg::MusicCategory, NetMsg::NewSong);
+    msg.uint8(static_cast<quint8>(player));
+    msg.string32(songName);
+    msg.int64(time);
+    msg.sendToServer();
+}
+void MessageHelper::sendOffMusicPlayerOrder(NetMsg::Action netAction, int player)
+{
+    qDebug() << "sendOffMusicPlayerOrder: " << netAction << player;
+    NetworkMessageWriter message(NetMsg::MusicCategory, netAction);
+    message.uint8(static_cast<quint8>(player));
+    message.sendToServer();
+}
+void MessageHelper::sendOffTime(qint64 time, int player)
+{
+    qDebug() << "sendOffTime: " << time << player;
+    NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::ChangePositionSong);
+    message.uint8(static_cast<quint8>(player));
+    message.int64(time);
+    message.sendToServer();
+}

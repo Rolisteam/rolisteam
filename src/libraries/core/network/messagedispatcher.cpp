@@ -440,15 +440,6 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
     {
         switch(act)
         {
-        case NetMsg::addVmap:
-            str= QStringLiteral("addVmap");
-            break;
-        case NetMsg::loadVmap:
-            str= QStringLiteral("loadVmap");
-            break;
-        case NetMsg::closeVmap:
-            str= QStringLiteral("closeVmap");
-            break;
         case NetMsg::UpdateItem:
             str= QStringLiteral("UpdateItem");
             break;

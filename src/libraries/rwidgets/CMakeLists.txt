@@ -33,9 +33,10 @@ set(HEADERS
   customs/centeredcheckbox.h
   customs/circledisplayer.h
   customs/colorlisteditor.h
-  customs/colorselector.h
+  #customs/colorselector.h
   customs/diameterselector.h
   customs/filedirchooser.h
+  customs/checkedlabel.h
   customs/imagepatheditor.h
   customs/overlay.h
   customs/playerwidget.h
@@ -47,6 +48,7 @@ set(HEADERS
   customs/vcolortablechooser.h
   customs/vmap.h
   customs/workspace.h
+  delegates/actiondelegate.h
   delegates/avatardelegate.h
   delegates/checkboxdelegate.h
   delegates/colordelegate.h
@@ -55,17 +57,21 @@ set(HEADERS
   delegates/taglistdelegate.h
   delegates/userlistdelegate.h
   dialogs/aboutrolisteam.h
+  dialogs/campaignintegritydialog.h
   dialogs/campaignproperties.h
   dialogs/campaignintegritydialog.h
   dialogs/connectionretrydialog.h
   dialogs/keygeneratordialog.h
   dialogs/imageselectordialog.h
   dialogs/persondialog.h
+  dialogs/importdatafromcampaigndialog.h
   dialogs/preferencesdialog.h
   dialogs/selectconnectionprofiledialog.h
   dialogs/shortcuteditordialog.h
   dialogs/tipofdayviewer.h
   dialogs/vmapwizzarddialog.h
+  dialogs/historyviewerdialog.h
+  dialogs/newfiledialog.h
   docks/antagonistboard.h
   docks/audioPlayer.h
   docks/campaigndock.h
@@ -136,9 +142,10 @@ set(SOURCES
   customs/centeredcheckbox.cpp
   customs/circledisplayer.cpp
   customs/colorlisteditor.cpp
-  customs/colorselector.cpp
+  #customs/colorselector.cpp
   customs/diameterselector.cpp
   customs/filedirchooser.cpp
+  customs/checkedlabel.cpp
   customs/imagepatheditor.cpp
   customs/overlay.cpp
   customs/playerwidget.cpp
@@ -150,6 +157,7 @@ set(SOURCES
   customs/vcolortablechooser.cpp
   customs/vmap.cpp
   customs/workspace.cpp
+  delegates/actiondelegate.cpp
   delegates/avatardelegate.cpp
   delegates/checkboxdelegate.cpp
   delegates/colordelegate.cpp
@@ -169,6 +177,9 @@ set(SOURCES
   dialogs/shortcuteditordialog.cpp
   dialogs/tipofdayviewer.cpp
   dialogs/vmapwizzarddialog.cpp
+  dialogs/historyviewerdialog.cpp
+  dialogs/importdatafromcampaigndialog.cpp
+  dialogs/newfiledialog.cpp
   docks/antagonistboard.cpp
   docks/audioPlayer.cpp
   docks/campaigndock.cpp
@@ -235,12 +246,16 @@ set(SOURCES
 
 set(UI_FILES
   dialogs/campaignproperties.ui
+  dialogs/campaignintegritydialog.ui
+  dialogs/newfiledialog.ui
+  dialogs/importdatafromcampaigndialog.ui
   docks/campaigndock.ui
   docks/antagonistboard.ui
   docks/playerspanel.ui
   dialogs/imageselectordialog.ui
   dialogs/selectconnectionprofiledialog.ui
   editors/mrichtextedit.ui
+  gmtoolbox/UnitConvertor/convertor.ui
   dialogs/preferencesdialogbox.ui
 )
 
@@ -250,11 +265,11 @@ add_library(rwidgets SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${QRC_SOURCES} ${p
 
 if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
     message("Link with PDF")
-    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt6::Core Qt6::Gui Qt6::Svg  Qt6::Widgets Qt6::Xml Qt6::QuickWidgets Qt6::Multimedia Qt6::Pdf Qt6::PdfWidgets Qt6::Quick Qt6::OpenGLWidgets Qt6::WebEngineWidgets Qt6::WebEngineCore Qt6::QuickControls2 PRIVATE core charactersheet)
+    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt6::Core Qt6::Gui Qt6::Svg  Qt6::Widgets Qt6::Xml Qt6::QuickWidgets Qt6::Multimedia Qt6::Pdf Qt6::PdfWidgets Qt6::Quick Qt6::OpenGLWidgets Qt6::WebEngineWidgets Qt6::WebEngineCore Qt6::QuickControls2 PRIVATE core charactersheet qml_views)
     target_compile_definitions(rwidgets PUBLIC WITH_PDF=1)
 else()
     message("Link without PDF")
-    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt6::Core Qt6::Gui Qt6::Svg Qt6::Widgets Qt6::Multimedia Qt6::MultimediaWidgets Qt6::Xml Qt6::OpenGLWidgets Qt6::Quick Qt6::WebEngineWidgets Qt6::WebEngineCore Qt6::QuickControls2 PRIVATE core charactersheet)
+    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt6::Core Qt6::Gui Qt6::Svg Qt6::Widgets Qt6::Multimedia Qt6::MultimediaWidgets Qt6::Xml Qt6::OpenGLWidgets Qt6::Quick Qt6::WebEngineWidgets Qt6::WebEngineCore Qt6::QuickControls2 PRIVATE core charactersheet qml_views)
 endif()
 
 target_include_directories(rwidgets PUBLIC src)

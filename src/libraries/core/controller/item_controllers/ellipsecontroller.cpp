@@ -27,26 +27,32 @@ EllipseController::EllipseController(const std::map<QString, QVariant>& params, 
                                      QObject* parent)
     : VisualItemController(VisualItemController::ELLIPSE, params, ctrl, parent)
 {
-    if(params.end() != params.find("tool"))
+    namespace cv= Core::vmapkeys;
+    if(params.end() != params.find(cv::KEY_TOOL))
     {
-        m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
+        m_tool= params.at(cv::KEY_TOOL).value<Core::SelectableTool>();
         m_filled= (m_tool == Core::SelectableTool::FILLEDELLIPSE);
     }
 
-    if(params.end() != params.find("filled"))
+    if(params.end() != params.find(cv::KEY_FILLED))
     {
-        m_filled= params.at(QStringLiteral("filled")).toBool();
+        m_filled= params.at(cv::KEY_FILLED).toBool();
         m_tool= m_filled ? Core::SelectableTool::FILLEDELLIPSE : Core::SelectableTool::EMPTYELLIPSE;
     }
 
-    if(params.end() != params.find("penWidth"))
-        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+    if(params.end() != params.find(cv::KEY_PENWIDTH))
+        m_penWidth= static_cast<quint16>(params.at(cv::KEY_PENWIDTH).toInt());
 
-    if(params.end() != params.find("rx"))
-        m_rx= params.at(QStringLiteral("rx")).toReal();
+    if(params.end() != params.find(cv::KEY_RX))
+        m_rx= params.at(cv::KEY_RX).toReal();
 
-    if(params.end() != params.find("ry"))
-        m_ry= params.at(QStringLiteral("ry")).toReal();
+    if(params.end() != params.find(cv::KEY_RY))
+        m_ry= params.at(cv::KEY_RY).toReal();
+
+    connect(this, &EllipseController::filledChanged, this, [this] { setModified(); });
+    connect(this, &EllipseController::penWidthChanged, this, [this] { setModified(); });
+    connect(this, &EllipseController::ryChanged, this, [this] { setModified(); });
+    connect(this, &EllipseController::rxChanged, this, [this] { setModified(); });
 }
 
 bool EllipseController::filled() const
@@ -111,8 +117,8 @@ void EllipseController::setCorner(const QPointF& move, int corner)
         ry+= move.y();
         break;
     case 2:
-        rx+= move.x();
-        ry+= move.y();
+        rx+= move.x() / 2;
+        ry+= move.y() / 2;
         break;
     }
     setRx(rx);

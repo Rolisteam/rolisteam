@@ -27,6 +27,7 @@
 
 #include "media/mediatype.h"
 #include "model/imagemodel.h"
+#include "network/networkmessage.h"
 
 namespace vmap
 {
@@ -159,6 +160,11 @@ public:
     static void sendOffRemoveImageInfo(const QString& id, MediaControllerBase* ctrl);
     static void readAddSubImage(ImageModel* model, NetworkMessageReader* msg);
     static void readRemoveSubImage(ImageModel* model, NetworkMessageReader* msg);
+
+    // MusicPlayer
+    static void sendOffPlaySong(const QString& songName, qint64 time, int player);
+    static void sendOffMusicPlayerOrder(NetMsg::Action netAction, int player);
+    static void sendOffTime(qint64 time, int player);
 };
 
 #endif // MESSAGEHELPER_H

@@ -23,12 +23,12 @@
 
 #include <QBuffer>
 
-PdfController::PdfController(const QString& id, const QString& path, const QByteArray& data, QObject* parent)
+PdfController::PdfController(const QString& id, const QUrl& path, const QByteArray& data, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::PDF, parent)
 {
     if(!path.isEmpty())
     {
-        setData(IOHelper::loadFile(path));
+        setData(IOHelper::loadFile(path.toLocalFile()));
     }
     else if(!data.isEmpty())
     {

@@ -39,12 +39,10 @@ class PreferencesController : public AbstractControllerInterface
 {
     Q_OBJECT
     // Q_PROPERTY(QAbstractItemModel* paletteModel READ paletteModel CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* themeModel READ themeModel CONSTANT)
+    Q_PROPERTY(ThemeModel* themeModel READ themeModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* languageModel READ languageModel CONSTANT)
-
     Q_PROPERTY(
         std::size_t currentThemeIndex READ currentThemeIndex WRITE setCurrentThemeIndex NOTIFY currentThemeIndexChanged)
-
     Q_PROPERTY(bool systemLang READ systemLang WRITE setSystemLang NOTIFY systemLangChanged)
     Q_PROPERTY(bool hasCustomFile READ hasCustomFile WRITE setHasCustomFile NOTIFY hasCustomFileChanged)
     Q_PROPERTY(QString customFilePath READ customFilePath WRITE setCustomFile NOTIFY customFileChanged)
@@ -58,7 +56,7 @@ public:
     void setGameController(GameController*) override;
 
     // QAbstractItemModel* paletteModel() const;
-    QAbstractItemModel* themeModel() const;
+    ThemeModel* themeModel() const;
     QAbstractItemModel* languageModel() const;
 
     // i18n
@@ -84,20 +82,6 @@ signals:
     void customFileChanged();
 
 public slots:
-
-    // alias
-    /*void addAlias();
-    void deleteAlias(const QModelIndex& index);
-    void moveAlias(const QModelIndex& index, PreferencesController::Move move);
-    QString convertAlias(const QString& str);*/
-
-    // states
-    /*void addState();
-    void deleteState(const QModelIndex& index);
-    void moveState(const QModelIndex& index, PreferencesController::Move move);*/
-
-    void shareModels();
-
     void savePreferences();
     void loadPreferences();
 

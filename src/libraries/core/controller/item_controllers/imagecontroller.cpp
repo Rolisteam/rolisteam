@@ -42,21 +42,26 @@ ImageController::ImageController(const std::map<QString, QVariant>& params, Vect
 
     m_tool= Core::SelectableTool::IMAGE;
 
-    if(params.end() != params.find("path"))
+    if(params.end() != params.find(Core::keys::KEY_PATH))
     {
-        setPath(params.at(QStringLiteral("path")).toString());
-        setData(readImage(params.at(QStringLiteral("path")).toString()));
+        setPath(params.at(Core::keys::KEY_PATH).toString());
+        setData(readImage(params.at(Core::keys::KEY_PATH).toString()));
     }
 
-    if(params.end() != params.find("data"))
-        setData(params.at(QStringLiteral("data")).toByteArray());
+    if(params.end() != params.find(Core::keys::KEY_DATA))
+        setData(params.at(Core::keys::KEY_DATA).toByteArray());
 
     checkMovie();
 
-    if(params.end() != params.find("rect"))
-        setRect(params.at(QStringLiteral("rect")).toRectF());
+    if(params.end() != params.find(Core::keys::KEY_RECT))
+        setRect(params.at(Core::keys::KEY_RECT).toRectF());
     else
         setRect(m_pix.rect());
+
+    connect(this, &vmap::ImageController::pixmapChanged, this, [this] { setModified(); });
+    connect(this, &vmap::ImageController::dataChanged, this, [this] { setModified(); });
+    connect(this, &vmap::ImageController::rectChanged, this, [this] { setModified(); });
+    connect(this, &vmap::ImageController::pathChanged, this, [this] { setModified(); });
 }
 
 QRectF ImageController::rect() const

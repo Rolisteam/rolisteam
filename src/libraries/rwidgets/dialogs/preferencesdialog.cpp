@@ -23,8 +23,9 @@
 
 #include "controller/preferencescontroller.h"
 #include "model/palettemodel.h"
-//#include "widgets/filepathdelegateitem.h"
+
 #include <QComboBox>
+#include <QDebug>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QFontDatabase>
@@ -36,34 +37,49 @@
 #include <QJsonDocument>
 #include <QPainter>
 #include <QPushButton>
+#include <QStringListModel>
 #include <QStyleFactory>
 #include <QVBoxLayout>
 
 #ifdef HAVE_SOUND
 #include <QMediaPlayer>
 #endif
-
+#include "diceparser/include/diceparser.h"
+#include "media/mediatype.h"
+#include "model/thememodel.h"
 #include "ui_preferencesdialogbox.h"
 
-#include "diceparser/include/diceparser.h"
+inline uint qHash(PreferencesDialog::PreferenceTab type, uint seed)
+{
+    return ::qHash(static_cast<uint>(type), seed);
+}
 
 /*********************
  * PreferencesDialog *
  *********************/
+
 PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::PreferencesDialogBox()), m_ctrl(controller)
 {
     ui->setupUi(this);
     m_currentThemeIsEditable= false;
+
+    // create empty directories list
+    m_musicDirectories.append(new QStringListModel(QStringList()));
+    m_musicDirectories.append(new QStringListModel(QStringList()));
+    m_musicDirectories.append(new QStringListModel(QStringList()));
+
+    ui->m_directoriesList1->setModel(m_musicDirectories[0]);
+    ui->m_directoriesList2->setModel(m_musicDirectories[1]);
+    ui->m_directoriesList3->setModel(m_musicDirectories[2]);
+
     // TODO Fix this line
     // ui->m_defaultMapModeCombo->addItems();
-
     m_preferences= PreferencesManager::getInstance();
 
     ui->m_themeComboBox->setModel(m_ctrl->themeModel());
     connect(ui->m_themeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             [this](int pos) { m_ctrl->setCurrentThemeIndex(static_cast<std::size_t>(pos)); });
-
     // m_paletteModel->setPalette(palette());
     connect(m_ctrl, &PreferencesController::currentThemeIndexChanged, this,
             [this]() { ui->m_paletteTableView->setModel(m_ctrl->currentTheme()->paletteModel()); });
@@ -74,7 +90,6 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(this, &PreferencesDialog::accepted, m_ctrl, &PreferencesController::savePreferences);
 
     connect(ui->m_startDiag, SIGNAL(clicked()), this, SLOT(performDiag()));
-
     // i18n
     connect(ui->m_systemTranslation, &QCheckBox::clicked, this, &PreferencesDialog::updateTranslationPref);
     connect(ui->m_customTranslation, &QCheckBox::clicked, this, &PreferencesDialog::updateTranslationPref);
@@ -88,28 +103,6 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     ui->m_translationSelector->setModel(m_ctrl->languageModel());
     // set general panel as default.
     ui->tabWidget->setCurrentIndex(0);
-
-    // aliases
-
-    /*connect(ui->m_importDiceBtn, &QPushButton::clicked, this, [this]() {
-        auto filename= QFileDialog::getOpenFileName(this, tr("Import Dice Aliases or States"),
-                                                    m_preferences->value("DataDirectory", QDir::homePath()).toString(),
-                                                    tr("Supported Rule files (*.rr *.json)"));
-        m_ctrl->importData(filename);
-    });
-
-    connect(ui->m_exportDiceBtn, &QPushButton::clicked, this, [=]() {
-        auto filename= QFileDialog::getSaveFileName(this, tr("Export Dice Aliases or States"),
-                                                    m_preferences->value("DataDirectory", QDir::homePath()).toString(),
-                                                    tr("Supported Rule files (*.rr *.json)"));
-        if(filename.isEmpty())
-            return;
-
-        if(!filename.endsWith(QStringLiteral(".json")) && !filename.endsWith(QStringLiteral(".rr")))
-            filename.append(QStringLiteral(".rr"));
-        m_ctrl->exportData(filename);
-    });*/
-
     connect(ui->m_highLightPenWidth, QOverload<int>::of(&QSpinBox::valueChanged), this,
             [=]() { m_preferences->registerValue("VMAP::highlightPenWidth", ui->m_highLightPenWidth->value(), true); });
     connect(ui->m_mapItemHighlightColor, &ColorButton::colorChanged, this, [=]() {
@@ -119,7 +112,6 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_hideTipsOfTheDay, &QCheckBox::clicked, this, [this]() {
         m_preferences->registerValue("MainWindow::neverDisplayTips", ui->m_hideTipsOfTheDay->isChecked(), false);
     });
-
     // Misc
     setSizeGripEnabled(true);
     setWindowTitle(
@@ -130,7 +122,6 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_hbFrequency, SIGNAL(valueChanged(int)), this, SLOT(manageHeartBeat()));
     connect(ui->m_displayTimePage, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
             [=](int val) { m_preferences->registerValue("waitingTimeBetweenPage", val, true); });
-
     // Messaging
     connect(ui->m_showTimeCheckBox, SIGNAL(clicked(bool)), this, SLOT(manageMessagingPref()));
     connect(ui->m_timeColorBtn, SIGNAL(clicked(bool)), this, SLOT(manageMessagingPref()));
@@ -159,6 +150,83 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(m_ctrl, &PreferencesController::currentLangIndexChanged, this,
             [this]() { ui->m_translationSelector->setCurrentIndex(m_ctrl->currentLangIndex()); });
 
+    ui->m_ap1Add->setData(PreferencesDialog::First);
+    ui->m_ap2Add->setData(PreferencesDialog::Second);
+    ui->m_ap3Add->setData(PreferencesDialog::Third);
+
+    ui->m_ap1Delete->setData(PreferencesDialog::First);
+    ui->m_ap2Delete->setData(PreferencesDialog::Second);
+    ui->m_ap3Delete->setData(PreferencesDialog::Third);
+
+    ui->m_ap1upAct->setData(PreferencesDialog::First);
+    ui->m_ap2upAct->setData(PreferencesDialog::Second);
+    ui->m_ap3upAct->setData(PreferencesDialog::Third);
+
+    ui->m_ap1downAct->setData(PreferencesDialog::First);
+    ui->m_ap2downAct->setData(PreferencesDialog::Second);
+    ui->m_ap3downAct->setData(PreferencesDialog::Third);
+
+    ui->m_add1Btn->setDefaultAction(ui->m_ap1Add);
+    ui->m_add2Btn->setDefaultAction(ui->m_ap2Add);
+    ui->m_add3Btn->setDefaultAction(ui->m_ap3Add);
+
+    ui->m_delete1Btn->setDefaultAction(ui->m_ap1Delete);
+    ui->m_delete2Btn->setDefaultAction(ui->m_ap2Delete);
+    ui->m_delete3Btn->setDefaultAction(ui->m_ap3Delete);
+
+    ui->m_up1Btn->setDefaultAction(ui->m_ap1upAct);
+    ui->m_up2Btn->setDefaultAction(ui->m_ap2upAct);
+    ui->m_up3Btn->setDefaultAction(ui->m_ap3upAct);
+
+    ui->m_down1Btn->setDefaultAction(ui->m_ap1downAct);
+    ui->m_down2Btn->setDefaultAction(ui->m_ap2downAct);
+    ui->m_down3Btn->setDefaultAction(ui->m_ap3downAct);
+
+    connect(ui->m_ap1Add, &QAction::triggered, this, &PreferencesDialog::addDirectory);
+    connect(ui->m_ap2Add, &QAction::triggered, this, &PreferencesDialog::addDirectory);
+    connect(ui->m_ap3Add, &QAction::triggered, this, &PreferencesDialog::addDirectory);
+
+    connect(ui->m_ap1Delete, &QAction::triggered, this, &PreferencesDialog::removeDirectory);
+    connect(ui->m_ap2Delete, &QAction::triggered, this, &PreferencesDialog::removeDirectory);
+    connect(ui->m_ap3Delete, &QAction::triggered, this, &PreferencesDialog::removeDirectory);
+
+    connect(ui->m_ap1upAct, &QAction::triggered, this, &PreferencesDialog::upDirectory);
+    connect(ui->m_ap2upAct, &QAction::triggered, this, &PreferencesDialog::upDirectory);
+    connect(ui->m_ap3upAct, &QAction::triggered, this, &PreferencesDialog::upDirectory);
+
+    connect(ui->m_ap1downAct, &QAction::triggered, this, &PreferencesDialog::downDirectory);
+    connect(ui->m_ap2downAct, &QAction::triggered, this, &PreferencesDialog::downDirectory);
+    connect(ui->m_ap3downAct, &QAction::triggered, this, &PreferencesDialog::downDirectory);
+
+    connect(ui->m_directoriesList1, &QListView::clicked, this, [this]() {
+        auto current= ui->m_directoriesList1->currentIndex();
+
+        auto isValid= current.isValid();
+
+        ui->m_ap1Delete->setEnabled(isValid);
+        ui->m_ap1upAct->setEnabled(isValid);
+        ui->m_ap1downAct->setEnabled(isValid);
+    });
+
+    connect(ui->m_directoriesList2, &QListView::clicked, this, [this]() {
+        auto current= ui->m_directoriesList2->currentIndex();
+
+        auto isValid= current.isValid();
+
+        ui->m_ap2Delete->setEnabled(isValid);
+        ui->m_ap2upAct->setEnabled(isValid);
+        ui->m_ap2downAct->setEnabled(isValid);
+    });
+
+    connect(ui->m_directoriesList3, &QListView::clicked, this, [this]() {
+        auto current= ui->m_directoriesList3->currentIndex();
+
+        auto isValid= current.isValid();
+
+        ui->m_ap3Delete->setEnabled(isValid);
+        ui->m_ap3upAct->setEnabled(isValid);
+        ui->m_ap3downAct->setEnabled(isValid);
+    });
     updateTranslationPref();
 }
 
@@ -182,8 +250,6 @@ void PreferencesDialog::updateTranslationPref()
     auto systemTrans= m_ctrl->systemLang();
     auto customTrans= m_ctrl->hasCustomFile();
 
-    qDebug() << "trans" << systemTrans << customTrans;
-
     ui->m_customTranslation->setEnabled(!systemTrans);
 
     ui->m_availablesTranslationLbl->setEnabled(!systemTrans && !customTrans);
@@ -193,23 +259,18 @@ void PreferencesDialog::updateTranslationPref()
     ui->m_translationFileEdit->setEnabled(!systemTrans && customTrans);
 }
 
-void PreferencesDialog::show()
+void PreferencesDialog::show(PreferenceTab tab)
 {
+    static QHash<PreferenceTab, int> tabData{{PreferenceTab::General, 0},
+                                             {PreferenceTab::Player, 1},
+                                             {PreferenceTab::Themes, 2},
+                                             {PreferenceTab::Diagnostic, 3}};
+    ui->tabWidget->setCurrentIndex(tabData.value(tab));
     load();
     QDialog::show();
 }
 void PreferencesDialog::save() const
 {
-    /*m_preferences->registerValue("MusicDirectoryPlayer_0", ui->m_musicDirPath->path());
-    m_preferences->registerValue("MusicDirectoryPlayer_1", ui->m_musicDirPath2->path());
-    m_preferences->registerValue("MusicDirectoryPlayer_2", ui->m_musicDirPath3->path());
-    m_preferences->registerValue("ImageDirectory", ui->m_pictureDir->path());
-    m_preferences->registerValue("MapDirectory", ui->m_mapDir->path());
-    m_preferences->registerValue("SessionDirectory", ui->m_scenarioDir->path());
-    m_preferences->registerValue("MinutesDirectory", ui->m_minuteDir->path());
-    m_preferences->registerValue("CharacterSheetDirectory", ui->m_characterSheetDir->path());
-    m_preferences->registerValue("ChatDirectory", ui->m_chatDir->path());*/
-
     m_preferences->registerValue("MainWindow::MustBeChecked", ui->m_checkUpdate->isChecked());
     m_preferences->registerValue("defaultPermissionMap", ui->m_defaultMapModeCombo->currentIndex());
 
@@ -238,6 +299,12 @@ void PreferencesDialog::save() const
     m_preferences->registerValue(QStringLiteral("LogDebug"), ui->m_debugLogInfo->isChecked());
     m_preferences->registerValue(QStringLiteral("LogResearch"), ui->m_logUniversityResearch->isChecked());
     m_preferences->registerValue(QStringLiteral("dataCollection"), ui->m_enableDataCollection->isChecked());
+
+    qDebug() << "list" << m_musicDirectories[0]->stringList();
+    m_preferences->registerValue(Core::preferences::KEY_DIRECTORY_AP1, m_musicDirectories[0]->stringList());
+    m_preferences->registerValue(Core::preferences::KEY_DIRECTORY_AP2, m_musicDirectories[1]->stringList());
+    m_preferences->registerValue(Core::preferences::KEY_DIRECTORY_AP3, m_musicDirectories[2]->stringList());
+
     m_ctrl->savePreferences();
 }
 void PreferencesDialog::load()
@@ -245,15 +312,6 @@ void PreferencesDialog::load()
     // Direcotry PATH
     ui->m_translationFileEdit->setMode(false);
     ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");
-    /*ui->m_musicDirPath->setPath(m_preferences->value("MusicDirectoryPlayer_0", QDir::homePath()).toString());
-    ui->m_musicDirPath2->setPath(m_preferences->value("MusicDirectoryPlayer_1", QDir::homePath()).toString());
-    ui->m_musicDirPath3->setPath(m_preferences->value("MusicDirectoryPlayer_2", QDir::homePath()).toString());
-    ui->m_pictureDir->setPath(m_preferences->value("ImageDirectory", QDir::homePath()).toString());
-    ui->m_mapDir->setPath(m_preferences->value("MapDirectory", QDir::homePath()).toString());
-    ui->m_scenarioDir->setPath(m_preferences->value("SessionDirectory", QDir::homePath()).toString());
-    ui->m_minuteDir->setPath(m_preferences->value("MinutesDirectory", QDir::homePath()).toString());
-    ui->m_chatDir->setPath(m_preferences->value("ChatDirectory", QDir::homePath()).toString());
-    ui->m_characterSheetDir->setPath(m_preferences->value("CharacterSheetDirectory", QDir::homePath()).toString());*/
 
     ui->m_translationFileEdit->setPath(m_preferences->value("currentTranslationFile", "").toString());
     ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow::MustBeChecked", true).toBool());
@@ -307,7 +365,13 @@ void PreferencesDialog::load()
     ui->m_logUniversityResearch->setChecked(m_preferences->value(QStringLiteral("LogResearch"), false).toBool());
     ui->m_enableDataCollection->setChecked(m_preferences->value(QStringLiteral("dataCollection"), false).toBool());
 
-    m_ctrl->loadPreferences();
+    // music directory
+    qDebug() << "list " << m_preferences->value(Core::preferences::KEY_DIRECTORY_AP1, {}).toStringList();
+    m_musicDirectories[0]->setStringList(m_preferences->value(Core::preferences::KEY_DIRECTORY_AP1, {}).toStringList());
+    m_musicDirectories[1]->setStringList(m_preferences->value(Core::preferences::KEY_DIRECTORY_AP2, {}).toStringList());
+    m_musicDirectories[2]->setStringList(m_preferences->value(Core::preferences::KEY_DIRECTORY_AP3, {}).toStringList());
+
+    // m_ctrl->loadPreferences();
     updateTheme();
 }
 
@@ -322,7 +386,7 @@ void PreferencesDialog::editColor(QModelIndex index)
     auto theme= m_ctrl->currentTheme();
     if(nullptr == theme)
         return;
-    // qApp->setPalette(theme->getPalette());
+    // TODO
 }
 
 void PreferencesDialog::updateTheme()
@@ -493,4 +557,101 @@ bool PreferencesDialog::importTheme()
 void PreferencesDialog::deleteTheme()
 {
     m_ctrl->removeTheme(ui->m_themeComboBox->currentIndex());
+}
+
+void PreferencesDialog::addDirectory()
+{
+    auto act= qobject_cast<QAction*>(sender());
+    if(!act)
+        return;
+
+    auto id= act->data().toInt();
+
+    auto dir= QFileDialog::getExistingDirectory(this, tr("Add new directory"), QDir::homePath());
+
+    if(dir.isEmpty())
+        return;
+
+    auto list= m_musicDirectories[id]->stringList();
+    list.append(dir);
+    m_musicDirectories[id]->setStringList(list);
+    save();
+}
+
+QModelIndex PreferencesDialog::currentIndexFromCurrentList(int i)
+{
+    QModelIndex index;
+    switch(i)
+    {
+    case First:
+        index= ui->m_directoriesList1->currentIndex();
+        break;
+    case Second:
+        index= ui->m_directoriesList2->currentIndex();
+        break;
+    case Third:
+        index= ui->m_directoriesList3->currentIndex();
+        break;
+    }
+    return index;
+}
+
+void PreferencesDialog::removeDirectory()
+{
+    auto act= qobject_cast<QAction*>(sender());
+    if(!act)
+        return;
+
+    auto id= act->data().toInt();
+    auto idx= currentIndexFromCurrentList(id);
+    if(!idx.isValid())
+        return;
+
+    m_musicDirectories[id]->removeRows(idx.row(), 1);
+    save();
+}
+
+void PreferencesDialog::upDirectory()
+{
+    auto act= qobject_cast<QAction*>(sender());
+    if(!act)
+        return;
+
+    auto id= act->data().toInt();
+    auto idx= currentIndexFromCurrentList(id);
+    if(!idx.isValid())
+        return;
+    auto src= idx.row();
+    auto dest= src - 1;
+    auto list= m_musicDirectories[id]->stringList();
+
+    if(dest < 0 || src >= list.size())
+        return;
+
+    list.swapItemsAt(src, dest);
+    m_musicDirectories[id]->setStringList(list);
+    save();
+}
+
+void PreferencesDialog::downDirectory()
+{
+    auto act= qobject_cast<QAction*>(sender());
+    if(!act)
+        return;
+
+    auto id= act->data().toInt();
+    auto idx= currentIndexFromCurrentList(id);
+    if(!idx.isValid())
+        return;
+
+    auto src= idx.row();
+    auto dest= src + 1;
+    auto list= m_musicDirectories[id]->stringList();
+
+    if(src < 0 || dest >= list.size())
+        return;
+
+    list.swapItemsAt(src, dest);
+    m_musicDirectories[id]->setStringList(list);
+    save();
 }

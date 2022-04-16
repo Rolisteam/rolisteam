@@ -26,6 +26,7 @@
 
 #include "controller/item_controllers/vmapitemfactory.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "data/campaignmanager.h"
 #include "model/contentmodel.h"
 #include "network/networkmessagewriter.h"
 #include "worker/convertionhelper.h"
@@ -48,8 +49,8 @@ VectorialMapController* findMap(const std::vector<VectorialMapController*>& vmap
     return (*it);
 }
 
-VMapUpdater::VMapUpdater(FilteredContentModel* model, QObject* parent)
-    : MediaUpdaterInterface(parent), m_vmapModel(model)
+VMapUpdater::VMapUpdater(campaign::CampaignManager* manager, FilteredContentModel* model, QObject* parent)
+    : MediaUpdaterInterface(manager, parent), m_vmapModel(model), m_diceParser(manager->diceparser())
 {
     m_updaters.insert(
         {vmap::VisualItemController::LINE, std::unique_ptr<LineControllerUpdater>(new LineControllerUpdater)});
@@ -78,6 +79,8 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
 
     if(ctrl == nullptr)
         return;
+
+    ctrl->setDiceParser(m_diceParser);
 
     connect(ctrl, &VectorialMapController::collisionChanged, this,
             [this, ctrl]() { sendOffChanges<bool>(ctrl, QStringLiteral("collision")); });
@@ -121,6 +124,14 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
                 if(updater)
                     updater->addItemController(itemCtrl);
             });
+    connect(ctrl, &VectorialMapController::modifiedChanged, this, [ctrl, this]() {
+        if(ctrl->modified())
+        {
+            saveMediaController(ctrl);
+        }
+    });
+
+    saveMediaController(ctrl);
 }
 
 bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapController* ctrl)

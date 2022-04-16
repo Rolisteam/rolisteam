@@ -20,9 +20,15 @@
 #ifndef UTILSHELPER_H
 #define UTILSHELPER_H
 
+#include <QFuture>
+#include <QFutureWatcher>
 #include <QPixmap>
 #include <QRect>
 #include <QString>
+#include <functional>
+
+#include "core/media/mediatype.h"
+#include "core/network/network_type.h"
 
 namespace helper
 {
@@ -31,6 +37,27 @@ namespace utils
 QString allSupportedImageFormatFilter();
 QRectF computerBiggerRectInside(const QRect& rect, qreal ratio);
 QPixmap roundCornerImage(const QPixmap& source, int size= 80, int radius= 8);
+bool isSquareImage(const QByteArray& array);
+bool hasValidCharacter(const std::vector<connection::CharacterData>& characters, bool isGameMaster);
+
+QStringList extentionPerType(Core::ContentType type, bool save, bool wildcard= false);
+QString filterForType(Core::ContentType, bool save);
+QString typeToIconPath(Core::ContentType);
+QString typeToString(Core::ContentType);
+Core::ContentType mediaTypeToContentType(Core::MediaType type);
+Core::ContentType extensionToContentType(const QString& filename);
+
+template <typename T>
+void setContinuation(QFuture<T> future, QObject* obj, std::function<void(T)> callback)
+{
+    auto watcher= new QFutureWatcher<T>();
+    QObject::connect(watcher, &QFutureWatcher<T>::finished, obj, [watcher, callback]() {
+        auto result= watcher->result();
+        callback(result);
+        delete watcher;
+    });
+    watcher->setFuture(future);
+}
 } // namespace utils
 } // namespace helper
 

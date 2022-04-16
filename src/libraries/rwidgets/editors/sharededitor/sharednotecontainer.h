@@ -37,7 +37,6 @@ public:
     virtual void saveMedia(const QString&);
     void readFromFile(QDataStream& data);
     void saveInto(QDataStream& out);
-    virtual void putDataIntoCleverUri();
     void setOwnerId(const QString& id);
     void updateNoteToAll();
 

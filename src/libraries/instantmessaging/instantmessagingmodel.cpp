@@ -24,6 +24,8 @@
 
 #include "chatroom.h"
 #include "chatroomfactory.h"
+#include "core/model/playermodel.h"
+#include "diceparser/diceroller.h"
 #include "messageinterface.h"
 
 namespace InstantMessaging
@@ -36,7 +38,10 @@ bool isClosable(ChatRoom* chatroom)
             || (chatroom->type() == ChatRoom::GLOBAL && chatroom->uuid() != QStringLiteral("global")));
 }
 } // namespace
-InstantMessagingModel::InstantMessagingModel(QObject* parent) : QAbstractListModel(parent) {}
+InstantMessagingModel::InstantMessagingModel(PlayerModel* playerModel, QObject* parent)
+    : QAbstractListModel(parent), m_personModel(playerModel)
+{
+}
 
 InstantMessagingModel::~InstantMessagingModel()= default;
 
@@ -114,25 +119,32 @@ QString InstantMessagingModel::localId() const
     return m_localId;
 }
 
+bool InstantMessagingModel::unread() const
+{
+    return std::any_of(std::begin(m_chats), std::end(m_chats),
+                       [](const std::unique_ptr<ChatRoom>& room) { return room->unreadMessage(); });
+}
+
 void InstantMessagingModel::insertGlobalChatroom(const QString& title, const QString& uuid)
 {
     addChatRoom(ChatRoomFactory::createChatRoom(title, QStringList(), uuid, InstantMessaging::ChatRoom::GLOBAL,
-                                                localId(), this),
+                                                localId(), m_personModel, this),
                 !uuid.isEmpty());
 }
 
 void InstantMessagingModel::insertIndividualChatroom(const QString& playerId, const QString& playerName)
 {
     addChatRoom(ChatRoomFactory::createChatRoom(playerName, {playerId, localId()}, playerId,
-                                                InstantMessaging::ChatRoom::SINGLEPLAYER, localId(), this));
+                                                InstantMessaging::ChatRoom::SINGLEPLAYER, localId(), m_personModel,
+                                                this));
 }
 
 void InstantMessagingModel::insertExtraChatroom(const QString& title, const QStringList& playerIds, bool remote,
                                                 const QString& uuid)
 {
-    addChatRoom(
-        ChatRoomFactory::createChatRoom(title, playerIds, uuid, InstantMessaging::ChatRoom::EXTRA, localId(), this),
-        remote);
+    addChatRoom(ChatRoomFactory::createChatRoom(title, playerIds, uuid, InstantMessaging::ChatRoom::EXTRA, localId(),
+                                                m_personModel, this),
+                remote);
 }
 
 void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)
@@ -147,6 +159,7 @@ void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)
                               [room](const std::unique_ptr<ChatRoom>& chatRoom) { return room == chatRoom.get(); });
         auto idx= static_cast<int>(std::distance(m_chats.begin(), it));
         emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()), {HasUnreadMessageRole, TitleRole});
+        emit unreadChanged();
     });
     chatroom->setLocalId(localId());
     chatroom->setDiceParser(m_diceParser);
@@ -206,7 +219,7 @@ void InstantMessagingModel::removePlayer(const QString& id)
     endRemoveRows();
 }
 
-void InstantMessagingModel::setDiceParser(DiceParser* diceParser)
+void InstantMessagingModel::setDiceParser(DiceRoller* diceParser)
 {
     m_diceParser= diceParser;
     std::for_each(m_chats.begin(), m_chats.end(),

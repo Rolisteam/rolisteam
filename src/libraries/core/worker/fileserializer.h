@@ -74,6 +74,9 @@ public:
 
     static QString contentTypeToDefaultExtension(Core::ContentType type);
     static QString addExtention(const QString& name, Core::ContentType);
+
+    static bool isValidCampaignDirectory(const QString& path, bool acceptEmpty= true);
+    static bool hasContent(const QString& path, Core::CampaignDataCategory category);
 };
 } // namespace campaign
 

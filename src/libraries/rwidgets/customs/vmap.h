@@ -75,14 +75,6 @@ public:
      */
     explicit VMap(VectorialMapController* ctrl, QObject* parent= nullptr);
     /**
-     * @brief saveFile
-     */
-    void saveFile(QDataStream&);
-    /**
-     * @brief openFile
-     */
-    void openFile(QDataStream&);
-    /**
      * @brief itemsBoundingRectWithoutSight
      * @return
      */
@@ -92,31 +84,12 @@ public:
      * @param p
      * @param pos
      */
-    void addCharacter(Character* p, QPointF pos);
-    /**
-     * @brief getId
-     * @return
-     */
-    QString getId() const;
-    /**
-     * @brief processAddItemMessage
-     * @param msg
-     */
+    // void addCharacter(Character* p, QPointF pos);
 
     /**
      * @brief manageAnchor
      */
     void manageAnchor();
-    /**
-     * @brief fill
-     * @param msg
-     */
-    void fill(NetworkMessageWriter& msg);
-    /**
-     * @brief sendAllItems
-     * @param msg
-     */
-    void sendAllItems(NetworkMessageWriter& msg);
     /**
      * @brief isIdle
      * @return
@@ -126,44 +99,22 @@ public:
      * @brief setAnchor
      * @param child
      * @param parent
-     * @param send
      */
-    void setAnchor(QGraphicsItem* child, QGraphicsItem* parent, bool send= true);
+    void setAnchor(QGraphicsItem* child, QGraphicsItem* parent);
     /**
      * @brief setCurrentLayer
      * @param currentLayer
      */
     void updateLayer();
 
-    /**
-     * @brief processVisionMsg
-     * @param msg
-     */
-
     const QString& getLocalUserId() const;
     int getCurrentNpcNumber() const;
 
     void removeItemFromData(VisualItem* item);
-    void addItemFromData(VisualItem* item);
-    void insertItemFromData(VisualItem* item, int pos);
 
-    QUndoStack* getUndoStack() const;
     void setUndoStack(QUndoStack* undoStack);
-
-    // void addImageItem(const QString& imgPath);
-    // void addImageItem(const QImage& img);
     void addCommand(QUndoCommand* cmd);
-
-    int getItemCount();
-    int getSortedItemCount();
-    int getOrderedItemCount();
-    /**
-     * @brief getFogItem
-     * @return
-     */
-    SightItem* getFogItem() const;
     bool isNormalItem(const QGraphicsItem* item);
-    GridItem* getGridItem() const;
 
 public slots:
     /**
@@ -172,14 +123,9 @@ public slots:
      */
     // void setCurrentChosenColor(QColor&);
     /**
-     * @brief setId
-     * @param id
-     */
-    void setId(QString id);
-    /**
      * @brief removeItemFromScene
      */
-    void removeItemFromScene(QString, bool sendToAll= true, bool undoable= true);
+    // void removeItemFromScene(QString, bool sendToAll= true, bool undoable= true);
     /**
      * @brief VMap::computePattern
      */
@@ -190,25 +136,11 @@ public slots:
      */
     void duplicateItem(VisualItem* item);
     /**
-     * @brief readMessage
-     * @param msg
-     * @param readCharacter
-     */
-    void readMessage(NetworkMessageReader& msg, bool readCharacter= true);
-    /**
-     * @brief setLocalId
-     */
-    void setLocalId(QString);
-    /**
      * @brief getCharacterOnMap
      * @param id
      * @return
      */
     QList<CharacterItem*> getCharacterOnMap(QString id);
-    /**
-     * @brief cleanFogEdition
-     */
-    void cleanFogEdition();
     /**
      * @brief changeStackOrder triggered when VisualItem should change its z order. It recompute the zvalue of all
      * items.
@@ -240,66 +172,21 @@ public slots:
      */
     // void selectionPositionHasChanged();
     void showTransparentItems();
-    // void selectionPositionAboutToChange();
     void cleanUpInit(Core::CharacterScope zone);
     void rollInit(Core::CharacterScope zone);
-    // void addItem(VisualItem* item);
 signals:
-    /**
-     * @brief mapChanged is emitted after some changes on map has been made.
-     */
     void mapChanged();
     /**
      * @brief mapStatutChanged
      */
     void mapStatutChanged();
-
-    /**
-     * @brief currentItemOpacity
-     */
     void currentItemOpacity(qreal);
-    /**
-     * @brief colorPipette
-     */
-    void colorPipette(QColor);
-
-    /**
-     * @brief runCommandForCharacter
-     * @param cmd
-     * @param uuid
-     */
     void runDiceCommandForCharacter(QString cmd, QString uuid);
 private slots:
-    /**
-     * @brief sendItemToAll
-     */
-    void sendItemToAll(VisualItem*);
-    /**
-     * @brief sendOffItem
-     * @param item
-     */
-    void sendOffItem(VisualItem* item, bool doInitPoint= true);
-    /**
-     * @brief updateItem
-     */
     void updateItem(const QPointF& end);
-    /**
-     * @brief checkItemLayer
-     */
     void checkItemLayer(VisualItem*);
-    /**
-     * @brief promoteItemInType
-     */
     void promoteItemInType(VisualItem*, vmap::VisualItemController::ItemType);
-    /**
-     * @brief insertCharacterInMap
-     * @param item
-     */
     void insertCharacterInMap(CharacterItem* item);
-    /**
-     * @brief characterHasBeenDeleted
-     */
-    void characterHasBeenDeleted(Character*);
 
 protected:
     /**
@@ -356,53 +243,21 @@ protected:
     void addAndInit(QGraphicsItem* item);
 
     void addVisualItem(vmap::VisualItemController* ctrl);
+    void addExistingItems();
 
 private:
+    QPointer<GridItem> m_gridItem;
+    QPointer<SightItem> m_sightItem;
     QPointer<VectorialMapController> m_ctrl;
-    /**
-     * @brief current selected item
-     */
     QPointer<VisualItem> m_currentItem;
     QPointer<AnchorItem> m_parentItemAnchor;
     QPointer<RuleItem> m_ruleItem;
-    /**
-     * @brief m_currentPath
-     */
     QPointer<PathItem> m_currentPath= nullptr;
-    /**
-     * @brief Items list which are part of the map.
-     */
     QMap<QString, VisualItem*>* m_itemMap= nullptr;
-    /**
-     * @brief m_sortedItemList
-     */
     QStringList m_sortedItemList; // sorted by time of insertion
-    /**
-     * @brief m_orderedItemList is used to store zorder of all items.
-     */
     QList<VisualItem*> m_orderedItemList;
-    /**
-     * @brief Items list which are part of the map.
-     */
-    QMap<QString, CharacterItem*>* m_characterItemMap= nullptr;
-    /**
-     * @brief m_computedPattern
-     */
+    QMultiMap<QString, CharacterItem*>* m_characterItemMap= nullptr;
     QImage m_computedPattern;
-    /**
-     * @brief m_id
-     */
-    QString m_id;
-    /**
-     * @brief m_localUserId
-     */
-    QString m_localUserId;
-
-    SightItem* m_sightItem= nullptr;
-    GridItem* m_gridItem= nullptr;
-    VisualItem* m_fogItem= nullptr;
-    quint64 m_zIndex;
-
     QPointer<QUndoStack> m_undoStack;
     AddVmapItemCommand* m_currentAddCmd= nullptr;
     QList<VisualItem*> m_movingItems;

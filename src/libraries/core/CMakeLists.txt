@@ -55,6 +55,8 @@ set(HEADERS
   #controller/media_controller/vectorialmapmediacontroller.h
   #controller/media_controller/webpagemediacontroller.h
   controller/networkcontroller.h
+  controller/audioplayercontroller.h
+  controller/audiocontroller.h
   controller/playercontroller.h
   controller/preferencescontroller.h
   #ontroller/resourcescontroller.h
@@ -67,6 +69,7 @@ set(HEADERS
   controller/view_controller/sharednotecontroller.h
   controller/view_controller/vectorialmapcontroller.h
   controller/view_controller/webpagecontroller.h
+  controller/view_controller/selectconnprofilecontroller.h
   data/campaign.h
   data/campaigneditor.h
   data/campaignmanager.h
@@ -89,6 +92,7 @@ set(HEADERS
   model/actiononlistmodel.h
   model/charactermodel.h
   model/characterstatemodel.h
+  model/historymodel.h
   model/contentmodel.h
   model/dicealiasmodel.h
   model/genericmodel.h
@@ -109,6 +113,7 @@ set(HEADERS
   model/singlecontenttypemodel.h
   model/thememodel.h
   model/vmapitemmodel.h
+  network/network_type.h
   network/channel.h
   network/channelmodel.h
   network/characterdatamodel.h
@@ -152,12 +157,16 @@ set(HEADERS
   undoCmd/importmedia.h
   undoCmd/newmediacontroller.h
   undoCmd/openmediacontroller.h
+  undoCmd/renamecampaignmedia.h
   undoCmd/removelocalcharactercommand.h
   undoCmd/removemediacontrollercommand.h
   undoCmd/showtransparentitemcommand.h
+  undoCmd/rollinitcommand.h
   updater/controller/servermanagerupdater.h
+  updater/controller/audioplayerupdater.h
   updater/media/campaignupdater.h
   updater/media/charactersheetupdater.h
+  updater/media/genericupdater.h
   updater/media/instantmessagingupdater.h
   updater/media/mediaupdaterinterface.h
   updater/media/mindmapupdater.h
@@ -173,6 +182,7 @@ set(HEADERS
   updater/vmapitem/textcontrollerupdater.h
   updater/vmapitem/vmapitemcontrollerupdater.h
   utils/insertionsortedmap.h
+    utils/countdownobject.h
   worker/networkhelper.h
   worker/autosavecontroller.h
   worker/convertionhelper.h
@@ -215,6 +225,7 @@ set(SOURCES
   controller/playercontroller.cpp
   controller/preferencescontroller.cpp
   #controller/resourcescontroller.cpp
+  controller/audioplayercontroller.cpp
   controller/view_controller/charactersheetcontroller.cpp
   controller/view_controller/imagecontroller.cpp
   controller/view_controller/imageselectorcontroller.cpp
@@ -224,6 +235,8 @@ set(SOURCES
   controller/view_controller/sharednotecontroller.cpp
   controller/view_controller/vectorialmapcontroller.cpp
   controller/view_controller/webpagecontroller.cpp
+  controller/view_controller/selectconnprofilecontroller.cpp
+  controller/audiocontroller.cpp
   data/campaign.cpp
   data/campaigneditor.cpp
   data/campaignmanager.cpp
@@ -251,6 +264,7 @@ set(SOURCES
   model/languagemodel.cpp
   model/mediafilteredmodel.cpp
   model/mediamodel.cpp
+  model/historymodel.cpp
   model/musicmodel.cpp
   model/nonplayablecharactermodel.cpp
   model/palettemodel.cpp
@@ -307,12 +321,16 @@ set(SOURCES
   undoCmd/importmedia.cpp
   undoCmd/newmediacontroller.cpp
   undoCmd/openmediacontroller.cpp
+  undoCmd/renamecampaignmedia.cpp
+  undoCmd/rollinitcommand.cpp
   undoCmd/removelocalcharactercommand.cpp
   undoCmd/removemediacontrollercommand.cpp
   undoCmd/showtransparentitemcommand.cpp
   updater/controller/servermanagerupdater.cpp
+  updater/controller/audioplayerupdater.cpp
   updater/media/campaignupdater.cpp
   updater/media/charactersheetupdater.cpp
+  updater/media/genericupdater.cpp
   updater/media/instantmessagingupdater.cpp
   updater/media/mediaupdaterinterface.cpp
   updater/media/mindmapupdater.cpp
@@ -327,6 +345,7 @@ set(SOURCES
   updater/vmapitem/rectcontrollerupdater.cpp
   updater/vmapitem/textcontrollerupdater.cpp
   updater/vmapitem/vmapitemcontrollerupdater.cpp
+  utils/countdownobject.cpp
   worker/networkhelper.cpp
   worker/autosavecontroller.cpp
   worker/convertionhelper.cpp
@@ -346,10 +365,10 @@ if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
     message("Link with PDF")
     add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${pdfHeader} ${QRC_SOURCES})
     target_compile_definitions(core PUBLIC WITH_PDF=1)
-    target_link_libraries(core PUBLIC project_warnings project_options Qt6::Core  Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::StateMachine PRIVATE diceparser_shared rmindmap common_core charactersheet_widgets)
+    target_link_libraries(core PUBLIC project_warnings project_options Qt6::Core  Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::StateMachine PRIVATE diceparser_shared rmindmap common_core common_qml charactersheet charactersheet_widgets instantmessaging)
 else()
   add_library(core SHARED ${SOURCES} ${HEADERS} ${QRC_SOURCES})
-  target_link_libraries(core PUBLIC project_warnings project_options Qt6::Core  Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::StateMachine PRIVATE diceparser_shared rmindmap common_core charactersheet_widgets)
+  target_link_libraries(core PUBLIC project_warnings project_options Qt6::Core  Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::StateMachine PRIVATE diceparser_shared rmindmap common_core common_qml charactersheet charactersheet_widgets instantmessaging)
 endif()
 
 target_include_directories(core PUBLIC ../)

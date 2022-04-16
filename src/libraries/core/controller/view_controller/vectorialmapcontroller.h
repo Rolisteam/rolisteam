@@ -22,6 +22,7 @@
 #define VECTORIALMAPCONTROLLER_H
 
 #include <QColor>
+#include <QPointer>
 #include <QRectF>
 #include <memory>
 #include <vector>
@@ -40,10 +41,15 @@ class VmapItemModel;
 } // namespace vmap
 
 class VMap;
+class Character;
 class NetworkMessageReader;
+class DiceRoller;
 class VectorialMapController : public MediaControllerBase
 {
     Q_OBJECT
+    Q_PROPERTY(vmap::VmapItemModel* model READ model CONSTANT)
+    Q_PROPERTY(vmap::GridController* gridController READ gridController CONSTANT)
+    Q_PROPERTY(vmap::SightController* sightController READ sightController CONSTANT)
     Q_PROPERTY(bool npcNameVisible READ npcNameVisible WRITE setNpcNameVisible NOTIFY npcNameVisibleChanged)
     Q_PROPERTY(bool pcNameVisible READ pcNameVisible WRITE setPcNameVisible NOTIFY pcNameVisibleChanged)
     Q_PROPERTY(bool npcNumberVisible READ npcNumberVisible WRITE setNpcNumberVisible NOTIFY npcNumberVisibleChanged)
@@ -92,8 +98,13 @@ public:
         BACK
     };
     Q_ENUM(StackOrder)
-    explicit VectorialMapController(const QString& id, QObject* parent= nullptr);
+    explicit VectorialMapController(const QString& id= QString(), QObject* parent= nullptr);
     ~VectorialMapController();
+
+    vmap::VmapItemModel* model() const;
+    vmap::GridController* gridController() const;
+    vmap::SightController* sightController() const;
+    vmap::VisualItemController* itemController(const QString& id) const;
 
     Core::PermissionMode permission() const;
     int gridSize() const;
@@ -125,27 +136,19 @@ public:
     QRectF visualRect() const;
     bool idle() const;
     int zIndex() const;
-    void saveData() const;
-    void loadData() const;
 
     QString layerToText(Core::Layer id);
-
-    vmap::VmapItemModel* model() const;
-    vmap::GridController* gridController() const;
-    vmap::SightController* sightController() const;
-    vmap::VisualItemController* itemController(const QString& id) const;
-
-    void loadItems();
-
     QString addItemController(const std::map<QString, QVariant>& params);
     void addRemoteItem(vmap::VisualItemController* ctrl);
     void removeItemController(const QString& uuid);
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
-
     bool pasteData(const QMimeData& data) override;
+    void setDiceParser(DiceRoller* parser);
 public slots:
     void showTransparentItems(const QList<vmap::VisualItemController*>& list);
     void hideOtherLayers(bool b);
+    void rollInit(Core::CharacterScope scope);
+    void cleanUpInit(Core::CharacterScope scope);
 
 signals:
     void permissionChanged(Core::PermissionMode mode);
@@ -224,6 +227,10 @@ public slots:
     void addHighLighter(const QPointF& point);
 
 private:
+    std::unique_ptr<vmap::VmapItemModel> m_vmapModel;
+    std::unique_ptr<vmap::GridController> m_gridController;
+    std::unique_ptr<vmap::SightController> m_sightController;
+
     bool m_pcNameVisible= true;
     bool m_npcNameVisible= true;
     bool m_healthBarVisible= true;
@@ -254,11 +261,7 @@ private:
     Core::Layer m_layer= Core::Layer::GROUND;
     Core::SelectableTool m_tool= Core::HANDLER;
     Core::EditionMode m_editionMode= Core::EditionMode::Painting;
-    std::unique_ptr<vmap::VmapItemModel> m_vmapModel;
-    // std::map<vmap::VisualItemController::ItemType, std::unique_ptr<vmap::VisualItemController>> m_updaters;
-
-    std::unique_ptr<vmap::GridController> m_gridController;
-    std::unique_ptr<vmap::SightController> m_sightController;
+    QPointer<DiceRoller> m_diceParser;
 };
 
 #endif // VECTORIALMAPCONTROLLER_H

@@ -49,6 +49,8 @@ class VisualItemController : public QObject
     Q_PROPERTY(ItemType itemType READ itemType CONSTANT)
     Q_PROPERTY(bool initialized READ initialized WRITE setInitialized NOTIFY initializedChanged)
     Q_PROPERTY(bool remote READ remote WRITE setRemote NOTIFY remoteChanged)
+    Q_PROPERTY(bool modified READ modified WRITE setModified NOTIFY modifiedChanged)
+
 public:
     enum ItemType
     {
@@ -81,6 +83,7 @@ public:
     bool selected() const;
     bool editable() const;
     bool selectable() const;
+    bool modified() const;
     virtual bool visible() const;
     qreal opacity() const;
     Core::Layer layer() const;
@@ -95,6 +98,7 @@ public:
     virtual QRectF rect() const= 0;
     virtual ItemType itemType() const;
     bool remote() const;
+    virtual QPointF rotationOriginPoint() const;
 
     const QString mapUuid() const;
 
@@ -109,7 +113,7 @@ public:
     bool locked() const;
 
 signals:
-    void selectedChanged();
+    void selectedChanged(bool b);
     void editableChanged();
     void selectableChanged();
     void visibleChanged();
@@ -127,6 +131,7 @@ signals:
     void rotationEditFinished();
     void visibilityChanged(Core::VisibilityMode);
     void remoteChanged(bool);
+    void modifiedChanged(bool);
 
 public slots:
     void setSelected(bool b);
@@ -141,9 +146,10 @@ public slots:
     void setLocked(bool locked);
     void setInitialized(bool);
     void setRemote(bool b);
+    void setModified(bool b= true);
 
 protected:
-    virtual void computeEditable();
+    void computeEditable();
 
 private:
     void initializedVisualItem(const std::map<QString, QVariant>& params);
@@ -167,6 +173,7 @@ protected:
     bool m_posEditing= false;
     bool m_rotationEditing= false;
     bool m_remote= false;
+    bool m_modified= false;
 };
 } // namespace vmap
 #endif // VISUALITEMCONTROLLER_H

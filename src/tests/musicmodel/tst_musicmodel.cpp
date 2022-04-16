@@ -41,8 +41,6 @@ private slots:
     void insertTest();
     void removeTest();
 
-    void saveModelTest();
-
 private:
     std::unique_ptr<MusicModel> m_model;
 };
@@ -56,7 +54,7 @@ void TestMusicModel::init()
 
 void TestMusicModel::addTest()
 {
-    QFETCH(QStringList, list);
+    QFETCH(QList<QUrl>, list);
     QFETCH(int, expected);
 
     QVERIFY(m_model->rowCount() == 0);
@@ -68,20 +66,20 @@ void TestMusicModel::addTest()
 
 void TestMusicModel::addTest_data()
 {
-    QTest::addColumn<QStringList>("list");
+    QTest::addColumn<QList<QUrl>>("list");
     QTest::addColumn<int>("expected");
 
-    QTest::addRow("list1") << QStringList() << 0;
-    QTest::addRow("list2") << QStringList({"song.mp3"}) << 1;
-    QTest::addRow("list3") << QStringList({"song.mp3", "song1.ogg"}) << 2;
-    QTest::addRow("list3") << QStringList({"song.mp3", "song1.ogg", "song4.wav"}) << 3;
+    QTest::addRow("list1") << QList<QUrl>() << 0;
+    QTest::addRow("list2") << QList<QUrl>({QUrl("song.mp3")}) << 1;
+    QTest::addRow("list3") << QList<QUrl>({QUrl("song.mp3"), QUrl("song1.ogg")}) << 2;
+    QTest::addRow("list3") << QList<QUrl>({QUrl("song.mp3"), QUrl("song1.ogg"), QUrl("song4.wav")}) << 3;
 }
 
 void TestMusicModel::removeTest()
 {
-    QStringList list;
-    list << "song1.mp3"
-         << "song2.ogg";
+    QList<QUrl> list;
+    list << QUrl("song1.mp3") << QUrl("song2.ogg");
+
     m_model->addSong(list);
 
     QCOMPARE(m_model->rowCount(), 2);
@@ -104,6 +102,7 @@ void TestMusicModel::removeTest()
     m_model->removeSong(indexList);
 
     QCOMPARE(m_model->rowCount(), 0);
+    indexList.clear();
 
     m_model->addSong(list);
 
@@ -118,9 +117,8 @@ void TestMusicModel::removeTest()
 
 void TestMusicModel::insertTest()
 {
-    QStringList list;
-    list << "/home/file/song1.mp3"
-         << "/home/file/song2.ogg";
+    QList<QUrl> list;
+    list << QUrl("/home/file/song1.mp3") << QUrl("/home/file/song2.ogg");
     m_model->addSong(list);
 
     QCOMPARE(m_model->rowCount(), 2);
@@ -131,21 +129,6 @@ void TestMusicModel::insertTest()
 
     auto index= m_model->index(1, 0);
     QCOMPARE(index.data().toString(), "songInserted.mp3");
-}
-
-void TestMusicModel::saveModelTest()
-{
-    QStringList list;
-    list << "http://song1.mp3"
-         << "http://song2.ogg";
-    m_model->addSong(list);
-
-    QString data;
-    QTextStream out(&data, QIODevice::WriteOnly);
-    m_model->saveIn(out);
-    auto list2= data.split('\n', QString::SkipEmptyParts);
-
-    QCOMPARE(list, list2);
 }
 
 QTEST_MAIN(TestMusicModel);

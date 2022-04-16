@@ -37,6 +37,10 @@ LineController::LineController(const std::map<QString, QVariant>& params, Vector
 
     if(params.end() != params.find("position"))
         m_pos= params.at(QStringLiteral("position")).toPointF();
+
+    connect(this, &LineController::startPointChanged, this, [this] { setModified(); });
+    connect(this, &LineController::endPointChanged, this, [this] { setModified(); });
+    connect(this, &LineController::penWidthChanged, this, [this] { setModified(); });
 }
 
 quint16 LineController::penWidth() const

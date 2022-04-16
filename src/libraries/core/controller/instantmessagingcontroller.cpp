@@ -69,7 +69,7 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
     : AbstractControllerInterface(parent)
     , m_localPersonModel(new LocalPersonModel)
     , m_updater(new InstantMessaging::InstantMessagingUpdater)
-    , m_model(new InstantMessaging::InstantMessagingModel)
+    , m_model(new InstantMessaging::InstantMessagingModel(model))
     , m_players(model)
 {
     ReceiveEvent::registerNetworkReceiver(NetMsg::InstantMessageCategory, this);
@@ -77,6 +77,9 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
     addChatroomSplitterModel();
 
     m_localPersonModel->setSourceModel(m_players);
+
+    connect(m_model.get(), &InstantMessaging::InstantMessagingModel::unreadChanged, this,
+            &InstantMessagingController::unreadChanged);
 
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::chatRoomCreated, this,
             [this](InstantMessaging::ChatRoom* room, bool remote) { m_updater->addChatRoom(room, remote); });
@@ -139,13 +142,18 @@ bool InstantMessagingController::visible() const
     return m_visible;
 }
 
+bool InstantMessagingController::unread() const
+{
+    return m_model->unread();
+}
+
 void InstantMessagingController::openLink(const QString& link)
 {
     qDebug() << "open link" << link;
     emit openWebPage(link);
 }
 
-void InstantMessagingController::setDiceParser(DiceParser* diceParser)
+void InstantMessagingController::setDiceParser(DiceRoller* diceParser)
 {
     m_model->setDiceParser(diceParser);
 }

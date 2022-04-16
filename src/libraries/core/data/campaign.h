@@ -38,6 +38,9 @@ class NonPlayableCharacterModel;
 constexpr char const* TRASH_FOLDER{".trash"};
 constexpr char const* MODEL_FILE{"data.json"};
 constexpr char const* THEME_FILE{"theme.json"};
+constexpr char const* FIRST_AUDIO_PLAYER_FILE{"audioplayer1.json"};
+constexpr char const* SECOND_AUDIO_PLAYER_FILE{"audioplayer2.json"};
+constexpr char const* THIRD_AUDIO_PLAYER_FILE{"audioplayer3.json"};
 constexpr char const* DICE_ALIAS_MODEL{"dice_command.json"};
 constexpr char const* STATE_MODEL{"states.json"};
 constexpr char const* MEDIA_ROOT{"media"};
@@ -56,6 +59,8 @@ class Campaign : public QObject
     Q_PROPERTY(NonPlayableCharacterModel* npcModel READ npcModel NOTIFY npcModelChanged)
     Q_PROPERTY(RolisteamTheme* currentTheme READ currentTheme WRITE setCurrentTheme NOTIFY currentThemeChanged)
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(qint64 diskUsage READ diskUsage NOTIFY diskUsageChanged)
+    Q_PROPERTY(int fileCount READ fileCount NOTIFY fileCountChanged)
 public:
     explicit Campaign(QObject* parent= nullptr);
     enum class State : quint8
@@ -76,8 +81,15 @@ public:
     {
         MEDIA_ROOT,
         STATE_ROOT,
+        STATE_MODEL,
         TRASH_ROOT,
-        NPC_ROOT
+        NPC_ROOT,
+        NPC_MODEL,
+        THEME_FILE,
+        DICE_MODEL,
+        FIRST_AUDIO_PLAYER_FILE,
+        SECOND_AUDIO_PLAYER_FILE,
+        THIRD_AUDIO_PLAYER_FILE,
     };
     Q_ENUM(Place);
 
@@ -91,14 +103,17 @@ public:
     RolisteamTheme* currentTheme() const;
     NonPlayableCharacterModel* npcModel() const;
     State state() const;
+    qint64 diskUsage() const;
+    int fileCount() const;
 
     QString currentStorePath() const;
 
-    void addMedia(std::unique_ptr<Media> media);
+    void addMedia(std::unique_ptr<Media>&& media);
     void removeMedia(const QString& id);
     const std::vector<std::unique_ptr<Media>>& medias() const;
     Media* mediaFromPath(const QString& path) const;
     Media* mediaFromUuid(const QString& uuid) const;
+    QString pathFromUuid(const QString& uuid) const;
 
     QString directory(Place place) const;
 
@@ -108,6 +123,7 @@ public slots:
     void setCurrentTheme(RolisteamTheme* themeuri);
     void setName(const QString& name);
     void postError(const QString& msg);
+    void renameMedia(const QString& id, const QString& name);
 
     // alias
     void addAlias();
@@ -118,14 +134,14 @@ public slots:
     // states
     void addState();
     void deleteState(const QModelIndex& index);
-    void moveState(const QModelIndex& index, Move move);
+    void moveState(const QModelIndex& index, campaign::Campaign::Move move);
 
     // Characters
     void addCharacter();
     void removeCharacter(const QString& id);
 
 private slots:
-    void setState(State state);
+    void setState(campaign::Campaign::State state);
 
 signals:
     void rootDirectoryChanged();
@@ -140,8 +156,11 @@ signals:
     void stateChanged();
     void nameChanged();
     void errorOccured(QString msg);
-    void mediaAdded(Media* media);
+    void mediaAdded(campaign::Media* media);
+    void mediaNameChanged();
     void mediaRemoved(const QString& id);
+    void diskUsageChanged();
+    void fileCountChanged();
 
 private:
     std::vector<std::unique_ptr<campaign::Media>> m_mediaList;

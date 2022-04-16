@@ -124,54 +124,6 @@ CharacterItem::~CharacterItem()
     createActions();
 }*/
 
-void CharacterItem::writeData(QDataStream& out) const
-{
-    /* out << m_center;
-     int diam= static_cast<int>(m_diameter);
-     out << diam;
-     out << *m_thumnails;
-     // out << m_rect;
-     out << opacity();
-     // out << static_cast<int>(m_layer);
-     // out << zValue();
-     if(nullptr != m_character)
-     {
-         out << true;
-         m_character->writeData(out);
-     }
-     else
-     {
-         out << false;
-     }*/
-}
-
-void CharacterItem::readData(QDataStream& in)
-{
-    /*    in >> m_center;
-        int diam;
-        in >> diam;
-        m_diameter= diam;
-        m_thumnails= new QPixmap();
-        in >> *m_thumnails;
-        // in >> m_rect;
-
-        qreal opa= 0;
-        in >> opa;
-        setOpacity(opa);
-
-        int tmp;
-        in >> tmp;
-        // m_layer= static_cast<Core::Layer>(tmp);
-        bool hasCharacter;
-        in >> hasCharacter;
-        auto charact= new Character();
-        if(hasCharacter)
-        {
-            charact->readData(in);
-        }
-        setCharacter(charact);*/
-}
-
 QRectF CharacterItem::boundingRect() const
 {
     return m_itemCtrl->thumnailRect().united(m_itemCtrl->textRect());
@@ -389,107 +341,6 @@ void CharacterItem::generatedThumbnail()
      painter.drawRoundedRect(0, 0, diam, diam, m_diameter / RADIUS_CORNER, m_diameter / RADIUS_CORNER);*/
 }
 
-void CharacterItem::fillMessage(NetworkMessageWriter* msg)
-{
-    /*  if(nullptr == m_character || nullptr == m_vision || nullptr == msg)
-          return;
-
-      msg->string16(m_id);
-      msg->real(scale());
-      msg->real(rotation());
-      msg->string16(m_character->getUuid());
-      msg->real(m_diameter);
-
-      // msg->uint8(static_cast<quint8>(m_layer));
-      msg->real(zValue());
-      msg->real(opacity());
-
-      // pos
-      msg->real(pos().x());
-      msg->real(pos().y());
-
-      msg->real(m_center.x());
-      msg->real(m_center.y());
-
-      // rect
-      / * msg->real(m_rect.x());
-       msg->real(m_rect.y());
-       msg->real(m_rect.width());
-       msg->real(m_rect.height());* /
-
-      // path
-      QByteArray data;
-      QDataStream in(&data, QIODevice::WriteOnly);
-      in.setVersion(QDataStream::Qt_5_7);
-      if((m_thumnails == nullptr) || (m_thumnails->isNull()))
-      {
-          generatedThumbnail();
-      }
-      in << *m_thumnails;
-      msg->byteArray32(data);
-
-      m_character->fill(*msg, true);
-      m_vision->fill(msg);*/
-}
-void CharacterItem::readItem(NetworkMessageReader* msg)
-{
-    /*  m_id= msg->string16();
-      setScale(msg->real());
-      setRotation(msg->real());
-      QString idCharacter= msg->string16();
-      m_diameter= msg->real();
-
-      // m_layer= static_cast<Core::Layer>(msg->uint8());
-
-      setZValue(msg->real());
-      setOpacity(msg->real());
-
-      qreal x= msg->real();
-      qreal y= msg->real();
-
-      setPos(x, y);
-      // pos
-      m_center.setX(msg->real());
-      m_center.setY(msg->real());
-      // rect
-
-      / *  m_rect.setX(msg->real());
-        m_rect.setY(msg->real());
-        m_rect.setWidth(msg->real());
-        m_rect.setHeight(msg->real());* /
-
-      // path
-      QByteArray data;
-      data= msg->byteArray32();
-
-      QDataStream out(&data, QIODevice::ReadOnly);
-      out.setVersion(QDataStream::Qt_5_7);
-      m_thumnails= new QPixmap();
-      out >> *m_thumnails;
-
-      / *Character* tmp= PlayerModel::instance()->getCharacter(idCharacter);
-
-      if(nullptr != tmp)
-      {
-          tmp->read(*msg);
-      }
-      else
-      {
-          /// @todo This code may no longer be needed.
-          tmp= new Character();
-          QString id= tmp->read(*msg);
-          tmp->setParentPerson(PlayerModel::instance()->getPlayer(id));
-      }
-      setCharacter(tmp);* /
-      generatedThumbnail();
-
-      updateItemFlags();
-
-      if(nullptr != m_vision)
-      {
-          m_vision->readMessage(msg);
-      }*/
-}
 void CharacterItem::resizeContents(const QRectF& rect, int pointId, TransformType)
 {
     /*if(!rect.isValid())
@@ -1052,18 +903,6 @@ void CharacterItem::addChildPoint(ChildPointItem* item)
     m_children.append(item);
 }
 
-void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
-{
-    /*   auto z= zValue();
-       VisualItem::readPositionMsg(msg);
-       if(isLocal())
-       {
-           blockSignals(true);
-           setZValue(z);
-           blockSignals(false);
-       }*/
-    update();
-}
 bool CharacterItem::isLocal() const
 {
     /*PlayerModel* model= PlayerModel::instance();

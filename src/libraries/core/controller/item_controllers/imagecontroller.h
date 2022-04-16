@@ -36,7 +36,7 @@ class ImageController : public VisualItemController
     Q_PROPERTY(QByteArray data READ data WRITE setData NOTIFY dataChanged)
     Q_PROPERTY(QRectF rect READ rect WRITE setRect NOTIFY rectChanged)
     Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
-    Q_PROPERTY(qreal ratio READ ratio NOTIFY ratio)
+    Q_PROPERTY(qreal ratio READ ratio NOTIFY rectChanged)
 public:
     enum Corner
     {
@@ -61,7 +61,6 @@ signals:
     void rectChanged();
     void pathChanged(QString path);
     void isMovieChanged(bool movie);
-    void ratio(qreal ratio);
     void dataChanged(QByteArray data);
     void rectEditFinished();
 

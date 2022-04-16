@@ -29,6 +29,12 @@ class ProfileModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
+    enum CustomRole
+    {
+        NameRole= Qt::UserRole + 1,
+        IndexRole
+    };
+    Q_ENUM(CustomRole)
     /**
      * @brief ProfileModel
      */
@@ -42,14 +48,14 @@ public:
      * @param parent
      * @return
      */
-    virtual int rowCount(const QModelIndex& parent) const;
+    virtual int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     /**
      * @brief data
      * @param index
      * @param role
      * @return
      */
-    virtual QVariant data(const QModelIndex& index, int role) const;
+    virtual QVariant data(const QModelIndex& index, int role) const override;
     /**
      * @brief headerData
      * @param section
@@ -57,17 +63,19 @@ public:
      * @param role
      * @return
      */
-    QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
 
-    Qt::ItemFlags flags(const QModelIndex& index) const;
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
     void removeProfile(int idx);
 
     ConnectionProfile* getProfile(const QModelIndex&);
 
-    int cloneProfile(const QModelIndex& index);
+    int cloneProfile(int index);
 
     int indexOf(ConnectionProfile* tmp);
     ConnectionProfile* getProfile(int index);
+
+    QHash<int, QByteArray> roleNames() const override;
 public slots:
     /**
      * @brief ProfileModel::appendProfile

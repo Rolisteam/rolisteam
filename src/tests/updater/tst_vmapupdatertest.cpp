@@ -62,7 +62,7 @@ UpdaterVMapTest::UpdaterVMapTest() {}
 
 void UpdaterVMapTest::init()
 {
-    m_updater.reset(new VMapUpdater(nullptr));
+    m_updater.reset(new VMapUpdater(nullptr, nullptr));
 }
 
 void UpdaterVMapTest::cleanupTestCase() {}
@@ -111,13 +111,13 @@ void UpdaterVMapTest::serializationTest()
         break;
     }
 
-    auto data= msg.getData();
+    auto data= msg.data();
 
     NetworkMessageReader msgReader;
     msgReader.setData(data);
 
     VectorialMapController ma2p("");
-    QVERIFY(m_updater->updateVMapProperty(&msgReader, &ma2p));
+    QCOMPARE(m_updater->updateVMapProperty(&msgReader, &ma2p), result);
 }
 
 void UpdaterVMapTest::serializationTest_data()

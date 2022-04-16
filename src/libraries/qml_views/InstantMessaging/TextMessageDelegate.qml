@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import Customization 1.0
+import org.rolisteam.InstantMessaging 1.0
 
 
 Column {
@@ -8,6 +9,7 @@ Column {
     property QtObject styleSheet: Theme.styleSheet("TextMessage")
     spacing: root.styleSheet.spacing
     property real factor : fontFactor
+    signal linkClicked(string link)
     Row {
         id: messageRow
         spacing: root.styleSheet.textAvatarSpacing
@@ -18,9 +20,8 @@ Column {
             source: "image://avatar/%1".arg(model.writerId)
             visible: !model.local
             fillMode: Image.PreserveAspectFit
-            property int side: messageId.contentHeight / messageId.lineCount + root.styleSheet.textTopMargin
-            sourceSize.height: side
-            sourceSize.width:  side
+            sourceSize.width:  root.styleSheet.imageSize
+            sourceSize.height: root.styleSheet.imageSize
         }
 
         Rectangle {
@@ -36,15 +37,15 @@ Column {
                 font.pixelSize: root.styleSheet.fontSize * root.factor
                 anchors.centerIn: parent
                 wrapMode: Text.WordWrap
-                onLinkActivated: _ctrl.openLink(link)
+                onLinkActivated: InstantMessagerManager.ctrl.openLink(link)
             }
         }
     }
     Label {
         id: timestamp
-        text: model.time
+        text: model.local ? model.time : "%1 - %2".arg(model.time).arg(model.writerName)
         anchors.right: model.local ? parent.right : undefined
-        font.pixelSize: root.styleSheet.fontSize * root.factor
+        font.pixelSize: root.styleSheet.fontSizeTime * root.factor
         opacity: root.styleSheet.opacityTime
     }
 }

@@ -28,20 +28,28 @@
 #include "core/worker/convertionhelper.h"
 
 class MediaControllerBase;
+namespace campaign
+{
+class CampaignManager;
+}
 class MediaUpdaterInterface : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
 public:
-    MediaUpdaterInterface(QObject* object= nullptr);
+    MediaUpdaterInterface(campaign::CampaignManager* campaign, QObject* object= nullptr);
     virtual void addMediaController(MediaControllerBase* ctrl)= 0;
 
     template <typename T>
     void sendOffChanges(MediaControllerBase* ctrl, const QString& property);
 
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+
+public slots:
+    virtual void saveMediaController(MediaControllerBase* ctrl);
 
 protected:
     bool m_updatingFromNetwork= false;
+    QPointer<campaign::CampaignManager> m_manager;
 };
 
 template <typename T>

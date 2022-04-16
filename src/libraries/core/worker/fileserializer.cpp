@@ -47,8 +47,6 @@ bool FileSerializer::createCampaignDirectory(const QString& campaign)
     res&= dir.mkdir(campaign::TRASH_FOLDER);
     res&= dir.mkdir(campaign::CHARACTER_ROOT);
 
-    // dir.cd(campaign::MEDIA_ROOT);
-
     return res;
 }
 
@@ -59,7 +57,7 @@ Core::MediaType FileSerializer::typeFromExtention(const QString& filename)
     static QSet<QString> mindmap{"rmap"};
     static QSet<QString> vmap{"vmap"};
     static QSet<QString> text{"txt", "md", "tst", "json"};
-    static QSet<QString> html{"html", "htm", "link"};
+    static QSet<QString> html{"rweb"};
     static QSet<QString> token{"rtok"};
     static QSet<QString> playlist{"m3u"};
     static QSet<QString> audio{"mp3", "ogg", "mpc", "wav"};
@@ -233,7 +231,7 @@ void FileSerializer::writeCampaignInfo(const QString& destination, const QJsonOb
 
 void FileSerializer::writeFileIntoCampaign(const QString& destination, const QByteArray& array)
 {
-    qDebug() << destination << array.size();
+    qDebug() << "fileserializer" << destination << array.size();
     QtConcurrent::run([destination, array]() { IOHelper::writeFile(destination, array); });
 }
 
@@ -249,7 +247,7 @@ QString FileSerializer::contentTypeToDefaultExtension(Core::ContentType type)
         break;
     case cc::PICTURE:
         // case cc::ONLINEPICTURE:
-        res= Core::extentions::EXT_IMG;
+        res= Core::extentions::EXT_IMG_PNG;
         break;
     case cc::NOTES:
         res= Core::extentions::EXT_TEXT;
@@ -285,5 +283,144 @@ QString FileSerializer::addExtention(const QString& name, Core::ContentType type
     if(!name.endsWith(ext))
         ret= QString("%1%2").arg(name, ext);
     return ret;
+}
+
+bool FileSerializer::isValidCampaignDirectory(const QString& path, bool acceptEmpty)
+{
+    if(path.isEmpty())
+        return false;
+
+    QDir direct(path);
+    auto entrylist= direct.entryList(QDir::NoDotAndDotDot);
+
+    if(acceptEmpty && entrylist.isEmpty()) // empty directory is valid.
+        return true;
+
+    QList<QString> list{campaign::MEDIA_ROOT, campaign::STATE_ROOT, campaign::TRASH_FOLDER, campaign::CHARACTER_ROOT,
+                        campaign::MODEL_FILE};
+    return std::all_of(std::begin(list), std::end(list), [path](const QString& subpath) {
+        return QFileInfo::exists(QString("%1/%2").arg(path, subpath));
+    });
+}
+
+bool FileSerializer::hasContent(const QString& path, Core::CampaignDataCategory category)
+{
+    if(path.isEmpty())
+        return false;
+
+    QDir direct(path);
+    auto entrylist= direct.entryList(QDir::NoDotAndDotDot);
+
+    if(entrylist.isEmpty()) // empty dir has no content
+        return false;
+
+    QSet<Core::CampaignDataCategory> mediaCategories{
+        Core::CampaignDataCategory::Images, Core::CampaignDataCategory::Maps, Core::CampaignDataCategory::MindMaps,
+        Core::CampaignDataCategory::CharacterSheets, Core::CampaignDataCategory::Notes};
+
+    QList<QString> list;
+    switch(category)
+    {
+    case Core::CampaignDataCategory::AudioPlayer1:
+        list.append(campaign::FIRST_AUDIO_PLAYER_FILE);
+        break;
+    case Core::CampaignDataCategory::AudioPlayer2:
+        list.append(campaign::SECOND_AUDIO_PLAYER_FILE);
+        break;
+    case Core::CampaignDataCategory::AudioPlayer3:
+        list.append(campaign::THIRD_AUDIO_PLAYER_FILE);
+        break;
+    case Core::CampaignDataCategory::Images:
+    case Core::CampaignDataCategory::Maps:
+    case Core::CampaignDataCategory::MindMaps:
+    case Core::CampaignDataCategory::CharacterSheets:
+    case Core::CampaignDataCategory::Notes:
+    case Core::CampaignDataCategory::WebLink:
+    case Core::CampaignDataCategory::PDFDoc:
+        list.append(campaign::MEDIA_ROOT);
+        list.append(campaign::MODEL_FILE);
+        break;
+    case Core::CampaignDataCategory::DiceAlias:
+        list.append(campaign::DICE_ALIAS_MODEL);
+        break;
+    case Core::CampaignDataCategory::CharacterStates:
+        list.append(campaign::STATE_MODEL);
+        break;
+    case Core::CampaignDataCategory::Themes:
+        list.append(campaign::THEME_FILE);
+        break;
+    case Core::CampaignDataCategory::AntagonistList:
+        list.append(campaign::CHARACTER_ROOT);
+        list.append(campaign::CHARACTER_MODEL);
+        break;
+    }
+
+    auto res= std::all_of(std::begin(list), std::end(list), [path](const QString& subpath) {
+        return QFileInfo::exists(QString("%1/%2").arg(path, subpath));
+    });
+
+    if(res && mediaCategories.contains(category))
+    {
+        direct.cd(campaign::MEDIA_ROOT);
+        auto subentrylist= direct.entryList(QDir::NoDotAndDotDot);
+        if(category == Core::CampaignDataCategory::Images)
+        {
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
+                QSet<QString> imgExt{"png", "jpg", "bmp", "gif", "svg"};
+                return std::any_of(std::begin(imgExt), std::end(imgExt),
+                                   [item](const QString& ext) { return item.endsWith(ext); });
+            });
+        }
+        else if(category == Core::CampaignDataCategory::Maps)
+        {
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
+                QSet<QString> mapExt{"vmap"};
+                return std::any_of(std::begin(mapExt), std::end(mapExt),
+                                   [item](const QString& ext) { return item.endsWith(ext); });
+            });
+        }
+        else if(category == Core::CampaignDataCategory::MindMaps)
+        {
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
+                QSet<QString> mindmapExt{"rmap"};
+                return std::any_of(std::begin(mindmapExt), std::end(mindmapExt),
+                                   [item](const QString& ext) { return item.endsWith(ext); });
+            });
+        }
+        else if(category == Core::CampaignDataCategory::CharacterSheets)
+        {
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
+                QSet<QString> sheetExt{"rcs"};
+                return std::any_of(std::begin(sheetExt), std::end(sheetExt),
+                                   [item](const QString& ext) { return item.endsWith(ext); });
+            });
+        }
+        else if(category == Core::CampaignDataCategory::Notes)
+        {
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
+                QSet<QString> noteExt{"txt", "md", "html"};
+                return std::any_of(std::begin(noteExt), std::end(noteExt),
+                                   [item](const QString& ext) { return item.endsWith(ext); });
+            });
+        }
+        else if(category == Core::CampaignDataCategory::WebLink)
+        {
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
+                QSet<QString> noteExt{"txt", "md", "html"};
+                return std::any_of(std::begin(noteExt), std::end(noteExt),
+                                   [item](const QString& ext) { return item.endsWith(ext); });
+            });
+        }
+        else if(category == Core::CampaignDataCategory::PDFDoc)
+        {
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
+                QSet<QString> noteExt{"txt", "md", "html"};
+                return std::any_of(std::begin(noteExt), std::end(noteExt),
+                                   [item](const QString& ext) { return item.endsWith(ext); });
+            });
+        }
+    }
+
+    return res;
 }
 } // namespace campaign

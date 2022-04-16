@@ -33,7 +33,7 @@ protected:
 signals:
     void addDirectory(QModelIndex&);
     void removeSelection(const QString& uuid);
-    void openAs(const QString& path, Core::ContentType type);
+    void openAs(const QString& id, const QString& path, Core::ContentType type);
     void currentChapterChanged();
 
 private slots:
@@ -50,6 +50,7 @@ private:
     QAction* m_defineAsCurrent;
     QAction* m_openAct;
     QAction* m_openAsAct;
+    QAction* m_renameAct;
 
     QAction* m_nameColsAct;
     QAction* m_sizeColsAct;

@@ -53,25 +53,6 @@ public:
      */
     virtual QPainterPath shape() const override;
     /**
-     * @brief writing serialisation method
-     */
-    virtual void writeData(QDataStream& out) const override;
-    /**
-     * @brief reading serialisation method
-     */
-    virtual void readData(QDataStream& in) override;
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    virtual void fillMessage(NetworkMessageWriter* msg) override;
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    virtual void readItem(NetworkMessageReader* msg) override;
-
-    /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
@@ -99,15 +80,8 @@ public:
      * @brief addActionContextMenu
      */
     virtual void addActionContextMenu(QMenu&) override;
-    /**
-     * @brief readMovePointMsg
-     * @param msg
-     */
-    virtual void readMovePointMsg(NetworkMessageReader* msg) override;
     void addPoint(const QPointF& point);
     void addChild(const QPointF& point, int i);
-protected slots:
-    void sendPointPosition();
 
 private:
     void initRealPoints();

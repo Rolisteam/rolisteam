@@ -45,7 +45,7 @@ public:
     QString addChannel(QString name, QByteArray password);
     bool addConnectionToChannel(QString chanId, TcpClient* client);
 
-    void readDataJson(const QJsonObject&);
+    // void readDataJson(const QJsonObject&);
     // void writeDataJson(QJsonObject&);
 
     void readSettings();

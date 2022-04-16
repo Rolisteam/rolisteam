@@ -31,7 +31,7 @@ class PdfController : public MediaControllerBase
     Q_PROPERTY(QByteArray data READ data NOTIFY dataChanged)
     Q_PROPERTY(qreal zoomFactor READ zoomFactor WRITE setZoomFactor NOTIFY zoomFactorChanged)
 public:
-    explicit PdfController(const QString& id, const QString& path, const QByteArray& data= QByteArray(),
+    explicit PdfController(const QString& id= QString(), const QUrl& path= QUrl(), const QByteArray& data= QByteArray(),
                            QObject* parent= nullptr);
     ~PdfController() override;
 

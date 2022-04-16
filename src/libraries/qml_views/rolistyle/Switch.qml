@@ -6,7 +6,7 @@ import Customization 1.0
 
 T.Switch {
     id: control
-    property QtObject style: Theme.styleSheet("Controls")
+    property QtObject style: Theme.styleSheet("Palette")
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -28,7 +28,7 @@ T.Switch {
         leftPadding: 0
         rightPadding: 0
         padding: (height - 16) / 2
-        color: control.checked ? control.style.checkedColor : control.style.axisColor
+        color: control.checked ? control.style.checked : control.style.axis
 
 
         Rectangle {
@@ -38,10 +38,10 @@ T.Switch {
             height: 28
             radius: 16
             //color: control.down ? control.palette.light : control.palette.window
-            color: control.down ? control.style.textColor : control.style.backgroundColor
+            color: control.down ? control.style.light : control.style.window
             border.width: control.visualFocus ? 2 : 1
             //border.color: control.visualFocus ? control.palette.highlight : control.enabled ? control.palette.mid : control.palette.midlight
-            border.color: control.visualFocus ? control.style.highlightColor : control.enabled ? control.palette.mid : control.palette.midlight
+            border.color: control.visualFocus ? control.style.highlight : control.enabled ? control.style.mid : control.style.midlight
 
             Behavior on x {
                 enabled: !control.down
@@ -56,7 +56,7 @@ T.Switch {
 
         text: control.text
         font: control.font
-        color: control.style.textColor
+        color: control.style.text
     }
 }
 

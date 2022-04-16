@@ -20,6 +20,7 @@
 #ifndef VECTORIALMAPMESSAGEHELPER_H
 #define VECTORIALMAPMESSAGEHELPER_H
 
+#include <QHash>
 #include <QString>
 #include <QVariant>
 #include <map>
@@ -36,6 +37,7 @@ public:
     // read message items
     static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
     static QByteArray saveVectorialMap(VectorialMapController* ctrl);
+    static void fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl);
 };
 
 #endif // VECTORIALMAPMESSAGEHELPER_H

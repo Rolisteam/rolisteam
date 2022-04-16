@@ -53,24 +53,6 @@ public:
      */
     virtual void setNewEnd(const QPointF& nend) override;
     /**
-     * @brief serialisation writing
-     */
-    virtual void writeData(QDataStream& out) const override;
-    /**
-     * @brief serialisation reading
-     */
-    virtual void readData(QDataStream& in) override;
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    virtual void fillMessage(NetworkMessageWriter* msg) override;
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    virtual void readItem(NetworkMessageReader* msg) override;
-    /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos

@@ -73,40 +73,6 @@ bool Channel::isLeaf() const
 {
     return false;
 }
-/*void Channel::readFromJson(QJsonObject& json)
-{
-    m_password= QByteArray::fromBase64(json["password"].toString().toUtf8());
-    m_name= json["title"].toString();
-    m_description= json["description"].toString();
-    m_usersListed= json["usersListed"].toBool();
-    m_memorySize= static_cast<quint64>(json["memorySize"].toInt());
-    m_id= json["id"].toString();
-    m_locked= json["locked"].toBool();
-
-    QJsonArray array= json["children"].toArray();
-    for(auto channelJson : array)
-    {
-        QJsonObject obj= channelJson.toObject();
-        TreeItem* item= nullptr;
-        if(obj["type"] == "channel")
-        {
-            Channel* chan= new Channel();
-            item= chan;
-        }
-        else
-        {
-            TcpClient* tcpItem= new TcpClient(nullptr, nullptr);
-            item= tcpItem;
-            if(obj["gm"].toBool())
-            {
-                setCurrentGM(tcpItem);
-            }
-        }
-        item->readFromJson(obj);
-        item->setParentItem(this);
-        m_child.append(item);
-    }
-}*/
 
 TreeItem* Channel::getChildAt(int row)
 {
@@ -201,14 +167,15 @@ int Channel::addChild(TreeItem* item)
 
     if(item->isLeaf())
     {
-        TcpClient* tcp= dynamic_cast<TcpClient*>(item);
-        if(nullptr == tcp)
+        QPointer<TcpClient> tcp= dynamic_cast<TcpClient*>(item);
+        QPointer<TreeItem> itemp= item;
+        if(tcp.isNull())
             return result;
 
-        connect(tcp, &TcpClient::clientSaysGoodBye, this, [=] {
-            if(m_child.isEmpty())
+        connect(tcp, &TcpClient::clientSaysGoodBye, this, [this, tcp, itemp] {
+            if(m_child.isEmpty() || itemp.isNull() || tcp.isNull())
                 return;
-            m_child.removeAll(tcp);
+            m_child.removeAll(itemp);
             if(m_child.isEmpty())
                 return;
             qInfo() << QStringLiteral("Client left from channel");
@@ -216,6 +183,7 @@ int Channel::addChild(TreeItem* item)
             message->string8(tcp->playerId());
             sendToAll(message, tcp, true);
         });
+
         // TODO make this connection as oneshot
         connect(tcp, &TcpClient::playerInfoDefined, this, [this, tcp]() { updateNewClient(tcp); });
         if(tcp->isGM())

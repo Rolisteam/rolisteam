@@ -22,11 +22,6 @@
 
 #include "networkmessage.h"
 
-#ifndef UNIT_TEST
-#include "network/clientmanager.h"
-#include "network/networklink.h"
-#endif
-
 MessageSenderInterface* NetworkMessage::m_sender= nullptr;
 
 MessageSenderInterface::~MessageSenderInterface()= default;
@@ -37,12 +32,10 @@ NetworkMessage::~NetworkMessage() {}
 
 void NetworkMessage::sendToServer()
 {
-#ifndef UNIT_TEST
     if(nullptr == m_sender)
         return;
 
     m_sender->sendMessage(this);
-#endif
 }
 
 quint64 NetworkMessage::getSize() const

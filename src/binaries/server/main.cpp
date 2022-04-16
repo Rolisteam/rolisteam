@@ -32,7 +32,6 @@
 #include <string>
 #include <time.h>
 
-#include "preferences/preferencesmanager.h"
 #include "rolisteamdaemon.h"
 
 #ifdef Q_OS_LINUX

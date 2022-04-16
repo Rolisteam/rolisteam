@@ -23,6 +23,7 @@
 
 #include "common/controller/logcontroller.h"
 #include "common/controller/remotelogcontroller.h"
+#include "controller/audiocontroller.h"
 #include "controller/contentcontroller.h"
 #include "controller/instantmessagingcontroller.h"
 #include "controller/networkcontroller.h"
@@ -37,34 +38,29 @@
 #include "worker/autosavecontroller.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
+#include "worker/modelhelper.h"
 
 #include "network/connectionprofile.h"
 
-GameController::GameController(QClipboard* clipboard, QObject* parent)
+GameController::GameController(const QString& appname, const QString& version, QClipboard* clipboard, QObject* parent)
     : QObject(parent)
+    , m_diceParser(new DiceRoller)
     , m_logController(new LogController(true))
     , m_remoteLogCtrl(new RemoteLogController())
     , m_networkCtrl(new NetworkController)
     , m_playerController(new PlayerController)
     , m_preferencesDialogController(new PreferencesController)
-    , m_contentCtrl(new ContentController(m_playerController->model(), m_playerController->characterModel(), clipboard,
-                                          m_networkCtrl.get()))
-    , m_preferences(new PreferencesManager)
-    , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
-    , m_diceParser(new DiceParser)
     , m_campaignManager(new campaign::CampaignManager(m_diceParser.get()))
+    , m_contentCtrl(new ContentController(m_campaignManager.get(), m_playerController->model(),
+                                          m_playerController->characterModel(), clipboard, m_networkCtrl.get()))
+    , m_preferences(new PreferencesManager(appname, QString("%1_%2/preferences").arg(appname, version)))
+    , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
+    , m_audioCtrl(new AudioController(m_campaignManager.get(), m_preferences.get()))
+    , m_version(version)
     , m_undoStack(new QUndoStack)
     , m_autoSaveCtrl(new AutoSaveController(m_preferences.get()))
 {
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    m_version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
-#endif
-
-    m_preferences->readSettings(m_version);
+    m_preferences->readSettings();
     postSettingInit();
 
     m_networkCtrl->setGameController(this);
@@ -81,16 +77,6 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
         emit connectedChanged(b);
     });
 
-    /*connect(m_campaignManager.get(), &campaign::CampaignManager::fileImported, this,
-            [this](campaign::Media* media, Core::ContentType type) {
-                if(!media)
-                    return;
-                auto path= media->path();
-                m_contentCtrl->openMedia({{"path", path},
-                                          {"type", QVariant::fromValue(type)},
-                                          {"name", IOHelper::shortNameFromPath(path)},
-                                          {"ownerId", m_playerController->localPlayer()->uuid()}});
-            });*/
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignChanged, this, [this]() {
         auto cm= m_campaignManager->campaign();
         m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
@@ -103,7 +89,7 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
     connect(m_campaignManager->editor(), &campaign::CampaignEditor::performCommand, this, &GameController::addCommand);
 
     // clang-format off
-    connect(m_autoSaveCtrl.get(), &AutoSaveController::saveData, m_contentCtrl.get(), &ContentController::saveSession);
+    connect(m_autoSaveCtrl.get(), &AutoSaveController::saveData, m_campaignManager.get(), &campaign::CampaignManager::saveCampaign);
     connect(m_playerController.get(), &PlayerController::gameMasterIdChanged, m_contentCtrl.get(), &ContentController::setGameMasterId);
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(), &RemoteLogController::setLocalUuid);
@@ -112,6 +98,7 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_contentCtrl.get(), &ContentController::setLocalId);
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
+    connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_audioCtrl.get(), &AudioController::setLocalIsGM);
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, &GameController::dataLoaded);
     // clang-format on
 
@@ -120,6 +107,8 @@ GameController::GameController(QClipboard* clipboard, QObject* parent)
     m_contentCtrl->setLocalId(m_playerController->localPlayerId());
     m_instantMessagingCtrl->setLocalId(m_playerController->localPlayerId());
     m_instantMessagingCtrl->setDiceParser(m_diceParser.get());
+    m_audioCtrl->setLocalIsGM(m_networkCtrl->isGM());
+    m_campaignManager->setLocalIsGM(m_networkCtrl->isGM());
 
     m_remoteLogCtrl->setAppId(0);
 }
@@ -197,9 +186,9 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
     QMap<QString, QVariant> other(map);
     if(localIsGM())
     {
-        if(other.contains(Core::keys::KEY_PATH) && !other.contains(Core::keys::KEY_INTERNAL))
+        if(other.contains(Core::keys::KEY_URL) && !other.contains(Core::keys::KEY_INTERNAL))
         {
-            auto path= other.value(Core::keys::KEY_PATH).toString();
+            auto path= other.value(Core::keys::KEY_URL).toUrl().toLocalFile();
             other[Core::keys::KEY_PATH]= m_campaignManager->importFile(QUrl::fromLocalFile(path));
         }
         else if(other.contains(Core::keys::KEY_DATA))
@@ -214,13 +203,16 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
 
 void GameController::save()
 {
-    m_contentCtrl->saveSession();
+    ModelHelper::saveSession(m_contentCtrl.get());
+    ModelHelper::saveAudioController(m_audioCtrl.get());
     m_campaignManager->saveCampaign();
 }
 
 void GameController::saveAs(const QString& path)
 {
-    m_campaignManager->saveCampaign();
+    ModelHelper::saveSession(m_contentCtrl.get());
+    ModelHelper::saveAudioController(m_audioCtrl.get());
+    m_campaignManager->copyCampaign(path);
 }
 
 void GameController::setUpdateAvailable(bool available)
@@ -348,6 +340,11 @@ campaign::Campaign* GameController::campaign() const
     return m_campaignManager->campaign();
 }
 
+AudioController* GameController::audioController() const
+{
+    return m_audioCtrl.get();
+}
+
 QString GameController::localPlayerId() const
 {
     return m_playerController->localPlayerId();
@@ -373,7 +370,7 @@ QUndoStack* GameController::undoStack() const
     return m_undoStack.get();
 }
 
-DiceParser* GameController::diceParser() const
+DiceRoller* GameController::diceParser() const
 {
     return m_diceParser.get();
 }
@@ -395,7 +392,7 @@ void GameController::setDataFromProfile(int profileIndex)
     if(!local->isGM())
     {
         auto characters= profile->characters();
-        std::for_each(characters.begin(), characters.end(), [local](const CharacterData& data) {
+        std::for_each(characters.begin(), characters.end(), [local](const connection::CharacterData& data) {
             local->addCharacter(data.m_name, data.m_color, data.m_avatarData, data.m_params, false);
         });
     }
@@ -445,7 +442,7 @@ void GameController::aboutToClose()
     // close connection
     MessageHelper::sendOffGoodBye();
     m_networkCtrl->closeServer();
-    m_preferences->writeSettings(m_version);
+    m_preferences->writeSettings();
     emit closingApp();
 }
 

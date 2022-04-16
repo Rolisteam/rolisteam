@@ -28,23 +28,23 @@
 #include <QTreeView>
 
 #include "data/campaign.h"
+#include "data/campaigneditor.h"
 #include "model/mediamodel.h"
-#include "preferences/preferencesmanager.h"
 
 #include "ui_campaigndock.h"
 
 namespace campaign
 {
-CampaignDock::CampaignDock(Campaign* ctrl, QWidget* parent)
+CampaignDock::CampaignDock(CampaignEditor* ctrl, QWidget* parent)
     : QDockWidget(parent)
     , m_ui(new Ui::CampaignDock)
-    , m_campaign(ctrl)
-    , m_model(new MediaModel(ctrl))
+    , m_campaignEditor(ctrl)
+    , m_model(new MediaModel(ctrl->campaign()))
     , m_filteredModel(new MediaFilteredModel)
 {
     m_ui->setupUi(this);
     setObjectName("CampaignDock");
-    m_ui->m_view->setCampaign(ctrl);
+    m_ui->m_view->setCampaign(ctrl->campaign());
 
     setWindowTitle(tr("Campaign Content"));
 
@@ -58,8 +58,10 @@ CampaignDock::CampaignDock(Campaign* ctrl, QWidget* parent)
     m_ui->m_typeCombobox->addItem(tr("PlayList"), QVariant::fromValue(Core::MediaType::PlayListFile));
     m_ui->m_typeCombobox->addItem(tr("Text"), QVariant::fromValue(Core::MediaType::TextFile));
     m_ui->m_typeCombobox->addItem(tr("Token"), QVariant::fromValue(Core::MediaType::TokenFile));
+    m_ui->m_typeCombobox->addItem(tr("WebPage"), QVariant::fromValue(Core::MediaType::WebpageFile));
 
-    connect(this, &CampaignDock::campaignChanged, this, [this]() { m_model->setCampaign(m_campaign); });
+    connect(this, &CampaignDock::campaignChanged, this,
+            [this]() { m_model->setCampaign(m_campaignEditor->campaign()); });
     connect(m_ui->m_view, &CampaignView::openAs, this, &CampaignDock::openResource);
     connect(m_ui->m_view, &CampaignView::removeSelection, this, &CampaignDock::removeFile);
 
@@ -72,6 +74,8 @@ CampaignDock::CampaignDock(Campaign* ctrl, QWidget* parent)
     connect(m_ui->m_typeCombobox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             [this]() { m_filteredModel->setType(m_ui->m_typeCombobox->currentData().value<Core::MediaType>()); });
 
+    connect(m_model.get(), &MediaModel::performCommand, m_campaignEditor, &CampaignEditor::doCommand);
+
     m_ui->m_view->setDragEnabled(true);
     m_ui->m_view->setAcceptDrops(true);
     m_ui->m_view->setDropIndicatorShown(true);
@@ -81,11 +85,11 @@ CampaignDock::CampaignDock(Campaign* ctrl, QWidget* parent)
 }
 CampaignDock::~CampaignDock() {}
 
-void CampaignDock::setCampaign(Campaign* campaign)
+void CampaignDock::setCampaign(CampaignEditor* campaign)
 {
-    if(m_campaign == campaign)
+    if(m_campaignEditor == campaign)
         return;
-    m_campaign= campaign;
+    m_campaignEditor= campaign;
     emit campaignChanged();
 }
 void CampaignDock::closeEvent(QCloseEvent* event)
@@ -96,50 +100,4 @@ void CampaignDock::closeEvent(QCloseEvent* event)
         // emit changeVisibility(false);
     }
 }
-
-/*void SessionDock::addRessource(ResourcesNode* tp)
-{
-    if(nullptr == tp || nullptr == m_view)
-        return;
-
-    QModelIndex index= m_view->currentIndex();
-    if(tp->getResourcesType() == ResourcesNode::Cleveruri)
-    {
-        auto cleveruri= dynamic_cast<CleverURI*>(tp);
-        if(nullptr != cleveruri)
-        {
-            cleveruri->setListener(m_model);
-        }
-    }
-    m_model->addResource(tp, index);
-    emit sessionChanged(true);
-}
-void SessionDock::removeResource(CleverURI* uri)
-{
-    m_model->removeNode(uri);
-}
-
-void SessionDock::addChapter(QModelIndex& index)
-{
-    QString tmp= tr("Chapter %1").arg(m_model->rowCount(index) + 1);
-    Chapter* chapter= new Chapter();
-    chapter->setName(tmp);
-    m_model->addResource(chapter, index);
-}
-    // QHeaderView* hHeader= m_ui->m_view->header(); // new QHeaderView(Qt::Vertical,this);
-    hHeader->setSectionResizeMode(SessionItemModel::Name, QHeaderView::Stretch);
-    hHeader->setSectionResizeMode(SessionItemModel::LoadingMode, QHeaderView::ResizeToContents);
-    hHeader->setSectionResizeMode(SessionItemModel::Displayed, QHeaderView::ResizeToContents);
-    hHeader->setSectionResizeMode(SessionItemModel::Path, QHeaderView::ResizeToContents);
-    m_ui->m_view->setHeader(hHeader);*/
-
-// m_view->setColumnHidden(SessionItemModel::LoadingMode,true);
-// m_ui->m_view->setColumnHidden(session::SessionItemModel::Path, true);
-
-// connect(m_ui->m_view, &CampaignView::onDoubleClick, m_ctrl, &ContentController::openResources);
-// connect(m_ui->m_view, &CampaignView::addChapter, m_ctrl, &ContentController::addChapter);
-// connect(m_ui->m_view, &CampaignView::removeSelection, this,
-//        [this]() { m_ctrl->removeSelectedItems(m_ui->m_view->getSelection()); });
-// connect(m_model, &SessionItemModel::openResource, this, &SessionManager::openResource);
-
 } // namespace campaign

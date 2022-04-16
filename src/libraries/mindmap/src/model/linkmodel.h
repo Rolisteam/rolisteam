@@ -35,18 +35,19 @@ public:
     {
         // Curves
         Direction= Qt::UserRole + 1,
-        Position,
-        Last,
+        P1Position,
+        P2Position,
         Width,
         Height,
         StartNodeId,
         EndNodeId,
-        StartBoxRole,
-        EndBoxRole,
+        // StartBoxRole,
+        // EndBoxRole,
         StartPointRole,
         EndPointRole,
         LinkRole,
-        Label
+        Label,
+        Visibility
     };
     explicit LinkModel(QObject* parent= nullptr);
 
@@ -73,11 +74,14 @@ public:
 public slots:
     void append(const QList<Link*>& link, bool network= false);
     void removeLink(const QStringList& ids, bool network= false);
-    void linkHasChanged();
+    void linkHasChanged(Link* link, QVector<int> roles);
 
 signals:
     void linkAdded(QList<Link*> links);
     void linkRemoved(const QStringList& link);
+
+private:
+    void attachLinkSignal(Link* link);
 
 private:
     std::vector<Link*> m_data;

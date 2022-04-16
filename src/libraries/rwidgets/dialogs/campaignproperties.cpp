@@ -20,14 +20,16 @@
 #include "campaignproperties.h"
 #include "ui_campaignproperties.h"
 
+#include <QHeaderView>
+
 #include "delegates/checkboxdelegate.h"
 #include "delegates/colordelegate.h"
 #include "delegates/imagepathdelegateitem.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
-#include <QHeaderView>
+#include "model/thememodel.h"
 
-CampaignProperties::CampaignProperties(campaign::Campaign* capm, QWidget* parent)
+CampaignProperties::CampaignProperties(campaign::Campaign* capm, ThemeModel* themeModel, QWidget* parent)
     : QDialog(parent), ui(new Ui::CampaignProperties), m_campaign(capm)
 {
     ui->setupUi(this);
@@ -52,10 +54,14 @@ CampaignProperties::CampaignProperties(campaign::Campaign* capm, QWidget* parent
 
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD, new rwidgets::CheckBoxDelegate());
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::DISABLE, new rwidgets::CheckBoxDelegate());
-    /*connect(m_ctrl, &PreferencesController::currentThemeIndexChanged, this, [this]() {
-        m_preferences->registerValue("currentThemeIndex", QVariant::fromValue(m_ctrl->currentThemeIndex()), true);
-        updateTheme();
-    });*/
+
+    connect(ui->m_nameEdit, &QLineEdit::textEdited, m_campaign, &campaign::Campaign::setName);
+    ui->m_currentTheme->setModel(themeModel);
+    auto idx= themeModel->indexOf(m_campaign->currentTheme());
+    ui->m_currentTheme->setCurrentIndex(idx);
+
+    ui->m_diskUsageLbl->setText(QLocale::system().formattedDataSize(m_campaign->diskUsage()));
+    ui->m_fileCountLbl->setText(tr("%n file(s)", "", m_campaign->fileCount()));
 
     connect(ui->m_addDiceAliasAct, &QToolButton::clicked, m_campaign, &campaign::Campaign::addAlias);
     connect(ui->m_delDiceAliasAct, &QToolButton::clicked, this,

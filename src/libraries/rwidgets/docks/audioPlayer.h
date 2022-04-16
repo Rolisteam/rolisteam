@@ -42,110 +42,39 @@
 #include <QWidget>
 
 #include "core/model/musicmodel.h"
-#include "core/network/networkreceiver.h"
-#include "preferences/preferencesmanager.h"
 #include "rwidgets/customs/playerwidget.h"
-class NetworkLink;
+
+class AudioController;
 /**
  * @brief This player can be used by the GM to play songs.
  * Regular players can just change the volume level.
  */
-class AudioPlayer : public QDockWidget, public NetWorkReceiver
+class AudioPlayer : public QDockWidget
 {
     Q_OBJECT
 
 public:
-    /**
-     * @brief private constructor
-     */
-    AudioPlayer(QWidget* parent= nullptr);
+    AudioPlayer(AudioController* ctrl, QWidget* parent= nullptr);
     ~AudioPlayer();
-    /**
-     * @brief updateUi
-     */
-    void updateUi(bool b);
-
-    /**
-     * @brief processMessage
-     * @param msg
-     */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
-
-    /**
-     * @brief openSongList
-     * @param str
-     */
-    virtual void openSongList(const QString& str);
-    /**
-     * @brief openSong
-     * @param str
-     */
-    virtual void openSong(const QString& str);
-
-    void readSettings();
-
-public slots:
-    /**
-     * @brief onePlayerHasStopped
-     */
-    void onePlayerHasStopped(int);
-    /**
-     * @brief onePlayerIsPaused
-     */
-    void onePlayerIsPaused(int);
-    /**
-     * @brief onePlayerPlays
-     */
-    void onePlayerPlays(int, qint64);
-    /**
-     * @brief onePlayerHasNewSong
-     */
-    void onePlayerHasNewSong(int, const QString&);
-    /**
-     * @brief onePlayerHasChangedPosition
-     */
-    void onePlayerHasChangedPosition(int, qint64);
 
 protected:
-    /**
-     * @brief contextMenuEvent
-     * @param ev
-     */
     void contextMenuEvent(QContextMenuEvent* ev);
 
-private slots:
-    /**
-     * @brief showMusicPlayer
-     */
-    void showMusicPlayer(bool);
-
 private:
-    /**
-     * @brief playerWidget
-     */
     void playerWidget();
-
-    //!< @brief static pointer to the unique instance of this audioplayer
-    /**
-     * @brief set the UI
-     */
     void setupUi();
+signals:
+    void changePlayerDirectory();
 
 private:
+    QPointer<AudioController> m_ctrl;
     QWidget* m_mainWidget; //!< @brief brings together all subwidget
     QVBoxLayout* m_mainLayout;
-
-    PlayerWidget* m_mainPlayer;
-    PlayerWidget* m_secondPlayer;
-    PlayerWidget* m_thirdPlayer;
 
     QList<PlayerWidget*> m_players;
     QList<QAction*> m_playerActionsList;
 
-    PreferencesManager* m_preferences;
-    QMutex m_mutex;
     qint64 m_time; //!< @brief current time
-    bool m_isGM;
 };
 
 #endif

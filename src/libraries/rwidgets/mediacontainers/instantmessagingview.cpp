@@ -63,10 +63,17 @@ InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWi
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
     connect(m_qmlViewer.get(), &QQuickWidget::sceneGraphError, this,
             [](QQuickWindow::SceneGraphError, const QString& msg) { qDebug() << msg; });
+    connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& warnings) {
+        for(const auto& error : warnings)
+            qDebug() << error.toString();
+    });
     setMinimumWidth(200);
 
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    m_qmlViewer->setSource(QUrl("qrc:/instantmessaging/InstantMessagingMain.qml"));
+    m_qmlViewer->setSource(QUrl("qrc:/qml/InstantMessaging/InstantMessagingMain.qml"));
+
+    for(const auto& error : m_qmlViewer->errors())
+        qDebug() << error.toString();
 
     auto layout= new QVBoxLayout();
     layout->setContentsMargins(QMargins());

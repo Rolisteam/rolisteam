@@ -53,7 +53,8 @@ public:
     };
     Q_ENUM(HighlightedSyntax)
 
-    SharedNoteController(const QString& ownerId, const QString& local, const QString& uuid, QObject* parent= nullptr);
+    SharedNoteController(const QString& ownerId= QString(), const QString& local= QString(),
+                         const QString& uuid= QString(), QObject* parent= nullptr);
     ~SharedNoteController() override;
 
     QString text() const;

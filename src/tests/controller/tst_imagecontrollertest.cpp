@@ -20,6 +20,7 @@
 #include <QtTest/QtTest>
 
 #include <QSignalSpy>
+#include <QUrl>
 
 #include "controller/view_controller/imagecontroller.h"
 #include <memory>
@@ -52,14 +53,14 @@ ImageControllorTest::ImageControllorTest() {}
 
 void ImageControllorTest::init()
 {
-    m_ctrl.reset(new ImageController("", "", ""));
+    m_ctrl.reset(new ImageController());
 }
 
 void ImageControllorTest::cleanupTestCase() {}
 
 void ImageControllorTest::proprietyTest()
 {
-    m_ctrl.reset(new ImageController("", ":/img/girafe.jpg", ""));
+    m_ctrl.reset(new ImageController("", "", QUrl("qrc://img/girafe.jpg"), ""));
 
     m_ctrl->setFitWindow(true);
 
@@ -101,17 +102,17 @@ void ImageControllorTest::formatTest_data()
     QTest::addColumn<bool>("isMovie");
     // QTest::addColumn<bool>("fitWindow");
 
-    QTest::addRow("value 1") << ":/img/girafe.jpg" << 1000.0 / 750 << 0.75 << false;
-    QTest::addRow("value 2") << ":/img/girafe3.jpg" << 3264.0 / 2448 << 2448.0 / 3264 << false;
-    QTest::addRow("value 3") << ":/img/lion.jpg" << 1000.0 / 750 << 0.75 << false;
-    QTest::addRow("value 4") << ":/img/lion3.jpg" << 3264.0 / 2448 << 2448.0 / 3264 << false;
-    QTest::addRow("value 5") << ":/img/white.png" << 1126.0 / 271 << 271.0 / 1126 << false;
-    QTest::addRow("value 6") << ":/img/control_life_bar.gif" << 1784.0 / 828 << 828.0 / 1784 << true;
+    QTest::addRow("value 1") << "qrc://img/girafe.jpg" << 1000.0 / 750 << 0.75 << false;
+    QTest::addRow("value 2") << "qrc://img/girafe3.jpg" << 3264.0 / 2448 << 2448.0 / 3264 << false;
+    QTest::addRow("value 3") << "qrc://img/lion.jpg" << 1000.0 / 750 << 0.75 << false;
+    QTest::addRow("value 4") << "qrc://img/lion3.jpg" << 3264.0 / 2448 << 2448.0 / 3264 << false;
+    QTest::addRow("value 5") << "qrc://img/white.png" << 1126.0 / 271 << 271.0 / 1126 << false;
+    QTest::addRow("value 6") << "qrc://img/control_life_bar.gif" << 1784.0 / 828 << 828.0 / 1784 << true;
 }
 
 void ImageControllorTest::zoomTest()
 {
-    m_ctrl.reset(new ImageController("", ":/img/girafe.jpg", ""));
+    m_ctrl.reset(new ImageController("", "", QUrl(":/img/girafe.jpg"), ""));
 
     m_ctrl->setZoomLevel(1.0); // set default value
 
@@ -150,7 +151,7 @@ void ImageControllorTest::zoomTest()
 
 void ImageControllorTest::movieTest()
 {
-    m_ctrl.reset(new ImageController("", "", ":/img/control_life_bar.gif"));
+    m_ctrl.reset(new ImageController("", "", QUrl("qrc://img/control_life_bar.gif")));
 
     QVERIFY2(m_ctrl->isMovie(), "Not a movie!!");
     QCOMPARE(m_ctrl->status(), ImageController::Playing);

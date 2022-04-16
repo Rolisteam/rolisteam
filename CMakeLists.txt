@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_definitions(-DVERSION_MAJOR=1 -DVERSION_MIDDLE=10 -DVERSION_MINOR=0 -DHAVE_SOUND -DHAVE_QT_NETWORK=1 -DHAVE_WEBVIEW=1)
 find_package(Qt6 COMPONENTS Core Widgets Gui LinguistTools QmlImportScanner REQUIRED)
 set(CMAKE_AUTORCC ON)
+add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 
 #helper
 #include(cmake/TranslationHelper.cmake)

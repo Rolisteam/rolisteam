@@ -28,8 +28,9 @@
 #include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
 
-SharedNoteControllerUpdater::SharedNoteControllerUpdater(FilteredContentModel* model, QObject* parent)
-    : MediaUpdaterInterface(parent), m_notesModel(model)
+SharedNoteControllerUpdater::SharedNoteControllerUpdater(FilteredContentModel* model,
+                                                         campaign::CampaignManager* campaign, QObject* parent)
+    : MediaUpdaterInterface(campaign, parent), m_notesModel(model)
 {
 }
 
@@ -75,6 +76,13 @@ void SharedNoteControllerUpdater::addSharedNoteController(SharedNoteController* 
             [this, noteCtrl]() { sendOffChanges<QString>(noteCtrl, QStringLiteral("updateCmd")); });
     connect(noteCtrl, &SharedNoteController::userCanWrite, this,
             [this, noteCtrl](QString id, bool write) { sendOffPermissionChanged(noteCtrl, write, id); });
+
+    connect(noteCtrl, &SharedNoteController::modifiedChanged, this, [noteCtrl, this]() {
+        if(noteCtrl->modified())
+        {
+            saveMediaController(noteCtrl);
+        }
+    });
 }
 
 void SharedNoteControllerUpdater::sendOffPermissionChanged(SharedNoteController* ctrl, bool b, const QString& id)

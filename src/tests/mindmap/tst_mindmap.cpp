@@ -82,7 +82,7 @@ void MindMapTest::remoteAddTest()
     NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddMessage);
     MessageHelper::buildAddItemMessage(msg, {node1, node2}, {link});
 
-    auto dataMsg= msg.getData();
+    auto dataMsg= msg.data();
     NetworkMessageReader readMsg;
     readMsg.setData(dataMsg);
     MessageHelper::readMindMapAddItem(m_ctrl.get(), &readMsg);

@@ -25,7 +25,7 @@
 #include "connectionprofile.h"
 #include "core/worker/iohelper.h"
 
-CharacterDataModel::CharacterDataModel(QObject* parent) : QAbstractTableModel(parent) {}
+CharacterDataModel::CharacterDataModel(QObject* parent) : QAbstractListModel(parent) {}
 
 int CharacterDataModel::rowCount(const QModelIndex& parent) const
 {
@@ -35,14 +35,6 @@ int CharacterDataModel::rowCount(const QModelIndex& parent) const
     return m_profile->characterCount();
 }
 
-int CharacterDataModel::columnCount(const QModelIndex& parent) const
-{
-    if(parent.isValid())
-        return 0;
-
-    return 3;
-}
-
 QVariant CharacterDataModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid() || !m_profile)
@@ -50,24 +42,29 @@ QVariant CharacterDataModel::data(const QModelIndex& index, int role) const
 
     auto character= m_profile->character(index.row());
     QVariant var;
-    Role col= None;
 
-    static std::vector<std::map<int, Role>> matrix(
-        {{{Qt::BackgroundRole, Color}, {Qt::DecorationRole, Avatar}, {Qt::EditRole, AvatarPath}},
-         {{Qt::BackgroundRole, Color}, {Qt::EditRole, Color}, {Qt::DisplayRole, Color}},
-         {{Qt::BackgroundRole, Color}, {Qt::DisplayRole, Name}, {Qt::EditRole, Name}}});
+    QSet<int> roles{AvatarData, Color, Name, Avatar, None};
 
-    if(role == Qt::TextAlignmentRole)
+    int col= role;
+    if(!roles.contains(role))
     {
-        var= Qt::AlignCenter;
-    }
-    else
-    {
-        auto map= matrix[static_cast<std::size_t>(index.column())];
-        auto it= map.find(role);
+        static std::vector<std::map<int, Role>> matrix(
+            {{{Qt::BackgroundRole, Color}, {Qt::DecorationRole, Avatar}, {Qt::EditRole, AvatarData}},
+             {{Qt::BackgroundRole, Color}, {Qt::EditRole, Color}, {Qt::DisplayRole, Color}},
+             {{Qt::BackgroundRole, Color}, {Qt::DisplayRole, Name}, {Qt::EditRole, Name}}});
 
-        if(it != map.end())
-            col= map[role];
+        if(role == Qt::TextAlignmentRole)
+        {
+            var= Qt::AlignCenter;
+        }
+        else
+        {
+            auto map= matrix[static_cast<std::size_t>(index.column())];
+            auto it= map.find(role);
+
+            if(it != map.end())
+                col= map[role];
+        }
     }
 
     switch(col)
@@ -81,7 +78,7 @@ QVariant CharacterDataModel::data(const QModelIndex& index, int role) const
             var= QVariant::fromValue(pix.scaled(50, 50, Qt::KeepAspectRatio));
     }
     break;
-    case AvatarPath:
+    case AvatarData:
         var= character.m_avatarData;
         break;
     case Name:
@@ -96,8 +93,17 @@ QVariant CharacterDataModel::data(const QModelIndex& index, int role) const
     return var;
 }
 
-bool CharacterDataModel::setData(const QModelIndex& index, const QVariant& value, int role)
+connection::CharacterData CharacterDataModel::character(int i) const
 {
+    if(m_profile)
+        return m_profile->character(i);
+    else
+        return {};
+}
+/*bool CharacterDataModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if(m_profile.isNull())
+        return false;
     if(data(index, role) != value)
     {
         auto& character= m_profile->character(index.row());
@@ -120,37 +126,80 @@ bool CharacterDataModel::setData(const QModelIndex& index, const QVariant& value
         return true;
     }
     return false;
-}
+}*/
 
 Qt::ItemFlags CharacterDataModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
         return Qt::NoItemFlags;
 
-    if(index.column() == 2)
-        return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
-
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
 bool CharacterDataModel::insertCharacter()
 {
+    if(m_profile.isNull())
+        return false;
     beginInsertRows(QModelIndex(), m_profile->characterCount(), m_profile->characterCount());
-    CharacterData data({tr("New Character"), Qt::lightGray, "", QHash<QString, QVariant>()});
+    connection::CharacterData data({tr("New Character"), Qt::lightGray, "", QHash<QString, QVariant>()});
     m_profile->addCharacter(data);
     endInsertRows();
     return true;
 }
 
-bool CharacterDataModel::removeCharacter(const QModelIndex& index)
+bool CharacterDataModel::addCharacter(const connection::CharacterData& data)
 {
-    if(m_profile->characterCount() <= 1)
+    if(m_profile.isNull())
+        return false;
+    beginInsertRows(QModelIndex(), m_profile->characterCount(), m_profile->characterCount());
+    m_profile->addCharacter(data);
+    endInsertRows();
+    return true;
+}
+
+bool CharacterDataModel::removeCharacter(int index)
+{
+    if(m_profile.isNull())
+        return false;
+    if(m_profile->characterCount() < 1)
         return false;
 
-    beginRemoveRows(QModelIndex(), index.row(), index.row());
-    m_profile->removeCharacter(index.row());
+    if(index >= rowCount())
+        return false;
+
+    beginRemoveRows(QModelIndex(), index, index);
+    m_profile->removeCharacter(index);
     endRemoveRows();
     return true;
+}
+
+void CharacterDataModel::setAvatar(int i, const QByteArray& img)
+{
+    if(!m_profile)
+        return;
+
+    auto& character= m_profile->character(i);
+    character.m_avatarData= img;
+    emit dataChanged(index(i, 0), index(i, 0), {Avatar, AvatarData});
+}
+
+void CharacterDataModel::setName(int i, const QString& string)
+{
+    if(!m_profile)
+        return;
+
+    auto& character= m_profile->character(i);
+    character.m_name= string;
+    emit dataChanged(index(i, 0), index(i, 0), {Name});
+}
+void CharacterDataModel::setColor(int i, const QColor& color)
+{
+    if(!m_profile)
+        return;
+
+    auto& character= m_profile->character(i);
+    character.m_color= color;
+    emit dataChanged(index(i, 0), index(i, 0), {Color});
 }
 
 void CharacterDataModel::setProfile(ConnectionProfile* profile)
@@ -158,4 +207,9 @@ void CharacterDataModel::setProfile(ConnectionProfile* profile)
     beginResetModel();
     m_profile= profile;
     endResetModel();
+}
+
+QHash<int, QByteArray> CharacterDataModel::roleNames() const
+{
+    return {{None, "none"}, {Avatar, "avatar"}, {Color, "color"}, {AvatarData, "avatarData"}, {Name, "name"}};
 }

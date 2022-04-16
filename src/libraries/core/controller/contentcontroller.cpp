@@ -27,6 +27,7 @@
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 
+#include "updater/media/genericupdater.h"
 #include "updater/media/mediaupdaterinterface.h"
 #include "updater/media/mindmapupdater.h"
 #include "updater/media/sharednotecontrollerupdater.h"
@@ -34,8 +35,12 @@
 #include "updater/media/webviewupdater.h"
 #include "updater/vmapitem/vmapitemcontrollerupdater.h"
 
+#include "data/campaignmanager.h"
+
 #include "gamecontroller.h"
 #include "media/mediafactory.h"
+#include "model/contentmodel.h"
+#include "model/historymodel.h"
 #include "model/playermodel.h"
 #include "model/remoteplayermodel.h"
 #include "network/networkmessage.h"
@@ -68,13 +73,13 @@ void sendOffMediaController(MediaControllerBase* ctrl)
     }
 }
 
-ContentController::ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QClipboard* clipboard,
-                                     QObject* parent)
+ContentController::ContentController(campaign::CampaignManager* campaign, PlayerModel* playerModel,
+                                     CharacterModel* characterModel, QClipboard* clipboard, QObject* parent)
     : AbstractControllerInterface(parent)
     , m_sessionModel(new QFileSystemModel()) // session::SessionItemModel)
     , m_contentModel(new ContentModel)
+    , m_historyModel(new history::HistoryModel)
     , m_clipboard(clipboard)
-    , m_sessionName(tr("default"))
 {
     CharacterSheetController::setCharacterModel(characterModel);
     SharedNoteController::setPlayerModel(playerModel);
@@ -93,16 +98,24 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
     auto fModel3= new FilteredContentModel(Core::ContentType::MINDMAP);
     fModel3->setSourceModel(m_contentModel.get());
 
-    std::unique_ptr<VMapUpdater> vmapUpdater(new VMapUpdater(fModel));
-    std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater(fModel2));
-    std::unique_ptr<WebViewUpdater> webviewUpdater(new WebViewUpdater());
-    std::unique_ptr<MindMapUpdater> mindMapUpdater(new MindMapUpdater(fModel3));
+    std::unique_ptr<VMapUpdater> vmapUpdater(new VMapUpdater(campaign, fModel));
+    std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater(fModel2, campaign));
+    std::unique_ptr<WebViewUpdater> webviewUpdater(new WebViewUpdater(campaign));
+    std::unique_ptr<MindMapUpdater> mindMapUpdater(new MindMapUpdater(fModel3, campaign));
+    std::unique_ptr<GenericUpdater> imageUpdater(new GenericUpdater(campaign));
+    std::unique_ptr<GenericUpdater> notesUpdater(new GenericUpdater(campaign));
+    std::unique_ptr<GenericUpdater> characterSheetUpdater(new GenericUpdater(campaign));
+    std::unique_ptr<GenericUpdater> pdfUpdater(new GenericUpdater(campaign));
     MindMapController::setMindMapUpdater(mindMapUpdater.get());
 
     m_mediaUpdaters.insert({Core::ContentType::VECTORIALMAP, std::move(vmapUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::SHAREDNOTE, std::move(sharedNoteUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::WEBVIEW, std::move(webviewUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::MINDMAP, std::move(mindMapUpdater)});
+    m_mediaUpdaters.insert({Core::ContentType::PICTURE, std::move(imageUpdater)});
+    m_mediaUpdaters.insert({Core::ContentType::NOTES, std::move(notesUpdater)});
+    m_mediaUpdaters.insert({Core::ContentType::CHARACTERSHEET, std::move(characterSheetUpdater)});
+    m_mediaUpdaters.insert({Core::ContentType::PDF, std::move(pdfUpdater)});
 
     connect(m_contentModel.get(), &ContentModel::mediaControllerAdded, this, [this](MediaControllerBase* ctrl) {
         if(nullptr == ctrl)
@@ -113,9 +126,15 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
         auto it= m_mediaUpdaters.find(ctrl->contentType());
         if(it != m_mediaUpdaters.end())
             it->second->addMediaController(ctrl);
+        if(!localIsGM())
+            m_historyModel->addLink(ctrl->url(), ctrl->name(), ctrl->contentType());
     });
 
     connect(m_clipboard, &QClipboard::dataChanged, this, [this]() { emit canPasteChanged(canPaste()); });
+
+    connect(m_historyModel.get(), &history::HistoryModel::modelReset, this, &ContentController::historyChanged);
+    connect(m_historyModel.get(), &history::HistoryModel::rowsInserted, this, &ContentController::historyChanged);
+    connect(m_historyModel.get(), &history::HistoryModel::rowsRemoved, this, &ContentController::historyChanged);
 }
 
 ContentController::~ContentController()= default;
@@ -175,70 +194,20 @@ ContentModel* ContentController::contentModel() const
     return m_contentModel.get();
 }
 
+history::HistoryModel* ContentController::historyModel() const
+{
+    return m_historyModel.get();
+}
+
 int ContentController::contentCount() const
 {
     return m_contentModel->rowCount();
-}
-
-void ContentController::setSessionName(const QString& name)
-{
-    if(name == m_sessionName)
-        return;
-    m_sessionName= name;
-    emit sessionNameChanged();
-}
-
-void ContentController::setSessionPath(const QString& path)
-{
-    if(path == m_sessionPath)
-        return;
-    m_sessionPath= path;
-    emit sessionPathChanged();
-}
-
-void ContentController::addChapter(const QModelIndex& index)
-{
-    Q_UNUSED(index)
-}
-
-void ContentController::removeSelectedItems(const QModelIndexList& selection)
-{
-    Q_UNUSED(selection)
-}
-void ContentController::openResources(const QModelIndex& index)
-{
-    Q_UNUSED(index)
-}
-void ContentController::saveSession()
-{
-    Q_ASSERT(!m_localId.isEmpty());
-    ModelHelper::saveSession(this);
-    /*for(auto mediaCtrl : m_contentModel)
-    {
-
-    }*/
-}
-
-void ContentController::saveSessionBackUp()
-{
-    Q_ASSERT(!m_localId.isEmpty());
-    auto path= m_sessionPath;
-    QFileInfo info(path);
-
-    auto name= QStringLiteral("%1_back.sce").arg(info.baseName());
-    path= QStringLiteral("%1/%2").arg(info.absolutePath(), name);
-    // ModelHelper::saveSession(this);
 }
 
 void ContentController::setMediaRoot(const QString& path)
 {
     m_sessionModel->setRootPath(path);
     emit mediaRootChanged();
-}
-
-void ContentController::loadSession()
-{
-    setSessionName(ModelHelper::loadSession(m_sessionPath, this));
 }
 
 QString ContentController::gameMasterId() const
@@ -285,21 +254,17 @@ void ContentController::setLocalId(const QString& id)
 
 void ContentController::clear()
 {
-    // m_sessionModel->();
     m_contentModel->clearData();
+}
+
+void ContentController::clearHistory()
+{
+    m_historyModel->clear();
 }
 
 void ContentController::closeCurrentMedia()
 {
     m_contentModel->removeMedia(m_contentModel->activeMediaId());
-}
-
-void ContentController::saveMedia(const QString& uuid, const QString& path)
-{
-    Q_UNUSED(uuid)
-    Q_UNUSED(path)
-    /*auto it= std::find_if(m_loadedResources.begin(), m_loadedResources.end(),
-                          [uuid](const ResourcesNode* node) { return node->; });*/
 }
 
 int ContentController::maxLengthTabName() const
@@ -324,16 +289,6 @@ int ContentController::workspacePositioning() const
     return m_preferences->value(QStringLiteral("BackGroundPositioning"), 0).toInt();
 }
 
-QString ContentController::sessionName() const
-{
-    return m_sessionName;
-}
-
-QString ContentController::sessionPath() const
-{
-    return m_sessionPath;
-}
-
 NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType result= NetWorkReceiver::NONE;
@@ -349,7 +304,6 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
     {
         Q_UNUSED(static_cast<Core::ContentType>(msg->uint8()));
         auto id= MessageHelper::readMediaId(msg);
-        // m_sessionModel->removeMedia(id);
         m_contentModel->removeMedia(id);
     }
     else if(msg->action() == NetMsg::AddMedia)
@@ -360,7 +314,6 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
     }
     else if(subActions.contains(msg->action()))
     {
-        // qDebug() << "ContentController subaction";
         auto type= static_cast<Core::ContentType>(msg->uint8());
         auto it= m_mediaUpdaters.find(type);
         if(it != m_mediaUpdaters.end())
@@ -373,22 +326,7 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
             QString mediaId= msg->string8();
         }
     }
-
     return result;
-}
-
-void ContentController::addImageAs(const QPixmap& map, Core::ContentType type)
-{
-    Q_UNUSED(map)
-    Q_UNUSED(type)
-    /* if(type == Core::ContentType::PICTURE)
-     {
-         m_imageControllers->addImage(map);
-     }
-     else if(type == Core::ContentType::VECTORIALMAP)
-     {
-         m_vmapControllers->addImageToMap(map);
-     }*/
 }
 
 void ContentController::copyData() {}
@@ -460,7 +398,10 @@ bool ContentController::canPaste() const
     return res;
 }
 
-bool ContentController::canCopy() const {}
+bool ContentController::canCopy() const
+{
+    return false;
+}
 
 QString ContentController::mediaRoot() const
 {

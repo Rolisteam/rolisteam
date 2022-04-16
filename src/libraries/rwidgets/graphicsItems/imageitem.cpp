@@ -65,117 +65,6 @@ void ImageItem::setNewEnd(const QPointF& p)
     m_imgCtrl->setCorner(p, vmap::ImageController::BottomRight);
 }
 
-void ImageItem::writeData(QDataStream& out) const
-{
-    // out << m_rect;
-    /*  out << m_keepAspect;
-      out << m_color;
-      out << opacity();
-      out << m_id;
-      // out << static_cast<int>(m_layer);
-      out << m_data;
-      out << m_imagePath;
-      out << m_initialized;
-      out << m_ratio;
-      out << scale();
-      out << rotation();
-      out << pos();*/
-}
-
-void ImageItem::readData(QDataStream& in)
-{
-    //   in >> m_rect;
-    /*  in >> m_keepAspect;
-      in >> m_color;
-      qreal opa= 0;
-      in >> opa;
-      setOpacity(opa);
-      in >> m_id;
-      int i;
-      in >> i;
-      // m_layer= static_cast<Core::Layer>(i);
-      in >> m_data;
-      in >> m_imagePath;
-      in >> m_initialized;
-      in >> m_ratio;
-      qreal scale;
-      in >> scale;
-      setScale(scale);
-
-      qreal rotation;
-      in >> rotation;
-      setRotation(rotation);
-
-      QPointF p;
-      in >> p;
-      setPos(p);
-
-      dataToMedia();*/
-}
-void ImageItem::fillMessage(NetworkMessageWriter* msg)
-{
-    //  msg->string16(m_id);
-
-    // rect
-    /*    msg->real(m_rect.x());
-        msg->real(m_rect.y());
-        msg->real(m_rect.width());
-        msg->real(m_rect.height());*/
-    // msg->uint8(static_cast<quint8>(m_layer));
-    /*   msg->real(zValue());
-       msg->real(opacity());
-
-       msg->int8(m_keepAspect);
-       msg->rgb(m_color.rgb());
-
-       //    QFile file(m_imagePath);
-       //    if(file.exists())
-       //    {
-       //        file.open(QIODevice::ReadOnly);
-       //        QByteArray baImage= file.readAll();
-       //        msg->byteArray32(baImage);
-       //    }
-       //    else
-       //    {
-       //        QByteArray ba;
-       //        QBuffer buffer(&ba);
-       //        buffer.open(QIODevice::WriteOnly);
-       //        m_image.save(&buffer, "PNG");
-       //    }
-       msg->byteArray32(m_data);
-
-       msg->real(scale());
-       msg->real(rotation());
-
-       msg->real(pos().x());
-       msg->real(pos().y());*/
-}
-void ImageItem::readItem(NetworkMessageReader* msg)
-{
-    // m_id= msg->string16();
-    // rect
-    /* m_rect.setX(msg->real());
-     m_rect.setY(msg->real());
-     m_rect.setWidth(msg->real());
-     m_rect.setHeight(msg->real());*/
-    // m_layer= static_cast<Core::Layer>(msg->int8());
-    /* setZValue(msg->real());
-      setOpacity(msg->real());
-
-      m_keepAspect= msg->int8();
-      m_color= msg->rgb();
-      m_data= msg->byteArray32();
-
-      dataToMedia();
-
-      //  setTransformOriginPoint(m_rect.center());
-      setScale(msg->real());
-      setRotation(msg->real());
-
-      qreal x= msg->real();
-      qreal y= msg->real();
-      setPos(x, y);*/
-}
 void ImageItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
     /*  switch(static_cast<int>(pointId))
@@ -306,7 +195,8 @@ void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {
     // m_modifiers= modifiers;
 }
-void ImageItem::updateImageFromMovie(QRect rect){
+void ImageItem::updateImageFromMovie(QRect rect)
+{
     Q_UNUSED(rect)
     //   if(nullptr != m_movie)
     //   {

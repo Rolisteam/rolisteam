@@ -31,7 +31,11 @@ NodeImageProvider::NodeImageProvider(ImageModel* model)
 QPixmap NodeImageProvider::requestPixmap(const QString& id, QSize* size, const QSize& requestedSize)
 {
     Q_UNUSED(size)
-    QPixmap map= m_dataModel->pixmapFromId(id).scaled(requestedSize, Qt::KeepAspectRatio);
+
+    QPixmap map= m_dataModel->pixmapFromId(id);
+
+    if(requestedSize.isValid())
+        map= map.scaled(requestedSize, Qt::KeepAspectRatio);
 
     *size= map.size();
 

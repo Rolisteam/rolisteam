@@ -19,13 +19,10 @@
  ***************************************************************************/
 #include "musicmodel.h"
 
-#include "preferences/preferencesmanager.h"
-
 #include <QFont>
 #include <QMimeData>
 #include <QNetworkRequest>
 #include <QUrl>
-
 #include <set>
 
 // https://api.soundcloud.com/tracks/293/stream?client_id=59632ff691d8ac46c637c1467d84b6c6
@@ -35,18 +32,12 @@ MusicModel::MusicModel(QObject* parent)
 {
 }
 
+
 int MusicModel::rowCount(const QModelIndex& parent) const
 {
-    if(!parent.isValid())
-        return m_data.size();
-    return 0;
-}
-
-int MusicModel::columnCount(const QModelIndex& parent) const
-{
-    if(!parent.isValid())
-        return COLUMN_COUNT;
-    return 0;
+    if(parent.isValid())
+        return 0;
+    return m_data.size();
 }
 
 QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -84,6 +75,9 @@ QString normalizeUrl(const QUrl& url)
 
 QVariant MusicModel::data(const QModelIndex& index, int role) const
 {
+    if(!index.isValid() || m_data.size() <= index.row())
+        return {};
+
     // Break early if role is not Diplay or Font.
     if(std::set<int>{Qt::DisplayRole, Qt::FontRole}.count(role) == 0)
     {
@@ -111,15 +105,15 @@ QVariant MusicModel::data(const QModelIndex& index, int role) const
     return {};
 }
 
-void MusicModel::addSong(QStringList list)
+void MusicModel::addSong(const QList<QUrl>& list)
 {
     if(list.isEmpty())
         return;
 
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size() + list.size() - 1);
-    m_data.reserve(list.size());
+    m_data.reserve(m_data.size() + list.size());
 
-    for(auto& tmp : list)
+    for(auto& url : list)
     {
         QUrl tmpUrl= QUrl::fromUserInput(tmp);
         Q_ASSERT(tmpUrl.isValid());
@@ -127,9 +121,9 @@ void MusicModel::addSong(QStringList list)
     }
     endInsertRows();
 }
-void MusicModel::insertSong(int i, QString str)
+void MusicModel::insertSong(int i, QUrl url)
 {
-    if(str.isEmpty())
+    if(!url.isValid())
         return;
     if(0 > i)
     {
@@ -169,23 +163,26 @@ void MusicModel::removeSong(const QModelIndexList& list)
 }
 void MusicModel::setCurrentSong(const QModelIndex& p)
 {
-    m_currentSong= p;
+    m_currentSong= data(p, URL).toUrl();
     emit dataChanged(p, p);
 }
-QModelIndex MusicModel::getCurrentSong()
+
+QStringList MusicModel::mimeTypes() const
 {
-    return static_cast<QModelIndex>(m_currentSong);
+    return {"text/uri-list"};
 }
-void MusicModel::saveIn(QTextStream& file)
+
+int MusicModel::indexOfCurrent() const
 {
     for(auto& tmp : m_data)
     {
         file << tmp.toString(QUrl::PreferLocalFile) << "\n";
     }
 }
-QStringList MusicModel::mimeTypes() const
+
+const QList<QUrl>& MusicModel::urls() const
 {
-    return {"text/uri-list"};
+    return m_data;
 }
 
 Qt::DropActions MusicModel::supportedDropActions() const
@@ -194,7 +191,8 @@ Qt::DropActions MusicModel::supportedDropActions() const
 }
 bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int, const QModelIndex&)
 {
-    if(action == Qt::IgnoreAction)
+    // TODO
+    /*if(action == Qt::IgnoreAction)
         return true;
 
     if(!data->hasUrls())
@@ -232,7 +230,7 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
             }
         }
     }
-
+*/
     return true;
 }
 Qt::ItemFlags MusicModel::flags(const QModelIndex& index) const

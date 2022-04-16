@@ -27,6 +27,7 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QPointer>
+#include <QStringListModel>
 #include <QStyledItemDelegate>
 
 #include "common/widgets/colorbutton.h"
@@ -52,85 +53,53 @@ class PreferencesDialog : public QDialog
     Q_OBJECT
 
 public:
-    /**
-     * @brief PreferencesDialog
-     * @param parent
-     * @param f
-     */
+    enum class PreferenceTab
+    {
+        General,
+        Player,
+        Themes,
+        Diagnostic
+    };
+    Q_ENUM(PreferenceTab)
+    enum AudioPlayerDataIndex
+    {
+        First,
+        Second,
+        Third
+    };
+    Q_ENUM(AudioPlayerDataIndex)
+
     PreferencesDialog(PreferencesController* controller, QWidget* parent= nullptr, Qt::WindowFlags f= Qt::Dialog);
-    /**
-     * @brief ~PreferencesDialog
-     */
     virtual ~PreferencesDialog();
 
 public slots:
-    /**
-     * @brief show the dialog.
-     */
-    void show();
+    void show(PreferenceTab tab= PreferenceTab::General);
     void backgroundChanged();
     void manageHeartBeat();
     void manageMessagingPref();
     void updateTranslationPref();
-private slots:
-    /**
-     * @brief load
-     */
-    void load();
-    /**
-     * @brief save
-     */
-    void save() const;
 
-    /**
-     * @brief performDiag start diagnostic and Display some value about current qt version.
-     */
+private slots:
+    void load();
+    void save() const;
     void performDiag();
-    /**
-     * @brief testAliasCommand
-     */
     void testAliasCommand();
-    /**
-     * @brief applyBackground
-     */
-    // void applyBackground();
-    /**
-     * @brief updateTheme
-     */
     void updateTheme();
-    /**
-     * @brief dupplicateTheme
-     */
     void dupplicateTheme(bool selectNew= true);
-    /**
-     * @brief setTitleAtCurrentTheme
-     */
     void setTitleAtCurrentTheme();
-    /**
-     * @brief setStyle
-     */
     void setStyle();
-    /**
-     * @brief editColor
-     */
     void editColor(QModelIndex);
-    /**
-     * @brief editCss
-     */
     void editCss();
-    /**
-     * @brief exportTheme
-     */
     void exportTheme();
-    /**
-     * @brief importTheme
-     * @return
-     */
     bool importTheme();
-    /**
-     * @brief deleteTheme
-     */
     void deleteTheme();
+
+    void addDirectory();
+    void removeDirectory();
+    void upDirectory();
+    void downDirectory();
+
+    QModelIndex currentIndexFromCurrentList(int i);
 
 private:
     PreferencesManager* m_preferences= nullptr;
@@ -138,6 +107,7 @@ private:
 
     QPushButton* m_applyBtn;
     QPointer<PreferencesController> m_ctrl;
+    QList<QStringListModel*> m_musicDirectories;
 
     bool m_currentThemeIsEditable;
 };

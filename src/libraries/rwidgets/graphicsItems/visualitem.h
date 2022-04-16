@@ -66,30 +66,10 @@ public:
      */
     virtual void setNewEnd(const QPointF& nend)= 0;
     /**
-     * @brief writeData
-     * @param out
-     */
-    virtual void writeData(QDataStream& out) const= 0;
-    /**
-     * @brief readData
-     * @param in
-     */
-    virtual void readData(QDataStream& in)= 0;
-    /**
      * @brief getType
      * @return
      */
     virtual vmap::VisualItemController::ItemType getType() const;
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    virtual void fillMessage(NetworkMessageWriter* msg)= 0;
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    virtual void readItem(NetworkMessageReader* msg)= 0;
     /**
      * @brief resizeContents
      * @param rect
@@ -139,18 +119,6 @@ public:
      */
     virtual VisualItem* getItemCopy()= 0;
     /**
-     * @brief operator <<
-     * @param os
-     * @return
-     */
-    friend QDataStream& operator<<(QDataStream& os, const VisualItem&);
-    /**
-     * @brief operator >>
-     * @param is
-     * @return
-     */
-    friend QDataStream& operator>>(QDataStream& is, VisualItem&);
-    /**
      * @brief promoteTo
      * @return
      */
@@ -166,10 +134,6 @@ public:
      * @brief setEditableItem
      */
     virtual void updateItemFlags();
-    void readOpacityMsg(NetworkMessageReader* msg);
-
-    virtual void readLayerMsg(NetworkMessageReader* msg);
-    virtual void readMovePointMsg(NetworkMessageReader* msg);
     virtual bool isLocal() const;
     QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
@@ -188,6 +152,7 @@ public:
      * @return
      */
     virtual bool canBeMoved() const;
+
 signals:
     /**
      * @brief itemGeometryChanged
@@ -216,26 +181,8 @@ signals:
     // void changeStackPosition(VisualItem*, VisualItem::StackOrder);
 
 public slots:
-    /**
-     * @brief sendPositionMsg
-     */
-    virtual void sendPositionMsg();
-    /**
-     * @brief readPositionMsg
-     * @param msg
-     */
-    virtual void readPositionMsg(NetworkMessageReader* msg);
-
-    virtual void sendOpacityMsg();
-    void sendItemLayer();
-    void readRectGeometryMsg(NetworkMessageReader* msg);
-    void sendRectGeometryMsg();
-    void readRotationMsg(NetworkMessageReader* msg);
-    void sendRotationMsg();
-    void readZValueMsg(NetworkMessageReader* msg);
-    void sendZValueMsg();
-
     void setColor(QColor color);
+    void evaluateVisible();
 
 protected:
     /**

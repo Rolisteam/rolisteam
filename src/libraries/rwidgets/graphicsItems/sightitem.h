@@ -69,26 +69,6 @@ public:
      */
     virtual void setNewEnd(const QPointF& nend) override;
     /**
-     * @brief writeData
-     * @param out
-     */
-    virtual void writeData(QDataStream& out) const override;
-    /**
-     * @brief readData
-     * @param in
-     */
-    virtual void readData(QDataStream& in) override;
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    virtual void fillMessage(NetworkMessageWriter* msg) override;
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    virtual void readItem(NetworkMessageReader* msg) override;
-    /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
@@ -131,10 +111,6 @@ public:
      * @param rad
      */
     void setDefaultAngle(qreal rad);
-    /**
-     * @brief updateChildPosition
-     */
-    void updateChildPosition() override;
     /**
      * @brief createActions
      */

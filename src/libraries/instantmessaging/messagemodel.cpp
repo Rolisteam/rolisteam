@@ -22,13 +22,18 @@
 #include <QDebug>
 #include <set>
 
+#include "core/data/person.h"
+#include "core/model/playermodel.h"
 #include "messagefactory.h"
 #include "messageinterface.h"
 
 namespace InstantMessaging
 {
 
-MessageModel::MessageModel(QObject* parent) : QAbstractListModel(parent) {}
+MessageModel::MessageModel(PlayerModel* playerModel, QObject* parent)
+    : QAbstractListModel(parent), m_personModel(playerModel)
+{
+}
 
 MessageModel::~MessageModel()= default;
 
@@ -50,13 +55,19 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
         item= TextRole;
 
     std::set<int> map({MessageTypeRole, TextRole, TimeRole, OwnerRole, LocalRole, MessageRole, WriterRole,
-                       OwnerNameRole, OwnerColorRole});
+                       OwnerNameRole, OwnerColorRole, WriterNameRole, WriterColorRole});
 
     if(map.find(item) == map.end())
         return {};
 
     QVariant var;
     auto message= m_messages[static_cast<std::size_t>(index.row())].get();
+
+    if(!message)
+        return var;
+
+    auto writer= m_personModel->personById(message->writer());
+    auto owner= m_personModel->personById(message->owner());
 
     switch(item)
     {
@@ -82,10 +93,16 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
         var= message->owner();
         break;
     case OwnerNameRole:
-        var= message->owner();
+        var= owner ? owner->name() : tr("Invalid Person");
         break;
     case OwnerColorRole:
-        var= message->owner();
+        var= owner ? owner->getColor() : Qt::gray;
+        break;
+    case WriterNameRole:
+        var= writer ? writer->name() : tr("Invalid Person");
+        break;
+    case WriterColorRole:
+        var= writer ? writer->getColor() : Qt::gray;
         break;
     }
 
@@ -102,6 +119,8 @@ QHash<int, QByteArray> MessageModel::roleNames() const
                                    {OwnerColorRole, "ownerColor"},
                                    {MessageRole, "message"},
                                    {WriterRole, "writerId"},
+                                   {WriterNameRole, "writerName"},
+                                   {WriterColorRole, "writerColor"},
                                    {LocalRole, "local"}});
 }
 

@@ -6,9 +6,10 @@
 #include <QMenu>
 
 #include "data/campaign.h"
-#include "data/cleveruri.h"
 #include "data/media.h"
 #include "model/mediamodel.h"
+
+#include "worker/utilshelper.h"
 
 namespace campaign
 {
@@ -26,7 +27,7 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     m_defineAsCurrent= new QAction(tr("Current Directory"), this);
     m_openAct= new QAction(tr("Open"), this);
     m_openAsAct= new QAction(tr("Open As…"), this);
-
+    m_renameAct= new QAction(tr("Rename Media"), this);
     // columns
     m_nameColsAct= new QAction(tr("Name"), this);
     m_sizeColsAct= new QAction(tr("Size"), this);
@@ -58,14 +59,15 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
         emit removeSelection(path);
     });
     connect(m_defineAsCurrent, &QAction::triggered, this, [this]() {
-
+        // TODO implementation ?
     });
 
     connect(m_openAct, &QAction::triggered, this, [this]() {
         if(m_index.isValid())
         {
             auto path= m_index.data(MediaModel::Role_Path).toString();
-            emit openAs(path, CleverURI::extensionToContentType(path));
+            auto id= m_index.data(MediaModel::Role_Uuid).toString();
+            emit openAs(id, path, helper::utils::extensionToContentType(path));
         }
     });
     connect(m_openAsAct, &QAction::triggered, this, [this]() {
@@ -73,11 +75,19 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
         {
             auto mediaNode= static_cast<MediaNode*>(m_index.internalPointer());
             auto path= mediaNode->path();
+            auto id= mediaNode->uuid();
             auto act= qobject_cast<QAction*>(sender());
             if(act)
             {
-                emit openAs(path, qvariant_cast<Core::ContentType>(act->data()));
+                emit openAs(id, path, qvariant_cast<Core::ContentType>(act->data()));
             }
+        }
+    });
+
+    connect(m_renameAct, &QAction::triggered, this, [this]() {
+        if(m_index.isValid() && m_index.column() == 0)
+        {
+            edit(m_index);
         }
     });
 
@@ -138,6 +148,7 @@ void CampaignView::contextMenuEvent(QContextMenuEvent* event)
     popMenu.addSeparator();
     popMenu.addAction(m_addDirectoryAct);
     popMenu.addAction(m_deleteFileAct);
+    popMenu.addAction(m_renameAct);
     popMenu.addSeparator();
     auto cols= popMenu.addMenu(tr("Show/hide Column"));
     cols->addAction(m_nameColsAct);
@@ -154,6 +165,7 @@ void CampaignView::contextMenuEvent(QContextMenuEvent* event)
     m_deleteFileAct->setEnabled(!isVoid);
     m_deleteFileAct->setData(path);
     m_defineAsCurrent->setEnabled(isDir);
+    m_renameAct->setEnabled(!isVoid);
     m_openAct->setEnabled(!isDir && !isVoid);
     openAs->setEnabled(!isDir && !isVoid);
 

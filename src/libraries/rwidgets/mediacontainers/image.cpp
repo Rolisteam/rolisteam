@@ -46,7 +46,7 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     connect(m_ctrl, &ImageController::pixmapChanged, this, &Image::initImage);
     connect(m_ctrl, &ImageController::cursorChanged, this, [this]() { m_imageLabel->setCursor(m_ctrl->cursor()); });
 
-    setWindowIcon(QIcon::fromTheme("image"));
+    setWindowIcon(QIcon::fromTheme("image-x-generic"));
     createActions();
 
     if(m_ctrl->isMovie())

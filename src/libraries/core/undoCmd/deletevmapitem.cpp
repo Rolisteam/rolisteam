@@ -21,7 +21,7 @@
 
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-
+#include "model/vmapitemmodel.h"
 #include <QDebug>
 
 DeleteVmapItemCommand::DeleteVmapItemCommand(VectorialMapController* ctrl,
@@ -43,8 +43,9 @@ void DeleteVmapItemCommand::undo()
 {
     qInfo() << QStringLiteral("undo command DeleteVmapItemCommand: %1 ").arg(text());
 
-    /*std::for_each(m_itemCtrls.begin(), m_itemCtrls.end(), [this](vmap::VisualItemController* itemCtrl) {
-        auto manager= m_ctrl->manager(itemCtrl->tool());
-        manager->addController(itemCtrl);
-    });*/
+    std::for_each(m_itemCtrls.begin(), m_itemCtrls.end(), [this](vmap::VisualItemController* itemCtrl) {
+        auto model= m_ctrl->model();
+        model->itemControllerAdded(itemCtrl);
+        // manager->addController(itemCtrl);
+    });
 }

@@ -58,14 +58,10 @@ public:
     ~CharacterItem() override;
 
     // Override
-    virtual void writeData(QDataStream& out) const override;
-    virtual void readData(QDataStream& in) override;
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
     virtual void setNewEnd(const QPointF& nend) override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
-    virtual void fillMessage(NetworkMessageWriter* msg) override;
-    virtual void readItem(NetworkMessageReader* msg) override;
     void setGeometryPoint(qreal pointId, QPointF& pos) override;
     virtual void initChildPointItem() override;
     void resizeContents(const QRectF& rect, int pointId, TransformType transformType= KeepRatio) override;
@@ -111,7 +107,6 @@ signals:
 public slots:
     void changeVisionShape();
     void sizeChanged(qreal m_size);
-    virtual void readPositionMsg(NetworkMessageReader* msg) override;
     void endOfGeometryChange(ChildPointItem::Change change) override;
     void generatedThumbnail();
     void cleanInit();

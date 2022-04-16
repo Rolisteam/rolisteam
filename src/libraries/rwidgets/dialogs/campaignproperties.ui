@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="m_tabwidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="dicealias">
       <attribute name="title">
@@ -127,7 +127,8 @@
               <string>Add</string>
              </property>
              <property name="icon">
-              <iconset theme="add"/>
+              <iconset theme="add">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -140,7 +141,8 @@
               <string>Delete</string>
              </property>
              <property name="icon">
-              <iconset theme="remove"/>
+              <iconset theme="remove">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -153,7 +155,8 @@
               <string>Top</string>
              </property>
              <property name="icon">
-              <iconset theme="go-top"/>
+              <iconset theme="go-top">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -166,7 +169,8 @@
               <string>Up</string>
              </property>
              <property name="icon">
-              <iconset theme="go-up"/>
+              <iconset theme="go-up">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -179,7 +183,8 @@
               <string>Down</string>
              </property>
              <property name="icon">
-              <iconset theme="go-down"/>
+              <iconset theme="go-down">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -192,7 +197,8 @@
               <string>Bottom</string>
              </property>
              <property name="icon">
-              <iconset theme="go-bottom"/>
+              <iconset theme="go-bottom">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -240,7 +246,8 @@
               <string>Add</string>
              </property>
              <property name="icon">
-              <iconset theme="add"/>
+              <iconset theme="add">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -253,7 +260,8 @@
               <string>Delete</string>
              </property>
              <property name="icon">
-              <iconset theme="remove"/>
+              <iconset theme="remove">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -266,7 +274,8 @@
               <string>Top</string>
              </property>
              <property name="icon">
-              <iconset theme="go-top"/>
+              <iconset theme="go-top">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -279,7 +288,8 @@
               <string>Up</string>
              </property>
              <property name="icon">
-              <iconset theme="go-up"/>
+              <iconset theme="go-up">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -292,7 +302,8 @@
               <string>Down</string>
              </property>
              <property name="icon">
-              <iconset theme="go-down"/>
+              <iconset theme="go-down">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>
@@ -305,7 +316,8 @@
               <string>Bottom</string>
              </property>
              <property name="icon">
-              <iconset theme="go-bottom"/>
+              <iconset theme="go-bottom">
+               <normaloff>.</normaloff>.</iconset>
              </property>
             </widget>
            </item>

@@ -95,7 +95,7 @@ void ImagePathEditor::clearPixmap()
 void ImagePathEditor::openFile()
 {
     QString fileName= QFileDialog::getOpenFileName(this, tr("Get picture for Character State"), m_root,
-                                                   "*.jpg *jpeg *.png *.bmp *.svg");
+                                                   "Images (*.jpg *jpeg *.png *.bmp *.svg)");
     if(!fileName.isEmpty())
     {
         if(!fileName.startsWith(m_root))

@@ -56,7 +56,7 @@ class CharacterSheetController : public MediaControllerBase
     Q_PROPERTY(bool cornerEnabled READ cornerEnabled NOTIFY cornerEnabledChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
 public:
-    CharacterSheetController(const QString& id, const QString& path, QObject* parent= nullptr);
+    CharacterSheetController(const QString& id= QString(), const QUrl& path= QUrl(), QObject* parent= nullptr);
     ~CharacterSheetController() override;
 
     CharacterSheetModel* model() const;

@@ -48,6 +48,7 @@ public:
     void setData(const QByteArray& bytes);
 
     size_t left() const;
+    size_t currentPos() const;
 
     quint8 uint8();
     quint16 uint16();

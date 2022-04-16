@@ -15,5 +15,7 @@
         <file>img/white.png</file>
         <file>pdf/01_personnages.pdf</file>
         <file>sharednotes/scenario.md</file>
+        <file>img/arbre_500.jpg</file>
+        <file>img/arbre_square_500.jpg</file>
     </qresource>
 </RCC>

@@ -108,7 +108,7 @@ void PlayerMessageHelper::writeCharacterIntoMessage(NetworkMessageWriter& msg, C
     msg.int32(character->getHealthPointsMin());
     msg.int32(character->getHealthPointsMax());
     msg.int32(character->getInitiativeScore());
-    msg.string32(character->getInitCommand());
+    msg.string32(character->initCommand());
     msg.real(character->getDistancePerTurn());
     msg.uint8(static_cast<quint8>(character->hasInitScore()));
 

@@ -5,7 +5,8 @@ option(BUILD_GUI OFF)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -66,6 +67,8 @@ set(mindmap_qml
     resources/qml/MindMap.qml
     resources/qml/MindMenu.qml
     resources/qml/Node.qml
+    resources/qml/DrawerMenu.qml
+    resources/qml/main.qml
 )
 
 

@@ -34,7 +34,8 @@ class SharedNoteControllerUpdater : public MediaUpdaterInterface
     Q_OBJECT
 
 public:
-    explicit SharedNoteControllerUpdater(FilteredContentModel* model, QObject* parent= nullptr);
+    explicit SharedNoteControllerUpdater(FilteredContentModel* model, campaign::CampaignManager* campaign,
+                                         QObject* parent= nullptr);
 
     void addMediaController(MediaControllerBase* ctrl) override;
     void addSharedNoteController(SharedNoteController* sheet);
@@ -47,7 +48,6 @@ public:
 private:
     QPointer<FilteredContentModel> m_notesModel;
     std::map<SharedNoteController*, QSet<QString>> m_noteReaders;
-    bool m_updatingFromNetwork= false;
 };
 
 #endif // SHAREDNOTECONTROLLERUPDATER_H

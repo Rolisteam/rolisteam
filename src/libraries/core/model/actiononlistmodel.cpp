@@ -19,8 +19,11 @@
  ***************************************************************************/
 #include "actiononlistmodel.h"
 
-ActionOnListModel::ActionOnListModel(const QStringList& data, const QList<ActionInfo>& actions, QObject* parent)
-    : QAbstractListModel(parent), m_actions(actions)
+#include <QDebug>
+
+ActionOnListModel::ActionOnListModel(const QStringList& data, const QList<ActionInfo>& actions, const QString& root,
+                                     QObject* parent)
+    : QAbstractListModel(parent), m_actions(actions), m_root(root)
 
 {
     std::transform(std::begin(data), std::end(data), std::back_inserter(m_data), [](const QString& path) {
@@ -46,9 +49,11 @@ QVariant ActionOnListModel::data(const QModelIndex& index, int role) const
     auto curr= m_data.at(index.row());
     QVariant res;
     if(role == Qt::DisplayRole || role == Name)
-        res= curr.data;
+    {
+        res= curr.data.replace(m_root, "");
+    }
     else if(role == Action)
-        res= curr.action;
+        res= curr.indexAction;
     else if(role == PossibleAction)
     {
         QVariantList list;
@@ -56,5 +61,48 @@ QVariant ActionOnListModel::data(const QModelIndex& index, int role) const
                        [](const ActionInfo& info) { return info.name; });
         res= list;
     }
+    else if(role == PossibleIcon)
+    {
+        QVariantList list;
+        std::transform(std::begin(m_actions), std::end(m_actions), std::back_inserter(list),
+                       [](const ActionInfo& info) { return info.icon; });
+        res= list;
+    }
     return res;
+}
+
+QHash<int, QByteArray> ActionOnListModel::roleNames() const
+{
+    return {{Name, "name"}, {Action, "action"}, {PossibleAction, "actions"}, {PossibleIcon, "icons"}};
+}
+
+bool ActionOnListModel::canValidate() const
+{
+    bool res= false;
+
+    if(m_data.isEmpty())
+        res= true;
+    else
+    {
+        res= std::all_of(std::begin(m_data), std::end(m_data),
+                         [](const DataInfo& info) { return info.indexAction != -1; });
+    }
+
+    return res;
+}
+
+void ActionOnListModel::setAction(int idx, int action)
+{
+    if(idx < 0 || idx >= m_data.size() || action < 0 || action >= m_actions.size())
+        return;
+
+    auto& info= m_data[idx];
+    info.indexAction= action;
+    auto idxItem= index(idx, 0);
+    emit dataChanged(idxItem, idxItem);
+}
+
+const QList<DataInfo>& ActionOnListModel::dataset() const
+{
+    return m_data;
 }

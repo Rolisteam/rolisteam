@@ -13,29 +13,22 @@
 
 QPointer<CharacterModel> CharacterSheetController::m_characterModel;
 
-CharacterSheetController::CharacterSheetController(const QString& id, const QString& path, QObject* parent)
+CharacterSheetController::CharacterSheetController(const QString& id, const QUrl& path, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::CHARACTERSHEET, parent)
     , m_model(new CharacterSheetModel)
     , m_imageModel(new charactersheet::ImageModel())
     , m_characterSheetUpdater(new CharacterSheetUpdater(id))
 {
-    setPath(path);
-    ModelHelper::loadCharacterSheet(path, m_model.get(), m_imageModel.get(), m_rootJson, m_qmlCode);
+    setUrl(path);
+    ModelHelper::loadCharacterSheet(path.toLocalFile(), m_model.get(), m_imageModel.get(), m_rootJson, m_qmlCode);
 
     connect(this, &CharacterSheetController::uuidChanged, m_characterSheetUpdater.get(),
             &CharacterSheetUpdater::setMediaId);
 
-    /*for(int j= 0; j < m_model->getCharacterSheetCount(); ++j)
-    {
-        CharacterSheet* sheet= m_model->getCharacterSheet(j);
-        if(nullptr != sheet)
-        {
-            connect(sheet, &CharacterSheet::updateField, this, &CharacterSheetController::updateFieldFrom);
-        }
-    }*/
+    connect(m_model.get(), &CharacterSheetModel::characterSheetHasBeenAdded, this, [this] { setModified(); });
+    connect(m_model.get(), &CharacterSheetModel::dataCharacterChange, this, [this] { setModified(); });
 
-    /*connect(m_model.get(), &CharacterSheetModel::characterSheetHasBeenAdded, this,
-            &CharacterSheetController::sheetCreated);*/
+    connect(m_imageModel.get(), &charactersheet::ImageModel::internalDataChanged, this, [this] { setModified(); });
 }
 
 CharacterSheetController::~CharacterSheetController() {}
@@ -47,6 +40,8 @@ void CharacterSheetController::setQmlCode(const QString& qml)
 
 void CharacterSheetController::addCharacterSheet(const QJsonObject& data, const QString& charId)
 { // called to create qml page from network
+    if(!m_characterModel)
+        return;
     auto sheet= new CharacterSheet();
     sheet->load(data);
     auto character= m_characterModel->character(charId);
@@ -131,6 +126,8 @@ void CharacterSheetController::shareCharacterSheetToAll(int idx)
 
 void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int idx)
 {
+    if(!m_characterModel)
+        return;
     auto character= m_characterModel->character(uuid);
 
     auto sheet= m_model->getCharacterSheet(idx);

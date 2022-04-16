@@ -88,10 +88,10 @@ QVariant LinkModel::data(const QModelIndex& index, int role) const
     case Direction:
         result= QVariant::fromValue(link->direction());
         break;
-    case Position:
+    case P1Position:
         result= link->startPoint();
         break;
-    case Last:
+    case P2Position:
         result= link->endPoint();
         break;
     case Width:
@@ -103,21 +103,21 @@ QVariant LinkModel::data(const QModelIndex& index, int role) const
     case LinkRole:
         result= QVariant::fromValue(link);
         break;
-    case StartBoxRole:
-        result= QVariant::fromValue(link->start()->boundingRect());
-        break;
     case StartNodeId:
         result= link->p1Id();
         break;
     case EndNodeId:
         result= link->p2Id();
         break;
-    case EndBoxRole:
-    {
-        auto end= link->endNode();
-        result= end ? QVariant::fromValue(end->boundingRect()) : QVariant();
-    }
-    break;
+        /*    case StartBoxRole:
+                result= QVariant::fromValue(link->start()->boundingRect());
+                break;
+            case EndBoxRole:
+            {
+                auto end= link->endNode();
+                result= end ? QVariant::fromValue(end->boundingRect()) : QVariant();
+            }*/
+        break;
     case StartPointRole:
         result= QVariant::fromValue(link->p1());
         break;
@@ -126,6 +126,9 @@ QVariant LinkModel::data(const QModelIndex& index, int role) const
         break;
     case Label:
         result= link->text();
+        break;
+    case Visibility:
+        result= link->isVisible();
         break;
     }
 
@@ -139,7 +142,8 @@ bool LinkModel::setData(const QModelIndex& index, const QVariant& value, int rol
     {
         // auto link= m_data.at(index.row());
         ret= true;
-        Q_EMIT dataChanged(index, index, QVector<int>() << role);
+        qDebug() << "set data" << index << value;
+        emit dataChanged(index, index, QVector<int>() << role);
     }
     return ret;
 }
@@ -149,18 +153,46 @@ QHash<int, QByteArray> LinkModel::roleNames() const
     // clang-format off
     static QHash<int, QByteArray> roles
         =  {{LinkModel::Direction, "direction"},
-            {LinkModel::Position, "position"},
-            {LinkModel::Last, "last"},
-            {LinkModel::StartBoxRole,"startBoxRole"},
-            {LinkModel::EndBoxRole,"endBoxRole"},
-            {LinkModel::StartPointRole,"startPointRole"},
-            {LinkModel::EndPointRole,"endPointRole"},
+            {LinkModel::P1Position, "position"},
+            {LinkModel::P2Position, "last"},
+           // {LinkModel::StartBoxRole,"startBoxRole"},
+           // {LinkModel::EndBoxRole,"endBoxRole"},
+            {LinkModel::StartPointRole,"startPoint"},
+            {LinkModel::EndPointRole,"endPoint"},
             {LinkModel::Height, "heightLink"},
             {LinkModel::Width, "widthLink"},
             {LinkModel::LinkRole, "link"},
+            {LinkModel::Visibility, "visible"},
             {LinkModel::Label, "label"}};
     //clang-format on
     return roles;
+}
+
+void LinkModel::attachLinkSignal(Link* link)
+{
+    connect(link, &Link::visibleChanged, this, [this, link](){
+        linkHasChanged(link, {Visibility});
+    });
+    connect(link, &Link::directionChanged, this, [this, link](){
+        linkHasChanged(link, {Direction});
+    });
+    connect(link, &Link::startPositionChanged, this, [this, link](){
+        linkHasChanged(link, {P1Position, StartPointRole, Height, Width});
+    });
+    connect(link, &Link::endPositionChanged, this, [this, link](){
+        linkHasChanged(link, {P2Position, EndPointRole, Height, Width});
+    });
+    connect(link, &Link::textChanged, this, [this, link](){
+        linkHasChanged(link, {Label});
+    });
+    connect(link, &Link::startPointChanged, this, [this, link](){
+        linkHasChanged(link, {P1Position, StartNodeId, StartPointRole, Height, Width});
+    });
+    connect(link, &Link::endPointChanged, this, [this, link](){
+        linkHasChanged(link, {P2Position, EndNodeId, EndPointRole, Height, Width});
+    });
+
+
 }
 
 Link* LinkModel::addLink(MindNode* p1, MindNode* p2)
@@ -171,13 +203,12 @@ Link* LinkModel::addLink(MindNode* p1, MindNode* p2)
     beginInsertRows(QModelIndex(), static_cast<int>(m_data.size()), static_cast<int>(m_data.size()));
     auto link= new Link();
     p2->setParentNode(p1);
-    connect(link, &Link::linkChanged, this, &LinkModel::linkHasChanged);
+    attachLinkSignal(link);
     link->setStart(p1);
     p1->addLink(link);
     link->setEnd(p2);
     m_data.push_back(link);
     endInsertRows();
-    //emit linkAdded({link});
     return link;
 }
 
@@ -195,18 +226,15 @@ void LinkModel::append(const QList<Link*>& links, bool network)
             continue;
 
 
-        connect(link, &Link::linkChanged, this, &LinkModel::linkHasChanged);
 
+        attachLinkSignal(link);
         beginInsertRows(QModelIndex(), static_cast<int>(m_data.size()), static_cast<int>(m_data.size()));
         p2->setParentNode(p1);
         p1->addLink(link);
         m_data.push_back(link);
         endInsertRows();
-        emit link->linkChanged();
         realLinks << link;
     }
-    /*    if(!network)
-          emit linkAdded(realLinks);*/
 }
 
 void LinkModel::removeLink(const QStringList& ids, bool network)
@@ -230,20 +258,20 @@ void LinkModel::removeLink(const QStringList& ids, bool network)
         p1->removeLink(link);
         endRemoveRows();
         realIds << id;
-        emit link->linkChanged();
+        //emit link->linkChanged({Link::P1_POSITION});
     }
-   /* if(!network)
-      emit linkRemoved(realIds);*/
 }
 
-void LinkModel::linkHasChanged()
+void LinkModel::linkHasChanged(Link* link,QVector<int> roles)
 {
-    auto link= qobject_cast<Link*>(sender());
+    if(!link)
+        return;
+
     QModelIndex parent;
     auto it= std::find(m_data.begin(), m_data.end(), link);
     auto offset= std::distance(m_data.begin(), it);
     auto idx1= index(offset, 0, parent);
-    Q_EMIT dataChanged(idx1, idx1, QVector<int>() << Position << Last << Width << Height << StartPointRole << EndPointRole);
+    emit dataChanged(idx1, idx1, roles);
 }
 
 Qt::ItemFlags LinkModel::flags(const QModelIndex& index) const

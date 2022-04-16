@@ -27,12 +27,14 @@
 #include <QPointer>
 #include <memory>
 
+class QUndoCommand;
 namespace campaign
 {
 class Media;
 class MediaNode : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
 public:
     enum NodeType
     {
@@ -55,6 +57,11 @@ public:
 
     const std::vector<std::unique_ptr<MediaNode>>& children() const;
     void addChild(std::unique_ptr<MediaNode> node);
+signals:
+    void pathChanged();
+
+public slots:
+    void setPath(const QString& path);
 
 private:
     NodeType m_type;
@@ -78,6 +85,7 @@ public:
         Role_ModifiedDate,
         Role_Icon,
         Role_Path,
+        Role_Uuid,
         Role_IsDir,
         Role_Unknown
     };
@@ -99,9 +107,13 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+    void dataChangedFor(MediaNode* node);
+
     void setCampaign(Campaign* campaign);
 signals:
     void campaignChanged();
+    void performCommand(QUndoCommand* cmd);
+
 private slots:
     void addMediaNode(Media* media);
     void removeMediaNode(const QString& id);

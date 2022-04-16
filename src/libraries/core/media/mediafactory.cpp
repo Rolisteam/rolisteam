@@ -52,48 +52,48 @@ namespace
 {
 ImageController* image(const QString& uuid, const QHash<QString, QVariant>& map)
 {
-    QByteArray serializedData= map.value(QStringLiteral("serializedData")).toByteArray();
-    QByteArray pix= map.value(QStringLiteral("data")).toByteArray();
-    QString path= map.value(QStringLiteral("path")).toString();
-    QString name= map.value(QStringLiteral("name")).toString();
+    QByteArray serializedData= map.value(Core::keys::KEY_SERIALIZED).toByteArray();
+    QByteArray pix= map.value(Core::keys::KEY_DATA).toByteArray();
+    QUrl url= map.value(Core::keys::KEY_URL).toUrl();
+    QString name= map.value(Core::keys::KEY_NAME).toString();
 
-    return new ImageController(uuid, name, path, pix);
+    return new ImageController(uuid, name, url, pix);
 }
 
 CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QVariant>& params)
 {
-    auto path= params.value(QStringLiteral("path")).toString();
+    auto path= params.value(Core::keys::KEY_PATH).toString();
 
     CharacterSheetController* sheetCtrl= new CharacterSheetController(uuid, path);
 
-    sheetCtrl->setName(params.value(QStringLiteral("name")).toString());
-    sheetCtrl->setQmlCode(params.value(QStringLiteral("qml")).toString());
+    sheetCtrl->setName(params.value(Core::keys::KEY_NAME).toString());
+    sheetCtrl->setQmlCode(params.value(Core::keys::KEY_QML).toString());
 
-    if(params.contains(QStringLiteral("imageData")))
+    if(params.contains(Core::keys::KEY_IMAGEDATA))
     {
-        auto array= params.value(QStringLiteral("imageData")).toByteArray();
+        auto array= params.value(Core::keys::KEY_IMAGEDATA).toByteArray();
         auto imgModel= sheetCtrl->imageModel();
         imgModel->load(IOHelper::byteArrayToJsonArray(array));
     }
-    if(params.contains(QStringLiteral("rootSection")))
+    if(params.contains(Core::keys::KEY_ROOTSECTION))
     {
-        auto array= params.value(QStringLiteral("rootSection")).toByteArray();
+        auto array= params.value(Core::keys::KEY_ROOTSECTION).toByteArray();
         auto sheetModel= sheetCtrl->model();
         sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
     }
 
-    sheetCtrl->setGameMasterId(params.value("gameMasterId").toString());
+    sheetCtrl->setGameMasterId(params.value(Core::keys::KEY_GMID).toString());
 
-    if(params.contains(QStringLiteral("data")) && params.contains(QStringLiteral("characterId")))
+    if(params.contains(Core::keys::KEY_DATA) && params.contains(Core::keys::KEY_CHARACTERID))
     {
-        auto array= params.value(QStringLiteral("data")).toByteArray();
-        auto characterId= params.value(QStringLiteral("characterId")).toString();
+        auto array= params.value(Core::keys::KEY_DATA).toByteArray();
+        auto characterId= params.value(Core::keys::KEY_CHARACTERID).toString();
         sheetCtrl->addCharacterSheet(IOHelper::byteArrayToJsonObj(array), characterId);
     }
 
-    if(params.contains(QStringLiteral("serializedData")))
+    if(params.contains(Core::keys::KEY_SERIALIZED))
     {
-        auto serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
+        auto serializedData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
         IOHelper::readCharacterSheetController(sheetCtrl, serializedData);
     }
     return sheetCtrl;
@@ -103,19 +103,29 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
 {
     auto vmapCtrl= new VectorialMapController(uuid);
 
-    QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
+    QByteArray serializedData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
 
     if(!params.isEmpty())
     {
-        vmapCtrl->setPermission(params.value(QStringLiteral("permission")).value<Core::PermissionMode>());
-        vmapCtrl->setName(params.value(QStringLiteral("name")).toString());
-        vmapCtrl->setBackgroundColor(params.value(QStringLiteral("bgcolor")).value<QColor>());
-        vmapCtrl->setGridSize(params.value(QStringLiteral("gridSize")).toInt());
-        vmapCtrl->setGridPattern(params.value(QStringLiteral("gridPattern")).value<Core::GridPattern>());
-        vmapCtrl->setGridColor(params.value(QStringLiteral("gridColor")).value<QColor>());
-        vmapCtrl->setVisibility(params.value(QStringLiteral("visibility")).value<Core::VisibilityMode>());
-        vmapCtrl->setGridScale(params.value(QStringLiteral("scale")).toDouble());
-        vmapCtrl->setScaleUnit(params.value(QStringLiteral("unit")).value<Core::ScaleUnit>());
+        namespace ck= Core::keys;
+        vmapCtrl->setName(params.value(ck::KEY_NAME).toString());
+        vmapCtrl->setLayer(params.value(ck::KEY_LAYER).value<Core::Layer>());
+        vmapCtrl->setPermission(params.value(ck::KEY_PERMISSION).value<Core::PermissionMode>());
+        vmapCtrl->setBackgroundColor(params.value(ck::KEY_BGCOLOR).value<QColor>());
+        vmapCtrl->setVisibility(params.value(ck::KEY_VISIBILITY).value<Core::VisibilityMode>());
+        vmapCtrl->setZindex(params.value(ck::KEY_ZINDEX).toInt());
+        vmapCtrl->setCharacterVision(params.value(ck::KEY_CHARACTERVISION).toBool());
+        vmapCtrl->setGridPattern(params.value(ck::KEY_GRIDPATTERN).value<Core::GridPattern>());
+        vmapCtrl->setGridVisibility(params.value(ck::KEY_GRIDVISIBILITY).toBool());
+        vmapCtrl->setGridSize(params.value(ck::KEY_GRIDSIZE).toInt());
+        vmapCtrl->setGridScale(params.value(ck::KEY_GRIDSCALE).toDouble());
+        vmapCtrl->setGridAbove(params.value(ck::KEY_GRIDABOVE).toBool());
+        vmapCtrl->setScaleUnit(params.value(ck::KEY_UNIT).value<Core::ScaleUnit>());
+        vmapCtrl->setGridColor(params.value(ck::KEY_GRIDCOLOR).value<QColor>());
+        vmapCtrl->setIdle(true);
+
+        auto items= params.value(ck::KEY_ITEMS).toHash();
+        VectorialMapMessageHelper::fetchModelFromMap(items, vmapCtrl);
     }
 
     if(!serializedData.isEmpty())
@@ -125,10 +135,10 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
 }
 PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& params)
 {
-    auto ownerid= params.value(QStringLiteral("ownerId")).toString();
-    auto array= params.value(QStringLiteral("data")).toByteArray();
-    auto path= params.value(QStringLiteral("path")).toString();
-    auto seriaziledData= params.value(QStringLiteral("seriaziledData")).toByteArray();
+    auto ownerid= params.value(Core::keys::KEY_OWNERID).toString();
+    auto array= params.value(Core::keys::KEY_DATA).toByteArray();
+    auto path= params.value(Core::keys::KEY_PATH).toString();
+    auto seriaziledData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
     auto pdfCtrl= new PdfController(uuid, path, array);
     pdfCtrl->setOwnerId(ownerid);
     if(!seriaziledData.isEmpty())
@@ -137,18 +147,18 @@ PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& params)
 }
 NoteController* note(const QString& uuid, const QHash<QString, QVariant>& map)
 {
-    auto name= map.value(QStringLiteral("name")).toString();
-    auto path= map.value(QStringLiteral("path")).toString();
+    auto name= map.value(Core::keys::KEY_NAME).toString();
+    auto url= map.value(Core::keys::KEY_URL).toUrl();
 
-    auto ownerid= map.value(QStringLiteral("ownerId")).toString();
-    auto serializedData= map.value(QStringLiteral("serializedData")).toByteArray();
+    auto ownerid= map.value(Core::keys::KEY_OWNERID).toString();
+    auto serializedData= map.value(Core::keys::KEY_SERIALIZED).toByteArray();
 
     auto noteCtrl= new NoteController(uuid);
 
     if(!name.isEmpty())
         noteCtrl->setName(name);
     noteCtrl->setOwnerId(ownerid);
-    noteCtrl->setPath(path);
+    noteCtrl->setUrl(url);
 
     if(!serializedData.isEmpty())
         IOHelper::readNoteController(noteCtrl, serializedData);
@@ -157,11 +167,11 @@ NoteController* note(const QString& uuid, const QHash<QString, QVariant>& map)
 }
 MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& map)
 {
-    auto name= map.value(QStringLiteral("name")).toString();
-    auto path= map.value(QStringLiteral("path")).toString();
+    auto name= map.value(Core::keys::KEY_NAME).toString();
+    auto url= map.value(Core::keys::KEY_URL).toUrl();
 
-    auto ownerid= map.value(QStringLiteral("ownerId")).toString();
-    auto serializedData= map.value(QStringLiteral("serializedData")).toByteArray();
+    auto ownerid= map.value(Core::keys::KEY_OWNERID).toString();
+    auto serializedData= map.value(Core::keys::KEY_SERIALIZED).toByteArray();
 
     auto mindmapCtrl= new MindMapController(uuid);
 
@@ -251,7 +261,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
         mindmapCtrl->setName(name);
 
     mindmapCtrl->setOwnerId(ownerid);
-    mindmapCtrl->setPath(path);
+    mindmapCtrl->setUrl(url);
 
     if(!serializedData.isEmpty())
         IOHelper::readMindmapController(mindmapCtrl, serializedData);
@@ -260,18 +270,18 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 }
 SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVariant>& params, const QString& localId)
 {
-    auto ownerId= params.value(QStringLiteral("ownerId")).toString();
-    auto b= params.value(QStringLiteral("markdown"), false).toBool();
-    auto path= params.value(QStringLiteral("path")).toString();
-    auto text= params.value(QStringLiteral("text")).toString();
+    auto ownerId= params.value(Core::keys::KEY_OWNERID).toString();
+    auto b= params.value(Core::keys::KEY_MARKDOWN, false).toBool();
+    auto url= params.value(Core::keys::KEY_URL).toUrl();
+    auto text= params.value(Core::keys::KEY_TEXT).toString();
     auto noteCtrl= new SharedNoteController(ownerId, localId, uuid);
 
-    if(!path.isEmpty())
+    if(!url.isEmpty())
     {
-        noteCtrl->setPath(path);
-        QFileInfo info(path);
+        noteCtrl->setUrl(url);
+        QFileInfo info(url.toLocalFile());
         noteCtrl->setName(info.fileName());
-        b= path.endsWith(".md");
+        b= url.toLocalFile().endsWith(".md");
     }
 
     noteCtrl->setHighligthedSyntax(b ? SharedNoteController::HighlightedSyntax::MarkDown :
@@ -283,27 +293,44 @@ SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVari
 }
 WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& params)
 {
-    QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
+    QByteArray serializedData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
     auto webCtrl= new WebpageController(uuid);
-    webCtrl->setOwnerId(params.value(QStringLiteral("ownerId")).toString());
-
-    if(params.contains(QStringLiteral("mode")))
-    {
-        auto mode= static_cast<WebpageController::SharingMode>(params.value(QStringLiteral("mode")).toInt());
-        auto data= params.value(QStringLiteral("data")).toString();
-
-        if(mode == WebpageController::Url)
-            webCtrl->setPath(data);
-        else if(mode == WebpageController::Html)
-            webCtrl->setHtml(data);
-    }
-    if(params.contains(QStringLiteral("state")))
-    {
-        webCtrl->setState(static_cast<WebpageController::State>(params.value(QStringLiteral("state")).toInt()));
-    }
 
     if(!serializedData.isEmpty())
         IOHelper::readWebpageController(webCtrl, serializedData);
+    else
+    {
+        webCtrl->setOwnerId(params.value(Core::keys::KEY_OWNERID).toString());
+
+        if(params.contains(Core::keys::KEY_MODE))
+        {
+            auto mode= static_cast<WebpageController::SharingMode>(params.value(Core::keys::KEY_MODE).toInt());
+            auto data= params.value(Core::keys::KEY_DATA).toString();
+
+            if(mode == WebpageController::Url)
+                webCtrl->setUrl(data);
+            else if(mode == WebpageController::Html)
+                webCtrl->setHtml(data);
+        }
+        if(params.contains(Core::keys::KEY_NAME))
+        {
+            webCtrl->setName(params.value(Core::keys::KEY_NAME).toString());
+        }
+        if(params.contains(Core::keys::KEY_STATE))
+        {
+            webCtrl->setState(static_cast<WebpageController::State>(params.value(Core::keys::KEY_STATE).toInt()));
+        }
+        if(params.contains(Core::keys::KEY_PATH))
+        {
+            auto url= params.value(Core::keys::KEY_PATH).toString();
+            webCtrl->setPageUrl(QUrl::fromUserInput(url));
+        }
+        if(params.contains(Core::keys::KEY_URL))
+        {
+            auto url= params.value(Core::keys::KEY_URL).toString();
+            webCtrl->setUrl(QUrl::fromUserInput(url));
+        }
+    }
 
     return webCtrl;
 }
@@ -351,6 +378,7 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
     Q_ASSERT(base != nullptr);
     base->setLocalGM(localIsGM);
     base->setLocalId(m_localId);
+    base->setOwnerId(m_localId);
     return base;
 }
 
@@ -366,7 +394,7 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     case C::VECTORIALMAP:
     {
         auto data= MessageHelper::readVectorialMapData(msg);
-        uuid= data["uuid"].toString();
+        uuid= data[Core::keys::KEY_UUID].toString();
         base= vectorialMap(uuid, data);
     }
     break;
@@ -374,14 +402,14 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
         // case C::ONLINEPICTURE:
         {
             auto data= MessageHelper::readImageData(msg);
-            uuid= data["uuid"].toString();
+            uuid= data[Core::keys::KEY_UUID].toString();
             base= image(uuid, data);
         }
         break;
     case C::MINDMAP:
     {
         auto data= MessageHelper::readMindMap(msg);
-        uuid= data["uuid"].toString();
+        uuid= data[Core::keys::KEY_UUID].toString();
         base= mindmap(uuid, data);
     }
     break;
@@ -393,28 +421,28 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     case C::CHARACTERSHEET:
     {
         auto data= MessageHelper::readCharacterSheet(msg);
-        uuid= data["uuid"].toString();
+        uuid= data[Core::keys::KEY_UUID].toString();
         base= sheetCtrl(uuid, data);
     }
     break;
     case C::SHAREDNOTE:
     {
         auto data= MessageHelper::readSharedNoteData(msg);
-        uuid= data["uuid"].toString();
+        uuid= data[Core::keys::KEY_UUID].toString();
         base= sharedNote(uuid, data, m_localId);
     }
     break;
     case C::PDF:
     {
         auto data= MessageHelper::readPdfData(msg);
-        uuid= data["uuid"].toString();
+        uuid= data[Core::keys::KEY_UUID].toString();
         base= pdf(uuid, data);
     }
     break;
     case C::WEBVIEW:
     {
         auto data= MessageHelper::readWebPageData(msg);
-        uuid= data["uuid"].toString();
+        uuid= data[Core::keys::KEY_UUID].toString();
         base= webPage(uuid, data);
     }
     break;

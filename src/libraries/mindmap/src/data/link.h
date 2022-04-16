@@ -36,14 +36,23 @@ class Link : public QObject
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(Core::ArrowDirection direction READ direction WRITE setDirection NOTIFY directionChanged)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+
     Q_PROPERTY(QPointF startPoint READ startPoint NOTIFY startPointChanged)
     Q_PROPERTY(QPointF endPoint READ endPoint NOTIFY endPointChanged)
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QPointF p1 READ p1 NOTIFY startPointChanged)
     Q_PROPERTY(QPointF p2 READ p2 NOTIFY endPointChanged)
     Q_PROPERTY(QString p1Id READ p1Id NOTIFY startPointChanged)
     Q_PROPERTY(QString p2Id READ p2Id NOTIFY endPointChanged)
 public:
+    /*enum Role
+    {
+        P1_POSITION,
+        P2_POSITION,
+        TEXT,
+        ARROW
+    };
+    Q_ENUM(Role)*/
     explicit Link(QObject* parent= nullptr);
 
     Core::ArrowDirection direction() const;
@@ -79,19 +88,22 @@ public:
 
     QString toString(bool withLabel);
 signals:
-    void linkChanged();
     void visibleChanged();
     void directionChanged();
     void startPointChanged();
     void endPointChanged();
+    void startPositionChanged();
+    void endPositionChanged();
     void textChanged();
     void idChanged();
 
 public slots:
     void computePosition();
-    QPointF computePoint(bool) const;
     void setText(const QString& text);
     void setId(const QString& text);
+
+private:
+    QPointF computePoint(bool) const;
 
 private:
     Core::ArrowDirection m_dir= Core::ArrowDirection::StartToEnd;

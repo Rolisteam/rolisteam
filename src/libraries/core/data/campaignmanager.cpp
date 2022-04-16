@@ -31,11 +31,13 @@
 #include "updater/media/campaignupdater.h"
 
 #include <QDir>
+#include <QLoggingCategory>
 #include <QUrl>
 
 namespace campaign
 {
-CampaignManager::CampaignManager(DiceParser* diceparser, QObject* parent)
+Q_LOGGING_CATEGORY(CampaignCat, "campaign")
+CampaignManager::CampaignManager(DiceRoller* diceparser, QObject* parent)
     : QObject(parent)
     , m_editor(new CampaignEditor)
     , m_campaignUpdater(new CampaignUpdater(diceparser, m_editor->campaign()))
@@ -49,28 +51,17 @@ CampaignManager::~CampaignManager()= default;
 bool CampaignManager::createCampaign(const QUrl& dirUrl)
 {
     auto dirPath= dirUrl.toLocalFile();
-    auto dir= QDir(dirPath);
-
-    if(dir.exists() && !dir.isEmpty())
+    if(!m_campaignUpdater->createCampaignTemplate(dirPath))
     {
-        qInfo() << QString("'%1' alredy exists").arg(dirPath);
-        emit errorOccured(QString("'%1' is not empty").arg(dirPath));
+        emit errorOccured(tr("Impossible to create campagne template at %1").arg(dirPath));
         return false;
-    }
-    else if(!dir.exists())
-    {
-        auto parentDir= dir;
-        parentDir.cdUp();
-        if(!parentDir.mkdir(dirPath))
-        {
-            qInfo() << QString("Could not create '%1'").arg(dirPath);
-            emit errorOccured(QString("Could not create '%1'").arg(dirPath));
-            return false;
-        }
     }
 
     m_editor.reset(new CampaignEditor());
-    m_editor->createNew(dirPath);
+    connect(m_editor.get(), &CampaignEditor::importedFile, this, &CampaignManager::fileImported);
+    connect(m_editor.get(), &CampaignEditor::campaignLoaded, this, &CampaignManager::campaignLoaded);
+    m_editor->open(dirPath);
+    m_campaignUpdater->setCampaign(m_editor->campaign());
     emit campaignChanged(dirPath);
     return true;
 }
@@ -117,22 +108,31 @@ void CampaignManager::saveCampaign()
 {
     if(!m_editor)
         return;
-    m_editor->save(m_editor->campaignDir());
+    m_campaignUpdater->save();
+}
+
+void CampaignManager::reload()
+{
+    if(m_editor)
+        openCampaign(m_editor->campaignDir());
 }
 
 void CampaignManager::copyCampaign(const QUrl& dir)
 {
-
     if(!m_editor)
         return;
-    m_editor->saveCopy(m_editor->campaignDir(), dir.toLocalFile());
+    m_campaignUpdater->saveCampaignTo(dir.toLocalFile());
 }
 
 void CampaignManager::openCampaign(const QUrl& dir)
 {
     auto path= dir.toLocalFile();
-    m_editor->open(path, false);
-    Q_EMIT campaignChanged(path);
+    if(!m_campaignUpdater->createCampaignTemplate(path))
+    {
+        emit errorOccured(tr("Campaign Template creation failed on this location: %1").arg(path));
+    }
+    m_editor->open(path);
+    emit campaignChanged(path);
 }
 
 Campaign* CampaignManager::campaign() const
@@ -145,8 +145,16 @@ CampaignEditor* CampaignManager::editor() const
     return m_editor.get();
 }
 
+DiceRoller* CampaignManager::diceparser() const
+{
+    return m_campaignUpdater->diceParser();
+}
+
 QString CampaignManager::placeDirectory(campaign::Campaign::Place place) const
 {
+    if(!m_editor || !m_editor->campaign())
+        return {};
+
     return m_editor->campaign()->directory(place);
 }
 
@@ -163,5 +171,111 @@ void CampaignManager::shareModels()
 void CampaignManager::setLocalIsGM(bool b)
 {
     m_campaignUpdater->setLocalIsGM(b);
+}
+
+void CampaignManager::importDataFrom(const QString& source, const QVector<Core::CampaignDataCategory>& categories)
+{
+    if(!m_editor)
+        return;
+
+    auto makeSource= [source](const QString& file) { return QString("%1/%2").arg(source, file); };
+
+    for(auto const& cat : categories)
+    {
+        switch(cat)
+        {
+        case Core::CampaignDataCategory::AudioPlayer1:
+            m_editor->mergeAudioFile(makeSource(FIRST_AUDIO_PLAYER_FILE),
+                                     placeDirectory(Campaign::Place::FIRST_AUDIO_PLAYER_FILE));
+            break;
+        case Core::CampaignDataCategory::AudioPlayer2:
+            m_editor->mergeAudioFile(makeSource(SECOND_AUDIO_PLAYER_FILE),
+                                     placeDirectory(Campaign::Place::SECOND_AUDIO_PLAYER_FILE));
+            break;
+        case Core::CampaignDataCategory::AudioPlayer3:
+            m_editor->mergeAudioFile(makeSource(THIRD_AUDIO_PLAYER_FILE),
+                                     placeDirectory(Campaign::Place::THIRD_AUDIO_PLAYER_FILE));
+            break;
+        case Core::CampaignDataCategory::AntagonistList:
+            m_editor->loadNpcData(makeSource(CHARACTER_MODEL), makeSource(CHARACTER_ROOT),
+                                  placeDirectory(Campaign::Place::NPC_MODEL),
+                                  placeDirectory(Campaign::Place::NPC_ROOT));
+            break;
+        case Core::CampaignDataCategory::Images:
+            m_editor->copyMedia(makeSource(MEDIA_ROOT), placeDirectory(Campaign::Place::MEDIA_ROOT),
+                                Core::MediaType::ImageFile);
+            break;
+        case Core::CampaignDataCategory::Maps:
+            m_editor->copyMedia(makeSource(MEDIA_ROOT), placeDirectory(Campaign::Place::MEDIA_ROOT),
+                                Core::MediaType::MapFile);
+            break;
+        case Core::CampaignDataCategory::MindMaps:
+            m_editor->copyMedia(makeSource(MEDIA_ROOT), placeDirectory(Campaign::Place::MEDIA_ROOT),
+                                Core::MediaType::MindmapFile);
+            break;
+        case Core::CampaignDataCategory::WebLink:
+            m_editor->copyMedia(makeSource(MEDIA_ROOT), placeDirectory(Campaign::Place::MEDIA_ROOT),
+                                Core::MediaType::WebpageFile);
+            break;
+        case Core::CampaignDataCategory::PDFDoc:
+            m_editor->copyMedia(makeSource(MEDIA_ROOT), placeDirectory(Campaign::Place::MEDIA_ROOT),
+                                Core::MediaType::PdfFile);
+            break;
+        case Core::CampaignDataCategory::CharacterSheets:
+            m_editor->copyMedia(makeSource(MEDIA_ROOT), placeDirectory(Campaign::Place::MEDIA_ROOT),
+                                Core::MediaType::CharacterSheetFile);
+            break;
+        case Core::CampaignDataCategory::Notes:
+            m_editor->copyMedia(makeSource(MEDIA_ROOT), placeDirectory(Campaign::Place::MEDIA_ROOT),
+                                Core::MediaType::TextFile);
+            break;
+        case Core::CampaignDataCategory::DiceAlias:
+        {
+            // auto dest= placeDirectory(Campaign::Place::DICE_MODEL);
+
+            m_editor->loadDiceAlias(makeSource(DICE_ALIAS_MODEL));
+        }
+        break;
+        case Core::CampaignDataCategory::CharacterStates:
+            // m_editor->loadDiceAlias(makeSource(STATE_MODEL));
+            m_editor->loadStates(makeSource(STATE_MODEL), makeSource(STATE_ROOT),
+                                 placeDirectory(Campaign::Place::STATE_MODEL),
+                                 placeDirectory(Campaign::Place::STATE_ROOT));
+            break;
+        case Core::CampaignDataCategory::Themes:
+            m_editor->copyTheme(makeSource(THEME_FILE), placeDirectory(Campaign::Place::THEME_FILE));
+            break;
+        }
+        //, Maps, MindMaps, Notes, WebLink, PDFDoc, DiceAlias, CharacterStates, Themes, CharacterSheets,
+    }
+}
+
+void CampaignManager::performAction(const QList<QPair<QString, Core::CampaignAction>>& actions)
+{
+    std::for_each(std::begin(actions), std::end(actions), [this](const QPair<QString, Core::CampaignAction>& pair) {
+        // action == 0 => forget file
+        auto path= pair.first;
+        auto abPath= m_editor->mediaFullPath(path);
+
+        switch(pair.second)
+        {
+        case Core::CampaignAction::NoneAction:
+            break;
+        case Core::CampaignAction::ForgetAction:
+            m_editor->removeMedia(abPath);
+            break;
+        case Core::CampaignAction::DeleteAction:
+            m_editor->removeFile(path);
+            break;
+        case Core::CampaignAction::CreateAction:
+            emit createBlankFile(path, FileSerializer::typeFromExtention(path));
+            break;
+        case Core::CampaignAction::ManageAction:
+            m_editor->addMedia(QUuid::createUuid().toString(QUuid::WithoutBraces), path, {});
+            break;
+        }
+
+        // action == 1 => create document
+    });
 }
 } // namespace campaign

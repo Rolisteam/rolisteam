@@ -102,8 +102,73 @@ MindMapController::MindMapController(const QString& id, QObject* parent)
     connect(m_spacingController.get(), &mindmap::SpacingController::finished, m_spacing, &QThread::quit);
     m_spacing->start();
 
-    connect(m_nodeModel.get(), &mindmap::BoxModel::nodeAdded, this, &MindMapController::generateTree);
-    connect(m_linkModel.get(), &mindmap::LinkModel::linkAdded, this, &MindMapController::generateTree);
+    // connect(m_nodeModel.get(), &mindmap::BoxModel::nodeAdded, this, &MindMapController::generateTree);
+    // connect(m_linkModel.get(), &mindmap::LinkModel::linkAdded, this, &MindMapController::generateTree);
+
+    connect(m_nodeModel.get(), &mindmap::BoxModel::rowsInserted, this, [this] {
+        qDebug() << "Row inserted";
+        setModified();
+    });
+    connect(m_nodeModel.get(), &mindmap::BoxModel::dataChanged, this, [this] {
+        qDebug() << "dataChanged";
+        setModified();
+    });
+    connect(m_nodeModel.get(), &mindmap::BoxModel::rowsRemoved, this, [this] {
+        qDebug() << "Row rowsRemoved";
+        setModified();
+    });
+
+    connect(m_linkModel.get(), &mindmap::LinkModel::rowsInserted, this, [this] {
+        qDebug() << "link Row inserted";
+        setModified();
+    });
+    connect(m_linkModel.get(), &mindmap::LinkModel::dataChanged, this,
+            [this](const QModelIndex&, const QModelIndex&, const QVector<int>& roles) {
+                QSet<int> allowedRoles{mindmap::LinkModel::Visibility, mindmap::LinkModel::Label,
+                                       mindmap::LinkModel::StartNodeId, mindmap::LinkModel::EndNodeId,
+                                       mindmap::LinkModel::Direction};
+
+                bool b= std::any_of(std::begin(roles), std::end(roles),
+                                    [allowedRoles](int role) { return allowedRoles.contains(role); });
+
+                if(b)
+                {
+                    setModified();
+                }
+            });
+    connect(m_linkModel.get(), &mindmap::LinkModel::rowsRemoved, this, [this] {
+        qDebug() << "link Row removed";
+        setModified();
+    });
+    connect(m_imageModel.get(), &ImageModel::rowsInserted, this, [this] {
+        qDebug() << "image inserted";
+        setModified();
+    });
+    connect(m_imageModel.get(), &ImageModel::rowsRemoved, this, [this] {
+        qDebug() << "Image deleted";
+        setModified();
+    });
+    connect(this, &MindMapController::defaultStyleIndexChanged, this, [this] {
+        qDebug() << "Default style changed";
+        setModified();
+    });
+    connect(this, &MindMapController::filenameChanged, this, [this] {
+        qDebug() << "Filename changed";
+        setModified();
+    });
+
+    connect(this, &MindMapController::nameChanged, this, [this] {
+        qDebug() << "name Changed";
+        setModified();
+    });
+    connect(this, &MindMapController::titleChanged, this, [this] {
+        qDebug() << "title changed";
+        setModified();
+    });
+    connect(this, &MindMapController::urlChanged, this, [this] {
+        qDebug() << "url changed";
+        setModified();
+    });
 
     clearData();
 }

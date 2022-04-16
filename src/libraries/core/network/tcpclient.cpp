@@ -73,14 +73,14 @@ void TcpClient::resetStateMachine()
     m_stateMachine->start();
 
     connect(m_incomingConnection, &QState::activeChanged, this, [=](bool b) {
-        qDebug() << "incomming state";
+        qDebug() << "incomming state" << b;
         if(b)
         {
             m_currentState= m_incomingConnection;
         }
     });
     connect(m_controlConnection, &QState::activeChanged, this, [=](bool b) {
-        qDebug() << "control state";
+        qDebug() << "control state" << b;
         if(b)
         {
             m_currentState= m_controlConnection;
@@ -89,7 +89,7 @@ void TcpClient::resetStateMachine()
     });
 
     connect(m_authentificationServer, &QState::activeChanged, this, [=](bool b) {
-        qDebug() << "authentification state";
+        qDebug() << "authentification state" << b;
         if(b)
         {
             m_currentState= m_authentificationServer;

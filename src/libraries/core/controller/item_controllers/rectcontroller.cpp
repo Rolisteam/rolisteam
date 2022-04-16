@@ -26,22 +26,26 @@ namespace vmap
 RectController::RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::RECT, params, ctrl, parent)
 {
-    if(params.end() != params.find("tool"))
+    if(params.end() != params.find(Core::vmapkeys::KEY_TOOL))
     {
-        m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
+        m_tool= params.at(Core::vmapkeys::KEY_TOOL).value<Core::SelectableTool>();
         m_filled= (m_tool == Core::SelectableTool::FILLRECT);
     }
-    else if(params.end() != params.find("filled"))
+    else if(params.end() != params.find(Core::vmapkeys::KEY_FILLED))
     {
-        m_filled= params.at(QStringLiteral("filled")).toBool();
+        m_filled= params.at(Core::vmapkeys::KEY_FILLED).toBool();
         m_tool= m_filled ? Core::SelectableTool::FILLRECT : Core::SelectableTool::EMPTYRECT;
     }
 
-    if(params.end() != params.find("penWidth"))
-        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+    if(params.end() != params.find(Core::vmapkeys::KEY_PENWIDTH))
+        m_penWidth= static_cast<quint16>(params.at(Core::vmapkeys::KEY_PENWIDTH).toInt());
 
-    if(params.end() != params.find("rect"))
-        setRect(params.at(QStringLiteral("rect")).toRectF());
+    if(params.end() != params.find(Core::vmapkeys::KEY_RECT))
+        setRect(params.at(Core::vmapkeys::KEY_RECT).toRectF());
+
+    connect(this, &RectController::rectChanged, this, [this] { setModified(); });
+    connect(this, &RectController::filledChanged, this, [this] { setModified(); });
+    connect(this, &RectController::penWidthChanged, this, [this] { setModified(); });
 }
 
 bool RectController::filled() const

@@ -171,7 +171,7 @@ QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) con
         res= character->getLifeColor();
         break;
     case RoleInitCommand:
-        res= character->getInitCommand();
+        res= character->initCommand();
         break;
     case RoleTags:
         if(role == Qt::DisplayRole)

@@ -71,7 +71,7 @@ QVariant ContentModel::data(const QModelIndex& index, int role) const
         value= medium->uuid();
         break;
     case PathRole:
-        value= medium->path();
+        value= medium->url();
         break;
     case ContentTypeRole:
         value= QVariant::fromValue(medium->contentType());

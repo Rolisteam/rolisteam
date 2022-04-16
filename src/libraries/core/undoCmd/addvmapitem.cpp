@@ -18,25 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "addvmapitem.h"
-
-/*#include "rwidgets/graphicsItems/anchoritem.h"
-#include "rwidgets/graphicsItems/characteritem.h"
-#include "rwidgets/graphicsItems/ellipsitem.h"
-#include "rwidgets/graphicsItems/highlighteritem.h"
-#include "rwidgets/graphicsItems/imageitem.h"
-#include "rwidgets/graphicsItems/lineitem.h"
-#include "rwidgets/graphicsItems/pathitem.h"
-#include "rwidgets/graphicsItems/rectitem.h"
-#include "rwidgets/graphicsItems/ruleitem.h"
-#include "rwidgets/graphicsItems/textitem.h"*/
 #include <QDebug>
 
 #include "controller/item_controllers/vmapitemfactory.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "model/vmapitemmodel.h"
-//#include "data/character.h"
-//#include "network/networkmessagewriter.h"
-//#include "vmap/manager/visualitemcontrollermanager.h"
+
+#include "data/character.h"
 
 AddVmapItemCommand::AddVmapItemCommand(vmap::VmapItemModel* model, Core::SelectableTool tool,
                                        VectorialMapController* mapCtrl, const std::map<QString, QVariant>& args,

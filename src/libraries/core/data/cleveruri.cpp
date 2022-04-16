@@ -27,6 +27,7 @@
 
 #include "media/mediatype.h"
 #include "preferences/preferencesmanager.h"
+#include "worker/utilshelper.h"
 
 /////////////////
 // CleverUri       {Core::SONG, ":/resources/images/audiofile.svg"},{Core::CHAT,
@@ -47,7 +48,7 @@ CleverURI::CleverURI(Core::ContentType type)
 
 QIcon CleverURI::icon() const
 {
-    return QIcon::fromTheme(CleverURI::typeToIconPath(m_type));
+    return QIcon::fromTheme(helper::utils::typeToIconPath(m_type));
 }
 
 CleverURI::CleverURI(const QString& name, const QString& path, Core::ContentType type)
@@ -58,23 +59,6 @@ CleverURI::CleverURI(const QString& name, const QString& path, Core::ContentType
 }
 
 CleverURI::~CleverURI()= default;
-
-QString CleverURI::typeToIconPath(Core::ContentType type)
-{
-    auto hash= QHash<Core::ContentType, QString>({
-        {Core::ContentType::VECTORIALMAP, "vmap"},
-        {Core::ContentType::PICTURE, "photo"},
-        //{Core::ContentType::ONLINEPICTURE, "photo"},
-        {Core::ContentType::NOTES, "notes"},
-        {Core::ContentType::CHARACTERSHEET, "treeview"},
-        {Core::ContentType::SHAREDNOTE, "sharedEditor"},
-        {Core::ContentType::WEBVIEW, "webPage"},
-#ifdef WITH_PDF
-        {Core::ContentType::PDF, "pdfLogo"},
-#endif
-    });
-    return hash.value(type);
-}
 
 bool CleverURI::operator==(const CleverURI& uri) const
 {
@@ -219,142 +203,6 @@ void CleverURI::read(QDataStream& in)
     // updateListener(CleverURI::NAME);
 }
 
-QString CleverURI::getFilterForType(Core::ContentType type) // static
-{
-    PreferencesManager* preferences= PreferencesManager::getInstance();
-    QString filterType;
-    switch(type)
-    {
-    case Core::ContentType::CHARACTERSHEET:
-        filterType= QObject::tr("Character Sheets files  (%1)")
-                        .arg(preferences->value("CharacterSheetFileFilter", "*.rcs").toString());
-        break;
-    case Core::ContentType::PICTURE:
-        filterType= QObject::tr("Supported Image formats (%1)")
-                        .arg(preferences->value("ImageFileFilter", "*.jpg *.jpeg *.png *.bmp *.svg *.gif").toString());
-        break;
-    case Core::ContentType::NOTES:
-        filterType= QObject::tr("Supported Text Files (%1)")
-                        .arg(preferences->value("TextFileFilter", "*.odt *.htm *.html *.txt *.md").toString());
-        break;
-        /* case Core::ContentType:: ::SONG:
-             filterType= QObject::tr("Supported Audio formats (%1)")
-                             .arg(preferences->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
-             break;*/
-    case Core::ContentType::SHAREDNOTE:
-        filterType= QObject::tr("Supported Shared Note formats (%1)")
-                        .arg(preferences->value("TextFileFilter", "*.rsn *.txt *.html *.htm *.md").toString());
-        break;
-    case Core::ContentType::WEBVIEW:
-        filterType= QObject::tr("Supported WebPage (%1)")
-                        .arg(preferences->value("WebPageFilter", "*.html *.xhtml *.htm").toString());
-        break;
-#ifdef WITH_PDF
-    case Core::ContentType::PDF:
-        filterType= QObject::tr("Pdf File (%1)").arg(preferences->value("PdfFileFilter", "*.pdf").toString());
-        break;
-#endif
-    case Core::ContentType::VECTORIALMAP:
-        filterType= QObject::tr("Vectorial Map (%1)").arg(preferences->value("VectorialFilter", "*.vmap").toString());
-        break;
-    case Core::ContentType::MINDMAP:
-        filterType= QObject::tr("Mindmap (%1)").arg(preferences->value("Mindmap", "*.rmap").toString());
-        break;
-    // case Core::ContentType::ONLINEPICTURE:
-    default:
-        filterType= QString();
-        break;
-    }
-    return filterType;
-}
-
-QString CleverURI::typeToString(Core::ContentType type)
-{
-    QHash<Core::ContentType, QString> names;
-
-    names.insert(Core::ContentType::VECTORIALMAP, QObject::tr("Vectorial Map"));
-    // names.insert(Core::ContentType::CHAT, QObject::tr("Chat"));
-    names.insert(Core::ContentType::PICTURE, QObject::tr("Picture"));
-    // names.insert(Core::ContentType::ONLINEPICTURE, QObject::tr("Online Picture"));
-    names.insert(Core::ContentType::NOTES, QObject::tr("Minutes"));
-    names.insert(Core::ContentType::CHARACTERSHEET, QObject::tr("Charecter Sheet"));
-    names.insert(Core::ContentType::MINDMAP, QObject::tr("Mindmap"));
-    // names.insert(Core::ContentType::SONGLIST, QObject::tr("Song List"));
-    names.insert(Core::ContentType::SHAREDNOTE, QObject::tr("Shared Notes"));
-    // names.insert(Core::ContentType::TOKEN, QObject::tr("NPC Token"));
-#ifdef WITH_PDF
-    names.insert(Core::ContentType::PDF, QObject::tr("Pdf"));
-#endif
-    names.insert(Core::ContentType::WEBVIEW, QObject::tr("Webview"));
-
-    return names.value(type);
-}
-
-QString CleverURI::getPreferenceDirectoryKey(Core::ContentType type)
-{
-    if(m_typeToPreferenceDirectory.size() > static_cast<int>(type))
-    {
-        return m_typeToPreferenceDirectory.at(static_cast<int>(type));
-    }
-    return QString();
-}
-
-Core::ContentType CleverURI::extensionToContentType(const QString& filename)
-{
-    std::set<QString> characterSheet({".rcs"});
-    std::set<QString> map({".vmap"});
-    std::set<QString> image({".jpg", ".jpeg", ".png", ".bmp", ".svg", ".gif"});
-    std::set<QString> notes({".odt", ".htm", ".html", ".txt", ".md"});
-    std::set<QString> sharedNote({".rsn", ".txt", ".md"});
-    std::set<QString> webview({".htm", ".html", ".xhtml"});
-    std::set<QString> mindmap({".rmap", ".txt"});
-#ifdef WITH_PDF
-    std::set<QString> pdf({"*.pdf"});
-#endif
-
-    auto func= [filename](std::set<QString> set, Core::ContentType type) {
-        for(const auto& ext : set)
-        {
-            if(filename.endsWith(ext))
-                return type;
-        }
-        return Core::ContentType::UNKNOWN;
-    };
-    auto contentType= Core::ContentType::UNKNOWN;
-
-    contentType= func(characterSheet, Core::ContentType::CHARACTERSHEET);
-    if(contentType != Core::ContentType::UNKNOWN)
-        return contentType;
-
-    contentType= func(map, Core::ContentType::VECTORIALMAP);
-    if(contentType != Core::ContentType::UNKNOWN)
-        return contentType;
-
-#ifdef WITH_PDF
-    contentType= func(pdf, Core::ContentType::PDF);
-    if(contentType != Core::ContentType::UNKNOWN)
-        return contentType;
-#endif
-
-    contentType= func(image, Core::ContentType::PICTURE);
-    if(contentType != Core::ContentType::UNKNOWN)
-        return contentType;
-
-    contentType= func(sharedNote, Core::ContentType::SHAREDNOTE);
-    if(contentType != Core::ContentType::UNKNOWN)
-        return contentType;
-
-    contentType= func(webview, Core::ContentType::WEBVIEW);
-    if(contentType != Core::ContentType::UNKNOWN)
-        return contentType;
-
-    contentType= func(mindmap, Core::ContentType::MINDMAP);
-    if(contentType != Core::ContentType::UNKNOWN)
-        return contentType;
-
-    contentType= func(notes, Core::ContentType::NOTES);
-    return contentType;
-}
 void CleverURI::loadFileFromUri(QByteArray& array) const
 {
     QFile file(m_path);

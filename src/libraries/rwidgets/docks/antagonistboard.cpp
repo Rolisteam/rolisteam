@@ -80,6 +80,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
         character->setHealthPointsCurrent(ui->m_currentLife->value());
         character->setHealthPointsMax(ui->m_maxLife->value());
         character->setHealthPointsMin(ui->m_lifeMin->value());
+        character->setAvatar(IOHelper::pixmapToData(ui->m_avatarDisplay->pixmap()));
 
         m_ctrl->saveToken();
         m_ctrl->setCharacter(nullptr);
@@ -187,7 +188,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
             ui->m_lifeMin->setValue(character->getHealthPointsMin());
             ui->m_maxLife->setValue(character->getHealthPointsMax());
             ui->m_currentLife->setValue(character->getHealthPointsCurrent());
-            ui->m_initCommand->setText(character->getInitCommand());
+            ui->m_initCommand->setText(character->initCommand());
             ui->m_initValue->setValue(character->getInitiativeScore());
             ui->m_avatarDisplay->setPixmap(IOHelper::dataToPixmap(character->avatar()));
             ui->stackedWidget->setCurrentIndex(1);
@@ -337,14 +338,14 @@ bool AntagonistBoard::eventFilter(QObject* obj, QEvent* event)
 {
     if(obj == ui->m_antogonistView)
     {
-        if(event->type() == QEvent::MouseMove)
+        /*if(event->type() == QEvent::MouseMove)
         {
             auto e= dynamic_cast<QMouseEvent*>(event);
             if(e)
             {
                 auto index= ui->m_antogonistView->indexAt(e->pos());
             }
-        }
+        }*/
     }
 
     return QWidget::eventFilter(obj, event);

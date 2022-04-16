@@ -24,7 +24,6 @@
 #include <QPointer>
 #include <QUndoCommand>
 
-class CleverURI;
 class ContentModel;
 class OpenMediaController : public QUndoCommand
 {

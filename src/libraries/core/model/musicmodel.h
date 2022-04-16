@@ -20,9 +20,9 @@
 #ifndef MUSICMODEL_H
 #define MUSICMODEL_H
 
-#include <QAbstractTableModel>
-#include <QMediaPlayer>
-#include <QPersistentModelIndex>
+#include <QAbstractListModel>
+#include <QUrl>
+
 /**
  * @brief The MusicModel class is the model which stores the playlist. Each audioWidget has one instance of this class.
  */
@@ -31,106 +31,44 @@ class MusicModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    /**
-     * @brief The COLUMN enum
-     */
-    enum COLUMN
+    enum CustomRole
     {
-        TITLE,
-        COLUMN_COUNT
+        TITLE= Qt::UserRole + 1,
+        URL,
     };
-
-    /**
-     * @brief MusicModel
-     * @param parent
-     */
+    Q_ENUM(CustomRole)
     explicit MusicModel(QObject* parent= nullptr);
-    /**
-     * @brief rowCount
-     * @param parent
-     * @return
-     */
-    virtual int rowCount(const QModelIndex& parent= QModelIndex()) const;
-    /**
-     * @brief columnCount
-     * @param parent
-     * @return
-     */
-    virtual int columnCount(const QModelIndex& parent= QModelIndex()) const;
-    /**
-     * @brief data
-     * @param index
-     * @param role
-     * @return
-     */
-    virtual QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const;
-    /**
-     * @brief headerData
-     * @param section
-     * @param orientation
-     * @param role
-     * @return
-     */
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    /**
-     * @brief addSong
-     */
-    void addSong(QStringList);
-    /**
-     * @brief insertSong
-     * @param i
-     * @param str
-     */
-    void insertSong(int i, QString str);
-    /**
-     * @brief getMediaByModelIndex
-     * @return
-     */
+
     QUrl getMediaByModelIndex(const QModelIndex&) const;
-    /**
-     * @brief removeAll
-     */
+
+
+
+    virtual int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    virtual QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
+
+    void addSong(const QList<QUrl>& urls);
+    void insertSong(int i, QUrl str);
+
     void removeAll();
-    /**
-     * @brief removeSong
-     * @param list
-     */
     void removeSong(const QModelIndexList& list);
-    /**
-     * @brief setCurrentSong
-     * @param p
-     */
     void setCurrentSong(const QModelIndex& p);
-    /**
-     * @brief getCurrentSong
-     * @return
-     */
-    QModelIndex getCurrentSong();
-    /**
-     * @brief saveIn
-     * @param file
-     */
-    void saveIn(QTextStream& file);
-    /**
-     * @brief flags
-     * @param index
-     * @return
-     */
-    Qt::ItemFlags flags(const QModelIndex& index) const;
-    /**
-     * @brief ​mimeTypes
-     */
-    QStringList mimeTypes() const;
+    QStringList mimeTypes() const override;
+
+    int indexOfCurrent() const;
+
+    const QList<QUrl>& urls() const;
 
 protected:
-    Qt::DropActions supportedDropActions() const;
-    bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& index);
+    Qt::DropActions supportedDropActions() const override;
+    bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+                      const QModelIndex& index) override;
 
 private:
     QStringList m_header;
     QList<QUrl> m_data;
-    QMediaPlayer* m_player;
-    QPersistentModelIndex m_currentSong;
+    QUrl m_currentSong;
 };
 
 #endif // MUSICMODEL_H

@@ -172,6 +172,11 @@ size_t NetworkMessageReader::left() const
     return static_cast<size_t>(m_end - m_pos);
 }
 
+size_t NetworkMessageReader::currentPos() const
+{
+    return static_cast<size_t>(m_pos - m_buffer);
+}
+
 quint8 NetworkMessageReader::uint8()
 {
     size_t size= sizeof(quint8);

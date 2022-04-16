@@ -1,0 +1,11 @@
+module InstantMessaging
+
+AddChatRoomDialog 1.0 AddChatRoomDialog.qml
+ChatView 1.0 ChatView.qml
+CommandMessageDelegate 1.0 CommandMessageDelegate.qml
+DiceMessageDelegate 1.0 DiceMessageDelegate.qml
+ErrorMessageDelegate 1.0 ErrorMessageDelegate.qml
+InstantMessagingEditText 1.0 InstantMessagingEditText.qml
+InstantMessagingMain.qml 1.0 InstantMessagingMain.qml
+SideMenu 1.0 SideMenu.qml
+TextMessageDelegate 1.0 TextMessageDelegate.qml

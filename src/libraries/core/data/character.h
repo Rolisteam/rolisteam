@@ -155,7 +155,7 @@ class Character : public Person // public QObject,
     Q_PROPERTY(qreal distancePerTurn READ getDistancePerTurn WRITE setDistancePerTurn NOTIFY distancePerTurnChanged)
     Q_PROPERTY(QString stateId READ stateId WRITE setStateId NOTIFY stateIdChanged)
     Q_PROPERTY(QColor lifeColor READ getLifeColor WRITE setLifeColor NOTIFY lifeColorChanged)
-    Q_PROPERTY(QString initCommand READ getInitCommand WRITE setInitCommand NOTIFY initCommandChanged)
+    Q_PROPERTY(QString initCommand READ initCommand WRITE setInitCommand NOTIFY initCommandChanged)
     Q_PROPERTY(bool hasInitiative READ hasInitScore WRITE setHasInitiative NOTIFY hasInitScoreChanged)
 
 public:
@@ -276,7 +276,7 @@ public:
     QColor getLifeColor() const;
     void setLifeColor(QColor color);
 
-    QString getInitCommand() const;
+    QString initCommand() const;
     void setInitCommand(const QString& init);
 
     QList<CharacterAction*> actionList() const;

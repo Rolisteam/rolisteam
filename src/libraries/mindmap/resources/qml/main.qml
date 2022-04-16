@@ -20,6 +20,32 @@ Pane {
 
     onDarkModeChanged: Theme.nightMode = root.darkMode
 
+    /*palette: SystemPalette {
+        property QtObject style: Theme.styleSheet("Palette")
+        colorGroup: SystemPalette.Active
+        alternateBase: style.alternateBase
+        base: style.base
+        button: style.button
+        buttonText: style.button
+        dark: style.dark
+        highlight: style.highlight
+        highlightedText: style.highlightedText
+        light: style.light
+        mid: style.mid
+        midlight: style.midlight
+        shadow: style.shadow
+        text: style.text
+        window: style.window
+        windowText: style.windowText
+    }*/
+    /*Timer {
+        repeat: true
+        running: true
+        onTriggered:{
+
+        }
+    }*/
+
     MindMap {
         anchors.fill: parent
         ctrl: root.ctrl
@@ -68,7 +94,7 @@ Pane {
         width: root.styleSheet.drawerPropertion * root.width
         height: root.height
         ctrl: root.ctrl
-        onDarkModeChanged: root.darkMode = darkMode
+        onDarkModeChanged: root.darkMode = drawer.darkMode
     }
 
     MouseArea {

@@ -30,11 +30,13 @@
 #include <QMimeData>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QSaveFile>
 #include <QString>
 #include <QStyleFactory>
 #include <QVariant>
 #include <map>
 
+#include "controller/audioplayercontroller.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mediacontrollerbase.h"
@@ -43,6 +45,7 @@
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
+#include "model/musicmodel.h"
 
 #include "core/data/character.h"
 #include "core/model/genericmodel.h"
@@ -67,23 +70,18 @@
 #include "mindmap/src/data/mindnode.h"
 #include "mindmap/src/model/boxmodel.h"
 #include "mindmap/src/model/linkmodel.h"
+#include "worker/utilshelper.h"
 #include "worker/vectorialmapmessagehelper.h"
 
-const QString k_language_dir_path= ":/translations";
-const QString k_rolisteam_pattern= "rolisteam";
-const QString k_qt_pattern= "qt";
-// json key of dice
-const QString k_dice_pattern{"pattern"};
-const QString k_dice_command{"command"};
-const QString k_dice_comment{"comment"};
-const QString k_dice_enabled{"enable"};
-const QString k_dice_replacement{"replace"};
+constexpr char const* k_language_dir_path{":/translations"};
 
-const QString k_state_id{"id"};
-const QString k_state_label{"label"};
-const QString k_state_color{"color"};
-const QString k_state_image{"image"};
+constexpr char const* k_rolisteam_pattern{"rolisteam"};
+constexpr char const* k_qt_pattern{"qt"};
 
+constexpr char const* k_state_id{"id"};
+constexpr char const* k_state_label{"label"};
+constexpr char const* k_state_color{"color"};
+constexpr char const* k_state_image{"image"};
 namespace
 {
 template <class T>
@@ -198,21 +196,24 @@ QString IOHelper::copyFile(const QString& source, const QString& destination)
     return dest.absoluteFilePath();
 }
 
-void IOHelper::removeFile(const QString& source)
+bool IOHelper::removeFile(const QString& source)
 {
-    QFile::remove(source);
+    return QFile::remove(source);
 }
 
 void IOHelper::writeFile(const QString& path, const QByteArray& arry, bool override)
 {
-    QFile file(path);
+    if(arry.isEmpty())
+        return;
+    QSaveFile file(path);
     if(file.open(override ? QIODevice::WriteOnly : QIODevice::Append))
     {
         file.write(arry);
+        file.commit();
     }
 }
 
-void IOHelper::moveFile(const QString& source, const QString& destination)
+bool IOHelper::moveFile(const QString& source, const QString& destination)
 {
     QFile src(source);
     QFileInfo srcInfo(source);
@@ -221,10 +222,36 @@ void IOHelper::moveFile(const QString& source, const QString& destination)
     if(dest.isDir())
         dest.setFile(QString("%1/%2").arg(destination, srcInfo.fileName()));
 
+    bool res= false;
     if(makeSurePathExist(dest.dir()))
     {
-        src.rename(dest.absoluteFilePath());
+        res= src.rename(dest.absoluteFilePath());
     }
+    return res;
+}
+
+QList<QUrl> IOHelper::readM3uPlayList(const QString& filepath)
+{
+    QList<QUrl> res;
+    QFile file(filepath);
+    /// @todo make this job in thread.
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QTextStream read(&file);
+        QString line;
+        while(!read.atEnd())
+        {
+            line= read.readLine();
+            if(line.startsWith("#EXTINF", Qt::CaseSensitive) || line.isEmpty())
+                continue;
+
+            auto url= QUrl::fromUserInput(line);
+            if(url.isValid())
+                res.append(url);
+        }
+    }
+
+    return res;
 }
 
 QString IOHelper::readTextFile(const QString& path)
@@ -266,27 +293,15 @@ QByteArray IOHelper::jsonObjectToByteArray(const QJsonObject& obj)
 
 QJsonObject IOHelper::loadJsonFileIntoObject(const QString& filename, bool& ok)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly))
-    {
-        ok= false;
-        return {};
-    }
-    QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
-    ok= true;
+    QJsonDocument doc= QJsonDocument::fromJson(loadFile(filename));
+    ok= !doc.isEmpty();
     return doc.object();
 }
 
 QJsonArray IOHelper::loadJsonFileIntoArray(const QString& filename, bool& ok)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly))
-    {
-        ok= false;
-        return {};
-    }
-    QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
-    ok= true;
+    QJsonDocument doc= QJsonDocument::fromJson(loadFile(filename));
+    ok= !doc.isEmpty();
     return doc.array();
 }
 
@@ -320,8 +335,8 @@ QJsonArray IOHelper::fetchLanguageModel()
             paths << QString("%1/%2").arg(k_language_dir_path, info);
             if(hash.contains(iso))
                 paths << QString("%1/%2").arg(k_language_dir_path, hash.value(iso));
-            else
-                qWarning() << "No Qt translation for " << iso;
+            // else
+            // qWarning() << "No Qt translation for " << iso;
 
             QLocale local(iso);
 
@@ -343,7 +358,7 @@ void IOHelper::saveBase(MediaControllerBase* base, QDataStream& output)
 
     output << base->contentType();
     output << base->uuid();
-    output << base->path();
+    output << base->url();
     output << base->name();
     output << base->ownerId();
 }
@@ -355,9 +370,20 @@ void IOHelper::saveMediaBaseIntoJSon(MediaControllerBase* base, QJsonObject& obj
 
     obj[Core::jsonctrl::base::JSON_CONTENT_TYPE]= static_cast<int>(base->contentType());
     obj[Core::jsonctrl::base::JSON_UUID]= base->uuid();
-    obj[Core::jsonctrl::base::JSON_PATH]= base->path();
+    obj[Core::jsonctrl::base::JSON_PATH]= base->url().toString();
     obj[Core::jsonctrl::base::JSON_NAME]= base->name();
     obj[Core::jsonctrl::base::JSON_OWNERID]= base->ownerId();
+}
+
+void IOHelper::readBaseFromJson(MediaControllerBase* base, QJsonObject& data)
+{
+    if(!base)
+        return;
+
+    base->setUuid(data[Core::jsonctrl::base::JSON_UUID].toString());
+    base->setUrl(QUrl::fromUserInput(data[Core::jsonctrl::base::JSON_PATH].toString()));
+    base->setName(data[Core::jsonctrl::base::JSON_NAME].toString());
+    base->setOwnerId(data[Core::jsonctrl::base::JSON_OWNERID].toString());
 }
 
 QByteArray IOHelper::pixmapToData(const QPixmap& pix)
@@ -415,8 +441,22 @@ QPixmap IOHelper::readPixmapFromURL(const QUrl& url)
 
 QPixmap IOHelper::readPixmapFromFile(const QString& uri)
 {
-    QPixmap map(uri);
-    return map;
+    return QPixmap(uri);
+}
+
+QImage IOHelper::readImageFromURL(const QUrl& url)
+{
+    QImage img;
+    if(url.isLocalFile())
+    {
+        img= readImageFromFile(url.toLocalFile());
+    }
+    return img;
+}
+
+QImage IOHelper::readImageFromFile(const QString& url)
+{
+    return QImage(url);
 }
 
 QPixmap IOHelper::dataToPixmap(const QByteArray& data)
@@ -523,6 +563,7 @@ QByteArray saveWebView(WebpageController* ctrl)
     output << ctrl->urlSharing();
     output << ctrl->html();
     output << ctrl->url();
+    output << ctrl->pageUrl();
     output << ctrl->state();
     output << ctrl->sharingMode();
     return data;
@@ -620,9 +661,6 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
     case Core::ContentType::PICTURE:
         data= saveImage(dynamic_cast<ImageController*>(media));
         break;
-    /*case Core::ContentType::ONLINEPICTURE:
-        data= saveImage(dynamic_cast<ImageController*>(media));
-        break;*/
     case Core::ContentType::NOTES:
         data= saveNotes(dynamic_cast<NoteController*>(media));
         break;
@@ -661,42 +699,42 @@ MediaControllerBase* IOHelper::loadController(const QByteArray& data)
     {
     case Core::ContentType::VECTORIALMAP:
     {
-        auto ctrl= new VectorialMapController("");
+        auto ctrl= new VectorialMapController();
         value= ctrl;
         VectorialMapMessageHelper::readVectorialMapController(ctrl, data);
     }
     break;
     case Core::ContentType::PICTURE:
     {
-        auto ctrl= new ImageController("", "", "");
+        auto ctrl= new ImageController();
         value= ctrl;
         readImageController(ctrl, data);
     }
     break;
     case Core::ContentType::NOTES:
     {
-        auto ctrl= new NoteController("");
+        auto ctrl= new NoteController();
         value= ctrl;
         readNoteController(ctrl, data);
     }
     break;
     case Core::ContentType::CHARACTERSHEET:
     {
-        auto ctrl= new CharacterSheetController("", "");
+        auto ctrl= new CharacterSheetController();
         value= ctrl;
         readCharacterSheetController(ctrl, data);
     }
     break;
     case Core::ContentType::SHAREDNOTE:
     {
-        auto ctrl= new SharedNoteController("", "", "");
+        auto ctrl= new SharedNoteController();
         value= ctrl;
         readSharedNoteController(ctrl, data);
     }
     break;
     case Core::ContentType::WEBVIEW:
     {
-        auto ctrl= new WebpageController("");
+        auto ctrl= new WebpageController();
         value= ctrl;
         readWebpageController(ctrl, data);
     }
@@ -710,7 +748,7 @@ MediaControllerBase* IOHelper::loadController(const QByteArray& data)
 #ifdef WITH_PDF
     case Core::ContentType::PDF:
     {
-        auto ctrl= new PdfController("", "");
+        auto ctrl= new PdfController();
         value= ctrl;
         readPdfController(ctrl, data);
     }
@@ -724,6 +762,55 @@ MediaControllerBase* IOHelper::loadController(const QByteArray& data)
     return value;
 }
 
+void IOHelper::writePlaylist(const QString& path, const QList<QUrl>& urls)
+{
+    QByteArray array;
+    QTextStream stream(array);
+    for(auto const& url : urls)
+    {
+        stream << url.toString();
+    }
+
+    writeFile(path, array);
+}
+
+QJsonObject IOHelper::saveAudioPlayerController(AudioPlayerController* controller)
+{
+    QJsonObject obj;
+    if(!controller)
+        return obj;
+    obj[Core::jsonctrl::Audio::JSON_AUDIO_VOLUME]= controller->volume();
+    obj[Core::jsonctrl::Audio::JSON_AUDIO_VISIBLE]= controller->visible();
+    obj[Core::jsonctrl::Audio::JSON_PLAYING_MODE]= controller->mode();
+
+    auto m= controller->model()->urls();
+    QJsonArray array;
+    std::transform(std::begin(m), std::end(m), std::back_inserter(array),
+                   [](const QUrl& url) { return url.toString(); });
+    obj[Core::jsonctrl::Audio::JSON_AUDIO_URLS]= array;
+
+    return obj;
+}
+
+void IOHelper::fetchAudioPlayerController(AudioPlayerController* controller, const QJsonObject& obj)
+{
+    if(!controller)
+        return;
+
+    controller->setVolume(obj[Core::jsonctrl::Audio::JSON_AUDIO_VOLUME].toInt());
+    controller->setVisible(obj[Core::jsonctrl::Audio::JSON_AUDIO_VISIBLE].toBool());
+    controller->setPlayingMode(
+        static_cast<AudioPlayerController::PlayingMode>(obj[Core::jsonctrl::Audio::JSON_PLAYING_MODE].toInt()));
+
+    auto urlArray= obj[Core::jsonctrl::Audio::JSON_AUDIO_URLS].toArray();
+    QList<QUrl> urls;
+    std::transform(std::begin(urlArray), std::end(urlArray), std::back_inserter(urls),
+                   [](const QJsonValueRef& ref) { return QUrl::fromUserInput(ref.toString()); });
+
+    controller->clear();
+    controller->addSong(urls);
+}
+
 void IOHelper::readBase(MediaControllerBase* base, QDataStream& input)
 {
     if(!base)
@@ -733,7 +820,7 @@ void IOHelper::readBase(MediaControllerBase* base, QDataStream& input)
     input >> type;
     QString uuid;
     input >> uuid;
-    QString path;
+    QUrl path;
     input >> path;
 
     QString name;
@@ -744,11 +831,9 @@ void IOHelper::readBase(MediaControllerBase* base, QDataStream& input)
 
     base->setUuid(uuid);
     base->setName(name);
-    base->setPath(path);
+    base->setUrl(path);
     base->setOwnerId(ownerId);
 }
-
-void IOHelper::readBaseFromJson(MediaControllerBase* base, QJsonObject& data) {}
 
 void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array)
 {
@@ -842,6 +927,9 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
     QUrl url;
     input >> url;
 
+    QUrl pageUrl;
+    input >> pageUrl;
+
     WebpageController::State state;
     input >> state;
 
@@ -854,6 +942,7 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
     ctrl->setUrlSharing(urlSharing);
     ctrl->setState(state);
     ctrl->setSharingMode(mode);
+    ctrl->setPageUrl(pageUrl);
     ctrl->setUrl(url);
 }
 void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& array)
@@ -922,10 +1011,78 @@ void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& 
     // TODO read data to define mindmapcontroller.
 }
 
+bool IOHelper::mergePlayList(const QString& source, const QString& dest)
+{
+    bool ok;
+    auto sourceJson= loadJsonFileIntoObject(source, ok);
+    if(!ok)
+        return ok;
+    auto destJson= loadJsonFileIntoObject(dest, ok);
+
+    if(!ok)
+    {
+        copyFile(source, dest);
+        return true;
+    }
+
+    auto arraySrc= sourceJson[Core::jsonctrl::Audio::JSON_AUDIO_URLS].toArray();
+    auto arrayDst= destJson[Core::jsonctrl::Audio::JSON_AUDIO_URLS].toArray();
+
+    arrayDst.append(arraySrc);
+    destJson[Core::jsonctrl::Audio::JSON_AUDIO_URLS]= arrayDst;
+
+    writeJsonObjectIntoFile(dest, destJson);
+    return true;
+}
+
+QStringList IOHelper::mediaList(const QString& source, Core::MediaType type)
+{
+    QDir dir(source);
+    return dir.entryList(helper::utils::extentionPerType(helper::utils::mediaTypeToContentType(type), false, true),
+                         QDir::Files | QDir::Readable);
+}
+
+bool IOHelper::copyArrayModelAndFile(const QString& source, const QString& sourceDir, const QString& dest,
+                                     const QString& destDir)
+{
+    bool ok;
+    auto sourceJson= loadJsonFileIntoArray(source, ok);
+    if(!ok)
+        return false; // nothing to do
+    auto destJson= loadJsonFileIntoArray(dest, ok);
+
+    if(!ok)
+    {
+        copyFile(source, dest);
+    }
+
+    destJson.append(sourceJson);
+    writeJsonArrayIntoFile(dest, destJson);
+
+    // Copy npcs files
+    QDir dir(sourceDir);
+    auto fileList= dir.entryList(QDir::Files | QDir::Readable);
+    for(auto const& file : fileList)
+    {
+        copyFile(QString("%1/%2").arg(sourceDir, file), QString("%1/%2").arg(destDir, file));
+    }
+    return true;
+}
+
+/*bool IOHelper::copyMedia(const QString &source, const QString &dest, Core::MediaType type)
+{
+
+}*/
+
 QString IOHelper::shortNameFromPath(const QString& path)
 {
     QFileInfo info(path);
     return info.baseName();
+}
+
+QString IOHelper::shortNameFromUrl(const QUrl& url)
+{
+    return shortNameFromPath(url.fileName());
 }
 
 QString IOHelper::absoluteToRelative(const QString& absolute, const QString& root)
@@ -963,7 +1120,7 @@ QJsonObject IOHelper::npcToJsonObject(const campaign::NonPlayableCharacter* npc,
     obj[Core::JsonKey::JSON_NPC_TAGS]= QJsonArray::fromStringList(npc->tags());
     obj[Core::JsonKey::JSON_NPC_DESCRIPTION]= npc->description();
 
-    obj[Core::JsonKey::JSON_NPC_INITCOMMAND]= npc->getInitCommand();
+    obj[Core::JsonKey::JSON_NPC_INITCOMMAND]= npc->initCommand();
     obj[Core::JsonKey::JSON_NPC_INITVALUE]= npc->getInitiativeScore();
     obj[Core::JsonKey::JSON_NPC_COLOR]= npc->getColor().name();
     obj[Core::JsonKey::JSON_NPC_HP]= npc->getHealthPointsCurrent();
@@ -1086,11 +1243,11 @@ campaign::NonPlayableCharacter* IOHelper::jsonObjectToNpc(const QJsonObject& obj
 QJsonObject IOHelper::diceAliasToJSonObject(DiceAlias* alias)
 {
     QJsonObject aliasJson;
-    aliasJson[k_dice_command]= alias->command();
-    aliasJson[k_dice_comment]= alias->comment();
-    aliasJson[k_dice_pattern]= alias->pattern();
-    aliasJson[k_dice_enabled]= alias->isEnable();
-    aliasJson[k_dice_replacement]= alias->isReplace();
+    aliasJson[Core::DiceAlias::k_dice_command]= alias->command();
+    aliasJson[Core::DiceAlias::k_dice_comment]= alias->comment();
+    aliasJson[Core::DiceAlias::k_dice_pattern]= alias->pattern();
+    aliasJson[Core::DiceAlias::k_dice_enabled]= alias->isEnable();
+    aliasJson[Core::DiceAlias::k_dice_replacement]= alias->isReplace();
     return aliasJson;
 }
 
@@ -1140,7 +1297,6 @@ QJsonObject IOHelper::themeToObject(const RolisteamTheme* theme)
 
     QJsonArray colors;
     auto const& data= theme->paletteModel()->data();
-    int i= 0;
     for(auto const& tmp : data)
     {
         QJsonObject paletteObject;
@@ -1224,4 +1380,23 @@ void IOHelper::readSharedNoteController(SharedNoteController* ctrl, const QByteA
     // ctrl->setPermission(perm);
 }
 
+QUrl IOHelper::findSong(const QString& name, QStringList list)
+{
+    QUrl url(name, QUrl::StrictMode);
+    if(!url.scheme().isEmpty())
+    {
+        return url;
+    }
+    else
+    {
+        for(auto const& path : list)
+        {
+            QFileInfo info(QString("%1/%2").arg(path, name));
+            if(info.exists())
+                return QUrl::fromLocalFile(info.absoluteFilePath());
+        }
+    }
+
+    return {};
+}
 // QHash<QString, std::map<QString, QVariant>>

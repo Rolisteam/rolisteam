@@ -14,6 +14,7 @@ Flickable {
     interactive: true
     boundsBehavior: Flickable.StopAtBounds
 
+
     ScrollBar.vertical: ScrollBar { }
     ScrollBar.horizontal: ScrollBar { }
 
@@ -129,14 +130,14 @@ Flickable {
             anchors.fill: parent
             model: ctrl.linkModel
             delegate: Link {
-                x: startPointRole.x
-                y: startPointRole.y
+                x: startPoint.x
+                y: startPoint.y
                 width: widthLink
                 height: heightLink
-                start: startPointRole
-                end: endPointRole
-                visible: link.visible
-                text: link.text
+                start: startPoint
+                end: endPoint
+                visible: model.visible
+                text: model.label//link.text
                 onTextEdited: {
                   link.text = text
                 }
@@ -180,6 +181,5 @@ Flickable {
                 }
             }
         }
-
     }
 }

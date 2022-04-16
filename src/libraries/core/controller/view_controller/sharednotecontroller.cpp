@@ -38,8 +38,8 @@ SharedNoteController::SharedNoteController(const QString& ownerId, const QString
 
     });
 
-    connect(this, &SharedNoteController::pathChanged, this,
-            [this](const QString& path) { setText(IOHelper::readTextFile(path)); });
+    connect(this, &SharedNoteController::urlChanged, this,
+            [this](const QUrl& path) { setText(IOHelper::readTextFile(path.toLocalFile())); });
 
     connect(m_participantModel.get(), &ParticipantModel::userReadPermissionChanged, this,
             [this](const QString& id, bool b) {
@@ -58,6 +58,10 @@ SharedNoteController::SharedNoteController(const QString& ownerId, const QString
             });
 
     setParticipantPanelVisible(localIsOwner());
+
+    connect(this, &SharedNoteController::textChanged, this, [this] { setModified(); });
+    connect(this, &SharedNoteController::highligthedSyntaxChanged, this, [this] { setModified(); });
+    connect(this, &SharedNoteController::markdownVisibleChanged, this, [this] { setModified(); });
 }
 
 SharedNoteController::~SharedNoteController()= default;

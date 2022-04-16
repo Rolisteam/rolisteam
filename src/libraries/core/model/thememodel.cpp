@@ -40,6 +40,16 @@ int ThemeModel::rowCount(const QModelIndex& parent) const
     return static_cast<int>(m_themeList.size());
 }
 
+int ThemeModel::indexOf(RolisteamTheme* theme) const
+{
+    auto it= std::find_if(std::begin(m_themeList), std::end(m_themeList),
+                          [theme](const std::unique_ptr<RolisteamTheme>& itTheme) { return itTheme.get() == theme; });
+
+    if(it == std::end(m_themeList))
+        return -1;
+    return std::distance(std::begin(m_themeList), it);
+}
+
 QVariant ThemeModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())
@@ -82,6 +92,12 @@ void ThemeModel::addTheme(RolisteamTheme* theme)
     std::unique_ptr<RolisteamTheme> ptr(theme);
     m_themeList.push_back(std::move(ptr));
     endInsertRows();
+}
+void ThemeModel::clear()
+{
+    beginResetModel();
+    m_themeList.clear();
+    endResetModel();
 }
 const std::vector<std::unique_ptr<RolisteamTheme>>& ThemeModel::themes() const
 {

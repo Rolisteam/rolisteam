@@ -7,8 +7,8 @@ import Customization 1.0
 T.Label {
     id: control
 
-    property QtObject style: Theme.styleSheet("Controls")
+    property QtObject style: Theme.styleSheet("Palette")
 
-    color: control.style.textColor
-    linkColor: control.style.linkColor
+    color: control.style.windowText
+    linkColor: control.style.link
 }

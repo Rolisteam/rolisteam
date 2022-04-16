@@ -38,9 +38,9 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     : VisualItemController(VisualItemController::CHARACTER, params, ctrl, parent)
 {
     m_tool= Core::SelectableTool::NonPlayableCharacter;
-    if(params.end() != params.find("character"))
+    if(params.end() != params.find(Core::vmapkeys::KEY_CHARACTER))
     {
-        m_character= params.at(QStringLiteral("character")).value<Character*>();
+        m_character= params.at(Core::vmapkeys::KEY_CHARACTER).value<Character*>();
     }
     else
     {
@@ -64,17 +64,34 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     }
     Q_ASSERT(m_character);
 
-    if(params.end() != params.find("side"))
+    if(params.end() != params.find(Core::vmapkeys::KEY_SIDE))
     {
-        setSide(params.at(QStringLiteral("side")).toDouble());
+        setSide(params.at(Core::vmapkeys::KEY_SIDE).toDouble());
         m_rect= QRectF(0.0, 0.0, m_side, m_side);
     }
 
-    if(params.end() != params.find("position"))
-        setPos(params.at(QStringLiteral("position")).toPointF());
+    if(params.end() != params.find(Core::vmapkeys::KEY_POS))
+        setPos(params.at(Core::vmapkeys::KEY_POS).toPointF());
 
     refreshTextRect();
     computeThumbnail();
+
+    connect(this, &CharacterItemController::sideChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::stateColorChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::stateIdChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::stateImageChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::numberChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::playableCharacterChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::thumnailRectChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::visionShapeChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::textRectChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::textChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::hasAvatarChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::avatarChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::fontChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::visionChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::radiusChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::healthStatusVisibleChanged, this, [this] { setModified(); });
 }
 
 void CharacterItemController::aboutToBeRemoved() {}

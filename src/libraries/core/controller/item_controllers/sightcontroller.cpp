@@ -42,6 +42,12 @@ SightController::SightController(VectorialMapController* ctrl, QObject* parent)
 
     connect(m_ctrl, &VectorialMapController::visualRectChanged, this, &vmap::SightController::rectChanged);
     setVisible(m_ctrl->visibility() == Core::VisibilityMode::FOGOFWAR);
+
+    connect(this, &SightController::characterSightChanged, this, [this] { setModified(); });
+    connect(this, &SightController::fowPathChanged, this, [this] { setModified(); });
+    connect(this, &SightController::rectChanged, this, [this] { setModified(); });
+    connect(this, &SightController::characterCountChanged, this, [this] { setModified(); });
+    setEditable(false);
 }
 
 void SightController::aboutToBeRemoved()

@@ -8,6 +8,7 @@ import Customization 1.0
 Item {
     id: root
     property QtObject styleSheet: Theme.styleSheet("InstantMessaging")
+    property QtObject paletteSheet: Theme.styleSheet("Palette")
     property alias localPersonModel: imEditText.model
     property alias chatroomModel: repeater.model
     property ChatRoom chatRoom:  chatroomModel.get(tabHeader.currentIndex)
@@ -84,7 +85,7 @@ Item {
                         id: tabButton
                         property bool current: tabHeader.currentIndex === index
                         background: Rectangle {
-                            color: tabButton.current ? "white" : model.unread ? "red" : "#242424"
+                            color: tabButton.current ? root.paletteSheet.alternateBase : model.unread ? root.paletteSheet.highlight : root.paletteSheet.mid
                         }
 
                         contentItem: RowLayout {
@@ -92,7 +93,7 @@ Item {
                                 text: model.unread ? "%1 (\*)".arg(model.title) : model.title
                                 Layout.fillWidth: true
                                 horizontalAlignment: Qt.AlignHCenter
-                                color: tabButton.current ? "black" : "white"
+                                color: tabButton.current ? root.paletteSheet.text : root.paletteSheet.button
                             }
                             ToolButton {
                                 visible: model.closable

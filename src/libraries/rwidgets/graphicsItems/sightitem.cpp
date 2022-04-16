@@ -153,106 +153,7 @@ void SightItem::setNewEnd(const QPointF& nend)
     Q_UNUSED(nend)
     return;
 }
-void SightItem::writeData(QDataStream& out) const
-{
-    /*   out << m_fogHoleList.count();
-       for(auto fog : m_fogHoleList)
-       {
-           out << *fog->getPolygon();
-           out << fog->isAdding();
-       }*/
-}
 
-void SightItem::readData(QDataStream& in)
-{
-    /*    int count;
-        in >> count;
-        for(int i= 0; i < count; ++i)
-        {
-            bool adding;
-            auto poly= new QPolygonF();
-            in >> *poly;
-            in >> adding;
-
-            auto hole= new FogSingularity(poly, adding);
-            m_fogHoleList.append(hole);
-        }
-        updateVeil();
-        update();*/
-}
-
-void SightItem::fillMessage(NetworkMessageWriter* msg)
-{
-    // msg->string16(m_id);
-
-    // rect
-    /*msg->real(m_rect.x());
-    msg->real(m_rect.y());
-    msg->real(m_rect.width());
-    msg->real(m_rect.height());*/
-
-    // pos
-    /*   msg->real(pos().x());
-       msg->real(pos().y());
-
-       msg->real(zValue());
-
-       msg->uint64(static_cast<quint64>(m_fogHoleList.count()));
-       for(auto& hole : m_fogHoleList)
-       {
-           hole->fillMessage(msg);
-       }
-
-       auto keys= m_characterItemMap->keys();
-       msg->uint64(static_cast<quint64>(keys.size()));
-       for(const QString& key : keys)
-       {
-           msg->string8(key);
-       }*/
-}
-
-void SightItem::readItem(NetworkMessageReader* msg)
-{
-    // m_id= msg->string16();
-    // rect
-    /*m_rect.setX(msg->real());
-    m_rect.setY(msg->real());
-    m_rect.setWidth(msg->real());
-    m_rect.setHeight(msg->real());*/
-
-    // pos
-    /*  qreal x= msg->real();
-      qreal y= msg->real();
-      setPos(x, y);
-      qreal z= msg->real();
-      setZValue(z);
-
-      quint64 count= msg->uint64();
-      for(unsigned int i= 0; i < count; ++i)
-      {
-          FogSingularity* fogs= new FogSingularity();
-          fogs->readItem(msg);
-          m_fogHoleList.append(fogs);
-      }
-
-      count= msg->uint64();
-      for(unsigned int i= 0; i < count; ++i)
-      {
-          QString str= msg->string8();
-          // Character* item = PlayersList::instance()->getCharacter(str);
-          VisualItem* item= m_characterItemMap->value(str);
-          if(nullptr != item)
-          {
-              CharacterItem* cItem= dynamic_cast<CharacterItem*>(item);
-              if(nullptr != cItem)
-              {
-                  m_characterItemMap->insert(str, cItem);
-              }
-          }
-      }
-      updateVeil();
-      update();*/
-}
 void SightItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
     Q_UNUSED(pointId)
@@ -301,8 +202,6 @@ VisualItem* SightItem::getItemCopy()
 {
     return nullptr;
 }
-
-void SightItem::updateChildPosition() {}
 
 void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {

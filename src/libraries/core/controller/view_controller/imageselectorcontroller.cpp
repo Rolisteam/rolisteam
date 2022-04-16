@@ -201,13 +201,13 @@ void ImageSelectorController::openImageFromFile()
 QByteArray ImageSelectorController::finalImageData() const
 {
     auto data= imageData();
-    if(m_shape == AnyShape)
-        return data;
-    else
+    if(m_shape != AnyShape)
     {
         QPixmap map= pixmap();
-        return IOHelper::pixmapToData(map.copy(m_rect));
+        qDebug() << m_rect << "mapsize:" << map.size();
+        data= IOHelper::pixmapToData(map.copy(m_rect));
     }
+    return data;
 }
 
 void ImageSelectorController::setTitle(const QString& title)

@@ -40,26 +40,34 @@ public:
 
     Campaign* campaign() const;
 
-    void createNew(const QString& dir);
-    bool open(const QString& from, bool discard);
-    bool save(const QString& to);
-    bool saveCopy(const QString& src, const QString& to);
+    bool open(const QString& from);
 
     // media
-    bool addMedia(const QString& src, const QByteArray& array);
+    bool addMedia(const QString& id, const QString& dest, const QByteArray& array);
     bool removeMedia(const QString& src);
-
-    // character
-    // QString addFileIntoCharacters(const QString& src);
-    // bool removeFileFromCharacters(const QString& path);
+    bool removeFile(const QString& src);
+    bool createDefault(const QString& src);
 
     QString saveAvatar(const QString& id, const QByteArray& array);
 
-    QString mediaFullPath(const QString& file, Core::ContentType type);
+    QString mediaFullPathWithExtension(const QString& file, Core::ContentType type) const;
+    QString mediaFullPath(const QString& file) const;
+
     void doCommand(QUndoCommand* command);
 
     QString campaignDir() const;
     QString currentDir() const;
+
+    bool mergeAudioFile(const QString& source, const QString& dest);
+    bool copyMedia(const QString& source, const QString& dest, Core::MediaType type);
+    bool copyTheme(const QString& source, const QString& dest);
+    bool mergeJsonArrayFile(const QString& source, const QString& dest);
+
+    bool loadDiceAlias(const QString& source); // import
+    bool loadStates(const QString& source, const QString& srcDir, const QString& dest,
+                    const QString& destDir); // import
+    bool loadNpcData(const QString& source, const QString& srcDir, const QString& dest,
+                     const QString& destDir); // import
 
 signals:
     void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);

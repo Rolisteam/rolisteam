@@ -19,10 +19,9 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-#include "rwidgets/mediacontainers/image.h"
-#include <data/cleveruri.h>
+#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "core/worker/iohelper.h"
+
 #include <memory>
 
 class PictureTest : public QObject
@@ -37,30 +36,22 @@ private slots:
     void cleanupTestCase();
     void testGetSet();
     void writeAndReadNetworkTest();
+    void readImageFromFile();
+    void readImageFromUrl();
 
 private:
-    std::unique_ptr<Image> m_image;
+    std::unique_ptr<ImageSelectorController> m_ctrl;
 };
 
 PictureTest::PictureTest() {}
 
 void PictureTest::init()
 {
-    // m_image.reset(new Image());
+    m_ctrl.reset(new ImageSelectorController());
 }
 
 void PictureTest::cleanupTestCase() {}
-
-void PictureTest::testGetSet()
-{
-    /*   CleverURI uri("girafe", ":/assets/img/girafe.jpg", Core::ContentType::PICTURE);
-       m_image->setCleverUri(&uri);
-       QVERIFY2(*m_image->getCleverUri() == uri, "not the same image");
-
-       QString ownerId("owner");
-       m_image->setOwnerId(ownerId);
-       QCOMPARE(m_image->ownerId(), ownerId);*/
-}
+void PictureTest::testGetSet() {}
 void PictureTest::writeAndReadNetworkTest()
 {
     /* for(int i= 0; i < 1000; ++i)
@@ -106,6 +97,51 @@ void PictureTest::writeAndReadNetworkTest()
      }*/
 }
 
+void PictureTest::readImageFromFile()
+{
+    QFile file(":/img/girafe3.jpg");
+    QByteArray dataArray;
+    if(file.open(QIODevice::ReadOnly))
+    {
+        dataArray= file.readAll();
+    }
+    QTemporaryFile tfile;
+    QString path;
+    if(tfile.open())
+    {
+        tfile.write(dataArray);
+        path= tfile.fileName();
+    }
+
+    QSignalSpy spy(m_ctrl.get(), &ImageSelectorController::imageDataChanged);
+
+    m_ctrl->downloadImageFrom(QUrl::fromUserInput(path));
+
+    spy.wait();
+
+    QCOMPARE(spy.count(), 1);
+    auto data= m_ctrl->finalImageData();
+
+    auto pix= IOHelper::dataToPixmap(data);
+
+    QVERIFY(!pix.isNull());
+}
+
+void PictureTest::readImageFromUrl()
+{
+    QSignalSpy spy(m_ctrl.get(), &ImageSelectorController::imageDataChanged);
+
+    m_ctrl->downloadImageFrom(QUrl::fromUserInput("https://www.nucreum.com/l5r/images/ten.jpg"));
+
+    spy.wait();
+
+    QCOMPARE(spy.count(), 1);
+    auto data= m_ctrl->finalImageData();
+
+    auto pix= IOHelper::dataToPixmap(data);
+
+    QVERIFY(!pix.isNull());
+}
 QTEST_MAIN(PictureTest);
 
 #include "tst_picturetest.moc"

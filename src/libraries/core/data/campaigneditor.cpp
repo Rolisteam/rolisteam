@@ -20,11 +20,15 @@
 #include "campaigneditor.h"
 
 #include "campaign.h"
+#include "data/character.h"
 #include "data/media.h"
 #include "data/rolisteamtheme.h"
+#include "model/characterstatemodel.h"
+#include "model/nonplayablecharactermodel.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/modelhelper.h"
+#include "worker/utilshelper.h"
 
 #include <QFuture>
 #include <QFutureWatcher>
@@ -36,7 +40,7 @@ namespace
 {
 void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
 {
-    if(!info.status)
+    if(!info.status || !manager)
         return;
     ModelHelper::fetchDiceModel(info.dices, manager->diceAliases());
     ModelHelper::fetchCharacterStateModel(info.states, manager->stateModel());
@@ -46,6 +50,12 @@ void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
     manager->setName(assets[Core::JsonKey::JSON_NAME].toString());
     manager->setCurrentChapter(assets[Core::JsonKey::JSON_CURRENT_CHAPTER].toString());
     manager->setCurrentTheme(IOHelper::jsonToTheme(info.theme));
+
+    auto const& states= manager->stateModel()->statesList();
+    auto list= new QList<CharacterState*>();
+    std::transform(std::begin(states), std::end(states), std::back_inserter(*list),
+                   [](const std::unique_ptr<CharacterState>& item) { return item.get(); });
+    Character::setListOfCharacterState(list);
 }
 } // namespace
 CampaignEditor::CampaignEditor(QObject* parent) : QObject(parent), m_campaign(new Campaign)
@@ -58,38 +68,116 @@ Campaign* CampaignEditor::campaign() const
     return m_campaign.get();
 }
 
-void CampaignEditor::createNew(const QString& dir)
+bool CampaignEditor::open(const QString& from)
 {
-    FileSerializer::createCampaignDirectory(dir);
-}
-
-bool CampaignEditor::open(const QString& from, bool discard)
-{
-    // setState(State::Checking);
-    QFutureWatcher<CampaignInfo>* watcher= new QFutureWatcher<CampaignInfo>();
-    connect(watcher, &QFutureWatcher<CampaignInfo>::finished, watcher, [this, watcher]() {
-        auto info= watcher->result();
-        readCampaignInfo(info, m_campaign.get());
-        emit campaignLoaded(info.missingFiles, info.unmanagedFiles);
-        delete watcher;
-    });
     m_campaign->setRootDirectory(from);
-    watcher->setFuture(QtConcurrent::run([from]() { return campaign::FileSerializer::readCampaignDirectory(from); }));
+    helper::utils::setContinuation<CampaignInfo>(
+        QtConcurrent::run([from]() { return campaign::FileSerializer::readCampaignDirectory(from); }), m_campaign.get(),
+        [this](const CampaignInfo& info) {
+            readCampaignInfo(info, m_campaign.get());
+            emit campaignLoaded(info.missingFiles, info.unmanagedFiles);
+        });
     return true;
 }
 
-bool CampaignEditor::save(const QString& to)
+bool CampaignEditor::mergeAudioFile(const QString& source, const QString& dest)
 {
+    return IOHelper::mergePlayList(source, dest);
+}
+
+/*bool CampaignEditor::copyArrayModelAndFile(const QString& source, const QString& srcDir, const QString& dest,
+                                           const QString& destDir)
+{
+    return IOHelper::copyArrayModelAndFile(source, srcDir, dest, destDir);
+}*/
+
+bool CampaignEditor::copyMedia(const QString& source, const QString& dest, Core::MediaType type)
+{
+    auto listFile= IOHelper::mediaList(source, type);
+    if(listFile.isEmpty())
+        return false;
+    for(auto const& file : listFile)
+    {
+        addMedia(QUuid::createUuid().toString(QUuid::WithoutBraces), QString("%1/%2").arg(dest, file),
+                 IOHelper::loadFile(QString("%1/%2").arg(source, file)));
+    }
     return true;
 }
 
-bool CampaignEditor::saveCopy(const QString& src, const QString& to)
+bool CampaignEditor::copyTheme(const QString& source, const QString& dest)
 {
-    // save copy
-    // save
-    // copy to dest
-    // change root
+    auto res= IOHelper::copyFile(source, dest);
+    return !res.isEmpty();
+}
+
+bool CampaignEditor::mergeJsonArrayFile(const QString& source, const QString& dest)
+{
+    bool ok;
+    auto srcArray= IOHelper::loadJsonFileIntoArray(source, ok);
+    if(!ok)
+        return false;
+    auto destArray= IOHelper::loadJsonFileIntoArray(dest, ok);
+
+    if(!ok)
+    {
+        IOHelper::copyFile(source, dest);
+        return true;
+    }
+
+    destArray.append(srcArray);
+    IOHelper::writeJsonArrayIntoFile(dest, destArray);
     return true;
+}
+
+bool CampaignEditor::loadDiceAlias(const QString& source)
+{
+    if(!m_campaign)
+        return false;
+
+    bool ok;
+    ModelHelper::fetchDiceModel(IOHelper::loadJsonFileIntoArray(source, ok), m_campaign->diceAliases());
+    return ok;
+}
+
+bool CampaignEditor::loadStates(const QString& source, const QString& srcDir, const QString& dest,
+                                const QString& destDir)
+{
+    if(!m_campaign)
+        return false;
+
+    bool ok;
+    ModelHelper::fetchCharacterStateModel(IOHelper::loadJsonFileIntoArray(source, ok), m_campaign->stateModel());
+    auto const& list= m_campaign->stateModel()->statesList();
+
+    std::for_each(std::begin(list), std::end(list), [srcDir, destDir](const std::unique_ptr<CharacterState>& state) {
+        auto path= state->imagePath();
+        if(path.isEmpty())
+            return;
+        IOHelper::copyFile(QString("%1/%2").arg(srcDir, path), QString("%1/%2").arg(destDir, path));
+    });
+    // todo manage images from states
+    return ok;
+}
+
+bool CampaignEditor::loadNpcData(const QString& source, const QString& srcDir, const QString& dest,
+                                 const QString& destDir)
+{
+    if(!m_campaign)
+        return false;
+
+    bool ok;
+    ModelHelper::fetchNpcModel(IOHelper::loadJsonFileIntoArray(source, ok), m_campaign->npcModel(), srcDir);
+    auto const& list= m_campaign->npcModel()->npcList();
+
+    std::for_each(std::begin(list), std::end(list),
+                  [srcDir, destDir](const std::unique_ptr<NonPlayableCharacter>& npc) {
+                      auto path= npc->avatarPath();
+                      if(path.isEmpty())
+                          return;
+                      IOHelper::copyFile(QString("%1/%2").arg(srcDir, path), QString("%1/%2").arg(destDir, path));
+                  });
+    // todo manage images from states
+    return ok;
 }
 
 bool CampaignEditor::removeMedia(const QString& src)
@@ -103,9 +191,12 @@ bool CampaignEditor::removeMedia(const QString& src)
     m_campaign->removeMedia(media->id());
 
     // remove file on disk
-    IOHelper::removeFile(src);
+    return removeFile(src);
+}
 
-    return true;
+bool CampaignEditor::removeFile(const QString& src)
+{
+    return IOHelper::removeFile(src);
 }
 
 QString CampaignEditor::saveAvatar(const QString& id, const QByteArray& array)
@@ -127,20 +218,23 @@ bool CampaignEditor::removeFileFromCharacters(const QString& path)
     // IOHelper::removeFile(path);
 }*/
 
-bool CampaignEditor::addMedia(const QString& src, const QByteArray& array)
+bool CampaignEditor::addMedia(const QString& id, const QString& dest, const QByteArray& array)
 {
-    QFileInfo file(src);
-    std::unique_ptr<Media> media(
-        new Media(QUuid::createUuid().toString(), file.baseName(), src, FileSerializer::typeFromExtention(src)));
+    QFileInfo file(dest);
+    std::unique_ptr<Media> media(new Media(id, file.baseName(), dest, FileSerializer::typeFromExtention(dest)));
     m_campaign->addMedia(std::move(media));
-    IOHelper::writeFile(src, array, true);
+    IOHelper::writeFile(dest, array, true);
     return true;
 }
 
-QString CampaignEditor::mediaFullPath(const QString& file, Core::ContentType type)
+QString CampaignEditor::mediaFullPathWithExtension(const QString& file, Core::ContentType type) const
 {
-    return QString("%1/%2").arg(m_campaign->directory(campaign::Campaign::Place::MEDIA_ROOT),
-                                campaign::FileSerializer::addExtention(file, type));
+    return mediaFullPath(campaign::FileSerializer::addExtention(file, type));
+}
+
+QString CampaignEditor::mediaFullPath(const QString& file) const
+{
+    return QString("%1/%2").arg(m_campaign->directory(campaign::Campaign::Place::MEDIA_ROOT), file);
 }
 
 void CampaignEditor::doCommand(QUndoCommand* command)

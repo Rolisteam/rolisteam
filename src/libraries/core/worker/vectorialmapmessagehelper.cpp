@@ -35,6 +35,7 @@
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "model/vmapitemmodel.h"
+#include "worker/iohelper.h"
 
 VectorialMapMessageHelper::VectorialMapMessageHelper() {}
 
@@ -45,7 +46,7 @@ void VectorialMapMessageHelper::sendOffNewItem(const std::map<QString, QVariant>
     QByteArray array;
     QDataStream stream(&array, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_12);
-    for(auto pair : args)
+    for(const auto& pair : args)
     {
         stream << pair.first << pair.second;
     }
@@ -60,6 +61,7 @@ void saveVisualItemController(const vmap::VisualItemController* ctrl, QDataStrea
         return;
 
     output << ctrl->itemType();
+    // output << ctrl->rotationOriginPoint();
     output << ctrl->selected();
     output << ctrl->visible();
     output << ctrl->opacity();
@@ -70,55 +72,54 @@ void saveVisualItemController(const vmap::VisualItemController* ctrl, QDataStrea
     output << ctrl->color();
     output << ctrl->locked();
     output << ctrl->tool();
+    output << ctrl->initialized();
 }
 
 void readVisualItemController(vmap::VisualItemController::ItemType type, std::map<QString, QVariant>& map,
                               QDataStream& input)
 {
     vmap::VisualItemController::ItemType typee;
-    input >> typee;
-
+    // QPointF originPoint;
     bool selected;
-    input >> selected;
-
     bool visible;
-    input >> visible;
-
     qreal opacity;
-    input >> opacity;
-
     qreal rotation;
-    input >> rotation;
-
     Core::Layer layer;
-    input >> layer;
-
     QPointF pos;
-    input >> pos;
-
     QString uuid;
-    input >> uuid;
-
     QColor color;
-    input >> color;
-
     bool locked;
-    input >> locked;
-
     Core::SelectableTool tool;
+
+    input >> typee;
+    // input >> originPoint;
+    input >> selected;
+    input >> visible;
+    input >> opacity;
+    input >> rotation;
+    input >> layer;
+    input >> pos;
+    input >> uuid;
+    input >> color;
+    input >> locked;
     input >> tool;
 
-    map.insert({"type", type});
-    map.insert({"selected", selected});
-    map.insert({"visible", visible});
-    map.insert({"opacity", opacity});
-    map.insert({"rotation", rotation});
-    map.insert({"layer", QVariant::fromValue(layer)});
-    map.insert({"position", pos});
-    map.insert({"uuid", uuid});
-    map.insert({"color", color});
-    map.insert({"locked", locked});
-    map.insert({"tool", tool});
+    bool initialized= true;
+    input >> initialized;
+
+    map.insert({Core::vmapkeys::KEY_ITEMTYPE, type});
+    // map.insert({Core::vmapkeys::KEY_ORIGINPOINT, originPoint});
+    map.insert({Core::vmapkeys::KEY_SELECTED, selected});
+    map.insert({Core::vmapkeys::KEY_VISIBLE, visible});
+    map.insert({Core::vmapkeys::KEY_OPACITY, opacity});
+    map.insert({Core::vmapkeys::KEY_ROTATION, rotation});
+    map.insert({Core::vmapkeys::KEY_LAYER, QVariant::fromValue(layer)});
+    map.insert({Core::vmapkeys::KEY_POS, pos});
+    map.insert({Core::vmapkeys::KEY_UUID, uuid});
+    map.insert({Core::vmapkeys::KEY_COLOR, color});
+    map.insert({Core::vmapkeys::KEY_LOCKED, locked});
+    map.insert({Core::vmapkeys::KEY_TOOL, tool});
+    map.insert({Core::vmapkeys::KEY_INITIALIZED, true});
 }
 
 void saveVmapSightController(const vmap::SightController* ctrl, QDataStream& output)
@@ -166,9 +167,9 @@ std::map<QString, QVariant> readRectController(QDataStream& input)
     quint16 penWidth;
     input >> penWidth;
 
-    maps.insert({"rect", rect});
-    maps.insert({"filled", filled});
-    maps.insert({"penWidth", penWidth});
+    maps.insert({Core::vmapkeys::KEY_RECT, rect});
+    maps.insert({Core::vmapkeys::KEY_FILLED, filled});
+    maps.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
 
     return maps;
 }
@@ -203,10 +204,10 @@ std::map<QString, QVariant> readEllipseController(QDataStream& input)
     quint16 penWidth;
     input >> penWidth;
 
-    maps.insert({"rx", rx});
-    maps.insert({"ry", ry});
-    maps.insert({"filled", filled});
-    maps.insert({"penWidth", penWidth});
+    maps.insert({Core::vmapkeys::KEY_RX, rx});
+    maps.insert({Core::vmapkeys::KEY_RY, ry});
+    maps.insert({Core::vmapkeys::KEY_FILLED, filled});
+    maps.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
 
     return maps;
 }
@@ -244,11 +245,11 @@ std::map<QString, QVariant> readImageController(QDataStream& input)
     qreal ratio;
     input >> ratio;
 
-    maps.insert({"pixmap", pixmap});
-    maps.insert({"data", data});
-    maps.insert({"rect", rect});
-    maps.insert({"path", path});
-    maps.insert({"ratio", ratio});
+    maps.insert({Core::vmapkeys::KEY_PIXMAP, pixmap});
+    maps.insert({Core::vmapkeys::KEY_DATA, data});
+    maps.insert({Core::vmapkeys::KEY_RECT, rect});
+    maps.insert({Core::vmapkeys::KEY_PATH, path});
+    maps.insert({Core::vmapkeys::KEY_RATIO, ratio});
 
     return maps;
 }
@@ -279,9 +280,9 @@ std::map<QString, QVariant> readLineController(QDataStream& input)
     quint16 penWidth;
     input >> penWidth;
 
-    maps.insert({"startPoint", startPoint});
-    maps.insert({"endPoint", endPoint});
-    maps.insert({"penWidth", penWidth});
+    maps.insert({Core::vmapkeys::KEY_STARTPOINT, startPoint});
+    maps.insert({Core::vmapkeys::KEY_ENDPOINT, endPoint});
+    maps.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
 
     return maps;
 }
@@ -307,12 +308,12 @@ std::map<QString, QVariant> readPathController(QDataStream& input)
     std::map<QString, QVariant> maps;
     readVisualItemController(vmap::VisualItemController::PATH, maps, input);
 
-    int pointCount;
+    quint64 pointCount;
     input >> pointCount;
 
     std::vector<QPointF> vec;
     vec.reserve(static_cast<std::size_t>(pointCount));
-    for(int i= 0; i < pointCount; i++)
+    for(quint64 i= 0; i < pointCount; i++)
     {
         QPointF p;
         input >> p;
@@ -331,12 +332,12 @@ std::map<QString, QVariant> readPathController(QDataStream& input)
     bool penLine;
     input >> penLine;
 
-    maps.insert({"pointCount", pointCount});
-    maps.insert({"points", QVariant::fromValue(vec)});
-    maps.insert({"penWidth", penWidth});
-    maps.insert({"closed", closed});
-    maps.insert({"filled", filled});
-    maps.insert({"penLine", penLine});
+    maps.insert({Core::vmapkeys::KEY_POINTCOUNT, pointCount});
+    maps.insert({Core::vmapkeys::KEY_POINTS, QVariant::fromValue(vec)});
+    maps.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
+    maps.insert({Core::vmapkeys::KEY_CLOSED, closed});
+    maps.insert({Core::vmapkeys::KEY_FILLED, filled});
+    maps.insert({Core::vmapkeys::KEY_PENLINE, penLine});
     return maps;
 }
 
@@ -417,13 +418,13 @@ std::map<QString, QVariant> readTextController(QDataStream& input)
     QPointF textPos;
     input >> textPos;
 
-    maps.insert({"text", text});
-    maps.insert({"textRect", textRect});
-    maps.insert({"borderRect", borderRect});
-    maps.insert({"border", border});
-    maps.insert({"font", font});
-    maps.insert({"textPos", textPos});
-    maps.insert({"penWidth", penWidth});
+    maps.insert({Core::vmapkeys::KEY_TEXT, text});
+    maps.insert({Core::vmapkeys::KEY_TEXTRECT, textRect});
+    maps.insert({Core::vmapkeys::KEY_BORDERRECT, borderRect});
+    maps.insert({Core::vmapkeys::KEY_BORDER, border});
+    maps.insert({Core::vmapkeys::KEY_FONT, font});
+    maps.insert({Core::vmapkeys::KEY_TEXTPOS, textPos});
+    maps.insert({Core::vmapkeys::KEY_PENWIDTH, penWidth});
 
     return maps;
 }
@@ -554,7 +555,7 @@ void readModel(VectorialMapController* ctrl, QDataStream& input)
         ctrl->addItemController(params);
     }
 }
-#include "worker/iohelper.h"
+
 QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* ctrl)
 {
     QByteArray data;
@@ -643,6 +644,17 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
     return data;
 }
 
+void VectorialMapMessageHelper::fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl)
+{
+    auto s= params.size();
+    for(int i= 0; i < s; ++i)
+    {
+        auto const& item= params.value(QString("Item_%1").arg(i));
+        auto const maps= item.toMap().toStdMap();
+        ctrl->addItemController(maps);
+    }
+}
+
 void VectorialMapMessageHelper::readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array)
 {
     if(!ctrl)
@@ -655,115 +667,90 @@ void VectorialMapMessageHelper::readVectorialMapController(VectorialMapControlle
 
     // properties
     bool npcNameVisible;
-    input >> npcNameVisible;
-    ctrl->setNpcNameVisible(npcNameVisible);
-
     bool pcNameVisible;
-    input >> pcNameVisible;
-    ctrl->setPcNameVisible(pcNameVisible);
-
     bool npcNumberVisible;
-    input >> npcNumberVisible;
-    ctrl->setNpcNumberVisible(npcNumberVisible);
-
     bool healthBarVisible;
-    input >> healthBarVisible;
-    ctrl->setHealthBarVisible(healthBarVisible);
-
     bool initScoreVisible;
-    input >> initScoreVisible;
-    ctrl->setInitScoreVisible(initScoreVisible);
-
     bool stateLabelVisible;
-    input >> stateLabelVisible;
-    ctrl->setStateLabelVisible(stateLabelVisible);
-
     bool collision;
-    input >> collision;
-    ctrl->setCollision(collision);
-
     bool characterVision;
-    input >> characterVision;
-    ctrl->setCharacterVision(characterVision);
-
     QColor gridColor;
-    input >> gridColor;
-    ctrl->setGridColor(gridColor);
-
     qreal gridScale;
-    input >> gridScale;
-    ctrl->setGridScale(gridScale);
-
     int gridSize;
-    input >> gridSize;
-    ctrl->setGridSize(gridSize);
-
     bool gridVisibility;
-    input >> gridVisibility;
-    ctrl->setGridVisibility(gridVisibility);
-
     bool gridAbove;
-    input >> gridAbove;
-    ctrl->setGridAbove(gridAbove);
-
     Core::ScaleUnit scaleUnit;
-    input >> scaleUnit;
-    ctrl->setScaleUnit(scaleUnit);
-
     QString npcName;
-    input >> npcName;
-    ctrl->setNpcName(npcName);
-
     Core::PermissionMode permission;
-    input >> permission;
-    ctrl->setPermission(permission);
-
     Core::GridPattern gridPattern;
-    input >> gridPattern;
-    ctrl->setGridPattern(gridPattern);
-
     Core::VisibilityMode visibility;
-    input >> visibility;
-    ctrl->setVisibility(visibility);
-
     QColor backgroundColor;
-    input >> backgroundColor;
-    ctrl->setBackgroundColor(backgroundColor);
-
     QColor toolColor;
-    input >> toolColor;
-    ctrl->setToolColor(toolColor);
-
     quint16 penSize;
-    input >> penSize;
-    ctrl->setPenSize(penSize);
-
     int npcNumber;
-    input >> npcNumber;
-    ctrl->setNpcNumber(npcNumber);
-
     qreal zoomLevel;
-    input >> zoomLevel;
-    ctrl->setZoomLevel(zoomLevel);
-
     Core::Layer layer;
-    input >> layer;
-    ctrl->setLayer(layer);
-
     qreal opacity;
-    input >> opacity;
-    ctrl->setOpacity(opacity);
-
     QRectF visualRect;
-    input >> visualRect;
-    ctrl->setVisualRect(visualRect);
-
     bool idle;
-    input >> idle;
-    ctrl->setIdle(idle);
-
     int zIndex;
+
+    input >> npcNameVisible;
+    input >> pcNameVisible;
+    input >> npcNumberVisible;
+    input >> healthBarVisible;
+    input >> initScoreVisible;
+    input >> stateLabelVisible;
+    input >> collision;
+    input >> characterVision;
+    input >> gridColor;
+    input >> gridScale;
+    input >> gridSize;
+    input >> gridVisibility;
+    input >> gridAbove;
+    input >> scaleUnit;
+    input >> npcName;
+    input >> permission;
+    input >> gridPattern;
+    input >> visibility;
+    input >> backgroundColor;
+    input >> toolColor;
+    input >> penSize;
+    input >> npcNumber;
+    input >> zoomLevel;
+    input >> layer;
+    input >> opacity;
+    input >> visualRect;
+    input >> idle;
     input >> zIndex;
+
+    ctrl->setNpcNameVisible(npcNameVisible);
+    ctrl->setPcNameVisible(pcNameVisible);
+    ctrl->setNpcNumberVisible(npcNumberVisible);
+    ctrl->setHealthBarVisible(healthBarVisible);
+    ctrl->setInitScoreVisible(initScoreVisible);
+    ctrl->setStateLabelVisible(stateLabelVisible);
+    ctrl->setCollision(collision);
+    ctrl->setCharacterVision(characterVision);
+    ctrl->setGridColor(gridColor);
+    ctrl->setGridScale(gridScale);
+    ctrl->setGridSize(gridSize);
+    ctrl->setGridVisibility(gridVisibility);
+    ctrl->setGridAbove(gridAbove);
+    ctrl->setScaleUnit(scaleUnit);
+    ctrl->setNpcName(npcName);
+    ctrl->setPermission(permission);
+    ctrl->setGridPattern(gridPattern);
+    ctrl->setVisibility(visibility);
+    ctrl->setBackgroundColor(backgroundColor);
+    ctrl->setToolColor(toolColor);
+    ctrl->setPenSize(penSize);
+    ctrl->setNpcNumber(npcNumber);
+    ctrl->setZoomLevel(zoomLevel);
+    ctrl->setLayer(layer);
+    ctrl->setOpacity(opacity);
+    ctrl->setVisualRect(visualRect);
+    ctrl->setIdle(idle);
     ctrl->setZindex(zIndex);
 
     // fog singularies

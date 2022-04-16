@@ -45,6 +45,9 @@ vmap::GridController::GridController(VectorialMapController* ctrl, QObject* pare
     connect(m_ctrl, &VectorialMapController::visualRectChanged, this, &vmap::GridController::rectChanged);
 
     computePattern();
+
+    connect(this, &vmap::GridController::rectChanged, this, [this] { setModified(); });
+    connect(this, &vmap::GridController::gridPatternChanged, this, [this] { setModified(); });
 }
 bool GridController::gm() const
 {

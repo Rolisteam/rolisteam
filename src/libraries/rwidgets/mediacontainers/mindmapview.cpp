@@ -66,14 +66,15 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
             return &manager;
         });
 
-    // engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
     engine->addImageProvider("nodeImages", new mindmap::NodeImageProvider(m_ctrl->imageModel()));
     engine->addImportPath(QStringLiteral("qrc:/qml"));
-    // qrc:/qml/CustomItems/PermissionSlider.qml
 
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_qmlViewer->setSource(QUrl("qrc:/resources/qml/main.qml"));
+
+    auto const& errors= m_qmlViewer->errors();
+    std::for_each(std::begin(errors), std::end(errors), [](const QQmlError& error) { qDebug() << error; });
 
     auto wid= new QWidget(this);
 
@@ -83,7 +84,10 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
 
     layout->addWidget(m_qmlViewer.get());
 
-    setWindowTitle(tr("%1 - Mindmap").arg(ctrl->name()));
+    connect(ctrl, &MindMapController::nameChanged, this,
+            [this]() { setWindowTitle(tr("%1 - Mindmap").arg(m_ctrl->name())); });
+
+    setWindowTitle(tr("%1 - Mindmap").arg(m_ctrl->name()));
 
     setWidget(wid);
 }

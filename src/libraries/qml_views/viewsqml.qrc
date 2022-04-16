@@ -1,14 +1,15 @@
 <RCC>
     <qresource prefix="/qml">
-        <file>instantmessaging/InstantMessagingMain.qml</file>
-        <file>instantmessaging/InstantMessagingEditText.qml</file>
-        <file>instantmessaging/AddChatRoomDialog.qml</file>
-        <file>instantmessaging/SideMenu.qml</file>
-        <file>instantmessaging/ChatView.qml</file>
-        <file>instantmessaging/TextMessageDelegate.qml</file>
-        <file>instantmessaging/DiceMessageDelegate.qml</file>
-        <file>instantmessaging/CommandMessageDelegate.qml</file>
-        <file>instantmessaging/ErrorMessageDelegate.qml</file>
+        <file>InstantMessaging/InstantMessagingMain.qml</file>
+        <file>InstantMessaging/InstantMessagingEditText.qml</file>
+        <file>InstantMessaging/AddChatRoomDialog.qml</file>
+        <file>InstantMessaging/SideMenu.qml</file>
+        <file>InstantMessaging/ChatView.qml</file>
+        <file>InstantMessaging/TextMessageDelegate.qml</file>
+        <file>InstantMessaging/DiceMessageDelegate.qml</file>
+        <file>InstantMessaging/CommandMessageDelegate.qml</file>
+        <file>InstantMessaging/ErrorMessageDelegate.qml</file>
+        <file>InstantMessaging/qmldir</file>
         <file>CustomItems/qmldir</file>
         <file>CustomItems/PermissionSlider.qml</file>
         <file>CustomItems/PermissionFrame.qml</file>
@@ -16,5 +17,19 @@
         <file>rolistyle/Drawer.qml</file>
         <file>rolistyle/Label.qml</file>
         <file>rolistyle/Switch.qml</file>
+        <file>rolistyle/ToolBar.qml</file>
+        <file>Campaign/qmldir</file>
+        <file>Campaign/IntegrityPage.qml</file>
+        <file>rolistyle/TextArea.qml</file>
+        <file>rolistyle/ComboBox.qml</file>
+        <file>rolistyle/Button.qml</file>
+        <file>rolistyle/ItemDelegate.qml</file>
+        <file>rolistyle/SplitView.qml</file>
+        <file>rolistyle/Popup.qml</file>
+        <file>views/ConnectionForm.qml</file>
+        <file>CustomItems/PersonEdit.qml</file>
+        <file>CustomItems/RequiredTextField.qml</file>
+        <file>CustomItems/ColorPicker.qml</file>
+        <file>rolistyle/TextField.qml</file>
     </qresource>
 </RCC>

@@ -50,11 +50,13 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
     connect(ui->m_titleLineEdit, &QLineEdit::textEdited, this,
             [this]() { m_ctrl->setTitle(ui->m_titleLineEdit->text()); });
 
-    connect(m_overlay.get(), &Overlay::selectedRectChanged, m_ctrl, [this](const QRect& rect) {
-        qreal scale= m_ctrl->pixmap().size().width() / m_imageViewerLabel->rect().width();
-        QRect scaledRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
-        m_ctrl->setRect(scaledRect);
-    });
+    auto func= [this](const QRect& rect) {
+        // qreal scale= m_ctrl->pixmap().size().width() / m_imageViewerLabel->rect().width();
+        // QRect scaledRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
+        qDebug() << rect << "func in dialog";
+        m_ctrl->setRect(rect);
+    };
+    connect(m_overlay.get(), &Overlay::selectedRectChanged, m_ctrl, func);
 
     setAcceptDrops(m_ctrl->canDrop());
 
@@ -86,8 +88,10 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
     m_imageViewerLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     m_imageViewerLabel->resize(pix.size());
     m_overlay->setParent(m_imageViewerLabel);
+    qDebug() << m_overlay->geometry();
     m_overlay->resize(m_imageViewerLabel->rect().size());
-    m_overlay->setSelectedRect(m_imageViewerLabel->rect());
+
+    // m_overlay->setSelectedRect(m_imageViewerLabel->rect());
 
     m_overlay->setRatio(m_ctrl->shape() == ImageSelectorController::Square ? Overlay::Ratio::Ratio_Square :
                                                                              Overlay::Ratio::Ratio_Unconstrained);
@@ -113,7 +117,6 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
 
         m_overlay->setVisible(!m_ctrl->respectShape());
         resizeLabel();
-        m_overlay->setSelectedRect(m_overlay->rect());
         update();
     });
 
@@ -123,6 +126,8 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
     {
         openImage();
     }
+    if(m_overlay)
+        m_ctrl->setRect(m_overlay->selectedRect());
 }
 
 ImageSelectorDialog::~ImageSelectorDialog()
@@ -146,12 +151,27 @@ void ImageSelectorDialog::openImage()
 
 void ImageSelectorDialog::resizeLabel()
 {
-    int const w= ui->scrollArea->viewport()->rect().width();
-    int const h= ui->scrollArea->viewport()->rect().height();
+    if(!isVisible())
+        return;
+
     auto pix= m_ctrl->pixmap();
+    auto const sImg= pix.size();
+
+    int w= ui->scrollArea->viewport()->rect().width();
+    int h= ui->scrollArea->viewport()->rect().height();
+
+    if(sImg.width() < w)
+    {
+        w= sImg.width();
+    }
+    if(sImg.height() < h)
+    {
+        h= sImg.height();
+    }
 
     double const ratioImage= static_cast<double>(pix.size().width()) / pix.size().height();
     double const ratioImageBis= static_cast<double>(pix.size().height()) / pix.size().width();
+
     if(w > h * ratioImage)
     {
         m_imageViewerLabel->resize(h * ratioImage, h);
@@ -160,7 +180,9 @@ void ImageSelectorDialog::resizeLabel()
     {
         m_imageViewerLabel->resize(w, w * ratioImageBis);
     }
+
     m_overlay->resize(m_imageViewerLabel->rect().size());
+    m_overlay->setSelectedRect(m_overlay->rect());
 }
 
 void ImageSelectorDialog::resizeEvent(QResizeEvent* event)
@@ -197,4 +219,10 @@ void ImageSelectorDialog::dropEvent(QDropEvent* event)
         m_ctrl->downloadImageFrom(first);
     }
     event->acceptProposedAction();
+}
+
+void ImageSelectorDialog::showEvent(QShowEvent* event)
+{
+    QDialog::showEvent(event);
+    resizeLabel();
 }

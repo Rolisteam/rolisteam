@@ -55,9 +55,10 @@ bool MediaControllerBase::modified() const
 {
     return m_modified;
 }
-QString MediaControllerBase::path() const
+
+QUrl MediaControllerBase::url() const
 {
-    return m_path;
+    return m_url;
 }
 
 Core::ContentType MediaControllerBase::contentType() const
@@ -150,12 +151,12 @@ void MediaControllerBase::setName(const QString& name)
     m_name= name;
     emit nameChanged(m_name);
 }
-void MediaControllerBase::setPath(const QString& path)
+void MediaControllerBase::setUrl(const QUrl& url)
 {
-    if(path == m_path)
+    if(url == m_url)
         return;
-    m_path= path;
-    emit pathChanged(m_path);
+    m_url= url;
+    emit urlChanged(m_url);
 }
 
 void MediaControllerBase::setRemote(bool remote)

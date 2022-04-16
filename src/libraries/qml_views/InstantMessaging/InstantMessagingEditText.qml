@@ -130,11 +130,6 @@ Frame {
                             event.accepted = false
                     }
                 }
-                background: Rectangle {
-                    radius: 5
-                    border.width: 1
-                    border.color: "darkblue"
-                }
             }
             Button {
                 text: qsTr("send")

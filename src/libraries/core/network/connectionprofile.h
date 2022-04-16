@@ -1,64 +1,79 @@
 #ifndef CONNECTIONPROFILE_H
 #define CONNECTIONPROFILE_H
 
-#include "data/player.h"
+#include <QObject>
 
-struct CharacterData
-{
-    QString m_name;
-    QColor m_color;
-    QByteArray m_avatarData;
-    QHash<QString, QVariant> m_params;
-};
+#include "data/player.h"
+#include "network/network_type.h"
 
 /**
  * @brief The ConnectionProfile class stores any data about the connection: Mode (client or server) or role (GM or
  * Player)
  */
-class ConnectionProfile
+class ConnectionProfile : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(bool isServer READ isServer WRITE setServerMode NOTIFY serverChanged)
+    Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
+    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
+    Q_PROPERTY(bool isGM READ isGM WRITE setGm NOTIFY gmChanged)
+    Q_PROPERTY(QString title READ profileTitle WRITE setProfileTitle NOTIFY titleChanged)
+    Q_PROPERTY(QString campaignPath READ campaignPath WRITE setCampaignPath NOTIFY campaignPathChanged)
+    Q_PROPERTY(QColor playerColor READ playerColor WRITE setPlayerColor NOTIFY playerColorChanged)
+    Q_PROPERTY(QString playerName READ playerName WRITE setPlayerName NOTIFY playerNameChanged)
+    Q_PROPERTY(QString playerId READ playerId WRITE setPlayerId NOTIFY playerIdChanged)
+    Q_PROPERTY(QByteArray playerAvatar READ playerAvatar WRITE setPlayerAvatar NOTIFY playerAvatarChanged)
 public:
     ConnectionProfile();
-    virtual ~ConnectionProfile();
-    void setProfileTitle(const QString&);
-    QString profileTitle() const;
 
-    void setPlayerName(const QString&);
+    virtual ~ConnectionProfile();
+    QString profileTitle() const;
     QString playerName() const;
-    void setPlayerColor(const QColor&);
     QColor playerColor() const;
-    void setPlayerAvatar(const QByteArray&);
     QByteArray playerAvatar() const;
     QString playerId() const;
-    void setPlayerId(const QString& playerId);
-
-    void setAddress(const QString&);
     QString address() const;
-
-    void setPort(quint16);
     quint16 port() const;
-
-    void setServerMode(bool);
     bool isServer() const;
-
-    void setGm(bool);
     bool isGM() const;
-
     QString campaignPath() const;
-    void setCampaignPath(const QString& id);
-
-    void setPassword(const QString& password);
     QByteArray password() const;
 
-    const std::vector<CharacterData>& characters();
-    CharacterData& character(int i);
-    void addCharacter(const CharacterData& data);
+    const std::vector<connection::CharacterData>& characters();
+    connection::CharacterData& character(int i);
+    void addCharacter(const connection::CharacterData& data);
     void removeCharacter(int index);
     int characterCount();
     void clearCharacter();
-
-    void setHash(const QByteArray& password);
     void cloneProfile(const ConnectionProfile* src);
+
+public slots:
+    void setProfileTitle(const QString&);
+    void setPlayerColor(const QColor&);
+    void setPlayerAvatar(const QByteArray&);
+    void setPlayerName(const QString&);
+    void setAddress(const QString&);
+    void setPlayerId(const QString& playerId);
+    void setPort(quint16);
+    void setServerMode(bool);
+    void setGm(bool);
+    void setCampaignPath(const QString& id);
+    void editPassword(const QString& password);
+    void setHash(const QByteArray& password);
+
+signals:
+    void serverChanged();
+    void addressChanged();
+    void portChanged();
+    void gmChanged();
+    void campaignPathChanged();
+    void titleChanged();
+    void playerColorChanged();
+    void playerNameChanged();
+    void playerIdChanged();
+    void playerAvatarChanged();
+    void characterCountChanged();
+    void passwordChanged();
 
 private:
     // Profile data
@@ -69,7 +84,7 @@ private:
     QColor m_playerColor;
     QByteArray m_playerAvatar;
     QString m_playerId;
-    bool m_isGM= false;
+    bool m_isGM= true;
 
     // Connection data
     bool m_server= false;
@@ -81,7 +96,7 @@ private:
     QString m_campaignDir;
 
     // Character info
-    std::vector<CharacterData> m_characters;
+    std::vector<connection::CharacterData> m_characters;
 };
 
 #endif // CONNECTIONPROFILE_H

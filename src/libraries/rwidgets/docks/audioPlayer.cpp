@@ -28,19 +28,15 @@
 #include <QPushButton>
 #include <QToolButton>
 
-#include "network/networklink.h"
-#include "network/networkmessagewriter.h"
+#include "controller/audiocontroller.h"
 
 namespace
 {
 QString musicStatus= QStringLiteral("music_player_%1_status");
 }
 
-AudioPlayer::AudioPlayer(QWidget* parent) : QDockWidget(parent) //,m_currentSource(nullptr)
+AudioPlayer::AudioPlayer(AudioController* ctrl, QWidget* parent) : QDockWidget(parent), m_ctrl(ctrl)
 {
-    m_isGM= false;
-    m_preferences= PreferencesManager::getInstance();
-
     setObjectName("MusicPlayer");
     setupUi();
     setWidget(m_mainWidget);
@@ -49,7 +45,7 @@ AudioPlayer::AudioPlayer(QWidget* parent) : QDockWidget(parent) //,m_currentSour
 void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
 {
     QMenu menu;
-    if(m_isGM)
+    if(m_ctrl->localIsGM())
     {
         for(auto& tmp : m_players)
         {
@@ -85,162 +81,24 @@ void AudioPlayer::setupUi()
     m_mainLayout->setSpacing(0);
     m_mainLayout->setContentsMargins(QMargins());
 
+    std::array<AudioPlayerController*, 3> array{m_ctrl->firstController(), m_ctrl->secondController(),
+                                                m_ctrl->thirdController()};
+
     for(int i= 0; i < 3; ++i)
     {
-        auto* playerWidget= new PlayerWidget(i, this);
-        connect(playerWidget, &PlayerWidget::newSongPlayed, this, &AudioPlayer::onePlayerHasNewSong);
-        connect(playerWidget, &PlayerWidget::playerIsPaused, this, &AudioPlayer::onePlayerIsPaused);
-        connect(playerWidget, &PlayerWidget::playerStopped, this, &AudioPlayer::onePlayerHasStopped);
-        connect(playerWidget, &PlayerWidget::playerIsPlaying, this, &AudioPlayer::onePlayerPlays);
-        connect(playerWidget, &PlayerWidget::playerPositionChanged, this, &AudioPlayer::onePlayerHasChangedPosition);
+        auto* playerWidget= new PlayerWidget(array[i], this);
+        connect(playerWidget, &PlayerWidget::changePlayerDirectory, this, &AudioPlayer::changePlayerDirectory);
 
         m_players.append(playerWidget);
-        auto* act= new QAction(tr("Show/hide Player %1").arg(i), this);
+        auto* act= new QAction(tr("Show/hide Player %1").arg(i + 1), this);
         act->setCheckable(true);
-        act->setChecked(m_preferences->value(musicStatus.arg(i), true).toBool());
-        connect(act, SIGNAL(triggered(bool)), this, SLOT(showMusicPlayer(bool)));
+        act->setChecked(array[i]->visible());
+        connect(act, &QAction::triggered, array[i], &AudioPlayerController::setVisible);
         m_playerActionsList.append(act);
         m_mainLayout->addWidget(m_players[i]);
     }
 
     m_mainWidget->setLayout(m_mainLayout);
 }
-void AudioPlayer::showMusicPlayer(bool status)
-{
-    QAction* act= qobject_cast<QAction*>(sender());
-    if(!act)
-        return;
 
-    int i= m_playerActionsList.indexOf(act);
-
-    if(i != -1)
-    {
-        PlayerWidget* tmp= m_players[i];
-        tmp->setVisible(status);
-        m_preferences->registerValue(musicStatus.arg(i), status);
-    }
-}
-
-void AudioPlayer::readSettings()
-{
-    int i= 0;
-    for(auto& action : m_playerActionsList)
-    {
-        action->setChecked(m_preferences->value(musicStatus.arg(i), true).toBool());
-        m_players[i]->setVisible(action->isChecked());
-        ++i;
-    }
-}
-void AudioPlayer::updateUi(bool isGM)
-{
-    m_isGM= isGM;
-    for(auto& tmp : m_players)
-    {
-        tmp->updateUi(isGM);
-    }
-    for(int i= 0; i < m_players.size(); ++i)
-    {
-        m_playerActionsList[i]->setChecked(m_preferences->value(musicStatus.arg(i), true).toBool());
-    }
-    if(!isGM)
-    {
-        m_mainLayout->addStretch(1);
-    }
-}
-void AudioPlayer::onePlayerHasStopped(int id)
-{
-    if(m_isGM)
-    {
-        NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::StopSong);
-        message.uint8(static_cast<quint8>(id));
-        message.sendToServer();
-    }
-}
-
-void AudioPlayer::onePlayerIsPaused(int id)
-{
-    if(m_isGM)
-    {
-        NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PauseSong);
-        message.uint8(static_cast<quint8>(id));
-        message.sendToServer();
-    }
-}
-
-void AudioPlayer::onePlayerPlays(int id, qint64 pos)
-{
-    if(m_isGM)
-    {
-        NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PlaySong);
-        message.uint8(static_cast<quint8>(id));
-        message.int64(pos);
-        message.sendToServer();
-    }
-}
-
-void AudioPlayer::onePlayerHasNewSong(int id, const QString& str)
-{
-    if(m_isGM)
-    {
-        NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::NewSong);
-        message.uint8(static_cast<quint8>(id));
-        message.string32(str);
-        message.sendToServer();
-    }
-}
-
-void AudioPlayer::onePlayerHasChangedPosition(int id, qint64 pos)
-{
-    if(m_isGM)
-    {
-        NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::ChangePositionSong);
-        message.uint8(static_cast<quint8>(id));
-        message.int64(pos);
-        message.sendToServer();
-    }
-}
-
-NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
-{
-    int id= msg->uint8();
-    if(id >= m_players.size() && id < 0)
-        return NetWorkReceiver::NONE;
-
-    NetMsg::Action action= msg->action();
-    switch(action)
-    {
-    case NetMsg::PlaySong:
-        m_players[id]->playSong(msg->int64());
-        break;
-    case NetMsg::PauseSong:
-        m_players[id]->pause();
-        break;
-    case NetMsg::ChangePositionSong:
-        m_players[id]->setPositionAt(msg->int64());
-        break;
-    case NetMsg::StopSong:
-        m_players[id]->stop();
-        break;
-    case NetMsg::NewSong:
-        m_players[id]->setSourceSong(msg->string32());
-        break;
-    default:
-        break;
-    }
-    return NetWorkReceiver::AllExceptSender;
-}
-void AudioPlayer::openSongList(const QString& str)
-{
-    if(!m_players.isEmpty())
-    {
-        m_players.at(0)->readM3uPlayList(str);
-    }
-}
-
-void AudioPlayer::openSong(const QString& str)
-{
-    if(!m_players.isEmpty())
-    {
-        m_players.at(0)->addSongIntoModel(str);
-    }
-}
+/**/

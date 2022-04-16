@@ -219,119 +219,6 @@ void PathItem::release()
      }*/
 }
 
-void PathItem::writeData(QDataStream& out) const
-{
-    /*    out << m_start;
-        out << m_pointVector;
-        out << m_path;
-        out << opacity();
-        //  out << m_penWidth;
-        out << m_color;
-        out << m_closed;
-        out << m_filled;
-        out << scale();
-        out << rotation();
-        out << m_penMode;*/
-    // out << static_cast<int>(m_layer);
-}
-
-void PathItem::readData(QDataStream& in)
-{
-    /*  in >> m_start;
-      in >> m_pointVector;
-      in >> m_path;
-      qreal opa= 0;
-      in >> opa;
-      setOpacity(opa);
-      //  in >> m_penWidth;
-      in >> m_color;
-      in >> m_closed;
-      m_closeAct->setChecked(m_closed);
-      in >> m_filled;
-      m_fillAct->setChecked(m_filled);
-      qreal scale;
-      in >> scale;
-      setScale(scale);
-
-      qreal rotation;
-      in >> rotation;
-      setRotation(rotation);
-      in >> m_penMode;
-      int i;
-      in >> i;
-      // m_layer= static_cast<Core::Layer>(i);
-
-      // m_end = m_start;
-      initRealPoints();*/
-}
-
-void PathItem::fillMessage(NetworkMessageWriter* msg)
-{
-    /*  msg->string16(m_id);
-      msg->real(scale());
-      msg->real(rotation());
-      msg->uint8(m_closed);
-      msg->uint8(m_filled);
-      msg->uint8(m_penMode);
-      // msg->uint8(static_cast<quint8>(m_layer));
-      msg->real(zValue());
-      msg->real(opacity());
-
-      msg->real(pos().x());
-      msg->real(pos().y());
-
-      // pen
-      //   msg->uint16(m_penWidth);
-      msg->rgb(m_color.rgb());
-
-      msg->real(m_start.x());
-      msg->real(m_start.y());
-
-      // path
-      msg->uint32(m_pointVector.size());
-      for(QPointF& pos : m_pointVector)
-      {
-          msg->real(pos.x());
-          msg->real(pos.y());
-      }*/
-}
-void PathItem::readItem(NetworkMessageReader* msg)
-{
-    /* m_id= msg->string16();
-     setScale(msg->real());
-     setRotation(msg->real());
-     m_closed= static_cast<bool>(msg->uint8());
-     m_closeAct->setChecked(m_closed);
-     m_filled= static_cast<bool>(msg->uint8());
-     m_fillAct->setChecked(m_filled);
-     m_penMode= static_cast<bool>(msg->uint8());
-     // m_layer= static_cast<Core::Layer>(msg->uint8());
-     setZValue(msg->real());
-     setOpacity(msg->real());
-
-     qreal posx= msg->real();
-     qreal posy= msg->real();
-
-     // pen
-     // m_penWidth= msg->int16();
-     m_color= msg->rgb();
-
-     m_start.setX(msg->real());
-     m_start.setY(msg->real());
-
-     // path
-     quint16 size= msg->uint32();
-     m_pointVector.clear();
-     for(int i= 0; i < size; ++i)
-     {
-         qreal x= msg->real();
-         qreal y= msg->real();
-         m_pointVector.append(QPointF(x, y));
-     }
-
-     setPos(posx, posy);
-     initRealPoints();*/
-}
 void PathItem::createActions()
 {
     m_closeAct= new QAction(tr("Close Path"), this);
@@ -449,18 +336,10 @@ void PathItem::setStartPoint(QPointF start)
 {
     // m_start= start;
 }
-void PathItem::readMovePointMsg(NetworkMessageReader* msg)
-{
-    /*qreal pointid= msg->real();
-    qreal x= msg->real();
-    qreal y= msg->real();
-    m_pointVectorBary[static_cast<int>(pointid)]= QPointF(x, y);
-    update();*/
-}
 
+/*    if(m_ctrl->localGM() || (m_ctrl->permission() == Core::PC_ALL)
 void PathItem::sendPointPosition()
 {
-    /*    if(m_ctrl->localGM() || (m_ctrl->permission() == Core::PC_ALL)
            || ((m_ctrl->permission() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER)
                && (isLocal()))) // getOption PermissionMode
         {
@@ -471,5 +350,5 @@ void PathItem::sendPointPosition()
             msg.real(m_changedPointPos.x());
             msg.real(m_changedPointPos.y());
             msg.sendToServer();
-        }*/
 }
+        }*/

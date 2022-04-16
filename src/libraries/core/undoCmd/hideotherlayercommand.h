@@ -40,7 +40,7 @@ public:
 private:
     QPointer<vmap::VmapItemModel> m_model;
     Core::Layer m_layer;
-    bool(m_hide);
+    bool m_hide;
 };
 
 #endif // HIDEOTHERLAYERCOMMAND_H

@@ -7,6 +7,9 @@ Frame {
     id: frame
     property QtObject message: model.message
     property QtObject styleSheet: Theme.styleSheet("InstantMessaging")
+    property real factor: fontFactor
+    padding: frame.styleSheet.padding
+    Layout.minimumWidth: iconPart.implicitWidth + mainText.implicitWidth + details.implicitWidth + 2 * spacing + 50
     ColumnLayout {
         id: layout
         anchors.fill: parent
@@ -31,9 +34,9 @@ Frame {
                 }
                 Label {
                     id: timestamp
-                    text: model.time
-                    font.pixelSize: root.styleSheet.fontSize*root.fontFactor
-                    opacity: root.styleSheet.opacityTime
+                    text: "%1 - %2".arg(model.time).arg(model.writerName)
+                    font.pixelSize: frame.styleSheet.fontSizeTime*frame.factor
+                    opacity: frame.styleSheet.opacityTime
                 }
             }
             Label {
@@ -44,7 +47,7 @@ Frame {
                 textFormat: Label.RichText
                 antialiasing: false
                 minimumPixelSize: 10;
-                font.pixelSize: frame.styleSheet.imageSize*root.fontFactor
+                font.pixelSize: frame.styleSheet.imageSize*frame.factor
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Label.WordWrap
                 ToolTip.visible: activeFocus
@@ -53,11 +56,20 @@ Frame {
 
             ToolButton {
                 id: details
-                icon.source: "qrc:/resources/rolistheme/add_round.png"
-                icon.color: "transparent"
+                Layout.rightMargin: frame.styleSheet.rightMarge
+
+                background: Image {
+                    source: "qrc:/resources/rolistheme/up_arrow.svg"
+                    sourceSize.height: frame.styleSheet.detailImageSize
+                    sourceSize.width: frame.styleSheet.detailImageSize
+                }
+
+
                 checkable: true
-                rotation: checked ? 45 : 0
+                ToolTip.text: qsTr("Details")
+                rotation: checked ? 0 : 180
                 flat: true
+
             }
         }
         Label {
@@ -69,12 +81,6 @@ Frame {
             text: qsTr("Command: %1").arg(frame.message.command)
             visible: layout.showDetails
         }
-
-        TextArea {
-            text: frame.message.result
-            visible: layout.showDetails
-        }
-
     }
 
     background: Rectangle {

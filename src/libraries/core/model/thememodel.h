@@ -49,6 +49,8 @@ public:
     void addTheme(RolisteamTheme* theme);
     const std::vector<std::unique_ptr<RolisteamTheme>>& themes() const;
     RolisteamTheme* theme(int pos) const;
+    int indexOf(RolisteamTheme* theme) const;
+    void clear();
 
 private:
     std::vector<std::unique_ptr<RolisteamTheme>> m_themeList;

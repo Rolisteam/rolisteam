@@ -21,21 +21,34 @@
 
 #include "data/campaign.h"
 #include "data/media.h"
-#include "diceparser/include/diceparser.h"
+#include "diceparser/diceroller.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
 #include "model/nonplayablecharactermodel.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
+#include <QDir>
+#include <QLoggingCategory>
 
 namespace campaign
 {
-CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* parent)
+Q_LOGGING_CATEGORY(CCat, "campaign")
+CampaignUpdater::CampaignUpdater(DiceRoller* dice, Campaign* manager, QObject* parent)
     : QObject(parent), m_campaign(manager), m_dice(dice)
 {
-    Q_ASSERT(m_campaign);
-    // Q_ASSERT(m_dice);
+    setCampaign(manager);
+
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CampaignCategory, this);
+}
+
+void CampaignUpdater::setCampaign(Campaign* campaign)
+{
+    Q_ASSERT(campaign);
+
+    if(campaign == m_campaign)
+        return;
+    m_campaign= campaign;
 
     // GM player
     auto model= m_campaign->diceAliases();
@@ -52,6 +65,7 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
             auto p= alias.get();
             aliases->append(new DiceAlias(*p));
         });
+
         FileSerializer::writeDiceAliasIntoCampaign(m_campaign->rootDirectory(),
                                                    FileSerializer::dicesToArray(newAliases));
         updateDiceModel();
@@ -74,6 +88,10 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
         FileSerializer::writeStatesIntoCampaign(m_campaign->rootDirectory(),
                                                 FileSerializer::statesToArray(states, m_campaign->rootDirectory()));
         updateStateModel();
+        auto list= new QList<CharacterState*>();
+        std::transform(std::begin(states), std::end(states), std::back_inserter(*list),
+                       [](const std::unique_ptr<CharacterState>& item) { return item.get(); });
+        Character::setListOfCharacterState(list);
     };
 
     connect(states, &CharacterStateModel::characterStateAdded, this, updateState);
@@ -86,9 +104,10 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
     // updateNPCModel
     auto npcModel= m_campaign->npcModel();
     auto updateNpcModel= [this]() {
-        FileSerializer::writeNpcIntoCampaign(
-            m_campaign->rootDirectory(),
-            FileSerializer::npcToArray(m_campaign->npcModel()->npcList(), m_campaign->rootDirectory()));
+        auto const& npcs= m_campaign->npcModel()->npcList();
+        if(!npcs.empty())
+            FileSerializer::writeNpcIntoCampaign(m_campaign->rootDirectory(),
+                                                 FileSerializer::npcToArray(npcs, m_campaign->rootDirectory()));
     };
     connect(npcModel, &NonPlayableCharacterModel::characterAdded, this, updateNpcModel);
     connect(npcModel, &NonPlayableCharacterModel::characterRemoved, this, updateNpcModel);
@@ -102,24 +121,28 @@ CampaignUpdater::CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* p
     connect(m_campaign, &Campaign::nameChanged, this, updateCampaign);
     connect(m_campaign, &Campaign::currentChapterChanged, this, updateCampaign);
     connect(m_campaign, &Campaign::mediaAdded, this, updateCampaign);
+    connect(m_campaign, &Campaign::mediaNameChanged, this, updateCampaign);
     connect(m_campaign, &Campaign::mediaRemoved, this, updateCampaign);
-
-    ReceiveEvent::registerNetworkReceiver(NetMsg::CampaignCategory, this);
 }
 
 NetWorkReceiver::SendType CampaignUpdater::processMessage(NetworkMessageReader* msg)
 {
-    if(msg->action() == NetMsg::CharactereStateModel && msg->category() == NetMsg::CampaignCategory)
+    if(msg->action() == NetMsg::CharactereStateModel && msg->category() == NetMsg::CampaignCategory && !m_localIsGm)
     {
         setUpdating(true);
         MessageHelper::fetchCharacterStatesFromNetwork(msg, m_campaign->stateModel());
         setUpdating(false);
     }
-    else if(msg->action() == NetMsg::DiceAliasModel && msg->category() == NetMsg::CampaignCategory)
+    else if(msg->action() == NetMsg::DiceAliasModel && msg->category() == NetMsg::CampaignCategory && !m_localIsGm)
     {
         MessageHelper::fetchDiceAliasFromNetwork(msg, m_dice->aliases());
     }
     return NetWorkReceiver::NONE;
+}
+
+DiceRoller* CampaignUpdater::diceParser() const
+{
+    return m_dice;
 }
 
 bool CampaignUpdater::localIsGM()
@@ -136,6 +159,39 @@ void CampaignUpdater::updateStateModel()
 {
     MessageHelper::sendOffAllCharacterState(m_campaign->stateModel());
 }
+
+void CampaignUpdater::saveCampaignTo(const QString& dir)
+{
+    createCampaignTemplate(dir);
+    saveDataInto(dir);
+}
+
+void CampaignUpdater::save()
+{
+    saveDataInto(m_campaign->rootDirectory());
+}
+
+void CampaignUpdater::saveDataInto(const QString& path)
+{
+    // Dice Aliases
+    const auto& newAliases= m_campaign->diceAliases()->aliases();
+    FileSerializer::writeDiceAliasIntoCampaign(path, FileSerializer::dicesToArray(newAliases));
+
+    // States
+    auto const& states= m_campaign->stateModel()->statesList();
+    if(!states.empty())
+        FileSerializer::writeStatesIntoCampaign(path, FileSerializer::statesToArray(states, path));
+
+    // NPC
+
+    auto const& npcs= m_campaign->npcModel()->npcList();
+    if(!npcs.empty())
+        FileSerializer::writeNpcIntoCampaign(path, FileSerializer::npcToArray(npcs, m_campaign->rootDirectory()));
+
+    // Campaign Info
+    FileSerializer::writeCampaignInfo(path, FileSerializer::campaignToObject(m_campaign));
+}
+
 void CampaignUpdater::setLocalIsGM(bool b)
 {
     if(b == m_localIsGm)
@@ -143,6 +199,34 @@ void CampaignUpdater::setLocalIsGM(bool b)
     m_localIsGm= b;
     emit localIsGMChanged();
 }
+
+bool CampaignUpdater::createCampaignTemplate(const QString& dirPath)
+{
+    auto dir= QDir(dirPath);
+
+    if(dir.exists() && !dir.isEmpty())
+    {
+        qCInfo(CCat) << tr("'%1' is not empty").arg(dirPath);
+        return false;
+    }
+    else if(!dir.exists())
+    {
+        auto parentDir= dir;
+        parentDir.cdUp();
+        if(!parentDir.mkdir(dirPath))
+        {
+            qCInfo(CCat) << tr("Could not create '%1'").arg(dirPath);
+            return false;
+        }
+        FileSerializer::createCampaignDirectory(dirPath);
+    }
+    else
+    {
+        FileSerializer::createCampaignDirectory(dirPath);
+    }
+    return true;
+}
+
 void CampaignUpdater::setUpdating(bool b)
 {
     m_updatingModel= b;

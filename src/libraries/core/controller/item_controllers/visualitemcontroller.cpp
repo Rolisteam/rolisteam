@@ -38,12 +38,20 @@ VisualItemController::VisualItemController(ItemType itemType, const std::map<QSt
     connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VisualItemController::computeEditable);
     connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::computeEditable);
     connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::computeEditable);
+    connect(this, &VisualItemController::lockedChanged, this, &VisualItemController::computeEditable);
 
     m_layer= m_ctrl->layer();
 
     initializedVisualItem(params);
 
     computeEditable();
+
+    connect(this, &VisualItemController::colorChanged, this, [this] { setModified(); });
+    connect(this, &VisualItemController::opacityChanged, this, [this] { setModified(); });
+    connect(this, &VisualItemController::rotationChanged, this, [this] { setModified(); });
+    connect(this, &VisualItemController::posChanged, this, [this] { setModified(); });
+    connect(this, &VisualItemController::layerChanged, this, [this] { setModified(); });
+    connect(this, &VisualItemController::lockedChanged, this, [this] { setModified(); });
 }
 
 VisualItemController::~VisualItemController() {}
@@ -53,32 +61,35 @@ void VisualItemController::initializedVisualItem(const std::map<QString, QVarian
     if(params.empty())
         return;
 
-    if(params.end() != params.find("uuid"))
-        m_uuid= params.at(QStringLiteral("uuid")).toString();
+    if(params.end() != params.find(Core::vmapkeys::KEY_UUID))
+        m_uuid= params.at(Core::vmapkeys::KEY_UUID).toString();
 
-    if(params.end() != params.find("visible"))
-        m_visible= params.at(QStringLiteral("visible")).toBool();
+    if(params.end() != params.find(Core::vmapkeys::KEY_VISIBLE))
+    {
+        m_visible= params.at(Core::vmapkeys::KEY_VISIBLE).toBool();
+        qDebug() << "setVisible to " << m_visible << "in initilazied";
+    }
 
-    if(params.end() != params.find("initialized"))
-        m_initialized= params.at(QStringLiteral("initialized")).toBool();
+    if(params.end() != params.find(Core::vmapkeys::KEY_INITIALIZED))
+        m_initialized= params.at(Core::vmapkeys::KEY_INITIALIZED).toBool();
 
-    if(params.end() != params.find("opacity"))
-        m_opacity= params.at(QStringLiteral("opacity")).toReal();
+    if(params.end() != params.find(Core::vmapkeys::KEY_OPACITY))
+        m_opacity= params.at(Core::vmapkeys::KEY_OPACITY).toReal();
 
-    if(params.end() != params.find("rotation"))
-        m_rotation= params.at(QStringLiteral("rotation")).toReal();
+    if(params.end() != params.find(Core::vmapkeys::KEY_ROTATION))
+        m_rotation= params.at(Core::vmapkeys::KEY_ROTATION).toReal();
 
-    if(params.end() != params.find("layer"))
-        m_layer= params.at(QStringLiteral("layer")).value<Core::Layer>();
+    if(params.end() != params.find(Core::vmapkeys::KEY_LAYER))
+        m_layer= params.at(Core::vmapkeys::KEY_LAYER).value<Core::Layer>();
 
-    if(params.end() != params.find("position"))
-        m_pos= params.at(QStringLiteral("position")).toPointF();
+    if(params.end() != params.find(Core::vmapkeys::KEY_POS))
+        m_pos= params.at(Core::vmapkeys::KEY_POS).toPointF();
 
-    if(params.end() != params.find("color"))
-        m_color= params.at(QStringLiteral("color")).value<QColor>();
+    if(params.end() != params.find(Core::vmapkeys::KEY_COLOR))
+        m_color= params.at(Core::vmapkeys::KEY_COLOR).value<QColor>();
 
-    if(params.end() != params.find("locked"))
-        m_locked= params.at(QStringLiteral("locked")).toBool();
+    if(params.end() != params.find(Core::vmapkeys::KEY_LOCKED))
+        m_locked= params.at(Core::vmapkeys::KEY_LOCKED).toBool();
 }
 
 bool VisualItemController::selected() const
@@ -116,6 +127,11 @@ bool VisualItemController::remote() const
     return m_remote;
 }
 
+QPointF VisualItemController::rotationOriginPoint() const
+{
+    return rect().center();
+}
+
 bool VisualItemController::editable() const
 {
     return (selectable() & m_editable);
@@ -124,6 +140,11 @@ bool VisualItemController::editable() const
 bool VisualItemController::selectable() const
 {
     return (m_ctrl->layer() == m_layer);
+}
+
+bool VisualItemController::modified() const
+{
+    return m_modified;
 }
 
 bool VisualItemController::visible() const
@@ -209,7 +230,7 @@ void VisualItemController::setSelected(bool b)
     if(b == m_selected)
         return;
     m_selected= b;
-    emit selectedChanged();
+    emit selectedChanged(m_selected);
 }
 
 void VisualItemController::setUuid(QString uuid)
@@ -259,13 +280,11 @@ void VisualItemController::setLayer(Core::Layer layer)
         return;
     m_layer= layer;
     emit layerChanged();
-    computeEditable();
     emit selectableChanged();
 }
 
 void VisualItemController::setPos(const QPointF& pos)
 {
-    qDebug() << "VisualItemController pos" << pos << m_pos << m_posEditing;
     if(m_pos == pos)
         return;
     m_pos= pos;
@@ -296,11 +315,16 @@ void VisualItemController::setRemote(bool b)
     emit remoteChanged(m_remote);
 }
 
+void VisualItemController::setModified(bool b)
+{
+    if(b == m_modified)
+        return;
+    m_modified= b;
+    emit modifiedChanged(m_modified);
+}
+
 void VisualItemController::computeEditable()
 {
-    /* qDebug() << "computeEditable: localIsGM:" << localIsGM() << "permission mode" << m_ctrl->permission() << "map
-       layer"
-              << m_ctrl->layer() << "item layer " << layer() << "id" << m_uuid; //"type" << itemType()*/
     auto editableByPermission= (localIsGM() || m_ctrl->permission() == Core::PermissionMode::PC_ALL);
     setEditable(!m_locked && m_ctrl->layer() == layer() && editableByPermission);
 }

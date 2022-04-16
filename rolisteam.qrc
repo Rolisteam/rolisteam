@@ -36,7 +36,6 @@
         <file>resources/rolistheme/moveNpc.png</file>
         <file>resources/rolistheme/line.png</file>
         <file>resources/rolistheme/text.png</file>
-        <file>resources/rolistheme/image.png</file>
         <file>resources/rolistheme/save.png</file>
         <file>resources/rolistheme/128.ico</file>
         <file>resources/rolistheme/250-rolisteam.png</file>
@@ -51,7 +50,6 @@
         <file>resources/rolistheme/1500-rolisteam.png</file>
         <file>resources/rolistheme/Rolisteam-fond.svg</file>
         <file>resources/rolistheme/Rolisteam_big.svg</file>
-        <file>resources/rolistheme/chatIcon.png</file>
         <file>resources/rolistheme/text-x-generic.png</file>
         <file>resources/rolistheme/scenario.png</file>
         <file>resources/rolistheme/exit.png</file>
@@ -165,5 +163,13 @@
         <file>translations/rolisteam_hu_HU.qm</file>
         <file>translations/rolisteam_it_IT.qm</file>
         <file>translations/rolisteam_nl_NL.qm</file>
+        <file>resources/rolistheme/apply.svg</file>
+        <file>resources/rolistheme/up_arrow.svg</file>
+        <file>resources/rolistheme/chaticon.svg</file>
+        <file>resources/rolistheme/chaticon_with_message.svg</file>
+        <file>resources/rolistheme/webPage.svg</file>
+        <file>resources/rolistheme/invalid.svg</file>
+        <file>resources/rolistheme/userlisticon.svg</file>
+        <file>resources/rolistheme/bell.svg</file>
     </qresource>
 </RCC>

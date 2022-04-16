@@ -271,6 +271,11 @@ NetworkMessage::RecipientMode NetworkMessageWriter::getRecipientMode() const
     return m_mode;
 }
 
+size_t NetworkMessageWriter::currentPos() const
+{
+    return static_cast<size_t>(m_currentPos - m_buffer);
+}
+
 void NetworkMessageWriter::dateTime(const QDateTime& time)
 {
     QByteArray array;
@@ -282,7 +287,7 @@ void NetworkMessageWriter::dateTime(const QDateTime& time)
     byteArray32(array);
 }
 
-QByteArray NetworkMessageWriter::getData()
+QByteArray NetworkMessageWriter::data() const
 {
     auto size= getDataSize() + sizeof(NetworkMessageHeader);
     m_header->dataSize= getDataSize();

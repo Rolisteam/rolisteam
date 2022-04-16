@@ -21,13 +21,15 @@
 #define CHATROOM_H
 
 #include <QObject>
+#include <QPointer>
 #include <QUuid>
 #include <memory>
 
 #include "filteredplayermodel.h"
 #include "messagemodel.h"
 
-class DiceParser;
+class DiceRoller;
+class PlayerModel;
 namespace InstantMessaging
 {
 class MessageInterface;
@@ -49,7 +51,7 @@ public:
         SINGLEPLAYER,
         EXTRA
     };
-    explicit ChatRoom(ChatRoomType type, const QStringList& recipiants= QStringList(),
+    explicit ChatRoom(PlayerModel* model, ChatRoomType type, const QStringList& recipiants= QStringList(),
                       const QString& id= QUuid::createUuid().toString(QUuid::WithoutBraces), QObject* parent= nullptr);
     virtual ~ChatRoom();
 
@@ -64,7 +66,7 @@ public:
     QString localId() const;
 
     bool hasRecipiant(const QString& id);
-    void setDiceParser(DiceParser* diceParser);
+    void setDiceParser(DiceRoller* diceParser);
 
 public slots:
     void setUuid(const QString& id);
@@ -92,7 +94,7 @@ private:
     ChatRoomType m_type;
     QString m_uuid;
     bool m_unreadMessage= false;
-    DiceParser* m_diceParser;
+    QPointer<DiceRoller> m_diceParser;
 };
 } // namespace InstantMessaging
 #endif // CHATROOM_H

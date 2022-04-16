@@ -27,6 +27,8 @@ class ProfileModel;
 class CharacterSheetModel;
 class DiceAliasModel;
 class CharacterStateModel;
+class AudioController;
+class MusicModel;
 namespace campaign
 {
 class Campaign;
@@ -36,17 +38,25 @@ namespace charactersheet
 {
 class ImageModel;
 }
+namespace history
+{
+class HistoryModel;
+}
 class ContentController;
-namespace Settingshelper
+namespace SettingsHelper
 {
 void readConnectionProfileModel(ProfileModel* model);
 void writeConnectionProfileModel(ProfileModel* model);
-} // namespace Settingshelper
+
+void readHistoryModel(history::HistoryModel* model);
+void writeHistoryModel(history::HistoryModel* model);
+
+} // namespace SettingsHelper
 
 namespace ModelHelper
 {
 bool saveSession(const ContentController* ctrl);
-QString loadSession(const QString& path, ContentController* ctrl);
+bool saveAudioController(const AudioController* ctrl);
 
 bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model);
 bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charactersheet::ImageModel* imgModel,
@@ -59,6 +69,8 @@ void fetchNpcModel(const QJsonArray& npcs, campaign::NonPlayableCharacterModel* 
 
 void fetchCharacterStateModel(const QJsonArray& states, CharacterStateModel* model);
 QJsonArray saveCharacterStateModel(CharacterStateModel* model);
+
+void fetchMusicModelWithTableTop(MusicModel* model);
 
 QJsonObject saveCampaign();
 

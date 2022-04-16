@@ -23,6 +23,7 @@
 #include "media/mediatype.h"
 #include <QPointer>
 #include <QUndoCommand>
+#include <QUrl>
 #include <memory>
 
 class MediaManagerBase;
@@ -44,7 +45,7 @@ public:
 private:
     QString m_uuidUri;
     QString m_title;
-    QString m_fullPath;
+    QUrl m_fullPath;
     Core::ContentType m_contentType;
     std::map<QString, QVariant> m_args;
     QPointer<ContentModel> m_model;

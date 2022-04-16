@@ -50,7 +50,7 @@ void CharacterSheetControllerTest::init()
     m_characterModel.reset(new CharacterModel());
     m_characterModel->setSourceModel(m_playerModel.get());
     // m_characterModel.get(),
-    m_ctrl.reset(new CharacterSheetController("", ""));
+    m_ctrl.reset(new CharacterSheetController());
 }
 
 void CharacterSheetControllerTest::cleanupTestCase() {}

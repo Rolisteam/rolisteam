@@ -99,7 +99,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 void RolisteamDaemon::start()
 {
     connect(&m_thread, SIGNAL(started()), &m_serverManager, SLOT(startListening()));
-    connect(&m_serverManager, &ServerManager::errorOccured, m_logController, &LogController::manageMessage,
+    connect(&m_serverManager, &ServerManager::eventOccured, m_logController, &LogController::manageMessage,
             Qt::QueuedConnection);
     connect(&m_serverManager, &ServerManager::stateChanged, this, [this]() {
         if(m_serverManager.state() == ServerManager::Stopped)

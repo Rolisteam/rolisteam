@@ -6,16 +6,19 @@ import InstantMessaging 1.0
 import Customization 1.0
 import org.rolisteam.InstantMessaging 1.0
 
-Item {
+Pane {
     id: root
     anchors.fill: parent
     property QtObject styleSheet: Theme.styleSheet("InstantMessaging")
     property alias fontFactor : sideMenu.fontFactor
 
+    padding: 0
+
     SideMenu {
         id: sideMenu
         height: parent.height
         edge: Qt.RightEdge
+        onNightModeChanged: Theme.nightMode = sideMenu.nightMode
     }
 
     AddChatRoomDialog {
@@ -29,14 +32,14 @@ Item {
     Menu {
         id: menu
         x: -width+parent.width
-    Action {
-        text: qsTr("Settings")
-        onTriggered: sideMenu.open()
-    }
-    Action {
-        text: qsTr("Add chatroom")
-        onTriggered: newChatRoom.open()
-    }
+        Action {
+            text: qsTr("Settings")
+            onTriggered: sideMenu.open()
+        }
+        Action {
+            text: qsTr("Add chatroom")
+            onTriggered: newChatRoom.open()
+        }
     }
 
     SplitView {
@@ -44,7 +47,6 @@ Item {
         Repeater {
             id: reaper
             model: InstantMessagerManager.ctrl.mainModel
-            onCountChanged: console.log("count:"+count)
             property real headerHeight: 0
             delegate: ChatView {
                 chatroomModel: model.filterModel

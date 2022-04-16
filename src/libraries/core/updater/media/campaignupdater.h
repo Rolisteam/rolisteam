@@ -25,7 +25,7 @@
 
 #include "network/receiveevent.h"
 
-class DiceParser;
+class DiceRoller;
 namespace campaign
 {
 class Campaign;
@@ -34,25 +34,34 @@ class CampaignUpdater : public QObject, public NetWorkReceiver
     Q_OBJECT
     Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localIsGMChanged)
 public:
-    explicit CampaignUpdater(DiceParser* dice, Campaign* manager, QObject* parent= nullptr);
+    explicit CampaignUpdater(DiceRoller* dice, Campaign* manager, QObject* parent= nullptr);
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    DiceRoller* diceParser() const;
 
     bool localIsGM();
+
+    void setCampaign(Campaign* campaign);
+
 public slots:
     void updateDiceModel();
     void updateStateModel();
     void setLocalIsGM(bool b);
+    void saveCampaignTo(const QString& dir);
+    void save();
+    bool createCampaignTemplate(const QString& path);
+
 signals:
     void localIsGMChanged();
 
 private:
     void setUpdating(bool b);
     bool canForward();
+    void saveDataInto(const QString& path);
 
 private:
     QPointer<Campaign> m_campaign;
-    DiceParser* m_dice= nullptr;
+    QPointer<DiceRoller> m_dice;
     bool m_localIsGm= true;
     bool m_updatingModel= false;
 };

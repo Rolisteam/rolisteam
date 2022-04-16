@@ -28,31 +28,37 @@ QPainterPath vectorToPath(const std::vector<QPointF>& points, bool closeUp= fals
 PathController::PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::PATH, params, ctrl, parent)
 {
-    if(params.end() != params.find("tool"))
+    if(params.end() != params.find(Core::vmapkeys::KEY_TOOL))
     {
-        m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
+        m_tool= params.at(Core::vmapkeys::KEY_TOOL).value<Core::SelectableTool>();
         m_penLine= (m_tool == Core::SelectableTool::PEN);
     }
-    else if(params.end() != params.find("penLine"))
+    else if(params.end() != params.find(Core::vmapkeys::KEY_PENLINE))
     {
-        m_penLine= params.at(QStringLiteral("penLine")).toBool();
+        m_penLine= params.at(Core::vmapkeys::KEY_PENLINE).toBool();
         m_tool= m_penLine ? Core::SelectableTool::PEN : Core::SelectableTool::PATH;
     }
 
-    if(params.end() != params.find("filled"))
-        m_filled= params.at(QStringLiteral("filled")).toBool();
+    if(params.end() != params.find(Core::vmapkeys::KEY_FILLED))
+        m_filled= params.at(Core::vmapkeys::KEY_FILLED).toBool();
 
-    if(params.end() != params.find("closed"))
-        m_closed= params.at(QStringLiteral("closed")).toBool();
+    if(params.end() != params.find(Core::vmapkeys::KEY_CLOSED))
+        m_closed= params.at(Core::vmapkeys::KEY_CLOSED).toBool();
 
-    if(params.end() != params.find("points"))
-        m_points= params.at(QStringLiteral("points")).value<std::vector<QPointF>>();
+    if(params.end() != params.find(Core::vmapkeys::KEY_POINTS))
+        m_points= params.at(Core::vmapkeys::KEY_POINTS).value<std::vector<QPointF>>();
 
-    if(params.end() != params.find("penWidth"))
-        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+    if(params.end() != params.find(Core::vmapkeys::KEY_PENWIDTH))
+        m_penWidth= static_cast<quint16>(params.at(Core::vmapkeys::KEY_PENWIDTH).toInt());
 
     if(!m_penLine)
         addPoint(QPointF(0, 0));
+
+    connect(this, &PathController::pointsChanged, this, [this] { setModified(); });
+    connect(this, &PathController::pointCountChanged, this, [this] { setModified(); });
+    connect(this, &PathController::penWidthChanged, this, [this] { setModified(); });
+    connect(this, &PathController::closedChanged, this, [this] { setModified(); });
+    connect(this, &PathController::filledChanged, this, [this] { setModified(); });
 }
 
 bool PathController::filled() const

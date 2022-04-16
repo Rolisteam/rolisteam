@@ -7,7 +7,7 @@ import Customization 1.0
 T.Pane {
     id: control
 
-    property QtObject style: Theme.styleSheet("Controls")
+    property QtObject style: Theme.styleSheet("Palette")
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                                 contentWidth + leftPadding + rightPadding)
@@ -17,7 +17,7 @@ T.Pane {
     padding: 12
 
     background: Rectangle {
-        color: control.style.backgroundColor
+        color: control.style.base
     }
 
 }

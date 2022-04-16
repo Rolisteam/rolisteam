@@ -33,9 +33,6 @@
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-
 QColor VisualItem::m_highlightColor= QColor(Qt::red);
 int VisualItem::m_highlightWidth= 6;
 
@@ -45,10 +42,7 @@ QStringList VisualItem::s_type2NameList
 
 VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_ctrl(ctrl)
 {
-    connect(m_ctrl, &vmap::VisualItemController::posChanged, this, [this]() {
-        qDebug() << "visualItem set POS" << pos() << m_ctrl->pos();
-        setPos(m_ctrl->pos());
-    });
+    connect(m_ctrl, &vmap::VisualItemController::posChanged, this, [this]() { setPos(m_ctrl->pos()); });
     connect(m_ctrl, &vmap::VisualItemController::removeItem, this, [this]() {
         scene()->removeItem(this);
         deleteLater();
@@ -64,22 +58,34 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
 
     connect(m_ctrl, &vmap::VisualItemController::colorChanged, this, [this]() { update(); });
     connect(m_ctrl, &vmap::VisualItemController::editableChanged, this, &VisualItem::updateItemFlags);
-    connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(m_ctrl->rotation()); });
-    auto func2
-        = [this]() { setVisible(m_ctrl->visible() && (m_ctrl->localIsGM() || m_ctrl->visibility() != Core::HIDDEN)); };
-    connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, func2);
-    connect(m_ctrl, &vmap::VisualItemController::visibilityChanged, this, func2);
+    connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() {
+        qDebug() << "rotation changed" << m_ctrl->rotationOriginPoint() << m_ctrl->rotation() << transformOriginPoint()
+                 << transform();
+        setRotation(m_ctrl->rotation());
+    });
+    connect(m_ctrl, &vmap::VisualItemController::selectedChanged, this, [this](bool b) { setSelected(b); });
+    connect(m_ctrl, &vmap::VisualItemController::selectableChanged, this, &VisualItem::updateItemFlags);
+
+    connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, &VisualItem::evaluateVisible);
+    connect(m_ctrl, &vmap::VisualItemController::visibilityChanged, this, &VisualItem::evaluateVisible);
 
     init();
-    func2();
-    setRotation(m_ctrl->rotation());
+
     setPos(m_ctrl->pos());
+    evaluateVisible();
 
     updateItemFlags();
 }
 
 VisualItem::~VisualItem() {}
 
+void VisualItem::evaluateVisible()
+{
+    // qDebug() << "debug item visibility: Item is visible:" << m_ctrl->visible() << "local is gm:" <<
+    // m_ctrl->localIsGM()
+    //        << "visiblitiy:" << m_ctrl->visibility() << m_ctrl->tool() << m_ctrl->itemType();
+    setVisible(m_ctrl->visible() && (m_ctrl->localIsGM() || m_ctrl->visibility() != Core::HIDDEN));
+}
 void VisualItem::init()
 {
     createActions();
@@ -115,21 +121,18 @@ vmap::VisualItemController::ItemType VisualItem::getType() const
 
 void VisualItem::updateItemFlags()
 {
+    GraphicsItemFlags flags= QGraphicsItem::ItemIsFocusable;
+    Qt::MouseButtons buttons= Qt::NoButton;
+
     if(m_ctrl->editable())
     {
-        setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges
-                 | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
-        setAcceptedMouseButtons(Qt::AllButtons);
-        // connect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
-        // connect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
+        flags
+            |= QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges | QGraphicsItem::ItemIsMovable;
+        buttons= Qt::AllButtons;
     }
-    else
-    {
-        setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
-        setAcceptedMouseButtons(Qt::NoButton);
-        // disconnect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
-        // disconnect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
-    }
+
+    setAcceptedMouseButtons(buttons);
+    setFlags(flags);
 
     for(auto& itemChild : m_children)
     {
@@ -149,18 +152,18 @@ void VisualItem::setColor(QColor color)
 
 void VisualItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    update();
     QGraphicsItem::mousePressEvent(event);
+    update();
 }
 void VisualItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    update();
     QGraphicsItem::mouseMoveEvent(event);
+    update();
 }
 void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-    update();
     QGraphicsItem::mouseReleaseEvent(event);
+    update();
     endOfGeometryChange(ChildPointItem::Moving);
 }
 
@@ -191,7 +194,7 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
 {
     if((event->key() == Qt::Key_Delete) && (isSelected()) && canBeMoved())
     {
-        // emit itemRemoved(m_id, true, true);
+        // m_ctrl->rem
     }
     else if((event->key() == Qt::Key_C) && (event->modifiers() == Qt::ControlModifier) && (isSelected()))
     {
@@ -273,8 +276,7 @@ bool VisualItem::hasFocusOrChild()
         return false;
 
     auto result= isSelected();
-
-    for(auto child : m_children)
+    for(auto const& child : qAsConst(m_children))
     {
         if(nullptr == child)
             continue;
@@ -284,152 +286,12 @@ bool VisualItem::hasFocusOrChild()
             result= true;
         }
     }
-
     return result;
 }
-void VisualItem::sendItemLayer()
-{
-    if(m_ctrl->editable()) // getOption PermissionMode
-    {
-        /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::LayerItemChanged);
-        msg.string8(m_mapId);
-        msg.string16(m_id);
-        // msg.uint8(static_cast<quint8>(m_layer));
-        msg.sendToServer();*/
-    }
-}
 
-void VisualItem::sendOpacityMsg()
-{
-    if(m_ctrl->editable()) // getOption PermissionMode
-    {
-        /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::OpacityItemChanged);
-        msg.string8(m_mapId);
-        msg.string16(m_id);
-        msg.real(opacity());
-        msg.sendToServer();*/
-    }
-}
-void VisualItem::readOpacityMsg(NetworkMessageReader* msg)
-{
-    qreal opa= msg->real();
-    blockSignals(true);
-    setOpacity(opa);
-    blockSignals(false);
-}
-void VisualItem::readLayerMsg(NetworkMessageReader* msg)
-{
-    quint8 lay= msg->uint8();
-    blockSignals(true);
-    // setLayer(static_cast<Core::Layer>(lay));
-    blockSignals(false);
-}
 bool VisualItem::isLocal() const
 {
     return false;
-}
-
-void VisualItem::sendPositionMsg()
-{
-
-    if(m_ctrl->editable()) // getOption PermissionMode
-    {
-        /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MoveItem);
-        msg.string8(m_mapId);
-        msg.string16(m_id);
-        msg.uint64(m_pointList.size());
-        for(auto& point : m_pointList)
-        {
-            msg.real(point.x());
-            msg.real(point.y());
-        }
-        msg.sendToServer();*/
-    }
-}
-void VisualItem::readPositionMsg(NetworkMessageReader* msg)
-{
-    quint64 size= msg->uint64();
-    for(quint64 i= 0; i < size; ++i)
-    {
-        qreal x= msg->real();
-        qreal y= msg->real();
-        blockSignals(true);
-        setPos(x, y);
-        blockSignals(false);
-    }
-    update();
-}
-void VisualItem::sendZValueMsg()
-{
-    // if(m_ctrl->editable() && !m_receivingZValue) // getOption PermissionMode
-    {
-        /* NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::ZValueItem);
-          msg.string8(m_mapId);
-          msg.string16(m_id);
-          msg.real(zValue());
-          msg.sendToServer();*/
-    }
-}
-void VisualItem::readZValueMsg(NetworkMessageReader* msg)
-{
-    /*   if(nullptr != msg)
-       {
-           qreal z= msg->real();
-           m_receivingZValue= true;
-           setZValue(z);
-           m_receivingZValue= false;
-           // blockSignals(false);
-           update();
-       }*/
-}
-void VisualItem::sendRotationMsg()
-{
-    if(m_ctrl->editable()) // getOption PermissionMode
-    {
-        /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RotationItem);
-        msg.string8(m_mapId);
-        msg.string16(m_id);
-        msg.real(rotation());
-        msg.sendToServer();*/
-    }
-}
-void VisualItem::readRotationMsg(NetworkMessageReader* msg)
-{
-    qreal rot= msg->real();
-    blockSignals(true);
-    setRotation(rot);
-    blockSignals(false);
-    update();
-}
-void VisualItem::sendRectGeometryMsg()
-{
-    if(m_ctrl->editable()) // getOption PermissionMode
-    {
-        /* NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RectGeometryItem);
-          msg.string8(m_mapId);
-          msg.string16(m_id);
-          msg.real(m_rect.x());
-          msg.real(m_rect.y());
-          msg.real(m_rect.width());
-          msg.real(m_rect.height());
-          msg.sendToServer();*/
-    }
-}
-void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
-{
-    /* qreal xR= msg->real();
-     qreal yR= msg->real();
-     qreal w= msg->real();
-     qreal h= msg->real();
-     blockSignals(true);
-     setRectSize(xR, yR, w, h);
-     blockSignals(false);
-     update();*/
-}
-void VisualItem::readMovePointMsg(NetworkMessageReader* msg)
-{
-    // Do nothing - only used for now on by pathItem.
-    Q_UNUSED(msg)
 }
 
 void VisualItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
@@ -497,27 +359,7 @@ void VisualItem::setChildrenVisible(bool b)
 
 bool VisualItem::canBeMoved() const
 {
-    return m_ctrl->editable() && hasPermissionToMove();
-}
-bool VisualItem::hasPermissionToMove(bool allowCharacter) const
-{
-
     return m_ctrl->editable();
-    /*bool movable= false;
-    if(m_ctrl->localGM())
-    {
-        movable= true;
-    }
-    else if((m_ctrl->permission() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER) && (isLocal())
-            && (allowCharacter))
-    {
-        movable= true;
-    }
-    else if(m_ctrl->permission() == Core::PC_ALL)
-    {
-        movable= true;
-    }
-    return movable;*/
 }
 
 QColor VisualItem::getHighlightColor()
@@ -540,30 +382,9 @@ void VisualItem::setHighlightWidth(int highlightWidth)
     m_highlightWidth= highlightWidth;
 }
 
-/*bool VisualItem::isHoldSize() const
-{
-    return m_holdSize;
-}
-
-void VisualItem::setHoldSize(bool holdSize)
-{
-    m_holdSize= holdSize;
-}*/
-
 void VisualItem::setSize(QSizeF size)
 {
     // m_rect.setSize(size);
     updateChildPosition();
     update();
-}
-// friend functions
-QDataStream& operator<<(QDataStream& os, const VisualItem& c)
-{
-    c.writeData(os);
-    return os;
-}
-QDataStream& operator>>(QDataStream& is, VisualItem& c)
-{
-    c.readData(is);
-    return is;
 }

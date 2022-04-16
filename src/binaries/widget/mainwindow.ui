@@ -38,7 +38,6 @@
      <addaction name="m_addVectorialMap"/>
      <addaction name="m_newNoteAction"/>
      <addaction name="m_newSharedNote"/>
-     <addaction name="m_newWebViewACt"/>
      <addaction name="m_newMindmap"/>
     </widget>
     <widget class="QMenu" name="menu_Open">
@@ -46,6 +45,7 @@
       <string>&amp;Open</string>
      </property>
      <addaction name="m_openVectorialMap"/>
+     <addaction name="m_openWebViewAct"/>
      <addaction name="m_openPictureAction"/>
      <addaction name="m_openNoteAction"/>
      <addaction name="m_openCharacterSheet"/>
@@ -53,14 +53,8 @@
      <addaction name="m_openPdfAct"/>
      <addaction name="m_openMindmap"/>
     </widget>
-    <widget class="QMenu" name="m_recentFileMenu">
-     <property name="title">
-      <string>Recent Files</string>
-     </property>
-    </widget>
     <addaction name="menu_New"/>
     <addaction name="menu_Open"/>
-    <addaction name="m_recentFileMenu"/>
     <addaction name="separator"/>
     <addaction name="m_closeAction"/>
     <addaction name="separator"/>
@@ -86,7 +80,6 @@
     <addaction name="m_showChatAct"/>
     <addaction name="m_audioPlayerAct"/>
     <addaction name="m_characterListAct"/>
-    <addaction name="m_toolBarAct"/>
     <addaction name="m_notificationAct"/>
     <addaction name="separator"/>
    </widget>
@@ -132,7 +125,6 @@
     <property name="title">
      <string>&amp;Campaign</string>
     </property>
-    <addaction name="m_newCampaignAct"/>
     <addaction name="m_openCampaignAction"/>
     <addaction name="m_saveCampaignAction"/>
     <addaction name="m_saveCampaignAsAct"/>
@@ -141,15 +133,16 @@
     <addaction name="m_statesAct"/>
     <addaction name="m_statisticAct"/>
     <addaction name="separator"/>
+    <addaction name="m_importFromCampaign"/>
+    <addaction name="separator"/>
     <addaction name="m_campaignPropertiesAct"/>
    </widget>
    <widget class="QMenu" name="m_historyMenu">
     <property name="title">
      <string>&amp;History</string>
     </property>
-    <addaction name="actionAdd"/>
-    <addaction name="actionRemove"/>
-    <addaction name="actionClean"/>
+    <addaction name="m_manageHistoryAct"/>
+    <addaction name="m_cleanHistoryAct"/>
     <addaction name="separator"/>
    </widget>
    <addaction name="m_fileMenu"/>
@@ -326,6 +319,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset theme="multimedia-player">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Audio Player</string>
    </property>
@@ -337,6 +334,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset theme="bell">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Notification Zone</string>
    </property>
@@ -347,6 +348,10 @@
   <action name="m_characterListAct">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="userlisticon">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Character List</string>
@@ -510,7 +515,7 @@
     <string>Copy Connection Link…</string>
    </property>
   </action>
-  <action name="m_newWebViewACt">
+  <action name="m_openWebViewAct">
    <property name="icon">
     <iconset theme="text-html">
      <normaloff>.</normaloff>.</iconset>
@@ -578,7 +583,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset theme="chaticon">
      <normaloff>:/resources/rolistheme/chatIcon.png</normaloff>:/resources/rolistheme/chatIcon.png</iconset>
    </property>
    <property name="text">
@@ -661,9 +666,9 @@
     <string>Non Playable Characters</string>
    </property>
   </action>
-  <action name="actionAdd">
+  <action name="m_manageHistoryAct">
    <property name="text">
-    <string>Add…</string>
+    <string>Manage…</string>
    </property>
   </action>
   <action name="actionRemove">
@@ -671,13 +676,22 @@
     <string>Remove…</string>
    </property>
   </action>
-  <action name="actionClean">
+  <action name="m_cleanHistoryAct">
    <property name="text">
     <string>Clean</string>
    </property>
   </action>
+  <action name="m_importFromCampaign">
+   <property name="icon">
+    <iconset theme="import"/>
+   </property>
+   <property name="text">
+    <string>Import from another campaign…</string>
+   </property>
+  </action>
  </widget>
  <resources>
+  <include location="../../../rolisteam.qrc"/>
   <include location="../../../rolisteam.qrc"/>
   <include location="../../../rolisteam.qrc"/>
  </resources>

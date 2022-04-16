@@ -29,7 +29,7 @@ namespace Ui
 {
 class CampaignProperties;
 }
-
+class ThemeModel;
 class CampaignProperties : public QDialog
 {
     Q_OBJECT
@@ -42,7 +42,7 @@ public:
         States
     };
     Q_ENUM(Tab);
-    explicit CampaignProperties(campaign::Campaign* manager, QWidget* parent= nullptr);
+    explicit CampaignProperties(campaign::Campaign* manager, ThemeModel* themeModel, QWidget* parent= nullptr);
 
     ~CampaignProperties();
 

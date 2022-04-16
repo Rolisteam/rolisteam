@@ -22,6 +22,7 @@
 
 #include "controllerinterface.h"
 
+#include <QHash>
 #include <QObject>
 #include <QPointer>
 #include <memory>
@@ -39,6 +40,7 @@ class QAbstractItemModel;
 class ConnectionProfile;
 class GameController;
 class IpChecker;
+class CountDownObject;
 class NetworkController : public AbstractControllerInterface, public NetWorkReceiver
 {
     Q_OBJECT
@@ -93,6 +95,7 @@ signals:
     void downloadingData(quint64 readData, quint64 size);
     void tableChanged();
     void lastErrorChanged(const QString& error);
+    void infoMessage(const QString& msg);
 
     void authentificationFail();
 
@@ -136,6 +139,7 @@ private:
     std::unique_ptr<ProfileModel> m_profileModel;
     std::unique_ptr<ChannelModel> m_channelModel;
     std::unique_ptr<IpChecker> m_ipChecker;
+    std::unique_ptr<CountDownObject> m_countDown;
     QPointer<GameController> m_gameCtrl;
     QHash<NetMsg::Category, NetWorkReceiver*> m_receiverMap;
 
