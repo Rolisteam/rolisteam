@@ -156,3 +156,10 @@ if (TESTS)
 enable_testing(true)
 add_subdirectory(test)
 endif()
+
+
+include(GNUInstallDirs)
+
+install(TARGETS charactersheet charactersheet_widgets charactersheet_formula
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
