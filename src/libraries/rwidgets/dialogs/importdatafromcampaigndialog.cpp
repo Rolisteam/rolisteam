@@ -20,7 +20,7 @@
 #include "importdatafromcampaigndialog.h"
 #include "ui_importdatafromcampaigndialog.h"
 
-#include "core/worker/fileserializer.h"
+#include "worker/fileserializer.h"
 
 ImportDataFromCampaignDialog::ImportDataFromCampaignDialog(const QString& campaignRoot, QWidget* parent)
     : QDialog(parent), ui(new Ui::ImportDataFromCampaignDialog), m_root(campaignRoot)

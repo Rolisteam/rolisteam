@@ -34,15 +34,15 @@
 #include "customs/vmap.h"
 #include "docks/vmaptoolbar.h"
 #include "mediacontainers/mediacontainer.h"
+#include "rwidgets_global.h"
 #include "toolbars/vtoolbar.h"
-
 class VectorialMapController;
 
 /**
  * @brief displays, stores and manages a map and its items
  *
  */
-class VMapFrame : public MediaContainer
+class RWIDGET_EXPORT VMapFrame : public MediaContainer
 {
     Q_OBJECT
 

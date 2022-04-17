@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "core/network/networkmessage.h"
+#include "network/networkmessage.h"
 #include <QByteArray>
 
 namespace Helper

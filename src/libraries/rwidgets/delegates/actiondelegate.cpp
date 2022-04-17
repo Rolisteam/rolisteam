@@ -27,7 +27,7 @@
 
 #include "model/actiononlistmodel.h"
 
-LabelWithOptions::LabelWithOptions(QWidget* parent)
+LabelWithOptions::LabelWithOptions(QWidget* parent) : QWidget(parent)
 {
     m_layout= new QHBoxLayout();
     setLayout(m_layout);
@@ -35,7 +35,7 @@ LabelWithOptions::LabelWithOptions(QWidget* parent)
     m_label.reset(new QLabel());
     m_layout->addWidget(m_label.get());
 }
-
+LabelWithOptions::~LabelWithOptions()= default;
 void LabelWithOptions::setData(const QStringList icon, const QStringList name)
 {
     if(icon.size() != name.size())

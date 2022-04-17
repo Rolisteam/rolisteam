@@ -30,8 +30,8 @@
 #include "data/campaigneditor.h"
 #include "data/campaignmanager.h"
 #include "data/media.h"
-#include "dicealias.h"
-#include "diceparser/diceroller.h"
+#include "diceparser/dicealias.h"
+#include "diceparser_qobject/diceroller.h"
 
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
@@ -40,6 +40,8 @@
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/modelhelper.h"
+
+#include "iohelper.h"
 
 #include <QCryptographicHash>
 #include <QQuickStyle>
@@ -514,25 +516,25 @@ void CampaignTest::importFromAnotherCampaign_data()
     QTest::addRow("cmd1") << TupleMedia{} << TupleDice{} << TupleState{} << TupleNPC{}
                           << QVector<Core::CampaignDataCategory>{} << true;
 
-    QTest::addRow("cmd2") << TupleMedia{{"girafe1", "girafe1.jpg", IOHelper::loadFile(":/img/girafe.jpg")}}
+    QTest::addRow("cmd2") << TupleMedia{{"girafe1", "girafe1.jpg", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{} << TupleState{} << TupleNPC{}
                           << QVector<Core::CampaignDataCategory>{Core::CampaignDataCategory::Images} << true;
 
-    QTest::addRow("cmd3") << TupleMedia{{"girafe1", "girafe1.jpg", IOHelper::loadFile(":/img/girafe.jpg")}}
+    QTest::addRow("cmd3") << TupleMedia{{"girafe1", "girafe1.jpg", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{} << TupleState{} << TupleNPC{}
                           << QVector<Core::CampaignDataCategory>{Core::CampaignDataCategory::PDFDoc} << false;
 
-    QTest::addRow("cmd4") << TupleMedia{{"girafe1", "girafe1.jpg", IOHelper::loadFile(":/img/girafe.jpg")}}
+    QTest::addRow("cmd4") << TupleMedia{{"girafe1", "girafe1.jpg", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{{"pattern", "dicecommand", false}} << TupleState{} << TupleNPC{}
                           << QVector<Core::CampaignDataCategory>{Core::CampaignDataCategory::Images,
                                                                  Core::CampaignDataCategory::DiceAlias}
                           << true;
 
-    QTest::addRow("cmd5") << TupleMedia{{"girafe1", "girafe1.jpg", IOHelper::loadFile(":/img/girafe.jpg")}}
+    QTest::addRow("cmd5") << TupleMedia{{"girafe1", "girafe1.jpg", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{{"pattern", "dicecommand", false}} << TupleState{} << TupleNPC{}
                           << QVector<Core::CampaignDataCategory>{Core::CampaignDataCategory::Images} << false;
 
-    QTest::addRow("cmd6") << TupleMedia{{"girafe1", "girafe1.jpg", IOHelper::loadFile(":/img/girafe.jpg")}}
+    QTest::addRow("cmd6") << TupleMedia{{"girafe1", "girafe1.jpg", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{{"pattern", "dicecommand", false}}
                           << TupleState{{"state1", "state1", QColor(Qt::blue)}} << TupleNPC{}
                           << QVector<Core::CampaignDataCategory>{Core::CampaignDataCategory::Images,
@@ -540,14 +542,14 @@ void CampaignTest::importFromAnotherCampaign_data()
                                                                  Core::CampaignDataCategory::DiceAlias}
                           << true;
 
-    QTest::addRow("cmd7") << TupleMedia{{"girafe1", "girafe1.jpg", IOHelper::loadFile(":/img/girafe.jpg")}}
+    QTest::addRow("cmd7") << TupleMedia{{"girafe1", "girafe1.jpg", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{{"pattern", "dicecommand", false}}
                           << TupleState{{"state1", "state1", QColor(Qt::blue)}} << TupleNPC{}
                           << QVector<Core::CampaignDataCategory>{Core::CampaignDataCategory::Images,
                                                                  Core::CampaignDataCategory::DiceAlias}
                           << false;
 
-    QTest::addRow("cmd8") << TupleMedia{{"girafe1", "girafe1.jpg", IOHelper::loadFile(":/img/girafe.jpg")}}
+    QTest::addRow("cmd8") << TupleMedia{{"girafe1", "girafe1.jpg", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{{"pattern", "dicecommand", false}}
                           << TupleState{{"state1", "state1", QColor(Qt::blue)}}
                           << TupleNPC{{"character1", "character1", "character1", QColor(Qt::blue)}}
@@ -557,7 +559,7 @@ void CampaignTest::importFromAnotherCampaign_data()
                                                                  Core::CampaignDataCategory::AntagonistList}
                           << true;
 
-    QTest::addRow("cmd9") << TupleMedia{{"girafe1", "girafe1.jpg", IOHelper::loadFile(":/img/girafe.jpg")}}
+    QTest::addRow("cmd9") << TupleMedia{{"girafe1", "girafe1.jpg", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{{"pattern", "dicecommand", false}}
                           << TupleState{{"state1", "state1", QColor(Qt::blue)}}
                           << TupleNPC{{"character1", "character1", "character1", QColor(Qt::blue)}}
@@ -577,6 +579,6 @@ void CampaignTest::importFromAnotherCampaign_data()
      }*/
 }
 
-QTEST_MAIN(CampaignTest);
+QTEST_MAIN(CampaignTest)
 
 #include "tst_campaign.moc"

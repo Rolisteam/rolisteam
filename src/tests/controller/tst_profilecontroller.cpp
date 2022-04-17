@@ -2,12 +2,12 @@
 
 #include <QSignalSpy>
 
-#include "core/controller/gamecontroller.h"
-#include "core/controller/view_controller/selectconnprofilecontroller.h"
-#include "core/model/profilemodel.h"
-#include "core/network/characterdatamodel.h"
-#include "core/network/connectionprofile.h"
-#include "core/worker/iohelper.h"
+#include "controller/gamecontroller.h"
+#include "controller/view_controller/selectconnprofilecontroller.h"
+#include "model/profilemodel.h"
+#include "network/characterdatamodel.h"
+#include "network/connectionprofile.h"
+#include "worker/iohelper.h"
 
 struct CharacterInfo
 {
@@ -374,7 +374,7 @@ void ProfileControllerTest::canConnect_data()
     QTest::addRow("connect91") << QString("test") << QString("test") << QColor(Qt::blue) << goodImg << true << true
                                << QString("localhost") << 6660 << dir.path()
                                << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}}
-                               << false; // no player with game master
+                               << true; // no player with game master
 
     QTest::addRow("connect92") << QString("test") << QString("test") << QColor(Qt::blue) << goodImg << false << true
                                << QString("localhost") << 6660 << dir.path()

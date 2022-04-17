@@ -1,6 +1,7 @@
 #ifndef FOPCOLORFORMAT_H
 #define FOPCOLORFORMAT_H
 
+#include "rwidgets_global.h"
 #include <QColor>
 #include <QCoreApplication>
 #include <QDebug>
@@ -105,7 +106,7 @@ qreal Pointo(qreal unit, const QString unita);
 qreal ToUnit(qreal unit, const QString unita);
 qreal ToPoint(qreal unit, const QString unita);
 
-class FopColor
+class RWIDGET_EXPORT FopColor
 {
 public:
     typedef enum
@@ -135,7 +136,7 @@ private:
     void record(const QString colorchunk, QColor item);
 };
 
-class FoRegion
+class RWIDGET_EXPORT FoRegion
 {
 public:
     FoRegion();

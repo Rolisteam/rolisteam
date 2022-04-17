@@ -20,13 +20,14 @@
 #ifndef RWIDGETS_COLORLISTEDITOR_H
 #define RWIDGETS_COLORLISTEDITOR_H
 
+#include "rwidgets_global.h"
 #include <QComboBox>
 namespace rwidgets
 {
 /**
  * @brief The ColorListEditor class
  */
-class ColorListEditor : public QComboBox
+class RWIDGET_EXPORT ColorListEditor : public QComboBox
 {
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged USER true)

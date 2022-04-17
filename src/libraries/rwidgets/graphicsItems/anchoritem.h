@@ -25,8 +25,8 @@
 
 #include "customs/vmap.h"
 
+#include "rwidgets_global.h"
 #include <QPen>
-
 namespace vmap
 {
 class VisualItemController;
@@ -34,7 +34,7 @@ class VisualItemController;
 /**
  * @brief The AnchorItem class ephemeral item to display rule and measure the distance between two points.
  */
-class AnchorItem : public QGraphicsObject
+class RWIDGET_EXPORT AnchorItem : public QGraphicsObject
 {
 public:
     /**

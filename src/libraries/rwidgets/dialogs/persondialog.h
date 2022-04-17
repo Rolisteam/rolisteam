@@ -23,16 +23,16 @@
 #include <QDialog>
 #include <QLineEdit>
 
-#include "common/widgets/colorbutton.h"
-
+#include "common_widgets/colorbutton.h"
+#include "rwidgets_global.h"
 namespace Ui
 {
-    class PersonDialog;
+class PersonDialog;
 }
 /**
  * @brief The PersonDialog class asks for all details about new character.
  */
-class PersonDialog : public QDialog
+class RWIDGET_EXPORT PersonDialog : public QDialog
 {
     Q_OBJECT
 

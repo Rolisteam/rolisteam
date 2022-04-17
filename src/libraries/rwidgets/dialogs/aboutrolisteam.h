@@ -21,17 +21,17 @@
 #ifndef ABOUTROLISTEAM_H
 #define ABOUTROLISTEAM_H
 
+#include "rwidgets_global.h"
 #include <QDialog>
-
 namespace Ui
 {
-    class AboutRolisteam;
+class AboutRolisteam;
 }
 /**
  * @brief The AboutRolisteam class shows the dialog box about rolisteam
  * Its goal and the list of author and translators.
  */
-class AboutRolisteam : public QDialog
+class RWIDGET_EXPORT AboutRolisteam : public QDialog
 {
     Q_OBJECT
 

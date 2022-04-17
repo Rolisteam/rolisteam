@@ -9,12 +9,20 @@ add_definitions(-DVERSION_MAJOR=1 -DVERSION_MIDDLE=10 -DVERSION_MINOR=0 -DHAVE_S
 find_package(Qt6 COMPONENTS Core Widgets Gui LinguistTools QmlImportScanner REQUIRED)
 set(CMAKE_AUTORCC ON)
 add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #helper
 #include(cmake/TranslationHelper.cmake)
 add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 
-option(WITH_PDF "enable PDF feature" ON)
+if(MSVC)
+    add_compile_options(/W4)
+else()
+    add_compile_options(-Wall -Wextra -pedantic)
+endif()
+
+option(WITH_PDF "enable PDF feature" OFF)
 option(DEBUG_MODE "enable more debug report" OFF)
 option(WARNING_AS_ERROR "Set all warning as error" OFF)
 

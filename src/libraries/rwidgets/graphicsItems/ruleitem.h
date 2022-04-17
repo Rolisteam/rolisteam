@@ -24,14 +24,14 @@
 #include "visualitem.h"
 
 #include "media/mediatype.h"
-
+#include "rwidgets_global.h"
 #include <QPen>
 
 class VectorialMapController;
 /**
  * @brief The RuleItem class ephemeral item to display rule and measure the distance between two points.
  */
-class RuleItem : public QGraphicsObject
+class RWIDGET_EXPORT RuleItem : public QGraphicsObject
 {
 public:
     RuleItem(VectorialMapController* ctrl);

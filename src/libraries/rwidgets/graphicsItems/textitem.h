@@ -19,6 +19,7 @@
  ***************************************************************************/
 #ifndef TEXTITEM_H
 #define TEXTITEM_H
+#include "rwidgets_global.h"
 #include "visualitem.h"
 #include <QDialog>
 #include <QFontMetrics>
@@ -26,13 +27,12 @@
 #include <QObject>
 #include <QTextDocument>
 #include <memory>
-
 class MRichTextEdit;
 namespace vmap
 {
 class TextController;
 }
-class TextLabel : public QGraphicsTextItem
+class RWIDGET_EXPORT TextLabel : public QGraphicsTextItem
 {
     Q_OBJECT
     Q_PROPERTY(QRectF textRect READ textRect WRITE setTextRect NOTIFY textRectChanged)

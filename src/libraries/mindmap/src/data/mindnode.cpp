@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "mindnode.h"
+#include "mindmap/data/mindnode.h"
 
 #include <QDebug>
 #include <QFontMetricsF>
@@ -223,11 +223,13 @@ void MindNode::setVisible(bool op)
 void MindNode::setLinkVisibility()
 {
     bool visiblility= m_visible & m_open;
-    std::for_each(m_subNodelinks.begin(), m_subNodelinks.end(), [visiblility](Link* link) {
-        if(nullptr == link)
-            return;
-        link->setVisible(visiblility);
-    });
+    std::for_each(m_subNodelinks.begin(), m_subNodelinks.end(),
+                  [visiblility](Link* link)
+                  {
+                      if(nullptr == link)
+                          return;
+                      link->setVisible(visiblility);
+                  });
 }
 void MindNode::addLink(Link* link)
 {
@@ -258,16 +260,18 @@ void MindNode::setStyleIndex(int idx)
 
 int MindNode::subNodeCount() const
 {
-    int sum= std::accumulate(m_subNodelinks.begin(), m_subNodelinks.end(), 0, [this](int& a, Link* link) {
-        if(nullptr == link)
-            return 0;
+    int sum= std::accumulate(m_subNodelinks.begin(), m_subNodelinks.end(), 0,
+                             [this](int& a, Link* link)
+                             {
+                                 if(nullptr == link)
+                                     return 0;
 
-        auto end= link->endNode();
-        if(nullptr == end || end == this)
-            return 0;
+                                 auto end= link->endNode();
+                                 if(nullptr == end || end == this)
+                                     return 0;
 
-        return a + 1 + end->subNodeCount();
-    });
+                                 return a + 1 + end->subNodeCount();
+                             });
     return sum;
 }
 

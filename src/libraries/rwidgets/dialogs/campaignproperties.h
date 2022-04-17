@@ -24,13 +24,13 @@
 #include <QPointer>
 
 #include "data/campaign.h"
-
+#include "rwidgets_global.h"
 namespace Ui
 {
 class CampaignProperties;
 }
 class ThemeModel;
-class CampaignProperties : public QDialog
+class RWIDGET_EXPORT CampaignProperties : public QDialog
 {
     Q_OBJECT
 

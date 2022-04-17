@@ -34,6 +34,7 @@
 #ifdef WITH_PDF
 #include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
+#include "mediacontainers/pdfviewer.h"
 #endif
 
 #include "controller/instantmessagingcontroller.h"
@@ -44,7 +45,6 @@
 #include "mediacontainers/charactersheetwindow.h"
 #include "mediacontainers/image.h"
 #include "mediacontainers/mindmapview.h"
-#include "mediacontainers/pdfviewer.h"
 #include "mediacontainers/vmapframe.h"
 #include "mediacontainers/webview.h"
 
@@ -57,10 +57,12 @@ Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagin
 
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
-    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this, [this]() {
-        m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
-        updateBackGround();
-    });
+    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this,
+            [this]()
+            {
+                m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
+                updateBackGround();
+            });
     connect(m_ctrl, &ContentController::workspaceColorChanged, this, &Workspace::updateBackGround);
     connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
 

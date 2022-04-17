@@ -20,7 +20,6 @@
 
 #include <QtWidgets>
 
-#include "rwidgets/customs/colorselector.h"
 #include "rwidgets/customs/diameterselector.h"
 #include "rwidgets/layouts/flowlayout.h"
 #include "rwidgets/toolbars/vtoolbar.h"

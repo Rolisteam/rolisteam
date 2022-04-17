@@ -20,6 +20,7 @@
 #ifndef TIPOFDAYVIEWER_H
 #define TIPOFDAYVIEWER_H
 
+#include "rwidgets_global.h"
 #include <QDialog>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -31,7 +32,7 @@ namespace Ui
 class TipOfDayViewer;
 }
 
-class TipOfDayViewer : public QDialog
+class RWIDGET_EXPORT TipOfDayViewer : public QDialog
 {
     Q_OBJECT
 

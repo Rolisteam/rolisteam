@@ -22,11 +22,11 @@
 #ifndef IMAGESELECTORDIALOG_H
 #define IMAGESELECTORDIALOG_H
 
+#include "rwidgets_global.h"
 #include <QDialog>
 #include <QLabel>
 #include <QPointer>
 #include <memory>
-
 class Overlay;
 namespace Ui
 {
@@ -35,7 +35,7 @@ class ImageSelectorDialog;
 class ImageSelectorController;
 class QDragEnterEvent;
 class QDropEvent;
-class ImageSelectorDialog : public QDialog
+class RWIDGET_EXPORT ImageSelectorDialog : public QDialog
 {
     Q_OBJECT
 

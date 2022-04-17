@@ -344,7 +344,6 @@ void PlayerWidget::updateIcon()
     m_volumeMutedAct->setChecked(m_ctrl->muted());
 }
 
-
 void PlayerWidget::savePlaylist()
 {
     QString filename= QFileDialog::getSaveFileName(this, tr("Save Play List"), "", tr("PlayList (*.m3u)"));

@@ -27,13 +27,14 @@
 #include <QWidget>
 
 //#include "types.h"
+#include "rwidgets_global.h"
 #include "vcolortablechooser.h"
 
 class PreferencesManager;
 /**
  * @brief shows selected color and detect any event such as click or doubleclick
  */
-class VColorLabel : public QAbstractButton
+class RWIDGET_EXPORT VColorLabel : public QAbstractButton
 {
     Q_OBJECT
 public:
@@ -75,7 +76,7 @@ protected:
  * @todo Should be moved into stand alone files (h and cpp) and put them in the widget directory
  *
  */
-class BackgroundButton : public QPushButton
+class RWIDGET_EXPORT BackgroundButton : public QPushButton
 {
     Q_OBJECT
 public:
@@ -101,7 +102,7 @@ private:
 /**
  * @brief custom widget to display many color squares, click select the color.
  */
-class VColorSelector : public QWidget
+class RWIDGET_EXPORT VColorSelector : public QWidget
 {
     Q_OBJECT
 public:

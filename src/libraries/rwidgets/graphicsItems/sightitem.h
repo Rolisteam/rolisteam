@@ -23,11 +23,11 @@
 
 #include "characteritem.h"
 #include "data/charactervision.h"
+#include "rwidgets_global.h"
 #include "visualitem.h"
 #include <QConicalGradient>
 #include <QGradient>
 #include <QRadialGradient>
-
 /*class FogSingularity
 {
 public:
@@ -50,7 +50,7 @@ class SightController;
 /**
  * @brief The SightItem class
  */
-class SightItem : public VisualItem
+class RWIDGET_EXPORT SightItem : public VisualItem
 {
     Q_OBJECT
 public:
@@ -58,7 +58,7 @@ public:
      * @brief SightItem
      * @param characterItemMap
      */
-    explicit SightItem(vmap::SightController* ctrl, QMap<QString, CharacterItem*>* characterItemMap);
+    explicit SightItem(vmap::SightController* ctrl, QMultiMap<QString, CharacterItem*>* characterItemMap);
     /**
      * @brief ~SightItem
      */
@@ -146,7 +146,7 @@ private:
     CharacterVision::SHAPE m_defaultShape;
     qreal m_defaultAngle;
     qreal m_defaultRadius;
-    QMap<QString, CharacterItem*>* m_characterItemMap;
+    QMultiMap<QString, CharacterItem*>* m_characterItemMap;
 };
 
 #endif // SIGHTITEM_H

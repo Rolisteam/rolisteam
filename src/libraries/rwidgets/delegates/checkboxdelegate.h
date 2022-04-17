@@ -19,9 +19,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
+#include "rwidgets_global.h"
 #include <QStyledItemDelegate>
 #include <memory>
-
 class CenteredCheckBox;
 
 namespace rwidgets
@@ -29,7 +29,7 @@ namespace rwidgets
 /**
  * @brief The CheckBoxDelegate class
  */
-class CheckBoxDelegate : public QStyledItemDelegate
+class RWIDGET_EXPORT CheckBoxDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:

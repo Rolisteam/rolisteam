@@ -24,9 +24,11 @@
 #include <QPointF>
 #include <QUndoCommand>
 
+#include "rwidgets_global.h"
+
 class VisualItem;
 
-class MoveItemCommand : public QUndoCommand
+class RWIDGET_EXPORT MoveItemCommand : public QUndoCommand
 {
 public:
     MoveItemCommand(QList<VisualItem*> item, QList<QPointF> oldPos, QUndoCommand* parent= nullptr);

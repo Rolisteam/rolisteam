@@ -1,8 +1,8 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import Profile 1.0
-import CustomItems 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Profile
+import CustomItems
 
 Item {
     id: _root

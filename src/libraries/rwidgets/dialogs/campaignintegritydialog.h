@@ -24,7 +24,7 @@
 #include <memory>
 
 #include "model/actiononlistmodel.h"
-
+#include "rwidgets_global.h"
 namespace Ui
 {
 class CampaignIntegrityDialog;
@@ -33,7 +33,7 @@ class ActionOnListModel;
 namespace campaign
 {
 
-class CampaignIntegrityDialog : public QDialog
+class RWIDGET_EXPORT CampaignIntegrityDialog : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(bool canValidate READ canValidate NOTIFY canValidateChanged)

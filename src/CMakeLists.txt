@@ -7,6 +7,6 @@ add_subdirectory(binaries)
 
 
 if (TESTS)
-enable_testing(true)
+enable_testing()
 add_subdirectory(tests)
 endif()

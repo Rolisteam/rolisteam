@@ -20,8 +20,8 @@
 #ifndef HIGHLIGHTERITEM_H
 #define HIGHLIGHTERITEM_H
 
+#include "rwidgets_global.h"
 #include <QGraphicsObject>
-
 class QPropertyAnimation;
 namespace vmap
 {
@@ -30,7 +30,7 @@ class VisualItemController;
 /**
  * @brief displays an ellipse on maps.
  */
-class HighlighterItem : public QGraphicsObject
+class RWIDGET_EXPORT HighlighterItem : public QGraphicsObject
 {
     Q_OBJECT
     Q_PROPERTY(qreal radius READ getRadius WRITE setRadius NOTIFY radiusChanged)

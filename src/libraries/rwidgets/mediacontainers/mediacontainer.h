@@ -24,15 +24,15 @@
 #include <QMdiSubWindow>
 #include <QString>
 
-#include "preferences/preferencesmanager.h"
-#include "toolbars/vtoolbar.h"
-
 #include "controller/view_controller/mediacontrollerbase.h"
+#include "preferences/preferencesmanager.h"
+#include "rwidgets_global.h"
+#include "toolbars/vtoolbar.h"
 
 /**
  * @brief The MediaContainer class
  */
-class MediaContainer : public QMdiSubWindow
+class RWIDGET_EXPORT MediaContainer : public QMdiSubWindow
 {
     Q_OBJECT
     Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)

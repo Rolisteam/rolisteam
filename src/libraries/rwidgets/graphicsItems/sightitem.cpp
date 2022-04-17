@@ -91,7 +91,7 @@ void FogSingularity::setPolygon(QPolygonF* poly)
 /// Code SightItem
 /////////////////////////////////
 
-SightItem::SightItem(vmap::SightController* ctrl, QMap<QString, CharacterItem*>* characterItemMap)
+SightItem::SightItem(vmap::SightController* ctrl, QMultiMap<QString, CharacterItem *> *characterItemMap)
     : VisualItem(ctrl)
     , m_sightCtrl(ctrl)
     , m_defaultShape(CharacterVision::ANGLE)

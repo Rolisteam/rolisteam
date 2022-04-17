@@ -17,9 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "linkitem.h"
+#include "mindmap/qmlItems/linkitem.h"
 
-#include "geometry/linknode.h"
+#include "mindmap/geometry/linknode.h"
 
 namespace mindmap
 {
@@ -134,7 +134,7 @@ QSGNode* LinkItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeDat
         m_colorChanged= false;
     }
 
-    auto p2= m_end- m_start;
+    auto p2= m_end - m_start;
     link->update(QPointF(0, 0), p2);
     return link;
 }

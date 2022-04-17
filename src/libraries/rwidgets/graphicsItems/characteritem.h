@@ -26,10 +26,10 @@
 #include "data/characterstate.h"
 #include "data/charactervision.h"
 #include "data/person.h"
-#include "diceparser/include/diceparser.h"
+#include "diceparser/diceparser.h"
+#include "rwidgets_global.h"
 #include "visualitem.h"
 #include <memory>
-
 namespace vmap
 {
 class CharacterItemController;
@@ -37,7 +37,7 @@ class CharacterItemController;
 /**
  * @brief represents any character on map.
  */
-class CharacterItem : public VisualItem
+class RWIDGET_EXPORT CharacterItem : public VisualItem
 {
     Q_OBJECT
 public:

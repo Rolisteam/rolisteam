@@ -17,24 +17,24 @@
 #include "graphicsItems/pathitem.h"
 #include "graphicsItems/rectitem.h"
 #include "graphicsItems/ruleitem.h"
+#include "graphicsItems/sightitem.h"
 #include "graphicsItems/textitem.h"
+
 #include "vmap.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "core/data/rolisteammimedata.h"
 #include "data/cleveruri.h"
 #include "data/cleverurimimedata.h"
+#include "data/rolisteammimedata.h"
 #include "media/mediatype.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
-#include "core/controller/item_controllers/characteritemcontroller.h"
-#include "core/controller/item_controllers/ellipsecontroller.h"
-#include "core/controller/item_controllers/imagecontroller.h"
-#include "core/controller/item_controllers/linecontroller.h"
-#include "core/controller/item_controllers/rectcontroller.h"
-#include "core/controller/item_controllers/sightcontroller.h"
-#include "core/controller/item_controllers/textcontroller.h"
+#include "controller/item_controllers/characteritemcontroller.h"
+#include "controller/item_controllers/ellipsecontroller.h"
+#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/linecontroller.h"
+#include "controller/item_controllers/rectcontroller.h"
+#include "controller/item_controllers/sightcontroller.h"
+#include "controller/item_controllers/textcontroller.h"
 
 #include "worker/iohelper.h"
 
@@ -852,23 +852,26 @@ void VMap::ownerHasChangedForCharacterItem(Character* person, CharacterItem* cIt
     if(nullptr == person)
         return;
     // TODO make it with controller
+    /*
+        // Remove them from the map
+        m_characterItemMap->remove(item->uuid());
+        // remove the changed characterItem
+        list.removeOne(cItem);
+        // add the others
+        for(CharacterItem* itemC : list)
+        {
+            m_characterItemMap->insertMulti(itemC->getCharacterId(), itemC);
+        }
+        // add item with its new key
+        m_characterItemMap->insertMulti(cItem->getCharacterId(), cItem);
+        if((cItem->isPlayableCharacter()) && (!m_ctrl->localGM()) && (cItem->isLocal()))
+        {
+            // changeStackOrder(cItem, VectorialMapController::FRONT);
+        }
 
-    // m_ctrl->
 
-    // Get all items with the key
-    /*auto item= m_characterItemMap->value(person->uuid());
-
-    //cItem->
-
-    // Remove them from the map
-    if(item)
-    {
-        m_characterItemMap->remove(person->uuid());
-        item->deleteLater();
-    }
-
-    // add item with its new key
-    m_characterItemMap->insert(person->uuid(), cItem);=*/
+        // add item with its new key
+        m_characterItemMap->insert(person->uuid(), cItem);=*/
 }
 
 void VMap::insertCharacterInMap(CharacterItem* item)
@@ -902,96 +905,15 @@ void VMap::insertCharacterInMap(CharacterItem* item)
             item->setNumber(++max);
         }
     }*/
-}
 
-/*bool VMap::setVisibilityMode(Core::VisibilityMode mode)
-{
-    bool result= false;
-    m_ctrl->setVisibility(mode);
-    bool visibilitySight= false;
-    bool visibilityItems= false;
-    if(!m_ctrl->localGM())
-    {
-        if(mode == Core::HIDDEN)
-        {
-            visibilityItems= false;
-        }
-        else if(mode == Core::ALL)
-        {
-            visibilityItems= true;
-        }
-        else if(Core::FOGOFWAR == mode)
-        {
-            visibilitySight= true;
-            visibilityItems= true;
-        }
-    }
-    else
-    {
-        visibilityItems= true;
-        if(Core::FOGOFWAR == mode)
-        {
-            visibilitySight= true;
-        }
-        else
-        {
-            visibilitySight= false;
-        }
-    }
-    auto const& values= m_itemMap->values();
-    for(auto& item : values)
-    {
-        item->setVisible(visibilityItems);
-    }
-    if(nullptr != m_sightItem)
-    {
-        m_sightItem->setVisible(visibilitySight);
- m_ctrl->propertyHashRef()->insert(Core::FogOfWarStatus, visibilitySight);
- if((visibilitySight) && (m_ctrl->propertyHashRef()->value(Core::LocalIsGM).toBool() == false))
- {
-     for(auto& item : values)
-     {
-         if(item->getType() == Core::CHARACTER)
-         {
-             item->setToolTip("");
-         }
-     }
- }
-    }
-    return result;
-}*/
-
-void VMap::insertCharacterInMap(CharacterItem* item)
-{
-    if(!m_characterItemMap || !item)
-        return;
-
-    m_characterItemMap->insert(item->getCharacterId(), item);
-    connect(item, &CharacterItem::ownerChanged, this, &VMap::ownerHasChangedForCharacterItem);
-    connect(item, &CharacterItem::runDiceCommand, this, &VMap::runDiceCommandForCharacter);
-    if(!item->isNpc())
-    {
-        // m_sightItem->insertVision(item);
-    }
-    else
-    {
-        // auto list= PlayerModel::instance();
-        // list->addNpc(item->getCharacter());
-        auto search= item->getName();
-        auto items= m_characterItemMap->values();
-        items.removeAll(item);
-        QList<CharacterItem*> sameNameItems;
-        std::copy_if(items.begin(), items.end(), std::back_inserter(sameNameItems),
-                     [search](CharacterItem* item) { return item->getName() == search; });
-        auto it= std::max_element(
-            sameNameItems.begin(), sameNameItems.end(),
-            [](const CharacterItem* a, const CharacterItem* b) { return a->getNumber() < b->getNumber(); });
-        if(it != sameNameItems.end())
-        {
-            int max= (*it)->getNumber();
-            item->setNumber(++max);
-        }
-    }
+    /*     m_characterItemMap->insert(itemC->getCharacterId(), itemC);
+  //    }
+      // add item with its new key
+      m_characterItemMap->insert(cItem->getCharacterId(), cItem);
+      if((cItem->isPlayableCharacter()) && (!m_ctrl->localGM()) && (cItem->isLocal()))
+      {
+          // changeStackOrder(cItem, VectorialMapController::FRONT);
+      }*/
 }
 
 /*void VMap::changeStackOrder(VisualItem* item, VisualItem::StackOrder op)

@@ -52,11 +52,11 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/playercontroller.h"
-#include "core/model/historymodel.h"
-#include "core/model/playermodel.h"
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
+#include "model/historymodel.h"
+#include "model/playermodel.h"
 #include "preferences/preferencesmanager.h"
 #include "rwidgets/customs/shortcutvisitor.h"
 #include "rwidgets/customs/workspace.h"
@@ -83,15 +83,15 @@
 #include "rwidgets/dialogs/campaignproperties.h"
 
 // LOG
-#include "common/controller/logcontroller.h"
-#include "common/controller/remotelogcontroller.h"
-#include "common/widgets/logpanel.h"
+#include "common/logcontroller.h"
+#include "common/remotelogcontroller.h"
+#include "common_widgets/logpanel.h"
 
 // Controller
 #include "controller/instantmessagingcontroller.h"
 #include "controller/networkcontroller.h"
 #include "controller/preferencescontroller.h"
-#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "controller/view_controller/imageselectorcontroller.h"
 
 // dialogs
 #include "rwidgets/dialogs/aboutrolisteam.h"
@@ -100,12 +100,13 @@
 #include "rwidgets/dialogs/newfiledialog.h"
 
 // GMToolBox
-#include "diceparser/qmltypesregister.h"
+#include "diceparser_qobject/qmltypesregister.h"
 #include "rwidgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 #include "rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
 #include "rwidgets/gmtoolbox/UnitConvertor/convertor.h"
 
 // session
+#include "iohelper.h"
 #include "rwidgets/docks/antagonistboard.h"
 #include "rwidgets/docks/campaigndock.h"
 
@@ -135,7 +136,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                 vec.insert({Core::keys::KEY_PATH, path});
                 vec.insert({Core::keys::KEY_UUID, id});
                 vec.insert({Core::keys::KEY_TYPE, QVariant::fromValue(type)});
-                vec.insert({Core::keys::KEY_SERIALIZED, IOHelper::loadFile(path)});
+                vec.insert({Core::keys::KEY_SERIALIZED, utils::IOHelper::loadFile(path)});
                 vec.insert({Core::keys::KEY_INTERNAL, true});
                 auto localId= m_gameController->localPlayerId();
                 vec.insert({Core::keys::KEY_OWNERID, localId});
@@ -146,6 +147,15 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
         auto campaignManager= m_gameController->campaignManager();
         campaignManager->removeFile(path);
     });
+
+    connect(m_gameController->campaignManager(), &campaign::CampaignManager::createBlankFile, this,
+            [this](const QString& path, Core::MediaType mediaType) {
+                std::map<QString, QVariant> params;
+                /// TODO change mediaType to ContentType.
+                params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(mediaType)});
+                params.insert({Core::keys::KEY_PATH, path});
+                m_gameController->newMedia(params);
+            });
 
     connect(m_gameController->campaignManager(), &campaign::CampaignManager::createBlankFile, this,
             [this](const QString& path, Core::MediaType mediaType) {
@@ -237,6 +247,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
             &MainWindow::setWindowModified);
     connect(m_gameController->contentController(), &ContentController::canPasteChanged, m_ui->m_pasteAct,
             &QAction::setEnabled);
+
     connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
         if(connected)
             postConnection();
@@ -982,7 +993,7 @@ void MainWindow::openGenericContent()
         m_gameController->openMedia(
             {{Core::keys::KEY_URL, QUrl::fromUserInput(path)},
              {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
-             {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(path)},
+             {Core::keys::KEY_NAME, utils::IOHelper::shortNameFromPath(path)},
              {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
     }
 }
@@ -1113,7 +1124,7 @@ void MainWindow::dropEvent(QDropEvent* event)
                 contentCtrl->openMedia(
                     {{Core::keys::KEY_URL, path},
                      {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
-                     {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(path)},
+                     {Core::keys::KEY_NAME, utils::IOHelper::shortNameFromPath(path)},
                      {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
             }
             else // remote
@@ -1125,17 +1136,18 @@ void MainWindow::dropEvent(QDropEvent* event)
 
 #ifdef HAVE_QT_NETWORK
                 auto downloader= new NetworkDownloader(url);
-                connect(downloader, &NetworkDownloader::finished, this,
-                        [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data) {
-                            contentCtrl->openMedia({{Core::keys::KEY_URL, urltext},
-                                                    {Core::keys::KEY_PATH, urltext},
-                                                    {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
-                                                    {Core::keys::KEY_DATA, data},
-                                                    {Core::keys::KEY_NAME, IOHelper::shortNameFromPath(url.fileName())},
-                                                    {Core::keys::KEY_OWNERID,
-                                                     m_gameController->playerController()->localPlayer()->uuid()}});
-                            downloader->deleteLater();
-                        });
+                connect(
+                    downloader, &NetworkDownloader::finished, this,
+                    [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data) {
+                        contentCtrl->openMedia(
+                            {{Core::keys::KEY_URL, urltext},
+                             {Core::keys::KEY_PATH, urltext},
+                             {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
+                             {Core::keys::KEY_DATA, data},
+                             {Core::keys::KEY_NAME, utils::IOHelper::shortNameFromPath(url.fileName())},
+                             {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
+                        downloader->deleteLater();
+                    });
                 downloader->download();
 #endif
             }

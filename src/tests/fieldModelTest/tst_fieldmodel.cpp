@@ -21,8 +21,8 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 
-#include "core/data/character.h"
-#include "core/model/genericmodel.h"
+#include "data/character.h"
+#include "model/genericmodel.h"
 
 #define COUNT_TURN 2000
 class FieldModelTest : public QObject

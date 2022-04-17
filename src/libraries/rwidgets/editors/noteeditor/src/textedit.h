@@ -51,6 +51,7 @@
 
 #include "editors/noteeditor/format_OO_oasis_/OOReader.h"
 
+#include "rwidgets_global.h"
 #include <QTextDocumentWriter>
 
 QT_FORWARD_DECLARE_CLASS(QAction)
@@ -61,7 +62,7 @@ QT_FORWARD_DECLARE_CLASS(QTextCharFormat)
 QT_FORWARD_DECLARE_CLASS(QMenu)
 class NoteController;
 
-class TextEdit : public QMainWindow
+class RWIDGET_EXPORT TextEdit : public QMainWindow
 {
     Q_OBJECT
 

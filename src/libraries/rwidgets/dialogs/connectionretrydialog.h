@@ -21,17 +21,17 @@
 #ifndef CONNECTIONRETRYDIALOG_H
 #define CONNECTIONRETRYDIALOG_H
 
+#include "rwidgets_global.h"
 #include <QDialog>
 #include <QTimer>
-
 namespace Ui
 {
-    class ConnectionRetryDialog;
+class ConnectionRetryDialog;
 }
 /**
  * @brief The ConnectionRetryDialog class
  */
-class ConnectionRetryDialog : public QDialog
+class RWIDGET_EXPORT ConnectionRetryDialog : public QDialog
 {
     Q_OBJECT
 

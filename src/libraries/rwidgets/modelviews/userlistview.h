@@ -20,10 +20,10 @@
 #ifndef USERLISTVIEW_H
 #define USERLISTVIEW_H
 
+#include "rwidgets_global.h"
 #include <QPointer>
 #include <QTreeView>
 #include <memory>
-
 // class PlayerOnMapModel;
 class UserListDelegate;
 class Person;
@@ -32,7 +32,7 @@ class PlayerController;
 /**
  * @brief custom view to display tree person
  */
-class UserListView : public QTreeView
+class RWIDGET_EXPORT UserListView : public QTreeView
 {
     Q_OBJECT
 public:

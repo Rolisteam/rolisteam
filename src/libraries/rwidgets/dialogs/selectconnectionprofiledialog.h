@@ -5,11 +5,14 @@
 #include "data/player.h"
 #include "network/connectionprofile.h"
 
+#include "rwidgets_global.h"
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QPointer>
 #include <QSettings>
 #include <memory>
+
+#include "network/characterdatamodel.h"
 
 namespace Ui
 {
@@ -17,13 +20,12 @@ class SelectConnectionProfileDialog;
 }
 
 class GameController;
-class CharacterDataModel;
 class ProfileModel;
 class SelectConnProfileController;
 /**
  * @brief The SelectConnectionProfileDialog class is the dialog box shown at starting or when the connection is lost.
  */
-class SelectConnectionProfileDialog : public QDialog
+class RWIDGET_EXPORT SelectConnectionProfileDialog : public QDialog
 {
     Q_OBJECT
 public:

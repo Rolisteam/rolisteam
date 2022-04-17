@@ -1,9 +1,9 @@
 #ifndef CAMPAIGN_ANTAGONIST_BOARD_H
 #define CAMPAIGN_ANTAGONIST_BOARD_H
 
+#include "rwidgets_global.h"
 #include <QWidget>
 #include <memory>
-
 namespace Ui
 {
 class AntagonistBoard;
@@ -14,7 +14,7 @@ namespace campaign
 {
 class CampaignEditor;
 class AntagonistBoardController;
-class AntagonistBoard : public QWidget
+class RWIDGET_EXPORT AntagonistBoard : public QWidget
 {
     Q_OBJECT
 

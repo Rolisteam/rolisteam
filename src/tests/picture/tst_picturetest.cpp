@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include "core/controller/view_controller/imageselectorcontroller.h"
-#include "core/worker/iohelper.h"
+#include "controller/view_controller/imageselectorcontroller.h"
+#include "worker/iohelper.h"
 
 #include <memory>
 

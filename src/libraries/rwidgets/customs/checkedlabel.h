@@ -20,10 +20,11 @@
 #ifndef CHECKEDLABEL_H
 #define CHECKEDLABEL_H
 
+#include "rwidgets_global.h"
 #include <QLabel>
 #include <QWidget>
 
-class CheckedLabel : public QLabel
+class RWIDGET_EXPORT CheckedLabel : public QLabel
 {
     Q_OBJECT
     Q_PROPERTY(bool valid READ valid WRITE setValid NOTIFY validChanged)

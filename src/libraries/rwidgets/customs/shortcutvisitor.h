@@ -19,11 +19,13 @@
  ***************************************************************************/
 #ifndef SHORTCUTVISITOR_H
 #define SHORTCUTVISITOR_H
+#include "rwidgets_global.h"
 #include <QAbstractItemModel>
 #include <QObject>
+
 class ShortCutModel;
 
-class ShortcutVisitor : public QObject
+class RWIDGET_EXPORT ShortcutVisitor : public QObject
 {
     Q_OBJECT
 

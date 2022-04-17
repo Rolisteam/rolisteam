@@ -20,6 +20,7 @@
 #ifndef INSTANTMESSAGINGVIEW_H
 #define INSTANTMESSAGINGVIEW_H
 
+#include "rwidgets_global.h"
 #include <QDockWidget>
 #include <QPointer>
 
@@ -30,8 +31,9 @@ namespace Ui
 class InstantMessagingView;
 }
 
+class InstantMessagingController;
 class QQuickWidget;
-class InstantMessagerManager : public QObject
+class RWIDGET_EXPORT InstantMessagerManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(InstantMessagingController* ctrl READ ctrl NOTIFY ctrlChanged)
@@ -49,7 +51,7 @@ private:
     QPointer<InstantMessagingController> m_ctrl;
 };
 
-class InstantMessagingView : public QWidget
+class RWIDGET_EXPORT InstantMessagingView : public QWidget
 {
     Q_OBJECT
 

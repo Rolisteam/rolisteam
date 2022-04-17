@@ -21,17 +21,17 @@
 #ifndef DIRCHOOSER_H
 #define DIRCHOOSER_H
 
+#include "rwidgets_global.h"
 #include <QLineEdit>
 #include <QPushButton>
 #include <QStringList>
 #include <QWidget>
-
 /**
  * @brief A LineEdit with a button to choose a file or directory. It displays a QLineEdit and a QPushButton allowing to
  * show the current selection and to browse to select something else.
  *
  */
-class FileDirChooser : public QWidget
+class RWIDGET_EXPORT FileDirChooser : public QWidget
 {
     Q_OBJECT
 public:

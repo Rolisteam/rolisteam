@@ -27,6 +27,7 @@
 #include <QMenu>
 #include <QPushButton>
 #include <QToolButton>
+#include <array>
 
 #include "controller/audiocontroller.h"
 

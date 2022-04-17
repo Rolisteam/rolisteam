@@ -24,15 +24,15 @@
 #ifndef SELECTEUR_DIAMETRE_H
 #define SELECTEUR_DIAMETRE_H
 
+#include "rwidgets_global.h"
 #include <QSlider>
 #include <QWidget>
-
 class CircleDisplayer;
 
 /**
  * @brief Dessine un disque dont le diamêtre varie grace a un QSlider.
  */
-class DiameterSelector : public QWidget
+class RWIDGET_EXPORT DiameterSelector : public QWidget
 {
     Q_OBJECT
 public:

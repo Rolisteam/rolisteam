@@ -22,13 +22,13 @@
 #define SHAREDNOTECONTAINER_H
 
 #include "mediacontainers/mediacontainer.h"
+#include "rwidgets_global.h"
 #include "sharednote.h"
-
 #include <QPointer>
 #include <QWidget>
 
 class SharedNoteController;
-class SharedNoteContainer : public MediaContainer
+class RWIDGET_EXPORT SharedNoteContainer : public MediaContainer
 {
     Q_OBJECT
 public:

@@ -19,17 +19,17 @@
  ***************************************************************************/
 #ifndef PLAYERWIDGET_H
 #define PLAYERWIDGET_H
+
 #include <QContextMenuEvent>
-#include <QMediaPlayer>
 #include <QMenu>
 #include <QPointer>
 #include <QSlider>
 #include <QTime>
 #include <random>
 
-#include "core/model/musicmodel.h"
+#include "model/musicmodel.h"
 #include "preferences/preferencesmanager.h"
-
+#include "rwidgets_global.h"
 namespace Ui
 {
 class AudioWidgetUI;
@@ -39,7 +39,7 @@ class AudioPlayerController;
 /**
  * @brief The PlayerWidget class manages all widgets requiered for playing music.
  */
-class PlayerWidget : public QWidget
+class RWIDGET_EXPORT PlayerWidget : public QWidget
 {
     Q_OBJECT
 public:

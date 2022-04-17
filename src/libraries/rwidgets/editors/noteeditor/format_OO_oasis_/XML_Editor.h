@@ -1,18 +1,18 @@
 #ifndef XMLHIGHLIGHTER_H
 #define XMLHIGHLIGHTER_H
 
+#include "rwidgets_global.h"
 #include <QColor>
 #include <QDebug>
 #include <QDomDocument>
+#include <QObject>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 #include <QTextEdit>
 #include <QWidget>
 #include <QtCore>
 #include <QtGui>
-
-#include <QObject>
-class XmlHighlighter : public QSyntaxHighlighter
+class RWIDGET_EXPORT XmlHighlighter : public QSyntaxHighlighter
 {
 public:
     XmlHighlighter(QObject* parent);

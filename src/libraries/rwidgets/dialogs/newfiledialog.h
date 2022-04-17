@@ -20,16 +20,16 @@
 #ifndef NEWFILEDIALOG_H
 #define NEWFILEDIALOG_H
 
-#include "core/media/mediatype.h"
+#include "media/mediatype.h"
+#include "rwidgets_global.h"
 #include <QDialog>
 #include <QUrl>
-
 namespace Ui
 {
 class NewFileDialog;
 }
 
-class NewFileDialog : public QDialog
+class RWIDGET_EXPORT NewFileDialog : public QDialog
 {
     Q_OBJECT
 public:

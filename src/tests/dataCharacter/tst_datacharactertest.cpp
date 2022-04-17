@@ -24,7 +24,7 @@
 #include <data/character.h>
 #include <data/characterstate.h>
 
-#include "core/worker/iohelper.h"
+#include "worker/iohelper.h"
 
 #define COUNT_TURN 2000
 class DataCharacterTest : public QObject

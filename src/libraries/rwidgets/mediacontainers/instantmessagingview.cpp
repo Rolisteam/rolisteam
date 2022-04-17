@@ -27,8 +27,7 @@
 #include <QUrl>
 #include <QVBoxLayout>
 
-#include "controller/instantmessagingcontroller.h"
-#include "instantmessaging/avatarprovider.h"
+#include "qml_components/avatarprovider.h"
 
 InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWidget* parent)
     : QWidget(parent), m_ui(new Ui::InstantMessagingView), m_qmlViewer(new QQuickWidget()), m_ctrl(ctrl)

@@ -20,6 +20,7 @@
 #ifndef LINEITEM_H
 #define LINEITEM_H
 
+#include "rwidgets_global.h"
 #include "visualitem.h"
 #include <QPen>
 class VisualItemController;
@@ -30,7 +31,7 @@ class LineController;
 /**
  * @brief displays a line on maps.
  */
-class LineItem : public VisualItem
+class RWIDGET_EXPORT LineItem : public VisualItem
 {
 public:
     LineItem(vmap::LineController* ctrl);

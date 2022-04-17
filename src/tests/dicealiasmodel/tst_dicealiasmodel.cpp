@@ -25,7 +25,7 @@
 #include <QtTest/QtTest>
 #include <memory>
 
-#include "dicealias.h"
+#include "diceparser/dicealias.h"
 #include "model/dicealiasmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -169,6 +169,6 @@ void TestDiceAliasModel::saveModelTest()
     QCOMPARE(list->at(4)->getCommand(), "(.*)wod(.*)");*/
 }
 
-QTEST_MAIN(TestDiceAliasModel);
+QTEST_MAIN(TestDiceAliasModel)
 
 #include "tst_dicealiasmodel.moc"

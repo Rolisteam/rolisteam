@@ -19,9 +19,9 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
+#include "rwidgets_global.h"
 #include <QString>
-
-class Utilities
+class RWIDGET_EXPORT Utilities
 {
 public:
     Utilities();

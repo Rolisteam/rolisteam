@@ -20,9 +20,9 @@
 #ifndef DRAGABLETABLEVIEW_H
 #define DRAGABLETABLEVIEW_H
 
+#include "rwidgets_global.h"
 #include <QTableView>
-
-class DragableTableView : public QTableView
+class RWIDGET_EXPORT DragableTableView : public QTableView
 {
     Q_OBJECT
 public:

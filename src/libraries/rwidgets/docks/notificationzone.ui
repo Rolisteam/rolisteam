@@ -47,7 +47,7 @@
   <customwidget>
    <class>LogPanel</class>
    <extends>QWidget</extends>
-   <header>common/widgets/logpanel.h</header>
+   <header>common_widgets/logpanel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

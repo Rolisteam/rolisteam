@@ -17,14 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "removeimagefromnodecommand.h"
+#include "mindmap/command/removeimagefromnodecommand.h"
 
-#include "core/model/imagemodel.h"
-#include "mindmap/src/model/boxmodel.h"
+#include "mindmap/model/boxmodel.h"
+#include "mindmap/model/imagemodel.h"
 
 namespace mindmap
 {
-RemoveImageFromNodeCommand::RemoveImageFromNodeCommand(BoxModel* nodeModel, ImageModel* imgModel, const QString& id)
+RemoveImageFromNodeCommand::RemoveImageFromNodeCommand(BoxModel* nodeModel, mindmap::ImageModel* imgModel,
+                                                       const QString& id)
     : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel)
 {
     m_pixmap= imgModel->pixmapFromId(m_id);

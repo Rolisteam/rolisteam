@@ -30,14 +30,14 @@
 #include <QStringListModel>
 #include <QStyledItemDelegate>
 
-#include "common/widgets/colorbutton.h"
+#include "common_widgets/colorbutton.h"
 #include "data/rolisteamtheme.h"
 #include "model/dicealiasmodel.h"
 #include "model/palettemodel.h"
 #include "preferences/preferencesmanager.h"
 #include "rwidgets/customs/centeredcheckbox.h"
 //#include "widgets/filedirchooser.h"
-
+#include "rwidgets_global.h"
 class PreferencesController;
 
 namespace Ui
@@ -48,7 +48,7 @@ class PreferencesDialogBox;
 /**
  * @brief Actually only to change directories.
  */
-class PreferencesDialog : public QDialog
+class RWIDGET_EXPORT PreferencesDialog : public QDialog
 {
     Q_OBJECT
 

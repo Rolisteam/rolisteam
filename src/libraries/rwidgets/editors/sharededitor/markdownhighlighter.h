@@ -24,6 +24,7 @@
 #ifndef MARKDOWNHIGHLIGHTER_H
 #define MARKDOWNHIGHLIGHTER_H
 
+#include "rwidgets_global.h"
 #include <QRegularExpression>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
@@ -31,7 +32,7 @@
 class QTextDocument;
 class QTimer;
 
-class MarkDownHighlighter : public QSyntaxHighlighter
+class RWIDGET_EXPORT MarkDownHighlighter : public QSyntaxHighlighter
 {
     Q_OBJECT
 
@@ -44,7 +45,7 @@ public:
     Q_DECLARE_FLAGS(HighlightingOptions, HighlightingOption)
 
     MarkDownHighlighter(QTextDocument* parent= nullptr,
-        HighlightingOptions highlightingOptions= HighlightingOption::FullyHighlightedBlockQuote);
+                        HighlightingOptions highlightingOptions= HighlightingOption::FullyHighlightedBlockQuote);
 
     // we use some predefined numbers here to be compatible with
     // the peg-markdown parser

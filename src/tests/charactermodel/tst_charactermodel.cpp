@@ -1,9 +1,9 @@
 
-#include "core/model/playermodel.h"
 #include "data/character.h"
 #include "data/localpersonmodel.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
+#include "model/playermodel.h"
 #include <QtTest/QtTest>
 #include <memory>
 
@@ -266,6 +266,6 @@ void CharacterModelTest::localPersonTest_data()
     }
 }
 
-QTEST_MAIN(CharacterModelTest);
+QTEST_MAIN(CharacterModelTest)
 
 #include "tst_charactermodel.moc"

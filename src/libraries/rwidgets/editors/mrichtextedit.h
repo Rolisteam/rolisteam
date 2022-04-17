@@ -24,13 +24,13 @@
 #ifndef _MRICHTEXTEDIT_H_
 #define _MRICHTEXTEDIT_H_
 
+#include "rwidgets_global.h"
 #include "ui_mrichtextedit.h"
 #include <QPointer>
-
 /**
  * @Brief A simple rich-text editor
  */
-class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit
+class RWIDGET_EXPORT MRichTextEdit : public QWidget, protected Ui::MRichTextEdit
 {
     Q_OBJECT
 public:

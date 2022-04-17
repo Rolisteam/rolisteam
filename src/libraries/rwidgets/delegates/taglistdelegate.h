@@ -20,9 +20,9 @@
 #ifndef TAGLISTDELEGATE_H
 #define TAGLISTDELEGATE_H
 
+#include "rwidgets_global.h"
 #include <QStyledItemDelegate>
-
-class TagListDelegate : public QStyledItemDelegate
+class RWIDGET_EXPORT TagListDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:

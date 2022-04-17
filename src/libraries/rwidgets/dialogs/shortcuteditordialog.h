@@ -1,14 +1,15 @@
 #ifndef SHORTCUTEDITORDIALOG_H
 #define SHORTCUTEDITORDIALOG_H
 
+#include "rwidgets_global.h"
 #include <QDialog>
 class ShortCutModel;
 namespace Ui
 {
-    class ShortCutEditorDialog;
+class ShortCutEditorDialog;
 }
 class QAbstractItemModel;
-class ShortCutEditorDialog : public QDialog
+class RWIDGET_EXPORT ShortCutEditorDialog : public QDialog
 {
     Q_OBJECT
 

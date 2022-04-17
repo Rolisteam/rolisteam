@@ -17,11 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "addimagetonodecommand.h"
+#include "mindmap/command/addimagetonodecommand.h"
 
-#include "core/model/imagemodel.h"
-#include "core/worker/iohelper.h"
-#include "model/boxmodel.h"
+#include "mindmap/model/boxmodel.h"
+#include "mindmap/model/imagemodel.h"
+
+#include <iohelper.h>
 
 namespace mindmap
 {
@@ -34,7 +35,7 @@ AddImageToNodeCommand::AddImageToNodeCommand(BoxModel* nodeModel, ImageModel* im
                                              const QUrl& url)
     : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel)
 {
-    m_pixmap= IOHelper::readPixmapFromURL(url);
+    m_pixmap= utils::IOHelper::readPixmapFromURL(url);
     setText(QObject::tr("Add %1 image").arg(url.fileName()));
 }
 

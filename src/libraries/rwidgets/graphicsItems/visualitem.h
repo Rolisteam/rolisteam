@@ -28,6 +28,7 @@
 #include "childpointitem.h"
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "media/mediatype.h"
+#include "rwidgets_global.h"
 
 class NetworkMessageWriter;
 class NetworkMessageReader;
@@ -35,7 +36,7 @@ class NetworkMessageReader;
 /**
  * @brief abstract class which defines interface for all map items.
  */
-class VisualItem : public QGraphicsObject
+class RWIDGET_EXPORT VisualItem : public QGraphicsObject
 {
     Q_OBJECT
 public:

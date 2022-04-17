@@ -27,7 +27,10 @@
 #include "controller/view_controller/mindmapcontroller.h"
 #include "mediacontainers/mediacontainer.h"
 
-class MindmapManager : public QObject
+#include "rwidgets_global.h"
+class MindMapController;
+
+class RWIDGET_EXPORT MindmapManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(MindMapController* ctrl READ ctrl NOTIFY ctrlChanged)
@@ -45,7 +48,7 @@ private:
     QPointer<MindMapController> m_ctrl;
 };
 
-class MindMapView : public MediaContainer
+class RWIDGET_EXPORT MindMapView : public MediaContainer
 {
     Q_OBJECT
 public:

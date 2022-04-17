@@ -29,8 +29,8 @@
 #include "characteritem.h"
 #include "controller/item_controllers/gridcontroller.h"
 #include "data/charactervision.h"
+#include "rwidgets_global.h"
 #include "visualitem.h"
-
 namespace vmap
 {
 
@@ -39,7 +39,7 @@ class VisualItemController;
 /**
  * @brief The SightItem class
  */
-class GridItem : public VisualItem
+class RWIDGET_EXPORT GridItem : public VisualItem
 {
     Q_OBJECT
 public:

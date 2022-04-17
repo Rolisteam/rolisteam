@@ -20,15 +20,15 @@
 #ifndef RWIDGETS_COLORDELEGATE_H
 #define RWIDGETS_COLORDELEGATE_H
 
+#include "rwidgets_global.h"
 #include <QStyledItemDelegate>
-
 namespace rwidgets
 {
 
 /**
  * @brief The ColorDelegate class
  */
-class ColorDelegate : public QStyledItemDelegate
+class RWIDGET_EXPORT ColorDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:

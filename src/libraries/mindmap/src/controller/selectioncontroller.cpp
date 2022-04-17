@@ -17,10 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "selectioncontroller.h"
+#include "mindmap/controller/selectioncontroller.h"
 
-#include "command/dragnodecommand.h"
-#include "data/mindnode.h"
+#include "mindmap/command/dragnodecommand.h"
+#include "mindmap/data/mindnode.h"
 namespace mindmap
 {
 
@@ -85,10 +85,12 @@ void SelectionController::removeFromSelection(MindNode* node)
 
 void SelectionController::clearSelection()
 {
-    std::for_each(m_selection.begin(), m_selection.end(), [this](MindNode* node) {
-        node->setSelected(false);
-        disconnect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
-    });
+    std::for_each(m_selection.begin(), m_selection.end(),
+                  [this](MindNode* node)
+                  {
+                      node->setSelected(false);
+                      disconnect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
+                  });
     m_selection.clear();
     setLastSelectedId({});
     emit hasSelectionChanged();

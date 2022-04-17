@@ -5,374 +5,403 @@ SET(CMAKE_AUTOMOC_MOC_OPTIONS "-nw")
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+if(MSVC)
+  set(CMAKE_CXX_FLAGS "-EHsc")
+else()
+  set(CMAKE_CXX_FLAGS "-Wall")
+endif()
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets Concurrent Sql PdfWidgets StateMachine REQUIRED)
+find_package(Qt6 COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets WebEngineCore Concurrent Sql PdfWidgets StateMachine REQUIRED)
 
 if(TESTS)
     find_package(Qt6 COMPONENTS Test REQUIRED)
 endif()
 
-if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
-    set(HAS_PDF TRUE PARENT_SCOPE)
-    message("Enable PDF feature")
-    set(pdfHeader
-        controller/view_controller/pdfcontroller.h)
+#===============================================================
+set(inc include)
+set(Network_HEADER
+    ${inc}/network_global.h
+    ${inc}/network/servermanager.h
+    ${inc}/network/channelmodel.h
+    ${inc}/media/mediatype.h
+    ${inc}/network/tcpclient.h
+    ${inc}/network/connectionaccepter.h
+    ${inc}/network/connectionprofile.h
+    ${inc}/network/passwordaccepter.h
+    ${inc}/network/iprangeaccepter.h
+    ${inc}/network/ipbanaccepter.h
+    ${inc}/network/characterdatamodel.h
+    ${inc}/network/clientmanager.h
+    ${inc}/network/networklink.h
+    ${inc}/network/timeaccepter.h
+    ${inc}/network/channel.h
+    ${inc}/network/treeitem.h
+    ${inc}/network/networkmessage.h
+    ${inc}/network/networkmessagereader.h
+    ${inc}/network/networkmessagewriter.h
+    ${inc}/network/rserver.h
+    ${inc}/network/messagedispatcher.h
+    ${inc}/network/receiveevent.h
+    ${inc}/worker/networkhelper.h
+    ${inc}/data/person.h
+    ${inc}/data/player.h
+    ${inc}/data/character.h
+    ${inc}/data/characterstate.h
+    ${inc}/data/resourcesnode.h
+    ${inc}/worker/playermessagehelper.h
+)
 
-    set(pdfSource
-        controller/view_controller/pdfcontroller.cpp)
-else()
-    set(pdfHeader)
-    set(pdfSource)
-endif()
+set(Network_SRC
+    src/network/channelmodel.cpp
+    src/network/tcpclient.cpp
+    src/network/servermanager.cpp
+    src/network/connectionprofile.cpp
+    src/network/clientmanager.cpp
+    src/network/networklink.cpp
+    src/network/connectionaccepter.cpp
+    src/network/passwordaccepter.cpp
+    src/network/iprangeaccepter.cpp
+    src/network/ipbanaccepter.cpp
+    src/network/timeaccepter.cpp
+    src/network/channel.cpp
+    src/network/treeitem.cpp
+    src/network/characterdatamodel.cpp
+    src/network/networkmessage.cpp
+    src/network/networkmessagereader.cpp
+    src/network/networkmessagewriter.cpp
+    src/network/rserver.cpp
+    src/network/messagedispatcher.cpp
+    src/network/receiveevent.cpp
+    src/data/person.cpp
+    src/data/player.cpp
+    src/data/character.cpp
+    src/data/characterstate.cpp
+    src/data/resourcesnode.cpp
+    src/worker/networkhelper.cpp
+    src/worker/playermessagehelper.cpp
+)
+message(${Network_SRC} ${Network_HEADER})
+add_library(network SHARED ${Network_SRC} ${Network_HEADER})
+set_target_properties(network PROPERTIES PUBLIC_HEADER "${Network_HEADER}")
+set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
+target_compile_definitions(network PRIVATE NETWORK_LIBRARY)
+target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Gui Qt6::StateMachine PRIVATE common_core util charactersheet)
+target_include_directories(network
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
+
+
+
+
+#===============================================================
 
 
 set(HEADERS
-  controller/antagonistboardcontroller.h
-  controller/contentcontroller.h
-  controller/controllerinterface.h
-  controller/gamecontroller.h
-  controller/instantmessagingcontroller.h
-  controller/item_controllers/characteritemcontroller.h
-  controller/item_controllers/ellipsecontroller.h
-  controller/item_controllers/gridcontroller.h
-  controller/item_controllers/imagecontroller.h
-  controller/item_controllers/linecontroller.h
-  controller/item_controllers/pathcontroller.h
-  controller/item_controllers/rectcontroller.h
-  controller/item_controllers/sightcontroller.h
-  controller/item_controllers/textcontroller.h
-  controller/item_controllers/visualitemcontroller.h
-  controller/item_controllers/vmapitemfactory.h
-  #controller/media_controller/charactersheetmediacontroller.h
-  #controller/media_controller/imagemediacontroller.h
-  #controller/media_controller/mediamanagerbase.h
-  #controller/media_controller/notemediacontroller.h
-  #controller/media_controller/pdfmediacontroller.h
-  #controller/media_controller/sharednotemediacontroller.h
-  #controller/media_controller/vectorialmapmediacontroller.h
-  #controller/media_controller/webpagemediacontroller.h
-  controller/networkcontroller.h
-  controller/audioplayercontroller.h
-  controller/audiocontroller.h
-  controller/playercontroller.h
-  controller/preferencescontroller.h
-  #ontroller/resourcescontroller.h
-  controller/view_controller/charactersheetcontroller.h
-  controller/view_controller/imagecontroller.h
-  controller/view_controller/imageselectorcontroller.h
-  controller/view_controller/mediacontrollerbase.h
-  controller/view_controller/mindmapcontroller.h
-  controller/view_controller/notecontroller.h
-  controller/view_controller/sharednotecontroller.h
-  controller/view_controller/vectorialmapcontroller.h
-  controller/view_controller/webpagecontroller.h
-  controller/view_controller/selectconnprofilecontroller.h
-  data/campaign.h
-  data/campaigneditor.h
-  data/campaignmanager.h
-  data/character.h
-  data/characterstate.h
-  data/charactervision.h
-  data/cleveruri.h
-  data/cleverurimimedata.h
-  data/diceshortcut.h
-  data/localpersonmodel.h
-  data/media.h
-  data/person.h
-  data/player.h
-  data/resourcesnode.h
-  data/rolisteammimedata.h
-  data/rolisteamtheme.h
-  data/shortcutmodel.h
-  media/mediafactory.h
-  media/mediatype.h
-  model/actiononlistmodel.h
-  model/charactermodel.h
-  model/characterstatemodel.h
-  model/historymodel.h
-  model/contentmodel.h
-  model/dicealiasmodel.h
-  model/genericmodel.h
-  model/imagemodel.h
-  model/languagemodel.h
-  model/mediafilteredmodel.h
-  model/mediamodel.h
-  model/musicmodel.h
-  model/nonplayablecharactermodel.h
-  model/palettemodel.h
-  model/participantsmodel.h
-  model/participantmodel.h
-  model/patternmodel.h
-  model/playermodel.h
-  model/playerproxymodel.h
-  model/profilemodel.h
-  model/remoteplayermodel.h
-  model/singlecontenttypemodel.h
-  model/thememodel.h
-  model/vmapitemmodel.h
-  network/network_type.h
-  network/channel.h
-  network/channelmodel.h
-  network/characterdatamodel.h
-  network/clientmanager.h
-  network/connectionaccepter.h
-  network/connectionprofile.h
-  network/heartbeatsender.h
-  network/ipbanaccepter.h
-  network/iprangeaccepter.h
-  network/messagedispatcher.h
-  network/networklink.h
-  network/networkmessage.h
-  network/networkmessagereader.h
-  network/networkmessagewriter.h
-  network/networkreceiver.h
-  network/passwordaccepter.h
-  network/receiveevent.h
-  network/rserver.h
-  network/servermanager.h
-  network/tcpclient.h
-  network/timeaccepter.h
-  network/treeitem.h
-  preferences/preferenceslistener.h
-  preferences/preferencesmanager.h
-  services/ipchecker.h
-  services/tipchecker.h
-  services/updatechecker.h
-  session/sessionitemmodel.h
-  #undoCmd/addfieldcommand.h
-  undoCmd/addfogofwarchangecommand.h
-  undoCmd/addlocalcharactercommand.h
-  undoCmd/addnonplayablecharactercommand.h
-  undoCmd/addvmapitem.h
-  undoCmd/changecoloritem.h
-  undoCmd/changesizevmapitem.h
-  undoCmd/changestackordervmapcommand.h
-  undoCmd/deletevmapitem.h
-  undoCmd/hideotherlayercommand.h
-  undoCmd/importdatamedia.h
-  undoCmd/importimagestate.h
-  undoCmd/importmedia.h
-  undoCmd/newmediacontroller.h
-  undoCmd/openmediacontroller.h
-  undoCmd/renamecampaignmedia.h
-  undoCmd/removelocalcharactercommand.h
-  undoCmd/removemediacontrollercommand.h
-  undoCmd/showtransparentitemcommand.h
-  undoCmd/rollinitcommand.h
-  updater/controller/servermanagerupdater.h
-  updater/controller/audioplayerupdater.h
-  updater/media/campaignupdater.h
-  updater/media/charactersheetupdater.h
-  updater/media/genericupdater.h
-  updater/media/instantmessagingupdater.h
-  updater/media/mediaupdaterinterface.h
-  updater/media/mindmapupdater.h
-  updater/media/sharednotecontrollerupdater.h
-  updater/media/vmapupdater.h
-  updater/media/webviewupdater.h
-  updater/vmapitem/characteritemupdater.h
-  updater/vmapitem/ellipsecontrollerupdater.h
-  updater/vmapitem/imagecontrollerupdater.h
-  updater/vmapitem/linecontrollerupdater.h
-  updater/vmapitem/pathcontrollerupdater.h
-  updater/vmapitem/rectcontrollerupdater.h
-  updater/vmapitem/textcontrollerupdater.h
-  updater/vmapitem/vmapitemcontrollerupdater.h
-  utils/insertionsortedmap.h
-    utils/countdownobject.h
-  worker/networkhelper.h
-  worker/autosavecontroller.h
-  worker/convertionhelper.h
-  worker/fileserializer.h
-  worker/iohelper.h
-  worker/messagehelper.h
-  worker/modelhelper.h
-  worker/networkdownloader.h
-  worker/playermessagehelper.h
-  worker/utilshelper.h
-  worker/vectorialmapmessagehelper.h
+  ${inc}/core_global.h
+  ${inc}/controller/antagonistboardcontroller.h
+  ${inc}/controller/view_controller/pdfcontroller.h
+  ${inc}/controller/contentcontroller.h
+  ${inc}/controller/controllerinterface.h
+  ${inc}/controller/gamecontroller.h
+  ${inc}/controller/instantmessagingcontroller.h
+  ${inc}/controller/item_controllers/characteritemcontroller.h
+  ${inc}/controller/item_controllers/ellipsecontroller.h
+  ${inc}/controller/item_controllers/gridcontroller.h
+  ${inc}/controller/item_controllers/imagecontroller.h
+  ${inc}/controller/item_controllers/linecontroller.h
+  ${inc}/controller/item_controllers/pathcontroller.h
+  ${inc}/controller/item_controllers/rectcontroller.h
+  ${inc}/controller/item_controllers/sightcontroller.h
+  ${inc}/controller/item_controllers/textcontroller.h
+  ${inc}/controller/item_controllers/visualitemcontroller.h
+  ${inc}/controller/item_controllers/vmapitemfactory.h
+  ${inc}/controller/networkcontroller.h
+  ${inc}/controller/audioplayercontroller.h
+  ${inc}/controller/audiocontroller.h
+  ${inc}/controller/playercontroller.h
+  ${inc}/controller/preferencescontroller.h
+  ${inc}/controller/view_controller/charactersheetcontroller.h
+  ${inc}/controller/view_controller/imagecontroller.h
+  ${inc}/controller/view_controller/imageselectorcontroller.h
+  ${inc}/controller/view_controller/mediacontrollerbase.h
+  ${inc}/controller/view_controller/mindmapcontroller.h
+  ${inc}/controller/view_controller/notecontroller.h
+  ${inc}/controller/view_controller/sharednotecontroller.h
+  ${inc}/controller/view_controller/vectorialmapcontroller.h
+  ${inc}/controller/view_controller/webpagecontroller.h
+  ${inc}/controller/view_controller/selectconnprofilecontroller.h
+  ${inc}/data/campaign.h
+  ${inc}/data/campaigneditor.h
+  ${inc}/data/campaignmanager.h
+  ${inc}/data/charactervision.h
+  ${inc}/data/cleveruri.h
+  ${inc}/data/cleverurimimedata.h
+  ${inc}/data/diceshortcut.h
+  ${inc}/data/localpersonmodel.h
+  ${inc}/data/media.h
+  ${inc}/data/chatroom.h
+  ${inc}/data/chatroomfactory.h
+  ${inc}/data/rolisteammimedata.h
+  ${inc}/data/rolisteamtheme.h
+  ${inc}/data/shortcutmodel.h
+  ${inc}/media/mediafactory.h
+  ${inc}/media/mediatype.h
+  ${inc}/model/actiononlistmodel.h
+  ${inc}/model/charactermodel.h
+  ${inc}/model/characterstatemodel.h
+  ${inc}/model/historymodel.h
+  ${inc}/model/contentmodel.h
+  ${inc}/model/dicealiasmodel.h
+  ${inc}/model/genericmodel.h
+  ${inc}/model/languagemodel.h
+  ${inc}/model/mediafilteredmodel.h
+  ${inc}/model/mediamodel.h
+  ${inc}/model/musicmodel.h
+  ${inc}/model/nonplayablecharactermodel.h
+  ${inc}/model/palettemodel.h
+  ${inc}/model/participantsmodel.h
+  ${inc}/model/participantmodel.h
+  ${inc}/model/patternmodel.h
+  ${inc}/model/playermodel.h
+  ${inc}/model/playerproxymodel.h
+  ${inc}/model/profilemodel.h
+  ${inc}/model/remoteplayermodel.h
+  ${inc}/model/singlecontenttypemodel.h
+  ${inc}/model/thememodel.h
+  ${inc}/model/vmapitemmodel.h
+  ${inc}/model/messagemodel.h
+  ${inc}/model/filterinstantmessagingmodel.h
+  ${inc}/model/messagemodel.h
+  ${inc}/model/chatroomsplittermodel.h
+  ${inc}/model/filteredplayermodel.h
+  ${inc}/model/instantmessagingmodel.h
+  ${inc}/preferences/preferenceslistener.h
+  ${inc}/preferences/preferencesmanager.h
+  ${inc}/services/ipchecker.h
+  ${inc}/services/tipchecker.h
+  ${inc}/services/updatechecker.h
+  ${inc}/session/sessionitemmodel.h
+  ${inc}/undoCmd/addfogofwarchangecommand.h
+  ${inc}/undoCmd/addlocalcharactercommand.h
+  ${inc}/undoCmd/addnonplayablecharactercommand.h
+  ${inc}/undoCmd/addvmapitem.h
+  ${inc}/undoCmd/changecoloritem.h
+  ${inc}/undoCmd/changesizevmapitem.h
+  ${inc}/undoCmd/changestackordervmapcommand.h
+  ${inc}/undoCmd/deletevmapitem.h
+  ${inc}/undoCmd/hideotherlayercommand.h
+  ${inc}/undoCmd/importdatamedia.h
+  ${inc}/undoCmd/importimagestate.h
+  ${inc}/undoCmd/importmedia.h
+  ${inc}/undoCmd/newmediacontroller.h
+  ${inc}/undoCmd/openmediacontroller.h
+  ${inc}/undoCmd/renamecampaignmedia.h
+  ${inc}/undoCmd/removelocalcharactercommand.h
+  ${inc}/undoCmd/removemediacontrollercommand.h
+  ${inc}/undoCmd/showtransparentitemcommand.h
+  ${inc}/undoCmd/rollinitcommand.h
+  ${inc}/updater/controller/servermanagerupdater.h
+  ${inc}/updater/controller/audioplayerupdater.h
+  ${inc}/updater/media/campaignupdater.h
+  ${inc}/updater/media/charactersheetupdater.h
+  ${inc}/updater/media/genericupdater.h
+  ${inc}/updater/media/instantmessagingupdater.h
+  ${inc}/updater/media/mediaupdaterinterface.h
+  ${inc}/updater/media/mindmapupdater.h
+  ${inc}/updater/media/sharednotecontrollerupdater.h
+  ${inc}/updater/media/vmapupdater.h
+  ${inc}/updater/media/webviewupdater.h
+  ${inc}/updater/vmapitem/characteritemupdater.h
+  ${inc}/updater/vmapitem/ellipsecontrollerupdater.h
+  ${inc}/updater/vmapitem/imagecontrollerupdater.h
+  ${inc}/updater/vmapitem/linecontrollerupdater.h
+  ${inc}/updater/vmapitem/pathcontrollerupdater.h
+  ${inc}/updater/vmapitem/rectcontrollerupdater.h
+  ${inc}/updater/vmapitem/textcontrollerupdater.h
+  ${inc}/updater/vmapitem/vmapitemcontrollerupdater.h
+  ${inc}/utils/insertionsortedmap.h
+  ${inc}/utils/countdownobject.h
+  ${inc}/worker/autosavecontroller.h
+  ${inc}/worker/convertionhelper.h
+  ${inc}/worker/fileserializer.h
+  ${inc}/worker/iohelper.h
+  ${inc}/worker/messagehelper.h
+  ${inc}/worker/modelhelper.h
+  ${inc}/worker/networkdownloader.h
+  ${inc}/worker/utilshelper.h
+  ${inc}/worker/vectorialmapmessagehelper.h
 )
 
 
 set(SOURCES
-  controller/antagonistboardcontroller.cpp
-  controller/contentcontroller.cpp
-  controller/gamecontroller.cpp
-  controller/instantmessagingcontroller.cpp
-  controller/item_controllers/characteritemcontroller.cpp
-  controller/item_controllers/ellipsecontroller.cpp
-  controller/item_controllers/gridcontroller.cpp
-  controller/item_controllers/imagecontroller.cpp
-  controller/item_controllers/linecontroller.cpp
-  controller/item_controllers/pathcontroller.cpp
-  controller/item_controllers/rectcontroller.cpp
-  controller/item_controllers/sightcontroller.cpp
-  controller/item_controllers/textcontroller.cpp
-  controller/item_controllers/visualitemcontroller.cpp
-  controller/item_controllers/vmapitemfactory.cpp
-  #controller/media_controller/charactersheetmediacontroller.cpp
-  #controller/media_controller/imagemediacontroller.cpp
-  #controller/media_controller/mediamanagerbase.cpp
-  #controller/media_controller/notemediacontroller.cpp
-  #controller/media_controller/pdfmediacontroller.cpp
-  #controller/media_controller/sharednotemediacontroller.cpp
-  #controller/media_controller/vectorialmapmediacontroller.cpp
-  #controller/media_controller/webpagemediacontroller.cpp
-  controller/networkcontroller.cpp
-  controller/playercontroller.cpp
-  controller/preferencescontroller.cpp
-  #controller/resourcescontroller.cpp
-  controller/audioplayercontroller.cpp
-  controller/view_controller/charactersheetcontroller.cpp
-  controller/view_controller/imagecontroller.cpp
-  controller/view_controller/imageselectorcontroller.cpp
-  controller/view_controller/mediacontrollerbase.cpp
-  controller/view_controller/mindmapcontroller.cpp
-  controller/view_controller/notecontroller.cpp
-  controller/view_controller/sharednotecontroller.cpp
-  controller/view_controller/vectorialmapcontroller.cpp
-  controller/view_controller/webpagecontroller.cpp
-  controller/view_controller/selectconnprofilecontroller.cpp
-  controller/audiocontroller.cpp
-  data/campaign.cpp
-  data/campaigneditor.cpp
-  data/campaignmanager.cpp
-  data/character.cpp
-  data/characterstate.cpp
-  data/charactervision.cpp
-  data/cleveruri.cpp
-  data/cleverurimimedata.cpp
-  data/diceshortcut.cpp
-  data/localpersonmodel.cpp
-  data/media.cpp
-  data/person.cpp
-  data/player.cpp
-  data/resourcesnode.cpp
-  data/rolisteammimedata.cpp
-  data/rolisteamtheme.cpp
-  data/shortcutmodel.cpp
-  media/mediafactory.cpp
-  model/actiononlistmodel.cpp
-  model/charactermodel.cpp
-  model/characterstatemodel.cpp
-  model/contentmodel.cpp
-  model/dicealiasmodel.cpp
-  model/imagemodel.cpp
-  model/languagemodel.cpp
-  model/mediafilteredmodel.cpp
-  model/mediamodel.cpp
-  model/historymodel.cpp
-  model/musicmodel.cpp
-  model/nonplayablecharactermodel.cpp
-  model/palettemodel.cpp
-  model/participantsmodel.cpp
-  model/participantmodel.cpp
-  model/patternmodel.cpp
-  model/playermodel.cpp
-  model/playerproxymodel.cpp
-  model/profilemodel.cpp
-  model/genericmodel.cpp
-  model/remoteplayermodel.cpp
-  model/singlecontenttypemodel.cpp
-  model/thememodel.cpp
-  model/vmapitemmodel.cpp
-  network/channel.cpp
-  network/channelmodel.cpp
-  network/characterdatamodel.cpp
-  network/clientmanager.cpp
-  network/connectionaccepter.cpp
-  network/connectionprofile.cpp
-  network/heartbeatsender.cpp
-  network/ipbanaccepter.cpp
-  network/iprangeaccepter.cpp
-  network/messagedispatcher.cpp
-  network/networklink.cpp
-  network/networkmessage.cpp
-  network/networkmessagereader.cpp
-  network/networkmessagewriter.cpp
-  network/passwordaccepter.cpp
-  network/receiveevent.cpp
-  network/rserver.cpp
-  network/servermanager.cpp
-  network/tcpclient.cpp
-  network/timeaccepter.cpp
-  network/treeitem.cpp
-  preferences/preferenceslistener.cpp
-  preferences/preferencesmanager.cpp
-  services/ipchecker.cpp
-  services/tipchecker.cpp
-  services/updatechecker.cpp
-  session/sessionitemmodel.cpp
-  #undoCmd/addfieldcommand.cpp
-  undoCmd/addfogofwarchangecommand.cpp
-  undoCmd/addlocalcharactercommand.cpp
-  undoCmd/addnonplayablecharactercommand.cpp
-  undoCmd/addvmapitem.cpp
-  undoCmd/changecoloritem.cpp
-  undoCmd/changesizevmapitem.cpp
-  undoCmd/changestackordervmapcommand.cpp
-  undoCmd/deletevmapitem.cpp
-  undoCmd/hideotherlayercommand.cpp
-  undoCmd/importdatamedia.cpp
-  undoCmd/importimagestate.cpp
-  undoCmd/importmedia.cpp
-  undoCmd/newmediacontroller.cpp
-  undoCmd/openmediacontroller.cpp
-  undoCmd/renamecampaignmedia.cpp
-  undoCmd/rollinitcommand.cpp
-  undoCmd/removelocalcharactercommand.cpp
-  undoCmd/removemediacontrollercommand.cpp
-  undoCmd/showtransparentitemcommand.cpp
-  updater/controller/servermanagerupdater.cpp
-  updater/controller/audioplayerupdater.cpp
-  updater/media/campaignupdater.cpp
-  updater/media/charactersheetupdater.cpp
-  updater/media/genericupdater.cpp
-  updater/media/instantmessagingupdater.cpp
-  updater/media/mediaupdaterinterface.cpp
-  updater/media/mindmapupdater.cpp
-  updater/media/sharednotecontrollerupdater.cpp
-  updater/media/vmapupdater.cpp
-  updater/media/webviewupdater.cpp
-  updater/vmapitem/characteritemupdater.cpp
-  updater/vmapitem/ellipsecontrollerupdater.cpp
-  updater/vmapitem/imagecontrollerupdater.cpp
-  updater/vmapitem/linecontrollerupdater.cpp
-  updater/vmapitem/pathcontrollerupdater.cpp
-  updater/vmapitem/rectcontrollerupdater.cpp
-  updater/vmapitem/textcontrollerupdater.cpp
-  updater/vmapitem/vmapitemcontrollerupdater.cpp
-  utils/countdownobject.cpp
-  worker/networkhelper.cpp
-  worker/autosavecontroller.cpp
-  worker/convertionhelper.cpp
-  worker/fileserializer.cpp
-  worker/iohelper.cpp
-  worker/messagehelper.cpp
-  worker/modelhelper.cpp
-  worker/networkdownloader.cpp
-  worker/playermessagehelper.cpp
-  worker/utilshelper.cpp
-  worker/vectorialmapmessagehelper.cpp
+  src/controller/antagonistboardcontroller.cpp
+  src/controller/contentcontroller.cpp
+  src/controller/gamecontroller.cpp
+  src/controller/instantmessagingcontroller.cpp
+  src/controller/item_controllers/characteritemcontroller.cpp
+  src/controller/item_controllers/ellipsecontroller.cpp
+  src/controller/item_controllers/gridcontroller.cpp
+  src/controller/item_controllers/imagecontroller.cpp
+  src/controller/item_controllers/linecontroller.cpp
+  src/controller/item_controllers/pathcontroller.cpp
+  src/controller/item_controllers/rectcontroller.cpp
+  src/controller/item_controllers/sightcontroller.cpp
+  src/controller/item_controllers/textcontroller.cpp
+  src/controller/item_controllers/visualitemcontroller.cpp
+  src/controller/item_controllers/vmapitemfactory.cpp
+  src/controller/networkcontroller.cpp
+  src/controller/playercontroller.cpp
+  src/controller/preferencescontroller.cpp
+  src/controller/audioplayercontroller.cpp
+  src/controller/view_controller/charactersheetcontroller.cpp
+  src/controller/view_controller/pdfcontroller.cpp
+  src/controller/view_controller/imagecontroller.cpp
+  src/controller/view_controller/imageselectorcontroller.cpp
+  src/controller/view_controller/mediacontrollerbase.cpp
+  src/controller/view_controller/mindmapcontroller.cpp
+  src/controller/view_controller/notecontroller.cpp
+  src/controller/view_controller/sharednotecontroller.cpp
+  src/controller/view_controller/vectorialmapcontroller.cpp
+  src/controller/view_controller/webpagecontroller.cpp
+  src/controller/view_controller/selectconnprofilecontroller.cpp
+  src/controller/audiocontroller.cpp
+  src/data/campaign.cpp
+  src/data/campaigneditor.cpp
+  src/data/campaignmanager.cpp
+  src/data/charactervision.cpp
+  src/data/cleveruri.cpp
+  src/data/cleverurimimedata.cpp
+  src/data/diceshortcut.cpp
+  src/data/localpersonmodel.cpp
+  src/data/media.cpp
+  src/data/chatroom.cpp
+  src/data/chatroomfactory.cpp
+  src/data/rolisteammimedata.cpp
+  src/data/rolisteamtheme.cpp
+  src/data/shortcutmodel.cpp
+  src/media/mediafactory.cpp
+  src/model/messagemodel.cpp
+  src/model/filterinstantmessagingmodel.cpp
+  src/model/messagemodel.cpp
+  src/model/chatroomsplittermodel.cpp
+  src/model/filteredplayermodel.cpp
+  src/model/instantmessagingmodel.cpp
+  src/model/actiononlistmodel.cpp
+  src/model/charactermodel.cpp
+  src/model/characterstatemodel.cpp
+  src/model/contentmodel.cpp
+  src/model/dicealiasmodel.cpp
+  src/model/languagemodel.cpp
+  src/model/mediafilteredmodel.cpp
+  src/model/mediamodel.cpp
+  src/model/historymodel.cpp
+  src/model/musicmodel.cpp
+  src/model/nonplayablecharactermodel.cpp
+  src/model/palettemodel.cpp
+  src/model/participantsmodel.cpp
+  src/model/participantmodel.cpp
+  src/model/patternmodel.cpp
+  src/model/playermodel.cpp
+  src/model/playerproxymodel.cpp
+  src/model/profilemodel.cpp
+  src/model/genericmodel.cpp
+  src/model/remoteplayermodel.cpp
+  src/model/singlecontenttypemodel.cpp
+  src/model/thememodel.cpp
+  src/model/vmapitemmodel.cpp
+  src/preferences/preferenceslistener.cpp
+  src/preferences/preferencesmanager.cpp
+  src/services/ipchecker.cpp
+  src/services/tipchecker.cpp
+  src/services/updatechecker.cpp
+  src/session/sessionitemmodel.cpp
+  src/undoCmd/addfogofwarchangecommand.cpp
+  src/undoCmd/addlocalcharactercommand.cpp
+  src/undoCmd/addnonplayablecharactercommand.cpp
+  src/undoCmd/addvmapitem.cpp
+  src/undoCmd/changecoloritem.cpp
+  src/undoCmd/changesizevmapitem.cpp
+  src/undoCmd/changestackordervmapcommand.cpp
+  src/undoCmd/deletevmapitem.cpp
+  src/undoCmd/hideotherlayercommand.cpp
+  src/undoCmd/importdatamedia.cpp
+  src/undoCmd/importimagestate.cpp
+  src/undoCmd/importmedia.cpp
+  src/undoCmd/newmediacontroller.cpp
+  src/undoCmd/openmediacontroller.cpp
+  src/undoCmd/renamecampaignmedia.cpp
+  src/undoCmd/rollinitcommand.cpp
+  src/undoCmd/removelocalcharactercommand.cpp
+  src/undoCmd/removemediacontrollercommand.cpp
+  src/undoCmd/showtransparentitemcommand.cpp
+  src/updater/controller/servermanagerupdater.cpp
+  src/updater/controller/audioplayerupdater.cpp
+  src/updater/media/campaignupdater.cpp
+  src/updater/media/charactersheetupdater.cpp
+  src/updater/media/genericupdater.cpp
+  src/updater/media/instantmessagingupdater.cpp
+  src/updater/media/mediaupdaterinterface.cpp
+  src/updater/media/mindmapupdater.cpp
+  src/updater/media/sharednotecontrollerupdater.cpp
+  src/updater/media/vmapupdater.cpp
+  src/updater/media/webviewupdater.cpp
+  src/updater/vmapitem/characteritemupdater.cpp
+  src/updater/vmapitem/ellipsecontrollerupdater.cpp
+  src/updater/vmapitem/imagecontrollerupdater.cpp
+  src/updater/vmapitem/linecontrollerupdater.cpp
+  src/updater/vmapitem/pathcontrollerupdater.cpp
+  src/updater/vmapitem/rectcontrollerupdater.cpp
+  src/updater/vmapitem/textcontrollerupdater.cpp
+  src/updater/vmapitem/vmapitemcontrollerupdater.cpp
+  src/utils/countdownobject.cpp
+  src/worker/autosavecontroller.cpp
+  src/worker/convertionhelper.cpp
+  src/worker/fileserializer.cpp
+  src/worker/iohelper.cpp
+  src/worker/messagehelper.cpp
+  src/worker/modelhelper.cpp
+  src/worker/networkdownloader.cpp
+  src/worker/utilshelper.cpp
+  src/worker/vectorialmapmessagehelper.cpp
 )
 
+add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${pdfHeader} ${QRC_SOURCES})
+set_target_properties(core PROPERTIES PUBLIC_HEADER "${HEADERS} ${pdfHeader}")
+target_compile_definitions(core PRIVATE CORE_LIBRARY)
+target_compile_definitions(core PUBLIC _USE_MATH_DEFINES)
+target_link_libraries(core
+  PUBLIC
+    project_warnings
+    project_options
+    Qt6::Core
+    Qt6::Network
+    Qt6::Multimedia
+    Qt6::Concurrent
+  PRIVATE
+    diceparser_qobject
+    diceparser_shared
+    rmindmap
+    common_core
+    common_qml
+    charactersheet
+    charactersheet_widgets
+    instantmessaging
+    util
+    network)
 
-# Qt6::PdfWidgets Qt6::Gui Qt6::Svg Qt6::Multimedia  Qt6::PrintSupport Qt6::Qml Qt6::Quick Qt6::QuickControls2 Qt6::QuickWidgets Qt6::Xml Qt6::WebEngineWidgets
-if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
-    message("Link with PDF")
-    add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${pdfHeader} ${QRC_SOURCES})
-    target_compile_definitions(core PUBLIC WITH_PDF=1)
-    target_link_libraries(core PUBLIC project_warnings project_options Qt6::Core  Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::StateMachine PRIVATE diceparser_shared rmindmap common_core common_qml charactersheet charactersheet_widgets instantmessaging)
-else()
-  add_library(core SHARED ${SOURCES} ${HEADERS} ${QRC_SOURCES})
-  target_link_libraries(core PUBLIC project_warnings project_options Qt6::Core  Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::StateMachine PRIVATE diceparser_shared rmindmap common_core common_qml charactersheet charactersheet_widgets instantmessaging)
-endif()
+target_include_directories(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-target_include_directories(core PUBLIC ../)
-target_include_directories(core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 message(${CMAKE_CURRENT_BINARY_DIR})
 message(${CMAKE_CURRENT_BINARY_DIR})
@@ -382,70 +411,6 @@ message(${CMAKE_CURRENT_BINARY_DIR})
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/core_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/network_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 
-set(Network_HEADER
-    network/channelmodel.h
-    media/mediatype.h
-    network/tcpclient.h
-    network/servermanager.h
-    network/connectionaccepter.h
-    network/passwordaccepter.h
-    network/iprangeaccepter.h
-    network/ipbanaccepter.h
-    network/timeaccepter.h
-    network/channel.h
-    network/treeitem.h
-    network/networkmessage.h
-    network/networkmessagereader.h
-    network/networkmessagewriter.h
-    #worker/messagehelper.h
-    worker/networkhelper.h
-    updater/controller/servermanagerupdater.h
-    network/rserver.h
-    network/messagedispatcher.h
-    network/receiveevent.h
-    data/person.h
-    data/player.h
-    data/character.h
-    data/characterstate.h
-    data/resourcesnode.h
-    worker/playermessagehelper.h
-)
-
-
-set(Network_SRC
-    network/channelmodel.cpp
-    network/tcpclient.cpp
-    network/servermanager.cpp
-    network/connectionaccepter.cpp
-    network/passwordaccepter.cpp
-    network/iprangeaccepter.cpp
-    network/ipbanaccepter.cpp
-    network/timeaccepter.cpp
-    network/channel.cpp
-    network/treeitem.cpp
-    worker/networkhelper.cpp
-    #worker/messagehelper.cpp
-    network/networkmessage.cpp
-    network/networkmessagereader.cpp
-    network/networkmessagewriter.cpp
-    updater/controller/servermanagerupdater.cpp
-    network/rserver.cpp
-    network/messagedispatcher.cpp
-    network/receiveevent.cpp
-    data/person.cpp
-    data/player.cpp
-    data/character.cpp
-    data/characterstate.cpp
-    data/resourcesnode.cpp
-    worker/playermessagehelper.cpp
-)
-
-add_library(network SHARED ${Network_SRC} ${Network_HEADER})
-set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
-target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Gui Qt6::StateMachine)
-
-target_include_directories(network PUBLIC ../)
-target_include_directories(network PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 install(TARGETS core network
     RUNTIME DESTINATION bin

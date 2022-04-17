@@ -20,14 +20,14 @@
 #ifndef IMAGEPATHEDITOR_H
 #define IMAGEPATHEDITOR_H
 
+#include "rwidgets_global.h"
 #include <QLineEdit>
 #include <QPixmap>
 #include <QPushButton>
 #include <QWidget>
-
 namespace rwidgets
 {
-class ImagePathEditor : public QWidget
+class RWIDGET_EXPORT ImagePathEditor : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QString filename READ filename WRITE setFilename NOTIFY fileNameChanged)

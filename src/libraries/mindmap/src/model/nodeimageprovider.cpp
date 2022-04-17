@@ -17,13 +17,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "nodeimageprovider.h"
+#include "mindmap/model/nodeimageprovider.h"
 
-#include "core/model/imagemodel.h"
+#include "mindmap/model/imagemodel.h"
 
 namespace mindmap
 {
-NodeImageProvider::NodeImageProvider(ImageModel* model)
+NodeImageProvider::NodeImageProvider(mindmap::ImageModel* model)
     : QQuickImageProvider(QQuickImageProvider::Pixmap), m_dataModel(model)
 {
 }

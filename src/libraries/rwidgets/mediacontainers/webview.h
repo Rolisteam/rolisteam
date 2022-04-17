@@ -26,15 +26,16 @@
 #include <QWebEngineView>
 #include <QWidget>
 
-#include "rwidgets/mediacontainers/mediacontainer.h"
 #include "network/networkmessagewriter.h"
+#include "rwidgets/mediacontainers/mediacontainer.h"
+#include "rwidgets_global.h"
 namespace Ui
 {
 class WebView;
 }
 
 class WebpageController;
-class WebView : public MediaContainer
+class RWIDGET_EXPORT WebView : public MediaContainer
 {
     Q_OBJECT
 

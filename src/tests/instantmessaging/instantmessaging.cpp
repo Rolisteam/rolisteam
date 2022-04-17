@@ -21,11 +21,11 @@
 #include <QMetaObject>
 #include <QMetaProperty>
 
-#include "core/data/character.h"
-#include "core/data/localpersonmodel.h"
-#include "core/data/person.h"
-#include "core/data/player.h"
-#include "core/model/playermodel.h"
+#include "data/character.h"
+#include "data/localpersonmodel.h"
+#include "data/person.h"
+#include "data/player.h"
+#include "model/playermodel.h"
 
 #include "controller/instantmessagingcontroller.h"
 #include "instantmessaging/avatarprovider.h"

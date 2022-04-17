@@ -31,9 +31,9 @@
 #include <QPushButton>
 #include <QUrl>
 
-#include "core/controller/view_controller/imageselectorcontroller.h"
-#include "core/worker/iohelper.h"
-#include "core/worker/utilshelper.h"
+#include "controller/view_controller/imageselectorcontroller.h"
+#include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 #include "rwidgets/customs/overlay.h"
 
 ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget* parent)

@@ -18,27 +18,29 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 find_package(Qt6  COMPONENTS Core Svg Quick QuickControls2 REQUIRED)
 
-
+set(inc_dir include/mindmap)
 set(mindmap_header
-    src/command/commandhelper.h
-    src/controller/selectioncontroller.h
-    src/controller/spacingcontroller.h
-    src/data/link.h
-    src/data/mindnode.h
-    src/data/nodestyle.h
-    src/model/linkmodel.h
-    src/geometry/linknode.h
-    src/model/nodestylemodel.h
-    src/qmlItems/linkitem.h
-    src/command/addnodecommand.h
-    src/worker/fileserializer.h
-    src/command/reparentingnodecommand.h
-    src/command/dragnodecommand.h
-    src/command/removenodecommand.h
-    src/command/addimagetonodecommand.h
-    src/command/removeimagefromnodecommand.h
-    src/model/boxmodel.h
-    src/model/nodeimageprovider.h)
+    ${inc_dir}/mindmap_global.h
+    ${inc_dir}/controller/selectioncontroller.h
+    ${inc_dir}/controller/spacingcontroller.h
+    ${inc_dir}/data/link.h
+    ${inc_dir}/data/mindnode.h
+    ${inc_dir}/data/nodestyle.h
+    ${inc_dir}/data/mindmaptypes.h
+    ${inc_dir}/model/linkmodel.h
+    ${inc_dir}/model/imagemodel.h
+    ${inc_dir}/geometry/linknode.h
+    ${inc_dir}/model/nodestylemodel.h
+    ${inc_dir}/qmlItems/linkitem.h
+    ${inc_dir}/command/addnodecommand.h
+    ${inc_dir}/worker/fileserializer.h
+    ${inc_dir}/command/reparentingnodecommand.h
+    ${inc_dir}/command/dragnodecommand.h
+    ${inc_dir}/command/removenodecommand.h
+    ${inc_dir}/command/addimagetonodecommand.h
+    ${inc_dir}/command/removeimagefromnodecommand.h
+    ${inc_dir}/model/boxmodel.h
+    ${inc_dir}/model/nodeimageprovider.h)
 
         # main.cpp
 set(mindmap_src
@@ -48,6 +50,7 @@ set(mindmap_src
     src/data/mindnode.cpp
     src/data/nodestyle.cpp
     src/model/linkmodel.cpp
+    src/model/imagemodel.cpp
     src/command/dragnodecommand.cpp
     src/command/addnodecommand.cpp
     src/command/removenodecommand.cpp
@@ -81,9 +84,28 @@ set(mindmap_bin_src
 
 
 add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
-target_link_libraries(rmindmap PUBLIC Qt6::Core Qt6::Svg Qt6::Svg Qt6::Qml Qt6::Quick Qt6::QuickControls2)
+target_link_libraries(rmindmap PUBLIC Qt6::Core Qt6::Svg Qt6::Svg Qt6::Qml Qt6::Quick Qt6::QuickControls2 PRIVATE util)
+
 set_target_properties(rmindmap PROPERTIES VERSION ${PROJECT_VERSION})
-target_include_directories(rmindmap PRIVATE src ../)
+set_target_properties(rmindmap PROPERTIES PUBLIC_HEADER "${mindmap_header}")
+target_compile_definitions(rmindmap PRIVATE MINDMAP_LIBRARY)
+
+target_include_directories(rmindmap
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/data
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/command
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/controller
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/qmlItems
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/geometry
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/worker
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/model
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+#if(WIN32)
+#    set_target_properties(rmindmap PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+#endif()
 
 IF(BUILD_GUI)
     add_executable(rmindmap-gui ${mindmap_bin_src})

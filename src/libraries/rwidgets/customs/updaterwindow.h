@@ -20,13 +20,14 @@
 #ifndef UPDATERWINDOW_H
 #define UPDATERWINDOW_H
 
+#include "rwidgets_global.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QProgressBar>
 #include <QWidget>
 #include <memory>
 
-class UpdaterWindow : public QWidget
+class RWIDGET_EXPORT UpdaterWindow : public QWidget
 {
     Q_OBJECT
 

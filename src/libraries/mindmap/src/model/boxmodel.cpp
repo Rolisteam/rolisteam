@@ -17,14 +17,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "boxmodel.h"
+#include "mindmap/model/boxmodel.h"
 
 #include <QColor>
 #include <QDebug>
 #include <QRectF>
 
-#include "data/mindnode.h"
-#include "model/linkmodel.h"
+#include "mindmap/data/mindnode.h"
+#include "mindmap/model/linkmodel.h"
 
 namespace mindmap
 {

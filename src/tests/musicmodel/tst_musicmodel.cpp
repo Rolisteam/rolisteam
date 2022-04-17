@@ -24,7 +24,7 @@
 #include <QtTest/QtTest>
 #include <memory>
 
-#include "core/model/musicmodel.h"
+#include "model/musicmodel.h"
 
 class TestMusicModel : public QObject
 {

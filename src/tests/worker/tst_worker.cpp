@@ -25,8 +25,8 @@
 #include <QString>
 #include <memory>
 
-#include "core/worker/iohelper.h"
-#include "core/worker/utilshelper.h"
+#include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 
 class WorkerTest : public QObject
 {

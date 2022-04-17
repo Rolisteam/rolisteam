@@ -17,10 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "linkmodel.h"
+#include "mindmap/model/linkmodel.h"
 
-#include "data/link.h"
-#include "data/mindnode.h"
+#include "mindmap/data/link.h"
+#include "mindmap/data/mindnode.h"
 
 #include <QDebug>
 #include <QRectF>

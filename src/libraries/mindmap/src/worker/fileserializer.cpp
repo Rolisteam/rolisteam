@@ -17,12 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "fileserializer.h"
+#include "mindmap/worker/fileserializer.h"
 
-#include "data/link.h"
-#include "data/mindnode.h"
-#include "model/boxmodel.h"
-#include "model/linkmodel.h"
+#include "mindmap/data/link.h"
+#include "mindmap/data/mindnode.h"
+#include "mindmap/model/boxmodel.h"
+#include "mindmap/model/linkmodel.h"
 
 #include <QByteArray>
 #include <QDir>
@@ -137,7 +137,7 @@ bool FileSerializer::readFile(BoxModel* nodeModel, LinkModel* linkModel, const Q
         auto link= linkModel->addLink(nodeMap[idStart], nodeMap[idEnd]);
         link->setText(text);
         link->setVisible(obj["visible"].toBool());
-        link->setDirection(static_cast<Core::ArrowDirection>(obj["Direction"].toInt()));
+        link->setDirection(static_cast<mindmap::ArrowDirection>(obj["Direction"].toInt()));
     }
     return true;
 }

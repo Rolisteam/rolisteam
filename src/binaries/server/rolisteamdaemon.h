@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QThread>
 
-#include "common/controller/logcontroller.h"
-#include "network/servermanager.h"
+#include <common/logcontroller.h>
+#include <network/servermanager.h>
 /**
  * @brief The RolisteamDaemon class
  */

@@ -26,9 +26,9 @@
 #include <QMouseEvent>
 #include <QPainter>
 
-#include "core/controller/view_controller/imageselectorcontroller.h"
-#include "core/worker/iohelper.h"
-#include "core/worker/utilshelper.h"
+#include "controller/view_controller/imageselectorcontroller.h"
+#include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 #include "delegates/userlistdelegate.h"
 #include "docks/playerspanel.h"
 #include "rwidgets/dialogs/imageselectordialog.h"

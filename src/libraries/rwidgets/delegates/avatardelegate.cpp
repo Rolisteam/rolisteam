@@ -21,7 +21,7 @@
 
 #include <QPainter>
 
-#include "core/model/nonplayablecharactermodel.h"
+#include "model/nonplayablecharactermodel.h"
 
 constexpr int k_divisor= 2;
 constexpr int k_half= 32;

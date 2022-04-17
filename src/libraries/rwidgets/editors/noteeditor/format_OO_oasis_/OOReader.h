@@ -13,9 +13,10 @@
 #include "editors/noteeditor/format_OO_oasis_/FoColorName.h"
 #include "editors/noteeditor/format_OO_oasis_/OOFormat.h"
 
+#include "rwidgets_global.h"
 QMap<QString, QByteArray> unzipstream(const QString file);
 
-class PushDoc : public QThread
+class RWIDGET_EXPORT PushDoc : public QThread
 {
 public:
     PushDoc(QObject* parent) : QThread(parent) { setTerminationEnabled(true); }
@@ -24,7 +25,7 @@ protected:
     void run() { exec(); }
 };
 
-class ChildImport : public QXmlStreamReader
+class RWIDGET_EXPORT ChildImport : public QXmlStreamReader
 {
 public:
     ChildImport(QIODevice* device= 0);
@@ -32,7 +33,7 @@ public:
     void copyDeep(QIODevice* device, QXmlStreamWriter& out);
 };
 
-class LoadGetImage : public QObject
+class RWIDGET_EXPORT LoadGetImage : public QObject
 {
     Q_OBJECT
     //
@@ -54,7 +55,7 @@ private:
     QNetworkAccessManager* m_manager;
 };
 
-class Gloader : public QThread
+class RWIDGET_EXPORT Gloader : public QThread
 {
     Q_OBJECT
 
@@ -72,7 +73,7 @@ private:
 };
 
 class ReadWriteBuf;
-class OOReader : public OOFormat
+class RWIDGET_EXPORT OOReader : public OOFormat
 {
     Q_OBJECT
     //
@@ -89,9 +90,15 @@ public:
     OOReader(const QString file= QString(), WIDGEDEST e= otextbrowser, QObject* parent= 0);
     QTextDocument* document() { return Qdoc->clone(); } /* only body */
 #ifdef _OOREADRELEASE_
-    QString debugStyle() { return debugline; }
+    QString debugStyle()
+    {
+        return debugline;
+    }
 #endif
-    QMap<QString, QTextDocument*> option() { return lateral; } /* header footer fo region */
+    QMap<QString, QTextDocument*> option()
+    {
+        return lateral;
+    } /* header footer fo region */
 
     enum STYLETYPE
     {

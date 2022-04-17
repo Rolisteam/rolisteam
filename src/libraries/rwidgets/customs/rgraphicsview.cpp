@@ -27,7 +27,7 @@
 #include <QOpenGLWidget>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "core/data/rolisteammimedata.h"
+#include "data/rolisteammimedata.h"
 #include "data/character.h"
 #include "data/person.h"
 #include "mediacontainers/mediacontainer.h"
@@ -766,7 +766,7 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
     //}
 }
 
-#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "controller/view_controller/imageselectorcontroller.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 void RGraphicsView::addImageToMap()
 {

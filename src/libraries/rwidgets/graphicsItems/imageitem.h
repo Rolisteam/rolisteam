@@ -1,6 +1,7 @@
 #ifndef IMAGEITEM_H
 #define IMAGEITEM_H
 
+#include "rwidgets_global.h"
 #include "visualitem.h"
 #include <QImage>
 #include <QMovie>
@@ -8,7 +9,7 @@ namespace vmap
 {
 class ImageController;
 }
-class ImageItem : public VisualItem
+class RWIDGET_EXPORT ImageItem : public VisualItem
 {
     Q_OBJECT
 public:

@@ -22,14 +22,14 @@
 
 #include <QDialog>
 
-#include "core/media/mediatype.h"
-
+#include "media/mediatype.h"
+#include "rwidgets_global.h"
 namespace Ui
 {
 class ImportDataFromCampaignDialog;
 }
 
-class ImportDataFromCampaignDialog : public QDialog
+class RWIDGET_EXPORT ImportDataFromCampaignDialog : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(bool validSource READ validSource NOTIFY sourceChanged)

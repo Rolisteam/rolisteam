@@ -22,15 +22,15 @@
 
 #include "model/historymodel.h"
 
+#include "rwidgets_global.h"
 #include <QDialog>
 #include <QPointer>
-
 namespace Ui
 {
 class HistoryViewerDialog;
 }
 
-class HistoryViewerDialog : public QDialog
+class RWIDGET_EXPORT HistoryViewerDialog : public QDialog
 {
     Q_OBJECT
 

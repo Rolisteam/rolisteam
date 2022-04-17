@@ -1,10 +1,10 @@
 #ifndef OVERLAY_H
 #define OVERLAY_H
 
+#include "rwidgets_global.h"
 #include <QRect>
 #include <QWidget>
-
-class Overlay : public QWidget
+class RWIDGET_EXPORT Overlay : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QRect selectedRect READ selectedRect WRITE setSelectedRect NOTIFY selectedRectChanged)

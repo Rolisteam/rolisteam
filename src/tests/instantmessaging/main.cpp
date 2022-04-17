@@ -1,10 +1,10 @@
 #include "instantmessaging.h"
 
-#include "common/controller/theme.h"
+#include "common_qml/theme.h"
 #include "data/player.h"
-#include "instantmessaging/avatarprovider.h"
 #include "message.h"
 #include "model/playermodel.h"
+#include "qml_components/avatarprovider.h"
 #include "rwidgets/mediacontainers/instantmessagingview.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>

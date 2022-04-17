@@ -1,6 +1,3 @@
-#include "dragnodecommand.h"
-
-#include "commandhelper.h"
 /***************************************************************************
  *	Copyright (C) 2019 by Renaud Guezennec                                 *
  *   http://www.rolisteam.org/contact                                      *
@@ -20,7 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "data/mindnode.h"
+
+#include "mindmap/command/dragnodecommand.h"
+#include "mindmap/data/mindmaptypes.h"
+#include "mindmap/data/mindnode.h"
 namespace mindmap
 {
 
@@ -31,27 +31,31 @@ DragNodeCommand::DragNodeCommand(const QPointF& motion, const std::vector<QPoint
 
 void DragNodeCommand::undo()
 {
-    std::for_each(m_mindNodes.begin(), m_mindNodes.end(), [this](const QPointer<MindNode>& node) {
-        if(node.isNull())
-            return;
-        node->translate(m_motion * -1);
-    });
+    std::for_each(m_mindNodes.begin(), m_mindNodes.end(),
+                  [this](const QPointer<MindNode>& node)
+                  {
+                      if(node.isNull())
+                          return;
+                      node->translate(m_motion * -1);
+                  });
 }
 
 void DragNodeCommand::redo()
 {
-    std::for_each(m_mindNodes.begin(), m_mindNodes.end(), [this](const QPointer<MindNode>& node) {
-        if(node.isNull())
-            return;
-        if(node->isDragged())
-            return;
-        node->translate(m_motion);
-    });
+    std::for_each(m_mindNodes.begin(), m_mindNodes.end(),
+                  [this](const QPointer<MindNode>& node)
+                  {
+                      if(node.isNull())
+                          return;
+                      if(node->isDragged())
+                          return;
+                      node->translate(m_motion);
+                  });
 }
 
 int DragNodeCommand::id() const
 {
-    return static_cast<int>(RMindMap::CommandType::Drag);
+    return static_cast<int>(mindmap::CommandType::Drag);
 }
 
 bool DragNodeCommand::mergeWith(const QUndoCommand* other)

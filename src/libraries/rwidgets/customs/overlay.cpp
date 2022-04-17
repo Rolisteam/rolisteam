@@ -11,7 +11,7 @@ constexpr int k_grey_color_level= 40;
 constexpr int k_pen_width= 4;
 constexpr int k_opacity= 200;
 
-#include "core/worker/utilshelper.h"
+#include "worker/utilshelper.h"
 
 int computeDistance(QPoint p, QPoint r)
 {

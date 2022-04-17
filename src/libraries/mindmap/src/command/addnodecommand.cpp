@@ -17,21 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "addnodecommand.h"
+#include "mindmap/command/addnodecommand.h"
 
-#include "core/updater/media/mindmapupdater.h"
-#include "data/link.h"
-#include "model/boxmodel.h"
-#include "model/linkmodel.h"
+#include "mindmap/model/boxmodel.h"
+#include "mindmap/model/linkmodel.h"
 
 #include <QDebug>
 
 namespace mindmap
 {
 
-AddNodeCommand::AddNodeCommand(const QString& idmap, MindMapUpdater* updater, BoxModel* nodeModel, LinkModel* linkModel,
-                               const QString& idParent)
-    : m_idmap(idmap), m_updater(updater), m_nodeModel(nodeModel), m_linkModel(linkModel), m_idParent(idParent)
+AddNodeCommand::AddNodeCommand(const QString& idmap, BoxModel* nodeModel, LinkModel* linkModel, const QString& idParent)
+    : m_idmap(idmap), m_nodeModel(nodeModel), m_linkModel(linkModel), m_idParent(idParent)
 {
 }
 
@@ -52,10 +49,11 @@ void AddNodeCommand::undo()
         m_linkModel->removeLink({linkId});
     }
 
-    if(m_updater)
+    emit removeNodes(m_idmap, {nodeId}, linkId.isEmpty() ? QStringList{} : QStringList{linkId});
+    /*if(m_updater)
     {
         m_updater->sendOffRemoveMessage(m_idmap, {nodeId}, linkId.isEmpty() ? QStringList{} : QStringList{linkId});
-    }
+    }*/
 }
 
 void AddNodeCommand::redo()
@@ -77,8 +75,9 @@ void AddNodeCommand::redo()
         if(m_link)
             m_linkModel->append({m_link});
     }
-    if(m_updater)
-        m_updater->sendOffAddingMessage(m_idmap, {m_mindNode.data()},
-                                        m_link ? QList<mindmap::Link*>{m_link} : QList<mindmap::Link*>{});
+    emit addNodes(m_idmap, {m_mindNode.data()}, m_link ? QList<mindmap::Link*>{m_link} : QList<mindmap::Link*>{});
+    /*if(m_updater)
+         m_updater->sendOffAddingMessage(m_idmap, {m_mindNode.data()},
+                                         m_link ? QList<mindmap::Link*>{m_link} : QList<mindmap::Link*>{});*/
 }
 } // namespace mindmap

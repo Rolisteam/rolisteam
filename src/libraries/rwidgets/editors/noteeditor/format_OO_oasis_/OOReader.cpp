@@ -827,16 +827,9 @@ void OOReader::styleNameSetup(const QByteArray chunk, const QString label)
     auto match= expression.match(QString(chunk), iPosition);
     while(match.hasMatch())
     {
-<<<<<<< HEAD
         valueName= match.captured(0);
         valueName= valueName.mid(searchPara.size() + 1, valueName.size() - searchPara.size() - 2);
-||||||| constructed merge base
-        valueName         = expression.cap(0);
-        valueName         = valueName.mid(searchPara.size() + 1, valueName.size() - searchPara.size() - 2);
-=======
-        valueName= expression.cap(0);
-        valueName= valueName.mid(searchPara.size() + 1, valueName.size() - searchPara.size() - 2);
->>>>>>> [core] prepare code to Qt6
+
         const QString name= valueName;
         if(!css2[name].valid)
         {

@@ -11,17 +11,17 @@
 #include <QJsonValue>
 #include <QMenu>
 
-#include "core/controller/antagonistboardcontroller.h"
-#include "core/data/campaign.h"
-#include "core/data/campaigneditor.h"
-#include "core/data/character.h"
-#include "core/model/genericmodel.h"
-#include "core/model/nonplayablecharactermodel.h"
-#include "core/worker/utilshelper.h"
+#include "controller/antagonistboardcontroller.h"
+#include "data/campaign.h"
+#include "data/campaigneditor.h"
+#include "data/character.h"
+#include "model/genericmodel.h"
+#include "model/nonplayablecharactermodel.h"
+#include "worker/utilshelper.h"
 
-#include "core/controller/view_controller/imageselectorcontroller.h"
-#include "core/data/rolisteammimedata.h"
-#include "core/worker/iohelper.h"
+#include "controller/view_controller/imageselectorcontroller.h"
+#include "data/rolisteammimedata.h"
+#include "worker/iohelper.h"
 #include "rwidgets/delegates/avatardelegate.h"
 #include "rwidgets/delegates/taglistdelegate.h"
 #include "rwidgets/dialogs/imageselectordialog.h"

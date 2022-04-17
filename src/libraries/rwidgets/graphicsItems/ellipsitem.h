@@ -19,8 +19,8 @@
  ***************************************************************************/
 #ifndef ELLIPSITEM_H
 #define ELLIPSITEM_H
+#include "rwidgets_global.h"
 #include "visualitem.h"
-
 namespace vmap
 {
 class EllipseController;
@@ -28,7 +28,7 @@ class EllipseController;
 /**
  * @brief displays an ellipse on maps.
  */
-class EllipsItem : public VisualItem
+class RWIDGET_EXPORT EllipsItem : public VisualItem
 {
 public:
     EllipsItem(vmap::EllipseController* ctrl);

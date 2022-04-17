@@ -84,7 +84,6 @@ class PlayersListWidget;
 class Workspace;
 class TextEdit;
 class PlayerModel;
-class ConnectionProfile;
 class SessionDock;
 class CharacterSheetWindow;
 class GameMasterTool;

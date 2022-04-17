@@ -2,8 +2,8 @@
 #include <QtCore/QCoreApplication>
 #include <QtTest/QtTest>
 
-#include "core/controller/view_controller/vectorialmapcontroller.h"
-#include "core/undoCmd/addvmapitem.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "undoCmd/addvmapitem.h"
 #include "data/character.h"
 #include "data/player.h"
 #include "rwidgets/customs/vmap.h"

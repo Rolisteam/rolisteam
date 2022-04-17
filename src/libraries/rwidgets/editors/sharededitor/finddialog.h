@@ -22,14 +22,15 @@
 #include <QDialog>
 
 #include "enu.h"
+#include "rwidgets_global.h"
 #include "utilities.h"
 // clazy:skip
 namespace Ui
 {
-    class FindDialog;
+class FindDialog;
 }
 
-class FindDialog : public QDialog
+class RWIDGET_EXPORT FindDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -54,8 +55,8 @@ signals:
     void findDialogFindPrev(QString str, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode findMode);
     void findDialogReplaceAll(QString find, QString replace, Qt::CaseSensitivity sensitivity, Enu::FindMode findMode);
     void findDialogReplace(QString replace);
-    void findDiaalogFindReplace(
-        QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode findMode);
+    void findDiaalogFindReplace(QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround,
+                                Enu::FindMode findMode);
 };
 
 #endif // FINDDIALOG_H

@@ -20,8 +20,8 @@
 
 #include "ruleitem.h"
 
-#include "core/controller/item_controllers/visualitemcontroller.h"
-#include "core/controller/view_controller/vectorialmapcontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include <QPainter>
 #include <cmath>
 

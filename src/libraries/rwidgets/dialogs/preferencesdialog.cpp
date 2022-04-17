@@ -44,9 +44,11 @@
 #ifdef HAVE_SOUND
 #include <QMediaPlayer>
 #endif
-#include "diceparser/include/diceparser.h"
+
+#include "diceparser/diceparser.h"
 #include "media/mediatype.h"
 #include "model/thememodel.h"
+
 #include "ui_preferencesdialogbox.h"
 
 inline uint qHash(PreferencesDialog::PreferenceTab type, uint seed)
@@ -198,35 +200,42 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_ap2downAct, &QAction::triggered, this, &PreferencesDialog::downDirectory);
     connect(ui->m_ap3downAct, &QAction::triggered, this, &PreferencesDialog::downDirectory);
 
-    connect(ui->m_directoriesList1, &QListView::clicked, this, [this]() {
-        auto current= ui->m_directoriesList1->currentIndex();
+    connect(ui->m_directoriesList1, &QListView::clicked, this,
+            [this]()
+            {
+                auto current= ui->m_directoriesList1->currentIndex();
 
-        auto isValid= current.isValid();
+                auto isValid= current.isValid();
 
-        ui->m_ap1Delete->setEnabled(isValid);
-        ui->m_ap1upAct->setEnabled(isValid);
-        ui->m_ap1downAct->setEnabled(isValid);
-    });
+                ui->m_ap1Delete->setEnabled(isValid);
+                ui->m_ap1upAct->setEnabled(isValid);
+                ui->m_ap1downAct->setEnabled(isValid);
+            });
 
-    connect(ui->m_directoriesList2, &QListView::clicked, this, [this]() {
-        auto current= ui->m_directoriesList2->currentIndex();
+    connect(ui->m_directoriesList2, &QListView::clicked, this,
+            [this]()
+            {
+                auto current= ui->m_directoriesList2->currentIndex();
 
-        auto isValid= current.isValid();
+                auto isValid= current.isValid();
 
-        ui->m_ap2Delete->setEnabled(isValid);
-        ui->m_ap2upAct->setEnabled(isValid);
-        ui->m_ap2downAct->setEnabled(isValid);
-    });
+                ui->m_ap2Delete->setEnabled(isValid);
+                ui->m_ap2upAct->setEnabled(isValid);
+                ui->m_ap2downAct->setEnabled(isValid);
+            });
 
-    connect(ui->m_directoriesList3, &QListView::clicked, this, [this]() {
-        auto current= ui->m_directoriesList3->currentIndex();
+    connect(ui->m_directoriesList3, &QListView::clicked, this,
+            [this]()
+            {
+                auto current= ui->m_directoriesList3->currentIndex();
 
-        auto isValid= current.isValid();
+                auto isValid= current.isValid();
 
-        ui->m_ap3Delete->setEnabled(isValid);
-        ui->m_ap3upAct->setEnabled(isValid);
-        ui->m_ap3downAct->setEnabled(isValid);
-    });
+                ui->m_ap3Delete->setEnabled(isValid);
+                ui->m_ap3upAct->setEnabled(isValid);
+                ui->m_ap3downAct->setEnabled(isValid);
+            });
+
     updateTranslationPref();
 }
 

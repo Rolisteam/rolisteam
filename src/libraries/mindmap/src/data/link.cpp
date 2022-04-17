@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "link.h"
+#include "mindmap/data/link.h"
 
 #include "mindnode.h"
 
@@ -34,7 +34,7 @@ Link::Link(QObject* parent) : QObject(parent), m_uuid(QUuid::createUuid().toStri
     setText(tr("is linked"));
 }
 
-void Link::setDirection(const Core::ArrowDirection& direction)
+void Link::setDirection(const mindmap::ArrowDirection& direction)
 {
     if(direction == m_dir)
         return;
@@ -42,7 +42,7 @@ void Link::setDirection(const Core::ArrowDirection& direction)
     emit directionChanged();
 }
 
-Core::ArrowDirection Link::direction() const
+mindmap::ArrowDirection Link::direction() const
 {
     return m_dir;
 }

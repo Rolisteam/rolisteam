@@ -1,5 +1,5 @@
 #include "helper.h"
-#include "core/network/networkmessagewriter.h"
+#include "network/networkmessagewriter.h"
 
 namespace Helper
 {

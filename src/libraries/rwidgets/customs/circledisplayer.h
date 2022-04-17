@@ -21,12 +21,13 @@
 #ifndef AFFICHEUR_DISQUE_H
 #define AFFICHEUR_DISQUE_H
 
+#include "rwidgets_global.h"
 #include <QWidget>
 
 /**
  * @brief The CircleDisplayer class display a size selector for circle.
  */
-class CircleDisplayer : public QWidget
+class RWIDGET_EXPORT CircleDisplayer : public QWidget
 {
     Q_OBJECT
 

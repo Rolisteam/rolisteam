@@ -1,6 +1,6 @@
 
-#include "core/data/character.h"
-#include "core/model/genericmodel.h"
+#include "data/character.h"
+#include "model/genericmodel.h"
 #include <QtTest/QtTest>
 #include <memory>
 

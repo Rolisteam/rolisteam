@@ -20,9 +20,9 @@
 #ifndef RWIDGETS_AVATARDELEGATE_H
 #define RWIDGETS_AVATARDELEGATE_H
 
+#include "rwidgets_global.h"
 #include <QStyledItemDelegate>
-
-class AvatarDelegate : public QStyledItemDelegate
+class RWIDGET_EXPORT AvatarDelegate : public QStyledItemDelegate
 {
 public:
     explicit AvatarDelegate(QObject* parent= nullptr);

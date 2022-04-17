@@ -24,14 +24,15 @@
 #include <QGraphicsScene>
 #include <QUndoStack>
 
-#include "core/controller/view_controller/vectorialmapcontroller.h"
-#include "core/data/person.h"
-#include "core/media/mediatype.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "data/person.h"
+#include "media/mediatype.h"
 #include "rwidgets/graphicsItems/griditem.h"
 #include "rwidgets/graphicsItems/pathitem.h"
 #include "rwidgets/graphicsItems/sightitem.h"
 #include "rwidgets/graphicsItems/visualitem.h"
 #include "rwidgets/toolbars/vtoolbar.h"
+#include "rwidgets_global.h"
 
 /**
  * @page VMap
@@ -66,7 +67,7 @@ class TextController;
  * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
  * It is using the QGraphicsScene from Qt.
  */
-class VMap : public QGraphicsScene
+class RWIDGET_EXPORT VMap : public QGraphicsScene
 {
     Q_OBJECT
 public:
@@ -166,11 +167,7 @@ public slots:
      * @param item
      * @param cItem
      */
-    void ownerHasChangedForCharacterItem(Character* person, CharacterItem* cItem);
-    /**
-     * @brief selectionPositionHasChanged
-     */
-    // void selectionPositionHasChanged();
+    void ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem);
     void showTransparentItems();
     void cleanUpInit(Core::CharacterScope zone);
     void rollInit(Core::CharacterScope zone);

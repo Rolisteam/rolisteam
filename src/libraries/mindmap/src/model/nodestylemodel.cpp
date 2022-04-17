@@ -17,9 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "nodestylemodel.h"
+#include "mindmap/model/nodestylemodel.h"
 
-#include "data/nodestyle.h"
+#include "mindmap/data/nodestyle.h"
 
 namespace mindmap
 {

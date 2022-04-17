@@ -19,6 +19,7 @@
 #ifndef PARTICIPANTSPANE_H
 #define PARTICIPANTSPANE_H
 
+#include "rwidgets_global.h"
 #include <QAbstractProxyModel>
 #include <QHostAddress>
 #include <QPointer>
@@ -35,7 +36,7 @@ class ParticipantsPane;
 }
 
 class SharedNoteController;
-class ParticipantsPane : public QWidget
+class RWIDGET_EXPORT ParticipantsPane : public QWidget
 {
     Q_OBJECT
 public:

@@ -31,7 +31,7 @@
 #include "charactersheet/rolisteamimageprovider.h"
 #include "data/character.h"
 #include "mediacontainers/mediacontainer.h"
-
+#include "rwidgets_global.h"
 /**
  * @page characterSheet CharacterSheet System
  *
@@ -61,7 +61,7 @@ class Player;
 class CharacterSheetController;
 class CharacterSheet;
 class CharacterSheetItem;
-class CharacterSheetWindow : public MediaContainer
+class RWIDGET_EXPORT CharacterSheetWindow : public MediaContainer
 {
     Q_OBJECT
 public:

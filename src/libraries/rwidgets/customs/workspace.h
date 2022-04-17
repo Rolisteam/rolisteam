@@ -28,8 +28,9 @@
 #include <QWidget>
 
 #include "mediacontainers/mediacontainer.h"
+#include "rwidgets_global.h"
 
-class PreventClosing : public QObject
+class RWIDGET_EXPORT PreventClosing : public QObject
 {
     Q_OBJECT
 public:
@@ -52,14 +53,16 @@ class CharacterSheetController;
 class WebpageController;
 class SharedNoteController;
 class MapController;
+#ifdef WITH_PDF
 class PdfController;
+#endif
 class NoteController;
 class InstantMessagingController;
 class MindMapController;
 /**
  * @brief The ImprovedWorkspace class
  */
-class Workspace : public QMdiArea
+class RWIDGET_EXPORT Workspace : public QMdiArea
 {
     Q_OBJECT
 public:

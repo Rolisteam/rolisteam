@@ -1,11 +1,11 @@
 #ifndef _MTEXTEDIT_H_
 #define _MTEXTEDIT_H_
 
+#include "rwidgets_global.h"
 #include <QImage>
 #include <QMimeData>
 #include <QTextEdit>
-
-class MTextEdit : public QTextEdit
+class RWIDGET_EXPORT MTextEdit : public QTextEdit
 {
     Q_OBJECT
 public:

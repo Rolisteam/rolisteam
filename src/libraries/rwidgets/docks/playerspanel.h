@@ -25,6 +25,7 @@
 #include <QAbstractProxyModel>
 #include <QDockWidget>
 
+#include "rwidgets_global.h"
 #include <QItemSelectionModel>
 #include <QPointer>
 #include <QPushButton>
@@ -48,7 +49,7 @@ class PlayersPanel;
  * pattern as the Controler.
  *
  */
-class PlayersPanel : public QDockWidget
+class RWIDGET_EXPORT PlayersPanel : public QDockWidget
 {
     Q_OBJECT
 public:

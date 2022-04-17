@@ -5,30 +5,20 @@ SET(CMAKE_AUTOMOC_MOC_OPTIONS "-nw")
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-Wall") #-Wextra
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(Qt6 COMPONENTS Core Widgets Gui Svg Multimedia Xml Quick QuickWidgets WebEngineWidgets WebEngineCore Pdf PdfWidgets QuickControls2 MultimediaWidgets OpenGLWidgets REQUIRED)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
-    set(HAS_PDF TRUE PARENT_SCOPE)
-    message("Enable PDF feature")
 
-    set(pdfHeader
-        mediacontainers/pdfviewer.h)
-
-    set(pdfSource
-        mediacontainers/pdfviewer.cpp)
-
-    set(pdfUiFiles mediacontainers/pdfviewer.ui)
-else()
-    set(pdfHeader)
-    set(pdfSource)
-    set(pdfUiFiles)
-endif()
+find_package(Qt6 COMPONENTS REQUIRED Core Widgets Gui Svg Multimedia Xml Quick Qml QuickWidgets WebEngineWidgets QuickControls2 MultimediaWidgets Multimedia Pdf PdfWidgets OpenGLWidgets WebEngineCore)
 
 set(HEADERS
+  rwidgets_global.h
+  mediacontainers/pdfviewer.h
   commands/movevmapitem.h
   customs/centeredcheckbox.h
   customs/circledisplayer.h
@@ -156,6 +146,7 @@ set(SOURCES
   customs/vcolorselector.cpp
   customs/vcolortablechooser.cpp
   customs/vmap.cpp
+  mediacontainers/pdfviewer.cpp
   customs/workspace.cpp
   delegates/actiondelegate.cpp
   delegates/avatardelegate.cpp
@@ -234,7 +225,6 @@ set(SOURCES
   mediacontainers/instantmessagingview.cpp
   mediacontainers/mediacontainer.cpp
   mediacontainers/mindmapview.cpp
-  mediacontainers/pdfviewer.cpp
   mediacontainers/vmapframe.cpp
   mediacontainers/webview.cpp
   modelviews/campaignview.cpp
@@ -262,15 +252,49 @@ set(UI_FILES
 set(QRC_SOURCES ${CMAKE_SOURCE_DIR}/rolisteam.qrc editors/noteeditor/src/textedit.qrc gmtoolbox/NameGenerator/resources/resources.qrc)
 
 add_library(rwidgets SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${QRC_SOURCES} ${pdfSource} ${pdfHeader} ${pdfUiFiles})
+set_target_properties(rwidgets PROPERTIES PUBLIC_HEADER "${HEADERS} ${pdfHeader}")
+target_compile_definitions(rwidgets PRIVATE RWIDGET_LIBRARY)
 
-if(Qt6PdfWidgets_FOUND AND ${WITH_PDF})
-    message("Link with PDF")
-    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt6::Core Qt6::Gui Qt6::Svg  Qt6::Widgets Qt6::Xml Qt6::QuickWidgets Qt6::Multimedia Qt6::Pdf Qt6::PdfWidgets Qt6::Quick Qt6::OpenGLWidgets Qt6::WebEngineWidgets Qt6::WebEngineCore Qt6::QuickControls2 PRIVATE core charactersheet qml_views)
-    target_compile_definitions(rwidgets PUBLIC WITH_PDF=1)
-else()
-    message("Link without PDF")
-    target_link_libraries(rwidgets PUBLIC project_warnings project_options Qt6::Core Qt6::Gui Qt6::Svg Qt6::Widgets Qt6::Multimedia Qt6::MultimediaWidgets Qt6::Xml Qt6::OpenGLWidgets Qt6::Quick Qt6::WebEngineWidgets Qt6::WebEngineCore Qt6::QuickControls2 PRIVATE core charactersheet qml_views)
-endif()
+target_link_libraries(rwidgets
+    PUBLIC
+        project_warnings
+        project_options
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Svg
+        Qt6::Widgets
+        Qt6::Xml
+        Qt6::QuickWidgets
+        Qt6::Multimedia
+        Qt6::Pdf
+        Qt6::PdfWidgets
+        Qt6::Quick
+        Qt6::OpenGLWidgets
+        Qt6::WebEngineWidgets
+        Qt6::WebEngineCore
+        Qt6::QuickControls2
+    PRIVATE
+        core
+        common_core
+        network
+        diceparser_shared
+        charactersheet
+        charactersheet_widgets
+        qml_views
+        common_widget
+        rmindmap
+        qml_components
+        instantmessaging
+        util)
+
+
+target_include_directories(rwidgets
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../
+        ${CMAKE_CURRENT_SOURCE_DIR}/
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 target_include_directories(rwidgets PUBLIC src)
 target_include_directories(rwidgets PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -27,12 +27,12 @@ set(TS_FILES rolisteam_hu_HU.ts
 
 
 IF(UPDATE_TRANSLATIONS)
-    #qt5_create_translation(TS_PATH_FILES ${CMAKE_SOURCE_DIR}/client ${CMAKE_SOURCE_DIR}/core ${CMAKE_SOURCE_DIR}/server  ${TS_FILES} ) #OPTION -source-language en_US
+    qt_create_translation(TS_PATH_FILES ${CMAKE_SOURCE_DIR}/client ${CMAKE_SOURCE_DIR}/core ${CMAKE_SOURCE_DIR}/server  ${TS_FILES} ) #OPTION -source-language en_US
 ENDIF()
 
 IF(TRANSLATIONS)
     set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR})
-    #qt5_add_translation(QM_FILES ${TS_FILES})
+    qt_add_translation(QM_FILES ${TS_FILES})
     add_custom_target(translations ALL DEPENDS ${QM_FILES})
 ENDIF()
 

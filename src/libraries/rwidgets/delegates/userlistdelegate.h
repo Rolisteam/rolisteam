@@ -21,12 +21,13 @@
 #define USERLISTDELEGATE_H
 
 #include <QStyledItemDelegate>
+#include "rwidgets_global.h"
 /**
  * @brief Overrides the list item painting
  * @todo Review it completely to make mouse click user-friendly
  * @author Renaud Guezennec
  */
-class UserListDelegate : public QStyledItemDelegate
+class RWIDGET_EXPORT  UserListDelegate : public QStyledItemDelegate
 {
 public:
     /**

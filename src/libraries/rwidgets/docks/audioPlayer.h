@@ -41,7 +41,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include "core/model/musicmodel.h"
+#include "model/musicmodel.h"
 #include "rwidgets/customs/playerwidget.h"
 
 class AudioController;
@@ -49,7 +49,7 @@ class AudioController;
  * @brief This player can be used by the GM to play songs.
  * Regular players can just change the volume level.
  */
-class AudioPlayer : public QDockWidget
+class RWIDGET_EXPORT AudioPlayer : public QDockWidget
 {
     Q_OBJECT
 

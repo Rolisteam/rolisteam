@@ -22,8 +22,8 @@
 #include <QTest>
 
 #include "controller/view_controller/charactersheetcontroller.h"
-#include "core/model/charactermodel.h"
-#include "core/model/playermodel.h"
+#include "model/charactermodel.h"
+#include "model/playermodel.h"
 #include <memory>
 
 class CharacterSheetControllerTest : public QObject

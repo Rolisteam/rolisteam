@@ -23,13 +23,13 @@
 #include <QWidget>
 
 #include "codeeditor.h"
-
+#include "rwidgets_global.h"
 namespace Ui
 {
 class FindToolBar;
 }
 
-class FindToolBar : public QWidget
+class RWIDGET_EXPORT FindToolBar : public QWidget
 {
     Q_OBJECT
 public:

@@ -29,7 +29,7 @@
 
 #include "data/character.h"
 #include "data/player.h"
-#include "diceparser/include/dicealias.h"
+#include "diceparser/dicealias.h"
 #include "model/playermodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"

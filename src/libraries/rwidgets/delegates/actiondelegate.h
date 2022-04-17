@@ -20,17 +20,19 @@
 #ifndef RWIDGETS_ACTIONDELEGATE_H
 #define RWIDGETS_ACTIONDELEGATE_H
 
+#include "rwidgets_global.h"
+#include <QLabel>
 #include <QStyledItemDelegate>
 #include <memory>
 
-class QLabel;
 class QHBoxLayout;
-class LabelWithOptions : public QWidget
+class RWIDGET_EXPORT LabelWithOptions : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
 public:
     LabelWithOptions(QWidget* parent= nullptr);
+    ~LabelWithOptions();
     void setData(const QStringList icon, const QStringList name);
 
     QString text() const;
@@ -46,7 +48,7 @@ private:
     QHBoxLayout* m_layout= nullptr;
 };
 
-class ActionDelegate : public QStyledItemDelegate
+class RWIDGET_EXPORT ActionDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:

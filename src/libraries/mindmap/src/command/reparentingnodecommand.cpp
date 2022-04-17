@@ -17,14 +17,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "reparentingnodecommand.h"
+#include "mindmap/command/reparentingnodecommand.h"
 
 #include <QDebug>
 
-#include "data/link.h"
-#include "data/mindnode.h"
-#include "model/boxmodel.h"
-#include "model/linkmodel.h"
+#include "mindmap/data/link.h"
+#include "mindmap/data/mindnode.h"
+#include "mindmap/model/boxmodel.h"
+#include "mindmap/model/linkmodel.h"
 
 namespace mindmap
 {
@@ -39,10 +39,12 @@ ReparentingNodeCommand::ReparentingNodeCommand(BoxModel* nodeModel, LinkModel* l
     if(m_oldParent)
     {
         auto links= m_oldParent->subLinks();
-        auto idxLink= std::find_if(links.begin(), links.end(), [this](Link* link) {
-            // qDebug() << "find if reparentingNode";
-            return link->endNode() == m_mindNode.data();
-        });
+        auto idxLink= std::find_if(links.begin(), links.end(),
+                                   [this](Link* link)
+                                   {
+                                       // qDebug() << "find if reparentingNode";
+                                       return link->endNode() == m_mindNode.data();
+                                   });
         if(idxLink != links.end())
             m_oldLink= (*idxLink);
     }

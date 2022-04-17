@@ -22,10 +22,10 @@
 #define NOTECONTAINER_H
 
 #include "mediacontainers/mediacontainer.h"
+#include "rwidgets_global.h"
 #include "textedit.h"
 #include <QWidget>
-
-class NoteContainer : public MediaContainer
+class RWIDGET_EXPORT NoteContainer : public MediaContainer
 {
     Q_OBJECT
 public:

@@ -26,13 +26,14 @@
 #include "customs/vmap.h"
 #include "dialogs/vmapwizzarddialog.h"
 #include "preferences/preferencesmanager.h"
+#include "rwidgets_global.h"
 
 class VectorialMapController;
 class VisualItemController;
 /**
  * @brief RGraphicsView is custom graphicsview to fit rolisteam needs. It will implement some important feature
  */
-class RGraphicsView : public QGraphicsView
+class RWIDGET_EXPORT RGraphicsView : public QGraphicsView
 {
     Q_OBJECT
 

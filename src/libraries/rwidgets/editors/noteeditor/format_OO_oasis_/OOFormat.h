@@ -1,6 +1,7 @@
 #ifndef OOFORMAT_H
 #define OOFORMAT_H
 #include "FoColorName.h"
+#include "rwidgets_global.h"
 #include <QApplication>
 #include <QColor>
 #include <QCryptographicHash>
@@ -57,7 +58,7 @@ QString cssGroup(const QDomElement e);
 #endif
 QTextFrameFormat DefaultFrameFormat();
 
-class ReadWriteBuf
+class RWIDGET_EXPORT ReadWriteBuf
 {
 public:
     ReadWriteBuf(const QString xml= QString()) : d(new QBuffer())
@@ -129,7 +130,7 @@ public:
     QBuffer* d;
 };
 
-class OOFormat : public QObject
+class RWIDGET_EXPORT OOFormat : public QObject
 {
     Q_OBJECT
     //

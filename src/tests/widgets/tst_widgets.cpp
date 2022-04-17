@@ -25,7 +25,7 @@
 #include "rwidgets/customs/filedirchooser.h"
 #include "rwidgets/customs/realslider.h"
 
-#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "controller/view_controller/imageselectorcontroller.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 
 class WidgetsTest : public QObject

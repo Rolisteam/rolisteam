@@ -22,11 +22,12 @@
 #ifndef DELEGATE_H
 #define DELEGATE_H
 
+#include "rwidgets_global.h"
 #include <QItemDelegate>
 /**
  * @brief The Delegate class
  */
-class Delegate : public QItemDelegate
+class RWIDGET_EXPORT Delegate : public QItemDelegate
 {
     Q_OBJECT
 

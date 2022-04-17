@@ -24,6 +24,7 @@
 #include "model/mediafilteredmodel.h"
 #include "model/mediamodel.h"
 #include "rwidgets/modelviews/campaignview.h"
+#include "rwidgets_global.h"
 
 #include <QDockWidget>
 #include <QPointer>
@@ -42,7 +43,7 @@ class CampaignEditor;
  * @brief SessionManager is a dockwidget which displays all loaded resources in the current session. It provides
  * shortcut to open them. It is part of the MVC architecture. It manages the view and the model.
  */
-class CampaignDock : public QDockWidget
+class RWIDGET_EXPORT CampaignDock : public QDockWidget
 {
     Q_OBJECT
 public:

@@ -21,11 +21,12 @@
 #ifndef CENTEREDCHECKBOX_H
 #define CENTEREDCHECKBOX_H
 
+#include "rwidgets_global.h"
 #include <QCheckBox>
 #include <QWidget>
 /**
- * @brief The CenteredCheckBox class is a simple widget to display checkbox in the middle of their parent.
- * It is useful for ItemDelegate.
+ * @br RWIDGET_EXPORT ief The CenteredCheckBox class is a simple widget to display checkbox in the middle of their
+ * parent. It is useful for ItemDelegate.
  */
 class CenteredCheckBox : public QWidget
 {

@@ -19,13 +19,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QSettings>
-#include <QTextStream>
-
 #include "document.h"
 #include "finddialog.h"
 #include "findtoolbar.h"
+#include "rwidgets_global.h"
+#include <QMainWindow>
+#include <QSettings>
+#include <QTextStream>
 //#include "preferencesdialog.h"
 
 class Player;
@@ -38,7 +38,7 @@ namespace Ui
 class SharedNote;
 }
 
-class SharedNote : public QMainWindow
+class RWIDGET_EXPORT SharedNote : public QMainWindow
 {
     Q_OBJECT
 

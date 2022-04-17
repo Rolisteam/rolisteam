@@ -1,16 +1,16 @@
 #ifndef FILEPATHDELEGATEITEM_H
 #define FILEPATHDELEGATEITEM_H
 
+#include "rwidgets_global.h"
 #include <QLabel>
 #include <QPushButton>
 #include <QStyledItemDelegate>
-
 namespace rwidgets
 {
 /**
  * @brief The FilePathDelegateItem class displays path for image in the treeview
  */
-class ImagePathDelegateItem : public QStyledItemDelegate
+class RWIDGET_EXPORT ImagePathDelegateItem : public QStyledItemDelegate
 {
     Q_OBJECT
 public:

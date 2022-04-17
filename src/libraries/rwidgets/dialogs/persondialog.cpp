@@ -20,7 +20,7 @@
 #include "persondialog.h"
 #include "ui_persondialog.h"
 
-#include "core/controller/view_controller/imageselectorcontroller.h"
+#include "controller/view_controller/imageselectorcontroller.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 
 PersonDialog::PersonDialog(QWidget* parent) : QDialog(parent), ui(new Ui::PersonDialog)

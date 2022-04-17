@@ -29,16 +29,17 @@
 #include <QPointer>
 #include <QResizeEvent>
 
-#include "core/media/mediatype.h"
+#include "media/mediatype.h"
 #include "rwidgets/customs/diameterselector.h"
 #include "rwidgets/customs/realslider.h"
 #include "rwidgets/customs/vcolorselector.h"
+#include "rwidgets_global.h"
 
 class VectorialMapController;
 /**
  *  @brief toolbar is a QWidget subclass which gathering all tool required for drawing maps.
  */
-class VToolsBar : public QWidget
+class RWIDGET_EXPORT VToolsBar : public QWidget
 {
     Q_OBJECT
 

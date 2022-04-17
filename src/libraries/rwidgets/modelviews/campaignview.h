@@ -7,12 +7,13 @@
 #include <QTreeView>
 
 #include "media/mediatype.h"
+#include "rwidgets_global.h"
 
 namespace campaign
 {
 class Campaign;
 class MediaNode;
-class CampaignView : public QTreeView
+class RWIDGET_EXPORT CampaignView : public QTreeView
 {
     Q_OBJECT
     Q_PROPERTY(QString currentChapter READ currentChapter WRITE setCurrentChapter NOTIFY currentChapterChanged)

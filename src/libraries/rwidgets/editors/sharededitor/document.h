@@ -19,15 +19,15 @@
 #ifndef DOCUMENT_H
 #define DOCUMENT_H
 
-#include <QWidget>
-
 #include "codeeditor.h"
-#include "core/model/participantmodel.h"
-#include "core/network/networkmessagewriter.h"
 #include "enu.h"
 #include "findtoolbar.h"
+#include "model/participantmodel.h"
+#include "network/networkmessagewriter.h"
 #include "participantspane.h"
+#include "rwidgets_global.h"
 #include <QSyntaxHighlighter>
+#include <QWidget>
 
 //#include "client.h"
 //#include "server.h"
@@ -37,7 +37,7 @@ namespace Ui
 class Document;
 }
 class SharedNoteController;
-class Document : public QWidget
+class RWIDGET_EXPORT Document : public QWidget
 {
     Q_OBJECT
 public:

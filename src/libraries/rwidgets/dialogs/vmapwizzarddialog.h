@@ -23,8 +23,9 @@
 #include <QColor>
 #include <QDialog>
 
-#include "core/model/patternmodel.h"
 #include "customs/vmap.h"
+#include "model/patternmodel.h"
+#include "rwidgets_global.h"
 
 namespace Ui
 {
@@ -35,7 +36,7 @@ class PreferencesManager;
 /**
  * @brief set values to create a map with appropriate value.
  */
-class MapWizzardDialog : public QDialog
+class RWIDGET_EXPORT MapWizzardDialog : public QDialog
 {
     Q_OBJECT
 public:

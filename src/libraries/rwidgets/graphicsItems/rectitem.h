@@ -19,7 +19,7 @@
  ***************************************************************************/
 #ifndef RECTITEM_H
 #define RECTITEM_H
-
+#include "rwidgets_global.h"
 #include "visualitem.h"
 namespace vmap
 {
@@ -28,7 +28,7 @@ class RectController;
 /**
  * @brief displays and manages rectangle on map, part of QGraphicsScene/view.
  */
-class RectItem : public VisualItem
+class RWIDGET_EXPORT RectItem : public VisualItem
 {
     Q_OBJECT
 public:

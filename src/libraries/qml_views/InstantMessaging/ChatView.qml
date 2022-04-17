@@ -1,9 +1,9 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtMultimedia 5.15
-import InstantMessaging 1.0
-import Customization 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtMultimedia
+import InstantMessaging
+import Customization
 
 Item {
     id: root
@@ -150,7 +150,9 @@ Item {
                 SplitView.fillWidth: true
                 SplitView.preferredHeight: root.styleSheet.preferredHeight
 
-                onSendClicked: root.chatRoom.addMessage(text, imEditText.currentPersonId, imEditText.currentPersonName)
+                onSendClicked: text => {
+                   root.chatRoom.addMessage(text, imEditText.currentPersonId, imEditText.currentPersonName)
+                }
                 function updateUnread() {
                     root.chatRoom.unreadMessage = false
                 }

@@ -23,6 +23,7 @@
 #include <QHBoxLayout>
 #include <QStyle>
 
+#include "iohelper.h"
 #include "worker/iohelper.h"
 
 namespace rwidgets
@@ -99,7 +100,7 @@ void ImagePathEditor::openFile()
     if(!fileName.isEmpty())
     {
         if(!fileName.startsWith(m_root))
-            fileName= IOHelper::copyFile(fileName, m_root);
+            fileName= utils::IOHelper::copyFile(fileName, m_root);
         QFileInfo info(fileName);
         if(info.exists())
         {

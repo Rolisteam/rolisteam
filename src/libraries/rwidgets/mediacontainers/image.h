@@ -33,8 +33,8 @@
 #include <memory>
 
 #include "preferences/preferencesmanager.h"
-
 #include "rwidgets/mediacontainers/mediacontainer.h"
+#include "rwidgets_global.h"
 
 class NetworkLink;
 class NetworkMessageWriter;
@@ -43,7 +43,7 @@ class ImageController;
 /**
  * @brief The Image class displays image to the screen. It also manages image from Internet and the zooming.
  */
-class Image : public MediaContainer
+class RWIDGET_EXPORT Image : public MediaContainer
 {
     Q_OBJECT
 public:

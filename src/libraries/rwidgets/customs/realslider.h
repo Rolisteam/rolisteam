@@ -1,9 +1,10 @@
 #ifndef REALSLIDER_H
 #define REALSLIDER_H
 
+#include "rwidgets_global.h"
 #include <QSlider>
 
-class RealSlider : public QSlider
+class RWIDGET_EXPORT RealSlider : public QSlider
 {
     Q_OBJECT
 public:

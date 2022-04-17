@@ -21,10 +21,10 @@
 #ifndef CHILDPOINTITEM_H
 #define CHILDPOINTITEM_H
 
+#include "rwidgets_global.h"
 #include <QFlags>
 #include <QGraphicsObject>
 #include <QPointer>
-
 namespace vmap
 {
 class VisualItemController;
@@ -33,7 +33,7 @@ class VisualItem;
 /**
  * @brief The ChildPointItem class controls and allows geometry transforms to its parent from user inputs.
  */
-class ChildPointItem : public QGraphicsObject
+class RWIDGET_EXPORT ChildPointItem : public QGraphicsObject
 {
 public:
     /**

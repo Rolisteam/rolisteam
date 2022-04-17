@@ -8,13 +8,14 @@
 #include "network/channelmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "rwidgets_global.h"
 
 namespace Ui
 {
 class ChannelListPanel;
 }
 
-class ChannelListPanel : public QWidget
+class RWIDGET_EXPORT ChannelListPanel : public QWidget
 {
     Q_OBJECT
 

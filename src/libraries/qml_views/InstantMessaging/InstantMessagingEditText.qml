@@ -120,7 +120,7 @@ Frame {
                     onPressed: root.focusGained()
                     Keys.onUpPressed: textCtrl.up()
                     Keys.onDownPressed: textCtrl.down()
-                    Keys.onReturnPressed: {
+                    Keys.onReturnPressed: event => {
                         if(event.modifiers === Qt.NoModifier)
                         {
                             layout.sendMessage()

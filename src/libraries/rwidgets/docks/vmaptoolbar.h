@@ -26,13 +26,14 @@
 #include <QPointer>
 #include <QToolBar>
 
-#include "common/widgets/colorbutton.h"
+#include "rwidgets_global.h"
 
 class VectorialMapController;
+class ColorButton;
 /**
  * @brief The VmapToolBar class
  */
-class VmapToolBar : public QToolBar
+class RWIDGET_EXPORT VmapToolBar : public QToolBar
 {
     Q_OBJECT
 public:
@@ -50,7 +51,7 @@ private:
     QPointer<VectorialMapController> m_ctrl;
 
     // Button
-    ColorButton* m_bgSelector;
+    ColorButton* m_bgSelector{nullptr};
     QAction* m_showSquareAct= nullptr;
     QAction* m_showHexagonAct= nullptr;
     QAction* m_gridAboveAct= nullptr;

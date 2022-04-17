@@ -19,11 +19,11 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
+#include "enu.h"
+#include "rwidgets_global.h"
 #include <QObject>
 #include <QPlainTextEdit>
 #include <QSettings>
-
-#include "enu.h"
 
 class QPaintEvent;
 class QResizeEvent;
@@ -33,7 +33,7 @@ class QWidget;
 class LineNumberArea;
 class SharedNoteController;
 
-class CodeEditor : public QPlainTextEdit
+class RWIDGET_EXPORT CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
 

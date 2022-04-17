@@ -21,6 +21,7 @@
 #ifndef COLORTABLE_H
 #define COLORTABLE_H
 
+#include "rwidgets_global.h"
 #include <QColor>
 #include <QWidget>
 #include <QtWidgets>
@@ -29,7 +30,7 @@ class QVBoxLayout;
 /**
  * @brief SaturationChooser is a widget which stores and manages saturation value
  */
-class SaturationChooser : public QWidget
+class RWIDGET_EXPORT SaturationChooser : public QWidget
 {
     Q_OBJECT
 public:
@@ -89,7 +90,7 @@ private:
 /**
  * @brief ColorTable is a widget which display a large panel of color, and allows user to chose one of them.
  */
-class ColorTable : public QWidget
+class RWIDGET_EXPORT ColorTable : public QWidget
 {
     Q_OBJECT
 public:
@@ -123,7 +124,7 @@ protected:
 /**
  * @brief ColorTableChooser is the parent widget of ColorTable and SaturationChooser
  */
-class ColorTableChooser : public QWidget
+class RWIDGET_EXPORT ColorTableChooser : public QWidget
 {
     Q_OBJECT
 public:

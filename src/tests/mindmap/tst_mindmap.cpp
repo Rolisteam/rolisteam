@@ -20,12 +20,12 @@
 #include <QtTest/QtTest>
 
 #include "controller/view_controller/mindmapcontroller.h"
-#include "mindmap/src/controller/selectioncontroller.h"
-#include "mindmap/src/data/link.h"
-#include "mindmap/src/data/mindnode.h"
-#include "mindmap/src/geometry/linknode.h"
-#include "mindmap/src/model/boxmodel.h"
-#include "mindmap/src/model/linkmodel.h"
+#include "mindmap/controller/selectioncontroller.h"
+#include "mindmap/data/link.h"
+#include "mindmap/data/mindnode.h"
+#include "mindmap/geometry/linknode.h"
+#include "mindmap/model/boxmodel.h"
+#include "mindmap/model/linkmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "worker/messagehelper.h"
