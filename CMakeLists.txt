@@ -87,7 +87,6 @@ SET(character_headers
     ${src_dir}/csitem.h
     ${src_dir}/field.h
     ${src_dir}/qqmlhelpers.h
-    ${src_dir}/qqmlobjectlistmodel.h
     ${src_dir}/section.h
     ${src_dir}/tablefield.h
 )
@@ -120,7 +119,7 @@ set(charactersheet_QRC ${src_dir}/qml/charactersheet.qrc)
 
 
 add_library(charactersheet SHARED ${character_sources} ${character_public_headers} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
-target_link_libraries(charactersheet PUBLIC Qt5::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngine PRIVATE charactersheet_formula)
+target_link_libraries(charactersheet PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngineCore PRIVATE charactersheet_formula)
 set_target_properties(charactersheet PROPERTIES PUBLIC_HEADER "${character_public_headers}")
 target_compile_definitions(charactersheet PRIVATE CHARACTERSHEET_LIBRARY)
 target_include_directories(charactersheet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -143,7 +142,7 @@ set(src_widget
 
 
 add_library(charactersheet_widgets SHARED ${src_widget} ${public_header_widget} ${charactersheet_QRC})
-target_link_libraries(charactersheet_widgets PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngine PRIVATE charactersheet)
+target_link_libraries(charactersheet_widgets PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngineCore PRIVATE charactersheet)
 set_target_properties(charactersheet_widgets PROPERTIES PUBLIC_HEADER "${public_header_widget}")
 target_compile_definitions(charactersheet_widgets PRIVATE CHARACTERSHEET_WIDGET_LIBRARY)
 target_include_directories(charactersheet_widgets PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src

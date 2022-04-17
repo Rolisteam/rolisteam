@@ -1,17 +1,17 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QFile>
-#include "formula/formulamanager.h"
+
+#include "charactersheet/formula/formulamanager.h"
+
 using namespace Formula;
 static FormulaManager* parser= new FormulaManager();
 
-
 void runCommand(const QString& cmd)
 {
-//    qDebug() << "cmd" << cmd;
+    //    qDebug() << "cmd" << cmd;
     parser->getValue(cmd);
 }
-
 
 int main(int argc, char** argv)
 {
