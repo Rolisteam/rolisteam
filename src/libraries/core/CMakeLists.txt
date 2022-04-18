@@ -89,7 +89,7 @@ add_library(network SHARED ${Network_SRC} ${Network_HEADER})
 set_target_properties(network PROPERTIES PUBLIC_HEADER "${Network_HEADER}")
 set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
 target_compile_definitions(network PRIVATE NETWORK_LIBRARY)
-target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Gui Qt6::StateMachine PRIVATE common_core util charactersheet)
+target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Gui Qt6::StateMachine PRIVATE common_core utils charactersheet)
 target_include_directories(network
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -394,7 +394,7 @@ target_link_libraries(core
     charactersheet
     charactersheet_widgets
     instantmessaging
-    util
+    utils
     network)
 
 target_include_directories(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src

@@ -18,21 +18,21 @@ set(QT_REQUIRED_VERSION "6.3.0")
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Gui)
 
 
-set(public_util_header
-    include/iohelper.h
-    include/util_global.h
+set(public_utils_header
+    include/utils/iohelper.h
+    include/utils/utils_global.h
 )
 
-set(util_src
+set(utils_src
     src/iohelper.cpp
 )
 
 
-add_library(util SHARED ${public_util_header} ${util_src})
-set_target_properties(util PROPERTIES PUBLIC_HEADER "${public_util_header}")
-target_compile_definitions(util PRIVATE UTIL_LIBRARY)
-target_link_libraries(util PRIVATE Qt6::Core Qt6::Gui)
-target_include_directories(util PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+add_library(utils SHARED ${public_utils_header} ${utils_src})
+set_target_properties(utils PROPERTIES PUBLIC_HEADER "${public_utils_header}")
+target_compile_definitions(utils PRIVATE UTILS_LIBRARY)
+target_link_libraries(utils PRIVATE Qt6::Core Qt6::Gui)
+target_include_directories(utils PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
@@ -40,6 +40,6 @@ target_include_directories(util PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
 
   include(GNUInstallDirs)
 
-  install(TARGETS util
+  install(TARGETS utils
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

@@ -24,7 +24,7 @@
 #include <QMimeData>
 #include <QNetworkReply>
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "worker/iohelper.h"
 
 ImageSelectorController::ImageSelectorController(bool askPath, Sources sources, Shape shape, const QString& directory,

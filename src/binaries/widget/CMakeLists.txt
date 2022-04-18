@@ -40,7 +40,7 @@ add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ${RESOURCE_FILES} ${QT_SCX
 target_include_directories(rolisteam PRIVATE ../../libraries ${CMAKE_BINARY_DIR})
 
 
-target_link_libraries(rolisteam PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::MultimediaWidgets Qt6::Multimedia Qt6::Scxml PRIVATE core rwidgets common_core common_widget common_qml instantmessaging charactersheet_widgets diceparser_qobject util rmindmap qml_views qml_components network)
+target_link_libraries(rolisteam PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::MultimediaWidgets Qt6::Multimedia Qt6::Scxml PRIVATE core rwidgets common_core common_widget common_qml instantmessaging charactersheet_widgets diceparser_qobject utils rmindmap qml_views qml_components network)
 
 install(TARGETS rolisteam
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

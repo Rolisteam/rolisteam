@@ -26,7 +26,7 @@
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 
 namespace commands
 {

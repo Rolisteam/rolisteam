@@ -24,7 +24,7 @@
 #include <QFile>
 #include <QMovie>
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 
 constexpr char const* RESOURCE_SCHEME{"qrc"};
 ImageController::ImageController(const QString& id, const QString& name, const QUrl& url, const QByteArray& data,

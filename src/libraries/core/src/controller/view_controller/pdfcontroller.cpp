@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "controller/view_controller/pdfcontroller.h"
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 
 #include <QBuffer>
 

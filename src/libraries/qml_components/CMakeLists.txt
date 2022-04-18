@@ -14,7 +14,7 @@ include/qml_components/qmlcomponents_global.h)
 add_library(qml_components SHARED ${QRC_SOURCES} ${qml_compo_headers} ${qml_compo_sources})
 set_target_properties(qml_components PROPERTIES PUBLIC_HEADER "${qml_compo_headers}")
 target_compile_definitions(qml_components PRIVATE QMLCOMPONENTS_LIBRARY)
-target_link_libraries(qml_components PUBLIC Qt6::Core Qt6::Svg Qt6::Quick Qt6::Qml PRIVATE core util)
+target_link_libraries(qml_components PUBLIC Qt6::Core Qt6::Svg Qt6::Quick Qt6::Qml PRIVATE core utils)
 
 target_include_directories(qml_components PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
     PUBLIC

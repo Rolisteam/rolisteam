@@ -23,7 +23,7 @@
 #include "data/character.h"
 #include "data/media.h"
 #include "data/rolisteamtheme.h"
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "model/characterstatemodel.h"
 #include "model/nonplayablecharactermodel.h"
 #include "worker/fileserializer.h"

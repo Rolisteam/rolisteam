@@ -72,7 +72,7 @@
 #include "mindmap/model/linkmodel.h"
 #include "worker/utilshelper.h"
 #include "worker/vectorialmapmessagehelper.h"
-#include "iohelper.h"
+#include "utils/iohelper.h"
 
 constexpr char const* k_language_dir_path{":/translations"};
 constexpr char const* k_rolisteam_pattern{"rolisteam"};

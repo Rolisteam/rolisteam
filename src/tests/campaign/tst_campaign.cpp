@@ -41,7 +41,7 @@
 #include "worker/iohelper.h"
 #include "worker/modelhelper.h"
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 
 #include <QCryptographicHash>
 #include <QQuickStyle>

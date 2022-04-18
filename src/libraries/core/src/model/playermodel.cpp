@@ -29,7 +29,7 @@
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"

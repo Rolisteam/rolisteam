@@ -21,7 +21,7 @@
 
 #include "data/campaign.h"
 #include "data/media.h"
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "worker/fileserializer.h"
 
 namespace commands

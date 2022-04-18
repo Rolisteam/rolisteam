@@ -22,7 +22,7 @@
 #include "mindmap/model/boxmodel.h"
 #include "mindmap/model/imagemodel.h"
 
-#include <iohelper.h>
+#include "utils/iohelper.h"
 
 namespace mindmap
 {

@@ -27,7 +27,7 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/character.h"
 #include "data/characterstate.h"
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "worker/iohelper.h"
 
 #define MARGING 1

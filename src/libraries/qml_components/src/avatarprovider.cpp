@@ -22,7 +22,7 @@
 #include <data/person.h>
 #include <model/playermodel.h>
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 
 AvatarProvider::AvatarProvider(PlayerModel* model)
     : QQuickImageProvider(QQmlImageProviderBase::Image)

@@ -22,7 +22,7 @@
 #include <QDebug>
 #include <QPixmap>
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "network/connectionprofile.h"
 
 CharacterDataModel::CharacterDataModel(QObject* parent) : QAbstractListModel(parent) {}

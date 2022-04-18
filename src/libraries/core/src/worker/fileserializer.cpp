@@ -22,7 +22,7 @@
 #include "data/campaign.h"
 #include "data/campaignmanager.h"
 #include "data/media.h"
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "model/dicealiasmodel.h"
 #include "model/nonplayablecharactermodel.h"
 #include "worker/iohelper.h"

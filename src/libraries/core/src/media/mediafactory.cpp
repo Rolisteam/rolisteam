@@ -42,7 +42,7 @@
 #include "mindmap/model/imagemodel.h"
 #include "mindmap/model/linkmodel.h"
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "network/networkmessagereader.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"

@@ -285,7 +285,7 @@ target_link_libraries(rwidgets
         rmindmap
         qml_components
         instantmessaging
-        util)
+        utils)
 
 
 target_include_directories(rwidgets

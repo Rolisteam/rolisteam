@@ -23,7 +23,7 @@
 #include <QHBoxLayout>
 #include <QStyle>
 
-#include "iohelper.h"
+#include "utils/iohelper.h"
 #include "worker/iohelper.h"
 
 namespace rwidgets
