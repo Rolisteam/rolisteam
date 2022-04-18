@@ -39,13 +39,10 @@ set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/rolisteam_autogen/mocs_
 add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ${RESOURCE_FILES} ${QT_SCXML_COMPILED})
 target_include_directories(rolisteam PRIVATE ../../libraries)
 
-if(${HAS_PDF})
-    message("Client with PDF")
-    add_definitions(-DWITH_PDF=1)
-endif()
 
 target_link_libraries(rolisteam PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::MultimediaWidgets Qt6::Multimedia Qt6::Scxml PRIVATE core rwidgets common_core common_widget common_qml instantmessaging charactersheet_widgets diceparser_qobject util rmindmap qml_views qml_components network)
 
 install(TARGETS rolisteam
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib)
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

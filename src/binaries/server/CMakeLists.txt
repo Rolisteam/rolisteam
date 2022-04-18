@@ -31,3 +31,8 @@ set(HEADERS rolisteamdaemon.h )
 add_executable(roliserver ${SOURCES} ${HEADERS} ${DBUS_SOURCES})
 
 target_link_libraries(roliserver PUBLIC Qt6::Core Qt6::Network Qt6::DBus PRIVATE network common_core)
+
+install(TARGETS roliserver
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

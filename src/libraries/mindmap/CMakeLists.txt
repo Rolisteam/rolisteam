@@ -90,6 +90,8 @@ set_target_properties(rmindmap PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(rmindmap PROPERTIES PUBLIC_HEADER "${mindmap_header}")
 target_compile_definitions(rmindmap PRIVATE MINDMAP_LIBRARY)
 
+include(GNUInstallDirs)
+
 target_include_directories(rmindmap
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -107,8 +109,21 @@ target_include_directories(rmindmap
 #    set_target_properties(rmindmap PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 #endif()
 
+install(TARGETS rmindmap
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
 IF(BUILD_GUI)
     add_executable(rmindmap-gui ${mindmap_bin_src})
     target_link_libraries(rmindmap-gui PUBLIC rmindmap)
     target_include_directories(rmindmap-gui PRIVATE src)
+
+    install(TARGETS rmindmap-gui
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 ENDIF()
+
+
+
+
