@@ -33,6 +33,7 @@
 #include <time.h>
 
 #include "rolisteamdaemon.h"
+#include "version.h"
 
 #ifdef Q_OS_LINUX
 #include "rolisteamdaemonadaptor.h"
@@ -94,15 +95,7 @@ int main(int argc, char* argv[])
 
     app.setOrganizationName("Rolisteam");
     app.setApplicationName(appName);
-    QString version= QObject::tr("Unknown");
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
-#endif
-    app.setApplicationVersion(version);
+    app.setApplicationVersion(version::rolisteam);
 
     // QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     // QString locale = QLocale::system().name();

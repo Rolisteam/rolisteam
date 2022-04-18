@@ -74,7 +74,6 @@ class CampaignDock;
 class AntagonistBoard;
 } // namespace campaign
 
-class UpdateChecker;
 // class ChatListWidget;
 class Image;
 class NetworkLink;

@@ -38,6 +38,7 @@
 #include "preferences/preferencesmanager.h"
 #include "rolisteamapplication.h"
 #include "uiwatchdog.h"
+#include "version.h"
 
 Q_DECLARE_LOGGING_CATEGORY(rNetwork);
 Q_LOGGING_CATEGORY(rNetwork, "rolisteam.network");
@@ -93,16 +94,8 @@ Q_LOGGING_CATEGORY(rDice, "rolisteam.dice");
  */
 int main(int argc, char* argv[])
 {
-    QString version= QObject::tr("Unknown");
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
-#endif
     // Application creation
-    RolisteamApplication app(QString("rolisteam"), version, argc, argv);
+    RolisteamApplication app(QString("rolisteam"), version::rolisteam, argc, argv);
 
     Q_INIT_RESOURCE(viewsqml);
     Q_INIT_RESOURCE(charactersheet);
@@ -158,29 +151,27 @@ int main(int argc, char* argv[])
     SelectConnectionProfileDialog connectionDialog(app.gameCtrl());
     MainWindow mainWindow(app.gameCtrl(), app.arguments());
 
-    QObject::connect(&app, &RolisteamApplication::stateChanged, &app,
-                     [&app, &connectionDialog, &mainWindow]()
-                     {
-                         auto state= app.state();
-                         using RA= RolisteamApplication::ApplicationState;
-                         switch(state)
-                         {
-                         case RA::SelectProfile:
-                             connectionDialog.setVisible(true);
-                             mainWindow.makeVisible(false);
-                             break;
-                         case RA::Playing:
-                             connectionDialog.accept();
-                             mainWindow.makeVisible(true);
-                             connectionDialog.setVisible(false);
-                             break;
-                         case RA::Exit:
-                             mainWindow.makeVisible(false);
-                             connectionDialog.setVisible(false);
-                             QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
-                             break;
-                         }
-                     });
+    QObject::connect(&app, &RolisteamApplication::stateChanged, &app, [&app, &connectionDialog, &mainWindow]() {
+        auto state= app.state();
+        using RA= RolisteamApplication::ApplicationState;
+        switch(state)
+        {
+        case RA::SelectProfile:
+            connectionDialog.setVisible(true);
+            mainWindow.makeVisible(false);
+            break;
+        case RA::Playing:
+            connectionDialog.accept();
+            mainWindow.makeVisible(true);
+            connectionDialog.setVisible(false);
+            break;
+        case RA::Exit:
+            mainWindow.makeVisible(false);
+            connectionDialog.setVisible(false);
+            QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
+            break;
+        }
+    });
 
     connectionDialog.setVisible(true);
     return app.exec();

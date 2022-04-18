@@ -59,4 +59,4 @@ private:
     bool m_noErrror;
 };
 
-#endif // UPDATECHECKER_H
+#endif // TIPCHECKER_H
