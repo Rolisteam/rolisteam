@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AudioWidgetUI</class>
- <widget class="QWidget" name="AudioWidgetUI">
+ <class>PlayerWidgetUI</class>
+ <widget class="QWidget" name="PlayerWidgetUI">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -80,7 +80,20 @@
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="m_timerDisplay"/>
+      <widget class="QLabel" name="m_timerDisplay">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

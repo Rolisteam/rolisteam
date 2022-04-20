@@ -25,7 +25,7 @@
 #include "playerwidget.h"
 
 #include "controller/audioplayercontroller.h"
-#include "ui_audiowidget.h"
+#include "ui_playerwidget.h"
 #define FACTOR_WAIT 4
 
 QString getExistingFile(const QString& rootDir, const QString& pathOnGM)
@@ -56,7 +56,7 @@ QString getExistingFile(const QString& rootDir, const QString& pathOnGM)
 }
 
 PlayerWidget::PlayerWidget(AudioPlayerController* ctrl, QWidget* parent)
-    : QWidget(parent), m_ctrl(ctrl), m_ui(new Ui::AudioWidgetUI)
+    : QWidget(parent), m_ctrl(ctrl), m_ui(new Ui::PlayerWidgetUI)
 {
     setAcceptDrops(true);
 
@@ -194,17 +194,27 @@ void PlayerWidget::setupUi()
     connect(m_ui->m_timeSlider, &QSlider::sliderMoved, m_ctrl, &AudioPlayerController::setTime);
 
     // Volume
+    /*connect(m_ctrl, &AudioPlayerController::volumeChanged, m_ui->m_volumeSlider,
+            [this]() { m_ui->m_volumeSlider->setValue(m_ctrl->volume()); });*/
     connect(m_ctrl, &AudioPlayerController::volumeChanged, m_ui->m_volumeSlider, &QSlider::setValue);
-    connect(m_ui->m_volumeSlider, &QSlider::valueChanged, m_ctrl, &AudioPlayerController::setVolume);
-
+    connect(m_ui->m_volumeSlider, &QSlider::sliderMoved, m_ctrl, &AudioPlayerController::setVolume);
     // Mute
     connect(m_ctrl, &AudioPlayerController::mutedChanged, this, &PlayerWidget::updateIcon);
     connect(m_volumeMutedAct, &QAction::triggered, m_ctrl, &AudioPlayerController::mute);
 
     // duration
     connect(m_ctrl, &AudioPlayerController::durationChanged, m_ui->m_timeSlider, &QSlider::setMaximum);
-    connect(m_ctrl, &AudioPlayerController::durationChanged, m_ui->m_timerDisplay,
-            QOverload<int>::of(&QLCDNumber::display));
+    connect(m_ctrl, &AudioPlayerController::timeChanged, m_ui->m_timerDisplay, [this](qint64 position) {
+        auto posInSecond= position / 1000;
+        auto min= posInSecond / 60;
+        auto second= posInSecond - (min * 60);
+        if(min > 0)
+            m_ui->m_timerDisplay->setText(
+                QString("%1min%2s").arg(min).arg(second, 2, 10, QLatin1Char('0'))); //, 3, 10, QLatin1Char('0')
+        else
+            m_ui->m_timerDisplay->setText(QString("%1s").arg(second, 2, 10, QLatin1Char('0')));
+    });
+    // QOverload<int>::of(&QLCDNumber::display));
     connect(m_ctrl, &AudioPlayerController::visibleChanged, this, &PlayerWidget::setVisible);
     setVisible(m_ctrl->visible());
 

@@ -235,6 +235,7 @@ set(SOURCES
 
 
 set(UI_FILES
+  customs/playerwidget.ui
   dialogs/campaignproperties.ui
   dialogs/campaignintegritydialog.ui
   dialogs/newfiledialog.ui

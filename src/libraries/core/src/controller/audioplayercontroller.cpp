@@ -57,9 +57,9 @@ AudioPlayerController::AudioPlayerController(int id, const QString& key, Prefere
     /*connect(&m_player, QOverload<QMediaPlayer::Error>::of(&QMediaPlayer::error), this,
             &AudioPlayerController::errorChanged);*/
     connect(&m_player, &QMediaPlayer::playbackStateChanged, this, [this]() { emit stateChanged(state()); });
+    connect(&m_audioOutput, &QAudioOutput::volumeChanged, this, [this]() { emit volumeChanged(volume()); });
     connect(&m_audioOutput, &QAudioOutput::mutedChanged, this, &AudioPlayerController::mutedChanged);
     connect(&m_player, &QMediaPlayer::durationChanged, this, &AudioPlayerController::durationChanged);
-    connect(&m_audioOutput, &QAudioOutput::volumeChanged, this, &AudioPlayerController::volumeChanged);
     connect(&m_player, &QMediaPlayer::positionChanged, this, &AudioPlayerController::timeChanged);
 
     connect(&m_player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
@@ -106,7 +106,7 @@ bool AudioPlayerController::muted() const
     return m_audioOutput.isMuted();
 }
 
-int AudioPlayerController::time() const
+qint64 AudioPlayerController::time() const
 {
     return m_player.position();
 }
@@ -140,7 +140,10 @@ QString AudioPlayerController::text() const
 
 int AudioPlayerController::volume() const
 {
-    return m_audioOutput.volume() * 100;
+    qreal linearVolume
+        = QAudio::convertVolume(m_audioOutput.volume(), QAudio::LinearVolumeScale, QAudio::LogarithmicVolumeScale);
+
+    return qRound(linearVolume * 100);
 }
 
 bool AudioPlayerController::localIsGm() const
@@ -217,10 +220,15 @@ void AudioPlayerController::loadPlayList(const QString& path)
 
 void AudioPlayerController::setVolume(int volume)
 {
+    /*if(m_volume == volume)
+        return;
+    m_volume= volume;*/
+
     qreal linearVolume
         = QAudio::convertVolume(volume / qreal(100.0), QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
+    qDebug() << "setvolume:" << linearVolume << volume;
 
-    m_audioOutput.setVolume(qRound(linearVolume * 100));
+    m_audioOutput.setVolume(linearVolume);
 }
 
 void AudioPlayerController::exportList(const QString& path)

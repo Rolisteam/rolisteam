@@ -43,7 +43,7 @@ class CORE_EXPORT AudioPlayerController : public QObject
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool muted READ muted NOTIFY mutedChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
-    Q_PROPERTY(qreal time READ time WRITE setTime NOTIFY timeChanged)
+    Q_PROPERTY(qint64 time READ time WRITE setTime NOTIFY timeChanged)
 public:
     enum PlayingMode
     {
@@ -70,7 +70,7 @@ public:
     QString error() const;
     bool visible() const;
     bool muted() const;
-    int time() const;
+    qint64 time() const;
     State state() const;
     QString text() const;
     int volume() const;
@@ -83,7 +83,7 @@ public slots:
     void stop();
     void pause();
     void next();
-    void setPlayingMode(PlayingMode mode);
+    void setPlayingMode(AudioPlayerController::PlayingMode mode);
     void loadPlayList(const QString& path);
     void setVolume(int volume);
     void exportList(const QString& path);
@@ -101,14 +101,14 @@ public slots:
 
 signals:
     void modeChanged();
-    void volumeChanged(int v);
+    void volumeChanged(int);
     void localIsGmChanged();
     void errorChanged();
     void visibleChanged(bool b);
     void mutedChanged();
     void textChanged();
-    void stateChanged(State state);
-    void timeChanged();
+    void stateChanged(AudioPlayerController::State state);
+    void timeChanged(qint64);
     void durationChanged(qint64 dura);
     void startPlayingSong(QString name, qint64 time);
 
@@ -123,6 +123,7 @@ private:
     bool m_localIsGM= false;
     bool m_visible= true;
     QString m_prefkey;
+    // int m_volume{0};
 };
 
 #endif // AUDIOPLAYERCONTROLLER_H

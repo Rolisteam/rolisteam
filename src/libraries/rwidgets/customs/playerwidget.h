@@ -32,7 +32,7 @@
 #include "rwidgets_global.h"
 namespace Ui
 {
-class AudioWidgetUI;
+class PlayerWidgetUI;
 }
 class AudioPlayerController;
 
@@ -88,6 +88,6 @@ private:
     QAction* m_openPlayList;
     QAction* m_savePlayList;
     QAction* m_clearList;
-    Ui::AudioWidgetUI* m_ui;
+    Ui::PlayerWidgetUI* m_ui;
 };
 #endif
