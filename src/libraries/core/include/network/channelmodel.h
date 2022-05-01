@@ -9,7 +9,7 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "network/networkreceiver.h"
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 #include "network_global.h"
 
 class NETWORK_EXPORT ClientMimeData : public QMimeData
@@ -17,12 +17,12 @@ class NETWORK_EXPORT ClientMimeData : public QMimeData
     Q_OBJECT
 public:
     ClientMimeData();
-    void addClient(TcpClient* m, const QModelIndex);
-    const QMap<QModelIndex, TcpClient*>& getList() const;
+    void addClient(ServerConnection* m, const QModelIndex);
+    const QMap<QModelIndex, ServerConnection*>& getList() const;
     virtual bool hasFormat(const QString& mimeType) const;
 
 private:
-    QMap<QModelIndex, TcpClient*> m_clientList;
+    QMap<QModelIndex, ServerConnection*> m_clientList;
 };
 /**
  * @brief The ChannelModel class
@@ -43,7 +43,7 @@ public:
     bool setData(const QModelIndex& index, const QVariant& value, int role);
 
     QString addChannel(QString name, QByteArray password);
-    bool addConnectionToChannel(QString chanId, TcpClient* client);
+    bool addConnectionToChannel(QString chanId, ServerConnection* client);
 
     // void readDataJson(const QJsonObject&);
     // void writeDataJson(QJsonObject&);
@@ -51,14 +51,14 @@ public:
     void readSettings();
     void writeSettings();
 
-    bool addConnectionToDefaultChannel(TcpClient* client);
+    bool addConnectionToDefaultChannel(ServerConnection* client);
     Qt::ItemFlags flags(const QModelIndex& index) const;
     bool hasChildren(const QModelIndex& parent) const;
 
     void kick(const QString&, bool isAdmin, const QString& senderId);
 
     TreeItem* getItemById(QString id) const;
-    TcpClient* getTcpClientById(QString id) const;
+    ServerConnection* getServerConnectionById(QString id) const;
 
     bool isAdmin(const QString& id) const;
     bool isGM(const QString& id, const QString& chanId) const;
@@ -92,7 +92,7 @@ public slots:
     void setChannelMemorySize(Channel* chan, quint64);
 
 protected:
-    bool moveMediaItem(QList<TcpClient*> items, const QModelIndex& parentToBe, int row,
+    bool moveMediaItem(QList<ServerConnection*> items, const QModelIndex& parentToBe, int row,
                        QList<QModelIndex>& formerPosition);
 
     void appendChannel(Channel* channel);

@@ -32,7 +32,7 @@
 #include <QTimer>
 
 #include "heartbeatsender.h"
-#include "network/networklink.h"
+#include "network/clientconnection.h"
 #include "network/networkmessage.h"
 #include "network/networkmessagewriter.h"
 #include "network_global.h"
@@ -96,7 +96,7 @@ private slots:
     void setReady(bool ready);
 
 private:
-    std::unique_ptr<NetworkLink> m_networkLinkToServer;
+    std::unique_ptr<ClientConnection> m_networkLinkToServer;
     ConnectionState m_connectionState= UNREADY;
     bool m_ready= false;
     bool m_isAdmin= false;

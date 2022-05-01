@@ -19,8 +19,8 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
-#ifndef TCPCLIENT_H
-#define TCPCLIENT_H
+#ifndef SERVERCONNECTION_H
+#define SERVERCONNECTION_H
 
 #include <QObject>
 #include <QPointer>
@@ -39,13 +39,13 @@
 
 class Channel;
 /**
- * @brief The TcpClient class reprents connection state with client in server side.
+ * @brief The TcpClient class represents connection state with client on server side.
  */
-class NETWORK_EXPORT TcpClient : public TreeItem
+class NETWORK_EXPORT ServerConnection : public TreeItem
 {
     Q_OBJECT
     Q_PROPERTY(QString playerName READ playerName NOTIFY playerNameChanged)
-    Q_PROPERTY(QString playerId READ playerId NOTIFY playerIdChanged)
+    Q_PROPERTY(QString playerId READ playerId() NOTIFY playerIdChanged)
 
 public:
     enum ConnectionEvent
@@ -67,12 +67,12 @@ public:
     };
     Q_ENUM(ConnectionEvent)
     /**
-     * @brief TcpClient
+     * @brief ServerConnection
      * @param socket
      * @param parent
      */
-    explicit TcpClient(QTcpSocket* socket, QObject* parent= nullptr);
-    ~TcpClient();
+    explicit ServerConnection(QTcpSocket* socket, QObject* parent= nullptr);
+    ~ServerConnection();
     /**
      * @brief getParentChannel
      * @return
@@ -137,14 +137,14 @@ signals:
 
     void moveChannel();
 
-    void clientSaysGoodBye();
+    void clientSaysGoodBye(QString id);
     void playerStatusChanged();
 
     // Signal to check
-    void checkServerAcceptClient(TcpClient* client);
-    void checkServerPassword(TcpClient* client);
-    void checkAdminPassword(TcpClient* client);
-    void checkChannelPassword(TcpClient* client, QString channelId, QByteArray password);
+    void checkServerAcceptClient(ServerConnection* client);
+    void checkServerPassword(ServerConnection* client);
+    void checkAdminPassword(ServerConnection* client);
+    void checkChannelPassword(ServerConnection* client, QString channelId, QByteArray password);
     void channelPassword(QString channelId, QByteArray password);
 
     void isReady();
@@ -164,7 +164,7 @@ public slots:
     void forwardMessage();
     void sendMessage(NetworkMessage* msg, bool deleteMsg);
     void connectionError(QAbstractSocket::SocketError error);
-    void sendEvent(TcpClient::ConnectionEvent);
+    void sendEvent(ServerConnection::ConnectionEvent);
     void startReading();
     void closeConnection();
 
@@ -174,7 +174,7 @@ protected:
     void sendOffChannelChanged();
 
 private:
-    QPointer<QTcpSocket> m_socket;
+    QPointer<QTcpSocket> m_socket; // use std::unique_ptr
     NetworkMessageHeader m_header= {0, 0, 0};
     char* m_buffer= nullptr;
     quint64 m_headerRead;
@@ -207,5 +207,5 @@ private:
     QString m_adminPassword;
     QString m_channelPassword;
 };
-Q_DECLARE_METATYPE(TcpClient::ConnectionEvent)
-#endif // TCPCLIENT_H
+Q_DECLARE_METATYPE(ServerConnection::ConnectionEvent)
+#endif // SERVERCONNECTION_H

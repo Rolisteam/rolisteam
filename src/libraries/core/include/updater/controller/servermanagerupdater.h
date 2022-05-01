@@ -22,15 +22,15 @@
 
 #include <QObject>
 #include <QPointer>
-#include <core_global.h>
+#include <network_global.h>
 
-class ServerManager;
-class CORE_EXPORT ServerManagerUpdater : public QObject
+class ServerConnectionManager;
+class NETWORK_EXPORT ServerManagerUpdater : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QByteArray channelsData READ channelsData NOTIFY channelsDataChanged)
 public:
-    explicit ServerManagerUpdater(ServerManager* ctrl, QObject* parent= nullptr);
+    explicit ServerManagerUpdater(ServerConnectionManager* ctrl, QObject* parent= nullptr);
 
     QByteArray channelsData();
 
@@ -41,7 +41,7 @@ signals:
     void channelsDataChanged();
 
 private:
-    QPointer<ServerManager> m_ctrl;
+    QPointer<ServerConnectionManager> m_ctrl;
     QByteArray m_channelData;
 };
 

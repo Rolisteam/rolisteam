@@ -30,7 +30,7 @@
 #include <QPointer>
 #include <QString>
 
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 #include "network_global.h"
 #include "networkmessagewriter.h"
 
@@ -44,7 +44,7 @@ class NETWORK_EXPORT Channel : public TreeItem
     Q_OBJECT
     Q_PROPERTY(quint64 memorySize READ memorySize WRITE setMemorySize NOTIFY memorySizeChanged)
     Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
-    Q_PROPERTY(TcpClient* currentGM READ currentGM WRITE setCurrentGM NOTIFY currentGMChanged)
+    Q_PROPERTY(ServerConnection* currentGM READ currentGM WRITE setCurrentGM NOTIFY currentGMChanged)
 public:
     Channel();
     explicit Channel(QString name);
@@ -65,9 +65,9 @@ public:
 
     bool isLeaf() const override;
 
-    void sendMessage(NetworkMessage*, TcpClient*, bool mustBeSaved);
-    void sendToAll(NetworkMessage*, TcpClient* sender, bool deleteMsg= false);
-    void sendToMany(NetworkMessage* msg, TcpClient* sender, bool deleteMsg= false);
+    void sendMessage(NetworkMessage*, ServerConnection*, bool mustBeSaved);
+    void sendToAll(NetworkMessage*, ServerConnection* sender, bool deleteMsg= false);
+    void sendToMany(NetworkMessage* msg, ServerConnection* sender, bool deleteMsg= false);
 
     // void readFromJson(QJsonObject& json) override;
     // void writeIntoJson(QJsonObject& json) override;
@@ -80,20 +80,20 @@ public:
 
     virtual void clear() override;
 
-    void updateNewClient(TcpClient* newComer);
+    void updateNewClient(ServerConnection* newComer);
 
-    bool removeClient(TcpClient* client);
+    bool removeClient(ServerConnection* client);
     bool removeChild(TreeItem*) override;
     bool removeChildById(const QString&);
 
-    TcpClient* currentGM() const;
-    void setCurrentGM(TcpClient* currentGM);
+    ServerConnection* currentGM() const;
+    void setCurrentGM(ServerConnection* currentGM);
 
     QString getCurrentGmId();
 
     virtual void kick(const QString& str, bool isAdmin, const QString& sourceId) override;
     TreeItem* getChildById(QString id) override;
-    TcpClient* getClientById(QString id);
+    ServerConnection* getClientById(QString id);
 
     quint64 memorySize() const;
     void setMemorySize(quint64 size);
@@ -112,7 +112,7 @@ signals:
 
 protected:
     bool hasNoClient();
-    void sendOffGmStatus(TcpClient* client);
+    void sendOffGmStatus(ServerConnection* client);
     void findNewGM();
 
 private:
@@ -123,7 +123,7 @@ private:
     QList<QPointer<TreeItem>> m_child;
     QList<NetworkMessage*> m_dataToSend;
     quint64 m_memorySize= 0;
-    QPointer<TcpClient> m_currentGm;
+    QPointer<ServerConnection> m_currentGm;
     bool m_locked= false;
 };
 

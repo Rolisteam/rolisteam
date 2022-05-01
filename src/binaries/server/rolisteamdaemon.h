@@ -5,7 +5,7 @@
 #include <QThread>
 
 #include <common/logcontroller.h>
-#include <network/servermanager.h>
+#include <network/rserver.h>
 /**
  * @brief The RolisteamDaemon class
  */
@@ -26,7 +26,8 @@ public slots:
     void createEmptyConfigFile(QString filepath);
 
 private:
-    ServerManager m_serverManager;
+    RServer m_server;
+    QMap<QString, QVariant> m_parameters;
     bool m_restart= false;
     LogController* m_logController= nullptr;
     QThread m_thread;

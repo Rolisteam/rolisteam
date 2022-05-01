@@ -4,7 +4,7 @@
 #include "channelmodel.h"
 #include "network_global.h"
 #include "networkmessage.h"
-#include "tcpclient.h"
+#include "serverconnection.h"
 #include <QByteArray>
 #include <QObject>
 
@@ -23,11 +23,11 @@ public:
     static QString cat2String(NetworkMessageHeader* head);
     static QString act2String(NetworkMessageHeader* head);
 signals:
-    void messageForAdmin(NetworkMessageReader*, Channel* channel, TcpClient* emitter);
+    void messageForAdmin(NetworkMessageReader*, Channel* channel, ServerConnection* emitter);
     void playerNameChanged(const QString& uuid, const QString& name);
 
 public slots:
-    void dispatchMessage(QByteArray msg, Channel* channel, TcpClient* emitter);
+    void dispatchMessage(QByteArray msg, Channel* channel, ServerConnection* emitter);
 };
 
 #endif // MESSAGEDISPATCHER_H

@@ -5,7 +5,7 @@
 
 MessageDispatcher::MessageDispatcher(QObject* parent) : QObject(parent) {}
 
-void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpClient* emitter)
+void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, ServerConnection* emitter)
 {
     bool sendToAll= true;
     bool saveIt= true;
@@ -13,7 +13,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
     msg->setData(data);
 
-    if(channel == nullptr)
+    if(channel == nullptr && msg->category() != NetMsg::AdministrationCategory)
     {
         qWarning() << "####\nchannel is nullptr\n####";
     }

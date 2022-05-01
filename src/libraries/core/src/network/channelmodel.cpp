@@ -1,6 +1,6 @@
 #include "network/channelmodel.h"
 
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 #include "network/treeitem.h"
 
 #include <QIcon>
@@ -40,14 +40,14 @@ ClientMimeData::ClientMimeData()
     setData("application/rolisteam.networkclient.list", QByteArray());
 }
 
-void ClientMimeData::addClient(TcpClient* m, const QModelIndex index)
+void ClientMimeData::addClient(ServerConnection* m, const QModelIndex index)
 {
     if(nullptr != m)
     {
         m_clientList.insert(index, m);
     }
 }
-const QMap<QModelIndex, TcpClient*>& ClientMimeData::getList() const
+const QMap<QModelIndex, ServerConnection*>& ClientMimeData::getList() const
 {
     return m_clientList;
 }
@@ -447,14 +447,14 @@ QMimeData* ChannelModel::mimeData(const QModelIndexList& indexes) const
     {
         if((index.isValid()) && (index.column() == 0))
         {
-            TcpClient* item= static_cast<TcpClient*>(index.internalPointer());
+            ServerConnection* item= static_cast<ServerConnection*>(index.internalPointer());
             mimeData->addClient(item, index);
         }
     }
     return mimeData;
 }
 
-bool ChannelModel::moveMediaItem(QList<TcpClient*> items, const QModelIndex& parentToBe, int row,
+bool ChannelModel::moveMediaItem(QList<ServerConnection*> items, const QModelIndex& parentToBe, int row,
                                  QList<QModelIndex>& formerPosition)
 {
     Q_UNUSED(row)
@@ -509,7 +509,7 @@ bool ChannelModel::dropMimeData(const QMimeData* data, Qt::DropAction action, in
 
         if(nullptr != clientData)
         {
-            QList<TcpClient*> clientList= clientData->getList().values();
+            QList<ServerConnection*> clientList= clientData->getList().values();
             QList<QModelIndex> indexList= clientData->getList().keys();
             {
                 if(action == Qt::MoveAction)
@@ -521,7 +521,7 @@ bool ChannelModel::dropMimeData(const QMimeData* data, Qt::DropAction action, in
     }
     return added;
 }
-bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
+bool ChannelModel::addConnectionToDefaultChannel(ServerConnection* client)
 {
     if(m_defaultChannel.isEmpty())
     {
@@ -543,7 +543,7 @@ bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
     return addConnectionToChannel(m_defaultChannel, client);
 }
 
-bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
+bool ChannelModel::addConnectionToChannel(QString chanId, ServerConnection* client)
 {
     bool found= false;
     for(auto& item : m_root)
@@ -596,7 +596,7 @@ bool ChannelModel::moveClient(Channel* origin, const QString& id, Channel* dest)
     }
     endResetModel();
 
-    auto item= getTcpClientById(m_localPlayerId);
+    auto item= getServerConnectionById(m_localPlayerId);
     if(nullptr != item)
     {
         auto parent= dynamic_cast<Channel*>(item->getParentItem()); // channel
@@ -667,7 +667,7 @@ void ChannelModel::kick(const QString& id, bool isAdmin, const QString& senderId
 
 bool ChannelModel::isAdmin(const QString& id) const
 {
-    auto player= getTcpClientById(id);
+    auto player= getServerConnectionById(id);
     if(nullptr == player)
         return false;
     return player->isAdmin();
@@ -675,7 +675,7 @@ bool ChannelModel::isAdmin(const QString& id) const
 
 bool ChannelModel::isGM(const QString& id, const QString& chanId) const
 {
-    auto player= getTcpClientById(id);
+    auto player= getServerConnectionById(id);
     auto item= getItemById(chanId);
     if(nullptr == player || item == nullptr)
         return false;
@@ -710,9 +710,9 @@ TreeItem* ChannelModel::getItemById(QString id) const
     return nullptr;
 }
 
-TcpClient* ChannelModel::getTcpClientById(QString id) const
+ServerConnection* ChannelModel::getServerConnectionById(QString id) const
 {
-    TcpClient* client= nullptr;
+    ServerConnection* client= nullptr;
     for(auto& item : m_root)
     {
         if(nullptr == item)
@@ -787,7 +787,7 @@ void ChannelModel::emptyChannelMemory()
 }
 bool ChannelModel::localIsGM() const
 {
-    auto local= getTcpClientById(m_localPlayerId);
+    auto local= getServerConnectionById(m_localPlayerId);
     if(local == nullptr)
         return false;
 

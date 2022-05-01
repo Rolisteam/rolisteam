@@ -7,9 +7,10 @@
 #include <QFileInfo>
 #include <QSettings>
 
-RolisteamDaemon::RolisteamDaemon(QObject* parent) : QObject(parent), m_logController(new LogController(true, this))
+RolisteamDaemon::RolisteamDaemon(QObject* parent)
+    : QObject(parent), m_server(m_parameters), m_logController(new LogController(true, this))
 {
-    qRegisterMetaType<ServerManager::ServerState>();
+    qRegisterMetaType<RServer::ServerState>();
 }
 
 bool RolisteamDaemon::readConfigFile(QString filepath)
@@ -59,7 +60,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 
     if(deepInspectionLog)
     {
-        m_logController->listenObjects(&m_serverManager);
+        m_logController->listenObjects(&m_server);
     }
     m_logController->setLogLevel(static_cast<LogController::LogLevel>(logLevel));
 
@@ -73,36 +74,34 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 
     m_logController->setCurrentModes(modes);
 
-    m_serverManager.insertField("port", port);
-    m_serverManager.insertField("ServerPassword", password);
-    m_serverManager.insertField("IpRange", range);
-    m_serverManager.insertField("IpBan", listIpBan);
-    m_serverManager.insertField("ConnectionMax", connectionMax);
-    m_serverManager.insertField("TimeStart", timeStart);
-    m_serverManager.insertField("TimeEnd", timeEnd);
-    m_serverManager.insertField("AdminPassword", adminPassword);
-    m_serverManager.insertField("IpMode", ipMode);                       // v4 v6 any
-    m_serverManager.insertField("ThreadCount", threadCount);             // thread count
-    m_serverManager.insertField("ChannelCount", channelCount);           // channel count
-    m_serverManager.insertField("TimeToRetry", timeToRetry);             // TimeToRetry
-    m_serverManager.insertField("TryCount", tryCount);                   // TimeToRetry
-    m_serverManager.insertField("LogLevel", logLevel);                   // loglevel
-    m_serverManager.insertField("LogFile", pathToLog);                   // logpath
-    m_serverManager.insertField("DeepInspectionLog", deepInspectionLog); // logpath
-    m_serverManager.insertField("MemorySize", memorySize);               // max memory size
-
-    m_serverManager.initServerManager();
+    m_parameters.insert("port", port);
+    m_parameters.insert("ServerPassword", password);
+    m_parameters.insert("IpRange", range);
+    m_parameters.insert("IpBan", listIpBan);
+    m_parameters.insert("ConnectionMax", connectionMax);
+    m_parameters.insert("TimeStart", timeStart);
+    m_parameters.insert("TimeEnd", timeEnd);
+    m_parameters.insert("AdminPassword", adminPassword);
+    m_parameters.insert("IpMode", ipMode);                       // v4 v6 any
+    m_parameters.insert("ThreadCount", threadCount);             // thread count
+    m_parameters.insert("ChannelCount", channelCount);           // channel count
+    m_parameters.insert("TimeToRetry", timeToRetry);             // TimeToRetry
+    m_parameters.insert("TryCount", tryCount);                   // TimeToRetry
+    m_parameters.insert("LogLevel", logLevel);                   // loglevel
+    m_parameters.insert("LogFile", pathToLog);                   // logpath
+    m_parameters.insert("DeepInspectionLog", deepInspectionLog); // logpath
+    m_parameters.insert("MemorySize", memorySize);               // max memory size
 
     return true;
 }
 
 void RolisteamDaemon::start()
 {
-    connect(&m_thread, SIGNAL(started()), &m_serverManager, SLOT(startListening()));
-    connect(&m_serverManager, &ServerManager::eventOccured, m_logController, &LogController::manageMessage,
-            Qt::QueuedConnection);
-    connect(&m_serverManager, &ServerManager::stateChanged, this, [this]() {
-        if(m_serverManager.state() == ServerManager::Stopped)
+    connect(&m_thread, &QThread::started, &m_server, &RServer::listen);
+    connect(&m_server, &RServer::eventOccured, m_logController, &LogController::manageMessage, Qt::QueuedConnection);
+    connect(&m_server, &RServer::completed, &m_thread, &QThread::quit);
+    connect(&m_server, &RServer::stateChanged, this, [this]() {
+        if(m_server.state() == RServer::Stopped)
             m_thread.quit();
     });
     connect(&m_thread, &QThread::finished, this, [this]() {
@@ -112,7 +111,8 @@ void RolisteamDaemon::start()
         }
         m_restart= false;
     });
-    m_serverManager.moveToThread(&m_thread);
+
+    m_server.moveToThread(&m_thread);
 
     m_thread.start();
 }
@@ -136,8 +136,8 @@ void RolisteamDaemon::createEmptyConfigFile(QString filepath)
     settings.setValue("LogLevel", 1);
     settings.setValue("LogFile", QStringLiteral(""));
     settings.setValue("DeepInspectionLog", false);
-    settings.setValue("AdminPassword", m_serverManager.getValue("AdminPassword"));
-    settings.setValue("MaxMemorySize", m_serverManager.getValue("MemorySize"));
+    settings.setValue("AdminPassword", QStringLiteral(""));
+    settings.setValue("MaxMemorySize", QStringLiteral(""));
 
     settings.sync();
 }
@@ -145,10 +145,10 @@ void RolisteamDaemon::createEmptyConfigFile(QString filepath)
 void RolisteamDaemon::restart()
 {
     m_restart= true;
-    QMetaObject::invokeMethod(&m_serverManager, &ServerManager::stopListening, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(&m_server, &RServer::close, Qt::QueuedConnection);
 }
 
 void RolisteamDaemon::stop()
 {
-    QMetaObject::invokeMethod(&m_serverManager, &ServerManager::stopListening, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(&m_server, &RServer::close, Qt::QueuedConnection);
 }

@@ -35,7 +35,7 @@
 #include "network/channelmodel.h"
 
 class ClientManager;
-class ServerManager;
+class RServer;
 class QThread;
 class HeartBeatSender;
 class QAbstractItemModel;
@@ -131,11 +131,10 @@ private:
     void startClient();
 
     void stopClient();
-    void stopServer();
 
 private:
     std::unique_ptr<ClientManager> m_clientManager;
-    std::unique_ptr<ServerManager> m_server;
+    std::unique_ptr<RServer> m_server;
     std::unique_ptr<QThread> m_serverThread;
     std::unique_ptr<HeartBeatSender> m_hbSender;
     std::unique_ptr<ProfileModel> m_profileModel;
@@ -144,6 +143,8 @@ private:
     std::unique_ptr<CountDownObject> m_countDown;
     QPointer<GameController> m_gameCtrl;
     QHash<NetMsg::Category, NetWorkReceiver*> m_receiverMap;
+
+    QMap<QString, QVariant> m_serverParameters;
 
     QByteArray m_serverPw;
     QByteArray m_admindPw;

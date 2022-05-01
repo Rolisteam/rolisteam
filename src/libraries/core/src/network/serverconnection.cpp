@@ -19,21 +19,21 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 #include "network/channel.h"
 
 #include "worker/playermessagehelper.h"
 #include <QHostAddress>
 #include <QThread>
 
-TcpClient::TcpClient(QTcpSocket* socket, QObject* parent)
+ServerConnection::ServerConnection(QTcpSocket* socket, QObject* parent)
     : TreeItem(parent), m_socket(socket), m_isAdmin(false), m_player(new Player)
 {
     m_remainingData= 0;
     m_headerRead= 0;
-    qRegisterMetaType<TcpClient::ConnectionEvent>();
+    qRegisterMetaType<ServerConnection::ConnectionEvent>();
 }
-TcpClient::~TcpClient()
+ServerConnection::~ServerConnection()
 {
     if(nullptr != m_stateMachine)
     {
@@ -42,14 +42,14 @@ TcpClient::~TcpClient()
     }
 }
 
-void TcpClient::resetStateMachine()
+void ServerConnection::resetStateMachine()
 {
     if(nullptr == m_socket)
         return;
 
     m_stateMachine= new QStateMachine();
 
-    connect(m_stateMachine, SIGNAL(started()), this, SIGNAL(isReady()));
+    connect(m_stateMachine, &QStateMachine::started, this, &ServerConnection::isReady);
     m_incomingConnection= new QState();
     m_controlConnection= new QState();
     m_authentificationServer= new QState();
@@ -95,10 +95,12 @@ void TcpClient::resetStateMachine()
             m_currentState= m_authentificationServer;
             if(m_knownUser)
             {
+                qDebug() << "checkserver password" << m_knownUser;
                 emit checkServerPassword(this);
             }
             else
             {
+                qDebug() << "Waiting for data" << m_knownUser;
                 m_waitingData= true;
             }
         }
@@ -129,68 +131,71 @@ void TcpClient::resetStateMachine()
         }
     });
 
-    m_incomingConnection->addTransition(this, &TcpClient::checkSuccess, m_controlConnection);
-    m_incomingConnection->addTransition(this, &TcpClient::checkFail, m_disconnected);
-    m_incomingConnection->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
+    m_incomingConnection->addTransition(this, &ServerConnection::checkSuccess, m_controlConnection);
+    m_incomingConnection->addTransition(this, &ServerConnection::checkFail, m_disconnected);
+    m_incomingConnection->addTransition(this, &ServerConnection::protocolViolation, m_disconnected);
 
-    m_controlConnection->addTransition(this, &TcpClient::controlSuccess, m_authentificationServer);
-    m_controlConnection->addTransition(this, &TcpClient::controlFail, m_disconnected);
-    m_controlConnection->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
+    m_controlConnection->addTransition(this, &ServerConnection::controlSuccess, m_authentificationServer);
+    m_controlConnection->addTransition(this, &ServerConnection::controlFail, m_disconnected);
+    m_controlConnection->addTransition(this, &ServerConnection::protocolViolation, m_disconnected);
 
-    m_authentificationServer->addTransition(this, &TcpClient::serverAuthSuccess, m_connected);
-    m_authentificationServer->addTransition(this, &TcpClient::serverAuthFail, m_disconnected);
-    m_authentificationServer->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
+    m_authentificationServer->addTransition(this, &ServerConnection::serverAuthSuccess, m_connected);
+    m_authentificationServer->addTransition(this, &ServerConnection::serverAuthFail, m_disconnected);
+    m_authentificationServer->addTransition(this, &ServerConnection::protocolViolation, m_disconnected);
 
-    m_connected->addTransition(this, &TcpClient::socketDisconnection, m_disconnected);
-    m_connected->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
+    m_connected->addTransition(this, &ServerConnection::socketDisconnection, m_disconnected);
+    m_connected->addTransition(this, &ServerConnection::protocolViolation, m_disconnected);
 
-    m_wantToGoToChannel->addTransition(this, &TcpClient::channelAuthFail, m_inChannel);
-    m_wantToGoToChannel->addTransition(this, &TcpClient::channelAuthSuccess, m_inChannel);
-    m_inChannel->addTransition(this, &TcpClient::moveChannel, m_wantToGoToChannel);
+    m_wantToGoToChannel->addTransition(this, &ServerConnection::channelAuthFail, m_inChannel);
+    m_wantToGoToChannel->addTransition(this, &ServerConnection::channelAuthSuccess, m_inChannel);
+    m_inChannel->addTransition(this, &ServerConnection::moveChannel, m_wantToGoToChannel);
 
     emit socketInitiliazed();
 }
 
-void TcpClient::startReading()
+void ServerConnection::startReading()
 {
     m_socket= new QTcpSocket();
-    connect(m_socket, &QTcpSocket::disconnected, this, &TcpClient::socketDisconnection);
-    connect(m_socket, &QTcpSocket::readyRead, this, &TcpClient::receivingData);
+    connect(m_socket, &QTcpSocket::disconnected, this, &ServerConnection::socketDisconnection);
+    connect(m_socket, &QTcpSocket::connected, this, &ServerConnection::receivingData);
+    connect(m_socket, &QTcpSocket::readyRead, this, &ServerConnection::receivingData);
+    connect(m_socket, &QTcpSocket::bytesWritten, this, &ServerConnection::receivingData);
+    connect(m_socket, &QTcpSocket::stateChanged, this, &ServerConnection::receivingData);
     connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::errorOccurred), this,
-            &TcpClient::connectionError);
+            &ServerConnection::connectionError);
 
     m_socket->setSocketDescriptor(getSocketHandleId());
     resetStateMachine();
 }
 
-qintptr TcpClient::getSocketHandleId() const
+qintptr ServerConnection::getSocketHandleId() const
 {
     return m_socketHandleId;
 }
 
-void TcpClient::setSocketHandleId(const qintptr& socketHandleId)
+void ServerConnection::setSocketHandleId(const qintptr& socketHandleId)
 {
     m_socketHandleId= socketHandleId;
 }
 
-bool TcpClient::isAdmin() const
+bool ServerConnection::isAdmin() const
 {
     return m_isAdmin;
 }
 
-void TcpClient::setIsAdmin(bool isAdmin)
+void ServerConnection::setIsAdmin(bool isAdmin)
 {
     m_isAdmin= isAdmin;
 }
 
-bool TcpClient::isGM() const
+bool ServerConnection::isGM() const
 {
     if(m_player == nullptr)
         return false;
     return m_player->isGM();
 }
 
-QString TcpClient::playerId() const
+QString ServerConnection::playerId() const
 {
     if(nullptr != m_player)
         return m_player->uuid();
@@ -198,13 +203,13 @@ QString TcpClient::playerId() const
     return {};
 }
 
-void TcpClient::setPlayerId(const QString& id)
+void ServerConnection::setPlayerId(const QString& id)
 {
     if(m_player)
         m_player->setUuid(id);
 }
 
-QString TcpClient::playerName() const
+QString ServerConnection::playerName() const
 {
     if(m_player)
         return m_player->name();
@@ -212,21 +217,21 @@ QString TcpClient::playerName() const
     return {};
 }
 
-void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
+void ServerConnection::setInfoPlayer(NetworkMessageReader* msg)
 {
     if(nullptr == msg && nullptr == m_player)
         return;
 
     if(PlayerMessageHelper::readPlayer(*msg, m_player.get()))
     {
-        m_knownUser= true;
         setName(m_player->name());
         setId(m_player->uuid());
+        m_knownUser= true;
         emit playerInfoDefined();
     }
 }
 
-void TcpClient::fill(NetworkMessageWriter* msg)
+void ServerConnection::fill(NetworkMessageWriter* msg)
 {
     if(nullptr != m_player)
     {
@@ -235,7 +240,7 @@ void TcpClient::fill(NetworkMessageWriter* msg)
     }
 }
 
-bool TcpClient::isFullyDefined()
+bool ServerConnection::isFullyDefined()
 {
     if(nullptr != m_player)
     {
@@ -244,16 +249,17 @@ bool TcpClient::isFullyDefined()
     return false;
 }
 
-void TcpClient::closeConnection()
+void ServerConnection::closeConnection()
 {
     if(nullptr != m_socket)
     {
         m_socket->disconnectFromHost();
     }
-    emit clientSaysGoodBye();
+    // Notify all others that player has left.
+    emit clientSaysGoodBye(playerId());
 }
 
-void TcpClient::receivingData()
+void ServerConnection::receivingData()
 {
     if(m_socket.isNull())
     {
@@ -297,7 +303,6 @@ void TcpClient::receivingData()
             m_remainingData-= dataRead;
             m_receivingData= true;
             emit readDataReceived(m_remainingData, m_header.dataSize);
-            // m_socket->waitForReadyRead();
         }
         else
         {
@@ -311,51 +316,53 @@ void TcpClient::receivingData()
         }
     }
 }
-bool TcpClient::isCurrentState(QState* state)
+bool ServerConnection::isCurrentState(QState* state)
 {
     return state == m_currentState;
 }
 
-QString TcpClient::getChannelPassword() const
+QString ServerConnection::getChannelPassword() const
 {
     return m_channelPassword;
 }
 
-QString TcpClient::getAdminPassword() const
+QString ServerConnection::getAdminPassword() const
 {
     return m_adminPassword;
 }
 
-QString TcpClient::getServerPassword() const
+QString ServerConnection::getServerPassword() const
 {
     return m_serverPassword;
 }
-void TcpClient::forwardMessage()
+void ServerConnection::forwardMessage()
 {
+    qDebug() << "forward message";
     QByteArray array(reinterpret_cast<char*>(&m_header), sizeof(NetworkMessageHeader));
     array.append(m_buffer, static_cast<int>(m_header.dataSize));
-    if(!isCurrentState(m_disconnected))
+    if(isCurrentState(m_disconnected))
+        return;
+
+    if(m_header.category == NetMsg::AdministrationCategory)
     {
-        if(m_header.category == NetMsg::AdministrationCategory)
-        {
-            NetworkMessageReader msg;
-            msg.setData(array);
-            readAdministrationMessages(msg);
-            emit dataReceived(array);
-        }
-        else if(!m_forwardMessage)
-        {
-            delete[] m_buffer;
-            emit protocolViolation();
-        }
-        else
-        {
-            emit dataReceived(array);
-        }
+        qDebug() << "read admin message";
+        NetworkMessageReader msg;
+        msg.setData(array);
+        readAdministrationMessages(msg);
+        emit dataReceived(array);
+    }
+    else if(!m_forwardMessage)
+    {
+        delete[] m_buffer;
+        emit protocolViolation();
+    }
+    else
+    {
+        emit dataReceived(array);
     }
 }
 
-void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
+void ServerConnection::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
     if((nullptr != m_socket) && (m_socket->isWritable()))
     {
@@ -374,7 +381,7 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
         delete msg;
     }
 }
-void TcpClient::connectionError(QAbstractSocket::SocketError error)
+void ServerConnection::connectionError(QAbstractSocket::SocketError error)
 {
     emit socketError(error);
     if(nullptr != m_socket)
@@ -383,7 +390,7 @@ void TcpClient::connectionError(QAbstractSocket::SocketError error)
     }
 }
 
-void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
+void ServerConnection::sendEvent(ServerConnection::ConnectionEvent event)
 {
     if(nullptr != m_player)
         qDebug() << "server connection to " << m_player->name() << "recieve event:" << event;
@@ -434,19 +441,23 @@ void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
         break;
     }
 }
-void TcpClient::sendOffChannelChanged()
+void ServerConnection::sendOffChannelChanged()
 {
     NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::MovedIntoChannel);
     sendMessage(&msg, false);
 }
-void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
+void ServerConnection::readAdministrationMessages(NetworkMessageReader& msg)
 {
+    qDebug() << "read Admin messages " << msg.action();
     switch(msg.action())
     {
     case NetMsg::ConnectionInfo:
         m_serverPassword= msg.byteArray32();
         setName(msg.string32());
         setId(msg.string32());
+
+        qDebug() << getName() << getId() << " << user";
+        m_knownUser= true;
         if(m_waitingData)
         {
             emit checkServerPassword(this);
@@ -480,25 +491,25 @@ void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
     }
 }
 
-Channel* TcpClient::getParentChannel() const
+Channel* ServerConnection::getParentChannel() const
 {
     return dynamic_cast<Channel*>(getParentItem());
 }
 
-void TcpClient::setParentChannel(Channel* parent)
+void ServerConnection::setParentChannel(Channel* parent)
 {
     setParentItem(parent);
 }
-QTcpSocket* TcpClient::getSocket()
+QTcpSocket* ServerConnection::getSocket()
 {
     return m_socket;
 }
-int TcpClient::indexOf(TreeItem*)
+int ServerConnection::indexOf(TreeItem*)
 {
     return -1;
 }
 
-void TcpClient::readFromJson(QJsonObject& json)
+void ServerConnection::readFromJson(QJsonObject& json)
 {
     setName(json["name"].toString());
     setId(json["id"].toString());
@@ -508,7 +519,7 @@ void TcpClient::readFromJson(QJsonObject& json)
         m_player->setUuid(playerId);
 }
 
-void TcpClient::writeIntoJson(QJsonObject& json)
+void ServerConnection::writeIntoJson(QJsonObject& json)
 {
     json["type"]= "client";
     json["name"]= m_name;
@@ -517,7 +528,7 @@ void TcpClient::writeIntoJson(QJsonObject& json)
     json["id"]= m_id;
     json["idPlayer"]= playerId();
 }
-QString TcpClient::getIpAddress()
+QString ServerConnection::getIpAddress()
 {
     if(nullptr != m_socket)
     {
@@ -526,11 +537,12 @@ QString TcpClient::getIpAddress()
     return {};
 }
 
-QString TcpClient::getWantedChannel()
+QString ServerConnection::getWantedChannel()
 {
     return m_wantedChannel;
 }
-bool TcpClient::isConnected() const
+
+bool ServerConnection::isConnected() const
 {
     if(!m_socket.isNull())
         return (m_socket->isValid() & (m_socket->state() == QAbstractSocket::ConnectedState));

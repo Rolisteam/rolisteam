@@ -49,7 +49,7 @@ public:
 
     void cleanUp();
 
-    TcpClient* getClient(QModelIndex index);
+    ServerConnection* getClient(QModelIndex index);
     Channel* getChannel(QModelIndex index);
 signals:
     void CurrentChannelGmIdChanged(QString gm);

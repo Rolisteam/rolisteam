@@ -22,11 +22,12 @@
 #include <QMetaObject>
 
 #include "network/channelmodel.h"
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 #include "worker/networkhelper.h"
-#include <network/servermanager.h>
+#include <network/serverconnectionmanager.h>
 
-ServerManagerUpdater::ServerManagerUpdater(ServerManager* ctrl, QObject* parent) : QObject(parent), m_ctrl(ctrl)
+ServerManagerUpdater::ServerManagerUpdater(ServerConnectionManager* ctrl, QObject* parent)
+    : QObject(parent), m_ctrl(ctrl)
 {
     if(!m_ctrl)
         return;

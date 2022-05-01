@@ -25,10 +25,10 @@ endif()
 set(inc include)
 set(Network_HEADER
     ${inc}/network_global.h
-    ${inc}/network/servermanager.h
+    ${inc}/network/serverconnectionmanager.h
+    ${inc}/network/serverconnection.h
     ${inc}/network/channelmodel.h
     ${inc}/media/mediatype.h
-    ${inc}/network/tcpclient.h
     ${inc}/network/connectionaccepter.h
     ${inc}/network/connectionprofile.h
     ${inc}/network/passwordaccepter.h
@@ -36,7 +36,7 @@ set(Network_HEADER
     ${inc}/network/ipbanaccepter.h
     ${inc}/network/characterdatamodel.h
     ${inc}/network/clientmanager.h
-    ${inc}/network/networklink.h
+    ${inc}/network/clientconnection.h
     ${inc}/network/timeaccepter.h
     ${inc}/network/channel.h
     ${inc}/network/treeitem.h
@@ -53,15 +53,16 @@ set(Network_HEADER
     ${inc}/data/characterstate.h
     ${inc}/data/resourcesnode.h
     ${inc}/worker/playermessagehelper.h
+    ${inc}/updater/controller/servermanagerupdater.h
 )
 
 set(Network_SRC
     src/network/channelmodel.cpp
-    src/network/tcpclient.cpp
-    src/network/servermanager.cpp
+    src/network/serverconnectionmanager.cpp
+    src/network/serverconnection.cpp
     src/network/connectionprofile.cpp
     src/network/clientmanager.cpp
-    src/network/networklink.cpp
+    src/network/clientconnection.cpp
     src/network/connectionaccepter.cpp
     src/network/passwordaccepter.cpp
     src/network/iprangeaccepter.cpp
@@ -83,6 +84,7 @@ set(Network_SRC
     src/data/resourcesnode.cpp
     src/worker/networkhelper.cpp
     src/worker/playermessagehelper.cpp
+    src/updater/controller/servermanagerupdater.cpp
 )
 message(${Network_SRC} ${Network_HEADER})
 add_library(network SHARED ${Network_SRC} ${Network_HEADER})
@@ -208,7 +210,7 @@ set(HEADERS
   ${inc}/undoCmd/removemediacontrollercommand.h
   ${inc}/undoCmd/showtransparentitemcommand.h
   ${inc}/undoCmd/rollinitcommand.h
-  ${inc}/updater/controller/servermanagerupdater.h
+
   ${inc}/updater/controller/audioplayerupdater.h
   ${inc}/updater/media/campaignupdater.h
   ${inc}/updater/media/charactersheetupdater.h
@@ -342,7 +344,7 @@ set(SOURCES
   src/undoCmd/removelocalcharactercommand.cpp
   src/undoCmd/removemediacontrollercommand.cpp
   src/undoCmd/showtransparentitemcommand.cpp
-  src/updater/controller/servermanagerupdater.cpp
+
   src/updater/controller/audioplayerupdater.cpp
   src/updater/media/campaignupdater.cpp
   src/updater/media/charactersheetupdater.cpp

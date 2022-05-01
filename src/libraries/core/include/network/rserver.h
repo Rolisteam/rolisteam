@@ -10,33 +10,70 @@
 
 #include "connectionaccepter.h"
 #include "network_global.h"
-#include "tcpclient.h"
+#include "serverconnection.h"
+#include "serverconnectionmanager.h"
+
+#include "updater/controller/servermanagerupdater.h"
+
+struct NETWORK_EXPORT ThreadInfo
+{
+    QPointer<QThread> m_thread;
+    int m_connectionCount;
+};
 
 class NETWORK_EXPORT RServer : public QTcpServer
 {
     Q_OBJECT
+    Q_PROPERTY(qint64 port READ port WRITE setPort NOTIFY portChanged)
+    Q_PROPERTY(ServerState state READ state NOTIFY stateChanged)
+    Q_PROPERTY(int threadCount READ threadCount CONSTANT)
 public:
-    explicit RServer(int threadCount, QObject* parent= nullptr);
+    enum ServerState
+    {
+        Stopped,
+        Listening,
+        Error
+    };
+    Q_ENUM(ServerState)
+    explicit RServer(const QMap<QString, QVariant>& parameter, QObject* parent= nullptr);
     virtual ~RServer() override;
 
-    virtual bool listen(const QHostAddress& address, quint16 port);
-    virtual void terminate();
+    virtual bool listen();
+    virtual void close();
     virtual qint64 port();
+
+    int threadCount() const;
+
+    RServer::ServerState state() const;
+
+public slots:
+    void setPort(int p);
 
 protected:
     virtual void incomingConnection(qintptr descriptor) override; // qint64, qHandle, qintptr, uint
-    virtual void accept(qintptr descriptor, TcpClient* connection);
+    virtual void accept(qintptr descriptor, ServerConnection* connection);
 
-signals:
-    void accepting(qintptr handle, TcpClient* connection, QThread* thread);
-    void finished();
-
-public slots:
+protected slots:
+    void setState(const RServer::ServerState& state);
     void complete();
 
+signals:
+    void stateChanged(RServer::ServerState);
+    void accepting(qintptr handle, ServerConnection* connection);
+    void finished();
+    void completed();
+    void portChanged();
+    void eventOccured(QString message, LogController::LogLevel type);
+
 protected:
-    QList<QPair<QThread*, int>> m_threadPool;
-    int m_numberOfThread= 0;
-    ConnectionAccepter* m_corConnection= nullptr;
+    int m_threadCount{1};
+    std::unique_ptr<QThread> m_connectionThread;
+    QList<ThreadInfo> m_threadPool;
+    std::unique_ptr<ServerConnectionManager> m_connectionsManager;
+    std::unique_ptr<ConnectionAccepter> m_corConnection;
+    std::unique_ptr<ServerManagerUpdater> m_updater;
+    const QMap<QString, QVariant>& m_data;
+    ServerState m_state= Stopped;
+    quint16 m_port{6660};
 };
 #endif // RSERVER_H

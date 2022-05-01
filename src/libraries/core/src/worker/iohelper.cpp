@@ -53,7 +53,7 @@
 #include "model/genericmodel.h"
 #include "model/nonplayablecharactermodel.h"
 #include "network/channel.h"
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 
 #ifdef WITH_PDF
 #include "controller/media_controller/pdfmediacontroller.h"

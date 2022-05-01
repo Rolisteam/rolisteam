@@ -1,98 +1,154 @@
 #include "network/rserver.h"
 #include <QDebug>
 #include <QMessageLogger>
-#include <network/servermanager.h>
+#include <network/serverconnectionmanager.h>
 
-RServer::RServer(int threadCount, QObject* parent) : QTcpServer(parent), m_numberOfThread(threadCount) {}
+#include "network/timeaccepter.h"
+
+RServer::RServer(const QMap<QString, QVariant>& parameter, QObject* parent)
+    : QTcpServer(parent), m_corConnection(new TimeAccepter()), m_data(parameter)
+{
+    m_threadCount= parameter.value("ThreadCount", m_threadCount).toInt();
+}
 
 RServer::~RServer()
 {
-    for(auto& thread : m_threadPool)
+    emit eventOccured(QStringLiteral("Server Destructor"), LogController::Debug);
+    for(auto& info : m_threadPool)
     {
-        thread.first->quit();
-        thread.first->wait(1000);
+        info.m_thread->quit();
+        info.m_thread->wait(1000);
     }
 }
 
-bool RServer::listen(const QHostAddress& address, quint16 port)
+bool RServer::listen()
 {
-    if(!QTcpServer::listen(address, port))
-        return false;
-
-    for(int i= 0; i < m_numberOfThread; ++i)
+    if(!QTcpServer::listen(QHostAddress::Any, m_port))
     {
-        QThread* thread= new QThread(this);
-        QPair<QThread*, int> pair(thread, 0);
-
-        m_threadPool.append(pair);
-        thread->start();
+        setState(RServer::Error);
+        return false;
     }
+    emit eventOccured(QStringLiteral("Start Listening"), LogController::Info);
+
+    m_connectionsManager.reset(new ServerConnectionManager(m_data));
+    m_updater.reset(new ServerManagerUpdater(m_connectionsManager.get()));
+    m_connectionThread.reset(new QThread);
+
+    connect(this, &RServer::finished, m_connectionsManager.get(), &ServerConnectionManager::quit, Qt::QueuedConnection);
+    connect(this, &RServer::accepting, m_connectionsManager.get(), &ServerConnectionManager::accept,
+            Qt::QueuedConnection);
+    connect(m_connectionsManager.get(), &ServerConnectionManager::finished, this, &RServer::complete,
+            Qt::QueuedConnection);
+
+    for(int i= 0; i < m_threadCount; ++i)
+    {
+        ThreadInfo info{new QThread(this), 0};
+        m_threadPool.append(info);
+        info.m_thread->start();
+    }
+
+    m_connectionsManager->moveToThread(m_connectionThread.get());
+    m_updater->moveToThread(m_connectionThread.get());
+
+    m_connectionThread->start();
+
+    setState(RServer::Listening);
 
     return true;
 }
 
-void RServer::terminate()
+void RServer::close()
 {
-    QTcpServer::close();
     emit finished();
+    QTcpServer::close();
+    setState(RServer::Stopped);
 }
 
 qint64 RServer::port()
 {
-    if(isListening())
-    {
-        return this->serverPort();
-    }
-    else
-    {
-        return 6660;
-    }
+    return m_port;
+}
+
+int RServer::threadCount() const
+{
+    return m_threadCount;
+}
+
+RServer::ServerState RServer::state() const
+{
+    return m_state;
+}
+
+void RServer::setPort(int p)
+{
+    if(p == m_port)
+        return;
+    m_port= p;
+    emit portChanged();
 }
 
 void RServer::incomingConnection(qintptr descriptor)
 {
-    qDebug() << "incomingConnection";
-    TcpClient* connection= new TcpClient(nullptr, nullptr);
+    emit eventOccured(QStringLiteral("incoming Connection"), LogController::Debug);
+    if(!m_corConnection->runAccepter(m_data))
+        return;
+
+    ServerConnection* connection= new ServerConnection(nullptr, nullptr);
     accept(descriptor, connection);
 }
 
-void RServer::accept(qintptr descriptor, TcpClient* connection)
+void RServer::accept(qintptr descriptor, ServerConnection* connection)
 {
-    bool found= false;
-    int previous= 0;
-    QThread* thread= nullptr;
-    if(!m_threadPool.isEmpty())
+    if(m_threadPool.isEmpty())
     {
-        for(int i= 0; i < m_threadPool.size() && !found; ++i)
-        {
-            auto pair= m_threadPool.at(i);
-            if((pair.second == 0) || (pair.second < previous))
-            {
-                thread= pair.first;
-                found= true;
-                pair.second++;
-            }
-            else
-            {
-                previous= pair.second;
-            }
-        }
-        if(!found)
-        {
-            auto pair= m_threadPool.first();
-            thread= pair.first;
-            pair.second++;
-        }
-        connection->moveToThread(thread);
-        emit accepting(descriptor, connection, thread);
+        emit eventOccured(QStringLiteral("threadpool is empty - server is stopped"), LogController::Error);
+        return;
     }
-    else
+
+    auto it= std::min_element(
+        std::begin(m_threadPool), std::end(m_threadPool),
+        [](const ThreadInfo& a, const ThreadInfo& b) { return a.m_connectionCount < b.m_connectionCount; });
+
+    if(it == std::end(m_threadPool))
     {
-        qFatal("No thread available - server is stopped");
+        emit eventOccured(QStringLiteral("No thread available - server is stopped"), LogController::Error);
+        return;
     }
+
+    it->m_connectionCount++;
+    connection->moveToThread(it->m_thread);
+    emit accepting(descriptor, connection);
+}
+
+void RServer::setState(const ServerState& state)
+{
+    if(state == m_state)
+        return;
+    m_state= state;
+    emit stateChanged(m_state);
+
+    emit eventOccured(QStringLiteral("State Changed to %1").arg(state), LogController::Info);
+
+    if(m_state == Error)
+        emit eventOccured(errorString(), LogController::Error);
 }
 
 void RServer::complete()
 {
-    return;
+    if(!m_connectionThread)
+    {
+        emit eventOccured(QStringLiteral("exiting complete there was no thread!"), LogController::Warning);
+        return;
+    }
+
+    m_connectionsManager.release();
+
+    qDebug() << this << "Quitting thread";
+    m_connectionThread->quit();
+    m_connectionThread->wait();
+
+    m_connectionThread.release();
+
+    emit eventOccured(QStringLiteral("Rserver Complete"), LogController::Info);
+    emit completed();
 }

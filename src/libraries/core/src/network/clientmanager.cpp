@@ -28,17 +28,17 @@
 
 #include "data/person.h"
 #include "data/player.h"
+#include "network/clientconnection.h"
 #include "network/connectionprofile.h"
-#include "network/networklink.h"
 
 #define second 1000
 
 /*****************
  * ClientManager *
  *****************/
-ClientManager::ClientManager(QObject* parent) : QObject(parent), m_networkLinkToServer(new NetworkLink)
+ClientManager::ClientManager(QObject* parent) : QObject(parent), m_networkLinkToServer(new ClientConnection)
 {
-    qRegisterMetaType<NetworkLink*>("NetworkLink*");
+    qRegisterMetaType<ClientConnection*>("ClientConnection*");
     qRegisterMetaType<char*>("char*");
     NetworkMessage::setMessageSender(m_networkLinkToServer.get());
 
@@ -82,23 +82,23 @@ ClientManager::ClientManager(QObject* parent) : QObject(parent), m_networkLinkTo
     m_states.setInitialState(m_disconnected);
 
     m_disconnected->addTransition(this, &ClientManager::connecting, m_connecting);
-    m_connecting->addTransition(m_networkLinkToServer.get(), &NetworkLink::connectedChanged, m_connected);
+    m_connecting->addTransition(m_networkLinkToServer.get(), &ClientConnection::connectedChanged, m_connected);
     m_connected->addTransition(this, &ClientManager::authentificationSuccessed, m_authentified);
 
-    m_authentified->addTransition(m_networkLinkToServer.get(), &NetworkLink::connectedChanged, m_disconnected);
-    m_connected->addTransition(m_networkLinkToServer.get(), &NetworkLink::connectedChanged, m_disconnected);
+    m_authentified->addTransition(m_networkLinkToServer.get(), &ClientConnection::connectedChanged, m_disconnected);
+    m_connected->addTransition(m_networkLinkToServer.get(), &ClientConnection::connectedChanged, m_disconnected);
 
     m_connecting->addTransition(this, &ClientManager::authentificationFailed, m_disconnected);
     m_connecting->addTransition(this, &ClientManager::stopConnecting, m_disconnected);
     m_connected->addTransition(this, &ClientManager::authentificationFailed, m_disconnected);
 
     m_error->addTransition(this, &ClientManager::connecting, m_connecting);
-    m_connecting->addTransition(m_networkLinkToServer.get(), &NetworkLink::errorChanged, m_error);
-    m_connected->addTransition(m_networkLinkToServer.get(), &NetworkLink::errorChanged, m_error);
-    m_authentified->addTransition(m_networkLinkToServer.get(), &NetworkLink::errorChanged, m_error);
+    m_connecting->addTransition(m_networkLinkToServer.get(), &ClientConnection::errorOccured, m_error);
+    m_connected->addTransition(m_networkLinkToServer.get(), &ClientConnection::errorOccured, m_error);
+    m_authentified->addTransition(m_networkLinkToServer.get(), &ClientConnection::errorOccured, m_error);
 
-    connect(m_networkLinkToServer.get(), &NetworkLink::messageReceived, this, &ClientManager::messageReceived);
-    connect(m_networkLinkToServer.get(), &NetworkLink::readDataReceived, this, &ClientManager::dataReceived);
+    connect(m_networkLinkToServer.get(), &ClientConnection::messageReceived, this, &ClientManager::messageReceived);
+    connect(m_networkLinkToServer.get(), &ClientConnection::readDataReceived, this, &ClientManager::dataReceived);
     // connect(m_networkLinkToServer.get(), &NetworkLink::errorChanged, this, &ClientManager::errorOccur);
     // connect(m_networkLinkToServer, &NetworkLink::clearData, this, &ClientManager::clearData);
     /*connect(m_networkLinkToServer, &NetworkLink::gameMasterStatusChanged, this,

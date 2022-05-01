@@ -20,7 +20,7 @@
  *************************************************************************/
 
 #include "network/channel.h"
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 
 Channel::Channel() {}
 
@@ -92,7 +92,7 @@ const QList<QPointer<TreeItem>> Channel::childrenItem() const
     return m_child;
 }
 
-void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSaved)
+void Channel::sendMessage(NetworkMessage* msg, ServerConnection* emitter, bool mustBeSaved)
 {
     if(msg->getRecipientMode() == NetworkMessage::All)
     {
@@ -108,13 +108,13 @@ void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSa
         sendToMany(msg, emitter);
     }
 }
-void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
+void Channel::sendToMany(NetworkMessage* msg, ServerConnection* tcp, bool deleteMsg)
 {
     auto const recipient= msg->getRecipientList();
     int i= 0;
     for(auto& client : m_child)
     {
-        TcpClient* other= dynamic_cast<TcpClient*>(client.data());
+        auto other= dynamic_cast<ServerConnection*>(client.data());
 
         if((nullptr != other) && (other != tcp) && (recipient.contains(other->getId())))
         {
@@ -129,17 +129,17 @@ void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
     }
 }
 
-void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
+void Channel::sendToAll(NetworkMessage* msg, ServerConnection* tcp, bool deleteMsg)
 {
     int i= 0;
     for(auto& client : m_child)
     {
-        TcpClient* other= dynamic_cast<TcpClient*>(client.data());
+        ServerConnection* other= dynamic_cast<ServerConnection*>(client.data());
         if((nullptr != other) && (other != tcp))
         {
             bool b= false;
             if(i + 1 == m_child.size())
-                b= deleteMsg;
+                b= deleteMsg; // TODO Copy message
 
             QMetaObject::invokeMethod(other, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg),
                                       Q_ARG(bool, b));
@@ -169,25 +169,24 @@ int Channel::addChild(TreeItem* item)
 
     if(item->isLeaf())
     {
-        QPointer<TcpClient> tcp= dynamic_cast<TcpClient*>(item);
+        QPointer<ServerConnection> tcp= dynamic_cast<ServerConnection*>(item);
         QPointer<TreeItem> itemp= item;
         if(tcp.isNull())
             return result;
 
-        connect(tcp, &TcpClient::clientSaysGoodBye, this, [this, tcp, itemp] {
-            if(m_child.isEmpty() || itemp.isNull() || tcp.isNull())
+        connect(tcp, &ServerConnection::clientSaysGoodBye, this, [this, itemp, tcp](const QString& playerId) {
+            qDebug() << itemp->getId() << playerId << "say good bye - debug";
+            if(m_child.isEmpty() || itemp.isNull())
                 return;
             m_child.removeAll(itemp);
             if(m_child.isEmpty())
                 return;
             qInfo() << QStringLiteral("Client left from channel");
-            auto message= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-            message->string8(tcp->playerId());
-            sendToAll(message, tcp, true);
+            removeClient(tcp);
         });
 
         // TODO make this connection as oneshot
-        connect(tcp, &TcpClient::playerInfoDefined, this, [this, tcp]() { updateNewClient(tcp); });
+        connect(tcp, &ServerConnection::playerInfoDefined, this, [this, tcp]() { updateNewClient(tcp); });
         if(tcp->isGM())
         {
             if(m_currentGm == nullptr)
@@ -226,7 +225,7 @@ bool Channel::addChildInto(QString id, TreeItem* child)
     return false;
 }
 
-void Channel::updateNewClient(TcpClient* newComer)
+void Channel::updateNewClient(ServerConnection* newComer)
 {
     NetworkMessageWriter* msg1= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::ClearTable);
     msg1->string8(newComer->getId());
@@ -238,7 +237,7 @@ void Channel::updateNewClient(TcpClient* newComer)
         if(!child->isLeaf())
             continue;
 
-        TcpClient* tcpConnection= dynamic_cast<TcpClient*>(child.data());
+        ServerConnection* tcpConnection= dynamic_cast<ServerConnection*>(child.data());
         if(nullptr == tcpConnection)
             continue;
 
@@ -277,7 +276,7 @@ void Channel::kick(const QString& str, bool isAdmin, const QString& sourceId)
             continue;
         if(!hasRightToKick && item->getId() == sourceId)
         {
-            TcpClient* source= dynamic_cast<TcpClient*>(toKick.data());
+            ServerConnection* source= dynamic_cast<ServerConnection*>(toKick.data());
             if(source)
                 hasRightToKick= source->isGM();
         }
@@ -295,7 +294,7 @@ void Channel::kick(const QString& str, bool isAdmin, const QString& sourceId)
 
     emit itemChanged();
 
-    TcpClient* client= dynamic_cast<TcpClient*>(toKick.data());
+    ServerConnection* client= dynamic_cast<ServerConnection*>(toKick.data());
     if(nullptr == client)
         return;
 
@@ -341,9 +340,9 @@ TreeItem* Channel::getChildById(QString id)
     return nullptr;
 }
 
-TcpClient* Channel::getClientById(QString id)
+ServerConnection* Channel::getClientById(QString id)
 {
-    TcpClient* result= nullptr;
+    ServerConnection* result= nullptr;
     for(auto& item : m_child)
     {
         if(nullptr == item)
@@ -351,7 +350,7 @@ TcpClient* Channel::getClientById(QString id)
 
         if(item->isLeaf())
         {
-            auto client= dynamic_cast<TcpClient*>(item.data());
+            auto client= dynamic_cast<ServerConnection*>(item.data());
             if(client->getId() == id)
             {
                 result= client;
@@ -371,8 +370,11 @@ TcpClient* Channel::getClientById(QString id)
     return result;
 }
 
-bool Channel::removeClient(TcpClient* client)
+bool Channel::removeClient(ServerConnection* client)
 {
+    if(!client)
+        return false;
+
     // must be the first line
     int i= m_child.removeAll(client);
     if(i == 0)
@@ -410,7 +412,7 @@ bool Channel::removeChild(TreeItem* itm)
 {
     if(itm->isLeaf())
     {
-        return removeClient(static_cast<TcpClient*>(itm));
+        return removeClient(static_cast<ServerConnection*>(itm));
     }
     else
     {
@@ -436,7 +438,7 @@ bool Channel::hasNoClient()
     return hasNoClient;
 }
 
-void Channel::sendOffGmStatus(TcpClient* client)
+void Channel::sendOffGmStatus(ServerConnection* client)
 {
     if(nullptr == client)
         return;
@@ -453,7 +455,7 @@ void Channel::sendOffGmStatus(TcpClient* client)
 void Channel::findNewGM()
 {
     auto result= std::find_if(m_child.begin(), m_child.end(), [=](QPointer<TreeItem>& item) {
-        auto client= dynamic_cast<TcpClient*>(item.data());
+        auto client= dynamic_cast<ServerConnection*>(item.data());
         if(nullptr != client)
         {
             if(client->isGM())
@@ -467,16 +469,16 @@ void Channel::findNewGM()
     if(result == m_child.end())
         setCurrentGM(nullptr);
     else
-        setCurrentGM(dynamic_cast<TcpClient*>(result->data()));
+        setCurrentGM(dynamic_cast<ServerConnection*>(result->data()));
 
     sendOffGmStatus(m_currentGm);
 }
 
-TcpClient* Channel::currentGM() const
+ServerConnection* Channel::currentGM() const
 {
     return m_currentGm.data();
 }
-void Channel::setCurrentGM(TcpClient* currentGM)
+void Channel::setCurrentGM(ServerConnection* currentGM)
 {
     if(currentGM == m_currentGm)
         return;

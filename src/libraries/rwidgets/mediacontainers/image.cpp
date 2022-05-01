@@ -26,7 +26,7 @@
 
 #include "controller/view_controller/imagecontroller.h"
 #include "image.h"
-#include "network/networklink.h"
+#include "network/clientconnection.h"
 #include "network/networkmessagewriter.h"
 //#include "widgets/onlinepicturedialog.h"
 

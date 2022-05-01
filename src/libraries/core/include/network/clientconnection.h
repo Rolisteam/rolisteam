@@ -19,8 +19,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-#ifndef NetworkLink_H
-#define NetworkLink_H
+#ifndef CLIENTCONNECTION_H
+#define CLIENTCONNECTION_H
 
 #include <QPointer>
 #include <QTcpSocket>
@@ -37,24 +37,20 @@
  * Read data from server to client
  * manage the socket to server
  */
-class NETWORK_EXPORT NetworkLink : public QObject, public MessageSenderInterface
+class NETWORK_EXPORT ClientConnection : public QObject, public MessageSenderInterface
 {
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
-    Q_PROPERTY(bool error READ error NOTIFY errorChanged)
-
 public:
-    NetworkLink();
-    virtual ~NetworkLink() override;
+    ClientConnection();
+    virtual ~ClientConnection() override;
 
     bool connected() const;
-    bool error() const;
     QString lastErrorMessage() const;
 
 public slots:
     void reset();
     void connectTo(const QString& host, int port);
-    void setSocket(QTcpSocket* socket);
     void closeCommunicationWithServer();
 
     void sendData(char* data, qint64 size);
@@ -63,32 +59,12 @@ public slots:
 signals:
     void readDataReceived(quint64, quint64);
     void messageReceived(const QByteArray);
-    void errorChanged(bool);
     void connectedChanged(bool);
-    // void gameMasterStatusChanged(bool status);
-
-    //////////////////////////
-    // State signal
-    /////////////////////////
-    /*void connecting();
-    void error();
-    void connected();
-    void disconnected();
-    void authentificationSuccessed();
-    void authentificationFail();
-    void clearData();
-    void adminAuthSuccessed();
-    void adminAuthFailed();
-    void moveToAnotherChannel();*/
+    void errorOccured(QString error);
 
 private slots:
     void setConnected(bool);
-    void setError(bool);
-    void socketStateChanged(QAbstractSocket::SocketState state);
     void receivingData();
-    void connectionError(QAbstractSocket::SocketError error);
-    void initialize();
-    void setErrorMessage(const QString& erroMsg);
 
 private:
     void makeSignalConnection();
@@ -99,9 +75,6 @@ private:
     bool m_connected= false;
     QString m_lastErrorMsg;
 
-    QMetaObject::Connection m_readyConnection;
-    QMetaObject::Connection m_errorConnection;
-
     NetworkMessageHeader m_header;
     bool m_receivingData;
     char* m_buffer= nullptr;
@@ -109,4 +82,4 @@ private:
     quint64 m_headerRead;
 };
 
-#endif
+#endif // CLIENTCONNECTION_H

@@ -10,7 +10,7 @@
 #include <QMenu>
 
 #include "network/channel.h"
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 #include "preferences/preferencesmanager.h"
 
 ChannelListPanel::ChannelListPanel(NetworkController* ctrl, QWidget* parent)
@@ -105,18 +105,6 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
     }
 }
 
-/*void ChannelListPanel::sendOffModel()
-{
-    qDebug() << "ChannelListPanel :: Send off channel model";
-    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
-    QJsonDocument doc;
-    QJsonObject obj;
-    // m_model->writeDataJson(obj);
-    doc.setObject(obj);
-
-    msg.byteArray32(doc.toJson());
-    msg.sendToServer();
-}*/
 void ChannelListPanel::showCustomMenu(QPoint pos)
 {
     QMenu menu(this);
@@ -132,7 +120,6 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     bool isGmChannel= false;
     bool isCurrentChannel= false;
     bool isOwnUser= false;
-    // bool hasPassword= false;
 
     m_index= ui->m_channelView->indexAt(pos);
 
@@ -226,7 +213,7 @@ void ChannelListPanel::kickUser()
     {
         if(m_index.isValid())
         {
-            TcpClient* item= getClient(m_index);
+            ServerConnection* item= getClient(m_index);
             if(item == nullptr)
                 return;
 
@@ -267,12 +254,12 @@ T ChannelListPanel::indexToPointer(QModelIndex index)
     return item;
 }
 
-TcpClient* ChannelListPanel::getClient(QModelIndex index)
+ServerConnection* ChannelListPanel::getClient(QModelIndex index)
 {
     auto item= indexToPointer<TreeItem*>(index);
     if(item->isLeaf())
     {
-        return static_cast<TcpClient*>(index.internalPointer());
+        return static_cast<ServerConnection*>(index.internalPointer());
     }
     return nullptr;
 }
@@ -293,7 +280,7 @@ void ChannelListPanel::banUser()
     {
         if(m_index.isValid())
         {
-            TcpClient* item= getClient(m_index); /// static_cast<TcpClient*>(m_index.internalPointer());
+            ServerConnection* item= getClient(m_index); /// static_cast<ServerConnection*>(m_index.internalPointer());
             QString id= item->getId();
             QString idPlayer= item->playerId();
             if(!id.isEmpty())
@@ -448,7 +435,7 @@ void ChannelListPanel::moveUserToCurrent()
 
     if(isAdmin() || isGM())
     {
-        /*    auto local= m_model->getTcpClientById(m_localPlayerId);
+        /*    auto local= m_model->getServerConnectionById(m_localPlayerId);
             if(nullptr == local)
                 return;
 

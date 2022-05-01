@@ -24,7 +24,7 @@
 #include "media/mediatype.h"
 #include "network/channel.h"
 #include "network/channelmodel.h"
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 
 namespace helper
 {
@@ -42,7 +42,7 @@ QJsonObject channelItemToJsonObject(const TreeItem* item)
     QJsonObject jsonObj;
     if(item->isLeaf())
     {
-        auto client= dynamic_cast<const TcpClient*>(item);
+        auto client= dynamic_cast<const ServerConnection*>(item);
         if(client)
         {
             jsonObj[Core::jsonNetwork::JSON_TYPE]= Core::jsonNetwork::JSON_TYPE_CLIENT;
@@ -100,7 +100,7 @@ QJsonObject channelModelToJSonObject(ChannelModel* model)
 
 TreeItem* readClient(const QJsonObject& obj)
 {
-    auto res= new TcpClient(nullptr, nullptr);
+    auto res= new ServerConnection(nullptr, nullptr);
 
     res->setName(obj[Core::jsonNetwork::JSON_NAME].toString());
     res->setIsAdmin(obj[Core::jsonNetwork::JSON_ADMIN].toBool());

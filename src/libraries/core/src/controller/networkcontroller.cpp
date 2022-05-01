@@ -31,7 +31,7 @@
 #include "network/clientmanager.h"
 #include "network/networkmessage.h"
 #include "network/receiveevent.h"
-#include "network/servermanager.h"
+#include "network/rserver.h"
 #include "services/ipchecker.h"
 #include "utils/countdownobject.h"
 #include "worker/iohelper.h"
@@ -56,7 +56,7 @@ NetworkController::NetworkController(QObject* parent)
     , m_channelModel(new ChannelModel)
     , m_countDown(new CountDownObject(10, 5000))
 {
-    qRegisterMetaType<ServerManager::ServerState>();
+    qRegisterMetaType<RServer::ServerState>();
     SettingsHelper::readConnectionProfileModel(m_profileModel.get());
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
@@ -200,74 +200,63 @@ void NetworkController::stopClient()
     m_clientManager->disconnectAndClose();
 }
 
-void NetworkController::stopServer()
-{
-    if(m_serverThread)
-    {
-        m_serverThread->quit();
-        m_server.reset(nullptr);
-        m_serverThread->wait();
-    }
-}
-
 void NetworkController::startServer()
 {
-    m_server.reset(new ServerManager());
-    m_serverThread.reset(new QThread);
-    m_server->moveToThread(m_serverThread.get());
+    m_serverParameters= {{"ServerPassword", serverPassword()}, {"AdminPassword", adminPassword()}};
 
-    m_server->insertField("port", m_port);
-    m_server->insertField("ThreadCount", 1);
-    m_server->insertField("ChannelCount", 1);
-    m_server->insertField("LogLevel", 3);
-    m_server->insertField("ServerPassword", serverPassword());
-    m_server->insertField("TimeToRetry", 5000);
-    m_server->insertField("TryCount", 10);
-    m_server->insertField("AdminPassword", adminPassword());
+    if(!m_server)
+    {
+        m_server.reset(new RServer(m_serverParameters));
+        m_serverThread.reset(new QThread);
+    }
+    m_server->moveToThread(thread());
+    m_server->setPort(m_port);
 
-    m_server->initServerManager();
-    connect(m_serverThread.get(), &QThread::started, m_server.get(), &ServerManager::startListening);
-    // connect(m_serverThread.get(), &QThread::finished, m_server.get(), &ServerManager::stopListening);
-    connect(m_serverThread.get(), &QThread::finished, this, [this]() { emit infoMessage("server has been closed"); });
-    connect(m_server.get(), &ServerManager::stateChanged, this, [this]() {
+    connect(m_serverThread.get(), &QThread::started, m_server.get(), &RServer::listen);
+    connect(m_serverThread.get(), &QThread::finished, this,
+            [this]() { emit infoMessage("server thread has been closed"); });
+
+    connect(m_server.get(), &RServer::finished, this, [this]() { emit infoMessage("server has been closed"); });
+
+    connect(m_server.get(), &RServer::stateChanged, this, [this]() {
         switch(m_server->state())
         {
-        case ServerManager::Stopped:
+        case RServer::Stopped:
             m_serverThread->quit();
             break;
-        case ServerManager::Listening:
+        case RServer::Listening:
             m_countDown->stop();
             emit infoMessage("server is on");
             startClient();
             break;
-        case ServerManager::Error:
-            stopServer();
+        case RServer::Error:
+            closeServer();
             break;
         }
     });
-    connect(m_server.get(), &ServerManager::eventOccured, this,
-            [this](const QString& str, LogController::LogLevel level) {
-                // qDebug() << str << level;
-                setLastError(str);
-                /*switch(level)
-                {
-                case LogController::Error:
-                    m_dialog->errorOccurs(str);
-                    m_gameController->addErrorLog(str);
-                    break;
-                case LogController::Info:
-                    m_gameController->addInfoLog(str);
-                    break;
-                case LogController::Warning:
-                    m_gameController->addWarningLog(str);
-                    break;
-                case LogController::Features:
-                    m_gameController->addFeatureLog(str);
-                    break;
-                default:
-                    break;
-                }*/
-            });
+    // connect(m_server.get(), &RServer::eventOccured, this,
+    //        [this](const QString& str, LogController::LogLevel level) {
+    // qDebug() << str << level;
+    // setLastError(str);
+    /*switch(level)
+    {
+    case LogController::Error:
+        m_dialog->errorOccurs(str);
+        m_gameController->addErrorLog(str);
+        break;
+    case LogController::Info:
+        m_gameController->addInfoLog(str);
+        break;
+    case LogController::Warning:
+        m_gameController->addWarningLog(str);
+        break;
+    case LogController::Features:
+        m_gameController->addFeatureLog(str);
+        break;
+    default:
+        break;
+    }*/
+    //    });
     // connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager,
     // Qt::QueuedConnection);
 
@@ -278,6 +267,7 @@ void NetworkController::startServer()
     });
     m_ipChecker->startCheck();
 
+    m_server->moveToThread(m_serverThread.get());
     m_serverThread->start();
 }
 
@@ -297,7 +287,7 @@ void NetworkController::stopConnection()
     stopClient();
     if(hosting())
     {
-        stopServer();
+        closeServer();
     }
 }
 
@@ -356,7 +346,7 @@ QString NetworkController::host() const
 
 int NetworkController::port() const
 {
-    return m_port;
+    return m_server->port();
 }
 
 QString NetworkController::ipv4() const
@@ -427,10 +417,10 @@ void NetworkController::setLastError(const QString& error)
 }
 void NetworkController::closeServer()
 {
-    if(m_server)
-    {
-        QMetaObject::invokeMethod(m_server.get(), &ServerManager::stopListening, Qt::QueuedConnection);
-    }
+    if(!m_server)
+        return;
+
+    QMetaObject::invokeMethod(m_server.get(), &RServer::close, Qt::QueuedConnection);
 }
 
 void NetworkController::saveData()

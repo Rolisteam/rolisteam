@@ -25,7 +25,7 @@ protected:
     virtual bool isValid(const QMap<QString, QVariant>& data) const= 0;
 
 protected:
-    ConnectionAccepter* m_next= nullptr;
+    ConnectionAccepter* m_next{nullptr};
     bool m_isActive;
 };
 
