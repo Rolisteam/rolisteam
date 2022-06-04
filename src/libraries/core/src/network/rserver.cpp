@@ -5,8 +5,8 @@
 
 #include "network/timeaccepter.h"
 
-RServer::RServer(const QMap<QString, QVariant>& parameter, QObject* parent)
-    : QTcpServer(parent), m_corConnection(new TimeAccepter()), m_data(parameter)
+RServer::RServer(const QMap<QString, QVariant>& parameter, bool internal, QObject* parent)
+    : QTcpServer(parent), m_corConnection(new TimeAccepter()), m_data(parameter), m_internal(internal)
 {
     m_threadCount= parameter.value("ThreadCount", m_threadCount).toInt();
 }
@@ -31,7 +31,7 @@ bool RServer::listen()
     emit eventOccured(QStringLiteral("Start Listening"), LogController::Info);
 
     m_connectionsManager.reset(new ServerConnectionManager(m_data));
-    m_updater.reset(new ServerManagerUpdater(m_connectionsManager.get()));
+    m_updater.reset(new ServerManagerUpdater(m_connectionsManager.get(), m_internal));
     m_connectionThread.reset(new QThread);
 
     connect(this, &RServer::finished, m_connectionsManager.get(), &ServerConnectionManager::quit, Qt::QueuedConnection);
@@ -67,6 +67,11 @@ void RServer::close()
 qint64 RServer::port()
 {
     return m_port;
+}
+
+bool RServer::internal() const
+{
+    return m_internal;
 }
 
 int RServer::threadCount() const

@@ -19,15 +19,17 @@
  ***************************************************************************/
 #include "updater/controller/servermanagerupdater.h"
 
+#include <QJsonDocument>
 #include <QMetaObject>
+#include <QSettings>
 
 #include "network/channelmodel.h"
 #include "network/serverconnection.h"
 #include "worker/networkhelper.h"
 #include <network/serverconnectionmanager.h>
 
-ServerManagerUpdater::ServerManagerUpdater(ServerConnectionManager* ctrl, QObject* parent)
-    : QObject(parent), m_ctrl(ctrl)
+ServerManagerUpdater::ServerManagerUpdater(ServerConnectionManager* ctrl, bool internal, QObject* parent)
+    : QObject(parent), m_ctrl(ctrl), m_internal{internal}
 {
     if(!m_ctrl)
         return;
@@ -37,6 +39,13 @@ ServerManagerUpdater::ServerManagerUpdater(ServerConnectionManager* ctrl, QObjec
     auto computeModel= [this]() {
         auto model= m_ctrl->channelModel();
         setChannelData(helper::network::jsonObjectToByteArray(helper::network::channelModelToJSonObject(model)));
+
+        if(!m_internal)
+        {
+            QSettings settings("Rolisteam", "roliserver");
+            QJsonDocument doc(helper::network::channelModelToJSonObject(model));
+            settings.setValue(helper::key::channel_data, doc);
+        }
     };
     connect(model, &ChannelModel::modelChanged, this, computeModel);
     connect(model, &ChannelModel::dataChanged, this, computeModel);

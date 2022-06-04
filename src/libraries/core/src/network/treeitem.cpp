@@ -40,7 +40,7 @@ void TreeItem::setParentItem(TreeItem* parent)
     }
 }
 
-QString TreeItem::getName() const
+QString TreeItem::name() const
 {
     return m_name;
 }
@@ -50,7 +50,7 @@ void TreeItem::setName(const QString& name)
     if(m_name == name)
         return;
     m_name= name;
-    emit itemChanged();
+    emit nameChanged();
 }
 
 int TreeItem::rowInParent()
@@ -60,7 +60,7 @@ int TreeItem::rowInParent()
     return -1;
 }
 
-QString TreeItem::getId() const
+QString TreeItem::uuid() const
 {
     return m_id;
 }
@@ -74,13 +74,13 @@ bool TreeItem::removeChild(TreeItem*)
     return false;
 }
 
-void TreeItem::setId(const QString& id)
+void TreeItem::setUuid(const QString& id)
 {
     if(m_id == id)
         return;
 
     m_id= id;
-    emit itemChanged();
+    emit uuidChanged();
 }
 
 bool TreeItem::addChildInto(QString, TreeItem*)

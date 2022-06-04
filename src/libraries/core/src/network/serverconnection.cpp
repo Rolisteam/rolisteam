@@ -225,7 +225,7 @@ void ServerConnection::setInfoPlayer(NetworkMessageReader* msg)
     if(PlayerMessageHelper::readPlayer(*msg, m_player.get()))
     {
         setName(m_player->name());
-        setId(m_player->uuid());
+        setUuid(m_player->uuid());
         m_knownUser= true;
         emit playerInfoDefined();
     }
@@ -454,9 +454,9 @@ void ServerConnection::readAdministrationMessages(NetworkMessageReader& msg)
     case NetMsg::ConnectionInfo:
         m_serverPassword= msg.byteArray32();
         setName(msg.string32());
-        setId(msg.string32());
+        setUuid(msg.string32());
 
-        qDebug() << getName() << getId() << " << user";
+        qDebug() << name() << uuid() << " << user";
         m_knownUser= true;
         if(m_waitingData)
         {
@@ -512,7 +512,7 @@ int ServerConnection::indexOf(TreeItem*)
 void ServerConnection::readFromJson(QJsonObject& json)
 {
     setName(json["name"].toString());
-    setId(json["id"].toString());
+    setUuid(json["id"].toString());
     setIsAdmin(json["admin"].toBool());
     auto playerId= json["idPlayer"].toString();
     if(m_player)
@@ -545,7 +545,7 @@ QString ServerConnection::getWantedChannel()
 bool ServerConnection::isConnected() const
 {
     if(!m_socket.isNull())
-        return (m_socket->isValid() & (m_socket->state() == QAbstractSocket::ConnectedState));
+        return (m_socket->isValid() && (m_socket->state() == QAbstractSocket::ConnectedState));
     else
         return false;
 }

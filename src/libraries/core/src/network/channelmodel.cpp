@@ -53,22 +53,17 @@ const QMap<QModelIndex, ServerConnection*>& ClientMimeData::getList() const
 }
 bool ClientMimeData::hasFormat(const QString& mimeType) const
 {
-    return ((mimeType == "application/rolisteam.networkclient.list") | QMimeData::hasFormat(mimeType));
+    return ((mimeType == "application/rolisteam.networkclient.list") || QMimeData::hasFormat(mimeType));
 }
 
 //////////////////////////////////////
 /// ChannelModel
 /////////////////////////////////////
 
-ChannelModel::ChannelModel()
-{
-    // m_root = new Channel();
-    // ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
-}
+ChannelModel::ChannelModel() {}
 
 ChannelModel::~ChannelModel()
 {
-    ReceiveEvent::removeNetworkReceiver(NetMsg::AdministrationCategory, this);
     qDeleteAll(m_root);
     std::vector<Channel*> keys;
 
@@ -133,14 +128,14 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
                 auto channel= dynamic_cast<Channel*>(tmp);
                 if(nullptr == channel)
                     return {};
-                if(isAdmin(m_localPlayerId) || isGM(m_localPlayerId, channel->getId()))
+                if(isAdmin(m_localPlayerId) || isGM(m_localPlayerId, channel->uuid()))
                 {
                     auto size= channel->memorySize();
                     auto pair= convert(size);
-                    return QStringLiteral("%1 (%2 %3)").arg(tmp->getName()).arg(pair.first).arg(pair.second);
+                    return QStringLiteral("%1 (%2 %3)").arg(tmp->name()).arg(pair.first).arg(pair.second);
                 }
             }
-            return tmp->getName();
+            return tmp->name();
         }
 #ifdef QT_WIDGETS_LIB
         else if(role == Qt::FontRole)
@@ -189,7 +184,7 @@ bool ChannelModel::setData(const QModelIndex& index, const QVariant& value, int)
     if((!rightToSetName && !localIsGM()) || !index.isValid())
         return false;
 
-    TreeItem* tmp= static_cast<TreeItem*>(index.internalPointer());
+    auto tmp= static_cast<TreeItem*>(index.internalPointer());
 
     if(nullptr == tmp)
         return false;
@@ -201,7 +196,7 @@ bool ChannelModel::setData(const QModelIndex& index, const QVariant& value, int)
     if(!chan)
         return false;
 
-    if(isGM(m_localPlayerId, chan->getId()) && !rightToSetName)
+    if(isGM(m_localPlayerId, chan->uuid()) && !rightToSetName)
     {
         rightToSetName= chan->getCurrentGmId() == m_localPlayerId;
     }
@@ -209,10 +204,7 @@ bool ChannelModel::setData(const QModelIndex& index, const QVariant& value, int)
     if(rightToSetName)
     {
         tmp->setName(value.toString());
-        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::RenameChannel);
-        msg.string8(chan->getId());
-        msg.string32(value.toString());
-        msg.sendToServer();
+        emit channelNameChanged(chan->name(), chan->uuid());
         return true;
     }
     return false;
@@ -270,7 +262,7 @@ QString ChannelModel::addChannel(QString name, QByteArray password)
     chan->setPassword(password);
     QModelIndex index;
     addChannelToIndex(chan, index);
-    return chan->getId();
+    return chan->uuid();
 }
 QModelIndex ChannelModel::addChannelToIndex(Channel* channel, const QModelIndex& parent)
 {
@@ -338,6 +330,8 @@ void ChannelModel::appendChannel(Channel* channel)
     connect(channel, &Channel::memorySizeChanged, this, &ChannelModel::modelChanged);
     connect(channel, &Channel::lockedChanged, this, &ChannelModel::modelChanged);
     connect(channel, &Channel::itemChanged, this, &ChannelModel::modelChanged);
+    connect(channel, &Channel::nameChanged, this, &ChannelModel::modelChanged);
+    connect(channel, &Channel::uuidChanged, this, &ChannelModel::modelChanged);
 }
 
 QModelIndex ChannelModel::channelToIndex(Channel* channel)
@@ -369,30 +363,6 @@ void ChannelModel::setLocalPlayerId(const QString& id)
     m_localPlayerId= id;
 }
 
-NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader* msg)
-{
-    /*if(NetMsg::AddChannel == msg->action())
-    {
-        QString idParent= msg->string8();
-        auto parent= getItemById(idParent);
-        if(nullptr == parent)
-        {
-            Channel* channel= new Channel();
-            channel->read(*msg);
-
-            auto item= getItemById(idParent);
-            Channel* parentChannel= static_cast<Channel*>(item);
-
-            addChannelToChannel(channel, parentChannel);
-        }
-        return NetWorkReceiver::NONE;
-    }
-    else if(NetMsg::AdminPassword == msg->action())
-    {
-        return NetWorkReceiver::ALL;
-    }*/
-    return NetWorkReceiver::NONE;
-}
 Qt::ItemFlags ChannelModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
@@ -464,14 +434,14 @@ bool ChannelModel::moveMediaItem(QList<ServerConnection*> items, const QModelInd
         if(parentToBe.isValid())
         {
             Channel* item= static_cast<Channel*>(parentToBe.internalPointer());
-            QString id= item->getId();
+            QString id= item->uuid();
 
             QByteArray pw;
 #ifdef QT_WIDGETS_LIB
             if(!item->password().isEmpty())
             {
                 pw= QInputDialog::getText(nullptr, tr("Channel Password"),
-                                          tr("Channel %1 required password:").arg(item->getName()), QLineEdit::Password)
+                                          tr("Channel %1 required password:").arg(item->name()), QLineEdit::Password)
                         .toUtf8()
                         .toBase64();
             }
@@ -483,7 +453,7 @@ bool ChannelModel::moveMediaItem(QList<ServerConnection*> items, const QModelInd
                 {
                     NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::JoinChannel);
                     msg.string8(id);
-                    msg.string8(client->getId());
+                    msg.string8(client->uuid());
                     msg.byteArray32(pw);
                     msg.sendToServer();
                     return true;
@@ -531,7 +501,7 @@ bool ChannelModel::addConnectionToDefaultChannel(ServerConnection* client)
             auto item= m_root.at(0);
             if(nullptr != item)
             {
-                m_defaultChannel= item->getId();
+                m_defaultChannel= item->uuid();
             }
         }
         else
@@ -577,51 +547,6 @@ bool ChannelModel::moveClient(Channel* origin, const QString& id, Channel* dest)
     return true;
 }
 
-/*void ChannelModel::readDataJson(const QJsonObject& obj)
-{
-    beginResetModel();
-    for(auto& item : m_root)
-    {
-        item->clear();
-    }
-    m_root.clear();
-    QJsonArray channels= obj["channel"].toArray();
-    for(auto channelJson : channels)
-    {
-        Channel* tmp= new Channel();
-        QJsonObject subObj= channelJson.toObject();
-        tmp->setParentItem(nullptr);
-        tmp->readFromJson(subObj);
-        appendChannel(tmp);
-    }
-    endResetModel();
-
-    auto item= getServerConnectionById(m_localPlayerId);
-    if(nullptr != item)
-    {
-        auto parent= dynamic_cast<Channel*>(item->getParentItem()); // channel
-        if(nullptr != parent)
-        {
-            emit localPlayerGMChanged(parent->getCurrentGmId());
-        }
-    }
-}*/
-
-/*void ChannelModel::writeDataJson(QJsonObject& obj)
-{
-    QJsonArray array;
-    for(auto& item : m_root) // int i = 0; i< m_root->childCount(); ++i)
-    {
-        if(nullptr != item)
-        {
-            QJsonObject jsonObj;
-            item->writeIntoJson(jsonObj);
-            array.append(jsonObj);
-        }
-    }
-    obj["channel"]= array;
-}*/
-
 const QList<TreeItem*>& ChannelModel::modelData()
 {
     return m_root;
@@ -636,32 +561,14 @@ void ChannelModel::resetData(QList<TreeItem*> data)
     endResetModel();
 }
 
-void ChannelModel::readSettings()
-{
-    /*QSettings settings("Rolisteam", "roliserver");
-    QJsonDocument doc= QJsonDocument::fromVariant(settings.value("channeldata", ""));
-    QJsonObject obj= doc.object();
-    readDataJson(obj);*/
-}
-
-void ChannelModel::writeSettings()
-{
-    /*QSettings settings("Rolisteam", "roliserver");
-    QJsonDocument doc;
-    QJsonObject obj;
-    // writeDataJson(obj);
-    doc.setObject(obj);
-    settings.setValue("channeldata", doc);*/
-}
-
 void ChannelModel::kick(const QString& id, bool isAdmin, const QString& senderId)
 {
     for(auto& item : m_root)
     {
-        if(nullptr != item)
-        {
-            item->kick(id, isAdmin, senderId);
-        }
+        if(nullptr == item)
+            continue;
+
+        item->kick(id, isAdmin, senderId);
     }
 }
 
@@ -693,7 +600,7 @@ TreeItem* ChannelModel::getItemById(QString id) const
     {
         if(nullptr != item)
         {
-            if(item->getId() == id)
+            if(item->uuid() == id)
             {
                 return item;
             }

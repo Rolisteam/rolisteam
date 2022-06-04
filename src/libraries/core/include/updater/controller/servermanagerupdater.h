@@ -30,7 +30,7 @@ class NETWORK_EXPORT ServerManagerUpdater : public QObject
     Q_OBJECT
     Q_PROPERTY(QByteArray channelsData READ channelsData NOTIFY channelsDataChanged)
 public:
-    explicit ServerManagerUpdater(ServerConnectionManager* ctrl, QObject* parent= nullptr);
+    explicit ServerManagerUpdater(ServerConnectionManager* ctrl, bool internal, QObject* parent= nullptr);
 
     QByteArray channelsData();
 
@@ -43,6 +43,7 @@ signals:
 private:
     QPointer<ServerConnectionManager> m_ctrl;
     QByteArray m_channelData;
+    bool m_internal{false};
 };
 
 #endif // NETWORKCONTROLLERUPDATER_H

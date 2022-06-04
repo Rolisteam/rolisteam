@@ -8,7 +8,7 @@
 #include <QSettings>
 
 RolisteamDaemon::RolisteamDaemon(QObject* parent)
-    : QObject(parent), m_server(m_parameters), m_logController(new LogController(true, this))
+    : QObject(parent), m_server(m_parameters, false), m_logController(new LogController(true, this))
 {
     qRegisterMetaType<RServer::ServerState>();
 }

@@ -29,10 +29,10 @@ CenteredCheckBox::CenteredCheckBox(QWidget* wid) : QWidget(wid)
     setLayout(layout);
     layout->setAlignment(Qt::AlignCenter);
 
-    m_editorCheckBox= new QCheckBox();
-    layout->addWidget(m_editorCheckBox);
+    m_editorCheckBox.reset(new QCheckBox());
+    layout->addWidget(m_editorCheckBox.get());
 
-    connect(m_editorCheckBox, SIGNAL(stateChanged(int)), this, SIGNAL(commitEditor()));
+    connect(m_editorCheckBox.get(), &QCheckBox::stateChanged, this, &CenteredCheckBox::commitEditor);
 }
 
 bool CenteredCheckBox::isCheckedDelegate() const

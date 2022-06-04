@@ -27,6 +27,10 @@
 class ChannelModel;
 namespace helper
 {
+namespace key
+{
+constexpr char const* channel_data{"channeldata"};
+}
 namespace network
 {
 NETWORK_EXPORT QJsonObject channelModelToJSonObject(ChannelModel* model);

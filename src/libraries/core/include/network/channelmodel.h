@@ -8,7 +8,6 @@
 #include "network/channel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "network/networkreceiver.h"
 #include "network/serverconnection.h"
 #include "network_global.h"
 
@@ -27,7 +26,7 @@ private:
 /**
  * @brief The ChannelModel class
  */
-class NETWORK_EXPORT ChannelModel : public QAbstractItemModel, public NetWorkReceiver
+class NETWORK_EXPORT ChannelModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
@@ -44,9 +43,6 @@ public:
 
     QString addChannel(QString name, QByteArray password);
     bool addConnectionToChannel(QString chanId, ServerConnection* client);
-
-    // void readDataJson(const QJsonObject&);
-    // void writeDataJson(QJsonObject&);
 
     void readSettings();
     void writeSettings();
@@ -69,7 +65,6 @@ public:
 
     void setLocalPlayerId(const QString& id);
 
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
     void removeChild(QString id);
     QStringList mimeTypes() const;
     Qt::DropActions supportedDropActions() const;
@@ -87,6 +82,7 @@ signals:
     void totalSizeChanged(quint64);
     void localPlayerGMChanged(QString id);
     void modelChanged();
+    void channelNameChanged(QString id, QString name);
 
 public slots:
     void setChannelMemorySize(Channel* chan, quint64);

@@ -133,7 +133,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
         if(dataItem->isLeaf())
         {
             state= OnUser;
-            isOwnUser= (m_localPlayerId == dataItem->getId());
+            isOwnUser= (m_localPlayerId == dataItem->uuid());
         }
         else
         {
@@ -217,7 +217,7 @@ void ChannelListPanel::kickUser()
             if(item == nullptr)
                 return;
 
-            QString id= item->getId();
+            QString id= item->uuid();
             QString idPlayer= item->playerId();
             if(!id.isEmpty())
             {
@@ -237,7 +237,7 @@ void ChannelListPanel::lockChannel()
     Channel* item= getChannel(m_index);
     if(item == nullptr)
         return;
-    QString id= item->getId();
+    QString id= item->uuid();
     if(!id.isEmpty())
     {
         auto action= item->locked() ? NetMsg::UnlockChannel : NetMsg::LockChannel;
@@ -281,7 +281,7 @@ void ChannelListPanel::banUser()
         if(m_index.isValid())
         {
             ServerConnection* item= getClient(m_index); /// static_cast<ServerConnection*>(m_index.internalPointer());
-            QString id= item->getId();
+            QString id= item->uuid();
             QString idPlayer= item->playerId();
             if(!id.isEmpty())
             {
@@ -415,7 +415,7 @@ void ChannelListPanel::resetChannel()
         if(item == nullptr)
             return;
 
-        QString id= item->getId();
+        QString id= item->uuid();
 
         NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ResetChannel);
         msg.string8(id);
@@ -457,7 +457,7 @@ void ChannelListPanel::deleteChannel()
             Channel* item= getChannel(m_index);
             if(nullptr == item)
                 return;
-            QString id= item->getId();
+            QString id= item->uuid();
             if(!id.isEmpty())
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::DeleteChannel);
@@ -479,19 +479,19 @@ void ChannelListPanel::setPasswordOnChannel()
         return;
 
     auto pw= QInputDialog::getText(this, tr("Channel Password"),
-                                   tr("Password for channel: %1 - leave empty for no password").arg(item->getName()),
+                                   tr("Password for channel: %1 - leave empty for no password").arg(item->name()),
                                    QLineEdit::Password, item->password());
 
     if(pw.isEmpty())
     {
         NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ResetChannelPassword);
-        msg.string8(item->getId());
+        msg.string8(item->uuid());
         msg.sendToServer();
         return;
     }
 
     NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ChannelPassword);
-    msg.string8(item->getId());
+    msg.string8(item->uuid());
     auto pwA= QCryptographicHash::hash(pw.toUtf8(), QCryptographicHash::Sha3_512);
     msg.byteArray32(pwA);
     msg.sendToServer();
@@ -508,11 +508,11 @@ void ChannelListPanel::joinChannel()
 
     QByteArray pw;
     if(!item->password().isEmpty())
-        pw= QInputDialog::getText(this, tr("Channel Password"),
-                                  tr("Channel %1 required password:").arg(item->getName()), QLineEdit::Password)
+        pw= QInputDialog::getText(this, tr("Channel Password"), tr("Channel %1 required password:").arg(item->name()),
+                                  QLineEdit::Password)
                 .toUtf8();
 
-    QString id= item->getId();
+    QString id= item->uuid();
     if(!id.isEmpty())
     {
         NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::JoinChannel);

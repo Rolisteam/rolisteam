@@ -46,9 +46,9 @@ QJsonObject channelItemToJsonObject(const TreeItem* item)
         if(client)
         {
             jsonObj[Core::jsonNetwork::JSON_TYPE]= Core::jsonNetwork::JSON_TYPE_CLIENT;
-            jsonObj[Core::jsonNetwork::JSON_NAME]= client->getName();
+            jsonObj[Core::jsonNetwork::JSON_NAME]= client->name();
             jsonObj[Core::jsonNetwork::JSON_ADMIN]= client->isAdmin();
-            jsonObj[Core::jsonNetwork::JSON_ID]= client->getId();
+            jsonObj[Core::jsonNetwork::JSON_ID]= client->uuid();
             jsonObj[Core::jsonNetwork::JSON_IDPLAYER]= client->playerId();
         }
     }
@@ -59,13 +59,13 @@ QJsonObject channelItemToJsonObject(const TreeItem* item)
         {
 
             jsonObj[Core::jsonNetwork::JSON_TYPE]= Core::jsonNetwork::JSON_TYPE_CHANNEL;
-            jsonObj[Core::jsonNetwork::JSON_NAME]= channel->getName();
+            jsonObj[Core::jsonNetwork::JSON_NAME]= channel->name();
             jsonObj[Core::jsonNetwork::JSON_DESCRIPTION]= channel->description();
             jsonObj[Core::jsonNetwork::JSON_PASSWORD]= QString::fromUtf8(channel->password().toBase64());
             jsonObj[Core::jsonNetwork::JSON_USERLISTED]= channel->usersListed();
             jsonObj[Core::jsonNetwork::JSON_MEMORYSIZE]= static_cast<int>(channel->memorySize());
             jsonObj[Core::jsonNetwork::JSON_LOCKED]= channel->locked();
-            jsonObj[Core::jsonNetwork::JSON_ID]= channel->getId();
+            jsonObj[Core::jsonNetwork::JSON_ID]= channel->uuid();
             QJsonArray array;
             auto const& children= channel->childrenItem();
             for(auto& child : children)
@@ -104,7 +104,7 @@ TreeItem* readClient(const QJsonObject& obj)
 
     res->setName(obj[Core::jsonNetwork::JSON_NAME].toString());
     res->setIsAdmin(obj[Core::jsonNetwork::JSON_ADMIN].toBool());
-    res->setId(obj[Core::jsonNetwork::JSON_ID].toString());
+    res->setUuid(obj[Core::jsonNetwork::JSON_ID].toString());
     res->setPlayerId(obj[Core::jsonNetwork::JSON_IDPLAYER].toString());
 
     return res;
@@ -118,7 +118,7 @@ TreeItem* readChannel(const QJsonObject& obj)
     res->setUsersListed(obj[Core::jsonNetwork::JSON_USERLISTED].toBool());
     res->setMemorySize(obj[Core::jsonNetwork::JSON_MEMORYSIZE].toInt());
     res->setLocked(obj[Core::jsonNetwork::JSON_LOCKED].toBool());
-    res->setId(obj[Core::jsonNetwork::JSON_ID].toString());
+    res->setUuid(obj[Core::jsonNetwork::JSON_ID].toString());
     res->setName(obj[Core::jsonNetwork::JSON_NAME].toString());
 
     auto children= obj[Core::jsonNetwork::JSON_CHILDREN].toArray();

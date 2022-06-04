@@ -107,7 +107,7 @@ void ServerConnectionManager::initClient()
     ServerConnection* client= qobject_cast<ServerConnection*>(sender());
     if(nullptr != client)
     {
-        qDebug() << "client insert" << client << client->getName();
+        qDebug() << "client insert" << client << client->name();
         m_connections.insert(client->getSocket(), client);
         sendEventToClient(client, ServerConnection::CheckSuccessEvent);
     }
@@ -244,7 +244,7 @@ void ServerConnectionManager::sendOffAdminAuthFail()
                                   Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
     }
     emit eventOccured(
-        tr("Authentification as Admin fails: %2 - %1, Wrong password.").arg(client->getName(), client->getIpAddress()),
+        tr("Authentification as Admin fails: %2 - %1, Wrong password.").arg(client->name(), client->getIpAddress()),
         LogController::Info);
 }
 void ServerConnectionManager::sendOffAuthSuccessed()
@@ -283,12 +283,12 @@ void ServerConnectionManager::kickClient(QString id, bool isAdmin, QString sende
     for(auto& key : keys)
     {
         auto value= m_connections[key];
-        if(value->getId() == id)
+        if(value->uuid() == id)
         {
             client= value;
         }
     }
-    emit eventOccured(tr("User has been kick out: %2 - %1.").arg(client->getName(), client->getIpAddress()),
+    emit eventOccured(tr("User has been kick out: %2 - %1.").arg(client->name(), client->getIpAddress()),
                       LogController::Info);
 
     if(nullptr != client)

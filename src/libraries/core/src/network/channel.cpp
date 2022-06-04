@@ -116,7 +116,7 @@ void Channel::sendToMany(NetworkMessage* msg, ServerConnection* tcp, bool delete
     {
         auto other= dynamic_cast<ServerConnection*>(client.data());
 
-        if((nullptr != other) && (other != tcp) && (recipient.contains(other->getId())))
+        if((nullptr != other) && (other != tcp) && (recipient.contains(other->uuid())))
         {
             bool b= false;
             if(i + 1 == recipient.size())
@@ -151,7 +151,7 @@ void Channel::sendToAll(NetworkMessage* msg, ServerConnection* tcp, bool deleteM
 
 bool Channel::contains(QString id)
 {
-    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) { return item->getId() == id; });
+    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) { return item->uuid() == id; });
 
     return dupplicate != m_child.end();
 }
@@ -162,7 +162,7 @@ int Channel::addChild(TreeItem* item)
         return -1;
 
     m_child.append(item);
-    item->getId();
+    item->uuid();
     item->setParentItem(this);
 
     auto result= m_child.size();
@@ -175,7 +175,7 @@ int Channel::addChild(TreeItem* item)
             return result;
 
         connect(tcp, &ServerConnection::clientSaysGoodBye, this, [this, itemp, tcp](const QString& playerId) {
-            qDebug() << itemp->getId() << playerId << "say good bye - debug";
+            qDebug() << itemp->uuid() << playerId << "say good bye - debug";
             if(m_child.isEmpty() || itemp.isNull())
                 return;
             m_child.removeAll(itemp);
@@ -228,7 +228,7 @@ bool Channel::addChildInto(QString id, TreeItem* child)
 void Channel::updateNewClient(ServerConnection* newComer)
 {
     NetworkMessageWriter* msg1= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::ClearTable);
-    msg1->string8(newComer->getId());
+    msg1->string8(newComer->uuid());
     QMetaObject::invokeMethod(newComer, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg1),
                               Q_ARG(bool, true));
     // Sending players infos
@@ -274,13 +274,13 @@ void Channel::kick(const QString& str, bool isAdmin, const QString& sourceId)
     {
         if(item == nullptr)
             continue;
-        if(!hasRightToKick && item->getId() == sourceId)
+        if(!hasRightToKick && item->uuid() == sourceId)
         {
             ServerConnection* source= dynamic_cast<ServerConnection*>(toKick.data());
             if(source)
                 hasRightToKick= source->isGM();
         }
-        if(item->getId() == str)
+        if(item->uuid() == str)
         {
             toKick= item;
         }
@@ -324,7 +324,7 @@ TreeItem* Channel::getChildById(QString id)
         if(item.isNull())
             continue;
 
-        if(item->getId() == id)
+        if(item->uuid() == id)
         {
             return item;
         }
@@ -351,7 +351,7 @@ ServerConnection* Channel::getClientById(QString id)
         if(item->isLeaf())
         {
             auto client= dynamic_cast<ServerConnection*>(item.data());
-            if(client->getId() == id)
+            if(client->uuid() == id)
             {
                 result= client;
             }
@@ -523,7 +523,7 @@ void Channel::setLocked(bool locked)
 }
 bool Channel::removeChildById(const QString& id)
 {
-    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) { return item->getId() == id; });
+    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) { return item->uuid() == id; });
 
     if(dupplicate == m_child.end())
         return false;

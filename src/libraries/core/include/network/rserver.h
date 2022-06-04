@@ -27,6 +27,7 @@ class NETWORK_EXPORT RServer : public QTcpServer
     Q_PROPERTY(qint64 port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(ServerState state READ state NOTIFY stateChanged)
     Q_PROPERTY(int threadCount READ threadCount CONSTANT)
+    Q_PROPERTY(bool internal READ internal CONSTANT)
 public:
     enum ServerState
     {
@@ -35,12 +36,13 @@ public:
         Error
     };
     Q_ENUM(ServerState)
-    explicit RServer(const QMap<QString, QVariant>& parameter, QObject* parent= nullptr);
+    explicit RServer(const QMap<QString, QVariant>& parameter, bool internal, QObject* parent= nullptr);
     virtual ~RServer() override;
 
     virtual bool listen();
     virtual void close();
     virtual qint64 port();
+    bool internal() const;
 
     int threadCount() const;
 
@@ -75,5 +77,6 @@ protected:
     const QMap<QString, QVariant>& m_data;
     ServerState m_state= Stopped;
     quint16 m_port{6660};
+    bool m_internal{true};
 };
 #endif // RSERVER_H

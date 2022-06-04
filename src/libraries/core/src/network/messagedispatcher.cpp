@@ -18,7 +18,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, Serve
         qWarning() << "####\nchannel is nullptr\n####";
     }
     qInfo() << "[Server][Received Message]" << cat2String(msg->header()) << act2String(msg->header()) << channel
-            << emitter->getName() << msg->getSize();
+            << emitter->name() << msg->getSize();
 
     if(msg->category() == NetMsg::AdministrationCategory)
     {

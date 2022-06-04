@@ -13,6 +13,8 @@
 class NETWORK_EXPORT TreeItem : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
 public:
     TreeItem(QObject* parent= nullptr);
 
@@ -25,20 +27,16 @@ public:
     TreeItem* getParentItem() const;
     void setParentItem(TreeItem* parent);
 
-    QString getName() const;
+    QString name() const;
     void setName(const QString& name);
 
     virtual int indexOf(TreeItem*)= 0;
     int rowInParent();
 
-    QString getId() const;
-    void setId(const QString& id);
+    QString uuid() const;
+    void setUuid(const QString& id);
 
     virtual bool addChildInto(QString id, TreeItem* child);
-
-    // serialization
-    // virtual void readFromJson(QJsonObject& json)= 0;
-    // virtual void writeIntoJson(QJsonObject& json)= 0;
 
     virtual void clear();
 
@@ -49,6 +47,8 @@ public:
 
 signals:
     void itemChanged();
+    void nameChanged();
+    void uuidChanged();
 
 protected:
     QString m_id;

@@ -206,7 +206,7 @@ void NetworkController::startServer()
 
     if(!m_server)
     {
-        m_server.reset(new RServer(m_serverParameters));
+        m_server.reset(new RServer(m_serverParameters, true));
         m_serverThread.reset(new QThread);
     }
     m_server->moveToThread(thread());
