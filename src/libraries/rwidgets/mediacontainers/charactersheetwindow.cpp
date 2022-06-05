@@ -62,7 +62,8 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
 
     setWindowIcon(QIcon::fromTheme("treeview"));
 
-    m_ui->m_treeview->setModel(m_sheetCtrl->model());
+    if(m_sheetCtrl)
+        m_ui->m_treeview->setModel(m_sheetCtrl->model());
 
     resize(m_preferences->value("charactersheetwindows/width", 400).toInt(),
            m_preferences->value("charactersheetwindows/height", 600).toInt());
@@ -158,7 +159,8 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
 
 void CharacterSheetWindow::updateTitle()
 {
-    setWindowTitle(tr("%1 - (Character Sheet Viewer)").arg(m_sheetCtrl->name()));
+    if(m_sheetCtrl)
+        setWindowTitle(tr("%1 - (Character Sheet Viewer)").arg(m_sheetCtrl->name()));
 }
 
 void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)

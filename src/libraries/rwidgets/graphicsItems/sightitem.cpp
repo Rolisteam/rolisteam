@@ -91,7 +91,7 @@ void FogSingularity::setPolygon(QPolygonF* poly)
 /// Code SightItem
 /////////////////////////////////
 
-SightItem::SightItem(vmap::SightController* ctrl, QMultiMap<QString, CharacterItem *> *characterItemMap)
+SightItem::SightItem(vmap::SightController* ctrl, QMultiMap<QString, CharacterItem*>* characterItemMap)
     : VisualItem(ctrl)
     , m_sightCtrl(ctrl)
     , m_defaultShape(CharacterVision::ANGLE)
@@ -110,7 +110,8 @@ SightItem::SightItem(vmap::SightController* ctrl, QMultiMap<QString, CharacterIt
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
     setAcceptedMouseButtons(Qt::NoButton);
-    m_ctrl->setLayer(Core::Layer::FOG);
+    if(m_ctrl)
+        m_ctrl->setLayer(Core::Layer::FOG);
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
 }
 

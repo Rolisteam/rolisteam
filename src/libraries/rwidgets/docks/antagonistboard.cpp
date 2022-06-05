@@ -21,10 +21,10 @@
 
 #include "controller/view_controller/imageselectorcontroller.h"
 #include "data/rolisteammimedata.h"
-#include "worker/iohelper.h"
 #include "rwidgets/delegates/avatardelegate.h"
 #include "rwidgets/delegates/taglistdelegate.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
+#include "worker/iohelper.h"
 
 namespace campaign
 {
@@ -109,6 +109,9 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
             ++i;
         }
     });
+
+    if(!editor)
+        return;
 
     auto cols= editor->campaign()->npcModel()->headers();
 

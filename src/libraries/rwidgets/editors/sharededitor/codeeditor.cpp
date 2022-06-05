@@ -25,7 +25,8 @@ CodeEditor::CodeEditor(SharedNoteController* ctrl, QWidget* parent) : QPlainText
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 
-    setReadOnly(m_sharedCtrl->permission() == ParticipantModel::readOnly);
+    if(m_sharedCtrl)
+        setReadOnly(m_sharedCtrl->permission() == ParticipantModel::readOnly);
 
     isFirstTime= true;
 }

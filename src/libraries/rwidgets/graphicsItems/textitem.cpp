@@ -156,6 +156,8 @@ TextItem::TextItem(vmap::TextController* ctrl)
 
     connect(m_textCtrl, &vmap::TextController::textChanged, m_doc.get(), &QTextDocument::setPlainText);
     connect(m_doc.get(), &QTextDocument::contentsChanged, this, [this]() {
+        if(!m_textCtrl)
+            return;
         m_textCtrl->setText(m_doc->toPlainText());
         auto rect= m_textItem->boundingRect();
         m_textCtrl->setTextRect(rect);
@@ -175,7 +177,8 @@ TextItem::TextItem(vmap::TextController* ctrl)
     m_textItem->setPos(QPointF(0, 0));
     m_textItem->setTextWidth(100);
     m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-    m_textItem->setDefaultTextColor(m_textCtrl->color());
+    if(m_textCtrl)
+        m_textItem->setDefaultTextColor(m_textCtrl->color());
     m_doc->setPlainText(tr("Text"));
 }
 
@@ -294,6 +297,8 @@ void TextItem::initChildPointItem()
 }
 void TextItem::updateChildPosition()
 {
+    if(!m_textCtrl)
+        return;
     auto rect= m_textCtrl->borderRect();
     m_children.value(0)->setPos(rect.topLeft());
     m_children.value(0)->setPlacement(ChildPointItem::TopLeft);

@@ -120,7 +120,7 @@ PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ct
     connect(m_pathCtrl, &vmap::PathController::pointAdded, this, &PathItem::addChild);
 
     int i= 0;
-    if(!m_pathCtrl->penLine())
+    if(m_pathCtrl && !m_pathCtrl->penLine())
     {
         for(auto point : m_pathCtrl->points())
             addChild(point, i);

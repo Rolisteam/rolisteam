@@ -296,7 +296,7 @@ signals:
     void npcChanged();
     void initiativeChanged();
     void distancePerTurnChanged();
-    void stateIdChanged();
+    void stateIdChanged(QString);
     void lifeColorChanged();
     void initCommandChanged();
     void hasInitScoreChanged();

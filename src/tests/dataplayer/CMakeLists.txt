@@ -10,3 +10,4 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core)
 
 add_executable(tst_player tst_dataplayertest.cpp)
 target_link_libraries(tst_player PUBLIC Qt6::Core Qt6::Test PRIVATE core core rwidgets instantmessaging common_core common_widget common_qml network)
+add_test(NAME tst_player COMMAND tst_player)

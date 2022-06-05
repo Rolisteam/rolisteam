@@ -10,3 +10,4 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core)
 
 add_executable(tst_unitmodel tst_unitmodel.cpp)
 target_link_libraries(tst_unitmodel PUBLIC Qt6::Core Qt6::Test PRIVATE core rwidgets instantmessaging common_core common_widget common_qml charactersheet_widgets)
+add_test(NAME tst_unitmodel COMMAND tst_unitmodel)

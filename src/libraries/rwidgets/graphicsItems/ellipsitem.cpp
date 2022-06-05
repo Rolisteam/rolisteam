@@ -47,7 +47,7 @@ EllipsItem::EllipsItem(vmap::EllipseController* ctrl) : VisualItem(ctrl), m_elli
 
 QRectF EllipsItem::boundingRect() const
 {
-    return m_ellipseCtrl->rect();
+    return m_ellipseCtrl ? m_ellipseCtrl->rect() : QRectF{};
 }
 
 QPainterPath EllipsItem::shape() const
@@ -120,6 +120,8 @@ void EllipsItem::updateChildPosition()
 
 void EllipsItem::initChildPointItem()
 {
+    if(!m_ellipseCtrl)
+        return;
     setTransformOriginPoint(boundingRect().center());
 
     for(int i= 0; i < 2; ++i)

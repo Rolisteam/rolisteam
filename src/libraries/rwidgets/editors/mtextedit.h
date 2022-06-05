@@ -9,7 +9,7 @@ class RWIDGET_EXPORT MTextEdit : public QTextEdit
 {
     Q_OBJECT
 public:
-    MTextEdit(QWidget* parent);
+    MTextEdit(QWidget* parent= nullptr);
 
     void dropImage(const QImage& image, const QString& format);
 

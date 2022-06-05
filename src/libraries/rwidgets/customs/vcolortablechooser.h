@@ -132,7 +132,7 @@ public:
      * @brief constructor
      * @param parent widget
      */
-    ColorTableChooser(QWidget* parent);
+    ColorTableChooser(QWidget* parent= nullptr);
 
 public slots:
     /**

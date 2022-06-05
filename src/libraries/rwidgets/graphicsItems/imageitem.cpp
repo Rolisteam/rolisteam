@@ -31,7 +31,8 @@ ImageItem::ImageItem(vmap::ImageController* ctrl) : VisualItem(ctrl), m_imgCtrl(
     updateChildPosition();
 
     connect(m_imgCtrl, &vmap::ImageController::rectChanged, this, [this]() { updateChildPosition(); });
-    setTransformOriginPoint(m_imgCtrl->rect().center());
+    if(m_imgCtrl)
+        setTransformOriginPoint(m_imgCtrl->rect().center());
 }
 
 QRectF ImageItem::boundingRect() const
@@ -132,6 +133,9 @@ void ImageItem::initChildPointItem()
 }
 void ImageItem::updateChildPosition()
 {
+    if(!m_imgCtrl)
+        return;
+
     auto rect= m_imgCtrl->rect();
     m_children.value(0)->setPos(rect.topLeft());
     m_children.value(0)->setPlacement(ChildPointItem::TopLeft);

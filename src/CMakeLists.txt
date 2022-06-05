@@ -6,7 +6,6 @@ add_subdirectory(libraries)
 add_subdirectory(binaries)
 
 
-if (TESTS)
-enable_testing()
+if (BUILD_TESTING)
 add_subdirectory(tests)
 endif()

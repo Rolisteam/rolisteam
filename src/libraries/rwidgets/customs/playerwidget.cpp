@@ -62,6 +62,9 @@ PlayerWidget::PlayerWidget(AudioPlayerController* ctrl, QWidget* parent)
 
     m_ui->setupUi(this);
 
+    if(!m_ctrl)
+        return;
+
     setupUi();
 
     m_ui->m_songList->setModel(m_ctrl->model());
@@ -72,6 +75,7 @@ PlayerWidget::PlayerWidget(AudioPlayerController* ctrl, QWidget* parent)
 
 void PlayerWidget::setupUi()
 {
+
     m_ui->m_timeSlider->setMinimum(0);
     m_ui->m_volumeSlider->setRange(0, 100);
     // **************** CREATE ACTIONS ********************************
@@ -121,7 +125,8 @@ void PlayerWidget::setupUi()
     m_deleteAction->setShortcut(QKeySequence("Del"));
     m_deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    m_ui->m_volumeSlider->setValue(m_ctrl->volume());
+    if(m_ctrl)
+        m_ui->m_volumeSlider->setValue(m_ctrl->volume());
     // m_audioFileFilter= m_preferences->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac").toString();
 
     // **************** Add ACTIONS ********************************

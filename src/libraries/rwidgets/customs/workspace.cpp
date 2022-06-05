@@ -57,30 +57,32 @@ Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagin
 
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
-    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this,
-            [this]()
-            {
-                m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
-                updateBackGround();
-            });
+    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this, [this]() {
+        m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
+        updateBackGround();
+    });
     connect(m_ctrl, &ContentController::workspaceColorChanged, this, &Workspace::updateBackGround);
     connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
 
     connect(m_ctrl, &ContentController::mediaControllerCreated, this, &Workspace::addMedia);
     connect(this, &Workspace::subWindowActivated, this, &Workspace::updateActiveMediaContainer);
 
-    m_instantMessageView= addSubWindow(new InstantMessagingView(instantCtrl));
-    m_instantMessageView->setGeometry(0, 0, 400, 600);
-    m_instantMessageView->setAttribute(Qt::WA_DeleteOnClose, false);
-    m_instantMessageView->setWindowIcon(QIcon::fromTheme("chaticon"));
-    connect(instantCtrl, &InstantMessagingController::visibleChanged, m_instantMessageView, &QMdiSubWindow::setVisible);
-    m_instantMessageView->setVisible(instantCtrl->visible());
+    if(instantCtrl)
+    {
+        m_instantMessageView= addSubWindow(new InstantMessagingView(instantCtrl));
+        m_instantMessageView->setGeometry(0, 0, 400, 600);
+        m_instantMessageView->setAttribute(Qt::WA_DeleteOnClose, false);
+        m_instantMessageView->setWindowIcon(QIcon::fromTheme("chaticon"));
+        connect(instantCtrl, &InstantMessagingController::visibleChanged, m_instantMessageView,
+                &QMdiSubWindow::setVisible);
+        m_instantMessageView->setVisible(instantCtrl->visible());
 
-    m_prevent.reset(new PreventClosing(m_instantMessageView));
-    connect(m_prevent.get(), &PreventClosing::visibilityObjectChanged, instantCtrl,
-            &InstantMessagingController::setVisible);
-
-    m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
+        m_prevent.reset(new PreventClosing(m_instantMessageView));
+        connect(m_prevent.get(), &PreventClosing::visibilityObjectChanged, instantCtrl,
+                &InstantMessagingController::setVisible);
+    }
+    if(m_ctrl)
+        m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
     updateBackGround();
 }
 
@@ -95,6 +97,8 @@ Workspace::~Workspace()
 
 void Workspace::updateBackGround()
 {
+    if(!m_ctrl)
+        return;
     QBrush background;
     background.setColor(m_ctrl->workspaceColor());
     setBackground(background);

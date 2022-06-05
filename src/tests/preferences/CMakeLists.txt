@@ -10,3 +10,4 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core)
 
 add_executable(tst_preference tst_preferencestest.cpp)
 target_link_libraries(tst_preference PUBLIC Qt6::Core Qt6::Test PRIVATE core rwidgets instantmessaging common_core common_widget common_qml)
+add_test(NAME tst_preference COMMAND tst_preference)

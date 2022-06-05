@@ -10,3 +10,4 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core Sta
 
 add_executable(tst_channelmodel tst_channelmodel.cpp)
 target_link_libraries(tst_channelmodel PUBLIC Qt6::Core Qt6::Test Qt6::StateMachine PRIVATE core rwidgets instantmessaging common_core common_widget common_qml network)
+add_test(NAME tst_channelmodel COMMAND tst_channelmodel)

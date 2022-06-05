@@ -10,3 +10,4 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core Gui
 
 add_executable(tst_theme tst_rolisteamtheme.cpp)
 target_link_libraries(tst_theme PUBLIC Qt6::Core Qt6::Gui Qt6::Test Qt6::Widgets PRIVATE core instantmessaging common_core common_widget common_qml)
+add_test(NAME tst_theme COMMAND tst_theme)

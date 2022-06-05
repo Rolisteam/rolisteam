@@ -49,7 +49,7 @@ SelectConnProfileController::SelectConnProfileController(ProfileModel* model, QO
 
     connect(m_timer.get(), &QTimer::timeout, this, &SelectConnProfileController::updateCanConnect);
 
-    if(m_profileModel->rowCount() > 0)
+    if(m_profileModel && m_profileModel->rowCount() > 0)
         setCurrentProfileIndex(0);
 
     auto func= [this]() { m_timer->start(); };

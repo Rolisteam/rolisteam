@@ -31,16 +31,19 @@ VisualItemController::VisualItemController(ItemType itemType, const std::map<QSt
                                            VectorialMapController* ctrl, QObject* parent)
     : QObject(parent), m_ctrl(ctrl), m_itemType(itemType), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
-    connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::selectableChanged);
-    connect(m_ctrl, &VectorialMapController::visibilityChanged, this, &VisualItemController::visibilityChanged);
-    connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::localIsGMChanged);
+    if(m_ctrl)
+    {
+        connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::selectableChanged);
+        connect(m_ctrl, &VectorialMapController::visibilityChanged, this, &VisualItemController::visibilityChanged);
+        connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::localIsGMChanged);
 
-    connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VisualItemController::computeEditable);
-    connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::computeEditable);
-    connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::computeEditable);
+        connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VisualItemController::computeEditable);
+        connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::computeEditable);
+        connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::computeEditable);
+
+        setLayer(m_ctrl->layer());
+    }
     connect(this, &VisualItemController::lockedChanged, this, &VisualItemController::computeEditable);
-
-    m_layer= m_ctrl->layer();
 
     initializedVisualItem(params);
 
@@ -325,6 +328,8 @@ void VisualItemController::setModified(bool b)
 
 void VisualItemController::computeEditable()
 {
+    if(!m_ctrl)
+        return;
     auto editableByPermission= (localIsGM() || m_ctrl->permission() == Core::PermissionMode::PC_ALL);
     setEditable(!m_locked && m_ctrl->layer() == layer() && editableByPermission);
 }

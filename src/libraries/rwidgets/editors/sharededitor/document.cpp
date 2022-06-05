@@ -42,8 +42,10 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     delete ui->editorFrame;
     m_editor= new CodeEditor(m_shareCtrl, this);
 
-    if(m_shareCtrl)
-        setPlainText(m_shareCtrl->text());
+    if(!m_shareCtrl)
+        return;
+
+    setPlainText(m_shareCtrl->text());
 
     m_previewMarkdown= new QTextEdit();
     m_previewMarkdown->setReadOnly(true);

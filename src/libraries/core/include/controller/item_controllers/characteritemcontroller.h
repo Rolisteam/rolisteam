@@ -110,7 +110,7 @@ signals:
     void sideChanged(qreal side);
     void stateColorChanged(QColor stateColor);
     void numberChanged(int number);
-    void playableCharacterChanged(bool playableCharacter);
+    void playableCharacterChanged();
     void thumnailRectChanged(QRectF name);
     void visionChanged(bool vision);
     void visionShapeChanged(CharacterVision::SHAPE visionShape);

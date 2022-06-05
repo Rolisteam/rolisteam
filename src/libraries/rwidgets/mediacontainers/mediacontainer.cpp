@@ -130,10 +130,11 @@ void MediaContainer::setContainerType(const ContainerType& containerType)
 }
 QString MediaContainer::ownerId() const
 {
-    return m_lifeCycleCtrl->ownerId();
+    return m_lifeCycleCtrl ? m_lifeCycleCtrl->ownerId() : QString();
 }
 
 void MediaContainer::setOwnerId(const QString& ownerId)
 {
-    m_lifeCycleCtrl->setOwnerId(ownerId);
+    if(m_lifeCycleCtrl)
+        m_lifeCycleCtrl->setOwnerId(ownerId);
 }

@@ -110,7 +110,7 @@ private:
     std::unique_ptr<ThemeModel> m_themeModel;
     std::unique_ptr<LanguageModel> m_languageModel;
 
-    std::size_t m_currentThemeIndex;
+    std::size_t m_currentThemeIndex= 0;
     int m_currentLangIndex= -1;
     bool m_systemLang= true;
     bool m_customFile= false;

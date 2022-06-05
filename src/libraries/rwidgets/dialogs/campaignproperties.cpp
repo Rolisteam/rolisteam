@@ -56,10 +56,12 @@ CampaignProperties::CampaignProperties(campaign::Campaign* capm, ThemeModel* the
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::DISABLE, new rwidgets::CheckBoxDelegate());
 
     connect(ui->m_nameEdit, &QLineEdit::textEdited, m_campaign, &campaign::Campaign::setName);
-    ui->m_currentTheme->setModel(themeModel);
-    auto idx= themeModel->indexOf(m_campaign->currentTheme());
-    ui->m_currentTheme->setCurrentIndex(idx);
-
+    if(themeModel)
+    {
+        ui->m_currentTheme->setModel(themeModel);
+        auto idx= themeModel->indexOf(m_campaign->currentTheme());
+        ui->m_currentTheme->setCurrentIndex(idx);
+    }
     ui->m_diskUsageLbl->setText(QLocale::system().formattedDataSize(m_campaign->diskUsage()));
     ui->m_fileCountLbl->setText(tr("%n file(s)", "", m_campaign->fileCount()));
 

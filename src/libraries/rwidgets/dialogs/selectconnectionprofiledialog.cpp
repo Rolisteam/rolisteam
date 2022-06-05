@@ -24,11 +24,11 @@
 
 /// ConnectionProfile
 SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctrl, QWidget* parent)
-    : QDialog(parent)
-    , ui(new Ui::SelectConnectionProfileDialog)
-    , m_gameCtrl{ctrl}
-    , m_ctrl{new SelectConnProfileController(ctrl->networkController()->profileModel(), ctrl)}
+    : QDialog(parent), ui(new Ui::SelectConnectionProfileDialog), m_gameCtrl{ctrl}
 {
+    if(ctrl && ctrl->networkController() && ctrl->networkController()->profileModel())
+        m_ctrl.reset(new SelectConnProfileController(ctrl->networkController()->profileModel(), ctrl));
+
     ui->setupUi(this);
     // ui->m_detailPanel->setVisible(false);
     connect(ui->m_quickWidget, &QQuickWidget::sceneGraphError, this,
@@ -85,6 +85,8 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     ui->m_quickWidget->setVisible(true);
 
     // link between game controller and profile controller
+    if(!m_gameCtrl)
+        return;
     auto networkCtrl= m_gameCtrl->networkController();
     connect(networkCtrl, &NetworkController::lastErrorChanged, m_ctrl.get(), &SelectConnProfileController::setErrorMsg);
     connect(networkCtrl, &NetworkController::infoMessage, m_ctrl.get(), &SelectConnProfileController::setInfoMsg);

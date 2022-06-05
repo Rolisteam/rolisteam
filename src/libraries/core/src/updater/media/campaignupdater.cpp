@@ -44,8 +44,6 @@ CampaignUpdater::CampaignUpdater(DiceRoller* dice, Campaign* manager, QObject* p
 
 void CampaignUpdater::setCampaign(Campaign* campaign)
 {
-    Q_ASSERT(campaign);
-
     if(campaign == m_campaign)
         return;
     m_campaign= campaign;

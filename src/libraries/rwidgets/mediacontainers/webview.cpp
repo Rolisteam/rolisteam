@@ -58,8 +58,12 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     connect(m_webCtrl, &WebpageController::pageUrlChanged, this,
             [this]() { m_ui->m_webview->setUrl(m_webCtrl->pageUrl()); });
 
-    connect(m_ui->m_webview, &QWebEngineView::loadFinished, this,
-            [this]() { m_ui->m_webview->page()->toHtml([this](QString html) { m_webCtrl->setHtml(html); }); });
+    connect(m_ui->m_webview, &QWebEngineView::loadFinished, this, [this]() {
+        m_ui->m_webview->page()->toHtml([this](QString html) {
+            if(m_webCtrl)
+                m_webCtrl->setHtml(html);
+        });
+    });
 
     connect(m_ui->m_reloadAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::reload);
     connect(m_ui->m_nextAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::forward);
@@ -78,36 +82,40 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     updateTitle();
     setWidget(wid);
 
-    if(m_webCtrl->state() == WebpageController::LocalIsPlayer)
+    if(m_webCtrl)
     {
-        m_ui->m_htmlShareAct->setVisible(false);
-        m_ui->m_shareAct->setVisible(false);
-        m_ui->m_keepSharing->setVisible(false);
-    }
-    else if(m_webCtrl->state() == WebpageController::RemoteView)
-    {
-        m_ui->m_htmlShareAct->setVisible(false);
-        m_ui->m_shareAct->setVisible(false);
-        m_ui->m_keepSharing->setVisible(false);
-        m_ui->m_nextAct->setVisible(false);
-        m_ui->m_previousAct->setVisible(false);
-        m_ui->m_addressEdit->setReadOnly(true);
-    }
+        if(m_webCtrl->state() == WebpageController::LocalIsPlayer)
+        {
+            m_ui->m_htmlShareAct->setVisible(false);
+            m_ui->m_shareAct->setVisible(false);
+            m_ui->m_keepSharing->setVisible(false);
+        }
+        else if(m_webCtrl->state() == WebpageController::RemoteView)
+        {
+            m_ui->m_htmlShareAct->setVisible(false);
+            m_ui->m_shareAct->setVisible(false);
+            m_ui->m_keepSharing->setVisible(false);
+            m_ui->m_nextAct->setVisible(false);
+            m_ui->m_previousAct->setVisible(false);
+            m_ui->m_addressEdit->setReadOnly(true);
+        }
 
-    m_ui->m_webview->setHtml(m_webCtrl->html());
-    m_ui->m_webview->setUrl(m_webCtrl->pageUrl());
-    m_ui->m_addressEdit->setText(m_webCtrl->pageUrl().toString());
-    m_ui->m_hideAddressAct->setChecked(m_webCtrl->hideUrl());
-    m_ui->m_addressEdit->setEchoMode(m_webCtrl->hideUrl() ? QLineEdit::Password : QLineEdit::Normal);
+        m_ui->m_webview->setHtml(m_webCtrl->html());
+        m_ui->m_webview->setUrl(m_webCtrl->pageUrl());
+        m_ui->m_addressEdit->setText(m_webCtrl->pageUrl().toString());
+        m_ui->m_hideAddressAct->setChecked(m_webCtrl->hideUrl());
+        m_ui->m_addressEdit->setEchoMode(m_webCtrl->hideUrl() ? QLineEdit::Password : QLineEdit::Normal);
 
-    qDebug() << "webview " << m_webCtrl->pageUrl() << m_webCtrl->html();
+        qDebug() << "webview " << m_webCtrl->pageUrl() << m_webCtrl->html();
+    }
 }
 
 WebView::~WebView() {}
 
 void WebView::updateTitle()
 {
-    setWindowTitle(tr("%1 - WebPage").arg(m_webCtrl->title()));
+    if(m_webCtrl)
+        setWindowTitle(tr("%1 - WebPage").arg(m_webCtrl->title()));
 }
 
 void WebView::mousePressEvent(QMouseEvent* mouseEvent)

@@ -46,6 +46,7 @@ RectItem::RectItem(vmap::RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ct
 
     updateChildPosition();
 
+    if(m_ctrl)
     {
         setTransformOriginPoint(m_ctrl->rotationOriginPoint());
         setRotation(m_ctrl->rotation());
@@ -157,6 +158,9 @@ void RectItem::initChildPointItem() {}
 
 void RectItem::updateChildPosition()
 {
+    if(!m_rectCtrl)
+        return;
+
     auto rect= m_rectCtrl->rect();
     m_children.value(0)->setPos(rect.topLeft());
     m_children.value(0)->setPlacement(ChildPointItem::TopLeft);

@@ -40,6 +40,30 @@ add_subdirectory(genericmodel)
 add_subdirectory(charactermodel)
 add_subdirectory(unitmodel)
 add_subdirectory(worker)
+add_subdirectory(qobjects)
 
 
 
+if(CMAKE_COMPILER_IS_GNUCXX AND CODE_COVERAGE)
+    set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+    include(CodeCoverage)
+    append_coverage_compiler_flags_to_target(core)
+    append_coverage_compiler_flags_to_target(rwidgets)
+    append_coverage_compiler_flags_to_target(common_core)
+    append_coverage_compiler_flags_to_target(common_widget)
+    append_coverage_compiler_flags_to_target(common_qml)
+    append_coverage_compiler_flags_to_target(instantmessaging)
+    append_coverage_compiler_flags_to_target(charactersheet_widgets)
+    append_coverage_compiler_flags_to_target(utils)
+    append_coverage_compiler_flags_to_target(rmindmap)
+    append_coverage_compiler_flags_to_target(qml_views)
+    append_coverage_compiler_flags_to_target(qml_components)
+    append_coverage_compiler_flags_to_target(network)
+
+    setup_target_for_coverage_gcovr_html(
+      NAME tests_coverage
+      EXECUTABLE tests_coverage
+      DEPENDENCIES core rwidgets common_core common_widget common_qml instantmessaging charactersheet_widgets diceparser_qobject utils rmindmap qml_views qml_components network
+      BASE_DIRECTORY "${PROJECT_SOURCE_DIR}/src"
+      EXCLUDE "bin/*")
+endif()

@@ -42,6 +42,9 @@ QStringList VisualItem::s_type2NameList
 
 VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_ctrl(ctrl)
 {
+    if(!m_ctrl)
+        return;
+
     connect(m_ctrl, &vmap::VisualItemController::posChanged, this, [this]() { setPos(m_ctrl->pos()); });
     connect(m_ctrl, &vmap::VisualItemController::removeItem, this, [this]() {
         scene()->removeItem(this);

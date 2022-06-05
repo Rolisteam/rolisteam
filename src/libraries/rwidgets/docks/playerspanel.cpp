@@ -64,6 +64,8 @@ PlayersPanel::~PlayersPanel() {}
 
 void PlayersPanel::setConnection()
 {
+    if(!m_ctrl)
+        return;
     connect(m_ui->m_playerView, &UserListView::runDiceForCharacter, this, &PlayersPanel::runDiceForCharacter);
 
     m_ui->m_playerView->setModel(m_ctrl->model());

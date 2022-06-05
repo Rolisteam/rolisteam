@@ -34,21 +34,25 @@ VmapToolBar::VmapToolBar(VectorialMapController* ctrl, QWidget* parent) : QToolB
     initActions();
     setupUi();
 
-    connect(m_ctrl, &VectorialMapController::localGMChanged, this,
-            [this](bool b)
-            {
-                setEnabled(b);
-                setVisible(b);
-            });
+    connect(m_ctrl, &VectorialMapController::localGMChanged, this, [this](bool b) {
+        setEnabled(b);
+        setVisible(b);
+    });
 
-    setEnabled(m_ctrl->localGM());
-    setVisible(m_ctrl->localGM());
+    if(m_ctrl)
+    {
+        setEnabled(m_ctrl->localGM());
+        setVisible(m_ctrl->localGM());
+    }
 }
 
 VmapToolBar::~VmapToolBar()= default;
 
 void VmapToolBar::initActions()
 {
+    if(!m_ctrl)
+        return;
+
     m_showSquareAct= new QAction(QIcon::fromTheme("grid"), tr("Square Grid"), this);
     m_showSquareAct->setCheckable(true);
 
@@ -60,15 +64,13 @@ void VmapToolBar::initActions()
     group->addAction(m_showSquareAct);
     group->addAction(m_showHexagonAct);
 
-    connect(group, &QActionGroup::triggered, this,
-            [this](QAction* action)
-            {
-                m_ctrl->setGridVisibility(action->isChecked());
-                if(action == m_showSquareAct)
-                    m_ctrl->setGridPattern(Core::GridPattern::SQUARE);
-                else
-                    m_ctrl->setGridPattern(Core::GridPattern::HEXAGON);
-            });
+    connect(group, &QActionGroup::triggered, this, [this](QAction* action) {
+        m_ctrl->setGridVisibility(action->isChecked());
+        if(action == m_showSquareAct)
+            m_ctrl->setGridPattern(Core::GridPattern::SQUARE);
+        else
+            m_ctrl->setGridPattern(Core::GridPattern::HEXAGON);
+    });
 
     m_gridAboveAct= new QAction(QIcon::fromTheme("grid_above"), tr("Grid Above"), this);
     m_gridAboveAct->setCheckable(true);
@@ -96,8 +98,7 @@ void VmapToolBar::initActions()
     connect(group, &QActionGroup::triggered, this,
             [this](QAction* action) { m_ctrl->setPermission(action->data().value<Core::PermissionMode>()); });
 
-    auto updatePerm= [this](Core::PermissionMode perm)
-    {
+    auto updatePerm= [this](Core::PermissionMode perm) {
         m_onlyGmPermAct->setChecked(perm == Core::PermissionMode::GM_ONLY);
         m_characterOnlyPermAct->setChecked(perm == Core::PermissionMode::PC_MOVE);
         m_allPermAct->setChecked(perm == Core::PermissionMode::PC_ALL);
@@ -126,8 +127,7 @@ void VmapToolBar::initActions()
     connect(group, &QActionGroup::triggered, this,
             [this](QAction* action) { m_ctrl->setVisibility(action->data().value<Core::VisibilityMode>()); });
 
-    auto updateVisiblility= [this](Core::VisibilityMode perm)
-    {
+    auto updateVisiblility= [this](Core::VisibilityMode perm) {
         m_hiddenAct->setChecked(perm == Core::VisibilityMode::HIDDEN);
         m_fogAct->setChecked(perm == Core::VisibilityMode::FOGOFWAR);
         m_allAct->setChecked(perm == Core::VisibilityMode::ALL);
@@ -156,8 +156,7 @@ void VmapToolBar::initActions()
     connect(group, &QActionGroup::triggered, this,
             [this](QAction* action) { m_ctrl->setLayer(action->data().value<Core::Layer>()); });
 
-    auto updateLayer= [this](Core::Layer layer)
-    {
+    auto updateLayer= [this](Core::Layer layer) {
         m_groundAct->setChecked(layer == Core::Layer::GROUND);
         m_objectAct->setChecked(layer == Core::Layer::OBJECT);
         m_characterAct->setChecked(layer == Core::Layer::CHARACTER_LAYER);
@@ -204,6 +203,8 @@ void VmapToolBar::initActions()
 
 void VmapToolBar::setupUi()
 {
+    if(!m_ctrl)
+        return;
     // bg
     m_bgSelector= new ColorButton();
     m_bgSelector->setColor(m_ctrl->backgroundColor());

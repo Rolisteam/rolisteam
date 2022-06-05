@@ -92,6 +92,9 @@ QColor ContrastColor(QColor color)
 /////////////////
 CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl) : VisualItem(ctrl), m_itemCtrl(ctrl)
 {
+    if(!m_itemCtrl)
+        return;
+
     m_itemCtrl->setFont(QFont());
 
     connect(m_itemCtrl, &vmap::CharacterItemController::thumnailRectChanged, this, &CharacterItem::updateChildPosition);

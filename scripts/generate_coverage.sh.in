@@ -1,0 +1,6 @@
+#! /bin/bash
+
+ctest -T coverage
+lcov --capture --directory @CMAKE_BINARY_DIR@/Testing/CoverageInfo/ --directory @CMAKE_BINARY_DIR@/src/libraries/  --output-file=@CMAKE_BINARY_DIR@/coverage.info --exclude '/usr/include/*' --exclude '*include/Qt*' --exclude '*autogen*'
+genhtml coverage.info --output-directory=@CMAKE_BINARY_DIR@/covres
+firefox @CMAKE_BINARY_DIR@/covres/index.html

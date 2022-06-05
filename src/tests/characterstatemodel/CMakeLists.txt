@@ -10,3 +10,4 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core)
 
 add_executable(tst_characterstatemodel tst_characterstatemodel.cpp)
 target_link_libraries(tst_characterstatemodel PUBLIC Qt6::Core Qt6::Test PRIVATE core rwidgets instantmessaging common_core common_widget common_qml network rmindmap)
+add_test(NAME tst_characterstatemodel COMMAND tst_characterstatemodel)

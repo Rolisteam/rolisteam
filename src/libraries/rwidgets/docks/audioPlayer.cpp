@@ -82,21 +82,25 @@ void AudioPlayer::setupUi()
     m_mainLayout->setSpacing(0);
     m_mainLayout->setContentsMargins(QMargins());
 
-    std::array<AudioPlayerController*, 3> array{m_ctrl->firstController(), m_ctrl->secondController(),
-                                                m_ctrl->thirdController()};
-
-    for(int i= 0; i < 3; ++i)
+    if(m_ctrl)
     {
-        auto* playerWidget= new PlayerWidget(array[i], this);
-        connect(playerWidget, &PlayerWidget::changePlayerDirectory, this, &AudioPlayer::changePlayerDirectory);
 
-        m_players.append(playerWidget);
-        auto* act= new QAction(tr("Show/hide Player %1").arg(i + 1), this);
-        act->setCheckable(true);
-        act->setChecked(array[i]->visible());
-        connect(act, &QAction::triggered, array[i], &AudioPlayerController::setVisible);
-        m_playerActionsList.append(act);
-        m_mainLayout->addWidget(m_players[i]);
+        std::array<AudioPlayerController*, 3> array{m_ctrl->firstController(), m_ctrl->secondController(),
+                                                    m_ctrl->thirdController()};
+
+        for(int i= 0; i < 3; ++i)
+        {
+            auto* playerWidget= new PlayerWidget(array[i], this);
+            connect(playerWidget, &PlayerWidget::changePlayerDirectory, this, &AudioPlayer::changePlayerDirectory);
+
+            m_players.append(playerWidget);
+            auto* act= new QAction(tr("Show/hide Player %1").arg(i + 1), this);
+            act->setCheckable(true);
+            act->setChecked(array[i]->visible());
+            connect(act, &QAction::triggered, array[i], &AudioPlayerController::setVisible);
+            m_playerActionsList.append(act);
+            m_mainLayout->addWidget(m_players[i]);
+        }
     }
 
     m_mainWidget->setLayout(m_mainLayout);

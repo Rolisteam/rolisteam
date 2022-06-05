@@ -2,7 +2,10 @@
 
 #include "network/networkmessage.h"
 #include <QByteArray>
+#include <QStringList>
+#include <utility>
 
+class QObject;
 namespace Helper
 {
 template <typename Iterator>
@@ -56,4 +59,6 @@ public:
 private:
     QByteArray m_msgData;
 };
+
+std::pair<bool, QStringList> testAllProperties(QObject* obj);
 } // namespace Helper

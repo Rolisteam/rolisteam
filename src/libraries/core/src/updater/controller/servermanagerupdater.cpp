@@ -28,11 +28,12 @@
 
 ServerManagerUpdater::ServerManagerUpdater(ServerManager* ctrl, QObject* parent) : QObject(parent), m_ctrl(ctrl)
 {
+    if(!m_ctrl)
+        return;
     auto model= m_ctrl->channelModel();
     Q_ASSERT(model);
 
-    auto computeModel= [this]()
-    {
+    auto computeModel= [this]() {
         auto model= m_ctrl->channelModel();
         setChannelData(helper::network::jsonObjectToByteArray(helper::network::channelModelToJSonObject(model)));
     };
@@ -42,21 +43,17 @@ ServerManagerUpdater::ServerManagerUpdater(ServerManager* ctrl, QObject* parent)
     connect(model, &ChannelModel::rowsMoved, this, computeModel);
     connect(model, &ChannelModel::rowsRemoved, this, computeModel);
 
-    connect(this, &ServerManagerUpdater::channelsDataChanged, this,
-            [this]()
-            {
-                auto conns= m_ctrl->connections();
-                for(auto conn : conns)
-                {
-                    NetworkMessageWriter* msg
-                        = new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
-                    msg->byteArray32(m_channelData);
-                    QMetaObject::invokeMethod(conn, "sendMessage", Qt::QueuedConnection,
-                                              Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)),
-                                              Q_ARG(bool, true));
-                }
-                // delete msg;
-            });
+    connect(this, &ServerManagerUpdater::channelsDataChanged, this, [this]() {
+        auto conns= m_ctrl->connections();
+        for(auto conn : conns)
+        {
+            NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
+            msg->byteArray32(m_channelData);
+            QMetaObject::invokeMethod(conn, "sendMessage", Qt::QueuedConnection,
+                                      Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
+        }
+        // delete msg;
+    });
 }
 
 QByteArray ServerManagerUpdater::channelsData()

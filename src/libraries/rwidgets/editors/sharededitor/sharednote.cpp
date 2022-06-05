@@ -41,6 +41,9 @@ SharedNote::SharedNote(SharedNoteController* ctrl, QWidget* parent)
 {
     ui->setupUi(this);
 
+    if(!m_sharedCtrl)
+        return;
+
     m_document= new Document(ctrl, ui->m_documentSupport);
     connect(m_document->getDocument(), &QTextDocument::contentsChange, this, &SharedNote::textHasChanged);
     auto pane= m_document->getParticipantPane();

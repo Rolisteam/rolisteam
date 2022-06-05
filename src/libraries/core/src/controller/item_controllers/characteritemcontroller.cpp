@@ -48,6 +48,8 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
         m_character= new Character();
         m_character->setColor(m_color);
     }
+    connect(m_character, &Character::stateIdChanged, this, &CharacterItemController::stateIdChanged);
+    connect(m_character, &Character::npcChanged, this, &CharacterItemController::playableCharacterChanged);
     connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
     connect(m_character, &Character::colorChanged, this, [this]() { emit colorChanged(m_character->getColor()); });
     connect(m_character, &Character::avatarChanged, this, &CharacterItemController::computeThumbnail);
@@ -199,7 +201,7 @@ void CharacterItemController::setRect(const QRectF& rect)
 
 CharacterVision::SHAPE CharacterItemController::visionShape() const
 {
-    return m_vision->shape();
+    return m_vision ? m_vision->shape() : CharacterVision::SHAPE::ANGLE;
 }
 
 QRectF CharacterItemController::textRect() const

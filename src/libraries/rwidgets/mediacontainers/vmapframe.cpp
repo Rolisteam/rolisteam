@@ -100,8 +100,8 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     connect(m_ctrl, &VectorialMapController::visibilityChanged, this, func);
     connect(m_ctrl, &VectorialMapController::layerChanged, this, func);
     connect(m_ctrl, &VectorialMapController::permissionChanged, this, func);
-
-    func();
+    if(m_ctrl)
+        func();
 }
 
 VMapFrame::~VMapFrame() {}

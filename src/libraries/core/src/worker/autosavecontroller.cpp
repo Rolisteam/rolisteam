@@ -28,22 +28,21 @@ constexpr int minutes= 6000;
 AutoSaveController::AutoSaveController(PreferencesManager* pref, QObject* parent)
     : QObject(parent), m_preferences(pref), m_timer(new QTimer)
 {
-    m_preferences->registerLambda("AutoSave",
-                                  [this](QVariant val)
-                                  {
-                                      auto autoSave= val.toBool();
-                                      if(autoSave)
-                                          m_timer->start();
-                                      else
-                                          m_timer->stop();
-                                  });
+    if(!m_preferences)
+        return;
 
-    m_preferences->registerLambda("AutoSaveTime",
-                                  [this](QVariant val)
-                                  {
-                                      auto time= val.toInt();
-                                      m_timer->setInterval(time);
-                                  });
+    m_preferences->registerLambda("AutoSave", [this](QVariant val) {
+        auto autoSave= val.toBool();
+        if(autoSave)
+            m_timer->start();
+        else
+            m_timer->stop();
+    });
+
+    m_preferences->registerLambda("AutoSaveTime", [this](QVariant val) {
+        auto time= val.toInt();
+        m_timer->setInterval(time);
+    });
 
     connect(m_timer.get(), &QTimer::timeout, this, &AutoSaveController::saveData);
 

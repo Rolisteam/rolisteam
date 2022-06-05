@@ -10,3 +10,4 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core)
 
 add_executable(tst_palette tst_paletteModel.cpp)
 target_link_libraries(tst_palette PUBLIC Qt6::Core Qt6::Test PRIVATE core instantmessaging common_qml)
+add_test(NAME tst_palette COMMAND tst_palette)

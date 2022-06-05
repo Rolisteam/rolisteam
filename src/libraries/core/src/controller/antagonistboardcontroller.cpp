@@ -101,10 +101,13 @@ AntagonistBoardController::AntagonistBoardController(campaign::CampaignEditor* e
                 new GenericModel({QStringLiteral("Name"), QStringLiteral("Value")}, {}, this)}}
     , m_filteredModel(new FilteredCharacterModel)
 {
-    auto campaign= m_editor->campaign();
-    m_filteredModel->setSourceModel(campaign->npcModel());
-    connect(m_filteredModel.get(), &FilteredCharacterModel::searchChanged, this,
-            &AntagonistBoardController::searchTextChanged);
+    if(m_editor)
+    {
+        auto campaign= m_editor->campaign();
+        m_filteredModel->setSourceModel(campaign->npcModel());
+        connect(m_filteredModel.get(), &FilteredCharacterModel::searchChanged, this,
+                &AntagonistBoardController::searchTextChanged);
+    }
 }
 
 QString AntagonistBoardController::searchText() const

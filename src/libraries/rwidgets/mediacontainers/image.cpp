@@ -49,7 +49,7 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     setWindowIcon(QIcon::fromTheme("image-x-generic"));
     createActions();
 
-    if(m_ctrl->isMovie())
+    if(m_ctrl && m_ctrl->isMovie())
         addAction(m_playAct);
 
     connect(m_ctrl, &ImageController::nameChanged, this,
@@ -62,14 +62,15 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     m_fitWindowAct->setChecked(m_preferences->value("PictureAdjust", true).toBool());
     setWidget(m_widgetArea.get());
     initImage();
-    setWindowTitle(tr("%1 - Image").arg(m_ctrl->name()));
+    if(m_ctrl)
+        setWindowTitle(tr("%1 - Image").arg(m_ctrl->name()));
 }
 
 Image::~Image()= default;
 
 void Image::initImage()
 {
-    if(m_ctrl->pixmap().isNull())
+    if(!m_ctrl || m_ctrl->pixmap().isNull())
         return;
 
     auto pixmap= m_ctrl->pixmap();

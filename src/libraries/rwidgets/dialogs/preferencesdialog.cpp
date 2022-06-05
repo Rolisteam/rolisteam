@@ -83,15 +83,21 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_themeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             [this](int pos) { m_ctrl->setCurrentThemeIndex(static_cast<std::size_t>(pos)); });
     // m_paletteModel->setPalette(palette());
-    connect(m_ctrl, &PreferencesController::currentThemeIndexChanged, this,
-            [this]() { ui->m_paletteTableView->setModel(m_ctrl->currentTheme()->paletteModel()); });
-    ui->m_paletteTableView->setModel(m_ctrl->currentTheme()->paletteModel());
-    auto horizontalHeader= ui->m_paletteTableView->horizontalHeader();
-    horizontalHeader->setSectionResizeMode(0, QHeaderView::Stretch);
+    connect(m_ctrl, &PreferencesController::currentThemeIndexChanged, this, [this]() {
+        if(m_ctrl->currentTheme())
+            ui->m_paletteTableView->setModel(m_ctrl->currentTheme()->paletteModel());
+    });
+
+    if(m_ctrl->currentTheme())
+    {
+        ui->m_paletteTableView->setModel(m_ctrl->currentTheme()->paletteModel());
+        auto horizontalHeader= ui->m_paletteTableView->horizontalHeader();
+        horizontalHeader->setSectionResizeMode(0, QHeaderView::Stretch);
+    }
 
     connect(this, &PreferencesDialog::accepted, m_ctrl, &PreferencesController::savePreferences);
 
-    connect(ui->m_startDiag, SIGNAL(clicked()), this, SLOT(performDiag()));
+    connect(ui->m_startDiag, &QPushButton::clicked, this, &PreferencesDialog::performDiag);
     // i18n
     connect(ui->m_systemTranslation, &QCheckBox::clicked, this, &PreferencesDialog::updateTranslationPref);
     connect(ui->m_customTranslation, &QCheckBox::clicked, this, &PreferencesDialog::updateTranslationPref);
@@ -200,41 +206,35 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_ap2downAct, &QAction::triggered, this, &PreferencesDialog::downDirectory);
     connect(ui->m_ap3downAct, &QAction::triggered, this, &PreferencesDialog::downDirectory);
 
-    connect(ui->m_directoriesList1, &QListView::clicked, this,
-            [this]()
-            {
-                auto current= ui->m_directoriesList1->currentIndex();
+    connect(ui->m_directoriesList1, &QListView::clicked, this, [this]() {
+        auto current= ui->m_directoriesList1->currentIndex();
 
-                auto isValid= current.isValid();
+        auto isValid= current.isValid();
 
-                ui->m_ap1Delete->setEnabled(isValid);
-                ui->m_ap1upAct->setEnabled(isValid);
-                ui->m_ap1downAct->setEnabled(isValid);
-            });
+        ui->m_ap1Delete->setEnabled(isValid);
+        ui->m_ap1upAct->setEnabled(isValid);
+        ui->m_ap1downAct->setEnabled(isValid);
+    });
 
-    connect(ui->m_directoriesList2, &QListView::clicked, this,
-            [this]()
-            {
-                auto current= ui->m_directoriesList2->currentIndex();
+    connect(ui->m_directoriesList2, &QListView::clicked, this, [this]() {
+        auto current= ui->m_directoriesList2->currentIndex();
 
-                auto isValid= current.isValid();
+        auto isValid= current.isValid();
 
-                ui->m_ap2Delete->setEnabled(isValid);
-                ui->m_ap2upAct->setEnabled(isValid);
-                ui->m_ap2downAct->setEnabled(isValid);
-            });
+        ui->m_ap2Delete->setEnabled(isValid);
+        ui->m_ap2upAct->setEnabled(isValid);
+        ui->m_ap2downAct->setEnabled(isValid);
+    });
 
-    connect(ui->m_directoriesList3, &QListView::clicked, this,
-            [this]()
-            {
-                auto current= ui->m_directoriesList3->currentIndex();
+    connect(ui->m_directoriesList3, &QListView::clicked, this, [this]() {
+        auto current= ui->m_directoriesList3->currentIndex();
 
-                auto isValid= current.isValid();
+        auto isValid= current.isValid();
 
-                ui->m_ap3Delete->setEnabled(isValid);
-                ui->m_ap3upAct->setEnabled(isValid);
-                ui->m_ap3downAct->setEnabled(isValid);
-            });
+        ui->m_ap3Delete->setEnabled(isValid);
+        ui->m_ap3upAct->setEnabled(isValid);
+        ui->m_ap3downAct->setEnabled(isValid);
+    });
 
     updateTranslationPref();
 }

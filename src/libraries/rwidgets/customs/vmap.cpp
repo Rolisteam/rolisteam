@@ -72,6 +72,9 @@ void addImageIntoController(VectorialMapController* ctrl, const QPointF& pos, Cl
 
 VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(parent), m_ctrl(ctrl)
 {
+    if(!m_ctrl)
+        return;
+
     // connection to signal
     connect(m_ctrl, &VectorialMapController::backgroundColorChanged, this,
             [this]() { setBackgroundBrush(m_ctrl->backgroundColor()); });
@@ -85,9 +88,11 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() { m_currentPath= nullptr; });
 
     // item Managers
-    connect(m_ctrl, &VectorialMapController::visualItemControllerCreated, this, &VMap::addVisualItem);
 
     // initialization
+
+    connect(m_ctrl, &VectorialMapController::visualItemControllerCreated, this, &VMap::addVisualItem);
+
     setBackgroundBrush(m_ctrl->backgroundColor());
 
     auto grid= m_ctrl->gridController();

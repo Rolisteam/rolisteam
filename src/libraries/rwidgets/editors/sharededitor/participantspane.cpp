@@ -44,6 +44,9 @@ ParticipantsPane::ParticipantsPane(SharedNoteController* ctrl, QWidget* parent)
 {
     ui->setupUi(this);
 
+    if(!m_sharedCtrl)
+        return;
+
     ui->m_downToolBtn->setDefaultAction(ui->m_demoteAction);
     ui->m_upToolBtn->setDefaultAction(ui->m_promoteAction);
 

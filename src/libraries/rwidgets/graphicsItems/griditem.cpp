@@ -50,7 +50,8 @@ GridItem::GridItem(vmap::GridController* ctrl) : VisualItem(ctrl), m_gridCtrl(ct
     createActions();
     setAcceptedMouseButtons(Qt::NoButton);
     setAcceptHoverEvents(false);
-    m_ctrl->setLayer(Core::Layer::GRIDLAYER);
+    if(m_gridCtrl)
+        m_ctrl->setLayer(Core::Layer::GRIDLAYER);
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
     setFlag(QGraphicsItem::ItemIsSelectable, false);
 
@@ -78,7 +79,7 @@ QRectF GridItem::boundingRect() const
 
     return rect;*/
 
-    return m_gridCtrl->rect();
+    return m_gridCtrl ? m_gridCtrl->rect() : QRectF{};
 
     /*QList<QGraphicsView*> list= scene()->views();
     if(!list.isEmpty())

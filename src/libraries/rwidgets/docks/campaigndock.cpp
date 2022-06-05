@@ -39,7 +39,7 @@ CampaignDock::CampaignDock(CampaignEditor* ctrl, QWidget* parent)
     : QDockWidget(parent)
     , m_ui(new Ui::CampaignDock)
     , m_campaignEditor(ctrl)
-    , m_model(new MediaModel(ctrl->campaign()))
+    , m_model(new MediaModel(ctrl ? ctrl->campaign() : nullptr))
     , m_filteredModel(new MediaFilteredModel)
 {
     m_ui->setupUi(this);

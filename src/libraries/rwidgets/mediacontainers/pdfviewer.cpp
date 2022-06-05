@@ -55,9 +55,12 @@ PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
     bookmarkModel->setDocument(m_document.get());
 
     makeConnections();
-    auto buf= m_pdfCtrl->buffer();
-    if(buf->open(QIODevice::ReadOnly))
-        m_document->load(buf);
+    if(m_pdfCtrl)
+    {
+        auto buf= m_pdfCtrl->buffer();
+        if(buf->open(QIODevice::ReadOnly))
+            m_document->load(buf);
+    }
 }
 
 PdfViewer::~PdfViewer() {}

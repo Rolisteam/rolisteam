@@ -105,6 +105,9 @@ QRectF GridController::rect() const
 
 void GridController::computePattern()
 {
+    if(!m_ctrl)
+        return;
+
     if(m_ctrl->gridPattern() == Core::GridPattern::NONE || !m_ctrl->gridVisibility() || !m_ctrl->gridAbove())
         setVisible(false);
     else

@@ -589,7 +589,7 @@ void Character::setStateId(const QString& stateId)
     if(stateId == m_stateId)
         return;
     m_stateId= stateId;
-    emit stateIdChanged();
+    emit stateIdChanged(m_stateId);
 }
 
 QString Character::currentStateLabel() const

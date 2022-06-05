@@ -65,7 +65,8 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
             qmlengine->setObjectOwnership(&manager, QQmlEngine::CppOwnership);
             return &manager;
         });
-
+    if(!m_ctrl)
+        return;
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
     engine->addImageProvider("nodeImages", new mindmap::NodeImageProvider(m_ctrl->imageModel()));
     engine->addImportPath(QStringLiteral("qrc:/qml"));
