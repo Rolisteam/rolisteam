@@ -75,7 +75,7 @@ SET(character_sources
     ${src_dir}/csitem.cpp
     ${src_dir}/field.cpp
     ${src_dir}/imagemodel.cpp
-    ${src_dir}/qqmlhelpers.cpp
+    #${src_dir}/qqmlhelpers.cpp
     #${src_dir}/qqmlobjectlistmodel.cpp
     ${src_dir}/rolisteamimageprovider.cpp
     ${src_dir}/section.cpp
@@ -86,7 +86,7 @@ SET(character_headers
     #${CMAKE_CURRENT_SOURCE_DIR}/charactersheetbutton.h
     ${src_dir}/csitem.h
     ${src_dir}/field.h
-    ${src_dir}/qqmlhelpers.h
+    #${src_dir}/qqmlhelpers.h
     ${src_dir}/section.h
     ${src_dir}/tablefield.h
 )
