@@ -34,8 +34,12 @@ Item {
             SplitView.minimumWidth: 200 //list.contentWidth
             SplitView.preferredWidth: 200
             SplitView.maximumWidth: 400
+            SplitView.fillHeight: true
             leftPadding: 2
             rightPadding: 2
+            background: Rectangle {
+                     color: palette.base
+            }
             GridLayout {
                 anchors.fill: parent
                 columns: 5
