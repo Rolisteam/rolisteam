@@ -86,6 +86,12 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::gridColorChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::backgroundColorChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() { m_currentPath= nullptr; });
+    connect(m_ctrl, &VectorialMapController::highLightAt, this,
+            [this](const QPointF& p, const qreal& penSize, const QColor& color) {
+                auto hitem= new HighlighterItem(p, penSize, color);
+                addAndInit(hitem);
+                hitem->setPos(p);
+            });
 
     // item Managers
 
@@ -342,7 +348,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if(Core::HIGHLIGHTER == m_ctrl->tool() && leftButton)
     {
-        auto hitem= new HighlighterItem(mouseEvent->scenePos(), m_ctrl->penSize(), m_ctrl->toolColor());
+        m_ctrl->addHighLighter(mouseEvent->scenePos());
         addAndInit(hitem);
         hitem->setPos(mouseEvent->scenePos());
     }

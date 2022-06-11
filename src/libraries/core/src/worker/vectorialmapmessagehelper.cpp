@@ -22,6 +22,7 @@
 #include <QByteArray>
 #include <QDataStream>
 
+#include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
 #include "controller/item_controllers/characteritemcontroller.h"
@@ -53,6 +54,31 @@ void VectorialMapMessageHelper::sendOffNewItem(const std::map<QString, QVariant>
     Q_ASSERT(!array.isEmpty());
     msg.byteArray32(array);
     msg.sendToServer();
+}
+
+void VectorialMapMessageHelper::sendOffHighLight(const QPointF& p, const qreal& penSize, const QColor& color,
+                                                 const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::HighLightPosition);
+    msg.string8(mapId);
+    msg.real(p.x());
+    msg.real(p.y());
+    msg.real(penSize);
+    msg.string8(color.name());
+
+    msg.sendToServer();
+}
+
+void VectorialMapMessageHelper::readHighLight(VectorialMapController* ctrl, NetworkMessageReader* msg)
+{
+    // msg->resetToData();
+    auto x= msg->real();
+    auto y= msg->real();
+
+    auto size= msg->real();
+    QColor c(msg->string8());
+
+    ctrl->showHightLighter({x, y}, size, c);
 }
 
 void saveVisualItemController(const vmap::VisualItemController* ctrl, QDataStream& output)

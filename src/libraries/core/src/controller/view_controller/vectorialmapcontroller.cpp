@@ -521,7 +521,14 @@ void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
 
 void VectorialMapController::addHighLighter(const QPointF& point)
 {
-    Q_UNUSED(point)
+    // emit highLightAt(point, m_penSize, m_toolColor);
+    emit sendOffHighLightAt(point, m_penSize, m_toolColor);
+    emit highLightAt(point, m_penSize, m_toolColor);
+}
+
+void VectorialMapController::showHightLighter(const QPointF& p, const qreal& penSize, const QColor& color)
+{
+    emit highLightAt(p, penSize, color);
 }
 
 bool VectorialMapController::idle() const

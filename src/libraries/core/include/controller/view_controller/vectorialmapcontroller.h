@@ -184,6 +184,9 @@ signals:
     void visualRectChanged(QRectF visualRect);
     void visualItemControllerCreated(vmap::VisualItemController* ctrl);
 
+    void sendOffHighLightAt(const QPointF& p, const qreal& penSize, const QColor& color);
+    void highLightAt(const QPointF& p, const qreal& penSize, const QColor& color);
+
 public slots:
     void setPermission(Core::PermissionMode mode);
     void setGridVisibility(bool visible);
@@ -226,6 +229,7 @@ public slots:
                                 VectorialMapController::StackOrder order);
     void askForColorChange(vmap::VisualItemController* itemCtrl);
     void addHighLighter(const QPointF& point);
+    void showHightLighter(const QPointF& p, const qreal& penSize, const QColor& color);
 
 private:
     std::unique_ptr<vmap::VmapItemModel> m_vmapModel;

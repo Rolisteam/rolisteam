@@ -166,6 +166,7 @@ enum Action
     GeometryViewChanged,
     CharacterStateChanged,
     CharacterChanged,
+    HighLightPosition,
 
     // mediacategory
     AddMedia= 0,

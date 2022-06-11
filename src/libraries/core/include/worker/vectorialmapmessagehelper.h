@@ -25,14 +25,19 @@
 #include <QVariant>
 #include <core_global.h>
 #include <map>
+
 class VectorialMapController;
-class  CORE_EXPORT VectorialMapMessageHelper
+class NetworkMessageReader;
+
+class CORE_EXPORT VectorialMapMessageHelper
 {
 public:
     VectorialMapMessageHelper();
 
     // send off ITEMS
     static void sendOffNewItem(const std::map<QString, QVariant>& args, const QString& mapId);
+    static void sendOffHighLight(const QPointF& p, const qreal& penSize, const QColor& color, const QString& mapId);
+    static void readHighLight(VectorialMapController* ctrl, NetworkMessageReader* msg);
 
     // read message items
     static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);

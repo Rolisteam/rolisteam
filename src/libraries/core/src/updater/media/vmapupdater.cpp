@@ -30,6 +30,7 @@
 #include "model/contentmodel.h"
 #include "network/networkmessagewriter.h"
 #include "worker/convertionhelper.h"
+#include "worker/vectorialmapmessagehelper.h"
 
 #include "updater/vmapitem/characteritemupdater.h"
 #include "updater/vmapitem/ellipsecontrollerupdater.h"
@@ -112,6 +113,11 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
             [this, ctrl]() { sendOffChanges<Core::Layer>(ctrl, QStringLiteral("layer")); });
     connect(ctrl, &VectorialMapController::zIndexChanged, this,
             [this, ctrl]() { sendOffChanges<int>(ctrl, QStringLiteral("zIndex")); });
+
+    connect(ctrl, &VectorialMapController::sendOffHighLightAt, this,
+            [ctrl](const QPointF& p, const qreal& penSize, const QColor& color) {
+                VectorialMapMessageHelper::sendOffHighLight(p, penSize, color, ctrl->uuid());
+            });
 
     connect(ctrl, &VectorialMapController::visualItemControllerCreated, this,
             [this](vmap::VisualItemController* itemCtrl) {
@@ -252,6 +258,15 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
         {
             it->second->updateItemProperty(msg, itemCtrl);
         }
+    }
+    else if(msg->category() == NetMsg::VMapCategory && msg->action() == NetMsg::HighLightPosition)
+    {
+        QString vmapId= msg->string8();
+        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
+        if(nullptr == map)
+            return type;
+
+        VectorialMapMessageHelper::readHighLight(map, msg);
     }
     return type;
 }
