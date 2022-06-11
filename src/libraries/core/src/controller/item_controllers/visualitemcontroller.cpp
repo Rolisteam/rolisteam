@@ -199,7 +199,6 @@ QString VisualItemController::getLayerText(Core::Layer layer) const
 
 void VisualItemController::endGeometryChange()
 {
-    setInitialized(true);
     if(m_posEditing)
     {
         emit posEditFinished();
@@ -211,6 +210,7 @@ void VisualItemController::endGeometryChange()
         emit rotationEditFinished();
         m_rotationEditing= false;
     }
+    setInitialized(true);
 }
 
 const QString VisualItemController::mapUuid() const

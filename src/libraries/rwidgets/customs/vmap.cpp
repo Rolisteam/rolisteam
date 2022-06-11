@@ -85,7 +85,10 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::gridVisibilityChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::gridColorChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::backgroundColorChanged, this, &VMap::computePattern);
-    connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() { m_currentPath= nullptr; });
+    connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() {
+        m_currentPath= nullptr;
+        m_currentItem= nullptr;
+    });
     connect(m_ctrl, &VectorialMapController::highLightAt, this,
             [this](const QPointF& p, const qreal& penSize, const QColor& color) {
                 auto hitem= new HighlighterItem(p, penSize, color);
@@ -96,7 +99,6 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     // item Managers
 
     // initialization
-
     connect(m_ctrl, &VectorialMapController::visualItemControllerCreated, this, &VMap::addVisualItem);
 
     setBackgroundBrush(m_ctrl->backgroundColor());
@@ -172,6 +174,7 @@ void VMap::addVisualItem(vmap::VisualItemController* ctrl)
     default:
         break;
     }
+    update();
 }
 void VMap::addLineItem(vmap::LineController* lineCtrl, bool editing)
 {
@@ -306,7 +309,6 @@ void VMap::insertItem(const QPointF& pos)
 
 void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-
     auto leftButton= (mouseEvent->button() == Qt::LeftButton);
     if(m_ctrl->tool() == Core::HANDLER && leftButton)
     {
@@ -349,8 +351,6 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     else if(Core::HIGHLIGHTER == m_ctrl->tool() && leftButton)
     {
         m_ctrl->addHighLighter(mouseEvent->scenePos());
-        addAndInit(hitem);
-        hitem->setPos(mouseEvent->scenePos());
     }
     else if(Core::BUCKET == m_ctrl->tool() && leftButton)
     {
@@ -396,7 +396,6 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     else if(mouseEvent->button() == Qt::RightButton)
     {
         m_currentPath= nullptr;
-        // cleanFogEdition();
     }
 }
 void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
@@ -428,7 +427,7 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 }
 void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-    if((!m_currentPath.isNull()) && ((Core::EditionMode::Painting == m_ctrl->editionMode())))
+    if(m_currentPath && (Core::EditionMode::Painting == m_ctrl->editionMode()))
     {
         if(vmap::VisualItemController::ItemType::PATH == m_currentPath->getType())
         {
@@ -657,18 +656,14 @@ void VMap::removeItemFromData(VisualItem* item)
 
 bool VMap::isItemStorable(VisualItem* item)
 {
-    if((item->getType() == vmap::VisualItemController::ItemType::ANCHOR)
-       || (item->getType() == vmap::VisualItemController::ItemType::GRID)
-       || (item->getType() == vmap::VisualItemController::ItemType::SIGHT)
-       || (item->getType() == vmap::VisualItemController::ItemType::RULE)
-       || (item->getType() == vmap::VisualItemController::ItemType::HIGHLIGHTER))
-    {
+    if(!item)
         return false;
-    }
-    else
-    {
-        return true;
-    }
+
+    QSet<vmap::VisualItemController::ItemType> allowed{
+        vmap::VisualItemController::ItemType::ANCHOR, vmap::VisualItemController::ItemType::GRID,
+        vmap::VisualItemController::ItemType::SIGHT, vmap::VisualItemController::ItemType::RULE,
+        vmap::VisualItemController::ItemType::HIGHLIGHTER};
+    return !allowed.contains(item->getType());
 }
 
 QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
@@ -677,12 +672,12 @@ QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
     auto const& values= m_characterItemMap->values();
     for(auto& item : values)
     {
-        if(nullptr != item)
+        if(nullptr == item)
+            continue;
+
+        if(item->getCharacterId() == id)
         {
-            if(item->getCharacterId() == id)
-            {
-                result.append(item);
-            }
+            result.append(item);
         }
     }
     return result;

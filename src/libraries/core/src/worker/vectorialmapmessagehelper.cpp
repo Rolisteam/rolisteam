@@ -162,12 +162,10 @@ void saveVmapSightController(const vmap::SightController* ctrl, QDataStream& out
 
     auto singus= ctrl->singularityList();
     output << static_cast<int>(singus.size());
-    std::for_each(singus.begin(), singus.end(),
-                  [&output](const std::pair<QPolygonF, bool>& singu)
-                  {
-                      output << singu.first;
-                      output << singu.second;
-                  });
+    std::for_each(singus.begin(), singus.end(), [&output](const std::pair<QPolygonF, bool>& singu) {
+        output << singu.first;
+        output << singu.second;
+    });
 }
 
 void saveVMapRectItemController(const vmap::RectController* ctrl, QDataStream& output)

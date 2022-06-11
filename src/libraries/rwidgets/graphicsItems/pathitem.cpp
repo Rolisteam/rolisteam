@@ -142,7 +142,10 @@ m_filled(false)
 }*/
 QRectF PathItem::boundingRect() const
 {
-    return m_pathCtrl->rect();
+    if(m_pathCtrl)
+        return m_pathCtrl->rect();
+    else
+        return {};
 }
 
 QPainterPath PathItem::shape() const

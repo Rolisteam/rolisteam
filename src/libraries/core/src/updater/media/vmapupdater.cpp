@@ -237,7 +237,10 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
         auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
 
         if(!map)
+        {
+            qWarning() << QString("Map with id %1 has not been found").arg(vmapId);
             return type;
+        }
 
         auto item= vmap::VmapItemFactory::createRemoteVMapItem(map, msg);
         map->addRemoteItem(item);

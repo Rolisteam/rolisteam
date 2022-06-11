@@ -101,6 +101,7 @@ bool PathController::penLine() const
 void PathController::addPoint(const QPointF& po)
 {
     m_points.push_back(po);
+    m_pointPositonEditing= true;
     emit pointCountChanged(static_cast<int>(m_points.size()));
     emit pointAdded(po, static_cast<int>(m_points.size()) - 1);
 }
@@ -119,10 +120,16 @@ void PathController::endGeometryChange()
 {
     VisualItemController::endGeometryChange();
 
-    if(m_pointPositonEditing)
+    if(m_pointPositonEditing && m_penLine)
     {
-        emit pointPositionEditFinished(m_modifiedPointIdx, pointAt(static_cast<quint64>(m_modifiedPointIdx)));
+        setInitialized(true);
         m_pointPositonEditing= false;
+        emit pointCountChanged(static_cast<int>(m_points.size()));
+    }
+    else if(m_pointPositonEditing)
+    {
+        m_pointPositonEditing= false;
+        emit pointPositionEditFinished(m_modifiedPointIdx, pointAt(static_cast<quint64>(m_modifiedPointIdx)));
         m_modifiedPointIdx= -1;
     }
 }

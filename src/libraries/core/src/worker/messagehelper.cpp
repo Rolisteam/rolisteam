@@ -780,12 +780,10 @@ void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
         msg.uint64(static_cast<quint64>(points.size()));
         msg.uint8(static_cast<quint8>(pair.second));
 
-        std::for_each(points.begin(), points.end(),
-                      [&msg](const QPointF& p)
-                      {
-                          msg.real(p.x());
-                          msg.real(p.y());
-                      });
+        std::for_each(points.begin(), points.end(), [&msg](const QPointF& p) {
+            msg.real(p.x());
+            msg.real(p.y());
+        });
     }
 }
 
@@ -1218,7 +1216,7 @@ void MessageHelper::sendOffRect(const vmap::RectController* ctrl, const QString&
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    msg.uint8(ctrl->itemType());
+    // msg.uint8(ctrl->itemType());
     addRectController(ctrl, msg);
     msg.sendToServer();
 }
@@ -1241,7 +1239,7 @@ void MessageHelper::sendOffText(const vmap::TextController* ctrl, const QString&
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    msg.uint8(ctrl->itemType());
+    // msg.uint8(ctrl->itemType());
     addTextController(ctrl, msg);
     msg.sendToServer();
 }
@@ -1250,7 +1248,7 @@ void MessageHelper::sendOffLine(const vmap::LineController* ctrl, const QString&
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    msg.uint8(ctrl->itemType());
+    // msg.uint8(ctrl->itemType());
     addLineController(ctrl, msg);
     msg.sendToServer();
 }
@@ -1259,7 +1257,7 @@ void MessageHelper::sendOffEllispe(const vmap::EllipseController* ctrl, const QS
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    msg.uint8(ctrl->itemType());
+    // msg.uint8(ctrl->itemType());
     addEllipseController(ctrl, msg);
     msg.sendToServer();
 }
@@ -1267,7 +1265,7 @@ void MessageHelper::sendOffPath(const vmap::PathController* ctrl, const QString&
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    msg.uint8(ctrl->itemType());
+    // msg.uint8(ctrl->itemType());
     addPathController(ctrl, msg);
     msg.sendToServer();
 }
@@ -1275,7 +1273,7 @@ void MessageHelper::sendOffImage(const vmap::ImageController* ctrl, const QStrin
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    msg.uint8(ctrl->itemType());
+    // msg.uint8(ctrl->itemType());
     addImageController(ctrl, msg);
     msg.sendToServer();
 }
@@ -1283,7 +1281,7 @@ void MessageHelper::sendOffCharacter(const vmap::CharacterItemController* ctrl, 
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    msg.uint8(ctrl->itemType());
+    // msg.uint8(ctrl->itemType());
     addCharacterController(ctrl, msg);
     msg.sendToServer();
 }

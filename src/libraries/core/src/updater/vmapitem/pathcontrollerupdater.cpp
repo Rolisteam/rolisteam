@@ -49,22 +49,27 @@ void PathControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
     connect(pathCtrl, &vmap::PathController::filledChanged, this,
             [this, pathCtrl]() { sendOffVMapChanges<bool>(pathCtrl, QStringLiteral("filled")); });
 
-    connect(pathCtrl, &vmap::PathController::pointPositionEditFinished, this,
-            [pathCtrl](int idx, const QPointF& pos)
-            {
-                if(idx < 0)
-                    return;
-                NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MovePoint);
-                msg.string8(pathCtrl->mapUuid());
-                msg.uint8(pathCtrl->itemType());
-                msg.string8(pathCtrl->uuid());
-                msg.int64(idx);
-                msg.real(pos.x());
-                msg.real(pos.y());
-                msg.sendToServer();
-            });
+    connect(pathCtrl, &vmap::PathController::pointPositionEditFinished, this, [pathCtrl](int idx, const QPointF& pos) {
+        if(idx < 0)
+            return;
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MovePoint);
+        msg.string8(pathCtrl->mapUuid());
+        msg.uint8(pathCtrl->itemType());
+        msg.string8(pathCtrl->uuid());
+        msg.int64(idx);
+        msg.real(pos.x());
+        msg.real(pos.y());
+        msg.sendToServer();
+    });
+
     if(!ctrl->remote())
-        MessageHelper::sendOffPath(pathCtrl, pathCtrl->mapUuid());
+    {
+        if(pathCtrl->penLine())
+            connect(pathCtrl, &vmap::PathController::initializedChanged, this,
+                    [pathCtrl]() { MessageHelper::sendOffPath(pathCtrl, pathCtrl->mapUuid()); });
+        else
+            MessageHelper::sendOffPath(pathCtrl, pathCtrl->mapUuid());
+    }
 }
 
 bool PathControllerUpdater::movePoint(NetworkMessageReader* msg, vmap::PathController* ctrl)
