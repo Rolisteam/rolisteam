@@ -71,111 +71,31 @@ class RWIDGET_EXPORT VMap : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    /**
-     * @brief default constructor
-     */
     explicit VMap(VectorialMapController* ctrl, QObject* parent= nullptr);
-    /**
-     * @brief itemsBoundingRectWithoutSight
-     * @return
-     */
     QRectF itemsBoundingRectWithoutSight();
-    /**
-     * @brief addCharacter
-     * @param p
-     * @param pos
-     */
-    // void addCharacter(Character* p, QPointF pos);
-
-    /**
-     * @brief manageAnchor
-     */
     void manageAnchor();
-    /**
-     * @brief isIdle
-     * @return
-     */
     bool isIdle() const;
-    /**
-     * @brief setAnchor
-     * @param child
-     * @param parent
-     */
     void setAnchor(QGraphicsItem* child, QGraphicsItem* parent);
-    /**
-     * @brief setCurrentLayer
-     * @param currentLayer
-     */
     void updateLayer();
-
     const QString& getLocalUserId() const;
     int getCurrentNpcNumber() const;
-
     void removeItemFromData(VisualItem* item);
-
     void setUndoStack(QUndoStack* undoStack);
     void addCommand(QUndoCommand* cmd);
     bool isNormalItem(const QGraphicsItem* item);
 
 public slots:
-    /**
-     * @brief defines the current color for painting
-     * @param new color
-     */
-    // void setCurrentChosenColor(QColor&);
-    /**
-     * @brief removeItemFromScene
-     */
-    // void removeItemFromScene(QString, bool sendToAll= true, bool undoable= true);
-    /**
-     * @brief VMap::computePattern
-     */
     void computePattern();
-    /**
-     * @brief duplicateItem
-     * @param item
-     */
     void duplicateItem(VisualItem* item);
-    /**
-     * @brief getCharacterOnMap
-     * @param id
-     * @return
-     */
     QList<CharacterItem*> getCharacterOnMap(QString id);
-    /**
-     * @brief changeStackOrder triggered when VisualItem should change its z order. It recompute the zvalue of all
-     * items.
-     * @param item to move
-     * @param op operation to be done.
-     */
-    // void changeStackOrder(VisualItem* item, VectorialMapController::StackOrder op);
-    /**
-     * @brief setCurrentItemOpacity
-     */
     void setCurrentItemOpacity(qreal);
-    /**
-     * @brief selectionHasChanged
-     */
     void selectionHasChanged();
-    /**
-     * @brief processLayerMessage
-     * @param msg
-     */
-    // void processLayerMessage(NetworkMessageReader* msg);
-    /**
-     * @brief ownerHasChangedForCharacterItem
-     * @param item
-     * @param cItem
-     */
     void ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem);
     void showTransparentItems();
     void cleanUpInit(Core::CharacterScope zone);
     void rollInit(Core::CharacterScope zone);
 signals:
     void mapChanged();
-    /**
-     * @brief mapStatutChanged
-     */
     void mapStatutChanged();
     void currentItemOpacity(qreal);
     void runDiceCommandForCharacter(QString cmd, QString uuid);
@@ -186,46 +106,14 @@ private slots:
     void insertCharacterInMap(CharacterItem* item);
 
 protected:
-    /**
-     * @brief catches move event with the mouse, useful for allowing move of item
-     */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    /**
-     * @brief catches mouse Press event, defines the first point of the next added item.
-     */
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    /**
-     * @brief  catches release event, defines the last point of the next added item.
-     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    /**
-     * @brief keyPressEvent
-     * @param event
-     */
     virtual void keyPressEvent(QKeyEvent* event);
-    /**
-     * @brief adds item depending of the current tool.
-     */
     void insertItem(const QPointF& end);
-
-    /**
-     * @brief dragEnterEvent
-     * @param event
-     */
     void dragEnterEvent(QGraphicsSceneDragDropEvent* event);
-    /**
-     * @brief dropEvent
-     * @param event
-     */
     void dropEvent(QGraphicsSceneDragDropEvent* event);
-    /**
-     * @brief dragMoveEvent
-     * @param event
-     */
     void dragMoveEvent(QGraphicsSceneDragDropEvent* event);
-    /**
-     * @brief ensureFogAboveAll
-     */
     void ensureFogAboveAll();
     bool isItemStorable(VisualItem* item);
 

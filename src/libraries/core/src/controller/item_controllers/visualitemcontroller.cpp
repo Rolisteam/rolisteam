@@ -70,7 +70,6 @@ void VisualItemController::initializedVisualItem(const std::map<QString, QVarian
     if(params.end() != params.find(Core::vmapkeys::KEY_VISIBLE))
     {
         m_visible= params.at(Core::vmapkeys::KEY_VISIBLE).toBool();
-        qDebug() << "setVisible to " << m_visible << "in initilazied";
     }
 
     if(params.end() != params.find(Core::vmapkeys::KEY_INITIALIZED))

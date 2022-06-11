@@ -118,41 +118,7 @@ void RectItem::setNewEnd(const QPointF& p)
     m_ctrl->setCorner(p, 2);
 }
 
-void RectItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    /*auto rect= m_rectCtrl->rect();
-    switch(static_cast<int>(pointId))
-    {
-    case 0:
-        rect.setTopLeft(pos);
-        m_children.value(1)->setPos(rect.topRight());
-        m_children.value(2)->setPos(rect.bottomRight());
-        m_children.value(3)->setPos(rect.bottomLeft());
-        break;
-    case 1:
-        rect.setTopRight(pos);
-        m_children.value(0)->setPos(rect.topLeft());
-        m_children.value(2)->setPos(rect.bottomRight());
-        m_children.value(3)->setPos(rect.bottomLeft());
-        break;
-    case 2:
-        rect.setBottomRight(pos);
-        m_children.value(0)->setPos(rect.topLeft());
-        m_children.value(1)->setPos(rect.topRight());
-        m_children.value(3)->setPos(rect.bottomLeft());
-        break;
-    case 3:
-        rect.setBottomLeft(pos);
-        m_children.value(0)->setPos(rect.topLeft());
-        m_children.value(1)->setPos(rect.topRight());
-        m_children.value(2)->setPos(rect.bottomRight());
-        break;
-    default:
-        break;
-    }
-    setTransformOriginPoint(rect.center());*/
-    // updateChildPosition();
-}
+void RectItem::setGeometryPoint(qreal pointId, QPointF& pos) {}
 
 void RectItem::initChildPointItem() {}
 
@@ -180,10 +146,6 @@ void RectItem::updateChildPosition()
 }
 VisualItem* RectItem::getItemCopy()
 {
-    /*QPointF topLeft= m_rect.topLeft();
-    QPointF bottomRight= m_rect.bottomRight();*/
-    /*RectItem* rectItem= new RectItem(topLeft, bottomRight, m_filled, m_penWidth, m_color);
-    rectItem->setPos(pos());*/
     return nullptr;
     //  return rectItem;
 }

@@ -22,13 +22,13 @@
 
 #include "controller/item_controllers/visualitemcontroller.h"
 #include <QAbstractListModel>
+#include <core_global.h>
 #include <memory>
 #include <vector>
-#include <core_global.h>
 namespace vmap
 {
 
-class  CORE_EXPORT VmapItemModel : public QAbstractListModel
+class CORE_EXPORT VmapItemModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool modified READ modified WRITE setModifiedToAllItem NOTIFY modifiedChanged)

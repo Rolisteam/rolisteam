@@ -38,41 +38,6 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
             qDebug() << "Errors: " << ui->m_quickWidget->errors();
     });
 
-    /*m_model= m_ctrl->networkController()->profileModel();
-    ui->m_profileList->setModel(m_model);
-    ui->m_progressBar->setVisible(false);
-
-    ui->m_rootDirCampEdit->setPath(QDir::homePath());
-    ui->m_rootDirCampEdit->setMode(true);
-
-    connect(ui->m_profileList->selectionModel(), &QItemSelectionModel::currentChanged, this,
-            [this](const QModelIndex& selected, const QModelIndex&) {
-                setCurrentProfile(selected);
-                ui->m_cloneProfileAct->setEnabled(selected.isValid());
-            });
-    connect(ui->m_profileList, &QListView::doubleClicked, this, &SelectConnectionProfileDialog::connectToIndex);
-    connect(ui->m_playerAvatarAct, &QAction::triggered, this, &SelectConnectionProfileDialog::selectPlayerAvatar);
-    connect(ui->m_cloneProfileAct, &QAction::triggered, this, &SelectConnectionProfileDialog::cloneProfile);
-    connect(m_ctrl, &GameController::dataLoaded, this, [this]() { setState(State::LOADED); });
-
-    ui->m_avatarPlayer->setDefaultAction(ui->m_playerAvatarAct);
-
-    ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
-    setCurrentProfile(ui->m_profileList->currentIndex());
-    ui->m_addCharacterBtn->setDefaultAction(ui->m_addCharacterAct);
-    ui->m_cloneProfileBtn->setDefaultAction(ui->m_cloneProfileAct);
-    ui->m_removeCharacterBtn->setDefaultAction(ui->m_removeCharacterAct);
-    ui->m_characterList->setModel(m_characterModel.get());
-    auto vh= ui->m_characterList->horizontalHeader();
-    vh->resizeSection(0, 50);
-
-    connect(ui->m_addCharacterAct, &QAction::triggered, m_characterModel.get(), &CharacterDataModel::insertCharacter);
-    connect(ui->m_removeCharacterAct, &QAction::triggered, this, [this]() {
-        auto idx= ui->m_characterList->currentIndex();
-        if(idx.isValid())
-            m_characterModel->removeCharacter(idx);
-    });*/
-
     qRegisterMetaType<ProfileModel*>("ProfileModel*");
     qRegisterMetaType<CharacterDataModel*>("CharacterDataModel*");
     qmlRegisterSingletonInstance<SelectConnProfileController>("Profile", 1, 0, "ProfileController", m_ctrl.get());

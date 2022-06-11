@@ -308,23 +308,6 @@ void VisualItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 void VisualItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     m_ctrl->endGeometryChange();
-    /*if(!m_pointList.isEmpty())
-    {
-        sendPositionMsg();
-        m_pointList.clear();
-    }*/
-
-    /*if(m_resizing)
-    {
-        sendRectGeometryMsg();
-        m_resizing= false;
-    }
-
-    if(m_rotating)
-    {
-        sendRotationMsg();
-        m_rotating= false;
-    }*/
 }
 
 void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)

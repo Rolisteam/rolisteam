@@ -457,16 +457,12 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
         if(Core::EditionMode::Painting == m_ctrl->editionMode())
         {
             m_currentItem->endOfGeometryChange(ChildPointItem::Resizing);
-            // sendOffItem(m_currentItem);
         }
         else
         {
             auto poly= m_currentItem->shape().toFillPolygon();
             poly= poly.translated(m_currentItem->pos());
             m_ctrl->changeFogOfWar(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
-            /*QPolygonF* poly= new QPolygonF();
-            m_currentFog= m_sightItem->addFogPolygon(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
-            sendItemToAll(m_sightItem);*/
             if(nullptr == m_currentPath)
             {
                 removeItem(m_currentItem);
@@ -475,9 +471,6 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if((nullptr != m_currentPath) && (Core::EditionMode::Painting != m_ctrl->editionMode()))
     {
-        /*QPolygonF* poly= new QPolygonF();
-        *poly= m_currentPath->shape().toFillPolygon();
-        m_currentFog->setPolygon(poly);*/
         auto poly= m_currentPath->shape().toFillPolygon();
         m_ctrl->changeFogOfWar(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
         update();
