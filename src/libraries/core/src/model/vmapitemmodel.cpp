@@ -129,23 +129,20 @@ void vmap::VmapItemModel::setModifiedToAllItem(bool b)
                   [b](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) { itemCtrl->setModified(b); });
 }
 
-bool vmap::VmapItemModel::removeItemController(const QString& uuid)
+bool vmap::VmapItemModel::removeItemController(const QSet<QString>& ids)
 {
-    auto it= std::find_if(std::begin(m_items), std::end(m_items),
-                          [uuid](const std::unique_ptr<vmap::VisualItemController>& itemCtrl)
-                          { return uuid == itemCtrl->uuid(); });
-
-    if(it == std::end(m_items))
-        return false;
-
-    auto pos= static_cast<int>(std::distance(std::begin(m_items), it));
-
-    beginRemoveRows(QModelIndex(), pos, pos);
-    (*it)->aboutToBeRemoved();
-    m_items.erase(it);
-    endRemoveRows();
-
-    return true;
+    auto s= m_items.size();
+    beginResetModel();
+    m_items.erase(std::remove_if(std::begin(m_items), std::end(m_items),
+                                 [ids](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) {
+                                     auto res= ids.contains(itemCtrl->uuid());
+                                     if(res)
+                                         itemCtrl->aboutToBeRemoved();
+                                     return res;
+                                 }),
+                  std::end(m_items));
+    endResetModel();
+    return s < m_items.size();
 }
 
 void vmap::VmapItemModel::clearData()
@@ -168,9 +165,9 @@ std::vector<VisualItemController*> VmapItemModel::items() const
 
 VisualItemController* VmapItemModel::item(const QString& id) const
 {
-    auto it= std::find_if(std::begin(m_items), std::end(m_items),
-                          [id](const std::unique_ptr<vmap::VisualItemController>& itemCtrl)
-                          { return id == itemCtrl->uuid(); });
+    auto it= std::find_if(
+        std::begin(m_items), std::end(m_items),
+        [id](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) { return id == itemCtrl->uuid(); });
 
     if(it == std::end(m_items))
         return nullptr;

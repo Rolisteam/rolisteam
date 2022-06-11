@@ -141,7 +141,7 @@ public:
     QString layerToText(Core::Layer id);
     QString addItemController(const std::map<QString, QVariant>& params);
     void addRemoteItem(vmap::VisualItemController* ctrl);
-    void removeItemController(const QString& uuid);
+    void removeItemController(const QSet<QString>& ids);
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
     bool pasteData(const QMimeData& data) override;
     void setDiceParser(DiceRoller* parser);

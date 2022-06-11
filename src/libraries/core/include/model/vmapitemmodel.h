@@ -61,7 +61,7 @@ public:
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
     bool appendItemController(vmap::VisualItemController* item);
-    bool removeItemController(const QString& uuid);
+    bool removeItemController(const QSet<QString>& ids);
 
     void clearData();
 

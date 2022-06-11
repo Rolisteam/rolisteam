@@ -34,9 +34,13 @@ DeleteVmapItemCommand::DeleteVmapItemCommand(VectorialMapController* ctrl,
 void DeleteVmapItemCommand::redo()
 {
     qInfo() << QStringLiteral("redo command DeleteVmapItemCommand: %1 ").arg(text());
+    QSet<QString> ids;
+    std::transform(std::begin(m_itemCtrls), std::end(m_itemCtrls), std::inserter(ids, ids.end()),
+                   [](vmap::VisualItemController* itemCtrl) { return itemCtrl->uuid(); });
 
-    std::for_each(m_itemCtrls.begin(), m_itemCtrls.end(),
-                  [this](vmap::VisualItemController* itemCtrl) { m_ctrl->removeItemController(itemCtrl->uuid()); });
+    m_ctrl->removeItemController(ids);
+
+    // std::for_each(std::begin(ids), std::end(ids), [this](const QString& id) { });
 }
 
 void DeleteVmapItemCommand::undo()

@@ -637,7 +637,7 @@ void VectorialMapController::cleanUpInit(Core::CharacterScope scope)
     emit performCommand(new CleanUpRollCommand(list));
 }
 
-void VectorialMapController::removeItemController(const QString& uuid)
+void VectorialMapController::removeItemController(const QSet<QString>& ids)
 {
-    m_vmapModel->removeItemController(uuid);
+    m_vmapModel->removeItemController(ids);
 }

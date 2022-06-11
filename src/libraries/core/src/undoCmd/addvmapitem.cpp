@@ -53,7 +53,7 @@ void AddVmapItemCommand::undo()
 {
     if(m_model.isNull())
         return;
-    m_model->removeItemController(m_uuid);
+    m_model->removeItemController({m_uuid});
 }
 void AddVmapItemCommand::redo()
 {
