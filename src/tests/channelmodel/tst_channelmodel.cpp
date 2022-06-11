@@ -26,7 +26,8 @@
 
 #include "network/channel.h"
 #include "network/channelmodel.h"
-#include "network/tcpclient.h"
+#include "network/clientconnection.h"
+#include "network/serverconnection.h"
 #include "worker/networkhelper.h"
 
 class TestChannelModel : public QObject
@@ -109,9 +110,9 @@ void TestChannelModel::moveTest()
     auto idC2= m_model->addChannel("channel2", "password");
     QCOMPARE(m_model->rowCount(QModelIndex()), 2);
 
-    TcpClient client(nullptr, nullptr);
+    ServerConnection client(nullptr, nullptr);
     client.setIsAdmin(true);
-    auto id= client.getId();
+    auto id= client.uuid();
     m_model->setLocalPlayerId(id);
     m_model->addConnectionToDefaultChannel(&client);
     auto channel= m_model->getItemById(idC);

@@ -165,6 +165,7 @@
 #include "network/channel.h"
 #include "network/channelmodel.h"
 #include "network/characterdatamodel.h"
+#include "network/clientconnection.h"
 #include "network/clientmanager.h"
 #include "network/connectionaccepter.h"
 #include "network/connectionprofile.h"
@@ -173,7 +174,6 @@
 #include "network/iprangeaccepter.h"
 #include "network/messagedispatcher.h"
 #include "network/network_type.h"
-#include "network/networklink.h"
 #include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -181,8 +181,7 @@
 #include "network/passwordaccepter.h"
 #include "network/receiveevent.h"
 #include "network/rserver.h"
-#include "network/servermanager.h"
-#include "network/tcpclient.h"
+#include "network/serverconnection.h"
 #include "network/timeaccepter.h"
 #include "network/treeitem.h"
 #include "preferences/preferenceslistener.h"
@@ -461,8 +460,10 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new UpdateChecker({}));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new session::SessionItemModel());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new AudioPlayerUpdater(nullptr, nullptr));
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ServerManagerUpdater(nullptr));
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ServerManagerUpdater(new ServerManager()));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ServerManagerUpdater(nullptr, true));
+    QMap<QString, QVariant> params;
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(
+        new ServerManagerUpdater(new ServerConnectionManager(params), true));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(
         new campaign::CampaignUpdater(nullptr, new campaign::Campaign())); // 100
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new CharacterSheetUpdater({}));
@@ -492,10 +493,10 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ClientManager());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ConnectionProfile());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new MessageDispatcher());
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new NetworkLink());
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new RServer(1));
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ServerManager());
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new TcpClient(nullptr));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ServerConnection(nullptr));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new RServer(params, true));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ServerConnectionManager(params));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new ClientConnection());
     // QTest::addRow("obj%d", i++) << new TreeItem();
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new DiceRoller());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new InstantMessaging::CommandMessage({}, {}, {}));
