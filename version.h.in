@@ -23,11 +23,11 @@
 // clang-format off
 namespace version
 {
-constexpr int major{@VERSION_MAJOR@};
-constexpr int middle{@VERSION_MIDDLE@};
-constexpr int minor{@VERSION_MINOR@};
+constexpr int major{@PROJECT_VERSION_MAJOR@};
+constexpr int minor{@PROJECT_VERSION_MINOR@};
+constexpr int path{@PROJECT_VERSION_PATCH@};
 
-constexpr char const* rolisteam{"@VERSION_MAJOR@.@VERSION_MIDDLE@.@VERSION_MINOR@"};
+constexpr char const* version{"@PROJECT_VERSION@"};
 }
 // clang-format on
 #endif // VERSION_H

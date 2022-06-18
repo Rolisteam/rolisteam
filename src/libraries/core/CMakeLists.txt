@@ -210,7 +210,6 @@ set(HEADERS
   ${inc}/undoCmd/removemediacontrollercommand.h
   ${inc}/undoCmd/showtransparentitemcommand.h
   ${inc}/undoCmd/rollinitcommand.h
-
   ${inc}/updater/controller/audioplayerupdater.h
   ${inc}/updater/media/campaignupdater.h
   ${inc}/updater/media/charactersheetupdater.h
@@ -240,7 +239,7 @@ set(HEADERS
   ${inc}/worker/networkdownloader.h
   ${inc}/worker/utilshelper.h
   ${inc}/worker/vectorialmapmessagehelper.h
-)
+  ${inc}/worker/characterfinder.h)
 
 
 set(SOURCES
@@ -344,7 +343,6 @@ set(SOURCES
   src/undoCmd/removelocalcharactercommand.cpp
   src/undoCmd/removemediacontrollercommand.cpp
   src/undoCmd/showtransparentitemcommand.cpp
-
   src/updater/controller/audioplayerupdater.cpp
   src/updater/media/campaignupdater.cpp
   src/updater/media/charactersheetupdater.cpp
@@ -373,16 +371,14 @@ set(SOURCES
   src/worker/networkdownloader.cpp
   src/worker/utilshelper.cpp
   src/worker/vectorialmapmessagehelper.cpp
-)
+  src/worker/characterfinder.cpp)
 
-add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${pdfHeader} ${QRC_SOURCES})
-set_target_properties(core PROPERTIES PUBLIC_HEADER "${HEADERS} ${pdfHeader}")
+add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${QRC_SOURCES})
+set_target_properties(core PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_compile_definitions(core PRIVATE CORE_LIBRARY)
 target_compile_definitions(core PUBLIC _USE_MATH_DEFINES)
 target_link_libraries(core
   PUBLIC
-    project_warnings
-    project_options
     Qt6::Core
     Qt6::Network
     Qt6::Multimedia
@@ -414,6 +410,11 @@ set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/core_autogen/mocs_compi
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/network_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 
 
-install(TARGETS core network
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib)
+#install(TARGETS core network
+#    RUNTIME DESTINATION bin
+#    LIBRARY DESTINATION lib)
+
+include(install_helper)
+rinstallLib(core rolisteam)
+rinstallLib(network network)
+

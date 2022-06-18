@@ -30,8 +30,10 @@ target_include_directories(qml_views PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
 
 
 
-  include(GNUInstallDirs)
+#include(GNUInstallDirs)
 
-  install(TARGETS qml_views
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#install(TARGETS qml_views
+#  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+include(install_helper)
+rinstallLib(qml_views rolisteam)

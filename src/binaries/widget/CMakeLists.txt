@@ -28,7 +28,7 @@ set(HEADERS
 set(UIS mainwindow.ui)
 
 
-find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools Scxml MultimediaWidgets Multimedia)
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Quick3D LinguistTools Scxml MultimediaWidgets Multimedia)
 
 set(RESOURCE_FILES ${CMAKE_SOURCE_DIR}/rolisteam.qrc)
 
@@ -40,9 +40,13 @@ add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ${RESOURCE_FILES} ${QT_SCX
 target_include_directories(rolisteam PRIVATE ../../libraries ${CMAKE_BINARY_DIR})
 
 
-target_link_libraries(rolisteam PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::MultimediaWidgets Qt6::Multimedia Qt6::Scxml PRIVATE core rwidgets common_core common_widget common_qml instantmessaging charactersheet_widgets diceparser_qobject utils rmindmap qml_views qml_components network)
+target_link_libraries(rolisteam PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::MultimediaWidgets Qt6::Multimedia Qt6::Scxml Qt6::Quick3D PRIVATE core rwidgets common_core common_widget common_qml instantmessaging charactersheet_widgets diceparser_qobject utils rmindmap qml_views qml_components network)
 
-install(TARGETS rolisteam
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#install(TARGETS rolisteam
+#        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+
+include(install_helper)
+rinstallRT(rolisteam rolisteam)

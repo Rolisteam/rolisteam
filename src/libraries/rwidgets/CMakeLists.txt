@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 
-find_package(Qt6 COMPONENTS REQUIRED Core Widgets Gui Svg Multimedia Xml Quick Qml QuickWidgets WebEngineWidgets QuickControls2 MultimediaWidgets Multimedia Pdf PdfWidgets OpenGLWidgets WebEngineCore)
+find_package(Qt6 COMPONENTS REQUIRED Core Widgets Gui Svg Multimedia Xml Quick Qml QuickWidgets WebEngineWidgets Quick3D QuickControls2 MultimediaWidgets Multimedia Pdf PdfWidgets OpenGLWidgets WebEngineCore)
 
 set(HEADERS
   rwidgets_global.h
@@ -252,14 +252,12 @@ set(UI_FILES
 
 set(QRC_SOURCES ${CMAKE_SOURCE_DIR}/rolisteam.qrc editors/noteeditor/src/textedit.qrc gmtoolbox/NameGenerator/resources/resources.qrc)
 
-add_library(rwidgets SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${QRC_SOURCES} ${pdfSource} ${pdfHeader} ${pdfUiFiles})
-set_target_properties(rwidgets PROPERTIES PUBLIC_HEADER "${HEADERS} ${pdfHeader}")
+add_library(rwidgets SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${QRC_SOURCES} ${pdfSource} ${pdfUiFiles})
+set_target_properties(rwidgets PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_compile_definitions(rwidgets PRIVATE RWIDGET_LIBRARY)
 
 target_link_libraries(rwidgets
     PUBLIC
-        project_warnings
-        project_options
         Qt6::Core
         Qt6::Gui
         Qt6::Svg
@@ -274,6 +272,7 @@ target_link_libraries(rwidgets
         Qt6::WebEngineWidgets
         Qt6::WebEngineCore
         Qt6::QuickControls2
+        Qt6::Quick3D
     PRIVATE
         core
         common_core
@@ -306,6 +305,8 @@ message(${CMAKE_CURRENT_BINARY_DIR})
 #set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/core_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 #set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/network_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 
-install(TARGETS rwidgets
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib)
+#install(TARGETS rwidgets
+ #   RUNTIME DESTINATION bin
+ #   LIBRARY DESTINATION lib)
+include(install_helper)
+rinstallLib(rwidgets rolisteam)

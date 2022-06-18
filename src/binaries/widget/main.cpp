@@ -95,7 +95,7 @@ Q_LOGGING_CATEGORY(rDice, "rolisteam.dice");
 int main(int argc, char* argv[])
 {
     // Application creation
-    RolisteamApplication app(QString("rolisteam"), version::rolisteam, argc, argv);
+    RolisteamApplication app(QString("rolisteam"), version::version, argc, argv);
 
     Q_INIT_RESOURCE(viewsqml);
     Q_INIT_RESOURCE(charactersheet);
@@ -114,6 +114,7 @@ int main(int argc, char* argv[])
     format.setStencilBufferSize(8);
     format.setSamples(8);
     QSurfaceFormat::setDefaultFormat(format);
+    //   QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat());
 
     // INIT STYLE
     QQuickStyle::setStyle(":/qml/rolistyle");

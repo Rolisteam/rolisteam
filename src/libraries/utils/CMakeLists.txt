@@ -38,8 +38,10 @@ target_include_directories(utils PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 
-  include(GNUInstallDirs)
+#  include(GNUInstallDirs)
 
-  install(TARGETS utils
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#  install(TARGETS utils
+#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+  include(install_helper)
+  rinstallLib(utils utils)

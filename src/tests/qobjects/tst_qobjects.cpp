@@ -602,7 +602,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new PathItem(nullptr));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new RectItem(nullptr));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new RuleItem(nullptr));
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new SightItem(nullptr, {}));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new SightItem(nullptr));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new TextItem(nullptr));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new RichTextEditDialog());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new TextLabel());

@@ -109,20 +109,24 @@ target_include_directories(rmindmap
 #    set_target_properties(rmindmap PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 #endif()
 
-install(TARGETS rmindmap
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#install(TARGETS rmindmap
+#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#   PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+include(install_helper)
+rinstallLib(rmindmap rolisteam)
 
 IF(BUILD_GUI)
     add_executable(rmindmap-gui ${mindmap_bin_src})
     target_link_libraries(rmindmap-gui PUBLIC rmindmap)
     target_include_directories(rmindmap-gui PRIVATE src)
 
-    install(TARGETS rmindmap-gui
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    #install(TARGETS rmindmap-gui
+    #    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    #   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #   PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    rinstallRT(rmindmap-gui mindmap)
 ENDIF()
+
 
 
 

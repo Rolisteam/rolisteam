@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 
     app.setOrganizationName("Rolisteam");
     app.setApplicationName(appName);
-    app.setApplicationVersion(version::rolisteam);
+    app.setApplicationVersion(version::version);
 
     // QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     // QString locale = QLocale::system().name();
