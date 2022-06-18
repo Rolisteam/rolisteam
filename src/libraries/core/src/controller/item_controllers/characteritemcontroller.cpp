@@ -25,10 +25,13 @@
 #include <QPainter>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "data/character.h"
 #include "data/characterstate.h"
 #include "utils/iohelper.h"
 #include "worker/iohelper.h"
+#include "worker/utilshelper.h"
+#include "worker/vectorialmapmessagehelper.h"
+
+#include "undoCmd/rollinitcommand.h"
 
 #define MARGING 1
 
@@ -46,13 +49,25 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     else
     {
         m_character= new Character();
-        m_character->setColor(m_color);
+        VectorialMapMessageHelper::fetchCharacter(params, m_character);
     }
     connect(m_character, &Character::stateIdChanged, this, &CharacterItemController::stateIdChanged);
     connect(m_character, &Character::npcChanged, this, &CharacterItemController::playableCharacterChanged);
     connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
     connect(m_character, &Character::colorChanged, this, [this]() { emit colorChanged(m_character->getColor()); });
     connect(m_character, &Character::avatarChanged, this, &CharacterItemController::computeThumbnail);
+    connect(m_character, &Character::hasInitScoreChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::initCommandChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::initiativeChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::currentHealthPointsChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::maxHPChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::minHPChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::distancePerTurnChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::lifeColorChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::nameChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::colorChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::avatarChanged, this, &CharacterItemController::setModified);
+
     connect(ctrl, &VectorialMapController::npcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
     connect(ctrl, &VectorialMapController::pcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
     connect(ctrl, &VectorialMapController::npcNumberVisibleChanged, this, &CharacterItemController::refreshTextRect);
@@ -64,17 +79,31 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     {
         m_tool= Core::SelectableTool::PlayableCharacter;
         m_vision.reset(new CharacterVision());
-    }
-    Q_ASSERT(m_character);
+        VectorialMapMessageHelper::fetchCharacterVision(params, m_vision.get());
+        ctrl->addVision(m_vision.get());
 
-    if(params.end() != params.find(Core::vmapkeys::KEY_SIDE))
+        auto updatePos= [this]() {
+            auto rect= thumnailRect();
+            auto p= pos() + rect.center(); // ;
+
+            m_vision->setPosition(p);
+        };
+
+        connect(this, &CharacterItemController::posChanged, m_vision.get(), updatePos);
+        connect(this, &CharacterItemController::sideChanged, m_vision.get(), updatePos);
+        connect(this, &CharacterItemController::rotationChanged, m_vision.get(), &CharacterVision::setRotation);
+        updatePos();
+    }
+
     {
-        setSide(params.at(Core::vmapkeys::KEY_SIDE).toDouble());
+        namespace hu= helper::utils;
+        namespace cv= Core::vmapkeys;
+        using std::placeholders::_1;
+
+        hu::setParamIfAny<qreal>(cv::KEY_SIDE, params, std::bind(&CharacterItemController::setSide, this, _1));
+
         m_rect= QRectF(0.0, 0.0, m_side, m_side);
     }
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_POS))
-        setPos(params.at(Core::vmapkeys::KEY_POS).toPointF());
 
     refreshTextRect();
     computeThumbnail();
@@ -97,7 +126,10 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     connect(this, &CharacterItemController::healthStatusVisibleChanged, this, [this] { setModified(); });
 }
 
-void CharacterItemController::aboutToBeRemoved() {}
+void CharacterItemController::aboutToBeRemoved()
+{
+    emit removeItem();
+}
 
 void CharacterItemController::endGeometryChange() {}
 
@@ -153,7 +185,24 @@ void CharacterItemController::setCorner(const QPointF& move, int corner)
         }
 
         break;
+    case DirectionHandle:
+    {
+        auto xmove= move.x();
+        auto r= m_vision->radius();
+        if((xmove + r) < (m_rect.width() / 2))
+        {
+            xmove= (m_rect.width() / 2) - r;
+        }
+        m_vision->setRadius(xmove + m_vision->radius());
     }
+    break;
+    case AngleHandle:
+    {
+        m_vision->setAngle(std::min(std::max(m_vision->angle() + (move.y() * -1), 0.), 360.));
+    }
+    break;
+    }
+
     rect.setCoords(x, y, x2, y2);
     if(!rect.isValid())
         rect= rect.normalized();
@@ -201,7 +250,7 @@ void CharacterItemController::setRect(const QRectF& rect)
 
 CharacterVision::SHAPE CharacterItemController::visionShape() const
 {
-    return m_vision ? m_vision->shape() : CharacterVision::SHAPE::ANGLE;
+    return m_vision ? m_vision->shape() : CharacterVision::ANGLE;
 }
 
 QRectF CharacterItemController::textRect() const
@@ -265,7 +314,8 @@ QPainterPath CharacterItemController::shape() const
     QPainterPath path;
     path.moveTo(0, 0);
     hasAvatar() ? path.addEllipse(thumnailRect().united(textRect())) :
-                  path.addRoundedRect(0, 0, m_side, m_side, m_side / m_radius, m_side / m_radius);
+                  path.addRoundedRect(m_rect.x(), m_rect.y(), m_rect.width(), m_rect.height(), m_side / m_radius,
+                                      m_side / m_radius);
     path.addRect(textRect());
     return path;
 }
@@ -377,9 +427,18 @@ void CharacterItemController::setStateId(const QString& id)
         m_character->setStateId(id);
 }
 
+void CharacterItemController::setRadius(qreal r)
+{
+    if(qFuzzyCompare(r, m_radius))
+        return;
+    m_radius= r;
+    emit radiusChanged(r);
+}
+
 void CharacterItemController::computeThumbnail()
 {
     int diam= static_cast<int>(m_side);
+
     m_thumb.reset(new QImage(diam, diam, QImage::Format_ARGB32));
     m_thumb->fill(Qt::transparent);
     QPainter painter(m_thumb.get());
@@ -405,5 +464,56 @@ void CharacterItemController::computeThumbnail()
 Character* CharacterItemController::character() const
 {
     return m_character;
+}
+const QList<CharacterAction*> CharacterItemController::actionList() const
+{
+    if(m_character)
+        return m_character->actionList();
+    return {};
+}
+const QList<CharacterShape*> CharacterItemController::shapeList() const
+{
+    if(m_character)
+        return m_character->shapeList();
+    return {};
+}
+const QList<CharacterProperty*> CharacterItemController::propertiesList() const
+{
+    if(m_character)
+        return m_character->propertiesList();
+    return {};
+}
+
+void CharacterItemController::runInit()
+{
+    m_ctrl->rollInit({this});
+}
+void CharacterItemController::cleanInit()
+{
+    m_ctrl->cleanUpInit({this});
+}
+void CharacterItemController::setShape(int index)
+{
+    if(m_character)
+        m_character->setCurrentShape(index);
+}
+void CharacterItemController::cleanShape()
+{
+    if(m_character)
+        m_character->setCurrentShape(nullptr);
+}
+
+void CharacterItemController::runCommand(int index)
+{
+    if(!m_character)
+        return;
+
+    auto list= m_character->actionList();
+
+    if(list.size() <= index)
+        return;
+
+    auto cmd= list[index];
+    m_ctrl->runDiceCommand({this}, cmd->command());
 }
 } // namespace vmap

@@ -38,7 +38,6 @@ class CORE_EXPORT SightController : public VisualItemController
     Q_PROPERTY(bool characterSight READ characterSight WRITE setCharacterSight NOTIFY characterSightChanged)
     Q_PROPERTY(QPainterPath fowPath READ fowPath NOTIFY fowPathChanged)
     Q_PROPERTY(QRectF rect READ rect WRITE setRect NOTIFY rectChanged)
-    // Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(int characterCount READ characterCount NOTIFY characterCountChanged) // only playable character
 public:
     SightController(VectorialMapController* ctrl, QObject* parent= nullptr);
@@ -52,25 +51,25 @@ public:
     QPainterPath fowPath() const;
     QRectF rect() const override;
     bool characterSight() const;
-    bool visible() const override;
-    const std::vector<CharacterVisionData> visionData() const;
+    const QList<QPointer<CharacterVision>>& visionData() const;
     const std::vector<std::pair<QPolygonF, bool>>& singularityList() const;
 
 public slots:
     void addPolygon(const QPolygonF& poly, bool mask);
+    void addCharacterVision(CharacterVision* vision);
+    void removeCharacterVision(CharacterVision* vision);
     void setRect(QRectF rect);
     void setCharacterSight(bool b);
-    void setVisible(bool vi);
 
 signals:
     void fowPathChanged();
     void rectChanged(QRectF r);
     void characterSightChanged();
-    void visibleChanged(bool v);
     void characterCountChanged();
 
 private:
     std::vector<std::pair<QPolygonF, bool>> m_fogSingularityList;
+    QList<QPointer<CharacterVision>> m_visions;
     bool m_characterSight= false;
     CharacterVision::SHAPE m_defaultShape= CharacterVision::ANGLE;
     QRectF m_rect= QRectF(0, 0, 1000, 1000);

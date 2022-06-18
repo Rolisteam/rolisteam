@@ -52,14 +52,6 @@ LineItem::LineItem(vmap::LineController* ctrl) : VisualItem(ctrl), m_lineCtrl(ct
     updateChildPosition();
 }
 
-/*LineItem::LineItem(const QPointF& p, const QColor& penColor, int penSize, QGraphicsItem* parent)
-    : VisualItem(penColor, penSize, parent)
-{
-    m_startPoint= p;
-    m_endPoint= p;
-    m_rect.setTopLeft(p);
-}*/
-
 void LineItem::setNewEnd(const QPointF& nend)
 {
     m_lineCtrl->setCorner(nend, 1);
@@ -68,8 +60,6 @@ void LineItem::setNewEnd(const QPointF& nend)
 QRectF LineItem::boundingRect() const
 {
     return m_lineCtrl->rect();
-    // return QRectF(m_lineCtrl->startPoint(), m_lineCtrl->endPoint()).normalized();
-    // return m_rect.normalized();
 }
 QPainterPath LineItem::shape() const
 {
@@ -121,25 +111,6 @@ void LineItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     }
 }
 
-void LineItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    /*  if(m_holdSize)
-          return;
-
-      auto pointInt= static_cast<int>(pointId);
-      if(pointInt == 0)
-      {
-          m_resizing= true;
-          m_lineCtrl->setStartPoint(pos);
-          //  m_rect.setTopLeft(m_startPoint);
-      }
-      else if(pointInt == 1)
-      {
-          m_resizing= true;
-          m_endPoint= pos;
-          //  m_rect.setBottomRight(m_endPoint);
-      }*/
-}
 void LineItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
     /*  m_rect.setX(x);
@@ -150,18 +121,12 @@ void LineItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
       m_startPoint= m_rect.topLeft();
       m_endPoint= m_rect.bottomRight();*/
 }
+
 void LineItem::updateChildPosition()
 {
     if(!m_lineCtrl)
         return;
-    // m_child= new QVector<ChildPointItem*>();
 
-    /*for(int i= 0; i < 2; ++i)
-    {
-         ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
-         tmp->setMotion(ChildPointItem::ALL);
-         m_children.append(tmp);
-    }*/
     m_children.value(0)->setPos(m_lineCtrl->startPoint());
     m_children.value(0)->setPlacement(ChildPointItem::Center);
     m_children.value(1)->setPos(m_lineCtrl->endPoint());
@@ -180,16 +145,7 @@ VisualItem* LineItem::getItemCopy()
 
      return line;*/
 }
-/*void LineItem::setHoldSize(bool holdSize)
-{
-    VisualItem::setHoldSize(holdSize);
-    for(auto child : m_children)
-    {
-        auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
 
-        child->setMotion(motion);
-    }
-}*/
 void LineItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     if(change == ChildPointItem::Resizing)

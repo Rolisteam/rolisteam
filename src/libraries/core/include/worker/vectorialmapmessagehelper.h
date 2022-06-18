@@ -28,7 +28,12 @@
 
 class VectorialMapController;
 class NetworkMessageReader;
-
+class Character;
+class CharacterVision;
+namespace vmap
+{
+class CharacterItemController;
+}
 class CORE_EXPORT VectorialMapMessageHelper
 {
 public:
@@ -38,11 +43,18 @@ public:
     static void sendOffNewItem(const std::map<QString, QVariant>& args, const QString& mapId);
     static void sendOffHighLight(const QPointF& p, const qreal& penSize, const QColor& color, const QString& mapId);
     static void readHighLight(VectorialMapController* ctrl, NetworkMessageReader* msg);
+    static void sendOffRemoveItems(const QStringList ids, const QString& mapId);
+    static QStringList readRemoveItems(NetworkMessageReader* msg);
 
     // read message items
     static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
     static QByteArray saveVectorialMap(VectorialMapController* ctrl);
     static void fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl);
+
+    // CharaterItem controller
+    static void fetchCharacterItem(const std::map<QString, QVariant>& params, vmap::CharacterItemController* ctrl);
+    static void fetchCharacter(const std::map<QString, QVariant>& params, Character* character);
+    static void fetchCharacterVision(const std::map<QString, QVariant>& params, CharacterVision* vision);
 };
 
 #endif // VECTORIALMAPMESSAGEHELPER_H

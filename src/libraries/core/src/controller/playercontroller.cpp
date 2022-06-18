@@ -29,6 +29,7 @@
 #include "network/receiveevent.h"
 #include "undoCmd/addlocalcharactercommand.h"
 #include "undoCmd/removelocalcharactercommand.h"
+#include "worker/characterfinder.h"
 #include "worker/messagehelper.h"
 #include "worker/playermessagehelper.h"
 
@@ -50,6 +51,8 @@ PlayerController::PlayerController(QObject* parent)
     ReceiveEvent::registerNetworkReceiver(NetMsg::PlayerCategory, this);
 
     m_characterModel->setSourceModel(m_model.get());
+    CharacterFinder::setPcModel(m_characterModel.get());
+
     connect(m_model.get(), &PlayerModel::gameMasterIdChanged, this, &PlayerController::gameMasterIdChanged);
     connect(m_localPlayer, &Player::uuidChanged, this, &PlayerController::localPlayerIdChanged);
     connect(m_localPlayer, &Player::uuidChanged, m_model.get(), &PlayerModel::setLocalPlayerId);

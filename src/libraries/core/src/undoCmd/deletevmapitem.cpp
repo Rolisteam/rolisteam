@@ -39,8 +39,6 @@ void DeleteVmapItemCommand::redo()
                    [](vmap::VisualItemController* itemCtrl) { return itemCtrl->uuid(); });
 
     m_ctrl->removeItemController(ids);
-
-    // std::for_each(std::begin(ids), std::end(ids), [this](const QString& id) { });
 }
 
 void DeleteVmapItemCommand::undo()
@@ -50,6 +48,5 @@ void DeleteVmapItemCommand::undo()
     std::for_each(m_itemCtrls.begin(), m_itemCtrls.end(), [this](vmap::VisualItemController* itemCtrl) {
         auto model= m_ctrl->model();
         model->itemControllerAdded(itemCtrl);
-        // manager->addController(itemCtrl);
     });
 }

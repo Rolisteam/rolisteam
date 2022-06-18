@@ -130,6 +130,7 @@ public:
     QStringList headers();
 
     QModelIndex indexFromUuid(const QString& id);
+    NonPlayableCharacter* characterFromUuid(const QString& id);
 
 signals:
     void characterAdded();

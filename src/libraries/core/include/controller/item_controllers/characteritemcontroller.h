@@ -28,6 +28,7 @@
 #include <QRectF>
 #include <memory>
 
+#include "data/character.h"
 #include "data/charactervision.h"
 #include "visualitemcontroller.h"
 #include <core_global.h>
@@ -36,14 +37,6 @@ class Character;
 class CharacterVision;
 namespace vmap
 {
-struct CORE_EXPORT CharacterVisionData
-{
-    QPointF pos;
-    qreal rotation;
-    CharacterVision* vision;
-    QPainterPath shape;
-    qreal radius;
-};
 class CORE_EXPORT CharacterItemController : public VisualItemController
 {
     Q_OBJECT
@@ -62,9 +55,17 @@ class CORE_EXPORT CharacterItemController : public VisualItemController
     Q_PROPERTY(QImage* avatar READ avatar NOTIFY avatarChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(CharacterVision* vision READ vision NOTIFY visionChanged)
-    Q_PROPERTY(qreal radius READ radius NOTIFY radiusChanged)
+    Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
     Q_PROPERTY(bool healthStatusVisible READ healthStatusVisible NOTIFY healthStatusVisibleChanged)
+    Q_PROPERTY(QList<CharacterAction*> actions READ actionList CONSTANT)
+    Q_PROPERTY(QList<CharacterShape*> shapes READ shapeList CONSTANT)
+    Q_PROPERTY(QList<CharacterProperty*> properties READ propertiesList CONSTANT)
 public:
+    enum AdditionControls
+    {
+        DirectionHandle= 4,
+        AngleHandle
+    };
     CharacterItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                             QObject* parent= nullptr);
 
@@ -93,6 +94,10 @@ public:
     QColor color() const override;
     QRectF rect() const override;
 
+    const QList<CharacterAction*> actionList() const;
+    const QList<CharacterShape*> shapeList() const;
+    const QList<CharacterProperty*> propertiesList() const;
+
     // accessor to Map properties
     bool healthStatusVisible() const;
 
@@ -105,6 +110,13 @@ public slots:
     void setTextRect(QRectF textRect);
     void setFont(const QFont& font);
     void setStateId(const QString& id);
+    void setRadius(qreal r);
+
+    void runInit();
+    void cleanInit();
+    void setShape(int index);
+    void cleanShape();
+    void runCommand(int index);
 
 signals:
     void sideChanged(qreal side);
@@ -120,9 +132,9 @@ signals:
     void avatarChanged();
     void fontChanged(QFont font);
     void radiusChanged(qreal radius);
-    void remoteChanged(bool);
-    void stateIdChanged(QString);
-    void stateImageChanged(QString);
+    void remoteChanged(bool r);
+    void stateIdChanged(QString s);
+    void stateImageChanged(QString si);
     void healthStatusVisibleChanged(bool);
 
 private:
@@ -134,12 +146,12 @@ private:
     QPointer<Character> m_character;
     std::unique_ptr<QImage> m_thumb;
     std::unique_ptr<CharacterVision> m_vision;
-    qreal m_side;
+    qreal m_side= 64;
     QColor m_stateColor;
     int m_number= 0;
     QRectF m_textRect;
     QFont m_font;
-    QRectF m_rect;
+    QRectF m_rect= {0, 0, 64, 64};
     qreal m_radius= 10.0;
 };
 } // namespace vmap

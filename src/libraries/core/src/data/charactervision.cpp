@@ -40,7 +40,7 @@ void CharacterVision::setRadius(qreal r)
     emit radiusChanged(m_radius);
 }
 
-void CharacterVision::setPosition(QPointF& p)
+void CharacterVision::setPosition(const QPointF& p)
 {
     if(p == m_pos)
         return;
@@ -132,3 +132,29 @@ void CharacterVision::readMessage(NetworkMessageReader* msg)
     m_radius= msg->real();
     m_angle= msg->real();
 }*/
+
+QPainterPath CharacterVision::path() const
+{
+    return m_path;
+}
+
+void CharacterVision::setPath(QPainterPath newPath)
+{
+    if (m_path == newPath)
+        return;
+    m_path = newPath;
+    emit pathChanged();
+}
+
+qreal CharacterVision::rotation() const
+{
+    return m_rotation;
+}
+
+void CharacterVision::setRotation(qreal newRotation)
+{
+    if (qFuzzyCompare(m_rotation, newRotation))
+        return;
+    m_rotation = newRotation;
+    emit rotationChanged();
+}

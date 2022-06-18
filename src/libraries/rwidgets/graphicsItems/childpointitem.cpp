@@ -44,8 +44,8 @@ bool allowRotation(ChildPointItem::Change change)
     return (change == ChildPointItem::None || change == ChildPointItem::Rotation);
 }
 
-ChildPointItem::ChildPointItem(vmap::VisualItemController* ctrl, int point, VisualItem* parent, bool isVision)
-    : QGraphicsObject(parent), m_ctrl(ctrl), m_pointId(point), m_parent(parent), m_vision(isVision)
+ChildPointItem::ChildPointItem(vmap::VisualItemController* ctrl, int point, VisualItem* parent, Control control)
+    : QGraphicsObject(parent), m_ctrl(ctrl), m_pointId(point), m_parent(parent), m_control(control)
 {
     m_editable= true;
     // connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(-m_ctrl->rotation());
@@ -349,11 +349,8 @@ int ChildPointItem::getPointID() const
 {
     return m_pointId;
 }
-bool ChildPointItem::isVisionHandler()
+
+ChildPointItem::Control ChildPointItem::control() const
 {
-    return m_vision;
-}
-void ChildPointItem::setVisionHandler(bool b)
-{
-    m_vision= b;
+    return m_control;
 }

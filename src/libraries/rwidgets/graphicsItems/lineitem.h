@@ -58,9 +58,7 @@ public:
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
     virtual void updateChildPosition() override;
-    void initChildPointItem() override {}
     virtual VisualItem* getItemCopy() override;
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
     void endOfGeometryChange(ChildPointItem::Change change) override;

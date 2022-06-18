@@ -92,8 +92,8 @@ public slots:
     void selectionHasChanged();
     void ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem);
     void showTransparentItems();
-    void cleanUpInit(Core::CharacterScope zone);
-    void rollInit(Core::CharacterScope zone);
+    // void cleanUpInit(Core::CharacterScope zone);
+    // void rollInit(Core::CharacterScope zone);
 signals:
     void mapChanged();
     void mapStatutChanged();

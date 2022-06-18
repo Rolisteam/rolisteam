@@ -47,6 +47,7 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
 
     connect(m_ctrl, &vmap::VisualItemController::posChanged, this, [this]() { setPos(m_ctrl->pos()); });
     connect(m_ctrl, &vmap::VisualItemController::removeItem, this, [this]() {
+        qDebug() << "**********************\nremove item from maps";
         scene()->removeItem(this);
         deleteLater();
     });
@@ -269,12 +270,14 @@ void VisualItem::manageAction()
 
 void VisualItem::addActionContextMenu(QMenu& menu)
 {
-    /// @brief must be implemented in child classes.
     menu.addAction(m_duplicateAct);
 }
 
 bool VisualItem::hasFocusOrChild()
 {
+    if(!m_ctrl)
+        return false;
+
     if(!m_ctrl->editable())
         return false;
 
@@ -294,7 +297,7 @@ bool VisualItem::hasFocusOrChild()
 
 bool VisualItem::isLocal() const
 {
-    return false;
+    return !m_ctrl->remote();
 }
 
 void VisualItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
@@ -325,21 +328,23 @@ VisualItem* VisualItem::promoteTo(vmap::VisualItemController::ItemType type)
 
 void VisualItem::setChildrenVisible(bool b)
 {
-    if((!b) || (canBeMoved()))
+    if(!b)
     {
+        std::for_each(std::begin(m_children), std::end(m_children),
+                      [](ChildPointItem* item) { item->setVisible(false); });
+        return;
+    }
 
-        for(auto& item : m_children)
-        {
-            bool isVisionAndFog= true; // (m_ctrl->visibility() == Core::FOGOFWAR) & m_ctrl->characterVision();
-            if((!item->isVisionHandler()) || (isVisionAndFog) || (!b))
-            {
-                item->setVisible(b);
-            }
-            else
-            {
-                item->setVisible(!b);
-            }
-        }
+    if(!canBeMoved())
+        return;
+
+    for(auto& item : m_children)
+    {
+        bool isVision= item->control() == ChildPointItem::Control::Vision;
+        bool hasFog= m_ctrl->visibility() == Core::FOGOFWAR;
+        bool isGeometry= item->control() == ChildPointItem::Control::Geometry;
+
+        item->setVisible(isGeometry || (isVision && hasFog));
     }
 }
 

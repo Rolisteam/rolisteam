@@ -108,6 +108,9 @@ QPainterPath vectorToFullPath(const std::vector<QPointF>& points, qreal penWidth
 
 PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ctrl)
 {
+    if(!m_pathCtrl)
+        return;
+
     connect(m_pathCtrl, &vmap::PathController::positionChanged, this, [this](int corner, QPointF pos) {
         if(m_children.empty())
             return;
@@ -116,11 +119,10 @@ PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ct
             m_children[corner]->setPos(pos);
         update();
     });
-
     connect(m_pathCtrl, &vmap::PathController::pointAdded, this, &PathItem::addChild);
 
     int i= 0;
-    if(m_pathCtrl && !m_pathCtrl->penLine())
+    if(!m_pathCtrl->penLine())
     {
         for(auto point : m_pathCtrl->points())
             addChild(point, i);
@@ -130,16 +132,6 @@ PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ct
     update();
 }
 
-/*PathItem::PathItem(const std::map<Core::Properties, QVariant>& properties,const QPointF& start, const QColor&
-penColor, int penSize, bool penMode, QGraphicsItem* parent) : VisualItem(properties), m_penMode(penMode),
-m_filled(false)
-{
-    m_closed= false;
-    setPos(start);
-    m_start= start;
-    m_end= m_start;
-    createActions();
-}*/
 QRectF PathItem::boundingRect() const
 {
     if(m_pathCtrl)
@@ -161,13 +153,7 @@ void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     setChildrenVisible(hasFocusOrChild());
 
     QPainterPath path= m_pathCtrl->path(); // vectorToPath(m_pathCtrl->points(), m_pathCtrl->closed());
-    /*if(!m_penMode)
-    {
-        if(!m_end.isNull())
-        {
-            path.lineTo(m_end - pos());
-        }
-    }*/
+
     painter->save();
     auto pen= painter->pen();
     pen.setColor(m_pathCtrl->color());
@@ -207,20 +193,6 @@ void PathItem::setNewEnd(const QPointF& p)
     else
         m_pathCtrl->setCorner(p, m_pathCtrl->pointCount());
 }
-void PathItem::release()
-{
-    /* if(!m_penMode)
-     {
-         if(m_end != m_start)
-         {
-             m_pointVector.append(m_end);
-             initChildPointItem();
-             update();
-             emit itemGeometryChanged(this);
-         }
-         m_end= QPointF();
-     }*/
-}
 
 void PathItem::createActions()
 {
@@ -237,7 +209,7 @@ void PathItem::addActionContextMenu(QMenu& menu)
 {
     menu.addAction(m_closeAct);
     menu.addAction(m_fillAct);
-    menu.addAction(m_duplicateAct);
+    VisualItem::addActionContextMenu(menu);
 }
 void PathItem::addPoint(const QPointF& point)
 {
@@ -256,72 +228,6 @@ void PathItem::addChild(const QPointF& point, int i)
     tmp->setPlacement(ChildPointItem::Center);
 }
 
-void PathItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    /*auto idx= static_cast<int>(pointId);
-
-    if(m_pointVectorBary.isEmpty() || m_pointVectorBary.size() <= idx)
-        return;
-
-    m_resizing= true;
-    m_changedPointId= pointId;
-    m_changedPointPos= pos;
-    m_pointVectorBary[idx]= pos;*/
-}
-
-/*void PathItem::setHoldSize(bool holdSize)
-{
-    VisualItem::setHoldSize(holdSize);
-    for(auto child : m_children)
-    {
-        auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
-
-        child->setMotion(motion);
-    }
-}*/
-
-void PathItem::initRealPoints()
-{
-    /* QPointF median= m_start;
-     for(auto& point : m_pointVector)
-     {
-         median= (median + point) / 2;
-     }
-     m_pointVectorBary.clear();
-     m_pointVectorBary.append(m_start - median);
-     for(auto& point : m_pointVector)
-     {
-         m_pointVectorBary.append(point - median);
-     }
-     setPos(median);*/
-}
-void PathItem::initChildPointItem()
-{
-    initRealPoints();
-
-    /* if(nullptr == m_child)
-     {
-         m_child= new QVector<ChildPointItem*>();
-     }
-     else
-     {
-         qDeleteAll(m_child->begin(), m_child->end());
-         m_child->clear();
-     }
-     if(!m_penMode)
-     {
-         int i= 0;
-         for(auto& p : m_pointVectorBary)
-         {
-             ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
-             tmp->setMotion(ChildPointItem::ALL);
-             m_child->append(tmp);
-             tmp->setPos(p);
-             tmp->setPlacement(ChildPointItem::Center);
-             ++i;
-         }
-     }*/
-}
 VisualItem* PathItem::getItemCopy()
 {
     /*PathItem* path= new PathItem();
@@ -334,24 +240,3 @@ VisualItem* PathItem::getItemCopy()
     path->setPos(pos());*/
     return nullptr; // path
 }
-
-void PathItem::setStartPoint(QPointF start)
-{
-    // m_start= start;
-}
-
-/*    if(m_ctrl->localGM() || (m_ctrl->permission() == Core::PC_ALL)
-void PathItem::sendPointPosition()
-{
-           || ((m_ctrl->permission() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER)
-               && (isLocal()))) // getOption PermissionMode
-        {
-            NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MovePoint);
-            msg.string8(m_mapId);
-            msg.string16(m_id);
-            msg.real(m_changedPointId);
-            msg.real(m_changedPointPos.x());
-            msg.real(m_changedPointPos.y());
-            msg.sendToServer();
-}
-        }*/

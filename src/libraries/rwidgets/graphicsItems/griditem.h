@@ -56,63 +56,27 @@ public:
      * @brief setNewEnd
      * @param nend
      */
-    virtual void setNewEnd(const QPointF& nend);
-    /**
-     * @brief writeData
-     * @param out
-     */
-    virtual void writeData(QDataStream& out) const;
-    /**
-     * @brief readData
-     * @param in
-     */
-    virtual void readData(QDataStream& in);
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    virtual void fillMessage(NetworkMessageWriter* msg);
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    virtual void readItem(NetworkMessageReader* msg);
-    /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
-    /**
-     * @brief initChildPointItem
-     */
-    virtual void initChildPointItem();
+    virtual void setNewEnd(const QPointF& nend) override;
+
     /**
      * @brief getItemCopy
      * @return
      */
-    virtual VisualItem* getItemCopy();
+    virtual VisualItem* getItemCopy() override;
     /**
      * @brief boundingRect
      * @return
      */
-    virtual QRectF boundingRect() const;
+    virtual QRectF boundingRect() const override;
     /**
      * @brief paint
      * @param painter
      * @param option
      * @param widget
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    /**
-     * @brief updateChildPosition
-     */
-    void updateChildPosition();
-    /**
-     * @brief createActions
-     */
-    void createActions();
-    virtual void updateItemFlags();
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
+    virtual void updateItemFlags() override;
 
 private:
     QPointer<vmap::GridController> m_gridCtrl;

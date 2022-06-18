@@ -21,6 +21,7 @@
 
 #include <QByteArray>
 #include <QDataStream>
+#include <QPointF>
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -35,8 +36,12 @@
 #include "controller/item_controllers/textcontroller.h"
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "data/character.h"
+#include "data/charactervision.h"
 #include "model/vmapitemmodel.h"
+#include "worker/characterfinder.h"
 #include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 
 VectorialMapMessageHelper::VectorialMapMessageHelper() {}
 
@@ -67,6 +72,29 @@ void VectorialMapMessageHelper::sendOffHighLight(const QPointF& p, const qreal& 
     msg.string8(color.name());
 
     msg.sendToServer();
+}
+
+void VectorialMapMessageHelper::sendOffRemoveItems(const QStringList ids, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::DeleteItem);
+    msg.string8(mapId);
+    msg.uint64(ids.size());
+    for(auto const& id : ids)
+    {
+        msg.string8(id);
+    }
+    msg.sendToServer();
+}
+
+QStringList VectorialMapMessageHelper::readRemoveItems(NetworkMessageReader* msg)
+{
+    auto size= msg->uint64();
+    QStringList res;
+    for(unsigned int i= 0; i < size; ++i)
+    {
+        res << msg->string8();
+    }
+    return res;
 }
 
 void VectorialMapMessageHelper::readHighLight(VectorialMapController* ctrl, NetworkMessageReader* msg)
@@ -455,89 +483,231 @@ std::map<QString, QVariant> readTextController(QDataStream& input)
     return maps;
 }
 
+void saveCharacter(Character* c, QDataStream& output)
+{
+    if(!c)
+        return;
+
+    output << c->isNpc();
+    output << c->uuid();
+    output << c->name();
+    output << c->avatar();
+    output << c->getHealthPointsCurrent();
+    output << c->getHealthPointsMax();
+    output << c->getHealthPointsMin();
+
+    output << c->getInitiativeScore();
+    output << c->getDistancePerTurn();
+    output << c->stateId();
+    output << c->getLifeColor();
+    output << c->initCommand();
+    output << c->hasInitScore();
+}
+
+void readCharacter(std::map<QString, QVariant>& map, QDataStream& output)
+{
+
+    bool isNpc;
+    QString uuid;
+    QString name;
+    QByteArray avatar;
+    int hpCurrent;
+    int hpMax;
+    int hpMin;
+    int initScore;
+    bool hasInitScore;
+    qreal distancePerTurn;
+    QString stateId;
+    QString colorStr;
+    QString initCmd;
+
+    output >> isNpc;
+    output >> uuid;
+    output >> name;
+    output >> avatar;
+    output >> hpCurrent;
+    output >> hpMax;
+    output >> hpMin;
+
+    output >> initScore;
+    output >> distancePerTurn;
+    output >> stateId;
+    output >> colorStr;
+    output >> initCmd;
+    output >> hasInitScore;
+
+    map.insert({Core::vmapkeys::KEY_CHARAC_NPC, isNpc});
+    map.insert({Core::vmapkeys::KEY_CHARAC_ID, uuid});
+    map.insert({Core::vmapkeys::KEY_CHARAC_NAME, name});
+    map.insert({Core::vmapkeys::KEY_CHARAC_AVATAR, avatar});
+    map.insert({Core::vmapkeys::KEY_CHARAC_HPCURRENT, hpCurrent});
+    map.insert({Core::vmapkeys::KEY_CHARAC_HPMAX, hpMax});
+    map.insert({Core::vmapkeys::KEY_CHARAC_HPMIN, hpMin});
+    map.insert({Core::vmapkeys::KEY_CHARAC_INITSCORE, initScore});
+    map.insert({Core::vmapkeys::KEY_CHARAC_DISTANCEPERTURN, distancePerTurn});
+    map.insert({Core::vmapkeys::KEY_CHARAC_STATEID, stateId});
+    map.insert({Core::vmapkeys::KEY_CHARAC_LIFECOLOR, QColor(colorStr)});
+    map.insert({Core::vmapkeys::KEY_CHARAC_INITCMD, initCmd});
+    map.insert({Core::vmapkeys::KEY_CHARAC_HASINIT, hasInitScore});
+}
+
+void VectorialMapMessageHelper::fetchCharacter(const std::map<QString, QVariant>& params, Character* character)
+{
+    namespace hu= helper::utils;
+    namespace cv= Core::vmapkeys;
+    using std::placeholders::_1;
+
+    // clang-format off
+    hu::setParamIfAny<bool>(cv::KEY_CHARAC_NPC, params, std::bind(&Character::setNpc, character, _1));
+    hu::setParamIfAny<QString>(cv::KEY_CHARAC_ID, params, std::bind(&Character::setUuid, character, _1));
+    hu::setParamIfAny<QString>(cv::KEY_CHARAC_NAME, params, std::bind(&Character::setName, character, _1));
+    hu::setParamIfAny<QByteArray>(cv::KEY_CHARAC_AVATAR, params, std::bind(&Character::setAvatar, character, _1));
+    hu::setParamIfAny<int>(cv::KEY_CHARAC_HPCURRENT, params, std::bind(&Character::setHealthPointsCurrent, character, _1));
+    hu::setParamIfAny<int>(cv::KEY_CHARAC_HPMAX, params, std::bind(&Character::setHealthPointsMax, character, _1));
+    hu::setParamIfAny<int>(cv::KEY_CHARAC_HPMIN, params, std::bind(&Character::setHealthPointsMin, character, _1));
+    hu::setParamIfAny<int>(cv::KEY_CHARAC_INITSCORE, params, std::bind(&Character::setInitiativeScore, character, _1));
+    hu::setParamIfAny<qreal>(cv::KEY_CHARAC_DISTANCEPERTURN, params,std::bind(&Character::setDistancePerTurn, character, _1));
+    hu::setParamIfAny<QString>(cv::KEY_CHARAC_STATEID, params, std::bind(&Character::setStateId, character, _1));
+    hu::setParamIfAny<QColor>(cv::KEY_CHARAC_LIFECOLOR, params, std::bind(&Character::setLifeColor, character, _1));
+    hu::setParamIfAny<QString>(cv::KEY_CHARAC_INITCMD, params, std::bind(&Character::setInitCommand, character, _1));
+    hu::setParamIfAny<bool>(cv::KEY_CHARAC_HASINIT, params, std::bind(&Character::setHasInitiative, character, _1));
+    // clang-format on
+}
+
 void saveVMapCharacterItemController(const vmap::CharacterItemController* ctrl, QDataStream& output)
 {
     if(!ctrl)
         return;
 
+    auto c= ctrl->character();
+
+    if(!c)
+    {
+        qWarning() << "character is null";
+        return;
+    }
+
     saveVisualItemController(ctrl, output);
+
+    saveCharacter(c, output);
 
     output << ctrl->side();
     output << ctrl->stateColor();
     output << ctrl->number();
-    output << ctrl->playableCharacter();
-    output << ctrl->thumnailRect();
-    output << ctrl->visionShape();
     output << ctrl->textRect();
-    output << ctrl->text();
-    output << *ctrl->avatar();
     output << ctrl->font();
     output << ctrl->radius();
+
     auto vision= ctrl->vision();
-    output << vision->position();
-    output << vision->angle();
-    output << vision->shape();
-    output << vision->visible();
-    output << vision->radius();
+    auto b= (ctrl->playableCharacter() && vision);
+
+    output << b;
+
+    if(b)
+    {
+        output << vision->position();
+        output << vision->angle();
+        output << vision->shape();
+        output << vision->visible();
+        output << vision->radius();
+    }
 }
 
-std::map<QString, QVariant> readCharacterController(QDataStream& input)
+void VectorialMapMessageHelper::fetchCharacterItem(const std::map<QString, QVariant>& params,
+                                                   vmap::CharacterItemController* ctrl)
+{
+    namespace hu= helper::utils;
+    namespace cv= Core::vmapkeys;
+    using std::placeholders::_1;
+
+    // clang-format off
+    hu::setParamIfAny<qreal>(cv::KEY_SIDE, params, std::bind(&vmap::CharacterItemController::setSide, ctrl, _1));
+    hu::setParamIfAny<QColor>(cv::KEY_STATECOLOR, params,std::bind(&vmap::CharacterItemController::setStateColor, ctrl, _1));
+    hu::setParamIfAny<int>(cv::KEY_NUMBER, params, std::bind(&vmap::CharacterItemController::setNumber, ctrl, _1));
+    hu::setParamIfAny<QRectF>(cv::KEY_TEXTRECT, params, std::bind(&vmap::CharacterItemController::setTextRect, ctrl, _1));
+    hu::setParamIfAny<qreal>(cv::KEY_RADIUS, params, std::bind(&vmap::CharacterItemController::setRadius, ctrl, _1));
+    hu::setParamIfAny<QFont>(cv::KEY_FONT, params, std::bind(&vmap::CharacterItemController::setFont, ctrl, _1));
+    // clang-format on
+}
+
+std::map<QString, QVariant> readCharacterItemController(QDataStream& input)
 {
     std::map<QString, QVariant> maps;
     readVisualItemController(vmap::VisualItemController::CHARACTER, maps, input);
+    readCharacter(maps, input);
 
     qreal side;
-    input >> side;
-
     QColor stateColor;
-    input >> stateColor;
-
     int number;
-    input >> number;
-
-    bool playableCharacter;
-    input >> playableCharacter;
-
-    QRectF thumnailRect;
-    input >> thumnailRect;
-
-    CharacterVision::SHAPE visionShape;
-    input >> visionShape;
-
     QRectF textRect;
-    input >> textRect;
-
-    QString text;
-    input >> text;
-
-    bool hasAvatar;
-    input >> hasAvatar;
-
-    QImage image;
-    input >> image;
-
     QFont font;
-    input >> font;
-
     qreal radius;
+
+    input >> side;
+    input >> stateColor;
+    input >> number;
+    input >> textRect;
+    input >> font;
     input >> radius;
 
-    // vision
+    maps.insert({Core::vmapkeys::KEY_SIDE, side});
+    maps.insert({Core::vmapkeys::KEY_STATECOLOR, stateColor});
+    maps.insert({Core::vmapkeys::KEY_NUMBER, number});
+    maps.insert({Core::vmapkeys::KEY_TEXTRECT, textRect});
+    maps.insert({Core::vmapkeys::KEY_RADIUS, radius});
+    maps.insert({Core::vmapkeys::KEY_FONT, font});
 
-    QPointF position;
-    input >> position;
+    bool hasVision;
+    input >> hasVision;
 
-    qreal angle;
-    input >> angle;
+    if(hasVision)
+    {
+        // vision
+        QPointF position;
+        qreal angle;
+        CharacterVision::SHAPE visionShapeV;
+        bool visible;
+        qreal radiusV;
 
-    CharacterVision::SHAPE visionShapeV;
-    input >> visionShapeV;
-    bool visible;
-    input >> visible;
-    qreal radiusV;
-    input >> radiusV;
+        input >> position;
+        input >> angle;
+        input >> visionShapeV;
+        input >> visible;
+        input >> radiusV;
+
+        maps.insert({Core::vmapkeys::KEY_VIS_POS, position});
+        maps.insert({Core::vmapkeys::KEY_VIS_ANGLE, angle});
+        maps.insert({Core::vmapkeys::KEY_VIS_SHAPE, visionShapeV});
+        maps.insert({Core::vmapkeys::KEY_VIS_VISIBLE, visible});
+        maps.insert({Core::vmapkeys::KEY_VIS_RADIUS, radiusV});
+    }
+
+    if(maps.end() != maps.find(Core::vmapkeys::KEY_CHARAC_ID))
+    {
+        CharacterFinder finder;
+        auto c= finder.find(maps.at(Core::vmapkeys::KEY_CHARAC_ID).value<QString>());
+        if(c)
+        {
+            maps.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(c)});
+        }
+    }
 
     return maps;
+}
+
+void VectorialMapMessageHelper::fetchCharacterVision(const std::map<QString, QVariant>& params, CharacterVision* vision)
+{
+    namespace hu= helper::utils;
+    namespace cv= Core::vmapkeys;
+    using std::placeholders::_1;
+
+    // clang-format off
+    hu::setParamIfAny<QPointF>(cv::KEY_VIS_POS, params, std::bind(&CharacterVision::setPosition, vision, _1));
+    hu::setParamIfAny<qreal>(cv::KEY_VIS_ANGLE, params, std::bind(&CharacterVision::setAngle, vision, _1));
+    hu::setParamIfAny<CharacterVision::SHAPE>(cv::KEY_VIS_SHAPE, params, std::bind(&CharacterVision::setShape, vision, _1));
+    hu::setParamIfAny<bool>(cv::KEY_VIS_VISIBLE, params, std::bind(&CharacterVision::setVisible, vision, _1));
+    hu::setParamIfAny<qreal>(cv::KEY_VIS_RADIUS, params, std::bind(&CharacterVision::setRadius, vision, _1));
+    // clang-format on
 }
 
 void readModel(VectorialMapController* ctrl, QDataStream& input)
@@ -566,7 +736,7 @@ void readModel(VectorialMapController* ctrl, QDataStream& input)
             params= readTextController(input);
             break;
         case vmap::VisualItemController::CHARACTER:
-            params= readCharacterController(input);
+            params= readCharacterItemController(input);
             break;
         case vmap::VisualItemController::LINE:
             params= readLineController(input);
@@ -577,7 +747,6 @@ void readModel(VectorialMapController* ctrl, QDataStream& input)
         default:
             break;
         }
-
         ctrl->addItemController(params);
     }
 }

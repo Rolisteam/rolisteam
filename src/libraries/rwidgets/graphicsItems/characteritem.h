@@ -60,40 +60,28 @@ public:
     // Override
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
-    virtual void setNewEnd(const QPointF& nend) override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
-    void setGeometryPoint(qreal pointId, QPointF& pos) override;
-    virtual void initChildPointItem() override;
     void resizeContents(const QRectF& rect, int pointId, TransformType transformType= KeepRatio) override;
     void updateChildPosition() override;
     QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
     virtual void addActionContextMenu(QMenu&) override;
     virtual VisualItem* getItemCopy() override;
-    virtual bool isLocal() const override;
     virtual void setSize(QSizeF size) override;
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
-    void setChildrenVisible(bool b) override;
+    void setNewEnd(const QPointF& p) override;
 
     // accessors
     QString getCharacterId() const;
-    bool isNpc() const;
     QString getParentId() const;
     const QPointF& getCenter() const;
     int getChildPointCount() const;
     ChildPointItem* getRadiusChildWidget() const;
-    bool isPlayableCharacter() const;
     Character* getCharacter() const;
 
     void updateItemFlags() override;
     void addChildPoint(ChildPointItem* item);
-    void readCharacterStateChanged(NetworkMessageReader& msg);
-    void readVisionMsg(NetworkMessageReader* msg);
     void sendVisionMsg();
     void updateCharacter();
-    void readCharacterChanged(NetworkMessageReader& msg);
-    void setCharacter(Character* character);
-    void setTokenFile(QString);
-    void setNumber(int);
     QString getName() const;
     int getNumber() const;
     const QPainterPath getTokenShape() const;
@@ -105,21 +93,13 @@ signals:
     void runDiceCommand(QString cmd, QString uuid);
 
 public slots:
-    void changeVisionShape();
     void sizeChanged(qreal m_size);
     void endOfGeometryChange(ChildPointItem::Change change) override;
-    void generatedThumbnail();
-    void cleanInit();
-    void runInit();
 
 protected:
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event) override;
-protected slots:
-    void runCommand();
-    void setShape();
+
 private slots:
-    void createActions() override;
-    void characterStateChange();
     void changeCharacter();
 
 private:
@@ -130,10 +110,10 @@ private:
     QPointer<vmap::CharacterItemController> m_itemCtrl;
 
     // QAction
-    QAction* m_visionShapeDisk= nullptr;
-    QAction* m_visionShapeAngle= nullptr;
-    QAction* m_reduceLife= nullptr;
-    QAction* m_increaseLife= nullptr;
+    std::unique_ptr<QAction> m_visionShapeDisk;
+    std::unique_ptr<QAction> m_visionShapeAngle;
+    std::unique_ptr<QAction> m_reduceLife;
+    std::unique_ptr<QAction> m_increaseLife;
 
     bool m_protectGeometryChange;
     bool m_visionChanged;

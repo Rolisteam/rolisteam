@@ -21,22 +21,24 @@
 #ifndef CHARACTERVISION_H
 #define CHARACTERVISION_H
 
-//#include "vmap/items/visualitem.h"
-//#include "vmap/items/characteritem.h"
 #include <QObject>
+#include <QPainterPath>
 #include <QPointF>
+
 #include <core_global.h>
-// class ChildPointItem;
+
 /**
  * @brief The Vision class
  */
-class  CORE_EXPORT CharacterVision : public QObject
+class CORE_EXPORT CharacterVision : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
     Q_PROPERTY(qreal angle READ angle WRITE setAngle NOTIFY angleChanged)
+    Q_PROPERTY(qreal rotation READ rotation WRITE setRotation NOTIFY rotationChanged)
     Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(SHAPE shape READ shape WRITE setShape NOTIFY shapeChanged)
+    Q_PROPERTY(QPainterPath path READ path WRITE setPath NOTIFY pathChanged)
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool cornerVisible READ cornerVisible WRITE setCornerVisible NOTIFY cornerVisibleChanged)
 
@@ -52,7 +54,7 @@ public:
 
     void setAngle(qreal);
     void setRadius(qreal);
-    void setPosition(QPointF& p);
+    void setPosition(const QPointF& p);
     void setShape(CharacterVision::SHAPE s);
     void setVisible(bool);
 
@@ -65,6 +67,12 @@ public:
 
     // void setCornerPoint(ChildPointItem*);
     // ChildPointItem* getCornerPoint();
+    QPainterPath path() const;
+    void setPath(QPainterPath newPath);
+
+    qreal rotation() const;
+    void setRotation(qreal newRotation);
+
 public slots:
     void updatePosition();
     void setCornerVisible(bool b);
@@ -77,14 +85,19 @@ signals:
     void visibleChanged(bool);
     void cornerVisibleChanged(bool);
 
+    void pathChanged();
+
+    void rotationChanged();
+
 private:
     CharacterVision::SHAPE m_shape= ANGLE;
     QPointF m_pos;
-    qreal m_angle= 50;
+    qreal m_angle= 120;
     bool m_cornerVisible= false;
-    // ChildPointItem* m_cornerPoint= nullptr;
     bool m_visible= false;
     qreal m_radius= 50;
+    QPainterPath m_path;
+    qreal m_rotation= 0.;
 };
 
 #endif // CHARACTERVISION_H

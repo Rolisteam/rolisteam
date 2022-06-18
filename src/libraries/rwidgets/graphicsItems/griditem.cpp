@@ -57,6 +57,11 @@ GridItem::GridItem(vmap::GridController* ctrl) : VisualItem(ctrl), m_gridCtrl(ct
 
     connect(m_gridCtrl, &vmap::GridController::gridPatternChanged, this, [this]() { update(); });
     connect(m_gridCtrl, &vmap::GridController::rectChanged, this, [this]() { update(); });
+
+    connect(this, &QGraphicsObject::parentChanged, this, [this]() {
+        connect(scene(), &QGraphicsScene::sceneRectChanged, m_gridCtrl, &vmap::GridController::setRect);
+        m_gridCtrl->setRect(scene()->sceneRect());
+    });
 }
 
 GridItem::~GridItem() {}
@@ -69,67 +74,22 @@ void GridItem::updateItemFlags()
 }
 QRectF GridItem::boundingRect() const
 {
-    /*if(nullptr == scene())
-        return QRectF();
-
-    auto rect= scene()->sceneRect();
-
-    if(rect.isNull())
-        rect= QRectF(0, 0, 1000, 1000);
-
-    return rect;*/
-
     return m_gridCtrl ? m_gridCtrl->rect() : QRectF{};
-
-    /*QList<QGraphicsView*> list= scene()->views();
-    if(!list.isEmpty())
-    {
-        QGraphicsView* view= list.at(0);
-
-        QPointF A= view->mapToScene(QPoint(0, 0));
-        QPointF B= view->mapToScene(QPoint(view->viewport()->width(), view->viewport()->height()));
-
-        return QRectF(A, B);
-    }
-    return scene()->sceneRect();*/
 }
 void GridItem::setNewEnd(const QPointF& nend)
 {
     Q_UNUSED(nend)
     return;
 }
-void GridItem::writeData(QDataStream& out) const
-{
-    Q_UNUSED(out)
-}
 
-void GridItem::readData(QDataStream& in)
-{
-    Q_UNUSED(in)
-}
-
-void GridItem::fillMessage(NetworkMessageWriter* msg)
-{
-    // msg->string16(m_id);
-    // rect
-    /*msg->real(m_rect.x());
-    msg->real(m_rect.y());
-    msg->real(m_rect.width());
-    msg->real(m_rect.height());*/
-    // pos
-    /*msg->real(pos().x());
-    msg->real(pos().y());
-    msg->real(zValue());*/
-}
-
-void GridItem::readItem(NetworkMessageReader* msg)
+/*void GridItem::readItem(NetworkMessageReader* msg)
 {
     // m_id= msg->string16();
     // rect
-    /*    m_rect.setX(msg->real());
+        m_rect.setX(msg->real());
         m_rect.setY(msg->real());
         m_rect.setWidth(msg->real());
-        m_rect.setHeight(msg->real());*/
+        m_rect.setHeight(msg->real());
 
     // pos
     /*qreal x= msg->real();
@@ -137,20 +97,13 @@ void GridItem::readItem(NetworkMessageReader* msg)
     setPos(x, y);
     qreal z= msg->real();
     setZValue(z);
-    update();*/
-}
-void GridItem::setGeometryPoint(qreal, QPointF&) {}
-void GridItem::initChildPointItem()
-{
-    connect(scene(), &QGraphicsScene::sceneRectChanged, m_gridCtrl, &vmap::GridController::setRect);
-    m_gridCtrl->setRect(scene()->sceneRect());
-}
+    update();
+}*/
+
 VisualItem* GridItem::getItemCopy()
 {
     return nullptr;
 }
-
-void GridItem::updateChildPosition() {}
 
 void GridItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -161,5 +114,3 @@ void GridItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 
     painter->fillRect(boundingRect(), QBrush(m_gridCtrl->gridPattern()));
 }
-
-void GridItem::createActions() {}

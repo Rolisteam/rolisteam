@@ -31,5 +31,6 @@
         <file>CustomItems/RequiredTextField.qml</file>
         <file>CustomItems/ColorPicker.qml</file>
         <file>rolistyle/TextField.qml</file>
+        <file>views/DiceField.qml</file>
     </qresource>
 </RCC>

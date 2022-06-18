@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *	Copyright (C) 2022 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,52 +17,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "updater/media/mediaupdaterinterface.h"
+#include "worker/characterfinder.h"
 
-#include "data/campaign.h"
-#include "data/campaignmanager.h"
-#include "worker/fileserializer.h"
-#include "worker/iohelper.h"
+#include "model/charactermodel.h"
+#include "model/nonplayablecharactermodel.h"
 
-#include <QDebug>
+QPointer<campaign::NonPlayableCharacterModel> CharacterFinder::m_npcModel
+    = QPointer<campaign::NonPlayableCharacterModel>(nullptr);
+QPointer<CharacterModel> CharacterFinder::m_pcModel= QPointer<CharacterModel>(nullptr);
 
-MediaUpdaterInterface::MediaUpdaterInterface(campaign::CampaignManager* campaign, QObject* object)
-    : QObject(object), m_manager(campaign)
+bool CharacterFinder::isReady()
 {
+    return (m_pcModel && m_npcModel);
+}
+void CharacterFinder::setNpcModel(campaign::NonPlayableCharacterModel* model)
+{
+    m_npcModel= model;
+}
+void CharacterFinder::setPcModel(CharacterModel* model)
+{
+    m_pcModel= model;
 }
 
-NetWorkReceiver::SendType MediaUpdaterInterface::processMessage(NetworkMessageReader*)
+Character* CharacterFinder::find(const QString& id)
 {
-    return NetWorkReceiver::NONE;
-}
+    if(!isReady())
+        return nullptr;
 
-bool MediaUpdaterInterface::is(NetworkMessageReader* msg, NetMsg::Category c, NetMsg::Action a) const
-{
-    if(!msg)
-        return false;
+    auto res= m_pcModel->character(id);
 
-    return (msg->action() == a && msg->category() == c);
-}
+    if(res == nullptr)
+        res= m_npcModel->characterFromUuid(id);
 
-void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
-{
-    if(!ctrl)
-        return;
-
-    auto id= ctrl->uuid();
-    auto campaign= m_manager->campaign();
-    auto path= ctrl->url().toLocalFile();
-    qDebug() << path << "savemediacontroller";
-    if(campaign)
-    {
-        auto p= campaign->pathFromUuid(id);
-        qDebug() << "saveMediaController: " << p << path;
-        if(!p.isEmpty())
-            path= p;
-    }
-    ctrl->setUrl(QUrl::fromLocalFile(path));
-
-    campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl));
-
-    ctrl->setModified(false);
+    return res;
 }

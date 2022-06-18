@@ -123,13 +123,13 @@ bool vmap::VmapItemModel::appendItemController(vmap::VisualItemController* item)
     return true;
 }
 
-void vmap::VmapItemModel::setModifiedToAllItem(bool b)
+void vmap::VmapItemModel::setModifiedToAllItem()
 {
     std::for_each(std::begin(m_items), std::end(m_items),
-                  [b](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) { itemCtrl->setModified(b); });
+                  [](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) { itemCtrl->setModified(); });
 }
 
-bool vmap::VmapItemModel::removeItemController(const QSet<QString>& ids)
+bool vmap::VmapItemModel::removeItemController(const QSet<QString>& ids, bool fromNetwork)
 {
     auto s= m_items.size();
     beginResetModel();
@@ -142,6 +142,8 @@ bool vmap::VmapItemModel::removeItemController(const QSet<QString>& ids)
                                  }),
                   std::end(m_items));
     endResetModel();
+    if(!fromNetwork)
+        emit itemControllersRemoved(ids.values());
     return s < m_items.size();
 }
 
@@ -175,9 +177,4 @@ VisualItemController* VmapItemModel::item(const QString& id) const
     return it->get();
 }
 
-bool VmapItemModel::modified() const
-{
-    return std::any_of(std::begin(m_items), std::end(m_items),
-                       [](const std::unique_ptr<vmap::VisualItemController>& item) { return item->modified(); });
-}
 } // namespace vmap

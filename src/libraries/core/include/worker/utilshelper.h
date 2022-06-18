@@ -30,6 +30,7 @@
 #include "media/mediatype.h"
 #include "network/network_type.h"
 #include <core_global.h>
+
 namespace helper
 {
 namespace utils
@@ -51,15 +52,24 @@ template <typename T>
 void setContinuation(QFuture<T> future, QObject* obj, std::function<void(T)> callback)
 {
     auto watcher= new QFutureWatcher<T>();
-    QObject::connect(watcher, &QFutureWatcher<T>::finished, obj,
-                     [watcher, callback]()
-                     {
-                         auto result= watcher->result();
-                         callback(result);
-                         delete watcher;
-                     });
+    QObject::connect(watcher, &QFutureWatcher<T>::finished, obj, [watcher, callback]() {
+        auto result= watcher->result();
+        callback(result);
+        delete watcher;
+    });
     watcher->setFuture(future);
 }
+
+template <typename T>
+void setParamIfAny(const QString& key, const std::map<QString, QVariant>& params, std::function<void(T)> setter)
+{
+    auto it= params.find(key);
+    if(params.end() != it)
+    {
+        setter(it->second.value<T>());
+    }
+}
+
 } // namespace utils
 } // namespace helper
 

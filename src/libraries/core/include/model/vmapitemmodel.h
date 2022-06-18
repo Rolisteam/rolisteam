@@ -31,7 +31,6 @@ namespace vmap
 class CORE_EXPORT VmapItemModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(bool modified READ modified WRITE setModifiedToAllItem NOTIFY modifiedChanged)
 public:
     enum CustomRole
     {
@@ -61,20 +60,19 @@ public:
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
     bool appendItemController(vmap::VisualItemController* item);
-    bool removeItemController(const QSet<QString>& ids);
+    bool removeItemController(const QSet<QString>& ids, bool fromNetwork= false);
 
     void clearData();
 
     std::vector<vmap::VisualItemController*> items() const;
     vmap::VisualItemController* item(const QString& id) const;
 
-    bool modified() const;
-
 public slots:
-    void setModifiedToAllItem(bool b);
+    void setModifiedToAllItem();
 signals:
     void itemControllerAdded(vmap::VisualItemController* ctrl);
-    void modifiedChanged(bool b);
+    void itemControllersRemoved(const QStringList& ids);
+    void modifiedChanged();
 
 private:
     std::vector<std::unique_ptr<vmap::VisualItemController>> m_items;

@@ -137,52 +137,6 @@ void EllipsItem::initChildPointItem()
     m_children.value(1)->setPlacement(ChildPointItem::ButtomCenter);
 }
 
-/*void EllipsItem::setHoldSize(bool holdSize)
-{
-    VisualItem::setHoldSize(holdSize);
-
-    std::for_each(m_children.begin(), m_children.end(), [holdSize](ChildPointItem* tmp) {
-        if(holdSize)
-            tmp->setMotion(ChildPointItem::NONE);
-        else
-            tmp->setMotion((tmp->placement() == ChildPointItem::ButtomCenter) ? ChildPointItem::Y_AXIS :
-                                                                                ChildPointItem::X_AXIS);
-    });
-}*/
-
-void EllipsItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    /* if(m_holdSize)
-     {
-         return;
-     }
-
-     switch(static_cast<int>(pointId))
-     {
-     case 0:
-         m_rx= pos.x() - m_center.x();
-         break;
-     case 1:
-         m_ry= pos.y() - m_center.y();
-         break;
-     default:
-         break;
-     }
-     if(m_ry < 0.1)
-     {
-         m_ry= 0.1;
-         pos.setY(m_center.y() + m_ry);
-     }
-     if(m_rx < 0.1)
-     {
-         m_rx= 0.1;
-         pos.setX(m_center.x() + m_rx);
-     }
-     // m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
-     m_resizing= true;
-     update();*/
-}
-
 VisualItem* EllipsItem::getItemCopy()
 { // QPointF& center,bool filled,int penSize,QColor& penColor
     // EllipsItem* ellipseItem= new EllipsItem(m_ctrl /*, m_center, m_filled, m_penWidth, m_color*/);

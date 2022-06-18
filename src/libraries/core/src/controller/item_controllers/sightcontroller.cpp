@@ -55,9 +55,9 @@ void SightController::aboutToBeRemoved()
     emit removeItem();
 }
 
-const std::vector<vmap::CharacterVisionData> SightController::visionData() const
+const QList<QPointer<CharacterVision>>& SightController::visionData() const
 {
-    return {}; // m_characterItems->characterVisions();
+    return m_visions;
 }
 
 void SightController::setCorner(const QPointF& move, int corner) {}
@@ -77,11 +77,6 @@ int SightController::characterCount() const
 bool SightController::characterSight() const
 {
     return m_characterSight;
-}
-
-bool SightController::visible() const
-{
-    return m_visible;
 }
 
 QRectF SightController::rect() const
@@ -108,14 +103,6 @@ void SightController::setCharacterSight(bool b)
     emit characterSightChanged();
 }
 
-void SightController::setVisible(bool vi)
-{
-    if(vi == m_visible)
-        return;
-    m_visible= vi;
-    emit visibleChanged(m_visible);
-}
-
 QPainterPath SightController::fowPath() const
 {
     QPainterPath path;
@@ -133,6 +120,23 @@ void SightController::addPolygon(const QPolygonF& poly, bool mask)
 {
     m_fogSingularityList.push_back(std::make_pair(poly, mask));
     emit fowPathChanged(); // static_cast<int>(m_fogSingularityList.size())
+}
+
+void SightController::addCharacterVision(CharacterVision* vision)
+{
+    connect(vision, &CharacterVision::angleChanged, this, &SightController::characterSightChanged);
+    connect(vision, &CharacterVision::radiusChanged, this, &SightController::characterSightChanged);
+    connect(vision, &CharacterVision::positionChanged, this, &SightController::characterSightChanged);
+    connect(vision, &CharacterVision::shapeChanged, this, &SightController::characterSightChanged);
+    m_visions.push_back(vision);
+    emit characterCountChanged();
+}
+
+void SightController::removeCharacterVision(CharacterVision* vision)
+{
+    connect(vision, 0, this, 0);
+    if(m_visions.removeOne(vision))
+        emit characterCountChanged();
 }
 
 const std::vector<std::pair<QPolygonF, bool>>& SightController::singularityList() const

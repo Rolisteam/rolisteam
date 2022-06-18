@@ -32,36 +32,19 @@ class RWIDGET_EXPORT EllipsItem : public VisualItem
 {
 public:
     EllipsItem(vmap::EllipseController* ctrl);
-    /**
-     * @brief constructor with parameters
-     * @param center first point clicked by the user
-     * @param either the shape is filled or not
-     * @param color used for drawing it.
-     */
-    // EllipsItem(const QPointF& center, bool filled, int penSize, const QColor& penColor, QGraphicsItem* parent=
-    // nullptr);
-    /**
-     * @brief paint the ellipse at the correct position
-     */
+
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
-
     virtual QPainterPath shape() const override;
-    /**
-     * @brief modifies the ellipse size and shape.
-     */
     virtual void setNewEnd(const QPointF& nend) override;
-
-    /**
-     * @brief gives the bounding rect of the ellipse
-     */
     virtual QRectF boundingRect() const override;
-    void setGeometryPoint(qreal pointId, QPointF& pos) override;
-    virtual void initChildPointItem() override;
     virtual VisualItem* getItemCopy() override;
 
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
 
     void updateChildPosition() override;
+
+protected:
+    void initChildPointItem();
 
 private:
     QPointer<vmap::EllipseController> m_ellipseCtrl;

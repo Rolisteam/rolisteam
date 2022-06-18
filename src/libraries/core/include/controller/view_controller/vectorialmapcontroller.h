@@ -137,11 +137,14 @@ public:
     QRectF visualRect() const;
     bool idle() const;
     int zIndex() const;
+    void addCommand(QUndoCommand* cmd);
+
+    void addVision(CharacterVision* vision);
 
     QString layerToText(Core::Layer id);
     QString addItemController(const std::map<QString, QVariant>& params);
     void addRemoteItem(vmap::VisualItemController* ctrl);
-    void removeItemController(const QSet<QString>& ids);
+    void removeItemController(const QSet<QString>& ids, bool fromNetwork= false);
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
     bool pasteData(const QMimeData& data) override;
     void setDiceParser(DiceRoller* parser);
@@ -149,7 +152,11 @@ public slots:
     void showTransparentItems(const QList<vmap::VisualItemController*>& list);
     void hideOtherLayers(bool b);
     void rollInit(Core::CharacterScope scope);
+    void rollInit(QList<QPointer<vmap::CharacterItemController>> list);
+
     void cleanUpInit(Core::CharacterScope scope);
+    void cleanUpInit(QList<QPointer<vmap::CharacterItemController>> list);
+    void runDiceCommand(QList<QPointer<vmap::CharacterItemController>> list, QString cmd);
 
 signals:
     void permissionChanged(Core::PermissionMode mode);
@@ -183,6 +190,7 @@ signals:
     void zIndexChanged(int);
     void visualRectChanged(QRectF visualRect);
     void visualItemControllerCreated(vmap::VisualItemController* ctrl);
+    void visualItemControllersRemoved(const QStringList& ids);
 
     void sendOffHighLightAt(const QPointF& p, const qreal& penSize, const QColor& color);
     void highLightAt(const QPointF& p, const qreal& penSize, const QColor& color);

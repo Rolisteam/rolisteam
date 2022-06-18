@@ -58,7 +58,7 @@ public:
      * @brief SightItem
      * @param characterItemMap
      */
-    explicit SightItem(vmap::SightController* ctrl, QMultiMap<QString, CharacterItem*>* characterItemMap);
+    explicit SightItem(vmap::SightController* ctrl);
     /**
      * @brief ~SightItem
      */
@@ -68,16 +68,7 @@ public:
      * @param nend
      */
     virtual void setNewEnd(const QPointF& nend) override;
-    /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
-    /**
-     * @brief initChildPointItem
-     */
-    virtual void initChildPointItem() override;
+
     /**
      * @brief getItemCopy
      * @return
@@ -97,37 +88,9 @@ public:
      */
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     /**
-     * @brief setDefaultShape
-     * @param shape
-     */
-    void setDefaultShape(CharacterVision::SHAPE shape);
-    /**
-     * @brief setDefaultRadius
-     * @param rad
-     */
-    void setDefaultRadius(qreal rad);
-    /**
-     * @brief setDefaultAngle
-     * @param rad
-     */
-    void setDefaultAngle(qreal rad);
-    /**
      * @brief createActions
      */
     void createActions() override;
-    /**
-     * @brief setColor
-     */
-    // void setColor(QColor& color);
-    /**
-     * @brief insertVision
-     */
-    // void insertVision(CharacterItem* item);
-    /**
-     * @brief addFogPolygon
-     * @param a
-     */
-    // FogSingularity* addFogPolygon(QPolygonF* a, bool adding);
     virtual void updateItemFlags() override;
 public slots:
     /**
@@ -143,10 +106,6 @@ public slots:
     // void removeVision(CharacterItem* item);
 private:
     QPointer<vmap::SightController> m_sightCtrl;
-    CharacterVision::SHAPE m_defaultShape;
-    qreal m_defaultAngle;
-    qreal m_defaultRadius;
-    QMultiMap<QString, CharacterItem*>* m_characterItemMap;
 };
 
 #endif // SIGHTITEM_H

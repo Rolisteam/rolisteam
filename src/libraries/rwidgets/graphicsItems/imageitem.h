@@ -30,17 +30,6 @@ public:
      */
     virtual void setNewEnd(const QPointF& nend) override;
 
-    /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
-    /**
-     * @brief initChildPointItem
-     */
-    virtual void initChildPointItem() override;
-
     void setImageUri(QString uri);
     /**
      * @brief getImageUri
@@ -76,15 +65,6 @@ private:
 private:
     QPointer<vmap::ImageController> m_imgCtrl;
     bool m_keepAspect; ///< flag to keep the aspect.
-    // QImage m_image;
-    // QString m_imagePath;
-    // qreal m_ratio;
-    // Qt::KeyboardModifiers m_modifiers;
-    // bool m_initialized;
-
-    // QAction* m_
-    // QMovie* m_movie;
-    // QByteArray m_data;
 };
 
 #endif // IMAGEITEM_H

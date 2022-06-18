@@ -44,7 +44,6 @@ class NETWORK_EXPORT Person : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QColor color READ getColor WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QByteArray avatar READ avatar WRITE setAvatar NOTIFY avatarChanged)
-    // Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
 public:
     Person(QObject* parent= nullptr);
     Person(const QString& name, const QColor& color, const QString& uuid= QString());

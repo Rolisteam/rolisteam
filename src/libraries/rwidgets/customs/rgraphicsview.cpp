@@ -27,9 +27,9 @@
 #include <QOpenGLWidget>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "data/rolisteammimedata.h"
 #include "data/character.h"
 #include "data/person.h"
+#include "data/rolisteammimedata.h"
 #include "mediacontainers/mediacontainer.h"
 #include "rgraphicsview.h"
 
@@ -38,6 +38,12 @@
 
 #include "graphicsItems/ruleitem.h"
 #include "undoCmd/changesizevmapitem.h"
+
+struct ItemToControllerInfo
+{
+    vmap::VisualItemController* ctrl;
+    VisualItem* item;
+};
 
 bool isNormalItem(const vmap::VisualItemController* itemCtrl)
 {
@@ -183,8 +189,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
     if(m_ctrl->idle())
     {
-        auto extractVisualItem= [](QList<QGraphicsItem*> itemList) -> QList<vmap::VisualItemController*> {
-            QList<vmap::VisualItemController*> list;
+        auto extractVisualItem= [](QList<QGraphicsItem*> itemList) -> QList<ItemToControllerInfo> {
+            QList<ItemToControllerInfo> list;
             for(QGraphicsItem* item : itemList)
             {
                 VisualItem* vItem= dynamic_cast<VisualItem*>(item);
@@ -199,14 +205,17 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 }
 
                 if(nullptr == vItem)
-                    return list;
+                    continue;
 
                 auto ctrl= vItem->controller();
                 bool isNormal= isNormalItem(ctrl);
 
-                if(isNormal && !list.contains(ctrl))
+                auto it= std::find_if(std::begin(list), std::end(list),
+                                      [ctrl](const ItemToControllerInfo& item) { return ctrl == item.ctrl; });
+
+                if(isNormal && (it == std::end(list)))
                 {
-                    list.append(ctrl);
+                    list.append({ctrl, vItem});
                 }
             }
             return list;
@@ -218,11 +227,12 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         auto visulItemUnderMouse= extractVisualItem(itemUnderMouse);
 
         // merge
-        std::for_each(visulItemUnderMouse.begin(), visulItemUnderMouse.end(),
-                      [&list](vmap::VisualItemController* item) {
-                          if(!list.contains(item))
-                              list.append(item);
-                      });
+        std::for_each(visulItemUnderMouse.begin(), visulItemUnderMouse.end(), [&list](ItemToControllerInfo& item) {
+            auto it= std::find_if(std::begin(list), std::end(list),
+                                  [item](const ItemToControllerInfo& tmp) { return tmp.ctrl == item.ctrl; });
+            if(it == std::end(list))
+                list.append(item);
+        });
 
         QMenu menu;
         auto parentWid= dynamic_cast<MediaContainer*>(parentWidget());
@@ -243,9 +253,9 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             if(list.size() == 1)
             {
                 auto item= list.first();
-                // item->addActionContextMenu(menu);
+                item.item->addActionContextMenu(menu);
 
-                auto layer= item->layer();
+                auto layer= item.ctrl->layer();
                 switch(layer)
                 {
                 case Core::Layer::GROUND:
@@ -369,36 +379,40 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         if(nullptr == selectedAction)
             return;
 
+        QList<vmap::VisualItemController*> ctrls;
+        std::transform(std::begin(list), std::end(list), std::back_inserter(ctrls),
+                       [](const ItemToControllerInfo& item) { return item.ctrl; });
+
         if(removeAction == selectedAction)
         {
-            deleteItem(list);
+            deleteItem(ctrls);
         }
         else if(resetRotationAct == selectedAction)
         {
-            setRotation(list, 0);
+            setRotation(ctrls, 0);
         }
         else if(selectedAction == rightRotationAct)
         {
-            setRotation(list, 90);
+            setRotation(ctrls, 90);
         }
         else if(selectedAction == leftRotationAct)
         {
-            setRotation(list, 270);
+            setRotation(ctrls, 270);
         }
         else if(selectedAction == m_lockSize)
         {
-            lockItems(list);
+            lockItems(ctrls);
         }
         else if(selectedAction == angleRotationAct)
         {
             int angle= QInputDialog::getInt(this, tr("Rotation Value ?"),
                                             tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
-            setRotation(list, angle);
+            setRotation(ctrls, angle);
         }
         else if(m_normalizeSizeBigger == selectedAction || m_normalizeSizeAverage == selectedAction
                 || m_normalizeSizeUnderMouse == selectedAction || m_normalizeSizeSmaller == selectedAction)
         {
-            m_ctrl->normalizeSize(list, static_cast<VectorialMapController::Method>(selectedAction->data().toInt()),
+            m_ctrl->normalizeSize(ctrls, static_cast<VectorialMapController::Method>(selectedAction->data().toInt()),
                                   mapToScene(m_menuPoint));
         }
         else if((m_backOrderAction == selectedAction) || (m_frontOrderAction == selectedAction)
@@ -409,7 +423,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
                 || (selectedAction == m_putGroundLayer))
         {
-            setItemLayer(list, static_cast<Core::Layer>(selectedAction->data().toInt()));
+            setItemLayer(ctrls, static_cast<Core::Layer>(selectedAction->data().toInt()));
         }
     }
     else

@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *	Copyright (C) 2022 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,52 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "updater/media/mediaupdaterinterface.h"
+#ifndef CHARACTERFINDER_H
+#define CHARACTERFINDER_H
 
-#include "data/campaign.h"
-#include "data/campaignmanager.h"
-#include "worker/fileserializer.h"
-#include "worker/iohelper.h"
+#include <core_global.h>
 
-#include <QDebug>
+#include <QPointer>
 
-MediaUpdaterInterface::MediaUpdaterInterface(campaign::CampaignManager* campaign, QObject* object)
-    : QObject(object), m_manager(campaign)
+namespace campaign
 {
+class NonPlayableCharacterModel;
 }
+class CharacterModel;
+class Character;
 
-NetWorkReceiver::SendType MediaUpdaterInterface::processMessage(NetworkMessageReader*)
+/**
+ * @brief The CharacterFinder class - helper to find a character given its uuid in PC or NPC models.
+ */
+class CORE_EXPORT CharacterFinder
 {
-    return NetWorkReceiver::NONE;
-}
+public:
+    CharacterFinder()= default;
 
-bool MediaUpdaterInterface::is(NetworkMessageReader* msg, NetMsg::Category c, NetMsg::Action a) const
-{
-    if(!msg)
-        return false;
+    bool isReady();
 
-    return (msg->action() == a && msg->category() == c);
-}
+    Character* find(const QString& id);
 
-void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
-{
-    if(!ctrl)
-        return;
+    static void setNpcModel(campaign::NonPlayableCharacterModel* model);
+    static void setPcModel(CharacterModel* model);
 
-    auto id= ctrl->uuid();
-    auto campaign= m_manager->campaign();
-    auto path= ctrl->url().toLocalFile();
-    qDebug() << path << "savemediacontroller";
-    if(campaign)
-    {
-        auto p= campaign->pathFromUuid(id);
-        qDebug() << "saveMediaController: " << p << path;
-        if(!p.isEmpty())
-            path= p;
-    }
-    ctrl->setUrl(QUrl::fromLocalFile(path));
+private:
+    static QPointer<campaign::NonPlayableCharacterModel> m_npcModel;
+    static QPointer<CharacterModel> m_pcModel;
+};
 
-    campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl));
-
-    ctrl->setModified(false);
-}
+#endif // CHARACTERFINDER_H

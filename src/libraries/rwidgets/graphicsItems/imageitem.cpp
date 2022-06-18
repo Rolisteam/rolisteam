@@ -66,71 +66,6 @@ void ImageItem::setNewEnd(const QPointF& p)
     m_imgCtrl->setCorner(p, vmap::ImageController::BottomRight);
 }
 
-void ImageItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    /*  switch(static_cast<int>(pointId))
-      {
-      case 0:
-          m_rect.setTopLeft(pos);
-          m_child->value(1)->setPos(m_rect.topRight());
-          m_child->value(2)->setPos(m_rect.bottomRight());
-          m_child->value(3)->setPos(m_rect.bottomLeft());
-          break;
-      case 1:
-          m_rect.setTopRight(pos);
-          m_child->value(0)->setPos(m_rect.topLeft());
-          m_child->value(2)->setPos(m_rect.bottomRight());
-          m_child->value(3)->setPos(m_rect.bottomLeft());
-          break;
-      case 2:
-          m_rect.setBottomRight(pos);
-          m_child->value(0)->setPos(m_rect.topLeft());
-          m_child->value(1)->setPos(m_rect.topRight());
-          m_child->value(3)->setPos(m_rect.bottomLeft());
-          break;
-      case 3:
-          m_rect.setBottomLeft(pos);
-          m_child->value(0)->setPos(m_rect.topLeft());
-          m_child->value(1)->setPos(m_rect.topRight());
-          m_child->value(2)->setPos(m_rect.bottomRight());
-          break;
-      default:
-          break;
-      }
-
-      setTransformOriginPoint(m_rect.center());*/
-
-    // updateChildPosition();
-}
-
-void ImageItem::initChildPointItem()
-{
-    /*   if(!m_initialized)
-       {
-           // setPos(m_rect.center());
-           m_rect.setCoords(-m_rect.width() / 2, -m_rect.height() / 2, m_rect.width() / 2, m_rect.height() / 2);
-           m_initialized= true;
-       }
-
-       m_rect= m_rect.normalized();
-       setTransformOriginPoint(m_rect.center());
-       if((nullptr == m_child))
-       {
-           m_child= new QVector<ChildPointItem*>();
-       }
-       else
-       {
-           m_child->clear();
-       }
-
-       for(int i= 0; i < 4; ++i)
-       {
-           ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
-           tmp->setMotion(ChildPointItem::MOUSE);
-           m_child->append(tmp);
-       }
-       updateChildPosition();*/
-}
 void ImageItem::updateChildPosition()
 {
     if(!m_imgCtrl)
@@ -148,16 +83,6 @@ void ImageItem::updateChildPosition()
 
     update();
 }
-
-/*
-void ImageItem::loadImage()
-{
-    QFile file(m_imagePath);
-    if(!file.open(QIODevice::ReadOnly))
-        return;
-    m_data= file.readAll();
-    dataToMedia();
-}*/
 
 void ImageItem::dataToMedia()
 {

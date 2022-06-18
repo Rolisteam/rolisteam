@@ -91,16 +91,12 @@ void FogSingularity::setPolygon(QPolygonF* poly)
 /// Code SightItem
 /////////////////////////////////
 
-SightItem::SightItem(vmap::SightController* ctrl, QMultiMap<QString, CharacterItem*>* characterItemMap)
-    : VisualItem(ctrl)
-    , m_sightCtrl(ctrl)
-    , m_defaultShape(CharacterVision::ANGLE)
-    , m_defaultAngle(120)
-    , m_defaultRadius(50)
+SightItem::SightItem(vmap::SightController* ctrl) : VisualItem(ctrl), m_sightCtrl(ctrl)
 //    , m_characterItemMap(characterItemMap)
 {
     auto updateFunc= [this]() { update(); };
-    connect(m_sightCtrl, &vmap::SightController::visibleChanged, this, [this](bool b) { setVisible(b); });
+    connect(m_sightCtrl, &vmap::SightController::visibleChanged, this,
+            [this]() { setVisible(m_sightCtrl->visible()); });
     connect(m_sightCtrl, &vmap::SightController::colorChanged, this, updateFunc);
     connect(m_sightCtrl, &vmap::SightController::fowPathChanged, this, updateFunc);
     connect(m_sightCtrl, &vmap::SightController::rectChanged, this, updateFunc);
@@ -113,6 +109,11 @@ SightItem::SightItem(vmap::SightController* ctrl, QMultiMap<QString, CharacterIt
     if(m_ctrl)
         m_ctrl->setLayer(Core::Layer::FOG);
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
+
+    connect(this, &QGraphicsObject::parentChanged, this, [this]() {
+        connect(scene(), &QGraphicsScene::sceneRectChanged, m_sightCtrl, &vmap::SightController::setRect);
+        m_sightCtrl->setRect(scene()->sceneRect());
+    });
 }
 
 SightItem::~SightItem() {}
@@ -155,50 +156,6 @@ void SightItem::setNewEnd(const QPointF& nend)
     return;
 }
 
-void SightItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    Q_UNUSED(pointId)
-    Q_UNUSED(pos)
-    /* if(m_visionMap.contains(pointId))
-    {
-        Vision* vis = m_visionMap.value(pointId);
-        vis->setRadius(pos.x());
-    }*/
-}
-void SightItem::initChildPointItem()
-{
-    // m_child= new QVector<ChildPointItem*>();
-    connect(scene(), &QGraphicsScene::sceneRectChanged, m_sightCtrl, &vmap::SightController::setRect);
-    m_sightCtrl->setRect(scene()->sceneRect());
-}
-
-/*void SightItem::monitorView()
-{
-    auto map= scene();
-    if(!map)
-        return;
-
-    QList<QGraphicsView*> list= map->views();
-    //connect(map, &QGraphicsScene::sceneRectChanged, this, &SightItem::markDirty);
-    //connect(map, &QGraphicsScene::changed, this, &SightItem::markDirty);
-
-    if(!list.isEmpty())
-    {
-        QGraphicsView* view= list.at(0);
-        auto viewport= view->viewport();
-        viewport->installEventFilter(this);
-    }
-}*/
-
-/*bool SightItem::eventFilter(QObject* watched, QEvent* event)
-{
-    if(event->type() == QEvent::Resize)
-    {
-        //markDirty();
-    }
-    return QObject::eventFilter(watched, event);
-}*/
-
 VisualItem* SightItem::getItemCopy()
 {
     return nullptr;
@@ -212,24 +169,24 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     painter->setPen(Qt::NoPen);
     m_sightCtrl->localIsGM() ? painter->setBrush(QColor(0, 0, 0, 125)) : painter->setBrush(QColor(0, 0, 0));
 
+    // qDebug() << "Sight: pos" << pos() << "rect:" << boundingRect();
+
     QPainterPath path= m_sightCtrl->fowPath();
 
     // auto const& values= m_characterItemMap->values();
     auto visions= m_sightCtrl->visionData();
-    for(auto& visionData : visions)
+    for(auto& vision : visions)
     {
-        CharacterVision* vision= visionData.vision;
-
         QPainterPath subArea;
         subArea.setFillRule(Qt::WindingFill);
-        auto itemRadius= visionData.radius;
-        qreal rot= visionData.rotation;
+        auto itemRadius= vision->radius();
+        qreal rot= vision->rotation();
         QTransform trans;
-        QPointF center= visionData.pos + QPointF(itemRadius, itemRadius);
+        QPointF center= vision->position(); // + QPointF(itemRadius, itemRadius);
         trans.translate(center.x(), center.y());
         trans.rotate(rot);
 
-        path= path.subtracted(trans.map(visionData.shape.translated(-itemRadius, -itemRadius))); // always see the user
+        path= path.subtracted(trans.map(vision->path().translated(-itemRadius, -itemRadius))); // always see the user
         switch(vision->shape())
         {
         case CharacterVision::DISK:
@@ -240,11 +197,10 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
             QRectF rectArc;
             rectArc.setCoords(-vision->radius(), -vision->radius(), vision->radius(), vision->radius());
             subArea.arcTo(rectArc, -vision->angle() / 2, vision->angle());
-            // painter->setPen(QColor(255, 0, 0));
         }
         break;
         }
-        path.moveTo(visionData.pos);
+        path.moveTo(vision->position());
         path= path.subtracted(trans.map(subArea));
     }
 
@@ -269,41 +225,7 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     painter->drawPath(path);
     painter->restore();
 }
-// void SightItem::insertVision(CharacterItem* item)
-//{
-// item->setDefaultVisionParameter(m_defaultShape, m_defaultRadius, m_defaultAngle);
-// if(nullptr != m_child)
-/*{
-    m_children.append(item->getRadiusChildWidget());
-}*/
-//}
-/*void SightItem::removeVision(CharacterItem* item)
-{
-    if(m_characterItemMap->contains(item->getId()))
-    {
-        m_characterItemMap->remove(item->getId());
-    }
-    {
-        m_children.removeAll(item->getRadiusChildWidget());
-    }
-}*/
-void SightItem::setDefaultShape(CharacterVision::SHAPE shape)
-{
-    m_defaultShape= shape;
-    update();
-}
 
-void SightItem::setDefaultRadius(qreal rad)
-{
-    m_defaultRadius= rad;
-    update();
-}
-
-void SightItem::setDefaultAngle(qreal rad)
-{
-    m_defaultAngle= rad;
-    update();
-}
 void SightItem::createActions() {}
 
 void SightItem::moveVision(qreal id, QPointF& pos)

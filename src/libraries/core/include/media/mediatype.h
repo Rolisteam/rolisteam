@@ -134,7 +134,8 @@ NETWORK_EXPORT Q_ENUM_NS(State)
     enum VisibilityMode {
         HIDDEN,
         FOGOFWAR,
-        ALL
+        ALL,
+        NONE
     };
 NETWORK_EXPORT Q_ENUM_NS(VisibilityMode)
 
@@ -278,6 +279,7 @@ NETWORK_EXPORT Q_ENUM_NS(Layer)
 
 namespace vmapkeys
 {
+constexpr char const* KEY_AVATAR{"avatar"};
 constexpr char const* KEY_BORDERRECT{"borderRect"};
 constexpr char const* KEY_BORDER{"border"};
 constexpr char const* KEY_CHARACTER{"character"};
@@ -322,6 +324,27 @@ constexpr char const* KEY_TOOL{"tool"};
 constexpr char const* KEY_ITEMTYPE{"itemtype"};
 constexpr char const* KEY_UUID{"uuid"};
 constexpr char const* KEY_VISIBLE{"visible"};
+
+constexpr char const* KEY_CHARAC_NPC{"chac_npc"};
+constexpr char const* KEY_CHARAC_ID{"chac_uuid"};
+constexpr char const* KEY_CHARAC_NAME{"chac_name"};
+constexpr char const* KEY_CHARAC_AVATAR{"chac_avatar"};
+constexpr char const* KEY_CHARAC_HPCURRENT{"chac_hpcurrent"};
+constexpr char const* KEY_CHARAC_HPMAX{"chac_hpmax"};
+constexpr char const* KEY_CHARAC_HPMIN{"chac_hpmin"};
+constexpr char const* KEY_CHARAC_INITSCORE{"chac_initscore"};
+constexpr char const* KEY_CHARAC_DISTANCEPERTURN{"chac_distanceperturn"};
+constexpr char const* KEY_CHARAC_STATEID{"chac_stateid"};
+constexpr char const* KEY_CHARAC_LIFECOLOR{"chac_lifecolor"};
+constexpr char const* KEY_CHARAC_INITCMD{"chac_init_command"};
+constexpr char const* KEY_CHARAC_HASINIT{"chac_has_init"};
+
+constexpr char const* KEY_VIS_POS{"vis_position"};
+constexpr char const* KEY_VIS_ANGLE{"vis_angle"};
+constexpr char const* KEY_VIS_SHAPE{"vis_shape"};
+constexpr char const* KEY_VIS_VISIBLE{"vis_visible"};
+constexpr char const* KEY_VIS_RADIUS{"vis_radiusv"};
+
 } // namespace vmapkeys
 
 namespace extentions

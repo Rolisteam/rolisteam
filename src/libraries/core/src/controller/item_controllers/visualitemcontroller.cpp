@@ -144,11 +144,6 @@ bool VisualItemController::selectable() const
     return (m_ctrl->layer() == m_layer);
 }
 
-bool VisualItemController::modified() const
-{
-    return m_modified;
-}
-
 bool VisualItemController::visible() const
 {
     return m_visible; // && ((m_ctrl->visibility() != Core::HIDDEN) || m_ctrl->localGM()));
@@ -248,7 +243,7 @@ void VisualItemController::setRotation(qreal rota)
     if(qFuzzyCompare(rota, m_rotation))
         return;
     m_rotation= rota;
-    emit rotationChanged();
+    emit rotationChanged(m_rotation);
     m_rotationEditing= true;
 }
 
@@ -291,7 +286,7 @@ void VisualItemController::setPos(const QPointF& pos)
         return;
     m_pos= pos;
     m_posEditing= true;
-    emit posChanged();
+    emit posChanged(m_pos);
 }
 void VisualItemController::setLocked(bool locked)
 {
@@ -317,12 +312,9 @@ void VisualItemController::setRemote(bool b)
     emit remoteChanged(m_remote);
 }
 
-void VisualItemController::setModified(bool b)
+void VisualItemController::setModified()
 {
-    if(b == m_modified)
-        return;
-    m_modified= b;
-    emit modifiedChanged(m_modified);
+    emit modifiedChanged();
 }
 
 void VisualItemController::computeEditable()

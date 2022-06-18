@@ -107,14 +107,14 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
 
     m_gridItem= new GridItem(grid);
     addItem(m_gridItem);
-    m_gridItem->initChildPointItem();
+
     m_gridItem->setPos(grid->pos());
     m_gridItem->setZValue(2);
 
     auto sight= m_ctrl->sightController();
-    m_sightItem= new SightItem(sight, m_characterItemMap);
+    m_sightItem= new SightItem(sight);
     addItem(m_sightItem);
-    m_sightItem->initChildPointItem();
+
     m_sightItem->setPos(0, 0);
     m_sightItem->setZValue(1);
 
@@ -427,17 +427,6 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 }
 void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-    if(m_currentPath && (Core::EditionMode::Painting == m_ctrl->editionMode()))
-    {
-        if(vmap::VisualItemController::ItemType::PATH == m_currentPath->getType())
-        {
-            PathItem* itm= dynamic_cast<PathItem*>(m_currentPath.data());
-            if(nullptr != itm)
-            {
-                itm->release();
-            }
-        }
-    }
     if(m_parentItemAnchor)
     {
         manageAnchor();
@@ -693,7 +682,7 @@ void VMap::promoteItemInType(VisualItem* item, vmap::VisualItemController::ItemT
         // bis->setLayer(item->getLayer());
         // removeItemFromScene(item->getId());
         // addNewItem(new AddVmapItemCommand(bis, false, this), true);
-        bis->initChildPointItem();
+        // bis->initChildPointItem();
     }
 }
 
@@ -829,7 +818,7 @@ void VMap::duplicateItem(VisualItem* item)
     VisualItem* copy= item->getItemCopy();
     if(nullptr != copy)
     {
-        copy->initChildPointItem();
+        // copy->initChildPointItem();
         // copy->setLayer(item->getLayer());
         //  addNewItem(new AddVmapItemCommand(copy, false, this), true);
         copy->setPos(item->pos());
@@ -1009,7 +998,7 @@ QRectF VMap::itemsBoundingRectWithoutSight()
     return result;
 }
 
-void VMap::rollInit(Core::CharacterScope zone)
+/*void VMap::rollInit(Core::CharacterScope zone)
 {
     QList<CharacterItem*> list;
     if(zone == Core::AllCharacter)
@@ -1044,9 +1033,9 @@ void VMap::rollInit(Core::CharacterScope zone)
     {
         charac->runInit();
     }
-}
+}*/
 
-void VMap::cleanUpInit(Core::CharacterScope zone)
+/*void VMap::cleanUpInit(Core::CharacterScope zone)
 {
     QList<CharacterItem*> list;
     if(zone == Core::AllCharacter)
@@ -1081,7 +1070,7 @@ void VMap::cleanUpInit(Core::CharacterScope zone)
     {
         charac->cleanInit();
     }
-}
+}*/
 void VMap::addCommand(QUndoCommand* cmd)
 {
     if(m_undoStack.isNull() || nullptr == cmd)

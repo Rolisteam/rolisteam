@@ -53,13 +53,15 @@ VectorialMapController::VectorialMapController(const QString& id, QObject* paren
 
     connect(m_vmapModel.get(), &vmap::VmapItemModel::itemControllerAdded, this,
             &VectorialMapController::visualItemControllerCreated);
+    connect(m_vmapModel.get(), &vmap::VmapItemModel::itemControllersRemoved, this,
+            &VectorialMapController::visualItemControllersRemoved);
 
     connect(m_vmapModel.get(), &vmap::VmapItemModel::rowsInserted, this, [this] { setModified(); });
     connect(m_vmapModel.get(), &vmap::VmapItemModel::rowsRemoved, this, [this] { setModified(); });
     connect(m_vmapModel.get(), &vmap::VmapItemModel::dataChanged, this, [this] { setModified(); });
     connect(this, &VectorialMapController::modifiedChanged, this, [this](bool b) {
         if(!b)
-            m_vmapModel->setModifiedToAllItem(b);
+            m_vmapModel->setModifiedToAllItem();
     });
 }
 
@@ -256,6 +258,11 @@ QString VectorialMapController::layerToText(Core::Layer id)
 vmap::VmapItemModel* VectorialMapController::model() const
 {
     return m_vmapModel.get();
+}
+
+void VectorialMapController::addVision(CharacterVision* vision)
+{
+    m_sightController->addCharacterVision(vision);
 }
 
 void VectorialMapController::setPermission(Core::PermissionMode mode)
@@ -521,7 +528,6 @@ void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
 
 void VectorialMapController::addHighLighter(const QPointF& point)
 {
-    // emit highLightAt(point, m_penSize, m_toolColor);
     emit sendOffHighLightAt(point, m_penSize, m_toolColor);
     emit highLightAt(point, m_penSize, m_toolColor);
 }
@@ -632,6 +638,11 @@ void VectorialMapController::rollInit(Core::CharacterScope scope)
     emit performCommand(new RollInitCommand(list, m_diceParser));
 }
 
+void VectorialMapController::rollInit(QList<QPointer<vmap::CharacterItemController>> list)
+{
+    emit performCommand(new RollInitCommand(list, m_diceParser));
+}
+
 void VectorialMapController::setDiceParser(DiceRoller* parser)
 {
     m_diceParser= parser;
@@ -643,8 +654,21 @@ void VectorialMapController::cleanUpInit(Core::CharacterScope scope)
     auto list= sublist(scope, items);
     emit performCommand(new CleanUpRollCommand(list));
 }
-
-void VectorialMapController::removeItemController(const QSet<QString>& ids)
+void VectorialMapController::cleanUpInit(QList<QPointer<vmap::CharacterItemController>> list)
 {
-    m_vmapModel->removeItemController(ids);
+    emit performCommand(new CleanUpRollCommand(list));
+}
+
+void VectorialMapController::runDiceCommand(QList<QPointer<vmap::CharacterItemController>> list, QString cmd)
+{
+    emit performCommand(new CleanUpRollCommand(list));
+}
+
+void VectorialMapController::removeItemController(const QSet<QString>& ids, bool fromNetwork)
+{
+    m_vmapModel->removeItemController(ids, fromNetwork);
+}
+void VectorialMapController::addCommand(QUndoCommand* cmd)
+{
+    emit performCommand(cmd);
 }

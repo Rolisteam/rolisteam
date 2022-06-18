@@ -132,6 +132,9 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
                 if(updater)
                     updater->addItemController(itemCtrl);
             });
+    connect(ctrl, &VectorialMapController::visualItemControllersRemoved, this,
+            [ctrl](const QStringList& list) { VectorialMapMessageHelper::sendOffRemoveItems(list, ctrl->uuid()); });
+
     connect(ctrl, &VectorialMapController::modifiedChanged, this, [ctrl, this]() {
         if(ctrl->modified())
         {
@@ -225,13 +228,13 @@ bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapCont
 NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
-    if(msg->action() == NetMsg::UpdateMediaProperty && msg->category() == NetMsg::MediaCategory)
+    if(is(msg, NetMsg::MediaCategory, NetMsg::UpdateMediaProperty))
     {
         QString vmapId= msg->string8();
         auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
         updateVMapProperty(msg, map);
     }
-    else if(msg->category() == NetMsg::VMapCategory && msg->action() == NetMsg::AddItem)
+    else if(is(msg, NetMsg::VMapCategory, NetMsg::AddItem))
     {
         QString vmapId= msg->string8();
         auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
@@ -245,7 +248,7 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
         auto item= vmap::VmapItemFactory::createRemoteVMapItem(map, msg);
         map->addRemoteItem(item);
     }
-    else if(msg->category() == NetMsg::VMapCategory && msg->action() == NetMsg::UpdateItem)
+    else if(is(msg, NetMsg::VMapCategory, NetMsg::UpdateItem))
     {
         QString vmapId= msg->string8();
         auto itemType= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
@@ -262,7 +265,7 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
             it->second->updateItemProperty(msg, itemCtrl);
         }
     }
-    else if(msg->category() == NetMsg::VMapCategory && msg->action() == NetMsg::HighLightPosition)
+    else if(is(msg, NetMsg::VMapCategory, NetMsg::HighLightPosition))
     {
         QString vmapId= msg->string8();
         auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
@@ -270,6 +273,17 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
             return type;
 
         VectorialMapMessageHelper::readHighLight(map, msg);
+    }
+    else if(is(msg, NetMsg::VMapCategory, NetMsg::DeleteItem))
+    {
+        QString vmapId= msg->string8();
+        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
+        if(nullptr == map)
+            return type;
+
+        auto list= VectorialMapMessageHelper::readRemoveItems(msg);
+        QSet<QString> ids{list.begin(), list.end()};
+        map->removeItemController(ids, true);
     }
     return type;
 }

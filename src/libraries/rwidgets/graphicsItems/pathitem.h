@@ -53,28 +53,10 @@ public:
      */
     virtual QPainterPath shape() const override;
     /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
-    /**
-     * @brief initChildPointItem
-     */
-    virtual void initChildPointItem() override;
-    /**
      * @brief getItemCopy
      * @return
      */
     virtual VisualItem* getItemCopy() override;
-    /**
-     * @brief setStartPoint
-     */
-    void setStartPoint(QPointF);
-    /**
-     * @brief release
-     */
-    void release();
 
     /**
      * @brief addActionContextMenu

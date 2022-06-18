@@ -25,6 +25,9 @@
 #include <QFlags>
 #include <QGraphicsObject>
 #include <QPointer>
+
+#include "media/mediatype.h"
+
 namespace vmap
 {
 class VisualItemController;
@@ -35,6 +38,8 @@ class VisualItem;
  */
 class RWIDGET_EXPORT ChildPointItem : public QGraphicsObject
 {
+    Q_OBJECT
+    Q_PROPERTY(Control control READ control CONSTANT)
 public:
     /**
      * @brief The MOTION enum, ALL means all axis, MOUSE means the changes are control by mouse event instead of
@@ -77,12 +82,19 @@ public:
         Moving
     };
 
+    enum class Control
+    {
+        Geometry,
+        Vision
+    };
+
     /**
      * @brief ChildPointItem
      * @param point
      * @param parent
      */
-    ChildPointItem(vmap::VisualItemController* ctrl, int point, VisualItem* parent, bool isVision= false);
+    ChildPointItem(vmap::VisualItemController* ctrl, int point, VisualItem* parent,
+                   Control control= ChildPointItem::Control::Geometry);
     /**
      * @brief ~ChildPointItem
      */
@@ -132,15 +144,11 @@ public:
      * @return
      */
     int getPointID() const;
-    /**
-     * @brief isVisionHandler
-     * @return
-     */
-    bool isVisionHandler();
-    /**
-     * @brief setVisionHandler
-     */
-    void setVisionHandler(bool);
+
+    Control control() const;
+
+signals:
+    void visibilityModeChanged();
 
 protected:
     /**
@@ -162,8 +170,8 @@ private:
     VisualItem* m_parent;
     MOTIONS m_motion= NONE;
     bool m_editable;
-    bool m_vision;
     PLACEMENT m_placement;
+    Control m_control= Control::Geometry;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(ChildPointItem::MOTIONS)
 #endif // CHILDPOINTITEM_H

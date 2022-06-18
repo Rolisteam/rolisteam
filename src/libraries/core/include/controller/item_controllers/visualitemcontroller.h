@@ -24,9 +24,11 @@
 #include <QObject>
 #include <QPointF>
 #include <QPointer>
+#include <QUndoCommand>
 
 #include "media/mediatype.h"
 #include <core_global.h>
+
 class VectorialMapController;
 namespace vmap
 {
@@ -49,7 +51,6 @@ class CORE_EXPORT VisualItemController : public QObject
     Q_PROPERTY(ItemType itemType READ itemType CONSTANT)
     Q_PROPERTY(bool initialized READ initialized WRITE setInitialized NOTIFY initializedChanged)
     Q_PROPERTY(bool remote READ remote WRITE setRemote NOTIFY remoteChanged)
-    Q_PROPERTY(bool modified READ modified WRITE setModified NOTIFY modifiedChanged)
 
 public:
     enum ItemType
@@ -83,7 +84,6 @@ public:
     bool selected() const;
     bool editable() const;
     bool selectable() const;
-    bool modified() const;
     virtual bool visible() const;
     qreal opacity() const;
     Core::Layer layer() const;
@@ -119,10 +119,10 @@ signals:
     void visibleChanged();
     void opacityChanged();
     void layerChanged();
-    void posChanged();
+    void posChanged(const QPointF& p);
     void uuidChanged();
     void removeItem();
-    void rotationChanged();
+    void rotationChanged(qreal r);
     void localIsGMChanged();
     void colorChanged(QColor color);
     void initializedChanged(bool);
@@ -131,7 +131,7 @@ signals:
     void rotationEditFinished();
     void visibilityChanged(Core::VisibilityMode);
     void remoteChanged(bool);
-    void modifiedChanged(bool);
+    void modifiedChanged();
 
 public slots:
     void setSelected(bool b);
@@ -146,7 +146,7 @@ public slots:
     void setLocked(bool locked);
     void setInitialized(bool);
     void setRemote(bool b);
-    void setModified(bool b= true);
+    void setModified();
 
 protected:
     void computeEditable();
@@ -173,7 +173,6 @@ protected:
     bool m_posEditing= false;
     bool m_rotationEditing= false;
     bool m_remote= false;
-    bool m_modified= false;
 };
 } // namespace vmap
 #endif // VISUALITEMCONTROLLER_H

@@ -24,6 +24,7 @@
 #include <QFileInfo>
 
 #include "data/media.h"
+#include "worker/characterfinder.h"
 
 namespace campaign
 {
@@ -40,6 +41,7 @@ Campaign::Campaign(QObject* parent)
     , m_stateModel(new CharacterStateModel)
     , m_npcModel(new campaign::NonPlayableCharacterModel)
 {
+    CharacterFinder::setNpcModel(m_npcModel.get());
     connect(this, &Campaign::mediaAdded, this, &Campaign::diskUsageChanged);
     connect(this, &Campaign::mediaRemoved, this, &Campaign::fileCountChanged);
     connect(this, &Campaign::mediaAdded, this, &Campaign::diskUsageChanged);

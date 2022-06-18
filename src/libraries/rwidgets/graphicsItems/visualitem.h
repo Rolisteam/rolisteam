@@ -77,13 +77,6 @@ public:
      * @param keepRatio
      */
     virtual void resizeContents(const QRectF& rect, int pointId, TransformType transformType= KeepRatio);
-
-    /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos)= 0;
     /**
      * @brief setRectSize
      * @param w
@@ -94,11 +87,6 @@ public:
      * @brief endOfGeometryChange
      */
     virtual void endOfGeometryChange(ChildPointItem::Change change);
-
-    /**
-     * @brief initChildPointItem
-     */
-    virtual void initChildPointItem()= 0;
     /**
      * @brief addActionContextMenu
      */

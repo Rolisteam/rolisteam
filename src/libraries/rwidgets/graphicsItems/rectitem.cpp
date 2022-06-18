@@ -118,10 +118,6 @@ void RectItem::setNewEnd(const QPointF& p)
     m_ctrl->setCorner(p, 2);
 }
 
-void RectItem::setGeometryPoint(qreal pointId, QPointF& pos) {}
-
-void RectItem::initChildPointItem() {}
-
 void RectItem::updateChildPosition()
 {
     if(!m_rectCtrl)
@@ -147,7 +143,6 @@ void RectItem::updateChildPosition()
 VisualItem* RectItem::getItemCopy()
 {
     return nullptr;
-    //  return rectItem;
 }
 
 void RectItem::endOfGeometryChange(ChildPointItem::Change change)

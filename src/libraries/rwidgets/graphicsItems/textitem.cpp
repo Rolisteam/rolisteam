@@ -134,11 +134,16 @@ TextItem::TextItem(vmap::TextController* ctrl)
     , m_textCtrl(ctrl)
     , m_doc(new QTextDocument)
     , m_textItem(new TextLabel(this))
-    , m_increaseFontSize(new QAction(tr("Increase Text Size"), this))
-    , m_decreaseFontSize(new QAction(tr("Decrease Text Size"), this))
+    , m_increaseFontSize(new QAction(tr("Increase Text Size")))
+    , m_decreaseFontSize(new QAction(tr("Decrease Text Size")))
+    , m_edit(new QAction(tr("Edit Text…")))
+    , m_adapt(new QAction(tr("Adapt to content")))
 {
     if(nullptr == m_dialog)
         m_dialog= new RichTextEditDialog();
+
+    connect(m_edit.get(), &QAction::triggered, this, &TextItem::editText);
+    connect(m_adapt.get(), &QAction::triggered, this, &TextItem::sizeToTheContent);
 
     connect(m_increaseFontSize.get(), &QAction::triggered, m_textCtrl, &vmap::TextController::increaseFontSize);
     connect(m_decreaseFontSize.get(), &QAction::triggered, m_textCtrl, &vmap::TextController::decreaseFontSize);
@@ -239,62 +244,6 @@ void TextItem::wheelEvent(QGraphicsSceneWheelEvent* event)
     event->accept();
 }
 
-void TextItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    /*if(m_holdSize)
-        return;*/
-
-    /* switch(static_cast<int>(pointId))
-     {
-     case 0:
-         m_rect.setTopLeft(pos);
-         m_child->value(1)->setPos(m_rect.topRight());
-         m_child->value(2)->setPos(m_rect.bottomRight());
-         m_child->value(3)->setPos(m_rect.bottomLeft());
-         break;
-     case 1:
-         m_rect.setTopRight(pos);
-         m_child->value(0)->setPos(m_rect.topLeft());
-         m_child->value(2)->setPos(m_rect.bottomRight());
-         m_child->value(3)->setPos(m_rect.bottomLeft());
-         break;
-     case 2:
-         m_rect.setBottomRight(pos);
-         m_child->value(0)->setPos(m_rect.topLeft());
-         m_child->value(1)->setPos(m_rect.topRight());
-         m_child->value(3)->setPos(m_rect.bottomLeft());
-         break;
-     case 3:
-         m_rect.setBottomLeft(pos);
-         m_child->value(0)->setPos(m_rect.topLeft());
-         m_child->value(1)->setPos(m_rect.topRight());
-         m_child->value(2)->setPos(m_rect.bottomRight());
-         break;
-     default:
-         break;
-     }
-
-     setTransformOriginPoint(m_rect.center());*/
-
-    // updateTextPosition();
-    // m_resizing= true;
-}
-
-/*void TextItem::setHoldSize(bool holdSize)
-{
-    VisualItem::setHoldSize(holdSize);
-    for(auto child : m_children)
-    {
-        auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
-        child->setMotion(motion);
-    }
-}*/
-
-void TextItem::initChildPointItem()
-{
-    // updateTextPosition();
-    updateChildPosition();
-}
 void TextItem::updateChildPosition()
 {
     if(!m_textCtrl)
@@ -344,15 +293,13 @@ VisualItem* TextItem::getItemCopy()
 }
 void TextItem::addActionContextMenu(QMenu& menu)
 {
-    QAction* edit= menu.addAction(tr("Edit Text…"));
-    connect(edit, SIGNAL(triggered(bool)), this, SLOT(editText()));
-
-    QAction* adapt= menu.addAction(tr("Adapt to content"));
-    connect(adapt, SIGNAL(triggered(bool)), this, SLOT(sizeToTheContent()));
+    menu.addAction(m_edit.get());
+    menu.addAction(m_adapt.get());
 
     QMenu* state= menu.addMenu(tr("Font Size"));
     state->addAction(m_increaseFontSize.get());
     state->addAction(m_decreaseFontSize.get());
+    VisualItem::addActionContextMenu(menu);
 }
 
 void TextItem::sizeToTheContent()

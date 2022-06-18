@@ -19,7 +19,9 @@
  ***************************************************************************/
 #include "data/characterstate.h"
 
-CharacterState::CharacterState() {}
+#include <QUuid>
+
+CharacterState::CharacterState() : m_id(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
 CharacterState::CharacterState(const CharacterState& copy)
 {
     m_id= copy.id();

@@ -89,17 +89,6 @@ public:
      * @brief amends the position of the end point, not really useful for this kind of graphical item.
      */
     virtual void setNewEnd(const QPointF& nend) override;
-
-    /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
-    /**
-     * @brief initChildPointItem
-     */
-    virtual void initChildPointItem() override;
     void updateChildPosition() override;
     VisualItem* getItemCopy() override;
     void addActionContextMenu(QMenu& menu) override;
@@ -126,8 +115,11 @@ private:
     QPointer<vmap::TextController> m_textCtrl;
     std::unique_ptr<QTextDocument> m_doc;
     std::unique_ptr<TextLabel> m_textItem;
+
     std::unique_ptr<QAction> m_increaseFontSize;
     std::unique_ptr<QAction> m_decreaseFontSize;
+    std::unique_ptr<QAction> m_edit;
+    std::unique_ptr<QAction> m_adapt;
 
     static RichTextEditDialog* m_dialog;
 };

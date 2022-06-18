@@ -45,6 +45,8 @@ public:
 
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
+    bool is(NetworkMessageReader* msg, NetMsg::Category, NetMsg::Action) const;
+
 public slots:
     virtual void saveMediaController(MediaControllerBase* ctrl);
 

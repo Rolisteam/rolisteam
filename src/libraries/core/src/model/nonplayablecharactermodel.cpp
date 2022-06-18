@@ -282,12 +282,10 @@ void NonPlayableCharacterModel::setModelData(const std::vector<NonPlayableCharac
 {
     beginResetModel();
     m_data.clear();
-    std::for_each(std::begin(data), std::end(data),
-                  [this](NonPlayableCharacter* npc)
-                  {
-                      std::unique_ptr<NonPlayableCharacter> unique(npc);
-                      m_data.push_back(std::move(unique));
-                  });
+    std::for_each(std::begin(data), std::end(data), [this](NonPlayableCharacter* npc) {
+        std::unique_ptr<NonPlayableCharacter> unique(npc);
+        m_data.push_back(std::move(unique));
+    });
     endResetModel();
 }
 
@@ -316,14 +314,26 @@ void NonPlayableCharacterModel::refresh(const QString& uuid)
 
 QModelIndex NonPlayableCharacterModel::indexFromUuid(const QString& id)
 {
-    auto it= std::find_if(std::begin(m_data), std::end(m_data),
-                          [id](const std::unique_ptr<NonPlayableCharacter>& character)
-                          { return character->uuid() == id; });
+    auto it= std::find_if(
+        std::begin(m_data), std::end(m_data),
+        [id](const std::unique_ptr<NonPlayableCharacter>& character) { return character->uuid() == id; });
 
     if(it == std::end(m_data))
         return {};
     else
         return index(std::distance(std::begin(m_data), it), 0);
+}
+
+NonPlayableCharacter* NonPlayableCharacterModel::characterFromUuid(const QString& id)
+{
+    auto it= std::find_if(
+        std::begin(m_data), std::end(m_data),
+        [id](const std::unique_ptr<NonPlayableCharacter>& character) { return character->uuid() == id; });
+
+    if(it != std::end(m_data))
+        return it->get();
+
+    return nullptr;
 }
 
 const std::vector<std::unique_ptr<NonPlayableCharacter>>& NonPlayableCharacterModel::npcList() const

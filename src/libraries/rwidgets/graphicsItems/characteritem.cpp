@@ -46,6 +46,8 @@
 #define MAX_CORNER_ITEM 6
 #define DIRECTION_RADIUS_HANDLE 4
 #define ANGLE_HANDLE 5
+#define PEN_WIDTH 6
+#define PEN_RADIUS 3
 
 void updateListAlias(QList<DiceAlias*>& list)
 {
@@ -90,19 +92,65 @@ QColor ContrastColor(QColor color)
 //////////////////
 // code of CharacterItem class.
 /////////////////
-CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl) : VisualItem(ctrl), m_itemCtrl(ctrl)
+CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl)
+    : VisualItem(ctrl)
+    , m_itemCtrl(ctrl)
+    , m_visionShapeDisk(new QAction(tr("Disk")))
+    , m_visionShapeAngle(new QAction(tr("Angle")))
+    , m_reduceLife(new QAction(tr("Reduce Life")))
+    , m_increaseLife(new QAction(tr("Increase Life")))
 {
     if(!m_itemCtrl)
         return;
 
+    m_visionShapeDisk->setCheckable(true);
+    m_visionShapeAngle->setCheckable(true);
+
+    connect(m_visionShapeAngle.get(), &QAction::triggered, m_itemCtrl,
+            [this]() { m_itemCtrl->setVisionShape(CharacterVision::ANGLE); });
+    connect(m_visionShapeDisk.get(), &QAction::triggered, m_itemCtrl,
+            [this]() { m_itemCtrl->setVisionShape(CharacterVision::DISK); });
+
     m_itemCtrl->setFont(QFont());
 
     connect(m_itemCtrl, &vmap::CharacterItemController::thumnailRectChanged, this, &CharacterItem::updateChildPosition);
+
+    if(m_itemCtrl->playableCharacter())
+    {
+        auto vision= m_itemCtrl->vision();
+
+        connect(vision, &CharacterVision::radiusChanged, this, &CharacterItem::updateChildPosition);
+        connect(vision, &CharacterVision::angleChanged, this, &CharacterItem::updateChildPosition);
+    }
+
+    auto updateLambda= [this]() { update(); };
+    connect(m_itemCtrl, &vmap::CharacterItemController::sideChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::stateColorChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::numberChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::thumnailRectChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::visionChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::visionShapeChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::textRectChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::textChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::hasAvatarChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::avatarChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::fontChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::radiusChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::remoteChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::stateIdChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::stateImageChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::modifiedChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::healthStatusVisibleChanged, this, updateLambda);
+
     // createActions();
     for(int i= 0; i <= CharacterItem::SightLenght; ++i)
     {
-        ChildPointItem* tmp= new ChildPointItem(m_itemCtrl, i, this);
+        auto c= ChildPointItem::Control::Geometry;
+        if(i == CharacterItem::SightAngle || i == CharacterItem::SightLenght)
+            c= ChildPointItem::Control::Vision;
+        ChildPointItem* tmp= new ChildPointItem(m_itemCtrl, i, this, c);
         tmp->setMotion(ChildPointItem::MOUSE);
+
         m_children.append(tmp);
     }
     updateChildPosition();
@@ -113,56 +161,17 @@ CharacterItem::~CharacterItem()
     qDebug() << "charcteritem destroyed";
 }
 
-/*CharacterItem::CharacterItem(CharacterController* ctrl, Character* m, const QPointF& pos, qreal diameter)
-    : VisualItem(ctrl)
-    , m_center(pos)
-    , m_diameter(diameter)
-    , m_thumnails(nullptr)
-    , m_protectGeometryChange(false)
-    , m_visionChanged(false)
-{
-    setCharacter(m);
-    setPos(m_center - QPointF(diameter / 2, diameter / 2));
-    sizeChanged(diameter);
-    createActions();
-}*/
-
 QRectF CharacterItem::boundingRect() const
 {
-    return m_itemCtrl->thumnailRect().united(m_itemCtrl->textRect());
+    return m_itemCtrl ? m_itemCtrl->thumnailRect().united(m_itemCtrl->textRect()) : QRectF();
 }
 QPainterPath CharacterItem::shape() const
 {
     return m_itemCtrl->shape();
 }
 
-void CharacterItem::setNewEnd(const QPointF& nend)
-{
-    Q_UNUSED(nend);
-    // m_center = nend;
-}
+void CharacterItem::setNewEnd(const QPointF& p) {}
 
-void CharacterItem::setChildrenVisible(bool b)
-{
-    VisualItem::setChildrenVisible(b);
-
-    /* if(m_child && (m_ctrl->permission() == Core::PC_MOVE || isNpc()))
-     {
-         if(!m_ctrl->localGM() || isNpc())
-         {
-             if(!m_child->isEmpty() && m_child->size() > DIRECTION_RADIUS_HANDLE)
-             {
-                 m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
-             }
-             if(!m_child->isEmpty() && m_child->size() > ANGLE_HANDLE)
-             {
-                 m_child->at(ANGLE_HANDLE)->setVisible(false);
-             }
-         }
-     }*/
-}
-#define PEN_WIDTH 6
-#define PEN_RADIUS 3
 void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option)
@@ -170,6 +179,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     bool hasFocusOrChildren= hasFocusOrChild();
     setChildrenVisible(hasFocusOrChildren);
     emit selectStateChange(hasFocusOrChildren);
+    auto rect= m_itemCtrl->rect();
 
     QString textToShow= m_itemCtrl->text();
 
@@ -178,15 +188,16 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
 
     painter->save();
+    // Avatar
     if(m_itemCtrl->hasAvatar())
     {
-        painter->drawImage(m_itemCtrl->thumnailRect(), *m_itemCtrl->avatar(), m_itemCtrl->avatar()->rect());
+        painter->drawImage(rect, *m_itemCtrl->avatar(), m_itemCtrl->avatar()->rect());
     }
     else
     {
         painter->setPen(m_itemCtrl->color());
         painter->setBrush(QBrush(m_itemCtrl->color(), Qt::SolidPattern));
-        painter->drawEllipse(m_itemCtrl->thumnailRect());
+        painter->drawEllipse(rect);
     }
 
     QPen pen= painter->pen();
@@ -197,7 +208,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         auto stateImg= m_itemCtrl->stateImage();
         if(!stateImg.isNull())
         {
-            painter->drawImage(m_itemCtrl->thumnailRect(), stateImg, stateImg.rect());
+            painter->drawImage(rect, stateImg, stateImg.rect());
         }
         else if(!character->hasAvatar())
         {
@@ -211,13 +222,10 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             pen.setColor(m_itemCtrl->stateColor());
             painter->setPen(pen);
             int diam= static_cast<int>(m_itemCtrl->side());
-            painter->drawRoundedRect(0, 0, diam, diam, m_itemCtrl->side() / RADIUS_CORNER,
+            painter->drawRoundedRect(rect.x(), rect.y(), diam, diam, m_itemCtrl->side() / RADIUS_CORNER,
                                      m_itemCtrl->side() / RADIUS_CORNER);
         }
     }
-    // QRectF rectText;
-    QFontMetrics metric(painter->font());
-
     if(!textToShow.isEmpty())
     {
         setToolTip(textToShow);
@@ -234,9 +242,9 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
         if(m_itemCtrl->hasAvatar())
-            painter->drawRect(m_itemCtrl->thumnailRect());
+            painter->drawRect(rect);
         else
-            painter->drawEllipse(m_itemCtrl->thumnailRect());
+            painter->drawEllipse(rect);
         painter->restore();
     }
 
@@ -255,12 +263,11 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 
         if(min < max)
         {
-            auto rect= m_itemCtrl->thumnailRect();
-            QRectF bar(rect.x(), rect.height() - PEN_WIDTH, rect.width(), PEN_WIDTH);
+            QRectF bar(rect.x(), rect.height() + rect.y() - PEN_WIDTH, rect.width(), PEN_WIDTH);
             painter->save();
             auto newWidth= (current - min) * bar.width() / (max - min);
             painter->drawRect(bar);
-            QRectF value(rect.x(), rect.height() - PEN_WIDTH, newWidth, PEN_WIDTH);
+            QRectF value(rect.x(), rect.height() + rect.y() - PEN_WIDTH, newWidth, PEN_WIDTH);
             painter->fillRect(value, color);
             painter->restore();
         }
@@ -312,36 +319,7 @@ void CharacterItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
     VisualItem::setRectSize(x, y, w, h);
     // m_diameter= m_rect.width();
-    generatedThumbnail();
     updateChildPosition();
-}
-void CharacterItem::generatedThumbnail()
-{
-    /* if(m_thumnails != nullptr)
-     {
-         delete m_thumnails;
-         m_thumnails= nullptr;
-     }
-     int diam= static_cast<int>(m_diameter);
-     m_thumnails= new QPixmap(diam, diam);
-     m_thumnails->fill(Qt::transparent);
-     QPainter painter(m_thumnails);
-     QBrush brush;
-     if(m_character->getAvatar().isNull())
-     {
-         painter.setPen(m_character->getColor());
-         brush.setColor(m_character->getColor());
-         brush.setStyle(Qt::SolidPattern);
-     }
-     else
-     {
-         painter.setPen(Qt::NoPen);
-         QImage img= m_character->getAvatar();
-         brush.setTextureImage(img.scaled(diam, diam));
-     }
-
-     painter.setBrush(brush);
-     painter.drawRoundedRect(0, 0, diam, diam, m_diameter / RADIUS_CORNER, m_diameter / RADIUS_CORNER);*/
 }
 
 void CharacterItem::resizeContents(const QRectF& rect, int pointId, TransformType)
@@ -363,20 +341,14 @@ QString CharacterItem::getCharacterId() const
       }*/
     return QString();
 }
-void CharacterItem::setNumber(int n)
-{
-    /* if(nullptr == m_character)
-         return;
 
-     m_character->setNumber(n);*/
-}
 QString CharacterItem::getName() const
 {
     /* if(nullptr == m_character)
          return {};
 
      return m_character->name();*/
-    return {};
+    return m_itemCtrl->text();
 }
 int CharacterItem::getNumber() const
 {
@@ -384,7 +356,7 @@ int CharacterItem::getNumber() const
           return {};
 
       return m_character->number();*/
-    return 0;
+    return m_itemCtrl->number();
 }
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
@@ -428,145 +400,6 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
 int CharacterItem::getChildPointCount() const
 {
     return m_children.size();
-}
-void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    /* QRectF rect; //= m_rect
-     if(m_protectGeometryChange || m_holdSize)
-         return;
-
-     switch(static_cast<int>(pointId))
-     {
-     case 0:
-         rect.setTopLeft(pos);
-         break;
-     case 1:
-         pos.setY(rect.topRight().x() - pos.x());
-         rect.setTopRight(pos);
-         break;
-     case 2:
-         rect.setBottomRight(pos);
-         break;
-     case 3:
-         pos.setX(rect.bottomLeft().y() - pos.y());
-         rect.setBottomLeft(pos);
-         break;
-     case DIRECTION_RADIUS_HANDLE:
-         / *   if(pos.x() - (m_rect.width() / 2) < 0)
-            {
-                pos.setX(m_rect.width() / 2);
-            }
-            m_vision->setRadius(pos.x() - (getRadius() * 2) + m_child->at(4)->boundingRect().width() + m_rect.width() /
-            2); visionChanged();* /
-         break;
-     case ANGLE_HANDLE:
-     {
-         if(!qFuzzyCompare(pos.x(), ((m_vision->getRadius() + getRadius()) / 2)))
-         {
-             pos.setX((m_vision->getRadius() + getRadius()) / 2);
-         }
-         if(pos.y() < -360)
-         {
-             pos.setY(-360);
-         }
-
-         if(pos.y() > 0)
-         {
-             pos.setY(0);
-         }
-         qreal angle= 360 * (std::fabs(pos.y()) / 360);
-         m_vision->setAngle(angle);
-         visionChanged();
-     }
-     break;
-     default:
-         // emit geometryChangeOnUnkownChild(pointId,pos);
-         break;
-     }
-     if(rect.width() < MINI_VALUE)
-     {
-         rect.setWidth(MINI_VALUE);
-     }
-     if(rect.height() < MINI_VALUE)
-     {
-         rect.setHeight(MINI_VALUE);
-     }
-     m_diameter= qMin(rect.width(), rect.height());
-     sizeChanged(m_diameter);
-     switch(static_cast<int>(pointId))
-     {
-         / *   case 0:
-                pos= m_rect.topLeft();
-                m_child->value(1)->setPos(m_rect.topRight());
-                m_child->value(2)->setPos(m_rect.bottomRight());
-                m_child->value(3)->setPos(m_rect.bottomLeft());
-                m_child->value(4)->setPos(m_vision->getRadius(),
-                                          m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
-                // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
-                break;
-            case 1:
-                pos= m_rect.topRight();
-                m_child->value(0)->setPos(m_rect.topLeft());
-                m_child->value(2)->setPos(m_rect.bottomRight());
-                m_child->value(3)->setPos(m_rect.bottomLeft());
-                m_child->value(4)->setPos(m_vision->getRadius(),
-                                          m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
-                // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
-                break;
-            case 2:
-                pos= m_rect.bottomRight();
-                m_child->value(0)->setPos(m_rect.topLeft());
-                m_child->value(1)->setPos(m_rect.topRight());
-                m_child->value(3)->setPos(m_rect.bottomLeft());
-                m_child->value(4)->setPos(m_vision->getRadius(),
-                                          m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
-                // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
-                break;
-            case 3:
-                pos= m_rect.bottomLeft();
-                m_child->value(0)->setPos(m_rect.topLeft());
-                m_child->value(1)->setPos(m_rect.topRight());
-                m_child->value(2)->setPos(m_rect.bottomRight());
-                m_child->value(4)->setPos(m_vision->getRadius(),
-                                          m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
-                // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
-                break;
-            case DIRECTION_RADIUS_HANDLE:
-                m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius() + getRadius()) / 2, -m_vision->getAngle());
-                break;
-            case ANGLE_HANDLE:
-                break;
-            default:
-                break;* /
-     }
-
-     // setTransformOriginPoint(m_rect.center());*/
-}
-void CharacterItem::initChildPointItem()
-{
-    /* if(nullptr != m_child)
-     {
-         qDeleteAll(m_child->begin(), m_child->end());
-         delete m_child;
-     }
-     m_child= new QVector<ChildPointItem*>();*/
-
-    for(int i= 0; i < MAX_CORNER_ITEM; ++i)
-    {
-        /*ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this, (i == DIRECTION_RADIUS_HANDLE));
-        tmp->setMotion(ChildPointItem::ALL);
-        tmp->setRotationEnable(true);
-        m_child->append(tmp);*/
-    }
-
-    /*  m_child->at(DIRECTION_RADIUS_HANDLE)->setMotion(ChildPointItem::X_AXIS);
-      m_child->at(DIRECTION_RADIUS_HANDLE)->setRotationEnable(false);
-      m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
-
-      m_child->at(ANGLE_HANDLE)->setMotion(ChildPointItem::Y_AXIS);
-      m_child->at(ANGLE_HANDLE)->setRotationEnable(false);
-      m_child->at(ANGLE_HANDLE)->setVisible(false);
-      updateChildPosition();*/
 }
 
 void CharacterItem::initChildPointItemMotion()
@@ -618,12 +451,12 @@ void CharacterItem::updateChildPosition()
     {
         auto vision= m_itemCtrl->vision();
         m_children.value(DIRECTION_RADIUS_HANDLE)
-            ->setPos(vision->radius() + m_itemCtrl->radius(),
+            ->setPos(vision->radius() + m_itemCtrl->radius()
+                         + m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().width(),
                      m_itemCtrl->thumnailRect().height() / 2
                          - m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().height() / 2);
 
         m_children[ANGLE_HANDLE]->setPos((vision->radius() + m_itemCtrl->radius()) / 2, -vision->angle());
-        m_children[ANGLE_HANDLE]->setVisionHandler(true);
     }
     else
     {
@@ -634,129 +467,77 @@ void CharacterItem::updateChildPosition()
 }
 void CharacterItem::addActionContextMenu(QMenu& menu)
 {
-    /* QMenu* stateMenu= menu.addMenu(tr("Change State"));
-     QList<CharacterState*>* listOfState= Character::getCharacterStateList();
-     for(auto& state : *listOfState)
-     {
-         QAction* act
-             = stateMenu->addAction(QIcon(*state->getPixmap()), state->getLabel(), this, SLOT(characterStateChange()));
-         act->setData(listOfState->indexOf(state));
-     }
-
-     QMenu* user= menu.addMenu(tr("Transform into"));
-     / *for(auto& character : PlayerModel::instance()->getCharacterList())
-     {
-         QAction* act= user->addAction(character->name());
-         act->setData(character->getUuid());
-
-         connect(act, &QAction::triggered, this, &CharacterItem::changeCharacter);
-     }* /
-     QMenu* shape= menu.addMenu(tr("Vision Shape"));
-     shape->addAction(m_visionShapeDisk);
-     shape->addAction(m_visionShapeAngle);
-
-     if(CharacterVision::DISK == m_vision->getShape())
-     {
-         m_visionShapeDisk->setChecked(true);
-         m_visionShapeAngle->setChecked(false);
-     }
-     else
-     {
-         m_visionShapeDisk->setChecked(false);
-         m_visionShapeAngle->setChecked(true);
-     }
-     //  if(m_ctrl->localGM() && nullptr != m_character)
-     {
-         // Actions
-         auto actionlist= m_character->getActionList();
-         QMenu* actions= menu.addMenu(tr("Actions"));
-         auto cmd= m_character->getInitCommand();
-         auto act= actions->addAction(tr("Initiative"));
-         act->setData(cmd);
-         connect(act, &QAction::triggered, this, &CharacterItem::runInit);
-
-         act= actions->addAction(tr("Clean Initiative"));
-         connect(act, &QAction::triggered, this, &CharacterItem::cleanInit);
-
-         if(!actionlist.isEmpty())
-         {
-             for(auto& charAction : actionlist)
-             {
-                 auto act= actions->addAction(charAction->name());
-                 act->setData(charAction->command());
-                 connect(act, &QAction::triggered, this, &CharacterItem::runCommand);
-             }
-         }
-
-         // Shapes
-         auto shapeList= m_character->getShapeList();
-         if(!shapeList.isEmpty())
-         {
-             QMenu* actions= menu.addMenu(tr("Shapes"));
-             int i= 0;
-             for(auto& charShape : shapeList)
-             {
-                 auto act= actions->addAction(charShape->name());
-                 act->setData(i);
-                 connect(act, &QAction::triggered, this, &CharacterItem::setShape);
-                 ++i;
-             }
-             auto action= actions->addAction(tr("Clean Shape"));
-             connect(action, &QAction::triggered, this, [=]() {
-                 if(nullptr == m_character)
-                     return;
-                 m_character->setCurrentShape(nullptr);
-                 update();
-             });
-         }
-     }*/
-}
-
-void CharacterItem::runInit()
-{
-    /*    if(nullptr == m_character)
-            return;
-
-        auto cmd= m_character->getInitCommand();
-
-        updateListAlias(m_diceParser.getAliases());
-        if(m_diceParser.parseLine(cmd))
+    QMenu* stateMenu= menu.addMenu(tr("Change State"));
+    QList<CharacterState*>* listOfState= Character::getCharacterStateList();
+    if(listOfState)
+    {
+        for(auto& state : *listOfState)
         {
-            m_diceParser.start();
-            if(!m_diceParser.getErrorMap().isEmpty())
-                qWarning() << m_diceParser.humanReadableError();
-            auto result= m_diceParser.getLastIntegerResults();
-            int sum= std::accumulate(result.begin(), result.end(), 0);
-            m_character->setInitiativeScore(sum);
-            update();
-        }*/
-}
-void CharacterItem::cleanInit()
-{
-    /*    if(nullptr == m_character)
-            return;
-        m_character->setHasInitiative(false);
-        update();*/
-}
-void CharacterItem::runCommand()
-{
-    /*    if(nullptr == m_character)
-            return;
-        auto act= qobject_cast<QAction*>(sender());
-        auto cmd= act->data().toString();
+            auto act= new QAction(QIcon(state->pixmap()), state->label(), this);
+            act->setCheckable(true);
 
-        emit runDiceCommand(cmd, m_character->getUuid());*/
-}
+            if(m_itemCtrl->stateId() == state->id())
+                act->setChecked(true);
 
-void CharacterItem::setShape()
-{
-    /*    if(nullptr == m_character)
-            return;
-        auto act= qobject_cast<QAction*>(sender());
-        auto index= act->data().toInt();
+            connect(act, &QAction::triggered, this,
+                    [this, state](bool checked) { m_itemCtrl->setStateId(checked ? state->id() : QString()); });
+            stateMenu->addAction(act);
+        }
+    }
 
-        m_character->setCurrentShape(index);
-        update();*/
+    /*QMenu* user= menu.addMenu(tr("Transform into"));
+    for(auto& character : PlayerModel::instance()->getCharacterList())
+    {
+        QAction* act= user->addAction(character->name());
+        act->setData(character->getUuid());
+
+        connect(act, &QAction::triggered, this, &CharacterItem::changeCharacter);
+    }*/
+    QMenu* shape= menu.addMenu(tr("Vision Shape"));
+    shape->addAction(m_visionShapeDisk.get());
+    shape->addAction(m_visionShapeAngle.get());
+
+    m_visionShapeDisk->setChecked(CharacterVision::DISK == m_itemCtrl->visionShape());
+    m_visionShapeAngle->setChecked(CharacterVision::ANGLE == m_itemCtrl->visionShape());
+
+    if(m_ctrl->localIsGM())
+    {
+        // Actions
+        auto actionlist= m_itemCtrl->actionList();
+        if(!actionlist.isEmpty())
+        {
+            QMenu* actions= menu.addMenu(tr("Actions"));
+            auto act= actions->addAction(tr("Initiative"));
+            connect(act, &QAction::triggered, m_itemCtrl, &vmap::CharacterItemController::runInit);
+            act= actions->addAction(tr("Clean Initiative"));
+            connect(act, &QAction::triggered, m_itemCtrl, &vmap::CharacterItemController::cleanInit);
+
+            int i= 0;
+            std::for_each(std::begin(actionlist), std::end(actionlist),
+                          [this, actions, &i](CharacterAction* charAction) {
+                              auto act= actions->addAction(charAction->name());
+                              connect(act, &QAction::triggered, m_itemCtrl, [this, i]() { m_itemCtrl->runCommand(i); });
+                              i++;
+                          });
+        }
+
+        // Shapes
+        auto shapeList= m_itemCtrl->shapeList();
+        if(!shapeList.isEmpty())
+        {
+            QMenu* shapeMenu= menu.addMenu(tr("Shapes"));
+            int i= 0;
+            for(auto& charShape : shapeList)
+            {
+                auto act= shapeMenu->addAction(charShape->name());
+                connect(act, &QAction::triggered, this, [i, this]() { m_itemCtrl->setShape(i); });
+            }
+            auto action= shapeMenu->addAction(tr("Clean Shape"));
+            connect(action, &QAction::triggered, m_itemCtrl, &vmap::CharacterItemController::cleanShape);
+        }
+    }
+
+    VisualItem::addActionContextMenu(menu);
 }
 
 void CharacterItem::changeCharacter()
@@ -774,90 +555,6 @@ void CharacterItem::changeCharacter()
         emit ownerChanged(old, this);
         emit itemGeometryChanged(this);
     }*/
-}
-
-void CharacterItem::createActions()
-{
-    /*auto effect= new QGraphicsDropShadowEffect();
-    effect->setOffset(2., 2.);
-    effect->setColor(QColor(0, 0, 0, 191));
-    setGraphicsEffect(effect);*/
-    /*   updateListAlias(m_diceParser.getAliases());
-       m_vision.reset(new CharacterVision(this));
-
-       m_visionShapeDisk= new QAction(tr("Disk"), this);
-       m_visionShapeDisk->setCheckable(true);
-       m_visionShapeAngle= new QAction(tr("Conical"), this);
-       m_visionShapeAngle->setCheckable(true);
-
-       connect(m_visionShapeAngle, SIGNAL(triggered()), this, SLOT(changeVisionShape()));
-       connect(m_visionShapeDisk, SIGNAL(triggered()), this, SLOT(changeVisionShape()));
-
-       m_reduceLife= new QAction(tr("Reduce Life"), this);
-       m_increaseLife= new QAction(tr("Increase Life"), this);
-
-       connect(m_reduceLife, &QAction::triggered, this, [this]() {
-           if(nullptr == m_character)
-               return;
-           auto i= m_character->getHealthPointsCurrent();
-           m_character->setHealthPointsCurrent(i);
-       });
-
-       connect(m_increaseLife, &QAction::triggered, this, [this]() {
-           if(nullptr == m_character)
-               return;
-           auto i= m_character->getHealthPointsCurrent();
-           m_character->setHealthPointsCurrent(i);
-       });*/
-}
-void CharacterItem::changeVisionShape()
-{
-    /*    QAction* act= qobject_cast<QAction*>(sender());
-        if(act == m_visionShapeDisk)
-        {
-            m_visionShapeAngle->setChecked(false);
-            m_visionShapeDisk->setChecked(true);
-            m_vision->setShape(CharacterVision::DISK);
-        }
-        else if(act == m_visionShapeAngle)
-        {
-            m_visionShapeAngle->setChecked(true);
-            m_visionShapeDisk->setChecked(false);
-            m_vision->setShape(CharacterVision::ANGLE);
-        }*/
-}
-
-void CharacterItem::characterStateChange()
-{
-    /*    QAction* act= qobject_cast<QAction*>(sender());
-        if(nullptr == act)
-            return;
-
-        if(nullptr == m_character)
-            return;
-
-        auto id= act->data().toString();
-        m_character->setStateId(id);
-
-        NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::VMapCategory, NetMsg::CharacterStateChanged);
-        msg->string8(getMapId());
-        msg->string8(m_id);
-        msg->string8(m_character->getUuid());
-        msg->string16(id);
-        msg->sendToServer();*/
-}
-
-void CharacterItem::updateCharacter()
-{
-    /*    if(nullptr == m_character)
-            return;
-
-        NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::VMapCategory, NetMsg::CharacterChanged);
-        msg->string8(getMapId());
-        msg->string8(m_id);
-        msg->string8(m_character->getUuid());
-        m_character->fill(*msg, true);
-        msg->sendToServer();*/
 }
 
 VisualItem* CharacterItem::getItemCopy()
@@ -880,57 +577,12 @@ QString CharacterItem::getParentId() const
         }*/
     return QString();
 }
-void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
-{
-    /*   if(nullptr == m_character)
-           return;
-
-       auto stateId= msg.string16();
-       m_character->setStateId(stateId);*/
-    update();
-}
-
-void CharacterItem::readCharacterChanged(NetworkMessageReader& msg)
-{
-    /*    if(nullptr == m_character)
-            return;
-
-        m_character->read(msg);*/
-    update();
-}
 
 void CharacterItem::addChildPoint(ChildPointItem* item)
 {
 
     // item->setPointID(m_child->size());
     m_children.append(item);
-}
-
-bool CharacterItem::isLocal() const
-{
-    /*PlayerModel* model= PlayerModel::instance();
-    if(nullptr == model)
-        return false;
-
-    return model->isLocal(m_character);*/
-    return true;
-}
-void CharacterItem::sendVisionMsg()
-{
-    /*   if(hasPermissionToMove()) // getOption PermissionMode
-       {
-           NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::VisionChanged);
-           msg.string8(m_mapId);
-           msg.string16(getCharacterId());
-           msg.string16(m_id);
-           m_vision->fill(&msg);
-           msg.sendToServer();
-       }*/
-}
-void CharacterItem::readVisionMsg(NetworkMessageReader* msg)
-{
-    //    m_vision->readMessage(msg);
-    update();
 }
 
 void CharacterItem::updateItemFlags()
@@ -962,32 +614,6 @@ void CharacterItem::updateItemFlags()
         }*/
 }
 
-void CharacterItem::setCharacter(Character* character)
-{
-    /*   if(character == m_character)
-           return;
-
-       if(nullptr != m_character)
-       {
-           disconnect(m_character, nullptr, this, nullptr);
-       }
-       m_character= character;
-       if(m_character)
-       {
-           QSpinBox box;
-           connect(m_character, &Character::currentHealthPointsChanged, this, [this]() { update(); });
-           connect(m_character, &Character::avatarChanged, this, [this]() { update(); });
-           connect(m_character, &Character::initCommandChanged, this, [this]() { update(); });
-           connect(m_character, &Character::initiativeChanged, this, [this]() { update(); });
-           connect(m_character, &Character::currentHealthPointsChanged, this, [this]() { update(); });
-           connect(m_character, &Character::stateIdChanged, this, [this]() { update(); });
-           connect(m_character, &Character::maxHPChanged, this, [this]() { update(); });
-           connect(m_character, &Character::minHPChanged, this, [this]() { update(); });
-           connect(m_character, &Character::distancePerTurnChanged, this, [this]() { update(); });
-           connect(m_character, &Character::avatarChanged, this, &CharacterItem::generatedThumbnail);
-       }*/
-}
-
 void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
 {
     /*    if((nullptr != m_character) && (event->modifiers() & Qt::AltModifier))
@@ -1004,58 +630,6 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
         }
         else
             VisualItem::wheelEvent(event);*/
-}
-
-/*void CharacterItem::setHoldSize(bool holdSize)
-{
-    VisualItem::setHoldSize(holdSize);
-
-    for(auto& itemChild : m_children)
-    {
-        if(itemChild == nullptr)
-            continue;
-        if(itemChild->getPointID() < DIRECTION_RADIUS_HANDLE)
-        {
-            itemChild->setMotion(holdSize ? ChildPointItem::NONE : ChildPointItem::ALL);
-        }
-    }
-}*/
-
-bool CharacterItem::isNpc() const
-{
-    /*    if(nullptr != m_character)
-        {
-            return m_character->isNpc();
-        }*/
-    return false;
-}
-
-bool CharacterItem::isPlayableCharacter() const
-{
-    /*   if(nullptr != m_character)
-       {
-           return !m_character->isNpc();
-       }*/
-    return false;
-}
-void CharacterItem::setTokenFile(QString filename)
-{
-    /*   QFile file(filename);
-       if(file.open(QIODevice::ReadOnly))
-       {
-           QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
-           QJsonObject obj= doc.object();
-
-           m_diameter= obj["size"].toDouble();
-           / *    m_rect.setHeight(m_diameter);
-               m_rect.setWidth(m_diameter);* /
-           if(nullptr == m_character)
-           {
-               auto character= new Character();
-               setCharacter(character);
-           }
-           m_character->readTokenObj(obj);
-       }*/
 }
 
 void CharacterItem::endOfGeometryChange(ChildPointItem::Change change)
