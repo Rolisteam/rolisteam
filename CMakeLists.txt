@@ -152,14 +152,17 @@ target_include_directories(charactersheet_widgets PRIVATE ${CMAKE_CURRENT_SOURCE
 
 
 
-if (TESTS)
+if (BUILD_TESTING)
 enable_testing(true)
 add_subdirectory(test)
 endif()
 
 
-include(GNUInstallDirs)
+#include(GNUInstallDirs)
 
-install(TARGETS charactersheet charactersheet_widgets charactersheet_formula
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#install(TARGETS charactersheet charactersheet_widgets charactersheet_formula
+#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+include(install_helper)
+rinstallLib(charactersheet_formula charactersheet_widgets charactersheet rolisteam)
