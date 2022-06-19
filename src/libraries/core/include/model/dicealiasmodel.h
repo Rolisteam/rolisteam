@@ -23,9 +23,10 @@
 #include <QAbstractListModel>
 
 #include "core_global.h"
-#include "diceparser/dicealias.h"
+
 #include <memory>
 #include <vector>
+class DiceAlias;
 /**
  * @brief The DiceAliasModel class
  */

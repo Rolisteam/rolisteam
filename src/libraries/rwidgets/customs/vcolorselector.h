@@ -27,7 +27,7 @@
 #include <QWidget>
 
 //#include "types.h"
-#include "rwidgets_global.h"
+#include "rwidgets/rwidgets_global.h"
 #include "vcolortablechooser.h"
 
 class PreferencesManager;

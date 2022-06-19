@@ -24,7 +24,7 @@
 #ifndef SELECTEUR_DIAMETRE_H
 #define SELECTEUR_DIAMETRE_H
 
-#include "rwidgets_global.h"
+#include "rwidgets/rwidgets_global.h"
 #include <QSlider>
 #include <QWidget>
 class CircleDisplayer;

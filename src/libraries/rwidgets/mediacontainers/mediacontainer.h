@@ -26,8 +26,8 @@
 
 #include "controller/view_controller/mediacontrollerbase.h"
 #include "preferences/preferencesmanager.h"
-#include "rwidgets_global.h"
-#include "toolbars/vtoolbar.h"
+#include "rwidgets/rwidgets_global.h"
+#include "rwidgets/toolbars/vtoolbar.h"
 
 /**
  * @brief The MediaContainer class

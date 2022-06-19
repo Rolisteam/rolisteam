@@ -30,11 +30,11 @@
 #include <QWidget>
 #include <memory>
 
-#include "customs/rgraphicsview.h"
-#include "customs/vmap.h"
 #include "docks/vmaptoolbar.h"
 #include "mediacontainers/mediacontainer.h"
-#include "rwidgets_global.h"
+#include "rwidgets/customs/rgraphicsview.h"
+#include "rwidgets/customs/vmap.h"
+#include "rwidgets/rwidgets_global.h"
 #include "toolbars/vtoolbar.h"
 class VectorialMapController;
 

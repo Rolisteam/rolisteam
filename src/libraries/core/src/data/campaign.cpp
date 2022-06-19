@@ -24,6 +24,7 @@
 #include <QFileInfo>
 
 #include "data/media.h"
+#include "diceparser/dicealias.h"
 #include "worker/characterfinder.h"
 
 namespace campaign

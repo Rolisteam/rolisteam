@@ -21,7 +21,7 @@
 #ifndef COLORTABLE_H
 #define COLORTABLE_H
 
-#include "rwidgets_global.h"
+#include "rwidgets/rwidgets_global.h"
 #include <QColor>
 #include <QWidget>
 #include <QtWidgets>

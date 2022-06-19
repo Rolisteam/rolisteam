@@ -294,11 +294,12 @@ target_include_directories(rwidgets
         ${CMAKE_CURRENT_SOURCE_DIR}/
         ${CMAKE_CURRENT_SOURCE_DIR}/editors
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-target_include_directories(rwidgets PUBLIC src)
-target_include_directories(rwidgets PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+#target_include_directories(rwidgets PUBLIC src)
+#target_include_directories(rwidgets PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 message(${CMAKE_CURRENT_BINARY_DIR})
 

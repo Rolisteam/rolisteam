@@ -21,6 +21,7 @@
 
 #include "data/campaign.h"
 #include "data/media.h"
+#include "diceparser/dicealias.h"
 #include "diceparser_qobject/diceroller.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"

@@ -37,6 +37,7 @@
 #include "data/character.h"
 #include "data/media.h"
 #include "data/player.h"
+#include "diceparser/dicealias.h"
 #include "media/mediatype.h"
 #include "model/characterstatemodel.h"
 #include "model/contentmodel.h"

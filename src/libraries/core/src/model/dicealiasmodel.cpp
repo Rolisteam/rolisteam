@@ -23,6 +23,8 @@
 #include <QJsonObject>
 #include <QObject>
 
+#include "diceparser/dicealias.h"
+
 DiceAliasModel::DiceAliasModel(QObject* parent) : QAbstractListModel(parent)
 {
     m_header << tr("Pattern") << tr("Value") << tr("Regular Expression") << tr("Disable") << tr("Comments");

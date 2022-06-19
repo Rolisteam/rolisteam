@@ -33,7 +33,7 @@
 #include "rwidgets/customs/diameterselector.h"
 #include "rwidgets/customs/realslider.h"
 #include "rwidgets/customs/vcolorselector.h"
-#include "rwidgets_global.h"
+#include "rwidgets/rwidgets_global.h"
 
 class VectorialMapController;
 /**
