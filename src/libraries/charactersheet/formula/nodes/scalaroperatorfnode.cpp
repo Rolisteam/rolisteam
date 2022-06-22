@@ -17,94 +17,103 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "scalaroperatorfnode.h"
+#include "charactersheet_formula/nodes/scalaroperatorfnode.h"
 
 namespace Formula
 {
-    ScalarOperatorFNode::ScalarOperatorFNode() {}
-    ScalarOperatorFNode::~ScalarOperatorFNode() {}
-    QVariant ScalarOperatorFNode::getResult() { return m_value; }
+ScalarOperatorFNode::ScalarOperatorFNode() {}
+ScalarOperatorFNode::~ScalarOperatorFNode() {}
+QVariant ScalarOperatorFNode::getResult()
+{
+    return m_value;
+}
 
-    bool ScalarOperatorFNode::run(FormulaNode* previous)
+bool ScalarOperatorFNode::run(FormulaNode* previous)
+{
+    if(nullptr != m_internalNode)
     {
-        if(nullptr != m_internalNode)
-        {
-            m_internalNode->run(this);
-        }
-        if(nullptr != previous)
-        {
-            QVariant presult= previous->getResult();
+        m_internalNode->run(this);
+    }
+    if(nullptr != previous)
+    {
+        QVariant presult= previous->getResult();
 
-            if(!presult.isNull())
+        if(!presult.isNull())
+        {
+            FormulaNode* internal= m_internalNode;
+            while(nullptr != internal->next())
             {
-                FormulaNode* internal= m_internalNode;
-                while(nullptr != internal->next())
-                {
-                    internal= internal->next();
-                }
+                internal= internal->next();
+            }
 
-                QVariant internalresult= internal->getResult();
-                // m_result->setPrevious(internalResult);
-                /*if(nullptr!=m_internalNode->getResult())
+            QVariant internalresult= internal->getResult();
+            // m_result->setPrevious(internalResult);
+            /*if(nullptr!=m_internalNode->getResult())
+            {
+                m_internalNode->getResult()->setPrevious(previousResult);
+            }*/
+            qreal result= 0;
+            switch(m_arithmeticOperator)
+            {
+            case PLUS:
+                result= presult.toDouble() + internalresult.toDouble();
+                break;
+            case MINUS:
+                result= presult.toDouble() - internalresult.toDouble();
+                break;
+            case MULTIPLICATION:
+                result= presult.toDouble() * internalresult.toDouble();
+                break;
+            case DIVIDE:
+                if(internalresult.toDouble() != 0)
                 {
-                    m_internalNode->getResult()->setPrevious(previousResult);
-                }*/
-                qreal result= 0;
-                switch(m_arithmeticOperator)
-                {
-                case PLUS:
-                    result= presult.toDouble() + internalresult.toDouble();
-                    break;
-                case MINUS:
-                    result= presult.toDouble() - internalresult.toDouble();
-                    break;
-                case MULTIPLICATION:
-                    result= presult.toDouble() * internalresult.toDouble();
-                    break;
-                case DIVIDE:
-                    if(internalresult.toDouble() != 0)
-                    {
-                        result= presult.toDouble() / internalresult.toDouble();
-                    }
-                    else
-                    {
-                        m_value= QVariant(QObject::tr("Error: division by Zero"));
-                    }
-                    break;
-                default:
-                    break;
+                    result= presult.toDouble() / internalresult.toDouble();
                 }
-                if(!m_value.isValid())
+                else
                 {
-                    m_value= result;
+                    m_value= QVariant(QObject::tr("Error: division by Zero"));
                 }
-                if(nullptr != m_next)
-                {
-                    m_next->run(this);
-                }
+                break;
+            default:
+                break;
+            }
+            if(!m_value.isValid())
+            {
+                m_value= result;
+            }
+            if(nullptr != m_next)
+            {
+                m_next->run(this);
             }
         }
-        return true;
     }
+    return true;
+}
 
-    FormulaNode* ScalarOperatorFNode::getInternalNode() const { return m_internalNode; }
+FormulaNode* ScalarOperatorFNode::getInternalNode() const
+{
+    return m_internalNode;
+}
 
-    void ScalarOperatorFNode::setInternalNode(FormulaNode* internalNode) { m_internalNode= internalNode; }
+void ScalarOperatorFNode::setInternalNode(FormulaNode* internalNode)
+{
+    m_internalNode= internalNode;
+}
 
-    ScalarOperatorFNode::ArithmeticOperator ScalarOperatorFNode::getArithmeticOperator() const
-    {
-        return m_arithmeticOperator;
-    }
+ScalarOperatorFNode::ArithmeticOperator ScalarOperatorFNode::getArithmeticOperator() const
+{
+    return m_arithmeticOperator;
+}
 
-    void ScalarOperatorFNode::setArithmeticOperator(const ArithmeticOperator& arithmeticOperator)
-    {
-        m_arithmeticOperator= arithmeticOperator;
-    }
-    int ScalarOperatorFNode::getPriority()
-    {
-        if((m_arithmeticOperator == PLUS) || (m_arithmeticOperator == MINUS))
-            return 1;
-        else
-            return 2;
-    }
+void ScalarOperatorFNode::setArithmeticOperator(const ArithmeticOperator& arithmeticOperator)
+{
+    m_arithmeticOperator= arithmeticOperator;
+}
+int ScalarOperatorFNode::getPriority()
+{
+    if((m_arithmeticOperator == PLUS) || (m_arithmeticOperator == MINUS))
+        return 1;
+    else
+        return 2;
+}
 } // namespace Formula

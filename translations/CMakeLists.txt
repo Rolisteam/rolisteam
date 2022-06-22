@@ -23,7 +23,18 @@ set(TS_FILES rolisteam_hu_HU.ts
     rolisteam_tr_TR.ts
     rolisteam_fr_FR.ts
     rolisteam_en_US.ts
-    rolisteam.ts)
+    rolisteam.ts
+    rcse_ca.ts
+    rcse_de.ts
+    rcse_es.ts
+    rcse_fr.ts
+    rcse_tr.ts
+    rcse_hu_HU.ts
+    rcse_it_IT.ts
+    rcse_nl_NL.ts
+    rcse_pt_BR.ts
+    rcse_ro_RO.ts
+    rcse_it_IT.ts)
 
 
 IF(UPDATE_TRANSLATIONS)

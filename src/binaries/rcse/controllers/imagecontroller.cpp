@@ -10,18 +10,18 @@
 #include <QTableView>
 #include <QUuid>
 
-#include "imagemodel.h"
-#include "rolisteamimageprovider.h"
+#include "charactersheet/imagemodel.h"
+#include "charactersheet/rolisteamimageprovider.h"
 
 ImageController::ImageController(QTableView* view, QObject* parent)
-    : QObject(parent), m_model(new ImageModel()), m_view(view)
+    : QObject(parent), m_model(new charactersheet::ImageModel()), m_view(view)
 {
     m_view->setModel(m_model.get());
 #ifndef Q_OS_OSX
     m_view->setAlternatingRowColors(true);
 #endif
 
-    connect(m_model.get(), &ImageModel::internalDataChanged, this, &ImageController::dataChanged);
+    connect(m_model.get(), &charactersheet::ImageModel::internalDataChanged, this, &ImageController::dataChanged);
 
     m_copyPath= new QAction(tr("Copy Path"), this);
     m_copyPath->setShortcut(QKeySequence("CTRL+c"));
@@ -45,7 +45,7 @@ ImageController::ImageController(QTableView* view, QObject* parent)
     auto headerView= m_view->horizontalHeader();
     headerView->setStretchLastSection(true);
 
-    connect(m_model.get(), &ImageModel::rowsInserted, this, [this]() {
+    connect(m_model.get(), &charactersheet::ImageModel::rowsInserted, this, [this]() {
         auto view= m_view->horizontalHeader();
         view->resizeSections(QHeaderView::ResizeToContents);
     });
@@ -71,7 +71,7 @@ QString ImageController::uuid() const
     return m_uuid;
 }
 
-ImageModel* ImageController::model() const
+charactersheet::ImageModel* ImageController::model() const
 {
     return m_model.get();
 }
@@ -119,7 +119,7 @@ void ImageController::contextualMenu(const QPoint& pos)
 void ImageController::copyPath()
 {
     QModelIndex index= m_view->currentIndex();
-    auto path= index.data(ImageModel::FilenameRole).toString();
+    auto path= index.data(charactersheet::ImageModel::FilenameRole).toString();
     QClipboard* clipboard= QGuiApplication::clipboard();
     clipboard->setText(path);
 }
@@ -127,7 +127,7 @@ void ImageController::copyPath()
 void ImageController::copyUrl()
 {
     QModelIndex index= m_view->currentIndex();
-    QString path= index.data(ImageModel::UrlRole).toString();
+    QString path= index.data(charactersheet::ImageModel::UrlRole).toString();
     QClipboard* clipboard= QGuiApplication::clipboard();
     clipboard->setText(path);
 }

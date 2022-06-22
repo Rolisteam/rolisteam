@@ -17,20 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "startnode.h"
+#include "charactersheet_formula/nodes/startnode.h"
 namespace Formula
 {
-    StartNode::StartNode() {}
+StartNode::StartNode() {}
 
-    StartNode::~StartNode() {}
+StartNode::~StartNode() {}
 
-    bool StartNode::run(FormulaNode* previous)
+bool StartNode::run(FormulaNode* previous)
+{
+    Q_UNUSED(previous);
+    if(0 != m_next)
     {
-        Q_UNUSED(previous);
-        if(0 != m_next)
-        {
-            m_next->run(this);
-        }
-        return true;
+        m_next->run(this);
     }
+    return true;
+}
 } // namespace Formula

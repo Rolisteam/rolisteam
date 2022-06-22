@@ -19,16 +19,13 @@
  * Free Software Foundation, Inc.,                                          *
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
-#include "section.h"
+#include "charactersheet/section.h"
 #include <QGraphicsScene>
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include "field.h"
-#include "tablefield.h"
-#ifdef RCSE
-#include "controllers/editorcontroller.h"
-#endif
+#include "charactersheet/field.h"
+#include "charactersheet/tablefield.h"
 
 #include <QDebug>
 

@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "operator.h"
+#include "charactersheet_formula/nodes/operator.h"
 #include <cmath>
 
 namespace Formula

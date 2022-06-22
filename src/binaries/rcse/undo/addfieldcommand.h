@@ -23,13 +23,15 @@
 #include "canvas.h"
 #include <QUndoCommand>
 
+namespace charactersheet
+{
 class ImageModel;
-
+}
 class AddFieldCommand : public QUndoCommand
 {
 public:
     AddFieldCommand(Canvas::Tool tool, Canvas* graphicsScene, FieldModel* model, int currentPage,
-                    ImageModel* imageModel, QPointF pos, QUndoCommand* parent= nullptr);
+                    charactersheet::ImageModel* imageModel, QPointF pos, QUndoCommand* parent= nullptr);
 
     void undo() override;
     void redo() override;
@@ -43,7 +45,7 @@ private:
     QPointF initialPosition;
     FieldModel* m_model;
     int m_currentPage;
-    ImageModel* m_imageModel;
+    charactersheet::ImageModel* m_imageModel;
     bool m_addImage;
 };
 

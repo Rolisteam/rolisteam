@@ -20,10 +20,10 @@
 #include "qmltypesregister.h"
 
 #include <QQmlEngine>
-#include <diceparser/diceroller.h>
+#include <diceparser_qobject/diceroller.h>
 
 #ifndef UNIT_TEST
-#include "field.h"
+#include "charactersheet/field.h"
 #endif
 
 void registerQmlTypes()

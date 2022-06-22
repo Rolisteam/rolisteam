@@ -28,11 +28,12 @@
 
 #include "charactersheet/charactersheetitem.h"
 #include "csitem.h"
+#include <charactersheet/charactersheet_global.h>
 
 #ifdef RCSE
 #include "canvasfield.h"
 #else
-class CanvasField : public QGraphicsObject
+class CHARACTERSHEET_EXPORT CanvasField : public QGraphicsObject
 {
     CanvasField();
 };
@@ -41,7 +42,7 @@ class CanvasField : public QGraphicsObject
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
-class FieldController : public CSItem
+class CHARACTERSHEET_EXPORT FieldController : public CSItem
 {
     Q_OBJECT
     Q_PROPERTY(bool fitFont READ fitFont WRITE setFitFont NOTIFY fitFontChanged)

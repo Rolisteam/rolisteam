@@ -22,7 +22,7 @@
 
 #include <QUndoCommand>
 
-#include "charactersheet.h"
+#include "charactersheet/charactersheet.h"
 
 class CharacterController;
 class AddCharacterCommand : public QUndoCommand

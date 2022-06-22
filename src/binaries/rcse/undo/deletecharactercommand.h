@@ -20,8 +20,8 @@
 #ifndef DELETECHARACTERCOMMAND_H
 #define DELETECHARACTERCOMMAND_H
 
-#include "charactersheet.h"
-#include "charactersheetmodel.h"
+#include "charactersheet/charactersheet.h"
+#include "charactersheet/charactersheetmodel.h"
 #include <QUndoCommand>
 
 class CharacterController;

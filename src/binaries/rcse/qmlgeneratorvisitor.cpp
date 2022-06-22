@@ -1,8 +1,8 @@
 #include "qmlgeneratorvisitor.h"
 
-#include "charactersheetitem.h"
-#include "field.h"
-#include "tablefield.h"
+#include "charactersheet/charactersheetitem.h"
+#include "charactersheet/field.h"
+#include "charactersheet/tablefield.h"
 
 QString getPageManagement(FieldController* item, QString indent)
 {
@@ -527,7 +527,7 @@ QString QmlGeneratorVisitor::generateAlignment(FieldController* item)
     return alignments.arg(pair.first).arg(pair.second).arg(m_indenSpace);
 }
 
-QString QmlGeneratorVisitor::generateFont(QFont font, bool fitfont)
+QString QmlGeneratorVisitor::generateFont(const QFont& font, bool fitfont)
 {
     QString fontStr("%8    font.family:  \"%1\"\n"
                     "%8    font.bold:    %2\n"

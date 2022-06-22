@@ -19,7 +19,7 @@
  * Free Software Foundation, Inc.,                                          *
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
-#include "field.h"
+#include "charactersheet/field.h"
 #include <QDebug>
 #include <QJsonArray>
 #include <QMouseEvent>

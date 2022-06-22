@@ -20,78 +20,79 @@
 #ifndef SCALAROPERATORFNODE_H
 #define SCALAROPERATORFNODE_H
 
+#include "charactersheet_formula/formula_global.h"
 #include "formulanode.h"
 /**
  * @brief the Formula namespace is gathering all classes to manage the computation formula.
  */
 namespace Formula
 {
+/**
+ * @brief The ScalarOperatorFNode class manages basic arithmetic operation.
+ */
+class CHARACTERSHEET_FORMULA_EXPORT ScalarOperatorFNode : public FormulaNode
+{
+public:
     /**
-     * @brief The ScalarOperatorFNode class manages basic arithmetic operation.
+     * @brief The ArithmeticOperator enum
      */
-    class ScalarOperatorFNode : public FormulaNode
+    enum ArithmeticOperator
     {
-    public:
-        /**
-         * @brief The ArithmeticOperator enum
-         */
-        enum ArithmeticOperator
-        {
-            PLUS,
-            MINUS,
-            DIVIDE,
-            MULTIPLICATION
-        };
-        /**
-         * @brief ScalarOperatorFNode
-         */
-        ScalarOperatorFNode();
-        /**
-         * @brief ~ScalarOperatorFNode
-         */
-        virtual ~ScalarOperatorFNode();
-        /**
-         * @brief run
-         * @param previous
-         * @return
-         */
-        bool run(FormulaNode* previous);
-        /**
-         * @brief getInternalNode
-         * @return
-         */
-        FormulaNode* getInternalNode() const;
-        /**
-         * @brief setInternalNode
-         * @param internalNode
-         */
-        void setInternalNode(FormulaNode* internalNode);
-        /**
-         * @brief getArithmeticOperator
-         * @return
-         */
-        ArithmeticOperator getArithmeticOperator() const;
-        /**
-         * @brief setArithmeticOperator
-         * @param arithmeticOperator
-         */
-        void setArithmeticOperator(const ArithmeticOperator& arithmeticOperator);
-        /**
-         * @brief getResult
-         * @return
-         */
-        virtual QVariant getResult();
-        /**
-         * @brief getPriority
-         * @return
-         */
-        int getPriority();
-
-    private:
-        FormulaNode* m_internalNode;
-        ArithmeticOperator m_arithmeticOperator;
-        QVariant m_value;
+        PLUS,
+        MINUS,
+        DIVIDE,
+        MULTIPLICATION
     };
+    /**
+     * @brief ScalarOperatorFNode
+     */
+    ScalarOperatorFNode();
+    /**
+     * @brief ~ScalarOperatorFNode
+     */
+    virtual ~ScalarOperatorFNode();
+    /**
+     * @brief run
+     * @param previous
+     * @return
+     */
+    bool run(FormulaNode* previous);
+    /**
+     * @brief getInternalNode
+     * @return
+     */
+    FormulaNode* getInternalNode() const;
+    /**
+     * @brief setInternalNode
+     * @param internalNode
+     */
+    void setInternalNode(FormulaNode* internalNode);
+    /**
+     * @brief getArithmeticOperator
+     * @return
+     */
+    ArithmeticOperator getArithmeticOperator() const;
+    /**
+     * @brief setArithmeticOperator
+     * @param arithmeticOperator
+     */
+    void setArithmeticOperator(const ArithmeticOperator& arithmeticOperator);
+    /**
+     * @brief getResult
+     * @return
+     */
+    virtual QVariant getResult();
+    /**
+     * @brief getPriority
+     * @return
+     */
+    int getPriority();
+
+private:
+    FormulaNode* m_internalNode;
+    ArithmeticOperator m_arithmeticOperator;
+    QVariant m_value;
+};
 } // namespace Formula
 
 #endif // SCALAROPERATORFNODE_H

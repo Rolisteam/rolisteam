@@ -18,14 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "addfieldcommand.h"
-#include "field.h"
-#include "imagemodel.h"
+#include "charactersheet/field.h"
+#include "charactersheet/imagemodel.h"
+#include "charactersheet/tablefield.h"
 #include "tablecanvasfield.h"
-#include "tablefield.h"
 #include <QPixmap>
 
 AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* model, int currentPage,
-                                 ImageModel* imageModel, QPointF pos, QUndoCommand* parent)
+                                 charactersheet::ImageModel* imageModel, QPointF pos, QUndoCommand* parent)
     : QUndoCommand(parent)
     , m_tool(tool)
     , m_canvas(canvas)

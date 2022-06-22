@@ -6,9 +6,9 @@
 #include <QQmlError>
 #include <memory>
 
-#include "common/controller/logcontroller.h"
 #include "data/mockcharacter.h"
 #include "fieldmodel.h"
+#include <common/logcontroller.h>
 
 class CodeEditor;
 class QTreeView;
@@ -51,7 +51,6 @@ public:
 
     QString uuidCharacter() const;
 
-
 signals:
     void dataChanged();
     void headCodeChanged(QString headCode);
@@ -75,9 +74,8 @@ public slots:
     void setLastPageId(unsigned int pageId);
     void setTextEdited(bool t);
     void setFonts(QStringList fonts);
-    void runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController *characterCtrl);
+    void runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController* characterCtrl);
     void setUuidCharacter(QString uuidCharacter);
-
 
 protected slots:
     void rollDice(QString cmd);

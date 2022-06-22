@@ -23,38 +23,40 @@
 #include <math.h>
 
 #include "../parsingtoolformula.h"
+
+#include "charactersheet_formula/formula_global.h"
 #include "formulanode.h"
 namespace Formula
 {
-    /**
-     * @brief The OperatorFNode class manages function in formula such as AVG,floor…
-     */
-    class OperatorFNode : public FormulaNode
-    {
-    public:
-        OperatorFNode();
+/**
+ * @brief The OperatorFNode class manages function in formula such as AVG,floor…
+ */
+class CHARACTERSHEET_FORMULA_EXPORT OperatorFNode : public FormulaNode
+{
+public:
+    OperatorFNode();
 
-        ParsingToolFormula::FormulaOperator getOperator() const;
-        void setOperator(const ParsingToolFormula::FormulaOperator& ope);
+    ParsingToolFormula::FormulaOperator getOperator() const;
+    void setOperator(const ParsingToolFormula::FormulaOperator& ope);
 
-        virtual bool run(FormulaNode* previous);
-        void addParameter(FormulaNode* node);
+    virtual bool run(FormulaNode* previous);
+    void addParameter(FormulaNode* node);
 
-        virtual QVariant getResult();
+    virtual QVariant getResult();
 
-        // Implementation of operator.
-        void min();
-        void max();
-        void absFunction();
-        void avg();
-        void floorFunction();
-        void ceilFunction();
-        void concatenate();
+    // Implementation of operator.
+    void min();
+    void max();
+    void absFunction();
+    void avg();
+    void floorFunction();
+    void ceilFunction();
+    void concatenate();
 
-    private:
-        ParsingToolFormula::FormulaOperator m_operator;
-        QList<FormulaNode*> m_parameters;
-        QVariant m_result;
-    };
+private:
+    ParsingToolFormula::FormulaOperator m_operator;
+    QList<FormulaNode*> m_parameters;
+    QVariant m_result;
+};
 } // namespace Formula
 #endif // OPERATOR_H

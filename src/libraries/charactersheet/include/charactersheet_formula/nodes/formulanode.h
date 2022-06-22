@@ -20,31 +20,32 @@
 #ifndef FORMULANODE_H
 #define FORMULANODE_H
 
+#include "charactersheet_formula/formula_global.h"
 #include <QVariant>
 
 namespace Formula
 {
-    /**
-     * @brief The FormulaNode class abstract class for all nodes.
-     */
-    class FormulaNode
-    {
-    public:
-        FormulaNode();
-        virtual ~FormulaNode();
-        virtual bool run(FormulaNode* previous)= 0;
-        FormulaNode* next() const;
-        void setNext(FormulaNode* next);
+/**
+ * @brief The FormulaNode class abstract class for all nodes.
+ */
+class CHARACTERSHEET_FORMULA_EXPORT FormulaNode
+{
+public:
+    FormulaNode();
+    virtual ~FormulaNode();
+    virtual bool run(FormulaNode* previous)= 0;
+    FormulaNode* next() const;
+    void setNext(FormulaNode* next);
 
-        virtual QVariant getResult();
+    virtual QVariant getResult();
 
-        virtual int getPriority();
+    virtual int getPriority();
 
-    protected:
-        static FormulaNode* getLatestNode(FormulaNode* node);
+protected:
+    static FormulaNode* getLatestNode(FormulaNode* node);
 
-    protected:
-        FormulaNode* m_next;
-    };
+protected:
+    FormulaNode* m_next;
+};
 } // namespace Formula
 #endif // FORMULANODE_H

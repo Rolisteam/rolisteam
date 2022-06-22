@@ -27,85 +27,9 @@
 #include <QStyle>
 #include <QStyleOptionGraphicsItem>
 
-#include "field.h"
-#include "tablefield.h"
+#include "charactersheet/field.h"
+#include "charactersheet/tablefield.h"
 #define SQUARE_SIZE 12
-
-HandleItem::HandleItem(QGraphicsObject* parent) : QGraphicsObject(parent)
-{
-    m_currentMotion= X_AXIS;
-    setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges | QGraphicsItem::ItemIsMovable
-             | QGraphicsItem::ItemIsFocusable);
-}
-
-HandleItem::~HandleItem() {}
-
-QVariant HandleItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value)
-{
-    if(change == ItemPositionChange && isSelected())
-    {
-        QPointF newPos= value.toPointF();
-        if(m_currentMotion == X_AXIS)
-        {
-            newPos.setY(pos().y());
-        }
-        else if(Y_AXIS == m_currentMotion)
-        {
-            newPos.setX(pos().x());
-        }
-        if(newPos != value.toPointF())
-        {
-            return newPos;
-        }
-    }
-    return QGraphicsItem::itemChange(change, value);
-}
-
-QRectF HandleItem::boundingRect() const
-{
-    return QRectF(0, 0, SQUARE_SIZE, SQUARE_SIZE);
-}
-
-void HandleItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
-{
-    painter->setPen(Qt::black);
-    painter->fillRect(m_startPoint.x(), m_startPoint.y(), SQUARE_SIZE, SQUARE_SIZE, Qt::gray);
-    painter->drawRect(m_startPoint.x(), m_startPoint.y(), SQUARE_SIZE, SQUARE_SIZE);
-}
-
-void HandleItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
-{
-    QGraphicsObject::mouseMoveEvent(event);
-}
-
-void HandleItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
-{
-    QGraphicsObject::mouseReleaseEvent(event);
-}
-void HandleItem::load(QJsonObject& json)
-{
-    m_currentMotion= static_cast<MOTION>(json["motion"].toInt());
-    qreal x= json["x"].toDouble();
-    qreal y= json["y"].toDouble();
-
-    qreal posx= json["posx"].toDouble();
-    qreal posy= json["posy"].toDouble();
-
-    setPos(posx, posy);
-    m_posHasChanged= json["haschanged"].toBool();
-
-    m_startPoint.setX(x);
-    m_startPoint.setY(y);
-}
-void HandleItem::save(QJsonObject& json)
-{
-    json["motion"]= static_cast<int>(m_currentMotion);
-    json["x"]= m_startPoint.x();
-    json["y"]= m_startPoint.y();
-    json["posx"]= pos().x();
-    json["posy"]= pos().y();
-    json["haschanged"]= m_posHasChanged;
-}
 
 //////////////////////////////////////////////////////
 //
@@ -285,7 +209,7 @@ void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*,
         if(nullptr != model)
         {
             auto list= model->children();
-            for(int x= 0; x < std::min(m_colunmCount, list.size()); ++x)
+            for(int x= 0; x < std::min(m_colunmCount, static_cast<int>(list.size())); ++x)
             {
                 auto field= list.at(x);
                 qreal xPos= 0;

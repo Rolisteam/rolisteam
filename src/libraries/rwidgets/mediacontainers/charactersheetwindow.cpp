@@ -38,7 +38,7 @@
 
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
-#include "charactersheet/widget/sheetwidget.h"
+#include "charactersheet_widgets/sheetwidget.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "data/character.h"
 #include "data/player.h"

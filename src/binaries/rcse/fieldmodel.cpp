@@ -409,7 +409,9 @@ void FieldModel::removeField(FieldController* field)
     {
         if(nullptr != parentSection)
         {
-            parent= parent.child(parentSection->indexOfChild(ancestor), 0);
+            parent= index(parentSection->indexOfChild(ancestor), 0, parent);
+            // TODO check that
+            // parent= parent.child(parentSection->indexOfChild(ancestor), 0);
         }
         parentSection= ancestor;
     }

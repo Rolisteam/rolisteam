@@ -5,8 +5,8 @@
 #include <QPointF>
 #include <QQuickWidget>
 
-#include <charactersheet/widget/charactersheet_widget_global.h>
 #include "charactersheet/charactersheet.h"
+#include <charactersheet_widgets/charactersheet_widget_global.h>
 
 class CHARACTERSHEET_WIDGET_EXPORT SheetWidget : public QQuickWidget
 {

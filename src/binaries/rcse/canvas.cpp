@@ -143,7 +143,7 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     {
         auto imageController= m_ctrl->imageController();
 
-        ImageModel* model= nullptr;
+        charactersheet::ImageModel* model= nullptr;
         if(nullptr != imageController)
             model= imageController->model();
 
@@ -261,8 +261,6 @@ const QPixmap Canvas::pixmap() const
 }
 void Canvas::setPixmap(const QPixmap& pix)
 {
-    if(pixmap() == pix)
-        return;
     m_bg->setPixmap(pix);
     emit pixmapChanged();
 

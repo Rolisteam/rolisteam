@@ -29,16 +29,16 @@
 #include <QUndoStack>
 
 #include "canvas.h"
-#include "charactersheetmodel.h"
-#include "common/controller/logcontroller.h"
+#include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/field.h"
+#include "charactersheet/imagemodel.h"
+#include "charactersheet/rolisteamimageprovider.h"
+#include "common/logcontroller.h"
 #include "dialog/pdfmanager.h"
 #include "dialog/sheetproperties.h"
-#include "field.h"
 #include "fieldmodel.h"
-#include "imagemodel.h"
 #include "itemeditor.h"
 #include "preferences/preferencesmanager.h"
-#include "rolisteamimageprovider.h"
 
 class CodeEditor;
 class LogPanel;

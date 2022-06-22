@@ -17,31 +17,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "valuefnode.h"
+#include "charactersheet_formula/nodes/valuefnode.h"
 namespace Formula
 {
-    ValueFNode::ValueFNode() {}
+ValueFNode::ValueFNode() {}
 
-    bool ValueFNode::run(FormulaNode* previous)
+bool ValueFNode::run(FormulaNode* previous)
+{
+    Q_UNUSED(previous)
+    if(0 != m_next)
     {
-        Q_UNUSED(previous)
-        if(0 != m_next)
-        {
-            m_next->run(this);
-        }
-        return true;
+        m_next->run(this);
     }
-    void ValueFNode::setValue(QVariant var) { m_value= var; }
+    return true;
+}
+void ValueFNode::setValue(QVariant var)
+{
+    m_value= var;
+}
 
-    int ValueFNode::getPriority()
+int ValueFNode::getPriority()
+{
+    int priority= 0;
+    if(nullptr != m_next)
     {
-        int priority= 0;
-        if(nullptr != m_next)
-        {
-            priority= m_next->getPriority();
-        }
-        return priority;
+        priority= m_next->getPriority();
     }
+    return priority;
+}
 
-    QVariant ValueFNode::getResult() { return m_value; }
+QVariant ValueFNode::getResult()
+{
+    return m_value;
+}
 } // namespace Formula

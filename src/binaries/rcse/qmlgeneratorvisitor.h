@@ -1,6 +1,7 @@
 #ifndef QMLGENERATORVISITOR_H
 #define QMLGENERATORVISITOR_H
 
+#include <QFont>
 #include <QTextStream>
 
 class CharacterSheetItem;
@@ -35,7 +36,7 @@ protected:
 
     QString generatePosition(FieldController* item);
     QString generateAlignment(FieldController* item);
-    QString generateFont(QFont font, bool fitfont);
+    QString generateFont(const QFont& font, bool fitfont);
 
     QString getId(FieldController* item);
 

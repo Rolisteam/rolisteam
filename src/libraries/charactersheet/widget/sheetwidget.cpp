@@ -1,4 +1,4 @@
-#include <charactersheet/widget/sheetwidget.h>
+#include <charactersheet_widgets/sheetwidget.h>
 
 #include <QContextMenuEvent>
 #include <charactersheet/charactersheet.h>

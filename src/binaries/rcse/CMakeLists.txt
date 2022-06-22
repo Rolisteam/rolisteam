@@ -1,169 +1,146 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(rcse)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-option(TRANSLATIONS "generate QM translation" ON)
 
-find_package(ECM REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
-include(FindPoppler)
 
-add_definitions(-DVERSION_MAJOR=1 -DVERSION_MIDDLE=10 -DVERSION_MINOR=0  -DRCSE=1)
-set(QT_REQUIRED_VERSION "5.12.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Quick QuickWidgets WebEngineWidgets PrintSupport WebEngine)
-
-if (TESTS)
-add_subdirectory(tests)
-endif()
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Quick Pdf QuickWidgets PdfWidgets WebEngineWidgets PrintSupport WebEngineCore)
 
 
 set(documentation README.md)
 
-set(ressources qmlfile.qrc rcse_resources.qrc)
+#${CMAKE_SOURCE_DIR}/resources/rcse/qmlfile.qrc
+
+set(ressources  ${CMAKE_SOURCE_DIR}/resources/rcse/rcse_resources.qrc)
 
 
-set(sources  src/main.cpp
-    src/controllers/charactercontroller.cpp
-    src/controllers/editorcontroller.cpp
-    src/controllers/imagecontroller.cpp
-    src/controllers/qmlgeneratorcontroller.cpp
-    src/data/mockcharacter.cpp
-    src/mainwindow.cpp
-    src/canvas.cpp
-    src/fieldmodel.cpp
-    src/borderlisteditor.cpp
-    src/qmlhighlighter.cpp
-    src/delegate/alignmentdelegate.cpp
-    src/codeeditor.cpp
-    src/delegate/typedelegate.cpp
-    src/canvasfield.cpp
-    src/dialog/aboutrcse.cpp
-    src/dialog/pdfmanager.cpp
-    src/delegate/fontdelegate.cpp
-    src/preferences/preferencesdialog.cpp
-    src/preferences/preferencesmanager.cpp
-    src/dialog/sheetproperties.cpp
-    src/itemeditor.cpp
-    src/tablecanvasfield.cpp
-    src/dialog/columndefinitiondialog.cpp
-    src/data/characterlist.cpp
-    src/undo/addfieldcommand.cpp
-    src/undo/deletefieldcommand.cpp
-    src/undo/movefieldcommand.cpp
-    src/undo/setfieldproperties.cpp
-    src/undo/addpagecommand.cpp
-    src/undo/deletepagecommand.cpp
-    src/undo/setbackgroundimage.cpp
-    src/undo/addcharactercommand.cpp
-    src/undo/deletecharactercommand.cpp
-    src/undo/setpropertyonallcharacters.cpp
-    src/widgets/codeedit.cpp
-    src/delegate/pagedelegate.cpp
-    src/dialog/codeeditordialog.cpp
-    src/widgets/fieldview.cpp
-    src/common/widgets/logpanel.cpp
-    src/common/controller/logcontroller.cpp
-    src/qmltypesregister.cpp
-  src/qmlgeneratorvisitor.cpp)
+set(sources  main.cpp
+    controllers/charactercontroller.cpp
+    controllers/editorcontroller.cpp
+    controllers/imagecontroller.cpp
+    controllers/qmlgeneratorcontroller.cpp
+    data/mockcharacter.cpp
+    mainwindow.cpp
+    canvas.cpp
+    fieldmodel.cpp
+    borderlisteditor.cpp
+    qmlhighlighter.cpp
+    delegate/alignmentdelegate.cpp
+    codeeditor.cpp
+    delegate/typedelegate.cpp
+    canvasfield.cpp
+    dialog/aboutrcse.cpp
+    dialog/pdfmanager.cpp
+    delegate/fontdelegate.cpp
+    preferences/preferencesdialog.cpp
+    preferences/preferencesmanager.cpp
+    dialog/sheetproperties.cpp
+    itemeditor.cpp
+    tablecanvasfield.cpp
+    dialog/columndefinitiondialog.cpp
+    data/characterlist.cpp
+    undo/addfieldcommand.cpp
+    undo/deletefieldcommand.cpp
+    undo/movefieldcommand.cpp
+    undo/setfieldproperties.cpp
+    undo/addpagecommand.cpp
+    undo/deletepagecommand.cpp
+    undo/setbackgroundimage.cpp
+    undo/addcharactercommand.cpp
+    undo/deletecharactercommand.cpp
+    undo/setpropertyonallcharacters.cpp
+    widgets/codeedit.cpp
+    delegate/pagedelegate.cpp
+    dialog/codeeditordialog.cpp
+    widgets/fieldview.cpp
+    qmltypesregister.cpp
+  qmlgeneratorvisitor.cpp)
 
-set(headers src/mainwindow.h
-    src/canvas.h
-    src/controllers/charactercontroller.h
-    src/controllers/editorcontroller.h
-    src/controllers/imagecontroller.h
-    src/controllers/qmlgeneratorcontroller.h
-    src/data/characterlist.h
-    src/data/mockcharacter.h
-    src/fieldmodel.h
-    src/borderlisteditor.h
-    src/qmlhighlighter.h
-    src/delegate/alignmentdelegate.h
-    src/codeeditor.h
-    src/delegate/typedelegate.h
-    src/canvasfield.h
-    src/dialog/aboutrcse.h
-    src/dialog/pdfmanager.h
-    src/delegate/fontdelegate.h
-    src/preferences/preferencesdialog.h
-    src/preferences/preferencesmanager.h
-    src/dialog/sheetproperties.h
-    src/itemeditor.h
-    src/tablecanvasfield.h
-    src/dialog/columndefinitiondialog.h
-    src/undo/addfieldcommand.h
-    src/undo/deletefieldcommand.h
-    src/undo/movefieldcommand.h
-    src/undo/setfieldproperties.h
-    src/undo/addpagecommand.h
-    src/undo/deletepagecommand.h
-    src/undo/setbackgroundimage.h
-    src/undo/addcharactercommand.h
-    src/undo/deletecharactercommand.h
-    src/undo/setpropertyonallcharacters.h
-    src/widgets/codeedit.h
-    src/delegate/pagedelegate.h
-    src/dialog/codeeditordialog.h
-    src/widgets/fieldview.h
-    src/common/widgets/logpanel.h
-    src/common/controller/logcontroller.h
-    src/qmltypesregister.h
-    src/qmlgeneratorvisitor.h)
+set(headers mainwindow.h
+    canvas.h
+    controllers/charactercontroller.h
+    controllers/editorcontroller.h
+    controllers/imagecontroller.h
+    controllers/qmlgeneratorcontroller.h
+    data/characterlist.h
+    data/mockcharacter.h
+    fieldmodel.h
+    borderlisteditor.h
+    qmlhighlighter.h
+    delegate/alignmentdelegate.h
+    codeeditor.h
+    delegate/typedelegate.h
+    canvasfield.h
+    dialog/aboutrcse.h
+    dialog/pdfmanager.h
+    delegate/fontdelegate.h
+    preferences/preferencesdialog.h
+    preferences/preferencesmanager.h
+    dialog/sheetproperties.h
+    itemeditor.h
+    tablecanvasfield.h
+    dialog/columndefinitiondialog.h
+    undo/addfieldcommand.h
+    undo/deletefieldcommand.h
+    undo/movefieldcommand.h
+    undo/setfieldproperties.h
+    undo/addpagecommand.h
+    undo/deletepagecommand.h
+    undo/setbackgroundimage.h
+    undo/addcharactercommand.h
+    undo/deletecharactercommand.h
+    undo/setpropertyonallcharacters.h
+    widgets/codeedit.h
+    delegate/pagedelegate.h
+    dialog/codeeditordialog.h
+    widgets/fieldview.h
+    qmltypesregister.h
+    qmlgeneratorvisitor.h)
 
 
-set(UI_files   src/mainwindow.ui
-        src/dialog/aboutrcse.ui
-        src/dialog/pdfmanager.ui
-        src/preferences/preferencesdialog.ui
-        src/dialog/sheetproperties.ui
-        src/dialog/columndefinitiondialog.ui
-        src/widgets/codeedit.ui
-        src/dialog/codeeditordialog.ui
-      src/common/widgets/logpanel.ui)
+set(UI_files   mainwindow_rcse.ui
+        dialog/aboutrcse.ui
+        dialog/pdfmanager.ui
+        preferences/preferencesdialog.ui
+        dialog/sheetproperties.ui
+        dialog/columndefinitiondialog.ui
+        widgets/codeedit.ui
+        dialog/codeeditordialog.ui)
 
 
-set(TS_FILES translations/rcse_ca.ts
-    translations/rcse_de.ts
-    translations/rcse_es.ts
-    translations/rcse_fr.ts
-    translations/rcse_hu_HU.ts
-    translations/rcse_it_IT.ts
-    translations/rcse_nl_NL.ts
-    translations/rcse_pt_BR.ts
-    translations/rcse_ro_RO.ts
-    translations/rcse_tr.ts
-    translations/rcse.ts
-)
 
 
-IF(TRANSLATIONS)
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/translations)
-    qt5_add_translation(QM_FILES ${TS_FILES})
-    add_custom_target(translations ALL DEPENDS ${QM_FILES})
-ENDIF()
-
-add_subdirectory(src/charactersheet)
-add_subdirectory(src/diceparser)
-
-find_package(Poppler COMPONENTS Qt5)
-if(POPPLER_FOUND)
-add_definitions(-DWITH_PDF)
-endif()
 
 add_executable(rcse ${sources} ${headers} ${UI_files} ${ressources})
-if(POPPLER_FOUND)
-    target_link_libraries(rcse PUBLIC Qt5::Widgets Qt5::Gui Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::PrintSupport Qt5::WebEngineWidgets Poppler::Qt5 Qt5::WebEngine charactersheet diceparser_shared)
-    target_compile_definitions(rcse PRIVATE WITH_PDF=1 RCSE=1)
-else()
-    target_link_librarues(rcse PUBLIC Qt5::Widgets Qt5::Gui Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::PrintSupport Qt5::WebEngineWidgets charactersheet diceparser_shared)
-    target_compile_definitions(rcse PRIVATE RCSE=1)
-endif()
+
+target_link_libraries(rcse
+  PUBLIC
+    Qt6::Widgets
+    Qt6::Gui
+    Qt6::Qml
+    Qt6::Quick
+    Qt6::QuickWidgets
+    Qt6::PrintSupport
+    Qt6::WebEngineWidgets
+    Qt6::Pdf
+    Qt6::PdfWidgets
+    Qt6::WebEngineCore
+  PRIVATE
+    charactersheet
+    diceparser_shared
+    diceparser_qobject
+    common_core
+    common_widget )
+
+
+target_compile_definitions(rcse PRIVATE RCSE=1)
 
 target_include_directories(rcse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/charactersheet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/preferences
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/diceparser
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/diceparser/include)
+    ${CMAKE_SOURCE_DIR}/src/libraries/charactersheet
+    ${CMAKE_SOURCE_DIR}/src/libraries
+    ${CMAKE_BINARY_DIR})

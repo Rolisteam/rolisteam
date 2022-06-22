@@ -17,64 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FORMULAMANAGER_H
-#define FORMULAMANAGER_H
+#ifndef VALUEFNODE_H
+#define VALUEFNODE_H
 
-#include <QHash>
-#include <QObject>
-#include <QString>
 #include <QVariant>
 
-#include <charactersheet/formula/formula_global.h>
-/**
- * @page FormulaManager Formula Manager
- *
- * @section Intro Introduction
- * FormulaManager is the software component dedicated to compute charactersheet formula in rolisteam.<br/>
- *
- * @section grammar The Grammar
- *
- * The grammar looks like this:
- *
- * Formula =: Operand | ScalarOperator Operand<br/>
- * Operand =: number | Field Ref | operator <br/>
- * Field Ref =: ${[A-z[A-z|0-9]+}<br/>
- * Operator =: [abs | min | max | floor | ceil | avg](Formula[,Formula]*)
- * ScalarOperator =: [x,-,*,/]<br/>
- * number =: [0-9]+<br/>
- * Word =: [A-z]+<br/>
- *
- */
+#include "charactersheet_formula/formula_global.h"
+#include "formulanode.h"
 
-/**
- * Formala namespace is gathering all classes required for formula management.
- */
 namespace Formula
 {
-class ParsingToolFormula;
-class StartNode;
 /**
- * @brief The FormulaManager class
+ * @brief The ValueFNode class
  */
-class CHARACTERSHEET_FORMULA_EXPORT FormulaManager
+class CHARACTERSHEET_FORMULA_EXPORT ValueFNode : public FormulaNode
 {
 public:
-    FormulaManager();
-    ~FormulaManager();
+    /**
+     * @brief ValueFNode
+     */
+    ValueFNode();
+    /**
+     * @brief run
+     * @param previous
+     * @return
+     */
+    virtual bool run(FormulaNode* previous);
+    bool isNumber();
+    bool isString();
+    void setValue(QVariant);
+    virtual QVariant getResult();
 
-    QVariant getValue(QString i);
-    void setConstantHash(const QHash<QString, QString>& hash);
-
-protected:
-    bool parseLine(QString& str);
-    QVariant startComputing();
-
-    bool readFormula(QString& str);
+    int getPriority();
 
 private:
-    QString m_formula;
-    ParsingToolFormula* m_parsingTool;
-    StartNode* m_startingNode;
+    QVariant m_value;
 };
 } // namespace Formula
-#endif // FORMULAMANAGER_H
+#endif // VALUEFNODE_H

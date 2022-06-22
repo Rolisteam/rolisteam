@@ -25,13 +25,71 @@
 #include <QDialog>
 
 #include "fieldmodel.h"
+#include <QList>
 
-class HandleItem;
 class QUndoStack;
 namespace Ui
 {
 class ColumnDefinitionDialog;
 }
+
+class HandleItem : public QGraphicsObject
+{
+public:
+    enum MOTION
+    {
+        X_AXIS,
+        Y_AXIS
+    };
+    /**
+     * @brief HandleItem
+     * @param point
+     * @param parent
+     */
+    explicit HandleItem(QGraphicsObject* parent= nullptr);
+    /**
+     * @brief ~HandleItem
+     */
+    virtual ~HandleItem();
+    /**
+     * @brief itemChange
+     * @param change
+     * @param value
+     * @return
+     */
+    QVariant itemChange(GraphicsItemChange change, const QVariant& value);
+    /**
+     * @brief boundingRect
+     * @return
+     */
+    QRectF boundingRect() const;
+    /**
+     * @brief paint
+     * @param painter
+     * @param option
+     * @param widget
+     */
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*);
+    void load(QJsonObject& json);
+    void save(QJsonObject& json);
+
+protected:
+    /**
+     * @brief ChildPointItem::mouseMoveEvent
+     * @param event
+     */
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    /**
+     * @brief ChildPointItem::mouseReleaseEvent
+     * @param event
+     */
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+
+private:
+    QPointF m_startPoint;
+    bool m_posHasChanged;
+    MOTION m_currentMotion;
+};
 
 class ColumnDefinitionDialog : public QDialog
 {

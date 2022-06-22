@@ -20,11 +20,12 @@
 #ifndef STARTNODE_H
 #define STARTNODE_H
 
+#include "charactersheet_formula/formula_global.h"
 #include "formulanode.h"
 
 namespace Formula
 {
-class StartNode : public FormulaNode
+class CHARACTERSHEET_FORMULA_EXPORT StartNode : public FormulaNode
 {
 public:
     StartNode();

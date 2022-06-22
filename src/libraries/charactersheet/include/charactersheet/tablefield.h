@@ -29,10 +29,12 @@
 #include <QObject>
 #include <QStandardItemModel>
 #include <QWidget>
+
+#include <charactersheet/charactersheet_global.h>
 #ifdef RCSE
 #include "tablecanvasfield.h"
 #else
-class TableCanvasField : public QGraphicsObject
+class CHARACTERSHEET_EXPORT TableCanvasField : public QGraphicsObject
 {
     TableCanvasField();
 };
@@ -42,7 +44,7 @@ class TableField;
 /**
  * @brief The LineFieldItem class
  */
-class LineFieldItem : public QObject
+class CHARACTERSHEET_EXPORT LineFieldItem : public QObject
 {
     Q_OBJECT
 public:
@@ -72,7 +74,7 @@ private:
 /**
  * @brief The LineModel class
  */
-class LineModel : public QAbstractListModel
+class CHARACTERSHEET_EXPORT LineModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
@@ -108,7 +110,7 @@ private:
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
-class TableField : public FieldController
+class CHARACTERSHEET_EXPORT TableField : public FieldController
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* model READ getModel CONSTANT)

@@ -25,10 +25,10 @@
 #include <QJsonObject>
 #include <QUuid>
 
+#include "charactersheet/charactersheetbutton.h"
 #include "charactersheet/charactersheetmodel.h"
-#include "charactersheetbutton.h"
-#include "section.h"
-#include "tablefield.h"
+#include "charactersheet/section.h"
+#include "charactersheet/tablefield.h"
 /////////////////////////////////////////
 //          CharacterSheet           ////
 /////////////////////////////////////////
@@ -356,16 +356,14 @@ void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
 {
     m_valuesMap.insert(key, itemSheet);
 
-    connect(itemSheet, &CharacterSheetItem::characterSheetItemChanged, this,
-            [=](CharacterSheetItem* item)
-            {
-                QString path;
-                auto parent= item->getParent();
-                if(nullptr != parent)
-                    path= parent->getPath();
+    connect(itemSheet, &CharacterSheetItem::characterSheetItemChanged, this, [=](CharacterSheetItem* item) {
+        QString path;
+        auto parent= item->getParent();
+        if(nullptr != parent)
+            path= parent->getPath();
 
-                emit updateField(this, item, path);
-            });
+        emit updateField(this, item, path);
+    });
 }
 
 QHash<QString, QString> CharacterSheet::getVariableDictionnary()

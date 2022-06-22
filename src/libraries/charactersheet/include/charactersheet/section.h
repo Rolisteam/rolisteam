@@ -25,12 +25,14 @@
 #include "charactersheet/charactersheetitem.h"
 #include <QPointF>
 
+#include <charactersheet/charactersheet_global.h>
+
 class CharacterSheet;
 class EditorController;
 /**
  * @brief The Section class store data field for charactersheet.
  */
-class Section : public CharacterSheetItem
+class CHARACTERSHEET_EXPORT Section : public CharacterSheetItem
 {
     Q_OBJECT
 public:

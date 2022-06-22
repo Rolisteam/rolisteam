@@ -26,11 +26,13 @@
 #include <QRectF>
 #include <QString>
 
+#include <charactersheet/charactersheet_global.h>
+
 class QGraphicsItem;
 /**
  * @brief The CSItem class is managing some item values for RCSE.
  */
-class CSItem : public CharacterSheetItem
+class CHARACTERSHEET_EXPORT CSItem : public CharacterSheetItem
 {
     Q_OBJECT
     Q_PROPERTY(qreal x READ getX WRITE setX NOTIFY xChanged)

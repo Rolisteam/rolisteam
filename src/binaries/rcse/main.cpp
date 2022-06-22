@@ -21,11 +21,11 @@
  ***************************************************************************/
 #include "mainwindow.h"
 #include <QApplication>
-#include <QTextCodec>
+
 #include <QTranslator>
-#include <QtWebEngine/QtWebEngine>
 
 #include "qmltypesregister.h"
+#include "version.h"
 
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -33,27 +33,21 @@
 int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
-    QtWebEngine::initialize();
+
+    Q_INIT_RESOURCE(charactersheet);
+
     a.setAttribute(Qt::AA_DontUseNativeMenuBar, true);
     QString appName("RCSE");
     a.setApplicationName(appName);
-    QString version= QObject::tr("Unknown");
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
-#endif
-    a.setApplicationVersion(version);
+
+    a.setApplicationVersion(version::version);
 
     registerQmlTypes();
 
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QString locale= QLocale::system().name();
 
-    // Ressources
-    // QResource::registerResource(appName+".rcc");
+    // INIT STYLE
+    QIcon::setThemeSearchPaths({":/rcstyle"});
 
     QTranslator rolisteamTranslator;
     rolisteamTranslator.load(QLocale(), ":/translations/rcse", "_");

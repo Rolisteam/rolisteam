@@ -5,7 +5,7 @@
 #include <QUndoStack>
 #include <memory>
 
-#include "charactersheetmodel.h"
+#include "charactersheet/charactersheetmodel.h"
 
 class Section;
 class QAction;

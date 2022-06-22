@@ -28,7 +28,7 @@
 #include <QPointer>
 #include <QUndoStack>
 
-#include "field.h"
+#include "charactersheet/field.h"
 #include "fieldmodel.h"
 
 class ImageModel;

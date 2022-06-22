@@ -27,11 +27,11 @@
 #include <QObject>
 #include <QTextStream>
 
-#include "field.h"
+#include "charactersheet/field.h"
 //#include "charactersheetbutton.h"
-#include "charactersheetitem.h"
+#include "charactersheet/charactersheetitem.h"
 
-#include "section.h"
+#include "charactersheet/section.h"
 class Canvas;
 class EditorController;
 /**

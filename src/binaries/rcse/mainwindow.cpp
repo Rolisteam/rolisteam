@@ -20,10 +20,10 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "ui_mainwindow_rcse.h"
 
-#include "common/controller/logcontroller.h"
-#include "common/widgets/logpanel.h"
+#include "common/logcontroller.h"
+#include "common_widgets/logpanel.h"
 #include <QBuffer>
 #include <QButtonGroup>
 #include <QColorDialog>
@@ -39,7 +39,6 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
-#include <QOpenGLWidget>
 #include <QPagedPaintDevice>
 #include <QPrintDialog>
 #include <QPrinter>
@@ -49,11 +48,8 @@
 #include <QQuickItem>
 #include <QTemporaryFile>
 #include <QTimer>
+#include <QTransform>
 #include <QUrl>
-
-#ifdef WITH_PDF
-#include <poppler-qt5.h>
-#endif
 
 #include "dialog/aboutrcse.h"
 #include "dialog/codeeditordialog.h"
@@ -76,6 +72,7 @@
 #include "undo/setbackgroundimage.h"
 #include "undo/setfieldproperties.h"
 #include "undo/setpropertyonallcharacters.h"
+#include "version.h"
 
 constexpr int minimalColumnSize= 350;
 
@@ -129,7 +126,8 @@ MainWindow::MainWindow(QWidget* parent)
     m_logCtrl->setCurrentModes(LogController::Gui);
     QDockWidget* wid= new QDockWidget(tr("Log panel"), this);
     wid->setObjectName(QStringLiteral("logpanel"));
-    m_logPanel= new LogPanel(m_logCtrl.get());
+    m_logPanel= new LogPanel(this);
+    m_logPanel->setController(m_logCtrl.get());
     wid->setWidget(m_logPanel);
     addDockWidget(Qt::BottomDockWidgetArea, wid);
     auto showLogPanel= wid->toggleViewAction();
@@ -313,11 +311,11 @@ MainWindow::MainWindow(QWidget* parent)
 
     resizeSection();
 
-    connect(ui->m_scaleSlider, &QSlider::valueChanged, this, [this](int val) {
-        qreal scale= val / 100.0;
-        QTransform transform(scale, 0, 0, 0, scale, 0, 0, 0);
-        m_view->setTransform(transform);
-    });
+    /* connect(ui->m_scaleSlider, &QSlider::valueChanged, this, [this](int val) {
+         qreal scale= val / 100.0;
+         QTransform transform(scale, 0, 0, 0, scale, 0, 0, 0);
+         m_view->setTransform(transform);
+     });*/
 
     connect(ui->m_newAct, &QAction::triggered, this, &MainWindow::clearData);
 
@@ -942,9 +940,7 @@ void MainWindow::openQML()
 
 void MainWindow::aboutRcse()
 {
-    QString version("%1.%2.%3");
-
-    AboutRcse dialog(version.arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR), this);
+    AboutRcse dialog(version::version, this);
     dialog.exec();
 }
 

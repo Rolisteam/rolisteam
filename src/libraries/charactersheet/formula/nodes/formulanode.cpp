@@ -17,37 +17,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "formulanode.h"
+#include "charactersheet_formula/nodes/formulanode.h"
+
 namespace Formula
 {
-    FormulaNode::FormulaNode() : m_next(0) {}
+FormulaNode::FormulaNode() : m_next(0) {}
 
-    FormulaNode::~FormulaNode()
+FormulaNode::~FormulaNode()
+{
+    if(nullptr != m_next)
     {
-        if(nullptr != m_next)
-        {
-            delete m_next;
-            m_next= nullptr;
-        }
+        delete m_next;
+        m_next= nullptr;
     }
+}
 
-    FormulaNode* FormulaNode::next() const { return m_next; }
+FormulaNode* FormulaNode::next() const
+{
+    return m_next;
+}
 
-    void FormulaNode::setNext(FormulaNode* next) { m_next= next; }
+void FormulaNode::setNext(FormulaNode* next)
+{
+    m_next= next;
+}
 
-    QVariant FormulaNode::getResult() { return QVariant(); }
-    int FormulaNode::getPriority() { return 1; }
-    FormulaNode* FormulaNode::getLatestNode(FormulaNode* node)
+QVariant FormulaNode::getResult()
+{
+    return QVariant();
+}
+int FormulaNode::getPriority()
+{
+    return 1;
+}
+FormulaNode* FormulaNode::getLatestNode(FormulaNode* node)
+{
+    if(nullptr == node)
     {
-        if(nullptr == node)
-        {
-            return nullptr;
-        }
-        while(nullptr != node->next())
-        {
-            node= node->next();
-        }
-        return node;
+        return nullptr;
     }
+    while(nullptr != node->next())
+    {
+        node= node->next();
+    }
+    return node;
+}
 
 } // namespace Formula

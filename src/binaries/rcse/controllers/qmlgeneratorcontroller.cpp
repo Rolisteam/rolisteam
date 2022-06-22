@@ -8,10 +8,10 @@
 #include <QQuickWidget>
 #include <QTemporaryFile>
 
+#include "charactercontroller.h"
+#include "charactersheet/rolisteamimageprovider.h"
 #include "codeeditor.h"
 #include "imagecontroller.h"
-#include "charactercontroller.h"
-#include "rolisteamimageprovider.h"
 
 QmlGeneratorController::QmlGeneratorController(CodeEditor* codeEditor, QTreeView* view, QObject* parent)
     : QObject(parent), m_model(new FieldModel), m_codeEdit(codeEditor), m_view(view), m_mockCharacter(new MockCharacter)
@@ -223,7 +223,8 @@ void QmlGeneratorController::clearData()
     connect(m_mockCharacter.get(), &MockCharacter::log, this,
             [this](const QString& log) { emit reportLog(log, LogController::Features); });
 }
-void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController *characterCtrl)
+void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* imgCtrl,
+                                     CharacterController* characterCtrl)
 {
     QString data;
     generateQML(imgCtrl, data);
@@ -238,16 +239,17 @@ QString QmlGeneratorController::uuidCharacter() const
 
 void QmlGeneratorController::setUuidCharacter(QString uuidCharacter)
 {
-    if (m_uuidCharacter == uuidCharacter)
+    if(m_uuidCharacter == uuidCharacter)
         return;
 
-    qDebug()<< "changed uuid" << uuidCharacter;
+    qDebug() << "changed uuid" << uuidCharacter;
 
-    m_uuidCharacter = uuidCharacter;
+    m_uuidCharacter= uuidCharacter;
     emit uuidCharacterChanged(m_uuidCharacter);
 }
 
-void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController *characterCtrl)
+void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl,
+                                            CharacterController* characterCtrl)
 {
     QString data= m_codeEdit->toPlainText();
 
@@ -265,7 +267,7 @@ void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageContro
     quickView->engine()->addImportPath("qrc:/src/charactersheet/qml");
     quickView->engine()->addImageProvider(QLatin1String("rcs"), provider);
 
-    auto charactersheet = characterCtrl->characterSheetFromUuid(m_uuidCharacter);
+    auto charactersheet= characterCtrl->characterSheetFromUuid(m_uuidCharacter);
     if(nullptr != charactersheet)
     {
         for(int i= 0; i < charactersheet->getFieldCount(); ++i)

@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "csitem.h"
+#include "charactersheet/csitem.h"
 #include <QDebug>
 
 int CSItem::m_count= 0;

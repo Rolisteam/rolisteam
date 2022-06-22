@@ -17,12 +17,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(src_dir ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-set(formula_public_header
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet/formula/formula_global.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet/formula/formulamanager.h
-)
+set(src_dir ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 set(formula_src
@@ -36,21 +31,23 @@ set(formula_src
   ${src_dir}/formula/nodes/startnode.cpp
   ${src_dir}/formula/nodes/valuefnode.cpp)
 
+set(inc ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet_formula)
 set(formula_header
   # formula
-
-  ${src_dir}/formula/parsingtoolformula.h
-  ${src_dir}/formula/nodes/formulanode.h
-  ${src_dir}/formula/nodes/operator.h
-  ${src_dir}/formula/nodes/parenthesesfnode.h
-  ${src_dir}/formula/nodes/scalaroperatorfnode.h
-  ${src_dir}/formula/nodes/startnode.h
-  ${src_dir}/formula/nodes/valuefnode.h
+  ${inc}/formula_global.h
+  ${inc}/formulamanager.h
+  ${inc}/parsingtoolformula.h
+  ${inc}/nodes/formulanode.h
+  ${inc}/nodes/operator.h
+  ${inc}/nodes/parenthesesfnode.h
+  ${inc}/nodes/scalaroperatorfnode.h
+  ${inc}/nodes/startnode.h
+  ${inc}/nodes/valuefnode.h
   )
 
-add_library(charactersheet_formula SHARED ${formula_src} ${formula_header} ${formula_public_header})
+add_library(charactersheet_formula SHARED ${formula_src} ${formula_header})
 target_link_libraries(charactersheet_formula PUBLIC Qt${QT_VERSION_MAJOR}::Core)
-set_target_properties(charactersheet_formula PROPERTIES PUBLIC_HEADER "${formula_public_header}")
+set_target_properties(charactersheet_formula PROPERTIES PUBLIC_HEADER "${formula_header}")
 target_compile_definitions(charactersheet_formula PRIVATE CHARACTERSHEET_FORMULA_LIBRARY)
 target_include_directories(charactersheet_formula PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/formula
     PUBLIC
@@ -58,37 +55,31 @@ target_include_directories(charactersheet_formula PRIVATE ${CMAKE_CURRENT_SOURCE
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 #===========================================================
 
-
-set(character_public_headers include/charactersheet/charactersheet_global.h
-    include/charactersheet/charactersheetitem.h
-    include/charactersheet/charactersheetmodel.h
-    include/charactersheet/charactersheet.h
-    include/charactersheet/imagemodel.h
-    include/charactersheet/rolisteamimageprovider.h
-)
+set(inc_sheet ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet)
 
 SET(character_sources
-    #${CMAKE_CURRENT_SOURCE_DIR}/charactersheetbutton.cpp
     ${src_dir}/charactersheet.cpp
     ${src_dir}/charactersheetitem.cpp
     ${src_dir}/charactersheetmodel.cpp
     ${src_dir}/csitem.cpp
     ${src_dir}/field.cpp
     ${src_dir}/imagemodel.cpp
-    #${src_dir}/qqmlhelpers.cpp
-    #${src_dir}/qqmlobjectlistmodel.cpp
     ${src_dir}/rolisteamimageprovider.cpp
     ${src_dir}/section.cpp
     ${src_dir}/tablefield.cpp
 )
 
 SET(character_headers
-    #${CMAKE_CURRENT_SOURCE_DIR}/charactersheetbutton.h
-    ${src_dir}/csitem.h
-    ${src_dir}/field.h
-    #${src_dir}/qqmlhelpers.h
-    ${src_dir}/section.h
-    ${src_dir}/tablefield.h
+  ${inc_sheet}/charactersheet_global.h
+  ${inc_sheet}/charactersheetitem.h
+  ${inc_sheet}/charactersheetmodel.h
+  ${inc_sheet}/charactersheet.h
+  ${inc_sheet}/imagemodel.h
+  ${inc_sheet}/rolisteamimageprovider.h
+    ${inc_sheet}/csitem.h
+    ${inc_sheet}/field.h
+    ${inc_sheet}/section.h
+    ${inc_sheet}/tablefield.h
 )
 
 
@@ -118,32 +109,32 @@ set(documentation Readme.md)
 set(charactersheet_QRC ${src_dir}/qml/charactersheet.qrc)
 
 
-add_library(charactersheet SHARED ${character_sources} ${character_public_headers} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
+add_library(charactersheet SHARED ${character_sources} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
 target_link_libraries(charactersheet PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngineCore PRIVATE charactersheet_formula)
-set_target_properties(charactersheet PROPERTIES PUBLIC_HEADER "${character_public_headers}")
+set_target_properties(charactersheet PROPERTIES PUBLIC_HEADER "${character_headers}")
 target_compile_definitions(charactersheet PRIVATE CHARACTERSHEET_LIBRARY)
 target_include_directories(charactersheet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
     PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 #===========================================================
 
+set(inc_sheet ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet_widgets)
 
+set(header_widget ${inc_sheet}/charactersheet_widget_global.h
+${inc_sheet}/sheetwidget.h)
 
-set(public_header_widget
-    include/charactersheet/widget/charactersheet_widget_global.h
-    include/charactersheet/widget/sheetwidget.h
-)
-set(src_widget
+set(src_widget 
     ${src_dir}/widget/sheetwidget.cpp
 )
 
 
 
-add_library(charactersheet_widgets SHARED ${src_widget} ${public_header_widget} ${charactersheet_QRC})
+add_library(charactersheet_widgets SHARED ${src_widget} ${header_widget} ${charactersheet_QRC})
 target_link_libraries(charactersheet_widgets PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngineCore PRIVATE charactersheet)
-set_target_properties(charactersheet_widgets PROPERTIES PUBLIC_HEADER "${public_header_widget}")
+set_target_properties(charactersheet_widgets PROPERTIES PUBLIC_HEADER "${header_widget}")
 target_compile_definitions(charactersheet_widgets PRIVATE CHARACTERSHEET_WIDGET_LIBRARY)
 target_include_directories(charactersheet_widgets PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
     PUBLIC
@@ -152,10 +143,10 @@ target_include_directories(charactersheet_widgets PRIVATE ${CMAKE_CURRENT_SOURCE
 
 
 
-if (BUILD_TESTING)
-enable_testing(true)
-add_subdirectory(test)
-endif()
+#if (BUILD_TESTING)
+#enable_testing(true)
+#add_subdirectory(test)
+#endif()
 
 
 #include(GNUInstallDirs)

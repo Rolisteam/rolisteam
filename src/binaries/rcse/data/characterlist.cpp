@@ -1,27 +1,24 @@
 #include "characterlist.h"
 
-#include "charactersheetmodel.h"
+#include "charactersheet/charactersheetmodel.h"
 
 #include <QDebug>
 
-CharacterList::CharacterList(QObject *parent)
-    : QSortFilterProxyModel(parent)
-{
-}
+CharacterList::CharacterList(QObject* parent) : QSortFilterProxyModel(parent) {}
 
-int CharacterList::rowCount(const QModelIndex &parent) const
+int CharacterList::rowCount(const QModelIndex& parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all
     // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
-   if (parent.isValid())
+    if(parent.isValid())
         return 0;
 
-   //qDebug() << "Row Count" <<sourceModel()->columnCount(QModelIndex());
+    // qDebug() << "Row Count" <<sourceModel()->columnCount(QModelIndex());
 
-   return sourceModel()->columnCount(QModelIndex());
+    return sourceModel()->columnCount(QModelIndex());
 }
 
-int CharacterList::columnCount(const QModelIndex &parent) const
+int CharacterList::columnCount(const QModelIndex& parent) const
 {
     if(parent.isValid())
         return 0;
@@ -30,36 +27,36 @@ int CharacterList::columnCount(const QModelIndex &parent) const
 
 QHash<int, QByteArray> CharacterList::roleNames() const
 {
-    return QHash<int,QByteArray>({{NameRole,"name"},{UuidRole,"uuid"}});
+    return QHash<int, QByteArray>({{NameRole, "name"}, {UuidRole, "uuid"}});
 }
 
-QVariant CharacterList::data(const QModelIndex &index, int role) const
+QVariant CharacterList::data(const QModelIndex& index, int role) const
 {
-    QVector<int> roles({NameRole,UuidRole, Qt::DisplayRole, Qt::EditRole});
-    if (!index.isValid() || !roles.contains(role))
+    QVector<int> roles({NameRole, UuidRole, Qt::DisplayRole, Qt::EditRole});
+    if(!index.isValid() || !roles.contains(role))
         return QVariant();
 
-    auto r = index.row();
+    auto r= index.row();
 
     if(r == 0)
     {
-        return (role ==Qt::DisplayRole) ? tr("Mock Data") : "";
+        return (role == Qt::DisplayRole) ? tr("Mock Data") : "";
     }
 
-    //qDebug() << "Row Count 2";
+    // qDebug() << "Row Count 2";
 
-    auto idx = sourceModel()->index(0, r);
+    auto idx= sourceModel()->index(0, r);
 
     if(roles.contains(role))
     {
-        int realRole = NameRole;
+        int realRole= NameRole;
 
         if(role == UuidRole)
-            realRole = role;
-        auto var = idx.data(role == NameRole ? CharacterSheetModel::NameRole : CharacterSheetModel::UuidRole).toString();
-        //qDebug() << var << role << UuidRole;
+            realRole= role;
+        auto var= idx.data(role == NameRole ? CharacterSheetModel::NameRole : CharacterSheetModel::UuidRole).toString();
+        // qDebug() << var << role << UuidRole;
         if(var.isEmpty())
-            var = tr("Character %1").arg(r);
+            var= tr("Character %1").arg(r);
         return var;
     }
     else

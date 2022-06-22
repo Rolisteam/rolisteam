@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "alignmentdelegate.h"
-#include "charactersheetitem.h"
+#include "charactersheet/charactersheetitem.h"
 #include <QComboBox>
 
 AlignmentDelegate::AlignmentDelegate(QWidget* parent) : QStyledItemDelegate(parent) {}

@@ -17,11 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <charactersheet/formula/formulamanager.h>
+#include <charactersheet_formula/formulamanager.h>
 
-#include "nodes/formulanode.h"
-#include "nodes/startnode.h"
-#include "parsingtoolformula.h"
+#include "charactersheet_formula/nodes/formulanode.h"
+#include "charactersheet_formula/nodes/startnode.h"
+#include "charactersheet_formula/parsingtoolformula.h"
 
 namespace Formula
 {

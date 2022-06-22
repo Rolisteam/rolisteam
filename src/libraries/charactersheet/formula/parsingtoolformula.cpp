@@ -17,11 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "parsingtoolformula.h"
-#include "nodes/operator.h"
+#include "charactersheet_formula/parsingtoolformula.h"
+#include "charactersheet_formula/nodes/operator.h"
 
-#include "nodes/parenthesesfnode.h"
-#include "nodes/valuefnode.h"
+#include "charactersheet_formula/nodes/parenthesesfnode.h"
+#include "charactersheet_formula/nodes/valuefnode.h"
 #include <QDebug>
 
 namespace Formula

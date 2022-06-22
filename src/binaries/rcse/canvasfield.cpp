@@ -1,6 +1,6 @@
 #include "canvasfield.h"
 
-#include "field.h"
+#include "charactersheet/field.h"
 #include <QDebug>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QPainter>
