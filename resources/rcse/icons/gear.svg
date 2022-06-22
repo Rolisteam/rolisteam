@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="800" version="1.1" viewBox="0 0 800.00001 800.00001" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <mask id="b" maskUnits="userSpaceOnUse">
+   <ellipse cx="400" cy="652.36" rx="399.97" ry="399.97" color="#000000" color-rendering="auto" fill="#fff" image-rendering="auto" shape-rendering="auto" solid-color="#000000" stroke="#273b50" stroke-width=".055301" style="isolation:auto;mix-blend-mode:normal"/>
+  </mask>
+  <mask id="a" maskUnits="userSpaceOnUse">
+   <ellipse cx="400" cy="400" rx="399.97" ry="399.97" color="#000000" color-rendering="auto" fill="#fff" image-rendering="auto" shape-rendering="auto" solid-color="#000000" stroke="#273b50" stroke-width=".055301" style="isolation:auto;mix-blend-mode:normal"/>
+  </mask>
+  <linearGradient id="c" x1="92.427" x2="450.8" y1="750.93" y2="348.98" gradientUnits="userSpaceOnUse">
+   <stop stop-opacity="0" offset="0"/>
+   <stop offset="1"/>
+  </linearGradient>
+ </defs>
+ <g transform="translate(0 -252.36)" shape-rendering="auto" stroke="#273b50">
+  <ellipse cx="400" cy="652.36" rx="399.97" ry="399.97" color="#000000" color-rendering="auto" fill="#1c8adb" image-rendering="auto" solid-color="#000000" stroke-width=".055301" style="isolation:auto;mix-blend-mode:normal"/>
+  <path transform="translate(0 252.36)" d="m374.51 138.36-54.242 56.609-28.9-34.357-44.162 25.498-246.41 246.41c11.969 214.15 186.84 359.83 366.61 366.81l246.51-246.51 25.496-44.164-34.449-28.979 56.684-54.268v-50.996l-55.816-9.9121c-1.9309-10.852-4.7104-21.533-8.3144-31.945l41.83-41.371-25.498-44.166-53.613 19.439c-8.0531-9.6132-16.949-18.486-26.584-26.514l19.27-53.854-44.164-25.496-41.461 41.961c-10.826-3.4506-22.044-6.5275-31.613-8.2812l-10.174-55.914z" color="#000000" color-rendering="auto" fill="url(#c)" image-rendering="auto" mask="url(#a)" opacity=".465" solid-color="#000000" stroke-width=".032702" style="isolation:auto;mix-blend-mode:normal"/>
+  <path d="m374.51 390.72-9.941 55.981a210.26 210.26 0 0 0 -36.762 9.591l-36.44-43.32-44.163 25.499 18.907 52.838a210.26 210.26 0 0 0 -27.535 27.053l-52.302-18.965-25.498 44.163 41.932 35.576a210.26 210.26 0 0 0 -10.555 38.092l-53.744 9.5437v50.996l53.727 9.7749a210.26 210.26 0 0 0 10.108 38.513l-41.536 34.94 25.498 44.165 50.906-18.215a210.26 210.26 0 0 0 28.378 28.517l-18.354 50.625 44.163 25.498 34.898-41.135a210.26 210.26 0 0 0 38.889 10.434l9.4236 53.07h50.996l9.6714-53.151a210.26 210.26 0 0 0 38.435 -10.697l35.209 41.499 44.163-25.499-18.79-51.823a210.26 210.26 0 0 0 27.577 -27.762l52.141 18.658 25.498-44.165-42.919-36.103a210.26 210.26 0 0 0 9.9205 -37.094l55.232-10.05v-50.996l-55.816-9.9116a210.26 210.26 0 0 0 -9.9346 -36.455l43.449-36.862-25.498-44.166-53.612 19.44a210.26 210.26 0 0 0 -26.585 -26.514l19.269-53.853-44.163-25.498-36.727 43.664a210.26 210.26 0 0 0 -36.347 -9.9831l-10.173-55.914h-50.996zm25.517 179.89a81.732 81.732 0 0 1 81.733 81.733 81.732 81.732 0 0 1 -81.733 81.733 81.732 81.732 0 0 1 -81.733 -81.733 81.732 81.732 0 0 1 81.733 -81.733zm0 32.693a49.039 49.039 0 0 0 -49.039 49.039 49.039 49.039 0 0 0 49.039 49.039 49.039 49.039 0 0 0 49.039 -49.039 49.039 49.039 0 0 0 -49.039 -49.039z" color="#000000" color-rendering="auto" fill="#fff" image-rendering="auto" mask="url(#b)" solid-color="#000000" stroke-width=".032702" style="isolation:auto;mix-blend-mode:normal"/>
+ </g>
+</svg>

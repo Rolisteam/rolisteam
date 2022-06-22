@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>src/charactersheet/qml/Rolisteam/qmldir</file>
+        <file>src/charactersheet/qml/Rolisteam/CheckBoxField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/SelectField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextAreaField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextFieldField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextInputField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/DiceButton.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/ImageField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/WebView.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/PageButton.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/Table.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/RLabel.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/CheckBoxFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/DiceButtonv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/ImageFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/SelectFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextAreaFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextFieldFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextInputFieldv1.qml</file>
+    </qresource>
+</RCC>
