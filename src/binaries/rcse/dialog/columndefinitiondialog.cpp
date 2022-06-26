@@ -123,7 +123,7 @@ ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget* parent) : QDialog(parent
     ui->m_column2Field->setFieldModel(m_model);
     ui->m_column2Field->setCurrentPage(0);
     ui->m_column2Field->setCanvasList(nullptr);
-    ui->m_column2Field->setUndoStack(new QUndoStack(this));
+    // ui->m_column2Field->setUndoStack(new QUndoStack(this));
 
     connect(ui->m_columnCountEdit, SIGNAL(valueChanged(int)), this, SIGNAL(columnCountChanged(int)));
     connect(ui->m_lineCountEdit, SIGNAL(valueChanged(int)), this, SIGNAL(lineCountChanged(int)));
@@ -143,7 +143,7 @@ void ColumnDefinitionDialog::setData(QList<HandleItem*> list, qreal widthTotal, 
     int i= 0;
     for(auto handle : list)
     {
-        auto field= new FieldController();
+        auto field= new FieldController(CharacterSheetItem::FieldItem, true);
         field->setCurrentType(CharacterSheetItem::TEXTINPUT);
         m_model->appendField(field);
         field->setX(currentX);
@@ -153,7 +153,7 @@ void ColumnDefinitionDialog::setData(QList<HandleItem*> list, qreal widthTotal, 
         currentX= handle->pos().x();
         ++i;
     }
-    auto field= new FieldController();
+    auto field= new FieldController(CharacterSheetItem::FieldItem, true);
     field->setCurrentType(CharacterSheetItem::TEXTINPUT);
     m_model->appendField(field);
     field->setX(currentX);
