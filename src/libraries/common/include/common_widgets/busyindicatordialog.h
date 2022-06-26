@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Renaud Guezennec                                *
+ *	Copyright (C) 2022 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,54 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-#ifndef PDFMANAGER_H
-#define PDFMANAGER_H
+#ifndef BUSYINDICATORDIALOG_H
+#define BUSYINDICATORDIALOG_H
 
 #include <QDialog>
-#include <QImage>
-#include <QList>
-#include <memory>
+#include <QWidget>
+#include <common_widgets/common_widgets_global.h>
 
-namespace Ui
-{
-class PdfManager;
-}
-class QPdfDocument;
-class PdfManager : public QDialog
+class COMMON_WIDGET_EXPORT BusyIndicatorDialog : public QDialog
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QImage> images READ images NOTIFY imageChanged)
-    Q_PROPERTY(QString pdfPath READ pdfPath WRITE setPdfPath NOTIFY pdfPathChanged)
+    Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
 public:
-    explicit PdfManager(QWidget* parent= 0);
-    virtual ~PdfManager();
+    BusyIndicatorDialog(const QString& title, const QString& text, const QString& pathMovie, QWidget* parent= nullptr);
 
-    int getWidth();
-    int getHeight();
+    const QString& title() const;
+    void setTitle(const QString& newTitle);
 
-    void setHeight(int h);
-    void setWidth(int w);
-
-    const QString pdfPath() const;
-    void setPdfPath(const QString& newPdfPath);
-
-    const QList<QImage> images() const;
-
-protected:
-    void updateSizeParameter();
-
-    int currentPage() const;
+    const QString& text() const;
+    void setText(const QString& newText);
 
 signals:
-    void resolutionChanged();
-    void apply();
-    void pdfPathChanged();
-    void imageChanged();
+    void titleChanged();
+    void textChanged();
 
 private:
-    Ui::PdfManager* ui;
-    std::unique_ptr<QPdfDocument> m_document;
+    void setUpUi();
+
+private:
+    QString m_title;
+    QString m_text;
+    QString m_path;
 };
 
-#endif // PDFMANAGER_H
+#endif // BUSYINDICATORDIALOG_H

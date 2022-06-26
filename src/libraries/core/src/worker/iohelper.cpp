@@ -36,6 +36,7 @@
 #include <QVariant>
 #include <map>
 
+#include "charactersheet/worker/ioworker.h"
 #include "controller/audioplayercontroller.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
@@ -407,8 +408,8 @@ QByteArray saveCharacterSheet(CharacterSheetController* ctrl)
     obj["character"]= dataObj;
 
     auto images= ctrl->imageModel();
-    QJsonArray array;
-    images->save(array);
+
+    auto array= IOWorker::saveImageModel(images);
 
     obj["images"]= array;
 
@@ -792,7 +793,8 @@ void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, cons
     auto model= ctrl->model();
     model->readModel(charactersData, true);
     auto imagesModel= ctrl->imageModel();
-    imagesModel->load(images);
+    IOWorker::fetchImageModel(imagesModel, images);
+    // imagesModel->load(images);
 }
 
 #ifdef WITH_PDF

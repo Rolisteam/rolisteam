@@ -185,7 +185,7 @@ CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString
     }
     else
     {
-        auto field= new FieldController(false);
+        auto field= new FieldController(CharacterSheetItem::FieldItem, false);
         result= field;
         field->setValue(value);
         field->setId(key);
@@ -317,7 +317,7 @@ void CharacterSheet::load(const QJsonObject& json)
         CharacterSheetItem* itemSheet= nullptr;
         if((item["type"] == QStringLiteral("field")) || (item["type"] == QStringLiteral("button")))
         {
-            itemSheet= new FieldController();
+            itemSheet= new FieldController(CharacterSheetItem::FieldItem, true);
         }
         else if(item["type"] == QStringLiteral("TableField"))
         {

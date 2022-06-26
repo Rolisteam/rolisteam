@@ -17,20 +17,46 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef SERIALIZERHELPER_H
+#define SERIALIZERHELPER_H
 
-// clang-format off
-namespace version
+#include <QByteArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
+class MainController;
+class QmlGeneratorController;
+class FieldModel;
+namespace SerializerHelper
 {
-constexpr int major{@PROJECT_VERSION_MAJOR@};
-constexpr int minor{@PROJECT_VERSION_MINOR@};
-constexpr int path{@PROJECT_VERSION_PATCH@};
+namespace keys
+{
+const char* const pageCount{"pageCount"};
+const char* const uuid{"uuid"};
+const char* const background{"background"};
+const char* const name{"name"};
+const char* const type{"type"};
+const char* const items{"items"};
 
-constexpr char const* version{"@PROJECT_VERSION@"};
+const char* const data{"data"};
+const char* const qml{"qml"};
+const char* const headCode{"additionnalHeadCode"};
+const char* const imports{"additionnalImport"};
+const char* const fixedScale{"fixedScale"};
+const char* const bottomCode{"additionnalBottomCode"};
+const char* const flickable{"flickable"};
 
-constexpr char const* documation_site{"https://doc.rolisteam.org"};
-constexpr char const* rolisteam_site{"https://rolisteam.org"};
-}
-// clang-format on
-#endif // VERSION_H
+const char* const fonts{"fonts"};
+
+} // namespace keys
+
+QByteArray buildData(MainController* ctrl);
+void fetchMainController(MainController* ctrl, const QJsonObject& jsonObj);
+
+void fetchGeneratorController(QmlGeneratorController* ctrl, const QJsonObject& obj);
+QJsonObject saveGeneratorController(QmlGeneratorController* ctrl);
+
+QJsonObject saveFieldModel(FieldModel* model);
+}; // namespace SerializerHelper
+
+#endif // SERIALIZERHELPER_H

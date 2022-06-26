@@ -26,15 +26,15 @@
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/notecontroller.h"
-#ifdef WITH_PDF
 #include "controller/view_controller/pdfcontroller.h"
-#endif
+
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
+#include "charactersheet/worker/ioworker.h"
 
 #include "mindmap/data/link.h"
 #include "mindmap/data/mindnode.h"
@@ -42,8 +42,8 @@
 #include "mindmap/model/imagemodel.h"
 #include "mindmap/model/linkmodel.h"
 
-#include "utils/iohelper.h"
 #include "network/networkmessagereader.h"
+#include "utils/iohelper.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/vectorialmapmessagehelper.h"
@@ -76,7 +76,7 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
     {
         auto array= params.value(Core::keys::KEY_IMAGEDATA).toByteArray();
         auto imgModel= sheetCtrl->imageModel();
-        imgModel->load(IOHelper::byteArrayToJsonArray(array));
+        IOWorker::fetchImageModel(imgModel, IOHelper::byteArrayToJsonArray(array));
     }
     if(params.contains(Core::keys::KEY_ROOTSECTION))
     {

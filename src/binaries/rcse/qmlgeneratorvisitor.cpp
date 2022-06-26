@@ -6,7 +6,7 @@
 
 QString getPageManagement(FieldController* item, QString indent)
 {
-    int page= item->getPage();
+    int page= item->page();
     if(page >= 0)
         return QStringLiteral("%1    visible: root.page == %5? true : false\n").arg(indent).arg(page);
     else if(item->getFieldType() == CharacterSheetItem::NEXTPAGE)
@@ -36,10 +36,10 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
     for(int i= 0; i < m_root->getChildrenCount(); ++i)
     {
         auto child= m_root->getChildAt(i);
-        if(child->getItemType() == CharacterSheetItem::FieldItem)
+        if(child->itemType() == CharacterSheetItem::FieldItem)
         {
             auto field= dynamic_cast<FieldController*>(child);
-            if(field->getGeneratedCode().isEmpty())
+            if(field->generatedCode().isEmpty())
             {
                 switch(field->getFieldType())
                 {
@@ -86,20 +86,20 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
             }
             else
             {
-                m_out << field->getGeneratedCode();
+                m_out << field->generatedCode();
             }
         }
-        else if(child->getItemType() == CharacterSheetItem::TableItem)
+        else if(child->itemType() == CharacterSheetItem::TableItem)
         {
             auto field= dynamic_cast<TableField*>(child);
             if(nullptr != field)
             {
-                if(field->getGeneratedCode().isEmpty())
+                if(field->generatedCode().isEmpty())
                 {
                     generateTable(field);
                 }
                 else
-                    m_out << field->getGeneratedCode();
+                    m_out << field->generatedCode();
             }
         }
     }
@@ -111,7 +111,7 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
     if(nullptr == m_root)
         return false;
 
-    if(m_root->getItemType() == CharacterSheetItem::FieldItem)
+    if(m_root->itemType() == CharacterSheetItem::FieldItem)
     {
         auto field= dynamic_cast<FieldController*>(m_root);
         switch(field->getFieldType())
@@ -157,7 +157,7 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
             break;
         }
     }
-    else if(m_root->getItemType() == CharacterSheetItem::TableItem)
+    else if(m_root->itemType() == CharacterSheetItem::TableItem)
     {
         auto field= dynamic_cast<TableField*>(m_root);
         if(field)
@@ -299,7 +299,7 @@ bool QmlGeneratorVisitor::generateSelect(FieldController* item)
                  .arg(getId(item))
                  .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
-                 .arg(QStringLiteral("[\"%1\"]").arg(item->getAvailableValue().join("\",\""))) //%5
+                 .arg(QStringLiteral("[\"%1\"]").arg(item->availableValues().join("\",\""))) //%5
                  .arg(m_indenSpace)
                  .arg(m_isTable ? QStringLiteral("") :
                                   QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
@@ -387,7 +387,7 @@ bool QmlGeneratorVisitor::generateDiceButton(FieldController* item)
                  .arg(getId(item))
                  .arg(item->textColor().lighter().name(QColor::HexArgb))
                  .arg(item->bgColor().lighter().name(QColor::HexArgb))
-                 .arg(item->getAliasEnabled() ? "true" : "false") //%5
+                 .arg(item->aliasEnabled() ? "true" : "false") //%5
                  .arg(m_indenSpace)
                  .arg(m_isTable ? QStringLiteral("") :
                                   QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)))
@@ -504,18 +504,14 @@ QString QmlGeneratorVisitor::generatePosition(FieldController* item)
         QString op("%2    Layout.fillHeight: true\n"
                    "%2    Layout.preferredWidth: %1*root.realscale\n");
 
-        return op.arg(item->getWidth()).arg(m_indenSpace);
+        return op.arg(item->width()).arg(m_indenSpace);
     }
     QString positionLines("%5    x:%1*root.realscale\n"
                           "%5    y:%2*root.realscale\n"
                           "%5    width:%3*root.realscale\n"
                           "%5    height:%4*root.realscale\n");
 
-    return positionLines.arg(item->getX())
-        .arg(item->getY())
-        .arg(item->getWidth())
-        .arg(item->getHeight())
-        .arg(m_indenSpace);
+    return positionLines.arg(item->x()).arg(item->y()).arg(item->width()).arg(item->height()).arg(m_indenSpace);
 }
 
 QString QmlGeneratorVisitor::generateAlignment(FieldController* item)

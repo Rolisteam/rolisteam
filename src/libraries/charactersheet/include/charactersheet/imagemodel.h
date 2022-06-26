@@ -53,9 +53,6 @@ public:
 
     void clear();
 
-    void save(QJsonArray& array) const;
-    void load(const QJsonArray& array);
-
     void removeImageAt(const QModelIndex& index);
     void setPathFor(const QModelIndex& index, const QString& path);
     void setPixList(QHash<QString, QPixmap*>& list);
@@ -67,6 +64,7 @@ public:
     QPixmap pixmapFromKey(QString id);
     void reloadImage(const QModelIndex& index);
 
+    const std::vector<ImageInfo>& imageInfos() const;
 signals:
     void backgroundSizeChanged();
     void internalDataChanged();

@@ -17,20 +17,64 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef VERSION_H
-#define VERSION_H
+#include "common_widgets/busyindicatordialog.h"
 
-// clang-format off
-namespace version
+#include <QLabel>
+#include <QMovie>
+#include <QProgressBar>
+#include <QVBoxLayout>
+
+BusyIndicatorDialog::BusyIndicatorDialog(const QString& title, const QString& text, const QString& pathMovie,
+                                         QWidget* parent)
+    : QDialog(parent), m_title(title), m_text(text), m_path(pathMovie)
 {
-constexpr int major{@PROJECT_VERSION_MAJOR@};
-constexpr int minor{@PROJECT_VERSION_MINOR@};
-constexpr int path{@PROJECT_VERSION_PATCH@};
-
-constexpr char const* version{"@PROJECT_VERSION@"};
-
-constexpr char const* documation_site{"https://doc.rolisteam.org"};
-constexpr char const* rolisteam_site{"https://rolisteam.org"};
+    setModal(true);
+    setUpUi();
 }
-// clang-format on
-#endif // VERSION_H
+void BusyIndicatorDialog::setUpUi()
+{
+    setTitle(m_title);
+    setLayout(nullptr);
+    auto l= new QVBoxLayout(this);
+    auto lbl= new QLabel(this);
+    lbl->setText(m_text);
+    l->addWidget(lbl);
+
+    QMovie* movie= new QMovie(m_path, {}, this);
+
+    auto lbl2= new QLabel(this);
+    lbl2->setMaximumHeight(200);
+    lbl2->setMaximumWidth(200);
+    lbl2->setScaledContents(true);
+    lbl2->setMovie(movie);
+    l->addWidget(lbl2);
+    setLayout(l);
+
+    movie->start();
+}
+
+const QString& BusyIndicatorDialog::text() const
+{
+    return m_text;
+}
+
+void BusyIndicatorDialog::setText(const QString& newText)
+{
+    if(m_text == newText)
+        return;
+    m_text= newText;
+    emit textChanged();
+}
+
+const QString& BusyIndicatorDialog::title() const
+{
+    return m_title;
+}
+
+void BusyIndicatorDialog::setTitle(const QString& newTitle)
+{
+    if(m_title == newTitle)
+        return;
+    m_title= newTitle;
+    emit titleChanged();
+}

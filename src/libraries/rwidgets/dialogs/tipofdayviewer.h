@@ -24,7 +24,6 @@
 #include <QDialog>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QProgressBar>
 #include <QWidget>
 
 namespace Ui

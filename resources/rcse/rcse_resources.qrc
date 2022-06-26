@@ -38,5 +38,6 @@
         <file>../../translations/rcse_es.qm</file>
         <file>../../translations/rcse_nl_NL.qm</file>
         <file>../../translations/rcse_ro_RO.qm</file>
+        <file>rcstyle/busy_movie.gif</file>
     </qresource>
 </RCC>

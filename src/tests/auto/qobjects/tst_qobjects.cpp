@@ -367,7 +367,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new charactersheet::ImageModel());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new RolisteamImageProvider(new charactersheet::ImageModel()));
     // QTest::addRow("obj%d", i++) << new CSItem();
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new FieldController());
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new FieldController(CharacterSheetItem::FieldItem, true));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new Section());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new TableField());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new LineModel());

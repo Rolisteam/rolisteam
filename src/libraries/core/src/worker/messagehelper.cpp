@@ -50,6 +50,7 @@
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
+#include "charactersheet/worker/ioworker.h"
 #include "data/character.h"
 #include "data/player.h"
 #include "diceparser/dicealias.h"
@@ -318,8 +319,8 @@ void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* charac
     msg.string32(ctrl->qmlCode());
 
     auto imageModel= ctrl->imageModel();
-    QJsonArray array;
-    imageModel->save(array);
+    QJsonArray array= IOWorker::saveImageModel(imageModel);
+    // imageModel->save(array);
     QJsonDocument doc2;
     doc2.setArray(array);
     msg.byteArray32(doc2.toJson());

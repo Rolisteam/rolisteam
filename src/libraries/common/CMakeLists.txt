@@ -55,10 +55,12 @@ set(common_widget_public_header
 include/common_widgets/logpanel.h
 include/common_widgets/colorbutton.h
 include/common_widgets/common_widgets_global.h
+include/common_widgets/busyindicatordialog.h
 )
 set(common_widget_src
 widgets/logpanel.cpp
 widgets/colorbutton.cpp
+widgets/busyindicatordialog.cpp
 )
 
 add_library(common_widget SHARED ${common_widget_public_header} ${common_widget_src})

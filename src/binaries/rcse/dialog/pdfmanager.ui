@@ -6,170 +6,172 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>379</width>
-    <height>407</height>
+    <width>712</width>
+    <height>836</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Export PDF background Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <property name="windowIcon">
+   <iconset theme="pdf">
+    <normaloff>.</normaloff>.</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,1,0">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Resolution (dots per inch):</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QSlider" name="horizontalSlider">
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>500</number>
-       </property>
-       <property name="sliderPosition">
-        <number>72</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Pdf path</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinBox">
-       <property name="maximum">
-        <number>500</number>
-       </property>
-       <property name="value">
-        <number>72</number>
+      <widget class="QLineEdit" name="m_pathEdit"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_browseFile">
+       <property name="text">
+        <string>Browse</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Resolution:</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QCheckBox" name="m_resolutionCheck">
-          <property name="text">
-           <string>Set Resolution</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Width: </string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="m_widthBox">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>10000</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Height:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="m_heightBox">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>10000</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="m_resoGroupBox">
+         <property name="title">
+          <string>Size:</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Width:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="m_widthBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>10000</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Height: </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="m_heightBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>10000</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_grayScale">
+         <property name="text">
+          <string>Grayscale</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Pages</string>
+       </property>
+       <widget class="QCheckBox" name="m_pagesCb">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>100</y>
+          <width>66</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Pages</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="m_allPagesCb">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>42</y>
+          <width>87</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>All pages</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="m_currentPageCb">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>71</y>
+          <width>115</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Current page</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="m_pageLine">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>100</y>
+          <width>81</width>
+          <height>25</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
+    <widget class="QPdfView" name="m_pdfView" native="true"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -177,12 +179,20 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QPdfView</class>
+   <extends>QWidget</extends>
+   <header location="global">QPdfView</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
@@ -192,8 +202,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>236</x>
-     <y>397</y>
+     <x>245</x>
+     <y>826</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -208,8 +218,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>397</y>
+     <x>260</x>
+     <y>826</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -218,66 +228,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>horizontalSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>39</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>368</x>
-     <y>47</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>horizontalSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>368</x>
-     <y>46</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>249</x>
-     <y>47</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_resolutionCheck</sender>
+   <sender>m_pagesCb</sender>
    <signal>clicked(bool)</signal>
-   <receiver>m_widthBox</receiver>
+   <receiver>m_pageLine</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>77</x>
-     <y>115</y>
+     <x>306</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
-     <x>83</x>
-     <y>145</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_resolutionCheck</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>m_heightBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>52</x>
-     <y>111</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>105</x>
-     <y>175</y>
+     <x>350</x>
+     <y>156</y>
     </hint>
    </hints>
   </connection>
