@@ -211,16 +211,9 @@ public:
      */
     FieldController* getFieldFromIndex(const QModelIndex& index);
 signals:
-    /**
-     * @brief valuesChanged
-     * @param valueKey
-     * @param value
-     */
     void valuesChanged(QString valueKey, QString value);
-    /**
-     * @brief modelChanged
-     */
     void modelChanged();
+    void fieldAdded(CSItem* item);
 
 public slots:
     /**

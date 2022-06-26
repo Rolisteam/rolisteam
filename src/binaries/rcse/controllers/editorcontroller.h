@@ -37,31 +37,35 @@ class EditorController : public QObject
     Q_PROPERTY(int currentPage READ currentPage WRITE setCurrentPage NOTIFY currentPageChanged)
     Q_PROPERTY(std::size_t pageCount READ pageCount NOTIFY pageCountChanged)
 public:
-    EditorController(ImageController* imgCtrl, QUndoStack& undoStack, ItemEditor* view, QObject* parent= nullptr);
+    EditorController(ImageController* imgCtrl, QObject* parent= nullptr);
 
     const std::vector<Canvas*>& pageList() const;
     std::size_t pageCount() const;
     int currentPage() const;
     Canvas* currentCanvas() const;
+    Canvas* canvas(int i) const;
 
-    void clearData(bool defaulCanvas);
+    void clearData();
 
     QAbstractItemModel* characters() const;
 
-    void load(QJsonObject& obj);
-    void save(QJsonObject& obj);
     void setImageBackground(int idx, const QPixmap& pix, const QString& filepath);
 
     void addItem(int idx, QGraphicsItem* item);
     ImageController* imageController() const;
+    QPixmap backgroundFromIndex(int i) const;
 public slots:
     int addPage();
     Canvas* removePage(int idx);
     void insertPage(int idx, Canvas* canvas);
-    void setFitInView();
     void setCurrentPage(int currentPage);
     void setCurrentTool(Canvas::Tool tool);
     void loadImageFromUrl(const QUrl&);
+    void loadImages(const QList<QImage>& imgs);
+    void addFieldItem(CSItem* itemCtrl);
+    void alignOn(bool onX, QList<FieldController*> ctrls, FieldController* ref);
+    void sameGeometry(bool sameW, QList<FieldController*> ctrls, FieldController* ref);
+    void spreadItemEqualy(QList<FieldController*> ctrls, bool horizon);
 
 signals:
     void currentPageChanged(int currentPage);
@@ -69,34 +73,13 @@ signals:
     void pageCountChanged();
     void canvasBackgroundChanged(int idx, const QPixmap& pix, const QString& str, const QString& uuid);
     void dataChanged();
-
-protected:
-    void updateView();
-protected slots:
-    void alignOn();
-    void menuRequestedFromView(const QPoint& pos);
-    void sameGeometry();
-    void spreadItemEqualy();
-    void lockItem();
+    void performCommand(QUndoCommand* cmd);
 
 private:
     QPointer<ImageController> m_imageController;
-    QAction* m_lockItem= nullptr;
-    QAction* m_fitInView= nullptr;
-    QAction* m_alignOnY= nullptr;
-    QAction* m_alignOnX= nullptr;
-    QAction* m_sameWidth= nullptr;
-    QAction* m_sameHeight= nullptr;
-    QAction* m_dupplicate= nullptr;
-    QAction* m_verticalEquaDistance= nullptr;
-    QAction* m_horizontalEquaDistance= nullptr;
     QPoint m_posMenu;
-    ItemEditor* m_view= nullptr;
-
     std::vector<std::unique_ptr<Canvas>> m_canvasList;
-    int m_currentPage;
-
-    QUndoStack& m_undoStack;
+    int m_currentPage= 0;
 };
 
 #endif

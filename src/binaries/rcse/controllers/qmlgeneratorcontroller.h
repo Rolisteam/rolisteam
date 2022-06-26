@@ -27,8 +27,9 @@ class QmlGeneratorController : public QObject
     Q_PROPERTY(QStringList fonts READ fonts WRITE setFonts NOTIFY fontsChanged)
     Q_PROPERTY(bool textEdited READ textEdited NOTIFY textEditedChanged)
     Q_PROPERTY(QString uuidCharacter READ uuidCharacter WRITE setUuidCharacter NOTIFY uuidCharacterChanged)
+    Q_PROPERTY(QString qmlCode READ qmlCode WRITE setQmlCode NOTIFY qmlCodeChanged)
 public:
-    explicit QmlGeneratorController(CodeEditor* codeEditor, QTreeView* view, QObject* parent= nullptr);
+    explicit QmlGeneratorController(QObject* parent= nullptr);
 
     QString headCode() const;
     QString bottomCode() const;
@@ -44,12 +45,15 @@ public:
 
     FieldModel* fieldModel() const;
 
-    void showQML(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController* characterCtrl);
+    MockCharacter* mockCharacter() const;
 
     QStringList fonts() const;
-    void generateQML(const ImageController* ctrl, QString& qml);
+    void generateQML(const ImageController* ctrl);
 
     QString uuidCharacter() const;
+
+    const QString& qmlCode() const;
+    void setQmlCode(const QString& newQmlCode);
 
 signals:
     void dataChanged();
@@ -64,6 +68,7 @@ signals:
     void sectionChanged(Section* section);
     void reportLog(const QString& log, LogController::LogLevel level= LogController::Features);
     void uuidCharacterChanged(QString uuidCharacter);
+    void qmlCodeChanged();
 
 public slots:
     void setHeadCode(QString headCode);
@@ -74,28 +79,22 @@ public slots:
     void setLastPageId(unsigned int pageId);
     void setTextEdited(bool t);
     void setFonts(QStringList fonts);
-    void runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl, CharacterController* characterCtrl);
     void setUuidCharacter(QString uuidCharacter);
 
-protected slots:
-    void rollDice(QString cmd);
-    void rollDice(QString cmd, bool b);
-
 private:
+    std::unique_ptr<FieldModel> m_model;
+    std::unique_ptr<MockCharacter> m_mockCharacter;
     QString m_headCode;
     QString m_bottomCode;
     QString m_importCode;
     bool m_flickableSheet= false;
     qreal m_fixedScaleSheet= 1.0;
-    std::unique_ptr<FieldModel> m_model;
-    CodeEditor* m_codeEdit= nullptr;
-    QTreeView* m_view= nullptr;
     qreal m_fixedScale= 1.0;
     QStringList m_fonts;
     unsigned int m_lastPageId= 0;
     mutable bool m_textEdited= false;
-    std::unique_ptr<MockCharacter> m_mockCharacter;
     QString m_uuidCharacter;
+    QString m_qmlCode;
 };
 
 #endif // QMLGENERATORCONTROLLER_H

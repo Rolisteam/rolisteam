@@ -15,6 +15,8 @@
 #include "delegate/pagedelegate.h"
 #include "delegate/typedelegate.h"
 
+#include "controllers/maincontroller.h"
+
 #include "dialog/codeeditordialog.h"
 
 FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalMapper(this))
@@ -71,9 +73,8 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
     m_showAllGroup= new QAction(tr("All columns"), this);
     connect(m_showAllGroup, &QAction::triggered, this, [=]() { hideAllColumns(false); });
 
+#ifndef Q_OS_MACX
     setAlternatingRowColors(true);
-#ifdef Q_OS_MACX
-    setAlternatingRowColors(false);
 #endif
 
     connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editColor(QModelIndex)));
@@ -94,6 +95,20 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
 
     connect(m_mapper, &QSignalMapper::mappedInt, this,
             [this](int i) { this->setColumnHidden(i, !this->isColumnHidden(i)); });
+}
+
+void FieldView::setController(MainController* ctrl)
+{
+    m_ctrl= ctrl;
+
+    setFieldModel(m_ctrl->generatorCtrl()->fieldModel());
+    connect(m_ctrl->editCtrl(), &EditorController::pageCountChanged, this,
+            [this]() { setCurrentPage(static_cast<int>(m_ctrl->editCtrl()->pageCount())); });
+
+    connect(this, &FieldView::removeField, this, [this](FieldController* field, int currentPage) {
+        m_ctrl->processCommand(new DeleteFieldCommand(field, m_ctrl->editCtrl()->currentCanvas(),
+                                                      m_ctrl->generatorCtrl()->fieldModel(), currentPage));
+    });
 }
 void FieldView::hideAllColumns(bool hidden)
 {
@@ -191,8 +206,8 @@ void FieldView::lockItems()
             return;
 
         auto field= static_cast<FieldController*>(index.internalPointer());
-        auto value= field->isLocked();
-        field->setLocked(!value);
+        auto value= field->isReadOnly();
+        field->setReadOnly(!value);
     });
 }
 
@@ -260,7 +275,7 @@ void FieldView::applyValue(QModelIndex& index, bool selection)
         cmd= new SetFieldPropertyCommand(m_model->children(), var, col);
         m_model->setValueForAll(index);
     }
-    m_undoStack->push(cmd);
+    m_ctrl->processCommand(cmd);
 }
 
 void FieldView::defineItemCode(QModelIndex& index)
@@ -274,8 +289,8 @@ void FieldView::defineItemCode(QModelIndex& index)
     {
         CodeEditorDialog dialog;
 
-        field->storeQMLCode();
-        auto code= field->getGeneratedCode();
+        // field->storeQMLCode();
+        auto code= field->generatedCode();
         dialog.setPlainText(code);
 
         if(dialog.exec())
@@ -283,16 +298,6 @@ void FieldView::defineItemCode(QModelIndex& index)
             field->setGeneratedCode(dialog.toPlainText());
         }
     }
-}
-
-QUndoStack* FieldView::getUndoStack() const
-{
-    return m_undoStack;
-}
-
-void FieldView::setUndoStack(QUndoStack* undoStack)
-{
-    m_undoStack= undoStack;
 }
 
 void FieldView::editColor(QModelIndex index)

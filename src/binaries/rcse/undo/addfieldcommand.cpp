@@ -36,15 +36,12 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* 
     if(Canvas::ADDTABLE == tool)
     {
         m_field= new TableField();
-        m_field->setCanvasField(new TableCanvasField(m_field));
     }
     else
     {
-        m_field= new FieldController(pos);
+        m_field= new FieldController(CharacterSheetItem::FieldItem, pos);
     }
     m_field->setPage(m_currentPage);
-
-    // m_canvas->addItem(m_field->getCanvasField());
 
     m_field->setValueFrom(CharacterSheetItem::X, pos.x());
     m_field->setValueFrom(CharacterSheetItem::Y, pos.y());
@@ -118,7 +115,7 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* 
 
 void AddFieldCommand::undo()
 {
-    m_canvas->removeItem(m_field->getCanvasField());
+    // m_canvas->removeItem(m_field->getCanvasField());
     m_canvas->update();
     if(nullptr != m_model)
     {
@@ -142,7 +139,7 @@ void AddFieldCommand::undo()
 
 void AddFieldCommand::redo()
 {
-    m_canvas->addItem(m_field->getCanvasField());
+    // m_canvas->addItem(m_field->getCanvasField());
     if(nullptr == m_model)
         return;
 

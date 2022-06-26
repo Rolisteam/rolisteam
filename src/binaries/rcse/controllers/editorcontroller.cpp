@@ -35,8 +35,8 @@
 // undo
 #include "undo/setbackgroundimage.h"
 
-EditorController::EditorController(ImageController* imgCtrl, QUndoStack& undoStack, ItemEditor* view, QObject* parent)
-    : QObject(parent), m_imageController(imgCtrl), m_view(view), m_undoStack(undoStack)
+EditorController::EditorController(ImageController* imgCtrl, QObject* parent)
+    : QObject(parent), m_imageController(imgCtrl)
 {
     connect(m_view, &ItemEditor::openContextMenu, this, &EditorController::menuRequestedFromView);
     m_fitInView= new QAction(tr("Fit the view"), m_view);
@@ -61,163 +61,78 @@ EditorController::EditorController(ImageController* imgCtrl, QUndoStack& undoSta
     connect(m_verticalEquaDistance, &QAction::triggered, this, &EditorController::spreadItemEqualy);
     connect(m_horizontalEquaDistance, &QAction::triggered, this, &EditorController::spreadItemEqualy);
 }
-void EditorController::sameGeometry()
+void EditorController::sameGeometry(bool sameW, QList<FieldController*> ctrls, FieldController* ref)
 {
-    auto action= qobject_cast<QAction*>(sender());
-    bool width= false;
-    if(m_sameWidth == action)
-    {
-        width= true;
-    }
-    QList<QGraphicsItem*> items= m_view->scene()->selectedItems();
-    QGraphicsItem* reference= m_view->itemAt(m_posMenu);
-    if(nullptr != reference)
-    {
-        qreal value= reference->boundingRect().height();
-        if(width)
-        {
-            value= reference->boundingRect().width();
-        }
 
-        for(auto item : items)
-        {
-            auto field= dynamic_cast<CanvasField*>(item);
-            if(width)
-            {
-                field->setWidth(value);
-            }
-            else
-            {
-                field->setHeight(value);
-            }
-        }
-    }
-    emit dataChanged();
-}
-
-void EditorController::menuRequestedFromView(const QPoint& pos)
-{
-    QMenu menu(m_view);
-
-    // auto list= m_view->items(m_view->mapToScene(pos).toPoint());
-    auto list= m_view->items(pos);
-
-    list.erase(std::remove_if(list.begin(), list.end(),
-                              [](QGraphicsItem* item) {
-                                  auto field= dynamic_cast<CanvasField*>(item);
-                                  return (nullptr == field);
-                              }),
-               list.end());
-
-    bool locked= false;
-
-    auto func= [](QGraphicsItem* item) {
-        auto field= dynamic_cast<CanvasField*>(item);
-        if(nullptr == field)
-            return false;
-        return field->locked();
-    };
-
-    auto allSame= std::all_of(list.begin(), list.end(), [](QGraphicsItem* item) {
-        auto field= dynamic_cast<CanvasField*>(item);
-        if(nullptr == field)
-            return false;
-        return field->locked();
-    });
-
-    if(!list.isEmpty())
-        locked= func(list.first());
-
-    for(auto item : list)
-    {
-        auto field= dynamic_cast<CanvasField*>(item);
-        if(nullptr != field)
-        {
-            field->setMenu(menu);
-            menu.addSeparator();
-        }
-    }
-    menu.addAction(m_fitInView);
-    menu.addSeparator();
-    menu.addAction(m_lockItem);
-    if(allSame)
-        m_lockItem->setChecked(locked);
-    else
-        m_lockItem->setChecked(false);
-    menu.addAction(m_alignOnX);
-    menu.addAction(m_alignOnY);
-    menu.addAction(m_sameWidth);
-    menu.addAction(m_sameHeight);
-    menu.addAction(m_verticalEquaDistance);
-    menu.addAction(m_horizontalEquaDistance);
-    menu.addSeparator();
-    menu.addAction(m_dupplicate);
-
-    m_posMenu= pos;
-    menu.exec(QCursor::pos());
-}
-
-void EditorController::alignOn()
-{
-    auto action= qobject_cast<QAction*>(sender());
-    bool onX= false;
-    if(m_alignOnX == action)
-    {
-        onX= true;
-    }
-
-    QList<QGraphicsItem*> items= m_view->scene()->selectedItems();
-    QGraphicsItem* reference= m_view->itemAt(m_posMenu);
-    if(nullptr != reference)
-    {
-        qreal value= reference->pos().y();
-        if(onX)
-        {
-            value= reference->pos().x();
-        }
-
-        for(auto item : items)
-        {
-            if(onX)
-            {
-                item->setPos(value, item->pos().y());
-            }
-            else
-            {
-                item->setPos(item->pos().x(), value);
-            }
-        }
-    }
-    emit dataChanged();
-}
-
-void EditorController::spreadItemEqualy()
-{
-    auto act= qobject_cast<QAction*>(sender());
-    bool horizon= act == m_horizontalEquaDistance ? true : false;
-    auto list= m_view->scene()->selectedItems();
-
-    if(list.size() < 3) // ignore when 2 elements or less have been selected.
+    if(!ref)
         return;
 
-    auto widthCompare= [](QGraphicsItem* a, QGraphicsItem* b) {
-        auto posA= a->pos().x() - a->boundingRect().width() / 2;
-        auto posB= b->pos().x() - b->boundingRect().width() / 2;
+    auto value= sameW ? ref->width() : ref->height();
+
+    for(auto field : ctrls)
+    {
+        if(sameW)
+        {
+            field->setWidth(value);
+        }
+        else
+        {
+            field->setHeight(value);
+        }
+    }
+
+    emit dataChanged();
+}
+
+void EditorController::alignOn(bool onX, QList<FieldController*> ctrls, FieldController* ref)
+{
+
+    if(!ref)
+        return;
+
+    qreal value= onX ? ref->x() : ref->y();
+
+    for(auto item : ctrls)
+    {
+        if(onX)
+        {
+            item->setX(value);
+        }
+        else
+        {
+            item->setY(value);
+        }
+    }
+
+    emit dataChanged();
+}
+
+void EditorController::spreadItemEqualy(QList<FieldController*> ctrls, bool horizon)
+{
+    // bool horizon= act == m_horizontalEquaDistance ? true : false;
+    // auto list= m_view->scene()->selectedItems();
+
+    if(ctrls.size() < 3) // ignore when 2 elements or less have been selected.
+        return;
+
+    auto widthCompare= [](FieldController* a, FieldController* b) {
+        auto posA= a->x() - a->width() / 2;
+        auto posB= b->x() - b->width() / 2;
         return posA < posB;
     };
-    auto heightCompare= [](QGraphicsItem* a, QGraphicsItem* b) {
-        auto posA= a->pos().y() - a->boundingRect().height() / 2;
-        auto posB= b->pos().y() - b->boundingRect().height() / 2;
+    auto heightCompare= [](FieldController* a, FieldController* b) {
+        auto posA= a->y() - a->height() / 2;
+        auto posB= b->y() - b->height() / 2;
         return posA < posB;
     };
 
     if(horizon)
-        std::sort(list.begin(), list.end(), widthCompare);
+        std::sort(ctrls.begin(), ctrls.end(), widthCompare);
     else
-        std::sort(list.begin(), list.end(), heightCompare);
+        std::sort(ctrls.begin(), ctrls.end(), heightCompare);
 
-    auto first= list.begin();
-    auto last= list.end() - 1;
+    auto first= ctrls.begin();
+    auto last= ctrls.end() - 1;
 
     // available distance
     qreal availableDistance;
@@ -226,73 +141,44 @@ void EditorController::spreadItemEqualy()
     qreal endAvailableSpace;
     if(horizon)
     {
-        endAvailableSpace= (*last)->pos().x();
-        beginAvailableSpace= (*first)->pos().x() + (*first)->boundingRect().width();
+        endAvailableSpace= (*last)->x();
+        beginAvailableSpace= (*first)->x() + (*first)->width();
     }
     else
     {
-        endAvailableSpace= (*last)->pos().y();
-        beginAvailableSpace= (*first)->pos().y() + (*first)->boundingRect().height();
+        endAvailableSpace= (*last)->y();
+        beginAvailableSpace= (*first)->y() + (*first)->height();
     }
-    list.erase(first);
-    list.erase(last);
+    ctrls.erase(first);
+    ctrls.erase(last);
     qreal itemSpace= 0.0;
-    std::for_each(list.begin(), list.end(), [horizon, &itemSpace](QGraphicsItem* item) {
-        itemSpace+= horizon ? item->boundingRect().width() : item->boundingRect().height();
+    std::for_each(ctrls.begin(), ctrls.end(), [horizon, &itemSpace](FieldController* item) {
+        itemSpace+= horizon ? item->width() : item->height();
     });
 
     availableDistance= endAvailableSpace - beginAvailableSpace - itemSpace;
-    spaceCount= list.size() + 1; // need two spaces when one element between first and last
+    spaceCount= ctrls.size() + 1; // need two spaces when one element between first and last
     auto spaceStep= availableDistance / spaceCount;
     auto pos= beginAvailableSpace;
 
     if(horizon)
     {
-        for(auto item : list)
+        for(auto item : ctrls)
         {
-            item->setPos(pos + spaceStep, item->pos().y());
-            pos= item->pos().x() + item->boundingRect().width();
+            item->setX(pos + spaceStep);
+            pos= item->x() + item->width();
         }
     }
     else
     {
-        for(auto item : list)
+        for(auto item : ctrls)
         {
-            item->setPos(item->pos().x(), pos + spaceStep);
-            pos= item->pos().y() + item->boundingRect().height();
+            item->setY(pos + spaceStep);
+            pos= item->y() + item->height();
         }
     }
 
     emit dataChanged();
-}
-
-void EditorController::lockItem()
-{
-    auto lock= m_lockItem->isChecked();
-
-    auto items= m_view->items(m_posMenu);
-    if(items.isEmpty())
-        return;
-    std::for_each(items.begin(), items.end(), [lock](QGraphicsItem* item) {
-        auto field= dynamic_cast<CanvasField*>(item);
-        if(field == nullptr)
-            return;
-        field->setLocked(lock);
-    });
-}
-
-void EditorController::setFitInView()
-{
-    if(m_fitInView->isChecked())
-    {
-        Canvas* canvas= m_canvasList[static_cast<std::size_t>(m_currentPage)].get();
-        const QPixmap& pix= canvas->pixmap();
-        m_view->fitInView(QRectF(pix.rect()), Qt::KeepAspectRatioByExpanding);
-    }
-    else
-    {
-        m_view->fitInView(QRectF(m_view->rect()));
-    }
 }
 
 int EditorController::currentPage() const
@@ -300,17 +186,11 @@ int EditorController::currentPage() const
     return m_currentPage;
 }
 
-void EditorController::clearData(bool defaulCanvas)
+void EditorController::clearData()
 {
     setCurrentPage(0);
     m_canvasList.clear();
-    Canvas* canvasPtr= nullptr;
-    if(defaulCanvas)
-    {
-        addPage();
-        canvasPtr= m_canvasList[0].get();
-    }
-    updateView();
+    emit dataChanged();
 }
 
 int EditorController::addPage()
@@ -323,7 +203,7 @@ int EditorController::addPage()
     }
     auto can= canvas.get();
     canvas->setPageId(page + 1);
-    canvas->setUndoStack(&m_undoStack);
+    connect(canvas.get(), &Canvas::performCommand, this, &EditorController::performCommand);
     connect(canvas.get(), &Canvas::dropFileOnCanvas, this, &EditorController::loadImageFromUrl);
     m_canvasList.push_back(std::move(canvas));
     emit pageAdded(can);
@@ -334,7 +214,14 @@ int EditorController::addPage()
 
 Canvas* EditorController::currentCanvas() const
 {
-    return m_canvasList[m_currentPage].get();
+    return canvas(m_currentPage);
+}
+
+Canvas* EditorController::canvas(int i) const
+{
+    if(i < 0 || i >= static_cast<int>(m_canvasList.size()))
+        return nullptr;
+    return m_canvasList[i].get();
 }
 
 void EditorController::setCurrentPage(int currentPage)
@@ -344,15 +231,9 @@ void EditorController::setCurrentPage(int currentPage)
 
     m_currentPage= currentPage;
     emit currentPageChanged(m_currentPage);
-    updateView();
+    emit dataChanged();
 }
 
-void EditorController::updateView()
-{
-    if(m_currentPage < 0 || m_currentPage >= m_canvasList.size())
-        return;
-    m_view->setScene(m_canvasList[m_currentPage].get());
-}
 void EditorController::setCurrentTool(Canvas::Tool tool)
 {
     for(auto& canvas : m_canvasList)
@@ -360,15 +241,6 @@ void EditorController::setCurrentTool(Canvas::Tool tool)
         canvas->setCurrentTool(tool);
     }
 }
-
-void EditorController::load(QJsonObject& obj)
-{
-    /*if(!backGround.isEmpty())
-    {
-
-    } */
-}
-void EditorController::save(QJsonObject& obj) {}
 
 void EditorController::insertPage(int i, Canvas* canvas)
 {
@@ -393,15 +265,17 @@ std::size_t EditorController::pageCount() const
 
 void EditorController::setImageBackground(int idx, const QPixmap& pix, const QString& filepath)
 {
+    qDebug() << "set bg";
     auto pos= qBound(0, idx, static_cast<int>(m_canvasList.size()));
 
     if(pos != idx || m_canvasList.empty())
         return;
+    qDebug() << "set bg 2";
 
     auto canvas= m_canvasList[static_cast<std::size_t>(idx)].get();
     if(!canvas)
         return;
-
+    qDebug() << "set bg end" << pix.isNull();
     canvas->setPixmap(pix);
     emit canvasBackgroundChanged(idx, pix, filepath, QString());
     emit dataChanged();
@@ -410,8 +284,27 @@ void EditorController::setImageBackground(int idx, const QPixmap& pix, const QSt
 void EditorController::loadImageFromUrl(const QUrl& url)
 {
     SetBackgroundCommand* cmd= new SetBackgroundCommand(currentPage(), this, url);
-    m_undoStack.push(cmd);
+    emit performCommand(cmd);
     emit dataChanged();
+}
+
+void EditorController::loadImages(const QList<QImage>& imgs)
+{
+    auto cmd= new AddBackGroundImagesCommand(this, imgs);
+    emit performCommand(cmd);
+    emit dataChanged();
+}
+
+void EditorController::addFieldItem(CSItem* itemCtrl)
+{
+    auto page= itemCtrl->page();
+
+    auto c= canvas(page);
+
+    if(!c)
+        return;
+
+    c->addField(itemCtrl);
 }
 
 void EditorController::addItem(int idx, QGraphicsItem* item)
@@ -431,4 +324,18 @@ void EditorController::addItem(int idx, QGraphicsItem* item)
 ImageController* EditorController::imageController() const
 {
     return m_imageController;
+}
+
+QPixmap EditorController::backgroundFromIndex(int i) const
+{
+    auto pos= qBound(0, i, static_cast<int>(m_canvasList.size()));
+
+    if(pos != i || m_canvasList.empty())
+        return {};
+
+    auto canvas= m_canvasList[static_cast<std::size_t>(i)].get();
+    if(!canvas)
+        return {};
+
+    return canvas->pixmap();
 }

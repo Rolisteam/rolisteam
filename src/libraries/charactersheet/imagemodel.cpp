@@ -124,41 +124,6 @@ bool ImageModel::setData(const QModelIndex& index, const QVariant& value, int ro
     return val;
 }
 
-void ImageModel::save(QJsonArray& array) const
-{
-    for(const auto& info : m_data)
-    {
-        QJsonObject oj;
-        QByteArray bytes;
-        QBuffer buffer(&bytes);
-        buffer.open(QIODevice::WriteOnly);
-        info.pixmap.save(&buffer, "PNG");
-        oj["bin"]= QString(buffer.data().toBase64());
-        oj["key"]= info.key;
-        oj["isBg"]= info.isBackground;
-        oj["filename"]= info.filename;
-        array.append(oj);
-    }
-}
-
-void ImageModel::load(const QJsonArray& array)
-{
-    for(const auto& imgVal : array)
-    {
-        auto imgInfo= imgVal.toObject();
-        auto imgData= imgInfo["bin"].toString();
-        auto imgKey= imgInfo["key"].toString();
-        auto imgIsBg= imgInfo["isBg"].toBool();
-        auto filename= imgInfo["filename"].toString();
-
-        auto data= QByteArray::fromBase64(imgData.toLocal8Bit());
-        QPixmap map;
-        map.loadFromData(data, "PNG");
-
-        insertImage(map, imgKey, filename, imgIsBg);
-    }
-}
-
 /*
 void ImageModel::load(const QJsonArray& array)
 {
@@ -184,9 +149,9 @@ bool ImageModel::insertImage(const QPixmap& pix, const QString& key, const QStri
     auto rect= pix.rect();
     if(isBg && !m_data.empty())
     {
-        auto b= std::all_of(m_data.begin(), m_data.end(),
-                            [rect](const ImageInfo& info)
-                            { return info.isBackground ? rect == info.pixmap.rect() : true; });
+        auto b= std::all_of(m_data.begin(), m_data.end(), [rect](const ImageInfo& info) {
+            return info.isBackground ? rect == info.pixmap.rect() : true;
+        });
 
         if(!b)
             return false;
@@ -244,6 +209,11 @@ void ImageModel::reloadImage(const QModelIndex& index)
     /// TODO
 }
 
+const std::vector<ImageModel::ImageInfo>& ImageModel::imageInfos() const
+{
+    return m_data;
+}
+
 bool ImageModel::isBackgroundById(QString id) const
 {
     auto it= std::find_if(m_data.begin(), m_data.end(), [id](const ImageInfo& info) { return id == info.key; });
@@ -282,9 +252,9 @@ void ImageModel::setPathFor(const QModelIndex& idx, const QString& path)
 
 void ImageModel::removeImageByKey(const QString& key)
 {
-    auto it
-        = std::find_if(m_data.begin(), m_data.end(),
-                       [key](const ImageInfo& info) { return key == info.key; }); // auto index= m_keyList.indexOf(key);
+    auto it= std::find_if(m_data.begin(), m_data.end(), [key](const ImageInfo& info) {
+        return key == info.key;
+    }); // auto index= m_keyList.indexOf(key);
 
     if(it == m_data.end())
         return; // unfound

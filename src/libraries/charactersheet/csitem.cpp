@@ -21,7 +21,8 @@
 #include <QDebug>
 
 int CSItem::m_count= 0;
-CSItem::CSItem(QGraphicsItem* parent, bool addCount)
+CSItem::CSItem(CharacterSheetItemType type, QGraphicsItem* parent, bool addCount)
+    : CharacterSheetItem(type), m_rect(0, 0)
 {
     Q_UNUSED(parent);
     if(addCount)
@@ -50,55 +51,63 @@ void CSItem::setTextColor(const QColor& textColor)
     m_textColor= textColor;
 }
 
-qreal CSItem::getX() const
+qreal CSItem::x() const
 {
-    return 0;
+    return m_pos.x();
 }
 
-qreal CSItem::getY() const
+qreal CSItem::y() const
 {
-    return 0;
+    return m_pos.y();
 }
 
-qreal CSItem::getWidth() const
+qreal CSItem::width() const
 {
-    return 0;
+    return m_rect.width();
 }
 
-qreal CSItem::getHeight() const
+qreal CSItem::height() const
 {
-    return 0;
+    return m_rect.height();
 }
 
 void CSItem::setX(qreal x)
 {
-    Q_UNUSED(x);
+    if(qFuzzyCompare(m_pos.x(), x))
+        return;
+    m_pos.setX(x);
+    emit xChanged();
 }
 
 void CSItem::setY(qreal y)
 {
-    Q_UNUSED(y);
+    if(qFuzzyCompare(m_pos.y(), y))
+        return;
+    m_pos.setY(y);
+    emit yChanged();
 }
 
 void CSItem::setWidth(qreal width)
 {
-    Q_UNUSED(width);
+    if(qFuzzyCompare(width, m_rect.width()))
+        return;
+    m_rect.setWidth(width);
+    emit widthChanged();
 }
 
 void CSItem::setHeight(qreal height)
 {
-    Q_UNUSED(height);
+    if(qFuzzyCompare(height, m_rect.height()))
+        return;
+    m_rect.setHeight(height);
+    emit heightChanged();
 }
 
-QRectF CSItem::getRect() const
+CharacterSheetItem* CSItem::getChildFromId(const QString&) const
 {
-    return m_rect;
+    return nullptr;
 }
 
-void CSItem::setRect(const QRectF& rect)
-{
-    m_rect= rect;
-}
 CSItem::BorderLine CSItem::border() const
 {
     return m_border;

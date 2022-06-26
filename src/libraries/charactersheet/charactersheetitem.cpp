@@ -25,8 +25,8 @@
 //////////////////////////////
 // Item
 /////////////////////////////
-CharacterSheetItem::CharacterSheetItem()
-    : m_parent(nullptr), m_orig(nullptr), m_page(0), m_readOnly(false), m_hasDefaultValue(false)
+CharacterSheetItem::CharacterSheetItem(CharacterSheetItem::CharacterSheetItemType type)
+    : m_itemType(type), m_parent(nullptr), m_orig(nullptr), m_page(0), m_readOnly(false), m_hasDefaultValue(false)
 {
 }
 
@@ -62,7 +62,7 @@ void CharacterSheetItem::setReadOnly(bool readOnly)
     }
 }
 
-int CharacterSheetItem::getPage() const
+int CharacterSheetItem::page() const
 {
     return m_page;
 }
@@ -113,8 +113,6 @@ void CharacterSheetItem::updateLabelFromOrigin()
         }
     }
 }
-
-void CharacterSheetItem::updateNeeded() {}
 
 QString CharacterSheetItem::getTooltip() const
 {
@@ -195,6 +193,11 @@ void CharacterSheetItem::setId(const QString& id)
     m_id= id;
 }
 
+CharacterSheetItem::CharacterSheetItemType CharacterSheetItem::itemType() const
+{
+    return m_itemType;
+}
+
 bool CharacterSheetItem::removeChild(CharacterSheetItem*)
 {
     return false;
@@ -270,5 +273,3 @@ void CharacterSheetItem::setFieldInDictionnary(QHash<QString, QString>& dict) co
     dict[m_id]= val;
     dict[getLabel()]= val;
 }
-
-void CharacterSheetItem::initGraphicsItem() {}

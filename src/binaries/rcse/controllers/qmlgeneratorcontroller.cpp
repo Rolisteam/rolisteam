@@ -13,8 +13,8 @@
 #include "codeeditor.h"
 #include "imagecontroller.h"
 
-QmlGeneratorController::QmlGeneratorController(CodeEditor* codeEditor, QTreeView* view, QObject* parent)
-    : QObject(parent), m_model(new FieldModel), m_codeEdit(codeEditor), m_view(view), m_mockCharacter(new MockCharacter)
+QmlGeneratorController::QmlGeneratorController(QObject* parent)
+    : QObject(parent), m_model(new FieldModel), m_mockCharacter(new MockCharacter)
 {
     connect(m_mockCharacter.get(), &MockCharacter::dataChanged, this, [this](const QString& name) {
         emit reportLog(tr("The character value %1 has been defined to %2")
@@ -29,7 +29,6 @@ QmlGeneratorController::QmlGeneratorController(CodeEditor* codeEditor, QTreeView
         emit sectionChanged(m_model->getRootSection());
         emit dataChanged();
     });
-    connect(m_codeEdit, &CodeEditor::textChanged, this, [this]() { setTextEdited(true); });
 }
 
 QString QmlGeneratorController::headCode() const
@@ -166,13 +165,12 @@ void QmlGeneratorController::setFonts(QStringList fonts)
 void QmlGeneratorController::save(QJsonObject& obj) const
 {
     // Get datamodel
-    QJsonObject data;
+    /*QJsonObject data;
     m_model->save(data);
     obj["data"]= data;
 
     // qml file
-    QString qmlFile= m_codeEdit->document()->toPlainText();
-    obj["qml"]= qmlFile;
+    obj["qml"]= m_qmlCode;
     obj["additionnalHeadCode"]= m_headCode;
     obj["additionnalImport"]= m_importCode;
     obj["fixedScale"]= m_fixedScaleSheet;
@@ -180,7 +178,7 @@ void QmlGeneratorController::save(QJsonObject& obj) const
     obj["flickable"]= m_flickableSheet;
 
     QJsonArray fonts;
-    for(QString fontUri : m_fonts)
+    for(const QString &fontUri : m_fonts)
     {
         QFile file(fontUri);
         if(file.open(QIODevice::ReadOnly))
@@ -193,12 +191,17 @@ void QmlGeneratorController::save(QJsonObject& obj) const
         }
     }
     obj["fonts"]= fonts;
-    m_textEdited= false;
+    m_textEdited= false;*/
 }
 
 FieldModel* QmlGeneratorController::fieldModel() const
 {
     return m_model.get();
+}
+
+MockCharacter* QmlGeneratorController::mockCharacter() const
+{
+    return m_mockCharacter.get();
 }
 
 void QmlGeneratorController::clearData()
@@ -211,7 +214,6 @@ void QmlGeneratorController::clearData()
     m_fonts.clear();
 
     m_model->clearModel();
-    m_codeEdit->clear();
 
     m_mockCharacter.reset(new MockCharacter);
     connect(m_mockCharacter.get(), &MockCharacter::dataChanged, this, [this](const QString& name) {
@@ -222,14 +224,6 @@ void QmlGeneratorController::clearData()
     });
     connect(m_mockCharacter.get(), &MockCharacter::log, this,
             [this](const QString& log) { emit reportLog(log, LogController::Features); });
-}
-void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* imgCtrl,
-                                     CharacterController* characterCtrl)
-{
-    QString data;
-    generateQML(imgCtrl, data);
-    m_codeEdit->setPlainText(data);
-    runQmlFromCode(quickView, imgCtrl, characterCtrl);
 }
 
 QString QmlGeneratorController::uuidCharacter() const
@@ -242,73 +236,14 @@ void QmlGeneratorController::setUuidCharacter(QString uuidCharacter)
     if(m_uuidCharacter == uuidCharacter)
         return;
 
-    qDebug() << "changed uuid" << uuidCharacter;
-
     m_uuidCharacter= uuidCharacter;
     emit uuidCharacterChanged(m_uuidCharacter);
 }
 
-void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl,
-                                            CharacterController* characterCtrl)
+void QmlGeneratorController::generateQML(const ImageController* ctrl)
 {
-    QString data= m_codeEdit->toPlainText();
-
-    setTextEdited(false);
-    auto provider= imgCtrl->getNewProvider();
-
-    QTemporaryFile file;
-    if(file.open()) // QIODevice::WriteOnly
-    {
-        file.write(data.toUtf8());
-        file.close();
-    }
-
-    quickView->engine()->clearComponentCache();
-    quickView->engine()->addImportPath("qrc:/src/charactersheet/qml");
-    quickView->engine()->addImageProvider(QLatin1String("rcs"), provider);
-
-    auto charactersheet= characterCtrl->characterSheetFromUuid(m_uuidCharacter);
-    if(nullptr != charactersheet)
-    {
-        for(int i= 0; i < charactersheet->getFieldCount(); ++i)
-        {
-            CharacterSheetItem* field= charactersheet->getFieldAt(i);
-            if(nullptr != field)
-            {
-                quickView->engine()->rootContext()->setContextProperty(field->getId(), field);
-            }
-        }
-    }
-    else
-    {
-        QList<CharacterSheetItem*> list= m_model->children();
-        for(CharacterSheetItem* item : list)
-        {
-            quickView->engine()->rootContext()->setContextProperty(item->getId(), item);
-        }
-    }
-
-    quickView->engine()->rootContext()->setContextProperty("_character", m_mockCharacter.get());
-
-    connect(quickView->engine(), &QQmlEngine::warnings, this, &QmlGeneratorController::errors);
-
-    connect(quickView, &QQuickWidget::statusChanged, this, [this, quickView](QQuickWidget::Status status) {
-        if(status == QQuickWidget::Error)
-            emit errors(quickView->errors());
-    });
-
-    quickView->setSource(QUrl::fromLocalFile(file.fileName()));
-    emit errors(quickView->errors());
-    quickView->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    QObject* root= quickView->rootObject();
-    connect(root, SIGNAL(showText(QString)), this, SIGNAL(reportLog(QString)));
-    connect(root, SIGNAL(rollDiceCmd(QString, bool)), this, SLOT(rollDice(QString, bool)));
-    connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));
-}
-
-void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& qml)
-{
-    QTextStream text(&qml);
+    QString data;
+    QTextStream text(&data);
     QSize size= ctrl->backgroundSize();
     qreal ratio= 1;
     qreal ratioBis= 1;
@@ -327,10 +262,10 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
     {
         key= keyParts[0];
     }
-    text << "import QtQuick 2.4\n";
-    text << "import QtQuick.Layouts 1.3\n";
-    text << "import QtQuick.Controls 2.3\n";
-    text << "import Rolisteam 1.1\n";
+    text << "import QtQuick\n";
+    text << "import QtQuick.Layouts\n";
+    text << "import QtQuick.Controls\n";
+    text << "import Rolisteam\n";
 
     if(!m_importCode.isEmpty())
     {
@@ -421,16 +356,21 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
     }
     text << "}\n";
     text.flush();
-}
-void QmlGeneratorController::rollDice(QString cmd)
-{
-    emit reportLog(tr("The dice command %1 has been sent.").arg(cmd), LogController::Features);
+
+    setQmlCode(data);
+    setTextEdited(false);
 }
 
-void QmlGeneratorController::rollDice(QString cmd, bool b)
+const QString& QmlGeneratorController::qmlCode() const
 {
-    if(b)
-        emit reportLog(tr("The dice command %1 has been sent with aliases").arg(cmd), LogController::Features);
-    else
-        emit reportLog(tr("The dice command %1 has been sent with no aliases").arg(cmd), LogController::Features);
+    return m_qmlCode;
+}
+
+void QmlGeneratorController::setQmlCode(const QString& newQmlCode)
+{
+    if(m_qmlCode == newQmlCode)
+        return;
+    m_qmlCode= newQmlCode;
+    emit qmlCodeChanged();
+    setTextEdited(true);
 }

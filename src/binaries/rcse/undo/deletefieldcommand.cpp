@@ -44,14 +44,14 @@ void DeleteFieldCommand::init()
 {
     for(auto field : m_fields)
     {
-        if(nullptr != field->getCanvasField())
+        /*if(nullptr != field->getCanvasField())
         {
             auto parent= field->getParent();
             m_parent.append(field->getParent());
             m_points.append(field->getCanvasField()->pos());
             if(nullptr != parent)
                 m_posInModel.append(parent->indexOfChild(field));
-        }
+        }*/
     }
 
     setText(QObject::tr("Delete %n Field(s)", "", m_fields.size()));
@@ -61,9 +61,9 @@ void DeleteFieldCommand::undo()
 {
     for(int i= 0; i < m_fields.size(); ++i)
     {
-        m_canvas[i]->addItem(m_fields[i]->getCanvasField());
-        m_fields[i]->getCanvasField()->setPos(m_points[i]);
-        m_model->insertField(m_fields[i], m_parent[i], m_posInModel[i]);
+        /* m_canvas[i]->addItem(m_fields[i]->getCanvasField());
+         m_fields[i]->getCanvasField()->setPos(m_points[i]);
+         m_model->insertField(m_fields[i], m_parent[i], m_posInModel[i]);*/
     }
 }
 
@@ -71,7 +71,7 @@ void DeleteFieldCommand::redo()
 {
     for(int i= 0; i < m_fields.size(); ++i)
     {
-        m_canvas[i]->removeItem(m_fields[i]->getCanvasField());
+        // m_canvas[i]->removeItem(m_fields[i]->getCanvasField());
         m_model->removeField(m_fields[i]);
     }
 }

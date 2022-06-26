@@ -21,6 +21,7 @@
 #define SETBACKGROUNDCOMMAND_H
 
 #include <QPixmap>
+#include <QPointer>
 #include <QUndoCommand>
 #include <QUrl>
 
@@ -44,9 +45,29 @@ private:
     int m_idx= -1;
     QGraphicsPixmapItem* m_bgItem= nullptr;
     QRectF m_previousRect;
-    EditorController* m_ctrl= nullptr;
+    QPointer<EditorController> m_ctrl;
     QString m_filename;
     QUndoCommand* m_subCommand= nullptr;
+};
+struct OldImageInfo
+{
+    int index;
+    QPixmap oldImg;
+};
+
+class AddBackGroundImagesCommand : public QUndoCommand
+{
+public:
+    AddBackGroundImagesCommand(EditorController* ctrl, const QList<QImage>& images, QUndoCommand* parent= nullptr);
+
+    void undo() override;
+    void redo() override;
+
+private:
+    QPointer<EditorController> m_ctrl;
+    QList<QImage> m_images;
+    QList<OldImageInfo> m_oldData;
+    QList<QUndoCommand*> m_subCmds;
 };
 
 #endif // SETBACKGROUNDCOMMAND_H

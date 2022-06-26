@@ -76,10 +76,14 @@ public:
     QUndoStack* undoStack() const;
     void setUndoStack(QUndoStack* undoStack);
 
+public slots:
+    void addField(CSItem* itemCtrl);
+
 signals:
     void pixmapChanged();
     void dropFileOnCanvas(QUrl url);
     void pageIdChanged();
+    void performCommand(QUndoCommand* cmd);
 
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent* event);
@@ -90,17 +94,16 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
 
 private:
-    void adjustNewItem(CSItem* item);
+    void adjustNewItem(CanvasField* item);
     bool forwardEvent();
 
 private:
     QPointer<EditorController> m_ctrl;
     QGraphicsPixmapItem* m_bg;
-    CSItem* m_currentItem;
+    CanvasField* m_currentItem;
     Tool m_currentTool= MOVE;
     FieldModel* m_model;
     int m_pageId;
-    QUndoStack* m_undoStack;
     QList<QGraphicsItem*> m_movingItems;
     QList<QPointF> m_oldPos;
 };

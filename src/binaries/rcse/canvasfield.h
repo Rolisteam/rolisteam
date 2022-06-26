@@ -11,7 +11,7 @@ class FieldController;
 class CanvasField : public QGraphicsObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
+    Q_PROPERTY(FieldController* controller READ controller CONSTANT)
 public:
     enum
     {
@@ -21,8 +21,7 @@ public:
 
     int type() const override { return Type; }
 
-    FieldController* getField() const;
-    void setField(FieldController* field);
+    FieldController* controller() const;
 
     QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
@@ -30,27 +29,14 @@ public:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
     void setNewEnd(QPointF nend);
 
-    void setWidth(qreal w);
-    void setHeight(qreal h);
-
     static bool getShowImageField();
     static void setShowImageField(bool showImageField);
     virtual void setMenu(QMenu& menu);
-    bool locked() const;
-public slots:
-    void setLocked(bool b);
-
-signals:
-    void widthChanged();
-    void heightChanged();
-    void lockedChanged();
 
 protected:
-    QPointer<FieldController> m_field;
-    QRectF m_rect;
+    QPointer<FieldController> m_ctrl;
     QPixmap m_pix;
     int m_currentType;
-    bool m_locked= false;
 
     // static members
     static QHash<int, QString> m_pictureMap;

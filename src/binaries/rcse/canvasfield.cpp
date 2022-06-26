@@ -19,37 +19,36 @@ QHash<int, QString>
 
 bool CanvasField::m_showImageField= true;
 
-CanvasField::CanvasField(FieldController* field) : m_field(field)
+CanvasField::CanvasField(FieldController* field) : m_ctrl(field)
 {
-    m_rect.setCoords(0, 0, 0, 0);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+
+    connect(m_ctrl, &FieldController::readOnlyChanged, this, [this]() {
+        setFlags(m_ctrl->isReadOnly() ?
+                     QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable :
+                     QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+    });
 }
 void CanvasField::setNewEnd(QPointF nend)
 {
-    emit widthChanged();
-    emit heightChanged();
-    m_rect.setBottomRight(nend);
+    m_ctrl->setNewEnd(nend);
 }
-FieldController* CanvasField::getField() const
+FieldController* CanvasField::controller() const
 {
-    return m_field;
+    return m_ctrl;
 }
 
-void CanvasField::setField(FieldController* field)
-{
-    m_field= field;
-}
 QRectF CanvasField::boundingRect() const
 {
-    return m_rect;
+    return QRectF{0, 0, m_ctrl->width(), m_ctrl->height()};
 }
 QPainterPath CanvasField::shape() const
 {
     QPainterPath path;
     path.moveTo(0, 0);
-    path.lineTo(m_rect.width(), 0);
-    path.lineTo(m_rect.width(), m_rect.height());
-    path.lineTo(0, m_rect.height());
+    path.lineTo(m_ctrl->width(), 0);
+    path.lineTo(m_ctrl->width(), m_ctrl->height());
+    path.lineTo(0, m_ctrl->height());
     path.closeSubpath();
     return path;
 }
@@ -57,18 +56,20 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 {
     Q_UNUSED(widget)
 
-    if(nullptr == m_field)
+    if(nullptr == m_ctrl)
         return;
     painter->save();
 
-    painter->fillRect(m_rect, m_field->bgColor());
+    auto rect= boundingRect();
 
-    if(m_locked)
+    painter->fillRect(rect, m_ctrl->bgColor());
+
+    if(m_ctrl->isReadOnly())
         painter->setPen(Qt::gray);
     else
         painter->setPen(Qt::black);
 
-    painter->drawRect(m_rect);
+    painter->drawRect(rect);
 
     if(option->state & QStyle::State_Selected)
     {
@@ -77,12 +78,12 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
         pen.setColor(Qt::red);
         pen.setWidth(5);
         painter->setPen(pen);
-        painter->drawRect(m_rect);
+        painter->drawRect(rect);
         painter->restore();
     }
 
     int flags= 0;
-    FieldController::TextAlign align= m_field->getTextAlignValue();
+    FieldController::TextAlign align= m_ctrl->textAlign();
     if(align < 3)
     {
         flags= Qt::AlignTop;
@@ -109,40 +110,22 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
         flags|= Qt::AlignLeft;
     }
 
-    if(m_pix.isNull() || m_currentType != m_field->getFieldType())
+    if(m_pix.isNull() || m_currentType != m_ctrl->getFieldType())
     {
-        QPixmap map= QPixmap(m_pictureMap[m_field->getFieldType()]);
+        QPixmap map= QPixmap(m_pictureMap[m_ctrl->getFieldType()]);
         if(!map.isNull())
         {
             m_pix= map.scaled(32, 32);
-            m_currentType= m_field->getFieldType();
+            m_currentType= m_ctrl->getFieldType();
         }
     }
     if((!m_pix.isNull()) && m_showImageField)
     {
-        painter->drawPixmap(m_rect.center() - m_pix.rect().center(), m_pix, m_pix.rect());
+        painter->drawPixmap(rect.center() - m_pix.rect().center(), m_pix, m_pix.rect());
     }
 
-    painter->drawText(m_rect, flags, m_field->getId());
+    painter->drawText(rect, flags, m_ctrl->getId());
     painter->restore();
-}
-void CanvasField::setWidth(qreal w)
-{
-    if(qFuzzyCompare(w, m_rect.width()) || m_locked)
-        return;
-
-    m_rect.setWidth(w);
-    emit widthChanged();
-    update();
-}
-void CanvasField::setHeight(qreal h)
-{
-    if(qFuzzyCompare(h, m_rect.height()) || m_locked)
-        return;
-
-    m_rect.setHeight(h);
-    emit heightChanged();
-    update();
 }
 
 bool CanvasField::getShowImageField()
@@ -158,22 +141,4 @@ void CanvasField::setShowImageField(bool showImageField)
 void CanvasField::setMenu(QMenu& menu)
 {
     Q_UNUSED(menu)
-}
-
-bool CanvasField::locked() const
-{
-    return m_locked;
-}
-
-void CanvasField::setLocked(bool b)
-{
-    if(m_locked == b)
-        return;
-    m_locked= b;
-    emit lockedChanged();
-
-    if(m_locked)
-        setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
-    else
-        setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
 }

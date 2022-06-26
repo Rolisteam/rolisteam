@@ -29,7 +29,7 @@
 
 #include <QDebug>
 
-Section::Section() {}
+Section::Section() : CharacterSheetItem(CharacterSheetItem::SectionItem) {}
 Section::~Section()
 {
     qDeleteAll(m_dataHash);
@@ -141,7 +141,6 @@ void Section::load(const QJsonObject& json, EditorController* ctrl)
     {
         QJsonObject obj= (*it).toObject();
         CharacterSheetItem* item;
-        QGraphicsItem* gItem= nullptr;
         if(obj["type"] == QStringLiteral("Section"))
         {
             auto section= new Section();
@@ -155,37 +154,32 @@ void Section::load(const QJsonObject& json, EditorController* ctrl)
             connect(field, &TableField::lineMustBeAdded, this, &Section::addLineToTableField);
             item= field;
             item->load(obj, ctrl);
-            gItem= field->getCanvasField();
+            // gItem= field->getCanvasField();
         }
         else
         {
-            auto field= new FieldController();
+            auto field= new FieldController(CharacterSheetItem::FieldItem, true);
             item= field;
             item->load(obj, ctrl);
-            gItem= field->getCanvasField();
+            // gItem= field->getCanvasField();
         }
         if(!m_dataHash.contains(item->getPath()))
         {
             item->setParent(this);
-#ifdef RCSE
-            auto page= std::max(0, item->getPage()); // add item for all pages on the first canvas.
-            if(ctrl)
-                ctrl->addItem(page, gItem);
-#else
-            Q_UNUSED(gItem);
-#endif
-            item->initGraphicsItem();
+            /*#ifdef RCSE
+                        auto page= std::max(0, item->getPage()); // add item for all pages on the first canvas.
+                        if(ctrl)
+                            ctrl->addItem(page, gItem);
+            #else
+                        Q_UNUSED(gItem);
+            #endif*/
+            // item->initGraphicsItem();
             m_dataHash.insert(item->getPath(), item);
             m_keyList.append(item->getPath());
         }
         else
             qDebug() << "Duplicate found" << item->getPath();
     }
-}
-
-CharacterSheetItem::CharacterSheetItemType Section::getItemType() const
-{
-    return CharacterSheetItem::SectionItem;
 }
 
 void Section::copySection(Section* oldSection)
@@ -200,14 +194,14 @@ void Section::copySection(Section* oldSection)
         if(nullptr != childItem)
         {
             CharacterSheetItem* newItem= nullptr;
-            if(CharacterSheetItem::FieldItem == childItem->getItemType())
+            if(CharacterSheetItem::FieldItem == childItem->itemType())
             {
-                auto newField= new FieldController(false);
+                auto newField= new FieldController(CharacterSheetItem::FieldItem, false);
                 newField->copyField(childItem, false);
                 newItem= newField;
             }
 
-            if(CharacterSheetItem::SectionItem == childItem->getItemType())
+            if(CharacterSheetItem::SectionItem == childItem->itemType())
             {
                 Section* sec= new Section();
                 sec->copySection(dynamic_cast<Section*>(childItem));
@@ -252,12 +246,12 @@ void Section::resetAllId(int& i)
     {
         CharacterSheetItem* item= m_dataHash.value(key);
 
-        if(CharacterSheetItem::FieldItem == item->getItemType())
+        if(CharacterSheetItem::FieldItem == item->itemType())
         {
             ++i;
             item->setId(id.arg(i));
         }
-        else if(CharacterSheetItem::SectionItem == item->getItemType())
+        else if(CharacterSheetItem::SectionItem == item->itemType())
         {
             Section* sec= dynamic_cast<Section*>(item);
             if(sec)
@@ -304,13 +298,13 @@ void Section::buildDataInto(CharacterSheet* character)
         if(nullptr != childItem && nullptr == field)
         {
             CharacterSheetItem* newItem= nullptr;
-            if(CharacterSheetItem::FieldItem == childItem->getItemType())
+            if(CharacterSheetItem::FieldItem == childItem->itemType())
             {
-                auto newField= new FieldController(false);
+                auto newField= new FieldController(CharacterSheetItem::FieldItem, false);
                 newField->copyField(childItem, false);
                 newItem= newField;
             }
-            else if(CharacterSheetItem::TableItem == childItem->getItemType())
+            else if(CharacterSheetItem::TableItem == childItem->itemType())
             {
                 TableField* tablefield= new TableField(false);
                 tablefield->copyField(childItem, false);
@@ -322,7 +316,7 @@ void Section::buildDataInto(CharacterSheet* character)
                 newItem->setValue(character->getValue(newItem->getId()).toString());
                 character->insertCharacterItem(newItem);
             }
-            if(CharacterSheetItem::SectionItem == childItem->getItemType())
+            if(CharacterSheetItem::SectionItem == childItem->itemType())
             {
                 Section* sec= dynamic_cast<Section*>(childItem);
                 sec->buildDataInto(character);
@@ -367,9 +361,9 @@ void Section::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
     for(int i= getChildrenCount() - 1; i >= 0; --i)
     {
         auto child= getChildAt(i);
-        if(child->getItemType() != SectionItem)
+        if(child->itemType() != SectionItem)
         {
-            if(pagePos == child->getPage())
+            if(pagePos == child->page())
             {
                 list.append(child);
             }

@@ -33,7 +33,7 @@
 #include "charactersheet/field.h"
 #include "charactersheet/imagemodel.h"
 #include "charactersheet/rolisteamimageprovider.h"
-#include "common/logcontroller.h"
+#include "controllers/maincontroller.h"
 #include "dialog/pdfmanager.h"
 #include "dialog/sheetproperties.h"
 #include "fieldmodel.h"
@@ -42,10 +42,6 @@
 
 class CodeEditor;
 class LogPanel;
-class CharacterController;
-class EditorController;
-class QmlGeneratorController;
-class ImageController;
 namespace Ui
 {
 class MainWindow;
@@ -85,12 +81,11 @@ public slots:
 
     void open();
     void openRecentFile();
-    void generateQML(QString& qml);
 
-    void showQML();
+    void generateAndShowQML();
     void showQMLFromCode();
 
-    void saveQML();
+    // void saveQML();
     void openQML();
 
     void addBackgroundImage();
@@ -100,8 +95,6 @@ public slots:
     void openBackgroundImage();
     void openImage();
     bool mayBeSaved();
-    void displayWarningsQML(const QList<QQmlError>& list);
-    void aboutRcse();
     void helpOnLine();
 
     void exportPDF();
@@ -114,24 +107,21 @@ protected:
     bool eventFilter(QObject*, QEvent*);
     bool wheelEventForView(QWheelEvent* event);
     void closeEvent(QCloseEvent* event);
-    void managePDFImport();
     void defineItemCode(QModelIndex& index);
     void updateRecentFileAction();
 
     bool saveFile(const QString& filename);
+
+    void setUpActionForImageTab();
+    void setUpActionForCharacterTab();
 protected slots:
-    void clearData(bool addDefaultCanvas= true);
     void showPreferences();
+    void showContextMenuForImageTab();
+    void showContextMenuForCharacterTab();
 
 private:
     Ui::MainWindow* ui;
-    std::unique_ptr<EditorController> m_editorCtrl;
-    std::unique_ptr<CharacterController> m_characterCtrl;
-    std::unique_ptr<QmlGeneratorController> m_qmlCtrl;
-    std::unique_ptr<ImageController> m_imageCtrl;
-    std::unique_ptr<LogController> m_logCtrl;
-
-    ItemEditor* m_view;
+    std::unique_ptr<MainController> m_mainCtrl;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
     QString m_currentFile;
@@ -139,10 +129,24 @@ private:
     RolisteamImageProvider* m_imgProvider;
     int m_counterZoom;
     QString m_pdfPath;
-    PdfManager* m_pdf;
 
     // Log
     LogPanel* m_logPanel= nullptr;
+
+    // Image tab action
+    QAction* m_copyPath= nullptr;
+    QAction* m_copyUrl= nullptr;
+    QAction* m_replaceImage= nullptr;
+    QAction* m_removeImage= nullptr;
+    QAction* m_reloadImageFromFile= nullptr;
+
+    // Action for CharacterTab
+    QAction* m_addCharacter= nullptr;
+    QAction* m_deleteCharacter= nullptr;
+    QAction* m_copyCharacter= nullptr;
+    QAction* m_defineAsTabName= nullptr;
+    QAction* m_applyValueOnSelectedCharacterLines= nullptr;
+    QAction* m_applyValueOnAllCharacters= nullptr;
 
     // Recent file
     std::vector<QAction*> m_recentActions;
@@ -152,7 +156,6 @@ private:
 
     QString m_title;
     PreferencesManager* m_preferences;
-    QUndoStack m_undoStack;
 };
 
 #endif // MAINWINDOW_H

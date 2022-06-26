@@ -35,10 +35,12 @@ class QGraphicsItem;
 class CHARACTERSHEET_EXPORT CSItem : public CharacterSheetItem
 {
     Q_OBJECT
-    Q_PROPERTY(qreal x READ getX WRITE setX NOTIFY xChanged)
-    Q_PROPERTY(qreal y READ getY WRITE setY NOTIFY yChanged)
-    Q_PROPERTY(qreal width READ getWidth WRITE setWidth NOTIFY widthChanged)
-    Q_PROPERTY(qreal height READ getHeight WRITE setHeight NOTIFY heightChanged)
+    Q_PROPERTY(qreal x READ x WRITE setX NOTIFY xChanged)
+    Q_PROPERTY(qreal y READ y WRITE setY NOTIFY yChanged)
+    Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
+    Q_PROPERTY(BorderLine border READ border WRITE setBorder NOTIFY borderChanged)
+    Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
 
 public:
     enum BorderLine
@@ -50,35 +52,28 @@ public:
         ALL= 15,
         NONE= 16
     };
-    CSItem(QGraphicsItem* parent= nullptr, bool addCount= true);
-    virtual void setNewEnd(QPointF nend)= 0;
+    CSItem(CharacterSheetItemType type, QGraphicsItem* parent= nullptr, bool addCount= true);
 
     QColor bgColor() const;
-    void setBgColor(const QColor& bgColor);
-
     QColor textColor() const;
+    virtual qreal x() const;
+    virtual qreal y() const;
+    virtual qreal width() const;
+    virtual qreal height() const;
+    CSItem::BorderLine border() const;
+
+    static void resetCount();
+    static void setCount(int i);
+
+    CharacterSheetItem* getChildFromId(const QString& id) const override;
+public slots:
+    void setBgColor(const QColor& bgColor);
     void setTextColor(const QColor& textColor);
-
-    virtual qreal getX() const;
-    virtual qreal getY() const;
-    virtual qreal getWidth() const;
-    virtual qreal getHeight() const;
-
     virtual void setX(qreal x);
     virtual void setY(qreal y);
     virtual void setWidth(qreal width);
     virtual void setHeight(qreal height);
-
-    QRectF getRect() const;
-    void setRect(const QRectF& rect);
-
-    CSItem::BorderLine border() const;
     void setBorder(const CSItem::BorderLine& border);
-
-    virtual QPointF mapFromScene(QPointF)= 0;
-
-    static void resetCount();
-    static void setCount(int i);
 
 signals:
     void xChanged();
@@ -86,10 +81,13 @@ signals:
     void widthChanged();
     void heightChanged();
     void askUpdate();
+    void borderChanged();
+    void bgColorChanged();
 
 protected:
-    // internal data
-    QRectF m_rect;
+    QSize m_rect;
+    QPointF m_pos;
+
     static int m_count;
     QColor m_bgColor;
     QColor m_textColor;

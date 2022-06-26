@@ -30,15 +30,7 @@
 #include "csitem.h"
 #include <charactersheet/charactersheet_global.h>
 
-#ifdef RCSE
-#include "canvasfield.h"
-#else
-class CHARACTERSHEET_EXPORT CanvasField : public QGraphicsObject
-{
-    CanvasField();
-};
-#endif
-
+class CanvasField;
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
@@ -46,6 +38,10 @@ class CHARACTERSHEET_EXPORT FieldController : public CSItem
 {
     Q_OBJECT
     Q_PROPERTY(bool fitFont READ fitFont WRITE setFitFont NOTIFY fitFontChanged)
+    Q_PROPERTY(FieldController::TextAlign textAlign READ textAlign WRITE setTextAlign NOTIFY textAlignChanged)
+    Q_PROPERTY(QString generatedCode READ generatedCode WRITE setGeneratedCode NOTIFY generatedCodeChanged)
+    Q_PROPERTY(bool aliasEnabled READ aliasEnabled WRITE setAliasEnabled NOTIFY aliasEnabledChanged)
+    Q_PROPERTY(QStringList availableValues READ availableValues WRITE setAvailableValues NOTIFY availableValuesChanged)
 public:
     enum TextAlign
     {
@@ -60,99 +56,58 @@ public:
         BottomLeft
     };
 
-    explicit FieldController(bool addCount= true, QGraphicsItem* parent= nullptr);
-    explicit FieldController(QPointF topleft, bool addCount= true, QGraphicsItem* parent= nullptr);
+    explicit FieldController(CharacterSheetItem::CharacterSheetItemType itemType
+                             = CharacterSheetItem::CharacterSheetItemType::FieldItem,
+                             bool addCount= true, QGraphicsItem* parent= nullptr);
+    explicit FieldController(CharacterSheetItem::CharacterSheetItemType itemType
+                             = CharacterSheetItem::CharacterSheetItemType::FieldItem,
+                             QPointF topleft= {}, bool addCount= true, QGraphicsItem* parent= nullptr);
     virtual ~FieldController();
 
-    QSize size() const;
-    void setSize(const QSize& size);
-
     QFont font() const;
-    void setFont(const QFont& font);
-
-    CharacterSheetItem* getChildFromId(const QString& id) const override;
+    bool fitFont() const;
+    FieldController::TextAlign textAlign();
+    QString generatedCode() const;
+    bool aliasEnabled() const;
+    QStringList availableValues() const;
 
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var) override;
 
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json, EditorController* ctrl) override;
-    /**
-     * @brief saveDataItem
-     * @param json
-     */
     virtual void saveDataItem(QJsonObject& json) override;
-    /**
-     * @brief load
-     * @param json
-     * @param scene
-     */
     virtual void loadDataItem(const QJsonObject& json) override;
 
-    virtual QPointF mapFromScene(QPointF) override;
-
-    QStringList getAvailableValue() const;
-    void setAvailableValue(const QStringList& availableValue);
-
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
-
     void copyField(CharacterSheetItem*, bool copyData, bool sameId= true);
-
-    bool fitFont() const;
-
-    void setTextAlign(const TextAlign& textAlign);
-
-    FieldController::TextAlign getTextAlignValue();
-
     virtual void setNewEnd(QPointF nend) override;
-
-    CanvasField* getCanvasField() const;
-    virtual void setCanvasField(CanvasField* canvasField);
-
-    void initGraphicsItem() override;
-
-    virtual qreal getWidth() const override;
-    virtual void setWidth(qreal width) override;
-
-    virtual qreal getHeight() const override;
-    virtual void setHeight(qreal height) override;
-
-    virtual void setX(qreal x) override;
-    virtual qreal getX() const override;
-
-    virtual void setY(qreal x) override;
-    virtual qreal getY() const override;
-
-    QString getGeneratedCode() const;
-    void setGeneratedCode(const QString& generatedCode);
-
-    bool getAliasEnabled() const;
-    void setAliasEnabled(bool aliasEnabled);
-
     QPair<QString, QString> getTextAlign();
-    bool isLocked() const;
 public slots:
-    void setLocked(bool b);
-    void storeQMLCode();
+    // void storeQMLCode();
+    void setGeneratedCode(const QString& generatedCode);
+    void setAliasEnabled(bool aliasEnabled);
+    void setAvailableValues(const QStringList& availableValue);
     void setFitFont(bool clippedText);
+    void setFont(const QFont& font);
+    void setTextAlign(const FieldController::TextAlign& textAlign);
+
 signals:
     void updateNeeded(CSItem* c);
     void fitFontChanged(bool b);
+    void generatedCodeChanged();
+    void aliasEnabledChanged();
+    void availableValuesChanged();
 
 protected:
     void init();
-    void mousePressEvent(QMouseEvent*);
-    void mouseMoveEvent(QMouseEvent* ev);
 
 protected:
     QFont m_font;
     TextAlign m_textAlign= CenterMiddle;
     QStringList m_availableValue;
     bool m_fitFont= false;
-    CanvasField* m_canvasField;
     QString m_generatedCode;
     bool m_aliasEnabled= true;
-    bool m_locked= false;
 };
 
 #endif // FIELD_H

@@ -5,85 +5,46 @@
 #include <QMenu>
 #include <QTreeView>
 
-#include "data/characterlist.h"
-
 // undo
 #include "undo/addcharactercommand.h"
 #include "undo/deletecharactercommand.h"
 #include "undo/setpropertyonallcharacters.h"
 
-CharacterController::CharacterController(QUndoStack& undoStack, QTreeView* view, QObject* parent)
+CharacterController::CharacterController(QObject* parent)
     : QObject(parent)
-    , m_view(view)
-    , m_undoStack(undoStack)
     , m_characterModel(new CharacterSheetModel)
-    , m_characters(new CharacterList)
+    , m_characters(new CharacterList(m_characterModel.get()))
 {
-    connect(m_view, &QTreeView::customContextMenuRequested, this, &CharacterController::contextMenu);
 
-    m_addCharacter= new QAction(tr("Add character"), this);
-    m_deleteCharacter= new QAction(tr("Delete character"), this);
-    // m_copyCharacter= new QAction(tr("Copy character"), this);
-    m_defineAsTabName= new QAction(tr("Character's Name"), this);
+    // m_characters->setSourceModel(m_characterModel.get());
 
-    m_applyValueOnSelectedCharacterLines= new QAction(tr("Apply on Selection"), this);
-    m_applyValueOnAllCharacters= new QAction(tr("Apply on all characters"), this);
-
-    m_characters->setSourceModel(m_characterModel.get());
-
-    connect(m_addCharacter, &QAction::triggered, this, &CharacterController::sendAddCharacterCommand);
-    connect(m_deleteCharacter, &QAction::triggered, this, &CharacterController::sendRemoveCharacterCommand);
-    connect(m_applyValueOnAllCharacters, &QAction::triggered, this, &CharacterController::applyOnAllCharacter);
-    connect(m_applyValueOnSelectedCharacterLines, &QAction::triggered, this, &CharacterController::applyOnSelection);
-    connect(m_defineAsTabName, &QAction::triggered, this, [this]() {
-        auto index= m_view->currentIndex();
-        auto name= index.data().toString();
-        if(name.isEmpty())
-            return;
-        CharacterSheet* sheet= m_characterModel->getCharacterSheet(index.column() - 1);
-        sheet->setName(name);
-        emit dataChanged();
-    });
-
-    connect(m_characterModel.get(), &CharacterSheetModel::characterSheetHasBeenAdded, [this](CharacterSheet* sheet) {
-        connect(sheet, &CharacterSheet::updateField, m_characterModel.get(), &CharacterSheetModel::fieldHasBeenChanged);
-        connect(sheet, &CharacterSheet::addLineToTableField, m_characterModel.get(), &CharacterSheetModel::addSubChild);
-        connect(sheet, &CharacterSheet::updateField, this, &CharacterController::dataChanged);
-        connect(sheet, &CharacterSheet::addLineToTableField, this, &CharacterController::dataChanged);
-        emit dataChanged();
-    });
-
-    connect(m_characterModel.get(), &CharacterSheetModel::columnsInserted, this, [this]() {
-        auto count= m_characterModel->columnCount();
-        if(count < 2)
-            return;
-        auto w= m_view->geometry().width() / count;
-        for(int i= 0; i < count; ++i)
-        {
-            m_view->setColumnWidth(i, w);
-        }
-    });
+    connect(m_characterModel.get(), &CharacterSheetModel::characterSheetHasBeenAdded, this,
+            [this](CharacterSheet* sheet) {
+                connect(sheet, &CharacterSheet::updateField, m_characterModel.get(),
+                        &CharacterSheetModel::fieldHasBeenChanged);
+                connect(sheet, &CharacterSheet::addLineToTableField, m_characterModel.get(),
+                        &CharacterSheetModel::addSubChild);
+                connect(sheet, &CharacterSheet::updateField, this, &CharacterController::dataChanged);
+                connect(sheet, &CharacterSheet::addLineToTableField, this, &CharacterController::dataChanged);
+                emit dataChanged();
+            });
 }
 
 CharacterController::~CharacterController()= default;
 
 void CharacterController::sendAddCharacterCommand()
 {
-    m_undoStack.push(new AddCharacterCommand(this));
+    emit performCommand(new AddCharacterCommand(this));
 }
 
-QAbstractItemModel* CharacterController::characters() const
+CharacterList* CharacterController::characters() const
 {
     return m_characters.get();
 }
 
-void CharacterController::sendRemoveCharacterCommand()
+void CharacterController::sendRemoveCharacterCommand(const QModelIndex& index)
 {
-    auto idx= m_view->currentIndex();
-    if(!idx.isValid())
-        return;
-
-    m_undoStack.push(new DeleteCharacterCommand(idx.column() - 1, this));
+    emit performCommand(new DeleteCharacterCommand(index.column() - 1, this));
 }
 
 CharacterSheet* CharacterController::characterSheetFromIndex(int index) const
@@ -114,24 +75,8 @@ void CharacterController::insertCharacter(int pos, CharacterSheet* sheet)
     emit dataChanged();
 }
 
-void CharacterController::contextMenu(const QPoint& pos)
+void CharacterController::applyOnSelection(const QModelIndex& index, const QModelIndexList& list)
 {
-    Q_UNUSED(pos)
-    QMenu menu;
-    menu.addAction(m_addCharacter);
-    // menu.addAction(m_copyCharacter);
-    menu.addSeparator();
-    menu.addAction(m_applyValueOnAllCharacters);
-    menu.addAction(m_applyValueOnSelectedCharacterLines);
-    //  menu.addAction(m_applyValueOnAllCharacterLines);
-    menu.addAction(m_defineAsTabName);
-    menu.addSeparator();
-    menu.addAction(m_deleteCharacter);
-    menu.exec(QCursor::pos());
-}
-void CharacterController::applyOnSelection()
-{
-    auto index= m_view->currentIndex();
     QVariant var= index.data(Qt::DisplayRole);
     QVariant editvar= index.data(Qt::EditRole);
     if(editvar != var)
@@ -139,7 +84,6 @@ void CharacterController::applyOnSelection()
         var= editvar;
     }
     int col= index.column();
-    QModelIndexList list= m_view->selectionModel()->selectedIndexes();
     for(QModelIndex modelIndex : list)
     {
         if(modelIndex.column() == col)
@@ -150,18 +94,16 @@ void CharacterController::applyOnSelection()
     if(!list.isEmpty())
         emit dataChanged();
 }
-void CharacterController::applyOnAllCharacter()
+void CharacterController::applyOnAllCharacter(const QModelIndex& index)
 {
-    auto index= m_view->currentIndex();
+
     QString value= index.data().toString();
     QString formula= index.data(CharacterSheetModel::FormulaRole).toString();
     auto characterItem= m_characterModel->indexToSection(index);
     if((!value.isEmpty()) && (nullptr != characterItem))
     {
         QString key= characterItem->getId();
-        SetPropertyOnCharactersCommand* cmd
-            = new SetPropertyOnCharactersCommand(key, value, formula, m_characterModel.get());
-        m_undoStack.push(cmd);
+        emit performCommand(new SetPropertyOnCharactersCommand(key, value, formula, m_characterModel.get()));
         emit dataChanged();
     }
 }
@@ -185,7 +127,7 @@ void CharacterController::clear()
     m_characterModel->clearModel();
 }
 
-QAbstractItemModel* CharacterController::model() const
+CharacterSheetModel* CharacterController::model() const
 {
     return m_characterModel.get();
 }

@@ -108,11 +108,11 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
     {
         auto field= dynamic_cast<FieldController*>(item);
         QVariant color;
-        if(field && !field->getGeneratedCode().isEmpty())
+        if(field && !field->generatedCode().isEmpty())
         {
             color= QColor(Qt::green).lighter();
         }
-        if(field && field->isLocked() && (index.column() >= CharacterSheetItem::X)
+        if(field && field->isReadOnly() && (index.column() >= CharacterSheetItem::X)
            && (index.column() <= CharacterSheetItem::HEIGHT))
         {
             color= QColor(Qt::gray);
@@ -220,9 +220,29 @@ void FieldModel::appendField(CSItem* f)
 {
     beginInsertRows(QModelIndex(), m_rootSection->getChildrenCount(), m_rootSection->getChildrenCount());
     m_rootSection->appendChild(f);
-    connect(f, SIGNAL(updateNeeded(CSItem*)), this, SLOT(updateItem(CSItem*)));
+    auto func= [this, f]() { emit updateItem(f); };
+    connect(f, &CSItem::characterSheetItemChanged, this, func);
+    connect(f, &CSItem::xChanged, this, func);
+    connect(f, &CSItem::yChanged, this, func);
+    connect(f, &CSItem::widthChanged, this, func);
+    connect(f, &CSItem::heightChanged, this, func);
+    connect(f, &CSItem::borderChanged, this, func);
+    connect(f, &CSItem::bgColorChanged, this, func);
+
+    connect(f, &CSItem::valueChanged, this, func);
+    connect(f, &CSItem::textColorChanged, this, func);
+    connect(f, &CSItem::textAlignChanged, this, func);
+    connect(f, &CSItem::bgColorChanged, this, func);
+    connect(f, &CSItem::valuesChanged, this, func);
+    connect(f, &CSItem::pageChanged, this, func);
+    connect(f, &CSItem::readOnlyChanged, this, func);
+    connect(f, &CSItem::formulaChanged, this, func);
+    connect(f, &CSItem::idChanged, this, func);
+    connect(f, &CSItem::labelChanged, this, func);
+
     endInsertRows();
     emit modelChanged();
+    emit fieldAdded(f);
 }
 void FieldModel::insertField(CSItem* field, CharacterSheetItem* parent, int pos)
 {

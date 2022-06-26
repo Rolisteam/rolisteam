@@ -39,12 +39,7 @@
 //#include "charactersheetbutton.h"
 
 Canvas::Canvas(EditorController* ctrl, QObject* parent)
-    : QGraphicsScene(parent)
-    , m_ctrl(ctrl)
-    , m_bg(new QGraphicsPixmapItem())
-    , m_currentItem(nullptr)
-    , m_model(nullptr)
-    , m_undoStack(nullptr)
+    : QGraphicsScene(parent), m_ctrl(ctrl), m_bg(new QGraphicsPixmapItem()), m_currentItem(nullptr), m_model(nullptr)
 {
     setSceneRect(QRect(0, 0, 800, 600));
     m_bg->setFlag(QGraphicsItem::ItemIsSelectable, false);
@@ -95,13 +90,12 @@ void Canvas::deleteItem(QGraphicsItem* item)
     auto fieldItem= dynamic_cast<CanvasField*>(item);
     if(nullptr != fieldItem)
     {
-        DeleteFieldCommand* deleteCommand= new DeleteFieldCommand(fieldItem->getField(), this, m_model, m_pageId);
-        m_undoStack->push(deleteCommand);
+        DeleteFieldCommand* deleteCommand= new DeleteFieldCommand(fieldItem->controller(), this, m_model, m_pageId);
+        emit performCommand(deleteCommand);
     }
 }
 void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-
     if(mouseEvent->button() == Qt::RightButton)
     {
         mouseEvent->accept();
@@ -149,8 +143,8 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 
         AddFieldCommand* addCommand
             = new AddFieldCommand(m_currentTool, this, m_model, m_pageId, model, mouseEvent->scenePos());
-        m_currentItem= addCommand->getField();
-        m_undoStack->push(addCommand);
+
+        emit performCommand(addCommand);
         mouseEvent->accept();
     }
 
@@ -173,16 +167,6 @@ bool Canvas::forwardEvent()
     return (Canvas::MOVE == m_currentTool) || (Canvas::NONE == m_currentTool);
 }
 
-QUndoStack* Canvas::undoStack() const
-{
-    return m_undoStack;
-}
-
-void Canvas::setUndoStack(QUndoStack* undoStack)
-{
-    m_undoStack= undoStack;
-}
-
 void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
     Q_UNUSED(mouseEvent);
@@ -196,7 +180,7 @@ void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
                 if(m_oldPos.first() != m_movingItems.first()->pos())
                 {
                     MoveFieldCommand* moveCmd= new MoveFieldCommand(m_movingItems, m_oldPos);
-                    m_undoStack->push(moveCmd);
+                    emit performCommand(moveCmd);
                 }
                 m_movingItems.clear();
                 m_oldPos.clear();
@@ -210,21 +194,44 @@ void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
         m_currentItem= nullptr;
     }
 }
-void Canvas::adjustNewItem(CSItem* item)
+void Canvas::adjustNewItem(CanvasField* field)
 {
-    if(nullptr == item)
+    if(nullptr == field)
         return;
-    // qDebug() <<"newitem width: "<< item->getWidth()<<"newitem height:" << item->getHeight();
-    if(item->getWidth() < 0)
+
+    auto ctrl= field->controller();
+    if(ctrl->width() < 0)
     {
-        item->setX(item->getX() + item->getWidth());
-        item->setWidth(fabs(item->getWidth()));
+        ctrl->setX(ctrl->x() + ctrl->width());
+        ctrl->setWidth(fabs(ctrl->width()));
     }
 
-    if(item->getHeight() < 0)
+    if(ctrl->height() < 0)
     {
-        item->setY(item->getY() + item->getHeight());
-        item->setHeight(fabs(item->getHeight()));
+        ctrl->setY(ctrl->y() + ctrl->height());
+        ctrl->setHeight(fabs(ctrl->height()));
+    }
+}
+
+void Canvas::addField(CSItem* itemCtrl)
+{
+    CanvasField* cf= nullptr;
+    switch(itemCtrl->itemType())
+    {
+    case CharacterSheetItem::FieldItem:
+        cf= new CanvasField(dynamic_cast<FieldController*>(itemCtrl));
+        break;
+    case CharacterSheetItem::TableItem:
+        cf= new TableCanvasField(dynamic_cast<FieldController*>(itemCtrl));
+        break;
+    default:
+        break;
+    }
+    if(cf)
+    {
+        m_currentItem= cf;
+        addItem(m_currentItem);
+        m_currentItem->setPos({itemCtrl->x(), itemCtrl->y()});
     }
 }
 
@@ -257,14 +264,13 @@ void Canvas::setModel(FieldModel* model)
 
 const QPixmap Canvas::pixmap() const
 {
-    return m_bg->pixmap();
+    return m_bg ? m_bg->pixmap() : QPixmap();
 }
 void Canvas::setPixmap(const QPixmap& pix)
 {
     m_bg->setPixmap(pix);
     emit pixmapChanged();
 
-    qDebug() << "setPixmap" << pix;
     if(pix.isNull())
         removeItem(m_bg);
     else

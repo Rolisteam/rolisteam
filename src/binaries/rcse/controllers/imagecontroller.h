@@ -12,51 +12,37 @@ class RolisteamImageProvider;
 class ImageController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString uuid READ uuid NOTIFY uuidChanged)
     Q_PROPERTY(charactersheet::ImageModel* model READ model NOTIFY modelChanged)
     Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
 public:
-    ImageController(QTableView* view, QObject* parent= nullptr);
+    ImageController(QObject* parent= nullptr);
 
     void clearData();
-    void save(QJsonObject& obj) const;
-    void load(const QJsonObject& obj);
 
     QString uuid() const;
     charactersheet::ImageModel* model() const;
     QSize backgroundSize() const;
 
-    RolisteamImageProvider* getNewProvider() const;
+    RolisteamImageProvider* provider() const;
 
 public slots:
     void addBackgroundImage(int idx, const QPixmap& pix, const QString& filename, const QString& uuid);
     void addImage(const QPixmap& pix, const QString& filename);
     void removeImage(int idx);
     void setUuid(const QString& uuid);
-    void contextualMenu(const QPoint& pos);
+    void copyPath(const QModelIndex& index);
+    void copyUrl(const QModelIndex& index);
+    void replaceImage(const QModelIndex& index, const QString& filepath);
+    void reloadImage(const QModelIndex& index);
 
 signals:
     void dataChanged();
     void uuidChanged();
     void modelChanged();
-
     void errorOccurs(QString);
 
-protected slots:
-    void copyPath();
-    void copyUrl();
-    void replaceImage();
-    void reloadImageFromFile();
-
 private:
-    QAction* m_copyPath= nullptr;
-    QAction* m_copyUrl= nullptr;
-    QAction* m_replaceImage= nullptr;
-    QAction* m_removeImage= nullptr;
-    QAction* m_reloadImageFromFile= nullptr;
-
     std::unique_ptr<charactersheet::ImageModel> m_model;
-    QTableView* m_view= nullptr;
     QString m_uuid;
 };
 

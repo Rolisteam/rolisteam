@@ -30,7 +30,6 @@
 #include <QMainWindow>
 #include <QMdiSubWindow>
 #include <QMenu>
-#include <QProgressBar>
 #include <QStackedWidget>
 #include <QTextEdit>
 #include <QUndoStack>

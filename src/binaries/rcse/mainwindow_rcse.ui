@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1069</width>
-    <height>814</height>
+    <height>831</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Unknown[*] - Rolisteam Character Sheet Editor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../rcse_resources.qrc">
+   <iconset resource="../../../resources/rcse/rcse_resources.qrc">
     <normaloff>:/logo/symbol2.png</normaloff>:/logo/symbol2.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -40,342 +40,364 @@
              <widget class="ItemEditor" name="m_view" native="true"/>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0">
               <item>
-               <widget class="QToolButton" name="m_addTextInput">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <widget class="QGroupBox" name="groupBox">
+                <property name="title">
+                 <string>Items</string>
                 </property>
-                <property name="text">
-                 <string>TextInput</string>
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <item>
+                  <widget class="QToolButton" name="m_addTextInput">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>TextInput</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../../../resources/rcse/rcse_resources.qrc">
+                     <normaloff>:/rcstyle/Actions-edit-rename-icon.png</normaloff>:/rcstyle/Actions-edit-rename-icon.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_addTextField">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>TextField</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//Actions-edit-rename-icon.png</normaloff>:/rcstyle//Actions-edit-rename-icon.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_addCheckbox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Checkbox</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//checked_checkbox.png</normaloff>:/rcstyle//checked_checkbox.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_addTextArea">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>TextArea</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//textarea.png</normaloff>:/rcstyle//textarea.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_addButtonBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Dice Button</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//symbol.svg</normaloff>:/rcstyle//symbol.svg</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_functionBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Function btn</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//function.png</normaloff>:/rcstyle//function.png</iconset>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_tableFieldBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Table</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//table.png</normaloff>:/rcstyle//table.png</iconset>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_imageBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Image</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//photo.png</normaloff>:/rcstyle//photo.png</iconset>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_addLabelBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_webPageBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>WebView</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//webPage.svg</normaloff>:/rcstyle//webPage.svg</iconset>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_nextPageBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Next Page</string>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_previousPageBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Previous Page</string>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
                 </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle/Actions-edit-rename-icon.png</normaloff>:/rcstyle/Actions-edit-rename-icon.png</iconset>
-                </property>
-                <property name="iconSize">
+                <property name="sizeHint" stdset="0">
                  <size>
-                  <width>40</width>
-                  <height>20</height>
+                  <width>20</width>
+                  <height>40</height>
                  </size>
                 </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_addTextField">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>TextField</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//Actions-edit-rename-icon.png</normaloff>:/rcstyle//Actions-edit-rename-icon.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">buttonGroup</string>
-                </attribute>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_addCheckbox">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Checkbox</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//checked_checkbox.png</normaloff>:/rcstyle//checked_checkbox.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_addTextArea">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>TextArea</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//textarea.png</normaloff>:/rcstyle//textarea.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_addButtonBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Dice Button</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//symbol.svg</normaloff>:/rcstyle//symbol.svg</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_functionBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Function btn</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//function.png</normaloff>:/rcstyle//function.png</iconset>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">buttonGroup</string>
-                </attribute>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_tableFieldBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Table</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//table.png</normaloff>:/rcstyle//table.png</iconset>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_imageBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Image</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//photo.png</normaloff>:/rcstyle//photo.png</iconset>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_addLabelBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_webPageBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>WebView</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//webPage.svg</normaloff>:/rcstyle//webPage.svg</iconset>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_nextPageBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Next Page</string>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_previousPageBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Previous Page</string>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-               </widget>
+               </spacer>
               </item>
               <item>
                <spacer name="verticalSpacer_6">
@@ -391,125 +413,141 @@
                </spacer>
               </item>
               <item>
-               <widget class="QToolButton" name="m_moveBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <widget class="QGroupBox" name="groupBox_2">
+                <property name="title">
+                 <string>Tools</string>
                 </property>
-                <property name="text">
-                 <string>Move</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../rcse_resources.qrc">
-                  <normaloff>:/rcstyle//moveNpc.png</normaloff>:/rcstyle//moveNpc.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">buttonGroup</string>
-                </attribute>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_deleteBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Delete</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>resources/icons/delete.png</normaloff>resources/icons/delete.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>true</bool>
-                </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">buttonGroup</string>
-                </attribute>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="m_selectPageCb"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="m_addPage">
-                <property name="text">
-                 <string>Add Page</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="m_removePage">
-                <property name="text">
-                 <string>Remove Page</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>134</width>
-                  <height>348</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QSlider" name="m_scaleSlider">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <number>200</number>
-                </property>
-                <property name="value">
-                 <number>100</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <item>
+                  <widget class="QToolButton" name="m_moveBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Move Item</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/rcstyle//moveNpc.png</normaloff>:/rcstyle//moveNpc.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_deleteBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Delete</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>resources/icons/delete.png</normaloff>resources/icons/delete.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QListWidget" name="m_selectPageView">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="showDropIndicator" stdset="0">
+                    <bool>false</bool>
+                   </property>
+                   <property name="alternatingRowColors">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="m_addPage">
+                   <property name="text">
+                    <string>Add Page</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="m_removePage">
+                   <property name="text">
+                    <string>Remove Page</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>Scale:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSlider" name="m_scaleSlider">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>200</number>
+                   </property>
+                   <property name="value">
+                    <number>100</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -689,6 +727,7 @@
     <addaction name="actionSave_As"/>
     <addaction name="m_preferencesAction"/>
     <addaction name="separator"/>
+    <addaction name="m_importFromPdf"/>
     <addaction name="m_exportPdfAct"/>
     <addaction name="m_recentFileAct1"/>
     <addaction name="m_recentFileAct2"/>
@@ -772,7 +811,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//Actions-edit-rename-icon.png</normaloff>:/rcstyle//Actions-edit-rename-icon.png</iconset>
    </property>
    <property name="text">
@@ -784,7 +823,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//moveNpc.png</normaloff>:/rcstyle//moveNpc.png</iconset>
    </property>
    <property name="text">
@@ -796,7 +835,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//delete.png</normaloff>:/rcstyle//delete.png</iconset>
    </property>
    <property name="text">
@@ -820,7 +859,7 @@
   </action>
   <action name="m_genarateCodeAct">
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//gear.svg</normaloff>:/rcstyle//gear.svg</iconset>
    </property>
    <property name="text">
@@ -832,7 +871,7 @@
   </action>
   <action name="m_codeToViewAct">
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//arrow.svg</normaloff>:/rcstyle//arrow.svg</iconset>
    </property>
    <property name="text">
@@ -847,7 +886,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//symbol.svg</normaloff>:/rcstyle//symbol.svg</iconset>
    </property>
    <property name="text">
@@ -859,7 +898,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//Actions-edit-rename-icon.png</normaloff>:/rcstyle//Actions-edit-rename-icon.png</iconset>
    </property>
    <property name="text">
@@ -871,7 +910,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//checked_checkbox.png</normaloff>:/rcstyle//checked_checkbox.png</iconset>
    </property>
    <property name="text">
@@ -883,7 +922,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//textarea.png</normaloff>:/rcstyle//textarea.png</iconset>
    </property>
    <property name="text">
@@ -900,7 +939,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//photo.png</normaloff>:/rcstyle//photo.png</iconset>
    </property>
    <property name="text">
@@ -909,7 +948,7 @@
   </action>
   <action name="m_aboutRcseAct">
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/resources/logo/symbol2.png</normaloff>:/resources/logo/symbol2.png</iconset>
    </property>
    <property name="text">
@@ -950,7 +989,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//function.png</normaloff>:/rcstyle//function.png</iconset>
    </property>
    <property name="text">
@@ -970,7 +1009,7 @@
   </action>
   <action name="m_addImageAct">
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//add_round.png</normaloff>:/rcstyle//add_round.png</iconset>
    </property>
    <property name="text">
@@ -979,7 +1018,7 @@
   </action>
   <action name="m_deleteImageAct">
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//delete.png</normaloff>:/rcstyle//delete.png</iconset>
    </property>
    <property name="text">
@@ -996,7 +1035,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//table.png</normaloff>:/rcstyle//table.png</iconset>
    </property>
    <property name="text">
@@ -1015,7 +1054,7 @@
   </action>
   <action name="m_openLiberapay">
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//liberapay.png</normaloff>:/rcstyle//liberapay.png</iconset>
    </property>
    <property name="text">
@@ -1032,7 +1071,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//webPage.svg</normaloff>:/rcstyle//webPage.svg</iconset>
    </property>
    <property name="text">
@@ -1044,7 +1083,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//arrow_next.svg</normaloff>:/rcstyle//arrow_next.svg</iconset>
    </property>
    <property name="text">
@@ -1056,7 +1095,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//arrow.svg</normaloff>:/rcstyle//arrow.svg</iconset>
    </property>
    <property name="text">
@@ -1108,7 +1147,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../rcse_resources.qrc">
+    <iconset>
      <normaloff>:/rcstyle//text-label.svg</normaloff>:/rcstyle//text-label.svg</iconset>
    </property>
    <property name="text">
@@ -1116,6 +1155,11 @@
    </property>
    <property name="toolTip">
     <string>Read-only Text</string>
+   </property>
+  </action>
+  <action name="m_importFromPdf">
+   <property name="text">
+    <string>Import from PDF</string>
    </property>
   </action>
  </widget>
@@ -1144,7 +1188,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../rcse_resources.qrc"/>
+  <include location="../../../resources/rcse/rcse_resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>

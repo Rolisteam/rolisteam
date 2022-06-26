@@ -27,13 +27,7 @@
 #include <QPainter>
 #include <QUuid>
 
-#ifdef RCSE
-#include "controllers/editorcontroller.h"
-#endif
-
-#ifndef RCSE
-TableCanvasField::TableCanvasField() {}
-#endif
+#include "charactersheet/field.h"
 
 void copyModel(LineModel* src, LineModel* dest, CharacterSheetItem* parent)
 {
@@ -120,7 +114,7 @@ void LineFieldItem::load(QJsonArray& json, EditorController* ctrl, CharacterShee
 {
     for(auto const value : json)
     {
-        auto field= new FieldController();
+        auto field= new FieldController(CharacterSheetItem::FieldItem, true);
         field->setParent(parent);
         QJsonObject obj= value.toObject();
         field->load(obj, ctrl);
@@ -131,11 +125,11 @@ void LineFieldItem::loadDataItem(QJsonArray& json, CharacterSheetItem* parent)
 {
     for(auto const value : json)
     {
-        auto field= new FieldController();
+        auto field= new FieldController(CharacterSheetItem::FieldItem, true);
         field->setParent(parent);
         connect(field, &FieldController::characterSheetItemChanged, parent,
                 &CharacterSheetItem::characterSheetItemChanged);
-        connect(field, &FieldController::updateNeeded, parent, &CharacterSheetItem::updateNeeded);
+        // connect(field, &FieldController::updateNeeded, parent, &CharacterSheetItem::updateNeeded);
         QJsonObject obj= value.toObject();
         field->loadDataItem(obj);
         m_fields.append(field);
@@ -379,29 +373,20 @@ int LineModel::sumColumn(const QString& name) const
 /// \param addCount
 /// \param parent
 ///////////////////////////////////
-TableField::TableField(bool addCount, QGraphicsItem* parent) : FieldController(addCount, parent)
+TableField::TableField(bool addCount, QGraphicsItem* parent)
+    : FieldController(CharacterSheetItem::CharacterSheetItemType::TableItem, addCount, parent)
 {
     init();
 }
 
 TableField::TableField(QPointF topleft, bool addCount, QGraphicsItem* parent)
-    : FieldController(topleft, addCount, parent)
+    : FieldController(CharacterSheetItem::CharacterSheetItemType::TableItem, topleft, addCount, parent)
 {
     Q_UNUSED(topleft);
     m_value= QStringLiteral("value");
     init();
 }
-TableField::~TableField()
-{
-#ifdef RCSE
-    if(nullptr != m_tableCanvasField)
-    {
-        delete m_tableCanvasField;
-    }
-    m_canvasField= nullptr;
-    m_tableCanvasField= nullptr;
-#endif
-}
+TableField::~TableField() {}
 
 LineModel* TableField::getModel() const
 {
@@ -431,8 +416,6 @@ void TableField::appendChild(CharacterSheetItem*)
 
 void TableField::init()
 {
-    m_canvasField= nullptr;
-    m_tableCanvasField= nullptr;
     m_id= QStringLiteral("id_%1").arg(m_count);
     m_currentType= FieldController::TABLE;
     m_model= new LineModel();
@@ -452,12 +435,6 @@ TableField::ControlPosition TableField::getPosition() const
 void TableField::setPosition(const ControlPosition& position)
 {
     m_position= position;
-}
-
-void TableField::setCanvasField(CanvasField* canvasField)
-{
-    m_tableCanvasField= dynamic_cast<TableCanvasField*>(canvasField);
-    FieldController::setCanvasField(canvasField);
 }
 
 QVariant TableField::getValueFrom(CharacterSheetItem::ColumnId col, int role) const
@@ -481,20 +458,12 @@ int TableField::getChildrenCount() const
 
 int TableField::getMaxVisibleRowCount() const
 {
-#ifdef RCSE
-    return m_tableCanvasField->lineCount();
-#else
     return 0;
-#endif
 }
 
 CharacterSheetItem* TableField::getRoot()
 {
-#ifdef RCSE
-    return m_tableCanvasField->getRoot();
-#else
     return nullptr;
-#endif
 }
 
 CharacterSheetItem* TableField::getChildFromId(const QString& id) const
@@ -568,19 +537,11 @@ void TableField::save(QJsonObject& json, bool exp)
     m_model->save(childArray);
     json["children"]= childArray;
 
-#ifdef RCSE
-    if(nullptr != m_tableCanvasField)
-    {
-        QJsonObject obj;
-        m_tableCanvasField->save(obj);
-        json["canvas"]= obj;
-    }
-#endif
+    /*QJsonObject obj;
+    m_tableCanvasField->save(obj);
+    json["canvas"]= obj;*/
 }
-CharacterSheetItem::CharacterSheetItemType TableField::getItemType() const
-{
-    return CharacterSheetItemType::TableItem;
-}
+
 void TableField::load(const QJsonObject& json, EditorController* ctrl)
 {
     Q_UNUSED(ctrl)
@@ -633,13 +594,16 @@ void TableField::load(const QJsonObject& json, EditorController* ctrl)
     {
         m_availableValue << value.toString();
     }
-    m_rect.setRect(x, y, w, h);
+    // m_rect.setRect(x, y, w, h);
+    setX(x);
+    setY(y);
+    setWidth(w);
+    setHeight(h);
     QJsonArray childArray= json["children"].toArray();
 
     m_model->load(childArray, nullptr, this);
 
-#ifdef RCSE
-    if(json.contains("canvas"))
+    /*if(json.contains("canvas"))
     {
         m_tableCanvasField= new TableCanvasField(this);
         auto obj= json["canvas"].toObject();
@@ -650,8 +614,7 @@ void TableField::load(const QJsonObject& json, EditorController* ctrl)
         m_canvasField->setHeight(h);
         if(nullptr != ctrl)
             ctrl->addItem(m_page, m_canvasField);
-    }
-#endif
+    }*/
 }
 
 void TableField::copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId)
@@ -665,7 +628,7 @@ void TableField::copyField(CharacterSheetItem* oldItem, bool copyData, bool same
             setId(oldField->getId());
         }
         setCurrentType(oldField->getFieldType());
-        setRect(oldField->getRect());
+        // setRect(oldField->getRect());
         setBorder(oldField->border());
         setFont(oldField->font());
         setBgColor(oldField->bgColor());
@@ -701,9 +664,7 @@ int TableField::itemPerLine() const
 void TableField::fillModel()
 {
     m_model->clear();
-#ifdef RCSE
-    m_tableCanvasField->fillLineModel(m_model, this);
-#endif
+    // m_tableCanvasField->fillLineModel(m_model, this);
 }
 
 void TableField::loadDataItem(const QJsonObject& json)

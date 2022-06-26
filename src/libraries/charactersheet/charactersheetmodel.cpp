@@ -377,7 +377,7 @@ void CharacterSheetModel::checkCharacter(Section* section)
             auto field= sheet->getFieldFromKey(id->getId());
             if(nullptr == field && id->getFieldType() != CharacterSheetItem::TABLE)
             {
-                FieldController* newField= new FieldController(false);
+                FieldController* newField= new FieldController(CharacterSheetItem::FieldItem, false);
                 newField->copyField(id, true);
                 sheet->insertCharacterItem(newField);
                 field= newField;
@@ -637,7 +637,7 @@ void CharacterSheetModel::addLine(CharacterSheetItem* parentItem, QString name, 
     {
         beginInsertRows(parent, parentItem->getChildrenCount(), parentItem->getChildrenCount());
         Section* section= static_cast<Section*>(parentItem);
-        FieldController* field= new FieldController();
+        FieldController* field= new FieldController(CharacterSheetItem::FieldItem, true);
         field->setId(name.replace(' ', '_'));
         field->setLabel(name);
         section->appendChild(field);
@@ -736,7 +736,7 @@ void CharacterSheetModel::checkTableItem()
     for(int i= 0; i < m_rootSection->getChildrenCount(); ++i)
     {
         auto child= m_rootSection->getChildAt(i);
-        if(CharacterSheetItem::TableItem == child->getItemType())
+        if(CharacterSheetItem::TableItem == child->itemType())
         {
             for(auto& character : *m_characterList)
             {

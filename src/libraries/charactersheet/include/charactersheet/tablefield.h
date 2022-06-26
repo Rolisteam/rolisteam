@@ -136,7 +136,7 @@ public:
 
     virtual bool mayHaveChildren() const override;
 
-    virtual void setCanvasField(CanvasField* canvasField) override;
+    // virtual void setCanvasField(CanvasField* canvasField) override;
 
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
 
@@ -152,7 +152,6 @@ public:
     ControlPosition getPosition() const;
     void setPosition(const ControlPosition& position);
 
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
     void saveDataItem(QJsonObject& json) override;
     void loadDataItem(const QJsonObject& json) override;
     void setChildFieldData(const QJsonObject& json);
@@ -180,7 +179,7 @@ protected:
 
 protected:
     ControlPosition m_position;
-    TableCanvasField* m_tableCanvasField= nullptr;
+    // TableCanvasField* m_tableCanvasField= nullptr;
     LineModel* m_model= nullptr;
 };
 

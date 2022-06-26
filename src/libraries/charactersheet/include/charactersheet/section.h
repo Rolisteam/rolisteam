@@ -115,11 +115,7 @@ public:
      * @brief setNewEnd
      */
     virtual void setNewEnd(QPointF) override {}
-    /**
-     * @brief getItemType
-     * @return
-     */
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
+
     /**
      * @brief copySection
      * @param itm

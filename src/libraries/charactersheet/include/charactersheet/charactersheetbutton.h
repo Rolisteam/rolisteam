@@ -53,7 +53,7 @@ public:
 
     virtual CharacterSheetItem* getChildFromId(const QString&) const override;
 
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
+    virtual CharacterSheetItem::CharacterSheetItemType itemType() const override;
 
     /**
      * @brief saveDataItem

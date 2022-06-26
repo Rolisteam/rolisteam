@@ -65,3 +65,34 @@ void SetBackgroundCommand::redo()
     QUndoCommand::redo();
     m_ctrl->setImageBackground(m_idx, m_image, m_filename);
 }
+
+AddBackGroundImagesCommand::AddBackGroundImagesCommand(EditorController* ctrl, const QList<QImage>& images,
+                                                       QUndoCommand* parent)
+    : m_ctrl(ctrl), m_images(images)
+{
+
+    for(int i= m_ctrl->pageCount(); i < images.size(); ++i)
+    {
+        m_subCmds << new AddPageCommand(m_ctrl, this);
+    }
+}
+
+void AddBackGroundImagesCommand::undo()
+{
+    QUndoCommand::undo();
+    for(const auto &info : m_oldData)
+        m_ctrl->setImageBackground(info.index, info.oldImg, "");
+}
+
+void AddBackGroundImagesCommand::redo()
+{
+    QUndoCommand::redo();
+    quint64 i= 0;
+
+    for(const auto& img : m_images)
+    {
+        m_ctrl->setImageBackground(i, QPixmap::fromImage(img), "");
+        m_oldData << OldImageInfo{static_cast<int>(i), m_ctrl->backgroundFromIndex(i)};
+        ++i;
+    }
+}

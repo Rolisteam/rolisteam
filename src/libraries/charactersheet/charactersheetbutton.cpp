@@ -236,7 +236,7 @@ CharacterSheetItem* CharacterSheetButton::getChildAt(QString) const
     return nullptr;
 }
 
-CharacterSheetItem::CharacterSheetItemType CharacterSheetButton::getItemType() const
+CharacterSheetItem::CharacterSheetItemType CharacterSheetButton::ItemType() const
 {
     return CharacterSheetItem::ButtonItem;
 }

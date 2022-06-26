@@ -7,7 +7,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
-find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Quick Pdf QuickWidgets PdfWidgets WebEngineWidgets PrintSupport WebEngineCore)
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Concurrent Quick Pdf QuickWidgets PdfWidgets WebEngineWidgets PrintSupport WebEngineCore)
 
 
 set(documentation README.md)
@@ -22,6 +22,7 @@ set(sources  main.cpp
     controllers/editorcontroller.cpp
     controllers/imagecontroller.cpp
     controllers/qmlgeneratorcontroller.cpp
+    controllers/maincontroller.cpp
     data/mockcharacter.cpp
     mainwindow.cpp
     canvas.cpp
@@ -57,7 +58,7 @@ set(sources  main.cpp
     dialog/codeeditordialog.cpp
     widgets/fieldview.cpp
     qmltypesregister.cpp
-  qmlgeneratorvisitor.cpp)
+  qmlgeneratorvisitor.cpp serializerhelper.cpp)
 
 set(headers mainwindow.h
     canvas.h
@@ -65,6 +66,7 @@ set(headers mainwindow.h
     controllers/editorcontroller.h
     controllers/imagecontroller.h
     controllers/qmlgeneratorcontroller.h
+    controllers/maincontroller.h
     data/characterlist.h
     data/mockcharacter.h
     fieldmodel.h
@@ -98,7 +100,8 @@ set(headers mainwindow.h
     dialog/codeeditordialog.h
     widgets/fieldview.h
     qmltypesregister.h
-    qmlgeneratorvisitor.h)
+    qmlgeneratorvisitor.h
+  serializerhelper.h )
 
 
 set(UI_files   mainwindow_rcse.ui
@@ -128,12 +131,14 @@ target_link_libraries(rcse
     Qt6::Pdf
     Qt6::PdfWidgets
     Qt6::WebEngineCore
+    Qt6::Concurrent
   PRIVATE
     charactersheet
     diceparser_shared
     diceparser_qobject
     common_core
-    common_widget )
+    common_widget
+    )
 
 
 target_compile_definitions(rcse PRIVATE RCSE=1)

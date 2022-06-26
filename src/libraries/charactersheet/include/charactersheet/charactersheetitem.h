@@ -38,10 +38,11 @@ class CHARACTERSHEET_EXPORT CharacterSheetItem : public QObject
     Q_OBJECT
     Q_PROPERTY(QString id READ getId WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
-    Q_PROPERTY(int page READ getPage WRITE setPage NOTIFY pageChanged)
+    Q_PROPERTY(int page READ page WRITE setPage NOTIFY pageChanged)
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
     Q_PROPERTY(QString formula READ getFormula WRITE setFormula NOTIFY formulaChanged)
     Q_PROPERTY(QString label READ getLabel WRITE setLabel NOTIFY labelChanged)
+    Q_PROPERTY(CharacterSheetItemType itemType READ itemType CONSTANT)
 public:
     enum CharacterSheetItemType
     {
@@ -94,7 +95,7 @@ public:
     /**
      * @brief CharacterSheetItem
      */
-    CharacterSheetItem();
+    CharacterSheetItem(CharacterSheetItem::CharacterSheetItemType type);
     /**
      * @brief hasChildren
      * @return
@@ -203,10 +204,10 @@ public:
      */
     void setId(const QString& id);
     /**
-     * @brief getItemType
+     * @brief ItemType
      * @return
      */
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const= 0;
+    virtual CharacterSheetItem::CharacterSheetItemType itemType() const;
     /**
      * @brief removeChild
      * @return
@@ -222,7 +223,7 @@ public:
 
     Q_INVOKABLE virtual QString value() const;
     Q_INVOKABLE bool isReadOnly() const;
-    Q_INVOKABLE int getPage() const;
+    Q_INVOKABLE int page() const;
 
     Q_INVOKABLE QString getFormula() const;
 
@@ -231,8 +232,6 @@ public:
 
     CharacterSheetItem::TypeField getFieldType() const;
     void setCurrentType(const CharacterSheetItem::TypeField& currentType);
-
-    virtual void initGraphicsItem();
 
     CharacterSheetItem* getOrig() const;
     virtual void setOrig(CharacterSheetItem* orig);
@@ -267,12 +266,8 @@ public slots:
 
     void updateLabelFromOrigin();
 
-    // WARNING make implementation
-    void updateNeeded();
-
 signals:
     void valueChanged();
-    void borderChanged();
     void textColorChanged();
     void textAlignChanged();
     void bgColorChanged();
@@ -285,6 +280,7 @@ signals:
     void characterSheetItemChanged(CharacterSheetItem* item);
 
 protected:
+    CharacterSheetItem::CharacterSheetItemType m_itemType;
     CharacterSheetItem* m_parent;
     CharacterSheetItem* m_orig;
     int m_page;

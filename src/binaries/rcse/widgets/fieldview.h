@@ -10,14 +10,15 @@ class QUndoStack;
 class FieldModel;
 class Canvas;
 class FieldController;
+class MainController;
+
 class FieldView : public QTreeView
 {
     Q_OBJECT
 public:
     FieldView(QWidget* parent= nullptr);
 
-    QUndoStack* getUndoStack() const;
-    void setUndoStack(QUndoStack* undoStack);
+    void setController(MainController* ctrl);
 
     void applyValue(QModelIndex& index, bool selection);
     void defineItemCode(QModelIndex& index);
@@ -43,6 +44,7 @@ protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
 
 private:
+    QPointer<MainController> m_ctrl;
     QAction* m_lock= nullptr;
     QAction* m_delItem= nullptr;
     QAction* m_applyValueOnSelection= nullptr;
@@ -57,7 +59,6 @@ private:
     QAction* m_showAllGroup= nullptr;
     QAction* m_showIdGroup= nullptr;
 
-    QUndoStack* m_undoStack= nullptr;
     FieldModel* m_model= nullptr;
     QList<Canvas*>* m_canvasList= nullptr;
     int m_currentPage= 0;
