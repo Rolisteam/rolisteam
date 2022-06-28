@@ -27,7 +27,7 @@ https://github.com/Rolisteam/rolisteam/issues
 Want to discuss and share your resources ? Join our Discord ! https://discord.gg/MrMrQwX
 ## Mailing list
 We also use this mailing to speak technical issues or roadmap.
-https://lists.fdn.fr/wws/info/rolisteam
+https://mail.kde.org/mailman/listinfo/rolisteam
 
 ## Facebook
 https://www.facebook.com/rolisteam?_rdr=p
