@@ -13,7 +13,7 @@ Rolisteam helps you to manage a tabletop role playing game with remote friends/p
 
 # Downloads
 
--Latest full release : http://www.rolisteam.org/download<br>
+-Latest full release : https://rolisteam.org/download.html<br>
 
 
 
@@ -24,8 +24,7 @@ https://github.com/Rolisteam/rolisteam/issues
 
 # Community
 
-Want to discuss and share your resources ? http://forum.rolisteam.org/
-
+Want to discuss and share your resources ? Join our Discord ! https://discord.gg/MrMrQwX
 ## Mailing list
 We also use this mailing to speak technical issues or roadmap.
 https://lists.fdn.fr/wws/info/rolisteam
@@ -33,28 +32,28 @@ https://lists.fdn.fr/wws/info/rolisteam
 ## Facebook
 https://www.facebook.com/rolisteam?_rdr=p
 
-More details to contact us: http://doc.rolisteam.org/contactus
+More details to contact us: https://rolisteam.org/contact.html
 
 
 # Documentation
 
-Documentation can be found here : http://doc.rolisteam.org/
+Documentation can be found here : https://doc.rolisteam.org/
 
 ##  Build Rolisteam (Windows)
-Please visit: http://doc.rolisteam.org/windowscomp
+Please visit: https://doc.rolisteam.org/en/windowscomp.html
 to get information about rolisteam compilation.
 
 ##  Build Rolisteam (Mac OS X)
-Please visit: http://doc.rolisteam.org/compmacos
+Please visit: https://doc.rolisteam.org/en/compmacos.html
 to get information about rolisteam compilation.
 
 ##  Build Rolisteam (Linux)
-Please visit: http://doc.rolisteam.org/linuxcomp
+Please visit: https://doc.rolisteam.org/en/linuxcomp.html
 to get information about rolisteam compilation.
 
 # Official Web site
 
-http://www.rolisteam.org/
+https://rolisteam.org/
 
 # Translation status
 
