@@ -20,7 +20,7 @@ Rolisteam helps you to manage a tabletop role playing game with remote friends/p
 # Get Involved
 
 Remarks and requests ?  Feel free to add a new issues or clone the project and submit some pull requests.
-https://github.com/Rolisteam/rolisteam/issues
+https://invent.kde.org/rolisteam/rolisteam/-/issues
 
 # Community
 
