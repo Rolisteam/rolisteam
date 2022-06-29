@@ -67,6 +67,7 @@ SET(character_sources
     ${src_dir}/rolisteamimageprovider.cpp
     ${src_dir}/section.cpp
     ${src_dir}/tablefield.cpp
+    ${src_dir}/worker/ioworker.cpp
 )
 
 SET(character_headers
@@ -80,6 +81,7 @@ SET(character_headers
     ${inc_sheet}/field.h
     ${inc_sheet}/section.h
     ${inc_sheet}/tablefield.h
+    ${inc_sheet}/worker/ioworker.h
 )
 
 

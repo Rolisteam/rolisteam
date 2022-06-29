@@ -174,12 +174,13 @@ void TableCanvasField::setColunmCount(int colunmCount)
 
 void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
-    if(nullptr == m_field)
+    if(nullptr == m_ctrl)
         return;
+    auto rect= boundingRect();
     painter->save();
-    painter->fillRect(m_rect, m_field->bgColor());
+    painter->fillRect(rect, m_ctrl->bgColor());
     painter->setPen(Qt::black);
-    painter->drawRect(m_rect);
+    painter->drawRect(rect);
 
     m_addLine->setPos(0, boundingRect().height() / 2);
     m_addColumn->setPos(boundingRect().width() / 2, 0);
@@ -191,7 +192,7 @@ void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*,
         pen.setColor(Qt::red);
         pen.setWidth(5);
         painter->setPen(pen);
-        painter->drawRect(m_rect);
+        painter->drawRect(rect);
         painter->restore();
     }
 
@@ -222,7 +223,7 @@ void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*,
                 {
                     xEnd= m_handles.at(x)->pos().x() - xPos;
                 }
-                auto itemType= field->getItemType();
+                auto itemType= m_ctrl->itemType();
                 auto fieldH= boundingRect().height() / m_lineCount;
                 for(int y= 0; y < m_lineCount; ++y)
                 {
@@ -246,7 +247,7 @@ void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*,
     {
         painter->drawLine(0, i * yStep, boundingRect().width(), i * yStep);
     }
-    painter->drawText(QPoint(0, 0), m_field->getId());
+    painter->drawText(QPoint(0, 0), m_ctrl->getId());
     painter->restore();
 }
 bool TableCanvasField::hasFocusOrChild()
@@ -302,7 +303,7 @@ void TableCanvasField::fillLineModel(LineModel* lineModel, TableField* parent)
             auto field= dynamic_cast<FieldController*>(child);
             if(nullptr != field)
             {
-                auto newField= new FieldController();
+                auto newField= new FieldController(CharacterSheetItem::FieldItem, true);
                 newField->copyField(field, true, false);
                 newField->setParent(parent);
                 line->insertField(newField);
