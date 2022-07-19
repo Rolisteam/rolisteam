@@ -788,7 +788,7 @@ void MainWindow::updateUi()
     m_ui->m_closeAction->setEnabled(isGM);
     m_ui->m_saveCampaignAction->setEnabled(isGM);
     m_ui->m_saveCampaignAsAct->setEnabled(isGM);
-    m_ui->m_connectionLinkAct->setVisible(isGM);
+    m_ui->m_connectionLinkAct->setVisible(m_currentConnectionProfile->isServer());
     m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
 
