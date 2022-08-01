@@ -35,7 +35,7 @@ namespace InstantMessaging
 {
 MessageInterface* MessageFactory::createMessage(const QString& uuid, const QString& writerId, const QDateTime& time,
                                                 InstantMessaging::MessageInterface::MessageType type,
-                                                const QString& text)
+                                                const QString& text, const QUrl& url)
 {
     using IM= InstantMessaging::MessageInterface;
     MessageInterface* msg= nullptr;
@@ -56,7 +56,10 @@ MessageInterface* MessageFactory::createMessage(const QString& uuid, const QStri
         break;
     }
     if(msg)
+    {
         msg->setText(text);
+        msg->setImageLink(url);
+    }
     return msg;
 }
 } // namespace InstantMessaging

@@ -23,46 +23,63 @@ set(mindmap_header
     ${inc_dir}/mindmap_global.h
     ${inc_dir}/controller/selectioncontroller.h
     ${inc_dir}/controller/spacingcontroller.h
-    ${inc_dir}/data/link.h
+    #${inc_dir}/controller/sidemenucontroller.h
+    ${inc_dir}/data/linkcontroller.h
     ${inc_dir}/data/mindnode.h
+    ${inc_dir}/data/minditem.h
+    ${inc_dir}/data/positioneditem.h
+    ${inc_dir}/data/packagenode.h
     ${inc_dir}/data/nodestyle.h
     ${inc_dir}/data/mindmaptypes.h
-    ${inc_dir}/model/linkmodel.h
+    #${inc_dir}/model/linkmodel.h
+    ${inc_dir}/model/minditemmodel.h
     ${inc_dir}/model/imagemodel.h
+    #${inc_dir}/model/boxmodel.h
+    ${inc_dir}/model/nodeimageprovider.h
     ${inc_dir}/geometry/linknode.h
     ${inc_dir}/model/nodestylemodel.h
     ${inc_dir}/qmlItems/linkitem.h
-    ${inc_dir}/command/addnodecommand.h
-    ${inc_dir}/worker/fileserializer.h
+    #${inc_dir}/command/addnodecommand.h
     ${inc_dir}/command/reparentingnodecommand.h
     ${inc_dir}/command/dragnodecommand.h
     ${inc_dir}/command/removenodecommand.h
     ${inc_dir}/command/addimagetonodecommand.h
     ${inc_dir}/command/removeimagefromnodecommand.h
-    ${inc_dir}/model/boxmodel.h
-    ${inc_dir}/model/nodeimageprovider.h)
+    ${inc_dir}/command/additemcommand.h
+    #${inc_dir}/command/addpackagecommand.h
+    ${inc_dir}/command/commandhelper.h
+    ${inc_dir}/worker/fileserializer.h
+  )
 
         # main.cpp
 set(mindmap_src
     src/controller/selectioncontroller.cpp
     src/controller/spacingcontroller.cpp
-    src/data/link.cpp
+    #src/controller/sidemenucontroller.cpp
+    src/data/linkcontroller.cpp
     src/data/mindnode.cpp
+    src/data/minditem.cpp
+    src/data/positioneditem.cpp
     src/data/nodestyle.cpp
-    src/model/linkmodel.cpp
+    src/data/packagenode.cpp
+    #src/model/linkmodel.cpp
+    src/model/minditemmodel.cpp
     src/model/imagemodel.cpp
+    src/model/nodestylemodel.cpp
+    src/model/nodeimageprovider.cpp
+    src/command/additemcommand.cpp
     src/command/dragnodecommand.cpp
-    src/command/addnodecommand.cpp
+    #src/command/addnodecommand.cpp
     src/command/removenodecommand.cpp
     src/command/addimagetonodecommand.cpp
     src/command/removeimagefromnodecommand.cpp
-    src/model/nodestylemodel.cpp
-    src/worker/fileserializer.cpp
     src/command/reparentingnodecommand.cpp
+    #src/command/addpackagecommand.cpp
     src/geometry/linknode.cpp
     src/qmlItems/linkitem.cpp
-    src/model/boxmodel.cpp
-    src/model/nodeimageprovider.cpp)
+    #src/model/boxmodel.cpp
+    src/worker/fileserializer.cpp
+  )
 
 set(mindmap_qml
     resources/qml/IconButton.qml

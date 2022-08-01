@@ -52,4 +52,17 @@ QString MessageBase::writer() const
     return m_writer;
 }
 
+QUrl MessageBase::imageLink() const
+{
+    return m_imageLink;
+}
+
+void MessageBase::setImageLink(const QUrl& path)
+{
+    if(m_imageLink == path)
+        return;
+    m_imageLink= path;
+    emit imageLinkChanged();
+}
+
 } // namespace InstantMessaging

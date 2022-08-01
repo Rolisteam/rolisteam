@@ -3,10 +3,12 @@ import QtQuick.Controls 2.2
 
 Menu {
     id: menu
+    dim: true
+    modal: true
     property QtObject ctrl
     MenuItem {
         text: qsTr("Add Root")
-        onTriggered: ctrl.addBox("")
+        onTriggered: ctrl.addNode("")
     }
     MenuSeparator { }
     /*MenuItem {
@@ -53,6 +55,13 @@ Menu {
         enabled: ctrl.canRedo
         onTriggered: {
             ctrl.redo()
+        }
+    }
+    MenuSeparator { }
+    MenuItem {
+        text: qsTr("Center")
+        onTriggered: {
+            ctrl.centerItems(menu.mindMapWidth, menu.mindMapHeight)
         }
     }
     MenuSeparator { }

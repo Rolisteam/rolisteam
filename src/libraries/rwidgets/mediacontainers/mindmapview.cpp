@@ -24,58 +24,82 @@
 #include <QJSValue>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QQmlFileSelector>
 #include <QQuickStyle>
 
 #include "controller/view_controller/mindmapcontroller.h"
 #include "mindmap/model/nodeimageprovider.h"
+#include <common_qml/theme.h>
 
 MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::MindMapContainer, parent)
     , m_qmlViewer(new QQuickWidget())
     , m_ctrl(ctrl)
 {
-    auto format= QSurfaceFormat::defaultFormat();
+    // auto format= QSurfaceFormat::defaultFormat();
+    auto format= m_qmlViewer->format();
     if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
     {
-        format.setVersion(3, 2);
+        format.setVersion(4, 6);
         format.setProfile(QSurfaceFormat::CoreProfile);
     }
+    format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
-    format.setSamples(8);
+    // format.setSamples(2);
     m_qmlViewer->setFormat(format);
 
     setObjectName("mindmap");
     setWindowIcon(QIcon::fromTheme("mindmap"));
     auto engine= m_qmlViewer->engine();
 
+    auto selector= new QQmlFileSelector(engine, this);
+    auto instance= customization::Theme::instance();
+    connect(instance, &customization::Theme::folderChanged, this, [instance, selector]() {
+        qDebug() << "change prefix" << instance->folder();
+        selector->setExtraSelectors({instance->folder()});
+    });
+
+    engine->setOutputWarningsToStandardError(true);
+
     qmlRegisterSingletonType<MindmapManager>(
-        "org.rolisteam.mindmap", 1, 0, "MindMapManager",
-        [ctrl, engine](QQmlEngine* qmlengine, QJSEngine* scriptEngine) -> QObject* {
+        "mindmap", 1, 0, "MindmapManager", [ctrl, engine](QQmlEngine* qmlengine, QJSEngine* scriptEngine) -> QObject* {
             Q_UNUSED(scriptEngine)
             if(qmlengine != engine)
                 return {};
-            static MindmapManager manager;
-            static bool initialized= false;
-            if(!initialized)
+            static QHash<QQmlEngine*, MindmapManager*> hash;
+
+            if(!hash.contains(qmlengine))
             {
-                manager.setCtrl(ctrl);
-                initialized= true;
+                auto m= new MindmapManager(ctrl);
+                m->setCtrl(ctrl);
+                qmlengine->setObjectOwnership(m, QQmlEngine::CppOwnership);
+                hash.insert(qmlengine, m);
             }
-            qmlengine->setObjectOwnership(&manager, QQmlEngine::CppOwnership);
-            return &manager;
+
+            return hash.value(qmlengine);
         });
     if(!m_ctrl)
         return;
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
-    engine->addImageProvider("nodeImages", new mindmap::NodeImageProvider(m_ctrl->imageModel()));
+    engine->addImageProvider("nodeImages", new mindmap::NodeImageProvider(m_ctrl->imgModel()));
     engine->addImportPath(QStringLiteral("qrc:/qml"));
+    engine->addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
+
+    connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& errors) {
+        for(const auto& error : errors)
+            qDebug() << "warnings: " << error;
+    });
+    connect(m_qmlViewer.get(), &QQuickWidget::sceneGraphError, this,
+            [](QQuickWindow::SceneGraphError error, const QString& message) { qDebug() << message << error; });
 
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_qmlViewer->setSource(QUrl("qrc:/resources/qml/main.qml"));
 
     auto const& errors= m_qmlViewer->errors();
     std::for_each(std::begin(errors), std::end(errors), [](const QQmlError& error) { qDebug() << error; });
+
+    // m_qmlViewer.
 
     auto wid= new QWidget(this);
 

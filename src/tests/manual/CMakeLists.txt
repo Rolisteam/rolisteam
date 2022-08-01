@@ -1,1 +1,5 @@
 add_subdirectory(vmap)
+add_subdirectory(upnp)
+add_subdirectory(charactersheet)
+add_subdirectory(mindmap)
+add_subdirectory(instantmessaging)

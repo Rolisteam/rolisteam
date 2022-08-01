@@ -7,13 +7,13 @@
 #include <QMovie>
 namespace vmap
 {
-class ImageController;
+class ImageItemController;
 }
 class RWIDGET_EXPORT ImageItem : public VisualItem
 {
     Q_OBJECT
 public:
-    ImageItem(vmap::ImageController* ctrl);
+    ImageItem(vmap::ImageItemController* ctrl);
     /**
      * @brief paint the current rectangle into the scene.
      * @see Qt documentation
@@ -47,7 +47,6 @@ public:
     VisualItem* promoteTo(vmap::VisualItemController::ItemType) override;
     QImage getImage() const;
     void setImage(const QImage& image);
-    void updateImageFromMovie(QRect);
 
     void endOfGeometryChange(ChildPointItem::Change change) override;
 
@@ -63,7 +62,7 @@ private:
     void initImage();
 
 private:
-    QPointer<vmap::ImageController> m_imgCtrl;
+    QPointer<vmap::ImageItemController> m_imgCtrl;
     bool m_keepAspect; ///< flag to keep the aspect.
 };
 

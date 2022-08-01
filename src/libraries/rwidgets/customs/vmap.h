@@ -59,7 +59,7 @@ namespace vmap
 class RectController;
 class EllipseController;
 class LineController;
-class ImageController;
+class ImageItemController;
 class PathController;
 class TextController;
 } // namespace vmap
@@ -120,7 +120,7 @@ protected:
     void addRectItem(vmap::RectController* rectCtrl, bool editing);
     void addEllipseItem(vmap::EllipseController* ellisCtrl, bool editing);
     void addLineItem(vmap::LineController* lineCtrl, bool editing);
-    void addImageItem(vmap::ImageController* imgCtrl);
+    void addImageItem(vmap::ImageItemController* imgCtrl);
     void addPathItem(vmap::PathController* pathCtrl, bool editing);
     void addTextItem(vmap::TextController* textCtrl);
     void addCharaterItem(vmap::CharacterItemController* itemCtrl);

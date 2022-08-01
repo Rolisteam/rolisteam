@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "instantmessaging/textwritercontroller.h"
 
+#include "utils/networkdownloader.h"
 #include <QRegularExpression>
 
 static const int MaxHistorySize= 100;
@@ -37,18 +38,67 @@ bool TextWriterController::diceCommand() const
     return m_diceCmd;
 }
 
-QString TextWriterController::interpretedText() const
+QUrl TextWriterController::imageLink() const
 {
-    QString result= m_text;
+    return m_imageLink;
+}
+
+void TextWriterController::computeText()
+{
+    QUrl url;
     static auto reg1= QRegularExpression("((?:https?)://\\S+)");
-    QString result2= result.replace(reg1, "<a href=\"\\1\">\\1</a>");
-    if(result == result2)
+    static auto reg2= QRegularExpression("((?:www)\\S+)");
+
+    auto matcher= reg1.match(m_text);
+    auto matcher2= reg2.match(m_text);
+    QString text= m_text;
+    QString replacePattern;
+
+    QRegularExpression usedRE;
+
+    if(matcher.hasMatch())
     {
-        static auto reg2= QRegularExpression("((?:www)\\S+)");
-        result2= result.replace(reg2, "<a href=\"http://\\1\">\\1</a>");
+        url= QUrl::fromUserInput(matcher.captured(0));
+        usedRE= reg1;
+        replacePattern= "<a href=\"\\1\">\\1</a>";
+    }
+    else if(matcher2.hasMatch())
+    {
+        url= QUrl::fromUserInput(matcher.captured(0));
+        usedRE= reg2;
+        replacePattern= "<a href=\"http://\\1\">\\1</a>";
     }
 
-    return result2;
+    if(url.isValid())
+    {
+        auto n= new NetworkDownloader(url);
+
+        connect(n, &NetworkDownloader::finished, this,
+                [text, url, usedRE, replacePattern, n, this](const QByteArray& data, bool isImage) {
+                    Q_UNUSED(data)
+                    auto realText= text;
+                    auto pattern= replacePattern;
+                    if(isImage)
+                    {
+                        m_imageLink= url;
+                        pattern= "";
+                    }
+                    realText= realText.replace(usedRE, pattern);
+
+                    setText(realText);
+                    qDebug() << m_imageLink << m_text;
+                    emit textComputed();
+                    send();
+                    n->deleteLater();
+                });
+
+        n->download();
+    }
+    else
+    {
+        emit textComputed();
+        send();
+    }
 }
 
 void TextWriterController::setText(const QString& text)
@@ -93,6 +143,15 @@ void TextWriterController::send()
     }
     m_historicPostion= m_history.size();
     setText(QString());
+    setUrl(QUrl());
+}
+
+void TextWriterController::setUrl(const QUrl& url)
+{
+    if(m_imageLink == url)
+        return;
+    m_imageLink= url;
+    emit urlChanged();
 }
 
 } // namespace InstantMessaging

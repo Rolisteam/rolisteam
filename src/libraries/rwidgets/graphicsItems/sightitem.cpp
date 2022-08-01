@@ -172,6 +172,7 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     // qDebug() << "Sight: pos" << pos() << "rect:" << boundingRect();
 
     QPainterPath path= m_sightCtrl->fowPath();
+    qDebug() << "fog of war:" << path;
 
     // auto const& values= m_characterItemMap->values();
     auto visions= m_sightCtrl->visionData();

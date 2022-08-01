@@ -39,7 +39,7 @@
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/ellipsecontroller.h"
 #include "controller/item_controllers/gridcontroller.h"
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/item_controllers/linecontroller.h"
 #include "controller/item_controllers/pathcontroller.h"
 #include "controller/item_controllers/rectcontroller.h"
@@ -53,9 +53,11 @@
 #include "data/character.h"
 #include "data/player.h"
 #include "diceparser/dicealias.h"
-#include "mindmap/data/link.h"
+#include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/mindnode.h"
-#include "mindmap/model/boxmodel.h"
+#include "mindmap/model/minditemmodel.h"
+
+#include "mindmap/data/packagenode.h"
 #include "mindmap/model/linkmodel.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
@@ -379,15 +381,19 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
     msg.uint8(ctrl->sharingToAll() == Core::SharingPermission::ReadWrite);
     msg.uint64(ctrl->defaultStyleIndex());
 
-    auto nodeModel= dynamic_cast<mindmap::BoxModel*>(ctrl->nodeModel());
-    auto linkModel= dynamic_cast<mindmap::LinkModel*>(ctrl->linkModel());
-    auto imageModel= ctrl->imageModel();
+    auto nodeModel= dynamic_cast<mindmap::MindItemModel*>(ctrl->itemModel());
+    auto imageModel= ctrl->imgModel();
 
-    auto nodes= nodeModel->nodes();
+    auto nodes= nodeModel->items(mindmap::MindItem::Type::NodeType);
 
     msg.uint64(static_cast<quint64>(nodes.size()));
-    for(auto node : nodes)
+    for(auto i : nodes)
     {
+        auto node= dynamic_cast<mindmap::MindNode*>(i);
+
+        if(!node)
+            continue;
+
         msg.string8(node->id());
         msg.string8(node->parentId());
         msg.string32(node->text());
@@ -397,16 +403,39 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
         msg.string16(node->imageUri());
     }
 
-    auto links= linkModel->getDataSet();
+    auto const& links= nodeModel->items(mindmap::MindItem::Type::LinkType);
     msg.uint64(links.size());
-    for(auto link : links)
+    for(auto i : links)
     {
+        auto link= dynamic_cast<mindmap::LinkController*>(i);
+
+        if(!link)
+            continue;
+
         msg.string8(link->id());
         msg.uint8(static_cast<quint8>(link->direction()));
         msg.string8(link->start()->id());
-        auto end= link->endNode();
+        auto end= link->end();
         msg.string8(end ? end->id() : QString());
         msg.string16(link->text());
+    }
+
+    auto packs= nodeModel->items(mindmap::MindItem::Type::PackageType);
+
+    msg.uint64(packs.size());
+    for(auto const& i : packs)
+    {
+        auto pack= dynamic_cast<mindmap::PackageNode*>(i);
+        if(!pack)
+            continue;
+
+        msg.string16(pack->title());
+        auto const& children= pack->children();
+        msg.uint32(children.size());
+        for(auto const& c : children)
+        {
+            msg.string8(c->id());
+        }
     }
 
     auto imageInfos= imageModel->imageInfos();
@@ -855,7 +884,7 @@ const std::map<QString, QVariant> MessageHelper::readLine(NetworkMessageReader* 
     return hash;
 }
 
-void addImageController(const vmap::ImageController* ctrl, NetworkMessageWriter& msg)
+void addImageController(const vmap::ImageItemController* ctrl, NetworkMessageWriter& msg)
 {
     if(!ctrl)
         return;
@@ -1165,7 +1194,7 @@ void convertVisualItemCtrlAndAdd(vmap::VisualItemController* ctrl, NetworkMessag
         addCharacterController(dynamic_cast<vmap::CharacterItemController*>(ctrl), msg);
         break;
     case vmap::VisualItemController::IMAGE:
-        addImageController(dynamic_cast<vmap::ImageController*>(ctrl), msg);
+        addImageController(dynamic_cast<vmap::ImageItemController*>(ctrl), msg);
         break;
     default:
         break;
@@ -1269,7 +1298,7 @@ void MessageHelper::sendOffPath(const vmap::PathController* ctrl, const QString&
     addPathController(ctrl, msg);
     msg.sendToServer();
 }
-void MessageHelper::sendOffImage(const vmap::ImageController* ctrl, const QString& mapId)
+void MessageHelper::sendOffImage(const vmap::ImageItemController* ctrl, const QString& mapId)
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
@@ -1331,7 +1360,7 @@ void MessageHelper::sendOffRemoveImageInfo(const QString& id, MediaControllerBas
     msg.sendToServer();
 }
 
-void buildAddLinkMessage(NetworkMessageWriter& msg, QList<mindmap::Link*> links)
+void buildAddLinkMessage(NetworkMessageWriter& msg, QList<mindmap::LinkController*> links)
 {
     msg.uint64(links.size());
     for(auto link : links)
@@ -1340,7 +1369,7 @@ void buildAddLinkMessage(NetworkMessageWriter& msg, QList<mindmap::Link*> links)
         msg.string8(link->id());
         msg.string32(link->text());
         msg.string8(link->start()->id());
-        auto end= link->endNode();
+        auto end= link->end();
         msg.string8(end ? end->id() : QString());
         msg.uint8(static_cast<quint8>(link->direction()));
     }
@@ -1374,7 +1403,7 @@ void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg)
     if(!ctrl || !msg)
         return;
 
-    QList<mindmap::Link*> links;
+    QList<mindmap::LinkController*> links;
 
     auto count= msg->uint64();
 
@@ -1385,7 +1414,7 @@ void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg)
         auto idStart= msg->string8();
         auto idEnd= msg->string8();
 
-        auto dir= static_cast<mindmap::ArrowDirection>(msg->uint8());
+        auto dir= static_cast<mindmap::LinkController::Direction>(msg->uint8());
 
         auto start= ctrl->nodeFromId(idStart);
         auto end= ctrl->nodeFromId(idEnd);
@@ -1393,7 +1422,7 @@ void readMindMapLink(MindMapController* ctrl, NetworkMessageReader* msg)
         if(!start || !end)
             continue;
 
-        auto link= new mindmap::Link();
+        auto link= new mindmap::LinkController();
         link->setId(id);
         link->setText(text);
         link->setDirection(dir);
@@ -1463,7 +1492,7 @@ void MessageHelper::readMindMapAddItem(MindMapController* ctrl, NetworkMessageRe
 }
 
 void MessageHelper::buildAddItemMessage(NetworkMessageWriter& msg, const QList<mindmap::MindNode*>& nodes,
-                                        const QList<mindmap::Link*>& links)
+                                        const QList<mindmap::LinkController*>& links)
 {
     buildAddNodeMessage(msg, nodes);
     buildAddLinkMessage(msg, links);

@@ -322,7 +322,7 @@ void CharacterItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
     updateChildPosition();
 }
 
-void CharacterItem::resizeContents(const QRectF& rect, int pointId, TransformType)
+void CharacterItem::resizeContents(const QRectF& rect, int pointId, Core::TransformType)
 {
     /*if(!rect.isValid())
         return;

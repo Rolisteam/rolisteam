@@ -1,7 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.12
-import RMindMap 1.0
-import Customization 1.0
+import QtQuick
+import QtQuick.Controls
+import mindmap
+import Customization
 
 MindLink {
     id: root
@@ -14,19 +14,17 @@ MindLink {
     property int borderWidth: 1
     property color backgroundLabel: root.style.backgroundColor
     property int radius: 5
-    property real opacityLabel: 0.8
-    property QtObject object
     signal textEdited(var text)
 
     color: root.style.textColor
 
     FocusScope {
         id: focusScope
-        anchors.centerIn: parent
+        anchors.fill: parent
         TextField {
             id: label
-            text: label
-            anchors.centerIn: parent
+            x: root.horizontalOffset - width/2
+            y: root.verticalOffset - height/2
             readOnly: !root.editable
             focusReason: Qt.MouseFocusReason
             onReadOnlyChanged: focus = root.editable

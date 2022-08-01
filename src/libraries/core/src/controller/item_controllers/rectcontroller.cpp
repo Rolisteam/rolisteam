@@ -67,7 +67,8 @@ void RectController::setRect(QRectF rect)
     m_rectEdited= true;
 }
 
-void RectController::setCorner(const QPointF& move, int corner)
+void RectController::setCorner(const QPointF& move, int corner,
+                               Core::TransformType tt)
 {
     if(move.isNull())
         return;

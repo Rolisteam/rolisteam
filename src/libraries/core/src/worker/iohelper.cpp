@@ -55,24 +55,22 @@
 #include "network/channel.h"
 #include "network/serverconnection.h"
 
-#ifdef WITH_PDF
 #include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
-#endif
 
 #include "data/character.h"
 #include "diceparser/dicealias.h"
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
-#include "mindmap/data/link.h"
+#include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/mindnode.h"
-#include "mindmap/model/boxmodel.h"
 #include "mindmap/model/imagemodel.h"
 #include "mindmap/model/linkmodel.h"
+#include "mindmap/model/minditemmodel.h"
+#include "utils/iohelper.h"
 #include "worker/utilshelper.h"
 #include "worker/vectorialmapmessagehelper.h"
-#include "utils/iohelper.h"
 
 constexpr char const* k_language_dir_path{":/translations"};
 constexpr char const* k_rolisteam_pattern{"rolisteam"};
@@ -467,44 +465,93 @@ QByteArray saveMindmap(MindMapController* ctrl)
     QJsonObject objCtrl;
     IOHelper::saveMediaBaseIntoJSon(ctrl, objCtrl);
 
-    auto model= dynamic_cast<mindmap::BoxModel*>(ctrl->nodeModel());
-    auto nodes= model->nodes();
+    objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_DEFAULT_INDEX_STYLE]= ctrl->defaultStyleIndex();
+    objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_SPACING]= ctrl->spacing();
+    objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_LINK_LABEL_VISIBILITY]= ctrl->linkLabelVisibility();
+
+    auto updateMindItem= [](QJsonObject& obj, mindmap::MindItem* item) {
+        namespace ujm= Core::jsonctrl::Mindmap;
+        obj[ujm::JSON_MINDITEM_ID]= item->id();
+        obj[ujm::JSON_MINDITEM_TEXT]= item->text();
+        obj[ujm::JSON_MINDITEM_VISIBLE]= item->isVisible();
+        obj[ujm::JSON_MINDITEM_SELECTED]= item->selected();
+        obj[ujm::JSON_MINDITEM_TYPE]= item->type();
+    };
+
+    auto updatePositionItem= [updateMindItem](QJsonObject& obj, mindmap::PositionedItem* pitem) {
+        namespace ujm= Core::jsonctrl::Mindmap;
+        updateMindItem(obj, pitem);
+        obj[ujm::JSON_POSITIONED_POSITIONX]= pitem->position().x();
+        obj[ujm::JSON_POSITIONED_POSITIONY]= pitem->position().y();
+        obj[ujm::JSON_POSITIONED_CENTERX]= pitem->centerPoint().x();
+        obj[ujm::JSON_POSITIONED_CENTERY]= pitem->centerPoint().y();
+        obj[ujm::JSON_POSITIONED_WIDTH]= pitem->width();
+        obj[ujm::JSON_POSITIONED_HEIGHT]= pitem->height();
+        obj[ujm::JSON_POSITIONED_DRAGGED]= pitem->isDragged();
+        obj[ujm::JSON_POSITIONED_OPEN]= pitem->open();
+        obj[ujm::JSON_POSITIONED_LOCKED]= pitem->isLocked();
+        obj[ujm::JSON_POSITIONED_MASS]= pitem->mass();
+    };
+
+    auto model= dynamic_cast<mindmap::MindItemModel*>(ctrl->itemModel());
+    auto nodes= model->items(mindmap::MindItem::NodeType);
     QJsonArray nodeArray;
-    for(auto const& node : nodes)
+    for(auto const& i : nodes)
     {
+        auto node= dynamic_cast<mindmap::MindNode*>(i);
+        if(!node)
+            continue;
         QJsonObject obj;
-        obj[Core::jsonctrl::Mindmap::JSON_NODE_ID]= node->id();
-        obj[Core::jsonctrl::Mindmap::JSON_NODE_X]= node->position().x();
-        obj[Core::jsonctrl::Mindmap::JSON_NODE_Y]= node->position().y();
-        obj[Core::jsonctrl::Mindmap::JSON_NODE_TEXT]= node->text();
+        updatePositionItem(obj, node);
         obj[Core::jsonctrl::Mindmap::JSON_NODE_IMAGE]= node->imageUri();
-        obj[Core::jsonctrl::Mindmap::JSON_NODE_VISIBLE]= node->isVisible();
-        obj[Core::jsonctrl::Mindmap::JSON_NODE_OPEN]= node->open();
         obj[Core::jsonctrl::Mindmap::JSON_NODE_STYLE]= node->styleIndex();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_DESC]= node->description();
+        obj[Core::jsonctrl::Mindmap::JSON_NODE_TAGS]= QJsonArray::fromStringList(node->tags());
 
         nodeArray.append(obj);
     }
 
     objCtrl[Core::jsonctrl::Mindmap::JSON_NODES]= nodeArray;
 
-    auto linkModel= dynamic_cast<mindmap::LinkModel*>(ctrl->linkModel());
-    QJsonArray linkArray;
-    auto links= linkModel->getDataSet();
-    for(auto const& link : links)
+    QJsonArray packagesArray;
+    auto packagesItem= model->items(mindmap::MindItem::PackageType);
+    for(auto const& i : packagesItem)
     {
+
+        auto pack= dynamic_cast<mindmap::PackageNode*>(i);
+        if(!pack)
+            continue;
         QJsonObject obj;
-        obj[Core::jsonctrl::Mindmap::JSON_LINK_IDSTART]= link->start()->id();
-        // qDebug() << "serialization";
-        auto end= link->endNode();
+        updatePositionItem(obj, pack);
+        obj[Core::jsonctrl::Mindmap::JSON_PACK_TITLE]= pack->title();
+        obj[Core::jsonctrl::Mindmap::JSON_PACK_MINMARGE]= pack->minimumMargin();
+
+        obj[Core::jsonctrl::Mindmap::JSON_PACK_INTERNAL_CHILDREN]= QJsonArray::fromStringList(pack->childrenId());
+        packagesArray.append(obj);
+    }
+    objCtrl[Core::jsonctrl::Mindmap::JSON_PACK_PACKAGES]= packagesArray;
+
+    QJsonArray linkArray;
+    auto links= model->items(mindmap::MindItem::LinkType);
+    for(auto const& i : links)
+    {
+
+        auto link= dynamic_cast<mindmap::LinkController*>(i);
+        if(!link)
+            continue;
+
+        QJsonObject obj;
+        updateMindItem(obj, link);
+        auto start= link->start();
+        obj[Core::jsonctrl::Mindmap::JSON_LINK_IDSTART]= start ? start->id() : QString();
+        auto end= link->end();
         obj[Core::jsonctrl::Mindmap::JSON_LINK_IDEND]= end ? end->id() : QString();
-        obj[Core::jsonctrl::Mindmap::JSON_LINK_VISIBLE]= link->isVisible();
         obj[Core::jsonctrl::Mindmap::JSON_LINK_DIRECTION]= static_cast<int>(link->direction());
-        obj[Core::jsonctrl::Mindmap::JSON_LINK_TEXT]= link->text();
         linkArray.append(obj);
     }
     objCtrl[Core::jsonctrl::Mindmap::JSON_LINKS]= linkArray;
 
-    auto imgModel= ctrl->imageModel();
+    auto imgModel= ctrl->imgModel();
     auto imgs= imgModel->imageInfos();
     QJsonArray imgArray;
     for(const auto& img : imgs)
@@ -520,7 +567,6 @@ QByteArray saveMindmap(MindMapController* ctrl)
     return IOHelper::jsonObjectToByteArray(objCtrl);
 }
 
-#ifdef WITH_PDF
 QByteArray savePdfView(PdfController* ctrl)
 {
     QByteArray data;
@@ -533,7 +579,6 @@ QByteArray savePdfView(PdfController* ctrl)
     output << ctrl->data();
     return data;
 }
-#endif
 
 QByteArray IOHelper::saveController(MediaControllerBase* media)
 {
@@ -844,50 +889,90 @@ void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& 
 
     IOHelper::readBaseFromJson(ctrl, objCtrl);
 
+    ctrl->setDefaultStyleIndex(objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_DEFAULT_INDEX_STYLE].toInt());
+    ctrl->setSpacing(objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_SPACING].toBool());
+    ctrl->setLinkLabelVisibility(objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_LINK_LABEL_VISIBILITY].toBool());
+
+    auto updateMindItem= [](const QJsonObject& obj, mindmap::MindItem* item) {
+        namespace ujm= Core::jsonctrl::Mindmap;
+        item->setId(obj[ujm::JSON_MINDITEM_ID].toString());
+        item->setText(obj[ujm::JSON_MINDITEM_TEXT].toString());
+        item->setVisible(obj[ujm::JSON_MINDITEM_VISIBLE].toBool());
+        item->setSelected(false); // obj[ujm::JSON_MINDITEM_SELECTED].toBool()
+    };
+
+    auto updatePositionItem= [updateMindItem](const QJsonObject& obj, mindmap::PositionedItem* pitem) {
+        namespace ujm= Core::jsonctrl::Mindmap;
+        updateMindItem(obj, pitem);
+        pitem->setPosition(
+            {obj[ujm::JSON_POSITIONED_POSITIONX].toDouble(), obj[ujm::JSON_POSITIONED_POSITIONY].toDouble()});
+
+        pitem->setWidth(obj[ujm::JSON_POSITIONED_WIDTH].toDouble());
+        pitem->setHeight(obj[ujm::JSON_POSITIONED_HEIGHT].toDouble());
+        pitem->setDragged(obj[ujm::JSON_POSITIONED_DRAGGED].toBool());
+        pitem->setOpen(obj[ujm::JSON_POSITIONED_OPEN].toBool());
+        pitem->setLocked(obj[ujm::JSON_POSITIONED_LOCKED].toBool());
+        pitem->setMass(obj[ujm::JSON_POSITIONED_MASS].toInt());
+    };
+
     auto nodes= objCtrl[Core::jsonctrl::Mindmap::JSON_NODES].toArray();
-    auto model= dynamic_cast<mindmap::BoxModel*>(ctrl->nodeModel());
-    QList<mindmap::MindNode*> datanodes;
+    auto model= dynamic_cast<mindmap::MindItemModel*>(ctrl->itemModel());
     for(auto const& nodeRef : nodes)
     {
         auto nodeJson= nodeRef.toObject();
         auto node= new mindmap::MindNode();
-        node->setId(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_ID].toString());
-        node->setPosition(QPoint(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_X].toInt(),
-                                 nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_Y].toInt()));
+        updatePositionItem(nodeJson, node);
 
-        node->setText(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_TEXT].toString());
         node->setImageUri(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_IMAGE].toString());
-        node->setVisible(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_VISIBLE].toBool());
-        node->setOpen(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_OPEN].toBool());
         node->setStyleIndex(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_STYLE].toInt());
-        datanodes.append(node);
+        node->setDescription(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_DESC].toString());
+        auto tagArray= nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_TAGS].toArray();
+        QStringList tags;
+        std::transform(std::begin(tagArray), std::end(tagArray), std::back_inserter(tags),
+                       [](const QJsonValue& val) { return val.toString(); });
+        node->setTags(tags);
+
+        model->appendItem({node});
     }
 
-    model->appendNode(datanodes, false);
+    auto packages= objCtrl[Core::jsonctrl::Mindmap::JSON_PACK_PACKAGES].toArray();
+    for(auto const& packRef : packages)
+    {
+        auto pack= packRef.toObject();
+        auto node= new mindmap::PackageNode();
+        updatePositionItem(pack, node);
+
+        node->setTitle(pack[Core::jsonctrl::Mindmap::JSON_PACK_TITLE].toString());
+        node->setMinimumMargin(pack[Core::jsonctrl::Mindmap::JSON_PACK_MINMARGE].toInt());
+
+        auto childArray= pack[Core::jsonctrl::Mindmap::JSON_PACK_INTERNAL_CHILDREN].toArray();
+        std::for_each(std::begin(childArray), std::end(childArray),
+                      [node, model](const QJsonValue& val) { node->addChild(model->positionItem(val.toString())); });
+
+        model->appendItem({node});
+    }
+
     auto linkArrays= objCtrl[Core::jsonctrl::Mindmap::JSON_LINKS].toArray();
-    QList<mindmap::Link*> linknodes;
     for(auto const& linkRef : linkArrays)
     {
         auto obj= linkRef.toObject();
-        auto link= new mindmap::Link();
+        auto link= new mindmap::LinkController();
+        updateMindItem(obj, link);
+
         auto startId= obj[Core::jsonctrl::Mindmap::JSON_LINK_IDSTART].toString();
         auto endId= obj[Core::jsonctrl::Mindmap::JSON_LINK_IDEND].toString();
-        auto start= model->nodeFromId(startId);
-        auto end= model->nodeFromId(endId);
+        auto start= model->positionItem(startId);
+        auto end= model->positionItem(endId);
+
         link->setStart(start);
         link->setEnd(end);
-        link->setVisible(obj[Core::jsonctrl::Mindmap::JSON_LINK_VISIBLE].toBool());
         link->setDirection(
-            static_cast<mindmap::ArrowDirection>(obj[Core::jsonctrl::Mindmap::JSON_LINK_DIRECTION].toInt()));
-        link->setText(obj[Core::jsonctrl::Mindmap::JSON_LINK_TEXT].toString());
-        linknodes.append(link);
+            static_cast<mindmap::LinkController::Direction>(obj[Core::jsonctrl::Mindmap::JSON_LINK_DIRECTION].toInt()));
+        model->appendItem({link});
     }
 
-    auto linkModel= dynamic_cast<mindmap::LinkModel*>(ctrl->linkModel());
-    linkModel->append(linknodes);
-
     auto imgs= objCtrl[Core::jsonctrl::Mindmap::JSON_IMGS].toArray();
-    auto imgModel= ctrl->imageModel();
+    auto imgModel= ctrl->imgModel();
     for(auto const& imgRef : imgs)
     {
         auto img= imgRef.toObject();

@@ -1,184 +1,239 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import Customization 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Customization
+import mindmap
 
 Flickable {
-    id: flick
-    property QtObject ctrl
+    id: _flick
+    property real zoomLevel: 1
+    required property MindMapController ctrl
     property QtObject styleSheet: Theme.styleSheet("mindmapinteral")
-    signal openImage(var id)
+    property string selectedNodeId:""
+    property bool addSubLink: false
+    property alias innerItem: inner
+    property real marginW: 100
 
-    contentHeight: mapmind.height
-    contentWidth: mapmind.width
+
+    onZoomLevelChanged: {
+        updateZoom()
+    }
+
+    function updateZoom(){
+        var zoomPoint = Qt.point(_flick.width/2 + _flick.contentX,
+                             _flick.height/2 + _flick.contentY);
+        _flick.resizeContent((inner.width * _flick.zoomLevel), (inner.height * _flick.zoomLevel), zoomPoint);
+        _flick.returnToBounds();
+    }
+
+    signal openImage(var id)
+    signal pressed(var mouse)
+    signal positionChanged(var mouse)
+    signal released(var mouse)
+
+    function makeScreenShot(path){
+        inner.grabToImage(function(result){
+            result.saveToFile(path)
+        });
+    }
+
+  /* Timer {
+        repeat: true
+        running: true
+        onTriggered: console.log("inner.width:"+inner.width+" ctrl:"+_flick.ctrl.contentRect.width)
+    }*/
+
+    contentHeight: inner.height
+    contentWidth: inner.width
     interactive: true
     boundsBehavior: Flickable.StopAtBounds
 
 
-    ScrollBar.vertical: ScrollBar { }
-    ScrollBar.horizontal: ScrollBar { }
+
+    //ScrollBar.vertical: ScrollBar { }
+    //ScrollBar.horizontal: ScrollBar { }
 
     Shortcut {
-        sequence: StandardKey.Undo
+        sequences: [StandardKey.Undo]
         onActivated:  ctrl.undo();
         onActivatedAmbiguously: ctrl.undo()
     }
     Shortcut {
-        sequence: StandardKey.Redo
+        sequences: [StandardKey.Redo]
         onActivated: ctrl.redo();
         onActivatedAmbiguously: ctrl.redo()
     }
+    Component {
+        id: linkComp
+        Link {
+            id: linkItem
+            x: item.topLeftCorner.x
+            y: item.topLeftCorner.y
+            width: item.normalizedWidth
+            height: item.normalizedHeight
+            color: _flick.styleSheet.linkColor
+            opacity: item.constraint ? 1.0 : 0.4
+            controller: item
+            visible: item.visible
+            text: item.text ?  item.text : qsTr("is linked")
+            visibleLabel: _flick.ctrl.linkLabelVisibility
 
-    Popup {
-        id: stylePopup
-        property QtObject targetNode
-        property bool hasImage: targetNode != null ? stylePopup.targetNode.imageUri : false
-        height: flick.styleSheet.popupHeight
-        x: parent.width
-        y: flick.styleSheet.popupY
-        modal: true
-        padding: flick.styleSheet.popupPadding
-        ColumnLayout {
-            anchors.fill: parent
-            spacing: flick.styleSheet.popupSpacing
-              Button {
-                icon.source: flick.styleSheet.addIcon
-                icon.color: "transparent"
-                Layout.fillWidth: true
-                text: stylePopup.hasImage ? qsTr("Change Image") : qsTr("Set Image")
-                onClicked: flick.openImage(stylePopup.targetNode.id)
-              }
-              ToolButton {
-                icon.name: flick.styleSheet.removeIconName
-                icon.source: flick.styleSheet.removeIconSource
-                icon.color: "transparent"
-                Layout.fillWidth: true
-                text: qsTr("Remove Image")
-                enabled: stylePopup.hasImage
-                onClicked: ctrl.removeImage(stylePopup.targetNode.id)
-              }
-            GroupBox {
-                id: styleTab
-                title: qsTr("Node Styles")
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+            onSelected: {
+                _flick.ctrl.selectionCtrl.clearSelection()
+                _flick.ctrl.selectionCtrl.addToSelection(item)
+            }
 
-                contentWidth: flickable.contentWidth
-                contentHeight: flickable.contentHeight
-                ScrollView {
-                    id: flickable
-                    anchors.fill: parent
-                    contentWidth: grid.implicitWidth+15
-                    contentHeight: grid.implicitHeight
-                    ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-                    clip: true
-                      GridLayout {
-                          id: grid
-                          columns: flick.styleSheet.gridColumnCount
-                          Repeater {
-                              model: ctrl.styleModel
-                              Button {
-                                  id: control
-                                  width: flick.styleSheet.controlWidth
-                                  height: flick.styleSheet.controlHeight
-                                  background: Rectangle {
-                                      radius: flick.styleSheet.controlRadius
-                                      border.width: flick.styleSheet.borderWidth
-                                      border.color: flick.styleSheet.borderColor
-                                      gradient: Gradient {
-                                          GradientStop { position: 0.0; color: control.pressed ? colorTwo : colorOne }//
-                                          GradientStop { position: 1.0; color: control.pressed ? colorOne : colorTwo }//
-                                      }
-
-                                  }
-                                  contentItem: Text {
-                                      color: textColor
-                                      text: qsTr("Text")
-                                  }
-                                  onClicked: {
-                                      stylePopup.parent.object.styleIndex = index
-                                      stylePopup.close()
-                                  }
-                              }
-                          }
-                    }
-                }
+            Rectangle {
+                border.width: 1
+                border.color: "red"
+                color: "transparent"
+                visible: item.selected
+                anchors.fill: parent
             }
 
         }
-
     }
 
-    Pane {
-        id: mapmind
-        x: 0
-        y: 0
-        width: Math.max(2000, ctrl.contentRect.width)
-        height: Math.max(1000, ctrl.contentRect.height)
+    Component {
+        id: packComp
+        PackageItem {
+            packageItem: item
+            width: item.width
+            height: item.height
+            visible: item.visible
+            selected: item.selected
+            title: item.title
+            onAddItem: (itemid)=>{
+                           _flick.ctrl.addItemIntoPackage(itemid, item.id)
+                       }
+            onClicked: (mouse) => {
+               if(_flick.addSubLink)
+               {
+                   if(_flick.selectedNodeId.length > 0)
+                   {
+                       _flick.ctrl.addLink(_flick.selectedNodeId, item.id)
+                       _flick.selectedNodeId = ""
+                   }
+                   else
+                   _flick.selectedNodeId = item.id
 
-        scale: root.viewScale
-        transformOrigin: Item.Center
+               }
+               else if(mouse.modifiers & Qt.ControlModifier) {
+                   if(selected)
+                   _flick.ctrl.selectionCtrl.removeFromSelection(item)
+                   else
+                   _flick.ctrl.selectionCtrl.addToSelection(item)
+               }
+               else if(!selected){
+                   _flick.ctrl.selectionCtrl.clearSelection()
+                   _flick.ctrl.selectionCtrl.addToSelection(item)
+               }
+
+           }
+
+        }
+    }
+
+
+    Component {
+        id: nodeComp
+        Node {
+            id: nodeItem
+            currentNode: item
+            nodeStyle: _flick.ctrl.style(item.styleIndex)
+            readWrite:  _flick.ctrl.readWrite
+            focus: true
+            text : item.text ? item.text : "new node"
+            source: hasAvatar ? "image://nodeImages/%1".arg(item.id) : ""
+            visible: item.visible
+            selected: item.selected
+            //color: _flick.styleSheet.linkColor
+            buttonColor: _flick.styleSheet.textColor
+            onAddChild: {
+                _flick.ctrl.addNode(item.id)
+                updateZoom()
+            }
+            onOpenChanged: _flick.ctrl.itemModel.openItem(item.id, open)
+            onReparenting: _flick.ctrl.reparenting(item,id)
+            onAddImage: (img)=>{ _flick.ctrl.addImageFor(item.id, img)}
+            onSelectStyle: {
+                _stylePopup.parent = nodeItem
+                _stylePopup.node = item
+                _stylePopup.open()
+            }
+
+            onClicked: (mouse) => {
+                           if(_flick.addSubLink)
+                           {
+                               if(_flick.selectedNodeId.length > 0)
+                               {
+                                   _flick.ctrl.addLink(_flick.selectedNodeId, item.id)
+                                   _flick.selectedNodeId = ""
+                               }
+                               else
+                               _flick.selectedNodeId = item.id
+
+                           }
+                           else if(mouse.modifiers & Qt.ControlModifier) {
+                               if(selected)
+                               _flick.ctrl.selectionCtrl.removeFromSelection(item)
+                               else
+                               _flick.ctrl.selectionCtrl.addToSelection(item)
+                           }
+                           else if(!selected){
+                               _flick.ctrl.selectionCtrl.clearSelection()
+                               _flick.ctrl.selectionCtrl.addToSelection(item)
+                           }
+                       }
+
+        }
+    }
+
+    NodeSettingPopup {
+        id: _stylePopup
+    }
+
+    Item {
+        id: inner
+        width: _flick.ctrl.contentRect.width+_flick.marginW
+        height: _flick.ctrl.contentRect.height
+        anchors.centerIn: parent
+        scale: _flick.zoomLevel
+
         MouseArea {
             anchors.fill:parent
             acceptedButtons:Qt.LeftButton
-            onClicked: {
-              ctrl.selectionCtrl.clearSelection()
-              stylePopup.targetNode = null
-            }
-        }
-        Repeater {
-            anchors.fill: parent
-            model: ctrl.linkModel
-            delegate: Link {
-                x: startPoint.x
-                y: startPoint.y
-                width: widthLink
-                height: heightLink
-                start: startPoint
-                end: endPoint
-                visible: model.visible
-                text: model.label//link.text
-                onTextEdited: {
-                  link.text = text
-                }
-            }
-        }
-        Repeater {
-            anchors.fill: parent
-            model: ctrl.nodeModel
-            delegate: Node {
-                id: nodeItem
-                nodeStyle: ctrl.getStyle(node.styleIndex)
-                focus: true
-                readWrite: ctrl.readWrite
-                currentNode: node
-                source: node.imageUri ? "image://nodeImages/%1".arg(node.imageUri) : ""
-                onAddChild: ctrl.addBox(node.id)
-                onOpenChanged: ctrl.nodeModel.openNode(node.id, open)
-                onReparenting: ctrl.reparenting(node,id)
-                foldingBtnVisible: node.hasLink
-                onAddCharacter: {
-                    ctrl.addCharacterBox(node.id, name, source, color)
-                }
-                onTextEdited: {
-                  node.text = text
-                }
+            preventStealing: true
 
-                onSelectStyle: {
-                    stylePopup.parent = nodeItem
-                    stylePopup.targetNode = node
-                    stylePopup.open()
-                }
-                onClicked: {
-                    if(mouse.modifiers & Qt.ControlModifier) {
-                        selected ? ctrl.selectionCtrl.removeFromSelection(node) : ctrl.selectionCtrl.addToSelection(node)
-                    }
-                    else if(!selected){
-                        root.ctrl.selectionCtrl.clearSelection()
-                        root.ctrl.selectionCtrl.addToSelection(node)
-                        stylePopup.targetNode = node
-                    }
-                }
+            onPressed: (mouse)=>{
+                _flick.pressed(mouse)
+               ctrl.selectionCtrl.clearSelection()
+               _stylePopup.node = null
+            }
+            onPositionChanged: (mouse)=> {
+                _flick.positionChanged(mouse)
+            }
+            onReleased: (mouse)=>{
+                _flick.released(mouse)
+            }
+        }
+
+        Repeater {
+            id: itemLoop
+            anchors.fill: parent
+
+            model: _flick.ctrl.itemModel
+
+
+            delegate: Loader {
+                property string text: label
+                property QtObject item:  object
+                property bool isSelected: selected
+                property bool isVisible: visible
+                property bool hasAvatar: hasPicture
+
+
+                sourceComponent: type == MindItem.PackageType ? packComp : type == MindItem.LinkType ? linkComp : nodeComp
             }
         }
     }

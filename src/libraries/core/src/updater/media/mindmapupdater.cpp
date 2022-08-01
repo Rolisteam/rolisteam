@@ -20,11 +20,11 @@
 #include "updater/media/mindmapupdater.h"
 
 #include "controller/view_controller/mindmapcontroller.h"
-#include "mindmap/data/link.h"
+#include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/mindmaptypes.h"
 #include "mindmap/data/mindnode.h"
-#include "mindmap/model/boxmodel.h"
 #include "mindmap/model/linkmodel.h"
+#include "mindmap/model/minditemmodel.h"
 #include "mindmap/model/nodestylemodel.h"
 #include "model/contentmodel.h"
 #include "worker/messagehelper.h"
@@ -32,6 +32,9 @@
 #include "network/networkmessagewriter.h"
 
 #include <QDebug>
+#include <QTimer>
+
+constexpr int timeout{1000 * 5};
 
 MindMapUpdater::MindMapUpdater(FilteredContentModel* model, campaign::CampaignManager* manager, QObject* parent)
     : MediaUpdaterInterface(manager, parent), m_mindmaps(model)
@@ -48,6 +51,16 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
 
     if(ctrl == nullptr)
         return;
+
+    auto timer= new QTimer(ctrl);
+
+    connect(timer, &QTimer::timeout, this, [this, ctrl, timer]() {
+        timer->stop();
+        if(ctrl->modified())
+        {
+            saveMediaController(ctrl);
+        }
+    });
 
     connect(ctrl, &MindMapController::sharingToAllChanged, this,
             [ctrl](Core::SharingPermission perm, Core::SharingPermission old) {
@@ -76,15 +89,13 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
                 MessageHelper::sendOffMindmapPermissionUpdateTo(perm, ctrl, id);
             });
 
-    connect(ctrl, &MindMapController::modifiedChanged, this, [this, ctrl]() {
-        qDebug() << "is modified changed" << ctrl->modified();
+    connect(ctrl, &MindMapController::modifiedChanged, this, [this, ctrl, timer]() {
         if(ctrl->modified())
         {
-            saveMediaController(ctrl);
+            timer->start(timeout);
         }
     });
 
-    qDebug() << "is modified changed" << ctrl->modified();
     if(ctrl->modified())
     {
         saveMediaController(ctrl);
@@ -98,9 +109,9 @@ bool MindMapUpdater::updateSubobjectProperty(NetworkMessageReader* msg, MindMapC
         return false;
 
     auto id= msg->string8();
-    QHash<NetMsg::Action, MindMapController::SubItemType> set{{NetMsg::UpdateLink, MindMapController::Link},
-                                                              {NetMsg::UpdateNode, MindMapController::Node},
-                                                              {NetMsg::UpdatePackage, MindMapController::Package}};
+    QHash<NetMsg::Action, mindmap::MindItem::Type> set{{NetMsg::UpdateLink, mindmap::MindItem::LinkType},
+                                                       {NetMsg::UpdateNode, mindmap::MindItem::NodeType},
+                                                       {NetMsg::UpdatePackage, mindmap::MindItem::PackageType}};
 
     if(!set.contains(msg->action()))
         return false;
@@ -154,9 +165,8 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
     ConnectionInfo info;
     info.id= ctrl->uuid();
 
-    auto nodeModel= dynamic_cast<mindmap::BoxModel*>(ctrl->nodeModel());
-    auto linkModel= dynamic_cast<mindmap::LinkModel*>(ctrl->linkModel());
-    auto imageModel= ctrl->imageModel();
+    auto nodeModel= dynamic_cast<mindmap::MindItemModel*>(ctrl->itemModel());
+    auto imageModel= ctrl->imgModel();
     info.connections << connect(imageModel, &mindmap::ImageModel::imageAdded, this,
                                 [imageModel, ctrl](const QString& id) {
                                     auto info= imageModel->imageInfoFromId(id);
@@ -170,9 +180,12 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
                                 [ctrl](const QString& id) { MessageHelper::sendOffRemoveImageInfo(id, ctrl); });
 
     // connect existing  data
-    auto nodes= nodeModel->nodes();
-    for(auto const& n : nodes)
+    auto nodes= nodeModel->items(mindmap::MindItem::NodeType);
+    for(auto const& i : nodes)
     {
+        auto n= dynamic_cast<mindmap::MindNode*>(i);
+        if(!n)
+            continue;
         info.connections << connect(n, &mindmap::MindNode::textChanged, this, [this, idCtrl, n]() {
             sendOffChange<QString>(idCtrl, QStringLiteral("text"), n, true);
         });
@@ -184,14 +197,33 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
         });
     }
 
-    auto links= linkModel->getDataSet();
-    for(auto link : links)
+    auto links= nodeModel->items(mindmap::MindItem::LinkType);
+    for(auto i : links)
     {
-        info.connections << connect(link, &mindmap::Link::textChanged, this, [this, idCtrl, link]() {
+        auto link= dynamic_cast<mindmap::LinkController*>(i);
+        if(!link)
+            continue;
+
+        info.connections << connect(link, &mindmap::LinkController::textChanged, this, [this, idCtrl, link]() {
             sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false);
         });
-        info.connections << connect(link, &mindmap::Link::directionChanged, this, [this, idCtrl, link]() {
+        info.connections << connect(link, &mindmap::LinkController::directionChanged, this, [this, idCtrl, link]() {
             sendOffChange<mindmap::ArrowDirection>(idCtrl, QStringLiteral("direction"), link, false);
+        });
+    }
+
+    auto packages= nodeModel->items(mindmap::MindItem::PackageType);
+    for(auto i : packages)
+    {
+        auto pack= dynamic_cast<mindmap::PackageNode*>(i);
+        if(!pack)
+            continue;
+
+        info.connections << connect(pack, &mindmap::PackageNode::titleChanged, this, [this, idCtrl, pack]() {
+            sendOffChange<QString>(idCtrl, QStringLiteral("title"), pack, false);
+        });
+        info.connections << connect(pack, &mindmap::PackageNode::minimumMarginChanged, this, [this, idCtrl, pack]() {
+            sendOffChange<int>(idCtrl, QStringLiteral("minimumMargin"), pack, false);
         });
     }
     // end of existing data
@@ -257,7 +289,7 @@ void MindMapUpdater::sendOffRemoveMessage(const QString& idCtrl, const QStringLi
 }
 
 void MindMapUpdater::sendOffAddingMessage(const QString& idCtrl, const QList<mindmap::MindNode*>& nodes,
-                                          const QList<mindmap::Link*>& links)
+                                          const QList<mindmap::LinkController*>& links)
 {
     auto info= findConnectionInfo(idCtrl);
 
@@ -276,10 +308,10 @@ void MindMapUpdater::sendOffAddingMessage(const QString& idCtrl, const QList<min
 
     for(auto link : qAsConst(links))
     {
-        info->connections << connect(link, &mindmap::Link::textChanged, this, [this, idCtrl, link]() {
+        info->connections << connect(link, &mindmap::LinkController::textChanged, this, [this, idCtrl, link]() {
             sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false);
         });
-        info->connections << connect(link, &mindmap::Link::directionChanged, this, [this, idCtrl, link]() {
+        info->connections << connect(link, &mindmap::LinkController::directionChanged, this, [this, idCtrl, link]() {
             sendOffChange<mindmap::ArrowDirection>(idCtrl, QStringLiteral("direction"), link, false);
         });
     }
@@ -355,13 +387,13 @@ NetWorkReceiver::SendType MindMapUpdater::processMessage(NetworkMessageReader* m
     {
         auto id= msg->string8();
         auto ctrl= findController(id, m_mindmaps);
-        MessageHelper::readAddSubImage(ctrl->imageModel(), msg);
+        MessageHelper::readAddSubImage(ctrl->imgModel(), msg);
     }
     else if(msg->action() == NetMsg::RemoveSubImage && msg->category() == NetMsg::MediaCategory)
     {
         auto id= msg->string8();
         auto ctrl= findController(id, m_mindmaps);
-        MessageHelper::readRemoveSubImage(ctrl->imageModel(), msg);
+        MessageHelper::readRemoveSubImage(ctrl->imgModel(), msg);
     }
     return NetWorkReceiver::NONE;
 }

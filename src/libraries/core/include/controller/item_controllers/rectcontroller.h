@@ -52,7 +52,7 @@ signals:
     void penWidthChanged();
 
 public slots:
-    void setCorner(const QPointF& move, int corner) override;
+    void setCorner(const QPointF& move, int corner, Core::TransformType tt= Core::TransformType::NoTransform) override;
     void setRect(QRectF rect);
 
 private:

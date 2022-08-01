@@ -23,7 +23,7 @@
 #include <QMetaProperty>
 #include <QSet>
 
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "network/networkmessagereader.h"
 #include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
@@ -35,16 +35,16 @@ void ImageControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
     if(nullptr == ctrl)
         return;
 
-    auto imgCtrl= dynamic_cast<vmap::ImageController*>(ctrl);
+    auto imgCtrl= dynamic_cast<vmap::ImageItemController*>(ctrl);
 
     if(nullptr == imgCtrl)
         return;
 
     VMapItemControllerUpdater::addItemController(ctrl);
 
-    connect(imgCtrl, &vmap::ImageController::dataChanged, this,
+    connect(imgCtrl, &vmap::ImageItemController::dataChanged, this,
             [this, imgCtrl]() { sendOffVMapChanges<QByteArray>(imgCtrl, QStringLiteral("data")); });
-    connect(imgCtrl, &vmap::ImageController::rectEditFinished, this,
+    connect(imgCtrl, &vmap::ImageItemController::rectEditFinished, this,
             [this, imgCtrl]() { sendOffVMapChanges<QRectF>(imgCtrl, QStringLiteral("rect")); });
 
     if(!ctrl->remote())

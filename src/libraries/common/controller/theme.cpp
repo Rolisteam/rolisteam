@@ -22,11 +22,34 @@
 #include <QColor>
 #include <QDebug>
 #include <QFile>
+#include <QFileInfo>
 #include <QRegularExpression>
 #include <QTextStream>
 
 namespace customization
 {
+
+namespace
+{
+QString pathToDarkMode(const QString& url, bool darkMode)
+{
+    auto path= url;
+    path= path.replace("qrc", "");
+    if(!darkMode || !QFileInfo::exists(path))
+        return url;
+
+    QFileInfo info(path);
+    auto fileName= info.fileName();
+    auto prefixPath= info.absolutePath();
+
+    auto combo= QString("%1/+dark/%2").arg(prefixPath, fileName);
+
+    if(QFileInfo::exists(combo))
+        return QString("qrc%1").arg(combo);
+    else
+        return url;
+}
+} // namespace
 StyleSheet::StyleSheet(Theme* parent) : QQmlPropertyMap(parent) {}
 
 void StyleSheet::insertOrUpdate(const QString& key, const QVariant& value)
@@ -130,10 +153,19 @@ void Theme::loadData(const QString& source)
                 color.setNamedColor(value);
                 if(color.isValid())
                 {
-                    currentStyleSheet->insertOrUpdate(key, darkColor(color));
+                    if(!key.endsWith("_dark"))
+                    {
+                        currentStyleSheet->insertOrUpdate(key, darkColor(color));
+                    }
+                    else if(m_nightMode)
+                    {
+                        currentStyleSheet->insertOrUpdate(key.remove("_dark"), color);
+                    }
                 }
                 else
-                    currentStyleSheet->insertOrUpdate(key, value);
+                {
+                    currentStyleSheet->insertOrUpdate(key, pathToDarkMode(value, m_nightMode));
+                }
             }
         }
     }
@@ -145,8 +177,9 @@ QColor Theme::darkColor(const QColor& color)
         return color;
 
     std::vector<int> c({color.red(), color.green(), color.blue()});
-    auto brighness= [](const QColor& current)
-    { return ((current.red() * 299) + (current.green() * 587) + (current.blue() * 114)) / 1000; };
+    auto brighness= [](const QColor& current) {
+        return ((current.red() * 299) + (current.green() * 587) + (current.blue() * 114)) / 1000;
+    };
     auto avg= std::accumulate(c.begin(), c.end(), 0.0) / static_cast<double>(c.size());
     auto allEqual= std::all_of(c.begin(), c.end(), [color](int tmp) { return color.red() == tmp; });
     QColor result= color;
@@ -168,7 +201,7 @@ QColor Theme::darkColor(const QColor& color)
             ++i;
         }
     }
-
+    result.setAlpha(color.alpha());
     return result;
 }
 

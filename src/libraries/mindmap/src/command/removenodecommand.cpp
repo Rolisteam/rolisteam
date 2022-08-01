@@ -18,86 +18,31 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "mindmap/command/removenodecommand.h"
-#include "mindmap/data/link.h"
+#include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/mindnode.h"
-#include "mindmap/model/boxmodel.h"
-#include "mindmap/model/linkmodel.h"
+#include "mindmap/model/minditemmodel.h"
 #include <algorithm>
 
 namespace mindmap
 {
-void readAllNodes(MindNode* node, QList<QPointer<MindNode>>& selection)
-{
-    auto sublinks= node->subLinks();
-    for(const auto& link : sublinks)
-    {
-        auto node1= link->start();
-        auto node2= link->endNode();
 
-        if(node1 != node && !selection.contains(node1))
-        {
-            selection.append(node1);
-            readAllNodes(node1, selection);
-        }
-
-        if(node2 != node && !selection.contains(node2))
-        {
-            selection.append(node2);
-            readAllNodes(node2, selection);
-        }
-    }
-}
-
-RemoveNodeCommand::RemoveNodeCommand(const QString& idmap, const std::vector<MindNode*>& selection, BoxModel* nodeModel,
-                                     LinkModel* linkModel)
-    : m_nodeModel(nodeModel), m_linkModel(linkModel), m_idmap(idmap)
+RemoveNodeCommand::RemoveNodeCommand(const QString& idmap, const std::vector<MindItem*>& selection,
+                                     MindItemModel* nodeModel)
+    : m_nodeModel(nodeModel), m_idmap(idmap)
 {
     std::transform(selection.begin(), selection.end(), std::back_inserter(m_selection),
-                   [](MindNode* node) -> QPointer<MindNode> { return QPointer<MindNode>(node); });
+                   [](MindItem* node) -> QPointer<MindItem> { return QPointer<MindItem>(node); });
 
-    std::for_each(selection.begin(), selection.end(), [this](MindNode* node) { readAllNodes(node, m_selection); });
-    std::for_each(std::begin(m_selection), std::end(m_selection),
-                  [this](const MindNode* node)
-                  {
-                      auto links= m_linkModel->allLinkWithNodeId(node->id());
-                      QList<QPointer<Link>> linkData;
-                      std::transform(links.begin(), links.end(), std::back_inserter(linkData),
-                                     [](Link* link) -> QPointer<Link> { return QPointer<Link>(link); });
-
-                      std::for_each(std::begin(linkData), std::end(linkData),
-                                    [this](Link* link)
-                                    {
-                                        if(!m_links.contains(link))
-                                            m_links.append(link);
-                                    });
-                  });
+    std::for_each(selection.begin(), selection.end(), [this](MindItem* node) {
+        auto sublinks= m_nodeModel->sublink(node->id());
+        std::copy(sublinks.begin(), sublinks.end(), std::back_inserter(m_links));
+    });
 }
 
 void RemoveNodeCommand::undo()
 {
-    QList<mindmap::MindNode*> nodes;
-    std::transform(m_selection.begin(), m_selection.end(), std::back_inserter(nodes),
-                   [](const QPointer<mindmap::MindNode>& node)
-                   {
-                       mindmap::MindNode* res= nullptr;
-                       if(!node.isNull())
-                           res= node.data();
-                       return res;
-                   });
-    m_nodeModel->appendNode(nodes);
-
-    QList<mindmap::Link*> links;
-    std::transform(m_links.begin(), m_links.end(), std::back_inserter(links),
-                   [](const QPointer<Link>& link)
-                   {
-                       mindmap::Link* res= nullptr;
-                       if(!link.isNull())
-                           res= link.data();
-                       return res;
-                   });
-    m_linkModel->append(links);
-
-    emit addNodes(m_idmap, nodes, links);
+    std::for_each(m_selection.begin(), m_selection.end(), [this](MindItem* node) { m_nodeModel->appendItem({node}); });
+    std::for_each(m_links.begin(), m_links.end(), [this](LinkController* link) { m_nodeModel->appendItem({link}); });
     /*if(m_updater)
     {
         m_updater->sendOffAddingMessage(m_idmap, nodes, links);
@@ -106,17 +51,8 @@ void RemoveNodeCommand::undo()
 
 void RemoveNodeCommand::redo()
 {
-    QStringList allBoxToRemove;
-    std::transform(m_selection.begin(), m_selection.end(), std::back_inserter(allBoxToRemove),
-                   [](MindNode* node) { return node->id(); });
-    m_nodeModel->removeBox(allBoxToRemove);
-
-    QStringList allLinkToRemove;
-    std::transform(m_links.begin(), m_links.end(), std::back_inserter(allLinkToRemove),
-                   [](Link* link) { return link->id(); });
-    m_linkModel->removeLink(allLinkToRemove);
-
-    emit removeNodes(m_idmap, allBoxToRemove, allLinkToRemove);
+    std::for_each(m_selection.begin(), m_selection.end(), [this](MindItem* node) { m_nodeModel->removeItem(node); });
+    std::for_each(m_links.begin(), m_links.end(), [this](LinkController* link) { m_nodeModel->removeItem(link); });
     /*if(m_updater)
     {
         m_updater->sendOffRemoveMessage(m_idmap, allBoxToRemove, allLinkToRemove);

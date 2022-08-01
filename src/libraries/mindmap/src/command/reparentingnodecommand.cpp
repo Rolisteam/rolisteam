@@ -21,30 +21,26 @@
 
 #include <QDebug>
 
-#include "mindmap/data/link.h"
+#include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/mindnode.h"
-#include "mindmap/model/boxmodel.h"
-#include "mindmap/model/linkmodel.h"
+#include "mindmap/model/minditemmodel.h"
 
 namespace mindmap
 {
-ReparentingNodeCommand::ReparentingNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, MindNode* newParent,
-                                               const QString& id)
-    : m_nodeModel(nodeModel), m_linkModel(linkModel), m_newParent(newParent)
+ReparentingNodeCommand::ReparentingNodeCommand(MindItemModel* nodeModel, PositionedItem* newParent, const QString& id)
+    : m_nodeModel(nodeModel), m_newParent(newParent)
 {
-    m_mindNode= m_nodeModel->nodeFromId(id);
+    m_mindNode= dynamic_cast<PositionedItem*>(m_nodeModel->item(id));
     if(m_mindNode)
         m_oldParent= m_mindNode->parentNode();
 
     if(m_oldParent)
     {
         auto links= m_oldParent->subLinks();
-        auto idxLink= std::find_if(links.begin(), links.end(),
-                                   [this](Link* link)
-                                   {
-                                       // qDebug() << "find if reparentingNode";
-                                       return link->endNode() == m_mindNode.data();
-                                   });
+        auto idxLink= std::find_if(links.begin(), links.end(), [this](LinkController* link) {
+            // qDebug() << "find if reparentingNode";
+            return link->end() == m_mindNode.data();
+        });
         if(idxLink != links.end())
             m_oldLink= (*idxLink);
     }
@@ -52,22 +48,28 @@ ReparentingNodeCommand::ReparentingNodeCommand(BoxModel* nodeModel, LinkModel* l
 
 void ReparentingNodeCommand::undo()
 {
+    qDebug() << "Reparenting undo:";
     if(m_mindNode.isNull() || m_oldLink.isNull() || m_newLink.isNull())
         return;
 
-    m_linkModel->removeLink({m_newLink->id()});
-    m_linkModel->append({m_oldLink});
+    m_nodeModel->removeItem({m_newLink});
+    m_nodeModel->appendItem({m_oldLink});
 }
 
 void ReparentingNodeCommand::redo()
 {
+    qDebug() << "Reparenting redo:";
     if(m_mindNode.isNull() || m_oldLink.isNull())
         return;
 
-    m_linkModel->removeLink({m_oldLink->id()});
+    m_nodeModel->removeItem({m_oldLink});
     if(m_newLink.isNull())
-        m_newLink= m_linkModel->addLink(m_newParent, m_mindNode);
-    else
-        m_linkModel->append({m_newLink});
+    {
+        m_newLink= new LinkController();
+        m_newLink->setStart(m_newParent);
+        m_newLink->setEnd(m_mindNode);
+    }
+
+    m_nodeModel->appendItem({m_newLink});
 }
 } // namespace mindmap

@@ -22,6 +22,7 @@
 
 #include "im_global.h"
 #include <QObject>
+#include <QUrl>
 
 namespace InstantMessaging
 {
@@ -29,14 +30,16 @@ class IM_EXPORT TextWriterController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(QUrl imageLink READ imageLink NOTIFY urlChanged)
     Q_PROPERTY(bool diceCommand READ diceCommand NOTIFY diceCommandChanged)
 public:
     explicit TextWriterController(QObject* parent= nullptr);
 
     QString text() const;
     bool diceCommand() const;
+    QUrl imageLink() const;
 
-    Q_INVOKABLE QString interpretedText() const;
+    Q_INVOKABLE void computeText();
 
 public slots:
     void setText(const QString& text);
@@ -47,13 +50,17 @@ public slots:
 signals:
     void textChanged(const QString& text);
     void diceCommandChanged(bool v);
+    void urlChanged();
+    void textComputed();
 
 private:
     void setDiceCommand(bool);
+    void setUrl(const QUrl& url);
 
 private:
     QString m_text;
     QStringList m_history;
+    QUrl m_imageLink;
     int m_historicPostion= 0;
     bool m_diceCmd= false;
 };

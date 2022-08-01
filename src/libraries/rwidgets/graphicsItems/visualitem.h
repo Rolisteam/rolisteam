@@ -41,17 +41,6 @@ class RWIDGET_EXPORT VisualItem : public QGraphicsObject
     Q_OBJECT
 public:
     /**
-     * @brief The Layer enum
-     */
-
-    enum TransformType
-    {
-        NoTransform,
-        KeepRatio,
-        Sticky
-    };
-    Q_ENUM(TransformType)
-    /**
      * @brief VisualItem default constructor
      */
     VisualItem(vmap::VisualItemController* ctrl);
@@ -76,7 +65,7 @@ public:
      * @param rect
      * @param keepRatio
      */
-    virtual void resizeContents(const QRectF& rect, int pointId, TransformType transformType= KeepRatio);
+    virtual void resizeContents(const QRectF& rect, int pointId, Core::TransformType transformType= Core::TransformType::KeepRatio);
     /**
      * @brief setRectSize
      * @param w

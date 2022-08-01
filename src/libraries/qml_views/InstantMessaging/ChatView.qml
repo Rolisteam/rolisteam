@@ -40,7 +40,7 @@ Item {
                 contextMenu.popup()
         }
 
-        onWheel: {
+        onWheel:  (wheel) => {//(wheel)
             if (wheel.modifiers & Qt.ControlModifier) {
                 zoomChanged(wheel.angleDelta.y / 240)
                 /*fontFactor += wheel.angleDelta.y / 240;
@@ -132,6 +132,14 @@ Item {
                 delegate: Component {
                     id: delegateComponent
                     Loader {
+                        property string writerIdldr: model.writerId
+                        property string messageTextldr: model.text
+                        property bool localldr: model.local
+                        property string timeldr: model.time
+                        property string writerNameldr: model.writerName
+                        property real windowWidthldr: parent.width
+                        property url imageLinkldr: model.imageLink ?? ""
+
                         property bool isTextMessage: model.type === MessageInterface.Text
                         property bool isDiceMessage: model.type === MessageInterface.Dice
                         property bool isCommandMessage: model.type === MessageInterface.Command
@@ -150,8 +158,8 @@ Item {
                 SplitView.fillWidth: true
                 SplitView.preferredHeight: root.styleSheet.preferredHeight
 
-                onSendClicked: text => {
-                   root.chatRoom.addMessage(text, imEditText.currentPersonId, imEditText.currentPersonName)
+                onSendClicked: (text, imageLink) => {
+                   root.chatRoom.addMessage(text,imageLink, imEditText.currentPersonId, imEditText.currentPersonName)
                 }
                 function updateUnread() {
                     root.chatRoom.unreadMessage = false

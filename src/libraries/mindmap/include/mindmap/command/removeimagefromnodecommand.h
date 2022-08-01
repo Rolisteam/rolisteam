@@ -22,22 +22,22 @@
 
 #include <QUndoCommand>
 
+#include "mindmap/mindmap_global.h"
 #include <QPixmap>
 #include <QPointer>
-#include "mindmap/mindmap_global.h"
 namespace mindmap
 {
 class ImageModel;
-class BoxModel;
+class MindItemModel;
 class MINDMAP_EXPORT RemoveImageFromNodeCommand : public QUndoCommand
 {
 public:
-    RemoveImageFromNodeCommand(BoxModel* nodeModel, mindmap::ImageModel* imgModel, const QString& id);
+    RemoveImageFromNodeCommand(MindItemModel* nodeModel, mindmap::ImageModel* imgModel, const QString& id);
     void undo() override;
     void redo() override;
 
 private:
-    QPointer<BoxModel> m_nodeModel;
+    QPointer<MindItemModel> m_nodeModel;
     QString m_id;
     QPointer<mindmap::ImageModel> m_imgModel;
     QPixmap m_pixmap;

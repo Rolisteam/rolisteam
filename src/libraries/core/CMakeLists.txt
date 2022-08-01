@@ -15,7 +15,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets WebEngineCore Concurrent Sql PdfWidgets StateMachine REQUIRED)
+find_package(Qt6 COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick Xml QuickWidgets QuickControls2 Xml WebEngineWidgets WebEngineCore Concurrent Sql PdfWidgets StateMachine REQUIRED)
 
 if(TESTS)
     find_package(Qt6 COMPONENTS Test REQUIRED)
@@ -54,6 +54,7 @@ set(Network_HEADER
     ${inc}/data/resourcesnode.h
     ${inc}/worker/playermessagehelper.h
     ${inc}/updater/controller/servermanagerupdater.h
+    ${inc}/network/upnp/upnpnat.h
 )
 
 set(Network_SRC
@@ -85,13 +86,14 @@ set(Network_SRC
     src/worker/networkhelper.cpp
     src/worker/playermessagehelper.cpp
     src/updater/controller/servermanagerupdater.cpp
+    src/network/upnp/upnpnat.cpp
 )
 message(${Network_SRC} ${Network_HEADER})
 add_library(network SHARED ${Network_SRC} ${Network_HEADER})
 set_target_properties(network PROPERTIES PUBLIC_HEADER "${Network_HEADER}")
 set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
 target_compile_definitions(network PRIVATE NETWORK_LIBRARY)
-target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Gui Qt6::StateMachine PRIVATE common_core utils charactersheet)
+target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Gui Qt6::StateMachine Qt6::Xml PRIVATE common_core utils charactersheet)
 target_include_directories(network
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -117,7 +119,7 @@ set(HEADERS
   ${inc}/controller/item_controllers/characteritemcontroller.h
   ${inc}/controller/item_controllers/ellipsecontroller.h
   ${inc}/controller/item_controllers/gridcontroller.h
-  ${inc}/controller/item_controllers/imagecontroller.h
+  ${inc}/controller/item_controllers/imageitemcontroller.h
   ${inc}/controller/item_controllers/linecontroller.h
   ${inc}/controller/item_controllers/pathcontroller.h
   ${inc}/controller/item_controllers/rectcontroller.h
@@ -135,11 +137,13 @@ set(HEADERS
   ${inc}/controller/view_controller/imageselectorcontroller.h
   ${inc}/controller/view_controller/mediacontrollerbase.h
   ${inc}/controller/view_controller/mindmapcontroller.h
+  ${inc}/controller/view_controller/mindmapcontrollerbase.h
   ${inc}/controller/view_controller/notecontroller.h
   ${inc}/controller/view_controller/sharednotecontroller.h
   ${inc}/controller/view_controller/vectorialmapcontroller.h
   ${inc}/controller/view_controller/webpagecontroller.h
   ${inc}/controller/view_controller/selectconnprofilecontroller.h
+  ${inc}/controller/view_controller/sidemenucontroller.h
   ${inc}/data/campaign.h
   ${inc}/data/campaigneditor.h
   ${inc}/data/campaignmanager.h
@@ -236,7 +240,6 @@ set(HEADERS
   ${inc}/worker/iohelper.h
   ${inc}/worker/messagehelper.h
   ${inc}/worker/modelhelper.h
-  ${inc}/worker/networkdownloader.h
   ${inc}/worker/utilshelper.h
   ${inc}/worker/vectorialmapmessagehelper.h
   ${inc}/worker/characterfinder.h)
@@ -250,7 +253,7 @@ set(SOURCES
   src/controller/item_controllers/characteritemcontroller.cpp
   src/controller/item_controllers/ellipsecontroller.cpp
   src/controller/item_controllers/gridcontroller.cpp
-  src/controller/item_controllers/imagecontroller.cpp
+  src/controller/item_controllers/imageitemcontroller.cpp
   src/controller/item_controllers/linecontroller.cpp
   src/controller/item_controllers/pathcontroller.cpp
   src/controller/item_controllers/rectcontroller.cpp
@@ -263,11 +266,13 @@ set(SOURCES
   src/controller/preferencescontroller.cpp
   src/controller/audioplayercontroller.cpp
   src/controller/view_controller/charactersheetcontroller.cpp
+  src/controller/view_controller/sidemenucontroller.cpp
   src/controller/view_controller/pdfcontroller.cpp
   src/controller/view_controller/imagecontroller.cpp
   src/controller/view_controller/imageselectorcontroller.cpp
   src/controller/view_controller/mediacontrollerbase.cpp
   src/controller/view_controller/mindmapcontroller.cpp
+  src/controller/view_controller/mindmapcontrollerbase.cpp
   src/controller/view_controller/notecontroller.cpp
   src/controller/view_controller/sharednotecontroller.cpp
   src/controller/view_controller/vectorialmapcontroller.cpp
@@ -368,7 +373,6 @@ set(SOURCES
   src/worker/iohelper.cpp
   src/worker/messagehelper.cpp
   src/worker/modelhelper.cpp
-  src/worker/networkdownloader.cpp
   src/worker/utilshelper.cpp
   src/worker/vectorialmapmessagehelper.cpp
   src/worker/characterfinder.cpp)

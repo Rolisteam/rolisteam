@@ -119,7 +119,7 @@ void ChatRoom::setUnreadMessage(bool b)
     emit unreadMessageChanged(m_unreadMessage);
 }
 
-void ChatRoom::addMessage(const QString& text, const QString& personId, const QString& personName)
+void ChatRoom::addMessage(const QString& text, const QUrl& url, const QString& personId, const QString& personName)
 {
     auto type= textToType(text);
     using IM= InstantMessaging::MessageInterface;
@@ -137,7 +137,8 @@ void ChatRoom::addMessage(const QString& text, const QString& personId, const QS
 
     if(type == IM::Text || !valid)
     {
-        m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(),
+        qDebug() << "chatroom:" << text << url;
+        m_messageModel->addMessage(text, url, QDateTime::currentDateTime(), localId(),
                                    personId.isEmpty() ? localId() : personId, type);
     }
 }
@@ -184,7 +185,7 @@ bool ChatRoom::rollDice(const QString& command, const QString& personId)
             return {true, result};
         }),
         this, [this, id](const std::pair<bool, QString>& result) {
-            m_messageModel->addMessage(result.second, QDateTime::currentDateTime(), localId(), id,
+            m_messageModel->addMessage(result.second, {}, QDateTime::currentDateTime(), localId(), id,
                                        result.first ? IM::Dice : IM::Error);
         });
 
@@ -201,7 +202,7 @@ bool ChatRoom::runCommand(const QString& command, const QString& personId, const
         {
             text.remove(0, e.size());
             text= QString("<i>%2 %1<\\i>").arg(text).arg(personName);
-            m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(),
+            m_messageModel->addMessage(text, {}, QDateTime::currentDateTime(), localId(),
                                        personId.isEmpty() ? localId() : personId,
                                        InstantMessaging::MessageInterface::Command);
             return true;

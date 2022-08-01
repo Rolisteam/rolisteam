@@ -36,6 +36,7 @@
 
 void registerType()
 {
+    qDebug() << "registerType 2";
     qRegisterMetaType<InstantMessaging::FilterInstantMessagingModel*>("FilterInstantMessagingModel*");
     qRegisterMetaType<InstantMessaging::MessageModel*>("MessageModel*");
     qRegisterMetaType<LocalPersonModel*>("LocalPersonModel*");

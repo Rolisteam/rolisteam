@@ -95,37 +95,36 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room, bool
             [this, room]() { sendOffChatRoomChanges<QString>(room, QStringLiteral("title")); });
 
     auto model= room->messageModel();
-    connect(model, &InstantMessaging::MessageModel::messageAdded, this,
-            [room](MessageInterface* message)
-            {
-                if(!message)
-                    return;
-                if(message->type() == InstantMessaging::MessageInterface::Error)
-                    return;
-                auto type= room->type();
-                NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::InstantMessageAction);
-                if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("global"))
-                {
-                    auto model= room->recipiants();
-                    if(!model)
-                        return;
+    connect(model, &InstantMessaging::MessageModel::messageAdded, this, [room](MessageInterface* message) {
+        if(!message)
+            return;
+        if(message->type() == InstantMessaging::MessageInterface::Error)
+            return;
+        auto type= room->type();
+        NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::InstantMessageAction);
+        if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("global"))
+        {
+            auto model= room->recipiants();
+            if(!model)
+                return;
 
-                    auto recipiants= model->recipiantIds();
-                    if(type == ChatRoom::SINGLEPLAYER)
-                        recipiants.append(room->uuid());
+            auto recipiants= model->recipiantIds();
+            if(type == ChatRoom::SINGLEPLAYER)
+                recipiants.append(room->uuid());
 
-                    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-                }
-                msg.uint8(type);
-                msg.string8(room->uuid());
-                msg.uint8(message->type());
-                msg.string16(message->owner());
-                msg.string16(message->writer());
-                msg.string32(message->text());
-                msg.dateTime(message->dateTime());
+            msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+        }
+        msg.uint8(type);
+        msg.string8(room->uuid());
+        msg.uint8(message->type());
+        msg.string16(message->owner());
+        msg.string16(message->writer());
+        msg.string32(message->text());
+        msg.dateTime(message->dateTime());
+        msg.string32(message->imageLink().toString());
 
-                msg.sendToServer();
-            });
+        msg.sendToServer();
+    });
 }
 
 void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagingModel* model,
@@ -139,9 +138,10 @@ void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagi
     auto writer= msg->string16();
     auto text= msg->string32();
     auto time= msg->dateTime();
+    auto url= QUrl::fromUserInput(msg->string32());
 
     MessageInterface* imMessage
-        = InstantMessaging::MessageFactory::createMessage(owner, writer, time, messageType, text);
+        = InstantMessaging::MessageFactory::createMessage(owner, writer, time, messageType, text, url);
 
     if(imMessage == nullptr)
         return;

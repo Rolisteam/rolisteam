@@ -19,12 +19,12 @@
  ***************************************************************************/
 #include "mindmap/command/removeimagefromnodecommand.h"
 
-#include "mindmap/model/boxmodel.h"
 #include "mindmap/model/imagemodel.h"
+#include "mindmap/model/minditemmodel.h"
 
 namespace mindmap
 {
-RemoveImageFromNodeCommand::RemoveImageFromNodeCommand(BoxModel* nodeModel, mindmap::ImageModel* imgModel,
+RemoveImageFromNodeCommand::RemoveImageFromNodeCommand(MindItemModel* nodeModel, mindmap::ImageModel* imgModel,
                                                        const QString& id)
     : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel)
 {

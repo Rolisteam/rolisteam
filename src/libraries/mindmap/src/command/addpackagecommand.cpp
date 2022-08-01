@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *	Copyright (C) 2019 by Renaud Guezennec                                 *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,27 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "worker/networkdownloader.h"
+#include "addpackagecommand.h"
 
-#include <QNetworkReply>
-#include <QNetworkRequest>
+#include "mindmap/model/minditemmodel.h"
 
-NetworkDownloader::NetworkDownloader(const QUrl& url, QObject* parent) : QObject(parent), m_url(url)
+AddPackageCommand::AddPackageCommand(const QPointF& pos, BoxModel* nodeModel, LinkModel* linkModel,
+                                     const QString& idParent)
+    : m_nodeModel(nodeModel), m_linkModel(linkModel), m_idParent(idParent)
 {
-#ifdef HAVE_QT_NETWORK
-    m_manager.reset(new QNetworkAccessManager());
-    connect(m_manager.get(), &QNetworkAccessManager::finished, this,
-            [this](QNetworkReply* reply)
-            {
-                QByteArray data= reply->readAll();
-                emit finished(data);
-            });
-#endif
 }
 
-void NetworkDownloader::download()
+void AddPackageCommand::undo()
 {
-#ifdef HAVE_QT_NETWORK
-    m_manager->get(QNetworkRequest(m_url));
-#endif
+    m_nodeModel->removeBox(m_mindNode);
+    m_linkModel->removeLink(m_link);
+}
+
+void AddPackageCommand::redo()
+{
+    if(m_mindNode.isNull())
+    {
+        auto pair= m_nodeModel->addBox(m_idParent);
+        m_mindNode= pair.first;
+        m_link= pair.second;
+    }
+    else
+    {
+        m_nodeModel->appendNode(m_mindNode.data());
+        m_linkModel->append(m_link);
+    }
 }

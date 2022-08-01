@@ -56,16 +56,18 @@ bool removeFile(const QString& source)
     return QFile::remove(source);
 }
 
-void writeFile(const QString& path, const QByteArray& arry, bool override)
+bool writeFile(const QString& path, const QByteArray& arry, bool override)
 {
     if(arry.isEmpty())
-        return;
+        return false;
     QSaveFile file(path);
     if(file.open(override ? QIODevice::WriteOnly : QIODevice::Append))
     {
         file.write(arry);
         file.commit();
+        return true;
     }
+    return false;
 }
 
 bool moveFile(const QString& source, const QString& destination)

@@ -8,13 +8,16 @@ Frame {
     property alias model: selector.model
     property alias currentPersonId: selector.currentValue
     property alias currentPersonName: selector.currentText
-    signal sendClicked(var text)
+    signal sendClicked(string text, url imageLink)
     signal focusGained()
     padding: 0
 
     TextWriterController {
         id: textCtrl
         text: edit.text
+        onTextComputed: {
+            root.sendClicked(textCtrl.text, textCtrl.imageLink)
+        }
     }
 
     Connections {
@@ -106,8 +109,9 @@ Frame {
             Layout.fillWidth: true
             Layout.bottomMargin: 10
             function sendMessage() {
-                root.sendClicked(textCtrl.interpretedText())
-                textCtrl.send()
+                textCtrl.computeText()
+                //root.sendClicked(textCtrl.interpretedText())
+                //textCtrl.send()
             }
             ScrollView {
                 Layout.fillWidth: true

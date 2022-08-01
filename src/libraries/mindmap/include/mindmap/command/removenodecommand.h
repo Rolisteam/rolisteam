@@ -27,29 +27,21 @@
 #include <mindmap/mindmap_global.h>
 namespace mindmap
 {
-class MindNode;
-class Link;
-class BoxModel;
-class LinkModel;
-class MINDMAP_EXPORT RemoveNodeCommand : public QObject, public QUndoCommand
+class MindItem;
+class LinkController;
+class MindItemModel;
+class MINDMAP_EXPORT RemoveNodeCommand : public QUndoCommand
 {
-    Q_OBJECT
-
 public:
-    RemoveNodeCommand(const QString& idmap, const std::vector<MindNode*>& selection, BoxModel* nodeModel,
-                      LinkModel* linkModel);
+    RemoveNodeCommand(const QString& idmap, const std::vector<MindItem*>& selection, MindItemModel* nodeModel);
     void undo() override;
     void redo() override;
 
-signals:
-    void addNodes(const QString& mapid, QList<mindmap::MindNode*> nodes, QList<mindmap::Link*> links);
-    void removeNodes(const QString& mapid, QStringList nodes, QStringList links);
-
 private:
-    QList<QPointer<MindNode>> m_selection;
-    QList<QPointer<Link>> m_links;
-    BoxModel* m_nodeModel= nullptr;
-    LinkModel* m_linkModel= nullptr;
+    QList<QPointer<MindItem>> m_selection;
+    QList<QPointer<LinkController>> m_links;
+    QPointer<MindItemModel> m_nodeModel;
+
     QString m_idmap;
 };
 } // namespace mindmap

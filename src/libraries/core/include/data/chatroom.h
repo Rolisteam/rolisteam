@@ -74,7 +74,7 @@ public slots:
     void setUuid(const QString& id);
     void setTitle(const QString& title);
     void setUnreadMessage(bool b);
-    void addMessage(const QString& text, const QString& personId, const QString& personName);
+    void addMessage(const QString& text, const QUrl& url, const QString& personId, const QString& personName);
     void addMessageInterface(MessageInterface* message);
     void setLocalId(const QString& id);
 

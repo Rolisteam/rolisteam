@@ -112,12 +112,12 @@ int main(int argc, char* argv[])
     }
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
-    format.setSamples(8);
+    // format.setSamples(8);
     QSurfaceFormat::setDefaultFormat(format);
     //   QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat());
 
     // INIT STYLE
-    QQuickStyle::setStyle(":/qml/rolistyle");
+    QQuickStyle::setStyle("rolistyle");
     QQuickStyle::setFallbackStyle("Fusion");
 
     // Ressources

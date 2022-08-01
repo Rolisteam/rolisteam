@@ -21,8 +21,8 @@ T.ComboBox {
     delegate: ItemDelegate {
         width: parent.width
         text: control.textRole ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole]) : modelData
-        palette.text: control.style.text
-        palette.highlightedText: control.style.highlightedText
+        //palette.text: control.style.text
+        //palette.highlightedText: control.style.highlightedText
         font.weight: control.currentIndex === index ? Font.DemiBold : Font.Normal
         highlighted: control.highlightedIndex === index
         hoverEnabled: control.hoverEnabled
@@ -33,7 +33,7 @@ T.ComboBox {
         y: control.topPadding + (control.availableHeight - height) / 2
         color: control.style.dark
         defaultColor: "#353637"
-        source: "qrc:/qt-project.org/imports/QtQuick/Controls.2/images/double-arrow.png"
+        source: "qrc:/qt-project.org/imports/QtQuick/Controls/Basic/images/double-arrow.png"
         opacity: enabled ? 1 : 0.3
     }
 

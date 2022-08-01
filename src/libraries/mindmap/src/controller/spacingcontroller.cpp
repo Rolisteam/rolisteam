@@ -19,9 +19,9 @@
  ***************************************************************************/
 #include "mindmap/controller/spacingcontroller.h"
 
-#include "mindmap/data/link.h"
+#include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/mindnode.h"
-#include "mindmap/model/linkmodel.h"
+#include "mindmap/model/minditemmodel.h"
 
 #include <QDebug>
 #include <QLineF>
@@ -35,6 +35,7 @@ const float k_attraction= 0.1f;
 const float k_repulsion= 10000.f;
 
 const float k_defaultDamping= 0.5f;
+const float k_defaultSpringLength= 100.f;
 
 bool isInside(QPointF pos1, QPointF pos2, float distance)
 {
@@ -42,7 +43,7 @@ bool isInside(QPointF pos1, QPointF pos2, float distance)
     return (std::sqrt(d.x() * d.x() + d.y() * d.y()) < distance);
 }
 
-QPointF computeCenter(const MindNode* first, const std::vector<MindNode*>& data)
+QPointF computeCenter(const PositionedItem* first, const std::vector<PositionedItem*>& data)
 {
     QPointF pos= first->position();
     for(auto it= data.begin(); it != data.end(); ++it)
@@ -53,10 +54,7 @@ QPointF computeCenter(const MindNode* first, const std::vector<MindNode*>& data)
     return pos;
 }
 
-SpacingController::SpacingController(std::vector<MindNode*>& data, LinkModel* linkModel, QObject* parent)
-    : QObject(parent), m_data(data), m_linkModel(linkModel)
-{
-}
+SpacingController::SpacingController(MindItemModel* data, QObject* parent) : QObject(parent), m_model(data) {}
 
 SpacingController::~SpacingController()= default;
 
@@ -77,14 +75,40 @@ void SpacingController::computeInLoop()
 {
     while(m_running)
     {
-        auto const allNodes= m_data;
+        auto const& packages= m_model->items(MindItem::PackageType);
+        QList<PositionedItem*> packagedChildren;
+        for(auto item : packages)
+        {
+            auto pack= dynamic_cast<PackageNode*>(item);
+            packagedChildren.append(pack->children());
+        }
+
+        auto const& items= m_model->items(MindItem::NodeType);
+
+        std::vector<PositionedItem*> allNodes;
+        allNodes.reserve(items.size());
+        std::transform(std::begin(items), std::end(items), std::back_inserter(allNodes),
+                       [](MindItem* item) { return dynamic_cast<PositionedItem*>(item); });
+
+        allNodes.erase(
+            std::remove_if(std::begin(allNodes), std::end(allNodes),
+                           [packagedChildren](PositionedItem* item) { return packagedChildren.contains(item); }),
+            std::end(allNodes));
+
         for(auto& node : allNodes)
         {
             applyCoulombsLaw(node, allNodes);
         }
-        auto const allLinks= m_linkModel->getDataSet();
-        for(auto& link : allLinks)
+        auto const allLinks= m_model->items(MindItem::LinkType);
+        for(auto& item : allLinks)
         {
+            auto link= dynamic_cast<LinkController*>(item);
+            if(!link)
+                continue;
+
+            if(!link->constraint())
+                continue;
+
             applyHookesLaw(link);
         }
         for(auto& node : allNodes)
@@ -99,7 +123,7 @@ void SpacingController::computeInLoop()
     Q_EMIT finished();
 }
 
-void SpacingController::applyCoulombsLaw(MindNode* node, std::vector<MindNode*> nodeList)
+void SpacingController::applyCoulombsLaw(PositionedItem* node, std::vector<PositionedItem*> nodeList)
 {
     auto globalRepulsionForce= QVector2D();
     for(auto const& otherNode : nodeList)
@@ -117,21 +141,33 @@ void SpacingController::applyCoulombsLaw(MindNode* node, std::vector<MindNode*> 
     node->setVelocity(node->getVelocity() + globalRepulsionForce);
 }
 
-void SpacingController::applyHookesLaw(Link* link)
+void SpacingController::applyHookesLaw(LinkController* link)
 {
     if(!link)
         return;
 
     auto node1= link->start();
-    auto node2= link->endNode();
+    auto node2= link->end();
 
     if(node1 == nullptr || node2 == nullptr)
         return;
 
-    auto vect= QVector2D(node1->position() - node2->position());
+    auto p1= node1->position();
+    auto p2= node2->position();
+
+    if(qIsNaN(p1.x()) && qIsNaN(p1.y()))
+    {
+        p1= {0, 0};
+    }
+    if(qIsNaN(p2.x()) && qIsNaN(p2.y()))
+    {
+        p2= {1, 1};
+    }
+
+    auto vect= QVector2D(p1 - p2);
     auto length= vect.length();
     // auto force= k_attraction * std::max(length - k_defaultSpringLength, 0.f);
-    auto force= k_attraction * std::max(length - link->getLength(), 0.f);
+    auto force= k_attraction * std::max(length - link->getLength(), 0.1f);
 
     node1->setVelocity(node1->getVelocity() + vect.normalized() * force * -1);
     node2->setVelocity(node2->getVelocity() + vect.normalized() * force);

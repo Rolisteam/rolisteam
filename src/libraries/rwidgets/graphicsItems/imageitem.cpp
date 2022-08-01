@@ -7,7 +7,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagereader.h"
@@ -16,13 +16,13 @@
 #include "characteritem.h"
 #include "data/character.h"
 
-ImageItem::ImageItem(vmap::ImageController* ctrl) : VisualItem(ctrl), m_imgCtrl(ctrl)
+ImageItem::ImageItem(vmap::ImageItemController* ctrl) : VisualItem(ctrl), m_imgCtrl(ctrl)
 {
     m_keepAspect= true;
 
     m_promoteTypeList << vmap::VisualItemController::ItemType::CHARACTER;
 
-    for(int i= 0; i <= vmap::ImageController::BottomLeft; ++i)
+    for(int i= 0; i <= vmap::ImageItemController::BottomLeft; ++i)
     {
         ChildPointItem* tmp= new ChildPointItem(m_imgCtrl, i, this);
         tmp->setMotion(ChildPointItem::MOUSE);
@@ -30,14 +30,15 @@ ImageItem::ImageItem(vmap::ImageController* ctrl) : VisualItem(ctrl), m_imgCtrl(
     }
     updateChildPosition();
 
-    connect(m_imgCtrl, &vmap::ImageController::rectChanged, this, [this]() { updateChildPosition(); });
+    connect(m_imgCtrl, &vmap::ImageItemController::rectChanged, this, [this]() { updateChildPosition(); });
+    connect(m_imgCtrl, &vmap::ImageItemController::pixmapChanged, this, [this]() { update(); });
     if(m_imgCtrl)
         setTransformOriginPoint(m_imgCtrl->rect().center());
 }
 
 QRectF ImageItem::boundingRect() const
 {
-    return m_imgCtrl->rect();
+    return m_imgCtrl ? m_imgCtrl->rect() : QRectF();
 }
 void ImageItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -63,7 +64,7 @@ void ImageItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 }
 void ImageItem::setNewEnd(const QPointF& p)
 {
-    m_imgCtrl->setCorner(p, vmap::ImageController::BottomRight);
+    m_imgCtrl->setCorner(p, vmap::ImageItemController::BottomRight);
 }
 
 void ImageItem::updateChildPosition()
@@ -123,23 +124,6 @@ void ImageItem::initImage()
 void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {
     // m_modifiers= modifiers;
-}
-void ImageItem::updateImageFromMovie(QRect rect)
-{
-    Q_UNUSED(rect)
-    //   if(nullptr != m_movie)
-    //   {
-    //      m_image= m_movie->currentImage();
-    /*   if(m_rect.isNull())
-       {
-           m_rect= m_image.rect();
-       }
-       if(m_image.width() != 0)
-       {
-           m_ratio= m_image.height() / m_image.width();
-       }*/
-    //      update();
-    // }
 }
 
 VisualItem* ImageItem::getItemCopy()

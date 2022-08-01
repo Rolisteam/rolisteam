@@ -91,6 +91,14 @@ int ImageModel::removePixmap(const QString& id)
     return size - m_data.size();
 }
 
+bool ImageModel::hasPixmap(const QString& id) const
+{
+    auto it
+        = std::find_if(std::begin(m_data), std::end(m_data), [id](const ImageInfo& info) { return id == info.m_id; });
+
+    return (it != std::end(m_data));
+}
+
 QPixmap ImageModel::pixmapFromId(const QString& id) const
 {
     auto it

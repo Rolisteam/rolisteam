@@ -20,9 +20,12 @@
 #ifndef LINKITEM_H
 #define LINKITEM_H
 
+#include "mindmap/mindmap_global.h"
 #include <QList>
 #include <QQuickItem>
-#include "mindmap/mindmap_global.h"
+
+#include "mindmap/data/linkcontroller.h"
+
 typedef QList<QPointF> PointList;
 namespace mindmap
 {
@@ -30,64 +33,49 @@ namespace mindmap
 class MINDMAP_EXPORT LinkItem : public QQuickItem
 {
     Q_OBJECT
-
-    Q_PROPERTY(Direction direction READ direction WRITE setDirection NOTIFY directionChanged)
-    Q_PROPERTY(QPointF start READ start WRITE setStart NOTIFY startChanged)
-    Q_PROPERTY(QPointF end READ end WRITE setEnd NOTIFY endChanged)
-    Q_PROPERTY(QRectF startBox READ startBox WRITE setStartBox NOTIFY startBoxChanged)
-    Q_PROPERTY(QRectF endBox READ endBox WRITE setEndBox NOTIFY endBoxChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    // may not be used
     Q_PROPERTY(PointList points READ points WRITE setPoints NOTIFY pointsChanged)
-
+    Q_PROPERTY(qreal horizontalOffset READ horizontalOffset NOTIFY horizontalOffsetChanged)
+    Q_PROPERTY(qreal verticalOffset READ verticalOffset NOTIFY verticalOffsetChanged)
+    Q_PROPERTY(LinkController* controller READ controller WRITE setController NOTIFY controllerChanged)
 public:
-    enum Direction
-    {
-        StartToEnd,
-        EndToStart,
-        Both
-    };
-    Q_ENUM(Direction)
     LinkItem();
 
-    Direction direction() const;
-    QPointF start() const;
-    QPointF end() const;
     PointList points() const;
-    QRectF startBox() const;
-    QRectF endBox() const;
     QColor color() const;
+    qreal horizontalOffset() const;
+    qreal verticalOffset() const;
+
+    LinkController* controller() const;
+    void setController(LinkController* newController);
 
 public slots:
-    void setDirection(const Direction& direction);
-    void setStart(const QPointF& start);
     void setPoints(const PointList& list);
-    void setEnd(const QPointF& end);
-    void setStartBox(QRectF rect);
-    void setEndBox(QRectF rect);
     void setColor(QColor color);
 
 signals:
-    void directionChanged();
-    void startChanged();
-    void endChanged();
+    void horizontalOffsetChanged();
     void pointsChanged();
-    void startBoxChanged();
-    void endBoxChanged();
     void colorChanged();
+    void selected(bool b);
+    void verticalOffsetChanged();
+    void controllerChanged();
 
 protected:
     QSGNode* updatePaintNode(QSGNode*, UpdatePaintNodeData*) override;
+    virtual void mousePressEvent(QMouseEvent* event) override;
+
+protected slots:
+    void setHorizontalOffset(qreal r);
+    void setVerticalOffset(qreal r);
 
 private:
+    QPointer<LinkController> m_controller;
     QColor m_color= Qt::black;
-    Direction m_direction= StartToEnd;
-    QPointF m_start;
-    QPointF m_end;
-    QRectF m_startBox;
-    QRectF m_endBox;
     PointList m_points;
     bool m_colorChanged= false;
+    qreal m_horizontalOffset;
+    qreal m_verticalOffset;
 };
 } // namespace mindmap
 #endif // LINKITEM_H

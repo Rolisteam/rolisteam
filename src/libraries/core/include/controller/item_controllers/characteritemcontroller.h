@@ -90,7 +90,8 @@ public:
     qreal radius() const;
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
-    void setCorner(const QPointF& move, int corner) override;
+    void setCorner(const QPointF& move, int corner,
+        Core::TransformType transformType= Core::TransformType::NoTransform) override;
     QColor color() const override;
     QRectF rect() const override;
 

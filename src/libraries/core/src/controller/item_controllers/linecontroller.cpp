@@ -85,7 +85,8 @@ QRectF LineController::rect() const
     return QRectF(startPoint(), endPoint()).normalized();
 }
 
-void LineController::setCorner(const QPointF& move, int corner)
+void LineController::setCorner(const QPointF& move, int corner,
+                               Core::TransformType tt)
 {
     switch(corner)
     {

@@ -1,5 +1,6 @@
 #include <QApplication>
 
+#include <QUndoStack>
 #include <QVariant>
 
 #include "controller/item_controllers/characteritemcontroller.h"
@@ -33,10 +34,17 @@ int main(int argc, char* argv[])
 
     Character::setListOfCharacterState(&states);
 
+    QUndoStack undoStack;
+
     VectorialMapController ctrl;
+    QObject::connect(&ctrl, &VectorialMapController::performCommand,
+                     [&undoStack](QUndoCommand* cmd) { undoStack.push(cmd); });
     ctrl.setLocalGM(true);
     ctrl.setActive(true);
-    ctrl.setLocalId("uuid");
+    // ctrl.setVisibility(Core::FOGOFWAR);
+    // ctrl.setEditionMode(Core::EditionMode::Mask);
+    // ctrl.setPermission(Core::PC_ALL);
+    ctrl.setLocalId("uuidI");
     ctrl.setOwnerId("uuid");
 
     Character character("aaa", "Lynn Gray-Rike", QColor("#0000DD"), false, 0);

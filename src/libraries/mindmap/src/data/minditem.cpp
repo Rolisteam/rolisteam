@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *	Copyright (C) 2022 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,26 +17,73 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef NETWORKDOWNLOADER_H
-#define NETWORKDOWNLOADER_H
+#include "mindmap/data/minditem.h"
 
-#include <QNetworkAccessManager>
-#include <QObject>
-#include <QUrl>
-#include <core_global.h>
-class CORE_EXPORT NetworkDownloader : public QObject
+#include <QDebug>
+#include <QRectF>
+#include <QUuid>
+
+#include "mindmap/data/linkcontroller.h"
+
+namespace mindmap
 {
-    Q_OBJECT
-public:
-    explicit NetworkDownloader(const QUrl& url, QObject* parent= nullptr);
+MindItem::MindItem(Type type, QObject* parent)
+    : QObject{parent}, m_type(type), m_id(QUuid::createUuid().toString(QUuid::WithoutBraces))
+{
+}
+bool MindItem::isVisible() const
+{
+    return m_visible;
+}
+void MindItem::setVisible(bool op)
+{
+    if(op == m_visible)
+        return;
+    m_visible= op;
+    emit visibleChanged(m_visible);
+}
 
-    void download();
-signals:
-    void finished(QByteArray data);
+QString MindItem::text() const
+{
+    return m_text;
+}
 
-private:
-    QUrl m_url;
-    std::unique_ptr<QNetworkAccessManager> m_manager;
-};
+void MindItem::setText(QString text)
+{
+    // qDebug() << "text" << text << m_text;
+    if(m_text == text)
+        return;
 
-#endif // NETWORKDOWNLOADER_H
+    m_text= text;
+    emit textChanged(m_text);
+}
+
+QString MindItem::id() const
+{
+    return m_id;
+}
+void MindItem::setSelected(bool isSelected)
+{
+    if(m_selected == isSelected)
+        return;
+    m_selected= isSelected;
+    emit selectedChanged();
+}
+
+void MindItem::setId(const QString& id)
+{
+    if(id == m_id)
+        return;
+    m_id= id;
+    emit idChanged();
+}
+bool MindItem::selected() const
+{
+    return m_selected;
+}
+
+MindItem::Type MindItem::type() const
+{
+    return m_type;
+}
+} // namespace mindmap

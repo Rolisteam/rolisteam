@@ -60,7 +60,10 @@ const QList<QPointer<CharacterVision>>& SightController::visionData() const
     return m_visions;
 }
 
-void SightController::setCorner(const QPointF& move, int corner) {}
+void SightController::setCorner(const QPointF& move, int corner,
+                                Core::TransformType tt)
+{
+}
 
 void SightController::endGeometryChange() {}
 
@@ -71,7 +74,7 @@ int SightController::fowItemCount() const
 
 int SightController::characterCount() const
 {
-    return 0; // m_characterItems->playableCharacterCount();
+    return m_visions.count();
 }
 
 bool SightController::characterSight() const

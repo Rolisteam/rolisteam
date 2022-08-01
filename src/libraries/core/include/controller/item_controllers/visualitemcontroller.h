@@ -106,7 +106,9 @@ public:
     QString getLayerText(Core::Layer layer) const;
 
     virtual void aboutToBeRemoved()= 0;
-    virtual void setCorner(const QPointF& move, int corner)= 0;
+    virtual void setCorner(const QPointF& move, int corner,
+                           Core::TransformType transformType= Core::TransformType::NoTransform)
+        = 0;
 
     virtual void endGeometryChange();
 

@@ -28,7 +28,7 @@
 
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/ellipsecontroller.h"
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/item_controllers/linecontroller.h"
 #include "controller/item_controllers/pathcontroller.h"
 #include "controller/item_controllers/rectcontroller.h"
@@ -266,7 +266,7 @@ std::map<QString, QVariant> readEllipseController(QDataStream& input)
     return maps;
 }
 
-void saveVMapImageItemController(const vmap::ImageController* ctrl, QDataStream& output)
+void saveVMapImageItemController(const vmap::ImageItemController* ctrl, QDataStream& output)
 {
     if(!ctrl)
         return;
@@ -825,7 +825,7 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
             saveVMapTextItemController(dynamic_cast<vmap::TextController*>(itemCtrl), output);
             break;
         case vv::IMAGE:
-            saveVMapImageItemController(dynamic_cast<vmap::ImageController*>(itemCtrl), output);
+            saveVMapImageItemController(dynamic_cast<vmap::ImageItemController*>(itemCtrl), output);
             break;
         case vv::RULE:
         case vv::SIGHT:

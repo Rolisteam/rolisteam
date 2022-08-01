@@ -54,7 +54,7 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
         item= TextRole;
 
     std::set<int> map({MessageTypeRole, TextRole, TimeRole, OwnerRole, LocalRole, MessageRole, WriterRole,
-                       OwnerNameRole, OwnerColorRole, WriterNameRole, WriterColorRole});
+                       OwnerNameRole, OwnerColorRole, WriterNameRole, WriterColorRole, ImageLinkRole});
 
     if(map.find(item) == map.end())
         return {};
@@ -103,8 +103,10 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
     case WriterColorRole:
         var= writer ? writer->getColor() : Qt::gray;
         break;
+    case ImageLinkRole:
+        var= message->imageLink();
+        break;
     }
-
     return var;
 }
 
@@ -120,7 +122,8 @@ QHash<int, QByteArray> MessageModel::roleNames() const
                                    {WriterRole, "writerId"},
                                    {WriterNameRole, "writerName"},
                                    {WriterColorRole, "writerColor"},
-                                   {LocalRole, "local"}});
+                                   {LocalRole, "local"},
+                                   {ImageLinkRole, "imageLink"}});
 }
 
 QString MessageModel::localId() const
@@ -136,14 +139,25 @@ void MessageModel::setLocalId(const QString& localid)
     emit localIdChanged(m_localId);
 }
 
-void MessageModel::addMessage(const QString& text, const QDateTime& time, const QString& owner, const QString& writerId,
-                              InstantMessaging::MessageInterface::MessageType type)
+void MessageModel::addMessage(const QString& text, const QUrl& url, const QDateTime& time, const QString& owner,
+                              const QString& writerId, InstantMessaging::MessageInterface::MessageType type)
 {
-    auto msg= InstantMessaging::MessageFactory::createMessage(owner, writerId, time, type, text);
+    auto msg= InstantMessaging::MessageFactory::createMessage(owner, writerId, time, type, text, url);
     if(!msg)
         return;
     addMessageInterface(msg);
     emit messageAdded(msg);
+}
+
+QModelIndex MessageModel::indexFromData(MessageInterface* msg)
+{
+    auto it= std::find_if(std::begin(m_messages), std::end(m_messages),
+                          [msg](const std::unique_ptr<MessageInterface>& index) { return msg == index.get(); });
+
+    if(it == std::end(m_messages))
+        return {};
+
+    return index(std::distance(std::begin(m_messages), it), 0);
 }
 
 void MessageModel::addMessageInterface(MessageInterface* msg)
@@ -153,6 +167,15 @@ void MessageModel::addMessageInterface(MessageInterface* msg)
     beginInsertRows(QModelIndex(), 0, 0);
     m_messages.insert(m_messages.begin(), std::move(interface));
     endInsertRows();
+
+    connect(msg, &MessageInterface::imageLinkChanged, this, [this, msg]() {
+        auto idx= indexFromData(msg);
+        emit dataChanged(idx, idx, {ImageLinkRole});
+    });
+    connect(msg, &MessageInterface::textChanged, this, [this, msg]() {
+        auto idx= indexFromData(msg);
+        emit dataChanged(idx, idx, {TextRole});
+    });
 
     if(msg->owner() != localId())
         emit unreadMessageChanged();

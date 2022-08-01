@@ -206,7 +206,8 @@ void TextController::updateTextPosition()
     setTextPos(QPointF(m_borderRect.x(), m_borderRect.center().y() - textRect().height() / 2));
 }
 
-void TextController::setCorner(const QPointF& move, int corner)
+void TextController::setCorner(const QPointF& move, int corner,
+                               Core::TransformType tt)
 {
     if(move.isNull())
         return;

@@ -57,7 +57,7 @@ signals:
     void ryEditionChanged();
 
 public slots:
-    void setCorner(const QPointF& move, int corner) override;
+    void setCorner(const QPointF& move, int corner, Core::TransformType tt= Core::TransformType::NoTransform) override;
     void setRx(qreal rx);
     void setRy(qreal ry);
 

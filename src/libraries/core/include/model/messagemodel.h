@@ -49,7 +49,8 @@ public:
         OwnerColorRole,
         OwnerNameRole,
         WriterColorRole,
-        WriterNameRole
+        WriterNameRole,
+        ImageLinkRole
     };
     explicit MessageModel(PlayerModel* playerModel, QObject* parent= nullptr);
     virtual ~MessageModel() override;
@@ -61,9 +62,11 @@ public:
 
     QString localId() const;
 
+    QModelIndex indexFromData(MessageInterface* msg);
+
 public slots:
     void setLocalId(const QString& localid);
-    void addMessage(const QString& text, const QDateTime& time, const QString& owner, const QString& writerId,
+    void addMessage(const QString& text, const QUrl &url, const QDateTime& time, const QString& owner, const QString& writerId,
                     InstantMessaging::MessageInterface::MessageType type);
     void addMessageInterface(MessageInterface* msg);
 

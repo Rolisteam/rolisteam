@@ -24,33 +24,29 @@
 namespace mindmap
 {
 
-DragNodeCommand::DragNodeCommand(const QPointF& motion, const std::vector<QPointer<MindNode>>& selection)
+DragNodeCommand::DragNodeCommand(const QPointF& motion, const std::vector<QPointer<PositionedItem>>& selection)
     : m_motion(motion), m_mindNodes(selection)
 {
 }
 
 void DragNodeCommand::undo()
 {
-    std::for_each(m_mindNodes.begin(), m_mindNodes.end(),
-                  [this](const QPointer<MindNode>& node)
-                  {
-                      if(node.isNull())
-                          return;
-                      node->translate(m_motion * -1);
-                  });
+    std::for_each(m_mindNodes.begin(), m_mindNodes.end(), [this](const QPointer<PositionedItem>& node) {
+        if(node.isNull())
+            return;
+        node->translate(m_motion * -1);
+    });
 }
 
 void DragNodeCommand::redo()
 {
-    std::for_each(m_mindNodes.begin(), m_mindNodes.end(),
-                  [this](const QPointer<MindNode>& node)
-                  {
-                      if(node.isNull())
-                          return;
-                      if(node->isDragged())
-                          return;
-                      node->translate(m_motion);
-                  });
+    std::for_each(m_mindNodes.begin(), m_mindNodes.end(), [this](const QPointer<PositionedItem>& node) {
+        if(node.isNull())
+            return;
+        if(node->isDragged())
+            return;
+        node->translate(m_motion);
+    });
 }
 
 int DragNodeCommand::id() const
@@ -78,7 +74,7 @@ const QPointF& DragNodeCommand::getMotion() const
 {
     return m_motion;
 }
-const std::vector<QPointer<MindNode>> DragNodeCommand::getSelection() const
+const std::vector<QPointer<PositionedItem>> DragNodeCommand::getSelection() const
 {
     return m_mindNodes;
 }

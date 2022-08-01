@@ -29,7 +29,7 @@
 class VectorialMapController;
 namespace vmap
 {
-class CORE_EXPORT ImageController : public VisualItemController
+class CORE_EXPORT ImageItemController : public VisualItemController
 {
     Q_OBJECT
     Q_PROPERTY(QPixmap pixmap READ pixmap NOTIFY pixmapChanged)
@@ -45,7 +45,8 @@ public:
         BottomRight,
         BottomLeft
     };
-    ImageController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
+    ImageItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
+                        QObject* parent= nullptr);
 
     QPixmap pixmap() const;
     QRectF rect() const override;
@@ -65,7 +66,7 @@ signals:
     void rectEditFinished();
 
 public slots:
-    void setCorner(const QPointF& move, int corner) override;
+    void setCorner(const QPointF& move, int corner, Core::TransformType tt= Core::TransformType::NoTransform) override;
     void setPath(QString path);
     void setData(QByteArray data);
     void setRect(QRectF rect);

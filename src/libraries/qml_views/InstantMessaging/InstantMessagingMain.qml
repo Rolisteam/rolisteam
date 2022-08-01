@@ -1,10 +1,10 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtMultimedia 5.15
-import InstantMessaging 1.0
-import Customization 1.0
-import org.rolisteam.InstantMessaging 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtMultimedia
+import InstantMessaging
+import Customization
+import org.rolisteam.InstantMessaging
 
 Pane {
     id: root

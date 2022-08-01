@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/cleveruri.h"
 #include <QMouseEvent>

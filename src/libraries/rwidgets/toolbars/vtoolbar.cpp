@@ -26,6 +26,15 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "preferences/preferencesmanager.h"
+
+HiddingButton::HiddingButton(QWidget* w) : QToolButton(w) {}
+
+void HiddingButton::addAction(QAction* act)
+{
+    setDefaultAction(act);
+    connect(act, &QAction::visibleChanged, this, [this, act]() { setVisible(act->isVisible()); });
+}
+
 VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(parent), m_ctrl(ctrl)
 {
     setWindowTitle(tr("Tools"));
@@ -67,10 +76,14 @@ VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(pa
     // Ctrl to UI
     connect(m_ctrl, &VectorialMapController::npcNumberChanged, m_displayNPCCounter,
             QOverload<int>::of(&QLCDNumber::display));
+    connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VToolsBar::updateUi);
+    connect(m_ctrl, &VectorialMapController::editionModeChanged, this, &VToolsBar::updateUi);
     connect(m_ctrl, &VectorialMapController::toolColorChanged, m_colorSelector, &VColorSelector::setCurrentColor);
     // connect(m_ctrl, &VectorialMapController::opacityChanged, m_opacitySlider, &RealSlider::setRealValue);
     connect(m_ctrl, &VectorialMapController::editionModeChanged, this,
             [this](Core::EditionMode mode) { m_editionModeCombo->setCurrentIndex(static_cast<int>(mode)); });
+
+    updateUi();
 }
 
 void VToolsBar::setupUi()
@@ -162,40 +175,40 @@ void VToolsBar::makeTools()
     m_opacitySlider->setOrientation(Qt::Horizontal);
     m_opacitySlider->setRealValue(1.0);
 
-    QToolButton* penButton= new QToolButton();
-    QToolButton* lineButton= new QToolButton();
-    QToolButton* emptyRectButton= new QToolButton();
-    QToolButton* filledRectButton= new QToolButton();
-    QToolButton* emptyEllipseButton= new QToolButton();
-    QToolButton* filledEllipseButton= new QToolButton();
-    QToolButton* textButton= new QToolButton();
-    QToolButton* handleButton= new QToolButton();
-    QToolButton* addNpcButton= new QToolButton();
-    QToolButton* resetNpcNumberButton= new QToolButton();
-    QToolButton* ruleButton= new QToolButton();
-    QToolButton* pathButton= new QToolButton();
-    QToolButton* anchorButton= new QToolButton();
-    QToolButton* pipetteButton= new QToolButton();
-    QToolButton* bucketButton= new QToolButton();
-    QToolButton* highlighterButton= new QToolButton();
+    auto* penButton= new HiddingButton(this);
+    auto* lineButton= new HiddingButton(this);
+    auto* emptyRectButton= new HiddingButton(this);
+    auto* filledRectButton= new HiddingButton(this);
+    auto* emptyEllipseButton= new HiddingButton(this);
+    auto* filledEllipseButton= new HiddingButton(this);
+    auto* textButton= new HiddingButton(this);
+    auto* handleButton= new HiddingButton(this);
+    auto* addNpcButton= new HiddingButton(this);
+    auto* resetNpcNumberButton= new HiddingButton(this);
+    auto* ruleButton= new HiddingButton(this);
+    auto* pathButton= new HiddingButton(this);
+    auto* anchorButton= new HiddingButton(this);
+    auto* pipetteButton= new HiddingButton(this);
+    auto* bucketButton= new HiddingButton(this);
+    auto* highlighterButton= new HiddingButton(this);
 
-    penButton->setDefaultAction(m_pencilAct);
-    lineButton->setDefaultAction(m_lineAct);
-    emptyRectButton->setDefaultAction(m_rectAct);
-    filledRectButton->setDefaultAction(m_rectFillAct);
-    emptyEllipseButton->setDefaultAction(m_elipseAct);
-    filledEllipseButton->setDefaultAction(m_elipseFillAct);
-    textButton->setDefaultAction(m_textAct);
-    handleButton->setDefaultAction(m_handAct);
-    addNpcButton->setDefaultAction(m_addPCAct);
-    resetNpcNumberButton->setDefaultAction(m_resetCountAct);
-    ruleButton->setDefaultAction(m_ruleAct);
-    pathButton->setDefaultAction(m_pathAct);
-    pipetteButton->setDefaultAction(m_pipette);
-    anchorButton->setDefaultAction(m_anchorAct);
-    highlighterButton->setDefaultAction(m_highlighterAct);
+    penButton->addAction(m_pencilAct);
+    lineButton->addAction(m_lineAct);
+    emptyRectButton->addAction(m_rectAct);
+    filledRectButton->addAction(m_rectFillAct);
+    emptyEllipseButton->addAction(m_elipseAct);
+    filledEllipseButton->addAction(m_elipseFillAct);
+    textButton->addAction(m_textAct);
+    handleButton->addAction(m_handAct);
+    addNpcButton->addAction(m_addPCAct);
+    resetNpcNumberButton->addAction(m_resetCountAct);
+    ruleButton->addAction(m_ruleAct);
+    pathButton->addAction(m_pathAct);
+    pipetteButton->addAction(m_pipette);
+    anchorButton->addAction(m_anchorAct);
+    highlighterButton->addAction(m_highlighterAct);
     textButton->addAction(m_textWithBorderAct);
-    bucketButton->setDefaultAction(m_bucketAct);
+    bucketButton->addAction(m_bucketAct);
     //  unveilRect->setDefaultAction(m_unmaskRectAct);
 
     connect(ruleButton, &QToolButton::triggered, ruleButton, &QToolButton::setDefaultAction);
@@ -320,33 +333,51 @@ void VToolsBar::makeTools()
     toolsVerticalLayout->addWidget(m_lineDiameter);
     toolsVerticalLayout->addLayout(characterToolsLayout);
     toolsVerticalLayout->addWidget(m_npcNameTextEdit);
-    toolsVerticalLayout->addWidget(new QLabel(tr("Opacity:"), this));
+    m_opacityLabel= new QLabel(tr("Opacity:"), this);
+    toolsVerticalLayout->addWidget(m_opacityLabel);
     toolsVerticalLayout->addWidget(m_opacitySlider);
     toolsVerticalLayout->addStretch(1);
     m_centralWidget->setLayout(toolsVerticalLayout);
 }
 
-void VToolsBar::updateUi(Core::PermissionMode mode)
+void VToolsBar::updateUi()
 {
-    bool value= (m_isGM | (mode == Core::PC_ALL));
+    auto mode= m_ctrl->permission();
+    auto editionMode= m_ctrl->editionMode();
 
-    m_pencilAct->setVisible(value);
-    m_lineAct->setVisible(value);
-    m_rectAct->setVisible(value);
-    m_rectFillAct->setVisible(value);
-    m_elipseAct->setVisible(value);
-    m_elipseFillAct->setVisible(value);
-    m_textAct->setVisible(value);
-    m_addPCAct->setVisible(value);
-    m_resetCountAct->setVisible(value);
-    m_pathAct->setVisible(value);
-    m_anchorAct->setVisible(value);
-    m_textWithBorderAct->setVisible(value);
-    m_handAct->setVisible(value | (mode == Core::PC_MOVE));
-    m_ruleAct->setVisible(value | (mode == Core::PC_MOVE));
-}
+    auto isGm= m_ctrl->localGM();
 
-void VToolsBar::setGM(bool b)
-{
-    m_isGM= b;
+    auto pcMove= mode == Core::PC_MOVE;
+    auto pcAll= mode == Core::PC_ALL;
+    auto painting= editionMode == Core::EditionMode::Painting;
+    auto isFow= m_ctrl->visibility() == Core::VisibilityMode::FOGOFWAR;
+
+    if(!isFow)
+    {
+        m_editionModeCombo->setCurrentIndex(0);
+        m_ctrl->setEditionMode(Core::EditionMode::Painting);
+    }
+
+    m_editionModeCombo->setVisible(isFow && (isGm || pcAll));
+
+    m_pencilAct->setVisible(isGm || pcAll);
+    m_lineAct->setVisible(isGm || pcAll);
+    m_rectAct->setVisible(isGm || pcAll);
+    m_rectFillAct->setVisible(isGm || pcAll);
+    m_elipseAct->setVisible(isGm || pcAll);
+    m_elipseFillAct->setVisible(isGm || pcAll);
+    m_textAct->setVisible((isGm || pcAll) && painting);
+    m_addPCAct->setVisible((isGm || pcAll) && painting);
+    m_pipette->setVisible((isGm || pcAll) && painting);
+    m_colorSelector->setVisible((isGm || pcAll) && painting);
+    m_resetCountAct->setVisible((isGm || pcAll) && painting);
+    m_pathAct->setVisible(isGm || pcAll);
+    m_anchorAct->setVisible((isGm || pcAll) && painting);
+    m_bucketAct->setVisible((isGm || pcAll) && painting);
+    m_npcNameTextEdit->setVisible((isGm || pcAll) && painting);
+    m_displayNPCCounter->setVisible((isGm || pcAll) && painting);
+    m_opacityLabel->setVisible((isGm || pcAll) && painting);
+    m_opacitySlider->setVisible((isGm || pcAll) && painting);
+    m_textWithBorderAct->setVisible(isGm || pcAll);
+    m_handAct->setVisible(isGm || pcAll || pcMove);
 }

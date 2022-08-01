@@ -134,7 +134,8 @@ void PathController::endGeometryChange()
     }
 }
 
-void PathController::setCorner(const QPointF& move, int corner)
+void PathController::setCorner(const QPointF& move, int corner,
+                               Core::TransformType tt)
 {
     if(m_points.empty())
         return;

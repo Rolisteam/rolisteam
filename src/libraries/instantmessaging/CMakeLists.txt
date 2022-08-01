@@ -55,7 +55,7 @@ set(im_headers
 
 
 add_library(instantmessaging SHARED ${im_headers} ${im_sources})
-target_link_libraries(instantmessaging PUBLIC Qt6::Core Qt6::Network Qt6::Qml Qt6::Quick Qt6::Concurrent PRIVATE common_core diceparser_shared diceparser_qobject)
+target_link_libraries(instantmessaging PUBLIC Qt6::Core Qt6::Network Qt6::Qml Qt6::Quick Qt6::Concurrent PRIVATE common_core diceparser_shared diceparser_qobject utils)
 set_target_properties(instantmessaging PROPERTIES PUBLIC_HEADER "${im_headers}")
 target_compile_definitions(instantmessaging PRIVATE IM_LIBRARY)
 

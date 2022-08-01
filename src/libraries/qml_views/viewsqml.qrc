@@ -32,5 +32,7 @@
         <file>CustomItems/ColorPicker.qml</file>
         <file>rolistyle/TextField.qml</file>
         <file>views/DiceField.qml</file>
+        <file>rolistyle/qmldir</file>
+        <file>rolistyle/CheckBox.qml</file>
     </qresource>
 </RCC>

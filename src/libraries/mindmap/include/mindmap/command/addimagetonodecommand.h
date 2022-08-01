@@ -28,20 +28,20 @@
 
 namespace mindmap
 {
-class BoxModel;
+class MindItemModel;
 class ImageModel;
 
 class MINDMAP_EXPORT AddImageToNodeCommand : public QUndoCommand
 {
 public:
-    AddImageToNodeCommand(BoxModel* nodeModel, ImageModel* imgModel, const QString& id, const QUrl& url);
-    AddImageToNodeCommand(BoxModel* nodeModel, ImageModel* imgModel, const QString& id, const QPixmap& pix);
+    AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id, const QUrl& url);
+    AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id, const QPixmap& pix);
 
     void undo() override;
     void redo() override;
 
 private:
-    QPointer<BoxModel> m_nodeModel;
+    QPointer<MindItemModel> m_nodeModel;
     QString m_id;
     QPointer<ImageModel> m_imgModel;
     QPixmap m_pixmap;

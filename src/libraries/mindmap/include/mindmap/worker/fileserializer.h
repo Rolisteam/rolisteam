@@ -20,22 +20,25 @@
 #ifndef MINDMAP_FILESERIALIZER_H
 #define MINDMAP_FILESERIALIZER_H
 
-#include <QObject>
 #include "mindmap/mindmap_global.h"
+#include <QObject>
 namespace mindmap
 {
-
-class BoxModel;
-class LinkModel;
+class MindItemModel;
+class ImageModel;
 class MINDMAP_EXPORT FileSerializer : public QObject
 {
     Q_OBJECT
 public:
     FileSerializer();
 
-    static bool readTextFile(BoxModel* nodeModel, LinkModel* linkModel, const QString& filepath);
-    static bool readFile(BoxModel* nodeModel, LinkModel* linkModel, const QString& filepath);
-    static bool writeFile(BoxModel* nodeModel, LinkModel* linkModel, const QString& filepath);
+    static bool readTextFile(MindItemModel* nodeModel, const QString& filepath);
+
+    static void fetchItemModel(MindItemModel* model, const QJsonObject& json);
+    static void fetchImageModel(mindmap::ImageModel* model, const QJsonObject& json);
+
+    static QJsonObject writeItemModel(MindItemModel* model, QJsonObject& json);
+    static QJsonObject writeImageModel(mindmap::ImageModel* model, QJsonObject& json);
 };
 } // namespace mindmap
 

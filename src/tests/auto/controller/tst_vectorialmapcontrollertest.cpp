@@ -27,7 +27,7 @@
 
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/ellipsecontroller.h"
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/item_controllers/linecontroller.h"
 #include "controller/item_controllers/pathcontroller.h"
 #include "controller/item_controllers/rectcontroller.h"

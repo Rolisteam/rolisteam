@@ -43,7 +43,7 @@ public:
     SightController(VectorialMapController* ctrl, QObject* parent= nullptr);
 
     void aboutToBeRemoved() override;
-    void setCorner(const QPointF& move, int corner) override;
+    void setCorner(const QPointF& move, int corner, Core::TransformType tt= Core::TransformType::NoTransform) override;
     void endGeometryChange() override;
 
     int fowItemCount() const;

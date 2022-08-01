@@ -133,7 +133,8 @@ void CharacterItemController::aboutToBeRemoved()
 
 void CharacterItemController::endGeometryChange() {}
 
-void CharacterItemController::setCorner(const QPointF& move, int corner)
+void CharacterItemController::setCorner(const QPointF& move, int corner,
+                                        Core::TransformType tt)
 {
     if(move.isNull())
         return;

@@ -58,6 +58,7 @@ protected:
 protected slots:
     void setState(const RServer::ServerState& state);
     void complete();
+    void runUpnpNat();
 
 signals:
     void stateChanged(RServer::ServerState);

@@ -56,7 +56,7 @@
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/ellipsecontroller.h"
 #include "controller/item_controllers/gridcontroller.h"
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/item_controllers/linecontroller.h"
 #include "controller/item_controllers/pathcontroller.h"
 #include "controller/item_controllers/rectcontroller.h"
@@ -118,7 +118,6 @@
 #include "instantmessaging/textwritercontroller.h"
 #include "media/mediafactory.h"
 #include "media/mediatype.h"
-#include "mindmap/controller/mindmapcontroller.h"
 #include "mindmap/controller/selectioncontroller.h"
 #include "mindmap/controller/spacingcontroller.h"
 #include "mindmap/data/link.h"
@@ -126,9 +125,8 @@
 #include "mindmap/data/mindnode.h"
 #include "mindmap/data/nodestyle.h"
 #include "mindmap/geometry/linknode.h"
-#include "mindmap/model/boxmodel.h"
 #include "mindmap/model/imagemodel.h"
-#include "mindmap/model/linkmodel.h"
+#include "mindmap/model/minditemmodel.h"
 #include "mindmap/model/nodeimageprovider.h"
 #include "mindmap/model/nodestylemodel.h"
 #include "mindmap/qmlItems/linkitem.h"
@@ -314,13 +312,13 @@
 #include "utils/countdownobject.h"
 #include "utils/insertionsortedmap.h"
 #include "utils/iohelper.h"
+#include "utils/networkdownloader.h"
 #include "worker/autosavecontroller.h"
 #include "worker/convertionhelper.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
-#include "worker/networkdownloader.h"
 #include "worker/networkhelper.h"
 #include "worker/playermessagehelper.h"
 #include "worker/utilshelper.h"
@@ -386,7 +384,8 @@ void QObjectsTest::propertiesTest_data()
         new vmap::CharacterItemController({}, new VectorialMapController()));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new vmap::EllipseController({}, new VectorialMapController()));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new vmap::GridController(new VectorialMapController()));
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new vmap::ImageController({}, new VectorialMapController()));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(
+        new vmap::ImageItemController({}, new VectorialMapController()));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new vmap::LineController({}, new VectorialMapController()));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new vmap::PathController({}, new VectorialMapController()));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new vmap::RectController({}, new VectorialMapController()));
@@ -505,15 +504,13 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new InstantMessaging::TextMessage({}, {}, {}));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new InstantMessaging::TextWriterController());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::SelectionController());
-    std::vector<mindmap::MindNode*> nodes;
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::SpacingController(nodes, nullptr));
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::Link());
+    auto ctrl= new mindmap::MindItemModel(nullptr);
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::SpacingController(ctrl, nullptr));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::LinkController());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::NodeStyle());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::MindNode());
     // QTest::addRow("obj%d", i++) << new mindmap::LinkNode();
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::BoxModel());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new charactersheet::ImageModel());
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::LinkModel());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::NodeImageProvider(nullptr));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::NodeStyleModel());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new mindmap::LinkItem());

@@ -86,43 +86,28 @@ QVariant LinkModel::data(const QModelIndex& index, int role) const
     switch(role)
     {
     case Direction:
-        result= QVariant::fromValue(link->direction());
+        result= link->direction();
         break;
-    case P1Position:
+    case Position:
         result= link->startPoint();
         break;
-    case P2Position:
+    case Last:
         result= link->endPoint();
         break;
     case Width:
-        result= link->p2().x() - link->p1().x();
+        result= link->end()->position().x() - link->start()->position().x();
         break;
     case Height:
-        result= link->p2().y() - link->p1().y();
+        result= link->end()->position().y() - link->start()->position().y();
         break;
     case LinkRole:
         result= QVariant::fromValue(link);
         break;
-    case StartNodeId:
-        result= link->p1Id();
+    case StartBoxRole:
+        result= QVariant::fromValue(link->start()->boundingRect());
         break;
-    case EndNodeId:
-        result= link->p2Id();
-        break;
-        /*    case StartBoxRole:
-                result= QVariant::fromValue(link->start()->boundingRect());
-                break;
-            case EndBoxRole:
-            {
-                auto end= link->endNode();
-                result= end ? QVariant::fromValue(end->boundingRect()) : QVariant();
-            }*/
-        break;
-    case StartPointRole:
-        result= QVariant::fromValue(link->p1());
-        break;
-    case EndPointRole:
-        result= QVariant::fromValue(link->p2());
+    case EndBoxRole:
+        result= QVariant::fromValue(link->end()->boundingRect());
         break;
     case Label:
         result= link->text();
@@ -153,12 +138,10 @@ QHash<int, QByteArray> LinkModel::roleNames() const
     // clang-format off
     static QHash<int, QByteArray> roles
         =  {{LinkModel::Direction, "direction"},
-            {LinkModel::P1Position, "position"},
-            {LinkModel::P2Position, "last"},
-           // {LinkModel::StartBoxRole,"startBoxRole"},
-           // {LinkModel::EndBoxRole,"endBoxRole"},
-            {LinkModel::StartPointRole,"startPoint"},
-            {LinkModel::EndPointRole,"endPoint"},
+            {LinkModel::Position, "position"},
+            {LinkModel::Last, "last"},
+            {LinkModel::StartBoxRole,"startBoxRole"},
+            {LinkModel::EndBoxRole,"endBoxRole"},
             {LinkModel::Height, "heightLink"},
             {LinkModel::Width, "widthLink"},
             {LinkModel::LinkRole, "link"},
@@ -168,40 +151,40 @@ QHash<int, QByteArray> LinkModel::roleNames() const
     return roles;
 }
 
-void LinkModel::attachLinkSignal(Link* link)
+void LinkModel::attachLinkSignal(LinkController* link)
 {
-    connect(link, &Link::visibleChanged, this, [this, link](){
+    connect(link, &LinkController::visibleChanged, this, [this, link](){
         linkHasChanged(link, {Visibility});
     });
-    connect(link, &Link::directionChanged, this, [this, link](){
+    connect(link, &LinkController::directionChanged, this, [this, link](){
         linkHasChanged(link, {Direction});
     });
-    connect(link, &Link::startPositionChanged, this, [this, link](){
+    connect(link, &LinkController::startPositionChanged, this, [this, link](){
         linkHasChanged(link, {P1Position, StartPointRole, Height, Width});
     });
-    connect(link, &Link::endPositionChanged, this, [this, link](){
+    connect(link, &LinkController::endPositionChanged, this, [this, link](){
         linkHasChanged(link, {P2Position, EndPointRole, Height, Width});
     });
-    connect(link, &Link::textChanged, this, [this, link](){
+    connect(link, &LinkController::textChanged, this, [this, link](){
         linkHasChanged(link, {Label});
     });
-    connect(link, &Link::startPointChanged, this, [this, link](){
+    connect(link, &LinkController::startPointChanged, this, [this, link](){
         linkHasChanged(link, {P1Position, StartNodeId, StartPointRole, Height, Width});
     });
-    connect(link, &Link::endPointChanged, this, [this, link](){
+    connect(link, &LinkController::endPointChanged, this, [this, link](){
         linkHasChanged(link, {P2Position, EndNodeId, EndPointRole, Height, Width});
     });
 
 
 }
 
-Link* LinkModel::addLink(MindNode* p1, MindNode* p2)
+LinkController* LinkModel::addLink(MindNode* p1, MindNode* p2)
 {
     if(nullptr == p1 || nullptr == p2)
         return nullptr;
 
     beginInsertRows(QModelIndex(), static_cast<int>(m_data.size()), static_cast<int>(m_data.size()));
-    auto link= new Link();
+    auto link= new LinkController();
     p2->setParentNode(p1);
     attachLinkSignal(link);
     link->setStart(p1);
@@ -212,7 +195,7 @@ Link* LinkModel::addLink(MindNode* p1, MindNode* p2)
     return link;
 }
 
-void LinkModel::append(const QList<Link*>& links, bool network)
+void LinkModel::append(const QList<LinkController*>& links, bool network)
 {
     QList<Link*> realLinks;
     for(auto link : links)
@@ -262,7 +245,7 @@ void LinkModel::removeLink(const QStringList& ids, bool network)
     }
 }
 
-void LinkModel::linkHasChanged(Link* link,QVector<int> roles)
+void LinkModel::linkHasChanged(LinkController* link,QVector<int> roles)
 {
     if(!link)
         return;
@@ -281,25 +264,25 @@ Qt::ItemFlags LinkModel::flags(const QModelIndex& index) const
     return flags;
 }
 
-std::vector<Link*>& LinkModel::getDataSet()
+std::vector<LinkController*>& LinkModel::getDataSet()
 {
     return m_data;
 }
 
 void LinkModel::openLinkAndChildren(const QString& id, bool status)
 {
-    std::vector<Link*> connectedLinks;
+    std::vector<LinkController*> connectedLinks;
     std::copy_if(m_data.begin(), m_data.end(), std::back_inserter(connectedLinks),
-                 [id](const Link* link) { return link->p1Id() == id; });
+                 [id](const LinkController* link) { return link->p1Id() == id; });
 
-    std::for_each(connectedLinks.begin(), connectedLinks.end(), [status](Link* link) { link->setVisible(status); });
+    std::for_each(connectedLinks.begin(), connectedLinks.end(), [status](LinkController* link) { link->setVisible(status); });
 }
 
-QList<Link*> LinkModel::allLinkWithNodeId(const QString& id)
+QList<LinkController*> LinkModel::allLinkWithNodeId(const QString& id)
 {
-  QList<Link*> res;
+  QList<LinkController*> res;
     std::copy_if(m_data.begin(), m_data.end(), std::back_inserter(res),
-                 [id](const Link* link) { return (link->p1Id() == id || link->p2Id() == id); });
+                 [id](const LinkController* link) { return (link->p1Id() == id || link->p2Id() == id); });
 
   return res;
 }

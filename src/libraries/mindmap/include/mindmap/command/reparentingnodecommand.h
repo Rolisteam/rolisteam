@@ -20,33 +20,32 @@
 #ifndef REPARENTINGNODECOMMAND_H
 #define REPARENTINGNODECOMMAND_H
 
+#include "mindmap/mindmap_global.h"
 #include <QPointer>
 #include <QUndoCommand>
-#include "mindmap/mindmap_global.h"
 
 namespace mindmap
 {
-class MindNode;
-class BoxModel;
-class LinkModel;
-class Link;
+class MindItem;
+class MindItemModel;
+class LinkController;
+class PositionedItem;
 
 class MINDMAP_EXPORT ReparentingNodeCommand : public QUndoCommand
 {
 public:
-    ReparentingNodeCommand(BoxModel* nodeModel, LinkModel* linkModel, MindNode* newParent, const QString& id);
+    ReparentingNodeCommand(MindItemModel* nodeModel, PositionedItem* newParent, const QString& id);
     void undo() override;
     void redo() override;
 
 private:
-    QPointer<MindNode> m_mindNode;
-    QPointer<MindNode> m_oldParent;
-    QPointer<Link> m_oldLink;
-    QPointer<Link> m_newLink;
+    QPointer<PositionedItem> m_mindNode;
+    QPointer<PositionedItem> m_oldParent;
+    QPointer<LinkController> m_oldLink;
+    QPointer<LinkController> m_newLink;
 
-    BoxModel* m_nodeModel= nullptr;
-    LinkModel* m_linkModel= nullptr;
-    QPointer<MindNode> m_newParent;
+    QPointer<MindItemModel> m_nodeModel;
+    QPointer<PositionedItem> m_newParent;
 };
 } // namespace mindmap
 #endif // REPARENTINGNODECOMMAND_H

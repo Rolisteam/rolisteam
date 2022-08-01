@@ -19,19 +19,19 @@
  ***************************************************************************/
 #include "mindmap/command/addimagetonodecommand.h"
 
-#include "mindmap/model/boxmodel.h"
 #include "mindmap/model/imagemodel.h"
+#include "mindmap/model/minditemmodel.h"
 
 #include "utils/iohelper.h"
 
 namespace mindmap
 {
-AddImageToNodeCommand::AddImageToNodeCommand(BoxModel* nodeModel, ImageModel* imgModel, const QString& id,
+AddImageToNodeCommand::AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id,
                                              const QPixmap& pix)
     : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel), m_pixmap(pix)
 {
 }
-AddImageToNodeCommand::AddImageToNodeCommand(BoxModel* nodeModel, ImageModel* imgModel, const QString& id,
+AddImageToNodeCommand::AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id,
                                              const QUrl& url)
     : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel)
 {

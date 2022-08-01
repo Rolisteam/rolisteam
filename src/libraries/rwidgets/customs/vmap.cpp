@@ -30,7 +30,7 @@
 
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/ellipsecontroller.h"
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/item_controllers/linecontroller.h"
 #include "controller/item_controllers/rectcontroller.h"
 #include "controller/item_controllers/sightcontroller.h"
@@ -157,7 +157,7 @@ void VMap::addVisualItem(vmap::VisualItemController* ctrl)
         addLineItem(dynamic_cast<vmap::LineController*>(ctrl), !ctrl->initialized());
         break;
     case vmap::VisualItemController::IMAGE:
-        addImageItem(dynamic_cast<vmap::ImageController*>(ctrl));
+        addImageItem(dynamic_cast<vmap::ImageItemController*>(ctrl));
         break;
     case vmap::VisualItemController::PATH:
         addPathItem(dynamic_cast<vmap::PathController*>(ctrl), !ctrl->initialized());
@@ -187,7 +187,7 @@ void VMap::addLineItem(vmap::LineController* lineCtrl, bool editing)
         m_currentItem= item;
 }
 
-void VMap::addImageItem(vmap::ImageController* imgCtrl)
+void VMap::addImageItem(vmap::ImageItemController* imgCtrl)
 {
     if(!imgCtrl)
         return;

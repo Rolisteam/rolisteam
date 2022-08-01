@@ -21,7 +21,7 @@
 
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/ellipsecontroller.h"
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/item_controllers/linecontroller.h"
 #include "controller/item_controllers/pathcontroller.h"
 #include "controller/item_controllers/rectcontroller.h"
@@ -57,7 +57,7 @@ vmap::VisualItemController* vmap::VmapItemFactory::createVMapItem(VectorialMapCo
         ctrl= new vmap::CharacterItemController(param, mapCtrl);
         break;
     case Core::SelectableTool::IMAGE:
-        ctrl= new vmap::ImageController(param, mapCtrl);
+        ctrl= new vmap::ImageItemController(param, mapCtrl);
         break;
     case Core::SelectableTool::PEN:
     case Core::SelectableTool::PATH:
@@ -95,7 +95,7 @@ vmap::VisualItemController* vmap::VmapItemFactory::createVMapItem(VectorialMapCo
                 ctrl= new vmap::CharacterItemController(param, mapCtrl);
                 break;
             case vmap::VisualItemController::IMAGE:
-                ctrl= new vmap::ImageController(param, mapCtrl);
+                ctrl= new vmap::ImageItemController(param, mapCtrl);
                 break;
             case vmap::VisualItemController::PATH:
                 ctrl= new vmap::PathController(param, mapCtrl);
@@ -156,7 +156,7 @@ vmap::VisualItemController* vmap::VmapItemFactory::createRemoteVMapItem(Vectoria
     case vmap::VisualItemController::IMAGE:
     {
         auto param= MessageHelper::readImage(msg);
-        ctrl= new vmap::ImageController(param, mapCtrl);
+        ctrl= new vmap::ImageItemController(param, mapCtrl);
     }
     break;
     case vmap::VisualItemController::PATH:

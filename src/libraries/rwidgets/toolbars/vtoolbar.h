@@ -36,6 +36,16 @@
 #include "rwidgets/rwidgets_global.h"
 
 class VectorialMapController;
+
+class HiddingButton : public QToolButton
+{
+    Q_OBJECT
+public:
+    HiddingButton(QWidget* w);
+
+    void addAction(QAction* act);
+};
+
 /**
  *  @brief toolbar is a QWidget subclass which gathering all tool required for drawing maps.
  */
@@ -48,12 +58,10 @@ public:
      * @brief constructor for Qt widget
      */
     VToolsBar(VectorialMapController* ctrl, QWidget* parent= nullptr);
-public slots:
-    void updateUi(Core::PermissionMode mode);
-    void setGM(bool);
 
 private slots:
     void setupUi();
+    void updateUi();
 
 private:
     void createActions(); /// utility function
@@ -62,39 +70,38 @@ private:
 private:
     QPointer<VectorialMapController> m_ctrl;
 
-    QWidget* m_centralWidget;         /// address to the main widget
-    QLineEdit* m_npcNameTextEdit;     /// text line to define the npc name
-    QLCDNumber* m_displayNPCCounter;  /// count how many npc have been created
-    VColorSelector* m_colorSelector;  /// select a color
-    DiameterSelector* m_lineDiameter; /// select pen diameter
-    QActionGroup* m_toolsGroup;       /// group all tools and manage which one is the current one
+    QWidget* m_centralWidget= nullptr;         /// address to the main widget
+    QLineEdit* m_npcNameTextEdit= nullptr;     /// text line to define the npc name
+    QLCDNumber* m_displayNPCCounter= nullptr;  /// count how many npc have been created
+    VColorSelector* m_colorSelector= nullptr;  /// select a color
+    DiameterSelector* m_lineDiameter= nullptr; /// select pen diameter
+    QActionGroup* m_toolsGroup= nullptr;       /// group all tools and manage which one is the current one
     // paiting or fow edition
-    QAction* m_paintingModeAct;
-    QAction* m_veilModeAct;
-    QAction* m_unveilModeAct;
+    QAction* m_paintingModeAct= nullptr;
+    QAction* m_veilModeAct= nullptr;
+    QAction* m_unveilModeAct= nullptr;
 
     // tools
-    QAction* m_pencilAct;
-    QAction* m_lineAct;
-    QAction* m_rectAct;
-    QAction* m_rectFillAct;
-    QAction* m_elipseAct;
-    QAction* m_elipseFillAct;
-    QAction* m_textAct;
-    QAction* m_handAct;
-    QAction* m_addPCAct;
-    QAction* m_resetCountAct;
-    QAction* m_ruleAct;
-    QAction* m_pathAct;
-    QAction* m_anchorAct;
-    QAction* m_pipette;
-    QAction* m_bucketAct;
-    QAction* m_highlighterAct;
-    QAction* m_textWithBorderAct;
-    QComboBox* m_editionModeCombo;
-    RealSlider* m_opacitySlider;
-
-    bool m_isGM;
+    QAction* m_pencilAct= nullptr;
+    QAction* m_lineAct= nullptr;
+    QAction* m_rectAct= nullptr;
+    QAction* m_rectFillAct= nullptr;
+    QAction* m_elipseAct= nullptr;
+    QAction* m_elipseFillAct= nullptr;
+    QAction* m_textAct= nullptr;
+    QAction* m_handAct= nullptr;
+    QAction* m_addPCAct= nullptr;
+    QAction* m_resetCountAct= nullptr;
+    QAction* m_ruleAct= nullptr;
+    QAction* m_pathAct= nullptr;
+    QAction* m_anchorAct= nullptr;
+    QAction* m_pipette= nullptr;
+    QAction* m_bucketAct= nullptr;
+    QAction* m_highlighterAct= nullptr;
+    QAction* m_textWithBorderAct= nullptr;
+    QComboBox* m_editionModeCombo= nullptr;
+    QLabel* m_opacityLabel= nullptr;
+    RealSlider* m_opacitySlider= nullptr;
 };
 
 #endif

@@ -49,35 +49,36 @@ bool SelectionController::enabled() const
     return m_enabled;
 }
 
-bool SelectionController::hasSelection() const
-{
-    return !m_selection.empty();
-}
-
-const std::vector<MindNode*>& SelectionController::selectedNodes() const
+const std::vector<mindmap::MindItem*>& SelectionController::selectedNodes() const
 {
     return m_selection;
 }
 
-void SelectionController::addToSelection(MindNode* node)
+void SelectionController::addToSelection(mindmap::MindItem* node)
 {
     if(node == nullptr)
         return;
     auto selection= hasSelection();
     m_selection.push_back(node);
     node->setSelected(true);
-    setLastSelectedId(node->id());
-    connect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
-
+    if(node->type() == mindmap::MindItem::NodeType || node->type() == mindmap::MindItem::PackageType)
+    {
+        auto mindNode= dynamic_cast<PositionedItem*>(node);
+        connect(mindNode, &PositionedItem::itemDragged, this, &SelectionController::movingNode);
+    }
     if(selection != hasSelection())
         emit hasSelectionChanged();
 }
 
-void SelectionController::removeFromSelection(MindNode* node)
+void SelectionController::removeFromSelection(mindmap::MindItem* node)
 {
     auto selection= hasSelection();
     node->setSelected(false);
-    disconnect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
+    if(node->type() == mindmap::MindItem::NodeType || node->type() == mindmap::MindItem::PackageType)
+    {
+        auto mindNode= dynamic_cast<PositionedItem*>(node);
+        disconnect(mindNode, &PositionedItem::itemDragged, this, &SelectionController::movingNode);
+    }
     m_selection.erase(std::find(m_selection.begin(), m_selection.end(), node));
     if(selection != hasSelection())
         emit hasSelectionChanged();
@@ -85,12 +86,14 @@ void SelectionController::removeFromSelection(MindNode* node)
 
 void SelectionController::clearSelection()
 {
-    std::for_each(m_selection.begin(), m_selection.end(),
-                  [this](MindNode* node)
-                  {
-                      node->setSelected(false);
-                      disconnect(node, &MindNode::itemDragged, this, &SelectionController::movingNode);
-                  });
+    std::for_each(m_selection.begin(), m_selection.end(), [this](mindmap::MindItem* node) {
+        node->setSelected(false);
+        if(node->type() == mindmap::MindItem::NodeType || node->type() == mindmap::MindItem::PackageType)
+        {
+            auto mindNode= dynamic_cast<PositionedItem*>(node);
+            disconnect(mindNode, &PositionedItem::itemDragged, this, &SelectionController::movingNode);
+        }
+    });
     m_selection.clear();
     setLastSelectedId({});
     emit hasSelectionChanged();
@@ -98,12 +101,18 @@ void SelectionController::clearSelection()
 
 void SelectionController::movingNode(const QPointF& motion)
 {
-    std::vector<QPointer<MindNode>> vec;
-    std::transform(m_selection.begin(), m_selection.end(), std::back_inserter(vec),
-                   [](MindNode* node) { return QPointer<MindNode>(node); });
+    std::vector<QPointer<PositionedItem>> vec;
+    std::transform(m_selection.begin(), m_selection.end(), std::back_inserter(vec), [](mindmap::MindItem* node) {
+        return QPointer<PositionedItem>(dynamic_cast<PositionedItem*>(node));
+    });
     auto cmd= new DragNodeCommand(motion, vec);
 
     m_undoStack->push(cmd);
+}
+
+bool SelectionController::hasSelection() const
+{
+    return !m_selection.empty();
 }
 
 void SelectionController::setLastSelectedId(const QString& id)

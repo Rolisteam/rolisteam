@@ -34,7 +34,7 @@ public:
     QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize) override;
 
 private:
-    QPointer<ImageModel> m_dataModel;
+    QPointer<mindmap::ImageModel> m_dataModel;
 };
 } // namespace mindmap
 #endif // NODEIMAGEPROVIDER_H

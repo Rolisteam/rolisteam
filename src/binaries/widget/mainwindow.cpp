@@ -72,9 +72,9 @@
 #include "rwidgets/mediacontainers/mediacontainer.h"
 
 // worker
+#include "utils/networkdownloader.h"
 #include "worker/iohelper.h"
 #include "worker/modelhelper.h"
-#include "worker/networkdownloader.h"
 #include "worker/playermessagehelper.h"
 #include "worker/utilshelper.h"
 
@@ -106,9 +106,9 @@
 #include "rwidgets/gmtoolbox/UnitConvertor/convertor.h"
 
 // session
-#include "utils/iohelper.h"
 #include "rwidgets/docks/antagonistboard.h"
 #include "rwidgets/docks/campaigndock.h"
+#include "utils/iohelper.h"
 
 Q_LOGGING_CATEGORY(WidgetClient, "WidgetClient")
 

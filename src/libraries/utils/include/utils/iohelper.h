@@ -14,7 +14,7 @@ namespace IOHelper
 {
 // file API
 UTILS_EXPORT QByteArray loadFile(const QString& file);
-UTILS_EXPORT void writeFile(const QString& path, const QByteArray& arry, bool override= true);
+UTILS_EXPORT bool writeFile(const QString& path, const QByteArray& arry, bool override= true);
 UTILS_EXPORT bool moveFile(const QString& source, const QString& destination);
 UTILS_EXPORT bool removeFile(const QString& soursce);
 UTILS_EXPORT bool moveFilesToDirectory(const QString& files, const QString& dest);

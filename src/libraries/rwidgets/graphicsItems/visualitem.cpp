@@ -208,7 +208,7 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
     QGraphicsItem::keyPressEvent(event);
 }
 
-void VisualItem::resizeContents(const QRectF& rect, int pointId, TransformType transformType)
+void VisualItem::resizeContents(const QRectF& rect, int pointId, Core::TransformType transformType)
 {
     /*    if(!rect.isValid() || isHoldSize())
         {

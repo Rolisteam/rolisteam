@@ -1,20 +1,42 @@
 <RCC>
     <qresource prefix="/icons">
+        <file>resources/icons/+dark/addGrayArrow.svg</file>
+        <file>resources/icons/+dark/edit.svg</file>
+        <file>resources/icons/+dark/list.svg</file>
+        <file>resources/icons/+dark/redo.svg</file>
+        <file>resources/icons/+dark/refresh.svg</file>
+        <file>resources/icons/+dark/save.svg</file>
+        <file>resources/icons/+dark/trash.svg</file>
+        <file>resources/icons/+dark/undo.svg</file>
+        <file>resources/icons/+light/addGrayArrow.svg</file>
+        <file>resources/icons/+light/list.svg</file>
+        <file>resources/icons/+light/redo.svg</file>
+        <file>resources/icons/+light/save.svg</file>
+        <file>resources/icons/+light/trash.svg</file>
+        <file>resources/icons/+light/undo.svg</file>
+        <file>resources/icons/addArrow.svg</file>
+        <file>resources/icons/addGrayArrow.svg</file>
+        <file>resources/icons/edit.svg</file>
         <file>resources/icons/font.png</file>
         <file>resources/icons/gathering.png</file>
         <file>resources/icons/hierarchy.png</file>
+        <file>resources/icons/list.svg</file>
         <file>resources/icons/menu.png</file>
         <file>resources/icons/palette.png</file>
-        <file>resources/icons/shape.png</file>
-        <file>resources/icons/+dark/list.svg</file>
-        <file>resources/icons/+dark/redo.svg</file>
-        <file>resources/icons/+dark/undo.svg</file>
-        <file>resources/icons/+light/list.svg</file>
-        <file>resources/icons/+light/redo.svg</file>
-        <file>resources/icons/+light/undo.svg</file>
-        <file>resources/icons/list.svg</file>
         <file>resources/icons/redo.svg</file>
+        <file>resources/icons/refresh.svg</file>
+        <file>resources/icons/save.svg</file>
+        <file>resources/icons/shape.png</file>
+        <file>resources/icons/trash.svg</file>
         <file>resources/icons/undo.svg</file>
+        <file>resources/icons/spacing.svg</file>
+        <file>resources/icons/+dark/spacing.svg</file>
+        <file>resources/icons/+dark/export.svg</file>
+        <file>resources/icons/export.svg</file>
+        <file>resources/icons/+dark/addnode.svg</file>
+        <file>resources/icons/addnode.svg</file>
+        <file>resources/icons/+dark/littlemap.svg</file>
+        <file>resources/icons/littlemap.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>resources/qml/main.qml</file>
@@ -24,5 +46,10 @@
         <file>resources/qml/MindMenu.qml</file>
         <file>resources/qml/IconButton.qml</file>
         <file>resources/qml/DrawerMenu.qml</file>
+        <file>resources/qml/NodeSettingPopup.qml</file>
+        <file>resources/qml/SideMenu.qml</file>
+        <file>resources/qml/ButtonGrid.qml</file>
+        <file>resources/qml/PackageItem.qml</file>
+        <file>resources/icons/addnode.svg</file>
     </qresource>
 </RCC>

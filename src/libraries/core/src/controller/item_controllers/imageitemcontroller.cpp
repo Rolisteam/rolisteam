@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "controller/item_controllers/imagecontroller.h"
+#include "controller/item_controllers/imageitemcontroller.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include <QBuffer>
@@ -35,8 +35,8 @@ QByteArray readImage(const QString& path)
     return file.readAll();
 }
 
-ImageController::ImageController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
-                                 QObject* parent)
+ImageItemController::ImageItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
+                                         QObject* parent)
     : VisualItemController(VisualItemController::IMAGE, params, ctrl, parent)
 {
 
@@ -58,23 +58,23 @@ ImageController::ImageController(const std::map<QString, QVariant>& params, Vect
     else
         setRect(m_pix.rect());
 
-    connect(this, &vmap::ImageController::pixmapChanged, this, [this] { setModified(); });
-    connect(this, &vmap::ImageController::dataChanged, this, [this] { setModified(); });
-    connect(this, &vmap::ImageController::rectChanged, this, [this] { setModified(); });
-    connect(this, &vmap::ImageController::pathChanged, this, [this] { setModified(); });
+    connect(this, &vmap::ImageItemController::pixmapChanged, this, [this] { setModified(); });
+    connect(this, &vmap::ImageItemController::dataChanged, this, [this] { setModified(); });
+    connect(this, &vmap::ImageItemController::rectChanged, this, [this] { setModified(); });
+    connect(this, &vmap::ImageItemController::pathChanged, this, [this] { setModified(); });
 }
 
-QRectF ImageController::rect() const
+QRectF ImageItemController::rect() const
 {
     return m_rect;
 }
 
-QPixmap ImageController::pixmap() const
+QPixmap ImageItemController::pixmap() const
 {
     return m_pix;
 }
 
-void ImageController::setRect(QRectF rect)
+void ImageItemController::setRect(QRectF rect)
 {
     if(rect == m_rect)
         return;
@@ -83,7 +83,7 @@ void ImageController::setRect(QRectF rect)
     m_editingRect= true;
 }
 
-void ImageController::setImage(QPixmap pix)
+void ImageItemController::setImage(QPixmap pix)
 {
     if(pix.toImage() == m_pix.toImage())
         return;
@@ -91,7 +91,7 @@ void ImageController::setImage(QPixmap pix)
     emit pixmapChanged();
 }
 
-void ImageController::setCorner(const QPointF& move, int corner)
+void ImageItemController::setCorner(const QPointF& move, int corner, Core::TransformType tt)
 {
     if(move.isNull())
         return;
@@ -126,27 +126,27 @@ void ImageController::setCorner(const QPointF& move, int corner)
     setRect(rect);
 }
 
-void ImageController::aboutToBeRemoved()
+void ImageItemController::aboutToBeRemoved()
 {
     emit removeItem();
 }
 
-QString ImageController::path() const
+QString ImageItemController::path() const
 {
     return m_path;
 }
 
-qreal ImageController::ratio() const
+qreal ImageItemController::ratio() const
 {
     return m_pix.width() / m_pix.height();
 }
 
-QByteArray ImageController::data() const
+QByteArray ImageItemController::data() const
 {
     return m_data;
 }
 
-void ImageController::setData(QByteArray data)
+void ImageItemController::setData(QByteArray data)
 {
     if(m_data == data)
         return;
@@ -154,7 +154,7 @@ void ImageController::setData(QByteArray data)
     m_data= data;
     emit dataChanged(m_data);
 }
-void ImageController::setPath(QString path)
+void ImageItemController::setPath(QString path)
 {
     if(m_path == path)
         return;
@@ -163,7 +163,7 @@ void ImageController::setPath(QString path)
     emit pathChanged(m_path);
 }
 
-void ImageController::checkMovie()
+void ImageItemController::checkMovie()
 {
     auto buf= new QBuffer(&m_data);
     buf->open(QIODevice::ReadOnly);
@@ -184,7 +184,7 @@ void ImageController::checkMovie()
     }
 }
 
-void ImageController::endGeometryChange()
+void ImageItemController::endGeometryChange()
 {
     VisualItemController::endGeometryChange();
 

@@ -285,24 +285,24 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     if(!hasCtrlModifier && (m_motion & MOVE) && allowResizing(m_currentChange))
     {
         m_currentChange= Resizing;
-        VisualItem::TransformType transformType= VisualItem::NoTransform;
+        Core::TransformType transformType= Core::TransformType::NoTransform;
 
-        if(hasShiftModifier)
-        {
-            transformType= VisualItem::KeepRatio;
-        }
         auto W= qMax(2 * std::fabs(v.x()), 5.0);
         auto H= qMax(2 * std::fabs(v.y()), 4.0);
         if(event->modifiers() & Qt::AltModifier)
         {
-            transformType= VisualItem::Sticky;
+            transformType= Core::TransformType::Sticky;
             int size= m_ctrl->gridSize();
             W= std::round(W / size) * size;
             H= std::round(H / size) * size;
         }
+        else if(hasShiftModifier)
+        {
+            transformType= Core::TransformType::KeepRatio;
+        }
 
         auto move= event->pos() - event->lastPos();
-        m_ctrl->setCorner(move, m_pointId); // mapToScene(pos()) +
+        m_ctrl->setCorner(move, m_pointId, transformType); // mapToScene(pos()) +
     }
 
     if((m_motion & ROTATION) && hasCtrlModifier && allowRotation(m_currentChange))

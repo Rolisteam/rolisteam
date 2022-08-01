@@ -60,7 +60,7 @@ public slots:
     void setText(QString text);
     void setBorderRect(QRectF rect);
     void setTextRect(QRectF rect);
-    void setCorner(const QPointF& move, int corner) override;
+    void setCorner(const QPointF& move, int corner, Core::TransformType tt= Core::TransformType::NoTransform) override;
     void setFont(QFont font);
     void setTextPos(QPointF textPos);
 

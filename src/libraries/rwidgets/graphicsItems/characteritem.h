@@ -61,7 +61,7 @@ public:
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
-    void resizeContents(const QRectF& rect, int pointId, TransformType transformType= KeepRatio) override;
+    void resizeContents(const QRectF& rect, int pointId, Core::TransformType transformType= Core::TransformType::KeepRatio) override;
     void updateChildPosition() override;
     QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
     virtual void addActionContextMenu(QMenu&) override;

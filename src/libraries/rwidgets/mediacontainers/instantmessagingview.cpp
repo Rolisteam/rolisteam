@@ -60,6 +60,9 @@ InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWi
         });
 
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
+    engine->addImportPath(QStringLiteral("qrc:/qml"));
+    engine->addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
+
     connect(m_qmlViewer.get(), &QQuickWidget::sceneGraphError, this,
             [](QQuickWindow::SceneGraphError, const QString& msg) { qDebug() << msg; });
     connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& warnings) {

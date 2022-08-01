@@ -23,6 +23,7 @@
 #include "data/campaignmanager.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 
 #include <QDebug>
 
@@ -52,17 +53,17 @@ void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
     auto id= ctrl->uuid();
     auto campaign= m_manager->campaign();
     auto path= ctrl->url().toLocalFile();
-    qDebug() << path << "savemediacontroller";
     if(campaign)
     {
         auto p= campaign->pathFromUuid(id);
-        qDebug() << "saveMediaController: " << p << path;
         if(!p.isEmpty())
             path= p;
     }
     ctrl->setUrl(QUrl::fromLocalFile(path));
 
-    campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl));
-
-    ctrl->setModified(false);
+    helper::utils::setContinuation<bool>(
+        campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl)), this, [ctrl](bool b) {
+            if(b)
+                ctrl->setModified(false);
+        });
 }

@@ -35,14 +35,14 @@ class RectController;
 class TextController;
 class LineController;
 class PathController;
-class ImageController;
+class ImageItemController;
 class CharacterItemController;
 class EllipseController;
 } // namespace vmap
 
 namespace mindmap
 {
-class Link;
+class LinkController;
 class MindNode;
 } // namespace mindmap
 
@@ -101,7 +101,7 @@ public:
     static void sendOffEllispe(const vmap::EllipseController* ctrl, const QString& mapId);
     static void sendOffText(const vmap::TextController* ctrl, const QString& mapId);
     static void sendOffPath(const vmap::PathController* ctrl, const QString& mapId);
-    static void sendOffImage(const vmap::ImageController* ctrl, const QString& mapId);
+    static void sendOffImage(const vmap::ImageItemController* ctrl, const QString& mapId);
     static void sendOffCharacter(const vmap::CharacterItemController* ctrl, const QString& mapId);
 
     // media
@@ -145,7 +145,7 @@ public:
     static QHash<QString, QVariant> readMindMap(NetworkMessageReader* msg);
     static void readMindMapAddItem(MindMapController* ctrl, NetworkMessageReader* msg);
     static void buildAddItemMessage(NetworkMessageWriter& msg, const QList<mindmap::MindNode*>& nodes,
-                                    const QList<mindmap::Link*>& links);
+                                    const QList<mindmap::LinkController*>& links);
     static void buildRemoveItemMessage(NetworkMessageWriter& msg, const QStringList& nodes, const QStringList& links);
     static void readMindMapRemoveMessage(MindMapController* ctrl, NetworkMessageReader* msg);
 

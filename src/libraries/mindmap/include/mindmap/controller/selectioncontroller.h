@@ -20,14 +20,17 @@
 #ifndef SELECTIONCONTROLLER_H
 #define SELECTIONCONTROLLER_H
 
+#include "mindmap/mindmap_global.h"
 #include <QObject>
 #include <QPointF>
 #include <QUndoStack>
-#include "mindmap/mindmap_global.h"
+#include <vector>
+
 namespace mindmap
 {
 
 class MindNode;
+class MindItem;
 class MINDMAP_EXPORT SelectionController : public QObject
 {
     Q_OBJECT
@@ -44,7 +47,7 @@ public:
     bool enabled() const;
     bool hasSelection() const;
 
-    const std::vector<mindmap::MindNode*>& selectedNodes() const;
+    const std::vector<mindmap::MindItem*>& selectedNodes() const;
 signals:
     void enabledChanged();
     void lastSelectedChanged();
@@ -52,8 +55,8 @@ signals:
 
 public slots:
     void setEnabled(bool enable);
-    void addToSelection(mindmap::MindNode* node);
-    void removeFromSelection(mindmap::MindNode* node);
+    void addToSelection(mindmap::MindItem* node);
+    void removeFromSelection(mindmap::MindItem* node);
     void movingNode(const QPointF& motion);
     void clearSelection();
 
@@ -61,7 +64,7 @@ private:
     void setLastSelectedId(const QString& id);
 
 private:
-    std::vector<mindmap::MindNode*> m_selection;
+    std::vector<mindmap::MindItem*> m_selection;
     bool m_enabled= false;
     QUndoStack* m_undoStack;
     QString m_lastSelectedId;

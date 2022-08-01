@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import Customization 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Customization
 
 Pane
 {
@@ -28,18 +28,22 @@ Pane
     x: currentNode.position.x
     y: currentNode.position.y
 
+
+
     visible: currentNode.visible
-    onWidthChanged: currentNode.contentWidth = width
-    onHeightChanged: currentNode.contentHeight = height
+    onWidthChanged: currentNode.width = width
+    onHeightChanged: {
+        currentNode.height = height
+    }
 
     onXChanged: {
-        if(mouse.drag.active)
+        if(dragMouse.drag.active)
             currentNode.position=Qt.point(x, y)
     }
     onYChanged: {
-       if(mouse.drag.active)
+        if(dragMouse.drag.active)
             currentNode.position=Qt.point(x, y)
-   }
+    }
     Connections {
         target: currentNode
         function onPositionChanged(position) {
@@ -55,137 +59,141 @@ Pane
     signal selectStyle()
     signal reparenting(var id)
     signal addChild()
+    signal addImage(var img)
     signal addCharacter(var name, var source, var color)
     signal textEdited(var text)
 
     //Drag
-    Drag.active: mouse.drag.active
+    //Drag.active: dragMouse.drag.active
+    Binding on Drag.active {
+      value: dragMouse.drag.active
+      delayed: true
+    }
     Drag.keys: [ "rmindmap/reparenting","text/plain" ]
     Drag.supportedActions: Qt.MoveAction
     Drag.mimeData: {
         "text/plain": root.ident
     }
-
-    ColumnLayout {
-        Image {
-            id: img
-            visible: source
-            fillMode: Image.PreserveAspectFit
-            sourceSize.height: root.style.imageSize
-            sourceSize.width: root.style.imageSize
-            Layout.alignment: Qt.AlignHCenter
-        }
-        TextInput{
-            id: _textlbl
-            text: root.currentNode.text
-            enabled: root.readWrite && root.isEditable
-            color: root.nodeStyle.textColor
-            Layout.alignment: Qt.AlignHCenter
-            onEnabledChanged: focus = enabled
-            onEditingFinished: {
-              root.isEditable = false
-              root.textEdited(text)
-            }
-        }
-    }
-
-
-
-    background: Rectangle {
-        radius: root.radius
-        border.width: (root.dropOver || root.selected) ? 4 : 1
-        //border.color: root.dropOver ? "red" : root.selected ? "blue": "black"
-        border.color: root.dropOver ? root.style.overColor : root.selected ? root.style.highlightColor : root.style.textColor
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: root.nodeStyle.colorOne }
-            GradientStop { position: 1.0; color: root.nodeStyle.colorTwo }
-        }
+    Item {
+        id: centralItem
+        implicitWidth: lyt.implicitWidth
+        implicitHeight: lyt.implicitHeight
         MouseArea {
-            id: mouse
+            id: dragMouse
             anchors.fill: parent
+            anchors.margins: -root.padding
             drag.target: root
             drag.axis: Drag.XAndYAxis
             drag.minimumX: 0
             drag.minimumY: 0
-            onPressed:{
-                root.clicked(mouse)
-                root.grabToImage(function(result) {
-                                if(mouse.modifiers & Qt.ControlModifier)
-                                {
-                                    root.Drag.dragType = Drag.Automatic
-                                    root.Drag.keys = [ "rmindmap/reparenting","text/plain" ]
-                                }
-                                else
-                                {
-                                    root.Drag.dragType = Drag.Internal
-                                    root.Drag.keys = []
-                                }
-                                root.Drag.imageSource = result.url
-                            })
-            }
+            preventStealing: true
+            onPressed:(mouse)=>{
+                         /* if(root.isEditable)
+                          {
+                              mouse.accepted = false
+                              return;
+                          }*/
+                          root.clicked(mouse)
+                          root.grabToImage(function(result) {
+                              if(mouse.modifiers & Qt.ControlModifier)
+                              {
+                                  root.Drag.dragType = Drag.Automatic
+                                  root.Drag.keys = [ "rmindmap/reparenting","text/plain" ]
+                              }
+                              else
+                              {
+                                  root.Drag.dragType = Drag.Internal
+                                  root.Drag.keys = []
+                              }
+                              root.Drag.imageSource = result.url
+                          })
+                      }
 
-            onDoubleClicked: root.isEditable = true
+            onDoubleClicked: {
+                root.isEditable = true
+            }
             drag.onActiveChanged: root.isDragged = drag.active
         }
+            ColumnLayout {
+                id: lyt
+                anchors.fill: parent
+                Image {
+                    id: img
+                    visible: source
+                    fillMode: Image.PreserveAspectFit
+                    sourceSize.height: root.style.imageSize
+                    sourceSize.width: root.style.imageSize
+                    Layout.alignment: Qt.AlignHCenter
+                }
+
+
+                TextInput{
+                    id: _textlbl
+                    text: root.currentNode.text
+                    enabled: root.readWrite && root.isEditable
+                    color: root.nodeStyle.textColor
+                    Layout.alignment: Qt.AlignHCenter
+                    onEnabledChanged: focus = enabled
+                    focus: true
+                    onEditingFinished: {
+                        root.isEditable = false
+                        root.textEdited(text)
+                    }
+
+                }
+            }
+
+
+
+
 
         AbstractButton {
             id: control
             property bool open: !checked
+            property color foreground: root.style.textColor
             checkable: true
-            width: root.style.childrenButtonSize
-            height: root.style.childrenButtonSize
-            anchors.verticalCenter: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
+            visible: currentNode.hasLink
+            width: implicitWidth //root.style.childrenButtonSize
+            height: implicitHeight //root.style.childrenButtonSize
+            anchors.verticalCenter: dragMouse.bottom
+            anchors.horizontalCenter: dragMouse.horizontalCenter 
             topPadding: 0
             padding: 0
-            rotation: control.checked ? 180 : 0
-            property color foreground: root.style.textColor
-            onForegroundChanged: canvas.requestPaint()
-            contentItem: Canvas {
-                id: canvas
-                onPaint: {
-                    var color = control.foreground
-                    var ctx = getContext("2d")
-                    ctx.fillStyle = Qt.rgba(color.r,color.g,color.b, 1)
-                    ctx.beginPath();
-                    ctx.moveTo(width/2,0)
-                    ctx.lineTo(0,height)
-                    ctx.lineTo(width,height)
-                    ctx.lineTo(width/2,0)
-                    ctx.closePath()
-                    ctx.fill()
-                }
+            contentItem: Text {
+                text: control.checked ?  "▲" : "▼"
+                color: control.foreground
             }
+
             background: Item {
+
             }
         }
-
-        Rectangle {
-            color: "blue"
+        AbstractButton {
             visible: root.readWrite
             width: 10
             opacity: 0.7
-            radius: parent.radius
-            height: parent.height
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.readWrite
-                onClicked: root.addChild()
+            height: dragMouse.height
+            anchors.right: dragMouse.right
+            anchors.verticalCenter: dragMouse.verticalCenter
+            onClicked: {
+                root.addChild()
+            }
+            contentItem: Item{}
+            background: Rectangle {
+                radius: root.radius
+                color: "blue"
             }
         }
 
-        Rectangle {
+        AbstractButton {
             id: style
-            visible: root.selected
             width: root.expandButtonSize
             height: root.expandButtonSize
-            radius: root.expandButtonSize/2
-            color: "blue"
-            anchors.verticalCenter: parent.top
-            anchors.horizontalCenter: parent.right
-            Text {
+            onClicked: selectStyle()
+            anchors.verticalCenter: dragMouse.top
+            anchors.horizontalCenter: dragMouse.right
+            text: "▼"
+            contentItem: Text {
                 topPadding: 0
                 padding: 0
                 width: 2
@@ -198,42 +206,80 @@ Pane
                 color: "white"
                 text: "▼"
             }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: selectStyle()
+
+            background: Rectangle {
+                radius: root.expandButtonSize/2
+                color: "blue"
             }
         }
 
         DropArea {
-            anchors.fill: parent
-            keys: [ "rmindmap/reparenting","text/plain", "rolisteam/userlist-item" ]
-            onDropped: {               
-                var reparenting = false
-                for(var i=0; i< drop.keys.length; ++i)
-                {
-                    if(drop.keys[i] === "rmindmap/reparenting")
-                        reparenting = true
-                }
-                if(reparenting)
-                {
-                    console.log("reparenting")
-                    root.reparenting(drop.text)
-                }
-                else
-                {
-                    console.log("add character")
-                    root.addCharacter(drop.text, drop.urls[0], drop.colorData)
-                }
-                root.dropOver = false
-            }
-            onEntered: {
-                if(drag.source === root)
-                    drag.accepted = false
+            anchors.fill: dragMouse
+            keys: [ "rmindmap/reparenting","text/plain","text/uri-list", "rolisteam/userlist-item" ]
+            onDropped: (drop)=>{
+                           console.log("keys:"+drop.keys)
+                           var reparenting = false
+                           var hasUrl = false
+                           var character = false
+                           for(var i=0; i< drop.keys.length; ++i)
+                           {
 
-                if(drag.source !== root)
-                    root.dropOver = true
-            }
+                               console.log("keys:"+drop.keys[i])
+                               if(drop.keys[i] === "rmindmap/reparenting")
+                               reparenting = true
+                               else if(drop.keys[i] === "text/uri-list")
+                               hasUrl = true
+                               else if(drop.keys[i] === "rolisteam/userlist-item")
+                               character= true
+                           }
+                           if(reparenting)
+                           {
+                               console.log("reparenting")
+                               root.reparenting(drop.text)
+                           }
+                           else if(hasUrl && !character)
+                           {
+                               console.log("Has url")
+                               var url = drop.urls[0]
+                               var urlstr = url.toString()
+                               console.log(urlstr)
+                               if(urlstr.endsWith(".png") || urlstr.endsWith(".jpg") || urlstr.endsWith(".gif")|| urlstr.endsWith(".jpeg^"))
+                               root.addImage(url)
+                           }
+                           else if(character)
+                           {
+                               console.log("add character")
+                               root.addCharacter(drop.text, drop.urls[0], drop.colorData)
+                           }
+                           root.dropOver = false
+                       }
+            onEntered: (drag)=>{
+                           if(drag.source === root)
+                           drag.accepted = false
+
+                           if(drag.source !== root)
+                           root.dropOver = true
+                       }
             onExited:root.dropOver = false
         }
+
+    }
+
+
+
+    background: Rectangle {
+        radius: root.radius
+        border.width: (root.dropOver || root.selected) ? 4 : 1
+        border.color: root.dropOver ? root.style.overColor : root.selected ? root.style.highlightColor : root.style.textColor
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: root.nodeStyle.colorOne }
+            GradientStop { position: 1.0; color: root.nodeStyle.colorTwo }
+        }
+        /*Rectangle {
+            color: "red"
+            opacity: 0.4
+            width: root.currentNode.width
+            height: root.currentNode.height
+        }*/
     }
 }

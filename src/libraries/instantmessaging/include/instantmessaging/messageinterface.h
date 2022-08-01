@@ -21,8 +21,11 @@
 #define MESSAGEINTERFACE_H
 
 #include "im_global.h"
+
 #include <QDateTime>
 #include <QObject>
+#include <QUrl>
+
 namespace InstantMessaging
 {
 class IM_EXPORT MessageInterface : public QObject
@@ -33,6 +36,7 @@ class IM_EXPORT MessageInterface : public QObject
     Q_PROPERTY(QString owner READ owner CONSTANT)   // Player only
     Q_PROPERTY(QString writer READ writer CONSTANT) // player or one of its character.
     Q_PROPERTY(QDateTime dateTime READ dateTime CONSTANT)
+    Q_PROPERTY(QUrl imageLink READ imageLink WRITE setImageLink NOTIFY imageLinkChanged)
 public:
     enum MessageType
     {
@@ -49,12 +53,15 @@ public:
     virtual QString owner() const= 0;
     virtual QDateTime dateTime() const= 0;
     virtual QString writer() const= 0;
+    virtual QUrl imageLink() const= 0;
 
 public slots:
     virtual void setText(const QString& text)= 0;
+    virtual void setImageLink(const QUrl& path)= 0;
 
 signals:
     void textChanged();
+    void imageLinkChanged();
 };
 
 class IM_EXPORT MessageBase : public MessageInterface
@@ -67,12 +74,17 @@ public:
     QDateTime dateTime() const override;
     MessageType type() const override;
     QString writer() const override;
+    QUrl imageLink() const override;
+
+public slots:
+    void setImageLink(const QUrl& path) override;
 
 private:
     QString m_ownerId;
     QDateTime m_time;
     MessageType m_type;
     QString m_writer;
+    QUrl m_imageLink;
 };
 } // namespace InstantMessaging
 #endif // MESSAGEINTERFACE_H

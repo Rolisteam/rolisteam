@@ -1,24 +1,34 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import Customization 1.0
-import org.rolisteam.InstantMessaging 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Customization
+import org.rolisteam.InstantMessaging
 
 
 Column {
     id: root
+    property string writerId : writerIdldr
+    property string text: messageTextldr
+    property bool local: localldr
+    property string time: timeldr
+    property string writerName: writerNameldr
+    property real parentWidth: windowWidthldr
+    property real factor : fontFactor
+    property url imageLink: imageLinkldr
+
     property QtObject styleSheet: Theme.styleSheet("TextMessage")
     spacing: root.styleSheet.spacing
-    property real factor : fontFactor
     signal linkClicked(string link)
     Row {
         id: messageRow
         spacing: root.styleSheet.textAvatarSpacing
-        anchors.right: model.local ? parent.right : undefined
+        anchors.right: local ? parent.right : undefined
 
         Image {
             id: avatar
-            source: "image://avatar/%1".arg(model.writerId)
-            visible: !model.local
+            property string writerid
+            source: "image://avatar/%1".arg(avatar.writerid)
+            visible: !root.local
             fillMode: Image.PreserveAspectFit
             sourceSize.width:  root.styleSheet.imageSize
             sourceSize.height: root.styleSheet.imageSize
@@ -26,25 +36,43 @@ Column {
 
         Rectangle {
             id: rect
-            width: Math.min(messageId.contentWidth + root.styleSheet.textTopMargin,
-                            listView.width - (!model.local ? avatar.width + messageRow.spacing : 0))
-            height: messageId.contentHeight + root.styleSheet.textTopMargin
-            color: model.local ? "lightgrey" : "steelblue"
+            width: messageLyt.implicitWidth + root.styleSheet.textTopMargin//Math.min(messageId.contentWidth + root.styleSheet.textTopMargin,
+                            //listView.width - (!root.local ? avatar.width + messageRow.spacing : 0))
+            height: messageLyt.implicitHeight + root.styleSheet.textTopMargin //messageId.contentHeight + root.styleSheet.textTopMargin
+            color: root.local ? root.styleSheet.localMsgColor : root.styleSheet.RemoteMsgColor
             radius: root.styleSheet.radiusSize
-            Label {
-                id: messageId
-                text: model.text
-                font.pixelSize: root.styleSheet.fontSize * root.factor
+            ColumnLayout {
+                id: messageLyt
                 anchors.centerIn: parent
-                wrapMode: Text.WordWrap
-                onLinkActivated: InstantMessagerManager.ctrl.openLink(link)
+                Label {
+                    id: messageId
+                    text: root.text
+                    visible: root.text
+                    font.pixelSize: root.styleSheet.fontSize * root.factor
+                    width: Math.min(root.parentWidth, contentWidth)
+
+                    wrapMode: Text.WordWrap
+                    onLinkActivated: InstantMessagerManager.ctrl.openLink(link)
+                }
+                Image {
+                    id: imagePanel
+                    fillMode: Image.PreserveAspectFit
+                    source: root.imageLink
+                    visible: root.imageLink
+                    sourceSize.width: root.parentWidth*0.8
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: InstantMessagerManager.ctrl.openLink(root.imageLink)
+                    }
+                }
             }
         }
     }
     Label {
         id: timestamp
-        text: model.local ? model.time : "%1 - %2".arg(model.time).arg(model.writerName)
-        anchors.right: model.local ? parent.right : undefined
+        text: root.local ? root.time : "%1 - %2".arg(root.time).arg(root.writerName)
+        anchors.right: root.local ? parent.right : undefined
         font.pixelSize: root.styleSheet.fontSizeTime * root.factor
         opacity: root.styleSheet.opacityTime
     }

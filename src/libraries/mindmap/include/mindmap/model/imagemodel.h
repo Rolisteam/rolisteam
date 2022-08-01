@@ -20,11 +20,11 @@
 #ifndef IMAGEMODEL_H
 #define IMAGEMODEL_H
 
+#include "mindmap/mindmap_global.h"
 #include <QAbstractListModel>
 #include <QPixmap>
 #include <QString>
 #include <QUrl>
-#include "mindmap/mindmap_global.h"
 namespace mindmap
 {
 struct MINDMAP_EXPORT ImageInfo
@@ -52,6 +52,7 @@ public:
 
     void insertPixmap(const QString& id, const QPixmap& map, const QUrl& url= QUrl(), bool network= false);
     int removePixmap(const QString& id);
+    bool hasPixmap(const QString& id) const;
     QPixmap pixmapFromId(const QString& id) const;
     const ImageInfo imageInfoFromId(const QString& id) const;
 

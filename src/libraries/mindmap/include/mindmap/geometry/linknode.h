@@ -24,6 +24,8 @@
 #include <QSGGeometryNode>
 
 #include "mindmap/mindmap_global.h"
+#include "mindmap/data/linkcontroller.h"
+
 namespace mindmap
 {
 
@@ -32,7 +34,7 @@ class MINDMAP_EXPORT LinkNode : public QSGGeometryNode
 public:
     LinkNode();
     void setColor(const QColor& color);
-    void update(const QPointF& p1, const QPointF& p2);
+    void update(const QRectF& rect, LinkController::Orientation orient, const QRectF& startBox, const QRectF& endBox);
 
 private:
     QSGFlatColorMaterial m_material;

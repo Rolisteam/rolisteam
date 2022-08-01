@@ -57,7 +57,7 @@ signals:
     void endPointEditFinished();
 
 public slots:
-    void setCorner(const QPointF& move, int corner) override;
+    void setCorner(const QPointF& move, int corner, Core::TransformType tt= Core::TransformType::NoTransform) override;
     void setStartPoint(const QPointF& p);
     void setEndPoint(const QPointF& p);
 

@@ -172,27 +172,34 @@ NETWORK_EXPORT Q_ENUM_NS(CharacterScope)
         Unmask
     };
 
-enum SelectableTool
+enum class TransformType
 {
-    PEN,
-    LINE,
-    EMPTYRECT,
-    FILLRECT,
-    EMPTYELLIPSE,
-    FILLEDELLIPSE,
-    TEXT,
-    HANDLER,
-    NonPlayableCharacter,
-    PlayableCharacter,
-    IMAGE,
-    RULE,
-    PATH,
-    ANCHOR,
-    TEXTBORDER,
-    PIPETTE,
-    BUCKET,
-    HIGHLIGHTER
+    NoTransform,
+    KeepRatio,
+    Sticky
 };
+NETWORK_EXPORT Q_ENUM_NS(TransformType)
+
+    enum SelectableTool {
+        PEN,
+        LINE,
+        EMPTYRECT,
+        FILLRECT,
+        EMPTYELLIPSE,
+        FILLEDELLIPSE,
+        TEXT,
+        HANDLER,
+        NonPlayableCharacter,
+        PlayableCharacter,
+        IMAGE,
+        RULE,
+        PATH,
+        ANCHOR,
+        TEXTBORDER,
+        PIPETTE,
+        BUCKET,
+        HIGHLIGHTER
+    };
 NETWORK_EXPORT Q_ENUM_NS(SelectableTool)
 
     enum Properties {
@@ -469,23 +476,42 @@ constexpr char const* JSON_OWNERID{"ownerid"};
 } // namespace base
 namespace Mindmap
 {
-constexpr char const* JSON_NODE_ID{"id"};
-constexpr char const* JSON_NODE_X{"x"};
-constexpr char const* JSON_NODE_Y{"y"};
-constexpr char const* JSON_NODE_TEXT{"text"};
-constexpr char const* JSON_NODE_IMAGE{"image"};
-constexpr char const* JSON_NODE_VISIBLE{"visible"};
-constexpr char const* JSON_NODE_OPEN{"open"};
-constexpr char const* JSON_NODE_STYLE{"styleindex"};
+constexpr char const* JSON_CTRL_DEFAULT_INDEX_STYLE{"defaultIndexStyle"};
+constexpr char const* JSON_CTRL_SPACING{"spacing"};
+constexpr char const* JSON_CTRL_LINK_LABEL_VISIBILITY{"linklabelvisibility"};
 
+constexpr char const* JSON_MINDITEM_ID{"id"};
+constexpr char const* JSON_MINDITEM_TEXT{"text"};
+constexpr char const* JSON_MINDITEM_VISIBLE{"visible"};
+constexpr char const* JSON_MINDITEM_SELECTED{"selected"};
+constexpr char const* JSON_MINDITEM_TYPE{"type"};
+
+constexpr char const* JSON_POSITIONED_POSITIONX{"position.x"};
+constexpr char const* JSON_POSITIONED_POSITIONY{"position.y"};
+constexpr char const* JSON_POSITIONED_CENTERX{"center.x"};
+constexpr char const* JSON_POSITIONED_CENTERY{"center.y"};
+constexpr char const* JSON_POSITIONED_WIDTH{"width"};
+constexpr char const* JSON_POSITIONED_HEIGHT{"height"};
+constexpr char const* JSON_POSITIONED_DRAGGED{"isDragged"};
+constexpr char const* JSON_POSITIONED_OPEN{"open"};
+constexpr char const* JSON_POSITIONED_LOCKED{"locked"};
+constexpr char const* JSON_POSITIONED_MASS{"mass"};
+
+constexpr char const* JSON_NODE_IMAGE{"image"};
+constexpr char const* JSON_NODE_STYLE{"styleindex"};
+constexpr char const* JSON_NODE_DESC{"description"};
+constexpr char const* JSON_NODE_TAGS{"tags"};
 constexpr char const* JSON_NODES{"nodes"};
 
 constexpr char const* JSON_LINKS{"links"};
 constexpr char const* JSON_LINK_IDSTART{"idStart"};
 constexpr char const* JSON_LINK_IDEND{"idEnd"};
-constexpr char const* JSON_LINK_VISIBLE{"visible"};
 constexpr char const* JSON_LINK_DIRECTION{"direction"};
-constexpr char const* JSON_LINK_TEXT{"text"};
+
+constexpr char const* JSON_PACK_TITLE{"title"};
+constexpr char const* JSON_PACK_MINMARGE{"minimumMargin"};
+constexpr char const* JSON_PACK_INTERNAL_CHILDREN{"internalChildren"};
+constexpr char const* JSON_PACK_PACKAGES{"packages"};
 
 constexpr char const* JSON_IMGS{"images"};
 constexpr char const* JSON_IMG_ID{"id"};
