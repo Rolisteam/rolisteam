@@ -64,7 +64,7 @@ private:
     std::unique_ptr<TimeAccepter> m_timeAccepter;
 };
 
-Q_DECLARE_METATYPE(PasswordAccepter::Level);
+Q_DECLARE_METATYPE(PasswordAccepter::Level)
 
 TestNetwork::TestNetwork() {}
 
@@ -264,13 +264,11 @@ void TestNetwork::timeAccepterTest_data()
     int count= 0;
     for(int i= 0; i < 24; ++i)
     {
-        QTest::addRow(QStringLiteral("time%1").arg(++count).toStdString().c_str())
-            << QStringLiteral("%1:00").arg(i, 2, 10, QLatin1Char('0'))
-            << QStringLiteral("%1:30").arg(i, 2, 10, QLatin1Char('0'));
+        QTest::addRow("time %d", ++count) << QStringLiteral("%1:00").arg(i, 2, 10, QLatin1Char('0'))
+                                          << QStringLiteral("%1:30").arg(i, 2, 10, QLatin1Char('0'));
 
-        QTest::addRow(QStringLiteral("time%1").arg(++count).toStdString().c_str())
-            << QStringLiteral("%1:30").arg(i, 2, 10, QLatin1Char('0'))
-            << QStringLiteral("%1:00").arg(i + 1, 2, 10, QLatin1Char('0'));
+        QTest::addRow("time %d", ++count) << QStringLiteral("%1:30").arg(i, 2, 10, QLatin1Char('0'))
+                                          << QStringLiteral("%1:00").arg(i + 1, 2, 10, QLatin1Char('0'));
     }
 
     QTest::addRow("time_null") << ""
