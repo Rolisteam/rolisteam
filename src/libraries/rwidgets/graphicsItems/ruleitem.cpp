@@ -105,7 +105,8 @@ void RuleItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     painter->restore();
 
     qreal len= line.length();
-    qreal unitCount= len / m_ctrl->gridScale();
+
+    qreal unitCount= len / m_ctrl->gridSize() * m_ctrl->gridScale();
 
     QFont f= painter->font();
     f.setPixelSize(FONT_SIZE * 1 / m_ctrl->zoomLevel());
