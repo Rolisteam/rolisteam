@@ -110,14 +110,14 @@ void LineFieldItem::saveDataItem(QJsonArray& json)
         json.append(obj);
     }
 }
-void LineFieldItem::load(QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent)
+void LineFieldItem::load(QJsonArray& json, CharacterSheetItem* parent)
 {
     for(auto const value : json)
     {
         auto field= new FieldController(CharacterSheetItem::FieldItem, true);
         field->setParent(parent);
         QJsonObject obj= value.toObject();
-        field->load(obj, ctrl);
+        field->load(obj);
         m_fields.append(field);
     }
 }
@@ -269,7 +269,7 @@ void LineModel::saveDataItem(QJsonArray& json)
     }
 }
 
-void LineModel::load(const QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent)
+void LineModel::load(const QJsonArray& json, CharacterSheetItem* parent)
 {
     beginResetModel();
     QJsonArray::Iterator it;
@@ -277,7 +277,7 @@ void LineModel::load(const QJsonArray& json, EditorController* ctrl, CharacterSh
     {
         QJsonArray obj= array.toArray();
         LineFieldItem* line= new LineFieldItem();
-        line->load(obj, ctrl, parent);
+        line->load(obj, parent);
         m_lines.append(line);
     }
     endResetModel();
@@ -542,9 +542,8 @@ void TableField::save(QJsonObject& json, bool exp)
     json["canvas"]= obj;*/
 }
 
-void TableField::load(const QJsonObject& json, EditorController* ctrl)
+void TableField::load(const QJsonObject& json)
 {
-    Q_UNUSED(ctrl)
     // TODO dupplicate from Field
     m_id= json["id"].toString();
     m_border= static_cast<BorderLine>(json["border"].toInt());
@@ -601,7 +600,7 @@ void TableField::load(const QJsonObject& json, EditorController* ctrl)
     setHeight(h);
     QJsonArray childArray= json["children"].toArray();
 
-    m_model->load(childArray, nullptr, this);
+    m_model->load(childArray, this);
 
     /*if(json.contains("canvas"))
     {

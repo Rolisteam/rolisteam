@@ -113,9 +113,9 @@ void CharacterController::setRootSection(Section* section)
     m_characterModel->setRootSection(section);
 }
 
-void CharacterController::save(QJsonObject& obj, bool complete)
+void CharacterController::save(QJsonObject& obj)
 {
-    m_characterModel->writeModel(obj, complete);
+    m_characterModel->writeModel(obj);
 }
 
 void CharacterController::load(const QJsonObject& obj, bool complete)

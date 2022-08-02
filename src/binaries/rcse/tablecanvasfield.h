@@ -82,7 +82,7 @@ public:
 
     void generateSubFields(QTextStream& out);
 
-    void load(QJsonObject& json, EditorController* ctrl);
+    void load(QJsonObject& json);
     void save(QJsonObject& json);
 
     CharacterSheetItem* getRoot();

@@ -174,9 +174,9 @@ void ColumnDefinitionDialog::setModel(FieldModel* model)
 {
     m_model= model;
 }
-void ColumnDefinitionDialog::load(QJsonObject& json, EditorController* ctrl)
+void ColumnDefinitionDialog::load(QJsonObject& json)
 {
-    m_model->load(json, ctrl);
+    m_model->load(json);
 }
 void ColumnDefinitionDialog::save(QJsonObject& json)
 {

@@ -313,7 +313,7 @@ void TableCanvasField::fillLineModel(LineModel* lineModel, TableField* parent)
     }
 }
 
-void TableCanvasField::load(QJsonObject& json, EditorController* ctrl)
+void TableCanvasField::load(QJsonObject& json)
 {
     m_lineCount= json["lineCount"].toInt();
     m_colunmCount= json["colunmCount"].toInt();
@@ -330,7 +330,7 @@ void TableCanvasField::load(QJsonObject& json, EditorController* ctrl)
     }
 
     QJsonObject dialog= json["dialog"].toObject();
-    m_dialog->load(dialog, ctrl);
+    m_dialog->load(dialog);
 }
 void TableCanvasField::save(QJsonObject& json)
 {

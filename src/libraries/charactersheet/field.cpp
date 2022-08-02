@@ -311,9 +311,8 @@ void FieldController::save(QJsonObject& json, bool exp)
     json["values"]= valuesArray;
 }
 
-void FieldController::load(const QJsonObject& json, EditorController* ctrl)
+void FieldController::load(const QJsonObject& json)
 {
-    Q_UNUSED(ctrl);
     m_id= json["id"].toString();
     m_border= static_cast<BorderLine>(json["border"].toInt());
     m_value= json["value"].toString();

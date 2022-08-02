@@ -122,17 +122,18 @@ void Section::save(QJsonObject& json, bool exp)
     for(auto& key : m_keyList)
     {
         CharacterSheetItem* item= m_dataHash.value(key);
-        if(nullptr != item)
-        {
-            QJsonObject itemObject;
-            item->save(itemObject, exp);
-            fieldArray.append(itemObject);
-        }
+        if(nullptr == item)
+            continue;
+
+        QJsonObject itemObject;
+        item->save(itemObject, exp);
+        fieldArray.append(itemObject);
     }
     json["items"]= fieldArray;
+    qDebug() << json;
 }
 
-void Section::load(const QJsonObject& json, EditorController* ctrl)
+void Section::load(const QJsonObject& json)
 {
     m_name= json["name"].toString();
     QJsonArray fieldArray= json["items"].toArray();
@@ -146,21 +147,21 @@ void Section::load(const QJsonObject& json, EditorController* ctrl)
             auto section= new Section();
             connect(section, &Section::addLineToTableField, this, &Section::addLineToTableField);
             item= section;
-            item->load(obj, ctrl);
+            item->load(obj);
         }
         else if(obj["type"] == QStringLiteral("TableField"))
         {
             TableField* field= new TableField();
             connect(field, &TableField::lineMustBeAdded, this, &Section::addLineToTableField);
             item= field;
-            item->load(obj, ctrl);
+            item->load(obj);
             // gItem= field->getCanvasField();
         }
         else
         {
             auto field= new FieldController(CharacterSheetItem::FieldItem, true);
             item= field;
-            item->load(obj, ctrl);
+            item->load(obj);
             // gItem= field->getCanvasField();
         }
         if(!m_dataHash.contains(item->getPath()))
@@ -354,7 +355,7 @@ void Section::saveDataItem(QJsonObject& json)
 
 void Section::loadDataItem(const QJsonObject& json)
 {
-    load(json, nullptr);
+    load(json);
 }
 void Section::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
 {

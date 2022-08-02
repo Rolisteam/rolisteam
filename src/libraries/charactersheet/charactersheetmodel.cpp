@@ -690,12 +690,8 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex& index)
     endResetModel();
 }*/
 
-bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
+bool CharacterSheetModel::writeModel(QJsonObject& jsonObj)
 {
-    if(writeData)
-    {
-        jsonObj["data"]= rootSectionData();
-    }
     jsonObj["characterCount"]= m_characterList->size(); // m_characterCount;
 
     QJsonArray characters;
@@ -715,7 +711,7 @@ void CharacterSheetModel::readModel(const QJsonObject& jsonObj, bool readRootSec
     if(readRootSection)
     {
         QJsonObject data= jsonObj["data"].toObject();
-        m_rootSection->load(data, nullptr);
+        m_rootSection->load(data);
     }
     QJsonArray characters= jsonObj["characters"].toArray();
     for(const auto charJson : characters)

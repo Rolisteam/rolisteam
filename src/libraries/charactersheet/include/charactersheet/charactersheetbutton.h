@@ -40,7 +40,7 @@ public:
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var) override;
 
     virtual void save(QJsonObject& json, bool exp= false) override;
-    virtual void load(const QJsonObject& json, EditorController* ctrl) override;
+    virtual void load(const QJsonObject& json) override;
 
     virtual void generateQML(QTextStream& out, CharacterSheetItem::QMLSection sec);
 

@@ -151,7 +151,7 @@ public:
      * @param json
      * @param scene
      */
-    void load(const QJsonObject& json, EditorController* ctrl);
+    void load(const QJsonObject& json);
     /**
      * @brief generateQML
      * @param out

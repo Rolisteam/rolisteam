@@ -25,7 +25,7 @@ namespace version
 {
 constexpr int major{@PROJECT_VERSION_MAJOR@};
 constexpr int minor{@PROJECT_VERSION_MINOR@};
-constexpr int path{@PROJECT_VERSION_PATCH@};
+constexpr int patch{@PROJECT_VERSION_PATCH@};
 
 constexpr char const* version{"@PROJECT_VERSION@"};
 

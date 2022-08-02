@@ -63,7 +63,7 @@ public:
     FieldController* getFieldByLabel(const QString& label);
 
     void save(QJsonArray& json);
-    void load(QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent);
+    void load(QJsonArray& json, CharacterSheetItem* parent);
     void saveDataItem(QJsonArray& json);
     void loadDataItem(QJsonArray& json, CharacterSheetItem* parent);
 
@@ -96,7 +96,7 @@ public:
     FieldController* getFieldById(const QString& id);
     void removeLine(int index);
     void save(QJsonArray& json);
-    void load(const QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent);
+    void load(const QJsonArray& json, CharacterSheetItem* parent);
     void saveDataItem(QJsonArray& json);
     void loadDataItem(const QJsonArray& json, CharacterSheetItem* parent);
     void setChildFieldData(const QJsonObject& json);
@@ -146,7 +146,7 @@ public:
     virtual CharacterSheetItem* getChildFromId(const QString& id) const override;
     virtual CharacterSheetItem* getChildAt(int) const override;
     virtual void save(QJsonObject& json, bool exp= false) override;
-    virtual void load(const QJsonObject& json, EditorController* ctrl) override;
+    virtual void load(const QJsonObject& json) override;
     virtual void copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId= true);
 
     ControlPosition getPosition() const;

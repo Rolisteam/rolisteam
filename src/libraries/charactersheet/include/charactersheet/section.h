@@ -110,7 +110,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void load(const QJsonObject& json, EditorController* ctrl) override;
+    virtual void load(const QJsonObject& json) override;
     /**
      * @brief setNewEnd
      */

@@ -102,7 +102,7 @@ public:
     FieldModel* model() const;
     void setModel(FieldModel* model);
 
-    void load(QJsonObject& json, EditorController* ctrl);
+    void load(QJsonObject& json);
     void save(QJsonObject& json);
 
 signals:

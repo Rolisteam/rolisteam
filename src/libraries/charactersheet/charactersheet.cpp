@@ -104,35 +104,36 @@ CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key) const
 const QVariant CharacterSheet::getValue(QString path, int role) const
 {
     CharacterSheetItem* item= getFieldFromKey(path);
-    if(nullptr != item)
+    if(nullptr == item)
+        return {};
+    QVariant res;
+    switch(role)
     {
-        if(role == Qt::DisplayRole)
+    case Qt::DisplayRole:
+        res= item->value();
+        break;
+    case Qt::EditRole:
+    {
+        QString str= item->getFormula();
+        if(str.isEmpty())
         {
-            return item->value();
+            str= item->value();
         }
-        else if(role == Qt::EditRole)
-        {
-            QString str= item->getFormula();
-            if(str.isEmpty())
-            {
-                str= item->value();
-            }
-            return str;
-        }
-        else if(role == Qt::ToolTipRole)
-        {
-            return item->getId();
-        }
-        else if(role == CharacterSheetModel::FormulaRole)
-        {
-            return item->getFormula();
-        }
-        else if(role == Qt::BackgroundRole)
-        {
-            return item->isReadOnly();
-        }
+        res= str;
     }
-    return QVariant();
+    break;
+    case Qt::ToolTipRole:
+        res= item->getId();
+        break;
+    case CharacterSheetModel::FormulaRole:
+        res= item->getFormula();
+        break;
+    case Qt::BackgroundRole:
+        res= item->isReadOnly();
+        break;
+    }
+
+    return res;
 }
 
 bool CharacterSheet::removeField(const QString& id)

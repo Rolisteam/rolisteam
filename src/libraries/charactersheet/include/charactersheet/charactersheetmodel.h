@@ -121,7 +121,7 @@ public:
 
     // QList<CharacterSheetItem *>* getExportedList(CharacterSheet*);
 
-    bool writeModel(QJsonObject& file, bool data= true);
+    bool writeModel(QJsonObject& file);
     void readModel(const QJsonObject& file, bool readRootSection);
     void setRootSection(const QJsonObject& file);
     QJsonObject rootSectionData() const;

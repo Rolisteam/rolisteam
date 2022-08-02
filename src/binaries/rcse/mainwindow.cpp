@@ -24,6 +24,11 @@
 
 #include "common/logcontroller.h"
 #include "common_widgets/logpanel.h"
+#include "dialog/aboutrcse.h"
+#include "dialog/codeeditordialog.h"
+#include "preferences/preferencesdialog.h"
+#include "qmlhighlighter.h"
+#include "serializerhelper.h"
 #include <QBuffer>
 #include <QButtonGroup>
 #include <QColorDialog>
@@ -50,12 +55,8 @@
 #include <QTimer>
 #include <QTransform>
 #include <QUrl>
+#include <QUuid>
 #include <QtConcurrent>
-
-#include "dialog/aboutrcse.h"
-#include "dialog/codeeditordialog.h"
-#include "preferences/preferencesdialog.h"
-#include "qmlhighlighter.h"
 
 // Controller
 #include "controllers/charactercontroller.h"
@@ -609,7 +610,7 @@ bool MainWindow::save()
     else
         return saveFile(m_currentFile);
 }
-#include "serializerhelper.h"
+
 bool MainWindow::saveFile(const QString& filename)
 {
     if(filename.isEmpty())
@@ -619,7 +620,6 @@ bool MainWindow::saveFile(const QString& filename)
     IOWorker::saveFile(SerializerHelper::buildData(m_mainCtrl.get()), filename);
     return true;
 }
-#include <QUuid>
 bool MainWindow::loadFile(const QString& filename)
 {
     if(filename.isEmpty())

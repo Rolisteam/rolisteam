@@ -24,6 +24,8 @@
 
 #include "charactersheet/worker/ioworker.h"
 
+#include <QFontDatabase>
+
 namespace SerializerHelper
 {
 
@@ -39,7 +41,7 @@ QByteArray buildData(MainController* ctrl)
     auto img= IOWorker::saveImageModel(ctrl->imageCtrl()->model());
     obj[keys::background]= img;
 
-    ctrl->characterCtrl()->save(obj, true);
+    ctrl->characterCtrl()->save(obj);
     json.setObject(obj);
 
     return json.toJson();
@@ -52,9 +54,35 @@ QJsonObject saveFieldModel(FieldModel* model)
     return obj;
 }
 
+void fetchGeneratorController(QmlGeneratorController* ctrl, const QJsonObject& obj)
+{
+    ctrl->setHeadCode(obj["additionnalHeadCode"].toString(""));
+    if(ctrl->headCode().isEmpty())
+        ctrl->setHeadCode(obj["additionnalCode"].toString(""));
+    ctrl->setImportCode(obj["additionnalImport"].toString(""));
+    ctrl->setFixedScale(obj["fixedScale"].toDouble(1.0));
+    ctrl->setBottomCode(obj["additionnalBottomCode"].toString(""));
+    ctrl->setFlickable(obj["flickable"].toBool(false));
+
+    const auto fonts= obj["fonts"].toArray();
+    QStringList fontNames;
+    for(const auto obj : fonts)
+    {
+        const auto font= obj.toObject();
+        const auto fontData= QByteArray::fromBase64(font["data"].toString("").toLatin1());
+        QFontDatabase::addApplicationFontFromData(fontData);
+
+        fontNames << font["name"].toString();
+    }
+    ctrl->setFonts(fontNames);
+    auto model= ctrl->fieldModel();
+
+    model->load(obj["data"].toObject());
+}
+
 void fetchMainController(MainController* ctrl, const QJsonObject& jsonObj)
 {
-    ctrl->cleanUpData();
+    ctrl->cleanUpData(false);
     QJsonObject data= jsonObj[keys::data].toObject();
 
     QString qml= jsonObj[keys::qml].toString();
@@ -123,12 +151,11 @@ void fetchMainController(MainController* ctrl, const QJsonObject& jsonObj)
         }
     }
 
-    ctrl->generatorCtrl()->load(jsonObj, ctrl->editCtrl());
+    fetchGeneratorController(ctrl->generatorCtrl(), jsonObj);
     ctrl->characterCtrl()->setRootSection(ctrl->generatorCtrl()->fieldModel()->getRootSection());
     ctrl->characterCtrl()->load(jsonObj, false);
 }
 
-void fetchGeneratorController(QmlGeneratorController* ctrl, const QJsonObject& obj) {}
 QJsonObject saveGeneratorController(QmlGeneratorController* ctrl)
 {
     QJsonObject obj;

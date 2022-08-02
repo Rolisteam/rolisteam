@@ -174,7 +174,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void load(const QJsonObject& json, EditorController* ctrl)= 0;
+    virtual void load(const QJsonObject& json)= 0;
 
     /**
      * @brief save

@@ -116,29 +116,6 @@ void QmlGeneratorController::setLastPageId(unsigned int pageId)
     m_lastPageId= pageId;
 }
 
-void QmlGeneratorController::load(const QJsonObject& obj, EditorController* ctrl)
-{
-    m_headCode= obj["additionnalHeadCode"].toString("");
-    if(m_headCode.isEmpty())
-        m_headCode= obj["additionnalCode"].toString("");
-    m_importCode= obj["additionnalImport"].toString("");
-    m_fixedScaleSheet= obj["fixedScale"].toDouble(1.0);
-    m_bottomCode= obj["additionnalBottomCode"].toString("");
-    m_flickableSheet= obj["flickable"].toBool(false);
-
-    const auto fonts= obj["fonts"].toArray();
-    for(const auto obj : fonts)
-    {
-        const auto font= obj.toObject();
-        const auto fontData= QByteArray::fromBase64(font["data"].toString("").toLatin1());
-        QFontDatabase::addApplicationFontFromData(fontData);
-
-        m_fonts << font["name"].toString();
-    }
-
-    m_model->load(obj["data"].toObject(), ctrl);
-}
-
 QStringList QmlGeneratorController::fonts() const
 {
     return m_fonts;
@@ -160,38 +137,6 @@ void QmlGeneratorController::setFonts(QStringList fonts)
     m_fonts= fonts;
     emit fontsChanged(m_fonts);
     emit dataChanged();
-}
-
-void QmlGeneratorController::save(QJsonObject& obj) const
-{
-    // Get datamodel
-    /*QJsonObject data;
-    m_model->save(data);
-    obj["data"]= data;
-
-    // qml file
-    obj["qml"]= m_qmlCode;
-    obj["additionnalHeadCode"]= m_headCode;
-    obj["additionnalImport"]= m_importCode;
-    obj["fixedScale"]= m_fixedScaleSheet;
-    obj["additionnalBottomCode"]= m_bottomCode;
-    obj["flickable"]= m_flickableSheet;
-
-    QJsonArray fonts;
-    for(const QString &fontUri : m_fonts)
-    {
-        QFile file(fontUri);
-        if(file.open(QIODevice::ReadOnly))
-        {
-            QJsonObject font;
-            font["name"]= fontUri;
-            QByteArray array= file.readAll();
-            font["data"]= QString(array.toBase64());
-            fonts.append(font);
-        }
-    }
-    obj["fonts"]= fonts;
-    m_textEdited= false;*/
 }
 
 FieldModel* QmlGeneratorController::fieldModel() const

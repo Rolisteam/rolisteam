@@ -28,6 +28,7 @@ class QmlGeneratorController : public QObject
     Q_PROPERTY(bool textEdited READ textEdited NOTIFY textEditedChanged)
     Q_PROPERTY(QString uuidCharacter READ uuidCharacter WRITE setUuidCharacter NOTIFY uuidCharacterChanged)
     Q_PROPERTY(QString qmlCode READ qmlCode WRITE setQmlCode NOTIFY qmlCodeChanged)
+    Q_PROPERTY(FieldModel* fieldModel READ fieldModel CONSTANT)
 public:
     explicit QmlGeneratorController(QObject* parent= nullptr);
 
@@ -40,8 +41,7 @@ public:
 
     void clearData();
 
-    void load(const QJsonObject& obj, EditorController* ctrl);
-    void save(QJsonObject& obj) const;
+    // void load(const QJsonObject& obj, EditorController* ctrl);
 
     FieldModel* fieldModel() const;
 

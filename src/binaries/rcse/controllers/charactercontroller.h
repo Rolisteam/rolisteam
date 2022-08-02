@@ -22,7 +22,7 @@ public:
     CharacterController(QObject* parent= nullptr);
     virtual ~CharacterController();
     void setRootSection(Section* section);
-    void save(QJsonObject& obj, bool);
+    void save(QJsonObject& obj);
     void load(const QJsonObject& obj, bool);
     CharacterSheetModel* model() const;
     CharacterList* characters() const;

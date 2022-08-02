@@ -105,7 +105,7 @@ void MainController::setModified(bool newModified)
     emit modifiedChanged();
 }
 
-void MainController::cleanUpData()
+void MainController::cleanUpData(bool addPage)
 {
     m_generatorCtrl->clearData();
     CSItem::resetCount();
@@ -116,7 +116,8 @@ void MainController::cleanUpData()
     setCurrentFile(QString());
     setModified(false);
 
-    m_editCtrl->addPage();
+    if(addPage)
+        m_editCtrl->addPage();
 }
 
 void MainController::displayQmlError(const QList<QQmlError>& errors)
