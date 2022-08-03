@@ -48,7 +48,7 @@ EditorController::EditorController(ImageController* imgCtrl, QUndoStack& undoSta
     m_alignOnX= new QAction(tr("Align on X"), m_view);
     m_sameWidth= new QAction(tr("Same Width"), m_view);
     m_sameHeight= new QAction(tr("Same Height"), m_view);
-    m_dupplicate= new QAction(tr("Dupplicate"), m_view);
+    m_dupplicate= new QAction(tr("Duplicate"), m_view);
     m_verticalEquaDistance= new QAction(tr("Vertical equidistribution"), m_view);
     m_horizontalEquaDistance= new QAction(tr("Horizontal equidistribution"), m_view);
 
