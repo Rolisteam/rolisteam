@@ -40,7 +40,7 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
         showColumn(CharacterSheetItem::HEIGHT);
         showColumn(CharacterSheetItem::PAGE);
     });
-    m_showEsteticGroup= new QAction(tr("Esthetic columns"), this);
+    m_showEsteticGroup= new QAction(tr("Aesthetic columns"), this);
     connect(m_showEsteticGroup, &QAction::triggered, this, [=]() {
         hideAllColumns(true);
         showColumn(CharacterSheetItem::ID);

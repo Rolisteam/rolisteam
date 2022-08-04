@@ -179,7 +179,7 @@ void Section::load(const QJsonObject& json, EditorController* ctrl)
             m_keyList.append(item->getPath());
         }
         else
-            qDebug() << "Dupplicate found" << item->getPath();
+            qDebug() << "Duplicate found" << item->getPath();
     }
 }
 

@@ -167,7 +167,7 @@ void PdfViewer::sharePdfTo()
 {
     auto answer
         = QMessageBox::question(this, tr("Sharing Pdf File"),
-                                tr("PDF transfert can be really heavy.\nDo you want to continue and share the PDF?"),
+                                tr("PDF transfer can be really heavy.\nDo you want to continue and share the PDF?"),
                                 QMessageBox::Yes | QMessageBox::Cancel);
     if(answer == QMessageBox::Yes)
     {

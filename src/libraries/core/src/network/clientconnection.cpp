@@ -116,7 +116,7 @@ void ClientConnection::sendData(char* data, qint64 size)
 
     if(t < 0)
     {
-        emit errorOccured(tr("Tranmission error :") + m_socketTcp->errorString());
+        emit errorOccured(tr("Transmission error :") + m_socketTcp->errorString());
     }
 }
 

@@ -53,7 +53,7 @@ bool CampaignManager::createCampaign(const QUrl& dirUrl)
     auto dirPath= dirUrl.toLocalFile();
     if(!m_campaignUpdater->createCampaignTemplate(dirPath))
     {
-        emit errorOccured(tr("Impossible to create campagne template at %1").arg(dirPath));
+        emit errorOccured(tr("Impossible to create campaign template at %1").arg(dirPath));
         return false;
     }
 

@@ -24,7 +24,7 @@
 AddFogOfWarChangeCommand::AddFogOfWarChangeCommand(vmap::SightController* ctrl, const QPolygonF& gone, bool mask)
     : QUndoCommand(), m_ctrl(ctrl), m_poly(gone), m_mask(mask)
 {
-    setText(mask ? QObject::tr("Reveil vectorial map") : QObject::tr("Unveil vectorial map"));
+    setText(mask ? QObject::tr("Conceal vectorial map") : QObject::tr("Unveil vectorial map"));
 }
 
 void AddFogOfWarChangeCommand::redo()

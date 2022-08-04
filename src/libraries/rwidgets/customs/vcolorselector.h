@@ -131,7 +131,7 @@ private slots:
     /**
      * @brief select the color as current
      * @param new color
-     * @todo Dupplicate with the setter ?
+     * @todo Duplicate with the setter ?
      */
     void selectColor(const QColor& color);
     /**

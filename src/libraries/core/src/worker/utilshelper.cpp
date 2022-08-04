@@ -211,7 +211,7 @@ QString typeToString(Core::ContentType type)
     names.insert(Core::ContentType::VECTORIALMAP, QObject::tr("Vectorial Map"));
     names.insert(Core::ContentType::PICTURE, QObject::tr("Picture"));
     names.insert(Core::ContentType::NOTES, QObject::tr("Minutes"));
-    names.insert(Core::ContentType::CHARACTERSHEET, QObject::tr("Charecter Sheet"));
+    names.insert(Core::ContentType::CHARACTERSHEET, QObject::tr("Character Sheet"));
     names.insert(Core::ContentType::MINDMAP, QObject::tr("Mindmap"));
     names.insert(Core::ContentType::SHAREDNOTE, QObject::tr("Shared Notes"));
 #ifdef WITH_PDF

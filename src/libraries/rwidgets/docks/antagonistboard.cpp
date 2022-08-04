@@ -305,7 +305,7 @@ void AntagonistBoard::contextualMenu(const QPoint& pos)
     menu.addAction(m_changeImageAct.get());
     menu.addSeparator();
     menu.addAction(m_fullModeAct.get());
-    auto colsMenu= menu.addMenu(tr("Show Columnns"));
+    auto colsMenu= menu.addMenu(tr("Show Columns"));
     for(auto const& act : m_columnsAction)
     {
         colsMenu->addAction(act.get());
