@@ -24,12 +24,8 @@
 
 #include "charactersheet/section.h"
 #include "charactersheet/tablefield.h"
-#ifndef RCSE
-//#include "network/networkmessagereader.h"
-#endif
 
 #include <QDebug>
-
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>

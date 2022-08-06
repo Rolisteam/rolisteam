@@ -10,6 +10,7 @@
 
 #include "charactercontroller.h"
 #include "charactersheet/rolisteamimageprovider.h"
+#include "charactersheet_formula/formulamanager.h"
 #include "codeeditor.h"
 #include "imagecontroller.h"
 

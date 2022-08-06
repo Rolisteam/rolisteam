@@ -27,6 +27,7 @@
 
 #include "canvas.h"
 #include "qmlgeneratorvisitor.h"
+#include <charactersheet_formula/formulamanager.h>
 
 //////////////////////////////
 // Column
@@ -55,7 +56,8 @@ void Column::setPos(const CharacterSheetItem::ColumnId& pos)
 //////////////////////////////
 // FieldModel
 /////////////////////////////
-FieldModel::FieldModel(QObject* parent) : QAbstractItemModel(parent)
+FieldModel::FieldModel(QObject* parent)
+    : QAbstractItemModel(parent), m_rootSection{new Section()}, m_formulaManager{new Formula::FormulaManager()}
 {
     m_colunm << new Column(tr("Id"), CharacterSheetItem::ID) << new Column(tr("Label"), CharacterSheetItem::LABEL)
              << new Column(tr("Value"), CharacterSheetItem::VALUE)
@@ -73,9 +75,9 @@ FieldModel::FieldModel(QObject* parent) : QAbstractItemModel(parent)
 
     m_alignList << tr("TopRight") << tr("TopMiddle") << tr("TopLeft") << tr("CenterRight") << tr("CenterMiddle")
                 << tr("CenterLeft") << tr("BottomRight") << tr("BottomMiddle") << tr("BottomLeft");
-
-    m_rootSection= new Section();
 }
+
+FieldModel::~FieldModel()= default;
 
 QVariant FieldModel::data(const QModelIndex& index, int role) const
 {
@@ -88,7 +90,15 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
 
     if((role == Qt::DisplayRole) || (Qt::EditRole == role))
     {
-        QVariant var= item->getValueFrom(m_colunm[index.column()]->getPos(), role);
+        QVariant var;
+        if(CharacterSheetItem::VALUE == m_colunm[index.column()]->getPos() && role == Qt::EditRole)
+        {
+
+            auto formula= item->getFormula();
+            var= formula.isEmpty() ? item->getValueFrom(m_colunm[index.column()]->getPos(), role) : formula;
+        }
+        else
+            var= item->getValueFrom(m_colunm[index.column()]->getPos(), role);
         if((index.column() == CharacterSheetItem::TEXT_ALIGN) && (Qt::DisplayRole == role))
         {
             if((var.toInt() >= 0) && (var.toInt() < m_alignList.size()))
@@ -129,6 +139,42 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
+bool FieldModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if(!index.isValid() || Qt::EditRole != role)
+        return false;
+
+    CharacterSheetItem* item= static_cast<CharacterSheetItem*>(index.internalPointer());
+
+    if(nullptr == item)
+        return false;
+
+    auto valStr= value.toString();
+
+    if(CharacterSheetItem::VALUE == m_colunm[index.column()]->getPos() && valStr.startsWith("="))
+    {
+        QHash<QString, QString> hash= buildDicto();
+        m_formulaManager->setConstantHash(hash);
+        auto valueAfterComputation= m_formulaManager->getValue(valStr).toString();
+        item->setFormula(valStr);
+        item->setValueFrom(m_colunm[index.column()]->getPos(), valueAfterComputation);
+    }
+    else
+    {
+        item->setValueFrom(m_colunm[index.column()]->getPos(), value);
+    }
+    emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID, Qt::DisplayRole).toString(), value.toString());
+    emit modelChanged();
+    return true;
+}
+
+QHash<QString, QString> FieldModel::buildDicto()
+{
+    QHash<QString, QString> dict;
+    m_rootSection->setFieldInDictionnary(dict);
+    return dict;
+}
+
 QModelIndex FieldModel::index(int row, int column, const QModelIndex& parent) const
 {
     if(row < 0)
@@ -138,7 +184,7 @@ QModelIndex FieldModel::index(int row, int column, const QModelIndex& parent) co
 
     // qDebug()<< "Index session " <<row << column << parent;
     if(!parent.isValid())
-        parentItem= m_rootSection;
+        parentItem= m_rootSection.get();
     else
         parentItem= static_cast<CharacterSheetItem*>(parent.internalPointer());
 
@@ -157,7 +203,7 @@ QModelIndex FieldModel::parent(const QModelIndex& child) const
     CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(child.internalPointer());
     CharacterSheetItem* parentItem= childItem->getParent();
 
-    if(parentItem == m_rootSection)
+    if(parentItem == m_rootSection.get())
         return QModelIndex();
 
     CharacterSheetItem* grandParent= parentItem->getParent();
@@ -195,27 +241,6 @@ QVariant FieldModel::headerData(int section, Qt::Orientation orientation, int ro
     }
 }
 
-bool FieldModel::setData(const QModelIndex& index, const QVariant& value, int role)
-{
-    if(!index.isValid())
-        return false;
-
-    if(Qt::EditRole == role)
-    {
-        CharacterSheetItem* item= static_cast<CharacterSheetItem*>(index.internalPointer());
-
-        if(nullptr != item)
-        {
-            item->setValueFrom(m_colunm[index.column()]->getPos(), value);
-            emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID, Qt::DisplayRole).toString(),
-                               value.toString());
-            emit modelChanged();
-            return true;
-        }
-    }
-    return false;
-}
-
 void FieldModel::appendField(CSItem* f)
 {
     beginInsertRows(QModelIndex(), m_rootSection->getChildrenCount(), m_rootSection->getChildrenCount());
@@ -247,7 +272,7 @@ void FieldModel::appendField(CSItem* f)
 void FieldModel::insertField(CSItem* field, CharacterSheetItem* parent, int pos)
 {
     beginInsertRows(QModelIndex(), pos, pos);
-    if(parent == m_rootSection)
+    if(parent == m_rootSection.get())
     {
         m_rootSection->insertChild(field, pos);
     }
@@ -281,7 +306,7 @@ Qt::ItemFlags FieldModel::flags(const QModelIndex& index) const
 }
 void FieldModel::generateQML(QTextStream& out, int indentation, bool isTable)
 {
-    QmlGeneratorVisitor visitor(out, m_rootSection);
+    QmlGeneratorVisitor visitor(out, m_rootSection.get());
     visitor.setIndentation(indentation);
     visitor.setIsTable(isTable);
     visitor.generateCharacterSheetItem();
@@ -351,7 +376,7 @@ void FieldModel::updateItem(CSItem* item)
                 next= item;
             }
 
-            if(itemtmp == m_rootSection)
+            if(itemtmp == m_rootSection.get())
             {
                 first= index(itemtmp->indexOfChild(next), 0, first);
                 second= index(itemtmp->indexOfChild(next), m_colunm.size(), second);
@@ -364,12 +389,14 @@ void FieldModel::updateItem(CSItem* item)
 
 Section* FieldModel::getRootSection() const
 {
-    return m_rootSection;
+    return m_rootSection.get();
 }
 
 void FieldModel::setRootSection(Section* rootSection)
 {
-    m_rootSection= rootSection;
+    beginResetModel();
+    m_rootSection.reset(rootSection);
+    endResetModel();
 }
 void FieldModel::save(QJsonObject& json, bool exp)
 {
@@ -395,7 +422,7 @@ void FieldModel::removeItem(QModelIndex& index)
         }
         else
         {
-            parentSection= m_rootSection;
+            parentSection= m_rootSection.get();
         }
 
         if(nullptr == parentSection)

@@ -119,8 +119,8 @@ public:
         CtrlRightTop,
         CtrlRightBottom
     };
-    explicit TableField(bool addCount= true, QGraphicsItem* parent= nullptr);
-    explicit TableField(QPointF topleft, bool addCount= true, QGraphicsItem* parent= nullptr);
+    explicit TableField(bool addCount= true, QObject* parent= nullptr);
+    explicit TableField(QPointF topleft, bool addCount= true, QObject* parent= nullptr);
     void fillModel();
     virtual ~TableField();
 

@@ -373,13 +373,13 @@ int LineModel::sumColumn(const QString& name) const
 /// \param addCount
 /// \param parent
 ///////////////////////////////////
-TableField::TableField(bool addCount, QGraphicsItem* parent)
+TableField::TableField(bool addCount, QObject* parent)
     : FieldController(CharacterSheetItem::CharacterSheetItemType::TableItem, addCount, parent)
 {
     init();
 }
 
-TableField::TableField(QPointF topleft, bool addCount, QGraphicsItem* parent)
+TableField::TableField(QPointF topleft, bool addCount, QObject* parent)
     : FieldController(CharacterSheetItem::CharacterSheetItemType::TableItem, topleft, addCount, parent)
 {
     Q_UNUSED(topleft);

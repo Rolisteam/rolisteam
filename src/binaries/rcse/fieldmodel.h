@@ -27,13 +27,16 @@
 #include <QObject>
 #include <QTextStream>
 
-#include "charactersheet/field.h"
-//#include "charactersheetbutton.h"
 #include "charactersheet/charactersheetitem.h"
-
+#include "charactersheet/field.h"
 #include "charactersheet/section.h"
-class Canvas;
+
 class EditorController;
+
+namespace Formula
+{
+class FormulaManager;
+}
 /**
 s * @brief The Column class
  */
@@ -80,6 +83,7 @@ class FieldModel : public QAbstractItemModel
     Q_OBJECT
 public:
     explicit FieldModel(QObject* parent= nullptr);
+    virtual ~FieldModel();
 
     // Model API
     QVariant data(const QModelIndex& index, int role) const override;
@@ -118,8 +122,12 @@ public slots:
     void resetAllId();
 
 private:
+    QHash<QString, QString> buildDicto();
+
+private:
+    std::unique_ptr<Section> m_rootSection;
+    std::unique_ptr<Formula::FormulaManager> m_formulaManager;
     QList<Column*> m_colunm;
-    Section* m_rootSection;
     QStringList m_alignList;
 };
 

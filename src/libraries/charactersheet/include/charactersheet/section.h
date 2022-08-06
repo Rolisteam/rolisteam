@@ -61,16 +61,12 @@ public:
     virtual void removeAll();
     void resetAllId(int& i);
     QList<CSItem*> allChildren();
+    void setFieldInDictionnary(QHash<QString, QString>& dict) const override;
 
     void setOrig(CharacterSheetItem* orig) override;
     void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem* child) override;
     void getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list);
 public slots:
-    /**
-     * @brief fillList
-     * @param result
-     * @param character
-     */
     void buildDataInto(CharacterSheet* characterSheet);
 signals:
     void addLineToTableField(CharacterSheetItem*);

@@ -134,6 +134,7 @@ target_link_libraries(rcse
     Qt6::Concurrent
   PRIVATE
     charactersheet
+    charactersheet_formula
     diceparser_shared
     diceparser_qobject
     common_core

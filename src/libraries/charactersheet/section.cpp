@@ -153,6 +153,14 @@ QList<CSItem*> Section::allChildren()
     return res;
 }
 
+void Section::setFieldInDictionnary(QHash<QString, QString>& dict) const
+{
+    for(auto value : m_dataHash)
+    {
+        value->setFieldInDictionnary(dict);
+    }
+}
+
 void Section::load(const QJsonObject& json)
 {
     m_label= json["name"].toString();
