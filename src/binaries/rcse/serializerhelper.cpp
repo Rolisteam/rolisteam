@@ -63,6 +63,8 @@ void fetchGeneratorController(QmlGeneratorController* ctrl, const QJsonObject& o
     ctrl->setFixedScale(obj["fixedScale"].toDouble(1.0));
     ctrl->setBottomCode(obj["additionnalBottomCode"].toString(""));
     ctrl->setFlickable(obj["flickable"].toBool(false));
+    QString qml= obj[keys::qml].toString();
+    ctrl->setQmlCode(qml);
 
     const auto fonts= obj["fonts"].toArray();
     QStringList fontNames;
@@ -84,8 +86,6 @@ void fetchMainController(MainController* ctrl, const QJsonObject& jsonObj)
 {
     ctrl->cleanUpData(false);
     QJsonObject data= jsonObj[keys::data].toObject();
-
-    QString qml= jsonObj[keys::qml].toString();
 
     int pageCount= jsonObj[keys::pageCount].toInt();
     ctrl->imageCtrl()->setUuid(jsonObj[keys::uuid].toString(QUuid::createUuid().toString(QUuid::WithoutBraces)));
@@ -146,14 +146,22 @@ void fetchMainController(MainController* ctrl, const QJsonObject& jsonObj)
         auto idx= ctrl->editCtrl()->addPage();
         if(!backGround.isEmpty())
         {
+            auto model= ctrl->imageCtrl()->model();
+            model->insertImage(pix, id, path, false); //->addBackgroundImage(idx, pix, path, id);
             ctrl->editCtrl()->setImageBackground(idx, pix, path);
-            ctrl->imageCtrl()->addBackgroundImage(idx, pix, path, id);
         }
     }
 
     fetchGeneratorController(ctrl->generatorCtrl(), jsonObj);
     ctrl->characterCtrl()->setRootSection(ctrl->generatorCtrl()->fieldModel()->getRootSection());
     ctrl->characterCtrl()->load(jsonObj, false);
+
+    auto model= ctrl->generatorCtrl()->fieldModel();
+    auto const& allChildren= model->allChildren();
+    for(auto child : allChildren)
+    {
+        ctrl->editCtrl()->addFieldItem(child);
+    }
 }
 
 QJsonObject saveGeneratorController(QmlGeneratorController* ctrl)

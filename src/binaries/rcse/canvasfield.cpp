@@ -6,16 +6,15 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-QHash<int, QString>
-    CanvasField::m_pictureMap({{FieldController::TEXTINPUT, ":/resources/icons/Actions-edit-rename-icon.png"},
-                               {FieldController::TEXTAREA, ":/resources/icons/textarea.png"},
-                               {FieldController::TEXTFIELD, ":/resources/icons/Actions-edit-rename-icon.png"},
-                               {FieldController::RLABEL, ""},
-                               {FieldController::SELECT, ""},
-                               {FieldController::CHECKBOX, ":/resources/icons/checked_checkbox.png"},
-                               {FieldController::IMAGE, ":/resources/icons/photo.png"},
-                               {FieldController::WEBPAGE, ":/resources/icons/webPage.svg"},
-                               {FieldController::DICEBUTTON, ""}});
+QHash<int, QString> CanvasField::m_pictureMap({{FieldController::TEXTINPUT, ":/rcstyle/Actions-edit-rename-icon.png"},
+                                               {FieldController::TEXTAREA, ":/rcstyle/textarea.png"},
+                                               {FieldController::TEXTFIELD, ":/rcstyle/Actions-edit-rename-icon.png"},
+                                               {FieldController::RLABEL, ""},
+                                               {FieldController::SELECT, ""},
+                                               {FieldController::CHECKBOX, ":/rcstyle/checked_checkbox.png"},
+                                               {FieldController::IMAGE, ":/rcstyle/photo.png"},
+                                               {FieldController::WEBPAGE, ":/rcstyle/webPage.svg"},
+                                               {FieldController::DICEBUTTON, ":/rcstyle/symbol.svg"}});
 
 bool CanvasField::m_showImageField= true;
 

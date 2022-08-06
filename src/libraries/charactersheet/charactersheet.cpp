@@ -36,8 +36,7 @@
 ///
 
 int CharacterSheet::m_count= 0;
-CharacterSheet::CharacterSheet()
-    : m_name("Character %1"), m_rootSection(nullptr), m_uuid(QUuid::createUuid().toString())
+CharacterSheet::CharacterSheet() : m_name("Character %1"), m_uuid(QUuid::createUuid().toString())
 {
     ++m_count;
     m_name= m_name.arg(m_count);
@@ -283,15 +282,6 @@ void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent)
     }
 }
 
-Section* CharacterSheet::getRootSection() const
-{
-    return m_rootSection;
-}
-
-void CharacterSheet::buildDataFromSection(Section* rootSection)
-{
-    rootSection->buildDataInto(this);
-}
 void CharacterSheet::save(QJsonObject& json) const
 {
     json["name"]= m_name;

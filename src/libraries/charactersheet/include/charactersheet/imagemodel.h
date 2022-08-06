@@ -7,11 +7,6 @@
 #include <QPixmap>
 #include <vector>
 
-#ifndef RCSE
-//#include "network/networkmessagereader.h"
-//#include "network/networkmessagewriter.h"
-#endif
-
 #include <charactersheet/charactersheet_global.h>
 
 namespace charactersheet
@@ -44,7 +39,7 @@ public:
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     int columnCount(const QModelIndex& parent= QModelIndex()) const override;
-
+    QModelIndex index(int row, int col, const QModelIndex& parent) const override;
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
     bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 

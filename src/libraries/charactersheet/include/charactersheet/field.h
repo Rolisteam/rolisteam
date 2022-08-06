@@ -58,10 +58,10 @@ public:
 
     explicit FieldController(CharacterSheetItem::CharacterSheetItemType itemType
                              = CharacterSheetItem::CharacterSheetItemType::FieldItem,
-                             bool addCount= true, QGraphicsItem* parent= nullptr);
+                             bool addCount= true, QObject* parent= nullptr);
     explicit FieldController(CharacterSheetItem::CharacterSheetItemType itemType
                              = CharacterSheetItem::CharacterSheetItemType::FieldItem,
-                             QPointF topleft= {}, bool addCount= true, QGraphicsItem* parent= nullptr);
+                             QPointF topleft= {}, bool addCount= true, QObject* parent= nullptr);
     virtual ~FieldController();
 
     QFont font() const;

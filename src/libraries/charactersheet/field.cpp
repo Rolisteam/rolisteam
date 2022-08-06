@@ -31,14 +31,14 @@ CanvasFieldController::CanvasField() {}
 #endif*/
 
 FieldController::FieldController(CharacterSheetItem::CharacterSheetItemType itemType, bool addCount,
-                                 QGraphicsItem* parent)
+                                 QObject *parent)
     : CSItem(itemType, parent, addCount)
 {
     init();
 }
 
 FieldController::FieldController(CharacterSheetItem::CharacterSheetItemType itemType, QPointF topleft, bool addCount,
-                                 QGraphicsItem* parent)
+                                 QObject *parent)
     : CSItem(itemType, parent, addCount)
 {
     Q_UNUSED(topleft);
@@ -493,28 +493,42 @@ QPair<QString, QString> FieldController::getTextAlign()
 
 void FieldController::copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId)
 {
-    /* FieldController* oldField= dynamic_cast<FieldController*>(oldItem);
-     if(nullptr != oldField)
-     {
-         if(sameId)
-         {
-             setId(oldField->getId());
-         }
-         setCurrentType(oldField->getFieldType());
-         setRect(oldField->getRect());
-         setBorder(oldField->border());
-         setFont(oldField->font());
-         setBgColor(oldField->bgColor());
-         setTextColor(oldField->textColor());
-         setLabel(oldField->getLabel());
-         setFormula(oldField->getFormula());
-         if(copyData)
-         {
-             if(!m_hasDefaultValue)
-             {
-                 setValue(oldField->value());
-             }
-         }
-         setOrig(oldField);
-     }*/
+    FieldController* oldField= dynamic_cast<FieldController*>(oldItem);
+    if(nullptr == oldField)
+        return;
+
+    if(sameId)
+    {
+        setId(oldField->getId());
+    }
+    setFitFont(oldField->fitFont());
+    setTextAlign(oldField->textAlign());
+    setCurrentType(oldField->getFieldType());
+    setGeneratedCode(oldField->generatedCode());
+    setAliasEnabled(oldField->aliasEnabled());
+    setAvailableValues(oldField->availableValues());
+
+    setX(oldField->x());
+    setY(oldField->y());
+    setWidth(oldField->width());
+    setHeight(oldField->height());
+    setBorder(oldField->border());
+    setBgColor(oldField->bgColor());
+
+    setValue(oldField->value());
+    setPage(oldField->page());
+    setReadOnly(oldField->isReadOnly());
+    setFormula(oldField->getFormula());
+    setLabel(oldField->getLabel());
+
+    setFont(oldField->font());
+    setTextColor(oldField->textColor());
+    if(copyData)
+    {
+        if(!m_hasDefaultValue)
+        {
+            setValue(oldField->value());
+        }
+    }
+    setOrig(oldField);
 }

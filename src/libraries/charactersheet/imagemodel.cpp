@@ -42,6 +42,14 @@ int ImageModel::columnCount(const QModelIndex& parent) const
 
     return m_column.size();
 }
+
+QModelIndex ImageModel::index(int row, int col, const QModelIndex& parent) const
+{
+    if(0 > row || 0 > col || row >= static_cast<int>(m_data.size()) || col >= m_column.size())
+        return {};
+
+    return parent.isValid() ? QModelIndex() : createIndex(row, col);
+}
 QVariant ImageModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())
@@ -124,26 +132,6 @@ bool ImageModel::setData(const QModelIndex& index, const QVariant& value, int ro
     return val;
 }
 
-/*
-void ImageModel::load(const QJsonArray& array)
-{
-    beginResetModel();
-    for(auto ref : array)
-    {
-        auto obj= ref.toObject();
-        ImageInfo info;
-        auto bin= obj["bin"].toString();
-        QByteArray data= QByteArray::fromBase64(bin.toLocal8Bit());
-
-        info.pixmap.loadFromData(data);
-
-        info.key= obj["key"].toString();
-        info.isBackground= obj["isBg"].toBool();
-        info.filename= obj["filename"].toString(); // NOTICE hide this field from network
-        m_data.push_back(info);
-    }
-    endResetModel();
-}*/
 bool ImageModel::insertImage(const QPixmap& pix, const QString& key, const QString& filename, bool isBg)
 {
     auto rect= pix.rect();

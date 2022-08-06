@@ -9,6 +9,7 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "data/campaign.h"
 #include "data/campaignmanager.h"
+#include "mindmap/include/mindmap/data/positioneditem.h"
 #include "rwidgets/mediacontainers/charactersheetwindow.h"
 #include "utils/iohelper.h"
 #include "utils/mappinghelper.h"

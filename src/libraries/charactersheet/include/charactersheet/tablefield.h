@@ -31,14 +31,6 @@
 #include <QWidget>
 
 #include <charactersheet/charactersheet_global.h>
-#ifdef RCSE
-#include "tablecanvasfield.h"
-#else
-class CHARACTERSHEET_EXPORT TableCanvasField : public QGraphicsObject
-{
-    TableCanvasField();
-};
-#endif
 
 class TableField;
 /**

@@ -70,9 +70,6 @@ public:
     void writeSettings();
     void cleanData();
 
-    QString currentFile() const;
-    void setCurrentFile(const QString& filename);
-
 public slots:
     void openPDF();
 
@@ -100,9 +97,6 @@ public slots:
     void exportPDF();
     bool loadFile(const QString& file);
 
-signals:
-    void currentFileChanged();
-
 protected:
     bool eventFilter(QObject*, QEvent*);
     bool wheelEventForView(QWheelEvent* event);
@@ -118,13 +112,13 @@ protected slots:
     void showPreferences();
     void showContextMenuForImageTab();
     void showContextMenuForCharacterTab();
+    void updateTitle();
 
 private:
     Ui::MainWindow* ui;
     std::unique_ptr<MainController> m_mainCtrl;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
-    QString m_currentFile;
     bool m_qmlGeneration;
     RolisteamImageProvider* m_imgProvider;
     int m_counterZoom;
@@ -154,7 +148,6 @@ private:
     int m_maxRecentFile= 5;
     QAction* m_separatorAction;
 
-    QString m_title;
     PreferencesManager* m_preferences;
 };
 

@@ -280,6 +280,7 @@ bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charact
     qmlCode= jsonObj["qml"].toString();
 
     QJsonArray images= jsonObj["background"].toArray();
+
     for(auto jsonpix : images)
     {
         QJsonObject obj= jsonpix.toObject();

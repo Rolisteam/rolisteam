@@ -45,61 +45,14 @@ public:
      */
     CharacterSheet();
     virtual ~CharacterSheet();
-    /**
-     * @brief allows to get the key, this function is used for displaying the meaning of fields
-     * @param int index : 0 refers to the title of the section, 1 refers to key of the first data of the first
-     * section...
-     */
     const QString getkey(int index);
-    /**
-     * @brief save
-     * @param json
-     */
     virtual void save(QJsonObject& json) const;
-    /**
-     * @brief load
-     * @param json
-     */
     virtual void load(const QJsonObject& json);
-
-    /**
-     * @brief getTitle
-     * @return
-     */
     const QString getTitle();
-    /**
-     * @brief getFieldCount
-     * @return
-     */
     int getFieldCount();
-    /**
-     * @brief getFieldAt
-     * @param i
-     * @return
-     */
     CharacterSheetItem* getFieldAt(int i) const;
 
-    /**
-     * @brief getFieldFromKey
-     * @param key
-     * @return
-     */
     CharacterSheetItem* getFieldFromKey(QString key) const;
-
-    /**
-     * @brief getRootSection
-     * @return
-     */
-    Section* getRootSection() const;
-    /**
-     * @brief setRootSection
-     * @param rootSection
-     */
-    void buildDataFromSection(Section* rootSection);
-    /**
-     * @brief getVariableDictionnary
-     * @return
-     */
     QHash<QString, QString> getVariableDictionnary();
 
     void insertCharacterItem(CharacterSheetItem* item);
@@ -114,11 +67,7 @@ public:
 
     QList<QString> getAllDependancy(QString key);
     CharacterSheetItem* getFieldFromIndex(const std::vector<int>& row) const;
-    /**
-     * @brief global getter of data.  This function has been written to make easier the MVC architecture.
-     * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first
-     * section....
-     */
+
     const QVariant getValueByIndex(const std::vector<int>& row, QString key,
                                    Qt::ItemDataRole role= Qt::DisplayRole) const;
     const QVariant getValue(QString path, int role= Qt::DisplayRole) const;
@@ -141,12 +90,8 @@ private:
 
 private:
     QMap<QString, CharacterSheetItem*> m_valuesMap;
-    /**
-     *@brief User Id of the owner
-     */
     QString m_name;
     static int m_count;
-    Section* m_rootSection;
     QString m_uuid;
 };
 

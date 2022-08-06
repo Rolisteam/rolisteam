@@ -121,13 +121,10 @@ MainWindow::MainWindow(QWidget* parent)
             m_mainCtrl->displayQmlError(ui->m_quickview->errors());
     });
 
-    auto headerView= ui->m_imageList->horizontalHeader();
-    headerView->setStretchLastSection(true);
-
-    connect(m_mainCtrl->imageCtrl()->model(), &charactersheet::ImageModel::rowsInserted, this, [this]() {
+    /*connect(m_mainCtrl->imageCtrl()->model(), &charactersheet::ImageModel::rowsInserted, this, [this]() {
         auto view= ui->m_imageList->horizontalHeader();
         view->resizeSections(QHeaderView::ResizeToContents);
-    });
+    });*/
 
     ui->m_imageList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->m_imageList, &QTableView::customContextMenuRequested, this, &MainWindow::showContextMenuForImageTab);
@@ -317,9 +314,12 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     auto header= ui->m_characterView->header();
-    header->setMinimumWidth(minimalColumnSize);
+    header->setSectionResizeMode(QHeaderView::Stretch);
+    header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    header->setMinimumSectionSize(300);
+
     // header->setSectionResizeMode(0, QHeaderView::Stretch);
-    auto resizeSection= [this](int= 0, int newCount= 1) {
+    /*auto resizeSection= [this](int= 0, int newCount= 1) {
         auto header= ui->m_characterView->header();
         if(!header)
             return;
@@ -336,7 +336,7 @@ MainWindow::MainWindow(QWidget* parent)
     };
     connect(header, &QHeaderView::sectionCountChanged, this, resizeSection);
 
-    resizeSection();
+    resizeSection();*/
 
     connect(ui->m_scaleSlider, &QSlider::valueChanged, this, [this](int val) {
         qreal scale= val / 100.0;
@@ -344,7 +344,7 @@ MainWindow::MainWindow(QWidget* parent)
         ui->m_view->setTransform(transform);
     });
 
-    connect(ui->m_newAct, &QAction::triggered, m_mainCtrl.get(), &MainController::cleanUpData);
+    connect(ui->m_newAct, &QAction::triggered, m_mainCtrl.get(), [this]() { m_mainCtrl->cleanUpData(true); });
 
     connect(ui->m_openLiberapay, &QAction::triggered, this, [this] {
         if(!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
@@ -381,6 +381,10 @@ MainWindow::MainWindow(QWidget* parent)
     m_mainCtrl->cleanUpData();
 
     ui->m_view->setHandle(ui->m_moveAct->isChecked());
+    connect(m_mainCtrl.get(), &MainController::modifiedChanged, this, &MainWindow::setWindowModified);
+    connect(m_mainCtrl.get(), &MainController::currentFileChanged, this, &MainWindow::updateTitle);
+
+    updateTitle();
 }
 MainWindow::~MainWindow()
 {
@@ -411,29 +415,19 @@ void MainWindow::writeSettings()
     m_preferences->writeSettings(settings);
 }
 
-QString MainWindow::currentFile() const
+void MainWindow::updateTitle()
 {
-    return m_currentFile;
-}
-
-void MainWindow::setCurrentFile(const QString& filename)
-{
-    setWindowModified(false);
-    if(filename == m_currentFile)
-        return;
-
-    m_currentFile= filename;
+    auto filename= m_mainCtrl->currentFile();
     auto shortName= tr("Untitled");
 
-    if(!m_currentFile.isEmpty())
+    if(!filename.isEmpty())
     {
-        shortName= QFileInfo(m_currentFile).fileName();
-        m_recentFiles.removeAll(m_currentFile);
-        m_recentFiles.prepend(m_currentFile);
+        shortName= QFileInfo(filename).fileName();
+        m_recentFiles.removeAll(filename);
+        m_recentFiles.prepend(filename);
         updateRecentFileAction();
     }
     setWindowTitle(QStringLiteral("%1[*] - %2").arg(shortName).arg("RCSE"));
-    emit currentFileChanged();
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
@@ -553,7 +547,7 @@ void MainWindow::openPDF()
 
 void MainWindow::openBackgroundImage()
 {
-    QString supportedFormat("Supported files (*.jpg *.png *.xpm);");
+    QString supportedFormat("Supported files (*.jpg *.png *.xpm)");
 
     QString img= QFileDialog::getOpenFileName(this, tr("Open Background Image"), QDir::homePath(), supportedFormat);
 
@@ -605,10 +599,10 @@ bool MainWindow::saveAs()
 
 bool MainWindow::save()
 {
-    if(m_currentFile.isEmpty())
+    if(m_mainCtrl->currentFile().isEmpty())
         return saveAs();
     else
-        return saveFile(m_currentFile);
+        return saveFile(m_mainCtrl->currentFile());
 }
 
 bool MainWindow::saveFile(const QString& filename)
@@ -618,6 +612,8 @@ bool MainWindow::saveFile(const QString& filename)
 
     // init Json
     IOWorker::saveFile(SerializerHelper::buildData(m_mainCtrl.get()), filename);
+    m_mainCtrl->setCurrentFile(filename);
+    m_mainCtrl->setModified(false);
     return true;
 }
 bool MainWindow::loadFile(const QString& filename)
@@ -627,6 +623,7 @@ bool MainWindow::loadFile(const QString& filename)
 
     SerializerHelper::fetchMainController(m_mainCtrl.get(), IOWorker::readFileToObject(filename));
     m_mainCtrl->setCurrentFile(filename);
+    m_mainCtrl->setModified(false);
     return true;
 }
 void MainWindow::open()
@@ -901,6 +898,13 @@ void MainWindow::showContextMenuForCharacterTab()
 void MainWindow::setUpActionForImageTab()
 {
     ui->m_imageList->setModel(m_mainCtrl->imageCtrl()->model());
+
+    auto headerView= ui->m_imageList->horizontalHeader();
+    // headerView->setStretchLastSection(true);
+    headerView->setMinimumSectionSize(300);
+    headerView->setSectionResizeMode(QHeaderView::Stretch);
+    headerView->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+
 #ifndef Q_OS_OSX
     ui->m_imageList->setAlternatingRowColors(true);
 #endif

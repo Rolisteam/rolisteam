@@ -15,6 +15,11 @@ int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
+    Q_INIT_RESOURCE(viewsqml);
+    Q_INIT_RESOURCE(textedit);
+    Q_INIT_RESOURCE(rolisteam);
+    Q_INIT_RESOURCE(resources);
+
     QList<CharacterState*> states;
     auto cs1= new CharacterState();
     cs1->setId("ii");

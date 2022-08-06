@@ -38,7 +38,7 @@
 EditorController::EditorController(ImageController* imgCtrl, QObject* parent)
     : QObject(parent), m_imageController(imgCtrl)
 {
-    connect(m_view, &ItemEditor::openContextMenu, this, &EditorController::menuRequestedFromView);
+    /*connect(m_view, &ItemEditor::openContextMenu, this, &EditorController::menuRequestedFromView);
     m_fitInView= new QAction(tr("Fit the view"), m_view);
     m_fitInView->setCheckable(true);
 
@@ -59,7 +59,7 @@ EditorController::EditorController(ImageController* imgCtrl, QObject* parent)
     connect(m_sameWidth, &QAction::triggered, this, &EditorController::sameGeometry);
     connect(m_sameHeight, &QAction::triggered, this, &EditorController::sameGeometry);
     connect(m_verticalEquaDistance, &QAction::triggered, this, &EditorController::spreadItemEqualy);
-    connect(m_horizontalEquaDistance, &QAction::triggered, this, &EditorController::spreadItemEqualy);
+    connect(m_horizontalEquaDistance, &QAction::triggered, this, &EditorController::spreadItemEqualy);*/
 }
 void EditorController::sameGeometry(bool sameW, QList<FieldController*> ctrls, FieldController* ref)
 {
@@ -188,7 +188,7 @@ int EditorController::currentPage() const
 
 void EditorController::clearData()
 {
-    setCurrentPage(0);
+    setCurrentPage(-1);
     m_canvasList.clear();
     emit dataChanged();
 }
@@ -206,6 +206,10 @@ int EditorController::addPage()
     connect(canvas.get(), &Canvas::performCommand, this, &EditorController::performCommand);
     connect(canvas.get(), &Canvas::dropFileOnCanvas, this, &EditorController::loadImageFromUrl);
     m_canvasList.push_back(std::move(canvas));
+    if(m_canvasList.size() == 1)
+    {
+        setCurrentPage(0);
+    }
     emit pageAdded(can);
     emit pageCountChanged();
     emit dataChanged();
@@ -265,17 +269,15 @@ std::size_t EditorController::pageCount() const
 
 void EditorController::setImageBackground(int idx, const QPixmap& pix, const QString& filepath)
 {
-    qDebug() << "set bg";
     auto pos= qBound(0, idx, static_cast<int>(m_canvasList.size()));
 
     if(pos != idx || m_canvasList.empty())
         return;
-    qDebug() << "set bg 2";
 
     auto canvas= m_canvasList[static_cast<std::size_t>(idx)].get();
     if(!canvas)
         return;
-    qDebug() << "set bg end" << pix.isNull();
+
     canvas->setPixmap(pix);
     emit canvasBackgroundChanged(idx, pix, filepath, QString());
     emit dataChanged();

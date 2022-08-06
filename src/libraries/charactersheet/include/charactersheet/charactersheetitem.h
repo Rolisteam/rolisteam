@@ -90,141 +90,41 @@ public:
         WEBPAGE,
         NEXTPAGE,
         PREVIOUSPAGE,
+        SLIDER,
         TABLE
     };
-    /**
-     * @brief CharacterSheetItem
-     */
-    CharacterSheetItem(CharacterSheetItem::CharacterSheetItemType type);
-    /**
-     * @brief hasChildren
-     * @return
-     */
+
+    CharacterSheetItem(CharacterSheetItem::CharacterSheetItemType type, QObject* parent= nullptr);
+
     virtual bool hasChildren();
-    /**
-     * @brief getChildrenCount
-     * @return
-     */
     virtual int getChildrenCount() const;
-    /**
-     * @brief getChildAt
-     * @return
-     */
+
     virtual CharacterSheetItem* getChildFromId(const QString& id) const= 0;
-    /**
-     * @brief getChildAt
-     * @return
-     */
     virtual CharacterSheetItem* getChildAt(int) const;
-
-    /**
-     * @brief getValueFrom
-     * @return
-     */
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
-    /**
-     * @brief setValueFrom
-     * @param data
-     */
     virtual void setValueFrom(CharacterSheetItem::ColumnId, QVariant data)= 0;
-
-    /**
-     * @brief getPath
-     * @return
-     */
     virtual QString getPath();
-    /**
-     * @brief mayHaveChildren
-     * @return
-     */
     virtual bool mayHaveChildren() const;
-    /**
-     * @brief appendChild
-     */
     virtual void appendChild(CharacterSheetItem*);
-    /**
-     * @brief getParent
-     * @return
-     */
     CharacterSheetItem* getParent() const;
-    /**
-     * @brief setParent
-     * @param parent
-     */
     void setParent(CharacterSheetItem* parent);
-    /**
-     * @brief rowInParent
-     * @return
-     */
     int rowInParent();
-    /**
-     * @brief indexOfChild
-     * @param itm
-     * @return
-     */
     virtual int indexOfChild(CharacterSheetItem* itm);
-    /**
-     * @brief save
-     * @param json
-     * @param exp
-     */
     virtual void save(QJsonObject& json, bool exp= false)= 0;
-    /**
-     * @brief load
-     * @param json
-     * @param scene
-     */
     virtual void load(const QJsonObject& json)= 0;
-
-    /**
-     * @brief save
-     * @param json
-     * @param exp
-     */
     virtual void saveDataItem(QJsonObject& json)= 0;
-    /**
-     * @brief load
-     * @param json
-     * @param scene
-     */
     virtual void loadDataItem(const QJsonObject& json)= 0;
-    /**
-     * @brief setNewEnd
-     * @param nend
-     */
     virtual void setNewEnd(QPointF nend)= 0;
-    /**
-     * @brief getId
-     * @return
-     */
     QString getId() const;
-    /**
-     * @brief setId
-     * @param id
-     */
     void setId(const QString& id);
-    /**
-     * @brief ItemType
-     * @return
-     */
     virtual CharacterSheetItem::CharacterSheetItemType itemType() const;
-    /**
-     * @brief removeChild
-     * @return
-     */
     virtual bool removeChild(CharacterSheetItem*);
-
     virtual bool deleteChild(CharacterSheetItem*);
-    /**
-     * @brief getLabel
-     * @return
-     */
-    Q_INVOKABLE QString getLabel() const;
 
+    Q_INVOKABLE QString getLabel() const;
     Q_INVOKABLE virtual QString value() const;
     Q_INVOKABLE bool isReadOnly() const;
     Q_INVOKABLE int page() const;
-
     Q_INVOKABLE QString getFormula() const;
 
     virtual void setFieldInDictionnary(QHash<QString, QString>& dict) const;
@@ -241,29 +141,11 @@ public:
     void setTooltip(const QString& tooltip);
 
 public slots:
-    /**
-     * @brief setValue
-     * @param value
-     */
     virtual void setValue(const QString& value, bool fromNetwork= false);
-    /**
-     * @brief setReadOnly
-     * @param readOnly
-     */
     void setReadOnly(bool readOnly);
-    /**
-     * @brief setPage
-     * @param page
-     */
     void setPage(int page);
-    /**
-     * @brief setLabel
-     * @param label
-     */
     void setLabel(const QString& label);
-
     void setFormula(const QString& formula);
-
     void updateLabelFromOrigin();
 
 signals:

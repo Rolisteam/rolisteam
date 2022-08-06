@@ -327,7 +327,7 @@ void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* charac
 
     auto model= ctrl->model();
     QJsonDocument doc3;
-    doc3.setObject(model->rootSectionData());
+    // doc3.setObject(model->rootSectionData());
     msg.byteArray32(doc3.toJson());
 
     msg.sendToServer();

@@ -303,6 +303,11 @@ QList<CharacterSheetItem*> FieldModel::children()
     return result;
 }
 
+QList<CSItem*> FieldModel::allChildren()
+{
+    return m_rootSection->allChildren();
+}
+
 void FieldModel::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
 {
     m_rootSection->getFieldFromPage(pagePos, list);

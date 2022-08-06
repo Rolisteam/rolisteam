@@ -104,19 +104,10 @@ int Section::indexOfChild(CharacterSheetItem* item)
 
     return m_keyList.indexOf(item->getPath());
 }
-QString Section::getName() const
-{
-    return m_name;
-}
-
-void Section::setName(const QString& name)
-{
-    m_name= name;
-}
 
 void Section::save(QJsonObject& json, bool exp)
 {
-    json["name"]= m_name;
+    json["name"]= m_label;
     json["type"]= QStringLiteral("Section");
     QJsonArray fieldArray;
     for(auto& key : m_keyList)
@@ -133,9 +124,38 @@ void Section::save(QJsonObject& json, bool exp)
     qDebug() << json;
 }
 
+QList<CSItem*> Section::allChildren()
+{
+    QList<CSItem*> res;
+    for(auto key : m_keyList)
+    {
+        auto item= m_dataHash.value(key);
+        switch(item->itemType())
+        {
+        case CharacterSheetItem::SectionItem:
+        {
+            auto sec= dynamic_cast<Section*>(item);
+            if(sec)
+                res << sec->allChildren();
+        }
+        break;
+        case CharacterSheetItem::TableItem:
+        case CharacterSheetItem::FieldItem:
+        {
+            auto csItem= dynamic_cast<CSItem*>(item);
+            if(csItem)
+                res << csItem;
+        }
+        break;
+        }
+    }
+
+    return res;
+}
+
 void Section::load(const QJsonObject& json)
 {
-    m_name= json["name"].toString();
+    m_label= json["name"].toString();
     QJsonArray fieldArray= json["items"].toArray();
     QJsonArray::Iterator it;
     for(it= fieldArray.begin(); it != fieldArray.end(); ++it)

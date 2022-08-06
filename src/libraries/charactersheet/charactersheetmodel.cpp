@@ -120,46 +120,29 @@ QModelIndex CharacterSheetModel::index(int row, int column, const QModelIndex& p
     if(row < 0)
         return QModelIndex();
 
-    CharacterSheetItem* parentItem= nullptr;
-    CharacterSheetItem* structureItem= nullptr;
     CharacterSheetItem* childItem= nullptr;
 
-    if(!parent.isValid())
+    if(!parent.isValid() && column == 0) // column of fields
     {
-        parentItem= m_rootSection;
+        childItem= m_rootSection->getChildAt(row);
     }
-    else if(parent.isValid())
+    else if(column > 0 && !parent.isValid()) // column of charactersheet
     {
-        parentItem= static_cast<CharacterSheetItem*>(parent.internalPointer());
-    }
-
-    if(parentItem == nullptr)
-        return {};
-
-    structureItem= parentItem->getChildAt(row);
-
-    if(structureItem == nullptr)
-        return {};
-
-    if(column != 0 && !parent.isValid())
-    {
-        auto path= structureItem->getPath();
+        auto item= m_rootSection->getChildAt(row);
         auto sheet= m_characterList->at(column - 1);
-        childItem= sheet->getFieldFromKey(path);
+        if(item && sheet)
+        {
+            auto path= item->getPath();
+            childItem= sheet->getFieldFromKey(path);
+        }
     }
-    else
+    else if(parent.isValid()) // subsection
     {
-        childItem= structureItem;
+        auto parentItem= static_cast<CharacterSheetItem*>(parent.internalPointer());
+        if(parentItem)
+            childItem= parentItem->getChildAt(row);
     }
-
-    if(childItem)
-    {
-        return createIndex(row, column, childItem);
-    }
-    else
-    {
-        return QModelIndex();
-    }
+    return childItem ? createIndex(row, column, childItem) : QModelIndex();
 }
 QModelIndex CharacterSheetModel::parent(const QModelIndex& index) const
 {
@@ -511,14 +494,7 @@ CharacterSheet* CharacterSheetModel::getCharacterSheetById(QString id)
 
 int CharacterSheetModel::getCharacterSheetCount() const
 {
-    if(nullptr != m_characterList)
-    {
-        return m_characterList->size();
-    }
-    else
-    {
-        return 0;
-    }
+    return m_characterList ? m_characterList->size() : 0;
 }
 
 Section* CharacterSheetModel::getRootSection() const
@@ -526,30 +502,20 @@ Section* CharacterSheetModel::getRootSection() const
     return m_rootSection;
 }
 
-void CharacterSheetModel::setRootSection(const QJsonObject& jsonObj)
-{
-    /// TODO: implement
-}
-
-QJsonObject CharacterSheetModel::rootSectionData() const
-{
-    /// TODO: implement
-    return {};
-}
-
 void CharacterSheetModel::setRootSection(Section* rootSection)
 {
     auto previous= m_rootSection;
     beginResetModel();
     m_rootSection= rootSection;
-    endResetModel();
+
     if(m_rootSection != previous)
         connect(m_rootSection, &Section::addLineToTableField, this, &CharacterSheetModel::addSubChildRoot);
 
     for(auto& character : *m_characterList)
     {
-        character->buildDataFromSection(rootSection);
+        rootSection->buildDataInto(character);
     }
+    endResetModel();
 }
 
 QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -590,10 +556,13 @@ Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex& index) const
 
     CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
 
+    Qt::ItemFlags res;
     if(nullptr != childItem && childItem->isReadOnly())
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        res= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else
-        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+        res= Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+
+    return res;
 }
 void CharacterSheetModel::addSection()
 {
@@ -676,20 +645,6 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex& index)
         return index;
 }
 
-/*QJsonObject CharacterSheetModel::rootSectionData() const
-{
-    QJsonObject data;
-    m_rootSection->save(data);
-    return data;
-}*/
-
-/*void CharacterSheetModel::setRootSection(const QJsonObject& object)
-{
-    beginResetModel();
-    m_rootSection->load(object, nullptr);
-    endResetModel();
-}*/
-
 bool CharacterSheetModel::writeModel(QJsonObject& jsonObj)
 {
     jsonObj["characterCount"]= m_characterList->size(); // m_characterCount;
@@ -752,8 +707,8 @@ void CharacterSheetModel::checkTableItem()
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {
     CharacterSheet* sheet= new CharacterSheet;
+    m_rootSection->buildDataInto(sheet);
     addCharacterSheet(sheet, false);
 
-    sheet->buildDataFromSection(m_rootSection);
     return sheet;
 }

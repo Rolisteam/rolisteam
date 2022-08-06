@@ -52,7 +52,7 @@ public:
         ALL= 15,
         NONE= 16
     };
-    CSItem(CharacterSheetItemType type, QGraphicsItem* parent= nullptr, bool addCount= true);
+    CSItem(CharacterSheetItemType type, QObject* parent= nullptr, bool addCount= true);
 
     QColor bgColor() const;
     QColor textColor() const;

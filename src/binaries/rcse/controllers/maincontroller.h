@@ -63,7 +63,7 @@ public slots:
     void displayQmlError(const QList<QQmlError>& errors);
 
 signals:
-    void modifiedChanged();
+    void modifiedChanged(bool modified);
     void currentFileChanged();
 
 private:

@@ -102,7 +102,7 @@ void MainController::setModified(bool newModified)
     if(m_modified == newModified)
         return;
     m_modified= newModified;
-    emit modifiedChanged();
+    emit modifiedChanged(m_modified);
 }
 
 void MainController::cleanUpData(bool addPage)

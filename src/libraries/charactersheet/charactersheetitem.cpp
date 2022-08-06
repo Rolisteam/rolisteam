@@ -25,8 +25,14 @@
 //////////////////////////////
 // Item
 /////////////////////////////
-CharacterSheetItem::CharacterSheetItem(CharacterSheetItem::CharacterSheetItemType type)
-    : m_itemType(type), m_parent(nullptr), m_orig(nullptr), m_page(0), m_readOnly(false), m_hasDefaultValue(false)
+CharacterSheetItem::CharacterSheetItem(CharacterSheetItem::CharacterSheetItemType type, QObject* parent)
+    : QObject(parent)
+    , m_itemType(type)
+    , m_parent(nullptr)
+    , m_orig(nullptr)
+    , m_page(0)
+    , m_readOnly(false)
+    , m_hasDefaultValue(false)
 {
 }
 

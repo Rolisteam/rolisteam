@@ -6,6 +6,7 @@
 #include <QTreeView>
 
 // undo
+#include "charactersheet/section.h"
 #include "undo/addcharactercommand.h"
 #include "undo/deletecharactercommand.h"
 #include "undo/setpropertyonallcharacters.h"
@@ -44,7 +45,8 @@ CharacterList* CharacterController::characters() const
 
 void CharacterController::sendRemoveCharacterCommand(const QModelIndex& index)
 {
-    emit performCommand(new DeleteCharacterCommand(index.column() - 1, this));
+    if(index.column() > 0)
+        emit performCommand(new DeleteCharacterCommand(index.column() - 1, this));
 }
 
 CharacterSheet* CharacterController::characterSheetFromIndex(int index) const
@@ -70,7 +72,10 @@ void CharacterController::removeCharacter(int index)
 
 void CharacterController::insertCharacter(int pos, CharacterSheet* sheet)
 {
-    sheet->buildDataFromSection(m_characterModel->getRootSection());
+    auto root= m_characterModel->getRootSection();
+    if(!root || !sheet)
+        return;
+    root->buildDataInto(sheet);
     m_characterModel->addCharacterSheet(sheet, pos);
     emit dataChanged();
 }

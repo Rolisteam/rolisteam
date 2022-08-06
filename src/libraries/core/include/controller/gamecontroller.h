@@ -65,6 +65,7 @@ class CORE_EXPORT GameController : public QObject
     Q_PROPERTY(PlayerController* playerController READ playerController CONSTANT)
     Q_PROPERTY(ContentController* contentController READ contentController CONSTANT)
     Q_PROPERTY(AudioController* audioController READ audioController CONSTANT)
+    Q_PROPERTY(NetworkController* networkController READ networkController CONSTANT)
     Q_PROPERTY(QString campaignRoot READ campaignRoot WRITE setCampaignRoot NOTIFY campaignRootChanged)
     Q_PROPERTY(QString version READ version WRITE setVersion NOTIFY versionChanged)
     Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)

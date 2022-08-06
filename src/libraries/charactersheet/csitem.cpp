@@ -21,8 +21,8 @@
 #include <QDebug>
 
 int CSItem::m_count= 0;
-CSItem::CSItem(CharacterSheetItemType type, QGraphicsItem* parent, bool addCount)
-    : CharacterSheetItem(type), m_rect(0, 0)
+CSItem::CSItem(CharacterSheetItemType type, QObject* parent, bool addCount)
+    : CharacterSheetItem(type, parent), m_rect(0, 0)
 {
     Q_UNUSED(parent);
     if(addCount)

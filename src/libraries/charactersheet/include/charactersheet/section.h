@@ -29,6 +29,7 @@
 
 class CharacterSheet;
 class EditorController;
+class CSItem;
 /**
  * @brief The Section class store data field for charactersheet.
  */
@@ -36,123 +37,30 @@ class CHARACTERSHEET_EXPORT Section : public CharacterSheetItem
 {
     Q_OBJECT
 public:
-    /**
-     * @brief Section constructor
-     */
     Section();
-    ~Section();
-
-    /**
-     * @brief hasChildren
-     * @return
-     */
+    virtual ~Section();
     virtual bool hasChildren() override;
-    /**
-     * @brief getChildrenCount
-     * @return
-     */
     virtual int getChildrenCount() const override;
-    /**
-     * @brief getChildAt
-     * @return
-     */
     virtual CharacterSheetItem* getChildAt(int) const override;
-    /**
-     * @brief getChildAt
-     * @return
-     */
     virtual CharacterSheetItem* getChildFromId(const QString&) const override;
-
-    /**
-     * @brief getValueFrom
-     * @return
-     */
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
-    /**
-     * @brief setValueFrom
-     */
     virtual void setValueFrom(CharacterSheetItem::ColumnId, QVariant) override;
-    /**
-     * @brief mayHaveChildren
-     * @return
-     */
     virtual bool mayHaveChildren() const override;
-    /**
-     * @brief appendChild
-     */
     virtual void appendChild(CharacterSheetItem*) override;
     void insertChild(CharacterSheetItem* item, int pos);
-
-    /**
-     * @brief indexOfChild
-     * @param itm
-     * @return
-     */
     virtual int indexOfChild(CharacterSheetItem* itm) override;
-    /**
-     * @brief getName
-     * @return
-     */
-    QString getName() const;
-    /**
-     * @brief setName
-     * @param name
-     */
-    void setName(const QString& name);
-    /**
-     * @brief save
-     * @param json
-     * @param exp
-     */
     virtual void save(QJsonObject& json, bool exp= false) override;
-    /**
-     * @brief load
-     * @param json
-     * @param scene
-     */
     virtual void load(const QJsonObject& json) override;
-    /**
-     * @brief setNewEnd
-     */
     virtual void setNewEnd(QPointF) override {}
-
-    /**
-     * @brief copySection
-     * @param itm
-     */
     void copySection(Section* itm);
-    /**
-     * @brief removeChild
-     * @return
-     */
     bool removeChild(CharacterSheetItem*) override;
     bool deleteChild(CharacterSheetItem*) override;
-    /**
-     * @brief setValueForAll
-     * @param item
-     * @param col
-     */
     void setValueForAll(CharacterSheetItem* item, int col);
-
-    /**
-     * @brief saveDataItem saves only data, no info about how to display the item.
-     * @param json
-     */
     virtual void saveDataItem(QJsonObject& json) override;
-    /**
-     * @brief loadDataItem load core data: id, value, label.
-     * @param json
-     */
     virtual void loadDataItem(const QJsonObject& json) override;
-    /**
-     * @brief removeAll
-     */
     virtual void removeAll();
-    /**
-     * @brief resetAllId
-     * @param i
-     */
     void resetAllId(int& i);
+    QList<CSItem*> allChildren();
 
     void setOrig(CharacterSheetItem* orig) override;
     void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem* child) override;
@@ -170,6 +78,5 @@ signals:
 private:
     QHash<QString, CharacterSheetItem*> m_dataHash;
     QStringList m_keyList;
-    QString m_name;
 };
 #endif // SECTION_H

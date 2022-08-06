@@ -82,7 +82,7 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
     {
         auto array= params.value(Core::keys::KEY_ROOTSECTION).toByteArray();
         auto sheetModel= sheetCtrl->model();
-        sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
+        // sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
     }
 
     sheetCtrl->setGameMasterId(params.value(Core::keys::KEY_GMID).toString());
