@@ -38,6 +38,7 @@
 
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/csitem.h"
 #include "charactersheet_widgets/sheetwidget.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "data/character.h"
@@ -100,31 +101,31 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
     bool allTheSame= true;
     int i= 0;
     bool firstStatus= true;
-    QList<CharacterSheetItem*> listItem;
+    QList<CSItem*> listItem;
     for(auto item : list)
     {
         if(0 == item.column())
         {
-            CharacterSheetItem* csitem= static_cast<CharacterSheetItem*>(item.internalPointer());
-            if(nullptr != csitem)
-            {
-                listItem.append(csitem);
-            }
+            CSItem* csitem= static_cast<CSItem*>(item.internalPointer());
+            if(nullptr == csitem)
+                continue;
+
+            listItem.append(csitem);
         }
         else
         {
             /* CharacterSheet* sheet= m_model.getCharacterSheet(item.column() - 1);
                if(nullptr != sheet)
                {
-                   CharacterSheetItem* csitem= static_cast<CharacterSheetItem*>(item.internalPointer());
+                   TreeSheetItem* csitem= static_cast<TreeSheetItem*>(item.internalPointer());
                    if(nullptr != csitem)
                    {
-                       listItem.append(sheet->getFieldFromKey(csitem->getId()));
+                       listItem.append(sheet->getFieldFromKey(csitem->Id()));
                    }
                }*/
         }
     }
-    for(CharacterSheetItem* csitem : listItem)
+    for(auto csitem : listItem)
     {
         if(nullptr != csitem)
         {
@@ -148,7 +149,7 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
     {
         valueToSet= true;
     }
-    for(CharacterSheetItem* csitem : listItem)
+    for(auto csitem : listItem)
     {
         if(nullptr != csitem)
         {
@@ -174,7 +175,7 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
         QMenu* affect= menu.addMenu(m_shareTo);
         addSharingMenu(affect, index.column() - 1);
 
-        CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
+        auto childItem= dynamic_cast<CSItem*>(static_cast<TreeSheetItem*>(index.internalPointer()));
         if(nullptr != childItem)
         {
             isReadOnly= childItem->isReadOnly();
@@ -447,10 +448,10 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet, Characte
 
     for(int i= 0; i < chSheet->getFieldCount(); ++i)
     {
-        CharacterSheetItem* field= chSheet->getFieldAt(i);
+        TreeSheetItem* field= chSheet->getFieldAt(i);
         if(nullptr != field)
         {
-            qmlView->engine()->rootContext()->setContextProperty(field->getId(), field);
+            qmlView->engine()->rootContext()->setContextProperty(field->id(), field);
         }
     }
 

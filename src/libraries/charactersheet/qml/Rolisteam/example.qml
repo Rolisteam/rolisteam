@@ -1,10 +1,8 @@
-import QtQuick 2.10
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.13
-import QtGraphicalEffects 1.0
-import QtWebEngine 1.10
-import QtQuick.Templates 2.14
-import QtQuick.Extras 1.4
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtWebEngine
+import QtQuick.Templates
 
 Item {
 
@@ -18,6 +16,10 @@ Item {
 
       }
     }
+    Slider {
+
+    }
+
     RowLayout {
       Label {
         text: qsTr("Prenom")

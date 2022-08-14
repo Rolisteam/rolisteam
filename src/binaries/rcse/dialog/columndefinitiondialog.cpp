@@ -143,8 +143,8 @@ void ColumnDefinitionDialog::setData(QList<HandleItem*> list, qreal widthTotal, 
     int i= 0;
     for(auto handle : list)
     {
-        auto field= new FieldController(CharacterSheetItem::FieldItem, true);
-        field->setCurrentType(CharacterSheetItem::TEXTINPUT);
+        auto field= new FieldController(TreeSheetItem::FieldItem, true);
+        field->setFieldType(CSItem::TEXTINPUT);
         m_model->appendField(field);
         field->setX(currentX);
         field->setY(i * currentY);
@@ -153,8 +153,8 @@ void ColumnDefinitionDialog::setData(QList<HandleItem*> list, qreal widthTotal, 
         currentX= handle->pos().x();
         ++i;
     }
-    auto field= new FieldController(CharacterSheetItem::FieldItem, true);
-    field->setCurrentType(CharacterSheetItem::TEXTINPUT);
+    auto field= new FieldController(TreeSheetItem::FieldItem, true);
+    field->setFieldType(CSItem::TEXTINPUT);
     m_model->appendField(field);
     field->setX(currentX);
     field->setY(i * currentY);
@@ -182,15 +182,3 @@ void ColumnDefinitionDialog::save(QJsonObject& json)
 {
     m_model->save(json);
 }
-/*void ColumnDefinitionDialog::positionChanged(int i)
-{
-
-}
-void ColumnDefinitionDialog::lineCountChanged(int i)
-{
-
-}
-void ColumnDefinitionDialog::columnCountChanged(int i)
-{
-
-}*/

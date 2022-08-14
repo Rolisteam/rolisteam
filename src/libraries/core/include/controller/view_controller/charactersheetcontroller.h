@@ -43,7 +43,7 @@ struct CORE_EXPORT CharacterSheetData
     Character* character;
 };
 
-class CharacterSheetItem;
+class TreeSheetItem;
 class CORE_EXPORT CharacterSheetController : public MediaControllerBase
 {
     Q_OBJECT

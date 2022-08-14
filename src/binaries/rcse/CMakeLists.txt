@@ -22,6 +22,7 @@ set(sources  main.cpp
     controllers/editorcontroller.cpp
     controllers/imagecontroller.cpp
     controllers/qmlgeneratorcontroller.cpp
+    controllers/rcseapplicationcontroller.cpp
     controllers/maincontroller.cpp
     data/mockcharacter.cpp
     mainwindow.cpp
@@ -67,6 +68,7 @@ set(headers mainwindow.h
     controllers/imagecontroller.h
     controllers/qmlgeneratorcontroller.h
     controllers/maincontroller.h
+    controllers/rcseapplicationcontroller.h
     data/characterlist.h
     data/mockcharacter.h
     fieldmodel.h
@@ -101,7 +103,7 @@ set(headers mainwindow.h
     widgets/fieldview.h
     qmltypesregister.h
     qmlgeneratorvisitor.h
-  serializerhelper.h )
+  serializerhelper.h  )
 
 
 set(UI_files   mainwindow_rcse.ui
@@ -139,6 +141,7 @@ target_link_libraries(rcse
     diceparser_qobject
     common_core
     common_widget
+    utils
     )
 
 

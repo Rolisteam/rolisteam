@@ -218,10 +218,10 @@ void Canvas::addField(CSItem* itemCtrl)
     CanvasField* cf= nullptr;
     switch(itemCtrl->itemType())
     {
-    case CharacterSheetItem::FieldItem:
+    case TreeSheetItem::FieldItem:
         cf= new CanvasField(dynamic_cast<FieldController*>(itemCtrl));
         break;
-    case CharacterSheetItem::TableItem:
+    case TreeSheetItem::TableItem:
         cf= new TableCanvasField(dynamic_cast<FieldController*>(itemCtrl));
         break;
     default:

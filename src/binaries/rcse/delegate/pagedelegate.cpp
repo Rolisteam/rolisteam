@@ -39,7 +39,7 @@ QString PageDelegate::displayText(const QVariant& value, const QLocale& locale) 
 QWidget* PageDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     // ComboBox ony in column 2
-    if(index.column() != static_cast<int>(CharacterSheetItem::PAGE))
+    if(index.column() != static_cast<int>(TreeSheetItem::PAGE))
         return QStyledItemDelegate::createEditor(parent, option, index);
 
     QComboBox* cm= new QComboBox(parent);

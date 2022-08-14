@@ -4,17 +4,17 @@
 #include <QFont>
 #include <QTextStream>
 
-class CharacterSheetItem;
+class TreeSheetItem;
 class FieldController;
 class QmlGeneratorVisitor
 {
 public:
-    QmlGeneratorVisitor(QTextStream& out, CharacterSheetItem* rootItem);
+    QmlGeneratorVisitor(QTextStream& out, TreeSheetItem* rootItem);
 
     bool isTable() const;
     void setIsTable(bool isTable);
 
-    bool generateCharacterSheetItem();
+    bool generateTreeSheetItem();
     bool generateQmlCodeForRoot();
 
     int indentation() const;
@@ -33,6 +33,8 @@ protected:
     bool generateTable(FieldController* item);
     bool generateChangePageBtn(FieldController* item, bool next);
     bool generateLabelField(FieldController* item);
+    bool generateSlider(FieldController* item);
+    bool generateHidden(FieldController* item);
 
     QString generatePosition(FieldController* item);
     QString generateAlignment(FieldController* item);
@@ -44,7 +46,7 @@ protected:
 
 private:
     QTextStream& m_out;
-    CharacterSheetItem* m_root= nullptr;
+    TreeSheetItem* m_root= nullptr;
     bool m_isTable= false;
     int m_indentation= 1;
     QString m_indenSpace;

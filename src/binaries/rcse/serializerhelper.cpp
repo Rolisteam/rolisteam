@@ -62,7 +62,6 @@ void fetchGeneratorController(QmlGeneratorController* ctrl, const QJsonObject& o
     ctrl->setImportCode(obj["additionnalImport"].toString(""));
     ctrl->setFixedScale(obj["fixedScale"].toDouble(1.0));
     ctrl->setBottomCode(obj["additionnalBottomCode"].toString(""));
-    ctrl->setFlickable(obj["flickable"].toBool(false));
     QString qml= obj[keys::qml].toString();
     ctrl->setQmlCode(qml);
 
@@ -175,7 +174,6 @@ QJsonObject saveGeneratorController(QmlGeneratorController* ctrl)
     obj[keys::imports]= ctrl->importCode();
     obj[keys::fixedScale]= ctrl->fixedScale();
     obj[keys::bottomCode]= ctrl->bottomCode();
-    obj[keys::flickable]= ctrl->flickable();
 
     QJsonArray fonts;
     auto embeddedFont= ctrl->fonts();

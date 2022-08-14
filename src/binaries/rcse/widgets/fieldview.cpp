@@ -34,40 +34,40 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
     m_showGeometryGroup= new QAction(tr("Position columns"), this);
     connect(m_showGeometryGroup, &QAction::triggered, this, [=]() {
         hideAllColumns(true);
-        showColumn(CharacterSheetItem::ID);
-        showColumn(CharacterSheetItem::LABEL);
-        showColumn(CharacterSheetItem::X);
-        showColumn(CharacterSheetItem::Y);
-        showColumn(CharacterSheetItem::WIDTH);
-        showColumn(CharacterSheetItem::HEIGHT);
-        showColumn(CharacterSheetItem::PAGE);
+        showColumn(TreeSheetItem::ID);
+        showColumn(TreeSheetItem::LABEL);
+        showColumn(TreeSheetItem::X);
+        showColumn(TreeSheetItem::Y);
+        showColumn(TreeSheetItem::WIDTH);
+        showColumn(TreeSheetItem::HEIGHT);
+        showColumn(TreeSheetItem::PAGE);
     });
     m_showEsteticGroup= new QAction(tr("Aesthetic columns"), this);
     connect(m_showEsteticGroup, &QAction::triggered, this, [=]() {
         hideAllColumns(true);
-        showColumn(CharacterSheetItem::ID);
-        showColumn(CharacterSheetItem::LABEL);
-        showColumn(CharacterSheetItem::BGCOLOR);
-        showColumn(CharacterSheetItem::BORDER);
-        showColumn(CharacterSheetItem::FitFont);
-        showColumn(CharacterSheetItem::FONT);
-        showColumn(CharacterSheetItem::TEXT_ALIGN);
-        showColumn(CharacterSheetItem::TEXTCOLOR);
+        showColumn(TreeSheetItem::ID);
+        showColumn(TreeSheetItem::LABEL);
+        showColumn(TreeSheetItem::BGCOLOR);
+        showColumn(TreeSheetItem::BORDER);
+        showColumn(TreeSheetItem::FitFont);
+        showColumn(TreeSheetItem::FONT);
+        showColumn(TreeSheetItem::TEXT_ALIGN);
+        showColumn(TreeSheetItem::TEXTCOLOR);
     });
     m_showValueGroup= new QAction(tr("Value columns"), this);
     connect(m_showValueGroup, &QAction::triggered, this, [=]() {
         hideAllColumns(true);
-        showColumn(CharacterSheetItem::ID);
-        showColumn(CharacterSheetItem::LABEL);
-        showColumn(CharacterSheetItem::VALUE);
-        showColumn(CharacterSheetItem::VALUES);
-        showColumn(CharacterSheetItem::TYPE);
+        showColumn(TreeSheetItem::ID);
+        showColumn(TreeSheetItem::LABEL);
+        showColumn(TreeSheetItem::VALUE);
+        showColumn(TreeSheetItem::VALUES);
+        showColumn(TreeSheetItem::TYPE);
     });
     m_showIdGroup= new QAction(tr("Id columns"), this);
     connect(m_showIdGroup, &QAction::triggered, this, [=]() {
         hideAllColumns(true);
-        showColumn(CharacterSheetItem::ID);
-        showColumn(CharacterSheetItem::LABEL);
+        showColumn(TreeSheetItem::ID);
+        showColumn(TreeSheetItem::LABEL);
     });
 
     m_showAllGroup= new QAction(tr("All columns"), this);
@@ -80,18 +80,18 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
     connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editColor(QModelIndex)));
 
     AlignmentDelegate* delegate= new AlignmentDelegate(this);
-    setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TEXT_ALIGN), delegate);
+    setItemDelegateForColumn(static_cast<int>(TreeSheetItem::TEXT_ALIGN), delegate);
 
     TypeDelegate* typeDelegate= new TypeDelegate(this);
-    setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TYPE), typeDelegate);
+    setItemDelegateForColumn(static_cast<int>(TreeSheetItem::TYPE), typeDelegate);
 
     /*FontDelegate* fontDelegate= new FontDelegate(this);
-    setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT), fontDelegate);*/
+    setItemDelegateForColumn(static_cast<int>(TreeSheetItem::FONT), fontDelegate);*/
 
     PageDelegate* pageDelegate= new PageDelegate(this);
-    setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::PAGE), pageDelegate);
+    setItemDelegateForColumn(static_cast<int>(TreeSheetItem::PAGE), pageDelegate);
 
-    setItemDelegateForColumn(CharacterSheetItem::BORDER, new BorderListEditor);
+    setItemDelegateForColumn(TreeSheetItem::BORDER, new BorderListEditor);
 
     connect(m_mapper, &QSignalMapper::mappedInt, this,
             [this](int i) { this->setColumnHidden(i, !this->isColumnHidden(i)); });
@@ -246,7 +246,7 @@ void FieldView::applyValue(QModelIndex& index, bool selection)
     if(!index.isValid())
         return;
 
-    QList<CharacterSheetItem*> listField;
+    QList<TreeSheetItem*> listField;
     QUndoCommand* cmd= nullptr;
     QVariant var= index.data(Qt::DisplayRole);
     QVariant editvar= index.data(Qt::EditRole);
@@ -307,21 +307,21 @@ void FieldView::editColor(QModelIndex index)
         return;
     }
     auto col= index.column();
-    if(col == CharacterSheetItem::BGCOLOR || CharacterSheetItem::TEXTCOLOR == col)
+    if(col == TreeSheetItem::BGCOLOR || TreeSheetItem::TEXTCOLOR == col)
     {
 
-        CharacterSheetItem* itm= static_cast<CharacterSheetItem*>(index.internalPointer());
+        auto itm= dynamic_cast<CSItem*>(static_cast<TreeSheetItem*>(index.internalPointer()));
 
-        if(nullptr != itm)
-        {
-            QColor col= itm->getValueFrom(static_cast<CharacterSheetItem::ColumnId>(index.column()), Qt::EditRole)
-                            .value<QColor>(); // CharacterSheetItem::TEXTCOLOR
-            col= QColorDialog::getColor(col, this, tr("Get Color"), QColorDialog::ShowAlphaChannel);
+        if(nullptr == itm)
+            return;
 
-            itm->setValueFrom(static_cast<CharacterSheetItem::ColumnId>(index.column()), col);
-        }
+        QColor col= itm->valueFrom(static_cast<CSItem::ColumnId>(index.column()), Qt::EditRole)
+                        .value<QColor>(); // TreeSheetItem::TEXTCOLOR
+        col= QColorDialog::getColor(col, this, tr("Get Color"), QColorDialog::ShowAlphaChannel);
+
+        itm->setValueFrom(static_cast<TreeSheetItem::ColumnId>(index.column()), col);
     }
-    else if(CharacterSheetItem::FONT == col)
+    else if(TreeSheetItem::FONT == col)
     {
         QFontDialog cd(this);
         QString fontStr= index.data(Qt::EditRole).toString();

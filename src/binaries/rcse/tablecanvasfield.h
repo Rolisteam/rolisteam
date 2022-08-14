@@ -85,7 +85,7 @@ public:
     void load(QJsonObject& json);
     void save(QJsonObject& json);
 
-    CharacterSheetItem* getRoot();
+    TreeSheetItem* getRoot();
 
 public slots:
     void addColumn();

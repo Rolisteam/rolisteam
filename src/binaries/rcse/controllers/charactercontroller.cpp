@@ -6,7 +6,8 @@
 #include <QTreeView>
 
 // undo
-#include "charactersheet/section.h"
+#include "charactersheet/controllers/section.h"
+#include "charactersheet/csitem.h"
 #include "undo/addcharactercommand.h"
 #include "undo/deletecharactercommand.h"
 #include "undo/setpropertyonallcharacters.h"
@@ -107,7 +108,7 @@ void CharacterController::applyOnAllCharacter(const QModelIndex& index)
     auto characterItem= m_characterModel->indexToSection(index);
     if((!value.isEmpty()) && (nullptr != characterItem))
     {
-        QString key= characterItem->getId();
+        QString key= characterItem->id();
         emit performCommand(new SetPropertyOnCharactersCommand(key, value, formula, m_characterModel.get()));
         emit dataChanged();
     }

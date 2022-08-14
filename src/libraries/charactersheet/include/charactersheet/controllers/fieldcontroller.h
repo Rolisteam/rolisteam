@@ -27,7 +27,7 @@
 #include <QMouseEvent>
 
 #include "charactersheet/charactersheetitem.h"
-#include "csitem.h"
+#include "charactersheet/csitem.h"
 #include <charactersheet/charactersheet_global.h>
 
 class CanvasField;
@@ -56,11 +56,9 @@ public:
         BottomLeft
     };
 
-    explicit FieldController(CharacterSheetItem::CharacterSheetItemType itemType
-                             = CharacterSheetItem::CharacterSheetItemType::FieldItem,
+    explicit FieldController(TreeSheetItem::TreeItemType itemType= TreeSheetItem::TreeItemType::FieldItem,
                              bool addCount= true, QObject* parent= nullptr);
-    explicit FieldController(CharacterSheetItem::CharacterSheetItemType itemType
-                             = CharacterSheetItem::CharacterSheetItemType::FieldItem,
+    explicit FieldController(TreeSheetItem::TreeItemType itemType= TreeSheetItem::TreeItemType::FieldItem,
                              QPointF topleft= {}, bool addCount= true, QObject* parent= nullptr);
     virtual ~FieldController();
 
@@ -71,16 +69,15 @@ public:
     bool aliasEnabled() const;
     QStringList availableValues() const;
 
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
-    virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var) override;
+    virtual QVariant valueFrom(TreeSheetItem::ColumnId, int role) const override;
+    virtual void setValueFrom(TreeSheetItem::ColumnId id, const QVariant& var) override;
 
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json) override;
     virtual void saveDataItem(QJsonObject& json) override;
     virtual void loadDataItem(const QJsonObject& json) override;
 
-    void copyField(CharacterSheetItem*, bool copyData, bool sameId= true);
-    virtual void setNewEnd(QPointF nend) override;
+    void copyField(TreeSheetItem*, bool copyData, bool sameId= true);
     QPair<QString, QString> getTextAlign();
 public slots:
     // void storeQMLCode();

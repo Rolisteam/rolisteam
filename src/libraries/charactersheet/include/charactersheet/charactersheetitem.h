@@ -33,23 +33,20 @@ class EditorController;
 /**
  * @brief The Item class
  */
-class CHARACTERSHEET_EXPORT CharacterSheetItem : public QObject
+class CHARACTERSHEET_EXPORT TreeSheetItem : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString id READ getId WRITE setId NOTIFY idChanged)
-    Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
-    Q_PROPERTY(int page READ page WRITE setPage NOTIFY pageChanged)
-    Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
-    Q_PROPERTY(QString formula READ getFormula WRITE setFormula NOTIFY formulaChanged)
-    Q_PROPERTY(QString label READ getLabel WRITE setLabel NOTIFY labelChanged)
-    Q_PROPERTY(CharacterSheetItemType itemType READ itemType CONSTANT)
+    Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
+    Q_PROPERTY(TreeSheetItem::TreeItemType itemType READ itemType CONSTANT)
 public:
-    enum CharacterSheetItemType
+    enum TreeItemType
     {
         SectionItem,
         FieldItem,
-        TableItem
+        TableItem,
+        SliderItem
     };
+    Q_ENUM(TreeItemType)
 
     enum ColumnId
     {
@@ -71,109 +68,49 @@ public:
         PAGE,
         TOOLTIP
     };
-    enum QMLSection
-    {
-        FieldSec,
-        ConnectionSec
-    };
-    enum TypeField
-    {
-        TEXTINPUT,
-        TEXTFIELD,
-        TEXTAREA,
-        SELECT,
-        CHECKBOX,
-        IMAGE,
-        RLABEL,
-        DICEBUTTON,
-        FUNCBUTTON,
-        WEBPAGE,
-        NEXTPAGE,
-        PREVIOUSPAGE,
-        SLIDER,
-        TABLE
-    };
+    Q_ENUM(ColumnId)
 
-    CharacterSheetItem(CharacterSheetItem::CharacterSheetItemType type, QObject* parent= nullptr);
+    TreeSheetItem(TreeSheetItem::TreeItemType type, QObject* parent= nullptr);
 
-    virtual bool hasChildren();
-    virtual int getChildrenCount() const;
-
-    virtual CharacterSheetItem* getChildFromId(const QString& id) const= 0;
-    virtual CharacterSheetItem* getChildAt(int) const;
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
-    virtual void setValueFrom(CharacterSheetItem::ColumnId, QVariant data)= 0;
-    virtual QString getPath();
     virtual bool mayHaveChildren() const;
-    virtual void appendChild(CharacterSheetItem*);
-    CharacterSheetItem* getParent() const;
-    void setParent(CharacterSheetItem* parent);
-    int rowInParent();
-    virtual int indexOfChild(CharacterSheetItem* itm);
-    virtual void save(QJsonObject& json, bool exp= false)= 0;
-    virtual void load(const QJsonObject& json)= 0;
-    virtual void saveDataItem(QJsonObject& json)= 0;
-    virtual void loadDataItem(const QJsonObject& json)= 0;
-    virtual void setNewEnd(QPointF nend)= 0;
-    QString getId() const;
+    virtual bool hasChildren();
+    virtual int childrenCount() const;
+    virtual void appendChild(TreeSheetItem*);
+
+    virtual TreeSheetItem* childFromId(const QString& id) const;
+    virtual TreeSheetItem* childAt(int) const;
+
+    virtual QString id() const;
+    virtual QString path() const;
+
     void setId(const QString& id);
-    virtual CharacterSheetItem::CharacterSheetItemType itemType() const;
-    virtual bool removeChild(CharacterSheetItem*);
-    virtual bool deleteChild(CharacterSheetItem*);
 
-    Q_INVOKABLE QString getLabel() const;
-    Q_INVOKABLE virtual QString value() const;
-    Q_INVOKABLE bool isReadOnly() const;
-    Q_INVOKABLE int page() const;
-    Q_INVOKABLE QString getFormula() const;
+    TreeSheetItem* parentTreeItem() const;
+    void setParent(TreeSheetItem* parent);
+    int rowInParent();
+    virtual int indexOfChild(TreeSheetItem* itm);
 
-    virtual void setFieldInDictionnary(QHash<QString, QString>& dict) const;
-    bool hasFormula() const;
+    TreeSheetItem::TreeItemType itemType() const;
+    virtual bool removeChild(TreeSheetItem*);
+    virtual bool deleteChild(TreeSheetItem*);
+    virtual void setFieldInDictionnary(QHash<QString, QString>& dict) const= 0;
+    virtual void changeKeyChild(const QString& oldkey, const QString& newKey, TreeSheetItem* child);
 
-    CharacterSheetItem::TypeField getFieldType() const;
-    void setCurrentType(const CharacterSheetItem::TypeField& currentType);
+    virtual void setOrig(TreeSheetItem* m_origine)= 0;
 
-    CharacterSheetItem* getOrig() const;
-    virtual void setOrig(CharacterSheetItem* orig);
-
-    virtual void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem* child);
-    QString getTooltip() const;
-    void setTooltip(const QString& tooltip);
-
-public slots:
-    virtual void setValue(const QString& value, bool fromNetwork= false);
-    void setReadOnly(bool readOnly);
-    void setPage(int page);
-    void setLabel(const QString& label);
-    void setFormula(const QString& formula);
-    void updateLabelFromOrigin();
+    virtual void save(QJsonObject& json, bool exp= false) {}
+    virtual void load(const QJsonObject& json) {}
+    virtual void saveDataItem(QJsonObject& json) {}
+    virtual void loadDataItem(const QJsonObject& json) {}
 
 signals:
-    void valueChanged();
-    void textColorChanged();
-    void textAlignChanged();
-    void bgColorChanged();
-    void valuesChanged();
-    void pageChanged();
-    void readOnlyChanged();
-    void formulaChanged();
+    void characterSheetItemChanged(TreeSheetItem* item);
     void idChanged();
-    void labelChanged();
-    void characterSheetItemChanged(CharacterSheetItem* item);
 
 protected:
-    CharacterSheetItem::CharacterSheetItemType m_itemType;
-    CharacterSheetItem* m_parent;
-    CharacterSheetItem* m_orig;
-    int m_page;
-    QString m_value;
-    QString m_label;
-    QString m_tooltip;
-    bool m_readOnly;
+    TreeSheetItem::TreeItemType m_itemType;
+    TreeSheetItem* m_parent;
     QString m_id;
-    QString m_formula;
-    TypeField m_currentType;
-    bool m_hasDefaultValue;
 };
 
 #endif // CHARACTERSHEETITEM_H

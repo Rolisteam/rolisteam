@@ -1,6 +1,6 @@
-import QtQuick 2.10
-import QtQuick.Controls 2.12
-import Rolisteam 1.1
+import QtQuick
+import QtQuick.Controls
+import Rolisteam
 
 ScrollView {
     id: root

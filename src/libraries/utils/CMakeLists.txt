@@ -23,6 +23,7 @@ set(public_utils_header
     include/utils/networkdownloader.h
     include/utils/mappinghelper.h
     include/utils/utils_global.h
+    include/utils/directaccessdatastructure.h
 )
 
 set(utils_src
@@ -42,10 +43,6 @@ target_include_directories(utils PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 
-#  include(GNUInstallDirs)
 
-#  install(TARGETS utils
-#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
   include(install_helper)
   rinstallLib(utils utils)

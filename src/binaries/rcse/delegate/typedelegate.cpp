@@ -23,8 +23,8 @@
 TypeDelegate::TypeDelegate(QWidget* parent) : QStyledItemDelegate(parent)
 {
     m_data << tr("TextInput") << tr("TextField") << tr("TextArea") << tr("Select") << tr("Checkbox") << tr("Image")
-           << tr("RLabel") << tr("Dice Button") << tr("Function Button") << tr("WebView") << tr("Next Page Button")
-           << tr("Previous Page Button");
+           << tr("RLabel") << tr("Dice Button") << tr("Function Button") << tr("WebView") << tr("Slider")
+           << tr("Hidden") << tr("Next Page Button") << tr("Previous Page Button");
 }
 
 QWidget* TypeDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
@@ -34,7 +34,7 @@ QWidget* TypeDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem&
         return QStyledItemDelegate::createEditor(parent, option, index);
 
     QComboBox* cm= new QComboBox(parent);
-    for(QString item : m_data)
+    for(const QString& item : m_data)
     {
         cm->addItem(item, m_data.indexOf(item));
     }
@@ -45,6 +45,7 @@ void TypeDelegate::setEditorData(QWidget* editor, const QModelIndex& index) cons
     if(QComboBox* cb= qobject_cast<QComboBox*>(editor))
     {
         int currentIndex= index.data(Qt::EditRole).toInt();
+        qDebug() << currentIndex;
         if(currentIndex >= 0)
         {
             cb->setCurrentIndex(currentIndex);
@@ -74,5 +75,5 @@ QString TypeDelegate::displayText(const QVariant& value, const QLocale& locale) 
     {
         return m_data.at(i);
     }
-    return 0;
+    return m_data.at(0);
 }

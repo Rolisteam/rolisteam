@@ -25,12 +25,10 @@
 #include <QVariant>
 
 #include <charactersheet/charactersheet_global.h>
-
-//#include "field.h"
-
 #include <charactersheet/charactersheetitem.h>
 
 class Section;
+class CSItem;
 /**
  * @brief the characterSheet stores Section as many as necessary
  */
@@ -50,23 +48,23 @@ public:
     virtual void load(const QJsonObject& json);
     const QString getTitle();
     int getFieldCount();
-    CharacterSheetItem* getFieldAt(int i) const;
+    CSItem* getFieldAt(int i) const;
 
-    CharacterSheetItem* getFieldFromKey(QString key) const;
+    CSItem* getFieldFromKey(QString key) const;
     QHash<QString, QString> getVariableDictionnary();
 
-    void insertCharacterItem(CharacterSheetItem* item);
+    void insertCharacterItem(CSItem* item);
 
     QString uuid() const;
     void setUuid(const QString& uuid);
     QString name() const;
     void setName(const QString& name);
 
-    void setFieldData(const QJsonObject& obj, const QString& parent);
+    virtual void setFieldData(const QJsonObject& obj, const QString& parent);
     void setOrigin(Section*);
 
     QList<QString> getAllDependancy(QString key);
-    CharacterSheetItem* getFieldFromIndex(const std::vector<int>& row) const;
+    CSItem* getFieldFromIndex(const std::vector<int>& row) const;
 
     const QVariant getValueByIndex(const std::vector<int>& row, QString key,
                                    Qt::ItemDataRole role= Qt::DisplayRole) const;
@@ -74,22 +72,22 @@ public:
 
     bool removeField(const QString& path);
 public slots:
-    CharacterSheetItem* setValue(QString key, QString value, QString formula);
+    CSItem* setValue(QString key, QString value, QString formula);
 
 signals:
-    void updateField(CharacterSheet*, CharacterSheetItem*, const QString& path);
-    void addLineToTableField(CharacterSheet*, CharacterSheetItem*);
+    void updateField(CharacterSheet*, CSItem*, const QString& path);
+    void addLineToTableField(CharacterSheet*, CSItem*);
     void uuidChanged();
     void nameChanged();
 
 protected:
-    void insertField(QString key, CharacterSheetItem* itemSheet);
+    void insertField(QString key, CSItem *itemSheet);
 
 private:
     QStringList explosePath(QString);
 
 private:
-    QMap<QString, CharacterSheetItem*> m_valuesMap;
+    QMap<QString, CSItem*> m_valuesMap;
     QString m_name;
     static int m_count;
     QString m_uuid;

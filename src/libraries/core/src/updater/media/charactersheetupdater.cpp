@@ -23,6 +23,7 @@
 
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/csitem.h"
 #include "network/networkmessagewriter.h"
 
 CharacterSheetUpdater::CharacterSheetUpdater(const QString& id, QObject* parent) : QObject(parent), m_mediaId(id)
@@ -42,8 +43,7 @@ void CharacterSheetUpdater::addCharacterSheetUpdate(CharacterSheet* sheet, Chara
         return;
 
     connect(sheet, &CharacterSheet::updateField, this,
-            [list, mode, this](CharacterSheet* sheet, CharacterSheetItem* itemSheet, const QString& path)
-            {
+            [list, mode, this](CharacterSheet* sheet, CSItem* itemSheet, const QString& path) {
                 if(nullptr == sheet || !m_updating)
                     return;
 

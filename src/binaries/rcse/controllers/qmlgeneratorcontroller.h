@@ -22,7 +22,6 @@ class QmlGeneratorController : public QObject
     Q_PROPERTY(QString headCode READ headCode WRITE setHeadCode NOTIFY headCodeChanged)
     Q_PROPERTY(QString bottomCode READ bottomCode WRITE setBottomCode NOTIFY bottomCodeChanged)
     Q_PROPERTY(QString importCode READ importCode WRITE setImportCode NOTIFY importCodeChanged)
-    Q_PROPERTY(bool flickable READ flickable WRITE setFlickable NOTIFY flickableChanged)
     Q_PROPERTY(qreal fixedScale READ fixedScale WRITE setFixedScale NOTIFY fixedScaleChanged)
     Q_PROPERTY(QStringList fonts READ fonts WRITE setFonts NOTIFY fontsChanged)
     Q_PROPERTY(bool textEdited READ textEdited NOTIFY textEditedChanged)
@@ -35,7 +34,6 @@ public:
     QString headCode() const;
     QString bottomCode() const;
     QString importCode() const;
-    bool flickable() const;
     qreal fixedScale() const;
     bool textEdited() const;
 
@@ -60,7 +58,6 @@ signals:
     void headCodeChanged(QString headCode);
     void bottomCodeChanged(QString bottomCode);
     void importCodeChanged(QString importCode);
-    void flickableChanged(bool flickable);
     void fixedScaleChanged(qreal fixedScale);
     void textEditedChanged();
     void fontsChanged(QStringList fonts);
@@ -74,7 +71,6 @@ public slots:
     void setHeadCode(QString headCode);
     void setBottomCode(QString bottomCode);
     void setImportCode(QString importCode);
-    void setFlickable(bool flickable);
     void setFixedScale(qreal fixedScale);
     void setLastPageId(unsigned int pageId);
     void setTextEdited(bool t);
@@ -87,7 +83,6 @@ private:
     QString m_headCode;
     QString m_bottomCode;
     QString m_importCode;
-    bool m_flickableSheet= false;
     qreal m_fixedScaleSheet= 1.0;
     qreal m_fixedScale= 1.0;
     QStringList m_fonts;

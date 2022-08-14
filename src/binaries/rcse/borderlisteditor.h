@@ -24,7 +24,7 @@
 
 #include <QStyledItemDelegate>
 
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 
 class BorderListEditor : public QStyledItemDelegate
 {

@@ -1,7 +1,7 @@
 #ifndef CODEEDIT_H
 #define CODEEDIT_H
 
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 #include <QDialog>
 
 namespace Ui

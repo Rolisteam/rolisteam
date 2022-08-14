@@ -17,19 +17,18 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(src_dir ${CMAKE_CURRENT_SOURCE_DIR})
-
+set(formula_src_dir ${CMAKE_CURRENT_SOURCE_DIR}/src/formula)
 
 set(formula_src
   # formula
-  ${src_dir}/formula/formulamanager.cpp
-  ${src_dir}/formula/parsingtoolformula.cpp
-  ${src_dir}/formula/nodes/formulanode.cpp
-  ${src_dir}/formula/nodes/operator.cpp
-  ${src_dir}/formula/nodes/parenthesesfnode.cpp
-  ${src_dir}/formula/nodes/scalaroperatorfnode.cpp
-  ${src_dir}/formula/nodes/startnode.cpp
-  ${src_dir}/formula/nodes/valuefnode.cpp)
+  ${formula_src_dir}/formulamanager.cpp
+  ${formula_src_dir}/parsingtoolformula.cpp
+  ${formula_src_dir}/nodes/formulanode.cpp
+  ${formula_src_dir}/nodes/operator.cpp
+  ${formula_src_dir}/nodes/parenthesesfnode.cpp
+  ${formula_src_dir}/nodes/scalaroperatorfnode.cpp
+  ${formula_src_dir}/nodes/startnode.cpp
+  ${formula_src_dir}/nodes/valuefnode.cpp)
 
 set(inc ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet_formula)
 set(formula_header
@@ -56,80 +55,120 @@ target_include_directories(charactersheet_formula PRIVATE ${CMAKE_CURRENT_SOURCE
 #===========================================================
 
 set(inc_sheet ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet)
+set(sheet_src_dir ${CMAKE_CURRENT_SOURCE_DIR}/src/charactersheet)
 
 SET(character_sources
-    ${src_dir}/charactersheet.cpp
-    ${src_dir}/charactersheetitem.cpp
-    ${src_dir}/charactersheetmodel.cpp
-    ${src_dir}/csitem.cpp
-    ${src_dir}/field.cpp
-    ${src_dir}/imagemodel.cpp
-    ${src_dir}/rolisteamimageprovider.cpp
-    ${src_dir}/section.cpp
-    ${src_dir}/tablefield.cpp
-    ${src_dir}/worker/ioworker.cpp
+    ${sheet_src_dir}/charactersheet.cpp
+    ${sheet_src_dir}/charactersheetitem.cpp
+    ${sheet_src_dir}/charactersheetmodel.cpp
+    ${sheet_src_dir}/controllers/fieldcontroller.cpp
+    ${sheet_src_dir}/controllers/sheetcontroller.cpp
+    ${sheet_src_dir}/controllers/tablefield.cpp
+    ${sheet_src_dir}/controllers/section.cpp
+    ${sheet_src_dir}/controllers/slidercontroller.cpp
+    ${sheet_src_dir}/csitem.cpp
+    ${sheet_src_dir}/imagemodel.cpp
+    ${sheet_src_dir}/rolisteamimageprovider.cpp
+    ${sheet_src_dir}/worker/ioworker.cpp
+    ${sheet_src_dir}/fieldfactory.cpp
 )
+
+
 
 SET(character_headers
   ${inc_sheet}/charactersheet_global.h
   ${inc_sheet}/charactersheetitem.h
   ${inc_sheet}/charactersheetmodel.h
+  ${inc_sheet}/controllers/fieldcontroller.h
+  ${inc_sheet}/controllers/section.h
+  ${inc_sheet}/controllers/tablefield.h
+  ${inc_sheet}/controllers/slidercontroller.h
   ${inc_sheet}/charactersheet.h
   ${inc_sheet}/imagemodel.h
   ${inc_sheet}/rolisteamimageprovider.h
-    ${inc_sheet}/csitem.h
-    ${inc_sheet}/field.h
-    ${inc_sheet}/section.h
-    ${inc_sheet}/tablefield.h
-    ${inc_sheet}/worker/ioworker.h
+  ${inc_sheet}/csitem.h
+  ${inc_sheet}/worker/ioworker.h
+  ${inc_sheet}/controllers/sheetcontroller.h
+  ${inc_sheet}/abstractapplicationcontroller.h
+  ${inc_sheet}/fieldfactory.h
 )
 
 
 
-set(qml_sources ${src_dir}/qml/Rolisteam/CheckBoxField.qml
-  ${src_dir}/qml/Rolisteam/CheckBoxFieldv1.qml
-  ${src_dir}/qml/Rolisteam/DiceButton.qml
-  ${src_dir}/qml/Rolisteam/DiceButtonv1.qml
-  ${src_dir}/qml/Rolisteam/ImageField.qml
-  ${src_dir}/qml/Rolisteam/ImageFieldv1.qml
-  ${src_dir}/qml/Rolisteam/main.qml
-  ${src_dir}/qml/Rolisteam/PageButton.qml
-  ${src_dir}/qml/Rolisteam/RLabel.qml
-  ${src_dir}/qml/Rolisteam/SelectField.qml
-  ${src_dir}/qml/Rolisteam/SelectFieldv1.qml
-  ${src_dir}/qml/Rolisteam/Table.qml
-  ${src_dir}/qml/Rolisteam/TextAreaField.qml
-  ${src_dir}/qml/Rolisteam/TextAreaFieldv1.qml
-  ${src_dir}/qml/Rolisteam/TextFieldField.qml
-  ${src_dir}/qml/Rolisteam/TextFieldFieldv1.qml
-  ${src_dir}/qml/Rolisteam/TextInputField.qml
-  ${src_dir}/qml/Rolisteam/TextInputFieldv1.qml
-  ${src_dir}/qml/Rolisteam/WebView.qml
+set(qml_sources ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/CheckBoxField.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/CheckBoxFieldv1.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/DiceButton.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/DiceButtonv1.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/ImageField.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/ImageFieldv1.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/example.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/PageButton.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/RLabel.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/SelectField.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/SelectFieldv1.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/Table.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextAreaField.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextAreaFieldv1.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextFieldField.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextFieldFieldv1.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextInputField.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/TextInputFieldv1.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/WebView.qml
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/Rolisteam/SliderField.qml
 )
 
 set(documentation Readme.md)
-set(charactersheet_QRC ${src_dir}/qml/charactersheet.qrc)
+set(charactersheet_QRC ${CMAKE_CURRENT_SOURCE_DIR}/qml/charactersheet.qrc)
 
+
+
+#qt_add_qml_module(charactersheet
+#    URI Rolisteam
+#    VERSION 1.1
+#    SOURCES
+#      ${qml_sources}
+#)
+message("###################################")
+message(${character_sources})
+message(${character_headers})
+message(${qml_sources})
+message(${documentation})
+message(${charactersheet_QRC})
 
 add_library(charactersheet SHARED ${character_sources} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
-target_link_libraries(charactersheet PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngineCore PRIVATE charactersheet_formula)
+
+qt_add_qml_module(charactersheet
+    URI CharacterSheet
+    VERSION 1.0
+    SOURCES
+      ${sheet_src_dir}/controllers/sheetcontroller.cpp
+      ${inc_sheet}/controllers/sheetcontroller.h
+      ${inc_sheet}/abstractapplicationcontroller.h
+)
+
+target_link_libraries(charactersheet PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickWidgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngineCore PRIVATE charactersheet_formula utils)
 set_target_properties(charactersheet PROPERTIES PUBLIC_HEADER "${character_headers}")
 target_compile_definitions(charactersheet PRIVATE CHARACTERSHEET_LIBRARY)
-target_include_directories(charactersheet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+target_include_directories(charactersheet
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+      ${CMAKE_CURRENT_SOURCE_DIR}/src
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet/controllers>
     PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 #===========================================================
 
 set(inc_sheet ${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet_widgets)
+set(widget_src_dir ${CMAKE_CURRENT_SOURCE_DIR}/src/widget)
 
 set(header_widget ${inc_sheet}/charactersheet_widget_global.h
 ${inc_sheet}/sheetwidget.h)
 
 set(src_widget 
-    ${src_dir}/widget/sheetwidget.cpp
+    ${widget_src_dir}/sheetwidget.cpp
 )
 
 
@@ -142,20 +181,6 @@ target_include_directories(charactersheet_widgets PRIVATE ${CMAKE_CURRENT_SOURCE
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-
-
-
-#if (BUILD_TESTING)
-#enable_testing(true)
-#add_subdirectory(test)
-#endif()
-
-
-#include(GNUInstallDirs)
-
-#install(TARGETS charactersheet charactersheet_widgets charactersheet_formula
-#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 include(install_helper)
 rinstallLib(charactersheet_formula charactersheet_widgets charactersheet rolisteam)

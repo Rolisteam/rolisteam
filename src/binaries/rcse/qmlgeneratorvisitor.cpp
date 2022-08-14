@@ -1,23 +1,23 @@
 #include "qmlgeneratorvisitor.h"
 
 #include "charactersheet/charactersheetitem.h"
-#include "charactersheet/field.h"
-#include "charactersheet/tablefield.h"
+#include "charactersheet/controllers/fieldcontroller.h"
+#include "charactersheet/controllers/tablefield.h"
 
 QString getPageManagement(FieldController* item, QString indent)
 {
     int page= item->page();
     if(page >= 0)
-        return QStringLiteral("%1    visible: root.page == %5? true : false\n").arg(indent).arg(page);
-    else if(item->getFieldType() == CharacterSheetItem::NEXTPAGE)
-        return QStringLiteral("%1    visible: root.page != root.maxPage\n").arg(indent);
-    else if(item->getFieldType() == CharacterSheetItem::PREVIOUSPAGE)
-        return QStringLiteral("%1    visible: root.page != 0\n").arg(indent);
+        return QStringLiteral("%1    visible: sheetCtrl.currentPage == %5? true : false\n").arg(indent).arg(page);
+    else if(item->fieldType() == CSItem::NEXTPAGE)
+        return QStringLiteral("%1    visible: sheetCtrl.currentPage != root.maxPage\n").arg(indent);
+    else if(item->fieldType() == CSItem::PREVIOUSPAGE)
+        return QStringLiteral("%1    visible: sheetCtrl.currentPage != 0\n").arg(indent);
     else
         return QStringLiteral("%1    visible: true\n").arg(indent);
 }
 
-QmlGeneratorVisitor::QmlGeneratorVisitor(QTextStream& out, CharacterSheetItem* rootItem) : m_out(out), m_root(rootItem)
+QmlGeneratorVisitor::QmlGeneratorVisitor(QTextStream& out, TreeSheetItem* rootItem) : m_out(out), m_root(rootItem)
 {
     setIndentation(m_indentation);
 }
@@ -31,56 +31,62 @@ void QmlGeneratorVisitor::setIsTable(bool isTable)
 {
     m_isTable= isTable;
 }
-bool QmlGeneratorVisitor::generateCharacterSheetItem()
+bool QmlGeneratorVisitor::generateTreeSheetItem()
 {
-    for(int i= 0; i < m_root->getChildrenCount(); ++i)
+    for(int i= 0; i < m_root->childrenCount(); ++i)
     {
-        auto child= m_root->getChildAt(i);
-        if(child->itemType() == CharacterSheetItem::FieldItem)
+        auto child= m_root->childAt(i);
+        if(child->itemType() == TreeSheetItem::FieldItem)
         {
             auto field= dynamic_cast<FieldController*>(child);
             if(field->generatedCode().isEmpty())
             {
-                switch(field->getFieldType())
+                switch(field->fieldType())
                 {
-                case CharacterSheetItem::TEXTINPUT:
+                case CSItem::TEXTINPUT:
                     generateTextInput(field);
                     break;
-                case CharacterSheetItem::TEXTFIELD:
+                case CSItem::TEXTFIELD:
                     generateTextField(field);
                     break;
-                case CharacterSheetItem::TEXTAREA:
+                case CSItem::TEXTAREA:
                     generateTextArea(field);
                     break;
-                case CharacterSheetItem::SELECT:
+                case CSItem::SELECT:
                     generateSelect(field);
                     break;
-                case CharacterSheetItem::CHECKBOX:
+                case CSItem::CHECKBOX:
                     generateCheckBox(field);
                     break;
-                case CharacterSheetItem::IMAGE:
+                case CSItem::IMAGE:
                     generateImage(field);
                     break;
-                case CharacterSheetItem::DICEBUTTON:
+                case CSItem::DICEBUTTON:
                     generateDiceButton(field);
                     break;
-                case CharacterSheetItem::FUNCBUTTON:
+                case CSItem::FUNCBUTTON:
                     generateFuncButton(field);
                     break;
-                case CharacterSheetItem::RLABEL:
+                case CSItem::RLABEL:
                     generateLabelField(field);
                     break;
-                case CharacterSheetItem::TABLE:
+                case CSItem::TABLE:
                     generateTable(field);
                     break;
-                case CharacterSheetItem::WEBPAGE:
+                case CSItem::WEBPAGE:
                     generateWebPage(field);
                     break;
-                case CharacterSheetItem::NEXTPAGE:
+                case CSItem::NEXTPAGE:
                     generateChangePageBtn(field, true);
                     break;
-                case CharacterSheetItem::PREVIOUSPAGE:
+                case CSItem::PREVIOUSPAGE:
                     generateChangePageBtn(field, false);
+                    break;
+                case CSItem::SLIDER:
+                    generateSlider(field);
+                    break;
+                case CSItem::HIDDEN:
+                    generateHidden(field);
                     break;
                 }
             }
@@ -89,7 +95,7 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
                 m_out << field->generatedCode();
             }
         }
-        else if(child->itemType() == CharacterSheetItem::TableItem)
+        else if(child->itemType() == TreeSheetItem::TableItem)
         {
             auto field= dynamic_cast<TableField*>(child);
             if(nullptr != field)
@@ -111,53 +117,59 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
     if(nullptr == m_root)
         return false;
 
-    if(m_root->itemType() == CharacterSheetItem::FieldItem)
+    if(m_root->itemType() == TreeSheetItem::FieldItem)
     {
         auto field= dynamic_cast<FieldController*>(m_root);
-        switch(field->getFieldType())
+        switch(field->fieldType())
         {
-        case CharacterSheetItem::TEXTINPUT:
+        case CSItem::TEXTINPUT:
             generateTextInput(field);
             break;
-        case CharacterSheetItem::TEXTFIELD:
+        case CSItem::TEXTFIELD:
             generateTextField(field);
             break;
-        case CharacterSheetItem::TEXTAREA:
+        case CSItem::TEXTAREA:
             generateTextArea(field);
             break;
-        case CharacterSheetItem::SELECT:
+        case CSItem::SELECT:
             generateSelect(field);
             break;
-        case CharacterSheetItem::CHECKBOX:
+        case CSItem::CHECKBOX:
             generateCheckBox(field);
             break;
-        case CharacterSheetItem::IMAGE:
+        case CSItem::IMAGE:
             generateImage(field);
             break;
-        case CharacterSheetItem::DICEBUTTON:
+        case CSItem::DICEBUTTON:
             generateDiceButton(field);
             break;
-        case CharacterSheetItem::FUNCBUTTON:
+        case CSItem::FUNCBUTTON:
             generateFuncButton(field);
             break;
-        case CharacterSheetItem::RLABEL:
+        case CSItem::RLABEL:
             generateLabelField(field);
             break;
-        case CharacterSheetItem::TABLE:
+        case CSItem::TABLE:
             generateTable(field);
             break;
-        case CharacterSheetItem::WEBPAGE:
+        case CSItem::WEBPAGE:
             generateWebPage(field);
             break;
-        case CharacterSheetItem::NEXTPAGE:
+        case CSItem::NEXTPAGE:
             generateChangePageBtn(field, true);
             break;
-        case CharacterSheetItem::PREVIOUSPAGE:
+        case CSItem::PREVIOUSPAGE:
             generateChangePageBtn(field, false);
+            break;
+        case CSItem::SLIDER:
+            generateSlider(field);
+            break;
+        case CSItem::HIDDEN:
+            generateHidden(field);
             break;
         }
     }
-    else if(m_root->itemType() == CharacterSheetItem::TableItem)
+    else if(m_root->itemType() == TreeSheetItem::TableItem)
     {
         auto field= dynamic_cast<TableField*>(m_root);
         if(field)
@@ -183,7 +195,7 @@ bool QmlGeneratorVisitor::generateTextInput(FieldController* item)
                    "%5    }\n"
                    "%5}\n");
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
@@ -211,7 +223,7 @@ bool QmlGeneratorVisitor::generateTextArea(FieldController* item)
                    "%5        %2.value = text\n"
                    "%5    }\n"*/
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
@@ -240,7 +252,7 @@ bool QmlGeneratorVisitor::generateTextField(FieldController* item)
                    "%5    }\n"
                    "%5}\n");
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
@@ -263,13 +275,72 @@ bool QmlGeneratorVisitor::generateLabelField(FieldController* item)
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + generateAlignment(item) + generateFont(item->font(), true) + "%5}\n");
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
                  .arg(m_indenSpace) //%5
                  .arg(m_isTable ? QStringLiteral("") :
                                   QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
+
+    return true;
+}
+
+bool QmlGeneratorVisitor::generateSlider(FieldController* item)
+{
+    if(!item)
+        return false;
+
+    QString text("%5SliderField {//%1\n"
+                 "%6"
+                 "%5    value: parseFloat(%2.value)\n"
+                 "%5    field: %2\n"
+                 "%5    from: %7\n"
+                 "%5    to: %8\n"
+                 "%5    backgroundColor:\"%4\"\n"
+                 "%5    valueColor: \"%3\"\n"
+                 + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
+                 + generatePosition(item) + "%5}\n");
+
+    auto vals= item->availableValues();
+    qreal start= 0.;
+    qreal end= 100.;
+    if(vals.size() == 2)
+    {
+        start= vals[0].toDouble();
+        end= vals[1].toDouble();
+    }
+
+    m_out << text.arg(item->label()) //%1
+                 .arg(getId(item))
+                 .arg(item->textColor().name(QColor::HexArgb))
+                 .arg(item->bgColor().name(QColor::HexArgb))
+                 .arg(m_indenSpace) //%5
+                 .arg(m_isTable ? QStringLiteral("") :
+                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)))
+                 .arg(start)
+                 .arg(end);
+
+    return true;
+}
+
+bool QmlGeneratorVisitor::generateHidden(FieldController* item)
+{
+    if(!item)
+        return false;
+
+    // WARNING no aligment and font for selectfield.
+    QString text("%3Item {//%1\n"
+                 "%4"
+                 "%3    property string value: %2.value\n"
+                 + generatePosition(item) + "%3}\n");
+
+    m_out << text.arg(item->label()) //%1
+                 .arg(getId(item))
+                 .arg(m_indenSpace) //%3
+                 .arg(m_isTable ? QStringLiteral("") :
+                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
+    ;
 
     return true;
 }
@@ -295,7 +366,7 @@ bool QmlGeneratorVisitor::generateSelect(FieldController* item)
                  + getPageManagement(item, m_indenSpace) + "%6    enabled: !%2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + "%6}\n");
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
@@ -320,7 +391,7 @@ bool QmlGeneratorVisitor::generateCheckBox(FieldController* item)
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + "%5}\n");
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->bgColor().name(QColor::HexArgb))
                  .arg(item->textColor().name(QColor::HexArgb))
@@ -351,7 +422,7 @@ bool QmlGeneratorVisitor::generateFuncButton(FieldController* item)
                    "%6    }\n"
                    "%6}\n");
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
@@ -383,7 +454,7 @@ bool QmlGeneratorVisitor::generateDiceButton(FieldController* item)
                  + "%6    onClicked:rollDiceCmd(%2.value,%5)\n"
                    "%6}\n");
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->textColor().lighter().name(QColor::HexArgb))
                  .arg(item->bgColor().lighter().name(QColor::HexArgb))
@@ -409,7 +480,7 @@ bool QmlGeneratorVisitor::generateImage(FieldController* item)
                  + getPageManagement(item, m_indenSpace) + "%4    readOnly: %2.readOnly\n" + generatePosition(item)
                  + "%4}\n");
 
-    m_out << text.arg(item->getLabel()) //%1
+    m_out << text.arg(item->label()) //%1
                  .arg(getId(item))
                  .arg(item->bgColor().name(QColor::HexArgb))
                  .arg(m_indenSpace) //%5
@@ -441,15 +512,12 @@ bool QmlGeneratorVisitor::generateTable(FieldController* item)
     QString end("%1    }\n"
                 "%1}\n");
 
-    m_out << node.arg(m_indenSpace)
-                 .arg(item->getLabel())
-                 .arg(tablefield->getId())
-                 .arg(tablefield->getMaxVisibleRowCount());
+    m_out << node.arg(m_indenSpace).arg(item->label()).arg(tablefield->id()).arg(tablefield->getMaxVisibleRowCount());
 
     QmlGeneratorVisitor visitor(m_out, tablefield->getRoot());
     visitor.setIndentation(m_indentation + 2);
     visitor.setIsTable(true);
-    visitor.generateCharacterSheetItem();
+    visitor.generateTreeSheetItem();
 
     m_out << end.arg(m_indenSpace);
 
@@ -471,7 +539,7 @@ bool QmlGeneratorVisitor::generateChangePageBtn(FieldController* item, bool next
                    "%1    }\n"
                    "%1}\n");
 
-    m_out << node.arg(m_indenSpace).arg(item->getLabel()).arg(next ? "true" : "false").arg(getId(item));
+    m_out << node.arg(m_indenSpace).arg(item->label()).arg(next ? "true" : "false").arg(getId(item));
 
     return true;
 }
@@ -489,7 +557,7 @@ bool QmlGeneratorVisitor::generateWebPage(FieldController* item)
                    "%1}\n");
 
     m_out << node.arg(m_indenSpace)
-                 .arg(item->getLabel())
+                 .arg(item->label())
                  .arg(getId(item))
                  .arg(m_isTable ? QStringLiteral("") :
                                   QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
@@ -506,10 +574,10 @@ QString QmlGeneratorVisitor::generatePosition(FieldController* item)
 
         return op.arg(item->width()).arg(m_indenSpace);
     }
-    QString positionLines("%5    x:%1*root.realscale\n"
-                          "%5    y:%2*root.realscale\n"
-                          "%5    width:%3*root.realscale\n"
-                          "%5    height:%4*root.realscale\n");
+    QString positionLines("%5    x:%1*imagebg.realscale\n"
+                          "%5    y:%2*imagebg.realscale\n"
+                          "%5    width:%3*imagebg.realscale\n"
+                          "%5    height:%4*imagebg.realscale\n");
 
     return positionLines.arg(item->x()).arg(item->y()).arg(item->width()).arg(item->height()).arg(m_indenSpace);
 }
@@ -565,10 +633,10 @@ void QmlGeneratorVisitor::setIndentation(int indentation)
 
 QString QmlGeneratorVisitor::getId(FieldController* item)
 {
-    QString result= item->getId();
+    QString result= item->id();
     if(m_isTable)
     {
-        result= item->getLabel();
+        result= item->label();
     }
     return result;
 }

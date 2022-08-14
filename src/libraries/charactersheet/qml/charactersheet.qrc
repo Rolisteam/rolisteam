@@ -19,5 +19,7 @@
         <file>Rolisteam/DiceButton.qml</file>
         <file>Rolisteam/CheckBoxFieldv1.qml</file>
         <file>Rolisteam/CheckBoxField.qml</file>
+        <file>Rolisteam/SliderField.qml</file>
+        <file>Rolisteam/ContextualMenu.qml</file>
     </qresource>
 </RCC>

@@ -532,7 +532,7 @@ void PlayerModel::removePlayer(Player* player)
     if(itPlayer == m_players.end())
         return;
 
-    //    int charactersCount= player->getChildrenCount();
+    //    int charactersCount= player->get->childrenCount();
     /*    for(int i= 0; i < charactersCount; i++)
         {
             delCharacter(player, 0);
@@ -861,7 +861,7 @@ bool PlayerModel::localIsGM() const
 void PlayerModel::delLocalCharacter(int index)
 {
     Player* parent= getLocalPlayer();
-    if(index < 0 || index >= parent->getChildrenCount())
+    if(index < 0 || index >= parent->get->childrenCount())
         return;
 
     NetworkMessageWriter message(NetMsg::CharacterPlayerCategory, NetMsg::DelPlayerCharacterAction);

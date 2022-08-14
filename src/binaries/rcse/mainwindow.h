@@ -30,7 +30,7 @@
 
 #include "canvas.h"
 #include "charactersheet/charactersheetmodel.h"
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 #include "charactersheet/imagemodel.h"
 #include "charactersheet/rolisteamimageprovider.h"
 #include "controllers/maincontroller.h"

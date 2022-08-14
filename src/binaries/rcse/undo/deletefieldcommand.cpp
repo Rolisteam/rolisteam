@@ -29,7 +29,7 @@ DeleteFieldCommand::DeleteFieldCommand(FieldController* field, Canvas* canvas, F
 
     init();
 }
-DeleteFieldCommand::DeleteFieldCommand(QList<CharacterSheetItem*> fields, QList<Canvas*> canvas, FieldModel* model,
+DeleteFieldCommand::DeleteFieldCommand(QList<CSItem *> fields, QList<Canvas*> canvas, FieldModel* model,
                                        QList<int> currentPage, QUndoCommand* parent)
     : QUndoCommand(parent), m_canvas(canvas), m_model(model), m_currentPage(currentPage)
 {

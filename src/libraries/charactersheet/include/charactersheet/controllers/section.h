@@ -26,6 +26,7 @@
 #include <QPointF>
 
 #include <charactersheet/charactersheet_global.h>
+#include <utils/directaccessdatastructure.h>
 
 class CharacterSheet;
 class EditorController;
@@ -33,46 +34,46 @@ class CSItem;
 /**
  * @brief The Section class store data field for charactersheet.
  */
-class CHARACTERSHEET_EXPORT Section : public CharacterSheetItem
+class CHARACTERSHEET_EXPORT Section : public TreeSheetItem
 {
     Q_OBJECT
 public:
     Section();
     virtual ~Section();
-    virtual bool hasChildren() override;
-    virtual int getChildrenCount() const override;
-    virtual CharacterSheetItem* getChildAt(int) const override;
-    virtual CharacterSheetItem* getChildFromId(const QString&) const override;
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
-    virtual void setValueFrom(CharacterSheetItem::ColumnId, QVariant) override;
-    virtual bool mayHaveChildren() const override;
-    virtual void appendChild(CharacterSheetItem*) override;
-    void insertChild(CharacterSheetItem* item, int pos);
-    virtual int indexOfChild(CharacterSheetItem* itm) override;
+    bool hasChildren() override;
+    int childrenCount() const override;
+    TreeSheetItem* childAt(int) const override;
+    TreeSheetItem* childFromId(const QString&) const override;
+
+    bool mayHaveChildren() const override;
+    void appendChild(TreeSheetItem*) override;
+    void insertChild(TreeSheetItem* item, int pos);
+    int indexOfChild(TreeSheetItem* itm) override;
+
+    void copySection(Section* itm);
+    bool removeChild(TreeSheetItem*) override;
+    bool deleteChild(TreeSheetItem*) override;
+    void setValueForAll(TreeSheetItem* item, int col);
+    void setOrig(TreeSheetItem* orig) override;
+
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json) override;
-    virtual void setNewEnd(QPointF) override {}
-    void copySection(Section* itm);
-    bool removeChild(CharacterSheetItem*) override;
-    bool deleteChild(CharacterSheetItem*) override;
-    void setValueForAll(CharacterSheetItem* item, int col);
-    virtual void saveDataItem(QJsonObject& json) override;
-    virtual void loadDataItem(const QJsonObject& json) override;
+    /*    virtual void saveDataItem(QJsonObject& json) override;
+        virtual void loadDataItem(const QJsonObject& json) override;*/
     virtual void removeAll();
     void resetAllId(int& i);
-    QList<CSItem*> allChildren();
+    QList<CSItem*> allChildren() const;
     void setFieldInDictionnary(QHash<QString, QString>& dict) const override;
 
-    void setOrig(CharacterSheetItem* orig) override;
-    void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem* child) override;
-    void getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list);
+    void changeKeyChild(const QString& oldkey, const QString& newKey, TreeSheetItem* child) override;
+    QList<CSItem*> fieldFromPage(int pagePos);
+
 public slots:
     void buildDataInto(CharacterSheet* characterSheet);
 signals:
-    void addLineToTableField(CharacterSheetItem*);
+    void addLineToTableField(TreeSheetItem*);
 
 private:
-    QHash<QString, CharacterSheetItem*> m_dataHash;
-    QStringList m_keyList;
+    DirectAccessDataStructure<QString, TreeSheetItem*> m_data;
 };
 #endif // SECTION_H

@@ -21,68 +21,41 @@
 #define CHARACTERSHEETBUTTON_H
 
 #include "charactersheet/charactersheetitem.h"
+#include "controllers/fieldcontroller.h"
 #include "csitem.h"
-#include "field.h"
 #include <QGraphicsItem>
 #include <QLabel>
 #include <QWidget>
+#include <charactersheet/charactersheet_global.h>
 /**
  * @brief The CharacterSheetButton class is dedicated to manage button.
  */
-class CharacterSheetButton : public CSItem
+/*class CHARACTERSHEET_EXPORT CharacterSheetButton : public CSItem
 {
     Q_OBJECT
 public:
     CharacterSheetButton(QPointF topleft, QGraphicsItem* parent= nullptr);
     CharacterSheetButton(QGraphicsItem* parent= nullptr);
-
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var) override;
-
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json) override;
-
     virtual void generateQML(QTextStream& out, CharacterSheetItem::QMLSection sec);
-
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
-
     virtual void setNewEnd(QPointF nend) override;
     QRectF boundingRect() const;
-
     CharacterSheetItem::TypeField getFieldType() const;
-
     virtual CharacterSheetItem* getChildFromId(const QString&) const override;
-
     virtual CharacterSheetItem::CharacterSheetItemType itemType() const override;
-
-    /**
-     * @brief saveDataItem
-     * @param json
-     */
     virtual void saveDataItem(QJsonObject& json) override;
-    /**
-     * @brief load
-     * @param json
-     * @param scene
-     */
     virtual void loadDataItem(const QJsonObject& json) override;
-
     void copyField(CharacterSheetItem* newField);
-    /**
-     * @brief fillNetworkMessage
-     * @param msg
-     */
-    // virtual void fillNetworkMessage(NetworkMessageWriter* msg);
-    /**
-     * @brief readNetworkMessage
-     * @param msg
-     */
-    // virtual void readNetworkMessage(NetworkMessageReader* msg);
+
 signals:
     void updateNeeded(CSItem* c);
 
 private:
     void init();
 };
-
+*/
 #endif // CHARACTERSHEETBUTTON_H

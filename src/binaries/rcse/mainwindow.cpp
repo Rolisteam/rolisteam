@@ -84,9 +84,26 @@
 
 #include "charactersheet/charactersheetmodel.h"
 
+#include "controllers/rcseapplicationcontroller.h"
 #include <common_widgets/busyindicatordialog.h>
 
 constexpr int minimalColumnSize= 350;
+
+void registerRCSEQmlTypes()
+{
+    qmlRegisterSingletonType<RcseApplicationController>("Helper", 1, 0, "AppCtrl",
+                                                        [](QQmlEngine* engine, QJSEngine* scriptEngine) -> QObject* {
+                                                            auto ctrl= new RcseApplicationController();
+
+                                                            /*connect(ctrl,
+                                                            &RcseApplicationController::zoomLevelChanged,
+                                                            horizontalSlider, [horizontalSlider]() {
+                                                                horizontalSlider->setValue();
+                                                            });*/
+
+                                                            return ctrl;
+                                                        });
+}
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), m_mainCtrl(new MainController()), m_counterZoom(0)
@@ -107,12 +124,14 @@ MainWindow::MainWindow(QWidget* parent)
         connect(act, &QAction::triggered, this, &MainWindow::openRecentFile);
     }
 
-    registerQmlTypes();
+    registerRCSEQmlTypes();
 
     connect(ui->m_codeEdit, &CodeEditor::textChanged, this,
             [this]() { m_mainCtrl->generatorCtrl()->setQmlCode(ui->m_codeEdit->toPlainText()); });
-    connect(m_mainCtrl->generatorCtrl(), &QmlGeneratorController::qmlCodeChanged, this,
-            [this]() { ui->m_codeEdit->setPlainText(m_mainCtrl->generatorCtrl()->qmlCode()); });
+    connect(m_mainCtrl->generatorCtrl(), &QmlGeneratorController::qmlCodeChanged, this, [this]() {
+        if(ui->m_codeEdit->toPlainText() != m_mainCtrl->generatorCtrl()->qmlCode())
+            ui->m_codeEdit->setPlainText(m_mainCtrl->generatorCtrl()->qmlCode());
+    });
 
     connect(ui->m_quickview->engine(), &QQmlEngine::warnings, m_mainCtrl->generatorCtrl(),
             &QmlGeneratorController::errors);
@@ -120,11 +139,6 @@ MainWindow::MainWindow(QWidget* parent)
         if(status == QQuickWidget::Error)
             m_mainCtrl->displayQmlError(ui->m_quickview->errors());
     });
-
-    /*connect(m_mainCtrl->imageCtrl()->model(), &charactersheet::ImageModel::rowsInserted, this, [this]() {
-        auto view= ui->m_imageList->horizontalHeader();
-        view->resizeSections(QHeaderView::ResizeToContents);
-    });*/
 
     ui->m_imageList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->m_imageList, &QTableView::customContextMenuRequested, this, &MainWindow::showContextMenuForImageTab);
@@ -154,6 +168,7 @@ MainWindow::MainWindow(QWidget* parent)
     m_logPanel= new LogPanel(this);
     m_logPanel->setController(m_mainCtrl->logCtrl());
     wid->setWidget(m_logPanel);
+    connect(m_mainCtrl->logCtrl(), &LogController::logLevelChanged, this, &MainWindow::writeSettings);
     addDockWidget(Qt::BottomDockWidgetArea, wid);
     auto showLogPanel= wid->toggleViewAction();
 
@@ -202,6 +217,8 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_webPageAct->setData(Canvas::ADDWEBPAGE);
     ui->m_nextPageAct->setData(Canvas::NEXTPAGE);
     ui->m_previousPageAct->setData(Canvas::PREVIOUSPAGE);
+    ui->m_sliderAct->setData(Canvas::ADDSLIDER);
+    ui->m_hiddenFieldAct->setData(Canvas::ADDHIDDEN);
 
     ui->m_moveAct->setData(Canvas::MOVE);
     ui->m_moveAct->setShortcut(QKeySequence(Qt::Key_Escape));
@@ -210,11 +227,13 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_addButtonAct->setData(Canvas::BUTTON);
 
     ui->m_addTextInput->setDefaultAction(ui->m_addTextInputAct);
+    ui->m_hiddenFieldBtn->setDefaultAction(ui->m_hiddenFieldAct);
     ui->m_addTextArea->setDefaultAction(ui->m_addTextAreaAct);
     ui->m_addTextField->setDefaultAction(ui->m_addTextFieldAct);
     ui->m_addCheckbox->setDefaultAction(ui->m_addCheckBoxAct);
     ui->m_addLabelBtn->setDefaultAction(ui->m_addLabelAction);
     ui->m_imageBtn->setDefaultAction(ui->m_addImageAction);
+    ui->m_sliderBtn->setDefaultAction(ui->m_sliderAct);
     ui->m_functionBtn->setDefaultAction(ui->m_functionButtonAct);
     ui->m_tableFieldBtn->setDefaultAction(ui->m_tableFieldAct);
     ui->m_webPageBtn->setDefaultAction(ui->m_webPageAct);
@@ -235,6 +254,8 @@ MainWindow::MainWindow(QWidget* parent)
     QButtonGroup* group= new QButtonGroup();
     group->addButton(ui->m_addTextInput);
     group->addButton(ui->m_addTextArea);
+    group->addButton(ui->m_sliderBtn);
+    group->addButton(ui->m_hiddenFieldBtn);
     group->addButton(ui->m_addTextField);
     group->addButton(ui->m_addTextInput);
     group->addButton(ui->m_addTextArea);
@@ -273,8 +294,10 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->m_addCheckBoxAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_importFromPdf, &QAction::triggered, this, &MainWindow::openPDF);
     connect(ui->m_addTextAreaAct, &QAction::triggered, this, setCurrentTool);
+    connect(ui->m_hiddenFieldAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addLabelAction, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addTextFieldAct, &QAction::triggered, this, setCurrentTool);
+    connect(ui->m_sliderAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addTextInputAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addImageAction, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_functionButtonAct, &QAction::triggered, this, setCurrentTool);
@@ -317,26 +340,6 @@ MainWindow::MainWindow(QWidget* parent)
     header->setSectionResizeMode(QHeaderView::Stretch);
     header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     header->setMinimumSectionSize(300);
-
-    // header->setSectionResizeMode(0, QHeaderView::Stretch);
-    /*auto resizeSection= [this](int= 0, int newCount= 1) {
-        auto header= ui->m_characterView->header();
-        if(!header)
-            return;
-        auto w= header->width() - minimalColumnSize;
-        auto count= std::max(newCount - 1, 1);
-        auto idealSize= w / count;
-        for(int i= 0; i < newCount; ++i)
-        {
-            if(i == 0)
-                header->resizeSection(i, newCount > 1 ? minimalColumnSize : idealSize);
-            else
-                header->resizeSection(i, idealSize >= minimalColumnSize ? idealSize : minimalColumnSize);
-        }
-    };
-    connect(header, &QHeaderView::sectionCountChanged, this, resizeSection);
-
-    resizeSection();*/
 
     connect(ui->m_scaleSlider, &QSlider::valueChanged, this, [this](int val) {
         qreal scale= val / 100.0;
@@ -401,6 +404,7 @@ void MainWindow::readSettings()
         restoreGeometry(settings.value("geometry").toByteArray());
     }
     m_recentFiles= settings.value("recentFile").toStringList();
+    m_mainCtrl->logCtrl()->setLogLevel(settings.value("RcseLogLevel").value<LogController::LogLevel>());
     m_preferences->readSettings(settings);
 
     updateRecentFileAction();
@@ -412,6 +416,7 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
     settings.setValue("recentFile", m_recentFiles);
+    settings.setValue("RcseLogLevel", m_mainCtrl->logCtrl()->logLevel());
     m_preferences->writeSettings(settings);
 }
 
@@ -733,19 +738,19 @@ void MainWindow::showQMLFromCode()
     {
         for(int i= 0; i < charactersheet->getFieldCount(); ++i)
         {
-            CharacterSheetItem* field= charactersheet->getFieldAt(i);
+            TreeSheetItem* field= charactersheet->getFieldAt(i);
             if(nullptr != field)
             {
-                ui->m_quickview->engine()->rootContext()->setContextProperty(field->getId(), field);
+                ui->m_quickview->engine()->rootContext()->setContextProperty(field->id(), field);
             }
         }
     }
     else
     {
-        QList<CharacterSheetItem*> list= m_mainCtrl->generatorCtrl()->fieldModel()->children();
-        for(CharacterSheetItem* item : list)
+        QList<TreeSheetItem*> list= m_mainCtrl->generatorCtrl()->fieldModel()->children();
+        for(TreeSheetItem* item : list)
         {
-            ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(), item);
+            ui->m_quickview->engine()->rootContext()->setContextProperty(item->id(), item);
         }
     }
 
@@ -755,7 +760,7 @@ void MainWindow::showQMLFromCode()
     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     m_mainCtrl->displayQmlError(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    QObject* root= ui->m_quickview->rootObject();
+    // QObject* root= ui->m_quickview->rootObject();
     /*connect(root, SIGNAL(showText(QString)), this, SIGNAL(reportLog(QString)));
     connect(root, SIGNAL(rollDiceCmd(QString, bool)), this, SLOT(rollDice(QString, bool)));
     connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));*/

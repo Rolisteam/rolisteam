@@ -334,7 +334,7 @@ void CharacterStateModel::sendOffAllCharacterState()
       {
           NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addState);
           msg.uint64(m_stateList->indexOf(state));
-          msg.string32(state->getLabel());
+          msg.string32(state->label());
           msg.rgb(state->getColor().rgb());
           if(state->hasImage())
           {
@@ -358,7 +358,7 @@ void CharacterStateModel::sendOffAllCharacterState()
         {
             NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addCharacterState);
             msg.int64(index.row());
-            msg.string32(stateInfo.state->getLabel());
+            msg.string32(stateInfo.state->label());
             msg.rgb(stateInfo.state->getColor().rgb());
             msg.uint8(stateInfo.state->hasImage());
             if(stateInfo.state->hasImage())

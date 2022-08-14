@@ -28,7 +28,7 @@
 #include <QPointer>
 #include <QUndoStack>
 
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 #include "fieldmodel.h"
 
 class ImageModel;
@@ -48,6 +48,8 @@ public:
         ADDTABLE,
         ADDIMAGE,
         ADDLABEL,
+        ADDSLIDER,
+        ADDHIDDEN,
         ADDFUNCBUTTON,
         ADDWEBPAGE,
         NEXTPAGE,

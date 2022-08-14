@@ -27,7 +27,7 @@ QWidget* AlignmentDelegate::createEditor(QWidget* parent, const QStyleOptionView
                                          const QModelIndex& index) const
 {
     // ComboBox ony in column 2
-    if(index.column() != static_cast<int>(CharacterSheetItem::TEXT_ALIGN))
+    if(index.column() != static_cast<int>(TreeSheetItem::TEXT_ALIGN))
         return QStyledItemDelegate::createEditor(parent, option, index);
 
     QStringList data;

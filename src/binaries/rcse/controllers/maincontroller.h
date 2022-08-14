@@ -57,9 +57,7 @@ public:
 public slots:
     void processCommand(QUndoCommand* cmd);
     void setModified(bool newModified);
-
     void cleanUpData(bool addPage= true);
-
     void displayQmlError(const QList<QQmlError>& errors);
 
 signals:

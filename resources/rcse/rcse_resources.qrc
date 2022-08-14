@@ -39,5 +39,9 @@
         <file>../../translations/rcse_nl_NL.qm</file>
         <file>../../translations/rcse_ro_RO.qm</file>
         <file>rcstyle/busy_movie.gif</file>
+        <file>rcstyle/slider.png</file>
+        <file>rcstyle/hidden_field.png</file>
+        <file>rcstyle/zoomOut.png</file>
+        <file>rcstyle/zoomIn.png</file>
     </qresource>
 </RCC>

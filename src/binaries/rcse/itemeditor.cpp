@@ -6,7 +6,7 @@
 #include <QMouseEvent>
 
 #include "canvasfield.h"
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 #include "controllers/editorcontroller.h"
 
 QList<FieldController*> cleanSelection(const QList<QGraphicsItem*>& items, bool& locked, bool& allSame)
@@ -73,7 +73,7 @@ void ItemEditor::setController(EditorController* editCtrl)
 {
     m_ctrl= editCtrl;
 
-    connect(m_ctrl, &EditorController::dataChanged, this, [this]() { update(); });
+    connect(m_ctrl, &EditorController::dataChanged, this, [this]() { invalidateScene(); });
     connect(m_lockItem.get(), &QAction::triggered, this, [this](bool checked) {
         std::for_each(std::begin(m_selection), std::end(m_selection), [checked](FieldController* ctrl) {
             if(!ctrl)
@@ -93,9 +93,9 @@ void ItemEditor::setController(EditorController* editCtrl)
         }
     });
     connect(m_alignOnY.get(), &QAction::triggered, this,
-            [this]() { m_ctrl->alignOn(true, m_selection, m_underCursorItem); });
-    connect(m_alignOnX.get(), &QAction::triggered, this,
             [this]() { m_ctrl->alignOn(false, m_selection, m_underCursorItem); });
+    connect(m_alignOnX.get(), &QAction::triggered, this,
+            [this]() { m_ctrl->alignOn(true, m_selection, m_underCursorItem); });
 
     connect(m_sameWidth.get(), &QAction::triggered, this,
             [this]() { m_ctrl->sameGeometry(true, m_selection, m_underCursorItem); });
@@ -139,7 +139,7 @@ void ItemEditor::mousePressEvent(QMouseEvent* event)
     {
         setDragMode(QGraphicsView::NoDrag);
         event->ignore();
-        qDebug() << "mousePressEvent inside not handle" << event->isAccepted() << scene();
+        // qDebug() << "mousePressEvent inside not handle" << event->isAccepted() << scene();
         QGraphicsView::mousePressEvent(event);
         return;
     }
@@ -167,7 +167,7 @@ void ItemEditor::mousePressEvent(QMouseEvent* event)
             setDragMode(QGraphicsView::RubberBandDrag);
         }
     }
-    qDebug() << "mousePressEvent inside end ";
+    // qDebug() << "mousePressEvent inside end ";
 
     QGraphicsView::mousePressEvent(event);
 }

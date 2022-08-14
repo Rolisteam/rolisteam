@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1069</width>
-    <height>831</height>
+    <height>891</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -286,7 +286,14 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>...</string>
+                    <string>Slider</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../../../resources/rcse/rcse_resources.qrc">
+                     <normaloff>:/rcstyle/slider.png</normaloff>:/rcstyle/slider.png</iconset>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
                    </property>
                    <property name="autoRaise">
                     <bool>true</bool>
@@ -294,7 +301,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="zoomSliderButton">
+                  <widget class="QToolButton" name="m_hiddenFieldBtn">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -302,7 +309,17 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>...</string>
+                    <string>Hidden Field</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../../../resources/rcse/rcse_resources.qrc">
+                     <normaloff>:/rcstyle/hidden_field.png</normaloff>:/rcstyle/hidden_field.png</iconset>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -599,16 +616,22 @@
        <attribute name="title">
         <string>View</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
          <widget class="QSplitter" name="splitter_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <widget class="QQuickWidget" name="m_quickview">
-           <property name="resizeMode">
-            <enum>QQuickWidget::SizeRootObjectToView</enum>
-           </property>
+          <widget class="QWidget" name="layoutWidget">
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <widget class="QQuickWidget" name="m_quickview">
+              <property name="resizeMode">
+               <enum>QQuickWidget::SizeRootObjectToView</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="layoutWidget2">
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1189,6 +1212,33 @@
   <action name="m_importFromPdf">
    <property name="text">
     <string>Import from PDF</string>
+   </property>
+  </action>
+  <action name="m_sliderAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../resources/rcse/rcse_resources.qrc">
+     <normaloff>:/rcstyle/slider.png</normaloff>:/rcstyle/slider.png</iconset>
+   </property>
+   <property name="text">
+    <string>Slider</string>
+   </property>
+  </action>
+  <action name="m_hiddenFieldAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../resources/rcse/rcse_resources.qrc">
+     <normaloff>:/rcstyle/hidden_field.png</normaloff>:/rcstyle/hidden_field.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hidden Field</string>
+   </property>
+   <property name="toolTip">
+    <string>Hidden Field (for intermediate calculations)</string>
    </property>
   </action>
  </widget>

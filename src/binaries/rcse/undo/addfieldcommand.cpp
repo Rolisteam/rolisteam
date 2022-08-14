@@ -18,9 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "addfieldcommand.h"
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
+#include "charactersheet/controllers/tablefield.h"
 #include "charactersheet/imagemodel.h"
-#include "charactersheet/tablefield.h"
 #include "tablecanvasfield.h"
 #include <QPixmap>
 
@@ -39,12 +39,12 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* 
     }
     else
     {
-        m_field= new FieldController(CharacterSheetItem::FieldItem, pos);
+        m_field= new FieldController(TreeSheetItem::FieldItem, pos);
     }
     m_field->setPage(m_currentPage);
 
-    m_field->setValueFrom(CharacterSheetItem::X, pos.x());
-    m_field->setValueFrom(CharacterSheetItem::Y, pos.y());
+    m_field->setValueFrom(TreeSheetItem::X, pos.x());
+    m_field->setValueFrom(TreeSheetItem::Y, pos.y());
 
     QString type;
 
@@ -52,54 +52,65 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* 
     switch(m_tool) // TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
     {
     case Canvas::ADDCHECKBOX:
-        m_field->setCurrentType(FieldController::CHECKBOX);
+        m_field->setFieldType(FieldController::CHECKBOX);
         type= QObject::tr("checkbox");
         break;
     case Canvas::ADDINPUT:
-        m_field->setCurrentType(FieldController::TEXTINPUT);
+        m_field->setFieldType(FieldController::TEXTINPUT);
         type= QObject::tr("TextInput");
         break;
     case Canvas::ADDTEXTAREA:
-        m_field->setCurrentType(FieldController::TEXTAREA);
+        m_field->setFieldType(FieldController::TEXTAREA);
         type= QObject::tr("TextArea");
         break;
     case Canvas::ADDTEXTFIELD:
-        m_field->setCurrentType(FieldController::TEXTFIELD);
+        m_field->setFieldType(FieldController::TEXTFIELD);
         type= QObject::tr("TextField");
         break;
     case Canvas::ADDTABLE:
     {
-        m_field->setCurrentType(FieldController::TABLE);
+        m_field->setFieldType(FieldController::TABLE);
         type= QObject::tr("Table");
     }
     break;
     case Canvas::ADDIMAGE:
-        m_field->setCurrentType(FieldController::IMAGE);
+        m_field->setFieldType(FieldController::IMAGE);
         type= QObject::tr("Image");
         break;
+    case Canvas::ADDSLIDER:
+        m_field->setFieldType(FieldController::SLIDER);
+        m_field->setBgColor(Qt::gray);
+        m_field->setTextColor(Qt::green);
+        m_field->setAvailableValues({"0.", "100."});
+        type= QObject::tr("Slider");
+        break;
+    case Canvas::ADDHIDDEN:
+        m_field->setFieldType(FieldController::HIDDEN);
+        type= QObject::tr("Hidden");
+        break;
     case Canvas::ADDLABEL:
-        m_field->setCurrentType(FieldController::RLABEL);
+        m_field->setFieldType(FieldController::RLABEL);
         type= QObject::tr("LabelField");
         break;
     case Canvas::ADDFUNCBUTTON:
-        m_field->setCurrentType(FieldController::FUNCBUTTON);
+        m_field->setFieldType(FieldController::FUNCBUTTON);
         type= QObject::tr("function");
         break;
     case Canvas::BUTTON:
-        m_field->setCurrentType(FieldController::DICEBUTTON);
+        m_field->setFieldType(FieldController::DICEBUTTON);
         m_field->setBgColor(Qt::red);
         type= QObject::tr("Dice Button");
         break;
     case Canvas::ADDWEBPAGE:
-        m_field->setCurrentType(FieldController::WEBPAGE);
+        m_field->setFieldType(FieldController::WEBPAGE);
         type= QObject::tr("Web Page");
         break;
     case Canvas::NEXTPAGE:
-        m_field->setCurrentType(FieldController::NEXTPAGE);
+        m_field->setFieldType(FieldController::NEXTPAGE);
         type= QObject::tr("Next Page Button");
         break;
     case Canvas::PREVIOUSPAGE:
-        m_field->setCurrentType(FieldController::PREVIOUSPAGE);
+        m_field->setFieldType(FieldController::PREVIOUSPAGE);
         type= QObject::tr("Previous Page Button");
         break;
     case Canvas::MOVE:

@@ -49,7 +49,7 @@ private:
     std::unique_ptr<Canvas> m_canvas;
     EditorController* m_ctrl= nullptr;
     FieldModel* m_model= nullptr;
-    QList<CharacterSheetItem*> m_subField;
+    QList<CSItem*> m_subField;
     QList<Canvas*> m_subCanvas;
     QList<int> m_subCurrentPage;
     DeleteFieldCommand* m_deleteField= nullptr;

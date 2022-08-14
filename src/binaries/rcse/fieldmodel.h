@@ -28,8 +28,8 @@
 #include <QTextStream>
 
 #include "charactersheet/charactersheetitem.h"
-#include "charactersheet/field.h"
-#include "charactersheet/section.h"
+#include "charactersheet/controllers/fieldcontroller.h"
+#include "charactersheet/controllers/section.h"
 
 class EditorController;
 
@@ -47,7 +47,7 @@ public:
     /**
      * @brief Column
      */
-    Column(QString, CharacterSheetItem::ColumnId);
+    Column(QString, TreeSheetItem::ColumnId);
     /**
      * @brief getName
      * @return
@@ -63,16 +63,16 @@ public:
      * @brief getPos
      * @return
      */
-    CharacterSheetItem::ColumnId getPos() const;
+    TreeSheetItem::ColumnId getPos() const;
     /**
      * @brief setPos
      * @param pos
      */
-    void setPos(const CharacterSheetItem::ColumnId& pos);
+    void setPos(const TreeSheetItem::ColumnId& pos);
 
 private:
     QString m_name;
-    CharacterSheetItem::ColumnId m_pos;
+    TreeSheetItem::ColumnId m_pos;
 };
 
 /**
@@ -100,17 +100,18 @@ public:
     void load(const QJsonObject& json);
     void generateQML(QTextStream& out, int indentation, bool isTable= false);
     Q_INVOKABLE QString getValue(const QString& key);
-    QList<CharacterSheetItem*> children();
-    QList<CSItem*> allChildren();
+    QList<TreeSheetItem*> children();
+    QList<CSItem*> allChildren() const;
     void removePageId(int);
     Section* getRootSection() const;
     void setRootSection(Section* rootSection);
     void removeItem(QModelIndex& index);
     void removeField(FieldController* field);
     void setValueForAll(QModelIndex& index);
-    void insertField(CSItem* field, CharacterSheetItem* parent, int pos);
-    void getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list);
+    void insertField(CSItem* field, TreeSheetItem* parent, int pos);
+    void getFieldFromPage(int pagePos, QList<CSItem*>& list);
     FieldController* getFieldFromIndex(const QModelIndex& index);
+    QRectF childrenRect() const;
 signals:
     void valuesChanged(QString valueKey, QString value);
     void modelChanged();

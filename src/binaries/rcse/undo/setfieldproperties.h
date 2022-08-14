@@ -24,13 +24,13 @@
 #include <QModelIndexList>
 #include <QUndoCommand>
 
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 #include "fieldmodel.h"
 
 class SetFieldPropertyCommand : public QUndoCommand
 {
 public:
-    SetFieldPropertyCommand(QList<CharacterSheetItem*> selection, QVariant value, int col,
+    SetFieldPropertyCommand(QList<TreeSheetItem*> selection, QVariant value, int col,
                             QUndoCommand* parent= nullptr);
 
     void undo() override;
@@ -39,7 +39,7 @@ public:
 private:
     QVariant m_newValue;
     QList<QVariant> m_oldValues;
-    QList<CharacterSheetItem*> m_selection;
+    QList<TreeSheetItem*> m_selection;
     int m_col;
 };
 

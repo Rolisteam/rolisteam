@@ -19,6 +19,8 @@ CheckBoxField 1.1 CheckBoxField.qml
 DiceButton 1.1 DiceButton.qml
 ImageField 1.1 ImageField.qml
 WebView 1.1 WebView.qml
+SliderField 1.1 SliderField.qml
 PageButton 1.1 PageButton.qml
 Table 1.1 Table.qml
 RLabel 1.1 RLabel.qml
+ContextualMenu 1.1 ContextualMenu.qml

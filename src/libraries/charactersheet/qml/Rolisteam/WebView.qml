@@ -1,5 +1,5 @@
-import QtQuick 2.10
-import QtWebEngine 1.5
+import QtQuick
+import QtWebEngine
 
 WebEngineView {
     id: root

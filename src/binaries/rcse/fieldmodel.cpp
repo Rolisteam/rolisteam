@@ -32,7 +32,7 @@
 //////////////////////////////
 // Column
 /////////////////////////////
-Column::Column(QString name, CharacterSheetItem::ColumnId pos) : m_name(name), m_pos(pos) {}
+Column::Column(QString name, TreeSheetItem::ColumnId pos) : m_name(name), m_pos(pos) {}
 
 QString Column::getName() const
 {
@@ -43,12 +43,12 @@ void Column::setName(const QString& name)
 {
     m_name= name;
 }
-CharacterSheetItem::ColumnId Column::getPos() const
+TreeSheetItem::ColumnId Column::getPos() const
 {
     return m_pos;
 }
 
-void Column::setPos(const CharacterSheetItem::ColumnId& pos)
+void Column::setPos(const TreeSheetItem::ColumnId& pos)
 {
     m_pos= pos;
 }
@@ -59,19 +59,16 @@ void Column::setPos(const CharacterSheetItem::ColumnId& pos)
 FieldModel::FieldModel(QObject* parent)
     : QAbstractItemModel(parent), m_rootSection{new Section()}, m_formulaManager{new Formula::FormulaManager()}
 {
-    m_colunm << new Column(tr("Id"), CharacterSheetItem::ID) << new Column(tr("Label"), CharacterSheetItem::LABEL)
-             << new Column(tr("Value"), CharacterSheetItem::VALUE)
-             << new Column(tr("Possible Values"), CharacterSheetItem::VALUES)
-             << new Column(tr("Type"), CharacterSheetItem::TYPE) << new Column(tr("x"), CharacterSheetItem::X)
-             << new Column(tr("y"), CharacterSheetItem::Y) << new Column(tr("Width"), CharacterSheetItem::WIDTH)
-             << new Column(tr("Height"), CharacterSheetItem::HEIGHT)
-             << new Column(tr("Font Adaptation"), CharacterSheetItem::FitFont)
-             << new Column(tr("Font"), CharacterSheetItem::FONT)
-             << new Column(tr("Text-align"), CharacterSheetItem::TEXT_ALIGN)
-             << new Column(tr("Text Color"), CharacterSheetItem::TEXTCOLOR)
-             << new Column(tr("Bg Color"), CharacterSheetItem::BGCOLOR)
-             << new Column(tr("Border"), CharacterSheetItem::BORDER) << new Column(tr("Page"), CharacterSheetItem::PAGE)
-             << new Column(tr("ToolTip"), CharacterSheetItem::TOOLTIP);
+    m_colunm << new Column(tr("Id"), TreeSheetItem::ID) << new Column(tr("Label"), TreeSheetItem::LABEL)
+             << new Column(tr("Value"), TreeSheetItem::VALUE)
+             << new Column(tr("Possible Values"), TreeSheetItem::VALUES) << new Column(tr("Type"), TreeSheetItem::TYPE)
+             << new Column(tr("x"), TreeSheetItem::X) << new Column(tr("y"), TreeSheetItem::Y)
+             << new Column(tr("Width"), TreeSheetItem::WIDTH) << new Column(tr("Height"), TreeSheetItem::HEIGHT)
+             << new Column(tr("Font Adaptation"), TreeSheetItem::FitFont) << new Column(tr("Font"), TreeSheetItem::FONT)
+             << new Column(tr("Text-align"), TreeSheetItem::TEXT_ALIGN)
+             << new Column(tr("Text Color"), TreeSheetItem::TEXTCOLOR)
+             << new Column(tr("Bg Color"), TreeSheetItem::BGCOLOR) << new Column(tr("Border"), TreeSheetItem::BORDER)
+             << new Column(tr("Page"), TreeSheetItem::PAGE) << new Column(tr("ToolTip"), TreeSheetItem::TOOLTIP);
 
     m_alignList << tr("TopRight") << tr("TopMiddle") << tr("TopLeft") << tr("CenterRight") << tr("CenterMiddle")
                 << tr("CenterLeft") << tr("BottomRight") << tr("BottomMiddle") << tr("BottomLeft");
@@ -83,23 +80,34 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())
         return QVariant();
-    CharacterSheetItem* item= static_cast<CharacterSheetItem*>(index.internalPointer());
+    TreeSheetItem* treeitem= static_cast<TreeSheetItem*>(index.internalPointer());
 
-    if(nullptr == item)
+    if(nullptr == treeitem)
         return {};
 
+    auto item= dynamic_cast<CSItem*>(treeitem);
+
+    if(nullptr == item)
+    {
+        if(index.column() == 0 && role == Qt::DisplayRole)
+        {
+            return item->id();
+        }
+        else
+            return {};
+    }
     if((role == Qt::DisplayRole) || (Qt::EditRole == role))
     {
         QVariant var;
-        if(CharacterSheetItem::VALUE == m_colunm[index.column()]->getPos() && role == Qt::EditRole)
+        if(TreeSheetItem::VALUE == m_colunm[index.column()]->getPos() && role == Qt::EditRole)
         {
 
-            auto formula= item->getFormula();
-            var= formula.isEmpty() ? item->getValueFrom(m_colunm[index.column()]->getPos(), role) : formula;
+            auto formula= item->formula();
+            var= formula.isEmpty() ? item->valueFrom(m_colunm[index.column()]->getPos(), role) : formula;
         }
         else
-            var= item->getValueFrom(m_colunm[index.column()]->getPos(), role);
-        if((index.column() == CharacterSheetItem::TEXT_ALIGN) && (Qt::DisplayRole == role))
+            var= item->valueFrom(m_colunm[index.column()]->getPos(), role);
+        if((index.column() == TreeSheetItem::TEXT_ALIGN) && (Qt::DisplayRole == role))
         {
             if((var.toInt() >= 0) && (var.toInt() < m_alignList.size()))
             {
@@ -109,9 +117,9 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
         return var;
     }
     if((role == Qt::BackgroundRole)
-       && ((index.column() == CharacterSheetItem::BGCOLOR) || (index.column() == CharacterSheetItem::TEXTCOLOR)))
+       && ((index.column() == TreeSheetItem::BGCOLOR) || (index.column() == TreeSheetItem::TEXTCOLOR)))
     {
-        QVariant var= item->getValueFrom(m_colunm[index.column()]->getPos(), Qt::EditRole);
+        QVariant var= item->valueFrom(m_colunm[index.column()]->getPos(), Qt::EditRole);
         return var;
     }
     if(role == Qt::BackgroundRole)
@@ -122,16 +130,16 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
         {
             color= QColor(Qt::green).lighter();
         }
-        if(field && field->isReadOnly() && (index.column() >= CharacterSheetItem::X)
-           && (index.column() <= CharacterSheetItem::HEIGHT))
+        if(field && field->isReadOnly() && (index.column() >= TreeSheetItem::X)
+           && (index.column() <= TreeSheetItem::HEIGHT))
         {
             color= QColor(Qt::gray);
         }
         return color;
     }
-    if((Qt::FontRole == role) && (index.column() == CharacterSheetItem::FONT))
+    if((Qt::FontRole == role) && (index.column() == TreeSheetItem::FONT))
     {
-        QVariant var= item->getValueFrom(m_colunm[index.column()]->getPos(), Qt::DisplayRole);
+        QVariant var= item->valueFrom(m_colunm[index.column()]->getPos(), Qt::DisplayRole);
         QFont font;
         font.fromString(var.toString());
         return font;
@@ -144,14 +152,24 @@ bool FieldModel::setData(const QModelIndex& index, const QVariant& value, int ro
     if(!index.isValid() || Qt::EditRole != role)
         return false;
 
-    CharacterSheetItem* item= static_cast<CharacterSheetItem*>(index.internalPointer());
+    TreeSheetItem* treeitem= static_cast<TreeSheetItem*>(index.internalPointer());
 
+    if(nullptr == treeitem)
+        return false;
+
+    auto item= dynamic_cast<CSItem*>(treeitem);
+
+    if(!item && index.column() == 0 && role == Qt::DisplayRole)
+    {
+        treeitem->setId(value.toString());
+        return true;
+    }
     if(nullptr == item)
         return false;
 
     auto valStr= value.toString();
 
-    if(CharacterSheetItem::VALUE == m_colunm[index.column()]->getPos() && valStr.startsWith("="))
+    if(TreeSheetItem::VALUE == m_colunm[index.column()]->getPos() && valStr.startsWith("="))
     {
         QHash<QString, QString> hash= buildDicto();
         m_formulaManager->setConstantHash(hash);
@@ -163,7 +181,7 @@ bool FieldModel::setData(const QModelIndex& index, const QVariant& value, int ro
     {
         item->setValueFrom(m_colunm[index.column()]->getPos(), value);
     }
-    emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID, Qt::DisplayRole).toString(), value.toString());
+    emit valuesChanged(item->valueFrom(TreeSheetItem::ID, Qt::DisplayRole).toString(), value.toString());
     emit modelChanged();
     return true;
 }
@@ -180,15 +198,15 @@ QModelIndex FieldModel::index(int row, int column, const QModelIndex& parent) co
     if(row < 0)
         return QModelIndex();
 
-    CharacterSheetItem* parentItem= nullptr;
+    TreeSheetItem* parentItem= nullptr;
 
     // qDebug()<< "Index session " <<row << column << parent;
     if(!parent.isValid())
         parentItem= m_rootSection.get();
     else
-        parentItem= static_cast<CharacterSheetItem*>(parent.internalPointer());
+        parentItem= static_cast<TreeSheetItem*>(parent.internalPointer());
 
-    CharacterSheetItem* childItem= parentItem->getChildAt(row);
+    TreeSheetItem* childItem= parentItem->childAt(row);
     if(childItem)
         return createIndex(row, column, childItem);
     else
@@ -200,13 +218,13 @@ QModelIndex FieldModel::parent(const QModelIndex& child) const
     if(!child.isValid())
         return QModelIndex();
 
-    CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(child.internalPointer());
-    CharacterSheetItem* parentItem= childItem->getParent();
+    TreeSheetItem* childItem= static_cast<TreeSheetItem*>(child.internalPointer());
+    TreeSheetItem* parentItem= childItem->parentTreeItem();
 
     if(parentItem == m_rootSection.get())
         return QModelIndex();
 
-    CharacterSheetItem* grandParent= parentItem->getParent();
+    TreeSheetItem* grandParent= parentItem->parentTreeItem();
 
     return createIndex(grandParent->indexOfChild(parentItem), 0, parentItem);
 }
@@ -214,11 +232,11 @@ QModelIndex FieldModel::parent(const QModelIndex& child) const
 int FieldModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
-        return m_rootSection->getChildrenCount();
+        return m_rootSection->childrenCount();
 
-    CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(parent.internalPointer());
+    TreeSheetItem* childItem= static_cast<TreeSheetItem*>(parent.internalPointer());
     if(childItem)
-        return childItem->getChildrenCount();
+        return childItem->childrenCount();
     else
         return 0;
 }
@@ -243,7 +261,7 @@ QVariant FieldModel::headerData(int section, Qt::Orientation orientation, int ro
 
 void FieldModel::appendField(CSItem* f)
 {
-    beginInsertRows(QModelIndex(), m_rootSection->getChildrenCount(), m_rootSection->getChildrenCount());
+    beginInsertRows(QModelIndex(), m_rootSection->childrenCount(), m_rootSection->childrenCount());
     m_rootSection->appendChild(f);
     auto func= [this, f]() { emit updateItem(f); };
     connect(f, &CSItem::characterSheetItemChanged, this, func);
@@ -269,7 +287,7 @@ void FieldModel::appendField(CSItem* f)
     emit modelChanged();
     emit fieldAdded(f);
 }
-void FieldModel::insertField(CSItem* field, CharacterSheetItem* parent, int pos)
+void FieldModel::insertField(CSItem* field, TreeSheetItem* parent, int pos)
 {
     beginInsertRows(QModelIndex(), pos, pos);
     if(parent == m_rootSection.get())
@@ -284,16 +302,16 @@ Qt::ItemFlags FieldModel::flags(const QModelIndex& index) const
     if(!index.isValid())
         return Qt::ItemIsEnabled;
 
-    // CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
-    if(m_colunm[index.column()]->getPos() == CharacterSheetItem::ID)
+    // TreeSheetItem* childItem = static_cast<TreeSheetItem*>(index.internalPointer());
+    if(m_colunm[index.column()]->getPos() == TreeSheetItem::ID)
     {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
-    else if(m_colunm[index.column()]->getPos() == CharacterSheetItem::TYPE)
+    else if(m_colunm[index.column()]->getPos() == TreeSheetItem::TYPE)
     {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
-    else if(m_colunm[index.column()]->getPos() == CharacterSheetItem::FONT)
+    else if(m_colunm[index.column()]->getPos() == TreeSheetItem::FONT)
     {
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     }
@@ -309,8 +327,8 @@ void FieldModel::generateQML(QTextStream& out, int indentation, bool isTable)
     QmlGeneratorVisitor visitor(out, m_rootSection.get());
     visitor.setIndentation(indentation);
     visitor.setIsTable(isTable);
-    visitor.generateCharacterSheetItem();
-    // m_rootSection->generateQML(out,CharacterSheetItem::FieldSec,0,isTable);
+    visitor.generateTreeSheetItem();
+    // m_rootSection->generateQML(out,TreeSheetItem::FieldSec,0,isTable);
 }
 
 QString FieldModel::getValue(const QString& key)
@@ -318,24 +336,37 @@ QString FieldModel::getValue(const QString& key)
     return key;
 }
 
-QList<CharacterSheetItem*> FieldModel::children()
+QList<TreeSheetItem*> FieldModel::children()
 {
-    QList<CharacterSheetItem*> result;
-    for(int i= 0; i < m_rootSection->getChildrenCount(); ++i)
+    QList<TreeSheetItem*> result;
+    for(int i= 0; i < m_rootSection->childrenCount(); ++i)
     {
-        result.append(m_rootSection->getChildAt(i));
+        result.append(m_rootSection->childAt(i));
     }
     return result;
 }
 
-QList<CSItem*> FieldModel::allChildren()
+QList<CSItem*> FieldModel::allChildren() const
 {
     return m_rootSection->allChildren();
 }
 
-void FieldModel::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
+QRectF FieldModel::childrenRect() const
 {
-    m_rootSection->getFieldFromPage(pagePos, list);
+    QRectF res{0., 0., 1., 1.};
+    auto alls= allChildren();
+    for(auto field : alls)
+    {
+        if(!field)
+            continue;
+        res= res.united(QRectF{field->x(), field->y(), field->width(), field->height()});
+    }
+    return res;
+}
+
+void FieldModel::getFieldFromPage(int pagePos, QList<CSItem*>& list)
+{
+    list= m_rootSection->fieldFromPage(pagePos);
 }
 
 FieldController* FieldModel::getFieldFromIndex(const QModelIndex& index)
@@ -353,20 +384,20 @@ void FieldModel::updateItem(CSItem* item)
     }
     else
     {
-        CharacterSheetItem* parent= item->getParent();
-        QList<CharacterSheetItem*> list;
+        TreeSheetItem* parent= item->parentTreeItem();
+        QList<TreeSheetItem*> list;
         while(parent != nullptr)
         {
             list.prepend(parent);
-            parent= parent->getParent();
+            parent= parent->parentTreeItem();
         }
 
         QModelIndex first;
         QModelIndex second;
         int i= 0;
-        for(CharacterSheetItem* itemtmp : list)
+        for(TreeSheetItem* itemtmp : list)
         {
-            CharacterSheetItem* next= nullptr;
+            TreeSheetItem* next= nullptr;
             if(i + 1 > list.size())
             {
                 next= list[++i];
@@ -413,11 +444,11 @@ void FieldModel::removeItem(QModelIndex& index)
 {
     if(index.isValid())
     {
-        CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
+        TreeSheetItem* childItem= static_cast<TreeSheetItem*>(index.internalPointer());
         Section* parentSection= nullptr;
         if(index.parent().isValid())
         {
-            CharacterSheetItem* parentItem= static_cast<CharacterSheetItem*>(index.internalPointer());
+            TreeSheetItem* parentItem= static_cast<TreeSheetItem*>(index.internalPointer());
             parentSection= dynamic_cast<Section*>(parentItem);
         }
         else
@@ -442,13 +473,13 @@ void FieldModel::removeItem(QModelIndex& index)
 void FieldModel::removeField(FieldController* field)
 {
     // int index = m_rootSection->indexOfChild(field);
-    QList<CharacterSheetItem*> ancestors;
+    QList<TreeSheetItem*> ancestors;
 
     // ancestors.append(field);
-    CharacterSheetItem* tmp= field;
+    TreeSheetItem* tmp= field;
     while(tmp != nullptr)
     {
-        tmp= tmp->getParent();
+        tmp= tmp->parentTreeItem();
         if(nullptr != tmp)
         {
             ancestors.prepend(tmp);
@@ -456,7 +487,7 @@ void FieldModel::removeField(FieldController* field)
     }
 
     QModelIndex parent;
-    CharacterSheetItem* parentSection= nullptr;
+    TreeSheetItem* parentSection= nullptr;
     for(const auto& ancestor : ancestors)
     {
         if(nullptr != parentSection)
@@ -486,7 +517,7 @@ void FieldModel::setValueForAll(QModelIndex& index)
 {
     if(index.isValid())
     {
-        CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
+        TreeSheetItem* childItem= static_cast<TreeSheetItem*>(index.internalPointer());
         m_rootSection->setValueForAll(childItem, m_colunm[index.column()]->getPos());
     }
 }

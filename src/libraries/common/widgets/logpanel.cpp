@@ -29,14 +29,17 @@ void LogPanel::setController(LogController* controller)
 {
     m_controller= controller;
 
-    connect(ui->m_logLevel, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this]()
-            {
-                auto logLevel= static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
-                m_controller->setLogLevel(logLevel);
-            });
+    connect(ui->m_logLevel, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() {
+        auto logLevel= static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
+        m_controller->setLogLevel(logLevel);
+    });
 
     connect(m_controller, &LogController::showMessage, this, &LogPanel::showMessage);
+    connect(m_controller, &LogController::logLevelChanged, ui->m_logLevel,
+            [this]() { ui->m_logLevel->setCurrentIndex(m_controller->logLevel()); });
+
+    if(m_controller)
+        ui->m_logLevel->setCurrentIndex(m_controller->logLevel());
 }
 
 void LogPanel::showMessage(QString msg, LogController::LogLevel level)

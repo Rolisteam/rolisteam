@@ -14,40 +14,16 @@
    <string>Sheet Properties</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="qmlfile.qrc">
+   <iconset>
     <normaloff>:/resources/logo/symbol2.png</normaloff>:/resources/logo/symbol2.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QCheckBox" name="m_flickable">
-       <property name="text">
-        <string>Sheet should keep the same size.</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Fixed scale:</string>
+        <string>Default scale:</string>
        </property>
       </widget>
      </item>
@@ -55,6 +31,9 @@
       <widget class="QDoubleSpinBox" name="m_fixedScale">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -178,7 +157,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="qmlfile.qrc">
+           <iconset>
             <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
           </property>
          </widget>
@@ -189,7 +168,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="qmlfile.qrc">
+           <iconset>
             <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
           </property>
          </widget>
@@ -231,9 +210,7 @@
    <header>codeeditor.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="qmlfile.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -264,22 +241,6 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_flickable</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>m_fixedScale</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>69</x>
-     <y>16</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>108</x>
-     <y>47</y>
     </hint>
    </hints>
   </connection>

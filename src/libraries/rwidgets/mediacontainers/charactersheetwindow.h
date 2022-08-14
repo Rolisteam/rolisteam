@@ -60,7 +60,7 @@ class SheetWidget;
 class Player;
 class CharacterSheetController;
 class CharacterSheet;
-class CharacterSheetItem;
+class TreeSheetItem;
 class RWIDGET_EXPORT CharacterSheetWindow : public MediaContainer
 {
     Q_OBJECT

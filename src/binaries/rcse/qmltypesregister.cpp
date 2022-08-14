@@ -22,8 +22,10 @@
 #include <QQmlEngine>
 #include <diceparser_qobject/diceroller.h>
 
+#include "controllers/rcseapplicationcontroller.h"
+
 #ifndef UNIT_TEST
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 #endif
 
 void registerQmlTypes()

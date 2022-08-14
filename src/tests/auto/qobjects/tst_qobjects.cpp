@@ -6,10 +6,10 @@
 #include <charactersheet/imagemodel.h>
 #include <charactersheet/rolisteamimageprovider.h>
 
+#include <charactersheet/controllers/fieldcontroller.h>
+#include <charactersheet/controllers/section.h>
+#include <charactersheet/controllers/tablefield.h>
 #include <charactersheet/csitem.h>
-#include <charactersheet/field.h>
-#include <charactersheet/section.h>
-#include <charactersheet/tablefield.h>
 
 #include <charactersheet_widgets/sheetwidget.h>
 
@@ -21,12 +21,12 @@
 #include "charactersheet/charactersheetbutton.h"
 #include "charactersheet/charactersheetitem.h"
 #include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/controllers/fieldcontroller.h"
+#include "charactersheet/controllers/section.h"
+#include "charactersheet/controllers/tablefield.h"
 #include "charactersheet/csitem.h"
-#include "charactersheet/field.h"
 #include "charactersheet/imagemodel.h"
 #include "charactersheet/rolisteamimageprovider.h"
-#include "charactersheet/section.h"
-#include "charactersheet/tablefield.h"
 #include "charactersheet_formula/formula_global.h"
 #include "charactersheet_formula/formulamanager.h"
 #include "charactersheet_formula/nodes/formulanode.h"
@@ -362,12 +362,12 @@ void QObjectsTest::propertiesTest_data()
 
     int i= 0;
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new CharacterSheet());
-    // QTest::addRow("obj%d", i++) << new CharacterSheetItem();
+    // QTest::addRow("obj%d", i++) << new TreeSheetItem();
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new CharacterSheetModel());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new charactersheet::ImageModel());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new RolisteamImageProvider(new charactersheet::ImageModel()));
     // QTest::addRow("obj%d", i++) << new CSItem();
-    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new FieldController(CharacterSheetItem::FieldItem, true));
+    QTest::addRow("obj%d", i++) << static_cast<QObject*>(new FieldController(TreeSheetItem::FieldItem, true));
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new Section());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new TableField());
     QTest::addRow("obj%d", i++) << static_cast<QObject*>(new LineModel());

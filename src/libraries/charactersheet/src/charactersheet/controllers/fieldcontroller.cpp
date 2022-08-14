@@ -19,7 +19,7 @@
  * Free Software Foundation, Inc.,                                          *
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 #include <QDebug>
 #include <QJsonArray>
 #include <QMouseEvent>
@@ -30,15 +30,13 @@
 CanvasFieldController::CanvasField() {}
 #endif*/
 
-FieldController::FieldController(CharacterSheetItem::CharacterSheetItemType itemType, bool addCount,
-                                 QObject *parent)
+FieldController::FieldController(TreeSheetItem::TreeItemType itemType, bool addCount, QObject* parent)
     : CSItem(itemType, parent, addCount)
 {
     init();
 }
 
-FieldController::FieldController(CharacterSheetItem::CharacterSheetItemType itemType, QPointF topleft, bool addCount,
-                                 QObject *parent)
+FieldController::FieldController(TreeSheetItem::TreeItemType itemType, QPointF topleft, bool addCount, QObject* parent)
     : CSItem(itemType, parent, addCount)
 {
     Q_UNUSED(topleft);
@@ -52,7 +50,7 @@ void FieldController::init()
     // m_canvasField= new CanvasField(this);
 
     m_id= QStringLiteral("id_%1").arg(m_count);
-    m_currentType= TEXTINPUT;
+    m_fieldType= TEXTINPUT;
 
     m_border= NONE;
     m_textAlign= CenterMiddle;
@@ -74,7 +72,7 @@ void FieldController::init()
     }*/
 }
 
-QVariant FieldController::getValueFrom(CharacterSheetItem::ColumnId id, int role) const
+QVariant FieldController::valueFrom(TreeSheetItem::ColumnId id, int role) const
 {
     QVariant ret;
     switch(id)
@@ -123,7 +121,7 @@ QVariant FieldController::getValueFrom(CharacterSheetItem::ColumnId id, int role
         ret= m_availableValue.join(',');
         break;
     case TYPE:
-        ret= m_currentType;
+        ret= fieldType();
         break;
     case FitFont:
         ret= m_fitFont;
@@ -141,7 +139,7 @@ QVariant FieldController::getValueFrom(CharacterSheetItem::ColumnId id, int role
     return ret;
 }
 
-void FieldController::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
+void FieldController::setValueFrom(TreeSheetItem::ColumnId id, const QVariant& var)
 {
     if(isReadOnly())
         return;
@@ -181,19 +179,20 @@ void FieldController::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var
         m_textColor= var.value<QColor>();
         break;
     case VALUES:
+        // to move into model
         setAvailableValues(var.toString().split(','));
-        if(var.toString().isEmpty())
+        if(m_fieldType == FieldController::SELECT && var.toString().isEmpty())
         {
-            m_currentType= FieldController::TEXTINPUT;
+            setFieldType(FieldController::TEXTINPUT);
         }
-        else
+        else if(m_fieldType == FieldController::TEXTINPUT)
         {
             m_availableValue= var.toString().split(',');
-            m_currentType= FieldController::SELECT;
+            setFieldType(FieldController::SELECT);
         }
         break;
     case TYPE:
-        m_currentType= static_cast<FieldController::TypeField>(var.toInt());
+        m_fieldType= static_cast<FieldController::TypeField>(var.toInt());
         break;
     case FitFont:
         m_fitFont= var.toBool();
@@ -209,17 +208,6 @@ void FieldController::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var
         break;
     }
     // update();
-}
-void FieldController::setNewEnd(QPointF nend)
-{
-    if(isReadOnly())
-        return;
-
-    setWidth(nend.x() /* - x()*/);
-    setHeight(nend.y() /* - y()*/);
-
-    emit widthChanged();
-    emit heightChanged();
 }
 
 QFont FieldController::font() const
@@ -260,7 +248,8 @@ void FieldController::setAvailableValues(const QStringList& availableValue)
     m_availableValue= availableValue;
     emit availableValuesChanged();
 
-    setCurrentType(m_availableValue.isEmpty() ? FieldController::TEXTINPUT : FieldController::SELECT);
+    if(fieldType() != FieldController::SLIDER)
+        setFieldType(m_availableValue.isEmpty() ? FieldController::TEXTINPUT : FieldController::SELECT);
 }
 
 void FieldController::save(QJsonObject& json, bool exp)
@@ -275,7 +264,7 @@ void FieldController::save(QJsonObject& json, bool exp)
     }
     json["type"]= "field";
     json["id"]= m_id;
-    json["typefield"]= m_currentType;
+    json["typefield"]= m_fieldType;
     json["label"]= m_label;
     json["value"]= m_value;
     json["border"]= m_border;
@@ -302,10 +291,10 @@ void FieldController::save(QJsonObject& json, bool exp)
 
     json["font"]= m_font.toString();
     json["textalign"]= m_textAlign;
-    json["x"]= getValueFrom(CharacterSheetItem::X, Qt::DisplayRole).toDouble();
-    json["y"]= getValueFrom(CharacterSheetItem::Y, Qt::DisplayRole).toDouble();
-    json["width"]= getValueFrom(CharacterSheetItem::WIDTH, Qt::DisplayRole).toDouble();
-    json["height"]= getValueFrom(CharacterSheetItem::HEIGHT, Qt::DisplayRole).toDouble();
+    json["x"]= valueFrom(TreeSheetItem::X, Qt::DisplayRole).toDouble();
+    json["y"]= valueFrom(TreeSheetItem::Y, Qt::DisplayRole).toDouble();
+    json["width"]= valueFrom(TreeSheetItem::WIDTH, Qt::DisplayRole).toDouble();
+    json["height"]= valueFrom(TreeSheetItem::HEIGHT, Qt::DisplayRole).toDouble();
     QJsonArray valuesArray;
     valuesArray= QJsonArray::fromStringList(m_availableValue);
     json["values"]= valuesArray;
@@ -319,7 +308,7 @@ void FieldController::load(const QJsonObject& json)
     m_label= json["label"].toString();
     m_tooltip= json["tooltip"].toString();
 
-    m_currentType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
+    m_fieldType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
     m_fitFont= json["clippedText"].toBool();
 
     m_formula= json["formula"].toString();
@@ -375,7 +364,7 @@ void FieldController::load(const QJsonObject& json)
         //QmlGeneratorVisitor visitor(out, this);
         visitor.generateQmlCodeForRoot();
 
-        // generateQML(out,CharacterSheetItem::FieldSec,0,false);
+        // generateQML(out,TreeSheetItem::FieldSec,0,false);
     }
 }*/
 
@@ -386,13 +375,13 @@ void FieldController::loadDataItem(const QJsonObject& json)
     setLabel(json["label"].toString());
     setFormula(json["formula"].toString());
     setReadOnly(json["readonly"].toBool());
-    m_currentType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
+    m_fieldType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
 }
 
 void FieldController::saveDataItem(QJsonObject& json)
 {
     json["type"]= "field";
-    json["typefield"]= m_currentType;
+    json["typefield"]= m_fieldType;
     json["id"]= m_id;
     json["label"]= m_label;
     json["value"]= m_value;
@@ -491,7 +480,7 @@ QPair<QString, QString> FieldController::getTextAlign()
     return pair;
 }
 
-void FieldController::copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId)
+void FieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool sameId)
 {
     FieldController* oldField= dynamic_cast<FieldController*>(oldItem);
     if(nullptr == oldField)
@@ -499,11 +488,11 @@ void FieldController::copyField(CharacterSheetItem* oldItem, bool copyData, bool
 
     if(sameId)
     {
-        setId(oldField->getId());
+        setId(oldField->id());
     }
     setFitFont(oldField->fitFont());
     setTextAlign(oldField->textAlign());
-    setCurrentType(oldField->getFieldType());
+    setFieldType(oldField->fieldType());
     setGeneratedCode(oldField->generatedCode());
     setAliasEnabled(oldField->aliasEnabled());
     setAvailableValues(oldField->availableValues());
@@ -518,8 +507,8 @@ void FieldController::copyField(CharacterSheetItem* oldItem, bool copyData, bool
     setValue(oldField->value());
     setPage(oldField->page());
     setReadOnly(oldField->isReadOnly());
-    setFormula(oldField->getFormula());
-    setLabel(oldField->getLabel());
+    setFormula(oldField->formula());
+    setLabel(oldField->label());
 
     setFont(oldField->font());
     setTextColor(oldField->textColor());

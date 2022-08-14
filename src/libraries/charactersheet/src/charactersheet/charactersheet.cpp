@@ -27,8 +27,8 @@
 
 #include "charactersheet/charactersheetbutton.h"
 #include "charactersheet/charactersheetmodel.h"
-#include "charactersheet/section.h"
-#include "charactersheet/tablefield.h"
+#include "charactersheet/controllers/section.h"
+#include "charactersheet/controllers/tablefield.h"
 /////////////////////////////////////////
 //          CharacterSheet           ////
 /////////////////////////////////////////
@@ -57,7 +57,7 @@ int CharacterSheet::getFieldCount()
     return m_valuesMap.size();
 }
 
-CharacterSheetItem* CharacterSheet::getFieldFromIndex(const std::vector<int>& row) const
+CSItem* CharacterSheet::getFieldFromIndex(const std::vector<int>& row) const
 {
     if(row.empty())
         return nullptr;
@@ -68,13 +68,13 @@ CharacterSheetItem* CharacterSheet::getFieldFromIndex(const std::vector<int>& ro
     ++i;
     while(nullptr != item && i < row.size())
     {
-        item= item->getChildAt(index);
+        item= dynamic_cast<CSItem*>(item->childAt(index));
         ++i;
     }
     return item;
 }
 
-CharacterSheetItem* CharacterSheet::getFieldAt(int i) const
+CSItem* CharacterSheet::getFieldAt(int i) const
 {
     if(i < m_valuesMap.size() && i >= 0)
     {
@@ -84,14 +84,13 @@ CharacterSheetItem* CharacterSheet::getFieldAt(int i) const
     return nullptr;
 }
 
-CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key) const
+CSItem* CharacterSheet::getFieldFromKey(QString key) const
 {
     QStringList keyList= key.split('.');
     if(keyList.size() > 1)
     {
-        CharacterSheetItem* field= m_valuesMap[keyList.takeFirst()];
-        field= field->getChildFromId(keyList.takeFirst());
-        return field;
+        CSItem* field= m_valuesMap[keyList.takeFirst()];
+        return dynamic_cast<CSItem*>(field->childFromId(keyList.takeFirst()));
     }
     else if(m_valuesMap.contains(key))
     {
@@ -102,7 +101,7 @@ CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key) const
 
 const QVariant CharacterSheet::getValue(QString path, int role) const
 {
-    CharacterSheetItem* item= getFieldFromKey(path);
+    CSItem* item= getFieldFromKey(path);
     if(nullptr == item)
         return {};
     QVariant res;
@@ -113,7 +112,7 @@ const QVariant CharacterSheet::getValue(QString path, int role) const
         break;
     case Qt::EditRole:
     {
-        QString str= item->getFormula();
+        QString str= item->formula();
         if(str.isEmpty())
         {
             str= item->value();
@@ -122,10 +121,10 @@ const QVariant CharacterSheet::getValue(QString path, int role) const
     }
     break;
     case Qt::ToolTipRole:
-        res= item->getId();
+        res= item->id();
         break;
     case CharacterSheetModel::FormulaRole:
-        res= item->getFormula();
+        res= item->formula();
         break;
     case Qt::BackgroundRole:
         res= item->isReadOnly();
@@ -143,7 +142,7 @@ bool CharacterSheet::removeField(const QString& id)
 const QVariant CharacterSheet::getValueByIndex(const std::vector<int>& row, QString path, Qt::ItemDataRole role) const
 {
     Q_UNUSED(path)
-    CharacterSheetItem* item= getFieldFromIndex(row); // getFieldFromKey(path);
+    auto item= getFieldFromIndex(row); // getFieldFromKey(path);
     if(nullptr != item)
     {
         if(role == Qt::DisplayRole)
@@ -152,7 +151,7 @@ const QVariant CharacterSheet::getValueByIndex(const std::vector<int>& row, QStr
         }
         else if(role == Qt::EditRole)
         {
-            QString str= item->getFormula();
+            QString str= item->formula();
             if(str.isEmpty())
             {
                 str= item->value();
@@ -161,7 +160,7 @@ const QVariant CharacterSheet::getValueByIndex(const std::vector<int>& row, QStr
         }
         else if(role == Qt::UserRole)
         {
-            return item->getFormula();
+            return item->formula();
         }
         else if(role == Qt::BackgroundRole)
         {
@@ -171,9 +170,9 @@ const QVariant CharacterSheet::getValueByIndex(const std::vector<int>& row, QStr
     return QString();
 }
 
-CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString formula)
+CSItem* CharacterSheet::setValue(QString key, QString value, QString formula)
 {
-    CharacterSheetItem* result= nullptr;
+    CSItem* result= nullptr;
 
     auto item= getFieldFromKey(key);
 
@@ -185,7 +184,7 @@ CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString
     }
     else
     {
-        auto field= new FieldController(CharacterSheetItem::FieldItem, false);
+        auto field= new FieldController(TreeSheetItem::FieldItem, false);
         result= field;
         field->setValue(value);
         field->setId(key);
@@ -201,9 +200,9 @@ QList<QString> CharacterSheet::getAllDependancy(QString key)
     {
         if(field->hasFormula())
         {
-            if(field->getFormula().contains(key))
+            if(field->formula().contains(key))
             {
-                list << field->getPath();
+                list << field->path();
             }
         }
     }
@@ -263,7 +262,7 @@ void CharacterSheet::setName(const QString& name)
 void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent)
 {
     QString id= obj["id"].toString();
-    CharacterSheetItem* value= m_valuesMap.value(id);
+    TreeSheetItem* value= m_valuesMap.value(id);
     if(nullptr != value)
     {
         value->loadDataItem(obj);
@@ -274,7 +273,7 @@ void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent)
         if(nullptr == item)
             return;
         auto table= dynamic_cast<TableField*>(item);
-        // TODO Make setChildFieldData part of CharacterSheetItem to make this algorithem generic
+        // TODO Make setChildFieldData part of TreeSheetItem to make this algorithem generic
         if(table)
         {
             table->setChildFieldData(obj);
@@ -305,10 +304,10 @@ void CharacterSheet::load(const QJsonObject& json)
     for(auto& key : array.keys())
     {
         QJsonObject item= array[key].toObject();
-        CharacterSheetItem* itemSheet= nullptr;
+        CSItem* itemSheet= nullptr;
         if((item["type"] == QStringLiteral("field")) || (item["type"] == QStringLiteral("button")))
         {
-            itemSheet= new FieldController(CharacterSheetItem::FieldItem, true);
+            itemSheet= new FieldController(TreeSheetItem::FieldItem, true);
         }
         else if(item["type"] == QStringLiteral("TableField"))
         {
@@ -328,32 +327,30 @@ void CharacterSheet::load(const QJsonObject& json)
 }
 void CharacterSheet::setOrigin(Section* sec)
 {
-    auto const& keys= m_valuesMap.keys();
-    for(auto& key : keys)
+    for(auto it= m_valuesMap.keyValueBegin(); it != m_valuesMap.keyValueEnd(); ++it)
     {
-        auto value= m_valuesMap.value(key);
-        if(nullptr != value)
-        {
-            auto field= sec->getChildFromId(key);
-            if(nullptr != field)
-            {
-                value->setOrig(field);
-            }
-        }
+        if(nullptr == it->second)
+            continue;
+
+        auto field= sec->childFromId(it->first);
+        if(nullptr == field)
+            continue;
+
+        it->second->setOrig(field);
     }
 }
 
-void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
+void CharacterSheet::insertField(QString key, CSItem* itemSheet)
 {
     m_valuesMap.insert(key, itemSheet);
 
-    connect(itemSheet, &CharacterSheetItem::characterSheetItemChanged, this, [=](CharacterSheetItem* item) {
+    connect(itemSheet, &TreeSheetItem::characterSheetItemChanged, this, [itemSheet, this](TreeSheetItem* item) {
         QString path;
-        auto parent= item->getParent();
+        auto parent= item->parentTreeItem();
         if(nullptr != parent)
-            path= parent->getPath();
+            path= parent->path();
 
-        emit updateField(this, item, path);
+        emit updateField(this, itemSheet, path);
     });
 }
 
@@ -371,9 +368,9 @@ QHash<QString, QString> CharacterSheet::getVariableDictionnary()
     return dataDict;
 }
 
-void CharacterSheet::insertCharacterItem(CharacterSheetItem* item)
+void CharacterSheet::insertCharacterItem(CSItem* item)
 {
     if(nullptr == item)
         return;
-    insertField(item->getId(), item);
+    insertField(item->id(), item);
 }

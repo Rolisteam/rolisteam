@@ -1,6 +1,6 @@
 #include "canvasfield.h"
 
-#include "charactersheet/field.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 #include <QDebug>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QPainter>
@@ -11,6 +11,7 @@ QHash<int, QString> CanvasField::m_pictureMap({{FieldController::TEXTINPUT, ":/r
                                                {FieldController::TEXTFIELD, ":/rcstyle/Actions-edit-rename-icon.png"},
                                                {FieldController::RLABEL, ""},
                                                {FieldController::SELECT, ""},
+                                               {FieldController::SLIDER, ""},
                                                {FieldController::CHECKBOX, ":/rcstyle/checked_checkbox.png"},
                                                {FieldController::IMAGE, ":/rcstyle/photo.png"},
                                                {FieldController::WEBPAGE, ":/rcstyle/webPage.svg"},
@@ -27,10 +28,25 @@ CanvasField::CanvasField(FieldController* field) : m_ctrl(field)
                      QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable :
                      QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
     });
+
+    connect(m_ctrl, &FieldController::xChanged, this, [this]() {
+        setPos(m_ctrl->x(), m_ctrl->y());
+        update();
+    });
+    connect(m_ctrl, &FieldController::yChanged, this, [this]() {
+        setPos(m_ctrl->x(), m_ctrl->y());
+        update();
+    });
+    connect(m_ctrl, &FieldController::widthChanged, this, [this]() { update(); });
+    connect(m_ctrl, &FieldController::heightChanged, this, [this]() { update(); });
+    connect(m_ctrl, &FieldController::destroyed, this, &CanvasField::deleteLater);
+
+    connect(this, &CanvasField::xChanged, m_ctrl, [this]() { m_ctrl->setX(pos().x()); });
+    connect(this, &CanvasField::yChanged, m_ctrl, [this]() { m_ctrl->setY(pos().y()); });
 }
 void CanvasField::setNewEnd(QPointF nend)
 {
-    m_ctrl->setNewEnd(nend);
+    m_ctrl->setSecondPosition(nend);
 }
 FieldController* CanvasField::controller() const
 {
@@ -109,13 +125,13 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
         flags|= Qt::AlignLeft;
     }
 
-    if(m_pix.isNull() || m_currentType != m_ctrl->getFieldType())
+    if(m_pix.isNull() || m_currentType != m_ctrl->fieldType())
     {
-        QPixmap map= QPixmap(m_pictureMap[m_ctrl->getFieldType()]);
+        QPixmap map= QPixmap(m_pictureMap[m_ctrl->fieldType()]);
         if(!map.isNull())
         {
             m_pix= map.scaled(32, 32);
-            m_currentType= m_ctrl->getFieldType();
+            m_currentType= m_ctrl->fieldType();
         }
     }
     if((!m_pix.isNull()) && m_showImageField)
@@ -123,7 +139,7 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
         painter->drawPixmap(rect.center() - m_pix.rect().center(), m_pix, m_pix.rect());
     }
 
-    painter->drawText(rect, flags, m_ctrl->getId());
+    painter->drawText(rect, flags, m_ctrl->id());
     painter->restore();
 }
 

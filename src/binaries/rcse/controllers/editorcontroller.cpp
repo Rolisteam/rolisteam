@@ -149,8 +149,10 @@ void EditorController::spreadItemEqualy(QList<FieldController*> ctrls, bool hori
         endAvailableSpace= (*last)->y();
         beginAvailableSpace= (*first)->y() + (*first)->height();
     }
-    ctrls.erase(first);
-    ctrls.erase(last);
+
+    ctrls.erase(ctrls.cbegin());
+    ctrls.erase(ctrls.cend() - 1);
+
     qreal itemSpace= 0.0;
     std::for_each(ctrls.begin(), ctrls.end(), [horizon, &itemSpace](FieldController* item) {
         itemSpace+= horizon ? item->width() : item->height();

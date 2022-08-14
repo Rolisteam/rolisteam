@@ -45,7 +45,6 @@ SheetProperties::~SheetProperties()
 
 void SheetProperties::init()
 {
-    ui->m_flickable->setChecked(m_ctrl->flickable());
     ui->m_additionnalHeadCode->document()->setPlainText(m_ctrl->headCode());
     ui->m_additionnalBottomCode->document()->setPlainText(m_ctrl->bottomCode());
     ui->m_additionnalImport->setPlainText(m_ctrl->importCode());
@@ -57,7 +56,6 @@ void SheetProperties::init()
 
 void SheetProperties::accept()
 {
-    m_ctrl->setFlickable(ui->m_flickable->isChecked());
     m_ctrl->setHeadCode(ui->m_additionnalHeadCode->document()->toPlainText());
     m_ctrl->setBottomCode(ui->m_additionnalBottomCode->document()->toPlainText());
     m_ctrl->setImportCode(ui->m_additionnalImport->document()->toPlainText());

@@ -27,8 +27,8 @@
 #include <QStyle>
 #include <QStyleOptionGraphicsItem>
 
-#include "charactersheet/field.h"
-#include "charactersheet/tablefield.h"
+#include "charactersheet/controllers/fieldcontroller.h"
+#include "charactersheet/controllers/tablefield.h"
 #define SQUARE_SIZE 12
 
 //////////////////////////////////////////////////////
@@ -247,7 +247,7 @@ void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*,
     {
         painter->drawLine(0, i * yStep, boundingRect().width(), i * yStep);
     }
-    painter->drawText(QPoint(0, 0), m_ctrl->getId());
+    painter->drawText(QPoint(0, 0), m_ctrl->id());
     painter->restore();
 }
 bool TableCanvasField::hasFocusOrChild()
@@ -278,11 +278,11 @@ void TableCanvasField::generateSubFields(QTextStream& out)
     auto model= m_dialog->model();
     if(nullptr != model)
     {
-        model->generateQML(out, CharacterSheetItem::FieldSec, true);
+        model->generateQML(out, 1, true);
     }
 }
 
-CharacterSheetItem* TableCanvasField::getRoot()
+TreeSheetItem* TableCanvasField::getRoot()
 {
     auto model= m_dialog->model();
     Section* sec= nullptr;
@@ -298,12 +298,12 @@ void TableCanvasField::fillLineModel(LineModel* lineModel, TableField* parent)
     for(int i= 0; i < m_lineCount; ++i)
     {
         LineFieldItem* line= new LineFieldItem();
-        for(CharacterSheetItem* child : model->children())
+        for(TreeSheetItem* child : model->children())
         {
             auto field= dynamic_cast<FieldController*>(child);
             if(nullptr != field)
             {
-                auto newField= new FieldController(CharacterSheetItem::FieldItem, true);
+                auto newField= new FieldController(TreeSheetItem::FieldItem, true);
                 newField->copyField(field, true, false);
                 newField->setParent(parent);
                 line->insertField(newField);

@@ -33,6 +33,7 @@
 
 class CharacterSheet;
 class Section;
+class CSItem;
 
 namespace Formula
 {
@@ -72,15 +73,15 @@ public:
 
     void addSection(/*int index*/);
     void addLine(const QModelIndex& index);
-    CharacterSheetItem* indexToSection(const QModelIndex& index);
+    TreeSheetItem* indexToSection(const QModelIndex& index);
     QModelIndex indexToSectionIndex(const QModelIndex& index);
     CharacterSheet* getCharacterSheet(int id);
 
     bool writeModel(QJsonObject& file);
     void readModel(const QJsonObject& file, bool readRootSection);
 
-    CharacterSheetItem* addSection(QString title);
-    void addLine(CharacterSheetItem* parentItem, QString name, const QModelIndex& parent);
+    TreeSheetItem* addSection(QString title);
+    void addLine(TreeSheetItem* parentItem, QString name, const QModelIndex& parent);
 
     void setRootSection(Section* rootSection);
     Section* getRootSection() const;
@@ -96,9 +97,9 @@ public slots:
     void clearModel();
 
     void checkCharacter(Section* section);
-    void addSubChildRoot(CharacterSheetItem* item);
-    void fieldHasBeenChanged(CharacterSheet* sheet, CharacterSheetItem* item, const QString&);
-    void addSubChild(CharacterSheet* sheet, CharacterSheetItem* item);
+    void addSubChildRoot(TreeSheetItem* item);
+    void fieldHasBeenChanged(CharacterSheet* sheet, CSItem* item, const QString&);
+    void addSubChild(CharacterSheet* sheet, CSItem *item);
 
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
