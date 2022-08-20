@@ -36,6 +36,7 @@ class CampaignManager;
 class CORE_EXPORT MediaUpdaterInterface : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
+    Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localIsGMChanged)
 public:
     MediaUpdaterInterface(campaign::CampaignManager* campaign, QObject* object= nullptr);
     virtual void addMediaController(MediaControllerBase* ctrl)= 0;
@@ -47,12 +48,19 @@ public:
 
     bool is(NetworkMessageReader* msg, NetMsg::Category, NetMsg::Action) const;
 
+    bool localIsGM() const;
+    void setLocalIsGM(bool newLocalIsGM);
+
 public slots:
     virtual void saveMediaController(MediaControllerBase* ctrl);
+
+signals:
+    void localIsGMChanged();
 
 protected:
     bool m_updatingFromNetwork= false;
     QPointer<campaign::CampaignManager> m_manager;
+    bool m_localIsGM;
 };
 
 template <typename T>

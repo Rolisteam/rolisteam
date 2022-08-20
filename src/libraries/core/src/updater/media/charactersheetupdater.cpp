@@ -24,35 +24,69 @@
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/csitem.h"
+#include "controller/view_controller/charactersheetcontroller.h"
+#include "data/character.h"
 #include "network/networkmessagewriter.h"
+#include "worker/messagehelper.h"
 
-CharacterSheetUpdater::CharacterSheetUpdater(const QString& id, QObject* parent) : QObject(parent), m_mediaId(id)
+CharacterSheetUpdater::CharacterSheetUpdater(campaign::CampaignManager* campaign, QObject* parent)
+    : MediaUpdaterInterface(campaign, parent)
 {
     // comment
 }
 
-void CharacterSheetUpdater::setMediaId(const QString& id)
+void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
 {
-    m_mediaId= id;
-}
-
-void CharacterSheetUpdater::addCharacterSheetUpdate(CharacterSheet* sheet, CharacterSheetUpdater::UpdateMode mode,
-                                                    const QStringList& list)
-{
-    if(sheet == nullptr)
+    auto csCtrl= dynamic_cast<CharacterSheetController*>(ctrl);
+    if(!csCtrl)
         return;
 
+    m_ctrls.append(csCtrl);
+
+    connect(csCtrl, &CharacterSheetController::share, this, &CharacterSheetUpdater::shareCharacterSheetTo);
+    connect(csCtrl, &CharacterSheetController::modifiedChanged, this, []() {
+
+    });
+}
+
+void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl, CharacterSheet* sheet,
+                                                  CharacterSheetUpdater::SharingMode mode, Character* character,
+                                                  const QStringList& recipients, bool gmToPlayer)
+{
+    if(!sheet || (recipients.isEmpty() && mode != SharingMode::ALL))
+        return;
+
+    if(localIsGM())
+    {
+        auto it= std::find_if(std::begin(m_sharingData), std::end(m_sharingData),
+                              [sheet](const CSSharingInfo& info) { return sheet->uuid() == info.sheetId; });
+
+        if(it != std::end(m_sharingData))
+        {
+            auto list= it->recipients;
+            for(auto rec : list)
+            {
+                MessageHelper::stopSharingSheet(it->sheetId, it->ctrlId, rec);
+            }
+            m_sharingData.erase(it);
+        }
+
+        m_sharingData.append(
+            {ctrl->uuid(), sheet->uuid(), character ? character->uuid() : QString(), mode, sheet, recipients});
+        MessageHelper::shareCharacterSheet(sheet, character, ctrl);
+    }
+
     connect(sheet, &CharacterSheet::updateField, this,
-            [list, mode, this](CharacterSheet* sheet, CSItem* itemSheet, const QString& path) {
-                if(nullptr == sheet || !m_updating)
+            [recipients, mode, ctrl](CharacterSheet* sheet, CSItem* itemSheet, const QString& path) {
+                if(nullptr == sheet)
                     return;
 
                 NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::updateFieldCharacterSheet);
-                if(mode != UpdateMode::ALL)
+                if(mode != SharingMode::ALL)
                 {
-                    msg.setRecipientList(list, NetworkMessage::OneOrMany);
+                    msg.setRecipientList(recipients, NetworkMessage::OneOrMany);
                 }
-                msg.string8(m_mediaId);
+                msg.string8(ctrl->uuid());
                 msg.string8(sheet->uuid());
                 msg.string32(path);
                 QJsonObject object;
@@ -62,19 +96,4 @@ void CharacterSheetUpdater::addCharacterSheetUpdate(CharacterSheet* sheet, Chara
                 msg.byteArray32(doc.toJson());
                 msg.sendToServer();
             });
-}
-
-void CharacterSheetUpdater::readUpdateMessage(NetworkMessageReader* reader, CharacterSheet* sheet) {}
-
-bool CharacterSheetUpdater::updating() const
-{
-    return m_updating;
-}
-
-void CharacterSheetUpdater::setUpdating(bool b)
-{
-    if(m_updating == b)
-        return;
-    m_updating= b;
-    emit updatingChanged(m_updating);
 }

@@ -28,14 +28,15 @@
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
-#include "model/charactermodel.h"
-
 #include "mediacontrollerbase.h"
+#include "model/charactermodel.h"
+#include "updater/media/charactersheetupdater.h"
 #include <core_global.h>
+
 class Player;
 class Character;
 class CharacterSheet;
-class CharacterSheetUpdater;
+
 struct CORE_EXPORT CharacterSheetData
 {
     CharacterSheet* sheet;
@@ -53,6 +54,7 @@ class CORE_EXPORT CharacterSheetController : public MediaControllerBase
     Q_PROPERTY(QString qmlCode READ qmlCode CONSTANT)
     Q_PROPERTY(bool cornerEnabled READ cornerEnabled NOTIFY cornerEnabledChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
+    Q_PROPERTY(QJsonObject rootJson READ rootJson WRITE setRootJson NOTIFY rootJsonChanged)
 public:
     CharacterSheetController(const QString& id= QString(), const QUrl& path= QUrl(), QObject* parent= nullptr);
     ~CharacterSheetController() override;
@@ -60,7 +62,7 @@ public:
     CharacterSheetModel* model() const;
     charactersheet::ImageModel* imageModel() const;
     CharacterModel* characterModel() const;
-    const QJsonObject& rootObject() const;
+    const QJsonObject& rootJson() const;
 
     QString qmlCode() const;
     QString gameMasterId() const;
@@ -69,6 +71,8 @@ public:
     void updateFieldFrom(const QString& sheetId, const QJsonObject& obj, const QString& parentPath);
 
     static void setCharacterModel(CharacterModel* model);
+
+    void setRootJson(const QJsonObject& newRootJson);
 
 public slots:
     void shareCharacterSheetTo(const QString& uuid, int idx);
@@ -82,13 +86,15 @@ signals:
     void currentSheetChanged();
     void sheetCreated(CharacterSheet* sheet, Character* character);
     void gameMasterIdChanged();
+    void rootJsonChanged();
+    void share(CharacterSheetController* ctrl, CharacterSheet* sheet, CharacterSheetUpdater::SharingMode mode,
+               Character* character, const QStringList& recipients);
 
 private:
     std::unique_ptr<CharacterSheetModel> m_model;
     std::unique_ptr<charactersheet::ImageModel> m_imageModel;
     static QPointer<CharacterModel> m_characterModel;
     std::set<CharacterSheetData> m_sheetData;
-    std::unique_ptr<CharacterSheetUpdater> m_characterSheetUpdater;
     QJsonObject m_rootJson;
     QString m_qmlCode;
     QString m_gameMasterId;

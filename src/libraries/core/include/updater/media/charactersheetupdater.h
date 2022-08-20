@@ -22,42 +22,51 @@
 
 #include <QObject>
 #include <core_global.h>
+
+#include "mediaupdaterinterface.h"
+
+namespace campaign
+{
+class CampaignManager;
+}
+struct CSSharingInfo;
+
+class CharacterSheetController;
 class CharacterSheet;
+class Character;
 class NetworkMessageReader;
-class  CORE_EXPORT CharacterSheetUpdater : public QObject
+class CORE_EXPORT CharacterSheetUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
-    Q_PROPERTY(bool updating READ updating WRITE setUpdating NOTIFY updatingChanged)
 
 public:
-    enum class UpdateMode : quint8
+    enum class SharingMode : quint8
     {
         ALL,
         ONE,
         Many
     };
-    Q_ENUM(UpdateMode)
+    Q_ENUM(SharingMode)
 
-    CharacterSheetUpdater(const QString& id, QObject* parent= nullptr);
+    CharacterSheetUpdater(campaign::CampaignManager* campaign, QObject* parent= nullptr);
+    void addMediaController(MediaControllerBase* ctrl) override;
 
-    void setMediaId(const QString& id);
-
-    void addCharacterSheetUpdate(CharacterSheet* sheet, CharacterSheetUpdater::UpdateMode mode,
-                                 const QStringList& list);
-
-    void readUpdateMessage(NetworkMessageReader* reader, CharacterSheet* sheet);
-
-    bool updating() const;
-
-public slots:
-    void setUpdating(bool b);
-
-signals:
-    void updatingChanged(bool updating);
+    void shareCharacterSheetTo(CharacterSheetController* ctrl, CharacterSheet* sheet,
+                               CharacterSheetUpdater::SharingMode mode, Character* character,
+                               const QStringList& recipients, bool gmToPlayer= true);
 
 private:
-    bool m_updating= true;
-    QString m_mediaId;
+    QList<QPointer<CharacterSheetController>> m_ctrls;
+    QList<CSSharingInfo> m_sharingData;
 };
 
+struct CSSharingInfo
+{
+    QString ctrlId;
+    QString sheetId;
+    QString characterId;
+    CharacterSheetUpdater::SharingMode mode;
+    QPointer<CharacterSheet> sheet;
+    QStringList recipients;
+};
 #endif // CHARACTERSHEETUPDATER_H

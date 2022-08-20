@@ -668,6 +668,7 @@ void CharacterSheetModel::readModel(const QJsonObject& jsonObj, bool readRootSec
     QJsonArray characters= jsonObj["characters"].toArray();
     for(const auto charJson : characters)
     {
+        qDebug() << "read characterfrom json";
         QJsonObject obj= charJson.toObject();
         CharacterSheet* sheet= new CharacterSheet();
         sheet->load(obj);

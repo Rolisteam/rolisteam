@@ -282,10 +282,11 @@ void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* player
     playerModel->setData(idx, var, role);
 }
 
-void MessageHelper::stopSharingSheet(const QString& mediaId, const QString& characterId)
+void MessageHelper::stopSharingSheet(const QString& sheetId, const QString& ctrlId, const QString& characterId)
 {
     NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
-    msg.string8(mediaId);
+    msg.string8(sheetId);
+    msg.string8(ctrlId);
     msg.string8(characterId);
     msg.sendToServer();
 }

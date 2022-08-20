@@ -21,6 +21,7 @@
 #include "model/playermodel.h"
 #include "updater/media/mindmapupdater.h"
 #include "worker/iohelper.h"
+#include "worker/modelhelper.h"
 
 void registerMindmapType()
 {
@@ -69,11 +70,29 @@ int main(int argc, char* argv[])
         QUrl("file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/charactersheet/campaign"));
 
     auto serializedData= utils::IOHelper::loadFile(
-        "/home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/charactersheet/campaign/media/test.rcs");
+        "/home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/charactersheet/campaign/media/tf2.rcs");
 
     QUndoStack undoStack;
 
-    CharacterSheetController ctrl;
+    CharacterSheetUpdater updater(&campaignManager);
+    updater
+
+        CharacterSheetController ctrl;
+    QUrl path("file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/charactersheet/campaign/"
+              "media/tf2.rcs");
+    ctrl.setUrl(path);
+
+    auto model= ctrl.model();
+    auto img= ctrl.imageModel();
+    auto root= ctrl.rootJson();
+    QString qml;
+    ModelHelper::loadCharacterSheet(path.toLocalFile(), model, img, root, qml);
+    ctrl.setQmlCode(qml);
+    ctrl.setRootJson(root);
+
+    // IOHelper::readCharacterSheetController(&ctrl, serializedData);
+
+    qDebug() << "character model: " << model->rowCount();
 
     CharacterSheetWindow view(&ctrl);
 

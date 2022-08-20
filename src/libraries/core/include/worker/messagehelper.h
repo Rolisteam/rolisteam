@@ -112,11 +112,9 @@ public:
     static void sendOffImage(ImageController* ctrl);
     static QHash<QString, QVariant> readImageData(NetworkMessageReader* msg);
 
-// PDF
-#ifdef WITH_PDF
+    // PDF
     static void sendOffPdfFile(PdfController* ctrl);
     static QHash<QString, QVariant> readPdfData(NetworkMessageReader* msg);
-#endif
 
     // webpage
     static void shareWebpage(WebpageController* ctrl);
@@ -125,7 +123,7 @@ public:
     static void readUpdateWebpage(WebpageController* ctrl, NetworkMessageReader* msg);
 
     // charactersheet
-    static void stopSharingSheet(const QString& mediaId, const QString& characterId);
+    static void stopSharingSheet(const QString& sheetId, const QString& ctrlId, const QString& characterId);
     static void shareCharacterSheet(CharacterSheet* sheet, Character* character, CharacterSheetController* ctrl);
     static QHash<QString, QVariant> readCharacterSheet(NetworkMessageReader* msg);
     static void readUpdateField(CharacterSheetController* ctrl, NetworkMessageReader* msg);

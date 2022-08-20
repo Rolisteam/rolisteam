@@ -6,9 +6,6 @@
 #include "data/character.h"
 
 #include "data/player.h"
-#include "updater/media/charactersheetupdater.h"
-#include "worker/messagehelper.h"
-#include "worker/modelhelper.h"
 
 QPointer<CharacterModel> CharacterSheetController::m_characterModel;
 
@@ -16,13 +13,8 @@ CharacterSheetController::CharacterSheetController(const QString& id, const QUrl
     : MediaControllerBase(id, Core::ContentType::CHARACTERSHEET, parent)
     , m_model(new CharacterSheetModel)
     , m_imageModel(new charactersheet::ImageModel())
-    , m_characterSheetUpdater(new CharacterSheetUpdater(id))
 {
     setUrl(path);
-    ModelHelper::loadCharacterSheet(path.toLocalFile(), m_model.get(), m_imageModel.get(), m_rootJson, m_qmlCode);
-
-    connect(this, &CharacterSheetController::uuidChanged, m_characterSheetUpdater.get(),
-            &CharacterSheetUpdater::setMediaId);
 
     connect(m_model.get(), &CharacterSheetModel::characterSheetHasBeenAdded, this, [this] { setModified(); });
     connect(m_model.get(), &CharacterSheetModel::dataCharacterChange, this, [this] { setModified(); });
@@ -53,8 +45,8 @@ void CharacterSheetController::addCharacterSheet(const QJsonObject& data, const 
     }
     character->setSheet(sheet);
     m_model->addCharacterSheet(sheet, m_model->getCharacterSheetCount() - 1);
-    m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ONE,
-                                                     QStringList() << m_gameMasterId); // GM identity
+    // m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::SharingMode::ONE,
+    //                                               QStringList() << m_gameMasterId, false); // GM identity
 
     emit sheetCreated(sheet, character);
 }
@@ -82,7 +74,7 @@ CharacterModel* CharacterSheetController::characterModel() const
     return m_characterModel;
 }
 
-const QJsonObject& CharacterSheetController::rootObject() const
+const QJsonObject& CharacterSheetController::rootJson() const
 {
     return m_rootJson;
 }
@@ -115,12 +107,16 @@ void CharacterSheetController::updateFieldFrom(const QString& sheetId, const QJs
 
 void CharacterSheetController::shareCharacterSheetToAll(int idx)
 {
+    if(!localGM())
+        return;
+
     auto sheet= m_model->getCharacterSheet(idx);
 
     if(sheet == nullptr)
         return;
 
-    m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ALL, QStringList());
+    emit share(this, sheet, CharacterSheetUpdater::SharingMode::ALL, nullptr, {});
+    // m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ALL, QStringList());
 }
 
 void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int idx)
@@ -147,13 +143,19 @@ void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int id
 
     if(localGM())
     {
-        MessageHelper::shareCharacterSheet(sheet, character, this);
-        m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ONE,
-                                                         QStringList() << dest);
+        emit share(this, sheet, CharacterSheetUpdater::SharingMode::ONE, character, {dest});
     }
 }
 
 void CharacterSheetController::setCharacterModel(CharacterModel* model)
 {
     m_characterModel= model;
+}
+
+void CharacterSheetController::setRootJson(const QJsonObject& newRootJson)
+{
+    if(m_rootJson == newRootJson)
+        return;
+    m_rootJson= newRootJson;
+    emit rootJsonChanged();
 }

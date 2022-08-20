@@ -65,180 +65,42 @@ class RWIDGET_EXPORT CharacterSheetWindow : public MediaContainer
 {
     Q_OBJECT
 public:
-    /**
-     * @brief default construtor
-     */
     CharacterSheetWindow(CharacterSheetController* ctrl, QWidget* parent= nullptr);
-    /**
-     * @brief ~CharacterSheetWindow
-     */
     virtual ~CharacterSheetWindow();
-    /**
-     * @brief saveFile
-     * @return
-     */
     QJsonDocument saveFile();
-    /**
-     * @brief addCharacterSheet
-     */
     void addCharacterSheetSlot(CharacterSheet*);
-
-    // RolisteamImageProvider* getImgProvider() const;
-    // void setImgProvider(RolisteamImageProvider* imgProvider);
-    /**
-     * @brief fill
-     * @param msg
-     * @param sheet
-     * @param idChar
-     */
-    // void fillMessage(NetworkMessageWriter* msg, CharacterSheet* sheet, QString idChar);
-    /**
-     * @brief read
-     * @param msg
-     */
-    // void readMessage(NetworkMessageReader& msg);
-    /**
-     * @brief processUpdateFieldMessage
-     * @param msg
-     */
-    // void processUpdateFieldMessage(NetworkMessageReader* msg, const QString& idSheet);
-    /**
-     * @brief hasCharacterSheet
-     * @param id
-     * @return
-     */
     bool hasCharacterSheet(QString id);
 signals:
-    /**
-     * @brief addWidgetToMdiArea
-     * @param str
-     */
     void addWidgetToMdiArea(QWidget*, QString str);
-    /**
-     * @brief rollDiceCmd
-     * @param str
-     * @param label
-     */
     void rollDiceCmd(QString str, QString label, bool withAlias);
-    /**
-     * @brief showText
-     * @param str
-     */
     void showText(QString str);
-    /**
-     * @brief errorOccurs
-     * @param error
-     */
     void errorOccurs(QString error);
 
 public slots:
-    /**
-     * @brief openQML
-     */
     void openQML();
-    /**
-     * @brief contextMenuForTabs
-     * @param pos
-     */
     void contextMenuForTabs(const QPoint pos);
-    /**
-     * @brief detachTab
-     */
     void detachTab();
-
-    /**
-     * @brief rollDice
-     * @param cmd : dice command
-     * @param alias : use alias if true, otherwise the command stays unmodified.
-     */
     void rollDice(QString cmd, bool alias= true);
-    /**
-     * @brief removeConnection
-     */
     void removeConnection(Player*);
-    /**
-     * @brief readErrorFromQML
-     * @param errors
-     */
     void readErrorFromQML(QList<QQmlError> errors);
-
-    /**
-     * @brief exportPDF
-     */
     void exportPDF();
 protected slots:
-    /**
-     * @brief addTabWithSheetView
-     * @param chSheet
-     */
     void addTabWithSheetView(CharacterSheet* chSheet, Character* character);
-    /**
-     * @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current
-     * position (in the current CharacterSheet).
-     */
     void addLine();
-    /**
-     * @brief slot is called when the user click on the m_addSection button. That leads to add a section after the
-     * current section (in the current CharacterSheet).
-     */
     void addSection();
-    /**
-     * @brief slot is called when the user click on the m_addCharacterSheet button. That Leads to add an empty
-     * characterSheet in the model (after all others).
-     */
     void addCharacterSheet();
-    /**
-     * @brief slot is called when the user click on the  mice right button
-     */
     void displayCustomMenu(const QPoint& pos);
-    /**
-     * @brief affectSheetToCharacter
-     */
     void affectSheetToCharacter(const QString& uuid);
-    /**
-     * @brief displayError
-     * @param warnings
-     */
     void displayError(const QList<QQmlError>& warnings);
-    /**
-     * @brief setReadOnlyOnSelection
-     */
     void setReadOnlyOnSelection();
-    /**
-     * @brief stopSharing
-     */
     void stopSharing();
-    /**
-     * @brief updateTitle
-     */
     virtual void updateTitle();
-    /**
-     * @brief copyTab
-     */
     void copyTab();
 
 protected:
-    /**
-     * @brief closeEvent
-     * @param event
-     */
     virtual void closeEvent(QCloseEvent* event);
-    /**
-     * @brief addSharingMenu
-     * @param share
-     */
     void addSharingMenu(QMenu* share, int pos);
-    /**
-     * @brief checkAlreadyShare
-     * @param sheet
-     */
     void checkAlreadyShare(CharacterSheet* sheet);
-    /**
-     * @brief eventFilter
-     * @param object
-     * @param event
-     * @return
-     */
     bool eventFilter(QObject* object, QEvent* event);
 
 private:
@@ -250,12 +112,7 @@ private:
     CharacterSheet* m_currentCharacterSheet;
     QQmlComponent* m_sheetComponent;
 
-    /*QHash<CharacterSheet*, Player*> m_sheetToPerson;
-    QHash<CharacterSheet*, Character*> m_sheetToCharacter;
-    std::unique_ptr<ImageModel> m_imageModel;*/
-
     QJsonObject m_data;
-
     QList<QQmlError> m_errorList;
 
     // Translation optimisation

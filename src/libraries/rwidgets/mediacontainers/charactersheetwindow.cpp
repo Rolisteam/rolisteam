@@ -200,6 +200,8 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
 void CharacterSheetWindow::addSharingMenu(QMenu* share, int idx)
 {
     auto model= m_sheetCtrl->characterModel();
+    if(!model)
+        return;
     bool hasCharacter= false;
     for(int i= 0; i < model->rowCount(); ++i)
     {

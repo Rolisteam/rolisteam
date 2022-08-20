@@ -67,3 +67,16 @@ void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
                 ctrl->setModified(false);
         });
 }
+
+bool MediaUpdaterInterface::localIsGM() const
+{
+    return m_localIsGM;
+}
+
+void MediaUpdaterInterface::setLocalIsGM(bool newLocalIsGM)
+{
+    if (m_localIsGM == newLocalIsGM)
+        return;
+    m_localIsGM = newLocalIsGM;
+    emit localIsGMChanged();
+}

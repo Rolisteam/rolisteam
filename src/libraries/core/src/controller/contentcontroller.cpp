@@ -27,6 +27,7 @@
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 
+#include "updater/media/charactersheetupdater.h"
 #include "updater/media/genericupdater.h"
 #include "updater/media/mediaupdaterinterface.h"
 #include "updater/media/mindmapupdater.h"
@@ -103,7 +104,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     std::unique_ptr<MindMapUpdater> mindMapUpdater(new MindMapUpdater(fModel3, campaign));
     std::unique_ptr<GenericUpdater> imageUpdater(new GenericUpdater(campaign));
     std::unique_ptr<GenericUpdater> notesUpdater(new GenericUpdater(campaign));
-    std::unique_ptr<GenericUpdater> characterSheetUpdater(new GenericUpdater(campaign));
+    std::unique_ptr<CharacterSheetUpdater> characterSheetUpdater(new CharacterSheetUpdater(campaign));
     std::unique_ptr<GenericUpdater> pdfUpdater(new GenericUpdater(campaign));
     MindMapController::setMindMapUpdater(mindMapUpdater.get());
 

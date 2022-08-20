@@ -91,9 +91,7 @@ public:
     static void readBase(MediaControllerBase* base, QDataStream& input);
     static void readBaseFromJson(MediaControllerBase* base, QJsonObject& data);
 
-#ifdef WITH_PDF
     static void readPdfController(PdfController* ctrl, const QByteArray& array);
-#endif
     static void readImageController(ImageController* ctrl, const QByteArray& array);
     static void readNoteController(NoteController* ctrl, const QByteArray& array);
     static void readSharedNoteController(SharedNoteController* ctrl, const QByteArray& array);

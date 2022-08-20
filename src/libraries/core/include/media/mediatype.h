@@ -474,6 +474,14 @@ constexpr char const* JSON_PATH{"path"};
 constexpr char const* JSON_NAME{"name"};
 constexpr char const* JSON_OWNERID{"ownerid"};
 } // namespace base
+
+namespace sheet
+{
+constexpr char const* JSON_QML_CONTENT{"qml"};
+constexpr char const* JSON_CHARACTER_CONTENT{"characters"};
+constexpr char const* JSON_IMAGES_CONTENT{"background"};
+} // namespace sheet
+
 namespace Mindmap
 {
 constexpr char const* JSON_CTRL_DEFAULT_INDEX_STYLE{"defaultIndexStyle"};

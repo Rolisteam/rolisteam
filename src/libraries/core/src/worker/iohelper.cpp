@@ -612,11 +612,9 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
     case Core::ContentType::MINDMAP:
         data= saveMindmap(dynamic_cast<MindMapController*>(media));
         break;
-#ifdef WITH_PDF
     case Core::ContentType::PDF:
         data= savePdfView(dynamic_cast<PdfController*>(media));
         break;
-#endif
     default:
         break;
     }
@@ -681,7 +679,6 @@ MediaControllerBase* IOHelper::loadController(const QByteArray& data)
         value= ctrl;
         readMindmapController(ctrl, data);
     }
-#ifdef WITH_PDF
     case Core::ContentType::PDF:
     {
         auto ctrl= new PdfController();
@@ -689,7 +686,6 @@ MediaControllerBase* IOHelper::loadController(const QByteArray& data)
         readPdfController(ctrl, data);
     }
     break;
-#endif
     default:
         Q_ASSERT(false); // No valid contentType
         break;
@@ -775,29 +771,22 @@ void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, cons
 {
     if(!ctrl || array.isEmpty())
         return;
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
 
-    IOHelper::readBase(ctrl, input);
+    qDebug() << "array" << array.size();
+    auto data= IOHelper::textByteArrayToJsonObj(array);
+    qDebug() << "\n\n\n\n\ndata" << data.size();
+    IOHelper::readBaseFromJson(ctrl, data);
 
-    QByteArray charactersheetData;
-    input >> charactersheetData;
-
-    QCborValue value(charactersheetData);
-
-    QJsonDocument doc= QJsonDocument::fromJson(value.toByteArray());
-    auto obj= doc.object();
-    auto charactersData= obj["character"].toObject();
-    auto images= obj["images"].toArray();
+    // auto charactersData= data[Core::jsonctrl::sheet::JSON_CHARACTER_CONTENT].toArray();
+    auto images= data[Core::jsonctrl::sheet::JSON_IMAGES_CONTENT].toArray();
+    ctrl->setQmlCode(data[Core::jsonctrl::sheet::JSON_QML_CONTENT].toString());
 
     auto model= ctrl->model();
-    model->readModel(charactersData, true);
+    model->readModel(data, true);
     auto imagesModel= ctrl->imageModel();
     IOWorker::fetchImageModel(imagesModel, images);
-    // imagesModel->load(images);
 }
 
-#ifdef WITH_PDF
 void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
@@ -811,7 +800,6 @@ void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
     input >> pdfData;
     ctrl->setData(pdfData);
 }
-#endif
 
 void IOHelper::readImageController(ImageController* ctrl, const QByteArray& array)
 {
