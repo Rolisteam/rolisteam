@@ -49,6 +49,7 @@ public:
         IdentifierRole= Qt::UserRole + 1,
         PersonPtrRole,
         NameRole,
+        ColorRole,
         LocalRole,
         GmRole,
         CharacterRole,

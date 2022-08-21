@@ -27,12 +27,12 @@
 #include <QPainter>
 
 #include "controller/view_controller/imageselectorcontroller.h"
-#include "worker/iohelper.h"
-#include "worker/utilshelper.h"
 #include "delegates/userlistdelegate.h"
 #include "docks/playerspanel.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 #include "userlistview.h"
+#include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 
 #include "controller/playercontroller.h"
 #include "data/character.h"
@@ -46,10 +46,17 @@ UserListView::UserListView(QWidget* parent) : QTreeView(parent)
 {
     setHeaderHidden(true);
 
-    m_addAvatarAct= new QAction(tr("Set Avatar..."), this);
-    m_removeAvatarAct= new QAction(tr("Remove Avatar..."), this);
-    connect(m_addAvatarAct, &QAction::triggered, this, &UserListView::addAvatar);
-    connect(m_removeAvatarAct, &QAction::triggered, this, &UserListView::deleteAvatar);
+    // set action
+    m_addAvatarAct= std::make_unique<QAction>(tr("Set Avatar..."), this);
+    m_removeAvatarAct= std::make_unique<QAction>(tr("Remove..."), this);
+    m_changeName= std::make_unique<QAction>(tr("Edit name"), this);
+    m_changeColor= std::make_unique<QAction>(tr("Change color…"), this);
+
+    connect(m_addAvatarAct.get(), &QAction::triggered, this, &UserListView::addAvatar);
+    connect(m_removeAvatarAct.get(), &QAction::triggered, this, &UserListView::deleteAvatar);
+    connect(m_changeName.get(), &QAction::triggered, this, [this]() { edit(currentIndex()); });
+    connect(m_changeColor.get(), &QAction::triggered, this, &UserListView::editCurrentItemColor);
+
     setIconSize(QSize(64, 64));
 
     std::vector<std::tuple<QString, QString, Type>> propertyList
@@ -178,6 +185,8 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
     if(!index.isValid())
         return;
 
+    setCurrentIndex(index);
+
     auto tmpperso= index.data(PlayerModel::PersonPtrRole).value<Person*>();
 
     auto flags= index.flags();
@@ -209,8 +218,12 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
         }
     }*/
 
-    popMenu.addAction(m_addAvatarAct);
-    popMenu.addAction(m_removeAvatarAct);
+    popMenu.addAction(m_changeName.get());
+    popMenu.addAction(m_changeColor.get());
+    popMenu.addSeparator();
+    popMenu.addAction(m_addAvatarAct.get());
+    popMenu.addAction(m_removeAvatarAct.get());
+    popMenu.addSeparator();
     if(nullptr != charact)
     {
         popMenu.addSeparator();
@@ -225,22 +238,25 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
             menu->addAction(pro);
         }
 
-        auto stateMenu= popMenu.addMenu(tr("State"));
         auto stateModel= m_ctrl->characterStateModel();
-        for(int i= 0; i < stateModel->rowCount(); ++i)
+        if(stateModel)
         {
-            auto label= stateModel->index(i, 0).data(CharacterStateModel::LABEL).toString();
-            auto id= stateModel->index(i, 0).data(CharacterStateModel::ID).toString();
+            auto stateMenu= popMenu.addMenu(tr("State"));
+            for(int i= 0; i < stateModel->rowCount(); ++i)
+            {
+                auto label= stateModel->index(i, 0).data(CharacterStateModel::LABEL).toString();
+                auto id= stateModel->index(i, 0).data(CharacterStateModel::ID).toString();
 
-            auto act= stateMenu->addAction(label);
-            act->setCheckable(true);
-            auto stateIdPerson= charact->stateId();
-            act->setChecked(id == stateIdPerson);
-            act->setData(id);
-            connect(act, &QAction::triggered, this, &UserListView::setState);
+                auto act= stateMenu->addAction(label);
+                act->setCheckable(true);
+                auto stateIdPerson= charact->stateId();
+                act->setChecked(id == stateIdPerson);
+                act->setData(id);
+                connect(act, &QAction::triggered, this, &UserListView::setState);
+            }
+
+            popMenu.addSeparator();
         }
-
-        popMenu.addSeparator();
         auto actionList= charact->actionList();
         if(!actionList.isEmpty())
         {
@@ -262,12 +278,14 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
                 auto act= shapeMenu->addAction(shape->name());
                 act->setCheckable(true);
                 act->setChecked(charact->currentShape() == shape);
-                connect(act, &QAction::triggered, this, [&charact, shape]() {
-                    if(charact->currentShape() == shape)
-                        charact->setCurrentShape(nullptr);
-                    else
-                        charact->setCurrentShape(shape);
-                });
+                connect(act, &QAction::triggered, this,
+                        [&charact, shape]()
+                        {
+                            if(charact->currentShape() == shape)
+                                charact->setCurrentShape(nullptr);
+                            else
+                                charact->setCurrentShape(shape);
+                        });
             }
         }
     }

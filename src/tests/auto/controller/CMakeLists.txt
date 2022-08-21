@@ -14,7 +14,7 @@ target_link_libraries(tst_imagecontroller PUBLIC Qt6::Core Qt6::Test Qt6::Widget
 add_test(NAME tst_imagecontroller COMMAND tst_imagecontroller)
 
 add_executable(tst_charactersheetcontroller tst_charactersheetcontrollertest.cpp ../assets/resources.qrc)
-target_link_libraries(tst_charactersheetcontroller PUBLIC Qt6::Core Qt6::Test Qt6::Widgets Qt6::Gui PRIVATE charactersheet core instantmessaging common_core common_widget common_qml)
+target_link_libraries(tst_charactersheetcontroller PUBLIC Qt6::Core Qt6::Test Qt6::Widgets Qt6::Gui PRIVATE charactersheet core instantmessaging common_core common_widget common_qml rmindmap)
 add_test(NAME tst_charactersheetcontroller COMMAND tst_charactersheetcontroller)
 
 add_executable(tst_vectorialmapcontroller tst_vectorialmapcontrollertest.cpp ../assets/resources.qrc)

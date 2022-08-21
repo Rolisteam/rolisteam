@@ -43,42 +43,20 @@ public:
         Real,
         String
     };
-    /**
-     * @brief default constructor
-     */
+
     explicit UserListView(QWidget* parent= nullptr);
     void setPlayerController(PlayerController* ctrl);
 public slots:
-    /**
-     * @brief called to change the current color
-     */
     void editCurrentItemColor();
 
 signals:
     void runDiceForCharacter(const QString& dice, const QString& uuid);
 
 protected slots:
-    /**
-     * @brief defines new behaviours for mouseDoubleClickEvent
-     */
     virtual void mouseDoubleClickEvent(QMouseEvent*) override;
-    /**
-     * @brief mouseMoveEvent
-     * @param event
-     */
     virtual void mouseMoveEvent(QMouseEvent* event) override;
-    /**
-     * @brief contextMenuEvent
-     * @param e
-     */
     void contextMenuEvent(QContextMenuEvent* e) override;
-    /**
-     * @brief setPropertyValue
-     */
     void setPropertyValue();
-    /**
-     * @brief setState
-     */
     void setState();
 
     void addAvatar();
@@ -86,12 +64,10 @@ protected slots:
 
 private:
     QPointer<PlayerController> m_ctrl;
-    QAction* m_addAvatarAct= nullptr;
-    QAction* m_removeAvatarAct= nullptr;
-    // QAction* m_rollInit= nullptr;
-    QAction* m_defineCurrentHp= nullptr;
-    QAction* m_changeState= nullptr;
-    QAction* m_removeInit= nullptr;
+    std::unique_ptr<QAction> m_addAvatarAct;
+    std::unique_ptr<QAction> m_removeAvatarAct;
+    std::unique_ptr<QAction> m_changeName;
+    std::unique_ptr<QAction> m_changeColor;
     std::vector<QAction*> m_propertyActions;
 };
 

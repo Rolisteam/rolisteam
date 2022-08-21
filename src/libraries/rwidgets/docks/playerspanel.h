@@ -60,14 +60,14 @@ private:
     void setConnection();
 
 private slots:
-    void selectAnotherPerson(const QModelIndex& current);
+    void selectAnotherPerson(const QModelIndex& current, const QModelIndex& previous);
 signals:
     void runDiceForCharacter(const QString& dice, const QString& uuid);
 
 private:
     Ui::PlayersPanel* m_ui;
     QPointer<PlayerController> m_ctrl;
-    QItemSelectionModel* m_selectionModel;
+    QPointer<QItemSelectionModel> m_selectionModel;
 };
 
 #endif

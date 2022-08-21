@@ -400,7 +400,7 @@ QByteArray saveCharacterSheet(CharacterSheetController* ctrl)
     IOHelper::saveBase(ctrl, output);
 
     QJsonDocument doc;
-    QJsonObject obj= ctrl->rootObject();
+    QJsonObject obj; //= //ctrl->rootObject();
     auto model= ctrl->model();
     QJsonObject dataObj;
     model->writeModel(dataObj);
@@ -470,7 +470,8 @@ QByteArray saveMindmap(MindMapController* ctrl)
     objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_SPACING]= ctrl->spacing();
     objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_LINK_LABEL_VISIBILITY]= ctrl->linkLabelVisibility();
 
-    auto updateMindItem= [](QJsonObject& obj, mindmap::MindItem* item) {
+    auto updateMindItem= [](QJsonObject& obj, mindmap::MindItem* item)
+    {
         namespace ujm= Core::jsonctrl::Mindmap;
         obj[ujm::JSON_MINDITEM_ID]= item->id();
         obj[ujm::JSON_MINDITEM_TEXT]= item->text();
@@ -479,7 +480,8 @@ QByteArray saveMindmap(MindMapController* ctrl)
         obj[ujm::JSON_MINDITEM_TYPE]= item->type();
     };
 
-    auto updatePositionItem= [updateMindItem](QJsonObject& obj, mindmap::PositionedItem* pitem) {
+    auto updatePositionItem= [updateMindItem](QJsonObject& obj, mindmap::PositionedItem* pitem)
+    {
         namespace ujm= Core::jsonctrl::Mindmap;
         updateMindItem(obj, pitem);
         obj[ujm::JSON_POSITIONED_POSITIONX]= pitem->position().x();
@@ -883,7 +885,8 @@ void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& 
     ctrl->setSpacing(objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_SPACING].toBool());
     ctrl->setLinkLabelVisibility(objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_LINK_LABEL_VISIBILITY].toBool());
 
-    auto updateMindItem= [](const QJsonObject& obj, mindmap::MindItem* item) {
+    auto updateMindItem= [](const QJsonObject& obj, mindmap::MindItem* item)
+    {
         namespace ujm= Core::jsonctrl::Mindmap;
         item->setId(obj[ujm::JSON_MINDITEM_ID].toString());
         item->setText(obj[ujm::JSON_MINDITEM_TEXT].toString());
@@ -891,7 +894,8 @@ void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& 
         item->setSelected(false); // obj[ujm::JSON_MINDITEM_SELECTED].toBool()
     };
 
-    auto updatePositionItem= [updateMindItem](const QJsonObject& obj, mindmap::PositionedItem* pitem) {
+    auto updatePositionItem= [updateMindItem](const QJsonObject& obj, mindmap::PositionedItem* pitem)
+    {
         namespace ujm= Core::jsonctrl::Mindmap;
         updateMindItem(obj, pitem);
         pitem->setPosition(

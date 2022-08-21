@@ -33,7 +33,8 @@ void registerMindmapType()
     qmlRegisterAnonymousType<PlayerModel>("PlayerModel", 1);
 
     qmlRegisterSingletonType<customization::Theme>("Customization", 1, 0, "Theme",
-                                                   [](QQmlEngine* engine, QJSEngine*) -> QObject* {
+                                                   [](QQmlEngine* engine, QJSEngine*) -> QObject*
+                                                   {
                                                        auto instance= customization::Theme::instance();
                                                        engine->setObjectOwnership(instance, QQmlEngine::CppOwnership);
                                                        return instance;
@@ -75,9 +76,8 @@ int main(int argc, char* argv[])
     QUndoStack undoStack;
 
     CharacterSheetUpdater updater(&campaignManager);
-    updater
 
-        CharacterSheetController ctrl;
+    CharacterSheetController ctrl;
     QUrl path("file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/charactersheet/campaign/"
               "media/tf2.rcs");
     ctrl.setUrl(path);

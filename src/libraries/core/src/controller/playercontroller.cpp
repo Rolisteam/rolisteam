@@ -101,17 +101,19 @@ NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader*
 
 void PlayerController::setGameController(GameController* gameCtrl)
 {
-    // auto prefsCtrl= gameCtrl->preferencesController();
+    m_characterStateModel= gameCtrl->campaign()->stateModel();
 
-    connect(gameCtrl, &GameController::connectedChanged, this, [this](bool b) {
-        if(b)
-            PlayerMessageHelper::sendOffPlayerInformations(localPlayer());
-        else
-            m_model->clear();
-    });
+    connect(gameCtrl, &GameController::connectedChanged, this,
+            [this](bool b)
+            {
+                if(b)
+                    PlayerMessageHelper::sendOffPlayerInformations(localPlayer());
+                else
+                    m_model->clear();
+            });
 
     // m_characterStateModel= prefsCtrl->characterStateModel();
-    // emit characterStateModelChanged();
+    emit characterStateModelChanged();
 }
 
 Player* PlayerController::localPlayer() const
@@ -155,6 +157,8 @@ void PlayerController::removePlayerById(const QString& id)
 
 void PlayerController::addLocalCharacter()
 {
+    if(!m_characterStateModel || m_characterStateModel->rowCount() > 0)
+        return;
     auto idState= m_characterStateModel->index(0, 0).data(CharacterStateModel::ID).toString();
     auto cmd= new AddLocalCharacterCommand(m_model.get(), idState, m_model->index(0, 0));
     emit performCommand(cmd);

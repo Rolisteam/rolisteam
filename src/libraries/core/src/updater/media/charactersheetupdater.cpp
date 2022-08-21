@@ -43,10 +43,15 @@ void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
 
     m_ctrls.append(csCtrl);
 
-    connect(csCtrl, &CharacterSheetController::share, this, &CharacterSheetUpdater::shareCharacterSheetTo);
-    connect(csCtrl, &CharacterSheetController::modifiedChanged, this, []() {
+    connect(csCtrl, &CharacterSheetController::share, this,
+            [this](CharacterSheetController* ctrl, CharacterSheet* sheet, CharacterSheetUpdater::SharingMode mode,
+                   Character* character, const QStringList& recipients)
+            { shareCharacterSheetTo(ctrl, sheet, mode, character, recipients); });
 
-    });
+    connect(csCtrl, &CharacterSheetController::modifiedChanged, this,
+            []() {
+
+            });
 }
 
 void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl, CharacterSheet* sheet,
@@ -77,7 +82,8 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
     }
 
     connect(sheet, &CharacterSheet::updateField, this,
-            [recipients, mode, ctrl](CharacterSheet* sheet, CSItem* itemSheet, const QString& path) {
+            [recipients, mode, ctrl](CharacterSheet* sheet, CSItem* itemSheet, const QString& path)
+            {
                 if(nullptr == sheet)
                     return;
 

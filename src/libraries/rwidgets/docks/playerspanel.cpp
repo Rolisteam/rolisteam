@@ -73,17 +73,17 @@ void PlayersPanel::setConnection()
     m_ui->m_playerView->setHeaderHidden(true);
 
     // Actions
-    connect(m_selectionModel, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this,
-            SLOT(selectAnotherPerson(QModelIndex)));
+    connect(m_selectionModel, &QItemSelectionModel::currentChanged, this, &PlayersPanel::selectAnotherPerson);
     connect(m_ui->m_addLocalCharacter, &QAction::triggered, m_ctrl, &PlayerController::addLocalCharacter);
     connect(m_ui->m_removeLocalCharacter, &QAction::triggered, this,
             [this]() { m_ctrl->removeLocalCharacter(m_ui->m_playerView->currentIndex()); });
 
-    selectAnotherPerson(m_ui->m_playerView->currentIndex());
+    selectAnotherPerson(m_ui->m_playerView->currentIndex(), {});
 }
 
-void PlayersPanel::selectAnotherPerson(const QModelIndex& current)
+void PlayersPanel::selectAnotherPerson(const QModelIndex& current, const QModelIndex& previous)
 {
+    Q_UNUSED(previous)
     m_ui->m_removeLocalCharacter->setEnabled(current.isValid() && current.parent().isValid()
                                              && current.data(PlayerModel::LocalRole).toBool());
 }
