@@ -36,7 +36,8 @@
 
 LineItem::LineItem(vmap::LineController* ctrl) : VisualItem(ctrl), m_lineCtrl(ctrl)
 {
-    auto func= [this]() {
+    auto func= [this]()
+    {
         updateChildPosition();
         update();
     };
@@ -98,7 +99,7 @@ void LineItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
 
-    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
     {
         painter->save();
         auto shapePath= shape();

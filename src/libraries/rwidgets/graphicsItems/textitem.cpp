@@ -149,24 +149,28 @@ TextItem::TextItem(vmap::TextController* ctrl)
     connect(m_decreaseFontSize.get(), &QAction::triggered, m_textCtrl, &vmap::TextController::decreaseFontSize);
 
     m_textItem->setDocument(m_doc.get());
-    connect(m_textCtrl, &vmap::TextController::borderRectChanged, this, [this]() {
-        m_textItem->setTextWidth(m_textCtrl->borderRect().width());
-        m_textCtrl->setTextRect(m_textItem->boundingRect());
-        updateChildPosition();
-    });
+    connect(m_textCtrl, &vmap::TextController::borderRectChanged, this,
+            [this]()
+            {
+                m_textItem->setTextWidth(m_textCtrl->borderRect().width());
+                m_textCtrl->setTextRect(m_textItem->boundingRect());
+                updateChildPosition();
+            });
     connect(m_textCtrl, &vmap::TextController::textRectChanged, this,
             [this]() { m_textItem->setTextWidth(m_textCtrl->textRect().width()); });
     connect(m_textCtrl, &vmap::TextController::textPosChanged, this,
             [this](const QPointF& pos) { m_textItem->setPos(pos); });
 
     connect(m_textCtrl, &vmap::TextController::textChanged, m_doc.get(), &QTextDocument::setPlainText);
-    connect(m_doc.get(), &QTextDocument::contentsChanged, this, [this]() {
-        if(!m_textCtrl)
-            return;
-        m_textCtrl->setText(m_doc->toPlainText());
-        auto rect= m_textItem->boundingRect();
-        m_textCtrl->setTextRect(rect);
-    });
+    connect(m_doc.get(), &QTextDocument::contentsChanged, this,
+            [this]()
+            {
+                if(!m_textCtrl)
+                    return;
+                m_textCtrl->setText(m_doc->toPlainText());
+                auto rect= m_textItem->boundingRect();
+                m_textCtrl->setTextRect(rect);
+            });
 
     for(int i= 0; i <= vmap::TextController::BottomLeft; ++i)
     {
@@ -204,7 +208,7 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
         painter->setPen(pen);
         painter->drawRect(boundingRect());
     }
-    if(option->state & QStyle::State_MouseOver)
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
     {
         painter->save();
         QPen pen= painter->pen();

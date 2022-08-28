@@ -46,12 +46,15 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
         return;
 
     connect(m_ctrl, &vmap::VisualItemController::posChanged, this, [this]() { setPos(m_ctrl->pos()); });
-    connect(m_ctrl, &vmap::VisualItemController::removeItem, this, [this]() {
-        qDebug() << "**********************\nremove item from maps";
-        scene()->removeItem(this);
-        deleteLater();
-    });
-    auto func= [this]() {
+    connect(m_ctrl, &vmap::VisualItemController::removeItem, this,
+            [this]()
+            {
+                qDebug() << "**********************\nremove item from maps";
+                scene()->removeItem(this);
+                deleteLater();
+            });
+    auto func= [this]()
+    {
         if(m_ctrl->editable())
             m_ctrl->setPos(pos());
     };
@@ -62,16 +65,21 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
 
     connect(m_ctrl, &vmap::VisualItemController::colorChanged, this, [this]() { update(); });
     connect(m_ctrl, &vmap::VisualItemController::editableChanged, this, &VisualItem::updateItemFlags);
-    connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() {
-        qDebug() << "rotation changed" << m_ctrl->rotationOriginPoint() << m_ctrl->rotation() << transformOriginPoint()
-                 << transform();
-        setRotation(m_ctrl->rotation());
-    });
+    connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this,
+            [this]()
+            {
+                qDebug() << "rotation changed" << m_ctrl->rotationOriginPoint() << m_ctrl->rotation()
+                         << transformOriginPoint() << transform();
+                setRotation(m_ctrl->rotation());
+            });
     connect(m_ctrl, &vmap::VisualItemController::selectedChanged, this, [this](bool b) { setSelected(b); });
     connect(m_ctrl, &vmap::VisualItemController::selectableChanged, this, &VisualItem::updateItemFlags);
 
     connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, &VisualItem::evaluateVisible);
     connect(m_ctrl, &vmap::VisualItemController::visibilityChanged, this, &VisualItem::evaluateVisible);
+    connect(m_ctrl, &vmap::VisualItemController::opacityChanged, this, [this]() { setOpacity(m_ctrl->opacity()); });
+    connect(m_ctrl, &vmap::VisualItemController::layerChanged, this,
+            [this]() { setOpacity(m_ctrl->layer() == Core::Layer::GAMEMASTER_LAYER ? 0.5 : 1.0); });
 
     init();
 
@@ -79,6 +87,7 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
     evaluateVisible();
 
     updateItemFlags();
+    setOpacity(m_ctrl->layer() == Core::Layer::GAMEMASTER_LAYER ? 0.5 : 1.0);
 }
 
 VisualItem::~VisualItem() {}
@@ -88,7 +97,10 @@ void VisualItem::evaluateVisible()
     // qDebug() << "debug item visibility: Item is visible:" << m_ctrl->visible() << "local is gm:" <<
     // m_ctrl->localIsGM()
     //        << "visiblitiy:" << m_ctrl->visibility() << m_ctrl->tool() << m_ctrl->itemType();
-    setVisible(m_ctrl->visible() && (m_ctrl->localIsGM() || m_ctrl->visibility() != Core::HIDDEN));
+    auto localIsGM= m_ctrl->localIsGM();
+    auto visibleFromPermission= localIsGM || m_ctrl->visibility() != Core::HIDDEN;
+    auto visibleLayer= localIsGM || m_ctrl->layer() != Core::Layer::GAMEMASTER_LAYER;
+    setVisible(m_ctrl->visible() && visibleFromPermission && visibleLayer);
 }
 void VisualItem::init()
 {
@@ -103,15 +115,20 @@ void VisualItem::init()
     m_putCharacterLayer= new QAction(m_ctrl->getLayerText(Core::Layer::CHARACTER_LAYER), this);
     m_putCharacterLayer->setData(static_cast<int>(Core::Layer::CHARACTER_LAYER));
 
+    m_putGameMasterLayer= new QAction(m_ctrl->getLayerText(Core::Layer::GAMEMASTER_LAYER), this);
+    m_putGameMasterLayer->setData(static_cast<int>(Core::Layer::GAMEMASTER_LAYER));
+
     m_putGroundLayer->setCheckable(true);
     m_putObjectLayer->setCheckable(true);
     m_putCharacterLayer->setCheckable(true);
+    m_putGameMasterLayer->setCheckable(true);
 
     m_putGroundLayer->setChecked(true);
 
     group->addAction(m_putGroundLayer);
     group->addAction(m_putObjectLayer);
     group->addAction(m_putCharacterLayer);
+    group->addAction(m_putGameMasterLayer);
 }
 vmap::VisualItemController* VisualItem::controller() const
 {

@@ -62,6 +62,7 @@ public:
 
     QString gameMasterId() const;
     QString localPlayerId() const;
+    QColor localColor() const;
 
     void setGameController(GameController*) override;
     void clear();

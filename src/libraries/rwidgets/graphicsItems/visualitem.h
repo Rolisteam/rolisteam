@@ -40,77 +40,22 @@ class RWIDGET_EXPORT VisualItem : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    /**
-     * @brief VisualItem default constructor
-     */
     VisualItem(vmap::VisualItemController* ctrl);
-    /**
-     * @brief ~VisualItem
-     */
     virtual ~VisualItem();
 
     vmap::VisualItemController* controller() const;
-    /**
-     * @brief setNewEnd
-     * @param nend
-     */
     virtual void setNewEnd(const QPointF& nend)= 0;
-    /**
-     * @brief getType
-     * @return
-     */
     virtual vmap::VisualItemController::ItemType getType() const;
-    /**
-     * @brief resizeContents
-     * @param rect
-     * @param keepRatio
-     */
-    virtual void resizeContents(const QRectF& rect, int pointId, Core::TransformType transformType= Core::TransformType::KeepRatio);
-    /**
-     * @brief setRectSize
-     * @param w
-     * @param h
-     */
+    virtual void resizeContents(const QRectF& rect, int pointId,
+                                Core::TransformType transformType= Core::TransformType::KeepRatio);
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
-    /**
-     * @brief endOfGeometryChange
-     */
     virtual void endOfGeometryChange(ChildPointItem::Change change);
-    /**
-     * @brief addActionContextMenu
-     */
     virtual void addActionContextMenu(QMenu&);
-    /**
-     * @brief hasFocusOrChild
-     * @return
-     */
     bool hasFocusOrChild();
-    /**
-     * @brief setModifiers - default implementatino do nothing.
-     * @param modifiers
-     */
     virtual void setModifiers(Qt::KeyboardModifiers modifiers);
-
-    /**
-     * @brief getItemCopy pure method to return a copy of this item.
-     * @return the copy
-     */
     virtual VisualItem* getItemCopy()= 0;
-    /**
-     * @brief promoteTo
-     * @return
-     */
     virtual VisualItem* promoteTo(vmap::VisualItemController::ItemType);
-    /**
-     * @brief setSize
-     * @param size
-     */
     virtual void setSize(QSizeF size);
-
-    // bool isEditable() const;
-    /**
-     * @brief setEditableItem
-     */
     virtual void updateItemFlags();
     virtual bool isLocal() const;
     QVariant itemChange(GraphicsItemChange change, const QVariant& value);
@@ -119,106 +64,41 @@ public:
     void setPenWidth(const quint16& penWidth);
 
     QColor color() const;
+    virtual bool canBeMoved() const;
 
     static int getHighlightWidth();
     static void setHighlightWidth(int highlightWidth);
 
     static QColor getHighlightColor();
     static void setHighlightColor(const QColor& highlightColor);
-    /**
-     * @brief canBeMove
-     * @return
-     */
-    virtual bool canBeMoved() const;
 
 signals:
-    /**
-     * @brief itemGeometryChanged
-     */
     void itemGeometryChanged(VisualItem*);
-    /**
-     * @brief itemRemoved
-     */
     void itemRemoved(QString, bool, bool);
-    /**
-     * @brief duplicateItem
-     */
     void duplicateItem(VisualItem*);
-    /**
-     * @brief itemLayerChanged
-     */
     void itemLayerChanged(VisualItem*);
-    /**
-     * @brief promoteItemTo
-     */
     void promoteItemTo(VisualItem*, vmap::VisualItemController::ItemType);
-    /**
-     * @brief selectStateChange
-     */
     void selectStateChange(bool);
-    // void changeStackPosition(VisualItem*, VisualItem::StackOrder);
 
 public slots:
     void setColor(QColor color);
     void evaluateVisible();
 
 protected:
-    /**
-     * @brief mouseReleaseEvent
-     * @param event
-     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
-    /**
-     * @brief mousePressEvent
-     * @param event
-     */
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    /**
-     * @brief mouseMoveEvent
-     * @param event
-     */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-    /**
-     * @brief keyPressEvent
-     * @param event
-     */
     virtual void keyPressEvent(QKeyEvent* event);
-    /**
-     * @brief init
-     */
     void init();
-    /**
-     * @brief updateChildPosition
-     */
     virtual void updateChildPosition();
-    /**
-     * @brief setChildrenVisible
-     * @param b
-     */
     virtual void setChildrenVisible(bool b);
-    /**
-     * @brief createActions
-     */
     virtual void createActions();
-    /**
-     * @brief hasPermissionToMove
-     * @return
-     */
     bool hasPermissionToMove(bool allowCharacter= true) const;
 
 protected:
     QPointF computeClosePoint(QPointF pos);
-    /**
-     * @brief manageAction
-     */
     void manageAction();
-    /**
-     * @brief addPromoteItemMenu
-     */
     void addPromoteItemMenu(QMenu*);
-    /**
-     * @brief promoteItem
-     */
     void promoteItem();
 
 protected:
@@ -233,6 +113,8 @@ protected:
     QAction* m_putGroundLayer= nullptr;
     QAction* m_putObjectLayer= nullptr;
     QAction* m_putCharacterLayer= nullptr;
+    QAction* m_putGameMasterLayer= nullptr;
+
     QVector<vmap::VisualItemController::ItemType> m_promoteTypeList;
 
 private:

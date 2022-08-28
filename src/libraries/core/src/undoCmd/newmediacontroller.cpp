@@ -34,9 +34,9 @@
 #include "worker/iohelper.h"
 #include "worker/utilshelper.h"
 
-NewMediaController::NewMediaController(ContentModel* model, const std::map<QString, QVariant>& map, bool localIsGM,
-                                       campaign::CampaignEditor* editor, QUndoCommand* parent)
-    : QUndoCommand(parent), m_args(map), m_model(model), m_localGM(localIsGM), m_editor(editor)
+NewMediaController::NewMediaController(ContentModel* model, const std::map<QString, QVariant>& map, QColor color,
+                                       bool localIsGM, campaign::CampaignEditor* editor, QUndoCommand* parent)
+    : QUndoCommand(parent), m_color(color), m_args(map), m_model(model), m_localGM(localIsGM), m_editor(editor)
 {
     m_contentType= m_args[Core::keys::KEY_TYPE].value<Core::ContentType>();
     m_title= m_args[Core::keys::KEY_NAME].toString();
@@ -76,7 +76,7 @@ void NewMediaController::redo()
         return;
 
     qInfo() << QStringLiteral("Redo command newmediacontroller: %1 ").arg(text());
-    auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args, m_localGM);
+    auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args, m_color, m_localGM);
     media->setUrl(m_fullPath);
     if(m_editor)
     {

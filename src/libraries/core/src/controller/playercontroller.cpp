@@ -79,6 +79,11 @@ QString PlayerController::localPlayerId() const
     return m_localPlayer->uuid();
 }
 
+QColor PlayerController::localColor() const
+{
+    return (m_localPlayer) ? m_localPlayer->getColor() : QColor(Qt::black);
+}
+
 NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type= NetWorkReceiver::AllExceptSender;
@@ -104,13 +109,13 @@ void PlayerController::setGameController(GameController* gameCtrl)
     m_characterStateModel= gameCtrl->campaign()->stateModel();
 
     connect(gameCtrl, &GameController::connectedChanged, this,
-            [this](bool b)
-            {
-                if(b)
-                    PlayerMessageHelper::sendOffPlayerInformations(localPlayer());
-                else
-                    m_model->clear();
-            });
+        [this](bool b)
+        {
+            if(b)
+                PlayerMessageHelper::sendOffPlayerInformations(localPlayer());
+            else
+                m_model->clear();
+        });
 
     // m_characterStateModel= prefsCtrl->characterStateModel();
     emit characterStateModelChanged();

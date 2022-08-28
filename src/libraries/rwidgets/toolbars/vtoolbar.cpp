@@ -45,43 +45,47 @@ VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(pa
     connect(m_colorSelector, &VColorSelector::currentColorChanged, m_ctrl, &VectorialMapController::setToolColor);
     connect(m_lineDiameter, &DiameterSelector::diameterChanged, m_ctrl, &VectorialMapController::setPenSize);
     connect(m_editionModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-            [this](int b) { m_ctrl->setEditionMode(static_cast<Core::EditionMode>(b)); });
-    connect(m_resetCountAct, &QAction::triggered, this, [this]() {
-        m_displayNPCCounter->display(1);
-        m_ctrl->setNpcNumber(1);
-    });
+        [this](int b) { m_ctrl->setEditionMode(static_cast<Core::EditionMode>(b)); });
+    connect(m_resetCountAct, &QAction::triggered, this,
+        [this]()
+        {
+            m_displayNPCCounter->display(1);
+            m_ctrl->setNpcNumber(1);
+        });
     connect(m_npcNameTextEdit, &QLineEdit::textEdited, m_ctrl, &VectorialMapController::setNpcName);
-    connect(m_toolsGroup, &QActionGroup::triggered, this, [this](QAction* act) {
-        auto tool= static_cast<Core::SelectableTool>(act->data().toInt());
-        m_ctrl->setTool(tool);
-        m_ruleAct->setChecked(tool == Core::RULE);
-        m_anchorAct->setChecked(tool == Core::ANCHOR);
-        m_pathAct->setChecked(tool == Core::PATH);
-        m_pipette->setChecked(tool == Core::PIPETTE);
-        m_highlighterAct->setChecked(tool == Core::HIGHLIGHTER);
-        m_pencilAct->setChecked(tool == Core::PEN);
-        m_lineAct->setChecked(tool == Core::LINE);
-        m_rectAct->setChecked(tool == Core::EMPTYRECT);
-        m_rectFillAct->setChecked(tool == Core::FILLRECT);
-        m_elipseAct->setChecked(tool == Core::EMPTYELLIPSE);
-        m_elipseFillAct->setChecked(tool == Core::FILLEDELLIPSE);
-        m_textAct->setChecked(tool == Core::TEXT);
-        m_handAct->setChecked(tool == Core::HANDLER);
-        m_addPCAct->setChecked(tool == Core::NonPlayableCharacter);
-        m_bucketAct->setChecked(tool == Core::BUCKET);
-        m_textWithBorderAct->setChecked(tool == Core::TEXTBORDER);
-    });
+    connect(m_toolsGroup, &QActionGroup::triggered, this,
+        [this](QAction* act)
+        {
+            auto tool= static_cast<Core::SelectableTool>(act->data().toInt());
+            m_ctrl->setTool(tool);
+            m_ruleAct->setChecked(tool == Core::RULE);
+            m_anchorAct->setChecked(tool == Core::ANCHOR);
+            m_pathAct->setChecked(tool == Core::PATH);
+            m_pipette->setChecked(tool == Core::PIPETTE);
+            m_highlighterAct->setChecked(tool == Core::HIGHLIGHTER);
+            m_pencilAct->setChecked(tool == Core::PEN);
+            m_lineAct->setChecked(tool == Core::LINE);
+            m_rectAct->setChecked(tool == Core::EMPTYRECT);
+            m_rectFillAct->setChecked(tool == Core::FILLRECT);
+            m_elipseAct->setChecked(tool == Core::EMPTYELLIPSE);
+            m_elipseFillAct->setChecked(tool == Core::FILLEDELLIPSE);
+            m_textAct->setChecked(tool == Core::TEXT);
+            m_handAct->setChecked(tool == Core::HANDLER);
+            m_addPCAct->setChecked(tool == Core::NonPlayableCharacter);
+            m_bucketAct->setChecked(tool == Core::BUCKET);
+            m_textWithBorderAct->setChecked(tool == Core::TEXTBORDER);
+        });
     connect(m_opacitySlider, &QSlider::valueChanged, m_ctrl, &VectorialMapController::setOpacity);
 
     // Ctrl to UI
     connect(m_ctrl, &VectorialMapController::npcNumberChanged, m_displayNPCCounter,
-            QOverload<int>::of(&QLCDNumber::display));
+        QOverload<int>::of(&QLCDNumber::display));
     connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VToolsBar::updateUi);
     connect(m_ctrl, &VectorialMapController::editionModeChanged, this, &VToolsBar::updateUi);
     connect(m_ctrl, &VectorialMapController::toolColorChanged, m_colorSelector, &VColorSelector::setCurrentColor);
     // connect(m_ctrl, &VectorialMapController::opacityChanged, m_opacitySlider, &RealSlider::setRealValue);
     connect(m_ctrl, &VectorialMapController::editionModeChanged, this,
-            [this](Core::EditionMode mode) { m_editionModeCombo->setCurrentIndex(static_cast<int>(mode)); });
+        [this](Core::EditionMode mode) { m_editionModeCombo->setCurrentIndex(static_cast<int>(mode)); });
 
     updateUi();
 }
@@ -287,12 +291,12 @@ void VToolsBar::makeTools()
     m_editionModeCombo= new QComboBox();
 
     m_editionModeCombo->setFrame(false);
-    m_editionModeCombo->addItem(QIcon(":/resources/images/pen.png"), tr("Normal"),
-                                static_cast<int>(Core::EditionMode::Painting));
-    m_editionModeCombo->addItem(QIcon(":/resources/images/mask.png"), tr("Mask"),
-                                static_cast<int>(Core::EditionMode::Mask));
-    m_editionModeCombo->addItem(QIcon(":/resources/images/eye.png"), tr("Unmask"),
-                                static_cast<int>(Core::EditionMode::Unmask));
+    m_editionModeCombo->addItem(
+        QIcon(":/resources/images/pen.png"), tr("Normal"), static_cast<int>(Core::EditionMode::Painting));
+    m_editionModeCombo->addItem(
+        QIcon(":/resources/images/mask.png"), tr("Mask"), static_cast<int>(Core::EditionMode::Mask));
+    m_editionModeCombo->addItem(
+        QIcon(":/resources/images/eye.png"), tr("Unmask"), static_cast<int>(Core::EditionMode::Unmask));
 
     /* connect(m_editionModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
              [this, ruleButton, pipetteButton, bucketButton, addNpcButton, anchorButton, highlighterButton]() {
@@ -336,6 +340,36 @@ void VToolsBar::makeTools()
     m_opacityLabel= new QLabel(tr("Opacity:"), this);
     toolsVerticalLayout->addWidget(m_opacityLabel);
     toolsVerticalLayout->addWidget(m_opacitySlider);
+
+    m_zoomSlider= std::make_unique<RealSlider>();
+    m_zoomSlider->setOrientation(Qt::Horizontal);
+    m_zoomSlider->setStart(0.01);
+    m_zoomSlider->setEnd(5.0);
+
+    m_zoomSpinBox= std::make_unique<QDoubleSpinBox>();
+    m_zoomSpinBox->setMinimum(0.01);
+    m_zoomSpinBox->setMaximum(5.0);
+
+    m_smallScene= std::make_unique<QLabel>();
+    m_smallScene->setScaledContents(true);
+
+    // connect(m_zoomSlider.get(), &RealSlider::valueChanged, m_ctrl, &VectorialMapController::setZoomLevel);
+    // connect(m_zoomSpinBox.get(), &QDoubleSpinBox::valueChanged, m_ctrl, &VectorialMapController::setZoomLevel);
+    connect(m_ctrl, &VectorialMapController::zoomLevelChanged, this,
+        [this]()
+        {
+            auto zl= m_ctrl->zoomLevel();
+            qDebug() << zl;
+            /*m_zoomSlider->blockSignals(true);
+            m_zoomSpinBox->blockSignals(true);
+            m_zoomSlider->setValue(zl);
+            m_zoomSpinBox->setValue(zl);
+            m_zoomSlider->blockSignals(false);
+            m_zoomSpinBox->blockSignals(false);*/
+        });
+    // toolsVerticalLayout->addWidget(m_zoomSlider.get());
+    // toolsVerticalLayout->addWidget(m_zoomSpinBox.get());
+    toolsVerticalLayout->addWidget(m_smallScene.get());
     toolsVerticalLayout->addStretch(1);
     m_centralWidget->setLayout(toolsVerticalLayout);
 }
@@ -380,4 +414,9 @@ void VToolsBar::updateUi()
     m_opacitySlider->setVisible((isGm || pcAll) && painting);
     m_textWithBorderAct->setVisible(isGm || pcAll);
     m_handAct->setVisible(isGm || pcAll || pcMove);
+}
+
+void VToolsBar::setImage(const QPixmap& img)
+{
+    m_smallScene->setPixmap(img);
 }

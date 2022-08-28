@@ -20,6 +20,7 @@
 #ifndef ABSTRACTMEDIACONTROLLER_H
 #define ABSTRACTMEDIACONTROLLER_H
 
+#include <QColor>
 #include <QMimeData>
 #include <QObject>
 #include <QUrl>
@@ -41,6 +42,7 @@ class CORE_EXPORT MediaControllerBase : public QObject
     Q_PROPERTY(bool localGM READ localGM WRITE setLocalGM NOTIFY localGMChanged)
     Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(QColor localColor READ localColor WRITE setLocalColor NOTIFY localColorChanged)
     Q_PROPERTY(bool remote READ remote CONSTANT)
 public:
     MediaControllerBase(const QString& id, Core::ContentType contentType, QObject* parent= nullptr);
@@ -63,6 +65,9 @@ public:
 
     virtual bool pasteData(const QMimeData& mimeData);
 
+    const QColor& localColor() const;
+    void setLocalColor(const QColor& newLocalColor);
+
 signals:
     void nameChanged(QString);
     void uuidChanged(QString);
@@ -76,6 +81,7 @@ signals:
     void modifiedChanged(bool b);
     void urlChanged(QUrl path);
     void closeMe(QString id);
+    void localColorChanged();
 
 public slots:
     void setName(const QString& name);
@@ -101,6 +107,7 @@ protected:
     bool m_remote= false;
     QString m_ownerId;
     QString m_localId;
+    QColor m_localColor;
 };
 
 #endif // ABSTRACTMEDIACONTROLLER_H

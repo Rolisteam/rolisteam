@@ -234,7 +234,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
     painter->restore();
 
-    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
     {
         painter->save();
         QPen pen= painter->pen();
@@ -514,7 +514,8 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
 
             int i= 0;
             std::for_each(std::begin(actionlist), std::end(actionlist),
-                          [this, actions, &i](CharacterAction* charAction) {
+                          [this, actions, &i](CharacterAction* charAction)
+                          {
                               auto act= actions->addAction(charAction->name());
                               connect(act, &QAction::triggered, m_itemCtrl, [this, i]() { m_itemCtrl->runCommand(i); });
                               i++;

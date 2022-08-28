@@ -75,6 +75,7 @@ class CORE_EXPORT ContentController : public AbstractControllerInterface,
     Q_PROPERTY(int maxLengthTabName READ maxLengthTabName NOTIFY maxLengthTabNameChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(QColor localColor READ localColor WRITE setLocalColor NOTIFY localColorChanged)
     Q_PROPERTY(QString mediaRoot READ mediaRoot WRITE setMediaRoot NOTIFY mediaRootChanged)
     Q_PROPERTY(bool canPaste READ canPaste NOTIFY canPasteChanged)
 
@@ -114,6 +115,9 @@ public:
     void closeCurrentMedia();
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
+    const QColor& localColor() const;
+    void setLocalColor(const QColor& newLocalColor);
+
 signals:
     void workspaceFilenameChanged();
     void workspaceColorChanged();
@@ -130,6 +134,8 @@ signals:
     void localIdChanged(const QString& game);
     void mediaControllerCreated(MediaControllerBase* base);
     void canPasteChanged(bool);
+
+    void localColorChanged();
 
 public slots:
     // Session API
@@ -154,6 +160,7 @@ private:
     PreferencesManager* m_preferences= nullptr;
     QString m_gameMasterId;
     QString m_localId;
+    QColor m_localColor;
 };
 
 #endif // CONTENTCONTROLLER_H

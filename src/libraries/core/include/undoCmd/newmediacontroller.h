@@ -21,6 +21,7 @@
 #define NEWMEDIACONTROLLER_H
 
 #include "media/mediatype.h"
+#include <QColor>
 #include <QPointer>
 #include <QUndoCommand>
 #include <QUrl>
@@ -36,7 +37,7 @@ class CampaignEditor;
 class CORE_EXPORT NewMediaController : public QUndoCommand
 {
 public:
-    NewMediaController(ContentModel* model, const std::map<QString, QVariant>& map, bool localIsGM,
+    NewMediaController(ContentModel* model, const std::map<QString, QVariant>& map, QColor color, bool localIsGM,
                        campaign::CampaignEditor* editor, QUndoCommand* parent= nullptr);
 
     void redo() override;
@@ -45,6 +46,7 @@ public:
 private:
     QString m_uuidUri;
     QString m_title;
+    QColor m_color;
     QUrl m_fullPath;
     Core::ContentType m_contentType;
     std::map<QString, QVariant> m_args;

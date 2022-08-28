@@ -27,8 +27,9 @@
 #include <QUuid>
 
 OpenMediaController::OpenMediaController(ContentModel* contentModel, Core::ContentType type,
-                                         const std::map<QString, QVariant>& args, bool localIsGM, QUndoCommand* parent)
-    : QUndoCommand(parent), m_model(contentModel), m_type(type), m_args(args), m_localIsGM(localIsGM)
+                                         const std::map<QString, QVariant>& args, QColor color, bool localIsGM,
+                                         QUndoCommand* parent)
+    : QUndoCommand(parent), m_model(contentModel), m_type(type), m_args(args), m_localIsGM(localIsGM), m_color(color)
 {
 
     auto it= args.find(Core::keys::KEY_UUID);
@@ -48,7 +49,7 @@ void OpenMediaController::redo()
     if(m_model.isNull())
         return;
 
-    auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_type, m_args, m_localIsGM);
+    auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_type, m_args, m_color, m_localIsGM);
     m_model->appendMedia(media);
 }
 

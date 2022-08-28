@@ -32,14 +32,18 @@
 
 EllipsItem::EllipsItem(vmap::EllipseController* ctrl) : VisualItem(ctrl), m_ellipseCtrl(ctrl)
 {
-    connect(m_ellipseCtrl, &vmap::EllipseController::rxChanged, this, [this]() {
-        setTransformOriginPoint(boundingRect().center());
-        updateChildPosition();
-    });
-    connect(m_ellipseCtrl, &vmap::EllipseController::ryChanged, this, [this]() {
-        setTransformOriginPoint(boundingRect().center());
-        updateChildPosition();
-    });
+    connect(m_ellipseCtrl, &vmap::EllipseController::rxChanged, this,
+            [this]()
+            {
+                setTransformOriginPoint(boundingRect().center());
+                updateChildPosition();
+            });
+    connect(m_ellipseCtrl, &vmap::EllipseController::ryChanged, this,
+            [this]()
+            {
+                setTransformOriginPoint(boundingRect().center());
+                updateChildPosition();
+            });
     connect(m_ellipseCtrl, &vmap::EllipseController::filledChanged, this, [this]() { update(); });
 
     initChildPointItem();
@@ -92,7 +96,7 @@ void EllipsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
     painter->restore();
 
-    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
     {
         painter->save();
         QPen pen= painter->pen();

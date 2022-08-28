@@ -20,6 +20,7 @@
 #ifndef REMOVEMEDIACONTROLLERCOMMAND_H
 #define REMOVEMEDIACONTROLLERCOMMAND_H
 
+#include <QColor>
 #include <QPointer>
 #include <QUndoCommand>
 #include <QVariant>
@@ -48,6 +49,7 @@ private:
     QByteArray m_data;
     Core::ContentType m_contentType;
     bool m_localIsGM= false;
+    QColor m_color;
 };
 
 #endif // REMOVEMEDIACONTROLLERCOMMAND_H

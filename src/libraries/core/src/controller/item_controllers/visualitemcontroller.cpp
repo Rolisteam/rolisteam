@@ -53,7 +53,13 @@ VisualItemController::VisualItemController(ItemType itemType, const std::map<QSt
     connect(this, &VisualItemController::opacityChanged, this, [this] { setModified(); });
     connect(this, &VisualItemController::rotationChanged, this, [this] { setModified(); });
     connect(this, &VisualItemController::posChanged, this, [this] { setModified(); });
-    connect(this, &VisualItemController::layerChanged, this, [this] { setModified(); });
+    connect(this, &VisualItemController::layerChanged, this,
+            [this]
+            {
+                setOpacity(layer() == Core::Layer::GAMEMASTER_LAYER ? 0.5 : 1.0);
+                computeEditable();
+                setModified();
+            });
     connect(this, &VisualItemController::lockedChanged, this, [this] { setModified(); });
 }
 
@@ -322,6 +328,7 @@ void VisualItemController::computeEditable()
     if(!m_ctrl)
         return;
     auto editableByPermission= (localIsGM() || m_ctrl->permission() == Core::PermissionMode::PC_ALL);
-    setEditable(!m_locked && m_ctrl->layer() == layer() && editableByPermission);
+    auto sameLayer= m_ctrl->layer() == layer();
+    setEditable(!m_locked && sameLayer && editableByPermission);
 }
 } // namespace vmap

@@ -21,6 +21,7 @@
 #define ADDMEDIACONTENEUR_H
 
 #include "media/mediatype.h"
+#include <QColor>
 #include <QPointer>
 #include <QUndoCommand>
 #include <core_global.h>
@@ -30,7 +31,7 @@ class CORE_EXPORT OpenMediaController : public QUndoCommand
 {
 public:
     OpenMediaController(ContentModel* contentModel, Core::ContentType type, const std::map<QString, QVariant>& map,
-                        bool localIsGM, QUndoCommand* parent= nullptr);
+                        QColor color, bool localIsGM, QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
@@ -41,6 +42,7 @@ private:
     Core::ContentType m_type;
     std::map<QString, QVariant> m_args;
     bool m_localIsGM;
+    QColor m_color;
 };
 
 #endif // ADDMEDIACONTENEUR_H

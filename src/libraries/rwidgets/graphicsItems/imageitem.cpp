@@ -51,7 +51,7 @@ void ImageItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 
     painter->restore();
 
-    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
     {
         painter->save();
         QPen pen= painter->pen();

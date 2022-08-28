@@ -169,3 +169,16 @@ bool MediaControllerBase::pasteData(const QMimeData& mimeData)
     Q_UNUSED(mimeData);
     return false;
 }
+
+const QColor &MediaControllerBase::localColor() const
+{
+    return m_localColor;
+}
+
+void MediaControllerBase::setLocalColor(const QColor &newLocalColor)
+{
+    if (m_localColor == newLocalColor)
+        return;
+    m_localColor = newLocalColor;
+    emit localColorChanged();
+}

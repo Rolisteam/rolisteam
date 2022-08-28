@@ -35,6 +35,7 @@ RemoveMediaControllerCommand::RemoveMediaControllerCommand(MediaControllerBase* 
     {
         m_uuid= m_ctrl->uuid();
         m_title= m_ctrl->title();
+        m_color= m_ctrl->localColor();
         m_contentType= ctrl->contentType();
         setText(QObject::tr("Close %1").arg(m_ctrl->name()));
         m_data= IOHelper::saveController(m_ctrl);
@@ -59,6 +60,7 @@ void RemoveMediaControllerCommand::undo()
     if(nullptr == m_ctrl)
         return;
 
-    auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_contentType, {{"serializedData", m_data}}, m_localIsGM);
+    auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_contentType, {{"serializedData", m_data}}, m_color,
+                                                      m_localIsGM);
     m_model->appendMedia(media);
 }

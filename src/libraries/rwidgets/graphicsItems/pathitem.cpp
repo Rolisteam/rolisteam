@@ -111,14 +111,16 @@ PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ct
     if(!m_pathCtrl)
         return;
 
-    connect(m_pathCtrl, &vmap::PathController::positionChanged, this, [this](int corner, QPointF pos) {
-        if(m_children.empty())
-            return;
+    connect(m_pathCtrl, &vmap::PathController::positionChanged, this,
+            [this](int corner, QPointF pos)
+            {
+                if(m_children.empty())
+                    return;
 
-        if(corner == qBound(0, corner, m_children.size() - 1))
-            m_children[corner]->setPos(pos);
-        update();
-    });
+                if(corner == qBound(0, corner, m_children.size() - 1))
+                    m_children[corner]->setPos(pos);
+                update();
+            });
     connect(m_pathCtrl, &vmap::PathController::pointAdded, this, &PathItem::addChild);
 
     int i= 0;
@@ -170,7 +172,7 @@ void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     painter->drawPath(path);
     painter->restore();
 
-    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
     {
         painter->save();
         QPen pen= painter->pen();

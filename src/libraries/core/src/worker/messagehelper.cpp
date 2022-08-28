@@ -28,10 +28,8 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mediacontrollerbase.h"
-#ifdef WITH_PDF
-#include "controller/view_controller/pdfcontroller.h"
-#endif
 #include "controller/view_controller/mindmapcontroller.h"
+#include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
@@ -686,7 +684,6 @@ void MessageHelper::readUpdateWebpage(WebpageController* ctrl, NetworkMessageRea
 }
 // end - Webpage
 
-#ifdef WITH_PDF
 void MessageHelper::sendOffPdfFile(PdfController* ctrl)
 {
     if(nullptr == ctrl)
@@ -709,7 +706,7 @@ QHash<QString, QVariant> MessageHelper::readPdfData(NetworkMessageReader* msg)
 
     return QHash<QString, QVariant>({{Core::keys::KEY_ID, id}, {Core::keys::KEY_DATA, data}});
 }
-#endif
+
 void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
 {
     msg.uint8(ctrl->itemType());
@@ -811,10 +808,12 @@ void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
         msg.uint64(static_cast<quint64>(points.size()));
         msg.uint8(static_cast<quint8>(pair.second));
 
-        std::for_each(points.begin(), points.end(), [&msg](const QPointF& p) {
-            msg.real(p.x());
-            msg.real(p.y());
-        });
+        std::for_each(points.begin(), points.end(),
+                      [&msg](const QPointF& p)
+                      {
+                          msg.real(p.x());
+                          msg.real(p.y());
+                      });
     }
 }
 

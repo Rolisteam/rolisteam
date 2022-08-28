@@ -231,8 +231,10 @@ NETWORK_EXPORT Q_ENUM_NS(Properties)
         GROUND,
         OBJECT,
         CHARACTER_LAYER,
+        GAMEMASTER_LAYER,
         FOG,
         GRIDLAYER,
+
         NONE
     };
 NETWORK_EXPORT Q_ENUM_NS(Layer)

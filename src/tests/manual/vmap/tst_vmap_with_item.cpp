@@ -20,6 +20,8 @@ int main(int argc, char* argv[])
     Q_INIT_RESOURCE(rolisteam);
     Q_INIT_RESOURCE(resources);
 
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
+
     QList<CharacterState*> states;
     auto cs1= new CharacterState();
     cs1->setId("ii");
@@ -42,13 +44,14 @@ int main(int argc, char* argv[])
     QUndoStack undoStack;
 
     VectorialMapController ctrl;
-    QObject::connect(&ctrl, &VectorialMapController::performCommand,
-                     [&undoStack](QUndoCommand* cmd) { undoStack.push(cmd); });
+    ctrl.setLocalColor(Qt::cyan);
+    QObject::connect(
+        &ctrl, &VectorialMapController::performCommand, [&undoStack](QUndoCommand* cmd) { undoStack.push(cmd); });
     ctrl.setLocalGM(true);
     ctrl.setActive(true);
-    // ctrl.setVisibility(Core::FOGOFWAR);
-    // ctrl.setEditionMode(Core::EditionMode::Mask);
-    // ctrl.setPermission(Core::PC_ALL);
+    // ctrl.setVisibility(Core::ALL);
+    //  ctrl.setEditionMode(Core::EditionMode::Mask);
+    //  ctrl.setPermission(Core::PC_ALL);
     ctrl.setLocalId("uuidI");
     ctrl.setOwnerId("uuid");
 

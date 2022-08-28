@@ -67,6 +67,7 @@ private:
     QAction* m_groundAct= nullptr;
     QAction* m_objectAct= nullptr;
     QAction* m_characterAct= nullptr;
+    QAction* m_gameMasterAct= nullptr;
     QAction* m_hideOtherAct= nullptr;
 
     QAction* m_characterVisionAct= nullptr;

@@ -59,10 +59,6 @@ RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
 {
     m_counterZoom= 0;
 
-    /*if(nullptr != m_vmap)
-    {
-        connect(m_vmap, SIGNAL(mapChanged()), this, SLOT(sendOffMapChange()));
-    }*/
     setAcceptDrops(true);
     setAlignment((Qt::AlignLeft | Qt::AlignTop));
     m_preferences= PreferencesManager::getInstance();
@@ -76,6 +72,9 @@ RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     createAction();
+
+    /*connect(m_ctrl, &VectorialMapController::zoomLevelChanged, this,
+        [this]() { scale(m_ctrl->zoomLevel(), m_ctrl->zoomLevel()); });*/
 
     // vmap->initScene();
 }
@@ -97,13 +96,17 @@ void RGraphicsView::mousePressEvent(QMouseEvent* event)
         QList<QGraphicsItem*> list= items(event->pos());
 
         list.erase(std::remove_if(list.begin(), list.end(),
-                                  [](const QGraphicsItem* item) {
-                                      return !isNormalItem(dynamic_cast<const vmap::VisualItemController*>(item));
-                                  }),
-                   list.end());
-        if(!list.isEmpty())
+                       [](const QGraphicsItem* item)
+                       { return !isNormalItem(dynamic_cast<const vmap::VisualItemController*>(item)); }),
+            list.end());
+        if(!list.isEmpty() && event->modifiers() == Qt::NoModifier)
         {
             setDragMode(QGraphicsView::NoDrag);
+        }
+        else if(event->modifiers() & Qt::ShiftModifier)
+        {
+            setDragMode(QGraphicsView::ScrollHandDrag);
+            // m_lastPoint= mapToScene(event->pos());
         }
         else
         {
@@ -112,65 +115,24 @@ void RGraphicsView::mousePressEvent(QMouseEvent* event)
     }
     QGraphicsView::mousePressEvent(event);
 }
-void RGraphicsView::mouseReleaseEvent(QMouseEvent* event)
-{
-    m_lastPoint= QPointF();
-    QGraphicsView::mouseReleaseEvent(event);
-    if(dragMode() == QGraphicsView::ScrollHandDrag)
-    {
-        setDragMode(QGraphicsView::RubberBandDrag);
-    }
-}
-void RGraphicsView::mouseMoveEvent(QMouseEvent* event)
-{
-    if((Core::HANDLER == m_currentTool) && (event->modifiers() & Qt::ShiftModifier)
-       && (event->buttons() & Qt::LeftButton) && (dragMode() == QGraphicsView::RubberBandDrag))
-    {
-        if(!m_lastPoint.isNull())
-        {
-            QRectF rect= sceneRect();
-            auto current= mapToScene(event->pos());
-            auto dx= current.x() - m_lastPoint.x();
-            auto dy= current.y() - m_lastPoint.y();
-            rect.translate(-dx, -dy);
-            setSceneRect(rect);
-        }
-        m_lastPoint= mapToScene(event->pos());
-    }
-    else
-    {
-        QGraphicsView::mouseMoveEvent(event);
-    }
-}
-void RGraphicsView::focusInEvent(QFocusEvent* event)
-{
-    QGraphicsView::focusInEvent(event);
-}
+
 void RGraphicsView::wheelEvent(QWheelEvent* event)
 {
     if(event->modifiers() & Qt::ShiftModifier)
     {
-        setResizeAnchor(QGraphicsView::AnchorUnderMouse);
-        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-        // Scale the view / do the zoom
-        double scaleFactor= 1.1;
+        double angle= event->angleDelta().y();
+        double factor= qPow(1.0015, angle);
 
-        if((event->angleDelta().x() > 0) && (m_counterZoom < 20))
-        {
-            scale(scaleFactor, scaleFactor);
-            ++m_counterZoom;
-            // ChildPointItem::setZoomLevel(scaleFactor);
-        }
-        else if(m_counterZoom > -20)
-        {
-            --m_counterZoom;
-            scale(1.0 / scaleFactor, 1.0 / scaleFactor);
-            // ChildPointItem::setZoomLevel(1.0 / scaleFactor);
-        }
+        auto targetViewportPos= event->position();
+        auto targetScenePos= event->scenePosition();
+        m_ctrl->setZoomLevel(m_ctrl->zoomLevel() * factor);
+        scale(factor, factor);
+        centerOn(targetScenePos);
+        QPointF deltaViewportPos= targetViewportPos - QPointF(viewport()->width() / 2.0, viewport()->height() / 2.0);
+        QPointF viewportCenter= mapFromScene(targetScenePos) - deltaViewportPos;
+        centerOn(mapToScene(viewportCenter.toPoint()));
 
-        setResizeAnchor(QGraphicsView::NoAnchor);
-        setTransformationAnchor(QGraphicsView::NoAnchor);
-        updateSizeToController();
+        return;
     }
     else
         QGraphicsView::wheelEvent(event);
@@ -189,7 +151,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
     if(m_ctrl->idle())
     {
-        auto extractVisualItem= [](QList<QGraphicsItem*> itemList) -> QList<ItemToControllerInfo> {
+        auto extractVisualItem= [](QList<QGraphicsItem*> itemList) -> QList<ItemToControllerInfo>
+        {
             QList<ItemToControllerInfo> list;
             for(QGraphicsItem* item : itemList)
             {
@@ -211,7 +174,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 bool isNormal= isNormalItem(ctrl);
 
                 auto it= std::find_if(std::begin(list), std::end(list),
-                                      [ctrl](const ItemToControllerInfo& item) { return ctrl == item.ctrl; });
+                    [ctrl](const ItemToControllerInfo& item) { return ctrl == item.ctrl; });
 
                 if(isNormal && (it == std::end(list)))
                 {
@@ -227,12 +190,14 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         auto visulItemUnderMouse= extractVisualItem(itemUnderMouse);
 
         // merge
-        std::for_each(visulItemUnderMouse.begin(), visulItemUnderMouse.end(), [&list](ItemToControllerInfo& item) {
-            auto it= std::find_if(std::begin(list), std::end(list),
-                                  [item](const ItemToControllerInfo& tmp) { return tmp.ctrl == item.ctrl; });
-            if(it == std::end(list))
-                list.append(item);
-        });
+        std::for_each(visulItemUnderMouse.begin(), visulItemUnderMouse.end(),
+            [&list](ItemToControllerInfo& item)
+            {
+                auto it= std::find_if(std::begin(list), std::end(list),
+                    [item](const ItemToControllerInfo& tmp) { return tmp.ctrl == item.ctrl; });
+                if(it == std::end(list))
+                    list.append(item);
+            });
 
         QMenu menu;
         auto parentWid= dynamic_cast<MediaContainer*>(parentWidget());
@@ -249,7 +214,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             int n= list.size();
             menu.addSection(tr("%n item(s)", "", n));
 
-            bool groundL= false, objectL= false, characterL= false;
+            bool groundL= false, objectL= false, characterL= false, gmLayer= false;
             if(list.size() == 1)
             {
                 auto item= list.first();
@@ -266,6 +231,9 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                     break;
                 case Core::Layer::CHARACTER_LAYER:
                     characterL= true;
+                    break;
+                case Core::Layer::GAMEMASTER_LAYER:
+                    gmLayer= true;
                     break;
                 default:
                     break;
@@ -291,6 +259,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             m_putObjectLayer->setChecked(objectL);
             setLayerMenu->addAction(m_putCharacterLayer);
             m_putCharacterLayer->setChecked(characterL);
+            setLayerMenu->addAction(m_putGMLayer);
+            m_putGMLayer->setChecked(gmLayer);
 
             QMenu* harmonizeMenu= menu.addMenu(tr("Normalize Size"));
             harmonizeMenu->addAction(m_normalizeSizeAverage);
@@ -324,6 +294,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             editLayer->addAction(m_editGroundLayer);
             editLayer->addAction(m_editObjectLayer);
             editLayer->addAction(m_editCharacterLayer);
+            editLayer->addAction(m_editGameMasterLayer);
 
             QMenu* changeVibility= menu.addMenu(tr("Change Visibility"));
             changeVibility->addAction(m_hiddenVisibility);
@@ -381,7 +352,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
         QList<vmap::VisualItemController*> ctrls;
         std::transform(std::begin(list), std::end(list), std::back_inserter(ctrls),
-                       [](const ItemToControllerInfo& item) { return item.ctrl; });
+            [](const ItemToControllerInfo& item) { return item.ctrl; });
 
         if(removeAction == selectedAction)
         {
@@ -405,15 +376,15 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         }
         else if(selectedAction == angleRotationAct)
         {
-            int angle= QInputDialog::getInt(this, tr("Rotation Value ?"),
-                                            tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
+            int angle= QInputDialog::getInt(
+                this, tr("Rotation Value ?"), tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
             setRotation(ctrls, angle);
         }
         else if(m_normalizeSizeBigger == selectedAction || m_normalizeSizeAverage == selectedAction
                 || m_normalizeSizeUnderMouse == selectedAction || m_normalizeSizeSmaller == selectedAction)
         {
             m_ctrl->normalizeSize(ctrls, static_cast<VectorialMapController::Method>(selectedAction->data().toInt()),
-                                  mapToScene(m_menuPoint));
+                mapToScene(m_menuPoint));
         }
         else if((m_backOrderAction == selectedAction) || (m_frontOrderAction == selectedAction)
                 || (m_lowerAction == selectedAction) || (m_raiseAction == selectedAction))
@@ -421,7 +392,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             // changeZValue(list, static_cast<VisualItem::StackOrder>(selectedAction->data().toInt()));
         }
         else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
-                || (selectedAction == m_putGroundLayer))
+                || (selectedAction == m_putGroundLayer) || (selectedAction == m_putGMLayer))
         {
             setItemLayer(ctrls, static_cast<Core::Layer>(selectedAction->data().toInt()));
         }
@@ -433,20 +404,20 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 }
 void RGraphicsView::centerOnItem()
 {
-    if(nullptr != m_centerOnItem)
-    {
-        QRectF rect= m_centerOnItem->mapToScene(m_centerOnItem->boundingRect()).boundingRect();
-        QRectF rect2= mapToScene(sceneRect().toRect()).boundingRect();
+    if(!m_centerOnItem)
+        return;
 
-        if(!rect2.contains(rect))
-        {
-            qreal dx= rect.center().x() - rect2.center().x();
-            qreal dy= rect.center().y() - rect2.center().y();
+    QRectF rect= m_centerOnItem->mapToScene(m_centerOnItem->boundingRect()).boundingRect();
+    QRectF rect2= mapToScene(sceneRect().toRect()).boundingRect();
 
-            rect2.translate(dx, dy);
-            setSceneRect(rect2);
-        }
-    }
+    if(rect2.contains(rect))
+        return;
+
+    qreal dx= rect.center().x() - rect2.center().x();
+    qreal dy= rect.center().y() - rect2.center().y();
+
+    rect2.translate(dx, dy);
+    setSceneRect(rect2);
 }
 
 void RGraphicsView::setRotation(const QList<vmap::VisualItemController*>& list, int value)
@@ -467,11 +438,10 @@ void RGraphicsView::setItemLayer(const QList<vmap::VisualItemController*>& list,
 }
 void RGraphicsView::deleteItem(const QList<vmap::VisualItemController*>& list)
 {
-    qDebug() << "delete Item" << list.size();
     m_ctrl->aboutToRemove(list);
 }
-void RGraphicsView::changeZValue(const QList<vmap::VisualItemController*>& list,
-                                 VectorialMapController::StackOrder order)
+void RGraphicsView::changeZValue(
+    const QList<vmap::VisualItemController*>& list, VectorialMapController::StackOrder order)
 {
     for(auto ctrl : list)
     {
@@ -555,10 +525,14 @@ void RGraphicsView::createAction()
     m_editCharacterLayer= new QAction(tr("Character"), this);
     m_editCharacterLayer->setData(static_cast<int>(Core::Layer::CHARACTER_LAYER));
     m_editCharacterLayer->setCheckable(true);
+    m_editGameMasterLayer= new QAction(tr("GameMaster"), this);
+    m_editGameMasterLayer->setData(static_cast<int>(Core::Layer::GAMEMASTER_LAYER));
+    m_editGameMasterLayer->setCheckable(true);
 
     group->addAction(m_editGroundLayer);
     group->addAction(m_editObjectLayer);
     group->addAction(m_editCharacterLayer);
+    group->addAction(m_editGameMasterLayer);
 
     m_putGroundLayer= new QAction(tr("Ground"), this);
     m_putGroundLayer->setData(static_cast<int>(Core::Layer::GROUND));
@@ -569,10 +543,14 @@ void RGraphicsView::createAction()
     m_putCharacterLayer= new QAction(tr("Character"), this);
     m_putCharacterLayer->setData(static_cast<int>(Core::Layer::CHARACTER_LAYER));
     m_putCharacterLayer->setCheckable(true);
+    m_putGMLayer= new QAction(tr("GameMaster"), this);
+    m_putGMLayer->setData(static_cast<int>(Core::Layer::GAMEMASTER_LAYER));
+    m_putGMLayer->setCheckable(true);
 
     connect(m_editGroundLayer, &QAction::triggered, this, &RGraphicsView::changeLayer);
     connect(m_editObjectLayer, &QAction::triggered, this, &RGraphicsView::changeLayer);
     connect(m_editCharacterLayer, &QAction::triggered, this, &RGraphicsView::changeLayer);
+    connect(m_editGameMasterLayer, &QAction::triggered, this, &RGraphicsView::changeLayer);
 
     QActionGroup* group2= new QActionGroup(this);
     m_allVisibility= new QAction(tr("All"), this);
@@ -762,30 +740,13 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
     setTransformationAnchor(QGraphicsView::NoAnchor);
     QGraphicsView::resizeEvent(event);
 }
-void RGraphicsView::readMessage(NetworkMessageReader* msg)
-{
-    /// @warning unread message
-    qreal x= msg->real();
-    qreal y= msg->real();
-    qreal width= msg->real();
-    qreal height= msg->real();
-    Q_UNUSED(x)
-    Q_UNUSED(y)
-    Q_UNUSED(width)
-    Q_UNUSED(height)
-
-    // if(nullptr!=scene())
-    //{
-    // setSceneRect(x,y,width,height);
-    //}
-}
 
 #include "controller/view_controller/imageselectorcontroller.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 void RGraphicsView::addImageToMap()
 {
     ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::AnyShape,
-                                 m_preferences->value("ImageDirectory", QDir::homePath()).toString());
+        m_preferences->value("ImageDirectory", QDir::homePath()).toString());
     ImageSelectorDialog dialog(&ctrl, this);
 
     if(QDialog::Accepted != dialog.exec())

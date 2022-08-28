@@ -45,7 +45,6 @@ public:
     RGraphicsView(VectorialMapController* ctrl, QWidget* parent= nullptr);
 
     void currentToolChanged(Core::SelectableTool selectedtool);
-    void readMessage(NetworkMessageReader* msg);
 
     void deleteItem(const QList<vmap::VisualItemController*>& list);
     void setItemLayer(const QList<vmap::VisualItemController*>& list, Core::Layer layer);
@@ -59,8 +58,6 @@ public slots:
 protected:
     // void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent* event);
-    void focusInEvent(QFocusEvent* event);
     /* void dragEnterEvent ( QDragEnterEvent * event );
      void dropEvent ( QDropEvent * event );
      void dragMoveEvent( QDragMoveEvent * event );*/
@@ -69,8 +66,6 @@ protected:
     void resizeEvent(QResizeEvent* event);
 
     void createAction();
-
-    void mouseMoveEvent(QMouseEvent* event);
     void lockItems(const QList<vmap::VisualItemController*>& list);
 
 private slots:
@@ -84,7 +79,6 @@ private slots:
 
 private:
     QPointer<VectorialMapController> m_ctrl;
-    // VMap* m_vmap= nullptr;
 
     int m_counterZoom;
 
@@ -98,6 +92,7 @@ private:
     QAction* m_editGroundLayer= nullptr;
     QAction* m_editObjectLayer= nullptr;
     QAction* m_editCharacterLayer= nullptr;
+    QAction* m_editGameMasterLayer= nullptr;
 
     // Global action
     QAction* m_rollInitOnAllNpc= nullptr;
@@ -121,6 +116,7 @@ private:
     QAction* m_putGroundLayer= nullptr;
     QAction* m_putObjectLayer= nullptr;
     QAction* m_putCharacterLayer= nullptr;
+    QAction* m_putGMLayer= nullptr;
 
     // z order action
     QAction* m_backOrderAction= nullptr;

@@ -13,8 +13,8 @@ target_link_libraries(tst_vmap PUBLIC Qt6::Core Qt6::Test Qt6::Widgets PRIVATE c
 add_test(NAME tst_vmap COMMAND tst_vmap)
 
 
-add_executable(tst_vmapitemcontroller tst_vmapitemcontroller.cpp)
-target_link_libraries(tst_vmapitemcontroller PUBLIC Qt6::Core Qt6::Test Qt6::Widgets PRIVATE core rwidgets instantmessaging common_core common_widget common_qml helper network diceparser_shared diceparser_qobject)
-target_include_directories(tst_vmapitemcontroller PUBLIC ../helper)
-add_test(NAME tst_vmapitemcontroller COMMAND tst_vmapitemcontroller)
+add_executable(tst_characteritemctrltest tst_vmapitemcontroller.cpp)
+target_link_libraries(tst_characteritemctrltest PUBLIC Qt6::Core Qt6::Test Qt6::Widgets PRIVATE core rwidgets instantmessaging common_core common_widget common_qml helper network diceparser_shared diceparser_qobject)
+target_include_directories(tst_characteritemctrltest PUBLIC ../helper)
+add_test(NAME tst_characteritemctrltest COMMAND tst_characteritemctrltest)
 

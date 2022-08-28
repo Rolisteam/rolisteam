@@ -117,18 +117,20 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     m_mediaUpdaters.insert({Core::ContentType::CHARACTERSHEET, std::move(characterSheetUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::PDF, std::move(pdfUpdater)});
 
-    connect(m_contentModel.get(), &ContentModel::mediaControllerAdded, this, [this](MediaControllerBase* ctrl) {
-        if(nullptr == ctrl)
-            return;
-        connect(ctrl, &MediaControllerBase::performCommand, this, &ContentController::performCommand);
-        emit mediaControllerCreated(ctrl);
-        sendOffMediaController(ctrl);
-        auto it= m_mediaUpdaters.find(ctrl->contentType());
-        if(it != m_mediaUpdaters.end())
-            it->second->addMediaController(ctrl);
-        if(!localIsGM())
-            m_historyModel->addLink(ctrl->url(), ctrl->name(), ctrl->contentType());
-    });
+    connect(m_contentModel.get(), &ContentModel::mediaControllerAdded, this,
+            [this](MediaControllerBase* ctrl)
+            {
+                if(nullptr == ctrl)
+                    return;
+                connect(ctrl, &MediaControllerBase::performCommand, this, &ContentController::performCommand);
+                emit mediaControllerCreated(ctrl);
+                sendOffMediaController(ctrl);
+                auto it= m_mediaUpdaters.find(ctrl->contentType());
+                if(it != m_mediaUpdaters.end())
+                    it->second->addMediaController(ctrl);
+                if(!localIsGM())
+                    m_historyModel->addLink(ctrl->url(), ctrl->name(), ctrl->contentType());
+            });
 
     connect(m_clipboard, &QClipboard::dataChanged, this, [this]() { emit canPasteChanged(canPaste()); });
 
@@ -169,7 +171,7 @@ void ContentController::newMedia(campaign::CampaignEditor* editor, const std::ma
     arg.insert({Core::keys::KEY_OWNERID, m_localId});
     arg.insert({Core::keys::KEY_LOCALID, m_localId});
     arg.insert({Core::keys::KEY_GMID, m_gameMasterId});
-    emit performCommand(new NewMediaController(m_contentModel.get(), arg, localIsGM(), editor));
+    emit performCommand(new NewMediaController(m_contentModel.get(), arg, localColor(), localIsGM(), editor));
 }
 
 void ContentController::openMedia(const std::map<QString, QVariant>& args)
@@ -181,7 +183,7 @@ void ContentController::openMedia(const std::map<QString, QVariant>& args)
 
     auto type= it->second.value<Core::ContentType>();
 
-    emit performCommand(new OpenMediaController(m_contentModel.get(), type, args, localIsGM()));
+    emit performCommand(new OpenMediaController(m_contentModel.get(), type, args, localColor(), localIsGM()));
 }
 
 QFileSystemModel* ContentController::sessionModel() const
@@ -309,7 +311,7 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
     else if(msg->action() == NetMsg::AddMedia)
     {
         auto type= static_cast<Core::ContentType>(msg->uint8());
-        auto media= Media::MediaFactory::createRemoteMedia(type, msg, localIsGM());
+        auto media= Media::MediaFactory::createRemoteMedia(type, msg, localColor(), localIsGM());
         m_contentModel->appendMedia(media);
     }
     else if(subActions.contains(msg->action()))
@@ -415,3 +417,16 @@ QString ContentController::mediaRoot() const
                  });
     if()
 }*/
+
+const QColor& ContentController::localColor() const
+{
+    return m_localColor;
+}
+
+void ContentController::setLocalColor(const QColor& newLocalColor)
+{
+    if(m_localColor == newLocalColor)
+        return;
+    m_localColor= newLocalColor;
+    emit localColorChanged();
+}

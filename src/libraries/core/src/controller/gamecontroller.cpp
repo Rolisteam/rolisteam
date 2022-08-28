@@ -48,7 +48,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
     , m_preferencesDialogController(new PreferencesController)
     , m_campaignManager(new campaign::CampaignManager(m_diceParser.get()))
     , m_contentCtrl(new ContentController(m_campaignManager.get(), m_playerController->model(),
-                                          m_playerController->characterModel(), clipboard, m_networkCtrl.get()))
+          m_playerController->characterModel(), clipboard, m_networkCtrl.get()))
     , m_preferences(new PreferencesManager(appname, QString("%1_%2/preferences").arg(appname, version)))
     , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
     , m_audioCtrl(new AudioController(m_campaignManager.get(), m_preferences.get()))
@@ -65,23 +65,29 @@ GameController::GameController(const QString& appname, const QString& version, Q
     m_preferencesDialogController->setGameController(this);
 
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
-    connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, [this](bool b) {
-        if(b)
+    connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this,
+        [this](bool b)
         {
-            m_campaignManager->shareModels();
-        }
-        emit connectedChanged(b);
-    });
+            if(b)
+            {
+                m_campaignManager->shareModels();
+            }
+            emit connectedChanged(b);
+        });
 
-    connect(m_campaignManager.get(), &campaign::CampaignManager::campaignChanged, this, [this]() {
-        auto cm= m_campaignManager->campaign();
-        m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
-        m_logController->setCurrentPath(QString("%1/rolisteam.log").arg(cm->rootDirectory()));
-    });
-    connect(m_campaignManager->campaign(), &campaign::Campaign::rootDirectoryChanged, this, [this]() {
-        auto cm= m_campaignManager->campaign();
-        m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
-    });
+    connect(m_campaignManager.get(), &campaign::CampaignManager::campaignChanged, this,
+        [this]()
+        {
+            auto cm= m_campaignManager->campaign();
+            m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
+            m_logController->setCurrentPath(QString("%1/rolisteam.log").arg(cm->rootDirectory()));
+        });
+    connect(m_campaignManager->campaign(), &campaign::Campaign::rootDirectoryChanged, this,
+        [this]()
+        {
+            auto cm= m_campaignManager->campaign();
+            m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
+        });
     connect(m_campaignManager->editor(), &campaign::CampaignEditor::performCommand, this, &GameController::addCommand);
 
     // clang-format off
@@ -92,6 +98,13 @@ GameController::GameController(const QString& appname, const QString& version, Q
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(), &RemoteLogController::setLocalUuid);
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_instantMessagingCtrl.get(), &InstantMessagingController::setLocalId);
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_contentCtrl.get(), &ContentController::setLocalId);
+    connect(m_playerController.get(), &PlayerController::localPlayerChanged, m_contentCtrl.get(), [this](){
+        auto local = m_playerController->localPlayer();
+        if(!local)
+            return;
+        m_contentCtrl->setLocalColor(local->getColor());
+    });
+
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_audioCtrl.get(), &AudioController::setLocalIsGM);
@@ -276,11 +289,13 @@ void GameController::startCheckForUpdates()
 
     auto updateChecker= new UpdateChecker(m_version, this);
     updateChecker->startChecking();
-    connect(updateChecker, &UpdateChecker::checkFinished, this, [this, updateChecker]() {
-        setUpdateAvailable(updateChecker->needUpdate());
-        m_remoteVersion= updateChecker->getLatestVersion();
-        updateChecker->deleteLater();
-    });
+    connect(updateChecker, &UpdateChecker::checkFinished, this,
+        [this, updateChecker]()
+        {
+            setUpdateAvailable(updateChecker->needUpdate());
+            m_remoteVersion= updateChecker->getLatestVersion();
+            updateChecker->deleteLater();
+        });
 }
 
 void GameController::startIpRetriever()
@@ -290,18 +305,20 @@ void GameController::startIpRetriever()
     TipChecker* tipChecker= new TipChecker(this);
     tipChecker->startChecking();
 
-    connect(tipChecker, &TipChecker::checkFinished, this, [=]() {
-        auto id= m_preferences->value(QStringLiteral("MainWindow::lastTips"), 0).toInt();
-        if(tipChecker->hasArticle() && tipChecker->getId() + 1 > id)
+    connect(tipChecker, &TipChecker::checkFinished, this,
+        [=]()
         {
-            m_tipOfTheDay= {tipChecker->getArticleTitle(), tipChecker->getArticleContent(), tipChecker->getUrl(),
-                            tipChecker->getId()};
+            auto id= m_preferences->value(QStringLiteral("MainWindow::lastTips"), 0).toInt();
+            if(tipChecker->hasArticle() && tipChecker->getId() + 1 > id)
+            {
+                m_tipOfTheDay= {tipChecker->getArticleTitle(), tipChecker->getArticleContent(), tipChecker->getUrl(),
+                    tipChecker->getId()};
 
-            m_preferences->registerValue(QStringLiteral("MainWindow::lastTips"), m_tipOfTheDay.id);
-            emit tipOfDayChanged();
-        }
-        tipChecker->deleteLater();
-    });
+                m_preferences->registerValue(QStringLiteral("MainWindow::lastTips"), m_tipOfTheDay.id);
+                emit tipOfDayChanged();
+            }
+            tipChecker->deleteLater();
+        });
 }
 
 TipOfDay GameController::tipOfDay() const
@@ -388,9 +405,9 @@ void GameController::setDataFromProfile(int profileIndex)
     if(!local->isGM())
     {
         auto characters= profile->characters();
-        std::for_each(characters.begin(), characters.end(), [local](const connection::CharacterData& data) {
-            local->addCharacter(data.m_name, data.m_color, data.m_avatarData, data.m_params, false);
-        });
+        std::for_each(characters.begin(), characters.end(),
+            [local](const connection::CharacterData& data)
+            { local->addCharacter(data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
     }
     m_networkCtrl->setHost(profile->address());
     m_networkCtrl->setPort(profile->port());

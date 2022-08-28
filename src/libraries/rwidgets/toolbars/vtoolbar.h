@@ -54,10 +54,8 @@ class RWIDGET_EXPORT VToolsBar : public QWidget
     Q_OBJECT
 
 public:
-    /**
-     * @brief constructor for Qt widget
-     */
     VToolsBar(VectorialMapController* ctrl, QWidget* parent= nullptr);
+    void setImage(const QPixmap& img);
 
 private slots:
     void setupUi();
@@ -76,6 +74,11 @@ private:
     VColorSelector* m_colorSelector= nullptr;  /// select a color
     DiameterSelector* m_lineDiameter= nullptr; /// select pen diameter
     QActionGroup* m_toolsGroup= nullptr;       /// group all tools and manage which one is the current one
+
+    std::unique_ptr<RealSlider> m_zoomSlider;
+    std::unique_ptr<QDoubleSpinBox> m_zoomSpinBox;
+    std::unique_ptr<QLabel> m_smallScene;
+
     // paiting or fow edition
     QAction* m_paintingModeAct= nullptr;
     QAction* m_veilModeAct= nullptr;

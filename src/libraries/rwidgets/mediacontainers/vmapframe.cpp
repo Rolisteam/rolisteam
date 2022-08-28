@@ -51,29 +51,16 @@ QString permissionModeText(Core::PermissionMode mode)
 
 QString layerText(Core::Layer mode)
 {
-    QString str;
-    switch(mode)
-    {
-    case Core::Layer::GROUND:
-        str= QObject::tr("Ground");
-        break;
-    case Core::Layer::OBJECT:
-        str= QObject::tr("Object");
-        break;
-    case Core::Layer::CHARACTER_LAYER:
-        str= QObject::tr("Character");
-        break;
-    case Core::Layer::FOG:
-        str= QObject::tr("Fog Layer");
-        break;
-    case Core::Layer::GRIDLAYER:
-        str= QObject::tr("Grid Layer");
-        break;
-    case Core::Layer::NONE:
-        str= QObject::tr("No Layer");
-        break;
-    }
-    return str;
+    QHash<Core::Layer, QString> data{{Core::Layer::GROUND, QObject::tr("Ground")},
+        {Core::Layer::OBJECT, QObject::tr("Object")}, {Core::Layer::CHARACTER_LAYER, QObject::tr("Character")},
+        {Core::Layer::GAMEMASTER_LAYER, QObject::tr("GameMaster")}, {Core::Layer::FOG, QObject::tr("Fog Layer")},
+        {Core::Layer::GRIDLAYER, QObject::tr("Grid Layer")}, {Core::Layer::NONE, QObject::tr("No Layer")}};
+
+    auto res= data[mode];
+    if(res.isEmpty())
+        res= QObject::tr("No Layer");
+
+    return res;
 }
 
 VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
@@ -90,10 +77,11 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     setWindowIcon(QIcon::fromTheme("vmap"));
     m_graphicView->setScene(m_vmap.get());
 
-    auto func= [this]() {
+    auto func= [this]()
+    {
         setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4")
                            .arg(m_ctrl->name(), visibilityText(m_ctrl->visibility()),
-                                permissionModeText(m_ctrl->permission()), layerText(m_ctrl->layer())));
+                               permissionModeText(m_ctrl->permission()), layerText(m_ctrl->layer())));
     };
 
     connect(m_ctrl, &VectorialMapController::nameChanged, this, func);
@@ -102,6 +90,37 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     connect(m_ctrl, &VectorialMapController::permissionChanged, this, func);
     if(m_ctrl)
         func();
+
+    auto updateSmallImage= [this]()
+    {
+        auto w= m_toolbox->width() - 10;
+        auto sw= m_vmap->width() * m_ctrl->zoomLevel();
+        auto sh= m_vmap->height() * m_ctrl->zoomLevel();
+        auto h= static_cast<int>(w * sh / sw);
+
+        QPixmap map{QSize{w, h}};
+        auto visible= m_graphicView->viewport()->rect();
+        visible.translate({m_graphicView->horizontalScrollBar()->value(), m_graphicView->verticalScrollBar()->value()});
+
+        auto ratioX= w / sw;
+        auto ratioY= h / sh;
+
+        {
+            QPainter painter(&map);
+            m_vmap->render(&painter); //, m_vmap->sceneRect(), map.rect()
+
+            painter.setPen(Qt::blue);
+            painter.drawRect(QRectF{
+                visible.x() * ratioX, visible.y() * ratioY, visible.width() * ratioX, visible.height() * ratioY});
+        }
+
+        m_toolbox->setImage(map);
+    };
+
+    connect(m_vmap.get(), &VMap::changed, this, updateSmallImage);
+    connect(m_graphicView->horizontalScrollBar(), &QScrollBar::valueChanged, this, updateSmallImage);
+    connect(m_graphicView->verticalScrollBar(), &QScrollBar::valueChanged, this, updateSmallImage);
+    connect(m_ctrl, &VectorialMapController::zoomLevelChanged, this, updateSmallImage);
 }
 
 VMapFrame::~VMapFrame() {}

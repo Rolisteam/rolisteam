@@ -34,10 +34,12 @@ VmapToolBar::VmapToolBar(VectorialMapController* ctrl, QWidget* parent) : QToolB
     initActions();
     setupUi();
 
-    connect(m_ctrl, &VectorialMapController::localGMChanged, this, [this](bool b) {
-        setEnabled(b);
-        setVisible(b);
-    });
+    connect(m_ctrl, &VectorialMapController::localGMChanged, this,
+            [this](bool b)
+            {
+                setEnabled(b);
+                setVisible(b);
+            });
 
     if(m_ctrl)
     {
@@ -64,13 +66,15 @@ void VmapToolBar::initActions()
     group->addAction(m_showSquareAct);
     group->addAction(m_showHexagonAct);
 
-    connect(group, &QActionGroup::triggered, this, [this](QAction* action) {
-        m_ctrl->setGridVisibility(action->isChecked());
-        if(action == m_showSquareAct)
-            m_ctrl->setGridPattern(Core::GridPattern::SQUARE);
-        else
-            m_ctrl->setGridPattern(Core::GridPattern::HEXAGON);
-    });
+    connect(group, &QActionGroup::triggered, this,
+            [this](QAction* action)
+            {
+                m_ctrl->setGridVisibility(action->isChecked());
+                if(action == m_showSquareAct)
+                    m_ctrl->setGridPattern(Core::GridPattern::SQUARE);
+                else
+                    m_ctrl->setGridPattern(Core::GridPattern::HEXAGON);
+            });
 
     m_gridAboveAct= new QAction(QIcon::fromTheme("grid_above"), tr("Grid Above"), this);
     m_gridAboveAct->setCheckable(true);
@@ -98,7 +102,8 @@ void VmapToolBar::initActions()
     connect(group, &QActionGroup::triggered, this,
             [this](QAction* action) { m_ctrl->setPermission(action->data().value<Core::PermissionMode>()); });
 
-    auto updatePerm= [this](Core::PermissionMode perm) {
+    auto updatePerm= [this](Core::PermissionMode perm)
+    {
         m_onlyGmPermAct->setChecked(perm == Core::PermissionMode::GM_ONLY);
         m_characterOnlyPermAct->setChecked(perm == Core::PermissionMode::PC_MOVE);
         m_allPermAct->setChecked(perm == Core::PermissionMode::PC_ALL);
@@ -127,7 +132,8 @@ void VmapToolBar::initActions()
     connect(group, &QActionGroup::triggered, this,
             [this](QAction* action) { m_ctrl->setVisibility(action->data().value<Core::VisibilityMode>()); });
 
-    auto updateVisiblility= [this](Core::VisibilityMode perm) {
+    auto updateVisiblility= [this](Core::VisibilityMode perm)
+    {
         m_hiddenAct->setChecked(perm == Core::VisibilityMode::HIDDEN);
         m_fogAct->setChecked(perm == Core::VisibilityMode::FOGOFWAR);
         m_allAct->setChecked(perm == Core::VisibilityMode::ALL);
@@ -147,19 +153,26 @@ void VmapToolBar::initActions()
     m_characterAct->setData(QVariant::fromValue(Core::Layer::CHARACTER_LAYER));
     m_characterAct->setCheckable(true);
 
+    m_gameMasterAct= new QAction(QIcon::fromTheme("gamemaster_layer"), tr("GameMaster"), this);
+    m_gameMasterAct->setData(QVariant::fromValue(Core::Layer::GAMEMASTER_LAYER));
+    m_gameMasterAct->setCheckable(true);
+
     group= new QActionGroup(this);
     group->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
     group->addAction(m_groundAct);
     group->addAction(m_objectAct);
     group->addAction(m_characterAct);
+    group->addAction(m_gameMasterAct);
 
     connect(group, &QActionGroup::triggered, this,
             [this](QAction* action) { m_ctrl->setLayer(action->data().value<Core::Layer>()); });
 
-    auto updateLayer= [this](Core::Layer layer) {
+    auto updateLayer= [this](Core::Layer layer)
+    {
         m_groundAct->setChecked(layer == Core::Layer::GROUND);
         m_objectAct->setChecked(layer == Core::Layer::OBJECT);
         m_characterAct->setChecked(layer == Core::Layer::CHARACTER_LAYER);
+        m_gameMasterAct->setChecked(layer == Core::Layer::GAMEMASTER_LAYER);
     };
     connect(m_ctrl, &VectorialMapController::layerChanged, this, updateLayer);
     updateLayer(m_ctrl->layer());
@@ -285,6 +298,10 @@ void VmapToolBar::setupUi()
 
     btn= new QToolButton();
     btn->setDefaultAction(m_characterAct);
+    addWidget(btn);
+
+    btn= new QToolButton();
+    btn->setDefaultAction(m_gameMasterAct);
     addWidget(btn);
 
     btn= new QToolButton();

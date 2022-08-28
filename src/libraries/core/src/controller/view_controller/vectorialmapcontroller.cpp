@@ -59,10 +59,12 @@ VectorialMapController::VectorialMapController(const QString& id, QObject* paren
     connect(m_vmapModel.get(), &vmap::VmapItemModel::rowsInserted, this, [this] { setModified(); });
     connect(m_vmapModel.get(), &vmap::VmapItemModel::rowsRemoved, this, [this] { setModified(); });
     connect(m_vmapModel.get(), &vmap::VmapItemModel::dataChanged, this, [this] { setModified(); });
-    connect(this, &VectorialMapController::modifiedChanged, this, [this](bool b) {
-        if(!b)
-            m_vmapModel->setModifiedToAllItem();
-    });
+    connect(this, &VectorialMapController::modifiedChanged, this,
+            [this](bool b)
+            {
+                if(!b)
+                    m_vmapModel->setModifiedToAllItem();
+            });
 }
 
 VectorialMapController::~VectorialMapController()= default;
@@ -249,9 +251,10 @@ void VectorialMapController::setVisualRect(QRectF visualRect)
 
 QString VectorialMapController::layerToText(Core::Layer id)
 {
-    static QStringList layerNames({QObject::tr("Ground"), QObject::tr("Object"), QObject::tr("Character")});
+    static QStringList layerNames(
+        {QObject::tr("Ground"), QObject::tr("Object"), QObject::tr("Character"), QObject::tr("GameMaster")});
 
-    auto idx= qBound(0, static_cast<int>(id), layerNames.size());
+    auto idx= qBound(0, static_cast<int>(id), layerNames.size() - 1);
     return layerNames.at(idx);
 }
 
@@ -528,8 +531,9 @@ void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
 
 void VectorialMapController::addHighLighter(const QPointF& point)
 {
-    emit sendOffHighLightAt(point, m_penSize, m_toolColor);
-    emit highLightAt(point, m_penSize, m_toolColor);
+    auto color= localGM() ? m_toolColor : m_localColor;
+    emit sendOffHighLightAt(point, m_penSize, color);
+    emit highLightAt(point, m_penSize, color);
 }
 
 void VectorialMapController::showHightLighter(const QPointF& p, const qreal& penSize, const QColor& color)

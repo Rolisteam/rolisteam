@@ -136,7 +136,7 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
 
     return vmapCtrl;
 }
-#ifdef WITH_PDF
+
 PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& params)
 {
     auto ownerid= params.value(Core::keys::KEY_OWNERID).toString();
@@ -149,7 +149,7 @@ PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& params)
         IOHelper::readPdfController(pdfCtrl, seriaziledData);
     return pdfCtrl;
 }
-#endif
+
 NoteController* note(const QString& uuid, const QHash<QString, QVariant>& map)
 {
     auto name= map.value(Core::keys::KEY_NAME).toString();
@@ -344,7 +344,8 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
 QString MediaFactory::m_localId= "";
 
 MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::ContentType type,
-                                                    const std::map<QString, QVariant>& map, bool localIsGM)
+                                                    const std::map<QString, QVariant>& map, const QColor& localColor,
+                                                    bool localIsGM)
 {
     QHash<QString, QVariant> params(map.begin(), map.end());
     using C= Core::ContentType;
@@ -368,11 +369,9 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
     case C::SHAREDNOTE:
         base= sharedNote(uuid, params, m_localId);
         break;
-#ifdef WITH_PDF
     case C::PDF:
         base= pdf(uuid, params);
         break;
-#endif
     case C::WEBVIEW:
         base= webPage(uuid, params);
         break;
@@ -386,10 +385,12 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
     base->setLocalGM(localIsGM);
     base->setLocalId(m_localId);
     base->setOwnerId(m_localId);
+    base->setLocalColor(localColor);
     return base;
 }
 
-MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg, bool localIsGM)
+MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg,
+                                                     const QColor& localColor, bool localIsGM)
 {
     using C= Core::ContentType;
     MediaControllerBase* base= nullptr;
@@ -439,7 +440,6 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
         base= sharedNote(uuid, data, m_localId);
     }
     break;
-#ifdef WITH_PDF
     case C::PDF:
     {
         auto data= MessageHelper::readPdfData(msg);
@@ -447,7 +447,6 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
         base= pdf(uuid, data);
     }
     break;
-#endif
     case C::WEBVIEW:
     {
         auto data= MessageHelper::readWebPageData(msg);
@@ -462,6 +461,7 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     base->setRemote(true);
     base->setLocalGM(localIsGM);
     base->setLocalId(m_localId);
+    base->setLocalColor(localColor);
     return base;
 }
 
