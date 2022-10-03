@@ -3790,7 +3790,7 @@ msgstr "&Copia"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
 msgctxt "TextEdit|"
 msgid "&Paste"
-msgstr "&Apega"
+msgstr "A&pega"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:269
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:337

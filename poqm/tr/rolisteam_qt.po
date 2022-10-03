@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2022-10-01 05:43+0300\n"
+"PO-Revision-Date: 2022-10-02 14:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -227,152 +227,152 @@ msgstr "Kaydırıcı"
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Hidden"
-msgstr ""
+msgstr "Gizli"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Next Page Button"
-msgstr ""
+msgstr "Sonraki Sayfa Düğmesi"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Previous Page Button"
-msgstr ""
+msgstr "Önceki Sayfa Düğmesi"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.cpp:121
 msgctxt "ColumnDefinitionDialog|"
 msgid "Table Properties"
-msgstr ""
+msgstr "Tablo Özellikleri"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:39
 msgctxt "PdfManager|"
 msgid "Load background from PDF"
-msgstr ""
+msgstr "Arka planı, PDF'den yükle"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:40
 msgctxt "PdfManager|"
 msgid "PDF files (*.pdf)"
-msgstr ""
+msgstr "PDF Dosyaları (*.pdf)"
 
 #: src/binaries/rcse/dialog/sheetproperties.cpp:17
 msgctxt "SheetProperties|"
 msgid "Add Font file"
-msgstr ""
+msgstr "Yazıtipi Dosyası Ekle"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
 msgid "Id"
-msgstr ""
+msgstr "Kimlik"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
 msgid "Label"
-msgstr ""
+msgstr "Etiket"
 
 #: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Value"
-msgstr ""
+msgstr "Değer"
 
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Possible Values"
-msgstr ""
+msgstr "Olası Değerler"
 
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Type"
-msgstr ""
+msgstr "Tür"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "Width"
-msgstr ""
+msgstr "Genişlik"
 
 #: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "Height"
-msgstr ""
+msgstr "Yükseklik"
 
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Font Adaptation"
-msgstr ""
+msgstr "Yazıtipi Adaptasyonu"
 
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Font"
-msgstr ""
+msgstr "Yazıtipi"
 
 #: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Text-align"
-msgstr ""
+msgstr "Metin Hizamala"
 
 #: src/binaries/rcse/fieldmodel.cpp:69
 msgctxt "FieldModel|"
 msgid "Text Color"
-msgstr ""
+msgstr "Metin Rengi"
 
 #: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Bg Color"
-msgstr ""
+msgstr "Arka Plan Rengi"
 
 #: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Border"
-msgstr ""
+msgstr "Kenarlık"
 
 #: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Page"
-msgstr ""
+msgstr "Sayfa"
 
 #: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "ToolTip"
-msgstr ""
+msgstr "Araç İpucu"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopRight"
-msgstr ""
+msgstr "SağÜst"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopMiddle"
-msgstr ""
+msgstr "OrtaÜst"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopLeft"
-msgstr ""
+msgstr "SolÜst"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "CenterRight"
-msgstr ""
+msgstr "MerkezSağ"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "CenterMiddle"
-msgstr ""
+msgstr "MerkezOrta"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterLeft"
-msgstr ""
+msgstr "MerkezSol"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
