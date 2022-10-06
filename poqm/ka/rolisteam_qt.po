@@ -1,223 +1,218 @@
-# Translation of rolisteam_qt.po to Catalan (Valencian)
-# Copyright (C) 2022 This_file_is_part_of_KDE
-# This file is distributed under the license LGPL version 2.1 or
-# version 3 or later versions approved by the membership of KDE e.V.
-#
-# Josep M. Ferrer <txemaq@gmail.com>, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2022-08-21 16:56+0200\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
-"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
-"Language: ca@valencia\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
+"Language-Team: \n"
+"Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Qt-Contexts: true\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: src/binaries/rcse/borderlisteditor.cpp:29
 msgctxt "BorderListEditor|"
 msgid "Up"
-msgstr "Amunt"
+msgstr "მაღლა"
 
 #: src/binaries/rcse/borderlisteditor.cpp:30
 msgctxt "BorderListEditor|"
 msgid "Left"
-msgstr "Esquerra"
+msgstr "მარცხენა"
 
 #: src/binaries/rcse/borderlisteditor.cpp:31
 msgctxt "BorderListEditor|"
 msgid "Down"
-msgstr "Avall"
+msgstr "ქვემოთ"
 
 #: src/binaries/rcse/borderlisteditor.cpp:32
 msgctxt "BorderListEditor|"
 msgid "Right"
-msgstr "Dreta"
+msgstr "მარჯვენა"
 
 #: src/binaries/rcse/borderlisteditor.cpp:43
 msgctxt "BorderListEditor|"
 msgid "All"
-msgstr "Tot"
+msgstr "ყველა"
 
 #: src/binaries/rcse/borderlisteditor.cpp:47
 msgctxt "BorderListEditor|"
 msgid "None"
-msgstr "Res"
+msgstr "არაფერი"
 
 #: src/binaries/rcse/controllers/imagecontroller.cpp:47
 #, qt-format
 msgctxt "ImageController|"
 msgid "Image %1 has not the same size than the others"
-msgstr "La imatge %1 no té la mateixa mida que les altres"
+msgstr ""
 
 #: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:21
 #: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:166
 #, qt-format
 msgctxt "QmlGeneratorController|"
 msgid "The character value %1 has been defined to %2"
-msgstr "El valor %1 del personatge s'ha definit a %2"
+msgstr ""
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
 msgctxt "RcseApplicationController|"
 msgid "Yes"
-msgstr "Sí"
+msgstr "დიახ"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
 msgctxt "RcseApplicationController|"
 msgid "No"
-msgstr "No"
+msgstr "არა"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
 msgid "only the GM"
-msgstr "Només el DJ"
+msgstr ""
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
 msgid "All"
-msgstr "Tot"
+msgstr "ყველა"
 
 #: src/binaries/rcse/data/characterlist.cpp:39
 msgctxt "CharacterList|"
 msgid "Mock Data"
-msgstr "Dades de simulació"
+msgstr ""
 
 #: src/binaries/rcse/data/characterlist.cpp:54
 #, qt-format
 msgctxt "CharacterList|"
 msgid "Character %1"
-msgstr "Personatge %1"
+msgstr ""
 
 #: src/binaries/rcse/data/mockcharacter.cpp:11
 msgctxt "MockCharacter|"
 msgid "unset Path"
-msgstr "neteja el camí"
+msgstr ""
 
 #: src/binaries/rcse/data/mockcharacter.cpp:17
 msgctxt "MockCharacter|"
 msgid "green"
-msgstr "verd"
+msgstr "მწვანე"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:21
 msgctxt "MockCharacter|"
 msgid "red"
-msgstr "roig"
+msgstr "წითელი"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:50
 #, qt-format
 msgctxt "MockCharacter|"
 msgid "Shape has been added [name: %1, path: %2]"
-msgstr "S'ha afegit la forma [nom: %1, camí: %2]"
+msgstr ""
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopRight"
-msgstr "Dreta de la part superior"
+msgstr "ზედამარჯვენა"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopMiddle"
-msgstr "Al mig de la part superior"
+msgstr "ზედაშუა"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopLeft"
-msgstr "Esquerra de la part superior"
+msgstr "ზედამარცხენა"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "CenterRight"
-msgstr "Dreta de la part central"
+msgstr "შუამარჯვენა"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "CenterMiddle"
-msgstr "Al mig de la part central"
+msgstr "შუაშუა"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "CenterLeft"
-msgstr "Esquerra de la part central"
+msgstr "შუამარცხენა"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomRight"
-msgstr "Dreta de la part inferior"
+msgstr "ქვედამარჯვენა"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomMiddle"
-msgstr "Al mig de la part inferior"
+msgstr "ქვედაშუა"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomLeft"
-msgstr "Esquerra de la part inferior"
+msgstr "ქვედამარცხენა"
 
 #: src/binaries/rcse/delegate/pagedelegate.cpp:25
 #, qt-format
 msgctxt "PageDelegate|"
 msgid "Page %1"
-msgstr "Pàgina %1"
+msgstr "გვერდი %1"
 
 #: src/binaries/rcse/delegate/pagedelegate.cpp:32
 msgctxt "PageDelegate|"
 msgid "All pages"
-msgstr "Totes les pàgines"
+msgstr "ყველა გვერდი"
 
 #: src/binaries/rcse/delegate/pagedelegate.cpp:47
 msgctxt "PageDelegate|"
 msgid "All Pages"
-msgstr "Totes les pàgines"
+msgstr "ყველა გვერდი"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextInput"
-msgstr "Entrada de text"
+msgstr ""
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextField"
-msgstr "Camp de text"
+msgstr ""
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextArea"
-msgstr "Àrea de text"
+msgstr ""
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "Select"
-msgstr "Selecció"
+msgstr "არჩევა"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "Checkbox"
-msgstr "Casella de selecció"
+msgstr "ჩასართავი"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "Image"
-msgstr "Imatge"
+msgstr "გამოსახულება"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "RLabel"
-msgstr "RLabel"
+msgstr ""
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Dice Button"
-msgstr "Botó de dau"
+msgstr ""
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Function Button"
-msgstr "Botó de funció"
+msgstr ""
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
@@ -227,67 +222,67 @@ msgstr "WebView"
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Slider"
-msgstr "Control lliscant"
+msgstr "ცოცია"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr "დამალული"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Next Page Button"
-msgstr "Botó de pàgina següent"
+msgstr ""
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Previous Page Button"
-msgstr "Botó de pàgina anterior"
+msgstr ""
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.cpp:121
 msgctxt "ColumnDefinitionDialog|"
 msgid "Table Properties"
-msgstr "Propietats de taula"
+msgstr "ცხრილის თვისებები"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:39
 msgctxt "PdfManager|"
 msgid "Load background from PDF"
-msgstr "Carrega el fons a partir d'un PDF"
+msgstr ""
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:40
 msgctxt "PdfManager|"
 msgid "PDF files (*.pdf)"
-msgstr "Fitxers PDF (*.pdf)"
+msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.cpp:17
 msgctxt "SheetProperties|"
 msgid "Add Font file"
-msgstr "Afig un fitxer de lletra"
+msgstr ""
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
 msgid "Id"
-msgstr "ID"
+msgstr "Id"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
 msgid "Label"
-msgstr "Etiqueta"
+msgstr "ჭდე"
 
 #: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Value"
-msgstr "Valor"
+msgstr "მნიშვნელობა"
 
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Possible Values"
-msgstr "Valors possibles"
+msgstr ""
 
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Type"
-msgstr "Tipus"
+msgstr "ტიპი"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
@@ -297,177 +292,177 @@ msgstr "x"
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "y"
-msgstr "y"
+msgstr "წ"
 
 #: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "Width"
-msgstr "Amplària"
+msgstr "სიგანე"
 
 #: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "Height"
-msgstr "Alçària"
+msgstr "სიმაღლე"
 
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Font Adaptation"
-msgstr "Adaptació de lletra"
+msgstr ""
 
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Font"
-msgstr "Lletra"
+msgstr "შრიფტი"
 
 #: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Text-align"
-msgstr "Alineació del text"
+msgstr ""
 
 #: src/binaries/rcse/fieldmodel.cpp:69
 msgctxt "FieldModel|"
 msgid "Text Color"
-msgstr "Color del text"
+msgstr "ტექსტის ფერი"
 
 #: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Bg Color"
-msgstr "Color de fons"
+msgstr ""
 
 #: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Border"
-msgstr "Vora"
+msgstr "საზღვარი"
 
 #: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Page"
-msgstr "Pàgina"
+msgstr "გვერდი"
 
 #: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "ToolTip"
-msgstr "Consell d'eina"
+msgstr "მინიშნება"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopRight"
-msgstr "Dreta de la part superior"
+msgstr "ზედამარჯვენა"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopMiddle"
-msgstr "Al mig de la part superior"
+msgstr "ზედაშუა"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopLeft"
-msgstr "Esquerra de la part superior"
+msgstr "ზედამარცხენა"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "CenterRight"
-msgstr "Dreta de la part central"
+msgstr "შუამარჯვენა"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "CenterMiddle"
-msgstr "Al mig de la part central"
+msgstr "შუაშუა"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterLeft"
-msgstr "Esquerra de la part central"
+msgstr "შუამარცხენა"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomRight"
-msgstr "Dreta de la part inferior"
+msgstr "ქვედამარჯვენა"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomMiddle"
-msgstr "Al mig de la part inferior"
+msgstr "ქვედაშუა"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomLeft"
-msgstr "Esquerra de la part inferior"
+msgstr "ქვედამარცხენა"
 
 #: src/binaries/rcse/itemeditor.cpp:58
 msgctxt "ItemEditor|"
 msgid "Fit the view"
-msgstr "Ajusta a la vista"
+msgstr ""
 
 #: src/binaries/rcse/itemeditor.cpp:61
 msgctxt "ItemEditor|"
 msgid "Lock item"
-msgstr "Bloqueja l'element"
+msgstr ""
 
 #: src/binaries/rcse/itemeditor.cpp:63
 msgctxt "ItemEditor|"
 msgid "Align on Y"
-msgstr "Alinea a Y"
+msgstr ""
 
 #: src/binaries/rcse/itemeditor.cpp:64
 msgctxt "ItemEditor|"
 msgid "Align on X"
-msgstr "Alinea a X"
+msgstr ""
 
 #: src/binaries/rcse/itemeditor.cpp:65
 msgctxt "ItemEditor|"
 msgid "Same Width"
-msgstr "Mateixa amplària"
+msgstr ""
 
 #: src/binaries/rcse/itemeditor.cpp:66
 msgctxt "ItemEditor|"
 msgid "Same Height"
-msgstr "Mateixa alçària"
+msgstr ""
 
 #: src/binaries/rcse/itemeditor.cpp:67
 msgctxt "ItemEditor|"
 msgid "Dupplicate"
-msgstr "Duplica"
+msgstr "დუბლირება"
 
 #: src/binaries/rcse/itemeditor.cpp:68
 msgctxt "ItemEditor|"
 msgid "Vertical equidistribution"
-msgstr "Equidistribució vertical"
+msgstr ""
 
 #: src/binaries/rcse/itemeditor.cpp:69
 msgctxt "ItemEditor|"
 msgid "Horizontal equidistribution"
-msgstr "Equidistribució horitzontal"
+msgstr ""
 
 #: src/binaries/rcse/main.cpp:66
 msgctxt "QObject|"
 msgid "define path to current <translation>"
-msgstr "definix el camí a la <traducció> actual"
+msgstr ""
 
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
 msgid "open <file>."
-msgstr "obri <file>."
+msgstr "<file>-ის გახსნა."
 
 #: src/binaries/rcse/mainwindow.cpp:166
 msgctxt "MainWindow|"
 msgid "Log panel"
-msgstr "Quadro del registre"
+msgstr "ჟურნალის პანელი"
 
 #: src/binaries/rcse/mainwindow.cpp:194 src/binaries/widget/mainwindow.cpp:557
 msgctxt "MainWindow|"
 msgid "&Undo"
-msgstr "&Desfés"
+msgstr "&დაბრუნება"
 
 #: src/binaries/rcse/mainwindow.cpp:197 src/binaries/widget/mainwindow.cpp:556
 msgctxt "MainWindow|"
 msgid "&Redo"
-msgstr "&Refés"
+msgstr "&გამეორება"
 
 #: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:621
 msgctxt "MainWindow|"
 msgid "Support"
-msgstr "Assistència"
+msgstr "მხარდაჭერა"
 
 #: src/binaries/rcse/mainwindow.cpp:357
 #, qt-format
@@ -476,18 +471,16 @@ msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 msgstr ""
-"La pàgina de donació a %1 es pot trobar en línia a:<br> <a href=\"https://"
-"liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:426
 msgctxt "MainWindow|"
 msgid "Untitled"
-msgstr "Sense títol"
+msgstr "უსახელო"
 
 #: src/binaries/rcse/mainwindow.cpp:463 src/binaries/widget/mainwindow.cpp:772
 msgctxt "MainWindow|"
 msgid "Help"
-msgstr "Ajuda"
+msgstr "დახმარება"
 
 #: src/binaries/rcse/mainwindow.cpp:464
 #, qt-format
@@ -495,53 +488,52 @@ msgctxt "MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr ""
-"La documentació del RCSE es pot trobar en línia a:<br> <a href=\"%1\">%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:476
 msgctxt "MainWindow|"
 msgid "The charactersheet has unsaved changes."
-msgstr "El full de personatge té canvis sense guardar."
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:694
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
-msgstr "Ix de %1 "
+msgstr "%1-დან გასვლა "
 
 #: src/binaries/rcse/mainwindow.cpp:538
 msgctxt "MainWindow|"
 msgid "Image Generation"
-msgstr "Generació de la imatge"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:538
 msgctxt "MainWindow|"
 msgid "Image generation in progress"
-msgstr "Generació de la imatge en curs"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:557 src/binaries/rcse/mainwindow.cpp:807
 msgctxt "MainWindow|"
 msgid "Open Background Image"
-msgstr "Obri la imatge de fons"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:568
 msgctxt "MainWindow|"
 msgid "Open Image"
-msgstr "Obri una imatge"
+msgstr "გამოსახულების გახსნა"
 
 #: src/binaries/rcse/mainwindow.cpp:593 src/binaries/rcse/mainwindow.cpp:638
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet"
-msgstr "Guarda el full de personatge"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:594 src/binaries/rcse/mainwindow.cpp:639
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
-msgstr "Full de personatge de Rolisteam (*.rcs)"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:703
 msgctxt "MainWindow|"
 msgid "Do you want to erase current QML code ?"
-msgstr "Voleu esborrar el codi QML actual?"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:704
 msgctxt "MainWindow|"
@@ -549,129 +541,127 @@ msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
 msgstr ""
-"Generar el codi QML sobreescriurà qualsevol canvi que hàgeu fet en QML.<br/"
-">Segur que voleu generar el codi QML?"
 
 #: src/binaries/rcse/mainwindow.cpp:790
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet View"
-msgstr "Guarda la vista del full de personatge"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:791
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
-msgstr "Vista del full de personatge de Rolisteam (*.qml)"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:916
 msgctxt "MainWindow|"
 msgid "Copy Path"
-msgstr "Copia el camí"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:919
 msgctxt "MainWindow|"
 msgid "Copy Url"
-msgstr "Copia l'URL"
+msgstr "URL-ის კოპირება"
 
 #: src/binaries/rcse/mainwindow.cpp:922
 msgctxt "MainWindow|"
 msgid "Replace Image"
-msgstr "Substituïx la imatge..."
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:923
 msgctxt "MainWindow|"
 msgid "Remove Image"
-msgstr "Elimina la imatge"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:924
 msgctxt "MainWindow|"
 msgid "Reload image from file"
-msgstr "Torna a carregar la imatge a partir del fitxer"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:931
 msgctxt "MainWindow|"
 msgid "Load Image"
-msgstr "Carrega una imatge"
+msgstr "გამოსახულების ჩატვირთვა"
 
 #: src/binaries/rcse/mainwindow.cpp:932
 msgctxt "MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
-msgstr "Formats d'imatge admesos (*.jpg *.png *.svg *.gif)"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:945
 msgctxt "MainWindow|"
 msgid "Add character"
-msgstr "Afig un personatge"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:946
 msgctxt "MainWindow|"
 msgid "Delete character"
-msgstr "Suprimix el personatge"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:948
 msgctxt "MainWindow|"
 msgid "Character's Name"
-msgstr "Nom del personatge"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:950
 msgctxt "MainWindow|"
 msgid "Apply on Selection"
-msgstr "Aplica a la selecció"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:951
 msgctxt "MainWindow|"
 msgid "Apply on all characters"
-msgstr "Aplica a tots els personatges"
+msgstr ""
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
 msgid "Directory to save QML file"
-msgstr "Directori a on s'ha de guardar el fitxer QML"
+msgstr ""
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
 msgid "Place to save Generated files"
-msgstr "Lloc a on s'han de guardar els fitxers generats"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:71
 msgctxt "TableCanvasField|"
 msgid "Properties"
-msgstr "Propietats"
+msgstr "პარამეტრები"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Character #%1"
-msgstr "Afig un personatge núm. %1"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:56
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:47
 msgctxt "QObject|"
 msgid "checkbox"
-msgstr "casella de selecció"
+msgstr "ჩასართავი"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:60
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:51
 msgctxt "QObject|"
 msgid "TextInput"
-msgstr "Entrada de text"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:64
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:55
 msgctxt "QObject|"
 msgid "TextArea"
-msgstr "Àrea de text"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:68
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:59
 msgctxt "QObject|"
 msgid "TextField"
-msgstr "Camp de text"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:73
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:64
 msgctxt "QObject|"
 msgid "Table"
-msgstr "Taula"
+msgstr "ცხრილი"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:78
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:69
@@ -679,252 +669,251 @@ msgstr "Taula"
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Image"
-msgstr "Imatge"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:85
 msgctxt "QObject|"
 msgid "Slider"
-msgstr "Control lliscant"
+msgstr "ცოცია"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
 #: src/libraries/core/src/data/cleveruri.cpp:229
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr "დამალული"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:93
 msgctxt "QObject|"
 msgid "LabelField"
-msgstr "Camp d'etiqueta"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:97
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:73
 msgctxt "QObject|"
 msgid "function"
-msgstr "funció"
+msgstr "ფუნქცია"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:102
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:78
 msgctxt "QObject|"
 msgid "Dice Button"
-msgstr "Botó de dau"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:106
 msgctxt "QObject|"
 msgid "Web Page"
-msgstr "Pàgina web"
+msgstr "ვებ გვერდი"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:110
 msgctxt "QObject|"
 msgid "Next Page Button"
-msgstr "Botó de pàgina següent"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:114
 msgctxt "QObject|"
 msgid "Previous Page Button"
-msgstr "Botó de pàgina anterior"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:120
 #: src/libraries/core/src/network/connectionprofile.cpp:7
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:84
 msgctxt "QObject|"
 msgid "Unknown"
-msgstr "Desconegut"
+msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:124
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:88
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 Field"
-msgstr "Afig el camp %1"
+msgstr ""
 
 #: src/binaries/rcse/undo/addpagecommand.cpp:31
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Page #%1"
-msgstr "Afig la pàgina núm. %1"
+msgstr ""
 
 #: src/binaries/rcse/undo/deletecharactercommand.cpp:27
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete Character #%1"
-msgstr "Suprimix el personatge núm. %1"
+msgstr ""
 
 #: src/binaries/rcse/undo/deletefieldcommand.cpp:57
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete %n Field(s)"
 msgid_plural "Delete %n Field(s)"
-msgstr[0] "Suprimix el camp %n"
-msgstr[1] "Suprimix els camps %n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/binaries/rcse/undo/deletepagecommand.cpp:37
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete Page #%1"
-msgstr "Suprimix la pàgina núm. %1"
+msgstr ""
 
 #: src/binaries/rcse/undo/movefieldcommand.cpp:32
 #, qt-format
 msgctxt "QObject|"
 msgid "Move %n Field(s)"
 msgid_plural "Move %n Field(s)"
-msgstr[0] "Mou el camp %n"
-msgstr[1] "Mou els camps %n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:51
 #, qt-format
 msgctxt "QObject|"
 msgid "Set background on Page #%1"
-msgstr "Establix el fons a la pàgina núm. %1"
+msgstr ""
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:53
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Page #%1 and Set background on it"
-msgstr "Afig la pàgina núm. %1 i establix el fons en ella"
+msgstr ""
 
 #: src/binaries/rcse/undo/setfieldproperties.cpp:34
 #, qt-format
 msgctxt "QObject|"
 msgid "Set Property %1"
-msgstr "Establix la propietat %1"
+msgstr ""
 
 #: src/binaries/rcse/undo/setpropertyonallcharacters.cpp:15
 #, qt-format
 msgctxt "QObject|"
 msgid "Set property on all characters: %1"
-msgstr "Establix la propietat en tots els personatges: %1"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
 msgid "Lock up Item"
-msgstr "Bloqueja l'element"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:26
 msgctxt "FieldView|"
 msgid "Delete Item"
-msgstr "Elimina l'element"
+msgstr "ჩანაწერის წაშლა"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:27
 msgctxt "FieldView|"
 msgid "Apply on Selection"
-msgstr "Aplica a la selecció"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:28
 msgctxt "FieldView|"
 msgid "Apply on all lines"
-msgstr "Aplica a totes les línies"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:29
 msgctxt "FieldView|"
 msgid "Define Field Code"
-msgstr "Definix el codi del camp"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:30
 msgctxt "FieldView|"
 msgid "Reset Field Code"
-msgstr "Restablix el codi del camp"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:34
 msgctxt "FieldView|"
 msgid "Position columns"
-msgstr "Posició de les columnes"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:45
 msgctxt "FieldView|"
 msgid "Aesthetic columns"
-msgstr "Estètica de les columnes"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:57
 msgctxt "FieldView|"
 msgid "Value columns"
-msgstr "Valor de les columnes"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:66
 msgctxt "FieldView|"
 msgid "Id columns"
-msgstr "ID de les columnes"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:73
 msgctxt "FieldView|"
 msgid "All columns"
-msgstr "Totes les columnes"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:140
 msgctxt "FieldView|"
 msgid "Show"
-msgstr "Mostra"
+msgstr "ჩვენება"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:147
 msgctxt "FieldView|"
 msgid "Show/Hide"
-msgstr "Mostra/Oculta"
+msgstr ""
 
 #: src/binaries/rcse/widgets/fieldview.cpp:320
 msgctxt "FieldView|"
 msgid "Get Color"
-msgstr "Obtín un color"
+msgstr ""
 
 #: src/binaries/server/main.cpp:109
 msgctxt "QObject|"
 msgid "Set the path to configuration file [mandatory]"
-msgstr "Establix el camí cap al fitxer de configuració [obligatori]"
+msgstr ""
 
 #: src/binaries/server/main.cpp:112
 msgctxt "QObject|"
 msgid "Print a default configuration file into Standard output"
-msgstr "Imprimix un fitxer de configuració predeterminat a l'eixida estàndard"
+msgstr ""
 
 #: src/binaries/server/main.cpp:115
 msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
-msgstr "Demana una contrasenya i retorna la seua clau de resum."
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:343
 msgctxt "MainWindow|"
 msgid "Antagonist Table"
-msgstr "Taula d'antagonistes"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:451
 msgctxt "MainWindow|"
 msgid "Open Webpage"
-msgstr "Obri la pàgina web"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:451
 msgctxt "MainWindow|"
 msgid "Webpage url:"
-msgstr "URL de la pàgina web:"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:501
 #: src/binaries/widget/mainwindow.cpp:702
 msgctxt "MainWindow|"
 msgid "Open Campaign"
-msgstr "Obri una campanya"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:622
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
-"La pàgina de donació a %1 es pot trobar en línia a:<br> <a href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:678
 msgctxt "MainWindow|"
 msgid "Quit"
-msgstr "Quit"
+msgstr "გასვლა"
 
 #: src/binaries/widget/mainwindow.cpp:686
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
-msgstr "S'ha perdut la connexió. %1 es tancarà."
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:688
 msgctxt "MainWindow|"
 msgid "Connection lost"
-msgstr "S'ha perdut la connexió"
+msgstr "კავშირი დაკარგულია"
 
 #: src/binaries/widget/mainwindow.cpp:773
 #, qt-format
@@ -933,13 +922,11 @@ msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
 "rolisteam.org\">http://wiki.rolisteam.org/</a>"
 msgstr ""
-"La documentació de %1 es pot trobar en línia a:<br> <a href=\"http://wiki."
-"rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:808
 msgctxt "MainWindow|"
 msgid "Update Notification"
-msgstr "Notificació d'actualització"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:809
 #, qt-format
@@ -948,698 +935,695 @@ msgid ""
 "The %1 version has been released. Please take a look at <a href=\"http://www."
 "rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"S'ha publicat la versió %1. Doneu una ullada a la <a href=\"http://www."
-"rolisteam.org/download\">pàgina de baixades</a> per a més informació"
 
 #: src/binaries/widget/mainwindow.cpp:819
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
-msgstr "%1 acaba d'unir-se al joc."
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:823
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
-msgstr "%1 no té la versió correcta: %2."
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:829
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
-msgstr "%1 acaba d'eixir del joc."
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:874
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
-msgstr "Establix que Rolisteam utilitze <port> per a la connexió"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:877
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
-msgstr "Establix que Rolisteam es connecte a <servidor>."
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:880
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
-msgstr "Establix el <rol>: dj o pj"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:882
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
-msgstr "Esborra la configuració i utilitza els paràmetres predeterminats"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:885
 msgctxt "MainWindow|"
 msgid "Define the <username>"
-msgstr "Definix el <nom_usuari>"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:888
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
-msgstr "Elimina el límit de la mida del fitxer PDF"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:891
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
-msgstr "camí cap al fitxer de traducció: <fitxer_traducció>"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:894
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
-msgstr "Definix un URL per connectar al servidor: <url>"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:987
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
-msgstr "Obri %1"
+msgstr "%1-ის გახსნა"
 
 #: src/binaries/widget/mainwindow.cpp:1074
 msgctxt "MainWindow|"
 msgid "Connected"
-msgstr "Connectat"
+msgstr "დაკავშირებულია"
 
 #: src/binaries/widget/mainwindow.cpp:1074
 msgctxt "MainWindow|"
 msgid "Not Connected"
-msgstr "No connectat"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:1075
 msgctxt "MainWindow|"
 msgid "Server"
-msgstr "Servidor"
+msgstr "სერვერი"
 
 #: src/binaries/widget/mainwindow.cpp:1075
 msgctxt "MainWindow|"
 msgid "Client"
-msgstr "Client"
+msgstr "კლიენტი"
 
-# Traducció GM (Game Master) = DJ (Director de joc)
 #: src/binaries/widget/mainwindow.cpp:1082
 msgctxt "MainWindow|"
 msgid "GM"
-msgstr "DJ"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:1088
 msgctxt "MainWindow|"
 msgid "Player"
-msgstr "Jugador"
+msgstr "დამკვრელი"
 
 #: src/binaries/widget/mainwindow.cpp:1161
 msgctxt "MainWindow|"
 msgid "Unknown"
-msgstr "Desconegut"
+msgstr "უცნობი"
 
 #: src/binaries/widget/mainwindow.cpp:1189
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
-msgstr "Exporta des de %1"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:1190
 msgctxt "MainWindow|"
 msgid "unknown"
-msgstr "desconegut"
+msgstr "უცნობი"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
 msgid "Next Page"
-msgstr "Pàgina següent"
+msgstr "შემდეგი გვერდი"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:19
 msgctxt "ContextualMenu|"
 msgid "Previous Page"
-msgstr "Pàgina anterior"
+msgstr "წინა გვერდი"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:28
 msgctxt "ContextualMenu|"
 msgid "Adapt Width to Window"
-msgstr "Adapta l'amplària a la finestra"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
 msgctxt "ContextualMenu|"
 msgid "Zoom Min"
-msgstr "Apropament mín."
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
 msgctxt "ContextualMenu|"
 msgid "Reset Zoom"
-msgstr "Restablix el zoom"
+msgstr "გადიდების საწყისი პარამეტრები"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
 msgctxt "ContextualMenu|"
 msgid "Zoom Max"
-msgstr "Apropament màx."
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
 msgctxt "example|"
 msgid "Nom"
-msgstr "Cognom"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:25
 msgctxt "example|"
 msgid "Prenom"
-msgstr "Nom"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:33
 msgctxt "example|"
 msgid "Couleur des yeux"
-msgstr "Color dels ulls"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:41
 msgctxt "example|"
 msgid "Corpulence"
-msgstr "Corpulència"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
 msgctxt "example|"
 msgid "Courage"
-msgstr "Coratge"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
 msgctxt "example|"
 msgid "Malice"
-msgstr "Malícia"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:56
 msgctxt "example|"
 msgid "Mignon"
-msgstr "Bellesa"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:59
 msgctxt "example|"
 msgid "Colère"
-msgstr "Còlera"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:76
 msgctxt "example|"
 msgid "Syndrôme"
-msgstr "Síndrome"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:83
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 1: %1"
-msgstr "Record 1: %1"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:89
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 2: %1"
-msgstr "Record 2: %1"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:95
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 3: %1"
-msgstr "Record 3: %1"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:27
 msgctxt "Table|"
 msgid "Add line"
-msgstr "Afig una línia"
+msgstr "ხაზის დამატება"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:31
 msgctxt "Table|"
 msgid "Remove current Line"
-msgstr "Elimina la línia actual"
+msgstr "მიმდინარე ხაზის წაშლა"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:37
 msgctxt "Table|"
 msgid "Remove Last line"
-msgstr "Elimina l'última línia"
+msgstr "ბოლო ხაზის წაშლა"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:529
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
-msgstr "Nom del camps"
+msgstr "ველის სახელი"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:567
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
-msgstr "Buida la secció %1"
+msgstr "ცარიელი სექცია %1"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:574
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
-msgstr "Secció_%1"
+msgstr "სექცია_%1"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:598
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
-msgstr "Camp %1"
+msgstr "ველი %1"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Key"
-msgstr "Clau"
+msgstr "გასაღები"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Filename"
-msgstr "Nom del fitxer"
+msgstr "ფაილის სახელი"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Is Background"
-msgstr "És un fons"
+msgstr "ფონია"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:87
 msgctxt "QObject|"
 msgid "abs : too many arguments"
-msgstr "abs: massa arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:91
 msgctxt "QObject|"
 msgid "abs : too few arguments"
-msgstr "abs: falten arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:109
 msgctxt "QObject|"
 msgid "ceil : too many arguments"
-msgstr "ceil: massa arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:113
 msgctxt "QObject|"
 msgid "ceil : too few arguments"
-msgstr "ceil: falten arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:130
 msgctxt "QObject|"
 msgid "floor : too many arguments"
-msgstr "floor: massa arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:134
 msgctxt "QObject|"
 msgid "floor : too few arguments"
-msgstr "floor: falten arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:151
 msgctxt "QObject|"
 msgid "concatenate : too few arguments"
-msgstr "concatenate: falten arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:174
 msgctxt "QObject|"
 msgid "min : too few arguments"
-msgstr "min: falten arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:203
 msgctxt "QObject|"
 msgid "max : too few arguments"
-msgstr "max: falten arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:232
 msgctxt "QObject|"
 msgid "avg : too few arguments"
-msgstr "avg: falten arguments"
+msgstr ""
 
 #: src/libraries/charactersheet/src/formula/nodes/scalaroperatorfnode.cpp:74
 msgctxt "QObject|"
 msgid "Error: division by Zero"
-msgstr "S'ha produït un error: Divisió per zero"
+msgstr ""
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 msgctxt "LogPanel|"
 msgid "Saving logs"
-msgstr "S'estan guardant els registres"
+msgstr ""
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 #, qt-format
 msgctxt "LogPanel|"
 msgid "Log files %1"
-msgstr "Fitxers de registre %1"
+msgstr ""
 
 #: src/libraries/core/src/controller/contentcontroller.cpp:359
 msgctxt "ContentController|"
 msgid "Copied Image"
-msgstr "Imatge copiada"
+msgstr ""
 
 #: src/libraries/core/src/controller/instantmessagingcontroller.cpp:105
 msgctxt "InstantMessagingController|"
 msgid "Global"
-msgstr "Global"
+msgstr "გლობალური"
 
 #: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
 msgctxt "TextController|"
 msgid "Text"
-msgstr "Text"
+msgstr "ტექსტი"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:41
 msgctxt "ThemeModel|"
 msgid "default"
-msgstr "predeterminat"
+msgstr "ნაგულისხმები"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:50
 msgctxt "ThemeModel|"
 msgid "darkorange"
-msgstr "darkorange"
+msgstr ""
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:72
 msgctxt "ThemeModel|"
 msgid "darkfusion"
-msgstr "darkfusion"
+msgstr ""
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:331
 msgctxt "PreferencesController|"
 msgid " (copy)"
-msgstr " (còpia)"
+msgstr " (ასლი)"
 
 #: src/libraries/core/src/controller/view_controller/mediacontrollerbase.cpp:23
 msgctxt "MediaControllerBase|"
 msgid "Unknown"
-msgstr "Desconegut"
+msgstr "უცნობი"
 
 #: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:147
 msgctxt "MindMapControllerBase|"
 msgid "Root"
-msgstr "Arrel"
+msgstr "Root"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:64
 msgctxt "QObject|"
 msgid "Character"
-msgstr "Personatge"
+msgstr "სიმბოლო"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:58
 msgctxt "QObject|"
 msgid "Ground"
-msgstr "Terreny"
+msgstr "მიწა"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:61
 msgctxt "QObject|"
 msgid "Object"
-msgstr "Objecte"
+msgstr "ობიექტი"
 
 #: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Pattern"
-msgstr "Patró"
+msgstr "ნიმუში"
 
 #: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Command"
-msgstr "Ordre"
+msgstr "ბრძანება"
 
 #: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Comment"
-msgstr "Comentari"
+msgstr "კომე_ნტარი"
 
 #: src/libraries/core/src/data/campaignmanager.cpp:56
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
-msgstr "No és possible crear una plantilla de campanya a %1"
+msgstr ""
 
 #: src/libraries/core/src/data/campaignmanager.cpp:132
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
-msgstr "No s'ha pogut crear la plantilla de campanya en esta ubicació: %1"
+msgstr ""
 
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
 msgid "Internal"
-msgstr "Intern"
+msgstr "შიდა"
 
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
 msgid "Linked"
-msgstr "Enllaçat"
+msgstr "მიბმული"
 
 #: src/libraries/core/src/data/cleveruri.cpp:229
 msgctxt "QObject|"
 msgid "Closed"
-msgstr "Tancat"
+msgstr "დახურულია"
 
 #: src/libraries/core/src/data/cleveruri.cpp:229
 msgctxt "QObject|"
 msgid "Displayed"
-msgstr "Visualitzat"
+msgstr ""
 
 #: src/libraries/core/src/data/shortcutmodel.cpp:92
 msgctxt "ShortCutModel|"
 msgid "Action"
-msgstr "Acció"
+msgstr "ქმედება"
 
 #: src/libraries/core/src/data/shortcutmodel.cpp:94
 msgctxt "ShortCutModel|"
 msgid "Key"
-msgstr "Clau"
+msgstr "გასაღები"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:33
 msgctxt "CharacterStateModel|"
 msgid "Label"
-msgstr "Etiqueta"
+msgstr "ჭდე"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:33
 msgctxt "CharacterStateModel|"
 msgid "Color"
-msgstr "Color"
+msgstr "ფერი"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:33
 msgctxt "CharacterStateModel|"
 msgid "Image"
-msgstr "Imatge"
+msgstr "გამოსახულება"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Pattern"
-msgstr "Patró"
+msgstr "ნიმუში"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Value"
-msgstr "Valor"
+msgstr "მნიშვნელობა"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Regular Expression"
-msgstr "Expressió regular"
+msgstr "რეგულარული ექსპრესია"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Disable"
-msgstr "Desactiva"
+msgstr "გამორთვა"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Comments"
-msgstr "Comentaris"
+msgstr "კომენტარები"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "Path"
-msgstr "Camí"
+msgstr "ბილიკი"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "id"
-msgstr "ID"
+msgstr "id"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "type"
-msgstr "tipus"
+msgstr "ტიპი"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "last access"
-msgstr "últim accés"
+msgstr ""
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "bookmarked"
-msgstr "afegida a les adreces d'interés"
+msgstr ""
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Name"
-msgstr "Nom"
+msgstr "სახელი"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Size"
-msgstr "Mida"
+msgstr "ზომა"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Type"
-msgstr "Tipus"
+msgstr "ტიპი"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Date Added"
-msgstr "Data d'alta"
+msgstr "დამატებულია"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Date Modified"
-msgstr "Data de modificació"
+msgstr "შეცვლის თარიღი"
 
 #: src/libraries/core/src/model/mediamodel.cpp:363
 msgctxt "MediaModel|"
 msgid "Directory"
-msgstr "Directori"
+msgstr "საქაღალდე"
 
 #: src/libraries/core/src/model/messagemodel.cpp:95
 #: src/libraries/core/src/model/messagemodel.cpp:101
 msgctxt "MessageModel|"
 msgid "Invalid Person"
-msgstr "Persona no vàlida"
+msgstr "არასწორი პიროვნება"
 
 #: src/libraries/core/src/model/musicmodel.cpp:28
 msgctxt "MusicModel|"
 msgid "Title"
-msgstr "Títol"
+msgstr "სათაური"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Avatar"
-msgstr "Avatar"
+msgstr "ავატარი"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Name"
-msgstr "Nom"
+msgstr "სახელი"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Description"
-msgstr "Descripció"
+msgstr "აღწერა"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Tags"
-msgstr "Etiquetes"
+msgstr "ჭდეები"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Color"
-msgstr "Color"
+msgstr "ფერი"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Min HP"
-msgstr "HP mín."
+msgstr ""
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Current HP"
-msgstr "HP actual"
+msgstr ""
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Max HP"
-msgstr "HP màx."
+msgstr ""
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Initiative"
-msgstr "Iniciativa"
+msgstr ""
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Distance Per turn"
-msgstr "Distància per torn"
+msgstr ""
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "State"
-msgstr "Estat"
+msgstr "State"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Life Color"
-msgstr "Color de vida"
+msgstr ""
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Init Command"
-msgstr "Ordre d'inici"
+msgstr ""
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Role"
-msgstr "Rol"
+msgstr "როლი"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Group"
-msgstr "Grup"
+msgstr "ჯგუფი"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Active"
-msgstr "Activa"
+msgstr "აქტიური"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Disable"
-msgstr "Desactiva"
+msgstr "გამორთვა"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Inactive"
-msgstr "Inactiva"
+msgstr "არააქტიური"
 
 #: src/libraries/core/src/model/participantmodel.cpp:126
 msgctxt "ParticipantModel|"
 msgid "Read Write"
-msgstr "Lectura escriptura"
+msgstr "ჩაწერადი"
 
 #: src/libraries/core/src/model/participantmodel.cpp:127
 msgctxt "ParticipantModel|"
 msgid "Read Only"
-msgstr "Només lectura"
+msgstr "მხოლოდ კითხვისთვის"
 
 #: src/libraries/core/src/model/participantmodel.cpp:128
 msgctxt "ParticipantModel|"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr "დამალული"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Read Write"
-msgstr "Lectura escriptura"
+msgstr "ჩაწერადი"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Read Only"
-msgstr "Només lectura"
+msgstr "მხოლოდ კითხვისთვის"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr "დამალული"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "NoGrid"
-msgstr "Sense quadrícula"
+msgstr ""
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "Square"
-msgstr "Quadrat"
+msgstr "კვადრატი"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "Hexagon"
-msgstr "Hexàgon"
+msgstr "ექვსკუთხედი"
 
 #: src/libraries/core/src/model/playermodel.cpp:185
 msgctxt "PlayerModel|"
 msgid "Not defined"
-msgstr "Sense definir"
+msgstr ""
 
 #: src/libraries/core/src/model/playermodel.cpp:188
 #, qt-format
@@ -1652,119 +1636,109 @@ msgid ""
 "Distance Per Turn: %6\n"
 "type: %7\n"
 msgstr ""
-"%1:\n"
-"HP: %2/%3\n"
-"Estat: %4\n"
-"Puntuació d'iniciativa: %5\n"
-"Distància per torn: %6\n"
-"Tipus: %7\n"
 
-# Traducció NPC (Non Playable Character) = PNJ (Personatge no jugador)
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
 msgid "NPC"
-msgstr "PNJ"
+msgstr "NPC"
 
-# Traducció PC (Playable Character) = PJ (Personatge jugador)
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
 msgid "PC"
-msgstr "PJ"
+msgstr "PC"
 
 #: src/libraries/core/src/model/playermodel.cpp:262
 msgctxt "PlayerModel|"
 msgid "Players List"
-msgstr "Llista de jugadors"
+msgstr ""
 
 #: src/libraries/core/src/model/playermodel.cpp:464
 msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
-msgstr "Jugador o UUID duplicat"
+msgstr ""
 
 #: src/libraries/core/src/model/profilemodel.cpp:106
 msgctxt "ProfileModel|"
 msgid " (clone)"
-msgstr " (clon)"
+msgstr ""
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "Bytes"
-msgstr "Bytes"
+msgstr "ბაიტი"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "KiB"
-msgstr "KiB"
+msgstr "კიბ"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "MiB"
-msgstr "MiB"
+msgstr "მიბ"
 
 #: src/libraries/core/src/network/channelmodel.cpp:443
 msgctxt "ChannelModel|"
 msgid "Channel Password"
-msgstr "Contrasenya del canal"
+msgstr ""
 
 #: src/libraries/core/src/network/channelmodel.cpp:444
 #, qt-format
 msgctxt "ChannelModel|"
 msgid "Channel %1 required password:"
-msgstr "El canal %1 requerix una contrasenya:"
+msgstr ""
 
 #: src/libraries/core/src/network/characterdatamodel.cpp:76
 msgctxt "CharacterDataModel|"
 msgid "No Avatar"
-msgstr "Sense avatar"
+msgstr ""
 
 #: src/libraries/core/src/network/characterdatamodel.cpp:144
 msgctxt "CharacterDataModel|"
 msgid "New Character"
-msgstr "Personatge nou"
+msgstr ""
 
 #: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
 msgid "Socket is null"
-msgstr "El sòcol és nul"
+msgstr ""
 
 #: src/libraries/core/src/network/clientconnection.cpp:96
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
-msgstr "No es pot escriure al sòcol"
+msgstr ""
 
 #: src/libraries/core/src/network/clientconnection.cpp:119
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
-msgstr "S'ha produït un error de transmissió:"
+msgstr ""
 
 #: src/libraries/core/src/network/clientmanager.cpp:125
 msgctxt "ClientManager|"
 msgid "Connection to the server has been closed."
-msgstr "S'ha tancat la connexió amb el servidor."
+msgstr ""
 
 #: src/libraries/core/src/network/connectionprofile.cpp:7
 msgctxt "QObject|"
 msgid "Player"
-msgstr "Jugador"
+msgstr "დამკვრელი"
 
 #: src/libraries/core/src/network/connectionprofile.cpp:12
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 msgctxt "QObject|"
 msgid "Unknown Character"
-msgstr "Personatge desconegut"
+msgstr ""
 
 #: src/libraries/core/src/network/rserver.cpp:38
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
-msgstr "[Upnp] S'ha fet el mapatge del port"
+msgstr ""
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:247
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "Authentification as Admin fails: %2 - %1, Wrong password."
 msgstr ""
-"No s'ha pogut fer l'autenticació com a administrador: %2 - %1. Contrasenya "
-"incorrecta."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:273
 #, qt-format
@@ -1772,401 +1746,397 @@ msgctxt "ServerConnectionManager|"
 msgid ""
 "Authentification fails: %1 try to connect to the server with wrong password."
 msgstr ""
-"No s'ha pogut fer l'autenticació: %1 intenta connectar-se al servidor amb "
-"una contrasenya incorrecta."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:291
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User has been kick out: %2 - %1."
-msgstr "S'ha expulsat l'usuari: %2 - %1."
+msgstr ""
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:481
 msgctxt "ServerConnectionManager|"
 msgid "New Incoming Connection!"
-msgstr "Connexió entrant nova!"
+msgstr ""
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:535
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User %1 has been disconnected!"
-msgstr "L'usuari %1 s'ha desconnectat!"
+msgstr ""
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:152
 msgctxt "UpnpNat|"
 msgid "Unable to read the beginning of server answer"
-msgstr "No s'ha pogut llegir el començament de la resposta del servidor"
+msgstr ""
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:160
 msgctxt "UpnpNat|"
 msgid "Unable to read the end of server answer"
-msgstr "No s'ha pogut llegir el final de la resposta del servidor"
+msgstr ""
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:279
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
-"No s'ha pogut obtindre «base_URL» a partir de «URLBase» o «describe_url» de "
-"l'XMLNode.\n"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:288
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
-msgstr "No s'ha pogut trobar el tipus de servei adequat: %1 %2 %3"
+msgstr ""
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:500
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2)\n"
-msgstr "No s'ha pogut afegir el mapatge del port (%1/%2)\n"
+msgstr ""
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
 msgid "Error to read server IP."
-msgstr "S'ha produït un error en llegir la IP del servidor."
+msgstr ""
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
 msgid "Name"
-msgstr "Nom"
+msgstr "სახელი"
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
 msgid "Path"
-msgstr "Camí"
+msgstr "ბილიკი"
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Conceal vectorial map"
-msgstr "Amaga el mapa vectorial"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Unveil vectorial map"
-msgstr "Revela el mapa vectorial"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:30
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
-msgstr "Afig un personatge a %1"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:35
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
 msgctxt "QObject|"
 msgid "Line"
-msgstr "Línia"
+msgstr "ხაზი"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:36
 msgctxt "QObject|"
 msgid "Filled Ellipse"
-msgstr "El·lipse emplenada"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:37
 msgctxt "QObject|"
 msgid "Empty Ellipse"
-msgstr "El·lipse buida"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:38
 msgctxt "QObject|"
 msgid "Empty Rectangle"
-msgstr "Rectangle buit"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:39
 msgctxt "QObject|"
 msgid "Filled Rectangle"
-msgstr "Rectangle emplenat"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:40
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Text"
-msgstr "Text"
+msgstr "ტექსტი"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:41
 msgctxt "QObject|"
 msgid "Text with border"
-msgstr "Text amb vora"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:42
 msgctxt "QObject|"
 msgid "NPC Token"
-msgstr "Testimoni PNJ"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:43
 msgctxt "QObject|"
 msgid "PC Token"
-msgstr "Testimoni PJ"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:45
 msgctxt "QObject|"
 msgid "Pen"
-msgstr "Llapis"
+msgstr "ფანქარი"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:46
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
 msgctxt "QObject|"
 msgid "Path"
-msgstr "Camí"
+msgstr "ბილიკი"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:49
 #, qt-format
 msgctxt "QObject|"
 msgid "add %1 item"
-msgstr "afig %1 element"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/changecoloritem.cpp:29
 #, qt-format
 msgctxt "QObject|"
 msgid "Change Item Color to %1"
-msgstr "Canvia el color de l'element a %1"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/changesizevmapitem.cpp:98
 #, qt-format
 msgctxt "QObject|"
 msgid "Change size of %1 item(s)"
-msgstr "Canvia la mida de %1 elements"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/deletevmapitem.cpp:31
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete %1 Item(s) From Map %1"
-msgstr "Suprimix %1 elements del mapa %1"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/importdatamedia.cpp:41
 #, qt-format
 msgctxt "ImportDataMedia|"
 msgid "Import media: %1"
-msgstr "Importa fitxers multimèdia: %1"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/importimagestate.cpp:37
 #, qt-format
 msgctxt "ImportImageState|"
 msgid "Import media: %1"
-msgstr "Importa fitxers multimèdia: %1"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/importmedia.cpp:41
 #, qt-format
 msgctxt "ImportMedia|"
 msgid "Import media: %1"
-msgstr "Importa fitxers multimèdia: %1"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/newmediacontroller.cpp:68
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
-msgstr "Crea un %1 nou %2"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/openmediacontroller.cpp:42
 #, qt-format
 msgctxt "QObject|"
 msgid "Open %1"
-msgstr "Obri %1"
+msgstr "%1-ის გახსნა"
 
 #: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:31
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
-msgstr "Elimina el personatge %1"
+msgstr ""
 
 #: src/libraries/core/src/undoCmd/removemediacontrollercommand.cpp:39
 #, qt-format
 msgctxt "QObject|"
 msgid "Close %1"
-msgstr "Tanca %1"
+msgstr "%1-ის დახურვა"
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:208
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
-msgstr "«%1» no està buida"
+msgstr ""
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:217
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
-msgstr "No s'ha pogut crear «%1»"
+msgstr ""
 
 #: src/libraries/core/src/worker/fileserializer.cpp:96
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
-msgstr "S'ha produït un error: %1 no existix o no es pot llegir."
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:174
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
-msgstr "Fitxers de full de personatge (%1)"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:177
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
-msgstr "Formats d'imatge admesos (%1)"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:180
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
-msgstr "Fitxers de text admesos (%1)"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:183
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
-msgstr "Formats de nota compartida admesos (%1)"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:186
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported WebPage (%1)"
-msgstr "Pàgines web admeses (%1)"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:190
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
-msgstr "Fitxer PDF (%1)"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:194
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
-msgstr "Mapa vectorial (%1)"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:197
 #, qt-format
 msgctxt "QObject|"
 msgid "Mindmap (%1)"
-msgstr "Mapa mental (%1)"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:211
 msgctxt "QObject|"
 msgid "Vectorial Map"
-msgstr "Mapa vectorial"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:212
 msgctxt "QObject|"
 msgid "Picture"
-msgstr "Imatge"
+msgstr "სურათი"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:213
 msgctxt "QObject|"
 msgid "Minutes"
-msgstr "Actes"
+msgstr "წთ"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:214
 msgctxt "QObject|"
 msgid "Character Sheet"
-msgstr "Full de personatge"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:215
 msgctxt "QObject|"
 msgid "Mindmap"
-msgstr "Mapa mental"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:216
 msgctxt "QObject|"
 msgid "Shared Notes"
-msgstr "Notes compartides"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:218
 msgctxt "QObject|"
 msgid "Pdf"
-msgstr "PDF"
+msgstr ""
 
 #: src/libraries/core/src/worker/utilshelper.cpp:220
 msgctxt "QObject|"
 msgid "Webview"
-msgstr "WebView"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:24
 msgctxt "ButtonGrid|"
 msgid "Undo"
-msgstr "Desfés"
+msgstr "დაბრუნება"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:30
 msgctxt "ButtonGrid|"
 msgid "Redo"
-msgstr "Refés"
+msgstr "თავიდან"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:35
 msgctxt "ButtonGrid|"
 msgid "Save Map"
-msgstr "Guarda el mapa"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
-msgstr "Obri el calaix"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:46
 msgctxt "ButtonGrid|"
 msgid "Add Root"
-msgstr "Afig una arrel"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:53
 msgctxt "ButtonGrid|"
 msgid "Add Package"
-msgstr "Afig un paquet"
+msgstr "პაკეტის დამატება"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:58
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
-msgstr "Afig una fletxa"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:63
 msgctxt "ButtonGrid|"
 msgid "Remove Selection"
-msgstr "Elimina la selecció"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:70
 msgctxt "ButtonGrid|"
 msgid "Refresh"
-msgstr "Actualitza"
+msgstr "განახლება"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:75
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
-msgstr "Exporta com a PNG"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:80
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
-msgstr "Oculta el mapa xicotet"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:80
 msgctxt "ButtonGrid|"
 msgid "Show small map"
-msgstr "Mostra el mapa xicotet"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:86
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
-msgstr "Espaiat automàtic"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:19
 msgctxt "DrawerMenu|"
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:29
 msgctxt "DrawerMenu|"
 msgid "Night Mode"
-msgstr "Mode nocturn"
+msgstr "ღამის რეჟიმი"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:36
 msgctxt "DrawerMenu|"
 msgid "Default Style"
-msgstr "Estil predeterminat"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:57
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:80
 msgctxt "DrawerMenu|"
 msgid "Text"
-msgstr "Text"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:98
 #, qt-format
@@ -2175,527 +2145,525 @@ msgid ""
 "Errors:\n"
 "%1"
 msgstr ""
-"Errors:\n"
-"%1"
 
 #: src/libraries/mindmap/resources/qml/main.qml:68
 msgctxt "main|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
-msgstr "Imatges (*.jpg *.png *.jpeg *.gif *.bmp)"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/main.qml:79
 msgctxt "main|"
 msgid "Images (*.png)"
-msgstr "Imatges (*.png)"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:78
 msgctxt "MindMap|"
 msgid "is linked"
-msgstr "està enllaçat"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:10
 msgctxt "MindMenu|"
 msgid "Add Root"
-msgstr "Afig una arrel"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:23
 msgctxt "MindMenu|"
 msgid "Save"
-msgstr "Guarda"
+msgstr "შენახვა"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:39
 msgctxt "MindMenu|"
 msgid "Remove Selection"
-msgstr "Elimina la selecció"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:47
 msgctxt "MindMenu|"
 msgid "Undo"
-msgstr "Desfés"
+msgstr "დაბრუნება"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:54
 msgctxt "MindMenu|"
 msgid "Redo"
-msgstr "Refés"
+msgstr "თავიდან"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:62
 msgctxt "MindMenu|"
 msgid "Center"
-msgstr "Centra"
+msgstr "ცენტრი"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:76
 msgctxt "MindMenu|"
 msgid "Automatic Spacing"
-msgstr "Espaiat automàtic"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:28
 msgctxt "NodeSettingPopup|"
 msgid "Description: "
-msgstr "Descripció: "
+msgstr "აღწერა: "
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:36
 msgctxt "NodeSettingPopup|"
 msgid "Description"
-msgstr "Descripció"
+msgstr "აღწერა"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:44
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
-msgstr "Etiquetes:"
+msgstr "ჭდეები:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:55
 msgctxt "NodeSettingPopup|"
 msgid "Node Styles"
-msgstr "Estil dels nodes"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:84
 msgctxt "NodeSettingPopup|"
 msgid "Text"
-msgstr "Text"
+msgstr "ტექსტი"
 
 #: src/libraries/mindmap/resources/qml/PackageItem.qml:27
 msgctxt "PackageItem|"
 msgid "Title"
-msgstr "Títol"
+msgstr "სათაური"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:31
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:155
 msgctxt "SideMenu|"
 msgid "Name"
-msgstr "Nom"
+msgstr "სახელი"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:41
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:19
 msgctxt "SideMenu|"
 msgid "Night Mode"
-msgstr "Mode nocturn"
+msgstr "ღამის რეჟიმი"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:47
 msgctxt "SideMenu|"
 msgid "Link label visible:"
-msgstr "Etiqueta visible de l'enllaç:"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
 msgctxt "SideMenu|"
 msgid "Default Style"
-msgstr "Estil predeterminat"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:75
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:98
 msgctxt "SideMenu|"
 msgid "Text"
-msgstr "Text"
+msgstr "ტექსტი"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:116
 msgctxt "SideMenu|"
 msgid "Criteria"
-msgstr "Criteri"
+msgstr "კრიტერიუმი"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:124
 msgctxt "SideMenu|"
 msgid "Pattern"
-msgstr "Patró"
+msgstr "ნიმუში"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:162
 msgctxt "SideMenu|"
 msgid "Description"
-msgstr "Descripció"
+msgstr "აღწერა"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:169
 msgctxt "SideMenu|"
 msgid "Select"
-msgstr "Selecciona"
+msgstr "არჩევა"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:180
 msgctxt "SideMenu|"
 msgid "Tags"
-msgstr "Etiquetes"
+msgstr "ჭდეები"
 
 #: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:39
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
-msgstr "Afig la imatge %1"
+msgstr ""
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:33
 #, qt-format
 msgctxt "AddItemCommand|"
 msgid "Add item of type: %1 to mindmap"
-msgstr "Afig un element de tipus: %1 al mapa mental"
+msgstr ""
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:65
 msgctxt "AddLinkCommand|"
 msgid "Add link"
-msgstr "Afig un enllaç"
+msgstr "ბმულის დამატება"
 
 #: src/libraries/mindmap/src/command/removeimagefromnodecommand.cpp:33
 msgctxt "QObject|"
 msgid "Removing image from node"
-msgstr "Eliminació d'imatge del node"
+msgstr ""
 
 #: src/libraries/mindmap/src/data/link.cpp:35
 msgctxt "Link|"
 msgid "is linked"
-msgstr "està enllaçat"
+msgstr ""
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:25
 msgctxt "PackageNode|"
 msgid "Package"
-msgstr "Paquet"
+msgstr "პაკეტი"
 
 #: src/libraries/mindmap/src/model/boxmodel.cpp:212
 msgctxt "BoxModel|"
 msgid "Root"
-msgstr "Arrel"
+msgstr "Root"
 
 #: src/libraries/mindmap/src/model/boxmodel.cpp:212
 msgctxt "BoxModel|"
 msgid "New Node"
-msgstr "Node nou"
+msgstr "ახალი კვანძის დამატება"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:10
 msgctxt "IntegrityPage|"
 msgid "Missing files:"
-msgstr "Falten fitxers:"
+msgstr ""
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:58
 msgctxt "IntegrityPage|"
 msgid "Unmanaged files:"
-msgstr "Fitxers no gestionats:"
+msgstr ""
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
 msgid "Permission"
-msgstr "Permisos"
+msgstr "წვდომა"
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:19
 msgctxt "PermissionFrame|"
 msgid "All"
-msgstr "Tot"
+msgstr "ყველა"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:30
 msgctxt "PersonEdit|"
 msgid "Name:"
-msgstr "Nom:"
+msgstr "სახელი:"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:38
 msgctxt "PersonEdit|"
 msgid "Color:"
-msgstr "Color:"
+msgstr "ფერი:"
 
 #: src/libraries/qml_views/InstantMessaging/AddChatRoomDialog.qml:24
 msgctxt "AddChatRoomDialog|"
 msgid "Title"
-msgstr "Títol"
+msgstr "სათაური"
 
 #: src/libraries/qml_views/InstantMessaging/AddChatRoomDialog.qml:33
 msgctxt "AddChatRoomDialog|"
 msgid "Everybody"
-msgstr "Tothom"
+msgstr "ყველა"
 
 #: src/libraries/qml_views/InstantMessaging/AddChatRoomDialog.qml:80
 msgctxt "AddChatRoomDialog|"
 msgid "Add Chatroom"
-msgstr "Afig una sala de xat"
+msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:57
 msgctxt "ChatView|"
 msgid "Split view"
-msgstr "Vista dividida"
+msgstr "ხედის გაყოფა"
 
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:64
 msgctxt "ChatView|"
 msgid "Detach"
-msgstr "Separa"
+msgstr "მოძრობა"
 
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:68
 msgctxt "ChatView|"
 msgid "Reatach"
-msgstr "Torna a unir"
+msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:101
 msgctxt "ChatView|"
 msgid "close"
-msgstr "Tanca"
+msgstr "დახურვა"
 
 #: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:69
 msgctxt "DiceMessageDelegate|"
 msgid "Details"
-msgstr "Detalls"
+msgstr "დეტალები"
 
 #: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:76
 #, qt-format
 msgctxt "DiceMessageDelegate|"
 msgid "Details: %1"
-msgstr "Detalls: %1"
+msgstr "დეტალები: %1"
 
 #: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:81
 #, qt-format
 msgctxt "DiceMessageDelegate|"
 msgid "Command: %1"
-msgstr "Ordre: %1"
+msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/InstantMessagingEditText.qml:139
 msgctxt "InstantMessagingEditText|"
 msgid "send"
-msgstr "Envia"
+msgstr "გაგზავნა"
 
 #: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:36
 msgctxt "InstantMessagingMain|"
 msgid "Settings"
-msgstr "Configuració"
+msgstr "&მორგება"
 
 #: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:40
 msgctxt "InstantMessagingMain|"
 msgid "Add chatroom"
-msgstr "Afig una sala de xat"
+msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:28
 msgctxt "SideMenu|"
 msgid "Sound Notification"
-msgstr "Notificació de so"
+msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:37
 msgctxt "SideMenu|"
 msgid "Font size"
-msgstr "Mida de la lletra"
+msgstr "ფონტის ზომა"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:71
 msgctxt "ConnectionForm|"
 msgid "New profile"
-msgstr "Perfil nou"
+msgstr ""
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:75
 msgctxt "ConnectionForm|"
 msgid "Clone profile"
-msgstr "Clona un perfil"
+msgstr ""
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:80
 msgctxt "ConnectionForm|"
 msgid "Remove profile"
-msgstr "Elimina el perfil"
+msgstr "პროფილის წაშლა"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:98
 msgctxt "ConnectionForm|"
 msgid "Profile Name:"
-msgstr "Nom del perfil:"
+msgstr "პროფილის სახელი:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:110
 msgctxt "ConnectionForm|"
 msgid "Connection"
-msgstr "Connexió"
+msgstr "კავშირი"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:115
 msgctxt "ConnectionForm|"
 msgid "Address:"
-msgstr "Adreça:"
+msgstr "მისამართი:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:124
 msgctxt "ConnectionForm|"
 msgid "Port:"
-msgstr "Port:"
+msgstr ""
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:132
 msgctxt "ConnectionForm|"
 msgid "Password:"
-msgstr "Contrasenya:"
+msgstr ""
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:143
 msgctxt "ConnectionForm|"
 msgid "Host the game"
-msgstr "Hostatja un joc"
+msgstr ""
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:153
 msgctxt "ConnectionForm|"
 msgid "Player"
-msgstr "Jugador"
+msgstr "დამკვრელი"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:166
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
-msgstr "Soc el director de joc"
+msgstr ""
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:176
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
-msgstr "Arrel de campanya:"
+msgstr ""
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:199
 msgctxt "ConnectionForm|"
 msgid "Characters"
-msgstr "Personatges"
+msgstr "სიმბოლოები"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:273
 msgctxt "ConnectionForm|"
 msgid "Connect"
-msgstr "Connecta"
+msgstr "დაკავშირება"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:285
 msgctxt "ConnectionForm|"
 msgid "Cancel"
-msgstr "Cancel·la"
+msgstr "გაუქმება"
 
 #: src/libraries/rwidgets/commands/movevmapitem.cpp:34
 #, qt-format
 msgctxt "QObject|"
 msgid "Move %n item(s)"
 msgid_plural "Move %n item(s)"
-msgstr[0] "Mou %n element"
-msgstr[1] "Mou %n elements"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:154
 #, qt-format
 msgctxt "ColorSelector|"
 msgid "Custom Color %1 "
-msgstr "Color personalitzat %1 "
+msgstr ""
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:192
 msgctxt "ColorSelector|"
 msgid "Erase"
-msgstr "Esborra"
+msgstr "წაშლა"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:257
 msgctxt "ColorSelector|"
 msgid "Hide (GM only)"
-msgstr "Oculta (només DJ)"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:258
 msgctxt "ColorSelector|"
 msgid "Unveil (GM only)"
-msgstr "Revela (només DJ)"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:265
 msgctxt "ColorSelector|"
 msgid "Hide"
-msgstr "Oculta"
+msgstr "დამალვა"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:266
 msgctxt "ColorSelector|"
 msgid "Unveil"
-msgstr "Revela"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:317
 #: src/libraries/rwidgets/customs/colorselector.cpp:333
 #, qt-format
 msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
-msgstr "Roig: %1, verd: %2, blau: %3"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:87
 msgctxt "FileDirChooser|"
 msgid "Select directory"
-msgstr "Seleccioneu el directori"
+msgstr "უჯრის ამორჩევა"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:92
 msgctxt "FileDirChooser|"
 msgid "Open File"
-msgstr "Obri un fitxer"
+msgstr "ფაილის გახსნა"
 
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
 msgid "Get picture for Character State"
-msgstr "Obtín una imatge per a l'estat del personatge"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:82
 msgctxt "PlayerWidget|"
 msgid "Play"
-msgstr "Reproduïx"
+msgstr "დაკვრა"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:83
 msgctxt "PlayerWidget|"
 msgid "Pause"
-msgstr "Pausa"
+msgstr "შეჩერება"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:84
 msgctxt "PlayerWidget|"
 msgid "Stop"
-msgstr "Para"
+msgstr "შეჩერება"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:86
 msgctxt "PlayerWidget|"
 msgid "Stop at the end"
-msgstr "Para al final"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:91
 msgctxt "PlayerWidget|"
 msgid "Play in loop"
-msgstr "Reproduïx en bucle"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:96
 msgctxt "PlayerWidget|"
 msgid "Shuffle Mode"
-msgstr "Mode de barreja"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:100
 msgctxt "PlayerWidget|"
 msgid "Open Directory"
-msgstr "Obri un directori"
+msgstr "საქაღალდის გახსნა"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:103
 msgctxt "PlayerWidget|"
 msgid "Mute Volume"
-msgstr "Silencia el volum"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:107
 msgctxt "PlayerWidget|"
 msgid "load TableTopAudio.com playlist"
-msgstr "Carrega la llista de reproducció de TableTopAudio.com"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:109
 msgctxt "PlayerWidget|"
 msgid "Open Playlist"
-msgstr "Obri una llista de reproducció"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:112
 msgctxt "PlayerWidget|"
 msgid "Save Playlist"
-msgstr "Guarda la llista de reproducció"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:115
 msgctxt "PlayerWidget|"
 msgid "Clear"
-msgstr "Neteja"
+msgstr "სუფთა ცა"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:119
 msgctxt "PlayerWidget|"
 msgid "Add Songs"
-msgstr "Afig cançons"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:122
 msgctxt "PlayerWidget|"
 msgid "Open Stream"
-msgstr "Obri un flux"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:124
 msgctxt "PlayerWidget|"
 msgid "Remove Song"
-msgstr "Elimina la cançó"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:146
 msgctxt "PlayerWidget|"
 msgid "Add song to the list"
-msgstr "Afig una cançó a la llista"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:147
 msgctxt "PlayerWidget|"
 msgid "Remove selected file"
-msgstr "Elimina el fitxer seleccionat"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:274
 msgctxt "PlayerWidget|"
 msgid "Add song"
-msgstr "Afig una cançó"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:274
 #, qt-format
 msgctxt "PlayerWidget|"
 msgid "Audio files (%1)"
-msgstr "Fitxers d'àudio (%1)"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:286
 msgctxt "PlayerWidget|"
 msgid "Attention!"
-msgstr "Atenció!"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:287
 msgctxt "PlayerWidget|"
@@ -2703,350 +2671,348 @@ msgid ""
 "You are about to load an new playlist. All previously load file will be "
 "dropped."
 msgstr ""
-"Esteu a punt de carregar una llista de reproducció nova. Qualsevol fitxer "
-"carregat anteriorment es descartarà."
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:296
 msgctxt "PlayerWidget|"
 msgid "Open Play List"
-msgstr "Obri una llista de reproducció"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:296
 #: src/libraries/rwidgets/customs/playerwidget.cpp:364
 msgctxt "PlayerWidget|"
 msgid "PlayList (*.m3u)"
-msgstr "Llista de reproducció (*.m3u)"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:305
 msgctxt "PlayerWidget|"
 msgid "Open audio Stream"
-msgstr "Obri un flux d'àudio"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:305
 msgctxt "PlayerWidget|"
 msgid "URL"
-msgstr "URL"
+msgstr "ბმული"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:364
 msgctxt "PlayerWidget|"
 msgid "Save Play List"
-msgstr "Guarda la llista de reproducció"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:250
 #, qt-format
 msgctxt "RGraphicsView|"
 msgid "%n item(s)"
 msgid_plural "%n item(s)"
-msgstr[0] "%n element"
-msgstr[1] "%n elements"
+msgstr[0] "%n ჩანაწერი"
+msgstr[1] "%n ჩანაწერი"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:275
 msgctxt "RGraphicsView|"
 msgid "Overlapping"
-msgstr "Superposa"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:281
 msgctxt "RGraphicsView|"
 msgid "Rotate"
-msgstr "Gira"
+msgstr "შემობრუნება"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:282
 msgctxt "RGraphicsView|"
 msgid "To 360"
-msgstr "A 360"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:283
 msgctxt "RGraphicsView|"
 msgid "Right"
-msgstr "Dreta"
+msgstr "მარჯვენა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:284
 msgctxt "RGraphicsView|"
 msgid "Left"
-msgstr "Esquerra"
+msgstr "მარცხენა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:285
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
-msgstr "Establix l'angle…"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:287
 msgctxt "RGraphicsView|"
 msgid "Set Layer"
-msgstr "Establix la capa"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:295
 msgctxt "RGraphicsView|"
 msgid "Normalize Size"
-msgstr "Normalitza la mida"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:302
 msgctxt "RGraphicsView|"
 msgid "Remove"
-msgstr "Elimina"
+msgstr "წაშლა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:305
 msgctxt "RGraphicsView|"
 msgid "Map"
-msgstr "Mapa"
+msgstr "რუკა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:323
 msgctxt "RGraphicsView|"
 msgid "Edit Layer"
-msgstr "Editar la capa"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:328
 msgctxt "RGraphicsView|"
 msgid "Change Visibility"
-msgstr "Canvia la visibilitat"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:333
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
-msgstr "Inicialització de tirada"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:339
 msgctxt "RGraphicsView|"
 msgid "Clean Init"
-msgstr "Neteja la inicialització"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:345
 msgctxt "RGraphicsView|"
 msgid "Zoom"
-msgstr "Zoom"
+msgstr "გადიდება"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:408
 msgctxt "RGraphicsView|"
 msgid "Rotation Value ?"
-msgstr "Valor del gir?"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:409
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
-msgstr "Establiu l'angle del gir que voleu [0-360]"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:485
 msgctxt "RGraphicsView|"
 msgid "Zoom to Normal"
-msgstr "Zoom normal"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:486
 msgctxt "RGraphicsView|"
 msgid "Zoom In Max"
-msgstr "Apropament màxim"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:487
 msgctxt "RGraphicsView|"
 msgid "Zoom Out Max"
-msgstr "Allunyament màxim"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:488
 msgctxt "RGraphicsView|"
 msgid "Center on Item"
-msgstr "Centra en l'element"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:490
 msgctxt "RGraphicsView|"
 msgid "Zoom In"
-msgstr "Acosta"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:493
 msgctxt "RGraphicsView|"
 msgid "Zoom Out"
-msgstr "Allunya"
+msgstr "და_პატარავება"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:496
 msgctxt "RGraphicsView|"
 msgid "Import Image"
-msgstr "Importa una imatge"
+msgstr "გამოსახულების შემოტანა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:506
 msgctxt "RGraphicsView|"
 msgid "Back"
-msgstr "Part posterior"
+msgstr "უკან"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:510
 msgctxt "RGraphicsView|"
 msgid "Front"
-msgstr "Part davantera"
+msgstr "წინა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:514
 msgctxt "RGraphicsView|"
 msgid "Lower"
-msgstr "Baixa"
+msgstr "დაწევა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:518
 msgctxt "RGraphicsView|"
 msgid "Raise"
-msgstr "Eleva"
+msgstr "აწევა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:522
 msgctxt "RGraphicsView|"
 msgid "Average"
-msgstr "Mitjana"
+msgstr "საშუალო"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:525
 msgctxt "RGraphicsView|"
 msgid "As undermouse item"
-msgstr "Com a element davall el ratolí"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:528
 msgctxt "RGraphicsView|"
 msgid "As the Bigger"
-msgstr "Com el més gran"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:531
 msgctxt "RGraphicsView|"
 msgid "As the Smaller"
-msgstr "Com el més xicotet"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:534
 msgctxt "RGraphicsView|"
 msgid "Lock/Unlock Item Geometry"
-msgstr "Bloqueja o desbloqueja la geometria de l'element"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:544
 msgctxt "RGraphicsView|"
 msgid "Properties"
-msgstr "Propietats"
+msgstr "პარამეტრები"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:549
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:563
 msgctxt "RGraphicsView|"
 msgid "Ground"
-msgstr "Terreny"
+msgstr "მიწა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:552
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:566
 msgctxt "RGraphicsView|"
 msgid "Object"
-msgstr "Objecte"
+msgstr "ობიექტი"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:555
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:569
 msgctxt "RGraphicsView|"
 msgid "Character"
-msgstr "Personatge"
+msgstr "სიმბოლო"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:578
 msgctxt "RGraphicsView|"
 msgid "All"
-msgstr "Tot"
+msgstr "ყველა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:581
 msgctxt "RGraphicsView|"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr "დამალული"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:585
 msgctxt "RGraphicsView|"
 msgid "Fog Of War"
-msgstr "Boira de guerra"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:597
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:612
 msgctxt "RGraphicsView|"
 msgid "All Npcs"
-msgstr "Tots els PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:598
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
-msgstr "Iniciativa de tirada de tots els PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:602
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:617
 msgctxt "RGraphicsView|"
 msgid "Selection"
-msgstr "Selecció"
+msgstr "მონიშნული"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:603
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on Selection"
-msgstr "Iniciativa de tirada de la selecció"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:607
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:622
 msgctxt "RGraphicsView|"
 msgid "All Characters"
-msgstr "Tots els personatges"
+msgstr "ყველა სიმბოლო"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:608
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
-msgstr "Iniciativa de tirada de tots els personatges"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:613
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Npcs"
-msgstr "Neteja la iniciativa de tots els PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:618
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on Selection"
-msgstr "Neteja la iniciativa de la selecció"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:623
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Characters"
-msgstr "Neteja la iniciativa de tots els personatges"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
 msgid "Predefine Color 1"
-msgstr "Predefineix el color 1"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:131
 #, qt-format
 msgctxt "VColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
-msgstr "Roig: %1, verd: %2, blau: %3"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:31
 msgctxt "AboutRolisteam|"
 msgid "English & French"
-msgstr "Anglés i francés"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:33
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
 msgctxt "AboutRolisteam|"
 msgid "Portuguese"
-msgstr "Portugués"
+msgstr "პორტუგალიური"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:36
 msgctxt "AboutRolisteam|"
 msgid "Hungarian"
-msgstr "Hongarés"
+msgstr "უნგრული"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:37
 msgctxt "AboutRolisteam|"
 msgid "Turkish"
-msgstr "Turc"
+msgstr "თურქული"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:38
 msgctxt "AboutRolisteam|"
 msgid "French & German"
-msgstr "Francés i alemany"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:39
 msgctxt "AboutRolisteam|"
 msgid "Romanian"
-msgstr "Romanés"
+msgstr "რუმინული"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:40
 msgctxt "AboutRolisteam|"
 msgid "Spanish"
-msgstr "Espanyol"
+msgstr "ესპანური"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:41
 msgctxt "AboutRolisteam|"
 msgid "Dutch"
-msgstr "Neerlandés"
+msgstr "ჰოლანდიური"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:42
 msgctxt "AboutRolisteam|"
 msgid "Catalan"
-msgstr "Català"
+msgstr "კატალანური"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:57
 msgctxt "AboutRolisteam|"
@@ -3059,15 +3025,6 @@ msgid ""
 "Existing features : Map sharing (with permission management), Image sharing, "
 "background music, dice roll and so on. Rolisteam is written in Qt5"
 msgstr ""
-"Rolisteam us ajuda a gestionar un joc de rol de taula amb amics/jugadors "
-"remots. Proporciona moltes característiques per a compartir mapes, imatges i "
-"també inclou eines per comunicar-se amb els vostres amics/jugadors. "
-"L'objectiu és fer que els jocs RPG gestionats per Rolisteam siguen tan bons "
-"com els jocs RPG al voltant d'una taula. Per a aconseguir-ho, estem "
-"treballant intensament per a proporcionar-li cada vegada més "
-"característiques. Característiques existents: Compartició de mapes (amb "
-"gestió de permisos), compartició d'imatges, música de fons, tirades de daus, "
-"etc. Rolisteam està escrit en Qt5"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
 msgctxt "AboutRolisteam|"
@@ -3078,286 +3035,281 @@ msgid ""
 "See the 'COPYRIGHT' file for the complete list of contributors. We provide "
 "no warranty for this program."
 msgstr ""
-"Podeu modificar i redistribuir el programa d'acord amb els termes de la GPL "
-"(versió 2 o posterior). Hi ha una còpia de la GPL al fitxer «COPYING» "
-"distribuït amb Rolisteam. Rolisteam té copyright dels seus col·laboradors. "
-"Vegeu el fitxer «COPYRIGHT» per a la llista completa de col·laboradors. No "
-"proporcionem cap garantia per a este programa."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Web Sites:"
-msgstr "Llocs web:"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Official Rolisteam Site"
-msgstr "Lloc oficial de Rolisteam"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
-msgstr "Seguidor d'errors"
+msgstr "შეცდომების სია"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Current developers"
-msgstr "Desenvolupadors actuals"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
 msgid "Contributors"
-msgstr "Col·laboradors"
+msgstr "შემომწირავები"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
 msgid "Translators"
-msgstr "Equip de traducció"
+msgstr "მთარგმნელები"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:38
 msgctxt "CampaignProperties|"
 msgid "Campaign Properties"
-msgstr "Propietats de la campanya"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:66
 #, qt-format
 msgctxt "CampaignProperties|"
 msgid "%n file(s)"
 msgid_plural "%n file(s)"
-msgstr[0] "%n fitxer"
-msgstr[1] "%n fitxers"
+msgstr[0] "%n ფაილი"
+msgstr[1] "%n ფაილი"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection has failed! Connection Retry in %1s."
-msgstr "No s'ha pogut connectar! Es reintentarà la connexió d'ací a %1 s."
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:141
 msgctxt "ImageSelectorDialog|"
 msgid "Open Image file"
-msgstr "Obri un fitxer d'imatge"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
 msgctxt "NewFileDialog|"
 msgid "Shared Notes"
-msgstr "Notes compartides"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:38
 msgctxt "NewFileDialog|"
 msgid "Notes"
-msgstr "Notes"
+msgstr "შენიშვნები"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:39
 msgctxt "NewFileDialog|"
 msgid "MindMap"
-msgstr "Mapa mental"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:126
 msgctxt "PreferencesDialog|"
 msgid "Preferences"
-msgstr "Preferències"
+msgstr "მორგება"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:366
 msgctxt "PreferencesDialog|"
 msgid "Images (*.png *.xpm *.jpg *.gif *.bmp)"
-msgstr "Imatges (*.png *.xpm *.jpg *.gif *.bmp)"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
 msgid "Css Editor"
-msgstr "Editor de CSS"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
 msgid "Css"
-msgstr "CSS"
+msgstr "Css"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:474
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
-msgstr "<li>Format d'imatge: %1 valor %2</li>"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:475
 msgctxt "PreferencesDialog|"
 msgid "<h2>Supported Image Formats:</h2><ul>"
-msgstr "<h2>Formats d'imatge admesos:</h2><ul>"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:482
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Image Format"
-msgstr "</ul>Final de format d'imatge"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:485
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
-msgstr "<h2>Famílies de tipus de lletra:</h2><ul>"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:492
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
-msgstr "</ul>Final de famílies de tipus de lletra"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:495
 msgctxt "PreferencesDialog|"
 msgid "<h2>Audio file formats Support:</h2><ul>"
-msgstr "<h2>Formats de fitxer d'àudio admesos:</h2><ul>"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:530
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Supported Audio file formats"
-msgstr "</ul>Formats de fitxer d'àudio admesos"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:547
 msgctxt "PreferencesDialog|"
 msgid "Export Rolisteam Theme"
-msgstr "Exporta un tema de Rolisteam"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:549
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:558
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "Rolisteam Theme: %1"
-msgstr "Tema de Rolisteam: %1"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:557
 msgctxt "PreferencesDialog|"
 msgid "Import Rolisteam Theme"
-msgstr "Importa un tema de Rolisteam"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:579
 msgctxt "PreferencesDialog|"
 msgid "Add new directory"
-msgstr "Afig un directori nou"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:120
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
-msgstr "Seleccioneu el directori"
+msgstr "უჯრის ამორჩევა"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:30
 #, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "%1 - Tip Of The Day"
-msgstr "%1 - Consell del dia"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:42
 msgctxt "TipOfDayViewer|"
 msgid "No Service to open links"
-msgstr "Cap servei per obrir enllaços"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:43
 #, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "Please find the type here: <a href=\"%1\"</a>"
-msgstr "Trobeu ací el tipus: <a href=\"%1\"</a>"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "No Right"
-msgstr "Sense drets"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "His character"
-msgstr "El seu personatge"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "All Permissions"
-msgstr "Tots els permisos"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr "დამალული"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "Fog of War"
-msgstr "Boira de guerra"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "All visible"
-msgstr "Tots visibles"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:51
 msgctxt "campaign::AntagonistBoard|"
 msgid "Edit Token"
-msgstr "Edició de testimoni"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:52
 msgctxt "campaign::AntagonistBoard|"
 msgid "Clone Character"
-msgstr "Clona el personatge"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:53
 msgctxt "campaign::AntagonistBoard|"
 msgid "Change Image"
-msgstr "Canvia la imatge"
+msgstr "გამოსახულების შეცვლა"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:54
 msgctxt "campaign::AntagonistBoard|"
 msgid "Main columns"
-msgstr "Columnes principals"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:55
 msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
-msgstr "Guarda"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:308
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
-msgstr "Mostra les columnes"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:75
 msgctxt "AudioPlayer|"
 msgid "Background Music"
-msgstr "Música de fons"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:97
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"
-msgstr "Mostra/oculta el jugador %1"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:49
 msgctxt "campaign::CampaignDock|"
 msgid "Campaign Content"
-msgstr "Contingut de la campanya"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:51
 msgctxt "campaign::CampaignDock|"
 msgid "All"
-msgstr "Tot"
+msgstr "ყველა"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:52
 msgctxt "campaign::CampaignDock|"
 msgid "AudioFile"
-msgstr "Fitxer d'àudio"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:53
 msgctxt "campaign::CampaignDock|"
 msgid "CharacterSheet"
-msgstr "Full de personatge"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:54
 msgctxt "campaign::CampaignDock|"
 msgid "Image"
-msgstr "Imatge"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:55
 msgctxt "campaign::CampaignDock|"
 msgid "Map"
-msgstr "Mapa"
+msgstr "რუკა"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:56
 msgctxt "campaign::CampaignDock|"
 msgid "Mindmap"
-msgstr "Mapa mental"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:57
 msgctxt "campaign::CampaignDock|"
@@ -3367,236 +3319,236 @@ msgstr "PDF"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:58
 msgctxt "campaign::CampaignDock|"
 msgid "PlayList"
-msgstr "Llista de reproducció"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:59
 msgctxt "campaign::CampaignDock|"
 msgid "Text"
-msgstr "Text"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:60
 msgctxt "campaign::CampaignDock|"
 msgid "Token"
-msgstr "Testimoni"
+msgstr "ტოკენი"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:61
 msgctxt "campaign::CampaignDock|"
 msgid "WebPage"
-msgstr "Pàgina web"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:35
 msgctxt "ChannelListPanel|"
 msgid "Edit Channel"
-msgstr "Edita el canal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:36
 msgctxt "ChannelListPanel|"
 msgid "Lock/Unlock Channel"
-msgstr "Bloqueja/desbloqueja el canal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:37
 msgctxt "ChannelListPanel|"
 msgid "Switch to channel"
-msgstr "Canvia al canal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:38
 msgctxt "ChannelListPanel|"
 msgid "Set/Unset Channel Password"
-msgstr "Establix/elimina la contrasenya del canal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:39
 msgctxt "ChannelListPanel|"
 msgid "Add channel"
-msgstr "Afig un canal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:40
 msgctxt "ChannelListPanel|"
 msgid "Add subchannel"
-msgstr "Afig un subcanal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:41
 msgctxt "ChannelListPanel|"
 msgid "Delete Channel"
-msgstr "Suprimix el canal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:42
 msgctxt "ChannelListPanel|"
 msgid "Set Default"
-msgstr "Establix com a predeterminat"
+msgstr "ნაგულისხმევი მიშვნელობა"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:43
 msgctxt "ChannelListPanel|"
 msgid "Log as admin"
-msgstr "Entra com a administrador"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:44
 msgctxt "ChannelListPanel|"
 msgid "Kick User"
-msgstr "Expulsa l'usuari"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:45
 msgctxt "ChannelListPanel|"
 msgid "Ban User"
-msgstr "Veta l'usuari"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:46
 msgctxt "ChannelListPanel|"
 msgid "Reset Data Channel"
-msgstr "Restablix les dades del canal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:47
 msgctxt "ChannelListPanel|"
 msgid "Move User"
-msgstr "Mou l'usuari"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
 msgid "Admin Password"
-msgstr "Contrasenya de l'administrador"
+msgstr "ადმინისტრატორის პაროლი"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
 msgid "Password"
-msgstr "Contrasenya"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:481
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 msgctxt "ChannelListPanel|"
 msgid "Channel Password"
-msgstr "Contrasenya del canal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:482
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Password for channel: %1 - leave empty for no password"
-msgstr "Contrasenya del canal: %1 - Deixeu-ho buit per sense contrasenya"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Channel %1 required password:"
-msgstr "El canal %1 requerix una contrasenya:"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/playerspanel.cpp:57
 msgctxt "PlayersPanel|"
 msgid "Player List"
-msgstr "Llista de jugadors"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
 msgctxt "VmapToolBar|"
 msgid "Toolbar for VMap"
-msgstr "Barra d'eines per al VMap"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:56
 msgctxt "VmapToolBar|"
 msgid "Square Grid"
-msgstr "Quadrícula quadrada"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:59
 msgctxt "VmapToolBar|"
 msgid "Hexagonal Grid"
-msgstr "Quadrícula hexagonal"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:75
 msgctxt "VmapToolBar|"
 msgid "Grid Above"
-msgstr "Quadrícula per damunt"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:80
 msgctxt "VmapToolBar|"
 msgid "GM only"
-msgstr "Només DJ"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
 msgctxt "VmapToolBar|"
 msgid "PC Move"
-msgstr "Moviment de PJ"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:88
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:117
 msgctxt "VmapToolBar|"
 msgid "All"
-msgstr "Tot"
+msgstr "ყველა"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:109
 msgctxt "VmapToolBar|"
 msgid "Hidden"
-msgstr "Ocult"
+msgstr "დამალული"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:113
 msgctxt "VmapToolBar|"
 msgid "Fog"
-msgstr "Boira"
+msgstr "ნისლი"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:138
 msgctxt "VmapToolBar|"
 msgid "Ground"
-msgstr "Terreny"
+msgstr "მიწა"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:142
 msgctxt "VmapToolBar|"
 msgid "Object"
-msgstr "Objecte"
+msgstr "ობიექტი"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:146
 msgctxt "VmapToolBar|"
 msgid "Character"
-msgstr "Personatge"
+msgstr "სიმბოლო"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:167
 msgctxt "VmapToolBar|"
 msgid "hide other layers"
-msgstr "oculta les altres capes"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:170
 msgctxt "VmapToolBar|"
 msgid "Character Vision"
-msgstr "Visió del personatge"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:172
 msgctxt "VmapToolBar|"
 msgid "Show Transparent Item"
-msgstr "Mostra transparent l'element"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:175
 msgctxt "VmapToolBar|PC = playable character"
 msgid "PC name"
-msgstr "Nom del PJ"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:176
 msgctxt "VmapToolBar|NPC = non-playable character"
 msgid "NPC name"
-msgstr "Nom del PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:177
 msgctxt "VmapToolBar|"
 msgid "NPC number"
-msgstr "Número de PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:178
 msgctxt "VmapToolBar|"
 msgid "State"
-msgstr "Estat"
+msgstr "State"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:179
 msgctxt "VmapToolBar|"
 msgid "Health Bar"
-msgstr "Barra d'estat"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
 msgctxt "VmapToolBar|"
 msgid "Initiative"
-msgstr "Iniciativa"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:231
 msgctxt "VmapToolBar|"
 msgid "inch"
-msgstr "polzada"
+msgstr "დუიმი"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:231
 msgctxt "VmapToolBar|"
 msgid "foot"
-msgstr "peu"
+msgstr ""
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:231
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:247
@@ -3607,246 +3559,246 @@ msgstr "px"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Standard"
-msgstr "Estàndard"
+msgstr "სტანდარტული"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 1"
-msgstr "Capçalera 1"
+msgstr "სათაური 1"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 2"
-msgstr "Capçalera 2"
+msgstr "სათაური 2"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 3"
-msgstr "Capçalera 3"
+msgstr "სათაური 3"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 4"
-msgstr "Capçalera 4"
+msgstr "სათაური 4"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:64
 msgctxt "MRichTextEdit|"
 msgid "Monospace"
-msgstr "Monoespai"
+msgstr "ერთსიგანიანი"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
 msgctxt "MRichTextEdit|"
 msgid "Remove character formatting"
-msgstr "Elimina el format dels caràcters"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:125
 msgctxt "MRichTextEdit|"
 msgid "Remove all formatting"
-msgstr "Elimina tots els formats"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:129
 msgctxt "MRichTextEdit|"
 msgid "Edit document source"
-msgstr "Edita el codi font del document"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:192
 msgctxt "MRichTextEdit|"
 msgid "Document source"
-msgstr "Codi font del document"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
 msgid "Create a link"
-msgstr "Crea un enllaç"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
-msgstr "URL de l'enllaç:"
+msgstr "ბმულის URL:"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:666
 msgctxt "MRichTextEdit|"
 msgid "Select an image"
-msgstr "Seleccioneu una imatge"
+msgstr "მონიშნეთ გამოსახულება"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:667
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
-msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Tot (*)"
+msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; ყველა (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:267
 msgctxt "OOReader|"
 msgid "Unable to convert document body!"
-msgstr "No s'ha pogut convertir el cos del document!"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
 msgctxt "XMLTextEdit|"
 msgid "Found xml error"
-msgstr "S'ha detectat un error d'XML"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:60
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "Check line %1 column %2 on string \"%3\"!"
-msgstr "Comproveu la línia %1 columna %2 a la cadena «%3»!"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 msgctxt "XMLTextEdit|"
 msgid "XML valid."
-msgstr "XML vàlid."
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "All tag are valid size %1."
-msgstr "Totes les etiquetes tenen una mida vàlida %1."
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
 msgid "XML not found!"
-msgstr "No s'ha trobat l'XML!"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
 msgid "Null size xml document!"
-msgstr "Document XML de mida nul·la!"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:89
 msgctxt "XMLTextEdit|"
 msgid "Zoom In CTRL/+"
-msgstr "Acosta Ctrl/+"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:90
 msgctxt "XMLTextEdit|"
 msgid "Zoom Out CTRL/-"
-msgstr "Allunya Ctrl/-"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:91
 msgctxt "XMLTextEdit|"
 msgid "Check xml syntax"
-msgstr "Comprova la sintaxi de l'XML"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/notecontainer.cpp:37
 #, qt-format
 msgctxt "NoteContainer|"
 msgid "%1 - Note"
-msgstr "%1 - Nota"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:174
 msgctxt "TextEdit|"
 msgid "File Actions"
-msgstr "Accions de fitxer"
+msgstr "ფაილის ქმედებები"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:177
 msgctxt "TextEdit|"
 msgid "&File"
-msgstr "Fi&txer"
+msgstr "&ფაილი"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:208
 msgctxt "TextEdit|"
 msgid "&Print..."
-msgstr "Im&primix..."
+msgstr "&ამობეჭდვა..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
 msgctxt "TextEdit|"
 msgid "Print Preview..."
-msgstr "Vista prèvia d'impressió..."
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:218
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
-msgstr "&Exporta a PDF..."
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:235
 msgctxt "TextEdit|"
 msgid "Edit Actions"
-msgstr "Accions d'edició"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:238
 msgctxt "TextEdit|"
 msgid "&Edit"
-msgstr "&Edita"
+msgstr "&ჩასწორება"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:242
 msgctxt "TextEdit|"
 msgid "&Undo"
-msgstr "&Desfés"
+msgstr "&დაბრუნება"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:246
 msgctxt "TextEdit|"
 msgid "&Redo"
-msgstr "&Refés"
+msgstr "&გამეორება"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:251
 msgctxt "TextEdit|"
 msgid "Cu&t"
-msgstr "Re&talla"
+msgstr "ამ&ოჭრა"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:255
 msgctxt "TextEdit|"
 msgid "&Copy"
-msgstr "&Copia"
+msgstr "&კოპირება"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
 msgctxt "TextEdit|"
 msgid "&Paste"
-msgstr "A&pega"
+msgstr "&ჩასმა"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:269
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:337
 msgctxt "TextEdit|"
 msgid "Format Actions"
-msgstr "Accions de format"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:272
 msgctxt "TextEdit|"
 msgid "F&ormat"
-msgstr "F&ormat"
+msgstr "&ფორმატი"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:275
 msgctxt "TextEdit|"
 msgid "&Bold"
-msgstr "&Negreta"
+msgstr "&სქელი"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:285
 msgctxt "TextEdit|"
 msgid "&Italic"
-msgstr "&Cursiva"
+msgstr "&დახრილი"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:295
 msgctxt "TextEdit|"
 msgid "&Underline"
-msgstr "&Subratllat"
+msgstr "&ხაზგასმა"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:310
 msgctxt "TextEdit|"
 msgid "&Left"
-msgstr "&Esquerra"
+msgstr "მარ&ცხნივ"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:313
 msgctxt "TextEdit|"
 msgid "C&enter"
-msgstr "&Centre"
+msgstr "&ცენტრზე სწორება"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:316
 msgctxt "TextEdit|"
 msgid "&Right"
-msgstr "&Dreta"
+msgstr "მარჯვენა"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:319
 msgctxt "TextEdit|"
 msgid "&Justify"
-msgstr "&Justifica"
+msgstr "ტექსტის მარჯვნივ და მარცხნივ გასწორება"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:330
 msgctxt "TextEdit|"
 msgid "&Color..."
-msgstr "&Color..."
+msgstr "&ფერი..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:443
 msgctxt "TextEdit|"
 msgid "Application"
-msgstr "Aplicació"
+msgstr "აპლიკაცია"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:444
 msgctxt "TextEdit|"
@@ -3854,338 +3806,333 @@ msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
 msgstr ""
-"S'ha modificat el document.\n"
-"Voleu guardar els canvis?"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:472
 msgctxt "TextEdit|"
 msgid "Open File..."
-msgstr "Obri un fitxer..."
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:529
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
-msgstr "Fitxers ODF (*.odt);;Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:531
 msgctxt "TextEdit|"
 msgid "HTML-Files (*.htm *.html);;All Files (*)"
-msgstr "Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:533
 msgctxt "TextEdit|"
 msgid "Save as..."
-msgstr "Anomena i guarda..."
+msgstr "შენახვა როგორც..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:548
 msgctxt "TextEdit|"
 msgid "Print Document"
-msgstr "Imprimiu el document"
+msgstr "დოკუმენტის დაბეჭდვა"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:732
 msgctxt "TextEdit|"
 msgid "About"
-msgstr "Quant a"
+msgstr "შესახებ"
 
-# skip-rule: ff-facilities
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:733
 msgctxt "TextEdit|"
 msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
 "providing an example document for you to experiment with."
 msgstr ""
-"Este exemple mostra les facilitats d'edició de text enriquit de les Qt en "
-"acció, proporcionant un document d'exemple amb el qual experimentar."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:791
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
-msgstr "Format de fitxer OASIS d'OpenOffice 2.4"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "Cahoots"
-msgstr "Confabulació"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "The string was not found."
-msgstr "No s'ha trobat la cadena."
+msgstr ""
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.cpp:54
 #, qt-format
 msgctxt "SharedNote|"
 msgid "%1 - Shared Note Editor"
-msgstr "%1 - Editor de notes compartides"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:16
 msgctxt "DiceBookMarkModel|"
 msgid "Name"
-msgstr "Nom"
+msgstr "სახელი"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:18
 msgctxt "DiceBookMarkModel|"
 msgid "Command"
-msgstr "Ordre"
+msgstr "ბრძანება"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:20
 msgctxt "DiceBookMarkModel|"
 msgid "Alias"
-msgstr "Àlies"
+msgstr "სინონიმი"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Chinese Name"
-msgstr "Nom xinés"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Elve Name"
-msgstr "Nom èlfic"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "English Name"
-msgstr "Nom anglés"
+msgstr "ინგლისური სახელი"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "French Name"
-msgstr "Nom francés"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Japanese Name"
-msgstr "Nom japonés"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:45
 msgctxt "NameGeneratorWidget|"
 msgid "Star Wars Name"
-msgstr "Nom de La guerra de les galàxies"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:45
 msgctxt "NameGeneratorWidget|"
 msgid "Russian Name"
-msgstr "Nom rus"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:34
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "Unit"
-msgstr "Unitat"
+msgstr "საზომი ერთეულები"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:36
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "Symbol"
-msgstr "Símbol"
+msgstr "სიმბოლო"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:268
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "New Unit"
-msgstr "Unitat nova"
+msgstr "ახალი ერთეული"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:7
 msgctxt "QObject|"
 msgid "Currency"
-msgstr "Moneda"
+msgstr "ფული"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:8
 msgctxt "QObject|"
 msgid "Distance"
-msgstr "Distància"
+msgstr "მანძილი"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:9
 msgctxt "QObject|"
 msgid "Temperature"
-msgstr "Temperatura"
+msgstr "ტემპერატურა"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:10
 msgctxt "QObject|"
 msgid "MASS"
-msgstr "Massa"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:11
 msgctxt "QObject|"
 msgid "OTHER"
-msgstr "Altres"
+msgstr ""
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:162
 msgctxt "GMTOOL::UnitModel|"
 msgid "New Unit"
-msgstr "Unitat nova"
+msgstr "ახალი ერთეული"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:98
 msgctxt "CharacterItem|"
 msgid "Disk"
-msgstr "Disc"
+msgstr "დისკი"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:99
 msgctxt "CharacterItem|"
 msgid "Angle"
-msgstr "Angle"
+msgstr "კუთხე"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:100
 msgctxt "CharacterItem|"
 msgid "Reduce Life"
-msgstr "Reduïx la vida"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:101
 msgctxt "CharacterItem|"
 msgid "Increase Life"
-msgstr "Augmenta la vida"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:470
 msgctxt "CharacterItem|"
 msgid "Change State"
-msgstr "Canvia l'estat"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:496
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
-msgstr "Forma de visió"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:509
 msgctxt "CharacterItem|"
 msgid "Actions"
-msgstr "Accions"
+msgstr "მოქმედებები"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:510
 msgctxt "CharacterItem|"
 msgid "Initiative"
-msgstr "Iniciativa"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:512
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
-msgstr "Neteja la iniciativa"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:528
 msgctxt "CharacterItem|"
 msgid "Shapes"
-msgstr "Formes"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:535
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
-msgstr "Neteja la forma"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:199
 msgctxt "PathItem|"
 msgid "Close Path"
-msgstr "Tanca el camí"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:203
 msgctxt "PathItem|"
 msgid "Fill Path"
-msgstr "Emplena el camí"
+msgstr "კონტურის შევსება"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:137
 msgctxt "TextItem|"
 msgid "Increase Text Size"
-msgstr "Augmenta la mida del text"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:138
 msgctxt "TextItem|"
 msgid "Decrease Text Size"
-msgstr "Disminuïx la mida del text"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:139
 msgctxt "TextItem|"
 msgid "Edit Text…"
-msgstr "Edita el text…"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:140
 msgctxt "TextItem|"
 msgid "Adapt to content"
-msgstr "Adapta al contingut"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:187
 msgctxt "TextItem|"
 msgid "Text"
-msgstr "Text"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:299
 msgctxt "TextItem|"
 msgid "Font Size"
-msgstr "Mida de la lletra"
+msgstr "ფონტის ზომა"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
 msgctxt "QObject|"
 msgid "Ellipse"
-msgstr "El·lipse"
+msgstr "ოვალი"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Rect"
-msgstr "Rectangle"
+msgstr ""
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Rule"
-msgstr "Regla"
+msgstr "წესი"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:258
 msgctxt "VisualItem|"
 msgid "Duplicate Item"
-msgstr "Duplica l'element"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:164
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr "%1 - (Visor de full de personatge)"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
 msgid "To all"
-msgstr "A tot"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:542
 msgctxt "CharacterSheetWindow|"
 msgid "QML Errors"
-msgstr "Errors de QML"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:616
 msgctxt "CharacterSheetWindow|"
 msgid "Open Character Sheets View"
-msgstr "Obri el visor de full de personatge"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:618
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet files (*.qml)"
-msgstr "Fitxers de full de personatge (*.qml)"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
-msgstr "Compartix a"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet Data files (*.rcs)"
-msgstr "Fitxers de dades de full de personatge (*.rcs)"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:56
 #: src/libraries/rwidgets/mediacontainers/image.cpp:66
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - Image"
-msgstr "%1 - Imatge"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:207
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture)"
-msgstr "%1 - (Imatge)"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:212
 msgctxt "Image|"
 msgid "Zoom In"
-msgstr "Acosta"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:213
 msgctxt "Image|"
 msgid "increase zoom level"
-msgstr "incrementa el nivell de zoom"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:217
 msgctxt "Image|Zoom In"
@@ -4195,12 +4142,12 @@ msgstr "Ctrl++"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:222
 msgctxt "Image|"
 msgid "Zoom out"
-msgstr "Allunya"
+msgstr "და_პატარავება"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:224
 msgctxt "Image|"
 msgid "Reduce zoom level"
-msgstr "Reduïx el nivell de zoom"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:227
 msgctxt "Image|Zoom Out"
@@ -4210,12 +4157,12 @@ msgstr "Ctrl+-"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:237
 msgctxt "Image|"
 msgid "Fit the workspace"
-msgstr "Ajusta a l'espai de treball"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:239
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
-msgstr "La finestra i la imatge s'ajusten a l'espai de treball"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|Fit the workspace"
@@ -4225,12 +4172,12 @@ msgstr "Ctrl+m"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:249
 msgctxt "Image|"
 msgid "Fit Window"
-msgstr "Ajusta a la finestra"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:254
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
-msgstr "La imatge prendrà les dimensions millors per ajustar-se a la finestra."
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
@@ -4240,12 +4187,12 @@ msgstr "Ctrl+f"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:264
 msgctxt "Image|"
 msgid "Little"
-msgstr "Xicoteta"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:265
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
-msgstr "Establix el nivell de zoom al 20%"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|Set the zoom level at 20%"
@@ -4255,12 +4202,12 @@ msgstr "Ctrl+l"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:275
 msgctxt "Image|"
 msgid "Normal"
-msgstr "Normal"
+msgstr "ჩვეულებრივი"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:276
 msgctxt "Image|"
 msgid "No Zoom"
-msgstr "Sense zoom"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|Normal"
@@ -4270,12 +4217,12 @@ msgstr "Ctrl+n"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:286
 msgctxt "Image|"
 msgid "Big"
-msgstr "Gran"
+msgstr "დიდი"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:287
 msgctxt "Image|"
 msgid "Set the zoom level at 400%"
-msgstr "Establix el nivell de zoom al 400%"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:290
 msgctxt "Image|Zoom Out"
@@ -4287,50 +4234,50 @@ msgstr "Ctrl+b"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:312
 msgctxt "Image|"
 msgid "Play"
-msgstr "Reproduïx"
+msgstr "დაკვრა"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:297
 msgctxt "Image|"
 msgid "Stop"
-msgstr "Para"
+msgstr "შეჩერება"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:303
 msgctxt "Image|"
 msgid "Pause"
-msgstr "Pausa"
+msgstr "შეჩერება"
 
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.cpp:86
 msgctxt "InstantMessagingView|"
 msgid "Instant Messaging"
-msgstr "Missatgeria instantània"
+msgstr "მოკლე-შეტყობინება"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:34
 msgctxt "MediaContainer|"
 msgid "Detach the view"
-msgstr "Separa la vista"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:58
 msgctxt "QObject|"
 msgid "Loading error"
-msgstr "S'ha produït un error en carregar"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:113
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:115
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
-msgstr "%1 - Mapa mental"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:107
 #, qt-format
 msgctxt "PdfViewer|Current page/ total page"
 msgid "%1/%2"
-msgstr "%1/%2"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:169
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
-msgstr "Compartició de fitxer PDF"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:170
 msgctxt "PdfViewer|"
@@ -4338,177 +4285,175 @@ msgid ""
 "PDF transfer can be really heavy.\n"
 "Do you want to continue and share the PDF?"
 msgstr ""
-"La transferència de PDF pot ser molt pesada.\n"
-"Voleu continuar i compartir PDF?"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:180
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
-msgstr "%1 - (PDF)"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Fog Of War"
-msgstr "Boira de guerra"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "All visible"
-msgstr "Tots visibles"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "No Right"
-msgstr "Sense drets"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "His character"
-msgstr "El seu personatge"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "All Permissions"
-msgstr "Tots els permisos"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:67
 msgctxt "QObject|"
 msgid "Fog Layer"
-msgstr "Capa de boira"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:70
 msgctxt "QObject|"
 msgid "Grid Layer"
-msgstr "Capa de quadrícula"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:73
 msgctxt "QObject|"
 msgid "No Layer"
-msgstr "Sense capes"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:94
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
-msgstr "%1 - visibilitat: %2 - permisos: %3 - capa: %4"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/webview.cpp:118
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
-msgstr "%1 - Pàgina web"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:25
 msgctxt "campaign::CampaignView|"
 msgid "Add directory…"
-msgstr "Afig un directori…"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:26
 msgctxt "campaign::CampaignView|"
 msgid "Delete"
-msgstr "Suprimix"
+msgstr "წაშლა"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:27
 msgctxt "campaign::CampaignView|"
 msgid "Current Directory"
-msgstr "Directori actual"
+msgstr "მიმდინარე საქაღალდე:"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:28
 msgctxt "campaign::CampaignView|"
 msgid "Open"
-msgstr "Obri"
+msgstr "გახსნა"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:29
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:145
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
-msgstr "Obri com a…"
+msgstr "გახსნა, როგორც..."
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
 msgid "Rename Media"
-msgstr "Canvia el nom d'un fitxer multimèdia"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:32
 msgctxt "campaign::CampaignView|"
 msgid "Name"
-msgstr "Nom"
+msgstr "სახელი"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:33
 msgctxt "campaign::CampaignView|"
 msgid "Size"
-msgstr "Mida"
+msgstr "ზომა"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:34
 msgctxt "campaign::CampaignView|"
 msgid "Type"
-msgstr "Tipus"
+msgstr "ტიპი"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:35
 msgctxt "campaign::CampaignView|"
 msgid "Date Added"
-msgstr "Data d'alta"
+msgstr "დამატებულია"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
 msgctxt "campaign::CampaignView|"
 msgid "Date Modified"
-msgstr "Data de modificació"
+msgstr "შეცვლის თარიღი"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:109
 msgctxt "campaign::CampaignView|"
 msgid "Notes"
-msgstr "Notes"
+msgstr "შენიშვნები"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:112
 msgctxt "campaign::CampaignView|"
 msgid "Shared Notes"
-msgstr "Notes compartides"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:153
 msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
-msgstr "Mostra/oculta la columna"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:49
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr "Establix un avatar..."
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:50
 msgctxt "UserListView|"
 msgid "Remove Avatar..."
-msgstr "Elimina l'avatar..."
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:56
 msgctxt "UserListView|"
 msgid "Health Points"
-msgstr "Punts d'estat"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:56
 msgctxt "UserListView|"
 msgid "Health Points Maximum"
-msgstr "Punts màxims d'estat"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:57
 msgctxt "UserListView|"
 msgid "Health Points Minimum"
-msgstr "Punts mínims d'estat"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:57
 msgctxt "UserListView|"
 msgid "Distance per turn"
-msgstr "Distància per torn"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:58
 msgctxt "UserListView|"
 msgid "Initiative Command"
-msgstr "Ordre d'iniciativa"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:58
 msgctxt "UserListView|"
 msgid "Has initiative"
-msgstr "Té iniciativa"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:126
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:130
@@ -4516,186 +4461,186 @@ msgstr "Té iniciativa"
 #, qt-format
 msgctxt "UserListView|"
 msgid "Get value for %1 property"
-msgstr "Aconseguix un valor per a la propietat %1"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:126
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:130
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:134
 msgctxt "UserListView|"
 msgid "Value:"
-msgstr "Valor:"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:217
 msgctxt "UserListView|"
 msgid "Set Property"
-msgstr "Establix la propietat"
+msgstr "თვისების დაყენება"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:228
 msgctxt "UserListView|"
 msgid "State"
-msgstr "Estat"
+msgstr "State"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:247
 msgctxt "UserListView|"
 msgid "Action"
-msgstr "Acció"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:259
 msgctxt "UserListView|"
 msgid "Shape"
-msgstr "Forma"
+msgstr "ფორმა"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
 msgctxt "VToolsBar|"
 msgid "Tools"
-msgstr "Eines"
+msgstr "ხელსაწყოები"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:104
 msgctxt "VToolsBar|"
 msgid "Pen"
-msgstr "Llapis"
+msgstr "ფანქარი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:107
 msgctxt "VToolsBar|"
 msgid "Line"
-msgstr "Línia"
+msgstr "ხაზი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:110
 msgctxt "VToolsBar|"
 msgid "Empty Rectangle"
-msgstr "Rectangle buit"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:113
 msgctxt "VToolsBar|"
 msgid "filled Rectangle"
-msgstr "Rectangle emplenat"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:116
 msgctxt "VToolsBar|"
 msgid "Empty Ellipse"
-msgstr "El·lipse buida"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:119
 msgctxt "VToolsBar|"
 msgid "Filled Ellipse"
-msgstr "El·lipse emplenada"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:122
 msgctxt "VToolsBar|"
 msgid "Text"
-msgstr "Text"
+msgstr "ტექსტი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:125
 msgctxt "VToolsBar|"
 msgid "Hand"
-msgstr "Mà"
+msgstr "ხელი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:128
 msgctxt "VToolsBar|"
 msgid "Add NPC"
-msgstr "Afig un PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:131
 msgctxt "VToolsBar|"
 msgid "Rule"
-msgstr "Regla"
+msgstr "წესი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:134
 msgctxt "VToolsBar|"
 msgid "Path"
-msgstr "Camí"
+msgstr "მისამართი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
 msgctxt "VToolsBar|"
 msgid "Anchor"
-msgstr "Àncora"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
 msgctxt "VToolsBar|"
 msgid "Pipette"
-msgstr "Pipeta"
+msgstr "პიპეტი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:142
 msgctxt "VToolsBar|"
 msgid "Highlighter"
-msgstr "Marcador fluorescent"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:145
 msgctxt "VToolsBar|"
 msgid "Paint Bucket"
-msgstr "Cubeta de pintar"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:148
 msgctxt "VToolsBar|"
 msgid "Text With Border"
-msgstr "Text amb vora"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
 msgctxt "VToolsBar|"
 msgid "Reset NPC counter"
-msgstr "Restablix el comptador de PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:279
 msgctxt "VToolsBar|"
 msgid "NPC Name"
-msgstr "Nom del PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:284
 msgctxt "VToolsBar|"
 msgid "NPC's number"
-msgstr "Número de PNJ"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:290
 msgctxt "VToolsBar|"
 msgid "Normal"
-msgstr "Normal"
+msgstr "ჩვეულებრივი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:292
 msgctxt "VToolsBar|"
 msgid "Mask"
-msgstr "Màscara"
+msgstr "ნიღაბი"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:294
 msgctxt "VToolsBar|"
 msgid "Unmask"
-msgstr "Desemmascara"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:324
 msgctxt "VToolsBar|"
 msgid "height of the pen"
-msgstr "Alçària del llapis"
+msgstr ""
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:336
 msgctxt "VToolsBar|"
 msgid "Opacity:"
-msgstr "Opacitat:"
+msgstr ""
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:82
 msgctxt "TestCharacterStateModel|"
 msgid "Healthy"
-msgstr "Bon estat"
+msgstr "ჯანმრთელი"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:86
 msgctxt "TestCharacterStateModel|"
 msgid "Lightly Wounded"
-msgstr "Ferit lleu"
+msgstr ""
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:90
 msgctxt "TestCharacterStateModel|"
 msgid "Seriously injured"
-msgstr "Ferit greu"
+msgstr ""
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:94
 msgctxt "TestCharacterStateModel|"
 msgid "Dead"
-msgstr "Mort"
+msgstr "მკვდარი"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:98
 msgctxt "TestCharacterStateModel|"
 msgid "Sleeping"
-msgstr "Adormit"
+msgstr "მძინარე"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:102
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
-msgstr "Embruixat"
+msgstr ""
