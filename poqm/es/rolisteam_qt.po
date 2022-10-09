@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2022-10-07 04:17+0200\n"
+"PO-Revision-Date: 2022-10-08 19:45+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -207,7 +207,7 @@ msgstr ""
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Dice Button"
-msgstr ""
+msgstr "Botón de dados"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
@@ -437,12 +437,12 @@ msgstr "Distribución equidistante en horizontal"
 #: src/binaries/rcse/main.cpp:66
 msgctxt "QObject|"
 msgid "define path to current <translation>"
-msgstr ""
+msgstr "definir la ruta a la <traducción> actual."
 
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
 msgid "open <file>."
-msgstr ""
+msgstr "abrir el <archivo>."
 
 #: src/binaries/rcse/mainwindow.cpp:166
 msgctxt "MainWindow|"
@@ -702,7 +702,7 @@ msgstr "función"
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:78
 msgctxt "QObject|"
 msgid "Dice Button"
-msgstr ""
+msgstr "Botón de dados"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:106
 msgctxt "QObject|"
@@ -875,7 +875,7 @@ msgstr ""
 #: src/binaries/server/main.cpp:115
 msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
-msgstr ""
+msgstr "Solicitar la contraseña y devolver su clave hash."
 
 #: src/binaries/widget/mainwindow.cpp:343
 msgctxt "MainWindow|"
@@ -968,12 +968,12 @@ msgstr "%1 acaba de dejar el juego."
 #: src/binaries/widget/mainwindow.cpp:874
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
-msgstr ""
+msgstr "Configurar rolisteam para usar el <puerto> para la conexión."
 
 #: src/binaries/widget/mainwindow.cpp:877
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
-msgstr ""
+msgstr "Configurar rolisteam para conectarse al <servidor>."
 
 #: src/binaries/widget/mainwindow.cpp:880
 msgctxt "MainWindow|"
@@ -988,7 +988,7 @@ msgstr "Borrar los ajustes y usar los parámetros predeterminados"
 #: src/binaries/widget/mainwindow.cpp:885
 msgctxt "MainWindow|"
 msgid "Define the <username>"
-msgstr ""
+msgstr "Definir el <nombre de usuario>"
 
 #: src/binaries/widget/mainwindow.cpp:888
 msgctxt "MainWindow|"
@@ -998,7 +998,7 @@ msgstr "Eliminar el límite del tamaño de archivo PDF"
 #: src/binaries/widget/mainwindow.cpp:891
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
-msgstr ""
+msgstr "ruta al archivo de traducción: <archivo de traducción>"
 
 #: src/binaries/widget/mainwindow.cpp:894
 msgctxt "QObject|"
@@ -1201,7 +1201,7 @@ msgstr "Nombre de archivo"
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Is Background"
-msgstr ""
+msgstr "Es fondo"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:87
 msgctxt "QObject|"
@@ -1267,7 +1267,7 @@ msgstr "Guardando registros"
 #, qt-format
 msgctxt "LogPanel|"
 msgid "Log files %1"
-msgstr ""
+msgstr "Archivos de registro %1"
 
 #: src/libraries/core/src/controller/contentcontroller.cpp:359
 msgctxt "ContentController|"
@@ -1525,17 +1525,17 @@ msgstr "Color"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Min HP"
-msgstr ""
+msgstr "Salud mín"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Current HP"
-msgstr ""
+msgstr "Salud actual"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Max HP"
-msgstr ""
+msgstr "Salud máx"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
@@ -1620,12 +1620,12 @@ msgstr "Oculto"
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "NoGrid"
-msgstr ""
+msgstr "Sin cuadrícula"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "Square"
-msgstr ""
+msgstr "Cuadrado"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
@@ -1648,6 +1648,12 @@ msgid ""
 "Distance Per Turn: %6\n"
 "type: %7\n"
 msgstr ""
+"%1:\n"
+"Salud: %2/%3\n"
+"Estado: %4\n"
+"Puntuación de iniciativa: %5\n"
+"Distancia por turno: %6\n"
+"tipo: %7\n"
 
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
@@ -1890,7 +1896,7 @@ msgstr "Token del PJ"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:45
 msgctxt "QObject|"
 msgid "Pen"
-msgstr ""
+msgstr "Lápiz"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:46
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
@@ -1926,19 +1932,19 @@ msgstr "Borrar %1 elementos del mapa %1"
 #, qt-format
 msgctxt "ImportDataMedia|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Importar medio: %1"
 
 #: src/libraries/core/src/undoCmd/importimagestate.cpp:37
 #, qt-format
 msgctxt "ImportImageState|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Importar medio: %1"
 
 #: src/libraries/core/src/undoCmd/importmedia.cpp:41
 #, qt-format
 msgctxt "ImportMedia|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Importar medio: %1"
 
 #: src/libraries/core/src/undoCmd/newmediacontroller.cpp:68
 #, qt-format
@@ -2179,7 +2185,7 @@ msgstr "Imágenes (*.png)"
 #: src/libraries/mindmap/resources/qml/MindMap.qml:78
 msgctxt "MindMap|"
 msgid "is linked"
-msgstr ""
+msgstr "está enlazado"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:10
 msgctxt "MindMenu|"
@@ -2261,7 +2267,7 @@ msgstr "Modo nocturno"
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:47
 msgctxt "SideMenu|"
 msgid "Link label visible:"
-msgstr ""
+msgstr "Etiqueta de enlace visible:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
 msgctxt "SideMenu|"
@@ -2303,13 +2309,13 @@ msgstr "Etiquetas"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
-msgstr ""
+msgstr "Añadir la imagen %1"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:33
 #, qt-format
 msgctxt "AddItemCommand|"
 msgid "Add item of type: %1 to mindmap"
-msgstr ""
+msgstr "Añadir elemento de tipo %1 al mapa mental"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:65
 msgctxt "AddLinkCommand|"
@@ -2324,7 +2330,7 @@ msgstr "Eliminando imagen del nodo"
 #: src/libraries/mindmap/src/data/link.cpp:35
 msgctxt "Link|"
 msgid "is linked"
-msgstr ""
+msgstr "está enlazado"
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:25
 msgctxt "PackageNode|"
@@ -2535,7 +2541,7 @@ msgstr[1] "Mover %n elemento(s)"
 #, qt-format
 msgctxt "ColorSelector|"
 msgid "Custom Color %1 "
-msgstr ""
+msgstr "Color personalizado %1 "
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:192
 msgctxt "ColorSelector|"
@@ -2741,17 +2747,17 @@ msgstr "Rotar"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:282
 msgctxt "RGraphicsView|"
 msgid "To 360"
-msgstr ""
+msgstr "360º"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:283
 msgctxt "RGraphicsView|"
 msgid "Right"
-msgstr "Derecha"
+msgstr "A la derecha"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:284
 msgctxt "RGraphicsView|"
 msgid "Left"
-msgstr "Izquierda"
+msgstr "A la izquierda"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:285
 msgctxt "RGraphicsView|"
@@ -2761,7 +2767,7 @@ msgstr "Definir ángulo..."
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:287
 msgctxt "RGraphicsView|"
 msgid "Set Layer"
-msgstr ""
+msgstr "Definir capa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:295
 msgctxt "RGraphicsView|"
@@ -2871,7 +2877,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:522
 msgctxt "RGraphicsView|"
 msgid "Average"
-msgstr ""
+msgstr "Promedio"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:525
 msgctxt "RGraphicsView|"
@@ -2881,12 +2887,12 @@ msgstr "Como elemento bajo el ratón"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:528
 msgctxt "RGraphicsView|"
 msgid "As the Bigger"
-msgstr ""
+msgstr "Como el más grande"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:531
 msgctxt "RGraphicsView|"
 msgid "As the Smaller"
-msgstr ""
+msgstr "Como el más pequeño"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:534
 msgctxt "RGraphicsView|"
@@ -2919,12 +2925,12 @@ msgstr "Personaje"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:578
 msgctxt "RGraphicsView|"
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:581
 msgctxt "RGraphicsView|"
 msgid "Hidden"
-msgstr ""
+msgstr "Oculto"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:585
 msgctxt "RGraphicsView|"
@@ -2983,7 +2989,7 @@ msgstr "Borrar la iniciativa de todos los personajes"
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
 msgid "Predefine Color 1"
-msgstr ""
+msgstr "Predefinir color 1"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:131
 #, qt-format
@@ -3158,7 +3164,7 @@ msgstr "CSS"
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
-msgstr ""
+msgstr "<li>Formato de imagen: %1 valor %2</li>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:475
 msgctxt "PreferencesDialog|"
@@ -3237,12 +3243,12 @@ msgstr "Encuentre el tipo aquí: <a href=\"%1\"</a>"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "No Right"
-msgstr ""
+msgstr "Ningún derecho"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "His character"
-msgstr ""
+msgstr "Su personaje"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -3252,7 +3258,7 @@ msgstr "Todos los permisos"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "Hidden"
-msgstr ""
+msgstr "Oculto"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
@@ -3262,7 +3268,7 @@ msgstr "Niebla de guerra"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "All visible"
-msgstr ""
+msgstr "Todo visible"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:51
 msgctxt "campaign::AntagonistBoard|"
@@ -3313,7 +3319,7 @@ msgstr "Contenido de la campaña"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:51
 msgctxt "campaign::CampaignDock|"
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:52
 msgctxt "campaign::CampaignDock|"
@@ -3383,7 +3389,7 @@ msgstr "Cambiar al canal"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:38
 msgctxt "ChannelListPanel|"
 msgid "Set/Unset Channel Password"
-msgstr ""
+msgstr "Asignar/quitar contraseña del canal"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:39
 msgctxt "ChannelListPanel|"
@@ -3497,12 +3503,12 @@ msgstr "Movimiento del PJ"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:117
 msgctxt "VmapToolBar|"
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:109
 msgctxt "VmapToolBar|"
 msgid "Hidden"
-msgstr ""
+msgstr "Oculto"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:113
 msgctxt "VmapToolBar|"
@@ -3669,7 +3675,7 @@ msgstr "Se ha encontrado un error de XML"
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "Check line %1 column %2 on string \"%3\"!"
-msgstr ""
+msgstr "Comprobar la línea %1, columna %2, en la cadena «%3»."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 msgctxt "XMLTextEdit|"
@@ -3680,7 +3686,7 @@ msgstr "XML válido."
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "All tag are valid size %1."
-msgstr ""
+msgstr "Todas las etiquetas tienen el tamaño válido %1."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
@@ -3898,7 +3904,7 @@ msgstr "Cadena no encontrada."
 #, qt-format
 msgctxt "SharedNote|"
 msgid "%1 - Shared Note Editor"
-msgstr ""
+msgstr "%1 - Editor de nota compartida"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:16
 msgctxt "DiceBookMarkModel|"
@@ -3983,12 +3989,12 @@ msgstr "Temperatura"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:10
 msgctxt "QObject|"
 msgid "MASS"
-msgstr ""
+msgstr "Masa"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:11
 msgctxt "QObject|"
 msgid "OTHER"
-msgstr ""
+msgstr "Otra"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:162
 msgctxt "GMTOOL::UnitModel|"
@@ -4023,7 +4029,7 @@ msgstr "Cambiar estado"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:496
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
-msgstr ""
+msgstr "Forma de la visión"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:509
 msgctxt "CharacterItem|"
@@ -4098,7 +4104,7 @@ msgstr "Elipse"
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Rect"
-msgstr ""
+msgstr "Rectángulo"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
@@ -4119,7 +4125,7 @@ msgstr "%1 - (Visor de hoja de personaje)"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
 msgid "To all"
-msgstr ""
+msgstr "A todos"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:542
 msgctxt "CharacterSheetWindow|"
@@ -4337,17 +4343,17 @@ msgstr "Niebla de guerra"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "All visible"
-msgstr ""
+msgstr "Todo visible"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "No Right"
-msgstr ""
+msgstr "Ningún derecho"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "His character"
-msgstr ""
+msgstr "Su personaje"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
@@ -4373,7 +4379,7 @@ msgstr "Ninguna capa"
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
-msgstr ""
+msgstr "%1 - visibilidad: %2 - permiso: %3 - capa: %4"
 
 #: src/libraries/rwidgets/mediacontainers/webview.cpp:118
 #, qt-format
@@ -4410,7 +4416,7 @@ msgstr "Abrir como..."
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
 msgid "Rename Media"
-msgstr ""
+msgstr "Cambiar nombre de medio"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:32
 msgctxt "campaign::CampaignView|"
