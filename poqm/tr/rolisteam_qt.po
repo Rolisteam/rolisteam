@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2022-10-02 14:40+0300\n"
+"PO-Revision-Date: 2022-10-10 22:15+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -177,12 +177,12 @@ msgstr "MetinGirişi"
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextField"
-msgstr "MetinBölgesi"
+msgstr "MetinAlanı"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextArea"
-msgstr "MetinAlanı"
+msgstr "MetinBölgesi"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
@@ -317,7 +317,7 @@ msgstr "Yazıtipi"
 #: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Text-align"
-msgstr "Metin Hizamala"
+msgstr "Metin Hizalama"
 
 #: src/binaries/rcse/fieldmodel.cpp:69
 msgctxt "FieldModel|"
@@ -377,92 +377,92 @@ msgstr "MerkezSol"
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomRight"
-msgstr ""
+msgstr "SağAlt"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomMiddle"
-msgstr ""
+msgstr "OrtaAlt"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomLeft"
-msgstr ""
+msgstr "SolAlt"
 
 #: src/binaries/rcse/itemeditor.cpp:58
 msgctxt "ItemEditor|"
 msgid "Fit the view"
-msgstr ""
+msgstr "Görünümü Sığdır"
 
 #: src/binaries/rcse/itemeditor.cpp:61
 msgctxt "ItemEditor|"
 msgid "Lock item"
-msgstr ""
+msgstr "Ögeyi Kilitle"
 
 #: src/binaries/rcse/itemeditor.cpp:63
 msgctxt "ItemEditor|"
 msgid "Align on Y"
-msgstr ""
+msgstr "Y'ye Hizala"
 
 #: src/binaries/rcse/itemeditor.cpp:64
 msgctxt "ItemEditor|"
 msgid "Align on X"
-msgstr ""
+msgstr "X'e Hizala"
 
 #: src/binaries/rcse/itemeditor.cpp:65
 msgctxt "ItemEditor|"
 msgid "Same Width"
-msgstr ""
+msgstr "Aynı Genişlik"
 
 #: src/binaries/rcse/itemeditor.cpp:66
 msgctxt "ItemEditor|"
 msgid "Same Height"
-msgstr ""
+msgstr "Aynı Yükseklik"
 
 #: src/binaries/rcse/itemeditor.cpp:67
 msgctxt "ItemEditor|"
 msgid "Dupplicate"
-msgstr ""
+msgstr "Çoğalt"
 
 #: src/binaries/rcse/itemeditor.cpp:68
 msgctxt "ItemEditor|"
 msgid "Vertical equidistribution"
-msgstr ""
+msgstr "Dikey Eşit Dağıtım"
 
 #: src/binaries/rcse/itemeditor.cpp:69
 msgctxt "ItemEditor|"
 msgid "Horizontal equidistribution"
-msgstr ""
+msgstr "Yatay Eşit Dağıtım"
 
 #: src/binaries/rcse/main.cpp:66
 msgctxt "QObject|"
 msgid "define path to current <translation>"
-msgstr ""
+msgstr "geçerli <çeviri>'ye olan yolu tanımla"
 
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
 msgid "open <file>."
-msgstr ""
+msgstr "<dosya>'yı aç."
 
 #: src/binaries/rcse/mainwindow.cpp:166
 msgctxt "MainWindow|"
 msgid "Log panel"
-msgstr ""
+msgstr "Günlük paneli"
 
 #: src/binaries/rcse/mainwindow.cpp:194 src/binaries/widget/mainwindow.cpp:557
 msgctxt "MainWindow|"
 msgid "&Undo"
-msgstr ""
+msgstr "&Geri Al"
 
 #: src/binaries/rcse/mainwindow.cpp:197 src/binaries/widget/mainwindow.cpp:556
 msgctxt "MainWindow|"
 msgid "&Redo"
-msgstr ""
+msgstr "&Yinele"
 
 #: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:621
 msgctxt "MainWindow|"
 msgid "Support"
-msgstr ""
+msgstr "Destek"
 
 #: src/binaries/rcse/mainwindow.cpp:357
 #, qt-format
@@ -471,69 +471,71 @@ msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 msgstr ""
+"%1 bağış sayfası, şurada bulunabilir:<br> <a href=\"https://liberapay.com/"
+"Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:426
 msgctxt "MainWindow|"
 msgid "Untitled"
-msgstr ""
+msgstr "Başlıksız"
 
 #: src/binaries/rcse/mainwindow.cpp:463 src/binaries/widget/mainwindow.cpp:772
 msgctxt "MainWindow|"
 msgid "Help"
-msgstr ""
+msgstr "Yardım"
 
 #: src/binaries/rcse/mainwindow.cpp:464
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
-msgstr ""
+msgstr "Rcse belgelendirmesi, şurada bulunabilir:<br> <a href=\"%1\">%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:476
 msgctxt "MainWindow|"
 msgid "The charactersheet has unsaved changes."
-msgstr ""
+msgstr "Karakter sayfasında kaydedilmemiş değişiklikler var."
 
 #: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:694
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
-msgstr ""
+msgstr "Çık: %1"
 
 #: src/binaries/rcse/mainwindow.cpp:538
 msgctxt "MainWindow|"
 msgid "Image Generation"
-msgstr ""
+msgstr "Görsel Üretimi"
 
 #: src/binaries/rcse/mainwindow.cpp:538
 msgctxt "MainWindow|"
 msgid "Image generation in progress"
-msgstr ""
+msgstr "Görsel üretimi sürüyor"
 
 #: src/binaries/rcse/mainwindow.cpp:557 src/binaries/rcse/mainwindow.cpp:807
 msgctxt "MainWindow|"
 msgid "Open Background Image"
-msgstr ""
+msgstr "Arka Plan Görseli Aç"
 
 #: src/binaries/rcse/mainwindow.cpp:568
 msgctxt "MainWindow|"
 msgid "Open Image"
-msgstr ""
+msgstr "Görsel Aç"
 
 #: src/binaries/rcse/mainwindow.cpp:593 src/binaries/rcse/mainwindow.cpp:638
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet"
-msgstr ""
+msgstr "Karakter Sayfasını Kaydet"
 
 #: src/binaries/rcse/mainwindow.cpp:594 src/binaries/rcse/mainwindow.cpp:639
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
-msgstr ""
+msgstr "Rolisteam Karakter Sayfası (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:703
 msgctxt "MainWindow|"
 msgid "Do you want to erase current QML code ?"
-msgstr ""
+msgstr "Geçerli QML kodunu silmek istiyor musunuz?"
 
 #: src/binaries/rcse/mainwindow.cpp:704
 msgctxt "MainWindow|"
@@ -541,127 +543,129 @@ msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
 msgstr ""
+"QML kodu üretmek, QML'de yaptığınız tüm değişiklikleri geçersiz kılar.<br/"
+">Gerçekten QML kodu oluşturmak istiyor musunuz?"
 
 #: src/binaries/rcse/mainwindow.cpp:790
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet View"
-msgstr ""
+msgstr "Karakter Sayfası Görünümünü Kaydet"
 
 #: src/binaries/rcse/mainwindow.cpp:791
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
-msgstr ""
+msgstr "Rolisteam Karakter Sayfası Görünümü (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:916
 msgctxt "MainWindow|"
 msgid "Copy Path"
-msgstr ""
+msgstr "Yolu Kopyala"
 
 #: src/binaries/rcse/mainwindow.cpp:919
 msgctxt "MainWindow|"
 msgid "Copy Url"
-msgstr ""
+msgstr "URL'yi Kopyala"
 
 #: src/binaries/rcse/mainwindow.cpp:922
 msgctxt "MainWindow|"
 msgid "Replace Image"
-msgstr ""
+msgstr "Görseli Başkasıyla Değiştir"
 
 #: src/binaries/rcse/mainwindow.cpp:923
 msgctxt "MainWindow|"
 msgid "Remove Image"
-msgstr ""
+msgstr "Görseli Kaldır"
 
 #: src/binaries/rcse/mainwindow.cpp:924
 msgctxt "MainWindow|"
 msgid "Reload image from file"
-msgstr ""
+msgstr "Görseli Dosyadan Yeniden Yükle"
 
 #: src/binaries/rcse/mainwindow.cpp:931
 msgctxt "MainWindow|"
 msgid "Load Image"
-msgstr ""
+msgstr "Görseli Yükle"
 
 #: src/binaries/rcse/mainwindow.cpp:932
 msgctxt "MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
-msgstr ""
+msgstr "Desteklenen Görsel Biçimi (*.jpg *.png *.svg *.gif)"
 
 #: src/binaries/rcse/mainwindow.cpp:945
 msgctxt "MainWindow|"
 msgid "Add character"
-msgstr ""
+msgstr "Karakter Ekle"
 
 #: src/binaries/rcse/mainwindow.cpp:946
 msgctxt "MainWindow|"
 msgid "Delete character"
-msgstr ""
+msgstr "Karakteri Sil"
 
 #: src/binaries/rcse/mainwindow.cpp:948
 msgctxt "MainWindow|"
 msgid "Character's Name"
-msgstr ""
+msgstr "Karakterin Adı"
 
 #: src/binaries/rcse/mainwindow.cpp:950
 msgctxt "MainWindow|"
 msgid "Apply on Selection"
-msgstr ""
+msgstr "Seçimde Uygula"
 
 #: src/binaries/rcse/mainwindow.cpp:951
 msgctxt "MainWindow|"
 msgid "Apply on all characters"
-msgstr ""
+msgstr "Tüm Karakterlerde Uygula"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
 msgid "Directory to save QML file"
-msgstr ""
+msgstr "QML dosyasının kaydedileceği dizin"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
 msgid "Place to save Generated files"
-msgstr ""
+msgstr "Üretilen dosyaların kaydedileceği yer"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:71
 msgctxt "TableCanvasField|"
 msgid "Properties"
-msgstr ""
+msgstr "Özellikler"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Character #%1"
-msgstr ""
+msgstr "Karakter Ekle (%1)"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:56
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:47
 msgctxt "QObject|"
 msgid "checkbox"
-msgstr ""
+msgstr "onay kutusu"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:60
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:51
 msgctxt "QObject|"
 msgid "TextInput"
-msgstr ""
+msgstr "MetinGirişi"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:64
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:55
 msgctxt "QObject|"
 msgid "TextArea"
-msgstr ""
+msgstr "MetinBölgesi"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:68
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:59
 msgctxt "QObject|"
 msgid "TextField"
-msgstr ""
+msgstr "MetinAlanı"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:73
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:64
 msgctxt "QObject|"
 msgid "Table"
-msgstr ""
+msgstr "Tablo"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:78
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:69
@@ -669,105 +673,105 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Image"
-msgstr ""
+msgstr "Görsel"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:85
 msgctxt "QObject|"
 msgid "Slider"
-msgstr ""
+msgstr "Kaydırıcı"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
 #: src/libraries/core/src/data/cleveruri.cpp:229
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Hidden"
-msgstr ""
+msgstr "Gizli"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:93
 msgctxt "QObject|"
 msgid "LabelField"
-msgstr ""
+msgstr "EtiketAlanı"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:97
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:73
 msgctxt "QObject|"
 msgid "function"
-msgstr ""
+msgstr "işlev"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:102
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:78
 msgctxt "QObject|"
 msgid "Dice Button"
-msgstr ""
+msgstr "Zarlar Düğmesi"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:106
 msgctxt "QObject|"
 msgid "Web Page"
-msgstr ""
+msgstr "Web Sayfası"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:110
 msgctxt "QObject|"
 msgid "Next Page Button"
-msgstr ""
+msgstr "Sonraki Sayfa Düğmesi"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:114
 msgctxt "QObject|"
 msgid "Previous Page Button"
-msgstr ""
+msgstr "Önceki Sayfa Düğmesi"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:120
 #: src/libraries/core/src/network/connectionprofile.cpp:7
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:84
 msgctxt "QObject|"
 msgid "Unknown"
-msgstr ""
+msgstr "Bilinmiyor"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:124
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:88
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 Field"
-msgstr ""
+msgstr "%1 Alanı Ekle"
 
 #: src/binaries/rcse/undo/addpagecommand.cpp:31
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Page #%1"
-msgstr ""
+msgstr "Ekle: Sayfa #%1"
 
 #: src/binaries/rcse/undo/deletecharactercommand.cpp:27
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete Character #%1"
-msgstr ""
+msgstr "Sil: Karakter #%1"
 
 #: src/binaries/rcse/undo/deletefieldcommand.cpp:57
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete %n Field(s)"
 msgid_plural "Delete %n Field(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n Alanı Sil"
+msgstr[1] "%n Alanı Sil"
 
 #: src/binaries/rcse/undo/deletepagecommand.cpp:37
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete Page #%1"
-msgstr ""
+msgstr "Sil: Sayfa #%1"
 
 #: src/binaries/rcse/undo/movefieldcommand.cpp:32
 #, qt-format
 msgctxt "QObject|"
 msgid "Move %n Field(s)"
 msgid_plural "Move %n Field(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n Alanı Taşı"
+msgstr[1] "%n Alanı Taşı"
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:51
 #, qt-format
 msgctxt "QObject|"
 msgid "Set background on Page #%1"
-msgstr ""
+msgstr "Şurada arka planı ayarla: #%1"
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:53
 #, qt-format
