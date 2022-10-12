@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2022-10-10 22:15+0300\n"
+"PO-Revision-Date: 2022-10-11 13:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -777,89 +777,89 @@ msgstr "Şurada arka planı ayarla: #%1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Page #%1 and Set background on it"
-msgstr ""
+msgstr "Ekle: Sayfa #%1 ve arka planını ayarla"
 
 #: src/binaries/rcse/undo/setfieldproperties.cpp:34
 #, qt-format
 msgctxt "QObject|"
 msgid "Set Property %1"
-msgstr ""
+msgstr "%1 Özelliğini Ayarla"
 
 #: src/binaries/rcse/undo/setpropertyonallcharacters.cpp:15
 #, qt-format
 msgctxt "QObject|"
 msgid "Set property on all characters: %1"
-msgstr ""
+msgstr "Tüm karakterlerde özellik ayarla: %1"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
 msgid "Lock up Item"
-msgstr ""
+msgstr "Ögeyi Kilitle"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:26
 msgctxt "FieldView|"
 msgid "Delete Item"
-msgstr ""
+msgstr "Ögeyi Sil"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:27
 msgctxt "FieldView|"
 msgid "Apply on Selection"
-msgstr ""
+msgstr "Seçime Uygula"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:28
 msgctxt "FieldView|"
 msgid "Apply on all lines"
-msgstr ""
+msgstr "Tüm Satırlara Uygula"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:29
 msgctxt "FieldView|"
 msgid "Define Field Code"
-msgstr ""
+msgstr "Alan Kodunu Tanımla"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:30
 msgctxt "FieldView|"
 msgid "Reset Field Code"
-msgstr ""
+msgstr "Alan Kodunu Sıfırla"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:34
 msgctxt "FieldView|"
 msgid "Position columns"
-msgstr ""
+msgstr "Konum sütunları"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:45
 msgctxt "FieldView|"
 msgid "Aesthetic columns"
-msgstr ""
+msgstr "Estetik sütunlar"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:57
 msgctxt "FieldView|"
 msgid "Value columns"
-msgstr ""
+msgstr "Değer sütunları"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:66
 msgctxt "FieldView|"
 msgid "Id columns"
-msgstr ""
+msgstr "Kimlik sütunları"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:73
 msgctxt "FieldView|"
 msgid "All columns"
-msgstr ""
+msgstr "Tüm sütunlar"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:140
 msgctxt "FieldView|"
 msgid "Show"
-msgstr ""
+msgstr "Göster"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:147
 msgctxt "FieldView|"
 msgid "Show/Hide"
-msgstr ""
+msgstr "Göster/Gizle"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:320
 msgctxt "FieldView|"
 msgid "Get Color"
-msgstr ""
+msgstr "Renk Al"
 
 #: src/binaries/server/main.cpp:109
 msgctxt "QObject|"
