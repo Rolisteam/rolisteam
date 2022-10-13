@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2022-10-11 13:49+0300\n"
+"PO-Revision-Date: 2022-10-12 13:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -864,60 +864,60 @@ msgstr "Renk Al"
 #: src/binaries/server/main.cpp:109
 msgctxt "QObject|"
 msgid "Set the path to configuration file [mandatory]"
-msgstr ""
+msgstr "Yapılandırma dosyası yolunu ayarlayın [zorunlu]"
 
 #: src/binaries/server/main.cpp:112
 msgctxt "QObject|"
 msgid "Print a default configuration file into Standard output"
-msgstr ""
+msgstr "Standart çıktı'ya bir öntanımlı yapılandırma dosyası yazdırın"
 
 #: src/binaries/server/main.cpp:115
 msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
-msgstr ""
+msgstr "Bir parola sorun ve sağlama anahtarını döndürün."
 
 #: src/binaries/widget/mainwindow.cpp:343
 msgctxt "MainWindow|"
 msgid "Antagonist Table"
-msgstr ""
+msgstr "Rakip Tablosu"
 
 #: src/binaries/widget/mainwindow.cpp:451
 msgctxt "MainWindow|"
 msgid "Open Webpage"
-msgstr ""
+msgstr "Web Sayfasını Aç"
 
 #: src/binaries/widget/mainwindow.cpp:451
 msgctxt "MainWindow|"
 msgid "Webpage url:"
-msgstr ""
+msgstr "Web sayfası URL'si:"
 
 #: src/binaries/widget/mainwindow.cpp:501
 #: src/binaries/widget/mainwindow.cpp:702
 msgctxt "MainWindow|"
 msgid "Open Campaign"
-msgstr ""
+msgstr "Sefer Aç"
 
 #: src/binaries/widget/mainwindow.cpp:622
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
-msgstr ""
+msgstr "%1 bağış sayfası, şurada bulunabilir:<br> <a href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:678
 msgctxt "MainWindow|"
 msgid "Quit"
-msgstr ""
+msgstr "Çık"
 
 #: src/binaries/widget/mainwindow.cpp:686
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
-msgstr ""
+msgstr "Bağlantı kesildi. %1 kapatılacak"
 
 #: src/binaries/widget/mainwindow.cpp:688
 msgctxt "MainWindow|"
 msgid "Connection lost"
-msgstr ""
+msgstr "Bağlantı kesildi"
 
 #: src/binaries/widget/mainwindow.cpp:773
 #, qt-format
@@ -926,11 +926,13 @@ msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
 "rolisteam.org\">http://wiki.rolisteam.org/</a>"
 msgstr ""
+"%1 belgelendirmesi, şurada bulunabilir:<br> <a href=\"http://wiki.rolisteam."
+"org\">http://wiki.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:808
 msgctxt "MainWindow|"
 msgid "Update Notification"
-msgstr ""
+msgstr "Güncelleme Bildirimi"
 
 #: src/binaries/widget/mainwindow.cpp:809
 #, qt-format
@@ -939,54 +941,56 @@ msgid ""
 "The %1 version has been released. Please take a look at <a href=\"http://www."
 "rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
+"%1 sürümü çıktı. Daha fazla bilgi için <a href=\"http://www.rolisteam.org/"
+"download\">İndirme Sayfası</a>'na bakın"
 
 #: src/binaries/widget/mainwindow.cpp:819
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
-msgstr ""
+msgstr "%1, şimdi oyuna katıldı."
 
 #: src/binaries/widget/mainwindow.cpp:823
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
-msgstr ""
+msgstr "%1 kullanıcısında doğru sürüm yok: %2"
 
 #: src/binaries/widget/mainwindow.cpp:829
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
-msgstr ""
+msgstr "%1, şimdi oyundan çıktı."
 
 #: src/binaries/widget/mainwindow.cpp:874
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
-msgstr ""
+msgstr "Rolisteam'i bağlantı için <port> kapısınu kullanacak biçimde ayarla"
 
 #: src/binaries/widget/mainwindow.cpp:877
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
-msgstr ""
+msgstr "Rolisteam'i <server> sunucusuna bağlanacak biçimde ayarla"
 
 #: src/binaries/widget/mainwindow.cpp:880
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
-msgstr ""
+msgstr "<role> tanımla: gm veya pc"
 
 #: src/binaries/widget/mainwindow.cpp:882
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
-msgstr ""
+msgstr "Ayarları silin ve öntanımlı parametreleri kullan"
 
 #: src/binaries/widget/mainwindow.cpp:885
 msgctxt "MainWindow|"
 msgid "Define the <username>"
-msgstr ""
+msgstr "<username> tanımlı"
 
 #: src/binaries/widget/mainwindow.cpp:888
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
-msgstr ""
+msgstr "PDF dosya boyutu sınırını kaldır"
 
 #: src/binaries/widget/mainwindow.cpp:891
 msgctxt "QObject|"
