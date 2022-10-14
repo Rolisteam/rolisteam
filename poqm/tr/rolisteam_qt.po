@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2022-10-12 13:46+0300\n"
+"PO-Revision-Date: 2022-10-13 05:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -69,7 +69,7 @@ msgstr "Hayır"
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
 msgid "only the GM"
-msgstr "yalnızca GM"
+msgstr "yalnızca oyun görevlisi"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
@@ -975,7 +975,7 @@ msgstr "Rolisteam'i <server> sunucusuna bağlanacak biçimde ayarla"
 #: src/binaries/widget/mainwindow.cpp:880
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
-msgstr "<role> tanımla: gm veya pc"
+msgstr "<role> tanımla: og veya ok"
 
 #: src/binaries/widget/mainwindow.cpp:882
 msgctxt "MainWindow|"
@@ -995,643 +995,643 @@ msgstr "PDF dosya boyutu sınırını kaldır"
 #: src/binaries/widget/mainwindow.cpp:891
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
-msgstr ""
+msgstr "çeviri dosyası yolu: <translationfile>"
 
 #: src/binaries/widget/mainwindow.cpp:894
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
-msgstr ""
+msgstr "Sunucuya bağlanmak için URL'yi tanımla: <url>"
 
 #: src/binaries/widget/mainwindow.cpp:987
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
-msgstr ""
+msgstr "Aç: %1"
 
 #: src/binaries/widget/mainwindow.cpp:1074
 msgctxt "MainWindow|"
 msgid "Connected"
-msgstr ""
+msgstr "Bağlı"
 
 #: src/binaries/widget/mainwindow.cpp:1074
 msgctxt "MainWindow|"
 msgid "Not Connected"
-msgstr ""
+msgstr "Bağlı Değil"
 
 #: src/binaries/widget/mainwindow.cpp:1075
 msgctxt "MainWindow|"
 msgid "Server"
-msgstr ""
+msgstr "Sunucu"
 
 #: src/binaries/widget/mainwindow.cpp:1075
 msgctxt "MainWindow|"
 msgid "Client"
-msgstr ""
+msgstr "İstemci"
 
 #: src/binaries/widget/mainwindow.cpp:1082
 msgctxt "MainWindow|"
 msgid "GM"
-msgstr ""
+msgstr "OG"
 
 #: src/binaries/widget/mainwindow.cpp:1088
 msgctxt "MainWindow|"
 msgid "Player"
-msgstr ""
+msgstr "Oyuncu"
 
 #: src/binaries/widget/mainwindow.cpp:1161
 msgctxt "MainWindow|"
 msgid "Unknown"
-msgstr ""
+msgstr "Bilinmiyor"
 
 #: src/binaries/widget/mainwindow.cpp:1189
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
-msgstr ""
+msgstr "%1 Konumundan Dışa Aktar"
 
 #: src/binaries/widget/mainwindow.cpp:1190
 msgctxt "MainWindow|"
 msgid "unknown"
-msgstr ""
+msgstr "bilinmiyor"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
 msgid "Next Page"
-msgstr ""
+msgstr "Sonraki Sayfa"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:19
 msgctxt "ContextualMenu|"
 msgid "Previous Page"
-msgstr ""
+msgstr "Önceki Sayfa"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:28
 msgctxt "ContextualMenu|"
 msgid "Adapt Width to Window"
-msgstr ""
+msgstr "Genişliği Pencereye Ayarla"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
 msgctxt "ContextualMenu|"
 msgid "Zoom Min"
-msgstr ""
+msgstr "En Düşük Yakınlaştırma"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
 msgctxt "ContextualMenu|"
 msgid "Reset Zoom"
-msgstr ""
+msgstr "Yakınlaştırmayı Sıfırla"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
 msgctxt "ContextualMenu|"
 msgid "Zoom Max"
-msgstr ""
+msgstr "En Yüksek Yakınlaştırma"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
 msgctxt "example|"
 msgid "Nom"
-msgstr ""
+msgstr "Ad"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:25
 msgctxt "example|"
 msgid "Prenom"
-msgstr ""
+msgstr "Birinci Ad"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:33
 msgctxt "example|"
 msgid "Couleur des yeux"
-msgstr ""
+msgstr "Göz rengi"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:41
 msgctxt "example|"
 msgid "Corpulence"
-msgstr ""
+msgstr "Yapı"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
 msgctxt "example|"
 msgid "Courage"
-msgstr ""
+msgstr "Cesaret"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
 msgctxt "example|"
 msgid "Malice"
-msgstr ""
+msgstr "Kötülük"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:56
 msgctxt "example|"
 msgid "Mignon"
-msgstr ""
+msgstr "Sevimli"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:59
 msgctxt "example|"
 msgid "Colère"
-msgstr ""
+msgstr "Kızgınlık"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:76
 msgctxt "example|"
 msgid "Syndrôme"
-msgstr ""
+msgstr "Sendrom"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:83
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 1: %1"
-msgstr ""
+msgstr "Armağan 1: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:89
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 2: %1"
-msgstr ""
+msgstr "Armağan 2: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:95
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 3: %1"
-msgstr ""
+msgstr "Armağan 3: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:27
 msgctxt "Table|"
 msgid "Add line"
-msgstr ""
+msgstr "Satır ekle"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:31
 msgctxt "Table|"
 msgid "Remove current Line"
-msgstr ""
+msgstr "Geçerli satırı kaldır"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:37
 msgctxt "Table|"
 msgid "Remove Last line"
-msgstr ""
+msgstr "Son satırı kaldır"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:529
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
-msgstr ""
+msgstr "Alan adı"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:567
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
-msgstr ""
+msgstr "Boş Bölüm %1"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:574
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
-msgstr ""
+msgstr "Bölüm %1"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:598
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
-msgstr ""
+msgstr "Alan %1"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Key"
-msgstr ""
+msgstr "Anahtar"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Filename"
-msgstr ""
+msgstr "Dosya Adı"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Is Background"
-msgstr ""
+msgstr "Arka Plan"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:87
 msgctxt "QObject|"
 msgid "abs : too many arguments"
-msgstr ""
+msgstr "abs: Pek çok argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:91
 msgctxt "QObject|"
 msgid "abs : too few arguments"
-msgstr ""
+msgstr "abs: Pek az argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:109
 msgctxt "QObject|"
 msgid "ceil : too many arguments"
-msgstr ""
+msgstr "ceil: Pek çok argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:113
 msgctxt "QObject|"
 msgid "ceil : too few arguments"
-msgstr ""
+msgstr "ceil: Pek az argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:130
 msgctxt "QObject|"
 msgid "floor : too many arguments"
-msgstr ""
+msgstr "floor: Pek çok argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:134
 msgctxt "QObject|"
 msgid "floor : too few arguments"
-msgstr ""
+msgstr "floor: Pek az argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:151
 msgctxt "QObject|"
 msgid "concatenate : too few arguments"
-msgstr ""
+msgstr "concatenate: Pek az argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:174
 msgctxt "QObject|"
 msgid "min : too few arguments"
-msgstr ""
+msgstr "min: Pek az argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:203
 msgctxt "QObject|"
 msgid "max : too few arguments"
-msgstr ""
+msgstr "max: Pek az argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:232
 msgctxt "QObject|"
 msgid "avg : too few arguments"
-msgstr ""
+msgstr "avg: Pek az argüman"
 
 #: src/libraries/charactersheet/src/formula/nodes/scalaroperatorfnode.cpp:74
 msgctxt "QObject|"
 msgid "Error: division by Zero"
-msgstr ""
+msgstr "Hata: Sıfırla bölüm"
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 msgctxt "LogPanel|"
 msgid "Saving logs"
-msgstr ""
+msgstr "Günlükler kaydediliyor"
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 #, qt-format
 msgctxt "LogPanel|"
 msgid "Log files %1"
-msgstr ""
+msgstr "Günlük dosyaları %1"
 
 #: src/libraries/core/src/controller/contentcontroller.cpp:359
 msgctxt "ContentController|"
 msgid "Copied Image"
-msgstr ""
+msgstr "Görsel Kopyalandı"
 
 #: src/libraries/core/src/controller/instantmessagingcontroller.cpp:105
 msgctxt "InstantMessagingController|"
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
 msgctxt "TextController|"
 msgid "Text"
-msgstr ""
+msgstr "Metin"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:41
 msgctxt "ThemeModel|"
 msgid "default"
-msgstr ""
+msgstr "öntanımlı"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:50
 msgctxt "ThemeModel|"
 msgid "darkorange"
-msgstr ""
+msgstr "koyuturuncu"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:72
 msgctxt "ThemeModel|"
 msgid "darkfusion"
-msgstr ""
+msgstr "koyufüzyon"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:331
 msgctxt "PreferencesController|"
 msgid " (copy)"
-msgstr ""
+msgstr " (kopya)"
 
 #: src/libraries/core/src/controller/view_controller/mediacontrollerbase.cpp:23
 msgctxt "MediaControllerBase|"
 msgid "Unknown"
-msgstr ""
+msgstr "Bilinmiyor"
 
 #: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:147
 msgctxt "MindMapControllerBase|"
 msgid "Root"
-msgstr ""
+msgstr "Kök"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:64
 msgctxt "QObject|"
 msgid "Character"
-msgstr ""
+msgstr "Karakter"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:58
 msgctxt "QObject|"
 msgid "Ground"
-msgstr ""
+msgstr "Yer"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:61
 msgctxt "QObject|"
 msgid "Object"
-msgstr ""
+msgstr "Nesne"
 
 #: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Pattern"
-msgstr ""
+msgstr "Desen"
 
 #: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Command"
-msgstr ""
+msgstr "Komut"
 
 #: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Comment"
-msgstr ""
+msgstr "Yorum"
 
 #: src/libraries/core/src/data/campaignmanager.cpp:56
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
-msgstr ""
+msgstr "%1 konumunda sefer oluşturmak olanaksız"
 
 #: src/libraries/core/src/data/campaignmanager.cpp:132
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
-msgstr ""
+msgstr "Şu konumda sefer şablonu oluşturma başarısız: %1"
 
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
 msgid "Internal"
-msgstr ""
+msgstr "İçsel"
 
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
 msgid "Linked"
-msgstr ""
+msgstr "Bağlanmış"
 
 #: src/libraries/core/src/data/cleveruri.cpp:229
 msgctxt "QObject|"
 msgid "Closed"
-msgstr ""
+msgstr "Kapatılmış"
 
 #: src/libraries/core/src/data/cleveruri.cpp:229
 msgctxt "QObject|"
 msgid "Displayed"
-msgstr ""
+msgstr "Görüntülenen"
 
 #: src/libraries/core/src/data/shortcutmodel.cpp:92
 msgctxt "ShortCutModel|"
 msgid "Action"
-msgstr ""
+msgstr "Eylem"
 
 #: src/libraries/core/src/data/shortcutmodel.cpp:94
 msgctxt "ShortCutModel|"
 msgid "Key"
-msgstr ""
+msgstr "Anahtar"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:33
 msgctxt "CharacterStateModel|"
 msgid "Label"
-msgstr ""
+msgstr "Etiket"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:33
 msgctxt "CharacterStateModel|"
 msgid "Color"
-msgstr ""
+msgstr "Renk"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:33
 msgctxt "CharacterStateModel|"
 msgid "Image"
-msgstr ""
+msgstr "Görsel"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Pattern"
-msgstr ""
+msgstr "Desen"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Value"
-msgstr ""
+msgstr "Değer"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Regular Expression"
-msgstr ""
+msgstr "Düzenli İfade"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Disable"
-msgstr ""
+msgstr "Devre Dışı Bırak"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:30
 msgctxt "DiceAliasModel|"
 msgid "Comments"
-msgstr ""
+msgstr "Yorumlar"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "Path"
-msgstr ""
+msgstr "Yol"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "id"
-msgstr ""
+msgstr "kimlik"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "type"
-msgstr ""
+msgstr "tür"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "last access"
-msgstr ""
+msgstr "son erişim"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "bookmarked"
-msgstr ""
+msgstr "yer imlerine eklenmiş"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Size"
-msgstr ""
+msgstr "Boyut"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Type"
-msgstr ""
+msgstr "Tür"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Date Added"
-msgstr ""
+msgstr "Eklenme Tarihi"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Date Modified"
-msgstr ""
+msgstr "Değiştirilme Tarihi"
 
 #: src/libraries/core/src/model/mediamodel.cpp:363
 msgctxt "MediaModel|"
 msgid "Directory"
-msgstr ""
+msgstr "Dizin"
 
 #: src/libraries/core/src/model/messagemodel.cpp:95
 #: src/libraries/core/src/model/messagemodel.cpp:101
 msgctxt "MessageModel|"
 msgid "Invalid Person"
-msgstr ""
+msgstr "Geçersiz Kişi"
 
 #: src/libraries/core/src/model/musicmodel.cpp:28
 msgctxt "MusicModel|"
 msgid "Title"
-msgstr ""
+msgstr "Başlık"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Avatar"
-msgstr ""
+msgstr "Avatar"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Description"
-msgstr ""
+msgstr "Açıklama"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Tags"
-msgstr ""
+msgstr "Etiketler"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Color"
-msgstr ""
+msgstr "Renk"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:83
 msgctxt "NonPlayableCharacterModel|"
 msgid "Min HP"
-msgstr ""
+msgstr "En Düşük SP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Current HP"
-msgstr ""
+msgstr "Şu Anki SP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Max HP"
-msgstr ""
+msgstr "En Yüksek SP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Initiative"
-msgstr ""
+msgstr "İnisiyatif"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Distance Per turn"
-msgstr ""
+msgstr "Dönüş başına uzaklık"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Life Color"
-msgstr ""
+msgstr "Yaşam Rengi"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Init Command"
-msgstr ""
+msgstr "Başlangıç Komutu"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Active"
-msgstr ""
+msgstr "Etkin"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Disable"
-msgstr ""
+msgstr "Devre Dışı Bırak"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Inactive"
-msgstr ""
+msgstr "Etkin Değil"
 
 #: src/libraries/core/src/model/participantmodel.cpp:126
 msgctxt "ParticipantModel|"
 msgid "Read Write"
-msgstr ""
+msgstr "Okuma Yazma"
 
 #: src/libraries/core/src/model/participantmodel.cpp:127
 msgctxt "ParticipantModel|"
 msgid "Read Only"
-msgstr ""
+msgstr "Yalnızca Okuma"
 
 #: src/libraries/core/src/model/participantmodel.cpp:128
 msgctxt "ParticipantModel|"
 msgid "Hidden"
-msgstr ""
+msgstr "Gizli"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Read Write"
-msgstr ""
+msgstr "Okuma Yazma"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Read Only"
-msgstr ""
+msgstr "Yalnızca Okuma"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Hidden"
-msgstr ""
+msgstr "Gizli"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "NoGrid"
-msgstr ""
+msgstr "Izgarasız"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "Square"
-msgstr ""
+msgstr "Kare"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "Hexagon"
-msgstr ""
+msgstr "Altıgen"
 
 #: src/libraries/core/src/model/playermodel.cpp:185
 msgctxt "PlayerModel|"
 msgid "Not defined"
-msgstr ""
+msgstr "Tanımlanmamış"
 
 #: src/libraries/core/src/model/playermodel.cpp:188
 #, qt-format
@@ -1644,109 +1644,115 @@ msgid ""
 "Distance Per Turn: %6\n"
 "type: %7\n"
 msgstr ""
+"%1:\n"
+"SP: %2/%3\n"
+"Durum: %4\n"
+"İnisiyatif Skoru: %5\n"
+"Dönüş Başına Uzaklık: %6\n"
+"Tür: %7\n"
 
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
 msgid "NPC"
-msgstr ""
+msgstr "OOK"
 
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
 msgid "PC"
-msgstr ""
+msgstr "OK"
 
 #: src/libraries/core/src/model/playermodel.cpp:262
 msgctxt "PlayerModel|"
 msgid "Players List"
-msgstr ""
+msgstr "Oyuncular Listesi"
 
 #: src/libraries/core/src/model/playermodel.cpp:464
 msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
-msgstr ""
+msgstr "Yinelenmiş oyuncu veya UUID"
 
 #: src/libraries/core/src/model/profilemodel.cpp:106
 msgctxt "ProfileModel|"
 msgid " (clone)"
-msgstr ""
+msgstr " (klon)"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "Bytes"
-msgstr ""
+msgstr "Bayt"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: src/libraries/core/src/network/channelmodel.cpp:443
 msgctxt "ChannelModel|"
 msgid "Channel Password"
-msgstr ""
+msgstr "Kanal Parolası"
 
 #: src/libraries/core/src/network/channelmodel.cpp:444
 #, qt-format
 msgctxt "ChannelModel|"
 msgid "Channel %1 required password:"
-msgstr ""
+msgstr "Kanal %1, parola gerektiriyor:"
 
 #: src/libraries/core/src/network/characterdatamodel.cpp:76
 msgctxt "CharacterDataModel|"
 msgid "No Avatar"
-msgstr ""
+msgstr "Avatar Yok"
 
 #: src/libraries/core/src/network/characterdatamodel.cpp:144
 msgctxt "CharacterDataModel|"
 msgid "New Character"
-msgstr ""
+msgstr "Yeni Karakter"
 
 #: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
 msgid "Socket is null"
-msgstr ""
+msgstr "Yuva boş"
 
 #: src/libraries/core/src/network/clientconnection.cpp:96
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
-msgstr ""
+msgstr "Yuva yazılabilir değil"
 
 #: src/libraries/core/src/network/clientconnection.cpp:119
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
-msgstr ""
+msgstr "İletim hatası:"
 
 #: src/libraries/core/src/network/clientmanager.cpp:125
 msgctxt "ClientManager|"
 msgid "Connection to the server has been closed."
-msgstr ""
+msgstr "Sunucu bağlantısı kapatıldı."
 
 #: src/libraries/core/src/network/connectionprofile.cpp:7
 msgctxt "QObject|"
 msgid "Player"
-msgstr ""
+msgstr "Oyuncu"
 
 #: src/libraries/core/src/network/connectionprofile.cpp:12
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 msgctxt "QObject|"
 msgid "Unknown Character"
-msgstr ""
+msgstr "Bilinmeyen Karakter"
 
 #: src/libraries/core/src/network/rserver.cpp:38
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
-msgstr ""
+msgstr "[Upnp] Kapı eşlemleme tamamlandı"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:247
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "Authentification as Admin fails: %2 - %1, Wrong password."
-msgstr ""
+msgstr "Yönetici olarak kimlik doğrulama başarısız: %2 - %1, hatalı parola."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:273
 #, qt-format
@@ -1754,87 +1760,89 @@ msgctxt "ServerConnectionManager|"
 msgid ""
 "Authentification fails: %1 try to connect to the server with wrong password."
 msgstr ""
+"Kimlik doğrulama başarısız: Hatalı parolayla sunucuya %1 bağlanma denemesi."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:291
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User has been kick out: %2 - %1."
-msgstr ""
+msgstr "Kullanıcı kovuldu: %2 - %1."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:481
 msgctxt "ServerConnectionManager|"
 msgid "New Incoming Connection!"
-msgstr ""
+msgstr "Yeni Gelen Bağlantı!"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:535
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User %1 has been disconnected!"
-msgstr ""
+msgstr "Kullanıcı %1 bağlantısı kesildi!"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:152
 msgctxt "UpnpNat|"
 msgid "Unable to read the beginning of server answer"
-msgstr ""
+msgstr "Sunucu yanıtının başı okunamadı"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:160
 msgctxt "UpnpNat|"
 msgid "Unable to read the end of server answer"
-msgstr ""
+msgstr "Sunucu yanıtının sonu okunamadı"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:279
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
+"XMLNode \"URLBase\" veya describe_url konumlarından base_URL alınamadı.\n"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:288
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
-msgstr ""
+msgstr "Düzgün hizmet türü alınamadı: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:500
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2)\n"
-msgstr ""
+msgstr "Kapı eşlemlemesi eklenemedi (%1/%2)\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
 msgid "Error to read server IP."
-msgstr ""
+msgstr "Sunucu IP'si okunamadı."
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
 msgid "Path"
-msgstr ""
+msgstr "Yol"
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Conceal vectorial map"
-msgstr ""
+msgstr "Vektör haritayı sakla"
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Unveil vectorial map"
-msgstr ""
+msgstr "Vektör haritayı açığa çıkar"
 
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:30
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
-msgstr ""
+msgstr "Şuraya karakter ekle: %1"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:35
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
 msgctxt "QObject|"
 msgid "Line"
-msgstr ""
+msgstr "Çizgi"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:36
 msgctxt "QObject|"
