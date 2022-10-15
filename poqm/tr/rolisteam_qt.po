@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2022-10-13 05:40+0300\n"
+"PO-Revision-Date: 2022-10-14 12:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1847,312 +1847,312 @@ msgstr "Çizgi"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:36
 msgctxt "QObject|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "Dolu Elips"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:37
 msgctxt "QObject|"
 msgid "Empty Ellipse"
-msgstr ""
+msgstr "Boş Elips"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:38
 msgctxt "QObject|"
 msgid "Empty Rectangle"
-msgstr ""
+msgstr "Boş Dikdörtgen"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:39
 msgctxt "QObject|"
 msgid "Filled Rectangle"
-msgstr ""
+msgstr "Dolu Dikdörtgen"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:40
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Text"
-msgstr ""
+msgstr "Metin"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:41
 msgctxt "QObject|"
 msgid "Text with border"
-msgstr ""
+msgstr "Kenarlıklı Metin"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:42
 msgctxt "QObject|"
 msgid "NPC Token"
-msgstr ""
+msgstr "OOK Jetonu"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:43
 msgctxt "QObject|"
 msgid "PC Token"
-msgstr ""
+msgstr "OK Jetonu"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:45
 msgctxt "QObject|"
 msgid "Pen"
-msgstr ""
+msgstr "Kalem"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:46
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
 msgctxt "QObject|"
 msgid "Path"
-msgstr ""
+msgstr "Yol"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:49
 #, qt-format
 msgctxt "QObject|"
 msgid "add %1 item"
-msgstr ""
+msgstr "%1 öge ekle"
 
 #: src/libraries/core/src/undoCmd/changecoloritem.cpp:29
 #, qt-format
 msgctxt "QObject|"
 msgid "Change Item Color to %1"
-msgstr ""
+msgstr "Öge Rengini Değiştir: %1"
 
 #: src/libraries/core/src/undoCmd/changesizevmapitem.cpp:98
 #, qt-format
 msgctxt "QObject|"
 msgid "Change size of %1 item(s)"
-msgstr ""
+msgstr "%1 Ögenin Boyutunu Değiştir"
 
 #: src/libraries/core/src/undoCmd/deletevmapitem.cpp:31
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete %1 Item(s) From Map %1"
-msgstr ""
+msgstr "%1 Haritasından %1 Ögeyi Sil"
 
 #: src/libraries/core/src/undoCmd/importdatamedia.cpp:41
 #, qt-format
 msgctxt "ImportDataMedia|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Ortam içe aktar: %1"
 
 #: src/libraries/core/src/undoCmd/importimagestate.cpp:37
 #, qt-format
 msgctxt "ImportImageState|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Ortam içe aktar: %1"
 
 #: src/libraries/core/src/undoCmd/importmedia.cpp:41
 #, qt-format
 msgctxt "ImportMedia|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Ortam içe aktar: %1"
 
 #: src/libraries/core/src/undoCmd/newmediacontroller.cpp:68
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
-msgstr ""
+msgstr "Yeni Oluştur: %1 %2"
 
 #: src/libraries/core/src/undoCmd/openmediacontroller.cpp:42
 #, qt-format
 msgctxt "QObject|"
 msgid "Open %1"
-msgstr ""
+msgstr "Aç: %1"
 
 #: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:31
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
-msgstr ""
+msgstr "Karakteri Kaldır: %1"
 
 #: src/libraries/core/src/undoCmd/removemediacontrollercommand.cpp:39
 #, qt-format
 msgctxt "QObject|"
 msgid "Close %1"
-msgstr ""
+msgstr "Kapat: %1"
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:208
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
-msgstr ""
+msgstr "'%1', boş değil"
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:217
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
-msgstr ""
+msgstr "'%1' oluşturulamadı"
 
 #: src/libraries/core/src/worker/fileserializer.cpp:96
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
-msgstr ""
+msgstr "Hata: %1 yok veya okunabilir değil."
 
 #: src/libraries/core/src/worker/utilshelper.cpp:174
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
-msgstr ""
+msgstr "Karakter Sayfası Dosyaları (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:177
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
-msgstr ""
+msgstr "Desteklenen Görsel Biçimleri (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:180
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
-msgstr ""
+msgstr "Desteklenen Metin Dosyaları (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:183
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
-msgstr ""
+msgstr "Desteklenen Paylaşılan Not Biçimleri (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:186
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported WebPage (%1)"
-msgstr ""
+msgstr "Desteklenen Web Sayfası (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:190
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
-msgstr ""
+msgstr "PDF Dosyası (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:194
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
-msgstr ""
+msgstr "Vektör Harita (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:197
 #, qt-format
 msgctxt "QObject|"
 msgid "Mindmap (%1)"
-msgstr ""
+msgstr "Akıl Haritası (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:211
 msgctxt "QObject|"
 msgid "Vectorial Map"
-msgstr ""
+msgstr "Vektör Harita"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:212
 msgctxt "QObject|"
 msgid "Picture"
-msgstr ""
+msgstr "Resim"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:213
 msgctxt "QObject|"
 msgid "Minutes"
-msgstr ""
+msgstr "Dakika"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:214
 msgctxt "QObject|"
 msgid "Character Sheet"
-msgstr ""
+msgstr "Karakter Sayfası"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:215
 msgctxt "QObject|"
 msgid "Mindmap"
-msgstr ""
+msgstr "Akıl Haritası"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:216
 msgctxt "QObject|"
 msgid "Shared Notes"
-msgstr ""
+msgstr "Paylaşılan Notlar"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:218
 msgctxt "QObject|"
 msgid "Pdf"
-msgstr ""
+msgstr "PDF"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:220
 msgctxt "QObject|"
 msgid "Webview"
-msgstr ""
+msgstr "Web Görünümü"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:24
 msgctxt "ButtonGrid|"
 msgid "Undo"
-msgstr ""
+msgstr "Geri Al"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:30
 msgctxt "ButtonGrid|"
 msgid "Redo"
-msgstr ""
+msgstr "Yinele"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:35
 msgctxt "ButtonGrid|"
 msgid "Save Map"
-msgstr ""
+msgstr "Haritayı Kaydet"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
-msgstr ""
+msgstr "Çekmeceyi Aç"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:46
 msgctxt "ButtonGrid|"
 msgid "Add Root"
-msgstr ""
+msgstr "Kök Ekle"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:53
 msgctxt "ButtonGrid|"
 msgid "Add Package"
-msgstr ""
+msgstr "Paket Ekle"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:58
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
-msgstr ""
+msgstr "Ok Ekle"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:63
 msgctxt "ButtonGrid|"
 msgid "Remove Selection"
-msgstr ""
+msgstr "Seçimi Kaldır"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:70
 msgctxt "ButtonGrid|"
 msgid "Refresh"
-msgstr ""
+msgstr "Yenile"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:75
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
-msgstr ""
+msgstr "PNG Olarak Dışa Aktar"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:80
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
-msgstr ""
+msgstr "Küçük Haritayı Gizle"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:80
 msgctxt "ButtonGrid|"
 msgid "Show small map"
-msgstr ""
+msgstr "Küçük Haritayı Göster"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:86
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
-msgstr ""
+msgstr "Otomatik Boşluklandırma"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:19
 msgctxt "DrawerMenu|"
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:29
 msgctxt "DrawerMenu|"
 msgid "Night Mode"
-msgstr ""
+msgstr "Gece Kipi"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:36
 msgctxt "DrawerMenu|"
 msgid "Default Style"
-msgstr ""
+msgstr "Öntanımlı Biçem"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:57
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:80
 msgctxt "DrawerMenu|"
 msgid "Text"
-msgstr ""
+msgstr "Metin"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:98
 #, qt-format
@@ -2161,156 +2161,158 @@ msgid ""
 "Errors:\n"
 "%1"
 msgstr ""
+"Hatalar:\n"
+"%1"
 
 #: src/libraries/mindmap/resources/qml/main.qml:68
 msgctxt "main|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
-msgstr ""
+msgstr "Görseller (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/libraries/mindmap/resources/qml/main.qml:79
 msgctxt "main|"
 msgid "Images (*.png)"
-msgstr ""
+msgstr "Görseller (*.png)"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:78
 msgctxt "MindMap|"
 msgid "is linked"
-msgstr ""
+msgstr "bağlantılı"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:10
 msgctxt "MindMenu|"
 msgid "Add Root"
-msgstr ""
+msgstr "Kök Ekle"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:23
 msgctxt "MindMenu|"
 msgid "Save"
-msgstr ""
+msgstr "Kaydet"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:39
 msgctxt "MindMenu|"
 msgid "Remove Selection"
-msgstr ""
+msgstr "Seçimi Kaldır"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:47
 msgctxt "MindMenu|"
 msgid "Undo"
-msgstr ""
+msgstr "Geri Al"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:54
 msgctxt "MindMenu|"
 msgid "Redo"
-msgstr ""
+msgstr "Yinele"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:62
 msgctxt "MindMenu|"
 msgid "Center"
-msgstr ""
+msgstr "Merkez"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:76
 msgctxt "MindMenu|"
 msgid "Automatic Spacing"
-msgstr ""
+msgstr "Otomatik Boşluklandırma"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:28
 msgctxt "NodeSettingPopup|"
 msgid "Description: "
-msgstr ""
+msgstr "Açıklama: "
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:36
 msgctxt "NodeSettingPopup|"
 msgid "Description"
-msgstr ""
+msgstr "Açıklama"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:44
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
-msgstr ""
+msgstr "etiketler:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:55
 msgctxt "NodeSettingPopup|"
 msgid "Node Styles"
-msgstr ""
+msgstr "Düğüm Biçemleri"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:84
 msgctxt "NodeSettingPopup|"
 msgid "Text"
-msgstr ""
+msgstr "Metin"
 
 #: src/libraries/mindmap/resources/qml/PackageItem.qml:27
 msgctxt "PackageItem|"
 msgid "Title"
-msgstr ""
+msgstr "Başlık"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:31
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:155
 msgctxt "SideMenu|"
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:41
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:19
 msgctxt "SideMenu|"
 msgid "Night Mode"
-msgstr ""
+msgstr "Gece Kipi"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:47
 msgctxt "SideMenu|"
 msgid "Link label visible:"
-msgstr ""
+msgstr "Bağlantı etiketi görünür:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
 msgctxt "SideMenu|"
 msgid "Default Style"
-msgstr ""
+msgstr "Öntanımlı Biçem"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:75
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:98
 msgctxt "SideMenu|"
 msgid "Text"
-msgstr ""
+msgstr "Metin"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:116
 msgctxt "SideMenu|"
 msgid "Criteria"
-msgstr ""
+msgstr "Kriter"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:124
 msgctxt "SideMenu|"
 msgid "Pattern"
-msgstr ""
+msgstr "Desen"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:162
 msgctxt "SideMenu|"
 msgid "Description"
-msgstr ""
+msgstr "Açıklama"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:169
 msgctxt "SideMenu|"
 msgid "Select"
-msgstr ""
+msgstr "Seç"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:180
 msgctxt "SideMenu|"
 msgid "Tags"
-msgstr ""
+msgstr "Etiketler"
 
 #: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:39
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
-msgstr ""
+msgstr "Görsel Ekle: %1"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:33
 #, qt-format
 msgctxt "AddItemCommand|"
 msgid "Add item of type: %1 to mindmap"
-msgstr ""
+msgstr "Şu Öğeden Ekle: Akıl haritasına %1"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:65
 msgctxt "AddLinkCommand|"
 msgid "Add link"
-msgstr ""
+msgstr "Bağlantı Ekle"
 
 #: src/libraries/mindmap/src/command/removeimagefromnodecommand.cpp:33
 msgctxt "QObject|"
