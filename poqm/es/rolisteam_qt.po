@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2022-10-08 19:45+0200\n"
+"PO-Revision-Date: 2022-10-16 12:11+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #: src/binaries/rcse/borderlisteditor.cpp:29
 msgctxt "BorderListEditor|"
@@ -462,7 +462,7 @@ msgstr "&Rehacer"
 #: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:621
 msgctxt "MainWindow|"
 msgid "Support"
-msgstr ""
+msgstr "Soporte"
 
 #: src/binaries/rcse/mainwindow.cpp:357
 #, qt-format
@@ -3472,7 +3472,7 @@ msgstr "Lista de jugadores"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
 msgctxt "VmapToolBar|"
 msgid "Toolbar for VMap"
-msgstr ""
+msgstr "Barra de herramientas de mapa virtual"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:56
 msgctxt "VmapToolBar|"
