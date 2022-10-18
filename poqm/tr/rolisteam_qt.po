@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2022-10-16 11:57+0300\n"
+"PO-Revision-Date: 2022-10-18 00:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3045,6 +3045,14 @@ msgid ""
 "Existing features : Map sharing (with permission management), Image sharing, "
 "background music, dice roll and so on. Rolisteam is written in Qt5"
 msgstr ""
+"Rolisteam, uzaktaki arkadaşlar/oyuncular ile birlikte bir masa rol yapma "
+"oyununu yönetmenize yardımcı olur. Haritalar, resimler paylaşmak için bir "
+"sürü özellik sağlar ve arkadaşlarınızla/oyuncularla iletişim kurmanız için "
+"araçlar içerir. Amaç, Rolisteam tarafından yönetilen oyunları, normal masa "
+"çevresinde oynanan oyunlar kadar iyi yapmaktır. Bunu başarmak için size "
+"sürekli yeni özellikler sağlamaya çalışıyoruz. Var olan özellikler: Harita "
+"paylaşma (izin yönetimiyle birlikte), görsel paylaşma, arka plan müziği, zar "
+"atma ve bunun gibi şeyler. Rolisteam, Qt5 ile yazılmıştır."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
 msgctxt "AboutRolisteam|"
@@ -3055,770 +3063,775 @@ msgid ""
 "See the 'COPYRIGHT' file for the complete list of contributors. We provide "
 "no warranty for this program."
 msgstr ""
+"Programı, GPL (sürüm 2 veya sonrası) koşulları altında değiştirebilir ve "
+"yeniden dağıtabilirsiniz. Rolisteam'in 'COPYING' dosyası içinde GPL'nin bir "
+"kopyasını bulabilirsiniz. Rolisteam telif hakları, katkıcılarına aittir. "
+"Katkıcıların tam bir listesini görmek için 'COPYRIGHT' dosyasına bakın. Bu "
+"program için bir garanti sunulmaz."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Web Sites:"
-msgstr ""
+msgstr "Web Sayfaları:"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Official Rolisteam Site"
-msgstr ""
+msgstr "Resmi Rolisteam Sitesi"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
-msgstr ""
+msgstr "Hata İzleyicisi"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Current developers"
-msgstr ""
+msgstr "Şu Anki Geliştiriciler"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
 msgid "Contributors"
-msgstr ""
+msgstr "Katkıcılar"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
 msgid "Translators"
-msgstr ""
+msgstr "Çevirmenler"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:38
 msgctxt "CampaignProperties|"
 msgid "Campaign Properties"
-msgstr ""
+msgstr "Sefer Özellikler"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:66
 #, qt-format
 msgctxt "CampaignProperties|"
 msgid "%n file(s)"
 msgid_plural "%n file(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n dosya"
+msgstr[1] "%n dosya"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection has failed! Connection Retry in %1s."
-msgstr ""
+msgstr "Bağlantı başarısız! %1 sn içinde yeniden denenecek."
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:141
 msgctxt "ImageSelectorDialog|"
 msgid "Open Image file"
-msgstr ""
+msgstr "Görsel Dosyası Aç"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
 msgctxt "NewFileDialog|"
 msgid "Shared Notes"
-msgstr ""
+msgstr "Paylaşılan Notlar"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:38
 msgctxt "NewFileDialog|"
 msgid "Notes"
-msgstr ""
+msgstr "Notlar"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:39
 msgctxt "NewFileDialog|"
 msgid "MindMap"
-msgstr ""
+msgstr "Akıl Haritası"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:126
 msgctxt "PreferencesDialog|"
 msgid "Preferences"
-msgstr ""
+msgstr "Tercihler"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:366
 msgctxt "PreferencesDialog|"
 msgid "Images (*.png *.xpm *.jpg *.gif *.bmp)"
-msgstr ""
+msgstr "Görseller (*.png *.xpm *.jpg *.gif *.bmp)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
 msgid "Css Editor"
-msgstr ""
+msgstr "CSS Düzenleyici"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
 msgid "Css"
-msgstr ""
+msgstr "CSS"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:474
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
-msgstr ""
+msgstr "<li>Görsel biçimi: %1 değer %2</li>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:475
 msgctxt "PreferencesDialog|"
 msgid "<h2>Supported Image Formats:</h2><ul>"
-msgstr ""
+msgstr "<h2>Desteklenen görsel biçimleri:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:482
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Image Format"
-msgstr ""
+msgstr "</ul>Görsel biçimi sonu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:485
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
-msgstr ""
+msgstr "<h2>Yazıtipi aileleri:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:492
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
-msgstr ""
+msgstr "</ul>Yazıtipi ailelerinin sonu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:495
 msgctxt "PreferencesDialog|"
 msgid "<h2>Audio file formats Support:</h2><ul>"
-msgstr ""
+msgstr "<h2>Ses dosyası biçimleri desteği:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:530
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Supported Audio file formats"
-msgstr ""
+msgstr "</ul>Desteklenen ses dosyası biçimleri sonu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:547
 msgctxt "PreferencesDialog|"
 msgid "Export Rolisteam Theme"
-msgstr ""
+msgstr "Rolisteam Teması Dışa Aktar"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:549
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:558
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "Rolisteam Theme: %1"
-msgstr ""
+msgstr "Rolisteam Teması: %1"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:557
 msgctxt "PreferencesDialog|"
 msgid "Import Rolisteam Theme"
-msgstr ""
+msgstr "Rolisteam Teması İçe Aktar"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:579
 msgctxt "PreferencesDialog|"
 msgid "Add new directory"
-msgstr ""
+msgstr "Yeni dizin ekle"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:120
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
-msgstr ""
+msgstr "Dizin seç"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:30
 #, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "%1 - Tip Of The Day"
-msgstr ""
+msgstr "%1 - Günün İpucu"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:42
 msgctxt "TipOfDayViewer|"
 msgid "No Service to open links"
-msgstr ""
+msgstr "Bağlantıları açmak için hizmet yok"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:43
 #, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "Please find the type here: <a href=\"%1\"</a>"
-msgstr ""
+msgstr "Türü buradan bulun: <a href=\"%1\"</a>"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "No Right"
-msgstr ""
+msgstr "Hak Yok"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "His character"
-msgstr ""
+msgstr "Onun Karakteri"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "All Permissions"
-msgstr ""
+msgstr "Tüm İzinler"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "Hidden"
-msgstr ""
+msgstr "Gizli"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "Fog of War"
-msgstr ""
+msgstr "Savaş Sisi"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "All visible"
-msgstr ""
+msgstr "Tümü Görünür"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:51
 msgctxt "campaign::AntagonistBoard|"
 msgid "Edit Token"
-msgstr ""
+msgstr "Jetonu Düzenle"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:52
 msgctxt "campaign::AntagonistBoard|"
 msgid "Clone Character"
-msgstr ""
+msgstr "Karakteri Klonla"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:53
 msgctxt "campaign::AntagonistBoard|"
 msgid "Change Image"
-msgstr ""
+msgstr "Görseli Değiştir"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:54
 msgctxt "campaign::AntagonistBoard|"
 msgid "Main columns"
-msgstr ""
+msgstr "Ana Sütunlar"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:55
 msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
-msgstr ""
+msgstr "Kaydet"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:308
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
-msgstr ""
+msgstr "Sütunları Göster"
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:75
 msgctxt "AudioPlayer|"
 msgid "Background Music"
-msgstr ""
+msgstr "Arka Plan Müziği"
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:97
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"
-msgstr ""
+msgstr "Göster/Gizle: Oyuncu %1"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:49
 msgctxt "campaign::CampaignDock|"
 msgid "Campaign Content"
-msgstr ""
+msgstr "Sefer İçeriği"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:51
 msgctxt "campaign::CampaignDock|"
 msgid "All"
-msgstr ""
+msgstr "Tümü"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:52
 msgctxt "campaign::CampaignDock|"
 msgid "AudioFile"
-msgstr ""
+msgstr "Ses Dosyası"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:53
 msgctxt "campaign::CampaignDock|"
 msgid "CharacterSheet"
-msgstr ""
+msgstr "Karakter Sayfası"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:54
 msgctxt "campaign::CampaignDock|"
 msgid "Image"
-msgstr ""
+msgstr "Görsel"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:55
 msgctxt "campaign::CampaignDock|"
 msgid "Map"
-msgstr ""
+msgstr "Harita"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:56
 msgctxt "campaign::CampaignDock|"
 msgid "Mindmap"
-msgstr ""
+msgstr "Akıl Haritası"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:57
 msgctxt "campaign::CampaignDock|"
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:58
 msgctxt "campaign::CampaignDock|"
 msgid "PlayList"
-msgstr ""
+msgstr "Çalma Listesi"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:59
 msgctxt "campaign::CampaignDock|"
 msgid "Text"
-msgstr ""
+msgstr "Metin"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:60
 msgctxt "campaign::CampaignDock|"
 msgid "Token"
-msgstr ""
+msgstr "Jeton"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:61
 msgctxt "campaign::CampaignDock|"
 msgid "WebPage"
-msgstr ""
+msgstr "Web Sayfası"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:35
 msgctxt "ChannelListPanel|"
 msgid "Edit Channel"
-msgstr ""
+msgstr "Kanalı Düzenle"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:36
 msgctxt "ChannelListPanel|"
 msgid "Lock/Unlock Channel"
-msgstr ""
+msgstr "Kanalı Kilitle/Aç"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:37
 msgctxt "ChannelListPanel|"
 msgid "Switch to channel"
-msgstr ""
+msgstr "Kanala Geç"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:38
 msgctxt "ChannelListPanel|"
 msgid "Set/Unset Channel Password"
-msgstr ""
+msgstr "Kanal Parolasını Ayarla/Kaldır"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:39
 msgctxt "ChannelListPanel|"
 msgid "Add channel"
-msgstr ""
+msgstr "Kanal Ekle"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:40
 msgctxt "ChannelListPanel|"
 msgid "Add subchannel"
-msgstr ""
+msgstr "Alt Kanal Ekle"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:41
 msgctxt "ChannelListPanel|"
 msgid "Delete Channel"
-msgstr ""
+msgstr "Kanalı Sil"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:42
 msgctxt "ChannelListPanel|"
 msgid "Set Default"
-msgstr ""
+msgstr "Öntanımlı Olarak Ayarla"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:43
 msgctxt "ChannelListPanel|"
 msgid "Log as admin"
-msgstr ""
+msgstr "Yönetici Olarak Giriş Yap"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:44
 msgctxt "ChannelListPanel|"
 msgid "Kick User"
-msgstr ""
+msgstr "Kullanıcıyı Kov"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:45
 msgctxt "ChannelListPanel|"
 msgid "Ban User"
-msgstr ""
+msgstr "Kullanıcıyı Yasakla"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:46
 msgctxt "ChannelListPanel|"
 msgid "Reset Data Channel"
-msgstr ""
+msgstr "Veri Kanalını Sıfırla"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:47
 msgctxt "ChannelListPanel|"
 msgid "Move User"
-msgstr ""
+msgstr "Kullanıcıyı Taşı"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
 msgid "Admin Password"
-msgstr ""
+msgstr "Yönetici Parolası"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
 msgid "Password"
-msgstr ""
+msgstr "Parola"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:481
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 msgctxt "ChannelListPanel|"
 msgid "Channel Password"
-msgstr ""
+msgstr "Kanal Parolası"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:482
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Password for channel: %1 - leave empty for no password"
-msgstr ""
+msgstr "Kanal parolası: %1 - parolayı atlamak için boş bırakın"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Channel %1 required password:"
-msgstr ""
+msgstr "%1 kanalı parola gerektiriyor:"
 
 #: src/libraries/rwidgets/docks/playerspanel.cpp:57
 msgctxt "PlayersPanel|"
 msgid "Player List"
-msgstr ""
+msgstr "Oyuncu Listesi"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
 msgctxt "VmapToolBar|"
 msgid "Toolbar for VMap"
-msgstr ""
+msgstr "VMap için Araç Çubuğu"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:56
 msgctxt "VmapToolBar|"
 msgid "Square Grid"
-msgstr ""
+msgstr "Kare Izgara"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:59
 msgctxt "VmapToolBar|"
 msgid "Hexagonal Grid"
-msgstr ""
+msgstr "Altıgen Izgara"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:75
 msgctxt "VmapToolBar|"
 msgid "Grid Above"
-msgstr ""
+msgstr "Izgara Yukarıda"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:80
 msgctxt "VmapToolBar|"
 msgid "GM only"
-msgstr ""
+msgstr "Yalnızca OG"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
 msgctxt "VmapToolBar|"
 msgid "PC Move"
-msgstr ""
+msgstr "OK Hareketi"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:88
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:117
 msgctxt "VmapToolBar|"
 msgid "All"
-msgstr ""
+msgstr "Tümü"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:109
 msgctxt "VmapToolBar|"
 msgid "Hidden"
-msgstr ""
+msgstr "Gizli"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:113
 msgctxt "VmapToolBar|"
 msgid "Fog"
-msgstr ""
+msgstr "Sis"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:138
 msgctxt "VmapToolBar|"
 msgid "Ground"
-msgstr ""
+msgstr "Zemin"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:142
 msgctxt "VmapToolBar|"
 msgid "Object"
-msgstr ""
+msgstr "Nesne"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:146
 msgctxt "VmapToolBar|"
 msgid "Character"
-msgstr ""
+msgstr "Karakter"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:167
 msgctxt "VmapToolBar|"
 msgid "hide other layers"
-msgstr ""
+msgstr "diğer katmanları gizle"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:170
 msgctxt "VmapToolBar|"
 msgid "Character Vision"
-msgstr ""
+msgstr "Karakter Vizyonu"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:172
 msgctxt "VmapToolBar|"
 msgid "Show Transparent Item"
-msgstr ""
+msgstr "Saydam Ögeyi Göster"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:175
 msgctxt "VmapToolBar|PC = playable character"
 msgid "PC name"
-msgstr ""
+msgstr "OK adı"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:176
 msgctxt "VmapToolBar|NPC = non-playable character"
 msgid "NPC name"
-msgstr ""
+msgstr "OOK adı"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:177
 msgctxt "VmapToolBar|"
 msgid "NPC number"
-msgstr ""
+msgstr "OOK numarası"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:178
 msgctxt "VmapToolBar|"
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:179
 msgctxt "VmapToolBar|"
 msgid "Health Bar"
-msgstr ""
+msgstr "Sağlık Çubuğu"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
 msgctxt "VmapToolBar|"
 msgid "Initiative"
-msgstr ""
+msgstr "İnisiyatif"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:231
 msgctxt "VmapToolBar|"
 msgid "inch"
-msgstr ""
+msgstr "inç"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:231
 msgctxt "VmapToolBar|"
 msgid "foot"
-msgstr ""
+msgstr "ayak"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:231
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:247
 msgctxt "VmapToolBar|"
 msgid "px"
-msgstr ""
+msgstr "pks"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Standard"
-msgstr ""
+msgstr "Standart"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 1"
-msgstr ""
+msgstr "Başlık 1"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 2"
-msgstr ""
+msgstr "Başlık 2"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 3"
-msgstr ""
+msgstr "Başlık 3"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 4"
-msgstr ""
+msgstr "Başlık 4"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:64
 msgctxt "MRichTextEdit|"
 msgid "Monospace"
-msgstr ""
+msgstr "Eş aralıklı"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
 msgctxt "MRichTextEdit|"
 msgid "Remove character formatting"
-msgstr ""
+msgstr "Karakter biçimlendirmesini kaldır"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:125
 msgctxt "MRichTextEdit|"
 msgid "Remove all formatting"
-msgstr ""
+msgstr "Tüm biçimlendirmeyi kaldır"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:129
 msgctxt "MRichTextEdit|"
 msgid "Edit document source"
-msgstr ""
+msgstr "Belge kaynağını düzenle"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:192
 msgctxt "MRichTextEdit|"
 msgid "Document source"
-msgstr ""
+msgstr "Belge kaynağı"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
 msgid "Create a link"
-msgstr ""
+msgstr "Bir bağlantı oluştur"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
-msgstr ""
+msgstr "Bağlantı URL7'si:"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:666
 msgctxt "MRichTextEdit|"
 msgid "Select an image"
-msgstr ""
+msgstr "Bir görsel seç"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:667
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
-msgstr ""
+msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Tümü (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:267
 msgctxt "OOReader|"
 msgid "Unable to convert document body!"
-msgstr ""
+msgstr "Belge gövdesi dönüştürülemedi!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
 msgctxt "XMLTextEdit|"
 msgid "Found xml error"
-msgstr ""
+msgstr "XML hatası bulundu"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:60
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "Check line %1 column %2 on string \"%3\"!"
-msgstr ""
+msgstr "%2 sütunundaki \"%3\" dizisinde bulunan %1 satırını denetle!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 msgctxt "XMLTextEdit|"
 msgid "XML valid."
-msgstr ""
+msgstr "XML geçerli."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "All tag are valid size %1."
-msgstr ""
+msgstr "Tüm etiketler geçerli boyutlu %1."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
 msgid "XML not found!"
-msgstr ""
+msgstr "XML bulunamadı!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
 msgid "Null size xml document!"
-msgstr ""
+msgstr "Boş XML belgesi!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:89
 msgctxt "XMLTextEdit|"
 msgid "Zoom In CTRL/+"
-msgstr ""
+msgstr "Yakınlaştır CTRL/+"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:90
 msgctxt "XMLTextEdit|"
 msgid "Zoom Out CTRL/-"
-msgstr ""
+msgstr "Uzaklaştır CTRL/-"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:91
 msgctxt "XMLTextEdit|"
 msgid "Check xml syntax"
-msgstr ""
+msgstr "XML Sözdizimini Denetle"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/notecontainer.cpp:37
 #, qt-format
 msgctxt "NoteContainer|"
 msgid "%1 - Note"
-msgstr ""
+msgstr "%1 - Not"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:174
 msgctxt "TextEdit|"
 msgid "File Actions"
-msgstr ""
+msgstr "Dosya Eylemleri"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:177
 msgctxt "TextEdit|"
 msgid "&File"
-msgstr ""
+msgstr "&Dosya"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:208
 msgctxt "TextEdit|"
 msgid "&Print..."
-msgstr ""
+msgstr "&Yazdır..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
 msgctxt "TextEdit|"
 msgid "Print Preview..."
-msgstr ""
+msgstr "Yazdırma Önizlemesi..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:218
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
-msgstr ""
+msgstr "PDF Olarak Dışa A&ktar..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:235
 msgctxt "TextEdit|"
 msgid "Edit Actions"
-msgstr ""
+msgstr "Düzenleme Eylemleri"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:238
 msgctxt "TextEdit|"
 msgid "&Edit"
-msgstr ""
+msgstr "Dü&zen"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:242
 msgctxt "TextEdit|"
 msgid "&Undo"
-msgstr ""
+msgstr "&Geri Al"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:246
 msgctxt "TextEdit|"
 msgid "&Redo"
-msgstr ""
+msgstr "Y&inele"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:251
 msgctxt "TextEdit|"
 msgid "Cu&t"
-msgstr ""
+msgstr "K&es"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:255
 msgctxt "TextEdit|"
 msgid "&Copy"
-msgstr ""
+msgstr "&Kopyala"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
 msgctxt "TextEdit|"
 msgid "&Paste"
-msgstr ""
+msgstr "&Yapıştır"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:269
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:337
 msgctxt "TextEdit|"
 msgid "Format Actions"
-msgstr ""
+msgstr "Biçim Eylemleri"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:272
 msgctxt "TextEdit|"
 msgid "F&ormat"
-msgstr ""
+msgstr "&Biçim"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:275
 msgctxt "TextEdit|"
 msgid "&Bold"
-msgstr ""
+msgstr "Kalı&n"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:285
 msgctxt "TextEdit|"
 msgid "&Italic"
-msgstr ""
+msgstr "&Yatık"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:295
 msgctxt "TextEdit|"
 msgid "&Underline"
-msgstr ""
+msgstr "&Altı Çizili"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:310
 msgctxt "TextEdit|"
 msgid "&Left"
-msgstr ""
+msgstr "So&l"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:313
 msgctxt "TextEdit|"
 msgid "C&enter"
-msgstr ""
+msgstr "&Orta"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:316
 msgctxt "TextEdit|"
 msgid "&Right"
-msgstr ""
+msgstr "&Sağ"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:319
 msgctxt "TextEdit|"
 msgid "&Justify"
-msgstr ""
+msgstr "&İki Yana Hizala"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:330
 msgctxt "TextEdit|"
 msgid "&Color..."
-msgstr ""
+msgstr "&Renk..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:443
 msgctxt "TextEdit|"
 msgid "Application"
-msgstr ""
+msgstr "Uygulama"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:444
 msgctxt "TextEdit|"
@@ -3826,36 +3839,38 @@ msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
 msgstr ""
+"Belge değiştirildi.\n"
+"Değişikliklerinizi kaydetmek istiyor musunuz?"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:472
 msgctxt "TextEdit|"
 msgid "Open File..."
-msgstr ""
+msgstr "Dosya Aç..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:529
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
-msgstr ""
+msgstr "ODF Dosyaları (*.odt);;HTML-Files (*.htm *.html);;Tüm Dosyalar (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:531
 msgctxt "TextEdit|"
 msgid "HTML-Files (*.htm *.html);;All Files (*)"
-msgstr ""
+msgstr "HTML Dosyaları (*.htm *.html);;Tüm Dosyalar (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:533
 msgctxt "TextEdit|"
 msgid "Save as..."
-msgstr ""
+msgstr "Farklı Kaydet..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:548
 msgctxt "TextEdit|"
 msgid "Print Document"
-msgstr ""
+msgstr "Belge Yazdır"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:732
 msgctxt "TextEdit|"
 msgid "About"
-msgstr ""
+msgstr "Hakkında"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:733
 msgctxt "TextEdit|"
@@ -3863,441 +3878,443 @@ msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
 "providing an example document for you to experiment with."
 msgstr ""
+"Bu örnek, Qt'nin zengin metin düzenleme yeteneklerini, size üzerinde "
+"deneyler yapabileceğiniz örnek bir belge sağlayarak gösterir."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:791
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
-msgstr ""
+msgstr "OpenOffice OASIS 2.4 Dosya Biçimi"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "Cahoots"
-msgstr ""
+msgstr "İşbirliği"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "The string was not found."
-msgstr ""
+msgstr "Dizi bulunamadı."
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.cpp:54
 #, qt-format
 msgctxt "SharedNote|"
 msgid "%1 - Shared Note Editor"
-msgstr ""
+msgstr "%1 - Paylaşılan Not Düzenleyicisi"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:16
 msgctxt "DiceBookMarkModel|"
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:18
 msgctxt "DiceBookMarkModel|"
 msgid "Command"
-msgstr ""
+msgstr "Komut"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:20
 msgctxt "DiceBookMarkModel|"
 msgid "Alias"
-msgstr ""
+msgstr "Arma"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Chinese Name"
-msgstr ""
+msgstr "Çince Adı"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Elve Name"
-msgstr ""
+msgstr "Elf Adı"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "English Name"
-msgstr ""
+msgstr "İngilizce Adı"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "French Name"
-msgstr ""
+msgstr "Fransızca Adı"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Japanese Name"
-msgstr ""
+msgstr "Japonca Adı"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:45
 msgctxt "NameGeneratorWidget|"
 msgid "Star Wars Name"
-msgstr ""
+msgstr "Yıldız Savaşları Adı"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:45
 msgctxt "NameGeneratorWidget|"
 msgid "Russian Name"
-msgstr ""
+msgstr "Rusça Adı"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:34
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "Unit"
-msgstr ""
+msgstr "Birim"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:36
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "Symbol"
-msgstr ""
+msgstr "Sembol"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:268
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "New Unit"
-msgstr ""
+msgstr "Yeni Birim"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:7
 msgctxt "QObject|"
 msgid "Currency"
-msgstr ""
+msgstr "Para Birimi"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:8
 msgctxt "QObject|"
 msgid "Distance"
-msgstr ""
+msgstr "Uzaklık"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:9
 msgctxt "QObject|"
 msgid "Temperature"
-msgstr ""
+msgstr "Sıcaklık"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:10
 msgctxt "QObject|"
 msgid "MASS"
-msgstr ""
+msgstr "KÜTLE"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:11
 msgctxt "QObject|"
 msgid "OTHER"
-msgstr ""
+msgstr "DİĞER"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:162
 msgctxt "GMTOOL::UnitModel|"
 msgid "New Unit"
-msgstr ""
+msgstr "Yeni Birim"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:98
 msgctxt "CharacterItem|"
 msgid "Disk"
-msgstr ""
+msgstr "Disk"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:99
 msgctxt "CharacterItem|"
 msgid "Angle"
-msgstr ""
+msgstr "Açı"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:100
 msgctxt "CharacterItem|"
 msgid "Reduce Life"
-msgstr ""
+msgstr "Yaşamı Azalt"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:101
 msgctxt "CharacterItem|"
 msgid "Increase Life"
-msgstr ""
+msgstr "Yaşamı Artır"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:470
 msgctxt "CharacterItem|"
 msgid "Change State"
-msgstr ""
+msgstr "Durumu Değiştir"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:496
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
-msgstr ""
+msgstr "Vizyon Şekli"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:509
 msgctxt "CharacterItem|"
 msgid "Actions"
-msgstr ""
+msgstr "Eylemler"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:510
 msgctxt "CharacterItem|"
 msgid "Initiative"
-msgstr ""
+msgstr "İnisiyatif"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:512
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
-msgstr ""
+msgstr "İnisiyatifi Temizle"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:528
 msgctxt "CharacterItem|"
 msgid "Shapes"
-msgstr ""
+msgstr "Şekiller"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:535
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
-msgstr ""
+msgstr "Şekli Temizle"
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:199
 msgctxt "PathItem|"
 msgid "Close Path"
-msgstr ""
+msgstr "Yolu Kapat"
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:203
 msgctxt "PathItem|"
 msgid "Fill Path"
-msgstr ""
+msgstr "Yolu Doldur"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:137
 msgctxt "TextItem|"
 msgid "Increase Text Size"
-msgstr ""
+msgstr "Metin Boyutunu Artır"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:138
 msgctxt "TextItem|"
 msgid "Decrease Text Size"
-msgstr ""
+msgstr "Metin Boyutunu Azalt"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:139
 msgctxt "TextItem|"
 msgid "Edit Text…"
-msgstr ""
+msgstr "Metni Düzenle..."
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:140
 msgctxt "TextItem|"
 msgid "Adapt to content"
-msgstr ""
+msgstr "İçeriğe Uy"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:187
 msgctxt "TextItem|"
 msgid "Text"
-msgstr ""
+msgstr "Metin"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:299
 msgctxt "TextItem|"
 msgid "Font Size"
-msgstr ""
+msgstr "Yazıtipi Boyutu"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:40
 msgctxt "QObject|"
 msgid "Ellipse"
-msgstr ""
+msgstr "Elips"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Rect"
-msgstr ""
+msgstr "Dörtgen"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Rule"
-msgstr ""
+msgstr "Kural"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:258
 msgctxt "VisualItem|"
 msgid "Duplicate Item"
-msgstr ""
+msgstr "Ögeyi Çoğalt"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:164
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr ""
+msgstr "%1 - (Karakter Sayfası Görüntüleyicisi)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
 msgid "To all"
-msgstr ""
+msgstr "Hepsine"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:542
 msgctxt "CharacterSheetWindow|"
 msgid "QML Errors"
-msgstr ""
+msgstr "QML Hataları"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:616
 msgctxt "CharacterSheetWindow|"
 msgid "Open Character Sheets View"
-msgstr ""
+msgstr "Karakter Sayfası Görünümünü Aç"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:618
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet files (*.qml)"
-msgstr ""
+msgstr "Karakter Sayfası Dosyaları (*.qml)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
-msgstr ""
+msgstr "Paylaş"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet Data files (*.rcs)"
-msgstr ""
+msgstr "Karakter Sayfası Veri Dosyası (*.rcs)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:56
 #: src/libraries/rwidgets/mediacontainers/image.cpp:66
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - Image"
-msgstr ""
+msgstr "%1 - Görsel"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:207
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture)"
-msgstr ""
+msgstr "%1 - (Resim)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:212
 msgctxt "Image|"
 msgid "Zoom In"
-msgstr ""
+msgstr "Yakınlaştır"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:213
 msgctxt "Image|"
 msgid "increase zoom level"
-msgstr ""
+msgstr "Yakınlaştırma düzeyini artır"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:217
 msgctxt "Image|Zoom In"
 msgid "Ctrl++"
-msgstr ""
+msgstr "Ctrl++"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:222
 msgctxt "Image|"
 msgid "Zoom out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:224
 msgctxt "Image|"
 msgid "Reduce zoom level"
-msgstr ""
+msgstr "Yakınlaştırma düzeyini azalt"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:227
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
-msgstr ""
+msgstr "Ctrl+-"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:237
 msgctxt "Image|"
 msgid "Fit the workspace"
-msgstr ""
+msgstr "Çalışma Alanına Sığdır"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:239
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
-msgstr ""
+msgstr "Pencere ve görsel çalışma alanına sığdırılır"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|Fit the workspace"
 msgid "Ctrl+m"
-msgstr ""
+msgstr "Ctrl+M"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:249
 msgctxt "Image|"
 msgid "Fit Window"
-msgstr ""
+msgstr "Pencereye Sığdır"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:254
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
-msgstr ""
+msgstr "Görsel, pencereye sığacak biçimde yeniden boyutlandırılacaktır."
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
 msgid "Ctrl+f"
-msgstr ""
+msgstr "Ctrl+F"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:264
 msgctxt "Image|"
 msgid "Little"
-msgstr ""
+msgstr "Küçük"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:265
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
-msgstr ""
+msgstr "Yakınlaştırma düzeyini %​20 olarak ayarla"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|Set the zoom level at 20%"
 msgid "Ctrl+l"
-msgstr ""
+msgstr "Ctrl+L"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:275
 msgctxt "Image|"
 msgid "Normal"
-msgstr ""
+msgstr "Olağan"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:276
 msgctxt "Image|"
 msgid "No Zoom"
-msgstr ""
+msgstr "Yakınlaştırma Yok"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|Normal"
 msgid "Ctrl+n"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:286
 msgctxt "Image|"
 msgid "Big"
-msgstr ""
+msgstr "Büyük"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:287
 msgctxt "Image|"
 msgid "Set the zoom level at 400%"
-msgstr ""
+msgstr "Yakınlaştırma düzeyini %​400 olarak ayarla"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:290
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:295
 #: src/libraries/rwidgets/mediacontainers/image.cpp:307
 #: src/libraries/rwidgets/mediacontainers/image.cpp:312
 msgctxt "Image|"
 msgid "Play"
-msgstr ""
+msgstr "Çal"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:297
 msgctxt "Image|"
 msgid "Stop"
-msgstr ""
+msgstr "Durdur"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:303
 msgctxt "Image|"
 msgid "Pause"
-msgstr ""
+msgstr "Duraklat"
 
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.cpp:86
 msgctxt "InstantMessagingView|"
 msgid "Instant Messaging"
-msgstr ""
+msgstr "Anlık İletileşme"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:34
 msgctxt "MediaContainer|"
 msgid "Detach the view"
-msgstr ""
+msgstr "Görünümü ayır"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:58
 msgctxt "QObject|"
 msgid "Loading error"
-msgstr ""
+msgstr "Yükleme hatası"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:113
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:115
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
-msgstr ""
+msgstr "%1 - Akıl Haritası"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:107
 #, qt-format
 msgctxt "PdfViewer|Current page/ total page"
 msgid "%1/%2"
-msgstr ""
+msgstr "%1/%2"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:169
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
-msgstr ""
+msgstr "PDF Dosyası Paylaşılıyor"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:170
 msgctxt "PdfViewer|"
@@ -4305,175 +4322,177 @@ msgid ""
 "PDF transfer can be really heavy.\n"
 "Do you want to continue and share the PDF?"
 msgstr ""
+"PDF aktarımı gerçekten ağır olabilir.\n"
+"PDF'yi paylaşmayı sürdürmek istiyor musunuz?"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:180
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
-msgstr ""
+msgstr "%1 - (PDF)"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Fog Of War"
-msgstr ""
+msgstr "Savaş Sisi"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "All visible"
-msgstr ""
+msgstr "Tümü Görünür"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "No Right"
-msgstr ""
+msgstr "Hak Yok"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "His character"
-msgstr ""
+msgstr "Onun Karakteri"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "All Permissions"
-msgstr ""
+msgstr "Tüm İzinler"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:67
 msgctxt "QObject|"
 msgid "Fog Layer"
-msgstr ""
+msgstr "Sis Katmanı"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:70
 msgctxt "QObject|"
 msgid "Grid Layer"
-msgstr ""
+msgstr "Izgara Katmanı"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:73
 msgctxt "QObject|"
 msgid "No Layer"
-msgstr ""
+msgstr "Katman Yok"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:94
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
-msgstr ""
+msgstr "%1 - görünürlük: %2 - izin: %3 - katman: %4"
 
 #: src/libraries/rwidgets/mediacontainers/webview.cpp:118
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
-msgstr ""
+msgstr "%1 - Web Sayfası"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:25
 msgctxt "campaign::CampaignView|"
 msgid "Add directory…"
-msgstr ""
+msgstr "Dizin Ekle..."
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:26
 msgctxt "campaign::CampaignView|"
 msgid "Delete"
-msgstr ""
+msgstr "Sil"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:27
 msgctxt "campaign::CampaignView|"
 msgid "Current Directory"
-msgstr ""
+msgstr "Geçerli Dizin"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:28
 msgctxt "campaign::CampaignView|"
 msgid "Open"
-msgstr ""
+msgstr "Aç"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:29
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:145
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
-msgstr ""
+msgstr "Farklı Aç..."
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
 msgid "Rename Media"
-msgstr ""
+msgstr "Ortamı Yeniden Adlandır"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:32
 msgctxt "campaign::CampaignView|"
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:33
 msgctxt "campaign::CampaignView|"
 msgid "Size"
-msgstr ""
+msgstr "Boyut"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:34
 msgctxt "campaign::CampaignView|"
 msgid "Type"
-msgstr ""
+msgstr "Tür"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:35
 msgctxt "campaign::CampaignView|"
 msgid "Date Added"
-msgstr ""
+msgstr "Ekleme Tarihi"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
 msgctxt "campaign::CampaignView|"
 msgid "Date Modified"
-msgstr ""
+msgstr "Değiştirme Tarihi"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:109
 msgctxt "campaign::CampaignView|"
 msgid "Notes"
-msgstr ""
+msgstr "Notlar"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:112
 msgctxt "campaign::CampaignView|"
 msgid "Shared Notes"
-msgstr ""
+msgstr "Paylaşılan Notlar"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:153
 msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
-msgstr ""
+msgstr "Sütunu Göster/Gizle"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:49
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr ""
+msgstr "Avatar Ayarla..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:50
 msgctxt "UserListView|"
 msgid "Remove Avatar..."
-msgstr ""
+msgstr "Avatarı Kaldır..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:56
 msgctxt "UserListView|"
 msgid "Health Points"
-msgstr ""
+msgstr "Sağlık Puanları"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:56
 msgctxt "UserListView|"
 msgid "Health Points Maximum"
-msgstr ""
+msgstr "En Yüksek Sağlık Puanı"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:57
 msgctxt "UserListView|"
 msgid "Health Points Minimum"
-msgstr ""
+msgstr "En Düşük Sağlık Puanı"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:57
 msgctxt "UserListView|"
 msgid "Distance per turn"
-msgstr ""
+msgstr "Dönüş başına uzaklık"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:58
 msgctxt "UserListView|"
 msgid "Initiative Command"
-msgstr ""
+msgstr "İnisiyatif Komutu"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:58
 msgctxt "UserListView|"
 msgid "Has initiative"
-msgstr ""
+msgstr "İnisiyatifi var"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:126
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:130
@@ -4481,186 +4500,186 @@ msgstr ""
 #, qt-format
 msgctxt "UserListView|"
 msgid "Get value for %1 property"
-msgstr ""
+msgstr "%1 özelliğinin değerini al"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:126
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:130
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:134
 msgctxt "UserListView|"
 msgid "Value:"
-msgstr ""
+msgstr "Değer:"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:217
 msgctxt "UserListView|"
 msgid "Set Property"
-msgstr ""
+msgstr "Özellik Ayarla"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:228
 msgctxt "UserListView|"
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:247
 msgctxt "UserListView|"
 msgid "Action"
-msgstr ""
+msgstr "Eylem"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:259
 msgctxt "UserListView|"
 msgid "Shape"
-msgstr ""
+msgstr "Şekil"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
 msgctxt "VToolsBar|"
 msgid "Tools"
-msgstr ""
+msgstr "Araçlar"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:104
 msgctxt "VToolsBar|"
 msgid "Pen"
-msgstr ""
+msgstr "Kalem"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:107
 msgctxt "VToolsBar|"
 msgid "Line"
-msgstr ""
+msgstr "Çizgi"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:110
 msgctxt "VToolsBar|"
 msgid "Empty Rectangle"
-msgstr ""
+msgstr "Boş Dörtgen"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:113
 msgctxt "VToolsBar|"
 msgid "filled Rectangle"
-msgstr ""
+msgstr "Dolu Dörtgen"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:116
 msgctxt "VToolsBar|"
 msgid "Empty Ellipse"
-msgstr ""
+msgstr "Boş Elips"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:119
 msgctxt "VToolsBar|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "Dolu Elips"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:122
 msgctxt "VToolsBar|"
 msgid "Text"
-msgstr ""
+msgstr "Metin"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:125
 msgctxt "VToolsBar|"
 msgid "Hand"
-msgstr ""
+msgstr "El"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:128
 msgctxt "VToolsBar|"
 msgid "Add NPC"
-msgstr ""
+msgstr "OOK Ekle"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:131
 msgctxt "VToolsBar|"
 msgid "Rule"
-msgstr ""
+msgstr "Kural"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:134
 msgctxt "VToolsBar|"
 msgid "Path"
-msgstr ""
+msgstr "Yol"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
 msgctxt "VToolsBar|"
 msgid "Anchor"
-msgstr ""
+msgstr "Çapa"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
 msgctxt "VToolsBar|"
 msgid "Pipette"
-msgstr ""
+msgstr "Kamış"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:142
 msgctxt "VToolsBar|"
 msgid "Highlighter"
-msgstr ""
+msgstr "Vurgulayıcı"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:145
 msgctxt "VToolsBar|"
 msgid "Paint Bucket"
-msgstr ""
+msgstr "Boya Kovası"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:148
 msgctxt "VToolsBar|"
 msgid "Text With Border"
-msgstr ""
+msgstr "Kenarlıklı Metin"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
 msgctxt "VToolsBar|"
 msgid "Reset NPC counter"
-msgstr ""
+msgstr "OOK Sayacını Sıfırla"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:279
 msgctxt "VToolsBar|"
 msgid "NPC Name"
-msgstr ""
+msgstr "OOK Adı"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:284
 msgctxt "VToolsBar|"
 msgid "NPC's number"
-msgstr ""
+msgstr "OOK'nin Numarası"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:290
 msgctxt "VToolsBar|"
 msgid "Normal"
-msgstr ""
+msgstr "Olağan"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:292
 msgctxt "VToolsBar|"
 msgid "Mask"
-msgstr ""
+msgstr "Maskele"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:294
 msgctxt "VToolsBar|"
 msgid "Unmask"
-msgstr ""
+msgstr "Maskeyi Çıkar"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:324
 msgctxt "VToolsBar|"
 msgid "height of the pen"
-msgstr ""
+msgstr "kalemin yüksekliği"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:336
 msgctxt "VToolsBar|"
 msgid "Opacity:"
-msgstr ""
+msgstr "Matlık:"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:82
 msgctxt "TestCharacterStateModel|"
 msgid "Healthy"
-msgstr ""
+msgstr "Sağlıklı"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:86
 msgctxt "TestCharacterStateModel|"
 msgid "Lightly Wounded"
-msgstr ""
+msgstr "Hafif yaralı"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:90
 msgctxt "TestCharacterStateModel|"
 msgid "Seriously injured"
-msgstr ""
+msgstr "Ağır yaralı"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:94
 msgctxt "TestCharacterStateModel|"
 msgid "Dead"
-msgstr ""
+msgstr "Ölü"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:98
 msgctxt "TestCharacterStateModel|"
 msgid "Sleeping"
-msgstr ""
+msgstr "Uyuyor"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:102
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
-msgstr ""
+msgstr "Efsunlanmış"
