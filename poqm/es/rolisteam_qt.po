@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2022-10-16 12:11+0200\n"
+"PO-Revision-Date: 2022-10-18 13:44+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1950,7 +1950,7 @@ msgstr "Importar medio: %1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
-msgstr ""
+msgstr "Crear nuevo %1 %2"
 
 #: src/libraries/core/src/undoCmd/openmediacontroller.cpp:42
 #, qt-format
@@ -3054,6 +3054,15 @@ msgid ""
 "Existing features : Map sharing (with permission management), Image sharing, "
 "background music, dice roll and so on. Rolisteam is written in Qt5"
 msgstr ""
+"Rolisteam le ayuda a administrar un juego de rol de mesa con amigos o "
+"jugadores remotos. Proporciona muchas funciones para compartir mapas e "
+"imágenes, además de incluir una herramienta para comunicarse con sus amigos "
+"o jugadores. El objetivo es hacer que los juegos de rol gestionados por "
+"Rolisteam sean tan buenos como los juegos de rol en mesa. Para lograrlo, "
+"estamos trabajando arduamente para ofrecerle cada vez más funciones. "
+"Funciones existentes: compartir mapas (con gestión de permisos), compartir "
+"imágenes, música de fondo, lanzamiento de dados, etc. Rolisteam está escrito "
+"en Qt5."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
 msgctxt "AboutRolisteam|"
