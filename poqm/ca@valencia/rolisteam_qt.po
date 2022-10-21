@@ -1007,7 +1007,7 @@ msgstr "camí cap al fitxer de traducció: <fitxer_traducció>"
 #: src/binaries/widget/mainwindow.cpp:894
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
-msgstr "Definix un URL per connectar al servidor: <url>"
+msgstr "Definix un URL per a connectar amb el servidor: <url>"
 
 #: src/binaries/widget/mainwindow.cpp:987
 #, qt-format
