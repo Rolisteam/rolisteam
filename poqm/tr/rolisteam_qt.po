@@ -2301,18 +2301,18 @@ msgstr "Etiketler"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
-msgstr "Görsel Ekle: %1"
+msgstr "%1 görsel ekle"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:33
 #, qt-format
 msgctxt "AddItemCommand|"
 msgid "Add item of type: %1 to mindmap"
-msgstr "Şu Öğeden Ekle: Akıl haritasına %1"
+msgstr "Şu ögeden ekle: %1, akıl haritasına"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:65
 msgctxt "AddLinkCommand|"
 msgid "Add link"
-msgstr "Bağlantı Ekle"
+msgstr "Bağlantı ekle"
 
 #: src/libraries/mindmap/src/command/removeimagefromnodecommand.cpp:33
 msgctxt "QObject|"
