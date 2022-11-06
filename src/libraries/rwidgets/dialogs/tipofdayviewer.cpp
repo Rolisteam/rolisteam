@@ -40,7 +40,7 @@ TipOfDayViewer::TipOfDayViewer(QString title, QString msg, QString url, QWidget*
                 if(!QDesktopServices::openUrl(QUrl(url)))
                 {
                     QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("No Service to open links"),
-                        tr("Please find the type here: <a href=\"%1\"</a>").arg(url), QMessageBox::Ok);
+                        tr("Please find the type here: <a href=\"%1\">%1</a>").arg(url), QMessageBox::Ok);
                     msgBox->exec();
                 }
             }

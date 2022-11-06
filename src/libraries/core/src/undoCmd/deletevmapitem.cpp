@@ -28,7 +28,7 @@ DeleteVmapItemCommand::DeleteVmapItemCommand(VectorialMapController* ctrl,
                                              const QList<vmap::VisualItemController*>& list, QUndoCommand* parent)
     : QUndoCommand(parent), m_ctrl(ctrl), m_itemCtrls(list)
 {
-    setText(QObject::tr("Delete %1 Item(s) From Map %1").arg(list.size()));
+    setText(QObject::tr("Delete %1 Item(s) From Map").arg(list.size()));
 }
 
 void DeleteVmapItemCommand::redo()
