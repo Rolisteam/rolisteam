@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
     Q_INIT_RESOURCE(resources);
 
     // INIT OPEN GL
-    auto format= QSurfaceFormat::defaultFormat();
+    /*auto format= QSurfaceFormat::defaultFormat();
     if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
     {
         format.setVersion(3, 2);
@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
     // format.setSamples(8);
-    QSurfaceFormat::setDefaultFormat(format);
+    QSurfaceFormat::setDefaultFormat(format);*/
     //   QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat());
 
     // INIT STYLE
@@ -152,27 +152,29 @@ int main(int argc, char* argv[])
     SelectConnectionProfileDialog connectionDialog(app.gameCtrl());
     MainWindow mainWindow(app.gameCtrl(), app.arguments());
 
-    QObject::connect(&app, &RolisteamApplication::stateChanged, &app, [&app, &connectionDialog, &mainWindow]() {
-        auto state= app.state();
-        using RA= RolisteamApplication::ApplicationState;
-        switch(state)
-        {
-        case RA::SelectProfile:
-            connectionDialog.setVisible(true);
-            mainWindow.makeVisible(false);
-            break;
-        case RA::Playing:
-            connectionDialog.accept();
-            mainWindow.makeVisible(true);
-            connectionDialog.setVisible(false);
-            break;
-        case RA::Exit:
-            mainWindow.makeVisible(false);
-            connectionDialog.setVisible(false);
-            QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
-            break;
-        }
-    });
+    QObject::connect(&app, &RolisteamApplication::stateChanged, &app,
+                     [&app, &connectionDialog, &mainWindow]()
+                     {
+                         auto state= app.state();
+                         using RA= RolisteamApplication::ApplicationState;
+                         switch(state)
+                         {
+                         case RA::SelectProfile:
+                             connectionDialog.setVisible(true);
+                             mainWindow.makeVisible(false);
+                             break;
+                         case RA::Playing:
+                             connectionDialog.accept();
+                             mainWindow.makeVisible(true);
+                             connectionDialog.setVisible(false);
+                             break;
+                         case RA::Exit:
+                             mainWindow.makeVisible(false);
+                             connectionDialog.setVisible(false);
+                             QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
+                             break;
+                         }
+                     });
 
     connectionDialog.setVisible(true);
     return app.exec();

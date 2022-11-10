@@ -141,9 +141,9 @@ PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& params)
 {
     auto ownerid= params.value(Core::keys::KEY_OWNERID).toString();
     auto array= params.value(Core::keys::KEY_DATA).toByteArray();
-    auto path= params.value(Core::keys::KEY_PATH).toString();
+    auto path= QUrl::fromUserInput(params.value(Core::keys::KEY_PATH).toString());
     auto seriaziledData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
-    auto pdfCtrl= new PdfController(uuid, path, array);
+    auto pdfCtrl= new PdfController(uuid, path, array.isEmpty() ? seriaziledData : array);
     pdfCtrl->setOwnerId(ownerid);
     if(!seriaziledData.isEmpty())
         IOHelper::readPdfController(pdfCtrl, seriaziledData);

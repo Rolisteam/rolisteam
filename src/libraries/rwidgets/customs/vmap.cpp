@@ -85,12 +85,15 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::gridVisibilityChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::gridColorChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::backgroundColorChanged, this, &VMap::computePattern);
-    connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() {
-        m_currentPath= nullptr;
-        m_currentItem= nullptr;
-    });
+    connect(m_ctrl, &VectorialMapController::toolChanged, this,
+            [this]()
+            {
+                m_currentPath= nullptr;
+                m_currentItem= nullptr;
+            });
     connect(m_ctrl, &VectorialMapController::highLightAt, this,
-            [this](const QPointF& p, const qreal& penSize, const QColor& color) {
+            [this](const QPointF& p, const qreal& penSize, const QColor& color)
+            {
                 auto hitem= new HighlighterItem(p, penSize, color);
                 addAndInit(hitem);
                 hitem->setPos(p);
@@ -109,14 +112,12 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     addItem(m_gridItem);
 
     m_gridItem->setPos(grid->pos());
-    m_gridItem->setZValue(2);
 
     auto sight= m_ctrl->sightController();
     m_sightItem= new SightItem(sight);
     addItem(m_sightItem);
 
     m_sightItem->setPos(0, 0);
-    m_sightItem->setZValue(1);
 
     // m_ctrl->loadItems();
     m_gridItem->setVisible(grid->visible());

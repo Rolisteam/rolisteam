@@ -51,6 +51,7 @@ class CORE_EXPORT VisualItemController : public QObject
     Q_PROPERTY(ItemType itemType READ itemType CONSTANT)
     Q_PROPERTY(bool initialized READ initialized WRITE setInitialized NOTIFY initializedChanged)
     Q_PROPERTY(bool remote READ remote WRITE setRemote NOTIFY remoteChanged)
+    Q_PROPERTY(int zOrder READ zOrder WRITE setZOrder NOTIFY zOrderChanged)
 
 public:
     enum ItemType
@@ -114,6 +115,9 @@ public:
 
     bool locked() const;
 
+    qreal zOrder() const;
+    void setZOrder(qreal newZOrder);
+
 signals:
     void selectedChanged(bool b);
     void editableChanged();
@@ -134,6 +138,7 @@ signals:
     void visibilityChanged(Core::VisibilityMode);
     void remoteChanged(bool);
     void modifiedChanged();
+    void zOrderChanged(qreal);
 
 public slots:
     void setSelected(bool b);
@@ -165,6 +170,7 @@ protected:
     QColor m_color;
     qreal m_opacity= 1.0;
     qreal m_rotation= 0.0;
+    qreal m_zOrder= 0;
     QPointF m_pos;
     Core::SelectableTool m_tool= Core::SelectableTool::HANDLER;
     Core::Layer m_layer= Core::Layer::NONE;

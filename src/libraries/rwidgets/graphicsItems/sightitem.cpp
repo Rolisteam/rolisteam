@@ -94,6 +94,7 @@ void FogSingularity::setPolygon(QPolygonF* poly)
 SightItem::SightItem(vmap::SightController* ctrl) : VisualItem(ctrl), m_sightCtrl(ctrl)
 //    , m_characterItemMap(characterItemMap)
 {
+    setZValue(std::numeric_limits<qreal>::max());
     auto updateFunc= [this]() { update(); };
     connect(m_sightCtrl, &vmap::SightController::visibleChanged, this,
             [this]() { setVisible(m_sightCtrl->visible()); });
@@ -110,10 +111,12 @@ SightItem::SightItem(vmap::SightController* ctrl) : VisualItem(ctrl), m_sightCtr
         m_ctrl->setLayer(Core::Layer::FOG);
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
 
-    connect(this, &QGraphicsObject::parentChanged, this, [this]() {
-        connect(scene(), &QGraphicsScene::sceneRectChanged, m_sightCtrl, &vmap::SightController::setRect);
-        m_sightCtrl->setRect(scene()->sceneRect());
-    });
+    connect(this, &QGraphicsObject::parentChanged, this,
+            [this]()
+            {
+                connect(scene(), &QGraphicsScene::sceneRectChanged, m_sightCtrl, &vmap::SightController::setRect);
+                m_sightCtrl->setRect(scene()->sceneRect());
+            });
 }
 
 SightItem::~SightItem() {}

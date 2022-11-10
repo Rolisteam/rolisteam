@@ -32,11 +32,9 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
-#ifdef WITH_PDF
 #include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
 #include "mediacontainers/pdfviewer.h"
-#endif
 
 #include "controller/instantmessagingcontroller.h"
 #include "mediacontainers/instantmessagingview.h"
@@ -81,10 +79,12 @@ Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagin
 
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
-    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this, [this]() {
-        m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
-        updateBackGround();
-    });
+    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this,
+            [this]()
+            {
+                m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
+                updateBackGround();
+            });
     connect(m_ctrl, &ContentController::workspaceColorChanged, this, &Workspace::updateBackGround);
     connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
 
@@ -387,11 +387,9 @@ void Workspace::addMedia(MediaControllerBase* ctrl)
     case Core::ContentType::WEBVIEW:
         addWebpage(dynamic_cast<WebpageController*>(ctrl));
         break;
-#ifdef WITH_PDF
     case Core::ContentType::PDF:
         addPdf(dynamic_cast<PdfController*>(ctrl));
         break;
-#endif
     case Core::ContentType::NOTES:
         addNote(dynamic_cast<NoteController*>(ctrl));
         break;
@@ -498,7 +496,7 @@ void Workspace::addSharedNote(SharedNoteController* ctrl)
     addWidgetToMdi(SharedNote.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(SharedNote));
 }
-#ifdef WITH_PDF
+
 void Workspace::addPdf(PdfController* ctrl)
 {
     if(nullptr == ctrl)
@@ -507,7 +505,6 @@ void Workspace::addPdf(PdfController* ctrl)
     addWidgetToMdi(pdfViewer.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(pdfViewer));
 }
-#endif
 
 PreventClosing::PreventClosing(QObject* watched, QObject* parent) : QObject(parent), m_watched(watched)
 {

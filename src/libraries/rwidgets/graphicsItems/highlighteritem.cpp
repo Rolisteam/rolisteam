@@ -33,6 +33,7 @@
 HighlighterItem::HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent)
     : m_center(center), m_color(penColor), m_penSize(static_cast<quint16>(penSize))
 {
+    setZValue(std::numeric_limits<qreal>::max());
     m_center= center;
     setPos(m_center);
     m_center.setX(0);
@@ -53,11 +54,13 @@ void HighlighterItem::initAnimation()
     m_animation->setLoopCount(preferences->value("Map_Highlighter_loop", 3).toInt());
     m_animation->start();
 
-    connect(m_animation, &QPropertyAnimation::finished, this, [this]() {
-        // setVisible(false);
-        // emit itemRemoved(m_id, true, false);
-        deleteLater();
-    });
+    connect(m_animation, &QPropertyAnimation::finished, this,
+            [this]()
+            {
+                // setVisible(false);
+                // emit itemRemoved(m_id, true, false);
+                deleteLater();
+            });
 }
 QRectF HighlighterItem::boundingRect() const
 {

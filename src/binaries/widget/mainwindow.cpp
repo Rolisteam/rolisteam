@@ -131,7 +131,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     // ALLOCATIONS
     m_campaignDock.reset(new campaign::CampaignDock(m_gameController->campaignManager()->editor()));
     connect(m_campaignDock.get(), &campaign::CampaignDock::openResource, this,
-            [this](const QString& id, const QString& path, Core::ContentType type) {
+            [this](const QString& id, const QString& path, Core::ContentType type)
+            {
                 std::map<QString, QVariant> vec;
                 vec.insert({Core::keys::KEY_PATH, path});
                 vec.insert({Core::keys::KEY_UUID, id});
@@ -143,13 +144,16 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                 vec.insert({Core::keys::KEY_LOCALID, localId});
                 m_gameController->openMedia(vec);
             });
-    connect(m_campaignDock.get(), &campaign::CampaignDock::removeFile, this, [this](const QString& path) {
-        auto campaignManager= m_gameController->campaignManager();
-        campaignManager->removeFile(path);
-    });
+    connect(m_campaignDock.get(), &campaign::CampaignDock::removeFile, this,
+            [this](const QString& path)
+            {
+                auto campaignManager= m_gameController->campaignManager();
+                campaignManager->removeFile(path);
+            });
 
     connect(m_gameController->campaignManager(), &campaign::CampaignManager::createBlankFile, this,
-            [this](const QString& path, Core::MediaType mediaType) {
+            [this](const QString& path, Core::MediaType mediaType)
+            {
                 std::map<QString, QVariant> params;
                 /// TODO change mediaType to ContentType.
                 params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(mediaType)});
@@ -158,7 +162,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
             });
 
     connect(m_gameController->campaignManager(), &campaign::CampaignManager::createBlankFile, this,
-            [this](const QString& path, Core::MediaType mediaType) {
+            [this](const QString& path, Core::MediaType mediaType)
+            {
                 std::map<QString, QVariant> params;
                 /// TODO change mediaType to ContentType.
                 params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(mediaType)});
@@ -167,7 +172,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
             });
 
     connect(m_gameController, &GameController::dataLoaded, this,
-            [this](const QStringList missignFiles, const QStringList unmanagedFile) {
+            [this](const QStringList missignFiles, const QStringList unmanagedFile)
+            {
                 if(missignFiles.isEmpty() && unmanagedFile.isEmpty())
                     return;
                 campaign::CampaignIntegrityDialog dialog(missignFiles, unmanagedFile, m_gameController->campaignRoot(),
@@ -181,7 +187,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 
                     QList<QPair<QString, Core::CampaignAction>> list;
                     std::transform(std::begin(missingActions), std::end(missingActions), std::back_inserter(list),
-                                   [](const DataInfo& info) {
+                                   [](const DataInfo& info)
+                                   {
                                        return QPair<QString, Core::CampaignAction>(
                                            {info.data, info.indexAction == 0 ? Core::CampaignAction::ForgetAction :
                                                                                Core::CampaignAction::CreateAction});
@@ -190,7 +197,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 
                     QList<QPair<QString, Core::CampaignAction>> list2;
                     std::transform(std::begin(unmanagedActions), std::end(unmanagedActions), std::back_inserter(list2),
-                                   [](const DataInfo& info) {
+                                   [](const DataInfo& info)
+                                   {
                                        return QPair<QString, Core::CampaignAction>(
                                            {info.data, info.indexAction == 0 ? Core::CampaignAction::ManageAction :
                                                                                Core::CampaignAction::DeleteAction});
@@ -224,14 +232,16 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 
     m_preferences= m_gameController->preferencesManager();
 
-    auto func= [](QVariant var) {
+    auto func= [](QVariant var)
+    {
         auto v= var.toInt();
         if(var.isNull())
             v= 6;
         VisualItem::setHighlightWidth(v);
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightPenWidth"), func);
-    auto func2= [](QVariant var) {
+    auto func2= [](QVariant var)
+    {
         auto v= var.value<QColor>();
         if(!v.isValid())
             v= QColor(Qt::red);
@@ -239,23 +249,25 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"), func2);
 
-    connect(m_ui->m_mediaTitleAct, &QAction::toggled, this, [this](bool b) {
-        m_ui->m_toolBar->setToolButtonStyle(b ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly);
-    });
+    connect(m_ui->m_mediaTitleAct, &QAction::toggled, this,
+            [this](bool b)
+            { m_ui->m_toolBar->setToolButtonStyle(b ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly); });
 
     connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
             &MainWindow::setWindowModified);
     connect(m_gameController->contentController(), &ContentController::canPasteChanged, m_ui->m_pasteAct,
             &QAction::setEnabled);
 
-    connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
-        if(connected)
-            postConnection();
+    connect(m_gameController->networkController(), &NetworkController::connectedChanged, this,
+            [this](bool connected)
+            {
+                if(connected)
+                    postConnection();
 
-        updateWindowTitle();
-        m_ui->m_changeProfileAct->setEnabled(connected);
-        m_ui->m_disconnectAction->setEnabled(connected);
-    });
+                updateWindowTitle();
+                m_ui->m_changeProfileAct->setEnabled(connected);
+                m_ui->m_disconnectAction->setEnabled(connected);
+            });
 
     connect(m_gameController->campaign(), &campaign::Campaign::nameChanged, this, &MainWindow::updateWindowTitle);
 
@@ -281,11 +293,13 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
         widDock->setVisible(false);
     }
 
-    connect(m_gameController->instantMessagingController(), &InstantMessagingController::unreadChanged, this, [this]() {
-        auto ctrl= m_gameController->instantMessagingController();
-        m_ui->m_showChatAct->setIcon(ctrl->unread() ? QIcon::fromTheme("chaticon_with_message") :
-                                                      QIcon::fromTheme("chaticon"));
-    });
+    connect(m_gameController->instantMessagingController(), &InstantMessagingController::unreadChanged, this,
+            [this]()
+            {
+                auto ctrl= m_gameController->instantMessagingController();
+                m_ui->m_showChatAct->setIcon(ctrl->unread() ? QIcon::fromTheme("chaticon_with_message") :
+                                                              QIcon::fromTheme("chaticon"));
+            });
 
     m_ui->m_pasteAct->setEnabled(m_gameController->contentController()->canPaste());
 
@@ -297,10 +311,12 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     m_roomPanelDockWidget->setVisible(false);
     addDockWidget(Qt::RightDockWidgetArea, m_roomPanelDockWidget);
 
-    connect(m_ui->m_keyGeneratorAct, &QAction::triggered, this, []() {
-        KeyGeneratorDialog dialog;
-        dialog.exec();
-    });
+    connect(m_ui->m_keyGeneratorAct, &QAction::triggered, this,
+            []()
+            {
+                KeyGeneratorDialog dialog;
+                dialog.exec();
+            });
 
     setupUi();
     readSettings();
@@ -418,7 +434,8 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openWebViewAct->setData(QVariant::fromValue(Core::ContentType::WEBVIEW));
     m_ui->m_newMindmap->setData(QVariant::fromValue(Core::ContentType::MINDMAP));
 
-    auto callNewMedia= [this]() {
+    auto callNewMedia= [this]()
+    {
         auto act= qobject_cast<QAction*>(sender());
         std::map<QString, QVariant> params;
         if(!m_gameController->localIsGM())
@@ -447,38 +464,44 @@ void MainWindow::linkActionToMenu()
     // open
     connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openImage);
     connect(m_ui->m_openCharacterSheet, &QAction::triggered, this, &MainWindow::openGenericContent);
-    connect(m_ui->m_openWebViewAct, &QAction::triggered, this, [this]() {
-        auto str= QInputDialog::getText(this, tr("Open Webpage"), tr("Webpage url:"));
-        if(str.isEmpty())
-            return;
-        std::map<QString, QVariant> params;
-        params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::WEBVIEW)});
-        QUrl url= QUrl::fromUserInput(str);
-        params.insert({Core::keys::KEY_NAME, url.fileName()});
-        params.insert({Core::keys::KEY_PATH, str});
-        m_gameController->newMedia(params);
-    });
-    connect(m_ui->m_openVectorialMap, &QAction::triggered, this, []() {
-        // TODO open vmap
-    });
+    connect(m_ui->m_openWebViewAct, &QAction::triggered, this,
+            [this]()
+            {
+                auto str= QInputDialog::getText(this, tr("Open Webpage"), tr("Webpage url:"));
+                if(str.isEmpty())
+                    return;
+                std::map<QString, QVariant> params;
+                params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::WEBVIEW)});
+                QUrl url= QUrl::fromUserInput(str);
+                params.insert({Core::keys::KEY_NAME, url.fileName()});
+                params.insert({Core::keys::KEY_PATH, str});
+                m_gameController->newMedia(params);
+            });
+    connect(m_ui->m_openVectorialMap, &QAction::triggered, this,
+            []()
+            {
+                // TODO open vmap
+            });
     connect(m_ui->m_openCampaignAction, &QAction::triggered, this, &MainWindow::openCampaign);
     connect(m_ui->m_openNoteAction, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openShareNote, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openPdfAct, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openMindmap, &QAction::triggered, this, &MainWindow::openGenericContent);
 
-    connect(m_ui->m_importFromCampaign, &QAction::triggered, this, [this]() {
-        ImportDataFromCampaignDialog dialog(m_gameController->campaignRoot(), this);
+    connect(m_ui->m_importFromCampaign, &QAction::triggered, this,
+            [this]()
+            {
+                ImportDataFromCampaignDialog dialog(m_gameController->campaignRoot(), this);
 
-        if(dialog.exec() == QDialog::Accepted)
-        {
-            /// TODO call controller to import data.
-            auto src= dialog.source();
-            auto cats= dialog.categoryList();
-            auto manager= m_gameController->campaignManager();
-            manager->importDataFrom(src, cats);
-        }
-    });
+                if(dialog.exec() == QDialog::Accepted)
+                {
+                    /// TODO call controller to import data.
+                    auto src= dialog.source();
+                    auto cats= dialog.categoryList();
+                    auto manager= m_gameController->campaignManager();
+                    manager->importDataFrom(src, cats);
+                }
+            });
 
     connect(m_ui->m_shortCutEditorAct, &QAction::triggered, this, &MainWindow::showShortCutEditor);
 
@@ -489,26 +512,26 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openNoteAction->setData(static_cast<int>(Core::ContentType::NOTES));
     m_ui->m_openShareNote->setData(static_cast<int>(Core::ContentType::SHAREDNOTE));
     m_ui->m_openMindmap->setData(static_cast<int>(Core::ContentType::MINDMAP));
-#ifdef WITH_PDF
     m_ui->m_openPdfAct->setData(static_cast<int>(Core::ContentType::PDF));
-#else
-    m_ui->m_openPdfAct->setVisible(false);
-#endif
+
     // m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, &QAction::triggered, m_mdiArea.get(), &Workspace::closeActiveSub);
     connect(m_ui->m_saveCampaignAction, &QAction::triggered, m_gameController, &GameController::save);
-    connect(m_ui->m_saveCampaignAsAct, &QAction::triggered, this, [this]() {
-        QString fileName= QFileDialog::getExistingDirectory(this, tr("Open Campaign"),
-                                                            m_gameController->campaign()->rootDirectory());
-        if(fileName.isEmpty())
-            return;
-        m_gameController->saveAs(fileName);
-    });
+    connect(m_ui->m_saveCampaignAsAct, &QAction::triggered, this,
+            [this]()
+            {
+                QString fileName= QFileDialog::getExistingDirectory(this, tr("Open Campaign"),
+                                                                    m_gameController->campaign()->rootDirectory());
+                if(fileName.isEmpty())
+                    return;
+                m_gameController->saveAs(fileName);
+            });
     connect(m_ui->m_preferencesAction, &QAction::triggered, m_preferencesDialog,
             [this]() { m_preferencesDialog->show(); });
 
     // Campaign
-    auto func= [this]() {
+    auto func= [this]()
+    {
         auto s= qobject_cast<QAction*>(sender());
         if(nullptr == s)
             return;
@@ -532,24 +555,26 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_tabViewAction, &QAction::triggered, m_mdiArea.get(), &Workspace::setTabbedMode);
     connect(m_ui->m_tileViewAction, &QAction::triggered, m_mdiArea.get(), &Workspace::tileSubWindows);
 
-    connect(m_ui->m_fullScreenAct, &QAction::triggered, this, [=](bool enable) {
-        if(enable)
-        {
-            showFullScreen();
-            m_mdiArea->addAction(m_ui->m_fullScreenAct);
-            menuBar()->setVisible(false);
-            m_mdiArea->setMouseTracking(true);
-            setMouseTracking(true);
-        }
-        else
-        {
-            showNormal();
-            menuBar()->setVisible(true);
-            m_mdiArea->setMouseTracking(false);
-            setMouseTracking(false);
-            m_mdiArea->removeAction(m_ui->m_fullScreenAct);
-        }
-    });
+    connect(m_ui->m_fullScreenAct, &QAction::triggered, this,
+            [=](bool enable)
+            {
+                if(enable)
+                {
+                    showFullScreen();
+                    m_mdiArea->addAction(m_ui->m_fullScreenAct);
+                    menuBar()->setVisible(false);
+                    m_mdiArea->setMouseTracking(true);
+                    setMouseTracking(true);
+                }
+                else
+                {
+                    showNormal();
+                    menuBar()->setVisible(true);
+                    m_mdiArea->setMouseTracking(false);
+                    setMouseTracking(false);
+                    m_mdiArea->removeAction(m_ui->m_fullScreenAct);
+                }
+            });
 
     auto undoStack= m_gameController->undoStack();
 
@@ -579,21 +604,25 @@ void MainWindow::linkActionToMenu()
     // network
     connect(m_ui->m_disconnectAction, &QAction::triggered, m_gameController->networkController(),
             &NetworkController::stopConnection);
-    connect(m_ui->m_connectionLinkAct, &QAction::triggered, this, [this]() {
-        QString str("rolisteam://%1/%2/%3");
-        auto networkCtrl= m_gameController->networkController();
+    connect(m_ui->m_connectionLinkAct, &QAction::triggered, this,
+            [this]()
+            {
+                QString str("rolisteam://%1/%2/%3");
+                auto networkCtrl= m_gameController->networkController();
 
-        auto* clipboard= QGuiApplication::clipboard();
-        clipboard->setText(str.arg(networkCtrl->host())
-                               .arg(networkCtrl->port())
-                               .arg(QString::fromUtf8(networkCtrl->serverPassword().toBase64())));
-    });
+                auto* clipboard= QGuiApplication::clipboard();
+                clipboard->setText(str.arg(networkCtrl->host())
+                                       .arg(networkCtrl->port())
+                                       .arg(QString::fromUtf8(networkCtrl->serverPassword().toBase64())));
+            });
     connect(m_ui->m_roomListAct, &QAction::triggered, m_roomPanelDockWidget, &QDockWidget::setVisible);
     // Help
-    connect(m_ui->m_aboutAction, &QAction::triggered, this, [this]() {
-        AboutRolisteam diag(m_gameController->version(), this);
-        diag.exec();
-    });
+    connect(m_ui->m_aboutAction, &QAction::triggered, this,
+            [this]()
+            {
+                AboutRolisteam diag(m_gameController->version(), this);
+                diag.exec();
+            });
     connect(m_ui->m_onlineHelpAction, &QAction::triggered, this, &MainWindow::helpOnLine);
 
     m_ui->m_supportRolisteam->setData(QStringLiteral("https://liberapay.com/Rolisteam/donate"));
@@ -601,12 +630,14 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_supportRolisteam, &QAction::triggered, this, &MainWindow::showSupportPage);
     connect(m_ui->m_patreon, &QAction::triggered, this, &MainWindow::showSupportPage);
 
-    connect(m_ui->m_manageHistoryAct, &QAction::triggered, this, [this]() {
-        auto ctrl= m_gameController->contentController();
-        HistoryViewerDialog dialog(ctrl->historyModel(), this);
-        dialog.exec();
-        updateFileHistoryMenu();
-    });
+    connect(m_ui->m_manageHistoryAct, &QAction::triggered, this,
+            [this]()
+            {
+                auto ctrl= m_gameController->contentController();
+                HistoryViewerDialog dialog(ctrl->historyModel(), this);
+                dialog.exec();
+                updateFileHistoryMenu();
+            });
 }
 
 void MainWindow::showSupportPage()
@@ -1025,13 +1056,15 @@ void MainWindow::updateFileHistoryMenu()
     m_ui->m_historyMenu->addAction(m_ui->m_manageHistoryAct);
     m_ui->m_historyMenu->addAction(m_ui->m_cleanHistoryAct);
     m_ui->m_historyMenu->addSeparator();
-    std::for_each(std::begin(data), std::end(data), [this](const history::LinkInfo& info) {
-        auto action= new QAction(info.displayName, this);
-        action->setData(info.id);
-        action->setIcon(QIcon(helper::utils::typeToIconPath(info.type)));
-        m_ui->m_historyMenu->addAction(action);
-        connect(action, &QAction::triggered, this, &MainWindow::openFileFromHistory);
-    });
+    std::for_each(std::begin(data), std::end(data),
+                  [this](const history::LinkInfo& info)
+                  {
+                      auto action= new QAction(info.displayName, this);
+                      action->setData(info.id);
+                      action->setIcon(QIcon(helper::utils::typeToIconPath(info.type)));
+                      m_ui->m_historyMenu->addAction(action);
+                      connect(action, &QAction::triggered, this, &MainWindow::openFileFromHistory);
+                  });
 
     SettingsHelper::writeHistoryModel(ctrl->historyModel());
 }
@@ -1051,13 +1084,15 @@ void MainWindow::openFileFromHistory()
         if(info.type == Core::ContentType::PICTURE)
         {
             ImageSelectorController* ctrl= new ImageSelectorController(false, ImageSelectorController::All);
-            connect(ctrl, &ImageSelectorController::imageDataChanged, this, [this, ctrl, map]() {
-                std::map<QString, QVariant> map2(map);
-                auto data= ctrl->finalImageData();
-                map2.insert({Core::keys::KEY_DATA, data});
-                m_gameController->openMedia(map2);
-                ctrl->deleteLater();
-            });
+            connect(ctrl, &ImageSelectorController::imageDataChanged, this,
+                    [this, ctrl, map]()
+                    {
+                        std::map<QString, QVariant> map2(map);
+                        auto data= ctrl->finalImageData();
+                        map2.insert({Core::keys::KEY_DATA, data});
+                        m_gameController->openMedia(map2);
+                        ctrl->deleteLater();
+                    });
             ctrl->downloadImageFrom(info.url);
         }
         else
@@ -1138,7 +1173,8 @@ void MainWindow::dropEvent(QDropEvent* event)
                 auto downloader= new NetworkDownloader(url);
                 connect(
                     downloader, &NetworkDownloader::finished, this,
-                    [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data) {
+                    [this, contentCtrl, type, url, urltext, downloader](const QByteArray& data)
+                    {
                         contentCtrl->openMedia(
                             {{Core::keys::KEY_URL, urltext},
                              {Core::keys::KEY_PATH, urltext},

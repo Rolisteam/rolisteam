@@ -331,4 +331,18 @@ void VisualItemController::computeEditable()
     auto sameLayer= m_ctrl->layer() == layer();
     setEditable(!m_locked && sameLayer && editableByPermission);
 }
+
+qreal VisualItemController::zOrder() const
+{
+    return m_zOrder;
+}
+
+void VisualItemController::setZOrder(qreal newZOrder)
+{
+    if(qFuzzyCompare(m_zOrder, newZOrder))
+        return;
+    m_zOrder= newZOrder;
+    emit zOrderChanged(m_zOrder);
+}
+
 } // namespace vmap

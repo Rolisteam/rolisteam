@@ -34,10 +34,9 @@ struct CORE_EXPORT ChangeStackOrderData
 
 class CORE_EXPORT ChangeStackOrderVMapCommand : public QUndoCommand
 {
-
 public:
     ChangeStackOrderVMapCommand(VectorialMapController* vmapCtrl, const QList<vmap::VisualItemController*>& list,
-                                VectorialMapController::StackOrder order);
+        VectorialMapController::StackOrder order);
 
     void undo() override;
     void redo() override;
@@ -45,6 +44,7 @@ public:
 private:
     QPointer<VectorialMapController> m_vmapCtrl;
     std::vector<ChangeStackOrderData> m_data;
+    VectorialMapController::StackOrder m_order;
 };
 
 #endif // CHANGESTACKORDERVMAPCOMMAND_H

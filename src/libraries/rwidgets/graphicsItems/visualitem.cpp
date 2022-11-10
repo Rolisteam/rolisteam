@@ -83,6 +83,8 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
 
     init();
 
+    connect(m_ctrl, &vmap::VisualItemController::zOrderChanged, this, [this](qreal z) { setZValue(z); });
+
     setPos(m_ctrl->pos());
     evaluateVisible();
 

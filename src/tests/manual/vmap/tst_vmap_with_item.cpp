@@ -59,6 +59,9 @@ int main(int argc, char* argv[])
     character.setAvatar(utils::IOHelper::loadFile(
         "/home/renaud/documents/03_jdr/01_Scenariotheque/09_Cops/03_krom/lynn_gray_rike.jpg"));
 
+    Character characterB("bb", "Toku Kahime", QColor("#FF00DD"), false, 0);
+    characterB.setAvatar(utils::IOHelper::loadFile("/home/renaud/documents/04_Images/avatar/predateur.jpg"));
+
     QList<CharacterAction*> acts;
 
     character.defineActionList(acts);
@@ -70,10 +73,19 @@ int main(int argc, char* argv[])
     params.insert({Core::vmapkeys::KEY_TOOL, Core::SelectableTool::PlayableCharacter});
 
     auto c= new vmap::CharacterItemController(params, &ctrl);
+
+    std::map<QString, QVariant> params2;
+    params.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(&characterB)});
+    params.insert({Core::vmapkeys::KEY_POS, QPointF{300, 200}});
+    params.insert({Core::vmapkeys::KEY_TOOL, Core::SelectableTool::PlayableCharacter});
+
+    auto d= new vmap::CharacterItemController(params2, &ctrl);
+
     VMapFrame frame(&ctrl);
 
     frame.setVisible(true);
     ctrl.addRemoteItem(c);
+    ctrl.addRemoteItem(d);
 
     return app.exec();
 }

@@ -248,6 +248,7 @@ set(UI_FILES
   editors/mrichtextedit.ui
   gmtoolbox/UnitConvertor/convertor.ui
   dialogs/preferencesdialogbox.ui
+  mediacontainers/pdfviewer.ui
 )
 
 set(QRC_SOURCES ${CMAKE_SOURCE_DIR}/rolisteam.qrc editors/noteeditor/src/textedit.qrc gmtoolbox/NameGenerator/resources/resources.qrc)

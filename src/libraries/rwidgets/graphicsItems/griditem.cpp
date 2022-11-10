@@ -46,6 +46,7 @@
 
 GridItem::GridItem(vmap::GridController* ctrl) : VisualItem(ctrl), m_gridCtrl(ctrl)
 {
+    setZValue(std::numeric_limits<qreal>::max());
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
     setAcceptedMouseButtons(Qt::NoButton);
@@ -58,10 +59,12 @@ GridItem::GridItem(vmap::GridController* ctrl) : VisualItem(ctrl), m_gridCtrl(ct
     connect(m_gridCtrl, &vmap::GridController::gridPatternChanged, this, [this]() { update(); });
     connect(m_gridCtrl, &vmap::GridController::rectChanged, this, [this]() { update(); });
 
-    connect(this, &QGraphicsObject::parentChanged, this, [this]() {
-        connect(scene(), &QGraphicsScene::sceneRectChanged, m_gridCtrl, &vmap::GridController::setRect);
-        m_gridCtrl->setRect(scene()->sceneRect());
-    });
+    connect(this, &QGraphicsObject::parentChanged, this,
+            [this]()
+            {
+                connect(scene(), &QGraphicsScene::sceneRectChanged, m_gridCtrl, &vmap::GridController::setRect);
+                m_gridCtrl->setRect(scene()->sceneRect());
+            });
 }
 
 GridItem::~GridItem() {}
@@ -81,24 +84,6 @@ void GridItem::setNewEnd(const QPointF& nend)
     Q_UNUSED(nend)
     return;
 }
-
-/*void GridItem::readItem(NetworkMessageReader* msg)
-{
-    // m_id= msg->string16();
-    // rect
-        m_rect.setX(msg->real());
-        m_rect.setY(msg->real());
-        m_rect.setWidth(msg->real());
-        m_rect.setHeight(msg->real());
-
-    // pos
-    /*qreal x= msg->real();
-    qreal y= msg->real();
-    setPos(x, y);
-    qreal z= msg->real();
-    setZValue(z);
-    update();
-}*/
 
 VisualItem* GridItem::getItemCopy()
 {

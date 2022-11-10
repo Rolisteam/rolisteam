@@ -80,7 +80,7 @@ class CORE_EXPORT VectorialMapController : public MediaControllerBase
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(QRectF visualRect READ visualRect WRITE setVisualRect NOTIFY visualRectChanged)
     Q_PROPERTY(bool idle READ idle WRITE setIdle NOTIFY idleChanged)
-    Q_PROPERTY(int zIndex READ zIndex WRITE setZindex NOTIFY zIndexChanged)
+    Q_PROPERTY(qreal zIndex READ zIndex WRITE setZindex NOTIFY zIndexChanged)
 
 public:
     enum Method
@@ -157,6 +157,7 @@ public slots:
     void cleanUpInit(Core::CharacterScope scope);
     void cleanUpInit(QList<QPointer<vmap::CharacterItemController>> list);
     void runDiceCommand(QList<QPointer<vmap::CharacterItemController>> list, QString cmd);
+    void changeZValue(const QList<vmap::VisualItemController*>& list, VectorialMapController::StackOrder order);
 
 signals:
     void permissionChanged(Core::PermissionMode mode);

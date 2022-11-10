@@ -25,6 +25,7 @@
 #include <QMdiArea>
 #include <QPaintEvent>
 #include <QPointer>
+#include <QToolBar>
 #include <QWidget>
 
 #include "mediacontainers/mediacontainer.h"
@@ -53,9 +54,7 @@ class CharacterSheetController;
 class WebpageController;
 class SharedNoteController;
 class MapController;
-#ifdef WITH_PDF
 class PdfController;
-#endif
 class NoteController;
 class InstantMessagingController;
 class MindMapController;
@@ -106,9 +105,7 @@ protected slots:
     void addSharedNote(SharedNoteController* ctrl);
     void addNote(NoteController* ctrl);
     void addMindMap(MindMapController* ctrl);
-#ifdef WITH_PDF
     void addPdf(PdfController* ctrl);
-#endif
 
 protected:
     void resizeEvent(QResizeEvent* event);

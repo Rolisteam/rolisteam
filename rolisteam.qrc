@@ -171,5 +171,7 @@
         <file>resources/rolistheme/invalid.svg</file>
         <file>resources/rolistheme/userlisticon.svg</file>
         <file>resources/rolistheme/bell.svg</file>
+        <file>resources/rolistheme/share_doc.svg</file>
+        <file>resources/rolistheme/view-page-continuous.png</file>
     </qresource>
 </RCC>

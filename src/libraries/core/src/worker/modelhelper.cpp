@@ -34,9 +34,7 @@
 #include "controller/audiocontroller.h"
 #include "controller/contentcontroller.h"
 #include "data/campaign.h"
-#include "data/character.h"
 #include "data/media.h"
-#include "data/player.h"
 #include "diceparser/dicealias.h"
 #include "media/mediatype.h"
 #include "model/characterstatemodel.h"
@@ -45,10 +43,8 @@
 #include "model/historymodel.h"
 #include "model/musicmodel.h"
 #include "model/nonplayablecharactermodel.h"
-#include "model/palettemodel.h"
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
-#include "session/sessionitemmodel.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 
@@ -69,6 +65,25 @@ constexpr char const* hist_key_type{"type"};
 const static QStringList CharacterFields({"CharacterHp", "CharacterMaxHp", "CharacterMinHp", "CharacterDistPerTurn",
                                           "CharacterStateId", "CharacterLifeColor", "CharacterInitCmd",
                                           "CharacterHasInit"});
+
+namespace profiles
+{
+constexpr auto const* groupName{"ConnectionPorfiles"};
+constexpr auto const* arrayName{"ConnectionProfilesArray"};
+constexpr auto const* address{"address"};
+constexpr auto const* name{"name"};
+constexpr auto const* title{"title"};
+constexpr auto const* playerId{"playerId"};
+constexpr auto const* port{"port"};
+constexpr auto const* server{"server"};
+constexpr auto const* gm{"gm"};
+constexpr auto const* campaignPath{"campaignPath"};
+constexpr auto const* password{"password"};
+constexpr auto const* playerColor{"PlayerColor"};
+constexpr auto const* playerAvatar{"playerAvatarData"};
+constexpr auto const* playerCount{"characterCount"};
+} // namespace profiles
+
 void readConnectionProfileModel(ProfileModel* model)
 {
     QSettings settings(rolisteam, rolisteam);
