@@ -93,9 +93,9 @@ bool hasValidCharacter(const std::vector<connection::CharacterData>& characters,
     }
     else
     {
-        res= std::any_of(std::begin(characters), std::end(characters), [](const connection::CharacterData& data) {
-            return !data.m_name.isEmpty() && isSquareImage(data.m_avatarData);
-        });
+        res= std::any_of(std::begin(characters), std::end(characters),
+                         [](const connection::CharacterData& data)
+                         { return !data.m_name.isEmpty() && isSquareImage(data.m_avatarData); });
     }
     return res;
 }
@@ -135,11 +135,9 @@ QStringList extentionPerType(Core::ContentType type, bool save, bool wildcard)
                          Core::extentions::EXT_XHTML,
                      };
         break;
-#ifdef WITH_PDF
     case Core::ContentType::PDF:
         exts= QStringList{Core::extentions::EXT_PDF}; // QObject::tr("Pdf File (%1)").arg("*.pdf");
         break;
-#endif
     case Core::ContentType::VECTORIALMAP:
         exts= QStringList{Core::extentions::EXT_MAP}; // QObject::tr("Vectorial Map (%1)").arg("*.vmap");
         break;
@@ -185,11 +183,9 @@ QString filterForType(Core::ContentType type, bool save)
     case Core::ContentType::WEBVIEW:
         filterType= QObject::tr("Supported WebPage (%1)").arg(list);
         break;
-#ifdef WITH_PDF
     case Core::ContentType::PDF:
         filterType= QObject::tr("Pdf File (%1)").arg(list);
         break;
-#endif
     case Core::ContentType::VECTORIALMAP:
         filterType= QObject::tr("Vectorial Map (%1)").arg(list);
         break;
@@ -214,9 +210,7 @@ QString typeToString(Core::ContentType type)
     names.insert(Core::ContentType::CHARACTERSHEET, QObject::tr("Character Sheet"));
     names.insert(Core::ContentType::MINDMAP, QObject::tr("Mindmap"));
     names.insert(Core::ContentType::SHAREDNOTE, QObject::tr("Shared Notes"));
-#ifdef WITH_PDF
     names.insert(Core::ContentType::PDF, QObject::tr("Pdf"));
-#endif
     names.insert(Core::ContentType::WEBVIEW, QObject::tr("Webview"));
 
     return names.value(type);
@@ -270,9 +264,7 @@ QString typeToIconPath(Core::ContentType type)
         {Core::ContentType::CHARACTERSHEET, "treeview"},
         {Core::ContentType::SHAREDNOTE, "sharedEditor"},
         {Core::ContentType::WEBVIEW, "webPage"},
-#ifdef WITH_PDF
         {Core::ContentType::PDF, "pdfLogo"},
-#endif
     });
     return hash.value(type);
 }

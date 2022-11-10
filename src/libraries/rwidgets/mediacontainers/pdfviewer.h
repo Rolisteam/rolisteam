@@ -24,6 +24,7 @@
 #include <QAction>
 #include <QFile>
 #include <QLabel>
+#include <QMenu>
 #include <QPointer>
 #include <QString>
 #include <QWidget>
@@ -33,7 +34,7 @@
 #include "preferences/preferencesmanager.h"
 
 #include "rwidgets/mediacontainers/mediacontainer.h"
-
+Q_DECLARE_LOGGING_CATEGORY(MediaContainerPDF)
 class NetworkLink;
 class NetworkMessageWriter;
 class QPdfWidget;
@@ -52,6 +53,18 @@ class PdfViewer : public MediaContainer
 {
     Q_OBJECT
 public:
+    enum ZoomLevelValue
+    {
+        FitWidth,
+        FitInView,
+        TwentyFiveZoom,
+        FiftyZoom,
+        SeventyFiveZoom,
+        OneHundredZoom,
+        OneHundredFitfyZoom,
+        TwoHundredZoom
+    };
+    Q_ENUM(ZoomLevelValue)
     PdfViewer(PdfController* ctrl, QWidget* parent= nullptr);
     /**
      * @brief ~PdfViewer destructor.
@@ -61,14 +74,17 @@ public:
     void savePdfToFile(QFile& file);
     void savePdfToFile(QDataStream& out);
     void setParent(Workspace* parent);
-    void contextMenuEvent(QContextMenuEvent* event);
+    void contextMenuEvent(QContextMenuEvent* event) override;
 
 protected:
     void makeConnections();
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 protected slots:
+    void extractImage();
+    void extractText();
+    void extractMap();
     void showOverLay();
-    void exportImage();
     void sharePdfTo();
     void updateTitle();
     void bookmarkSelected(const QModelIndex& index);
@@ -77,7 +93,6 @@ private:
     Ui::PdfViewer* m_ui= nullptr;
     std::unique_ptr<QPdfDocument> m_document;
     QPointer<PdfController> m_pdfCtrl;
-    std::vector<QAction*> m_cropOption;
     std::unique_ptr<Overlay> m_overlay;
 };
 

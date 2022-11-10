@@ -4,6 +4,7 @@
 #include "rwidgets_global.h"
 #include <QRect>
 #include <QWidget>
+
 class RWIDGET_EXPORT Overlay : public QWidget
 {
     Q_OBJECT
@@ -50,7 +51,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
 
 private:
-    QRect m_selectedRect;
+    QRect m_selectedRect{0, 0, 100, 100};
     Position m_currentCorner= None;
     QPoint m_lastPosition;
     Ratio m_ratio= Ratio::Ratio_Unconstrained;

@@ -27,30 +27,31 @@
 
 namespace Core
 {
-Q_NAMESPACE
+Q_NAMESPACE_EXPORT(NETWORK_EXPORT)
 enum PermissionMode
 {
     GM_ONLY,
     PC_MOVE,
     PC_ALL
 };
-NETWORK_EXPORT Q_ENUM_NS(PermissionMode)
+Q_ENUM_NS(PermissionMode)
 
-    /*    TOKEN,
-        SONG,
-        SONGLIST,*/
-    enum class ContentType : int {
-        VECTORIALMAP,
-        PICTURE,
-        NOTES,
-        CHARACTERSHEET,
-        SHAREDNOTE,
-        PDF,
-        WEBVIEW,
-        INSTANTMESSAGING,
-        MINDMAP,
-        UNKNOWN
-    };
+/*    TOKEN,
+    SONG,
+    SONGLIST,*/
+enum class ContentType : int
+{
+    VECTORIALMAP,
+    PICTURE,
+    NOTES,
+    CHARACTERSHEET,
+    SHAREDNOTE,
+    PDF,
+    WEBVIEW,
+    INSTANTMESSAGING,
+    MINDMAP,
+    UNKNOWN
+};
 NETWORK_EXPORT Q_ENUM_NS(ContentType)
 
     enum class MediaType : int {

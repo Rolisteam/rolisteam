@@ -21,7 +21,9 @@
 
 #include "utils/iohelper.h"
 
+#include <QApplication>
 #include <QBuffer>
+#include <QClipboard>
 
 PdfController::PdfController(const QString& id, const QUrl& path, const QByteArray& data, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::PDF, parent)
@@ -80,10 +82,20 @@ void PdfController::setZoomFactor(qreal zoom)
     emit zoomFactorChanged(m_zoom);
 }
 
-void PdfController::shareImageIntoImage(const QPixmap& image) {}
+// void PdfController::shareImageIntoImage(const QPixmap& image) {}
 
-void PdfController::shareImageIntoMap(const QPixmap& image) {}
+void PdfController::copyImage(const QPixmap& image)
+{
+    auto clip= QApplication::clipboard();
+    clip->setPixmap(image, QClipboard::Clipboard);
+}
 
-void PdfController::shareImageIntoVMap(const QPixmap& image) {}
+void PdfController::copyText(const QString& text)
+{
+    // TODO wait to fix it from the view
+}
 
-void PdfController::shareAsPdf() {}
+void PdfController::shareAsPdf()
+{
+    emit sharePdf(m_uuid);
+}

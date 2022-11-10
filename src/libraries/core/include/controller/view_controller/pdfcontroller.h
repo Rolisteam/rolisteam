@@ -45,14 +45,12 @@ public slots:
     void setZoomFactor(qreal zoom);
     void zoomIn();
     void zoomOut();
-    void shareImageIntoImage(const QPixmap& image);
-    void shareImageIntoMap(const QPixmap& image);
-    void shareImageIntoVMap(const QPixmap& image);
+    void copyImage(const QPixmap& image);
+    void copyText(const QString& text);
     void shareAsPdf();
 
 signals:
     void dataChanged(QByteArray data);
-    void openImageAs(const QPixmap&, Core::ContentType);
     void sharePdf(QString id);
     void zoomFactorChanged(qreal r);
 

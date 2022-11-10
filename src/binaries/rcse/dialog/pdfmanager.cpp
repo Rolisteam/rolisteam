@@ -24,30 +24,35 @@
 #include <QFileDialog>
 #include <QGroupBox>
 #include <QPdfDocument>
+#include <QPdfPageNavigator>
 #include <QPdfView>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSet>
-#include <QtPdf/QPdfPageNavigation>
+//#include <QtPdf/QPdfPageNavigation>
 
 PdfManager::PdfManager(QWidget* parent) : QDialog(parent), ui(new Ui::PdfManager), m_document(new QPdfDocument())
 {
     ui->setupUi(this);
 
-    connect(ui->m_browseFile, &QPushButton::clicked, this, [this]() {
-        auto filename= QFileDialog::getOpenFileName(this, tr("Load background from PDF"), QDir::homePath(),
-                                                    tr("PDF files (*.pdf)"));
-        if(filename.isEmpty())
-            return;
+    connect(ui->m_browseFile, &QPushButton::clicked, this,
+            [this]()
+            {
+                auto filename= QFileDialog::getOpenFileName(this, tr("Load background from PDF"), QDir::homePath(),
+                                                            tr("PDF files (*.pdf)"));
+                if(filename.isEmpty())
+                    return;
 
-        setPdfPath(filename);
-    });
+                setPdfPath(filename);
+            });
 
-    connect(ui->m_resoGroupBox, &QGroupBox::toggled, this, [this](bool checked) {
-        ui->m_widthBox->setEnabled(checked);
-        ui->m_heightBox->setEnabled(checked);
-    });
+    connect(ui->m_resoGroupBox, &QGroupBox::toggled, this,
+            [this](bool checked)
+            {
+                ui->m_widthBox->setEnabled(checked);
+                ui->m_heightBox->setEnabled(checked);
+            });
 
     ui->m_pdfView->setDocument(m_document.get());
 
@@ -57,47 +62,57 @@ PdfManager::PdfManager(QWidget* parent) : QDialog(parent), ui(new Ui::PdfManager
     ui->m_pdfView->setPageMode(QPdfView::PageMode::MultiPage);
     ui->m_pdfView->setZoomMode(QPdfView::ZoomMode::FitToWidth);
 
-    connect(ui->m_allPagesCb, &QCheckBox::toggled, this, [this](bool checked) {
-        if(checked)
-        {
-            ui->m_currentPageCb->setChecked(false);
-            ui->m_pagesCb->setChecked(false);
-        }
-    });
-    connect(ui->m_currentPageCb, &QCheckBox::toggled, this, [this](bool checked) {
-        if(checked)
-        {
-            ui->m_allPagesCb->setChecked(false);
-            ui->m_pagesCb->setChecked(false);
-        }
-    });
-    connect(ui->m_pagesCb, &QCheckBox::toggled, this, [this](bool checked) {
-        if(checked)
-        {
-            ui->m_allPagesCb->setChecked(false);
-            ui->m_currentPageCb->setChecked(false);
-        }
-    });
+    connect(ui->m_allPagesCb, &QCheckBox::toggled, this,
+            [this](bool checked)
+            {
+                if(checked)
+                {
+                    ui->m_currentPageCb->setChecked(false);
+                    ui->m_pagesCb->setChecked(false);
+                }
+            });
+    connect(ui->m_currentPageCb, &QCheckBox::toggled, this,
+            [this](bool checked)
+            {
+                if(checked)
+                {
+                    ui->m_allPagesCb->setChecked(false);
+                    ui->m_pagesCb->setChecked(false);
+                }
+            });
+    connect(ui->m_pagesCb, &QCheckBox::toggled, this,
+            [this](bool checked)
+            {
+                if(checked)
+                {
+                    ui->m_allPagesCb->setChecked(false);
+                    ui->m_currentPageCb->setChecked(false);
+                }
+            });
 
-    connect(ui->m_widthBox, &QSpinBox::valueChanged, this, [this](int value) {
-        if(!ui->m_resoGroupBox->isChecked())
-            return;
+    connect(ui->m_widthBox, &QSpinBox::valueChanged, this,
+            [this](int value)
+            {
+                if(!ui->m_resoGroupBox->isChecked())
+                    return;
 
-        auto sizeF= m_document->pageSize(currentPage());
-        auto r= sizeF.height() / sizeF.width();
-        const QSignalBlocker blocker(ui->m_heightBox);
-        ui->m_heightBox->setValue(value * r);
-    });
+                auto sizeF= m_document->pagePointSize(currentPage());
+                auto r= sizeF.height() / sizeF.width();
+                const QSignalBlocker blocker(ui->m_heightBox);
+                ui->m_heightBox->setValue(value * r);
+            });
 
-    connect(ui->m_heightBox, &QSpinBox::valueChanged, this, [this](int value) {
-        if(!ui->m_resoGroupBox->isChecked())
-            return;
+    connect(ui->m_heightBox, &QSpinBox::valueChanged, this,
+            [this](int value)
+            {
+                if(!ui->m_resoGroupBox->isChecked())
+                    return;
 
-        auto sizeF= m_document->pageSize(currentPage());
-        auto r= sizeF.width() / sizeF.height();
-        const QSignalBlocker blocker(ui->m_widthBox);
-        ui->m_widthBox->setValue(value * r);
-    });
+                auto sizeF= m_document->pagePointSize(currentPage());
+                auto r= sizeF.width() / sizeF.height();
+                const QSignalBlocker blocker(ui->m_widthBox);
+                ui->m_widthBox->setValue(value * r);
+            });
 
     // connect(ui->m_pdfView->viewport(), &QWidget::size);
 
@@ -177,8 +192,9 @@ const QList<QImage> PdfManager::images() const
     }
     else if(ui->m_currentPageCb->isChecked())
     {
-        auto nav= ui->m_pdfView->pageNavigation();
-        pages.append(nav->currentPage());
+        auto nav= ui->m_pdfView->pageNavigator();
+        if(nav)
+            pages.append(nav->currentPage());
     }
     else if(ui->m_pagesCb->isChecked())
     {
@@ -215,7 +231,7 @@ const QList<QImage> PdfManager::images() const
     // Compute images
     QPdfDocumentRenderOptions options;
     if(grayScale)
-        options.setRenderFlags(QPdf::RenderGrayscale);
+        options.setRenderFlags(QPdfDocumentRenderOptions::RenderFlag::Grayscale);
 
     options.setScaledSize(size);
     for(auto page : pages)
@@ -234,14 +250,14 @@ void PdfManager::updateSizeParameter()
     if(ui->m_resoGroupBox->isChecked())
         return;
 
-    auto sizeF= m_document->pageSize(currentPage()) * (1. + 1. / 3.);
+    auto sizeF= m_document->pagePointSize(currentPage()) * (1. + 1. / 3.);
     ui->m_widthBox->setValue(sizeF.width());
     ui->m_heightBox->setValue(sizeF.height());
 }
 
 int PdfManager::currentPage() const
 {
-    auto nav= ui->m_pdfView->pageNavigation();
+    auto nav= ui->m_pdfView->pageNavigator();
     if(!nav)
         return 0;
     return nav->currentPage();

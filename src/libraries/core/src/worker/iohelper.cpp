@@ -800,7 +800,8 @@ void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
 
     QByteArray pdfData;
     input >> pdfData;
-    ctrl->setData(pdfData);
+    if(!pdfData.isEmpty())
+        ctrl->setData(pdfData);
 }
 
 void IOHelper::readImageController(ImageController* ctrl, const QByteArray& array)

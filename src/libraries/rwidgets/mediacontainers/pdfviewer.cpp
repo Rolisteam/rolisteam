@@ -21,13 +21,15 @@
 #include "pdfviewer.h"
 #include <QBuffer>
 #include <QDebug>
+#include <QMessageBox>
 #include <QPdfBookmarkModel>
 #include <QPdfDocument>
-#include <QPdfPageNavigation>
+#include <QPdfPageNavigator>
 #include <QPdfView>
 #include <QScrollBar>
 #include <QShortcut>
 #include <QtGui>
+#include <type_traits>
 
 #include "controller/view_controller/pdfcontroller.h"
 #include "customs/overlay.h"
@@ -35,6 +37,8 @@
 
 #define MARGING 0
 #define ICON_SIZE 32
+
+Q_LOGGING_CATEGORY(MediaContainerPDF, "mediacontainer.pdf")
 
 PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::PDFContainer, parent)
@@ -57,9 +61,14 @@ PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
     makeConnections();
     if(m_pdfCtrl)
     {
-        auto buf= m_pdfCtrl->buffer();
-        if(buf->open(QIODevice::ReadOnly))
-            m_document->load(buf);
+        if(!m_pdfCtrl->data().isEmpty())
+        {
+            auto buf= m_pdfCtrl->buffer();
+            if(buf->open(QIODevice::ReadOnly))
+                m_document->load(buf);
+        }
+        else
+            m_document->load(m_pdfCtrl->url().toLocalFile());
     }
 }
 
@@ -68,7 +77,11 @@ PdfViewer::~PdfViewer() {}
 void PdfViewer::makeConnections()
 {
     m_ui->m_cropViewAct->setIcon(QIcon::fromTheme("crop"));
-    m_ui->m_shareAct->setIcon(QIcon::fromTheme("document-share"));
+    m_ui->m_shareAct->setIcon(QIcon::fromTheme("share_doc"));
+    m_ui->m_continuousAct->setIcon(QIcon::fromTheme("view-page-continuous"));
+    m_ui->m_exportToMapAct->setIcon(QIcon::fromTheme("edit-copy"));
+    m_ui->m_exportToImage->setIcon(QIcon::fromTheme("image-x-generic"));
+    m_ui->m_extractTextAct->setIcon(QIcon::fromTheme("text"));
 
     m_ui->m_cropBtn->setDefaultAction(m_ui->m_cropViewAct);
     m_ui->m_shareBtn->setDefaultAction(m_ui->m_shareAct);
@@ -76,91 +89,191 @@ void PdfViewer::makeConnections()
     m_ui->m_exportToImageBtn->setDefaultAction(m_ui->m_exportToImage);
     m_ui->m_continuousBtn->setDefaultAction(m_ui->m_continuousAct);
 
+    m_ui->m_extractTextBtn->setDefaultAction(m_ui->m_extractTextAct);
+    m_ui->m_extractTextBtn->setVisible(false);
+    m_ui->m_exportToImageBtn->setVisible(false);
+
     m_ui->m_zoomInBtn->setDefaultAction(m_ui->m_zoomInAct);
     m_ui->m_zoomOutBtn->setDefaultAction(m_ui->m_zoomOutAct);
 
     m_ui->m_nextPageBtn->setDefaultAction(m_ui->m_nextPageAct);
     m_ui->m_previousPageBtn->setDefaultAction(m_ui->m_previousPageAct);
-    // m_ui->m_shareBtn->setDefaultAction(m_ui->m_shareAct);
 
-    connect(m_ui->m_continuousAct, &QAction::triggered, this, []() {
-        // m_ui->m_view, &QPdfView::setZoomMode;
-    });
+    m_ui->m_exportToImage->setEnabled(false);
+    m_ui->m_exportToMapAct->setEnabled(false);
+    m_ui->m_extractTextAct->setEnabled(false);
 
-    connect(m_ui->m_continuousAct, &QAction::triggered, this, [this](bool continuous) {
-        m_ui->m_view->setPageMode(continuous ? QPdfView::MultiPage : QPdfView::SinglePage);
-    });
+    connect(m_ui->m_zoomLevel, &QComboBox::currentIndexChanged, this,
+            [this]()
+            {
+                auto i= m_ui->m_zoomLevel->currentIndex();
+                //, FitHeight, TwentyFiveZoom, FiftyZoom, SeventyFiveZoom, OneHundredZoom, OneHundredFitfyZoom,
+                // TwoHundredZoom};
+                if(i == FitWidth)
+                {
+                    m_ui->m_view->setZoomMode(QPdfView::ZoomMode::FitToWidth);
+                }
+                else if(i == FitInView)
+                {
+                    m_ui->m_view->setZoomMode(QPdfView::ZoomMode::FitInView);
+                }
+                else
+                {
+                    m_ui->m_view->setZoomMode(QPdfView::ZoomMode::Custom);
 
+                    static QHash<int, qreal> dataValue{{TwentyFiveZoom, 0.25},     {FiftyZoom, 0.5},
+                                                       {SeventyFiveZoom, 0.75},    {OneHundredZoom, 1.0},
+                                                       {OneHundredFitfyZoom, 1.5}, {TwoHundredZoom, 2.0}};
+                    m_ui->m_view->setZoomFactor(dataValue.value(i));
+                }
+            });
+    connect(m_ui->m_zoomLevel, &QComboBox::currentTextChanged, this,
+            [this](const QString& text)
+            {
+                bool ok;
+                auto zoomlvl= static_cast<qreal>(text.toInt(&ok));
+                if(ok)
+                {
+                    m_ui->m_view->setZoomFactor(zoomlvl / 100.0);
+                }
+            });
+
+    m_ui->m_zoomLevel->setValidator(new QIntValidator);
+    connect(m_ui->m_continuousAct, &QAction::triggered, this,
+            [this](bool continuous) {
+                m_ui->m_view->setPageMode(continuous ? QPdfView::PageMode::MultiPage : QPdfView::PageMode::SinglePage);
+            });
+
+    const auto& rect= geometry();
+    m_ui->m_splitter->setSizes(
+        QList{{static_cast<int>(rect.width() * 0.2), static_cast<int>(rect.width() * 0.8)}}); // QSplitter
     connect(m_ui->m_zoomInAct, &QAction::triggered, this, [this]() { m_pdfCtrl->zoomIn(); });
-
     connect(m_ui->m_zoomOutAct, &QAction::triggered, this, [this]() { m_pdfCtrl->zoomOut(); });
 
     m_ui->m_continuousAct->setChecked(true);
-    m_ui->m_view->setPageMode(QPdfView::MultiPage);
+    m_ui->m_view->setPageMode(QPdfView::PageMode::MultiPage);
 
     connect(m_pdfCtrl, &PdfController::zoomFactorChanged, m_ui->m_view, &QPdfView::setZoomFactor);
 
     connect(m_ui->bookmarkView, &QTreeView::activated, this, &PdfViewer::bookmarkSelected);
 
-    auto nav= m_ui->m_view->pageNavigation();
-    connect(nav, &QPdfPageNavigation::currentPageChanged, this, [nav, this](int page) {
-        m_ui->lineEdit->setText(tr("%1/%2", "Current page/ total page").arg(page).arg(nav->pageCount()));
-    });
-    connect(nav, &QPdfPageNavigation::canGoToNextPageChanged, m_ui->m_nextPageAct, &QAction::setEnabled);
-    connect(nav, &QPdfPageNavigation::canGoToPreviousPageChanged, m_ui->m_previousPageAct, &QAction::setEnabled);
-
-    connect(m_ui->m_nextPageAct, &QAction::triggered, nav, &QPdfPageNavigation::goToNextPage);
-    connect(m_ui->m_previousPageAct, &QAction::triggered, nav, &QPdfPageNavigation::goToPreviousPage);
-
-    for(auto act : m_cropOption)
+    auto nav= m_ui->m_view->pageNavigator();
+    auto updateCurrentPage= [this, nav]()
     {
-        // act->setVisible(false);
-    }
-    /*m_cropCurrentView= new QAction(tr("Crop Current View"), this);
-    m_cropCurrentView->setIcon(QIcon(":/resources/images/crop.svg"));
+        if(!nav)
+            return;
 
-    connect(m_cropCurrentView, &QAction::triggered, this, &PdfViewer::showOverLay);
+        m_ui->m_curentPage->setValue(nav->currentPage() + 1); //.arg(m_document->pageCount()));
+    };
 
-    m_shareDocument= new QAction(tr("Document to all"), this);
-    m_shareDocument->setIcon(QIcon(":/resources/images/document-share.svg"));
+    auto updatePageCount= [this]()
+    {
+        m_ui->m_curentPage->setMinimum(1);
+        m_ui->m_curentPage->setMaximum(m_document->pageCount());
+        m_ui->m_pageCount->setText(QString("/ %1").arg(m_document->pageCount()));
+    };
 
-    m_toVmap= new QAction(tr("Export into VMap"), this);
-    m_toVmap->setData(QVariant::fromValue(Core::ContentType::VECTORIALMAP));
+    connect(nav, &QPdfPageNavigator::currentPageChanged, this, updateCurrentPage);
+    connect(m_document.get(), &QPdfDocument::pageCountChanged, this, updatePageCount);
+    connect(nav, &QPdfPageNavigator::forwardAvailableChanged, m_ui->m_nextPageAct, &QAction::setEnabled);
+    connect(nav, &QPdfPageNavigator::backAvailableChanged, m_ui->m_previousPageAct, &QAction::setEnabled);
 
-    m_image= new QAction(tr("Export as Image"), this);
-    m_image->setData(QVariant::fromValue(Core::ContentType::PICTURE));
+    m_ui->m_nextPageAct->setEnabled(nav->forwardAvailable());
+    m_ui->m_previousPageAct->setEnabled(nav->backAvailable());
 
-    connect(m_toVmap, &QAction::triggered, this, &PdfViewer::exportImage);
-    connect(m_image, &QAction::triggered, this, &PdfViewer::exportImage);
-    connect(m_shareDocument, &QAction::triggered, this, &PdfViewer::sharePdfTo);*/
+    updateCurrentPage();
+    updatePageCount();
+
+    connect(m_ui->m_nextPageAct, &QAction::triggered, nav, &QPdfPageNavigator::forward);
+    connect(m_ui->m_previousPageAct, &QAction::triggered, nav, &QPdfPageNavigator::back);
+    connect(m_ui->m_curentPage, &QSpinBox::valueChanged, this,
+            [this, nav]() {
+                nav->update(m_ui->m_curentPage->value() - 1, QPointF{0, 0}, nav->currentZoom());
+            });
+
+    m_ui->m_view->installEventFilter(this);
+
+    connect(m_ui->m_exportToImage, &QAction::triggered, this, &PdfViewer::extractImage);
+    connect(m_ui->m_exportToMapAct, &QAction::triggered, this, &PdfViewer::extractMap);
+    connect(m_ui->m_extractTextAct, &QAction::triggered, this, &PdfViewer::extractText);
+
+    connect(m_ui->m_cropViewAct, &QAction::triggered, this,
+            [this]()
+            {
+                m_ui->m_exportToImage->setEnabled(m_ui->m_cropViewAct->isChecked());
+                m_ui->m_exportToMapAct->setEnabled(m_ui->m_cropViewAct->isChecked());
+                m_ui->m_extractTextAct->setEnabled(m_ui->m_cropViewAct->isChecked());
+            });
+    connect(m_ui->m_cropViewAct, &QAction::triggered, this, &PdfViewer::showOverLay);
 }
 
-void PdfViewer::exportImage()
+bool PdfViewer::eventFilter(QObject* obj, QEvent* event)
+{
+    if(event->type() == QEvent::Resize && m_overlay && obj == m_ui->m_view)
+    {
+        auto geo= m_ui->m_view->geometry();
+        m_overlay->setGeometry({m_ui->m_view->mapFromParent(geo.topLeft()), geo.size()});
+        return QObject::eventFilter(obj, event);
+    }
+    else
+    {
+        return QObject::eventFilter(obj, event);
+    }
+}
+
+void PdfViewer::extractImage()
 {
     if(!m_overlay)
         return;
 
-    auto act= qobject_cast<QAction*>(sender());
-    auto type= static_cast<Core::ContentType>(act->data().toInt());
-
-    auto rect= m_overlay->rect();
+    auto rect= m_overlay->selectedRect();
     auto pix= m_ui->m_view->grab(rect);
-
-    // emit openImageAs(pix, type);
-    switch(type)
-    {
-    case Core::ContentType::VECTORIALMAP:
-        m_pdfCtrl->shareImageIntoVMap(pix);
-        break;
-    case Core::ContentType::PICTURE:
-        m_pdfCtrl->shareImageIntoVMap(pix);
-        break;
-    default:
-        break;
-    }
-
+    // m_pdfCtrl->shareImageIntoImage(pix);
     m_overlay.reset();
-    // m_cropCurrentView->setChecked(false);
+}
+
+void PdfViewer::extractMap()
+{
+    if(!m_overlay)
+        return;
+    auto rect= m_overlay->selectedRect();
+    m_ui->m_cropViewAct->setChecked(false);
+    m_overlay.reset(nullptr);
+    m_pdfCtrl->copyImage(m_ui->m_view->grab(rect));
+    m_ui->m_exportToMapAct->setEnabled(false);
+}
+void PdfViewer::extractText()
+{
+    if(!m_overlay)
+        return;
+    /*auto rect= m_overlay->selectedRect();
+    auto geo= m_ui->m_view->geometry();
+    auto margins= m_ui->m_view->documentMargins();
+    auto nav= m_ui->m_view->pageNavigator();
+    auto pos= nav->currentLocation();
+    auto page= nav->currentPage();
+    auto zoomLevel= m_ui->m_view->zoomFactor();
+    // auto pix= m_ui->m_view->select(rect);
+    // m_pdfCtrl->shareImageIntoMap(pix);
+
+    auto geoPage= geo.marginsRemoved(margins);
+
+    auto rectPage= rect.marginsRemoved(QMargins{margins.left(), margins.top(), 0, 0});
+    qCWarning(MediaContainerPDF) << "Geo:" << geo << "rect:" << rect << "margins:" << margins << "GeoPage:" << geoPage
+                                 << "rectpage" << rectPage << "zoom" << zoomLevel;
+
+
+
+    // qCWarning(MediaContainerPDF) << geoPage << rect << ;
+    //  geo
+
+    auto selections= m_document->getSelection(page, rectPage.toRectF().topLeft(), rectPage.toRectF().bottomRight());
+    qCWarning(MediaContainerPDF) << selections.text();
+
+    QRectF rectZoom(rect.x() * zoomLevel, rect.y() * zoomLevel, rect.width() * zoomLevel, rect.height() * zoomLevel);
+    auto selections2= m_document->getSelection(page, rectZoom.topLeft(), rectZoom.bottomRight());
+    qCWarning(MediaContainerPDF) << selections2.text();
+    // m_overlay.reset();*/
 }
 
 void PdfViewer::sharePdfTo()
@@ -185,38 +298,32 @@ void PdfViewer::bookmarkSelected(const QModelIndex& index)
     if(!index.isValid())
         return;
 
-    const int page= index.data(QPdfBookmarkModel::PageNumberRole).toInt();
-    m_ui->m_view->pageNavigation()->setCurrentPage(page);
+    const int page= index.data(qToUnderlying<QPdfBookmarkModel::Role>(QPdfBookmarkModel::Role::Page)).toInt();
+    m_ui->m_view->pageNavigator()->jump(page, {10, 10});
 }
 
 void PdfViewer::showOverLay()
 {
-    /*if(m_cropCurrentView->isChecked())
+    if(m_ui->m_cropViewAct->isChecked())
     {
-        if(m_overlay == nullptr)
+
+        if(!m_overlay)
         {
-            m_overlay= new Overlay(m_ui->m_view->geometry(), m_ui->m_view->parentWidget());
+            m_overlay.reset(new Overlay(m_ui->m_view));
         }
-        m_overlay->setGeometry(m_ui->m_view->geometry());
+        auto geo= m_ui->m_view->geometry();
+        m_overlay->setGeometry({m_ui->m_view->mapFromParent(geo.topLeft()), geo.size()});
         m_overlay->show();
-        for(auto act : m_cropOption)
-        {
-            act->setVisible(true);
-        }
     }
     else
     {
         if(m_overlay != nullptr)
         {
             m_overlay->hide();
-            delete m_overlay;
-            m_overlay= nullptr;
+            m_overlay.reset(nullptr);
+            m_ui->m_exportToMapAct->setEnabled(false);
         }
-        for(auto act : m_cropOption)
-        {
-            act->setVisible(false);
-        }
-    }*/
+    }
 }
 
 void PdfViewer::savePdfToFile(QDataStream& out)
@@ -239,16 +346,14 @@ void PdfViewer::contextMenuEvent(QContextMenuEvent* event)
 {
     QMenu menu(this);
 
-    // menu.addAction(m_cropCurrentView);
-    // menu.addAction(m_shareDocument);
-    if(m_overlay != nullptr)
-    {
-        menu.addSeparator();
-        for(auto act : m_cropOption)
-        {
-            menu.addAction(act);
-        }
-    }
+    menu.addAction(m_ui->m_cropViewAct);
+    menu.addAction(m_ui->m_exportToMapAct);
+    menu.addAction(m_ui->m_continuousAct);
+    menu.addSeparator();
+    menu.addAction(m_ui->m_zoomInAct);
+    menu.addAction(m_ui->m_zoomOutAct);
+    menu.addSeparator();
+    menu.addAction(m_ui->m_shareAct);
 
     menu.exec(event->globalPos());
 }
