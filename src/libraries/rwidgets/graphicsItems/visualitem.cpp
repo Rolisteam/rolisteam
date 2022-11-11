@@ -34,6 +34,7 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 
 QColor VisualItem::m_highlightColor= QColor(Qt::red);
+QColor VisualItem::m_selectedColor= QColor(Qt::blue);
 int VisualItem::m_highlightWidth= 6;
 
 QStringList VisualItem::s_type2NameList
@@ -49,7 +50,6 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
     connect(m_ctrl, &vmap::VisualItemController::removeItem, this,
             [this]()
             {
-                qDebug() << "**********************\nremove item from maps";
                 scene()->removeItem(this);
                 deleteLater();
             });
@@ -65,13 +65,7 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
 
     connect(m_ctrl, &vmap::VisualItemController::colorChanged, this, [this]() { update(); });
     connect(m_ctrl, &vmap::VisualItemController::editableChanged, this, &VisualItem::updateItemFlags);
-    connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this,
-            [this]()
-            {
-                qDebug() << "rotation changed" << m_ctrl->rotationOriginPoint() << m_ctrl->rotation()
-                         << transformOriginPoint() << transform();
-                setRotation(m_ctrl->rotation());
-            });
+    connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(m_ctrl->rotation()); });
     connect(m_ctrl, &vmap::VisualItemController::selectedChanged, this, [this](bool b) { setSelected(b); });
     connect(m_ctrl, &vmap::VisualItemController::selectableChanged, this, &VisualItem::updateItemFlags);
 

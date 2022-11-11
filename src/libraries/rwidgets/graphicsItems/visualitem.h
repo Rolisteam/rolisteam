@@ -104,6 +104,7 @@ protected:
 protected:
     QPointer<vmap::VisualItemController> m_ctrl;
     static QColor m_highlightColor;
+    static QColor m_selectedColor;
     static int m_highlightWidth;
     QVector<ChildPointItem*> m_children;
     QPoint m_menuPos;

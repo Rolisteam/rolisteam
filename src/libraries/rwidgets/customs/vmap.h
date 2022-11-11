@@ -131,6 +131,9 @@ protected:
     void addExistingItems();
 
 private:
+    VisualItem* visualItemUnder(const QPointF& pos);
+
+private:
     QPointer<GridItem> m_gridItem;
     QPointer<SightItem> m_sightItem;
     QPointer<VectorialMapController> m_ctrl;

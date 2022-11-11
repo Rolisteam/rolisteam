@@ -234,11 +234,11 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
     painter->restore();
 
-    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isSelected()))
     {
         painter->save();
         QPen pen= painter->pen();
-        pen.setColor(m_highlightColor);
+        pen.setColor(isSelected() ? m_selectedColor : m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
         if(m_itemCtrl->hasAvatar())

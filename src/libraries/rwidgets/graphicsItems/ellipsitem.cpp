@@ -96,11 +96,11 @@ void EllipsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
     painter->restore();
 
-    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isSelected()))
     {
         painter->save();
         QPen pen= painter->pen();
-        pen.setColor(m_highlightColor);
+        pen.setColor(isSelected() ? m_selectedColor : m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
         painter->drawEllipse(QPointF(0, 0), m_ellipseCtrl->rx(), m_ellipseCtrl->ry());

@@ -22,6 +22,7 @@ set(public_utils_header
     include/utils/iohelper.h
     include/utils/networkdownloader.h
     include/utils/mappinghelper.h
+    include/utils/logcategories.h
     include/utils/utils_global.h
     include/utils/directaccessdatastructure.h
 )

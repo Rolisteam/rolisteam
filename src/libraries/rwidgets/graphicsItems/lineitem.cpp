@@ -99,12 +99,12 @@ void LineItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
 
-    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
+    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isSelected()))
     {
         painter->save();
         auto shapePath= shape();
         QPen pen= painter->pen();
-        pen.setColor(m_highlightColor);
+        pen.setColor(isSelected() ? m_selectedColor : m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
         painter->drawPath(shapePath);

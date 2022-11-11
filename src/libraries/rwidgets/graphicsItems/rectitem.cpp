@@ -102,11 +102,15 @@ void RectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
 
-    if(canBeMoved() && (option->state & QStyle::State_MouseOver || isUnderMouse()))
+    auto val= static_cast<bool>(option->state & QStyle::State_MouseOver);
+
+    qDebug() << "same: " << (val == isUnderMouse()) << "selected:" << isSelected() << m_rectCtrl->color().name();
+
+    if(canBeMoved() && (isSelected() || val)) // option->state & QStyle::State_MouseOver || isUnderMouse())
     {
         painter->save();
         QPen pen= painter->pen();
-        pen.setColor(m_highlightColor);
+        pen.setColor(isSelected() ? m_selectedColor : m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
         painter->drawRect(m_rectCtrl->rect());

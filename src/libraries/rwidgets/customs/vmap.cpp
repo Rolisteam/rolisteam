@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QPixmap>
 
+#include "commands/movevmapitem.h"
 #include "data/character.h"
 #include "graphicsItems/anchoritem.h"
 #include "graphicsItems/characteritem.h"
@@ -36,12 +37,14 @@
 #include "controller/item_controllers/sightcontroller.h"
 #include "controller/item_controllers/textcontroller.h"
 
-#include "worker/iohelper.h"
+#include "utils/logcategories.h"
+
+//#include "worker/iohelper.h"
 
 // Undo management
-#include "commands/movevmapitem.h"
-#include "undoCmd/addvmapitem.h"
-#include "undoCmd/deletevmapitem.h"
+//#include "commands/movevmapitem.h"
+//#include "undoCmd/addvmapitem.h"
+//#include "undoCmd/deletevmapitem.h"
 
 void addCharacterItem(VectorialMapController* ctrl, const QPointF& pos, Character* character)
 {
@@ -308,6 +311,17 @@ void VMap::insertItem(const QPointF& pos)
     m_ctrl->insertItemAt(params);
 }
 
+VisualItem* VMap::visualItemUnder(const QPointF& pos)
+{
+    QList<QGraphicsItem*> itemList= items(pos);
+    itemList.removeAll(m_gridItem);
+    itemList.removeAll(m_sightItem);
+    if(itemList.isEmpty())
+        return nullptr;
+
+    return dynamic_cast<VisualItem*>(itemList.at(0));
+}
+
 void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
     auto leftButton= (mouseEvent->button() == Qt::LeftButton);
@@ -330,22 +344,20 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if(Core::PIPETTE == m_ctrl->tool() && leftButton)
     {
-        QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());
-        itemList.removeAll(m_gridItem);
-        itemList.removeAll(m_sightItem);
-        if(!itemList.isEmpty())
+        auto item= visualItemUnder(mouseEvent->scenePos());
+
+        if(nullptr == item)
         {
-            VisualItem* item= dynamic_cast<VisualItem*>(itemList.at(0));
-            if(nullptr != item)
+            qCInfo(logCategory::map) << "no item under the pipette";
+            return;
+        }
+
+        if(item->getType() != vmap::VisualItemController::ItemType::IMAGE)
+        {
+            QColor color= item->color();
+            if(color.isValid())
             {
-                if(item->getType() != vmap::VisualItemController::ItemType::IMAGE)
-                {
-                    QColor color= item->color();
-                    if(color.isValid())
-                    {
-                        m_ctrl->setToolColor(color);
-                    }
-                }
+                m_ctrl->setToolColor(color);
             }
         }
     }
@@ -355,20 +367,17 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if(Core::BUCKET == m_ctrl->tool() && leftButton)
     {
-        QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());
-        itemList.removeAll(m_gridItem);
-        itemList.removeAll(m_sightItem);
-        if(!itemList.isEmpty())
+        auto item= visualItemUnder(mouseEvent->scenePos());
+        if(nullptr == item)
         {
-            VisualItem* item= dynamic_cast<VisualItem*>(itemList.at(0));
-            if(nullptr != item)
-            {
-                if(item->getType() != vmap::VisualItemController::ItemType::IMAGE)
-                {
-                    // auto cmd= new ChangeColorItemCmd(item->controller(), m_ctrl->toolColor());
-                    m_ctrl->askForColorChange(item->controller());
-                }
-            }
+            qCInfo(logCategory::map) << "no item under the bucket";
+            return;
+        }
+
+        if(item->getType() != vmap::VisualItemController::ItemType::IMAGE)
+        {
+            // auto cmd= new ChangeColorItemCmd(item->controller(), m_ctrl->toolColor());
+            m_ctrl->askForColorChange(item->controller());
         }
     }
     else if(Core::ANCHOR == m_ctrl->tool() && leftButton)
@@ -397,6 +406,14 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     else if(mouseEvent->button() == Qt::RightButton)
     {
         m_currentPath= nullptr;
+        auto item= visualItemUnder(mouseEvent->scenePos());
+        if(item)
+        {
+            if(!(mouseEvent->modifiers() & Qt::CTRL) && !item->isSelected())
+                clearSelection();
+            item->setSelected(true);
+            QGraphicsScene::mousePressEvent(mouseEvent);
+        }
     }
 }
 void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
