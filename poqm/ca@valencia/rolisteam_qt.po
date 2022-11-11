@@ -3688,7 +3688,7 @@ msgstr "S'ha detectat un error d'XML"
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "Check line %1 column %2 on string \"%3\"!"
-msgstr "Comproveu la línia %1 columna %2 a la cadena «%3»!"
+msgstr "Comproveu la línia %1 columna %2 en la cadena «%3»!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 msgctxt "XMLTextEdit|"
