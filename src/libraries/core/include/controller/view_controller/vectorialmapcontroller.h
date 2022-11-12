@@ -35,7 +35,6 @@
 #include "media/mediatype.h"
 #include "mediacontrollerbase.h"
 #include "model/vmapitemmodel.h"
-#include "network/networkreceiver.h"
 
 namespace vmap
 {
@@ -138,7 +137,6 @@ public:
     bool idle() const;
     int zIndex() const;
     void addCommand(QUndoCommand* cmd);
-
     void addVision(CharacterVision* vision);
 
     QString layerToText(Core::Layer id);
@@ -153,7 +151,6 @@ public slots:
     void hideOtherLayers(bool b);
     void rollInit(Core::CharacterScope scope);
     void rollInit(QList<QPointer<vmap::CharacterItemController>> list);
-
     void cleanUpInit(Core::CharacterScope scope);
     void cleanUpInit(QList<QPointer<vmap::CharacterItemController>> list);
     void runDiceCommand(QList<QPointer<vmap::CharacterItemController>> list, QString cmd);
@@ -234,8 +231,6 @@ public slots:
     void changeFogOfWar(const QPolygonF& poly, bool mask);
 
     void aboutToRemove(const QList<vmap::VisualItemController*>& list);
-    void askForChangeStackOrder(const QList<vmap::VisualItemController*>& list,
-                                VectorialMapController::StackOrder order);
     void askForColorChange(vmap::VisualItemController* itemCtrl);
     void addHighLighter(const QPointF& point);
     void showHightLighter(const QPointF& p, const qreal& penSize, const QColor& color);
