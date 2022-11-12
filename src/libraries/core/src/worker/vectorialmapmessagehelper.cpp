@@ -190,10 +190,12 @@ void saveVmapSightController(const vmap::SightController* ctrl, QDataStream& out
 
     auto singus= ctrl->singularityList();
     output << static_cast<int>(singus.size());
-    std::for_each(singus.begin(), singus.end(), [&output](const std::pair<QPolygonF, bool>& singu) {
-        output << singu.first;
-        output << singu.second;
-    });
+    std::for_each(singus.begin(), singus.end(),
+                  [&output](const std::pair<QPolygonF, bool>& singu)
+                  {
+                      output << singu.first;
+                      output << singu.second;
+                  });
 }
 
 void saveVMapRectItemController(const vmap::RectController* ctrl, QDataStream& output)
@@ -798,11 +800,22 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
 
     auto vec= model->items();
 
-    output << static_cast<quint64>(vec.size());
+    quint64 size= 0;
+    std::for_each(std::begin(vec), std::end(vec),
+                  [&size](vmap::VisualItemController* itemCtrl)
+                  {
+                      if(itemCtrl->removed())
+                          return;
+                      ++size;
+                  });
+
+    output << size;
 
     using vv= vmap::VisualItemController;
     for(auto itemCtrl : vec)
     {
+        if(itemCtrl->removed())
+            continue;
         output << itemCtrl->itemType();
         switch(itemCtrl->itemType())
         {

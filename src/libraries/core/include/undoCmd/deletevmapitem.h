@@ -21,7 +21,7 @@ public:
 
 private:
     QPointer<VectorialMapController> m_ctrl;
-    QList<vmap::VisualItemController*> m_itemCtrls;
+    QList<QPointer<vmap::VisualItemController>> m_itemCtrls;
 };
 
 #endif // ADDMEDIACONTENEUR_H

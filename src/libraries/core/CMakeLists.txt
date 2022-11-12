@@ -201,7 +201,6 @@ set(HEADERS
   ${inc}/undoCmd/addvmapitem.h
   ${inc}/undoCmd/changecoloritem.h
   ${inc}/undoCmd/changesizevmapitem.h
-  ${inc}/undoCmd/changestackordervmapcommand.h
   ${inc}/undoCmd/deletevmapitem.h
   ${inc}/undoCmd/hideotherlayercommand.h
   ${inc}/undoCmd/importdatamedia.h
@@ -335,7 +334,6 @@ set(SOURCES
   src/undoCmd/addvmapitem.cpp
   src/undoCmd/changecoloritem.cpp
   src/undoCmd/changesizevmapitem.cpp
-  src/undoCmd/changestackordervmapcommand.cpp
   src/undoCmd/deletevmapitem.cpp
   src/undoCmd/hideotherlayercommand.cpp
   src/undoCmd/importdatamedia.cpp

@@ -20,6 +20,7 @@ set(HEADERS
   rwidgets_global.h
   mediacontainers/pdfviewer.h
   commands/movevmapitem.h
+  commands/changestackordervmapcommand.h
   customs/centeredcheckbox.h
   customs/circledisplayer.h
   customs/colorlisteditor.h
@@ -129,6 +130,7 @@ set(HEADERS
 
 set(SOURCES
   commands/movevmapitem.cpp
+  commands/changestackordervmapcommand.cpp
   customs/centeredcheckbox.cpp
   customs/circledisplayer.cpp
   customs/colorlisteditor.cpp

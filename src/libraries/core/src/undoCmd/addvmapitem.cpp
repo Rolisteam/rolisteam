@@ -25,7 +25,6 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "model/vmapitemmodel.h"
 
-#include "data/character.h"
 
 AddVmapItemCommand::AddVmapItemCommand(vmap::VmapItemModel* model, Core::SelectableTool tool,
                                        VectorialMapController* mapCtrl, const std::map<QString, QVariant>& args,

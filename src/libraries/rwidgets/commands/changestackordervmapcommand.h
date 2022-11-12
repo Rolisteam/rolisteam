@@ -24,27 +24,31 @@
 #include <QUndoCommand>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include <core_global.h>
-struct CORE_EXPORT ChangeStackOrderData
+#include "graphicsItems/visualitem.h"
+
+#include "rwidgets_global.h"
+
+struct RWIDGET_EXPORT ItemToControllerInfo
 {
-    vmap::VisualItemController* m_ctrl;
-    int m_newZ;
-    int m_oldZ;
+    vmap::VisualItemController* ctrl;
+    VisualItem* item;
 };
 
-class CORE_EXPORT ChangeStackOrderVMapCommand : public QUndoCommand
+class RWIDGET_EXPORT ChangeStackOrderVMapCommand : public QUndoCommand
 {
+    Q_DECLARE_TR_FUNCTIONS(ChangeStackOrderVMapCommand)
+
 public:
-    ChangeStackOrderVMapCommand(VectorialMapController* vmapCtrl, const QList<vmap::VisualItemController*>& list,
-        VectorialMapController::StackOrder order);
+    ChangeStackOrderVMapCommand(VectorialMapController* vmapCtrl, const QList<ItemToControllerInfo>& first,
+                                const QList<ItemToControllerInfo>& second);
 
     void undo() override;
     void redo() override;
 
 private:
     QPointer<VectorialMapController> m_vmapCtrl;
-    std::vector<ChangeStackOrderData> m_data;
-    VectorialMapController::StackOrder m_order;
+    QList<ItemToControllerInfo> m_first;
+    QList<ItemToControllerInfo> m_second;
 };
 
 #endif // CHANGESTACKORDERVMAPCOMMAND_H

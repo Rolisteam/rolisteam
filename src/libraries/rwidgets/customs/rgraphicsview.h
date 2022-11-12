@@ -23,13 +23,13 @@
 #include <QGraphicsView>
 #include <QPointer>
 
-#include "dialogs/vmapwizzarddialog.h"
+#include "commands/changestackordervmapcommand.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "preferences/preferencesmanager.h"
-#include "rwidgets/customs/vmap.h"
 #include "rwidgets_global.h"
 
 class VectorialMapController;
-class VisualItemController;
+
 /**
  * @brief RGraphicsView is custom graphicsview to fit rolisteam needs. It will implement some important feature
  */
@@ -55,11 +55,7 @@ public slots:
     void centerOnItem();
 
 protected:
-    // void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent(QMouseEvent* event);
-    /* void dragEnterEvent ( QDragEnterEvent * event );
-     void dropEvent ( QDropEvent * event );
-     void dragMoveEvent( QDragMoveEvent * event );*/
     void wheelEvent(QWheelEvent* event);
     void contextMenuEvent(QContextMenuEvent* event);
     void resizeEvent(QResizeEvent* event);
@@ -67,14 +63,19 @@ protected:
     void createAction();
     void lockItems(const QList<vmap::VisualItemController*>& list);
 
+    QList<ItemToControllerInfo> selection();
+
+signals:
+    void updateVisualZone();
+
 private slots:
     void rollInit();
     void cleanInit();
     void setZoomFactor();
-    void showMapProperties();
     void changeLayer();
     void changeVisibility();
     void updateSizeToController();
+    void stackBefore(const QList<ItemToControllerInfo>& first, const QList<ItemToControllerInfo>& second);
 
 private:
     QPointer<VectorialMapController> m_ctrl;
@@ -122,6 +123,8 @@ private:
     QAction* m_frontOrderAction= nullptr;
     QAction* m_lowerAction= nullptr;
     QAction* m_raiseAction= nullptr;
+
+    QAction* m_removeSelection= nullptr;
 
     QAction* m_importImage= nullptr;
 

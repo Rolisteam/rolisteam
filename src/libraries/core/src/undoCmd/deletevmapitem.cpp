@@ -21,32 +21,40 @@
 
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "model/vmapitemmodel.h"
+#include "utils/logcategories.h"
 #include <QDebug>
 
 DeleteVmapItemCommand::DeleteVmapItemCommand(VectorialMapController* ctrl,
                                              const QList<vmap::VisualItemController*>& list, QUndoCommand* parent)
-    : QUndoCommand(parent), m_ctrl(ctrl), m_itemCtrls(list)
+    : QUndoCommand(parent), m_ctrl(ctrl)
 {
+    std::transform(std::begin(list), std::end(list), std::back_inserter(m_itemCtrls),
+                   [](vmap::VisualItemController* itemCtrl) { return QPointer<vmap::VisualItemController>(itemCtrl); });
     setText(QObject::tr("Delete %1 Item(s) From Map").arg(list.size()));
 }
 
 void DeleteVmapItemCommand::redo()
 {
-    qInfo() << QStringLiteral("redo command DeleteVmapItemCommand: %1 ").arg(text());
-    QSet<QString> ids;
-    std::transform(std::begin(m_itemCtrls), std::end(m_itemCtrls), std::inserter(ids, ids.end()),
-                   [](vmap::VisualItemController* itemCtrl) { return itemCtrl->uuid(); });
+    qCInfo(logCategory::map) << QStringLiteral("redo command DeleteVmapItemCommand: %1 ").arg(text());
 
-    m_ctrl->removeItemController(ids);
+    std::for_each(std::begin(m_itemCtrls), std::end(m_itemCtrls),
+                  [](const QPointer<vmap::VisualItemController>& itemCtrl)
+                  {
+                      if(!itemCtrl)
+                          return;
+                      return itemCtrl->setRemoved(true);
+                  });
 }
 
 void DeleteVmapItemCommand::undo()
 {
-    qInfo() << QStringLiteral("undo command DeleteVmapItemCommand: %1 ").arg(text());
+    qCInfo(logCategory::map) << QStringLiteral("undo command DeleteVmapItemCommand: %1 ").arg(text());
 
-    std::for_each(m_itemCtrls.begin(), m_itemCtrls.end(), [this](vmap::VisualItemController* itemCtrl) {
-        auto model= m_ctrl->model();
-        model->itemControllerAdded(itemCtrl);
-    });
+    std::for_each(std::begin(m_itemCtrls), std::end(m_itemCtrls),
+                  [](const QPointer<vmap::VisualItemController>& itemCtrl)
+                  {
+                      if(!itemCtrl)
+                          return;
+                      return itemCtrl->setRemoved(false);
+                  });
 }

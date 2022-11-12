@@ -52,6 +52,7 @@ class CORE_EXPORT VisualItemController : public QObject
     Q_PROPERTY(bool initialized READ initialized WRITE setInitialized NOTIFY initializedChanged)
     Q_PROPERTY(bool remote READ remote WRITE setRemote NOTIFY remoteChanged)
     Q_PROPERTY(int zOrder READ zOrder WRITE setZOrder NOTIFY zOrderChanged)
+    Q_PROPERTY(bool removed READ removed WRITE setRemoved NOTIFY removedChanged)
 
 public:
     enum ItemType
@@ -118,6 +119,9 @@ public:
     qreal zOrder() const;
     void setZOrder(qreal newZOrder);
 
+    bool removed() const;
+    void setRemoved(bool newRemoved);
+
 signals:
     void selectedChanged(bool b);
     void editableChanged();
@@ -139,6 +143,8 @@ signals:
     void remoteChanged(bool);
     void modifiedChanged();
     void zOrderChanged(qreal);
+
+    void removedChanged();
 
 public slots:
     void setSelected(bool b);
@@ -181,6 +187,7 @@ protected:
     bool m_posEditing= false;
     bool m_rotationEditing= false;
     bool m_remote= false;
+    bool m_removed= false;
 };
 } // namespace vmap
 #endif // VISUALITEMCONTROLLER_H

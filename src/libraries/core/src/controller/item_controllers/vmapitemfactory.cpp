@@ -26,6 +26,7 @@
 #include "controller/item_controllers/pathcontroller.h"
 #include "controller/item_controllers/rectcontroller.h"
 #include "controller/item_controllers/textcontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
 
 #include "network/networkmessagereader.h"
 #include "worker/messagehelper.h"

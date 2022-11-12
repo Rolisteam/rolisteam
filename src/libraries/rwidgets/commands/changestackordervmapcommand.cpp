@@ -17,88 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "undoCmd/changestackordervmapcommand.h"
+#include "commands/changestackordervmapcommand.h"
 
 ChangeStackOrderVMapCommand::ChangeStackOrderVMapCommand(VectorialMapController* vmapCtrl,
-                                                         const QList<vmap::VisualItemController*>& list,
-                                                         VectorialMapController::StackOrder order)
-    : m_vmapCtrl(vmapCtrl), m_order(order)
+                                                         const QList<ItemToControllerInfo>& first,
+                                                         const QList<ItemToControllerInfo>& second)
+    : m_vmapCtrl(vmapCtrl), m_first(first), m_second(second)
 {
-    qDebug() << list << list.size();
-    m_data.reserve(list.size());
-
-    /*for(auto item : list)
-    {
-        m_data.push_back({
-            item,
-            item->zOrder(),
-        });
-    }*/
+    setText(tr("Change stack order of % item(s)").arg(first.size()));
 }
 
-void ChangeStackOrderVMapCommand::undo() {}
-
-void ChangeStackOrderVMapCommand::redo() {}
-/*void VMap::changeStackOrder(VisualItem* item, VisualItem::StackOrder op)
+void ChangeStackOrderVMapCommand::undo()
 {
-    if(nullptr == item || m_sortedItemList.size() < 2)
-        return;
-    int index= m_sortedItemList.indexOf(item->getId());
-    if(index < 0)
-        return;
-
-if(VisualItem::FRONT == op)
-{
-    m_sortedItemList.append(m_sortedItemList.takeAt(index));
-}
-else if(VisualItem::BACK == op)
-{
-    m_sortedItemList.prepend(m_sortedItemList.takeAt(index));
-}
-else
-{
-    // find out insertion indexes over the stacked items
-    QList<QGraphicsItem*> stackedItems= items(item->sceneBoundingRect(), Qt::IntersectsItemShape);
-
-    int maxIndex= 0;
-    int minIndex= m_sortedItemList.size() - 1;
-    for(QGraphicsItem* qitem : stackedItems)
+    for(auto info : m_second)
     {
-        // operate only on different Content and not on sightItem.
-        VisualItem* vItem= dynamic_cast<VisualItem*>(qitem);
-        if(!vItem || vItem == item || vItem == m_sightItem || vItem == m_gridItem)
-            continue;
-
-        auto id= vItem->getId();
-        auto tmpIndex= m_sortedItemList.indexOf(id);
-        maxIndex= std::max(maxIndex, tmpIndex);
-        minIndex= std::min(minIndex, tmpIndex);
-    }
-
-    if(VisualItem::RAISE == op)
-    {
-        m_sortedItemList.insert(maxIndex, m_sortedItemList.takeAt(index));
-        // element at  index must be after all element in list
-    }
-    else if(VisualItem::LOWER == op)
-    {
-        m_sortedItemList.insert(minIndex, m_sortedItemList.takeAt(index));
-        // element at  index must be before all element in list
+        for(auto data : m_first)
+        {
+            info.item->stackBefore(data.item);
+        }
     }
 }
 
-quint64 z= 0;
-for(const QString& key : m_sortedItemList)
+void ChangeStackOrderVMapCommand::redo()
 {
-    VisualItem* item= m_itemMap->value(key);
-    if(nullptr != item)
+    for(auto info : m_first)
     {
-        item->setZValue(++z);
+        for(auto data : m_second)
+        {
+            info.item->stackBefore(data.item);
+        }
     }
 }
-
-     // add grid and sight item
-m_zIndex= z;
-m_sightItem->setZValue(++z);
-m_gridItem->setZValue(++z);
-}*/

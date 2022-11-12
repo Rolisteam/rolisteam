@@ -35,57 +35,8 @@
 #include "model/playermodel.h"
 
 #include "data/character.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
 #define PI 3.14159265
-/////////////////////////////////
-/// Code FogSingularity
-/////////////////////////////////
-/*FogSingularity::FogSingularity(QPolygonF* poly, bool isAdding) : m_poly(poly), m_adding(isAdding) {}
-
-const QPolygonF* FogSingularity::getPolygon() const
-{
-    return m_poly;
-}
-bool FogSingularity::isAdding() const
-{
-    return m_adding;
-}
-
-void FogSingularity::fillMessage(NetworkMessageWriter* msg)
-{
-    msg->uint64(static_cast<quint64>(m_poly->size()));
-    msg->uint8(m_adding);
-    for(auto& point : *m_poly)
-    {
-        msg->real(point.x());
-        msg->real(point.y());
-    }
-}
-
-void FogSingularity::readItem(NetworkMessageReader* msg)
-{
-    quint64 pointCount= msg->uint64();
-    m_adding= static_cast<bool>(msg->uint8());
-
-    m_poly= new QPolygonF();
-    for(unsigned int j= 0; j < pointCount; ++j)
-    {
-        qreal x= msg->real();
-        qreal y= msg->real();
-        QPointF pos(x, y);
-        m_poly->append(pos);
-    }
-}
-void FogSingularity::setPolygon(QPolygonF* poly)
-{
-    if(nullptr != m_poly)
-    {
-        delete m_poly;
-    }
-    m_poly= poly;
-}*/
 
 /////////////////////////////////
 /// Code SightItem
@@ -129,29 +80,7 @@ void SightItem::updateItemFlags()
 
 QRectF SightItem::boundingRect() const
 {
-    /*if(nullptr == scene())
-        return QRectF();
-
-    auto rect= scene()->sceneRect();
-
-    if(rect.isNull())
-        rect= QRectF(0, 0, 1000, 1000);
-
-    return rect;*/
-
     return m_sightCtrl->rect();
-
-    /*QList<QGraphicsView*> list= scene()->views();
-    if(!list.isEmpty())
-    {
-        QGraphicsView* view= list.at(0);
-
-        QPointF A= view->mapToScene(QPoint(0, 0));
-        QPointF B= view->mapToScene(QPoint(view->viewport()->width(), view->viewport()->height()));
-
-        return QRectF(A, B);
-    }
-    return scene()->sceneRect();*/
 }
 void SightItem::setNewEnd(const QPointF& nend)
 {
@@ -172,60 +101,41 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     painter->setPen(Qt::NoPen);
     m_sightCtrl->localIsGM() ? painter->setBrush(QColor(0, 0, 0, 125)) : painter->setBrush(QColor(0, 0, 0));
 
-    // qDebug() << "Sight: pos" << pos() << "rect:" << boundingRect();
-
     QPainterPath path= m_sightCtrl->fowPath();
-    qDebug() << "fog of war:" << path;
 
-    // auto const& values= m_characterItemMap->values();
-    auto visions= m_sightCtrl->visionData();
-    for(auto& vision : visions)
+    if(m_sightCtrl->characterSight())
     {
-        QPainterPath subArea;
-        subArea.setFillRule(Qt::WindingFill);
-        auto itemRadius= vision->radius();
-        qreal rot= vision->rotation();
-        QTransform trans;
-        QPointF center= vision->position(); // + QPointF(itemRadius, itemRadius);
-        trans.translate(center.x(), center.y());
-        trans.rotate(rot);
-
-        path= path.subtracted(trans.map(vision->path().translated(-itemRadius, -itemRadius))); // always see the user
-        switch(vision->shape())
+        auto visions= m_sightCtrl->visionData();
+        for(auto& vision : visions)
         {
-        case CharacterVision::DISK:
-            subArea.addEllipse(QPointF(0, 0), vision->radius() + itemRadius, vision->radius() + itemRadius);
+            QPainterPath subArea;
+            subArea.setFillRule(Qt::WindingFill);
+            auto itemRadius= vision->radius();
+            qreal rot= vision->rotation();
+            QTransform trans;
+            QPointF center= vision->position(); // + QPointF(itemRadius, itemRadius);
+            trans.translate(center.x(), center.y());
+            trans.rotate(rot);
+
+            path= path.subtracted(
+                trans.map(vision->path().translated(-itemRadius, -itemRadius))); // always see the user
+            switch(vision->shape())
+            {
+            case CharacterVision::DISK:
+                subArea.addEllipse(QPointF(0, 0), vision->radius() + itemRadius, vision->radius() + itemRadius);
+                break;
+            case CharacterVision::ANGLE:
+            {
+                QRectF rectArc;
+                rectArc.setCoords(-vision->radius(), -vision->radius(), vision->radius(), vision->radius());
+                subArea.arcTo(rectArc, -vision->angle() / 2, vision->angle());
+            }
             break;
-        case CharacterVision::ANGLE:
-        {
-            QRectF rectArc;
-            rectArc.setCoords(-vision->radius(), -vision->radius(), vision->radius(), vision->radius());
-            subArea.arcTo(rectArc, -vision->angle() / 2, vision->angle());
+            }
+            path.moveTo(vision->position());
+            path= path.subtracted(trans.map(subArea));
         }
-        break;
-        }
-        path.moveTo(vision->position());
-        path= path.subtracted(trans.map(subArea));
     }
-
-    /*  else
-      {
-          auto const& values= m_characterItemMap->values();
-          for(auto& charact : values)
-          {
-              if(charact->isLocal())
-              {
-                  QMatrix mat;
-                  auto itemRadius= charact->getRadius();
-                  qreal rot= charact->rotation();
-                  QPointF center= charact->pos() + QPointF(itemRadius, itemRadius);
-                  mat.translate(center.x(), center.y());
-                  mat.rotate(rot);
-                  auto shape= charact->shape();
-                  path= path.subtracted(mat.map(charact->getTokenShape().translated(-itemRadius, -itemRadius)));
-              }
-          }
-      }*/
     painter->drawPath(path);
     painter->restore();
 }
@@ -241,13 +151,3 @@ void SightItem::moveVision(qreal id, QPointF& pos)
         m_visionMap.value(id)->setRadius(pos.x());
     }*/
 }
-
-/*FogSingularity* SightItem::addFogPolygon(QPolygonF* a, bool adding)
-{
-    FogSingularity* fogs= new FogSingularity(a, adding);
-    m_fogHoleList << fogs;
-    m_fogChanged= true;
-    updateVeil();
-    update();
-    return fogs;
-}*/

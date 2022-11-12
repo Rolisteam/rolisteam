@@ -44,6 +44,7 @@ VisualItemController::VisualItemController(ItemType itemType, const std::map<QSt
         setLayer(m_ctrl->layer());
     }
     connect(this, &VisualItemController::lockedChanged, this, &VisualItemController::computeEditable);
+    connect(this, &VisualItemController::removedChanged, this, &VisualItemController::visibleChanged);
 
     initializedVisualItem(params);
 
@@ -152,7 +153,7 @@ bool VisualItemController::selectable() const
 
 bool VisualItemController::visible() const
 {
-    return m_visible; // && ((m_ctrl->visibility() != Core::HIDDEN) || m_ctrl->localGM()));
+    return (m_visible && !m_removed);
 }
 
 qreal VisualItemController::opacity() const
@@ -343,6 +344,19 @@ void VisualItemController::setZOrder(qreal newZOrder)
         return;
     m_zOrder= newZOrder;
     emit zOrderChanged(m_zOrder);
+}
+
+bool VisualItemController::removed() const
+{
+    return m_removed;
+}
+
+void VisualItemController::setRemoved(bool newRemoved)
+{
+    if(m_removed == newRemoved)
+        return;
+    m_removed= newRemoved;
+    emit removedChanged();
 }
 
 } // namespace vmap

@@ -27,8 +27,6 @@
 #include "vmapframe.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
 QString visibilityText(Core::VisibilityMode vis)
 {
@@ -52,9 +50,12 @@ QString permissionModeText(Core::PermissionMode mode)
 QString layerText(Core::Layer mode)
 {
     QHash<Core::Layer, QString> data{{Core::Layer::GROUND, QObject::tr("Ground")},
-        {Core::Layer::OBJECT, QObject::tr("Object")}, {Core::Layer::CHARACTER_LAYER, QObject::tr("Character")},
-        {Core::Layer::GAMEMASTER_LAYER, QObject::tr("GameMaster")}, {Core::Layer::FOG, QObject::tr("Fog Layer")},
-        {Core::Layer::GRIDLAYER, QObject::tr("Grid Layer")}, {Core::Layer::NONE, QObject::tr("No Layer")}};
+                                     {Core::Layer::OBJECT, QObject::tr("Object")},
+                                     {Core::Layer::CHARACTER_LAYER, QObject::tr("Character")},
+                                     {Core::Layer::GAMEMASTER_LAYER, QObject::tr("GameMaster")},
+                                     {Core::Layer::FOG, QObject::tr("Fog Layer")},
+                                     {Core::Layer::GRIDLAYER, QObject::tr("Grid Layer")},
+                                     {Core::Layer::NONE, QObject::tr("No Layer")}};
 
     auto res= data[mode];
     if(res.isEmpty())
@@ -81,7 +82,7 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     {
         setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4")
                            .arg(m_ctrl->name(), visibilityText(m_ctrl->visibility()),
-                               permissionModeText(m_ctrl->permission()), layerText(m_ctrl->layer())));
+                                permissionModeText(m_ctrl->permission()), layerText(m_ctrl->layer())));
     };
 
     connect(m_ctrl, &VectorialMapController::nameChanged, this, func);
@@ -93,14 +94,16 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
 
     auto updateSmallImage= [this]()
     {
-        auto w= m_toolbox->width() - 10;
+        auto w= std::min(m_toolbox->width() - 10, 100);
         auto sw= m_vmap->width() * m_ctrl->zoomLevel();
         auto sh= m_vmap->height() * m_ctrl->zoomLevel();
         auto h= static_cast<int>(w * sh / sw);
 
         QPixmap map{QSize{w, h}};
         auto visible= m_graphicView->viewport()->rect();
-        visible.translate({m_graphicView->horizontalScrollBar()->value(), m_graphicView->verticalScrollBar()->value()});
+
+        visible.translate({static_cast<int>(m_graphicView->horizontalScrollBar()->value() - m_vmap->sceneRect().x()),
+                           static_cast<int>(m_graphicView->verticalScrollBar()->value() - m_vmap->sceneRect().y())});
 
         auto ratioX= w / sw;
         auto ratioY= h / sh;
@@ -110,14 +113,26 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
             m_vmap->render(&painter); //, m_vmap->sceneRect(), map.rect()
 
             painter.setPen(Qt::blue);
-            painter.drawRect(QRectF{
-                visible.x() * ratioX, visible.y() * ratioY, visible.width() * ratioX, visible.height() * ratioY});
+            painter.drawRect(QRectF{visible.x() * ratioX, visible.y() * ratioY, visible.width() * ratioX,
+                                    visible.height() * ratioY});
         }
 
         m_toolbox->setImage(map);
     };
 
     connect(m_vmap.get(), &VMap::changed, this, updateSmallImage);
+
+    auto updateFrame= [this]()
+    {
+        auto rect= m_vmap->sceneRect();
+        auto frame= m_graphicView->frameRect();
+        auto poly= m_graphicView->mapToScene(frame).boundingRect();
+
+        m_ctrl->setVisualRect(rect.united(poly));
+    };
+    connect(m_vmap.get(), &VMap::sceneRectChanged, m_ctrl, updateFrame);
+    connect(m_graphicView.get(), &RGraphicsView::updateVisualZone, m_ctrl, updateFrame);
+
     connect(m_graphicView->horizontalScrollBar(), &QScrollBar::valueChanged, this, updateSmallImage);
     connect(m_graphicView->verticalScrollBar(), &QScrollBar::valueChanged, this, updateSmallImage);
     connect(m_ctrl, &VectorialMapController::zoomLevelChanged, this, updateSmallImage);
@@ -136,6 +151,8 @@ void VMapFrame::setupUi()
 
     horizontal->addWidget(m_toolbox.get());
     horizontal->addWidget(m_graphicView.get());
+    horizontal->setStretchFactor(0, 0);
+    horizontal->setStretchFactor(1, 1);
 
     setWidget(wid);
 }
@@ -162,9 +179,6 @@ void VMapFrame::keyPressEvent(QKeyEvent* event)
 {
     switch(event->key())
     {
-    case Qt::Key_Delete:
-        /// @todo remove selected item
-        break;
     case Qt::Key_Escape:
         // m_toolsbar->setCurrentTool(VToolsBar::HANDLER);
         emit defineCurrentTool(Core::HANDLER);

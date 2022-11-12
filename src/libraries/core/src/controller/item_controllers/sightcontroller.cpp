@@ -39,6 +39,7 @@ SightController::SightController(VectorialMapController* ctrl, QObject* parent)
 
     connect(m_ctrl, &VectorialMapController::visibilityChanged, this,
             [this]() { setVisible(m_ctrl->visibility() == Core::VisibilityMode::FOGOFWAR); });
+    connect(m_ctrl, &VectorialMapController::characterVisionChanged, this, &SightController::setCharacterSight);
 
     connect(m_ctrl, &VectorialMapController::visualRectChanged, this, &vmap::SightController::rectChanged);
     setVisible(m_ctrl->visibility() == Core::VisibilityMode::FOGOFWAR);
@@ -60,10 +61,7 @@ const QList<QPointer<CharacterVision>>& SightController::visionData() const
     return m_visions;
 }
 
-void SightController::setCorner(const QPointF& move, int corner,
-                                Core::TransformType tt)
-{
-}
+void SightController::setCorner(const QPointF& move, int corner, Core::TransformType tt) {}
 
 void SightController::endGeometryChange() {}
 
