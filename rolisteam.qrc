@@ -173,5 +173,6 @@
         <file>resources/rolistheme/bell.svg</file>
         <file>resources/rolistheme/share_doc.svg</file>
         <file>resources/rolistheme/view-page-continuous.png</file>
+        <file>resources/rolistheme/gm_icon.svg</file>
     </qresource>
 </RCC>

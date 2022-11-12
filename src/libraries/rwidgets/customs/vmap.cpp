@@ -204,7 +204,7 @@ void VMap::addRectItem(vmap::RectController* rectCtrl, bool editing)
 {
     if(!rectCtrl)
         return;
-    qDebug() << "add rect Item editing:" << editing;
+
     auto item= new RectItem(rectCtrl);
     addAndInit(item);
     item->setPos(rectCtrl->pos());
@@ -308,6 +308,8 @@ void VMap::insertItem(const QPointF& pos)
     params.insert({Core::vmapkeys::KEY_COLOR, m_ctrl->toolColor()});
     params.insert({Core::vmapkeys::KEY_PENWIDTH, m_ctrl->penSize()});
     params.insert({Core::vmapkeys::KEY_TOOL, m_ctrl->tool()});
+    params.insert({Core::vmapkeys::KEY_NUMBER, m_ctrl->npcNumber()});
+    params.insert({Core::vmapkeys::KEY_CHARAC_NAME, m_ctrl->npcName()});
     m_ctrl->insertItemAt(params);
 }
 

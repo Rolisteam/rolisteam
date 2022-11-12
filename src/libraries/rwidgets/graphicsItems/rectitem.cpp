@@ -29,8 +29,6 @@
 #include "controller/item_controllers/rectcontroller.h"
 #include "controller/item_controllers/visualitemcontroller.h"
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 #include <QDebug>
 
 RectItem::RectItem(vmap::RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ctrl)
@@ -103,8 +101,6 @@ void RectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     painter->restore();
 
     auto val= static_cast<bool>(option->state & QStyle::State_MouseOver);
-
-    qDebug() << "same: " << (val == isUnderMouse()) << "selected:" << isSelected() << m_rectCtrl->color().name();
 
     if(canBeMoved() && (isSelected() || val)) // option->state & QStyle::State_MouseOver || isUnderMouse())
     {

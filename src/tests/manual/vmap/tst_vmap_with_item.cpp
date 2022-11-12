@@ -45,8 +45,8 @@ int main(int argc, char* argv[])
 
     VectorialMapController ctrl;
     ctrl.setLocalColor(Qt::cyan);
-    QObject::connect(
-        &ctrl, &VectorialMapController::performCommand, [&undoStack](QUndoCommand* cmd) { undoStack.push(cmd); });
+    QObject::connect(&ctrl, &VectorialMapController::performCommand,
+                     [&undoStack](QUndoCommand* cmd) { undoStack.push(cmd); });
     ctrl.setLocalGM(true);
     ctrl.setActive(true);
     // ctrl.setVisibility(Core::ALL);
@@ -75,13 +75,21 @@ int main(int argc, char* argv[])
     auto c= new vmap::CharacterItemController(params, &ctrl);
 
     std::map<QString, QVariant> params2;
-    params.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(&characterB)});
-    params.insert({Core::vmapkeys::KEY_POS, QPointF{300, 200}});
-    params.insert({Core::vmapkeys::KEY_TOOL, Core::SelectableTool::PlayableCharacter});
+    params2.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(&characterB)});
+    params2.insert({Core::vmapkeys::KEY_POS, QPointF{300, 200}});
+    params2.insert({Core::vmapkeys::KEY_TOOL, Core::SelectableTool::PlayableCharacter});
 
     auto d= new vmap::CharacterItemController(params2, &ctrl);
 
     VMapFrame frame(&ctrl);
+    auto cancel= frame.addAction("Cancel");
+    cancel->setShortcut(QKeySequence::Undo);
+    QObject::connect(cancel, &QAction::triggered,
+                     [&undoStack]()
+                     {
+                         qDebug() << "undo";
+                         undoStack.undo();
+                     });
 
     frame.setVisible(true);
     ctrl.addRemoteItem(c);
