@@ -25,13 +25,9 @@
 #include <QPainter>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "data/characterstate.h"
 #include "utils/iohelper.h"
-#include "worker/iohelper.h"
 #include "worker/utilshelper.h"
 #include "worker/vectorialmapmessagehelper.h"
-
-#include "undoCmd/rollinitcommand.h"
 
 #define MARGING 1
 
@@ -41,7 +37,11 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
                                                  VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::CHARACTER, params, ctrl, parent)
 {
-    m_tool= Core::SelectableTool::NonPlayableCharacter;
+    if(params.end() != params.find(Core::vmapkeys::KEY_TOOL))
+        m_tool= params.at(Core::vmapkeys::KEY_TOOL).value<Core::SelectableTool>();
+    else
+        m_tool= Core::SelectableTool::NonPlayableCharacter;
+
     if(params.end() != params.find(Core::vmapkeys::KEY_CHARACTER))
     {
         m_character= params.at(Core::vmapkeys::KEY_CHARACTER).value<Character*>();
@@ -51,6 +51,7 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
         m_character= new Character();
         VectorialMapMessageHelper::fetchCharacter(params, m_character);
     }
+
     connect(m_character, &Character::stateIdChanged, this, &CharacterItemController::stateIdChanged);
     connect(m_character, &Character::npcChanged, this, &CharacterItemController::playableCharacterChanged);
     connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
@@ -82,7 +83,8 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
         VectorialMapMessageHelper::fetchCharacterVision(params, m_vision.get());
         ctrl->addVision(m_vision.get());
 
-        auto updatePos= [this]() {
+        auto updatePos= [this]()
+        {
             auto rect= thumnailRect();
             auto p= pos() + rect.center(); // ;
 
@@ -100,6 +102,11 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
         namespace cv= Core::vmapkeys;
         using std::placeholders::_1;
 
+        hu::setParamIfAny<qreal>(cv::KEY_SIDE, params, std::bind(&CharacterItemController::setSide, this, _1));
+        hu::setParamIfAny<int>(cv::KEY_NUMBER, params, std::bind(&CharacterItemController::setNumber, this, _1));
+        hu::setParamIfAny<QColor>(cv::KEY_COLOR, params, std::bind(&CharacterItemController::setColor, this, _1));
+        if(m_character)
+            hu::setParamIfAny<QColor>(cv::KEY_COLOR, params, std::bind(&Character::setColor, m_character, _1));
         hu::setParamIfAny<qreal>(cv::KEY_SIDE, params, std::bind(&CharacterItemController::setSide, this, _1));
 
         m_rect= QRectF(0.0, 0.0, m_side, m_side);
@@ -133,8 +140,7 @@ void CharacterItemController::aboutToBeRemoved()
 
 void CharacterItemController::endGeometryChange() {}
 
-void CharacterItemController::setCorner(const QPointF& move, int corner,
-                                        Core::TransformType tt)
+void CharacterItemController::setCorner(const QPointF& move, int corner, Core::TransformType tt)
 {
     if(move.isNull())
         return;

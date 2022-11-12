@@ -119,6 +119,8 @@ bool vmap::VmapItemModel::appendItemController(vmap::VisualItemController* item)
     endInsertRows();
 
     connect(item, &vmap::VisualItemController::modifiedChanged, this, &vmap::VmapItemModel::modifiedChanged);
+    if(item->tool() == Core::SelectableTool::NonPlayableCharacter)
+        emit npcAdded();
     emit itemControllerAdded(item);
     return true;
 }
@@ -134,7 +136,8 @@ bool vmap::VmapItemModel::removeItemController(const QSet<QString>& ids, bool fr
     auto s= m_items.size();
     beginResetModel();
     m_items.erase(std::remove_if(std::begin(m_items), std::end(m_items),
-                                 [ids](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) {
+                                 [ids](const std::unique_ptr<vmap::VisualItemController>& itemCtrl)
+                                 {
                                      auto res= ids.contains(itemCtrl->uuid());
                                      if(res)
                                          itemCtrl->aboutToBeRemoved();
@@ -167,9 +170,9 @@ std::vector<VisualItemController*> VmapItemModel::items() const
 
 VisualItemController* VmapItemModel::item(const QString& id) const
 {
-    auto it= std::find_if(
-        std::begin(m_items), std::end(m_items),
-        [id](const std::unique_ptr<vmap::VisualItemController>& itemCtrl) { return id == itemCtrl->uuid(); });
+    auto it= std::find_if(std::begin(m_items), std::end(m_items),
+                          [id](const std::unique_ptr<vmap::VisualItemController>& itemCtrl)
+                          { return id == itemCtrl->uuid(); });
 
     if(it == std::end(m_items))
         return nullptr;

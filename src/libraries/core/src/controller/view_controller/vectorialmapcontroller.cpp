@@ -27,7 +27,6 @@
 #include "undoCmd/addvmapitem.h"
 #include "undoCmd/changecoloritem.h"
 #include "undoCmd/changesizevmapitem.h"
-#include "undoCmd/changestackordervmapcommand.h"
 #include "undoCmd/deletevmapitem.h"
 #include "undoCmd/hideotherlayercommand.h"
 #include "undoCmd/rollinitcommand.h"
@@ -53,19 +52,20 @@ VectorialMapController::VectorialMapController(const QString& id, QObject* paren
     m_sightController.reset(new vmap::SightController(this));
 
     connect(m_vmapModel.get(), &vmap::VmapItemModel::itemControllerAdded, this,
-        &VectorialMapController::visualItemControllerCreated);
+            &VectorialMapController::visualItemControllerCreated);
     connect(m_vmapModel.get(), &vmap::VmapItemModel::itemControllersRemoved, this,
-        &VectorialMapController::visualItemControllersRemoved);
+            &VectorialMapController::visualItemControllersRemoved);
 
+    connect(m_vmapModel.get(), &vmap::VmapItemModel::npcAdded, this, [this]() { setNpcNumber(npcNumber() + 1); });
     connect(m_vmapModel.get(), &vmap::VmapItemModel::rowsInserted, this, [this] { setModified(); });
     connect(m_vmapModel.get(), &vmap::VmapItemModel::rowsRemoved, this, [this] { setModified(); });
     connect(m_vmapModel.get(), &vmap::VmapItemModel::dataChanged, this, [this] { setModified(); });
     connect(this, &VectorialMapController::modifiedChanged, this,
-        [this](bool b)
-        {
-            if(!b)
-                m_vmapModel->setModifiedToAllItem();
-        });
+            [this](bool b)
+            {
+                if(!b)
+                    m_vmapModel->setModifiedToAllItem();
+            });
 }
 
 VectorialMapController::~VectorialMapController()= default;
@@ -512,14 +512,6 @@ void VectorialMapController::aboutToRemove(const QList<vmap::VisualItemControlle
     emit performCommand(new DeleteVmapItemCommand(this, list));
 }
 
-void VectorialMapController::askForChangeStackOrder(
-    const QList<vmap::VisualItemController*>& list, VectorialMapController::StackOrder order)
-{
-    Q_UNUSED(list)
-    Q_UNUSED(order)
-    // emit performCommand(new DeleteVmapItemCommand(this, list));
-}
-
 void VectorialMapController::askForColorChange(vmap::VisualItemController* itemCtrl)
 {
     emit performCommand(new ChangeColorItemCmd(itemCtrl, toolColor()));
@@ -568,8 +560,8 @@ void VectorialMapController::setZindex(int index)
     emit zIndexChanged(m_zIndex);
 }
 
-void VectorialMapController::normalizeSize(
-    const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos)
+void VectorialMapController::normalizeSize(const QList<vmap::VisualItemController*>& list, Method method,
+                                           const QPointF& mousePos)
 {
     if(list.isEmpty())
         return;
@@ -604,8 +596,8 @@ void VectorialMapController::hideOtherLayers(bool b)
     emit performCommand(new HideOtherLayerCommand(m_layer, m_vmapModel.get(), b));
 }
 
-QList<QPointer<vmap::CharacterItemController>> sublist(
-    Core::CharacterScope scope, const std::vector<vmap::VisualItemController*>& data)
+QList<QPointer<vmap::CharacterItemController>> sublist(Core::CharacterScope scope,
+                                                       const std::vector<vmap::VisualItemController*>& data)
 {
     QList<QPointer<vmap::CharacterItemController>> list;
     for(auto const& ctrl : data)
@@ -672,7 +664,7 @@ void VectorialMapController::runDiceCommand(QList<QPointer<vmap::CharacterItemCo
 void VectorialMapController::changeZValue(const QList<vmap::VisualItemController*>& list, StackOrder order)
 {
     qDebug() << list.size() << "list size" << order;
-    emit performCommand(new ChangeStackOrderVMapCommand(this, list, order));
+    // emit performCommand(new ChangeStackOrderVMapCommand(this, list, order));
 }
 
 void VectorialMapController::removeItemController(const QSet<QString>& ids, bool fromNetwork)

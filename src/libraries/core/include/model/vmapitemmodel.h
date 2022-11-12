@@ -71,6 +71,7 @@ public slots:
     void setModifiedToAllItem();
 signals:
     void itemControllerAdded(vmap::VisualItemController* ctrl);
+    void npcAdded();
     void itemControllersRemoved(const QStringList& ids);
     void modifiedChanged();
 
