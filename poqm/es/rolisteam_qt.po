@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2022-10-18 13:44+0200\n"
+"PO-Revision-Date: 2022-11-17 00:52+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #: src/binaries/rcse/borderlisteditor.cpp:29
 msgctxt "BorderListEditor|"
@@ -90,7 +90,7 @@ msgstr "Personaje %1"
 #: src/binaries/rcse/data/mockcharacter.cpp:11
 msgctxt "MockCharacter|"
 msgid "unset Path"
-msgstr ""
+msgstr "limpiar la ruta"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:17
 msgctxt "MockCharacter|"
@@ -202,7 +202,7 @@ msgstr "Imagen"
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "RLabel"
-msgstr ""
+msgstr "RLabel"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
@@ -2797,12 +2797,12 @@ msgstr "Cambiar visibilidad"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:333
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
-msgstr ""
+msgstr "Lanzar la iniciativa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:339
 msgctxt "RGraphicsView|"
 msgid "Clean Init"
-msgstr ""
+msgstr "Borrar la iniciativa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:345
 msgctxt "RGraphicsView|"
@@ -2857,22 +2857,22 @@ msgstr "Importar imagen"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:506
 msgctxt "RGraphicsView|"
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:510
 msgctxt "RGraphicsView|"
 msgid "Front"
-msgstr ""
+msgstr "Al frente"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:514
 msgctxt "RGraphicsView|"
 msgid "Lower"
-msgstr ""
+msgstr "Bajar"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:518
 msgctxt "RGraphicsView|"
 msgid "Raise"
-msgstr ""
+msgstr "Elevar"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:522
 msgctxt "RGraphicsView|"
@@ -2944,10 +2944,9 @@ msgid "All Npcs"
 msgstr "Todos los PNJ"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:598
-#, fuzzy
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
-msgstr "en todos los PNJ"
+msgstr "Lanzar la iniciativa en todos los PNJ"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:602
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:617
@@ -2958,7 +2957,7 @@ msgstr "Selección"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:603
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on Selection"
-msgstr ""
+msgstr "Lanzar la iniciativa en la selección"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:607
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:622
@@ -2969,7 +2968,7 @@ msgstr "Todos los personajes"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:608
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
-msgstr ""
+msgstr "Lanzar la iniciativa en todos los personajes"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:613
 msgctxt "RGraphicsView|"
@@ -3496,7 +3495,7 @@ msgstr "Cuadrícula hexagonal"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:75
 msgctxt "VmapToolBar|"
 msgid "Grid Above"
-msgstr ""
+msgstr "Cuadrícula encima"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:80
 msgctxt "VmapToolBar|"
@@ -3902,7 +3901,7 @@ msgstr "Formato de archivo OASIS de OpenOffice 2.4"
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "Cahoots"
-msgstr ""
+msgstr "Confabulación"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
