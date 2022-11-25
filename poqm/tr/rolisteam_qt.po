@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2022-10-18 00:34+0300\n"
+"PO-Revision-Date: 2022-11-24 17:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #: src/binaries/rcse/borderlisteditor.cpp:29
 msgctxt "BorderListEditor|"
@@ -3765,12 +3765,12 @@ msgstr "Y&inele"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:251
 msgctxt "TextEdit|"
 msgid "Cu&t"
-msgstr "K&es"
+msgstr "&Kes"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:255
 msgctxt "TextEdit|"
 msgid "&Copy"
-msgstr "&Kopyala"
+msgstr "Ko&pyala"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
 msgctxt "TextEdit|"
