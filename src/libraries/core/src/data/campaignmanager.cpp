@@ -280,4 +280,5 @@ void CampaignManager::performAction(const QList<QPair<QString, Core::CampaignAct
                       // action == 1 => create document
                   });
 }
+
 } // namespace campaign

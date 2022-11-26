@@ -27,8 +27,6 @@
 #include <QPainter>
 
 #include "controller/view_controller/imageselectorcontroller.h"
-#include "delegates/userlistdelegate.h"
-#include "docks/playerspanel.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 #include "userlistview.h"
 #include "worker/iohelper.h"

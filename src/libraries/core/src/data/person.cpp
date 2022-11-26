@@ -24,9 +24,6 @@
 
 #include <QUuid>
 
-#include "data/resourcesnode.h"
-#include "network/networkmessagewriter.h"
-
 /**********
  * Person *
  **********/
