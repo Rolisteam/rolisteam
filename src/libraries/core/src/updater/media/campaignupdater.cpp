@@ -49,7 +49,8 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
 
     // GM player
     auto model= m_campaign->diceAliases();
-    auto updateAlias= [this]() {
+    auto updateAlias= [this]()
+    {
         if(!canForward())
             return;
         auto aliases= m_dice->aliases();
@@ -58,10 +59,12 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
         qDeleteAll(*aliases);
         aliases->clear();
         const auto& newAliases= m_campaign->diceAliases()->aliases();
-        std::for_each(std::begin(newAliases), std::end(newAliases), [aliases](const std::unique_ptr<DiceAlias>& alias) {
-            auto p= alias.get();
-            aliases->append(new DiceAlias(*p));
-        });
+        std::for_each(std::begin(newAliases), std::end(newAliases),
+                      [aliases](const std::unique_ptr<DiceAlias>& alias)
+                      {
+                          auto p= alias.get();
+                          aliases->append(new DiceAlias(*p));
+                      });
 
         FileSerializer::writeDiceAliasIntoCampaign(m_campaign->rootDirectory(),
                                                    FileSerializer::dicesToArray(newAliases));
@@ -78,7 +81,8 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
     // GM player
     auto states= m_campaign->stateModel();
 
-    auto updateState= [this]() {
+    auto updateState= [this]()
+    {
         if(!canForward())
             return;
         auto const& states= m_campaign->stateModel()->statesList();
@@ -100,7 +104,8 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
 
     // updateNPCModel
     auto npcModel= m_campaign->npcModel();
-    auto updateNpcModel= [this]() {
+    auto updateNpcModel= [this]()
+    {
         auto const& npcs= m_campaign->npcModel()->npcList();
         if(!npcs.empty())
             FileSerializer::writeNpcIntoCampaign(m_campaign->rootDirectory(),
@@ -111,9 +116,8 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
     connect(npcModel, &NonPlayableCharacterModel::dataChanged, this, updateNpcModel);
     connect(npcModel, &NonPlayableCharacterModel::modelReset, this, updateNpcModel);
 
-    auto updateCampaign= [this]() {
-        FileSerializer::writeCampaignInfo(m_campaign->rootDirectory(), FileSerializer::campaignToObject(m_campaign));
-    };
+    auto updateCampaign= [this]()
+    { FileSerializer::writeCampaignInfo(m_campaign->rootDirectory(), FileSerializer::campaignToObject(m_campaign)); };
 
     connect(m_campaign, &Campaign::nameChanged, this, updateCampaign);
     connect(m_campaign, &Campaign::currentChapterChanged, this, updateCampaign);

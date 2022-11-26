@@ -48,7 +48,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
     , m_preferencesDialogController(new PreferencesController)
     , m_campaignManager(new campaign::CampaignManager(m_diceParser.get()))
     , m_contentCtrl(new ContentController(m_campaignManager.get(), m_playerController->model(),
-          m_playerController->characterModel(), clipboard, m_networkCtrl.get()))
+                                          m_playerController->characterModel(), clipboard, m_networkCtrl.get()))
     , m_preferences(new PreferencesManager(appname, QString("%1_%2/preferences").arg(appname, version)))
     , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
     , m_audioCtrl(new AudioController(m_campaignManager.get(), m_preferences.get()))
@@ -66,28 +66,28 @@ GameController::GameController(const QString& appname, const QString& version, Q
 
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
     connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this,
-        [this](bool b)
-        {
-            if(b)
+            [this](bool b)
             {
-                m_campaignManager->shareModels();
-            }
-            emit connectedChanged(b);
-        });
+                if(b)
+                {
+                    m_campaignManager->shareModels();
+                }
+                emit connectedChanged(b);
+            });
 
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignChanged, this,
-        [this]()
-        {
-            auto cm= m_campaignManager->campaign();
-            m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
-            m_logController->setCurrentPath(QString("%1/rolisteam.log").arg(cm->rootDirectory()));
-        });
+            [this]()
+            {
+                auto cm= m_campaignManager->campaign();
+                m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
+                m_logController->setCurrentPath(QString("%1/rolisteam.log").arg(cm->rootDirectory()));
+            });
     connect(m_campaignManager->campaign(), &campaign::Campaign::rootDirectoryChanged, this,
-        [this]()
-        {
-            auto cm= m_campaignManager->campaign();
-            m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
-        });
+            [this]()
+            {
+                auto cm= m_campaignManager->campaign();
+                m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
+            });
     connect(m_campaignManager->editor(), &campaign::CampaignEditor::performCommand, this, &GameController::addCommand);
 
     // clang-format off
@@ -290,12 +290,12 @@ void GameController::startCheckForUpdates()
     auto updateChecker= new UpdateChecker(m_version, this);
     updateChecker->startChecking();
     connect(updateChecker, &UpdateChecker::checkFinished, this,
-        [this, updateChecker]()
-        {
-            setUpdateAvailable(updateChecker->needUpdate());
-            m_remoteVersion= updateChecker->getLatestVersion();
-            updateChecker->deleteLater();
-        });
+            [this, updateChecker]()
+            {
+                setUpdateAvailable(updateChecker->needUpdate());
+                m_remoteVersion= updateChecker->getLatestVersion();
+                updateChecker->deleteLater();
+            });
 }
 
 void GameController::startIpRetriever()
@@ -306,19 +306,19 @@ void GameController::startIpRetriever()
     tipChecker->startChecking();
 
     connect(tipChecker, &TipChecker::checkFinished, this,
-        [=]()
-        {
-            auto id= m_preferences->value(QStringLiteral("MainWindow::lastTips"), 0).toInt();
-            if(tipChecker->hasArticle() && tipChecker->getId() + 1 > id)
+            [=]()
             {
-                m_tipOfTheDay= {tipChecker->getArticleTitle(), tipChecker->getArticleContent(), tipChecker->getUrl(),
-                    tipChecker->getId()};
+                auto id= m_preferences->value(QStringLiteral("MainWindow::lastTips"), 0).toInt();
+                if(tipChecker->hasArticle() && tipChecker->getId() + 1 > id)
+                {
+                    m_tipOfTheDay= {tipChecker->getArticleTitle(), tipChecker->getArticleContent(),
+                                    tipChecker->getUrl(), tipChecker->getId()};
 
-                m_preferences->registerValue(QStringLiteral("MainWindow::lastTips"), m_tipOfTheDay.id);
-                emit tipOfDayChanged();
-            }
-            tipChecker->deleteLater();
-        });
+                    m_preferences->registerValue(QStringLiteral("MainWindow::lastTips"), m_tipOfTheDay.id);
+                    emit tipOfDayChanged();
+                }
+                tipChecker->deleteLater();
+            });
 }
 
 TipOfDay GameController::tipOfDay() const
@@ -406,8 +406,8 @@ void GameController::setDataFromProfile(int profileIndex)
     {
         auto characters= profile->characters();
         std::for_each(characters.begin(), characters.end(),
-            [local](const connection::CharacterData& data)
-            { local->addCharacter(data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
+                      [local](const connection::CharacterData& data)
+                      { local->addCharacter(data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
     }
     m_networkCtrl->setHost(profile->address());
     m_networkCtrl->setPort(profile->port());
@@ -437,18 +437,11 @@ void GameController::stopConnection()
     networkController()->stopConnecting();
 }
 
-void GameController::postConnection()
-{
-    /*m_preferencesDialog->sendOffAllDiceAlias();
-    m_preferencesDialog->sendOffAllState();*/
-    /*if(localIsGM())
-    {
-        m_preferencesDialogController->shareModels();
-    }*/
-}
+void GameController::postConnection() {}
 
 void GameController::aboutToClose()
 {
+    save();
     // save data
     m_networkCtrl->saveData();
 

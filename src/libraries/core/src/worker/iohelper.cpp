@@ -789,6 +789,14 @@ void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, cons
     IOWorker::fetchImageModel(imagesModel, images);
 }
 
+QString IOHelper::copyImageFileIntoCampaign(const QString& path, const QString& dest)
+{
+    if(path.startsWith(dest))
+        return path;
+    else
+        return utils::IOHelper::copyFile(path, dest);
+}
+
 void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())

@@ -47,6 +47,8 @@ Campaign::Campaign(QObject* parent)
     connect(this, &Campaign::mediaRemoved, this, &Campaign::fileCountChanged);
     connect(this, &Campaign::mediaAdded, this, &Campaign::diskUsageChanged);
     connect(this, &Campaign::mediaRemoved, this, &Campaign::fileCountChanged);
+    connect(this, &Campaign::rootDirectoryChanged, this,
+            [this]() { m_npcModel->setNpcRoot(directory(Place::NPC_ROOT)); });
 }
 
 QString Campaign::name() const
