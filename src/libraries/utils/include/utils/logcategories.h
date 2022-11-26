@@ -26,6 +26,7 @@
 namespace logCategory
 {
 UTILS_EXPORT const QLoggingCategory map("map");
+UTILS_EXPORT const QLoggingCategory campaign("campaign");
 UTILS_EXPORT const QLoggingCategory pdf("pdf");
 UTILS_EXPORT const QLoggingCategory img("image");
 UTILS_EXPORT const QLoggingCategory mindmap("mindmap");

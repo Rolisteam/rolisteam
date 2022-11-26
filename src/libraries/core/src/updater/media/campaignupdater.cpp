@@ -26,15 +26,13 @@
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
 #include "model/nonplayablecharactermodel.h"
+#include "utils/logcategories.h"
 #include "worker/fileserializer.h"
-#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include <QDir>
-#include <QLoggingCategory>
 
 namespace campaign
 {
-Q_LOGGING_CATEGORY(CCat, "campaign")
 CampaignUpdater::CampaignUpdater(DiceRoller* dice, Campaign* manager, QObject* parent)
     : QObject(parent), m_campaign(manager), m_dice(dice)
 {
@@ -205,7 +203,7 @@ bool CampaignUpdater::createCampaignTemplate(const QString& dirPath)
 
     if(dir.exists() && !dir.isEmpty())
     {
-        qCInfo(CCat) << tr("'%1' is not empty").arg(dirPath);
+        qCInfo(logCategory::campaign) << tr("'%1' is not empty").arg(dirPath);
         return false;
     }
     else if(!dir.exists())
@@ -214,7 +212,7 @@ bool CampaignUpdater::createCampaignTemplate(const QString& dirPath)
         parentDir.cdUp();
         if(!parentDir.mkdir(dirPath))
         {
-            qCInfo(CCat) << tr("Could not create '%1'").arg(dirPath);
+            qCInfo(logCategory::campaign) << tr("Could not create '%1'").arg(dirPath);
             return false;
         }
         FileSerializer::createCampaignDirectory(dirPath);
