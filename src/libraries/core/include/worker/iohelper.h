@@ -20,6 +20,7 @@
 #ifndef IOHELPER_H
 #define IOHELPER_H
 
+#include "data/campaign.h"
 #include "media/mediatype.h"
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -49,7 +50,7 @@ class AudioPlayerController;
 namespace campaign
 {
 class NonPlayableCharacter;
-}
+} // namespace campaign
 
 class CORE_EXPORT IOHelper
 {
@@ -121,6 +122,9 @@ public:
 
     // charactersheet
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
+
+    // Campaign
+    static QString copyImageFileIntoCampaign(const QString& path, const QString &dest);
 };
 
 #endif // IOHELPER_H

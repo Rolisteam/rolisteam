@@ -10,6 +10,7 @@ add_subdirectory(helper)
 #subdirs with tests
 add_subdirectory(audioplayer)
 #add_subdirectory(dataChapter)
+add_subdirectory(antaFilter)
 add_subdirectory(dataCleverURI)
 add_subdirectory(preferences )
 add_subdirectory(colorButton)

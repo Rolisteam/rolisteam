@@ -40,24 +40,18 @@
 #include <QTime>
 #include <QUrl>
 #include <QUuid>
-#include <algorithm>
-#ifdef HAVE_WEBVIEW
 #include <QWebEngineProfile>
 #include <QWebEngineSettings>
-#endif
+#include <algorithm>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "charactersheet/charactersheet.h"
 #include "controller/contentcontroller.h"
-#include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/playercontroller.h"
-#include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "model/historymodel.h"
-#include "model/playermodel.h"
 #include "preferences/preferencesmanager.h"
 #include "rwidgets/customs/shortcutvisitor.h"
 #include "rwidgets/customs/workspace.h"
@@ -76,7 +70,6 @@
 #include "utils/networkdownloader.h"
 #include "worker/iohelper.h"
 #include "worker/modelhelper.h"
-#include "worker/playermessagehelper.h"
 #include "worker/utilshelper.h"
 
 #include "data/campaignmanager.h"
@@ -85,8 +78,6 @@
 
 // LOG
 #include "common/logcontroller.h"
-#include "common/remotelogcontroller.h"
-#include "common_widgets/logpanel.h"
 
 // Controller
 #include "controller/instantmessagingcontroller.h"
@@ -101,8 +92,6 @@
 #include "rwidgets/dialogs/newfiledialog.h"
 
 // GMToolBox
-#include "diceparser_qobject/qmltypesregister.h"
-#include "rwidgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 #include "rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
 #include "rwidgets/gmtoolbox/UnitConvertor/convertor.h"
 
@@ -359,6 +348,7 @@ void MainWindow::setupUi()
     dock->setObjectName("AntagonistTable");
     dock->setWindowTitle(tr("Antagonist Table"));
     dock->setWidget(m_antagonistWidget.get());
+    dock->setWindowIcon(QIcon::fromTheme("contact"));
     addDockWidget(Qt::RightDockWidgetArea, dock);
     setWindowIcon(QIcon::fromTheme("logo"));
     m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct, playersListWidget->toggleViewAction());
@@ -863,29 +853,56 @@ void MainWindow::notifyAboutDeletedPlayer(Player* player) const
 
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(m_gameController->version()));
+    QSettings settings(Core::settings::KEY_ROLISTEAM,
+                       QString(Core::settings::KEY_PREF_DIR).arg(m_gameController->version()));
 
-    restoreState(settings.value("windowState").toByteArray());
-    bool maxi= settings.value("Maximized", false).toBool();
-    m_ui->m_mediaTitleAct->setChecked(settings.value("show_media_title_in_tool_bar", false).toBool());
+    restoreState(settings.value(Core::settings::KEY_WINDOW_STATE).toByteArray());
+    bool maxi= settings.value(Core::settings::KEY_MAXIMIZED, false).toBool();
+    m_ui->m_mediaTitleAct->setChecked(settings.value(Core::settings::KEY_MEDIA_TITLE, false).toBool());
     if(!maxi)
     {
-        restoreGeometry(settings.value("geometry").toByteArray());
+        restoreGeometry(settings.value(Core::settings::KEY_GEOMETRY).toByteArray());
+    }
+
+    m_antagonistWidget->setFullMode(settings.value(Core::settings::KEY_ANTA_FULLMODE, false).toBool());
+    m_antagonistWidget->setMinimalMode(settings.value(Core::settings::KEY_ANTA_MINIMODE, true).toBool());
+
+    auto size= settings.beginReadArray(Core::settings::KEY_ANTA_ARRAY);
+    auto& acts= m_antagonistWidget->columnsActions();
+    for(int i= 0; i < size; ++i)
+    {
+        settings.setArrayIndex(i);
+        auto& act= acts[i];
+        act->setChecked(settings.value(Core::settings::KEY_ANTA_COL, true).toBool());
     }
 
     // read recent scenario
     auto ctrl= m_gameController->contentController();
     SettingsHelper::readHistoryModel(ctrl->historyModel());
-    // m_audioPlayer->readSettings();
     m_dockLogUtil->initSetting();
 }
 void MainWindow::writeSettings()
 {
-    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(m_gameController->version()));
-    settings.setValue("geometry", saveGeometry());
-    settings.setValue("windowState", saveState());
-    settings.setValue("Maximized", isMaximized());
-    settings.setValue("show_media_title_in_tool_bar", m_ui->m_mediaTitleAct->isChecked());
+    QSettings settings(Core::settings::KEY_ROLISTEAM,
+                       QString(Core::settings::KEY_PREF_DIR).arg(m_gameController->version()));
+    settings.setValue(Core::settings::KEY_GEOMETRY, saveGeometry());
+    settings.setValue(Core::settings::KEY_WINDOW_STATE, saveState());
+    settings.setValue(Core::settings::KEY_MAXIMIZED, isMaximized());
+    settings.setValue(Core::settings::KEY_MEDIA_TITLE, m_ui->m_mediaTitleAct->isChecked());
+
+    settings.setValue(Core::settings::KEY_ANTA_MINIMODE, m_antagonistWidget->minimalMode());
+    settings.setValue(Core::settings::KEY_ANTA_FULLMODE, m_antagonistWidget->fullMode());
+
+    settings.beginWriteArray(Core::settings::KEY_ANTA_ARRAY);
+    auto& acts= m_antagonistWidget->columnsActions();
+    int i= 0;
+    for(auto const& act : acts)
+    {
+        settings.setArrayIndex(i);
+        i++;
+        settings.setValue(Core::settings::KEY_ANTA_COL, act->isChecked());
+    }
+    settings.endArray();
 
     auto ctrl= m_gameController->contentController();
     if(!m_gameController->localIsGM())

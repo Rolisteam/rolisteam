@@ -17,10 +17,23 @@ class AntagonistBoardController;
 class RWIDGET_EXPORT AntagonistBoard : public QWidget
 {
     Q_OBJECT
-
+    Q_PROPERTY(bool fullMode READ fullMode WRITE setFullMode NOTIFY fullModeChanged)
+    Q_PROPERTY(bool minimalMode READ minimalMode WRITE setMinimalMode NOTIFY minimalModeChanged)
 public:
     explicit AntagonistBoard(campaign::CampaignEditor* editor, QWidget* parent= nullptr);
     ~AntagonistBoard();
+
+    const std::vector<std::unique_ptr<QAction>>& columnsActions() const;
+
+    bool fullMode() const;
+    void setFullMode(bool newFullMode);
+
+    bool minimalMode() const;
+    void setMinimalMode(bool newMinimalMode);
+
+signals:
+    void fullModeChanged();
+    void minimalModeChanged();
 
 protected slots:
     void updateImage(const QByteArray& data);
@@ -38,6 +51,7 @@ private:
     std::unique_ptr<QAction> m_cloneCharacterAct;
     std::unique_ptr<QAction> m_changeImageAct;
     std::unique_ptr<QAction> m_fullModeAct;
+    std::unique_ptr<QAction> m_minimalModeAct;
     std::unique_ptr<QAction> m_saveTokenAct;
 
     QString m_currentItemId;

@@ -34,6 +34,7 @@ namespace campaign
 class Media;
 class CampaignEditor;
 class CampaignUpdater;
+class AntagonistBoardController;
 
 class CORE_EXPORT CampaignManager : public QObject
 {
@@ -62,6 +63,7 @@ public:
     QString placeDirectory(campaign::Campaign::Place place) const;
 
     void performAction(const QList<QPair<QString, Core::CampaignAction>>& actions);
+
 public slots:
     void shareModels();
     void setLocalIsGM(bool b);
@@ -73,6 +75,8 @@ signals:
     void fileImported(campaign::Media* path);
     void errorOccured(const QString& error);
     void createBlankFile(const QString& path, Core::MediaType mediaType);
+
+    void antagonistCtrlChanged();
 
 private:
     std::unique_ptr<CampaignEditor> m_editor;

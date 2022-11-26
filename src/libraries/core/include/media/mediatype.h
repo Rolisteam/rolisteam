@@ -240,51 +240,65 @@ NETWORK_EXPORT Q_ENUM_NS(Properties)
     };
 NETWORK_EXPORT Q_ENUM_NS(Layer)
 
-    namespace keys
+    namespace settings
 {
-    constexpr char const* KEY_AVATAR{"avatar"};
-    constexpr char const* KEY_BGCOLOR{"bgcolor"};
-    constexpr char const* KEY_CHARACTERID{"characterId"};
-    constexpr char const* KEY_CHARACTERVISION{"charactervision"};
-    constexpr char const* KEY_COLLISION{"collision"};
-    constexpr char const* KEY_COLOR{"color"};
-    constexpr char const* KEY_DATA{"data"};
-    constexpr char const* KEY_GMID{"gamemasterId"};
-    constexpr char const* KEY_GRIDABOVE{"GridAbove"};
-    constexpr char const* KEY_GRIDCOLOR{"gridColor"};
-    constexpr char const* KEY_GRIDPATTERN{"gridPattern"};
-    constexpr char const* KEY_GRIDSCALE{"gridScale"};
-    constexpr char const* KEY_GRIDSIZE{"gridSize"};
-    constexpr char const* KEY_GRIDVISIBILITY{"GridVisibility"};
-    constexpr char const* KEY_ID{"id"};
-    constexpr char const* KEY_IMAGEDATA{"imageData"};
-    constexpr char const* KEY_INTERNAL{"internal"};
-    constexpr char const* KEY_ITEMS{"items"};
-    constexpr char const* KEY_LAYER{"layer"};
-    constexpr char const* KEY_LOCALID{"localId"};
-    constexpr char const* KEY_MARKDOWN{"markdown"};
-    constexpr char const* KEY_MODE{"mode"};
-    constexpr char const* KEY_NAME{"name"};
-    constexpr char const* KEY_OWNERID{"ownerId"};
-    constexpr char const* KEY_PATH{"path"};
-    constexpr char const* KEY_PERMISSION{"permission"};
-    constexpr char const* KEY_POSITION{"position"};
-    constexpr char const* KEY_QML{"qml"};
-    constexpr char const* KEY_RECT{"rect"};
-    constexpr char const* KEY_ROOTSECTION{"rootSection"};
-    constexpr char const* KEY_SAVEAS{"saveas"};
-    constexpr char const* KEY_SCALE{"scale"};
-    constexpr char const* KEY_SERIALIZED{"serializedData"};
-    constexpr char const* KEY_SIGHT{"sight"};
-    constexpr char const* KEY_STATE{"state"};
-    constexpr char const* KEY_TEXT{"text"};
-    constexpr char const* KEY_TOOL{"tool"};
-    constexpr char const* KEY_TYPE{"type"};
-    constexpr char const* KEY_UNIT{"unit"};
-    constexpr char const* KEY_URL{"URL"};
-    constexpr char const* KEY_UUID{"uuid"};
-    constexpr char const* KEY_VISIBILITY{"visibility"};
-    constexpr char const* KEY_ZINDEX{"zindex"};
+    constexpr auto const* KEY_ROLISTEAM{"rolisteam"};
+    constexpr auto const* KEY_PREF_DIR{"rolisteam_%1/preferences"};
+    constexpr auto const* KEY_GEOMETRY{"geometry"};
+    constexpr auto const* KEY_WINDOW_STATE{"windowState"};
+    constexpr auto const* KEY_MAXIMIZED{"Maximized"};
+    constexpr auto const* KEY_MEDIA_TITLE{"show_media_title_in_tool_bar"};
+    constexpr auto const* KEY_ANTA_MINIMODE{"antamini"};
+    constexpr auto const* KEY_ANTA_FULLMODE{"antafull"};
+    constexpr auto const* KEY_ANTA_ARRAY{"antagonists"};
+    constexpr auto const* KEY_ANTA_COL{"col"};
+}
+
+namespace keys
+{
+constexpr char const* KEY_AVATAR{"avatar"};
+constexpr char const* KEY_BGCOLOR{"bgcolor"};
+constexpr char const* KEY_CHARACTERID{"characterId"};
+constexpr char const* KEY_CHARACTERVISION{"charactervision"};
+constexpr char const* KEY_COLLISION{"collision"};
+constexpr char const* KEY_COLOR{"color"};
+constexpr char const* KEY_DATA{"data"};
+constexpr char const* KEY_GMID{"gamemasterId"};
+constexpr char const* KEY_GRIDABOVE{"GridAbove"};
+constexpr char const* KEY_GRIDCOLOR{"gridColor"};
+constexpr char const* KEY_GRIDPATTERN{"gridPattern"};
+constexpr char const* KEY_GRIDSCALE{"gridScale"};
+constexpr char const* KEY_GRIDSIZE{"gridSize"};
+constexpr char const* KEY_GRIDVISIBILITY{"GridVisibility"};
+constexpr char const* KEY_ID{"id"};
+constexpr char const* KEY_IMAGEDATA{"imageData"};
+constexpr char const* KEY_INTERNAL{"internal"};
+constexpr char const* KEY_ITEMS{"items"};
+constexpr char const* KEY_LAYER{"layer"};
+constexpr char const* KEY_LOCALID{"localId"};
+constexpr char const* KEY_MARKDOWN{"markdown"};
+constexpr char const* KEY_MODE{"mode"};
+constexpr char const* KEY_NAME{"name"};
+constexpr char const* KEY_OWNERID{"ownerId"};
+constexpr char const* KEY_PATH{"path"};
+constexpr char const* KEY_PERMISSION{"permission"};
+constexpr char const* KEY_POSITION{"position"};
+constexpr char const* KEY_QML{"qml"};
+constexpr char const* KEY_RECT{"rect"};
+constexpr char const* KEY_ROOTSECTION{"rootSection"};
+constexpr char const* KEY_SAVEAS{"saveas"};
+constexpr char const* KEY_SCALE{"scale"};
+constexpr char const* KEY_SERIALIZED{"serializedData"};
+constexpr char const* KEY_SIGHT{"sight"};
+constexpr char const* KEY_STATE{"state"};
+constexpr char const* KEY_TEXT{"text"};
+constexpr char const* KEY_TOOL{"tool"};
+constexpr char const* KEY_TYPE{"type"};
+constexpr char const* KEY_UNIT{"unit"};
+constexpr char const* KEY_URL{"URL"};
+constexpr char const* KEY_UUID{"uuid"};
+constexpr char const* KEY_VISIBILITY{"visibility"};
+constexpr char const* KEY_ZINDEX{"zindex"};
 } // namespace keys
 
 namespace vmapkeys

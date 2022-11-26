@@ -160,6 +160,8 @@ set(HEADERS
   ${inc}/data/shortcutmodel.h
   ${inc}/media/mediafactory.h
   ${inc}/media/mediatype.h
+  ${inc}/model/colormodel.h
+  ${inc}/model/statemodel.h
   ${inc}/model/actiononlistmodel.h
   ${inc}/model/charactermodel.h
   ${inc}/model/characterstatemodel.h
@@ -233,6 +235,7 @@ set(HEADERS
   ${inc}/updater/vmapitem/vmapitemcontrollerupdater.h
   ${inc}/utils/insertionsortedmap.h
   ${inc}/utils/countdownobject.h
+  ${inc}/utils/HashHelper.h
   ${inc}/worker/autosavecontroller.h
   ${inc}/worker/convertionhelper.h
   ${inc}/worker/fileserializer.h
@@ -293,6 +296,8 @@ set(SOURCES
   src/data/rolisteamtheme.cpp
   src/data/shortcutmodel.cpp
   src/media/mediafactory.cpp
+  src/model/colormodel.cpp
+  src/model/statemodel.cpp
   src/model/messagemodel.cpp
   src/model/filterinstantmessagingmodel.cpp
   src/model/messagemodel.cpp

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>655</width>
+    <width>657</width>
     <height>893</height>
    </rect>
   </property>
@@ -33,7 +33,263 @@
          <item>
           <widget class="QLineEdit" name="m_searchLine"/>
          </item>
+         <item>
+          <widget class="QToolButton" name="m_advencedBtn">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="m_advencedGroup">
+         <property name="title">
+          <string>Advanced</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="4">
+           <widget class="QCheckBox" name="m_withoutAvatar">
+            <property name="text">
+             <string>Without</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QCheckBox" name="m_withActions">
+            <property name="text">
+             <string>with</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="3">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Avatar:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>exclude:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>tags: </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>Actions:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3" colspan="5">
+           <widget class="QLineEdit" name="m_tags"/>
+          </item>
+          <item row="3" column="0" colspan="3">
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>State:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QCheckBox" name="m_withAvatar">
+            <property name="text">
+             <string>with</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QCheckBox" name="m_withShape">
+            <property name="text">
+             <string>with</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="4">
+           <widget class="QCheckBox" name="m_withoutShape">
+            <property name="text">
+             <string>without</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="8">
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>exclude tags:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3" colspan="5">
+           <widget class="QComboBox" name="m_currentState"/>
+          </item>
+          <item row="3" column="8">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>Heath:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="9">
+           <widget class="QCheckBox" name="m_fullHealth">
+            <property name="text">
+             <string>full life</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="10">
+           <widget class="QCheckBox" name="m_injured">
+            <property name="text">
+             <string>Injured</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="11">
+           <widget class="QCheckBox" name="m_healthMin">
+            <property name="text">
+             <string>Dead</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="4">
+           <widget class="QCheckBox" name="m_withoutAction">
+            <property name="text">
+             <string>without</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="10">
+           <widget class="QCheckBox" name="m_withoutInit">
+            <property name="text">
+             <string>without</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="9">
+           <widget class="QCheckBox" name="m_withInit">
+            <property name="text">
+             <string>with</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6" colspan="3">
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>Initiative Score:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="10">
+           <widget class="QCheckBox" name="m_withoutProperties">
+            <property name="text">
+             <string>without</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="10">
+           <widget class="QCheckBox" name="m_withoutInitCmd">
+            <property name="text">
+             <string>without</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="9">
+           <widget class="QCheckBox" name="m_withProperties">
+            <property name="text">
+             <string>with</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="9">
+           <widget class="QCheckBox" name="m_withInitCmd">
+            <property name="text">
+             <string>with</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="8">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>Properties:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="8">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>Initiative Command:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="9" colspan="3">
+           <widget class="QLineEdit" name="m_exludedTags"/>
+          </item>
+          <item row="1" column="3" colspan="9">
+           <widget class="QLineEdit" name="m_textToExclude"/>
+          </item>
+          <item row="5" column="0" colspan="3">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Shapes:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="11">
+           <widget class="QComboBox" name="m_colorCombo"/>
+          </item>
+          <item row="4" column="11">
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>Color:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <widget class="DragableTableView" name="m_antogonistView">
@@ -861,6 +1117,18 @@
     <string>Remove Character</string>
    </property>
   </action>
+  <action name="m_advencedAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="preferences-other">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Advenced</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -875,5 +1143,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>m_advencedBtn</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_advencedGroup</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>779</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>147</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

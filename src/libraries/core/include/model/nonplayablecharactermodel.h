@@ -34,6 +34,7 @@ class CORE_EXPORT NonPlayableCharacter : public Character
     Q_PROPERTY(QStringList tags READ tags WRITE setTags NOTIFY tagsChanged)
     Q_PROPERTY(int size READ size WRITE setSize NOTIFY sizeChanged)
     Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
+    Q_PROPERTY(QString gameMasterDesc READ gameMasterDesc WRITE setGameMasterDesc NOTIFY gameMasterDescChanged)
 public:
     NonPlayableCharacter(QObject* parent= nullptr);
 
@@ -41,6 +42,9 @@ public:
     QString avatarPath() const;
     int size() const;
     QString description() const;
+
+    const QString& gameMasterDesc() const;
+    void setGameMasterDesc(const QString& newGameMasterDesc);
 
 public slots:
     void setTags(const QStringList& list);
@@ -54,22 +58,27 @@ signals:
     void sizeChanged();
     void descriptionChanged();
 
+    void gameMasterDescChanged();
+
 private:
     QString m_avatarPath;
     QStringList m_tags;
     int m_size;
     QString m_description;
+    QString m_gameMasterDesc;
 };
 
 class CORE_EXPORT NonPlayableCharacterModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(QString npcRoot READ npcRoot WRITE setNpcRoot NOTIFY npcRootChanged)
 public:
     enum CustomRole
     {
         RoleAvatar= Qt::UserRole + 1,
         RoleName,
         RoleDescription,
+        RoleGmDetails,
         RoleTags,
         RoleColor,
         RoleMinHp,
@@ -82,6 +91,10 @@ public:
         RoleInitCommand,
         RoleUuid,
         RoleAvatarPath,
+        RoleHasInitiative,
+        RoleActionCount,
+        RoleShapeCount,
+        RolePropertiesCount,
         RoleUnknown
     };
     Q_ENUM(CustomRole)
@@ -90,6 +103,7 @@ public:
         ColAvatar,
         ColName,
         ColDescription,
+        ColGmDetails,
         ColTags,
         ColColor,
         ColMinHp,
@@ -132,13 +146,18 @@ public:
     QModelIndex indexFromUuid(const QString& id);
     NonPlayableCharacter* characterFromUuid(const QString& id);
 
+    const QString& npcRoot() const;
+    void setNpcRoot(const QString& newNpcRoot);
+
 signals:
     void characterAdded();
     void characterRemoved(QString id);
+    void npcRootChanged();
 
 private:
     std::vector<std::unique_ptr<NonPlayableCharacter>> m_data;
     QStringList m_header;
+    QString m_npcRoot;
 };
 } // namespace campaign
 #endif // NONPLAYABLECHARACTERMODEL_H
