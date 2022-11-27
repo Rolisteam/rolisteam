@@ -97,5 +97,6 @@ void PdfController::copyText(const QString& text)
 
 void PdfController::shareAsPdf()
 {
-    emit sharePdf(m_uuid);
+    if(!m_data.isEmpty())
+        emit sharePdf(m_uuid);
 }

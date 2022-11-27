@@ -262,6 +262,8 @@ QByteArray TestMessageSender::messageData() const
 
 std::pair<bool, QStringList> testAllProperties(QObject* obj)
 {
+    if(!obj)
+        return {};
     auto meta= obj->metaObject();
     bool res= false;
     QStringList unmanaged;
@@ -297,8 +299,20 @@ std::pair<bool, QStringList> testAllProperties(QObject* obj)
 
             // QCOMPARE(spy.count(), vs.size())
 
+            auto count = spy.count();
             if(!QTest::qCompare(spy.count(), vs.size(), "spy.count()", "vs.size()", __FILE__, __LINE__))
                 qDebug() << p.name();
+
+            for(const auto& v : vs)
+            {
+                if(!p.write(obj, v))
+                {
+                    qDebug() << "write failed for " << p.name() << v;
+
+                    spy.wait(10);
+                    QTest::qVerify(count == spy.count(),"Signal emitted when received same value","Signal emitted when received same value",__FILE__, __LINE__);
+                }
+            }
         }
     }
 

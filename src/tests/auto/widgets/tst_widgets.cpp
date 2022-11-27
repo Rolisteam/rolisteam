@@ -111,7 +111,7 @@ void WidgetsTest::diameterSelectorTest()
 void WidgetsTest::imageSelectorTest()
 {
     ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
-    ImageSelectorDialog dialog(&ctrl);
+    ImageSelectorDialog dialog(&ctrl, nullptr, "https://static.wikia.nocookie.net/l5r/images/4/4c/Seppun_Tashime.jpg/revision/latest?cb=20190801175749");
     if(QDialog::Accepted != dialog.exec())
         return;
     auto pix= QImage::fromData(ctrl.finalImageData());

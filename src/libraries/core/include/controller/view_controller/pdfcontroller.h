@@ -56,7 +56,6 @@ signals:
 
 private:
     QByteArray m_data;
-    bool m_overlayVisibility= false;
     qreal m_zoom= 1.0;
 };
 
