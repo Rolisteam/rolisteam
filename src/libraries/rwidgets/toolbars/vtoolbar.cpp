@@ -367,6 +367,8 @@ void VToolsBar::makeTools()
 
 void VToolsBar::updateUi()
 {
+    if(!m_ctrl)
+        return;
     auto mode= m_ctrl->permission();
     auto editionMode= m_ctrl->editionMode();
 

@@ -45,8 +45,9 @@ class CORE_EXPORT ImageSelectorController : public QObject
     Q_PROPERTY(bool hasContentToPaste READ hasContentToPaste NOTIFY contentToPasteChanged)
     Q_PROPERTY(bool isMovie READ isMovie NOTIFY imageDataChanged)
     Q_PROPERTY(QMovie* movie READ movie NOTIFY imageDataChanged)
-    Q_PROPERTY(bool respectShape READ respectShape NOTIFY imageDataChanged)
     Q_PROPERTY(QRect rect READ rect WRITE setRect NOTIFY rectChanged)
+    Q_PROPERTY(bool rectInShape READ rectInShape NOTIFY rectChanged)
+    Q_PROPERTY(bool dataInShape READ dataInShape NOTIFY imageDataChanged)
 public:
     enum Shape
     {
@@ -84,7 +85,8 @@ public:
     QString address() const;
     QString currentDir() const;
     bool hasContentToPaste() const;
-    bool respectShape() const;
+    bool rectInShape() const;
+    bool dataInShape() const;
 
     bool isMovie() const;
     QMovie* movie();
@@ -112,6 +114,7 @@ signals:
 
 private:
     void setAddressPrivate(const QUrl& url);
+    QRect computeDataGeometry() const;
 
 private:
     QByteArray m_data;

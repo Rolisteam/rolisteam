@@ -94,13 +94,22 @@ class VectorialMapControllerTest : public QObject
 {
     Q_OBJECT
 public:
-    VectorialMapControllerTest()= default;
+    VectorialMapControllerTest() {
+        std::string duration("3600000"); // 3600 seconds -> 60 min
+        QByteArray timeoutDuration(duration.c_str(), static_cast<int>(duration.length()));
+        qputenv("QTEST_FUNCTION_TIMEOUT", timeoutDuration);
+        { // just for checking ..
+            auto result = qgetenv("QTEST_FUNCTION_TIMEOUT");
+            qDebug() << "timeout set to:" << result << "ms";
+        }
+    };
 
 private slots:
     void init();
     void cleanupTestCase();
 
     void propertyTest();
+    void propertiesTest();
 
     void addItemTest();
     void addItemTest_data();
@@ -116,8 +125,6 @@ private slots:
 
     void networkMessage();
     void networkMessage_data();
-
-    void propertiesTest();
 
 private:
     std::unique_ptr<VectorialMapController> m_ctrl;
@@ -1213,10 +1220,10 @@ void VectorialMapControllerTest::networkMessage()
 void VectorialMapControllerTest::propertiesTest()
 {
     auto res= Helper::testAllProperties(m_ctrl.get());
-    for(const auto& f : res.second)
+    /*for(const auto& f : res.second)
     {
         qDebug() << f;
-    }
+    }*/
 }
 
 void VectorialMapControllerTest::networkMessage_data()

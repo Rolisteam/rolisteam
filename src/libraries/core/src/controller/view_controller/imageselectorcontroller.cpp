@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *	Copyright (C) 2021 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
@@ -120,17 +120,21 @@ bool ImageSelectorController::hasContentToPaste() const
     return mimeData->hasImage();
 }
 
-bool ImageSelectorController::respectShape() const
+bool ImageSelectorController::dataInShape() const
 {
-    if(m_shape == AnyShape)
-        return true;
+    auto dataGeo = computeDataGeometry();
+    bool res = dataGeo.isValid();
+    if(m_shape == Square)
+        res &= (dataGeo.height() == dataGeo.width());
+    return res;
+}
 
-    auto const& validImg= !pixmap().isNull();
-    auto const& pix= pixmap();
-
-    auto const& shapeSquare
-        = validImg ? pix.height() == pix.width() : m_movie.frameRect().height() == m_movie.frameRect().width();
-    return shapeSquare;
+bool ImageSelectorController::rectInShape() const
+{
+    bool res = computeDataGeometry().contains(m_rect);
+    if(m_shape == Square)
+        res &= (m_rect.height() == m_rect.width());
+    return res;
 }
 
 bool ImageSelectorController::isMovie() const
@@ -205,7 +209,6 @@ QByteArray ImageSelectorController::finalImageData() const
     if(m_shape != AnyShape)
     {
         QPixmap map= pixmap();
-        qDebug() << m_rect << "mapsize:" << map.size();
         data= IOHelper::pixmapToData(map.copy(m_rect));
     }
     return data;
@@ -227,9 +230,21 @@ void ImageSelectorController::setAddressPrivate(const QUrl& url)
     emit addressChanged();
 }
 
+QRect ImageSelectorController::computeDataGeometry() const
+{
+    QRect res;
+    auto pix = pixmap();
+    if(!pix.isNull())
+        res = pix.rect();
+    else if(isMovie())
+        res = m_movie.frameRect();
+
+    return res;
+}
+
 void ImageSelectorController::setAddress(const QString& address)
 {
-    if(this->address() == address)
+    if(this->address() == QUrl::fromUserInput(address).toString())
         return;
     m_address= QUrl::fromUserInput(address);
     emit addressChanged();

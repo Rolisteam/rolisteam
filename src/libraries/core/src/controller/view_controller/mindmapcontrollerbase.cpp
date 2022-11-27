@@ -87,12 +87,12 @@ MindMapControllerBase::MindMapControllerBase(bool hasNetwork, const QString& id,
 
 MindMapControllerBase::~MindMapControllerBase()
 {
-    if(m_spacing->isRunning())
+    if(m_spacing && m_spacing->isRunning())
     {
         m_spacingController->setRunning(false);
         m_spacing->quit();
         m_spacing->wait();
-        delete m_spacing.release();
+        m_spacing.release()->deleteLater();
     }
 
     auto model= m_itemModel.release();

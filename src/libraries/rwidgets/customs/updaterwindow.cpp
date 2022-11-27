@@ -54,7 +54,7 @@ void UpdaterWindow::save()
     {
         lastversion.write(reply->readAll());
         lastversion.close();
-        QMessageBox::information(this, "", "");
+        //QMessageBox::information(this, "", "");
     }
     close();
 }

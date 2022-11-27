@@ -94,6 +94,8 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
 
     auto updateSmallImage= [this]()
     {
+        if(!m_ctrl)
+            return;
         auto w= std::min(m_toolbox->width() - 10, 100);
         auto sw= m_vmap->width() * m_ctrl->zoomLevel();
         auto sh= m_vmap->height() * m_ctrl->zoomLevel();

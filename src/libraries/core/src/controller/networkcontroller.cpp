@@ -346,7 +346,7 @@ QString NetworkController::host() const
 
 int NetworkController::port() const
 {
-    return m_server->port();
+    return m_server ? m_server->port() : 6660;
 }
 
 QString NetworkController::ipv4() const

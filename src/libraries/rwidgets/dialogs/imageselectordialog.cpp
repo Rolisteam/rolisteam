@@ -36,10 +36,13 @@
 #include "worker/utilshelper.h"
 #include "rwidgets/customs/overlay.h"
 
-ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget* parent)
+ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget* parent, const QString& defaultPath)
     : QDialog(parent), m_ctrl(ctrl), ui(new Ui::ImageSelectorDialog), m_overlay(new Overlay())
 {
     ui->setupUi(this);
+    if(!defaultPath.isEmpty())
+        ui->m_textEdit->setText(defaultPath);
+
     auto download= [this]() { m_ctrl->downloadImageFrom(QUrl::fromUserInput(ui->m_textEdit->text())); };
     connect(ui->m_textEdit, &QLineEdit::textEdited, m_ctrl, download);
     connect(ui->m_downloadAct, &QAction::triggered, m_ctrl, download);
@@ -53,10 +56,10 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
     auto func= [this](const QRect& rect) {
         // qreal scale= m_ctrl->pixmap().size().width() / m_imageViewerLabel->rect().width();
         // QRect scaledRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
-        qDebug() << rect << "func in dialog";
         m_ctrl->setRect(rect);
     };
     connect(m_overlay.get(), &Overlay::selectedRectChanged, m_ctrl, func);
+
 
     setAcceptDrops(m_ctrl->canDrop());
 
@@ -88,7 +91,7 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
     m_imageViewerLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     m_imageViewerLabel->resize(pix.size());
     m_overlay->setParent(m_imageViewerLabel);
-    qDebug() << m_overlay->geometry();
+
     m_overlay->resize(m_imageViewerLabel->rect().size());
 
     // m_overlay->setSelectedRect(m_imageViewerLabel->rect());
@@ -113,9 +116,9 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
         auto button= ui->buttonBox->button(QDialogButtonBox::Ok);
 
         if(button)
-            button->setEnabled(m_ctrl->validData());
+            button->setEnabled(m_ctrl->validData() && m_ctrl->rectInShape());
 
-        m_overlay->setVisible(!m_ctrl->respectShape());
+        m_overlay->setVisible(!m_ctrl->dataInShape());
         resizeLabel();
         update();
     });
