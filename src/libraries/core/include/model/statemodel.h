@@ -20,7 +20,6 @@
 #ifndef STATEMODEL_H
 #define STATEMODEL_H
 
-#include "utils/HashHelper.h"
 #include <QAbstractListModel>
 #include <QColor>
 #include <QList>
@@ -44,7 +43,7 @@ public:
     void setSourceModel(const campaign::NonPlayableCharacterModel* source);
 
 private:
-    QList<QColor> m_data;
+    QStringList m_data;
 };
 
 #endif // STATEMODEL_H

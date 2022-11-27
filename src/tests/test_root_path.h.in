@@ -1,0 +1,12 @@
+#ifndef  TEST_ROOT_PATH
+#define TEST_ROOT_PATH
+
+
+namespace tests
+{
+constexpr auto & root_path{"@TEST_ROOT_DIR@"};
+}
+
+
+
+#endif

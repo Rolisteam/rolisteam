@@ -484,6 +484,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     connect(ui->m_fullHealth, &QCheckBox::clicked, this, updateHealth);
 
     ui->m_colorCombo->setModel(m_ctrl->colorModel());
+    ui->m_currentState->setModel(m_ctrl->stateModel());
 
     connect(ui->m_searchLine, &QLineEdit::textChanged, this,
             [this]() { m_ctrl->setSearchText(ui->m_searchLine->text()); });

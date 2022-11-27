@@ -9,7 +9,7 @@
 #include "media/mediatype.h"
 #include "rwidgets/mediacontainers/vmapframe.h"
 #include "utils/iohelper.h"
-#include "worker/iohelper.h"
+#include "test_root_path.h"
 
 int main(int argc, char* argv[])
 {
@@ -56,11 +56,11 @@ int main(int argc, char* argv[])
     ctrl.setOwnerId("uuid");
 
     Character character("aaa", "Lynn Gray-Rike", QColor("#0000DD"), false, 0);
-    character.setAvatar(utils::IOHelper::loadFile(
-        "/home/renaud/documents/03_jdr/01_Scenariotheque/09_Cops/03_krom/lynn_gray_rike.jpg"));
+    character.setAvatar(utils::IOHelper::loadFile(QString("%1/resources/lynn_gray_rike.jpg").arg(tests::root_path)));
+
 
     Character characterB("bb", "Toku Kahime", QColor("#FF00DD"), false, 0);
-    characterB.setAvatar(utils::IOHelper::loadFile("/home/renaud/documents/04_Images/avatar/predateur.jpg"));
+    characterB.setAvatar(utils::IOHelper::loadFile(QString("%1/resources/predateur.jpg").arg(tests::root_path)));
 
     QList<CharacterAction*> acts;
 
@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
     VMapFrame frame(&ctrl);
     auto cancel= frame.addAction("Cancel");
     cancel->setShortcut(QKeySequence::Undo);
-    QObject::connect(cancel, &QAction::triggered,
+    QObject::connect(cancel, &QAction::triggered,cancel,
                      [&undoStack]()
                      {
                          qDebug() << "undo";

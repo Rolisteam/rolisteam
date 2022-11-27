@@ -192,6 +192,7 @@ set(HEADERS
   ${inc}/model/filteredplayermodel.h
   ${inc}/model/instantmessagingmodel.h
   ${inc}/model/proxystatemodel.h
+  ${inc}/model/filteredcharactermodel.h
   ${inc}/preferences/preferenceslistener.h
   ${inc}/preferences/preferencesmanager.h
   ${inc}/services/ipchecker.h
@@ -300,6 +301,7 @@ set(SOURCES
   src/model/colormodel.cpp
   src/model/statemodel.cpp
   src/model/messagemodel.cpp
+  src/model/filteredcharactermodel.cpp
   src/model/filterinstantmessagingmodel.cpp
   src/model/messagemodel.cpp
   src/model/chatroomsplittermodel.cpp

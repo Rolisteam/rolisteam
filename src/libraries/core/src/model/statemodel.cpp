@@ -41,16 +41,11 @@ QVariant StateModel::data(const QModelIndex& index, int role) const
     auto i= index.row();
 
     if(i == 0 && role == Qt::DisplayRole)
-        return tr("Any color");
+        return tr("Any State");
     else
         return {};
 
-    auto color= m_data[i - 1];
-
-    if(role == Qt::DecorationRole)
-        return color;
-    else // if(role == Qt::DisplayRole)
-        return color.name();
+    return m_data[i - 1];
 }
 
 void StateModel::setSourceModel(const campaign::NonPlayableCharacterModel* source)
@@ -64,13 +59,13 @@ void StateModel::setSourceModel(const campaign::NonPlayableCharacterModel* sourc
                     auto index= start;
                     for(int i= start.row(); i < end.row(); ++i)
                     {
-                        auto color= source->data(index, campaign::NonPlayableCharacterModel::RoleColor).value<QColor>();
+                        auto stateId= source->data(index, campaign::NonPlayableCharacterModel::RoleState).toString();
 
-                        if(m_data.contains(color))
+                        if(m_data.contains(stateId))
                             return;
 
                         beginInsertRows(QModelIndex(), rowCount(), rowCount());
-                        m_data.append(color);
+                        m_data.append(stateId);
                         endInsertRows();
                     }
                 }
@@ -82,31 +77,30 @@ void StateModel::setSourceModel(const campaign::NonPlayableCharacterModel* sourc
                 {
                     if(i < source->rowCount())
                     {
-                        auto color
-                            = source->data(source->index(i, 0, parent), campaign::NonPlayableCharacterModel::RoleColor)
-                                  .value<QColor>();
+                        auto stateId
+                            = source->data(source->index(i, 0, parent), campaign::NonPlayableCharacterModel::RoleState)
+                                  .toString();
 
-                        if(m_data.contains(color))
+                        if(m_data.contains(stateId))
                             return;
 
                         beginInsertRows(QModelIndex(), rowCount(), rowCount());
-                        m_data.append(color);
+                        m_data.append(stateId);
                         endInsertRows();
                     }
                 }
             });
 
-    QSet<QColor> colors;
+    QSet<QString> ids;
     auto const& npcs= source->npcList();
-    qDebug() << npcs.size();
+
     std::for_each(std::begin(npcs), std::end(npcs),
-                  [&colors](const std::unique_ptr<campaign::NonPlayableCharacter>& npc)
+                  [&ids](const std::unique_ptr<campaign::NonPlayableCharacter>& npc)
                   {
-                      qDebug() << "qDebuq ";
-                      colors.insert(npc->getColor());
+                      ids.insert(npc->stateId());
                   });
 
     beginResetModel();
-    m_data= colors.values();
+    m_data= ids.values();
     endResetModel();
 }

@@ -9,6 +9,7 @@
 #include "data/campaignmanager.h"
 #include "rwidgets/docks/antagonistboard.h"
 #include <common_qml/theme.h>
+#include "test_root_path.h"
 
 int main(int argc, char* argv[])
 {
@@ -25,12 +26,12 @@ int main(int argc, char* argv[])
 
     campaign::CampaignManager campaignManager(nullptr);
     campaignManager.openCampaign(
-        QUrl("file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/protagonist/campaign"));
+        QUrl(QString("file://%1/manual/protagonist/campaign").arg(tests::root_path)));
 
     QUndoStack undoStack;
 
     campaign::AntagonistBoard board(campaignManager.editor());
-    QObject::connect(&app, &QApplication::aboutToQuit, [&campaignManager]() { campaignManager.saveCampaign(); });
+    QObject::connect(&app, &QApplication::aboutToQuit, &campaignManager, [&campaignManager]() { campaignManager.saveCampaign(); });
 
     board.show();
     return app.exec();

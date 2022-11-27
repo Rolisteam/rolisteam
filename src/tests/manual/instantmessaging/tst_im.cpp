@@ -12,11 +12,11 @@
 #include "data/player.h"
 #include "model/playermodel.h"
 #include <common_qml/theme.h>
+#include "test_root_path.h"
 
 void registerTypeTest()
 {
-    qDebug() << "registerType 1";
-    customization::Theme::setPath("/home/renaud/application/mine/renaudg/rolisteam/resources/stylesheet/qml/theme.ini");
+    customization::Theme::setPath(QString("%1/../../resources/stylesheet/qml/theme.ini").arg(tests::root_path));
     qRegisterMetaType<PlayerModel*>("PlayerModel*");
     qRegisterMetaType<customization::Theme*>("customization::Theme*");
     qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");

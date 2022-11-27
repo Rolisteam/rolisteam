@@ -7,7 +7,6 @@
 #include <QVariant>
 
 #include "controller/view_controller/mindmapcontroller.h"
-#include "data/campaign.h"
 #include "data/campaignmanager.h"
 #include "rwidgets/mediacontainers/mindmapview.h"
 #include "utils/iohelper.h"
@@ -21,10 +20,11 @@
 #include "mindmap/qmlItems/linkitem.h"
 #include "updater/media/mindmapupdater.h"
 #include "worker/iohelper.h"
+#include "test_root_path.h"
 
 void registerMindmapType()
 {
-    customization::Theme::setPath("/home/renaud/application/mine/renaudg/rolisteam/resources/stylesheet/qml/theme.ini");
+    customization::Theme::setPath(QString("%1/../../resources/stylesheet/qml/theme.ini").arg(tests::root_path));
     qRegisterMetaType<PlayerModel*>("PlayerModel*");
     qRegisterMetaType<customization::Theme*>("customization::Theme*");
     qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");
@@ -81,11 +81,10 @@ int main(int argc, char* argv[])
 
     campaign::CampaignManager campaignManager(nullptr);
     campaignManager.openCampaign(
-        QUrl("file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/mindmap/campaign"));
+        QUrl(QString("file://%1/manual/mindmap/campaign").arg(tests::root_path)));
 
     MindMapUpdater updater(nullptr, &campaignManager);
-    auto serializedData= utils::IOHelper::loadFile(
-        "/home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/mindmap/campaign/media/test.rmap");
+    auto serializedData= utils::IOHelper::loadFile(QString("file://%1/manual/mindmap/campaign/media/test.rmap").arg(tests::root_path));
 
     QUndoStack undoStack;
     MindMapController::setRemotePlayerModel(model);

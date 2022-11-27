@@ -334,12 +334,14 @@ AntagonistBoardController::AntagonistBoardController(campaign::CampaignEditor* e
                 new GenericModel({QStringLiteral("Name"), QStringLiteral("Value")}, {}, this)}}
     , m_filteredModel(new FilteredCharacterModel)
     , m_colorModel(new ColorModel)
+    , m_stateModel(new StateModel)
 {
     if(m_editor)
     {
         auto campaign= m_editor->campaign();
         m_filteredModel->setSourceModel(campaign->npcModel());
         m_colorModel->setSourceModel(campaign->npcModel());
+        m_stateModel->setSourceModel(campaign->npcModel());
         connect(
             campaign->npcModel(), &campaign::NonPlayableCharacterModel::modelReset, m_colorModel.get(),
             [this]()
@@ -349,6 +351,7 @@ AntagonistBoardController::AntagonistBoardController(campaign::CampaignEditor* e
                     return;
 
                 m_colorModel->setSourceModel(campaign->npcModel());
+                m_stateModel->setSourceModel(campaign->npcModel());
             },
             Qt::QueuedConnection);
 

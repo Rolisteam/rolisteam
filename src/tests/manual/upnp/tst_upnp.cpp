@@ -5,20 +5,8 @@
 
 int main(int argc, char* argv[])
 {
-
     QCoreApplication app(argc, argv);
     UpnpNat nat;
-
-    /*QFile file("/home/renaud/gatedesc0b.xml");
-    if(!file.open(QIODevice::ReadOnly))
-        qDebug() << "error can't read the file";
-
-    auto all= QString(file.readAll());
-
-    nat.setDescription(all);
-
-    nat.new_parser_description();
-    nat.parser_description();*/
 
     nat.init(5, 10);
     QObject::connect(&nat, &UpnpNat::discoveryEnd, [&nat](bool b) {

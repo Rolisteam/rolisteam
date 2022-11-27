@@ -7,7 +7,6 @@
 #include <QVariant>
 
 #include "controller/view_controller/charactersheetcontroller.h"
-#include "data/campaign.h"
 #include "data/campaignmanager.h"
 #include "mindmap/include/mindmap/data/positioneditem.h"
 #include "rwidgets/mediacontainers/charactersheetwindow.h"
@@ -19,13 +18,12 @@
 #include "mindmap/data/nodestyle.h"
 #include "mindmap/qmlItems/linkitem.h"
 #include "model/playermodel.h"
-#include "updater/media/mindmapupdater.h"
-#include "worker/iohelper.h"
 #include "worker/modelhelper.h"
+#include "test_root_path.h"
 
 void registerMindmapType()
 {
-    customization::Theme::setPath("/home/renaud/application/mine/renaudg/rolisteam/resources/stylesheet/qml/theme.ini");
+    customization::Theme::setPath(QString("%1/../../resources/stylesheet/qml/theme.ini").arg(tests::root_path));
     qRegisterMetaType<PlayerModel*>("PlayerModel*");
     qRegisterMetaType<customization::Theme*>("customization::Theme*");
     qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");
@@ -68,18 +66,16 @@ int main(int argc, char* argv[])
 
     campaign::CampaignManager campaignManager(nullptr);
     campaignManager.openCampaign(
-        QUrl("file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/charactersheet/campaign"));
+        QUrl(QString("file://%1/manual/charactersheet/campaign").arg(tests::root_path)));
 
-    auto serializedData= utils::IOHelper::loadFile(
-        "/home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/charactersheet/campaign/media/tf2.rcs");
-
+    auto serializedData= utils::IOHelper::loadFile(QString("/%1/manual/charactersheet/campaign/media/tf2.rcs").arg(tests::root_path));
+    Q_UNUSED(serializedData)
     QUndoStack undoStack;
 
     CharacterSheetUpdater updater(&campaignManager);
 
     CharacterSheetController ctrl;
-    QUrl path("file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/charactersheet/campaign/"
-              "media/tf2.rcs");
+    QUrl path(QString("file://%1/manual/charactersheet/campaign/media/tf2.rcs").arg(tests::root_path));
     ctrl.setUrl(path);
 
     auto model= ctrl.model();
@@ -90,7 +86,7 @@ int main(int argc, char* argv[])
     ctrl.setQmlCode(qml);
     ctrl.setRootJson(root);
 
-    // IOHelper::readCharacterSheetController(&ctrl, serializedData);
+    //IOHelper::readCharacterSheetController(&ctrl, serializedData);
 
     qDebug() << "character model: " << model->rowCount();
 
