@@ -3061,7 +3061,7 @@ msgid ""
 msgstr ""
 "Rolisteam us ajuda a gestionar un joc de rol de taula amb amics/jugadors "
 "remots. Proporciona moltes característiques per a compartir mapes, imatges i "
-"també inclou eines per comunicar-se amb els vostres amics/jugadors. "
+"també inclou eines per a comunicar-se amb els vostres amics/jugadors. "
 "L'objectiu és fer que els jocs RPG gestionats per Rolisteam siguen tan bons "
 "com els jocs RPG al voltant d'una taula. Per a aconseguir-ho, estem "
 "treballant intensament per a proporcionar-li cada vegada més "
@@ -3245,7 +3245,7 @@ msgstr "%1 - Consell del dia"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:42
 msgctxt "TipOfDayViewer|"
 msgid "No Service to open links"
-msgstr "Cap servei per obrir enllaços"
+msgstr "Cap servei per a obrir enllaços"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:43
 #, qt-format
@@ -4230,7 +4230,8 @@ msgstr "Ajusta a la finestra"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:254
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
-msgstr "La imatge prendrà les dimensions millors per ajustar-se a la finestra."
+msgstr ""
+"La imatge prendrà les dimensions millors per a ajustar-se a la finestra."
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
