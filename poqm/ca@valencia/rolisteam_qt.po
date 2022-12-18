@@ -4231,7 +4231,7 @@ msgstr "Ajusta a la finestra"
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
 msgstr ""
-"La imatge prendrà les dimensions millors per a ajustar-se a la finestra."
+"La imatge prendrà les dimensions millors per a ajustar-se amb la finestra."
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
