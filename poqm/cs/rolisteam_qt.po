@@ -1,43 +1,47 @@
+# Vit Pelcak <vit@pelcak.org>, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: l 10n-support\n"
-"Language-Team: none\n"
-"Language: de\n"
+"Project-Id-Version: \n"
+"PO-Revision-Date: 2023-01-03 16:34+0100\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Lokalize 22.12.0\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/rcse/borderlisteditor.cpp:29
 msgctxt "BorderListEditor|"
 msgid "Up"
-msgstr ""
+msgstr "Nahoru"
 
 #: src/binaries/rcse/borderlisteditor.cpp:30
 msgctxt "BorderListEditor|"
 msgid "Left"
-msgstr ""
+msgstr "Vlevo"
 
 #: src/binaries/rcse/borderlisteditor.cpp:31
 msgctxt "BorderListEditor|"
 msgid "Down"
-msgstr ""
+msgstr "Dolů"
 
 #: src/binaries/rcse/borderlisteditor.cpp:32
 msgctxt "BorderListEditor|"
 msgid "Right"
-msgstr ""
+msgstr "Vpravo"
 
 #: src/binaries/rcse/borderlisteditor.cpp:43
 msgctxt "BorderListEditor|"
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: src/binaries/rcse/borderlisteditor.cpp:47
 msgctxt "BorderListEditor|"
 msgid "None"
-msgstr ""
+msgstr "Žádný"
 
 #: src/binaries/rcse/controllers/imagecontroller.cpp:47
 #, qt-format
@@ -55,12 +59,12 @@ msgstr ""
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
 msgctxt "RcseApplicationController|"
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
 msgctxt "RcseApplicationController|"
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
@@ -70,7 +74,7 @@ msgstr ""
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: src/binaries/rcse/data/characterlist.cpp:39
 msgctxt "CharacterList|"
@@ -91,12 +95,12 @@ msgstr ""
 #: src/binaries/rcse/data/mockcharacter.cpp:17
 msgctxt "MockCharacter|"
 msgid "green"
-msgstr ""
+msgstr "zelená"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:21
 msgctxt "MockCharacter|"
 msgid "red"
-msgstr ""
+msgstr "červená"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:50
 #, qt-format
