@@ -309,8 +309,5 @@ message(${CMAKE_CURRENT_BINARY_DIR})
 #set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/core_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 #set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/network_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 
-#install(TARGETS rwidgets
- #   RUNTIME DESTINATION bin
- #   LIBRARY DESTINATION lib)
 include(install_helper)
-rinstallLib(rwidgets rolisteam)
+rinstallLib(rwidgets libraries)

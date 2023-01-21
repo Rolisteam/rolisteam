@@ -16,14 +16,13 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 
-find_package(Qt6  COMPONENTS Core Svg Quick QuickControls2 REQUIRED)
+find_package(Qt6 COMPONENTS Core Svg Quick QuickControls2 REQUIRED)
 
-set(inc_dir include/mindmap)
+set(inc_dir ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap)
 set(mindmap_header
     ${inc_dir}/mindmap_global.h
     ${inc_dir}/controller/selectioncontroller.h
     ${inc_dir}/controller/spacingcontroller.h
-    #${inc_dir}/controller/sidemenucontroller.h
     ${inc_dir}/data/linkcontroller.h
     ${inc_dir}/data/mindnode.h
     ${inc_dir}/data/minditem.h
@@ -31,27 +30,23 @@ set(mindmap_header
     ${inc_dir}/data/packagenode.h
     ${inc_dir}/data/nodestyle.h
     ${inc_dir}/data/mindmaptypes.h
-    #${inc_dir}/model/linkmodel.h
     ${inc_dir}/model/minditemmodel.h
     ${inc_dir}/model/imagemodel.h
-    #${inc_dir}/model/boxmodel.h
     ${inc_dir}/model/nodeimageprovider.h
     ${inc_dir}/geometry/linknode.h
     ${inc_dir}/model/nodestylemodel.h
     ${inc_dir}/qmlItems/linkitem.h
-    #${inc_dir}/command/addnodecommand.h
     ${inc_dir}/command/reparentingnodecommand.h
     ${inc_dir}/command/dragnodecommand.h
     ${inc_dir}/command/removenodecommand.h
     ${inc_dir}/command/addimagetonodecommand.h
     ${inc_dir}/command/removeimagefromnodecommand.h
     ${inc_dir}/command/additemcommand.h
-    #${inc_dir}/command/addpackagecommand.h
     ${inc_dir}/command/commandhelper.h
     ${inc_dir}/worker/fileserializer.h
   )
 
-        # main.cpp
+ # main.cpp
 set(mindmap_src
     src/controller/selectioncontroller.cpp
     src/controller/spacingcontroller.cpp
@@ -86,18 +81,11 @@ set(mindmap_qml
     resources/qml/Link.qml
     resources/qml/MindMap.qml
     resources/qml/MindMenu.qml
+    resources/qml/Content.qml
     resources/qml/Node.qml
     resources/qml/DrawerMenu.qml
     resources/qml/main.qml
 )
-
-
-
-set(mindmap_bin_src 
-    main.cpp 
-    src/controller/mindmapcontroller.cpp
-    src/controller/mindmapcontroller.h
-    )
 
 
 add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
@@ -122,27 +110,10 @@ target_include_directories(rmindmap
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-#if(WIN32)
-#    set_target_properties(rmindmap PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
-#endif()
 
-#install(TARGETS rmindmap
-#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#   PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
 include(install_helper)
-rinstallLib(rmindmap rolisteam)
-
-IF(BUILD_GUI)
-    add_executable(rmindmap-gui ${mindmap_bin_src})
-    target_link_libraries(rmindmap-gui PUBLIC rmindmap)
-    target_include_directories(rmindmap-gui PRIVATE src)
-
-    #install(TARGETS rmindmap-gui
-    #    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    #   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    #   PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-    rinstallRT(rmindmap-gui mindmap)
-ENDIF()
+rinstallLib(rmindmap libraries)
 
 
 

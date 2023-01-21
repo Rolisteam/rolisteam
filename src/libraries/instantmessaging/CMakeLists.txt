@@ -67,11 +67,5 @@ target_include_directories(instantmessaging
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 
-#include(GNUInstallDirs)
-
-#install(TARGETS instantmessaging
-#  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
 include(install_helper)
-rinstallLib(instantmessaging rolisteam)
+rinstallLib(instantmessaging libraries)

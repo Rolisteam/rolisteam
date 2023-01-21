@@ -72,7 +72,7 @@ SET( rolisteamd_sources
 
 
 
-add_executable( rolisteamd ${rolisteamd_sources} ${rolisteamd_QM}   )
+#add_executable( rolisteamd ${rolisteamd_sources} ${rolisteamd_QM}   )
 
-target_link_libraries(rolisteamd ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Network_LIBRARIES})
-INSTALL_TARGETS(/bin rolisteamd )
+#target_link_libraries(rolisteamd ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Network_LIBRARIES})
+#INSTALL_TARGETS(/bin rolisteamd )

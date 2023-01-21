@@ -128,12 +128,11 @@ set(charactersheet_QRC ${CMAKE_CURRENT_SOURCE_DIR}/qml/charactersheet.qrc)
 #    SOURCES
 #      ${qml_sources}
 #)
-message("###################################")
-message(${character_sources})
-message(${character_headers})
-message(${qml_sources})
-message(${documentation})
-message(${charactersheet_QRC})
+#message(${character_sources})
+#message(${character_headers})
+#message(${qml_sources})
+#message(${documentation})
+#message(${charactersheet_QRC})
 
 add_library(charactersheet SHARED ${character_sources} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
 
@@ -183,4 +182,6 @@ target_include_directories(charactersheet_widgets PRIVATE ${CMAKE_CURRENT_SOURCE
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 include(install_helper)
-rinstallLib(charactersheet_formula charactersheet_widgets charactersheet rolisteam)
+rinstallLib(charactersheet_formula libraries)
+rinstallLib(charactersheet_widgets libraries)
+rinstallLib(charactersheet libraries)

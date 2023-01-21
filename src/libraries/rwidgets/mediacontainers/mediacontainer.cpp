@@ -37,8 +37,8 @@ MediaContainer::MediaContainer(MediaControllerBase* ctrl, ContainerType containe
     connect(m_detachedDialog, &QAction::triggered, this, &MediaContainer::detachView);
     connect(ctrl, &MediaControllerBase::closeContainer, this, &MediaContainer::close);
     connect(ctrl, &MediaControllerBase::ownerIdChanged, this, &MediaContainer::ownerIdChanged);
-    connect(m_lifeCycleCtrl, &MediaControllerBase::titleChanged, this,
-            [this]() { setWindowTitle(m_lifeCycleCtrl->title()); });
+    connect(m_lifeCycleCtrl, &MediaControllerBase::nameChanged, this,
+            [this]() { setWindowTitle(m_lifeCycleCtrl->name()); });
 }
 
 MediaContainer::~MediaContainer() {}

@@ -93,13 +93,7 @@ target_include_directories(common_qml
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-
-#include(GNUInstallDirs)
-
-#install(TARGETS common_qml common_widget common_core
-#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-
 include(install_helper)
-rinstallLib(common_qml common_widget common_core rolisteam)
+rinstallLib(common_qml libraries)
+rinstallLib(common_widget libraries)
+rinstallLib(common_core libraries)

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(rcse)
+#project(rcse)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -153,3 +153,7 @@ target_include_directories(rcse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/libraries/charactersheet
     ${CMAKE_SOURCE_DIR}/src/libraries
     ${CMAKE_BINARY_DIR})
+
+
+include(install_helper)
+rinstallRT(rcse rcseComp)

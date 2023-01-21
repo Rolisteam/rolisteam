@@ -416,12 +416,7 @@ message(${CMAKE_CURRENT_BINARY_DIR})
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/core_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/network_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 
-
-#install(TARGETS core network
-#    RUNTIME DESTINATION bin
-#    LIBRARY DESTINATION lib)
-
 include(install_helper)
-rinstallLib(core rolisteam)
-rinstallLib(network network)
+rinstallLib(core libraries)
+rinstallLib(network libraries)
 

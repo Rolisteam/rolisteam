@@ -18,25 +18,20 @@ option(DEBUG_MODE "enable more debug report" OFF)
 option(WARNING_AS_ERROR "Set all warning as error" OFF)
 
 
-
 find_package(Qt6 COMPONENTS Core Widgets Gui LinguistTools QmlImportScanner REQUIRED)
 configure_file(version.h.in version.h @ONLY)
 
-
-
-
-
-
 add_subdirectory(translations)
+
+if(EXISTS ${IFW_PATH})
+  include(CPackHelper)
+endif()
+
 add_subdirectory(src)
 
 
 set(documentation README.md HelpMe.md)
 
 
-if(EXISTS ${IFW_PATH})
-  include(install_helper)
-  setupCPack(${IFW_PATH})
-endif()
 
 configure_file(scripts/generate_coverage.sh.in generate_coverage.sh @ONLY)

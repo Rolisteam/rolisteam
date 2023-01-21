@@ -20,7 +20,7 @@ if(UNIX AND NOT APPLE)
     message("Dbus adaptor here: ${DBUS_SOURCES}")
 endif()
 
-set(SOURCES main.cpp  rolisteamdaemon.cpp )
+set(SOURCES main.cpp rolisteamdaemon.cpp )
 set(HEADERS rolisteamdaemon.h )
 
 
@@ -34,8 +34,4 @@ target_link_libraries(roliserver PUBLIC Qt6::Core Qt6::Network Qt6::DBus PRIVATE
 
 
 include(install_helper)
-rinstallRT(roliserver roliserver)
-#install(TARGETS roliserver
-#        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-#        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+rinstallRT(roliserver roliserverComp)
