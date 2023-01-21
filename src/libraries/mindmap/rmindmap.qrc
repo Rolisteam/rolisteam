@@ -37,9 +37,12 @@
         <file>resources/icons/addnode.svg</file>
         <file>resources/icons/+dark/littlemap.svg</file>
         <file>resources/icons/littlemap.svg</file>
+        <file>resources/icons/fileopen.svg</file>
+        <file>resources/icons/+light/fileopen.svg</file>
+        <file>resources/icons/+dark/fileopen.svg</file>
     </qresource>
     <qresource prefix="/">
-        <file>resources/qml/main.qml</file>
+        <file>resources/qml/Content.qml</file>
         <file>resources/qml/Node.qml</file>
         <file>resources/qml/Link.qml</file>
         <file>resources/qml/MindMap.qml</file>
@@ -51,5 +54,6 @@
         <file>resources/qml/ButtonGrid.qml</file>
         <file>resources/qml/PackageItem.qml</file>
         <file>resources/icons/addnode.svg</file>
+        <file>resources/qml/main.qml</file>
     </qresource>
 </RCC>

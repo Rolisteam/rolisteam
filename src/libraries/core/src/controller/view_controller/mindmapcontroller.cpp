@@ -29,27 +29,15 @@
 #include <QUrl>
 #include <random>
 
-#include "mindmap/command/addimagetonodecommand.h"
-#include "mindmap/command/addnodecommand.h"
-#include "mindmap/command/removeimagefromnodecommand.h"
-#include "mindmap/command/removenodecommand.h"
-#include "mindmap/command/reparentingnodecommand.h"
+
 #include "mindmap/controller/spacingcontroller.h"
-#include "mindmap/data/link.h"
-#include "mindmap/data/mindnode.h"
-#include "mindmap/data/nodestyle.h"
 #include "mindmap/model/minditemmodel.h"
-#include "mindmap/model/nodestylemodel.h"
-#include "mindmap/qmlItems/linkitem.h"
-#include "mindmap/qmlItems/nodeitem.h"
-#include "mindmap/worker/fileserializer.h"
 #include "updater/media/mindmapupdater.h"
-#include "worker/iohelper.h"
 
 QPointer<RemotePlayerModel> MindMapController::m_remotePlayerModel;
 QPointer<MindMapUpdater> MindMapController::m_updater;
 
-MindMapController::MindMapController(const QString& id, QObject* parent) : MindMapControllerBase(id, parent)
+MindMapController::MindMapController(const QString& id, QObject* parent) : MindMapControllerBase(true, id, parent)
 {
     m_selectionController->setUndoStack(&m_stack);
 
@@ -84,11 +72,7 @@ MindMapController::MindMapController(const QString& id, QObject* parent) : MindM
                                      qDebug() << "name Changed";
                                      setModified();
                                  });
-    MediaControllerBase::connect(this, &MindMapController::titleChanged, static_cast<MediaControllerBase*>(this),
-                                 [this] {
-                                     qDebug() << "title changed";
-                                     setModified();
-                                 });
+
     MediaControllerBase::connect(this, &MindMapController::urlChanged, static_cast<MediaControllerBase*>(this), [this] {
         qDebug() << "url changed";
         setModified();

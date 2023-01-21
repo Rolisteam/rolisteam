@@ -17,34 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "utils/mappinghelper.h"
+#ifndef MAINCONTROLLER_H
+#define MAINCONTROLLER_H
 
-#include <QDebug>
-namespace utils
+#include "controller/view_controller/mindmapcontrollerbase.h"
+#include <QObject>
+#include <QPointer>
+
+class MainController : public mindmap::MindMapControllerBase
 {
-MappingHelper::MappingHelper(QObject* parent) : QObject{parent} {}
-QSizeF MappingHelper::mapSizeTo(const QSizeF& maxSize, const QSizeF& currentSize)
-{
-    return currentSize.scaled(maxSize, Qt::KeepAspectRatio);
-}
+    Q_OBJECT
+public:
+    explicit MainController(QObject* parent= nullptr);
 
-QRectF MappingHelper::smallRect(const QRectF &sizeItem, const QRectF &childrenSize, const QRectF& parentSize)
-{
+public slots:
+    void openFile(const QUrl& file);
+};
 
-}
-
-QRectF MappingHelper::maxRect(const QRectF &parentRect, const QRectF &childrenRect)
-{
-    return parentRect.united(childrenRect);
-}
-
-QRectF MappingHelper::mapRectInto(const QRectF& maxRect, const QRectF& viewRect, const QRectF& imageRect)
-{
-    // maxRect => viewRect
-    // imageRect => res
-    auto res= imageRect;
-
-    return res;
-    // return viewRect * imageRect / maxRect;
-}
-} // namespace utils
+#endif // MAINCONTROLLER_H

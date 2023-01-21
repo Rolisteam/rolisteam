@@ -45,5 +45,5 @@ target_include_directories(utils PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
 
 
 
-  include(install_helper)
-  rinstallLib(utils utils)
+include(install_helper)
+rinstallLib(utils libraries)

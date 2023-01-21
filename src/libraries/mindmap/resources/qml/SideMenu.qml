@@ -11,11 +11,11 @@ Drawer {
     property alias darkMode: darkModeSwitch.checked
     property alias linkVisibility: linkVisible.checked
     property alias defaultStyle: combo.currentIndex
-    required property QtObject mediaCtrl
+    required property MindMapController mediaCtrl
 
     SideMenuController {
         id: ctrl
-        controller: MindmapManager.ctrl
+        controller: _drawer.mediaCtrl
         criteria: criteria.currentIndex
         pattern: textField.text
     }
@@ -31,8 +31,8 @@ Drawer {
                     text: qsTr("Name")
                 }
                 TextField {
-                    text: mediaCtrl.name
-                    onEditingFinished: mediaCtrl.name = text
+                    text: ctrl.name
+                    onEditingFinished: ctrl.name = text
                     Layout.fillWidth: true
                 }
             }
@@ -40,7 +40,6 @@ Drawer {
                 id: darkModeSwitch
                 text: qsTr("Night Mode")
                 checked: false
-                //onCheckedChanged: root.darkMode = checked
             }
             Switch {
                 id: linkVisible
@@ -55,7 +54,7 @@ Drawer {
                 }
                 ComboBox {
                     id: combo
-                    model: MindmapManager.ctrl.styleModel
+                    model: _drawer.mediaCtrl
                     currentIndex: 0
                     //onCurrentIndexChanged: MainController.defaultStyleIndex = currentIndex
 
@@ -66,12 +65,12 @@ Drawer {
                         border.width: 1
                         border.color: "black"
                         gradient: Gradient {
-                            GradientStop { position: 0.0; color: MindmapManager.ctrl.style(combo.currentIndex).colorOne }
-                            GradientStop { position: 1.0; color: MindmapManager.ctrl.style(combo.currentIndex).colorTwo }
+                            GradientStop { position: 0.0; color: _drawer.mediaCtrl.style(combo.currentIndex).colorOne }
+                            GradientStop { position: 1.0; color: _drawer.mediaCtrl.style(combo.currentIndex).colorTwo }
                         }
                         Text {
                             anchors.centerIn: parent
-                            color: MindmapManager.ctrl.style(combo.currentIndex).textColor
+                            color: _drawer.mediaCtrl.style(combo.currentIndex).textColor
                             text: qsTr("Text")
                         }
                     }
@@ -104,7 +103,7 @@ Drawer {
             PermissionFrame {
                 id: userlist
                 Layout.fillWidth: true
-                visible: !mediaCtrl.remote
+                visible: mediaCtrl.remote
                 playerModel: mediaCtrl.remotePlayerModel
                 onPermissionToAllChanged: mediaCtrl.setSharingToAll(permissionToAll)
                 onPermissionForUserChanged: mediaCtrl.setPermissionForUser(id, permission)

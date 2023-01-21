@@ -68,16 +68,16 @@ private:
 class CORE_EXPORT SideMenuController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(MindMapController* controller READ controller WRITE setController NOTIFY controllerChanged)
+    Q_PROPERTY(mindmap::MindMapControllerBase* controller READ controller WRITE setController NOTIFY controllerChanged)
     Q_PROPERTY(mindmap::FilteredModel* model READ model CONSTANT)
     Q_PROPERTY(mindmap::FilteredModel::Criteria criteria READ criteria WRITE setCriteria NOTIFY criteriaChanged)
     Q_PROPERTY(QString pattern READ pattern WRITE setPattern NOTIFY patternChanged)
-
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
 public:
     explicit SideMenuController(QObject* parent= nullptr);
 
-    MindMapController* controller() const;
-    void setController(MindMapController* newController);
+    mindmap::MindMapControllerBase* controller() const;
+    void setController(MindMapControllerBase *newController);
 
     mindmap::FilteredModel* model() const;
 
@@ -87,13 +87,17 @@ public:
     mindmap::FilteredModel::Criteria criteria() const;
     void setCriteria(FilteredModel::Criteria newCriteria);
 
+    QString name() const;
+    void setName(const QString &newName);
+
 signals:
     void controllerChanged();
     void patternChanged();
     void criteriaChanged();
+    void nameChanged();
 
 private:
-    QPointer<MindMapController> m_controller;
+    QPointer<mindmap::MindMapControllerBase> m_controller;
     std::unique_ptr<mindmap::FilteredModel> m_model;
     QString m_pattern;
 };

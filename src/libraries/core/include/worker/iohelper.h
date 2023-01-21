@@ -47,6 +47,11 @@ class RolisteamTheme;
 class GenericModel;
 class AudioPlayerController;
 
+namespace mindmap
+{
+class MindMapControllerBase;
+}
+
 namespace campaign
 {
 class NonPlayableCharacter;
@@ -90,14 +95,15 @@ public:
     static MediaControllerBase* loadController(const QByteArray& data);
     static void saveBase(MediaControllerBase* base, QDataStream& output);
     static void readBase(MediaControllerBase* base, QDataStream& input);
-    static void readBaseFromJson(MediaControllerBase* base, QJsonObject& data);
+    static void readBaseFromJson(MediaControllerBase* base, const QJsonObject& data);
 
     static void readPdfController(PdfController* ctrl, const QByteArray& array);
     static void readImageController(ImageController* ctrl, const QByteArray& array);
     static void readNoteController(NoteController* ctrl, const QByteArray& array);
     static void readSharedNoteController(SharedNoteController* ctrl, const QByteArray& array);
     static void readWebpageController(WebpageController* ctrl, const QByteArray& array);
-    static void readMindmapController(MindMapController* ctrl, const QByteArray& array);
+    static void readMindmapControllerBase(mindmap::MindMapControllerBase* ctrl, const QJsonObject& objCtrl);
+    static QJsonObject readMindmapController(MindMapController* ctrl, const QByteArray& array);
 
     // dice alias
     static QJsonObject diceAliasToJSonObject(DiceAlias* alias);
@@ -124,7 +130,7 @@ public:
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
 
     // Campaign
-    static QString copyImageFileIntoCampaign(const QString& path, const QString &dest);
+    static QString copyImageFileIntoCampaign(const QString& path, const QString& dest);
 };
 
 #endif // IOHELPER_H

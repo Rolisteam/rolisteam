@@ -20,8 +20,6 @@
 #ifndef MINDMAPCONTROLLER_H
 #define MINDMAPCONTROLLER_H
 
-#include "mediacontrollerbase.h"
-
 #include <QAbstractItemModel>
 #include <QPointer>
 #include <QRectF>
@@ -30,8 +28,6 @@
 #include <memory>
 
 #include "controller/view_controller/mindmapcontrollerbase.h"
-#include "mindmap/controller/selectioncontroller.h"
-#include "mindmap/model/imagemodel.h"
 #include "model/playermodel.h"
 #include "model/remoteplayermodel.h"
 

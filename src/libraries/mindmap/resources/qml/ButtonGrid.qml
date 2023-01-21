@@ -12,7 +12,9 @@ GridLayout{
     property alias addArrow: addArrow.checked
     property alias automaticSpacing: spacing.checked
     property bool showLittleMap: true
-    property MindMapController ctrl: MindmapManager.ctrl
+    required property QtObject ctrl
+    property var actions:[]
+
 
     signal openDrawer()
     signal exportScene()
@@ -86,6 +88,13 @@ GridLayout{
         tooltip: qsTr("Automatic Spacing")
         checkable: true
         source: _root.styleSheet.spacingIcon
+    }
+
+    Repeater {
+        model: _root.actions
+        IconButton {
+            action: modelData
+        }
     }
 
 }

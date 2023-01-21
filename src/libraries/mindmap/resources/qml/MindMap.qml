@@ -37,21 +37,10 @@ Flickable {
         });
     }
 
-  /* Timer {
-        repeat: true
-        running: true
-        onTriggered: console.log("inner.width:"+inner.width+" ctrl:"+_flick.ctrl.contentRect.width)
-    }*/
-
     contentHeight: inner.height
     contentWidth: inner.width
     interactive: true
     boundsBehavior: Flickable.StopAtBounds
-
-
-
-    //ScrollBar.vertical: ScrollBar { }
-    //ScrollBar.horizontal: ScrollBar { }
 
     Shortcut {
         sequences: [StandardKey.Undo]
@@ -141,10 +130,17 @@ Flickable {
             id: nodeItem
             currentNode: item
             nodeStyle: _flick.ctrl.style(item.styleIndex)
-            readWrite:  _flick.ctrl.readWrite
+            readWrite: _flick.ctrl.hasNetwork ? _flick.ctrl.readWrite : true
             focus: true
             text : item.text ? item.text : "new node"
             source: hasAvatar ? "image://nodeImages/%1".arg(item.id) : ""
+            Timer {
+                repeat : true
+                interval: 1000
+                running: true
+                onTriggered: console.log("show:",nodeItem.x," ",nodeItem.y," ",item.position)
+            }
+
             visible: item.visible
             selected: item.selected
             //color: _flick.styleSheet.linkColor
@@ -191,6 +187,7 @@ Flickable {
 
     NodeSettingPopup {
         id: _stylePopup
+        ctrl: _flick.ctrl
     }
 
     Item {

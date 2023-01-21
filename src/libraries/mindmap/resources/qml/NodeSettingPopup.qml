@@ -1,13 +1,14 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls.Universal 2.12
-import mindmap 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Universal
+import mindmap
 
 Popup {
     id: _root
     modal: true
     property QtObject node
+    required property MindMapController ctrl
     ScrollView {
         id: flickable
         anchors.fill: parent
@@ -63,7 +64,7 @@ Popup {
                     columns: 3
                     anchors.fill: parent
                     Repeater {
-                        model: MindmapManager.ctrl.styleModel
+                        model: _root.ctrl.styleModel
                         Button {
                             id: control
                             Layout.preferredWidth: 120

@@ -120,6 +120,7 @@ QVariant MindItemModel::data(const QModelIndex& index, int role) const
         result= QVariant::fromValue(mindNode);
         break;
     case HasPicture:
+        qDebug() << "haspicture:" << mindNode->type() << MindItem::NodeType << m_imgModel->hasPixmap(mindNode->id());
         result= mindNode->type() == MindItem::NodeType ? m_imgModel->hasPixmap(mindNode->id()) : false;
         break;
     }
@@ -240,18 +241,20 @@ void MindItemModel::appendItem(const QList<MindItem*>& nodes)
             auto link= dynamic_cast<mindmap::LinkController*>(node);
             if(link)
             {
-                connect(link, &mindmap::LinkController::startPointChanged, this, [this, link]() {
-                    QModelIndex parent;
-                    auto it= std::find(m_links.begin(), m_links.end(), link);
-                    if(it == m_links.end())
-                        return;
-                    auto offset= std::distance(m_links.begin(), it);
-                    auto idx1= index(offset, 0, parent);
-                    auto start= link->start();
-                    emit dataChanged(idx1, idx1,
-                                     start->isDragged() ? QVector<int>{Object, LinkStartPosition} :
-                                                          QVector<int>{Object, LinkPositionFromSpacing});
-                });
+                connect(link, &mindmap::LinkController::startPointChanged, this,
+                        [this, link]()
+                        {
+                            QModelIndex parent;
+                            auto it= std::find(m_links.begin(), m_links.end(), link);
+                            if(it == m_links.end())
+                                return;
+                            auto offset= std::distance(m_links.begin(), it);
+                            auto idx1= index(offset, 0, parent);
+                            auto start= link->start();
+                            emit dataChanged(idx1, idx1,
+                                             start->isDragged() ? QVector<int>{Object, LinkStartPosition} :
+                                                                  QVector<int>{Object, LinkPositionFromSpacing});
+                        });
             }
         }
         else

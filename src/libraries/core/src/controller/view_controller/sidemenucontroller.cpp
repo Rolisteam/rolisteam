@@ -92,18 +92,20 @@ const QString& FilteredModel::pattern() const
 
 SideMenuController::SideMenuController(QObject* parent) : QObject{parent}, m_model{new mindmap::FilteredModel} {}
 
-MindMapController* SideMenuController::controller() const
+mindmap::MindMapControllerBase* SideMenuController::controller() const
 {
     return m_controller;
 }
 
-void SideMenuController::setController(MindMapController* newController)
+void SideMenuController::setController(mindmap::MindMapControllerBase* newController)
 {
     if(m_controller == newController)
         return;
     m_controller= newController;
     emit controllerChanged();
     m_model->setSourceModel(newController->itemModel());
+    connect(m_controller, &mindmap::MindMapControllerBase::nameChanged, this, &SideMenuController::nameChanged);
+    emit nameChanged();
 }
 
 FilteredModel* SideMenuController::model() const
@@ -130,4 +132,16 @@ void SideMenuController::setCriteria(FilteredModel::Criteria newCriteria)
 {
     m_model->setCriteria(newCriteria);
 }
+
+QString SideMenuController::name() const
+{
+    return m_controller ? m_controller->name() : QString();
+}
+
+void SideMenuController::setName(const QString &newName)
+{
+    if(m_controller)
+        m_controller->setName(newName);
+}
+
 } // namespace mindmap

@@ -33,7 +33,6 @@ class CORE_EXPORT MediaControllerBase : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString uuid READ uuid NOTIFY uuidChanged)
     Q_PROPERTY(QUrl url READ url WRITE setUrl NOTIFY urlChanged)
     Q_PROPERTY(Core::ContentType contentType READ contentType CONSTANT)
@@ -72,7 +71,6 @@ signals:
     void nameChanged(QString);
     void uuidChanged(QString);
     void closeContainer();
-    void titleChanged();
     void activeChanged();
     void localGMChanged(bool b);
     void performCommand(QUndoCommand* cmd);

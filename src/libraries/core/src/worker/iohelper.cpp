@@ -36,39 +36,30 @@
 #include <QVariant>
 #include <map>
 
+#include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/imagemodel.h"
 #include "charactersheet/worker/ioworker.h"
 #include "controller/audioplayercontroller.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mediacontrollerbase.h"
 #include "controller/view_controller/mindmapcontroller.h"
+#include "controller/view_controller/mindmapcontrollerbase.h"
 #include "controller/view_controller/notecontroller.h"
+#include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
-#include "model/musicmodel.h"
-
 #include "data/character.h"
 #include "data/rolisteamtheme.h"
-#include "media/mediatype.h"
-#include "model/genericmodel.h"
-#include "model/nonplayablecharactermodel.h"
-#include "network/channel.h"
-#include "network/serverconnection.h"
-
-#include "controller/media_controller/pdfmediacontroller.h"
-#include "controller/view_controller/pdfcontroller.h"
-
-#include "data/character.h"
 #include "diceparser/dicealias.h"
-
-#include "charactersheet/charactersheetmodel.h"
-#include "charactersheet/imagemodel.h"
+#include "media/mediatype.h"
 #include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/mindnode.h"
 #include "mindmap/model/imagemodel.h"
-#include "mindmap/model/linkmodel.h"
 #include "mindmap/model/minditemmodel.h"
+#include "model/musicmodel.h"
+#include "model/nonplayablecharactermodel.h"
 #include "utils/iohelper.h"
 #include "worker/utilshelper.h"
 #include "worker/vectorialmapmessagehelper.h"
@@ -286,7 +277,7 @@ void IOHelper::saveMediaBaseIntoJSon(MediaControllerBase* base, QJsonObject& obj
     obj[Core::jsonctrl::base::JSON_OWNERID]= base->ownerId();
 }
 
-void IOHelper::readBaseFromJson(MediaControllerBase* base, QJsonObject& data)
+void IOHelper::readBaseFromJson(MediaControllerBase* base, const QJsonObject& data)
 {
     if(!base)
         return;
@@ -881,18 +872,39 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
     ctrl->setPageUrl(pageUrl);
     ctrl->setUrl(url);
 }
-void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& array)
+QJsonObject IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
-        return;
+        return {};
 
     auto objCtrl= IOHelper::textByteArrayToJsonObj(array);
+
+    IOHelper::readMindmapControllerBase(ctrl, objCtrl);
+
+    return objCtrl;
+}
+void IOHelper::readMindmapControllerBase(mindmap::MindMapControllerBase* ctrl, const QJsonObject& objCtrl)
+{
+    if(!ctrl)
+        return;
 
     IOHelper::readBaseFromJson(ctrl, objCtrl);
 
     ctrl->setDefaultStyleIndex(objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_DEFAULT_INDEX_STYLE].toInt());
     ctrl->setSpacing(objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_SPACING].toBool());
     ctrl->setLinkLabelVisibility(objCtrl[Core::jsonctrl::Mindmap::JSON_CTRL_LINK_LABEL_VISIBILITY].toBool());
+
+    auto imgs= objCtrl[Core::jsonctrl::Mindmap::JSON_IMGS].toArray();
+    auto imgModel= ctrl->imgModel();
+    for(auto const& imgRef : imgs)
+    {
+        auto img= imgRef.toObject();
+        auto pixmap= IOHelper::dataToPixmap(
+            QByteArray::fromBase64(img[Core::jsonctrl::Mindmap::JSON_IMG_DATA].toString().toUtf8()));
+        auto id= img[Core::jsonctrl::Mindmap::JSON_IMG_ID].toString();
+        auto url= QUrl::fromUserInput(img[Core::jsonctrl::Mindmap::JSON_IMG_URL].toString());
+        imgModel->insertPixmap(id, pixmap, url);
+    }
 
     auto updateMindItem= [](const QJsonObject& obj, mindmap::MindItem* item)
     {
@@ -909,6 +921,8 @@ void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& 
         updateMindItem(obj, pitem);
         pitem->setPosition(
             {obj[ujm::JSON_POSITIONED_POSITIONX].toDouble(), obj[ujm::JSON_POSITIONED_POSITIONY].toDouble()});
+
+        qDebug() << "position" << pitem->position();
 
         pitem->setWidth(obj[ujm::JSON_POSITIONED_WIDTH].toDouble());
         pitem->setHeight(obj[ujm::JSON_POSITIONED_HEIGHT].toDouble());
@@ -972,18 +986,6 @@ void IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& 
         link->setDirection(
             static_cast<mindmap::LinkController::Direction>(obj[Core::jsonctrl::Mindmap::JSON_LINK_DIRECTION].toInt()));
         model->appendItem({link});
-    }
-
-    auto imgs= objCtrl[Core::jsonctrl::Mindmap::JSON_IMGS].toArray();
-    auto imgModel= ctrl->imgModel();
-    for(auto const& imgRef : imgs)
-    {
-        auto img= imgRef.toObject();
-        auto pixmap= IOHelper::dataToPixmap(
-            QByteArray::fromBase64(img[Core::jsonctrl::Mindmap::JSON_IMG_DATA].toString().toUtf8()));
-        auto id= img[Core::jsonctrl::Mindmap::JSON_IMG_ID].toString();
-        auto url= QUrl::fromUserInput(img[Core::jsonctrl::Mindmap::JSON_IMG_URL].toString());
-        imgModel->insertPixmap(id, pixmap, url);
     }
 
     // TODO read data to define mindmapcontroller.

@@ -39,6 +39,8 @@ public:
     /// \param currentSize
     ///
     Q_INVOKABLE QSizeF mapSizeTo(const QSizeF& maxSize, const QSizeF& currentSize);
+    Q_INVOKABLE QRectF smallRect(const QRectF &sizeItem, const QRectF& childrenSize, const QRectF &parentSize);
+    Q_INVOKABLE QRectF maxRect(const QRectF &parentRect, const QRectF& childrenRect);
 
     Q_INVOKABLE QRectF mapRectInto(const QRectF& maxRect, const QRectF& viewRect, const QRectF& imageRect);
 };

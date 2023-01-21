@@ -64,8 +64,9 @@ class CORE_EXPORT MindMapControllerBase : public MediaControllerBase
     Q_PROPERTY(mindmap::ImageModel* imgModel READ imgModel CONSTANT)
     Q_PROPERTY(mindmap::SpacingController* spacingCtrl READ spacingCtrl CONSTANT)
     Q_PROPERTY(qreal zoomLevel READ zoomLevel WRITE setZoomLevel NOTIFY zoomLevelChanged)
+    Q_PROPERTY(bool hasNetwork READ hasNetwork CONSTANT)
 public:
-    explicit MindMapControllerBase(const QString& id, QObject* parent= nullptr);
+    explicit MindMapControllerBase(bool hasNetwork, const QString& id, QObject* parent= nullptr);
     virtual ~MindMapControllerBase();
 
     mindmap::MindItemModel* itemModel() const;
@@ -100,6 +101,8 @@ public:
 
     qreal zoomLevel() const;
     void setZoomLevel(qreal newZoomLevel);
+
+    bool hasNetwork() const;
 
 signals:
     void spacingChanged();
@@ -156,9 +159,8 @@ protected:
     QString m_errorMsg;
     bool m_linkLabelVisibility;
     QRectF m_contentRect;
-
-private:
     qreal m_zoomLevel= 1.0;
+    bool m_hasNetwork;
 };
 } // namespace mindmap
 #endif // MINDMAPCONTROLLERBASE_H

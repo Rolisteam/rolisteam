@@ -17,34 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "utils/mappinghelper.h"
+#include "maincontroller.h"
 
-#include <QDebug>
-namespace utils
+#include "utils/iohelper.h"
+#include "worker/iohelper.h"
+#include "worker/utilshelper.h"
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QStyle>
+#include <QtConcurrent>
+
+QJsonObject openFile(const QUrl& url, MainController* ctrl)
 {
-MappingHelper::MappingHelper(QObject* parent) : QObject{parent} {}
-QSizeF MappingHelper::mapSizeTo(const QSizeF& maxSize, const QSizeF& currentSize)
-{
-    return currentSize.scaled(maxSize, Qt::KeepAspectRatio);
+    auto array= utils::IOHelper::loadFile(url.toLocalFile());
+    if(!ctrl || array.isEmpty())
+        return {};
+
+    return IOHelper::textByteArrayToJsonObj(array);
 }
 
-QRectF MappingHelper::smallRect(const QRectF &sizeItem, const QRectF &childrenSize, const QRectF& parentSize)
+MainController::MainController(QObject* parent) : mindmap::MindMapControllerBase{false, {"mindmap"}, parent} {}
+
+void MainController::openFile(const QUrl& file)
 {
+    setUrl(file);
 
+    helper::utils::setContinuation<QJsonObject>(
+        QtConcurrent::run([this, file]() { return ::openFile(file, this); }), this,
+        [this](const QJsonObject& obj) { IOHelper::readMindmapControllerBase(this, obj); });
 }
-
-QRectF MappingHelper::maxRect(const QRectF &parentRect, const QRectF &childrenRect)
-{
-    return parentRect.united(childrenRect);
-}
-
-QRectF MappingHelper::mapRectInto(const QRectF& maxRect, const QRectF& viewRect, const QRectF& imageRect)
-{
-    // maxRect => viewRect
-    // imageRect => res
-    auto res= imageRect;
-
-    return res;
-    // return viewRect * imageRect / maxRect;
-}
-} // namespace utils

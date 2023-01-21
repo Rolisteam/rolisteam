@@ -37,18 +37,17 @@
 #include "mindmap/data/packagenode.h"
 #include "mindmap/data/positioneditem.h"
 #include "mindmap/model/imagemodel.h"
-#include "mindmap/model/nodeimageprovider.h"
 #include "mindmap/model/nodestylemodel.h"
-#include "mindmap/worker/fileserializer.h"
 
 namespace mindmap
 {
-MindMapControllerBase::MindMapControllerBase(const QString& id, QObject* parent)
+MindMapControllerBase::MindMapControllerBase(bool hasNetwork, const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::MINDMAP, parent)
     , m_selectionController(new SelectionController())
     , m_imgModel(new mindmap::ImageModel)
     , m_itemModel(new MindItemModel(m_imgModel.get()))
     , m_styleModel(new NodeStyleModel())
+    , m_hasNetwork(hasNetwork)
 {
     m_selectionController->setUndoStack(&m_stack);
 
@@ -414,6 +413,11 @@ void MindMapControllerBase::setZoomLevel(qreal newZoomLevel)
         return;
     m_zoomLevel= newZoomLevel;
     emit zoomLevelChanged();
+}
+
+bool MindMapControllerBase::hasNetwork() const
+{
+    return m_hasNetwork;
 }
 
 } // namespace mindmap

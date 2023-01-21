@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
     auto engine= new QQmlApplicationEngine();
     auto player= new PlayerModel();
     auto avatar= new AvatarProvider(player);
-    auto ap= new Player("aaa", "Obi", Qt::red);
+    auto ap= new Player("aaa", "Obi", QColor(Qt::red));
     player->addPlayer(ap);
     engine->addImageProvider("avatar", avatar);
     engine->addImportPath("qrc:/qml");

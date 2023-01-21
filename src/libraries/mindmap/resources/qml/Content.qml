@@ -9,22 +9,23 @@ import utils
 
 Pane {
     id: root
-    visible: true
-    width: 800
-    height: 400
+
     property QtObject styleSheet: Theme.styleSheet("mindmap")
     property real viewScale: 1
     property int idx: 0
     property bool darkMode: false
     property alias addPackage: _buttonGrid.addPackage
-    property MindMapController ctrl: MindmapManager.ctrl
+    required property MindMapController ctrl
+    property alias actions: _buttonGrid.actions
+
+
 
     onDarkModeChanged: Theme.nightMode = root.darkMode
 
-    Component.onCompleted: {
+    /*Component.onCompleted: {
         MindmapManager.ctrl.url = "file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/mindmap/campaign/media/test.rmap"
         //MindmapManager.ctrl.loadFile();
-    }
+    }*/
 
     MindMap {
         id: mindMap
@@ -107,6 +108,7 @@ Pane {
 
     ButtonGrid {
         id: _buttonGrid
+        ctrl: root.ctrl
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.rightMargin: 14
@@ -149,11 +151,10 @@ Pane {
         MappingHelper {
             id: helper
         }
-        property size computedSize: helper.mapSizeTo(
-                                        Qt.size(_bottomControl.width,_bottomControl.width),
-                                        Qt.size(mindMap.innerItem.width, mindMap.innerItem.height))
-        height: _minimized.computedSize.height
-        width: _minimized.computedSize.width
+        width: _bottomControl.width
+        height: width/2
+
+        sourceRect: helper.maxRect(Qt.rect(0,0, root.width, root.height), Qt.rect(0,0, mindMap.innerItem.width, mindMap.innerItem.height))
 
         Rectangle {
             border.width: 2
@@ -163,7 +164,6 @@ Pane {
             y: mindMap.visibleArea.yPosition * _minimized.height
             width: mindMap.visibleArea.widthRatio * _minimized.width
             height: mindMap.visibleArea.heightRatio * _minimized.height
-
         }
     }
     RowLayout {

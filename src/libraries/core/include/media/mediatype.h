@@ -511,8 +511,8 @@ constexpr char const* JSON_MINDITEM_VISIBLE{"visible"};
 constexpr char const* JSON_MINDITEM_SELECTED{"selected"};
 constexpr char const* JSON_MINDITEM_TYPE{"type"};
 
-constexpr char const* JSON_POSITIONED_POSITIONX{"position.x"};
-constexpr char const* JSON_POSITIONED_POSITIONY{"position.y"};
+constexpr char const* JSON_POSITIONED_POSITIONX{"x"};
+constexpr char const* JSON_POSITIONED_POSITIONY{"y"};
 constexpr char const* JSON_POSITIONED_CENTERX{"center.x"};
 constexpr char const* JSON_POSITIONED_CENTERY{"center.y"};
 constexpr char const* JSON_POSITIONED_WIDTH{"width"};
