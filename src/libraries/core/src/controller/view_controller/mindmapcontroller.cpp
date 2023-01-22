@@ -29,7 +29,6 @@
 #include <QUrl>
 #include <random>
 
-
 #include "mindmap/controller/spacingcontroller.h"
 #include "mindmap/model/minditemmodel.h"
 #include "updater/media/mindmapupdater.h"
@@ -42,46 +41,56 @@ MindMapController::MindMapController(const QString& id, QObject* parent) : MindM
     m_selectionController->setUndoStack(&m_stack);
 
     MediaControllerBase::connect(m_itemModel.get(), &mindmap::MindItemModel::rowsInserted,
-                                 static_cast<MediaControllerBase*>(this), [this] {
-                                     //qDebug() << "Row inserted";
+                                 static_cast<MediaControllerBase*>(this),
+                                 [this]
+                                 {
+                                     // qDebug() << "Row inserted";
                                      setModified();
                                  });
     MediaControllerBase::connect(m_itemModel.get(), &mindmap::MindItemModel::dataChanged,
                                  static_cast<MediaControllerBase*>(this),
-                                 [this](const QModelIndex&, const QModelIndex&, QVector<int> roles) {
+                                 [this](const QModelIndex&, const QModelIndex&, QVector<int> roles)
+                                 {
                                      if(!roles.contains(mindmap::MindItemModel::LinkPositionFromSpacing))
                                      {
-                                         //qDebug() << "dataChanged" << roles;
+                                         // qDebug() << "dataChanged" << roles;
                                          setModified();
                                      }
                                  });
     MediaControllerBase::connect(m_itemModel.get(), &mindmap::MindItemModel::rowsRemoved,
-                                 static_cast<MediaControllerBase*>(this), [this] {
-                                     //qDebug() << "Row rowsRemoved";
+                                 static_cast<MediaControllerBase*>(this),
+                                 [this]
+                                 {
+                                     // qDebug() << "Row rowsRemoved";
                                      setModified();
                                  });
 
     MediaControllerBase::connect(this, &MindMapController::defaultStyleIndexChanged,
-                                 static_cast<MediaControllerBase*>(this), [this] {
-                                     //qDebug() << "Default style changed";
+                                 static_cast<MediaControllerBase*>(this),
+                                 [this]
+                                 {
+                                     // qDebug() << "Default style changed";
                                      setModified();
                                  });
 
     MediaControllerBase::connect(this, &MindMapController::nameChanged, static_cast<MediaControllerBase*>(this),
-                                 [this] {
-                                     //qDebug() << "name Changed";
+                                 [this]
+                                 {
+                                     // qDebug() << "name Changed";
                                      setModified();
                                  });
 
-    MediaControllerBase::connect(this, &MindMapController::titleChanged, static_cast<MediaControllerBase*>(this),
+    /*MediaControllerBase::connect(this, &MindMapController::titleChanged, static_cast<MediaControllerBase*>(this),
                                  [this] {
                                      //qDebug() << "title changed";
                                      setModified();
+                                 });*/
+    MediaControllerBase::connect(this, &MindMapController::urlChanged, static_cast<MediaControllerBase*>(this),
+                                 [this]
+                                 {
+                                     qDebug() << "url changed";
+                                     setModified();
                                  });
-    MediaControllerBase::connect(this, &MindMapController::urlChanged, static_cast<MediaControllerBase*>(this), [this] {
-        qDebug() << "url changed";
-        setModified();
-    });
 
     clearData();
 }

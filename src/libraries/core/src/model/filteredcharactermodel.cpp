@@ -64,6 +64,7 @@ FilteredCharacterModel::FilteredCharacterModel()
     connect(this, &FilteredCharacterModel::tagsChanged, this, &FilteredCharacterModel::invalidateFilter);
     connect(this, &FilteredCharacterModel::excludeTagsChanged, this, &FilteredCharacterModel::invalidateFilter);
     connect(this, &FilteredCharacterModel::hlStateChanged, this, &FilteredCharacterModel::invalidateFilter);
+    connect(this, &FilteredCharacterModel::characterStateIdChanged, this, &FilteredCharacterModel::invalidateFilter);
 }
 
 FilteredCharacterModel::Definition FilteredCharacterModel::initiativeCmdDef() const
@@ -228,6 +229,7 @@ bool FilteredCharacterModel::filterAcceptsRow(int source_row, const QModelIndex&
         auto properties= isAccepted<int>(m_propertiesDef, sourceModel()->data(nameIndex, nm::RolePropertiesCount).toInt());
         auto shapes= isAccepted<int>(m_shapeDef, sourceModel()->data(nameIndex, nm::RoleShapeCount).toInt());
         auto details= isAccepted<QString>(m_gmdetailsDef, gmdetails);
+        auto characterState= m_characterStateId.isEmpty() ? true : (m_characterStateId == sourceModel()->data(nameIndex, nm::RoleState).toString());
 
         auto current = sourceModel()->data(nameIndex, nm::RoleCurrentHp).toInt();
         auto min = sourceModel()->data(nameIndex, nm::RoleMinHp).toInt();
@@ -242,7 +244,7 @@ bool FilteredCharacterModel::filterAcceptsRow(int source_row, const QModelIndex&
         auto excludeTags= !(m_excludeTags.isEmpty() ? false : tagList.join(QString()).contains(m_excludeTags, Qt::CaseInsensitive));
 
         accepted= avatar & initScore & actions & properties & shapes & details & nameval & exclude & tags & excludeTags
-                   & initCmd & health & gmDetails;
+                  & initCmd & health & gmDetails & characterState;
     }
     else
     {
@@ -261,4 +263,18 @@ bool FilteredCharacterModel::lessThan(const QModelIndex& source_left, const QMod
 
     return data1 < data2;
 }
+
+QString FilteredCharacterModel::characeterStateId() const
+{
+    return m_characeterStateId;
+}
+
+void FilteredCharacterModel::setCharaceterStateId(const QString &newCharaceterStateId)
+{
+    if (m_characeterStateId == newCharaceterStateId)
+        return;
+    m_characeterStateId = newCharaceterStateId;
+    emit characeterStateIdChanged();
+}
+
 } // namespace campaign
