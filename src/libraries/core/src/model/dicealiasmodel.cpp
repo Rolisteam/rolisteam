@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "model/dicealiasmodel.h"
 
+#include <QColor>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QObject>
@@ -48,30 +49,37 @@ QVariant DiceAliasModel::data(const QModelIndex& index, int role) const
 
     auto const& diceAlias= m_diceAliasList.at(index.row());
 
+    if(!diceAlias)
+        return {};
+
     if((Qt::DisplayRole == role) || (Qt::EditRole == role))
     {
-        if(nullptr != diceAlias)
+        if(index.column() == PATTERN)
         {
-            if(index.column() == PATTERN)
-            {
-                return diceAlias->pattern();
-            }
-            else if(index.column() == COMMAND)
-            {
-                return diceAlias->command();
-            }
-            else if(index.column() == METHOD)
-            {
-                return !diceAlias->isReplace();
-            }
-            else if(index.column() == DISABLE)
-            {
-                return !diceAlias->isEnable();
-            }
-            else if(index.column() == COMMENT)
-            {
-                return diceAlias->comment();
-            }
+            return diceAlias->pattern();
+        }
+        else if(index.column() == COMMAND)
+        {
+            return diceAlias->command();
+        }
+        else if(index.column() == METHOD)
+        {
+            return !diceAlias->isReplace();
+        }
+        else if(index.column() == DISABLE)
+        {
+            return !diceAlias->isEnable();
+        }
+        else if(index.column() == COMMENT)
+        {
+            return diceAlias->comment();
+        }
+    }
+    else if(Qt::BackgroundRole == role)
+    {
+        if(!diceAlias->isEnable())
+        {
+            return QColor(Qt::red).lighter();
         }
     }
     else if(Qt::TextAlignmentRole == role)

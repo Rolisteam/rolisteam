@@ -17,47 +17,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNPROPERTIES_H
-#define CAMPAIGNPROPERTIES_H
+#ifndef RWIDGETS_STATEDELEGATE_H
+#define RWIDGETS_STATEDELEGATE_H
 
-#include <QDialog>
-#include <QPointer>
-
-#include "data/campaign.h"
-#include "diceparser.h"
 #include "rwidgets_global.h"
 
-namespace Ui
-{
-class CampaignProperties;
-}
-class ThemeModel;
-class RWIDGET_EXPORT CampaignProperties : public QDialog
+#include "model/characterstatemodel.h"
+#include <QAbstractItemModel>
+#include <QPointer>
+#include <QStyledItemDelegate>
+
+class RWIDGET_EXPORT StateDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
-
 public:
-    enum class Tab
-    {
-        Properties,
-        Dice,
-        States
-    };
-    Q_ENUM(Tab);
-    explicit CampaignProperties(campaign::Campaign* manager, ThemeModel* themeModel, QWidget* parent= nullptr);
+    StateDelegate(CharacterStateModel* states, QObject* parent= nullptr);
 
-    ~CampaignProperties();
-
-    void setCurrentTab(Tab tab);
+    QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+    virtual void setEditorData(QWidget* editor, const QModelIndex& index) const override;
+    virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const override;
 
 private:
-    Ui::CampaignProperties* ui;
-    QPointer<campaign::Campaign> m_campaign;
-    std::unique_ptr<DiceParser> m_diceParser;
+    QPointer<CharacterStateModel> m_stateModel;
 };
 
-inline uint qHash(const CampaignProperties::Tab& key, uint seed)
-{
-    return qHash(static_cast<int>(key), seed);
-}
-#endif // CAMPAIGNPROPERTIES_H
+#endif // RWIDGETS_STATEDELEGATE_H

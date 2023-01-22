@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2021 by Renaud Guezennec                               *
+ *	Copyright (C) 2023 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,47 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNPROPERTIES_H
-#define CAMPAIGNPROPERTIES_H
+#include "model/proxystatemodel.h"
+#include "model/characterstatemodel.h"
 
-#include <QDialog>
-#include <QPointer>
-
-#include "data/campaign.h"
-#include "diceparser.h"
-#include "rwidgets_global.h"
-
-namespace Ui
+ProxyStateModel::ProxyStateModel(QAbstractItemModel* source, QObject* parent)
+    : QAbstractListModel(parent), m_source(source)
 {
-class CampaignProperties;
 }
-class ThemeModel;
-class RWIDGET_EXPORT CampaignProperties : public QDialog
+
+QVariant ProxyStateModel::headerData(int, Qt::Orientation, int) const
 {
-    Q_OBJECT
-
-public:
-    enum class Tab
-    {
-        Properties,
-        Dice,
-        States
-    };
-    Q_ENUM(Tab);
-    explicit CampaignProperties(campaign::Campaign* manager, ThemeModel* themeModel, QWidget* parent= nullptr);
-
-    ~CampaignProperties();
-
-    void setCurrentTab(Tab tab);
-
-private:
-    Ui::CampaignProperties* ui;
-    QPointer<campaign::Campaign> m_campaign;
-    std::unique_ptr<DiceParser> m_diceParser;
-};
-
-inline uint qHash(const CampaignProperties::Tab& key, uint seed)
-{
-    return qHash(static_cast<int>(key), seed);
+    return {};
 }
-#endif // CAMPAIGNPROPERTIES_H
+
+int ProxyStateModel::rowCount(const QModelIndex& parent) const
+{
+    if(parent.isValid())
+        return 0;
+
+    return m_source->rowCount() + 1;
+}
+
+QVariant ProxyStateModel::data(const QModelIndex& index, int role) const
+{
+    if(!index.isValid())
+        return QVariant();
+
+    auto r= index.row();
+
+    QVariant res;
+    if(r == 0 && role == Qt::DisplayRole)
+        res= tr("Any");
+    else if(r == 0 && role == CharacterStateModel::ID)
+        res= QString{};
+    else if(r > 0)
+        res= m_source->data(m_source->index(r - 1, index.column()), role);
+
+    return res;
+}

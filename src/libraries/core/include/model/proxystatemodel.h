@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2021 by Renaud Guezennec                               *
+ *	Copyright (C) 2023 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,47 +17,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNPROPERTIES_H
-#define CAMPAIGNPROPERTIES_H
+#ifndef PROXYSTATEMODEL_H
+#define PROXYSTATEMODEL_H
 
-#include <QDialog>
+#include <QAbstractItemModel>
+#include <QAbstractListModel>
 #include <QPointer>
+#include <core_global.h>
 
-#include "data/campaign.h"
-#include "diceparser.h"
-#include "rwidgets_global.h"
-
-namespace Ui
-{
-class CampaignProperties;
-}
-class ThemeModel;
-class RWIDGET_EXPORT CampaignProperties : public QDialog
+class CORE_EXPORT ProxyStateModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    enum class Tab
-    {
-        Properties,
-        Dice,
-        States
-    };
-    Q_ENUM(Tab);
-    explicit CampaignProperties(campaign::Campaign* manager, ThemeModel* themeModel, QWidget* parent= nullptr);
+    explicit ProxyStateModel(QAbstractItemModel* source, QObject* parent= nullptr);
 
-    ~CampaignProperties();
-
-    void setCurrentTab(Tab tab);
+    // Header:
+    QVariant headerData(int, Qt::Orientation, int= Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
 private:
-    Ui::CampaignProperties* ui;
-    QPointer<campaign::Campaign> m_campaign;
-    std::unique_ptr<DiceParser> m_diceParser;
+    QPointer<QAbstractItemModel> m_source;
 };
 
-inline uint qHash(const CampaignProperties::Tab& key, uint seed)
-{
-    return qHash(static_cast<int>(key), seed);
-}
-#endif // CAMPAIGNPROPERTIES_H
+#endif // PROXYSTATEMODEL_H

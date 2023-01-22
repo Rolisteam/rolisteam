@@ -21,7 +21,11 @@
 
 #include <QUuid>
 
-CharacterState::CharacterState() : m_id(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
+CharacterState::CharacterState() : m_id(QUuid::createUuid().toString(QUuid::WithoutBraces))
+{
+    int a= 10;
+    a= a + 10;
+}
 CharacterState::CharacterState(const CharacterState& copy)
 {
     m_id= copy.id();
@@ -38,6 +42,8 @@ QString CharacterState::id() const
 
 void CharacterState::setId(const QString& id)
 {
+    if(id.isEmpty())
+        return;
     m_id= id;
 }
 

@@ -40,7 +40,7 @@ Campaign::Campaign(QObject* parent)
     : QObject(parent)
     , m_diceModel(new DiceAliasModel)
     , m_stateModel(new CharacterStateModel)
-    , m_npcModel(new campaign::NonPlayableCharacterModel)
+    , m_npcModel(new campaign::NonPlayableCharacterModel(m_stateModel.get()))
 {
     CharacterFinder::setNpcModel(m_npcModel.get());
     connect(this, &Campaign::mediaAdded, this, &Campaign::diskUsageChanged);

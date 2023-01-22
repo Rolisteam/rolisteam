@@ -112,6 +112,7 @@ FilteredCharacterModel::FilteredCharacterModel()
     connect(this, &FilteredCharacterModel::tagsChanged, this, &FilteredCharacterModel::invalidateFilter);
     connect(this, &FilteredCharacterModel::excludeTagsChanged, this, &FilteredCharacterModel::invalidateFilter);
     connect(this, &FilteredCharacterModel::hlStateChanged, this, &FilteredCharacterModel::invalidateFilter);
+    connect(this, &FilteredCharacterModel::characterStateIdChanged, this, &FilteredCharacterModel::invalidateFilter);
 }
 
 FilteredCharacterModel::Definition FilteredCharacterModel::initiativeCmdDef() const
@@ -267,7 +268,7 @@ bool FilteredCharacterModel::filterAcceptsRow(int source_row, const QModelIndex&
     bool accepted= true;
     if(advanced())
     {
-        auto gmdetails = sourceModel()->data(nameIndex, nm::RoleGmDetails).toString();
+        auto gmdetails= sourceModel()->data(nameIndex, nm::RoleGmDetails).toString();
         // clang-format off
         auto avatar= isAccepted<QPixmap>(m_avatarDefinition, sourceModel()->data(nameIndex, nm::RoleAvatar).value<QPixmap>());
         auto initScore= isAccepted<bool>(m_initiativeScoreDef, sourceModel()->data(nameIndex, nm::RoleHasInitiative).toBool());
@@ -276,6 +277,7 @@ bool FilteredCharacterModel::filterAcceptsRow(int source_row, const QModelIndex&
         auto properties= isAccepted<int>(m_propertiesDef, sourceModel()->data(nameIndex, nm::RolePropertiesCount).toInt());
         auto shapes= isAccepted<int>(m_shapeDef, sourceModel()->data(nameIndex, nm::RoleShapeCount).toInt());
         auto details= isAccepted<QString>(m_gmdetailsDef, gmdetails);
+        auto characterState= m_characterStateId.isEmpty() ? true : (m_characterStateId == sourceModel()->data(nameIndex, nm::RoleState).toString());
 
         auto current = sourceModel()->data(nameIndex, nm::RoleCurrentHp).toInt();
         auto min = sourceModel()->data(nameIndex, nm::RoleMinHp).toInt();
@@ -287,10 +289,11 @@ bool FilteredCharacterModel::filterAcceptsRow(int source_row, const QModelIndex&
         auto gmDetails= m_gmdetails.isEmpty() ? true : gmdetails.contains(m_gmdetails, Qt::CaseInsensitive);
         auto exclude= !(m_exclude.isEmpty() ? false : name.contains(m_exclude, Qt::CaseInsensitive));
         auto tags= m_tags.isEmpty() ? true : tagList.join(QString()).contains(m_tags, Qt::CaseInsensitive);
-        auto excludeTags= !(m_excludeTags.isEmpty() ? false : tagList.join(QString()).contains(m_excludeTags, Qt::CaseInsensitive));
+        auto excludeTags
+            = !(m_excludeTags.isEmpty() ? false : tagList.join(QString()).contains(m_excludeTags, Qt::CaseInsensitive));
 
         accepted= avatar & initScore & actions & properties & shapes & details & nameval & exclude & tags & excludeTags
-                  & initCmd & health & gmDetails;
+                  & initCmd & health & gmDetails & characterState;
     }
     else
     {
@@ -300,6 +303,19 @@ bool FilteredCharacterModel::filterAcceptsRow(int source_row, const QModelIndex&
     }
 
     return accepted;
+}
+
+QString FilteredCharacterModel::characterStateId() const
+{
+    return m_characterStateId;
+}
+
+void FilteredCharacterModel::setCharacterStateId(const QString& newCharacterStateId)
+{
+    if(m_characterStateId == newCharacterStateId)
+        return;
+    m_characterStateId= newCharacterStateId;
+    emit characterStateIdChanged();
 }
 
 bool FilteredCharacterModel::lessThan(const QModelIndex& source_left, const QModelIndex& source_right) const
@@ -338,6 +354,7 @@ AntagonistBoardController::AntagonistBoardController(campaign::CampaignEditor* e
 
         connect(m_filteredModel.get(), &FilteredCharacterModel::searchChanged, this,
                 &AntagonistBoardController::searchTextChanged);
+        connect(campaign, &campaign::Campaign::stateModelChanged, this, &AntagonistBoardController::stateModelChanged);
     }
 }
 
@@ -520,6 +537,18 @@ void FilteredCharacterModel::setHlState(FilteredCharacterModel::HealthState newH
 ColorModel* AntagonistBoardController::colorModel() const
 {
     return m_colorModel.get();
+}
+
+CharacterStateModel* AntagonistBoardController::stateModel() const
+{
+    if(!m_editor)
+        return nullptr;
+
+    auto camp= m_editor->campaign();
+    if(!camp)
+        return nullptr;
+
+    return camp->stateModel();
 }
 
 } // namespace campaign

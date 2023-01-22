@@ -25,6 +25,7 @@
 #include "delegates/checkboxdelegate.h"
 #include "delegates/colordelegate.h"
 #include "delegates/imagepathdelegateitem.h"
+#include "dicealias.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
 #include "model/thememodel.h"
@@ -74,10 +75,23 @@ CampaignProperties::CampaignProperties(campaign::Campaign* capm, ThemeModel* the
             [this]() { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::DOWN); });
     connect(ui->m_topDiceAliasAct, &QToolButton::clicked, this,
             [this]() { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::TOP); });
-    connect(ui->m_bottomDiceAliasAct, &QToolButton::clicked, this, [this]() {
-        m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::BOTTOM);
-    });
-    // connect(ui->m_testPushButton, &QToolButton::clicked, this, &campaign::CampaignManager::testAliasCommand);
+    connect(ui->m_bottomDiceAliasAct, &QToolButton::clicked, this,
+            [this]()
+            { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::BOTTOM); });
+    connect(ui->m_testPushButton, &QToolButton::clicked, this,
+            [this]
+            {
+                auto input= ui->m_cmdDiceEdit->text();
+                auto const& aliases= m_campaign->diceAliases()->aliases();
+                for(auto const& alias : aliases)
+                {
+                    if(!alias)
+                        continue;
+
+                    alias->resolved(input);
+                }
+                ui->m_convertedCmdEdit->setText(input);
+            });
 
     // States
     connect(ui->m_addCharacterStateAct, &QToolButton::clicked, m_campaign, &campaign::Campaign::addState);

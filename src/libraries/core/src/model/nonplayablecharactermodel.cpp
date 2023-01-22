@@ -78,7 +78,8 @@ void NonPlayableCharacter::setDescription(const QString& desc)
     emit descriptionChanged();
 }
 
-NonPlayableCharacterModel::NonPlayableCharacterModel(QObject* parent) : QAbstractListModel(parent)
+NonPlayableCharacterModel::NonPlayableCharacterModel(CharacterStateModel* states, QObject* parent)
+    : QAbstractListModel(parent), m_states(states)
 {
     m_header << tr("Avatar") << tr("Name") << tr("Description") << tr("GM Details") << tr("Tags") << tr("Color")
              << tr("Min HP") << tr("Current HP") << tr("Max HP") << tr("Initiative") << tr("Distance Per turn")
@@ -191,7 +192,10 @@ QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) con
         res= character->getDistancePerTurn();
         break;
     case RoleState:
-        res= character->stateId();
+        if(role == Qt::DisplayRole)
+            res= stateName(character->stateId());
+        else if(role == Qt::EditRole || role == RoleState)
+            res= character->stateId();
         break;
     case RoleLifeColor:
         res= character->getLifeColor();
@@ -307,6 +311,14 @@ bool NonPlayableCharacterModel::setData(const QModelIndex& index, const QVariant
         return res;
     }
     return false;
+}
+
+QString NonPlayableCharacterModel::stateName(const QString& id) const
+{
+    if(!m_states)
+        return id;
+
+    return m_states->stateLabelFromId(id);
 }
 
 Qt::ItemFlags NonPlayableCharacterModel::flags(const QModelIndex& index) const

@@ -18,10 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "model/characterstatemodel.h"
-#include "network/networkmessagewriter.h"
-#include "preferences/preferencesmanager.h"
 
-#include "data/character.h"
 #include <QBuffer>
 #include <QColor>
 #include <QJsonArray>
@@ -43,18 +40,20 @@ QVariant CharacterStateModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())
         return {};
+    QSet<int> allowedRole{Qt::EditRole, Qt::DisplayRole, Qt::BackgroundRole, LABEL, COLOR, PICTUREPATH, PICTURE, ID};
+
+    if(!allowedRole.contains(role))
+        return {};
 
     QVariant var;
     auto const& state= m_stateList[static_cast<std::size_t>(index.row())];
-
-    QVector<int> roles{LABEL, COLOR, PICTUREPATH, PICTURE, ID};
-    QSet<int> allowedRole{Qt::EditRole, Qt::DisplayRole, Qt::BackgroundRole};
     auto c= index.column();
 
-    if((role == Qt::BackgroundRole && roles[c] != COLOR) || !allowedRole.contains(role))
-        return var;
+    int realRole= role;
+    if(role < LABEL)
+        realRole= LABEL + c;
 
-    switch(roles[c])
+    switch(realRole)
     {
     case LABEL:
         var= state->label();
@@ -94,6 +93,16 @@ QVariant CharacterStateModel::headerData(int section, Qt::Orientation orientatio
         }
     }
     return QVariant();
+}
+int CharacterStateModel::indexFromId(const QString& id) const
+{
+    auto it= std::find_if(std::begin(m_stateList), std::end(m_stateList),
+                          [id](const std::unique_ptr<CharacterState>& state) { return id == state->id(); });
+
+    if(it == std::end(m_stateList))
+        return -1;
+
+    return std::distance(std::begin(m_stateList), it);
 }
 /*void CharacterStateModel::setStates(QList<CharacterState*>* lst)
 {
@@ -143,11 +152,18 @@ QVariant CharacterStateModel::headerData(int section, Qt::Orientation orientatio
 }
 */
 
-void CharacterStateModel::appendState(CharacterState&& state)
+void CharacterStateModel::appendState(CharacterState&& stateRef)
 {
+    auto isInside= std::find_if(std::begin(m_stateList), std::end(m_stateList),
+                                [stateRef](const std::unique_ptr<CharacterState>& state)
+                                { return state->id() == stateRef.id(); });
+
+    if(isInside != std::end(m_stateList))
+        return;
+
     auto pos= static_cast<int>(m_stateList.size());
     beginInsertRows(QModelIndex(), pos, pos);
-    m_stateList.push_back(std::make_unique<CharacterState>(state));
+    m_stateList.push_back(std::make_unique<CharacterState>(stateRef));
     endInsertRows();
     auto const& it= m_stateList.end() - 1;
     emit characterStateAdded((*it).get(), pos);
@@ -201,10 +217,11 @@ void CharacterStateModel::deleteState(const QModelIndex& index)
         return;
     beginRemoveRows(QModelIndex(), index.row(), index.row());
     auto const& it= m_stateList.begin() + index.row();
+    auto id= (*it)->id();
     m_stateList.erase(it);
     endRemoveRows();
 
-    emit stateRemoved((*it)->id());
+    emit stateRemoved(id);
 }
 void CharacterStateModel::upState(const QModelIndex& index)
 {
@@ -279,6 +296,20 @@ void CharacterStateModel::moveState(int from, int to)
 void CharacterStateModel::removeStateAt(int i)
 {
     deleteState(index(i, 0));
+}
+
+QString CharacterStateModel::stateLabelFromId(const QString& id)
+{
+    if(id.isEmpty())
+        return {};
+
+    auto it= std::find_if(std::begin(m_stateList), std::end(m_stateList),
+                          [id](const std::unique_ptr<CharacterState>& state) { return state->id() == id; });
+
+    if(it == std::end(m_stateList))
+        return {};
+
+    return (*it)->label();
 }
 
 void CharacterStateModel::clear()

@@ -17,47 +17,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CAMPAIGNPROPERTIES_H
-#define CAMPAIGNPROPERTIES_H
+#include "statedelegate.h"
 
-#include <QDialog>
-#include <QPointer>
+#include <QComboBox>
 
-#include "data/campaign.h"
-#include "diceparser.h"
-#include "rwidgets_global.h"
-
-namespace Ui
+StateDelegate::StateDelegate(CharacterStateModel* states, QObject* object)
+    : QStyledItemDelegate(object), m_stateModel(states)
 {
-class CampaignProperties;
 }
-class ThemeModel;
-class RWIDGET_EXPORT CampaignProperties : public QDialog
+
+QWidget* StateDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
+                                     const QModelIndex& index) const
 {
-    Q_OBJECT
-
-public:
-    enum class Tab
-    {
-        Properties,
-        Dice,
-        States
-    };
-    Q_ENUM(Tab);
-    explicit CampaignProperties(campaign::Campaign* manager, ThemeModel* themeModel, QWidget* parent= nullptr);
-
-    ~CampaignProperties();
-
-    void setCurrentTab(Tab tab);
-
-private:
-    Ui::CampaignProperties* ui;
-    QPointer<campaign::Campaign> m_campaign;
-    std::unique_ptr<DiceParser> m_diceParser;
-};
-
-inline uint qHash(const CampaignProperties::Tab& key, uint seed)
-{
-    return qHash(static_cast<int>(key), seed);
+    auto wid= new QComboBox(parent);
+    wid->setModel(m_stateModel);
+    return wid;
 }
-#endif // CAMPAIGNPROPERTIES_H
+
+void StateDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
+{
+    auto combo= qobject_cast<QComboBox*>(editor);
+
+    if(!combo)
+        return;
+
+    auto pos= m_stateModel->indexFromId(index.data(CharacterStateModel::ID).toString());
+
+    combo->setCurrentIndex(pos);
+}
+void StateDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+{
+    auto combo= qobject_cast<QComboBox*>(editor);
+
+    if(!combo)
+        return;
+
+    auto pos= combo->currentIndex();
+    auto id= m_stateModel->data(m_stateModel->index(pos, 0), CharacterStateModel::ID).toString();
+
+    model->setData(index, id);
+}

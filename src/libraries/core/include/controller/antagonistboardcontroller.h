@@ -27,6 +27,7 @@
 #include <memory>
 
 #include "core_global.h"
+#include "model/characterstatemodel.h"
 #include "model/colormodel.h"
 #include "model/genericmodel.h"
 #include "model/nonplayablecharactermodel.h"
@@ -62,6 +63,7 @@ class CORE_EXPORT FilteredCharacterModel : public QSortFilterProxyModel
     Q_PROPERTY(Definition gmdetailsDef READ gmdetailsDef WRITE setGmdetailsDef NOTIFY gmdetailsDefChanged)
     Q_PROPERTY(QString gmdetails READ gmdetails WRITE setGmdetails NOTIFY gmdetailsChanged)
     Q_PROPERTY(FilteredCharacterModel::HealthState hlState READ hlState WRITE setHlState NOTIFY hlStateChanged)
+    Q_PROPERTY(QString characterStateId READ characterStateId WRITE setCharacterStateId NOTIFY characterStateIdChanged)
     // clang-format on
 public:
     enum Definition
@@ -123,6 +125,9 @@ public:
     FilteredCharacterModel::HealthState hlState() const;
     void setHlState(FilteredCharacterModel::HealthState newHlState);
 
+    QString characterStateId() const;
+    void setCharacterStateId(const QString& newCharacterStateId);
+
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
     bool lessThan(const QModelIndex& source_left, const QModelIndex& source_right) const override;
@@ -143,6 +148,8 @@ signals:
     void gmdetailsChanged();
     void hlStateChanged();
 
+    void characterStateIdChanged();
+
 private:
     QString m_search;
     int m_role= -1;
@@ -159,6 +166,7 @@ private:
     QString m_excludeTags;
     QString m_gmdetails;
     FilteredCharacterModel::HealthState m_hlState{HS_All};
+    QString m_characterStateId;
 };
 
 class CORE_EXPORT AntagonistBoardController : public QObject
@@ -168,6 +176,7 @@ class CORE_EXPORT AntagonistBoardController : public QObject
     Q_PROPERTY(GenericModel* actionModel READ actionModel CONSTANT)
     Q_PROPERTY(GenericModel* shapeModel READ shapeModel CONSTANT)
     Q_PROPERTY(GenericModel* propertyModel READ propertyModel CONSTANT)
+    Q_PROPERTY(CharacterStateModel* stateModel READ stateModel NOTIFY stateModelChanged)
     Q_PROPERTY(NonPlayableCharacter* character READ character WRITE setCharacter NOTIFY characterChanged)
     Q_PROPERTY(ColorModel* colorModel READ colorModel CONSTANT)
     Q_PROPERTY(bool editingCharacter READ editingCharacter NOTIFY characterChanged)
@@ -188,6 +197,7 @@ public:
     NonPlayableCharacter* character() const;
 
     ColorModel* colorModel() const;
+    CharacterStateModel* stateModel() const;
 
 public slots:
     void removeData(const QModelIndex& index, campaign::ModelType type);
@@ -205,6 +215,7 @@ signals:
     void characterChanged();
     void searchTextChanged();
     void characterEditionChanged();
+    void stateModelChanged();
 
 private:
     QPointer<campaign::CampaignEditor> m_editor;

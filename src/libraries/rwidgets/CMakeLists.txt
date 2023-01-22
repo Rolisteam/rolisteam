@@ -44,6 +44,7 @@ set(HEADERS
   delegates/checkboxdelegate.h
   delegates/colordelegate.h
   delegates/delegate.h
+  delegates/statedelegate.h
   delegates/imagepathdelegateitem.h
   delegates/taglistdelegate.h
   delegates/userlistdelegate.h
@@ -158,6 +159,7 @@ set(SOURCES
   delegates/imagepathdelegateitem.cpp
   delegates/taglistdelegate.cpp
   delegates/userlistdelegate.cpp
+  delegates/statedelegate.cpp
   dialogs/aboutrolisteam.cpp
   dialogs/campaignproperties.cpp
   dialogs/campaignintegritydialog.cpp

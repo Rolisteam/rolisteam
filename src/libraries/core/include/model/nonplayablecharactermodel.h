@@ -21,10 +21,12 @@
 #define NONPLAYABLECHARACTERMODEL_H
 
 #include "data/character.h"
+#include "model/characterstatemodel.h"
 
 #include <QAbstractListModel>
 #include <QPointer>
 #include <core_global.h>
+
 namespace campaign
 {
 class CORE_EXPORT NonPlayableCharacter : public Character
@@ -117,7 +119,7 @@ public:
         ColUnknown
     };
     Q_ENUM(Columns)
-    explicit NonPlayableCharacterModel(QObject* parent= nullptr);
+    explicit NonPlayableCharacterModel(CharacterStateModel* states, QObject* parent= nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
@@ -149,6 +151,9 @@ public:
     const QString& npcRoot() const;
     void setNpcRoot(const QString& newNpcRoot);
 
+private:
+    QString stateName(const QString& id) const;
+
 signals:
     void characterAdded();
     void characterRemoved(QString id);
@@ -156,6 +161,7 @@ signals:
 
 private:
     std::vector<std::unique_ptr<NonPlayableCharacter>> m_data;
+    QPointer<CharacterStateModel> m_states;
     QStringList m_header;
     QString m_npcRoot;
 };

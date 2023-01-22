@@ -102,12 +102,16 @@ public:
     void deleteState(const QModelIndex& index);
     void clear();
 
+    int indexFromId(const QString& id) const;
+
     void upState(const QModelIndex& index);
     void downState(const QModelIndex& index);
     void topState(const QModelIndex& index);
     void bottomState(const QModelIndex& index);
     void moveState(int from, int to);
     void removeStateAt(int i);
+
+    QString stateLabelFromId(const QString& id);
 
 signals:
     void characterStateAdded(CharacterState* state, int i);

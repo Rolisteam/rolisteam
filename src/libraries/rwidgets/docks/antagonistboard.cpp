@@ -12,19 +12,20 @@
 #include <QMenu>
 
 #include "controller/antagonistboardcontroller.h"
+#include "controller/view_controller/imageselectorcontroller.h"
 #include "data/campaign.h"
 #include "data/campaigneditor.h"
 #include "data/character.h"
+#include "data/rolisteammimedata.h"
 #include "model/genericmodel.h"
 #include "model/nonplayablecharactermodel.h"
-#include "worker/utilshelper.h"
-
-#include "controller/view_controller/imageselectorcontroller.h"
-#include "data/rolisteammimedata.h"
+#include "model/proxystatemodel.h"
 #include "rwidgets/delegates/avatardelegate.h"
+#include "rwidgets/delegates/statedelegate.h"
 #include "rwidgets/delegates/taglistdelegate.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
 #include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 
 namespace campaign
 {
@@ -82,9 +83,22 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     ui->m_antogonistView->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->m_antogonistView->setItemDelegateForColumn(NonPlayableCharacterModel::ColAvatar, new AvatarDelegate(this));
     ui->m_antogonistView->setItemDelegateForColumn(NonPlayableCharacterModel::ColTags, new TagListDelegate(this));
+    ui->m_antogonistView->setItemDelegateForColumn(NonPlayableCharacterModel::ColState,
+                                                   new StateDelegate(m_ctrl->stateModel(), this));
     connect(ui->m_antogonistView, &QTableView::customContextMenuRequested, this, &AntagonistBoard::contextualMenu);
     m_fullModeAct->setCheckable(true);
     m_minimalModeAct->setCheckable(true);
+
+    ui->m_currentState->setModel(new ProxyStateModel(m_ctrl->stateModel(), this));
+    connect(ui->m_currentState, &QComboBox::currentIndexChanged, this,
+            [this]()
+            {
+                auto idx= ui->m_currentState->currentIndex();
+                auto model= m_ctrl->filteredModel();
+                auto stateModel= ui->m_currentState->model();
+                model->setCharacterStateId(
+                    stateModel->data(stateModel->index(idx, 0), CharacterStateModel::ID).toString());
+            });
 
     ui->m_antogonistView->setIconSize(QSize(64, 64));
 
@@ -471,8 +485,8 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
 
     ui->m_colorCombo->setModel(m_ctrl->colorModel());
 
-    connect(ui->m_searchLine, &QLineEdit::textChanged, this, [this]()
-        { m_ctrl->setSearchText(ui->m_searchLine->text());});
+    connect(ui->m_searchLine, &QLineEdit::textChanged, this,
+            [this]() { m_ctrl->setSearchText(ui->m_searchLine->text()); });
 
 #ifndef Q_OS_MAC
     ui->m_actionList->setAlternatingRowColors(true);

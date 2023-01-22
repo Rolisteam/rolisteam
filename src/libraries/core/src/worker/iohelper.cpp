@@ -1163,6 +1163,7 @@ campaign::NonPlayableCharacter* IOHelper::jsonObjectToNpc(const QJsonObject& obj
     auto desc= obj[Core::JsonKey::JSON_NPC_DESCRIPTION].toString();
     auto name= obj[Core::JsonKey::JSON_NPC_NAME].toString();
     auto avatar= obj[Core::JsonKey::JSON_NPC_AVATAR].toString();
+    auto stateid= obj[Core::JsonKey::JSON_NPC_STATEID].toString();
     auto tags= obj[Core::JsonKey::JSON_NPC_TAGS].toArray();
     auto tokenPath= obj[Core::JsonKey::JSON_NPC_TOKEN].toString();
     QStringList list;
@@ -1172,6 +1173,7 @@ campaign::NonPlayableCharacter* IOHelper::jsonObjectToNpc(const QJsonObject& obj
     npc->setUuid(uuid);
     npc->setName(name);
     npc->setDescription(desc);
+    npc->setStateId(stateid);
     npc->setAvatar(utils::IOHelper::loadFile(QString("%1/%2").arg(rootDir, avatar)));
     npc->setAvatarPath(avatar);
     npc->setTags(list);
