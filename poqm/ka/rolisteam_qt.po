@@ -85,7 +85,7 @@ msgstr ""
 #, qt-format
 msgctxt "CharacterList|"
 msgid "Character %1"
-msgstr ""
+msgstr "სიმბოლო %1"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:11
 msgctxt "MockCharacter|"
@@ -172,17 +172,17 @@ msgstr "ყველა გვერდი"
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextInput"
-msgstr ""
+msgstr "TextInput"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextField"
-msgstr ""
+msgstr "TextField"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextArea"
-msgstr ""
+msgstr "TextArea"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
@@ -643,19 +643,19 @@ msgstr "ჩასართავი"
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:51
 msgctxt "QObject|"
 msgid "TextInput"
-msgstr ""
+msgstr "TextInput"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:64
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:55
 msgctxt "QObject|"
 msgid "TextArea"
-msgstr ""
+msgstr "TextArea"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:68
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:59
 msgctxt "QObject|"
 msgid "TextField"
-msgstr ""
+msgstr "TextField"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:73
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:64
@@ -686,7 +686,7 @@ msgstr "დამალული"
 #: src/binaries/rcse/undo/addfieldcommand.cpp:93
 msgctxt "QObject|"
 msgid "LabelField"
-msgstr ""
+msgstr "LabelField"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:97
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:73
@@ -3341,7 +3341,7 @@ msgstr "ვებგვერდი"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:35
 msgctxt "ChannelListPanel|"
 msgid "Edit Channel"
-msgstr ""
+msgstr "არხის ჩასწორება"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:36
 msgctxt "ChannelListPanel|"
