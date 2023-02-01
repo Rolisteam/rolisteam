@@ -29,10 +29,11 @@
 
 #include "mindmap/data/minditem.h"
 #include "mindmap/data/positioneditem.h"
+#include "mindmap/mindmap_global.h"
 
 namespace mindmap
 {
-class LinkController : public MindItem
+class MINDMAP_EXPORT LinkController : public MindItem
 {
     Q_OBJECT
     Q_PROPERTY(Direction direction READ direction WRITE setDirection NOTIFY directionChanged)

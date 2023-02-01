@@ -1210,7 +1210,8 @@ void MainWindow::dropEvent(QDropEvent* event)
     else if(data->hasImage())
     {
         auto contentCtrl= m_gameController->contentController();
-        auto img= qvariant_cast<QPixmap>(data->imageData());
+        auto img= qvariant_cast<QImage>(data->imageData());
+        qDebug() << img.isNull() << img;
 
         auto name= tr("Unknown");
         if(data->hasText())
@@ -1220,7 +1221,7 @@ void MainWindow::dropEvent(QDropEvent* event)
 
         contentCtrl->openMedia(
             {{Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::PICTURE)},
-             {Core::keys::KEY_DATA, IOHelper::pixmapToData(img)},
+             {Core::keys::KEY_DATA, IOHelper::imageToData(img)},
              {Core::keys::KEY_NAME, name},
              {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
     }
