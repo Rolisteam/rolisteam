@@ -5,3 +5,14 @@ Dependencies:
 - 'on': ['@all']
   'require':
     'frameworks/extra-cmake-modules': '@stable'
+
+Environment:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+
+Options:
+  run-tests: True
+  cmake-options: '-DBUILD_TESTING=ON -DCODE_COVERAGE=ON'
+  per-test-timeout: 6000
+  setup-x-environment: True
+  run-gcovr: True

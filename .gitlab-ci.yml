@@ -3,3 +3,6 @@
 
 include:
   - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/linux-qt6.yml
+
+variables:
+    GIT_SUBMODULE_STRATEGY: recursive
