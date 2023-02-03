@@ -25,7 +25,7 @@
 #include "delegates/checkboxdelegate.h"
 #include "delegates/colordelegate.h"
 #include "delegates/imagepathdelegateitem.h"
-#include "dicealias.h"
+#include "diceparser/dicealias.h"
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
 #include "model/thememodel.h"
