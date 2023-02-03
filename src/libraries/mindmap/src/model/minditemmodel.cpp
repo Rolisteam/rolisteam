@@ -370,7 +370,7 @@ bool MindItemModel::removeItem(const MindItem* node)
 
     auto idx= offset + static_cast<int>(std::distance(vec.begin(), it));
 
-    qDebug() << "Indexremove item:" << idx;
+    // qDebug() << "Indexremove item:" << idx << node->type();
 
     if(node->type() == MindItem::LinkType)
     {
@@ -496,7 +496,14 @@ std::vector<LinkController*> MindItemModel::sublink(const QString& id) const
         if(!st)
             continue;
 
-        if(id == st->id())
+        if(id == st->id() && (std::end(vec) == std::find(std::begin(vec), std::end(vec), link)))
+            vec.push_back(link);
+
+        auto end= link->end();
+        if(!end)
+            continue;
+
+        if(id == end->id() && (std::end(vec) == std::find(std::begin(vec), std::end(vec), link)))
             vec.push_back(link);
     }
 

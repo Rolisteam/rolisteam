@@ -41,59 +41,28 @@ public:
      * @param either the shape is filled or not
      * @param color used for drawing it.
      */
-    HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent= nullptr);
+    HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent= nullptr,
+                    bool autoDestruction= true);
     /**
      * @brief paint the ellipse at the correct position
      */
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
 
     virtual QPainterPath shape() const;
-    /**
-     * @brief modifies the ellipse size and shape.
-     */
-    virtual void setNewEnd(const QPointF& nend);
 
     /**
      * @brief gives the bounding rect of the ellipse
      */
     virtual QRectF boundingRect() const;
-    /**
-     * @brief serialisation writing
-     */
-    virtual void writeData(QDataStream& out) const;
-    /**
-     * @brief serialisation reading
-     */
-    virtual void readData(QDataStream& in);
-    /**
-     * @brief getType
-     * @return
-     */
-    // virtual VisualItem::ItemType getType() const;
-
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    // virtual void fillMessage(NetworkMessageWriter* msg);
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    // virtual void readItem(NetworkMessageReader* msg);
 
     void setRadius(qreal radius);
     qreal getRadius() const;
-
-    void setGeometryPoint(qreal, QPointF&);
-    void initChildPointItem();
-    // VisualItem* getItemCopy();
 
 signals:
     void radiusChanged();
 
 protected:
-    void initAnimation();
+    void initAnimation(bool autoDestruction);
 
 private:
     qreal m_radius;

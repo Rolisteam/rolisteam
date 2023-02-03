@@ -1,9 +1,9 @@
-//#include <winsock2.h>
+// #include <winsock2.h>
 #include <iostream>
 #include <string>
 
 #include "network/upnp/upnpnat.h"
-//#include "network/upnp/xmlParser.h"
+// #include "network/upnp/xmlParser.h"
 
 #include <QNetworkInterface>
 #include <QTcpSocket>
@@ -87,6 +87,8 @@ std::tuple<QString, int, QString> parseUrl(const QString& urlData)
 
 UpnpNat::UpnpNat(QObject* parent) : QObject(parent) {}
 
+UpnpNat::~UpnpNat()= default;
+
 void UpnpNat::init(int time, int inter)
 {
     m_time_out= time;
@@ -97,7 +99,12 @@ void UpnpNat::init(int time, int inter)
     {
         if(address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
         {
-            m_localIp= address.toString();
+            if(m_subnet.isNull())
+                setLocalIp(address.toString());
+            else if(address.isInSubnet(m_subnet, m_mask))
+            {
+                setLocalIp(address.toString());
+            }
         }
     }
 }
@@ -105,23 +112,27 @@ void UpnpNat::init(int time, int inter)
 void UpnpNat::tcpConnect(const QString& host, int port, std::function<void()> onConnected,
                          std::function<void()> onReadReady)
 {
-    m_tcpSocket= new QTcpSocket(this);
 
-    connect(m_tcpSocket, &QTcpSocket::readyRead, this, [onReadReady]() { onReadReady(); });
+    m_tcpSocket.reset(new QTcpSocket(this));
 
-    connect(m_tcpSocket, &QTcpSocket::connected, this, [this, onConnected]() {
-        setStatus(NAT_STAT::NAT_TCP_CONNECTED);
-        onConnected();
-    });
-    int i= 1;
-    connect(m_tcpSocket, &QTcpSocket::errorOccurred, this, [this, &i, host, port](QAbstractSocket::SocketError) {
-        ++i;
-        setLastError(m_tcpSocket->errorString());
-        if(i < m_time_out)
-            m_tcpSocket->connectToHost(QHostAddress(host), port);
-        else
-            setStatus(NAT_STAT::NAT_ERROR);
-    });
+    connect(m_tcpSocket.get(), &QTcpSocket::readyRead, this, [onReadReady]() { onReadReady(); });
+
+    connect(m_tcpSocket.get(), &QTcpSocket::connected, this,
+            [this, onConnected]()
+            {
+                setStatus(NAT_STAT::NAT_TCP_CONNECTED);
+                onConnected();
+            });
+
+    connect(m_tcpSocket.get(), &QTcpSocket::errorOccurred, this,
+            [this, host, port](QAbstractSocket::SocketError)
+            {
+                static int i= 0;
+                ++i;
+                setLastError(m_tcpSocket->errorString());
+                (i < m_time_out) ? m_tcpSocket->connectToHost(QHostAddress(host), port) :
+                                   setLastError(m_tcpSocket->errorString());
+            });
     m_tcpSocket->connectToHost(QHostAddress(host), port);
 }
 
@@ -136,42 +147,34 @@ void UpnpNat::discovery()
     // m_udpSocketV6->bind(QHostAddress(QHostAddress::AnyIPv6), m_udpSocketV4->localPort());
     QByteArray datagram(SEARCH_REQUEST_STRING);
 
-    connect(m_udpSocketV4, &QTcpSocket::readyRead, this, [this]() {
-        QByteArray datagram;
-        while(m_udpSocketV4->hasPendingDatagrams())
-        {
-            datagram.resize(int(m_udpSocketV4->pendingDatagramSize()));
-            m_udpSocketV4->readDatagram(datagram.data(), datagram.size());
-        }
+    connect(m_udpSocketV4, &QTcpSocket::readyRead, this,
+            [this]()
+            {
+                QByteArray datagram;
+                while(m_udpSocketV4->hasPendingDatagrams())
+                {
+                    datagram.resize(int(m_udpSocketV4->pendingDatagramSize()));
+                    m_udpSocketV4->readDatagram(datagram.data(), datagram.size());
+                }
 
-        QString result(datagram);
-        auto start= result.indexOf("http://");
+                QString result(datagram);
+                auto start= result.indexOf("http://");
+                auto end= result.indexOf("\r", start);
 
-        if(start < 0)
-        {
-            setLastError(tr("Unable to read the beginning of server answer"));
-            setStatus(NAT_STAT::NAT_ERROR);
-            return;
-        }
+                if(start < 0 || end < 0)
+                {
+                    setLastError(tr("Unable to read the URL in server answer"));
+                    return;
+                }
 
-        auto end= result.indexOf("\r", start);
-        if(end < 0)
-        {
-            setLastError(tr("Unable to read the end of server answer"));
-            setStatus(NAT_STAT::NAT_ERROR);
-            return;
-        }
+                m_describe_url= result.sliced(start, end - start);
 
-        m_describe_url= result.sliced(start, end - start);
+                setStatus(NAT_STAT::NAT_FOUND);
+                m_udpSocketV4->close();
+            });
 
-        setStatus(NAT_STAT::NAT_FOUND);
-        m_udpSocketV4->close();
-    });
-
-    connect(m_udpSocketV4, &QUdpSocket::errorOccurred, this, [this](QAbstractSocket::SocketError) {
-        setLastError(m_tcpSocket->errorString());
-        setStatus(NAT_STAT::NAT_ERROR);
-    });
+    connect(m_udpSocketV4, &QUdpSocket::errorOccurred, this,
+            [this](QAbstractSocket::SocketError) { setLastError(m_tcpSocket->errorString()); });
 
     m_udpSocketV4->writeDatagram(datagram, broadcastIpV4, HTTPMU_HOST_PORT);
 }
@@ -182,16 +185,16 @@ void UpnpNat::readDescription()
     if(host.isEmpty() || port < 0 || path.isEmpty())
     {
         setLastError("Failed to parseURl: " + m_describe_url + "\n");
-        setStatus(NAT_STAT::NAT_ERROR);
         return;
     }
 
     // connect
     QString resquest("GET %1 HTTP/1.1\r\nHost: %2:%3\r\n\r\n");
-    QString http_request= resquest.arg(path).arg(host).arg(port);
+    QString http_request= resquest.arg(path, host).arg(port);
 
     auto connected= [this, http_request]() { m_tcpSocket->write(http_request.toLocal8Bit()); };
-    auto readAll= [this]() {
+    auto readAll= [this]()
+    {
         auto data= m_tcpSocket->readAll();
         if(m_description_info.isEmpty())
         {
@@ -202,11 +205,7 @@ void UpnpNat::readDescription()
         else
             m_description_info+= QString(data);
 
-        if(!m_description_info.contains("</root>"))
-        {
-            qDebug() << "xml is not completed.";
-        }
-        else
+        if(m_description_info.contains("</root>"))
         {
             setStatus(NAT_STAT::NAT_DESCRIPTION_FOUND);
             emit discoveryEnd(parseDescription());
@@ -215,20 +214,16 @@ void UpnpNat::readDescription()
     tcpConnect(host, port, connected, readAll);
 }
 
-void UpnpNat::setDescription(const QString& xml)
-{
-    m_description_info= xml;
-}
-
 bool UpnpNat::parseDescription()
 {
-    qDebug() << m_description_info;
+    // qDebug() << m_description_info;
     QXmlStreamReader xml(m_description_info);
     bool isType1= false;
     bool isType2= false;
     bool isType3= false;
 
-    auto goToNextCharacter= [&xml]() {
+    auto goToNextCharacter= [&xml]()
+    {
         while(!xml.isCharacters() || xml.isWhitespace())
             xml.readNext();
     };
@@ -277,7 +272,6 @@ bool UpnpNat::parseDescription()
         if(index < 0)
         {
             setLastError(tr("Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"));
-            setStatus(NAT_STAT::NAT_ERROR);
             return false;
         }
         m_base_url= m_describe_url.sliced(0, index);
@@ -286,7 +280,6 @@ bool UpnpNat::parseDescription()
     if(!isType1 || !isType2 || !isType3)
     {
         setLastError(tr("Fail to find proper service type: %1 %2 %3").arg(isType1).arg(isType2).arg(isType3));
-        setStatus(NAT_STAT::NAT_ERROR);
         return false;
     }
 
@@ -305,6 +298,111 @@ bool UpnpNat::parseDescription()
     qDebug() << "Description:" << m_description_info;
     qDebug() << "##############" << isType1 << isType2 << isType3;
     return true;
+}
+
+void UpnpNat::addPortMapping(const QString& description, const QString& destination_ip, unsigned short int port_ex,
+                             unsigned short int port_in, const QString& protocol)
+{
+    auto [host, port, path]= parseUrl(m_control_url);
+    if(host.isEmpty() || port < 0 || path.isEmpty())
+    {
+        setLastError("Fail to parseURl: " + m_describe_url + "\n");
+        return;
+    }
+
+    QString action_params(ADD_PORT_MAPPING_PARAMS);
+
+    action_params= action_params.arg(port_ex).arg(protocol).arg(port_in).arg(destination_ip).arg(description);
+
+    QString soap_message(SOAP_ACTION);
+    soap_message= soap_message.arg(ACTION_ADD).arg(m_service_type).arg(action_params).arg(ACTION_ADD);
+
+    QString action_message(HTTP_HEADER_ACTION);
+    action_message
+        = action_message.arg(path).arg(host).arg(port).arg(m_service_type).arg(ACTION_ADD).arg(soap_message.size());
+
+    QString http_request= action_message + soap_message;
+
+    auto connected= [this, http_request]() { m_tcpSocket->write(http_request.toLocal8Bit()); };
+    auto readAll= [this, description, protocol]()
+    {
+        auto data= m_tcpSocket->readAll();
+        if(data.indexOf(HTTP_OK) < 0 && status() != NAT_STAT::NAT_ADD)
+        {
+
+            setLastError(tr("Fail to add port mapping (%1/%2) : error :\n").arg(description, protocol).arg(data));
+            emit portMappingEnd(false);
+            return;
+        }
+        emit portMappingEnd(true);
+        setStatus(NAT_STAT::NAT_ADD);
+    };
+
+    tcpConnect(host, port, connected, readAll);
+}
+
+void UpnpNat::setStatus(NAT_STAT status)
+{
+    if(m_status == status)
+        return;
+    m_status= status;
+    emit statusChanged();
+
+    if(NAT_STAT::NAT_FOUND == m_status)
+        readDescription();
+}
+
+void UpnpNat::setLocalIp(const QString& ip)
+{
+    if(m_localIp == ip)
+        return;
+
+    m_localIp= ip;
+    emit localIpChanged();
+}
+QString UpnpNat::localIp() const
+{
+    return m_localIp;
+}
+
+UpnpNat::NAT_STAT UpnpNat::status() const
+{
+    return m_status;
+}
+
+void UpnpNat::setLastError(const QString& error)
+{
+    if(m_last_error == error)
+        return;
+    m_last_error= error;
+    if(!m_last_error.isEmpty())
+        setStatus(NAT_STAT::NAT_ERROR);
+    emit lastErrorChanged();
+}
+
+QHostAddress UpnpNat::subnet() const
+{
+    return m_subnet;
+}
+
+void UpnpNat::setSubnet(const QHostAddress& subnet)
+{
+    if(m_subnet == subnet)
+        return;
+    m_subnet= subnet;
+    emit subnetChanged();
+}
+
+int UpnpNat::mask() const
+{
+    return m_mask;
+}
+void UpnpNat::setMask(int mask)
+{
+    if(mask == m_mask)
+        return;
+    m_mask= mask;
+    emit maskChanged();
 }
 
 /*bool UpnpNat::parser_description()
@@ -463,83 +561,3 @@ bool UpnpNat::parseDescription()
     setStatus(NAT_STAT::NAT_GETCONTROL);
     return true;
 }*/
-
-void UpnpNat::addPortMapping(const QString& description, const QString& destination_ip, unsigned short int port_ex,
-                             unsigned short int port_in, const QString& protocol)
-{
-    auto [host, port, path]= parseUrl(m_control_url);
-    if(host.isEmpty() || port < 0 || path.isEmpty())
-    {
-        setLastError("Fail to parseURl: " + m_describe_url + "\n");
-        setStatus(NAT_STAT::NAT_ERROR);
-        return;
-    }
-
-    QString action_params(ADD_PORT_MAPPING_PARAMS);
-
-    action_params= action_params.arg(port_ex).arg(protocol).arg(port_in).arg(destination_ip).arg(description);
-
-    QString soap_message(SOAP_ACTION);
-    soap_message= soap_message.arg(ACTION_ADD).arg(m_service_type).arg(action_params).arg(ACTION_ADD);
-
-    QString action_message(HTTP_HEADER_ACTION);
-    action_message
-        = action_message.arg(path).arg(host).arg(port).arg(m_service_type).arg(ACTION_ADD).arg(soap_message.size());
-
-    QString http_request= action_message + soap_message;
-
-    auto connected= [this, http_request]() { m_tcpSocket->write(http_request.toLocal8Bit()); };
-    auto readAll= [this, description, protocol]() {
-        auto data= m_tcpSocket->readAll();
-
-        if(status() == NAT_STAT::NAT_ADD)
-            return;
-
-        if(data.indexOf(HTTP_OK) < 0)
-        {
-            setLastError(tr("Fail to add port mapping (%1/%2)\n").arg(description, protocol));
-            setStatus(NAT_STAT::NAT_ERROR);
-            return;
-        }
-        setStatus(NAT_STAT::NAT_ADD);
-    };
-
-    tcpConnect(host, port, connected, readAll);
-}
-
-void UpnpNat::setStatus(NAT_STAT status)
-{
-    if(m_status == status)
-        return;
-    m_status= status;
-    emit statusChanged();
-
-    if(NAT_STAT::NAT_FOUND == m_status)
-        readDescription();
-}
-
-void UpnpNat::setLocalIp(const QString& ip)
-{
-    if(m_localIp == ip)
-        return;
-
-    m_localIp= ip;
-    emit localIpChanged();
-}
-QString UpnpNat::localIp() const
-{
-    return m_localIp;
-}
-
-UpnpNat::NAT_STAT UpnpNat::status() const
-{
-    return m_status;
-}
-
-void UpnpNat::setLastError(const QString& error)
-{
-    if(m_last_error == error)
-        return;
-    m_last_error= error;
-    emit lastErrorChanged();
-}

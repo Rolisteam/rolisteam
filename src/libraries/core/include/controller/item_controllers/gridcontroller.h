@@ -46,13 +46,13 @@ public:
 
 signals:
     void gmChanged(bool gm);
-    void gridPatternChanged(QImage gridPattern);
-    void rectChanged(QRectF rect);
+    void gridPatternChanged(const QImage& gridPattern);
+    void rectChanged(const QRectF& rect);
 
 public slots:
     void setGm(bool gm);
-    void setGridPattern(QImage gridPattern);
-    void setRect(QRectF rect);
+    void setGridPattern(const QImage& gridPattern);
+    void setRect(const QRectF &rect);
 
 private:
     void computePattern();

@@ -46,25 +46,34 @@ bool FilteredModel::filterAcceptsRow(int source_row, const QModelIndex& source_p
     if(type != MindItem::NodeType)
         return false;
 
-    if(m_criteria == NoCrit || m_pattern.isEmpty())
+    if(m_pattern.isEmpty())
         return true;
 
     auto node= index.data(MindItemModel::Object).value<MindNode*>();
+    if(!node)
+        return false;
     auto parent= node->parentNode();
 
     bool res= false;
     switch(m_criteria)
     {
     case FilteredModel::NoCrit:
+        res = true;
         break;
     case FilteredModel::NameCrit:
         res= node->text().contains(m_pattern, Qt::CaseInsensitive);
+        break;
+    case FilteredModel::DescriptionCrit:
+        res= node->description().contains(m_pattern, Qt::CaseInsensitive);
         break;
     case FilteredModel::TagCrit:
         res= node->tagsText().contains(m_pattern, Qt::CaseInsensitive);
         break;
     case FilteredModel::ParentOfCrit:
-        res= parent->id().contains(m_pattern, Qt::CaseInsensitive);
+        res= parent ? parent->id().contains(m_pattern, Qt::CaseInsensitive) : false;
+        break;
+    case FilteredModel::AllCrit:
+        res= node->text().contains(m_pattern, Qt::CaseInsensitive) || node->tagsText().contains(m_pattern, Qt::CaseInsensitive) || node->description().contains(m_pattern, Qt::CaseInsensitive);
         break;
     }
 
@@ -90,7 +99,11 @@ const QString& FilteredModel::pattern() const
     return m_pattern;
 }
 
-SideMenuController::SideMenuController(QObject* parent) : QObject{parent}, m_model{new mindmap::FilteredModel} {}
+SideMenuController::SideMenuController(QObject* parent) : QObject{parent}, m_model{new mindmap::FilteredModel}
+{
+    connect(m_model.get(), &mindmap::FilteredModel::criteriaChanged, this, &SideMenuController::criteriaChanged);
+    connect(m_model.get(), &mindmap::FilteredModel::patternChanged, this, &SideMenuController::patternChanged);
+}
 
 mindmap::MindMapControllerBase* SideMenuController::controller() const
 {
@@ -115,7 +128,7 @@ FilteredModel* SideMenuController::model() const
 
 const QString& SideMenuController::pattern() const
 {
-    return m_pattern;
+    return m_model->pattern();
 }
 
 void SideMenuController::setPattern(const QString& newPattern)

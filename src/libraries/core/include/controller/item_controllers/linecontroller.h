@@ -49,7 +49,6 @@ public:
     QRectF rect() const override;
 
 signals:
-    void colorChanged();
     void penWidthChanged();
     void endPointChanged();
     void startPointChanged();
@@ -64,7 +63,7 @@ public slots:
 private:
     QPointF m_start;
     QPointF m_end;
-    quint16 m_penWidth;
+    quint16 m_penWidth{1};
 
     bool m_editStartPoint= false;
     bool m_editEndPoint= false;

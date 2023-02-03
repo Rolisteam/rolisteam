@@ -24,13 +24,16 @@
 #include <QVariant>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "worker/utilshelper.h"
+
 namespace vmap
 {
 
 VisualItemController::VisualItemController(ItemType itemType, const std::map<QString, QVariant>& params,
                                            VectorialMapController* ctrl, QObject* parent)
-    : QObject(parent), m_ctrl(ctrl), m_itemType(itemType), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
+    : QObject(nullptr), m_ctrl(ctrl), m_itemType(itemType), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
+    Q_UNUSED(parent)
     if(m_ctrl)
     {
         connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::selectableChanged);
@@ -70,35 +73,20 @@ void VisualItemController::initializedVisualItem(const std::map<QString, QVarian
 {
     if(params.empty())
         return;
+    namespace hu= helper::utils;
+    using std::placeholders::_1;
 
-    if(params.end() != params.find(Core::vmapkeys::KEY_UUID))
-        m_uuid= params.at(Core::vmapkeys::KEY_UUID).toString();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_VISIBLE))
-    {
-        m_visible= params.at(Core::vmapkeys::KEY_VISIBLE).toBool();
-    }
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_INITIALIZED))
-        m_initialized= params.at(Core::vmapkeys::KEY_INITIALIZED).toBool();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_OPACITY))
-        m_opacity= params.at(Core::vmapkeys::KEY_OPACITY).toReal();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_ROTATION))
-        m_rotation= params.at(Core::vmapkeys::KEY_ROTATION).toReal();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_LAYER))
-        m_layer= params.at(Core::vmapkeys::KEY_LAYER).value<Core::Layer>();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_POS))
-        m_pos= params.at(Core::vmapkeys::KEY_POS).toPointF();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_COLOR))
-        m_color= params.at(Core::vmapkeys::KEY_COLOR).value<QColor>();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_LOCKED))
-        m_locked= params.at(Core::vmapkeys::KEY_LOCKED).toBool();
+    // clang-format off
+    hu::setParamIfAny<QString>(Core::vmapkeys::KEY_UUID, params, std::bind(&VisualItemController::setUuid, this, _1));
+    hu::setParamIfAny<bool>(Core::vmapkeys::KEY_VISIBLE, params, std::bind(&VisualItemController::setVisible, this, _1));
+    hu::setParamIfAny<bool>(Core::vmapkeys::KEY_INITIALIZED, params, std::bind(&VisualItemController::setInitialized, this, _1));
+    hu::setParamIfAny<qreal>(Core::vmapkeys::KEY_OPACITY, params, std::bind(&VisualItemController::setOpacity, this, _1));
+    hu::setParamIfAny<qreal>(Core::vmapkeys::KEY_ROTATION, params, std::bind(&VisualItemController::setRotation, this, _1));
+    hu::setParamIfAny<Core::Layer>(Core::vmapkeys::KEY_LAYER, params, std::bind(&VisualItemController::setLayer, this, _1));
+    hu::setParamIfAny<QPointF>(Core::vmapkeys::KEY_POS, params, std::bind(&VisualItemController::setPos, this, _1));
+    hu::setParamIfAny<QColor>(Core::vmapkeys::KEY_COLOR, params, std::bind(&VisualItemController::setColor, this, _1));
+    hu::setParamIfAny<bool>(Core::vmapkeys::KEY_LOCKED, params, std::bind(&VisualItemController::setLocked, this, _1));
+    // clang-format on
 }
 
 bool VisualItemController::selected() const

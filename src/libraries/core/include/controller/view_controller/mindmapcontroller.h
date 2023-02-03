@@ -74,8 +74,6 @@ signals:
     void closeMindMapTo(QString id);
     void permissionChangedForUser(QString id, Core::SharingPermission perm);
 
-    void zoomLevelChanged();
-
 public slots:
     void setSharingToAll(int perm);
     void setPermissionForUser(const QString& userId, int perm);

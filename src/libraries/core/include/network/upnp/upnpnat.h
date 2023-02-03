@@ -1,6 +1,7 @@
 #ifndef UPNPNAT_H
 #define UPNPNAT_H
 
+#include <QHostAddress>
 #include <QObject>
 #include <string>
 #include <vector>
@@ -15,6 +16,8 @@ class UpnpNat : public QObject
     Q_OBJECT
     Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)
     Q_PROPERTY(QString localIp READ localIp NOTIFY localIpChanged)
+    Q_PROPERTY(QHostAddress subnet READ subnet WRITE setSubnet NOTIFY subnetChanged)
+    Q_PROPERTY(int mast READ mask WRITE setMask NOTIFY maskChanged)
 public:
     enum class NAT_STAT
     {
@@ -30,11 +33,13 @@ public:
         NAT_ERROR
     };
     UpnpNat(QObject* parent= nullptr);
+    virtual ~UpnpNat();
     void init(int time_out= DefaultTimeOut, int interval= DefaultInterval); // init
     QString lastError() const { return m_last_error; }                      // get last error
     QString localIp() const;
     NAT_STAT status() const;
-
+    QHostAddress subnet() const;
+    int mask() const;
 public slots:
     void discovery(); // find router
     /****
@@ -46,8 +51,9 @@ public slots:
      ***/
     void addPortMapping(const QString& description, const QString& destination_ip, unsigned short int port_ex,
                         unsigned short int port_in, const QString& protocol); // add port mapping
-
-    void setDescription(const QString& xml);
+    void setLastError(const QString& error);
+    void setSubnet(const QHostAddress& subnet);
+    void setMask(int mask);
 
 signals:
     void lastErrorChanged();
@@ -55,10 +61,11 @@ signals:
     void portMappingEnd(bool b);
     void statusChanged();
     void localIpChanged();
+    void subnetChanged();
+    void maskChanged();
 
 private slots:
-    void setStatus(NAT_STAT status);
-    void setLastError(const QString& error);
+    void setStatus(UpnpNat::NAT_STAT status);
     void setLocalIp(const QString& ip);
 
 private:
@@ -81,8 +88,10 @@ private:
     QString m_last_error;
     QString m_mapping_info;
     QString m_localIp;
+    QHostAddress m_subnet;
+    int m_mask;
 
-    QTcpSocket* m_tcpSocket;
+    std::unique_ptr<QTcpSocket> m_tcpSocket;
     QUdpSocket* m_udpSocketV4;
 };
 

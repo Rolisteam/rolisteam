@@ -68,12 +68,6 @@ public:
      * @param nend
      */
     virtual void setNewEnd(const QPointF& nend) override;
-
-    /**
-     * @brief getItemCopy
-     * @return
-     */
-    virtual VisualItem* getItemCopy() override;
     /**
      * @brief boundingRect
      * @return
@@ -87,10 +81,6 @@ public:
      * @param widget
      */
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
-    /**
-     * @brief createActions
-     */
-    void createActions() override;
     virtual void updateItemFlags() override;
 public slots:
     /**

@@ -1,6 +1,8 @@
 #include "controller/item_controllers/pathcontroller.h"
 
+#include "worker/utilshelper.h"
 #include <QVariant>
+
 namespace vmap
 {
 
@@ -28,30 +30,17 @@ QPainterPath vectorToPath(const std::vector<QPointF>& points, bool closeUp= fals
 PathController::PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::PATH, params, ctrl, parent)
 {
-    if(params.end() != params.find(Core::vmapkeys::KEY_TOOL))
-    {
-        m_tool= params.at(Core::vmapkeys::KEY_TOOL).value<Core::SelectableTool>();
-        m_penLine= (m_tool == Core::SelectableTool::PEN);
-    }
-    else if(params.end() != params.find(Core::vmapkeys::KEY_PENLINE))
-    {
-        m_penLine= params.at(Core::vmapkeys::KEY_PENLINE).toBool();
-        m_tool= m_penLine ? Core::SelectableTool::PEN : Core::SelectableTool::PATH;
-    }
 
-    if(params.end() != params.find(Core::vmapkeys::KEY_FILLED))
-        m_filled= params.at(Core::vmapkeys::KEY_FILLED).toBool();
+    helper::utils::setParamIfAny<Core::SelectableTool>(Core::vmapkeys::KEY_TOOL, params,
+                                                       [this](Core::SelectableTool tool) { m_tool= tool; });
+    helper::utils::setParamIfAny<bool>(Core::vmapkeys::KEY_PENLINE, params, [this](bool b) { m_penLine= b; });
+    helper::utils::setParamIfAny<bool>(Core::vmapkeys::KEY_FILLED, params, [this](bool b) { setFilled(b); });
+    helper::utils::setParamIfAny<bool>(Core::vmapkeys::KEY_CLOSED, params, [this](bool b) { setClosed(b); });
+    helper::utils::setParamIfAny<std::vector<QPointF>>(
+        Core::vmapkeys::KEY_POINTS, params, [this](const std::vector<QPointF>& points) { setPoints(points); });
+    helper::utils::setParamIfAny<int>(Core::vmapkeys::KEY_PENWIDTH, params, [this](int b) { m_penWidth= b; });
 
-    if(params.end() != params.find(Core::vmapkeys::KEY_CLOSED))
-        m_closed= params.at(Core::vmapkeys::KEY_CLOSED).toBool();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_POINTS))
-        m_points= params.at(Core::vmapkeys::KEY_POINTS).value<std::vector<QPointF>>();
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_PENWIDTH))
-        m_penWidth= static_cast<quint16>(params.at(Core::vmapkeys::KEY_PENWIDTH).toInt());
-
-    if(!m_penLine)
+    if(!m_penLine && m_points.empty())
         addPoint(QPointF(0, 0));
 
     connect(this, &PathController::pointsChanged, this, [this] { setModified(); });
@@ -134,8 +123,7 @@ void PathController::endGeometryChange()
     }
 }
 
-void PathController::setCorner(const QPointF& move, int corner,
-                               Core::TransformType tt)
+void PathController::setCorner(const QPointF& move, int corner, Core::TransformType tt)
 {
     if(m_points.empty())
         return;

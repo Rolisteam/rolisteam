@@ -22,8 +22,9 @@
 #include <QDebug>
 #include <QPixmap>
 
-#include "utils/iohelper.h"
 #include "network/connectionprofile.h"
+#include "utils/iohelper.h"
+#include "utils/logcategories.h"
 
 CharacterDataModel::CharacterDataModel(QObject* parent) : QAbstractListModel(parent) {}
 
@@ -181,16 +182,20 @@ void CharacterDataModel::setAvatar(int i, const QByteArray& img)
     auto& character= m_profile->character(i);
     character.m_avatarData= img;
     emit dataChanged(index(i, 0), index(i, 0), {Avatar, AvatarData});
+    m_profile->characterHasChanged();
 }
 
 void CharacterDataModel::setName(int i, const QString& string)
 {
     if(!m_profile)
+    {
+        qCDebug(logCategory::network) << "no profile in set name character data";
         return;
-
+    }
     auto& character= m_profile->character(i);
     character.m_name= string;
     emit dataChanged(index(i, 0), index(i, 0), {Name});
+    m_profile->characterHasChanged();
 }
 void CharacterDataModel::setColor(int i, const QColor& color)
 {
@@ -200,6 +205,7 @@ void CharacterDataModel::setColor(int i, const QColor& color)
     auto& character= m_profile->character(i);
     character.m_color= color;
     emit dataChanged(index(i, 0), index(i, 0), {Color});
+    m_profile->characterHasChanged();
 }
 
 void CharacterDataModel::setProfile(ConnectionProfile* profile)

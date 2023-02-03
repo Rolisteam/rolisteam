@@ -1,4 +1,5 @@
 #include "helper.h"
+#include "media/mediatype.h"
 #include "network/networkmessagewriter.h"
 
 #include <QBrush>
@@ -23,7 +24,9 @@
 #include <QUrl>
 #include <QUuid>
 #include <QVariant>
-
+#include <QtHttpServer>
+#include "test_root_path.h"
+#include "utils/iohelper.h"
 #include <limits>
 
 namespace Helper
@@ -245,6 +248,63 @@ QVariantList values(QMetaType type, QVariant currentValue)
 
     return res;
 }
+namespace cv= Core::vmapkeys;
+const std::map<QString, QVariant> buildRectController(bool filled, const QRectF& rect, const QPointF& pos)
+{
+    return {{"filled", filled},
+            {"tool", filled ? Core::SelectableTool::FILLRECT : Core::SelectableTool::EMPTYRECT},
+            {"rect", rect},
+            {"position", pos}};
+}
+
+const std::map<QString, QVariant> buildTextController(bool border, const QString& text, const QRectF& rect,
+                                                      const QPointF& pos)
+{
+    return {{"border", border},
+            {"rect", rect},
+            {"position", pos},
+            {"text", text},
+            {"tool", border ? Core::SelectableTool::TEXT : Core::SelectableTool::TEXTBORDER}};
+}
+
+const std::map<QString, QVariant> buildEllipseController(bool filled, qreal rx, qreal ry, const QPointF& pos)
+{
+    return {{"filled", filled},
+            {"tool", filled ? Core::SelectableTool::FILLEDELLIPSE : Core::SelectableTool::EMPTYELLIPSE},
+            {"rx", rx},
+            {"ry", ry},
+            {"position", pos}};
+}
+
+const std::map<QString, QVariant> buildImageController(const QString& path, const QRectF& rect, const QPointF& pos)
+{
+    return {{cv::KEY_PATH, path}, {"rect", rect}, {"tool", Core::SelectableTool::IMAGE}, {"position", pos}};
+}
+
+const std::map<QString, QVariant> buildPenController(bool filled, const std::vector<QPointF>& points,
+                                                     const QPointF& pos)
+{
+    return {{"filled", filled},
+            {"tool", Core::SelectableTool::PEN},
+            {"points", QVariant::fromValue(points)},
+            {"position", pos}};
+}
+
+const std::map<QString, QVariant> buildPathController(bool filled, const std::vector<QPointF>& points,
+                                                      const QPointF& pos)
+{
+    return {{"filled", filled},
+            {"tool", Core::SelectableTool::PATH},
+            {"points", QVariant::fromValue(points)},
+            {"position", pos}};
+}
+const std::map<QString, QVariant> buildLineController(const QPointF& p1, const QPointF& p2, const QPointF& pos)
+{
+    return {{"tool", Core::SelectableTool::LINE},
+            {"start", QVariant::fromValue(p1)},
+            {"end", QVariant::fromValue(p2)},
+            {"position", pos}};
+}
 
 TestMessageSender::TestMessageSender() {}
 
@@ -299,7 +359,7 @@ std::pair<bool, QStringList> testAllProperties(QObject* obj)
 
             // QCOMPARE(spy.count(), vs.size())
 
-            auto count = spy.count();
+            auto count= spy.count();
             if(!QTest::qCompare(spy.count(), vs.size(), "spy.count()", "vs.size()", __FILE__, __LINE__))
                 qDebug() << p.name();
 
@@ -310,13 +370,54 @@ std::pair<bool, QStringList> testAllProperties(QObject* obj)
                     qDebug() << "write failed for " << p.name() << v;
 
                     spy.wait(10);
-                    QTest::qVerify(count == spy.count(),"Signal emitted when received same value","Signal emitted when received same value",__FILE__, __LINE__);
+                    QTest::qVerify(count == spy.count(), "Signal emitted when received same value",
+                                   "Signal emitted when received same value", __FILE__, __LINE__);
                 }
             }
         }
     }
 
     return std::make_pair(res, unmanaged);
+}
+
+
+QString imagePath(bool isSquare)
+{
+    QStringList array{":/img/girafe.jpg", ":/img/lion.jpg",  ":/img/control_life_bar.gif", ":/img/girafe3.jpg",
+                      ":/img/lion3.jpg",  ":/img/white.png", ":/img/arbre_500.jpg"};
+
+    if(isSquare)
+        array= QStringList{":/img/arbre_square_500.jpg"};
+
+    return array[generate<int>(0, array.size() - 1)];
+}
+
+QByteArray imageData(bool isSquare)
+{
+    return utils::IOHelper::loadFile(imagePath(isSquare));
+}
+
+QColor randomColor()
+{
+    return QColor(generate<int>(0, 255), generate<int>(0, 255), generate<int>(0, 255));
+}
+
+QPointF randomPoint()
+{
+    return QPointF{generate<qreal>(0., 800.), generate<qreal>(0., 800.)};
+}
+
+QObject* initWebServer(int port)
+{
+    auto server = new QHttpServer();
+
+    server->route("/image/<arg>", [] (const QUrl &url) {
+        return QHttpServerResponse::fromFile(QStringLiteral("%1/resources/img/%2").arg(tests::root_path, url.path()));
+    });
+
+    server->listen( QHostAddress::Any, port);
+
+    return server;
 }
 
 } // namespace Helper

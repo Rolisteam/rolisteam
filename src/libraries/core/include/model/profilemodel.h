@@ -22,10 +22,10 @@
 
 #include <QAbstractListModel>
 #include <QObject>
-#include <memory>
 #include <core_global.h>
+#include <memory>
 class ConnectionProfile;
-class CORE_EXPORT  ProfileModel : public QAbstractListModel
+class CORE_EXPORT ProfileModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
@@ -86,6 +86,9 @@ public slots:
      * @param profile
      */
     void appendProfile(ConnectionProfile* profile);
+
+signals:
+    void profileAdded(ConnectionProfile* prof);
 
 private:
     std::vector<std::unique_ptr<ConnectionProfile>> m_connectionProfileList;

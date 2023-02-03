@@ -31,14 +31,14 @@
 class VectorialMapController;
 class ColorButton;
 /**
- * @brief The VmapToolBar class
+ * @brief The VmapTopBar class
  */
-class RWIDGET_EXPORT VmapToolBar : public QToolBar
+class RWIDGET_EXPORT VmapTopBar : public QToolBar
 {
     Q_OBJECT
 public:
-    VmapToolBar(VectorialMapController* ctrl, QWidget* parent= nullptr);
-    virtual ~VmapToolBar();
+    VmapTopBar(VectorialMapController* ctrl, QWidget* parent= nullptr);
+    virtual ~VmapTopBar();
 
     void setupUi();
     void updateUI();

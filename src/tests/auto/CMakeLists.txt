@@ -6,6 +6,9 @@ include_directories(../libraries/diceparser/include)
 # Helpers
 add_subdirectory(helper)
 
+# CMakeLists.txt
+#add_compile_options(-fsanitize=address)
+#add_link_options(-fsanitize=address)
 
 #subdirs with tests
 add_subdirectory(audioplayer)
@@ -42,6 +45,7 @@ add_subdirectory(charactermodel)
 add_subdirectory(unitmodel)
 add_subdirectory(worker)
 add_subdirectory(qobjects)
+add_subdirectory(services)
 
 
 

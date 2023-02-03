@@ -130,7 +130,14 @@ PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ct
             addChild(point, i);
     }
 
-    createActions();
+    m_closeAct= new QAction(tr("Close Path"), this);
+    m_closeAct->setCheckable(true);
+    connect(m_closeAct, &QAction::triggered, m_pathCtrl, &vmap::PathController::setClosed);
+
+    m_fillAct= new QAction(tr("Fill Path"), this);
+    m_fillAct->setCheckable(true);
+    connect(m_fillAct, &QAction::triggered, m_pathCtrl, &vmap::PathController::setFilled);
+
     update();
 }
 
@@ -196,16 +203,10 @@ void PathItem::setNewEnd(const QPointF& p)
         m_pathCtrl->setCorner(p, m_pathCtrl->pointCount());
 }
 
-void PathItem::createActions()
+/*void PathItem::createActions()
 {
-    m_closeAct= new QAction(tr("Close Path"), this);
-    m_closeAct->setCheckable(true);
-    connect(m_closeAct, &QAction::triggered, m_pathCtrl, &vmap::PathController::setClosed);
 
-    m_fillAct= new QAction(tr("Fill Path"), this);
-    m_fillAct->setCheckable(true);
-    connect(m_fillAct, &QAction::triggered, m_pathCtrl, &vmap::PathController::setFilled);
-}
+}*/
 
 void PathItem::addActionContextMenu(QMenu& menu)
 {
@@ -228,17 +229,4 @@ void PathItem::addChild(const QPointF& point, int i)
     m_children.push_back(tmp);
     tmp->setPos(point);
     tmp->setPlacement(ChildPointItem::Center);
-}
-
-VisualItem* PathItem::getItemCopy()
-{
-    /*PathItem* path= new PathItem();
-    path->setPath(m_pointVector);
-    path->setStartPoint(m_start);
-    path->setPenColor(m_color);
-    path->setPenWidth(m_penWidth);
-    path->setClosed(m_closed);
-    path->setFilled(m_filled);
-    path->setPos(pos());*/
-    return nullptr; // path
 }

@@ -24,10 +24,12 @@
 #include <QtCore/QString>
 #include <memory>
 
+#include "controller/audiocontroller.h"
 #include "controller/audioplayercontroller.h"
 #include "model/musicmodel.h"
+#include "test_root_path.h"
 
-#define TIME_SONG 36
+constexpr int TIME_SONG{36};
 
 class TestAudioPlayer : public QObject
 {
@@ -37,6 +39,10 @@ public:
 
 private slots:
     void init();
+
+    void mode();
+
+    void property_audio();
 
     void addSongTest();
     void addSongTest_data();
@@ -48,9 +54,8 @@ private slots:
     void playSongInLoop_data();
 
 private:
-    // std::unique_ptr<AudioPlayer> m_audioPlayer;
-    // std::unique_ptr<PlayerWidget> m_playerWidget;
     std::unique_ptr<AudioPlayerController> m_audioController;
+    std::unique_ptr<AudioController> m_audiosCtrl;
 };
 
 TestAudioPlayer::TestAudioPlayer() {}
@@ -59,14 +64,127 @@ void TestAudioPlayer::init()
 {
     m_audioController.reset(new AudioPlayerController(0, "", nullptr));
     m_audioController->setLocalIsGm(true);
+    m_audiosCtrl.reset(new AudioController(nullptr, nullptr));
+    m_audiosCtrl->setLocalIsGM(true);
     //    m_audioPlayer.reset(new AudioPlayer());
     // m_playerWidget.reset(new PlayerWidget(0));
+}
+
+void TestAudioPlayer::mode()
+{
+    m_audioController->addSong({QUrl("qrc:/music/07.mp3"),
+                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "break.mp3")),
+                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "quickFixes.mp3")),
+                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "taskFailed.mp3")),
+                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "taskCompleted.mp3")),
+                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "warning.mp3")),
+                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "error.mp3"))});
+    auto model= m_audioController->model();
+    m_audioController->setPlayingMode(AudioPlayerController::PlayingMode::NEXT);
+    QSignalSpy spy(m_audioController.get(), &AudioPlayerController::stateChanged);
+    m_audioController->setMedia(model->index(0, 0));
+    QCOMPARE(model->indexOfCurrent(), 0);
+    m_audioController->play();
+    m_audioController->text();
+
+    m_audioController->exportList(QString("file://%1/%2").arg(tests::root_path, "playlist.m3u"));
+
+    m_audioController->mute();
+    QVERIFY(m_audioController->muted());
+
+    m_audioController->setVolume(20);
+    QCOMPARE(m_audioController->volume(), 20);
+
+    m_audioController->error();
+
+    m_audioController->setVisible(true);
+    m_audioController->setVisible(false);
+    QVERIFY(!m_audioController->visible());
+    m_audioController->setVisible(true);
+    QVERIFY(m_audioController->visible());
+
+    m_audioController->setTime(m_audioController->time() + 10);
+    m_audioController->id();
+    QCOMPARE(m_audioController->mode(), AudioPlayerController::PlayingMode::NEXT);
+    spy.wait(TIME_SONG * 400);
+
+    auto arg= spy.takeLast();
+
+    QCOMPARE(arg[0].toInt(), AudioPlayerController::PlayingState);
+    QCOMPARE(m_audioController->state(), AudioPlayerController::PlayingState);
+
+    spy.clear();
+    m_audioController->next();
+    QVERIFY(model->indexOfCurrent() == 1);
+    m_audioController->setPlayingMode(AudioPlayerController::PlayingMode::LOOP);
+
+    spy.wait(TIME_SONG);
+
+    arg= spy.takeLast();
+
+    QCOMPARE(arg[0].toInt(), AudioPlayerController::PlayingState);
+
+    m_audioController->next();
+    QVERIFY(model->indexOfCurrent() == 1);
+
+    spy.clear();
+    m_audioController->pause();
+    spy.wait(TIME_SONG);
+
+    arg= spy.takeLast();
+
+    QCOMPARE(arg[0].toInt(), AudioPlayerController::PausedState);
+
+    m_audioController->setPlayingMode(AudioPlayerController::PlayingMode::UNIQUE);
+    m_audioController->play();
+
+    spy.wait(TIME_SONG);
+    m_audioController->next();
+    spy.wait(TIME_SONG);
+
+    QCOMPARE(m_audioController->state(), AudioPlayerController::StoppedState);
+
+    m_audioController->setPlayingMode(AudioPlayerController::PlayingMode::SHUFFLE);
+    m_audioController->next();
+
+    spy.wait(TIME_SONG * 10);
+    m_audioController->next();
+    spy.wait(TIME_SONG * 10);
+    m_audioController->next();
+
+    m_audioController->removeSong({model->index(0, 0)});
+
+    m_audioController->nwNewSong("taskCompleted.mp3", 0);
+    m_audioController->setLocalIsGm(false);
+    m_audioController->nwNewSong("taskCompleted.mp3", 0);
+
+    m_audioController->clear();
+    m_audioController->next();
+
+    m_audioController->loadPlayList(QString("file://%1/%2").arg(tests::root_path, "playlist.m3u"));
+}
+
+void TestAudioPlayer::property_audio()
+{
+    QVERIFY(m_audiosCtrl->localIsGM());
+    QVERIFY(m_audiosCtrl->firstController() != nullptr);
+    QVERIFY(m_audiosCtrl->secondController() != nullptr);
+    QVERIFY(m_audiosCtrl->thirdController() != nullptr);
+
+    m_audiosCtrl->setLocalIsGM(true);
+    m_audiosCtrl->setLocalIsGM(false);
+
+    QVERIFY(!m_audiosCtrl->firstController()->localIsGm());
+    QVERIFY(!m_audiosCtrl->secondController()->localIsGm());
+    QVERIFY(!m_audiosCtrl->thirdController()->localIsGm());
 }
 
 void TestAudioPlayer::addSongTest()
 {
     QFETCH(QList<QUrl>, songs);
     QFETCH(int, expected);
+
+    QVERIFY(m_audioController->localIsGm());
 
     m_audioController->addSong(songs);
 
@@ -133,7 +251,7 @@ void TestAudioPlayer::playSongInLoop()
 
     spy.wait((TIME_SONG + 10) * 1000);
     spy2.wait();
-    QCOMPARE(spy.count(), expected);
+    QCOMPARE(spy.count(), expected + 2);
     QCOMPARE(spy2.count(), expected + 2);
 }
 void TestAudioPlayer::playSongInLoop_data()

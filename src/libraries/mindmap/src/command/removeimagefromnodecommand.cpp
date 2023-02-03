@@ -36,12 +36,14 @@ RemoveImageFromNodeCommand::RemoveImageFromNodeCommand(MindItemModel* nodeModel,
 void RemoveImageFromNodeCommand::undo()
 {
     m_imgModel->insertPixmap(m_id, m_pixmap);
-    m_nodeModel->setImageUriToNode(m_id, m_id);
+    //m_nodeModel->setImageUriToNode(m_id, m_id);
+    m_nodeModel->update(m_id, MindItemModel::HasPicture);
 }
 
 void RemoveImageFromNodeCommand::redo()
 {
     m_imgModel->removePixmap(m_id);
-    m_nodeModel->setImageUriToNode(m_id, {});
+    //m_nodeModel->setImageUriToNode(m_id, {});
+    m_nodeModel->update(m_id, MindItemModel::HasPicture);
 }
 } // namespace mindmap

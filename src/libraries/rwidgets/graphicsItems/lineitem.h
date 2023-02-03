@@ -59,9 +59,8 @@ public:
      * @param pos
      */
     virtual void updateChildPosition() override;
-    virtual VisualItem* getItemCopy() override;
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
-    void endOfGeometryChange(ChildPointItem::Change change) override;
+    // virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
+    // void endOfGeometryChange(ChildPointItem::Change change) override;
 
 private:
     QPointer<vmap::LineController> m_lineCtrl;

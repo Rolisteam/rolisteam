@@ -62,16 +62,18 @@ AudioPlayerController::AudioPlayerController(int id, const QString& key, Prefere
     connect(&m_player, &QMediaPlayer::durationChanged, this, &AudioPlayerController::durationChanged);
     connect(&m_player, &QMediaPlayer::positionChanged, this, &AudioPlayerController::timeChanged);
 
-    connect(&m_player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
-        switch(status)
-        {
-        case QMediaPlayer::EndOfMedia:
-            next();
-            break;
-        default:
-            break;
-        }
-    });
+    connect(&m_player, &QMediaPlayer::mediaStatusChanged, this,
+            [this](QMediaPlayer::MediaStatus status)
+            {
+                switch(status)
+                {
+                case QMediaPlayer::EndOfMedia:
+                    next();
+                    break;
+                default:
+                    break;
+                }
+            });
 }
 
 AudioPlayerController::~AudioPlayerController()= default;
@@ -113,7 +115,7 @@ qint64 AudioPlayerController::time() const
 
 AudioPlayerController::State AudioPlayerController::state() const
 {
-    AudioPlayerController::State state;
+    AudioPlayerController::State state= AudioPlayerController::StoppedState;
     switch(m_player.playbackState())
     {
     case QMediaPlayer::StoppedState:
@@ -187,6 +189,7 @@ void AudioPlayerController::next()
         break;
     case UNIQUE:
         start= false;
+        stop();
         break;
     case NEXT:
         setMedia(m_model->index(p + 1, 0));

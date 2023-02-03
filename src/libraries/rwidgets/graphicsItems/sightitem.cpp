@@ -56,7 +56,6 @@ SightItem::SightItem(vmap::SightController* ctrl) : VisualItem(ctrl), m_sightCtr
     connect(m_sightCtrl, &vmap::SightController::characterCountChanged, this, updateFunc);
 
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
-    createActions();
     setAcceptedMouseButtons(Qt::NoButton);
     if(m_ctrl)
         m_ctrl->setLayer(Core::Layer::FOG);
@@ -86,11 +85,6 @@ void SightItem::setNewEnd(const QPointF& nend)
 {
     Q_UNUSED(nend)
     return;
-}
-
-VisualItem* SightItem::getItemCopy()
-{
-    return nullptr;
 }
 
 void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -139,8 +133,6 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     painter->drawPath(path);
     painter->restore();
 }
-
-void SightItem::createActions() {}
 
 void SightItem::moveVision(qreal id, QPointF& pos)
 {

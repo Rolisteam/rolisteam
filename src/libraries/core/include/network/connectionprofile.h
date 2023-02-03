@@ -2,13 +2,14 @@
 #define CONNECTIONPROFILE_H
 
 #include <QObject>
+#include <QProperty>
+#include <QString>
+#include <optional>
 
-#include "data/player.h"
 #include "network/network_type.h"
 #include "network_global.h"
 
-#include <QString>
-
+typedef std::function<void(void)> StdFunc;
 /**
  * @brief The ConnectionProfile class stores any data about the connection: Mode (client or server) or role (GM or
  * Player)
@@ -26,6 +27,12 @@ class NETWORK_EXPORT ConnectionProfile : public QObject
     Q_PROPERTY(QString playerName READ playerName WRITE setPlayerName NOTIFY playerNameChanged)
     Q_PROPERTY(QString playerId READ playerId WRITE setPlayerId NOTIFY playerIdChanged)
     Q_PROPERTY(QByteArray playerAvatar READ playerAvatar WRITE setPlayerAvatar NOTIFY playerAvatarChanged)
+
+    Q_PROPERTY(bool valid READ valid NOTIFY validChanged)
+    Q_PROPERTY(bool connectionInfoValid READ connectionInfoValid NOTIFY connectionInfoValidChanged)
+    Q_PROPERTY(bool playerInfoValid READ playerInfoValid WRITE setPlayerInfoValid NOTIFY playerInfoValidChanged)
+    Q_PROPERTY(bool campaignInfoValid READ campaignInfoValid WRITE setCampaignInfoValid NOTIFY campaignInfoValidChanged)
+    Q_PROPERTY(bool charactersValid READ charactersValid WRITE setCharactersValid NOTIFY charactersValidChanged)
 public:
     ConnectionProfile();
 
@@ -41,6 +48,12 @@ public:
     bool isGM() const;
     QString campaignPath() const;
     QByteArray password() const;
+
+    bool valid() const;
+    bool connectionInfoValid() const;
+    bool playerInfoValid() const;
+    bool charactersValid() const;
+    bool campaignInfoValid() const;
 
     const std::vector<connection::CharacterData>& characters();
     connection::CharacterData& character(int i);
@@ -63,6 +76,11 @@ public slots:
     void setCampaignPath(const QString& id);
     void editPassword(const QString& password);
     void setHash(const QByteArray& password);
+    void setCharactersValid(bool val);
+    void setCampaignInfoValid(bool val);
+    void setPlayerInfoValid(bool b);
+
+    void characterHasChanged();
 
 signals:
     void serverChanged();
@@ -77,6 +95,17 @@ signals:
     void playerAvatarChanged();
     void characterCountChanged();
     void passwordChanged();
+    void validChanged();
+    void characterChanged();
+
+    void playerInfoValidChanged();
+    void charactersValidChanged();
+    void campaignInfoValidChanged();
+    void connectionInfoValidChanged();
+
+private slots:
+    void setValid(bool b);
+    void setConnectionInfoValid(bool b);
 
 private:
     // Profile data
@@ -100,6 +129,12 @@ private:
 
     // Character info
     std::vector<connection::CharacterData> m_characters;
+
+    bool m_valid{};
+    bool m_validConnectionInfo{};
+    bool m_validPlayerInfo{};
+    bool m_validCharacter{};
+    bool m_validCampaign{};
 };
 
 #endif // CONNECTIONPROFILE_H

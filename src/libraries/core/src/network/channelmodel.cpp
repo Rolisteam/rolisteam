@@ -429,39 +429,40 @@ bool ChannelModel::moveMediaItem(QList<ServerConnection*> items, const QModelInd
 {
     Q_UNUSED(row)
     Q_UNUSED(formerPosition)
-    if(isAdmin(m_localPlayerId))
-    {
-        if(parentToBe.isValid())
-        {
-            Channel* item= static_cast<Channel*>(parentToBe.internalPointer());
-            QString id= item->uuid();
+    if(!isAdmin(m_localPlayerId))
+        return {};
 
-            QByteArray pw;
+    if(!parentToBe.isValid())
+        return {};
+
+    Channel* item= static_cast<Channel*>(parentToBe.internalPointer());
+    QString id= item->uuid();
+
+    QByteArray pw;
 #ifdef QT_WIDGETS_LIB
-            if(!item->password().isEmpty())
-            {
-                pw= QInputDialog::getText(nullptr, tr("Channel Password"),
-                                          tr("Channel %1 required password:").arg(item->name()), QLineEdit::Password)
-                        .toUtf8()
-                        .toBase64();
-            }
+    qDebug() << "password:"<<item->password().size() << item->password();
+    if(!item->password().isEmpty())
+    {
+        pw= QInputDialog::getText(nullptr, tr("Channel Password"),
+                                  tr("Channel %1 required password:").arg(item->name()), QLineEdit::Password)
+                .toUtf8()
+                .toBase64();
+    }
 #endif
 
-            for(auto client : items)
-            {
-                if(!id.isEmpty())
-                {
-                    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::JoinChannel);
-                    msg.string8(id);
-                    msg.string8(client->uuid());
-                    msg.byteArray32(pw);
-                    msg.sendToServer();
-                    return true;
-                }
-            }
-        }
+    for(auto client : items)
+    {
+        if(id.isEmpty())
+            continue;
+
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::JoinChannel);
+        msg.string8(id);
+        msg.string8(client->uuid());
+        msg.byteArray32(pw);
+        msg.sendToServer();
+
     }
-    return false;
+    return true;
 }
 bool ChannelModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
                                 const QModelIndex& parent)

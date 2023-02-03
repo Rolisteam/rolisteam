@@ -134,6 +134,7 @@ void vmap::VmapItemModel::setModifiedToAllItem()
 bool vmap::VmapItemModel::removeItemController(const QSet<QString>& ids, bool fromNetwork)
 {
     auto s= m_items.size();
+
     beginResetModel();
     m_items.erase(std::remove_if(std::begin(m_items), std::end(m_items),
                                  [ids](const std::unique_ptr<vmap::VisualItemController>& itemCtrl)
@@ -145,9 +146,10 @@ bool vmap::VmapItemModel::removeItemController(const QSet<QString>& ids, bool fr
                                  }),
                   std::end(m_items));
     endResetModel();
+
     if(!fromNetwork)
         emit itemControllersRemoved(ids.values());
-    return s < m_items.size();
+    return s > m_items.size();
 }
 
 void vmap::VmapItemModel::clearData()

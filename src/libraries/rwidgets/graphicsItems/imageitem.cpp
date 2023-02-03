@@ -126,17 +126,7 @@ void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
     // m_modifiers= modifiers;
 }
 
-VisualItem* ImageItem::getItemCopy()
-{
-    /*ImageItem* rectItem= new Imagetem(m_ctrl);
-    rectItem->setImageUri(m_imagePath);
-    // rectItem->resizeContents(m_rect, VisualItem::NoTransform);
-    rectItem->setPos(pos());*/
-    //  return rectItem;
-    return nullptr;
-}
-
-void ImageItem::endOfGeometryChange(ChildPointItem::Change change)
+/*void ImageItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     if(change == ChildPointItem::Resizing)
     {
@@ -148,7 +138,7 @@ void ImageItem::endOfGeometryChange(ChildPointItem::Change change)
                                   oldPos.y() + (oldScenePos.y() - newScenePos.y())));
     }
     VisualItem::endOfGeometryChange(change);
-}
+}*/
 VisualItem* ImageItem::promoteTo(vmap::VisualItemController::ItemType type)
 {
     /*if(type == CHARACTER)

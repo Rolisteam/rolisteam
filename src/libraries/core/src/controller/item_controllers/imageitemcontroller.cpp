@@ -20,6 +20,7 @@
 #include "controller/item_controllers/imageitemcontroller.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "worker/utilshelper.h"
 #include <QBuffer>
 #include <QDebug>
 #include <QFile>
@@ -42,20 +43,23 @@ ImageItemController::ImageItemController(const std::map<QString, QVariant>& para
 
     m_tool= Core::SelectableTool::IMAGE;
 
-    if(params.end() != params.find(Core::keys::KEY_PATH))
-    {
-        setPath(params.at(Core::keys::KEY_PATH).toString());
-        setData(readImage(params.at(Core::keys::KEY_PATH).toString()));
-    }
+    namespace hu= helper::utils;
+    namespace cv= Core::vmapkeys;
+    using std::placeholders::_1;
 
-    if(params.end() != params.find(Core::keys::KEY_DATA))
-        setData(params.at(Core::keys::KEY_DATA).toByteArray());
+    hu::setParamIfAny<QString>(cv::KEY_PATH, params,
+                               [this](const QString& path)
+                               {
+                                   setPath(path);
+                                   setData(readImage(path));
+                               });
+    hu::setParamIfAny<QByteArray>(cv::KEY_DATA, params, std::bind(&ImageItemController::setData, this, _1));
 
     checkMovie();
 
-    if(params.end() != params.find(Core::keys::KEY_RECT))
-        setRect(params.at(Core::keys::KEY_RECT).toRectF());
-    else
+    hu::setParamIfAny<QRectF>(cv::KEY_RECT, params, std::bind(&ImageItemController::setRect, this, _1));
+
+    if(rect().isNull())
         setRect(m_pix.rect());
 
     connect(this, &vmap::ImageItemController::pixmapChanged, this, [this] { setModified(); });
@@ -138,6 +142,8 @@ QString ImageItemController::path() const
 
 qreal ImageItemController::ratio() const
 {
+    if(m_pix.isNull() || (m_pix.height() == 0))
+        return 1.0;
     return m_pix.width() / m_pix.height();
 }
 

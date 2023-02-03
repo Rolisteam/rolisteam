@@ -1,0 +1,74 @@
+[
+    {
+        "actions": [
+        ],
+        "avataruri": "",
+        "color": "#000000",
+        "description": "",
+        "distperturn": 0,
+        "hp": 100,
+        "initCmd": "",
+        "initVal": 0,
+        "lifecolor": "#00ff00",
+        "maxhp": 100,
+        "minhp": 0,
+        "name": "Paul Atréides",
+        "properties": [
+        ],
+        "shapes": [
+        ],
+        "size": 0,
+        "stateid": "",
+        "tags": [
+        ],
+        "uuid": "e498507a-49cf-42ab-9089-d8e9dc62217d"
+    },
+    {
+        "actions": [
+        ],
+        "avataruri": "",
+        "color": "#000000",
+        "description": "",
+        "distperturn": 0,
+        "hp": 100,
+        "initCmd": "",
+        "initVal": 0,
+        "lifecolor": "#00ff00",
+        "maxhp": 100,
+        "minhp": 0,
+        "name": "Kallicé",
+        "properties": [
+        ],
+        "shapes": [
+        ],
+        "size": -190054432,
+        "stateid": "",
+        "tags": [
+        ],
+        "uuid": "db29dff6-496f-40b4-b28f-d638be8d255c"
+    },
+    {
+        "actions": [
+        ],
+        "avataruri": "",
+        "color": "#000000",
+        "description": "",
+        "distperturn": 0,
+        "hp": 100,
+        "initCmd": "",
+        "initVal": 0,
+        "lifecolor": "#00ff00",
+        "maxhp": 100,
+        "minhp": 0,
+        "name": "Kitsune Hideko",
+        "properties": [
+        ],
+        "shapes": [
+        ],
+        "size": -189170640,
+        "stateid": "",
+        "tags": [
+        ],
+        "uuid": "cd1c0a65-8e3a-4567-a807-1f78ca1ef7f6"
+    }
+]

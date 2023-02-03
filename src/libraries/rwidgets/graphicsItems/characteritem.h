@@ -61,13 +61,13 @@ public:
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
-    void resizeContents(const QRectF& rect, int pointId, Core::TransformType transformType= Core::TransformType::KeepRatio) override;
+    void resizeContents(const QRectF& rect, int pointId,
+                        Core::TransformType transformType= Core::TransformType::KeepRatio) override;
     void updateChildPosition() override;
     QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
     virtual void addActionContextMenu(QMenu&) override;
-    virtual VisualItem* getItemCopy() override;
     virtual void setSize(QSizeF size) override;
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
+    // virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
     void setNewEnd(const QPointF& p) override;
 
     // accessors
@@ -94,7 +94,7 @@ signals:
 
 public slots:
     void sizeChanged(qreal m_size);
-    void endOfGeometryChange(ChildPointItem::Change change) override;
+    // void endOfGeometryChange(ChildPointItem::Change change) override;
 
 protected:
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event) override;

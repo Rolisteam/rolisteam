@@ -178,290 +178,290 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         licenseToModify= true;
     }
 
-    if(m_ctrl->idle())
+    if(!m_ctrl->idle())
+        QGraphicsView::contextMenuEvent(event);
+
+    auto selectedItems= selection();
+    QList<vmap::VisualItemController*> underMouseCtrls;
+    QList<ItemToControllerInfo> visualItemUnderMouse;
+    if(selectedItems.isEmpty())
     {
+        auto itemUnderMouse= items(m_menuPoint);
+        visualItemUnderMouse= extractVisualItem(itemUnderMouse);
 
-        auto selectedItems= selection();
-        QList<vmap::VisualItemController*> underMouseCtrls;
-        QList<ItemToControllerInfo> visualItemUnderMouse;
-        if(selectedItems.isEmpty())
+        if(!visualItemUnderMouse.isEmpty())
         {
-            auto itemUnderMouse= items(m_menuPoint);
-            visualItemUnderMouse= extractVisualItem(itemUnderMouse);
+            selectedItems.append(visualItemUnderMouse.first());
+        }
+        std::transform(std::begin(visualItemUnderMouse), std::end(visualItemUnderMouse),
+                       std::back_inserter(underMouseCtrls), [](const ItemToControllerInfo& item) { return item.ctrl; });
+    }
+    QMenu menu;
+    auto parentWid= dynamic_cast<MediaContainer*>(parentWidget());
+    // Empty list
 
-            if(!visualItemUnderMouse.isEmpty())
+    QAction* resetRotationAct= nullptr;
+    QAction* rightRotationAct= nullptr;
+    QAction* leftRotationAct= nullptr;
+    QAction* angleRotationAct= nullptr;
+
+    if(licenseToModify && !selectedItems.isEmpty())
+    {
+        int n= selectedItems.size();
+        menu.addSection(tr("%n item(s)", "", n));
+
+        bool groundL= false, objectL= false, characterL= false, gmLayer= false;
+        if(selectedItems.size() == 1)
+        {
+            auto item= selectedItems.first();
+            item.item->addActionContextMenu(menu);
+
+            auto layer= item.ctrl->layer();
+            switch(layer)
             {
-                selectedItems.append(visualItemUnderMouse.first());
-            }
-            std::transform(std::begin(visualItemUnderMouse), std::end(visualItemUnderMouse),
-                           std::back_inserter(underMouseCtrls),
-                           [](const ItemToControllerInfo& item) { return item.ctrl; });
-        }
-        QMenu menu;
-        auto parentWid= dynamic_cast<MediaContainer*>(parentWidget());
-        // Empty list
-
-        QAction* resetRotationAct= nullptr;
-        QAction* rightRotationAct= nullptr;
-        QAction* leftRotationAct= nullptr;
-        QAction* angleRotationAct= nullptr;
-
-        if(licenseToModify && !selectedItems.isEmpty())
-        {
-            int n= selectedItems.size();
-            menu.addSection(tr("%n item(s)", "", n));
-
-            bool groundL= false, objectL= false, characterL= false, gmLayer= false;
-            if(selectedItems.size() == 1)
-            {
-                auto item= selectedItems.first();
-                item.item->addActionContextMenu(menu);
-
-                auto layer= item.ctrl->layer();
-                switch(layer)
-                {
-                case Core::Layer::GROUND:
-                    groundL= true;
-                    break;
-                case Core::Layer::OBJECT:
-                    objectL= true;
-                    break;
-                case Core::Layer::CHARACTER_LAYER:
-                    characterL= true;
-                    break;
-                case Core::Layer::GAMEMASTER_LAYER:
-                    gmLayer= true;
-                    break;
-                default:
-                    break;
-                }
-            }
-
-            auto overlapping= menu.addMenu(tr("Overlapping"));
-            overlapping->addAction(m_backOrderAction);
-            overlapping->addAction(m_lowerAction);
-            overlapping->addAction(m_raiseAction);
-            overlapping->addAction(m_frontOrderAction);
-
-            QMenu* rotationMenu= menu.addMenu(tr("Rotate"));
-            resetRotationAct= rotationMenu->addAction(tr("To 360"));
-            rightRotationAct= rotationMenu->addAction(tr("Right"));
-            leftRotationAct= rotationMenu->addAction(tr("Left"));
-            angleRotationAct= rotationMenu->addAction(tr("Set Angle…"));
-
-            QMenu* setLayerMenu= menu.addMenu(tr("Set Layer"));
-            setLayerMenu->addAction(m_putGroundLayer);
-            m_putGroundLayer->setChecked(groundL);
-            setLayerMenu->addAction(m_putObjectLayer);
-            m_putObjectLayer->setChecked(objectL);
-            setLayerMenu->addAction(m_putCharacterLayer);
-            m_putCharacterLayer->setChecked(characterL);
-            setLayerMenu->addAction(m_putGMLayer);
-            m_putGMLayer->setChecked(gmLayer);
-
-            QMenu* harmonizeMenu= menu.addMenu(tr("Normalize Size"));
-            harmonizeMenu->addAction(m_normalizeSizeAverage);
-            harmonizeMenu->addAction(m_normalizeSizeUnderMouse);
-            harmonizeMenu->addAction(m_normalizeSizeBigger);
-            harmonizeMenu->addAction(m_normalizeSizeSmaller);
-
-            menu.addAction(m_lockSize);
-            menu.addAction(m_removeSelection);
-        }
-
-        menu.addSection(tr("Map"));
-
-        switch(m_ctrl->layer())
-        {
-        case Core::Layer::OBJECT:
-            m_editObjectLayer->setChecked(true);
-            break;
-        case Core::Layer::GROUND:
-            m_editGroundLayer->setChecked(true);
-            break;
-        case Core::Layer::CHARACTER_LAYER:
-            m_editCharacterLayer->setChecked(true);
-            break;
-        default:
-            break;
-        }
-        if(licenseToModify)
-        {
-            QMenu* editLayer= menu.addMenu(tr("Edit Layer"));
-            editLayer->addAction(m_editGroundLayer);
-            editLayer->addAction(m_editObjectLayer);
-            editLayer->addAction(m_editCharacterLayer);
-            editLayer->addAction(m_editGameMasterLayer);
-
-            QMenu* changeVibility= menu.addMenu(tr("Change Visibility"));
-            changeVibility->addAction(m_hiddenVisibility);
-            changeVibility->addAction(m_characterVisibility);
-            changeVibility->addAction(m_allVisibility);
-
-            QMenu* rollInit= menu.addMenu(tr("Roll Init"));
-            rollInit->addAction(m_rollInitOnAllNpc);
-            rollInit->addAction(m_rollInitOnAllCharacter);
-            if(!selectedItems.isEmpty())
-                rollInit->addAction(m_rollInitOnSelection);
-
-            QMenu* cleanInit= menu.addMenu(tr("Clean Init"));
-            cleanInit->addAction(m_cleanInitOnAllNpc);
-            cleanInit->addAction(m_cleanInitOnAllCharacter);
-            if(!selectedItems.isEmpty())
-                cleanInit->addAction(m_cleanInitOnSelection);
-        }
-        auto zoom= menu.addMenu(tr("Zoom"));
-        zoom->addAction(m_zoomIn);
-        zoom->addAction(m_zoomOut);
-        zoom->addAction(m_zoomInMax);
-        zoom->addAction(m_zoomNormal);
-        zoom->addAction(m_zoomOutMax);
-        zoom->addAction(m_zoomCenterOnItem);
-        m_centerOnItem= itemAt(m_menuPoint);
-        if(nullptr == m_centerOnItem)
-        {
-            m_zoomCenterOnItem->setVisible(false);
-        }
-        else
-        {
-            m_zoomCenterOnItem->setVisible(true);
-        }
-        if(licenseToModify)
-        {
-            menu.addSeparator();
-            menu.addAction(m_importImage);
-            menu.addSeparator();
-        }
-
-        if(nullptr != parentWid)
-        {
-            parentWid->addActionToMenu(menu);
-        }
-        if(licenseToModify)
-        {
-            menu.addAction(m_properties);
-        }
-
-        QAction* selectedAction= menu.exec(event->globalPos());
-
-        if(nullptr == selectedAction)
-            return;
-
-        if(selectedItems.empty())
-            return;
-
-        QList<vmap::VisualItemController*> ctrls= convertInfoToCtrl(selectedItems);
-
-        if(resetRotationAct == selectedAction)
-        {
-            setRotation(ctrls, 0);
-        }
-        else if(selectedAction == rightRotationAct)
-        {
-            setRotation(ctrls, 90);
-        }
-        else if(selectedAction == leftRotationAct)
-        {
-            setRotation(ctrls, 270);
-        }
-        else if(selectedAction == m_lockSize)
-        {
-            lockItems(ctrls);
-        }
-        else if(selectedAction == angleRotationAct)
-        {
-            int angle= QInputDialog::getInt(this, tr("Rotation Value ?"),
-                                            tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
-            setRotation(ctrls, angle);
-        }
-        else if(m_normalizeSizeBigger == selectedAction || m_normalizeSizeAverage == selectedAction
-                || m_normalizeSizeUnderMouse == selectedAction || m_normalizeSizeSmaller == selectedAction)
-        {
-            m_ctrl->normalizeSize(ctrls, static_cast<VectorialMapController::Method>(selectedAction->data().toInt()),
-                                  mapToScene(m_menuPoint));
-        }
-        else if((m_backOrderAction == selectedAction) || (m_frontOrderAction == selectedAction)
-                || (m_lowerAction == selectedAction) || (m_raiseAction == selectedAction))
-        {
-            if(!selectedItems.isEmpty())
-            {
-                auto first= selectedItems[0];
-                auto order= static_cast<VectorialMapController::StackOrder>(selectedAction->data().toInt());
-                auto under= items(first.item->boundingRect().toRect().translated(first.item->pos().toPoint()));
-                auto visualItem= extractVisualItem(under);
-
-                if(order == VectorialMapController::StackOrder::RAISE)
-                {
-                    bool startChanges= false;
-                    QList<ItemToControllerInfo> res;
-                    for(auto it= visualItem.rbegin(); it != visualItem.rend(); ++it)
-                    {
-                        auto i= *it;
-                        if(i.item == first.item)
-                        {
-                            startChanges= true;
-                            continue;
-                        }
-                        if(!startChanges)
-                            continue;
-                        res << i;
-                        // i.item->stackBefore(first.item);
-                    }
-                    stackBefore({res}, {first});
-                }
-                else if(order == VectorialMapController::StackOrder::LOWER)
-                {
-                    QList<ItemToControllerInfo> res;
-                    for(auto i : visualItem)
-                    {
-                        if(i.item == first.item)
-                            continue;
-                        // first.item->stackBefore(i.item);
-                        res << i;
-                    }
-                    stackBefore({first}, {res});
-                }
-                else if(order == VectorialMapController::StackOrder::BACK)
-                {
-                    auto sortedItems= extractVisualItem(items(), false);
-                    if(sortedItems.empty())
-                        return;
-                    stackBefore({first}, {sortedItems.last()});
-                    // first.item->stackBefore(sortedItems.last().item);
-                }
-                else if(order == VectorialMapController::StackOrder::FRONT)
-                {
-                    auto sortedItems= extractVisualItem(items(), false);
-                    if(sortedItems.empty())
-                        return;
-                    bool startChanges= false;
-                    QList<ItemToControllerInfo> res;
-                    for(auto it= sortedItems.rbegin(); it != sortedItems.rend(); ++it)
-                    {
-                        auto i= *it;
-                        if(i.item == first.item)
-                        {
-                            startChanges= true;
-                            continue;
-                        }
-                        if(!startChanges)
-                            continue;
-                        // i.item->stackBefore(first.item);
-                        res << i;
-                    }
-                    stackBefore({res}, {first});
-                }
+            case Core::Layer::GROUND:
+                groundL= true;
+                break;
+            case Core::Layer::OBJECT:
+                objectL= true;
+                break;
+            case Core::Layer::CHARACTER_LAYER:
+                characterL= true;
+                break;
+            case Core::Layer::GAMEMASTER_LAYER:
+                gmLayer= true;
+                break;
+            default:
+                break;
             }
         }
-        else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
-                || (selectedAction == m_putGroundLayer) || (selectedAction == m_putGMLayer))
-        {
-            setItemLayer(ctrls, static_cast<Core::Layer>(selectedAction->data().toInt()));
-        }
+
+        menu.addAction(m_dupplicate);
+
+        auto overlapping= menu.addMenu(tr("Overlapping"));
+        overlapping->addAction(m_backOrderAction);
+        overlapping->addAction(m_lowerAction);
+        overlapping->addAction(m_raiseAction);
+        overlapping->addAction(m_frontOrderAction);
+
+        QMenu* rotationMenu= menu.addMenu(tr("Rotate"));
+        resetRotationAct= rotationMenu->addAction(tr("To 360"));
+        rightRotationAct= rotationMenu->addAction(tr("Right"));
+        leftRotationAct= rotationMenu->addAction(tr("Left"));
+        angleRotationAct= rotationMenu->addAction(tr("Set Angle…"));
+
+        QMenu* setLayerMenu= menu.addMenu(tr("Set Layer"));
+        setLayerMenu->addAction(m_putGroundLayer);
+        m_putGroundLayer->setChecked(groundL);
+        setLayerMenu->addAction(m_putObjectLayer);
+        m_putObjectLayer->setChecked(objectL);
+        setLayerMenu->addAction(m_putCharacterLayer);
+        m_putCharacterLayer->setChecked(characterL);
+        setLayerMenu->addAction(m_putGMLayer);
+        m_putGMLayer->setChecked(gmLayer);
+
+        QMenu* harmonizeMenu= menu.addMenu(tr("Normalize Size"));
+        harmonizeMenu->addAction(m_normalizeSizeAverage);
+        harmonizeMenu->addAction(m_normalizeSizeUnderMouse);
+        harmonizeMenu->addAction(m_normalizeSizeBigger);
+        harmonizeMenu->addAction(m_normalizeSizeSmaller);
+
+        menu.addAction(m_lockSize);
+        menu.addAction(m_removeSelection);
+    }
+
+    menu.addSection(tr("Map"));
+
+    switch(m_ctrl->layer())
+    {
+    case Core::Layer::OBJECT:
+        m_editObjectLayer->setChecked(true);
+        break;
+    case Core::Layer::GROUND:
+        m_editGroundLayer->setChecked(true);
+        break;
+    case Core::Layer::CHARACTER_LAYER:
+        m_editCharacterLayer->setChecked(true);
+        break;
+    default:
+        break;
+    }
+    if(licenseToModify)
+    {
+        QMenu* editLayer= menu.addMenu(tr("Edit Layer"));
+        editLayer->addAction(m_editGroundLayer);
+        editLayer->addAction(m_editObjectLayer);
+        editLayer->addAction(m_editCharacterLayer);
+        editLayer->addAction(m_editGameMasterLayer);
+
+        QMenu* changeVibility= menu.addMenu(tr("Change Visibility"));
+        changeVibility->addAction(m_hiddenVisibility);
+        changeVibility->addAction(m_characterVisibility);
+        changeVibility->addAction(m_allVisibility);
+
+        QMenu* rollInit= menu.addMenu(tr("Roll Init"));
+        rollInit->addAction(m_rollInitOnAllNpc);
+        rollInit->addAction(m_rollInitOnAllCharacter);
+        if(!selectedItems.isEmpty())
+            rollInit->addAction(m_rollInitOnSelection);
+
+        QMenu* cleanInit= menu.addMenu(tr("Clean Init"));
+        cleanInit->addAction(m_cleanInitOnAllNpc);
+        cleanInit->addAction(m_cleanInitOnAllCharacter);
+        if(!selectedItems.isEmpty())
+            cleanInit->addAction(m_cleanInitOnSelection);
+    }
+    auto zoom= menu.addMenu(tr("Zoom"));
+    zoom->addAction(m_zoomIn);
+    zoom->addAction(m_zoomOut);
+    zoom->addAction(m_zoomInMax);
+    zoom->addAction(m_zoomNormal);
+    zoom->addAction(m_zoomOutMax);
+    zoom->addAction(m_zoomCenterOnItem);
+    m_centerOnItem= itemAt(m_menuPoint);
+    if(nullptr == m_centerOnItem)
+    {
+        m_zoomCenterOnItem->setVisible(false);
     }
     else
     {
-        QGraphicsView::contextMenuEvent(event);
+        m_zoomCenterOnItem->setVisible(true);
+    }
+    if(licenseToModify)
+    {
+        menu.addSeparator();
+        menu.addAction(m_importImage);
+        menu.addSeparator();
+    }
+
+    if(nullptr != parentWid)
+    {
+        parentWid->addActionToMenu(menu);
+    }
+    if(licenseToModify)
+    {
+        menu.addAction(m_properties);
+    }
+
+    QAction* selectedAction= menu.exec(event->globalPos());
+
+    if(nullptr == selectedAction)
+        return;
+
+    if(selectedItems.empty())
+        return;
+
+    QList<vmap::VisualItemController*> ctrls= convertInfoToCtrl(selectedItems);
+
+    if(resetRotationAct == selectedAction)
+    {
+        setRotation(ctrls, 0);
+    }
+    else if(selectedAction == rightRotationAct)
+    {
+        setRotation(ctrls, 90);
+    }
+    else if(selectedAction == leftRotationAct)
+    {
+        setRotation(ctrls, 270);
+    }
+    else if(m_dupplicate == selectedAction)
+    {
+        m_ctrl->dupplicateItem(ctrls);
+    }
+    else if(selectedAction == m_lockSize)
+    {
+        lockItems(ctrls);
+    }
+    else if(selectedAction == angleRotationAct)
+    {
+        int angle= QInputDialog::getInt(this, tr("Rotation Value ?"),
+                                        tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
+        setRotation(ctrls, angle);
+    }
+    else if(m_normalizeSizeBigger == selectedAction || m_normalizeSizeAverage == selectedAction
+            || m_normalizeSizeUnderMouse == selectedAction || m_normalizeSizeSmaller == selectedAction)
+    {
+        m_ctrl->normalizeSize(ctrls, static_cast<VectorialMapController::Method>(selectedAction->data().toInt()),
+                              mapToScene(m_menuPoint));
+    }
+    else if((m_backOrderAction == selectedAction) || (m_frontOrderAction == selectedAction)
+            || (m_lowerAction == selectedAction) || (m_raiseAction == selectedAction))
+    {
+        if(!selectedItems.isEmpty())
+        {
+            auto first= selectedItems[0];
+            auto order= static_cast<VectorialMapController::StackOrder>(selectedAction->data().toInt());
+            auto under= items(first.item->boundingRect().toRect().translated(first.item->pos().toPoint()));
+            auto visualItem= extractVisualItem(under);
+
+            if(order == VectorialMapController::StackOrder::RAISE)
+            {
+                bool startChanges= false;
+                QList<ItemToControllerInfo> res;
+                for(auto it= visualItem.rbegin(); it != visualItem.rend(); ++it)
+                {
+                    auto i= *it;
+                    if(i.item == first.item)
+                    {
+                        startChanges= true;
+                        continue;
+                    }
+                    if(!startChanges)
+                        continue;
+                    res << i;
+                    // i.item->stackBefore(first.item);
+                }
+                stackBefore({res}, {first});
+            }
+            else if(order == VectorialMapController::StackOrder::LOWER)
+            {
+                QList<ItemToControllerInfo> res;
+                for(auto i : visualItem)
+                {
+                    if(i.item == first.item)
+                        continue;
+                    // first.item->stackBefore(i.item);
+                    res << i;
+                }
+                stackBefore({first}, {res});
+            }
+            else if(order == VectorialMapController::StackOrder::BACK)
+            {
+                auto sortedItems= extractVisualItem(items(), false);
+                if(sortedItems.empty())
+                    return;
+                stackBefore({first}, {sortedItems.last()});
+                // first.item->stackBefore(sortedItems.last().item);
+            }
+            else if(order == VectorialMapController::StackOrder::FRONT)
+            {
+                auto sortedItems= extractVisualItem(items(), false);
+                if(sortedItems.empty())
+                    return;
+                bool startChanges= false;
+                QList<ItemToControllerInfo> res;
+                for(auto it= sortedItems.rbegin(); it != sortedItems.rend(); ++it)
+                {
+                    auto i= *it;
+                    if(i.item == first.item)
+                    {
+                        startChanges= true;
+                        continue;
+                    }
+                    if(!startChanges)
+                        continue;
+                    // i.item->stackBefore(first.item);
+                    res << i;
+                }
+                stackBefore({res}, {first});
+            }
+        }
+    }
+    else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
+            || (selectedAction == m_putGroundLayer) || (selectedAction == m_putGMLayer))
+    {
+        setItemLayer(ctrls, static_cast<Core::Layer>(selectedAction->data().toInt()));
     }
 }
 void RGraphicsView::centerOnItem()
@@ -562,13 +562,14 @@ void RGraphicsView::createAction()
     m_normalizeSizeSmaller->setData(VectorialMapController::Smaller);
 
     m_lockSize= new QAction(tr("Lock/Unlock Item Geometry"), this);
+    m_dupplicate= new QAction(tr("Duplicate Item"), this);
 
     addAction(m_zoomNormal);
     addAction(m_zoomInMax);
     addAction(m_zoomOutMax);
     addAction(m_zoomOut);
     addAction(m_zoomIn);
-    // addAction(m_zoomCenterOnItem);
+    addAction(m_dupplicate);
 
     // PROPERTIES
     m_properties= new QAction(tr("Properties"), this);

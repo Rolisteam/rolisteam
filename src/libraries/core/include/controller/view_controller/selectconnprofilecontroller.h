@@ -50,13 +50,11 @@ class CORE_EXPORT SelectConnProfileController : public QObject
     // clang-format off
     Q_PROPERTY(ProfileModel* profileModel READ profileModel CONSTANT)
     Q_PROPERTY(CharacterDataModel* characterModel READ characterModel CONSTANT)
-
     Q_PROPERTY(int currentProfileIndex READ currentProfileIndex WRITE setCurrentProfileIndex NOTIFY currentProfileIndexChanged)
     Q_PROPERTY(QString profileName READ profileName WRITE setProfileName NOTIFY profileNameChanged)
     Q_PROPERTY(QString playerName READ playerName WRITE setPlayerName NOTIFY playerNameChanged)
     Q_PROPERTY(QColor playerColor READ playerColor WRITE setPlayerColor NOTIFY playerColorChanged)
     Q_PROPERTY(QByteArray playerAvatar READ playerAvatar WRITE setPlayerAvatar NOTIFY playerAvatarChanged)
-
     Q_PROPERTY(bool isGameMaster READ isGameMaster WRITE setIsGameMaster NOTIFY isGameMasterChanged)
     Q_PROPERTY(bool isServer READ isServer WRITE setIsServer NOTIFY isServerChanged)
     Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
@@ -65,18 +63,13 @@ class CORE_EXPORT SelectConnProfileController : public QObject
     Q_PROPERTY(QString errorMsg READ errorMsg WRITE setErrorMsg NOTIFY errorMsgChanged)
     Q_PROPERTY(QString infoMsg READ infoMsg WRITE setInfoMsg NOTIFY infoMsgChanged)
     Q_PROPERTY(QString campaignPath READ campaignPath WRITE setCampaignPath NOTIFY campaignPathChanged)
-
     Q_PROPERTY(ConnectionState connectionState READ connectionState WRITE setConnectionState NOTIFY connectionStateChanged)
-
-
     Q_PROPERTY(bool canConnect READ canConnect NOTIFY canConnectChanged)
     Q_PROPERTY(bool validCampaignPath READ validCampaignPath NOTIFY validCampaignPathChanged)
     Q_PROPERTY(bool validCharacter READ validCharacter NOTIFY validCharacterChanged)
     Q_PROPERTY(bool validCharacterName READ validCharacterName NOTIFY validCharacterNameChanged)
     Q_PROPERTY(bool validCharacterAvatar READ validCharacterAvatar NOTIFY validCharacterAvatarChanged)
     Q_PROPERTY(bool validCharacterColor READ validCharacterColor NOTIFY validCharacterColorChanged)
-
-    Q_PROPERTY(bool isWorking READ isWorking NOTIFY isWorkingChanged)
     // clang-format on
 
 public:
@@ -109,8 +102,6 @@ public:
     QString campaignPath() const;
     ConnectionState connectionState() const;
     bool validCampaignPath() const;
-
-    bool isWorking() const;
 
     bool validCharacter() const;
     bool validCharacterName() const;
@@ -174,25 +165,16 @@ signals:
 
     void startConnect();
     void stopConnecting();
-    void isWorkingChanged();
 
     void validCharacterChanged();
     void validCharacterNameChanged();
     void validCharacterAvatarChanged();
     void validCharacterColorChanged();
-
     void infoMsgChanged();
-
     void passwordChanged();
-
-private slots:
-    void setCanConnect(bool b);
-    void setValidCampaignPath(bool b);
-    void setWorking(bool b);
 
 private:
     ConnectionProfile* currentProfile() const;
-    void updateCanConnect();
 
 private:
     QPointer<ProfileModel> m_profileModel;
@@ -202,11 +184,6 @@ private:
     QString m_infoMsg;
     ConnectionState m_connectionState= ConnectionState::IDLE;
     bool m_protect= false;
-    bool m_canConnect= false;
-    bool m_validCampaignPath= false;
-
-    bool m_isWorking= false;
-    std::unique_ptr<QTimer> m_timer;
 };
 
 #endif // SELECTCONNPROFILECONTROLLER_H

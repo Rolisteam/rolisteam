@@ -52,11 +52,13 @@ template <typename T>
 void setContinuation(QFuture<T> future, QObject* obj, std::function<void(T)> callback)
 {
     auto watcher= new QFutureWatcher<T>();
-    QObject::connect(watcher, &QFutureWatcher<T>::finished, obj, [watcher, callback]() {
-        auto result= watcher->result();
-        callback(result);
-        delete watcher;
-    });
+    QObject::connect(watcher, &QFutureWatcher<T>::finished, obj,
+                     [watcher, callback]()
+                     {
+                         auto result= watcher->result();
+                         callback(result);
+                         delete watcher;
+                     });
     watcher->setFuture(future);
 }
 

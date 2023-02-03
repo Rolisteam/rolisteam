@@ -276,7 +276,7 @@ void TextItem::editText()
     }
 }
 
-void TextItem::endOfGeometryChange(ChildPointItem::Change change)
+/*void TextItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     if(change == ChildPointItem::Resizing)
     {
@@ -288,13 +288,8 @@ void TextItem::endOfGeometryChange(ChildPointItem::Change change)
                                    oldPos.y() + (oldScenePos.y() - newScenePos.y())));
     }
     VisualItem::endOfGeometryChange(change);
-}
+}*/
 
-VisualItem* TextItem::getItemCopy()
-{
-    // TextItem* rectItem= new TextItem(m_start, m_penWidth, m_color);
-    return nullptr; // rectItem;
-}
 void TextItem::addActionContextMenu(QMenu& menu)
 {
     menu.addAction(m_edit.get());

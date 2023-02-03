@@ -22,6 +22,9 @@
 #include <QVariant>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "worker/utilshelper.h"
+#include "media/mediatype.h"
+
 namespace vmap
 {
 LineController::LineController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
@@ -29,14 +32,15 @@ LineController::LineController(const std::map<QString, QVariant>& params, Vector
 {
     m_tool= Core::SelectableTool::LINE;
 
-    if(params.end() != params.find("color"))
-        m_color= params.at(QStringLiteral("color")).value<QColor>();
-
-    if(params.end() != params.find("penWidth"))
-        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
-
-    if(params.end() != params.find("position"))
-        m_pos= params.at(QStringLiteral("position")).toPointF();
+    helper::utils::setParamIfAny<QColor>(Core::vmapkeys::KEY_COLOR, params, [this](const QColor& color) {
+        setColor(color);
+    });
+    helper::utils::setParamIfAny<quint16>(Core::vmapkeys::KEY_PENWIDTH, params, [this](const quint16& penWidth) {
+       m_penWidth = penWidth;
+    });
+    helper::utils::setParamIfAny<QPointF>(Core::vmapkeys::KEY_POS, params, [this](const QPointF& pos) {
+        m_pos = pos;
+    });
 
     connect(this, &LineController::startPointChanged, this, [this] { setModified(); });
     connect(this, &LineController::endPointChanged, this, [this] { setModified(); });

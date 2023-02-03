@@ -115,7 +115,6 @@ void saveVisualItemController(const vmap::VisualItemController* ctrl, QDataStrea
         return;
 
     output << ctrl->itemType();
-    // output << ctrl->rotationOriginPoint();
     output << ctrl->selected();
     output << ctrl->visible();
     output << ctrl->opacity();
@@ -712,6 +711,42 @@ void VectorialMapMessageHelper::fetchCharacterVision(const std::map<QString, QVa
     // clang-format on
 }
 
+std::map<QString, QVariant> readItemController(QDataStream& input)
+{
+    vmap::VisualItemController::ItemType type;
+    input >> type;
+
+    std::map<QString, QVariant> params;
+    switch(type)
+    {
+    case vmap::VisualItemController::ELLIPSE:
+        params= readEllipseController(input);
+        break;
+    case vmap::VisualItemController::PATH:
+        params= readPathController(input);
+        break;
+    case vmap::VisualItemController::RECT:
+        params= readRectController(input);
+        break;
+    case vmap::VisualItemController::TEXT:
+        params= readTextController(input);
+        break;
+    case vmap::VisualItemController::CHARACTER:
+        params= readCharacterItemController(input);
+        break;
+    case vmap::VisualItemController::LINE:
+        params= readLineController(input);
+        break;
+    case vmap::VisualItemController::IMAGE:
+        params= readImageController(input);
+        break;
+    default:
+        break;
+    }
+
+    return params;
+}
+
 void readModel(VectorialMapController* ctrl, QDataStream& input)
 {
     quint64 size;
@@ -719,37 +754,46 @@ void readModel(VectorialMapController* ctrl, QDataStream& input)
 
     for(quint64 i= 0; i < size; ++i)
     {
-        vmap::VisualItemController::ItemType type;
-        input >> type;
-
-        std::map<QString, QVariant> params;
-        switch(type)
-        {
-        case vmap::VisualItemController::ELLIPSE:
-            params= readEllipseController(input);
-            break;
-        case vmap::VisualItemController::PATH:
-            params= readPathController(input);
-            break;
-        case vmap::VisualItemController::RECT:
-            params= readRectController(input);
-            break;
-        case vmap::VisualItemController::TEXT:
-            params= readTextController(input);
-            break;
-        case vmap::VisualItemController::CHARACTER:
-            params= readCharacterItemController(input);
-            break;
-        case vmap::VisualItemController::LINE:
-            params= readLineController(input);
-            break;
-        case vmap::VisualItemController::IMAGE:
-            params= readImageController(input);
-            break;
-        default:
-            break;
-        }
+        std::map<QString, QVariant> params= readItemController(input);
         ctrl->addItemController(params);
+    }
+}
+
+void saveItemController(vmap::VisualItemController* itemCtrl, QDataStream& save)
+{
+    using vv= vmap::VisualItemController;
+    if(itemCtrl->removed())
+        return;
+    save << itemCtrl->itemType();
+    switch(itemCtrl->itemType())
+    {
+    case vv::RECT:
+        saveVMapRectItemController(dynamic_cast<vmap::RectController*>(itemCtrl), save);
+        break;
+    case vv::PATH:
+        saveVMapPathItemController(dynamic_cast<vmap::PathController*>(itemCtrl), save);
+        break;
+    case vv::LINE:
+        saveVMapLineItemController(dynamic_cast<vmap::LineController*>(itemCtrl), save);
+        break;
+    case vv::ELLIPSE:
+        saveVMapEllipseItemController(dynamic_cast<vmap::EllipseController*>(itemCtrl), save);
+        break;
+    case vv::CHARACTER:
+        saveVMapCharacterItemController(dynamic_cast<vmap::CharacterItemController*>(itemCtrl), save);
+        break;
+    case vv::TEXT:
+        saveVMapTextItemController(dynamic_cast<vmap::TextController*>(itemCtrl), save);
+        break;
+    case vv::IMAGE:
+        saveVMapImageItemController(dynamic_cast<vmap::ImageItemController*>(itemCtrl), save);
+        break;
+    case vv::RULE:
+    case vv::SIGHT:
+    case vv::ANCHOR:
+    case vv::GRID:
+    case vv::HIGHLIGHTER:
+        break;
     }
 }
 
@@ -811,42 +855,9 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
 
     output << size;
 
-    using vv= vmap::VisualItemController;
     for(auto itemCtrl : vec)
     {
-        if(itemCtrl->removed())
-            continue;
-        output << itemCtrl->itemType();
-        switch(itemCtrl->itemType())
-        {
-        case vv::RECT:
-            saveVMapRectItemController(dynamic_cast<vmap::RectController*>(itemCtrl), output);
-            break;
-        case vv::PATH:
-            saveVMapPathItemController(dynamic_cast<vmap::PathController*>(itemCtrl), output);
-            break;
-        case vv::LINE:
-            saveVMapLineItemController(dynamic_cast<vmap::LineController*>(itemCtrl), output);
-            break;
-        case vv::ELLIPSE:
-            saveVMapEllipseItemController(dynamic_cast<vmap::EllipseController*>(itemCtrl), output);
-            break;
-        case vv::CHARACTER:
-            saveVMapCharacterItemController(dynamic_cast<vmap::CharacterItemController*>(itemCtrl), output);
-            break;
-        case vv::TEXT:
-            saveVMapTextItemController(dynamic_cast<vmap::TextController*>(itemCtrl), output);
-            break;
-        case vv::IMAGE:
-            saveVMapImageItemController(dynamic_cast<vmap::ImageItemController*>(itemCtrl), output);
-            break;
-        case vv::RULE:
-        case vv::SIGHT:
-        case vv::ANCHOR:
-        case vv::GRID:
-        case vv::HIGHLIGHTER:
-            break;
-        }
+        saveItemController(itemCtrl, output);
     }
 
     return data;
@@ -859,8 +870,31 @@ void VectorialMapMessageHelper::fetchModelFromMap(const QHash<QString, QVariant>
     {
         auto const& item= params.value(QString("Item_%1").arg(i));
         auto const maps= item.toMap().toStdMap();
-        ctrl->addItemController(maps);
+        if(!maps.empty())
+            ctrl->addItemController(maps);
     }
+}
+
+QHash<QString, QVariant> VectorialMapMessageHelper::itemsToHash(const QList<vmap::VisualItemController*>& ctrls)
+{
+    QHash<QString, QVariant> items;
+
+    int i= 0;
+    for(auto const& ctrl : ctrls)
+    {
+        QByteArray array;
+        {
+            QDataStream output(&array, QIODevice::WriteOnly);
+            saveItemController(ctrl, output);
+        }
+        {
+            QDataStream input(&array, QIODevice::ReadOnly);
+            items.insert(QString("Item_%1").arg(i), QVariant::fromValue(readItemController(input)));
+        }
+        ++i;
+    }
+
+    return items;
 }
 
 void VectorialMapMessageHelper::readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array)

@@ -23,15 +23,13 @@
 #include <QPainter>
 #include <QPropertyAnimation>
 
+#include "preferences/preferencesmanager.h"
 #include <cmath>
 #include <math.h>
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-#include "preferences/preferencesmanager.h"
-
-HighlighterItem::HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent)
-    : m_center(center), m_color(penColor), m_penSize(static_cast<quint16>(penSize))
+HighlighterItem::HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent,
+                                 bool autoDestruction)
+    : QGraphicsObject(parent), m_center(center), m_color(penColor), m_penSize(static_cast<quint16>(penSize))
 {
     setZValue(std::numeric_limits<qreal>::max());
     m_center= center;
@@ -40,10 +38,10 @@ HighlighterItem::HighlighterItem(const QPointF& center, int penSize, const QColo
     m_center.setY(0);
     m_radius= 0;
 
-    initAnimation();
+    initAnimation(autoDestruction);
 }
 
-void HighlighterItem::initAnimation()
+void HighlighterItem::initAnimation(bool autoDestruction)
 {
     auto const preferences= PreferencesManager::getInstance();
     m_animation= new QPropertyAnimation(this, "radius");
@@ -52,19 +50,20 @@ void HighlighterItem::initAnimation()
     m_animation->setEndValue(preferences->value("Map_Highlighter_radius", 100).toInt());
     m_animation->setEasingCurve(QEasingCurve::Linear);
     m_animation->setLoopCount(preferences->value("Map_Highlighter_loop", 3).toInt());
-    m_animation->start();
 
-    connect(m_animation, &QPropertyAnimation::finished, this,
-            [this]()
-            {
-                // setVisible(false);
-                // emit itemRemoved(m_id, true, false);
-                deleteLater();
-            });
+    if(autoDestruction)
+        connect(m_animation, &QPropertyAnimation::finished, this,
+                [this]()
+                {
+                    // setVisible(false);
+                    // emit itemRemoved(m_id, true, false);
+                    deleteLater();
+                });
+    m_animation->start();
 }
 QRectF HighlighterItem::boundingRect() const
 {
-    return {};
+    return {0, 0, m_radius * 2, m_radius * 2};
 }
 QPainterPath HighlighterItem::shape() const
 {
@@ -99,67 +98,3 @@ qreal HighlighterItem::getRadius() const
 {
     return m_radius;
 }
-void HighlighterItem::setNewEnd(const QPointF& p)
-{
-    Q_UNUSED(p)
-    /*  m_radius = std::fabs(p.x()-pos().x())*sqrt(2);
-
-      m_rect.setRect(-m_radius,-m_radius,m_radius*2,m_radius*2);*/
-}
-
-void HighlighterItem::writeData(QDataStream& out) const
-{
-    Q_UNUSED(out)
-}
-
-void HighlighterItem::readData(QDataStream& in)
-{
-    Q_UNUSED(in)
-}
-/*void HighlighterItem::fillMessage(NetworkMessageWriter* msg)
-{
-    msg->string16(m_id);
-    msg->real(scale());
-    msg->real(rotation());
-    // msg->uint8(static_cast<int>(m_layer));
-    msg->real(zValue());
-    msg->real(opacity());
-    msg->real(pos().x());
-    msg->real(pos().y());
-    // radius
-    msg->real(m_radius);
-    // center
-    msg->real(m_center.x());
-    msg->real(m_center.y());
-    msg->rgb(m_color.rgb());
-    // msg->int16(m_penWidth);
-}
-void HighlighterItem::readItem(NetworkMessageReader* msg)
-{
-    m_id= msg->string16();
-    setScale(msg->real());
-    setRotation(msg->real());
-    // m_layer= static_cast<Core::Layer>(msg->uint8());
-    setZValue(msg->real());
-    setOpacity(msg->real());
-
-    // x , y
-    qreal posx= msg->real();
-    qreal posy= msg->real();
-
-    // radius
-    m_radius= msg->real();
-
-    // center
-    m_center.setX(msg->real());
-    m_center.setY(msg->real());
-
-    m_color= msg->rgb();
-    // m_penWidth= msg->int16();
-
-    setPos(posx, posy);
-
-    initAnimation();
-}*/
-void HighlighterItem::setGeometryPoint(qreal, QPointF&) {}
-void HighlighterItem::initChildPointItem() {}

@@ -69,8 +69,8 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     , m_ctrl(ctrl)
     , m_vmap(new VMap(ctrl))
     , m_graphicView(new RGraphicsView(ctrl))
-    , m_toolbox(new VToolsBar(ctrl))
-    , m_toolbar(new VmapToolBar(ctrl))
+    , m_toolbox(new ToolBox(ctrl))
+    , m_topBar(new VmapTopBar(ctrl))
 {
     setupUi();
 
@@ -140,13 +140,13 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     connect(m_ctrl, &VectorialMapController::zoomLevelChanged, this, updateSmallImage);
 }
 
-VMapFrame::~VMapFrame() {}
+VMapFrame::~VMapFrame()= default;
 
 void VMapFrame::setupUi()
 {
     auto wid= new QWidget(this);
     auto layout= new QVBoxLayout(wid);
-    layout->addWidget(m_toolbar.get());
+    layout->addWidget(m_topBar.get());
 
     auto horizontal= new QSplitter(Qt::Horizontal, this);
     layout->addWidget(horizontal);
@@ -157,11 +157,6 @@ void VMapFrame::setupUi()
     horizontal->setStretchFactor(1, 1);
 
     setWidget(wid);
-}
-
-bool VMapFrame::defineMenu(QMenu* /*menu*/)
-{
-    return false;
 }
 
 bool VMapFrame::openFile(const QString& filepath)
@@ -182,10 +177,29 @@ void VMapFrame::keyPressEvent(QKeyEvent* event)
     switch(event->key())
     {
     case Qt::Key_Escape:
-        // m_toolsbar->setCurrentTool(VToolsBar::HANDLER);
-        emit defineCurrentTool(Core::HANDLER);
+        m_ctrl->setTool(Core::HANDLER);
         break;
     default:
         MediaContainer::keyPressEvent(event);
     }
+}
+
+VmapTopBar* VMapFrame::topBar() const
+{
+    return m_topBar.get();
+}
+
+ToolBox* VMapFrame::toolBox() const
+{
+    return m_toolbox.get();
+}
+
+VMap* VMapFrame::map() const
+{
+    return m_vmap.get();
+}
+
+QPointF VMapFrame::mapFromScene(const QPointF& point)
+{
+    return m_graphicView->mapToGlobal(point);
 }

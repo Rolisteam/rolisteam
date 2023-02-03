@@ -20,28 +20,32 @@
 #include "controller/item_controllers/rectcontroller.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include <QDebug>
+#include "worker/utilshelper.h"
+
 namespace vmap
 {
 RectController::RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::RECT, params, ctrl, parent)
 {
-    if(params.end() != params.find(Core::vmapkeys::KEY_TOOL))
+    namespace hu= helper::utils;
+    namespace cv= Core::vmapkeys;
+    using std::placeholders::_1;
+
+    std::function<void(Core::SelectableTool)> lambda= [this](Core::SelectableTool s)
     {
-        m_tool= params.at(Core::vmapkeys::KEY_TOOL).value<Core::SelectableTool>();
+        m_tool= s;
         m_filled= (m_tool == Core::SelectableTool::FILLRECT);
-    }
-    else if(params.end() != params.find(Core::vmapkeys::KEY_FILLED))
+    };
+    std::function<void(bool)> lambda2= [this](bool s)
     {
-        m_filled= params.at(Core::vmapkeys::KEY_FILLED).toBool();
+        m_filled= s;
         m_tool= m_filled ? Core::SelectableTool::FILLRECT : Core::SelectableTool::EMPTYRECT;
-    }
+    };
 
-    if(params.end() != params.find(Core::vmapkeys::KEY_PENWIDTH))
-        m_penWidth= static_cast<quint16>(params.at(Core::vmapkeys::KEY_PENWIDTH).toInt());
-
-    if(params.end() != params.find(Core::vmapkeys::KEY_RECT))
-        setRect(params.at(Core::vmapkeys::KEY_RECT).toRectF());
+    hu::setParamIfAny<Core::SelectableTool>(cv::KEY_TOOL, params, lambda);
+    hu::setParamIfAny<bool>(cv::KEY_FILLED, params, lambda2);
+    hu::setParamIfAny<quint16>(cv::KEY_PENWIDTH, params, std::bind(&RectController::setPenWidth, this, _1));
+    hu::setParamIfAny<QRectF>(cv::KEY_RECT, params, std::bind(&RectController::setRect, this, _1));
 
     connect(this, &RectController::rectChanged, this, [this] { setModified(); });
     connect(this, &RectController::filledChanged, this, [this] { setModified(); });
@@ -67,8 +71,15 @@ void RectController::setRect(QRectF rect)
     m_rectEdited= true;
 }
 
-void RectController::setCorner(const QPointF& move, int corner,
-                               Core::TransformType tt)
+void RectController::setPenWidth(qreal w)
+{
+    if(qFuzzyCompare(w, m_penWidth))
+        return;
+    m_penWidth= w;
+    emit penWidthChanged();
+}
+
+void RectController::setCorner(const QPointF& move, int corner, Core::TransformType tt)
 {
     if(move.isNull())
         return;

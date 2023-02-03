@@ -111,6 +111,10 @@ QPixmap readPixmapFromURL(const QUrl& url)
     {
         map= readPixmapFromFile(url.toLocalFile());
     }
+    else if(url.scheme() == QStringLiteral("qrc"))
+    {
+        map= readPixmapFromFile(url.path());
+    }
     return map;
 }
 QString shortNameFromPath(const QString& path)

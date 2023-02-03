@@ -34,7 +34,7 @@ class CORE_EXPORT AudioController : public QObject
     Q_PROPERTY(AudioPlayerController* firstController READ firstController CONSTANT)
     Q_PROPERTY(AudioPlayerController* secondController READ secondController CONSTANT)
     Q_PROPERTY(AudioPlayerController* thirdController READ thirdController CONSTANT)
-    Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM)
+    Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localisGMChanged)
 public:
     enum AudioPlayerId
     {
@@ -49,6 +49,9 @@ public:
     AudioPlayerController* thirdController() const;
 
     bool localIsGM() const;
+
+signals:
+    void localisGMChanged();
 
 public slots:
     void setLocalIsGM(bool m);

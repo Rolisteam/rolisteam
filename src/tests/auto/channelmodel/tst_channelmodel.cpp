@@ -26,7 +26,6 @@
 
 #include "network/channel.h"
 #include "network/channelmodel.h"
-#include "network/clientconnection.h"
 #include "network/serverconnection.h"
 #include "worker/networkhelper.h"
 
@@ -106,8 +105,8 @@ void TestChannelModel::removeTest()
 
 void TestChannelModel::moveTest()
 {
-    auto idC= m_model->addChannel("channel1", "password");
-    auto idC2= m_model->addChannel("channel2", "password");
+    auto idC= m_model->addChannel("channel1", {});
+    auto idC2= m_model->addChannel("channel2", {});
     QCOMPARE(m_model->rowCount(QModelIndex()), 2);
 
     ServerConnection client(nullptr, nullptr);

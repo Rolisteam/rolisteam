@@ -26,6 +26,7 @@ AudioController::AudioController(campaign::CampaignManager* campaign, Preference
     , m_thirdCtrl(new AudioPlayerController(Third, Core::preferences::KEY_DIRECTORY_AP3, pref))
     , m_updater(new AudioPlayerUpdater(campaign, this))
 {
+    connect(m_firstCtrl.get(), &AudioPlayerController::localIsGmChanged, this, &AudioController::localisGMChanged);
 }
 
 AudioPlayerController* AudioController::firstController() const

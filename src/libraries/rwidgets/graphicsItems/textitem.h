@@ -90,7 +90,6 @@ public:
      */
     virtual void setNewEnd(const QPointF& nend) override;
     void updateChildPosition() override;
-    VisualItem* getItemCopy() override;
     void addActionContextMenu(QMenu& menu) override;
     void setBorderVisible(bool);
 
@@ -98,7 +97,7 @@ public:
     // virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
 
     // virtual void endOfGeometryChange() override;
-    void endOfGeometryChange(ChildPointItem::Change change) override;
+    // void endOfGeometryChange(ChildPointItem::Change change) override;
 public slots:
     // void updateTextPosition();
     void editText();

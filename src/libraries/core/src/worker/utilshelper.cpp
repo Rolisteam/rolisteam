@@ -86,18 +86,13 @@ bool isSquareImage(const QByteArray& array)
 
 bool hasValidCharacter(const std::vector<connection::CharacterData>& characters, bool isGameMaster)
 {
-    auto res= false;
-    if(isGameMaster)
-    {
-        res= true; // characters.empty();
-    }
-    else
-    {
-        res= std::any_of(std::begin(characters), std::end(characters),
-                         [](const connection::CharacterData& data)
-                         { return !data.m_name.isEmpty() && isSquareImage(data.m_avatarData); });
-    }
-    return res;
+    return isGameMaster ? true :
+                          std::any_of(std::begin(characters), std::end(characters),
+                                      [](const connection::CharacterData& data)
+                                      {
+                                          auto s= isSquareImage(data.m_avatarData);
+                                          return !data.m_name.isEmpty() && s;
+                                      });
 }
 
 QStringList extentionPerType(Core::ContentType type, bool save, bool wildcard)

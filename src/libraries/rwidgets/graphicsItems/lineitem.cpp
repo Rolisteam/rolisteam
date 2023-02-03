@@ -112,16 +112,16 @@ void LineItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     }
 }
 
-void LineItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
+/*void LineItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
-    /*  m_rect.setX(x);
+      m_rect.setX(x);
       m_rect.setY(y);
       m_rect.setWidth(w);
       m_rect.setHeight(h);
 
       m_startPoint= m_rect.topLeft();
-      m_endPoint= m_rect.bottomRight();*/
-}
+      m_endPoint= m_rect.bottomRight();
+}*/
 
 void LineItem::updateChildPosition()
 {
@@ -133,21 +133,8 @@ void LineItem::updateChildPosition()
     m_children.value(1)->setPos(m_lineCtrl->endPoint());
     m_children.value(1)->setPlacement(ChildPointItem::Center);
 }
-VisualItem* LineItem::getItemCopy()
-{
-    return nullptr;
-    /* LineItem* line= new LineItem(m_startPoint, m_color, m_penWidth);
-     line->setNewEnd(m_endPoint);
-     line->setOpacity(opacity());
-     line->setScale(scale());
-     line->setRotation(rotation());
-     line->setZValue(zValue());
-     line->setLayer(getLayer());
 
-     return line;*/
-}
-
-void LineItem::endOfGeometryChange(ChildPointItem::Change change)
+/*void LineItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     if(change == ChildPointItem::Resizing)
     {
@@ -159,4 +146,4 @@ void LineItem::endOfGeometryChange(ChildPointItem::Change change)
                                    oldPos.y() + (oldScenePos.y() - newScenePos.y())));
     }
     VisualItem::endOfGeometryChange(change);
-}
+}*/

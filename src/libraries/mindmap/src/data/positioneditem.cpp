@@ -228,13 +228,21 @@ const std::vector<QPointer<LinkController>>& PositionedItem::subLinks() const
 int PositionedItem::subNodeCount() const
 {
     int sum= std::accumulate(m_subNodelinks.begin(), m_subNodelinks.end(), 0, [](int& a, LinkController* link) {
+        static QSet<LinkController*> alreadySeen;
         if(nullptr == link)
             return 0;
         auto end= link->end();
         if(nullptr == end)
             return 0;
 
-        return a + 1 + end->subNodeCount();
+        int res = 0;
+        if(!alreadySeen.contains(link))
+            res= a + 1 + end->subNodeCount();
+        else
+            res= a + end->subNodeCount();
+
+        alreadySeen.insert(link);
+        return res;
     });
     return sum;
 }

@@ -100,10 +100,10 @@ void VisualItem::evaluateVisible()
 }
 void VisualItem::init()
 {
-    createActions();
+
     setAcceptHoverEvents(true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
-    QActionGroup* group= new QActionGroup(this);
+    /*QActionGroup* group= new QActionGroup(this);
     m_putGroundLayer= new QAction(m_ctrl->getLayerText(Core::Layer::GROUND), this);
     m_putGroundLayer->setData(static_cast<int>(Core::Layer::GROUND));
     m_putObjectLayer= new QAction(m_ctrl->getLayerText(Core::Layer::OBJECT), this);
@@ -124,7 +124,7 @@ void VisualItem::init()
     group->addAction(m_putGroundLayer);
     group->addAction(m_putObjectLayer);
     group->addAction(m_putCharacterLayer);
-    group->addAction(m_putGameMasterLayer);
+    group->addAction(m_putGameMasterLayer);*/
 }
 vmap::VisualItemController* VisualItem::controller() const
 {
@@ -215,7 +215,7 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
     }
     else if((event->key() == Qt::Key_C) && (event->modifiers() == Qt::ControlModifier) && (isSelected()))
     {
-        emit duplicateItem(this);
+        // emit duplicateItem(this);
         event->accept();
     }
     QGraphicsItem::keyPressEvent(event);
@@ -266,25 +266,7 @@ void VisualItem::promoteItem()
     }
 }
 
-void VisualItem::createActions()
-{
-    m_duplicateAct= new QAction(tr("Duplicate Item"), this);
-    m_duplicateAct->setShortcut(QKeySequence("Ctrl+C"));
-    connect(m_duplicateAct, &QAction::triggered, this, &VisualItem::manageAction, Qt::QueuedConnection);
-}
-void VisualItem::manageAction()
-{
-    QAction* tmp= qobject_cast<QAction*>(sender());
-    if(m_duplicateAct == tmp)
-    {
-        emit duplicateItem(this);
-    }
-}
-
-void VisualItem::addActionContextMenu(QMenu& menu)
-{
-    menu.addAction(m_duplicateAct);
-}
+void VisualItem::addActionContextMenu(QMenu& menu) {}
 
 bool VisualItem::hasFocusOrChild()
 {
@@ -313,16 +295,17 @@ bool VisualItem::isLocal() const
     return !m_ctrl->remote();
 }
 
-void VisualItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
-{
-    /*   m_rect.setX(x);
-       m_rect.setY(y);
-       m_rect.setWidth(w);
-       m_rect.setHeight(h);*/
-}
-
 void VisualItem::endOfGeometryChange(ChildPointItem::Change change)
 {
+    if(change == ChildPointItem::Resizing)
+    {
+        auto oldScenePos= scenePos();
+        setTransformOriginPoint(m_ctrl->rect().center());
+        auto newScenePos= scenePos();
+        auto oldPos= pos();
+        m_ctrl->setPos(QPointF(oldPos.x() + (oldScenePos.x() - newScenePos.x()),
+                               oldPos.y() + (oldScenePos.y() - newScenePos.y())));
+    }
     m_ctrl->endGeometryChange();
 }
 

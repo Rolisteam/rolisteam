@@ -38,17 +38,12 @@ public:
     QString getImageUri();
 
     virtual void setModifiers(Qt::KeyboardModifiers modifiers) override;
-    /**
-     * @brief getItemCopy
-     * @return
-     */
-    virtual VisualItem* getItemCopy() override;
 
     VisualItem* promoteTo(vmap::VisualItemController::ItemType) override;
     QImage getImage() const;
     void setImage(const QImage& image);
 
-    void endOfGeometryChange(ChildPointItem::Change change) override;
+    // void endOfGeometryChange(ChildPointItem::Change change) override;
 
 protected:
     /**

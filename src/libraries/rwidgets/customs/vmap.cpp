@@ -39,12 +39,12 @@
 
 #include "utils/logcategories.h"
 
-//#include "worker/iohelper.h"
+// #include "worker/iohelper.h"
 
 // Undo management
-//#include "commands/movevmapitem.h"
-//#include "undoCmd/addvmapitem.h"
-//#include "undoCmd/deletevmapitem.h"
+// #include "commands/movevmapitem.h"
+// #include "undoCmd/addvmapitem.h"
+// #include "undoCmd/deletevmapitem.h"
 
 void addCharacterItem(VectorialMapController* ctrl, const QPointF& pos, Character* character)
 {
@@ -111,8 +111,8 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
 
     auto grid= m_ctrl->gridController();
 
-    m_gridItem= new GridItem(grid);
-    addItem(m_gridItem);
+    m_gridItem.reset(new GridItem(grid));
+    addItem(m_gridItem.get());
 
     m_gridItem->setPos(grid->pos());
 
@@ -316,7 +316,7 @@ void VMap::insertItem(const QPointF& pos)
 VisualItem* VMap::visualItemUnder(const QPointF& pos)
 {
     QList<QGraphicsItem*> itemList= items(pos);
-    itemList.removeAll(m_gridItem);
+    itemList.removeAll(gridItem());
     itemList.removeAll(m_sightItem);
     if(itemList.isEmpty())
         return nullptr;
@@ -567,7 +567,7 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
     if(!item)
         return false;
 
-    if((item == m_gridItem) || (item == m_sightItem))
+    if((item == m_gridItem.get()) || (item == m_sightItem))
     {
         return false;
     }
@@ -575,6 +575,11 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
     if(!vItem)
         return false;
     return true;
+}
+
+GridItem* VMap::gridItem() const
+{
+    return m_gridItem.get();
 }
 
 void VMap::manageAnchor()
@@ -835,8 +840,8 @@ void VMap::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
 }
 void VMap::duplicateItem(VisualItem* item)
 {
-    VisualItem* copy= item->getItemCopy();
-    if(nullptr != copy)
+    // VisualItem* copy= item->getItemCopy();
+    /*if(nullptr != copy)
     {
         // copy->initChildPointItem();
         // copy->setLayer(item->getLayer());
@@ -849,7 +854,7 @@ void VMap::duplicateItem(VisualItem* item)
         setFocusItem(copy);
         update();
         // sendOffItem(copy, false);
-    }
+    }*/
 }
 bool VMap::isIdle() const
 {
@@ -1006,7 +1011,7 @@ QRectF VMap::itemsBoundingRectWithoutSight()
     auto const& values= m_itemMap->values();
     for(auto item : values)
     {
-        if(item != m_sightItem && item != m_gridItem)
+        if(item != m_sightItem && item != gridItem())
         {
             if(result.isNull())
             {

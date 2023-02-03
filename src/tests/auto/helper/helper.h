@@ -1,9 +1,16 @@
 #include <algorithm>
 
 #include "network/networkmessage.h"
+//#include "utils/iohelper.h"
 #include <QByteArray>
+#include <QPointF>
+#include <QRectF>
+#include <QColor>
 #include <QStringList>
+#include <random>
+#include <type_traits>
 #include <utility>
+#include <map>
 
 class QObject;
 namespace Helper
@@ -61,4 +68,70 @@ private:
 };
 
 std::pair<bool, QStringList> testAllProperties(QObject* obj);
+
+template <typename T>
+T generate(const T& min, const T& max) //=std::numeric_limits<T>::min(),
+                                       //=std::numeric_limits<T>::max()
+{
+    static std::random_device dev;
+    static std::mt19937 rng(dev());
+    /*
+      using dist_t = std::conditional<std::is_floating_point_v<T>,
+                                      std::uniform_real_distribution<T>,
+                                      std::uniform_int_distribution<T>>;*/
+    T res;
+    if constexpr(std::is_integral<T>::value)
+    {
+        std::uniform_int_distribution<T> dist(min, max);
+        res= dist(rng);
+    }
+    else if(std::is_floating_point<T>::value)
+    {
+        std::uniform_real_distribution<T> dist(min, max);
+        res= dist(rng);
+    }
+    else
+    {
+        res= T{}; // useless
+    }
+    return res;
+}
+const std::map<QString, QVariant> buildRectController(bool filled, const QRectF& rect,
+                                                      const QPointF& pos= QPointF(0, 0));
+
+const std::map<QString, QVariant> buildTextController(bool border, const QString& text, const QRectF& rect,
+                                                      const QPointF& pos= QPointF(0, 0));
+
+const std::map<QString, QVariant> buildEllipseController(bool filled, qreal rx, qreal ry,
+                                                         const QPointF& pos= QPointF(0, 0));
+
+const std::map<QString, QVariant> buildImageController(const QString& path, const QRectF& rect,
+                                                       const QPointF& pos= QPointF(0, 0));
+
+const std::map<QString, QVariant> buildPenController(bool filled, const std::vector<QPointF>& points,
+                                                     const QPointF& pos);
+
+const std::map<QString, QVariant> buildPathController(bool filled, const std::vector<QPointF>& points,
+                                                      const QPointF& pos= QPointF(0, 0));
+const std::map<QString, QVariant> buildLineController(const QPointF& p1, const QPointF& p2,
+                                                      const QPointF& pos= QPointF(0, 0));
+
+QString randomString(int length= 10)
+{
+    QString res;
+    static QString list{"abcdefghijklmnropqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ1234567890"};
+
+    for(int i= 0; i < length; ++i)
+    {
+        res.append(list[generate<int>(0, list.size() - 1)]);
+    }
+
+    return res;
+}
+
+QString imagePath(bool isSquare = false);
+QByteArray imageData(bool isSquare= false);
+QColor randomColor();
+QPointF randomPoint();
+QObject* initWebServer(int port = 9090);
 } // namespace Helper

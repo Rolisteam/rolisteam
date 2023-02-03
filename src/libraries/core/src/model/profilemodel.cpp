@@ -86,6 +86,8 @@ void ProfileModel::appendProfile(ConnectionProfile* profile)
     beginInsertRows(QModelIndex(), idx, idx);
     m_connectionProfileList.push_back(std::unique_ptr<ConnectionProfile>(std::move(profile)));
     endInsertRows();
+
+    emit profileAdded(profile);
 }
 
 ConnectionProfile* ProfileModel::getProfile(const QModelIndex& index)

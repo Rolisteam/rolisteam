@@ -143,7 +143,6 @@ signals:
     void remoteChanged(bool);
     void modifiedChanged();
     void zOrderChanged(qreal);
-
     void removedChanged();
 
 public slots:

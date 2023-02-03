@@ -234,6 +234,7 @@ public slots:
     void askForColorChange(vmap::VisualItemController* itemCtrl);
     void addHighLighter(const QPointF& point);
     void showHightLighter(const QPointF& p, const qreal& penSize, const QColor& color);
+    void dupplicateItem(const QList<vmap::VisualItemController *> &vitem);
 
 private:
     std::unique_ptr<vmap::VmapItemModel> m_vmapModel;

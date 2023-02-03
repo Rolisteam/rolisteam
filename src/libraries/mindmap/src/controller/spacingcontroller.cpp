@@ -20,7 +20,6 @@
 #include "mindmap/controller/spacingcontroller.h"
 
 #include "mindmap/data/linkcontroller.h"
-#include "mindmap/data/mindnode.h"
 #include "mindmap/model/minditemmodel.h"
 
 #include <QDebug>
@@ -31,28 +30,9 @@
 
 namespace mindmap
 {
-const float k_attraction= 0.1f;
-const float k_repulsion= 10000.f;
-
-const float k_defaultDamping= 0.5f;
-const float k_defaultSpringLength= 100.f;
-
-bool isInside(QPointF pos1, QPointF pos2, float distance)
-{
-    auto d= pos1 - pos2;
-    return (std::sqrt(d.x() * d.x() + d.y() * d.y()) < distance);
-}
-
-QPointF computeCenter(const PositionedItem* first, const std::vector<PositionedItem*>& data)
-{
-    QPointF pos= first->position();
-    for(auto it= data.begin(); it != data.end(); ++it)
-    {
-        pos+= (*it)->position();
-    }
-    pos/= (data.size() + 1);
-    return pos;
-}
+constexpr float k_attraction{0.1f};
+constexpr float k_repulsion{10000.f};
+constexpr float k_defaultDamping{0.5f};
 
 SpacingController::SpacingController(MindItemModel* data, QObject* parent) : QObject(parent), m_model(data) {}
 
@@ -90,10 +70,10 @@ void SpacingController::computeInLoop()
         std::transform(std::begin(items), std::end(items), std::back_inserter(allNodes),
                        [](MindItem* item) { return dynamic_cast<PositionedItem*>(item); });
 
-        allNodes.erase(
-            std::remove_if(std::begin(allNodes), std::end(allNodes),
-                           [packagedChildren](PositionedItem* item) { return packagedChildren.contains(item); }),
-            std::end(allNodes));
+        allNodes.erase(std::remove_if(std::begin(allNodes), std::end(allNodes),
+                                      [packagedChildren](PositionedItem* item)
+                                      { return packagedChildren.contains(item); }),
+                       std::end(allNodes));
 
         for(auto& node : allNodes)
         {

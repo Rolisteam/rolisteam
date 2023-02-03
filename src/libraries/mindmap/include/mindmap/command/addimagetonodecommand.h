@@ -34,8 +34,7 @@ class ImageModel;
 class MINDMAP_EXPORT AddImageToNodeCommand : public QUndoCommand
 {
 public:
-    AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id, const QUrl& url);
-    AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id, const QPixmap& pix);
+    AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id, const QString &url);
 
     void undo() override;
     void redo() override;

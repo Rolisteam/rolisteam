@@ -56,6 +56,9 @@ public slots:
     void setRect(QRectF rect);
 
 private:
+    void setPenWidth(qreal w);
+
+private:
     QRectF m_rect= QRectF(0, 0, 1, 1);
     bool m_filled;
     quint16 m_penWidth;

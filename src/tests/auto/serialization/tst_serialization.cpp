@@ -55,7 +55,7 @@ private:
     QUndoStack m_stack;
 };
 
-Q_DECLARE_METATYPE(std::vector<Core::ContentType>);
+Q_DECLARE_METATYPE(std::vector<Core::ContentType>)
 
 ContentControllerTest::ContentControllerTest() {}
 
@@ -280,6 +280,6 @@ void ContentControllerTest::completeSerializationTest_data()
         } while(Helper::next_combination(data.begin(), data.begin() + comb_size, data.end()));
     }
 }
-QTEST_MAIN(ContentControllerTest);
+QTEST_MAIN(ContentControllerTest)
 
 #include "tst_serialization.moc"

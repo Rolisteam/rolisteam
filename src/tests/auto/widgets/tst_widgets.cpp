@@ -20,13 +20,13 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include "rwidgets/customs/circledisplayer.h"
 #include "rwidgets/customs/diameterselector.h"
 #include "rwidgets/customs/filedirchooser.h"
 #include "rwidgets/customs/realslider.h"
 
 #include "controller/view_controller/imageselectorcontroller.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
+#include <helper.h>
 
 class WidgetsTest : public QObject
 {
@@ -110,12 +110,24 @@ void WidgetsTest::diameterSelectorTest()
 
 void WidgetsTest::imageSelectorTest()
 {
+    auto server = Helper::initWebServer();
     ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
-    ImageSelectorDialog dialog(&ctrl, nullptr, "https://static.wikia.nocookie.net/l5r/images/4/4c/Seppun_Tashime.jpg/revision/latest?cb=20190801175749");
-    if(QDialog::Accepted != dialog.exec())
-        return;
+    ImageSelectorDialog dialog(&ctrl, nullptr, "http://127.0.0.1:9090/image/Seppun_tashime.jpg");
+
+    QSignalSpy spy1(&ctrl, &ImageSelectorController::imageDataChanged);
+    dialog.show();
+
+    auto dlAct = dialog.findChild<QAction*>("m_downloadAct");
+    dlAct->trigger();
+    spy1.wait(10);
+    QCOMPARE(spy1.count(), 1);
+
+    dialog.accept();
+
     auto pix= QImage::fromData(ctrl.finalImageData());
     QCOMPARE(pix.width(), pix.height());
+
+    delete server;
 }
 
 QTEST_MAIN(WidgetsTest);

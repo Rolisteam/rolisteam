@@ -19,7 +19,6 @@
  ***************************************************************************/
 #include "mindmap/command/removenodecommand.h"
 #include "mindmap/data/linkcontroller.h"
-#include "mindmap/data/mindnode.h"
 #include "mindmap/model/minditemmodel.h"
 #include <algorithm>
 
@@ -33,10 +32,17 @@ RemoveNodeCommand::RemoveNodeCommand(const QString& idmap, const std::vector<Min
     std::transform(selection.begin(), selection.end(), std::back_inserter(m_selection),
                    [](MindItem* node) -> QPointer<MindItem> { return QPointer<MindItem>(node); });
 
-    std::for_each(selection.begin(), selection.end(), [this](MindItem* node) {
-        auto sublinks= m_nodeModel->sublink(node->id());
-        std::copy(sublinks.begin(), sublinks.end(), std::back_inserter(m_links));
-    });
+    std::for_each(selection.begin(), selection.end(),
+                  [this](MindItem* node)
+                  {
+                      auto sublinks= m_nodeModel->sublink(node->id());
+                      qDebug() << sublinks.size() << "sublink size";
+                      std::copy(sublinks.begin(), sublinks.end(), std::back_inserter(m_links));
+                      /*std::copy_if(sublinks.begin(), sublinks.end(), std::back_inserter(m_links),
+                                   []() {
+
+                                   });*/
+                  });
 }
 
 void RemoveNodeCommand::undo()

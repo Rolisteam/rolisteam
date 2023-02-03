@@ -20,10 +20,10 @@
 
 #include "anchoritem.h"
 
-#include "controller/item_controllers/visualitemcontroller.h"
-#include <QDebug>
+#include <QPainter>
 
-AnchorItem::AnchorItem() : m_pen(QColor(Qt::darkGray))
+AnchorItem::AnchorItem()
+    : m_pen(QColor(Qt::darkGray))
 {
     qDebug() << "point anchor";
 }
@@ -34,14 +34,14 @@ QRectF AnchorItem::boundingRect() const
     return QRectF(m_startPoint, m_endPoint);
 }
 
-void AnchorItem::setNewEnd(const QPointF& nend)
+void AnchorItem::setNewEnd(const QPointF &nend)
 {
-    if(nend.isNull())
+    if (nend.isNull())
         return;
 
-    m_endPoint+= nend;
+    m_endPoint += nend;
 }
-void AnchorItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void AnchorItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget)
     Q_UNUSED(option)
@@ -56,9 +56,9 @@ void AnchorItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->drawLine(line);
     painter->restore();
 
-    QFont f= painter->font();
+    /*QFont f= painter->font();
     f.setPixelSize(15);
-    painter->setFont(f);
+    painter->setFont(f);*/
 }
 
 QPointF AnchorItem::getStart() const

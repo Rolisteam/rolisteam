@@ -41,7 +41,9 @@ public:
         NoCrit,
         NameCrit,
         TagCrit,
+        DescriptionCrit,
         ParentOfCrit,
+        AllCrit
     };
     Q_ENUM(Criteria)
 
@@ -99,7 +101,6 @@ signals:
 private:
     QPointer<mindmap::MindMapControllerBase> m_controller;
     std::unique_ptr<mindmap::FilteredModel> m_model;
-    QString m_pattern;
 };
 } // namespace mindmap
 #endif // SIDEMENUCONTROLLER_H

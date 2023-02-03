@@ -46,6 +46,7 @@ signals:
      * @brief finished
      */
     void ipAddressChanged(QString);
+    void finishedCheck();
 
 public slots:
     /**

@@ -27,10 +27,10 @@
 #include <QLabel>
 #include <QToolButton>
 
-VmapToolBar::VmapToolBar(VectorialMapController* ctrl, QWidget* parent) : QToolBar(parent), m_ctrl(ctrl)
+VmapTopBar::VmapTopBar(VectorialMapController* ctrl, QWidget* parent) : QToolBar(parent), m_ctrl(ctrl)
 {
-    setObjectName("VMapToolBar");
-    setWindowTitle(tr("Toolbar for VMap"));
+    setObjectName("VmapTopBar");
+    setWindowTitle(tr("TopBar for VMap"));
     initActions();
     setupUi();
 
@@ -48,17 +48,22 @@ VmapToolBar::VmapToolBar(VectorialMapController* ctrl, QWidget* parent) : QToolB
     }
 }
 
-VmapToolBar::~VmapToolBar()= default;
+VmapTopBar::~VmapTopBar()
+{
+    qDebug() << "Destructor topbar;";
+}
 
-void VmapToolBar::initActions()
+void VmapTopBar::initActions()
 {
     if(!m_ctrl)
         return;
 
     m_showSquareAct= new QAction(QIcon::fromTheme("grid"), tr("Square Grid"), this);
+    m_showSquareAct->setObjectName("grid_square");
     m_showSquareAct->setCheckable(true);
 
     m_showHexagonAct= new QAction(QIcon::fromTheme("hexa_grid"), tr("Hexagonal Grid"), this);
+    m_showSquareAct->setObjectName("grid_hexa");
     m_showHexagonAct->setCheckable(true);
 
     auto group= new QActionGroup(this);
@@ -77,21 +82,28 @@ void VmapToolBar::initActions()
             });
 
     m_gridAboveAct= new QAction(QIcon::fromTheme("grid_above"), tr("Grid Above"), this);
+    m_gridAboveAct->setObjectName("grid_above");
     m_gridAboveAct->setCheckable(true);
 
     connect(m_gridAboveAct, &QAction::triggered, m_ctrl, &VectorialMapController::setGridAbove);
 
     m_onlyGmPermAct= new QAction(QIcon::fromTheme("red_round"), tr("Permission: GM only"), this);
+    m_onlyGmPermAct->setObjectName("permission_gm");
     m_onlyGmPermAct->setData(QVariant::fromValue(Core::PermissionMode::GM_ONLY));
     m_onlyGmPermAct->setCheckable(true);
+    addAction(m_onlyGmPermAct);
 
     m_characterOnlyPermAct= new QAction(QIcon::fromTheme("orange_round"), tr("Permission: PC Move"), this);
+    m_characterOnlyPermAct->setObjectName("permission_pc");
     m_characterOnlyPermAct->setData(QVariant::fromValue(Core::PermissionMode::PC_MOVE));
     m_characterOnlyPermAct->setCheckable(true);
+    addAction(m_characterOnlyPermAct);
 
     m_allPermAct= new QAction(QIcon::fromTheme("green_round"), tr("Permission: All"), this);
+    m_allPermAct->setObjectName("permission_all");
     m_allPermAct->setData(QVariant::fromValue(Core::PermissionMode::PC_ALL));
     m_allPermAct->setCheckable(true);
+    addAction(m_allPermAct);
 
     group= new QActionGroup(this);
     group->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
@@ -112,16 +124,22 @@ void VmapToolBar::initActions()
     updatePerm(m_ctrl->permission());
 
     m_hiddenAct= new QAction(QIcon::fromTheme("mask"), tr("Visibility: Hidden"), this);
+    m_hiddenAct->setObjectName("Visibility_hidden");
     m_hiddenAct->setData(QVariant::fromValue(Core::VisibilityMode::HIDDEN));
     m_hiddenAct->setCheckable(true);
+    addAction(m_hiddenAct);
 
     m_fogAct= new QAction(QIcon::fromTheme("fogofwar"), tr("Visibility: Fog"), this);
+    m_fogAct->setObjectName("Visibility_fow");
     m_fogAct->setData(QVariant::fromValue(Core::VisibilityMode::FOGOFWAR));
     m_fogAct->setCheckable(true);
+    addAction(m_fogAct);
 
     m_allAct= new QAction(QIcon::fromTheme("eye"), tr("Visibility: All"), this);
+    m_allAct->setObjectName("Visibility_all");
     m_allAct->setData(QVariant::fromValue(Core::VisibilityMode::ALL));
     m_allAct->setCheckable(true);
+    addAction(m_allAct);
 
     group= new QActionGroup(this);
     group->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
@@ -142,18 +160,26 @@ void VmapToolBar::initActions()
     connect(m_ctrl, &VectorialMapController::visibilityChanged, this, updateVisiblility);
 
     m_groundAct= new QAction(QIcon::fromTheme("ground_layer"), tr("Current Layer: Ground"), this);
+    m_groundAct->setObjectName("layer_ground");
+    addAction(m_groundAct);
     m_groundAct->setData(QVariant::fromValue(Core::Layer::GROUND));
     m_groundAct->setCheckable(true);
 
     m_objectAct= new QAction(QIcon::fromTheme("object_layer"), tr("Current Layer: Object"), this);
+    m_objectAct->setObjectName("layer_object");
+    addAction(m_objectAct);
     m_objectAct->setData(QVariant::fromValue(Core::Layer::OBJECT));
     m_objectAct->setCheckable(true);
 
     m_characterAct= new QAction(QIcon::fromTheme("character_layer"), tr("Current Layer: Character"), this);
+    m_characterAct->setObjectName("layer_character");
+    addAction(m_characterAct);
     m_characterAct->setData(QVariant::fromValue(Core::Layer::CHARACTER_LAYER));
     m_characterAct->setCheckable(true);
 
     m_gameMasterAct= new QAction(QIcon::fromTheme("gm_icon"), tr("Current Layer: GameMaster"), this);
+    m_gameMasterAct->setObjectName("layer_gm");
+    addAction(m_gameMasterAct);
     m_gameMasterAct->setData(QVariant::fromValue(Core::Layer::GAMEMASTER_LAYER));
     m_gameMasterAct->setCheckable(true);
 
@@ -178,20 +204,38 @@ void VmapToolBar::initActions()
     updateLayer(m_ctrl->layer());
 
     m_hideOtherAct= new QAction(QIcon::fromTheme("hideotherlayers"), tr("hide other layers"), this);
+    m_hideOtherAct->setObjectName("hide_layer");
+    addAction(m_hideOtherAct);
     m_hideOtherAct->setCheckable(true);
 
     m_characterVisionAct= new QAction(QIcon::fromTheme("sight"), tr("Character Vision"), this);
     m_characterVisionAct->setCheckable(true);
+    m_characterVisionAct->setObjectName("character_vision");
+    addAction(m_characterVisionAct);
     m_showTransparentAct= new QAction(QIcon::fromTheme("sun"), tr("Show Transparent Item"), this);
     m_showTransparentAct->setCheckable(true);
+    m_showTransparentAct->setObjectName("show_transparent");
+    addAction(m_showTransparentAct);
 
     m_showPcName= new QAction(QIcon::fromTheme("pcName"), tr("Show/Hide PC name", "PC = playable character"), this);
+    m_showPcName->setObjectName("show_pc_name");
+    addAction(m_showPcName);
     m_showNpcName
         = new QAction(QIcon::fromTheme("npcName"), tr("Show/Hide NPC name", "NPC = non-playable character"), this);
+    m_showNpcName->setObjectName("show_npc_name");
+    addAction(m_showNpcName);
     m_showNpcNumber= new QAction(QIcon::fromTheme("npcNumber"), tr("Show/Hide NPC number"), this);
-    m_showState= new QAction(QIcon::fromTheme("stateName"), tr("Show/Hide State"), this);
+    m_showNpcNumber->setObjectName("show_npc_number");
+    addAction(m_showNpcNumber);
+    m_showState= new QAction(QIcon::fromTheme("stateName"), tr("Show/Hide State"), this); //
+    m_showState->setObjectName("show_states");
+    addAction(m_showState);
     m_showHealthBar= new QAction(QIcon::fromTheme("healthBar"), tr("Show/Hide Health Bar"), this);
+    m_showHealthBar->setObjectName("show_health");
+    addAction(m_showHealthBar);
     m_showInit= new QAction(QIcon::fromTheme("initScore"), tr("Show/Hide Initiative"), this);
+    m_showInit->setObjectName("show_initScore");
+    addAction(m_showInit);
 
     m_showPcName->setCheckable(true);
     m_showNpcName->setCheckable(true);
@@ -216,7 +260,7 @@ void VmapToolBar::initActions()
     m_showInit->setChecked(m_ctrl->initScoreVisible());
 }
 
-void VmapToolBar::setupUi()
+void VmapTopBar::setupUi()
 {
     if(!m_ctrl)
         return;
@@ -344,7 +388,7 @@ void VmapToolBar::setupUi()
     addWidget(btn);
 }
 
-void VmapToolBar::updateUI()
+void VmapTopBar::updateUI()
 {
     // if(nullptr != m_vmap)
     {

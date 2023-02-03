@@ -26,9 +26,6 @@
 #include <math.h>
 
 #include "controller/item_controllers/ellipsecontroller.h"
-#include "controller/view_controller/vectorialmapcontroller.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
 EllipsItem::EllipsItem(vmap::EllipseController* ctrl) : VisualItem(ctrl), m_ellipseCtrl(ctrl)
 {
@@ -59,16 +56,16 @@ QPainterPath EllipsItem::shape() const
     QPainterPath path;
     path.addEllipse(boundingRect());
 
-    if(!m_ellipseCtrl->filled())
-    {
-        QPainterPath subpath;
+    if(!m_ellipseCtrl || m_ellipseCtrl->filled())
+        return path;
 
-        QRectF rect= boundingRect();
-        auto penW= m_ellipseCtrl->penWidth();
-        rect.adjust(penW, penW, -penW, -penW);
-        subpath.addEllipse(rect);
-        path-= subpath;
-    }
+    QPainterPath subpath;
+
+    QRectF rect= boundingRect();
+    auto penW= m_ellipseCtrl->penWidth();
+    rect.adjust(penW, penW, -penW, -penW);
+    subpath.addEllipse(rect);
+    path-= subpath;
 
     return path;
 }
@@ -139,21 +136,4 @@ void EllipsItem::initChildPointItem()
     m_children.value(1)->setPos(0, m_ellipseCtrl->ry());
     m_children.value(1)->setMotion(ChildPointItem::Y_AXIS | ChildPointItem::ROTATION);
     m_children.value(1)->setPlacement(ChildPointItem::ButtomCenter);
-}
-
-VisualItem* EllipsItem::getItemCopy()
-{ // QPointF& center,bool filled,int penSize,QColor& penColor
-    // EllipsItem* ellipseItem= new EllipsItem(m_ctrl /*, m_center, m_filled, m_penWidth, m_color*/);
-    // QPointF pos(m_rx + m_center.x(), m_ry + m_center.y());
-    // ellipseItem->setNewEnd(pos);
-    // return ellipseItem;
-    return nullptr;
-}
-
-void EllipsItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
-{
-    /*  VisualItem::setRectSize(x, y, w, h);
-      m_rx= w / 2;
-      m_ry= h / 2;
-      update();*/
 }

@@ -21,11 +21,11 @@
 #ifndef RULEITEM_H
 #define RULEITEM_H
 
-#include "visualitem.h"
-
-#include "media/mediatype.h"
 #include "rwidgets_global.h"
+
+#include <QGraphicsObject>
 #include <QPen>
+#include <QPointer>
 
 class VectorialMapController;
 /**
@@ -34,18 +34,18 @@ class VectorialMapController;
 class RWIDGET_EXPORT RuleItem : public QGraphicsObject
 {
 public:
-    RuleItem(VectorialMapController* ctrl);
+    RuleItem(VectorialMapController *ctrl);
     ~RuleItem();
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     virtual QRectF boundingRect() const;
-    virtual void setNewEnd(const QPointF& nend, bool onAxis);
+    virtual void setNewEnd(const QPointF &nend, bool onAxis);
 
 private:
     QPointer<VectorialMapController> m_ctrl;
-    QPointF m_startPoint= QPointF(0, 0);
-    QPointF m_endPoint= QPointF(0, 0);
-    QPen m_pen= QColor(Qt::red);
+    QPointF m_startPoint = QPointF(0, 0);
+    QPointF m_endPoint = QPointF(0, 0);
+    QPen m_pen = QColor(Qt::red);
 };
 
 #endif // RULEITEM_H

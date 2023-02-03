@@ -149,7 +149,7 @@ void PdfControllorTest::shareAsPdf()
 }
 void PdfControllorTest::copyImage()
 {
-    m_ctrl->copyImage(QString("%1/resources/predateur.jpg").arg(tests::root_path));
+    m_ctrl->copyImage(QString("%1/resources/img/predateur.jpg").arg(tests::root_path));
 
     auto clip= QApplication::clipboard();
     QVERIFY(!clip->pixmap().isNull());

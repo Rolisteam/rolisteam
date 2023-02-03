@@ -29,6 +29,7 @@
 #include <random>
 
 #include "mindmap/command/additemcommand.h"
+#include "mindmap/command/removeimagefromnodecommand.h"
 #include "mindmap/command/removenodecommand.h"
 #include "mindmap/command/reparentingnodecommand.h"
 #include "mindmap/controller/selectioncontroller.h"
@@ -38,6 +39,8 @@
 #include "mindmap/data/positioneditem.h"
 #include "mindmap/model/imagemodel.h"
 #include "mindmap/model/nodestylemodel.h"
+#include "mindmap/worker/fileserializer.h"
+#include "mindmap/command/addimagetonodecommand.h"
 
 namespace mindmap
 {
@@ -236,13 +239,19 @@ void MindMapControllerBase::centerItems(qreal w, qreal h)
 
 void MindMapControllerBase::addImageFor(const QString& idNode, const QString& path)
 {
-    QPixmap map(QUrl::fromUserInput(path).toLocalFile());
+    m_stack.push(new mindmap::AddImageToNodeCommand(m_itemModel.get(), m_imgModel.get(), idNode, path));
+    //QPixmap map(.toLocalFile());
 
-    if(map.isNull())
+    /*if(map.isNull())
         return;
 
     m_imgModel->insertPixmap(idNode, map, QUrl::fromUserInput(path));
-    m_itemModel->update(idNode, MindItemModel::HasPicture);
+    m_itemModel->update(idNode, MindItemModel::HasPicture);*/
+}
+
+void MindMapControllerBase::removeImageFor(const QString& nodeId)
+{
+    m_stack.push(new mindmap::RemoveImageFromNodeCommand(m_itemModel.get(), m_imgModel.get(), nodeId));
 }
 
 void MindMapControllerBase::refresh()

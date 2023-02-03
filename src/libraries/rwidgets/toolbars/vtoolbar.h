@@ -49,12 +49,12 @@ public:
 /**
  *  @brief toolbar is a QWidget subclass which gathering all tool required for drawing maps.
  */
-class RWIDGET_EXPORT VToolsBar : public QWidget
+class RWIDGET_EXPORT ToolBox : public QWidget
 {
     Q_OBJECT
 
 public:
-    VToolsBar(VectorialMapController* ctrl, QWidget* parent= nullptr);
+    ToolBox(VectorialMapController* ctrl, QWidget* parent= nullptr);
     void setImage(const QPixmap& img);
 
 private slots:

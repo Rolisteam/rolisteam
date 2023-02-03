@@ -93,7 +93,18 @@ add_library(network SHARED ${Network_SRC} ${Network_HEADER})
 set_target_properties(network PROPERTIES PUBLIC_HEADER "${Network_HEADER}")
 set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
 target_compile_definitions(network PRIVATE NETWORK_LIBRARY)
-target_link_libraries(network PUBLIC Qt6::Core Qt6::Network Qt6::Gui Qt6::StateMachine Qt6::Xml PRIVATE common_core utils charactersheet)
+target_link_libraries(network
+    PUBLIC
+        Qt6::Core
+        Qt6::Network
+        Qt6::Gui
+        Qt6::StateMachine
+        Qt6::Xml
+    PRIVATE
+        common_core
+        utils
+        charactersheet
+ )
 target_include_directories(network
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -217,6 +228,7 @@ set(HEADERS
   ${inc}/undoCmd/removemediacontrollercommand.h
   ${inc}/undoCmd/showtransparentitemcommand.h
   ${inc}/undoCmd/rollinitcommand.h
+  ${inc}/undoCmd/dupplicatevmapitem.h
   ${inc}/updater/controller/audioplayerupdater.h
   ${inc}/updater/media/campaignupdater.h
   ${inc}/updater/media/charactersheetupdater.h
@@ -355,6 +367,7 @@ set(SOURCES
   src/undoCmd/removelocalcharactercommand.cpp
   src/undoCmd/removemediacontrollercommand.cpp
   src/undoCmd/showtransparentitemcommand.cpp
+  src/undoCmd/dupplicatevmapitem.cpp
   src/updater/controller/audioplayerupdater.cpp
   src/updater/media/campaignupdater.cpp
   src/updater/media/charactersheetupdater.cpp

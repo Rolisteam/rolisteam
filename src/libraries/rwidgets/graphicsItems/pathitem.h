@@ -52,11 +52,6 @@ public:
      * @brief accessor to the shape of path, better definition than boudingRect
      */
     virtual QPainterPath shape() const override;
-    /**
-     * @brief getItemCopy
-     * @return
-     */
-    virtual VisualItem* getItemCopy() override;
 
     /**
      * @brief addActionContextMenu
@@ -67,7 +62,6 @@ public:
 
 private:
     void initRealPoints();
-    void createActions() override;
 
 private:
     QPointer<vmap::PathController> m_pathCtrl;

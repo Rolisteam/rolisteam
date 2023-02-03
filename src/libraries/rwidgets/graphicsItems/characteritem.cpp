@@ -315,12 +315,12 @@ void CharacterItem::setSize(QSizeF size)
     m_protectGeometryChange= false;
     update();
 }
-void CharacterItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
+/*void CharacterItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
     VisualItem::setRectSize(x, y, w, h);
     // m_diameter= m_rect.width();
     updateChildPosition();
-}
+}*/
 
 void CharacterItem::resizeContents(const QRectF& rect, int pointId, Core::TransformType)
 {
@@ -558,14 +558,6 @@ void CharacterItem::changeCharacter()
     }*/
 }
 
-VisualItem* CharacterItem::getItemCopy()
-{
-    return {};
-    /*CharacterItem* charactItem= new CharacterItem(m_character, pos(), m_diameter);
-    charactItem->setPos(pos());
-    return charactItem;*/
-}
-
 QString CharacterItem::getParentId() const
 {
     /*   if(nullptr != m_character)
@@ -633,7 +625,7 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
             VisualItem::wheelEvent(event);*/
 }
 
-void CharacterItem::endOfGeometryChange(ChildPointItem::Change change)
+/*void CharacterItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     if(change == ChildPointItem::Resizing)
     {
@@ -645,4 +637,4 @@ void CharacterItem::endOfGeometryChange(ChildPointItem::Change change)
                                    oldPos.y() + (oldScenePos.y() - newScenePos.y())));
     }
     VisualItem::endOfGeometryChange(change);
-}
+}*/

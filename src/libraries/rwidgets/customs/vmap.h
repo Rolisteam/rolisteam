@@ -84,6 +84,8 @@ public:
     void addCommand(QUndoCommand* cmd);
     bool isNormalItem(const QGraphicsItem* item);
 
+    GridItem* gridItem() const;
+
 public slots:
     void computePattern();
     void duplicateItem(VisualItem* item);
@@ -134,7 +136,7 @@ private:
     VisualItem* visualItemUnder(const QPointF& pos);
 
 private:
-    QPointer<GridItem> m_gridItem;
+    std::unique_ptr<GridItem> m_gridItem;
     QPointer<SightItem> m_sightItem;
     QPointer<VectorialMapController> m_ctrl;
     QPointer<VisualItem> m_currentItem;

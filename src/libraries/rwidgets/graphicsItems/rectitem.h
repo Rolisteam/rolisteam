@@ -56,13 +56,8 @@ public:
      * @return
      */
     virtual QPainterPath shape() const override;
-    /**
-     * @brief getItemCopy
-     * @return
-     */
-    virtual VisualItem* getItemCopy() override;
 
-    void endOfGeometryChange(ChildPointItem::Change change) override;
+    // void endOfGeometryChange(ChildPointItem::Change change) override;
 
 protected:
     /**

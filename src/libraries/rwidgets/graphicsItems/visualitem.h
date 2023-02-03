@@ -48,12 +48,10 @@ public:
     virtual vmap::VisualItemController::ItemType getType() const;
     virtual void resizeContents(const QRectF& rect, int pointId,
                                 Core::TransformType transformType= Core::TransformType::KeepRatio);
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
     virtual void endOfGeometryChange(ChildPointItem::Change change);
     virtual void addActionContextMenu(QMenu&);
     bool hasFocusOrChild();
     virtual void setModifiers(Qt::KeyboardModifiers modifiers);
-    virtual VisualItem* getItemCopy()= 0;
     virtual VisualItem* promoteTo(vmap::VisualItemController::ItemType);
     virtual void setSize(QSizeF size);
     virtual void updateItemFlags();
@@ -75,7 +73,6 @@ public:
 signals:
     void itemGeometryChanged(VisualItem*);
     void itemRemoved(QString, bool, bool);
-    void duplicateItem(VisualItem*);
     void itemLayerChanged(VisualItem*);
     void promoteItemTo(VisualItem*, vmap::VisualItemController::ItemType);
     void selectStateChange(bool);
@@ -92,12 +89,10 @@ protected:
     void init();
     virtual void updateChildPosition();
     virtual void setChildrenVisible(bool b);
-    virtual void createActions();
     bool hasPermissionToMove(bool allowCharacter= true) const;
 
 protected:
     QPointF computeClosePoint(QPointF pos);
-    void manageAction();
     void addPromoteItemMenu(QMenu*);
     void promoteItem();
 
@@ -108,14 +103,6 @@ protected:
     static int m_highlightWidth;
     QVector<ChildPointItem*> m_children;
     QPoint m_menuPos;
-
-    /// QAction*
-    QAction* m_duplicateAct= nullptr;
-    QAction* m_putGroundLayer= nullptr;
-    QAction* m_putObjectLayer= nullptr;
-    QAction* m_putCharacterLayer= nullptr;
-    QAction* m_putGameMasterLayer= nullptr;
-
     QVector<vmap::VisualItemController::ItemType> m_promoteTypeList;
 
 private:

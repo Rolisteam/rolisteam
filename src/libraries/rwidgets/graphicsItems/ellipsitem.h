@@ -37,9 +37,6 @@ public:
     virtual QPainterPath shape() const override;
     virtual void setNewEnd(const QPointF& nend) override;
     virtual QRectF boundingRect() const override;
-    virtual VisualItem* getItemCopy() override;
-
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
 
     void updateChildPosition() override;
 

@@ -81,7 +81,7 @@ void GridController::setGm(bool gm)
     emit gmChanged(m_gm);
 }
 
-void GridController::setGridPattern(QImage gridPattern)
+void GridController::setGridPattern(const QImage &gridPattern)
 {
     if(m_gridPattern == gridPattern)
         return;
@@ -90,7 +90,7 @@ void GridController::setGridPattern(QImage gridPattern)
     emit gridPatternChanged(m_gridPattern);
 }
 
-void GridController::setRect(QRectF rect)
+void GridController::setRect(const QRectF& rect)
 {
     if(m_rect == rect)
         return;

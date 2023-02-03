@@ -26,28 +26,31 @@
 
 namespace mindmap
 {
-AddImageToNodeCommand::AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id,
+/*AddImageToNodeCommand::AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id,
                                              const QPixmap& pix)
     : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel), m_pixmap(pix)
 {
-}
+}*/
+
 AddImageToNodeCommand::AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id,
-                                             const QUrl& url)
+                                             const QString& url)
     : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel)
 {
-    m_pixmap= utils::IOHelper::readPixmapFromURL(url);
-    setText(QObject::tr("Add %1 image").arg(url.fileName()));
+    m_pixmap= utils::IOHelper::readPixmapFromFile(url);
+    setText(QObject::tr("Add %1 image").arg(url));
 }
 
 void mindmap::AddImageToNodeCommand::undo()
 {
     m_imgModel->removePixmap(m_id);
-    m_nodeModel->setImageUriToNode(m_id, {});
+    //m_nodeModel->setImageUriToNode(m_id, {});
+    m_nodeModel->update(m_id, MindItemModel::HasPicture);
 }
 
 void mindmap::AddImageToNodeCommand::redo()
 {
     m_imgModel->insertPixmap(m_id, m_pixmap);
-    m_nodeModel->setImageUriToNode(m_id, m_id);
+    //m_nodeModel->setImageUriToNode(m_id, m_id);
+    m_nodeModel->update(m_id, MindItemModel::HasPicture);
 }
 } // namespace mindmap

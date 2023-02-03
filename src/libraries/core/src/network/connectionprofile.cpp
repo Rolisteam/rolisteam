@@ -6,13 +6,49 @@
 ConnectionProfile::ConnectionProfile()
     : m_title(QObject::tr("Unknown")), m_playerName(QObject::tr("Player")), m_playerColor(Qt::red)
 {
-    connect(this, &ConnectionProfile::gmChanged, this, [this]() {
-        if(!m_isGM && m_characters.empty())
-        {
-            connection::CharacterData data({QObject::tr("Unknown Character"), Qt::red, "", QHash<QString, QVariant>()});
-            addCharacter(data);
-        }
-    });
+    connect(this, &ConnectionProfile::gmChanged, this,
+            [this]()
+            {
+                if(!m_isGM && m_characters.empty())
+                {
+                    connection::CharacterData data(
+                        {QObject::tr("Unknown Character"), Qt::red, "", QHash<QString, QVariant>()});
+                    addCharacter(data);
+                }
+            });
+
+    // binding
+
+    auto updateValid= [this]() {
+        setValid(m_validConnectionInfo && m_validPlayerInfo && m_validCharacter && m_validCampaign
+                 && !m_title.isEmpty());
+    };
+
+    connect(this, &ConnectionProfile::playerInfoValidChanged, this, updateValid);
+    connect(this, &ConnectionProfile::charactersValidChanged, this, updateValid);
+    connect(this, &ConnectionProfile::campaignInfoValidChanged, this, updateValid);
+    connect(this, &ConnectionProfile::connectionInfoValidChanged, this, updateValid);
+
+    auto updateConnectionInfo
+        = [this]() { setConnectionInfoValid(m_port > 0 && m_server ? m_server : !m_address.isEmpty()); };
+
+    connect(this, &ConnectionProfile::serverChanged, this, updateConnectionInfo);
+    connect(this, &ConnectionProfile::portChanged, this, updateConnectionInfo);
+    connect(this, &ConnectionProfile::addressChanged, this, updateConnectionInfo);
+
+    updateConnectionInfo();
+    updateValid();
+
+    // Signals
+    /*m_handlers.push_back(std::make_optional(m_valid.onValueChanged(StdFunc([this]() { emit validChanged(); }))));
+    m_handlers.push_back(std::make_optional(
+        m_validConnectionInfo.onValueChanged(StdFunc([this]() { emit connectionInfoValidChanged(); }))));
+    m_handlers.push_back(
+        std::make_optional(m_validPlayerInfo.onValueChanged(StdFunc([this]() { emit playerInfoValidChanged(); }))));
+    m_handlers.push_back(
+        std::make_optional(m_validCharacter.onValueChanged(StdFunc([this]() { emit charactersValidChanged(); }))));
+    m_handlers.push_back(
+        std::make_optional(m_validCampaign.onValueChanged(StdFunc([this]() { emit campaignInfoValidChanged(); }))));*/
 }
 ConnectionProfile::~ConnectionProfile() {}
 void ConnectionProfile::setProfileTitle(const QString& str)
@@ -38,7 +74,7 @@ void ConnectionProfile::setAddress(const QString& str)
 }
 void ConnectionProfile::setPort(quint16 i)
 {
-    if(i == m_port)
+    if(m_port == i)
         return;
     m_port= i;
     emit portChanged();
@@ -117,7 +153,7 @@ QString ConnectionProfile::campaignPath() const
 
 void ConnectionProfile::setCampaignPath(const QString& id)
 {
-    if(id == m_campaignDir)
+    if(m_campaignDir == id)
         return;
     m_campaignDir= id;
     emit campaignPathChanged();
@@ -126,6 +162,11 @@ void ConnectionProfile::setCampaignPath(const QString& id)
 QByteArray ConnectionProfile::password() const
 {
     return m_password;
+}
+
+bool ConnectionProfile::valid() const
+{
+    return m_valid;
 }
 
 QString ConnectionProfile::playerId() const
@@ -154,7 +195,6 @@ void ConnectionProfile::editPassword(const QString& password)
 }
 void ConnectionProfile::setHash(const QByteArray& password)
 {
-    qDebug() << "password hassh changed: " << profileTitle() << this;
     if(password == m_password)
         return;
     m_password= password;
@@ -200,6 +240,71 @@ void ConnectionProfile::cloneProfile(const ConnectionProfile* src)
     setPort(src->port());
     setProfileTitle(src->profileTitle());
     setPlayerName(src->playerName());
+    setPlayerAvatar(src->playerAvatar());
+    setPlayerColor(src->playerColor());
     setAddress(src->address());
+    setCampaignPath(src->campaignPath());
     setServerMode(src->isServer());
+}
+
+void ConnectionProfile::setCharactersValid(bool val)
+{
+    if(m_validCharacter == val)
+        return;
+    m_validCharacter= val;
+    emit charactersValidChanged();
+}
+
+void ConnectionProfile::setCampaignInfoValid(bool val)
+{
+    if(m_validCampaign == val)
+        return;
+    m_validCampaign= val;
+    emit campaignInfoValidChanged();
+}
+
+void ConnectionProfile::setPlayerInfoValid(bool val)
+{
+    if(val == m_validPlayerInfo)
+        return;
+    m_validPlayerInfo= val;
+    emit playerInfoValidChanged();
+}
+
+void ConnectionProfile::characterHasChanged()
+{
+    emit characterChanged();
+}
+
+void ConnectionProfile::setValid(bool b)
+{
+    if(m_valid == b)
+        return;
+    m_valid= b;
+    emit validChanged();
+}
+
+void ConnectionProfile::setConnectionInfoValid(bool b)
+{
+    if(m_validConnectionInfo == b)
+        return;
+    m_validConnectionInfo= b;
+    emit connectionInfoValidChanged();
+}
+
+bool ConnectionProfile::connectionInfoValid() const
+{
+    return m_validConnectionInfo;
+}
+bool ConnectionProfile::playerInfoValid() const
+{
+    return m_validPlayerInfo;
+}
+bool ConnectionProfile::charactersValid() const
+{
+    return m_validCharacter;
+}
+bool ConnectionProfile::campaignInfoValid() const
+{
+    return m_validCampaign;
 }

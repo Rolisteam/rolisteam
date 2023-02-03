@@ -135,6 +135,7 @@ public slots:
 
     void centerItems(qreal w, qreal h);
     void addImageFor(const QString& idNode, const QString& path);
+    void removeImageFor(const QString& nodeId);
     void addItemIntoPackage(const QString& idNode, const QString& idPack);
     void refresh();
     void openImage(const QString& id, const QUrl& path);

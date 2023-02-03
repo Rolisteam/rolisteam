@@ -28,17 +28,10 @@
 #include <QStyleOptionGraphicsItem>
 #include <math.h>
 
-#include "model/playermodel.h"
-
 #include "controller/item_controllers/visualitemcontroller.h"
-#include "controller/view_controller/vectorialmapcontroller.h"
-#include "customs/vmap.h"
-#include "data/character.h"
 #include "media/mediatype.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
-#define PI 3.14159265
+// constexpr float PI{3.14159265};
 
 /////////////////////////////////
 /// Code SightItem
@@ -48,7 +41,6 @@ GridItem::GridItem(vmap::GridController* ctrl) : VisualItem(ctrl), m_gridCtrl(ct
 {
     setZValue(std::numeric_limits<qreal>::max());
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
-    createActions();
     setAcceptedMouseButtons(Qt::NoButton);
     setAcceptHoverEvents(false);
     if(m_gridCtrl)
@@ -69,6 +61,11 @@ GridItem::GridItem(vmap::GridController* ctrl) : VisualItem(ctrl), m_gridCtrl(ct
 
 GridItem::~GridItem() {}
 
+void GridItem::setNewEnd(const QPointF &nend)
+{
+    Q_UNUSED(nend);
+}
+
 void GridItem::updateItemFlags()
 {
     VisualItem::updateItemFlags();
@@ -78,16 +75,6 @@ void GridItem::updateItemFlags()
 QRectF GridItem::boundingRect() const
 {
     return m_gridCtrl ? m_gridCtrl->rect() : QRectF{};
-}
-void GridItem::setNewEnd(const QPointF& nend)
-{
-    Q_UNUSED(nend)
-    return;
-}
-
-VisualItem* GridItem::getItemCopy()
-{
-    return nullptr;
 }
 
 void GridItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

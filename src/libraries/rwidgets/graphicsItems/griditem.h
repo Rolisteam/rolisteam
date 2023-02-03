@@ -52,17 +52,7 @@ public:
      * @brief ~GridItem
      */
     virtual ~GridItem();
-    /**
-     * @brief setNewEnd
-     * @param nend
-     */
-    virtual void setNewEnd(const QPointF& nend) override;
-
-    /**
-     * @brief getItemCopy
-     * @return
-     */
-    virtual VisualItem* getItemCopy() override;
+    void setNewEnd(const QPointF& nend) override;
     /**
      * @brief boundingRect
      * @return

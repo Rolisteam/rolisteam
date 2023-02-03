@@ -140,12 +140,8 @@ void RectItem::updateChildPosition()
 
     update();
 }
-VisualItem* RectItem::getItemCopy()
-{
-    return nullptr;
-}
 
-void RectItem::endOfGeometryChange(ChildPointItem::Change change)
+/*void RectItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     if(change == ChildPointItem::Resizing)
     {
@@ -157,4 +153,4 @@ void RectItem::endOfGeometryChange(ChildPointItem::Change change)
                                    oldPos.y() + (oldScenePos.y() - newScenePos.y())));
     }
     VisualItem::endOfGeometryChange(change);
-}
+}*/

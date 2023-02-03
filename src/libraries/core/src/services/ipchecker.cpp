@@ -41,6 +41,7 @@ void IpChecker::readText(QNetworkReply* p)
         m_ip= p->readAll();
         emit ipAddressChanged(m_ip);
     }
+    emit finishedCheck();
 }
 void IpChecker::startCheck()
 {

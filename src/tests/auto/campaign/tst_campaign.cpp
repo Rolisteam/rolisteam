@@ -29,17 +29,12 @@
 #include "data/campaign.h"
 #include "data/campaigneditor.h"
 #include "data/campaignmanager.h"
-#include "data/media.h"
 #include "diceparser/dicealias.h"
 #include "diceparser_qobject/diceroller.h"
 
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
-#include "model/mediamodel.h"
 #include "model/nonplayablecharactermodel.h"
-#include "worker/fileserializer.h"
-#include "worker/iohelper.h"
-#include "worker/modelhelper.h"
 
 #include "utils/iohelper.h"
 

@@ -45,16 +45,19 @@ class VectorialMapController;
 class RWIDGET_EXPORT VMapFrame : public MediaContainer
 {
     Q_OBJECT
-
+    Q_PROPERTY(VMap* map READ map CONSTANT)
+    Q_PROPERTY(ToolBox* toolBox READ toolBox CONSTANT)
+    Q_PROPERTY(VmapTopBar* topBar READ topBar CONSTANT)
 public:
     VMapFrame(VectorialMapController* ctrl, QWidget* parent= nullptr);
     virtual ~VMapFrame() override;
-    bool defineMenu(QMenu* /*menu*/);
     bool openFile(const QString& file);
-    bool createMap();
 
-signals:
-    void defineCurrentTool(Core::SelectableTool tool);
+    ToolBox* toolBox() const;
+    VmapTopBar* topBar() const;
+    VMap* map() const;
+
+    QPointF mapFromScene(const QPointF& point);
 
 protected:
     virtual void keyPressEvent(QKeyEvent* event) override;
@@ -66,7 +69,7 @@ private:
     QPointer<VectorialMapController> m_ctrl;
     std::unique_ptr<VMap> m_vmap;
     std::unique_ptr<RGraphicsView> m_graphicView;
-    std::unique_ptr<VToolsBar> m_toolbox;
-    std::unique_ptr<VmapToolBar> m_toolbar;
+    std::unique_ptr<ToolBox> m_toolbox;
+    std::unique_ptr<VmapTopBar> m_topBar;
 };
 #endif

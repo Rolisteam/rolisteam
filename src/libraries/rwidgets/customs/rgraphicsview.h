@@ -108,6 +108,7 @@ private:
     QAction* m_normalizeSizeSmaller= nullptr;
 
     QAction* m_lockSize= nullptr;
+    QAction* m_dupplicate{nullptr};
 
     QAction* m_allVisibility= nullptr;
     QAction* m_hiddenVisibility= nullptr;

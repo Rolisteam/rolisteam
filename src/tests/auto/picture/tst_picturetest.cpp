@@ -24,7 +24,7 @@
 #include "worker/iohelper.h"
 #include "utils/iohelper.h"
 #include "test_root_path.h"
-
+#include <helper.h>
 #include <memory>
 
 class PictureTest : public QObject
@@ -194,6 +194,7 @@ void PictureTest::finalImage()
 
 void PictureTest::setImageFromClipboard()
 {
+    auto server = Helper::initWebServer();
     auto clip = qGuiApp->clipboard();
     clip->clear();
     QVERIFY(m_ctrl->imageData().isEmpty());
@@ -223,7 +224,7 @@ void PictureTest::setImageFromClipboard()
     QVERIFY(m_ctrl->imageData().isEmpty());
 
     QMimeData* mimedata = new QMimeData();
-    mimedata->setUrls({QUrl::fromUserInput("https://www.nucreum.com/l5r/images/ten.jpg")});
+    mimedata->setUrls({QUrl::fromUserInput("http://127.0.0.1:9090/image/Seppun_tashime.jpg")});
 
      QSignalSpy spy(m_ctrl.get(), &ImageSelectorController::imageDataChanged);
     clip->setMimeData(mimedata);
@@ -234,6 +235,8 @@ void PictureTest::setImageFromClipboard()
     QVERIFY(!m_ctrl->imageData().isEmpty());
     //clip->clear();
     //clip->setMimeData(nullptr);
+
+    delete server;
 }
 
 void PictureTest::readImageFromFile()
@@ -268,9 +271,10 @@ void PictureTest::readImageFromFile()
 
 void PictureTest::readImageFromUrl()
 {
+    auto server = Helper::initWebServer();
     QSignalSpy spy(m_ctrl.get(), &ImageSelectorController::imageDataChanged);
 
-    m_ctrl->downloadImageFrom(QUrl::fromUserInput("https://www.nucreum.com/l5r/images/ten.jpg"));
+    m_ctrl->downloadImageFrom(QUrl::fromUserInput("http://127.0.0.1:9090/image/Seppun_tashime.jpg"));
 
     spy.wait();
 
@@ -280,6 +284,8 @@ void PictureTest::readImageFromUrl()
     auto pix= IOHelper::dataToPixmap(data);
 
     QVERIFY(!pix.isNull());
+
+    delete server;
 }
 QTEST_MAIN(PictureTest);
 

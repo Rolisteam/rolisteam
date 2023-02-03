@@ -22,21 +22,61 @@
 #include <QDebug>
 #include <QtConcurrent>
 
-#include "controller/networkcontroller.h"
 #include "network/characterdatamodel.h"
 #include "network/connectionprofile.h"
-
+#include "utils/logcategories.h"
 #include "worker/fileserializer.h"
 #include "worker/utilshelper.h"
 
-constexpr int timeInterval{100};
-
 SelectConnProfileController::SelectConnProfileController(ProfileModel* model, QObject* parent)
-    : QObject{parent}, m_profileModel{model}, m_characterModel{new CharacterDataModel}, m_timer{new QTimer}
+    : QObject{parent}, m_profileModel{model}, m_characterModel{new CharacterDataModel}
 {
-    m_timer->setInterval(timeInterval);
+
+    auto connectProfile= [this](ConnectionProfile* prof)
+    {
+        if(prof == nullptr)
+            return;
+
+        auto updateCharacters= [prof]()
+        { prof->setCharactersValid(helper::utils::hasValidCharacter(prof->characters(), prof->isGM())); };
+        connect(prof, &ConnectionProfile::characterCountChanged, this, updateCharacters);
+        connect(prof, &ConnectionProfile::characterChanged, this, updateCharacters);
+
+        auto updatePlayerInfo= [prof]()
+        {
+            prof->setPlayerInfoValid(prof->playerColor().isValid() && !prof->playerName().isEmpty()
+                                     && helper::utils::isSquareImage(prof->playerAvatar()));
+        };
+        connect(prof, &ConnectionProfile::playerAvatarChanged, this, updatePlayerInfo);
+        connect(prof, &ConnectionProfile::playerColorChanged, this, updatePlayerInfo);
+        connect(prof, &ConnectionProfile::playerNameChanged, this, updatePlayerInfo);
+
+        auto updateCampaign= [prof]()
+        {
+            prof->setCampaignInfoValid(
+                prof->isGM() ? campaign::FileSerializer::isValidCampaignDirectory(prof->campaignPath()) : true);
+        };
+        connect(prof, &ConnectionProfile::gmChanged, this, updateCampaign);
+        connect(prof, &ConnectionProfile::campaignPathChanged, this, updateCampaign);
+
+        updateCharacters();
+        updateCampaign();
+        updatePlayerInfo();
+    };
+
+    connect(m_profileModel, &ProfileModel::profileAdded, this, connectProfile);
+
+    if(m_profileModel)
+    {
+        for(int i= 0; i < m_profileModel->rowCount(); ++i)
+        {
+            auto prof= m_profileModel->getProfile(i);
+            connectProfile(prof);
+        }
+    }
     connect(this, &SelectConnProfileController::connectionStateChanged, this,
-            [this](ConnectionState newState, ConnectionState oldState) {
+            [this](ConnectionState newState, ConnectionState oldState)
+            {
                 if(newState == ConnectionState::IDLE)
                 {
                     emit stopConnecting();
@@ -47,25 +87,8 @@ SelectConnProfileController::SelectConnProfileController(ProfileModel* model, QO
                 }
             });
 
-    connect(m_timer.get(), &QTimer::timeout, this, &SelectConnProfileController::updateCanConnect);
-
     if(m_profileModel && m_profileModel->rowCount() > 0)
         setCurrentProfileIndex(0);
-
-    auto func= [this]() { m_timer->start(); };
-
-    connect(this, &SelectConnProfileController::profileNameChanged, this, func);
-    connect(this, &SelectConnProfileController::playerNameChanged, this, func);
-    // connect(this, &SelectConnProfileController::playerColorChanged, this, func);
-    connect(this, &SelectConnProfileController::playerAvatarChanged, this, func);
-    connect(this, &SelectConnProfileController::portChanged, this, func);
-    connect(this, &SelectConnProfileController::addressChanged, this, func);
-    connect(this, &SelectConnProfileController::isServerChanged, this, func);
-    connect(this, &SelectConnProfileController::isGameMasterChanged, this, func);
-    connect(this, &SelectConnProfileController::campaignPathChanged, this, func);
-    connect(m_characterModel.get(), &CharacterDataModel::rowsInserted, this, func);
-    connect(m_characterModel.get(), &CharacterDataModel::rowsRemoved, this, func);
-    connect(m_characterModel.get(), &CharacterDataModel::modelReset, this, func);
 }
 SelectConnProfileController::~SelectConnProfileController()= default;
 
@@ -115,13 +138,9 @@ SelectConnProfileController::ConnectionState SelectConnProfileController::connec
 
 bool SelectConnProfileController::validCampaignPath() const
 {
-    return m_validCampaignPath;
+    return currentProfile() ? currentProfile()->campaignInfoValid() : false;
 }
 
-bool SelectConnProfileController::isWorking() const
-{
-    return m_isWorking;
-}
 bool SelectConnProfileController::isGameMaster() const
 {
     return currentProfile() ? currentProfile()->isGM() : false;
@@ -142,72 +161,10 @@ QString SelectConnProfileController::errorMsg() const
 {
     return m_error;
 }
+
 bool SelectConnProfileController::canConnect() const
 {
-    return m_canConnect;
-}
-
-void SelectConnProfileController::setCanConnect(bool b)
-{
-    if(b == m_canConnect)
-        return;
-    m_canConnect= b;
-    emit canConnectChanged(m_canConnect);
-}
-
-void SelectConnProfileController::setValidCampaignPath(bool b)
-{
-    if(b == m_validCampaignPath)
-        return;
-    m_validCampaignPath= b;
-    emit validCampaignPathChanged(b);
-}
-
-void SelectConnProfileController::setWorking(bool b)
-{
-    if(b == m_isWorking)
-        return;
-    m_isWorking= b;
-    emit isWorkingChanged();
-}
-
-void SelectConnProfileController::updateCanConnect()
-{
-    m_timer->stop();
-    if(isWorking())
-        return;
-    setCanConnect(false);
-
-    setWorking(true);
-    auto port= this->port();
-    auto isServer= this->isServer();
-    auto isGm= this->isGameMaster();
-    auto profile= this->currentProfile();
-    auto address= this->address();
-    auto campaignPath= this->campaignPath();
-    auto profileName= this->profileName();
-    auto playerName= this->playerName();
-    auto playerAvatar= this->playerAvatar();
-    helper::utils::setContinuation<ValidFormInfo>(
-        QtConcurrent::run([port, isServer, isGm, profile, address, campaignPath, profileName, playerName,
-                           playerAvatar]() -> ValidFormInfo {
-            if(!profile)
-                return {};
-            bool validConnectionInfo= (port != 0 && isServer ? isServer : !address.isEmpty());
-            bool validCamp= isGm ? campaign::FileSerializer::isValidCampaignDirectory(campaignPath) : true;
-            bool validCharacter= helper::utils::hasValidCharacter(profile->characters(), isGm);
-            return {
-                !profileName.isEmpty(), !playerName.isEmpty(), helper::utils::isSquareImage(playerAvatar), validCamp,
-                validConnectionInfo,    validCharacter};
-        }),
-        this, [this](const ValidFormInfo& result) {
-            setCanConnect(result.validCamp && result.validConnectionInfo && result.validPlayerAvatar
-                          && result.validCharacter && result.validPlayerName && result.validProfileName);
-            qDebug() << "validForm" << result.validCamp << result.validCharacter << result.validConnectionInfo
-                     << result.validPlayerAvatar << result.validPlayerName << result.validProfileName;
-            setValidCampaignPath(result.validCamp);
-            setWorking(false);
-        });
+    return currentProfile() ? currentProfile()->valid() : false;
 }
 
 ConnectionProfile* SelectConnProfileController::currentProfile() const
@@ -252,7 +209,9 @@ void SelectConnProfileController::setCurrentProfileIndex(int i)
     emit isGameMasterChanged();
     emit passwordChanged();
     emit campaignPathChanged();
-    updateCanConnect();
+    emit canConnectChanged(prof ? prof->valid() : false);
+
+    // updateCanConnect();
 }
 void SelectConnProfileController::setConnectionState(ConnectionState state)
 {
@@ -380,17 +339,17 @@ bool SelectConnProfileController::validCharacterAvatar() const
     if(!currentProfile())
         return false;
     auto characters= currentProfile()->characters();
-    return std::any_of(std::begin(characters), std::end(characters), [](const connection::CharacterData& data) {
-        return helper::utils::isSquareImage(data.m_avatarData);
-    });
+    return std::any_of(std::begin(characters), std::end(characters),
+                       [](const connection::CharacterData& data)
+                       { return helper::utils::isSquareImage(data.m_avatarData); });
 }
 bool SelectConnProfileController::validCharacterColor() const
 {
     if(!currentProfile())
         return false;
     auto characters= currentProfile()->characters();
-    return std::any_of(std::begin(characters), std::end(characters),
-                       [](const connection::CharacterData& data) { return !data.m_color.isValid(); });
+    return std::all_of(std::begin(characters), std::end(characters),
+                       [](const connection::CharacterData& data) { return data.m_color.isValid(); });
 }
 
 const QString& SelectConnProfileController::infoMsg() const

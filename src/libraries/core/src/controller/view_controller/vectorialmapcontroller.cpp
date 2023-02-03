@@ -28,17 +28,12 @@
 #include "undoCmd/changecoloritem.h"
 #include "undoCmd/changesizevmapitem.h"
 #include "undoCmd/deletevmapitem.h"
+#include "undoCmd/dupplicatevmapitem.h"
 #include "undoCmd/hideotherlayercommand.h"
 #include "undoCmd/rollinitcommand.h"
 #include "undoCmd/showtransparentitemcommand.h"
 
 #include "controller/item_controllers/characteritemcontroller.h"
-#include "controller/item_controllers/ellipsecontroller.h"
-#include "controller/item_controllers/imageitemcontroller.h"
-#include "controller/item_controllers/linecontroller.h"
-#include "controller/item_controllers/pathcontroller.h"
-#include "controller/item_controllers/rectcontroller.h"
-#include "controller/item_controllers/textcontroller.h"
 #include "controller/item_controllers/vmapitemfactory.h"
 
 #include "worker/iohelper.h"
@@ -53,6 +48,7 @@ VectorialMapController::VectorialMapController(const QString& id, QObject* paren
 
     connect(m_vmapModel.get(), &vmap::VmapItemModel::itemControllerAdded, this,
             &VectorialMapController::visualItemControllerCreated);
+
     connect(m_vmapModel.get(), &vmap::VmapItemModel::itemControllersRemoved, this,
             &VectorialMapController::visualItemControllersRemoved);
 
@@ -649,16 +645,16 @@ void VectorialMapController::cleanUpInit(Core::CharacterScope scope)
 {
     auto items= m_vmapModel->items();
     auto list= sublist(scope, items);
-    emit performCommand(new CleanUpRollCommand(list));
+    addCommand(new CleanUpRollCommand(list));
 }
 void VectorialMapController::cleanUpInit(QList<QPointer<vmap::CharacterItemController>> list)
 {
-    emit performCommand(new CleanUpRollCommand(list));
+    addCommand(new CleanUpRollCommand(list));
 }
 
 void VectorialMapController::runDiceCommand(QList<QPointer<vmap::CharacterItemController>> list, QString cmd)
 {
-    emit performCommand(new CleanUpRollCommand(list));
+    addCommand(new CleanUpRollCommand(list));
 }
 
 void VectorialMapController::changeZValue(const QList<vmap::VisualItemController*>& list, StackOrder order)
@@ -674,4 +670,8 @@ void VectorialMapController::removeItemController(const QSet<QString>& ids, bool
 void VectorialMapController::addCommand(QUndoCommand* cmd)
 {
     emit performCommand(cmd);
+}
+void VectorialMapController::dupplicateItem(const QList<vmap::VisualItemController*>& vitem)
+{
+    addCommand(new DupplicateVMapItem(vitem, this));
 }

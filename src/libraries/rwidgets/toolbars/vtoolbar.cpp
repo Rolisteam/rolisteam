@@ -35,7 +35,7 @@ void HiddingButton::addAction(QAction* act)
     connect(act, &QAction::visibleChanged, this, [this, act]() { setVisible(act->isVisible()); });
 }
 
-VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(parent), m_ctrl(ctrl)
+ToolBox::ToolBox(VectorialMapController* ctrl, QWidget* parent) : QWidget(parent), m_ctrl(ctrl)
 {
     setWindowTitle(tr("Tools"));
     setObjectName("Toolbar");
@@ -80,8 +80,18 @@ VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(pa
     // Ctrl to UI
     connect(m_ctrl, &VectorialMapController::npcNumberChanged, m_displayNPCCounter,
             QOverload<int>::of(&QLCDNumber::display));
-    connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VToolsBar::updateUi);
-    connect(m_ctrl, &VectorialMapController::editionModeChanged, this, &VToolsBar::updateUi);
+    connect(m_ctrl, &VectorialMapController::permissionChanged, this, &ToolBox::updateUi);
+    connect(m_ctrl, &VectorialMapController::visibilityChanged, this,
+            [this]()
+            {
+                if(m_ctrl->visibility() != Core::VisibilityMode::FOGOFWAR)
+                {
+                    m_editionModeCombo->setCurrentIndex(0);
+                    m_ctrl->setEditionMode(Core::EditionMode::Painting);
+                }
+                updateUi();
+            });
+    connect(m_ctrl, &VectorialMapController::editionModeChanged, this, &ToolBox::updateUi);
     connect(m_ctrl, &VectorialMapController::toolColorChanged, m_colorSelector, &VColorSelector::setCurrentColor);
     // connect(m_ctrl, &VectorialMapController::opacityChanged, m_opacitySlider, &RealSlider::setRealValue);
     connect(m_ctrl, &VectorialMapController::editionModeChanged, this,
@@ -90,7 +100,7 @@ VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(pa
     updateUi();
 }
 
-void VToolsBar::setupUi()
+void ToolBox::setupUi()
 {
     m_centralWidget= new QWidget(this);
     createActions();
@@ -101,7 +111,7 @@ void VToolsBar::setupUi()
     setLayout(lay);
 }
 
-void VToolsBar::createActions()
+void ToolBox::createActions()
 {
     m_toolsGroup= new QActionGroup(this);
 
@@ -128,6 +138,7 @@ void VToolsBar::createActions()
 
     m_handAct= new QAction(QIcon::fromTheme("hand"), tr("Hand"), m_toolsGroup);
     m_handAct->setData(Core::HANDLER);
+    m_handAct->setShortcut(QKeySequence(QKeySequence::Cancel));
 
     m_addPCAct= new QAction(QIcon::fromTheme("add"), tr("Add NPC"), m_toolsGroup);
     m_addPCAct->setData(Core::NonPlayableCharacter);
@@ -153,6 +164,7 @@ void VToolsBar::createActions()
     m_textWithBorderAct->setData(Core::TEXTBORDER);
 
     m_resetCountAct= new QAction(QIcon::fromTheme("view-refresh"), tr("Reset NPC counter"), this);
+    m_resetCountAct->setObjectName("reset counter");
 
     m_pencilAct->setCheckable(true);
     m_lineAct->setCheckable(true);
@@ -168,12 +180,26 @@ void VToolsBar::createActions()
     m_pipette->setCheckable(true);
     m_highlighterAct->setCheckable(true);
     m_bucketAct->setCheckable(true);
-
     m_anchorAct->setCheckable(true);
-
     m_handAct->setChecked(true);
+
+    addAction(m_pencilAct);
+    addAction(m_lineAct);
+    addAction(m_rectAct);
+    addAction(m_rectFillAct);
+    addAction(m_elipseAct);
+    addAction(m_elipseFillAct);
+    addAction(m_textAct);
+    addAction(m_handAct);
+    addAction(m_addPCAct);
+    addAction(m_ruleAct);
+    addAction(m_pathAct);
+    addAction(m_highlighterAct);
+    addAction(m_bucketAct);
+    addAction(m_anchorAct);
+    addAction(m_resetCountAct);
 }
-void VToolsBar::makeTools()
+void ToolBox::makeTools()
 {
     m_opacitySlider= new RealSlider(this);
     m_opacitySlider->setOrientation(Qt::Horizontal);
@@ -365,7 +391,7 @@ void VToolsBar::makeTools()
     m_centralWidget->setLayout(toolsVerticalLayout);
 }
 
-void VToolsBar::updateUi()
+void ToolBox::updateUi()
 {
     if(!m_ctrl)
         return;
@@ -378,12 +404,6 @@ void VToolsBar::updateUi()
     auto pcAll= mode == Core::PC_ALL;
     auto painting= editionMode == Core::EditionMode::Painting;
     auto isFow= m_ctrl->visibility() == Core::VisibilityMode::FOGOFWAR;
-
-    if(!isFow)
-    {
-        m_editionModeCombo->setCurrentIndex(0);
-        m_ctrl->setEditionMode(Core::EditionMode::Painting);
-    }
 
     m_editionModeCombo->setVisible(isFow && (isGm || pcAll));
 
@@ -409,7 +429,8 @@ void VToolsBar::updateUi()
     m_handAct->setVisible(isGm || pcAll || pcMove);
 }
 
-void VToolsBar::setImage(const QPixmap& img)
+void ToolBox::setImage(const QPixmap& img)
 {
-    m_smallScene->setPixmap(img);
+    if(m_smallScene)
+        m_smallScene->setPixmap(img);
 }

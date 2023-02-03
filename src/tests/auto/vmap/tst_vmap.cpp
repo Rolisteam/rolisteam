@@ -2,37 +2,51 @@
 #include <QtCore/QCoreApplication>
 #include <QtTest/QtTest>
 
+#include "controller/item_controllers/ellipsecontroller.h"
+#include "controller/item_controllers/linecontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "undoCmd/addvmapitem.h"
-#include "data/character.h"
-#include "data/player.h"
 #include "rwidgets/customs/vmap.h"
-#include "rwidgets/graphicsItems/characteritem.h"
+#include "rwidgets/graphicsItems/anchoritem.h"
 #include "rwidgets/graphicsItems/ellipsitem.h"
 #include "rwidgets/graphicsItems/highlighteritem.h"
-#include "rwidgets/graphicsItems/imageitem.h"
 #include "rwidgets/graphicsItems/lineitem.h"
-#include "rwidgets/graphicsItems/pathitem.h"
-#include "rwidgets/graphicsItems/rectitem.h"
 #include "rwidgets/graphicsItems/ruleitem.h"
-#include "rwidgets/graphicsItems/textitem.h"
+#include "rwidgets/mediacontainers/vmapframe.h"
+// #include "test_root_path.h"
+#include "helper.h"
+
+constexpr int shortTime{5};
 
 class VMapTest : public QObject
 {
     Q_OBJECT
 public:
     VMapTest();
-    VisualItem* getItemFromId(int i);
 
 private slots:
-    void initTestCase();
     void init();
     void cleanup();
-    void getAndSetTest();
-    void cleanupTestCase();
 
-    void addRect();
-    void addEllipse();
+    void highlightItemTest();
+    void gridTest();
+
+    void lineTest();
+    void ellispeTest();
+    void anchorTest();
+    void rulerTest();
+    void toolBoxTest();
+    void topBarTest();
+    void createEmptyTopBarTest();
+    void createEmptyToolBoxTest();
+
+    /*void getAndSetTest();
+    void cleanupTestCase();*/
+
+    void addItems();
+    void addItems_data();
+
+    /*void addEllipse();
     void addPath();
     void addHighLighter();
     void addRule();
@@ -53,37 +67,522 @@ private slots:
     void testOption_data();
 
     void testMovableItems();
-    void testMovableItems_data();
+    void testMovableItems_data();*/
 
 private:
-    std::unique_ptr<VMap> m_vmap;
+    std::unique_ptr<VectorialMapController> m_ctrl;
+    std::unique_ptr<VMapFrame> m_media;
+    std::unique_ptr<QUndoStack> m_stack;
+    QPointer<VectorialMapController> m_pctrl;
+    QPointer<VMapFrame> m_pmedia;
 };
 
-Q_DECLARE_METATYPE(Core::GridPattern);
-Q_DECLARE_METATYPE(Core::ScaleUnit);
-Q_DECLARE_METATYPE(Core::VisibilityMode);
-Q_DECLARE_METATYPE(Core::Layer);
-Q_DECLARE_METATYPE(VisualItem*);
-// Q_DECLARE_METATYPE(VisualItem::Properties);
-Q_DECLARE_METATYPE(Core::PermissionMode);
+VMapTest::VMapTest()
+{
+    std::string duration("3600000"); // 3600 seconds -> 60 min
+    QByteArray timeoutDuration(duration.c_str(), static_cast<int>(duration.length()));
+    qputenv("QTEST_FUNCTION_TIMEOUT", timeoutDuration);
+    { // just for checking ..
+        auto result= qgetenv("QTEST_FUNCTION_TIMEOUT");
+        qDebug() << "timeout set to:" << result << "ms";
+    }
+}
 
-VMapTest::VMapTest() {}
-
-void VMapTest::initTestCase() {}
-
-void VMapTest::cleanupTestCase() {}
 void VMapTest::init()
 {
-    // m_vmap.reset(new VMap());
+    if(m_pmedia)
+        delete m_media.release();
+
+    if(m_pctrl)
+        delete m_ctrl.release();
+
+    m_ctrl.reset(new VectorialMapController());
+    m_pctrl= m_ctrl.get();
+    m_media.reset(new VMapFrame(m_ctrl.get()));
+    m_pmedia= m_media.get();
+    m_stack.reset(new QUndoStack);
+
+    connect(m_ctrl.get(), &VectorialMapController::performCommand, this,
+            [this](QUndoCommand* cmd) { m_stack->push(cmd); });
 }
 void VMapTest::cleanup() {}
-void VMapTest::getAndSetTest()
+
+void VMapTest::highlightItemTest()
 {
-    /*   VToolsBar::EditionMode mode= Core::Painting;
+    m_ctrl->setVisibility(Core::ALL);
+    m_ctrl->setLocalGM(true);
+    m_ctrl->setPermission(Core::PermissionMode::GM_ONLY);
+    m_media->setVisible(true);
+
+    auto map= m_media->map();
+
+    HighlighterItem* item = new HighlighterItem(Helper::randomPoint(), 10, Helper::randomColor());
+    QSignalSpy spy(item, &HighlighterItem::destroyed);
+    map->addItem(item);
+    item->setVisible(true);
+
+    item->shape();
+
+    spy.wait(5000);
+    QCOMPARE(spy.count(), 1);
+}
+
+void VMapTest::gridTest()
+{
+    m_ctrl->setVisibility(Core::ALL);
+    m_ctrl->setLocalGM(true);
+    m_ctrl->setPermission(Core::PermissionMode::GM_ONLY);
+    m_media->setVisible(true);
+
+    auto map= m_media->map();
+    auto gridCtrl = m_ctrl->gridController();
+    auto gridItem= map->gridItem();
+
+    gridItem->setNewEnd(QPoint());
+
+    QVERIFY(!gridItem->isVisible());
+
+    QSignalSpy spyGrid(m_ctrl.get(), &VectorialMapController::gridVisibilityChanged);
+
+    m_ctrl->setGridPattern(Core::GridPattern::SQUARE);
+    m_ctrl->setGridAbove(true);
+    m_ctrl->setGridVisibility(true);
+    spyGrid.wait(10);
+
+    QCOMPARE(spyGrid.count(), 1);
+
+    QSignalSpy gridResize(gridItem, &GridItem::parentChanged);
+    QSignalSpy spyGridResize(gridCtrl, &vmap::GridController::rectChanged);
+
+    auto size= m_media->size();
+    m_media->resize(size * 1.5);
+    spyGridResize.clear();
+    gridCtrl->setRect(m_media->geometry());
+
+    spyGridResize.wait(10);
+    QCOMPARE(spyGridResize.count(), 1);
+}
+
+void VMapTest::lineTest()
+{
+    {
+        LineItem item(nullptr);
+    }
+    vmap::LineController ctrl({}, m_ctrl.get());
+    LineItem item(&ctrl);
+
+    item.setNewEnd(QPointF{200., 300.});
+
+    ctrl.setStartPoint(QPointF{20., 30.});
+}
+
+void VMapTest::ellispeTest()
+{
+    {
+        EllipsItem item(nullptr);
+        item.shape();
+    }
+    {
+        vmap::EllipseController ctrl({}, m_ctrl.get());
+        EllipsItem item(&ctrl);
+        item.shape();
+    }
+}
+
+void VMapTest::toolBoxTest()
+{
+    auto toolbox= m_media->toolBox();
+
+    QSignalSpy spy(m_ctrl.get(), &VectorialMapController::permissionChanged);
+    QSignalSpy spy2(m_ctrl.get(), &VectorialMapController::editionModeChanged);
+    QSignalSpy spy3(m_ctrl.get(), &VectorialMapController::visibilityChanged);
+
+    m_ctrl->setPermission(Core::PermissionMode::PC_ALL);
+    spy.wait(shortTime);
+    m_ctrl->setEditionMode(Core::EditionMode::Mask);
+    spy2.wait(shortTime);
+
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy2.count(), 1);
+
+    m_ctrl->setPermission(Core::PermissionMode::PC_ALL);
+    spy.wait(shortTime);
+    m_ctrl->setEditionMode(Core::EditionMode::Mask);
+    spy2.wait(shortTime);
+
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy2.count(), 1);
+
+    m_ctrl->setVisibility(Core::VisibilityMode::FOGOFWAR);
+    spy3.wait(shortTime);
+    m_ctrl->setVisibility(Core::VisibilityMode::NONE);
+    spy3.wait(shortTime);
+    m_ctrl->setVisibility(Core::VisibilityMode::ALL);
+    spy3.wait(shortTime);
+    m_ctrl->setVisibility(Core::VisibilityMode::ALL);
+    spy3.wait(shortTime);
+
+    QCOMPARE(spy3.count(), 3);
+
+    auto acts= toolbox->actions();
+
+    for(auto act : acts)
+    {
+        if(!act->objectName().isEmpty())
+            continue;
+
+        auto tool= act->data().value<Core::SelectableTool>();
+        QSignalSpy toolSpy(m_ctrl.get(), &VectorialMapController::toolChanged);
+        QSignalSpy actSpy(act, &QAction::triggered);
+        act->trigger();
+        toolSpy.wait(shortTime);
+        if(m_ctrl->tool() != tool)
+            qDebug() << tool << "action:" << act;
+
+        QCOMPARE(toolSpy.count(), 1);
+        QCOMPARE(actSpy.count(), 1);
+        QCOMPARE(m_ctrl->tool(), tool);
+
+        act->trigger();
+        toolSpy.wait(10);
+        QCOMPARE(toolSpy.count(), 1);
+        QCOMPARE(actSpy.count(), 2);
+        QCOMPARE(m_ctrl->tool(), tool);
+    }
+    QSignalSpy spy4(m_ctrl.get(), &VectorialMapController::zoomLevelChanged);
+
+    m_ctrl->setZoomLevel(1.1);
+    spy4.wait(shortTime);
+    m_ctrl->setZoomLevel(1.1);
+    spy4.wait(shortTime);
+    m_ctrl->setZoomLevel(1.0);
+    spy4.wait(shortTime);
+
+    QCOMPARE(spy4.count(), 2);
+}
+void VMapTest::topBarTest()
+{
+    auto topBar= m_media->topBar();
+    QSignalSpy spyGM(m_ctrl.get(), &VectorialMapController::localGMChanged);
+
+    m_ctrl->setLocalGM(!m_ctrl->localGM());
+    spyGM.wait(shortTime);
+    QCOMPARE(spyGM.count(), 1);
+    m_ctrl->setLocalGM(m_ctrl->localGM());
+    spyGM.wait(shortTime);
+    QCOMPARE(spyGM.count(), 1);
+
+    auto acts= topBar->actions();
+
+    QSignalSpy spyPerm(m_ctrl.get(), &VectorialMapController::permissionChanged);
+    QSignalSpy spyVisibility(m_ctrl.get(), &VectorialMapController::visibilityChanged);
+    QSignalSpy spyLayer(m_ctrl.get(), &VectorialMapController::layerChanged);
+
+    for(auto const& p : acts)
+    {
+        auto name= p->objectName();
+
+        if(name.startsWith("permission_") || name.startsWith("Visibility_") || name.startsWith("layer_"))
+            p->trigger();
+    }
+
+    spyPerm.wait(shortTime);
+    spyVisibility.wait(shortTime);
+    spyLayer.wait(shortTime);
+    QVERIFY(spyPerm.count() > 0);
+    QVERIFY(spyVisibility.count() > 0);
+    QVERIFY(spyLayer.count() > 0);
+}
+
+void VMapTest::createEmptyTopBarTest()
+{
+    auto topBar= std::make_unique<VmapTopBar>(nullptr);
+
+    topBar->updateUI();
+}
+void VMapTest::createEmptyToolBoxTest()
+{
+    auto toolBox= std::make_unique<ToolBox>(nullptr);
+}
+using ParamMap= QList<std::map<QString, QVariant>>;
+
+void VMapTest::rulerTest()
+{
+    m_ctrl->setVisibility(Core::ALL);
+    m_ctrl->setLocalGM(true);
+    m_ctrl->setPermission(Core::PermissionMode::GM_ONLY);
+    m_media->setVisible(true);
+
+    QSignalSpy gridSizeChanged(m_ctrl.get(), &VectorialMapController::gridSizeChanged);
+    QSignalSpy gridScaleChanged(m_ctrl.get(), &VectorialMapController::gridScaleChanged);
+    QSignalSpy scaleUnitChanged(m_ctrl.get(), &VectorialMapController::scaleUnitChanged);
+
+    auto rule= new RuleItem(m_ctrl.get());
+    auto map= m_media->map();
+    map->addItem(rule);
+
+    rule->setNewEnd(QPointF(), true);
+    rule->setNewEnd(QPointF(), false);
+
+    rule->setPos(QPointF(100., 100.));
+    rule->setNewEnd(QPointF(150., 250.), true);
+
+    QCOMPARE(rule->boundingRect(), QRectF(0., 0., 0., 250.));
+
+    rule->setNewEnd(QPointF(1500., 250.), false);
+
+    QCOMPARE(rule->boundingRect(), QRect(0, 0, 1500, 500));
+
+    // addAndInit(parentItemAnchor);
+    auto items= map->items();
+
+    QCOMPARE(items.count(), 3);
+
+    QList<Core::ScaleUnit> units{Core::ScaleUnit::CM, Core::ScaleUnit::FEET, Core::ScaleUnit::INCH,
+                                 Core::ScaleUnit::KM, Core::ScaleUnit::M,    Core::ScaleUnit::MILE,
+                                 Core::ScaleUnit::PX, Core::ScaleUnit::YARD};
+
+    //    Core::ScaleUnit::CM ,m_ctrl->scaleUnitChanged(Core::ScaleUnit::CM
+    int i= 0;
+    for(auto const& unit : units)
+    {
+        if(m_ctrl->scaleUnit() == unit)
+            continue;
+
+        m_ctrl->setScaleUnit(unit);
+        i++;
+        scaleUnitChanged.wait(10);
+    }
+    QCOMPARE(scaleUnitChanged.count(), i);
+}
+void VMapTest::anchorTest()
+{
+    m_ctrl->setVisibility(Core::ALL);
+    m_ctrl->setLocalGM(true);
+    m_ctrl->setPermission(Core::PermissionMode::GM_ONLY);
+    m_media->setVisible(true);
+
+    auto anchor= new AnchorItem();
+    anchor->setNewEnd(QPointF());
+
+    anchor->setPos(QPointF(100., 100.));
+    anchor->setNewEnd(QPointF(200., 250.));
+
+    auto map= m_media->map();
+    map->addItem(anchor);
+    anchor->setVisible(true);
+
+    // addAndInit(parentItemAnchor);
+
+    anchor->boundingRect();
+
+    QCOMPARE(anchor->getEnd(), QPointF(300., 350.));
+    QCOMPARE(anchor->getStart(), QPointF(100., 100.));
+
+    auto items= map->items();
+
+    QCOMPARE(items.count(), 3);
+}
+
+void VMapTest::addItems()
+{
+    QFETCH(ParamMap, params);
+    QFETCH(int, expected);
+    m_ctrl->setVisibility(Core::ALL);
+    m_ctrl->setLocalGM(true);
+    m_ctrl->setPermission(Core::PermissionMode::GM_ONLY);
+    m_media->setVisible(true);
+
+    QSignalSpy performAction(m_ctrl.get(), &VectorialMapController::performCommand);
+    QSignalSpy itemCreated(m_ctrl.get(), &VectorialMapController::visualItemControllerCreated);
+
+    auto map= m_media->map();
+
+    for(auto const& p : params)
+    {
+        performAction.clear();
+        itemCreated.clear();
+        m_ctrl->insertItemAt(p);
+        performAction.wait(shortTime);
+        QCOMPARE(performAction.count(), 1);
+
+        itemCreated.wait(shortTime);
+        QCOMPARE(itemCreated.count(), 1);
+
+        auto list= map->items();
+        QList<VisualItem*> items;
+        std::transform(std::begin(list), std::end(list), std::back_inserter(items),
+                       [](QGraphicsItem* item) -> VisualItem*
+                       {
+                           auto vitem= dynamic_cast<VisualItem*>(item);
+                           if(!vitem)
+                               return nullptr;
+                           else
+                           {
+                               auto ctrl= vitem->controller();
+                               if(ctrl->itemType() == vmap::VisualItemController::GRID
+                                  || ctrl->itemType() == vmap::VisualItemController::SIGHT)
+                               {
+                                   return nullptr;
+                               }
+                               else
+                                   return vitem;
+                           }
+                       });
+
+        items.removeAll(nullptr);
+
+        if(items.empty())
+            continue;
+
+        auto vitem= items.first();
+        if(!vitem)
+            continue;
+
+        //vitem->setPenWidth(Helper::generate<int>(1, 50));
+
+        vitem->getType();
+        {
+            auto c= Helper::randomColor();
+            vitem->setColor(c);
+            QCOMPARE(vitem->color(), c);
+        }
+        {
+            auto c= Helper::randomColor();
+            vitem->setHighlightColor(c);
+            QCOMPARE(vitem->getHighlightColor(), c);
+        }
+
+        {
+            auto c= Helper::generate<int>(0, 50);
+            vitem->setHighlightWidth(c);
+            QCOMPARE(vitem->getHighlightWidth(), c);
+        }
+
+        vitem->shape();
+
+        QVERIFY(vitem->isLocal());
+
+        QCOMPARE(vitem->promoteTo(vmap::VisualItemController::GRID), nullptr);
+
+        vitem->setNewEnd(Helper::randomPoint());
+
+        vitem->shape();
+
+        auto ctrl= vitem->controller();
+        if(!ctrl)
+            continue;
+        QSignalSpy isSelected(ctrl, &vmap::VisualItemController::selectedChanged);
+
+        isSelected.clear();
+
+        ctrl->setSelected(!ctrl->selected());
+        ctrl->setSelected(ctrl->selected());
+
+        isSelected.wait(shortTime);
+
+        QCOMPARE(isSelected.count(), 1);
+
+        QSignalSpy canUndo(m_stack.get(), &QUndoStack::canUndoChanged);
+        m_ctrl->dupplicateItem(QList<vmap::VisualItemController*>{ctrl});
+
+        canUndo.wait(shortTime);
+        QCOMPARE(canUndo.count(), 1);
+        m_stack->undo();
+    }
+
+    if(!params.isEmpty())
+        qDebug() << params[0]["tool"].value<Core::SelectableTool>();
+    QCOMPARE(map->items().count(), expected);
+}
+
+void VMapTest::addItems_data()
+{
+    QTest::addColumn<ParamMap>("params");
+    QTest::addColumn<int>("expected");
+
+    QTest::addRow("empty") << ParamMap{} << 2;
+    std::vector<Core::SelectableTool> data({Core::SelectableTool::FILLRECT, Core::SelectableTool::LINE,
+                                            Core::SelectableTool::EMPTYELLIPSE, Core::SelectableTool::EMPTYRECT,
+                                            Core::SelectableTool::FILLEDELLIPSE, Core::SelectableTool::IMAGE,
+                                            Core::SelectableTool::TEXT, Core::SelectableTool::TEXTBORDER,
+                                            Core::SelectableTool::PATH, Core::SelectableTool::PEN});
+
+    ParamMap list;
+    int index= 0;
+    for(unsigned int i= 0; i < data.size(); ++i)
+    {
+       auto comb_size= i;
+        do
+        {
+            int count= 2;
+            list.clear();
+           for(auto it= data.begin(); it < data.begin() + comb_size; ++it)
+            //for(auto val : data)
+            {
+                std::map<QString, QVariant> map;
+                switch(*it)//
+                {
+                case Core::SelectableTool::FILLRECT:
+                    map= Helper::buildRectController(true, {0, 0, 200, 200});
+                    count+= 5;
+                    break;
+                case Core::SelectableTool::LINE:
+                    map= Helper::buildLineController({100, 100}, {500, 100}, {});
+                    count+= 3;
+                    break;
+                case Core::SelectableTool::EMPTYELLIPSE:
+                    map= Helper::buildEllipseController(false, 200., 100., {500., 100.});
+                    count+= 3;
+                    break;
+                case Core::SelectableTool::EMPTYRECT:
+                    map= Helper::buildRectController(false, {0, 0, 200, 200}, {300, 200});
+                    count+= 5;
+                    break;
+                case Core::SelectableTool::FILLEDELLIPSE:
+                    map= Helper::buildEllipseController(true, 200., 100., {500., 100.});
+                    count+= 3;
+                    break;
+                case Core::SelectableTool::IMAGE:
+                    map= Helper::buildImageController(":/img/girafe.jpg", {0, 0, 200, 200}, {150, 200});
+                    count+= 5;
+                    break;
+                case Core::SelectableTool::TEXT:
+                    map= Helper::buildTextController(false, "Text without border", {0, 0, 200, 200});
+                    count+= 6;
+                    break;
+                case Core::SelectableTool::TEXTBORDER:
+                    map= Helper::buildTextController(true, "Text with border", {0, 0, 200, 200});
+                    count+= 6;
+                    break;
+                case Core::SelectableTool::PATH:
+                    map= Helper::buildPathController(true, {{0, 0}, {10, 10}, {20, 0}, {30, 10}}, {0, 0});
+                    count+= 5;
+                    break;
+                case Core::SelectableTool::PEN:
+                    map= Helper::buildPenController(false, {{0, 0}, {10, 10}, {20, 0}, {30, 10}}, {0, 0});
+                    count+= 5;
+                    break;
+                default:
+                    break;
+                }
+                map.insert({QString("color"), QVariant::fromValue(Helper::randomColor())});
+                map.insert({Core::vmapkeys::KEY_PENWIDTH, Helper::generate<int>(1, 50)});
+
+                list.append(map);
+            }
+           QTest::addRow("save %d", ++index) << list << count;
+        } while(Helper::next_combination(data.begin(), data.begin() + comb_size, data.end()));
+    }
+}
+
+/*void VMapTest::getAndSetTest()
+{
+       ToolBox::EditionMode mode= Core::Painting;
        m_vmap->setEditionMode(mode);
        QVERIFY2(m_vmap->getEditionMode() == mode, "Normal edition mode");
 
-       mode= VToolsBar::Mask;
+       mode= ToolBox::Mask;
        m_vmap->setEditionMode(mode);
        QVERIFY2(m_vmap->getEditionMode() == mode, "Mask edition mode");
 
@@ -121,12 +620,12 @@ void VMapTest::getAndSetTest()
        QVERIFY(m_vmap->getVisibilityModeText() == "Fog Of War");
        visiMode= VMap::ALL;
        m_vmap->setVisibilityMode(visiMode);
-       QVERIFY(m_vmap->getVisibilityModeText() == "All visible");*/
+       QVERIFY(m_vmap->getVisibilityModeText() == "All visible");
 }
 
 void VMapTest::testOption()
 {
-    /*   QFETCH(VisualItem::Properties, key);
+      QFETCH(VisualItem::Properties, key);
        QFETCH(QVariant, value);
 
        VisualItem::Properties pop= static_cast<VisualItem::Properties>(key);
@@ -137,11 +636,11 @@ void VMapTest::testOption()
        QFETCH(QVariant, value1);
        bool b= m_vmap->setOption(pop, value1);
        QVERIFY(b);
-       QVERIFY(m_vmap->getOption(pop) == value1);*/
+       QVERIFY(m_vmap->getOption(pop) == value1);
 }
 void VMapTest::testOption_data()
 {
-    /*  QTest::addColumn<VisualItem::Properties>("key");
+      QTest::addColumn<VisualItem::Properties>("key");
       QTest::addColumn<QVariant>("value");
       QTest::addColumn<QVariant>("value1");
 
@@ -178,12 +677,12 @@ void VMapTest::testOption_data()
       QTest::newRow("ShowHealthBar") << VisualItem::ShowHealthBar << QVariant::fromValue(true)
                                      << QVariant::fromValue(false);
       QTest::newRow("MapLayer") << VisualItem::MapLayer << QVariant::fromValue(VisualItem::GROUND)
-                                << QVariant::fromValue(VisualItem::OBJECT);*/
+                                << QVariant::fromValue(VisualItem::OBJECT);
 }
 
 void VMapTest::saveAndLoad()
 {
-    /*    auto itemCountAtStart= m_vmap->items().size();
+       auto itemCountAtStart= m_vmap->items().size();
 
         QFETCH(int, id);
         auto item= getItemFromId(id);
@@ -226,11 +725,11 @@ void VMapTest::saveAndLoad()
 
         QCOMPARE(array.size(), array2.size());
 
-        delete item;*/
+        delete item;
 }
 VisualItem* VMapTest::getItemFromId(int i)
 {
-    /*   VisualItem* item= nullptr;
+       VisualItem* item= nullptr;
        switch(i)
        {
        case 1:
@@ -264,7 +763,7 @@ VisualItem* VMapTest::getItemFromId(int i)
        }
        if(nullptr != item)
            item->setLayer(m_vmap->currentLayer());
-       return item;*/
+       return item;
     return nullptr;
 }
 
@@ -282,23 +781,7 @@ void VMapTest::saveAndLoad_data()
     QTest::newRow("characterItem") << 7;
 }
 
-void VMapTest::addRect()
-{
-    /*   RectItem item;
-       AddVmapItemCommand cmd(&item, true, m_vmap.get());
-       cmd.setUndoable(true);
-       cmd.redo();
-       QVERIFY(cmd.isUndoable());
-       QCOMPARE(m_vmap->getItemCount(), 1);
-       QCOMPARE(m_vmap->getSortedItemCount(), 1);
-       QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
-       cmd.undo();
-
-       QCOMPARE(m_vmap->getItemCount(), 0);
-       QCOMPARE(m_vmap->getSortedItemCount(), 0);
-       QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
-}
 void VMapTest::addEllipse()
 {
     /*    EllipsItem item;
@@ -314,11 +797,11 @@ void VMapTest::addEllipse()
 
         QCOMPARE(m_vmap->getItemCount(), 0);
         QCOMPARE(m_vmap->getSortedItemCount(), 0);
-        QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addPath()
 {
-    /*    PathItem item;
+        PathItem item;
         AddVmapItemCommand cmd(&item, true, m_vmap.get());
         cmd.setUndoable(true);
         cmd.redo();
@@ -331,11 +814,11 @@ void VMapTest::addPath()
 
         QCOMPARE(m_vmap->getItemCount(), 0);
         QCOMPARE(m_vmap->getSortedItemCount(), 0);
-        QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addLine()
 {
-    /*    LineItem item;
+        LineItem item;
         AddVmapItemCommand cmd(&item, true, m_vmap.get());
         cmd.setUndoable(true);
         cmd.redo();
@@ -348,7 +831,7 @@ void VMapTest::addLine()
 
         QCOMPARE(m_vmap->getItemCount(), 0);
         QCOMPARE(m_vmap->getSortedItemCount(), 0);
-        QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addImage()
 {
@@ -365,11 +848,11 @@ void VMapTest::addImage()
 
         QCOMPARE(m_vmap->getItemCount(), 0);
         QCOMPARE(m_vmap->getSortedItemCount(), 0);
-        QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addCharacter()
 {
-    /*    QSignalSpy spy(m_vmap.get(), &VMap::npcAdded);
+        QSignalSpy spy(m_vmap.get(), &VMap::npcAdded);
         CharacterItem item;
         AddVmapItemCommand cmd(&item, true, m_vmap.get());
         cmd.setUndoable(true);
@@ -384,11 +867,11 @@ void VMapTest::addCharacter()
 
         QCOMPARE(m_vmap->getItemCount(), 0);
         QCOMPARE(m_vmap->getSortedItemCount(), 0);
-        QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addText()
 {
-    /*    TextItem item;
+        TextItem item;
         AddVmapItemCommand cmd(&item, true, m_vmap.get());
         cmd.setUndoable(true);
         cmd.redo();
@@ -401,34 +884,34 @@ void VMapTest::addText()
 
         QCOMPARE(m_vmap->getItemCount(), 0);
         QCOMPARE(m_vmap->getSortedItemCount(), 0);
-        QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addHighLighter()
 {
-    /*    HighlighterItem item;
+        HighlighterItem item;
         AddVmapItemCommand cmd(&item, true, m_vmap.get());
         cmd.setUndoable(false);
         cmd.redo();
         QVERIFY(!cmd.isUndoable());
         QCOMPARE(m_vmap->getItemCount(), 0);
         QCOMPARE(m_vmap->getSortedItemCount(), 0);
-        QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addRule()
 {
-    /*    RuleItem item;
+        RuleItem item;
         AddVmapItemCommand cmd(&item, true, m_vmap.get());
         cmd.setUndoable(false);
         cmd.redo();
         QVERIFY(!cmd.isUndoable());
         QCOMPARE(m_vmap->getItemCount(), 0);
         QCOMPARE(m_vmap->getSortedItemCount(), 0);
-        QCOMPARE(m_vmap->getOrderedItemCount(), 0);*/
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 
 void VMapTest::zOrderTest()
 {
-    /*    auto item= new RectItem(QPointF(100, 100), QPointF(200, 200), true, 18, QColor(Qt::red));
+        auto item= new RectItem(QPointF(100, 100), QPointF(200, 200), true, 18, QColor(Qt::red));
         auto item1= new RectItem(QPointF(100, 100), QPointF(200, 200), true, 18, QColor(Qt::blue));
         auto item2= new RectItem(QPointF(100, 100), QPointF(200, 200), true, 18, QColor(Qt::green));
         item->setVisible(true);
@@ -490,32 +973,32 @@ void VMapTest::zOrderTest()
 
         delete item;
         delete item1;
-        delete item2;*/
+        delete item2;
 }
 
 void VMapTest::fogTest()
 {
-    /*    auto sightItem= m_vmap->getFogItem();
+        auto sightItem= m_vmap->getFogItem();
 
         QFETCH(VMap::VisibilityMode, mode);
         QFETCH(bool, visibility);
 
         m_vmap->setVisibilityMode(mode);
-        QCOMPARE(sightItem->isVisible(), visibility);*/
+        QCOMPARE(sightItem->isVisible(), visibility);
 }
 void VMapTest::fogTest_data()
 {
-    /*    QTest::addColumn<VMap::VisibilityMode>("mode");
+        QTest::addColumn<VMap::VisibilityMode>("mode");
         QTest::addColumn<bool>("visibility");
 
         QTest::addRow("Hidden") << VMap::HIDDEN << false;
         QTest::addRow("FogOfWar") << VMap::FOGOFWAR << true;
-        QTest::addRow("All") << VMap::ALL << false;*/
+        QTest::addRow("All") << VMap::ALL << false;
 }
 
 void VMapTest::testMovableItems()
 {
-    /*    QFETCH(Map::PermissionMode, mode);
+        QFETCH(Map::PermissionMode, mode);
         QFETCH(bool, movable);
         QFETCH(bool, isGM);
         QFETCH(VisualItem*, item);
@@ -530,12 +1013,12 @@ void VMapTest::testMovableItems()
         QCOMPARE(m_vmap->getSortedItemCount(), 1);
         QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
-        QCOMPARE(item->flags() & QGraphicsItem::ItemIsMovable, movable);*/
+        QCOMPARE(item->flags() & QGraphicsItem::ItemIsMovable, movable);
 }
 
 void VMapTest::testMovableItems_data()
 {
-    /*    QTest::addColumn<Map::PermissionMode>("mode");
+        QTest::addColumn<Map::PermissionMode>("mode");
         QTest::addColumn<bool>("movable");
         QTest::addColumn<bool>("isGM");
         QTest::addColumn<VisualItem*>("item");
@@ -562,8 +1045,8 @@ void VMapTest::testMovableItems_data()
         //CharacterItem for GM
         QTest::addRow("PC can't move his character") << Map::GM_ONLY << false << false << itemVisual;
         QTest::addRow("PC can move his character") << Map::PC_MOVE << true << false << itemVisual;
-        QTest::addRow("PC can move his character as all items") << Map::PC_ALL << true << false << itemVisual;*/
-}
+        QTest::addRow("PC can move his character as all items") << Map::PC_ALL << true << false << itemVisual;
+}*/
 
 QTEST_MAIN(VMapTest);
 
