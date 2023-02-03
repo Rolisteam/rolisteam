@@ -24,7 +24,7 @@
 #include <QPointer>
 
 #include "data/campaign.h"
-#include "diceparser.h"
+//#include "diceparser.h"
 #include "rwidgets_global.h"
 
 namespace Ui
@@ -53,7 +53,7 @@ public:
 private:
     Ui::CampaignProperties* ui;
     QPointer<campaign::Campaign> m_campaign;
-    std::unique_ptr<DiceParser> m_diceParser;
+    //std::unique_ptr<DiceParser> m_diceParser;
 };
 
 inline uint qHash(const CampaignProperties::Tab& key, uint seed)
