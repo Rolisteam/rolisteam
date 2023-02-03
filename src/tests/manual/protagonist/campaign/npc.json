@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
     {
         "actions": [
@@ -70,5 +71,80 @@
         "tags": [
         ],
         "uuid": "cd1c0a65-8e3a-4567-a807-1f78ca1ef7f6"
+    },
+    {
+        "actions": [
+        ],
+        "avataruri": "npcs/Maria.jpg",
+        "color": "#f9f06b",
+        "description": "Mère de Kakita Yoake, Gouverneur de la ville Ryōgae Mura",
+        "distperturn": 0,
+        "hp": 100,
+        "initCmd": "3G2",
+        "initVal": 0,
+        "lifecolor": "#00ff00",
+        "maxhp": 100,
+        "minhp": 0,
+        "name": "Kakita Hikaru",
+        "properties": [
+        ],
+        "shapes": [
+        ],
+        "size": 64,
+        "stateid": "",
+        "tags": [
+            "grue",
+            " méchante",
+            " poivre gaijin"
+        ],
+        "uuid": "e757217a-f7f6-4353-bbcf-32413763f53a"
+    },
+    {
+        "actions": [
+        ],
+        "avataruri": "npcs/Kaiu_Hiroo.png",
+        "color": "#000000",
+        "description": "",
+        "distperturn": 0,
+        "hp": 100,
+        "initCmd": "",
+        "initVal": 0,
+        "lifecolor": "#00ff00",
+        "maxhp": 100,
+        "minhp": 0,
+        "name": "Kaiu Hiroo",
+        "properties": [
+        ],
+        "shapes": [
+        ],
+        "size": 0,
+        "stateid": "",
+        "tags": [
+        ],
+        "uuid": "a3ee6b3e-86d7-4cb4-bbb2-c68c0b7a22fb"
+    },
+    {
+        "actions": [
+        ],
+        "avataruri": ".",
+        "color": "#000000",
+        "description": "",
+        "distperturn": 0,
+        "hp": 100,
+        "initCmd": "",
+        "initVal": 25,
+        "lifecolor": "#00ff00",
+        "maxhp": 100,
+        "minhp": 0,
+        "name": "Ikoma Akamu",
+        "properties": [
+        ],
+        "shapes": [
+        ],
+        "size": 2,
+        "stateid": "",
+        "tags": [
+        ],
+        "uuid": "234080bb-af28-484f-bf21-8005f6e958d5"
     }
 ]

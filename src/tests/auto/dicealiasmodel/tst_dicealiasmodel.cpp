@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2018 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *   renaud@rolisteam.org                                                  *
  *                                                                         *
  *   Rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,8 +27,6 @@
 
 #include "diceparser/dicealias.h"
 #include "model/dicealiasmodel.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
 class TestDiceAliasModel : public QObject
 {

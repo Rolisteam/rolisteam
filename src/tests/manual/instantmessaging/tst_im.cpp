@@ -11,8 +11,8 @@
 
 #include "data/player.h"
 #include "model/playermodel.h"
-#include <common_qml/theme.h>
 #include "test_root_path.h"
+#include <common_qml/theme.h>
 
 void registerTypeTest()
 {
@@ -24,7 +24,8 @@ void registerTypeTest()
     qmlRegisterAnonymousType<PlayerModel>("PlayerModel", 1);
 
     qmlRegisterSingletonType<customization::Theme>("Customization", 1, 0, "Theme",
-                                                   [](QQmlEngine* engine, QJSEngine*) -> QObject* {
+                                                   [](QQmlEngine* engine, QJSEngine*) -> QObject*
+                                                   {
                                                        auto instead= customization::Theme::instance();
                                                        engine->setObjectOwnership(instead, QQmlEngine::CppOwnership);
                                                        return instead;

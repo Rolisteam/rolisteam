@@ -36,6 +36,12 @@
 
 void registerType()
 {
+    // TODO Move that into view? or define module with Qt6/cmake syntax
+    static bool registered= false;
+
+    if(registered)
+        return;
+
     qDebug() << "registerType 2";
     qRegisterMetaType<InstantMessaging::FilterInstantMessagingModel*>("FilterInstantMessagingModel*");
     qRegisterMetaType<InstantMessaging::MessageModel*>("MessageModel*");
@@ -56,7 +62,8 @@ void registerType()
                                                            "ChatRoom can't be created.");
     qmlRegisterType<InstantMessaging::TextWriterController>("InstantMessaging", 1, 0, "TextWriterController");
     qmlRegisterSingletonType<customization::Theme>("Customization", 1, 0, "Theme",
-                                                   [](QQmlEngine* engine, QJSEngine*) -> QObject* {
+                                                   [](QQmlEngine* engine, QJSEngine*) -> QObject*
+                                                   {
                                                        auto instead= customization::Theme::instance();
                                                        engine->setObjectOwnership(instead, QQmlEngine::CppOwnership);
                                                        return instead;
@@ -64,6 +71,8 @@ void registerType()
 
     qmlRegisterUncreatableType<InstantMessaging::MessageInterface>("Customization", 1, 0, "MessageInterface",
                                                                    "Not creatable as it is an enum type.");
+
+    registered= true;
 }
 
 InstantMessagingController::InstantMessagingController(PlayerModel* model, QObject* parent)
@@ -86,21 +95,25 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
             [this](InstantMessaging::ChatRoom* room, bool remote) { m_updater->addChatRoom(room, remote); });
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::localIdChanged, this,
             &InstantMessagingController::localIdChanged);
-    connect(m_players, &PlayerModel::playerJoin, this, [this](Player* player) {
-        if(nullptr == player)
-            return;
-        if(player->uuid() == localId())
-            return;
+    connect(m_players, &PlayerModel::playerJoin, this,
+            [this](Player* player)
+            {
+                if(nullptr == player)
+                    return;
+                if(player->uuid() == localId())
+                    return;
 
-        m_model->insertIndividualChatroom(player->uuid(), player->name());
-    });
+                m_model->insertIndividualChatroom(player->uuid(), player->name());
+            });
 
-    connect(m_players, &PlayerModel::playerLeft, this, [this](Player* player) {
-        if(nullptr == player)
-            return;
+    connect(m_players, &PlayerModel::playerLeft, this,
+            [this](Player* player)
+            {
+                if(nullptr == player)
+                    return;
 
-        m_model->removePlayer(player->uuid());
-    });
+                m_model->removePlayer(player->uuid());
+            });
 
     m_model->insertGlobalChatroom(tr("Global"), QStringLiteral("global"));
 }
