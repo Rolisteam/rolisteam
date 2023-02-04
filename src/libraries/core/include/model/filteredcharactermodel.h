@@ -25,7 +25,7 @@ class CORE_EXPORT FilteredCharacterModel : public QSortFilterProxyModel
     Q_PROPERTY(Definition gmdetailsDef READ gmdetailsDef WRITE setGmdetailsDef NOTIFY gmdetailsDefChanged)
     Q_PROPERTY(QString gmdetails READ gmdetails WRITE setGmdetails NOTIFY gmdetailsChanged)
     Q_PROPERTY(FilteredCharacterModel::HealthState hlState READ hlState WRITE setHlState NOTIFY hlStateChanged)
-    Q_PROPERTY(QString characeterStateId READ characeterStateId WRITE setCharaceterStateId NOTIFY characeterStateIdChanged)
+    Q_PROPERTY(QString characterStateId READ characterStateId WRITE setCharacterStateId NOTIFY characterStateIdChanged)
     // clang-format on
 public:
     enum Definition
@@ -87,8 +87,8 @@ public:
     FilteredCharacterModel::HealthState hlState() const;
     void setHlState(FilteredCharacterModel::HealthState newHlState);
 
-    QString characeterStateId() const;
-    void setCharaceterStateId(const QString& newCharaceterStateId);
+    QString characterStateId() const;
+    void setCharacterStateId(const QString& newCharacterStateId);
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
@@ -110,7 +110,7 @@ signals:
     void gmdetailsChanged();
     void hlStateChanged();
 
-    void characeterStateIdChanged();
+    void characterStateIdChanged();
 
 private:
     QString m_search;
@@ -128,7 +128,7 @@ private:
     QString m_excludeTags;
     QString m_gmdetails;
     FilteredCharacterModel::HealthState m_hlState{HS_All};
-    QString m_characeterStateId;
+    QString m_characterStateId;
 };
 } // namespace campaign
 #endif // FILTEREDCHARACTERMODEL_H

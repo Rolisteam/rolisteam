@@ -52,7 +52,7 @@ QList<T> convertToSpecific(QList<CharacterField*> list)
 
     return res;
 }
-
+/*
 template <typename T>
 bool isNull(const T& value);
 
@@ -95,7 +95,7 @@ bool isAccepted(FilteredCharacterModel::Definition def, T value)
         return isNull(value);
     }
 }
-
+*/
 AntagonistBoardController::AntagonistBoardController(campaign::CampaignEditor* editor, QObject* parent)
     : QObject(parent)
     , m_editor(editor)
@@ -127,6 +127,8 @@ AntagonistBoardController::AntagonistBoardController(campaign::CampaignEditor* e
 
         connect(m_filteredModel.get(), &FilteredCharacterModel::searchChanged, this,
                 &AntagonistBoardController::searchTextChanged);
+        connect(campaign, &campaign::Campaign::stateModelChanged, this,
+                &AntagonistBoardController::characterStateModelChanged);
         connect(campaign, &campaign::Campaign::stateModelChanged, this, &AntagonistBoardController::stateModelChanged);
     }
 }
@@ -312,7 +314,12 @@ ColorModel* AntagonistBoardController::colorModel() const
     return m_colorModel.get();
 }
 
-CharacterStateModel* AntagonistBoardController::stateModel() const
+StateModel* AntagonistBoardController::stateModel() const
+{
+    return m_stateModel.get();
+}
+
+CharacterStateModel* AntagonistBoardController::characterStateModel() const
 {
     if(!m_editor)
         return nullptr;

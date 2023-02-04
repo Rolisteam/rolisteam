@@ -633,7 +633,8 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("ToolBox") << static_cast<QObject*>(new ToolBox(nullptr));
     QTest::addRow("TextLabel") << static_cast<QObject*>(new TextLabel(nullptr));
     QTest::addRow("RichTextEditDialog") << static_cast<QObject*>(new RichTextEditDialog());
-    QTest::addRow("NonPlayableCharacterModel") << static_cast<QObject*>(new campaign::NonPlayableCharacterModel());
+    QTest::addRow("NonPlayableCharacterModel")
+        << static_cast<QObject*>(new campaign::NonPlayableCharacterModel(nullptr));
     QTest::addRow("FilteredCharacterModel") << static_cast<QObject*>(new campaign::FilteredCharacterModel());
 }
 

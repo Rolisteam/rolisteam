@@ -1,6 +1,5 @@
 #include "model/filteredcharactermodel.h"
 
-
 namespace campaign
 {
 
@@ -46,7 +45,6 @@ bool isAccepted(FilteredCharacterModel::Definition def, T value)
         return isNull(value);
     }
 }
-
 
 FilteredCharacterModel::FilteredCharacterModel()
 {
@@ -220,7 +218,7 @@ bool FilteredCharacterModel::filterAcceptsRow(int source_row, const QModelIndex&
     bool accepted= true;
     if(advanced())
     {
-        auto gmdetails = sourceModel()->data(nameIndex, nm::RoleGmDetails).toString();
+        auto gmdetails= sourceModel()->data(nameIndex, nm::RoleGmDetails).toString();
         // clang-format off
         auto avatar= isAccepted<QPixmap>(m_avatarDefinition, sourceModel()->data(nameIndex, nm::RoleAvatar).value<QPixmap>());
         auto initScore= isAccepted<bool>(m_initiativeScoreDef, sourceModel()->data(nameIndex, nm::RoleHasInitiative).toBool());
@@ -241,7 +239,8 @@ bool FilteredCharacterModel::filterAcceptsRow(int source_row, const QModelIndex&
         auto gmDetails= m_gmdetails.isEmpty() ? true : gmdetails.contains(m_gmdetails, Qt::CaseInsensitive);
         auto exclude= !(m_exclude.isEmpty() ? false : name.contains(m_exclude, Qt::CaseInsensitive));
         auto tags= m_tags.isEmpty() ? true : tagList.join(QString()).contains(m_tags, Qt::CaseInsensitive);
-        auto excludeTags= !(m_excludeTags.isEmpty() ? false : tagList.join(QString()).contains(m_excludeTags, Qt::CaseInsensitive));
+        auto excludeTags
+            = !(m_excludeTags.isEmpty() ? false : tagList.join(QString()).contains(m_excludeTags, Qt::CaseInsensitive));
 
         accepted= avatar & initScore & actions & properties & shapes & details & nameval & exclude & tags & excludeTags
                   & initCmd & health & gmDetails & characterState;
@@ -264,17 +263,17 @@ bool FilteredCharacterModel::lessThan(const QModelIndex& source_left, const QMod
     return data1 < data2;
 }
 
-QString FilteredCharacterModel::characeterStateId() const
+QString FilteredCharacterModel::characterStateId() const
 {
-    return m_characeterStateId;
+    return m_characterStateId;
 }
 
-void FilteredCharacterModel::setCharaceterStateId(const QString &newCharaceterStateId)
+void FilteredCharacterModel::setCharacterStateId(const QString& newCharaceterStateId)
 {
-    if (m_characeterStateId == newCharaceterStateId)
+    if(m_characterStateId == newCharaceterStateId)
         return;
-    m_characeterStateId = newCharaceterStateId;
-    emit characeterStateIdChanged();
+    m_characterStateId= newCharaceterStateId;
+    emit characterStateIdChanged();
 }
 
 } // namespace campaign

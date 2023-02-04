@@ -54,14 +54,15 @@ class CORE_EXPORT AntagonistBoardController : public QObject
     Q_PROPERTY(GenericModel* actionModel READ actionModel CONSTANT)
     Q_PROPERTY(GenericModel* shapeModel READ shapeModel CONSTANT)
     Q_PROPERTY(GenericModel* propertyModel READ propertyModel CONSTANT)
-    Q_PROPERTY(CharacterStateModel* stateModel READ stateModel NOTIFY stateModelChanged)
+    Q_PROPERTY(StateModel* stateModel READ stateModel NOTIFY stateModelChanged)
     Q_PROPERTY(NonPlayableCharacter* character READ character WRITE setCharacter NOTIFY characterChanged)
     Q_PROPERTY(ColorModel* colorModel READ colorModel CONSTANT)
-    Q_PROPERTY(CharacterStateModel* stateModel READ stateModel CONSTANT)
+    Q_PROPERTY(StateModel* stateModel READ stateModel CONSTANT)
     Q_PROPERTY(bool editingCharacter READ editingCharacter NOTIFY characterChanged)
     Q_PROPERTY(QString searchText READ searchText WRITE setSearchText NOTIFY searchTextChanged)
     Q_PROPERTY(FilteredCharacterModel* filteredModel READ filteredModel CONSTANT)
     Q_PROPERTY(QString imageFolder READ imageFolder CONSTANT)
+    Q_PROPERTY(CharacterStateModel* characterStateModel READ characterStateModel NOTIFY characterStateModelChanged)
 public:
     explicit AntagonistBoardController(campaign::CampaignEditor* editor, QObject* parent= nullptr);
 
@@ -76,8 +77,8 @@ public:
     NonPlayableCharacter* character() const;
 
     ColorModel* colorModel() const;
-    CharacterStateModel* stateModel() const;
-    // StateModel* stateModel() const;
+    StateModel* stateModel() const;
+    CharacterStateModel* characterStateModel() const;
 
 public slots:
     void removeData(const QModelIndex& index, campaign::ModelType type);
@@ -96,6 +97,7 @@ signals:
     void searchTextChanged();
     void characterEditionChanged();
     void stateModelChanged();
+    void characterStateModelChanged();
 
 private:
     QPointer<campaign::CampaignEditor> m_editor;
@@ -103,7 +105,7 @@ private:
     QPointer<NonPlayableCharacter> m_character;
     std::unique_ptr<FilteredCharacterModel> m_filteredModel;
     std::unique_ptr<ColorModel> m_colorModel;
-    // std::unique_ptr<StateModel> m_stateModel;
+    std::unique_ptr<StateModel> m_stateModel;
     QString m_imageFolder;
     int m_size= 64;
 };
