@@ -24,7 +24,7 @@ ChangeStackOrderVMapCommand::ChangeStackOrderVMapCommand(VectorialMapController*
                                                          const QList<ItemToControllerInfo>& second)
     : m_vmapCtrl(vmapCtrl), m_first(first), m_second(second)
 {
-    setText(tr("Change stack order of % item(s)").arg(first.size()));
+    setText(tr("Change stack order of %1 item(s)").arg(first.size()));
 }
 
 void ChangeStackOrderVMapCommand::undo()
