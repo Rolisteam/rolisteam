@@ -1341,31 +1341,31 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:146
+#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:149
 msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Radice"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:256
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
 msgstr "Personaggio"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:256
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Terreno"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:256
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
 msgctxt "QObject|"
 msgid "Object"
 msgstr "Oggetto"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:256
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 #, fuzzy
 #| msgctxt "ConnectionForm|"
@@ -1728,7 +1728,7 @@ msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
 msgstr "Giocatore o uuid duplicato"
 
-#: src/libraries/core/src/model/profilemodel.cpp:106
+#: src/libraries/core/src/model/profilemodel.cpp:108
 msgctxt "ProfileModel|"
 msgid " (clone)"
 msgstr " (clone)"
@@ -1739,9 +1739,12 @@ msgid "Any"
 msgstr ""
 
 #: src/libraries/core/src/model/statemodel.cpp:44
+#, fuzzy
+#| msgctxt "NonPlayableCharacterModel|"
+#| msgid "State"
 msgctxt "StateModel|"
-msgid "Any color"
-msgstr ""
+msgid "Any State"
+msgstr "Stato"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -1758,23 +1761,23 @@ msgctxt "ChannelModel|"
 msgid "MiB"
 msgstr "MiB"
 
-#: src/libraries/core/src/network/channelmodel.cpp:443
+#: src/libraries/core/src/network/channelmodel.cpp:446
 msgctxt "ChannelModel|"
 msgid "Channel Password"
 msgstr "Password del canale"
 
-#: src/libraries/core/src/network/channelmodel.cpp:444
+#: src/libraries/core/src/network/channelmodel.cpp:447
 #, qt-format
 msgctxt "ChannelModel|"
 msgid "Channel %1 required password:"
 msgstr "Password richiesta per il canale %1:"
 
-#: src/libraries/core/src/network/characterdatamodel.cpp:76
+#: src/libraries/core/src/network/characterdatamodel.cpp:77
 msgctxt "CharacterDataModel|"
 msgid "No Avatar"
 msgstr "Nessun avatar"
 
-#: src/libraries/core/src/network/characterdatamodel.cpp:144
+#: src/libraries/core/src/network/characterdatamodel.cpp:145
 msgctxt "CharacterDataModel|"
 msgid "New Character"
 msgstr "Nuovo personaggio"
@@ -1804,7 +1807,7 @@ msgctxt "QObject|"
 msgid "Player"
 msgstr "Giocatore"
 
-#: src/libraries/core/src/network/connectionprofile.cpp:12
+#: src/libraries/core/src/network/connectionprofile.cpp:15
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 msgctxt "QObject|"
 msgid "Unknown Character"
@@ -1848,31 +1851,31 @@ msgctxt "ServerConnectionManager|"
 msgid "User %1 has been disconnected!"
 msgstr "L'utente %1 è stato disconnesso!"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:152
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:166
+#, fuzzy
+#| msgctxt "UpnpNat|"
+#| msgid "Unable to read the end of server answer"
 msgctxt "UpnpNat|"
-msgid "Unable to read the beginning of server answer"
-msgstr "Impossibile leggere l'inizio della risposta del server"
-
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:160
-msgctxt "UpnpNat|"
-msgid "Unable to read the end of server answer"
+msgid "Unable to read the URL in server answer"
 msgstr "Impossibile leggere la fine della risposta del server"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:279
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:274
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr "Impossibile ottenere base_URL da XMLNode \"URLBase\" o describe_url.\n"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:288
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:282
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Impossibile trovare il tipo di servizio corretto: %1 %2 %3"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:500
-#, qt-format
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:333
+#, fuzzy, qt-format
+#| msgctxt "UpnpNat|"
+#| msgid "Fail to add port mapping (%1/%2)\n"
 msgctxt "UpnpNat|"
-msgid "Fail to add port mapping (%1/%2)\n"
+msgid "Fail to add port mapping (%1/%2) : error :\n"
 msgstr "Impossibile aggiungere la mappatura delle porte (%1/%2)\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
@@ -2050,90 +2053,90 @@ msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
 msgstr "Errore: %1 non esiste o non è leggibile."
 
-#: src/libraries/core/src/worker/utilshelper.cpp:172
+#: src/libraries/core/src/worker/utilshelper.cpp:167
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
 msgstr "File di schede dei personaggi (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:175
+#: src/libraries/core/src/worker/utilshelper.cpp:170
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
 msgstr "Formati di immagine supportati (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:178
+#: src/libraries/core/src/worker/utilshelper.cpp:173
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
 msgstr "File di testo supportati (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:181
+#: src/libraries/core/src/worker/utilshelper.cpp:176
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
 msgstr "Formati di note condivise supportati (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:184
+#: src/libraries/core/src/worker/utilshelper.cpp:179
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported WebPage (%1)"
 msgstr "Pagina web supportata (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:187
+#: src/libraries/core/src/worker/utilshelper.cpp:182
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
 msgstr "File PDF (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:190
+#: src/libraries/core/src/worker/utilshelper.cpp:185
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
 msgstr "Mappa vettoriale (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:193
+#: src/libraries/core/src/worker/utilshelper.cpp:188
 #, qt-format
 msgctxt "QObject|"
 msgid "Mindmap (%1)"
 msgstr "Mappa mentale (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:207
+#: src/libraries/core/src/worker/utilshelper.cpp:202
 msgctxt "QObject|"
 msgid "Vectorial Map"
 msgstr "Mappa vettoriale"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:208
+#: src/libraries/core/src/worker/utilshelper.cpp:203
 msgctxt "QObject|"
 msgid "Picture"
 msgstr "Immagine"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:209
+#: src/libraries/core/src/worker/utilshelper.cpp:204
 msgctxt "QObject|"
 msgid "Minutes"
 msgstr "Minuti"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:210
+#: src/libraries/core/src/worker/utilshelper.cpp:205
 msgctxt "QObject|"
 msgid "Character Sheet"
 msgstr "Scheda del personaggio"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:211
+#: src/libraries/core/src/worker/utilshelper.cpp:206
 msgctxt "QObject|"
 msgid "Mindmap"
 msgstr "Mappa mentale"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:212
+#: src/libraries/core/src/worker/utilshelper.cpp:207
 msgctxt "QObject|"
 msgid "Shared Notes"
 msgstr "Note condivise"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:213
+#: src/libraries/core/src/worker/utilshelper.cpp:208
 msgctxt "QObject|"
 msgid "Pdf"
 msgstr "PDF"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:214
+#: src/libraries/core/src/worker/utilshelper.cpp:209
 msgctxt "QObject|"
 msgid "Webview"
 msgstr "Vista web"
@@ -2373,7 +2376,7 @@ msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "Etichette"
 
-#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:39
+#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:40
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
@@ -2598,11 +2601,11 @@ msgid "Cancel"
 msgstr "Annulla"
 
 #: src/libraries/rwidgets/commands/changestackordervmapcommand.cpp:27
-#, fuzzy
+#, fuzzy, qt-format
 #| msgctxt "QObject|"
 #| msgid "Change size of %1 item(s)"
 msgctxt "ChangeStackOrderVMapCommand|"
-msgid "Change stack order of % item(s)"
+msgid "Change stack order of %1 item(s)"
 msgstr "Modifica la dimensione di %1 elemento/i"
 
 #: src/libraries/rwidgets/commands/movevmapitem.cpp:34
@@ -2802,7 +2805,7 @@ msgctxt "PlayerWidget|"
 msgid "Save Play List"
 msgstr "Salva scaletta"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:212
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
 msgctxt "RGraphicsView|"
 msgid "%n item(s)"
@@ -2810,82 +2813,82 @@ msgid_plural "%n item(s)"
 msgstr[0] "%n elemento"
 msgstr[1] "%n elementi"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:240
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:241
 msgctxt "RGraphicsView|"
 msgid "Overlapping"
 msgstr "Sovrapposizione"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:246
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:247
 msgctxt "RGraphicsView|"
 msgid "Rotate"
 msgstr "Ruota"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:247
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:248
 msgctxt "RGraphicsView|"
 msgid "To 360"
 msgstr "A 360"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:248
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:249
 msgctxt "RGraphicsView|"
 msgid "Right"
 msgstr "Destra"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:249
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:250
 msgctxt "RGraphicsView|"
 msgid "Left"
 msgstr "Sinistra"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:250
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:251
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
 msgstr "Imposta angolo..."
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:252
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
 msgctxt "RGraphicsView|"
 msgid "Set Layer"
 msgstr "Imposta livello"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:262
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:263
 msgctxt "RGraphicsView|"
 msgid "Normalize Size"
 msgstr "Normalizza dimensione"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:272
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:273
 msgctxt "RGraphicsView|"
 msgid "Map"
 msgstr "Mappa"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:290
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:291
 msgctxt "RGraphicsView|"
 msgid "Edit Layer"
 msgstr "Modifica livello"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:296
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:297
 msgctxt "RGraphicsView|"
 msgid "Change Visibility"
 msgstr "Cambia visibilità"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:301
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:302
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
 msgstr "Tira inizializzazione"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:307
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
 msgctxt "RGraphicsView|"
 msgid "Clean Init"
 msgstr "Cancella inizializzazione"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:313
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
 msgid "Zoom"
 msgstr "Ingrandimento"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:373
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:378
 msgctxt "RGraphicsView|"
 msgid "Rotation Value ?"
 msgstr "Valore rotazione ?"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:374
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:379
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
 msgstr "Imposta l'angolo di rotazione che desideri [0-360]"
@@ -2975,31 +2978,39 @@ msgctxt "RGraphicsView|"
 msgid "Lock/Unlock Item Geometry"
 msgstr "Blocca/Sblocca geometria dell'oggetto"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:574
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
+#, fuzzy
+#| msgctxt "VisualItem|"
+#| msgid "Duplicate Item"
+msgctxt "RGraphicsView|"
+msgid "Duplicate Item"
+msgstr "Duplica elemento"
+
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:575
 msgctxt "RGraphicsView|"
 msgid "Properties"
 msgstr "Proprietà"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:579
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:597
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:580
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:598
 msgctxt "RGraphicsView|"
 msgid "Ground"
 msgstr "Terreno"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:582
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:600
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:583
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:601
 msgctxt "RGraphicsView|"
 msgid "Object"
 msgstr "Oggetto"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:585
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:603
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:586
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:604
 msgctxt "RGraphicsView|"
 msgid "Character"
 msgstr "Personaggio"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:588
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:606
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:589
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:607
 #, fuzzy
 #| msgctxt "ConnectionForm|"
 #| msgid "I'm the Game Master"
@@ -3007,65 +3018,65 @@ msgctxt "RGraphicsView|"
 msgid "GameMaster"
 msgstr "Sono il Game Master"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:616
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:617
 msgctxt "RGraphicsView|"
 msgid "All"
 msgstr "Tutto"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:619
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:620
 msgctxt "RGraphicsView|"
 msgid "Hidden"
 msgstr "Nascosto"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:623
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:624
 msgctxt "RGraphicsView|"
 msgid "Fog Of War"
 msgstr "Nebbia di guerra"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:635
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:650
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:636
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:651
 msgctxt "RGraphicsView|"
 msgid "All Npcs"
 msgstr "Tutti gli NPC"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:636
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:637
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
 msgstr "Tira iniziativa su tutti gli NPC"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:640
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:655
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:641
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:656
 msgctxt "RGraphicsView|"
 msgid "Selection"
 msgstr "Selezione"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:641
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:642
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on Selection"
 msgstr "Tira iniziativa sulla selezione"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:645
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:660
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:646
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:661
 msgctxt "RGraphicsView|"
 msgid "All Characters"
 msgstr "Tutti i personaggi"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:646
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:647
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
 msgstr "Tira iniziativa su tutti i personaggi"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:651
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Npcs"
 msgstr "Cancella iniziativa su tutti gli NPC"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:656
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on Selection"
 msgstr "Cancella iniziativa sulla selezione"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:661
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Characters"
 msgstr "Cancella iniziativa su tutti i personaggi"
@@ -3211,7 +3222,7 @@ msgctxt "ConnectionRetryDialog|"
 msgid "Connection has failed! Connection Retry in %1s."
 msgstr "Connessione non riuscita! Nuovo tentativo di connessione tra %1s."
 
-#: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:141
+#: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:153
 msgctxt "ImageSelectorDialog|"
 msgid "Open Image file"
 msgstr "Apri file immagine"
@@ -3396,7 +3407,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Salva"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:523
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:524
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Mostra colonne"
@@ -3571,172 +3582,211 @@ msgid "Player List"
 msgstr "Elenco dei giocatori"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
-msgctxt "VmapToolBar|"
-msgid "Toolbar for VMap"
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "Toolbar for VMap"
+msgctxt "VmapTopBar|"
+msgid "TopBar for VMap"
 msgstr "Barra degli strumenti per VMap"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:58
-msgctxt "VmapToolBar|"
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "Square Grid"
+msgctxt "VmapTopBar|"
 msgid "Square Grid"
 msgstr "Griglia quadrata"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
-msgctxt "VmapToolBar|"
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:65
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "Hexagonal Grid"
+msgctxt "VmapTopBar|"
 msgid "Hexagonal Grid"
 msgstr "Griglia esagonale"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:79
-msgctxt "VmapToolBar|"
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "Grid Above"
+msgctxt "VmapTopBar|"
 msgid "Grid Above"
 msgstr "Griglia sopra"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:90
 #, fuzzy
 #| msgctxt "PermissionFrame|"
 #| msgid "Permission"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Permission: GM only"
 msgstr "Permesso"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:88
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:96
 #, fuzzy
 #| msgctxt "PermissionFrame|"
 #| msgid "Permission"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Permission: PC Move"
 msgstr "Permesso"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:92
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:102
 #, fuzzy
 #| msgctxt "PermissionFrame|"
 #| msgid "Permission"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Permission: All"
 msgstr "Permesso"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:114
-msgctxt "VmapToolBar|"
-msgid "Visibility: Hidden"
-msgstr ""
-
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:118
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:126
 #, fuzzy
 #| msgctxt "RGraphicsView|"
 #| msgid "Change Visibility"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
+msgid "Visibility: Hidden"
+msgstr "Cambia visibilità"
+
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:132
+#, fuzzy
+#| msgctxt "RGraphicsView|"
+#| msgid "Change Visibility"
+msgctxt "VmapTopBar|"
 msgid "Visibility: Fog"
 msgstr "Cambia visibilità"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:122
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:138
 #, fuzzy
 #| msgctxt "RGraphicsView|"
 #| msgid "Change Visibility"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Visibility: All"
 msgstr "Cambia visibilità"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:144
-msgctxt "VmapToolBar|"
-msgid "Current Layer: Ground"
-msgstr ""
-
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:148
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:162
 #, fuzzy
 #| msgctxt "campaign::CampaignView|"
 #| msgid "Current Directory"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
+msgid "Current Layer: Ground"
+msgstr "Cartella attuale"
+
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:168
+#, fuzzy
+#| msgctxt "campaign::CampaignView|"
+#| msgid "Current Directory"
+msgctxt "VmapTopBar|"
 msgid "Current Layer: Object"
 msgstr "Cartella attuale"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:152
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:174
 #, fuzzy
 #| msgctxt "campaign::AntagonistBoard|"
 #| msgid "Clone Character"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Current Layer: Character"
 msgstr "Clona personaggio"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:156
-msgctxt "VmapToolBar|"
-msgid "Current Layer: GameMaster"
-msgstr ""
-
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
-msgctxt "VmapToolBar|"
+#, fuzzy
+#| msgctxt "campaign::AntagonistBoard|"
+#| msgid "Clone Character"
+msgctxt "VmapTopBar|"
+msgid "Current Layer: GameMaster"
+msgstr "Clona personaggio"
+
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:206
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "hide other layers"
+msgctxt "VmapTopBar|"
 msgid "hide other layers"
 msgstr "nascondi gli altri livelli"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:183
-msgctxt "VmapToolBar|"
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:211
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "Character Vision"
+msgctxt "VmapTopBar|"
 msgid "Character Vision"
 msgstr "Visione del personaggio"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:185
-msgctxt "VmapToolBar|"
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "Show Transparent Item"
+msgctxt "VmapTopBar|"
 msgid "Show Transparent Item"
 msgstr "Mostra elemento trasparente"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:188
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:220
 #, fuzzy
 #| msgctxt "FieldView|"
 #| msgid "Show/Hide"
-msgctxt "VmapToolBar|PC = playable character"
+msgctxt "VmapTopBar|PC = playable character"
 msgid "Show/Hide PC name"
 msgstr "Mostra/nascondi"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:190
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:224
 #, fuzzy
 #| msgctxt "FieldView|"
 #| msgid "Show/Hide"
-msgctxt "VmapToolBar|NPC = non-playable character"
+msgctxt "VmapTopBar|NPC = non-playable character"
 msgid "Show/Hide NPC name"
 msgstr "Mostra/nascondi"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:191
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:227
 #, fuzzy
 #| msgctxt "VmapToolBar|"
 #| msgid "NPC number"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Show/Hide NPC number"
 msgstr "Numero NPC"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:192
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:230
 #, fuzzy
 #| msgctxt "FieldView|"
 #| msgid "Show/Hide"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Show/Hide State"
 msgstr "Mostra/nascondi"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:193
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:233
 #, fuzzy
 #| msgctxt "VmapToolBar|"
 #| msgid "Health Bar"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Show/Hide Health Bar"
 msgstr "Barra della salute"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:194
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:236
 #, fuzzy
 #| msgctxt "VmapToolBar|"
 #| msgid "Initiative"
-msgctxt "VmapToolBar|"
+msgctxt "VmapTopBar|"
 msgid "Show/Hide Initiative"
 msgstr "Iniziativa"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:246
-msgctxt "VmapToolBar|"
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "inch"
+msgctxt "VmapTopBar|"
 msgid "inch"
 msgstr "pollice"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:246
-msgctxt "VmapToolBar|"
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "foot"
+msgctxt "VmapTopBar|"
 msgid "foot"
 msgstr "piede"
 
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:246
-#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:262
-msgctxt "VmapToolBar|"
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
+#: src/libraries/rwidgets/docks/vmaptoolbar.cpp:306
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "px"
+msgctxt "VmapTopBar|"
 msgid "px"
 msgstr "px"
 
@@ -4203,12 +4253,12 @@ msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "Cancella forma"
 
-#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:201
+#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:133
 msgctxt "PathItem|"
 msgid "Close Path"
 msgstr "Chiudi percorso"
 
-#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:205
+#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:137
 msgctxt "PathItem|"
 msgid "Fill Path"
 msgstr "Riempi percorso"
@@ -4238,7 +4288,7 @@ msgctxt "TextItem|"
 msgid "Text"
 msgstr "Testo"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:303
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:298
 msgctxt "TextItem|"
 msgid "Font Size"
 msgstr "Dimensione carattere"
@@ -4257,11 +4307,6 @@ msgstr "Rettangolo"
 msgctxt "QObject|"
 msgid "Rule"
 msgstr "Regola"
-
-#: src/libraries/rwidgets/graphicsItems/visualitem.cpp:271
-msgctxt "VisualItem|"
-msgid "Duplicate Item"
-msgstr "Duplica elemento"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:164
 #, qt-format
@@ -4693,127 +4738,202 @@ msgid "Shape"
 msgstr "Forma"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
-msgctxt "VToolsBar|"
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Tools"
+msgctxt "ToolBox|"
 msgid "Tools"
 msgstr "Strumenti"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:108
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:118
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Pen"
+msgctxt "ToolBox|"
 msgid "Pen"
 msgstr "Penna"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:111
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Line"
+msgctxt "ToolBox|"
 msgid "Line"
 msgstr "Linea"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:114
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Empty Rectangle"
+msgctxt "ToolBox|"
 msgid "Empty Rectangle"
 msgstr "Rettangolo vuoto"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:117
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "filled Rectangle"
+msgctxt "ToolBox|"
 msgid "filled Rectangle"
 msgstr "Rettangolo pieno"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:120
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Empty Ellipse"
+msgctxt "ToolBox|"
 msgid "Empty Ellipse"
 msgstr "Ellisse vuota"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:123
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Filled Ellipse"
+msgctxt "ToolBox|"
 msgid "Filled Ellipse"
 msgstr "Ellisse piena"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:126
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
+#, fuzzy
+#| msgctxt "TextController|"
+#| msgid "Text"
+msgctxt "ToolBox|"
 msgid "Text"
 msgstr "Testo"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:129
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Hand"
+msgctxt "ToolBox|"
 msgid "Hand"
 msgstr "Mano"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:132
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Add NPC"
+msgctxt "ToolBox|"
 msgid "Add NPC"
 msgstr "Aggiungi NPC"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:135
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Rule"
+msgctxt "ToolBox|"
 msgid "Rule"
 msgstr "Regola"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:138
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
+#, fuzzy
+#| msgctxt "HistoryModel|"
+#| msgid "Path"
+msgctxt "ToolBox|"
 msgid "Path"
 msgstr "Percorso"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:140
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Anchor"
+msgctxt "ToolBox|"
 msgid "Anchor"
 msgstr "Ancora"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Pipette"
+msgctxt "ToolBox|"
 msgid "Pipette"
 msgstr "Pipetta"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Highlighter"
+msgctxt "ToolBox|"
 msgid "Highlighter"
 msgstr "Evidenziatore"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Paint Bucket"
+msgctxt "ToolBox|"
 msgid "Paint Bucket"
 msgstr "Secchio di vernice"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:152
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Text With Border"
+msgctxt "ToolBox|"
 msgid "Text With Border"
 msgstr "Testo con bordo"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:155
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Reset NPC counter"
+msgctxt "ToolBox|"
 msgid "Reset NPC counter"
 msgstr "Ripristina il contatore NPC"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:284
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:310
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "NPC Name"
+msgctxt "ToolBox|"
 msgid "NPC Name"
 msgstr "Nome NPC"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:289
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "NPC's number"
+msgctxt "ToolBox|"
 msgid "NPC's number"
 msgstr "Numero NPC"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:295
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:321
+#, fuzzy
+#| msgctxt "Image|"
+#| msgid "Normal"
+msgctxt "ToolBox|"
 msgid "Normal"
 msgstr "Normale"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:297
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:323
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Mask"
+msgctxt "ToolBox|"
 msgid "Mask"
 msgstr "Maschera"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:299
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:325
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Unmask"
+msgctxt "ToolBox|"
 msgid "Unmask"
 msgstr "Rimuovi maschera"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:329
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:355
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "height of the pen"
+msgctxt "ToolBox|"
 msgid "height of the pen"
 msgstr "Altezza della penna"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:341
-msgctxt "VToolsBar|"
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:367
+#, fuzzy
+#| msgctxt "VToolsBar|"
+#| msgid "Opacity:"
+msgctxt "ToolBox|"
 msgid "Opacity:"
 msgstr "Opacità:"
 
@@ -4846,6 +4966,46 @@ msgstr "Addormentato"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Stregato"
+
+#~ msgctxt "UpnpNat|"
+#~ msgid "Unable to read the beginning of server answer"
+#~ msgstr "Impossibile leggere l'inizio della risposta del server"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Pen"
+#~ msgstr "Penna"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Line"
+#~ msgstr "Linea"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Empty Rectangle"
+#~ msgstr "Rettangolo vuoto"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Empty Ellipse"
+#~ msgstr "Ellisse vuota"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Filled Ellipse"
+#~ msgstr "Ellisse piena"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Text"
+#~ msgstr "Testo"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Rule"
+#~ msgstr "Regola"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Path"
+#~ msgstr "Percorso"
+
+#~ msgctxt "VToolsBar|"
+#~ msgid "Normal"
+#~ msgstr "Normale"
 
 #~ msgctxt "VmapToolBar|"
 #~ msgid "GM only"
