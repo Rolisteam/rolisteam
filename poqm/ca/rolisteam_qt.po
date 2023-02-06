@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-02-04 11:39+0100\n"
+"PO-Revision-Date: 2023-02-05 12:07+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1730,12 +1730,9 @@ msgid "Any"
 msgstr "Qualsevol"
 
 #: src/libraries/core/src/model/statemodel.cpp:44
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "State"
 msgctxt "StateModel|"
 msgid "Any State"
-msgstr "Estat"
+msgstr "Qualsevol estat"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -1844,12 +1841,9 @@ msgid "User %1 has been disconnected!"
 msgstr "L'usuari %1 s'ha desconnectat!"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:166
-#, fuzzy
-#| msgctxt "UpnpNat|"
-#| msgid "Unable to read the end of server answer"
 msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
-msgstr "No s'ha pogut llegir el final de la resposta del servidor"
+msgstr "No s'ha pogut llegir l'URL en la resposta del servidor"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:274
 msgctxt "UpnpNat|"
@@ -1865,12 +1859,10 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Ha fallat en trobar el tipus de servei adequat: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:333
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2)\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
-msgstr "Ha fallat en afegir el mapatge del port (%1/%2)\n"
+msgstr "Ha fallat en afegir el mapatge del port (%1/%2): error:\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -2587,9 +2579,7 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #: src/libraries/rwidgets/commands/changestackordervmapcommand.cpp:27
-#, fuzzy, qt-format
-#| msgctxt "ChangeStackOrderVMapCommand|"
-#| msgid "Change stack order of % item(s)"
+#, qt-format
 msgctxt "ChangeStackOrderVMapCommand|"
 msgid "Change stack order of %1 item(s)"
 msgstr "Canvia l'ordre de la pila de %1 element/s"
@@ -2965,9 +2955,6 @@ msgid "Lock/Unlock Item Geometry"
 msgstr "Bloqueja o desbloqueja la geometria de l'element"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
-#, fuzzy
-#| msgctxt "VisualItem|"
-#| msgid "Duplicate Item"
 msgctxt "RGraphicsView|"
 msgid "Duplicate Item"
 msgstr "Duplica l'element"
@@ -3561,210 +3548,132 @@ msgid "Player List"
 msgstr "Llista de jugadors"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Toolbar for VMap"
 msgctxt "VmapTopBar|"
 msgid "TopBar for VMap"
-msgstr "Barra d'eines per al VMap"
+msgstr "Barra superior per al VMap"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Square Grid"
 msgctxt "VmapTopBar|"
 msgid "Square Grid"
 msgstr "Quadrícula quadrada"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:65
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Hexagonal Grid"
 msgctxt "VmapTopBar|"
 msgid "Hexagonal Grid"
 msgstr "Quadrícula hexagonal"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Grid Above"
 msgctxt "VmapTopBar|"
 msgid "Grid Above"
 msgstr "Quadrícula per sobre"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:90
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Permission: GM only"
 msgctxt "VmapTopBar|"
 msgid "Permission: GM only"
 msgstr "Permisos: Només el DJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:96
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Permission: PC Move"
 msgctxt "VmapTopBar|"
 msgid "Permission: PC Move"
 msgstr "Permisos: Moviment del PJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:102
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Permission: All"
 msgctxt "VmapTopBar|"
 msgid "Permission: All"
 msgstr "Permisos: Tots"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:126
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Visibility: Hidden"
 msgctxt "VmapTopBar|"
 msgid "Visibility: Hidden"
 msgstr "Visibilitat: Ocult"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:132
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Visibility: Fog"
 msgctxt "VmapTopBar|"
 msgid "Visibility: Fog"
 msgstr "Visibilitat: Boira"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:138
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Visibility: All"
 msgctxt "VmapTopBar|"
 msgid "Visibility: All"
 msgstr "Visibilitat: Completa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:162
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Current Layer: Ground"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Ground"
 msgstr "Capa actual: Terreny"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:168
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Current Layer: Object"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Object"
 msgstr "Capa actual: Objecte"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:174
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Current Layer: Character"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Character"
 msgstr "Capa actual: Personatge"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Current Layer: GameMaster"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: GameMaster"
 msgstr "Capa actual: Director de joc"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:206
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "hide other layers"
 msgctxt "VmapTopBar|"
 msgid "hide other layers"
 msgstr "oculta les altres capes"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:211
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Character Vision"
 msgctxt "VmapTopBar|"
 msgid "Character Vision"
 msgstr "Visió del personatge"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show Transparent Item"
 msgctxt "VmapTopBar|"
 msgid "Show Transparent Item"
 msgstr "Mostra transparent l'element"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:220
-#, fuzzy
-#| msgctxt "VmapToolBar|PC = playable character"
-#| msgid "Show/Hide PC name"
 msgctxt "VmapTopBar|PC = playable character"
 msgid "Show/Hide PC name"
 msgstr "Mostra/Oculta el nom del PJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:224
-#, fuzzy
-#| msgctxt "VmapToolBar|NPC = non-playable character"
-#| msgid "Show/Hide NPC name"
 msgctxt "VmapTopBar|NPC = non-playable character"
 msgid "Show/Hide NPC name"
 msgstr "Mostra/Oculta el nom del PNJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:227
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show/Hide NPC number"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide NPC number"
 msgstr "Mostra/Oculta el número del PNJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:230
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show/Hide State"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide State"
 msgstr "Mostra/Oculta l'estat"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:233
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show/Hide Health Bar"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Health Bar"
 msgstr "Mostra/Oculta la barra d'estat"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:236
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show/Hide Initiative"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Initiative"
 msgstr "Mostra/Oculta la iniciativa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "inch"
 msgctxt "VmapTopBar|"
 msgid "inch"
 msgstr "polzada"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "foot"
 msgctxt "VmapTopBar|"
 msgid "foot"
 msgstr "peu"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:306
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "px"
 msgctxt "VmapTopBar|"
 msgid "px"
 msgstr "px"
@@ -4711,201 +4620,126 @@ msgid "Shape"
 msgstr "Forma"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Tools"
 msgctxt "ToolBox|"
 msgid "Tools"
 msgstr "Eines"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:118
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Pen"
 msgctxt "ToolBox|"
 msgid "Pen"
 msgstr "Llapis"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Line"
 msgctxt "ToolBox|"
 msgid "Line"
 msgstr "Línia"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Empty Rectangle"
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
 msgstr "Rectangle buit"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "filled Rectangle"
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
 msgstr "Rectangle emplenat"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Empty Ellipse"
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
 msgstr "El·lipse buida"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Filled Ellipse"
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
 msgstr "El·lipse emplenada"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
-#, fuzzy
-#| msgctxt "TextController|"
-#| msgid "Text"
 msgctxt "ToolBox|"
 msgid "Text"
 msgstr "Text"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Hand"
 msgctxt "ToolBox|"
 msgid "Hand"
 msgstr "Mà"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Add NPC"
 msgctxt "ToolBox|"
 msgid "Add NPC"
 msgstr "Afegeix un PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Rule"
 msgctxt "ToolBox|"
 msgid "Rule"
 msgstr "Regla"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "ToolBox|"
 msgid "Path"
 msgstr "Camí"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Anchor"
 msgctxt "ToolBox|"
 msgid "Anchor"
 msgstr "Àncora"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Pipette"
 msgctxt "ToolBox|"
 msgid "Pipette"
 msgstr "Pipeta"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Highlighter"
 msgctxt "ToolBox|"
 msgid "Highlighter"
 msgstr "Marcador fluorescent"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Paint Bucket"
 msgctxt "ToolBox|"
 msgid "Paint Bucket"
 msgstr "Cubeta de pintar"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Text With Border"
 msgctxt "ToolBox|"
 msgid "Text With Border"
 msgstr "Text amb vora"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Reset NPC counter"
 msgctxt "ToolBox|"
 msgid "Reset NPC counter"
 msgstr "Restableix el comptador de PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:310
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "NPC Name"
 msgctxt "ToolBox|"
 msgid "NPC Name"
 msgstr "Nom del PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "NPC's number"
 msgctxt "ToolBox|"
 msgid "NPC's number"
 msgstr "Número de PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:321
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "Normal"
 msgctxt "ToolBox|"
 msgid "Normal"
 msgstr "Normal"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:323
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Mask"
 msgctxt "ToolBox|"
 msgid "Mask"
 msgstr "Màscara"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:325
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Unmask"
 msgctxt "ToolBox|"
 msgid "Unmask"
 msgstr "Desemmascara"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:355
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "height of the pen"
 msgctxt "ToolBox|"
 msgid "height of the pen"
 msgstr "Alçada del llapis"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:367
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Opacity:"
 msgctxt "ToolBox|"
 msgid "Opacity:"
 msgstr "Opacitat:"
@@ -4939,47 +4773,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "StateModel|"
-#~ msgid "Any color"
-#~ msgstr "Qualsevol color"
-
-#~ msgctxt "UpnpNat|"
-#~ msgid "Unable to read the beginning of server answer"
-#~ msgstr "No s'ha pogut llegir el començament de la resposta del servidor"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Pen"
-#~ msgstr "Llapis"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Line"
-#~ msgstr "Línia"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Empty Rectangle"
-#~ msgstr "Rectangle buit"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Empty Ellipse"
-#~ msgstr "El·lipse buida"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Filled Ellipse"
-#~ msgstr "El·lipse emplenada"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Text"
-#~ msgstr "Text"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Rule"
-#~ msgstr "Regla"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Path"
-#~ msgstr "Camí"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Normal"
-#~ msgstr "Normal"

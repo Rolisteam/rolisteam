@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2023-02-04 12:47+0100\n"
+"PO-Revision-Date: 2023-02-05 13:08+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1722,12 +1722,9 @@ msgid "Any"
 msgstr "Cualquiera"
 
 #: src/libraries/core/src/model/statemodel.cpp:44
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "State"
 msgctxt "StateModel|"
 msgid "Any State"
-msgstr "Estado"
+msgstr "Cualquier estado"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -1836,12 +1833,9 @@ msgid "User %1 has been disconnected!"
 msgstr "El usuario %1 ha sido desconectado"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:166
-#, fuzzy
-#| msgctxt "UpnpNat|"
-#| msgid "Unable to read the end of server answer"
 msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
-msgstr "No se ha podido leer el final de la respuesta del servidor"
+msgstr "No se ha podido leer la URL en la respuesta del servidor"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:274
 msgctxt "UpnpNat|"
@@ -1857,12 +1851,10 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "No se ha podido encontrar el tipo de servicio adecuado: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:333
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2)\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
-msgstr "No se ha podido añadir la asignación de puerto (%1/%2)\n"
+msgstr "No se ha podido añadir la asignación de puerto (%1/%2): error:\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -2579,9 +2571,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: src/libraries/rwidgets/commands/changestackordervmapcommand.cpp:27
-#, fuzzy, qt-format
-#| msgctxt "ChangeStackOrderVMapCommand|"
-#| msgid "Change stack order of % item(s)"
+#, qt-format
 msgctxt "ChangeStackOrderVMapCommand|"
 msgid "Change stack order of %1 item(s)"
 msgstr "Cambiar el orden de apilado de %1 elementos"
@@ -2957,9 +2947,6 @@ msgid "Lock/Unlock Item Geometry"
 msgstr "Bloquear/desbloquear geometría del elemento"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
-#, fuzzy
-#| msgctxt "VisualItem|"
-#| msgid "Duplicate Item"
 msgctxt "RGraphicsView|"
 msgid "Duplicate Item"
 msgstr "Duplicar elemento"
@@ -3554,210 +3541,132 @@ msgid "Player List"
 msgstr "Lista de jugadores"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Toolbar for VMap"
 msgctxt "VmapTopBar|"
 msgid "TopBar for VMap"
 msgstr "Barra de herramientas de mapa virtual"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Square Grid"
 msgctxt "VmapTopBar|"
 msgid "Square Grid"
 msgstr "Cuadrícula cuadrada"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:65
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Hexagonal Grid"
 msgctxt "VmapTopBar|"
 msgid "Hexagonal Grid"
 msgstr "Cuadrícula hexagonal"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Grid Above"
 msgctxt "VmapTopBar|"
 msgid "Grid Above"
 msgstr "Cuadrícula encima"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:90
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Permission: GM only"
 msgctxt "VmapTopBar|"
 msgid "Permission: GM only"
-msgstr "Permiso: solo el DJ"
+msgstr "Permiso: Solo el DJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:96
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Permission: PC Move"
 msgctxt "VmapTopBar|"
 msgid "Permission: PC Move"
 msgstr "Permiso: Movimiento del PJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:102
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Permission: All"
 msgctxt "VmapTopBar|"
 msgid "Permission: All"
 msgstr "Permiso: Todos"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:126
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Visibility: Hidden"
 msgctxt "VmapTopBar|"
 msgid "Visibility: Hidden"
 msgstr "Visibilidad: Oculto"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:132
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Visibility: Fog"
 msgctxt "VmapTopBar|"
 msgid "Visibility: Fog"
 msgstr "Visibilidad: Niebla"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:138
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Visibility: All"
 msgctxt "VmapTopBar|"
 msgid "Visibility: All"
 msgstr "Visibilidad: Todo"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:162
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Current Layer: Ground"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Ground"
 msgstr "Capa actual: Suelo"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:168
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Current Layer: Object"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Object"
 msgstr "Capa actual: Objeto"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:174
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Current Layer: Character"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Character"
 msgstr "Capa actual: Personaje"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Current Layer: GameMaster"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: GameMaster"
 msgstr "Capa actual: Director de juego"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:206
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "hide other layers"
 msgctxt "VmapTopBar|"
 msgid "hide other layers"
 msgstr "ocultar otras capas"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:211
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Character Vision"
 msgctxt "VmapTopBar|"
 msgid "Character Vision"
 msgstr "Visión del personaje"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show Transparent Item"
 msgctxt "VmapTopBar|"
 msgid "Show Transparent Item"
 msgstr "Mostrar elemento transparente"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:220
-#, fuzzy
-#| msgctxt "VmapToolBar|PC = playable character"
-#| msgid "Show/Hide PC name"
 msgctxt "VmapTopBar|PC = playable character"
 msgid "Show/Hide PC name"
 msgstr "Mostrar/ocultar nombre del PJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:224
-#, fuzzy
-#| msgctxt "VmapToolBar|NPC = non-playable character"
-#| msgid "Show/Hide NPC name"
 msgctxt "VmapTopBar|NPC = non-playable character"
 msgid "Show/Hide NPC name"
 msgstr "Mostrar/ocultar nombre del PNJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:227
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show/Hide NPC number"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide NPC number"
 msgstr "Mostrar/ocultar número del PNJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:230
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show/Hide State"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide State"
 msgstr "Mostrar/ocultar estado"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:233
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show/Hide Health Bar"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Health Bar"
 msgstr "Mostrar/ocultar barra de estado de salud"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:236
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show/Hide Initiative"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Initiative"
 msgstr "Mostrar/ocultar iniciativa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "inch"
 msgctxt "VmapTopBar|"
 msgid "inch"
 msgstr "pulgada"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "foot"
 msgctxt "VmapTopBar|"
 msgid "foot"
 msgstr "pie"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:306
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "px"
 msgctxt "VmapTopBar|"
 msgid "px"
 msgstr "px"
@@ -4705,201 +4614,126 @@ msgid "Shape"
 msgstr "Forma"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Tools"
 msgctxt "ToolBox|"
 msgid "Tools"
 msgstr "Herramientas"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:118
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Pen"
 msgctxt "ToolBox|"
 msgid "Pen"
 msgstr "Lápiz"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Line"
 msgctxt "ToolBox|"
 msgid "Line"
 msgstr "Línea"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Empty Rectangle"
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
 msgstr "Rectángulo vacío"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "filled Rectangle"
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
 msgstr "Rectángulo relleno"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Empty Ellipse"
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
 msgstr "Elipse vacía"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Filled Ellipse"
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
 msgstr "Elipse rellena"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
-#, fuzzy
-#| msgctxt "TextController|"
-#| msgid "Text"
 msgctxt "ToolBox|"
 msgid "Text"
 msgstr "Texto"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Hand"
 msgctxt "ToolBox|"
 msgid "Hand"
 msgstr "Mano"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Add NPC"
 msgctxt "ToolBox|"
 msgid "Add NPC"
 msgstr "Añadir PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Rule"
 msgctxt "ToolBox|"
 msgid "Rule"
 msgstr "Regla"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "ToolBox|"
 msgid "Path"
 msgstr "Ruta"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Anchor"
 msgctxt "ToolBox|"
 msgid "Anchor"
 msgstr "Anclaje"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Pipette"
 msgctxt "ToolBox|"
 msgid "Pipette"
 msgstr "Pipeta"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Highlighter"
 msgctxt "ToolBox|"
 msgid "Highlighter"
 msgstr "Rotulador"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Paint Bucket"
 msgctxt "ToolBox|"
 msgid "Paint Bucket"
 msgstr "Cubo de pintura"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Text With Border"
 msgctxt "ToolBox|"
 msgid "Text With Border"
 msgstr "Texto con borde"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Reset NPC counter"
 msgctxt "ToolBox|"
 msgid "Reset NPC counter"
 msgstr "Reiniciar el contador del PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:310
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "NPC Name"
 msgctxt "ToolBox|"
 msgid "NPC Name"
 msgstr "Nombre del PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "NPC's number"
 msgctxt "ToolBox|"
 msgid "NPC's number"
 msgstr "Número del PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:321
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "Normal"
 msgctxt "ToolBox|"
 msgid "Normal"
 msgstr "Normal"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:323
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Mask"
 msgctxt "ToolBox|"
 msgid "Mask"
 msgstr "Enmascarar"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:325
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Unmask"
 msgctxt "ToolBox|"
 msgid "Unmask"
 msgstr "Desenmascarar"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:355
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "height of the pen"
 msgctxt "ToolBox|"
 msgid "height of the pen"
 msgstr "altura del lápiz"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:367
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Opacity:"
 msgctxt "ToolBox|"
 msgid "Opacity:"
 msgstr "Opacidad:"

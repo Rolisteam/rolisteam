@@ -1,43 +1,35 @@
 # Xavier Besnard <xavier.besnard@neuf.fr>, 2022.
+# Xavier BESNARD <xavier.besnard]neuf.fr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2022-08-26 18:58+0200\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"PO-Revision-Date: 2023-02-04 20:03+0100\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
 msgid "MindMap (*.rmindmap *.rmap)"
-msgstr ""
+msgstr "MindMap (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/main.qml:36
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "main|"
 msgid "Open MindMap"
-msgstr "Carte mentale"
+msgstr "Ouvrir une carte MindMap"
 
 #: src/binaries/mindmap/MindMap.qml:69
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgctxt "MindMap|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/binaries/mindmap/MindMap.qml:80
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Images (*.png)"
 msgctxt "MindMap|"
 msgid "Images (*.png)"
 msgstr "Images (*.png)"
@@ -1368,12 +1360,9 @@ msgstr "Objet"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "I'm the Game Master"
 msgctxt "QObject|"
 msgid "GameMaster"
-msgstr "Je suis le Maître des jeux"
+msgstr "GameMaster"
 
 #: src/libraries/core/src/data/campaign.cpp:267
 msgctxt "Campaign|"
@@ -1450,7 +1439,7 @@ msgstr "Image"
 #: src/libraries/core/src/model/colormodel.cpp:44
 msgctxt "ColorModel|"
 msgid "Any color"
-msgstr ""
+msgstr "N'importe quelle couleur"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
@@ -1559,12 +1548,9 @@ msgid "Description"
 msgstr "Description"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
-#, fuzzy
-#| msgctxt "DiceMessageDelegate|"
-#| msgid "Details"
 msgctxt "NonPlayableCharacterModel|"
 msgid "GM Details"
-msgstr "Détails"
+msgstr "Détails « GM »"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
@@ -1737,7 +1723,7 @@ msgstr " (cloner)"
 #: src/libraries/core/src/model/proxystatemodel.cpp:50
 msgctxt "ProxyStateModel|"
 msgid "Any"
-msgstr ""
+msgstr "N'importe lequel"
 
 #: src/libraries/core/src/model/statemodel.cpp:44
 #, fuzzy
@@ -1990,12 +1976,10 @@ msgid "Change size of %1 item(s)"
 msgstr "Modifier la taille de %1 élément(s)"
 
 #: src/libraries/core/src/undoCmd/deletevmapitem.cpp:33
-#, fuzzy, qt-format
-#| msgctxt "QObject|"
-#| msgid "Delete %1 Item(s) From Map %1"
+#, qt-format
 msgctxt "QObject|"
 msgid "Delete %1 Item(s) From Map"
-msgstr "Supprimer %1 élément(s) de la carte %1"
+msgstr "Supprimer %1 élément(s) de la carte"
 
 #: src/libraries/core/src/undoCmd/importdatamedia.cpp:41
 #, qt-format
@@ -2211,17 +2195,11 @@ msgid "Automatic Spacing"
 msgstr "Espacement automatique"
 
 #: src/libraries/mindmap/resources/qml/Content.qml:69
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/libraries/mindmap/resources/qml/Content.qml:80
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Images (*.png)"
 msgctxt "Content|"
 msgid "Images (*.png)"
 msgstr "Images (*.png)"
@@ -3017,12 +2995,9 @@ msgstr "Caractère"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:589
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:607
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "I'm the Game Master"
 msgctxt "RGraphicsView|"
 msgid "GameMaster"
-msgstr "Je suis le Maître des jeux"
+msgstr "GameMaster"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:617
 msgctxt "RGraphicsView|"
@@ -3346,12 +3321,10 @@ msgid "No Service to open links"
 msgstr "Aucun service pour l'ouverture des liens"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:43
-#, fuzzy, qt-format
-#| msgctxt "TipOfDayViewer|"
-#| msgid "Please find the type here: <a href=\"%1\"</a>"
+#, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "Please find the type here: <a href=\"%1\">%1</a>"
-msgstr "Veuillez trouver le type ici : <a href=\"%1\"</a>"
+msgstr "Veuillez trouver le type ici : <a href=\"%1\">%1</a>"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -3404,12 +3377,9 @@ msgid "Main columns"
 msgstr "Colonnes principales"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:74
-#, fuzzy
-#| msgctxt "campaign::AntagonistBoard|"
-#| msgid "Main columns"
 msgctxt "campaign::AntagonistBoard|"
 msgid "Minimal Columns"
-msgstr "Colonnes principales"
+msgstr "Colonnes minimales"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:75
 msgctxt "campaign::AntagonistBoard|"
@@ -4664,25 +4634,19 @@ msgid "Set Avatar..."
 msgstr "Définir un avatar..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:49
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Remove"
 msgctxt "UserListView|"
 msgid "Remove..."
-msgstr "Supprimer"
+msgstr "Supprimer..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:50
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Edit Layer"
 msgctxt "UserListView|"
 msgid "Edit name"
-msgstr "Modifier un calque"
+msgstr "Modifier un nom"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Change color…"
-msgstr ""
+msgstr "Modifier une couleur..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:61
 msgctxt "UserListView|"
