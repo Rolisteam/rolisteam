@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-01-03 16:34+0100\n"
+"PO-Revision-Date: 2023-02-06 13:50+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/main.qml:23
@@ -105,7 +105,7 @@ msgstr ""
 #, qt-format
 msgctxt "CharacterList|"
 msgid "Character %1"
-msgstr ""
+msgstr "Znak %1"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:11
 msgctxt "MockCharacter|"
@@ -177,17 +177,17 @@ msgstr ""
 #, qt-format
 msgctxt "PageDelegate|"
 msgid "Page %1"
-msgstr ""
+msgstr "Strana %1"
 
 #: src/binaries/rcse/delegate/pagedelegate.cpp:32
 msgctxt "PageDelegate|"
 msgid "All pages"
-msgstr ""
+msgstr "Všechny strany"
 
 #: src/binaries/rcse/delegate/pagedelegate.cpp:47
 msgctxt "PageDelegate|"
 msgid "All Pages"
-msgstr ""
+msgstr "Všechny strany"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
@@ -207,17 +207,17 @@ msgstr ""
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "Select"
-msgstr ""
+msgstr "Vybrat"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "Checkbox"
-msgstr ""
+msgstr "Přepínač"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "Image"
-msgstr ""
+msgstr "Obrázek"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
@@ -242,12 +242,12 @@ msgstr ""
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Slider"
-msgstr ""
+msgstr "Posuvník"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Hidden"
-msgstr ""
+msgstr "Skryté"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
@@ -272,7 +272,7 @@ msgstr ""
 #: src/binaries/rcse/dialog/pdfmanager.cpp:43
 msgctxt "PdfManager|"
 msgid "PDF files (*.pdf)"
-msgstr ""
+msgstr "Soubory PDF (*.pdf)"
 
 #: src/binaries/rcse/dialog/sheetproperties.cpp:17
 msgctxt "SheetProperties|"
@@ -282,17 +282,17 @@ msgstr ""
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
 msgid "Label"
-msgstr ""
+msgstr "Popisek"
 
 #: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Value"
-msgstr ""
+msgstr "Hodnota"
 
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
@@ -302,27 +302,27 @@ msgstr ""
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "Width"
-msgstr ""
+msgstr "Šířka"
 
 #: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "Height"
-msgstr ""
+msgstr "Výška"
 
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
@@ -332,7 +332,7 @@ msgstr ""
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Font"
-msgstr ""
+msgstr "Písmo"
 
 #: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
@@ -342,7 +342,7 @@ msgstr ""
 #: src/binaries/rcse/fieldmodel.cpp:69
 msgctxt "FieldModel|"
 msgid "Text Color"
-msgstr ""
+msgstr "Barva textu"
 
 #: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
@@ -352,17 +352,17 @@ msgstr ""
 #: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Border"
-msgstr ""
+msgstr "Ohraničení"
 
 #: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Page"
-msgstr ""
+msgstr "Strana"
 
 #: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "ToolTip"
-msgstr ""
+msgstr "Nástrojový tip"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
@@ -462,7 +462,7 @@ msgstr ""
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
 msgid "open <file>."
-msgstr ""
+msgstr "otevřít <soubor>."
 
 #: src/binaries/rcse/mainwindow.cpp:166
 msgctxt "MainWindow|"
@@ -472,17 +472,17 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:194 src/binaries/widget/mainwindow.cpp:573
 msgctxt "MainWindow|"
 msgid "&Undo"
-msgstr ""
+msgstr "&Zpět"
 
 #: src/binaries/rcse/mainwindow.cpp:197 src/binaries/widget/mainwindow.cpp:572
 msgctxt "MainWindow|"
 msgid "&Redo"
-msgstr ""
+msgstr "&Vpřed"
 
 #: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:643
 msgctxt "MainWindow|"
 msgid "Support"
-msgstr ""
+msgstr "Podpora"
 
 #: src/binaries/rcse/mainwindow.cpp:357
 #, qt-format
@@ -495,12 +495,12 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:426
 msgctxt "MainWindow|"
 msgid "Untitled"
-msgstr ""
+msgstr "Nepojmenovaný"
 
 #: src/binaries/rcse/mainwindow.cpp:463 src/binaries/widget/mainwindow.cpp:794
 msgctxt "MainWindow|"
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #: src/binaries/rcse/mainwindow.cpp:464
 #, qt-format
@@ -518,7 +518,7 @@ msgstr ""
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
-msgstr ""
+msgstr "Ukončit %1 "
 
 #: src/binaries/rcse/mainwindow.cpp:538
 msgctxt "MainWindow|"
@@ -538,7 +538,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:568
 msgctxt "MainWindow|"
 msgid "Open Image"
-msgstr ""
+msgstr "Otevřít obrázek"
 
 #: src/binaries/rcse/mainwindow.cpp:593 src/binaries/rcse/mainwindow.cpp:638
 msgctxt "MainWindow|"
@@ -575,22 +575,22 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:916
 msgctxt "MainWindow|"
 msgid "Copy Path"
-msgstr ""
+msgstr "Kopírovat cestu"
 
 #: src/binaries/rcse/mainwindow.cpp:919
 msgctxt "MainWindow|"
 msgid "Copy Url"
-msgstr ""
+msgstr "Kopírovat URL"
 
 #: src/binaries/rcse/mainwindow.cpp:922
 msgctxt "MainWindow|"
 msgid "Replace Image"
-msgstr ""
+msgstr "Nahradit obrázek"
 
 #: src/binaries/rcse/mainwindow.cpp:923
 msgctxt "MainWindow|"
 msgid "Remove Image"
-msgstr ""
+msgstr "Odstranit obrázek"
 
 #: src/binaries/rcse/mainwindow.cpp:924
 msgctxt "MainWindow|"
@@ -600,7 +600,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:931
 msgctxt "MainWindow|"
 msgid "Load Image"
-msgstr ""
+msgstr "Načíst obrázek"
 
 #: src/binaries/rcse/mainwindow.cpp:932
 msgctxt "MainWindow|"
@@ -610,7 +610,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:945
 msgctxt "MainWindow|"
 msgid "Add character"
-msgstr ""
+msgstr "Přidat znak"
 
 #: src/binaries/rcse/mainwindow.cpp:946
 msgctxt "MainWindow|"
@@ -645,19 +645,19 @@ msgstr ""
 #: src/binaries/rcse/tablecanvasfield.cpp:71
 msgctxt "TableCanvasField|"
 msgid "Properties"
-msgstr ""
+msgstr "Vlastnosti"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Character #%1"
-msgstr ""
+msgstr "Přidat znak #%1"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:56
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:47
 msgctxt "QObject|"
 msgid "checkbox"
-msgstr ""
+msgstr "přepínač"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:60
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:51
@@ -681,7 +681,7 @@ msgstr ""
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:64
 msgctxt "QObject|"
 msgid "Table"
-msgstr ""
+msgstr "Tabulka"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:78
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:69
@@ -689,19 +689,19 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Image"
-msgstr ""
+msgstr "Obrázek"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:85
 msgctxt "QObject|"
 msgid "Slider"
-msgstr ""
+msgstr "Posuvník"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
 #: src/libraries/core/src/data/cleveruri.cpp:229
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
 msgid "Hidden"
-msgstr ""
+msgstr "Skryté"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:93
 msgctxt "QObject|"
@@ -712,7 +712,7 @@ msgstr ""
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:73
 msgctxt "QObject|"
 msgid "function"
-msgstr ""
+msgstr "funkce"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:102
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:78
@@ -723,7 +723,7 @@ msgstr ""
 #: src/binaries/rcse/undo/addfieldcommand.cpp:106
 msgctxt "QObject|"
 msgid "Web Page"
-msgstr ""
+msgstr "Webová stránka"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:110
 msgctxt "QObject|"
@@ -740,20 +740,20 @@ msgstr ""
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:84
 msgctxt "QObject|"
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámý"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:124
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:88
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 Field"
-msgstr ""
+msgstr "Přidat pole %1"
 
 #: src/binaries/rcse/undo/addpagecommand.cpp:31
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Page #%1"
-msgstr ""
+msgstr "Přidat stranu #%1"
 
 #: src/binaries/rcse/undo/deletecharactercommand.cpp:27
 #, qt-format
@@ -772,7 +772,7 @@ msgstr[0] ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete Page #%1"
-msgstr ""
+msgstr "Smazat stránku #%1"
 
 #: src/binaries/rcse/undo/movefieldcommand.cpp:32
 #, qt-format
@@ -797,7 +797,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Set Property %1"
-msgstr ""
+msgstr "Nastavit vlastnost %1"
 
 #: src/binaries/rcse/undo/setpropertyonallcharacters.cpp:15
 #, qt-format
@@ -813,7 +813,7 @@ msgstr ""
 #: src/binaries/rcse/widgets/fieldview.cpp:26
 msgctxt "FieldView|"
 msgid "Delete Item"
-msgstr ""
+msgstr "Smazat položku"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:27
 msgctxt "FieldView|"
@@ -858,17 +858,17 @@ msgstr ""
 #: src/binaries/rcse/widgets/fieldview.cpp:73
 msgctxt "FieldView|"
 msgid "All columns"
-msgstr ""
+msgstr "Všechny sloupce"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:140
 msgctxt "FieldView|"
 msgid "Show"
-msgstr ""
+msgstr "Zobrazit"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:147
 msgctxt "FieldView|"
 msgid "Show/Hide"
-msgstr ""
+msgstr "Zobrazit / Skrýt"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:320
 msgctxt "FieldView|"
@@ -920,7 +920,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.cpp:700
 msgctxt "MainWindow|"
 msgid "Quit"
-msgstr ""
+msgstr "Ukončit"
 
 #: src/binaries/widget/mainwindow.cpp:708
 #, qt-format
@@ -931,7 +931,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.cpp:710
 msgctxt "MainWindow|"
 msgid "Connection lost"
-msgstr ""
+msgstr "Spojení ztraceno"
 
 #: src/binaries/widget/mainwindow.cpp:795
 #, qt-format
@@ -1016,63 +1016,63 @@ msgstr ""
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
-msgstr ""
+msgstr "Otevřít %1"
 
 #: src/binaries/widget/mainwindow.cpp:1127
 msgctxt "MainWindow|"
 msgid "Connected"
-msgstr ""
+msgstr "Připojen"
 
 #: src/binaries/widget/mainwindow.cpp:1127
 msgctxt "MainWindow|"
 msgid "Not Connected"
-msgstr ""
+msgstr "Nepřipojen"
 
 #: src/binaries/widget/mainwindow.cpp:1128
 msgctxt "MainWindow|"
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: src/binaries/widget/mainwindow.cpp:1128
 msgctxt "MainWindow|"
 msgid "Client"
-msgstr ""
+msgstr "Klient"
 
 #: src/binaries/widget/mainwindow.cpp:1135
 msgctxt "MainWindow|"
 msgid "GM"
-msgstr ""
+msgstr "GM"
 
 #: src/binaries/widget/mainwindow.cpp:1141
 msgctxt "MainWindow|"
 msgid "Player"
-msgstr ""
+msgstr "Hráč"
 
 #: src/binaries/widget/mainwindow.cpp:1216
 msgctxt "MainWindow|"
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámý"
 
 #: src/binaries/widget/mainwindow.cpp:1244
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
-msgstr ""
+msgstr "Exportovat z %1"
 
 #: src/binaries/widget/mainwindow.cpp:1245
 msgctxt "MainWindow|"
 msgid "unknown"
-msgstr ""
+msgstr "neznámý"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
 msgid "Next Page"
-msgstr ""
+msgstr "Následující strana"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:19
 msgctxt "ContextualMenu|"
 msgid "Previous Page"
-msgstr ""
+msgstr "Předchozí strana"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:28
 msgctxt "ContextualMenu|"
@@ -1087,7 +1087,7 @@ msgstr ""
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
 msgctxt "ContextualMenu|"
 msgid "Reset Zoom"
-msgstr ""
+msgstr "Původní přiblížení"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
 msgctxt "ContextualMenu|"
@@ -1143,39 +1143,39 @@ msgstr ""
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 1: %1"
-msgstr ""
+msgstr "Suvenýr 1: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:89
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 2: %1"
-msgstr ""
+msgstr "Suvenýr 2: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:95
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 3: %1"
-msgstr ""
+msgstr "Suvenýr 3: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:27
 msgctxt "Table|"
 msgid "Add line"
-msgstr ""
+msgstr "Přidat řádek"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:31
 msgctxt "Table|"
 msgid "Remove current Line"
-msgstr ""
+msgstr "Odstranit současný řádek"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:37
 msgctxt "Table|"
 msgid "Remove Last line"
-msgstr ""
+msgstr "Odstranit poslední řádek"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:529
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
-msgstr ""
+msgstr "Název pole"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:567
 #, qt-format
@@ -1193,17 +1193,17 @@ msgstr ""
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
-msgstr ""
+msgstr "Pole %1"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Key"
-msgstr ""
+msgstr "Klíč"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Filename"
-msgstr ""
+msgstr "Název souboru"
 
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
@@ -1274,7 +1274,7 @@ msgstr ""
 #, qt-format
 msgctxt "LogPanel|"
 msgid "Log files %1"
-msgstr ""
+msgstr "Soubory se záznamy %1"
 
 #: src/libraries/core/src/controller/contentcontroller.cpp:361
 msgctxt "ContentController|"
@@ -1284,22 +1284,22 @@ msgstr ""
 #: src/libraries/core/src/controller/instantmessagingcontroller.cpp:105
 msgctxt "InstantMessagingController|"
 msgid "Global"
-msgstr ""
+msgstr "Globální"
 
 #: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
 msgctxt "TextController|"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:41
 msgctxt "ThemeModel|"
 msgid "default"
-msgstr ""
+msgstr "výchozí"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:50
 msgctxt "ThemeModel|"
 msgid "darkorange"
-msgstr ""
+msgstr "tmavěoranžová"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:72
 msgctxt "ThemeModel|"
@@ -1309,36 +1309,36 @@ msgstr ""
 #: src/libraries/core/src/controller/preferencescontroller.cpp:331
 msgctxt "PreferencesController|"
 msgid " (copy)"
-msgstr ""
+msgstr " (kopírovat)"
 
 #: src/libraries/core/src/controller/view_controller/mediacontrollerbase.cpp:23
 msgctxt "MediaControllerBase|"
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámý"
 
 #: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:149
 msgctxt "MindMapControllerBase|"
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
-msgstr ""
+msgstr "Znak"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
 msgctxt "QObject|"
 msgid "Ground"
-msgstr ""
+msgstr "Zem"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
 msgctxt "QObject|"
 msgid "Object"
-msgstr ""
+msgstr "Objekt"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
@@ -1349,17 +1349,17 @@ msgstr ""
 #: src/libraries/core/src/data/campaign.cpp:267
 msgctxt "Campaign|"
 msgid "Pattern"
-msgstr ""
+msgstr "Vzorek"
 
 #: src/libraries/core/src/data/campaign.cpp:267
 msgctxt "Campaign|"
 msgid "Command"
-msgstr ""
+msgstr "Příkaz"
 
 #: src/libraries/core/src/data/campaign.cpp:267
 msgctxt "Campaign|"
 msgid "Comment"
-msgstr ""
+msgstr "Komentář"
 
 #: src/libraries/core/src/data/campaignmanager.cpp:56
 #, qt-format
@@ -1376,7 +1376,7 @@ msgstr ""
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
 msgid "Internal"
-msgstr ""
+msgstr "Vnitřní"
 
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
@@ -1386,37 +1386,37 @@ msgstr ""
 #: src/libraries/core/src/data/cleveruri.cpp:229
 msgctxt "QObject|"
 msgid "Closed"
-msgstr ""
+msgstr "Uzavřeno"
 
 #: src/libraries/core/src/data/cleveruri.cpp:229
 msgctxt "QObject|"
 msgid "Displayed"
-msgstr ""
+msgstr "Zobrazeno"
 
 #: src/libraries/core/src/data/shortcutmodel.cpp:92
 msgctxt "ShortCutModel|"
 msgid "Action"
-msgstr ""
+msgstr "Činnost"
 
 #: src/libraries/core/src/data/shortcutmodel.cpp:94
 msgctxt "ShortCutModel|"
 msgid "Key"
-msgstr ""
+msgstr "Klíč"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:30
 msgctxt "CharacterStateModel|"
 msgid "Label"
-msgstr ""
+msgstr "Popisek"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:30
 msgctxt "CharacterStateModel|"
 msgid "Color"
-msgstr ""
+msgstr "Barva"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:30
 msgctxt "CharacterStateModel|"
 msgid "Image"
-msgstr ""
+msgstr "Obrázek"
 
 #: src/libraries/core/src/model/colormodel.cpp:44
 msgctxt "ColorModel|"
@@ -1426,67 +1426,67 @@ msgstr ""
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
 msgid "Pattern"
-msgstr ""
+msgstr "Vzorek"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
 msgid "Value"
-msgstr ""
+msgstr "Hodnota"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
 msgid "Regular Expression"
-msgstr ""
+msgstr "Regulární výraz"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
 msgid "Disable"
-msgstr ""
+msgstr "Zakázat"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
 msgid "Comments"
-msgstr ""
+msgstr "Komentáře"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "Path"
-msgstr ""
+msgstr "Cesta"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "id"
-msgstr ""
+msgstr "id"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "type"
-msgstr ""
+msgstr "typ"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "last access"
-msgstr ""
+msgstr "poslední přístup"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "bookmarked"
-msgstr ""
+msgstr "v záložkách"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Size"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
@@ -1496,12 +1496,12 @@ msgstr ""
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Date Modified"
-msgstr ""
+msgstr "Datum změny"
 
 #: src/libraries/core/src/model/mediamodel.cpp:363
 msgctxt "MediaModel|"
 msgid "Directory"
-msgstr ""
+msgstr "Adresář"
 
 #: src/libraries/core/src/model/messagemodel.cpp:95
 #: src/libraries/core/src/model/messagemodel.cpp:101
@@ -1512,22 +1512,22 @@ msgstr ""
 #: src/libraries/core/src/model/musicmodel.cpp:28
 msgctxt "MusicModel|"
 msgid "Title"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Avatar"
-msgstr ""
+msgstr "Avatar"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
@@ -1537,12 +1537,12 @@ msgstr ""
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Tags"
-msgstr ""
+msgstr "Značky"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Color"
-msgstr ""
+msgstr "Barva"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
@@ -1572,7 +1572,7 @@ msgstr ""
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
 msgid "State"
-msgstr ""
+msgstr "Stav"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
@@ -1587,57 +1587,57 @@ msgstr ""
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Role"
-msgstr ""
+msgstr "Role"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Group"
-msgstr ""
+msgstr "Skupina"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Active"
-msgstr ""
+msgstr "Aktivní"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Disable"
-msgstr ""
+msgstr "Zakázat"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Inactive"
-msgstr ""
+msgstr "Neaktivní"
 
 #: src/libraries/core/src/model/participantmodel.cpp:126
 msgctxt "ParticipantModel|"
 msgid "Read Write"
-msgstr ""
+msgstr "Čtení a zápis"
 
 #: src/libraries/core/src/model/participantmodel.cpp:127
 msgctxt "ParticipantModel|"
 msgid "Read Only"
-msgstr ""
+msgstr "Pouze ke čtení"
 
 #: src/libraries/core/src/model/participantmodel.cpp:128
 msgctxt "ParticipantModel|"
 msgid "Hidden"
-msgstr ""
+msgstr "Skryté"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Read Write"
-msgstr ""
+msgstr "Čtení a zápis"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Read Only"
-msgstr ""
+msgstr "Pouze ke čtení"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Hidden"
-msgstr ""
+msgstr "Skryté"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
@@ -1647,17 +1647,17 @@ msgstr ""
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "Square"
-msgstr ""
+msgstr "Čtverec"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "Hexagon"
-msgstr ""
+msgstr "Šestiúhelník"
 
 #: src/libraries/core/src/model/playermodel.cpp:185
 msgctxt "PlayerModel|"
 msgid "Not defined"
-msgstr ""
+msgstr "Nedefinovaný"
 
 #: src/libraries/core/src/model/playermodel.cpp:188
 #, qt-format
@@ -1674,12 +1674,12 @@ msgstr ""
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
 msgid "NPC"
-msgstr ""
+msgstr "NPC"
 
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
 msgid "PC"
-msgstr ""
+msgstr "PC"
 
 #: src/libraries/core/src/model/playermodel.cpp:266
 msgctxt "PlayerModel|"
@@ -1694,7 +1694,7 @@ msgstr ""
 #: src/libraries/core/src/model/profilemodel.cpp:108
 msgctxt "ProfileModel|"
 msgid " (clone)"
-msgstr ""
+msgstr " (klon)"
 
 #: src/libraries/core/src/model/proxystatemodel.cpp:50
 msgctxt "ProxyStateModel|"
@@ -1709,22 +1709,22 @@ msgstr ""
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "Bytes"
-msgstr ""
+msgstr "Bajty"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: src/libraries/core/src/network/channelmodel.cpp:446
 msgctxt "ChannelModel|"
 msgid "Channel Password"
-msgstr ""
+msgstr "Heslo kanálu"
 
 #: src/libraries/core/src/network/channelmodel.cpp:447
 #, qt-format
@@ -1735,7 +1735,7 @@ msgstr ""
 #: src/libraries/core/src/network/characterdatamodel.cpp:77
 msgctxt "CharacterDataModel|"
 msgid "No Avatar"
-msgstr ""
+msgstr "Žádný avatar"
 
 #: src/libraries/core/src/network/characterdatamodel.cpp:145
 msgctxt "CharacterDataModel|"
@@ -1765,7 +1765,7 @@ msgstr ""
 #: src/libraries/core/src/network/connectionprofile.cpp:7
 msgctxt "QObject|"
 msgid "Player"
-msgstr ""
+msgstr "Hráč"
 
 #: src/libraries/core/src/network/connectionprofile.cpp:15
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
@@ -1838,12 +1838,12 @@ msgstr ""
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
 msgid "Path"
-msgstr ""
+msgstr "Cesta"
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
@@ -1865,7 +1865,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Line"
-msgstr ""
+msgstr "Čára"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:35
 msgctxt "QObject|"
@@ -1891,7 +1891,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:40
 msgctxt "QObject|"
@@ -1911,19 +1911,19 @@ msgstr ""
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:44
 msgctxt "QObject|"
 msgid "Pen"
-msgstr ""
+msgstr "Pero"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:45
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Path"
-msgstr ""
+msgstr "Cesta"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:48
 #, qt-format
 msgctxt "QObject|"
 msgid "add %1 item"
-msgstr ""
+msgstr "přidat %1 položku"
 
 #: src/libraries/core/src/undoCmd/changecoloritem.cpp:29
 #, qt-format
@@ -1965,31 +1965,31 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
-msgstr ""
+msgstr "Vytvořit nový %1 %2"
 
 #: src/libraries/core/src/undoCmd/openmediacontroller.cpp:43
 #, qt-format
 msgctxt "QObject|"
 msgid "Open %1"
-msgstr ""
+msgstr "Otevřít %1"
 
 #: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:31
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
-msgstr ""
+msgstr "Odstranit znak %1"
 
 #: src/libraries/core/src/undoCmd/removemediacontrollercommand.cpp:40
 #, qt-format
 msgctxt "QObject|"
 msgid "Close %1"
-msgstr ""
+msgstr "Zavřít %1"
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:210
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
-msgstr ""
+msgstr "'%1' není prázdný"
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:219
 #, qt-format
@@ -2037,7 +2037,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
-msgstr ""
+msgstr "Soubor PDF (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:185
 #, qt-format
@@ -2059,12 +2059,12 @@ msgstr ""
 #: src/libraries/core/src/worker/utilshelper.cpp:203
 msgctxt "QObject|"
 msgid "Picture"
-msgstr ""
+msgstr "Obrázek"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:204
 msgctxt "QObject|"
 msgid "Minutes"
-msgstr ""
+msgstr "Minut"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:205
 msgctxt "QObject|"
@@ -2084,7 +2084,7 @@ msgstr ""
 #: src/libraries/core/src/worker/utilshelper.cpp:208
 msgctxt "QObject|"
 msgid "Pdf"
-msgstr ""
+msgstr "PDF"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:209
 msgctxt "QObject|"
@@ -2094,22 +2094,22 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:26
 msgctxt "ButtonGrid|"
 msgid "Undo"
-msgstr ""
+msgstr "Zpět"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:32
 msgctxt "ButtonGrid|"
 msgid "Redo"
-msgstr ""
+msgstr "Znovu"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:37
 msgctxt "ButtonGrid|"
 msgid "Save Map"
-msgstr ""
+msgstr "Uložit mapu"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:41
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
-msgstr ""
+msgstr "Otevřít šuplík"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:48
 msgctxt "ButtonGrid|"
@@ -2119,12 +2119,12 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:55
 msgctxt "ButtonGrid|"
 msgid "Add Package"
-msgstr ""
+msgstr "Přidat balíček"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:60
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
-msgstr ""
+msgstr "Přidat šipku"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:65
 msgctxt "ButtonGrid|"
@@ -2134,7 +2134,7 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:72
 msgctxt "ButtonGrid|"
 msgid "Refresh"
-msgstr ""
+msgstr "Obnovit"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:77
 msgctxt "ButtonGrid|"
@@ -2169,7 +2169,7 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:19
 msgctxt "DrawerMenu|"
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:29
 msgctxt "DrawerMenu|"
@@ -2185,7 +2185,7 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:80
 msgctxt "DrawerMenu|"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:98
 #, qt-format
@@ -2208,7 +2208,7 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:23
 msgctxt "MindMenu|"
 msgid "Save"
-msgstr ""
+msgstr "Uložit"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:39
 msgctxt "MindMenu|"
@@ -2218,17 +2218,17 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:47
 msgctxt "MindMenu|"
 msgid "Undo"
-msgstr ""
+msgstr "Zpět"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:54
 msgctxt "MindMenu|"
 msgid "Redo"
-msgstr ""
+msgstr "Znovu"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:62
 msgctxt "MindMenu|"
 msgid "Center"
-msgstr ""
+msgstr "Střed"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:76
 msgctxt "MindMenu|"
@@ -2238,17 +2238,17 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:29
 msgctxt "NodeSettingPopup|"
 msgid "Description: "
-msgstr ""
+msgstr "Popis: "
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:37
 msgctxt "NodeSettingPopup|"
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:45
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
-msgstr ""
+msgstr "Značky:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
 msgctxt "NodeSettingPopup|"
@@ -2258,18 +2258,18 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:85
 msgctxt "NodeSettingPopup|"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: src/libraries/mindmap/resources/qml/PackageItem.qml:27
 msgctxt "PackageItem|"
 msgid "Title"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:31
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:154
 msgctxt "SideMenu|"
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:41
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:19
@@ -2291,38 +2291,38 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:97
 msgctxt "SideMenu|"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:115
 msgctxt "SideMenu|"
 msgid "Criteria"
-msgstr ""
+msgstr "Kritéria"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:123
 msgctxt "SideMenu|"
 msgid "Pattern"
-msgstr ""
+msgstr "Vzorek"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:161
 msgctxt "SideMenu|"
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:168
 msgctxt "SideMenu|"
 msgid "Select"
-msgstr ""
+msgstr "Vybrat"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:179
 msgctxt "SideMenu|"
 msgid "Tags"
-msgstr ""
+msgstr "Značky"
 
 #: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:40
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
-msgstr ""
+msgstr "Přidat %1 obrázek"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:33
 #, qt-format
@@ -2333,7 +2333,7 @@ msgstr ""
 #: src/libraries/mindmap/src/command/additemcommand.cpp:65
 msgctxt "AddLinkCommand|"
 msgid "Add link"
-msgstr ""
+msgstr "Přidat odkaz"
 
 #: src/libraries/mindmap/src/command/removeimagefromnodecommand.cpp:33
 msgctxt "QObject|"
@@ -2348,12 +2348,12 @@ msgstr ""
 #: src/libraries/mindmap/src/data/packagenode.cpp:25
 msgctxt "PackageNode|"
 msgid "Package"
-msgstr ""
+msgstr "Balíček"
 
 #: src/libraries/mindmap/src/model/boxmodel.cpp:212
 msgctxt "BoxModel|"
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: src/libraries/mindmap/src/model/boxmodel.cpp:212
 msgctxt "BoxModel|"
@@ -2378,22 +2378,22 @@ msgstr ""
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:19
 msgctxt "PermissionFrame|"
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:30
 msgctxt "PersonEdit|"
 msgid "Name:"
-msgstr ""
+msgstr "Název:"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:38
 msgctxt "PersonEdit|"
 msgid "Color:"
-msgstr ""
+msgstr "Barva:"
 
 #: src/libraries/qml_views/InstantMessaging/AddChatRoomDialog.qml:24
 msgctxt "AddChatRoomDialog|"
 msgid "Title"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/qml_views/InstantMessaging/AddChatRoomDialog.qml:33
 msgctxt "AddChatRoomDialog|"
@@ -2408,12 +2408,12 @@ msgstr ""
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:57
 msgctxt "ChatView|"
 msgid "Split view"
-msgstr ""
+msgstr "Rozdělit pohled"
 
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:64
 msgctxt "ChatView|"
 msgid "Detach"
-msgstr ""
+msgstr "Odpojit"
 
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:68
 msgctxt "ChatView|"
@@ -2423,34 +2423,34 @@ msgstr ""
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:101
 msgctxt "ChatView|"
 msgid "close"
-msgstr ""
+msgstr "zavřít"
 
 #: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:69
 msgctxt "DiceMessageDelegate|"
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:76
 #, qt-format
 msgctxt "DiceMessageDelegate|"
 msgid "Details: %1"
-msgstr ""
+msgstr "Podrobnosti: %1"
 
 #: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:81
 #, qt-format
 msgctxt "DiceMessageDelegate|"
 msgid "Command: %1"
-msgstr ""
+msgstr "Příkaz: %1"
 
 #: src/libraries/qml_views/InstantMessaging/InstantMessagingEditText.qml:139
 msgctxt "InstantMessagingEditText|"
 msgid "send"
-msgstr ""
+msgstr "odeslat"
 
 #: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:36
 msgctxt "InstantMessagingMain|"
 msgid "Settings"
-msgstr ""
+msgstr "Nastavení"
 
 #: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:40
 msgctxt "InstantMessagingMain|"
@@ -2465,47 +2465,47 @@ msgstr ""
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:37
 msgctxt "SideMenu|"
 msgid "Font size"
-msgstr ""
+msgstr "Velikost písma"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:71
 msgctxt "ConnectionForm|"
 msgid "New profile"
-msgstr ""
+msgstr "Nový profil"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:75
 msgctxt "ConnectionForm|"
 msgid "Clone profile"
-msgstr ""
+msgstr "Klonovat profil"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:80
 msgctxt "ConnectionForm|"
 msgid "Remove profile"
-msgstr ""
+msgstr "Odstranit profil"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:98
 msgctxt "ConnectionForm|"
 msgid "Profile Name:"
-msgstr ""
+msgstr "Název profilu:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:110
 msgctxt "ConnectionForm|"
 msgid "Connection"
-msgstr ""
+msgstr "Spojení"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:115
 msgctxt "ConnectionForm|"
 msgid "Address:"
-msgstr ""
+msgstr "Adresa:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:124
 msgctxt "ConnectionForm|"
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:132
 msgctxt "ConnectionForm|"
 msgid "Password:"
-msgstr ""
+msgstr "Heslo:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:143
 msgctxt "ConnectionForm|"
@@ -2515,7 +2515,7 @@ msgstr ""
 #: src/libraries/qml_views/views/ConnectionForm.qml:153
 msgctxt "ConnectionForm|"
 msgid "Player"
-msgstr ""
+msgstr "Hráč"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:166
 msgctxt "ConnectionForm|"
@@ -2530,17 +2530,17 @@ msgstr ""
 #: src/libraries/qml_views/views/ConnectionForm.qml:199
 msgctxt "ConnectionForm|"
 msgid "Characters"
-msgstr ""
+msgstr "Znaky"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:273
 msgctxt "ConnectionForm|"
 msgid "Connect"
-msgstr ""
+msgstr "Připojit se"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:285
 msgctxt "ConnectionForm|"
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: src/libraries/rwidgets/commands/changestackordervmapcommand.cpp:27
 #, qt-format
@@ -2559,12 +2559,12 @@ msgstr[0] ""
 #, qt-format
 msgctxt "ColorSelector|"
 msgid "Custom Color %1 "
-msgstr ""
+msgstr "Vlastní barva %1 "
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:192
 msgctxt "ColorSelector|"
 msgid "Erase"
-msgstr ""
+msgstr "Smazat"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:257
 msgctxt "ColorSelector|"
@@ -2579,7 +2579,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/colorselector.cpp:265
 msgctxt "ColorSelector|"
 msgid "Hide"
-msgstr ""
+msgstr "Skrýt"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:266
 msgctxt "ColorSelector|"
@@ -2591,17 +2591,17 @@ msgstr ""
 #, qt-format
 msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
-msgstr ""
+msgstr "Červená: %1, Zelená: %2, Modrá: %3"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:87
 msgctxt "FileDirChooser|"
 msgid "Select directory"
-msgstr ""
+msgstr "Vyberte adresář"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:92
 msgctxt "FileDirChooser|"
 msgid "Open File"
-msgstr ""
+msgstr "Otevřít soubor"
 
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
@@ -2611,17 +2611,17 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:82
 msgctxt "PlayerWidget|"
 msgid "Play"
-msgstr ""
+msgstr "Přehrát"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:83
 msgctxt "PlayerWidget|"
 msgid "Pause"
-msgstr ""
+msgstr "Pozastavit"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:84
 msgctxt "PlayerWidget|"
 msgid "Stop"
-msgstr ""
+msgstr "Zastavit"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:86
 msgctxt "PlayerWidget|"
@@ -2641,12 +2641,12 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:100
 msgctxt "PlayerWidget|"
 msgid "Open Directory"
-msgstr ""
+msgstr "Otevřít adresář"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:103
 msgctxt "PlayerWidget|"
 msgid "Mute Volume"
-msgstr ""
+msgstr "Ztlumit hlasitost"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:107
 msgctxt "PlayerWidget|"
@@ -2656,17 +2656,17 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:109
 msgctxt "PlayerWidget|"
 msgid "Open Playlist"
-msgstr ""
+msgstr "Otevřít seznam skladeb"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:112
 msgctxt "PlayerWidget|"
 msgid "Save Playlist"
-msgstr ""
+msgstr "Uložit seznam skladeb"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:115
 msgctxt "PlayerWidget|"
 msgid "Clear"
-msgstr ""
+msgstr "Vyprázdnit"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:119
 msgctxt "PlayerWidget|"
@@ -2702,12 +2702,12 @@ msgstr ""
 #, qt-format
 msgctxt "PlayerWidget|"
 msgid "Audio files (%1)"
-msgstr ""
+msgstr "Audio soubory (%1)"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:286
 msgctxt "PlayerWidget|"
 msgid "Attention!"
-msgstr ""
+msgstr "Pozor!"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:287
 msgctxt "PlayerWidget|"
@@ -2725,7 +2725,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:364
 msgctxt "PlayerWidget|"
 msgid "PlayList (*.m3u)"
-msgstr ""
+msgstr "Seznam skladeb (*.m3u*)"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:305
 msgctxt "PlayerWidget|"
@@ -2735,7 +2735,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:305
 msgctxt "PlayerWidget|"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:364
 msgctxt "PlayerWidget|"
@@ -2747,7 +2747,9 @@ msgstr ""
 msgctxt "RGraphicsView|"
 msgid "%n item(s)"
 msgid_plural "%n item(s)"
-msgstr[0] ""
+msgstr[0] "%n položka"
+msgstr[1] "%n položky"
+msgstr[2] "%n položek"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:241
 msgctxt "RGraphicsView|"
@@ -2757,7 +2759,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:247
 msgctxt "RGraphicsView|"
 msgid "Rotate"
-msgstr ""
+msgstr "Otočit"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:248
 msgctxt "RGraphicsView|"
@@ -2767,12 +2769,12 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:249
 msgctxt "RGraphicsView|"
 msgid "Right"
-msgstr ""
+msgstr "Vpravo"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:250
 msgctxt "RGraphicsView|"
 msgid "Left"
-msgstr ""
+msgstr "Vlevo"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:251
 msgctxt "RGraphicsView|"
@@ -2792,7 +2794,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:273
 msgctxt "RGraphicsView|"
 msgid "Map"
-msgstr ""
+msgstr "Mapa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:291
 msgctxt "RGraphicsView|"
@@ -2817,7 +2819,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
 msgid "Zoom"
-msgstr ""
+msgstr "Zvětšení"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:378
 msgctxt "RGraphicsView|"
@@ -2852,47 +2854,47 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:510
 msgctxt "RGraphicsView|"
 msgid "Zoom In"
-msgstr ""
+msgstr "Přiblížit"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:513
 msgctxt "RGraphicsView|"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Oddálit"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:516
 msgctxt "RGraphicsView|"
 msgid "Remove"
-msgstr ""
+msgstr "Odstranit"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:526
 msgctxt "RGraphicsView|"
 msgid "Import Image"
-msgstr ""
+msgstr "Importovat obrázek"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:536
 msgctxt "RGraphicsView|"
 msgid "Back"
-msgstr ""
+msgstr "Zpět"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:540
 msgctxt "RGraphicsView|"
 msgid "Front"
-msgstr ""
+msgstr "Přední strana"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:544
 msgctxt "RGraphicsView|"
 msgid "Lower"
-msgstr ""
+msgstr "Do pozadí"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:548
 msgctxt "RGraphicsView|"
 msgid "Raise"
-msgstr ""
+msgstr "Do popředí"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:552
 msgctxt "RGraphicsView|"
 msgid "Average"
-msgstr ""
+msgstr "Průměr"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:555
 msgctxt "RGraphicsView|"
@@ -2922,25 +2924,25 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:575
 msgctxt "RGraphicsView|"
 msgid "Properties"
-msgstr ""
+msgstr "Vlastnosti"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:580
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:598
 msgctxt "RGraphicsView|"
 msgid "Ground"
-msgstr ""
+msgstr "Zem"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:583
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:601
 msgctxt "RGraphicsView|"
 msgid "Object"
-msgstr ""
+msgstr "Objekt"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:586
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:604
 msgctxt "RGraphicsView|"
 msgid "Character"
-msgstr ""
+msgstr "Znak"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:589
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:607
@@ -2951,12 +2953,12 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:617
 msgctxt "RGraphicsView|"
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:620
 msgctxt "RGraphicsView|"
 msgid "Hidden"
-msgstr ""
+msgstr "Skryté"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:624
 msgctxt "RGraphicsView|"
@@ -2978,7 +2980,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:656
 msgctxt "RGraphicsView|"
 msgid "Selection"
-msgstr ""
+msgstr "Výběr"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:642
 msgctxt "RGraphicsView|"
@@ -2989,7 +2991,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:661
 msgctxt "RGraphicsView|"
 msgid "All Characters"
-msgstr ""
+msgstr "Všechny znaky"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:647
 msgctxt "RGraphicsView|"
@@ -3020,7 +3022,7 @@ msgstr ""
 #, qt-format
 msgctxt "VColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
-msgstr ""
+msgstr "Červená: %1, Zelená: %2, Modrá: %3"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:31
 msgctxt "AboutRolisteam|"
@@ -3031,17 +3033,17 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
 msgctxt "AboutRolisteam|"
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugalština"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:36
 msgctxt "AboutRolisteam|"
 msgid "Hungarian"
-msgstr ""
+msgstr "Maďarština"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:37
 msgctxt "AboutRolisteam|"
 msgid "Turkish"
-msgstr ""
+msgstr "Turečtina"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:38
 msgctxt "AboutRolisteam|"
@@ -3051,22 +3053,22 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:39
 msgctxt "AboutRolisteam|"
 msgid "Romanian"
-msgstr ""
+msgstr "Rumunský"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:40
 msgctxt "AboutRolisteam|"
 msgid "Spanish"
-msgstr ""
+msgstr "Španělština"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:41
 msgctxt "AboutRolisteam|"
 msgid "Dutch"
-msgstr ""
+msgstr "Holandština"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:42
 msgctxt "AboutRolisteam|"
 msgid "Catalan"
-msgstr ""
+msgstr "Katalánština"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:57
 msgctxt "AboutRolisteam|"
@@ -3093,7 +3095,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Web Sites:"
-msgstr ""
+msgstr "Webové servery:"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
@@ -3113,12 +3115,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
 msgid "Contributors"
-msgstr ""
+msgstr "Přispěvatelé"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
 msgid "Translators"
-msgstr ""
+msgstr "Překladatelé"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:39
 msgctxt "CampaignProperties|"
@@ -3130,7 +3132,9 @@ msgstr ""
 msgctxt "CampaignProperties|"
 msgid "%n file(s)"
 msgid_plural "%n file(s)"
-msgstr[0] ""
+msgstr[0] "%n soubor"
+msgstr[1] "%n soubory"
+msgstr[2] "%n souborů"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -3141,7 +3145,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:153
 msgctxt "ImageSelectorDialog|"
 msgid "Open Image file"
-msgstr ""
+msgstr "Otevřít soubor obrázku"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
 msgctxt "NewFileDialog|"
@@ -3151,7 +3155,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:38
 msgctxt "NewFileDialog|"
 msgid "Notes"
-msgstr ""
+msgstr "Poznámky"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:39
 msgctxt "NewFileDialog|"
@@ -3161,7 +3165,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:126
 msgctxt "PreferencesDialog|"
 msgid "Preferences"
-msgstr ""
+msgstr "Předvolby"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:366
 msgctxt "PreferencesDialog|"
@@ -3176,7 +3180,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
 msgid "Css"
-msgstr ""
+msgstr "CSS"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:474
 #, qt-format
@@ -3197,7 +3201,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:485
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
-msgstr ""
+msgstr "<h2>Typy písem:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:492
 msgctxt "PreferencesDialog|"
@@ -3239,13 +3243,13 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:120
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
-msgstr ""
+msgstr "Vyberte adresář"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:30
 #, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "%1 - Tip Of The Day"
-msgstr ""
+msgstr "%1 - Tip dne"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:42
 msgctxt "TipOfDayViewer|"
@@ -3276,7 +3280,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "Hidden"
-msgstr ""
+msgstr "Skryté"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
@@ -3286,7 +3290,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "All visible"
-msgstr ""
+msgstr "Vše viditelné"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:70
 msgctxt "campaign::AntagonistBoard|"
@@ -3301,7 +3305,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:72
 msgctxt "campaign::AntagonistBoard|"
 msgid "Change Image"
-msgstr ""
+msgstr "Změnit obrázek"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:73
 msgctxt "campaign::AntagonistBoard|"
@@ -3316,17 +3320,17 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:75
 msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
-msgstr ""
+msgstr "Uložit"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:524
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
-msgstr ""
+msgstr "Zobrazit sloupce"
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:75
 msgctxt "AudioPlayer|"
 msgid "Background Music"
-msgstr ""
+msgstr "Hudba na pozadí"
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:97
 #, qt-format
@@ -3342,7 +3346,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/campaigndock.cpp:51
 msgctxt "campaign::CampaignDock|"
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:52
 msgctxt "campaign::CampaignDock|"
@@ -3357,12 +3361,12 @@ msgstr ""
 #: src/libraries/rwidgets/docks/campaigndock.cpp:54
 msgctxt "campaign::CampaignDock|"
 msgid "Image"
-msgstr ""
+msgstr "Obrázek"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:55
 msgctxt "campaign::CampaignDock|"
 msgid "Map"
-msgstr ""
+msgstr "Mapa"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:56
 msgctxt "campaign::CampaignDock|"
@@ -3372,17 +3376,17 @@ msgstr ""
 #: src/libraries/rwidgets/docks/campaigndock.cpp:57
 msgctxt "campaign::CampaignDock|"
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:58
 msgctxt "campaign::CampaignDock|"
 msgid "PlayList"
-msgstr ""
+msgstr "Seznam skladeb"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:59
 msgctxt "campaign::CampaignDock|"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:60
 msgctxt "campaign::CampaignDock|"
@@ -3392,12 +3396,12 @@ msgstr ""
 #: src/libraries/rwidgets/docks/campaigndock.cpp:61
 msgctxt "campaign::CampaignDock|"
 msgid "WebPage"
-msgstr ""
+msgstr "Webová stránka"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:35
 msgctxt "ChannelListPanel|"
 msgid "Edit Channel"
-msgstr ""
+msgstr "Upravit kanál"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:36
 msgctxt "ChannelListPanel|"
@@ -3417,7 +3421,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:39
 msgctxt "ChannelListPanel|"
 msgid "Add channel"
-msgstr ""
+msgstr "Přidat kanál"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:40
 msgctxt "ChannelListPanel|"
@@ -3432,7 +3436,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:42
 msgctxt "ChannelListPanel|"
 msgid "Set Default"
-msgstr ""
+msgstr "Nastavit výchozí"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:43
 msgctxt "ChannelListPanel|"
@@ -3467,13 +3471,13 @@ msgstr ""
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:481
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 msgctxt "ChannelListPanel|"
 msgid "Channel Password"
-msgstr ""
+msgstr "Heslo kanálu"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:482
 #, qt-format
@@ -3626,32 +3630,32 @@ msgstr ""
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Standard"
-msgstr ""
+msgstr "Standardní"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 1"
-msgstr ""
+msgstr "Záhlaví 1"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 2"
-msgstr ""
+msgstr "Záhlaví 2"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 3"
-msgstr ""
+msgstr "Záhlaví 3"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 4"
-msgstr ""
+msgstr "Záhlaví 4"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:64
 msgctxt "MRichTextEdit|"
 msgid "Monospace"
-msgstr ""
+msgstr "Pevná šířka"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
 msgctxt "MRichTextEdit|"
@@ -3681,12 +3685,12 @@ msgstr ""
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
-msgstr ""
+msgstr "URL odkazu:"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:666
 msgctxt "MRichTextEdit|"
 msgid "Select an image"
-msgstr ""
+msgstr "Vyberte obrázek"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:667
 msgctxt "MRichTextEdit|"
@@ -3749,67 +3753,67 @@ msgstr ""
 #, qt-format
 msgctxt "NoteContainer|"
 msgid "%1 - Note"
-msgstr ""
+msgstr "%1 - Poznámka"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:174
 msgctxt "TextEdit|"
 msgid "File Actions"
-msgstr ""
+msgstr "Činnosti souboru"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:177
 msgctxt "TextEdit|"
 msgid "&File"
-msgstr ""
+msgstr "&Soubor"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:208
 msgctxt "TextEdit|"
 msgid "&Print..."
-msgstr ""
+msgstr "&Tisk..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
 msgctxt "TextEdit|"
 msgid "Print Preview..."
-msgstr ""
+msgstr "Náhled před tiskem..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:218
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
-msgstr ""
+msgstr "&Exportovat PDF..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:235
 msgctxt "TextEdit|"
 msgid "Edit Actions"
-msgstr ""
+msgstr "Upravit činnosti"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:238
 msgctxt "TextEdit|"
 msgid "&Edit"
-msgstr ""
+msgstr "&Upravit"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:242
 msgctxt "TextEdit|"
 msgid "&Undo"
-msgstr ""
+msgstr "&Zpět"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:246
 msgctxt "TextEdit|"
 msgid "&Redo"
-msgstr ""
+msgstr "&Vpřed"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:251
 msgctxt "TextEdit|"
 msgid "Cu&t"
-msgstr ""
+msgstr "Vyjmou&t"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:255
 msgctxt "TextEdit|"
 msgid "&Copy"
-msgstr ""
+msgstr "&Kopírovat"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
 msgctxt "TextEdit|"
 msgid "&Paste"
-msgstr ""
+msgstr "V&ložit"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:269
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:337
@@ -3820,52 +3824,52 @@ msgstr ""
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:272
 msgctxt "TextEdit|"
 msgid "F&ormat"
-msgstr ""
+msgstr "F&ormát"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:275
 msgctxt "TextEdit|"
 msgid "&Bold"
-msgstr ""
+msgstr "T&učné"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:285
 msgctxt "TextEdit|"
 msgid "&Italic"
-msgstr ""
+msgstr "&Kurzíva"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:295
 msgctxt "TextEdit|"
 msgid "&Underline"
-msgstr ""
+msgstr "&Podtržené"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:310
 msgctxt "TextEdit|"
 msgid "&Left"
-msgstr ""
+msgstr "V&levo"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:313
 msgctxt "TextEdit|"
 msgid "C&enter"
-msgstr ""
+msgstr "Stř&ed"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:316
 msgctxt "TextEdit|"
 msgid "&Right"
-msgstr ""
+msgstr "Vp&ravo"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:319
 msgctxt "TextEdit|"
 msgid "&Justify"
-msgstr ""
+msgstr "Do b&loku"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:330
 msgctxt "TextEdit|"
 msgid "&Color..."
-msgstr ""
+msgstr "&Barva..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:443
 msgctxt "TextEdit|"
 msgid "Application"
-msgstr ""
+msgstr "Aplikace"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:444
 msgctxt "TextEdit|"
@@ -3877,7 +3881,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:472
 msgctxt "TextEdit|"
 msgid "Open File..."
-msgstr ""
+msgstr "Otevřít soubor..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:529
 msgctxt "TextEdit|"
@@ -3892,17 +3896,17 @@ msgstr ""
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:533
 msgctxt "TextEdit|"
 msgid "Save as..."
-msgstr ""
+msgstr "Uložit jako..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:548
 msgctxt "TextEdit|"
 msgid "Print Document"
-msgstr ""
+msgstr "Vytisknout dokument"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:732
 msgctxt "TextEdit|"
 msgid "About"
-msgstr ""
+msgstr "O aplikaci"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:733
 msgctxt "TextEdit|"
@@ -3935,17 +3939,17 @@ msgstr ""
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:16
 msgctxt "DiceBookMarkModel|"
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:18
 msgctxt "DiceBookMarkModel|"
 msgid "Command"
-msgstr ""
+msgstr "Příkaz"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:20
 msgctxt "DiceBookMarkModel|"
 msgid "Alias"
-msgstr ""
+msgstr "Alias"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
@@ -3985,32 +3989,32 @@ msgstr ""
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:34
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "Unit"
-msgstr ""
+msgstr "Jednotka"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:36
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "Symbol"
-msgstr ""
+msgstr "Symbol"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:268
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "New Unit"
-msgstr ""
+msgstr "Nová jednotka"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:7
 msgctxt "QObject|"
 msgid "Currency"
-msgstr ""
+msgstr "Měna"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:8
 msgctxt "QObject|"
 msgid "Distance"
-msgstr ""
+msgstr "Vzdálenost"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:9
 msgctxt "QObject|"
 msgid "Temperature"
-msgstr ""
+msgstr "Teplota"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:10
 msgctxt "QObject|"
@@ -4025,17 +4029,17 @@ msgstr ""
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:162
 msgctxt "GMTOOL::UnitModel|"
 msgid "New Unit"
-msgstr ""
+msgstr "Nová jednotka"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:98
 msgctxt "CharacterItem|"
 msgid "Disk"
-msgstr ""
+msgstr "Disk"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:99
 msgctxt "CharacterItem|"
 msgid "Angle"
-msgstr ""
+msgstr "Úhel"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:100
 msgctxt "CharacterItem|"
@@ -4060,7 +4064,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:509
 msgctxt "CharacterItem|"
 msgid "Actions"
-msgstr ""
+msgstr "Činnosti"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:510
 msgctxt "CharacterItem|"
@@ -4075,7 +4079,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:529
 msgctxt "CharacterItem|"
 msgid "Shapes"
-msgstr ""
+msgstr "Tvary"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:536
 msgctxt "CharacterItem|"
@@ -4085,7 +4089,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:133
 msgctxt "PathItem|"
 msgid "Close Path"
-msgstr ""
+msgstr "Uzavřít cestu"
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:137
 msgctxt "PathItem|"
@@ -4105,7 +4109,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:139
 msgctxt "TextItem|"
 msgid "Edit Text…"
-msgstr ""
+msgstr "Upravit text…"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:140
 msgctxt "TextItem|"
@@ -4115,17 +4119,17 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:191
 msgctxt "TextItem|"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:298
 msgctxt "TextItem|"
 msgid "Font Size"
-msgstr ""
+msgstr "Velikost písma"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Ellipse"
-msgstr ""
+msgstr "Elipsa"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
@@ -4135,7 +4139,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Rule"
-msgstr ""
+msgstr "Pravidlo"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:164
 #, qt-format
@@ -4166,7 +4170,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
-msgstr ""
+msgstr "Sdílet s"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
@@ -4178,18 +4182,18 @@ msgstr ""
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - Image"
-msgstr ""
+msgstr "%1 - Obrázek"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:207
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture)"
-msgstr ""
+msgstr "%1 - (Obrázek)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:212
 msgctxt "Image|"
 msgid "Zoom In"
-msgstr ""
+msgstr "Přiblížit"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:213
 msgctxt "Image|"
@@ -4199,12 +4203,12 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/image.cpp:217
 msgctxt "Image|Zoom In"
 msgid "Ctrl++"
-msgstr ""
+msgstr "Ctrl++"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:222
 msgctxt "Image|"
 msgid "Zoom out"
-msgstr ""
+msgstr "Oddálit"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:224
 msgctxt "Image|"
@@ -4214,7 +4218,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/image.cpp:227
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
-msgstr ""
+msgstr "Ctrl+-"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:237
 msgctxt "Image|"
@@ -4229,7 +4233,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|Fit the workspace"
 msgid "Ctrl+m"
-msgstr ""
+msgstr "Ctrl+M"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:249
 msgctxt "Image|"
@@ -4244,12 +4248,12 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
 msgid "Ctrl+f"
-msgstr ""
+msgstr "Ctrl+F"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:264
 msgctxt "Image|"
 msgid "Little"
-msgstr ""
+msgstr "Malé"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:265
 msgctxt "Image|"
@@ -4259,12 +4263,12 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|Set the zoom level at 20%"
 msgid "Ctrl+l"
-msgstr ""
+msgstr "Ctrl+L"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:275
 msgctxt "Image|"
 msgid "Normal"
-msgstr ""
+msgstr "Normální"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:276
 msgctxt "Image|"
@@ -4274,12 +4278,12 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|Normal"
 msgid "Ctrl+n"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:286
 msgctxt "Image|"
 msgid "Big"
-msgstr ""
+msgstr "Velký"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:287
 msgctxt "Image|"
@@ -4289,29 +4293,29 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/image.cpp:290
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:295
 #: src/libraries/rwidgets/mediacontainers/image.cpp:307
 #: src/libraries/rwidgets/mediacontainers/image.cpp:312
 msgctxt "Image|"
 msgid "Play"
-msgstr ""
+msgstr "Přehrát"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:297
 msgctxt "Image|"
 msgid "Stop"
-msgstr ""
+msgstr "Zastavit"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:303
 msgctxt "Image|"
 msgid "Pause"
-msgstr ""
+msgstr "Pozastavit"
 
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.cpp:86
 msgctxt "InstantMessagingView|"
 msgid "Instant Messaging"
-msgstr ""
+msgstr "Instant Messaging"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:34
 msgctxt "MediaContainer|"
@@ -4346,7 +4350,7 @@ msgstr ""
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
-msgstr ""
+msgstr "%1 - (PDF)"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
@@ -4356,7 +4360,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
 msgid "All visible"
-msgstr ""
+msgstr "Vše viditelné"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
@@ -4399,7 +4403,7 @@ msgstr ""
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
-msgstr ""
+msgstr "%1 - Webová stránka"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:25
 msgctxt "campaign::CampaignView|"
@@ -4409,7 +4413,7 @@ msgstr ""
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:26
 msgctxt "campaign::CampaignView|"
 msgid "Delete"
-msgstr ""
+msgstr "Smazat"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:27
 msgctxt "campaign::CampaignView|"
@@ -4419,7 +4423,7 @@ msgstr ""
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:28
 msgctxt "campaign::CampaignView|"
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:29
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:145
@@ -4435,17 +4439,17 @@ msgstr ""
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:32
 msgctxt "campaign::CampaignView|"
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:33
 msgctxt "campaign::CampaignView|"
 msgid "Size"
-msgstr ""
+msgstr "Název"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:34
 msgctxt "campaign::CampaignView|"
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:35
 msgctxt "campaign::CampaignView|"
@@ -4455,12 +4459,12 @@ msgstr ""
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
 msgctxt "campaign::CampaignView|"
 msgid "Date Modified"
-msgstr ""
+msgstr "Datum změny"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:109
 msgctxt "campaign::CampaignView|"
 msgid "Notes"
-msgstr ""
+msgstr "Poznámky"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:112
 msgctxt "campaign::CampaignView|"
@@ -4535,27 +4539,27 @@ msgstr ""
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
 msgctxt "UserListView|"
 msgid "Value:"
-msgstr ""
+msgstr "Hodnota:"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:228
 msgctxt "UserListView|"
 msgid "Set Property"
-msgstr ""
+msgstr "Nastavit vlastnost"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:242
 msgctxt "UserListView|"
 msgid "State"
-msgstr ""
+msgstr "Stav"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:261
 msgctxt "UserListView|"
 msgid "Action"
-msgstr ""
+msgstr "Činnost"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:273
 msgctxt "UserListView|"
 msgid "Shape"
-msgstr ""
+msgstr "Tvar"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
 msgctxt "ToolBox|"
@@ -4685,7 +4689,7 @@ msgstr ""
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:82
 msgctxt "TestCharacterStateModel|"
 msgid "Healthy"
-msgstr ""
+msgstr "Zdravý"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:86
 msgctxt "TestCharacterStateModel|"
@@ -4705,7 +4709,7 @@ msgstr ""
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:98
 msgctxt "TestCharacterStateModel|"
 msgid "Sleeping"
-msgstr ""
+msgstr "Spící"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:102
 msgctxt "TestCharacterStateModel|"
