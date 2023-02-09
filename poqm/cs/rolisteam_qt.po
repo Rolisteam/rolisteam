@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-02-06 13:50+0100\n"
+"PO-Revision-Date: 2023-02-08 13:53+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.2\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/main.qml:23
@@ -26,12 +26,12 @@ msgstr ""
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
-msgstr ""
+msgstr "Obrázky (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/binaries/mindmap/MindMap.qml:80
 msgctxt "MindMap|"
 msgid "Images (*.png)"
-msgstr ""
+msgstr "Obrázky (*.png)"
 
 #: src/binaries/rcse/borderlisteditor.cpp:29
 msgctxt "BorderListEditor|"
@@ -1421,7 +1421,7 @@ msgstr "Obrázek"
 #: src/libraries/core/src/model/colormodel.cpp:44
 msgctxt "ColorModel|"
 msgid "Any color"
-msgstr ""
+msgstr "Libovolná barva"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
@@ -1699,12 +1699,12 @@ msgstr " (klon)"
 #: src/libraries/core/src/model/proxystatemodel.cpp:50
 msgctxt "ProxyStateModel|"
 msgid "Any"
-msgstr ""
+msgstr "Cokoliv"
 
 #: src/libraries/core/src/model/statemodel.cpp:44
 msgctxt "StateModel|"
 msgid "Any State"
-msgstr ""
+msgstr "Jakýkoliv stav"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -1870,7 +1870,7 @@ msgstr "Čára"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:35
 msgctxt "QObject|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "Vyplněná elipsa"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:36
 msgctxt "QObject|"
@@ -1941,7 +1941,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete %1 Item(s) From Map"
-msgstr ""
+msgstr "Smazat %1 položku z mapy"
 
 #: src/libraries/core/src/undoCmd/importdatamedia.cpp:41
 #, qt-format
@@ -2159,12 +2159,12 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/Content.qml:69
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
-msgstr ""
+msgstr "Obrázky (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/libraries/mindmap/resources/qml/Content.qml:80
 msgctxt "Content|"
 msgid "Images (*.png)"
-msgstr ""
+msgstr "Obrázky (*.png)"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:19
 msgctxt "DrawerMenu|"
@@ -2919,7 +2919,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
 msgctxt "RGraphicsView|"
 msgid "Duplicate Item"
-msgstr ""
+msgstr "Duplikovat položku"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:575
 msgctxt "RGraphicsView|"
@@ -3614,18 +3614,18 @@ msgstr ""
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 msgctxt "VmapTopBar|"
 msgid "inch"
-msgstr ""
+msgstr "palec"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 msgctxt "VmapTopBar|"
 msgid "foot"
-msgstr ""
+msgstr "stopa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:306
 msgctxt "VmapTopBar|"
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
@@ -4484,17 +4484,17 @@ msgstr ""
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:49
 msgctxt "UserListView|"
 msgid "Remove..."
-msgstr ""
+msgstr "Odstranit..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:50
 msgctxt "UserListView|"
 msgid "Edit name"
-msgstr ""
+msgstr "Upravit název"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Change color…"
-msgstr ""
+msgstr "Změnit barvu..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:61
 msgctxt "UserListView|"
@@ -4564,17 +4564,17 @@ msgstr "Tvar"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
 msgctxt "ToolBox|"
 msgid "Tools"
-msgstr ""
+msgstr "Nástroje"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:118
 msgctxt "ToolBox|"
 msgid "Pen"
-msgstr ""
+msgstr "Pero"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
 msgctxt "ToolBox|"
 msgid "Line"
-msgstr ""
+msgstr "Čára"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
 msgctxt "ToolBox|"
@@ -4594,47 +4594,47 @@ msgstr ""
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "Vyplněná elipsa"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
 msgctxt "ToolBox|"
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
 msgctxt "ToolBox|"
 msgid "Hand"
-msgstr ""
+msgstr "Ruka"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
 msgctxt "ToolBox|"
 msgid "Add NPC"
-msgstr ""
+msgstr "Přidat NPC"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
 msgctxt "ToolBox|"
 msgid "Rule"
-msgstr ""
+msgstr "Pravidlo"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
 msgctxt "ToolBox|"
 msgid "Path"
-msgstr ""
+msgstr "Cesta"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
 msgctxt "ToolBox|"
 msgid "Anchor"
-msgstr ""
+msgstr "Ukotvení"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
 msgctxt "ToolBox|"
 msgid "Pipette"
-msgstr ""
+msgstr "Pipeta"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
 msgctxt "ToolBox|"
 msgid "Highlighter"
-msgstr ""
+msgstr "Zvýraznění"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
 msgctxt "ToolBox|"
@@ -4664,17 +4664,17 @@ msgstr ""
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:321
 msgctxt "ToolBox|"
 msgid "Normal"
-msgstr ""
+msgstr "Normální"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:323
 msgctxt "ToolBox|"
 msgid "Mask"
-msgstr ""
+msgstr "Maska"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:325
 msgctxt "ToolBox|"
 msgid "Unmask"
-msgstr ""
+msgstr "Odmaskovat"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:355
 msgctxt "ToolBox|"
@@ -4684,7 +4684,7 @@ msgstr ""
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:367
 msgctxt "ToolBox|"
 msgid "Opacity:"
-msgstr ""
+msgstr "Krytí:"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:82
 msgctxt "TestCharacterStateModel|"
