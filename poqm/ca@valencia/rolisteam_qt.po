@@ -1,13 +1,13 @@
 # Translation of rolisteam_qt.po to Catalan (Valencian)
-# Copyright (C) 2022 This_file_is_part_of_KDE
+# Copyright (C) 2022-2023 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2022.
+# Josep M. Ferrer <txemaq@gmail.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2022-08-21 16:56+0200\n"
+"PO-Revision-Date: 2023-02-05 12:07+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -21,28 +21,19 @@ msgstr ""
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
 msgid "MindMap (*.rmindmap *.rmap)"
-msgstr ""
+msgstr "MindMap (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/main.qml:36
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "main|"
 msgid "Open MindMap"
-msgstr "Mapa mental"
+msgstr "Obri un Mapa mental"
 
 #: src/binaries/mindmap/MindMap.qml:69
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgctxt "MindMap|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Imatges (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/binaries/mindmap/MindMap.qml:80
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Images (*.png)"
 msgctxt "MindMap|"
 msgid "Images (*.png)"
 msgstr "Imatges (*.png)"
@@ -1369,12 +1360,9 @@ msgstr "Objecte"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "I'm the Game Master"
 msgctxt "QObject|"
 msgid "GameMaster"
-msgstr "Soc el director de joc"
+msgstr "Director de joc"
 
 #: src/libraries/core/src/data/campaign.cpp:267
 msgctxt "Campaign|"
@@ -1451,7 +1439,7 @@ msgstr "Imatge"
 #: src/libraries/core/src/model/colormodel.cpp:44
 msgctxt "ColorModel|"
 msgid "Any color"
-msgstr ""
+msgstr "Qualsevol color"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
@@ -1560,12 +1548,9 @@ msgid "Description"
 msgstr "Descripció"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
-#, fuzzy
-#| msgctxt "DiceMessageDelegate|"
-#| msgid "Details"
 msgctxt "NonPlayableCharacterModel|"
 msgid "GM Details"
-msgstr "Detalls"
+msgstr "Detalls del DJ"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
@@ -1740,15 +1725,12 @@ msgstr " (clon)"
 #: src/libraries/core/src/model/proxystatemodel.cpp:50
 msgctxt "ProxyStateModel|"
 msgid "Any"
-msgstr ""
+msgstr "Qualsevol"
 
 #: src/libraries/core/src/model/statemodel.cpp:44
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "State"
 msgctxt "StateModel|"
 msgid "Any State"
-msgstr "Estat"
+msgstr "Qualsevol estat"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -1857,12 +1839,9 @@ msgid "User %1 has been disconnected!"
 msgstr "L'usuari %1 s'ha desconnectat!"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:166
-#, fuzzy
-#| msgctxt "UpnpNat|"
-#| msgid "Unable to read the end of server answer"
 msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
-msgstr "No s'ha pogut llegir el final de la resposta del servidor"
+msgstr "No s'ha pogut llegir l'URL en la resposta del servidor"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:274
 msgctxt "UpnpNat|"
@@ -1878,12 +1857,10 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "No s'ha pogut trobar el tipus de servei adequat: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:333
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2)\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
-msgstr "No s'ha pogut afegir el mapatge del port (%1/%2)\n"
+msgstr "No s'ha pogut afegir el mapatge del port (%1/%2): error:\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -1993,12 +1970,10 @@ msgid "Change size of %1 item(s)"
 msgstr "Canvia la mida de %1 elements"
 
 #: src/libraries/core/src/undoCmd/deletevmapitem.cpp:33
-#, fuzzy, qt-format
-#| msgctxt "QObject|"
-#| msgid "Delete %1 Item(s) From Map %1"
+#, qt-format
 msgctxt "QObject|"
 msgid "Delete %1 Item(s) From Map"
-msgstr "Suprimix %1 elements del mapa %1"
+msgstr "Suprimix %1 elements del mapa"
 
 #: src/libraries/core/src/undoCmd/importdatamedia.cpp:41
 #, qt-format
@@ -2214,17 +2189,11 @@ msgid "Automatic Spacing"
 msgstr "Espaiat automàtic"
 
 #: src/libraries/mindmap/resources/qml/Content.qml:69
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Imatges (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/libraries/mindmap/resources/qml/Content.qml:80
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Images (*.png)"
 msgctxt "Content|"
 msgid "Images (*.png)"
 msgstr "Imatges (*.png)"
@@ -2608,12 +2577,10 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #: src/libraries/rwidgets/commands/changestackordervmapcommand.cpp:27
-#, fuzzy, qt-format
-#| msgctxt "QObject|"
-#| msgid "Change size of %1 item(s)"
+#, qt-format
 msgctxt "ChangeStackOrderVMapCommand|"
 msgid "Change stack order of %1 item(s)"
-msgstr "Canvia la mida de %1 elements"
+msgstr "Canvia l'ordre de la pila de %1 elements"
 
 #: src/libraries/rwidgets/commands/movevmapitem.cpp:34
 #, qt-format
@@ -2986,9 +2953,6 @@ msgid "Lock/Unlock Item Geometry"
 msgstr "Bloqueja o desbloqueja la geometria de l'element"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
-#, fuzzy
-#| msgctxt "VisualItem|"
-#| msgid "Duplicate Item"
 msgctxt "RGraphicsView|"
 msgid "Duplicate Item"
 msgstr "Duplica l'element"
@@ -3018,12 +2982,9 @@ msgstr "Personatge"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:589
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:607
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "I'm the Game Master"
 msgctxt "RGraphicsView|"
 msgid "GameMaster"
-msgstr "Soc el director de joc"
+msgstr "Director de joc"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:617
 msgctxt "RGraphicsView|"
@@ -3345,12 +3306,10 @@ msgid "No Service to open links"
 msgstr "Cap servei per a obrir enllaços"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:43
-#, fuzzy, qt-format
-#| msgctxt "TipOfDayViewer|"
-#| msgid "Please find the type here: <a href=\"%1\"</a>"
+#, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "Please find the type here: <a href=\"%1\">%1</a>"
-msgstr "Trobeu ací el tipus: <a href=\"%1\"</a>"
+msgstr "Trobeu ací el tipus: <a href=\"%1\">%1</a>"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -3403,12 +3362,9 @@ msgid "Main columns"
 msgstr "Columnes principals"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:74
-#, fuzzy
-#| msgctxt "campaign::AntagonistBoard|"
-#| msgid "Main columns"
 msgctxt "campaign::AntagonistBoard|"
 msgid "Minimal Columns"
-msgstr "Columnes principals"
+msgstr "Columnes mínimes"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:75
 msgctxt "campaign::AntagonistBoard|"
@@ -3590,210 +3546,132 @@ msgid "Player List"
 msgstr "Llista de jugadors"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Toolbar for VMap"
 msgctxt "VmapTopBar|"
 msgid "TopBar for VMap"
-msgstr "Barra d'eines per al VMap"
+msgstr "Barra superior per a VMap"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Square Grid"
 msgctxt "VmapTopBar|"
 msgid "Square Grid"
 msgstr "Quadrícula quadrada"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:65
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Hexagonal Grid"
 msgctxt "VmapTopBar|"
 msgid "Hexagonal Grid"
 msgstr "Quadrícula hexagonal"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Grid Above"
 msgctxt "VmapTopBar|"
 msgid "Grid Above"
 msgstr "Quadrícula per damunt"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:90
-#, fuzzy
-#| msgctxt "PermissionFrame|"
-#| msgid "Permission"
 msgctxt "VmapTopBar|"
 msgid "Permission: GM only"
-msgstr "Permisos"
+msgstr "Permisos: Només el DJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:96
-#, fuzzy
-#| msgctxt "PermissionFrame|"
-#| msgid "Permission"
 msgctxt "VmapTopBar|"
 msgid "Permission: PC Move"
-msgstr "Permisos"
+msgstr "Permisos: Moviment del PJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:102
-#, fuzzy
-#| msgctxt "PermissionFrame|"
-#| msgid "Permission"
 msgctxt "VmapTopBar|"
 msgid "Permission: All"
-msgstr "Permisos"
+msgstr "Permisos: Tots"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:126
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Change Visibility"
 msgctxt "VmapTopBar|"
 msgid "Visibility: Hidden"
-msgstr "Canvia la visibilitat"
+msgstr "Visibilitat: Ocult"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:132
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Change Visibility"
 msgctxt "VmapTopBar|"
 msgid "Visibility: Fog"
-msgstr "Canvia la visibilitat"
+msgstr "Visibilitat: Boira"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:138
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Change Visibility"
 msgctxt "VmapTopBar|"
 msgid "Visibility: All"
-msgstr "Canvia la visibilitat"
+msgstr "Visibilitat: Completa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:162
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Current Directory"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Ground"
-msgstr "Directori actual"
+msgstr "Capa actual: Terreny"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:168
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Current Directory"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Object"
-msgstr "Directori actual"
+msgstr "Capa actual: Objecte"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:174
-#, fuzzy
-#| msgctxt "campaign::AntagonistBoard|"
-#| msgid "Clone Character"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Character"
-msgstr "Clona el personatge"
+msgstr "Capa actual: Personatge"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
-#, fuzzy
-#| msgctxt "campaign::AntagonistBoard|"
-#| msgid "Clone Character"
 msgctxt "VmapTopBar|"
 msgid "Current Layer: GameMaster"
-msgstr "Clona el personatge"
+msgstr "Capa actual: Director de joc"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:206
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "hide other layers"
 msgctxt "VmapTopBar|"
 msgid "hide other layers"
 msgstr "oculta les altres capes"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:211
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Character Vision"
 msgctxt "VmapTopBar|"
 msgid "Character Vision"
 msgstr "Visió del personatge"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Show Transparent Item"
 msgctxt "VmapTopBar|"
 msgid "Show Transparent Item"
 msgstr "Mostra transparent l'element"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:220
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Show/Hide"
 msgctxt "VmapTopBar|PC = playable character"
 msgid "Show/Hide PC name"
-msgstr "Mostra/Oculta"
+msgstr "Mostra/Oculta el nom del PJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:224
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Show/Hide"
 msgctxt "VmapTopBar|NPC = non-playable character"
 msgid "Show/Hide NPC name"
-msgstr "Mostra/Oculta"
+msgstr "Mostra/Oculta el nom del PNJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:227
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "NPC number"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide NPC number"
-msgstr "Número de PNJ"
+msgstr "Mostra/Oculta el número del PNJ"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:230
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Show/Hide"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide State"
-msgstr "Mostra/Oculta"
+msgstr "Mostra/Oculta l'estat"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:233
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Health Bar"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Health Bar"
-msgstr "Barra d'estat"
+msgstr "Mostra/Oculta la barra d'estat"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:236
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "Initiative"
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Initiative"
-msgstr "Iniciativa"
+msgstr "Mostra/Oculta la iniciativa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "inch"
 msgctxt "VmapTopBar|"
 msgid "inch"
 msgstr "polzada"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "foot"
 msgctxt "VmapTopBar|"
 msgid "foot"
 msgstr "peu"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:306
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "px"
 msgctxt "VmapTopBar|"
 msgid "px"
 msgstr "px"
@@ -4661,25 +4539,19 @@ msgid "Set Avatar..."
 msgstr "Establix un avatar..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:49
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Remove"
 msgctxt "UserListView|"
 msgid "Remove..."
-msgstr "Elimina"
+msgstr "Elimina..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:50
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Edit Layer"
 msgctxt "UserListView|"
 msgid "Edit name"
-msgstr "Editar la capa"
+msgstr "Edita el nom"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Change color…"
-msgstr ""
+msgstr "Canvia el color…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:61
 msgctxt "UserListView|"
@@ -4747,201 +4619,126 @@ msgid "Shape"
 msgstr "Forma"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Tools"
 msgctxt "ToolBox|"
 msgid "Tools"
 msgstr "Eines"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:118
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Pen"
 msgctxt "ToolBox|"
 msgid "Pen"
 msgstr "Llapis"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Line"
 msgctxt "ToolBox|"
 msgid "Line"
 msgstr "Línia"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Empty Rectangle"
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
 msgstr "Rectangle buit"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "filled Rectangle"
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
 msgstr "Rectangle emplenat"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Empty Ellipse"
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
 msgstr "El·lipse buida"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Filled Ellipse"
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
 msgstr "El·lipse emplenada"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
-#, fuzzy
-#| msgctxt "TextController|"
-#| msgid "Text"
 msgctxt "ToolBox|"
 msgid "Text"
 msgstr "Text"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Hand"
 msgctxt "ToolBox|"
 msgid "Hand"
 msgstr "Mà"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Add NPC"
 msgctxt "ToolBox|"
 msgid "Add NPC"
 msgstr "Afig un PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Rule"
 msgctxt "ToolBox|"
 msgid "Rule"
 msgstr "Regla"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "ToolBox|"
 msgid "Path"
 msgstr "Camí"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Anchor"
 msgctxt "ToolBox|"
 msgid "Anchor"
 msgstr "Àncora"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Pipette"
 msgctxt "ToolBox|"
 msgid "Pipette"
 msgstr "Pipeta"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Highlighter"
 msgctxt "ToolBox|"
 msgid "Highlighter"
 msgstr "Marcador fluorescent"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Paint Bucket"
 msgctxt "ToolBox|"
 msgid "Paint Bucket"
 msgstr "Cubeta de pintar"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Text With Border"
 msgctxt "ToolBox|"
 msgid "Text With Border"
 msgstr "Text amb vora"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Reset NPC counter"
 msgctxt "ToolBox|"
 msgid "Reset NPC counter"
 msgstr "Restablix el comptador de PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:310
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "NPC Name"
 msgctxt "ToolBox|"
 msgid "NPC Name"
 msgstr "Nom del PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "NPC's number"
 msgctxt "ToolBox|"
 msgid "NPC's number"
 msgstr "Número de PNJ"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:321
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "Normal"
 msgctxt "ToolBox|"
 msgid "Normal"
 msgstr "Normal"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:323
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Mask"
 msgctxt "ToolBox|"
 msgid "Mask"
 msgstr "Màscara"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:325
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Unmask"
 msgctxt "ToolBox|"
 msgid "Unmask"
 msgstr "Desemmascara"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:355
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "height of the pen"
 msgctxt "ToolBox|"
 msgid "height of the pen"
 msgstr "Alçària del llapis"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:367
-#, fuzzy
-#| msgctxt "VToolsBar|"
-#| msgid "Opacity:"
 msgctxt "ToolBox|"
 msgid "Opacity:"
 msgstr "Opacitat:"
@@ -4975,95 +4772,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "UpnpNat|"
-#~ msgid "Unable to read the beginning of server answer"
-#~ msgstr "No s'ha pogut llegir el començament de la resposta del servidor"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Pen"
-#~ msgstr "Llapis"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Line"
-#~ msgstr "Línia"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Empty Rectangle"
-#~ msgstr "Rectangle buit"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Empty Ellipse"
-#~ msgstr "El·lipse buida"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Filled Ellipse"
-#~ msgstr "El·lipse emplenada"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Text"
-#~ msgstr "Text"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Rule"
-#~ msgstr "Regla"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Path"
-#~ msgstr "Camí"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "GM only"
-#~ msgstr "Només DJ"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "PC Move"
-#~ msgstr "Moviment de PJ"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "All"
-#~ msgstr "Tot"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Hidden"
-#~ msgstr "Ocult"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Fog"
-#~ msgstr "Boira"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Ground"
-#~ msgstr "Terreny"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Object"
-#~ msgstr "Objecte"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Character"
-#~ msgstr "Personatge"
-
-#~ msgctxt "VmapToolBar|PC = playable character"
-#~ msgid "PC name"
-#~ msgstr "Nom del PJ"
-
-#~ msgctxt "VmapToolBar|NPC = non-playable character"
-#~ msgid "NPC name"
-#~ msgstr "Nom del PNJ"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "State"
-#~ msgstr "Estat"
-
-#~ msgctxt "PdfViewer|Current page/ total page"
-#~ msgid "%1/%2"
-#~ msgstr "%1/%2"
-
-#~ msgctxt "UserListView|"
-#~ msgid "Remove Avatar..."
-#~ msgstr "Elimina l'avatar..."
