@@ -100,7 +100,8 @@ void ImageItem::readData(QDataStream& in)
 
     m_initialized= false;
 
-    loadImage();
+    if(!dataToMedia())
+        loadImage();
 }
 void ImageItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -273,8 +274,11 @@ void ImageItem::loadImage()
     dataToMedia();
 }
 
-void ImageItem::dataToMedia()
+bool ImageItem::dataToMedia()
 {
+    if(m_data.isNull())
+        return false;
+
     auto buf= new QBuffer(&m_data);
     buf->open(QIODevice::ReadOnly);
 
@@ -284,6 +288,7 @@ void ImageItem::dataToMedia()
         connect(m_movie, &QMovie::updated, this, &ImageItem::updateImageFromMovie);
         m_movie->start();
         m_rect= m_movie->frameRect();
+        return true;
     }
     else
     {
@@ -292,7 +297,9 @@ void ImageItem::dataToMedia()
         m_image.loadFromData(m_data);
 
         initImage();
+        return true;
     }
+    return false;
 }
 
 void ImageItem::initImage()

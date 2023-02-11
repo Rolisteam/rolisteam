@@ -94,7 +94,7 @@ protected:
 
 private:
     void loadImage();
-    void dataToMedia();
+    bool dataToMedia();
     void initImage();
 
 private:
