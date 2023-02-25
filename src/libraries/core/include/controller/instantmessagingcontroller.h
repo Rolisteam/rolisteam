@@ -27,11 +27,11 @@
 
 #include "controllerinterface.h"
 #include "data/chatroom.h"
-#include "model/chatroomsplittermodel.h"
-#include "network/networkreceiver.h"
-
 #include "data/localpersonmodel.h"
+#include "model/chatroomsplittermodel.h"
+#include "model/filterinstantmessagingmodel.h"
 #include "model/playermodel.h"
+#include "network/networkreceiver.h"
 #include <core_global.h>
 
 class DiceRoller;
@@ -40,7 +40,6 @@ namespace InstantMessaging
 {
 class InstantMessagingModel;
 class InstantMessagingUpdater;
-class FilterInstantMessagingModel;
 } // namespace InstantMessaging
 
 class CORE_EXPORT InstantMessagingController : public AbstractControllerInterface, public NetWorkReceiver

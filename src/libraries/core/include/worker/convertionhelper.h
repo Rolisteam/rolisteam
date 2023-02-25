@@ -38,7 +38,7 @@
 namespace Helper
 {
 template <typename T>
-CORE_EXPORT void variantToType(const T& val, NetworkMessageWriter& msg)
+void variantToType(const T& val, NetworkMessageWriter& msg)
 {
     msg.string32(val);
 }

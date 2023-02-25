@@ -27,8 +27,8 @@
 #include "charactersheet/controllers/fieldcontroller.h"
 #include "charactersheet/controllers/tablefield.h"
 #include "charactersheet/fieldfactory.h"
-
 #include <QDebug>
+#include <utils/directaccessdatastructure.h>
 
 Section::Section() : TreeSheetItem(TreeSheetItem::SectionItem) {}
 Section::~Section()

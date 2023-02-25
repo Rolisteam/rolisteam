@@ -26,11 +26,12 @@
 #include <vector>
 
 #include "minditem.h"
+#include "mindmap/mindmap_global.h"
 
 namespace mindmap
 {
 class LinkController;
-class PositionedItem : public MindItem
+class MINDMAP_EXPORT PositionedItem : public MindItem
 {
     Q_OBJECT
     Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)

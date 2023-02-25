@@ -37,10 +37,12 @@ ReparentingNodeCommand::ReparentingNodeCommand(MindItemModel* nodeModel, Positio
     if(m_oldParent)
     {
         auto links= m_oldParent->subLinks();
-        auto idxLink= std::find_if(links.begin(), links.end(), [this](LinkController* link) {
-            // qDebug() << "find if reparentingNode";
-            return link->end() == m_mindNode.data();
-        });
+        auto idxLink= std::find_if(links.begin(), links.end(),
+                                   [this](LinkController* link)
+                                   {
+                                       // qDebug() << "find if reparentingNode";
+                                       return link->end() == m_mindNode.data();
+                                   });
         if(idxLink != links.end())
             m_oldLink= (*idxLink);
     }
@@ -52,7 +54,7 @@ void ReparentingNodeCommand::undo()
     if(m_mindNode.isNull() || m_oldLink.isNull() || m_newLink.isNull())
         return;
 
-    m_nodeModel->removeItem({m_newLink});
+    m_nodeModel->removeItem(m_newLink);
     m_nodeModel->appendItem({m_oldLink});
 }
 
@@ -62,7 +64,7 @@ void ReparentingNodeCommand::redo()
     if(m_mindNode.isNull() || m_oldLink.isNull())
         return;
 
-    m_nodeModel->removeItem({m_oldLink});
+    m_nodeModel->removeItem(m_oldLink);
     if(m_newLink.isNull())
     {
         m_newLink= new LinkController();

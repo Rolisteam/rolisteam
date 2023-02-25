@@ -1,5 +1,3 @@
-#ifndef MINDNODE_H
-#define MINDNODE_H
 /***************************************************************************
  *	Copyright (C) 2019 by Renaud Guezennec                                 *
  *   http://www.rolisteam.org/contact                                      *
@@ -19,6 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef MINDNODE_H
+#define MINDNODE_H
 #include <QObject>
 #include <QPointF>
 #include <QVector2D>
@@ -30,8 +30,6 @@
 
 namespace mindmap
 {
-
-class LinkController;
 class MINDMAP_EXPORT MindNode : public PositionedItem
 {
     Q_OBJECT

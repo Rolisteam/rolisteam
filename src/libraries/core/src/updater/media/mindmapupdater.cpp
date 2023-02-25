@@ -21,13 +21,12 @@
 
 #include "controller/view_controller/mindmapcontroller.h"
 #include "mindmap/data/linkcontroller.h"
+#include "mindmap/data/minditem.h"
 #include "mindmap/data/mindmaptypes.h"
-#include "mindmap/data/mindnode.h"
 #include "mindmap/model/minditemmodel.h"
 #include "model/contentmodel.h"
-#include "worker/messagehelper.h"
-
 #include "network/networkmessagewriter.h"
+#include "worker/messagehelper.h"
 
 #include <QDebug>
 #include <QTimer>

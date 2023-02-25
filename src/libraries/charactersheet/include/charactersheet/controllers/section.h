@@ -76,4 +76,5 @@ signals:
 private:
     DirectAccessDataStructure<QString, TreeSheetItem*> m_data;
 };
+
 #endif // SECTION_H

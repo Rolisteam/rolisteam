@@ -26,11 +26,12 @@
 #include "mindmap/data/minditem.h"
 #include "mindmap/data/mindnode.h"
 #include "mindmap/data/packagenode.h"
+#include "mindmap/mindmap_global.h"
 
 namespace mindmap
 {
 class ImageModel;
-class MindItemModel : public QAbstractListModel
+class MINDMAP_EXPORT MindItemModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QRectF contentRect READ contentRect NOTIFY geometryChanged)
@@ -61,16 +62,16 @@ public:
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
     QRectF contentRect() const;
-    std::vector<MindItem*>& items(MindItem::Type type);
-    std::vector<PositionedItem*> positionnedItems() const;
-    MindItem* item(const QString& id) const;
-    PositionedItem* positionItem(const QString& id) const;
-    std::vector<LinkController*> sublink(const QString& id) const;
+    std::vector<mindmap::MindItem*>& items(mindmap::MindItem::Type type);
+    std::vector<mindmap::PositionedItem*> positionnedItems() const;
+    mindmap::MindItem* item(const QString& id) const;
+    mindmap::PositionedItem* positionItem(const QString& id) const;
+    std::vector<mindmap::LinkController*> sublink(const QString& id) const;
 
-    void appendItem(const QList<MindItem*>& node);
+    void appendItem(const QList<mindmap::MindItem*>& node);
 
 public slots:
-    std::pair<MindItem*, LinkController*> addItem(const QString& idparent, MindItem::Type type);
+    std::pair<mindmap::MindItem*, mindmap::LinkController*> addItem(const QString& idparent, MindItem::Type type);
     bool removeItem(const mindmap::MindItem* node);
     void openItem(const QString& id, bool status);
     void setImageUriToNode(const QString& id, const QString& url);
@@ -82,9 +83,9 @@ signals:
     void latestInsertedPackage(mindmap::PackageNode* package);
 
 private:
-    std::vector<MindItem*> m_links;
-    std::vector<MindItem*> m_packages;
-    std::vector<MindItem*> m_nodes;
+    std::vector<mindmap::MindItem*> m_links;
+    std::vector<mindmap::MindItem*> m_packages;
+    std::vector<mindmap::MindItem*> m_nodes;
 
     QPointer<ImageModel> m_imgModel;
 };

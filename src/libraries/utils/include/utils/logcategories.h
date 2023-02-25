@@ -25,17 +25,17 @@
 
 namespace logCategory
 {
-UTILS_EXPORT const QLoggingCategory map("map");
-UTILS_EXPORT const QLoggingCategory campaign("campaign");
-UTILS_EXPORT const QLoggingCategory pdf("pdf");
-UTILS_EXPORT const QLoggingCategory img("image");
-UTILS_EXPORT const QLoggingCategory mindmap("mindmap");
-UTILS_EXPORT const QLoggingCategory im("instantmessaging");
-UTILS_EXPORT const QLoggingCategory sheet("charactersheet");
-UTILS_EXPORT const QLoggingCategory server("server");
-UTILS_EXPORT const QLoggingCategory rcse("rcse");
-UTILS_EXPORT const QLoggingCategory rolisteam("rolisteam");
-UTILS_EXPORT const QLoggingCategory network("network");
+static const QLoggingCategory map("map");
+static const QLoggingCategory campaign("campaign");
+static const QLoggingCategory pdf("pdf");
+static const QLoggingCategory img("image");
+static const QLoggingCategory mindmap("mindmap");
+static const QLoggingCategory im("instantmessaging");
+static const QLoggingCategory sheet("charactersheet");
+static const QLoggingCategory server("server");
+static const QLoggingCategory rcse("rcse");
+static const QLoggingCategory rolisteam("rolisteam");
+static const QLoggingCategory network("network");
 }; // namespace logCategory
 
 #endif // LOGCATEGORIES_H

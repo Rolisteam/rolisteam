@@ -11,6 +11,7 @@ set(CMAKE_AUTORCC ON)
 add_library(helper SHARED helper.cpp helper.h ../assets/resources.qrc )
 target_link_libraries(helper PUBLIC Qt6::Core Qt6::Test  Qt6::HttpServer PRIVATE core utils)
 
+target_compile_definitions(helper PRIVATE HELPER_LIBRARY)
 target_include_directories(helper
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}

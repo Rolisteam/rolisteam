@@ -22,10 +22,13 @@
 
 #include "mindmap/data/minditem.h"
 #include "mindmap/data/positioneditem.h"
+#include "mindmap/mindmap_global.h"
+#include <QObject>
+#include <QString>
 
 namespace mindmap
 {
-class PackageNode : public PositionedItem
+class MINDMAP_EXPORT PackageNode : public PositionedItem
 {
     Q_OBJECT
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
@@ -41,7 +44,7 @@ public:
     void setMinimumMargin(int newMinimumMargin);
 
 public slots:
-    void addChild(PositionedItem* item);
+    void addChild(mindmap::PositionedItem* item);
 
 signals:
     void titleChanged();

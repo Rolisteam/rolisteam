@@ -24,7 +24,7 @@
 #include <QRectF>
 #include <QUuid>
 
-#include "link.h"
+//"link.h"
 namespace mindmap
 {
 

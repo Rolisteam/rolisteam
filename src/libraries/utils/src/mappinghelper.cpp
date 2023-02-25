@@ -28,12 +28,7 @@ QSizeF MappingHelper::mapSizeTo(const QSizeF& maxSize, const QSizeF& currentSize
     return currentSize.scaled(maxSize, Qt::KeepAspectRatio);
 }
 
-QRectF MappingHelper::smallRect(const QRectF &sizeItem, const QRectF &childrenSize, const QRectF& parentSize)
-{
-
-}
-
-QRectF MappingHelper::maxRect(const QRectF &parentRect, const QRectF &childrenRect)
+QRectF MappingHelper::maxRect(const QRectF& parentRect, const QRectF& childrenRect)
 {
     return parentRect.united(childrenRect);
 }

@@ -56,8 +56,7 @@ public:
         BottomLeft
     };
 
-    explicit FieldController(TreeSheetItem::TreeItemType itemType= TreeSheetItem::TreeItemType::FieldItem,
-                             bool addCount= true, QObject* parent= nullptr);
+    explicit FieldController(TreeSheetItem::TreeItemType itemType, bool addCount= true, QObject* parent= nullptr);
     explicit FieldController(TreeSheetItem::TreeItemType itemType= TreeSheetItem::TreeItemType::FieldItem,
                              QPointF topleft= {}, bool addCount= true, QObject* parent= nullptr);
     virtual ~FieldController();

@@ -27,6 +27,7 @@
 
 #include "mediaupdaterinterface.h"
 #include "mindmap/data/mindnode.h"
+#include "mindmap/data/packagenode.h"
 #include "network/networkmessagewriter.h"
 #include <core_global.h>
 

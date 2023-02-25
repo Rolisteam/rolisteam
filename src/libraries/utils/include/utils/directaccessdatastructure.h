@@ -17,8 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef DIRECTACCESSDATASTRUCTURE_H
-#define DIRECTACCESSDATASTRUCTURE_H
+//#ifndef DIRECTACCESSDATASTRUCTURE_H
+//#define DIRECTACCESSDATASTRUCTURE_H
+#pragma once
 
 #include "utils/utils_global.h"
 #include <QHash>
@@ -28,7 +29,7 @@
 #include <QWriteLocker>
 
 template <class T, class Y>
-class UTILS_EXPORT DirectAccessDataStructure
+class DirectAccessDataStructure
 {
 public:
     DirectAccessDataStructure(){};
@@ -145,4 +146,4 @@ private:
     mutable QReadWriteLock m_lock;
 };
 
-#endif // DIRECTACCESSDATASTRUCTURE_H
+//#endif // DIRECTACCESSDATASTRUCTURE_H

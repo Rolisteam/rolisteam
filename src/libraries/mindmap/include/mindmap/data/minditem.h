@@ -24,17 +24,18 @@
 #include <QPointF>
 #include <QVector2D>
 
+#include "mindmap/mindmap_global.h"
+
 namespace mindmap
 {
-class LinkController;
-class MindItem : public QObject
+class MINDMAP_EXPORT MindItem : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
-    Q_PROPERTY(Type type READ type CONSTANT)
+    Q_PROPERTY(MindItem::Type type READ type CONSTANT)
 public:
     enum Type
     {
@@ -42,14 +43,14 @@ public:
         LinkType,
         PackageType
     };
-    Q_ENUM(Type);
-    explicit MindItem(Type type, QObject* parent= nullptr);
+    Q_ENUM(Type)
+    explicit MindItem(MindItem::Type type, QObject* parent= nullptr);
 
     QString text() const;
     QString id() const;
     bool isVisible() const;
     bool selected() const;
-    Type type() const;
+    MindItem::Type type() const;
 
 public slots:
     void setText(QString text);
@@ -64,7 +65,7 @@ signals:
     void selectedChanged();
 
 protected:
-    Type m_type;
+    MindItem::Type m_type;
     QString m_id;
     QString m_text;
     bool m_visible= true;
