@@ -71,7 +71,7 @@ private:
 HELPER_EXPORT std::pair<bool, QStringList> testAllProperties(QObject* obj);
 
 template <typename T>
-HELPER_EXPORT T generate(const T& min, const T& max) //=std::numeric_limits<T>::min(),
+T generate(const T& min, const T& max) //=std::numeric_limits<T>::min(),
                                        //=std::numeric_limits<T>::max()
 {
     static std::random_device dev;
@@ -117,7 +117,7 @@ HELPER_EXPORT const std::map<QString, QVariant> buildPathController(bool filled,
 HELPER_EXPORT const std::map<QString, QVariant> buildLineController(const QPointF& p1, const QPointF& p2,
                                                       const QPointF& pos= QPointF(0, 0));
 
-HELPER_EXPORT QString randomString(int length= 10)
+QString randomString(int length= 10)
 {
     QString res;
     static QString list{"abcdefghijklmnropqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ1234567890"};

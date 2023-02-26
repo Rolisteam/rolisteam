@@ -1,4 +1,4 @@
-#include "uploadlogtoserver.h"
+#include "common/uploadlogtoserver.h"
 #include <QCoreApplication>
 #include <QThread>
 #include <common/remotelogcontroller.h>

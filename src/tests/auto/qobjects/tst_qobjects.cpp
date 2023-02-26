@@ -42,7 +42,7 @@
 #include "common/common_types.h"
 #include "common/logcontroller.h"
 #include "common/remotelogcontroller.h"
-#include "common/task/uploadlogtoserver.h"
+#include "common/uploadlogtoserver.h"
 #include "common_qml/theme.h"
 #include "common_widgets/colorbutton.h"
 #include "common_widgets/common_widgets_global.h"

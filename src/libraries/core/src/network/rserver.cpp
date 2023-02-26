@@ -29,8 +29,10 @@ void RServer::runUpnpNat()
     auto nat= new UpnpNat(this);
     nat->init(5, 10);
     connect(nat, &UpnpNat::discoveryEnd, this, [this, nat](bool b) {
+
+        qDebug() << "discover ends" << nat;
         if(b)
-            nat->addPortMapping("Roliserver", nat->localIp(), m_port, m_port, "TCP");
+           nat->addPortMapping("Roliserver", nat->localIp(), m_port, m_port, "TCP");
     });
     connect(nat, &UpnpNat::statusChanged, this, [this, nat]() {
         if(nat->status() == UpnpNat::NAT_STAT::NAT_ADD)

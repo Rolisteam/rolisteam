@@ -130,6 +130,8 @@ int main(int argc, char* argv[])
 
 #ifdef Q_OS_WIN
     {
+
+
         QString cmdLine("\"%2\rolisteam.exe\" \"-l %1\"");
         QSettings fooKey("HKEY_CLASSES_ROOT\\rolisteam", QSettings::NativeFormat);
         fooKey.setValue(".", "URL:rolisteam Protocol");

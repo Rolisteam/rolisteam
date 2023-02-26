@@ -35,6 +35,12 @@ RolisteamApplication::RolisteamApplication(const QString& appName, const QString
     connect(m_game.networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
         setState(connected ? ApplicationState::Playing : ApplicationState::SelectProfile);
     });
+    #ifdef Q_OS_WIN
+        QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << ":/resources");
+        QIcon::setThemeName("rolistheme");
+    #endif
+
+    qDebug() << QIcon::themeSearchPaths() << QIcon::themeName();
 
     QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
 
@@ -56,7 +62,7 @@ bool RolisteamApplication::notify(QObject* receiver, QEvent* e)
     {
         std::exception_ptr p= std::current_exception();
         std::clog << (p ? typeid(p).name() : "null") << std::endl;
-        // qDebug() << e->type() << receiver << " other";
+        qDebug() << e->type() << receiver << " other";
         return false;
     }
 }

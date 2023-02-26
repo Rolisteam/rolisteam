@@ -145,8 +145,6 @@ signals:
     void zOrderChanged(qreal);
     void removedChanged();
 
-    void removedChanged();
-
 public slots:
     void setSelected(bool b);
     void setEditable(bool b);

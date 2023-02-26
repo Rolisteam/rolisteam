@@ -42,8 +42,11 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     qRegisterMetaType<CharacterDataModel*>("CharacterDataModel*");
     qmlRegisterSingletonInstance<SelectConnProfileController>("Profile", 1, 0, "ProfileController", m_ctrl.get());
     qmlRegisterSingletonInstance<SelectConnectionProfileDialog>("Profile", 1, 0, "ProfileView", this);
+
     qmlRegisterType<ImageSelector>("Profile", 1, 0, "ImageSelector");
     auto engine= ui->m_quickWidget->engine();
+    engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
+    engine->setObjectOwnership(m_ctrl.get(), QQmlEngine::CppOwnership);
     engine->addImportPath(QStringLiteral("qrc:/qml"));
 
     ui->m_quickWidget->setSource(QUrl("qrc:/qml/views/ConnectionForm.qml"));

@@ -112,7 +112,10 @@ void UpnpNat::init(int time, int inter)
 void UpnpNat::tcpConnect(const QString& host, int port, std::function<void()> onConnected,
                          std::function<void()> onReadReady)
 {
-	m_tcpSocket.reset(new QTcpSocket(this));
+    if(m_tcpSocket)
+        m_tcpSocket.release();
+
+    m_tcpSocket.reset(new QTcpSocket(this));
 
     connect(m_tcpSocket.get(), &QTcpSocket::readyRead, this, [onReadReady]() { onReadReady(); });
 
@@ -302,26 +305,30 @@ bool UpnpNat::parseDescription()
 void UpnpNat::addPortMapping(const QString& description, const QString& destination_ip, unsigned short int port_ex,
                              unsigned short int port_in, const QString& protocol)
 {
+    qDebug() << "add port mapping 1";
     auto [host, port, path]= parseUrl(m_control_url);
     if(host.isEmpty() || port < 0 || path.isEmpty())
     {
         setLastError("Fail to parseURl: " + m_describe_url + "\n");
         return;
     }
-
+    qDebug() << "add port mapping 2";
     QString action_params(ADD_PORT_MAPPING_PARAMS);
 
     action_params= action_params.arg(port_ex).arg(protocol).arg(port_in).arg(destination_ip).arg(description);
 
+     qDebug() << "add port mapping 3";
     QString soap_message(SOAP_ACTION);
     soap_message= soap_message.arg(ACTION_ADD).arg(m_service_type).arg(action_params).arg(ACTION_ADD);
 
+    qDebug() << "add port mapping 4";
     QString action_message(HTTP_HEADER_ACTION);
     action_message
         = action_message.arg(path).arg(host).arg(port).arg(m_service_type).arg(ACTION_ADD).arg(soap_message.size());
 
     QString http_request= action_message + soap_message;
 
+    qDebug() << "add port mapping 5";
     auto connected= [this, http_request]() { m_tcpSocket->write(http_request.toLocal8Bit()); };
     auto readAll= [this, description, protocol]()
     {
@@ -337,6 +344,7 @@ void UpnpNat::addPortMapping(const QString& description, const QString& destinat
         setStatus(NAT_STAT::NAT_ADD);
     };
 
+    qDebug() << "add port mapping 6";
     tcpConnect(host, port, connected, readAll);
 }
 
