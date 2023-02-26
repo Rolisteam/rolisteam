@@ -29,13 +29,49 @@
 
 #include "controller/view_controller/mindmapcontroller.h"
 #include "mindmap/model/nodeimageprovider.h"
+#include "mindmap/data/minditem.h"
 #include <common_qml/theme.h>
+#include "mindmap/data/nodestyle.h"
+#include "utils/mappinghelper.h"
+#include "controller/view_controller/sidemenucontroller.h"
+#include "mindmap/qmlItems/linkitem.h"
+
+void registerMindmapType()
+{
+    qRegisterMetaType<PlayerModel*>("PlayerModel*");
+    qRegisterMetaType<customization::Theme*>("customization::Theme*");
+    qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");
+
+    qmlRegisterAnonymousType<PlayerModel>("PlayerModel", 1);
+
+    qmlRegisterSingletonType<customization::Theme>("Customization", 1, 0, "Theme",
+                                                   [](QQmlEngine* engine, QJSEngine*) -> QObject*
+                                                   {
+                                                       auto instead= customization::Theme::instance();
+                                                       engine->setObjectOwnership(instead, QQmlEngine::CppOwnership);
+                                                       return instead;
+                                                   });
+
+    qmlRegisterType<utils::MappingHelper>("utils", 1, 0, "MappingHelper");
+    qmlRegisterUncreatableType<mindmap::MindMapControllerBase>("mindmap", 1, 0, "MindMapController",
+                                                               "MindMapController can't be created in qml");
+    qmlRegisterUncreatableType<mindmap::MindItem>("mindmap", 1, 0, "MindItem", "Enum only");
+    qmlRegisterType<mindmap::SelectionController>("mindmap", 1, 0, "SelectionController");
+    qmlRegisterUncreatableType<RemotePlayerModel>("mindmap", 1, 0, "RemotePlayerModel", "property values");
+    qmlRegisterType<mindmap::LinkItem>("mindmap", 1, 0, "MindLink");
+    qmlRegisterType<mindmap::NodeStyle>("mindmap", 1, 0, "NodeStyle");
+    qmlRegisterUncreatableType<mindmap::PositionedItem>("mindmap", 1, 0, "PositionedItem", "Enum only");
+    qmlRegisterType<mindmap::SideMenuController>("mindmap", 1, 0, "SideMenuController");
+    qmlRegisterUncreatableType<mindmap::MindItemModel>("mindmap", 1, 0, "MindItemModel",
+                                                       "MindItemModel can't be created in qml");
+}
 
 MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::MindMapContainer, parent)
     , m_qmlViewer(new QQuickWidget())
     , m_ctrl(ctrl)
 {
+    registerMindmapType();
     // auto format= QSurfaceFormat::defaultFormat();
     auto format= m_qmlViewer->format();
     if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)

@@ -109,7 +109,7 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
                                                                              Overlay::Ratio::Ratio_Unconstrained);
     m_overlay->initRect();
 
-    connect(m_ctrl, &ImageSelectorController::imageDataChanged, this, [this, checkButton]() {
+    connect(m_ctrl, &ImageSelectorController::pixmapChanged, this, [this, checkButton]() {
         if(m_ctrl->isMovie())
         {
             auto movie= m_ctrl->movie();
@@ -166,7 +166,15 @@ void ImageSelectorDialog::resizeLabel()
     if(!isVisible())
         return;
 
-    auto pix= m_ctrl->pixmap();
+    m_ctrl->setVisualSize(ui->scrollArea->viewport()->rect().size());
+    auto thumbnail = m_ctrl->thumbnail();
+
+    m_imageViewerLabel->resize(thumbnail.size());
+    m_overlay->resize(thumbnail.size());
+    m_overlay->setSelectedRect(thumbnail.rect());
+
+
+    /*auto pix= m_ctrl->pixmap();
     auto const sImg= pix.size();
 
     int w= ui->scrollArea->viewport()->rect().width();
@@ -194,7 +202,7 @@ void ImageSelectorDialog::resizeLabel()
     }
 
     m_overlay->resize(m_imageViewerLabel->rect().size());
-    m_overlay->setSelectedRect(m_overlay->rect());
+    m_overlay->setSelectedRect(m_overlay->rect());*/
 }
 
 void ImageSelectorDialog::resizeEvent(QResizeEvent* event)

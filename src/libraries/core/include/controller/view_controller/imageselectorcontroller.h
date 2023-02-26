@@ -34,7 +34,8 @@ class CORE_EXPORT ImageSelectorController : public QObject
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(Sources sources READ sources CONSTANT)
     Q_PROPERTY(QByteArray imageData READ imageData NOTIFY imageDataChanged)
-    Q_PROPERTY(QPixmap pixmap READ pixmap NOTIFY imageDataChanged)
+    Q_PROPERTY(QPixmap pixmap READ pixmap NOTIFY pixmapChanged)
+    Q_PROPERTY(QPixmap thumbnail READ thumbnail NOTIFY pixmapChanged)
     Q_PROPERTY(bool canDrop READ canDrop CONSTANT)
     Q_PROPERTY(bool canPaste READ canPaste CONSTANT)
     Q_PROPERTY(bool canDownload READ canDownload NOTIFY addressChanged)
@@ -48,6 +49,8 @@ class CORE_EXPORT ImageSelectorController : public QObject
     Q_PROPERTY(QRect rect READ rect WRITE setRect NOTIFY rectChanged)
     Q_PROPERTY(bool rectInShape READ rectInShape NOTIFY rectChanged)
     Q_PROPERTY(bool dataInShape READ dataInShape NOTIFY imageDataChanged)
+    Q_PROPERTY(QSize visualSize READ visualSize WRITE setVisualSize NOTIFY visualSizeChanged)
+
 public:
     enum Shape
     {
@@ -78,6 +81,7 @@ public:
     bool validData() const;
 
     QPixmap pixmap() const;
+    QPixmap thumbnail() const;
     QByteArray imageData() const;
     Shape shape() const;
     ImageSelectorController::Sources sources() const;
@@ -87,6 +91,7 @@ public:
     bool hasContentToPaste() const;
     bool rectInShape() const;
     bool dataInShape() const;
+    QSize visualSize() const;
 
     bool isMovie() const;
     QMovie* movie();
@@ -102,15 +107,18 @@ public slots:
     void setTitle(const QString& title);
     void setAddress(const QString& address);
     void setRect(const QRect& rect);
+    void setVisualSize(const QSize& visualSize);
 
 signals:
     void imageDataChanged();
+    void pixmapChanged();
     void askPathChanged();
     void currentDirChanged();
     void addressChanged();
     void titleChanged();
     void contentToPasteChanged();
     void rectChanged();
+    void visualSizeChanged();
 
 private:
     void setAddressPrivate(const QUrl& url);
@@ -128,6 +136,11 @@ private:
     QString m_currentDir;
     bool m_contentToPaste= false;
     QRect m_rect;
+    QSize m_visualSize;
+    QRect m_imageRect;
+    QPixmap m_pixmap;
+    QPixmap m_thumbnail;
+    qreal m_factor;
 
     std::unique_ptr<QNetworkAccessManager> m_manager;
 };

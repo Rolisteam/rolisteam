@@ -11,6 +11,7 @@
 #include <QPointer>
 #include <QSettings>
 #include <memory>
+#include <QDir>
 
 #include "network/characterdatamodel.h"
 
@@ -34,7 +35,7 @@ public:
     void setArgumentProfile(QString host, int port, QByteArray password);
 
 public slots:
-    QByteArray openImage(const QString& path);
+    QByteArray openImage(const QString& path = QDir::homePath());
     void selectPlayerAvatar();
     void selectCampaignPath();
 

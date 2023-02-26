@@ -140,7 +140,6 @@ bool SelectConnProfileController::validCampaignPath() const
 {
     return currentProfile() ? currentProfile()->campaignInfoValid() : false;
 }
-
 bool SelectConnProfileController::isGameMaster() const
 {
     return currentProfile() ? currentProfile()->isGM() : false;

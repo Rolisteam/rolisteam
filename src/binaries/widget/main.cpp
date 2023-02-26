@@ -103,19 +103,6 @@ int main(int argc, char* argv[])
     Q_INIT_RESOURCE(rolisteam);
     Q_INIT_RESOURCE(resources);
 
-    // INIT OPEN GL
-    /*auto format= QSurfaceFormat::defaultFormat();
-    if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
-    {
-        format.setVersion(3, 2);
-        format.setProfile(QSurfaceFormat::CoreProfile);
-    }
-    format.setDepthBufferSize(24);
-    format.setStencilBufferSize(8);
-    // format.setSamples(8);
-    QSurfaceFormat::setDefaultFormat(format);*/
-    //   QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat());
-
     // INIT STYLE
     QQuickStyle::setStyle("rolistyle");
     QQuickStyle::setFallbackStyle("Fusion");

@@ -184,6 +184,7 @@ private:
     QString m_infoMsg;
     ConnectionState m_connectionState= ConnectionState::IDLE;
     bool m_protect= false;
+    QUrl m_urlImage;
 };
 
 #endif // SELECTCONNPROFILECONTROLLER_H

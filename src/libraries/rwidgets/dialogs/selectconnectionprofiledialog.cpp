@@ -95,6 +95,7 @@ void SelectConnectionProfileDialog::setArgumentProfile(QString host, int port, Q
 
 QByteArray SelectConnectionProfileDialog::openImage(const QString& path)
 {
+    qDebug() << "path" << path;
     QFileInfo info(path);
     ImageSelectorController ctrl(true, ImageSelectorController::All, ImageSelectorController::Square,
                                  info.absoluteFilePath());
@@ -103,12 +104,14 @@ QByteArray SelectConnectionProfileDialog::openImage(const QString& path)
     if(QDialog::Accepted != dialog.exec())
         return {};
 
+    ctrl.address();
+
     return ctrl.finalImageData();
 }
 
 void SelectConnectionProfileDialog::selectPlayerAvatar()
 {
-    auto data= openImage(m_ctrl->playerAvatar());
+    auto data= openImage();//m_ctrl->playerAvatar()
 
     if(data.isEmpty())
         return;
@@ -140,7 +143,7 @@ void SelectConnectionProfileDialog::selectCharacterAvatar(int i)
     auto characters= m_ctrl->characterModel();
     auto character= characters->character(i);
 
-    auto data= openImage(m_ctrl->playerAvatar());
+    auto data= openImage();//m_ctrl->playerAvatar()
 
     if(data.isEmpty())
         return;

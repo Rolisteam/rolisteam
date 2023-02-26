@@ -174,5 +174,8 @@
         <file>resources/rolistheme/share_doc.svg</file>
         <file>resources/rolistheme/view-page-continuous.png</file>
         <file>resources/rolistheme/gm_icon.svg</file>
+        <file>resources/rolistheme/edit-paste.svg</file>
+        <file>resources/rolistheme/emblem-downloads.svg</file>
+        <file>resources/rolistheme/document-open.svg</file>
     </qresource>
 </RCC>

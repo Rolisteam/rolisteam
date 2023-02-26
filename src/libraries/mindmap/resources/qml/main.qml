@@ -1,7 +1,7 @@
 import QtQuick
 import mindmap
 import Customization
-import utils
+//import utils
 
 Item {
     visible: true

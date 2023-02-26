@@ -23,9 +23,11 @@
 #include <QGuiApplication>
 #include <QMimeData>
 #include <QNetworkReply>
+#include <QtConcurrent>
 
 #include "utils/iohelper.h"
 #include "worker/iohelper.h"
+#include "worker/utilshelper.h"
 
 ImageSelectorController::ImageSelectorController(bool askPath, Sources sources, Shape shape, const QString& directory,
                                                  QObject* parent)
@@ -36,6 +38,20 @@ ImageSelectorController::ImageSelectorController(bool askPath, Sources sources, 
     connect(m_manager.get(), &QNetworkAccessManager::finished, this,
             [this](QNetworkReply* reply) { setImageData(reply->readAll()); });
 #endif
+
+    connect(this, &ImageSelectorController::imageDataChanged,  this, [this](){
+        helper::utils::setContinuation<std::pair<QPixmap,QPixmap>>(QtConcurrent::run([this](){
+            auto main = QImage::fromData(m_data);
+            return std::make_pair(QPixmap::fromImage(main),QPixmap::fromImage(main).scaled(m_visualSize, Qt::KeepAspectRatio));
+        }),this,  [this](const std::pair<QPixmap,QPixmap>& imgs){
+
+            m_pixmap = imgs.first;
+            m_thumbnail = imgs.second;
+
+            m_factor = static_cast<qreal>(m_pixmap.width()) / static_cast<qreal>(m_thumbnail.width());
+            emit pixmapChanged();
+       });
+    });
 
     auto clipboard= QGuiApplication::clipboard();
     connect(clipboard, &QClipboard::dataChanged, this, &ImageSelectorController::contentToPasteChanged);
@@ -75,8 +91,14 @@ bool ImageSelectorController::validData() const
 
 QPixmap ImageSelectorController::pixmap() const
 {
-    return QPixmap::fromImage(QImage::fromData(m_data));
+    return m_pixmap;//QPixmap::fromImage(QImage::fromData(m_data));
 }
+
+QPixmap ImageSelectorController::thumbnail() const
+{
+    return m_thumbnail;//QPixmap::fromImage();
+}
+
 
 QByteArray ImageSelectorController::imageData() const
 {
@@ -127,6 +149,11 @@ bool ImageSelectorController::dataInShape() const
     if(m_shape == Square)
         res &= (dataGeo.height() == dataGeo.width());
     return res;
+}
+
+QSize ImageSelectorController::visualSize() const
+{
+    return m_visualSize;
 }
 
 bool ImageSelectorController::rectInShape() const
@@ -208,8 +235,12 @@ QByteArray ImageSelectorController::finalImageData() const
     auto data= imageData();
     if(m_shape != AnyShape)
     {
-        QPixmap map= pixmap();
-        data= IOHelper::pixmapToData(map.copy(m_rect));
+        auto rect = QRect(m_rect.x() * m_factor,
+                          m_rect.y()* m_factor,
+                          m_rect.width() * m_factor,
+                          m_rect.height() * m_factor);
+        qDebug() << "finalImageData:" << m_rect  << rect<< m_pixmap.width();
+        data= IOHelper::pixmapToData(m_pixmap.copy(rect));
     }
     return data;
 }
@@ -252,10 +283,20 @@ void ImageSelectorController::setAddress(const QString& address)
 
 void ImageSelectorController::setRect(const QRect& rect)
 {
+    qDebug() << "rect:" << rect;
     if(rect == m_rect)
         return;
     m_rect= rect;
     emit rectChanged();
+}
+
+void ImageSelectorController::setVisualSize(const QSize &visualSize)
+{
+    if(visualSize == m_visualSize)
+        return ;
+    m_visualSize = visualSize;
+    emit visualSizeChanged();
+    m_thumbnail = QPixmap::fromImage(QImage::fromData(m_data)).scaled(m_visualSize, Qt::KeepAspectRatio);
 }
 
 void ImageSelectorController::setImageData(const QByteArray& array)
