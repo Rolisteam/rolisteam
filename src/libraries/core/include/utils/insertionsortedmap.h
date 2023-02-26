@@ -27,39 +27,39 @@ private:
 };
 
 template <class Key, class Value>
-CORE_EXPORT InsertionSortedMap<Key, Value>::InsertionSortedMap()
+InsertionSortedMap<Key, Value>::InsertionSortedMap()
 {
 }
 
 template <class Key, class Value>
-CORE_EXPORT void InsertionSortedMap<Key, Value>::append(const Key& key, const Value& value)
+void InsertionSortedMap<Key, Value>::append(const Key& key, const Value& value)
 {
     m_keys.append(key);
     m_data.insert(key, value);
 }
 
 template <class Key, class Value>
-CORE_EXPORT void InsertionSortedMap<Key, Value>::insert(int pos, const Key& key, const Value& value)
+void InsertionSortedMap<Key, Value>::insert(int pos, const Key& key, const Value& value)
 {
     m_keys.insert(pos, key);
     m_data.insert(key, value);
 }
 
 template <class Key, class Value>
-CORE_EXPORT void InsertionSortedMap<Key, Value>::prepend(const Key& key, const Value& value)
+void InsertionSortedMap<Key, Value>::prepend(const Key& key, const Value& value)
 {
     m_keys.prepend(key);
     m_data.insert(key, value);
 }
 
 template <class Key, class Value>
-CORE_EXPORT const Value InsertionSortedMap<Key, Value>::getValue(const Key& key) const
+const Value InsertionSortedMap<Key, Value>::getValue(const Key& key) const
 {
     return m_data.value(key);
 }
 
 template <class Key, class Value>
-CORE_EXPORT const Value InsertionSortedMap<Key, Value>::getValueFromIndex(int index) const
+const Value InsertionSortedMap<Key, Value>::getValueFromIndex(int index) const
 {
     Q_ASSERT(index >= 0);
     Q_ASSERT(index < m_keys.size());

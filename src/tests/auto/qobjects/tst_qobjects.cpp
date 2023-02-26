@@ -311,7 +311,6 @@
 #include "updater/vmapitem/textcontrollerupdater.h"
 #include "updater/vmapitem/vmapitemcontrollerupdater.h"
 #include "utils/countdownobject.h"
-#include "utils/insertionsortedmap.h"
 #include "utils/iohelper.h"
 #include "utils/networkdownloader.h"
 #include "worker/autosavecontroller.h"

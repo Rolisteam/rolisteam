@@ -24,12 +24,13 @@
 #include <vector>
 
 #include <common/common_types.h>
+#include "common/common_global.h"
 
 class QNetworkAccessManager;
 /**
  * @brief The LogUploader class dedicated to be call from a thread to send its log messages.
  */
-class LogUploader : public QObject
+class COMMON_EXPORT LogUploader : public QObject
 {
     Q_OBJECT
 public:

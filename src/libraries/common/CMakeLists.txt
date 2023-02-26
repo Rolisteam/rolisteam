@@ -22,11 +22,8 @@ find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPON
 set(common_core_public_headers include/common/common_global.h
     include/common/remotelogcontroller.h
     include/common/logcontroller.h
-    include/common/common_types.h)
-
-set(common_core_header
-  task/uploadlogtoserver.h
-)
+    include/common/common_types.h
+    include/common/uploadlogtoserver.h)
 
 set(common_core_src
   task/uploadlogtoserver.cpp
@@ -36,7 +33,7 @@ set(common_core_src
 
 
 
-add_library(common_core SHARED ${common_core_header} ${common_core_src} ${common_core_public_headers})
+add_library(common_core SHARED ${common_core_src} ${common_core_public_headers})
 target_compile_definitions(common_core PRIVATE COMMON_LIBRARY)
 set_target_properties(common_core PROPERTIES PUBLIC_HEADER "${common_core_public_headers}")
 target_link_libraries(common_core PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network)

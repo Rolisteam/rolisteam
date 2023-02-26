@@ -286,6 +286,7 @@ target_link_libraries(rwidgets
         charactersheet
         charactersheet_widgets
         qml_views
+        common_qml
         common_widget
         rmindmap
         qml_components

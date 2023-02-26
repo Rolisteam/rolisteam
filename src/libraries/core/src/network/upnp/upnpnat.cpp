@@ -112,8 +112,7 @@ void UpnpNat::init(int time, int inter)
 void UpnpNat::tcpConnect(const QString& host, int port, std::function<void()> onConnected,
                          std::function<void()> onReadReady)
 {
-
-    m_tcpSocket.reset(new QTcpSocket(this));
+	m_tcpSocket.reset(new QTcpSocket(this));
 
     connect(m_tcpSocket.get(), &QTcpSocket::readyRead, this, [onReadReady]() { onReadReady(); });
 

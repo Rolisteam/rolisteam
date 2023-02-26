@@ -17,7 +17,7 @@ class QObject;
 namespace Helper
 {
 template <typename Iterator>
-HELPER_EXPORT bool next_combination(const Iterator first, Iterator k, const Iterator last)
+bool next_combination(const Iterator first, Iterator k, const Iterator last)
 {
     /* Credits: Mark Nelson http://marknelson.us */
     if((first == last) || (first == k) || (last == k))

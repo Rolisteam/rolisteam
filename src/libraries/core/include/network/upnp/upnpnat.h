@@ -5,13 +5,14 @@
 #include <QObject>
 #include <string>
 #include <vector>
+#include "network_global.h"
 
 constexpr int DefaultTimeOut{10};
 constexpr int DefaultInterval{200};
 
 class QTcpSocket;
 class QUdpSocket;
-class UpnpNat : public QObject
+class NETWORK_EXPORT UpnpNat : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)

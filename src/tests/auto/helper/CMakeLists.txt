@@ -8,7 +8,7 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Test Htt
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-add_library(helper SHARED helper.cpp helper.h ../assets/resources.qrc )
+add_library(helper SHARED helper.cpp helper.h helper_global.h ../assets/resources.qrc )
 target_link_libraries(helper PUBLIC Qt6::Core Qt6::Test  Qt6::HttpServer PRIVATE core utils)
 
 target_compile_definitions(helper PRIVATE HELPER_LIBRARY)

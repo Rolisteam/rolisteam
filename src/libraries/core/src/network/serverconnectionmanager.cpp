@@ -548,15 +548,14 @@ void ServerConnectionManager::removeSocket(QTcpSocket* socket)
     if(socket->isOpen())
     {
         qDebug() << this << "socket is open, attempting to close it " << socket;
-        socket->disconnect();
-        socket->close();
+        QMetaObject::invokeMethod(socket, &QTcpSocket::close);
     }
 
     qDebug() << this << "deleting socket" << socket;
     auto client= m_connections.value(socket);
     m_connections.remove(socket);
 
-    socket->deleteLater();
+    QMetaObject::invokeMethod(socket, &QTcpSocket::deleteLater);
     client->deleteLater();
 
     qDebug() << this << "client count = " << m_connections.count();
