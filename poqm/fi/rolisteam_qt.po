@@ -572,7 +572,7 @@ msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
 msgstr ""
-"Luotu QML-koodi ohittaa QML:ään tekemäsi muutokset.<br>Haluatko varmasti "
+"Luotu QML-koodi ohittaa QML:ään tekemäsi muutokset.<br/>Haluatko varmasti "
 "luoda QML-koodin?"
 
 #: src/binaries/rcse/mainwindow.cpp:790
