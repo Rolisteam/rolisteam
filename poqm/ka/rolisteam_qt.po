@@ -565,7 +565,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:790
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet View"
-msgstr ""
+msgstr "CharacterSheet-ის ხედის შენახვა"
 
 #: src/binaries/rcse/mainwindow.cpp:791
 msgctxt "MainWindow|"
@@ -793,7 +793,7 @@ msgstr "გვერდზე #%1 ფონის დამატება"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Page #%1 and Set background on it"
-msgstr ""
+msgstr "#%1 გვერდის დამატება და მასზე ფონის დაყენება"
 
 #: src/binaries/rcse/undo/setfieldproperties.cpp:34
 #, qt-format
@@ -805,7 +805,7 @@ msgstr "%1 თვისების დაყენება"
 #, qt-format
 msgctxt "QObject|"
 msgid "Set property on all characters: %1"
-msgstr ""
+msgstr "თვისების დაყენება ყველა სიმბოლოზე: %1"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
@@ -880,7 +880,7 @@ msgstr "ფერის მიღება"
 #: src/binaries/server/main.cpp:109
 msgctxt "QObject|"
 msgid "Set the path to configuration file [mandatory]"
-msgstr ""
+msgstr "დააყენეთ ბილიკი კონფიგურაციის ფაილამდე [აუცილებელია]"
 
 #: src/binaries/server/main.cpp:112
 msgctxt "QObject|"
@@ -890,7 +890,7 @@ msgstr ""
 #: src/binaries/server/main.cpp:115
 msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
-msgstr ""
+msgstr "პაროლის კითხვა და მისი ჰეშის გასაღების დაბრუნება."
 
 #: src/binaries/widget/mainwindow.cpp:349
 msgctxt "MainWindow|"
@@ -992,7 +992,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.cpp:931
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
-msgstr ""
+msgstr "პარამეტრების წაშლა და ნაგულისხმები მნიშვნელობების გამოყენება"
 
 #: src/binaries/widget/mainwindow.cpp:934
 msgctxt "MainWindow|"
@@ -1367,13 +1367,13 @@ msgstr "კომენტარი"
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
-msgstr ""
+msgstr "%1-ზე კომპანიის ნიმუშის შექმნა შეუძლებელია"
 
 #: src/libraries/core/src/data/campaignmanager.cpp:132
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
-msgstr ""
+msgstr "ამ მდებარეობაზე კამპანიის ნიმუშის შექმნა შეუძლებელია: %1"
 
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
@@ -1584,7 +1584,7 @@ msgstr "სიცოცხლის ფერი"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
 msgid "Init Command"
-msgstr ""
+msgstr "ბრძანება Init"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
@@ -1778,13 +1778,13 @@ msgstr "უცნობი სიმბოლო"
 #: src/libraries/core/src/network/rserver.cpp:38
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
-msgstr ""
+msgstr "[Upnp] პორტების გადამისამართება შესრულებულია"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:247
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "Authentification as Admin fails: %2 - %1, Wrong password."
-msgstr ""
+msgstr "ადმინის მომხმარებლით ავთენტიკაციის შეცდომა: %2 - %1, პაროლი არასწორია."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:273
 #, qt-format
@@ -1792,28 +1792,29 @@ msgctxt "ServerConnectionManager|"
 msgid ""
 "Authentification fails: %1 try to connect to the server with wrong password."
 msgstr ""
+"ავთენტიკაციის სეცდომა: %1-ი სერვერთან მიერთებას არასწორი პაროლით ცდილობს."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:291
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User has been kick out: %2 - %1."
-msgstr ""
+msgstr "მომხმარებელი გაგდებულია: %2 - %1."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:481
 msgctxt "ServerConnectionManager|"
 msgid "New Incoming Connection!"
-msgstr ""
+msgstr "ახალი შემომავალი შეერთება!"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:535
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User %1 has been disconnected!"
-msgstr ""
+msgstr "მომხმარებელი %1 გაითიშა!"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:166
 msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
-msgstr ""
+msgstr "სერვერის პასუხიდან URL-ის წაკითხვის სეცდომა"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:274
 msgctxt "UpnpNat|"
@@ -1835,7 +1836,7 @@ msgstr ""
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
 msgid "Error to read server IP."
-msgstr ""
+msgstr "სერვერის IP-ის წაკითხვის შეცდომა."
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
@@ -1850,18 +1851,18 @@ msgstr "ბილიკი"
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Conceal vectorial map"
-msgstr ""
+msgstr "ვექტორული რუკის დამალვა"
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Unveil vectorial map"
-msgstr ""
+msgstr "ვექტორული რუკის გამოჩენა"
 
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:30
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
-msgstr ""
+msgstr "სიმბოლოს დამატება %1-ში"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:34
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
@@ -2550,7 +2551,7 @@ msgstr "გაუქმება"
 #, qt-format
 msgctxt "ChangeStackOrderVMapCommand|"
 msgid "Change stack order of %1 item(s)"
-msgstr ""
+msgstr "%1 ელემენტის დალაგების მიმდევრობის შეცვლა"
 
 #: src/libraries/rwidgets/commands/movevmapitem.cpp:34
 #, qt-format
@@ -2720,6 +2721,8 @@ msgid ""
 "You are about to load an new playlist. All previously load file will be "
 "dropped."
 msgstr ""
+"აპირებთ, ახალი დასაკრავი სია ჩატვირთოთ. უკვე ჩატვირთული ფაილი მოცილებული "
+"იქნება."
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:296
 msgctxt "PlayerWidget|"
@@ -2838,17 +2841,17 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:505
 msgctxt "RGraphicsView|"
 msgid "Zoom to Normal"
-msgstr ""
+msgstr "ნორმალურ ზომაზე გადიდება"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:506
 msgctxt "RGraphicsView|"
 msgid "Zoom In Max"
-msgstr ""
+msgstr "მაქსიმალური გადიდება"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:507
 msgctxt "RGraphicsView|"
 msgid "Zoom Out Max"
-msgstr ""
+msgstr "მაქსიმალური დაპატარავება"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
 msgctxt "RGraphicsView|"
@@ -2908,17 +2911,17 @@ msgstr "თაგუნას ქვეშ მოქცეული რაღა
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:558
 msgctxt "RGraphicsView|"
 msgid "As the Bigger"
-msgstr ""
+msgstr "როგორც უფრო დიდი"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:561
 msgctxt "RGraphicsView|"
 msgid "As the Smaller"
-msgstr ""
+msgstr "როგორც უფრო პატარა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:564
 msgctxt "RGraphicsView|"
 msgid "Lock/Unlock Item Geometry"
-msgstr ""
+msgstr "ელემენტის გეომეტრიის დაბლოკვა/განბლოკვა"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
 msgctxt "RGraphicsView|"
@@ -3486,7 +3489,7 @@ msgstr "არხის პაროლი"
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Password for channel: %1 - leave empty for no password"
-msgstr ""
+msgstr "არხის პაროლი: %1 - დატოვეთ ცარიელი, თუ პაროლი საჭირო არაა"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 #, qt-format
@@ -3703,7 +3706,7 @@ msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; ყველა
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:267
 msgctxt "OOReader|"
 msgid "Unable to convert document body!"
-msgstr ""
+msgstr "დოკუმენტის სხეულის გადაყვანა შეუძლებელია!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
 msgctxt "XMLTextEdit|"
@@ -3725,7 +3728,7 @@ msgstr "XML სწორია."
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "All tag are valid size %1."
-msgstr ""
+msgstr "ყველა ჭდე სწორი ზომისაა %1."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
@@ -3740,17 +3743,17 @@ msgstr "XML ფაილის ნულოვანი ზომა!"
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:89
 msgctxt "XMLTextEdit|"
 msgid "Zoom In CTRL/+"
-msgstr ""
+msgstr "გადიდება CTRL/+"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:90
 msgctxt "XMLTextEdit|"
 msgid "Zoom Out CTRL/-"
-msgstr ""
+msgstr "დაპატარავება CTRL/-"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:91
 msgctxt "XMLTextEdit|"
 msgid "Check xml syntax"
-msgstr ""
+msgstr "XML-ის სინტაქსის შემოწმება"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/notecontainer.cpp:37
 #, qt-format
@@ -3880,6 +3883,8 @@ msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
 msgstr ""
+"დოკუმენტი შეიცვალა\n"
+"გნებავთ ცვლილებების შენახვა?"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:472
 msgctxt "TextEdit|"
@@ -4246,7 +4251,7 @@ msgstr "ფანჯარაში ჩატევა"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:254
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
-msgstr ""
+msgstr "გამოსახულება ფანჯარაში ჩასატევად საუკეთესო ზომებს მიიღებს."
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
@@ -4261,7 +4266,7 @@ msgstr "პატარა"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:265
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
-msgstr ""
+msgstr "გადიდების მასშტაბის დაყენება 20%-ზე "
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|Set the zoom level at 20%"
@@ -4291,7 +4296,7 @@ msgstr "დიდი"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:287
 msgctxt "Image|"
 msgid "Set the zoom level at 400%"
-msgstr ""
+msgstr "გადიდების მასშტაბის დაყენება 400%-ზე"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:290
 msgctxt "Image|Zoom Out"
