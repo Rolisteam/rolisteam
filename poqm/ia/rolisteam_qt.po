@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-03-16 23:39+0100\n"
+"PO-Revision-Date: 2023-03-22 17:50+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -26,12 +26,12 @@ msgstr ""
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
-msgstr ""
+msgstr "Imagines (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/binaries/mindmap/MindMap.qml:80
 msgctxt "MindMap|"
 msgid "Images (*.png)"
-msgstr ""
+msgstr "Imagines (*.png)"
 
 #: src/binaries/rcse/borderlisteditor.cpp:29
 msgctxt "BorderListEditor|"
@@ -799,7 +799,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Set Property %1"
-msgstr ""
+msgstr "Fixa proprietate %1"
 
 #: src/binaries/rcse/undo/setpropertyonallcharacters.cpp:15
 #, qt-format
@@ -855,7 +855,7 @@ msgstr ""
 #: src/binaries/rcse/widgets/fieldview.cpp:66
 msgctxt "FieldView|"
 msgid "Id columns"
-msgstr ""
+msgstr "Columnas de id"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:73
 msgctxt "FieldView|"
@@ -1099,12 +1099,12 @@ msgstr ""
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
 msgctxt "example|"
 msgid "Nom"
-msgstr ""
+msgstr "Nom"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:25
 msgctxt "example|"
 msgid "Prenom"
-msgstr ""
+msgstr "Prenom"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:33
 msgctxt "example|"
@@ -1162,22 +1162,22 @@ msgstr ""
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:27
 msgctxt "Table|"
 msgid "Add line"
-msgstr ""
+msgstr "Adde rango"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:31
 msgctxt "Table|"
 msgid "Remove current Line"
-msgstr ""
+msgstr "Remove rango currente"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:37
 msgctxt "Table|"
 msgid "Remove Last line"
-msgstr ""
+msgstr "Remove ultime rango"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:529
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
-msgstr ""
+msgstr "Nomine de campos"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:567
 #, qt-format
@@ -1189,7 +1189,7 @@ msgstr ""
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
-msgstr ""
+msgstr "Section_%1"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:598
 #, qt-format
@@ -1493,7 +1493,7 @@ msgstr "Typo"
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Date Added"
-msgstr ""
+msgstr "Data addite"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
@@ -1872,22 +1872,22 @@ msgstr "Linea"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:35
 msgctxt "QObject|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "Ellipse Reimplite"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:36
 msgctxt "QObject|"
 msgid "Empty Ellipse"
-msgstr ""
+msgstr "Ellipse Vacue"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:37
 msgctxt "QObject|"
 msgid "Empty Rectangle"
-msgstr ""
+msgstr "Vacua rectangulo"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:38
 msgctxt "QObject|"
 msgid "Filled Rectangle"
-msgstr ""
+msgstr "Rectangulo reimplite"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:39
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
@@ -2045,18 +2045,18 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
-msgstr ""
+msgstr "Mappa vectorial (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:188
 #, qt-format
 msgctxt "QObject|"
 msgid "Mindmap (%1)"
-msgstr ""
+msgstr "Mindmap (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:202
 msgctxt "QObject|"
 msgid "Vectorial Map"
-msgstr ""
+msgstr "Mappa vectorial"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:203
 msgctxt "QObject|"
@@ -2076,12 +2076,12 @@ msgstr ""
 #: src/libraries/core/src/worker/utilshelper.cpp:206
 msgctxt "QObject|"
 msgid "Mindmap"
-msgstr ""
+msgstr "Mindmap"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:207
 msgctxt "QObject|"
 msgid "Shared Notes"
-msgstr ""
+msgstr "Notas compartite"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:208
 msgctxt "QObject|"
@@ -2106,7 +2106,7 @@ msgstr "Reface"
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:37
 msgctxt "ButtonGrid|"
 msgid "Save Map"
-msgstr ""
+msgstr "Salveguarda mappa"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:41
 msgctxt "ButtonGrid|"
@@ -2116,17 +2116,17 @@ msgstr "Aperi designator"
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:48
 msgctxt "ButtonGrid|"
 msgid "Add Root"
-msgstr ""
+msgstr "Adde Radce (root)"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:55
 msgctxt "ButtonGrid|"
 msgid "Add Package"
-msgstr ""
+msgstr "Adde pacchetto"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:60
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
-msgstr ""
+msgstr "Adde Flecha"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:65
 msgctxt "ButtonGrid|"
@@ -2161,12 +2161,12 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/Content.qml:69
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
-msgstr ""
+msgstr "Imagines (*.jpg *.png *.jpeg *.gif *.bmp)"
 
 #: src/libraries/mindmap/resources/qml/Content.qml:80
 msgctxt "Content|"
 msgid "Images (*.png)"
-msgstr ""
+msgstr "Imagines (*.png)"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:19
 msgctxt "DrawerMenu|"
@@ -2176,12 +2176,12 @@ msgstr "Nomine"
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:29
 msgctxt "DrawerMenu|"
 msgid "Night Mode"
-msgstr ""
+msgstr "Modo de Nocte"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:36
 msgctxt "DrawerMenu|"
 msgid "Default Style"
-msgstr ""
+msgstr "Stilo predefinite"
 
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:57
 #: src/libraries/mindmap/resources/qml/DrawerMenu.qml:80
@@ -2196,6 +2196,8 @@ msgid ""
 "Errors:\n"
 "%1"
 msgstr ""
+"Errores:\n"
+"%1"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:67
 msgctxt "MindMap|"
@@ -2205,7 +2207,7 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:10
 msgctxt "MindMenu|"
 msgid "Add Root"
-msgstr ""
+msgstr "Adde Radce (root)"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:23
 msgctxt "MindMenu|"
@@ -2277,7 +2279,7 @@ msgstr "Nomine"
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:19
 msgctxt "SideMenu|"
 msgid "Night Mode"
-msgstr ""
+msgstr "Modo de Nocte"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:46
 msgctxt "SideMenu|"
@@ -2287,7 +2289,7 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:53
 msgctxt "SideMenu|"
 msgid "Default Style"
-msgstr ""
+msgstr "Stilo predefinite"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:74
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:97
@@ -2375,7 +2377,7 @@ msgstr ""
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
 msgid "Permission"
-msgstr ""
+msgstr "Permission"
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:19
 msgctxt "PermissionFrame|"
@@ -2921,7 +2923,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
 msgctxt "RGraphicsView|"
 msgid "Duplicate Item"
-msgstr ""
+msgstr "Elemento Duplicate"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:575
 msgctxt "RGraphicsView|"
@@ -2965,7 +2967,7 @@ msgstr "Celate"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:624
 msgctxt "RGraphicsView|"
 msgid "Fog Of War"
-msgstr ""
+msgstr "Fog of War (Nebula de guerra)"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:636
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:651
@@ -3151,7 +3153,7 @@ msgstr "Aperi file de imagine"
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
 msgctxt "NewFileDialog|"
 msgid "Shared Notes"
-msgstr ""
+msgstr "Notas compartite"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:38
 msgctxt "NewFileDialog|"
@@ -3161,7 +3163,7 @@ msgstr "Notas"
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:39
 msgctxt "NewFileDialog|"
 msgid "MindMap"
-msgstr ""
+msgstr "Mindmap"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:126
 msgctxt "PreferencesDialog|"
@@ -3266,17 +3268,17 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "No Right"
-msgstr ""
+msgstr "Necun derecto"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "His character"
-msgstr ""
+msgstr "Su Character"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "All Permissions"
-msgstr ""
+msgstr "Omne permissiones"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
@@ -3286,7 +3288,7 @@ msgstr "Celate"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "Fog of War"
-msgstr ""
+msgstr "Fog of War (Nebula de guerra)"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
@@ -3337,7 +3339,7 @@ msgstr "Musica de fundo"
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"
-msgstr ""
+msgstr "Monstra/cela jocator %1"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:49
 msgctxt "campaign::CampaignDock|"
@@ -3352,12 +3354,12 @@ msgstr "Toto"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:52
 msgctxt "campaign::CampaignDock|"
 msgid "AudioFile"
-msgstr ""
+msgstr "AudioFile (File Audio)"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:53
 msgctxt "campaign::CampaignDock|"
 msgid "CharacterSheet"
-msgstr ""
+msgstr "CharacterSheet (Folio de Character)"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:54
 msgctxt "campaign::CampaignDock|"
@@ -3372,7 +3374,7 @@ msgstr "Mappa"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:56
 msgctxt "campaign::CampaignDock|"
 msgid "Mindmap"
-msgstr ""
+msgstr "Mindmap"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:57
 msgctxt "campaign::CampaignDock|"
@@ -3422,17 +3424,17 @@ msgstr ""
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:39
 msgctxt "ChannelListPanel|"
 msgid "Add channel"
-msgstr ""
+msgstr "Adde Canale"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:40
 msgctxt "ChannelListPanel|"
 msgid "Add subchannel"
-msgstr ""
+msgstr "Adde subcanale"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:41
 msgctxt "ChannelListPanel|"
 msgid "Delete Channel"
-msgstr ""
+msgstr "Dele Canale"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:42
 msgctxt "ChannelListPanel|"
@@ -3681,7 +3683,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
 msgid "Create a link"
-msgstr ""
+msgstr "Crea un ligamine"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
@@ -3696,7 +3698,7 @@ msgstr "Selige un image"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:667
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
-msgstr ""
+msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Omne (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:267
 msgctxt "OOReader|"
@@ -3887,7 +3889,7 @@ msgstr "Aperi file..."
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:529
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
-msgstr ""
+msgstr "Files ODF (*.odt);;HTML-Files (*.htm *.html);;Omne Files (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:531
 msgctxt "TextEdit|"
@@ -3955,7 +3957,7 @@ msgstr "Alias"
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Chinese Name"
-msgstr ""
+msgstr "Nomine Chinese"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
@@ -3965,17 +3967,17 @@ msgstr ""
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "English Name"
-msgstr ""
+msgstr "Nomine Anglese"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "French Name"
-msgstr ""
+msgstr "Nomine Francese"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Japanese Name"
-msgstr ""
+msgstr "Nomine Japonese"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:45
 msgctxt "NameGeneratorWidget|"
@@ -3985,7 +3987,7 @@ msgstr ""
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:45
 msgctxt "NameGeneratorWidget|"
 msgid "Russian Name"
-msgstr ""
+msgstr "Nomine Russo"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:34
 msgctxt "GMTOOL::CustomRuleModel|"
@@ -4045,12 +4047,12 @@ msgstr "Angulo"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:100
 msgctxt "CharacterItem|"
 msgid "Reduce Life"
-msgstr ""
+msgstr "Diminue Vita"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:101
 msgctxt "CharacterItem|"
 msgid "Increase Life"
-msgstr ""
+msgstr "Augmenta Vita"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:470
 msgctxt "CharacterItem|"
@@ -4095,7 +4097,7 @@ msgstr "Claude Percurso"
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:137
 msgctxt "PathItem|"
 msgid "Fill Path"
-msgstr ""
+msgstr "Reimple Percurso"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:137
 msgctxt "TextItem|"
@@ -4135,7 +4137,7 @@ msgstr "Ellipse"
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Rect"
-msgstr ""
+msgstr "Rect"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
@@ -4146,37 +4148,37 @@ msgstr "Regula "
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr ""
+msgstr "%1 -(Visor de Folio de Character)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
 msgid "To all"
-msgstr ""
+msgstr "A omne"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:542
 msgctxt "CharacterSheetWindow|"
 msgid "QML Errors"
-msgstr ""
+msgstr "Errores de QML"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:616
 msgctxt "CharacterSheetWindow|"
 msgid "Open Character Sheets View"
-msgstr ""
+msgstr "Aperi Vista de folios de character"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:618
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet files (*.qml)"
-msgstr ""
+msgstr "Files de folio de character (*.qml)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
-msgstr ""
+msgstr "Comparti a"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet Data files (*.rcs)"
-msgstr ""
+msgstr "Files de Folio de datos de folio de character (*.rcs)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:56
 #: src/libraries/rwidgets/mediacontainers/image.cpp:66
@@ -4199,7 +4201,7 @@ msgstr "Zoom In (aggrandir)"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:213
 msgctxt "Image|"
 msgid "increase zoom level"
-msgstr ""
+msgstr "augmenta nivello de zoom"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:217
 msgctxt "Image|Zoom In"
@@ -4214,7 +4216,7 @@ msgstr "Zoom out (diminue)"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:224
 msgctxt "Image|"
 msgid "Reduce zoom level"
-msgstr ""
+msgstr "Diminue nivello de zoom"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:227
 msgctxt "Image|Zoom Out"
@@ -4224,12 +4226,12 @@ msgstr "Ctrl+-"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:237
 msgctxt "Image|"
 msgid "Fit the workspace"
-msgstr ""
+msgstr "Adapta le spatio de labor"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:239
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
-msgstr ""
+msgstr "Le fenestra e le imagine adapta al spatio de labor"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|Fit the workspace"
@@ -4239,12 +4241,12 @@ msgstr "Ctrl+m"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:249
 msgctxt "Image|"
 msgid "Fit Window"
-msgstr ""
+msgstr "Adapta Fenestra"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:254
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
-msgstr ""
+msgstr "Imagine prendera le melior dimension per adaptar al fenestra."
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
@@ -4254,12 +4256,12 @@ msgstr "Ctrl+F"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:264
 msgctxt "Image|"
 msgid "Little"
-msgstr ""
+msgstr "Parve"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:265
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
-msgstr ""
+msgstr "Fixa le nivello de zoom a 20%"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|Set the zoom level at 20%"
@@ -4274,7 +4276,7 @@ msgstr "Normal"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:276
 msgctxt "Image|"
 msgid "No Zoom"
-msgstr ""
+msgstr "Nulle zoom"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|Normal"
@@ -4289,12 +4291,12 @@ msgstr "Grande"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:287
 msgctxt "Image|"
 msgid "Set the zoom level at 400%"
-msgstr ""
+msgstr "Fixa le nivello de zoom a 400%"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:290
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
-msgstr ""
+msgstr "Ctrl+b"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:295
 #: src/libraries/rwidgets/mediacontainers/image.cpp:307
@@ -4321,24 +4323,24 @@ msgstr "Messageria instantanee"
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:34
 msgctxt "MediaContainer|"
 msgid "Detach the view"
-msgstr ""
+msgstr "Distacca le vista"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:58
 msgctxt "QObject|"
 msgid "Loading error"
-msgstr ""
+msgstr "Error de incargar"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:113
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:115
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
-msgstr ""
+msgstr "%1 - Mindmap"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
-msgstr ""
+msgstr "Compartir file PDF"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:283
 msgctxt "PdfViewer|"
@@ -4356,7 +4358,7 @@ msgstr "%1 - (PDF)"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
 msgid "Fog Of War"
-msgstr ""
+msgstr "Fog of War (Nebula de guerra)"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
@@ -4366,39 +4368,39 @@ msgstr "Omne visibile"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
 msgid "No Right"
-msgstr ""
+msgstr "Necun derecto"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
 msgid "His character"
-msgstr ""
+msgstr "Su Character"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
 msgid "All Permissions"
-msgstr ""
+msgstr "Omne permissiones"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:56
 msgctxt "QObject|"
 msgid "Fog Layer"
-msgstr ""
+msgstr "Strato de nebula"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:57
 msgctxt "QObject|"
 msgid "Grid Layer"
-msgstr ""
+msgstr "Strato a Grillia"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:58
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:62
 msgctxt "QObject|"
 msgid "No Layer"
-msgstr ""
+msgstr "Necun Strato"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:83
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
-msgstr ""
+msgstr "%1 - visibilitate: %2 - permission: %3 - strato: %4"
 
 #: src/libraries/rwidgets/mediacontainers/webview.cpp:118
 #, qt-format
@@ -4409,7 +4411,7 @@ msgstr "%1 - Pagina de Web"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:25
 msgctxt "campaign::CampaignView|"
 msgid "Add directory…"
-msgstr ""
+msgstr "Adde directorio..."
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:26
 msgctxt "campaign::CampaignView|"
@@ -4419,7 +4421,7 @@ msgstr "Dele"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:27
 msgctxt "campaign::CampaignView|"
 msgid "Current Directory"
-msgstr ""
+msgstr "Directorio currente"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:28
 msgctxt "campaign::CampaignView|"
@@ -4430,12 +4432,12 @@ msgstr "Aperi"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:145
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
-msgstr ""
+msgstr "Aperi como..."
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
 msgid "Rename Media"
-msgstr ""
+msgstr "Renomina media"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:32
 msgctxt "campaign::CampaignView|"
@@ -4455,7 +4457,7 @@ msgstr "Typo"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:35
 msgctxt "campaign::CampaignView|"
 msgid "Date Added"
-msgstr ""
+msgstr "Data addite"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
 msgctxt "campaign::CampaignView|"
@@ -4470,17 +4472,17 @@ msgstr "Notas"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:112
 msgctxt "campaign::CampaignView|"
 msgid "Shared Notes"
-msgstr ""
+msgstr "Notas compartite"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:153
 msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
-msgstr ""
+msgstr "Monstra/Cela Columna"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:48
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr ""
+msgstr "Fixa Avatar..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:49
 msgctxt "UserListView|"
@@ -4490,7 +4492,7 @@ msgstr "Remove..."
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:50
 msgctxt "UserListView|"
 msgid "Edit name"
-msgstr ""
+msgstr "Modifica nomine"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
@@ -4500,17 +4502,17 @@ msgstr "Modifica color ... "
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:61
 msgctxt "UserListView|"
 msgid "Health Points"
-msgstr ""
+msgstr "Punctos de Sanitate"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:61
 msgctxt "UserListView|"
 msgid "Health Points Maximum"
-msgstr ""
+msgstr "Punctos maxime de sanitate"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:62
 msgctxt "UserListView|"
 msgid "Health Points Minimum"
-msgstr ""
+msgstr "Punctos minime de sanitate"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:62
 msgctxt "UserListView|"
@@ -4533,7 +4535,7 @@ msgstr ""
 #, qt-format
 msgctxt "UserListView|"
 msgid "Get value for %1 property"
-msgstr ""
+msgstr "Obtena valor per %1 proprietate"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:131
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
@@ -4545,7 +4547,7 @@ msgstr "Valor:"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:228
 msgctxt "UserListView|"
 msgid "Set Property"
-msgstr ""
+msgstr "Fixa proprietate"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:242
 msgctxt "UserListView|"
@@ -4580,22 +4582,22 @@ msgstr "Linea"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
-msgstr ""
+msgstr "Vacua rectangulo"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
-msgstr ""
+msgstr "rectangulo reimplite"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
-msgstr ""
+msgstr "Ellipse Vacue"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "Ellipse Reimplite"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
 msgctxt "ToolBox|"
@@ -4705,7 +4707,7 @@ msgstr ""
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:94
 msgctxt "TestCharacterStateModel|"
 msgid "Dead"
-msgstr ""
+msgstr "Morte"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:98
 msgctxt "TestCharacterStateModel|"
