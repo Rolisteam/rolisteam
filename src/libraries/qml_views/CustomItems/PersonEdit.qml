@@ -32,7 +32,7 @@ GridLayout {
     RequiredTextField {
         id: _nameField
         Layout.fillWidth: true
-        onEditingFinished: _root.nameEdited(name)
+        onEditingFinished: _root.nameEdited(_nameField.text)
     }
     Label {
         text: qsTr("Color:")
@@ -43,7 +43,7 @@ GridLayout {
             id: _color
             Layout.preferredHeight: 30
             Layout.preferredWidth: 30
-            onColorEdited: _root.colorEdited(col)
+            onColorEdited: (col)=> _root.colorEdited(col)
         }
 
     }

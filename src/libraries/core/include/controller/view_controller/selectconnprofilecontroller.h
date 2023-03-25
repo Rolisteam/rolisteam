@@ -143,6 +143,13 @@ public slots:
 
     // Network
     void setConnectionState(SelectConnProfileController::ConnectionState state);
+
+    // actions
+    void selectPlayerAvatar();
+    void selectCampaignPath();
+    void selectCharacterAvatar(int i);
+    void startConnection();
+    void reject();
     // void stopConnection();
     // void connectTo();
 
@@ -157,7 +164,7 @@ signals:
     void addressChanged();
     void portChanged();
     void errorMsgChanged();
-    void canConnectChanged(bool);
+    void canConnectChanged();
     void validCampaignPathChanged(bool);
     void campaignPathChanged();
     void connectionStateChanged(SelectConnProfileController::ConnectionState newState,
@@ -172,6 +179,13 @@ signals:
     void validCharacterColorChanged();
     void infoMsgChanged();
     void passwordChanged();
+
+    void changePlayerAvatar();
+    void changeCampaignPath();
+    void changeCharacterAvatar(int i);
+    void connectionStarted();
+    void rejected();
+    // void Connection();
 
 private:
     ConnectionProfile* currentProfile() const;

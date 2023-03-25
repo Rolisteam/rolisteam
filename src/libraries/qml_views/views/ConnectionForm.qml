@@ -153,13 +153,15 @@ Item {
                     title: qsTr("Player")
                     Layout.alignment: Qt.AlignTop
                     PersonEdit {
+                        id: person
                         anchors.fill: parent
                         imageData: ProfileController.playerAvatar
                         characterName: ProfileController.playerName
                         validInput: (characterName && ProfileController.playerName)
                         color: ProfileController.playerColor
-                        onColorEdited: ProfileController.playerColor = col
-                        onClicked: ProfileView.selectPlayerAvatar()
+                        onColorEdited: (col)=> ProfileController.playerColor = col
+                        onNameEdited: ProfileController.playerName = person.characterName
+                        onClicked: ProfileController.selectPlayerAvatar()
                         CheckBox {
                             id: _gameMaster
                             Layout.columnSpan: 3
@@ -187,7 +189,7 @@ Item {
                                 icon.name: "folder"
                                 enabled: ProfileController.isGameMaster
                                 opacity: enabled ? 1.0 : 0.4
-                                onClicked: ProfileView.selectCampaignPath()
+                                onClicked: ProfileController.selectCampaignPath()
                             }
                         }
                     }
@@ -225,10 +227,10 @@ Item {
                                 width: parent.width
                                 color: model.color
                                 validInput: model.name && isSquare
-                                onClicked: ProfileView.selectCharacterAvatar(model.index)
-                                onNameEdited: ProfileController.editCharacterName(model.index,characterName)
-                                onColorEdited: ProfileController.editCharacterColor(model.index,color)
-                                onImageDataChanged: ProfileController.editCharacterAvatar(model.index, imageData)
+                                onClicked: ProfileController.selectCharacterAvatar(model.index)
+                                onNameEdited: ProfileController.editCharacterName(model.index,_itemLyt.characterName)
+                                onColorEdited: (color)=>ProfileController.editCharacterColor(model.index,color)
+                                onImageDataChanged: ProfileController.editCharacterAvatar(model.index, _itemLyt.imageData)
                                 line: [
                                     ToolButton {
                                         icon.name: "remove"
@@ -273,7 +275,7 @@ Item {
                         text: qsTr("Connect")
                         focus: true
                         enabled: ProfileController.canConnect
-                        onClicked: ProfileView.startNetworkConnection()
+                        onClicked: ProfileController.startConnection() //startNetworkConnection()
                         opacity: enabled ? 1.0 : 0.4
                         background: Rectangle {
                             color: _connectBtn.down ? "darkgreen" : _connectBtn.enabled ? "green" : "darkgray"
@@ -283,7 +285,7 @@ Item {
                         id: _cancelBtn
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("Cancel")
-                        onClicked: ProfileView.reject()
+                        onClicked: ProfileController.reject()
                         background: Rectangle {
                             color: _cancelBtn.down ? "darkgray" : "gray"
                         }

@@ -33,19 +33,21 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     // ui->m_detailPanel->setVisible(false);
     connect(ui->m_quickWidget, &QQuickWidget::sceneGraphError, this,
             [](QQuickWindow::SceneGraphError, const QString& message) { qDebug() << "ERROR" << message; });
-    connect(ui->m_quickWidget, &QQuickWidget::statusChanged, this, [this](QQuickWidget::Status status) {
-        if(status == QQuickWidget::Error)
-            qDebug() << "Errors: " << ui->m_quickWidget->errors();
-    });
+    connect(ui->m_quickWidget, &QQuickWidget::statusChanged, this,
+            [this](QQuickWidget::Status status)
+            {
+                if(status == QQuickWidget::Error)
+                    qDebug() << "Errors: " << ui->m_quickWidget->errors();
+            });
 
     qRegisterMetaType<ProfileModel*>("ProfileModel*");
     qRegisterMetaType<CharacterDataModel*>("CharacterDataModel*");
     qmlRegisterSingletonInstance<SelectConnProfileController>("Profile", 1, 0, "ProfileController", m_ctrl.get());
-    qmlRegisterSingletonInstance<SelectConnectionProfileDialog>("Profile", 1, 0, "ProfileView", this);
+    // qmlRegisterSingletonInstance<SelectConnectionProfileDialog>("Profile", 1, 0, "ProfileView", this);
 
     qmlRegisterType<ImageSelector>("Profile", 1, 0, "ImageSelector");
     auto engine= ui->m_quickWidget->engine();
-    engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
+    // engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
     engine->setObjectOwnership(m_ctrl.get(), QQmlEngine::CppOwnership);
     engine->addImportPath(QStringLiteral("qrc:/qml"));
 
@@ -58,10 +60,50 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     auto networkCtrl= m_gameCtrl->networkController();
     connect(networkCtrl, &NetworkController::lastErrorChanged, m_ctrl.get(), &SelectConnProfileController::setErrorMsg);
     connect(networkCtrl, &NetworkController::infoMessage, m_ctrl.get(), &SelectConnProfileController::setInfoMsg);
-    connect(networkCtrl, &NetworkController::connectingChanged, this, [this](bool connecting) {
-        m_ctrl->setConnectionState(connecting ? SelectConnProfileController::ConnectionState::CONNECTING :
-                                                SelectConnProfileController::ConnectionState::IDLE);
-    });
+    connect(networkCtrl, &NetworkController::connectingChanged, this,
+            [this](bool connecting)
+            {
+                m_ctrl->setConnectionState(connecting ? SelectConnProfileController::ConnectionState::CONNECTING :
+                                                        SelectConnProfileController::ConnectionState::IDLE);
+            });
+
+    // actions from controller
+    connect(m_ctrl.get(), &SelectConnProfileController::connectionStarted, this,
+            [this]() { m_gameCtrl->setDataFromProfile(m_ctrl->currentProfileIndex()); });
+    connect(m_ctrl.get(), &SelectConnProfileController::rejected, this, &SelectConnectionProfileDialog::reject);
+    connect(m_ctrl.get(), &SelectConnProfileController::changeCampaignPath, this,
+            [this]()
+            {
+                auto result
+                    = QFileDialog::getExistingDirectory(this, tr("Select directory"), m_ctrl->campaignPath(),
+                                                        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+                if(!result.isEmpty())
+                {
+                    m_ctrl->setCampaignPath(result);
+                }
+            });
+    connect(m_ctrl.get(), &SelectConnProfileController::changeCharacterAvatar, this,
+            [this](int i)
+            {
+                auto characters= m_ctrl->characterModel();
+                auto character= characters->character(i);
+                auto data= openImage(); // m_ctrl->playerAvatar()
+                if(data.isEmpty())
+                    return;
+                characters->setAvatar(i, data);
+            });
+    connect(m_ctrl.get(), &SelectConnProfileController::changePlayerAvatar, this,
+            [this]()
+            {
+                auto data= openImage(); // m_ctrl->playerAvatar()
+
+                if(data.isEmpty())
+                    return;
+
+                m_ctrl->setPlayerAvatar(data);
+                ui->m_playerAvatarAct->setIcon(QIcon(IOHelper::dataToPixmap(data)));
+            });
+
     connect(m_ctrl.get(), &SelectConnProfileController::startConnect, networkCtrl, &NetworkController::startConnection);
     connect(m_ctrl.get(), &SelectConnProfileController::stopConnecting, networkCtrl,
             &NetworkController::stopConnecting);
@@ -107,46 +149,4 @@ QByteArray SelectConnectionProfileDialog::openImage(const QString& path)
     ctrl.address();
 
     return ctrl.finalImageData();
-}
-
-void SelectConnectionProfileDialog::selectPlayerAvatar()
-{
-    auto data= openImage();//m_ctrl->playerAvatar()
-
-    if(data.isEmpty())
-        return;
-
-    m_ctrl->setPlayerAvatar(data);
-    ui->m_playerAvatarAct->setIcon(QIcon(IOHelper::dataToPixmap(data)));
-}
-
-void SelectConnectionProfileDialog::selectCampaignPath()
-{
-
-    auto result= QFileDialog::getExistingDirectory(this, tr("Select directory"), m_ctrl->campaignPath(),
-                                                   QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-
-    if(!result.isEmpty())
-    {
-        m_ctrl->setCampaignPath(result);
-    }
-}
-
-void SelectConnectionProfileDialog::startNetworkConnection()
-{
-    m_ctrl->setConnectionState(SelectConnProfileController::ConnectionState::LOADING);
-    m_gameCtrl->setDataFromProfile(m_ctrl->currentProfileIndex());
-}
-
-void SelectConnectionProfileDialog::selectCharacterAvatar(int i)
-{
-    auto characters= m_ctrl->characterModel();
-    auto character= characters->character(i);
-
-    auto data= openImage();//m_ctrl->playerAvatar()
-
-    if(data.isEmpty())
-        return;
-
-    characters->setAvatar(i, data);
 }

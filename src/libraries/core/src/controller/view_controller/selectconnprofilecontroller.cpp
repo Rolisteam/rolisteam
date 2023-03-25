@@ -194,6 +194,7 @@ void SelectConnProfileController::setCurrentProfileIndex(int i)
         connect(prof, &ConnectionProfile::gmChanged, this, &SelectConnProfileController::isGameMasterChanged);
         connect(prof, &ConnectionProfile::passwordChanged, this, &SelectConnProfileController::passwordChanged);
         connect(prof, &ConnectionProfile::campaignPathChanged, this, &SelectConnProfileController::campaignPathChanged);
+        connect(prof, &ConnectionProfile::validChanged, this, &SelectConnProfileController::canConnectChanged);
         m_characterModel->setProfile(prof);
     }
     setConnectionState(ConnectionState::IDLE);
@@ -208,7 +209,7 @@ void SelectConnProfileController::setCurrentProfileIndex(int i)
     emit isGameMasterChanged();
     emit passwordChanged();
     emit campaignPathChanged();
-    emit canConnectChanged(prof ? prof->valid() : false);
+    emit canConnectChanged();
 
     // updateCanConnect();
 }
@@ -375,4 +376,28 @@ void SelectConnProfileController::setPassword(const QString& newPassword)
         return;
 
     currentProfile()->editPassword(newPassword);
+}
+void SelectConnProfileController::selectPlayerAvatar()
+{
+    emit changePlayerAvatar();
+}
+void SelectConnProfileController::selectCampaignPath()
+{
+    emit changeCampaignPath();
+}
+
+void SelectConnProfileController::selectCharacterAvatar(int i)
+{
+    emit changeCharacterAvatar(i);
+}
+
+void SelectConnProfileController::startConnection()
+{
+    setConnectionState(SelectConnProfileController::ConnectionState::LOADING);
+    emit connectionStarted();
+}
+
+void SelectConnProfileController::reject()
+{
+    emit rejected();
 }
