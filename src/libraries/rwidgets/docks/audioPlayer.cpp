@@ -97,6 +97,7 @@ void AudioPlayer::setupUi()
             auto* act= new QAction(tr("Show/hide Player %1").arg(i + 1), this);
             act->setCheckable(true);
             act->setChecked(array[i]->visible());
+            playerWidget->setVisible(array[i]->visible());
             connect(act, &QAction::triggered, array[i], &AudioPlayerController::setVisible);
             m_playerActionsList.append(act);
             m_mainLayout->addWidget(m_players[i]);
