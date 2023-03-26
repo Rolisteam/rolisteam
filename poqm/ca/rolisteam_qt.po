@@ -1801,7 +1801,7 @@ msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr "Personatge desconegut"
 
-#: src/libraries/core/src/network/rserver.cpp:38
+#: src/libraries/core/src/network/rserver.cpp:40
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
 msgstr "[Upnp] S'ha fet el mapatge del port"
@@ -1840,25 +1840,25 @@ msgctxt "ServerConnectionManager|"
 msgid "User %1 has been disconnected!"
 msgstr "L'usuari %1 s'ha desconnectat!"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:166
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:168
 msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
 msgstr "No s'ha pogut llegir l'URL en la resposta del servidor"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:274
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:276
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
 "Ha fallat en obtenir «base_URL» a partir de «URLBase» o «describe_url» de "
 "l'XMLNode.\n"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:282
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:284
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Ha fallat en trobar el tipus de servei adequat: %1 %2 %3"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:333
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:339
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
@@ -3291,7 +3291,7 @@ msgctxt "PreferencesDialog|"
 msgid "Add new directory"
 msgstr "Afegeix un directori nou"
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:120
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:126
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "Selecció de directori"
@@ -4383,8 +4383,8 @@ msgctxt "QObject|"
 msgid "Loading error"
 msgstr "Error en carregar"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:113
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:115
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:149
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:151
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
