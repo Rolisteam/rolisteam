@@ -2550,27 +2550,27 @@ msgctxt "ConnectionForm|"
 msgid "Player"
 msgstr "Igralec"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:166
+#: src/libraries/qml_views/views/ConnectionForm.qml:168
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
 msgstr "Jaz sem gospodar igre"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:176
+#: src/libraries/qml_views/views/ConnectionForm.qml:178
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
 msgstr "Izhodišče bojnega pohoda:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:199
+#: src/libraries/qml_views/views/ConnectionForm.qml:201
 msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Liki"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:273
+#: src/libraries/qml_views/views/ConnectionForm.qml:275
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Poveži"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:285
+#: src/libraries/qml_views/views/ConnectionForm.qml:287
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Prekliči"
@@ -3293,7 +3293,7 @@ msgctxt "PreferencesDialog|"
 msgid "Add new directory"
 msgstr "Dodaj novo mapo"
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:126
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:78
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "Izberite mapo"

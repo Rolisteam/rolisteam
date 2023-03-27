@@ -2522,27 +2522,27 @@ msgctxt "ConnectionForm|"
 msgid "Player"
 msgstr "დამკვრელი"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:166
+#: src/libraries/qml_views/views/ConnectionForm.qml:168
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
 msgstr "მე თამაშის მასტერი ვარ"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:176
+#: src/libraries/qml_views/views/ConnectionForm.qml:178
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
 msgstr "კამპანიის ფესვი:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:199
+#: src/libraries/qml_views/views/ConnectionForm.qml:201
 msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "სიმბოლოები"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:273
+#: src/libraries/qml_views/views/ConnectionForm.qml:275
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "დაკავშირება"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:285
+#: src/libraries/qml_views/views/ConnectionForm.qml:287
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "გაუქმება"
@@ -3246,7 +3246,7 @@ msgctxt "PreferencesDialog|"
 msgid "Add new directory"
 msgstr "ახალი საქაღალდის დამატება"
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:126
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:78
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "უჯრის ამორჩევა"

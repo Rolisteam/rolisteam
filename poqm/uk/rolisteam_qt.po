@@ -2549,27 +2549,27 @@ msgctxt "ConnectionForm|"
 msgid "Player"
 msgstr "Гравець"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:166
+#: src/libraries/qml_views/views/ConnectionForm.qml:168
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
 msgstr "Я власник гри"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:176
+#: src/libraries/qml_views/views/ConnectionForm.qml:178
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
 msgstr "Корінь кампанії:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:199
+#: src/libraries/qml_views/views/ConnectionForm.qml:201
 msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Персонажі"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:273
+#: src/libraries/qml_views/views/ConnectionForm.qml:275
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "З'єднатися"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:285
+#: src/libraries/qml_views/views/ConnectionForm.qml:287
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Скасувати"
@@ -3292,7 +3292,7 @@ msgctxt "PreferencesDialog|"
 msgid "Add new directory"
 msgstr "Додати новий каталог"
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:126
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:78
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "Виберіть теку"
