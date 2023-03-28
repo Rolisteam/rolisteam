@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-03-24 17:48+0300\n"
+"PO-Revision-Date: 2023-03-27 20:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2672,7 +2672,7 @@ msgstr "Sesi Kapat"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:107
 msgctxt "PlayerWidget|"
 msgid "load TableTopAudio.com playlist"
-msgstr " TableTopAudio.com çalma listesi yükle"
+msgstr "TableTopAudio.com çalma listesi yükle"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:109
 msgctxt "PlayerWidget|"
