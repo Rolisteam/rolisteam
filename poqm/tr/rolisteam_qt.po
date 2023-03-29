@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-03-27 20:44+0300\n"
+"PO-Revision-Date: 2023-03-28 17:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4241,7 +4241,7 @@ msgstr "Yakınlaştırma düzeyini artır"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:217
 msgctxt "Image|Zoom In"
 msgid "Ctrl++"
-msgstr "Ctrl++"
+msgstr "Kontrol++"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:222
 msgctxt "Image|"
@@ -4256,7 +4256,7 @@ msgstr "Yakınlaştırma düzeyini azalt"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:227
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
-msgstr "Ctrl+-"
+msgstr "Kontrol+-"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:237
 msgctxt "Image|"
@@ -4271,7 +4271,7 @@ msgstr "Pencere ve görsel çalışma alanına sığdırılır"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|Fit the workspace"
 msgid "Ctrl+m"
-msgstr "Ctrl+M"
+msgstr "Kontrol+M"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:249
 msgctxt "Image|"
@@ -4286,7 +4286,7 @@ msgstr "Görsel, pencereye sığacak biçimde yeniden boyutlandırılacaktır."
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
 msgid "Ctrl+f"
-msgstr "Ctrl+F"
+msgstr "Kontrol+F"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:264
 msgctxt "Image|"
@@ -4301,7 +4301,7 @@ msgstr "Yakınlaştırma düzeyini %​20 olarak ayarla"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|Set the zoom level at 20%"
 msgid "Ctrl+l"
-msgstr "Ctrl+L"
+msgstr "Kontrol+L"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:275
 msgctxt "Image|"
@@ -4316,7 +4316,7 @@ msgstr "Yakınlaştırma Yok"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|Normal"
 msgid "Ctrl+n"
-msgstr "Ctrl+N"
+msgstr "Kontrol+N"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:286
 msgctxt "Image|"
@@ -4331,7 +4331,7 @@ msgstr "Yakınlaştırma düzeyini %​400 olarak ayarla"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:290
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
-msgstr "Ctrl+B"
+msgstr "Kontrol+B"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:295
 #: src/libraries/rwidgets/mediacontainers/image.cpp:307

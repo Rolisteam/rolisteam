@@ -491,6 +491,9 @@ msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 msgstr ""
+"%1-ისთვის შეწირვის გვერდი შეგიძლიათ იპოვოთ ონლაინ, მისამართზე :<br> <a href="
+"\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/"
+"donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:426
 msgctxt "MainWindow|"
@@ -508,6 +511,8 @@ msgctxt "MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr ""
+"RCSE_ის დოკუმენტაცია შეგიძლიათ იპოვოთ ონლაინ, მისამართზე :<br> <a href="
+"\"%1\">%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:476
 msgctxt "MainWindow|"
@@ -561,6 +566,8 @@ msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
 msgstr ""
+"QML კოდის გენერაცია QML-ში თქვენს მიერ შეტანილ ყველა ცვლილებას გადაფარავს. "
+"<br/>მართლა გნებავთ QML კოდის გენერაცია?"
 
 #: src/binaries/rcse/mainwindow.cpp:790
 msgctxt "MainWindow|"
@@ -570,7 +577,7 @@ msgstr "CharacterSheet-ის ხედის შენახვა"
 #: src/binaries/rcse/mainwindow.cpp:791
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
-msgstr ""
+msgstr "Rolisteam CharacterSheet-ის ხედი (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:916
 msgctxt "MainWindow|"
@@ -885,7 +892,7 @@ msgstr "დააყენეთ ბილიკი კონფიგურა�
 #: src/binaries/server/main.cpp:112
 msgctxt "QObject|"
 msgid "Print a default configuration file into Standard output"
-msgstr ""
+msgstr "ნაგულისხმები კონფიგურაციის ფაილის სტანდარტულ გამოტანაში ჩვენება"
 
 #: src/binaries/server/main.cpp:115
 msgctxt "QObject|"
@@ -918,6 +925,8 @@ msgstr "კამპანიის გახსნა"
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
+"%1-სთვის შეწირვის გვერდი შეგიძლიათ იპოვოთ ონლაინ, მისამართზე :<br> <a href="
+"\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:700
 msgctxt "MainWindow|"
@@ -942,6 +951,8 @@ msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
 "rolisteam.org\">http://wiki.rolisteam.org/</a>"
 msgstr ""
+"%1-ის დოკუმენტაცია შეგიძლიათ იპოვოთ ონლან, მისამართზე :<br> <a href=\"http://"
+"wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:830
 msgctxt "MainWindow|"
@@ -955,6 +966,8 @@ msgid ""
 "The %1 version has been released. Please take a look at <a href=\"http://www."
 "rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
+"გამოსულია ვერსია %1. მეტი ინფორმაციისთვის იხილეთ <a href=\"http://www."
+"rolisteam.org/download\">გადმოწერის გვერდი</a>"
 
 #: src/binaries/widget/mainwindow.cpp:841
 #, qt-format
@@ -987,7 +1000,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.cpp:929
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
-msgstr ""
+msgstr "განსაზღვრეთ <role>: gm ან pc</role>"
 
 #: src/binaries/widget/mainwindow.cpp:931
 msgctxt "MainWindow|"
@@ -1672,6 +1685,12 @@ msgid ""
 "Distance Per Turn: %6\n"
 "type: %7\n"
 msgstr ""
+"%1:\n"
+"სიცოცხლე: %2/%3\n"
+"მდგომარეობა: %4\n"
+"ინიციატივის ქულა: %5\n"
+"მანძილი სვლაზე: %6\n"
+"ტიპი: %7\n"
 
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
@@ -1820,18 +1839,19 @@ msgstr "სერვერის პასუხიდან URL-ის წა�
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
+"XMLNode \"URLBase\"-დან base_URL-ის ან describe_url-ის მიღება შეუძლებელია.\n"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:284
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
-msgstr ""
+msgstr "სერვისის სწორი ტიპის აღმოჩენის შეცდომა: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:339
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
-msgstr ""
+msgstr "პორტის გადამისამართების (%1/%2) დამატება შეუძლებელია: შეცდომა :\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -2004,7 +2024,7 @@ msgstr "'%1'-ის შექმნის შეცდომა"
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
-msgstr ""
+msgstr "შეცდომა: %1 არ არსებობს ან წაკითხვადი არაა."
 
 #: src/libraries/core/src/worker/utilshelper.cpp:167
 #, qt-format
@@ -2333,7 +2353,7 @@ msgstr "%1 გამოსახულების დამატება"
 #, qt-format
 msgctxt "AddItemCommand|"
 msgid "Add item of type: %1 to mindmap"
-msgstr ""
+msgstr "ტიპის ჩანაწერის დამატება: %1 მეხსიერების რუკაზე დამატება"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:65
 msgctxt "AddLinkCommand|"
@@ -2816,12 +2836,12 @@ msgstr "ხილვადობის შეცვლა"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:302
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
-msgstr ""
+msgstr "გამოგდების ინიციალიზაცია"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
 msgctxt "RGraphicsView|"
 msgid "Clean Init"
-msgstr ""
+msgstr "ინიციალიზაციის გასუფთავება"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
@@ -2831,12 +2851,12 @@ msgstr "გადიდება"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:378
 msgctxt "RGraphicsView|"
 msgid "Rotation Value ?"
-msgstr ""
+msgstr "ბრუნვის მნიშვნელობა?"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:379
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
-msgstr ""
+msgstr "დააყენეთ სასურველი მობრუნების კუთხე [0-360]"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:505
 msgctxt "RGraphicsView|"
@@ -2856,7 +2876,7 @@ msgstr "მაქსიმალური დაპატარავება"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
 msgctxt "RGraphicsView|"
 msgid "Center on Item"
-msgstr ""
+msgstr "ჩანაწერის ცენტრი"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:510
 msgctxt "RGraphicsView|"
@@ -4153,7 +4173,7 @@ msgstr "წესი"
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr ""
+msgstr "%1 - (სიმბოლოების ფურცლის დათვალიერება)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
@@ -4168,12 +4188,12 @@ msgstr "QML შეცდომები"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:616
 msgctxt "CharacterSheetWindow|"
 msgid "Open Character Sheets View"
-msgstr ""
+msgstr "სიმბოლოს ფურცლების ხედის გახსნა"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:618
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet files (*.qml)"
-msgstr ""
+msgstr "სიმბოლოს ფურცლის ფაილები (*.qml)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
@@ -4183,7 +4203,7 @@ msgstr "გაზიარება"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet Data files (*.rcs)"
-msgstr ""
+msgstr "სიმბოლოს ფურცლის მონაცემების ფაილები (*.rcs)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:56
 #: src/libraries/rwidgets/mediacontainers/image.cpp:66
@@ -4236,7 +4256,7 @@ msgstr "სამუშაო სივრცეში ჩატევა"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:239
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
-msgstr ""
+msgstr "ფანჯარა და გამოსახულება სამუშაო სივრცეში ეტევა"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|Fit the workspace"
@@ -4353,6 +4373,8 @@ msgid ""
 "PDF transfer can be really heavy.\n"
 "Do you want to continue and share the PDF?"
 msgstr ""
+"PDF-ის გადაცემა მართლა მძიმე შეიძლება იყოს.\n"
+"გნებავთ გააგრძელოთ და გააზიაროთ PDF?"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:293
 #, qt-format
