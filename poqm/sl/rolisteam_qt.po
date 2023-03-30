@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2023-03-28 07:27+0200\n"
+"PO-Revision-Date: 2023-03-29 07:01+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1743,7 +1743,7 @@ msgstr "Bajtov"
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "KiB"
-msgstr " KiB"
+msgstr "KiB"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -2281,7 +2281,7 @@ msgstr "Opis"
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:45
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
-msgstr "Značke:"
+msgstr "značke:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
 msgctxt "NodeSettingPopup|"
@@ -2818,7 +2818,7 @@ msgstr "Levo"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:251
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
-msgstr "Nastavi kot ..."
+msgstr "Nastavi kot…"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
 msgctxt "RGraphicsView|"
@@ -3127,7 +3127,7 @@ msgstr ""
 "bi to dosegli, se trudimo, da bi vam zagotovili vse več funkcij. Obstoječe "
 "funkcije: skupna raba zemljevidov (z upravljanjem dovoljenj), skupna raba "
 "slik, glasba v ozadju, metanje kocke in tako naprej. Rolisteam je napisan v "
-"Qt5."
+"Qt5"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
 msgctxt "AboutRolisteam|"
@@ -4255,7 +4255,7 @@ msgstr "Približaj"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:213
 msgctxt "Image|"
 msgid "increase zoom level"
-msgstr "Povečaj raven povečave"
+msgstr "povečaj raven povečave"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:217
 msgctxt "Image|Zoom In"
@@ -4553,7 +4553,7 @@ msgstr "Uredi plast"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Change color…"
-msgstr "Spremeni barvo..."
+msgstr "Spremeni barvo…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:61
 msgctxt "UserListView|"
