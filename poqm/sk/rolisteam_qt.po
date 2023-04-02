@@ -1371,7 +1371,7 @@ msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr ""
 
-#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:105
+#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:118
 #, fuzzy
 msgctxt "InstantMessagingController|"
 msgid "Global"

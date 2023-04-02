@@ -1296,7 +1296,7 @@ msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "კოპირებული გამოსახულება"
 
-#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:105
+#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:118
 msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "გლობალური"
