@@ -990,12 +990,12 @@ msgstr "%1 თამაშიდან გავიდა."
 #: src/binaries/widget/mainwindow.cpp:923
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
-msgstr ""
+msgstr "Rolisteam-ის მიერთებისთვის <port>-ის დაყენება"
 
 #: src/binaries/widget/mainwindow.cpp:926
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
-msgstr ""
+msgstr "Rolisteam-ის მიერთებისთვის <server>-ის დაყენება."
 
 #: src/binaries/widget/mainwindow.cpp:929
 msgctxt "MainWindow|"
@@ -2632,7 +2632,7 @@ msgstr "ფაილის გახსნა"
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
 msgid "Get picture for Character State"
-msgstr ""
+msgstr "მდგომარეობის სურათის მიღება"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:82
 msgctxt "PlayerWidget|"
