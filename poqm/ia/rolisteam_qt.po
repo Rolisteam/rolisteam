@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-03-22 17:50+0100\n"
+"PO-Revision-Date: 2023-04-12 22:44+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.03.90\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -1334,7 +1334,7 @@ msgstr "Character:"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
 msgctxt "QObject|"
 msgid "Ground"
-msgstr ""
+msgstr "Terra"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
@@ -1346,7 +1346,7 @@ msgstr "Objecto"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "GameMaster"
-msgstr ""
+msgstr "Maestro de Joco (GameMaster)"
 
 #: src/libraries/core/src/data/campaign.cpp:267
 msgctxt "Campaign|"
@@ -1564,7 +1564,7 @@ msgstr ""
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Initiative"
-msgstr ""
+msgstr "Initiativa"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
@@ -1898,7 +1898,7 @@ msgstr "Texto"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:40
 msgctxt "QObject|"
 msgid "Text with border"
-msgstr ""
+msgstr "Texto con Bordo"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:41
 msgctxt "QObject|"
@@ -2039,7 +2039,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
-msgstr ""
+msgstr "File Pdf (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:185
 #, qt-format
@@ -2574,7 +2574,7 @@ msgstr "Rade"
 #: src/libraries/rwidgets/customs/colorselector.cpp:257
 msgctxt "ColorSelector|"
 msgid "Hide (GM only)"
-msgstr ""
+msgstr "Cela (solmente GM)"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:258
 msgctxt "ColorSelector|"
@@ -2596,7 +2596,7 @@ msgstr ""
 #, qt-format
 msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
-msgstr ""
+msgstr "Rubie: %1, Verde: %2, Blau: %3 "
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:87
 msgctxt "FileDirChooser|"
@@ -2631,7 +2631,7 @@ msgstr "Stoppa"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:86
 msgctxt "PlayerWidget|"
 msgid "Stop at the end"
-msgstr ""
+msgstr "Stoppa all fin"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:91
 msgctxt "PlayerWidget|"
@@ -2676,17 +2676,17 @@ msgstr "Netta"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:119
 msgctxt "PlayerWidget|"
 msgid "Add Songs"
-msgstr ""
+msgstr "Adde Cantos"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:122
 msgctxt "PlayerWidget|"
 msgid "Open Stream"
-msgstr ""
+msgstr "Aperi Fluxo (Stream)"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:124
 msgctxt "PlayerWidget|"
 msgid "Remove Song"
-msgstr ""
+msgstr "Remove Canto"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:146
 msgctxt "PlayerWidget|"
@@ -2701,7 +2701,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:274
 msgctxt "PlayerWidget|"
 msgid "Add song"
-msgstr ""
+msgstr "Adde Canto"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:274
 #, qt-format
@@ -2724,7 +2724,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:296
 msgctxt "PlayerWidget|"
 msgid "Open Play List"
-msgstr ""
+msgstr "Aperi Lista de Joco"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:296
 #: src/libraries/rwidgets/customs/playerwidget.cpp:364
@@ -2745,7 +2745,7 @@ msgstr "URL"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:364
 msgctxt "PlayerWidget|"
 msgid "Save Play List"
-msgstr ""
+msgstr "Salveguarda Lista de Joco"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -2783,12 +2783,12 @@ msgstr "Sinistra"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:251
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
-msgstr ""
+msgstr "Fixa Angulo..."
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
 msgctxt "RGraphicsView|"
 msgid "Set Layer"
-msgstr ""
+msgstr "Fixa strato"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:263
 msgctxt "RGraphicsView|"
@@ -2803,7 +2803,7 @@ msgstr "Mappa"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:291
 msgctxt "RGraphicsView|"
 msgid "Edit Layer"
-msgstr ""
+msgstr "Modifica Strato"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:297
 msgctxt "RGraphicsView|"
@@ -2853,7 +2853,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
 msgctxt "RGraphicsView|"
 msgid "Center on Item"
-msgstr ""
+msgstr "Centra sur elemento"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:510
 msgctxt "RGraphicsView|"
@@ -2873,7 +2873,7 @@ msgstr "Remove"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:526
 msgctxt "RGraphicsView|"
 msgid "Import Image"
-msgstr ""
+msgstr "Importa Imagine"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:536
 msgctxt "RGraphicsView|"
@@ -2934,7 +2934,7 @@ msgstr "Proprietates"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:598
 msgctxt "RGraphicsView|"
 msgid "Ground"
-msgstr ""
+msgstr "Terra"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:583
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:601
@@ -2952,7 +2952,7 @@ msgstr "Character:"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:607
 msgctxt "RGraphicsView|"
 msgid "GameMaster"
-msgstr ""
+msgstr "Maestro de Joco (GameMaster)"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:617
 msgctxt "RGraphicsView|"
@@ -3026,12 +3026,12 @@ msgstr ""
 #, qt-format
 msgctxt "VColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
-msgstr ""
+msgstr "Rubie: %1, Verde: %2, Blau: %3 "
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:31
 msgctxt "AboutRolisteam|"
 msgid "English & French"
-msgstr ""
+msgstr "Anglese & Francese"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:33
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
@@ -3052,7 +3052,7 @@ msgstr "Turc"
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:38
 msgctxt "AboutRolisteam|"
 msgid "French & German"
-msgstr ""
+msgstr "Francese & Germano"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:39
 msgctxt "AboutRolisteam|"
@@ -3114,7 +3114,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Current developers"
-msgstr ""
+msgstr "Disveloppatores currente"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
@@ -3173,12 +3173,12 @@ msgstr "Preferentias"
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:366
 msgctxt "PreferencesDialog|"
 msgid "Images (*.png *.xpm *.jpg *.gif *.bmp)"
-msgstr ""
+msgstr "Imagines (*.png *.xpm *.jpg *.gif *.bmp)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
 msgid "Css Editor"
-msgstr ""
+msgstr "Editor de Css"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
@@ -3241,7 +3241,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:579
 msgctxt "PreferencesDialog|"
 msgid "Add new directory"
-msgstr ""
+msgstr "Adde nove directorio"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:78
 msgctxt "SelectConnectionProfileDialog|"
@@ -3263,7 +3263,7 @@ msgstr ""
 #, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "Please find the type here: <a href=\"%1\">%1</a>"
-msgstr ""
+msgstr "Pro favor trova le typo hic: <a href=\"%1\">%1</a>"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -3298,12 +3298,12 @@ msgstr "Omne visibile"
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:70
 msgctxt "campaign::AntagonistBoard|"
 msgid "Edit Token"
-msgstr ""
+msgstr "Modifica Indicio"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:71
 msgctxt "campaign::AntagonistBoard|"
 msgid "Clone Character"
-msgstr ""
+msgstr "Clona Character"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:72
 msgctxt "campaign::AntagonistBoard|"
@@ -3313,12 +3313,12 @@ msgstr "Cambia  imagine"
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:73
 msgctxt "campaign::AntagonistBoard|"
 msgid "Main columns"
-msgstr ""
+msgstr "Columnas principal"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:74
 msgctxt "campaign::AntagonistBoard|"
 msgid "Minimal Columns"
-msgstr ""
+msgstr "Columnas minimal"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:75
 msgctxt "campaign::AntagonistBoard|"
@@ -3414,7 +3414,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:37
 msgctxt "ChannelListPanel|"
 msgid "Switch to channel"
-msgstr ""
+msgstr "Commuta a canale"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:38
 msgctxt "ChannelListPanel|"
@@ -3444,7 +3444,7 @@ msgstr "Fixa predefinite"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:43
 msgctxt "ChannelListPanel|"
 msgid "Log as admin"
-msgstr ""
+msgstr "Accede como admin"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:44
 msgctxt "ChannelListPanel|"
@@ -3464,12 +3464,12 @@ msgstr ""
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:47
 msgctxt "ChannelListPanel|"
 msgid "Move User"
-msgstr ""
+msgstr "Move usator"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
 msgid "Admin Password"
-msgstr ""
+msgstr "Contrasigno de Admin"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
@@ -3497,7 +3497,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/playerspanel.cpp:57
 msgctxt "PlayersPanel|"
 msgid "Player List"
-msgstr ""
+msgstr "List de Jocator"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
 msgctxt "VmapTopBar|"
@@ -3507,17 +3507,17 @@ msgstr ""
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
 msgctxt "VmapTopBar|"
 msgid "Square Grid"
-msgstr ""
+msgstr "Grillia Quadrate"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:65
 msgctxt "VmapTopBar|"
 msgid "Hexagonal Grid"
-msgstr ""
+msgstr "Grllia Hexagonal"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
 msgctxt "VmapTopBar|"
 msgid "Grid Above"
-msgstr ""
+msgstr "Grillia in alto"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:90
 msgctxt "VmapTopBar|"
@@ -3532,52 +3532,52 @@ msgstr ""
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:102
 msgctxt "VmapTopBar|"
 msgid "Permission: All"
-msgstr ""
+msgstr "Permission: Toto"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:126
 msgctxt "VmapTopBar|"
 msgid "Visibility: Hidden"
-msgstr ""
+msgstr "Visibilitate: Celate"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:132
 msgctxt "VmapTopBar|"
 msgid "Visibility: Fog"
-msgstr ""
+msgstr "Visibilitate: nebula"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:138
 msgctxt "VmapTopBar|"
 msgid "Visibility: All"
-msgstr ""
+msgstr "Visibilitate: Toto"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:162
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Ground"
-msgstr ""
+msgstr "Strato Currente: Terra"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:168
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Object"
-msgstr ""
+msgstr "Strato currente : Objecto"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:174
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Character"
-msgstr ""
+msgstr "Strato currente: Character"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
 msgctxt "VmapTopBar|"
 msgid "Current Layer: GameMaster"
-msgstr ""
+msgstr "Strato Currente: GameMaster (Maestro de Joco)"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:206
 msgctxt "VmapTopBar|"
 msgid "hide other layers"
-msgstr ""
+msgstr "cela altere stratos"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:211
 msgctxt "VmapTopBar|"
 msgid "Character Vision"
-msgstr ""
+msgstr "Vision de Character"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
 msgctxt "VmapTopBar|"
@@ -3719,7 +3719,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 msgctxt "XMLTextEdit|"
 msgid "XML valid."
-msgstr ""
+msgstr "XML valide."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 #, qt-format
@@ -3921,7 +3921,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:791
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
-msgstr ""
+msgstr "Formato de file de OpenOffice 2.4 OASIS"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -4057,12 +4057,12 @@ msgstr "Augmenta Vita"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:470
 msgctxt "CharacterItem|"
 msgid "Change State"
-msgstr ""
+msgstr "Cambia Stato"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:496
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
-msgstr ""
+msgstr "Forma de Vision"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:509
 msgctxt "CharacterItem|"
@@ -4072,12 +4072,12 @@ msgstr "Actiones"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:510
 msgctxt "CharacterItem|"
 msgid "Initiative"
-msgstr ""
+msgstr "Initiativa"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:512
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
-msgstr ""
+msgstr "Netta Initiativa"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:529
 msgctxt "CharacterItem|"
@@ -4087,7 +4087,7 @@ msgstr "Formas"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:536
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
-msgstr ""
+msgstr "Netta Forma"
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:133
 msgctxt "PathItem|"
@@ -4527,7 +4527,7 @@ msgstr ""
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:63
 msgctxt "UserListView|"
 msgid "Has initiative"
-msgstr ""
+msgstr "Ha initiativa"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:131
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
@@ -4647,7 +4647,7 @@ msgstr ""
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
 msgctxt "ToolBox|"
 msgid "Text With Border"
-msgstr ""
+msgstr "Texto con Bordo"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
 msgctxt "ToolBox|"
