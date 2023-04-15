@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-12 22:44+0200\n"
+"PO-Revision-Date: 2023-04-14 11:33+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.03.90\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -1659,7 +1659,7 @@ msgstr "Hexagono"
 #: src/libraries/core/src/model/playermodel.cpp:185
 msgctxt "PlayerModel|"
 msgid "Not defined"
-msgstr ""
+msgstr "Non definite"
 
 #: src/libraries/core/src/model/playermodel.cpp:188
 #, qt-format
@@ -1676,7 +1676,7 @@ msgstr ""
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
 msgid "NPC"
-msgstr ""
+msgstr "NPC"
 
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
@@ -1686,7 +1686,7 @@ msgstr "PC"
 #: src/libraries/core/src/model/playermodel.cpp:266
 msgctxt "PlayerModel|"
 msgid "Players List"
-msgstr ""
+msgstr "Lista de jocatores"
 
 #: src/libraries/core/src/model/playermodel.cpp:471
 msgctxt "PlayerModel|"
@@ -1706,7 +1706,7 @@ msgstr "Ulle"
 #: src/libraries/core/src/model/statemodel.cpp:44
 msgctxt "StateModel|"
 msgid "Any State"
-msgstr ""
+msgstr "Ulle Stato"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -1742,7 +1742,7 @@ msgstr "Nulle Avatar"
 #: src/libraries/core/src/network/characterdatamodel.cpp:145
 msgctxt "CharacterDataModel|"
 msgid "New Character"
-msgstr ""
+msgstr "Nove character"
 
 #: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
@@ -1762,7 +1762,7 @@ msgstr ""
 #: src/libraries/core/src/network/clientmanager.cpp:125
 msgctxt "ClientManager|"
 msgid "Connection to the server has been closed."
-msgstr ""
+msgstr "Connexion al servitor ha essite claudite."
 
 #: src/libraries/core/src/network/connectionprofile.cpp:7
 msgctxt "QObject|"
@@ -1773,7 +1773,7 @@ msgstr "Jocator"
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 msgctxt "QObject|"
 msgid "Unknown Character"
-msgstr ""
+msgstr "Character Incognite"
 
 #: src/libraries/core/src/network/rserver.cpp:40
 msgctxt "RServer|"
@@ -1802,7 +1802,7 @@ msgstr ""
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:481
 msgctxt "ServerConnectionManager|"
 msgid "New Incoming Connection!"
-msgstr ""
+msgstr "Nove Connexion in Arrivata!"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:535
 #, qt-format
@@ -1835,7 +1835,7 @@ msgstr ""
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
 msgid "Error to read server IP."
-msgstr ""
+msgstr "Error a leger IP de servitor."
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
@@ -1855,13 +1855,13 @@ msgstr ""
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Unveil vectorial map"
-msgstr ""
+msgstr "Disvela Mappa vectorial"
 
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:30
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
-msgstr ""
+msgstr "Adde character a %1"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:34
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
@@ -1903,12 +1903,12 @@ msgstr "Texto con Bordo"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:41
 msgctxt "QObject|"
 msgid "NPC Token"
-msgstr ""
+msgstr "Indicio de NPC"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:42
 msgctxt "QObject|"
 msgid "PC Token"
-msgstr ""
+msgstr "Indicio de PC"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:44
 msgctxt "QObject|"
@@ -2131,7 +2131,7 @@ msgstr "Adde Flecha"
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:65
 msgctxt "ButtonGrid|"
 msgid "Remove Selection"
-msgstr ""
+msgstr "Remove Selection"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:72
 msgctxt "ButtonGrid|"
@@ -2141,17 +2141,17 @@ msgstr "Refresca"
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:77
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
-msgstr ""
+msgstr "Exporta como PNG"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:82
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
-msgstr ""
+msgstr "Cela mappa parve"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:82
 msgctxt "ButtonGrid|"
 msgid "Show small map"
-msgstr ""
+msgstr "Monstra mappa parve"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
 msgctxt "ButtonGrid|"
@@ -2217,7 +2217,7 @@ msgstr "Salveguarda"
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:39
 msgctxt "MindMenu|"
 msgid "Remove Selection"
-msgstr ""
+msgstr "Remove Selection"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:47
 msgctxt "MindMenu|"
@@ -2257,7 +2257,7 @@ msgstr "Etiquettas:"
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
 msgctxt "NodeSettingPopup|"
 msgid "Node Styles"
-msgstr ""
+msgstr "Stilos de nodo"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:85
 msgctxt "NodeSettingPopup|"
@@ -2362,12 +2362,12 @@ msgstr "Radice"
 #: src/libraries/mindmap/src/model/boxmodel.cpp:212
 msgctxt "BoxModel|"
 msgid "New Node"
-msgstr ""
+msgstr "Nove Nodo"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:10
 msgctxt "IntegrityPage|"
 msgid "Missing files:"
-msgstr ""
+msgstr "Files mancante:"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:58
 msgctxt "IntegrityPage|"
@@ -2407,7 +2407,7 @@ msgstr "Omne"
 #: src/libraries/qml_views/InstantMessaging/AddChatRoomDialog.qml:80
 msgctxt "AddChatRoomDialog|"
 msgid "Add Chatroom"
-msgstr ""
+msgstr "Adde sala de conversation"
 
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:57
 msgctxt "ChatView|"
@@ -2459,12 +2459,12 @@ msgstr "Preferentias"
 #: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:40
 msgctxt "InstantMessagingMain|"
 msgid "Add chatroom"
-msgstr ""
+msgstr "Adde sala de conversation"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:28
 msgctxt "SideMenu|"
 msgid "Sound Notification"
-msgstr ""
+msgstr "Notification de sono"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:37
 msgctxt "SideMenu|"
@@ -2479,7 +2479,7 @@ msgstr "Nove Profilo"
 #: src/libraries/qml_views/views/ConnectionForm.qml:75
 msgctxt "ConnectionForm|"
 msgid "Clone profile"
-msgstr ""
+msgstr "Clona profilo"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:80
 msgctxt "ConnectionForm|"
@@ -2557,8 +2557,8 @@ msgstr ""
 msgctxt "QObject|"
 msgid "Move %n item(s)"
 msgid_plural "Move %n item(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Move %n elemento(s)"
+msgstr[1] "Move %n elemento(s)"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:154
 #, qt-format
@@ -2579,7 +2579,7 @@ msgstr "Cela (solmente GM)"
 #: src/libraries/rwidgets/customs/colorselector.cpp:258
 msgctxt "ColorSelector|"
 msgid "Unveil (GM only)"
-msgstr ""
+msgstr "Disvela (solmente GM)"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:265
 msgctxt "ColorSelector|"
@@ -2589,7 +2589,7 @@ msgstr "Cela"
 #: src/libraries/rwidgets/customs/colorselector.cpp:266
 msgctxt "ColorSelector|"
 msgid "Unveil"
-msgstr ""
+msgstr "Disvela"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:317
 #: src/libraries/rwidgets/customs/colorselector.cpp:333
@@ -2813,12 +2813,12 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:302
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
-msgstr ""
+msgstr "Rola Init"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
 msgctxt "RGraphicsView|"
 msgid "Clean Init"
-msgstr ""
+msgstr "Netta Init"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
@@ -2828,7 +2828,7 @@ msgstr "Zoom"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:378
 msgctxt "RGraphicsView|"
 msgid "Rotation Value ?"
-msgstr ""
+msgstr "Valor de Rotation?"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:379
 msgctxt "RGraphicsView|"
@@ -2908,17 +2908,17 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:558
 msgctxt "RGraphicsView|"
 msgid "As the Bigger"
-msgstr ""
+msgstr "Como le Major"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:561
 msgctxt "RGraphicsView|"
 msgid "As the Smaller"
-msgstr ""
+msgstr "Como le Minor"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:564
 msgctxt "RGraphicsView|"
 msgid "Lock/Unlock Item Geometry"
-msgstr ""
+msgstr "Bloca/Disbloca Geometria de Elemento"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
 msgctxt "RGraphicsView|"
@@ -2973,7 +2973,7 @@ msgstr "Fog of War (Nebula de guerra)"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:651
 msgctxt "RGraphicsView|"
 msgid "All Npcs"
-msgstr ""
+msgstr "Omne Npcs"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:637
 msgctxt "RGraphicsView|"
@@ -4692,17 +4692,17 @@ msgstr "Opacitate:"
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:82
 msgctxt "TestCharacterStateModel|"
 msgid "Healthy"
-msgstr ""
+msgstr "Con Sanitate"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:86
 msgctxt "TestCharacterStateModel|"
 msgid "Lightly Wounded"
-msgstr ""
+msgstr "Ferite legiermente"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:90
 msgctxt "TestCharacterStateModel|"
 msgid "Seriously injured"
-msgstr ""
+msgstr "Ferite gravemente"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:94
 msgctxt "TestCharacterStateModel|"
@@ -4717,4 +4717,4 @@ msgstr "Dormir"
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:102
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
-msgstr ""
+msgstr "Fascinate"
