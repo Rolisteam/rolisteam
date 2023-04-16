@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-13 12:32+0200\n"
+"PO-Revision-Date: 2023-04-15 09:05+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1801,13 +1801,13 @@ msgstr "Karaktere ezezaguna"
 #: src/libraries/core/src/network/rserver.cpp:40
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
-msgstr ""
+msgstr "[UPnP] Atakak mapatzea egin da"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:247
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "Authentification as Admin fails: %2 - %1, Wrong password."
-msgstr ""
+msgstr "Admin gisa autentifikazioak huts egin du: %2 - %1, pasahitz okerra."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:273
 #, qt-format
@@ -1815,28 +1815,30 @@ msgctxt "ServerConnectionManager|"
 msgid ""
 "Authentification fails: %1 try to connect to the server with wrong password."
 msgstr ""
+"Autentifikazioak huts egiten du: %1 zerbitzarira pasahitz okerrarekin "
+"konektatzen saiatu da."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:291
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User has been kick out: %2 - %1."
-msgstr ""
+msgstr "Erabiltzailea kanporatu izan da: %2 - %1."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:481
 msgctxt "ServerConnectionManager|"
 msgid "New Incoming Connection!"
-msgstr ""
+msgstr "Sarrerako konexio berria!"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:535
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User %1 has been disconnected!"
-msgstr ""
+msgstr "%1 erabiltzailea deskonektatu da!"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:168
 msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
-msgstr ""
+msgstr "Zerbitzariaren erantzunean ezin du URLa irakurri"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:276
 msgctxt "UpnpNat|"
@@ -1847,13 +1849,13 @@ msgstr ""
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
-msgstr ""
+msgstr "Zerbitzu mota egokia aurkitzea huts egin du: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:339
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
-msgstr ""
+msgstr "Ataka mapatzea gehitzea huts egin du (%1/%2) : errorea :\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -1873,55 +1875,55 @@ msgstr "Bide-izena"
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Conceal vectorial map"
-msgstr ""
+msgstr "Ostendu bektore-mapa"
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Unveil vectorial map"
-msgstr ""
+msgstr "Estalgabetu"
 
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:30
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
-msgstr ""
+msgstr "Gehitu pertsonaia %1(e)ra"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:34
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Line"
-msgstr ""
+msgstr "Lerroa"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:35
 msgctxt "QObject|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "Elipse betea"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:36
 msgctxt "QObject|"
 msgid "Empty Ellipse"
-msgstr ""
+msgstr "Elipse hutsa"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:37
 msgctxt "QObject|"
 msgid "Empty Rectangle"
-msgstr ""
+msgstr "Laukizuzen hutsa"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:38
 msgctxt "QObject|"
 msgid "Filled Rectangle"
-msgstr ""
+msgstr "Laukizuzen betea"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:39
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Text"
-msgstr ""
+msgstr "Testua"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:40
 msgctxt "QObject|"
 msgid "Text with border"
-msgstr ""
+msgstr "Testua ertzarekin"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:41
 msgctxt "QObject|"
@@ -1936,7 +1938,7 @@ msgstr "JP tokena"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:44
 msgctxt "QObject|"
 msgid "Pen"
-msgstr ""
+msgstr "Arkatza"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:45
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
@@ -1948,25 +1950,25 @@ msgstr "Bide-izena"
 #, qt-format
 msgctxt "QObject|"
 msgid "add %1 item"
-msgstr ""
+msgstr "Gehitu %1 elementua"
 
 #: src/libraries/core/src/undoCmd/changecoloritem.cpp:29
 #, qt-format
 msgctxt "QObject|"
 msgid "Change Item Color to %1"
-msgstr ""
+msgstr "Aldatu elementuaren kolorea %1(e)ra"
 
 #: src/libraries/core/src/undoCmd/changesizevmapitem.cpp:98
 #, qt-format
 msgctxt "QObject|"
 msgid "Change size of %1 item(s)"
-msgstr ""
+msgstr "Aldatu %1 elementuren neurria"
 
 #: src/libraries/core/src/undoCmd/deletevmapitem.cpp:33
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete %1 Item(s) From Map"
-msgstr ""
+msgstr "Ezabatu %1 elementu mapatik"
 
 #: src/libraries/core/src/undoCmd/importdatamedia.cpp:41
 #, qt-format
@@ -2602,7 +2604,7 @@ msgstr "Ezkutatu (JMak bakarrik)"
 #: src/libraries/rwidgets/customs/colorselector.cpp:258
 msgctxt "ColorSelector|"
 msgid "Unveil (GM only)"
-msgstr "Ezagutzera eman (JMak bakarrik)"
+msgstr "Estalgabetu (JMak bakarrik)"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:265
 msgctxt "ColorSelector|"
@@ -2612,7 +2614,7 @@ msgstr "Ezkutatu"
 #: src/libraries/rwidgets/customs/colorselector.cpp:266
 msgctxt "ColorSelector|"
 msgid "Unveil"
-msgstr ""
+msgstr "Estalgabetu"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:317
 #: src/libraries/rwidgets/customs/colorselector.cpp:333
