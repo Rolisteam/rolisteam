@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-15 09:05+0200\n"
+"PO-Revision-Date: 2023-04-17 00:50+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1770,12 +1770,12 @@ msgstr "Pertsonaia berria"
 #: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
 msgid "Socket is null"
-msgstr ""
+msgstr "Hargunea nulua da"
 
 #: src/libraries/core/src/network/clientconnection.cpp:96
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
-msgstr ""
+msgstr "Ezin da hargunean idatzi"
 
 #: src/libraries/core/src/network/clientconnection.cpp:119
 msgctxt "ClientConnection|"
@@ -1992,7 +1992,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
-msgstr ""
+msgstr "Sortu %1 berria %2"
 
 #: src/libraries/core/src/undoCmd/openmediacontroller.cpp:43
 #, qt-format
@@ -2004,55 +2004,55 @@ msgstr "Ireki %1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
-msgstr ""
+msgstr "Kendu %1 karakterea"
 
 #: src/libraries/core/src/undoCmd/removemediacontrollercommand.cpp:40
 #, qt-format
 msgctxt "QObject|"
 msgid "Close %1"
-msgstr ""
+msgstr "Itxi %1"
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:210
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
-msgstr ""
+msgstr "'%1' ez dago hutsik"
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:219
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
-msgstr ""
+msgstr "Ezin izan du '%1' sortu"
 
 #: src/libraries/core/src/worker/fileserializer.cpp:96
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
-msgstr ""
+msgstr "Errorea: %1 ez da existitzen edo ez da irakurgarria."
 
 #: src/libraries/core/src/worker/utilshelper.cpp:167
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
-msgstr ""
+msgstr "Pertsonaien orrien fitxategiak (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:170
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
-msgstr ""
+msgstr "Euskarria duten irudi-formatuak (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:173
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
-msgstr ""
+msgstr "Euskarria duten testu-fitxategiak (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:176
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
-msgstr ""
+msgstr "Euskarria duten partekatutako ohar formatuak (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:179
 #, qt-format
@@ -2064,13 +2064,13 @@ msgstr "Euskarria duen web-orria (%1)"
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
-msgstr ""
+msgstr "PDF fitxategia (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:185
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
-msgstr ""
+msgstr "Bektore-mapa (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:188
 #, qt-format
@@ -2081,22 +2081,22 @@ msgstr "Gogoeta-mapa (%1)"
 #: src/libraries/core/src/worker/utilshelper.cpp:202
 msgctxt "QObject|"
 msgid "Vectorial Map"
-msgstr ""
+msgstr "Bektore-mapa"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:203
 msgctxt "QObject|"
 msgid "Picture"
-msgstr ""
+msgstr "Irudia"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:204
 msgctxt "QObject|"
 msgid "Minutes"
-msgstr ""
+msgstr "Minutu"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:205
 msgctxt "QObject|"
 msgid "Character Sheet"
-msgstr ""
+msgstr "Pertsonaia-orri"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:206
 msgctxt "QObject|"
@@ -2257,7 +2257,7 @@ msgstr "Berregin"
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:62
 msgctxt "MindMenu|"
 msgid "Center"
-msgstr ""
+msgstr "Erdiratu"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:76
 msgctxt "MindMenu|"
@@ -2309,7 +2309,7 @@ msgstr "Gaueko modua"
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:46
 msgctxt "SideMenu|"
 msgid "Link label visible:"
-msgstr ""
+msgstr "Estekaren etiketa ikusgai:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:53
 msgctxt "SideMenu|"
@@ -2554,7 +2554,7 @@ msgstr "Jokoaren maisua naiz"
 #: src/libraries/qml_views/views/ConnectionForm.qml:178
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
-msgstr ""
+msgstr "Kanpainaren erroa:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:201
 msgctxt "ConnectionForm|"
@@ -2575,15 +2575,15 @@ msgstr "Utzi"
 #, qt-format
 msgctxt "ChangeStackOrderVMapCommand|"
 msgid "Change stack order of %1 item(s)"
-msgstr ""
+msgstr "Aldatu %1 elementuren pilako ordena"
 
 #: src/libraries/rwidgets/commands/movevmapitem.cpp:34
 #, qt-format
 msgctxt "QObject|"
 msgid "Move %n item(s)"
 msgid_plural "Move %n item(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mugitu elementu %n"
+msgstr[1] "Mugitu %n elementu"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:154
 #, qt-format
@@ -2641,42 +2641,42 @@ msgstr "Lortu pertsonaiaren egoerarako irudia"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:82
 msgctxt "PlayerWidget|"
 msgid "Play"
-msgstr ""
+msgstr "Jo"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:83
 msgctxt "PlayerWidget|"
 msgid "Pause"
-msgstr ""
+msgstr "Eten"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:84
 msgctxt "PlayerWidget|"
 msgid "Stop"
-msgstr ""
+msgstr "Gelditu"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:86
 msgctxt "PlayerWidget|"
 msgid "Stop at the end"
-msgstr ""
+msgstr "Bukatzean gelditu"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:91
 msgctxt "PlayerWidget|"
 msgid "Play in loop"
-msgstr ""
+msgstr "Begiztan jo"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:96
 msgctxt "PlayerWidget|"
 msgid "Shuffle Mode"
-msgstr ""
+msgstr "Nahastu modua"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:100
 msgctxt "PlayerWidget|"
 msgid "Open Directory"
-msgstr ""
+msgstr "Ireki direktorioa"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:103
 msgctxt "PlayerWidget|"
 msgid "Mute Volume"
-msgstr ""
+msgstr "Isilarazi bolumena"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:107
 msgctxt "PlayerWidget|"
@@ -2686,58 +2686,58 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:109
 msgctxt "PlayerWidget|"
 msgid "Open Playlist"
-msgstr ""
+msgstr "Ireki jotze-zerrenda"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:112
 msgctxt "PlayerWidget|"
 msgid "Save Playlist"
-msgstr ""
+msgstr "gorde jotze-zerrenda"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:115
 msgctxt "PlayerWidget|"
 msgid "Clear"
-msgstr ""
+msgstr "Hustu"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:119
 msgctxt "PlayerWidget|"
 msgid "Add Songs"
-msgstr ""
+msgstr "Gehitu abestiak"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:122
 msgctxt "PlayerWidget|"
 msgid "Open Stream"
-msgstr ""
+msgstr "Ireki korrontea"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:124
 msgctxt "PlayerWidget|"
 msgid "Remove Song"
-msgstr ""
+msgstr "Kendu abestia"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:146
 msgctxt "PlayerWidget|"
 msgid "Add song to the list"
-msgstr ""
+msgstr "Gehitu abestia zerrendara"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:147
 msgctxt "PlayerWidget|"
 msgid "Remove selected file"
-msgstr ""
+msgstr "Kendu hautatutako fitxategia"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:274
 msgctxt "PlayerWidget|"
 msgid "Add song"
-msgstr ""
+msgstr "Gehitu abestia"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:274
 #, qt-format
 msgctxt "PlayerWidget|"
 msgid "Audio files (%1)"
-msgstr ""
+msgstr "Audio-fitxategiak (%1)"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:286
 msgctxt "PlayerWidget|"
 msgid "Attention!"
-msgstr ""
+msgstr "Adi!"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:287
 msgctxt "PlayerWidget|"
@@ -2745,95 +2745,97 @@ msgid ""
 "You are about to load an new playlist. All previously load file will be "
 "dropped."
 msgstr ""
+"Jotze-zerrenda berri bat zamatzera zoaz. Aurretik zamatutako abesti guztiak "
+"botako dira."
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:296
 msgctxt "PlayerWidget|"
 msgid "Open Play List"
-msgstr ""
+msgstr "Ireki jotze-zerrenda"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:296
 #: src/libraries/rwidgets/customs/playerwidget.cpp:364
 msgctxt "PlayerWidget|"
 msgid "PlayList (*.m3u)"
-msgstr ""
+msgstr "Jotze-zerrenda (*.m3u)"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:305
 msgctxt "PlayerWidget|"
 msgid "Open audio Stream"
-msgstr ""
+msgstr "Ireki audio-korrontea"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:305
 msgctxt "PlayerWidget|"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:364
 msgctxt "PlayerWidget|"
 msgid "Save Play List"
-msgstr ""
+msgstr "Gorde jotze-zerrenda"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
 msgctxt "RGraphicsView|"
 msgid "%n item(s)"
 msgid_plural "%n item(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "elementu %n"
+msgstr[1] "%n elementu"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:241
 msgctxt "RGraphicsView|"
 msgid "Overlapping"
-msgstr ""
+msgstr "Gainezarpena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:247
 msgctxt "RGraphicsView|"
 msgid "Rotate"
-msgstr ""
+msgstr "Biratu"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:248
 msgctxt "RGraphicsView|"
 msgid "To 360"
-msgstr ""
+msgstr "360ra"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:249
 msgctxt "RGraphicsView|"
 msgid "Right"
-msgstr "Eskuina"
+msgstr "Eskuinera"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:250
 msgctxt "RGraphicsView|"
 msgid "Left"
-msgstr "Ezkerra"
+msgstr "Ezkerrera"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:251
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
-msgstr ""
+msgstr "Ezarri angelua..."
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
 msgctxt "RGraphicsView|"
 msgid "Set Layer"
-msgstr ""
+msgstr "Ezarri geruza"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:263
 msgctxt "RGraphicsView|"
 msgid "Normalize Size"
-msgstr ""
+msgstr "Normalizatu neurria"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:273
 msgctxt "RGraphicsView|"
 msgid "Map"
-msgstr ""
+msgstr "Mapa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:291
 msgctxt "RGraphicsView|"
 msgid "Edit Layer"
-msgstr ""
+msgstr "Editatu geruza"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:297
 msgctxt "RGraphicsView|"
 msgid "Change Visibility"
-msgstr ""
+msgstr "Aldatu ikusgaitasuna"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:302
 msgctxt "RGraphicsView|"
@@ -2853,12 +2855,12 @@ msgstr "Zoom"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:378
 msgctxt "RGraphicsView|"
 msgid "Rotation Value ?"
-msgstr ""
+msgstr "Biraketa balioa?"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:379
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
-msgstr ""
+msgstr "Mesedez, ezarri nahi duzun biraketa angelua [0-360]"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:505
 msgctxt "RGraphicsView|"
@@ -2878,7 +2880,7 @@ msgstr "Zooma urrundu max"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
 msgctxt "RGraphicsView|"
 msgid "Center on Item"
-msgstr ""
+msgstr "Erdiratu elementuan"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:510
 msgctxt "RGraphicsView|"
@@ -2898,57 +2900,57 @@ msgstr "Kendu"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:526
 msgctxt "RGraphicsView|"
 msgid "Import Image"
-msgstr ""
+msgstr "Inportatu irudia"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:536
 msgctxt "RGraphicsView|"
 msgid "Back"
-msgstr "Atzera"
+msgstr "Atzealdea"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:540
 msgctxt "RGraphicsView|"
 msgid "Front"
-msgstr ""
+msgstr "Aurrealdea"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:544
 msgctxt "RGraphicsView|"
 msgid "Lower"
-msgstr ""
+msgstr "Beheratu"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:548
 msgctxt "RGraphicsView|"
 msgid "Raise"
-msgstr ""
+msgstr "Goratu"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:552
 msgctxt "RGraphicsView|"
 msgid "Average"
-msgstr ""
+msgstr "Batezbestekoa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:555
 msgctxt "RGraphicsView|"
 msgid "As undermouse item"
-msgstr ""
+msgstr "Sagu azpiko elementua gisa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:558
 msgctxt "RGraphicsView|"
 msgid "As the Bigger"
-msgstr ""
+msgstr "Handiena gisa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:561
 msgctxt "RGraphicsView|"
 msgid "As the Smaller"
-msgstr ""
+msgstr "Txikiena gisa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:564
 msgctxt "RGraphicsView|"
 msgid "Lock/Unlock Item Geometry"
-msgstr ""
+msgstr "Giltzatu/giltzagetu elementuaren geometria"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:565
 msgctxt "RGraphicsView|"
 msgid "Duplicate Item"
-msgstr ""
+msgstr "Bikoiztu elementua"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:575
 msgctxt "RGraphicsView|"
@@ -2959,13 +2961,13 @@ msgstr "Propietateak"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:598
 msgctxt "RGraphicsView|"
 msgid "Ground"
-msgstr ""
+msgstr "Lurzorua"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:583
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:601
 msgctxt "RGraphicsView|"
 msgid "Object"
-msgstr ""
+msgstr "Objektua"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:586
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:604
@@ -2987,12 +2989,12 @@ msgstr "Dena"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:620
 msgctxt "RGraphicsView|"
 msgid "Hidden"
-msgstr ""
+msgstr "Ezkutuan"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:624
 msgctxt "RGraphicsView|"
 msgid "Fog Of War"
-msgstr ""
+msgstr "Guduko lainoa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:636
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:651
@@ -3020,7 +3022,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:661
 msgctxt "RGraphicsView|"
 msgid "All Characters"
-msgstr ""
+msgstr "Pertsonaia guztiak"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:647
 msgctxt "RGraphicsView|"
@@ -3045,7 +3047,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
 msgid "Predefine Color 1"
-msgstr ""
+msgstr "Kolore aurredefinitua 1"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:131
 #, qt-format
@@ -3056,48 +3058,48 @@ msgstr "Gorria: %1, Berdea: %2, Urdina: %3"
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:31
 msgctxt "AboutRolisteam|"
 msgid "English & French"
-msgstr ""
+msgstr "Ingelesa eta frantsesa"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:33
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
 msgctxt "AboutRolisteam|"
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugesa"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:36
 msgctxt "AboutRolisteam|"
 msgid "Hungarian"
-msgstr ""
+msgstr "Hungariera"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:37
 msgctxt "AboutRolisteam|"
 msgid "Turkish"
-msgstr ""
+msgstr "Turkiera"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:38
 msgctxt "AboutRolisteam|"
 msgid "French & German"
-msgstr ""
+msgstr "Frantsesa eta alemana"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:39
 msgctxt "AboutRolisteam|"
 msgid "Romanian"
-msgstr ""
+msgstr "Errumaniera"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:40
 msgctxt "AboutRolisteam|"
 msgid "Spanish"
-msgstr ""
+msgstr "Gaztelania"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:41
 msgctxt "AboutRolisteam|"
 msgid "Dutch"
-msgstr ""
+msgstr "Nederlandera"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:42
 msgctxt "AboutRolisteam|"
 msgid "Catalan"
-msgstr ""
+msgstr "Katalana"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:57
 msgctxt "AboutRolisteam|"
@@ -3124,66 +3126,66 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Web Sites:"
-msgstr ""
+msgstr "Webguneak:"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Official Rolisteam Site"
-msgstr ""
+msgstr "«Rolisteam» gune ofiziala"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
-msgstr ""
+msgstr "Akats aztarnaria"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Current developers"
-msgstr ""
+msgstr "Egungo garatzaileak"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
 msgid "Contributors"
-msgstr ""
+msgstr "Kolaboratzaileak"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
 msgctxt "AboutRolisteam|"
 msgid "Translators"
-msgstr ""
+msgstr "Itzultzaileak"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:39
 msgctxt "CampaignProperties|"
 msgid "Campaign Properties"
-msgstr ""
+msgstr "Kanpainaren propietateak"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:67
 #, qt-format
 msgctxt "CampaignProperties|"
 msgid "%n file(s)"
 msgid_plural "%n file(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fitxategi %n"
+msgstr[1] "%n fitxategi"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection has failed! Connection Retry in %1s."
-msgstr ""
+msgstr "Konexioak huts egin du! Konexioa saiakera berria %1s barru."
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:153
 msgctxt "ImageSelectorDialog|"
 msgid "Open Image file"
-msgstr ""
+msgstr "Ireki irudi-fitxategia"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
 msgctxt "NewFileDialog|"
 msgid "Shared Notes"
-msgstr ""
+msgstr "Ohar partekatuak"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:38
 msgctxt "NewFileDialog|"
 msgid "Notes"
-msgstr ""
+msgstr "Oharrak"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:39
 msgctxt "NewFileDialog|"
@@ -3193,58 +3195,58 @@ msgstr "Gogoeta-mapa"
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:126
 msgctxt "PreferencesDialog|"
 msgid "Preferences"
-msgstr ""
+msgstr "Hobespenak"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:366
 msgctxt "PreferencesDialog|"
 msgid "Images (*.png *.xpm *.jpg *.gif *.bmp)"
-msgstr ""
+msgstr "Irudiak (*.png *.xpm *.jpg *.gif *.bmp)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
 msgid "Css Editor"
-msgstr ""
+msgstr "CSS editorea"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
 msgctxt "PreferencesDialog|"
 msgid "Css"
-msgstr ""
+msgstr "CSS"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:474
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
-msgstr ""
+msgstr "<li>Irudi-formatu: %1 balioa %2</li>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:475
 msgctxt "PreferencesDialog|"
 msgid "<h2>Supported Image Formats:</h2><ul>"
-msgstr ""
+msgstr "<h2>Euskarria duten irudi-formatuak</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:482
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Image Format"
-msgstr ""
+msgstr "</ul>Irudi formatuen amaiera"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:485
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
-msgstr ""
+msgstr "<h2>Letra-tipo familiak:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:492
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
-msgstr ""
+msgstr "</ul>Letra-tipo familiak"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:495
 msgctxt "PreferencesDialog|"
 msgid "<h2>Audio file formats Support:</h2><ul>"
-msgstr ""
+msgstr "<h2>Audio-fitxategi formatuen euskarria:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:530
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Supported Audio file formats"
-msgstr ""
+msgstr "</ul>Euskarria duten audio-fitxategien formatuak"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:547
 msgctxt "PreferencesDialog|"
@@ -3313,7 +3315,7 @@ msgstr "Ezkutuan"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "Fog of War"
-msgstr ""
+msgstr "Guduko lainoa"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
@@ -3532,17 +3534,17 @@ msgstr ""
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
 msgctxt "VmapTopBar|"
 msgid "Square Grid"
-msgstr ""
+msgstr "Sareta karratua"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:65
 msgctxt "VmapTopBar|"
 msgid "Hexagonal Grid"
-msgstr ""
+msgstr "Sareta hexagonala"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:84
 msgctxt "VmapTopBar|"
 msgid "Grid Above"
-msgstr ""
+msgstr "Sareta gainean"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:90
 msgctxt "VmapTopBar|"
@@ -3552,42 +3554,42 @@ msgstr "Baimena: JMak bakarrik"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:96
 msgctxt "VmapTopBar|"
 msgid "Permission: PC Move"
-msgstr ""
+msgstr "Baimena: JP mugitzea"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:102
 msgctxt "VmapTopBar|"
 msgid "Permission: All"
-msgstr ""
+msgstr "Baimena: Dena"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:126
 msgctxt "VmapTopBar|"
 msgid "Visibility: Hidden"
-msgstr ""
+msgstr "Ikusgaitasuna: Ezkutuan"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:132
 msgctxt "VmapTopBar|"
 msgid "Visibility: Fog"
-msgstr ""
+msgstr "Ikusgaitasuna: Lainoa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:138
 msgctxt "VmapTopBar|"
 msgid "Visibility: All"
-msgstr ""
+msgstr "Ikusgaitasuna: Osoa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:162
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Ground"
-msgstr ""
+msgstr "Uneko geruza: Lurzorua"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:168
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Object"
-msgstr ""
+msgstr "Uneko geruza: Objektua"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:174
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Character"
-msgstr ""
+msgstr "Uneko geruza: Pertsonaia"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
 msgctxt "VmapTopBar|"
@@ -3597,22 +3599,23 @@ msgstr "Uneko geruza: Jokoaren maisua"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:206
 msgctxt "VmapTopBar|"
 msgid "hide other layers"
-msgstr ""
+msgstr "ezkutatu beste geruzak"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:211
+#, fuzzy
 msgctxt "VmapTopBar|"
 msgid "Character Vision"
-msgstr ""
+msgstr "Pertsonaiaren ikus"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
 msgctxt "VmapTopBar|"
 msgid "Show Transparent Item"
-msgstr ""
+msgstr "Erakutsi elementu gardena"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:220
 msgctxt "VmapTopBar|PC = playable character"
 msgid "Show/Hide PC name"
-msgstr ""
+msgstr "Erakutsi/Ezkutatu JParen izena"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:224
 msgctxt "VmapTopBar|NPC = non-playable character"
@@ -3627,63 +3630,63 @@ msgstr "Erakutsi/ezkutatu JEParen zenbakia"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:230
 msgctxt "VmapTopBar|"
 msgid "Show/Hide State"
-msgstr ""
+msgstr "Erakutsi/Ezkutatu egoera"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:233
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Health Bar"
-msgstr ""
+msgstr "Erakutsi/Ezkutatu osasun-barra"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:236
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Initiative"
-msgstr ""
+msgstr "Erakutsi/Ezkutatu ekimena"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 msgctxt "VmapTopBar|"
 msgid "inch"
-msgstr ""
+msgstr "hazbete"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 msgctxt "VmapTopBar|"
 msgid "foot"
-msgstr ""
+msgstr "oin"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:306
 msgctxt "VmapTopBar|"
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Standard"
-msgstr ""
+msgstr "Estandarra"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 1"
-msgstr ""
+msgstr "Goiburua 1"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 2"
-msgstr ""
+msgstr "Goiburua 2"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 3"
-msgstr ""
+msgstr "Goiburua 3"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
 msgctxt "MRichTextEdit|"
 msgid "Heading 4"
-msgstr ""
+msgstr "Goiburua 4"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:64
 msgctxt "MRichTextEdit|"
 msgid "Monospace"
-msgstr ""
+msgstr "Zabalera-finkoa"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
 msgctxt "MRichTextEdit|"
@@ -3698,69 +3701,69 @@ msgstr ""
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:129
 msgctxt "MRichTextEdit|"
 msgid "Edit document source"
-msgstr ""
+msgstr "Editatu dokumentuaren sorburua"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:192
 msgctxt "MRichTextEdit|"
 msgid "Document source"
-msgstr ""
+msgstr "Dokumentuaren sorburua"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
 msgid "Create a link"
-msgstr ""
+msgstr "Sortu esteka bat"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
-msgstr ""
+msgstr "Estekaren URL:"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:666
 msgctxt "MRichTextEdit|"
 msgid "Select an image"
-msgstr ""
+msgstr "Hautatu irudi bat"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:667
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
-msgstr ""
+msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Dena (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:267
 msgctxt "OOReader|"
 msgid "Unable to convert document body!"
-msgstr ""
+msgstr "Ez da dokumentuaren gorputza bihurtzeko gai!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
 msgctxt "XMLTextEdit|"
 msgid "Found xml error"
-msgstr ""
+msgstr "XML errorea aurkitu du"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:60
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "Check line %1 column %2 on string \"%3\"!"
-msgstr ""
+msgstr "Egiaztatu %1 lerroa %2 zutabea \"%3\" katean!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 msgctxt "XMLTextEdit|"
 msgid "XML valid."
-msgstr ""
+msgstr "XML balioduna."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "All tag are valid size %1."
-msgstr ""
+msgstr "Etiketa guztiek dute %1 neurri balioduna."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
 msgid "XML not found!"
-msgstr ""
+msgstr "XML ez da aurkitu!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
 msgid "Null size xml document!"
-msgstr ""
+msgstr "Neurri nuluko XML dokumentua!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:89
 msgctxt "XMLTextEdit|"
@@ -3781,37 +3784,37 @@ msgstr ""
 #, qt-format
 msgctxt "NoteContainer|"
 msgid "%1 - Note"
-msgstr ""
+msgstr "%1 - Oharra"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:174
 msgctxt "TextEdit|"
 msgid "File Actions"
-msgstr ""
+msgstr "Fitxategi-ekintzak"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:177
 msgctxt "TextEdit|"
 msgid "&File"
-msgstr ""
+msgstr "&Fitxategia"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:208
 msgctxt "TextEdit|"
 msgid "&Print..."
-msgstr ""
+msgstr "In&primatu..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
 msgctxt "TextEdit|"
 msgid "Print Preview..."
-msgstr ""
+msgstr "Inprimatzeko aurrebista..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:218
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
-msgstr ""
+msgstr "&Esportatu PDF..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:235
 msgctxt "TextEdit|"
 msgid "Edit Actions"
-msgstr ""
+msgstr "Editatu ekintzak"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:238
 msgctxt "TextEdit|"
@@ -3831,7 +3834,7 @@ msgstr "Be&rregin"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:251
 msgctxt "TextEdit|"
 msgid "Cu&t"
-msgstr ""
+msgstr "E&baki"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:255
 msgctxt "TextEdit|"
@@ -3841,63 +3844,63 @@ msgstr "&Kopiatu"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
 msgctxt "TextEdit|"
 msgid "&Paste"
-msgstr ""
+msgstr "I&tsatsi"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:269
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:337
 msgctxt "TextEdit|"
 msgid "Format Actions"
-msgstr ""
+msgstr "Formatu-ekintzak"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:272
 msgctxt "TextEdit|"
 msgid "F&ormat"
-msgstr ""
+msgstr "F&ormatua"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:275
 msgctxt "TextEdit|"
 msgid "&Bold"
-msgstr ""
+msgstr "&Lodia"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:285
 msgctxt "TextEdit|"
 msgid "&Italic"
-msgstr ""
+msgstr "Et&zana"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:295
 msgctxt "TextEdit|"
 msgid "&Underline"
-msgstr ""
+msgstr "&Azpimarra"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:310
 msgctxt "TextEdit|"
 msgid "&Left"
-msgstr "E&zkerra"
+msgstr "E&zkerrera"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:313
 msgctxt "TextEdit|"
 msgid "C&enter"
-msgstr ""
+msgstr "&Erdiratu"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:316
 msgctxt "TextEdit|"
 msgid "&Right"
-msgstr "E&skuina"
+msgstr "E&skuinera"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:319
 msgctxt "TextEdit|"
 msgid "&Justify"
-msgstr ""
+msgstr "&Justifikatu"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:330
 msgctxt "TextEdit|"
 msgid "&Color..."
-msgstr ""
+msgstr "&Kolorea..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:443
 msgctxt "TextEdit|"
 msgid "Application"
-msgstr ""
+msgstr "Aplikazioa"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:444
 msgctxt "TextEdit|"
@@ -3905,6 +3908,8 @@ msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
 msgstr ""
+"Dokumentua aldatu egin da.\n"
+"Zure aldaketak gorde nahi dituzu?"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:472
 msgctxt "TextEdit|"
@@ -3915,26 +3920,28 @@ msgstr "Ireki fitxategia..."
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
 msgstr ""
+"ODF fitxategiak (*.odt);;HTML-Fitxategiak (*.htm *.html);;Fitxategi guztiak "
+"(*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:531
 msgctxt "TextEdit|"
 msgid "HTML-Files (*.htm *.html);;All Files (*)"
-msgstr ""
+msgstr "HTML-Fitxategiak (*.htm *.html);;Fitxategi guztiak (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:533
 msgctxt "TextEdit|"
 msgid "Save as..."
-msgstr ""
+msgstr "Gorde honela..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:548
 msgctxt "TextEdit|"
 msgid "Print Document"
-msgstr ""
+msgstr "Inprimatu dokumentua"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:732
 msgctxt "TextEdit|"
 msgid "About"
-msgstr ""
+msgstr "Honi buruz"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:733
 msgctxt "TextEdit|"
@@ -3946,7 +3953,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:791
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
-msgstr ""
+msgstr "OpenOffice 2.4 fitxategi formatua OASIS"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -4127,58 +4134,58 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:137
 msgctxt "TextItem|"
 msgid "Increase Text Size"
-msgstr ""
+msgstr "Handiagotu letra-tipoa"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:138
 msgctxt "TextItem|"
 msgid "Decrease Text Size"
-msgstr ""
+msgstr "Txikiagotu letra-tipoa"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:139
 msgctxt "TextItem|"
 msgid "Edit Text…"
-msgstr ""
+msgstr "Editatu testua…"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:140
 msgctxt "TextItem|"
 msgid "Adapt to content"
-msgstr ""
+msgstr "Egokitu edukira"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:191
 msgctxt "TextItem|"
 msgid "Text"
-msgstr ""
+msgstr "Testua"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:298
 msgctxt "TextItem|"
 msgid "Font Size"
-msgstr ""
+msgstr "Letra-tipoaren neurria"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Ellipse"
-msgstr ""
+msgstr "Elipsea"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Rect"
-msgstr ""
+msgstr "Laukizuzena"
 
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Rule"
-msgstr ""
+msgstr "Erregela"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:164
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr ""
+msgstr "%1 - (Pertsonaia-orri erakuslea)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
 msgid "To all"
-msgstr ""
+msgstr "Denei"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:542
 msgctxt "CharacterSheetWindow|"
@@ -4216,7 +4223,7 @@ msgstr "%1 - Irudia"
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture)"
-msgstr ""
+msgstr "%1 - (Irudia)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:212
 msgctxt "Image|"
@@ -4251,42 +4258,42 @@ msgstr "Ktrl+-"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:237
 msgctxt "Image|"
 msgid "Fit the workspace"
-msgstr ""
+msgstr "Egokitu langunera"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:239
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
-msgstr ""
+msgstr "Leihoak eta irudiak langunera egokitzen dira"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|Fit the workspace"
 msgid "Ctrl+m"
-msgstr ""
+msgstr "Ktrl+m"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:249
 msgctxt "Image|"
 msgid "Fit Window"
-msgstr ""
+msgstr "Egokitu leihora"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:254
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
-msgstr ""
+msgstr "Irudiak leihora egokitzeko dimentsio onena hartuko du."
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
 msgid "Ctrl+f"
-msgstr ""
+msgstr "Ktrl+f"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:264
 msgctxt "Image|"
 msgid "Little"
-msgstr ""
+msgstr "Txikia"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:265
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
-msgstr "Ezarri zoom maila % 20"
+msgstr "Ezarri zoom maila % 20an"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|Set the zoom level at 20%"
@@ -4306,12 +4313,12 @@ msgstr "Zoom gabe"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|Normal"
 msgid "Ctrl+n"
-msgstr ""
+msgstr "Ktrl+n"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:286
 msgctxt "Image|"
 msgid "Big"
-msgstr ""
+msgstr "Handia"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:287
 msgctxt "Image|"
@@ -4328,32 +4335,32 @@ msgstr "Ktrl+b"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:312
 msgctxt "Image|"
 msgid "Play"
-msgstr ""
+msgstr "Jo"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:297
 msgctxt "Image|"
 msgid "Stop"
-msgstr ""
+msgstr "Gelditu"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:303
 msgctxt "Image|"
 msgid "Pause"
-msgstr ""
+msgstr "Eten"
 
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.cpp:86
 msgctxt "InstantMessagingView|"
 msgid "Instant Messaging"
-msgstr ""
+msgstr "Bat-bateko mezularitza"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:34
 msgctxt "MediaContainer|"
 msgid "Detach the view"
-msgstr ""
+msgstr "Bereizi ikuspegia"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:58
 msgctxt "QObject|"
 msgid "Loading error"
-msgstr ""
+msgstr "Zamatzeko errorea"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:149
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:151
@@ -4365,7 +4372,7 @@ msgstr "%1 - Gogoeta-mapa"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
-msgstr ""
+msgstr "PDF fitxategia partekatzea"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:283
 msgctxt "PdfViewer|"
@@ -4373,22 +4380,24 @@ msgid ""
 "PDF transfer can be really heavy.\n"
 "Do you want to continue and share the PDF?"
 msgstr ""
+"PDF transferentzia zinez astuna izan daiteke.\n"
+"Jarraitu eta PDFa partekatu nahi duzu?"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:293
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
-msgstr ""
+msgstr "%1 - (PDF)"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
 msgid "Fog Of War"
-msgstr ""
+msgstr "Guduko lainoa"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
 msgid "All visible"
-msgstr ""
+msgstr "Guztiak ikusgai"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
@@ -4408,24 +4417,24 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:56
 msgctxt "QObject|"
 msgid "Fog Layer"
-msgstr ""
+msgstr "Laino geruza"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:57
 msgctxt "QObject|"
 msgid "Grid Layer"
-msgstr ""
+msgstr "Sareta geruza"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:58
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:62
 msgctxt "QObject|"
 msgid "No Layer"
-msgstr ""
+msgstr "Geruzarik ez"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:83
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
-msgstr ""
+msgstr "%1 - ikusgaitasuna: %2 - baimena: %3 - geruza: %4"
 
 #: src/libraries/rwidgets/mediacontainers/webview.cpp:118
 #, qt-format
@@ -4436,7 +4445,7 @@ msgstr "%1 - Web-orria"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:25
 msgctxt "campaign::CampaignView|"
 msgid "Add directory…"
-msgstr ""
+msgstr "Gehitu direktorioa..."
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:26
 msgctxt "campaign::CampaignView|"
@@ -4457,7 +4466,7 @@ msgstr "Ireki"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:145
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
-msgstr ""
+msgstr "Ireki honela..."
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
@@ -4472,7 +4481,7 @@ msgstr "Izena"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:33
 msgctxt "campaign::CampaignView|"
 msgid "Size"
-msgstr ""
+msgstr "Neurria"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:34
 msgctxt "campaign::CampaignView|"
@@ -4482,32 +4491,32 @@ msgstr "Mota"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:35
 msgctxt "campaign::CampaignView|"
 msgid "Date Added"
-msgstr ""
+msgstr "Data gehitu da"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
 msgctxt "campaign::CampaignView|"
 msgid "Date Modified"
-msgstr ""
+msgstr "Data aldatu da"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:109
 msgctxt "campaign::CampaignView|"
 msgid "Notes"
-msgstr ""
+msgstr "Oharrak"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:112
 msgctxt "campaign::CampaignView|"
 msgid "Shared Notes"
-msgstr ""
+msgstr "Ohar partekatuak"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:153
 msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
-msgstr ""
+msgstr "Erakutsi/ezkutatu zutabea"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:48
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr ""
+msgstr "Ezarri abatarra..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:49
 msgctxt "UserListView|"
@@ -4517,42 +4526,42 @@ msgstr "Kendu..."
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:50
 msgctxt "UserListView|"
 msgid "Edit name"
-msgstr ""
+msgstr "Editatu izena"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Change color…"
-msgstr ""
+msgstr "Aldatu kolorea..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:61
 msgctxt "UserListView|"
 msgid "Health Points"
-msgstr ""
+msgstr "Osasun puntuak"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:61
 msgctxt "UserListView|"
 msgid "Health Points Maximum"
-msgstr ""
+msgstr "Osasun puntuak gehienez"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:62
 msgctxt "UserListView|"
 msgid "Health Points Minimum"
-msgstr ""
+msgstr "Osasun puntuak gutxienez"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:62
 msgctxt "UserListView|"
 msgid "Distance per turn"
-msgstr ""
+msgstr "Distantzia txanda bakoitzeko"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:63
 msgctxt "UserListView|"
 msgid "Initiative Command"
-msgstr ""
+msgstr "Ekimen komandoa"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:63
 msgctxt "UserListView|"
 msgid "Has initiative"
-msgstr ""
+msgstr "Ekimena du"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:131
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
@@ -4560,7 +4569,7 @@ msgstr ""
 #, qt-format
 msgctxt "UserListView|"
 msgid "Get value for %1 property"
-msgstr ""
+msgstr "Lortu %1 propietaterako balioa"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:131
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
@@ -4572,67 +4581,67 @@ msgstr "Balioa:"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:228
 msgctxt "UserListView|"
 msgid "Set Property"
-msgstr ""
+msgstr "Ezarri  propietatea"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:242
 msgctxt "UserListView|"
 msgid "State"
-msgstr ""
+msgstr "Egoera"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:261
 msgctxt "UserListView|"
 msgid "Action"
-msgstr ""
+msgstr "Ekintza"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:273
 msgctxt "UserListView|"
 msgid "Shape"
-msgstr ""
+msgstr "Forma"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
 msgctxt "ToolBox|"
 msgid "Tools"
-msgstr ""
+msgstr "Tresnak"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:118
 msgctxt "ToolBox|"
 msgid "Pen"
-msgstr ""
+msgstr "Arkatza"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
 msgctxt "ToolBox|"
 msgid "Line"
-msgstr ""
+msgstr "Lerroa"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
-msgstr ""
+msgstr "Laukizuzen hutsa"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
-msgstr ""
+msgstr "Laukizuzen betea"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
-msgstr ""
+msgstr "Elipse hutsa"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "Elipse betea"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
 msgctxt "ToolBox|"
 msgid "Text"
-msgstr ""
+msgstr "Testua"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
 msgctxt "ToolBox|"
 msgid "Hand"
-msgstr ""
+msgstr "Eskua"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
 msgctxt "ToolBox|"
@@ -4642,7 +4651,7 @@ msgstr "Gehitu JEP"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
 msgctxt "ToolBox|"
 msgid "Rule"
-msgstr ""
+msgstr "Erregela"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
 msgctxt "ToolBox|"
@@ -4672,7 +4681,7 @@ msgstr "Pintura-ontzia"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
 msgctxt "ToolBox|"
 msgid "Text With Border"
-msgstr ""
+msgstr "Ertza duen testua"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
 msgctxt "ToolBox|"
