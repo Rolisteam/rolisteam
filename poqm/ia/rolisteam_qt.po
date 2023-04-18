@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-14 11:33+0200\n"
+"PO-Revision-Date: 2023-04-17 22:37+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.03.90\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -21,7 +21,7 @@ msgstr "MindMap (*.rmindmap *.rmap)"
 #: src/binaries/mindmap/main.qml:36
 msgctxt "main|"
 msgid "Open MindMap"
-msgstr ""
+msgstr "Aperi MindMap"
 
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
@@ -67,14 +67,14 @@ msgstr "Necun"
 #, qt-format
 msgctxt "ImageController|"
 msgid "Image %1 has not the same size than the others"
-msgstr ""
+msgstr "Image %1 non ha le mesme grandor del alteres"
 
 #: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:21
 #: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:166
 #, qt-format
 msgctxt "QmlGeneratorController|"
 msgid "The character value %1 has been defined to %2"
-msgstr ""
+msgstr "Le valor de personage %1 ha essite definite a %2"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
 msgctxt "RcseApplicationController|"
@@ -89,7 +89,7 @@ msgstr "No"
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
 msgid "only the GM"
-msgstr ""
+msgstr "solmente le GM"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
@@ -99,18 +99,18 @@ msgstr "Omne"
 #: src/binaries/rcse/data/characterlist.cpp:39
 msgctxt "CharacterList|"
 msgid "Mock Data"
-msgstr ""
+msgstr "Datos de Mock"
 
 #: src/binaries/rcse/data/characterlist.cpp:54
 #, qt-format
 msgctxt "CharacterList|"
 msgid "Character %1"
-msgstr "Character %1"
+msgstr "Personage %1"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:11
 msgctxt "MockCharacter|"
 msgid "unset Path"
-msgstr ""
+msgstr "Percurso non fixate"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:17
 msgctxt "MockCharacter|"
@@ -126,52 +126,52 @@ msgstr "rubie"
 #, qt-format
 msgctxt "MockCharacter|"
 msgid "Shape has been added [name: %1, path: %2]"
-msgstr ""
+msgstr "Forma ha essite addite [nomine:%1, percurso: %2]"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopRight"
-msgstr ""
+msgstr "AltoDextera"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopMiddle"
-msgstr ""
+msgstr "AltoMedie"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopLeft"
-msgstr ""
+msgstr "AltoSinistra"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "CenterRight"
-msgstr ""
+msgstr "CentroDextera"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "CenterMiddle"
-msgstr ""
+msgstr "CentroMedie"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "CenterLeft"
-msgstr ""
+msgstr "CentroSinistra"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomRight"
-msgstr ""
+msgstr "BassoDextera"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomMiddle"
-msgstr ""
+msgstr "BassoMedie"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomLeft"
-msgstr ""
+msgstr "BassoSinistra"
 
 #: src/binaries/rcse/delegate/pagedelegate.cpp:25
 #, qt-format
@@ -192,17 +192,17 @@ msgstr "Tote le paginas"
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextInput"
-msgstr ""
+msgstr "TextoEntrata"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextField"
-msgstr ""
+msgstr "TextoCampo"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "TextArea"
-msgstr ""
+msgstr "TextoArea"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
@@ -222,27 +222,27 @@ msgstr "Imagine"
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "RLabel"
-msgstr ""
+msgstr "REtiquetta"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Dice Button"
-msgstr ""
+msgstr "Button de Dato"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Function Button"
-msgstr ""
+msgstr "Button de Function"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "WebView"
-msgstr ""
+msgstr "Vista Web"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Slider"
-msgstr ""
+msgstr "Glissator"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
@@ -252,22 +252,22 @@ msgstr "Celate"
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Next Page Button"
-msgstr ""
+msgstr "Button de proxime pagina"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
 msgid "Previous Page Button"
-msgstr ""
+msgstr "Button de previe pagina"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.cpp:121
 msgctxt "ColumnDefinitionDialog|"
 msgid "Table Properties"
-msgstr ""
+msgstr "Proprietates de tabella"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
 msgid "Load background from PDF"
-msgstr ""
+msgstr "Carga fundo ex PDF"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:43
 msgctxt "PdfManager|"
@@ -277,7 +277,7 @@ msgstr "Files PDF(*.pdf)"
 #: src/binaries/rcse/dialog/sheetproperties.cpp:17
 msgctxt "SheetProperties|"
 msgid "Add Font file"
-msgstr ""
+msgstr "Adde file de font"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -297,7 +297,7 @@ msgstr "Valor"
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Possible Values"
-msgstr ""
+msgstr "Valores possibile"
 
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
@@ -327,7 +327,7 @@ msgstr "Altessa"
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Font Adaptation"
-msgstr ""
+msgstr "Adaptation de Font"
 
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
@@ -337,7 +337,7 @@ msgstr "Font"
 #: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Text-align"
-msgstr ""
+msgstr "Alinea texto"
 
 #: src/binaries/rcse/fieldmodel.cpp:69
 msgctxt "FieldModel|"
@@ -347,7 +347,7 @@ msgstr "Color de texto "
 #: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Bg Color"
-msgstr ""
+msgstr "Color de Fundo (Bg)"
 
 #: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
@@ -367,77 +367,77 @@ msgstr "Consilio"
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopRight"
-msgstr ""
+msgstr "AltoDextera"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopMiddle"
-msgstr ""
+msgstr "AltoMedie"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "TopLeft"
-msgstr ""
+msgstr "AltoSinistra"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "CenterRight"
-msgstr ""
+msgstr "CentroDextera"
 
 #: src/binaries/rcse/fieldmodel.cpp:73
 msgctxt "FieldModel|"
 msgid "CenterMiddle"
-msgstr ""
+msgstr "CentroMedie"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterLeft"
-msgstr ""
+msgstr "CentroSinistra"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomRight"
-msgstr ""
+msgstr "BassoDextera"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomMiddle"
-msgstr ""
+msgstr "BassoMedie"
 
 #: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "BottomLeft"
-msgstr ""
+msgstr "BassoSinistra"
 
 #: src/binaries/rcse/itemeditor.cpp:58
 msgctxt "ItemEditor|"
 msgid "Fit the view"
-msgstr ""
+msgstr "Adapta le Vista"
 
 #: src/binaries/rcse/itemeditor.cpp:61
 msgctxt "ItemEditor|"
 msgid "Lock item"
-msgstr ""
+msgstr "Bloca elemento"
 
 #: src/binaries/rcse/itemeditor.cpp:63
 msgctxt "ItemEditor|"
 msgid "Align on Y"
-msgstr ""
+msgstr "Alinea sur Y"
 
 #: src/binaries/rcse/itemeditor.cpp:64
 msgctxt "ItemEditor|"
 msgid "Align on X"
-msgstr ""
+msgstr "Alinea sur X"
 
 #: src/binaries/rcse/itemeditor.cpp:65
 msgctxt "ItemEditor|"
 msgid "Same Width"
-msgstr ""
+msgstr "Mesme largessa"
 
 #: src/binaries/rcse/itemeditor.cpp:66
 msgctxt "ItemEditor|"
 msgid "Same Height"
-msgstr ""
+msgstr "Mesme Altessa"
 
 #: src/binaries/rcse/itemeditor.cpp:67
 msgctxt "ItemEditor|"
@@ -457,7 +457,7 @@ msgstr ""
 #: src/binaries/rcse/main.cpp:66
 msgctxt "QObject|"
 msgid "define path to current <translation>"
-msgstr ""
+msgstr "define percurso al curente <translation>"
 
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
@@ -467,7 +467,7 @@ msgstr "Aperi <file>."
 #: src/binaries/rcse/mainwindow.cpp:166
 msgctxt "MainWindow|"
 msgid "Log panel"
-msgstr ""
+msgstr "Pannello de registro"
 
 #: src/binaries/rcse/mainwindow.cpp:194 src/binaries/widget/mainwindow.cpp:573
 msgctxt "MainWindow|"
@@ -508,6 +508,8 @@ msgctxt "MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr ""
+"Documentation de Rcse pote esser trovate in linea a :<br> <a href=\"%1\">%1</"
+"a>"
 
 #: src/binaries/rcse/mainwindow.cpp:476
 msgctxt "MainWindow|"
@@ -523,7 +525,7 @@ msgstr "Quita %1 "
 #: src/binaries/rcse/mainwindow.cpp:538
 msgctxt "MainWindow|"
 msgid "Image Generation"
-msgstr ""
+msgstr "Generation de Imagine"
 
 #: src/binaries/rcse/mainwindow.cpp:538
 msgctxt "MainWindow|"
@@ -533,7 +535,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:557 src/binaries/rcse/mainwindow.cpp:807
 msgctxt "MainWindow|"
 msgid "Open Background Image"
-msgstr ""
+msgstr "Aperi Imagine de fundo"
 
 #: src/binaries/rcse/mainwindow.cpp:568
 msgctxt "MainWindow|"
@@ -605,22 +607,22 @@ msgstr "Carga image"
 #: src/binaries/rcse/mainwindow.cpp:932
 msgctxt "MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
-msgstr ""
+msgstr "Formato de immagine supportate (*.jpg *.png *.svg *.gif)"
 
 #: src/binaries/rcse/mainwindow.cpp:945
 msgctxt "MainWindow|"
 msgid "Add character"
-msgstr "Adde Character"
+msgstr "Adde Personage"
 
 #: src/binaries/rcse/mainwindow.cpp:946
 msgctxt "MainWindow|"
 msgid "Delete character"
-msgstr ""
+msgstr "Dele personage"
 
 #: src/binaries/rcse/mainwindow.cpp:948
 msgctxt "MainWindow|"
 msgid "Character's Name"
-msgstr ""
+msgstr "Nomine de Personage"
 
 #: src/binaries/rcse/mainwindow.cpp:950
 msgctxt "MainWindow|"
@@ -630,7 +632,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:951
 msgctxt "MainWindow|"
 msgid "Apply on all characters"
-msgstr ""
+msgstr "Applica a omne personages"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
@@ -651,7 +653,7 @@ msgstr "Proprietates"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Character #%1"
-msgstr "Adde Character #%1"
+msgstr "Adde Personage #%1"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:56
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:47
@@ -663,19 +665,19 @@ msgstr "Quadrato de Selection"
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:51
 msgctxt "QObject|"
 msgid "TextInput"
-msgstr ""
+msgstr "TextoEntrata"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:64
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:55
 msgctxt "QObject|"
 msgid "TextArea"
-msgstr ""
+msgstr "TextoArea"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:68
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:59
 msgctxt "QObject|"
 msgid "TextField"
-msgstr ""
+msgstr "TextoCampo"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:73
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:64
@@ -694,7 +696,7 @@ msgstr "Imagine"
 #: src/binaries/rcse/undo/addfieldcommand.cpp:85
 msgctxt "QObject|"
 msgid "Slider"
-msgstr ""
+msgstr "Glissator"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
 #: src/libraries/core/src/data/cleveruri.cpp:229
@@ -718,7 +720,7 @@ msgstr "function"
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:78
 msgctxt "QObject|"
 msgid "Dice Button"
-msgstr ""
+msgstr "Button de Dato"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:106
 msgctxt "QObject|"
@@ -728,12 +730,12 @@ msgstr "Pagina Web"
 #: src/binaries/rcse/undo/addfieldcommand.cpp:110
 msgctxt "QObject|"
 msgid "Next Page Button"
-msgstr ""
+msgstr "Button de proxime pagina"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:114
 msgctxt "QObject|"
 msgid "Previous Page Button"
-msgstr ""
+msgstr "Button de previe pagina"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:120
 #: src/libraries/core/src/network/connectionprofile.cpp:7
@@ -759,7 +761,7 @@ msgstr "Adde pagina #%1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete Character #%1"
-msgstr ""
+msgstr "Dele personage #%1"
 
 #: src/binaries/rcse/undo/deletefieldcommand.cpp:57
 #, qt-format
@@ -805,7 +807,7 @@ msgstr "Fixa proprietate %1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Set property on all characters: %1"
-msgstr ""
+msgstr "Fixa proprietate sur omne personages:%1"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
@@ -875,7 +877,7 @@ msgstr "Monstra/Cela"
 #: src/binaries/rcse/widgets/fieldview.cpp:320
 msgctxt "FieldView|"
 msgid "Get Color"
-msgstr ""
+msgstr "Obtene Color"
 
 #: src/binaries/server/main.cpp:109
 msgctxt "QObject|"
@@ -1328,7 +1330,7 @@ msgstr "Radice"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
-msgstr "Character:"
+msgstr "Personage "
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
@@ -1742,7 +1744,7 @@ msgstr "Nulle Avatar"
 #: src/libraries/core/src/network/characterdatamodel.cpp:145
 msgctxt "CharacterDataModel|"
 msgid "New Character"
-msgstr "Nove character"
+msgstr "Nove personage"
 
 #: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
@@ -1773,7 +1775,7 @@ msgstr "Jocator"
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 msgctxt "QObject|"
 msgid "Unknown Character"
-msgstr "Character Incognite"
+msgstr "Personage Incognite"
 
 #: src/libraries/core/src/network/rserver.cpp:40
 msgctxt "RServer|"
@@ -1861,7 +1863,7 @@ msgstr "Disvela Mappa vectorial"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
-msgstr "Adde character a %1"
+msgstr "Adde personage a %1"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:34
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
@@ -2091,7 +2093,7 @@ msgstr "PDF"
 #: src/libraries/core/src/worker/utilshelper.cpp:209
 msgctxt "QObject|"
 msgid "Webview"
-msgstr ""
+msgstr "Vista Web"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:26
 msgctxt "ButtonGrid|"

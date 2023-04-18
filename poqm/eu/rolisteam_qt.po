@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-17 00:50+0200\n"
+"PO-Revision-Date: 2023-04-17 22:01+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1844,6 +1844,8 @@ msgstr "Zerbitzariaren erantzunean ezin du URLa irakurri"
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
+"«base_URL» eskuratzea huts egin du, \"URLBase\" «XMLNode»tik edo "
+"«describe_url».\n"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:284
 #, qt-format
@@ -1974,19 +1976,19 @@ msgstr "Ezabatu %1 elementu mapatik"
 #, qt-format
 msgctxt "ImportDataMedia|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Inportatu komunikabidea: %1"
 
 #: src/libraries/core/src/undoCmd/importimagestate.cpp:37
 #, qt-format
 msgctxt "ImportImageState|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Inportatu komunikabidea: %1"
 
 #: src/libraries/core/src/undoCmd/importmedia.cpp:41
 #, qt-format
 msgctxt "ImportMedia|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Inportatu komunikabidea: %1"
 
 #: src/libraries/core/src/undoCmd/newmediacontroller.cpp:68
 #, qt-format
@@ -2681,7 +2683,7 @@ msgstr "Isilarazi bolumena"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:107
 msgctxt "PlayerWidget|"
 msgid "load TableTopAudio.com playlist"
-msgstr ""
+msgstr "zamatu TableTopAudio.com jotze-zerrenda"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:109
 msgctxt "PlayerWidget|"
@@ -2840,12 +2842,12 @@ msgstr "Aldatu ikusgaitasuna"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:302
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
-msgstr ""
+msgstr "Jaurti ekimena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
 msgctxt "RGraphicsView|"
 msgid "Clean Init"
-msgstr ""
+msgstr "Garbitu ekimena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
@@ -3005,7 +3007,7 @@ msgstr "JEP gutztiak"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:637
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
-msgstr ""
+msgstr "Jaurti ekimena JEP guztietan"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:641
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:656
@@ -3016,7 +3018,7 @@ msgstr "Hautapena"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:642
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on Selection"
-msgstr ""
+msgstr "Jaurti ekipena hautapenean"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:646
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:661
@@ -3027,22 +3029,22 @@ msgstr "Pertsonaia guztiak"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:647
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
-msgstr ""
+msgstr "Jaurti ekimena pertsonaia guztietan"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Npcs"
-msgstr "Hustu JEPen ekimena"
+msgstr "Garbitu JEP guztien ekimena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on Selection"
-msgstr ""
+msgstr "Garbitu hautapeneko ekimena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Characters"
-msgstr ""
+msgstr "Garbitu ekimena pertsonaia guztietan"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
@@ -3112,6 +3114,14 @@ msgid ""
 "Existing features : Map sharing (with permission management), Image sharing, "
 "background music, dice roll and so on. Rolisteam is written in Qt5"
 msgstr ""
+"«Rolisteam»ek mahaigaineko rolean jolasteko joko bat urruneko lagunekin/"
+"jokalariekin jolasten laguntzen dizu. Mapak, irudiak, partekatzeko ezaugarri "
+"asko ditu, lagunekin/jokalariekin komunikatzeko tresnak ere bai. Bere xedea "
+"«Rolisteam»ekin kudeatutako RPG jokoak mahai baten inguruan jokatutakoak "
+"bezain onak izatea du. Hori lortzeko, lanean gogor ari gara, ezaugarri "
+"gehiago emateko. Dagoeneko dituen ezaugarriak: Mapak partekatzea (baimen "
+"kudeatzailearekin), irudiak partekatzea, hondoko musika, dadoak jaurtitzea, "
+"eta abar. Rolisteam «Qt5»ekin idatzita dago."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
 msgctxt "AboutRolisteam|"
@@ -3122,6 +3132,11 @@ msgid ""
 "See the 'COPYRIGHT' file for the complete list of contributors. We provide "
 "no warranty for this program."
 msgstr ""
+"Programa «GPL»ren baldintzapean (2 bertsioa edo berriagoa) aldatu eta "
+"birbana dezakezu. «GPL»aren kopia bat dago «Rolisteam»ekin banatutako "
+"'COPYING' fitxategian. «Rolisteam» haren kolaboratzaileen kopia eskubidea "
+"(copyright) du. Begiratu 'COPYRIGHT' fitxategia kolaboratzaileen zerrenda "
+"osorako. Ez dugu programa honetarako bermerik ematen."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
@@ -3320,7 +3335,7 @@ msgstr "Guduko lainoa"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:54
 msgctxt "MapWizzardDialog|"
 msgid "All visible"
-msgstr ""
+msgstr "Dena ikusgai"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:70
 msgctxt "campaign::AntagonistBoard|"
@@ -3529,7 +3544,7 @@ msgstr "Jokalari-zerrenda"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
 msgctxt "VmapTopBar|"
 msgid "TopBar for VMap"
-msgstr ""
+msgstr "«VMap»erako goiko-barra"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
 msgctxt "VmapTopBar|"
@@ -3602,10 +3617,9 @@ msgid "hide other layers"
 msgstr "ezkutatu beste geruzak"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:211
-#, fuzzy
 msgctxt "VmapTopBar|"
 msgid "Character Vision"
-msgstr "Pertsonaiaren ikus"
+msgstr "Pertsonaiaren ikuskera"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
 msgctxt "VmapTopBar|"
@@ -3691,12 +3705,12 @@ msgstr "Zabalera-finkoa"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
 msgctxt "MRichTextEdit|"
 msgid "Remove character formatting"
-msgstr ""
+msgstr "Kendu pertsonaien formatua"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:125
 msgctxt "MRichTextEdit|"
 msgid "Remove all formatting"
-msgstr ""
+msgstr "Kendu formatu guztia"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:129
 msgctxt "MRichTextEdit|"
@@ -3778,7 +3792,7 @@ msgstr "Zooma urrundu KTRL/-"
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:91
 msgctxt "XMLTextEdit|"
 msgid "Check xml syntax"
-msgstr ""
+msgstr "Egiaztatu XML sintaxia"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/notecontainer.cpp:37
 #, qt-format
@@ -3949,6 +3963,8 @@ msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
 "providing an example document for you to experiment with."
 msgstr ""
+"Adibide honek «Qt»ren testu aberastua editatzeko erraztasuna martxan "
+"erakusten du, harekin esperimentatzeko adibide dokumentu bat eskainiz."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:791
 msgctxt "TextEdit|"
@@ -3958,7 +3974,7 @@ msgstr "OpenOffice 2.4 fitxategi formatua OASIS"
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "Cahoots"
-msgstr ""
+msgstr "Azpijokoak"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -4094,7 +4110,7 @@ msgstr "Aldatu egoera"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:496
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
-msgstr ""
+msgstr "Ikuskeraren forma"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:509
 msgctxt "CharacterItem|"
@@ -4109,7 +4125,7 @@ msgstr "Ekimena"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:512
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
-msgstr "Hustu ekimena"
+msgstr "Garbitu ekimena"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:529
 msgctxt "CharacterItem|"
@@ -4119,17 +4135,17 @@ msgstr "Formak"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:536
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
-msgstr "Hustu forma"
+msgstr "Garbitu forma"
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:133
 msgctxt "PathItem|"
 msgid "Close Path"
-msgstr ""
+msgstr "Itxi bidea"
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:137
 msgctxt "PathItem|"
 msgid "Fill Path"
-msgstr ""
+msgstr "Bete bidea"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:137
 msgctxt "TextItem|"
@@ -4205,7 +4221,7 @@ msgstr "Pertsonaia-orri fitxategiak (*.qml)"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
-msgstr ""
+msgstr "Partekatu honekin"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
@@ -4402,7 +4418,7 @@ msgstr "Guztiak ikusgai"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
 msgid "No Right"
-msgstr ""
+msgstr "Eskubiderik ez"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
@@ -4412,7 +4428,7 @@ msgstr "Bere pertsonaia"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
 msgid "All Permissions"
-msgstr ""
+msgstr "Baimen guztiak"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:56
 msgctxt "QObject|"
@@ -4471,7 +4487,7 @@ msgstr "Ireki honela..."
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
 msgid "Rename Media"
-msgstr ""
+msgstr "Berrizendatu komunikabidea"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:32
 msgctxt "campaign::CampaignView|"
