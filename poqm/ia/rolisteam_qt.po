@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-17 22:37+0200\n"
+"PO-Revision-Date: 2023-04-18 17:49+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.03.90\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -442,17 +442,17 @@ msgstr "Mesme Altessa"
 #: src/binaries/rcse/itemeditor.cpp:67
 msgctxt "ItemEditor|"
 msgid "Dupplicate"
-msgstr ""
+msgstr "Duplicato"
 
 #: src/binaries/rcse/itemeditor.cpp:68
 msgctxt "ItemEditor|"
 msgid "Vertical equidistribution"
-msgstr ""
+msgstr "Equidistribution Vertical"
 
 #: src/binaries/rcse/itemeditor.cpp:69
 msgctxt "ItemEditor|"
 msgid "Horizontal equidistribution"
-msgstr ""
+msgstr "Equidistribution Horizontal"
 
 #: src/binaries/rcse/main.cpp:66
 msgctxt "QObject|"
@@ -491,6 +491,9 @@ msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 msgstr ""
+"Le pagina de donation %1  pote esser trovate in linea a :<br> <a href="
+"\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/"
+"donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:426
 msgctxt "MainWindow|"
@@ -515,6 +518,7 @@ msgstr ""
 msgctxt "MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr ""
+"Le charactersheet (folio de personages) ha modificationes non salveguardate."
 
 #: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:716
 #, qt-format
@@ -530,7 +534,7 @@ msgstr "Generation de Imagine"
 #: src/binaries/rcse/mainwindow.cpp:538
 msgctxt "MainWindow|"
 msgid "Image generation in progress"
-msgstr ""
+msgstr "Generation de imagines in curso"
 
 #: src/binaries/rcse/mainwindow.cpp:557 src/binaries/rcse/mainwindow.cpp:807
 msgctxt "MainWindow|"
@@ -545,17 +549,17 @@ msgstr "Aperi imagine"
 #: src/binaries/rcse/mainwindow.cpp:593 src/binaries/rcse/mainwindow.cpp:638
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet"
-msgstr ""
+msgstr "Salveguarda CharacterSheet (Folio de Personages)"
 
 #: src/binaries/rcse/mainwindow.cpp:594 src/binaries/rcse/mainwindow.cpp:639
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
-msgstr ""
+msgstr "Rolisteam CharacterSheet (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:703
 msgctxt "MainWindow|"
 msgid "Do you want to erase current QML code ?"
-msgstr ""
+msgstr "Tu vole rader le codice QML currente?"
 
 #: src/binaries/rcse/mainwindow.cpp:704
 msgctxt "MainWindow|"
@@ -563,16 +567,18 @@ msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
 msgstr ""
+"Codice QML  generate ultrapassara ulle modificatione que tu ha facite inle "
+"QML.<br/> Tu vermente vole generar le codice QML?"
 
 #: src/binaries/rcse/mainwindow.cpp:790
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet View"
-msgstr ""
+msgstr "Salveguarda Vista de CharacterSheet (Folio de Personages)"
 
 #: src/binaries/rcse/mainwindow.cpp:791
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
-msgstr ""
+msgstr "Vista de  CharacterSheet de Rolisteam (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:916
 msgctxt "MainWindow|"
@@ -597,7 +603,7 @@ msgstr "Remove imagine"
 #: src/binaries/rcse/mainwindow.cpp:924
 msgctxt "MainWindow|"
 msgid "Reload image from file"
-msgstr ""
+msgstr "Recarga imagine ex file"
 
 #: src/binaries/rcse/mainwindow.cpp:931
 msgctxt "MainWindow|"
@@ -627,7 +633,7 @@ msgstr "Nomine de Personage"
 #: src/binaries/rcse/mainwindow.cpp:950
 msgctxt "MainWindow|"
 msgid "Apply on Selection"
-msgstr ""
+msgstr "Applica sur selection"
 
 #: src/binaries/rcse/mainwindow.cpp:951
 msgctxt "MainWindow|"
@@ -637,12 +643,12 @@ msgstr "Applica a omne personages"
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
 msgid "Directory to save QML file"
-msgstr ""
+msgstr "Directorio ubi salveguardar file QML"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
 msgid "Place to save Generated files"
-msgstr ""
+msgstr "Loco ubi salveguardar files Generate"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:71
 msgctxt "TableCanvasField|"
@@ -708,7 +714,7 @@ msgstr "Celate"
 #: src/binaries/rcse/undo/addfieldcommand.cpp:93
 msgctxt "QObject|"
 msgid "LabelField"
-msgstr ""
+msgstr "LabelField (Campo de Etiquetta)"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:97
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:73
@@ -768,8 +774,8 @@ msgstr "Dele personage #%1"
 msgctxt "QObject|"
 msgid "Delete %n Field(s)"
 msgid_plural "Delete %n Field(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Dele %n Campo(s)"
+msgstr[1] "Dele %n Campo(s)"
 
 #: src/binaries/rcse/undo/deletepagecommand.cpp:37
 #, qt-format
@@ -782,20 +788,20 @@ msgstr "Dele pagina #%1"
 msgctxt "QObject|"
 msgid "Move %n Field(s)"
 msgid_plural "Move %n Field(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Move %n Campo(s)"
+msgstr[1] "Move %n Campo(s)"
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:51
 #, qt-format
 msgctxt "QObject|"
 msgid "Set background on Page #%1"
-msgstr ""
+msgstr "Fixa fundo sur pagina #%1"
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:53
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Page #%1 and Set background on it"
-msgstr ""
+msgstr "Adde Pagina #%1 e fixa fundo sur illo"
 
 #: src/binaries/rcse/undo/setfieldproperties.cpp:34
 #, qt-format
@@ -812,7 +818,7 @@ msgstr "Fixa proprietate sur omne personages:%1"
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
 msgid "Lock up Item"
-msgstr ""
+msgstr "Serra elemento"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:26
 msgctxt "FieldView|"
@@ -822,37 +828,37 @@ msgstr "Dele elemento"
 #: src/binaries/rcse/widgets/fieldview.cpp:27
 msgctxt "FieldView|"
 msgid "Apply on Selection"
-msgstr ""
+msgstr "Applica sur selection"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:28
 msgctxt "FieldView|"
 msgid "Apply on all lines"
-msgstr ""
+msgstr "Applica sur omne rangos"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:29
 msgctxt "FieldView|"
 msgid "Define Field Code"
-msgstr ""
+msgstr "Define Codice de Campo"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:30
 msgctxt "FieldView|"
 msgid "Reset Field Code"
-msgstr ""
+msgstr "Refixa Codice de Campo"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:34
 msgctxt "FieldView|"
 msgid "Position columns"
-msgstr ""
+msgstr "Columnas de Position"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:45
 msgctxt "FieldView|"
 msgid "Aesthetic columns"
-msgstr ""
+msgstr "Columnas Esthetic"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:57
 msgctxt "FieldView|"
 msgid "Value columns"
-msgstr ""
+msgstr "Columnas de Valor"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:66
 msgctxt "FieldView|"
@@ -882,44 +888,46 @@ msgstr "Obtene Color"
 #: src/binaries/server/main.cpp:109
 msgctxt "QObject|"
 msgid "Set the path to configuration file [mandatory]"
-msgstr ""
+msgstr "Fixa le percurso al file de configuration [obligatori]"
 
 #: src/binaries/server/main.cpp:112
 msgctxt "QObject|"
 msgid "Print a default configuration file into Standard output"
-msgstr ""
+msgstr "Imprime un file de configuration predefinite al sortita standard"
 
 #: src/binaries/server/main.cpp:115
 msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
-msgstr ""
+msgstr "Demanda contrasigno e retorna su clave hash."
 
 #: src/binaries/widget/mainwindow.cpp:349
 msgctxt "MainWindow|"
 msgid "Antagonist Table"
-msgstr ""
+msgstr "Tabula Antagonista"
 
 #: src/binaries/widget/mainwindow.cpp:461
 msgctxt "MainWindow|"
 msgid "Open Webpage"
-msgstr ""
+msgstr "Aperi pagina web"
 
 #: src/binaries/widget/mainwindow.cpp:461
 msgctxt "MainWindow|"
 msgid "Webpage url:"
-msgstr ""
+msgstr "Url de pagina web:"
 
 #: src/binaries/widget/mainwindow.cpp:514
 #: src/binaries/widget/mainwindow.cpp:724
 msgctxt "MainWindow|"
 msgid "Open Campaign"
-msgstr ""
+msgstr "Aperi Campania"
 
 #: src/binaries/widget/mainwindow.cpp:644
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
+"Le pagina de donation %1  pote esser trovate in linea a :<br> <a href=\"%2\">"
+"%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:700
 msgctxt "MainWindow|"
@@ -930,7 +938,7 @@ msgstr "Quita"
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
-msgstr ""
+msgstr "Connexion ha essite perdite. %! essera claudite"
 
 #: src/binaries/widget/mainwindow.cpp:710
 msgctxt "MainWindow|"
@@ -944,11 +952,13 @@ msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
 "rolisteam.org\">http://wiki.rolisteam.org/</a>"
 msgstr ""
+"Documentation de %1 pote esser trovate in linea a :<br> <a href=\"http://"
+"wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:830
 msgctxt "MainWindow|"
 msgid "Update Notification"
-msgstr ""
+msgstr "Actualisa Notification"
 
 #: src/binaries/widget/mainwindow.cpp:831
 #, qt-format
@@ -962,34 +972,34 @@ msgstr ""
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
-msgstr ""
+msgstr "%1 actualmente se uni al joco"
 
 #: src/binaries/widget/mainwindow.cpp:845
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
-msgstr ""
+msgstr "%1 non ha le correcte version: %2"
 
 #: src/binaries/widget/mainwindow.cpp:851
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
-msgstr ""
+msgstr "%1 actualmente abbandona le joco."
 
 #: src/binaries/widget/mainwindow.cpp:923
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
-msgstr ""
+msgstr "Configura rolisteam a usar <port> per le connexion"
 
 #: src/binaries/widget/mainwindow.cpp:926
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
-msgstr ""
+msgstr "Configura rolisteam per connecter a <server>."
 
 #: src/binaries/widget/mainwindow.cpp:929
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
-msgstr ""
+msgstr "Define le <role>: gm o pc"
 
 #: src/binaries/widget/mainwindow.cpp:931
 msgctxt "MainWindow|"
@@ -999,12 +1009,12 @@ msgstr ""
 #: src/binaries/widget/mainwindow.cpp:934
 msgctxt "MainWindow|"
 msgid "Define the <username>"
-msgstr ""
+msgstr "Define le <username>"
 
 #: src/binaries/widget/mainwindow.cpp:937
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
-msgstr ""
+msgstr "Remove le limite al grandor de file PDF"
 
 #: src/binaries/widget/mainwindow.cpp:940
 msgctxt "QObject|"
@@ -1147,19 +1157,19 @@ msgstr ""
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 1: %1"
-msgstr ""
+msgstr "Souvenir 1: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:89
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 2: %1"
-msgstr ""
+msgstr "Souvenir 2: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:95
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 3: %1"
-msgstr ""
+msgstr "Souvenir 3: %1"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:27
 msgctxt "Table|"
@@ -1185,7 +1195,7 @@ msgstr "Nomine de campos"
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
-msgstr ""
+msgstr "Vacua Section %1"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:574
 #, qt-format
@@ -1212,7 +1222,7 @@ msgstr "Nomine de file"
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Is Background"
-msgstr ""
+msgstr "Es Fundo"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:87
 msgctxt "QObject|"
@@ -1283,7 +1293,7 @@ msgstr "Files de registro %1"
 #: src/libraries/core/src/controller/contentcontroller.cpp:361
 msgctxt "ContentController|"
 msgid "Copied Image"
-msgstr ""
+msgstr "Imagine copiate"
 
 #: src/libraries/core/src/controller/instantmessagingcontroller.cpp:118
 msgctxt "InstantMessagingController|"
@@ -1385,7 +1395,7 @@ msgstr "Interne"
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
 msgid "Linked"
-msgstr ""
+msgstr "Ligate"
 
 #: src/libraries/core/src/data/cleveruri.cpp:229
 msgctxt "QObject|"
@@ -1425,7 +1435,7 @@ msgstr "Imagine"
 #: src/libraries/core/src/model/colormodel.cpp:44
 msgctxt "ColorModel|"
 msgid "Any color"
-msgstr ""
+msgstr "Ulle color"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
@@ -1470,7 +1480,7 @@ msgstr "typo"
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "last access"
-msgstr ""
+msgstr "ultime accessp"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
@@ -1511,7 +1521,7 @@ msgstr "Directorio"
 #: src/libraries/core/src/model/messagemodel.cpp:101
 msgctxt "MessageModel|"
 msgid "Invalid Person"
-msgstr ""
+msgstr "Persona invalide"
 
 #: src/libraries/core/src/model/musicmodel.cpp:28
 msgctxt "MusicModel|"
@@ -1536,7 +1546,7 @@ msgstr "Description"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "GM Details"
-msgstr ""
+msgstr "Detalios de GM"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
@@ -2204,7 +2214,7 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/MindMap.qml:67
 msgctxt "MindMap|"
 msgid "is linked"
-msgstr ""
+msgstr "es ligate"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:10
 msgctxt "MindMenu|"
@@ -2334,7 +2344,7 @@ msgstr "Adde imagine %1"
 #, qt-format
 msgctxt "AddItemCommand|"
 msgid "Add item of type: %1 to mindmap"
-msgstr ""
+msgstr "Adde elemento de typo: %1 a mindmap (mappa de mente)"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:65
 msgctxt "AddLinkCommand|"
@@ -2349,7 +2359,7 @@ msgstr ""
 #: src/libraries/mindmap/src/data/link.cpp:35
 msgctxt "Link|"
 msgid "is linked"
-msgstr ""
+msgstr "es ligate"
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:25
 msgctxt "PackageNode|"
@@ -3007,17 +3017,17 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Npcs"
-msgstr ""
+msgstr "Netta Initiativa sur Tote Npcs"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on Selection"
-msgstr ""
+msgstr "Netta Initiativa sur Selection"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Characters"
-msgstr ""
+msgstr "Netta Initiativa sur Tote Personages"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
@@ -3111,7 +3121,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
-msgstr ""
+msgstr "Traciator de Falta (bug)"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
@@ -3131,7 +3141,7 @@ msgstr "Traductores"
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:39
 msgctxt "CampaignProperties|"
 msgid "Campaign Properties"
-msgstr ""
+msgstr "Proprietate de Campania"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:67
 #, qt-format
