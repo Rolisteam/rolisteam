@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-18 17:49+0200\n"
+"PO-Revision-Date: 2023-04-19 15:46+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -967,6 +967,8 @@ msgid ""
 "The %1 version has been released. Please take a look at <a href=\"http://www."
 "rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
+"Le version %1 ha essite liberate. Pro favor tu observa a <a href=\"http://"
+"www.rolisteam.org/download\">Pagina de discargar</a> per altere information"
 
 #: src/binaries/widget/mainwindow.cpp:841
 #, qt-format
@@ -1004,7 +1006,7 @@ msgstr "Define le <role>: gm o pc"
 #: src/binaries/widget/mainwindow.cpp:931
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
-msgstr ""
+msgstr "Rade le preferentias e usa le parametros predefinite"
 
 #: src/binaries/widget/mainwindow.cpp:934
 msgctxt "MainWindow|"
@@ -1019,12 +1021,12 @@ msgstr "Remove le limite al grandor de file PDF"
 #: src/binaries/widget/mainwindow.cpp:940
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
-msgstr ""
+msgstr "percurso alfile de traduction: <translationfile>"
 
 #: src/binaries/widget/mainwindow.cpp:943
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
-msgstr ""
+msgstr "Define URL per connecter a server:<url>"
 
 #: src/binaries/widget/mainwindow.cpp:1036
 #, qt-format
@@ -1071,7 +1073,7 @@ msgstr "Incognite"
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
-msgstr ""
+msgstr "Exporta ex %1"
 
 #: src/binaries/widget/mainwindow.cpp:1245
 msgctxt "MainWindow|"
@@ -1091,12 +1093,12 @@ msgstr "Pagina Precedente"
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:28
 msgctxt "ContextualMenu|"
 msgid "Adapt Width to Window"
-msgstr ""
+msgstr "Adapta Largessa a Fenestra"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
 msgctxt "ContextualMenu|"
 msgid "Zoom Min"
-msgstr ""
+msgstr "Zoom Min"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
 msgctxt "ContextualMenu|"
@@ -1106,7 +1108,7 @@ msgstr "Reinitialisa  Zoom"
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
 msgctxt "ContextualMenu|"
 msgid "Zoom Max"
-msgstr ""
+msgstr "Zoom Max"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
 msgctxt "example|"
@@ -1121,37 +1123,37 @@ msgstr "Prenom"
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:33
 msgctxt "example|"
 msgid "Couleur des yeux"
-msgstr ""
+msgstr "Couleur des yeux (Colores del oculos)"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:41
 msgctxt "example|"
 msgid "Corpulence"
-msgstr ""
+msgstr "Corpulentia"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
 msgctxt "example|"
 msgid "Courage"
-msgstr ""
+msgstr "Corage"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
 msgctxt "example|"
 msgid "Malice"
-msgstr ""
+msgstr "Malitia"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:56
 msgctxt "example|"
 msgid "Mignon"
-msgstr ""
+msgstr "Mignon"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:59
 msgctxt "example|"
 msgid "Colère"
-msgstr ""
+msgstr "Colère (Ira)"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:76
 msgctxt "example|"
 msgid "Syndrôme"
-msgstr ""
+msgstr "Syndrôme (Sindrome)"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:83
 #, qt-format
@@ -1227,62 +1229,62 @@ msgstr "Es Fundo"
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:87
 msgctxt "QObject|"
 msgid "abs : too many arguments"
-msgstr ""
+msgstr "abs: troppe argumentos"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:91
 msgctxt "QObject|"
 msgid "abs : too few arguments"
-msgstr ""
+msgstr "abs: troppe argumentos mancante"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:109
 msgctxt "QObject|"
 msgid "ceil : too many arguments"
-msgstr ""
+msgstr "ceil: troppe argumentos"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:113
 msgctxt "QObject|"
 msgid "ceil : too few arguments"
-msgstr ""
+msgstr "ceil: troppe argumentos mancante"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:130
 msgctxt "QObject|"
 msgid "floor : too many arguments"
-msgstr ""
+msgstr "floor (plano): Troppo argumentos"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:134
 msgctxt "QObject|"
 msgid "floor : too few arguments"
-msgstr ""
+msgstr "floor (plano): Troppo argumentos mancante"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:151
 msgctxt "QObject|"
 msgid "concatenate : too few arguments"
-msgstr ""
+msgstr "concatenate: Troppo pauc argumentos."
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:174
 msgctxt "QObject|"
 msgid "min : too few arguments"
-msgstr ""
+msgstr "min: Troppo pauc argumentos."
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:203
 msgctxt "QObject|"
 msgid "max : too few arguments"
-msgstr ""
+msgstr "max: Troppo pauc argumentos."
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:232
 msgctxt "QObject|"
 msgid "avg : too few arguments"
-msgstr ""
+msgstr "avg (medie): Troppo pauc argumentos."
 
 #: src/libraries/charactersheet/src/formula/nodes/scalaroperatorfnode.cpp:74
 msgctxt "QObject|"
 msgid "Error: division by Zero"
-msgstr ""
+msgstr "Error: division per Zero"
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 msgctxt "LogPanel|"
 msgid "Saving logs"
-msgstr ""
+msgstr "Salveguardante registros (logs)"
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 #, qt-format
@@ -1318,7 +1320,7 @@ msgstr "Orange Obscur"
 #: src/libraries/core/src/controller/preferencescontroller.cpp:72
 msgctxt "ThemeModel|"
 msgid "darkfusion"
-msgstr ""
+msgstr "darkfusion (fusionobscur)"
 
 #: src/libraries/core/src/controller/preferencescontroller.cpp:331
 msgctxt "PreferencesController|"
@@ -1379,13 +1381,13 @@ msgstr "Commento"
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
-msgstr ""
+msgstr "Impossibile crear patrono de campania a %1"
 
 #: src/libraries/core/src/data/campaignmanager.cpp:132
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
-msgstr ""
+msgstr "Creation de Patrono de Campania falleva aur iste location: %1"
 
 #: src/libraries/core/src/data/cleveruri.cpp:224
 msgctxt "QObject|"
@@ -1561,17 +1563,17 @@ msgstr "Color"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Min HP"
-msgstr ""
+msgstr "Min HP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Current HP"
-msgstr ""
+msgstr "HP Currente"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Max HP"
-msgstr ""
+msgstr "Max HP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
@@ -1581,7 +1583,7 @@ msgstr "Initiativa"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Distance Per turn"
-msgstr ""
+msgstr "Distantia per gyro"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
@@ -1591,12 +1593,12 @@ msgstr "Stato"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
 msgid "Life Color"
-msgstr ""
+msgstr "Color de Vita"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
 msgid "Init Command"
-msgstr ""
+msgstr "Commando de initio"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
@@ -1656,7 +1658,7 @@ msgstr "Celate"
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
 msgid "NoGrid"
-msgstr ""
+msgstr "Nulle Grillia"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
@@ -1684,6 +1686,12 @@ msgid ""
 "Distance Per Turn: %6\n"
 "type: %7\n"
 msgstr ""
+"%1:\n"
+"HP: %2/%3\n"
+"Stato: %4\n"
+"Punctuage de Initiativa : %5\n"
+"Distantia Per Gyro: %6\n"
+"typo: %7\n"
 
 #: src/libraries/core/src/model/playermodel.cpp:200
 msgctxt "PlayerModel|"
@@ -1703,7 +1711,7 @@ msgstr "Lista de jocatores"
 #: src/libraries/core/src/model/playermodel.cpp:471
 msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
-msgstr ""
+msgstr "Jocator o uuid duplicate"
 
 #: src/libraries/core/src/model/profilemodel.cpp:108
 msgctxt "ProfileModel|"
@@ -1744,7 +1752,7 @@ msgstr "Contrasigno de canal"
 #, qt-format
 msgctxt "ChannelModel|"
 msgid "Channel %1 required password:"
-msgstr ""
+msgstr "Canale %1 requireva contrasigno"
 
 #: src/libraries/core/src/network/characterdatamodel.cpp:77
 msgctxt "CharacterDataModel|"
@@ -1759,17 +1767,17 @@ msgstr "Nove personage"
 #: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
 msgid "Socket is null"
-msgstr ""
+msgstr "Socket es nulle"
 
 #: src/libraries/core/src/network/clientconnection.cpp:96
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
-msgstr ""
+msgstr "Socket non es scribibile"
 
 #: src/libraries/core/src/network/clientconnection.cpp:119
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
-msgstr ""
+msgstr "Error de transmission :"
 
 #: src/libraries/core/src/network/clientmanager.cpp:125
 msgctxt "ClientManager|"
@@ -1790,13 +1798,13 @@ msgstr "Personage Incognite"
 #: src/libraries/core/src/network/rserver.cpp:40
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
-msgstr ""
+msgstr "[Upnp] Mappar de Porto ha essite facite"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:247
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "Authentification as Admin fails: %2 - %1, Wrong password."
-msgstr ""
+msgstr "Authentication como Administrator falle: %2 - %1, Contrasigno errate."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:273
 #, qt-format
@@ -1804,12 +1812,14 @@ msgctxt "ServerConnectionManager|"
 msgid ""
 "Authentification fails: %1 try to connect to the server with wrong password."
 msgstr ""
+"Authentication falle:  - %1essaya a connecter al servitor con contrasigno "
+"errate."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:291
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User has been kick out: %2 - %1."
-msgstr ""
+msgstr "Usator ha essite calcate fora: %2 - %1."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:481
 msgctxt "ServerConnectionManager|"
@@ -1820,29 +1830,29 @@ msgstr "Nove Connexion in Arrivata!"
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User %1 has been disconnected!"
-msgstr ""
+msgstr "Usator %1 ha essite disconnectite!"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:168
 msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
-msgstr ""
+msgstr "Incapace a leger le URL in le responsa del servitor"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:276
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
-msgstr ""
+msgstr "Falle a obtener URL de base ex NodoXML \"URLBase\" o describe_url.\n"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:284
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
-msgstr ""
+msgstr "Falle a trovar proprie typo de servicio: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:339
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
-msgstr ""
+msgstr "Falle a adder mappar de porto (%1/%2): error:\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -1862,7 +1872,7 @@ msgstr "Percurso"
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
 msgid "Conceal vectorial map"
-msgstr ""
+msgstr "Abstrude mappa vectorial"
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
 msgctxt "QObject|"
@@ -1943,37 +1953,37 @@ msgstr "Adde elemento %1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Change Item Color to %1"
-msgstr ""
+msgstr "Cambia color de elemento a %1"
 
 #: src/libraries/core/src/undoCmd/changesizevmapitem.cpp:98
 #, qt-format
 msgctxt "QObject|"
 msgid "Change size of %1 item(s)"
-msgstr ""
+msgstr "Cambia grandor de elemento(s) %1"
 
 #: src/libraries/core/src/undoCmd/deletevmapitem.cpp:33
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete %1 Item(s) From Map"
-msgstr ""
+msgstr "Dele %1 elemento(s) ex Mappa"
 
 #: src/libraries/core/src/undoCmd/importdatamedia.cpp:41
 #, qt-format
 msgctxt "ImportDataMedia|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Importa media: %1"
 
 #: src/libraries/core/src/undoCmd/importimagestate.cpp:37
 #, qt-format
 msgctxt "ImportImageState|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Importa media: %1"
 
 #: src/libraries/core/src/undoCmd/importmedia.cpp:41
 #, qt-format
 msgctxt "ImportMedia|"
 msgid "Import media: %1"
-msgstr ""
+msgstr "Importa media: %1"
 
 #: src/libraries/core/src/undoCmd/newmediacontroller.cpp:68
 #, qt-format
@@ -2009,43 +2019,43 @@ msgstr "'%1' non es vacue"
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
-msgstr ""
+msgstr "Non poteva crear '%1'"
 
 #: src/libraries/core/src/worker/fileserializer.cpp:96
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
-msgstr ""
+msgstr "Error: %! non existe o non es legibile."
 
 #: src/libraries/core/src/worker/utilshelper.cpp:167
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
-msgstr ""
+msgstr "Files de Folios de Personage (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:170
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
-msgstr ""
+msgstr "Formatos de Imagines Supportate (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:173
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
-msgstr ""
+msgstr "Files de texto supportate (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:176
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
-msgstr ""
+msgstr "Formatos de Notas Compartite Supportate (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:179
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported WebPage (%1)"
-msgstr ""
+msgstr "Pagina Web Supportate (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:182
 #, qt-format
@@ -2083,7 +2093,7 @@ msgstr "Minutas"
 #: src/libraries/core/src/worker/utilshelper.cpp:205
 msgctxt "QObject|"
 msgid "Character Sheet"
-msgstr ""
+msgstr "Folio de Personage"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:206
 msgctxt "QObject|"
@@ -2168,7 +2178,7 @@ msgstr "Monstra mappa parve"
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
-msgstr ""
+msgstr "Spatiar Automatic"
 
 #: src/libraries/mindmap/resources/qml/Content.qml:69
 msgctxt "Content|"
@@ -2249,7 +2259,7 @@ msgstr "Centro"
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:76
 msgctxt "MindMenu|"
 msgid "Automatic Spacing"
-msgstr ""
+msgstr "Spatiar Automatic"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:29
 msgctxt "NodeSettingPopup|"
@@ -2296,7 +2306,7 @@ msgstr "Modo de Nocte"
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:46
 msgctxt "SideMenu|"
 msgid "Link label visible:"
-msgstr ""
+msgstr "Liga etiquetta visibile:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:53
 msgctxt "SideMenu|"
@@ -2354,7 +2364,7 @@ msgstr "Adde ligamine"
 #: src/libraries/mindmap/src/command/removeimagefromnodecommand.cpp:33
 msgctxt "QObject|"
 msgid "Removing image from node"
-msgstr ""
+msgstr "Remover imagine ab nodo"
 
 #: src/libraries/mindmap/src/data/link.cpp:35
 msgctxt "Link|"
@@ -2384,7 +2394,7 @@ msgstr "Files mancante:"
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:58
 msgctxt "IntegrityPage|"
 msgid "Unmanaged files:"
-msgstr ""
+msgstr "Files non gerite:"
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
@@ -2434,7 +2444,7 @@ msgstr "Detalia"
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:68
 msgctxt "ChatView|"
 msgid "Reatach"
-msgstr ""
+msgstr "Reattacha"
 
 #: src/libraries/qml_views/InstantMessaging/ChatView.qml:101
 msgctxt "ChatView|"
@@ -2526,7 +2536,7 @@ msgstr "Contrasigno:"
 #: src/libraries/qml_views/views/ConnectionForm.qml:143
 msgctxt "ConnectionForm|"
 msgid "Host the game"
-msgstr ""
+msgstr "Hospita le joco"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:153
 msgctxt "ConnectionForm|"
@@ -2536,12 +2546,12 @@ msgstr "Jocator"
 #: src/libraries/qml_views/views/ConnectionForm.qml:168
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
-msgstr ""
+msgstr "Io es le Maestro de Joco (GM)"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:178
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
-msgstr ""
+msgstr "Radice de Campania:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:201
 msgctxt "ConnectionForm|"
@@ -2562,7 +2572,7 @@ msgstr "Cancella"
 #, qt-format
 msgctxt "ChangeStackOrderVMapCommand|"
 msgid "Change stack order of %1 item(s)"
-msgstr ""
+msgstr "Modifica le ordine de pila per %1 elemento(s)"
 
 #: src/libraries/rwidgets/commands/movevmapitem.cpp:34
 #, qt-format
@@ -2623,7 +2633,7 @@ msgstr "Aperi file"
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
 msgid "Get picture for Character State"
-msgstr ""
+msgstr "Obtene imagine per Stato de Personage"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:82
 msgctxt "PlayerWidget|"
@@ -2648,12 +2658,12 @@ msgstr "Stoppa all fin"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:91
 msgctxt "PlayerWidget|"
 msgid "Play in loop"
-msgstr ""
+msgstr "Reproduce in cyclo"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:96
 msgctxt "PlayerWidget|"
 msgid "Shuffle Mode"
-msgstr ""
+msgstr "Modo Shuffle (miscite)"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:100
 msgctxt "PlayerWidget|"
@@ -2668,7 +2678,7 @@ msgstr "Silentia Volume"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:107
 msgctxt "PlayerWidget|"
 msgid "load TableTopAudio.com playlist"
-msgstr ""
+msgstr "Carga lista de reproduction de TableTopAudio.com"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:109
 msgctxt "PlayerWidget|"
@@ -2703,12 +2713,12 @@ msgstr "Remove Canto"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:146
 msgctxt "PlayerWidget|"
 msgid "Add song to the list"
-msgstr ""
+msgstr "Adde cantos al lista"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:147
 msgctxt "PlayerWidget|"
 msgid "Remove selected file"
-msgstr ""
+msgstr "Remove file seligite"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:274
 msgctxt "PlayerWidget|"
@@ -2732,6 +2742,8 @@ msgid ""
 "You are about to load an new playlist. All previously load file will be "
 "dropped."
 msgstr ""
+"Tu es per cargar un nove lista de reproduction. Omne file previemente "
+"cargate essera lassade cader."
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:296
 msgctxt "PlayerWidget|"
@@ -2747,7 +2759,7 @@ msgstr "Lista de reproduction (*.m3u*)"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:305
 msgctxt "PlayerWidget|"
 msgid "Open audio Stream"
-msgstr ""
+msgstr "Aperi Fluxo (Stream) audio"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:305
 msgctxt "PlayerWidget|"
@@ -2770,7 +2782,7 @@ msgstr[1] "%n elemento(s)"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:241
 msgctxt "RGraphicsView|"
 msgid "Overlapping"
-msgstr ""
+msgstr "Superponente"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:247
 msgctxt "RGraphicsView|"
@@ -2805,7 +2817,7 @@ msgstr "Fixa strato"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:263
 msgctxt "RGraphicsView|"
 msgid "Normalize Size"
-msgstr ""
+msgstr "Normalisa Grandor"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:273
 msgctxt "RGraphicsView|"
@@ -2820,7 +2832,7 @@ msgstr "Modifica Strato"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:297
 msgctxt "RGraphicsView|"
 msgid "Change Visibility"
-msgstr ""
+msgstr "Cambia Visibilitate"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:302
 msgctxt "RGraphicsView|"
@@ -2845,22 +2857,22 @@ msgstr "Valor de Rotation?"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:379
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
-msgstr ""
+msgstr "Pro favor, fixa le angulo de rotation que tu vole [0-360]"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:505
 msgctxt "RGraphicsView|"
 msgid "Zoom to Normal"
-msgstr ""
+msgstr "Zoom a Normal"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:506
 msgctxt "RGraphicsView|"
 msgid "Zoom In Max"
-msgstr ""
+msgstr "Zoom in (aggrandi) a Max"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:507
 msgctxt "RGraphicsView|"
 msgid "Zoom Out Max"
-msgstr ""
+msgstr "Zoom Out (Diminuer) a Max"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
 msgctxt "RGraphicsView|"
@@ -2915,7 +2927,7 @@ msgstr "Medie"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:555
 msgctxt "RGraphicsView|"
 msgid "As undermouse item"
-msgstr ""
+msgstr "Como elemento submus (undermouse)"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:558
 msgctxt "RGraphicsView|"
@@ -2990,7 +3002,7 @@ msgstr "Omne Npcs"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:637
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
-msgstr ""
+msgstr "Rola Initiativa sur omne Npcs"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:641
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:656
@@ -3001,7 +3013,7 @@ msgstr "Selection"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:642
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on Selection"
-msgstr ""
+msgstr "Rola Initiativa sur Selection"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:646
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:661
@@ -3012,7 +3024,7 @@ msgstr "Omne Characteres"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:647
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
-msgstr ""
+msgstr "Rola Initiativa sur Tote Personages"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
 msgctxt "RGraphicsView|"
@@ -3032,7 +3044,7 @@ msgstr "Netta Initiativa sur Tote Personages"
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
 msgid "Predefine Color 1"
-msgstr ""
+msgstr "Predefine Color 1"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:131
 #, qt-format
@@ -3097,6 +3109,14 @@ msgid ""
 "Existing features : Map sharing (with permission management), Image sharing, "
 "background music, dice roll and so on. Rolisteam is written in Qt5"
 msgstr ""
+"Rolisteam de adjuta a gerer un joco de rolo de tabula con jocatores/amicos "
+"remote. Illo forni multe characteristicas per compartir mappas, imagines e "
+"anque include instrumentos per communicar con tu amicos/jocatores. Le "
+"objectivo es facer jocos RPG gerite per Rolisteam bon como jocos RPG ubique "
+"tu tabula. Per obtener illo, nos travalia multo pro fornir te plus e plus "
+"functiones. Functiones existente:Compartir de Mappa (con gestion de "
+"permission), compatir de imagines, musica de fundo, rolar de dato et cetera. "
+"Rolisteam es scribite in Qt6"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
 msgctxt "AboutRolisteam|"
@@ -3107,6 +3127,11 @@ msgid ""
 "See the 'COPYRIGHT' file for the complete list of contributors. We provide "
 "no warranty for this program."
 msgstr ""
+"Tu pote modificar e redistribuer le programam sub le terminos del GPL "
+"(version 2 o ulterior). Un copia del GPL es contenite in le file 'COPYING' "
+"distribuite con Rolistream. Rolisteam ha le derectos (copyright) per su "
+"contributores. (Vide le file 'COPYRIGHT' per le lista complete de "
+"contributores. Nos forni nulle garantia per iste programma."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
@@ -3116,7 +3141,7 @@ msgstr "Sitos Web"
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Official Rolisteam Site"
-msgstr ""
+msgstr "Sito Official de Rolisteam"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
@@ -3155,7 +3180,7 @@ msgstr[1] "%n file(s)"
 #, qt-format
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection has failed! Connection Retry in %1s."
-msgstr ""
+msgstr "Connexion ha fallite! Re-essaya Connexion in %1s."
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:153
 msgctxt "ImageSelectorDialog|"
@@ -3201,17 +3226,17 @@ msgstr "Css"
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
-msgstr ""
+msgstr "<li>Formato de Imagine : %1 valor %2</li>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:475
 msgctxt "PreferencesDialog|"
 msgid "<h2>Supported Image Formats:</h2><ul>"
-msgstr ""
+msgstr "<h2>Formatos de Imagines Supportate:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:482
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Image Format"
-msgstr ""
+msgstr "</ul>Fin de Formato de Imagine"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:485
 msgctxt "PreferencesDialog|"
@@ -3221,34 +3246,34 @@ msgstr "<h2>Familias de Font</h2><ul>"
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:492
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
-msgstr ""
+msgstr "</ul>Fin de familias de Font "
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:495
 msgctxt "PreferencesDialog|"
 msgid "<h2>Audio file formats Support:</h2><ul>"
-msgstr ""
+msgstr "<h2>Supporto de formatos de file Audio:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:530
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Supported Audio file formats"
-msgstr ""
+msgstr "</ul>Fin de Formatos de file Audio supportate"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:547
 msgctxt "PreferencesDialog|"
 msgid "Export Rolisteam Theme"
-msgstr ""
+msgstr "Exporta Thema de Rolisteam"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:549
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:558
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "Rolisteam Theme: %1"
-msgstr ""
+msgstr "Thema de Rolisteam: %1"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:557
 msgctxt "PreferencesDialog|"
 msgid "Import Rolisteam Theme"
-msgstr ""
+msgstr "Importa Thema de Rolisteam"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:579
 msgctxt "PreferencesDialog|"
@@ -3269,7 +3294,7 @@ msgstr "%1 - Consilio del Die"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:42
 msgctxt "TipOfDayViewer|"
 msgid "No Service to open links"
-msgstr ""
+msgstr "Nulle Servicio a aperir ligamines"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:43
 #, qt-format
@@ -3356,7 +3381,7 @@ msgstr "Monstra/cela jocator %1"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:49
 msgctxt "campaign::CampaignDock|"
 msgid "Campaign Content"
-msgstr ""
+msgstr "Contento de Campania"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:51
 msgctxt "campaign::CampaignDock|"
@@ -3371,7 +3396,7 @@ msgstr "AudioFile (File Audio)"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:53
 msgctxt "campaign::CampaignDock|"
 msgid "CharacterSheet"
-msgstr "CharacterSheet (Folio de Character)"
+msgstr "CharacterSheet (Folio de Personage)"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:54
 msgctxt "campaign::CampaignDock|"
@@ -3421,7 +3446,7 @@ msgstr "Modifica canal"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:36
 msgctxt "ChannelListPanel|"
 msgid "Lock/Unlock Channel"
-msgstr ""
+msgstr "Bloca/Disbloca Canal"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:37
 msgctxt "ChannelListPanel|"
@@ -3431,7 +3456,7 @@ msgstr "Commuta a canale"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:38
 msgctxt "ChannelListPanel|"
 msgid "Set/Unset Channel Password"
-msgstr ""
+msgstr "Fixa/De-fixa Contrasigno de Canal"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:39
 msgctxt "ChannelListPanel|"
@@ -3461,7 +3486,7 @@ msgstr "Accede como admin"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:44
 msgctxt "ChannelListPanel|"
 msgid "Kick User"
-msgstr ""
+msgstr "Calca Usator"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:45
 msgctxt "ChannelListPanel|"
@@ -3471,7 +3496,7 @@ msgstr "Prohibi usator"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:46
 msgctxt "ChannelListPanel|"
 msgid "Reset Data Channel"
-msgstr ""
+msgstr "Refixa Canal de Datos"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:47
 msgctxt "ChannelListPanel|"
@@ -3498,13 +3523,13 @@ msgstr "Contrasigno de canal"
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Password for channel: %1 - leave empty for no password"
-msgstr ""
+msgstr "Contrasigno per canal : %1 - lassa vacue per nulle contrasigno"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Channel %1 required password:"
-msgstr ""
+msgstr "Canal %1 requireva contrasigno:"
 
 #: src/libraries/rwidgets/docks/playerspanel.cpp:57
 msgctxt "PlayersPanel|"
@@ -3514,7 +3539,7 @@ msgstr "List de Jocator"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
 msgctxt "VmapTopBar|"
 msgid "TopBar for VMap"
-msgstr ""
+msgstr "TopBar per VMap"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:61
 msgctxt "VmapTopBar|"
@@ -3534,12 +3559,12 @@ msgstr "Grillia in alto"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:90
 msgctxt "VmapTopBar|"
 msgid "Permission: GM only"
-msgstr ""
+msgstr "Permission: solmente GM "
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:96
 msgctxt "VmapTopBar|"
 msgid "Permission: PC Move"
-msgstr ""
+msgstr "Permission: Move PC"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:102
 msgctxt "VmapTopBar|"
@@ -3594,37 +3619,37 @@ msgstr "Vision de Character"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
 msgctxt "VmapTopBar|"
 msgid "Show Transparent Item"
-msgstr ""
+msgstr "Monstra elemento transparente"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:220
 msgctxt "VmapTopBar|PC = playable character"
 msgid "Show/Hide PC name"
-msgstr ""
+msgstr "Monstra/Cela nomine de PC"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:224
 msgctxt "VmapTopBar|NPC = non-playable character"
 msgid "Show/Hide NPC name"
-msgstr ""
+msgstr "Monstra/Cela nomine de NPC"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:227
 msgctxt "VmapTopBar|"
 msgid "Show/Hide NPC number"
-msgstr ""
+msgstr "Monstra/Cela numero de NPC"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:230
 msgctxt "VmapTopBar|"
 msgid "Show/Hide State"
-msgstr ""
+msgstr "Monstra/Cela Stato"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:233
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Health Bar"
-msgstr ""
+msgstr "Monstra/Cela Barra de Sanitate"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:236
 msgctxt "VmapTopBar|"
 msgid "Show/Hide Initiative"
-msgstr ""
+msgstr "Monstra/Cela Initiativa"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:290
 msgctxt "VmapTopBar|"
@@ -3675,22 +3700,22 @@ msgstr "Mono Spatio"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
 msgctxt "MRichTextEdit|"
 msgid "Remove character formatting"
-msgstr ""
+msgstr "Remove formattar de character"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:125
 msgctxt "MRichTextEdit|"
 msgid "Remove all formatting"
-msgstr ""
+msgstr "Remove omne formattar"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:129
 msgctxt "MRichTextEdit|"
 msgid "Edit document source"
-msgstr ""
+msgstr "Modifica fonte de documento"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:192
 msgctxt "MRichTextEdit|"
 msgid "Document source"
-msgstr ""
+msgstr "Fonte de documento"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
 msgctxt "MRichTextEdit|"
@@ -3715,18 +3740,18 @@ msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Omne (*)"
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:267
 msgctxt "OOReader|"
 msgid "Unable to convert document body!"
-msgstr ""
+msgstr "Incapace a converter corpore de documento!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
 msgctxt "XMLTextEdit|"
 msgid "Found xml error"
-msgstr ""
+msgstr "Trovate error de xml"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:60
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "Check line %1 column %2 on string \"%3\"!"
-msgstr ""
+msgstr "Verifica rango %1 columna %2 sur catena \"%3\"!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 msgctxt "XMLTextEdit|"
@@ -3737,32 +3762,32 @@ msgstr "XML valide."
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "All tag are valid size %1."
-msgstr ""
+msgstr "Omne etiquetta (tag) es grandor valide %1."
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
 msgid "XML not found!"
-msgstr ""
+msgstr "XML non trovate!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
 msgctxt "XMLTextEdit|"
 msgid "Null size xml document!"
-msgstr ""
+msgstr "Documento XML de grandor nulle!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:89
 msgctxt "XMLTextEdit|"
 msgid "Zoom In CTRL/+"
-msgstr ""
+msgstr "Zoom In (aggrandir) CTRL/+"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:90
 msgctxt "XMLTextEdit|"
 msgid "Zoom Out CTRL/-"
-msgstr ""
+msgstr "Zoom Out (Diminuer) CTRL/-"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:91
 msgctxt "XMLTextEdit|"
 msgid "Check xml syntax"
-msgstr ""
+msgstr "Verifica syntaxe xml"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/notecontainer.cpp:37
 #, qt-format
@@ -3788,7 +3813,7 @@ msgstr "Im&prime..."
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
 msgctxt "TextEdit|"
 msgid "Print Preview..."
-msgstr "Vista preliminari de imprimer..."
+msgstr "Vista preliminar de imprimer..."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:218
 msgctxt "TextEdit|"
@@ -3834,7 +3859,7 @@ msgstr "Co&lla"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:337
 msgctxt "TextEdit|"
 msgid "Format Actions"
-msgstr ""
+msgstr "Actiones de formato"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:272
 msgctxt "TextEdit|"
@@ -3892,6 +3917,8 @@ msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
 msgstr ""
+"Le documentoha essite modificate.\n"
+"Tu vole salveguardar tu modificationes?"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:472
 msgctxt "TextEdit|"
@@ -3929,6 +3956,8 @@ msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
 "providing an example document for you to experiment with."
 msgstr ""
+"Iste exemplo demonstra le capacitates de modificar le texto rich de QT in "
+"action, fornente un documento de exemplo con le qual tu pote experimentar."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:791
 msgctxt "TextEdit|"
@@ -3938,18 +3967,18 @@ msgstr "Formato de file de OpenOffice 2.4 OASIS"
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "Cahoots"
-msgstr ""
+msgstr "Conspiratores"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "The string was not found."
-msgstr ""
+msgstr "Le catena non esseva trovate."
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.cpp:54
 #, qt-format
 msgctxt "SharedNote|"
 msgid "%1 - Shared Note Editor"
-msgstr ""
+msgstr "%1 - Editor de Nota Compartite"
 
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp:16
 msgctxt "DiceBookMarkModel|"
@@ -3974,7 +4003,7 @@ msgstr "Nomine Chinese"
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
 msgid "Elve Name"
-msgstr ""
+msgstr "Nomine de Elfo (Elve)"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
@@ -3994,7 +4023,7 @@ msgstr "Nomine Japonese"
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:45
 msgctxt "NameGeneratorWidget|"
 msgid "Star Wars Name"
-msgstr ""
+msgstr "Nomine de Star Wars"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:45
 msgctxt "NameGeneratorWidget|"
@@ -4114,12 +4143,12 @@ msgstr "Reimple Percurso"
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:137
 msgctxt "TextItem|"
 msgid "Increase Text Size"
-msgstr ""
+msgstr "Augmenta Grandor de Texto"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:138
 msgctxt "TextItem|"
 msgid "Decrease Text Size"
-msgstr ""
+msgstr "Diminue grandor de Texto"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:139
 msgctxt "TextItem|"
@@ -4129,7 +4158,7 @@ msgstr "Modifica texto…"
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:140
 msgctxt "TextItem|"
 msgid "Adapt to content"
-msgstr ""
+msgstr "Adapta a Contento"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:191
 msgctxt "TextItem|"
@@ -4160,7 +4189,7 @@ msgstr "Regula "
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr "%1 -(Visor de Folio de Character)"
+msgstr "%1 -(Visor de Folio de Personage)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
@@ -4180,7 +4209,7 @@ msgstr "Aperi Vista de folios de character"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:618
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet files (*.qml)"
-msgstr "Files de folio de character (*.qml)"
+msgstr "Files de folio de personage (*.qml)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
@@ -4190,7 +4219,7 @@ msgstr "Comparti a"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet Data files (*.rcs)"
-msgstr "Files de Folio de datos de folio de character (*.rcs)"
+msgstr "Files de Folio de datos de folio de personage (*.rcs)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:56
 #: src/libraries/rwidgets/mediacontainers/image.cpp:66
@@ -4360,6 +4389,8 @@ msgid ""
 "PDF transfer can be really heavy.\n"
 "Do you want to continue and share the PDF?"
 msgstr ""
+"Transferentia de PDF pote esser realment epesante.\n"
+"Tu vole continuar e compartir le PDF?"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:293
 #, qt-format
@@ -4529,12 +4560,12 @@ msgstr "Punctos minime de sanitate"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:62
 msgctxt "UserListView|"
 msgid "Distance per turn"
-msgstr ""
+msgstr "Distantia per gyro"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:63
 msgctxt "UserListView|"
 msgid "Initiative Command"
-msgstr ""
+msgstr "Commando de Initiativa"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:63
 msgctxt "UserListView|"
@@ -4644,7 +4675,7 @@ msgstr "Ancora"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
 msgctxt "ToolBox|"
 msgid "Pipette"
-msgstr ""
+msgstr "Pipetta"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
 msgctxt "ToolBox|"
@@ -4654,7 +4685,7 @@ msgstr "Evidentiator"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
 msgctxt "ToolBox|"
 msgid "Paint Bucket"
-msgstr ""
+msgstr "Situla de Pinger"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
 msgctxt "ToolBox|"
@@ -4664,7 +4695,7 @@ msgstr "Texto con Bordo"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
 msgctxt "ToolBox|"
 msgid "Reset NPC counter"
-msgstr ""
+msgstr "Refixa Contator de NPC"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:310
 msgctxt "ToolBox|"
@@ -4689,12 +4720,12 @@ msgstr "Mascara"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:325
 msgctxt "ToolBox|"
 msgid "Unmask"
-msgstr ""
+msgstr "Disvela"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:355
 msgctxt "ToolBox|"
 msgid "height of the pen"
-msgstr ""
+msgstr "altessa del pluma"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:367
 msgctxt "ToolBox|"
