@@ -1807,7 +1807,7 @@ msgstr "[Upnp] Le mappage de ports a été réalisé."
 msgctxt "ServerConnectionManager|"
 msgid "Authentification as Admin fails: %2 - %1, Wrong password."
 msgstr ""
-"L'authentification comme administrateur a échoué :  %2 - %1. Mot de passe "
+"L'authentification comme administrateur a échoué : %2 - %1. Mot de passe "
 "incorrect."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:273
@@ -1858,7 +1858,7 @@ msgstr "Impossible de trouver un type adapté de service : %1 %2 %3"
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
-msgstr "Impossible d'ajouter un mappage de ports  (%1 / %2) : erreur\n"
+msgstr "Impossible d'ajouter un mappage de ports (%1 / %2) : erreur\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
