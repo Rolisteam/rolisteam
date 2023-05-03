@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QAbstractItemModelTester>
 #include <QModelIndex>
 #include <QModelIndexList>
 #include <QtCore/QString>
@@ -50,6 +51,7 @@ TestMusicModel::TestMusicModel() {}
 void TestMusicModel::init()
 {
     m_model.reset(new MusicModel());
+    new QAbstractItemModelTester(m_model.get());
 }
 
 void TestMusicModel::addTest()

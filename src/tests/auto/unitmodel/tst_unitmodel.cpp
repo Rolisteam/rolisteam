@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QAbstractItemModelTester>
 #include <QModelIndex>
 #include <QModelIndexList>
 #include <QtCore/QString>
@@ -54,6 +55,7 @@ TestUnitModel::TestUnitModel() {}
 void TestUnitModel::init()
 {
     m_model.reset(new UnitModel());
+    new QAbstractItemModelTester(m_model.get());
 }
 
 void TestUnitModel::addTest()

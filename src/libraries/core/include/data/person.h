@@ -29,7 +29,6 @@
 #include <QObject>
 
 #include "network_global.h"
-#include "resourcesnode.h"
 
 class Character;
 class Player;

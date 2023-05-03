@@ -66,12 +66,15 @@ int HistoryModel::columnCount(const QModelIndex& parent) const
 
 QVariant HistoryModel::data(const QModelIndex& index, int role) const
 {
-    QSet<int> allowedRole({Qt::DisplayRole, Qt::EditRole, PathRole, IdRole, TypeRole, LastAccessRole, BookmarkRole});
+    QSet<int> allowedRole(
+        {Qt::DisplayRole, Qt::EditRole, PathRole, NameRole, IdRole, TypeRole, LastAccessRole, BookmarkRole});
 
     if(!index.isValid() || !allowedRole.contains(role))
+    {
         return QVariant();
-
+    }
     int wantedData= 0;
+
     if(role < PathRole)
         wantedData= PathRole + index.column();
     else
@@ -139,6 +142,9 @@ bool HistoryModel::setData(const QModelIndex& idx, const QVariant& data, int rol
 
 Qt::ItemFlags HistoryModel::flags(const QModelIndex& index) const
 {
+    if(!index.isValid())
+        return Qt::NoItemFlags;
+
     int role= index.column() + PathRole;
     QSet<int> editableRole({PathRole, NameRole, BookmarkRole});
 

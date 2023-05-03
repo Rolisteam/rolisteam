@@ -88,6 +88,7 @@ void CharacterShape::setUri(const QString& uri)
         return;
 
     m_uri= uri;
+    updateImage();
 }
 
 QVariant CharacterShape::getData(int col, int role)
@@ -123,7 +124,6 @@ bool CharacterShape::setData(int col, QVariant value, int role)
         else if(col == 1)
         {
             setUri(value.toString());
-            updateImage();
             set= true;
         }
     }
@@ -594,6 +594,8 @@ void Character::setStateId(const QString& stateId)
 
 QString Character::currentStateLabel() const
 {
+    if(!m_stateList)
+        return {};
     auto it= std::find_if(m_stateList->begin(), m_stateList->end(), [this](const CharacterState* state) {
         if(nullptr == state)
             return false;

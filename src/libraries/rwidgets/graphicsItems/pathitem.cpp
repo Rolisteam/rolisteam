@@ -28,9 +28,6 @@
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-
 QPainterPath vectorToFullPath(const std::vector<QPointF>& points, qreal penWidth= 10., bool closeUp= false)
 {
     QPainterPath path;
@@ -143,19 +140,22 @@ PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ct
 
 QRectF PathItem::boundingRect() const
 {
-    if(m_pathCtrl)
-        return m_pathCtrl->rect();
-    else
+    if(!m_pathCtrl)
         return {};
+    return m_pathCtrl->rect();
 }
 
 QPainterPath PathItem::shape() const
 {
+    if(!m_pathCtrl)
+        return {};
     return vectorToFullPath(m_pathCtrl->points(), 10);
 }
 
 void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    if(!m_pathCtrl)
+        return;
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -194,13 +194,16 @@ void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 
 void PathItem::setNewEnd(const QPointF& p)
 {
+    if(!m_pathCtrl)
+        return;
+
     if(m_pathCtrl->penLine())
     {
         auto p0= m_pathCtrl->pointAt(m_pathCtrl->pointCount() - 1);
         m_pathCtrl->addPoint(p0 + p);
     }
     else
-        m_pathCtrl->setCorner(p, m_pathCtrl->pointCount());
+        m_pathCtrl->setCorner(p, m_pathCtrl->pointCount() - 1);
 }
 
 /*void PathItem::createActions()
@@ -210,17 +213,23 @@ void PathItem::setNewEnd(const QPointF& p)
 
 void PathItem::addActionContextMenu(QMenu& menu)
 {
+    if(!m_pathCtrl)
+        return;
     menu.addAction(m_closeAct);
     menu.addAction(m_fillAct);
     VisualItem::addActionContextMenu(menu);
 }
 void PathItem::addPoint(const QPointF& point)
 {
+    if(!m_pathCtrl)
+        return;
     m_pathCtrl->addPoint(point);
 }
 
 void PathItem::addChild(const QPointF& point, int i)
 {
+    if(!m_pathCtrl)
+        return;
     if(m_pathCtrl->penLine())
         return;
 

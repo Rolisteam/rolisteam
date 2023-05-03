@@ -44,8 +44,6 @@
 #include "rwidgets/toolbars/vtoolbar.h"
 
 #include "rwidgets/dialogs/selectconnectionprofiledialog.h"
-#include "rwidgets/editors/noteeditor/src/notecontainer.h"
-#include "rwidgets/editors/sharededitor/sharednotecontainer.h"
 
 #ifndef NULL_PLAYER
 #include "rwidgets/docks/audioPlayer.h"

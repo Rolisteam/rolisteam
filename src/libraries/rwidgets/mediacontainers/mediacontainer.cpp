@@ -35,8 +35,8 @@ MediaContainer::MediaContainer(MediaControllerBase* ctrl, ContainerType containe
     m_detachedDialog->setCheckable(true);
 
     connect(m_detachedDialog, &QAction::triggered, this, &MediaContainer::detachView);
-    connect(ctrl, &MediaControllerBase::closeContainer, this, &MediaContainer::close);
-    connect(ctrl, &MediaControllerBase::ownerIdChanged, this, &MediaContainer::ownerIdChanged);
+    connect(m_lifeCycleCtrl, &MediaControllerBase::closeContainer, this, &MediaContainer::close);
+    connect(m_lifeCycleCtrl, &MediaControllerBase::ownerIdChanged, this, &MediaContainer::ownerIdChanged);
     connect(m_lifeCycleCtrl, &MediaControllerBase::nameChanged, this,
             [this]() { setWindowTitle(m_lifeCycleCtrl->name()); });
 }

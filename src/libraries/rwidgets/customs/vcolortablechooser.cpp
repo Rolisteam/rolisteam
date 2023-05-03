@@ -121,6 +121,7 @@ ColorTable::ColorTable()
     setMinimumSize(40, 40);
     setMaximumSize(100, 100);
 }
+
 int ColorTable::heightForWidth(int width) const
 {
     return width;
@@ -190,6 +191,10 @@ ColorTableChooser::ColorTableChooser(QWidget* parent) : QWidget(parent)
 
     m_h= 0;
     m_s= MAX_SATURATION;
+}
+ColorTableChooser::~ColorTableChooser()
+{
+    qDebug() << "destructor Table Chooser";
 }
 void ColorTableChooser::resizeEvent(QResizeEvent* event)
 {

@@ -23,7 +23,6 @@
 #include <QPainter>
 
 #include "data/person.h"
-#include "model/playermodel.h"
 
 UserListDelegate::UserListDelegate(QObject* parent) : QStyledItemDelegate(parent) {}
 void UserListDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const

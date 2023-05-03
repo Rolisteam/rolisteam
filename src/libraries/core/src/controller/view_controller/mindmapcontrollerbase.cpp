@@ -280,6 +280,13 @@ void MindMapControllerBase::removeLink(const QStringList& id)
     std::vector<MindItem*> res;
     std::transform(std::begin(id), std::end(id), std::back_inserter(res),
                    [this](const QString& id) { return m_itemModel->item(id); });
+
+    res.erase(std::remove(std::begin(res), std::end(res), nullptr),
+                 std::end(res));
+
+    if(res.empty())
+        return;
+
     auto cmd= new mindmap::RemoveNodeCommand(uuid(), res, m_itemModel.get());
     m_stack.push(cmd);
 }
@@ -289,6 +296,13 @@ void MindMapControllerBase::removeNode(const QStringList& id)
     std::vector<MindItem*> res;
     std::transform(std::begin(id), std::end(id), std::back_inserter(res),
                    [this](const QString& id) { return m_itemModel->item(id); });
+
+    res.erase(std::remove(std::begin(res), std::end(res), nullptr),
+              std::end(res));
+
+    if(res.empty())
+        return;
+
     auto cmd= new mindmap::RemoveNodeCommand(uuid(), res, m_itemModel.get());
     m_stack.push(cmd);
 }
@@ -400,6 +414,8 @@ void MindMapControllerBase::addItemIntoPackage(const QString& idNode, const QStr
 QObject* MindMapControllerBase::subItem(const QString& id, mindmap::MindItem::Type type) const
 {
     auto item= m_itemModel->item(id);
+    if(!item)
+        return nullptr;
     return item->type() == type ? item : nullptr;
 }
 

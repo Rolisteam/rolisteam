@@ -19,12 +19,17 @@
  ***************************************************************************/
 #include "controller/view_controller/notecontroller.h"
 
-#include "worker/iohelper.h"
-//#include <QtConcurrent>
+#include <QFile>
+#include <QFileInfo>
+#include <QStringDecoder>
+#include <QTextDocument>
 
 NoteController::NoteController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::NOTES, parent)
 {
+
+    connect(this, &NoteController::urlChanged, this, &NoteController::loadText);
+
     /*auto future= QtConcurrent::run(IOHelper::loadFile, m_path);
     auto watcher= new QFutureWatcher<QByteArray>();
     connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [this, watcher]() {
@@ -48,4 +53,47 @@ void NoteController::setText(const QString& text)
         return;
     m_text= text;
     emit textChanged(m_text);
+}
+
+bool NoteController::isHtml() const
+{
+    return m_html;
+}
+
+void NoteController::loadText()
+{
+    QFileInfo fi(url().toLocalFile());
+    const QString ext= fi.completeSuffix().toLower();
+    if(!fi.exists())
+    {
+        return;
+    }
+
+    if(ext == "odt" || ext == "ott")
+    {
+        emit loadOdt(url().toLocalFile());
+    }
+    else
+    {
+        // TODO use helper/worker
+        QFile file(url().toLocalFile());
+        if(!file.open(QFile::ReadOnly))
+            return;
+
+        QByteArray data= file.readAll();
+        auto encoding= QStringConverter::encodingForHtml(data);
+        auto toHtml= QStringDecoder(encoding.value());
+        QString str= toHtml.decode(data);
+
+        setHtml(Qt::mightBeRichText(str));
+        setText(isHtml() ? str : QString::fromLocal8Bit(QByteArrayView{data}));
+    }
+}
+
+void NoteController::setHtml(bool b)
+{
+    if(m_html == b)
+        return;
+    m_html= b;
+    emit htmlChanged();
 }

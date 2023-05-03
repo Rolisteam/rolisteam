@@ -44,7 +44,7 @@ class CORE_EXPORT SharedNoteController : public MediaControllerBase
     Q_PROPERTY(ParticipantModel* participantModel READ participantModel CONSTANT)
     Q_PROPERTY(bool markdownVisible READ markdownVisible WRITE setMarkdownVisible NOTIFY markdownVisibleChanged)
     Q_PROPERTY(QString textUpdate READ textUpdate WRITE setTextUpdate NOTIFY textUpdateChanged)
-    Q_PROPERTY(QString updateCmd READ updateCmd WRITE setUpdateCmd NOTIFY updateCmdChanged)
+    Q_PROPERTY(QString updateCmd READ updateCmd NOTIFY updateCmdChanged)
 public:
     enum class HighlightedSyntax : quint8
     {
@@ -107,6 +107,7 @@ private:
     static QPointer<PlayerModel> m_playerModel;
     QString m_text;
     QString m_latestCommand;
+    QString m_updateCmd;
     HighlightedSyntax m_highlightedSyntax= HighlightedSyntax::MarkDown;
     bool m_participantVisible= true;
     bool m_markdownPreview= false;

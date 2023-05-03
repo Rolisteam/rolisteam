@@ -22,14 +22,14 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 
-#include "network/networkmessagewriter.h"
-//#include <networkmessage.h>
-//
-// Accepter
 #include "network/ipbanaccepter.h"
 #include "network/iprangeaccepter.h"
+#include "network/messagedispatcher.h"
+#include "network/networkmessagewriter.h"
 #include "network/passwordaccepter.h"
 #include "network/timeaccepter.h"
+
+#include <helper.h>
 
 class TestNetwork : public QObject
 {
@@ -55,6 +55,11 @@ private slots:
     void ipRangeAccepterTest_data();
     void timeAccepterTest();
     void timeAccepterTest_data();
+
+    void messageDispatcherTest();
+
+    void messageHeaderTest();
+    void messageHeaderTest_data();
 
 private:
     std::unique_ptr<NetworkMessageWriter> m_writer;
@@ -273,6 +278,189 @@ void TestNetwork::timeAccepterTest_data()
 
     QTest::addRow("time_null") << ""
                                << "";
+}
+
+void TestNetwork::messageDispatcherTest()
+{
+    MessageDispatcher dispatch;
+
+    dispatch.dispatchMessage(QByteArray(), nullptr, nullptr);
+    dispatch.dispatchMessage(Helper::randomData(Helper::generate(100, 500)), nullptr, nullptr);
+
+    Channel channel;
+    ServerConnection connect(nullptr);
+    channel.addChild(&connect);
+    dispatch.dispatchMessage(Helper::randomData(Helper::generate(100, 500)), &channel, nullptr);
+    dispatch.dispatchMessage(Helper::randomData(Helper::generate(100, 500)), &channel, &connect);
+
+    /*
+     * struct NETWORK_EXPORT NetworkMessageHeader
+{
+    quint8 category;
+    quint8 action;
+    quint32 dataSize;
+};
+*/
+}
+
+void TestNetwork::messageHeaderTest()
+{
+    QFETCH(quint8, cat);
+    QFETCH(quint8, action);
+    QFETCH(QString, resultCat);
+    QFETCH(QString, resultAct);
+
+    NetworkMessageHeader header{cat, action, 0};
+
+    QCOMPARE(MessageDispatcher::act2String(&header), resultAct);
+    QCOMPARE(MessageDispatcher::cat2String(&header), resultCat);
+}
+
+void TestNetwork::messageHeaderTest_data()
+{
+    QTest::addColumn<quint8>("cat");
+    QTest::addColumn<quint8>("action");
+    QTest::addColumn<QString>("resultCat");
+    QTest::addColumn<QString>("resultAct");
+
+    QStringList cats{"AdministrationCategory",
+                     "PlayerCategory",
+                     "CharacterPlayerCategory",
+                     "NPCCategory",
+                     "CharacterCategory",
+                     "DrawCategory",
+                     "MapCategory",
+                     "InstantMessageCategory",
+                     "MusicCategory",
+                     "SetupCategory",
+                     "CampaignCategory",
+                     "VMapCategory",
+                     "MediaCategory",
+                     "SharedNoteCategory",
+                     "WebPageCategory",
+                     "MindMapCategory"};
+
+    QList<QStringList> actionPerCategorie;
+
+    actionPerCategorie.append({"EndConnectionAction",
+                               "Heartbeat",
+                               "ConnectionInfo",
+                               "Goodbye",
+                               "Kicked",
+                               "MoveChannel",
+                               "SetChannelList",
+                               "RenameChannel",
+                               "NeedPassword",
+                               "AuthentificationSucessed",
+                               "AuthentificationFail",
+                               "LockChannel",
+                               "UnlockChannel",
+                               "JoinChannel",
+                               "DeleteChannel",
+                               "AddChannel",
+                               "ChannelPassword",
+                               "ResetChannelPassword",
+                               "BanUser",
+                               "ClearTable",
+                               "AdminPassword",
+                               "AdminAuthSucessed",
+                               "AdminAuthFail",
+                               "MovedIntoChannel",
+                               "GMStatus",
+                               "ResetChannel"});
+
+    actionPerCategorie.append({"PlayerConnectionAction", "DelPlayerAction", "ChangePlayerProperty"});
+
+    actionPerCategorie.append({"AddPlayerCharacterAction", "DelPlayerCharacterAction",
+                               "ToggleViewPlayerCharacterAction", "ChangePlayerCharacterSizeAction",
+                               "ChangePlayerCharacterProperty"});
+
+    actionPerCategorie.append(QStringList{"addNpc", "delNpc"});
+
+    actionPerCategorie.append({"addCharacterList", "moveCharacter", "changeCharacterState",
+                               "changeCharacterOrientation", "showCharecterOrientation", "addCharacterSheet",
+                               "updateFieldCharacterSheet", "closeCharacterSheet"});
+
+    actionPerCategorie.append({"penPainting", "linePainting", "emptyRectanglePainting", "filledRectanglePainting",
+                               "emptyEllipsePainting", "filledEllipsePainting", "textPainting", "handPainting"});
+
+    actionPerCategorie.append({"AddEmptyMap", "LoadMap", "ImportMap", "CloseMap"});
+
+    actionPerCategorie.append({
+        "InstantMessageAction",
+        "AddChatroomAction",
+        "RemoveChatroomAction",
+        "UpdateChatAction",
+    });
+
+    actionPerCategorie.append({
+        "StopSong",
+        "PlaySong",
+        "PauseSong",
+        "NewSong",
+        "ChangePositionSong",
+    });
+    actionPerCategorie.append(QStringList{"AddFeatureAction"});
+    actionPerCategorie.append({
+        "addDiceAlias",
+        "moveDiceAlias",
+        "removeDiceAlias",
+        "addCharacterState",
+        "moveCharacterState",
+        "removeCharacterState",
+        "DiceAliasModel",
+        "CharactereStateModel",
+    });
+    actionPerCategorie.append({
+        "AddItem",
+        "DeleteItem",
+        "UpdateItem",
+        "AddPoint",
+        "DeletePoint",
+        "MovePoint",
+        "SetParentItem",
+        "GeometryViewChanged",
+        "CharacterStateChanged",
+        "CharacterChanged",
+        "HighLightPosition",
+    });
+    actionPerCategorie.append({
+        "AddMedia",
+        "UpdateMediaProperty",
+        "CloseMedia",
+        "AddSubImage",
+        "RemoveSubImage",
+    });
+    actionPerCategorie.append({
+        "updateTextAndPermission",
+        "updateText",
+        "updatePermissionOneUser",
+    });
+    actionPerCategorie.append(QStringList{"UpdateContent"});
+    actionPerCategorie.append(
+        {"AddMessage", "RemoveMessage", "UpdateNode", "UpdatePackage", "UpdateLink", "UpdateMindMapPermission"});
+
+    QCOMPARE(cats.size(), actionPerCategorie.size());
+
+    for(quint8 i= 0; i < std::numeric_limits<quint8>::max(); ++i)
+    {
+        QString cat("UnknownCategory");
+        QStringList actionList;
+        if(i < cats.size())
+        {
+            actionList= actionPerCategorie[i];
+            cat= cats[i];
+        }
+
+        for(quint8 j= 0; j < std::numeric_limits<quint8>::max(); ++j)
+        {
+            QString act("Unknown Action");
+            if(j < actionList.size())
+                act= actionList[j];
+
+            QTest::addRow("test: %d, %d", i, j) << i << j << cat << act;
+        }
+    }
 }
 
 QTEST_MAIN(TestNetwork);

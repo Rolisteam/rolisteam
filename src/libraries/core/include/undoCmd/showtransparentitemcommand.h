@@ -39,7 +39,7 @@ public:
     void redo() override;
 
 private:
-    std::vector<vmap::VisualItemController*> m_data;
+    std::vector<QPointer<vmap::VisualItemController>> m_data;
 };
 
 #endif // SHOWTRANSPARENTITEMCOMMAND_H

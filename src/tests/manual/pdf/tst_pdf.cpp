@@ -36,7 +36,6 @@ int main(int argc, char* argv[])
         QUrl(QString("file://%1/manual/pdf/campaign").arg(tests::root_path)));
 
     QUndoStack undoStack;
-    // MindMapController::setRemotePlayerModel(model);
 
     PdfController ctrl(
         "uuid1",

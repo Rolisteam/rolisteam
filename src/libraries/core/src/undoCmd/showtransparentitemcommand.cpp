@@ -29,10 +29,18 @@ ShowTransparentItemCommand::ShowTransparentItemCommand(const QList<vmap::VisualI
 
 void ShowTransparentItemCommand::undo()
 {
-    std::for_each(std::begin(m_data), std::end(m_data), [](vmap::VisualItemController* a) { a->setOpacity(0.0); });
+    std::for_each(std::begin(m_data), std::end(m_data), [](const QPointer<vmap::VisualItemController>& a) {
+        if(!a)
+            return;
+        a->setOpacity(0.0);
+    });
 }
 
 void ShowTransparentItemCommand::redo()
 {
-    std::for_each(std::begin(m_data), std::end(m_data), [](vmap::VisualItemController* a) { a->setOpacity(1.0); });
+    std::for_each(std::begin(m_data), std::end(m_data), [](const QPointer<vmap::VisualItemController>& a) {
+        if(!a)
+            return;
+        a->setOpacity(1.0);
+    });
 }

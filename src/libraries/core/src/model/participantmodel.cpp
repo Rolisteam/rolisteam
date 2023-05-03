@@ -236,6 +236,8 @@ QVariant ParticipantModel::data(const QModelIndex& index, int role) const
 
 Qt::ItemFlags ParticipantModel::flags(const QModelIndex& index) const
 {
+    if(!index.isValid())
+        return Qt::NoItemFlags;
     if(index.parent().isValid())
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
     else
@@ -392,19 +394,21 @@ void ParticipantModel::setPlayerInto(const QModelIndex& index, Permission level)
     auto rwRoot= m_root->childAt(readWrite);
 
     if(permSource == hideRoot && perm == roRoot)
-        userReadPermissionChanged(id, true);
+        emit userReadPermissionChanged(id, true);
     else if(permSource == roRoot && perm == hideRoot)
-        userReadPermissionChanged(id, false);
+        emit userReadPermissionChanged(id, false);
 
     if(permSource == roRoot && perm == rwRoot)
-        userWritePermissionChanged(id, true);
+        emit userWritePermissionChanged(id, true);
     else if(permSource == rwRoot && perm == roRoot)
-        userWritePermissionChanged(id, false);
+        emit userWritePermissionChanged(id, false);
 }
 
 void ParticipantModel::setPlayerPermission(const QString& id, ParticipantModel::Permission level)
 {
     auto item= findItem(id, m_root.get());
+    if(!item)
+        return;
     auto parent= item->parent();
     auto parentIdx= index(m_root->indexOf(parent), 0, QModelIndex());
     auto itemIdx= index(parent->indexOf(item), 0, parentIdx);

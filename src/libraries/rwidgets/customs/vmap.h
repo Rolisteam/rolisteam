@@ -72,15 +72,11 @@ class RWIDGET_EXPORT VMap : public QGraphicsScene
     Q_OBJECT
 public:
     explicit VMap(VectorialMapController* ctrl, QObject* parent= nullptr);
-    QRectF itemsBoundingRectWithoutSight();
+
     void manageAnchor();
-    bool isIdle() const;
-    void updateLayer();
     const QString& getLocalUserId() const;
     int getCurrentNpcNumber() const;
     void removeItemFromData(VisualItem* item);
-    void setUndoStack(QUndoStack* undoStack);
-    void addCommand(QUndoCommand* cmd);
     bool isNormalItem(const QGraphicsItem* item)  const;
     VisualItem *getNormalItem(QGraphicsItem *item);
 
@@ -100,23 +96,25 @@ signals:
     void mapStatutChanged();
     void currentItemOpacity(qreal);
     void runDiceCommandForCharacter(QString cmd, QString uuid);
+
 private slots:
     void updateItem(const QPointF& end);
-    void checkItemLayer(VisualItem*);
     void promoteItemInType(VisualItem*, vmap::VisualItemController::ItemType);
-    void insertCharacterInMap(CharacterItem* item);
 
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event)override;
+    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent* event)override;
+    virtual void dropEvent(QGraphicsSceneDragDropEvent* event)override;
     virtual void keyPressEvent(QKeyEvent* event);
-    void insertItem(const QPointF& end);
-    void dragEnterEvent(QGraphicsSceneDragDropEvent* event);
-    void dropEvent(QGraphicsSceneDragDropEvent* event);
-    void dragMoveEvent(QGraphicsSceneDragDropEvent* event);
-    bool isItemStorable(VisualItem* item);
 
+
+    void insertItem(const QPointF& end);
+    void addAndInit(QGraphicsItem* item);
+    void addVisualItem(vmap::VisualItemController* ctrl);
+    void addExistingItems();
     void addRectItem(vmap::RectController* rectCtrl, bool editing);
     void addEllipseItem(vmap::EllipseController* ellisCtrl, bool editing);
     void addLineItem(vmap::LineController* lineCtrl, bool editing);
@@ -132,6 +130,7 @@ protected:
 
 private:
     VisualItem* visualItemUnder(const QPointF& pos);
+    bool isNormalItem(const QGraphicsItem* item);
 
 private:
     std::unique_ptr<GridItem> m_gridItem;
@@ -141,10 +140,6 @@ private:
     QPointer<AnchorItem> m_parentItemAnchor;
     QPointer<RuleItem> m_ruleItem;
     QPointer<PathItem> m_currentPath= nullptr;
-    QMultiMap<QString, CharacterItem*>* m_characterItemMap= nullptr;
-    QImage m_computedPattern;
-    QPointer<QUndoStack> m_undoStack;
-    AddVmapItemCommand* m_currentAddCmd= nullptr;
     QList<VisualItem*> m_movingItems;
     QList<QPointF> m_oldPos;
 };

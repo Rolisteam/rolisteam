@@ -704,7 +704,7 @@ QJsonObject IOHelper::saveAudioPlayerController(AudioPlayerController* controlle
     QJsonObject obj;
     if(!controller)
         return obj;
-    obj[Core::jsonctrl::Audio::JSON_AUDIO_VOLUME]= controller->volume();
+    obj[Core::jsonctrl::Audio::JSON_AUDIO_VOLUME]= static_cast<int>(controller->volume());
     obj[Core::jsonctrl::Audio::JSON_AUDIO_VISIBLE]= controller->visible();
     obj[Core::jsonctrl::Audio::JSON_PLAYING_MODE]= controller->mode();
 
@@ -722,7 +722,7 @@ void IOHelper::fetchAudioPlayerController(AudioPlayerController* controller, con
     if(!controller)
         return;
 
-    controller->setVolume(obj[Core::jsonctrl::Audio::JSON_AUDIO_VOLUME].toInt());
+    controller->setVolume(static_cast<uint>(obj[Core::jsonctrl::Audio::JSON_AUDIO_VOLUME].toInt()));
     controller->setVisible(obj[Core::jsonctrl::Audio::JSON_AUDIO_VISIBLE].toBool());
     controller->setPlayingMode(
         static_cast<AudioPlayerController::PlayingMode>(obj[Core::jsonctrl::Audio::JSON_PLAYING_MODE].toInt()));

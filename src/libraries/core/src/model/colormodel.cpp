@@ -98,11 +98,9 @@ void ColorModel::setSourceModel(const campaign::NonPlayableCharacterModel* sourc
 
     QSet<QColor> colors;
     auto const& npcs= source->npcList();
-    qDebug() << npcs.size();
     std::for_each(std::begin(npcs), std::end(npcs),
                   [&colors](const std::unique_ptr<campaign::NonPlayableCharacter>& npc)
                   {
-                      qDebug() << "qDebuq ";
                       colors.insert(npc->getColor());
                   });
 

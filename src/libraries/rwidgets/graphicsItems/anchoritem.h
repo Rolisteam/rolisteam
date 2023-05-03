@@ -26,7 +26,8 @@
 #include <QGraphicsObject>
 #include <QPen>
 
-namespace vmap {
+namespace vmap
+{
 class VisualItemController;
 }
 /**
@@ -34,6 +35,7 @@ class VisualItemController;
  */
 class RWIDGET_EXPORT AnchorItem : public QGraphicsObject
 {
+    Q_OBJECT
 public:
     /**
      * @brief AnchorItem
@@ -45,7 +47,7 @@ public:
      */
     virtual ~AnchorItem();
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
 
     /**
      * @brief gives bounding rect of the line
@@ -55,14 +57,14 @@ public:
     /**
      * @brief defines new position of the end line.
      */
-    virtual void setNewEnd(const QPointF &nend);
+    virtual void setNewEnd(const QPointF& nend);
 
     QPointF getStart() const;
     QPointF getEnd() const;
 
 private:
-    QPointF m_startPoint = QPointF(0, 0);
-    QPointF m_endPoint = QPointF(0, 0);
+    QPointF m_startPoint= QPointF(0, 0);
+    QPointF m_endPoint= QPointF(0, 0);
     QPen m_pen;
 };
 

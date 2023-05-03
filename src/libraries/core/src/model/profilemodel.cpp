@@ -154,6 +154,8 @@ void ProfileModel::removeProfile(int index)
 
 Qt::ItemFlags ProfileModel::flags(const QModelIndex& index) const
 {
-    Q_UNUSED(index)
+    if(!index.isValid())
+        return Qt::NoItemFlags;
+
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }

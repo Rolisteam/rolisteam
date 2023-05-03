@@ -9,7 +9,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 add_library(helper SHARED helper.cpp helper.h helper_global.h ../assets/resources.qrc )
-target_link_libraries(helper PUBLIC Qt6::Core Qt6::Test  Qt6::HttpServer PRIVATE core utils network)
+target_link_libraries(helper PUBLIC Qt6::Core Qt6::Test Qt6::HttpServer PRIVATE core utils network rwidgets charactersheet charactersheet_formula charactersheet_widgets common_core common_qml common_widget diceparser_shared diceparser_qobject
+instantmessaging rmindmap utils)
 
 target_compile_definitions(helper PRIVATE HELPER_LIBRARY)
 target_include_directories(helper

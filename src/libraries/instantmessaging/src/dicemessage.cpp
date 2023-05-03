@@ -136,6 +136,7 @@ void DiceMessage::computeResult()
 
             if((face != previousFace && previousFace != -1))
             {
+                // qDebug() << m_text << obj;
                 diceArray << QString("d%1:(%2)").arg(previousFace).arg(vec.join(" "));
                 vec.clear();
             }

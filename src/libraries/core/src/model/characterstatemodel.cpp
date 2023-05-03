@@ -170,7 +170,8 @@ void CharacterStateModel::appendState(CharacterState&& stateRef)
 }
 Qt::ItemFlags CharacterStateModel::flags(const QModelIndex& index) const
 {
-    Q_UNUSED(index)
+    if(!index.isValid())
+        return Qt::NoItemFlags;
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
 }
 bool CharacterStateModel::setData(const QModelIndex& idx, const QVariant& value, int role)

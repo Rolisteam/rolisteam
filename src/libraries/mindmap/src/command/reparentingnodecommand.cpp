@@ -54,6 +54,8 @@ void ReparentingNodeCommand::undo()
     if(m_mindNode.isNull() || m_oldLink.isNull() || m_newLink.isNull())
         return;
 
+    m_newParent->removeLink(m_newLink);
+    m_oldParent->addLink(m_oldLink);
     m_nodeModel->removeItem(m_newLink);
     m_nodeModel->appendItem({m_oldLink});
 }
@@ -71,6 +73,8 @@ void ReparentingNodeCommand::redo()
         m_newLink->setStart(m_newParent);
         m_newLink->setEnd(m_mindNode);
     }
+
+    m_oldParent->removeLink(m_oldLink);
 
     m_nodeModel->appendItem({m_newLink});
 }

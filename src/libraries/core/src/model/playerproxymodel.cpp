@@ -34,7 +34,7 @@ int PlayerProxyModel::columnCount(const QModelIndex& parent) const
 
 int PlayerProxyModel::rowCount(const QModelIndex& parent) const
 {
-    if(parent.isValid())
+    if(parent.isValid() || !sourceModel())
         return 0;
 
     return sourceModel()->rowCount(); // only item at one depth level

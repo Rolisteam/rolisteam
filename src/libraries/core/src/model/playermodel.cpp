@@ -251,7 +251,7 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
 Qt::ItemFlags PlayerModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
-        return Qt::ItemIsEnabled;
+        return Qt::NoItemFlags;
 
     if(index.row() == 0 || gameMasterId() == localPlayerId())
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;

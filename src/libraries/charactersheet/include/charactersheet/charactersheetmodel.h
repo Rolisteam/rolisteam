@@ -75,7 +75,7 @@ public:
     void addLine(const QModelIndex& index);
     TreeSheetItem* indexToSection(const QModelIndex& index);
     QModelIndex indexToSectionIndex(const QModelIndex& index);
-    CharacterSheet* getCharacterSheet(int id);
+    CharacterSheet* getCharacterSheet(int id) const;
 
     bool writeModel(QJsonObject& file);
     void readModel(const QJsonObject& file, bool readRootSection);
@@ -87,7 +87,7 @@ public:
     Section* getRootSection() const;
 
     void addCharacterSheet(CharacterSheet* sheet, int pos);
-    CharacterSheet* getCharacterSheetById(QString id);
+    CharacterSheet* getCharacterSheetById(const QString& id) const;
     int getCharacterSheetCount() const;
     void removeCharacterSheet(int index);
     void removeCharacterSheet(CharacterSheet* sheet);
@@ -112,12 +112,9 @@ private:
     void checkTableItem();
 
 private:
-    /**
-     * @brief QList which stores pointer to CharacterSheet.
-     */
-    QList<CharacterSheet*>* m_characterList= nullptr;
-    Section* m_rootSection= nullptr;
-    Formula::FormulaManager* m_formulaManager= nullptr;
+    std::vector<std::unique_ptr<CharacterSheet>> m_characterList;
+    std::unique_ptr<Section> m_rootSection;
+    std::unique_ptr<Formula::FormulaManager> m_formulaManager;
 };
 
 #endif // CHARACTERSHEETMODEL_H

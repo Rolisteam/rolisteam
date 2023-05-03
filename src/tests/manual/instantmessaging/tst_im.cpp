@@ -10,6 +10,7 @@
 #include "rwidgets/mediacontainers/instantmessagingview.h"
 
 #include "data/player.h"
+#include "diceparser_qobject/diceroller.h"
 #include "model/playermodel.h"
 #include "test_root_path.h"
 #include <common_qml/theme.h>
@@ -42,17 +43,18 @@ int main(int argc, char* argv[])
     Q_INIT_RESOURCE(resources);
 
     registerTypeTest();
-    PlayerModel model;
-    InstantMessagingController ctrl(&model);
+    PlayerModel* model= new PlayerModel;
+    InstantMessagingController ctrl(model);
+    ctrl.setDiceParser(new DiceRoller);
 
     QQuickStyle::setStyle("rolistyle");
     QQuickStyle::setFallbackStyle("Fusion");
 
     Player p1("Obi", Qt::blue, true);
-    model.addPlayer(&p1);
+    model->addPlayer(&p1);
 
     Player p2("Player", Qt::green, false);
-    model.addPlayer(&p2);
+    model->addPlayer(&p2);
 
     InstantMessagingView view(&ctrl);
 

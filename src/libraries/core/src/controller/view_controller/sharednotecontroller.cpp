@@ -20,8 +20,8 @@
 #include "controller/view_controller/sharednotecontroller.h"
 
 #include "data/player.h"
-#include "utils/iohelper.h"
 #include "model/playermodel.h"
+#include "utils/iohelper.h"
 #include "worker/iohelper.h"
 
 QPointer<PlayerModel> SharedNoteController::m_playerModel;
@@ -35,15 +35,17 @@ SharedNoteController::SharedNoteController(const QString& ownerId, const QString
     setLocalId(local);
 
     connect(this, &SharedNoteController::ownerIdChanged, m_participantModel.get(), &ParticipantModel::setOwner);
-    connect(this, &SharedNoteController::localIdChanged, this, [this]() {
+    connect(this, &SharedNoteController::localIdChanged, this,
+            [this]() {
 
-    });
+            });
 
     connect(this, &SharedNoteController::urlChanged, this,
             [this](const QUrl& path) { setText(utils::IOHelper::readTextFile(path.toLocalFile())); });
 
     connect(m_participantModel.get(), &ParticipantModel::userReadPermissionChanged, this,
-            [this](const QString& id, bool b) {
+            [this](const QString& id, bool b)
+            {
                 if(b)
                     emit openShareNoteTo(id);
                 else
@@ -51,8 +53,16 @@ SharedNoteController::SharedNoteController(const QString& ownerId, const QString
             });
     connect(m_participantModel.get(), &ParticipantModel::userWritePermissionChanged, this,
             &SharedNoteController::userCanWrite);
+    connect(m_participantModel.get(), &ParticipantModel::userReadPermissionChanged, this,
+            [this](const QString& playerId, bool)
+            {
+                if(playerId != localId())
+                    return;
+                emit permissionChanged(permission());
+            });
     connect(m_participantModel.get(), &ParticipantModel::userWritePermissionChanged, this,
-            [this](const QString& playerId, bool) {
+            [this](const QString& playerId, bool)
+            {
                 if(playerId != localId())
                     return;
                 emit permissionChanged(permission());
@@ -140,7 +150,7 @@ bool SharedNoteController::canRead(Player* player) const
 
 QString SharedNoteController::updateCmd() const
 {
-    return m_latestCommand;
+    return m_updateCmd;
 }
 
 void SharedNoteController::setParticipantPanelVisible(bool b)
@@ -200,7 +210,7 @@ void SharedNoteController::setUpdateCmd(const QString& cmd)
         return;
 
     tmpCmd.remove(0, 4);
-    auto rx= QRegularExpression("(\\d+)\\s(\\d+)\\s(\\d+)\\s(.*)");
+    static QRegularExpression rx("(\\d+)\\s(\\d+)\\s(\\d+)\\s(.*)");
     QRegularExpressionMatch match;
     if(!cmd.contains(rx, &match))
         return;
@@ -209,6 +219,7 @@ void SharedNoteController::setUpdateCmd(const QString& cmd)
     int charsRemoved= match.captured(2).toInt();
     int charsAdded= match.captured(3).toInt();
     tmpCmd= match.captured(4);
+    m_updateCmd = cmd;
     emit updateCmdChanged();
     emit collabTextChanged(pos, charsRemoved, charsAdded, tmpCmd);
 }

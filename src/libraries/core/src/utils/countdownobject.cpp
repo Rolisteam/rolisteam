@@ -19,55 +19,63 @@
  ***************************************************************************/
 #include "utils/countdownobject.h"
 
-constexpr int oneSecond= 1000;
-CountDownObject::CountDownObject(int tryCount, int interval, QObject* parent)
-    : QObject(parent), m_timer(new QTimer), m_interval(interval), m_tryCount(tryCount)
+CountDownObject::CountDownObject(int tryCount,int countDown, int timeBeforeDecrease, QObject* parent)
+    : QObject(parent), m_timer(new QTimer), m_countDown(countDown), m_tryCount(tryCount)
 {
-    m_timer->setInterval(oneSecond);
-    connect(m_timer.get(), &QTimer::timeout, this, [this]() { setCountDown(countDown() - oneSecond); });
+    m_timer->setInterval(timeBeforeDecrease);
+    init();
+    connect(m_timer.get(), &QTimer::timeout, this, [this, countDown]() {
+        --m_allDown;
+
+        auto rest = (m_allDown % countDown);
+        emit countDownChanged(rest);
+        if(rest == 0)
+        {
+            emit triggered(m_allDown / countDown);
+        }
+        if(m_allDown<=0)
+        {
+            stop();
+        }
+    });
 }
 
-int CountDownObject::tryCount() const
+bool CountDownObject::isRunning() const
 {
-    return m_tryCount;
+    return m_running;
 }
 
-int CountDownObject::interval() const
+void CountDownObject::setRunning(bool b)
 {
-    return m_interval;
-}
-
-int CountDownObject::countDown() const
-{
-    return m_countDown;
-}
-
-void CountDownObject::setCountDown(int dc)
-{
-    if(m_countDown == dc)
+    if(b == m_running)
         return;
-    m_countDown= dc;
-    emit countDownChanged();
-    if(m_countDown == 0)
-        m_timer->stop();
+    m_running = b;
+    emit runningChanged();
 }
 
 void CountDownObject::start()
 {
-    if(m_currentTry == m_tryCount || !m_running)
-    {
-        m_running= true;
-        return;
-    }
-
-    emit triggered();
-    ++m_currentTry;
-    setCountDown(m_interval);
-    QTimer::singleShot(m_interval, this, &CountDownObject::start);
+    setRunning(true);
+    m_timer->start();
+}
+void CountDownObject::pause()
+{
+    setRunning(false);
+    m_timer->stop();
+}
+void CountDownObject::resume()
+{
+    start();
 }
 
 void CountDownObject::stop()
 {
+    setRunning(false);
     m_timer->stop();
-    m_running= false;
+    init();
+}
+
+void CountDownObject::init()
+{
+    m_allDown = m_countDown * m_tryCount;
 }

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *   renaud@rolisteam.org                    *
  *                                                                         *
  *   Rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,8 @@
 #include <QString>
 #include <QtTest>
 #include <data/cleveruri.h>
+#include <data/cleverurimimedata.h>
+#include <helper.h>
 
 class DataCleverURITest : public QObject
 {
@@ -32,7 +34,7 @@ public:
 
 private Q_SLOTS:
     void testCleverURISetGet();
-    void testMode();
+    void testMime();
     void initTestCase();
     void cleanupTestCase();
 
@@ -78,27 +80,16 @@ void DataCleverURITest::testCleverURISetGet()
     QVERIFY2(m_cleverURI->hasChildren() == false, "CleverURI has children, that should not be!");
 }
 
-void DataCleverURITest::testMode()
+void DataCleverURITest::testMime()
 {
-    /*m_cleverURI->setCurrentMode(CleverURI::Internal);
-    QVERIFY2(m_cleverURI->getCurrentMode() == CleverURI::Internal, "Not the right mode INTERNAL");
+    CleverUriMimeData data;
 
-    QString girafePath(":/img/girafe.jpg");
-    m_cleverURI->setUri(girafePath);
-    QVERIFY2(m_cleverURI->hasData(), "Clever URI has no data");
-
-    m_cleverURI->clearData();
-    QVERIFY2(!m_cleverURI->hasData(), "Clever URI has data");
-
-    m_cleverURI->setCurrentMode(CleverURI::Linked);
-    QVERIFY2(m_cleverURI->getCurrentMode() == CleverURI::Linked, "Not the right mode LINKED");
-
-    QString lionPath(":/assets/img/lion.jpg");
-    m_cleverURI->setUri(lionPath);
-    QVERIFY2(!m_cleverURI->hasData(), "Clever URI has data");
-
-    m_cleverURI->setCurrentMode(CleverURI::Internal);
-    QVERIFY2(!m_cleverURI->hasData(), "Clever URI has not load the data");*/
+    data.addResourceNode(nullptr);
+    QCOMPARE(data.getList().size(), 0);
+    data.addResourceNode(m_cleverURI);
+    QCOMPARE(data.getList().size(), 1);
+    QVERIFY(!data.hasFormat(Helper::randomString()));
+    QVERIFY(data.hasFormat("rolisteam/cleverurilist"));
 }
 
 QTEST_MAIN(DataCleverURITest);

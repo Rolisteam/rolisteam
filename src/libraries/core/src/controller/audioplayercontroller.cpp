@@ -44,7 +44,6 @@ int randomSong(int current, int count)
     {
         res= dist(rng);
     }
-    qDebug() << res;
     return res;
 }
 
@@ -54,8 +53,9 @@ AudioPlayerController::AudioPlayerController(int id, const QString& key, Prefere
     m_player.setAudioOutput(&m_audioOutput);
 
     // m_player.setAudioRole(QAudio::MusicRole);
-    /*connect(&m_player, QOverload<QMediaPlayer::Error>::of(&QMediaPlayer::error), this,
-            &AudioPlayerController::errorChanged);*/
+    connect(&m_player, &QMediaPlayer::errorOccurred, this,
+            [this](QMediaPlayer::Error, const QString& errorStr) { emit errorChanged(errorStr); });
+
     connect(&m_player, &QMediaPlayer::playbackStateChanged, this, [this]() { emit stateChanged(state()); });
     connect(&m_audioOutput, &QAudioOutput::volumeChanged, this, [this]() { emit volumeChanged(volume()); });
     connect(&m_audioOutput, &QAudioOutput::mutedChanged, this, &AudioPlayerController::mutedChanged);
@@ -108,7 +108,7 @@ bool AudioPlayerController::muted() const
     return m_audioOutput.isMuted();
 }
 
-qint64 AudioPlayerController::time() const
+quint64 AudioPlayerController::time() const
 {
     return m_player.position();
 }
@@ -140,7 +140,7 @@ QString AudioPlayerController::text() const
     return m_text;
 }
 
-int AudioPlayerController::volume() const
+uint AudioPlayerController::volume() const
 {
     qreal linearVolume
         = QAudio::convertVolume(m_audioOutput.volume(), QAudio::LinearVolumeScale, QAudio::LogarithmicVolumeScale);
@@ -221,15 +221,10 @@ void AudioPlayerController::loadPlayList(const QString& path)
     m_model->addSong(urls);
 }
 
-void AudioPlayerController::setVolume(int volume)
+void AudioPlayerController::setVolume(uint volume)
 {
-    /*if(m_volume == volume)
-        return;
-    m_volume= volume;*/
-
     qreal linearVolume
         = QAudio::convertVolume(volume / qreal(100.0), QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
-    qDebug() << "setvolume:" << linearVolume << volume;
 
     m_audioOutput.setVolume(linearVolume);
 }
@@ -275,9 +270,9 @@ void AudioPlayerController::setVisible(bool b)
     emit visibleChanged(b);
 }
 
-void AudioPlayerController::setTime(int time)
+void AudioPlayerController::setTime(quint64 time)
 {
-    m_player.setPosition(time);
+    m_player.setPosition(static_cast<qint64>(time));
 }
 
 void AudioPlayerController::addMusicModel()
@@ -299,7 +294,6 @@ void AudioPlayerController::nwNewSong(const QString& name, qint64 time)
     QStringList list= directoriesList();
 
     auto url= IOHelper::findSong(name, list);
-    qDebug() << "read from network" << url << name << time;
 
     m_text= url.fileName();
     m_player.setSource(url);

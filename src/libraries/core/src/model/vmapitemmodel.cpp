@@ -112,6 +112,8 @@ QVariant VmapItemModel::data(const QModelIndex& index, int role) const
 
 bool vmap::VmapItemModel::appendItemController(vmap::VisualItemController* item)
 {
+    if(!item)
+        return false;
     auto size= static_cast<int>(m_items.size());
     std::unique_ptr<vmap::VisualItemController> ctrl(item);
     beginInsertRows(QModelIndex(), size, size);

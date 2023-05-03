@@ -21,12 +21,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QStyleOptionGraphicsItem>
-
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-
 #include "controller/item_controllers/visualitemcontroller.h"
-#include "controller/view_controller/vectorialmapcontroller.h"
 
 #include "controller/item_controllers/linecontroller.h"
 #include <QDebug>

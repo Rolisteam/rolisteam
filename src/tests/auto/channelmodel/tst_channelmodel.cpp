@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QAbstractItemModelTester>
 #include <QModelIndex>
 #include <QModelIndexList>
 #include <QtCore/QString>
@@ -56,6 +57,7 @@ TestChannelModel::TestChannelModel() {}
 void TestChannelModel::init()
 {
     m_model.reset(new ChannelModel());
+    new QAbstractItemModelTester(m_model.get());
 }
 
 void TestChannelModel::addTest()

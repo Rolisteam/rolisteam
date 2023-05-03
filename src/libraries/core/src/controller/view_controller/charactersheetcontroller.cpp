@@ -37,17 +37,18 @@ void CharacterSheetController::addCharacterSheet(const QJsonObject& data, const 
     sheet->load(data);
     auto character= m_characterModel->character(charId);
 
+    if(!character)
+        return;
+
     auto player= dynamic_cast<Player*>(character->parentPerson());
     if(nullptr == player)
     {
         delete sheet;
+        qWarning() << "No player found, the sheet cannot be added";
         return;
     }
     character->setSheet(sheet);
-    m_model->addCharacterSheet(sheet, m_model->getCharacterSheetCount() - 1);
-    // m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::SharingMode::ONE,
-    //                                               QStringList() << m_gameMasterId, false); // GM identity
-
+    m_model->addCharacterSheet(sheet, m_model->getCharacterSheetCount());
     emit sheetCreated(sheet, character);
 }
 

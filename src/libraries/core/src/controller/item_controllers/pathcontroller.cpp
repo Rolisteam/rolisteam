@@ -32,7 +32,11 @@ PathController::PathController(const std::map<QString, QVariant>& params, Vector
 {
 
     helper::utils::setParamIfAny<Core::SelectableTool>(Core::vmapkeys::KEY_TOOL, params,
-                                                       [this](Core::SelectableTool tool) { m_tool= tool; });
+                                                       [this](Core::SelectableTool tool)
+                                                       {
+                                                           m_tool= tool;
+                                                           m_penLine= (m_tool == Core::PEN);
+                                                       });
     helper::utils::setParamIfAny<bool>(Core::vmapkeys::KEY_PENLINE, params, [this](bool b) { m_penLine= b; });
     helper::utils::setParamIfAny<bool>(Core::vmapkeys::KEY_FILLED, params, [this](bool b) { setFilled(b); });
     helper::utils::setParamIfAny<bool>(Core::vmapkeys::KEY_CLOSED, params, [this](bool b) { setClosed(b); });
@@ -48,6 +52,11 @@ PathController::PathController(const std::map<QString, QVariant>& params, Vector
     connect(this, &PathController::penWidthChanged, this, [this] { setModified(); });
     connect(this, &PathController::closedChanged, this, [this] { setModified(); });
     connect(this, &PathController::filledChanged, this, [this] { setModified(); });
+}
+
+PathController::~PathController()
+{
+    qDebug() << "destruction path controller";
 }
 
 bool PathController::filled() const
@@ -127,7 +136,7 @@ void PathController::setCorner(const QPointF& move, int corner, Core::TransformT
 {
     if(m_points.empty())
         return;
-    if(corner != qBound(0, corner, static_cast<int>(m_points.size())))
+    if(corner != qBound(0, corner, static_cast<int>(m_points.size() - 1)))
         return;
 
     m_points[static_cast<std::size_t>(corner)]+= move;

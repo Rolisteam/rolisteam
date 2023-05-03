@@ -28,7 +28,10 @@ bool RolisteamMimeData::hasFormat(const QString& mimeType) const
 
 void RolisteamMimeData::setPerson(Person* data)
 {
+    if(data == m_person)
+        return;
     m_person= data;
+    emit personChanged();
 
     if(!m_person)
         return;

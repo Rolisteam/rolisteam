@@ -41,7 +41,7 @@ public:
     /**
      * Constructor
      */
-    CharacterSheet();
+    CharacterSheet(QObject* parent= nullptr);
     virtual ~CharacterSheet();
     const QString getkey(int index);
     virtual void save(QJsonObject& json) const;
@@ -81,7 +81,7 @@ signals:
     void nameChanged();
 
 protected:
-    void insertField(QString key, CSItem *itemSheet);
+    void insertField(QString key, CSItem* itemSheet);
 
 private:
     QStringList explosePath(QString);

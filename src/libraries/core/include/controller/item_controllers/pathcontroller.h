@@ -39,6 +39,7 @@ class CORE_EXPORT PathController : public VisualItemController
 
 public:
     PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
+    ~PathController();
     bool filled() const;
     bool closed() const;
     quint16 penWidth() const;

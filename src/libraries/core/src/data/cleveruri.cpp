@@ -82,7 +82,10 @@ Core::State CleverURI::state() const
 
 void CleverURI::setContentType(Core::ContentType type)
 {
+    if(type == m_type)
+        return;
     m_type= type;
+    emit contentTypeChanged();
 }
 
 QString CleverURI::path() const
@@ -135,7 +138,10 @@ QByteArray CleverURI::data() const
 
 void CleverURI::setData(const QByteArray& data)
 {
+    if(m_data == data)
+        return;
     m_data= data;
+    emit dataChanged();
 }
 
 bool CleverURI::isDisplayed() const

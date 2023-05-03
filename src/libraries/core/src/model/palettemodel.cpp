@@ -97,7 +97,6 @@ QVariant PaletteModel::headerData(int section, Qt::Orientation orientation, int 
 void PaletteModel::initData()
 {
     PaletteColor* color= nullptr;
-
     // Active
     color= new PaletteColor(QColor(), "Window", QPalette::Active, QPalette::Window);
     m_data.append(color);
@@ -111,8 +110,6 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "ToolTipText", QPalette::Active, QPalette::ToolTipText);
     m_data.append(color);
-    // color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Active, QPalette::PlaceholderText);
-    // m_data.append(color);
     color= new PaletteColor(QColor(), "Text", QPalette::Active, QPalette::Text);
     m_data.append(color);
     color= new PaletteColor(QColor(), "Button", QPalette::Active, QPalette::Button);
@@ -121,7 +118,6 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "BrightText", QPalette::Active, QPalette::BrightText);
     m_data.append(color);
-
     color= new PaletteColor(QColor(), "Light", QPalette::Active, QPalette::Light);
     m_data.append(color);
     color= new PaletteColor(QColor(), "Midlight", QPalette::Active, QPalette::Midlight);
@@ -132,7 +128,6 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "Shadow", QPalette::Active, QPalette::Shadow);
     m_data.append(color);
-
     color= new PaletteColor(QColor(), "Highlight", QPalette::Active, QPalette::Highlight);
     m_data.append(color);
     color= new PaletteColor(QColor(), "HighlightedText", QPalette::Active, QPalette::HighlightedText);
@@ -143,6 +138,9 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "NoRole", QPalette::Active, QPalette::NoRole);
     m_data.append(color);
+    color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Active, QPalette::PlaceholderText);
+    m_data.append(color);
+
 
     // Inactive
     color= new PaletteColor(QColor(), "WindowText", QPalette::Inactive, QPalette::WindowText);
@@ -185,9 +183,12 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "NoRole", QPalette::Inactive, QPalette::NoRole);
     m_data.append(color);
-    // color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Inactive, QPalette::PlaceholderText);
-    // m_data.append(color);
+    color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Inactive, QPalette::PlaceholderText);
+    m_data.append(color);
 
+
+
+    //disabled
     color= new PaletteColor(QColor(), "WindowText", QPalette::Disabled, QPalette::WindowText);
     m_data.append(color);
     color= new PaletteColor(QColor(), "Button", QPalette::Disabled, QPalette::Button);
@@ -228,15 +229,19 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "NoRole", QPalette::Disabled, QPalette::NoRole);
     m_data.append(color);
-    // color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Disabled, QPalette::PlaceholderText);
-    // m_data.append(color);
+    color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Disabled, QPalette::PlaceholderText);
+    m_data.append(color);
 }
-int PaletteModel::rowCount(const QModelIndex&) const
+int PaletteModel::rowCount(const QModelIndex& parent) const
 {
+    if(parent.isValid())
+        return 0;
     return m_data.size();
 }
-int PaletteModel::columnCount(const QModelIndex&) const
+int PaletteModel::columnCount(const QModelIndex& index) const
 {
+    if(index.isValid())
+        return 0;
     return m_header.size();
 }
 QVariant PaletteModel::data(const QModelIndex& index, int role) const
@@ -268,7 +273,6 @@ QVariant PaletteModel::data(const QModelIndex& index, int role) const
 }
 void PaletteModel::setPalette(QPalette palette)
 {
-    // dataChanged(QModelIndex());
     beginResetModel();
     for(auto& color : m_data)
     {

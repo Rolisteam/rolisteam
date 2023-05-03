@@ -67,7 +67,7 @@ public:
     void insertShortcut(const QString& name, const QString& key);
 
 private:
-    QList<ShortCut*> m_shortcuts;
+    std::vector<std::unique_ptr<ShortCut>> m_shortcuts;
     QString m_name;
 };
 /**
@@ -79,21 +79,21 @@ class CORE_EXPORT ShortCutModel : public QAbstractItemModel
 public:
     ShortCutModel();
 
-    virtual QModelIndex index(int, int, const QModelIndex& parent) const;
-    virtual QModelIndex parent(const QModelIndex& parent) const;
+    virtual QModelIndex index(int, int, const QModelIndex& parent) const override;
+    virtual QModelIndex parent(const QModelIndex& parent) const override;
 
-    int rowCount(const QModelIndex& parent) const;
-    int columnCount(const QModelIndex& parent) const;
-    QVariant data(const QModelIndex& index, int role) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent) const override;
+    QVariant data(const QModelIndex& index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
     void insertShortCut(const QString& category, const QString& name, const QString& key);
     void addCategory(const QString& category);
-    void removeCategory(const QString& category);
+    void removeCategory(const QString& category, bool isDestoyed = false);
 
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 private:
-    QList<Category*> m_root;
+    std::vector<std::unique_ptr<Category>> m_root;
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "data/player.h"
 #include "model/charactermodel.h"
 #include "model/playermodel.h"
+#include <QAbstractItemModelTester>
 #include <QtTest/QtTest>
 #include <memory>
 
@@ -36,8 +37,12 @@ void CharacterModelTest::init()
     m_characterModel.reset(new CharacterModel());
     m_localPersonModel.reset(new LocalPersonModel());
 
+    new QAbstractItemModelTester(m_playerModel.get());
+
     m_characterModel->setSourceModel(m_playerModel.get());
     m_localPersonModel->setSourceModel(m_playerModel.get());
+    new QAbstractItemModelTester(m_characterModel.get());
+    new QAbstractItemModelTester(m_localPersonModel.get());
 }
 
 CharacterModelTest::CharacterModelTest()= default;

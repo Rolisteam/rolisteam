@@ -20,6 +20,7 @@
 #include "controller/view_controller/mediacontrollerbase.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "model/contentmodel.h"
+#include <QAbstractItemModelTester>
 #include <QtTest/QtTest>
 #include <memory>
 
@@ -46,7 +47,10 @@ void ContentModelTest::init()
     m_model.reset(new ContentModel());
     m_filteredModel.reset(new FilteredContentModel(Core::ContentType::VECTORIALMAP));
 
+    new QAbstractItemModelTester(m_model.get());
+
     m_filteredModel->setSourceModel(m_model.get());
+    new QAbstractItemModelTester(m_filteredModel.get());
 }
 
 void ContentModelTest::testFilteredData()

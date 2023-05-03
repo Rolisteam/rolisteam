@@ -23,7 +23,9 @@
 #include "mindmap/controller/selectioncontroller.h"
 #include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/mindnode.h"
+#include "mindmap/geometry/linknode.h"
 #include "mindmap/model/minditemmodel.h"
+#include "mindmap/model/nodestylemodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "worker/messagehelper.h"
@@ -31,6 +33,8 @@
 #include <memory>
 
 #include <QSignalSpy>
+#include <QAbstractItemModel>
+#include <QAbstractListModel>
 #include <QTimer>
 
 class MindMapTest : public QObject
@@ -47,7 +51,6 @@ private slots:
     void reparentTest();
     void AddLinkTest();
 
-
     void selectionCtrl();
     void selectionCtrl_data();
 
@@ -55,6 +58,10 @@ private slots:
     void removeNodeAndLinkTest_data();
 
     void remoteAddTest();
+
+    void linkGeometryTest();
+    void getAndSetTest();
+
 private:
     std::unique_ptr<MindMapController> m_ctrl;
 };
@@ -66,15 +73,14 @@ void MindMapTest::init()
 
 MindMapTest::MindMapTest() {}
 
-
 void MindMapTest::addRemoveImageTest()
 {
-    auto node = std::make_unique<mindmap::MindNode>();
-    auto id = Helper::randomString();
+    auto node= std::make_unique<mindmap::MindNode>();
+    auto id= Helper::randomString();
     node->setId(id);
     m_ctrl->addNode({node.get()}, false);
 
-    auto imagePath = Helper::imagePath();
+    auto imagePath= Helper::imagePath();
     m_ctrl->addImageFor(id, imagePath);
 
     QVERIFY(m_ctrl->imgModel()->hasPixmap(id));
@@ -111,33 +117,31 @@ void MindMapTest::addRemoveImageTest()
 
 void MindMapTest::AddLinkTest()
 {
-    auto node = std::make_unique<mindmap::MindNode>();
-    auto id = Helper::randomString();
+    auto node= std::make_unique<mindmap::MindNode>();
+    auto id= Helper::randomString();
     node->setId(id);
 
-    auto node2 = std::make_unique<mindmap::MindNode>();
-    auto id2 = Helper::randomString();
+    auto node2= std::make_unique<mindmap::MindNode>();
+    auto id2= Helper::randomString();
     node2->setId(id2);
-
 
     m_ctrl->addNode({node.get(), node2.get()}, false);
 
     m_ctrl->addLink(id, id2);
 
-    auto items = m_ctrl->itemModel()->items(mindmap::MindItem::LinkType);
+    auto items= m_ctrl->itemModel()->items(mindmap::MindItem::LinkType);
     QCOMPARE(items.size(), 1);
     QVERIFY(m_ctrl->canUndo());
 
     m_ctrl->undo();
 
-    items = m_ctrl->itemModel()->items(mindmap::MindItem::LinkType);
+    items= m_ctrl->itemModel()->items(mindmap::MindItem::LinkType);
     QCOMPARE(items.size(), 0);
     QVERIFY(m_ctrl->canRedo());
 
     m_ctrl->redo();
-    items = m_ctrl->itemModel()->items(mindmap::MindItem::LinkType);
+    items= m_ctrl->itemModel()->items(mindmap::MindItem::LinkType);
     QCOMPARE(items.size(), 1);
-
 }
 
 void MindMapTest::addItemAndUndoTest()
@@ -171,51 +175,63 @@ void MindMapTest::reparentTest()
     node2->setId(child2Id);*/
 
     m_ctrl->addNode(QString());
-    auto items = m_ctrl->itemModel()->items(mindmap::MindItem::NodeType);
+    auto items= m_ctrl->itemModel()->items(mindmap::MindItem::NodeType);
     QCOMPARE(items.size(), 1);
 
-    auto main = dynamic_cast<mindmap::MindNode*>(items[0]);
-    auto mainId = main->id();
+    auto main= dynamic_cast<mindmap::MindNode*>(items[0]);
+    auto mainId= main->id();
 
     m_ctrl->addNode(mainId);
-    items = m_ctrl->itemModel()->items(mindmap::MindItem::NodeType);
+    items= m_ctrl->itemModel()->items(mindmap::MindItem::NodeType);
     QCOMPARE(items.size(), 2);
 
-    auto second = dynamic_cast<mindmap::MindNode*>(items[1]);
-    //auto secondId = second->id();
+    auto second= dynamic_cast<mindmap::MindNode*>(items[1]);
+    // auto secondId = second->id();
 
     m_ctrl->addNode(mainId);
-    items = m_ctrl->itemModel()->items(mindmap::MindItem::NodeType);
+    items= m_ctrl->itemModel()->items(mindmap::MindItem::NodeType);
     QCOMPARE(items.size(), 3);
 
-    auto third = dynamic_cast<mindmap::MindNode*>(items[2]);
-    auto thirdId = third->id();
+    auto third= dynamic_cast<mindmap::MindNode*>(items[2]);
+    auto thirdId= third->id();
 
-    QCOMPARE(main->subNodeCount(), 2);
-    QCOMPARE(second->subNodeCount(), 0);
-    QCOMPARE(third->subNodeCount(), 0);
+    QSet<mindmap::LinkController*> a;
+    QCOMPARE(main->subNodeCount(a), 2);
+
+    QSet<mindmap::LinkController*> a1;
+    QCOMPARE(second->subNodeCount(a1), 0);
+
+    QSet<mindmap::LinkController*> a2;
+    QCOMPARE(third->subNodeCount(a2), 0);
     QCOMPARE(third->parentNode(), main);
     QCOMPARE(second->parentNode(), main);
 
     m_ctrl->reparenting(second, thirdId);
 
-    QCOMPARE(main->subNodeCount(), 1);
-    QCOMPARE(second->subNodeCount(), 0);
-    QCOMPARE(third->subNodeCount(), 0);
+    QSet<mindmap::LinkController*> b;
+    QCOMPARE(main->subNodeCount(b), 2);
+
+    QSet<mindmap::LinkController*> b1;
+    QCOMPARE(second->subNodeCount(b1), 1);
+
+    QSet<mindmap::LinkController*> b2;
+    QCOMPARE(third->subNodeCount(b2), 0);
     QCOMPARE(third->parentNode(), main);
     QCOMPARE(second->parentNode(), main);
 
     m_ctrl->undo();
 
-    QCOMPARE(main->subNodeCount(), 2);
-    QCOMPARE(second->subNodeCount(), 0);
-    QCOMPARE(third->subNodeCount(), 0);
+    QSet<mindmap::LinkController*> c;
+    QCOMPARE(main->subNodeCount(c), 2);
+
+    QSet<mindmap::LinkController*> c1;
+    QCOMPARE(second->subNodeCount(c1), 0);
+
+    QSet<mindmap::LinkController*> c2;
+    QCOMPARE(third->subNodeCount(c2), 0);
     QCOMPARE(third->parentNode(), main);
     QCOMPARE(second->parentNode(), main);
 }
-
-
-
 
 void MindMapTest::selectionCtrl()
 {
@@ -483,6 +499,125 @@ void MindMapTest::removeNodeAndLinkTest_data()
     QTest::addRow("cmd 14") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 3 << 5 << 4;
     QTest::addRow("cmd 15") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 4 << 5 << 4;
     QTest::addRow("cmd 16") << QList<QList<int>>({{1}, {2}, {2, 1}}) << 6 << 5 << 5 << 5 << 4;
+}
+
+void MindMapTest::linkGeometryTest()
+{
+    mindmap::LinkNode linkNode;
+
+    linkNode.setColor(Helper::randomColor());
+    linkNode.update(Helper::randomRect(), mindmap::LinkController::RightBottom, Helper::randomRect(),
+                    Helper::randomRect());
+    linkNode.update(Helper::randomRect(), mindmap::LinkController::LeftBottom, Helper::randomRect(),
+                    Helper::randomRect());
+    linkNode.update(Helper::randomRect(), mindmap::LinkController::RightTop, Helper::randomRect(),
+                    Helper::randomRect());
+    linkNode.update(Helper::randomRect(), mindmap::LinkController::LeftTop, Helper::randomRect(), Helper::randomRect());
+}
+
+void MindMapTest::getAndSetTest()
+{
+    auto space = m_ctrl->spacingCtrl();
+    space->setRunning(false);
+    space->setRunning(true);
+
+
+    auto styleModel = dynamic_cast<mindmap::NodeStyleModel*>(m_ctrl->styleModel());
+    new QAbstractItemModelTester(styleModel);
+
+    for(int i = 0; i < styleModel->rowCount(); ++i)
+    {
+        qDebug() << i;
+        QVERIFY(styleModel->getStyle(i) != nullptr);
+        QVERIFY(m_ctrl->style(i) != nullptr);
+        QCOMPARE(styleModel->getStyle(i), m_ctrl->style(i));
+    }
+
+    QCOMPARE(m_ctrl->errorMsg(), QString());
+    QCOMPARE(m_ctrl->contentRect(), QRectF(0,0,100,20));
+
+    QSignalSpy spy(m_ctrl.get(), &MindMapController::errorMsgChanged);
+    auto msg = Helper::randomString();
+    m_ctrl->setErrorMsg(msg);
+    m_ctrl->setErrorMsg(msg);
+
+    QCOMPARE(m_ctrl->errorMsg(),msg);
+    QCOMPARE(spy.count(), 1);
+
+    QSignalSpy spy2(m_ctrl.get(), &MindMapController::defaultStyleIndexChanged);
+    m_ctrl->setDefaultStyleIndex(8000);
+    auto indexStyle = Helper::generate<int>(0, styleModel->rowCount());
+    m_ctrl->setDefaultStyleIndex(indexStyle);
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(indexStyle, m_ctrl->defaultStyleIndex());
+
+    m_ctrl->setSpacing(false);
+    QVERIFY(!m_ctrl->spacing());
+    m_ctrl->setSpacing(true);
+    QVERIFY(m_ctrl->spacing());
+
+    m_ctrl->centerItems(200, 300);
+    m_ctrl->refresh();
+
+    auto imgModel = m_ctrl->imgModel();
+    new QAbstractItemModelTester(imgModel);
+
+    auto id = Helper::randomString();
+    auto path = QUrl::fromLocalFile(Helper::imagePath());
+    m_ctrl->openImage(id, path);
+
+    m_ctrl->removeImage(id);
+    m_ctrl->removeImage(Helper::randomString());
+
+    m_ctrl->openImage(id, path);
+    m_ctrl->removeImageFor(id);
+
+
+    m_ctrl->removeLink({Helper::randomString()});
+    m_ctrl->removeNode({Helper::randomString()});
+
+    m_ctrl->updatePackage(Helper::randomPoint());
+    m_ctrl->addPackage(Helper::randomPoint());
+
+    m_ctrl->updatePackage(Helper::randomPoint());
+    m_ctrl->updatePackage(Helper::randomPoint());
+    m_ctrl->updatePackage(Helper::randomPoint());
+
+    QVERIFY(!m_ctrl->pasteData(QMimeData()));
+
+    m_ctrl->addLink(Helper::randomString(), Helper::randomString());
+    m_ctrl->addLink({}, {});
+
+    m_ctrl->setCurrentPackage(nullptr);
+
+    QVERIFY(!m_ctrl->hasSelection());
+
+    m_ctrl->setLinkLabelVisibility(false);
+    QSignalSpy spy3(m_ctrl.get(), &MindMapController::linkLabelVisibilityChanged);
+
+    m_ctrl->setLinkLabelVisibility(true);
+    m_ctrl->setLinkLabelVisibility(true);
+    m_ctrl->setLinkLabelVisibility(false);
+    QVERIFY(!m_ctrl->linkLabelVisibility());
+    QCOMPARE(spy3.count(), 2);
+
+    m_ctrl->setLinkLabelVisibility(true);
+    QVERIFY(m_ctrl->linkLabelVisibility());
+    QCOMPARE(spy3.count(), 3);
+
+
+    m_ctrl->addItemIntoPackage(Helper::randomString(), Helper::randomString());
+    m_ctrl->subItem(Helper::randomString(), mindmap::MindItem::LinkType);
+
+    QSignalSpy spyZoom(m_ctrl.get(), &MindMapController::zoomLevelChanged);
+    m_ctrl->setZoomLevel(0.2);
+    m_ctrl->setZoomLevel(0.2);
+    spyZoom.wait(10);
+    QCOMPARE(spyZoom.count(), 1);
+    QCOMPARE(m_ctrl->zoomLevel(), 0.2);
+
+
+    m_ctrl->hasNetwork();
 }
 
 QTEST_MAIN(MindMapTest);

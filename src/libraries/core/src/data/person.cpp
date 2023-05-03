@@ -22,6 +22,7 @@
 
 #include "data/person.h"
 
+#include <QIcon>
 #include <QUuid>
 
 /**********

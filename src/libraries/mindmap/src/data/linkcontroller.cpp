@@ -29,11 +29,13 @@ namespace mindmap
 
 LinkController::LinkController(QObject* parent) : MindItem(MindItem::LinkType, parent)
 {
-    connect(this, &LinkController::visibleChanged, this, [this]() {
-        if(!m_end || !m_constraint)
-            return;
-        m_end->setVisible(isVisible());
-    });
+    connect(this, &LinkController::visibleChanged, this,
+            [this]()
+            {
+                if(!m_end || !m_constraint)
+                    return;
+                m_end->setVisible(isVisible());
+            });
     connect(this, &LinkController::geometryChanged, this, &LinkController::computeNormalizedRect);
     connect(this, &LinkController::endChanged, this, &LinkController::computeNormalizedRect);
     connect(this, &LinkController::startChanged, this, &LinkController::computeNormalizedRect);
@@ -41,7 +43,10 @@ LinkController::LinkController(QObject* parent) : MindItem(MindItem::LinkType, p
 
 void LinkController::setDirection(const Direction& direction)
 {
+    if(m_dir == direction)
+        return;
     m_dir= direction;
+    emit directionChanged();
 }
 
 LinkController::Direction LinkController::direction() const
@@ -56,6 +61,9 @@ PositionedItem* LinkController::start() const
 
 void LinkController::computeNormalizedRect()
 {
+    if(!m_start)
+        return;
+
     QRectF rect{m_start->centerPoint().x(), m_start->centerPoint().y(), width(), height()};
 
     auto o= m_orient;
@@ -95,10 +103,12 @@ void LinkController::setStart(PositionedItem* start)
         connect(m_start, &MindNode::widthChanged, this, &LinkController::startBoxChanged);
         connect(m_start, &MindNode::heightChanged, this, &LinkController::startBoxChanged);
         connect(m_start, &MindNode::visibleChanged, this, &LinkController::setVisible);
-        connect(m_start, &MindNode::textChanged, this, [this]() {
-            emit startBoxChanged();
-            emit startPointChanged();
-        });
+        connect(m_start, &MindNode::textChanged, this,
+                [this]()
+                {
+                    emit startBoxChanged();
+                    emit startPointChanged();
+                });
     }
     emit startChanged();
 }
@@ -121,10 +131,12 @@ void LinkController::setEnd(PositionedItem* end)
         connect(m_end, &MindNode::widthChanged, this, &LinkController::endBoxChanged);
         connect(m_end, &MindNode::heightChanged, this, &LinkController::endBoxChanged);
         connect(m_end, &MindNode::visibleChanged, this, &LinkController::setVisible);
-        connect(m_end, &MindNode::textChanged, this, [this]() {
-            emit endBoxChanged();
-            emit endPointChanged();
-        });
+        connect(m_end, &MindNode::textChanged, this,
+                [this]()
+                {
+                    emit endBoxChanged();
+                    emit endPointChanged();
+                });
     }
 
     emit endChanged();
@@ -230,7 +242,8 @@ float LinkController::getLength() const
 
     auto nodeCount= static_cast<int>(m_start->subLinks().size());
 
-    auto endNodeCount= (m_end->subNodeCount() + nodeCount) / 3;
+    QSet<LinkController*> a;
+    auto endNodeCount= (m_end->subNodeCount(a) + nodeCount) / 3;
     auto length2= static_cast<float>(length * (1 + endNodeCount));
 
     return std::max(length1, length2);

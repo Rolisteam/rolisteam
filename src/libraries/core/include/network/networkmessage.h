@@ -113,12 +113,6 @@ enum Action
     updateFieldCharacterSheet,
     closeCharacterSheet,
 
-    // MapCategory
-    AddEmptyMap= 0,
-    LoadMap,
-    ImportMap,
-    CloseMap,
-
     // Painting
     penPainting= 0,
     linePainting,
@@ -128,6 +122,12 @@ enum Action
     filledEllipsePainting,
     textPainting,
     handPainting,
+
+    // MapCategory
+    AddEmptyMap= 0,
+    LoadMap,
+    ImportMap,
+    CloseMap,
 
     // InstantMessageCategory
     InstantMessageAction= 0,
@@ -143,7 +143,7 @@ enum Action
     ChangePositionSong,
 
     // SetupCategory
-    AddFeatureAction= 2,
+    AddFeatureAction= 0,
 
     // CampaignCategory
     addDiceAlias= 0,

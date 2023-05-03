@@ -168,20 +168,15 @@ void VMap::addExistingItems()
     }
 }
 
-void VMap::updateLayer()
-{
-    /*auto const& values= m_itemMap->values();
-    for(auto& item : values)
-    {
-        item->updateItemFlags();
-    }*/
-}
 void VMap::addAndInit(QGraphicsItem* item)
 {
     addItem(item);
 }
 void VMap::addVisualItem(vmap::VisualItemController* ctrl)
 {
+    if(!ctrl)
+        return;
+
     switch(ctrl->itemType())
     {
     case vmap::VisualItemController::RECT:
@@ -318,6 +313,9 @@ void VMap::addPathItem(vmap::PathController* pathCtrl, bool editing)
 
 void VMap::updateItem(const QPointF& end)
 {
+    if(!m_currentPath)
+        return;
+
     switch(m_ctrl->tool())
     {
     case Core::PATH:
@@ -550,8 +548,7 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
             {
                 if(m_oldPos.first() != m_movingItems.first()->pos())
                 {
-                    if(!m_undoStack.isNull())
-                        m_undoStack->push(new MoveItemCommand(m_movingItems, m_oldPos));
+                    m_ctrl->addCommand(new MoveItemCommand(m_movingItems, m_oldPos));
                 }
                 m_movingItems.clear();
                 m_oldPos.clear();
@@ -761,7 +758,7 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
         if(!resourcesData)
             return;
 
-        QList<ResourcesNode*> resourcesList= resourcesData->getList().values();
+        QList<ResourcesNode*> resourcesList= resourcesData->getList();
         for(ResourcesNode* resource : resourcesList)
         {
             if(resource->type() == ResourcesNode::Cleveruri)
@@ -812,12 +809,6 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
                 params.insert({Core::vmapkeys::KEY_PATH, url.toLocalFile()});
                 m_ctrl->insertItemAt(params);
             }
-            // if(nullptr != item)
-            {
-                // addNewItem(new AddVmapItemCommand(item, true, this), true);
-                // item->setPos(event->scenePos());
-                // sendOffItem(item);
-            }
         }
     }
 }
@@ -840,268 +831,5 @@ void VMap::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
         }
     }
 }
-void VMap::duplicateItem(VisualItem* item)
-{
-    // VisualItem* copy= item->getItemCopy();
-    /*if(nullptr != copy)
-    {
-        // copy->initChildPointItem();
-        // copy->setLayer(item->getLayer());
-        //  addNewItem(new AddVmapItemCommand(copy, false, this), true);
-        copy->setPos(item->pos());
-        clearSelection();
-        item->clearFocus();
-        copy->clearFocus();
-        clearFocus();
-        setFocusItem(copy);
-        update();
-        // sendOffItem(copy, false);
-    }*/
-}
-bool VMap::isIdle() const
-{
-    return m_currentItem.isNull();
-}
-void VMap::ownerHasChangedForCharacterItem(Character* person, CharacterItem* cItem)
-{
-    if(nullptr == person)
-        return;
-    // TODO make it with controller
-    /*
-        // Remove them from the map
-        m_characterItemMap->remove(item->uuid());
-        // remove the changed characterItem
-        list.removeOne(cItem);
-        // add the others
-        for(CharacterItem* itemC : list)
-        {
-            m_characterItemMap->insertMulti(itemC->getCharacterId(), itemC);
-        }
-        // add item with its new key
-        m_characterItemMap->insertMulti(cItem->getCharacterId(), cItem);
-        if((cItem->isPlayableCharacter()) && (!m_ctrl->localGM()) && (cItem->isLocal()))
-        {
-            // changeStackOrder(cItem, VectorialMapController::FRONT);
-        }
 
-
-        // add item with its new key
-        m_characterItemMap->insert(person->uuid(), cItem);=*/
-}
-
-void VMap::insertCharacterInMap(CharacterItem* item)
-{
-    if((nullptr == m_characterItemMap) && (nullptr == item))
-        return;
-
-    /*m_characterItemMap->insert(item->getCharacterId(), item);
-    connect(item, &CharacterItem::ownerChanged, this, &VMap::ownerHasChangedForCharacterItem);
-    connect(item, &CharacterItem::runDiceCommand, this, &VMap::runDiceCommandForCharacter);
-    if(!item->isNpc())
-    {
-        // m_sightItem->insertVision(item);
-    }
-    else
-    {
-        // auto list= PlayerModel::instance();
-        // list->addNpc(item->getCharacter());
-        auto search= item->getName();
-        auto items= m_characterItemMap->values();
-        items.removeAll(item);
-        QList<CharacterItem*> sameNameItems;
-        std::copy_if(items.begin(), items.end(), std::back_inserter(sameNameItems),
-                     [search](CharacterItem* item) { return item->getName() == search; });
-        auto it= std::max_element(
-            sameNameItems.begin(), sameNameItems.end(),
-            [](const CharacterItem* a, const CharacterItem* b) { return a->getNumber() < b->getNumber(); });
-        if(it != sameNameItems.end())
-        {
-            int max= (*it)->getNumber();
-            item->setNumber(++max);
-        }
-    }*/
-
-    /*     m_characterItemMap->insert(itemC->getCharacterId(), itemC);
-  //    }
-      // add item with its new key
-      m_characterItemMap->insert(cItem->getCharacterId(), cItem);
-      if((cItem->isPlayableCharacter()) && (!m_ctrl->localGM()) && (cItem->isLocal()))
-      {
-          // changeStackOrder(cItem, VectorialMapController::FRONT);
-      }*/
-}
-
-/*void VMap::changeStackOrder(VisualItem* item, VisualItem::StackOrder op)
-{
-    if(nullptr == item || m_sortedItemList.size() < 2)
-        return;
-    int index= m_sortedItemList.indexOf(item->getId());
-    if(index < 0)
-        return;
-
-    if(VisualItem::FRONT == op)
-    {
-        m_sortedItemList.append(m_sortedItemList.takeAt(index));
-    }
-    else if(VisualItem::BACK == op)
-    {
-        m_sortedItemList.prepend(m_sortedItemList.takeAt(index));
-    }
-    else
-    {
-        // find out insertion indexes over the stacked items
-        QList<QGraphicsItem*> stackedItems= items(item->sceneBoundingRect(), Qt::IntersectsItemShape);
-
-        int maxIndex= 0;
-        int minIndex= m_sortedItemList.size() - 1;
-        for(QGraphicsItem* qitem : stackedItems)
-        {
-            // operate only on different Content and not on sightItem.
-            VisualItem* vItem= dynamic_cast<VisualItem*>(qitem);
-            if(!vItem || vItem == item || vItem == m_sightItem || vItem == m_gridItem)
-                continue;
-
-            auto id= vItem->getId();
-            auto tmpIndex= m_sortedItemList.indexOf(id);
-            maxIndex= std::max(maxIndex, tmpIndex);
-            minIndex= std::min(minIndex, tmpIndex);
-        }
-
-        if(VisualItem::RAISE == op)
-        {
-            m_sortedItemList.insert(maxIndex, m_sortedItemList.takeAt(index));
-            // element at  index must be after all element in list
-        }
-        else if(VisualItem::LOWER == op)
-        {
-            m_sortedItemList.insert(minIndex, m_sortedItemList.takeAt(index));
-            // element at  index must be before all element in list
-        }
-    }
-
-    quint64 z= 0;
-    for(const QString& key : m_sortedItemList)
-    {
-        VisualItem* item= m_itemMap->value(key);
-        if(nullptr != item)
-        {
-            item->setZValue(++z);
-        }
-    }
-
-    // add grid and sight item
-    m_zIndex= z;
-    m_sightItem->setZValue(++z);
-    m_gridItem->setZValue(++z);
-}*/
-
-void VMap::showTransparentItems()
-{
-    /*auto const& values= m_itemMap->values();
-    for(auto& item : values)
-    {
-        if(qFuzzyCompare(item->opacity(), 0))
-        {
-            item->setOpacity(1);
-        }
-    }*/
-}
-
-QRectF VMap::itemsBoundingRectWithoutSight()
-{
-    /*QRectF result;
-    auto const& values= m_itemMap->values();
-    for(auto item : values)
-    {
-        if(item != m_sightItem && item != gridItem())
-        {
-            if(result.isNull())
-            {
-                result= item->boundingRect();
-            }
-            result= result.united(item->boundingRect());
-        }
-    }
-    return result;*/
-}
-
-/*void VMap::rollInit(Core::CharacterScope zone)
-{
-    QList<CharacterItem*> list;
-    if(zone == Core::AllCharacter)
-    {
-        list= m_characterItemMap->values();
-    }
-    else if(zone == Core::AllNPC)
-    {
-        auto const& all= m_characterItemMap->values();
-        for(auto& i : all)
-        {
-            if(i->isNpc())
-            {
-                list.append(i);
-            }
-        }
-    }
-    else
-    {
-        auto selection= selectedItems();
-        for(auto& sel : selection)
-        {
-            auto item= dynamic_cast<CharacterItem*>(sel);
-            if(nullptr != item)
-            {
-                list.append(item);
-            }
-        }
-    }
-
-    for(auto& charac : list)
-    {
-        charac->runInit();
-    }
-}*/
-
-/*void VMap::cleanUpInit(Core::CharacterScope zone)
-{
-    QList<CharacterItem*> list;
-    if(zone == Core::AllCharacter)
-    {
-        list= m_characterItemMap->values();
-    }
-    else if(zone == Core::AllNPC)
-    {
-        auto all= m_characterItemMap->values();
-        for(auto& i : all)
-        {
-            if(i->isNpc())
-            {
-                list.append(i);
-            }
-        }
-    }
-    else
-    {
-        auto selection= selectedItems();
-        for(auto& sel : selection)
-        {
-            auto item= dynamic_cast<CharacterItem*>(sel);
-            if(nullptr != item)
-            {
-                list.append(item);
-            }
-        }
-    }
-
-    for(auto& charac : list)
-    {
-        charac->cleanInit();
-    }
-}*/
-void VMap::addCommand(QUndoCommand* cmd)
-{
-    if(m_undoStack.isNull() || nullptr == cmd)
-        return;
-    m_undoStack->push(cmd);
-}
 

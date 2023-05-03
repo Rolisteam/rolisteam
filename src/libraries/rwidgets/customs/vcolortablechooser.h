@@ -133,6 +133,7 @@ public:
      * @param parent widget
      */
     ColorTableChooser(QWidget* parent= nullptr);
+    ~ColorTableChooser();
 
 public slots:
     /**
@@ -162,7 +163,6 @@ private:
     SaturationChooser* m_valueChooser; /// saturation chooser
     int m_h;                           /// current hue
     int m_s;                           /// current saturation
-    // int v;
 };
 
 #endif // COLORTABLE_H

@@ -59,22 +59,26 @@ void TextWriterController::computeText()
     if(matcher.hasMatch())
     {
         url= QUrl::fromUserInput(matcher.captured(0));
+        qDebug() << url;
         usedRE= reg1;
         replacePattern= "<a href=\"\\1\">\\1</a>";
     }
     else if(matcher2.hasMatch())
     {
-        url= QUrl::fromUserInput(matcher.captured(0));
+        url= QUrl::fromUserInput(matcher2.captured(0));
+        qDebug() << url;
         usedRE= reg2;
         replacePattern= "<a href=\"http://\\1\">\\1</a>";
     }
 
     if(url.isValid())
     {
+        setUrl(url);
         auto n= new NetworkDownloader(url);
 
         connect(n, &NetworkDownloader::finished, this,
-                [text, url, usedRE, replacePattern, n, this](const QByteArray& data, bool isImage) {
+                [text, url, usedRE, replacePattern, n, this](const QByteArray& data, bool isImage)
+                {
                     Q_UNUSED(data)
                     auto realText= text;
                     auto pattern= replacePattern;
@@ -86,7 +90,6 @@ void TextWriterController::computeText()
                     realText= realText.replace(usedRE, pattern);
 
                     setText(realText);
-                    qDebug() << m_imageLink << m_text;
                     emit textComputed();
                     send();
                     n->deleteLater();

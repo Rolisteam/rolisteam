@@ -142,7 +142,9 @@ void DiceAliasModel::appendAlias(DiceAlias&& alias)
 }
 Qt::ItemFlags DiceAliasModel::flags(const QModelIndex& index) const
 {
-    Q_UNUSED(index)
+    if(!index.isValid())
+        return Qt::NoItemFlags;
+
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
 }
 bool DiceAliasModel::setData(const QModelIndex& index, const QVariant& value, int role)

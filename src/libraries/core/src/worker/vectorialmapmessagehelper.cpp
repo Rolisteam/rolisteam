@@ -935,7 +935,7 @@ void VectorialMapMessageHelper::readVectorialMapController(VectorialMapControlle
     qreal opacity;
     QRectF visualRect;
     bool idle;
-    int zIndex;
+    qreal zIndex;
 
     input >> npcNameVisible;
     input >> pcNameVisible;

@@ -28,8 +28,6 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/campaignmanager.h"
 #include "model/contentmodel.h"
-#include "network/networkmessagewriter.h"
-#include "worker/convertionhelper.h"
 #include "worker/vectorialmapmessagehelper.h"
 
 #include "updater/vmapitem/characteritemupdater.h"

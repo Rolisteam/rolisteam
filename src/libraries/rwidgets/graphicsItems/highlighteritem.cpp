@@ -43,15 +43,16 @@ HighlighterItem::HighlighterItem(const QPointF& center, int penSize, const QColo
 
 void HighlighterItem::initAnimation(bool autoDestruction)
 {
-    auto const preferences= PreferencesManager::getInstance();
-    m_animation= new QPropertyAnimation(this, "radius");
-    m_animation->setDuration(preferences->value("Map_Highlighter_time", 1000).toInt());
-    m_animation->setStartValue(0);
-    m_animation->setEndValue(preferences->value("Map_Highlighter_radius", 100).toInt());
-    m_animation->setEasingCurve(QEasingCurve::Linear);
-    m_animation->setLoopCount(preferences->value("Map_Highlighter_loop", 3).toInt());
-
     if(autoDestruction)
+    {
+        auto const preferences= PreferencesManager::getInstance();
+        m_animation= new QPropertyAnimation(this, "radius");
+        m_animation->setDuration(preferences->value("Map_Highlighter_time", 1000).toInt());
+        m_animation->setStartValue(0);
+        m_animation->setEndValue(preferences->value("Map_Highlighter_radius", 100).toInt());
+        m_animation->setEasingCurve(QEasingCurve::Linear);
+        m_animation->setLoopCount(preferences->value("Map_Highlighter_loop", 3).toInt());
+
         connect(m_animation, &QPropertyAnimation::finished, this,
                 [this]()
                 {
@@ -59,7 +60,8 @@ void HighlighterItem::initAnimation(bool autoDestruction)
                     // emit itemRemoved(m_id, true, false);
                     deleteLater();
                 });
-    m_animation->start();
+        m_animation->start();
+    }
 }
 QRectF HighlighterItem::boundingRect() const
 {
@@ -87,7 +89,7 @@ void HighlighterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 }
 void HighlighterItem::setRadius(qreal radius)
 {
-    if(radius == m_radius)
+    if(qFuzzyCompare(radius, m_radius))
         return;
 
     m_radius= radius;

@@ -18,6 +18,7 @@ DupplicateVMapItem::DupplicateVMapItem(const QList<vmap::VisualItemController*>&
         auto id= QUuid::createUuid().toString(QUuid::WithoutBraces);
         m_ids << id;
         map[Core::vmapkeys::KEY_UUID]= id;
+        qDebug() << map;
         m_itemData.insert(k, QVariant::fromValue(map));
     }
 }
@@ -27,6 +28,7 @@ void DupplicateVMapItem::redo()
     if(m_ctrl.isNull())
         return;
 
+    qDebug() << m_itemData;
     VectorialMapMessageHelper::fetchModelFromMap(m_itemData, m_ctrl);
 }
 

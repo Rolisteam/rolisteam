@@ -54,44 +54,55 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     m_modifiedColsAct->setData(4);
 
     connect(m_addDirectoryAct, &QAction::triggered, this, &CampaignView::onAddChapter);
-    connect(m_deleteFileAct, &QAction::triggered, this, [this]() {
-        auto path= m_deleteFileAct->data().toString();
-        emit removeSelection(path);
-    });
-    connect(m_defineAsCurrent, &QAction::triggered, this, [this]() {
-        // TODO implementation ?
-    });
-
-    connect(m_openAct, &QAction::triggered, this, [this]() {
-        if(m_index.isValid())
-        {
-            auto path= m_index.data(MediaModel::Role_Path).toString();
-            auto id= m_index.data(MediaModel::Role_Uuid).toString();
-            emit openAs(id, path, helper::utils::extensionToContentType(path));
-        }
-    });
-    connect(m_openAsAct, &QAction::triggered, this, [this]() {
-        if(m_index.isValid())
-        {
-            auto mediaNode= static_cast<MediaNode*>(m_index.internalPointer());
-            auto path= mediaNode->path();
-            auto id= mediaNode->uuid();
-            auto act= qobject_cast<QAction*>(sender());
-            if(act)
+    connect(m_deleteFileAct, &QAction::triggered, this,
+            [this]()
             {
-                emit openAs(id, path, qvariant_cast<Core::ContentType>(act->data()));
-            }
-        }
-    });
+                auto path= m_deleteFileAct->data().toString();
+                emit removeSelection(path);
+            });
+    connect(m_defineAsCurrent, &QAction::triggered, this,
+            [this]()
+            {
+                // TODO implementation ?
+            });
 
-    connect(m_renameAct, &QAction::triggered, this, [this]() {
-        if(m_index.isValid() && m_index.column() == 0)
-        {
-            edit(m_index);
-        }
-    });
+    connect(m_openAct, &QAction::triggered, this,
+            [this]()
+            {
+                if(m_index.isValid())
+                {
+                    auto path= m_index.data(MediaModel::Role_Path).toString();
+                    auto id= m_index.data(MediaModel::Role_Uuid).toString();
+                    emit openAs(id, path, helper::utils::extensionToContentType(path));
+                }
+            });
+    connect(m_openAsAct, &QAction::triggered, this,
+            [this]()
+            {
+                if(m_index.isValid())
+                {
+                    auto mediaNode= static_cast<MediaNode*>(m_index.internalPointer());
+                    auto path= mediaNode->path();
+                    auto id= mediaNode->uuid();
+                    auto act= qobject_cast<QAction*>(sender());
+                    if(act)
+                    {
+                        emit openAs(id, path, qvariant_cast<Core::ContentType>(act->data()));
+                    }
+                }
+            });
 
-    auto hideshowCol= [this]() {
+    connect(m_renameAct, &QAction::triggered, this,
+            [this]()
+            {
+                if(m_index.isValid() && m_index.column() == 0)
+                {
+                    edit(m_index);
+                }
+            });
+
+    auto hideshowCol= [this]()
+    {
         auto act= qobject_cast<QAction*>(sender());
         auto col= act->data().toInt();
         act->isChecked() ? showColumn(col) : hideColumn(col);

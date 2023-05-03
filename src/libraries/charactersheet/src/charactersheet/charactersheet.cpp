@@ -36,7 +36,8 @@
 ///
 
 int CharacterSheet::m_count= 0;
-CharacterSheet::CharacterSheet() : m_name("Character %1"), m_uuid(QUuid::createUuid().toString())
+CharacterSheet::CharacterSheet(QObject* parent)
+    : QObject(parent), m_name("Character %1"), m_uuid(QUuid::createUuid().toString())
 {
     ++m_count;
     m_name= m_name.arg(m_count);
@@ -344,14 +345,16 @@ void CharacterSheet::insertField(QString key, CSItem* itemSheet)
 {
     m_valuesMap.insert(key, itemSheet);
 
-    connect(itemSheet, &TreeSheetItem::characterSheetItemChanged, this, [itemSheet, this](TreeSheetItem* item) {
-        QString path;
-        auto parent= item->parentTreeItem();
-        if(nullptr != parent)
-            path= parent->path();
+    connect(itemSheet, &TreeSheetItem::characterSheetItemChanged, this,
+            [itemSheet, this](TreeSheetItem* item)
+            {
+                QString path;
+                auto parent= item->parentTreeItem();
+                if(nullptr != parent)
+                    path= parent->path();
 
-        emit updateField(this, itemSheet, path);
-    });
+                emit updateField(this, itemSheet, path);
+            });
 }
 
 QHash<QString, QString> CharacterSheet::getVariableDictionnary()

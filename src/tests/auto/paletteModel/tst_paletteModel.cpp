@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
+#include <QAbstractItemModelTester>
 #include <model/palettemodel.h>
 
 class PaletteModelTest : public QObject
@@ -49,6 +50,7 @@ void PaletteModelTest::initTestCase()
 {
     m_paletteModel= new PaletteModel(this);
     m_paletteColor= new PaletteColor(QColor(), "WindowText", QPalette::Active, QPalette::WindowText);
+    new QAbstractItemModelTester(m_paletteModel);
 }
 
 void PaletteModelTest::getAndSetTest()

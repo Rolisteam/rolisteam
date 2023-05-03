@@ -38,6 +38,7 @@ class PathController;
 class ImageItemController;
 class CharacterItemController;
 class EllipseController;
+class VisualItemController;
 } // namespace vmap
 
 namespace mindmap
@@ -163,6 +164,16 @@ public:
     static void sendOffPlaySong(const QString& songName, qint64 time, int player);
     static void sendOffMusicPlayerOrder(NetMsg::Action netAction, int player);
     static void sendOffTime(qint64 time, int player);
+
+
+    static void convertVisualItemCtrlAndAdd(vmap::VisualItemController *ctrl, NetworkMessageWriter &msg);
+
+    static void addCharacterController(const vmap::CharacterItemController *ctrl, NetworkMessageWriter &msg);
+    static void addPathController(const vmap::PathController *ctrl, NetworkMessageWriter &msg);
+    static void addTextController(const vmap::TextController *ctrl, NetworkMessageWriter &msg);
+    static void addImageController(const vmap::ImageItemController *ctrl, NetworkMessageWriter &msg);
+    static void addLineController(const vmap::LineController *ctrl, NetworkMessageWriter &msg);
+    static void addEllipseController(const vmap::EllipseController *ctrl, NetworkMessageWriter &msg);
 };
 
 #endif // MESSAGEHELPER_H

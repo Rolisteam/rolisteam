@@ -17,9 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-//#ifndef DIRECTACCESSDATASTRUCTURE_H
-//#define DIRECTACCESSDATASTRUCTURE_H
-#pragma once
+#ifndef DIRECTACCESSDATASTRUCTURE_H
+#define DIRECTACCESSDATASTRUCTURE_H
 
 #include "utils/utils_global.h"
 #include <QHash>
@@ -48,6 +47,12 @@ public:
     {
         QReadLocker locker(&m_lock);
         return m_data[m_keys[idx]];
+    };
+
+    Y operator[](const T& key) const
+    {
+        QReadLocker locker(&m_lock);
+        return m_data[key];
     };
 
     Y value(const T& key) const
@@ -146,4 +151,4 @@ private:
     mutable QReadWriteLock m_lock;
 };
 
-//#endif // DIRECTACCESSDATASTRUCTURE_H
+#endif // DIRECTACCESSDATASTRUCTURE_H

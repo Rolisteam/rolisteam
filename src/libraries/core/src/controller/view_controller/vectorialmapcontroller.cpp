@@ -536,7 +536,7 @@ bool VectorialMapController::idle() const
     return m_idle;
 }
 
-int VectorialMapController::zIndex() const
+qreal VectorialMapController::zIndex() const
 {
     return m_zIndex;
 }
@@ -549,9 +549,9 @@ void VectorialMapController::setIdle(bool b)
     emit idleChanged(m_idle);
 }
 
-void VectorialMapController::setZindex(int index)
+void VectorialMapController::setZindex(qreal index)
 {
-    if(index == m_zIndex)
+    if(qFuzzyCompare(index, m_zIndex))
         return;
     m_zIndex= index;
     emit zIndexChanged(m_zIndex);
@@ -581,10 +581,14 @@ bool VectorialMapController::pasteData(const QMimeData& mimeData)
     return true;
 }
 
-void VectorialMapController::showTransparentItems(const QList<vmap::VisualItemController*>& list)
+void VectorialMapController::showTransparentItems()
 {
-    if(list.isEmpty())
-        return;
+    auto const& items = m_vmapModel->items();
+    QList<vmap::VisualItemController*> list;
+    std::transform(std::begin(items), std::end(items), std::back_inserter(list), [](vmap::VisualItemController* item){
+        return qFuzzyCompare(item->opacity(), 0.0) ? item : nullptr;
+    });
+    list.removeAll(nullptr);
     emit performCommand(new ShowTransparentItemCommand(list));
 }
 

@@ -57,7 +57,8 @@ int ParticipantsModel::columnCount(const QModelIndex& parent) const
 
 QVariant ParticipantsModel::data(const QModelIndex& index, int role) const
 {
-    if(!index.isValid() || Qt::DisplayRole != role)
+    static QSet<int> set{PlayerModel::IdentifierRole, Qt::DisplayRole};
+    if(!index.isValid() || !set.contains(role))
         return QVariant();
 
     QModelIndex parent= index.parent();
@@ -102,10 +103,10 @@ QModelIndex ParticipantsModel::index(int row, int column, const QModelIndex& par
 
     auto cat= parent.row();
     QString uuid;
-    if(cat == ReadWrite)
+    if(cat == ReadWrite && row < m_readWrite.size())
         uuid= m_readWrite[row];
 
-    if(cat == ReadOnly)
+    if(cat == ReadOnly && row < m_readOnly.size())
         uuid= m_readOnly[row];
 
     Player* player= nullptr;
@@ -147,8 +148,11 @@ QModelIndex ParticipantsModel::index(int row, int column, const QModelIndex& par
     return {};
 }
 
-Qt::ItemFlags ParticipantsModel::flags(const QModelIndex&) const
+Qt::ItemFlags ParticipantsModel::flags(const QModelIndex& index) const
 {
+    if(!index.isValid())
+        return Qt::NoItemFlags;
+
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
 }
 
@@ -187,9 +191,18 @@ QModelIndex ParticipantsModel::mapToSource(const QModelIndex& proxyIndex) const
     return sourceModel()->index(proxyIndex.row(), 0, QModelIndex());
 }
 
+QString ParticipantsModel::ownerId() const
+{
+    return m_ownerId;
+}
+
+void ParticipantsModel::setOwnerId(const QString& id)
+{
+    m_ownerId= id;
+}
+
 void ParticipantsModel::saveModel(QJsonObject& root)
 {
-    QJsonArray hidden;
     QJsonArray readOnly;
     QJsonArray readWrite;
 
@@ -228,6 +241,22 @@ void ParticipantsModel::loadModel(QJsonObject& root)
     endResetModel();
 }
 
+ParticipantsModel::Permission ParticipantsModel::getPermissionFor(Player* player)
+{
+    if(!player)
+        return ParticipantsModel::Hidden;
+
+    auto id= player->uuid();
+
+    if(m_readOnly.contains(id))
+        return ParticipantsModel::ReadOnly;
+
+    else if(m_readWrite.contains(id))
+        return ParticipantsModel::ReadWrite;
+
+    return ParticipantsModel::Hidden;
+}
+
 void ParticipantsModel::promotePlayer(const QModelIndex& index)
 {
     ParticipantsModel::Permission perm= permissionFor(index);
@@ -262,15 +291,20 @@ void ParticipantsModel::demotePlayer(const QModelIndex& index)
 
 void ParticipantsModel::promotePlayerToRead(const QModelIndex& index)
 {
+    auto uuid= data(index, PlayerModel::IdentifierRole).toString();
+    if(uuid.isEmpty())
+        return;
+
     beginResetModel();
-    auto uuid= index.data(PlayerModel::IdentifierRole).toString();
     m_readOnly.append(uuid);
     endResetModel();
 }
 
 void ParticipantsModel::promotePlayerToReadWrite(const QModelIndex& index)
 {
-    auto uuid= index.data(PlayerModel::IdentifierRole).toString();
+    auto uuid= data(index, PlayerModel::IdentifierRole).toString();
+    if(uuid.isEmpty())
+        return;
     auto parent= createIndex(1, 0);
     beginRemoveRows(parent, m_readOnly.indexOf(uuid), m_readOnly.indexOf(uuid));
     auto b= m_readOnly.removeOne(uuid);
@@ -285,7 +319,9 @@ void ParticipantsModel::promotePlayerToReadWrite(const QModelIndex& index)
 
 void ParticipantsModel::demotePlayerToRead(const QModelIndex& index)
 {
-    auto uuid= index.data(PlayerModel::IdentifierRole).toString();
+    auto uuid= data(index, PlayerModel::IdentifierRole).toString();
+    if(uuid.isEmpty())
+        return;
     auto parent= createIndex(0, 0);
     beginRemoveRows(parent, m_readWrite.indexOf(uuid), m_readWrite.indexOf(uuid));
     auto b= m_readWrite.removeOne(uuid);
@@ -300,8 +336,10 @@ void ParticipantsModel::demotePlayerToRead(const QModelIndex& index)
 
 void ParticipantsModel::demotePlayerToHidden(const QModelIndex& index)
 {
+    auto uuid= data(index, PlayerModel::IdentifierRole).toString();
+    if(uuid.isEmpty())
+        return;
     beginResetModel();
-    auto uuid= index.data(PlayerModel::IdentifierRole).toString();
     auto b= m_readOnly.removeOne(uuid);
     Q_ASSERT(b);
     endResetModel();

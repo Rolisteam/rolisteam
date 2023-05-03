@@ -28,18 +28,29 @@ class CORE_EXPORT NoteController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(bool html READ isHtml NOTIFY htmlChanged)
 public:
     explicit NoteController(const QString& id= QString(), QObject* parent= nullptr);
 
     QString text() const;
-
     void setText(const QString& text);
+
+    bool isHtml() const;
+
+public slots:
+    void loadText();
 
 signals:
     void textChanged(QString);
+    void htmlChanged();
+    void loadOdt(const QString& path);
+
+private:
+    void setHtml(bool b);
 
 private:
     QString m_text;
+    bool m_html;
 };
 
 #endif // NOTECONTROLLER_H

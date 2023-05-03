@@ -25,22 +25,17 @@
 #include "rwidgets_global.h"
 #include "textedit.h"
 #include <QWidget>
+#include <memory>
+
 class RWIDGET_EXPORT NoteContainer : public MediaContainer
 {
     Q_OBJECT
 public:
     NoteContainer(NoteController* note, QWidget* parent= nullptr);
 
-    void readFromFile(QDataStream& data);
-    void saveInto(QDataStream& out);
-
-    virtual void setTitle(QString str);
-public slots:
-    void setFileName(QString);
-
 private:
     QPointer<NoteController> m_noteCtrl;
-    TextEdit* m_edit;
+    std::unique_ptr<TextEdit> m_edit;
 };
 
 #endif // NOTECONTAINER_H

@@ -137,7 +137,7 @@ set(charactersheet_QRC ${CMAKE_CURRENT_SOURCE_DIR}/qml/charactersheet.qrc)
 add_library(charactersheet SHARED ${character_sources} ${character_headers} ${qml_sources}  ${documentation} ${charactersheet_QRC})
 
 qt_add_qml_module(charactersheet
-    URI CharacterSheet
+    URI charactersheet
     VERSION 1.0
     SOURCES
       ${sheet_src_dir}/controllers/sheetcontroller.cpp

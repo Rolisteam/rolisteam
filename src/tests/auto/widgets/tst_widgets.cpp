@@ -114,12 +114,12 @@ void WidgetsTest::imageSelectorTest()
     ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
     ImageSelectorDialog dialog(&ctrl, nullptr, "http://127.0.0.1:9090/image/Seppun_tashime.jpg");
 
-    QSignalSpy spy1(&ctrl, &ImageSelectorController::imageDataChanged);
+    QSignalSpy spy1(&ctrl, &ImageSelectorController::pixmapChanged);
     dialog.show();
 
     auto dlAct = dialog.findChild<QAction*>("m_downloadAct");
     dlAct->trigger();
-    spy1.wait(10);
+    spy1.wait(100);
     QCOMPARE(spy1.count(), 1);
 
     dialog.accept();

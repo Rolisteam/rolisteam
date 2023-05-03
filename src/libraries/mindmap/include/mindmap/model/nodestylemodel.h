@@ -40,12 +40,11 @@ public:
         TextColor
     };
     explicit NodeStyleModel(QObject* parent= nullptr);
+    ~NodeStyleModel();
 
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
-
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
-
     QHash<int, QByteArray> roleNames() const override;
 
     NodeStyle* getStyle(int index) const;
@@ -53,7 +52,7 @@ private slots:
     void initStyles();
 
 private:
-    std::vector<NodeStyle*> m_styles;
+    std::vector<std::unique_ptr<NodeStyle>> m_styles;
 };
 } // namespace mindmap
 #endif // NODESTYLEMODEL_H

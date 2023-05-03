@@ -35,7 +35,8 @@ QWidget* ColorDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem
 
 void ColorDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
-    Q_UNUSED(index)
+    if(!index.isValid())
+        return;
     ColorListEditor* cb= qobject_cast<ColorListEditor*>(editor);
     QColor checked= index.data().value<QColor>();
     cb->setColor(checked);
@@ -43,6 +44,9 @@ void ColorDelegate::setEditorData(QWidget* editor, const QModelIndex& index) con
 
 void ColorDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
+    if(!index.isValid())
+        return;
+
     ColorListEditor* cb= qobject_cast<ColorListEditor*>(editor);
     if(nullptr != cb)
     {

@@ -55,6 +55,7 @@ class RWIDGET_EXPORT ToolBox : public QWidget
 
 public:
     ToolBox(VectorialMapController* ctrl, QWidget* parent= nullptr);
+    ~ToolBox();
     void setImage(const QPixmap& img);
 
 private slots:

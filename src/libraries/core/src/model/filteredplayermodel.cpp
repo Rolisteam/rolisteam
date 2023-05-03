@@ -27,13 +27,21 @@ FilteredPlayerModel::FilteredPlayerModel(const QStringList& list, QObject* paren
 {
 }
 
-int FilteredPlayerModel::rowCount(const QModelIndex& parent) const
+/*int FilteredPlayerModel::rowCount(const QModelIndex& parent) const
 {
     if(parent.isValid())
         return 0;
 
-    return m_participants.size();
+    return std::min<int>(m_participants.size(), sourceModel()->rowCount());
 }
+
+QModelIndex FilteredPlayerModel::index(int row, int col, const QModelIndex &parent) const
+{
+    auto rowC = rowCount();
+    if(row < 0 || row >= rowC || col < 0 || col > 0 || parent.isValid())
+        return QModelIndex();
+    return createIndex(row, col, nullptr);
+}*/
 
 QStringList FilteredPlayerModel::recipiantIds() const
 {
@@ -47,9 +55,10 @@ bool FilteredPlayerModel::hasRecipiant(const QString& uuid)
 
 QString FilteredPlayerModel::recipiantName(const QString& uuid)
 {
-    for(int i= 0; i < rowCount(); ++i)
+    auto source = sourceModel();
+    for(int i= 0; i < source->rowCount(); ++i)
     {
-        auto indexModel= index(i, 0);
+        auto indexModel= source->index(i, 0);
         auto id= indexModel.data(PlayerModel::IdentifierRole).toString();
         if(uuid == id)
             return indexModel.data(PlayerModel::NameRole).toString();
@@ -60,7 +69,7 @@ QString FilteredPlayerModel::recipiantName(const QString& uuid)
 bool FilteredPlayerModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
 {
     auto idx= sourceModel()->index(sourceRow, 0, sourceParent);
-    auto uuid= idx.data().toString();
+    auto uuid= sourceModel()->data(idx, PlayerModel::IdentifierRole).toString();
     return m_participants.contains(uuid);
 }
 } // namespace InstantMessaging

@@ -27,33 +27,33 @@
 class  CORE_EXPORT CountDownObject : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int tryCount READ tryCount CONSTANT)
-    Q_PROPERTY(int interval READ interval CONSTANT)
-    Q_PROPERTY(int countDown READ countDown NOTIFY countDownChanged)
+    Q_PROPERTY(bool running READ isRunning  NOTIFY runningChanged)
 public:
-    explicit CountDownObject(int tryCount, int interval, QObject* parent= nullptr);
+    explicit CountDownObject(int tryCount = 5, int countDown = 10, int timeBeforeDecrease = 1000, QObject* parent= nullptr);
 
-    int tryCount() const;
-    int interval() const;
-    int countDown() const;
+    bool isRunning() const;
+
 public slots:
     void start();
     void stop();
+    void pause();
+    void resume();
 
 signals:
-    void triggered();
-    void countDownChanged();
+    void triggered(int remaingTries);
+    void countDownChanged(int c);
+    void runningChanged();
 
 private slots:
-    void setCountDown(int);
+    void setRunning(bool);
+    void init();
 
 private:
     std::unique_ptr<QTimer> m_timer;
-    int m_interval= 1000;
-    int m_tryCount= 0;
-    int m_currentTry= 0;
-    int m_countDown= 0;
-    bool m_running= true;
+    int m_allDown= 0;
+    int m_countDown= 10;
+    int m_tryCount= 5;
+    bool m_running= false;
 };
 
 #endif // COUNTDOWNOBJECT_H

@@ -113,7 +113,7 @@ LogController::~LogController()
 
 void LogController::setMessageHandler(bool attachMessage)
 {
-    //#ifndef QT_DEBUG
+    // #ifndef QT_DEBUG
     if((controller == nullptr) && (attachMessage))
     {
         qInstallMessageHandler(messageHandler);
@@ -220,7 +220,6 @@ QString LogController::typeToText(LogController::LogLevel type)
 
 void LogController::setCurrentPath(const QString& path)
 {
-    std::cout << "path:" << path.toStdString() << std::endl;
     if(m_currentFile == path)
         return;
     m_currentFile= path;

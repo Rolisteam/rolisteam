@@ -25,14 +25,15 @@ CharacterItemCtrlTest::CharacterItemCtrlTest() {}
 void CharacterItemCtrlTest::init()
 {
     m_vmapCtrl.reset(new VectorialMapController("aaa"));
-    m_ctrl.reset(new vmap::CharacterItemController({}, m_vmapCtrl.get()));
+
+    m_ctrl.reset(new vmap::CharacterItemController({{Core::vmapkeys::KEY_CHARAC_NPC, false}}, m_vmapCtrl.get()));
 }
 void CharacterItemCtrlTest::propertiesTest()
 {
     auto res= Helper::testAllProperties(m_ctrl.get());
     for(const auto& f : res.second)
     {
-        qDebug() << f;
+        qDebug() << f << "unmanaged";
     }
 }
 

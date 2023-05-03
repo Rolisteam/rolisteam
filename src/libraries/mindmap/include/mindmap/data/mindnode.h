@@ -23,10 +23,8 @@
 #include <QPointF>
 #include <QVector2D>
 
-#include "mindmap/mindmap_global.h"
-
-#include "mindmap/data/minditem.h"
 #include "mindmap/data/positioneditem.h"
+#include "mindmap/mindmap_global.h"
 
 namespace mindmap
 {

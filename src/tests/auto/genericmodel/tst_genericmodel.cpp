@@ -1,6 +1,7 @@
 
 #include "data/character.h"
 #include "model/genericmodel.h"
+#include <QAbstractItemModelTester>
 #include <QtTest/QtTest>
 #include <memory>
 
@@ -25,7 +26,9 @@ CharacterField::Type TestField::getType()
 
 QVariant TestField::getData(int col, int role)
 {
-    return m_value;
+    if(role == Qt::EditRole)
+        return m_value;
+    return {};
 }
 
 bool TestField::setData(int col, QVariant value, int role)
@@ -56,6 +59,8 @@ void GenericModelTest::init()
     cols << "id"
          << "value";
     m_model.reset(new GenericModel(cols));
+
+    new QAbstractItemModelTester(m_model.get());
 }
 
 GenericModelTest::GenericModelTest() {}

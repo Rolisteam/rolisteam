@@ -7,6 +7,9 @@ MessageDispatcher::MessageDispatcher(QObject* parent) : QObject(parent) {}
 
 void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, ServerConnection* emitter)
 {
+    if(data.isEmpty())
+        return;
+
     bool sendToAll= true;
     bool saveIt= true;
     NetworkMessageReader* msg= new NetworkMessageReader();
@@ -17,8 +20,10 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, Serve
     {
         qWarning() << "####\nchannel is nullptr\n####";
     }
-    qInfo() << "[Server][Received Message]" << cat2String(msg->header()) << act2String(msg->header()) << channel
-            << emitter->name() << msg->getSize();
+
+    if(emitter)
+        qInfo() << "[Server][Received Message]" << cat2String(msg->header()) << act2String(msg->header()) << channel
+                << emitter->name() << msg->getSize();
 
     if(msg->category() == NetMsg::AdministrationCategory)
     {
@@ -96,7 +101,7 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
         str= QStringLiteral("MapCategory");
         break;
     case NetMsg::InstantMessageCategory:
-        str= QStringLiteral("ChatCategory");
+        str= QStringLiteral("InstantMessageCategory");
         break;
     case NetMsg::MusicCategory:
         str= QStringLiteral("MusicCategory");
@@ -122,13 +127,16 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
     case NetMsg::MindMapCategory:
         str= QStringLiteral("MindMapCategory");
         break;
+    default:
+        str= QStringLiteral("UnknownCategory");
+        break;
     }
     return str;
 }
 
 QString MessageDispatcher::act2String(NetworkMessageHeader* head)
 {
-    QString str;
+    QString str("Unknown Action");
     NetMsg::Action act= NetMsg::Action(head->action);
     NetMsg::Category cat= NetMsg::Category(head->category);
     if(cat == NetMsg::AdministrationCategory)
@@ -139,7 +147,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             str= QStringLiteral("EndConnectionAction");
             break;
         case NetMsg::Heartbeat:
-            str= QStringLiteral("heartbeat");
+            str= QStringLiteral("Heartbeat");
             break;
         case NetMsg::ConnectionInfo:
             str= QStringLiteral("ConnectionInfo");
@@ -150,8 +158,14 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::Kicked:
             str= QStringLiteral("Kicked");
             break;
+        case NetMsg::RenameChannel:
+            str= QStringLiteral("RenameChannel");
+            break;
         case NetMsg::MoveChannel:
             str= QStringLiteral("MoveChannel");
+            break;
+        case NetMsg::NeedPassword:
+            str= QStringLiteral("NeedPassword");
             break;
         case NetMsg::SetChannelList:
             str= QStringLiteral("SetChannelList");
@@ -160,10 +174,10 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             str= QStringLiteral("ChannelPassword");
             break;
         case NetMsg::JoinChannel:
-            str= QStringLiteral("Join Channel");
+            str= QStringLiteral("JoinChannel");
             break;
         case NetMsg::ClearTable:
-            str= QStringLiteral("Clear Table");
+            str= QStringLiteral("ClearTable");
             break;
         case NetMsg::AddChannel:
             str= QStringLiteral("AddChannel");
@@ -180,6 +194,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::LockChannel:
             str= QStringLiteral("LockChannel");
             break;
+        case NetMsg::UnlockChannel:
+            str= QStringLiteral("UnlockChannel");
+            break;
         case NetMsg::BanUser:
             str= QStringLiteral("BanUser");
             break;
@@ -187,16 +204,22 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             str= QStringLiteral("AdminPassword");
             break;
         case NetMsg::AdminAuthSucessed:
-            str= QStringLiteral("AdminPassword");
+            str= QStringLiteral("AdminAuthSucessed");
             break;
         case NetMsg::AdminAuthFail:
-            str= QStringLiteral("AdminPassword");
+            str= QStringLiteral("AdminAuthFail");
             break;
         case NetMsg::MovedIntoChannel:
             str= QStringLiteral("MovedIntoChannel");
             break;
         case NetMsg::GMStatus:
             str= QStringLiteral("GMStatus");
+            break;
+        case NetMsg::ResetChannel:
+            str= QStringLiteral("ResetChannel");
+            break;
+        case NetMsg::ResetChannelPassword:
+            str= QStringLiteral("ResetChannelPassword");
             break;
         default:
             str= QStringLiteral("Unknown Action");
@@ -353,13 +376,16 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         switch(act)
         {
         case NetMsg::InstantMessageAction:
-            str= QStringLiteral("ChatMessageAction");
+            str= QStringLiteral("InstantMessageAction");
             break;
         case NetMsg::UpdateChatAction:
             str= QStringLiteral("UpdateChatAction");
             break;
         case NetMsg::RemoveChatroomAction:
             str= QStringLiteral("RemoveChatroomAction");
+            break;
+        case NetMsg::AddChatroomAction:
+            str= QStringLiteral("AddChatroomAction");
             break;
         default:
             str= QStringLiteral("Unknown Action");
@@ -420,10 +446,10 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             str= QStringLiteral("addCharacterState");
             break;
         case NetMsg::moveCharacterState:
-            str= QStringLiteral("moveState");
+            str= QStringLiteral("moveCharacterState");
             break;
         case NetMsg::removeCharacterState:
-            str= QStringLiteral("removeState");
+            str= QStringLiteral("removeCharacterState");
             break;
         case NetMsg::CharactereStateModel:
             str= QStringLiteral("CharactereStateModel");
@@ -445,6 +471,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         case NetMsg::AddItem:
             str= QStringLiteral("AddItem");
+            break;
+        case NetMsg::DeleteItem:
+            str= QStringLiteral("DeleteItem");
             break;
         case NetMsg::DeletePoint:
             str= QStringLiteral("DeletePoint");
@@ -468,6 +497,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::MovePoint:
             str= QStringLiteral("MovePoint");
             break;
+        case NetMsg::HighLightPosition:
+            str= QStringLiteral("HighLightPosition");
+            break;
         default:
             str= QStringLiteral("Unknown Action");
             break;
@@ -484,7 +516,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             str= QStringLiteral("UpdateMediaProperty");
             break;
         case NetMsg::CloseMedia:
-            str= QStringLiteral("closeMedia");
+            str= QStringLiteral("CloseMedia");
             break;
         case NetMsg::AddSubImage:
             str= QStringLiteral("AddSubImage");
@@ -502,15 +534,27 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         switch(act)
         {
         case NetMsg::updateText:
-            str= QStringLiteral("Update Text");
+            str= QStringLiteral("updateText");
             break;
         case NetMsg::updateTextAndPermission:
-            str= QStringLiteral("Update Text and permission");
+            str= QStringLiteral("updateTextAndPermission");
             break;
         case NetMsg::updatePermissionOneUser:
-            str= QStringLiteral("Update permission on user");
+            str= QStringLiteral("updatePermissionOneUser");
             break;
 
+        default:
+            str= QStringLiteral("Unknown Action");
+            break;
+        }
+    }
+    else if(cat == NetMsg::WebPageCategory)
+    {
+        switch(act)
+        {
+        case NetMsg::UpdateContent:
+            str= QStringLiteral("UpdateContent");
+            break;
         default:
             str= QStringLiteral("Unknown Action");
             break;
@@ -521,10 +565,10 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         switch(act)
         {
         case NetMsg::AddMessage:
-            str= QStringLiteral("Add Node, Link, Item to mindmap");
+            str= QStringLiteral("AddMessage");
             break;
         case NetMsg::RemoveMessage:
-            str= QStringLiteral("RemoveMessage Node, link");
+            str= QStringLiteral("RemoveMessage");
             break;
         case NetMsg::UpdateNode:
             str= QStringLiteral("UpdateNode");
@@ -534,6 +578,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         case NetMsg::UpdateMindMapPermission:
             str= QStringLiteral("UpdateMindMapPermission");
+            break;
+        case NetMsg::UpdatePackage:
+            str= QStringLiteral("UpdatePackage");
             break;
         default:
             str= QStringLiteral("Unknown Action");

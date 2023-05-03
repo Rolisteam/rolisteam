@@ -149,42 +149,51 @@ bool ChatRoom::rollDice(const QString& command, const QString& personId)
     auto id= personId.isEmpty() ? localId() : personId;
 
     helper::utils::setContinuation<std::pair<bool, QString>>(
-        QtConcurrent::run([this, command, id]() -> std::pair<bool, QString> {
-            auto diceParser= m_diceParser->parser();
-
-            if(!diceParser->parseLine(command))
+        QtConcurrent::run(
+            [this, command, id]() -> std::pair<bool, QString>
             {
+                if(!m_diceParser)
+                    return {false, tr("No Diceparser Object")};
+
+                auto diceParser= m_diceParser->parser();
+
+                if(!diceParser->parseLine(command))
+                {
+                    auto error= diceParser->humanReadableError();
+                    return {false, error};
+                }
+
+                diceParser->start();
                 auto error= diceParser->humanReadableError();
-                return {false, error};
-            }
+                if(!error.isEmpty())
+                    return {false, error};
 
-            diceParser->start();
-            auto error= diceParser->humanReadableError();
-            if(!error.isEmpty())
-                return {false, error};
-
-            auto result= diceParser->resultAsJSon([](const QString& value, const QString& color, bool highlight) {
-                QString resultTmp= value;
-                bool hasColor= !color.isEmpty();
-                QString style;
-                if(hasColor)
-                {
-                    style+= QStringLiteral("color:%1;").arg(color);
-                }
-                if(highlight)
-                {
-                    if(style.isEmpty())
-                        style+= QStringLiteral("color:%1;")
-                                    .arg("red"); // default color must get the value from the setting object
-                    style+= QStringLiteral("font-weight:bold;");
-                }
-                if(!style.isEmpty())
-                    resultTmp= QString("<span style=\"%2\">%1</span>").arg(value).arg(style);
-                return resultTmp;
-            });
-            return {true, result};
-        }),
-        this, [this, id](const std::pair<bool, QString>& result) {
+                auto result= diceParser->resultAsJSon(
+                    [](const QString& value, const QString& color, bool highlight)
+                    {
+                        QString resultTmp= value;
+                        bool hasColor= !color.isEmpty();
+                        QString style;
+                        if(hasColor)
+                        {
+                            style+= QStringLiteral("color:%1;").arg(color);
+                        }
+                        if(highlight)
+                        {
+                            if(style.isEmpty())
+                                style+= QStringLiteral("color:%1;")
+                                            .arg("red"); // default color must get the value from the setting object
+                            style+= QStringLiteral("font-weight:bold;");
+                        }
+                        if(!style.isEmpty())
+                            resultTmp= QString("<span style=\"%2\">%1</span>").arg(value).arg(style);
+                        return resultTmp;
+                    });
+                return {true, result};
+            }),
+        this,
+        [this, id](const std::pair<bool, QString>& result)
+        {
             m_messageModel->addMessage(result.second, {}, QDateTime::currentDateTime(), localId(), id,
                                        result.first ? IM::Dice : IM::Error);
         });

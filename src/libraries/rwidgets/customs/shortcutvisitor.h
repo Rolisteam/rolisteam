@@ -20,8 +20,12 @@
 #ifndef SHORTCUTVISITOR_H
 #define SHORTCUTVISITOR_H
 #include "rwidgets_global.h"
+
 #include <QAbstractItemModel>
 #include <QObject>
+
+#include "utils/directaccessdatastructure.h"
+
 
 class ShortCutModel;
 
@@ -45,7 +49,7 @@ private:
 
 private:
     ShortCutModel* m_model;
-    QMap<QWidget*, QString> m_categoriesNames;
+    DirectAccessDataStructure<QWidget*, QString> m_categoriesNames;
 };
 
 #endif // SHORTCUTVISITOR_H

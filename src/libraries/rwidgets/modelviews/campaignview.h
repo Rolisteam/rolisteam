@@ -16,7 +16,7 @@ class MediaNode;
 class RWIDGET_EXPORT CampaignView : public QTreeView
 {
     Q_OBJECT
-    Q_PROPERTY(QString currentChapter READ currentChapter WRITE setCurrentChapter NOTIFY currentChapterChanged)
+    Q_PROPERTY(QString currentChapter READ currentChapter NOTIFY currentChapterChanged)
 public:
     explicit CampaignView(QWidget* parent= nullptr);
     QModelIndexList getSelection() const;

@@ -395,6 +395,9 @@ bool ContentController::canPaste() const
         return res;
 
     auto data= m_clipboard->mimeData();
+    if(!data)
+        return res;
+
     res= data->hasImage();
     return res;
 }

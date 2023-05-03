@@ -7,6 +7,7 @@
 #include "network/characterdatamodel.h"
 #include "network/connectionprofile.h"
 #include "worker/iohelper.h"
+#include <QAbstractItemModelTester>
 #include <helper.h>
 #include <limits>
 
@@ -45,6 +46,7 @@ void ProfileControllerTest::init()
 {
     m_profileModel.reset(new ProfileModel());
     m_ctrl.reset(new SelectConnProfileController(m_profileModel.get(), nullptr));
+    new QAbstractItemModelTester(m_profileModel.get());
 }
 
 void ProfileControllerTest::clone()

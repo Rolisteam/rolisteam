@@ -28,6 +28,8 @@ NodeStyleModel::NodeStyleModel(QObject* parent) : QAbstractListModel(parent)
     initStyles();
 }
 
+NodeStyleModel::~NodeStyleModel() = default;
+
 int NodeStyleModel::rowCount(const QModelIndex& parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all
@@ -45,7 +47,7 @@ QVariant NodeStyleModel::data(const QModelIndex& index, int role) const
     if(index.row() >= static_cast<int>(m_styles.size()))
         return {};
 
-    auto style= m_styles[static_cast<std::size_t>(index.row())];
+    auto const& style= m_styles[static_cast<std::size_t>(index.row())];
 
     QVariant var;
     switch(role)
@@ -94,7 +96,7 @@ NodeStyle* NodeStyleModel::getStyle(int index) const
     if(idx >= m_styles.size())
        index = 0;
 
-    return m_styles[idx];
+    return m_styles[idx].get();
 }
 
 void NodeStyleModel::initStyles()
@@ -108,28 +110,28 @@ void NodeStyleModel::initStyles()
     beginResetModel();
     m_styles.clear();
 
-    std::transform(colors.begin(), colors.end(), std::back_inserter(m_styles),[this](const QString& colorstr){
+    std::transform(colors.begin(), colors.end(), std::back_inserter(m_styles),[](const QString& colorstr) -> std::unique_ptr<NodeStyle> {
         QColor one(Qt::white);
         QColor text(Qt::black);
         QColor color;
         color.setNamedColor(colorstr);
-        auto style = new NodeStyle(this);
+        auto style = new NodeStyle();
         style->setColorOne(one);
         style->setColorTwo(color);
         style->setTextColor(text);
-        return style;
+        return std::unique_ptr<NodeStyle>(style);
     });
 
-    std::transform(colors.begin(), colors.end(), std::back_inserter(m_styles),[this](const QString& colorstr){
+    std::transform(colors.begin(), colors.end(), std::back_inserter(m_styles),[](const QString& colorstr){
         QColor one(Qt::black);
         QColor text(Qt::white);
         QColor color;
         color.setNamedColor(colorstr);
-        auto style = new NodeStyle(this);
+        auto style = new NodeStyle();
         style->setColorOne(color);
         style->setColorTwo(one);
         style->setTextColor(text);
-        return style;
+        return std::unique_ptr<NodeStyle>(style);
     });
 
     endResetModel();

@@ -3,6 +3,7 @@
 #include "data/player.h"
 #include "model/participantmodel.h"
 #include "model/playermodel.h"
+#include <QAbstractItemModelTester>
 #include <QtTest/QtTest>
 #include <memory>
 
@@ -29,6 +30,9 @@ void PlayerModelTest::init()
 {
     m_playerModel.reset(new PlayerModel());
     m_participantsModel.reset(new ParticipantModel("", m_playerModel.get()));
+
+    new QAbstractItemModelTester(m_playerModel.get());
+    new QAbstractItemModelTester(m_participantsModel.get());
 
     // m_participantsModel->setSourceModel(m_playerModel.get());
 }

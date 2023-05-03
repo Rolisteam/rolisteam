@@ -48,8 +48,6 @@ public:
 
     void addActionsIntoMenu(QMenu* menu);
 
-    void readM3uPlayList(QString filepath);
-
 protected:
     void contextMenuEvent(QContextMenuEvent* ev);
     void dropEvent(QDropEvent* event);

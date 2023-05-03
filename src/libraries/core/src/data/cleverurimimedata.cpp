@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "data/cleverurimimedata.h"
-#include "data/cleveruri.h"
 
 //////////////////////////////////////
 /// CleverUriMimeData
@@ -29,18 +28,19 @@ CleverUriMimeData::CleverUriMimeData()
     setData("rolisteam/cleverurilist", QByteArray());
 }
 
-void CleverUriMimeData::addResourceNode(ResourcesNode* m, const QModelIndex index)
+void CleverUriMimeData::addResourceNode(ResourcesNode* m)
 {
-    if(nullptr != m)
-    {
-        m_mediaList.insert(index, m);
-    }
+    if(nullptr == m)
+        return;
+
+    m_mediaList.append(m);
+
 }
-QMap<QModelIndex, ResourcesNode*> CleverUriMimeData::getList() const
+QList<ResourcesNode*> CleverUriMimeData::getList() const
 {
     return m_mediaList;
 }
 bool CleverUriMimeData::hasFormat(const QString& mimeType) const
 {
-    return ((mimeType == "rolisteam/cleverurilist") | QMimeData::hasFormat(mimeType));
+    return ((mimeType == "rolisteam/cleverurilist") || QMimeData::hasFormat(mimeType));
 }

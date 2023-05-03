@@ -844,7 +844,7 @@ const std::map<QString, QVariant> MessageHelper::readRect(NetworkMessageReader* 
     return hash;
 }
 
-void addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWriter& msg)
+void MessageHelper::addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWriter& msg)
 {
     addVisualItemController(ctrl, msg);
     msg.uint8(ctrl->filled());
@@ -853,7 +853,7 @@ void addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWri
     msg.real(ctrl->ry());
 }
 
-void addLineController(const vmap::LineController* ctrl, NetworkMessageWriter& msg)
+void MessageHelper::addLineController(const vmap::LineController* ctrl, NetworkMessageWriter& msg)
 {
     if(!ctrl)
         return;
@@ -885,7 +885,7 @@ const std::map<QString, QVariant> MessageHelper::readLine(NetworkMessageReader* 
     return hash;
 }
 
-void addImageController(const vmap::ImageItemController* ctrl, NetworkMessageWriter& msg)
+void MessageHelper::addImageController(const vmap::ImageItemController* ctrl, NetworkMessageWriter& msg)
 {
     if(!ctrl)
         return;
@@ -914,7 +914,7 @@ const std::map<QString, QVariant> MessageHelper::readImage(NetworkMessageReader*
     return hash;
 }
 
-void addTextController(const vmap::TextController* ctrl, NetworkMessageWriter& msg)
+void MessageHelper::addTextController(const vmap::TextController* ctrl, NetworkMessageWriter& msg)
 {
     if(!ctrl)
         return;
@@ -973,7 +973,7 @@ const std::map<QString, QVariant> MessageHelper::readText(NetworkMessageReader* 
     return hash;
 }
 
-void addPathController(const vmap::PathController* ctrl, NetworkMessageWriter& msg)
+void MessageHelper::addPathController(const vmap::PathController* ctrl, NetworkMessageWriter& msg)
 {
     if(!ctrl)
         return;
@@ -1064,7 +1064,7 @@ const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageRea
     return hash;
 }
 
-void addCharacterController(const vmap::CharacterItemController* ctrl, NetworkMessageWriter& msg)
+void MessageHelper::addCharacterController(const vmap::CharacterItemController* ctrl, NetworkMessageWriter& msg)
 {
     if(!ctrl)
         return;
@@ -1172,7 +1172,7 @@ QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReade
     return hash;
 }
 
-void convertVisualItemCtrlAndAdd(vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
+void MessageHelper::convertVisualItemCtrlAndAdd(vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
 {
     switch(ctrl->itemType())
     {

@@ -46,9 +46,10 @@ QString copyFile(const QString& source, const QString& destination)
 
     if(makeSurePathExist(dest.dir()))
     {
-        src.copy(dest.absoluteFilePath());
+        if(src.copy(dest.absoluteFilePath()))
+            return dest.absoluteFilePath();
     }
-    return dest.absoluteFilePath();
+    return {};
 }
 
 bool removeFile(const QString& source)

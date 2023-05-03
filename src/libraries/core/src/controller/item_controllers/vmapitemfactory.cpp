@@ -74,6 +74,7 @@ vmap::VisualItemController* vmap::VmapItemFactory::createVMapItem(VectorialMapCo
     }
     if(ctrl == nullptr)
     {
+        qDebug() << "it was null";
         auto it= param.find(Core::vmapkeys::KEY_ITEMTYPE);
         if(it != param.end())
         {

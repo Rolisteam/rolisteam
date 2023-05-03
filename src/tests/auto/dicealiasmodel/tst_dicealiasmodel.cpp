@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QAbstractItemModelTester>
 #include <QJsonObject>
 #include <QModelIndex>
 #include <QModelIndexList>
@@ -55,6 +56,7 @@ TestDiceAliasModel::TestDiceAliasModel() {}
 void TestDiceAliasModel::init()
 {
     m_model.reset(new DiceAliasModel());
+    new QAbstractItemModelTester(m_model.get());
 }
 
 void TestDiceAliasModel::addDefaultAlias()

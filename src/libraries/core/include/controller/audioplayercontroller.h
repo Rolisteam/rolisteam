@@ -37,13 +37,13 @@ class CORE_EXPORT AudioPlayerController : public QObject
     Q_PROPERTY(PlayingMode mode READ mode NOTIFY modeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(MusicModel* model READ model CONSTANT)
-    Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
+    Q_PROPERTY(uint volume READ volume NOTIFY volumeChanged)
     Q_PROPERTY(bool localIsGm READ localIsGm WRITE setLocalIsGm NOTIFY localIsGmChanged)
     Q_PROPERTY(QString error READ error NOTIFY errorChanged)
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool muted READ muted NOTIFY mutedChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
-    Q_PROPERTY(qint64 time READ time WRITE setTime NOTIFY timeChanged)
+    Q_PROPERTY(quint64 time READ time NOTIFY timeChanged)
 public:
     enum PlayingMode
     {
@@ -70,10 +70,10 @@ public:
     QString error() const;
     bool visible() const;
     bool muted() const;
-    qint64 time() const;
+    quint64 time() const;
     State state() const;
     QString text() const;
-    int volume() const;
+    uint volume() const;
     bool localIsGm() const;
     QStringList directoriesList() const;
 
@@ -85,7 +85,7 @@ public slots:
     void next();
     void setPlayingMode(AudioPlayerController::PlayingMode mode);
     void loadPlayList(const QString& path);
-    void setVolume(int volume);
+    void setVolume(uint volume);
     void exportList(const QString& path);
     void mute();
     void clear();
@@ -93,7 +93,7 @@ public slots:
     void addSong(const QList<QUrl>& path);
     void setLocalIsGm(bool b);
     void setVisible(bool b);
-    void setTime(int time);
+    void setTime(quint64 time);
     void addMusicModel();
 
     // networkfunction
@@ -103,7 +103,7 @@ signals:
     void modeChanged();
     void volumeChanged(int);
     void localIsGmChanged();
-    void errorChanged();
+    void errorChanged(const QString& error);
     void visibleChanged(bool b);
     void mutedChanged();
     void textChanged();

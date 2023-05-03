@@ -51,6 +51,9 @@ QModelIndex LocalPersonModel::mapFromSource(const QModelIndex& sourceIndex) cons
 
 QModelIndex LocalPersonModel::mapToSource(const QModelIndex& proxyIndex) const
 {
+    if(!sourceModel())
+        return {};
+
     QModelIndex idx;
     if(proxyIndex.row() == 0)
         idx= sourceModel()->index(0, 0, QModelIndex());

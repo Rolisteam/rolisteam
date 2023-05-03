@@ -70,17 +70,8 @@ public:
     TextEdit(NoteController* note, QWidget* parent= 0);
     QString getFilter() const;
 
-    QString getFileName() const;
-
-    QString getShowName() const;
-    void setShowName(const QString& showName);
-
 public slots:
-    bool load(const QString& f);
-    bool fileSave();
-    void setCurrentFileName(const QString& fileName);
-    void saveFileAsBinary(QDataStream& data);
-    void readFromBinary(QDataStream& data);
+    bool fileSave(const QString& fileName);
     void fileNew();
 
 signals:
@@ -101,7 +92,6 @@ private:
 
 private slots:
     void fileOpen();
-
     bool fileSaveAs();
     void filePrint();
     void filePrintPreview();
@@ -115,13 +105,13 @@ private slots:
     void textStyle(int styleIndex);
     void textColor();
     void textAlign(QAction* a);
-    void onRead(int now, int tot);
     void currentCharFormatChanged(const QTextCharFormat& format);
     void cursorPositionChanged();
 
     void clipboardDataChanged();
     void about();
     void printPreview(QPrinter*);
+    void loadOdt(const QString& f);
 
 private:
     void mergeFormatOnWordOrSelection(const QTextCharFormat& format);
@@ -145,10 +135,8 @@ private:
     QComboBox* comboSize;
 
     QToolBar* tb;
-    QString fileName;
-    QTextEdit* textEdit;
-
-    static const QString rsrcPath;
+    QTextEdit* m_textEdit;
+    bool m_working= false;
 };
 
 #endif

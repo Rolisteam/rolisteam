@@ -33,10 +33,9 @@
  * @brief E.g: an image can be loaded as Picture or as Background for map.
  *
  */
-class  CORE_EXPORT CleverURI : public ResourcesNode
+class CORE_EXPORT CleverURI : public ResourcesNode
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
     Q_PROPERTY(Core::ContentType contentType READ contentType WRITE setContentType NOTIFY contentTypeChanged)
     Q_PROPERTY(QByteArray data READ data WRITE setData NOTIFY dataChanged)
@@ -94,7 +93,6 @@ public:
     bool operator==(const CleverURI& uri1) const;
 
 signals:
-    void nameChanged();
     void pathChanged();
     void contentTypeChanged();
     void dataChanged();

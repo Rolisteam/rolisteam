@@ -80,7 +80,6 @@ class CORE_EXPORT VectorialMapController : public MediaControllerBase
     Q_PROPERTY(QRectF visualRect READ visualRect WRITE setVisualRect NOTIFY visualRectChanged)
     Q_PROPERTY(bool idle READ idle WRITE setIdle NOTIFY idleChanged)
     Q_PROPERTY(qreal zIndex READ zIndex WRITE setZindex NOTIFY zIndexChanged)
-
 public:
     enum Method
     {
@@ -135,7 +134,7 @@ public:
     bool stateLabelVisible() const;
     QRectF visualRect() const;
     bool idle() const;
-    int zIndex() const;
+    qreal zIndex() const;
     void addCommand(QUndoCommand* cmd);
     void addVision(CharacterVision* vision);
 
@@ -147,7 +146,7 @@ public:
     bool pasteData(const QMimeData& data) override;
     void setDiceParser(DiceRoller* parser);
 public slots:
-    void showTransparentItems(const QList<vmap::VisualItemController*>& list);
+    void showTransparentItems();
     void hideOtherLayers(bool b);
     void rollInit(Core::CharacterScope scope);
     void rollInit(QList<QPointer<vmap::CharacterItemController>> list);
@@ -226,7 +225,7 @@ public slots:
     void setStateLabelVisible(bool b);
     void setVisualRect(QRectF visualRect);
     void setIdle(bool b);
-    void setZindex(int index);
+    void setZindex(qreal index);
 
     void insertItemAt(const std::map<QString, QVariant>& params);
     void changeFogOfWar(const QPolygonF& poly, bool mask);
@@ -235,7 +234,7 @@ public slots:
     void askForColorChange(vmap::VisualItemController* itemCtrl);
     void addHighLighter(const QPointF& point);
     void showHightLighter(const QPointF& p, const qreal& penSize, const QColor& color);
-    void dupplicateItem(const QList<vmap::VisualItemController *> &vitem);
+    void dupplicateItem(const QList<vmap::VisualItemController*>& vitem);
 
 private:
     std::unique_ptr<vmap::VmapItemModel> m_vmapModel;
@@ -267,7 +266,7 @@ private:
     quint16 m_penSize= 15;
     QString m_npcName;
     QRectF m_visualRect;
-    int m_zIndex= 0;
+    qreal m_zIndex= 0.;
     Core::ScaleUnit m_scaleUnit= Core::M;
     Core::Layer m_layer= Core::Layer::GROUND;
     Core::SelectableTool m_tool= Core::HANDLER;

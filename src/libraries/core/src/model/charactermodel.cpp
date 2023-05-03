@@ -38,7 +38,7 @@ int CharacterModel::columnCount(const QModelIndex& parent) const
 
 int CharacterModel::rowCount(const QModelIndex& parent) const
 {
-    if(parent.isValid())
+    if(parent.isValid() || !sourceModel())
         return 0;
 
     int row= 0;
@@ -76,6 +76,9 @@ QModelIndex CharacterModel::mapFromSource(const QModelIndex& sourceIndex) const
 
 QModelIndex CharacterModel::mapToSource(const QModelIndex& proxyIndex) const
 {
+    if(!sourceModel())
+        return {};
+
     auto row= proxyIndex.row();
     QModelIndex parent;
     bool found= false;

@@ -23,7 +23,9 @@
 #include <QMimeData>
 #include <QModelIndex>
 #include <QObject>
+#include <QList>
 #include <core_global.h>
+
 class ResourcesNode;
 
 class CORE_EXPORT CleverUriMimeData : public QMimeData
@@ -31,12 +33,12 @@ class CORE_EXPORT CleverUriMimeData : public QMimeData
     Q_OBJECT
 public:
     CleverUriMimeData();
-    void addResourceNode(ResourcesNode* m, const QModelIndex);
-    QMap<QModelIndex, ResourcesNode*> getList() const;
+    void addResourceNode(ResourcesNode* m);
+    QList<ResourcesNode*> getList() const;
     virtual bool hasFormat(const QString& mimeType) const;
 
 private:
-    QMap<QModelIndex, ResourcesNode*> m_mediaList;
+    QList<ResourcesNode*> m_mediaList;
 };
 
 #endif // CLEVERURIMIMEDATA_H

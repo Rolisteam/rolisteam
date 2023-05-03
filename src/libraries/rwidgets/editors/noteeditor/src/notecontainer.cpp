@@ -30,32 +30,16 @@ NoteContainer::NoteContainer(NoteController* note, QWidget* parent)
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    setWidget(m_edit);
+    setWidget(m_edit.get());
     setWindowIcon(QIcon::fromTheme("notes"));
-    connect(m_edit, &TextEdit::fileNameChanged, this, &NoteContainer::setFileName);
+    connect(m_edit.get(), &TextEdit::fileNameChanged, this, [this]() { setWindowModified(false); });
 
     auto func= [this]() { setWindowTitle(tr("%1 - Note").arg(m_noteCtrl->name())); };
     connect(m_noteCtrl, &NoteController::nameChanged, this, func);
     func();
 }
 
-void NoteContainer::setFileName(QString str)
-{
-    /*if(nullptr != m_uri)
-    {
-        m_uri->setUri(str);
-    }*/
-    setWindowModified(false);
-}
-
-void NoteContainer::setTitle(QString str)
-{
-    if(nullptr != m_edit)
-    {
-        m_edit->setCurrentFileName(str);
-    }
-}
-void NoteContainer::readFromFile(QDataStream& data)
+/*void NoteContainer::readFromFile(QDataStream& data)
 {
     if(nullptr != m_edit)
     {
@@ -69,4 +53,4 @@ void NoteContainer::saveInto(QDataStream& out)
     {
         m_edit->saveFileAsBinary(out);
     }
-}
+}*/

@@ -87,6 +87,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
             {
                 auto cm= m_campaignManager->campaign();
                 m_contentCtrl->setMediaRoot(cm->directory(campaign::Campaign::Place::MEDIA_ROOT));
+                emit campaignRootChanged();
             });
     connect(m_campaignManager->editor(), &campaign::CampaignEditor::performCommand, this, &GameController::addCommand);
 

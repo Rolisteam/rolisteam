@@ -100,6 +100,11 @@ ToolBox::ToolBox(VectorialMapController* ctrl, QWidget* parent) : QWidget(parent
     updateUi();
 }
 
+ToolBox::~ToolBox()
+{
+    qDebug() << "Destructor Toolbox";
+}
+
 void ToolBox::setupUi()
 {
     m_centralWidget= new QWidget(this);

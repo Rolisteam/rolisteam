@@ -23,10 +23,19 @@
 #include "media/mediafactory.h"
 #include "media/mediatype.h"
 #include "model/vmapitemmodel.h"
-#include "network/networkmessagereader.h"
 #include "worker/iohelper.h"
-#include "worker/messagehelper.h"
+#include "network/networkmessagereader.h"
+#include "updater/vmapitem/characteritemupdater.h"
+#include "updater/vmapitem/ellipsecontrollerupdater.h"
+#include "updater/vmapitem/imagecontrollerupdater.h"
+#include "updater/vmapitem/linecontrollerupdater.h"
+#include "updater/vmapitem/pathcontrollerupdater.h"
+#include "updater/vmapitem/rectcontrollerupdater.h"
+#include "updater/vmapitem/textcontrollerupdater.h"
+#include "updater/vmapitem/vmapitemcontrollerupdater.h"
 #include "worker/vectorialmapmessagehelper.h"
+#include "worker/messagehelper.h"
+
 #include <QColor>
 #include <QRectF>
 #include <QSignalSpy>
@@ -74,10 +83,14 @@ private slots:
     void networkMessage();
     void networkMessage_data();
 
+    void serialization_network();
+    void serialization_network_data();
+
 private:
     std::unique_ptr<VectorialMapController> m_ctrl;
     std::unique_ptr<QUndoStack> m_stack;
     std::unique_ptr<Helper::TestMessageSender> m_sender;
+    std::map<Core::SelectableTool, std::unique_ptr<VMapItemControllerUpdater>> m_updaters;
 };
 
 void VectorialMapControllerTest::init()
@@ -91,6 +104,28 @@ void VectorialMapControllerTest::init()
 
     connect(m_ctrl.get(), &VectorialMapController::performCommand, m_stack.get(),
             [this](QUndoCommand* cmd) { m_stack->push(cmd); });
+
+
+    m_updaters.insert(
+        {Core::SelectableTool::LINE, std::unique_ptr<LineControllerUpdater>(new LineControllerUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::PATH, std::unique_ptr<PathControllerUpdater>(new PathControllerUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::FILLRECT, std::unique_ptr<RectControllerUpdater>(new RectControllerUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::EMPTYRECT, std::unique_ptr<RectControllerUpdater>(new RectControllerUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::IMAGE, std::unique_ptr<ImageControllerUpdater>(new ImageControllerUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::NonPlayableCharacter, std::unique_ptr<CharacterItemUpdater>(new CharacterItemUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::FILLEDELLIPSE, std::unique_ptr<EllipseControllerUpdater>(new EllipseControllerUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::EMPTYELLIPSE, std::unique_ptr<EllipseControllerUpdater>(new EllipseControllerUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::TEXT, std::unique_ptr<TextControllerUpdater>(new TextControllerUpdater)});
+    m_updaters.insert(
+        {Core::SelectableTool::TEXTBORDER, std::unique_ptr<TextControllerUpdater>(new TextControllerUpdater)});
 }
 
 void VectorialMapControllerTest::cleanupTestCase()
@@ -1062,8 +1097,6 @@ void VectorialMapControllerTest::serialization300()
     {
         byteArray= IOHelper::saveController(ctrl2);
 
-        qDebug() << list;
-
         QCOMPARE(firstSize, byteArray.size());
 
         delete ctrl2;
@@ -1137,42 +1170,91 @@ void VectorialMapControllerTest::serialization300_data()
     }
 }
 
-/*void VectorialMapControllerTest::serialization_sight()
+void VectorialMapControllerTest::serialization_network()
 {
-    QFETCH(QList<QPolygonF>, list);
-    QFETCH(QList<bool>, masks);
+    using CustomMap= std::map<QString, QVariant>;
+    QFETCH(CustomMap, map);
+    QFETCH(Core::SelectableTool, tool);
 
-    auto sightCtrl= new vmap::SightController(m_ctrl.get());
+    auto itemCtrl = vmap::VmapItemFactory::createVMapItem(m_ctrl.get(), tool, map);
 
-    int i= 0;
-    for(auto const &poly, list)
-    {
-        auto b= masks[i];
-        sightCtrl->addPolygon(poly, b);
-        ++i;
-    }
 
-    auto byteArray= IOHelper::saveController(m_ctrl.get());
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(m_ctrl->uuid());
+    MessageHelper::convertVisualItemCtrlAndAdd(itemCtrl, msg);
 
-    VectorialMapMessageHelper::readVectorialMapController(ctrl2, byteArray);
 
-    QCOMPARE(ctrl2->model()->rowCount(), m_ctrl->model()->rowCount());
+    NetworkMessageReader reader;
+    reader.setData(msg.data());
+
+    auto itemCtrl2 = vmap::VmapItemFactory::createRemoteVMapItem(m_ctrl.get(), &reader);
+
+    QCOMPARE(itemCtrl->uuid(), itemCtrl2->uuid());
+    QCOMPARE(itemCtrl->itemType(), itemCtrl2->itemType());
+    QCOMPARE(itemCtrl->color(), itemCtrl2->color());
+    QCOMPARE(itemCtrl->rect(), itemCtrl2->rect());
+    QCOMPARE(itemCtrl->pos(), itemCtrl2->pos());
+    QCOMPARE(itemCtrl->layer(), itemCtrl2->layer());
+    QCOMPARE(itemCtrl->locked(), itemCtrl2->locked());
+    QCOMPARE(itemCtrl->tool(), itemCtrl2->tool());
+    QCOMPARE(itemCtrl->rotation(), itemCtrl2->rotation());
 }
 
-void VectorialMapControllerTest::serialization_sight_data()
+void VectorialMapControllerTest::serialization_network_data()
 {
-    QFETCH(QList<QPolygonF>, list);
-    QFETCH(QList<bool>, masks);
+    using CustomMap= std::map<QString, QVariant>;
+    QTest::addColumn<CustomMap>("map");
+    QTest::addColumn<Core::SelectableTool>("tool");
 
-    QTest::addRow("cmd1") << QList<QPolygonF>{} << QList<bool>{};
-    QTest::addRow("cmd1") << QList<QPolygonF>{} << QList<bool>{};
-    QTest::addRow("cmd1") << QList<QPolygonF>{} << QList<bool>{};
-    QTest::addRow("cmd1") << QList<QPolygonF>{} << QList<bool>{};
-    QTest::addRow("cmd1") << QList<QPolygonF>{} << QList<bool>{};
-    QTest::addRow("cmd1") << QList<QPolygonF>{} << QList<bool>{};
-    QTest::addRow("cmd1") << QList<QPolygonF>{} << QList<bool>{};
-    QTest::addRow("cmd1") << QList<QPolygonF>{} << QList<bool>{};
-}*/
+
+    std::vector<Core::SelectableTool> data(
+        {Core::SelectableTool::FILLRECT, Core::SelectableTool::LINE, Core::SelectableTool::EMPTYELLIPSE,
+         Core::SelectableTool::EMPTYRECT, Core::SelectableTool::FILLEDELLIPSE, Core::SelectableTool::IMAGE,
+         Core::SelectableTool::NonPlayableCharacter,
+         Core::SelectableTool::TEXT, Core::SelectableTool::TEXTBORDER, Core::SelectableTool::PATH});
+
+    int i = 0;
+    for(auto tool : data)
+    {
+        CustomMap map;
+        switch(tool)
+        {
+        case Core::SelectableTool::FILLRECT:
+            map= Helper::buildRectController(true, {0, 0, 200, 200});
+            break;
+        case Core::SelectableTool::LINE:
+            map= Helper::buildLineController({100, 100}, {500, 100}, {});
+            break;
+        case Core::SelectableTool::EMPTYELLIPSE:
+            map= Helper::buildEllipseController(false, 200., 100., {500., 100.});
+            break;
+        case Core::SelectableTool::EMPTYRECT:
+            map= Helper::buildRectController(false, {0, 0, 200, 200}, {300, 200});
+            break;
+        case Core::SelectableTool::FILLEDELLIPSE:
+            map= Helper::buildEllipseController(true, 200., 100., {500., 100.});
+            break;
+        case Core::SelectableTool::IMAGE:
+            map= Helper::buildImageController(":/img/girafe.jpg", {0, 0, 200, 200});
+            break;
+        case Core::SelectableTool::TEXT:
+            map= Helper::buildTextController(false, "Text without border", {0, 0, 200, 200});
+            break;
+        case Core::SelectableTool::TEXTBORDER:
+            map= Helper::buildTextController(true, "Text with border", {0, 0, 200, 200});
+            break;
+        case Core::SelectableTool::PATH:
+            map= Helper::buildPathController(true, {{0, 0}, {10, 10}, {20, 0}, {30, 10}}, {0, 0});
+            break;
+        case Core::SelectableTool::NonPlayableCharacter:
+            map= Helper::buildTokenController(true, {150, 150});
+            break;
+        default:
+            break;
+        }
+        QTest::addRow("save %d", ++i) << map << tool;
+    }
+}
 
 void VectorialMapControllerTest::networkMessage()
 {

@@ -28,13 +28,13 @@
 
 #include "data/character.h"
 #include "model/characterstatemodel.h"
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
-
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
+#include <QAbstractItemModelTester>
 
 class TestCharacterStateModel : public QObject
 {
@@ -73,6 +73,7 @@ TestCharacterStateModel::TestCharacterStateModel() {}
 void TestCharacterStateModel::init()
 {
     m_model.reset(new CharacterStateModel());
+    new QAbstractItemModelTester(m_model.get());
 }
 
 void TestCharacterStateModel::addDefaultState()

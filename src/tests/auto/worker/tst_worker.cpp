@@ -25,8 +25,12 @@
 #include <QString>
 #include <memory>
 
+#include "utils/countdownobject.h"
+#include "utils/iohelper.h"
+#include "utils/mappinghelper.h"
 #include "worker/iohelper.h"
 #include "worker/utilshelper.h"
+#include <helper.h>
 
 class WorkerTest : public QObject
 {
@@ -43,6 +47,11 @@ private slots:
 
     void imageIsSquare();
     void imageIsSquare_data();
+
+    void mappingHelperTest();
+    void iohelperTest();
+
+    void countDownTest();
 };
 
 WorkerTest::WorkerTest() {}
@@ -102,6 +111,68 @@ void WorkerTest::imageIsSquare_data()
 
     QTest::addRow("cmd1") << IOHelper::imageToData(IOHelper::readImageFromFile(":/img/arbre_500.jpg")) << false;
     QTest::addRow("cmd2") << IOHelper::imageToData(IOHelper::readImageFromFile(":/img/arbre_square_500.jpg")) << true;
+}
+
+void WorkerTest::iohelperTest()
+{
+    QTemporaryDir dir;
+
+    if(dir.isValid())
+    {
+        utils::IOHelper::makeDir(dir.path());
+        utils::IOHelper::copyFile(":/img/arbre_500.jpg", dir.path());
+        utils::IOHelper::removeFile(QString("%1/arbre_500.jpg").arg(dir.path()));
+        auto src= utils::IOHelper::copyFile(":/img/arbre_500.jpg", dir.path());
+        utils::IOHelper::readPixmapFromURL(QString("%1/arbre_500.jpg").arg(dir.path()));
+        utils::IOHelper::shortNameFromPath(QString("%1/arbre_500.jpg").arg(dir.path()));
+        auto data= utils::IOHelper::readTextFile(":/sharednotes/scenario.md");
+        QVERIFY(!data.isEmpty());
+        /*QVERIFY(!utils::IOHelper::moveFile(QStringLiteral("%1/%2").arg(QDir::rootPath(), Helper::randomString()),
+                                           QStringLiteral("%1/%2").arg(QDir::rootPath(), Helper::randomString())));*/
+
+        QVERIFY(utils::IOHelper::moveFile(QStringLiteral("%1/arbre_500.jpg").arg(dir.path()),
+                                          QStringLiteral("%1/image_test.jpg").arg(dir.path())));
+
+        QVERIFY(!utils::IOHelper::writeFile(QString("%1/%2").arg(QDir::rootPath(), Helper::randomString()),
+                                            Helper::imageData()));
+    }
+}
+
+void WorkerTest::mappingHelperTest()
+{
+    utils::MappingHelper helper;
+
+    auto res= helper.mapSizeTo(QSizeF(100., 100.), QSizeF(400., 200.));
+    QCOMPARE(res, QSizeF(100., 50.));
+
+    auto max= helper.maxRect(QRectF(0., 0., 500., 500.), QRectF(1000., 400., 10., 10.));
+    QCOMPARE(max, QRectF(0, 0, 1010., 500.));
+
+    helper.mapRectInto(QRectF(0., 0., 500., 500.), QRectF(0., 0., 500., 500.), QRectF(0., 0., 500., 500.));
+}
+
+void WorkerTest::countDownTest()
+{
+    auto tryCount= Helper::generate<int>(1, 5);
+    auto intervalCount= Helper::generate<int>(1, 10);
+
+    CountDownObject obj(tryCount, intervalCount, 100);//100 ms
+
+    QSignalSpy spy(&obj, &CountDownObject::triggered);
+    QSignalSpy spy2(&obj, &CountDownObject::countDownChanged);
+
+    QVERIFY(!obj.isRunning());
+
+    obj.start();
+    QVERIFY(obj.isRunning());
+
+    auto c = tryCount * intervalCount;
+
+    QTest::qWait((c+5)*100);
+
+    QCOMPARE(spy2.count(), c);
+    QCOMPARE(spy.count(), tryCount);
+    QVERIFY(!obj.isRunning());
 }
 
 QTEST_MAIN(WorkerTest);

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *   renaud@rolisteam.org                                                  *
  *                                                                         *
  *   Rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,6 +24,7 @@
 #include <QtTest/QtTest>
 #include <data/character.h>
 #include <data/player.h>
+#include <helper.h>
 
 #define COUNT_TURN 2000
 
@@ -65,6 +66,45 @@ void DataplayerTest::testGetSet()
     QString tmpname("nametest");
     m_player->setName(tmpname);
     QVERIFY2(m_player->name() == tmpname, "Names are different! Failure");
+
+    QVERIFY(m_player->isFullyDefined());
+
+    auto v = Helper::randomString();
+    m_player->setUserVersion(v);
+    QCOMPARE(m_player->getUserVersion(), v);
+
+
+    Player p2;
+    p2.copyPlayer(m_player);
+
+    m_player->getVariableDictionnary();
+    m_player->removeChild(nullptr);
+    m_player->addCharacter(nullptr);
+    auto c = new Character(Helper::randomString(), Helper::randomColor(), true);
+    m_player->addCharacter(c);
+    m_player->addCharacter(c);
+    QCOMPARE(c->getParentId(), m_player->uuid());
+    QCOMPARE(c->getParentPlayer(), m_player);
+    QCOMPARE(m_player->indexOf(c), 0);
+    QCOMPARE(m_player->characterById(c->uuid()), c);
+    QCOMPARE(m_player->getCharacterByIndex(0), c);
+    QCOMPARE(m_player->getCharacterByIndex(80), nullptr);
+    auto const& children = m_player->children();
+    QCOMPARE(children.size(), 1);
+    //QCOMPARE(children[0], c);
+
+    m_player->removeChild(c);
+
+    Player p3(Helper::randomString(), Helper::randomString(),Helper::randomColor(), false);
+
+    auto nameC = Helper::randomString();
+    auto colorC = Helper::randomColor();
+    auto dataC = Helper::imageData();
+
+
+    m_player->addCharacter(nameC, colorC, dataC, {}, true);
+    m_player->addCharacter(nameC, colorC, dataC, {}, true);
+
 }
 void DataplayerTest::testChildrenAddAndRemove()
 {

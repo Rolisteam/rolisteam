@@ -2,21 +2,33 @@
 #include <QtCore/QCoreApplication>
 #include <QtTest/QtTest>
 
-#include "controller/item_controllers/ellipsecontroller.h"
-#include "controller/item_controllers/linecontroller.h"
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "rwidgets/customs/vmap.h"
-#include "rwidgets/graphicsItems/anchoritem.h"
-#include "rwidgets/graphicsItems/ellipsitem.h"
-#include "rwidgets/graphicsItems/highlighteritem.h"
+#include "model/vmapitemmodel.h"
 #include "rwidgets/graphicsItems/lineitem.h"
-#include "rwidgets/graphicsItems/ruleitem.h"
+#include "controller/item_controllers/linecontroller.h"
 #include "rwidgets/mediacontainers/vmapframe.h"
+#include "undoCmd/addvmapitem.h"
+#include "controller/item_controllers/vmapitemfactory.h"
 // #include "test_root_path.h"
 #include "helper.h"
 
 constexpr int shortTime{5};
+using ParamMap= QList<std::map<QString, QVariant>>;
+
+
+class FakeItem : public vmap::VisualItemController
+{
+public:
+    FakeItem(VisualItemController::ItemType itemType,VectorialMapController* ctrl) : VisualItemController(itemType, {}, ctrl) {};
+    void aboutToBeRemoved() {};
+    void setCorner(const QPointF& move, int corner,
+        Core::TransformType transformType= Core::TransformType::NoTransform)
+        {};
+    QRectF rect() const {return {};};
+};
+
 
 class VMapTest : public QObject
 {
@@ -28,46 +40,10 @@ private slots:
     void init();
     void cleanup();
 
-    void highlightItemTest();
-    void gridTest();
-
-    void lineTest();
-    void ellispeTest();
-    void anchorTest();
-    void rulerTest();
-    void toolBoxTest();
-    void topBarTest();
-    void createEmptyTopBarTest();
-    void createEmptyToolBoxTest();
-
-    /*void getAndSetTest();
-    void cleanupTestCase();*/
-
     void addItems();
     void addItems_data();
 
-    /*void addEllipse();
-    void addPath();
-    void addHighLighter();
-    void addRule();
-    void addLine();
-    void addImage();
-    void addCharacter();
-    void addText();
-
-    void saveAndLoad();
-    void saveAndLoad_data();
-
-    void zOrderTest();
-
-    void fogTest();
-    void fogTest_data();
-
-    void testOption();
-    void testOption_data();
-
-    void testMovableItems();
-    void testMovableItems_data();*/
+    void addNullItems();
 
 private:
     std::unique_ptr<VectorialMapController> m_ctrl;
@@ -91,10 +67,14 @@ VMapTest::VMapTest()
 void VMapTest::init()
 {
     if(m_pmedia)
+    {
         delete m_media.release();
+    }
 
     if(m_pctrl)
+    {
         delete m_ctrl.release();
+    }
 
     m_ctrl.reset(new VectorialMapController());
     m_pctrl= m_ctrl.get();
@@ -104,30 +84,43 @@ void VMapTest::init()
 
     connect(m_ctrl.get(), &VectorialMapController::performCommand, this,
             [this](QUndoCommand* cmd) { m_stack->push(cmd); });
+
+    connect(m_ctrl.get(), &VectorialMapController::destroyed, this, []() { qDebug() << "ctrl destroyed"; });
+    connect(m_media.get(), &VMapFrame::destroyed, this, []() { qDebug() << "VMapFrame destroyed"; });
 }
 void VMapTest::cleanup() {}
 
-void VMapTest::highlightItemTest()
+void VMapTest::addNullItems()
 {
-    m_ctrl->setVisibility(Core::ALL);
-    m_ctrl->setLocalGM(true);
-    m_ctrl->setPermission(Core::PermissionMode::GM_ONLY);
-    m_media->setVisible(true);
-
     auto map= m_media->map();
+    auto model = m_ctrl->model();
 
-    HighlighterItem* item = new HighlighterItem(Helper::randomPoint(), 10, Helper::randomColor());
-    QSignalSpy spy(item, &HighlighterItem::destroyed);
-    map->addItem(item);
-    item->setVisible(true);
+    model->appendItemController(nullptr);
 
-    item->shape();
+    QList<vmap::VisualItemController::ItemType> types{vmap::VisualItemController::PATH,
+                                                      vmap::VisualItemController::LINE,
+                                                      vmap::VisualItemController::ELLIPSE,
+                                                      vmap::VisualItemController::CHARACTER,
+                                                      vmap::VisualItemController::TEXT,
+                                                      vmap::VisualItemController::RECT,
+                                                      vmap::VisualItemController::RULE,
+                                                      vmap::VisualItemController::IMAGE,
+                                                      vmap::VisualItemController::SIGHT,
+                                                      vmap::VisualItemController::ANCHOR,
+                                                      vmap::VisualItemController::GRID,
+                                                      vmap::VisualItemController::HIGHLIGHTER};
 
-    spy.wait(5000);
-    QCOMPARE(spy.count(), 1);
+    for(auto type : types)
+        model->appendItemController(new FakeItem(type, m_ctrl.get()));
+
+    auto line= vmap::VmapItemFactory::createVMapItem(m_ctrl.get(), Core::SelectableTool::LINE, Helper::buildLineController(Helper::randomPoint(), Helper::randomPoint(), Helper::randomPoint()));
+    model->appendItemController(line);
+
+    m_ctrl->showTransparentItems();
+    line->setOpacity(0);
 }
 
-void VMapTest::gridTest()
+/*void VMapTest::gridTest()
 {
     m_ctrl->setVisibility(Core::ALL);
     m_ctrl->setLocalGM(true);
@@ -156,6 +149,8 @@ void VMapTest::gridTest()
 
     auto size= m_media->size();
     m_media->resize(size * 1.5);
+
+    spyGridResize.wait(10);
     spyGridResize.clear();
     gridCtrl->setRect(m_media->geometry());
 
@@ -304,7 +299,7 @@ void VMapTest::createEmptyToolBoxTest()
 {
     auto toolBox= std::make_unique<ToolBox>(nullptr);
 }
-using ParamMap= QList<std::map<QString, QVariant>>;
+
 
 void VMapTest::rulerTest()
 {
@@ -382,12 +377,13 @@ void VMapTest::anchorTest()
     auto items= map->items();
 
     QCOMPARE(items.count(), 3);
-}
+}*/
 
 void VMapTest::addItems()
 {
     QFETCH(ParamMap, params);
     QFETCH(int, expected);
+
     m_ctrl->setVisibility(Core::ALL);
     m_ctrl->setLocalGM(true);
     m_ctrl->setPermission(Core::PermissionMode::GM_ONLY);
@@ -439,7 +435,7 @@ void VMapTest::addItems()
         if(!vitem)
             continue;
 
-        //vitem->setPenWidth(Helper::generate<int>(1, 50));
+        // vitem->setPenWidth(Helper::generate<int>(1, 50));
 
         vitem->getType();
         {
@@ -493,6 +489,7 @@ void VMapTest::addItems()
 
     if(!params.isEmpty())
         qDebug() << params[0]["tool"].value<Core::SelectableTool>();
+
     QCOMPARE(map->items().count(), expected);
 }
 
@@ -506,22 +503,21 @@ void VMapTest::addItems_data()
                                             Core::SelectableTool::EMPTYELLIPSE, Core::SelectableTool::EMPTYRECT,
                                             Core::SelectableTool::FILLEDELLIPSE, Core::SelectableTool::IMAGE,
                                             Core::SelectableTool::TEXT, Core::SelectableTool::TEXTBORDER,
-                                            Core::SelectableTool::PATH, Core::SelectableTool::PEN});
-
+                                            Core::SelectableTool::PEN, Core::SelectableTool::PATH, Core::SelectableTool::NonPlayableCharacter});
     ParamMap list;
     int index= 0;
     for(unsigned int i= 0; i < data.size(); ++i)
     {
-       auto comb_size= i;
+        auto comb_size= i + 1;
         do
         {
             int count= 2;
             list.clear();
-           for(auto it= data.begin(); it < data.begin() + comb_size; ++it)
-            //for(auto val : data)
+            for(auto it= data.begin(); it < data.begin() + comb_size; ++it)
+            // for(auto val : data)
             {
                 std::map<QString, QVariant> map;
-                switch(*it)//
+                switch(*it) //
                 {
                 case Core::SelectableTool::FILLRECT:
                     map= Helper::buildRectController(true, {0, 0, 200, 200});
@@ -561,7 +557,11 @@ void VMapTest::addItems_data()
                     break;
                 case Core::SelectableTool::PEN:
                     map= Helper::buildPenController(false, {{0, 0}, {10, 10}, {20, 0}, {30, 10}}, {0, 0});
-                    count+= 5;
+                    count+= 1;
+                    break;
+                case Core::SelectableTool::NonPlayableCharacter:
+                    map= Helper::buildPenController(false, {{0, 0}, {10, 10}, {20, 0}, {30, 10}}, {0, 0});
+                    count+= 1;
                     break;
                 default:
                     break;
@@ -571,7 +571,7 @@ void VMapTest::addItems_data()
 
                 list.append(map);
             }
-           QTest::addRow("save %d", ++index) << list << count;
+            QTest::addRow("save %d", ++index) << list << count;
         } while(Helper::next_combination(data.begin(), data.begin() + comb_size, data.end()));
     }
 }

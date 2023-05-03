@@ -225,25 +225,26 @@ const std::vector<QPointer<LinkController>>& PositionedItem::subLinks() const
     return m_subNodelinks;
 }
 
-int PositionedItem::subNodeCount() const
+int PositionedItem::subNodeCount(QSet<LinkController*>& alreadySeen) const
 {
-    int sum= std::accumulate(m_subNodelinks.begin(), m_subNodelinks.end(), 0, [](int& a, LinkController* link) {
-        static QSet<LinkController*> alreadySeen;
-        if(nullptr == link)
-            return 0;
-        auto end= link->end();
-        if(nullptr == end)
-            return 0;
+    int sum= std::accumulate(m_subNodelinks.begin(), m_subNodelinks.end(), 0,
+                             [&alreadySeen](int& a, LinkController* link)
+                             {
+                                 if(nullptr == link)
+                                     return 0;
+                                 auto end= link->end();
+                                 if(nullptr == end)
+                                     return 0;
 
-        int res = 0;
-        if(!alreadySeen.contains(link))
-            res= a + 1 + end->subNodeCount();
-        else
-            res= a + end->subNodeCount();
+                                 int res= 0;
+                                 if(!alreadySeen.contains(link))
+                                     res= a + 1 + end->subNodeCount(alreadySeen);
+                                 else
+                                     res= a + end->subNodeCount(alreadySeen);
 
-        alreadySeen.insert(link);
-        return res;
-    });
+                                 alreadySeen.insert(link);
+                                 return res;
+                             });
     return sum;
 }
 
@@ -260,11 +261,13 @@ void PositionedItem::removeLink(LinkController* link)
 void PositionedItem::setLinkVisibility()
 {
     bool visiblility= isVisible() & m_open;
-    std::for_each(m_subNodelinks.begin(), m_subNodelinks.end(), [visiblility](LinkController* link) {
-        if(nullptr == link)
-            return;
-        link->setVisible(visiblility);
-    });
+    std::for_each(m_subNodelinks.begin(), m_subNodelinks.end(),
+                  [visiblility](LinkController* link)
+                  {
+                      if(nullptr == link)
+                          return;
+                      link->setVisible(visiblility);
+                  });
 }
 
 void PositionedItem::translate(const QPointF& motion)

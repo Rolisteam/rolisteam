@@ -91,7 +91,7 @@ public:
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
     void setCorner(const QPointF& move, int corner,
-        Core::TransformType transformType= Core::TransformType::NoTransform) override;
+                   Core::TransformType transformType= Core::TransformType::NoTransform) override;
     QColor color() const override;
     QRectF rect() const override;
 
@@ -133,7 +133,6 @@ signals:
     void avatarChanged();
     void fontChanged(QFont font);
     void radiusChanged(qreal radius);
-    void remoteChanged(bool r);
     void stateIdChanged(QString s);
     void stateImageChanged(QString si);
     void healthStatusVisibleChanged(bool);

@@ -125,25 +125,27 @@ void AudioPlayerUpdater::initSignalForGM()
     connect(model3, &MusicModel::rowsRemoved, this, func3);
     connect(model3, &MusicModel::modelReset, this, func3);
 
-    connect(m_campaign, &campaign::CampaignManager::campaignLoaded, this,
-            [ctrl1, ctrl2, ctrl3, this]()
-            {
-                qDebug() << "campaignLOADED" << m_localIsGM;
-                if(!m_localIsGM)
-                    return;
-                bool ok;
-                IOHelper::fetchAudioPlayerController(
-                    ctrl1, IOHelper::loadJsonFileIntoObject(
-                               m_campaign->placeDirectory(campaign::Campaign::Place::FIRST_AUDIO_PLAYER_FILE), ok));
+    if(m_campaign)
+        connect(m_campaign, &campaign::CampaignManager::campaignLoaded, this,
+                [ctrl1, ctrl2, ctrl3, this]()
+                {
+                    qDebug() << "campaignLOADED" << m_localIsGM;
+                    if(!m_localIsGM)
+                        return;
+                    bool ok;
+                    IOHelper::fetchAudioPlayerController(
+                        ctrl1, IOHelper::loadJsonFileIntoObject(
+                                   m_campaign->placeDirectory(campaign::Campaign::Place::FIRST_AUDIO_PLAYER_FILE), ok));
 
-                IOHelper::fetchAudioPlayerController(
-                    ctrl2, IOHelper::loadJsonFileIntoObject(
-                               m_campaign->placeDirectory(campaign::Campaign::Place::SECOND_AUDIO_PLAYER_FILE), ok));
+                    IOHelper::fetchAudioPlayerController(
+                        ctrl2,
+                        IOHelper::loadJsonFileIntoObject(
+                            m_campaign->placeDirectory(campaign::Campaign::Place::SECOND_AUDIO_PLAYER_FILE), ok));
 
-                IOHelper::fetchAudioPlayerController(
-                    ctrl3, IOHelper::loadJsonFileIntoObject(
-                               m_campaign->placeDirectory(campaign::Campaign::Place::THIRD_AUDIO_PLAYER_FILE), ok));
-            });
+                    IOHelper::fetchAudioPlayerController(
+                        ctrl3, IOHelper::loadJsonFileIntoObject(
+                                   m_campaign->placeDirectory(campaign::Campaign::Place::THIRD_AUDIO_PLAYER_FILE), ok));
+                });
 
     // Network
     // play new song

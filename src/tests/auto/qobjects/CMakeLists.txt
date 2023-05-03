@@ -10,7 +10,7 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test Core Wid
 
 
 
-add_executable(tst_qobjects tst_qobjects.cpp)
+add_executable(tst_qobjects tst_qobjects.cpp ../assets/resources.qrc)
 target_link_libraries(tst_qobjects
     PUBLIC
         Qt6::Core

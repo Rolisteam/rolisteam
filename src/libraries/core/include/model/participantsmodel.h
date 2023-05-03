@@ -26,7 +26,7 @@
 #include <QJsonObject>
 #include <core_global.h>
 class Player;
-class CORE_EXPORT  ParticipantsModel : public QAbstractProxyModel
+class CORE_EXPORT ParticipantsModel : public QAbstractProxyModel
 {
     Q_OBJECT
 public:
@@ -52,9 +52,9 @@ public:
     void setOwnerId(const QString& id);
 
     void saveModel(QJsonObject& root);
+    void loadModel(QJsonObject& root);
 
     ParticipantsModel::Permission getPermissionFor(Player* player);
-    void loadModel(QJsonObject& root);
 
 public slots:
     void promotePlayerToRead(const QModelIndex& index);

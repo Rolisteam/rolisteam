@@ -173,7 +173,7 @@ void Player::addCharacter(const QString& name, const QColor& color, const QByteA
 
 void Player::addCharacter(Character* character)
 {
-    if(containsPointer(character, m_characters))
+    if(!character || containsPointer(character, m_characters))
         return;
 
     std::unique_ptr<Character> data(character);

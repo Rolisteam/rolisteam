@@ -36,24 +36,19 @@ QAbstractItemModel* ShortcutVisitor::getModel() const
 
 bool ShortcutVisitor::registerWidget(QWidget* widget, const QString& categoryName, bool recursion)
 {
-    if(m_categoriesNames.find(widget) != m_categoriesNames.end())
+    if(m_categoriesNames.contains(widget))
         return false; // widget already registered
 
-    const QString& categoryIndex= m_categoriesNames[widget];
+    m_categoriesNames.append(widget, categoryName);
 
-    if(!categoryIndex.isNull())
-        return false; // Error during creation (category name already used)
-
-    m_categoriesNames[widget]= categoryName;
-
-    visit(widget, categoryIndex, recursion);
-    // connect(widget, SIGNAL(destroyed(QObject*)), this, SLOT(onWidgetDeleted(QObject*)));
+    visit(widget, categoryName, recursion);
+    connect(widget, &QWidget::destroyed, this, &ShortcutVisitor::objectDeleted);
     return true;
 }
 
 bool ShortcutVisitor::unregisterWidget(QWidget* widget)
 {
-    if(m_categoriesNames.contains(widget))
+    if(!m_categoriesNames.contains(widget))
         return false;
 
     const QString& category= m_categoriesNames[widget];
@@ -61,8 +56,8 @@ bool ShortcutVisitor::unregisterWidget(QWidget* widget)
     if(category.isEmpty())
         return false;
 
-    // disconnect(widget, SIGNAL(destroyed(QObject*)), this, SLOT(objectDeleted(QObject*)));
-    m_model->removeCategory(category);
+    disconnect(widget, &QWidget::destroyed, this, &ShortcutVisitor::objectDeleted);
+    m_model->removeCategory(category, true);
     return true;
 }
 
@@ -74,7 +69,7 @@ void ShortcutVisitor::objectDeleted(QObject* obj)
         unregisterWidget(widget);
     }
 }
-#include <QDebug>
+
 void ShortcutVisitor::visit(QWidget* widget, const QString& category, bool recursion)
 {
     QList<QAction*> actions= widget->actions();

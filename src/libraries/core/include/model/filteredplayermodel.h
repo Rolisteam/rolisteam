@@ -32,7 +32,8 @@ public:
     explicit FilteredPlayerModel(const QStringList& list, QObject* parent= nullptr);
 
     // Basic functionality:
-    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    //int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    //QModelIndex index(int row, int col, const QModelIndex& parent) const override;
 
     QStringList recipiantIds() const;
 

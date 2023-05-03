@@ -36,7 +36,7 @@ RolisteamTheme::RolisteamTheme(QPalette pal, QString name, QString css, QStyle* 
     m_paletteModel->setPalette(pal);
 }
 
-RolisteamTheme::~RolisteamTheme() {}
+RolisteamTheme::~RolisteamTheme()= default;
 
 void RolisteamTheme::setPalette(QPalette pal)
 {

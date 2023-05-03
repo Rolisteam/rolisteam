@@ -2,16 +2,18 @@
 
 #include "helper_global.h"
 #include "network/networkmessage.h"
-//#include "utils/iohelper.h"
+// #include "utils/iohelper.h"
 #include <QByteArray>
+#include <QColor>
 #include <QPointF>
 #include <QRectF>
-#include <QColor>
 #include <QStringList>
+#include <QUrl>
+#include <QMovie>
+#include <map>
 #include <random>
 #include <type_traits>
 #include <utility>
-#include <map>
 
 class QObject;
 namespace Helper
@@ -68,7 +70,7 @@ private:
     QByteArray m_msgData;
 };
 
-HELPER_EXPORT std::pair<bool, QStringList> testAllProperties(QObject* obj);
+HELPER_EXPORT std::pair<bool, QStringList> testAllProperties(QObject* obj, bool setAgain= true);
 
 template <typename T>
 T generate(const T& min, const T& max) //=std::numeric_limits<T>::min(),
@@ -98,24 +100,25 @@ T generate(const T& min, const T& max) //=std::numeric_limits<T>::min(),
     return res;
 }
 HELPER_EXPORT const std::map<QString, QVariant> buildRectController(bool filled, const QRectF& rect,
-                                                      const QPointF& pos= QPointF(0, 0));
+                                                                    const QPointF& pos= QPointF(0, 0));
 
-HELPER_EXPORT const std::map<QString, QVariant> buildTextController(bool border, const QString& text, const QRectF& rect,
-                                                      const QPointF& pos= QPointF(0, 0));
+HELPER_EXPORT const std::map<QString, QVariant>
+buildTextController(bool border, const QString& text, const QRectF& rect, const QPointF& pos= QPointF(0, 0));
 
 HELPER_EXPORT const std::map<QString, QVariant> buildEllipseController(bool filled, qreal rx, qreal ry,
-                                                         const QPointF& pos= QPointF(0, 0));
+                                                                       const QPointF& pos= QPointF(0, 0));
 
 HELPER_EXPORT const std::map<QString, QVariant> buildImageController(const QString& path, const QRectF& rect,
-                                                       const QPointF& pos= QPointF(0, 0));
+                                                                     const QPointF& pos= QPointF(0, 0));
 
 HELPER_EXPORT const std::map<QString, QVariant> buildPenController(bool filled, const std::vector<QPointF>& points,
-                                                     const QPointF& pos);
+                                                                   const QPointF& pos);
 
 HELPER_EXPORT const std::map<QString, QVariant> buildPathController(bool filled, const std::vector<QPointF>& points,
-                                                      const QPointF& pos= QPointF(0, 0));
+                                                                    const QPointF& pos= QPointF(0, 0));
 HELPER_EXPORT const std::map<QString, QVariant> buildLineController(const QPointF& p1, const QPointF& p2,
-                                                      const QPointF& pos= QPointF(0, 0));
+                                                                    const QPointF& pos= QPointF(0, 0));
+HELPER_EXPORT const std::map<QString, QVariant> buildTokenController(bool isNpc, const QPointF& pos);
 
 QString randomString(int length= 10)
 {
@@ -130,9 +133,20 @@ QString randomString(int length= 10)
     return res;
 }
 
-HELPER_EXPORT QString imagePath(bool isSquare = false);
+HELPER_EXPORT QString imagePath(bool isSquare= false);
+HELPER_EXPORT QUrl imagePathUrl(bool isSquare = false);
 HELPER_EXPORT QByteArray imageData(bool isSquare= false);
+HELPER_EXPORT QByteArray randomData(int length= 1000);
 HELPER_EXPORT QColor randomColor();
 HELPER_EXPORT QPointF randomPoint();
-HELPER_EXPORT QObject* initWebServer(int port = 9090);
+HELPER_EXPORT QRectF randomRect();
+HELPER_EXPORT QObject* initWebServer(int port= 9090);
+HELPER_EXPORT QUrl randomUrl();
+HELPER_EXPORT QMovie randomMovie();
+
+template <typename T>
+T randomFromList(const std::vector<T>& list)
+{
+    return list[generate<int>(0, list.size() - 1)];
+}
 } // namespace Helper

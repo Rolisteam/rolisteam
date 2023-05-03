@@ -68,7 +68,7 @@ public:
     void setAcceleration(const QVector2D& acceleration);
     void applyForce(const QVector2D& force);
     const std::vector<QPointer<LinkController>>& subLinks() const;
-    int subNodeCount() const;
+    int subNodeCount(QSet<LinkController*>& alreadySeen) const;
 
     void addLink(LinkController* link);
     void removeLink(LinkController* link);

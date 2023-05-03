@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <QAbstractItemModelTester>
 #include <QObject>
 #include <QString>
 #include <QtTest>
@@ -217,9 +218,12 @@ void TestAntaFilter::init()
 {
     m_sourceModel.reset(new campaign::NonPlayableCharacterModel(nullptr));
     m_filterModel.reset(new campaign::FilteredCharacterModel());
+    new QAbstractItemModelTester(m_sourceModel.get());
 
     initModel(m_sourceModel.get());
     m_filterModel->setSourceModel(m_sourceModel.get());
+
+    new QAbstractItemModelTester(m_filterModel.get());
 }
 
 void TestAntaFilter::cleanup() {}

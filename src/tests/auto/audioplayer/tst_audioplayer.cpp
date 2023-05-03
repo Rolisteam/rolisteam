@@ -26,6 +26,7 @@
 
 #include "controller/audiocontroller.h"
 #include "controller/audioplayercontroller.h"
+#include "rwidgets/customs/playerwidget.h"
 #include "model/musicmodel.h"
 #include "test_root_path.h"
 
@@ -53,6 +54,9 @@ private slots:
     void playSongInLoop();
     void playSongInLoop_data();
 
+
+    void playerWidget();
+
 private:
     std::unique_ptr<AudioPlayerController> m_audioController;
     std::unique_ptr<AudioController> m_audiosCtrl;
@@ -66,19 +70,33 @@ void TestAudioPlayer::init()
     m_audioController->setLocalIsGm(true);
     m_audiosCtrl.reset(new AudioController(nullptr, nullptr));
     m_audiosCtrl->setLocalIsGM(true);
-    //    m_audioPlayer.reset(new AudioPlayer());
-    // m_playerWidget.reset(new PlayerWidget(0));
+}
+
+void TestAudioPlayer::playerWidget()
+{
+    PlayerWidget playerWidget(m_audioController.get());
+
+    QMenu menu;
+    playerWidget.addActionsIntoMenu(&menu);
+
+    auto listAct = menu.actions();
+
+    /*for(auto act: listAct)
+    {
+        //act->trigger();
+    }*/
 }
 
 void TestAudioPlayer::mode()
 {
-    m_audioController->addSong({QUrl("qrc:/music/07.mp3"),
-                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "break.mp3")),
-                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "quickFixes.mp3")),
-                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "taskFailed.mp3")),
-                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "taskCompleted.mp3")),
-                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "warning.mp3")),
-                                QUrl::fromUserInput(QString("file://%1/%2").arg(tests::root_path, "error.mp3"))});
+    m_audioController->addSong(
+        {QUrl("qrc:/music/07.mp3"),
+         QUrl::fromUserInput(QString("file://%1/resources/%2").arg(tests::root_path, "break.mp3")),
+         QUrl::fromUserInput(QString("file://%1/resources/%2").arg(tests::root_path, "quickFixes.mp3")),
+         QUrl::fromUserInput(QString("file://%1/resources/%2").arg(tests::root_path, "taskFailed.mp3")),
+         QUrl::fromUserInput(QString("file://%1/resources/%2").arg(tests::root_path, "taskCompleted.mp3")),
+         QUrl::fromUserInput(QString("file://%1/resources/%2").arg(tests::root_path, "warning.mp3")),
+         QUrl::fromUserInput(QString("file://%1/resources/%2").arg(tests::root_path, "error.mp3"))});
     auto model= m_audioController->model();
     m_audioController->setPlayingMode(AudioPlayerController::PlayingMode::NEXT);
     QSignalSpy spy(m_audioController.get(), &AudioPlayerController::stateChanged);
@@ -118,6 +136,7 @@ void TestAudioPlayer::mode()
     QVERIFY(model->indexOfCurrent() == 1);
     m_audioController->setPlayingMode(AudioPlayerController::PlayingMode::LOOP);
 
+    spy.wait(TIME_SONG);
     spy.wait(TIME_SONG);
 
     arg= spy.takeLast();
