@@ -1,6 +1,9 @@
+# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
+"PO-Revision-Date: 2023-05-27 00:53-0700\n"
+"Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -765,6 +768,7 @@ msgctxt "QObject|"
 msgid "Delete %n Field(s)"
 msgid_plural "Delete %n Field(s)"
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/binaries/rcse/undo/deletepagecommand.cpp:37
 #, qt-format
@@ -778,6 +782,7 @@ msgctxt "QObject|"
 msgid "Move %n Field(s)"
 msgid_plural "Move %n Field(s)"
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:51
 #, qt-format
@@ -2552,6 +2557,7 @@ msgctxt "QObject|"
 msgid "Move %n item(s)"
 msgid_plural "Move %n item(s)"
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:154
 #, qt-format
@@ -2746,6 +2752,7 @@ msgctxt "RGraphicsView|"
 msgid "%n item(s)"
 msgid_plural "%n item(s)"
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:241
 msgctxt "RGraphicsView|"
@@ -3129,6 +3136,7 @@ msgctxt "CampaignProperties|"
 msgid "%n file(s)"
 msgid_plural "%n file(s)"
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
