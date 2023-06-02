@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2023-04-28 23:52+0100\n"
+"PO-Revision-Date: 2023-06-01 18:38+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -776,8 +776,8 @@ msgstr "Forigi Signon #%1"
 msgctxt "QObject|"
 msgid "Delete %n Field(s)"
 msgid_plural "Delete %n Field(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Forigi %n Kampo(j)n"
+msgstr[1] "Forigi %n Kampo(j)n"
 
 #: src/binaries/rcse/undo/deletepagecommand.cpp:37
 #, qt-format
@@ -790,8 +790,8 @@ msgstr "Forigi paĝon #%1"
 msgctxt "QObject|"
 msgid "Move %n Field(s)"
 msgid_plural "Move %n Field(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Move %n Kampo(j)n"
+msgstr[1] "Move %n Kampo(j)n"
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:51
 #, qt-format
@@ -2580,8 +2580,8 @@ msgstr "Ŝanĝi stakordon de %1 elemento(j)"
 msgctxt "QObject|"
 msgid "Move %n item(s)"
 msgid_plural "Move %n item(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Movi %n objekto(j)n"
+msgstr[1] "Movi %n objekto(j)n"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:154
 #, qt-format
@@ -2777,8 +2777,8 @@ msgstr "Konservi Ludan Liston"
 msgctxt "RGraphicsView|"
 msgid "%n item(s)"
 msgid_plural "%n item(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n objekto(j)"
+msgstr[1] "%n objekto(j)"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:241
 msgctxt "RGraphicsView|"
@@ -3174,8 +3174,8 @@ msgstr "Kampanjo Propraĵoj"
 msgctxt "CampaignProperties|"
 msgid "%n file(s)"
 msgid_plural "%n file(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n dosiero(j)"
+msgstr[1] "%n dosiero(j)"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
