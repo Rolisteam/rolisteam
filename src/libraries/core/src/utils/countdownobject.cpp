@@ -57,6 +57,7 @@ void CountDownObject::start()
 {
     setRunning(true);
     m_timer->start();
+    emit triggered(m_allDown / m_countDown);
 }
 void CountDownObject::pause()
 {

@@ -129,7 +129,6 @@ private slots:
 private:
     void startServer();
     void startClient();
-
     void stopClient();
 
 private:

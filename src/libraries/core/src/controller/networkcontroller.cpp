@@ -54,7 +54,7 @@ NetworkController::NetworkController(QObject* parent)
     , m_clientManager(new ClientManager)
     , m_profileModel(new ProfileModel)
     , m_channelModel(new ChannelModel)
-    , m_countDown(new CountDownObject(10, 5000))
+    , m_countDown(new CountDownObject(5, 10))
 {
     qRegisterMetaType<RServer::ServerState>();
     SettingsHelper::readConnectionProfileModel(m_profileModel.get());
