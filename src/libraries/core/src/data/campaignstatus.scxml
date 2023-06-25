@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" name="campaignstatus" qt:editorversion="4.14.2" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" initial="Idle">
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" name="campaignstatus" qt:editorversion="10.0.1" initial="unloaded">
     <qt:editorinfo initialGeometry="116.18;24.46;-20;-20;40;40"/>
-    <state id="Idle">
-        <qt:editorinfo geometry="150.82;195.66;-60;-50;120;100" scenegeometry="150.82;195.66;90.82;145.66;120;100"/>
-        <transition type="external" event="rootDirectoryChanged" target="Checking"/>
+    <state id="unloaded">
+        <qt:editorinfo scenegeometry="150.82;195.66;90.82;145.66;120;100" geometry="150.82;195.66;-60;-50;120;100"/>
+        <transition type="external" event="rootDirectory" target="Checking"/>
     </state>
     <state id="Checking">
-        <qt:editorinfo geometry="446.36;195.66;-60;-50;120;100" scenegeometry="446.36;195.66;386.36;145.66;120;100"/>
+        <qt:editorinfo scenegeometry="446.36;195.66;386.36;145.66;120;100" geometry="446.36;195.66;-60;-50;120;100"/>
         <transition type="external" event="IntergrityChecked" target="Ready">
-            <qt:editorinfo localGeometry="361.78;200.77" movePoint="221.14;105.99"/>
+            <qt:editorinfo localGeometry="210.68;182.52" movePoint="221.14;105.99"/>
         </transition>
     </state>
     <state id="Ready">
-        <qt:editorinfo geometry="472.85;589.03;-60;-50;120;100" scenegeometry="472.85;589.03;412.85;539.03;120;100"/>
+        <qt:editorinfo scenegeometry="472.85;589.03;412.85;539.03;120;100" geometry="472.85;589.03;-60;-50;120;100"/>
         <transition type="external" event="rootDirectoryChanged" target="Checking" cond="!rootDirectory.isEmpty()">
-            <qt:editorinfo endTargetFactors="26.02;78.10" startTargetFactors="10.30;66.76" localGeometry="-135.79;-226.69" movePoint="41.79;-108.02"/>
+            <qt:editorinfo endTargetFactors="26.02;78.10" localGeometry="-7.63;-219.49" movePoint="41.79;-108.02" startTargetFactors="10.30;66.76"/>
         </transition>
-        <transition type="external" event="rootDirectoryChanged" target="Idle" cond="roodDirectory.isEmpty">
-            <qt:editorinfo endTargetFactors="68.74;78.12" startTargetFactors="58.98;71.11" localGeometry="-310.32;0"/>
+        <transition type="external" event="rootDirectoryChanged" target="unloaded" cond="roodDirectory.isEmpty">
+            <qt:editorinfo endTargetFactors="68.74;78.12" localGeometry="-310.32;0" startTargetFactors="58.98;71.11"/>
         </transition>
     </state>
 </scxml>
