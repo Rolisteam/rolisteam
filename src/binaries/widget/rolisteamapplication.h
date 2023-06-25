@@ -28,16 +28,7 @@ class QQmlApplicationEngine;
 class RolisteamApplication : public QApplication
 {
     Q_OBJECT
-    Q_PROPERTY(ApplicationState state READ state NOTIFY stateChanged)
 public:
-    enum class ApplicationState
-    {
-        SelectProfile,
-        Playing,
-        Exit
-    };
-    Q_ENUM(ApplicationState)
-
     RolisteamApplication(const QString& appName, const QString& version, int& argn, char* argv[]);
 
     bool notify(QObject* receiver, QEvent* e);
@@ -45,25 +36,19 @@ public:
     GameController* gameCtrl();
 
     void readSettings();
-    ApplicationState state() const;
 
     void setTranslator(const QStringList& list);
 
-    void start();
-
 signals:
-    void stateChanged();
+    void quitApp();
+    void connectStatusChanged(bool b);
 
 protected:
     void configureEnginePostLoad(QQmlApplicationEngine* engine);
 
 private:
-    void setState(ApplicationState state);
-
-private:
     QList<QTranslator*> m_translators;
     GameController m_game;
-    ApplicationState m_state= ApplicationState::SelectProfile;
 };
 
 #endif // ROLISTEAMAPPLICATION_H

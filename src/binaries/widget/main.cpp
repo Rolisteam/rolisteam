@@ -38,6 +38,8 @@
 #include "uiwatchdog.h"
 #include "version.h"
 
+#include "applicationstate.h"
+
 Q_DECLARE_LOGGING_CATEGORY(rNetwork);
 Q_LOGGING_CATEGORY(rNetwork, "rolisteam.network");
 Q_DECLARE_LOGGING_CATEGORY(rDice);
@@ -83,6 +85,15 @@ Q_LOGGING_CATEGORY(rDice, "rolisteam.dice");
  *
  *
  */
+
+namespace {
+constexpr auto profilSelection{"profil_selection"};
+constexpr auto quit{"quit"};
+constexpr auto playing("playing");
+constexpr auto exitState{"exit"};
+constexpr auto connected{"connected"};
+constexpr auto disconnected{"disconnected"};
+}
 
 /**
  * @brief main
@@ -132,37 +143,45 @@ int main(int argc, char* argv[])
 #endif
 
 #ifndef UNIT_TESTS
-    // UiWatchdog dog;
-    // dog.start();
+    //UiWatchdog dog;
+    //dog.start();
 #endif
-
+    ApplicationState states;
     SelectConnectionProfileDialog connectionDialog(app.gameCtrl());
     MainWindow mainWindow(app.gameCtrl(), app.arguments());
 
-    QObject::connect(&app, &RolisteamApplication::stateChanged, &app,
-                     [&app, &connectionDialog, &mainWindow]()
-                     {
-                         auto state= app.state();
-                         using RA= RolisteamApplication::ApplicationState;
-                         switch(state)
-                         {
-                         case RA::SelectProfile:
-                             connectionDialog.setVisible(true);
-                             mainWindow.makeVisible(false);
-                             break;
-                         case RA::Playing:
-                             connectionDialog.accept();
-                             mainWindow.makeVisible(true);
-                             connectionDialog.setVisible(false);
-                             break;
-                         case RA::Exit:
-                             mainWindow.makeVisible(false);
-                             connectionDialog.setVisible(false);
-                             QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
-                             break;
-                         }
-                     });
+    states.connectToState(profilSelection, QScxmlStateMachine::onEntry([&connectionDialog,&mainWindow](){
+        qDebug() << "on Select profile";
+        connectionDialog.setVisible(true);
+        mainWindow.makeVisible(false);
+    }));
+    states.connectToState(playing, QScxmlStateMachine::onEntry([&connectionDialog,&mainWindow](){
+        qDebug() << "on playing";
+        connectionDialog.accept();
+        mainWindow.makeVisible(true);
+        connectionDialog.setVisible(false);
+    }));
+    states.connectToState(exitState, QScxmlStateMachine::onEntry([&states, &connectionDialog,&mainWindow, &app](){
+                              qDebug() << "on exit";
+                              states.stop();
+                              mainWindow.makeVisible(false);
+                              connectionDialog.setVisible(false);
+                              QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
+                          }));
 
-    connectionDialog.setVisible(true);
+    QObject::connect(&app, &RolisteamApplication::quitApp, &states, [&states](){
+        qDebug() << "on quit app event";
+        states.submitEvent(quit);
+    });
+
+    QObject::connect(&app, &RolisteamApplication::connectStatusChanged, &states, [&states](bool b){
+        qDebug() << "on status changed" << b;
+        if(b)
+            states.submitEvent(connected);
+        else
+            states.submitEvent(disconnected);
+    });
+
+    states.start();
     return app.exec();
 }

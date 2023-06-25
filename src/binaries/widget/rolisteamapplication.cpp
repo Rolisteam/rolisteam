@@ -31,9 +31,12 @@ RolisteamApplication::RolisteamApplication(const QString& appName, const QString
     : QApplication(argn, argv), m_game(GameController(appName, version, clipboard()))
 {
     setAttribute(Qt::AA_DontUseNativeMenuBar, true);
-    connect(&m_game, &GameController::closingApp, this, [this]() { setState(ApplicationState::Exit); });
+    connect(&m_game, &GameController::closingApp, this, [this]() {
+        emit quitApp();
+    });
     connect(m_game.networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
-        setState(connected ? ApplicationState::Playing : ApplicationState::SelectProfile);
+        qDebug() << "app connection status changed" << connected;
+        emit connectStatusChanged(connected);
     });
     #ifdef Q_OS_WIN
         QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << ":/resources");
@@ -108,11 +111,6 @@ void RolisteamApplication::readSettings()
     }
 }
 
-RolisteamApplication::ApplicationState RolisteamApplication::state() const
-{
-    return m_state;
-}
-
 void RolisteamApplication::setTranslator(const QStringList& list)
 {
     for(auto trans : qAsConst(m_translators))
@@ -133,14 +131,6 @@ void RolisteamApplication::setTranslator(const QStringList& list)
         installTranslator(trans);
         m_translators.append(trans);
     }
-}
-
-void RolisteamApplication::setState(ApplicationState state)
-{
-    if(m_state == state)
-        return;
-    m_state= state;
-    emit stateChanged();
 }
 
 void RolisteamApplication::configureEnginePostLoad(QQmlApplicationEngine* engine)

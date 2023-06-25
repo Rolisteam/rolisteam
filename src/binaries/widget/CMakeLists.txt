@@ -32,13 +32,13 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets 
 
 set(RESOURCE_FILES ${CMAKE_SOURCE_DIR}/rolisteam.qrc)
 
-qt6_add_statecharts(QT_SCXML_COMPILED applicationstate.scxml)
-set_property(SOURCE ${QT_SCXML_COMPILED} PROPERTY SKIP_AUTOMOC ON)
+
 
 if("${CAMKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/rolisteam_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")
 endif()
-add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ${RESOURCE_FILES} ${QT_SCXML_COMPILED})
+add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ${RESOURCE_FILES})
+qt6_add_statecharts(rolisteam applicationstate.scxml)
 target_include_directories(rolisteam PRIVATE ../../libraries ${CMAKE_BINARY_DIR})
 
 
