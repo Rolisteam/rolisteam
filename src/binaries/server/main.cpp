@@ -70,7 +70,7 @@
  * Please, visit: https://rolisteam.org/
  *
  * @section tools_subsec Dependencies:
- * Qt5, zlib, QML,
+ * Qt6, zlib, QML,
  * @subpage DiceParser
  *
  * @section copyright Copyright and License
