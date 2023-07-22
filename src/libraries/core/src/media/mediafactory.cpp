@@ -47,6 +47,7 @@
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/vectorialmapmessagehelper.h"
+#include "worker/utilshelper.h"
 
 namespace Media
 {
@@ -69,36 +70,35 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
 
     CharacterSheetController* sheetCtrl= new CharacterSheetController(uuid, path);
 
-    sheetCtrl->setName(params.value(Core::keys::KEY_NAME).toString());
-    sheetCtrl->setQmlCode(params.value(Core::keys::KEY_QML).toString());
+    namespace ck= Core::keys;
+    namespace hu= helper::utils;
+    using std::placeholders::_1;
 
-    if(params.contains(Core::keys::KEY_IMAGEDATA))
+    std::map<QString, QVariant> mapData;
+
+    for(auto it = std::begin(params); it != std::end(params); ++it)
     {
-        auto array= params.value(Core::keys::KEY_IMAGEDATA).toByteArray();
+        mapData.insert({it.key(), it.value()});
+    }
+    hu::setParamIfAny<QString>(ck::KEY_NAME, mapData, std::bind(&CharacterSheetController::setName, sheetCtrl, _1));
+    hu::setParamIfAny<QString>(ck::KEY_QML, mapData, std::bind(&CharacterSheetController::setQmlCode, sheetCtrl, _1));
+    hu::setParamIfAny<QString>(ck::KEY_GMID, mapData, std::bind(&CharacterSheetController::setGameMasterId, sheetCtrl, _1));
+    hu::setParamIfAny<QByteArray>(ck::KEY_IMAGEDATA, mapData, [sheetCtrl](const QByteArray& array){
         auto imgModel= sheetCtrl->imageModel();
         IOWorker::fetchImageModel(imgModel, IOHelper::byteArrayToJsonArray(array));
-    }
-    if(params.contains(Core::keys::KEY_ROOTSECTION))
-    {
-        auto array= params.value(Core::keys::KEY_ROOTSECTION).toByteArray();
+    });
+    hu::setParamIfAny<QByteArray>(ck::KEY_ROOTSECTION, mapData, [sheetCtrl](const QByteArray& array){
         auto sheetModel= sheetCtrl->model();
         // sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
-    }
-
-    sheetCtrl->setGameMasterId(params.value(Core::keys::KEY_GMID).toString());
-
-    if(params.contains(Core::keys::KEY_DATA) && params.contains(Core::keys::KEY_CHARACTERID))
-    {
-        auto array= params.value(Core::keys::KEY_DATA).toByteArray();
-        auto characterId= params.value(Core::keys::KEY_CHARACTERID).toString();
-        sheetCtrl->addCharacterSheet(IOHelper::byteArrayToJsonObj(array), characterId);
-    }
-
-    if(params.contains(Core::keys::KEY_SERIALIZED))
-    {
-        auto serializedData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
-        IOHelper::readCharacterSheetController(sheetCtrl, serializedData);
-    }
+    });
+    hu::setParamIfAny<QByteArray>(ck::KEY_DATA, mapData, [sheetCtrl, mapData](const QByteArray& array){
+        hu::setParamIfAny<QString>(ck::KEY_CHARACTERID, mapData, [sheetCtrl, array](const QString& characterId){
+            sheetCtrl->addCharacterSheet(IOHelper::byteArrayToJsonObj(array), characterId);
+        });
+    });
+    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, mapData, [sheetCtrl](const QByteArray& array){
+        IOHelper::readCharacterSheetController(sheetCtrl, array);
+    });
     return sheetCtrl;
 }
 
@@ -108,23 +108,40 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
 
     QByteArray serializedData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
 
-    if(!params.isEmpty())
+    if(!params.isEmpty() /*&& serializedData.isEmpty()*/)
     {
         namespace ck= Core::keys;
-        vmapCtrl->setName(params.value(ck::KEY_NAME).toString());
-        vmapCtrl->setLayer(params.value(ck::KEY_LAYER).value<Core::Layer>());
-        vmapCtrl->setPermission(params.value(ck::KEY_PERMISSION).value<Core::PermissionMode>());
-        vmapCtrl->setBackgroundColor(params.value(ck::KEY_BGCOLOR).value<QColor>());
-        vmapCtrl->setVisibility(params.value(ck::KEY_VISIBILITY).value<Core::VisibilityMode>());
-        vmapCtrl->setZindex(params.value(ck::KEY_ZINDEX).toInt());
-        vmapCtrl->setCharacterVision(params.value(ck::KEY_CHARACTERVISION).toBool());
-        vmapCtrl->setGridPattern(params.value(ck::KEY_GRIDPATTERN).value<Core::GridPattern>());
-        vmapCtrl->setGridVisibility(params.value(ck::KEY_GRIDVISIBILITY).toBool());
-        vmapCtrl->setGridSize(params.value(ck::KEY_GRIDSIZE).toInt());
-        vmapCtrl->setGridScale(params.value(ck::KEY_GRIDSCALE).toDouble());
-        vmapCtrl->setGridAbove(params.value(ck::KEY_GRIDABOVE).toBool());
-        vmapCtrl->setScaleUnit(params.value(ck::KEY_UNIT).value<Core::ScaleUnit>());
-        vmapCtrl->setGridColor(params.value(ck::KEY_GRIDCOLOR).value<QColor>());
+        namespace hu= helper::utils;
+        using std::placeholders::_1;
+
+        std::map<QString, QVariant> mapData;
+
+        for(auto it = std::begin(params); it != std::end(params); ++it)
+        {
+            mapData.insert({it.key(), it.value()});
+        }
+
+        // clang-format off
+        hu::setParamIfAny<QString>(ck::KEY_NAME, mapData, std::bind(&VectorialMapController::setName, vmapCtrl, _1));
+        hu::setParamIfAny<Core::Layer>(ck::KEY_LAYER, mapData, std::bind(&VectorialMapController::setLayer, vmapCtrl, _1));
+        hu::setParamIfAny<Core::PermissionMode>(ck::KEY_PERMISSION, mapData, std::bind(&VectorialMapController::setPermission, vmapCtrl, _1));
+        hu::setParamIfAny<QColor>(ck::KEY_BGCOLOR, mapData, std::bind(&VectorialMapController::setBackgroundColor, vmapCtrl, _1));
+        hu::setParamIfAny<Core::VisibilityMode>(ck::KEY_VISIBILITY, mapData, std::bind(&VectorialMapController::setVisibility, vmapCtrl, _1));
+        hu::setParamIfAny<int>(ck::KEY_ZINDEX, mapData, std::bind(&VectorialMapController::setZindex, vmapCtrl, _1));
+        hu::setParamIfAny<bool>(ck::KEY_CHARACTERVISION, mapData, std::bind(&VectorialMapController::setCharacterVision, vmapCtrl, _1));
+        hu::setParamIfAny<Core::GridPattern>(ck::KEY_GRIDPATTERN, mapData, std::bind(&VectorialMapController::setGridPattern, vmapCtrl, _1));
+        hu::setParamIfAny<bool>(ck::KEY_GRIDVISIBILITY, mapData, std::bind(&VectorialMapController::setGridVisibility, vmapCtrl, _1));
+        hu::setParamIfAny<int>(ck::KEY_GRIDSIZE, mapData, std::bind(&VectorialMapController::setGridSize, vmapCtrl, _1));
+        hu::setParamIfAny<qreal>(ck::KEY_GRIDSCALE, mapData, std::bind(&VectorialMapController::setGridScale, vmapCtrl, _1));
+        hu::setParamIfAny<bool>(ck::KEY_GRIDABOVE, mapData, std::bind(&VectorialMapController::setGridAbove, vmapCtrl, _1));
+        hu::setParamIfAny<Core::ScaleUnit>(ck::KEY_UNIT, mapData, std::bind(&VectorialMapController::setScaleUnit, vmapCtrl, _1));
+        hu::setParamIfAny<QColor>(ck::KEY_GRIDCOLOR, mapData, std::bind(&VectorialMapController::setGridColor, vmapCtrl, _1));
+        hu::setParamIfAny<bool>(Core::vmapkeys::KEY_LOCKED, mapData, std::bind(&VectorialMapController::setGridVisibility, vmapCtrl, _1));
+        auto sightCtrl = vmapCtrl->sightController();
+        auto sightParam = params.value(Core::keys::KEY_SIGHT).toHash();
+        VectorialMapMessageHelper::fetchSightController(sightCtrl, sightParam);
+        // clang-format on
+
         vmapCtrl->setIdle(true);
 
         auto items= params.value(ck::KEY_ITEMS).toHash();
