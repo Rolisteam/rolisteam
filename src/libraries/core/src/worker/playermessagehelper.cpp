@@ -26,11 +26,8 @@
 #include "data/character.h"
 #include "data/player.h"
 //#include "model/playermodel.h"
-#include "network/clientmanager.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-
-PlayerMessageHelper::PlayerMessageHelper() {}
 
 void PlayerMessageHelper::sendOffConnectionInfo(Player* player, const QByteArray& password)
 {
@@ -56,7 +53,6 @@ void PlayerMessageHelper::sendOffPlayerInformations(Player* player)
 
 void PlayerMessageHelper::writePlayerIntoMessage(NetworkMessageWriter& msg, Player* player)
 {
-    Q_ASSERT(nullptr != player);
     if(nullptr == player)
         return;
 
@@ -93,7 +89,6 @@ void PlayerMessageHelper::writePlayerIntoMessage(NetworkMessageWriter& msg, Play
 
 void PlayerMessageHelper::writeCharacterIntoMessage(NetworkMessageWriter& msg, Character* character)
 {
-    Q_ASSERT(nullptr != character);
     if(nullptr == character)
         return;
 
@@ -106,6 +101,8 @@ void PlayerMessageHelper::writeCharacterIntoMessage(NetworkMessageWriter& msg, C
     msg.int32(character->number());
     auto color= character->getColor();
     msg.rgb(color.rgb());
+    auto lifeColor = character->getLifeColor();
+    msg.rgb(lifeColor.rgb());
     msg.int32(character->getHealthPointsCurrent());
     msg.int32(character->getHealthPointsMin());
     msg.int32(character->getHealthPointsMax());
@@ -119,17 +116,6 @@ void PlayerMessageHelper::writeCharacterIntoMessage(NetworkMessageWriter& msg, C
     msg.uint8(static_cast<quint8>(!avatar.isNull()));
     if(!avatar.isNull())
         msg.byteArray32(avatar);
-    /* if(!avatar.isNull())
-     {
-         QByteArray baImage;
-         QBuffer bufImage(&baImage);
-         if(avatar.save(&bufImage, "PNG", 70))
-         {
-             msg.byteArray32(baImage);
-             qDebug() << "writeCharacterIntoMessage image data: " << baImage.size()
-                      << "size of message:" << msg.getDataSize() << msg.action() << " categoriy" << msg.category();
-         }
-     }*/
 }
 
 bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
@@ -206,6 +192,7 @@ Character* PlayerMessageHelper::readCharacter(NetworkMessageReader& msg)
     character->setNpc(static_cast<bool>(msg.uint8()));
     character->setNumber(msg.int32());
     character->setColor(QColor(msg.rgb()));
+    character->setLifeColor(QColor(msg.rgb()));
     character->setHealthPointsCurrent(msg.int32());
     character->setHealthPointsMin(msg.int32());
     character->setHealthPointsMax(msg.int32());

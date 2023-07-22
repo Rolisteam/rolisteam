@@ -22,6 +22,7 @@
 #include <QByteArray>
 #include <QDataStream>
 #include <QPointF>
+#include <QRectF>
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -854,9 +855,12 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
                   });
 
     output << size;
+    qDebug() << "save " << size << " items";
 
     for(auto itemCtrl : vec)
     {
+        if(itemCtrl->removed())
+            continue;
         saveItemController(itemCtrl, output);
     }
 

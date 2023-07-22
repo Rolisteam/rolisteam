@@ -2,6 +2,7 @@
 
 #include <QUndoStack>
 #include <QVariant>
+#include <QClipboard>
 
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
@@ -10,18 +11,12 @@
 #include "rwidgets/mediacontainers/vmapframe.h"
 #include "utils/iohelper.h"
 #include "test_root_path.h"
+#include "rolisteamdaemon.h"
+#include "controller/gamecontroller.h"
 
-int main(int argc, char* argv[])
+
+void defineStates()
 {
-    QApplication app(argc, argv);
-
-    Q_INIT_RESOURCE(viewsqml);
-    Q_INIT_RESOURCE(textedit);
-    Q_INIT_RESOURCE(rolisteam);
-    Q_INIT_RESOURCE(resources);
-
-    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
-
     QList<CharacterState*> states;
     auto cs1= new CharacterState();
     cs1->setId("ii");
@@ -38,10 +33,38 @@ int main(int argc, char* argv[])
     cs2->setImagePath(":/img/lion.jpg");
 
     states << cs2;
-
     Character::setListOfCharacterState(&states);
+}
 
-    QUndoStack undoStack;
+int main(int argc, char* argv[])
+{
+    QApplication app(argc, argv);
+
+    Q_INIT_RESOURCE(viewsqml);
+    Q_INIT_RESOURCE(textedit);
+    Q_INIT_RESOURCE(rolisteam);
+    Q_INIT_RESOURCE(resources);
+
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
+
+
+    {// Server/GM
+        auto controller= new GameController("Server","1.0.0",QGuiApplication::clipboard());
+        auto network = controller->networkController();
+        network->setHosting(true);
+        network->setPort(6660);
+        network->startConnection();
+
+        controller->newMedia({{QString(Core::keys::KEY_TYPE),QVariant::fromValue(Core::ContentType::VECTORIALMAP)}});
+    }
+
+    //RServer server{{"ServerPassword", "server"}, {"AdminPassword", "admin"},true};
+
+    //server.listen();
+
+
+
+    /*QUndoStack undoStack;
 
     VectorialMapController ctrl;
     ctrl.setLocalColor(Qt::cyan);
@@ -52,7 +75,7 @@ int main(int argc, char* argv[])
     // ctrl.setVisibility(Core::ALL);
     //  ctrl.setEditionMode(Core::EditionMode::Mask);
     //  ctrl.setPermission(Core::PC_ALL);
-    ctrl.setLocalId("uuid");
+    ctrl.setLocalId("uuidI");
     ctrl.setOwnerId("uuid");
 
     Character character("aaa", "Lynn Gray-Rike", QColor("#0000DD"), false, 0);
@@ -81,7 +104,6 @@ int main(int argc, char* argv[])
 
     auto d= new vmap::CharacterItemController(params2, &ctrl);
 
-
     VMapFrame frame(&ctrl);
     auto cancel= frame.addAction("Cancel");
     cancel->setShortcut(QKeySequence::Undo);
@@ -94,7 +116,7 @@ int main(int argc, char* argv[])
 
     frame.setVisible(true);
     ctrl.addRemoteItem(c);
-    ctrl.addRemoteItem(d);
+    ctrl.addRemoteItem(d);*/
 
     return app.exec();
 }

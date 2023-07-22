@@ -30,6 +30,8 @@
 #include "utils/mappinghelper.h"
 #include "worker/iohelper.h"
 #include "worker/utilshelper.h"
+#include "worker/convertionhelper.h"
+#include "mindmap/data/mindmaptypes.h"
 #include <helper.h>
 
 class WorkerTest : public QObject
@@ -37,6 +39,29 @@ class WorkerTest : public QObject
     Q_OBJECT
 
 public:
+    enum class Type {
+        Integer,
+        PointF,
+        Real,
+        Bool,
+        ScaleUnit,
+        PermissionMode,
+        GridPattern,
+        Layer,
+        VisibilityMode,
+        Color,
+        Image,
+        RectF,
+        uint16,
+        ByteArray,
+        Font,
+        VecPoint,
+        ShapeVision,
+        Size,
+        PermissionParticipiant,
+        ArrowDirection
+    };
+    Q_ENUM(Type)
     WorkerTest();
 
 private slots:
@@ -52,6 +77,9 @@ private slots:
     void iohelperTest();
 
     void countDownTest();
+
+    void convertionHelperTest();
+    void convertionHelperTest_data();
 };
 
 WorkerTest::WorkerTest() {}
@@ -171,8 +199,136 @@ void WorkerTest::countDownTest()
     QTest::qWait((c+5)*100);
 
     QCOMPARE(spy2.count(), c);
-    QCOMPARE(spy.count(), tryCount);
+    QCOMPARE(spy.count(), tryCount+1);
     QVERIFY(!obj.isRunning());
+}
+
+void WorkerTest::convertionHelperTest()
+{
+    QFETCH(QVariant, data);
+    QFETCH(ulong, size);
+    QFETCH(Type, type);
+
+    NetworkMessageWriter writer(NetMsg::InstantMessageCategory, NetMsg::AddMessage);
+
+    QCOMPARE(writer.currentPos(), 9);
+
+    auto realSize = 9+size;
+
+    switch(type)
+    {
+
+    case Type::Integer:
+        Helper::variantToType<int>(data.value<int>(), writer);
+        break;
+    case Type::PointF:
+        Helper::variantToType<QPointF>(data.value<QPointF>(), writer);
+        break;
+    case Type::Real:
+        Helper::variantToType<qreal>(data.value<qreal>(), writer);
+        break;
+    case Type::Bool:
+        Helper::variantToType<bool>(data.value<bool>(), writer);
+        break;
+    case Type::ScaleUnit:
+        Helper::variantToType<Core::ScaleUnit>(data.value<Core::ScaleUnit>(), writer);
+        break;
+    case Type::PermissionMode:
+        Helper::variantToType<Core::PermissionMode>(data.value<Core::PermissionMode>(), writer);
+        break;
+    case Type::GridPattern:
+        Helper::variantToType<Core::GridPattern>(data.value<Core::GridPattern>(), writer);
+        break;
+    case Type::Layer:
+        Helper::variantToType<Core::Layer>(data.value<Core::Layer>(), writer);
+        break;
+    case Type::VisibilityMode:
+        Helper::variantToType<Core::VisibilityMode>(data.value<Core::VisibilityMode>(), writer);
+        break;
+    case Type::Color:
+        Helper::variantToType<QColor>(data.value<QColor>(), writer);
+        break;
+    case Type::Image:
+        Helper::variantToType<QImage>(data.value<QImage>(), writer);
+        break;
+    case Type::RectF:
+        Helper::variantToType<QRectF>(data.value<QRectF>(), writer);
+        break;
+    case Type::uint16:
+        Helper::variantToType<quint16>(data.value<quint16>(), writer);
+        break;
+    case Type::ByteArray:
+        Helper::variantToType<QByteArray>(data.value<QByteArray>(), writer);
+        break;
+    case Type::Font:
+        Helper::variantToType<QFont>(data.value<QFont>(), writer);
+        break;
+    case Type::VecPoint:
+        Helper::variantToType<std::vector<QPointF>>(data.value<std::vector<QPointF>>(), writer);
+        break;
+    case Type::ShapeVision:
+        Helper::variantToType<CharacterVision::SHAPE>(data.value<CharacterVision::SHAPE>(), writer);
+        break;
+    case Type::Size:
+        Helper::variantToType<QSize>(data.value<QSize>(), writer);
+        break;
+    case Type::PermissionParticipiant:
+        Helper::variantToType<ParticipantModel::Permission>(data.value<ParticipantModel::Permission>(), writer);
+        break;
+    case Type::ArrowDirection:
+        Helper::variantToType<mindmap::ArrowDirection>(data.value<mindmap::ArrowDirection>(), writer);
+        break;
+    }
+    QCOMPARE(writer.currentPos(), realSize);
+}
+
+
+void WorkerTest::convertionHelperTest_data()
+{
+    QTest::addColumn<QVariant>("data");
+    QTest::addColumn<ulong>("size");
+    QTest::addColumn<Type>("type");
+
+
+
+    QTest::addRow("cmd1") << QVariant::fromValue(true) << sizeof(bool) << Type::Bool;
+    QTest::addRow("cmd2") << QVariant::fromValue(static_cast<qint64>(23)) << sizeof(qint64) << Type::Integer;
+    QTest::addRow("cmd3") << QVariant::fromValue(23.0) << sizeof(qreal)<< Type::Real;
+    QTest::addRow("cmd4") << QVariant::fromValue(Core::ScaleUnit::FEET) << sizeof(quint8)<< Type::ScaleUnit;
+    QTest::addRow("cmd5") << QVariant::fromValue(Core::PermissionMode::GM_ONLY) << sizeof(quint8)<< Type::PermissionMode;
+    QTest::addRow("cmd6") << QVariant::fromValue(Core::GridPattern::HEXAGON) << sizeof(Core::GridPattern)<< Type::GridPattern;
+    QTest::addRow("cmd7") << QVariant::fromValue(Core::Layer::GRIDLAYER) << sizeof(Core::Layer)<< Type::Layer;
+    QTest::addRow("cmd8") << QVariant::fromValue(Core::VisibilityMode::FOGOFWAR) << sizeof(quint8)<< Type::VisibilityMode;
+    QTest::addRow("cmd9") << QVariant::fromValue(QColor(Qt::blue)) << sizeof(unsigned int)<< Type::Color;
+    QImage img = QImage::fromData(Helper::imageData());
+
+    QByteArray data2;
+    QDataStream in(&data2, QIODevice::WriteOnly);
+    in.setVersion(QDataStream::Qt_5_7);
+    in << img;
+
+
+    QTest::addRow("cmd10") << QVariant::fromValue(img) << static_cast<ulong>(sizeof(quint32)+data2.size()) << Type::Image;
+    QTest::addRow("cmd11") << QVariant::fromValue(QPointF{10.0,100.0}) << sizeof(qreal)+sizeof(qreal) << Type::PointF;
+    QTest::addRow("cmd12") << QVariant::fromValue(QRectF{10.0,100.0,100.,100.}) << 4*sizeof(qreal)<< Type::RectF;
+
+    QTest::addRow("cmd13") << QVariant::fromValue(static_cast<quint16>(250)) << sizeof(quint16)<< Type::uint16;
+    auto data = Helper::randomData();
+    QTest::addRow("cmd14") << QVariant::fromValue(data) << static_cast<ulong>(sizeof(quint32)+data.size())<< Type::ByteArray;
+    QFont font;
+    QTest::addRow("cmd15") << QVariant::fromValue(font) << static_cast<ulong>(sizeof(quint16)+static_cast<quint64>(font.toString().size()) * static_cast<quint64>(sizeof(QChar))) << Type::Font;
+
+    std::vector<QPointF> vec{{100.0,100.0},{500.0, 500.0}};
+    QTest::addRow("cmd16") << QVariant::fromValue(vec) << static_cast<ulong>(sizeof(quint64)+sizeof(qreal)*4)<< Type::VecPoint;
+
+
+    QTest::addRow("cmd17") << QVariant::fromValue(CharacterVision::SHAPE::ANGLE) << sizeof(quint8)<< Type::ShapeVision;
+    QTest::addRow("cmd18") << QVariant::fromValue(QSize(100,100)) << sizeof(QSize)<< Type::Size;
+    QTest::addRow("cmd19") << QVariant::fromValue(ParticipantModel::Permission::hidden) << sizeof(quint8)<< Type::PermissionParticipiant;
+    QTest::addRow("cmd20") << QVariant::fromValue(mindmap::ArrowDirection::EndToStart) << sizeof(mindmap::ArrowDirection)<< Type::ArrowDirection;
+
+
+
 }
 
 QTEST_MAIN(WorkerTest);

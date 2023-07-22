@@ -76,8 +76,6 @@ QByteArray imageToByteArray(const QImage& img)
     return array;
 }
 
-MessageHelper::MessageHelper() {}
-
 void MessageHelper::sendOffGoodBye()
 {
     NetworkMessageWriter message(NetMsg::AdministrationCategory, NetMsg::Goodbye);
@@ -1234,6 +1232,15 @@ void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
 
     auto model= ctrl->model();
     auto data= model->items();
+
+    auto count = std::accumulate(std::begin(data), std::end(data), 0, [](int i, vmap::VisualItemController* ctrl){
+        qDebug() << ctrl->color().name(QColor::HexArgb);
+        if(ctrl->color().name(QColor::HexArgb) == "#ffff2003")
+            qDebug() << "display values" << ctrl->removed() << ctrl->visible() << ctrl->opacity() << ctrl->remote();
+        return i + (ctrl->removed() ? 0 : 1);
+    });
+
+    qDebug() << "Before sending map: " << count << "vs" << data.size();
 
     msg.uint64(data.size());
 

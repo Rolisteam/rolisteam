@@ -62,7 +62,7 @@ void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
     ctrl->setUrl(QUrl::fromLocalFile(path));
 
     helper::utils::setContinuation<bool>(
-        campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl)), this, [ctrl](bool b) {
+        campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl)), ctrl, [ctrl](bool b) {
             if(b)
                 ctrl->setModified(false);
         });

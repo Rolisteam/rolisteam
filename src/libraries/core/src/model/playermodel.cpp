@@ -468,7 +468,7 @@ void PlayerModel::addPlayer(Player* player)
 
     if(it != m_players.end())
     {
-        qWarning() << tr("Duplicated player or uuid");
+        qWarning() << tr("Duplicated player or uuid") << player->name();
         return;
     }
 

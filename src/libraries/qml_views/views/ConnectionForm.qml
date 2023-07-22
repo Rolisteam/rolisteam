@@ -127,6 +127,7 @@ Item {
                             Layout.fillWidth: true
                             validator: IntValidator {bottom: 1; top: 65535;}
                             text: ProfileController.port
+                            onEditingFinished: ProfileController.port = text
                         }
                         Label {
                             text: qsTr("Password:")
