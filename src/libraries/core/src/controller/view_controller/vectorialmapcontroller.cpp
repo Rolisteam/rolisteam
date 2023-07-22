@@ -79,7 +79,13 @@ vmap::SightController* VectorialMapController::sightController() const
 
 vmap::VisualItemController* VectorialMapController::itemController(const QString& id) const
 {
-    return m_vmapModel->item(id);
+    auto res = m_vmapModel->item(id);
+    if(!res)
+    {
+        if(id == m_sightController->uuid())
+            res = sightController();
+    }
+    return res;
 }
 
 QString VectorialMapController::addItemController(const std::map<QString, QVariant>& params)
@@ -497,6 +503,7 @@ void VectorialMapController::setStateLabelVisible(bool b)
 void VectorialMapController::insertItemAt(const std::map<QString, QVariant>& params)
 {
     auto tool= m_tool;
+
     if(params.end() != params.find(Core::vmapkeys::KEY_TOOL))
         tool= params.at(Core::vmapkeys::KEY_TOOL).value<Core::SelectableTool>();
 
@@ -514,8 +521,9 @@ void VectorialMapController::askForColorChange(vmap::VisualItemController* itemC
     emit performCommand(new ChangeColorItemCmd(itemCtrl, toolColor()));
 }
 
-void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
+void VectorialMapController::changeFogOfWar(const QPolygonF& poly,vmap::VisualItemController* itemCtrl,  bool mask)
 {
+    emit popCommand();// remove controller of shape
     emit performCommand(new AddFogOfWarChangeCommand(m_sightController.get(), poly, mask));
 }
 
@@ -555,6 +563,13 @@ void VectorialMapController::setZindex(qreal index)
         return;
     m_zIndex= index;
     emit zIndexChanged(m_zIndex);
+}
+
+void VectorialMapController::setRemote(bool remote)
+{
+    MediaControllerBase::setRemote(remote);
+    m_sightController->setRemote(remote);
+    //m_gridController->setRemote(remote);
 }
 
 void VectorialMapController::normalizeSize(const QList<vmap::VisualItemController*>& list, Method method,

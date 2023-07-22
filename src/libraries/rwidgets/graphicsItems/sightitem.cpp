@@ -43,7 +43,6 @@
 /////////////////////////////////
 
 SightItem::SightItem(vmap::SightController* ctrl) : VisualItem(ctrl), m_sightCtrl(ctrl)
-//    , m_characterItemMap(characterItemMap)
 {
     setZValue(std::numeric_limits<qreal>::max());
     auto updateFunc= [this]() { update(); };
@@ -79,7 +78,10 @@ void SightItem::updateItemFlags()
 
 QRectF SightItem::boundingRect() const
 {
-    return m_sightCtrl->rect();
+    if(m_sightCtrl)
+        return m_sightCtrl->rect();
+    else
+        return {};
 }
 void SightItem::setNewEnd(const QPointF& nend)
 {
@@ -130,6 +132,7 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
             path= path.subtracted(trans.map(subArea));
         }
     }
+
     painter->drawPath(path);
     painter->restore();
 }

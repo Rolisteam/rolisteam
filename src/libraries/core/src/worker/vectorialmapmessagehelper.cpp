@@ -897,6 +897,32 @@ QHash<QString, QVariant> VectorialMapMessageHelper::itemsToHash(const QList<vmap
     return items;
 }
 
+void VectorialMapMessageHelper::fetchSightController(vmap::SightController *ctrl, const QHash<QString, QVariant> &params)
+{
+    if(!ctrl)
+        return;
+
+    namespace ck= Core::vmapkeys;
+    namespace hu= helper::utils;
+    using std::placeholders::_1;
+
+
+    auto x = params.value(ck::KEY_SIGHT_X).value<qreal>();
+    auto y = params.value(ck::KEY_SIGHT_Y).value<qreal>();
+    auto w = params.value(ck::KEY_SIGHT_W).value<qreal>();
+    auto h = params.value(ck::KEY_SIGHT_H).value<qreal>();
+
+    ctrl->setRect(QRectF{x,y,w,h});
+
+    auto posx = params.value(ck::KEY_SIGHT_POSX).value<qreal>();
+    auto posy = params.value(ck::KEY_SIGHT_POSY).value<qreal>();
+
+    ctrl->setPos(QPointF{posx, posy});
+
+    ctrl->setFowPath(params.value(ck::KEY_SIGHT_PATH).value<QPainterPath>());
+
+}
+
 void VectorialMapMessageHelper::readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array)
 {
     if(!ctrl)

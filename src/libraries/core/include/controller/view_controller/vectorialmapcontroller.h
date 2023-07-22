@@ -226,9 +226,10 @@ public slots:
     void setVisualRect(QRectF visualRect);
     void setIdle(bool b);
     void setZindex(qreal index);
+    void setRemote(bool remote) override;
 
     void insertItemAt(const std::map<QString, QVariant>& params);
-    void changeFogOfWar(const QPolygonF& poly, bool mask);
+    void changeFogOfWar(const QPolygonF& poly, vmap::VisualItemController *itemCtrl, bool mask);
 
     void aboutToRemove(const QList<vmap::VisualItemController*>& list);
     void askForColorChange(vmap::VisualItemController* itemCtrl);

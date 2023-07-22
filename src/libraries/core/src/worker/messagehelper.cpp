@@ -757,30 +757,23 @@ QHash<QString, QVariant> readSightController(NetworkMessageReader* msg)
 
     QHash<QString, QVariant> hash;
 
-    hash["uuid"]= msg->string8();
-    hash["x"]= msg->real();
-    hash["y"]= msg->real();
-    hash["w"]= msg->real();
-    hash["h"]= msg->real();
-    hash["posx"]= msg->real();
-    hash["posy"]= msg->real();
+    hash[Core::vmapkeys::KEY_UUID]= msg->string8();
+    hash[Core::vmapkeys::KEY_SIGHT_X]= msg->real();
+    hash[Core::vmapkeys::KEY_SIGHT_Y]= msg->real();
+    hash[Core::vmapkeys::KEY_SIGHT_W]= msg->real();
+    hash[Core::vmapkeys::KEY_SIGHT_H]= msg->real();
+    hash[Core::vmapkeys::KEY_SIGHT_POSX]= msg->real();
+    hash[Core::vmapkeys::KEY_SIGHT_POSY]= msg->real();
 
-    auto count= msg->uint64();
-    hash["count"]= count;
+    auto data = msg->byteArray32();
 
-    for(quint64 i= 0; i < count; ++i)
-    {
-        auto pointsCount= msg->uint64();
-        hash[QStringLiteral("points_count_%1").arg(i)]= pointsCount;
-        hash[QStringLiteral("adding_%1").arg(i)]= msg->uint8();
-        QPolygonF p;
-        for(quint64 j= 0; j < pointsCount; ++j)
-        {
-            auto x= msg->real();
-            auto y= msg->real();
-            hash[QStringLiteral("points_%1_%2").arg(j).arg(i)]= QPointF(x, y);
-        }
-    }
+    QDataStream read(data);
+    QPainterPath path;
+    read >> path;
+
+    hash[Core::vmapkeys::KEY_SIGHT_PATH] = QVariant::fromValue(path);
+
+
     return hash;
 }
 
@@ -799,8 +792,16 @@ void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
     auto pos= ctrl->pos();
     msg.real(pos.x());
     msg.real(pos.y());
-    // msg.real(ctrl->zValue());
-    auto singularity= ctrl->singularityList();
+
+    auto path = ctrl->fowPath();
+    QByteArray array;
+    {
+        QDataStream write(&array, QIODevice::WriteOnly);
+        write << path;
+    }
+    msg.byteArray32(array);
+
+    /*auto singularity= ctrl->singularityList();
     msg.uint64(static_cast<quint64>(singularity.size()));
     for(auto const& pair : qAsConst(singularity))
     {
@@ -814,7 +815,7 @@ void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
                           msg.real(p.x());
                           msg.real(p.y());
                       });
-    }
+    }*/
 }
 
 void addRectController(const vmap::RectController* ctrl, NetworkMessageWriter& msg)

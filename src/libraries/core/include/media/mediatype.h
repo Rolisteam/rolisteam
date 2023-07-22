@@ -369,6 +369,14 @@ constexpr char const* KEY_VIS_SHAPE{"vis_shape"};
 constexpr char const* KEY_VIS_VISIBLE{"vis_visible"};
 constexpr char const* KEY_VIS_RADIUS{"vis_radiusv"};
 
+constexpr char const* KEY_SIGHT_X{"x"};
+constexpr char const* KEY_SIGHT_Y{"y"};
+constexpr char const* KEY_SIGHT_W{"w"};
+constexpr char const* KEY_SIGHT_H{"h"};
+constexpr char const* KEY_SIGHT_POSX{"posx"};
+constexpr char const* KEY_SIGHT_POSY{"posy"};
+constexpr char const* KEY_SIGHT_PATH{"path"};
+
 } // namespace vmapkeys
 
 namespace extentions

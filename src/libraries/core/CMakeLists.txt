@@ -251,6 +251,7 @@ set(HEADERS
   ${inc}/updater/vmapitem/rectcontrollerupdater.h
   ${inc}/updater/vmapitem/textcontrollerupdater.h
   ${inc}/updater/vmapitem/vmapitemcontrollerupdater.h
+  ${inc}/updater/vmapitem/sightupdater.h
   ${inc}/utils/insertionsortedmap.h
   ${inc}/utils/countdownobject.h
   ${inc}/utils/HashHelper.h
@@ -390,6 +391,7 @@ set(SOURCES
   src/updater/vmapitem/pathcontrollerupdater.cpp
   src/updater/vmapitem/rectcontrollerupdater.cpp
   src/updater/vmapitem/textcontrollerupdater.cpp
+  src/updater/vmapitem/sightupdater.cpp
   src/updater/vmapitem/vmapitemcontrollerupdater.cpp
   src/utils/countdownobject.cpp
   src/worker/autosavecontroller.cpp

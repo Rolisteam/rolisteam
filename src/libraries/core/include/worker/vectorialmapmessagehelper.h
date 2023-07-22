@@ -34,6 +34,7 @@ namespace vmap
 {
 class CharacterItemController;
 class VisualItemController;
+class SightController;
 } // namespace vmap
 class CORE_EXPORT VectorialMapMessageHelper
 {
@@ -52,6 +53,7 @@ public:
     static QByteArray saveVectorialMap(VectorialMapController* ctrl);
     static void fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl);
     static QHash<QString, QVariant> itemsToHash(const QList<vmap::VisualItemController*>& ctrls);
+    static void fetchSightController(vmap::SightController* ctrl,const QHash<QString, QVariant>& params);
 
     // CharaterItem controller
     static void fetchCharacterItem(const std::map<QString, QVariant>& params, vmap::CharacterItemController* ctrl);

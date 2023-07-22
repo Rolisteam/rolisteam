@@ -125,6 +125,7 @@ public:
 
     QString parentUuid() const;
     void setParentUuid(const QString &newParentUuid);
+    QPointer<VectorialMapController> mapController() const;
 
 signals:
     void selectedChanged(bool b);

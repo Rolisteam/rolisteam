@@ -525,17 +525,14 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
         {
             auto poly= m_currentItem->shape().toFillPolygon();
             poly= poly.translated(m_currentItem->pos());
-            m_ctrl->changeFogOfWar(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
-            if(nullptr == m_currentPath)
-            {
-                removeItem(m_currentItem);
-            }
+            auto ctrl = m_currentItem->controller();
+            m_ctrl->changeFogOfWar(poly, ctrl, (Core::EditionMode::Mask == m_ctrl->editionMode()));
         }
     }
     else if((nullptr != m_currentPath) && (Core::EditionMode::Painting != m_ctrl->editionMode()))
     {
         auto poly= m_currentPath->shape().toFillPolygon();
-        m_ctrl->changeFogOfWar(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
+        m_ctrl->changeFogOfWar(poly,m_currentPath->controller(), (Core::EditionMode::Mask == m_ctrl->editionMode()));
         update();
     }
     m_ctrl->setIdle(true);

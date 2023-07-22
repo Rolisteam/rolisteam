@@ -36,7 +36,7 @@ class CORE_EXPORT SightController : public VisualItemController
 {
     Q_OBJECT
     Q_PROPERTY(bool characterSight READ characterSight WRITE setCharacterSight NOTIFY characterSightChanged)
-    Q_PROPERTY(QPainterPath fowPath READ fowPath NOTIFY fowPathChanged)
+    Q_PROPERTY(QPainterPath fowPath READ fowPath WRITE setFowPath NOTIFY fowPathChanged)
     Q_PROPERTY(QRectF rect READ rect WRITE setRect NOTIFY rectChanged)
     Q_PROPERTY(int characterCount READ characterCount NOTIFY characterCountChanged) // only playable character
 public:
@@ -58,8 +58,9 @@ public slots:
     void addPolygon(const QPolygonF& poly, bool mask);
     void addCharacterVision(CharacterVision* vision);
     void removeCharacterVision(CharacterVision* vision);
-    void setRect(QRectF rect);
+    void setRect(const QRectF &rect);
     void setCharacterSight(bool b);
+    void setFowPath(const QPainterPath& path);
 
 signals:
     void fowPathChanged();
@@ -73,6 +74,7 @@ private:
     bool m_characterSight= false;
     CharacterVision::SHAPE m_defaultShape= CharacterVision::ANGLE;
     QRectF m_rect= QRectF(0, 0, 1000, 1000);
+    QPainterPath m_remoteFowPath;
 };
 } // namespace vmap
 

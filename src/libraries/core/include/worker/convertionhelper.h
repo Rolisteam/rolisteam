@@ -27,6 +27,7 @@
 #include <QPointF>
 #include <QRectF>
 #include <QSize>
+#include <QPainterPath>
 
 #include "controller/view_controller/sharednotecontroller.h"
 #include "data/charactervision.h"
@@ -84,7 +85,8 @@ CORE_EXPORT void variantToType<ParticipantModel::Permission>(const ParticipantMo
                                                              NetworkMessageWriter& msg);
 template <>
 CORE_EXPORT void variantToType<mindmap::ArrowDirection>(const mindmap::ArrowDirection& perm, NetworkMessageWriter& msg);
-
+template <>
+CORE_EXPORT void variantToType<QPainterPath>(const QPainterPath& val, NetworkMessageWriter& msg);
 } // namespace Helper
 
 #endif // CONVERTIONHELPER_H

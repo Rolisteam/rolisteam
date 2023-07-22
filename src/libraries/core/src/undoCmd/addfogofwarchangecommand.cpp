@@ -20,19 +20,25 @@
 #include "undoCmd/addfogofwarchangecommand.h"
 
 #include "controller/item_controllers/sightcontroller.h"
+#include <QObject>
 
 AddFogOfWarChangeCommand::AddFogOfWarChangeCommand(vmap::SightController* ctrl, const QPolygonF& gone, bool mask)
     : QUndoCommand(), m_ctrl(ctrl), m_poly(gone), m_mask(mask)
 {
     setText(mask ? QObject::tr("Conceal vectorial map") : QObject::tr("Unveil vectorial map"));
+    QObject::connect(m_ctrl, &vmap::SightController::destroyed, m_ctrl, [this](){
+        setObsolete(true);
+    });
 }
 
 void AddFogOfWarChangeCommand::redo()
 {
-    m_ctrl->addPolygon(m_poly, m_mask);
+    if(m_ctrl)
+        m_ctrl->addPolygon(m_poly, m_mask);
 }
 
 void AddFogOfWarChangeCommand::undo()
 {
-    m_ctrl->addPolygon(m_poly, !m_mask);
+    if(m_ctrl)
+        m_ctrl->addPolygon(m_poly, !m_mask);
 }

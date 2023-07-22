@@ -43,7 +43,8 @@ public:
         PERMISSION,
         BOOL,
         QCOLOR,
-        UNIT
+        UNIT,
+        SIGHT
     };
     Q_ENUM(Type)
     UpdaterVMapTest();
@@ -108,6 +109,9 @@ void UpdaterVMapTest::serializationTest()
         break;
     case UNIT:
         Helper::variantToType<Core::ScaleUnit>(propertyValue.value<Core::ScaleUnit>(), msg);
+        break;
+    case SIGHT:
+        Helper::variantToType<QPainterPath>(propertyValue.value<QPainterPath>(), msg);
         break;
     }
 

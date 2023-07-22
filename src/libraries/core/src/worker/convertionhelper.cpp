@@ -149,4 +149,15 @@ void variantToType<mindmap::ArrowDirection>(const mindmap::ArrowDirection& perm,
     msg.uint8(static_cast<quint8>(perm));
 }
 
+template <>
+void variantToType(const QPainterPath &val, NetworkMessageWriter &msg)
+{
+    QByteArray data;
+    {
+        QDataStream writer(&data, QIODevice::WriteOnly);
+        writer << val;
+    }
+    msg.byteArray32(data);
+}
+
 } // namespace Helper

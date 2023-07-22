@@ -91,19 +91,19 @@ void VmapTopBar::initActions()
     m_onlyGmPermAct->setObjectName("permission_gm");
     m_onlyGmPermAct->setData(QVariant::fromValue(Core::PermissionMode::GM_ONLY));
     m_onlyGmPermAct->setCheckable(true);
-    addAction(m_onlyGmPermAct);
+    //addAction(m_onlyGmPermAct);
 
     m_characterOnlyPermAct= new QAction(QIcon::fromTheme("orange_round"), tr("Permission: PC Move"), this);
     m_characterOnlyPermAct->setObjectName("permission_pc");
     m_characterOnlyPermAct->setData(QVariant::fromValue(Core::PermissionMode::PC_MOVE));
     m_characterOnlyPermAct->setCheckable(true);
-    addAction(m_characterOnlyPermAct);
+    //addAction(m_characterOnlyPermAct);
 
     m_allPermAct= new QAction(QIcon::fromTheme("green_round"), tr("Permission: All"), this);
     m_allPermAct->setObjectName("permission_all");
     m_allPermAct->setData(QVariant::fromValue(Core::PermissionMode::PC_ALL));
     m_allPermAct->setCheckable(true);
-    addAction(m_allPermAct);
+    //addAction(m_allPermAct);
 
     group= new QActionGroup(this);
     group->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
@@ -127,19 +127,19 @@ void VmapTopBar::initActions()
     m_hiddenAct->setObjectName("Visibility_hidden");
     m_hiddenAct->setData(QVariant::fromValue(Core::VisibilityMode::HIDDEN));
     m_hiddenAct->setCheckable(true);
-    addAction(m_hiddenAct);
+    //addAction(m_hiddenAct);
 
     m_fogAct= new QAction(QIcon::fromTheme("fogofwar"), tr("Visibility: Fog"), this);
     m_fogAct->setObjectName("Visibility_fow");
     m_fogAct->setData(QVariant::fromValue(Core::VisibilityMode::FOGOFWAR));
     m_fogAct->setCheckable(true);
-    addAction(m_fogAct);
+    //addAction(m_fogAct);
 
     m_allAct= new QAction(QIcon::fromTheme("eye"), tr("Visibility: All"), this);
     m_allAct->setObjectName("Visibility_all");
     m_allAct->setData(QVariant::fromValue(Core::VisibilityMode::ALL));
     m_allAct->setCheckable(true);
-    addAction(m_allAct);
+    //addAction(m_allAct);
 
     group= new QActionGroup(this);
     group->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
@@ -161,25 +161,25 @@ void VmapTopBar::initActions()
 
     m_groundAct= new QAction(QIcon::fromTheme("ground_layer"), tr("Current Layer: Ground"), this);
     m_groundAct->setObjectName("layer_ground");
-    addAction(m_groundAct);
+    //addAction(m_groundAct);
     m_groundAct->setData(QVariant::fromValue(Core::Layer::GROUND));
     m_groundAct->setCheckable(true);
 
     m_objectAct= new QAction(QIcon::fromTheme("object_layer"), tr("Current Layer: Object"), this);
     m_objectAct->setObjectName("layer_object");
-    addAction(m_objectAct);
+    //addAction(m_objectAct);
     m_objectAct->setData(QVariant::fromValue(Core::Layer::OBJECT));
     m_objectAct->setCheckable(true);
 
     m_characterAct= new QAction(QIcon::fromTheme("character_layer"), tr("Current Layer: Character"), this);
     m_characterAct->setObjectName("layer_character");
-    addAction(m_characterAct);
+    //addAction(m_characterAct);
     m_characterAct->setData(QVariant::fromValue(Core::Layer::CHARACTER_LAYER));
     m_characterAct->setCheckable(true);
 
     m_gameMasterAct= new QAction(QIcon::fromTheme("gm_icon"), tr("Current Layer: GameMaster"), this);
     m_gameMasterAct->setObjectName("layer_gm");
-    addAction(m_gameMasterAct);
+    //addAction(m_gameMasterAct);
     m_gameMasterAct->setData(QVariant::fromValue(Core::Layer::GAMEMASTER_LAYER));
     m_gameMasterAct->setCheckable(true);
 
@@ -205,37 +205,37 @@ void VmapTopBar::initActions()
 
     m_hideOtherAct= new QAction(QIcon::fromTheme("hideotherlayers"), tr("hide other layers"), this);
     m_hideOtherAct->setObjectName("hide_layer");
-    addAction(m_hideOtherAct);
+    //addAction(m_hideOtherAct);
     m_hideOtherAct->setCheckable(true);
 
     m_characterVisionAct= new QAction(QIcon::fromTheme("sight"), tr("Character Vision"), this);
     m_characterVisionAct->setCheckable(true);
     m_characterVisionAct->setObjectName("character_vision");
-    addAction(m_characterVisionAct);
+    //addAction(m_characterVisionAct);
     m_showTransparentAct= new QAction(QIcon::fromTheme("sun"), tr("Show Transparent Item"), this);
     m_showTransparentAct->setCheckable(true);
     m_showTransparentAct->setObjectName("show_transparent");
-    addAction(m_showTransparentAct);
+    //addAction(m_showTransparentAct);
 
     m_showPcName= new QAction(QIcon::fromTheme("pcName"), tr("Show/Hide PC name", "PC = playable character"), this);
     m_showPcName->setObjectName("show_pc_name");
-    addAction(m_showPcName);
+    //addAction(m_showPcName);
     m_showNpcName
         = new QAction(QIcon::fromTheme("npcName"), tr("Show/Hide NPC name", "NPC = non-playable character"), this);
     m_showNpcName->setObjectName("show_npc_name");
-    addAction(m_showNpcName);
+    //addAction(m_showNpcName);
     m_showNpcNumber= new QAction(QIcon::fromTheme("npcNumber"), tr("Show/Hide NPC number"), this);
     m_showNpcNumber->setObjectName("show_npc_number");
-    addAction(m_showNpcNumber);
+    //addAction(m_showNpcNumber);
     m_showState= new QAction(QIcon::fromTheme("stateName"), tr("Show/Hide State"), this); //
     m_showState->setObjectName("show_states");
-    addAction(m_showState);
+    //addAction(m_showState);
     m_showHealthBar= new QAction(QIcon::fromTheme("healthBar"), tr("Show/Hide Health Bar"), this);
     m_showHealthBar->setObjectName("show_health");
-    addAction(m_showHealthBar);
+    //addAction(m_showHealthBar);
     m_showInit= new QAction(QIcon::fromTheme("initScore"), tr("Show/Hide Initiative"), this);
     m_showInit->setObjectName("show_initScore");
-    addAction(m_showInit);
+    //addAction(m_showInit);
 
     m_showPcName->setCheckable(true);
     m_showNpcName->setCheckable(true);

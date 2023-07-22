@@ -57,6 +57,9 @@ QRectF RectItem::boundingRect() const
 }
 QPainterPath RectItem::shape() const
 {
+    if(!m_rectCtrl)
+        return {};
+
     if(m_rectCtrl->filled())
         return VisualItem::shape();
 
@@ -83,6 +86,8 @@ void RectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+    if(!m_rectCtrl)
+        return;
     painter->save();
     if(!m_rectCtrl->filled())
     {

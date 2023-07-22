@@ -89,6 +89,11 @@ void VisualItemController::initializedVisualItem(const std::map<QString, QVarian
     // clang-format on
 }
 
+QPointer<VectorialMapController> VisualItemController::mapController() const
+{
+    return m_ctrl;
+}
+
 bool VisualItemController::selected() const
 {
     return m_selected;

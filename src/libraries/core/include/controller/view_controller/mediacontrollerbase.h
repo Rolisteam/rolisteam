@@ -74,6 +74,7 @@ signals:
     void activeChanged();
     void localGMChanged(bool b);
     void performCommand(QUndoCommand* cmd);
+    void popCommand();
     void ownerIdChanged(QString id);
     void localIdChanged(QString id);
     void modifiedChanged(bool b);
@@ -92,7 +93,7 @@ public slots:
     void setModified(bool b= true);
     void askToClose();
     void setUrl(const QUrl& path);
-    void setRemote(bool remote);
+    virtual void setRemote(bool remote);
 
 protected:
     QString m_uuid;

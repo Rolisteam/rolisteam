@@ -50,7 +50,17 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
     connect(m_ctrl, &vmap::VisualItemController::removeItem, this,
             [this]()
             {
-                scene()->removeItem(this);
+                auto sceneP = scene();
+                if(sceneP)
+                    sceneP->removeItem(this);
+                deleteLater();
+            });
+    connect(m_ctrl, &vmap::VisualItemController::destroyed, this,
+            [this]()
+            {
+                auto sceneP = scene();
+                if(sceneP)
+                    sceneP->removeItem(this);
                 deleteLater();
             });
     auto func= [this]()
