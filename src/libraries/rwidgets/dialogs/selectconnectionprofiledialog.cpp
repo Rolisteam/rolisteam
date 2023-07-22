@@ -9,12 +9,10 @@
 #include <QPixmap>
 #include <QQmlEngine>
 
-#include "data/character.h"
 #include "worker/iohelper.h"
 
 #include "controller/gamecontroller.h"
 #include "controller/networkcontroller.h"
-#include "controller/playercontroller.h"
 #include "controller/view_controller/imageselectorcontroller.h"
 #include "controller/view_controller/selectconnprofilecontroller.h"
 #include "imageselectordialog.h"
@@ -30,7 +28,6 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
         m_ctrl.reset(new SelectConnProfileController(ctrl->networkController()->profileModel(), ctrl));
 
     ui->setupUi(this);
-    // ui->m_detailPanel->setVisible(false);
     connect(ui->m_quickWidget, &QQuickWidget::sceneGraphError, this,
             [](QQuickWindow::SceneGraphError, const QString& message) { qDebug() << "ERROR" << message; });
     connect(ui->m_quickWidget, &QQuickWidget::statusChanged, this,
@@ -47,7 +44,6 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
 
     qmlRegisterType<ImageSelector>("Profile", 1, 0, "ImageSelector");
     auto engine= ui->m_quickWidget->engine();
-    // engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
     engine->setObjectOwnership(m_ctrl.get(), QQmlEngine::CppOwnership);
     engine->addImportPath(QStringLiteral("qrc:/qml"));
 
@@ -70,6 +66,33 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     // actions from controller
     connect(m_ctrl.get(), &SelectConnProfileController::connectionStarted, this,
             [this]() { m_gameCtrl->setDataFromProfile(m_ctrl->currentProfileIndex()); });
+    connect(m_ctrl.get(), &SelectConnProfileController::portChanged, this, [this](){
+        if(!m_gameCtrl)
+            return;
+        auto networkCtrl= m_gameCtrl->networkController();
+        if(!networkCtrl)
+            return;
+
+        networkCtrl->setPort(m_ctrl->port());
+    });
+    connect(m_ctrl.get(), &SelectConnProfileController::addressChanged, this, [this](){
+        if(!m_gameCtrl)
+            return;
+        auto networkCtrl= m_gameCtrl->networkController();
+        if(!networkCtrl)
+            return;
+
+        networkCtrl->setHost(m_ctrl->address());
+    });
+    connect(m_ctrl.get(), &SelectConnProfileController::passwordChanged, this, [this](){
+        if(!m_gameCtrl)
+            return;
+        auto networkCtrl= m_gameCtrl->networkController();
+        if(!networkCtrl)
+            return;
+
+        networkCtrl->setServerPassword(m_ctrl->password());
+    });
     connect(m_ctrl.get(), &SelectConnProfileController::rejected, this, &SelectConnectionProfileDialog::reject);
     connect(m_ctrl.get(), &SelectConnProfileController::changeCampaignPath, this,
             [this]()

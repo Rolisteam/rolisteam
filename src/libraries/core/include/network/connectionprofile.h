@@ -74,7 +74,7 @@ public slots:
     void setServerMode(bool);
     void setGm(bool);
     void setCampaignPath(const QString& id);
-    void editPassword(const QString& password);
+    void editPassword(const QByteArray& password);
     void setHash(const QByteArray& password);
     void setCharactersValid(bool val);
     void setCampaignInfoValid(bool val);

@@ -182,7 +182,7 @@ void ConnectionProfile::setPlayerId(const QString& playerId)
     emit playerIdChanged();
 }
 
-void ConnectionProfile::editPassword(const QString& password)
+void ConnectionProfile::editPassword(const QByteArray& password)
 {
     if(password.isEmpty())
     {
@@ -190,7 +190,7 @@ void ConnectionProfile::editPassword(const QString& password)
     }
     else
     {
-        setHash(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_512));
+        setHash(QCryptographicHash::hash(password, QCryptographicHash::Sha3_512));
     }
 }
 void ConnectionProfile::setHash(const QByteArray& password)

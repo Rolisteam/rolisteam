@@ -59,7 +59,7 @@ class CORE_EXPORT SelectConnProfileController : public QObject
     Q_PROPERTY(bool isServer READ isServer WRITE setIsServer NOTIFY isServerChanged)
     Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
-    Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
+    Q_PROPERTY(QByteArray password READ password WRITE setPassword NOTIFY passwordChanged)
     Q_PROPERTY(QString errorMsg READ errorMsg WRITE setErrorMsg NOTIFY errorMsgChanged)
     Q_PROPERTY(QString infoMsg READ infoMsg WRITE setInfoMsg NOTIFY infoMsgChanged)
     Q_PROPERTY(QString campaignPath READ campaignPath WRITE setCampaignPath NOTIFY campaignPathChanged)
@@ -109,7 +109,7 @@ public:
     bool validCharacterColor() const;
 
     const QString& infoMsg() const;
-    const QString password() const;
+    const QByteArray password() const;
 
 public slots:
     void setCurrentProfileIndex(int i);
@@ -126,7 +126,7 @@ public slots:
     void setErrorMsg(const QString& val);
     void setCampaignPath(const QString& val);
     void setInfoMsg(const QString& newInfoMsg);
-    void setPassword(const QString& newPassword);
+    void setPassword(const QByteArray &newPassword);
 
     // action slots
     // profile models

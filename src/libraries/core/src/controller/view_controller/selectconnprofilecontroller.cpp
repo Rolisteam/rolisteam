@@ -24,7 +24,6 @@
 
 #include "network/characterdatamodel.h"
 #include "network/connectionprofile.h"
-#include "utils/logcategories.h"
 #include "worker/fileserializer.h"
 #include "worker/utilshelper.h"
 
@@ -365,12 +364,12 @@ void SelectConnProfileController::setInfoMsg(const QString& newInfoMsg)
     emit infoMsgChanged();
 }
 
-const QString SelectConnProfileController::password() const
+const QByteArray SelectConnProfileController::password() const
 {
-    return currentProfile() ? currentProfile()->password() : QString();
+    return currentProfile() ? currentProfile()->password() : QByteArray();
 }
 
-void SelectConnProfileController::setPassword(const QString& newPassword)
+void SelectConnProfileController::setPassword(const QByteArray& newPassword)
 {
     if(!currentProfile())
         return;
