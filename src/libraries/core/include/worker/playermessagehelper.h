@@ -31,8 +31,6 @@ class ClientManager;
 class NETWORK_EXPORT PlayerMessageHelper
 {
 public:
-    PlayerMessageHelper();
-
     static void sendOffConnectionInfo(Player* player, const QByteArray& password);
     static void writePlayerIntoMessage(NetworkMessageWriter& msg, Player* player);
     static void writeCharacterIntoMessage(NetworkMessageWriter& msg, Character* character);

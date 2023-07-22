@@ -403,7 +403,7 @@ void ProfileControllerTest::connectTest()
     QCOMPARE(model->rowCount(), 0);
 
     auto pw= Helper::randomString();
-    m_ctrl->setPassword(pw);
+    m_ctrl->setPassword(pw.toUtf8());
     QVERIFY(m_ctrl->password() != pw);
 }
 

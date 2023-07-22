@@ -53,30 +53,6 @@ Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagin
                      QWidget* parent)
     : QMdiArea(parent), m_ctrl(ctrl), m_variableSizeBackground(size()), m_toolbar(toolbar)
 {
-    /* auto p= new QQuickWidget();
-
-    auto engine= p->engine();
-    connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& warnings) {
-        for(const auto& warn : warnings)
-        {
-            qDebug() << "warning or error:" << warn.description() << warn.messageType();
-        }
-    });
-    connect(p, &QQuickWidget::statusChanged, this, [p](QQuickWidget::Status st) {
-        if(st == QQuickWidget::Error)
-        {
-            auto errors= p->errors();
-            for(const auto& warn : errors)
-            {
-                qDebug() << "error:" << warn.description() << warn.messageType();
-            }
-        }
-    });
-    p->setSource(QUrl("qrc:/qml/views/DiceField.qml"));
-
-    setViewport(p);
-    p->show();*/
-
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::workspaceFilenameChanged, this,

@@ -25,9 +25,6 @@
 #include <QCoreApplication>
 #include <QTcpSocket>
 
-#include "network/messagedispatcher.h"
-#include "network/networkmessagewriter.h"
-#include "network/receiveevent.h"
 
 #include <QDebug>
 
@@ -191,6 +188,7 @@ void ClientConnection::closeCommunicationWithServer()
 
 void ClientConnection::connectTo(const QString& host, int port)
 {
+    qDebug() << "Connect To" << host << port << m_socketTcp.isNull();
     if(m_socketTcp.isNull())
         return;
 

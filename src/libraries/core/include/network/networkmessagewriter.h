@@ -67,6 +67,7 @@ public:
     void rgb(unsigned int color);
 
     quint32 getDataSize() const;
+    quint32 bufferSize() const;
 
     void int8(qint8 data);
     void int16(qint16 data);
@@ -84,7 +85,6 @@ public:
     NetworkMessage::RecipientMode getRecipientMode() const override;
     QByteArray data() const;
 
-protected:
     NetworkMessageHeader* buffer() const override;
 
 private:

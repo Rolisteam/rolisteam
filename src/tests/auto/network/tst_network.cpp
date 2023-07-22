@@ -28,6 +28,9 @@
 #include "network/networkmessagewriter.h"
 #include "network/passwordaccepter.h"
 #include "network/timeaccepter.h"
+#include "worker/playermessagehelper.h"
+#include "worker/messagehelper.h"
+#include "data/character.h"
 
 #include <helper.h>
 
@@ -44,8 +47,6 @@ private slots:
     void init();
     void cleanup();
     void writeTest();
-    /* void writeAndReadTest();
-     void writeAndReadTest_data();*/
     void messageRecipiantTest();
     void ipBanAccepterTest();
     void ipBanAccepterTest_data();
@@ -60,6 +61,11 @@ private slots:
 
     void messageHeaderTest();
     void messageHeaderTest_data();
+
+    void messageWriterTest();
+    void playerMessageHelper();
+
+    void messageHelperTest();
 
 private:
     std::unique_ptr<NetworkMessageWriter> m_writer;
@@ -303,6 +309,30 @@ void TestNetwork::messageDispatcherTest()
 */
 }
 
+void TestNetwork::messageWriterTest()
+{
+    NetworkMessageWriter writer(NetMsg::Category::AdministrationCategory,NetMsg::Action::EndConnectionAction,NetworkMessage::All, 0);
+
+    QCOMPARE(writer.category(), NetMsg::Category::AdministrationCategory);
+    QCOMPARE(writer.action(), NetMsg::Action::EndConnectionAction);
+
+    auto header = writer.buffer();
+
+    QCOMPARE(header->category, NetMsg::Category::AdministrationCategory);
+    QCOMPARE(header->action, NetMsg::Action::EndConnectionAction);
+    QCOMPARE(writer.bufferSize(), 128);
+
+    writer.int16(18);
+    writer.int32(200);
+
+    QCOMPARE(writer.currentPos(), sizeof(NetworkMessageHeader)+sizeof(qint32)+sizeof(qint16)+1);
+    QCOMPARE(writer.getRecipientList(), QStringList{});
+
+    QPixmap pix;
+    pix.loadFromData(Helper::imageData(false));
+    writer.pixmap(pix);
+}
+
 void TestNetwork::messageHeaderTest()
 {
     QFETCH(quint8, cat);
@@ -461,6 +491,134 @@ void TestNetwork::messageHeaderTest_data()
             QTest::addRow("test: %d, %d", i, j) << i << j << cat << act;
         }
     }
+}
+
+void TestNetwork::playerMessageHelper()
+{
+
+    // Player info
+    Helper::TestMessageSender sender;
+    NetworkMessage::setMessageSender(&sender);
+
+    Player player;
+    player.setName(Helper::randomString());
+    player.setUuid(Helper::randomString());
+
+    auto pw = Helper::randomData();
+    PlayerMessageHelper::sendOffConnectionInfo(&player, pw);
+
+
+
+    auto msgData = sender.messageData();
+
+    PlayerMessageHelper::sendOffConnectionInfo(nullptr, pw);
+
+    {
+        NetworkMessageReader reader;
+        reader.setData(msgData);
+
+        QCOMPARE(reader.byteArray32(), pw);
+        QCOMPARE(reader.string32(), player.name());
+        QCOMPARE(reader.string32(), player.uuid());
+    }
+
+    // Player info
+    player.setGM(true);
+    player.setAvatar(Helper::imageData(true));
+    player.setColor(Helper::randomColor());
+    PlayerMessageHelper::sendOffPlayerInformations(&player);
+
+    {
+        NetworkMessageReader reader;
+        reader.setData(sender.messageData());
+
+        Player tempPlayer;
+
+        PlayerMessageHelper::readPlayer(reader, &tempPlayer);
+
+        QCOMPARE(player.isGM(), tempPlayer.isGM());
+        QCOMPARE(player.avatar(), tempPlayer.avatar());
+        QCOMPARE(player.getColor(), tempPlayer.getColor());
+        QCOMPARE(player.name(), tempPlayer.name());
+        QCOMPARE(player.uuid(), tempPlayer.uuid());
+
+        PlayerMessageHelper::sendOffPlayerInformations(nullptr);
+    }
+
+    {
+
+        auto character = new Character();
+        character->setUuid(Helper::randomString());
+        character->setName(Helper::randomString());
+        character->setColor(Helper::randomColor());
+        character->setLifeColor(Helper::randomColor());
+        character->setNpc(false);
+        character->setAvatar(Helper::randomData());
+
+        Player player;
+        player.setName(Helper::randomString());
+        player.setUuid(Helper::randomString());
+        player.setGM(true);
+        player.setAvatar(Helper::imageData(true));
+        player.setColor(Helper::randomColor());
+        player.addCharacter(character);
+
+        PlayerMessageHelper::sendOffPlayerInformations(&player);
+
+
+        NetworkMessageReader reader;
+        reader.setData(sender.messageData());
+        Player tempPlayer;
+        PlayerMessageHelper::readPlayer(reader, &tempPlayer);
+
+        QCOMPARE(player.isGM(), tempPlayer.isGM());
+        QCOMPARE(player.avatar(), tempPlayer.avatar());
+        QCOMPARE(player.getColor(), tempPlayer.getColor());
+        QCOMPARE(player.name(), tempPlayer.name());
+        QCOMPARE(player.uuid(), tempPlayer.uuid());
+
+        QCOMPARE(tempPlayer.characterCount(),1);
+        auto tempCharacter = tempPlayer.characterById(character->uuid());
+
+        QCOMPARE(character->name(), tempCharacter->name());
+        QCOMPARE(character->getLifeColor(), tempCharacter->getLifeColor());
+        QCOMPARE(character->getColor(), tempCharacter->getColor());
+        QCOMPARE(character->avatar(), tempCharacter->avatar());
+        QCOMPARE(character->uuid(), tempCharacter->uuid());
+    }
+}
+
+void TestNetwork::messageHelperTest()
+{
+    Helper::TestMessageSender sender;
+    NetworkMessage::setMessageSender(&sender);
+
+    {
+        MessageHelper::sendOffGoodBye();
+
+        NetworkMessageReader reader;
+        reader.setData(sender.messageData());
+        QCOMPARE(reader.action(), NetMsg::Goodbye);
+        QCOMPARE(reader.category(), NetMsg::AdministrationCategory);
+    }
+
+    {
+        auto id = Helper::randomString();
+        MessageHelper::closeMedia(id, Core::ContentType::CHARACTERSHEET);
+
+        NetworkMessageReader reader;
+        reader.setData(sender.messageData());
+
+        QCOMPARE(reader.action(), NetMsg::CloseMedia);
+        QCOMPARE(reader.category(), NetMsg::MediaCategory);
+
+        QCOMPARE(reader.uint8(), static_cast<int>(Core::ContentType::CHARACTERSHEET));
+        QCOMPARE(reader.string8(), id);
+    }
+
+
+
+
 }
 
 QTEST_MAIN(TestNetwork);

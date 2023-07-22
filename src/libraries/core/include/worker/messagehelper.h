@@ -29,6 +29,7 @@
 #include "mindmap/model/imagemodel.h"
 #include "network/networkmessage.h"
 #include <core_global.h>
+
 namespace vmap
 {
 class RectController;
@@ -67,8 +68,6 @@ class MindMapController;
 class CORE_EXPORT MessageHelper
 {
 public:
-    MessageHelper();
-
     static void sendOffGoodBye();
     static void closeMedia(const QString& id, Core::ContentType type);
 

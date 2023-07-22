@@ -28,6 +28,8 @@ NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Ac
     : NetworkMessage(), m_mode(mode)
 {
     int headerSize= sizeof(NetworkMessageHeader);
+    if(size == 0)
+        qDebug() << "size 0";
 
     if(size < headerSize)
     {
@@ -55,6 +57,11 @@ NetworkMessageWriter::~NetworkMessageWriter()
 quint32 NetworkMessageWriter::getDataSize() const
 {
     return static_cast<quint32>(m_currentPos - m_begin);
+}
+
+quint32 NetworkMessageWriter::bufferSize() const
+{
+    return m_sizeBuffer;
 }
 NetMsg::Category NetworkMessageWriter::category() const
 {
