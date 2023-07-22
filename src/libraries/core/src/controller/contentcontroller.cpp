@@ -39,7 +39,6 @@
 #include "data/campaignmanager.h"
 
 #include "controller/gamecontroller.h"
-#include "controller/preferencescontroller.h"
 #include "media/mediafactory.h"
 #include "model/contentmodel.h"
 #include "model/playermodel.h"
@@ -49,10 +48,9 @@
 #include "preferences/preferencesmanager.h"
 #include "undoCmd/newmediacontroller.h"
 #include "undoCmd/openmediacontroller.h"
-#include "undoCmd/removemediacontrollercommand.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
-#include "worker/modelhelper.h"
+
 
 void sendOffMediaController(MediaControllerBase* ctrl)
 {
@@ -122,6 +120,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
                 if(nullptr == ctrl)
                     return;
                 connect(ctrl, &MediaControllerBase::performCommand, this, &ContentController::performCommand);
+                connect(ctrl, &MediaControllerBase::popCommand, this, &ContentController::popCommand);
                 emit mediaControllerCreated(ctrl);
                 sendOffMediaController(ctrl);
                 auto it= m_mediaUpdaters.find(ctrl->contentType());

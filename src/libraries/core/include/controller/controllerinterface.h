@@ -33,6 +33,7 @@ public:
 
 signals:
     void performCommand(QUndoCommand* command);
+    void popCommand();
     void errorOccurs(QString);
     void infoOccurs(QString);
 };

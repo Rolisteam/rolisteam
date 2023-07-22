@@ -107,6 +107,12 @@ GameController::GameController(const QString& appname, const QString& version, Q
     });
 
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
+    auto popCommand = [this]()
+    {
+        m_undoStack->setIndex(m_undoStack->index()-1);
+    };
+    connect(m_contentCtrl.get(), &ContentController::popCommand, this, popCommand);
+
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_audioCtrl.get(), &AudioController::setLocalIsGM);
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, &GameController::dataLoaded);
