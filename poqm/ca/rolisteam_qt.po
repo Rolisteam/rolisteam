@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-02-05 12:07+0100\n"
+"PO-Revision-Date: 2023-07-31 13:14+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -595,7 +595,7 @@ msgstr "Copia l'URL"
 #: src/binaries/rcse/mainwindow.cpp:922
 msgctxt "MainWindow|"
 msgid "Replace Image"
-msgstr "Substitueix la imatge..."
+msgstr "Substitueix la imatge"
 
 #: src/binaries/rcse/mainwindow.cpp:923
 msgctxt "MainWindow|"
@@ -940,7 +940,7 @@ msgstr "Quit"
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
-msgstr "S'ha perdut la connexió. %1 es tancarà."
+msgstr "S'ha perdut la connexió. %1 es tancarà"
 
 #: src/binaries/widget/mainwindow.cpp:710
 msgctxt "MainWindow|"
@@ -1098,6 +1098,7 @@ msgctxt "ContextualMenu|"
 msgid "Adapt Width to Window"
 msgstr "Adapta l'amplada a la finestra"
 
+# skip-rule: punctuation-period-no
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
 msgctxt "ContextualMenu|"
 msgid "Zoom Min"
@@ -1108,6 +1109,7 @@ msgctxt "ContextualMenu|"
 msgid "Reset Zoom"
 msgstr "Restableix el zoom"
 
+# skip-rule: punctuation-period-no
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
 msgctxt "ContextualMenu|"
 msgid "Zoom Max"
@@ -1564,6 +1566,7 @@ msgctxt "NonPlayableCharacterModel|"
 msgid "Color"
 msgstr "Color"
 
+# skip-rule: punctuation-period-no
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Min HP"
@@ -1574,6 +1577,7 @@ msgctxt "NonPlayableCharacterModel|"
 msgid "Current HP"
 msgstr "HP actual"
 
+# skip-rule: punctuation-period-no
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Max HP"
