@@ -39,11 +39,17 @@ CampaignIntegrityDialog::CampaignIntegrityDialog(QStringList missingFiles, QStri
 {
     ui->setupUi(this);
     auto engine= ui->quickWidget->engine();
+    engine->addImportPath(QStringLiteral("qrc:/qml"));
+    engine->addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
     engine->rootContext()->setContextProperty("_dialog", this);
     engine->rootContext()->setContextProperty("_missingFilesModel", m_missingFileModel.get());
     engine->rootContext()->setContextProperty("_unmanagedFilesModel", m_unmanagedFileModel.get());
     ui->quickWidget->setSource(QUrl("qrc:/qml/Campaign/IntegrityPage.qml"));
-    // engine->;;
+    connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& warnings)
+    {
+        for(auto const& w : warnings)
+            qDebug() << w.toString();
+    });
 }
 
 CampaignIntegrityDialog::~CampaignIntegrityDialog()
