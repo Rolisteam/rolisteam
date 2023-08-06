@@ -12,7 +12,7 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Linguist
 
 set(documentation README.md)
 
-set(ressources  ${CMAKE_SOURCE_DIR}/resources/rcse/rcse_resources.qrc)
+set(ressources  ${CMAKE_SOURCE_DIR}/resources/rcse/rcse_resources.qrc ${CMAKE_SOURCE_DIR}/rolisteam.qrc)
 
 
 set(sources
