@@ -87,6 +87,7 @@ QString Theme::folder() const
 void Theme::setPath(const QString& path)
 {
     m_dataPath= path;
+    Q_ASSERT(QFileInfo::exists(m_dataPath));
 }
 
 void Theme::setNightMode(bool b)
