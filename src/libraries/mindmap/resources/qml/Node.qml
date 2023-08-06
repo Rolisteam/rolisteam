@@ -59,12 +59,10 @@ Pane
     signal selectStyle()
     signal reparenting(var id)
     signal addChild()
-    signal addImage(var img)
+    signal addImage(var img, var data)
     signal addCharacter(var name, var source, var color)
     signal textEdited(var text)
 
-    //Drag
-    //Drag.active: dragMouse.drag.active
     Binding on Drag.active {
       value: dragMouse.drag.active
       delayed: true
@@ -88,11 +86,6 @@ Pane
             drag.minimumY: 0
             preventStealing: true
             onPressed:(mouse)=>{
-                         /* if(root.isEditable)
-                          {
-                              mouse.accepted = false
-                              return;
-                          }*/
                           root.clicked(mouse)
                           root.grabToImage(function(result) {
                               if(mouse.modifiers & Qt.ControlModifier)
@@ -215,22 +208,35 @@ Pane
 
         DropArea {
             anchors.fill: dragMouse
-            keys: [ "rmindmap/reparenting","text/plain","text/uri-list", "rolisteam/userlist-item" ]
+            keys: [ "rmindmap/reparenting","text/plain","text/uri-list", "rolisteam/userlist-item", "image/png","image/jpg","image/jpeg","image/gif" ]
             onDropped: (drop)=>{
                            console.log("keys:"+drop.keys)
                            var reparenting = false
                            var hasUrl = false
                            var character = false
+                           var hasPng = false
+                           var hasJpg = false
+                           var hasJpeg = false
+                           var hasGif = false
                            for(var i=0; i< drop.keys.length; ++i)
                            {
 
-                               console.log("keys:"+drop.keys[i])
-                               if(drop.keys[i] === "rmindmap/reparenting")
-                               reparenting = true
-                               else if(drop.keys[i] === "text/uri-list")
-                               hasUrl = true
-                               else if(drop.keys[i] === "rolisteam/userlist-item")
-                               character= true
+                                console.log("keys:"+drop.keys[i])
+                                if(drop.keys[i] === "rmindmap/reparenting")
+                                    reparenting = true
+                                else if(drop.keys[i] === "text/uri-list")
+                                    hasUrl = true
+                                else if(drop.keys[i] === "rolisteam/userlist-item")
+                                    character= true
+                               else if(drop.keys[i] === "image/png")
+                                   hasPng= true
+                               else if(drop.keys[i] === "image/jpg")
+                                   hasJpg= true
+                               else if(drop.keys[i] === "image/jpeg")
+                                   hasJpeg= true
+                               else if(drop.keys[i] === "image/gif")
+                                   hasGif= true
+
                            }
                            if(reparenting)
                            {
@@ -243,8 +249,11 @@ Pane
                                var url = drop.urls[0]
                                var urlstr = url.toString()
                                console.log(urlstr)
-                               if(urlstr.endsWith(".png") || urlstr.endsWith(".jpg") || urlstr.endsWith(".gif")|| urlstr.endsWith(".jpeg^"))
-                               root.addImage(url)
+                               if(urlstr.endsWith(".png") || urlstr.endsWith(".jpg") || urlstr.endsWith(".gif")|| urlstr.endsWith(".jpeg^") || urlstr.startsWith("http"))
+                               {
+                                    var text = hasPng ? "image/png" : hasJpg ? "image/jpg" : hasJpeg ? "image/jpeg" : "image/gif"
+                                    root.addImage(url, drop.getDataAsArrayBuffer(text))
+                               }
                            }
                            else if(character)
                            {
@@ -275,11 +284,5 @@ Pane
             GradientStop { position: 0.0; color: root.nodeStyle.colorOne }
             GradientStop { position: 1.0; color: root.nodeStyle.colorTwo }
         }
-        /*Rectangle {
-            color: "red"
-            opacity: 0.4
-            width: root.currentNode.width
-            height: root.currentNode.height
-        }*/
     }
 }

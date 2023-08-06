@@ -81,7 +81,7 @@ void MindMapTest::addRemoveImageTest()
     m_ctrl->addNode({node.get()}, false);
 
     auto imagePath= Helper::imagePath();
-    m_ctrl->addImageFor(id, imagePath);
+    m_ctrl->addImageFor(id, imagePath, {});
 
     QVERIFY(m_ctrl->imgModel()->hasPixmap(id));
     QVERIFY(m_ctrl->canUndo());

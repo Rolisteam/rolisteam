@@ -14,9 +14,16 @@ GroupBox {
 
     padding: 0
 
-    label : Label {
+    label : TextEdit {
+        id: textEdit
         x:  _root.style.padding
-        text: _root.title
+        text: _root.packageItem.title
+        color: _root.style.borderColor
+        onEditingFinished: {
+            _root.packageItem.title = field.text
+            textEdit.readOnly = true
+        }
+
     }
 
     Dialog {
@@ -45,6 +52,7 @@ GroupBox {
             packageItem.position=Qt.point(x, y)
     }
 
+
     background: Rectangle {
         color: _root.style.backgroundColor
         border.color: _root.style.borderColor
@@ -67,7 +75,9 @@ GroupBox {
         preventStealing: true
         drag.onActiveChanged: packageItem.isDragged = drag.active
         onDoubleClicked: {
-            editTitle.open()
+            //editTitle.open()
+            textEdit.readOnly = false
+            textEdit.focus = true
         }
         onPressed: (mouse) => {_root.clicked(mouse)}
 

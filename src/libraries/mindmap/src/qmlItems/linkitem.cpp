@@ -26,6 +26,8 @@ namespace mindmap
 LinkItem::LinkItem()
 {
     setFlag(QQuickItem::ItemHasContents, true);
+    //setFlag(QQuickItem::Ite)
+    setAntialiasing(true);
     setAcceptedMouseButtons(Qt::LeftButton);
     setWidth(280);
     setHeight(280);

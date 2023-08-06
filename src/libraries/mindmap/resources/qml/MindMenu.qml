@@ -11,14 +11,6 @@ Menu {
         onTriggered: ctrl.addNode("")
     }
     MenuSeparator { }
-    /*MenuItem {
-        text: qsTr("New")
-        onTriggered: ctrl.resetData()
-    }
-    MenuItem {
-        text: qsTr("Open File…")
-        onTriggered: openDialog.open()
-    }*/
     MenuItem {
         text: qsTr("Save")
 
@@ -29,12 +21,6 @@ Menu {
                 saveDialog.open()
         }
     }
-    /*MenuItem {
-        text: qsTr("Save As…")
-        onTriggered: {
-            saveDialog.open()
-        }
-    }*/
     MenuItem {
         text: qsTr("Remove Selection")
         enabled: ctrl.hasSelection
@@ -65,12 +51,6 @@ Menu {
         }
     }
     MenuSeparator { }
-    /*MenuItem {
-        text: qsTr("Import File…")
-        onTriggered: {
-            importDialog.open()
-        }
-    }*/
    // MenuSeparator { }
     MenuItem {
         text: qsTr("Automatic Spacing")

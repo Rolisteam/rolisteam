@@ -237,16 +237,9 @@ void MindMapControllerBase::centerItems(qreal w, qreal h)
         setSpacing(true);
 }
 
-void MindMapControllerBase::addImageFor(const QString& idNode, const QString& path)
+void MindMapControllerBase::addImageFor(const QString& idNode, const QString& path, const QByteArray& data)
 {
-    m_stack.push(new mindmap::AddImageToNodeCommand(m_itemModel.get(), m_imgModel.get(), idNode, path));
-    //QPixmap map(.toLocalFile());
-
-    /*if(map.isNull())
-        return;
-
-    m_imgModel->insertPixmap(idNode, map, QUrl::fromUserInput(path));
-    m_itemModel->update(idNode, MindItemModel::HasPicture);*/
+    m_stack.push(new mindmap::AddImageToNodeCommand(m_itemModel.get(), m_imgModel.get(), idNode, path, data));
 }
 
 void MindMapControllerBase::removeImageFor(const QString& nodeId)

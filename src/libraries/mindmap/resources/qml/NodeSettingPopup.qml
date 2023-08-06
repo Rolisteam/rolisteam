@@ -39,8 +39,6 @@ Popup {
                         onEditingFinished: _root.node.description = text
                     }
                 }
-
-
                 Label {
                     text: qsTr("tags:")
                 }
@@ -48,6 +46,16 @@ Popup {
                     text:_root.node ? _root.node.tagsText : ""
                     Layout.fillWidth: true
                     onEditingFinished: _root.node.tagsText = text
+                }
+                Label {
+                    text: qsTr("Action:")
+                }
+                RowLayout {
+                    Layout.fillWidth: true
+                    Button {
+                        text: qsTr("Remove Avatar")
+                        onClicked: _root.ctrl.removeImageFor(_root.node.id)
+                    }
                 }
             }
 
@@ -57,8 +65,6 @@ Popup {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.rightMargin: 30
-                //contentWidth: flickable.contentWidth
-                //contentHeight: flickable.contentHeight
                 GridLayout {
                     id: grid
                     columns: 3

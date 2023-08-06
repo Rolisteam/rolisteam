@@ -135,10 +135,9 @@ Flickable {
             text : item.text ? item.text : "new node"
             source: hasAvatar ? "image://nodeImages/%1".arg(item.id) : ""
             Timer {
-                repeat : true
-                interval: 1000
                 running: true
-                onTriggered: console.log("show:",nodeItem.x," ",nodeItem.y," ",item.position)
+                repeat: true
+                onTriggered: console.log("hasAvatar",hasAvatar)
             }
 
             visible: item.visible
@@ -151,7 +150,7 @@ Flickable {
             }
             onOpenChanged: _flick.ctrl.itemModel.openItem(item.id, open)
             onReparenting: _flick.ctrl.reparenting(item,id)
-            onAddImage: (img)=>{ _flick.ctrl.addImageFor(item.id, img)}
+            onAddImage: (img, data)=>{ _flick.ctrl.addImageFor(item.id, img, data)}
             onSelectStyle: {
                 _stylePopup.parent = nodeItem
                 _stylePopup.node = item

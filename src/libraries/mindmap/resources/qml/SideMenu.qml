@@ -103,7 +103,7 @@ Drawer {
             PermissionFrame {
                 id: userlist
                 Layout.fillWidth: true
-                visible: mediaCtrl.remote
+                visible: !mediaCtrl.remote
                 playerModel: mediaCtrl.remotePlayerModel
                 onPermissionToAllChanged: mediaCtrl.setSharingToAll(permissionToAll)
                 onPermissionForUserChanged: mediaCtrl.setPermissionForUser(id, permission)
