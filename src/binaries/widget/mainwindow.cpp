@@ -1160,7 +1160,27 @@ void MainWindow::dropEvent(QDropEvent* event)
     if(!data->hasUrls() && !data->hasImage())
         return;
 
-    if(data->hasUrls())
+    qDebug() << "data has url and image" << data->hasImage() << data->hasUrls();
+
+    if(data->hasImage())
+    {
+        auto contentCtrl= m_gameController->contentController();
+        auto img= qvariant_cast<QImage>(data->imageData());
+        qDebug() << img.isNull() << img;
+
+        auto name= tr("Unknown");
+        if(data->hasText())
+        {
+            name= data->text();
+        }
+
+        contentCtrl->openMedia(
+            {{Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::PICTURE)},
+             {Core::keys::KEY_DATA, IOHelper::imageToData(img)},
+             {Core::keys::KEY_NAME, name},
+             {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
+    }
+    else if(data->hasUrls())
     {
         QList<QUrl> list= data->urls();
         auto contentCtrl= m_gameController->contentController();
@@ -1176,7 +1196,7 @@ void MainWindow::dropEvent(QDropEvent* event)
                 qCInfo(WidgetClient)
                     << QStringLiteral("MainWindow: dropEvent for %1").arg(helper::utils::typeToString(type));
                 contentCtrl->openMedia(
-                    {{Core::keys::KEY_URL, path},
+                    {{Core::keys::KEY_URL, url},
                      {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
                      {Core::keys::KEY_NAME, utils::IOHelper::shortNameFromPath(path)},
                      {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
@@ -1207,24 +1227,6 @@ void MainWindow::dropEvent(QDropEvent* event)
 #endif
             }
         }
-    }
-    else if(data->hasImage())
-    {
-        auto contentCtrl= m_gameController->contentController();
-        auto img= qvariant_cast<QImage>(data->imageData());
-        qDebug() << img.isNull() << img;
-
-        auto name= tr("Unknown");
-        if(data->hasText())
-        {
-            name= data->text();
-        }
-
-        contentCtrl->openMedia(
-            {{Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::PICTURE)},
-             {Core::keys::KEY_DATA, IOHelper::imageToData(img)},
-             {Core::keys::KEY_NAME, name},
-             {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
     }
     event->acceptProposedAction();
 }

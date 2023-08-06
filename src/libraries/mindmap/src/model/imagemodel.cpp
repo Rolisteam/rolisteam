@@ -65,6 +65,11 @@ int ImageModel::rowCount(const QModelIndex& index) const
 
 void ImageModel::insertPixmap(const QString& id, const QPixmap& map, const QUrl& url, bool network)
 {
+    if(map.isNull())
+        return;
+
+    removePixmap(id);
+
     auto pos= static_cast<int>(m_data.size());
     beginInsertRows(QModelIndex(), pos, pos);
     m_data.push_back(ImageInfo{map, id, url});
@@ -103,11 +108,14 @@ QPixmap ImageModel::pixmapFromId(const QString& id) const
 {
 
     auto it
-        = std::find_if(std::begin(m_data), std::end(m_data), [id](const ImageInfo& info) { return id == info.m_id; });
+        = std::find_if(std::begin(m_data), std::end(m_data), [id](const ImageInfo& info) {
+              qDebug() << info.m_id << id;
+              return id == info.m_id; });
 
     if(it == std::end(m_data))
         return {};
 
+    qDebug() << "has image" << it->m_pixmap.isNull();
     return it->m_pixmap;
 }
 

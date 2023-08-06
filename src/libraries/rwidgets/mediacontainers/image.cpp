@@ -292,6 +292,16 @@ void Image::createActions()
     connect(m_bigShort, &QShortcut::activated, this, zoomBig);
     m_actionBigZoom->setShortcut(m_bigShort->key());
 
+
+    m_rename = new QAction(tr("Rename"), this);
+    m_rename->setShortcut(Qt::Key_F2);
+    connect(m_rename, &QAction::triggered, this, [this](){
+        auto text = QInputDialog::getText(this, tr("Define the new name"), tr("New name:"),QLineEdit::Normal,m_ctrl->name());
+        if(text.isEmpty())
+            return;
+        m_ctrl->setName(text);
+    });
+
     m_playAct= new QAction(tr("Play"), this);
     m_playAct->setShortcut(Qt::Key_Space);
     m_stopAct= new QAction(tr("Stop"), this);
@@ -328,6 +338,8 @@ void Image::contextMenuEvent(QContextMenuEvent* event)
         menu.addSeparator();
     }
 
+    menu.addAction(m_rename);
+    menu.addSeparator();
     menu.addAction(m_actionZoomIn);
     menu.addAction(m_actionZoomOut);
     menu.addSeparator();

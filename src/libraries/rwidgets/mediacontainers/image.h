@@ -134,6 +134,7 @@ private:
     QAction* m_fitWindowAct; // * 0.2
     QAction* m_playAct;
     QAction* m_stopAct;
+    QAction* m_rename;
 
     QShortcut* m_fitWindowShort;
 
