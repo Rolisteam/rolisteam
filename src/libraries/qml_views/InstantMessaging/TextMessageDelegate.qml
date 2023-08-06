@@ -26,8 +26,7 @@ Column {
 
         Image {
             id: avatar
-            property string writerid
-            source: "image://avatar/%1".arg(avatar.writerid)
+            source: "image://avatar/%1".arg(root.writerId)
             visible: !root.local
             fillMode: Image.PreserveAspectFit
             sourceSize.width:  root.styleSheet.imageSize
@@ -36,20 +35,20 @@ Column {
 
         Rectangle {
             id: rect
-            width: messageLyt.implicitWidth + root.styleSheet.textTopMargin//Math.min(messageId.contentWidth + root.styleSheet.textTopMargin,
-                            //listView.width - (!root.local ? avatar.width + messageRow.spacing : 0))
-            height: messageLyt.implicitHeight + root.styleSheet.textTopMargin //messageId.contentHeight + root.styleSheet.textTopMargin
+            width: messageLyt.implicitWidth + root.styleSheet.textTopMargin
+            height: messageLyt.implicitHeight + root.styleSheet.textTopMargin
             color: root.local ? root.styleSheet.localMsgColor : root.styleSheet.RemoteMsgColor
             radius: root.styleSheet.radiusSize
             ColumnLayout {
                 id: messageLyt
-                anchors.centerIn: parent
+                x: root.styleSheet.textTopMargin/2
+                y: root.styleSheet.textTopMargin/2
                 Label {
                     id: messageId
                     text: root.text
                     visible: root.text
                     font.pixelSize: root.styleSheet.fontSize * root.factor
-                    width: Math.min(root.parentWidth, contentWidth)
+                    Layout.preferredWidth: Math.min(root.parentWidth, contentWidth)
 
                     wrapMode: Text.WordWrap
                     onLinkActivated: InstantMessagerManager.ctrl.openLink(link)
