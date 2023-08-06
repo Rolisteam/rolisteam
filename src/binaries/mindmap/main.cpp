@@ -41,7 +41,7 @@
 
 void registerMindmapType()
 {
-    customization::Theme::setPath("/home/renaud/application/mine/renaudg/rolisteam/resources/stylesheet/qml/theme.ini");
+    customization::Theme::setPath(":/resources/stylesheet/qml/theme.ini");
     qRegisterMetaType<PlayerModel*>("PlayerModel*");
     qRegisterMetaType<customization::Theme*>("customization::Theme*");
     qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");
@@ -93,6 +93,8 @@ int main(int argc, char** argv)
     format.setStencilBufferSize(8);
     format.setSamples(8);
     QSurfaceFormat::setDefaultFormat(format);
+
+
 
     QQuickStyle::setStyle("rolistyle");
     QQuickStyle::setFallbackStyle("Fusion");
