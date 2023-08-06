@@ -187,6 +187,24 @@ void AudioPlayerUpdater::initSignalForGM()
                     return;
                 MessageHelper::sendOffMusicPlayerOrder(netAction, AudioController::Third);
             });
+
+    // timer changed
+    connect(ctrl1, &AudioPlayerController::timeChanged, this,
+            [](qint64 time)
+            {
+                MessageHelper::sendOffTime(time, AudioController::First);
+            });
+    connect(ctrl2, &AudioPlayerController::timeChanged, this,
+            [](qint64 time)
+            {
+                MessageHelper::sendOffTime(time, AudioController::Second);
+            });
+    connect(ctrl2, &AudioPlayerController::timeChanged, this,
+            [](qint64 time)
+            {
+                MessageHelper::sendOffTime(time, AudioController::Third);
+            });
+
 }
 
 NetWorkReceiver::SendType AudioPlayerUpdater::processMessage(NetworkMessageReader* msg)

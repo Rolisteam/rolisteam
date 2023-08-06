@@ -73,7 +73,7 @@ QVariant MusicModel::data(const QModelIndex& index, int role) const
         return {};
 
     // Break early if role is not Diplay or Font.
-    QSet<int> set({Qt::DisplayRole, Qt::FontRole, TITLE, URL});
+    QSet<int> set({Qt::DisplayRole, Qt::FontRole, Qt::ToolTipRole, TITLE, URL});
     if(!set.contains(role))
         return {};
 
@@ -86,6 +86,7 @@ QVariant MusicModel::data(const QModelIndex& index, int role) const
     case TITLE:
         var= url.fileName();
         break;
+    case Qt::ToolTipRole:
     case URL:
         var= url;
         break;
