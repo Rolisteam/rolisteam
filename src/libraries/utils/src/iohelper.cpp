@@ -1,10 +1,13 @@
 #include "utils/iohelper.h"
+#include "utils/networkdownloader.h"
 
 #include <QByteArray>
 #include <QDir>
 #include <QFile>
 #include <QSaveFile>
 #include <QTextStream>
+#include <QSignalSpy>
+
 
 namespace utils
 {
@@ -105,6 +108,25 @@ QPixmap readPixmapFromFile(const QString& uri)
     return QPixmap(uri);
 }
 
+QPixmap readPixmapFromWeb(const QUrl& url)
+{
+    NetworkDownloader dl(url);
+    QSignalSpy spy(&dl, &NetworkDownloader::finished);
+
+    spy.wait(5000);
+    if(spy.count() == 0)
+        return {};
+    else
+    {
+        auto first = spy.takeFirst();
+        auto hasImage = first.at(1).toBool();
+        auto imageData = first.at(0).toByteArray();
+        if(hasImage)
+            return QPixmap::fromImage(dataToImage(imageData));
+    }
+    return {};
+}
+
 QPixmap readPixmapFromURL(const QUrl& url)
 {
     QPixmap map;
@@ -115,6 +137,10 @@ QPixmap readPixmapFromURL(const QUrl& url)
     else if(url.scheme() == QStringLiteral("qrc"))
     {
         map= readPixmapFromFile(url.path());
+    }
+    else if(url.scheme().startsWith(QStringLiteral("http")))
+    {
+        map = readPixmapFromWeb(url);
     }
     return map;
 }

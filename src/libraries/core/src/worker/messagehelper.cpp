@@ -427,6 +427,7 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
         if(!pack)
             continue;
 
+        msg.string8(pack->id());
         msg.string16(pack->title());
         auto const& children= pack->children();
         msg.uint32(children.size());
@@ -552,6 +553,25 @@ QHash<QString, QVariant> MessageHelper::readMindMap(NetworkMessageReader* msg)
         links.insert(QString("link_%1").arg(i), link);
     }
     hash["links"]= links;
+
+    QHash<QString, QVariant> packages;
+    size= msg->uint64();
+
+    for(quint64 i= 0; i < size; ++i)
+    {
+        QHash<QString, QVariant> pack;
+        pack["uuid"]= msg->string8();
+        pack["title"]= msg->string16();
+        auto childrenCount = msg->uint32();
+        QStringList childrenId;
+        for(unsigned int i = 0; i < childrenCount; ++i)
+        {
+            childrenId.append(msg->string8());
+        }
+        pack["children"]=childrenId;
+        packages.insert(QString("pack_%1").arg(i), pack);
+    }
+    hash["packages"]= packages;
 
     QHash<QString, QVariant> imageInfoData;
     size= msg->uint64();

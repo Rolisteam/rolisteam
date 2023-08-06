@@ -38,9 +38,10 @@
 
 #include "mindmap/data/link.h"
 #include "mindmap/data/mindnode.h"
-#include "mindmap/model/boxmodel.h"
+#include "mindmap/data/minditem.h"
+#include "mindmap/data/linkcontroller.h"
+
 #include "mindmap/model/imagemodel.h"
-#include "mindmap/model/linkmodel.h"
 
 #include "network/networkmessagereader.h"
 #include "utils/iohelper.h"
@@ -197,7 +198,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
     auto mindmapCtrl= new MindMapController(uuid);
 
-    /* if(map.contains("indexStyle"))
+     if(map.contains("indexStyle"))
          mindmapCtrl->setDefaultStyleIndex(map.value("indexStyle").toBool());
 
       QHash<QString, mindmap::MindNode*> data;
@@ -205,9 +206,9 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
      {
          QHash<QString, QVariant> nodes= map.value("nodes").toHash();
 
-         auto model= dynamic_cast<mindmap::BoxModel*>(mindmapCtrl->nodeModel());
+         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
          QHash<QString, QString> parentData;
-         QList<mindmap::MindNode*> nodesList;
+         QList<mindmap::MindItem*> nodesList;
          for(const auto& var : nodes)
          {
              auto node= new mindmap::MindNode();
@@ -222,7 +223,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
              data.insert(node->id(), node);
              parentData.insert(node->id(), nodeV["parentId"].toString());
          }
-         model->appendNode(nodesList);
+         model->appendItem(nodesList);
 
          for(const auto& key : data.keys())
          {
@@ -242,16 +243,16 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
      {
          QHash<QString, QVariant> links= map.value("links").toHash();
 
-         auto model= dynamic_cast<mindmap::LinkModel*>(mindmapCtrl->linkModel());
+         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
 
-         QList<mindmap::Link*> linkList;
+         QList<mindmap::MindItem*> linkList;
          for(const auto& var : links)
          {
-             auto link= new mindmap::Link();
+             auto link= new mindmap::LinkController();
              auto linkV= var.toHash();
              link->setId(linkV["uuid"].toString());
              link->setText(linkV["text"].toString());
-             link->setDirection(static_cast<Core::ArrowDirection>(linkV["direction"].toInt()));
+             link->setDirection(static_cast<mindmap::LinkController::Direction>(linkV["direction"].toInt()));
              auto startId= linkV["startId"].toString();
              auto endId= linkV["endId"].toString();
 
@@ -262,13 +263,36 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
              linkList << link;
          }
-         model->append(linkList);
+         model->appendItem(linkList);
+     }
+
+
+     if(map.contains("packages"))
+     {
+         QHash<QString, QVariant> links= map.value("links").toHash();
+
+         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
+
+         QList<mindmap::MindItem*> linkList;
+         for(const auto& var : links)
+         {
+             auto pack= new mindmap::PackageNode();
+             auto packV= var.toHash();
+             pack->setId(packV["uuid"].toString());
+             pack->setTitle(packV["title"].toString());
+             auto childrenId = packV["children"].toStringList();
+             for(auto const& id : childrenId)
+             {
+                pack->addChild(model->positionItem(id));
+             }
+         }
+         model->appendItem(linkList);
      }
 
      if(map.contains("imageInfoData"))
      {
          QHash<QString, QVariant> imgInfos= map.value("imageInfoData").toHash();
-         auto model= mindmapCtrl->imageModel();
+         auto model= mindmapCtrl->imgModel();
          for(const auto& var : imgInfos)
          {
              auto img= var.toHash();
@@ -277,7 +301,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
              auto url= QUrl(img["url"].toString());
              model->insertPixmap(id, pix, url);
          }
-     }*/
+     }
 
     if(!name.isEmpty())
         mindmapCtrl->setName(name);

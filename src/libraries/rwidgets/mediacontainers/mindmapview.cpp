@@ -73,17 +73,17 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
 {
     registerMindmapType();
     // auto format= QSurfaceFormat::defaultFormat();
-    auto format= m_qmlViewer->format();
+    /*auto format= m_qmlViewer->format();
     if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
     {
-        format.setVersion(4, 6);
+        format.setVersion(3, 2);
         format.setProfile(QSurfaceFormat::CoreProfile);
     }
-    format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
+    //format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
-    // format.setSamples(2);
-    m_qmlViewer->setFormat(format);
+    format.setSamples(8);
+    m_qmlViewer->setFormat(format);*/
 
     setObjectName("mindmap");
     setWindowIcon(QIcon::fromTheme("mindmap"));

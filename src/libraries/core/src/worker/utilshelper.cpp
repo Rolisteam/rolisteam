@@ -275,7 +275,7 @@ Core::ContentType extensionToContentType(const QString& filename)
         auto list= extentionPerType(type, false);
         for(const auto& ext : list)
         {
-            if(filename.endsWith(ext))
+            if(filename.endsWith(ext,Qt::CaseInsensitive))
                 return type;
         }
     }

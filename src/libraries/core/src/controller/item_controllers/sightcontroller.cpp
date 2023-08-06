@@ -32,9 +32,6 @@ SightController::SightController(VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::SIGHT, std::map<QString, QVariant>(), ctrl, parent)
 {
     // constructor
-    /*connect(m_characterItems, &CharacterItemControllerManager::playableCharacterControllerCreated, this,
-            &SightController::characterCountChanged);
-    connect(m_characterItems, &CharacterItemControllerManager::playableCharacterControllerDestroyed, this,
     setUuid("sightController");
 
     connect(m_ctrl, &VectorialMapController::visibilityChanged, this,

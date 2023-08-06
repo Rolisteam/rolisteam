@@ -196,7 +196,13 @@ void PlayerWidget::setupUi()
     // time
     connect(m_ctrl, &AudioPlayerController::timeChanged, m_ui->m_timeSlider,
             [this]() { m_ui->m_timeSlider->setValue(m_ctrl->time()); });
-    connect(m_ui->m_timeSlider, &QSlider::sliderMoved, m_ctrl, &AudioPlayerController::setTime);
+    connect(m_ui->m_timeSlider, &QSlider::sliderMoved, m_ctrl, [this](qint64 time){
+
+        if(!m_ui->m_timeSlider || !m_ui->m_timeSlider->isVisible())
+            return;
+
+        m_ctrl->setTime(time);
+    });
 
     // Volume
     /*connect(m_ctrl, &AudioPlayerController::volumeChanged, m_ui->m_volumeSlider,
