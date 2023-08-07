@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 Dependencies:
-- 'on': ['@all']
+- 'on': ['Linux','Windows']
   'require':
     'frameworks/extra-cmake-modules': '@stable'
 
