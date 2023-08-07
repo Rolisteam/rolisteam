@@ -935,7 +935,7 @@ msgid "Quit"
 msgstr "Quita"
 
 #: src/binaries/widget/mainwindow.cpp:708
-#, qt-format
+#, fuzzy, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Connexion ha essite perdite. %! essera claudite"
@@ -2022,7 +2022,7 @@ msgid "Could not create '%1'"
 msgstr "Non poteva crear '%1'"
 
 #: src/libraries/core/src/worker/fileserializer.cpp:96
-#, qt-format
+#, fuzzy, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
 msgstr "Error: %! non existe o non es legibile."
