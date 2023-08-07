@@ -4,7 +4,7 @@
 Dependencies:
 - 'on': ['Linux','Windows']
   'require':
-    'frameworks/extra-cmake-modules': '@latest'
+    'frameworks/extra-cmake-modules': '@latest-kf6'
 
 Options:
   run-tests: True
