@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-19 15:46+0200\n"
+"PO-Revision-Date: 2023-08-07 14:58+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -935,7 +935,7 @@ msgid "Quit"
 msgstr "Quita"
 
 #: src/binaries/widget/mainwindow.cpp:708
-#, fuzzy, qt-format
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Connexion ha essite perdite. %! essera claudite"
@@ -2022,10 +2022,10 @@ msgid "Could not create '%1'"
 msgstr "Non poteva crear '%1'"
 
 #: src/libraries/core/src/worker/fileserializer.cpp:96
-#, fuzzy, qt-format
+#, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
-msgstr "Error: %! non existe o non es legibile."
+msgstr "Error: %1non existe o non es legibile."
 
 #: src/libraries/core/src/worker/utilshelper.cpp:167
 #, qt-format
