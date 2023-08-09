@@ -935,7 +935,7 @@ msgid "Quit"
 msgstr "Quita"
 
 #: src/binaries/widget/mainwindow.cpp:708
-#, qt-format
+#, fuzzy, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Connexion ha essite perdite. %! essera claudite"
