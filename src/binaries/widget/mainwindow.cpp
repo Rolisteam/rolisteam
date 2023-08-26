@@ -49,6 +49,7 @@
 
 #include "controller/contentcontroller.h"
 #include "controller/playercontroller.h"
+#include "common/logcategory.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "model/historymodel.h"
@@ -838,17 +839,17 @@ void MainWindow::showUpdateNotification()
 
 void MainWindow::notifyAboutAddedPlayer(Player* player) const
 {
-    m_gameController->addFeatureLog(tr("%1 just joins the game.").arg(player->name()));
+    m_gameController->addFeatureLog(tr("%1 just joins the game.").arg(player->name()), logns::cat::network);
     if(player->getUserVersion().compare(m_gameController->version()) != 0)
     {
         m_gameController->addErrorLog(
-            tr("%1 has not the right version: %2.").arg(player->name(), player->getUserVersion()));
+            tr("%1 has not the right version: %2.").arg(player->name(), player->getUserVersion()), logns::cat::network);
     }
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player* player) const
 {
-    m_gameController->addFeatureLog(tr("%1 just leaves the game.").arg(player->name()));
+    m_gameController->addFeatureLog(tr("%1 just leaves the game.").arg(player->name()), logns::cat::network);
 }
 
 void MainWindow::readSettings()
@@ -1279,7 +1280,7 @@ void MainWindow::focusInEvent(QFocusEvent* event)
     QMainWindow::focusInEvent(event);
     if(m_isOut)
     {
-        m_gameController->addSearchLog(QStringLiteral("Rolisteam gets focus."));
+        m_gameController->addSearchLog(QStringLiteral("Rolisteam gets focus."), logns::cat::usability);
         m_isOut= false;
     }
 }
@@ -1288,7 +1289,7 @@ void MainWindow::focusOutEvent(QFocusEvent* event)
     QMainWindow::focusOutEvent(event);
     if(!isActiveWindow())
     {
-        m_gameController->addSearchLog(QStringLiteral("User gives focus to another windows."));
+        m_gameController->addSearchLog(QStringLiteral("User gives focus to another windows."), logns::cat::usability);
         m_isOut= true;
     }
 }

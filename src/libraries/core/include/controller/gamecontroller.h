@@ -122,11 +122,11 @@ signals:
     void dataLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
 
 public slots:
-    void addErrorLog(const QString& message);
-    void addWarningLog(const QString& message);
-    void addFeatureLog(const QString& message);
-    void addInfoLog(const QString& message);
-    void addSearchLog(const QString& message);
+    void addErrorLog(const QString& message, const QString& cat);
+    void addWarningLog(const QString& message, const QString& cat);
+    void addFeatureLog(const QString& message, const QString& cat);
+    void addInfoLog(const QString& message, const QString& cat);
+    void addSearchLog(const QString& message, const QString& cat);
 
     void startCheckForUpdates();
     void startIpRetriever();

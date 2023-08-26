@@ -98,7 +98,9 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 void RolisteamDaemon::start()
 {
     connect(&m_thread, &QThread::started, &m_server, &RServer::listen);
-    connect(&m_server, &RServer::eventOccured, m_logController, &LogController::manageMessage, Qt::QueuedConnection);
+    connect(&m_server, &RServer::eventOccured, m_logController, [this](const QString& msg,  LogController::LogLevel type){
+        m_logController->manageMessage(msg, QStringLiteral("Server"), type);
+    }, Qt::QueuedConnection);
     connect(&m_server, &RServer::completed, &m_thread, &QThread::quit);
     connect(&m_server, &RServer::stateChanged, this, [this]() {
         if(m_server.state() == RServer::Stopped)

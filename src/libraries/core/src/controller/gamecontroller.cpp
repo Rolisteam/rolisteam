@@ -242,29 +242,29 @@ LogController* GameController::logController() const
     return m_logController.get();
 }
 
-void GameController::addErrorLog(const QString& message)
+void GameController::addErrorLog(const QString& message, const QString& cat)
 {
-    m_logController->manageMessage(message, LogController::Error);
+    m_logController->manageMessage(message, cat, LogController::Error);
 }
 
-void GameController::addWarningLog(const QString& message)
+void GameController::addWarningLog(const QString& message, const QString& cat)
 {
-    m_logController->manageMessage(message, LogController::Warning);
+    m_logController->manageMessage(message, cat, LogController::Warning);
 }
 
-void GameController::addFeatureLog(const QString& message)
+void GameController::addFeatureLog(const QString& message, const QString& cat)
 {
-    m_logController->manageMessage(message, LogController::Features);
+    m_logController->manageMessage(message, cat, LogController::Features);
 }
 
-void GameController::addInfoLog(const QString& message)
+void GameController::addInfoLog(const QString& message, const QString& cat)
 {
-    m_logController->manageMessage(message, LogController::Info);
+    m_logController->manageMessage(message, cat, LogController::Info);
 }
 
-void GameController::addSearchLog(const QString& message)
+void GameController::addSearchLog(const QString& message, const QString& cat)
 {
-    m_logController->manageMessage(message, LogController::Search);
+    m_logController->manageMessage(message, cat, LogController::Search);
 }
 
 NetworkController* GameController::networkController() const

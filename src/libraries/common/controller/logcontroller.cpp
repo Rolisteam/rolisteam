@@ -93,7 +93,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
     }
 
     // controller->manageMessage(msgFormated,cLevel);
-    QMetaObject::invokeMethod(controller, "manageMessage", Qt::QueuedConnection, Q_ARG(QString, msgFormated),
+    QMetaObject::invokeMethod(controller, "manageMessage", Qt::QueuedConnection, Q_ARG(QString, msgFormated),Q_ARG(QString, QString::fromLocal8Bit(context.category)),
                               Q_ARG(LogController::LogLevel, cLevel));
     QMetaObject::invokeMethod(controller, "logToFile", Qt::QueuedConnection, Q_ARG(QString, msg),
                               Q_ARG(LogController::LogLevel, cLevel),
@@ -206,7 +206,7 @@ void LogController::signalActivated()
     auto index= senderSignalIndex();
     auto meta= obj->metaObject();
     auto method= meta->method(index);
-    manageMessage(QStringLiteral("[signal] - %1").arg(QString::fromUtf8(method.name())), Info);
+    manageMessage(QStringLiteral("[signal] - %1").arg(QString::fromUtf8(method.name())), QStringLiteral("Signal"), Info);
 }
 
 QString LogController::typeToText(LogController::LogLevel type)
@@ -247,7 +247,7 @@ void LogController::setListenOutSide(bool val)
     m_listenOutSide= val;
 }
 
-void LogController::manageMessage(QString message, LogController::LogLevel type)
+void LogController::manageMessage(QString message, const QString& category, LogController::LogLevel type)
 {
     QMutexLocker locker(&m_mutex);
     Q_UNUSED(locker)
@@ -256,7 +256,6 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
     str= str.arg(QTime::currentTime().toString("hh:mm:ss"), typeToText(type), message);
 
     QString timestamps;
-    QString category; // WARNING unused
     timestamps= QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
 
     if(type == Hidden)

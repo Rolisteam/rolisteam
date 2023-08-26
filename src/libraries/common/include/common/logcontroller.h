@@ -91,7 +91,7 @@ signals:
     void currentPathChanged();
 
 public slots:
-    void manageMessage(QString message, LogController::LogLevel type);
+    void manageMessage(QString message, const QString &category, LogController::LogLevel type);
     void listenObjects(const QObject* widget);
     void signalActivated();
     void actionActivated();

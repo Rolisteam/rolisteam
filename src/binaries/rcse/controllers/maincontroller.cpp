@@ -27,7 +27,9 @@ MainController::MainController(QObject* parent)
     , m_generatorCtrl{new QmlGeneratorController()}
     , m_logCtrl{new LogController(true)}
 {
-    connect(m_generatorCtrl.get(), &QmlGeneratorController::reportLog, m_logCtrl.get(), &LogController::manageMessage);
+    connect(m_generatorCtrl.get(), &QmlGeneratorController::reportLog, m_logCtrl.get(), [this](const QString& msg,  LogController::LogLevel type){
+        m_logCtrl->manageMessage(msg, QStringLiteral("QMLEngine"), type);
+    });
     m_logCtrl->setCurrentModes(LogController::Gui);
 
     connect(m_characterCtrl.get(), &CharacterController::performCommand, this, &MainController::processCommand);
@@ -45,7 +47,7 @@ MainController::MainController(QObject* parent)
             &ImageController::addBackgroundImage);
 
     connect(m_imageCtrl.get(), &ImageController::errorOccurs, this,
-            [this](const QString& msg) { m_logCtrl->manageMessage(msg, LogController::Error); });
+            [this](const QString& msg) { m_logCtrl->manageMessage(msg, QStringLiteral("ImageCtrl"), LogController::Error); });
 
     connect(m_generatorCtrl.get(), &QmlGeneratorController::errors, this,
             &MainController::displayQmlError); //[this](const QList<QQmlError>& errors) {
@@ -143,7 +145,7 @@ void MainController::displayQmlError(const QList<QQmlError>& errors)
             lvl= LogController::Info;
             break;
         }
-        m_logCtrl->manageMessage(er.toString(), lvl);
+        m_logCtrl->manageMessage(er.toString(), QStringLiteral("QMLEngine"), lvl);
     }
 }
 

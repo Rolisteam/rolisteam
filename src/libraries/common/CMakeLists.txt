@@ -23,6 +23,7 @@ set(common_core_public_headers include/common/common_global.h
     include/common/remotelogcontroller.h
     include/common/logcontroller.h
     include/common/common_types.h
+    include/common/logcategory.h
     include/common/uploadlogtoserver.h)
 
 set(common_core_src
