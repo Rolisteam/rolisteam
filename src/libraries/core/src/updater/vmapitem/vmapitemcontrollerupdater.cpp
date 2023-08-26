@@ -56,6 +56,8 @@ void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ct
             [this, ctrl]() { sendOffVMapChanges<QColor>(ctrl, QStringLiteral("color")); });
     connect(ctrl, &vmap::VisualItemController::lockedChanged, this,
             [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("locked")); });
+    connect(ctrl, &vmap::VisualItemController::parentUuidChanged, this,
+            [this, ctrl]() { sendOffVMapChanges<QString>(ctrl, QStringLiteral("parentUuid")); });
 }
 
 bool VMapItemControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

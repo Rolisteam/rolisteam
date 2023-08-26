@@ -39,12 +39,17 @@
 
 #include "utils/logcategories.h"
 
-// #include "worker/iohelper.h"
+void setNewParent(VisualItem* child, VisualItem* parent)
+{
+    auto pos = child->scenePos();
+    child->setParentItem(parent);
+    auto ctrl = child->controller();
+    if(parent)
+        ctrl->setPos(parent->mapFromScene(pos));
+    else
+        ctrl->setPos(pos);
+}
 
-// Undo management
-// #include "commands/movevmapitem.h"
-// #include "undoCmd/addvmapitem.h"
-// #include "undoCmd/deletevmapitem.h"
 
 void addCharacterItem(VectorialMapController* ctrl, const QPointF& pos, Character* character)
 {
@@ -133,18 +138,43 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
 void VMap::addExistingItems()
 {
     auto model= m_ctrl->model();
-    auto const& items= model->items();
-    std::for_each(std::begin(items), std::end(items),
+    auto const& modelItems= model->items();
+    std::for_each(std::begin(modelItems), std::end(modelItems),
                   [this](vmap::VisualItemController* item) { addVisualItem(item); });
+
+    // management of parenting
+    QHash<QString, VisualItem*> hash;
+    QHash<QString, VisualItem*> needParent;
+    for(auto& item : items())
+    {
+        auto vItem = getNormalItem(item);
+        if(!vItem)
+            continue;
+
+        hash.insert(vItem->uuid(), vItem);
+
+        if(!vItem->controller()->parentUuid().isEmpty())
+            needParent.insert(needParent);
+    }
+
+
+    for(auto const& item : std::as_const(needParent))
+    {
+        auto parentId =   item->controller()->parentUuid();
+        if(hash.contains(parentId))
+        {
+            item->setParentItem(hash.value(parentId));
+        }
+    }
 }
 
 void VMap::updateLayer()
 {
-    auto const& values= m_itemMap->values();
+    /*auto const& values= m_itemMap->values();
     for(auto& item : values)
     {
         item->updateItemFlags();
-    }
+    }*/
 }
 void VMap::addAndInit(QGraphicsItem* item)
 {
@@ -178,6 +208,33 @@ void VMap::addVisualItem(vmap::VisualItemController* ctrl)
     default:
         break;
     }
+    connect(ctrl, &vmap::CharacterItemController::parentUuidChanged, ctrl, [ctrl, this](){
+        auto graphicItems = items();
+        auto parentId = ctrl->parentUuid();
+
+        QPointer<VisualItem> child;
+        QPointer<VisualItem> parent;
+        for(auto &item : graphicItems)
+        {
+            auto vItem = getNormalItem(item);
+            if(!vItem)
+                continue;
+
+            if(vItem->controller() == ctrl)
+                child = vItem;
+
+            if(vItem->uuid() == parentId)
+                parent = vItem;
+
+            if((child && parent) || (child && (parentId.isEmpty())))
+                break;
+        }
+
+        if(!child)
+            return;
+
+        setNewParent(child, parent.data());
+    });
     update();
 }
 void VMap::addLineItem(vmap::LineController* lineCtrl, bool editing)
@@ -504,65 +561,7 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
 }
 
-void VMap::setAnchor(QGraphicsItem* child, QGraphicsItem* parent)
-{
-    if(nullptr == child)
-        return;
-
-    if(!parent)
-    {
-        // TODO: make command
-        QPointF pos= parent->mapFromScene(child->pos());
-        child->setParentItem(nullptr);
-        child->setPos(pos);
-    }
-
-    /*VisualItem* childItem= dynamic_cast<VisualItem*>(child);
-    VisualItem* paItem= dynamic_cast<VisualItem*>(parent);
-
-    if(!childItem)
-        return;
-
-    QPointF pos= child->pos();
-    QPointF pos2;
-    if(nullptr != parent)
-    {
-        pos2= parent->mapFromScene(pos);
-    }
-    else
-    {
-        if(nullptr != child->parentItem())
-        {
-            pos2= child->parentItem()->mapToScene(pos);
-        }
-    }
-
-    if(nullptr != paItem)
-    {
-        // msg.string8(paItem->getId());
-    }
-    else
-    {
-        //    msg.string8("nullptr");
-    }
-    bool hasMoved= false;
-    if(nullptr == parent)
-    {
-        child->setParentItem(parent);
-        hasMoved= true;
-    }
-    else if(parent->parentItem() != child)
-    {
-        child->setParentItem(parent);
-        hasMoved= true;
-    }
-    if(!(pos2.isNull() && parent == nullptr) && hasMoved)
-    {
-        child->setPos(pos2);
-    }*/
-}
-
-bool VMap::isNormalItem(const QGraphicsItem* item)
+bool VMap::isNormalItem(const QGraphicsItem* item) const
 {
     if(!item)
         return false;
@@ -577,6 +576,19 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
     return true;
 }
 
+VisualItem* VMap::getNormalItem(QGraphicsItem* item)
+{
+    if(!item)
+        return nullptr;
+
+    if((item == m_gridItem.get()) || (item == m_sightItem))
+    {
+        return nullptr;
+    }
+    auto vItem= dynamic_cast<VisualItem*>(item);
+    return vItem;
+}
+
 GridItem* VMap::gridItem() const
 {
     return m_gridItem.get();
@@ -587,25 +599,37 @@ void VMap::manageAnchor()
     if(m_parentItemAnchor.isNull())
         return;
 
-    QGraphicsItem* child= nullptr;
-    QGraphicsItem* parent= nullptr;
+    vmap::VisualItemController* child= nullptr;
+    vmap::VisualItemController* parent= nullptr;
     QList<QGraphicsItem*> item1= items(m_parentItemAnchor->getStart());
     for(QGraphicsItem* item : item1)
     {
-        if((nullptr == child) && (isNormalItem(item)))
-        {
-            child= item;
-        }
+        if(item == nullptr)
+            continue;
+
+        qDebug() << item->boundingRect();
+
+        if(!isNormalItem(item))
+            continue;
+
+        auto itemChild =  getNormalItem(item);
+        if(itemChild)
+            child= itemChild->controller();
     }
     QList<QGraphicsItem*> item2= items(m_parentItemAnchor->getEnd());
     for(QGraphicsItem* item : item2)
     {
-        if((nullptr == parent) && (isNormalItem(item)))
-        {
-            parent= item;
-        }
+        if(item == nullptr)
+            continue;
+
+        if(!isNormalItem(item))
+            continue;
+
+        auto parentChild =  getNormalItem(item);
+        if(parentChild)
+            parent= parentChild->controller();
     }
-    setAnchor(child, parent);
+    m_ctrl->setParent(child, parent);
 }
 
 void VMap::checkItemLayer(VisualItem* item)
@@ -624,28 +648,6 @@ void VMap::computePattern()
     {
         auto ctrl= m_ctrl->gridController();
         setBackgroundBrush(QPixmap::fromImage(ctrl->gridPattern()));
-    }
-}
-
-void VMap::ensureFogAboveAll()
-{
-    QList<VisualItem*> list= m_itemMap->values();
-    std::sort(list.begin(), list.end(),
-              [](const VisualItem* item, const VisualItem* meti) { return meti->zValue() > item->zValue(); });
-    m_orderedItemList= list;
-    VisualItem* highest= nullptr;
-    for(auto& item : m_orderedItemList)
-    {
-        if(item != m_sightItem)
-        {
-            highest= item;
-        }
-    }
-    if(nullptr != highest)
-    {
-        auto z= highest->zValue();
-        m_sightItem->setZValue(z + 1);
-        m_gridItem->setZValue(z + 2);
     }
 }
 
@@ -995,19 +997,19 @@ void VMap::insertCharacterInMap(CharacterItem* item)
 
 void VMap::showTransparentItems()
 {
-    auto const& values= m_itemMap->values();
+    /*auto const& values= m_itemMap->values();
     for(auto& item : values)
     {
         if(qFuzzyCompare(item->opacity(), 0))
         {
             item->setOpacity(1);
         }
-    }
+    }*/
 }
 
 QRectF VMap::itemsBoundingRectWithoutSight()
 {
-    QRectF result;
+    /*QRectF result;
     auto const& values= m_itemMap->values();
     for(auto item : values)
     {
@@ -1020,7 +1022,7 @@ QRectF VMap::itemsBoundingRectWithoutSight()
             result= result.united(item->boundingRect());
         }
     }
-    return result;
+    return result;*/
 }
 
 /*void VMap::rollInit(Core::CharacterScope zone)
@@ -1102,3 +1104,4 @@ void VMap::addCommand(QUndoCommand* cmd)
         return;
     m_undoStack->push(cmd);
 }
+

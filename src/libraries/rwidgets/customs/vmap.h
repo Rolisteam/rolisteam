@@ -75,14 +75,14 @@ public:
     QRectF itemsBoundingRectWithoutSight();
     void manageAnchor();
     bool isIdle() const;
-    void setAnchor(QGraphicsItem* child, QGraphicsItem* parent);
     void updateLayer();
     const QString& getLocalUserId() const;
     int getCurrentNpcNumber() const;
     void removeItemFromData(VisualItem* item);
     void setUndoStack(QUndoStack* undoStack);
     void addCommand(QUndoCommand* cmd);
-    bool isNormalItem(const QGraphicsItem* item);
+    bool isNormalItem(const QGraphicsItem* item)  const;
+    VisualItem *getNormalItem(QGraphicsItem *item);
 
     GridItem* gridItem() const;
 
@@ -94,8 +94,7 @@ public slots:
     void selectionHasChanged();
     void ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem);
     void showTransparentItems();
-    // void cleanUpInit(Core::CharacterScope zone);
-    // void rollInit(Core::CharacterScope zone);
+
 signals:
     void mapChanged();
     void mapStatutChanged();
@@ -116,7 +115,6 @@ protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent* event);
     void dropEvent(QGraphicsSceneDragDropEvent* event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent* event);
-    void ensureFogAboveAll();
     bool isItemStorable(VisualItem* item);
 
     void addRectItem(vmap::RectController* rectCtrl, bool editing);
@@ -143,9 +141,6 @@ private:
     QPointer<AnchorItem> m_parentItemAnchor;
     QPointer<RuleItem> m_ruleItem;
     QPointer<PathItem> m_currentPath= nullptr;
-    QMap<QString, VisualItem*>* m_itemMap= nullptr;
-    QStringList m_sortedItemList; // sorted by time of insertion
-    QList<VisualItem*> m_orderedItemList;
     QMultiMap<QString, CharacterItem*>* m_characterItemMap= nullptr;
     QImage m_computedPattern;
     QPointer<QUndoStack> m_undoStack;

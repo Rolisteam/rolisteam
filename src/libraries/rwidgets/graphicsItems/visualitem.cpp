@@ -197,6 +197,11 @@ QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant& value
     return QGraphicsItem::itemChange(change, value);
 }
 
+QString VisualItem::uuid() const
+{
+    return m_ctrl ? m_ctrl->uuid() : QString();
+}
+
 QPointF VisualItem::computeClosePoint(QPointF pos)
 {
     if(Qt::AltModifier & QGuiApplication::keyboardModifiers())

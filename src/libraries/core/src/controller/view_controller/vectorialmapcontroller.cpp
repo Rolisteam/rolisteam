@@ -32,6 +32,7 @@
 #include "undoCmd/hideotherlayercommand.h"
 #include "undoCmd/rollinitcommand.h"
 #include "undoCmd/showtransparentitemcommand.h"
+#include "undoCmd/anchorvmapitemcommand.h"
 
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/vmapitemfactory.h"
@@ -661,6 +662,13 @@ void VectorialMapController::changeZValue(const QList<vmap::VisualItemController
 {
     qDebug() << list.size() << "list size" << order;
     // emit performCommand(new ChangeStackOrderVMapCommand(this, list, order));
+}
+
+void VectorialMapController::setParent(vmap::VisualItemController *child, vmap::VisualItemController *newParent)
+{
+    if(!child)
+        return;
+    addCommand(new AnchorVMapItemCommand(child, newParent));
 }
 
 void VectorialMapController::removeItemController(const QSet<QString>& ids, bool fromNetwork)

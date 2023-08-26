@@ -53,6 +53,7 @@ class CORE_EXPORT VisualItemController : public QObject
     Q_PROPERTY(bool remote READ remote WRITE setRemote NOTIFY remoteChanged)
     Q_PROPERTY(int zOrder READ zOrder WRITE setZOrder NOTIFY zOrderChanged)
     Q_PROPERTY(bool removed READ removed WRITE setRemoved NOTIFY removedChanged)
+    Q_PROPERTY(QString parentUuid READ parentUuid WRITE setParentUuid NOTIFY parentUuidChanged)
 
 public:
     enum ItemType
@@ -122,6 +123,9 @@ public:
     bool removed() const;
     void setRemoved(bool newRemoved);
 
+    QString parentUuid() const;
+    void setParentUuid(const QString &newParentUuid);
+
 signals:
     void selectedChanged(bool b);
     void editableChanged();
@@ -145,6 +149,8 @@ signals:
     void zOrderChanged(qreal);
     void removedChanged();
 
+    void parentUuidChanged();
+
 public slots:
     void setSelected(bool b);
     void setEditable(bool b);
@@ -165,6 +171,8 @@ protected:
 
 private:
     void initializedVisualItem(const std::map<QString, QVariant>& params);
+
+    QString m_parentUuid;
 
 protected:
     QPointer<VectorialMapController> m_ctrl;

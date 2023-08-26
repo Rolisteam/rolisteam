@@ -347,4 +347,17 @@ void VisualItemController::setRemoved(bool newRemoved)
     emit removedChanged();
 }
 
+QString VisualItemController::parentUuid() const
+{
+    return m_parentUuid;
+}
+
+void VisualItemController::setParentUuid(const QString &newParentUuid)
+{
+    if (m_parentUuid == newParentUuid)
+        return;
+    m_parentUuid = newParentUuid;
+    emit parentUuidChanged();
+}
+
 } // namespace vmap

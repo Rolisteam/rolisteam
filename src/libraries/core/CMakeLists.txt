@@ -219,6 +219,7 @@ set(HEADERS
   ${inc}/undoCmd/addvmapitem.h
   ${inc}/undoCmd/changecoloritem.h
   ${inc}/undoCmd/changesizevmapitem.h
+  ${inc}/undoCmd/anchorvmapitemcommand.h
   ${inc}/undoCmd/deletevmapitem.h
   ${inc}/undoCmd/hideotherlayercommand.h
   ${inc}/undoCmd/importdatamedia.h
@@ -355,6 +356,7 @@ set(SOURCES
   src/undoCmd/addfogofwarchangecommand.cpp
   src/undoCmd/addlocalcharactercommand.cpp
   src/undoCmd/addnonplayablecharactercommand.cpp
+  src/undoCmd/anchorvmapitemcommand.cpp
   src/undoCmd/addvmapitem.cpp
   src/undoCmd/changecoloritem.cpp
   src/undoCmd/changesizevmapitem.cpp

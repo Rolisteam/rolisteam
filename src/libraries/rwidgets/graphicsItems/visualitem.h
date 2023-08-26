@@ -61,6 +61,8 @@ public:
     quint16 getPenWidth() const;
     void setPenWidth(const quint16& penWidth);
 
+    QString uuid()const;
+
     QColor color() const;
     virtual bool canBeMoved() const;
 

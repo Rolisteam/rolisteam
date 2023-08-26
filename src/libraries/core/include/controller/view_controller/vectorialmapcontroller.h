@@ -155,6 +155,7 @@ public slots:
     void cleanUpInit(QList<QPointer<vmap::CharacterItemController>> list);
     void runDiceCommand(QList<QPointer<vmap::CharacterItemController>> list, QString cmd);
     void changeZValue(const QList<vmap::VisualItemController*>& list, VectorialMapController::StackOrder order);
+    void setParent(vmap::VisualItemController* child, vmap::VisualItemController* newParent);
 
 signals:
     void permissionChanged(Core::PermissionMode mode);
