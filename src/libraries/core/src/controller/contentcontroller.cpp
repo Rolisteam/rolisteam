@@ -47,7 +47,6 @@
 #include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
 #include "preferences/preferencesmanager.h"
-#include "session/sessionitemmodel.h"
 #include "undoCmd/newmediacontroller.h"
 #include "undoCmd/openmediacontroller.h"
 #include "undoCmd/removemediacontrollercommand.h"
@@ -76,7 +75,7 @@ void sendOffMediaController(MediaControllerBase* ctrl)
 ContentController::ContentController(campaign::CampaignManager* campaign, PlayerModel* playerModel,
                                      CharacterModel* characterModel, QClipboard* clipboard, QObject* parent)
     : AbstractControllerInterface(parent)
-    , m_sessionModel(new QFileSystemModel()) // session::SessionItemModel)
+    , m_sessionModel(new QFileSystemModel())
     , m_contentModel(new ContentModel)
     , m_historyModel(new history::HistoryModel)
     , m_clipboard(clipboard)

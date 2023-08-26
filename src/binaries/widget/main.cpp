@@ -33,9 +33,7 @@
 #include <exception>
 
 #include "common_qml/theme.h"
-#include "data/person.h"
 #include "mainwindow.h"
-#include "preferences/preferencesmanager.h"
 #include "rolisteamapplication.h"
 #include "uiwatchdog.h"
 #include "version.h"

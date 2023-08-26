@@ -241,7 +241,6 @@ bool SessionItemModel::moveMediaItem(QList<SessionItem*> items, const QModelInde
 
             parentItem->insertChildAt(orignRow, item); // row
             //---
-            // WARNING test move item and remove this code
             int oldRow= formerPositionIndex.row();
             if(oldRow > orignRow && parentItem == m_rootItem.get() && parent == m_rootItem.get())
             {

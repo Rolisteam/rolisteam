@@ -25,7 +25,7 @@
 AnchorItem::AnchorItem()
     : m_pen(QColor(Qt::darkGray))
 {
-    qDebug() << "point anchor";
+
 }
 
 AnchorItem::~AnchorItem() {}
@@ -55,10 +55,6 @@ void AnchorItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     QLineF line(m_startPoint, m_endPoint);
     painter->drawLine(line);
     painter->restore();
-
-    /*QFont f= painter->font();
-    f.setPixelSize(15);
-    painter->setFont(f);*/
 }
 
 QPointF AnchorItem::getStart() const
