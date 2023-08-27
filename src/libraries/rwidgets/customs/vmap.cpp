@@ -329,33 +329,6 @@ void VMap::updateItem(const QPointF& end)
     }
 }
 
-void VMap::setCurrentItemOpacity(qreal a)
-{
-    QList<QGraphicsItem*> selection= selectedItems();
-    for(auto item : selection)
-    {
-        VisualItem* vItem= dynamic_cast<VisualItem*>(item);
-        if(nullptr != vItem)
-        {
-            vItem->setOpacity(a);
-        }
-    }
-}
-
-void VMap::selectionHasChanged()
-{
-    QList<QGraphicsItem*> items= selectedItems();
-    for(auto item : items)
-    {
-        VisualItem* vItem= dynamic_cast<VisualItem*>(item);
-        if(nullptr != vItem)
-        {
-            emit currentItemOpacity(vItem->opacity());
-            break;
-        }
-    }
-}
-
 void VMap::insertItem(const QPointF& pos)
 {
     std::map<QString, QVariant> params;
@@ -626,14 +599,6 @@ void VMap::manageAnchor()
     m_ctrl->setParent(child, parent);
 }
 
-void VMap::checkItemLayer(VisualItem* item)
-{
-    if(nullptr == item)
-        return;
-
-    item->updateItemFlags();
-}
-
 void VMap::computePattern()
 {
     setBackgroundBrush(m_ctrl->backgroundColor());
@@ -643,54 +608,6 @@ void VMap::computePattern()
         auto ctrl= m_ctrl->gridController();
         setBackgroundBrush(QPixmap::fromImage(ctrl->gridPattern()));
     }
-}
-
-void VMap::setUndoStack(QUndoStack* undoStack)
-{
-    m_undoStack= undoStack;
-}
-
-void VMap::removeItemFromData(VisualItem* item)
-{
-    if(nullptr == item)
-        return;
-
-    // m_sortedItemList.removeAll(item->getId());
-    // m_itemMap->remove(item->getId());
-    auto character= dynamic_cast<CharacterItem*>(item);
-    if(nullptr != character)
-    {
-        m_characterItemMap->remove(character->getCharacterId());
-    }
-}
-
-bool VMap::isItemStorable(VisualItem* item)
-{
-    if(!item)
-        return false;
-
-    QSet<vmap::VisualItemController::ItemType> allowed{
-        vmap::VisualItemController::ItemType::ANCHOR, vmap::VisualItemController::ItemType::GRID,
-        vmap::VisualItemController::ItemType::SIGHT, vmap::VisualItemController::ItemType::RULE,
-        vmap::VisualItemController::ItemType::HIGHLIGHTER};
-    return !allowed.contains(item->getType());
-}
-
-QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
-{
-    QList<CharacterItem*> result;
-    auto const& values= m_characterItemMap->values();
-    for(auto& item : values)
-    {
-        if(nullptr == item)
-            continue;
-
-        if(item->getCharacterId() == id)
-        {
-            result.append(item);
-        }
-    }
-    return result;
 }
 
 void VMap::promoteItemInType(VisualItem* item, vmap::VisualItemController::ItemType type)

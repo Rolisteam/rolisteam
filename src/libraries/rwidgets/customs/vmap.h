@@ -75,8 +75,6 @@ public:
 
     void manageAnchor();
     const QString& getLocalUserId() const;
-    int getCurrentNpcNumber() const;
-    void removeItemFromData(VisualItem* item);
     bool isNormalItem(const QGraphicsItem* item)  const;
     VisualItem *getNormalItem(QGraphicsItem *item);
 
@@ -84,31 +82,19 @@ public:
 
 public slots:
     void computePattern();
-    void duplicateItem(VisualItem* item);
-    QList<CharacterItem*> getCharacterOnMap(QString id);
-    void setCurrentItemOpacity(qreal);
-    void selectionHasChanged();
-    void ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem);
-    void showTransparentItems();
-
-signals:
-    void mapChanged();
-    void mapStatutChanged();
-    void currentItemOpacity(qreal);
-    void runDiceCommandForCharacter(QString cmd, QString uuid);
 
 private slots:
     void updateItem(const QPointF& end);
     void promoteItemInType(VisualItem*, vmap::VisualItemController::ItemType);
 
 protected:
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event)override;
     virtual void dragMoveEvent(QGraphicsSceneDragDropEvent* event)override;
     virtual void dropEvent(QGraphicsSceneDragDropEvent* event)override;
-    virtual void keyPressEvent(QKeyEvent* event);
+    virtual void keyPressEvent(QKeyEvent* event)override;
 
 
     void insertItem(const QPointF& end);
@@ -123,14 +109,8 @@ protected:
     void addTextItem(vmap::TextController* textCtrl);
     void addCharaterItem(vmap::CharacterItemController* itemCtrl);
 
-    void addAndInit(QGraphicsItem* item);
-
-    void addVisualItem(vmap::VisualItemController* ctrl);
-    void addExistingItems();
-
 private:
     VisualItem* visualItemUnder(const QPointF& pos);
-    bool isNormalItem(const QGraphicsItem* item);
 
 private:
     std::unique_ptr<GridItem> m_gridItem;
