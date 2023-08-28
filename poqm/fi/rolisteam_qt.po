@@ -472,17 +472,17 @@ msgctxt "MainWindow|"
 msgid "Log panel"
 msgstr "Lokipaneeli"
 
-#: src/binaries/rcse/mainwindow.cpp:194 src/binaries/widget/mainwindow.cpp:573
+#: src/binaries/rcse/mainwindow.cpp:194 src/binaries/widget/mainwindow.cpp:574
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "K&umoa"
 
-#: src/binaries/rcse/mainwindow.cpp:197 src/binaries/widget/mainwindow.cpp:572
+#: src/binaries/rcse/mainwindow.cpp:197 src/binaries/widget/mainwindow.cpp:573
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "T&ee uudelleen"
 
-#: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:643
+#: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:644
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Tuki"
@@ -502,7 +502,7 @@ msgctxt "MainWindow|"
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: src/binaries/rcse/mainwindow.cpp:463 src/binaries/widget/mainwindow.cpp:794
+#: src/binaries/rcse/mainwindow.cpp:463 src/binaries/widget/mainwindow.cpp:795
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Ohje"
@@ -519,7 +519,7 @@ msgctxt "MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr ""
 
-#: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:716
+#: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:717
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
@@ -704,7 +704,7 @@ msgid "Slider"
 msgstr "Liukusäädin"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
-#: src/libraries/core/src/data/cleveruri.cpp:229
+#: src/libraries/core/src/data/cleveruri.cpp:235
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
 msgid "Hidden"
@@ -897,50 +897,50 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Kysy salasana ja palauta sen tiivisteavain."
 
-#: src/binaries/widget/mainwindow.cpp:349
+#: src/binaries/widget/mainwindow.cpp:350
 msgctxt "MainWindow|"
 msgid "Antagonist Table"
 msgstr "Vastustajataulukko"
 
-#: src/binaries/widget/mainwindow.cpp:461
+#: src/binaries/widget/mainwindow.cpp:462
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Avaa verkkosivu"
 
-#: src/binaries/widget/mainwindow.cpp:461
+#: src/binaries/widget/mainwindow.cpp:462
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "Verkkosivun osoite:"
 
-#: src/binaries/widget/mainwindow.cpp:514
-#: src/binaries/widget/mainwindow.cpp:724
+#: src/binaries/widget/mainwindow.cpp:515
+#: src/binaries/widget/mainwindow.cpp:725
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:644
+#: src/binaries/widget/mainwindow.cpp:645
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:700
+#: src/binaries/widget/mainwindow.cpp:701
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Lopeta"
 
-#: src/binaries/widget/mainwindow.cpp:708
+#: src/binaries/widget/mainwindow.cpp:709
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Yhteys katkesi. %1 sulkeutuu"
 
-#: src/binaries/widget/mainwindow.cpp:710
+#: src/binaries/widget/mainwindow.cpp:711
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Yhteys katkesi"
 
-#: src/binaries/widget/mainwindow.cpp:795
+#: src/binaries/widget/mainwindow.cpp:796
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -948,12 +948,12 @@ msgid ""
 "rolisteam.org\">http://wiki.rolisteam.org/</a>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:830
+#: src/binaries/widget/mainwindow.cpp:831
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Päivitysilmoitus"
 
-#: src/binaries/widget/mainwindow.cpp:831
+#: src/binaries/widget/mainwindow.cpp:832
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -963,112 +963,112 @@ msgstr ""
 "Versio %1 on julkaista. Lisätietoa löytyy <a href=\"http://www.rolisteam.org/"
 "download\">lataussivulta</a>."
 
-#: src/binaries/widget/mainwindow.cpp:841
+#: src/binaries/widget/mainwindow.cpp:842
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 liittyi juuri peliin."
 
-#: src/binaries/widget/mainwindow.cpp:845
+#: src/binaries/widget/mainwindow.cpp:846
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:851
+#: src/binaries/widget/mainwindow.cpp:852
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 poistui juuri pelistä."
 
-#: src/binaries/widget/mainwindow.cpp:923
+#: src/binaries/widget/mainwindow.cpp:924
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:926
+#: src/binaries/widget/mainwindow.cpp:927
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:929
+#: src/binaries/widget/mainwindow.cpp:930
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:931
+#: src/binaries/widget/mainwindow.cpp:932
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:934
+#: src/binaries/widget/mainwindow.cpp:935
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:937
+#: src/binaries/widget/mainwindow.cpp:938
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:940
+#: src/binaries/widget/mainwindow.cpp:941
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:943
+#: src/binaries/widget/mainwindow.cpp:944
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1036
+#: src/binaries/widget/mainwindow.cpp:1037
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Avaa %1"
 
-#: src/binaries/widget/mainwindow.cpp:1127
+#: src/binaries/widget/mainwindow.cpp:1128
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Yhdistetty"
 
-#: src/binaries/widget/mainwindow.cpp:1127
+#: src/binaries/widget/mainwindow.cpp:1128
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Ei yhteyttä"
 
-#: src/binaries/widget/mainwindow.cpp:1128
+#: src/binaries/widget/mainwindow.cpp:1129
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Palvelin"
 
-#: src/binaries/widget/mainwindow.cpp:1128
+#: src/binaries/widget/mainwindow.cpp:1129
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Asiakas"
 
-#: src/binaries/widget/mainwindow.cpp:1135
+#: src/binaries/widget/mainwindow.cpp:1136
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1141
+#: src/binaries/widget/mainwindow.cpp:1142
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Pelaaja"
 
-#: src/binaries/widget/mainwindow.cpp:1216
+#: src/binaries/widget/mainwindow.cpp:1171
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1244
+#: src/binaries/widget/mainwindow.cpp:1247
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1245
+#: src/binaries/widget/mainwindow.cpp:1248
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "tuntematon"
@@ -1181,24 +1181,24 @@ msgctxt "Table|"
 msgid "Remove Last line"
 msgstr "Poista viimeinen rivi"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:529
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:530
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Kentän nimi"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:567
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:568
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Tyhjä osio %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:574
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:575
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Osio_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:598
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:599
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -1285,7 +1285,7 @@ msgctxt "LogPanel|"
 msgid "Log files %1"
 msgstr "Lokitiedostot – %1"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:361
+#: src/libraries/core/src/controller/contentcontroller.cpp:359
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Kopioitiin kuva"
@@ -1330,26 +1330,26 @@ msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Juuri"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
 msgstr ""
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Maa"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
 msgctxt "QObject|"
 msgid "Object"
 msgstr ""
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "GameMaster"
@@ -1382,32 +1382,37 @@ msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
 msgstr ""
 
-#: src/libraries/core/src/data/cleveruri.cpp:224
+#: src/libraries/core/src/data/chatroom.cpp:156
+msgctxt "ChatRoom|"
+msgid "No Diceparser Object"
+msgstr ""
+
+#: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Internal"
 msgstr "Sisäinen"
 
-#: src/libraries/core/src/data/cleveruri.cpp:224
+#: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Linked"
 msgstr ""
 
-#: src/libraries/core/src/data/cleveruri.cpp:229
+#: src/libraries/core/src/data/cleveruri.cpp:235
 msgctxt "QObject|"
 msgid "Closed"
 msgstr ""
 
-#: src/libraries/core/src/data/cleveruri.cpp:229
+#: src/libraries/core/src/data/cleveruri.cpp:235
 msgctxt "QObject|"
 msgid "Displayed"
 msgstr "Näytetty"
 
-#: src/libraries/core/src/data/shortcutmodel.cpp:92
+#: src/libraries/core/src/data/shortcutmodel.cpp:97
 msgctxt "ShortCutModel|"
 msgid "Action"
 msgstr ""
 
-#: src/libraries/core/src/data/shortcutmodel.cpp:94
+#: src/libraries/core/src/data/shortcutmodel.cpp:99
 msgctxt "ShortCutModel|"
 msgid "Key"
 msgstr ""
@@ -1757,17 +1762,17 @@ msgctxt "CharacterDataModel|"
 msgid "New Character"
 msgstr "Uusi hahmo"
 
-#: src/libraries/core/src/network/clientconnection.cpp:91
+#: src/libraries/core/src/network/clientconnection.cpp:88
 msgctxt "ClientConnection|"
 msgid "Socket is null"
 msgstr "Pistoke on tyhjä"
 
-#: src/libraries/core/src/network/clientconnection.cpp:96
+#: src/libraries/core/src/network/clientconnection.cpp:93
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
 msgstr "Pistokkeeseen ei voi kirjoittaa"
 
-#: src/libraries/core/src/network/clientconnection.cpp:119
+#: src/libraries/core/src/network/clientconnection.cpp:116
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
 msgstr "Välitysvirhe:"
@@ -1839,7 +1844,7 @@ msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr ""
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:339
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:337
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
@@ -1860,12 +1865,12 @@ msgctxt "SessionItemModel|"
 msgid "Path"
 msgstr ""
 
-#: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
+#: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:28
 msgctxt "QObject|"
 msgid "Conceal vectorial map"
 msgstr ""
 
-#: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
+#: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:28
 msgctxt "QObject|"
 msgid "Unveil vectorial map"
 msgstr ""
@@ -2222,32 +2227,32 @@ msgctxt "MindMenu|"
 msgid "Add Root"
 msgstr "Lisää juuri"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:23
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:15
 msgctxt "MindMenu|"
 msgid "Save"
 msgstr "Tallenna"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:39
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:25
 msgctxt "MindMenu|"
 msgid "Remove Selection"
 msgstr "Poista valinta"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:47
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:33
 msgctxt "MindMenu|"
 msgid "Undo"
 msgstr "Kumoa"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:54
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:40
 msgctxt "MindMenu|"
 msgid "Redo"
 msgstr "Tee uudelleen"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:62
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:48
 msgctxt "MindMenu|"
 msgid "Center"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:76
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:56
 msgctxt "MindMenu|"
 msgid "Automatic Spacing"
 msgstr "Automaattivälistys"
@@ -2262,22 +2267,38 @@ msgctxt "NodeSettingPopup|"
 msgid "Description"
 msgstr "Kuvaus"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:45
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:43
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
 msgstr ""
 
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:51
+#, fuzzy
+#| msgctxt "UserListView|"
+#| msgid "Action"
+msgctxt "NodeSettingPopup|"
+msgid "Action:"
+msgstr "Toiminta"
+
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
+#, fuzzy
+#| msgctxt "UserListView|"
+#| msgid "Remove Avatar..."
+msgctxt "NodeSettingPopup|"
+msgid "Remove Avatar"
+msgstr "Poista avatar…"
+
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:64
 msgctxt "NodeSettingPopup|"
 msgid "Node Styles"
 msgstr "Solmutyylit"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:85
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:91
 msgctxt "NodeSettingPopup|"
 msgid "Text"
 msgstr "Teksti"
 
-#: src/libraries/mindmap/resources/qml/PackageItem.qml:27
+#: src/libraries/mindmap/resources/qml/PackageItem.qml:34
 msgctxt "PackageItem|"
 msgid "Title"
 msgstr "Otsikko"
@@ -2335,7 +2356,7 @@ msgctxt "SideMenu|"
 msgid "Tags"
 msgstr ""
 
-#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:40
+#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:44
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
@@ -2519,42 +2540,42 @@ msgctxt "ConnectionForm|"
 msgid "Port:"
 msgstr "Portti:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:132
+#: src/libraries/qml_views/views/ConnectionForm.qml:133
 msgctxt "ConnectionForm|"
 msgid "Password:"
 msgstr "Salasana:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:143
+#: src/libraries/qml_views/views/ConnectionForm.qml:144
 msgctxt "ConnectionForm|"
 msgid "Host the game"
 msgstr ""
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:153
+#: src/libraries/qml_views/views/ConnectionForm.qml:154
 msgctxt "ConnectionForm|"
 msgid "Player"
 msgstr "Pelaaja"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:168
+#: src/libraries/qml_views/views/ConnectionForm.qml:169
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
 msgstr ""
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:178
+#: src/libraries/qml_views/views/ConnectionForm.qml:179
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
 msgstr ""
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:201
+#: src/libraries/qml_views/views/ConnectionForm.qml:202
 msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Hahmot"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:275
+#: src/libraries/qml_views/views/ConnectionForm.qml:276
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Yhdistä"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:287
+#: src/libraries/qml_views/views/ConnectionForm.qml:288
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Peru"
@@ -2711,51 +2732,51 @@ msgctxt "PlayerWidget|"
 msgid "Remove selected file"
 msgstr "Poista valittu tiedosto"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:274
+#: src/libraries/rwidgets/customs/playerwidget.cpp:280
 msgctxt "PlayerWidget|"
 msgid "Add song"
 msgstr "Lisää kappale"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:274
+#: src/libraries/rwidgets/customs/playerwidget.cpp:280
 #, qt-format
 msgctxt "PlayerWidget|"
 msgid "Audio files (%1)"
 msgstr "Äänitiedostot (%1)"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:286
+#: src/libraries/rwidgets/customs/playerwidget.cpp:292
 msgctxt "PlayerWidget|"
 msgid "Attention!"
 msgstr "Huomautus!"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:287
+#: src/libraries/rwidgets/customs/playerwidget.cpp:293
 msgctxt "PlayerWidget|"
 msgid ""
 "You are about to load an new playlist. All previously load file will be "
 "dropped."
 msgstr "Lataat uutta soittolistaa. Aiemmin ladattu tiedosto hylätään."
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:296
+#: src/libraries/rwidgets/customs/playerwidget.cpp:302
 msgctxt "PlayerWidget|"
 msgid "Open Play List"
 msgstr "Avaa soittolista"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:296
-#: src/libraries/rwidgets/customs/playerwidget.cpp:364
+#: src/libraries/rwidgets/customs/playerwidget.cpp:302
+#: src/libraries/rwidgets/customs/playerwidget.cpp:370
 msgctxt "PlayerWidget|"
 msgid "PlayList (*.m3u)"
 msgstr "Soittolista (*.m3u)"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:305
+#: src/libraries/rwidgets/customs/playerwidget.cpp:311
 msgctxt "PlayerWidget|"
 msgid "Open audio Stream"
 msgstr "Avaa äänivirta"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:305
+#: src/libraries/rwidgets/customs/playerwidget.cpp:311
 msgctxt "PlayerWidget|"
 msgid "URL"
 msgstr "Verkko-osoite"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:364
+#: src/libraries/rwidgets/customs/playerwidget.cpp:370
 msgctxt "PlayerWidget|"
 msgid "Save Play List"
 msgstr "Tallenna soittolista"
@@ -3256,7 +3277,7 @@ msgctxt "PreferencesDialog|"
 msgid "Add new directory"
 msgstr "Lisää uusi kansio"
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:78
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:101
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "Valitse kansio"
@@ -3837,123 +3858,123 @@ msgctxt "NoteContainer|"
 msgid "%1 - Note"
 msgstr "%1 – muistiinpano"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:174
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:175
 msgctxt "TextEdit|"
 msgid "File Actions"
 msgstr "Tiedostotoiminnot"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:177
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:178
 msgctxt "TextEdit|"
 msgid "&File"
 msgstr "&Tiedosto"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:208
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:183
 msgctxt "TextEdit|"
 msgid "&Print..."
 msgstr "T&ulosta…"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
 msgctxt "TextEdit|"
 msgid "Print Preview..."
 msgstr "Tulostuksen esikatselu…"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:218
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:193
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
 msgstr "Vie PD&F:ksi…"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:235
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:203
 msgctxt "TextEdit|"
 msgid "Edit Actions"
 msgstr "Muokkaustoiminnot"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:238
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:206
 msgctxt "TextEdit|"
 msgid "&Edit"
 msgstr "&Muokkaa"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:242
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:210
 msgctxt "TextEdit|"
 msgid "&Undo"
 msgstr "K&umoa"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:246
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
 msgctxt "TextEdit|"
 msgid "&Redo"
 msgstr "T&ee uudelleen"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:251
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:219
 msgctxt "TextEdit|"
 msgid "Cu&t"
 msgstr "&Leikkaa"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:255
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:223
 msgctxt "TextEdit|"
 msgid "&Copy"
 msgstr "&Kopioi"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:227
 msgctxt "TextEdit|"
 msgid "&Paste"
 msgstr "L&iitä"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:269
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:337
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:237
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:305
 msgctxt "TextEdit|"
 msgid "Format Actions"
 msgstr "Muotoilutoiminnot"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:272
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:240
 msgctxt "TextEdit|"
 msgid "F&ormat"
 msgstr "&Muotoilu"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:275
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:243
 msgctxt "TextEdit|"
 msgid "&Bold"
 msgstr "&Lihavointi"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:285
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:253
 msgctxt "TextEdit|"
 msgid "&Italic"
 msgstr "&Kursiivi"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:295
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:263
 msgctxt "TextEdit|"
 msgid "&Underline"
 msgstr "Alle&viivaus"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:310
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:278
 msgctxt "TextEdit|"
 msgid "&Left"
 msgstr "&Vasemmalle"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:313
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:281
 msgctxt "TextEdit|"
 msgid "C&enter"
 msgstr "K&eskelle"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:316
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:284
 msgctxt "TextEdit|"
 msgid "&Right"
 msgstr "&Oikealle"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:319
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:287
 msgctxt "TextEdit|"
 msgid "&Justify"
 msgstr "&Tasaa"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:330
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:298
 msgctxt "TextEdit|"
 msgid "&Color..."
 msgstr "&Väri…"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:443
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:372
 msgctxt "TextEdit|"
 msgid "Application"
 msgstr "Sovellus"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:444
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:373
 msgctxt "TextEdit|"
 msgid ""
 "The document has been modified.\n"
@@ -3962,45 +3983,45 @@ msgstr ""
 "Tiedosto on muuttunut.\n"
 "Haluatko tallentaa muutokset?"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:472
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:395
 msgctxt "TextEdit|"
 msgid "Open File..."
 msgstr "Avaa tiedosto…"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:529
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:435
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
 msgstr ""
 "ODF-tiedostot (*.odt);;HTML-tiedostot (*.htm *.html);;Kaikki tiedostot (*)"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:531
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:437
 msgctxt "TextEdit|"
 msgid "HTML-Files (*.htm *.html);;All Files (*)"
 msgstr "HTML-tiedostot (*.htm *.html);;Kaikki tiedostot (*)"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:533
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:439
 msgctxt "TextEdit|"
 msgid "Save as..."
 msgstr "Tallenna nimellä…"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:548
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:454
 msgctxt "TextEdit|"
 msgid "Print Document"
 msgstr "Tulosta tiedosto"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:732
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:638
 msgctxt "TextEdit|"
 msgid "About"
 msgstr "Tietoa"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:733
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:639
 msgctxt "TextEdit|"
 msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
 "providing an example document for you to experiment with."
 msgstr ""
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:791
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:692
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
 msgstr "OpenOffice 2.4 -tiedostomuoto OASIS "
@@ -4171,12 +4192,12 @@ msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "Tyhjennä kuvio"
 
-#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:133
+#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:130
 msgctxt "PathItem|"
 msgid "Close Path"
 msgstr "Sulje polku"
 
-#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:137
+#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:134
 msgctxt "PathItem|"
 msgid "Fill Path"
 msgstr "Täytä polku"
@@ -4380,19 +4401,40 @@ msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
 msgstr "Ctrl+B"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:295
-#: src/libraries/rwidgets/mediacontainers/image.cpp:307
-#: src/libraries/rwidgets/mediacontainers/image.cpp:312
+#: src/libraries/rwidgets/mediacontainers/image.cpp:296
+#, fuzzy
+#| msgctxt "ImageModel|"
+#| msgid "Filename"
+msgctxt "Image|"
+msgid "Rename"
+msgstr "Tiedostonimi"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:299
+msgctxt "Image|"
+msgid "Define the new name"
+msgstr ""
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:299
+#, fuzzy
+#| msgctxt "PersonEdit|"
+#| msgid "Name:"
+msgctxt "Image|"
+msgid "New name:"
+msgstr "Nimi:"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:305
+#: src/libraries/rwidgets/mediacontainers/image.cpp:317
+#: src/libraries/rwidgets/mediacontainers/image.cpp:322
 msgctxt "Image|"
 msgid "Play"
 msgstr "Toista"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:297
+#: src/libraries/rwidgets/mediacontainers/image.cpp:307
 msgctxt "Image|"
 msgid "Stop"
 msgstr "Pysäytä"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:303
+#: src/libraries/rwidgets/mediacontainers/image.cpp:313
 msgctxt "Image|"
 msgid "Pause"
 msgstr "Tauko"
@@ -4513,7 +4555,7 @@ msgid "Open"
 msgstr "Avaa"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:29
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:145
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:156
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
 msgstr ""
@@ -4548,17 +4590,17 @@ msgctxt "campaign::CampaignView|"
 msgid "Date Modified"
 msgstr "Muutospäivä"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:109
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:120
 msgctxt "campaign::CampaignView|"
 msgid "Notes"
 msgstr "Muistiinpanot"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:112
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:123
 msgctxt "campaign::CampaignView|"
 msgid "Shared Notes"
 msgstr "Jaetut muistiinpanot"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:153
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:164
 msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
 msgstr "Näytä tai piilota sarake"
@@ -4656,12 +4698,12 @@ msgctxt "ToolBox|"
 msgid "Tools"
 msgstr "Työkalut"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:118
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:123
 msgctxt "ToolBox|"
 msgid "Pen"
 msgstr "Kynä"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:126
 #, fuzzy
 #| msgctxt "VToolsBar|"
 #| msgid "Line"
@@ -4669,27 +4711,27 @@ msgctxt "ToolBox|"
 msgid "Line"
 msgstr "Viiva"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:129
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
 msgstr "Tyhjä nelikulmio"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:132
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
 msgstr "Täytetty nelikulmio"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:135
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
 msgstr "Tyhjä ellipsi"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:138
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
 msgstr "Täytetty ellipsi"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:141
 #, fuzzy
 #| msgctxt "DrawerMenu|"
 #| msgid "Text"
@@ -4697,22 +4739,22 @@ msgctxt "ToolBox|"
 msgid "Text"
 msgstr "Teksti"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:144
 msgctxt "ToolBox|"
 msgid "Hand"
 msgstr "Käsi"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:148
 msgctxt "ToolBox|"
 msgid "Add NPC"
 msgstr ""
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
 msgctxt "ToolBox|"
 msgid "Rule"
 msgstr "Sääntö"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
 #, fuzzy
 #| msgctxt "VToolsBar|"
 #| msgid "Path"
@@ -4720,17 +4762,17 @@ msgctxt "ToolBox|"
 msgid "Path"
 msgstr "Polku"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:156
 msgctxt "ToolBox|"
 msgid "Anchor"
 msgstr "Ankkuri"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:159
 msgctxt "ToolBox|"
 msgid "Pipette"
 msgstr "Pipetti"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:162
 #, fuzzy
 #| msgctxt "VToolsBar|"
 #| msgid "Highlighter"
@@ -4738,7 +4780,7 @@ msgctxt "ToolBox|"
 msgid "Highlighter"
 msgstr "Korostuskynä"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:165
 #, fuzzy
 #| msgctxt "TextEdit|"
 #| msgid "Print Document"
@@ -4746,17 +4788,17 @@ msgctxt "ToolBox|"
 msgid "Paint Bucket"
 msgstr "Tulosta tiedosto"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:168
 msgctxt "ToolBox|"
 msgid "Text With Border"
 msgstr "Reunallinen teksti"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:171
 msgctxt "ToolBox|"
 msgid "Reset NPC counter"
 msgstr ""
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:310
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
 #, fuzzy
 #| msgctxt "DrawerMenu|"
 #| msgid "Name"
@@ -4764,7 +4806,7 @@ msgctxt "ToolBox|"
 msgid "NPC Name"
 msgstr "Nimi"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:320
 #, fuzzy
 #| msgctxt "campaign::CampaignView|"
 #| msgid "Show/hide Column"
@@ -4772,7 +4814,7 @@ msgctxt "ToolBox|"
 msgid "NPC's number"
 msgstr "Näytä tai piilota sarake"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:321
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:326
 #, fuzzy
 #| msgctxt "Image|"
 #| msgid "Normal"
@@ -4780,22 +4822,22 @@ msgctxt "ToolBox|"
 msgid "Normal"
 msgstr "Tavallinen"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:323
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:328
 msgctxt "ToolBox|"
 msgid "Mask"
 msgstr ""
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:325
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:330
 msgctxt "ToolBox|"
 msgid "Unmask"
 msgstr ""
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:355
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:360
 msgctxt "ToolBox|"
 msgid "height of the pen"
 msgstr "kynän korkeus"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:367
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:372
 #, fuzzy
 #| msgctxt "VToolsBar|"
 #| msgid "Opacity:"
@@ -4803,32 +4845,32 @@ msgctxt "ToolBox|"
 msgid "Opacity:"
 msgstr "Peittävyys:"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:82
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:83
 msgctxt "TestCharacterStateModel|"
 msgid "Healthy"
 msgstr "Terveys"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:86
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:87
 msgctxt "TestCharacterStateModel|"
 msgid "Lightly Wounded"
 msgstr "Kevyesti haavoittunut"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:90
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:91
 msgctxt "TestCharacterStateModel|"
 msgid "Seriously injured"
 msgstr "Vakavasti haavoittunut"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:94
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:95
 msgctxt "TestCharacterStateModel|"
 msgid "Dead"
 msgstr "Kuollut"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:98
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:99
 msgctxt "TestCharacterStateModel|"
 msgid "Sleeping"
 msgstr "Unessa"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:102
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:103
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Noiduttu"
@@ -4860,7 +4902,3 @@ msgstr "Noiduttu"
 #~ msgctxt "PdfViewer|Current page/ total page"
 #~ msgid "%1/%2"
 #~ msgstr "%1/%2"
-
-#~ msgctxt "UserListView|"
-#~ msgid "Remove Avatar..."
-#~ msgstr "Poista avatar…"

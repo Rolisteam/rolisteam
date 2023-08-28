@@ -474,17 +474,17 @@ msgctxt "MainWindow|"
 msgid "Log panel"
 msgstr "Quadro del registre"
 
-#: src/binaries/rcse/mainwindow.cpp:194 src/binaries/widget/mainwindow.cpp:573
+#: src/binaries/rcse/mainwindow.cpp:194 src/binaries/widget/mainwindow.cpp:574
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Desfés"
 
-#: src/binaries/rcse/mainwindow.cpp:197 src/binaries/widget/mainwindow.cpp:572
+#: src/binaries/rcse/mainwindow.cpp:197 src/binaries/widget/mainwindow.cpp:573
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Refés"
 
-#: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:643
+#: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:644
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Assistència"
@@ -504,7 +504,7 @@ msgctxt "MainWindow|"
 msgid "Untitled"
 msgstr "Sense títol"
 
-#: src/binaries/rcse/mainwindow.cpp:463 src/binaries/widget/mainwindow.cpp:794
+#: src/binaries/rcse/mainwindow.cpp:463 src/binaries/widget/mainwindow.cpp:795
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Ajuda"
@@ -522,7 +522,7 @@ msgctxt "MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "El full de personatge té canvis sense guardar."
 
-#: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:716
+#: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:717
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
@@ -707,7 +707,7 @@ msgid "Slider"
 msgstr "Control lliscant"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
-#: src/libraries/core/src/data/cleveruri.cpp:229
+#: src/libraries/core/src/data/cleveruri.cpp:235
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
 msgctxt "QObject|"
 msgid "Hidden"
@@ -902,51 +902,51 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Demana una contrasenya i retorna la seua clau de resum."
 
-#: src/binaries/widget/mainwindow.cpp:349
+#: src/binaries/widget/mainwindow.cpp:350
 msgctxt "MainWindow|"
 msgid "Antagonist Table"
 msgstr "Taula d'antagonistes"
 
-#: src/binaries/widget/mainwindow.cpp:461
+#: src/binaries/widget/mainwindow.cpp:462
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Obri la pàgina web"
 
-#: src/binaries/widget/mainwindow.cpp:461
+#: src/binaries/widget/mainwindow.cpp:462
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "URL de la pàgina web:"
 
-#: src/binaries/widget/mainwindow.cpp:514
-#: src/binaries/widget/mainwindow.cpp:724
+#: src/binaries/widget/mainwindow.cpp:515
+#: src/binaries/widget/mainwindow.cpp:725
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Obri una campanya"
 
-#: src/binaries/widget/mainwindow.cpp:644
+#: src/binaries/widget/mainwindow.cpp:645
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
 "La pàgina de donació a %1 es pot trobar en línia a:<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:700
+#: src/binaries/widget/mainwindow.cpp:701
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Quit"
 
-#: src/binaries/widget/mainwindow.cpp:708
+#: src/binaries/widget/mainwindow.cpp:709
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "S'ha perdut la connexió. %1 es tancarà"
 
-#: src/binaries/widget/mainwindow.cpp:710
+#: src/binaries/widget/mainwindow.cpp:711
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "S'ha perdut la connexió"
 
-#: src/binaries/widget/mainwindow.cpp:795
+#: src/binaries/widget/mainwindow.cpp:796
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -956,12 +956,12 @@ msgstr ""
 "La documentació de %1 es pot trobar en línia a:<br> <a href=\"http://wiki."
 "rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
-#: src/binaries/widget/mainwindow.cpp:830
+#: src/binaries/widget/mainwindow.cpp:831
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Notificació d'actualització"
 
-#: src/binaries/widget/mainwindow.cpp:831
+#: src/binaries/widget/mainwindow.cpp:832
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -971,113 +971,113 @@ msgstr ""
 "S'ha publicat la versió %1. Doneu una ullada a la <a href=\"http://www."
 "rolisteam.org/download\">pàgina de baixades</a> per a més informació"
 
-#: src/binaries/widget/mainwindow.cpp:841
+#: src/binaries/widget/mainwindow.cpp:842
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 acaba d'unir-se al joc."
 
-#: src/binaries/widget/mainwindow.cpp:845
+#: src/binaries/widget/mainwindow.cpp:846
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 no té la versió correcta: %2."
 
-#: src/binaries/widget/mainwindow.cpp:851
+#: src/binaries/widget/mainwindow.cpp:852
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 acaba d'eixir del joc."
 
-#: src/binaries/widget/mainwindow.cpp:923
+#: src/binaries/widget/mainwindow.cpp:924
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Establix que Rolisteam utilitze <port> per a la connexió"
 
-#: src/binaries/widget/mainwindow.cpp:926
+#: src/binaries/widget/mainwindow.cpp:927
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Establix que Rolisteam es connecte a <servidor>."
 
-#: src/binaries/widget/mainwindow.cpp:929
+#: src/binaries/widget/mainwindow.cpp:930
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Establix el <rol>: dj o pj"
 
-#: src/binaries/widget/mainwindow.cpp:931
+#: src/binaries/widget/mainwindow.cpp:932
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Esborra la configuració i utilitza els paràmetres predeterminats"
 
-#: src/binaries/widget/mainwindow.cpp:934
+#: src/binaries/widget/mainwindow.cpp:935
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definix el <nom_usuari>"
 
-#: src/binaries/widget/mainwindow.cpp:937
+#: src/binaries/widget/mainwindow.cpp:938
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Elimina el límit de la mida del fitxer PDF"
 
-#: src/binaries/widget/mainwindow.cpp:940
+#: src/binaries/widget/mainwindow.cpp:941
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "camí cap al fitxer de traducció: <fitxer_traducció>"
 
-#: src/binaries/widget/mainwindow.cpp:943
+#: src/binaries/widget/mainwindow.cpp:944
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definix un URL per a connectar amb el servidor: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1036
+#: src/binaries/widget/mainwindow.cpp:1037
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Obri %1"
 
-#: src/binaries/widget/mainwindow.cpp:1127
+#: src/binaries/widget/mainwindow.cpp:1128
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Connectat"
 
-#: src/binaries/widget/mainwindow.cpp:1127
+#: src/binaries/widget/mainwindow.cpp:1128
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "No connectat"
 
-#: src/binaries/widget/mainwindow.cpp:1128
+#: src/binaries/widget/mainwindow.cpp:1129
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Servidor"
 
-#: src/binaries/widget/mainwindow.cpp:1128
+#: src/binaries/widget/mainwindow.cpp:1129
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
 # Traducció GM (Game Master) = DJ (Director de joc)
-#: src/binaries/widget/mainwindow.cpp:1135
+#: src/binaries/widget/mainwindow.cpp:1136
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "DJ"
 
-#: src/binaries/widget/mainwindow.cpp:1141
+#: src/binaries/widget/mainwindow.cpp:1142
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Jugador"
 
-#: src/binaries/widget/mainwindow.cpp:1216
+#: src/binaries/widget/mainwindow.cpp:1171
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: src/binaries/widget/mainwindow.cpp:1244
+#: src/binaries/widget/mainwindow.cpp:1247
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
 msgstr "Exporta des de %1"
 
-#: src/binaries/widget/mainwindow.cpp:1245
+#: src/binaries/widget/mainwindow.cpp:1248
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "desconegut"
@@ -1192,24 +1192,24 @@ msgctxt "Table|"
 msgid "Remove Last line"
 msgstr "Elimina l'última línia"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:529
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:530
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Nom del camps"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:567
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:568
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Buida la secció %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:574
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:575
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Secció_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:598
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:599
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -1296,7 +1296,7 @@ msgctxt "LogPanel|"
 msgid "Log files %1"
 msgstr "Fitxers de registre %1"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:361
+#: src/libraries/core/src/controller/contentcontroller.cpp:359
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Imatge copiada"
@@ -1341,26 +1341,26 @@ msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Arrel"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
 msgstr "Personatge"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Terreny"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
 msgctxt "QObject|"
 msgid "Object"
 msgstr "Objecte"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:252
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "GameMaster"
@@ -1393,32 +1393,37 @@ msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
 msgstr "No s'ha pogut crear la plantilla de campanya en esta ubicació: %1"
 
-#: src/libraries/core/src/data/cleveruri.cpp:224
+#: src/libraries/core/src/data/chatroom.cpp:156
+msgctxt "ChatRoom|"
+msgid "No Diceparser Object"
+msgstr ""
+
+#: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Internal"
 msgstr "Intern"
 
-#: src/libraries/core/src/data/cleveruri.cpp:224
+#: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Linked"
 msgstr "Enllaçat"
 
-#: src/libraries/core/src/data/cleveruri.cpp:229
+#: src/libraries/core/src/data/cleveruri.cpp:235
 msgctxt "QObject|"
 msgid "Closed"
 msgstr "Tancat"
 
-#: src/libraries/core/src/data/cleveruri.cpp:229
+#: src/libraries/core/src/data/cleveruri.cpp:235
 msgctxt "QObject|"
 msgid "Displayed"
 msgstr "Visualitzat"
 
-#: src/libraries/core/src/data/shortcutmodel.cpp:92
+#: src/libraries/core/src/data/shortcutmodel.cpp:97
 msgctxt "ShortCutModel|"
 msgid "Action"
 msgstr "Acció"
 
-#: src/libraries/core/src/data/shortcutmodel.cpp:94
+#: src/libraries/core/src/data/shortcutmodel.cpp:99
 msgctxt "ShortCutModel|"
 msgid "Key"
 msgstr "Clau"
@@ -1772,17 +1777,17 @@ msgctxt "CharacterDataModel|"
 msgid "New Character"
 msgstr "Personatge nou"
 
-#: src/libraries/core/src/network/clientconnection.cpp:91
+#: src/libraries/core/src/network/clientconnection.cpp:88
 msgctxt "ClientConnection|"
 msgid "Socket is null"
 msgstr "El sòcol és nul"
 
-#: src/libraries/core/src/network/clientconnection.cpp:96
+#: src/libraries/core/src/network/clientconnection.cpp:93
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
 msgstr "No es pot escriure al sòcol"
 
-#: src/libraries/core/src/network/clientconnection.cpp:119
+#: src/libraries/core/src/network/clientconnection.cpp:116
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
 msgstr "S'ha produït un error de transmissió:"
@@ -1860,7 +1865,7 @@ msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "No s'ha pogut trobar el tipus de servei adequat: %1 %2 %3"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:339
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:337
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :\n"
@@ -1881,12 +1886,12 @@ msgctxt "SessionItemModel|"
 msgid "Path"
 msgstr "Camí"
 
-#: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
+#: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:28
 msgctxt "QObject|"
 msgid "Conceal vectorial map"
 msgstr "Amaga el mapa vectorial"
 
-#: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:27
+#: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:28
 msgctxt "QObject|"
 msgid "Unveil vectorial map"
 msgstr "Revela el mapa vectorial"
@@ -2243,32 +2248,32 @@ msgctxt "MindMenu|"
 msgid "Add Root"
 msgstr "Afig una arrel"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:23
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:15
 msgctxt "MindMenu|"
 msgid "Save"
 msgstr "Guarda"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:39
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:25
 msgctxt "MindMenu|"
 msgid "Remove Selection"
 msgstr "Elimina la selecció"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:47
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:33
 msgctxt "MindMenu|"
 msgid "Undo"
 msgstr "Desfés"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:54
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:40
 msgctxt "MindMenu|"
 msgid "Redo"
 msgstr "Refés"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:62
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:48
 msgctxt "MindMenu|"
 msgid "Center"
 msgstr "Centra"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:76
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:56
 msgctxt "MindMenu|"
 msgid "Automatic Spacing"
 msgstr "Espaiat automàtic"
@@ -2283,22 +2288,38 @@ msgctxt "NodeSettingPopup|"
 msgid "Description"
 msgstr "Descripció"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:45
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:43
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
 msgstr "Etiquetes:"
 
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:51
+#, fuzzy
+#| msgctxt "ShortCutModel|"
+#| msgid "Action"
+msgctxt "NodeSettingPopup|"
+msgid "Action:"
+msgstr "Acció"
+
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
+#, fuzzy
+#| msgctxt "CharacterDataModel|"
+#| msgid "No Avatar"
+msgctxt "NodeSettingPopup|"
+msgid "Remove Avatar"
+msgstr "Sense avatar"
+
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:64
 msgctxt "NodeSettingPopup|"
 msgid "Node Styles"
 msgstr "Estil dels nodes"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:85
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:91
 msgctxt "NodeSettingPopup|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/mindmap/resources/qml/PackageItem.qml:27
+#: src/libraries/mindmap/resources/qml/PackageItem.qml:34
 msgctxt "PackageItem|"
 msgid "Title"
 msgstr "Títol"
@@ -2356,7 +2377,7 @@ msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "Etiquetes"
 
-#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:40
+#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:44
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
@@ -2540,42 +2561,42 @@ msgctxt "ConnectionForm|"
 msgid "Port:"
 msgstr "Port:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:132
+#: src/libraries/qml_views/views/ConnectionForm.qml:133
 msgctxt "ConnectionForm|"
 msgid "Password:"
 msgstr "Contrasenya:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:143
+#: src/libraries/qml_views/views/ConnectionForm.qml:144
 msgctxt "ConnectionForm|"
 msgid "Host the game"
 msgstr "Hostatja un joc"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:153
+#: src/libraries/qml_views/views/ConnectionForm.qml:154
 msgctxt "ConnectionForm|"
 msgid "Player"
 msgstr "Jugador"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:168
+#: src/libraries/qml_views/views/ConnectionForm.qml:169
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
 msgstr "Soc el director de joc"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:178
+#: src/libraries/qml_views/views/ConnectionForm.qml:179
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
 msgstr "Arrel de campanya:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:201
+#: src/libraries/qml_views/views/ConnectionForm.qml:202
 msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Personatges"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:275
+#: src/libraries/qml_views/views/ConnectionForm.qml:276
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Connecta"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:287
+#: src/libraries/qml_views/views/ConnectionForm.qml:288
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Cancel·la"
@@ -2732,23 +2753,23 @@ msgctxt "PlayerWidget|"
 msgid "Remove selected file"
 msgstr "Elimina el fitxer seleccionat"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:274
+#: src/libraries/rwidgets/customs/playerwidget.cpp:280
 msgctxt "PlayerWidget|"
 msgid "Add song"
 msgstr "Afig una cançó"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:274
+#: src/libraries/rwidgets/customs/playerwidget.cpp:280
 #, qt-format
 msgctxt "PlayerWidget|"
 msgid "Audio files (%1)"
 msgstr "Fitxers d'àudio (%1)"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:286
+#: src/libraries/rwidgets/customs/playerwidget.cpp:292
 msgctxt "PlayerWidget|"
 msgid "Attention!"
 msgstr "Atenció!"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:287
+#: src/libraries/rwidgets/customs/playerwidget.cpp:293
 msgctxt "PlayerWidget|"
 msgid ""
 "You are about to load an new playlist. All previously load file will be "
@@ -2757,28 +2778,28 @@ msgstr ""
 "Esteu a punt de carregar una llista de reproducció nova. Qualsevol fitxer "
 "carregat anteriorment es descartarà."
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:296
+#: src/libraries/rwidgets/customs/playerwidget.cpp:302
 msgctxt "PlayerWidget|"
 msgid "Open Play List"
 msgstr "Obri una llista de reproducció"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:296
-#: src/libraries/rwidgets/customs/playerwidget.cpp:364
+#: src/libraries/rwidgets/customs/playerwidget.cpp:302
+#: src/libraries/rwidgets/customs/playerwidget.cpp:370
 msgctxt "PlayerWidget|"
 msgid "PlayList (*.m3u)"
 msgstr "Llista de reproducció (*.m3u)"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:305
+#: src/libraries/rwidgets/customs/playerwidget.cpp:311
 msgctxt "PlayerWidget|"
 msgid "Open audio Stream"
 msgstr "Obri un flux d'àudio"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:305
+#: src/libraries/rwidgets/customs/playerwidget.cpp:311
 msgctxt "PlayerWidget|"
 msgid "URL"
 msgstr "URL"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:364
+#: src/libraries/rwidgets/customs/playerwidget.cpp:370
 msgctxt "PlayerWidget|"
 msgid "Save Play List"
 msgstr "Guarda la llista de reproducció"
@@ -3293,7 +3314,7 @@ msgctxt "PreferencesDialog|"
 msgid "Add new directory"
 msgstr "Afig un directori nou"
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:78
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:101
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "Seleccioneu el directori"
@@ -3808,123 +3829,123 @@ msgctxt "NoteContainer|"
 msgid "%1 - Note"
 msgstr "%1 - Nota"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:174
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:175
 msgctxt "TextEdit|"
 msgid "File Actions"
 msgstr "Accions de fitxer"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:177
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:178
 msgctxt "TextEdit|"
 msgid "&File"
 msgstr "Fi&txer"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:208
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:183
 msgctxt "TextEdit|"
 msgid "&Print..."
 msgstr "Im&primix..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
 msgctxt "TextEdit|"
 msgid "Print Preview..."
 msgstr "Vista prèvia d'impressió..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:218
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:193
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
 msgstr "&Exporta cap a PDF..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:235
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:203
 msgctxt "TextEdit|"
 msgid "Edit Actions"
 msgstr "Accions d'edició"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:238
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:206
 msgctxt "TextEdit|"
 msgid "&Edit"
 msgstr "&Edita"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:242
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:210
 msgctxt "TextEdit|"
 msgid "&Undo"
 msgstr "&Desfés"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:246
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
 msgctxt "TextEdit|"
 msgid "&Redo"
 msgstr "&Refés"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:251
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:219
 msgctxt "TextEdit|"
 msgid "Cu&t"
 msgstr "Re&talla"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:255
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:223
 msgctxt "TextEdit|"
 msgid "&Copy"
 msgstr "&Copia"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:227
 msgctxt "TextEdit|"
 msgid "&Paste"
 msgstr "A&pega"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:269
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:337
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:237
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:305
 msgctxt "TextEdit|"
 msgid "Format Actions"
 msgstr "Accions de format"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:272
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:240
 msgctxt "TextEdit|"
 msgid "F&ormat"
 msgstr "F&ormat"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:275
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:243
 msgctxt "TextEdit|"
 msgid "&Bold"
 msgstr "&Negreta"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:285
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:253
 msgctxt "TextEdit|"
 msgid "&Italic"
 msgstr "&Cursiva"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:295
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:263
 msgctxt "TextEdit|"
 msgid "&Underline"
 msgstr "&Subratllat"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:310
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:278
 msgctxt "TextEdit|"
 msgid "&Left"
 msgstr "&Esquerra"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:313
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:281
 msgctxt "TextEdit|"
 msgid "C&enter"
 msgstr "&Centre"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:316
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:284
 msgctxt "TextEdit|"
 msgid "&Right"
 msgstr "&Dreta"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:319
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:287
 msgctxt "TextEdit|"
 msgid "&Justify"
 msgstr "&Justifica"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:330
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:298
 msgctxt "TextEdit|"
 msgid "&Color..."
 msgstr "&Color..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:443
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:372
 msgctxt "TextEdit|"
 msgid "Application"
 msgstr "Aplicació"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:444
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:373
 msgctxt "TextEdit|"
 msgid ""
 "The document has been modified.\n"
@@ -3933,38 +3954,38 @@ msgstr ""
 "S'ha modificat el document.\n"
 "Voleu guardar els canvis?"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:472
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:395
 msgctxt "TextEdit|"
 msgid "Open File..."
 msgstr "Obri un fitxer..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:529
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:435
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
 msgstr "Fitxers ODF (*.odt);;Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:531
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:437
 msgctxt "TextEdit|"
 msgid "HTML-Files (*.htm *.html);;All Files (*)"
 msgstr "Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:533
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:439
 msgctxt "TextEdit|"
 msgid "Save as..."
 msgstr "Anomena i guarda..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:548
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:454
 msgctxt "TextEdit|"
 msgid "Print Document"
 msgstr "Imprimiu el document"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:732
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:638
 msgctxt "TextEdit|"
 msgid "About"
 msgstr "Quant a"
 
 # skip-rule: ff-facilities
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:733
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:639
 msgctxt "TextEdit|"
 msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
@@ -3973,7 +3994,7 @@ msgstr ""
 "Este exemple mostra les facilitats d'edició de text enriquit de les Qt en "
 "acció, proporcionant un document d'exemple amb el qual experimentar."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:791
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:692
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
 msgstr "Format de fitxer OASIS d'OpenOffice 2.4"
@@ -4144,12 +4165,12 @@ msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "Neteja la forma"
 
-#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:133
+#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:130
 msgctxt "PathItem|"
 msgid "Close Path"
 msgstr "Tanca el camí"
 
-#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:137
+#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:134
 msgctxt "PathItem|"
 msgid "Fill Path"
 msgstr "Emplena el camí"
@@ -4354,19 +4375,43 @@ msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
 msgstr "Ctrl+b"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:295
-#: src/libraries/rwidgets/mediacontainers/image.cpp:307
-#: src/libraries/rwidgets/mediacontainers/image.cpp:312
+#: src/libraries/rwidgets/mediacontainers/image.cpp:296
+#, fuzzy
+#| msgctxt "ImageModel|"
+#| msgid "Filename"
+msgctxt "Image|"
+msgid "Rename"
+msgstr "Nom del fitxer"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:299
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Define the <username>"
+msgctxt "Image|"
+msgid "Define the new name"
+msgstr "Definix el <nom_usuari>"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:299
+#, fuzzy
+#| msgctxt "PersonEdit|"
+#| msgid "Name:"
+msgctxt "Image|"
+msgid "New name:"
+msgstr "Nom:"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:305
+#: src/libraries/rwidgets/mediacontainers/image.cpp:317
+#: src/libraries/rwidgets/mediacontainers/image.cpp:322
 msgctxt "Image|"
 msgid "Play"
 msgstr "Reproduïx"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:297
+#: src/libraries/rwidgets/mediacontainers/image.cpp:307
 msgctxt "Image|"
 msgid "Stop"
 msgstr "Para"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:303
+#: src/libraries/rwidgets/mediacontainers/image.cpp:313
 msgctxt "Image|"
 msgid "Pause"
 msgstr "Pausa"
@@ -4487,7 +4532,7 @@ msgid "Open"
 msgstr "Obri"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:29
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:145
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:156
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
 msgstr "Obri com a…"
@@ -4522,17 +4567,17 @@ msgctxt "campaign::CampaignView|"
 msgid "Date Modified"
 msgstr "Data de modificació"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:109
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:120
 msgctxt "campaign::CampaignView|"
 msgid "Notes"
 msgstr "Notes"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:112
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:123
 msgctxt "campaign::CampaignView|"
 msgid "Shared Notes"
 msgstr "Notes compartides"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:153
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:164
 msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
 msgstr "Mostra/oculta la columna"
@@ -4627,152 +4672,152 @@ msgctxt "ToolBox|"
 msgid "Tools"
 msgstr "Eines"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:118
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:123
 msgctxt "ToolBox|"
 msgid "Pen"
 msgstr "Llapis"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:126
 msgctxt "ToolBox|"
 msgid "Line"
 msgstr "Línia"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:129
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
 msgstr "Rectangle buit"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:132
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
 msgstr "Rectangle emplenat"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:135
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
 msgstr "El·lipse buida"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:138
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
 msgstr "El·lipse emplenada"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:141
 msgctxt "ToolBox|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:144
 msgctxt "ToolBox|"
 msgid "Hand"
 msgstr "Mà"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:143
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:148
 msgctxt "ToolBox|"
 msgid "Add NPC"
 msgstr "Afig un PNJ"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
 msgctxt "ToolBox|"
 msgid "Rule"
 msgstr "Regla"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
 msgctxt "ToolBox|"
 msgid "Path"
 msgstr "Camí"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:156
 msgctxt "ToolBox|"
 msgid "Anchor"
 msgstr "Àncora"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:159
 msgctxt "ToolBox|"
 msgid "Pipette"
 msgstr "Pipeta"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:162
 msgctxt "ToolBox|"
 msgid "Highlighter"
 msgstr "Marcador fluorescent"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:165
 msgctxt "ToolBox|"
 msgid "Paint Bucket"
 msgstr "Cubeta de pintar"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:168
 msgctxt "ToolBox|"
 msgid "Text With Border"
 msgstr "Text amb vora"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:171
 msgctxt "ToolBox|"
 msgid "Reset NPC counter"
 msgstr "Restablix el comptador de PNJ"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:310
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
 msgctxt "ToolBox|"
 msgid "NPC Name"
 msgstr "Nom del PNJ"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:320
 msgctxt "ToolBox|"
 msgid "NPC's number"
 msgstr "Número de PNJ"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:321
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:326
 msgctxt "ToolBox|"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:323
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:328
 msgctxt "ToolBox|"
 msgid "Mask"
 msgstr "Màscara"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:325
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:330
 msgctxt "ToolBox|"
 msgid "Unmask"
 msgstr "Desemmascara"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:355
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:360
 msgctxt "ToolBox|"
 msgid "height of the pen"
 msgstr "Alçària del llapis"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:367
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:372
 msgctxt "ToolBox|"
 msgid "Opacity:"
 msgstr "Opacitat:"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:82
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:83
 msgctxt "TestCharacterStateModel|"
 msgid "Healthy"
 msgstr "Bon estat"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:86
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:87
 msgctxt "TestCharacterStateModel|"
 msgid "Lightly Wounded"
 msgstr "Ferit lleu"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:90
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:91
 msgctxt "TestCharacterStateModel|"
 msgid "Seriously injured"
 msgstr "Ferit greu"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:94
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:95
 msgctxt "TestCharacterStateModel|"
 msgid "Dead"
 msgstr "Mort"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:98
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:99
 msgctxt "TestCharacterStateModel|"
 msgid "Sleeping"
 msgstr "Adormit"
 
-#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:102
+#: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:103
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
