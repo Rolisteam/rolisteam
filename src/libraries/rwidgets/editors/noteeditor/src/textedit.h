@@ -136,7 +136,7 @@ private:
 
     QToolBar* tb;
     QTextEdit* m_textEdit;
-    bool m_working= false;
+    bool m_working{false};
 };
 
 #endif

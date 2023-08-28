@@ -50,7 +50,7 @@ private:
 
 private:
     QString m_text;
-    bool m_html;
+    bool m_html{true};
 };
 
 #endif // NOTECONTROLLER_H

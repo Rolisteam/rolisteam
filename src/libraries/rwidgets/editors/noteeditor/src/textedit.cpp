@@ -80,43 +80,39 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent)
     setupEditActions();
     setupTextActions();
 
-    // connect(m_noteCtrl, &NoteController::textChanged, this, &TextEdit::setCurrentFileName);
     connect(m_noteCtrl, &NoteController::loadOdt, this, &TextEdit::loadOdt);
     connect(m_noteCtrl, &NoteController::textChanged, this,
             [this]() {
+
+                if(m_noteCtrl->text() == m_textEdit->toPlainText() || m_noteCtrl->text() == m_textEdit->toHtml())
+                    return;
+
                 m_noteCtrl->isHtml() ? m_textEdit->setHtml(m_noteCtrl->text()) :
                                        m_textEdit->setPlainText(m_noteCtrl->text());
             });
 
-    //    {
-    //        QMenu *helpMenu = new QMenu(tr("Help"), this);
-    //        menuBar()->addMenu(helpMenu);
-    //        helpMenu->addAction(tr("About"), this, SLOT(about()));
-    //        helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
-    //    }
-
-    connect(m_textEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)), this,
-            SLOT(currentCharFormatChanged(QTextCharFormat)));
-    connect(m_textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
+    connect(m_textEdit, &QTextEdit::currentCharFormatChanged, this, &TextEdit::currentCharFormatChanged);
+    connect(m_textEdit, &QTextEdit::cursorPositionChanged, this, &TextEdit::cursorPositionChanged);
 
     setCentralWidget(m_textEdit);
     m_textEdit->setFocus();
-    // m_textEdit->document()->m_noteCtrl->name());
 
     fontChanged(m_textEdit->font());
     colorChanged(m_textEdit->textColor());
     alignmentChanged(m_textEdit->alignment());
 
     connect(m_textEdit->document(), &QTextDocument::contentsChanged, m_noteCtrl,
-            [this]() { m_noteCtrl->setText(m_textEdit->document()->toHtml()); });
+            [this]() {
+                qDebug() << "Text change from Note Controller";
+                m_noteCtrl->isHtml() ? m_noteCtrl->setText(m_textEdit->toHtml()) :
+                                       m_noteCtrl->setText(m_textEdit->toPlainText());
+            });
 
-    // connect(textEdit->document(), SIGNAL(modificationChanged(bool)), actionSave, SLOT(setEnabled(bool)));
     connect(m_textEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setWindowModified(bool)));
     connect(m_textEdit->document(), SIGNAL(undoAvailable(bool)), actionUndo, SLOT(setEnabled(bool)));
     connect(m_textEdit->document(), SIGNAL(redoAvailable(bool)), actionRedo, SLOT(setEnabled(bool)));
 
     setWindowModified(m_textEdit->document()->isModified());
-    // actionSave->setEnabled(textEdit->document()->isModified());
     actionUndo->setEnabled(m_textEdit->document()->isUndoAvailable());
     actionRedo->setEnabled(m_textEdit->document()->isRedoAvailable());
 
@@ -319,7 +315,7 @@ void TextEdit::setupTextActions()
 
     comboFont= new QFontComboBox(tb);
     tb->addWidget(comboFont);
-    connect(comboFont, SIGNAL(activated(QString)), this, SLOT(textFamily(QString)));
+    connect(comboFont, &QFontComboBox::currentTextChanged, this, &TextEdit::textFamily);
 
     comboSize= new QComboBox(tb);
     comboSize->setObjectName("comboSize");
@@ -330,7 +326,7 @@ void TextEdit::setupTextActions()
     for(int& size : db.standardSizes())
         comboSize->addItem(QString::number(size));
 
-    connect(comboSize, SIGNAL(activated(QString)), this, SLOT(textSize(QString)));
+    connect(comboSize, &QComboBox::currentTextChanged, this, &TextEdit::textSize);
     comboSize->setCurrentIndex(comboSize->findText(QString::number(QApplication::font().pointSize())));
 }
 

@@ -38,19 +38,3 @@ NoteContainer::NoteContainer(NoteController* note, QWidget* parent)
     connect(m_noteCtrl, &NoteController::nameChanged, this, func);
     func();
 }
-
-/*void NoteContainer::readFromFile(QDataStream& data)
-{
-    if(nullptr != m_edit)
-    {
-        m_edit->readFromBinary(data);
-    }
-}
-
-void NoteContainer::saveInto(QDataStream& out)
-{
-    if(nullptr != m_edit)
-    {
-        m_edit->saveFileAsBinary(out);
-    }
-}*/
