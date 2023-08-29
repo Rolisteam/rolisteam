@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-02-05 14:18+0100\n"
+"PO-Revision-Date: 2023-08-28 10:26+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -1387,7 +1387,7 @@ msgstr "Aanmaken van campagnesjabloon is mislukt in dis locatie: %1"
 #: src/libraries/core/src/data/chatroom.cpp:156
 msgctxt "ChatRoom|"
 msgid "No Diceparser Object"
-msgstr ""
+msgstr "Geen object Diceparser"
 
 #: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
@@ -2278,20 +2278,14 @@ msgid "tags:"
 msgstr "tags:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:51
-#, fuzzy
-#| msgctxt "ShortCutModel|"
-#| msgid "Action"
 msgctxt "NodeSettingPopup|"
 msgid "Action:"
-msgstr "Actie"
+msgstr "Actie:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Remove Avatar..."
 msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
-msgstr "Avatar verwijderen..."
+msgstr "Avatar verwijderen"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:64
 msgctxt "NodeSettingPopup|"
@@ -4358,28 +4352,19 @@ msgid "Ctrl+b"
 msgstr "Ctrl+b"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:296
-#, fuzzy
-#| msgctxt "ImageModel|"
-#| msgid "Filename"
 msgctxt "Image|"
 msgid "Rename"
-msgstr "Bestandsnaam"
+msgstr "Hernoemen"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Define the <username>"
 msgctxt "Image|"
 msgid "Define the new name"
-msgstr "Definieer de <username>"
+msgstr "De nieuwe naam definiëren"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "Image|"
 msgid "New name:"
-msgstr "Naam:"
+msgstr "Nieuwe naam:"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:305
 #: src/libraries/rwidgets/mediacontainers/image.cpp:317

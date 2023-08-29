@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2023-03-29 07:01+0200\n"
+"PO-Revision-Date: 2023-08-28 06:32+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "X-Qt-Contexts: true\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -1399,7 +1399,7 @@ msgstr "Ustvarjanje predloge bojnega pohoda ni uspelo na tem mestu: %1"
 #: src/libraries/core/src/data/chatroom.cpp:156
 msgctxt "ChatRoom|"
 msgid "No Diceparser Object"
-msgstr ""
+msgstr "Ni predmeta Diceparser"
 
 #: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
@@ -2289,20 +2289,14 @@ msgid "tags:"
 msgstr "značke:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:51
-#, fuzzy
-#| msgctxt "ShortCutModel|"
-#| msgid "Action"
 msgctxt "NodeSettingPopup|"
 msgid "Action:"
-msgstr "Dejanje"
+msgstr "Dejanje:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Remove Avatar..."
 msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
-msgstr "Odstrani avatar ..."
+msgstr "Odstrani avatar"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:64
 msgctxt "NodeSettingPopup|"
@@ -4374,28 +4368,19 @@ msgid "Ctrl+b"
 msgstr "Krmilka+b"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:296
-#, fuzzy
-#| msgctxt "ImageModel|"
-#| msgid "Filename"
 msgctxt "Image|"
 msgid "Rename"
-msgstr "Ime datoteke"
+msgstr "Preimenuj"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Define the <username>"
 msgctxt "Image|"
 msgid "Define the new name"
-msgstr "Določite uporabniško ime <username>"
+msgstr "Določi novo ime"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "Image|"
 msgid "New name:"
-msgstr "Ime:"
+msgstr "Novo ime:"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:305
 #: src/libraries/rwidgets/mediacontainers/image.cpp:317

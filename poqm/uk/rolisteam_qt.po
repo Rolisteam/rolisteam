@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-02-05 11:27+0200\n"
+"PO-Revision-Date: 2023-08-28 09:37+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -1396,7 +1396,7 @@ msgstr "Не вдалося створити шаблон кампанії у ц
 #: src/libraries/core/src/data/chatroom.cpp:156
 msgctxt "ChatRoom|"
 msgid "No Diceparser Object"
-msgstr ""
+msgstr "Немає об'єкта Diceparser"
 
 #: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
@@ -2288,20 +2288,14 @@ msgid "tags:"
 msgstr "мітки:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:51
-#, fuzzy
-#| msgctxt "ShortCutModel|"
-#| msgid "Action"
 msgctxt "NodeSettingPopup|"
 msgid "Action:"
-msgstr "Дія"
+msgstr "Дія:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Remove Avatar..."
 msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
-msgstr "Вилучити аватар…"
+msgstr "Вилучити аватар"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:64
 msgctxt "NodeSettingPopup|"
@@ -4373,28 +4367,19 @@ msgid "Ctrl+b"
 msgstr "Ctrl+b"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:296
-#, fuzzy
-#| msgctxt "ImageModel|"
-#| msgid "Filename"
 msgctxt "Image|"
 msgid "Rename"
-msgstr "Назва файла"
+msgstr "Перейменувати"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Define the <username>"
 msgctxt "Image|"
 msgid "Define the new name"
-msgstr "Визначити <користувача>"
+msgstr "Визначте нову назву"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "Image|"
 msgid "New name:"
-msgstr "Назва:"
+msgstr "Нова назва:"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:305
 #: src/libraries/rwidgets/mediacontainers/image.cpp:317

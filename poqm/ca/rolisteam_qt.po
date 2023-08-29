@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-07-31 13:14+0200\n"
+"PO-Revision-Date: 2023-08-28 20:56+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -1398,7 +1398,7 @@ msgstr ""
 #: src/libraries/core/src/data/chatroom.cpp:156
 msgctxt "ChatRoom|"
 msgid "No Diceparser Object"
-msgstr ""
+msgstr "No hi ha cap objecte Diceparser"
 
 #: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
@@ -2296,20 +2296,14 @@ msgid "tags:"
 msgstr "Etiquetes:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:51
-#, fuzzy
-#| msgctxt "ShortCutModel|"
-#| msgid "Action"
 msgctxt "NodeSettingPopup|"
 msgid "Action:"
-msgstr "Acció"
+msgstr "Acció:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
-#, fuzzy
-#| msgctxt "CharacterDataModel|"
-#| msgid "No Avatar"
 msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
-msgstr "Sense avatar"
+msgstr "Elimina l'avatar"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:64
 msgctxt "NodeSettingPopup|"
@@ -4377,28 +4371,19 @@ msgid "Ctrl+b"
 msgstr "Ctrl+b"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:296
-#, fuzzy
-#| msgctxt "ImageModel|"
-#| msgid "Filename"
 msgctxt "Image|"
 msgid "Rename"
-msgstr "Nom del fitxer"
+msgstr "Reanomena"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Define the <username>"
 msgctxt "Image|"
 msgid "Define the new name"
-msgstr "Defineix el <nom_usuari>"
+msgstr "Defineix el nom nou"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "Image|"
 msgid "New name:"
-msgstr "Nom:"
+msgstr "Nom nou:"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:305
 #: src/libraries/rwidgets/mediacontainers/image.cpp:317

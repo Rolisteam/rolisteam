@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-04-17 22:01+0200\n"
+"PO-Revision-Date: 2023-08-28 12:30+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -1395,7 +1395,7 @@ msgstr "Kokaleku honetan kanpaina-txantiloia sortzea huts egin du: %1"
 #: src/libraries/core/src/data/chatroom.cpp:156
 msgctxt "ChatRoom|"
 msgid "No Diceparser Object"
-msgstr ""
+msgstr "Ez dago «Diceparser» objekturik"
 
 #: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
@@ -1541,7 +1541,7 @@ msgstr "Titulua"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Avatar"
-msgstr "Avatara"
+msgstr "Abatara"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
@@ -1765,7 +1765,7 @@ msgstr "%1 kanalak eskatutako pasahitza:"
 #: src/libraries/core/src/network/characterdatamodel.cpp:77
 msgctxt "CharacterDataModel|"
 msgid "No Avatar"
-msgstr "Avatar gabe"
+msgstr "Abatar gabe"
 
 #: src/libraries/core/src/network/characterdatamodel.cpp:145
 msgctxt "CharacterDataModel|"
@@ -2287,20 +2287,14 @@ msgid "tags:"
 msgstr "etiketak:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:51
-#, fuzzy
-#| msgctxt "ShortCutModel|"
-#| msgid "Action"
 msgctxt "NodeSettingPopup|"
 msgid "Action:"
-msgstr "Ekintza"
+msgstr "Ekintza:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
-#, fuzzy
-#| msgctxt "CharacterDataModel|"
-#| msgid "No Avatar"
 msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
-msgstr "Avatar gabe"
+msgstr "Kendu abatara"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:64
 msgctxt "NodeSettingPopup|"
@@ -4368,28 +4362,19 @@ msgid "Ctrl+b"
 msgstr "Ktrl+b"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:296
-#, fuzzy
-#| msgctxt "ImageModel|"
-#| msgid "Filename"
 msgctxt "Image|"
 msgid "Rename"
-msgstr "Fitxategi-izena"
+msgstr "Berrizendatu"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Define the <username>"
 msgctxt "Image|"
 msgid "Define the new name"
-msgstr "Definitu «erabiltzaile-izena>"
+msgstr "Definitu izen berria"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "Image|"
 msgid "New name:"
-msgstr "Izena:"
+msgstr "Izen berria:"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:305
 #: src/libraries/rwidgets/mediacontainers/image.cpp:317
@@ -4577,7 +4562,7 @@ msgstr "Erakutsi/ezkutatu zutabea"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:48
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr "Ezarri abatarra..."
+msgstr "Ezarri abatara..."
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:49
 msgctxt "UserListView|"
