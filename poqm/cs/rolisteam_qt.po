@@ -2256,20 +2256,14 @@ msgid "tags:"
 msgstr "Značky:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:51
-#, fuzzy
-#| msgctxt "ShortCutModel|"
-#| msgid "Action"
 msgctxt "NodeSettingPopup|"
 msgid "Action:"
-msgstr "Činnost"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
-#, fuzzy
-#| msgctxt "CharacterDataModel|"
-#| msgid "No Avatar"
 msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
-msgstr "Žádný avatar"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:64
 msgctxt "NodeSettingPopup|"
@@ -4317,12 +4311,9 @@ msgid "Ctrl+b"
 msgstr "Ctrl+B"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:296
-#, fuzzy
-#| msgctxt "ImageModel|"
-#| msgid "Filename"
 msgctxt "Image|"
 msgid "Rename"
-msgstr "Název souboru"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
 msgctxt "Image|"
@@ -4330,12 +4321,9 @@ msgid "Define the new name"
 msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:299
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "Image|"
 msgid "New name:"
-msgstr "Název:"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:305
 #: src/libraries/rwidgets/mediacontainers/image.cpp:317
