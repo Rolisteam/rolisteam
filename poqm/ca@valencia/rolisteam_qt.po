@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-08-28 20:56+0200\n"
+"PO-Revision-Date: 2023-09-14 18:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -3269,12 +3269,12 @@ msgstr "</ul>Final de format d'imatge"
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:485
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
-msgstr "<h2>Famílies de tipus de lletra:</h2><ul>"
+msgstr "<h2>Famílies de lletres:</h2><ul>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:492
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
-msgstr "</ul>Final de famílies de tipus de lletra"
+msgstr "</ul>Final de famílies de lletres"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:495
 msgctxt "PreferencesDialog|"
@@ -3805,12 +3805,12 @@ msgstr "Document XML de mida nul·la!"
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:89
 msgctxt "XMLTextEdit|"
 msgid "Zoom In CTRL/+"
-msgstr "Acosta Ctrl/+"
+msgstr "Acosta «Ctrl/+»"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:90
 msgctxt "XMLTextEdit|"
 msgid "Zoom Out CTRL/-"
-msgstr "Allunya Ctrl/-"
+msgstr "Allunya «Ctrl/-»"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:91
 msgctxt "XMLTextEdit|"
