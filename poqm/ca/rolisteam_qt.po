@@ -4,11 +4,12 @@
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Josep M. Ferrer <txemaq@gmail.com>, 2022, 2023.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-09-14 18:05+0200\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"PO-Revision-Date: 2023-09-25 21:58+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.11.70\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -934,7 +935,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.cpp:701
 msgctxt "MainWindow|"
 msgid "Quit"
-msgstr "Quit"
+msgstr "Surt"
 
 #: src/binaries/widget/mainwindow.cpp:709
 #, qt-format
@@ -1028,7 +1029,7 @@ msgstr "camí al fitxer de traducció: <fitxer_traducció>"
 #: src/binaries/widget/mainwindow.cpp:944
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
-msgstr "Defineix un URL per connectar al servidor: <url>"
+msgstr "Defineix un URL per a connectar al servidor: <url>"
 
 #: src/binaries/widget/mainwindow.cpp:1037
 #, qt-format
@@ -1196,7 +1197,7 @@ msgstr "Elimina la darrera línia"
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:530
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
-msgstr "Nom del camps"
+msgstr "Nom dels camps"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:568
 #, qt-format
@@ -3139,8 +3140,8 @@ msgid ""
 "background music, dice roll and so on. Rolisteam is written in Qt5"
 msgstr ""
 "El Rolisteam us ajuda a gestionar un joc de rol de taula amb amics/jugadors "
-"remots. Proporciona moltes característiques per compartir mapes, imatges i "
-"també inclou eines per comunicar-se amb els vostres amics/jugadors. "
+"remots. Proporciona moltes característiques per a compartir mapes, imatges i "
+"també inclou eines per a comunicar-se amb els vostres amics/jugadors. "
 "L'objectiu és fer que els jocs RPG gestionats per Rolisteam siguin tan bons "
 "com els jocs RPG al voltant d'una taula. Per a aconseguir-ho, estem "
 "treballant intensament per a proporcionar-li cada vegada més "
@@ -3324,7 +3325,7 @@ msgstr "%1 - Consell del dia"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:42
 msgctxt "TipOfDayViewer|"
 msgid "No Service to open links"
-msgstr "Cap servei per obrir enllaços"
+msgstr "Cap servei per a obrir enllaços"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:43
 #, qt-format
@@ -4318,7 +4319,8 @@ msgstr "Ajusta a la finestra"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:254
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
-msgstr "La imatge prendrà les dimensions millors per ajustar-se a la finestra."
+msgstr ""
+"La imatge prendrà les dimensions millors per a ajustar-se a la finestra."
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|Fit the window"
