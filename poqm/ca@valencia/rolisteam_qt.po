@@ -2651,7 +2651,7 @@ msgstr "Roig: %1, verd: %2, blau: %3"
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:87
 msgctxt "FileDirChooser|"
 msgid "Select directory"
-msgstr "Seleccioneu el directori"
+msgstr "Seleccioneu un directori"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:92
 msgctxt "FileDirChooser|"
@@ -3312,7 +3312,7 @@ msgstr "Afig un directori nou"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:101
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
-msgstr "Seleccioneu el directori"
+msgstr "Seleccioneu un directori"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:30
 #, qt-format
