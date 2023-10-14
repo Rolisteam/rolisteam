@@ -463,7 +463,7 @@ msgstr "Equidistribució horitzontal"
 #: src/binaries/rcse/main.cpp:66
 msgctxt "QObject|"
 msgid "define path to current <translation>"
-msgstr "definix el camí a la <traducció> actual"
+msgstr "definix el camí cap a la <traducció> actual"
 
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
