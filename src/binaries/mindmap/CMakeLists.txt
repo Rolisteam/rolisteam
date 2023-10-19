@@ -27,14 +27,14 @@ set(headers
 
 set(qml_files main.qml)
 
-add_executable(mindmap-bin ${sources} ${headers} ${UI_files} ${ressources})
-set_target_properties(mindmap-bin  PROPERTIES OUTPUT_NAME mindmap CLEAN_DIRECT_OUTPUT 1)
+add_executable(mindmapbin ${sources} ${headers} ${UI_files} ${ressources})
+set_target_properties(mindmapbin  PROPERTIES OUTPUT_NAME mindmap CLEAN_DIRECT_OUTPUT 1)
 
 qt6_add_resources(mindmap-bin mindmaprsrc
         PREFIX "/mindmap/qml"
         FILES ${qml_files})
 
-target_link_libraries(mindmap-bin
+target_link_libraries(mindmapbin
   PUBLIC
     Qt6::Gui
     Qt6::Qml
@@ -50,7 +50,7 @@ target_link_libraries(mindmap-bin
     utils
 )
 
-target_include_directories(mindmap-bin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
+target_include_directories(mindmapbin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/
     ${CMAKE_CURRENT_SOURCE_DIR}/
     ${CMAKE_SOURCE_DIR}/
@@ -59,4 +59,4 @@ target_include_directories(mindmap-bin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
 
 
 include(install_helper)
-rinstallRT(mindmap-bin mindmapComp)
+rinstallRT(mindmapbin mindmapComp)

@@ -1,5 +1,5 @@
 set(CPACK_GENERATOR "IFW")
-set(CPACK_IFW_ROOT ${ifwpath})# /home/renaud/application/other/Qt/Tools/QtInstallerFramework/4.2
+set(CPACK_IFW_ROOT ${IFW_PATH})# /home/renaud/application/other/Qt/Tools/QtInstallerFramework/4.2
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "Rolisteam")
 set(CPACK_PACKAGE_NAME "Rolisteam")
 set(CPACK_PACKAGE_VENDOR "Rolisteam.org")
@@ -41,18 +41,18 @@ endif()
 include(CPack)
 include(CPackIFW)
 
-cpack_add_component(libraries DISPLAY_NAME "Libraries" DESCRIPTION "Dynamic libs")
-cpack_add_component(rolisteamComp DISPLAY_NAME "Rolisteam" DEPENDS libraries)
-cpack_add_component(rcseComp DISPLAY_NAME "rcse" DEPENDS libraries)
-cpack_add_component(roliserverComp DISPLAY_NAME "Roliserver" DEPENDS libraries)
-cpack_add_component(mindmapComp DISPLAY_NAME "RMindMap" DEPENDS libraries)
 cpack_add_component(diceComp DISPLAY_NAME "Dice CLI" DEPENDS libraries)
+cpack_add_component(rcseComp DISPLAY_NAME "CharacterSheet Editor (rcse)" DEPENDS libraries)
+cpack_add_component(libraries DISPLAY_NAME "Libraries" REQUIRED DESCRIPTION "Dynamic libs")
+cpack_add_component(rolisteamComp DISPLAY_NAME "Rolisteam" DEPENDS libraries)
+cpack_add_component(roliserverComp DISPLAY_NAME "Stand alone Server" DEPENDS libraries)
+cpack_add_component(mindmapComp DISPLAY_NAME "MindMap Editor" DEPENDS libraries)
 
 
 cpack_ifw_configure_component(libraries
     DESCRIPTION
         "Dynamic libs"
-    SORTING_PRIORITY 1000
+    SORTING_PRIORITY 10
     VERSION ${PROJECT_VERSION}
     LICENSES "GPLv2" "${CMAKE_SOURCE_DIR}/COPYING.txt"
     DEFAULT "true"
@@ -70,35 +70,35 @@ cpack_ifw_configure_component(rolisteamComp
 cpack_ifw_configure_component(rcseComp
     DESCRIPTION
         "Rolisteam CharacterSheet Editor"
-    SORTING_PRIORITY 1000
+    SORTING_PRIORITY 999
     VERSION ${PROJECT_VERSION}
     LICENSES "GPLv2" "${CMAKE_SOURCE_DIR}/COPYING.txt"
     DEFAULT "true"
 )
-#
-#cpack_ifw_configure_component(roliserverComp
-#    DESCRIPTION
-#        "Standalone and headless rolisteam server"
-#    SORTING_PRIORITY 1000
-#    VERSION ${PROJECT_VERSION}
-#    LICENSES "GPLv2" "${CMAKE_SOURCE_DIR}/COPYING.txt"
-#    DEFAULT "false"
-#)
-#
-#cpack_ifw_configure_component(mindmapComp
-#  DESCRIPTION
-#      "Standalone mindmap application"
-#  SORTING_PRIORITY 1000
-#  VERSION ${PROJECT_VERSION}
-#  LICENSES "GPLv3" "${CMAKE_SOURCE_DIR}/COPYING.txt"
-#  DEFAULT "false"
-#)
-#
-#cpack_ifw_configure_component(diceComp
-#    DESCRIPTION
-#        "Dice CLI application"
-#    SORTING_PRIORITY 1000
-#    VERSION ${PROJECT_VERSION}
-#    LICENSES "GPLv3" "${CMAKE_SOURCE_DIR}/COPYING.txt"
-#    DEFAULT "false"
-#)
+
+cpack_ifw_configure_component(roliserverComp
+    DESCRIPTION
+        "Standalone and headless rolisteam server"
+    SORTING_PRIORITY 997
+    VERSION ${PROJECT_VERSION}
+    LICENSES "GPLv2" "${CMAKE_SOURCE_DIR}/COPYING.txt"
+    DEFAULT "true"
+)
+
+cpack_ifw_configure_component(mindmapComp
+  DESCRIPTION
+      "Standalone mindmap application"
+  SORTING_PRIORITY 998
+  VERSION ${PROJECT_VERSION}
+  LICENSES "GPLv3" "${CMAKE_SOURCE_DIR}/COPYING.txt"
+  DEFAULT "true"
+)
+
+cpack_ifw_configure_component(diceComp
+    DESCRIPTION
+        "Command line tool to roll Dice"
+    SORTING_PRIORITY 990
+    VERSION ${PROJECT_VERSION}
+    LICENSES "GPLv3" "${CMAKE_SOURCE_DIR}/COPYING.txt"
+    DEFAULT "true"
+)
