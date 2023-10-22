@@ -3811,123 +3811,123 @@ msgctxt "NoteContainer|"
 msgid "%1 - Note"
 msgstr "%1 - Noto"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:175
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:171
 msgctxt "TextEdit|"
 msgid "File Actions"
 msgstr "Dosieraj Agoj"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:178
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:174
 msgctxt "TextEdit|"
 msgid "&File"
 msgstr "&Dosiero"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:183
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:179
 msgctxt "TextEdit|"
 msgid "&Print..."
 msgstr "&Presi..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:185
 msgctxt "TextEdit|"
 msgid "Print Preview..."
 msgstr "Presita antaŭvido..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:193
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
 msgstr "&Eksporti PDF..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:203
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:199
 msgctxt "TextEdit|"
 msgid "Edit Actions"
 msgstr "Redakti Agojn"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:206
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:202
 msgctxt "TextEdit|"
 msgid "&Edit"
 msgstr "R&edakti"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:210
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:206
 msgctxt "TextEdit|"
 msgid "&Undo"
 msgstr "&Malfari"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:214
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:210
 msgctxt "TextEdit|"
 msgid "&Redo"
 msgstr "&Refari"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:219
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:215
 msgctxt "TextEdit|"
 msgid "Cu&t"
 msgstr "&Tondi"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:223
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:219
 msgctxt "TextEdit|"
 msgid "&Copy"
 msgstr "&Kopii"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:227
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:223
 msgctxt "TextEdit|"
 msgid "&Paste"
 msgstr "&Alglui"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:237
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:305
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:233
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:301
 msgctxt "TextEdit|"
 msgid "Format Actions"
 msgstr "Formataj Agoj"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:240
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:236
 msgctxt "TextEdit|"
 msgid "F&ormat"
 msgstr "F&ormato"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:243
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:239
 msgctxt "TextEdit|"
 msgid "&Bold"
 msgstr "&Grasa"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:253
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:249
 msgctxt "TextEdit|"
 msgid "&Italic"
 msgstr "Kurs&iva"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:263
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
 msgctxt "TextEdit|"
 msgid "&Underline"
 msgstr "S&ubstreki"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:278
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:274
 msgctxt "TextEdit|"
 msgid "&Left"
 msgstr "Ma&ldekstre"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:281
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:277
 msgctxt "TextEdit|"
 msgid "C&enter"
 msgstr "C&entro"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:284
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:280
 msgctxt "TextEdit|"
 msgid "&Right"
 msgstr "Dekst&re"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:287
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:283
 msgctxt "TextEdit|"
 msgid "&Justify"
 msgstr "Ĝisrandi&gi"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:298
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:294
 msgctxt "TextEdit|"
 msgid "&Color..."
 msgstr "&Koloro..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:372
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:368
 msgctxt "TextEdit|"
 msgid "Application"
 msgstr "Apliko"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:373
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:369
 msgctxt "TextEdit|"
 msgid ""
 "The document has been modified.\n"
@@ -3936,37 +3936,37 @@ msgstr ""
 "La dokumento estas modifita.\n"
 "Ĉu vi volas konservi viajn ŝanĝojn?"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:395
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:391
 msgctxt "TextEdit|"
 msgid "Open File..."
 msgstr "Malfermi Dosieron..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:435
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:431
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
 msgstr "ODF-dosieroj (*.odt);;HTML-dosieroj (*.htm *.html);;Ĉiuj dosieroj (*)"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:437
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:433
 msgctxt "TextEdit|"
 msgid "HTML-Files (*.htm *.html);;All Files (*)"
 msgstr "HTML-Dosieroj (*.htm *.html);;Ĉiuj Dosieroj (*)"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:439
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:435
 msgctxt "TextEdit|"
 msgid "Save as..."
 msgstr "Konservi kiel..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:454
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:450
 msgctxt "TextEdit|"
 msgid "Print Document"
 msgstr "Presi Dokumenton"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:638
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:634
 msgctxt "TextEdit|"
 msgid "About"
 msgstr "Pri"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:639
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:635
 msgctxt "TextEdit|"
 msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
@@ -3975,7 +3975,7 @@ msgstr ""
 "Ĉi tiu ekzemplo montras la riĉajn tekstajn redaktajn instalaĵojn de Qt en "
 "agado, provizante ekzemplodokumenton por ke vi eksperimentu."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:692
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:688
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
 msgstr "OpenOffice 2.4 dosierformato OASIS"
