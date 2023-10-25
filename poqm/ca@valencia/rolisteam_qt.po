@@ -646,7 +646,7 @@ msgstr "Aplica a tots els personatges"
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
 msgid "Directory to save QML file"
-msgstr "Directori a on s'ha de guardar el fitxer QML"
+msgstr "Directori a on s'ha de guardar el fitxer en QML"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
@@ -4338,7 +4338,7 @@ msgstr "Establix el nivell de zoom al 20%"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|Set the zoom level at 20%"
 msgid "Ctrl+l"
-msgstr "Ctrl+l"
+msgstr "Ctrl+L"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:275
 msgctxt "Image|"
@@ -4436,7 +4436,7 @@ msgid ""
 "Do you want to continue and share the PDF?"
 msgstr ""
 "La transferència de PDF pot ser molt pesada.\n"
-"Voleu continuar i compartir PDF?"
+"Voleu continuar i compartir-lo?"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:293
 #, qt-format
