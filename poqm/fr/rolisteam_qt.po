@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2023-09-15 19:56+0200\n"
+"PO-Revision-Date: 2023-10-24 22:08+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -1851,7 +1851,7 @@ msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
 "Impossible d'obtenir « base_URL » à partir du nœud « XML » de « URLBase » ou "
-"« describe_url » .\n"
+"« describe_url ».\n"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:284
 #, qt-format
@@ -1982,19 +1982,19 @@ msgstr "Supprimer %1 élément(s) de la carte"
 #, qt-format
 msgctxt "ImportDataMedia|"
 msgid "Import media: %1"
-msgstr "Importer un media : %1"
+msgstr "Importer un média : %1"
 
 #: src/libraries/core/src/undoCmd/importimagestate.cpp:37
 #, qt-format
 msgctxt "ImportImageState|"
 msgid "Import media: %1"
-msgstr "Importer un media : %1"
+msgstr "Importer un média : %1"
 
 #: src/libraries/core/src/undoCmd/importmedia.cpp:41
 #, qt-format
 msgctxt "ImportMedia|"
 msgid "Import media: %1"
-msgstr "Importer un media : %1"
+msgstr "Importer un média : %1"
 
 #: src/libraries/core/src/undoCmd/newmediacontroller.cpp:68
 #, qt-format
@@ -3067,7 +3067,7 @@ msgstr "Supprimer une initiative sur tous les personnages"
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
 msgid "Predefine Color 1"
-msgstr "Pré-définir la couleur 1"
+msgstr "Prédéfinir la couleur 1"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:131
 #, qt-format
@@ -3133,7 +3133,7 @@ msgid ""
 "background music, dice roll and so on. Rolisteam is written in Qt5"
 msgstr ""
 "Le logiciel Rolisteam vous aide à gérer un jeu de rôle sur table avec des "
-"ami(e)s/joueurs et joueuses distants.Il offre de nombreuses fonctionnalités "
+"ami(e)s/joueurs et joueuses distants. Il offre de nombreuses fonctionnalités "
 "pour partager des cartes, des images. Il intègre également un outil pour "
 "communiquer avec ami(e)s/joueurs et joueuses. Son objectif est de rendre les "
 "jeux de rôles (RPG) gérés par Rolisteam aussi bons que les jeux de rôles sur "
@@ -4525,7 +4525,7 @@ msgstr "Ouvrir comme…"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
 msgid "Rename Media"
-msgstr "Renommer un media"
+msgstr "Renommer un média"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:32
 msgctxt "campaign::CampaignView|"
