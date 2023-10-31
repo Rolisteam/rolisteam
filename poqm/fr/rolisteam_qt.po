@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2023-10-24 22:08+0200\n"
+"PO-Revision-Date: 2023-10-29 20:41+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 23.08.2\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/main.qml:23
@@ -1155,7 +1155,7 @@ msgstr "Colère"
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:76
 msgctxt "example|"
 msgid "Syndrôme"
-msgstr "Syndrôme"
+msgstr "Syndrome"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:83
 #, qt-format
@@ -1805,7 +1805,7 @@ msgstr "Personnage inconnu"
 #: src/libraries/core/src/network/rserver.cpp:40
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
-msgstr "[Upnp] Le mappage de ports a été réalisé."
+msgstr "[UPNP] Le mappage de ports a été réalisé."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:247
 #, qt-format
@@ -2119,7 +2119,7 @@ msgstr "Notes partagées"
 #: src/libraries/core/src/worker/utilshelper.cpp:208
 msgctxt "QObject|"
 msgid "Pdf"
-msgstr "Pdf"
+msgstr "PDF"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:209
 msgctxt "QObject|"
