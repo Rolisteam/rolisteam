@@ -656,7 +656,7 @@ QByteArray randomData(int length)
                   {
                       static std::random_device rd;
                       static std::mt19937 generator(rd());
-                      static std::uniform_int_distribution<char> dist(0, std::numeric_limits<char>::max());
+                      static std::uniform_int_distribution<int> dist(0, std::numeric_limits<char>::max());
                       return dist(generator);
                   });
 

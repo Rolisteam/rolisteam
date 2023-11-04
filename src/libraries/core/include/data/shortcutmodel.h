@@ -23,6 +23,9 @@
 #include <QAbstractItemModel>
 #include <QKeySequence>
 #include <core_global.h>
+#include <vector>
+#include <memory>
+
 class CORE_EXPORT ShortCutItem
 {
 public:
@@ -34,6 +37,7 @@ class CORE_EXPORT ShortCut : public ShortCutItem
 {
 public:
     ShortCut(const QString& name, const QString& seq);
+
     QKeySequence getSequence() const;
     void setSequence(const QKeySequence& seq);
 
@@ -51,6 +55,7 @@ class CORE_EXPORT Category : public ShortCutItem
 {
 public:
     Category(const QString& name);
+    Category(Category&& other);
 
     QString name() const;
     void setName(const QString& name);

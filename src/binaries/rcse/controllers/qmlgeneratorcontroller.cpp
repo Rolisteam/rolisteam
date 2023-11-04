@@ -205,7 +205,7 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl)
     text << "import QtQuick.Layouts\n";
     text << "import QtQuick.Controls\n";
     text << "import Rolisteam\n";
-    text << "import CharacterSheet\n";
+    text << "import charactersheet\n";
     text << "import Helper\n";
 
     if(!m_importCode.isEmpty())

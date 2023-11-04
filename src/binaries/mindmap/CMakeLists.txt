@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.16)
-project(mindmapbin)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -27,8 +26,12 @@ set(headers
 
 set(qml_files main.qml)
 
-add_executable(mindmapbin ${sources} ${headers} ${UI_files} ${ressources})
+
+set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/mindmap/logo/mindmap.rc)
+
+add_executable(mindmapbin WIN32 ${sources} ${headers} ${UI_files} ${ressources} ${RC_FILE})
 set_target_properties(mindmapbin  PROPERTIES OUTPUT_NAME mindmap CLEAN_DIRECT_OUTPUT 1)
+set_target_properties(mindmapbin PROPERTIES WIN32_EXECUTABLE on MACOSX_BUNDLE on)
 
 qt6_add_resources(mindmap-bin mindmaprsrc
         PREFIX "/mindmap/qml"
@@ -48,6 +51,10 @@ target_link_libraries(mindmapbin
     qml_views
     qml_components
     utils
+    instantmessaging
+    diceparser_shared
+    diceparser_qobject
+    charactersheet
 )
 
 target_include_directories(mindmapbin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src

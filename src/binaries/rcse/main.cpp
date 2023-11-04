@@ -29,6 +29,7 @@
 
 #include <QCommandLineOption>
 #include <QCommandLineParser>
+#include <QQuickStyle>
 
 int main(int argc, char* argv[])
 {
@@ -44,17 +45,19 @@ int main(int argc, char* argv[])
 
     registerQmlTypes();
 
-    QString locale= QLocale::system().name();
-
     // INIT STYLE
     QIcon::setThemeSearchPaths({":/rcstyle"});
+    QQuickStyle::setStyle("Basic");
 
     QTranslator rolisteamTranslator;
-    rolisteamTranslator.load(QLocale(), ":/translations/rcse", "_");
+    if(!rolisteamTranslator.load(QLocale(), ":/translations/rcse", "_"))
+        qWarning() << QObject::tr("Load of translation %1 file failed").arg(":/translations/rcse");
+
     a.installTranslator(&rolisteamTranslator);
 
     QTranslator qtTranslator;
-    qtTranslator.load(QLocale(), ":/translations/qt", "_");
+    if(!qtTranslator.load(QLocale(), ":/translations/qt", "_"))
+        qWarning() << QObject::tr("Load of translation %1 file failed").arg(":/translations/qt");
     a.installTranslator(&qtTranslator);
 
     QCommandLineParser parser;
@@ -75,7 +78,8 @@ int main(int argc, char* argv[])
     if(parser.isSet(translation))
     {
         QTranslator* cliTranslator= new QTranslator();
-        cliTranslator->load(parser.value(translation));
+        if(cliTranslator->load(parser.value(translation)))
+            qWarning() << QObject::tr("Load of translation %1 file failed").arg(parser.value(translation));
         a.installTranslator(cliTranslator);
     }
 

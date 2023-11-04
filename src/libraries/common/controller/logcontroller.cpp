@@ -248,7 +248,8 @@ void LogController::setListenOutSide(bool val)
 
 void LogController::manageMessage(QString message, const QString& category, LogController::LogLevel type)
 {
-    QMutexLocker locker(&m_mutex);
+    static QMutex mutex;
+    QMutexLocker locker(&mutex);
     Q_UNUSED(locker)
 
     QString str("%1 - %2 - %3");

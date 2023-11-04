@@ -56,27 +56,27 @@ Flickable {
         id: linkComp
         Link {
             id: linkItem
-            x: item.topLeftCorner.x
-            y: item.topLeftCorner.y
-            width: item.normalizedWidth
-            height: item.normalizedHeight
+            x: objectItem.topLeftCorner.x
+            y: objectItem.topLeftCorner.y
+            width: objectItem.normalizedWidth
+            height: objectItem.normalizedHeight
             color: _flick.styleSheet.linkColor
-            opacity: item.constraint ? 1.0 : 0.4
-            controller: item
-            visible: item.visible
-            text: item.text ?  item.text : qsTr("is linked")
+            opacity: objectItem.constraint ? 1.0 : 0.4
+            controller: objectItem
+            visible: objectItem.visible
+            text: objectItem.text ?  objectItem.text : qsTr("is linked")
             visibleLabel: _flick.ctrl.linkLabelVisibility
 
             onSelected: {
                 _flick.ctrl.selectionCtrl.clearSelection()
-                _flick.ctrl.selectionCtrl.addToSelection(item)
+                _flick.ctrl.selectionCtrl.addToSelection(objectItem)
             }
 
             Rectangle {
                 border.width: 1
                 border.color: "red"
                 color: "transparent"
-                visible: item.selected
+                visible: objectItem.selected
                 anchors.fill: parent
             }
 
@@ -86,36 +86,36 @@ Flickable {
     Component {
         id: packComp
         PackageItem {
-            packageItem: item
-            width: item.width
-            height: item.height
-            visible: item.visible
-            selected: item.selected
-            title: item.title
+            packageItem: objectItem
+            width: objectItem.width
+            height: objectItem.height
+            visible: objectItem.visible
+            selected: objectItem.selected
+            title: objectItem.title
             onAddItem: (itemid)=>{
-                           _flick.ctrl.addItemIntoPackage(itemid, item.id)
+                           _flick.ctrl.addItemIntoPackage(itemid, objectItem.id)
                        }
             onClicked: (mouse) => {
                if(_flick.addSubLink)
                {
                    if(_flick.selectedNodeId.length > 0)
                    {
-                       _flick.ctrl.addLink(_flick.selectedNodeId, item.id)
+                       _flick.ctrl.addLink(_flick.selectedNodeId, objectItem.id)
                        _flick.selectedNodeId = ""
                    }
                    else
-                   _flick.selectedNodeId = item.id
+                   _flick.selectedNodeId = objectItem.id
 
                }
                else if(mouse.modifiers & Qt.ControlModifier) {
                    if(selected)
-                   _flick.ctrl.selectionCtrl.removeFromSelection(item)
+                   _flick.ctrl.selectionCtrl.removeFromSelection(objectItem)
                    else
-                   _flick.ctrl.selectionCtrl.addToSelection(item)
+                   _flick.ctrl.selectionCtrl.addToSelection(objectItem)
                }
                else if(!selected){
                    _flick.ctrl.selectionCtrl.clearSelection()
-                   _flick.ctrl.selectionCtrl.addToSelection(item)
+                   _flick.ctrl.selectionCtrl.addToSelection(objectItem)
                }
 
            }
@@ -128,32 +128,26 @@ Flickable {
         id: nodeComp
         Node {
             id: nodeItem
-            currentNode: item
-            nodeStyle: _flick.ctrl.style(item.styleIndex)
+            currentNode: objectItem
+            nodeStyle: _flick.ctrl.style(objectItem.styleIndex)
             readWrite: _flick.ctrl.hasNetwork ? _flick.ctrl.readWrite : true
             focus: true
-            text : item.text ? item.text : "new node"
-            source: hasAvatar ? "image://nodeImages/%1".arg(item.id) : ""
-            Timer {
-                running: true
-                repeat: true
-                onTriggered: console.log("hasAvatar",hasAvatar)
-            }
-
-            visible: item.visible
-            selected: item.selected
+            text : objectItem.text ? objectItem.text : "new node"
+            source: hasAvatar ? "image://nodeImages/%1".arg(objectItem.id) : ""
+            visible: objectItem.visible
+            selected: objectItem.selected
             //color: _flick.styleSheet.linkColor
             buttonColor: _flick.styleSheet.textColor
             onAddChild: {
-                _flick.ctrl.addNode(item.id)
+                _flick.ctrl.addNode(objectItem.id)
                 updateZoom()
             }
-            onOpenChanged: _flick.ctrl.itemModel.openItem(item.id, open)
-            onReparenting: _flick.ctrl.reparenting(item,id)
-            onAddImage: (img, data)=>{ _flick.ctrl.addImageFor(item.id, img, data)}
+            onOpenChanged: _flick.ctrl.itemModel.openItem(objectItem.id, open)
+            onReparenting: _flick.ctrl.reparenting(objectItem,id)
+            onAddImage: (img, data)=>{ _flick.ctrl.addImageFor(objectItem.id, img, data)}
             onSelectStyle: {
                 _stylePopup.parent = nodeItem
-                _stylePopup.node = item
+                _stylePopup.node = objectItem
                 _stylePopup.open()
             }
 
@@ -162,22 +156,22 @@ Flickable {
                            {
                                if(_flick.selectedNodeId.length > 0)
                                {
-                                   _flick.ctrl.addLink(_flick.selectedNodeId, item.id)
+                                   _flick.ctrl.addLink(_flick.selectedNodeId, objectItem.id)
                                    _flick.selectedNodeId = ""
                                }
                                else
-                               _flick.selectedNodeId = item.id
+                               _flick.selectedNodeId = objectItem.id
 
                            }
                            else if(mouse.modifiers & Qt.ControlModifier) {
                                if(selected)
-                               _flick.ctrl.selectionCtrl.removeFromSelection(item)
+                               _flick.ctrl.selectionCtrl.removeFromSelection(objectItem)
                                else
-                               _flick.ctrl.selectionCtrl.addToSelection(item)
+                               _flick.ctrl.selectionCtrl.addToSelection(objectItem)
                            }
                            else if(!selected){
                                _flick.ctrl.selectionCtrl.clearSelection()
-                               _flick.ctrl.selectionCtrl.addToSelection(item)
+                               _flick.ctrl.selectionCtrl.addToSelection(objectItem)
                            }
                        }
 
@@ -223,7 +217,7 @@ Flickable {
 
             delegate: Loader {
                 property string text: label
-                property QtObject item:  object
+                property QtObject objectItem:  object
                 property bool isSelected: selected
                 property bool isVisible: visible
                 property bool hasAvatar: hasPicture

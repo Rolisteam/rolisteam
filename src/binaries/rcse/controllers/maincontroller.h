@@ -65,11 +65,11 @@ signals:
     void currentFileChanged();
 
 private:
+    std::unique_ptr<LogController> m_logCtrl;
     std::unique_ptr<ImageController> m_imageCtrl;
     std::unique_ptr<CharacterController> m_characterCtrl;
     std::unique_ptr<EditorController> m_editCtrl;
     std::unique_ptr<QmlGeneratorController> m_generatorCtrl;
-    std::unique_ptr<LogController> m_logCtrl;
 
     QUndoStack m_undoStack;
     bool m_modified;

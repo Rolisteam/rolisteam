@@ -1,0 +1,13 @@
+function Component()
+{
+    Component.prototype.createOperations = function()
+    {
+        component.createOperations();
+        if (systemInfo.productType === "windows") {
+            component.addOperation("CreateShortcut", "@TargetDir@/@Binary@.exe", "@StartMenuDir@/@Binary@.lnk",
+                                   "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/logo/@IconLogo@.ico");
+            component.addOperation("CreateShortcut", "@TargetDir@/@Binary@.exe", "@DesktopDir@/@Binary@.lnk",
+                                   "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/logo/@IconLogo@.ico");
+        }
+    }
+}

@@ -28,16 +28,22 @@ find_package(Qt6 COMPONENTS Core Widgets Gui LinguistTools QmlImportScanner REQU
 configure_file(version.h.in version.h @ONLY)
 
 add_subdirectory(translations)
+add_subdirectory(src)
 
 if(EXISTS ${IFW_PATH})
   include(CPackHelper)
 endif()
 
-add_subdirectory(src)
-
-
 set(documentation README.md HelpMe.md)
 
-
-
 configure_file(scripts/generate_coverage.sh.in generate_coverage.sh @ONLY)
+
+
+if(EXISTS ${IFW_PATH})
+set(icons
+    resources/rolisteam/logo/rolisteam.ico
+    resources/rcse/logo/rcse.ico
+    resources/mindmap/logo/mindmap.ico)
+
+install(FILES ${icons} DESTINATION logo COMPONENT rolisteamComp)
+endif()

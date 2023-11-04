@@ -43,8 +43,16 @@ void ShortCut::setName(const QString& name)
     m_name= name;
 }
 
+//ShortCut::~ShortCut() = default;
+
 /////////////////////////////////////////
 Category::Category(const QString& name) : m_name(name) {}
+
+Category::Category(Category&& other)
+    : m_shortcuts(std::move(other.m_shortcuts))
+{
+    m_name = other.m_name;
+}
 
 QString Category::name() const
 {

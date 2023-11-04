@@ -21,11 +21,11 @@
 
 MainController::MainController(QObject* parent)
     : QObject{parent}
+    , m_logCtrl{new LogController(true)}
     , m_imageCtrl{new ImageController}
     , m_characterCtrl{new CharacterController}
     , m_editCtrl{new EditorController(m_imageCtrl.get())}
     , m_generatorCtrl{new QmlGeneratorController()}
-    , m_logCtrl{new LogController(true)}
 {
     connect(m_generatorCtrl.get(), &QmlGeneratorController::reportLog, m_logCtrl.get(), [this](const QString& msg,  LogController::LogLevel type){
         m_logCtrl->manageMessage(msg, QStringLiteral("QMLEngine"), type);
@@ -124,6 +124,9 @@ void MainController::cleanUpData(bool addPage)
 
 void MainController::displayQmlError(const QList<QQmlError>& errors)
 {
+    if(!m_logCtrl)
+        return;
+
     for(const auto& er : errors)
     {
         LogController::LogLevel lvl= LogController::Info;
@@ -145,7 +148,8 @@ void MainController::displayQmlError(const QList<QQmlError>& errors)
             lvl= LogController::Info;
             break;
         }
-        m_logCtrl->manageMessage(er.toString(), QStringLiteral("QMLEngine"), lvl);
+        if(m_logCtrl)
+            m_logCtrl->manageMessage(er.toString(), QStringLiteral("QMLEngine"), lvl);
     }
 }
 

@@ -7,15 +7,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
-find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Concurrent Quick Pdf QuickWidgets PdfWidgets WebEngineWidgets PrintSupport WebEngineCore)
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Concurrent Quick Pdf QuickWidgets QuickControls2 PdfWidgets WebEngineWidgets PrintSupport WebEngineCore)
 
 
 set(documentation README.md)
 
-#${CMAKE_SOURCE_DIR}/resources/rcse/qmlfile.qrc
-
 set(ressources  ${CMAKE_SOURCE_DIR}/resources/rcse/rcse_resources.qrc)
-
 
 set(sources  main.cpp
     controllers/charactercontroller.cpp
@@ -116,10 +113,10 @@ set(UI_files   mainwindow_rcse.ui
         dialog/codeeditordialog.ui)
 
 
+set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/rcse/logo/rcse.rc)
+add_executable(rcse WIN32 ${sources} ${headers} ${UI_files} ${ressources} ${RC_FILE})
 
-
-
-add_executable(rcse ${sources} ${headers} ${UI_files} ${ressources})
+set_target_properties(rcse PROPERTIES WIN32_EXECUTABLE on MACOSX_BUNDLE on)
 
 target_link_libraries(rcse
   PUBLIC
@@ -134,6 +131,7 @@ target_link_libraries(rcse
     Qt6::PdfWidgets
     Qt6::WebEngineCore
     Qt6::Concurrent
+    Qt6::QuickControls2
   PRIVATE
     charactersheet
     charactersheet_formula

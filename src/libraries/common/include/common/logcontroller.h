@@ -105,7 +105,6 @@ private:
     bool m_signalInspection= false;
     bool m_listenOutSide= false;
     QString m_currentFile;
-    QMutex m_mutex;
     bool m_streamUp= false;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogController::StorageModes)

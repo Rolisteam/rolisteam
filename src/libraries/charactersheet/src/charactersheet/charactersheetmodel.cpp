@@ -501,13 +501,13 @@ Section* CharacterSheetModel::getRootSection() const
 
 void CharacterSheetModel::setRootSection(Section* rootSection)
 {
-    auto previous= m_rootSection.get();
+    auto previous= m_rootSection;
 
     beginResetModel();
-    m_rootSection.release();
-    m_rootSection.reset(rootSection);
 
-    if(m_rootSection.get() != previous)
+    m_rootSection = rootSection;
+
+    if(m_rootSection != previous)
         connect(m_rootSection.get(), &Section::addLineToTableField, this, &CharacterSheetModel::addSubChildRoot);
 
     for(auto const& character : m_characterList)

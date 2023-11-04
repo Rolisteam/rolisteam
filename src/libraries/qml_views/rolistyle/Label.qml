@@ -1,14 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.impl
-import QtQuick.Templates  as T
+import QtQuick.Templates as T
 import Customization
 
 T.Label {
     id: control
 
-    property QtObject style: Theme.styleSheet("Palette")
+    property QtObject themestyle: Theme.styleSheet("Palette")
 
-    color: control.style.windowText
-    linkColor: control.style.link
+    color: control.themestyle.windowText
+    linkColor: control.themestyle.link
 }

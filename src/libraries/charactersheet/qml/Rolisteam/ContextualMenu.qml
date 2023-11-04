@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import CharacterSheet
+import charactersheet
 import Rolisteam
 
 Menu {

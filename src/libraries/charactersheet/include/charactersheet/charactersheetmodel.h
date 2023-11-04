@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QPointF>
 #include <QTextStream>
+#include <QPointer>
 
 #include <charactersheet/charactersheet_global.h>
 
@@ -113,7 +114,7 @@ private:
 
 private:
     std::vector<std::unique_ptr<CharacterSheet>> m_characterList;
-    std::unique_ptr<Section> m_rootSection;
+    QPointer<Section> m_rootSection;
     std::unique_ptr<Formula::FormulaManager> m_formulaManager;
 };
 

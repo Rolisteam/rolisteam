@@ -23,6 +23,7 @@
 #include <QColor>
 #include <QPixmap>
 #include <QString>
+#include <QMetaType>
 
 #include "network_global.h"
 /**

@@ -76,7 +76,7 @@ int main(int argc, char** argv)
 
     Q_INIT_RESOURCE(viewsqml);
     // Q_INIT_RESOURCE(textedit);
-    // Q_INIT_RESOURCE(rmindmap);
+    Q_INIT_RESOURCE(rmindmap);
     // Q_INIT_RESOURCE(resources);
     // Q_INIT_RESOURCE(mindmap);
 
@@ -110,7 +110,7 @@ int main(int argc, char** argv)
     auto provider= new mindmap::NodeImageProvider(main.imgModel());
     qmlEngine.addImageProvider("nodeImages", provider);
 
-    qmlEngine.load(QLatin1String("qrc:/mindmap/qml/main.qml"));
+    qmlEngine.load(QLatin1String("qrc:/resources/qml/main.qml"));
 
     return app.exec();
 }

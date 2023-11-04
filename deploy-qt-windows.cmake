@@ -1,13 +1,13 @@
-set(WINDEPLOYQT "@WINDEPLOYQT@")
+set(WINDEPLOYQT "C:/Qt/6.6.0/msvc2019_64/bin/windeployqt.exe")
 
-set(COMPONENT_NAME_MAIN "@CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT@")
+set(COMPONENT_NAME_MAIN "rolisteamComp")
 set(package_install "")
-set(CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@")
-set(CMAKE_CURRENT_SOURCE_DIR "@CMAKE_CURRENT_SOURCE_DIR@")
-set(CMAKE_BINARY_DIR "@CMAKE_BINARY_DIR@")
-set(PROJECT_BINARY_DIR "@PROJECT_BINARY_DIR@")
-set(CMAKE_CURRENT_BINARY_DIR "@CMAKE_CURRENT_BINARY_DIR@")
-set(PROJECT_SOURCE_DIR "@PROJECT_SOURCE_DIR@")
+set(CMAKE_INSTALL_PREFIX "C:/Users/renaud/Documents/applications/build-rolisteam-Desktop_Qt_6_6_0_MSVC2019_64bit-Release/install")
+set(CMAKE_CURRENT_SOURCE_DIR "C:/Users/renaud/Documents/applications/rolisteam")
+set(CMAKE_BINARY_DIR "C:/Users/renaud/Documents/applications/build-rolisteam-Desktop_Qt_6_6_0_MSVC2019_64bit-Release")
+set(PROJECT_BINARY_DIR "C:/Users/renaud/Documents/applications/build-rolisteam-Desktop_Qt_6_6_0_MSVC2019_64bit-Release")
+set(CMAKE_CURRENT_BINARY_DIR "ON")
+set(PROJECT_SOURCE_DIR "C:/Users/renaud/Documents/applications/rolisteam")
 
 
 set(CMAKE_BINARY_DIR  ${dir})
