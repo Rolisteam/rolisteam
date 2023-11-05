@@ -227,11 +227,20 @@ Item {
                                 characterName: model.name
                                 width: parent.width
                                 color: model.color
+                                property bool editAvatar: false
                                 validInput: model.name && isSquare
-                                onClicked: ProfileController.selectCharacterAvatar(model.index)
+                                onClicked:{
+                                    _itemLyt.editAvatar = true
+                                    ProfileController.selectCharacterAvatar(model.index)
+                                }
                                 onNameEdited: ProfileController.editCharacterName(model.index,_itemLyt.characterName)
                                 onColorEdited: (color)=>ProfileController.editCharacterColor(model.index,color)
-                                onImageDataChanged: ProfileController.editCharacterAvatar(model.index, _itemLyt.imageData)
+                                onImageDataChanged: {
+                                    if(_itemLyt.editAvatar){
+                                        ProfileController.editCharacterAvatar(model.index, _itemLyt.imageData)
+                                        _itemLyt.editAvatar = false
+                                    }
+                                }
                                 line: [
                                     ToolButton {
                                         icon.name: "remove"
