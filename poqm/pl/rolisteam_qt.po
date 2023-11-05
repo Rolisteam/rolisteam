@@ -455,12 +455,21 @@ msgctxt "ItemEditor|"
 msgid "Horizontal equidistribution"
 msgstr "Równy rozkład w poziomie"
 
-#: src/binaries/rcse/main.cpp:66
+#: src/binaries/rcse/main.cpp:54 src/binaries/rcse/main.cpp:60
+#: src/binaries/rcse/main.cpp:82
+#, fuzzy, qt-format
+#| msgctxt "QObject|"
+#| msgid "path to the translation file: <translationfile>"
+msgctxt "QObject|"
+msgid "Load of translation %1 file failed"
+msgstr "ścieżka do pliku tłumaczeń: <plik_tłumaczeń>"
+
+#: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
 msgid "define path to current <translation>"
 msgstr "ustaw ścieżkę do bieżącego <tłumaczenia>"
 
-#: src/binaries/rcse/main.cpp:69
+#: src/binaries/rcse/main.cpp:72
 msgctxt "QObject|"
 msgid "open <file>."
 msgstr "otwórz <plik>."
@@ -1415,12 +1424,12 @@ msgctxt "QObject|"
 msgid "Displayed"
 msgstr "Wyświetlona"
 
-#: src/libraries/core/src/data/shortcutmodel.cpp:97
+#: src/libraries/core/src/data/shortcutmodel.cpp:105
 msgctxt "ShortCutModel|"
 msgid "Action"
 msgstr "Działanie"
 
-#: src/libraries/core/src/data/shortcutmodel.cpp:99
+#: src/libraries/core/src/data/shortcutmodel.cpp:107
 msgctxt "ShortCutModel|"
 msgid "Key"
 msgstr "Klucz"
@@ -2227,6 +2236,14 @@ msgid ""
 msgstr ""
 "Błędy:\n"
 "%1"
+
+#: src/libraries/mindmap/resources/qml/main.qml:10
+#, fuzzy
+#| msgctxt "NewFileDialog|"
+#| msgid "MindMap"
+msgctxt "main|"
+msgid "RMindMap"
+msgstr "Mapa myśli"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:67
 msgctxt "MindMap|"

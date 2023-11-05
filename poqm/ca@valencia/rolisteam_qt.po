@@ -460,12 +460,21 @@ msgctxt "ItemEditor|"
 msgid "Horizontal equidistribution"
 msgstr "Equidistribució horitzontal"
 
-#: src/binaries/rcse/main.cpp:66
+#: src/binaries/rcse/main.cpp:54 src/binaries/rcse/main.cpp:60
+#: src/binaries/rcse/main.cpp:82
+#, fuzzy, qt-format
+#| msgctxt "QObject|"
+#| msgid "path to the translation file: <translationfile>"
+msgctxt "QObject|"
+msgid "Load of translation %1 file failed"
+msgstr "camí cap al fitxer de traducció: <fitxer_traducció>"
+
+#: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
 msgid "define path to current <translation>"
 msgstr "definix el camí cap a la <traducció> actual"
 
-#: src/binaries/rcse/main.cpp:69
+#: src/binaries/rcse/main.cpp:72
 msgctxt "QObject|"
 msgid "open <file>."
 msgstr "obri <file>."
@@ -1419,12 +1428,12 @@ msgctxt "QObject|"
 msgid "Displayed"
 msgstr "Visualitzat"
 
-#: src/libraries/core/src/data/shortcutmodel.cpp:97
+#: src/libraries/core/src/data/shortcutmodel.cpp:105
 msgctxt "ShortCutModel|"
 msgid "Action"
 msgstr "Acció"
 
-#: src/libraries/core/src/data/shortcutmodel.cpp:99
+#: src/libraries/core/src/data/shortcutmodel.cpp:107
 msgctxt "ShortCutModel|"
 msgid "Key"
 msgstr "Clau"
@@ -2238,6 +2247,14 @@ msgid ""
 msgstr ""
 "Errors:\n"
 "%1"
+
+#: src/libraries/mindmap/resources/qml/main.qml:10
+#, fuzzy
+#| msgctxt "NewFileDialog|"
+#| msgid "MindMap"
+msgctxt "main|"
+msgid "RMindMap"
+msgstr "Mapa mental"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:67
 msgctxt "MindMap|"
