@@ -375,47 +375,35 @@ void QObjectsTest::propertiesTest_data()
     QTest::addColumn<QObject*>("object");
     QTest::addColumn<bool>("setAgain");
 
-    QTest::addRow("CharacterSheet") << static_cast<QObject*>(new CharacterSheet()) << true;
-    QTest::addRow("CharacterSheetModel") << static_cast<QObject*>(new CharacterSheetModel()) << true;
-    QTest::addRow("charactersheet::ImageModel") << static_cast<QObject*>(new charactersheet::ImageModel()) << true;
-    QTest::addRow("RolisteamImageProvider")
-        << static_cast<QObject*>(new RolisteamImageProvider(new charactersheet::ImageModel())) << true;
-    QTest::addRow("FieldController") << static_cast<QObject*>(new FieldController(TreeSheetItem::FieldItem, true))
-                                     << true;
-    QTest::addRow("Section") << static_cast<QObject*>(new Section()) << true;
-    QTest::addRow("TableField") << static_cast<QObject*>(new TableField()) << true;
-    QTest::addRow("LineModel") << static_cast<QObject*>(new LineModel()) << true;
-    QTest::addRow("LineFieldItem") << static_cast<QObject*>(new LineFieldItem()) << true;
-    QTest::addRow("SheetWidget") << static_cast<QObject*>(new SheetWidget()) << true;
-    QTest::addRow("LogController") << static_cast<QObject*>(new LogController(true)) << true;
-    QTest::addRow("RemoteLogController") << static_cast<QObject*>(new RemoteLogController()) << true;
-    QTest::addRow("LogUploader") << static_cast<QObject*>(new LogUploader()) << true;
-    QTest::addRow("StyleSheet") << static_cast<QObject*>(new customization::StyleSheet(nullptr)) << true;
-    QTest::addRow("Theme") << static_cast<QObject*>(new customization::Theme()) << true;
-    QTest::addRow("ColorButton") << static_cast<QObject*>(new ColorButton()) << true;
-    QTest::addRow("LogPanel") << static_cast<QObject*>(new LogPanel()) << true;
 
-    QTest::addRow("CharacterItemController") << static_cast<QObject*>(
-        new vmap::CharacterItemController({{Core::vmapkeys::KEY_CHARAC_NPC, false}}, new VectorialMapController()))
-                                             << true;
-    QTest::addRow("EllipseController") << static_cast<QObject*>(
-        new vmap::EllipseController({}, new VectorialMapController()))
-                                       << true;
-    QTest::addRow("GridController") << static_cast<QObject*>(new vmap::GridController(new VectorialMapController()))
-                                    << true;
-    QTest::addRow("ImageItemController") << static_cast<QObject*>(
-        new vmap::ImageItemController({}, new VectorialMapController()))
-                                         << true;
-    QTest::addRow("LineController") << static_cast<QObject*>(new vmap::LineController({}, new VectorialMapController()))
-                                    << true;
-    QTest::addRow("PathController") << static_cast<QObject*>(new vmap::PathController({}, new VectorialMapController()))
-                                    << true;
-    QTest::addRow("RectController") << static_cast<QObject*>(new vmap::RectController({}, new VectorialMapController()))
-                                    << true;
-    QTest::addRow("SightController") << static_cast<QObject*>(new vmap::SightController(new VectorialMapController()))
-                                     << true;
-    QTest::addRow("TextController") << static_cast<QObject*>(new vmap::TextController({}, new VectorialMapController()))
-                                    << true;
+    // clang-format off
+    QTest::addRow("CharacterSheet")             << static_cast<QObject*>(new CharacterSheet()) << true;
+    QTest::addRow("CharacterSheetModel")        << static_cast<QObject*>(new CharacterSheetModel()) << true;
+    QTest::addRow("charactersheet::ImageModel") << static_cast<QObject*>(new charactersheet::ImageModel()) << true;
+    QTest::addRow("RolisteamImageProvider")     << static_cast<QObject*>(new RolisteamImageProvider(new charactersheet::ImageModel())) << true;
+    QTest::addRow("FieldController")            << static_cast<QObject*>(new FieldController(TreeSheetItem::FieldItem, true))    << true;
+    QTest::addRow("Section")                    << static_cast<QObject*>(new Section()) << true;
+    QTest::addRow("TableField")                 << static_cast<QObject*>(new TableField()) << true;
+    QTest::addRow("LineModel")                  << static_cast<QObject*>(new LineModel()) << true;
+    QTest::addRow("LineFieldItem")              << static_cast<QObject*>(new LineFieldItem()) << true;
+    QTest::addRow("SheetWidget")                << static_cast<QObject*>(new SheetWidget()) << true;
+    QTest::addRow("LogController")              << static_cast<QObject*>(new LogController(true)) << true;
+    QTest::addRow("RemoteLogController")        << static_cast<QObject*>(new RemoteLogController()) << true;
+    QTest::addRow("LogUploader")                << static_cast<QObject*>(new LogUploader()) << true;
+    QTest::addRow("StyleSheet")                 << static_cast<QObject*>(new customization::StyleSheet(nullptr)) << true;
+    QTest::addRow("Theme")                      << static_cast<QObject*>(new customization::Theme()) << true;
+    QTest::addRow("ColorButton")                << static_cast<QObject*>(new ColorButton()) << true;
+    QTest::addRow("LogPanel")                   << static_cast<QObject*>(new LogPanel()) << true;
+
+    QTest::addRow("CharacterItemController") << static_cast<QObject*>(        new vmap::CharacterItemController({{Core::vmapkeys::KEY_CHARAC_NPC, false}}, new VectorialMapController()))                                             << true;
+    QTest::addRow("EllipseController") << static_cast<QObject*>(        new vmap::EllipseController({}, new VectorialMapController()))                                       << true;
+    QTest::addRow("GridController") << static_cast<QObject*>(new vmap::GridController(new VectorialMapController()))                                    << true;
+    QTest::addRow("ImageItemController") << static_cast<QObject*>(        new vmap::ImageItemController({}, new VectorialMapController()))                                         << true;
+    QTest::addRow("LineController") << static_cast<QObject*>(new vmap::LineController({}, new VectorialMapController()))                                    << true;
+    QTest::addRow("PathController") << static_cast<QObject*>(new vmap::PathController({}, new VectorialMapController()))                                    << true;
+    QTest::addRow("RectController") << static_cast<QObject*>(new vmap::RectController({}, new VectorialMapController()))                                    << true;
+    QTest::addRow("SightController") << static_cast<QObject*>(new vmap::SightController(new VectorialMapController()))                                     << true;
+    QTest::addRow("TextController") << static_cast<QObject*>(new vmap::TextController({}, new VectorialMapController()))                                    << true;
     QTest::addRow("CharacterSheetController") << static_cast<QObject*>(new CharacterSheetController()) << true;
     QTest::addRow("ImageController") << static_cast<QObject*>(new ImageController()) << true;
     QTest::addRow("ImageSelectorController") << static_cast<QObject*>(new ImageSelectorController()) << true;
@@ -433,16 +421,12 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("VectorialMapController") << static_cast<QObject*>(new VectorialMapController()) << true;
     QTest::addRow("WebpageController") << static_cast<QObject*>(new WebpageController()) << true;
     QTest::addRow("FilteredCharacterModel") << static_cast<QObject*>(new campaign::FilteredCharacterModel()) << true;
-    QTest::addRow("AntagonistBoardController")
-        << static_cast<QObject*>(new campaign::AntagonistBoardController(new campaign::CampaignEditor())) << true;
+    QTest::addRow("AntagonistBoardController")        << static_cast<QObject*>(new campaign::AntagonistBoardController(new campaign::CampaignEditor())) << true;
     QTest::addRow("AudioController") << static_cast<QObject*>(new AudioController(nullptr, nullptr)) << true;
     QTest::addRow("AudioPlayerController") << static_cast<QObject*>(new AudioPlayerController(0, "k", nullptr)) << true;
-    QTest::addRow("ContentController") << static_cast<QObject*>(
-        new ContentController(nullptr, nullptr, nullptr, nullptr))
-                                       << true;
+    QTest::addRow("ContentController") << static_cast<QObject*>(     new ContentController(nullptr, nullptr, nullptr, nullptr))                                       << true;
     QTest::addRow("GameController") << static_cast<QObject*>(new GameController("test", "1.2", nullptr)) << true;
-    QTest::addRow("InstantMessagingController")
-        << static_cast<QObject*>(new InstantMessagingController(nullptr)) << true;
+    QTest::addRow("InstantMessagingController")        << static_cast<QObject*>(new InstantMessagingController(nullptr)) << true;
     QTest::addRow("NetworkController") << static_cast<QObject*>(new NetworkController()) << true;
     QTest::addRow("PlayerController") << static_cast<QObject*>(new PlayerController()) << true;
     QTest::addRow("PreferencesController") << static_cast<QObject*>(new PreferencesController()) << false;
@@ -450,33 +434,26 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("CampaignEditor") << static_cast<QObject*>(new campaign::CampaignEditor()) << true;
     QTest::addRow("CampaignManager") << static_cast<QObject*>(new campaign::CampaignManager(nullptr)) << true;
     QTest::addRow("CharacterVision") << static_cast<QObject*>(new CharacterVision()) << true;
-    QTest::addRow("ChatRoom") << static_cast<QObject*>(
-        new InstantMessaging::ChatRoom(nullptr, InstantMessaging::ChatRoom::GLOBAL))
-                              << true;
+    QTest::addRow("ChatRoom") << static_cast<QObject*>(        new InstantMessaging::ChatRoom(nullptr, InstantMessaging::ChatRoom::GLOBAL))                              << true;
     QTest::addRow("CleverURI") << static_cast<QObject*>(new CleverURI(Core::ContentType::UNKNOWN)) << true;
     QTest::addRow("CleverUriMimeData") << static_cast<QObject*>(new CleverUriMimeData()) << true;
     QTest::addRow("obj") << static_cast<QObject*>(new LocalPersonModel()) << true;
-    QTest::addRow("Media") << static_cast<QObject*>(new campaign::Media({}, {}, {}, Core::MediaType::AudioFile))
-                           << true;
+    QTest::addRow("Media") << static_cast<QObject*>(new campaign::Media({}, {}, {}, Core::MediaType::AudioFile))                           << true;
     QTest::addRow("RolisteamMimeData") << static_cast<QObject*>(new RolisteamMimeData()) << true;
     QTest::addRow("ShortCutModel") << static_cast<QObject*>(new ShortCutModel()) << true;
     QTest::addRow("ActionOnListModel") << static_cast<QObject*>(new ActionOnListModel({}, {}, {})) << true;
     QTest::addRow("CharacterModel") << static_cast<QObject*>(new CharacterModel()) << true;
     QTest::addRow("CharacterStateModel") << static_cast<QObject*>(new CharacterStateModel()) << true;
-    QTest::addRow("ChatroomSplitterModel")
-        << static_cast<QObject*>(new InstantMessaging::ChatroomSplitterModel()) << true;
-    QTest::addRow("FilteredContentModel")
-        << static_cast<QObject*>(new FilteredContentModel(Core::ContentType::UNKNOWN)) << true;
+    QTest::addRow("ChatroomSplitterModel")        << static_cast<QObject*>(new InstantMessaging::ChatroomSplitterModel()) << true;
+    QTest::addRow("FilteredContentModel")        << static_cast<QObject*>(new FilteredContentModel(Core::ContentType::UNKNOWN)) << true;
     QTest::addRow("ContentModel") << static_cast<QObject*>(new ContentModel()) << true;
     QTest::addRow("DiceAliasModel") << static_cast<QObject*>(new DiceAliasModel()) << true;
-    QTest::addRow("FilteredPlayerModel") << static_cast<QObject*>(new InstantMessaging::FilteredPlayerModel({}))
-                                         << true;
+    QTest::addRow("FilteredPlayerModel") << static_cast<QObject*>(new InstantMessaging::FilteredPlayerModel({}))                                         << true;
     QTest::addRow("FilterInstantMessagingModel")
         << static_cast<QObject*>(new InstantMessaging::FilterInstantMessagingModel()) << true;
     QTest::addRow("GenericModel") << static_cast<QObject*>(new GenericModel({})) << true;
     QTest::addRow("HistoryModel") << static_cast<QObject*>(new history::HistoryModel()) << true;
-    QTest::addRow("InstantMessaging") << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(nullptr))
-                                      << true;
+    QTest::addRow("InstantMessaging") << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(nullptr))                                      << true;
     QTest::addRow("LanguageModel") << static_cast<QObject*>(new LanguageModel()) << true;
     QTest::addRow("MediaFilteredModel") << static_cast<QObject*>(new MediaFilteredModel()) << true;
     QTest::addRow("MediaNode") << static_cast<QObject*>(new campaign::MediaNode(campaign::MediaNode::File, {})) << true;
@@ -491,12 +468,10 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("PlayerProxyModel") << static_cast<QObject*>(new PlayerProxyModel()) << true;
     QTest::addRow("ProfileModel") << static_cast<QObject*>(new ProfileModel()) << true;
     QTest::addRow("RemotePlayerModel") << static_cast<QObject*>(new RemotePlayerModel(nullptr)) << true;
-    QTest::addRow("SingleContentTypeModel")
-        << static_cast<QObject*>(new SingleContentTypeModel(Core::ContentType::VECTORIALMAP)) << true;
+    QTest::addRow("SingleContentTypeModel")        << static_cast<QObject*>(new SingleContentTypeModel(Core::ContentType::VECTORIALMAP)) << true;
     QTest::addRow("ThemeModel") << static_cast<QObject*>(new ThemeModel()) << true;
     QTest::addRow("VmapItemModel") << static_cast<QObject*>(new vmap::VmapItemModel()) << true;
-    QTest::addRow("PreferencesManager") << static_cast<QObject*>(new PreferencesManager("test_rolisteam", "test"))
-                                        << true;
+    QTest::addRow("PreferencesManager") << static_cast<QObject*>(new PreferencesManager("test_rolisteam", "test"))                                        << true;
     QTest::addRow("IpChecker") << static_cast<QObject*>(new IpChecker()) << true;
     QTest::addRow("TipChecker") << static_cast<QObject*>(new TipChecker()) << true;
     QTest::addRow("UpdateChecker") << static_cast<QObject*>(new UpdateChecker({})) << true;
@@ -504,18 +479,13 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("AudioPlayerUpdater") << static_cast<QObject*>(new AudioPlayerUpdater(nullptr, nullptr)) << true;
     QTest::addRow("ServerManagerUpdater") << static_cast<QObject*>(new ServerManagerUpdater(nullptr, true)) << true;
     QMap<QString, QVariant> params;
-    QTest::addRow("ServerManagerUpdater")
-        << static_cast<QObject*>(new ServerManagerUpdater(new ServerConnectionManager(params), true)) << true;
-    QTest::addRow("CampaignUpdater") << static_cast<QObject*>(
-        new campaign::CampaignUpdater(nullptr, new campaign::Campaign()))
-                                     << true; // 100
+    QTest::addRow("ServerManagerUpdater")        << static_cast<QObject*>(new ServerManagerUpdater(new ServerConnectionManager(params), true)) << true;
+    QTest::addRow("CampaignUpdater") << static_cast<QObject*>(        new campaign::CampaignUpdater(nullptr, new campaign::Campaign()))                                     << true; // 100
     QTest::addRow("CharacterSheetUpdater") << static_cast<QObject*>(new CharacterSheetUpdater({})) << true;
     QTest::addRow("GenericUpdater") << static_cast<QObject*>(new GenericUpdater(nullptr)) << true;
-    QTest::addRow("InstantMessagingUpdater")
-        << static_cast<QObject*>(new InstantMessaging::InstantMessagingUpdater()) << true;
+    QTest::addRow("InstantMessagingUpdater")        << static_cast<QObject*>(new InstantMessaging::InstantMessagingUpdater()) << true;
     QTest::addRow("MindMapUpdater") << static_cast<QObject*>(new MindMapUpdater(nullptr, nullptr)) << true;
-    QTest::addRow("SharedNoteControllerUpdater")
-        << static_cast<QObject*>(new SharedNoteControllerUpdater(nullptr, nullptr)) << true;
+    QTest::addRow("SharedNoteControllerUpdater")        << static_cast<QObject*>(new SharedNoteControllerUpdater(nullptr, nullptr)) << true;
     QTest::addRow("VMapUpdater") << static_cast<QObject*>(new VMapUpdater(nullptr, nullptr)) << true;
     QTest::addRow("WebViewUpdater") << static_cast<QObject*>(new WebViewUpdater(nullptr)) << true;
     QTest::addRow("CharacterItemUpdater") << static_cast<QObject*>(new CharacterItemUpdater()) << true;
@@ -542,21 +512,18 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("RServer") << static_cast<QObject*>(new RServer(params, true)) << true;
     QTest::addRow("ServerConnectionManager") << static_cast<QObject*>(new ServerConnectionManager(params)) << true;
     QTest::addRow("ClientConnection") << static_cast<QObject*>(new ClientConnection()) << true;
-    // QTest::addRow("obj", i++) << new TreeItem()<< true ;
     QTest::addRow("DiceRoller") << static_cast<QObject*>(new DiceRoller()) << true;
     QTest::addRow("CommandMessage") << static_cast<QObject*>(new InstantMessaging::CommandMessage({}, {}, {})) << true;
     QTest::addRow("DiceMessage") << static_cast<QObject*>(new InstantMessaging::DiceMessage({}, {}, {})) << true;
     QTest::addRow("ErrorMessage") << static_cast<QObject*>(new InstantMessaging::ErrorMessage({}, {}, {})) << true;
     QTest::addRow("TextMessage") << static_cast<QObject*>(new InstantMessaging::TextMessage({}, {}, {})) << true;
-    QTest::addRow("TextWriterController")
-        << static_cast<QObject*>(new InstantMessaging::TextWriterController()) << true;
+    QTest::addRow("TextWriterController")  << static_cast<QObject*>(new InstantMessaging::TextWriterController()) << true;
     QTest::addRow("SelectionController") << static_cast<QObject*>(new mindmap::SelectionController()) << true;
     auto ctrl= new mindmap::MindItemModel(nullptr);
     QTest::addRow("SpacingController") << static_cast<QObject*>(new mindmap::SpacingController(ctrl, nullptr)) << true;
     QTest::addRow("LinkController") << static_cast<QObject*>(new mindmap::LinkController()) << true;
     QTest::addRow("NodeStyle") << static_cast<QObject*>(new mindmap::NodeStyle()) << true;
     QTest::addRow("MindNode") << static_cast<QObject*>(new mindmap::MindNode()) << true;
-    // QTest::addRow("obj", i++) << new mindmap::LinkNode()<< true ;
     QTest::addRow("ImageModel") << static_cast<QObject*>(new charactersheet::ImageModel()) << true;
     QTest::addRow("NodeImageProvider") << static_cast<QObject*>(new mindmap::NodeImageProvider(nullptr)) << true;
     QTest::addRow("NodeStyleModel") << static_cast<QObject*>(new mindmap::NodeStyleModel()) << true;
@@ -595,31 +562,23 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("TagListDelegate") << static_cast<QObject*>(new TagListDelegate()) << true;
     QTest::addRow("UserListDelegate") << static_cast<QObject*>(new UserListDelegate()) << true;
     QTest::addRow("AboutRolisteam") << static_cast<QObject*>(new AboutRolisteam({})) << true;
-    QTest::addRow("CampaignIntegrityDialog")
-        << static_cast<QObject*>(new campaign::CampaignIntegrityDialog({}, {}, {})) << true;
-    QTest::addRow("CampaignProperties") << static_cast<QObject*>(
-        new CampaignProperties(new campaign::Campaign(), nullptr))
-                                        << true;
+    QTest::addRow("CampaignIntegrityDialog") << static_cast<QObject*>(new campaign::CampaignIntegrityDialog({}, {}, {})) << true;
+    QTest::addRow("CampaignProperties") << static_cast<QObject*>(        new CampaignProperties(new campaign::Campaign(), nullptr))                                        << true;
     QTest::addRow("ConnectionRetryDialog") << static_cast<QObject*>(new ConnectionRetryDialog()) << true;
     QTest::addRow("HistoryViewerDialog") << static_cast<QObject*>(new HistoryViewerDialog(nullptr)) << true;
-    QTest::addRow("ImageSelectorDialog") << static_cast<QObject*>(new ImageSelectorDialog(
-        new ImageSelectorController())) << true;
-    QTest::addRow("ImportDataFromCampaignDialog")
-        << static_cast<QObject*>(new ImportDataFromCampaignDialog({})) << true;
+    QTest::addRow("ImageSelectorDialog") << static_cast<QObject*>(new ImageSelectorDialog(new ImageSelectorController())) << true;
+    QTest::addRow("ImportDataFromCampaignDialog")    << static_cast<QObject*>(new ImportDataFromCampaignDialog({})) << true;
     QTest::addRow("KeyGeneratorDialog") << static_cast<QObject*>(new KeyGeneratorDialog()) << true;
     QTest::addRow("NewFileDialog") << static_cast<QObject*>(new NewFileDialog(Core::ContentType::VECTORIALMAP)) << true;
     QTest::addRow("PersonDialog") << static_cast<QObject*>(new PersonDialog()) << true;
-    QTest::addRow("PreferencesDialog") << static_cast<QObject*>(new PreferencesDialog(new PreferencesController()))
-                                       << true;
-    QTest::addRow("SelectConnectionProfileDialog")
-        << static_cast<QObject*>(new SelectConnectionProfileDialog(nullptr)) << true;
+    QTest::addRow("PreferencesDialog") << static_cast<QObject*>(new PreferencesDialog(new PreferencesController()))                                       << true;
+    QTest::addRow("SelectConnectionProfileDialog")        << static_cast<QObject*>(new SelectConnectionProfileDialog(nullptr)) << true;
     QTest::addRow("ShortCutEditorDialog") << static_cast<QObject*>(new ShortCutEditorDialog()) << true;
     QTest::addRow("TipOfDayViewer") << static_cast<QObject*>(new TipOfDayViewer({}, {}, {})) << true;
     QTest::addRow("MapWizzardDialog") << static_cast<QObject*>(new MapWizzardDialog()) << true;
     QTest::addRow("AntagonistBoard") << static_cast<QObject*>(new campaign::AntagonistBoard(nullptr)) << true; // 200
     QTest::addRow("AudioPlayer") << static_cast<QObject*>(new AudioPlayer(nullptr)) << true;
-    QTest::addRow("CampaignDock") << static_cast<QObject*>(new campaign::CampaignDock(new campaign::CampaignEditor()))
-                                  << true;
+    QTest::addRow("CampaignDock") << static_cast<QObject*>(new campaign::CampaignDock(new campaign::CampaignEditor()))                  << true;
     QTest::addRow("ChannelListPanel") << static_cast<QObject*>(new ChannelListPanel(new NetworkController())) << true;
     QTest::addRow("NotificationZone") << static_cast<QObject*>(new NotificationZone(new LogController(true))) << true;
     QTest::addRow("PlayersPanel") << static_cast<QObject*>(new PlayersPanel(nullptr)) << true;
@@ -643,14 +602,11 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("UnitModel obj") << static_cast<QObject*>(new GMTOOL::UnitModel()) << true;
     QTest::addRow("CategoryModel obj") << static_cast<QObject*>(new GMTOOL::CategoryModel()) << true;
     QTest::addRow("AnchorItem obj") << static_cast<QObject*>(new AnchorItem()) << true;
-    QTest::addRow("CharacterItem") << static_cast<QObject*>(
-        new CharacterItem(new vmap::CharacterItemController({}, new VectorialMapController())))
-                                   << true;
+    QTest::addRow("CharacterItem") << static_cast<QObject*>( new CharacterItem(new vmap::CharacterItemController({}, new VectorialMapController())))                                   << true;
     QTest::addRow("ChildPointItem obj") << static_cast<QObject*>(new ChildPointItem(nullptr, 0, nullptr)) << true;
     QTest::addRow("EllipsItem obj") << static_cast<QObject*>(new EllipsItem(nullptr)) << true;
     QTest::addRow("GridItem obj") << static_cast<QObject*>(new GridItem(nullptr)) << true;
-    QTest::addRow("HighlighterItem obj") << static_cast<QObject*>(new HighlighterItem({}, 3, Qt::red, nullptr, false))
-                                         << true;
+    QTest::addRow("HighlighterItem obj") << static_cast<QObject*>(new HighlighterItem({}, 3, Qt::red, nullptr, false))                                         << true;
     QTest::addRow("ImageItem obj") << static_cast<QObject*>(new ImageItem(nullptr)) << true;
     QTest::addRow("LineItem obj") << static_cast<QObject*>(new LineItem(nullptr)) << true;
     QTest::addRow("PathItem") << static_cast<QObject*>(new PathItem(nullptr)) << true;
@@ -664,9 +620,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("CharacterSheetWindow") << static_cast<QObject*>(new CharacterSheetWindow(nullptr)) << true;
     QTest::addRow("Image") << static_cast<QObject*>(new Image(nullptr)) << true;
     QTest::addRow("InstantMessagerManager") << static_cast<QObject*>(new InstantMessagerManager()) << true;
-    QTest::addRow("MediaContainer") << static_cast<QObject*>(new MediaContainer(
-        new MediaControllerBase("uuid", Core::ContentType::UNKNOWN), MediaContainer::ContainerType::NoteContainer))
-                                    << true;
+    QTest::addRow("MediaContainer") << static_cast<QObject*>(new MediaContainer(new MediaControllerBase("uuid", Core::ContentType::UNKNOWN), MediaContainer::ContainerType::NoteContainer))                << true;
     QTest::addRow("MindmapManager") << static_cast<QObject*>(new MindmapManager()) << true;
     QTest::addRow("PdfViewer") << static_cast<QObject*>(new PdfViewer(nullptr)) << true;
     QTest::addRow("MindMapView") << static_cast<QObject*>(new MindMapView(nullptr)) << true;
@@ -678,12 +632,10 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("ToolBox") << static_cast<QObject*>(new ToolBox(nullptr)) << true;
     QTest::addRow("TextLabel") << static_cast<QObject*>(new TextLabel(nullptr)) << true;
     QTest::addRow("RichTextEditDialog") << static_cast<QObject*>(new RichTextEditDialog()) << true;
-    QTest::addRow("NonPlayableCharacterModel")
-        << static_cast<QObject*>(new campaign::NonPlayableCharacterModel(nullptr)) << true;
+    QTest::addRow("NonPlayableCharacterModel")<< static_cast<QObject*>(new campaign::NonPlayableCharacterModel(nullptr)) << true;
     QTest::addRow("FilteredCharacterModel") << static_cast<QObject*>(new campaign::FilteredCharacterModel()) << true;
-    QTest::addRow("BusyIndicatorDialog") << static_cast<QObject*>(
-        new BusyIndicatorDialog(Helper::randomString(), Helper::randomString(), Helper::randomString()))
-                                         << true;
+    QTest::addRow("BusyIndicatorDialog") << static_cast<QObject*>(new BusyIndicatorDialog(Helper::randomString(), Helper::randomString(), Helper::randomString())) << true;
+    // clang-format off
 }
 
 QTEST_MAIN(QObjectsTest)

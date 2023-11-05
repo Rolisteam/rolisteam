@@ -422,8 +422,8 @@ QVariantList values(QMetaType type, QVariant currentValue, QObject* parent= null
         }
         else if(qMetaTypeId<QPainterPath>() == type.id())
         {
-            res= {QVariant::fromValue(QPainterPath()), QVariant::fromValue(QPainterPath(QPointF(200., 100.))),
-                  QVariant::fromValue(QPainterPath(QPointF(1200., 500.)))};
+            res= {QVariant::fromValue(QPainterPath(QPointF(1200., 500.))), QVariant::fromValue(QPainterPath(QPointF(200., 100.))),
+                  QVariant::fromValue(QPainterPath())};
         }
         else if(qMetaTypeId<Person*>() == type.id())
         {

@@ -99,7 +99,6 @@ void InstantMessagingTest::initTestCase()
 }
 void InstantMessagingTest::init()
 {
-    qDebug() << "INIT %%%%%%%%%%%%";
     m_player1= std::make_unique<Player>(m_name1, Qt::blue, true);
     m_player2= std::make_unique<Player>(m_name2, Qt::green, false);
 
@@ -118,7 +117,6 @@ void InstantMessagingTest::init()
 
 void InstantMessagingTest::cleanup()
 {
-    qDebug() << "CLEAN UP %%%%%%%%%%%%";
     m_ctrl.release();
     m_model.release();
     m_player1.release();
