@@ -33,7 +33,7 @@ add_executable(mindmapbin WIN32 ${sources} ${headers} ${UI_files} ${ressources} 
 set_target_properties(mindmapbin  PROPERTIES OUTPUT_NAME mindmap CLEAN_DIRECT_OUTPUT 1)
 set_target_properties(mindmapbin PROPERTIES WIN32_EXECUTABLE on MACOSX_BUNDLE on)
 
-qt6_add_resources(mindmap-bin mindmaprsrc
+qt6_add_resources(mindmapbin mindmaprsrc
         PREFIX "/mindmap/qml"
         FILES ${qml_files})
 

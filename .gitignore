@@ -8,3 +8,5 @@ html
 resources/mapassets/*
 build*
 .hidden
+translations/*.ts
+translations/*.qm

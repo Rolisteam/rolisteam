@@ -214,7 +214,7 @@ QJsonArray IOHelper::fetchLanguageModel()
 
     auto list= dir.entryList(QStringList() << QStringLiteral("*.qm"), QDir::Files);
 
-    QRegularExpression reQt(QStringLiteral("%1_(.*)\\.qm").arg(k_qt_pattern));
+    static QRegularExpression reQt(QStringLiteral("%1_(.*)\\.qm").arg(k_qt_pattern));
     QHash<QString, QString> hash;
     for(const auto& info : qAsConst(list))
     {
@@ -225,7 +225,7 @@ QJsonArray IOHelper::fetchLanguageModel()
         }
     }
 
-    QRegularExpression reRolisteam(QStringLiteral("%1_(.*)\\.qm").arg(k_rolisteam_pattern));
+    static QRegularExpression reRolisteam(QStringLiteral("%1_(.*)\\.qm").arg(k_rolisteam_pattern));
     for(auto info : qAsConst(list))
     {
         auto match= reRolisteam.match(info);

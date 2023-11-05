@@ -152,17 +152,6 @@
         <file>resources/rolistheme/undo.svg</file>
         <file>resources/rolistheme/redo.svg</file>
         <file>resources/rolistheme/org.rolisteam.Rolisteam.svg</file>
-        <file>translations/rolisteam_fr_FR.qm</file>
-        <file>translations/rolisteam_en_US.qm</file>
-        <file>translations/rolisteam_tr_TR.qm</file>
-        <file>translations/rolisteam_ca_ES.qm</file>
-        <file>translations/rolisteam_ro_RO.qm</file>
-        <file>translations/rolisteam_es_ES.qm</file>
-        <file>translations/rolisteam_pt_BR.qm</file>
-        <file>translations/rolisteam_de_DE.qm</file>
-        <file>translations/rolisteam_hu_HU.qm</file>
-        <file>translations/rolisteam_it_IT.qm</file>
-        <file>translations/rolisteam_nl_NL.qm</file>
         <file>resources/rolistheme/apply.svg</file>
         <file>resources/rolistheme/up_arrow.svg</file>
         <file>resources/rolistheme/chaticon.svg</file>

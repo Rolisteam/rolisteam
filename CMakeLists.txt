@@ -22,13 +22,19 @@ include(CTest)
 option(CODE_COVERAGE OFF)
 option(DEBUG_MODE "enable more debug report" OFF)
 option(WARNING_AS_ERROR "Set all warning as error" OFF)
-
+option(GENERATE_TS_FILES "generate all ts file from po" OFF)
 
 find_package(Qt6 COMPONENTS Core Widgets Gui LinguistTools QmlImportScanner REQUIRED)
 configure_file(version.h.in version.h @ONLY)
 
-add_subdirectory(translations)
+if (CMAKE_BUILD_TYPE STREQUAL "Release" OR ${GENERATE_TS_FILES} )
+    message("[RELEASE] generate ts files from po")
+    include(TranslationHelper)
+endif()
+
 add_subdirectory(src)
+add_subdirectory(translations)
+
 
 if(EXISTS ${IFW_PATH})
   include(CPackHelper)
