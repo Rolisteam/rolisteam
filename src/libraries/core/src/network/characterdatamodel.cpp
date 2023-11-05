@@ -176,8 +176,11 @@ bool CharacterDataModel::removeCharacter(int index)
 
 void CharacterDataModel::setAvatar(int i, const QByteArray& img)
 {
-    if(!m_profile)
+    if(!m_profile || i < 0 || i >= m_profile->characterCount())
+    {
+        qCDebug(logCategory::network) << "no profile in set avatar character data";
         return;
+    }
 
     auto& character= m_profile->character(i);
     character.m_avatarData= img;
@@ -187,7 +190,7 @@ void CharacterDataModel::setAvatar(int i, const QByteArray& img)
 
 void CharacterDataModel::setName(int i, const QString& string)
 {
-    if(!m_profile)
+    if(!m_profile || i < 0 || i >= m_profile->characterCount())
     {
         qCDebug(logCategory::network) << "no profile in set name character data";
         return;
@@ -199,8 +202,11 @@ void CharacterDataModel::setName(int i, const QString& string)
 }
 void CharacterDataModel::setColor(int i, const QColor& color)
 {
-    if(!m_profile)
+    if(!m_profile || i < 0 || i >= m_profile->characterCount())
+    {
+        qCDebug(logCategory::network) << "no profile in set color character data";
         return;
+    }
 
     auto& character= m_profile->character(i);
     character.m_color= color;
