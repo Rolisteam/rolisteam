@@ -8,6 +8,8 @@ Popup {
     property alias all: everyone.checked
     property alias title: title.text
     property var recipiants: []
+    property bool emptyRecipiants: true
+
     signal chatRoomAdded()
     width: frame.implicitWidth
     height: frame.implicitHeight
@@ -69,6 +71,7 @@ Popup {
                                     {
                                         root.recipiants.splice(root.recipiants.indexOf(model.uuid),1)
                                     }
+                                   root.emptyRecipiants = (root.recipiants.length == 0)
                                 }
                             }
                         }
@@ -77,10 +80,14 @@ Popup {
             }
 
             Button {
+                //: translator please, Keep it short.
                 text: qsTr("Add Chatroom")
                 Layout.alignment: Qt.AlignRight
-                enabled: title.text.length > 0 && (everyone.checked || recipiants.length > 0 )
-                onClicked: root.chatRoomAdded()
+                enabled: title.text.length > 0 && (everyone.checked || !root.emptyRecipiants )
+                onClicked: {
+                    root.chatRoomAdded()
+                    root.close()
+                }
             }
         }
     }

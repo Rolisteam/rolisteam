@@ -137,7 +137,6 @@ void ChatRoom::addMessage(const QString& text, const QUrl& url, const QString& p
 
     if(type == IM::Text || !valid)
     {
-        qDebug() << "chatroom:" << text << url;
         m_messageModel->addMessage(text, url, QDateTime::currentDateTime(), localId(),
                                    personId.isEmpty() ? localId() : personId, type);
     }

@@ -49,9 +49,11 @@ void TextWriterController::computeText()
     static auto reg1= QRegularExpression("((?:https?)://\\S+)");
     static auto reg2= QRegularExpression("((?:www)\\S+)");
 
-    auto matcher= reg1.match(m_text);
-    auto matcher2= reg2.match(m_text);
-    QString text= m_text;
+
+    auto text = m_text;
+
+    auto matcher= reg1.match(text);
+    auto matcher2= reg2.match(text);
     QString replacePattern;
 
     QRegularExpression usedRE;
@@ -59,14 +61,12 @@ void TextWriterController::computeText()
     if(matcher.hasMatch())
     {
         url= QUrl::fromUserInput(matcher.captured(0));
-        qDebug() << url;
         usedRE= reg1;
         replacePattern= "<a href=\"\\1\">\\1</a>";
     }
     else if(matcher2.hasMatch())
     {
         url= QUrl::fromUserInput(matcher2.captured(0));
-        qDebug() << url;
         usedRE= reg2;
         replacePattern= "<a href=\"http://\\1\">\\1</a>";
     }
