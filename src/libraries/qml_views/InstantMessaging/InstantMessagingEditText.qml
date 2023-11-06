@@ -1,7 +1,8 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.12
-import InstantMessaging 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import InstantMessaging
+import Customization
 
 Frame {
     id: root
@@ -88,14 +89,40 @@ Frame {
                         onClicked: popup.open()
                         Popup {
                             id: popup
-                            GridLayout {
-                                columns: 5
-                                Repeater {
-                                    model: ["😀","😁","😂","🤣","😃","😄","😅","😆","😉","😊","😋","😎","😍","😘","🥰","😗","😙","😚","☺"," 🙂","🤗","🤩","🤔","🤨","😐","😑","😶","🙄","😏","😣","😥","😮","🤐","😯","😪","😫","😴","😌","😛","😜","😝","🤤","😒","😓","😔","😕","🙃","🤑","😲","☹️","🙁","😖","😞","😟","😤","😢","😭","😦","😧","😨","😩","🤯","😬","😰","😱","🥵","🥶","😳","🤪","😵","😡","😠","🤬","😷","🤒","🤕","🤢","🤮","🤧","😇","🤠","🤡","🥳","🥴","🥺","🤥","🤫","🤭","🧐","🤓","😈","👿","👹","👺","💀","👻","👽","🤖","💩","😺","😸","😹","😻","😼","😽","🙀","😿","😾"]
-                                    Button {
-                                        text: modelData
-                                        flat: true
-                                        onClicked: edit.text += modelData
+                            width: 200
+                            height: 100
+                            ScrollView {
+                                anchors.fill: parent
+                                contentWidth: pane.width
+                                contentHeight: pane.height
+                                Pane {
+                                    id: pane
+                                    padding: 0
+                                    width: gridLyt.implicitWidth+10
+                                    height: gridLyt.implicitHeight
+                                    GridLayout {
+                                        id: gridLyt
+
+                                        columns: 5
+                                        columnSpacing: 1
+                                        rowSpacing: 1
+                                        Repeater {
+                                            model: ["😀","😁","😂","😃","😄","😅","😆","😉","😊","😋","😎","😍","😘",
+                                                    "😗","😙","😚","☺","😐","😑","😶","😏","😣","😥","😮","😯","😪",
+                                                    "😫","😴","😌","😛","😜","😝","😒","😓","😔","😕","🙃","😲","☹️",
+                                                    "😖","😞","😟","😢","😭","😦","😧","😨","😩","😰","😱",
+                                                    "😳","😵","😡","😠","🤬","😷","😇","😈","👽","🤖","💩","😺","😸","😹","😻","😼","😽","🙀","😿","😾"]
+                                            ToolButton {
+                                                text: modelData
+                                                flat: true
+                                                objectName: "debug%1".arg(index)
+                                                font: Theme.imFont
+                                                padding: 0
+                                                onClicked: {
+                                                    edit.text += modelData
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

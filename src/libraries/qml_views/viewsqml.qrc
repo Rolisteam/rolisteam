@@ -34,5 +34,6 @@
         <file>views/DiceField.qml</file>
         <file>rolistyle/qmldir</file>
         <file>rolistyle/CheckBox.qml</file>
+        <file>rolistyle/ToolButton.qml</file>
     </qresource>
 </RCC>

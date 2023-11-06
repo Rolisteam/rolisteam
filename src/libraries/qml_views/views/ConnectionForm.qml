@@ -68,6 +68,7 @@ Item {
                     action: _addProfile
                     icon.width: 32
                     Layout.columnSpan: 2
+                    icon.color: "transparent"
                     ToolTip.text: qsTr("New profile")
                 }
                 ToolButton {
@@ -77,6 +78,7 @@ Item {
                 ToolButton {
                     action: _removeProfile
                     Layout.columnSpan: 2
+                    icon.color: "transparent"
                     ToolTip.text: qsTr("Remove profile")
                     enabled: ProfileController.currentProfileIndex >= 0
                 }
@@ -190,6 +192,7 @@ Item {
                                 icon.name: "folder"
                                 enabled: ProfileController.isGameMaster
                                 opacity: enabled ? 1.0 : 0.4
+                                icon.color: "transparent"
                                 onClicked: ProfileController.selectCampaignPath()
                             }
                         }
@@ -203,6 +206,7 @@ Item {
                         }
                         ToolButton {
                             icon.name: "add"
+                            icon.color: "transparent"
                             onClicked: ProfileController.addCharacter()
                         }
                     }
@@ -244,6 +248,7 @@ Item {
                                 line: [
                                     ToolButton {
                                         icon.name: "remove"
+                                        icon.color: "transparent"
                                         onClicked: ProfileController.removeCharacter(model.index)
                                         visible: index > 0
                                     }
