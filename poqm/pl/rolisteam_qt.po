@@ -2592,12 +2592,12 @@ msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Znaki"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:276
+#: src/libraries/qml_views/views/ConnectionForm.qml:285
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Połącz"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:288
+#: src/libraries/qml_views/views/ConnectionForm.qml:297
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Anuluj"

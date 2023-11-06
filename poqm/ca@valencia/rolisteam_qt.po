@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-09-25 21:58+0200\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"PO-Revision-Date: 2023-11-05 08:44+0100\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -462,12 +462,10 @@ msgstr "Equidistribució horitzontal"
 
 #: src/binaries/rcse/main.cpp:54 src/binaries/rcse/main.cpp:60
 #: src/binaries/rcse/main.cpp:82
-#, fuzzy, qt-format
-#| msgctxt "QObject|"
-#| msgid "path to the translation file: <translationfile>"
+#, qt-format
 msgctxt "QObject|"
 msgid "Load of translation %1 file failed"
-msgstr "camí cap al fitxer de traducció: <fitxer_traducció>"
+msgstr "Ha fallat la càrrega del fitxer de traducció %1"
 
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
@@ -2249,12 +2247,9 @@ msgstr ""
 "%1"
 
 #: src/libraries/mindmap/resources/qml/main.qml:10
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "main|"
 msgid "RMindMap"
-msgstr "Mapa mental"
+msgstr "RMindMap"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:67
 msgctxt "MindMap|"
@@ -2603,12 +2598,12 @@ msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Personatges"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:276
+#: src/libraries/qml_views/views/ConnectionForm.qml:285
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Connecta"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:288
+#: src/libraries/qml_views/views/ConnectionForm.qml:297
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Cancel·la"
@@ -3422,7 +3417,7 @@ msgstr "Música de fons"
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"
-msgstr "Mostra/oculta el jugador %1"
+msgstr "Mostra o oculta el jugador %1"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:49
 msgctxt "campaign::CampaignDock|"
@@ -4583,7 +4578,7 @@ msgstr "Notes compartides"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:164
 msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
-msgstr "Mostra/oculta la columna"
+msgstr "Mostra o oculta la columna"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:48
 msgctxt "UserListView|"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-08-28 11:00+0200\n"
+"PO-Revision-Date: 2023-11-05 21:59+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -456,12 +456,10 @@ msgstr "Equidistribution Horizontal"
 
 #: src/binaries/rcse/main.cpp:54 src/binaries/rcse/main.cpp:60
 #: src/binaries/rcse/main.cpp:82
-#, fuzzy, qt-format
-#| msgctxt "QObject|"
-#| msgid "path to the translation file: <translationfile>"
+#, qt-format
 msgctxt "QObject|"
 msgid "Load of translation %1 file failed"
-msgstr "percurso alfile de traduction: <translationfile>"
+msgstr "Carga de file de traduction %1 falleva"
 
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
@@ -1030,7 +1028,7 @@ msgstr "Remove le limite al grandor de file PDF"
 #: src/binaries/widget/mainwindow.cpp:941
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
-msgstr "percurso alfile de traduction: <translationfile>"
+msgstr "percurso al file de traduction: <translationfile>"
 
 #: src/binaries/widget/mainwindow.cpp:944
 msgctxt "QObject|"
@@ -2236,12 +2234,9 @@ msgstr ""
 "%1"
 
 #: src/libraries/mindmap/resources/qml/main.qml:10
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "main|"
 msgid "RMindMap"
-msgstr "Mindmap"
+msgstr "RMindMap"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:67
 msgctxt "MindMap|"
@@ -2590,12 +2585,12 @@ msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Characteres"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:276
+#: src/libraries/qml_views/views/ConnectionForm.qml:285
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Connecte"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:288
+#: src/libraries/qml_views/views/ConnectionForm.qml:297
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Cancella"
