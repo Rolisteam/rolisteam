@@ -13,7 +13,6 @@ Column {
     property string time: timeldr
     property string writerName: writerNameldr
     property real parentWidth: windowWidthldr
-    property real factor : fontFactor
     property url imageLink: imageLinkldr
 
     property QtObject styleSheet: Theme.styleSheet("TextMessage")
@@ -47,8 +46,8 @@ Column {
                     id: messageId
                     text: root.text
                     visible: root.text
-                    font.pixelSize: root.styleSheet.fontSize * root.factor
-                    Layout.preferredWidth: Math.min(root.parentWidth, contentWidth)
+                    font: Theme.imFont
+                    Layout.preferredWidth: contentWidth > root.parentWidth ? (root.parentWidth - 10) : contentWidth
 
                     wrapMode: Text.WordWrap
                     onLinkActivated: InstantMessagerManager.ctrl.openLink(link)

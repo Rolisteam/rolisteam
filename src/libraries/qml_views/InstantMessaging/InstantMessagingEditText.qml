@@ -86,6 +86,7 @@ Frame {
                     }
                     ToolButton {
                         text: "😀"
+                        font: Theme.imFont
                         onClicked: popup.open()
                         Popup {
                             id: popup
@@ -137,8 +138,6 @@ Frame {
             Layout.bottomMargin: 10
             function sendMessage() {
                 textCtrl.computeText()
-                //root.sendClicked(textCtrl.interpretedText())
-                //textCtrl.send()
             }
             ScrollView {
                 Layout.fillWidth: true
@@ -147,8 +146,8 @@ Frame {
                 TextArea {
                     id: edit
                     text: textCtrl.text
-
                     onPressed: root.focusGained()
+                    font: Theme.imFont
                     Keys.onUpPressed: textCtrl.up()
                     Keys.onDownPressed: textCtrl.down()
                     Keys.onReturnPressed: event => {

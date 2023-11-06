@@ -217,4 +217,17 @@ StyleSheet* Theme::addStyleSheet(const QString& name)
     return styleSheet;
 }
 
+QFont Theme::imFont() const
+{
+    return m_imFont;
+}
+
+void Theme::setImFont(const QFont &newImFont)
+{
+    if (m_imFont == newImFont)
+        return;
+    m_imFont = newImFont;
+    emit imFontChanged();
+}
+
 } // namespace customization

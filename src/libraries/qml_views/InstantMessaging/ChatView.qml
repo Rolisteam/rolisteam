@@ -14,7 +14,6 @@ Item {
     property ChatRoom chatRoom:  chatroomModel.get(tabHeader.currentIndex)
     property alias tabBarHeight: tabHeader.height
     property int tabBarRightMargin: 0
-    property real fontFactor : 1.0
     signal zoomChanged(var delta)
     signal addChat(var title, var all, var recipiants)
     signal split(var uuid, var index)
@@ -145,7 +144,6 @@ Item {
                         property bool isCommandMessage: model.type === MessageInterface.Command
                         property bool isErrorMessage: model.type === MessageInterface.Error
                         property bool mustBeOnTheRight: model.local && (isTextMessage || isCommandMessage)
-                        property real fontFactor: root.fontFactor
                         anchors.right: mustBeOnTheRight ? parent.right : undefined
                         width: (isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
                         source: isTextMessage ? "TextMessageDelegate.qml" : isCommandMessage ? "CommandMessageDelegate.qml" : isDiceMessage ? "DiceMessageDelegate.qml" : "ErrorMessageDelegate.qml"

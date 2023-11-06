@@ -1,6 +1,8 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Dialogs
+import Customization
 
 Drawer {
     id: control
@@ -9,21 +11,28 @@ Drawer {
     interactive: control.opened
     property alias nightMode: nightSwitch.checked
     property alias sound: sound.checked
-    property alias fontFactor: size.value
+
+    FontDialog{
+        id: fontDial
+        currentFont: Theme.imFont
+        onAccepted: {
+            Theme.imFont = fontDial.selectedFont
+        }
+    }
 
     Pane {
         id: pane
-        ColumnLayout {
-            RowLayout {
+        GridLayout {
+            columns: 2
                 Label {
                     text: qsTr("Night Mode")
                 }
                 Switch {
                     id: nightSwitch
                 }
-            }
 
-            RowLayout {
+
+
                 Label {
                     text: qsTr("Sound Notification")
                 }
@@ -31,16 +40,34 @@ Drawer {
                     id: sound
                     checked: true
                 }
+
+
+            Button {
+                Layout.columnSpan: 2
+                text: qsTr("Select Font…")
+                onClicked: {
+                    fontDial.open()
+                }
             }
 
             Label {
-                text: qsTr("Font size")
+                text: qsTr("Font Family:")
             }
-            Slider {
-                id: size
-                from: 1.0
-                value: 2.0
-                to: 10.0
+            Label {
+                text: Theme.imFont.family
+            }
+            Label {
+                text: qsTr("Font size:")
+            }
+            SpinBox {
+                id: sizeId
+                from: 0
+                value: Theme.imFont.pixelSize
+                to: 200.0
+                onValueChanged: {
+                    if(Theme.imFont.pixelSize !== sizeId.value)
+                        Theme.imFont.pixelSize = sizeId.value
+                }
             }
         }
     }

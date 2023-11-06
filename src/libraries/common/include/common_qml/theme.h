@@ -24,6 +24,7 @@
 #include <QQmlPropertyMap>
 #include <common_qml/common_qml_global.h>
 #include <map>
+#include <QFont>
 
 namespace customization
 {
@@ -44,6 +45,7 @@ class COMMON_QML_EXPORT Theme : public QObject
     Q_OBJECT
     Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)
     Q_PROPERTY(QString folder READ folder NOTIFY folderChanged)
+    Q_PROPERTY(QFont imFont READ imFont WRITE setImFont NOTIFY imFontChanged FINAL)
 public:
     explicit Theme(QObject* parent= nullptr);
 
@@ -56,12 +58,17 @@ public:
 
     static void setPath(const QString& path);
 
+    QFont imFont() const;
+    void setImFont(const QFont &newImFont);
+
 public slots:
     void setNightMode(bool b);
 
 signals:
     void nightModeChanged(bool b);
     void folderChanged(QString f);
+
+    void imFontChanged();
 
 private:
     void loadData(const QString& source);
@@ -72,6 +79,7 @@ private:
     static QString m_dataPath;
     std::map<QString, StyleSheet*> m_styleSheets;
     bool m_nightMode= false;
+    QFont m_imFont;
 };
 } // namespace customization
 

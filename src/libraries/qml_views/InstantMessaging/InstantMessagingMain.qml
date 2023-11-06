@@ -10,7 +10,6 @@ Pane {
     id: root
     anchors.fill: parent
     property QtObject styleSheet: Theme.styleSheet("InstantMessaging")
-    property alias fontFactor : sideMenu.fontFactor
 
     padding: 0
 
@@ -51,7 +50,6 @@ Pane {
             delegate: ChatView {
                 chatroomModel: model.filterModel
                 styleSheet: root.styleSheet
-                fontFactor: root.fontFactor
                 onZoomChanged: sideMenu.fontFactor += delta
                 SplitView.minimumWidth: root.styleSheet.minimumWidth
                 SplitView.preferredWidth: root.width/reaper.count
