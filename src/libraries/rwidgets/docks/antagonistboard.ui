@@ -158,7 +158,7 @@
           <item row="3" column="8">
            <widget class="QLabel" name="label_17">
             <property name="text">
-             <string>Heath:</string>
+             <string>Health:</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1126,7 +1126,7 @@
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Advenced</string>
+    <string>Advanced</string>
    </property>
   </action>
  </widget>
