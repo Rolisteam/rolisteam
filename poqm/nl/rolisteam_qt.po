@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-05 17:04+0100\n"
+"PO-Revision-Date: 2023-11-07 12:43+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -105,7 +105,7 @@ msgstr "Mock-gegevens"
 #, qt-format
 msgctxt "CharacterList|"
 msgid "Character %1"
-msgstr "Teken %1"
+msgstr "Karakter %1"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:11
 msgctxt "MockCharacter|"
@@ -260,12 +260,9 @@ msgid "Previous Page Button"
 msgstr "Knop Vorige pagina"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "AboutRcse|"
 msgid "Rolisteam Character Sheet Editor"
-msgstr "Rolisteam vel met tekens (*.rcs)"
+msgstr "Rolisteam bewerker van blad met karakters"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:20
 msgctxt "AboutRcse|"
@@ -316,12 +313,9 @@ msgid ""
 msgstr ""
 
 #: src/binaries/rcse/dialog/codeeditordialog.ui:14
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Edit name"
 msgctxt "CodeEditorDialog|"
 msgid "Edit item code"
-msgstr "Naam bewerken"
+msgstr "Itemcode bewerken"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.cpp:121
 msgctxt "ColumnDefinitionDialog|"
@@ -331,7 +325,7 @@ msgstr "Tabeleigenschappen"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:14
 msgctxt "ColumnDefinitionDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialoog"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:24
 msgctxt "ColumnDefinitionDialog|"
@@ -349,70 +343,49 @@ msgid "Control Position"
 msgstr ""
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:52
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Left"
 msgctxt "ColumnDefinitionDialog|"
 msgid "LeftTop"
-msgstr "Links"
+msgstr "Linksboven"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:57
 msgctxt "ColumnDefinitionDialog|"
 msgid "LeftBottom"
-msgstr ""
+msgstr "Linksonder"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:62
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "TopLeft"
 msgctxt "ColumnDefinitionDialog|"
 msgid "TopLeft"
 msgstr "Linksboven"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:67
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "TopRight"
 msgctxt "ColumnDefinitionDialog|"
 msgid "TopRight"
 msgstr "Rechtsboven"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:72
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "BottomLeft"
 msgctxt "ColumnDefinitionDialog|"
 msgid "BottomLeft"
 msgstr "Linksonder"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:77
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "BottomRight"
 msgctxt "ColumnDefinitionDialog|"
 msgid "BottomRight"
 msgstr "Rechtsonder"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:82
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Right"
 msgctxt "ColumnDefinitionDialog|"
 msgid "RightTop"
-msgstr "Rechts"
+msgstr "Rechtsboven"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:87
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Right"
 msgctxt "ColumnDefinitionDialog|"
 msgid "RightBottom"
-msgstr "Rechts"
+msgstr "Rechtsonder"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:112
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Definition:"
-msgstr ""
+msgstr "Kolomdefinitie:"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
@@ -427,71 +400,53 @@ msgstr "PDF-bestanden (*.pdf)"
 #: src/binaries/rcse/dialog/pdfmanager.ui:14
 msgctxt "PdfManager|"
 msgid "Export PDF background Dialog"
-msgstr ""
+msgstr "Dialoog van PDF-achtergrond exporteren"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:26
 msgctxt "PdfManager|"
 msgid "Pdf path"
-msgstr ""
+msgstr "PDF-pad"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:36
 msgctxt "PdfManager|"
 msgid "Browse"
-msgstr ""
+msgstr "Bladeren"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:49
-#, fuzzy
-#| msgctxt "MediaModel|"
-#| msgid "Size"
 msgctxt "PdfManager|"
 msgid "Size:"
-msgstr "Grootte"
+msgstr "Grootte:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:60
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Width"
 msgctxt "PdfManager|"
 msgid "Width:"
-msgstr "Breedte"
+msgstr "Breedte:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:84
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Height"
 msgctxt "PdfManager|"
 msgid "Height: "
-msgstr "Hoogte"
+msgstr "Hoogte: "
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:109
 msgctxt "PdfManager|"
 msgid "Grayscale"
-msgstr ""
+msgstr "Grijswaarden"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:118
 #: src/binaries/rcse/dialog/pdfmanager.ui:130
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Page"
 msgctxt "PdfManager|"
 msgid "Pages"
-msgstr "Pagina"
+msgstr "Pagina's"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:143
-#, fuzzy
-#| msgctxt "PageDelegate|"
-#| msgid "All pages"
 msgctxt "PdfManager|"
 msgid "All pages"
 msgstr "Alle pagina's"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:156
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Current HP"
 msgctxt "PdfManager|"
 msgid "Current page"
-msgstr "Huidige HP"
+msgstr "Huidige pagina"
 
 #: src/binaries/rcse/dialog/sheetproperties.cpp:17
 msgctxt "SheetProperties|"
@@ -499,46 +454,40 @@ msgid "Add Font file"
 msgstr "Lettertypebestand toevoegen"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:14
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Set Property"
 msgctxt "SheetProperties|"
 msgid "Sheet Properties"
-msgstr "Eigenschap instellen"
+msgstr "Werkbladeigenschappen"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
-#, fuzzy
-#| msgctxt "DrawerMenu|"
-#| msgid "Default Style"
 msgctxt "SheetProperties|"
 msgid "Default scale:"
-msgstr "Standaardstijl"
+msgstr "Standaardschaal:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
 msgid "Additionnal Import:"
-msgstr ""
+msgstr "Additionele import:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
 msgctxt "SheetProperties|"
 msgid "Additionnal Head Code:"
-msgstr ""
+msgstr "Additionele bovenkantcode:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
 msgctxt "SheetProperties|"
 msgid "Additionnal Bottom Code:"
-msgstr ""
+msgstr "Additionele onderkantcode:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146
 msgctxt "SheetProperties|"
 msgid "Embedded Fonts:"
-msgstr ""
+msgstr "Ingebedde lettertypen:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:157
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
 msgctxt "SheetProperties|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -790,7 +739,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:476
 msgctxt "MainWindow|"
 msgid "The charactersheet has unsaved changes."
-msgstr "Het vel met tekens heeft niet opgeslagen wijzigingen."
+msgstr "Het blad met karakters heeft niet opgeslagen wijzigingen."
 
 #: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:717
 #, qt-format
@@ -821,12 +770,12 @@ msgstr "Afbeelding openen"
 #: src/binaries/rcse/mainwindow.cpp:593 src/binaries/rcse/mainwindow.cpp:638
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet"
-msgstr "Vel met tekens opslaan"
+msgstr "Blad met karakters opslaan"
 
 #: src/binaries/rcse/mainwindow.cpp:594 src/binaries/rcse/mainwindow.cpp:639
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
-msgstr "Rolisteam vel met tekens (*.rcs)"
+msgstr "Rolisteam blad met karakters (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:703
 msgctxt "MainWindow|"
@@ -845,12 +794,12 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:790
 msgctxt "MainWindow|"
 msgid "Save CharacterSheet View"
-msgstr "Weergave van vel met tekens opslaan"
+msgstr "Weergave van blad met karakters opslaan"
 
 #: src/binaries/rcse/mainwindow.cpp:791
 msgctxt "MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
-msgstr "Weergave Rolisteam vel met tekens (*.qml)"
+msgstr "Weergave Rolisteam blad met karakters (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:916
 msgctxt "MainWindow|"
@@ -890,17 +839,17 @@ msgstr "Ondersteunde afbeeldingsformaten (*.jpg *.png *.svg *.gif)"
 #: src/binaries/rcse/mainwindow.cpp:945
 msgctxt "MainWindow|"
 msgid "Add character"
-msgstr "Teken toevoegen"
+msgstr "Karakter toevoegen"
 
 #: src/binaries/rcse/mainwindow.cpp:946
 msgctxt "MainWindow|"
 msgid "Delete character"
-msgstr "Teken verwijderen"
+msgstr "Karakter verwijderen"
 
 #: src/binaries/rcse/mainwindow.cpp:948
 msgctxt "MainWindow|"
 msgid "Character's Name"
-msgstr "Naam van teken"
+msgstr "Naam van karakter"
 
 #: src/binaries/rcse/mainwindow.cpp:950
 msgctxt "MainWindow|"
@@ -910,114 +859,78 @@ msgstr "Toepassen op selectie"
 #: src/binaries/rcse/mainwindow.cpp:951
 msgctxt "MainWindow|"
 msgid "Apply on all characters"
-msgstr "Op alle tekens toepassen"
+msgstr "Op alle karakters toepassen"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "MainWindow|"
 msgid "Unknown[*] - Rolisteam Character Sheet Editor"
-msgstr "Rolisteam vel met tekens (*.rcs)"
+msgstr "Onbekend[*] - Rolisteam bewerker van blad met karakters"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:29
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Css Editor"
 msgctxt "MainWindow|"
 msgid "Editor"
-msgstr "Css-bewerker"
+msgstr "Bewerker"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:47
 msgctxt "MainWindow|"
 msgid "Items"
-msgstr ""
+msgstr "Items"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:59
 #: src/binaries/rcse/mainwindow_rcse.ui:870
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextInput"
 msgctxt "MainWindow|"
 msgid "TextInput"
 msgstr "Tekstinvoer"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:94
 #: src/binaries/rcse/mainwindow_rcse.ui:957
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "MainWindow|"
 msgid "TextField"
 msgstr "Tekstveld"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:132
 #: src/binaries/rcse/mainwindow_rcse.ui:969
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "MainWindow|"
 msgid "Checkbox"
 msgstr "Keuzevakje"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:167
 #: src/binaries/rcse/mainwindow_rcse.ui:981
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextArea"
 msgctxt "MainWindow|"
 msgid "TextArea"
 msgstr "Tekstgebied"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:202
 #: src/binaries/rcse/mainwindow_rcse.ui:945
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "MainWindow|"
 msgid "Dice Button"
 msgstr "Dobbelsteenknop"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:234
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "MainWindow|"
 msgid "Function btn"
 msgstr "Functieknop"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:263
 #: src/binaries/rcse/mainwindow_rcse.ui:1094
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Table"
 msgctxt "MainWindow|"
 msgid "Table"
 msgstr "Tabel"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:289
 #: src/binaries/rcse/mainwindow_rcse.ui:1226
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "MainWindow|"
 msgid "Slider"
 msgstr "Schuifregelaar"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:312
 #: src/binaries/rcse/mainwindow_rcse.ui:1238
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Hidden"
 msgctxt "MainWindow|"
 msgid "Hidden Field"
-msgstr "Verborgen"
+msgstr "Verborgen veld"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:335
 #: src/binaries/rcse/mainwindow_rcse.ui:998
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "MainWindow|"
 msgid "Image"
 msgstr "Afbeelding"
@@ -1029,76 +942,51 @@ msgstr "Afbeelding"
 #: src/binaries/rcse/mainwindow_rcse.ui:736
 msgctxt "MainWindow|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:380
 #: src/binaries/rcse/mainwindow_rcse.ui:1130
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "WebView"
 msgctxt "MainWindow|"
 msgid "WebView"
 msgstr "Webweergave"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:403
 #: src/binaries/rcse/mainwindow_rcse.ui:1142
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Next Page"
 msgctxt "MainWindow|"
 msgid "Next Page"
 msgstr "Volgende pagina"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:422
 #: src/binaries/rcse/mainwindow_rcse.ui:1154
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Previous Page"
 msgctxt "MainWindow|"
 msgid "Previous Page"
 msgstr "Vorige pagina"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:464
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "Tools"
 msgstr "Hulpmiddelen"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:476
 #: src/binaries/rcse/mainwindow_rcse.ui:882
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Move %n item(s)"
-#| msgid_plural "Move %n item(s)"
 msgctxt "MainWindow|"
 msgid "Move Item"
-msgstr "%n item verplaatsen"
+msgstr "Item verplaatsen"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:511
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Delete"
 msgctxt "MainWindow|"
 msgid "Delete"
 msgstr "Verwijderen"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:556
-#, fuzzy
-#| msgctxt "ButtonGrid|"
-#| msgid "Add Package"
 msgctxt "MainWindow|"
 msgid "Add Page"
-msgstr "Pakket toevoegen"
+msgstr "Pagina toevoegen"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:563
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Image"
 msgctxt "MainWindow|"
 msgid "Remove Page"
-msgstr "Afbeelding verwijderen"
+msgstr "Pagina verwijderen"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:570
 msgctxt "MainWindow|"
@@ -1106,28 +994,19 @@ msgid "Scale:"
 msgstr ""
 
 #: src/binaries/rcse/mainwindow_rcse.ui:617
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "WebView"
 msgctxt "MainWindow|"
 msgid "View"
-msgstr "Webweergave"
+msgstr "Beeld"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:696
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Characters"
 msgctxt "MainWindow|"
 msgid "Characters"
-msgstr "Tekens"
+msgstr "Karakters"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:716
-#, fuzzy
-#| msgctxt "ContentController|"
-#| msgid "Copied Image"
 msgctxt "MainWindow|"
 msgid "Stored Images"
-msgstr "Gekopieerde afbeelding"
+msgstr "Opgeslagen afbeeldingen"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:774
 #, fuzzy
@@ -1468,7 +1347,7 @@ msgstr "Eigenschappen"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Character #%1"
-msgstr "Teken #%1 toevoegen"
+msgstr "Karakter #%1 toevoegen"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:56
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:47
@@ -1576,7 +1455,7 @@ msgstr "Pagina #%1 toevoegen"
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete Character #%1"
-msgstr "Teken #%1 verwijderen"
+msgstr "Karakter #%1 verwijderen"
 
 #: src/binaries/rcse/undo/deletefieldcommand.cpp:57
 #, qt-format
@@ -1622,7 +1501,7 @@ msgstr "Eigenschap %1 instellen"
 #, qt-format
 msgctxt "QObject|"
 msgid "Set property on all characters: %1"
-msgstr "Eigenschap op alle tekens zetten: %1"
+msgstr "Eigenschap op alle karakters zetten: %1"
 
 #: src/binaries/rcse/widgets/codeedit.ui:14
 msgctxt "CodeEdit|"
@@ -2144,12 +2023,9 @@ msgid "Alt+N"
 msgstr ""
 
 #: src/binaries/widget/mainwindow.ui:357
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Characters"
 msgctxt "MainWindow|"
 msgid "Character List"
-msgstr "Tekens"
+msgstr "Karakters"
 
 #: src/binaries/widget/mainwindow.ui:368
 #, fuzzy
@@ -2210,12 +2086,9 @@ msgid "Change Profile…"
 msgstr "Kleur wijzigen…"
 
 #: src/binaries/widget/mainwindow.ui:420
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "MainWindow|"
 msgid "Character Sheet"
-msgstr "Blad met tekens"
+msgstr "Blad met karakters"
 
 #: src/binaries/widget/mainwindow.ui:423
 #, fuzzy
@@ -2426,12 +2299,9 @@ msgid "Dice Alias"
 msgstr "Alias"
 
 #: src/binaries/widget/mainwindow.ui:641
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "MainWindow|"
 msgid "Character States"
-msgstr "Blad met tekens"
+msgstr "Blad met karakters"
 
 #: src/binaries/widget/mainwindow.ui:646
 msgctxt "MainWindow|"
@@ -2460,12 +2330,9 @@ msgid "Save Campaign As…"
 msgstr "Campagne openen"
 
 #: src/binaries/widget/mainwindow.ui:666
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "All Characters"
 msgctxt "MainWindow|"
 msgid "Non Playable Characters"
-msgstr "Alle lettertekens"
+msgstr "Alle speelbare karakters"
 
 #: src/binaries/widget/mainwindow.ui:671
 msgctxt "MainWindow|"
@@ -2813,7 +2680,7 @@ msgstr "Hoofdmap"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
-msgstr "Teken"
+msgstr "Karakter"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
@@ -3238,7 +3105,7 @@ msgstr "Geen avatar"
 #: src/libraries/core/src/network/characterdatamodel.cpp:145
 msgctxt "CharacterDataModel|"
 msgid "New Character"
-msgstr "Nieuw teken"
+msgstr "Nieuw karakter"
 
 #: src/libraries/core/src/network/clientconnection.cpp:88
 msgctxt "ClientConnection|"
@@ -3269,7 +3136,7 @@ msgstr "Speler"
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 msgctxt "QObject|"
 msgid "Unknown Character"
-msgstr "Onbekend teken"
+msgstr "Onbekend karakter"
 
 #: src/libraries/core/src/network/rserver.cpp:40
 msgctxt "RServer|"
@@ -3360,7 +3227,7 @@ msgstr "Vectoriële kaart onthullen"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
-msgstr "Teken aan %1 toevoegen"
+msgstr "Karakter aan %1 toevoegen"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:34
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
@@ -3478,7 +3345,7 @@ msgstr "%1 openen"
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
-msgstr "Teken %1 verwijderen"
+msgstr "Karakter %1 verwijderen"
 
 #: src/libraries/core/src/undoCmd/removemediacontrollercommand.cpp:40
 #, qt-format
@@ -3508,7 +3375,7 @@ msgstr "Fout: %1 bestaat niet of is niet te lezen."
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
-msgstr "Bestanden met vellen met tekens  (%1)"
+msgstr "Bestanden met bladen met karakters  (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:170
 #, qt-format
@@ -3570,7 +3437,7 @@ msgstr "Minuten"
 #: src/libraries/core/src/worker/utilshelper.cpp:205
 msgctxt "QObject|"
 msgid "Character Sheet"
-msgstr "Blad met tekens"
+msgstr "Blad met karakters"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:206
 msgctxt "QObject|"
@@ -3995,12 +3862,9 @@ msgid "Font Family:"
 msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:60
-#, fuzzy
-#| msgctxt "SideMenu|"
-#| msgid "Font size"
 msgctxt "SideMenu|"
 msgid "Font size:"
-msgstr "Tekengrootte"
+msgstr "Tekengrootte:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:72
 msgctxt "ConnectionForm|"
@@ -4065,7 +3929,7 @@ msgstr "Hoofdmap van campagne:"
 #: src/libraries/qml_views/views/ConnectionForm.qml:205
 msgctxt "ConnectionForm|"
 msgid "Characters"
-msgstr "Tekens"
+msgstr "Karakters"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:290
 msgctxt "ConnectionForm|"
@@ -4142,7 +4006,7 @@ msgstr "Bestand openen"
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
 msgid "Get picture for Character State"
-msgstr "Plaatje voor status van teken ophalen"
+msgstr "Plaatje voor status van karakter ophalen"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:82
 msgctxt "PlayerWidget|"
@@ -4286,36 +4150,24 @@ msgid "muted"
 msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:120
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Play"
 msgctxt "PlayerWidgetUI|"
 msgid "Play"
 msgstr "Afspelen"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:142
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Pause"
 msgctxt "PlayerWidgetUI|"
 msgid "Pause"
 msgstr "Pauzeren"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:164
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Stop"
 msgctxt "PlayerWidgetUI|"
 msgid "Stop"
 msgstr "Stoppen"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:183
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Shuffle Mode"
 msgctxt "PlayerWidgetUI|"
 msgid "unique Mode"
-msgstr "Shuffle-modus"
+msgstr "unieke modus"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:199
 msgctxt "PlayerWidgetUI|"
@@ -4521,7 +4373,7 @@ msgstr "Object"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:604
 msgctxt "RGraphicsView|"
 msgid "Character"
-msgstr "Teken"
+msgstr "Karakter"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:589
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:607
@@ -4570,12 +4422,12 @@ msgstr "Initiatief op selectie werpen"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:661
 msgctxt "RGraphicsView|"
 msgid "All Characters"
-msgstr "Alle lettertekens"
+msgstr "Alle karakters"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:647
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
-msgstr "Initiatief op alle tekens werpen"
+msgstr "Initiatief op alle karakters werpen"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
 msgctxt "RGraphicsView|"
@@ -4590,7 +4442,7 @@ msgstr "Initiatief op selectie opschonen"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Characters"
-msgstr "Wis initiatief op alle tekens"
+msgstr "Wis initiatief op alle karakters"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
@@ -4716,12 +4568,9 @@ msgid "Translators"
 msgstr "Vertalers"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Export Rolisteam Theme"
 msgctxt "AboutRolisteam|"
 msgid "About Rolisteam"
-msgstr "Rolisteam-thema exporteren"
+msgstr "Info over Rolisteam"
 
 #: src/libraries/rwidgets/dialogs/campaignintegritydialog.ui:17
 msgctxt "CampaignIntegrityDialog|"
@@ -4747,20 +4596,14 @@ msgid "Dialog"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:24
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "CampaignProperties|"
 msgid "Dice Alias"
-msgstr "Alias"
+msgstr "Alias van dobbelsteen"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:34
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Init Command"
 msgctxt "CampaignProperties|"
 msgid "Dice Command"
-msgstr "Initialisatiecommando"
+msgstr "Dobbelsteencommando"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:64
 msgctxt "CampaignProperties|"
@@ -4784,9 +4627,6 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:141
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:260
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:263
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Delete"
 msgctxt "CampaignProperties|"
 msgid "Delete"
 msgstr "Verwijderen"
@@ -4803,9 +4643,6 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:169
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:288
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:291
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Up"
 msgctxt "CampaignProperties|"
 msgid "Up"
 msgstr "Omhoog"
@@ -4814,9 +4651,6 @@ msgstr "Omhoog"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:183
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:302
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:305
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Down"
 msgctxt "CampaignProperties|"
 msgid "Down"
 msgstr "Omlaag"
@@ -4825,52 +4659,34 @@ msgstr "Omlaag"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:197
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:316
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:319
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "BottomLeft"
 msgctxt "CampaignProperties|"
 msgid "Bottom"
-msgstr "Linksonder"
+msgstr "Onderaan"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:226
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "CampaignProperties|"
 msgid "Character States"
-msgstr "Blad met tekens"
+msgstr "Blad met karakters"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:348
-#, fuzzy
-#| msgctxt "TableCanvasField|"
-#| msgid "Properties"
 msgctxt "CampaignProperties|"
 msgid "Properties"
 msgstr "Eigenschappen"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:358
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "CampaignProperties|"
 msgid "Name:"
 msgstr "Naam:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:368
-#, fuzzy
-#| msgctxt "MediaModel|"
-#| msgid "Directory"
 msgctxt "CampaignProperties|"
 msgid "Root Directory:"
-msgstr "Map"
+msgstr "Hoofdmap:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:378
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "File Actions"
 msgctxt "CampaignProperties|"
 msgid "File count:"
-msgstr "Bestandsacties"
+msgstr "Aantal bestanden:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:392
 msgctxt "CampaignProperties|"
@@ -4889,12 +4705,9 @@ msgid "Connection has failed! Connection Retry in %1s."
 msgstr "Verbinden is mislukt! Opnieuw proberen in %1s."
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Connection lost"
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection Retry"
-msgstr "Verbinding verbroken"
+msgstr "Proberen verbinding te maken"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:14
 msgctxt "HistoryViewerDialog|"
@@ -4913,12 +4726,9 @@ msgid "Add"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:79
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Remove"
 msgctxt "HistoryViewerDialog|"
 msgid "remove"
-msgstr "Verwijderen"
+msgstr "verwijderen"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:153
 msgctxt "ImageSelectorDialog|"
@@ -4926,17 +4736,11 @@ msgid "Open Image file"
 msgstr "Afbeeldingsbestand openen"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "ImageSelectorDialog|"
 msgid "Open Image"
 msgstr "Afbeelding openen"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:23
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Address:"
 msgctxt "ImageSelectorDialog|"
 msgid "Address:"
 msgstr "Adres:"
@@ -4958,28 +4762,19 @@ msgid "..."
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
-#, fuzzy
-#| msgctxt "MusicModel|"
-#| msgid "Title"
 msgctxt "ImageSelectorDialog|"
 msgid "Title:"
-msgstr "Titel"
+msgstr "Titel:"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:169
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Down"
 msgctxt "ImageSelectorDialog|"
 msgid "Download"
-msgstr "Omlaag"
+msgstr "Downloaden"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:181
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&Paste"
 msgctxt "ImageSelectorDialog|"
 msgid "Paste"
-msgstr "&Plakken"
+msgstr "Plakken"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:184
 msgctxt "ImageSelectorDialog|"
@@ -4987,17 +4782,11 @@ msgid "Paste from Clipboard"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:187
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "ImageSelectorDialog|"
 msgid "Ctrl+V"
-msgstr "Ctrl++"
+msgstr "Ctrl+V"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:199
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Open File"
 msgctxt "ImageSelectorDialog|"
 msgid "OpenFile"
 msgstr "Bestand openen"
@@ -5013,12 +4802,9 @@ msgid "Dialog"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:22
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Source Campaign"
-msgstr "Campagne openen"
+msgstr "Campagnebron"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5031,12 +4817,9 @@ msgid "Data to Import"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:61
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Mindmap"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Mindmaps"
-msgstr "Mindmap"
+msgstr "Mindmaps"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:68
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5044,20 +4827,14 @@ msgid "Maps"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:75
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Images"
-msgstr "Afbeelding"
+msgstr "Afbeeldingen"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:82
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dice Alias"
-msgstr "Alias"
+msgstr "Alias van dobbelsteen"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:89
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5075,9 +4852,6 @@ msgid "Playlist audioplayer 3"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:110
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "Notes"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Notes"
 msgstr "Notities"
@@ -5088,68 +4862,44 @@ msgid "Playlist audioplayer 1"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:124
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Antagonist Table"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Antagonist list"
-msgstr "Antagonist-tafel"
+msgstr "Antagonist-lijst"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:131
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character sheets"
-msgstr "Blad met tekens"
+msgstr "Bladen met karakters"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:138
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character States"
-msgstr "Blad met tekens"
+msgstr "Statussen van karakters"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:145
-#, fuzzy
-#| msgctxt "MRichTextEdit|"
-#| msgid "Edit document source"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Pdf documents"
-msgstr "Documentbron bewerken"
+msgstr "PDF-documenten"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:152
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid "Web Sites:"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Web links"
-msgstr "Websites:"
+msgstr "Webkoppelingen"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:14
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Password"
 msgctxt "KeyGeneratorDialog|"
 msgid "Password Generator"
-msgstr "Wachtwoord"
+msgstr "Wachtwoordgenerator"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:29
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Password"
 msgctxt "KeyGeneratorDialog|"
 msgid "Password"
 msgstr "Wachtwoord"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:36
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Temperature"
 msgctxt "KeyGeneratorDialog|"
 msgid "Generate"
-msgstr "Temperatuur"
+msgstr "Genereren"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:51
 msgctxt "KeyGeneratorDialog|"
@@ -5177,25 +4927,16 @@ msgid "Dialog"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:22
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "NewFileDialog|"
 msgid "Name:"
 msgstr "Naam:"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:32
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "NewFileDialog|"
 msgid "Path"
 msgstr "Pad"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:42
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Type"
 msgctxt "NewFileDialog|"
 msgid "Type"
 msgstr "Type"
@@ -5206,25 +4947,16 @@ msgid "Dialog"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:40
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Avatar"
 msgctxt "PersonDialog|"
 msgid "Avatar…"
-msgstr "Avatar"
+msgstr "Avatar…"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:55
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "PersonDialog|"
 msgid "Name:"
 msgstr "Naam:"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:62
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Color:"
 msgctxt "PersonDialog|"
 msgid "Color:"
 msgstr "Kleur:"
@@ -5319,44 +5051,29 @@ msgid "General"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:33
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Map"
 msgctxt "PreferencesDialogBox|"
 msgid "Map"
 msgstr "Kaart"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:41
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Fog Of War"
 msgctxt "PreferencesDialogBox|"
 msgid "Fog Of War:"
-msgstr "Mist van oorlog"
+msgstr "Mist van oorlog:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:72
-#, fuzzy
-#| msgctxt "MapWizzardDialog|"
-#| msgid "All Permissions"
 msgctxt "PreferencesDialogBox|"
 msgid "Default Map Permission:"
-msgstr "Alle rechten"
+msgstr "Standaard kaartrechten:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:99
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Opacity:"
 msgctxt "PreferencesDialogBox|"
 msgid "Opacity Value:"
-msgstr "Dekking:"
+msgstr "Waarde van dekking:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:135
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Highlighter"
 msgctxt "PreferencesDialogBox|"
 msgid "Item Highlight Color"
-msgstr "Accentuering"
+msgstr "Accentuatiekleur van item"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:166
 msgctxt "PreferencesDialogBox|"
@@ -5397,20 +5114,14 @@ msgid ""
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:225
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Connection lost"
 msgctxt "PreferencesDialogBox|"
 msgid "Keep connection alive"
-msgstr "Verbinding verbroken"
+msgstr "Verbinding in stand houden"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:247
-#, fuzzy
-#| msgctxt "AddChatRoomDialog|"
-#| msgid "Everybody"
 msgctxt "PreferencesDialogBox|"
 msgid "Every "
-msgstr "Iedereen"
+msgstr "Ieder "
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:264
 msgctxt "PreferencesDialogBox|"
@@ -5438,12 +5149,9 @@ msgid "Pictures fit their Windows (at the opening)"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:339
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Application"
 msgctxt "PreferencesDialogBox|"
 msgid "Application Language*"
-msgstr "Toepassing"
+msgstr "Taal van toepassing*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:345
 msgctxt "PreferencesDialogBox|"
@@ -5461,20 +5169,14 @@ msgid "Custom translation"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:391
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid "Translators"
 msgctxt "PreferencesDialogBox|"
 msgid "Translation File:"
-msgstr "Vertalers"
+msgstr "Bestand met vertaling:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:406
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "PreferencesDialogBox|"
 msgid "Character Sheet"
-msgstr "Blad met tekens"
+msgstr "Blad met karakter"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
@@ -5487,20 +5189,14 @@ msgid "ms"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:457
-#, fuzzy
-#| msgctxt "InstantMessagingView|"
-#| msgid "Instant Messaging"
 msgctxt "PreferencesDialogBox|"
 msgid "Messaging"
-msgstr "Instant Messaging"
+msgstr "Messaging"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:465
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Show/Hide"
 msgctxt "PreferencesDialogBox|"
 msgid "Show time"
-msgstr "Tonen/verbergen "
+msgstr "Tijd tonen"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
 msgctxt "PreferencesDialogBox|"
@@ -5514,7 +5210,7 @@ msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
-msgid "Maximum Lenght :"
+msgid "Maximum Length:"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
@@ -5533,12 +5229,9 @@ msgid "Music path"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "AudioFile"
 msgctxt "PreferencesDialogBox|"
 msgid "AudioPlayer1:"
-msgstr "Audiobestand"
+msgstr "Audiospeler1:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:628
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:635
@@ -5554,23 +5247,17 @@ msgstr "Audiobestand"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:767
 msgctxt "PreferencesDialogBox|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "AudioFile"
 msgctxt "PreferencesDialogBox|"
 msgid "AudioPlayer2:"
-msgstr "Audiobestand"
+msgstr "Audiospeler2:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:732
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "AudioFile"
 msgctxt "PreferencesDialogBox|"
 msgid "AudioPlayer3:"
-msgstr "Audiobestand"
+msgstr "Audiospeler3:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:795
 msgctxt "PreferencesDialogBox|"
@@ -5583,44 +5270,29 @@ msgid "Theme"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:811
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Current HP"
 msgctxt "PreferencesDialogBox|"
 msgid "Current Theme*"
-msgstr "Huidige HP"
+msgstr "Huidig thema*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:818
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "New name:"
 msgctxt "PreferencesDialogBox|"
 msgid "Theme name"
-msgstr "Nieuwe naam:"
+msgstr "Themanaam"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:825
-#, fuzzy
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Node Styles"
 msgctxt "PreferencesDialogBox|"
 msgid "Styles:"
-msgstr "Stijlen van nodes"
+msgstr "Stijlen:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:841
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&Copy"
 msgctxt "PreferencesDialogBox|"
 msgid "Copy"
-msgstr "&Kopiëren"
+msgstr "Kopie"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:848
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1255
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1264
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1273
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Delete"
 msgctxt "PreferencesDialogBox|"
 msgid "Delete"
 msgstr "Verwijderen"
@@ -5631,84 +5303,54 @@ msgid "Css:"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:872
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&Edit"
 msgctxt "PreferencesDialogBox|"
 msgid "Edit..."
-msgstr "B&ewerken"
+msgstr "Bewerken..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:898
-#, fuzzy
-#| msgctxt "ImageModel|"
-#| msgid "Is Background"
 msgctxt "PreferencesDialogBox|"
 msgid "Background"
-msgstr "Is achtergrond"
+msgstr "Achtergrond"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:906
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Color:"
 msgctxt "PreferencesDialogBox|"
 msgid "Color:"
 msgstr "Kleur:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:937
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "PreferencesDialogBox|"
 msgid "Image:"
-msgstr "Afbeelding"
+msgstr "Afbeelding:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:951
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Position columns"
 msgctxt "PreferencesDialogBox|"
 msgid "Positioning:"
-msgstr "Positie van kolommen"
+msgstr "Positionering:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:959
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "TopLeft"
 msgctxt "PreferencesDialogBox|"
 msgid "TopLeftCorner"
-msgstr "Linksboven"
+msgstr "Hoek linksboven"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:964
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "BottomLeft"
 msgctxt "PreferencesDialogBox|"
 msgid "BottomLeftCorner"
-msgstr "Linksonder"
+msgstr "Hoek linksonder"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:969
-#, fuzzy
-#| msgctxt "MindMenu|"
-#| msgid "Center"
 msgctxt "PreferencesDialogBox|"
 msgid "Center"
 msgstr "Midden"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:974
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "TopRight"
 msgctxt "PreferencesDialogBox|"
 msgid "TopRightCorner"
-msgstr "Rechtsboven"
+msgstr "Hoek rechtsboven"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:979
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "BottomRight"
 msgctxt "PreferencesDialogBox|"
 msgid "BottomRightCorner"
-msgstr "Rechtsonder"
+msgstr "Hoek rechtsonder"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:984
 msgctxt "PreferencesDialogBox|"
@@ -5726,12 +5368,9 @@ msgid "Repeated"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1009
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Highlighter"
 msgctxt "PreferencesDialogBox|"
 msgid "Dice Highlight Color"
-msgstr "Accentuering"
+msgstr "Accentuatiekleur van dobbelsteen"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1038
 msgctxt "PreferencesDialogBox|"
@@ -5778,7 +5417,7 @@ msgid ""
 "\"> box enables the collect of data about rolisteam in desktop environment."
 "<br/>We mainly try to know if Rolisteam is visible, its size or if it has "
 "the focus. <br/>It may be helpful to understand how people use Rolisteam on "
-"Desktop. <br/>University studies may find those data intersting.<br/><br/"
+"Desktop. <br/>University studies may find those data interesting.<br/><br/"
 ">Debug data makes rolisteam to log every click on every button or action. It "
 "is a deeper  mode.<br/>It may slow down a bit rolisteam.</span></p><p><span "
 "style=\" font-size:9pt;\">To know more about data collection: </span><a href="
@@ -5788,12 +5427,9 @@ msgid ""
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1127
-#, fuzzy
-#| msgctxt "PageDelegate|"
-#| msgid "All pages"
 msgctxt "PreferencesDialogBox|"
 msgid "All Usages"
-msgstr "Alle pagina's"
+msgstr "Alle gebruik"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1147
 msgctxt "PreferencesDialogBox|"
@@ -5842,25 +5478,16 @@ msgid "Welcome To Rolisteam - Connection Dialog"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
-#, fuzzy
-#| msgctxt "CharacterDataModel|"
-#| msgid "New Character"
 msgctxt "SelectConnectionProfileDialog|"
 msgid "New Character"
-msgstr "Nieuw teken"
+msgstr "Nieuw karakter"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:40
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Remove character %1"
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove character"
-msgstr "Teken %1 verwijderen"
+msgstr "Karakter verwijderen"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:45
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Connect"
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Connect"
 msgstr "Verbinden"
@@ -5871,17 +5498,11 @@ msgid "stop"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:55
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Avatar"
 msgctxt "SelectConnectionProfileDialog|"
 msgid "playerAvatar"
-msgstr "Avatar"
+msgstr "Avatar van speler"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:64
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Clone profile"
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Clone profile"
 msgstr "Profiel klonen"
@@ -5926,7 +5547,7 @@ msgstr "Geen recht"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
 msgid "His character"
-msgstr "Zijn teken"
+msgstr "Zijn karakter"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -5954,52 +5575,34 @@ msgid "Map Wizzard"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:31
-#, fuzzy
-#| msgctxt "MusicModel|"
-#| msgid "Title"
 msgctxt "MapWizzardDialog|"
 msgid "Title :"
-msgstr "Titel"
+msgstr "Titel :"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:51
-#, fuzzy
-#| msgctxt "AudioPlayer|"
-#| msgid "Background Music"
 msgctxt "MapWizzardDialog|"
 msgid "Background Color :"
-msgstr "Achtergrondmuziek"
+msgstr "Achtergrondkleur :"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:97
-#, fuzzy
-#| msgctxt "VmapTopBar|"
-#| msgid "Visibility: Fog"
 msgctxt "MapWizzardDialog|"
 msgid "Visibility Mode:"
-msgstr "Zichtbaarheid: mist"
+msgstr "Zichtbaarheidsmodus:"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:111
-#, fuzzy
-#| msgctxt "VmapTopBar|"
-#| msgid "Permission: PC Move"
 msgctxt "MapWizzardDialog|"
 msgid "Permission Mode:"
-msgstr "Toestemming: PC verplaatsen"
+msgstr "Toestemmingsmodus:"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:123
-#, fuzzy
-#| msgctxt "PatternModel|"
-#| msgid "NoGrid"
 msgctxt "MapWizzardDialog|"
 msgid "Grid"
-msgstr "GeenRaster"
+msgstr "Raster"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:149
-#, fuzzy
-#| msgctxt "Campaign|"
-#| msgid "Pattern"
 msgctxt "MapWizzardDialog|"
 msgid "Grid Pattern:"
-msgstr "Patroon"
+msgstr "Roosterpatroon:"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:156
 #, fuzzy
@@ -6079,7 +5682,7 @@ msgstr "Token bewerken"
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:71
 msgctxt "campaign::AntagonistBoard|"
 msgid "Clone Character"
-msgstr "Teken klonen"
+msgstr "Karakter klonen"
 
 #: src/libraries/rwidgets/docks/antagonistboard.cpp:72
 msgctxt "campaign::AntagonistBoard|"
@@ -6131,6 +5734,7 @@ msgid "..."
 msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1129
 msgctxt "AntagonistBoard|"
 msgid "Advanced"
 msgstr ""
@@ -6202,9 +5806,12 @@ msgid "exclude tags:"
 msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:161
+#, fuzzy
+#| msgctxt "TestCharacterStateModel|"
+#| msgid "Healthy"
 msgctxt "AntagonistBoard|"
-msgid "Heath:"
-msgstr ""
+msgid "Health:"
+msgstr "Gezond"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:171
 msgctxt "AntagonistBoard|"
@@ -6462,25 +6069,14 @@ msgid "Remove Property"
 msgstr "Eigenschap instellen"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1108
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Add character"
 msgctxt "AntagonistBoard|"
 msgid "Add Character"
-msgstr "Teken toevoegen"
+msgstr "Karakter toevoegen"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1117
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Remove character %1"
 msgctxt "AntagonistBoard|"
 msgid "Remove Character"
-msgstr "Teken %1 verwijderen"
-
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1129
-msgctxt "AntagonistBoard|"
-msgid "Advenced"
-msgstr ""
+msgstr "Karakter verwijderen"
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:75
 msgctxt "AudioPlayer|"
@@ -6511,7 +6107,7 @@ msgstr "Audiobestand"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:53
 msgctxt "campaign::CampaignDock|"
 msgid "CharacterSheet"
-msgstr "Vel met tekens"
+msgstr "Blad met karakter"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:54
 msgctxt "campaign::CampaignDock|"
@@ -6546,7 +6142,7 @@ msgstr "Tekst"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:60
 msgctxt "campaign::CampaignDock|"
 msgid "Token"
-msgstr "Teken"
+msgstr "Token"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:61
 msgctxt "campaign::CampaignDock|"
@@ -6772,7 +6368,7 @@ msgstr "Huidige laag: object"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:174
 msgctxt "VmapTopBar|"
 msgid "Current Layer: Character"
-msgstr "Huidige laag: teken"
+msgstr "Huidige laag: karakter"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
 msgctxt "VmapTopBar|"
@@ -6787,7 +6383,7 @@ msgstr "andere lagen verbergen"
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:211
 msgctxt "VmapTopBar|"
 msgid "Character Vision"
-msgstr "Zicht op teken"
+msgstr "Zicht op karakter"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:215
 msgctxt "VmapTopBar|"
@@ -6873,7 +6469,7 @@ msgstr "Niet-proportioneel"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
 msgctxt "MRichTextEdit|"
 msgid "Remove character formatting"
-msgstr "Opmaak van teken verwijderen"
+msgstr "Opmaak van karakter verwijderen"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:125
 msgctxt "MRichTextEdit|"
@@ -6911,12 +6507,9 @@ msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Allen (*)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:56
-#, fuzzy
-#| msgctxt "MRichTextEdit|"
-#| msgid "Remove character formatting"
 msgctxt "MRichTextEdit|"
 msgid "Paragraph formatting"
-msgstr "Opmaak van teken verwijderen"
+msgstr "Opmaak van alinea"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:79
 msgctxt "MRichTextEdit|"
@@ -7063,12 +6656,9 @@ msgid "Decrease indentation (CTRL+,)"
 msgstr ""
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:379
-#, fuzzy
-#| msgctxt "TextItem|"
-#| msgid "Decrease Text Size"
 msgctxt "MRichTextEdit|"
 msgid "Decrease indentation"
-msgstr "Tekengrootte verkleinen"
+msgstr "Inspringen verminderen"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:399
 msgctxt "MRichTextEdit|"
@@ -7097,9 +6687,6 @@ msgid "Text background color"
 msgstr "Achtergrond op pagina #%1 zetten"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:491
-#, fuzzy
-#| msgctxt "SideMenu|"
-#| msgid "Font size"
 msgctxt "MRichTextEdit|"
 msgid "Font size"
 msgstr "Tekengrootte"
@@ -8523,7 +8110,7 @@ msgstr "Regel"
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr "%1 - (Viewer van blad met tekens)"
+msgstr "%1 - (Viewer van blad met karakters)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
@@ -8538,12 +8125,12 @@ msgstr "QML-fouten"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:616
 msgctxt "CharacterSheetWindow|"
 msgid "Open Character Sheets View"
-msgstr "Weergave van vellen met tekens openen"
+msgstr "Weergave van bladen met karakters openen"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:618
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet files (*.qml)"
-msgstr "Bestanden met blad met tekens (*.qml)"
+msgstr "Bestanden met blad met karakter (*.qml)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
@@ -8553,7 +8140,7 @@ msgstr "Delen (share) naar"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet Data files (*.rcs)"
-msgstr "Gegevensbestanden met blad met tekens (*.qml)"
+msgstr "Gegevensbestanden met blad met karakter (*.rcs)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:14
 msgctxt "CharacterSheetWindow|"
@@ -8585,12 +8172,9 @@ msgid "Add Line"
 msgstr "Regel toevoegen"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:90
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "CharacterSheet"
 msgctxt "CharacterSheetWindow|"
 msgid "Add CharacterSheet"
-msgstr "Vel met tekens"
+msgstr "Blad met karakter"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:95
 msgctxt "CharacterSheetWindow|"
@@ -9030,7 +8614,7 @@ msgstr "Geen recht"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
 msgid "His character"
-msgstr "Zijn teken"
+msgstr "Zijn karakter"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
 msgctxt "QObject|"
@@ -9369,7 +8953,7 @@ msgstr "Accentuering"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:165
 msgctxt "ToolBox|"
 msgid "Paint Bucket"
-msgstr "Tekenbucket"
+msgstr "Verfpot"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:168
 msgctxt "ToolBox|"

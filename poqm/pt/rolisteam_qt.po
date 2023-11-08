@@ -5540,7 +5540,7 @@ msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
-msgid "Maximum Lenght :"
+msgid "Maximum Length:"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
@@ -5804,7 +5804,7 @@ msgid ""
 "\"> box enables the collect of data about rolisteam in desktop environment."
 "<br/>We mainly try to know if Rolisteam is visible, its size or if it has "
 "the focus. <br/>It may be helpful to understand how people use Rolisteam on "
-"Desktop. <br/>University studies may find those data intersting.<br/><br/"
+"Desktop. <br/>University studies may find those data interesting.<br/><br/"
 ">Debug data makes rolisteam to log every click on every button or action. It "
 "is a deeper  mode.<br/>It may slow down a bit rolisteam.</span></p><p><span "
 "style=\" font-size:9pt;\">To know more about data collection: </span><a href="
@@ -6157,6 +6157,7 @@ msgid "..."
 msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1129
 msgctxt "AntagonistBoard|"
 msgid "Advanced"
 msgstr ""
@@ -6228,9 +6229,12 @@ msgid "exclude tags:"
 msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:161
+#, fuzzy
+#| msgctxt "TestCharacterStateModel|"
+#| msgid "Healthy"
 msgctxt "AntagonistBoard|"
-msgid "Heath:"
-msgstr ""
+msgid "Health:"
+msgstr "Saudável"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:171
 msgctxt "AntagonistBoard|"
@@ -6502,11 +6506,6 @@ msgstr "Adicionar uma personagem"
 msgctxt "AntagonistBoard|"
 msgid "Remove Character"
 msgstr "Remover o personagem %1"
-
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1129
-msgctxt "AntagonistBoard|"
-msgid "Advenced"
-msgstr ""
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:75
 msgctxt "AudioPlayer|"
