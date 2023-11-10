@@ -4983,12 +4983,9 @@ msgid "Hide Long commands"
 msgstr "გრძელი ბრძანებების დახურვა"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
-#, fuzzy
-#| msgctxt "PreferencesDialogBox|"
-#| msgid "Maximum Lenght :"
 msgctxt "PreferencesDialogBox|"
 msgid "Maximum Length:"
-msgstr "მაქსიმალური სიმაღლე:"
+msgstr "მაქსიმალური სიგრძე:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
 msgctxt "PreferencesDialogBox|"
@@ -5185,24 +5182,6 @@ msgid "Data collection"
 msgstr "მონაცემების შეგროვება"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1112
-#, fuzzy
-#| msgctxt "PreferencesDialogBox|"
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-size:9pt;\">Collected data are "
-#| "anonymous. <br/>By default, only data about rolisteam are collected. "
-#| "Which actions have been used.<br/><br/>Checking </span><span style=\" "
-#| "font-size:9pt; font-weight:600;\">All Usages</span><span style=\" font-"
-#| "size:9pt;\"> box enables the collect of data about rolisteam in desktop "
-#| "environment.<br/>We mainly try to know if Rolisteam is visible, its size "
-#| "or if it has the focus. <br/>It may be helpful to understand how people "
-#| "use Rolisteam on Desktop. <br/>University studies may find those data "
-#| "intersting.<br/><br/>Debug data makes rolisteam to log every click on "
-#| "every button or action. It is a deeper  mode.<br/>It may slow down a bit "
-#| "rolisteam.</span></p><p><span style=\" font-size:9pt;\">To know more "
-#| "about data collection: </span><a href=\"https://rolisteam.org/"
-#| "datacollection.html\"><span style=\" font-size:9pt; text-decoration: "
-#| "underline; color:#007af4;\">www.rolisteam.org/datacollection.html</span></"
-#| "a></p></body></html>"
 msgctxt "PreferencesDialogBox|"
 msgid ""
 "<html><head/><body><p><span style=\" font-size:9pt;\">Collected data are "
@@ -5590,12 +5569,9 @@ msgid "exclude tags:"
 msgstr "ჭდეების გამორიცხვა:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:161
-#, fuzzy
-#| msgctxt "TestCharacterStateModel|"
-#| msgid "Healthy"
 msgctxt "AntagonistBoard|"
 msgid "Health:"
-msgstr "ჯანმრთელი"
+msgstr "ჯანმრთელობა:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:171
 msgctxt "AntagonistBoard|"
