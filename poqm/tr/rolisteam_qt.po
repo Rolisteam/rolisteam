@@ -1,8 +1,9 @@
 # SPDX-FileCopyrightText: 2022, 2023 Emir SARI <emir_sari@icloud.com>
+# Emir SARI <emir_sari@icloud.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-05 11:37+0300\n"
+"PO-Revision-Date: 2023-11-10 13:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -11,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.11.70\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -260,12 +261,9 @@ msgid "Previous Page Button"
 msgstr "Önceki Sayfa Düğmesi"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "AboutRcse|"
 msgid "Rolisteam Character Sheet Editor"
-msgstr "Rolisteam Karakter Sayfası (*.rcs)"
+msgstr "Rolisteam Karakter Sayfası Düzenleyicisi"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:20
 msgctxt "AboutRcse|"
@@ -277,6 +275,12 @@ msgid ""
 "CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
 "\">wiki.rolisteam.org</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Rolisteam Karakter "
+"Sayfası Düzenleyicisi</span></p><p><br/></p><p>Bu yazılım, Rolisteam v1.8 ve "
+"sonrası sürümler için karakter oluşturmaya yöneliktir. <br/>Lütfen <a href="
+"\"http://wiki.rolisteam.org/index.php/En:CharacterSheet\"><span style=\" "
+"text-decoration: underline; color:#007af4;\">wiki.rolisteam.org</span></a></"
+"p></body></html> adresindeki belgelendirmeye göz atın"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:33
 msgctxt "AboutRcse|"
@@ -314,14 +318,43 @@ msgid ""
 "family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec (english and "
 "french)</span></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">Yazar:</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">Çevirmenler:</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec (İngilizce ve "
+"Fransızca)</span></p></body></html>"
 
 #: src/binaries/rcse/dialog/codeeditordialog.ui:14
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Edit name"
 msgctxt "CodeEditorDialog|"
 msgid "Edit item code"
-msgstr "Adı düzenle"
+msgstr "Öge kodunu düzenle"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.cpp:121
 msgctxt "ColumnDefinitionDialog|"
@@ -331,93 +364,72 @@ msgstr "Tablo Özellikleri"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:14
 msgctxt "ColumnDefinitionDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:24
 msgctxt "ColumnDefinitionDialog|"
 msgid "Line Count:"
-msgstr ""
+msgstr "Satır sayısı:"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:34
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Count:"
-msgstr ""
+msgstr "Sütun sayısı:"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:44
 msgctxt "ColumnDefinitionDialog|"
 msgid "Control Position"
-msgstr ""
+msgstr "Denetim Konumu"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:52
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Left"
 msgctxt "ColumnDefinitionDialog|"
 msgid "LeftTop"
-msgstr "Sol"
+msgstr "SolÜst"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:57
 msgctxt "ColumnDefinitionDialog|"
 msgid "LeftBottom"
-msgstr ""
+msgstr "SolAlt"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:62
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "TopLeft"
 msgctxt "ColumnDefinitionDialog|"
 msgid "TopLeft"
 msgstr "SolÜst"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:67
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "TopRight"
 msgctxt "ColumnDefinitionDialog|"
 msgid "TopRight"
 msgstr "SağÜst"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:72
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "BottomLeft"
 msgctxt "ColumnDefinitionDialog|"
 msgid "BottomLeft"
 msgstr "SolAlt"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:77
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "BottomRight"
 msgctxt "ColumnDefinitionDialog|"
 msgid "BottomRight"
 msgstr "SağAlt"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:82
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Right"
 msgctxt "ColumnDefinitionDialog|"
 msgid "RightTop"
-msgstr "Sağ"
+msgstr "ÜstSağ"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:87
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Right"
 msgctxt "ColumnDefinitionDialog|"
 msgid "RightBottom"
-msgstr "Sağ"
+msgstr "AltSağ"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:112
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Definition:"
-msgstr ""
+msgstr "Sütun tanımı:"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
 msgid "Load background from PDF"
-msgstr "Arka planı, PDF'den yükle"
+msgstr "Arka planı PDF'den yükle"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:43
 msgctxt "PdfManager|"
@@ -427,71 +439,53 @@ msgstr "PDF Dosyaları (*.pdf)"
 #: src/binaries/rcse/dialog/pdfmanager.ui:14
 msgctxt "PdfManager|"
 msgid "Export PDF background Dialog"
-msgstr ""
+msgstr "PDF Dışa Aktar arka plan iletişim kutusu"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:26
 msgctxt "PdfManager|"
 msgid "Pdf path"
-msgstr ""
+msgstr "PDF yolu"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:36
 msgctxt "PdfManager|"
 msgid "Browse"
-msgstr ""
+msgstr "Göz At"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:49
-#, fuzzy
-#| msgctxt "MediaModel|"
-#| msgid "Size"
 msgctxt "PdfManager|"
 msgid "Size:"
-msgstr "Boyut"
+msgstr "Boyut:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:60
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Width"
 msgctxt "PdfManager|"
 msgid "Width:"
-msgstr "Genişlik"
+msgstr "Genişlik:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:84
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Height"
 msgctxt "PdfManager|"
 msgid "Height: "
-msgstr "Yükseklik"
+msgstr "Yükseklik:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:109
 msgctxt "PdfManager|"
 msgid "Grayscale"
-msgstr ""
+msgstr "Gri tonlu"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:118
 #: src/binaries/rcse/dialog/pdfmanager.ui:130
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Page"
 msgctxt "PdfManager|"
 msgid "Pages"
-msgstr "Sayfa"
+msgstr "Sayfalar"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:143
-#, fuzzy
-#| msgctxt "PageDelegate|"
-#| msgid "All pages"
 msgctxt "PdfManager|"
 msgid "All pages"
 msgstr "Tüm sayfalar"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:156
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Current HP"
 msgctxt "PdfManager|"
 msgid "Current page"
-msgstr "Şu Anki SP"
+msgstr "Geçerli sayfa"
 
 #: src/binaries/rcse/dialog/sheetproperties.cpp:17
 msgctxt "SheetProperties|"
@@ -499,46 +493,40 @@ msgid "Add Font file"
 msgstr "Yazıtipi Dosyası Ekle"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:14
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Set Property"
 msgctxt "SheetProperties|"
 msgid "Sheet Properties"
-msgstr "Özellik Ayarla"
+msgstr "Sayfa Özellikleri"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
-#, fuzzy
-#| msgctxt "DrawerMenu|"
-#| msgid "Default Style"
 msgctxt "SheetProperties|"
 msgid "Default scale:"
-msgstr "Öntanımlı Biçem"
+msgstr "Öntanımlı ölçek:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
 msgid "Additionnal Import:"
-msgstr ""
+msgstr "Ek içe aktarma:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
 msgctxt "SheetProperties|"
 msgid "Additionnal Head Code:"
-msgstr ""
+msgstr "Ek üst kodu:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
 msgctxt "SheetProperties|"
 msgid "Additionnal Bottom Code:"
-msgstr ""
+msgstr "Ek alt kodu:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146
 msgctxt "SheetProperties|"
 msgid "Embedded Fonts:"
-msgstr ""
+msgstr "Gömülü yazıtipleri:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:157
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
 msgctxt "SheetProperties|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -912,111 +900,75 @@ msgid "Apply on all characters"
 msgstr "Tüm Karakterlerde Uygula"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "MainWindow|"
 msgid "Unknown[*] - Rolisteam Character Sheet Editor"
-msgstr "Rolisteam Karakter Sayfası (*.rcs)"
+msgstr "Bilinmeyen[*] - Rolisteam Karakter Sayfası Düzenleyicisi"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:29
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Css Editor"
 msgctxt "MainWindow|"
 msgid "Editor"
-msgstr "CSS Düzenleyicisi"
+msgstr "Düzenleyici"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:47
 msgctxt "MainWindow|"
 msgid "Items"
-msgstr ""
+msgstr "Ögeler"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:59
 #: src/binaries/rcse/mainwindow_rcse.ui:870
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextInput"
 msgctxt "MainWindow|"
 msgid "TextInput"
-msgstr "MetinGirişi"
+msgstr "Metin Girişi"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:94
 #: src/binaries/rcse/mainwindow_rcse.ui:957
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "MainWindow|"
 msgid "TextField"
-msgstr "MetinAlanı"
+msgstr "Metin Alanı"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:132
 #: src/binaries/rcse/mainwindow_rcse.ui:969
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "MainWindow|"
 msgid "Checkbox"
 msgstr "Onay Kutusu"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:167
 #: src/binaries/rcse/mainwindow_rcse.ui:981
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextArea"
 msgctxt "MainWindow|"
 msgid "TextArea"
-msgstr "MetinBölgesi"
+msgstr "Metin Bölgesi"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:202
 #: src/binaries/rcse/mainwindow_rcse.ui:945
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "MainWindow|"
 msgid "Dice Button"
 msgstr "Zarlar Düğmesi"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:234
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "MainWindow|"
 msgid "Function btn"
 msgstr "İşlev Düğmesi"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:263
 #: src/binaries/rcse/mainwindow_rcse.ui:1094
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Table"
 msgctxt "MainWindow|"
 msgid "Table"
 msgstr "Tablo"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:289
 #: src/binaries/rcse/mainwindow_rcse.ui:1226
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "MainWindow|"
 msgid "Slider"
 msgstr "Kaydırıcı"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:312
 #: src/binaries/rcse/mainwindow_rcse.ui:1238
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Hidden"
 msgctxt "MainWindow|"
 msgid "Hidden Field"
-msgstr "Gizli"
+msgstr "Gizli Alan"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:335
 #: src/binaries/rcse/mainwindow_rcse.ui:998
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "MainWindow|"
 msgid "Image"
 msgstr "Görsel"
@@ -1028,185 +980,124 @@ msgstr "Görsel"
 #: src/binaries/rcse/mainwindow_rcse.ui:736
 msgctxt "MainWindow|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:380
 #: src/binaries/rcse/mainwindow_rcse.ui:1130
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "WebView"
 msgctxt "MainWindow|"
 msgid "WebView"
 msgstr "Web Görünümü"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:403
 #: src/binaries/rcse/mainwindow_rcse.ui:1142
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Next Page"
 msgctxt "MainWindow|"
 msgid "Next Page"
 msgstr "Sonraki Sayfa"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:422
 #: src/binaries/rcse/mainwindow_rcse.ui:1154
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Previous Page"
 msgctxt "MainWindow|"
 msgid "Previous Page"
 msgstr "Önceki Sayfa"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:464
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "Tools"
 msgstr "Araçlar"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:476
 #: src/binaries/rcse/mainwindow_rcse.ui:882
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Move %n item(s)"
-#| msgid_plural "Move %n item(s)"
 msgctxt "MainWindow|"
 msgid "Move Item"
-msgstr "%n ögeyi taşı"
+msgstr "Ögeyi Taşı"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:511
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Delete"
 msgctxt "MainWindow|"
 msgid "Delete"
 msgstr "Sil"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:556
-#, fuzzy
-#| msgctxt "ButtonGrid|"
-#| msgid "Add Package"
 msgctxt "MainWindow|"
 msgid "Add Page"
-msgstr "Paket Ekle"
+msgstr "Sayfa Ekle"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:563
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Image"
 msgctxt "MainWindow|"
 msgid "Remove Page"
-msgstr "Görseli Kaldır"
+msgstr "Sayfayı Kaldır"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:570
 msgctxt "MainWindow|"
 msgid "Scale:"
-msgstr ""
+msgstr "Ölçek:"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:617
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "WebView"
 msgctxt "MainWindow|"
 msgid "View"
-msgstr "Web Görünümü"
+msgstr "Görünüm"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:696
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Characters"
 msgctxt "MainWindow|"
 msgid "Characters"
 msgstr "Karakterler"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:716
-#, fuzzy
-#| msgctxt "ContentController|"
-#| msgid "Copied Image"
 msgctxt "MainWindow|"
 msgid "Stored Images"
-msgstr "Görsel Kopyalandı"
+msgstr "Depolanan Görseller"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:774
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&File"
 msgctxt "MainWindow|"
 msgid "File"
-msgstr "&Dosya"
+msgstr "Dosya"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:794
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Edit Actions"
 msgctxt "MainWindow|"
 msgid "Edition"
-msgstr "Düzenleme Eylemleri"
+msgstr "Edisyon"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:823
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Open"
 msgctxt "MainWindow|"
 msgid "Open"
 msgstr "Aç"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:826
 #: src/binaries/widget/mainwindow.ui:566
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
-msgstr "Kontrol++"
+msgstr "Kontrol+O"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:831
-#, fuzzy
-#| msgctxt "MindMenu|"
-#| msgid "Save"
 msgctxt "MainWindow|"
 msgid "Save"
 msgstr "Kaydet"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:834
 #: src/binaries/widget/mainwindow.ui:435
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
-msgstr "Kontrol++"
+msgstr "Kontrol+S"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:839
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Save as..."
 msgctxt "MainWindow|"
 msgid "Save As..."
 msgstr "Farklı Kaydet..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:842
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+S"
-msgstr "Kontrol++"
+msgstr "Kontrol+Üst Karakter+S"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:847
 msgctxt "MainWindow|"
 msgid "New"
-msgstr ""
+msgstr "Yeni"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:850
 #: src/binaries/widget/mainwindow.ui:267
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+N"
-msgstr "Kontrol++"
+msgstr "Kontrol+N"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:855
 #: src/binaries/widget/mainwindow.cpp:701 src/binaries/widget/mainwindow.ui:200
@@ -1216,97 +1107,67 @@ msgstr "Çık"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:858
 #: src/binaries/widget/mainwindow.ui:203
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+Q"
-msgstr "Kontrol++"
+msgstr "Kontrol+Q"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:894
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Delete Item"
 msgctxt "MainWindow|"
 msgid "Delete Item"
 msgstr "Ögeyi Sil"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:899
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Export Rolisteam Theme"
 msgctxt "MainWindow|"
 msgid "Export To Rolisteam"
-msgstr "Rolisteam Teması Dışa Aktar"
+msgstr "Rolisteam'e Dışa Aktar"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:904
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "WebView"
 msgctxt "MainWindow|"
 msgid "Save View"
-msgstr "Web Görünümü"
+msgstr "Görünümü Kaydet"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:909
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Load Image"
 msgctxt "MainWindow|"
 msgid "Load View"
-msgstr "Görseli Yükle"
+msgstr "Görünümü Yükle"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:918
 msgctxt "MainWindow|"
 msgid "Generate Code and Sheet"
-msgstr ""
+msgstr "Kod ve Sayfa Üret"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:921
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+R"
-msgstr "Kontrol++"
+msgstr "Kontrol+R"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:930
 msgctxt "MainWindow|"
 msgid "Code To Sheet"
-msgstr ""
+msgstr "Koddan Sayfaya"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
 #: src/binaries/widget/mainwindow.ui:510
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
-msgstr "Kontrol++"
+msgstr "Kontrol+D"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:986
 msgctxt "MainWindow|"
 msgid "Set image background…"
-msgstr ""
+msgstr "Görsel Arka Planını Ayarla…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1007
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "About"
 msgctxt "MainWindow|"
 msgid "About RCSE"
-msgstr "Hakkında"
+msgstr "RCSE Hakkında"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1017
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Reset Zoom"
 msgctxt "MainWindow|"
 msgid "Reset Ids"
-msgstr "Yakınlaştırmayı Sıfırla"
+msgstr "Kimlikleri Sıfırla"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1022
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Preferences"
 msgctxt "MainWindow|"
 msgid "Preferences"
 msgstr "Tercihler"
@@ -1314,25 +1175,16 @@ msgstr "Tercihler"
 #: src/binaries/rcse/mainwindow_rcse.ui:1025
 #: src/binaries/rcse/mainwindow_rcse.ui:1036
 #: src/binaries/widget/mainwindow.ui:191
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+P"
-msgstr "Kontrol++"
+msgstr "Kontrol+P"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1033
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Set Property"
 msgctxt "MainWindow|"
 msgid "Sheet Properties…"
-msgstr "Özellik Ayarla"
+msgstr "Sayfa Özellikleri…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1048
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "MainWindow|"
 msgid "Function Button"
 msgstr "İşlev Düğmesi"
@@ -1340,79 +1192,58 @@ msgstr "İşlev Düğmesi"
 #: src/binaries/rcse/mainwindow_rcse.ui:1059
 msgctxt "MainWindow|"
 msgid "Hide/Show icon in Editor"
-msgstr ""
+msgstr "Düzenleyicide simgeyi göster/gizle"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1068
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Add %1 image"
 msgctxt "MainWindow|"
 msgid "Add Image"
-msgstr "%1 görsel ekle"
+msgstr "Görsel Ekle"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1077
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Delete Item"
 msgctxt "MainWindow|"
 msgid "Delete Image"
-msgstr "Ögeyi Sil"
+msgstr "Görseli Sil"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1082
 msgctxt "MainWindow|"
 msgid "Check Validity"
-msgstr ""
+msgstr "Geçerliliğini Denetle"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
 #: src/binaries/widget/mainwindow.ui:479 src/binaries/widget/mainwindow.ui:546
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Export Rolisteam Theme"
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
-msgstr "Rolisteam Teması Dışa Aktar"
+msgstr "Rolisteam'i Destekle"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1118
-#, fuzzy
-#| msgctxt "ButtonGrid|"
-#| msgid "Export As PNG"
 msgctxt "MainWindow|"
 msgid "Export as PDF"
-msgstr "PNG Olarak Dışa Aktar"
+msgstr "PDF Olarak Dışa Aktar"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1159
 msgctxt "MainWindow|"
 msgid "Recent file 1"
-msgstr ""
+msgstr "Son kullanılan dosya 1"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1206
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "LabelField"
 msgctxt "MainWindow|"
 msgid "Label field"
-msgstr "EtiketAlanı"
+msgstr "Etiket alanı"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1209
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MainWindow|"
 msgid "Read-only Text"
-msgstr "Yalnızca Okuma"
+msgstr "Saltokunur Metin"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1214
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Export from %1"
 msgctxt "MainWindow|"
 msgid "Import from PDF"
-msgstr "%1 Konumundan Dışa Aktar"
+msgstr "PDF'den İçe Aktar"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1241
 msgctxt "MainWindow|"
 msgid "Hidden Field (for intermediate calculations)"
-msgstr ""
+msgstr "Gizli Alan (Ara hesaplamalar için)"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
@@ -1427,33 +1258,24 @@ msgstr "Üretilen dosyaların kaydedileceği yer"
 #: src/binaries/rcse/preferences/preferencesdialog.ui:14
 msgctxt "PreferencesDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:20
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image Generation"
 msgctxt "PreferencesDialog|"
 msgid "QML Generation"
-msgstr "Görsel Üretimi"
+msgstr "QML Üretimi"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:26
 msgctxt "PreferencesDialog|"
 msgid "Custom path"
-msgstr ""
+msgstr "Özel yol"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:35
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image Generation"
 msgctxt "PreferencesDialog|"
 msgid "Generation Path"
-msgstr "Görsel Üretimi"
+msgstr "Üretim Yolu"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:52
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Select"
 msgctxt "PreferencesDialog|"
 msgid "Select"
 msgstr "Seç"
@@ -1626,7 +1448,7 @@ msgstr "Tüm karakterlerde özellik ayarla: %1"
 #: src/binaries/rcse/widgets/codeedit.ui:14
 msgctxt "CodeEdit|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
@@ -1887,17 +1709,11 @@ msgid "unknown"
 msgstr "bilinmiyor"
 
 #: src/binaries/widget/mainwindow.ui:14
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Rolisteam Theme: %1"
 msgctxt "MainWindow|"
 msgid "Rolisteam"
-msgstr "Rolisteam Teması: %1"
+msgstr "Rolisteam"
 
 #: src/binaries/widget/mainwindow.ui:32
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&File"
 msgctxt "MainWindow|"
 msgid "&File"
 msgstr "&Dosya"
@@ -1905,43 +1721,34 @@ msgstr "&Dosya"
 #: src/binaries/widget/mainwindow.ui:36
 msgctxt "MainWindow|"
 msgid "&New"
-msgstr ""
+msgstr "&Yeni"
 
 #: src/binaries/widget/mainwindow.ui:45
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Open"
 msgctxt "MainWindow|"
 msgid "&Open"
-msgstr "Aç"
+msgstr "&Aç"
 
 #: src/binaries/widget/mainwindow.ui:67
 msgctxt "MainWindow|"
 msgid "Sub-&Windows"
-msgstr ""
+msgstr "Alt &Pencereler"
 
 #: src/binaries/widget/mainwindow.ui:71
 msgctxt "MainWindow|"
 msgid "Reorganize"
-msgstr ""
+msgstr "Yeniden Organize Et"
 
 #: src/binaries/widget/mainwindow.ui:88
 msgctxt "MainWindow|"
 msgid "&Network"
-msgstr ""
+msgstr "&Ağ"
 
 #: src/binaries/widget/mainwindow.ui:100
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Help"
 msgctxt "MainWindow|"
 msgid "&Help"
-msgstr "Yardım"
+msgstr "&Yardım"
 
 #: src/binaries/widget/mainwindow.ui:110
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&Edit"
 msgctxt "MainWindow|"
 msgid "&Edit"
 msgstr "Dü&zen"
@@ -1949,540 +1756,384 @@ msgstr "Dü&zen"
 #: src/binaries/widget/mainwindow.ui:121
 msgctxt "MainWindow|"
 msgid "&GM ToolBoxes"
-msgstr ""
+msgstr "&OG Araç Takımları"
 
 #: src/binaries/widget/mainwindow.ui:126
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "&Campaign"
-msgstr "Sefer Aç"
+msgstr "&Sefer"
 
 #: src/binaries/widget/mainwindow.ui:142
 msgctxt "MainWindow|"
 msgid "&History"
-msgstr ""
+msgstr "&Geçmiş"
 
 #: src/binaries/widget/mainwindow.ui:160
 msgctxt "MainWindow|"
 msgid "toolBar"
-msgstr ""
+msgstr "Araç Çubuğu"
 
 #: src/binaries/widget/mainwindow.ui:176
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Close %1"
 msgctxt "MainWindow|"
 msgid "Close File"
-msgstr "Kapat: %1"
+msgstr "Dosyayı Kapat"
 
 #: src/binaries/widget/mainwindow.ui:179
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+Esc"
-msgstr "Kontrol++"
+msgstr "Kontrol+Vazgeç"
 
 #: src/binaries/widget/mainwindow.ui:188
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Preferences"
 msgctxt "MainWindow|"
 msgid "Preferences…"
-msgstr "Tercihler"
+msgstr "Tercihler…"
 
 #: src/binaries/widget/mainwindow.ui:211
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Table"
 msgctxt "MainWindow|"
 msgid "Tab"
-msgstr "Tablo"
+msgstr "Sekme"
 
 #: src/binaries/widget/mainwindow.ui:214
 msgctxt "MainWindow|"
 msgid "F2"
-msgstr ""
+msgstr "F2"
 
 #: src/binaries/widget/mainwindow.ui:219
 msgctxt "MainWindow|"
 msgid "Cascade"
-msgstr ""
+msgstr "Basamaklandır"
 
 #: src/binaries/widget/mainwindow.ui:222 src/binaries/widget/mainwindow.ui:360
 msgctxt "MainWindow|"
 msgid "Alt+C"
-msgstr ""
+msgstr "Seçenek+C"
 
 #: src/binaries/widget/mainwindow.ui:227
 msgctxt "MainWindow|"
 msgid "Tile"
-msgstr ""
+msgstr "Döşe"
 
 #: src/binaries/widget/mainwindow.ui:230
 msgctxt "MainWindow|"
 msgid "Alt+T"
-msgstr ""
+msgstr "Seçenek+T"
 
 #: src/binaries/widget/mainwindow.ui:235
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Connection"
 msgctxt "MainWindow|"
 msgid "Disconnection…"
-msgstr "Bağlantı"
+msgstr "Bağlantı Kesimi…"
 
 #: src/binaries/widget/mainwindow.ui:240
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Rolisteam Theme: %1"
 msgctxt "MainWindow|"
 msgid "Rolisteam Help"
-msgstr "Rolisteam Teması: %1"
+msgstr "Rolisteam Yardımı"
 
 #: src/binaries/widget/mainwindow.ui:243
 msgctxt "MainWindow|"
 msgid "online documentation"
-msgstr ""
+msgstr "Çevrimiçi Belgelendirme"
 
 #: src/binaries/widget/mainwindow.ui:246
 msgctxt "MainWindow|"
 msgid "F1"
-msgstr ""
+msgstr "F1"
 
 #: src/binaries/widget/mainwindow.ui:255
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Export Rolisteam Theme"
 msgctxt "MainWindow|"
 msgid "About Rolisteam"
-msgstr "Rolisteam Teması Dışa Aktar"
+msgstr "Rolisteam Hakkında"
 
 #: src/binaries/widget/mainwindow.ui:264 src/binaries/widget/mainwindow.ui:288
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "Notes"
 msgctxt "MainWindow|"
 msgid "Note"
-msgstr "Notlar"
+msgstr "Not"
 
 #: src/binaries/widget/mainwindow.ui:276
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Picture"
 msgctxt "MainWindow|"
 msgid "Picture"
 msgstr "Resim"
 
 #: src/binaries/widget/mainwindow.ui:279
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+I"
-msgstr "Kontrol++"
+msgstr "Kontrol+I"
 
 #: src/binaries/widget/mainwindow.ui:291
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+N"
-msgstr "Kontrol++"
+msgstr "Kontrol+Üst Karakter+N"
 
 #: src/binaries/widget/mainwindow.ui:303
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+E"
-msgstr "Kontrol++"
+msgstr "Kontrol+E"
 
 #: src/binaries/widget/mainwindow.ui:312
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Picture"
 msgctxt "MainWindow|"
 msgid "Online Picture"
-msgstr "Resim"
+msgstr "Çevrimiçi Resim"
 
 #: src/binaries/widget/mainwindow.ui:315
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
-msgstr "Kontrol++"
+msgstr "Kontrol+Üst Karakter+I"
 
 #: src/binaries/widget/mainwindow.ui:327
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Player"
 msgctxt "MainWindow|"
 msgid "Audio Player"
-msgstr "Oyuncu"
+msgstr "Ses Çalar"
 
 #: src/binaries/widget/mainwindow.ui:330
 msgctxt "MainWindow|"
 msgid "Alt+A"
-msgstr ""
+msgstr "Seçenek+A"
 
 #: src/binaries/widget/mainwindow.ui:342
-#, fuzzy
-#| msgctxt "SideMenu|"
-#| msgid "Sound Notification"
 msgctxt "MainWindow|"
 msgid "Notification Zone"
-msgstr "Sesli Bildirim"
+msgstr "Bildirim Bölgesi"
 
 #: src/binaries/widget/mainwindow.ui:345
 msgctxt "MainWindow|"
 msgid "Alt+N"
-msgstr ""
+msgstr "Seçenek+N"
 
 #: src/binaries/widget/mainwindow.ui:357
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Characters"
 msgctxt "MainWindow|"
 msgid "Character List"
-msgstr "Karakterler"
+msgstr "Karakter Listesi"
 
 #: src/binaries/widget/mainwindow.ui:368
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "ToolBar"
-msgstr "Araçlar"
+msgstr "Araç Çubuğu"
 
 #: src/binaries/widget/mainwindow.ui:371
 msgctxt "MainWindow|"
 msgid "F8"
-msgstr ""
+msgstr "F8"
 
 #: src/binaries/widget/mainwindow.ui:380 src/binaries/widget/mainwindow.ui:392
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Map"
 msgctxt "MainWindow|"
 msgid "Map"
 msgstr "Harita"
 
 #: src/binaries/widget/mainwindow.ui:383
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
-msgstr "Kontrol++"
+msgstr "Kontrol+M"
 
 #: src/binaries/widget/mainwindow.ui:395
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+M"
-msgstr "Kontrol++"
+msgstr "Kontrol+Üst Karakter+M"
 
 #: src/binaries/widget/mainwindow.ui:403
-#, fuzzy
-#| msgctxt "VmapTopBar|"
-#| msgid "Show/Hide State"
 msgctxt "MainWindow|"
 msgid "Show Health State"
-msgstr "Durumu Göster/Gizle"
+msgstr "Sağlık Durumunu Göster"
 
 #: src/binaries/widget/mainwindow.ui:406
 msgctxt "MainWindow|"
 msgid "F6"
-msgstr ""
+msgstr "F6"
 
 #: src/binaries/widget/mainwindow.ui:411
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Change color…"
 msgctxt "MainWindow|"
 msgid "Change Profile…"
-msgstr "Rengi değiştir…"
+msgstr "Profili Değiştir…"
 
 #: src/binaries/widget/mainwindow.ui:420
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "MainWindow|"
 msgid "Character Sheet"
 msgstr "Karakter Sayfası"
 
 #: src/binaries/widget/mainwindow.ui:423
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
-msgstr "Kontrol++"
+msgstr "Kontrol+U"
 
 #: src/binaries/widget/mainwindow.ui:432
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "Save Campaign"
-msgstr "Sefer Aç"
+msgstr "Seferi Kaydet"
 
 #: src/binaries/widget/mainwindow.ui:443
 msgctxt "MainWindow|"
 msgid "Room List"
-msgstr ""
+msgstr "Oda Listesi"
 
 #: src/binaries/widget/mainwindow.ui:446
 msgctxt "MainWindow|"
 msgid "F10"
-msgstr ""
+msgstr "F10"
 
 #: src/binaries/widget/mainwindow.ui:455 src/binaries/widget/mainwindow.ui:467
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Shared Notes"
 msgctxt "MainWindow|"
 msgid "Shared Note"
-msgstr "Paylaşılan Notlar"
+msgstr "Paylaşılan Not"
 
 #: src/binaries/widget/mainwindow.ui:458
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
-msgstr "Kontrol++"
+msgstr "Kontrol+K"
 
 #: src/binaries/widget/mainwindow.ui:470
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+K"
-msgstr "Kontrol++"
+msgstr "Kontrol+Üst Karakter+K"
 
 #: src/binaries/widget/mainwindow.ui:484
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
-msgstr ""
+msgstr "Kısayol Görüntüleyicisi…"
 
 #: src/binaries/widget/mainwindow.ui:487
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
-msgstr "Kontrol++"
+msgstr "Kontrol+F1"
 
 #: src/binaries/widget/mainwindow.ui:495
 msgctxt "MainWindow|"
 msgid "Full Screen"
-msgstr ""
+msgstr "Tam Ekran"
 
 #: src/binaries/widget/mainwindow.ui:498
 msgctxt "MainWindow|"
 msgid "F11"
-msgstr ""
+msgstr "F11"
 
 #: src/binaries/widget/mainwindow.ui:507
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&File"
 msgctxt "MainWindow|"
 msgid "PDF File"
-msgstr "&Dosya"
+msgstr "PDF Dosyası"
 
 #: src/binaries/widget/mainwindow.ui:515
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Connection"
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
-msgstr "Bağlantı"
+msgstr "Bağlantı Adresini Kopyala…"
 
 #: src/binaries/widget/mainwindow.ui:524
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "WebPage"
 msgctxt "MainWindow|"
 msgid "WebPage"
 msgstr "Web Sayfası"
 
 #: src/binaries/widget/mainwindow.ui:527
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+W"
-msgstr "Kontrol++"
+msgstr "Kontrol+W"
 
 #: src/binaries/widget/mainwindow.ui:532
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Password"
 msgctxt "MainWindow|"
 msgid "Password Generator"
-msgstr "Parola"
+msgstr "Parola Üreteci"
 
 #: src/binaries/widget/mainwindow.ui:537
 msgctxt "MainWindow|"
 msgid "Current Media as…"
-msgstr ""
+msgstr "Geçerli Ortamı Farklı…"
 
 #: src/binaries/widget/mainwindow.ui:554
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
-msgstr ""
+msgstr "Ortam başlığı araç çubuğunda"
 
 #: src/binaries/widget/mainwindow.ui:563 src/binaries/widget/mainwindow.ui:575
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Mindmap"
 msgctxt "MainWindow|"
 msgid "Mindmap"
 msgstr "Akıl Haritası"
 
 #: src/binaries/widget/mainwindow.ui:578
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+O"
-msgstr "Kontrol++"
+msgstr "Kontrol+Üst Karakter+O"
 
 #: src/binaries/widget/mainwindow.ui:590
-#, fuzzy
-#| msgctxt "InstantMessagingView|"
-#| msgid "Instant Messaging"
 msgctxt "MainWindow|"
 msgid "Instant messaging"
-msgstr "Anlık İletileşme"
+msgstr "Anlık iletileşme"
 
 #: src/binaries/widget/mainwindow.ui:593
-#, fuzzy
-#| msgctxt "InstantMessagingView|"
-#| msgid "Instant Messaging"
 msgctxt "MainWindow|"
 msgid "Instant Messaging Window"
-msgstr "Anlık İletileşme"
+msgstr "Anlık İletileşme Penceresi"
 
 #: src/binaries/widget/mainwindow.ui:596
 msgctxt "MainWindow|"
 msgid "Alt+I"
-msgstr ""
+msgstr "Seçenek+I"
 
 #: src/binaries/widget/mainwindow.ui:605
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&Copy"
 msgctxt "MainWindow|"
 msgid "Copy"
-msgstr "Ko&pyala"
+msgstr "Kopyala"
 
 #: src/binaries/widget/mainwindow.ui:608
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+C"
-msgstr "Kontrol++"
+msgstr "Kontrol+C"
 
 #: src/binaries/widget/mainwindow.ui:620
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&Paste"
 msgctxt "MainWindow|"
 msgid "Paste"
-msgstr "&Yapıştır"
+msgstr "Yapıştır"
 
 #: src/binaries/widget/mainwindow.ui:623
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "MainWindow|"
 msgid "Ctrl+V"
-msgstr "Kontrol++"
+msgstr "Kontrol+V"
 
 #: src/binaries/widget/mainwindow.ui:631
-#, fuzzy
-#| msgctxt "TableCanvasField|"
-#| msgid "Properties"
 msgctxt "MainWindow|"
 msgid "Properties"
 msgstr "Özellikler"
 
 #: src/binaries/widget/mainwindow.ui:636
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "MainWindow|"
 msgid "Dice Alias"
-msgstr "Arma"
+msgstr "Zarlar Arması"
 
 #: src/binaries/widget/mainwindow.ui:641
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "MainWindow|"
 msgid "Character States"
-msgstr "Karakter Sayfası"
+msgstr "Karakter Durumları"
 
 #: src/binaries/widget/mainwindow.ui:646
 msgctxt "MainWindow|"
 msgid "Statistics"
-msgstr ""
+msgstr "İstatistikler"
 
 #: src/binaries/widget/mainwindow.ui:651
 msgctxt "MainWindow|"
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: src/binaries/widget/mainwindow.ui:656
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "New Campaign"
-msgstr "Sefer Aç"
+msgstr "Yeni Sefer"
 
 #: src/binaries/widget/mainwindow.ui:661
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "Save Campaign As…"
-msgstr "Sefer Aç"
+msgstr "Seferi Farklı Kaydet…"
 
 #: src/binaries/widget/mainwindow.ui:666
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "All Characters"
 msgctxt "MainWindow|"
 msgid "Non Playable Characters"
-msgstr "Tüm Karakterler"
+msgstr "Oynanamaz Karakterler"
 
 #: src/binaries/widget/mainwindow.ui:671
 msgctxt "MainWindow|"
 msgid "Manage…"
-msgstr ""
+msgstr "Yönet…"
 
 #: src/binaries/widget/mainwindow.ui:676
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Remove"
 msgctxt "MainWindow|"
 msgid "Remove…"
-msgstr "Kaldır"
+msgstr "Kaldır…"
 
 #: src/binaries/widget/mainwindow.ui:681
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Clear"
 msgctxt "MainWindow|"
 msgid "Clean"
 msgstr "Temizle"
@@ -2490,7 +2141,7 @@ msgstr "Temizle"
 #: src/binaries/widget/mainwindow.ui:689
 msgctxt "MainWindow|"
 msgid "Import from another campaign…"
-msgstr ""
+msgstr "Başka Seferden İçe Aktar…"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -2530,7 +2181,7 @@ msgstr "Ad"
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:25
 msgctxt "example|"
 msgid "Prenom"
-msgstr "Birinci Ad"
+msgstr "Birinci ad"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:33
 msgctxt "example|"
@@ -2707,52 +2358,39 @@ msgstr "Günlük dosyaları %1"
 #: src/libraries/common/widgets/logpanel.ui:14
 msgctxt "LogPanel|"
 msgid "Form"
-msgstr ""
+msgstr "Biçim"
 
 #: src/libraries/common/widgets/logpanel.ui:37
 msgctxt "LogPanel|"
 msgid "Level"
-msgstr ""
+msgstr "Düzey"
 
 #: src/libraries/common/widgets/logpanel.ui:45
-#, fuzzy
-#| msgctxt "DrawerMenu|"
-#| msgid ""
-#| "Errors:\n"
-#| "%1"
 msgctxt "LogPanel|"
 msgid "Error"
-msgstr ""
-"Hatalar:\n"
-"%1"
+msgstr "Hata"
 
 #: src/libraries/common/widgets/logpanel.ui:50
 msgctxt "LogPanel|"
 msgid "warning"
-msgstr ""
+msgstr "Uyarı"
 
 #: src/libraries/common/widgets/logpanel.ui:55
 msgctxt "LogPanel|"
 msgid "Info"
-msgstr ""
+msgstr "Bilgi"
 
 #: src/libraries/common/widgets/logpanel.ui:60
 msgctxt "LogPanel|"
 msgid "Debug"
-msgstr ""
+msgstr "Hata Ayıkla"
 
 #: src/libraries/common/widgets/logpanel.ui:104
-#, fuzzy
-#| msgctxt "ColorSelector|"
-#| msgid "Erase"
 msgctxt "LogPanel|"
 msgid "Erase All"
-msgstr "Sil"
+msgstr "Tümünü Sil"
 
 #: src/libraries/common/widgets/logpanel.ui:113
-#, fuzzy
-#| msgctxt "MindMenu|"
-#| msgid "Save"
 msgctxt "LogPanel|"
 msgid "Save"
 msgstr "Kaydet"
@@ -2760,7 +2398,7 @@ msgstr "Kaydet"
 #: src/libraries/common/widgets/logpanel.ui:116
 msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
-msgstr ""
+msgstr "Bu dosyayı Rolisteam geliştiricilerine sağlayın"
 
 #: src/libraries/core/src/controller/contentcontroller.cpp:359
 msgctxt "ContentController|"
@@ -3980,25 +3618,19 @@ msgid "Sound Notification"
 msgstr "Sesli Bildirim"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:47
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Selection"
 msgctxt "SideMenu|"
 msgid "Select Font…"
-msgstr "Seçim"
+msgstr "Yazıtipi Seç…"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:54
 msgctxt "SideMenu|"
 msgid "Font Family:"
-msgstr ""
+msgstr "Yazıtipi ailesi:"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:60
-#, fuzzy
-#| msgctxt "SideMenu|"
-#| msgid "Font size"
 msgctxt "SideMenu|"
 msgid "Font size:"
-msgstr "Yazıtipi boyutu"
+msgstr "Yazıtipi boyutu:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:72
 msgctxt "ConnectionForm|"
@@ -4281,44 +3913,32 @@ msgstr "Çalma Listesini Kaydet"
 #: src/libraries/rwidgets/customs/playerwidget.ui:57
 msgctxt "PlayerWidgetUI|"
 msgid "muted"
-msgstr ""
+msgstr "Sessize Alındı"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:120
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Play"
 msgctxt "PlayerWidgetUI|"
 msgid "Play"
 msgstr "Çal"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:142
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Pause"
 msgctxt "PlayerWidgetUI|"
 msgid "Pause"
 msgstr "Duraklat"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:164
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Stop"
 msgctxt "PlayerWidgetUI|"
 msgid "Stop"
 msgstr "Durdur"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:183
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Shuffle Mode"
 msgctxt "PlayerWidgetUI|"
 msgid "unique Mode"
-msgstr "Karıştır Kipi"
+msgstr "Benzersiz Kip"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:199
 msgctxt "PlayerWidgetUI|"
 msgid "repeat"
-msgstr ""
+msgstr "Yinele"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -4713,22 +4333,19 @@ msgid "Translators"
 msgstr "Çevirmenler"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Export Rolisteam Theme"
 msgctxt "AboutRolisteam|"
 msgid "About Rolisteam"
-msgstr "Rolisteam Teması Dışa Aktar"
+msgstr "Rolisteam Hakkında"
 
 #: src/libraries/rwidgets/dialogs/campaignintegritydialog.ui:17
 msgctxt "CampaignIntegrityDialog|"
 msgid "Integrity Check"
-msgstr ""
+msgstr "Bütünlülük Denetimi"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:39
 msgctxt "CampaignProperties|"
 msgid "Campaign Properties"
-msgstr "Sefer Özellikler"
+msgstr "Sefer Özellikleri"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:67
 #, qt-format
@@ -4741,33 +4358,27 @@ msgstr[1] "%n dosya"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:14
 msgctxt "CampaignProperties|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:24
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "CampaignProperties|"
 msgid "Dice Alias"
-msgstr "Arma"
+msgstr "Zarlar Arması"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:34
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Init Command"
 msgctxt "CampaignProperties|"
 msgid "Dice Command"
-msgstr "Başlangıç Komutu"
+msgstr "Zarlar Komutu"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:64
 msgctxt "CampaignProperties|"
 msgid "Test"
-msgstr ""
+msgstr "Sınama"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:75
 msgctxt "CampaignProperties|"
 msgid "Converted"
-msgstr ""
+msgstr "Dönüştürüldü"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:124
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:127
@@ -4775,15 +4386,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:249
 msgctxt "CampaignProperties|"
 msgid "Add"
-msgstr ""
+msgstr "Ekle"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:138
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:141
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:260
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:263
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Delete"
 msgctxt "CampaignProperties|"
 msgid "Delete"
 msgstr "Sil"
@@ -4794,15 +4402,12 @@ msgstr "Sil"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:277
 msgctxt "CampaignProperties|"
 msgid "Top"
-msgstr ""
+msgstr "Üst"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:166
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:169
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:288
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:291
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Up"
 msgctxt "CampaignProperties|"
 msgid "Up"
 msgstr "Yukarı"
@@ -4811,9 +4416,6 @@ msgstr "Yukarı"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:183
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:302
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:305
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Down"
 msgctxt "CampaignProperties|"
 msgid "Down"
 msgstr "Aşağı"
@@ -4822,62 +4424,44 @@ msgstr "Aşağı"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:197
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:316
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:319
-#, fuzzy
-#| msgctxt "AlignmentDelegate|"
-#| msgid "BottomLeft"
 msgctxt "CampaignProperties|"
 msgid "Bottom"
-msgstr "SolAlt"
+msgstr "Alt"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:226
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "CampaignProperties|"
 msgid "Character States"
-msgstr "Karakter Sayfası"
+msgstr "Karakter Durumlar"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:348
-#, fuzzy
-#| msgctxt "TableCanvasField|"
-#| msgid "Properties"
 msgctxt "CampaignProperties|"
 msgid "Properties"
 msgstr "Özellikler"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:358
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "CampaignProperties|"
 msgid "Name:"
 msgstr "Ad:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:368
-#, fuzzy
-#| msgctxt "MediaModel|"
-#| msgid "Directory"
 msgctxt "CampaignProperties|"
 msgid "Root Directory:"
-msgstr "Dizin"
+msgstr "Kök dizin:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:378
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "File Actions"
 msgctxt "CampaignProperties|"
 msgid "File count:"
-msgstr "Dosya Eylemleri"
+msgstr "Dosya sayısı:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:392
 msgctxt "CampaignProperties|"
 msgid "Disk usage:"
-msgstr ""
+msgstr "Disk kullanımı:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:406
 msgctxt "CampaignProperties|"
 msgid "Theme*:"
-msgstr ""
+msgstr "Tema:"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -4886,33 +4470,27 @@ msgid "Connection has failed! Connection Retry in %1s."
 msgstr "Bağlantı başarısız! %1 sn içinde yeniden denenecek."
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Connection lost"
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection Retry"
-msgstr "Bağlantı kesildi"
+msgstr "Bağlantıyı Yeniden Dene"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:14
 msgctxt "HistoryViewerDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:27
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:34
 msgctxt "HistoryViewerDialog|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:71
 msgctxt "HistoryViewerDialog|"
 msgid "Add"
-msgstr ""
+msgstr "Ekle"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:79
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Remove"
 msgctxt "HistoryViewerDialog|"
 msgid "remove"
 msgstr "Kaldır"
@@ -4923,17 +4501,11 @@ msgid "Open Image file"
 msgstr "Görsel Dosyası Aç"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "ImageSelectorDialog|"
 msgid "Open Image"
 msgstr "Görsel Aç"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:23
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Address:"
 msgctxt "ImageSelectorDialog|"
 msgid "Address:"
 msgstr "Adres:"
@@ -4941,60 +4513,45 @@ msgstr "Adres:"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:30
 msgctxt "ImageSelectorDialog|"
 msgid "http://… https://… c:\\… /home/…"
-msgstr ""
+msgstr "http://… https://… c:\\… /home/…"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:45
 msgctxt "ImageSelectorDialog|"
 msgid "download"
-msgstr ""
+msgstr "İndir"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:62
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:79
 msgctxt "ImageSelectorDialog|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
-#, fuzzy
-#| msgctxt "MusicModel|"
-#| msgid "Title"
 msgctxt "ImageSelectorDialog|"
 msgid "Title:"
-msgstr "Başlık"
+msgstr "Başlık:"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:169
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Down"
 msgctxt "ImageSelectorDialog|"
 msgid "Download"
-msgstr "Aşağı"
+msgstr "İndir"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:181
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&Paste"
 msgctxt "ImageSelectorDialog|"
 msgid "Paste"
-msgstr "&Yapıştır"
+msgstr "Yapıştır"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:184
 msgctxt "ImageSelectorDialog|"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Panodan Yapıştır"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:187
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "ImageSelectorDialog|"
 msgid "Ctrl+V"
-msgstr "Kontrol++"
+msgstr "Kontrol+V"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:199
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Open File"
 msgctxt "ImageSelectorDialog|"
 msgid "OpenFile"
 msgstr "Dosya Aç"
@@ -5002,79 +4559,64 @@ msgstr "Dosya Aç"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:202
 msgctxt "ImageSelectorDialog|"
 msgid "Open file from your hard drive"
-msgstr ""
+msgstr "Sabit diskinizden bir dosya açın"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:14
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:22
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Source Campaign"
-msgstr "Sefer Aç"
+msgstr "Sefer Al"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Browse…"
-msgstr ""
+msgstr "Göz At…"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:55
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Data to Import"
-msgstr ""
+msgstr "İçe Aktarılacak Veri"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:61
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Mindmap"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Mindmaps"
-msgstr "Akıl Haritası"
+msgstr "Akıl Haritaları"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:68
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Maps"
-msgstr ""
+msgstr "Haritalar"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:75
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Images"
-msgstr "Görsel"
+msgstr "Görseller"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:82
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dice Alias"
-msgstr "Arma"
+msgstr "Zarlar Arması"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:89
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:96
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 2"
-msgstr ""
+msgstr "Ses çalar çalma listesi 2"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:103
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 3"
-msgstr ""
+msgstr "Ses çalar çalma listesi 3"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:110
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "Notes"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Notes"
 msgstr "Notlar"
@@ -5082,76 +4624,52 @@ msgstr "Notlar"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:117
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 1"
-msgstr ""
+msgstr "Ses çalar çalma listesi 1"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:124
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Antagonist Table"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Antagonist list"
-msgstr "Rakip Tablosu"
+msgstr "Rakip listesi"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:131
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character sheets"
-msgstr "Karakter Sayfası"
+msgstr "Karakter sayfaları"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:138
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Character Sheet"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character States"
-msgstr "Karakter Sayfası"
+msgstr "Karakter durumları"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:145
-#, fuzzy
-#| msgctxt "MRichTextEdit|"
-#| msgid "Edit document source"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Pdf documents"
-msgstr "Belge kaynağını düzenle"
+msgstr "PDF belgeleri"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:152
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid "Web Sites:"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Web links"
-msgstr "Web Sayfaları:"
+msgstr "Web bağlantıları"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:14
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Password"
 msgctxt "KeyGeneratorDialog|"
 msgid "Password Generator"
-msgstr "Parola"
+msgstr "Parola Üreteci"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:29
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Password"
 msgctxt "KeyGeneratorDialog|"
 msgid "Password"
 msgstr "Parola"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:36
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Temperature"
 msgctxt "KeyGeneratorDialog|"
 msgid "Generate"
-msgstr "Sıcaklık"
+msgstr "Üret"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:51
 msgctxt "KeyGeneratorDialog|"
 msgid "Copy/Paste result into server configuration file."
-msgstr ""
+msgstr "Sonucu, sunucu yapılandırma dosyasına kopyalayın/yapıştırın."
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
 msgctxt "NewFileDialog|"
@@ -5171,28 +4689,19 @@ msgstr "Akıl Haritası"
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:14
 msgctxt "NewFileDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:22
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "NewFileDialog|"
 msgid "Name:"
 msgstr "Ad:"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:32
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "NewFileDialog|"
 msgid "Path"
 msgstr "Yol"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:42
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Type"
 msgctxt "NewFileDialog|"
 msgid "Type"
 msgstr "Tür"
@@ -5200,28 +4709,19 @@ msgstr "Tür"
 #: src/libraries/rwidgets/dialogs/persondialog.ui:14
 msgctxt "PersonDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:40
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Avatar"
 msgctxt "PersonDialog|"
 msgid "Avatar…"
-msgstr "Avatar"
+msgstr "Avatar…"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:55
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Name:"
 msgctxt "PersonDialog|"
 msgid "Name:"
 msgstr "Ad:"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:62
-#, fuzzy
-#| msgctxt "PersonEdit|"
-#| msgid "Color:"
 msgctxt "PersonDialog|"
 msgid "Color:"
 msgstr "Renk:"
@@ -5308,82 +4808,67 @@ msgstr "Yeni dizin ekle"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:14
 msgctxt "PreferencesDialogBox|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:27
 msgctxt "PreferencesDialogBox|"
 msgid "General"
-msgstr ""
+msgstr "Genel"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:33
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Map"
 msgctxt "PreferencesDialogBox|"
 msgid "Map"
 msgstr "Harita"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:41
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Fog Of War"
 msgctxt "PreferencesDialogBox|"
 msgid "Fog Of War:"
-msgstr "Savaş Sisi"
+msgstr "Savaş sisi:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:72
-#, fuzzy
-#| msgctxt "MapWizzardDialog|"
-#| msgid "All Permissions"
 msgctxt "PreferencesDialogBox|"
 msgid "Default Map Permission:"
-msgstr "Tüm İzinler"
+msgstr "Öntanımlı harita izinleri:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:99
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Opacity:"
 msgctxt "PreferencesDialogBox|"
 msgid "Opacity Value:"
-msgstr "Matlık:"
+msgstr "Matlık değeri:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:135
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Highlighter"
 msgctxt "PreferencesDialogBox|"
 msgid "Item Highlight Color"
-msgstr "Vurgulayıcı"
+msgstr "Öge Vurgulama Rengi"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:166
 msgctxt "PreferencesDialogBox|"
 msgid "Pen Width Highlight:"
-msgstr ""
+msgstr "Vurgulu kalem:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:180
 msgctxt "PreferencesDialogBox|"
 msgid "Only apply on future maps."
-msgstr ""
+msgstr "Yalnızca gelecekteki haritalara uygulanır."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:190
 msgctxt "PreferencesDialogBox|"
 msgid "Behaviour"
-msgstr ""
+msgstr "Davranış"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:196
 msgctxt "PreferencesDialogBox|"
 msgid "Check for Update"
-msgstr ""
+msgstr "Güncellemeleri Denetle"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:206
 msgctxt "PreferencesDialogBox|"
 msgid "Don't show \"Tips of the day\""
-msgstr ""
+msgstr "\"Günün ipucu\"nu gösterme"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:213
 msgctxt "PreferencesDialogBox|"
 msgid "Full Screen at launch"
-msgstr ""
+msgstr "Başlangıçta tam ekran"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:222
 msgctxt "PreferencesDialogBox|"
