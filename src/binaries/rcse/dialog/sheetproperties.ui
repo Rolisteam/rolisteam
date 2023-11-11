@@ -57,7 +57,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Additionnal Import:</string>
+        <string>Additional Import:</string>
        </property>
       </widget>
      </item>
@@ -91,7 +91,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Additionnal Head Code:</string>
+        <string>Additional Head Code:</string>
        </property>
       </widget>
      </item>
@@ -118,7 +118,7 @@
      <item>
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Additionnal Bottom Code:</string>
+        <string>Additional Bottom Code:</string>
        </property>
       </widget>
      </item>
