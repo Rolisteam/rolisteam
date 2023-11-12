@@ -503,18 +503,27 @@ msgid "Default scale:"
 msgstr "Öntanımlı ölçek:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Import:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Import:"
+msgid "Additional Import:"
 msgstr "Ek içe aktarma:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Head Code:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Head Code:"
+msgid "Additional Head Code:"
 msgstr "Ek üst kodu:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Bottom Code:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Bottom Code:"
+msgid "Additional Bottom Code:"
 msgstr "Ek alt kodu:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146

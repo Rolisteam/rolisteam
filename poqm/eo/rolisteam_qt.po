@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2023-11-08 06:20+0100\n"
+"PO-Revision-Date: 2023-11-11 07:38+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -280,6 +280,12 @@ msgid ""
 "CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
 "\">wiki.rolisteam.org</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Redaktilo de "
+"Signfolio de Rolisteam</span></p><p><br/></p><p>Ĉi tiu programaro estas "
+"dediĉita por krei signon por Rolisteam v1.8 kaj pli. <br/>Bonvolu kontroli "
+"la dokumentadon ĉe: <a href=\"http://wiki.rolisteam.org/index.php/En:"
+"CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
+"\">wiki.rolisteam.org</span></a></p></body></html>"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:33
 msgctxt "AboutRcse|"
@@ -317,6 +323,38 @@ msgid ""
 "family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec (english and "
 "french)</span></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">Aŭtoro:</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">Tradukistoj:</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec (angla kaj franca)</"
+"span></p></body></html>"
 
 #: src/binaries/rcse/dialog/codeeditordialog.ui:14
 msgctxt "CodeEditorDialog|"
@@ -331,22 +369,22 @@ msgstr "Tabelo Propraĵoj"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:14
 msgctxt "ColumnDefinitionDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:24
 msgctxt "ColumnDefinitionDialog|"
 msgid "Line Count:"
-msgstr ""
+msgstr "Linia Nombro:"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:34
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Count:"
-msgstr ""
+msgstr "Nombro da Kolumnoj:"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:44
 msgctxt "ColumnDefinitionDialog|"
 msgid "Control Position"
-msgstr ""
+msgstr "Rega Pozicio"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:52
 msgctxt "ColumnDefinitionDialog|"
@@ -356,7 +394,7 @@ msgstr "MaldekstreSupre"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:57
 msgctxt "ColumnDefinitionDialog|"
 msgid "LeftBottom"
-msgstr ""
+msgstr "Maldekstre Malsupre"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:62
 msgctxt "ColumnDefinitionDialog|"
@@ -391,7 +429,7 @@ msgstr "DekstreMalsupre"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:112
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Definition:"
-msgstr ""
+msgstr "Kolumna Difino:"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
@@ -406,17 +444,17 @@ msgstr "PDF-dosieroj (*.pdf)"
 #: src/binaries/rcse/dialog/pdfmanager.ui:14
 msgctxt "PdfManager|"
 msgid "Export PDF background Dialog"
-msgstr ""
+msgstr "Eksporti PDF-fonan Dialogon"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:26
 msgctxt "PdfManager|"
 msgid "Pdf path"
-msgstr ""
+msgstr "Pdf vojo"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:36
 msgctxt "PdfManager|"
 msgid "Browse"
-msgstr ""
+msgstr "Foliumi"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:49
 msgctxt "PdfManager|"
@@ -436,7 +474,7 @@ msgstr "Alteco: "
 #: src/binaries/rcse/dialog/pdfmanager.ui:109
 msgctxt "PdfManager|"
 msgid "Grayscale"
-msgstr ""
+msgstr "Grizskalo"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:118
 #: src/binaries/rcse/dialog/pdfmanager.ui:130
@@ -470,30 +508,39 @@ msgid "Default scale:"
 msgstr "Defaŭlta skalo:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Import:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Import:"
-msgstr ""
+msgid "Additional Import:"
+msgstr "Plia Importo:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Head Code:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Head Code:"
-msgstr ""
+msgid "Additional Head Code:"
+msgstr "Plia Ĉefkodo:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Bottom Code:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Bottom Code:"
-msgstr ""
+msgid "Additional Bottom Code:"
+msgstr "Plia Malsupra Kodo:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146
 msgctxt "SheetProperties|"
 msgid "Embedded Fonts:"
-msgstr ""
+msgstr "Enkorpigitaj Tiparoj:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:157
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
 msgctxt "SheetProperties|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -879,7 +926,7 @@ msgstr "Redaktilo"
 #: src/binaries/rcse/mainwindow_rcse.ui:47
 msgctxt "MainWindow|"
 msgid "Items"
-msgstr ""
+msgstr "Eroj"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:59
 #: src/binaries/rcse/mainwindow_rcse.ui:870
@@ -947,7 +994,7 @@ msgstr "Bildo"
 #: src/binaries/rcse/mainwindow_rcse.ui:736
 msgctxt "MainWindow|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:380
 #: src/binaries/rcse/mainwindow_rcse.ui:1130
@@ -996,7 +1043,7 @@ msgstr "Forigi Paĝon"
 #: src/binaries/rcse/mainwindow_rcse.ui:570
 msgctxt "MainWindow|"
 msgid "Scale:"
-msgstr ""
+msgstr "Skalo:"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:617
 msgctxt "MainWindow|"
@@ -1058,7 +1105,7 @@ msgstr "Ctrl+Shift+S"
 #: src/binaries/rcse/mainwindow_rcse.ui:847
 msgctxt "MainWindow|"
 msgid "New"
-msgstr ""
+msgstr "Nova"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:850
 #: src/binaries/widget/mainwindow.ui:267
@@ -1101,7 +1148,7 @@ msgstr "Ŝargi Vidon"
 #: src/binaries/rcse/mainwindow_rcse.ui:918
 msgctxt "MainWindow|"
 msgid "Generate Code and Sheet"
-msgstr ""
+msgstr "Generi Kodon kaj Folion"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:921
 msgctxt "MainWindow|"
@@ -1111,7 +1158,7 @@ msgstr "Ctrl+R"
 #: src/binaries/rcse/mainwindow_rcse.ui:930
 msgctxt "MainWindow|"
 msgid "Code To Sheet"
-msgstr ""
+msgstr "Kodo Al Folio"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
 #: src/binaries/widget/mainwindow.ui:510
@@ -1122,7 +1169,7 @@ msgstr "Ctrl+D"
 #: src/binaries/rcse/mainwindow_rcse.ui:986
 msgctxt "MainWindow|"
 msgid "Set image background…"
-msgstr ""
+msgstr "Agordi bildan fonon…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1007
 msgctxt "MainWindow|"
@@ -1159,7 +1206,7 @@ msgstr "Funkcia Butono"
 #: src/binaries/rcse/mainwindow_rcse.ui:1059
 msgctxt "MainWindow|"
 msgid "Hide/Show icon in Editor"
-msgstr ""
+msgstr "Kaŝi/Montri piktogramon en Redaktoro"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1068
 msgctxt "MainWindow|"
@@ -1174,7 +1221,7 @@ msgstr "Forigi Bildon"
 #: src/binaries/rcse/mainwindow_rcse.ui:1082
 msgctxt "MainWindow|"
 msgid "Check Validity"
-msgstr ""
+msgstr "Kontroli Validecon"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
 #: src/binaries/widget/mainwindow.ui:479 src/binaries/widget/mainwindow.ui:546
@@ -1190,7 +1237,7 @@ msgstr "Eksporti kiel PDF"
 #: src/binaries/rcse/mainwindow_rcse.ui:1159
 msgctxt "MainWindow|"
 msgid "Recent file 1"
-msgstr ""
+msgstr "Lastatempa dosiero 1"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1206
 msgctxt "MainWindow|"
@@ -1210,7 +1257,7 @@ msgstr "Importi el PDF"
 #: src/binaries/rcse/mainwindow_rcse.ui:1241
 msgctxt "MainWindow|"
 msgid "Hidden Field (for intermediate calculations)"
-msgstr ""
+msgstr "Kaŝa Kampo (por mezaj kalkuloj)"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:36
 msgctxt "PreferencesDialog|"
@@ -1225,7 +1272,7 @@ msgstr "Loko por konservi Generatajn dosierojn"
 #: src/binaries/rcse/preferences/preferencesdialog.ui:14
 msgctxt "PreferencesDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:20
 msgctxt "PreferencesDialog|"
@@ -1235,7 +1282,7 @@ msgstr "QML-generacio"
 #: src/binaries/rcse/preferences/preferencesdialog.ui:26
 msgctxt "PreferencesDialog|"
 msgid "Custom path"
-msgstr ""
+msgstr "Propra vojo"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:35
 msgctxt "PreferencesDialog|"
@@ -1415,7 +1462,7 @@ msgstr "Agordi proprecon ĉe ĉiuj signoj: %1"
 #: src/binaries/rcse/widgets/codeedit.ui:14
 msgctxt "CodeEdit|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
@@ -1688,7 +1735,7 @@ msgstr "&Dosiero"
 #: src/binaries/widget/mainwindow.ui:36
 msgctxt "MainWindow|"
 msgid "&New"
-msgstr ""
+msgstr "&Nova"
 
 #: src/binaries/widget/mainwindow.ui:45
 msgctxt "MainWindow|"
@@ -1698,17 +1745,17 @@ msgstr "&Malfermi"
 #: src/binaries/widget/mainwindow.ui:67
 msgctxt "MainWindow|"
 msgid "Sub-&Windows"
-msgstr ""
+msgstr "Sub-&Fenestroj"
 
 #: src/binaries/widget/mainwindow.ui:71
 msgctxt "MainWindow|"
 msgid "Reorganize"
-msgstr ""
+msgstr "Reorganizi"
 
 #: src/binaries/widget/mainwindow.ui:88
 msgctxt "MainWindow|"
 msgid "&Network"
-msgstr ""
+msgstr "&Reto"
 
 #: src/binaries/widget/mainwindow.ui:100
 msgctxt "MainWindow|"
@@ -1723,7 +1770,7 @@ msgstr "&Redakti"
 #: src/binaries/widget/mainwindow.ui:121
 msgctxt "MainWindow|"
 msgid "&GM ToolBoxes"
-msgstr ""
+msgstr "&GM Ilarkestoj"
 
 #: src/binaries/widget/mainwindow.ui:126
 msgctxt "MainWindow|"
@@ -1733,12 +1780,12 @@ msgstr "&Kampanjo"
 #: src/binaries/widget/mainwindow.ui:142
 msgctxt "MainWindow|"
 msgid "&History"
-msgstr ""
+msgstr "&Historio"
 
 #: src/binaries/widget/mainwindow.ui:160
 msgctxt "MainWindow|"
 msgid "toolBar"
-msgstr ""
+msgstr "iloBreto"
 
 #: src/binaries/widget/mainwindow.ui:176
 msgctxt "MainWindow|"
@@ -1763,27 +1810,27 @@ msgstr "Tab"
 #: src/binaries/widget/mainwindow.ui:214
 msgctxt "MainWindow|"
 msgid "F2"
-msgstr ""
+msgstr "F2"
 
 #: src/binaries/widget/mainwindow.ui:219
 msgctxt "MainWindow|"
 msgid "Cascade"
-msgstr ""
+msgstr "Kaskado"
 
 #: src/binaries/widget/mainwindow.ui:222 src/binaries/widget/mainwindow.ui:360
 msgctxt "MainWindow|"
 msgid "Alt+C"
-msgstr ""
+msgstr "Alt+C"
 
 #: src/binaries/widget/mainwindow.ui:227
 msgctxt "MainWindow|"
 msgid "Tile"
-msgstr ""
+msgstr "Kahelo"
 
 #: src/binaries/widget/mainwindow.ui:230
 msgctxt "MainWindow|"
 msgid "Alt+T"
-msgstr ""
+msgstr "Alt+T"
 
 #: src/binaries/widget/mainwindow.ui:235
 msgctxt "MainWindow|"
@@ -1798,12 +1845,12 @@ msgstr "Rolisteam Helpo"
 #: src/binaries/widget/mainwindow.ui:243
 msgctxt "MainWindow|"
 msgid "online documentation"
-msgstr ""
+msgstr "interreta dokumentado"
 
 #: src/binaries/widget/mainwindow.ui:246
 msgctxt "MainWindow|"
 msgid "F1"
-msgstr ""
+msgstr "F1"
 
 #: src/binaries/widget/mainwindow.ui:255
 msgctxt "MainWindow|"
@@ -1853,7 +1900,7 @@ msgstr "Audio Player"
 #: src/binaries/widget/mainwindow.ui:330
 msgctxt "MainWindow|"
 msgid "Alt+A"
-msgstr ""
+msgstr "Alt+A"
 
 #: src/binaries/widget/mainwindow.ui:342
 msgctxt "MainWindow|"
@@ -1863,7 +1910,7 @@ msgstr "Sciiga Zono"
 #: src/binaries/widget/mainwindow.ui:345
 msgctxt "MainWindow|"
 msgid "Alt+N"
-msgstr ""
+msgstr "Alt+N"
 
 #: src/binaries/widget/mainwindow.ui:357
 msgctxt "MainWindow|"
@@ -1878,7 +1925,7 @@ msgstr "Ilobreto"
 #: src/binaries/widget/mainwindow.ui:371
 msgctxt "MainWindow|"
 msgid "F8"
-msgstr ""
+msgstr "F8"
 
 #: src/binaries/widget/mainwindow.ui:380 src/binaries/widget/mainwindow.ui:392
 msgctxt "MainWindow|"
@@ -1903,7 +1950,7 @@ msgstr "Montri Sanostaton"
 #: src/binaries/widget/mainwindow.ui:406
 msgctxt "MainWindow|"
 msgid "F6"
-msgstr ""
+msgstr "F6"
 
 #: src/binaries/widget/mainwindow.ui:411
 msgctxt "MainWindow|"
@@ -1928,12 +1975,12 @@ msgstr "Konservi Kampanjon"
 #: src/binaries/widget/mainwindow.ui:443
 msgctxt "MainWindow|"
 msgid "Room List"
-msgstr ""
+msgstr "Listo de Ĉambroj"
 
 #: src/binaries/widget/mainwindow.ui:446
 msgctxt "MainWindow|"
 msgid "F10"
-msgstr ""
+msgstr "F10"
 
 #: src/binaries/widget/mainwindow.ui:455 src/binaries/widget/mainwindow.ui:467
 msgctxt "MainWindow|"
@@ -1953,7 +2000,7 @@ msgstr "Ctrl+Shift+K"
 #: src/binaries/widget/mainwindow.ui:484
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
-msgstr ""
+msgstr "Ŝparvoja Vidilo…"
 
 #: src/binaries/widget/mainwindow.ui:487
 msgctxt "MainWindow|"
@@ -1963,12 +2010,12 @@ msgstr "Ctrl+F1"
 #: src/binaries/widget/mainwindow.ui:495
 msgctxt "MainWindow|"
 msgid "Full Screen"
-msgstr ""
+msgstr "Plenekrana"
 
 #: src/binaries/widget/mainwindow.ui:498
 msgctxt "MainWindow|"
 msgid "F11"
-msgstr ""
+msgstr "F11"
 
 #: src/binaries/widget/mainwindow.ui:507
 msgctxt "MainWindow|"
@@ -1998,12 +2045,12 @@ msgstr "Pasvorta Generatoro"
 #: src/binaries/widget/mainwindow.ui:537
 msgctxt "MainWindow|"
 msgid "Current Media as…"
-msgstr ""
+msgstr "Aktuala Aŭdvidaĵo kiel…"
 
 #: src/binaries/widget/mainwindow.ui:554
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
-msgstr ""
+msgstr "Aŭdvidaĵa titolo en ilobreto"
 
 #: src/binaries/widget/mainwindow.ui:563 src/binaries/widget/mainwindow.ui:575
 msgctxt "MainWindow|"
@@ -2028,7 +2075,7 @@ msgstr "Tujmesaĝa Fenestro"
 #: src/binaries/widget/mainwindow.ui:596
 msgctxt "MainWindow|"
 msgid "Alt+I"
-msgstr ""
+msgstr "Alt+I"
 
 #: src/binaries/widget/mainwindow.ui:605
 msgctxt "MainWindow|"
@@ -2068,12 +2115,12 @@ msgstr "Signaj statoj"
 #: src/binaries/widget/mainwindow.ui:646
 msgctxt "MainWindow|"
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiko"
 
 #: src/binaries/widget/mainwindow.ui:651
 msgctxt "MainWindow|"
 msgid "Theme"
-msgstr ""
+msgstr "Etoso"
 
 #: src/binaries/widget/mainwindow.ui:656
 msgctxt "MainWindow|"
@@ -2093,7 +2140,7 @@ msgstr "Ne Ludeblaj Signoj"
 #: src/binaries/widget/mainwindow.ui:671
 msgctxt "MainWindow|"
 msgid "Manage…"
-msgstr ""
+msgstr "Administri…"
 
 #: src/binaries/widget/mainwindow.ui:676
 msgctxt "MainWindow|"
@@ -2108,7 +2155,7 @@ msgstr "Purigi"
 #: src/binaries/widget/mainwindow.ui:689
 msgctxt "MainWindow|"
 msgid "Import from another campaign…"
-msgstr ""
+msgstr "Importi el alia kampanjo…"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -2325,12 +2372,12 @@ msgstr "Protokoldosieroj %1"
 #: src/libraries/common/widgets/logpanel.ui:14
 msgctxt "LogPanel|"
 msgid "Form"
-msgstr ""
+msgstr "Formo"
 
 #: src/libraries/common/widgets/logpanel.ui:37
 msgctxt "LogPanel|"
 msgid "Level"
-msgstr ""
+msgstr "Nivelo"
 
 #: src/libraries/common/widgets/logpanel.ui:45
 msgctxt "LogPanel|"
@@ -2340,17 +2387,17 @@ msgstr "Eraro"
 #: src/libraries/common/widgets/logpanel.ui:50
 msgctxt "LogPanel|"
 msgid "warning"
-msgstr ""
+msgstr "averto"
 
 #: src/libraries/common/widgets/logpanel.ui:55
 msgctxt "LogPanel|"
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/libraries/common/widgets/logpanel.ui:60
 msgctxt "LogPanel|"
 msgid "Debug"
-msgstr ""
+msgstr "Sencimigi"
 
 #: src/libraries/common/widgets/logpanel.ui:104
 msgctxt "LogPanel|"
@@ -2365,7 +2412,7 @@ msgstr "Konservi"
 #: src/libraries/common/widgets/logpanel.ui:116
 msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
-msgstr ""
+msgstr "Provizi ĉi tiun dosieron al programistoj de Rolisteam"
 
 #: src/libraries/core/src/controller/contentcontroller.cpp:359
 msgctxt "ContentController|"
@@ -3593,7 +3640,7 @@ msgstr "Elekti tiparon…"
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:54
 msgctxt "SideMenu|"
 msgid "Font Family:"
-msgstr ""
+msgstr "Tiparfamilio:"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:60
 msgctxt "SideMenu|"
@@ -3881,7 +3928,7 @@ msgstr "Konservi Ludan Liston"
 #: src/libraries/rwidgets/customs/playerwidget.ui:57
 msgctxt "PlayerWidgetUI|"
 msgid "muted"
-msgstr ""
+msgstr "silentigita"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:120
 msgctxt "PlayerWidgetUI|"
@@ -3906,7 +3953,7 @@ msgstr "unika Reĝimo"
 #: src/libraries/rwidgets/customs/playerwidget.ui:199
 msgctxt "PlayerWidgetUI|"
 msgid "repeat"
-msgstr ""
+msgstr "ripeti"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -4308,7 +4355,7 @@ msgstr "Pri Rolisteam"
 #: src/libraries/rwidgets/dialogs/campaignintegritydialog.ui:17
 msgctxt "CampaignIntegrityDialog|"
 msgid "Integrity Check"
-msgstr ""
+msgstr "Kontrolo de Integreco"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:39
 msgctxt "CampaignProperties|"
@@ -4326,7 +4373,7 @@ msgstr[1] "%n dosiero(j)"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:14
 msgctxt "CampaignProperties|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:24
 msgctxt "CampaignProperties|"
@@ -4341,12 +4388,12 @@ msgstr "Ĵetkubo-Komando"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:64
 msgctxt "CampaignProperties|"
 msgid "Test"
-msgstr ""
+msgstr "Testo"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:75
 msgctxt "CampaignProperties|"
 msgid "Converted"
-msgstr ""
+msgstr "Konvertita"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:124
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:127
@@ -4354,7 +4401,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:249
 msgctxt "CampaignProperties|"
 msgid "Add"
-msgstr ""
+msgstr "Aldoni"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:138
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:141
@@ -4370,7 +4417,7 @@ msgstr "Forigi"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:277
 msgctxt "CampaignProperties|"
 msgid "Top"
-msgstr ""
+msgstr "Supre"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:166
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:169
@@ -4424,12 +4471,12 @@ msgstr "Dosiera nombro:"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:392
 msgctxt "CampaignProperties|"
 msgid "Disk usage:"
-msgstr ""
+msgstr "Diska uzado:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:406
 msgctxt "CampaignProperties|"
 msgid "Theme*:"
-msgstr ""
+msgstr "Etoso*:"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -4445,18 +4492,18 @@ msgstr "Konekto-Reprovo"
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:14
 msgctxt "HistoryViewerDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:27
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:34
 msgctxt "HistoryViewerDialog|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:71
 msgctxt "HistoryViewerDialog|"
 msgid "Add"
-msgstr ""
+msgstr "Aldoni"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:79
 msgctxt "HistoryViewerDialog|"
@@ -4481,18 +4528,18 @@ msgstr "Adreso:"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:30
 msgctxt "ImageSelectorDialog|"
 msgid "http://… https://… c:\\… /home/…"
-msgstr ""
+msgstr "http://… https://… c:\\… /home/…"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:45
 msgctxt "ImageSelectorDialog|"
 msgid "download"
-msgstr ""
+msgstr "elŝuti"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:62
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:79
 msgctxt "ImageSelectorDialog|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
 msgctxt "ImageSelectorDialog|"
@@ -4512,7 +4559,7 @@ msgstr "Alglui"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:184
 msgctxt "ImageSelectorDialog|"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Alglui el Tondujo"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:187
 msgctxt "ImageSelectorDialog|"
@@ -4527,12 +4574,12 @@ msgstr "OpenFile"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:202
 msgctxt "ImageSelectorDialog|"
 msgid "Open file from your hard drive"
-msgstr ""
+msgstr "Malfermi dosieron de via durdisko"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:14
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:22
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4542,12 +4589,12 @@ msgstr "Fonta Kampanjo"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Browse…"
-msgstr ""
+msgstr "Foliumi…"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:55
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Data to Import"
-msgstr ""
+msgstr "Datumoj por Importi"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:61
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4557,7 +4604,7 @@ msgstr "Mensmapoj"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:68
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Maps"
-msgstr ""
+msgstr "Mapoj"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:75
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4572,17 +4619,17 @@ msgstr "Dice Kaŝnomo"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:89
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Theme"
-msgstr ""
+msgstr "Etoso"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:96
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 2"
-msgstr ""
+msgstr "Ludlisto aŭdludilo 2"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:103
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 3"
-msgstr ""
+msgstr "Ludlisto aŭdludilo 3"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:110
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4592,7 +4639,7 @@ msgstr "Notoj"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:117
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 1"
-msgstr ""
+msgstr "Ludlisto aŭdludilo 1"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:124
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4637,7 +4684,7 @@ msgstr "Generi"
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:51
 msgctxt "KeyGeneratorDialog|"
 msgid "Copy/Paste result into server configuration file."
-msgstr ""
+msgstr "Kopii/Alglui rezulton en servilan agorddosieron."
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
 msgctxt "NewFileDialog|"
@@ -4657,7 +4704,7 @@ msgstr "Mensmapo"
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:14
 msgctxt "NewFileDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:22
 msgctxt "NewFileDialog|"
@@ -4677,7 +4724,7 @@ msgstr "Tipo"
 #: src/libraries/rwidgets/dialogs/persondialog.ui:14
 msgctxt "PersonDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:40
 msgctxt "PersonDialog|"
@@ -4776,12 +4823,12 @@ msgstr "Aldoni novan dosierujon"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:14
 msgctxt "PreferencesDialogBox|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:27
 msgctxt "PreferencesDialogBox|"
 msgid "General"
-msgstr ""
+msgstr "Ĝenerala"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:33
 msgctxt "PreferencesDialogBox|"
@@ -4811,32 +4858,32 @@ msgstr "Objekta Elstarigokoloro"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:166
 msgctxt "PreferencesDialogBox|"
 msgid "Pen Width Highlight:"
-msgstr ""
+msgstr "Skriblarĝo de Skribilo:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:180
 msgctxt "PreferencesDialogBox|"
 msgid "Only apply on future maps."
-msgstr ""
+msgstr "Apliki nur al estontaj mapoj."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:190
 msgctxt "PreferencesDialogBox|"
 msgid "Behaviour"
-msgstr ""
+msgstr "Konduto"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:196
 msgctxt "PreferencesDialogBox|"
 msgid "Check for Update"
-msgstr ""
+msgstr "Kontroli por Ĝisdatigo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:206
 msgctxt "PreferencesDialogBox|"
 msgid "Don't show \"Tips of the day\""
-msgstr ""
+msgstr "Ne montri \"Konsiloj de la tago\""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:213
 msgctxt "PreferencesDialogBox|"
 msgid "Full Screen at launch"
-msgstr ""
+msgstr "Plena Ekrano ĉe lanĉo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:222
 msgctxt "PreferencesDialogBox|"
@@ -4845,6 +4892,9 @@ msgid ""
 "don't send or receive any message. </p><p>This feature is sending heartbeat "
 "message to prevent that behaviour.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kelkaj uzantoj spertis malkonekton dum ili ne sendas "
+"aŭ ricevas mesaĝon. </p><p>Ĉi tiu funkcio sendas korbatmesaĝon por malhelpi "
+"tiun konduton.</p></body></html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:225
 msgctxt "PreferencesDialogBox|"
@@ -4859,27 +4909,27 @@ msgstr "Ĉiu"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:264
 msgctxt "PreferencesDialogBox|"
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:277
 msgctxt "PreferencesDialogBox|"
 msgid "All subwindows will have a short title (making tab shorter)"
-msgstr ""
+msgstr "Ĉiuj subfenestroj havos mallongan titolon (mallongigante langeton)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:280
 msgctxt "PreferencesDialogBox|"
 msgid "Short title in Tabview"
-msgstr ""
+msgstr "Mallonga titolo en Tabview"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:302
 msgctxt "PreferencesDialogBox|"
 msgid "Max Length:"
-msgstr ""
+msgstr "Maksimuma Longo:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:326
 msgctxt "PreferencesDialogBox|"
 msgid "Pictures fit their Windows (at the opening)"
-msgstr ""
+msgstr "Bildoj konvenas al siaj Vindozo (ĉe la malfermo)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:339
 msgctxt "PreferencesDialogBox|"
@@ -4889,17 +4939,17 @@ msgstr "Apliklingvo*"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:345
 msgctxt "PreferencesDialogBox|"
 msgid "Use system language"
-msgstr ""
+msgstr "Uzi sistemlingvon"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:357
 msgctxt "PreferencesDialogBox|"
 msgid "Available translations:"
-msgstr ""
+msgstr "Haveblaj tradukoj:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:382
 msgctxt "PreferencesDialogBox|"
 msgid "Custom translation"
-msgstr ""
+msgstr "Propra traduko"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:391
 msgctxt "PreferencesDialogBox|"
@@ -4914,12 +4964,12 @@ msgstr "Signa Folio"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
 msgid "Time between page:"
-msgstr ""
+msgstr "Tempo inter paĝo:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:435
 msgctxt "PreferencesDialogBox|"
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:457
 msgctxt "PreferencesDialogBox|"
@@ -4934,32 +4984,32 @@ msgstr "Montri tempon"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
 msgctxt "PreferencesDialogBox|"
 msgid "Color of Time:"
-msgstr ""
+msgstr "Koloro de Tempo:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:503
 msgctxt "PreferencesDialogBox|"
 msgid "Hide Long commands"
-msgstr ""
+msgstr "Kaŝi Longajn komandojn"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
 msgid "Maximum Length:"
-msgstr ""
+msgstr "Maksimuma Longo:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
 msgctxt "PreferencesDialogBox|"
 msgid "* : need restart"
-msgstr ""
+msgstr "* : necesas rekomenci"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:572
 msgctxt "PreferencesDialogBox|"
 msgid "Player Information"
-msgstr ""
+msgstr "Ludanto Informo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:593
 msgctxt "PreferencesDialogBox|"
 msgid "Music path"
-msgstr ""
+msgstr "Muzika vojo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
 msgctxt "PreferencesDialogBox|"
@@ -4980,7 +5030,7 @@ msgstr "AudioPlayer1:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:767
 msgctxt "PreferencesDialogBox|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
 msgctxt "PreferencesDialogBox|"
@@ -4995,12 +5045,12 @@ msgstr "AudioPlayer3:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:795
 msgctxt "PreferencesDialogBox|"
 msgid "Themes"
-msgstr ""
+msgstr "Etosoj"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:801
 msgctxt "PreferencesDialogBox|"
 msgid "Theme"
-msgstr ""
+msgstr "Etoso"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:811
 msgctxt "PreferencesDialogBox|"
@@ -5033,7 +5083,7 @@ msgstr "Forigi"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:865
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
-msgstr ""
+msgstr "Css:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:872
 msgctxt "PreferencesDialogBox|"
@@ -5088,17 +5138,17 @@ msgstr "Malsupra Dekstra Angulo"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:984
 msgctxt "PreferencesDialogBox|"
 msgid "Scaled"
-msgstr ""
+msgstr "Skvamita"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:989
 msgctxt "PreferencesDialogBox|"
 msgid "Filled"
-msgstr ""
+msgstr "Plenigita"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:994
 msgctxt "PreferencesDialogBox|"
 msgid "Repeated"
-msgstr ""
+msgstr "Ripetis"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1009
 msgctxt "PreferencesDialogBox|"
@@ -5108,37 +5158,37 @@ msgstr "Ĵetkuboj Highlight Koloro"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1038
 msgctxt "PreferencesDialogBox|"
 msgid "Color Palette"
-msgstr ""
+msgstr "Kolora Paletro"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1050
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
-msgstr ""
+msgstr "*: bezonas rekomenci"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1070
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
-msgstr ""
+msgstr "Importi…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1077
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
-msgstr ""
+msgstr "Eksporti…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1090
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
-msgstr ""
+msgstr "Diagnoza"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1096
 msgctxt "PreferencesDialogBox|"
 msgid "Enable Data collection"
-msgstr ""
+msgstr "Ebligi Datenkolekton"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1106
 msgctxt "PreferencesDialogBox|"
 msgid "Data collection"
-msgstr ""
+msgstr "Kolekto de datumoj"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1112
 msgctxt "PreferencesDialogBox|"
@@ -5158,6 +5208,20 @@ msgid ""
 "text-decoration: underline; color:#007af4;\">www.rolisteam.org/"
 "datacollection.html</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-size:9pt;\">Kolektitaj datumoj "
+"estas anonimaj. <br/>Defaŭlte, nur datumoj pri rolisteam estas kolektitaj. "
+"Kiuj agoj estis uzataj.<br/><br/>Kontrolado </span><span style=\" font-"
+"size:9pt; font-weight:600;\">Ĉiuj Uzoj</span><span style= \" font-size:9pt;"
+"\"> skatolo ebligas kolekti datumojn pri rolisteam en labortabla medio.<br/"
+">Ni ĉefe provas scii ĉu Rolisteam estas videbla, ĝia grandeco aŭ ĉu ĝi havas "
+"la fokuson. <br/>Povas esti helpe kompreni kiel homoj uzas Rolisteam sur "
+"Labortablo. <br/>Universitataj studoj povas trovi tiujn datumojn interesaj."
+"<br/><br/>Elpurigi datumojn igas rolisteam ensaluti ĉiun klakon sur ĉiu "
+"butono aŭ ago. Ĝi estas pli profunda reĝimo.<br/>Ĝi povas malrapidigi iom "
+"rolisteamo.</span></p><p><span style=\" font-size:9pt;\">Por scii pli pri "
+"datumkolektado : </span><a href=\"https://rolisteam.org/datacollection.html"
+"\"><span style=\" font-size:9pt; teksto-ornamado: substreko; koloro:#007af4;"
+"\" >www.rolistem.org/datacollection.html</span></a></p></body></html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1127
 msgctxt "PreferencesDialogBox|"
@@ -5167,38 +5231,38 @@ msgstr "Ĉiuj Uzoj"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1147
 msgctxt "PreferencesDialogBox|"
 msgid "May slow down rolisteam"
-msgstr ""
+msgstr "Povas malrapidigi rolisteam"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1150
 msgctxt "PreferencesDialogBox|"
 msgid "Include Debug data*"
-msgstr ""
+msgstr "Inkluzivi Sencimigajn datumojn*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1184
 msgctxt "PreferencesDialogBox|"
 msgid "Start"
-msgstr ""
+msgstr "Komenci"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1228
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1237
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1246
 msgctxt "PreferencesDialogBox|"
 msgid "Add"
-msgstr ""
+msgstr "Aldoni"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1282
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1291
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1300
 msgctxt "PreferencesDialogBox|"
 msgid "up"
-msgstr ""
+msgstr "supren"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1309
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1318
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1327
 msgctxt "PreferencesDialogBox|"
 msgid "down"
-msgstr ""
+msgstr "malsupren"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:101
 msgctxt "SelectConnectionProfileDialog|"
@@ -5208,7 +5272,7 @@ msgstr "Elekti dosierujon"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:14
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Welcome To Rolisteam - Connection Dialog"
-msgstr ""
+msgstr "Bonvenon Al Rolisteam - Konekta Dialogo"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
 msgctxt "SelectConnectionProfileDialog|"
@@ -5228,7 +5292,7 @@ msgstr "Konekti"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:50
 msgctxt "SelectConnectionProfileDialog|"
 msgid "stop"
-msgstr ""
+msgstr "halti"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:55
 msgctxt "SelectConnectionProfileDialog|"
@@ -5243,7 +5307,7 @@ msgstr "Klona profilo"
 #: src/libraries/rwidgets/dialogs/shortcuteditordialog.ui:14
 msgctxt "ShortCutEditorDialog|"
 msgid "Shortcut Viewer"
-msgstr ""
+msgstr "Ŝparvoja Vidilo"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:30
 #, qt-format
@@ -5265,12 +5329,12 @@ msgstr "Bonvolu trovi la tipon ĉi tie: <a href=\"%1\">%1</a>"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:14
 msgctxt "TipOfDayViewer|"
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogo"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:42
 msgctxt "TipOfDayViewer|"
 msgid "Never show it again !"
-msgstr ""
+msgstr "Neniam montri ĝin denove!"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -5305,7 +5369,7 @@ msgstr "Ĉiuj videblaj"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:14
 msgctxt "MapWizzardDialog|"
 msgid "Map Wizzard"
-msgstr ""
+msgstr "Map-Sorĉisto"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:31
 msgctxt "MapWizzardDialog|"
@@ -5350,32 +5414,32 @@ msgstr "Grandeco:"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:182
 msgctxt "MapWizzardDialog|"
 msgid "Scale:"
-msgstr ""
+msgstr "Skalo:"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:249
 msgctxt "MapWizzardDialog|"
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:254
 msgctxt "MapWizzardDialog|"
 msgid "km"
-msgstr ""
+msgstr "km"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:259
 msgctxt "MapWizzardDialog|"
 msgid "cm"
-msgstr ""
+msgstr "cm"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:264
 msgctxt "MapWizzardDialog|"
 msgid "mile"
-msgstr ""
+msgstr "mejlo"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:269
 msgctxt "MapWizzardDialog|"
 msgid "yard"
-msgstr ""
+msgstr "korto"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:274
 msgctxt "MapWizzardDialog|"
@@ -5430,12 +5494,12 @@ msgstr "Montri Kolumnojn"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:14
 msgctxt "AntagonistBoard|"
 msgid "NpcMaker"
-msgstr ""
+msgstr "NpcMaker"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:29
 msgctxt "AntagonistBoard|"
 msgid "Search:"
-msgstr ""
+msgstr "Serĉi:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:39
 #: src/libraries/rwidgets/docks/antagonistboard.ui:327
@@ -5449,18 +5513,18 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1006
 msgctxt "AntagonistBoard|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1129
 msgctxt "AntagonistBoard|"
 msgid "Advanced"
-msgstr ""
+msgstr "Altnivela"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:60
 msgctxt "AntagonistBoard|"
 msgid "Without"
-msgstr ""
+msgstr "Sen"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:67
 #: src/libraries/rwidgets/docks/antagonistboard.ui:127
@@ -5470,7 +5534,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.ui:244
 msgctxt "AntagonistBoard|"
 msgid "with"
-msgstr ""
+msgstr "kun"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:74
 msgctxt "AntagonistBoard|"
@@ -5480,7 +5544,7 @@ msgstr "Avataro:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:84
 msgctxt "AntagonistBoard|"
 msgid "exclude:"
-msgstr ""
+msgstr "ekskludi:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:94
 msgctxt "AntagonistBoard|"
@@ -5504,30 +5568,27 @@ msgstr "Stato:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:230
 msgctxt "AntagonistBoard|"
 msgid "without"
-msgstr ""
+msgstr "sen"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:148
 msgctxt "AntagonistBoard|"
 msgid "exclude tags:"
-msgstr ""
+msgstr "ekskludi etikedojn:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:161
-#, fuzzy
-#| msgctxt "TestCharacterStateModel|"
-#| msgid "Healthy"
 msgctxt "AntagonistBoard|"
 msgid "Health:"
-msgstr "Sana"
+msgstr "Sano:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:171
 msgctxt "AntagonistBoard|"
 msgid "full life"
-msgstr ""
+msgstr "plena vivo"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:178
 msgctxt "AntagonistBoard|"
 msgid "Injured"
-msgstr ""
+msgstr "Vundita"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:185
 msgctxt "AntagonistBoard|"
@@ -5563,7 +5624,7 @@ msgstr "Koloro:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:367
 msgctxt "AntagonistBoard|"
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:381
 msgctxt "AntagonistBoard|"
@@ -5578,7 +5639,7 @@ msgstr "Iniciata Komando"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:398
 msgctxt "AntagonistBoard|"
 msgid "2d10"
-msgstr ""
+msgstr "2d10"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:445
 msgctxt "AntagonistBoard|"
@@ -5598,7 +5659,7 @@ msgstr "Sanaj Punktoj"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:542
 msgctxt "AntagonistBoard|"
 msgid "Min:"
-msgstr ""
+msgstr "Min:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:572
 msgctxt "AntagonistBoard|"
@@ -5780,7 +5841,7 @@ msgstr "Enhavo de Kampanjo"
 #: src/libraries/rwidgets/docks/campaigndock.ui:30
 msgctxt "CampaignDock|"
 msgid "Search"
-msgstr ""
+msgstr "Serĉi"
 
 #: src/libraries/rwidgets/docks/campaigndock.ui:50
 msgctxt "CampaignDock|"
@@ -5900,12 +5961,12 @@ msgstr "Listo de Ludantoj"
 #: src/libraries/rwidgets/docks/playerspanel.ui:49
 msgctxt "PlayersPanel|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/docks/playerspanel.ui:66
 msgctxt "PlayersPanel|"
 msgid "Add"
-msgstr ""
+msgstr "Aldoni"
 
 #: src/libraries/rwidgets/docks/playerspanel.ui:75
 msgctxt "PlayersPanel|"
@@ -6121,7 +6182,7 @@ msgstr "Formatado de alineoj"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:79
 msgctxt "MRichTextEdit|"
 msgid "Undo (CTRL+Z)"
-msgstr ""
+msgstr "Malfari (CTRL+Z)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:82
 msgctxt "MRichTextEdit|"
@@ -6137,7 +6198,7 @@ msgstr "Refari"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:128
 msgctxt "MRichTextEdit|"
 msgid "Cut (CTRL+X)"
-msgstr ""
+msgstr "Tondi (CTRL+X)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:131
 msgctxt "MRichTextEdit|"
@@ -6147,7 +6208,7 @@ msgstr "Tranĉi"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:151
 msgctxt "MRichTextEdit|"
 msgid "Copy (CTRL+C)"
-msgstr ""
+msgstr "Kopii (CTRL+C)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:154
 msgctxt "MRichTextEdit|"
@@ -6157,7 +6218,7 @@ msgstr "Kopii"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:174
 msgctxt "MRichTextEdit|"
 msgid "Paste (CTRL+V)"
-msgstr ""
+msgstr "Alglui (CTRL+V)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:177
 msgctxt "MRichTextEdit|"
@@ -6182,7 +6243,7 @@ msgstr "Grasa"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:263
 msgctxt "MRichTextEdit|"
 msgid "Italic (CTRL+I)"
-msgstr ""
+msgstr "Kursivo (CTRL+I)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:266
 msgctxt "MRichTextEdit|"
@@ -6202,32 +6263,32 @@ msgstr "Substreki"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:312
 msgctxt "MRichTextEdit|"
 msgid "Strike Out"
-msgstr ""
+msgstr "Forstreki"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:332
 msgctxt "MRichTextEdit|"
 msgid "Bullet list (CTRL+-)"
-msgstr ""
+msgstr "Kuglolisto (CTRL+-)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:335
 msgctxt "MRichTextEdit|"
 msgid "Bullet list"
-msgstr ""
+msgstr "Kuglolisto"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:354
 msgctxt "MRichTextEdit|"
 msgid "Ordered list (CTRL+=)"
-msgstr ""
+msgstr "Ordigita listo (CTRL+=)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:357
 msgctxt "MRichTextEdit|"
 msgid "Ordered list"
-msgstr ""
+msgstr "Ordigita listo"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:376
 msgctxt "MRichTextEdit|"
 msgid "Decrease indentation (CTRL+,)"
-msgstr ""
+msgstr "Malpliigi deŝovon (CTRL+,)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:379
 msgctxt "MRichTextEdit|"
@@ -6237,7 +6298,7 @@ msgstr "Malpliigi indentaĵon"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:399
 msgctxt "MRichTextEdit|"
 msgid "Increase indentation (CTRL+.)"
-msgstr ""
+msgstr "Pliigi deŝovon (CTRL+.)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:402
 msgctxt "MRichTextEdit|"
@@ -6247,7 +6308,7 @@ msgstr "Pliigi indentaĵon"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:441
 msgctxt "MRichTextEdit|"
 msgid "Text foreground color"
-msgstr ""
+msgstr "Teksta malfonokoloro"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:472
 msgctxt "MRichTextEdit|"
@@ -6499,17 +6560,17 @@ msgstr "Nomo:"
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:62
 msgctxt "AnnounceDocumentDialog|"
 msgid "Broadcast this document"
-msgstr ""
+msgstr "Dissendi ĉi tiun dokumenton"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:94
 msgctxt "AnnounceDocumentDialog|"
 msgid "Always use this name"
-msgstr ""
+msgstr "Ĉiam uzi ĉi tiun nomon"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:108
 msgctxt "AnnounceDocumentDialog|"
 msgid "You can change this in the preferences dialog."
-msgstr ""
+msgstr "Vi povas ŝanĝi ĉi tion en la dialogo de preferoj."
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:14
 msgctxt "ConnectToDocument|"
@@ -6519,7 +6580,7 @@ msgstr "Konekti al Dokumento"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:52
 msgctxt "ConnectToDocument|"
 msgid "New..."
-msgstr ""
+msgstr "Nova..."
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:62
 msgctxt "ConnectToDocument|"
@@ -6539,7 +6600,7 @@ msgstr "Adreso:"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:127
 msgctxt "ConnectToDocument|"
 msgid "127.0.0.1"
-msgstr ""
+msgstr "127.0.0.1"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:137
 msgctxt "ConnectToDocument|"
@@ -6549,12 +6610,12 @@ msgstr "Pordo:"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:166
 msgctxt "ConnectToDocument|"
 msgid "3000"
-msgstr ""
+msgstr "3000"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:190
 msgctxt "ConnectToDocument|"
 msgid "LAN Cahoots Documents:"
-msgstr ""
+msgstr "Dokumentoj de LAN Cahoots:"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -6569,17 +6630,17 @@ msgstr "La ĉeno ne estis trovita."
 #: src/libraries/rwidgets/editors/sharededitor/document.ui:14
 msgctxt "Document|"
 msgid "Form"
-msgstr ""
+msgstr "Formo"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:14
 msgctxt "FindDialog|"
 msgid "Find"
-msgstr ""
+msgstr "Trovi"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:40
 msgctxt "FindDialog|"
 msgid "Find:"
-msgstr ""
+msgstr "Trovi:"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:83
 msgctxt "FindDialog|"
@@ -6589,27 +6650,27 @@ msgstr "Anstataŭigi kun:"
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:110
 msgctxt "FindDialog|"
 msgid "Ignore Case"
-msgstr ""
+msgstr "Ignori Usklecon"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:120
 msgctxt "FindDialog|"
 msgid "Wrap Around"
-msgstr ""
+msgstr "Volvi Ĉirkaŭ"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:131
 msgctxt "FindDialog|"
 msgid "Contains"
-msgstr ""
+msgstr "Enhavas"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:136
 msgctxt "FindDialog|"
 msgid "Starts With"
-msgstr ""
+msgstr "Komencas Kun"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:141
 msgctxt "FindDialog|"
 msgid "Entire Word"
-msgstr ""
+msgstr "Tuta Vorto"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:166
 msgctxt "FindDialog|"
@@ -6624,7 +6685,7 @@ msgstr "Anstataŭigi"
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:186
 msgctxt "FindDialog|"
 msgid "Find && Replace"
-msgstr ""
+msgstr "Trovi && Anstataŭigi"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:196
 msgctxt "FindDialog|"
@@ -6639,17 +6700,17 @@ msgstr "Poste"
 #: src/libraries/rwidgets/editors/sharededitor/findtoolbar.ui:14
 msgctxt "FindToolBar|"
 msgid "Form"
-msgstr ""
+msgstr "Formo"
 
 #: src/libraries/rwidgets/editors/sharededitor/findtoolbar.ui:35
 msgctxt "FindToolBar|"
 msgid "✖"
-msgstr ""
+msgstr "✖"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:17
 msgctxt "FirstRunDialog|"
 msgid "Welcome to Cahoots"
-msgstr ""
+msgstr "Bonvenon al Cahoots"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:46
 msgctxt "FirstRunDialog|"
@@ -6665,6 +6726,16 @@ msgid ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><img src=\":/images/"
 "cahootssplash.png\" /></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html> <head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Lucida Grande'; font-size:13pt; "
+"font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><img src =\":/images/"
+"cahootssplash.png\" /></p></body></html>"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:70
 msgctxt "FirstRunDialog|"
@@ -6708,6 +6779,44 @@ msgid ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\">- Chris, Anandi, and "
 "David</p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Lucida Grande'; font-size:13pt; "
+"font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:28pt; font-weight:600;\">Bonvenon al Cahoots! </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:16pt; font-weight:600;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Cahoots estas "
+"malfermfonta, transplatforma kunlabora tekstredaktilo el la projekto "
+"Pepperdine Computer Science 2010 Senior Capstone.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Konekti kaj Anonci "
+"dokumentojn por kunlaboro estas havebla sub la menuo <span style=\" font-"
+"weight:600;\">Iloj</span>.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Cahoots estas libere "
+"havebla sub la LGPL <a href=\"http://code.google.com/p/cahootseditor/"
+"\"><span style=\" text-decoration: underline; color:#0000ff;\">here</span></"
+"a>.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Chris, Anandi kaj David</"
+"p></body></html>"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:106
 msgctxt "FirstRunDialog|"
@@ -6755,11 +6864,53 @@ msgid ""
 "size:10pt; font-weight:400;\">- Chris, Anandi, and David</span></p></body></"
 "html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:28pt; "
+"font-weight:600; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:20pt;\">Bonvenon al Cahoots! </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Cahoots Cahoots estas malfermfonta, "
+"transplatforma kunlabora tekstredaktilo el la projekto Pepperdine Computer "
+"Science 2010 Senior Capstone.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Connecting and Announcing documents for "
+"collaboration is available under the Tools menu.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Cahoots estas libere havebla sub la LGPL </"
+"span><a href=\"http://code.google.com/p/cahootseditor/\"><span style=\" font-"
+"size:10pt; font-weight:400; text-decoration: underline; color:#0000ff;"
+"\">here</span></a><span style=\" font-size:10pt; font-weight:400;\">.</"
+"span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">- Chris, Anandi kaj David</span></p></body></"
+"html>"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:26
 msgctxt "ParticipantsPane|"
 msgid "Form"
-msgstr ""
+msgstr "Formo"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:47
 msgctxt "ParticipantsPane|"
@@ -6769,12 +6920,12 @@ msgstr "Permeso"
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:140
 msgctxt "ParticipantsPane|"
 msgid "Promote"
-msgstr ""
+msgstr "Antaŭenigi"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:149
 msgctxt "ParticipantsPane|"
 msgid "Demote"
-msgstr ""
+msgstr "Degradigi"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:27
 msgctxt "PreferencesDialog|"
@@ -6791,7 +6942,7 @@ msgstr "Kodredaktilo:"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:206
 msgctxt "PreferencesDialog|"
 msgid "Courier 12"
-msgstr ""
+msgstr "Kuriero 12"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:82
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:158
@@ -6810,12 +6961,12 @@ msgstr "Defaŭlte"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:115
 msgctxt "PreferencesDialog|"
 msgid "Chat Pane:"
-msgstr ""
+msgstr "Babilfenestro:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:191
 msgctxt "PreferencesDialog|"
 msgid "Participants Pane:"
-msgstr ""
+msgstr "Panelo de Partoprenantoj:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:275
 msgctxt "PreferencesDialog|"
@@ -6825,7 +6976,7 @@ msgstr "Kundivido"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:289
 msgctxt "PreferencesDialog|"
 msgid "Announcing:"
-msgstr ""
+msgstr "Anoncante:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:311
 msgctxt "PreferencesDialog|"
@@ -6835,7 +6986,7 @@ msgstr "Defaŭlta Nomo:"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:338
 msgctxt "PreferencesDialog|"
 msgid "Always use default name "
-msgstr ""
+msgstr "Ĉiam uzi defaŭltan nomon"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.cpp:54
 #, qt-format
@@ -6856,7 +7007,7 @@ msgstr "Redakti"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:77
 msgctxt "SharedNote|"
 msgid "Syntax Highlighting..."
-msgstr ""
+msgstr "Sintaksreliefigo..."
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:97
 msgctxt "SharedNote|"
@@ -6921,7 +7072,7 @@ msgstr "Ctrl+V"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:225
 msgctxt "SharedNote|"
 msgid "Find..."
-msgstr ""
+msgstr "Trovi..."
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:228
 msgctxt "SharedNote|"
@@ -6936,12 +7087,12 @@ msgstr "Linio Wrap"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:241
 msgctxt "SharedNote|"
 msgid "Markdown"
-msgstr ""
+msgstr "Markdown"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:246
 msgctxt "SharedNote|"
 msgid "Shift Left"
-msgstr ""
+msgstr "Shift Maldekstren"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:249
 msgctxt "SharedNote|"
@@ -7051,7 +7202,7 @@ msgstr "Forigi Split"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:363
 msgctxt "SharedNote|"
 msgid "Split Side by Side"
-msgstr ""
+msgstr "Split Flank-al-flanke"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:368
 msgctxt "SharedNote|"
@@ -7061,7 +7212,7 @@ msgstr "Preferoj"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:373
 msgctxt "SharedNote|"
 msgid "Find All"
-msgstr ""
+msgstr "Trovi Ĉion"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:376
 msgctxt "SharedNote|"
@@ -7081,7 +7232,7 @@ msgstr "Pri Qt"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:395
 msgctxt "SharedNote|"
 msgid "How to Collaborate"
-msgstr ""
+msgstr "Kiel Kunlabori"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:407
 msgctxt "SharedNote|"
@@ -7121,7 +7272,7 @@ msgstr "Kaŝnomo"
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.ui:14
 msgctxt "DiceBookMarkWidget|"
 msgid "DiceShortCut"
-msgstr ""
+msgstr "DiceShortCut"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
@@ -7166,22 +7317,22 @@ msgstr "Noma Generatoro"
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:31
 msgctxt "NameGeneratorWidget|"
 msgid "Male"
-msgstr ""
+msgstr "Vira"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:44
 msgctxt "NameGeneratorWidget|"
 msgid "Female"
-msgstr ""
+msgstr "Ino"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:68
 msgctxt "NameGeneratorWidget|"
 msgid "How many ?"
-msgstr ""
+msgstr "Kiom da ?"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:82
 msgctxt "NameGeneratorWidget|"
 msgid "Complex"
-msgstr ""
+msgstr "Kompleksa"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:108
 msgctxt "NameGeneratorWidget|"
@@ -7191,12 +7342,12 @@ msgstr "Generi"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:14
 msgctxt "Convertor|"
 msgid "Unit Convertor"
-msgstr ""
+msgstr "Unuo-Konvertilo"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:29
 msgctxt "Convertor|"
 msgid "Category:"
-msgstr ""
+msgstr "Kategorio:"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:37
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:197
@@ -7240,7 +7391,7 @@ msgstr "konverti"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:261
 msgctxt "Convertor|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:97
 msgctxt "Convertor|"
@@ -7491,7 +7642,7 @@ msgstr "Dosieroj de Datumoj de Karaktero (*.rcs)"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:14
 msgctxt "CharacterSheetWindow|"
 msgid "Form"
-msgstr ""
+msgstr "Formo"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:39
 msgctxt "CharacterSheetWindow|"
@@ -7516,7 +7667,7 @@ msgstr "Aldoni Signan Folion"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:95
 msgctxt "CharacterSheetWindow|"
 msgid "Load QML"
-msgstr ""
+msgstr "Ŝargi QML"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:100
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:103
@@ -7537,7 +7688,7 @@ msgstr "Nurlegebla"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
 msgid "Stop Sharing"
-msgstr ""
+msgstr "Ĉesi Kunhavigi"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:123
 msgctxt "CharacterSheetWindow|"
@@ -7547,7 +7698,7 @@ msgstr "Presa Akto"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:132
 msgctxt "CharacterSheetWindow|"
 msgid "Menu"
-msgstr ""
+msgstr "Menuo"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:56
 #: src/libraries/rwidgets/mediacontainers/image.cpp:66
@@ -7749,7 +7900,7 @@ msgstr "%1 - (PDF)"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:14
 msgctxt "PdfViewer|"
 msgid "PdfViewer"
-msgstr ""
+msgstr "PdfViewer"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:26
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:36
@@ -7763,7 +7914,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:176
 msgctxt "PdfViewer|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
 msgctxt "PdfViewer|"
@@ -7778,37 +7929,37 @@ msgstr "Persvadi en Vido"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:143
 msgctxt "PdfViewer|"
 msgid "25%"
-msgstr ""
+msgstr "25%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:148
 msgctxt "PdfViewer|"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:153
 msgctxt "PdfViewer|"
 msgid "75%"
-msgstr ""
+msgstr "75%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:158
 msgctxt "PdfViewer|"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:163
 msgctxt "PdfViewer|"
 msgid "150%"
-msgstr ""
+msgstr "150%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:168
 msgctxt "PdfViewer|"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:206
 msgctxt "PdfViewer|"
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:235
 msgctxt "PdfViewer|"
@@ -7823,7 +7974,7 @@ msgstr "Paĝoj"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:287
 msgctxt "PdfViewer|"
 msgid "Crop View"
-msgstr ""
+msgstr "Tonda Vido"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:299
 msgctxt "PdfViewer|"
@@ -7932,7 +8083,7 @@ msgstr "%1 - Retpaĝo"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:14
 msgctxt "WebView|"
 msgid "Form"
-msgstr ""
+msgstr "Formo"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:37
 #: src/libraries/rwidgets/mediacontainers/webview.ui:47
@@ -7942,17 +8093,17 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/webview.ui:90
 msgctxt "WebView|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:100
 msgctxt "WebView|"
 msgid "Keep Sharing"
-msgstr ""
+msgstr "Plue Kundividi"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:110
 msgctxt "WebView|"
 msgid "about:blank"
-msgstr ""
+msgstr "pri:blanka"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:118
 msgctxt "WebView|"
@@ -7967,7 +8118,7 @@ msgstr "Sekva"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:128
 msgctxt "WebView|"
 msgid "Reload"
-msgstr ""
+msgstr "Reŝargi"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:140
 msgctxt "WebView|"

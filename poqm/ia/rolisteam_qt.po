@@ -465,17 +465,17 @@ msgstr "Scala Predefinite:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
-msgid "Additionnal Import:"
+msgid "Additional Import:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
 msgctxt "SheetProperties|"
-msgid "Additionnal Head Code:"
+msgid "Additional Head Code:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
 msgctxt "SheetProperties|"
-msgid "Additionnal Bottom Code:"
+msgid "Additional Bottom Code:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146

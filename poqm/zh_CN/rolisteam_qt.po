@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
-"PO-Revision-Date: 2023-10-21 13:51\n"
+"PO-Revision-Date: 2023-11-11 07:19\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -467,17 +467,17 @@ msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
-msgid "Additionnal Import:"
+msgid "Additional Import:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
 msgctxt "SheetProperties|"
-msgid "Additionnal Head Code:"
+msgid "Additional Head Code:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
 msgctxt "SheetProperties|"
-msgid "Additionnal Bottom Code:"
+msgid "Additional Bottom Code:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146

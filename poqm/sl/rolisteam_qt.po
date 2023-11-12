@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2023-11-10 13:29+0100\n"
+"PO-Revision-Date: 2023-11-11 10:21+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -510,18 +510,27 @@ msgid "Default scale:"
 msgstr "Privzeta lestvica:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Import:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Import:"
+msgid "Additional Import:"
 msgstr "Dodatni uvoz:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Head Code:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Head Code:"
+msgid "Additional Head Code:"
 msgstr "Dodatna koda glave:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "Additionnal Bottom Code:"
 msgctxt "SheetProperties|"
-msgid "Additionnal Bottom Code:"
+msgid "Additional Bottom Code:"
 msgstr "Dodatna koda noge:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146
@@ -5125,12 +5134,9 @@ msgid "BottomLeftCorner"
 msgstr "KotSpodajLevo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:969
-#, fuzzy
-#| msgctxt "MindMenu|"
-#| msgid "Center"
 msgctxt "PreferencesDialogBox|"
 msgid "Center"
-msgstr "Na sredini"
+msgstr "Sredina"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:974
 msgctxt "PreferencesDialogBox|"
@@ -5145,7 +5151,7 @@ msgstr "KotSpodajDesno"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:984
 msgctxt "PreferencesDialogBox|"
 msgid "Scaled"
-msgstr ""
+msgstr "V merilu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:989
 msgctxt "PreferencesDialogBox|"
@@ -5160,42 +5166,42 @@ msgstr "Ponovljeno"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1009
 msgctxt "PreferencesDialogBox|"
 msgid "Dice Highlight Color"
-msgstr ""
+msgstr "Poudarjena barva kocke"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1038
 msgctxt "PreferencesDialogBox|"
 msgid "Color Palette"
-msgstr ""
+msgstr "Barvna paleta"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1050
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
-msgstr ""
+msgstr "*: potreben je ponovni zagon"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1070
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
-msgstr ""
+msgstr "Uvozi…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1077
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
-msgstr ""
+msgstr "Izvozi…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1090
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
-msgstr ""
+msgstr "Diagnostika"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1096
 msgctxt "PreferencesDialogBox|"
 msgid "Enable Data collection"
-msgstr ""
+msgstr "Omogoči zbiranje podatkov"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1106
 msgctxt "PreferencesDialogBox|"
 msgid "Data collection"
-msgstr ""
+msgstr "Zbiranje podatkov"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1112
 msgctxt "PreferencesDialogBox|"
@@ -5215,24 +5221,36 @@ msgid ""
 "text-decoration: underline; color:#007af4;\">www.rolisteam.org/"
 "datacollection.html</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-size:9pt;\">Zbrani podatki so "
+"anonimni.<br/> Privzeto se zbirajo samo podatki o rolisteamu. Katere "
+"dejavnosti so bile uporabljene.<br/> <br/>Preverjanje </span><span style=\" "
+"font-size:9pt; font-weight:600;\">Vse rabe</span><span style=\" font-"
+"size:9pt;\"> rubrika omogoča zbiranje podatkov o rolisteam v namiznem okolju."
+"<br/>Poskušamo dognati, ali je Rolisteam viden, njegovo velikost in če ima "
+"osredotočenje. <br/> Bilo bi nam v pomoč, če bi razumeli kako ljudje "
+"uporabljajo Rolisteam na namizju.<br/>Univerzitetne študije bi lahko "
+"zanimali ti podatki.<br/><br/>Podatki za odkrivanje napak povzročijo, da "
+"rolisteam zabeleži vsak klik na katerikoli gumb ali dejavnost. To je globlji "
+"način.<br/> To lahko nekoliko upočasni rolisteam.</span></p><p><span style="
+"\" font-size:9pt;\">Da bi izvedeli več o zbiranju podatkov: </span><a href="
+"\"https://rolisteam.org/datacollection.html\"><span style=\" font-size:9pt; "
+"text-decoration: underline; color:#007af4;\">www.rolisteam.org/"
+"datacollection.html</span></a></p></body></html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1127
-#, fuzzy
-#| msgctxt "PageDelegate|"
-#| msgid "All pages"
 msgctxt "PreferencesDialogBox|"
 msgid "All Usages"
-msgstr "Vse strani"
+msgstr "Vse rabe"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1147
 msgctxt "PreferencesDialogBox|"
 msgid "May slow down rolisteam"
-msgstr ""
+msgstr "Lahko upočasni rolisteam"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1150
 msgctxt "PreferencesDialogBox|"
 msgid "Include Debug data*"
-msgstr ""
+msgstr "Vključi podatke za razhroščevanje*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1184
 msgctxt "PreferencesDialogBox|"
@@ -5268,23 +5286,17 @@ msgstr "Izberite mapo"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:14
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Welcome To Rolisteam - Connection Dialog"
-msgstr ""
+msgstr "Dobrodošli v Rolisteam - Dialog povezave"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
-#, fuzzy
-#| msgctxt "CharacterDataModel|"
-#| msgid "New Character"
 msgctxt "SelectConnectionProfileDialog|"
 msgid "New Character"
 msgstr "Nov lik"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:40
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Remove character %1"
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove character"
-msgstr "Odstrani lik %1"
+msgstr "Odstrani lik"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:45
 msgctxt "SelectConnectionProfileDialog|"
@@ -5496,7 +5508,7 @@ msgstr "Pokaži stolpce"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:14
 msgctxt "AntagonistBoard|"
 msgid "NpcMaker"
-msgstr ""
+msgstr "NpcMaker"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:29
 msgctxt "AntagonistBoard|"
@@ -5546,7 +5558,7 @@ msgstr "Avatar:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:84
 msgctxt "AntagonistBoard|"
 msgid "exclude:"
-msgstr ""
+msgstr "izvzemi:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:94
 msgctxt "AntagonistBoard|"
@@ -5600,7 +5612,7 @@ msgstr "Mrtev"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:213
 msgctxt "AntagonistBoard|"
 msgid "Initiative Score:"
-msgstr ""
+msgstr "Začetna ocena:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:251
 msgctxt "AntagonistBoard|"
@@ -5646,7 +5658,7 @@ msgstr "2d10"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:445
 msgctxt "AntagonistBoard|"
 msgid "Initiative Value:"
-msgstr ""
+msgstr "Začetna vrednost:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:482
 msgctxt "AntagonistBoard|"
@@ -5835,9 +5847,6 @@ msgid "WebPage"
 msgstr "Spletna stran"
 
 #: src/libraries/rwidgets/docks/campaigndock.ui:14
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "Campaign Content"
 msgctxt "CampaignDock|"
 msgid "Campaign Content"
 msgstr "Vsebina bojnega pohoda"
@@ -6620,12 +6629,12 @@ msgstr "3000"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:190
 msgctxt "ConnectToDocument|"
 msgid "LAN Cahoots Documents:"
-msgstr ""
+msgstr "Dokumenti LAN Cahoots:"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "Cahoots"
-msgstr "Paktiranje"
+msgstr "Cahoots"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -6655,7 +6664,7 @@ msgstr "Zamenjaj z:"
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:110
 msgctxt "FindDialog|"
 msgid "Ignore Case"
-msgstr ""
+msgstr "Prezri male/velike črke"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:120
 msgctxt "FindDialog|"
@@ -6868,6 +6877,48 @@ msgid ""
 "size:10pt; font-weight:400;\">- Chris, Anandi, and David</span></p></body></"
 "html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:28pt; "
+"font-weight:600; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:20pt;\">Dobrodošli v Cahoots! </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Cahoots je odprtokodni, večplatformni "
+"sodelovalni urejevalnik besedilkot projekt Pepperdine Computer Science 2010 "
+"Senior Capstone project.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Povezovanje in objavljanje dokumentov za "
+"skupno delo je na voljo pod menijem Orodja.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Cahoots je prosto dostopen pod LGPL </span><a "
+"href=\"http://code.google.com/p/cahootseditor/\"><span style=\" font-"
+"size:10pt; font-weight:400; text-decoration: underline; color:#0000ff;"
+"\">tukaj</span></a><span style=\" font-size:10pt; font-weight:400;\">.</"
+"span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">- Chris, Anandi in David</span></p></body></"
+"html>"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:26
 msgctxt "ParticipantsPane|"
@@ -6887,7 +6938,7 @@ msgstr "Oglašuj"
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:149
 msgctxt "ParticipantsPane|"
 msgid "Demote"
-msgstr ""
+msgstr "Znižaj"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:27
 msgctxt "PreferencesDialog|"
@@ -6923,12 +6974,12 @@ msgstr "Privzeto"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:115
 msgctxt "PreferencesDialog|"
 msgid "Chat Pane:"
-msgstr ""
+msgstr "Plošča klepetalnice:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:191
 msgctxt "PreferencesDialog|"
 msgid "Participants Pane:"
-msgstr ""
+msgstr "Plošča udeležencev:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:275
 msgctxt "PreferencesDialog|"
@@ -6938,7 +6989,7 @@ msgstr "Skupna raba"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:289
 msgctxt "PreferencesDialog|"
 msgid "Announcing:"
-msgstr ""
+msgstr "Napovedovanje:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:311
 msgctxt "PreferencesDialog|"
@@ -6948,7 +6999,7 @@ msgstr "Privzeto ime:"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:338
 msgctxt "PreferencesDialog|"
 msgid "Always use default name "
-msgstr ""
+msgstr "Vedno uporabljajte privzeto ime "
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.cpp:54
 #, qt-format
@@ -6957,12 +7008,9 @@ msgid "%1 - Shared Note Editor"
 msgstr "%1 - urejevalnik zapiskov v skupni rabi"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:17
-#, fuzzy
-#| msgctxt "SharedNote|"
-#| msgid "%1 - Shared Note Editor"
 msgctxt "SharedNote|"
 msgid "Shared Note Editor"
-msgstr "%1 - urejevalnik zapiskov v skupni rabi"
+msgstr "Deljeni urejevalnik zaznamkov"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:73
 msgctxt "SharedNote|"
@@ -6972,7 +7020,7 @@ msgstr "Uredi"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:77
 msgctxt "SharedNote|"
 msgid "Syntax Highlighting..."
-msgstr ""
+msgstr "Osvetljevanje sintakse..."
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:97
 msgctxt "SharedNote|"
@@ -7047,12 +7095,12 @@ msgstr "Krmilka+Dvigalka+F"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:233
 msgctxt "SharedNote|"
 msgid "Line Wrap"
-msgstr ""
+msgstr "Prelivanje vrstice"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:241
 msgctxt "SharedNote|"
 msgid "Markdown"
-msgstr ""
+msgstr "Markdown"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:246
 msgctxt "SharedNote|"
@@ -7060,12 +7108,9 @@ msgid "Shift Left"
 msgstr "Pomakni v levo"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:249
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "SharedNote|"
 msgid "Ctrl+["
-msgstr "Krmilka++"
+msgstr "Krmilka+["
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:254
 msgctxt "SharedNote|"
@@ -7073,52 +7118,34 @@ msgid "Shift Right"
 msgstr "Pomakni v desno"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:257
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "SharedNote|"
 msgid "Ctrl+]"
-msgstr "Krmilka++"
+msgstr "Krmilka+]"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:262
-#, fuzzy
-#| msgctxt "Campaign|"
-#| msgid "Comment"
 msgctxt "SharedNote|"
 msgid "Un/Comment Line"
-msgstr "Komentar"
+msgstr "Od/Komentiraj vrstico"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:265
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "SharedNote|"
 msgid "Ctrl+/"
-msgstr "Krmilka++"
+msgstr "Krmilka+/"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:270
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Save as..."
 msgctxt "SharedNote|"
 msgid "Save A Copy As..."
-msgstr "Shrani kot ..."
+msgstr "Shrani kopijo kot..."
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:278
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Save Playlist"
 msgctxt "SharedNote|"
 msgid "Save All"
-msgstr "Shrani seznam predvajanj"
+msgstr "Shrani vse"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:283
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "SharedNote|"
 msgid "Announce Document"
-msgstr "Natisni dokument"
+msgstr "Objavi dokument"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:286
 msgctxt "SharedNote|"
@@ -7126,28 +7153,19 @@ msgid "Ctrl+Shift+A"
 msgstr "Krmilka+Dvigalka+A"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:294
-#, fuzzy
-#| msgctxt "VmapTopBar|"
-#| msgid "Show/Hide State"
 msgctxt "SharedNote|"
 msgid "Show/Hide Participants"
-msgstr "Pokaži/skrij stanje"
+msgstr "Pokaži/skrij udeležence"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:299
-#, fuzzy
-#| msgctxt "VmapTopBar|"
-#| msgid "Show/Hide State"
 msgctxt "SharedNote|"
 msgid "Show/Hide Chat"
-msgstr "Pokaži/skrij stanje"
+msgstr "Pokaži/skrij klepet"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:304
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "SharedNote|"
 msgid "Connect to Document..."
-msgstr "Natisni dokument"
+msgstr "Poveži se z dokumentom..."
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:307
 msgctxt "SharedNote|"
@@ -7155,28 +7173,19 @@ msgid "Ctrl+Shift+C"
 msgstr "Krmilka+Dvigalka+C"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:312
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Split view"
 msgctxt "SharedNote|"
 msgid "Split"
-msgstr "Razdeli prikaz"
+msgstr "Razcepi"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:320
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "SharedNote|"
 msgid "Resynchronize Document"
-msgstr "Natisni dokument"
+msgstr "Ponovno sinhroniziraj dokument"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:328
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "SharedNote|"
 msgid "Next Document"
-msgstr "Natisni dokument"
+msgstr "Naslednji dokument"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:331
 msgctxt "SharedNote|"
@@ -7184,12 +7193,9 @@ msgid "Ctrl+Shift+]"
 msgstr "Krmilka+Dvigalka+]"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:339
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "SharedNote|"
 msgid "Previous Document"
-msgstr "Natisni dokument"
+msgstr "Prejšnji dokument"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:342
 msgctxt "SharedNote|"
@@ -7279,7 +7285,7 @@ msgstr "Vzdevek"
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.ui:14
 msgctxt "DiceBookMarkWidget|"
 msgid "DiceShortCut"
-msgstr ""
+msgstr "BližnjicaDoKocke"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
@@ -7418,12 +7424,12 @@ msgstr "Kategorija"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:278
 msgctxt "Convertor|"
 msgid "Reverse"
-msgstr ""
+msgstr "Obratno"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:287
 msgctxt "Convertor|"
 msgid "Custom Rule"
-msgstr ""
+msgstr "Pravilo po meri"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:296
 msgctxt "Convertor|"
@@ -7431,38 +7437,29 @@ msgid "Add"
 msgstr "Dodaj"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:299
-#, fuzzy
-#| msgctxt "GMTOOL::CustomRuleModel|"
-#| msgid "Unit"
 msgctxt "Convertor|"
 msgid "Add Unit"
-msgstr "Enota"
+msgstr "Dodaj enoto"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:308
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove Song"
 msgctxt "Convertor|"
 msgid "Remove Unit"
-msgstr "Odstrani pesem"
+msgstr "Odstrani enoto"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:311
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove Song"
 msgctxt "Convertor|"
 msgid "remove unit"
-msgstr "Odstrani pesem"
+msgstr "odstrani enoto"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:320
 msgctxt "Convertor|"
 msgid "Return"
-msgstr ""
+msgstr "Vrni"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:323
 msgctxt "Convertor|"
 msgid "Return to convertor page"
-msgstr ""
+msgstr "Vrni se na stran pretvornika"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:34
 msgctxt "GMTOOL::CustomRuleModel|"
@@ -7658,66 +7655,45 @@ msgstr "Podatkovne datoteke opisa lika (*.rcs)"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:14
 msgctxt "CharacterSheetWindow|"
 msgid "Form"
-msgstr ""
+msgstr "Obrazec"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:39
-#, fuzzy
-#| msgctxt "CharacterList|"
-#| msgid "Mock Data"
 msgctxt "CharacterSheetWindow|"
 msgid "Data"
-msgstr "Lažni podatki"
+msgstr "Podatki"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:80
-#, fuzzy
-#| msgctxt "ShortCutModel|"
-#| msgid "Action"
 msgctxt "CharacterSheetWindow|"
 msgid "Add Section"
-msgstr "Dejanje"
+msgstr "Dodaj razdelek"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:85
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Add line"
 msgctxt "CharacterSheetWindow|"
 msgid "Add Line"
 msgstr "Dodaj vrstico"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:90
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "CharacterSheet"
 msgctxt "CharacterSheetWindow|"
 msgid "Add CharacterSheet"
-msgstr "Opis lika"
+msgstr "Dodaj list lika"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:95
 msgctxt "CharacterSheetWindow|"
 msgid "Load QML"
-msgstr ""
+msgstr "Naloži QML"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:100
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:103
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "CharacterSheetWindow|"
 msgid "Detach Tab"
-msgstr "Loči"
+msgstr "Odstrani zavihek"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:108
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Path"
 msgctxt "CharacterSheetWindow|"
 msgid "Copy Tab"
-msgstr "Kopiraj pot"
+msgstr "Kopiraj zavihek"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:113
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "CharacterSheetWindow|"
 msgid "Read Only"
 msgstr "Samo za branje"
@@ -7725,20 +7701,17 @@ msgstr "Samo za branje"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
 msgid "Stop Sharing"
-msgstr ""
+msgstr "Prenehaj deliti"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:123
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "CharacterSheetWindow|"
 msgid "Print Act"
-msgstr "Natisni dokument"
+msgstr "Natisni dejanje"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:132
 msgctxt "CharacterSheetWindow|"
 msgid "Menu"
-msgstr ""
+msgstr "Meni"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:56
 #: src/libraries/rwidgets/mediacontainers/image.cpp:66
@@ -7896,12 +7869,9 @@ msgid "Instant Messaging"
 msgstr "Neposredna sporočila"
 
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.ui:14
-#, fuzzy
-#| msgctxt "InstantMessagingView|"
-#| msgid "Instant Messaging"
 msgctxt "InstantMessagingView|"
 msgid "InstantMessaging"
-msgstr "Neposredna sporočila"
+msgstr "Neposredno sporočanje"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:34
 msgctxt "MediaContainer|"
@@ -7943,7 +7913,7 @@ msgstr "%1 - (PDF)"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:14
 msgctxt "PdfViewer|"
 msgid "PdfViewer"
-msgstr ""
+msgstr "Pdf vpogledovalnik"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:26
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:36
@@ -7957,157 +7927,115 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:176
 msgctxt "PdfViewer|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "Fit Window"
 msgctxt "PdfViewer|"
 msgid "Fit width"
-msgstr "Prilagodi oknu"
+msgstr "Prilagodi širini"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:138
-#, fuzzy
-#| msgctxt "ItemEditor|"
-#| msgid "Fit the view"
 msgctxt "PdfViewer|"
 msgid "Fit in View"
-msgstr "Prilagodi pogled"
+msgstr "Prilagodi pogledu"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:143
 msgctxt "PdfViewer|"
 msgid "25%"
-msgstr ""
+msgstr "25%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:148
 msgctxt "PdfViewer|"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:153
 msgctxt "PdfViewer|"
 msgid "75%"
-msgstr ""
+msgstr "75%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:158
 msgctxt "PdfViewer|"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:163
 msgctxt "PdfViewer|"
 msgid "150%"
-msgstr ""
+msgstr "150%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:168
 msgctxt "PdfViewer|"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:206
 msgctxt "PdfViewer|"
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:235
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "bookmarked"
 msgctxt "PdfViewer|"
 msgid "Bookmarks"
-msgstr "zaznamovano"
+msgstr "Zaznamki"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:270
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Page"
 msgctxt "PdfViewer|"
 msgid "Pages"
-msgstr "Stran"
+msgstr "Strani"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:287
 msgctxt "PdfViewer|"
 msgid "Crop View"
-msgstr ""
+msgstr "Obreži pogled"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:299
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "PdfViewer|"
 msgid "Share"
-msgstr "Deli v"
+msgstr "Deli"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:304
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:307
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "&Copy"
 msgctxt "PdfViewer|"
 msgid "Copy"
-msgstr "&Kopiraj"
+msgstr "Kopiraj"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:310
-#, fuzzy
-#| msgctxt "Image|Zoom In"
-#| msgid "Ctrl++"
 msgctxt "PdfViewer|"
 msgid "Ctrl+C"
-msgstr "Krmilka++"
+msgstr "Krmilka+C"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:315
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "PdfViewer|"
 msgid "Image"
 msgstr "Slika"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:323
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid "Contributors"
 msgctxt "PdfViewer|"
 msgid "Continuous"
-msgstr "Avtorji prispevkov"
+msgstr "Neprekinjeno"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:332
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Zoom In"
 msgctxt "PdfViewer|"
 msgid "Zoom In"
 msgstr "Približaj"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:341
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Zoom Out"
 msgctxt "PdfViewer|"
 msgid "Zoom Out"
 msgstr "Oddalji"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:350
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Previous Page"
 msgctxt "PdfViewer|"
 msgid "Previous Page"
 msgstr "Prejšnja stran"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:359
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Next Page"
 msgctxt "PdfViewer|"
 msgid "Next Page"
 msgstr "Naslednja stran"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:364
-#, fuzzy
-#| msgctxt "TextController|"
-#| msgid "Text"
 msgctxt "PdfViewer|"
 msgid "Text"
 msgstr "Besedilo"
@@ -8168,7 +8096,7 @@ msgstr "%1 - Spletna stran"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:14
 msgctxt "WebView|"
 msgid "Form"
-msgstr ""
+msgstr "Obrazec"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:37
 #: src/libraries/rwidgets/mediacontainers/webview.ui:47
@@ -8178,62 +8106,47 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/webview.ui:90
 msgctxt "WebView|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:100
 msgctxt "WebView|"
 msgid "Keep Sharing"
-msgstr ""
+msgstr "Nadaljuj deljenje"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:110
 msgctxt "WebView|"
 msgid "about:blank"
-msgstr ""
+msgstr "about:blank"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:118
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Previous Page"
 msgctxt "WebView|"
 msgid "Previous"
-msgstr "Prejšnja stran"
+msgstr "Prejšnja"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:123
-#, fuzzy
-#| msgctxt "ContextualMenu|"
-#| msgid "Next Page"
 msgctxt "WebView|"
 msgid "Next"
-msgstr "Naslednja stran"
+msgstr "Naslednja"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:128
 msgctxt "WebView|"
 msgid "Reload"
-msgstr ""
+msgstr "Ponovno naloži"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:140
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Address:"
 msgctxt "WebView|"
 msgid "Hide Address"
-msgstr "Naslov:"
+msgstr "Skrij naslov"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:152
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "WebView|"
 msgid "Share"
-msgstr "Deli v"
+msgstr "Deli"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:160
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "WebView|"
 msgid "Share Html"
-msgstr "Deli v"
+msgstr "Deli Html"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:25
 msgctxt "campaign::CampaignView|"

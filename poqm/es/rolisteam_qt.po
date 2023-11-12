@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2023-11-10 00:33+0100\n"
+"PO-Revision-Date: 2023-11-12 00:33+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -260,12 +260,9 @@ msgid "Previous Page Button"
 msgstr "Botón de página anterior"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "AboutRcse|"
 msgid "Rolisteam Character Sheet Editor"
-msgstr "Hoja de personaje de Rolisteam (*.rcs)"
+msgstr "Editor de hoja de personaje de Rolisteam"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:20
 msgctxt "AboutRcse|"
@@ -498,12 +495,9 @@ msgid "Add Font file"
 msgstr "Añadir archivo de tipo de letra"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:14
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Set Property"
 msgctxt "SheetProperties|"
 msgid "Sheet Properties"
-msgstr "Definir propiedad"
+msgstr "Propiedades de la hoja"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
@@ -512,17 +506,17 @@ msgstr "Escala predeterminada:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
-msgid "Additionnal Import:"
+msgid "Additional Import:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
 msgctxt "SheetProperties|"
-msgid "Additionnal Head Code:"
+msgid "Additional Head Code:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
 msgctxt "SheetProperties|"
-msgid "Additionnal Bottom Code:"
+msgid "Additional Bottom Code:"
 msgstr ""
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146
@@ -1191,12 +1185,9 @@ msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1033
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Set Property"
 msgctxt "MainWindow|"
 msgid "Sheet Properties…"
-msgstr "Definir propiedad"
+msgstr "Propiedades de la hoja..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1048
 msgctxt "MainWindow|"
