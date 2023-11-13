@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-08 23:25+0200\n"
+"PO-Revision-Date: 2023-11-12 14:06+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -504,25 +504,16 @@ msgid "Default scale:"
 msgstr "Типовий масштаб:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Import:"
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
 msgstr "Додаткове імпортування:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Head Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
 msgstr "Додатковий код заголовка:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Bottom Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
 msgstr "Додатковий код підвалу:"

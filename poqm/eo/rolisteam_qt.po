@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2023-11-11 07:38+0100\n"
+"PO-Revision-Date: 2023-11-12 08:26+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -508,25 +508,16 @@ msgid "Default scale:"
 msgstr "Defaŭlta skalo:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Import:"
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
 msgstr "Plia Importo:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Head Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
 msgstr "Plia Ĉefkodo:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Bottom Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
 msgstr "Plia Malsupra Kodo:"

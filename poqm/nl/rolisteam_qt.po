@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-11 10:35+0100\n"
+"PO-Revision-Date: 2023-11-12 14:00+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -464,25 +464,16 @@ msgid "Default scale:"
 msgstr "Standaardschaal:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Import:"
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
 msgstr "Additionele import:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Head Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
 msgstr "Additionele bovenkantcode:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Bottom Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
 msgstr "Additionele onderkantcode:"

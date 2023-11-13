@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2023-11-11 10:21+0100\n"
+"PO-Revision-Date: 2023-11-12 10:00+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "X-Qt-Contexts: true\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -510,25 +510,16 @@ msgid "Default scale:"
 msgstr "Privzeta lestvica:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Import:"
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
 msgstr "Dodatni uvoz:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Head Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
 msgstr "Dodatna koda glave:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Bottom Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
 msgstr "Dodatna koda noge:"

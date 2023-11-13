@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-10 13:10+0300\n"
+"PO-Revision-Date: 2023-11-12 06:17+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4886,6 +4886,10 @@ msgid ""
 "don't send or receive any message. </p><p>This feature is sending heartbeat "
 "message to prevent that behaviour.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bazı kullanıcılar herhangi bir ileti almaz veya "
+"göndermezkin bağlantı kesilmesi sorunu yaşadıklarını ilettiler. </p><p>Bu "
+"özellik düzenli aralıklarla nabız göndererek bu davranışı önler.</p></body></"
+"html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:225
 #, fuzzy
@@ -4906,27 +4910,27 @@ msgstr "Herkes"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:264
 msgctxt "PreferencesDialogBox|"
 msgid "s"
-msgstr ""
+msgstr "sn"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:277
 msgctxt "PreferencesDialogBox|"
 msgid "All subwindows will have a short title (making tab shorter)"
-msgstr ""
+msgstr "Tüm alt pencerelerin kısa başlığı olur (sekmeyi daha kısa yapar)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:280
 msgctxt "PreferencesDialogBox|"
 msgid "Short title in Tabview"
-msgstr ""
+msgstr "Sekme görünümünde kısa başlık"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:302
 msgctxt "PreferencesDialogBox|"
 msgid "Max Length:"
-msgstr ""
+msgstr "En çok uzunluk:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:326
 msgctxt "PreferencesDialogBox|"
 msgid "Pictures fit their Windows (at the opening)"
-msgstr ""
+msgstr "Resimler pencerelerine sığar (açılışta)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:339
 #, fuzzy
@@ -4939,17 +4943,17 @@ msgstr "Uygulama"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:345
 msgctxt "PreferencesDialogBox|"
 msgid "Use system language"
-msgstr ""
+msgstr "Sistem dilini kullan"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:357
 msgctxt "PreferencesDialogBox|"
 msgid "Available translations:"
-msgstr ""
+msgstr "Kullanılabilir çeviriler:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:382
 msgctxt "PreferencesDialogBox|"
 msgid "Custom translation"
-msgstr ""
+msgstr "Özel çeviri"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:391
 #, fuzzy
@@ -4970,12 +4974,12 @@ msgstr "Karakter Sayfası"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
 msgid "Time between page:"
-msgstr ""
+msgstr "Sayfa arasındaki zaman:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:435
 msgctxt "PreferencesDialogBox|"
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:457
 #, fuzzy
@@ -4996,32 +5000,32 @@ msgstr "Göster/Gizle"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
 msgctxt "PreferencesDialogBox|"
 msgid "Color of Time:"
-msgstr ""
+msgstr "Zamanın rengi:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:503
 msgctxt "PreferencesDialogBox|"
 msgid "Hide Long commands"
-msgstr ""
+msgstr "Uzun komutları gizle"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
 msgid "Maximum Length:"
-msgstr ""
+msgstr "En çok uzunluk:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
 msgctxt "PreferencesDialogBox|"
 msgid "* : need restart"
-msgstr ""
+msgstr "*: Yeniden başlatma gerektirir"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:572
 msgctxt "PreferencesDialogBox|"
 msgid "Player Information"
-msgstr ""
+msgstr "Oyuncu Bilgisi"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:593
 msgctxt "PreferencesDialogBox|"
 msgid "Music path"
-msgstr ""
+msgstr "Müzik yolu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
 #, fuzzy
@@ -5045,7 +5049,7 @@ msgstr "Ses Dosyası"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:767
 msgctxt "PreferencesDialogBox|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
 #, fuzzy
@@ -5066,12 +5070,12 @@ msgstr "Ses Dosyası"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:795
 msgctxt "PreferencesDialogBox|"
 msgid "Themes"
-msgstr ""
+msgstr "Temalar"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:801
 msgctxt "PreferencesDialogBox|"
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:811
 #, fuzzy
@@ -5119,7 +5123,7 @@ msgstr "Sil"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:865
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
-msgstr ""
+msgstr "CSS:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:872
 #, fuzzy
@@ -5204,17 +5208,17 @@ msgstr "SağAlt"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:984
 msgctxt "PreferencesDialogBox|"
 msgid "Scaled"
-msgstr ""
+msgstr "Ölçeklendirilmiş"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:989
 msgctxt "PreferencesDialogBox|"
 msgid "Filled"
-msgstr ""
+msgstr "Doldurulmuş"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:994
 msgctxt "PreferencesDialogBox|"
 msgid "Repeated"
-msgstr ""
+msgstr "Yinelenmiş"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1009
 #, fuzzy
@@ -5227,37 +5231,37 @@ msgstr "Vurgulayıcı"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1038
 msgctxt "PreferencesDialogBox|"
 msgid "Color Palette"
-msgstr ""
+msgstr "Renk Paleti"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1050
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
-msgstr ""
+msgstr "*: Yeniden başlatma gerektirir"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1070
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
-msgstr ""
+msgstr "İçe Aktar…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1077
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
-msgstr ""
+msgstr "Dışa Aktar…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1090
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
-msgstr ""
+msgstr "Tanı"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1096
 msgctxt "PreferencesDialogBox|"
 msgid "Enable Data collection"
-msgstr ""
+msgstr "Veri toplamayı etkinleştir"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1106
 msgctxt "PreferencesDialogBox|"
 msgid "Data collection"
-msgstr ""
+msgstr "Veri toplama"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1112
 msgctxt "PreferencesDialogBox|"
@@ -5289,38 +5293,38 @@ msgstr "Tüm sayfalar"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1147
 msgctxt "PreferencesDialogBox|"
 msgid "May slow down rolisteam"
-msgstr ""
+msgstr "Rolisteam'i yavaşlatabilir"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1150
 msgctxt "PreferencesDialogBox|"
 msgid "Include Debug data*"
-msgstr ""
+msgstr "Hata ayıklama verisini içer"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1184
 msgctxt "PreferencesDialogBox|"
 msgid "Start"
-msgstr ""
+msgstr "Başlat"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1228
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1237
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1246
 msgctxt "PreferencesDialogBox|"
 msgid "Add"
-msgstr ""
+msgstr "Ekle"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1282
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1291
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1300
 msgctxt "PreferencesDialogBox|"
 msgid "up"
-msgstr ""
+msgstr "Yukarı"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1309
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1318
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1327
 msgctxt "PreferencesDialogBox|"
 msgid "down"
-msgstr ""
+msgstr "Aşağı"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:101
 msgctxt "SelectConnectionProfileDialog|"
@@ -5330,7 +5334,7 @@ msgstr "Dizin seç"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:14
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Welcome To Rolisteam - Connection Dialog"
-msgstr ""
+msgstr "Rolisteam'e Hoş Geldiniz - Bağlantı İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
 #, fuzzy
@@ -5359,7 +5363,7 @@ msgstr "Bağlan"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:50
 msgctxt "SelectConnectionProfileDialog|"
 msgid "stop"
-msgstr ""
+msgstr "Durdur"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:55
 #, fuzzy
@@ -5380,7 +5384,7 @@ msgstr "Profili klonla"
 #: src/libraries/rwidgets/dialogs/shortcuteditordialog.ui:14
 msgctxt "ShortCutEditorDialog|"
 msgid "Shortcut Viewer"
-msgstr ""
+msgstr "Kısayol Görüntüleyicisi"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:30
 #, qt-format
@@ -5402,12 +5406,12 @@ msgstr "Türü buradan bulun: <a href=\"%1\">%1</a>"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:14
 msgctxt "TipOfDayViewer|"
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:42
 msgctxt "TipOfDayViewer|"
 msgid "Never show it again !"
-msgstr ""
+msgstr "Bir daha gösterme!"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -5442,7 +5446,7 @@ msgstr "Tümü Görünür"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:14
 msgctxt "MapWizzardDialog|"
 msgid "Map Wizzard"
-msgstr ""
+msgstr "Harita Sihirbazı"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:31
 #, fuzzy
@@ -5511,32 +5515,32 @@ msgstr "Boyut"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:182
 msgctxt "MapWizzardDialog|"
 msgid "Scale:"
-msgstr ""
+msgstr "Ölçek:"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:249
 msgctxt "MapWizzardDialog|"
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:254
 msgctxt "MapWizzardDialog|"
 msgid "km"
-msgstr ""
+msgstr "km"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:259
 msgctxt "MapWizzardDialog|"
 msgid "cm"
-msgstr ""
+msgstr "cm"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:264
 msgctxt "MapWizzardDialog|"
 msgid "mile"
-msgstr ""
+msgstr "mil"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:269
 msgctxt "MapWizzardDialog|"
 msgid "yard"
-msgstr ""
+msgstr "yard"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:274
 #, fuzzy
@@ -5600,12 +5604,12 @@ msgstr "Sütunları Göster"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:14
 msgctxt "AntagonistBoard|"
 msgid "NpcMaker"
-msgstr ""
+msgstr "NPCYapar"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:29
 msgctxt "AntagonistBoard|"
 msgid "Search:"
-msgstr ""
+msgstr "Ara:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:39
 #: src/libraries/rwidgets/docks/antagonistboard.ui:327
@@ -5619,18 +5623,18 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1006
 msgctxt "AntagonistBoard|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1129
 msgctxt "AntagonistBoard|"
 msgid "Advanced"
-msgstr ""
+msgstr "Gelişmiş"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:60
 msgctxt "AntagonistBoard|"
 msgid "Without"
-msgstr ""
+msgstr "Şu olmadan"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:67
 #: src/libraries/rwidgets/docks/antagonistboard.ui:127
@@ -5640,7 +5644,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.ui:244
 msgctxt "AntagonistBoard|"
 msgid "with"
-msgstr ""
+msgstr "Şununla"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:74
 #, fuzzy
@@ -5653,7 +5657,7 @@ msgstr "Avatar"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:84
 msgctxt "AntagonistBoard|"
 msgid "exclude:"
-msgstr ""
+msgstr "Dışarıda tut:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:94
 #, fuzzy
@@ -5686,12 +5690,12 @@ msgstr "Durum"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:230
 msgctxt "AntagonistBoard|"
 msgid "without"
-msgstr ""
+msgstr "Şu olmadan"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:148
 msgctxt "AntagonistBoard|"
 msgid "exclude tags:"
-msgstr ""
+msgstr "Etiketleri dışarıda tut:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:161
 #, fuzzy
@@ -5704,12 +5708,12 @@ msgstr "Sağlıklı"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:171
 msgctxt "AntagonistBoard|"
 msgid "full life"
-msgstr ""
+msgstr "Tam canlı"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:178
 msgctxt "AntagonistBoard|"
 msgid "Injured"
-msgstr ""
+msgstr "Yaralı"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:185
 #, fuzzy
@@ -5763,7 +5767,7 @@ msgstr "Renk:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:367
 msgctxt "AntagonistBoard|"
 msgid "Info"
-msgstr ""
+msgstr "Bilgi"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:381
 #, fuzzy
@@ -5784,7 +5788,7 @@ msgstr "İnisiyatif Komutu"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:398
 msgctxt "AntagonistBoard|"
 msgid "2d10"
-msgstr ""
+msgstr "2B10"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:445
 #, fuzzy
@@ -5813,7 +5817,7 @@ msgstr "Sağlık Puanları"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:542
 msgctxt "AntagonistBoard|"
 msgid "Min:"
-msgstr ""
+msgstr "En küçük:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:572
 #, fuzzy
@@ -6055,7 +6059,7 @@ msgstr "Sefer İçeriği"
 #: src/libraries/rwidgets/docks/campaigndock.ui:30
 msgctxt "CampaignDock|"
 msgid "Search"
-msgstr ""
+msgstr "Ara"
 
 #: src/libraries/rwidgets/docks/campaigndock.ui:50
 #, fuzzy
@@ -6184,12 +6188,12 @@ msgstr "Oyuncu Listesi"
 #: src/libraries/rwidgets/docks/playerspanel.ui:49
 msgctxt "PlayersPanel|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/docks/playerspanel.ui:66
 msgctxt "PlayersPanel|"
 msgid "Add"
-msgstr ""
+msgstr "Ekle"
 
 #: src/libraries/rwidgets/docks/playerspanel.ui:75
 #, fuzzy
@@ -6411,7 +6415,7 @@ msgstr "Karakter biçimlendirmesini kaldır"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:79
 msgctxt "MRichTextEdit|"
 msgid "Undo (CTRL+Z)"
-msgstr ""
+msgstr "Geri Al (Kontrol+Z)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:82
 #, fuzzy
@@ -6433,7 +6437,7 @@ msgstr "Yinele"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:128
 msgctxt "MRichTextEdit|"
 msgid "Cut (CTRL+X)"
-msgstr ""
+msgstr "Kes (Kontrol+X)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:131
 #, fuzzy
@@ -6446,7 +6450,7 @@ msgstr "&Kes"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:151
 msgctxt "MRichTextEdit|"
 msgid "Copy (CTRL+C)"
-msgstr ""
+msgstr "Kopyala (Kontrol+C)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:154
 #, fuzzy
@@ -6459,7 +6463,7 @@ msgstr "Ko&pyala"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:174
 msgctxt "MRichTextEdit|"
 msgid "Paste (CTRL+V)"
-msgstr ""
+msgstr "Yapıştır (Kontrol+V)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:177
 #, fuzzy
@@ -6496,7 +6500,7 @@ msgstr "Kalı&n"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:263
 msgctxt "MRichTextEdit|"
 msgid "Italic (CTRL+I)"
-msgstr ""
+msgstr "Yatık (Kontrol+I)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:266
 #, fuzzy
@@ -6525,32 +6529,32 @@ msgstr "&Altı Çizili"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:312
 msgctxt "MRichTextEdit|"
 msgid "Strike Out"
-msgstr ""
+msgstr "Üzeri Çizili"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:332
 msgctxt "MRichTextEdit|"
 msgid "Bullet list (CTRL+-)"
-msgstr ""
+msgstr "Madde İmleri (Kontrol+-)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:335
 msgctxt "MRichTextEdit|"
 msgid "Bullet list"
-msgstr ""
+msgstr "Madde İmleri"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:354
 msgctxt "MRichTextEdit|"
 msgid "Ordered list (CTRL+=)"
-msgstr ""
+msgstr "Sıralı Liste (Kontrol+=)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:357
 msgctxt "MRichTextEdit|"
 msgid "Ordered list"
-msgstr ""
+msgstr "Sıralı Liste"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:376
 msgctxt "MRichTextEdit|"
 msgid "Decrease indentation (CTRL+,)"
-msgstr ""
+msgstr "Girintilemeyi Azalt (Kontrol+,)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:379
 #, fuzzy
@@ -6563,7 +6567,7 @@ msgstr "Metin Boyutunu Azalt"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:399
 msgctxt "MRichTextEdit|"
 msgid "Increase indentation (CTRL+.)"
-msgstr ""
+msgstr "Girintilemeyi Artır (Kontrol+.)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:402
 #, fuzzy
@@ -6576,7 +6580,7 @@ msgstr "Yaşamı Artır"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:441
 msgctxt "MRichTextEdit|"
 msgid "Text foreground color"
-msgstr ""
+msgstr "Metin ön plan rengi"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:472
 #, fuzzy
@@ -6840,17 +6844,17 @@ msgstr "Ad:"
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:62
 msgctxt "AnnounceDocumentDialog|"
 msgid "Broadcast this document"
-msgstr ""
+msgstr "Bu belgeyi yayınla"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:94
 msgctxt "AnnounceDocumentDialog|"
 msgid "Always use this name"
-msgstr ""
+msgstr "Her zaman bu adı kullan"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:108
 msgctxt "AnnounceDocumentDialog|"
 msgid "You can change this in the preferences dialog."
-msgstr ""
+msgstr "Bunu, tercihler iletişim kutusunda değiştirebilirsiniz."
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:14
 #, fuzzy
@@ -6863,7 +6867,7 @@ msgstr "Belge Yazdır"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:52
 msgctxt "ConnectToDocument|"
 msgid "New..."
-msgstr ""
+msgstr "Yeni..."
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:62
 #, fuzzy
@@ -6892,7 +6896,7 @@ msgstr "Adres:"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:127
 msgctxt "ConnectToDocument|"
 msgid "127.0.0.1"
-msgstr ""
+msgstr "127.0.0.1"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:137
 #, fuzzy
@@ -6905,12 +6909,12 @@ msgstr "Kapı:"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:166
 msgctxt "ConnectToDocument|"
 msgid "3000"
-msgstr ""
+msgstr "3000"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:190
 msgctxt "ConnectToDocument|"
 msgid "LAN Cahoots Documents:"
-msgstr ""
+msgstr "LAN Cahoots belgeleri:"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -6925,17 +6929,17 @@ msgstr "Dizi bulunamadı."
 #: src/libraries/rwidgets/editors/sharededitor/document.ui:14
 msgctxt "Document|"
 msgid "Form"
-msgstr ""
+msgstr "Form"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:14
 msgctxt "FindDialog|"
 msgid "Find"
-msgstr ""
+msgstr "Bul"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:40
 msgctxt "FindDialog|"
 msgid "Find:"
-msgstr ""
+msgstr "Bul:"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:83
 #, fuzzy
@@ -6948,27 +6952,27 @@ msgstr "Görseli Başkasıyla Değiştir"
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:110
 msgctxt "FindDialog|"
 msgid "Ignore Case"
-msgstr ""
+msgstr "BÜYÜK/küçük Harf Duyarsız"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:120
 msgctxt "FindDialog|"
 msgid "Wrap Around"
-msgstr ""
+msgstr "Kaydır"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:131
 msgctxt "FindDialog|"
 msgid "Contains"
-msgstr ""
+msgstr "İçerir"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:136
 msgctxt "FindDialog|"
 msgid "Starts With"
-msgstr ""
+msgstr "Şununla Başlar"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:141
 msgctxt "FindDialog|"
 msgid "Entire Word"
-msgstr ""
+msgstr "Tüm Sözcük"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:166
 #, fuzzy
@@ -6989,7 +6993,7 @@ msgstr "Görseli Başkasıyla Değiştir"
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:186
 msgctxt "FindDialog|"
 msgid "Find && Replace"
-msgstr ""
+msgstr "Bul ve Değiştir"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:196
 #, fuzzy
@@ -7010,17 +7014,17 @@ msgstr "Sonraki Sayfa"
 #: src/libraries/rwidgets/editors/sharededitor/findtoolbar.ui:14
 msgctxt "FindToolBar|"
 msgid "Form"
-msgstr ""
+msgstr "Form"
 
 #: src/libraries/rwidgets/editors/sharededitor/findtoolbar.ui:35
 msgctxt "FindToolBar|"
 msgid "✖"
-msgstr ""
+msgstr "✖"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:17
 msgctxt "FirstRunDialog|"
 msgid "Welcome to Cahoots"
-msgstr ""
+msgstr "Cahoots'a Hoş Geldiniz"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:46
 msgctxt "FirstRunDialog|"
@@ -7036,6 +7040,16 @@ msgid ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><img src=\":/images/"
 "cahootssplash.png\" /></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Lucida Grande'; font-size:13pt; "
+"font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><img src=\":/images/"
+"cahootssplash.png\" /></p></body></html>"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:70
 msgctxt "FirstRunDialog|"
@@ -7130,7 +7144,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:26
 msgctxt "ParticipantsPane|"
 msgid "Form"
-msgstr ""
+msgstr "Form"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:47
 #, fuzzy

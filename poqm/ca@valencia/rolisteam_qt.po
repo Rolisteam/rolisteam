@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-11-08 11:14+0100\n"
+"PO-Revision-Date: 2023-11-12 16:38+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -508,25 +508,16 @@ msgid "Default scale:"
 msgstr "Escala predeterminada:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Import:"
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
 msgstr "Importació addicional:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Head Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
 msgstr "Codi addicional d'encapçalament:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "Additionnal Bottom Code:"
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
 msgstr "Codi addicional de final:"
