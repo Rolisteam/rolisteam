@@ -121,6 +121,7 @@ Item {
                             text: ProfileController.address
                             validInput: (text && ProfileController.address)
                             enabled: !ProfileController.isServer
+                            onEditingFinished: ProfileController.address = text
                         }
                         Label {
                             text: qsTr("Port:")
@@ -200,6 +201,7 @@ Item {
                 }
                 GroupBox {
                     id: _character
+                    Layout.fillHeight: true
                     label: RowLayout {
                         Label {
                             text: qsTr("Characters")
@@ -220,6 +222,7 @@ Item {
                         width: _character.width
                         height: contentHeight
                         interactive: false
+
                         model: ProfileController.characterModel
                         delegate: ItemDelegate {
                             width: _characterList.width - _character.padding - _character.padding
@@ -283,7 +286,23 @@ Item {
                 }
                 RowLayout {
                     id: _buttonBar
-                    Layout.alignment: Qt.AlignRight || Qt.AlignBottom
+                    //Layout.alignment: Qt.AlignRight || Qt.AlignBottom
+                    Layout.fillWidth: true
+                    Button {
+                        id: _saveProfiles
+                        Layout.alignment: Qt.AlignLeft
+                        text: qsTr("Save profiles")
+                        onClicked: ProfileController.saveProfileModels()
+                        enabled: true
+                        background: Rectangle {
+                            color: _saveProfiles.down ? "darkgray" : "gray"
+                        }
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
                     Button {
                         id: _connectBtn
                         Layout.alignment: Qt.AlignRight

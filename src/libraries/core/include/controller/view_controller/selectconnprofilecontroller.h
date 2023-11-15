@@ -150,6 +150,7 @@ public slots:
     void selectCharacterAvatar(int i);
     void startConnection();
     void reject();
+    void saveProfileModels();
     // void stopConnection();
     // void connectTo();
 
@@ -185,7 +186,7 @@ signals:
     void changeCharacterAvatar(int i);
     void connectionStarted();
     void rejected();
-    // void Connection();
+    void saveModels();
 
 private:
     ConnectionProfile* currentProfile() const;

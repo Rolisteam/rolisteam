@@ -31,13 +31,28 @@ SelectConnProfileController::SelectConnProfileController(ProfileModel* model, QO
     : QObject{parent}, m_profileModel{model}, m_characterModel{new CharacterDataModel}
 {
 
+
+
     auto connectProfile= [this](ConnectionProfile* prof)
     {
         if(prof == nullptr)
             return;
 
+        connect(prof, &ConnectionProfile::gmChanged, this,
+                [prof, this]()
+                {
+                    if(!prof->isGM() && (prof->characterCount() == 0))
+                    {
+                        connection::CharacterData data(
+                            {QObject::tr("Unknown Character"), Qt::red, "", QHash<QString, QVariant>()});
+                        m_characterModel->addCharacter(data);
+                    }
+                });
+
         auto updateCharacters= [prof]()
-        { prof->setCharactersValid(helper::utils::hasValidCharacter(prof->characters(), prof->isGM())); };
+        {
+            prof->setCharactersValid(helper::utils::hasValidCharacter(prof->characters(), prof->isGM()));
+        };
         connect(prof, &ConnectionProfile::characterCountChanged, this, updateCharacters);
         connect(prof, &ConnectionProfile::characterChanged, this, updateCharacters);
 
@@ -399,4 +414,9 @@ void SelectConnProfileController::startConnection()
 void SelectConnProfileController::reject()
 {
     emit rejected();
+}
+
+void SelectConnProfileController::saveProfileModels()
+{
+    emit saveModels();
 }

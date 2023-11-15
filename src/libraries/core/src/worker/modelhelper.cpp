@@ -81,41 +81,48 @@ constexpr auto const* campaignPath{"campaignPath"};
 constexpr auto const* password{"password"};
 constexpr auto const* playerColor{"PlayerColor"};
 constexpr auto const* playerAvatar{"playerAvatarData"};
-constexpr auto const* playerCount{"characterCount"};
+constexpr auto const* characterCount{"characterCount"};
+constexpr auto const* characterName{"CharacterName"};
+constexpr auto const* characterData{"CharacterData"};
+constexpr auto const* characterColor{"CharacterColor"};
 } // namespace profiles
 
 void readConnectionProfileModel(ProfileModel* model)
 {
+#ifdef QT_DEBUG
+    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString()), QString("bla_%1").arg(QDate::currentDate().toString()) );
+#else
     QSettings settings(rolisteam, rolisteam);
-    settings.beginGroup("ConnectionProfiles");
-    int size= settings.beginReadArray("ConnectionProfilesArray");
+#endif
+    settings.beginGroup(profiles::groupName);
+    int size= settings.beginReadArray(profiles::arrayName);
     for(int i= 0; i < size; ++i)
     {
         settings.setArrayIndex(i);
         ConnectionProfile* profile= new ConnectionProfile();
-        profile->setAddress(settings.value("address").toString());
-        profile->setPlayerName(settings.value("name").toString());
-        profile->setProfileTitle(settings.value("title").toString());
-        profile->setPlayerId(settings.value("playerId", QUuid::createUuid().toString(QUuid::WithoutBraces)).toString());
-        profile->setPort(static_cast<quint16>(settings.value("port").toInt()));
-        profile->setServerMode(settings.value("server").toBool());
-        profile->setGm(settings.value("gm").toBool());
-        profile->setCampaignPath(settings.value("campaignPath").toString());
-        profile->setHash(QByteArray::fromBase64(settings.value("password").toByteArray()));
+        profile->setAddress(settings.value(profiles::address).toString());
+        profile->setPlayerName(settings.value(profiles::name).toString());
+        profile->setProfileTitle(settings.value(profiles::title).toString());
+        profile->setPlayerId(settings.value(profiles::playerId, QUuid::createUuid().toString(QUuid::WithoutBraces)).toString());
+        profile->setPort(static_cast<quint16>(settings.value(profiles::port).toInt()));
+        profile->setServerMode(settings.value(profiles::server).toBool());
+        profile->setGm(settings.value(profiles::gm).toBool());
+        profile->setCampaignPath(settings.value(profiles::campaignPath).toString());
+        profile->setHash(QByteArray::fromBase64(settings.value(profiles::password).toByteArray()));
 
-        QColor color= settings.value("PlayerColor").value<QColor>();
+        QColor color= settings.value(profiles::playerColor).value<QColor>();
         profile->setPlayerColor(color);
-        profile->setPlayerAvatar(settings.value("playerAvatarData").toByteArray());
+        profile->setPlayerAvatar(settings.value(profiles::playerAvatar).toByteArray());
 
-        auto characterCount= settings.beginReadArray("characterCount");
+        auto characterCount= settings.beginReadArray(profiles::characterCount);
         profile->clearCharacter();
         for(int j= 0; j < characterCount; ++j)
         {
             settings.setArrayIndex(j);
 
-            auto name= settings.value("CharacterName").toString();
-            auto path= settings.value("CharacterData").toByteArray();
-            auto color= settings.value("CharacterColor").value<QColor>();
+            auto name= settings.value(profiles::characterName).toString();
+            auto path= settings.value(profiles::characterData).toByteArray();
+            auto color= settings.value(profiles::characterColor).value<QColor>();
             QHash<QString, QVariant> params;
             for(const auto& key : CharacterFields)
             {
@@ -127,9 +134,9 @@ void readConnectionProfileModel(ProfileModel* model)
 
         if(characterCount == 0 && !profile->isGM())
         {
-            auto name= settings.value("CharacterName").toString();
-            auto path= settings.value("CharacterData").toByteArray();
-            auto color= settings.value("CharacterColor").value<QColor>();
+            auto name= settings.value(profiles::characterName).toString();
+            auto path= settings.value(profiles::characterData).toByteArray();
+            auto color= settings.value(profiles::characterColor).value<QColor>();
 
             QHash<QString, QVariant> params;
             profile->addCharacter(connection::CharacterData({name, color, path, params}));
@@ -148,11 +155,15 @@ void readConnectionProfileModel(ProfileModel* model)
 
 void writeConnectionProfileModel(ProfileModel* model)
 {
+#ifdef QT_DEBUG
+    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString()), QString("bla_%1").arg(QDate::currentDate().toString()) );
+#else
     QSettings settings(rolisteam, rolisteam);
-    settings.beginGroup("ConnectionProfiles");
+#endif
+    settings.beginGroup(profiles::groupName);
 
     auto size= model->rowCount(QModelIndex());
-    settings.beginWriteArray("ConnectionProfilesArray", size);
+    settings.beginWriteArray(profiles::arrayName, size);
     for(int i= 0; i < size; ++i)
     {
         auto profile= model->getProfile(i);
@@ -162,27 +173,27 @@ void writeConnectionProfileModel(ProfileModel* model)
 
         settings.setArrayIndex(i);
 
-        settings.setValue("address", profile->address());
-        settings.setValue("name", profile->playerName());
-        settings.setValue("title", profile->profileTitle());
-        settings.setValue("server", profile->isServer());
-        settings.setValue("port", profile->port());
-        settings.setValue("playerId", profile->playerId());
-        settings.setValue("gm", profile->isGM());
-        settings.setValue("password", profile->password().toBase64());
-        settings.setValue("PlayerColor", profile->playerColor());
-        settings.setValue("playerAvatarData", profile->playerAvatar());
-        settings.setValue("campaignPath", profile->campaignPath());
+        settings.setValue(profiles::address, profile->address());
+        settings.setValue(profiles::name, profile->playerName());
+        settings.setValue(profiles::title, profile->profileTitle());
+        settings.setValue(profiles::server, profile->isServer());
+        settings.setValue(profiles::port, profile->port());
+        settings.setValue(profiles::playerId, profile->playerId());
+        settings.setValue(profiles::gm, profile->isGM());
+        settings.setValue(profiles::password, profile->password().toBase64());
+        settings.setValue(profiles::playerColor, profile->playerColor());
+        settings.setValue(profiles::playerAvatar, profile->playerAvatar());
+        settings.setValue(profiles::campaignPath, profile->campaignPath());
 
-        settings.beginWriteArray("characterCount");
+        settings.beginWriteArray(profiles::characterCount);
         for(int j= 0; j < profile->characterCount(); ++j)
         {
             settings.setArrayIndex(j);
             auto charact= profile->character(j);
 
-            settings.setValue("CharacterName", charact.m_name);
-            settings.setValue("CharacterData", charact.m_avatarData);
-            settings.setValue("CharacterColor", charact.m_color);
+            settings.setValue(profiles::characterName, charact.m_name);
+            settings.setValue(profiles::characterData, charact.m_avatarData);
+            settings.setValue(profiles::characterColor, charact.m_color);
 
             for(const auto& key : CharacterFields)
             {

@@ -64,6 +64,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
             });
 
     // actions from controller
+    connect(m_ctrl.get(), &SelectConnProfileController::saveModels, networkCtrl, &NetworkController::saveData);
     connect(m_ctrl.get(), &SelectConnProfileController::connectionStarted, this,
             [this]() { m_gameCtrl->setDataFromProfile(m_ctrl->currentProfileIndex()); });
     connect(m_ctrl.get(), &SelectConnProfileController::portChanged, this, [this](){

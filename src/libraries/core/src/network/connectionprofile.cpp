@@ -6,20 +6,10 @@
 ConnectionProfile::ConnectionProfile()
     : m_title(QObject::tr("Unknown")), m_playerName(QObject::tr("Player")), m_playerColor(Qt::red)
 {
-    connect(this, &ConnectionProfile::gmChanged, this,
-            [this]()
-            {
-                if(!m_isGM && m_characters.empty())
-                {
-                    connection::CharacterData data(
-                        {QObject::tr("Unknown Character"), Qt::red, "", QHash<QString, QVariant>()});
-                    addCharacter(data);
-                }
-            });
-
     // binding
 
     auto updateValid= [this]() {
+        //qDebug() << "connection info" << m_validConnectionInfo << "player info" << m_validPlayerInfo << "character:" << m_validCharacter << "campaign:"<<m_validCampaign;
         setValid(m_validConnectionInfo && m_validPlayerInfo && m_validCharacter && m_validCampaign
                  && !m_title.isEmpty());
     };

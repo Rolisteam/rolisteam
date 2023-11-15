@@ -444,7 +444,11 @@ void GameController::stopConnection()
     networkController()->stopConnecting();
 }
 
-void GameController::postConnection() {}
+void GameController::postConnection()
+{
+    // save data
+    m_networkCtrl->saveData();
+}
 
 void GameController::aboutToClose()
 {
