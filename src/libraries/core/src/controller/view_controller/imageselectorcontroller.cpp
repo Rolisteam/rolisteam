@@ -54,6 +54,9 @@ ImageSelectorController::ImageSelectorController(bool askPath, Sources sources, 
             this,
             [this](const std::pair<QPixmap, QPixmap>& imgs)
             {
+                if(m_pixmap.isNull() && imgs.first.isNull())
+                    return;
+
                 m_pixmap= imgs.first;
 
                 m_thumbnail= imgs.second;
@@ -170,7 +173,7 @@ QSize ImageSelectorController::visualSize() const
 
 bool ImageSelectorController::rectInShape() const
 {
-    bool res= computeDataGeometry().contains(m_rect);
+    bool res= computeDataGeometry().contains(QRect(m_rect.x()*m_factor,m_rect.y()*m_factor,m_rect.width()*m_factor,m_rect.height()*m_factor));
     if(m_shape == Square)
         res&= (m_rect.height() == m_rect.width());
     return res;

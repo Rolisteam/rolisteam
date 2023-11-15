@@ -64,6 +64,7 @@ ImageSelectorDialog::ImageSelectorDialog(ImageSelectorController* ctrl, QWidget*
     auto func= [this, checkButton](const QRect& rect) {
         // qreal scale= m_ctrl->pixmap().size().width() / m_imageViewerLabel->rect().width();
         // QRect scaledRect(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale);
+
         m_ctrl->setRect(rect);
         checkButton();
     };
