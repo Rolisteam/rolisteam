@@ -2445,6 +2445,12 @@ msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Hoofdmap"
 
+#: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:47
+#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
+msgctxt "QObject|"
+msgid "Unknown Character"
+msgstr "Onbekend karakter"
+
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
@@ -2826,7 +2832,7 @@ msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
 msgstr "Gedupliceerde speler of uuid"
 
-#: src/libraries/core/src/model/profilemodel.cpp:108
+#: src/libraries/core/src/model/profilemodel.cpp:113
 msgctxt "ProfileModel|"
 msgid " (clone)"
 msgstr " (kloon)"
@@ -2901,12 +2907,6 @@ msgstr "Verbinding naar server is afgesloten."
 msgctxt "QObject|"
 msgid "Player"
 msgstr "Speler"
-
-#: src/libraries/core/src/network/connectionprofile.cpp:15
-#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
-msgctxt "QObject|"
-msgid "Unknown Character"
-msgstr "Onbekend karakter"
 
 #: src/libraries/core/src/network/rserver.cpp:40
 msgctxt "RServer|"
@@ -3663,47 +3663,55 @@ msgctxt "ConnectionForm|"
 msgid "Address:"
 msgstr "Adres:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:126
+#: src/libraries/qml_views/views/ConnectionForm.qml:127
 msgctxt "ConnectionForm|"
 msgid "Port:"
 msgstr "Poort:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:135
+#: src/libraries/qml_views/views/ConnectionForm.qml:136
 msgctxt "ConnectionForm|"
 msgid "Password:"
 msgstr "Wachtwoord:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:146
+#: src/libraries/qml_views/views/ConnectionForm.qml:147
 msgctxt "ConnectionForm|"
 msgid "Host the game"
 msgstr "Het spel hosten"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:156
+#: src/libraries/qml_views/views/ConnectionForm.qml:157
 msgctxt "ConnectionForm|"
 msgid "Player"
 msgstr "Speler"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:171
+#: src/libraries/qml_views/views/ConnectionForm.qml:172
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
 msgstr "Ik ben de spelmeester"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:181
+#: src/libraries/qml_views/views/ConnectionForm.qml:182
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
 msgstr "Hoofdmap van campagne:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:205
+#: src/libraries/qml_views/views/ConnectionForm.qml:207
 msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Karakters"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:290
+#: src/libraries/qml_views/views/ConnectionForm.qml:294
+#, fuzzy
+#| msgctxt "ConnectionForm|"
+#| msgid "New profile"
+msgctxt "ConnectionForm|"
+msgid "Save profiles"
+msgstr "Nieuw profiel"
+
+#: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Verbinden"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:302
+#: src/libraries/qml_views/views/ConnectionForm.qml:321
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Annuleren"
@@ -4497,7 +4505,7 @@ msgctxt "HistoryViewerDialog|"
 msgid "remove"
 msgstr "verwijderen"
 
-#: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:153
+#: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:154
 msgctxt "ImageSelectorDialog|"
 msgid "Open Image file"
 msgstr "Afbeeldingsbestand openen"
@@ -5254,7 +5262,7 @@ msgctxt "PreferencesDialogBox|"
 msgid "down"
 msgstr "omlaag"
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:101
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:102
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "Selecteer map"
