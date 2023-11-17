@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-13 05:53+0300\n"
+"PO-Revision-Date: 2023-11-16 20:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3690,7 +3690,7 @@ msgstr "Ben, Oyun Görevlisiyim"
 #: src/libraries/qml_views/views/ConnectionForm.qml:182
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
-msgstr "Sefer Kökü:"
+msgstr "Sefer kökü:"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:207
 msgctxt "ConnectionForm|"
@@ -3698,12 +3698,9 @@ msgid "Characters"
 msgstr "Karakterler"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:294
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "New profile"
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
-msgstr "Yeni profil"
+msgstr "Profilleri kaydet"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"

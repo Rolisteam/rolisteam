@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-08 16:07+0100\n"
+"PO-Revision-Date: 2023-11-16 11:10+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -487,7 +487,7 @@ msgstr ""
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
 msgctxt "SheetProperties|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -945,7 +945,7 @@ msgstr "Imagine"
 #: src/binaries/rcse/mainwindow_rcse.ui:736
 msgctxt "MainWindow|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:380
 #: src/binaries/rcse/mainwindow_rcse.ui:1130
@@ -1773,7 +1773,7 @@ msgstr "Cascada"
 #: src/binaries/widget/mainwindow.ui:222 src/binaries/widget/mainwindow.ui:360
 msgctxt "MainWindow|"
 msgid "Alt+C"
-msgstr ""
+msgstr "Alt+C"
 
 #: src/binaries/widget/mainwindow.ui:227
 msgctxt "MainWindow|"
@@ -1783,7 +1783,7 @@ msgstr "Tegula"
 #: src/binaries/widget/mainwindow.ui:230
 msgctxt "MainWindow|"
 msgid "Alt+T"
-msgstr ""
+msgstr "Alt+T"
 
 #: src/binaries/widget/mainwindow.ui:235
 msgctxt "MainWindow|"
@@ -1853,7 +1853,7 @@ msgstr "Reproductor de audio"
 #: src/binaries/widget/mainwindow.ui:330
 msgctxt "MainWindow|"
 msgid "Alt+A"
-msgstr ""
+msgstr "Alt+A"
 
 #: src/binaries/widget/mainwindow.ui:342
 msgctxt "MainWindow|"
@@ -1863,7 +1863,7 @@ msgstr "Zona de Notification"
 #: src/binaries/widget/mainwindow.ui:345
 msgctxt "MainWindow|"
 msgid "Alt+N"
-msgstr ""
+msgstr "Alt+N"
 
 #: src/binaries/widget/mainwindow.ui:357
 msgctxt "MainWindow|"
@@ -2028,7 +2028,7 @@ msgstr "Fenestra de Messageria instantanee"
 #: src/binaries/widget/mainwindow.ui:596
 msgctxt "MainWindow|"
 msgid "Alt+I"
-msgstr ""
+msgstr "Alt+I"
 
 #: src/binaries/widget/mainwindow.ui:605
 msgctxt "MainWindow|"
@@ -3665,12 +3665,9 @@ msgid "Characters"
 msgstr "Characteres"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:294
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "New profile"
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
-msgstr "Nove Profilo"
+msgstr "Salveguarda profilos"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"
@@ -4458,7 +4455,7 @@ msgstr "Dialogo"
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:34
 msgctxt "HistoryViewerDialog|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:71
 msgctxt "HistoryViewerDialog|"
@@ -4488,7 +4485,7 @@ msgstr "Adresse:"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:30
 msgctxt "ImageSelectorDialog|"
 msgid "http://… https://… c:\\… /home/…"
-msgstr ""
+msgstr "http://… https://… c:\\… /home/…"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:45
 msgctxt "ImageSelectorDialog|"
@@ -4499,7 +4496,7 @@ msgstr "Discarga"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:79
 msgctxt "ImageSelectorDialog|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
 msgctxt "ImageSelectorDialog|"
@@ -4987,7 +4984,7 @@ msgstr "Jocator Audio1:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:767
 msgctxt "PreferencesDialogBox|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
 msgctxt "PreferencesDialogBox|"
@@ -5456,7 +5453,7 @@ msgstr "Cerca:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1006
 msgctxt "AntagonistBoard|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1129
@@ -5477,7 +5474,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.ui:244
 msgctxt "AntagonistBoard|"
 msgid "with"
-msgstr ""
+msgstr "con"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:74
 msgctxt "AntagonistBoard|"
@@ -5511,7 +5508,7 @@ msgstr "Stato:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:230
 msgctxt "AntagonistBoard|"
 msgid "without"
-msgstr ""
+msgstr "sin"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:148
 msgctxt "AntagonistBoard|"
@@ -5904,7 +5901,7 @@ msgstr "List de Jocator"
 #: src/libraries/rwidgets/docks/playerspanel.ui:49
 msgctxt "PlayersPanel|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/docks/playerspanel.ui:66
 msgctxt "PlayersPanel|"
@@ -6543,7 +6540,7 @@ msgstr "Adresse:"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:127
 msgctxt "ConnectToDocument|"
 msgid "127.0.0.1"
-msgstr ""
+msgstr "127.0.0.1"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:137
 msgctxt "ConnectToDocument|"
@@ -6553,7 +6550,7 @@ msgstr "Porto:"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:166
 msgctxt "ConnectToDocument|"
 msgid "3000"
-msgstr ""
+msgstr "3000"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:190
 msgctxt "ConnectToDocument|"
@@ -6805,7 +6802,7 @@ msgstr "Editor de Codice:"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:206
 msgctxt "PreferencesDialog|"
 msgid "Courier 12"
-msgstr ""
+msgstr "Courier 12"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:82
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:158
@@ -7205,7 +7202,7 @@ msgstr "Genera"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:14
 msgctxt "Convertor|"
 msgid "Unit Convertor"
-msgstr ""
+msgstr "Convertitor de unitate"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:29
 msgctxt "Convertor|"
@@ -7254,7 +7251,7 @@ msgstr "converte"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:261
 msgctxt "Convertor|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:97
 msgctxt "Convertor|"
@@ -7777,7 +7774,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:176
 msgctxt "PdfViewer|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
 msgctxt "PdfViewer|"
@@ -7792,37 +7789,37 @@ msgstr "Adapta le Vista"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:143
 msgctxt "PdfViewer|"
 msgid "25%"
-msgstr ""
+msgstr "25%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:148
 msgctxt "PdfViewer|"
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:153
 msgctxt "PdfViewer|"
 msgid "75%"
-msgstr ""
+msgstr "75%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:158
 msgctxt "PdfViewer|"
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:163
 msgctxt "PdfViewer|"
 msgid "150%"
-msgstr ""
+msgstr "150%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:168
 msgctxt "PdfViewer|"
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:206
 msgctxt "PdfViewer|"
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:235
 msgctxt "PdfViewer|"
@@ -7956,7 +7953,7 @@ msgstr "Forma"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:90
 msgctxt "WebView|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:100
 msgctxt "WebView|"

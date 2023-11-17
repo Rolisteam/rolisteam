@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-11-12 16:38+0100\n"
+"PO-Revision-Date: 2023-11-16 13:02+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3719,12 +3719,9 @@ msgid "Characters"
 msgstr "Personatges"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:294
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "New profile"
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
-msgstr "Perfil nou"
+msgstr "Desa els perfils"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"

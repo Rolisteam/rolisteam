@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2023-11-12 08:26+0100\n"
+"PO-Revision-Date: 2023-11-16 07:39+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3704,12 +3704,9 @@ msgid "Characters"
 msgstr "Karakteroj"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:294
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "New profile"
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
-msgstr "Nova profilo"
+msgstr "Konservi profilojn"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"

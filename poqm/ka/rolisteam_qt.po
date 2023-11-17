@@ -3702,12 +3702,9 @@ msgid "Characters"
 msgstr "სიმბოლოები"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:294
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "New profile"
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
-msgstr "ახალი პროფილი"
+msgstr "პროფილების შენახვა"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"
