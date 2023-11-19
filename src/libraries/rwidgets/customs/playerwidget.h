@@ -27,8 +27,6 @@
 #include <QTime>
 #include <random>
 
-#include "model/musicmodel.h"
-#include "preferences/preferencesmanager.h"
 #include "rwidgets_global.h"
 namespace Ui
 {

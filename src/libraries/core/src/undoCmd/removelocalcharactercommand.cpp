@@ -21,6 +21,7 @@
 
 #include "data/character.h"
 #include "model/playermodel.h"
+#include "worker/iohelper.h"
 
 RemoveLocalCharacterCommand::RemoveLocalCharacterCommand(PlayerModel* model, const QModelIndex& index)
     : m_model(model)
@@ -33,7 +34,9 @@ RemoveLocalCharacterCommand::RemoveLocalCharacterCommand(PlayerModel* model, con
 
 void RemoveLocalCharacterCommand::redo()
 {
+    auto character = IOHelper::dupplicateCharacter(m_character);
     m_model->removeCharacter(m_character);
+    m_character = character;
 }
 
 void RemoveLocalCharacterCommand::undo()

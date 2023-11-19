@@ -131,6 +131,9 @@ public:
 
     // Campaign
     static QString copyImageFileIntoCampaign(const QString& path, const QString& dest);
+
+    // character
+    static Character *dupplicateCharacter(const Character *obj);
 };
 
 #endif // IOHELPER_H

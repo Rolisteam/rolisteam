@@ -86,7 +86,7 @@ public slots:
     void clear();
     void addPlayer(Player* player);
     void removePlayer(Player* player);
-    void addCharacter(const QModelIndex& parent, Character* character, int pos= -1);
+    void addCharacter(const QModelIndex& parent, Character *character, int pos= -1);
     void removeCharacter(Character* character);
     void setLocalPlayerId(const QString& uuid);
 

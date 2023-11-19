@@ -489,7 +489,7 @@ void PlayerModel::addPlayer(Player* player)
 
 void PlayerModel::addCharacter(const QModelIndex& parent, Character* character, int pos)
 {
-    if(!parent.isValid() || nullptr == character)
+    if(!parent.isValid())
         return;
 
     int size= pos;
@@ -501,9 +501,9 @@ void PlayerModel::addCharacter(const QModelIndex& parent, Character* character, 
 
     character->setNpc(player->isGM());
 
-    /* beginInsertRows(parent, size, size);
-     player->addCharacter(character);
-     endInsertRows();*/
+     beginInsertRows(parent, size, size);
+    player->addCharacter(character);
+     endInsertRows();
 }
 
 void PlayerModel::removeCharacter(Character* character)

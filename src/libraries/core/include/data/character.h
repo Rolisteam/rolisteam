@@ -164,20 +164,9 @@ public:
      */
     Character(const QString& uuid, const QString& name, const QColor& getColor, bool NPC= false, int number= 0);
     /**
-     * @brief Character
-     * @param data
-     */
-    // Character(NetworkMessageReader& data);
-    /**
      * @brief ~Character
      */
     virtual ~Character() override;
-    /**
-     * @brief read
-     * @param msg
-     * @return parentId
-     */
-    // QString read(NetworkMessageReader& msg);
     /**
      * @brief isBool
      * @return

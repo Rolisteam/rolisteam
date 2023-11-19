@@ -23,19 +23,23 @@
 #include "model/playermodel.h"
 
 AddLocalCharacterCommand::AddLocalCharacterCommand(PlayerModel* model, const QString& stateId, const QModelIndex& index)
-    : m_model(model), m_character(new Character), m_index(index)
+    : m_model(model), m_index(index),m_stateId(stateId)
 {
-    m_character->setName(QObject::tr("Unknown Character"));
-    m_character->setStateId(stateId);
     setText(QObject::tr("Add character to %1").arg(index.data().toString()));
 }
 
 void AddLocalCharacterCommand::redo()
 {
-    m_model->addCharacter(m_index, m_character.get());
+    if(!m_character)
+    {
+        m_character=new Character();
+        m_character->setName(QObject::tr("Unknown Character"));
+        m_character->setStateId(m_stateId);
+    }
+    m_model->addCharacter(m_index, m_character.data());
 }
 
 void AddLocalCharacterCommand::undo()
 {
-    m_model->removeCharacter(m_character.get());
+    m_model->removeCharacter(m_character.data());
 }

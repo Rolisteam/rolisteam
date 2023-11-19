@@ -152,7 +152,7 @@ void ServerConnectionManager::checkAuthToServer(ServerConnection* client)
     QMap<QString, QVariant> data(m_parameters);
     data["currentIp"]= client->getIpAddress();
     data["userpassword"]= client->getServerPassword();
-    qDebug() << "Parameter :" << data;
+
     if(m_corEndProcess->runAccepter(data))
     {
         m_model->addConnectionToDefaultChannel(client);

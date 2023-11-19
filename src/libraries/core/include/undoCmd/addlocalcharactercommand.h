@@ -38,8 +38,9 @@ public:
 
 private:
     QPointer<PlayerModel> m_model;
-    std::unique_ptr<Character> m_character;
+    QPointer<Character> m_character;//should not own it
     QPersistentModelIndex m_index;
+    QString m_stateId;
 };
 
 #endif // ADDLOCALCHARACTERCOMMAND_H

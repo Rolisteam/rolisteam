@@ -788,6 +788,34 @@ QString IOHelper::copyImageFileIntoCampaign(const QString& path, const QString& 
         return utils::IOHelper::copyFile(path, dest);
 }
 
+Character* IOHelper::dupplicateCharacter(const Character *obj)
+{
+    auto res = new Character();
+
+    res->setHealthPointsCurrent(obj->getHealthPointsCurrent());
+    res->setHealthPointsMax(obj->getHealthPointsMax());
+    res->setHealthPointsMin(obj->getHealthPointsMin());
+    res->setNpc(obj->isNpc());
+    res->setInitCommand(obj->initCommand());
+    res->setInitiativeScore(obj->getInitiativeScore());
+    res->setImageProvider(obj->getImageProvider());
+    res->setCurrentShape(obj->currentShape());
+    res->setLifeColor(obj->getLifeColor());
+    res->setStateId(obj->stateId());
+    res->setDistancePerTurn(obj->getDistancePerTurn());
+    res->setNumber(obj->number());
+    res->setName(obj->name());
+    res->setUuid(obj->uuid());
+    res->setColor(obj->getColor());
+    res->setSheet(obj->getSheet());
+    res->defineActionList(obj->actionList());
+    res->defineShapeList(obj->shapeList());
+    res->definePropertiesList(obj->propertiesList());
+    res->setAvatar(obj->avatar());
+
+    return res;
+}
+
 void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())

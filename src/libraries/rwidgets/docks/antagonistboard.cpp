@@ -222,8 +222,9 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
                 auto uuid= index.data(NonPlayableCharacterModel::RoleUuid).toString();
                 auto name= index.data(NonPlayableCharacterModel::RoleName).toString();
                 auto img= index.data(NonPlayableCharacterModel::RoleAvatar);
+                auto pix = img.value<QPixmap>();
 
-                if(img.isNull())
+                if(pix.isNull() || img.isNull())
                     return;
                 QDrag* drag= new QDrag(this);
                 RolisteamMimeData* mimeData= new RolisteamMimeData();
@@ -232,7 +233,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
                 mimeData->setImageData(img);
                 mimeData->setText(name);
                 drag->setMimeData(mimeData);
-                drag->setPixmap(helper::utils::roundCornerImage(qvariant_cast<QPixmap>(img)));
+                drag->setPixmap(helper::utils::roundCornerImage(pix));
                 drag->exec();
             });
 
@@ -244,15 +245,20 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
                 m_ctrl->editCharacter(m_currentItemId);
             });
 
-    connect(m_changeImageAct.get(), &QAction::triggered, m_ctrl.get(),
-            [this]()
-            {
-                ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
-                ImageSelectorDialog dialog(&ctrl, this);
-                if(QDialog::Accepted != dialog.exec())
-                    return;
+    auto changeImageFunc = [this](const QString& itemId)
+    {
+        ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
+        ImageSelectorDialog dialog(&ctrl, this);
+        if(QDialog::Accepted != dialog.exec())
+            return;
 
-                m_ctrl->changeImage(m_currentItemId, ctrl.finalImageData());
+        m_ctrl->changeImage(itemId, ctrl.finalImageData());
+    };
+
+    connect(m_changeImageAct.get(), &QAction::triggered, m_ctrl.get(),
+            [this, changeImageFunc]()
+            {
+                changeImageFunc(m_currentItemId);
             });
 
     connect(m_ctrl.get(), &AntagonistBoardController::characterChanged, this,
@@ -317,6 +323,26 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
         m_ctrl->removeData(index, mode);
     };
 
+    connect(ui->m_antogonistView, &QTableView::doubleClicked, this, [changeImageFunc](const QModelIndex& index){
+        if(!index.isValid())
+            return;
+
+        auto itemId = index.data(NonPlayableCharacterModel::RoleUuid).toString();
+
+        if(itemId.isEmpty())
+            return;
+
+        switch(index.column())
+        {
+        case NonPlayableCharacterModel::ColAvatar:
+            changeImageFunc(itemId);
+            break;
+        default:
+            break;
+        }
+
+
+    });
     connect(ui->m_removeActionAct, &QAction::triggered, this, remove);
     connect(ui->m_removePropertyAct, &QAction::triggered, this, remove);
     connect(ui->m_removeShapeAct, &QAction::triggered, this, remove);

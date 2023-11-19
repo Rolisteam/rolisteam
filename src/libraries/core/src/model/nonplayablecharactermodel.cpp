@@ -285,7 +285,11 @@ bool NonPlayableCharacterModel::setData(const QModelIndex& index, const QVariant
             character->setTags(value.toString().split(';'));
             break;
         case RoleAvatar:
-            if(value.canConvert<QString>())
+            if(value.typeId() == qMetaTypeId<QByteArray>())
+            {
+                character->setAvatar(value.toByteArray());
+            }
+            else if(value.typeId() == qMetaTypeId<QString>())
             {
                 auto str= value.toString();
                 if(str.isEmpty())
@@ -294,7 +298,7 @@ bool NonPlayableCharacterModel::setData(const QModelIndex& index, const QVariant
                 character->setAvatarPath(path);
                 character->setAvatar(IOHelper::imageToData(IOHelper::readImageFromURL(QUrl::fromUserInput(path))));
             }
-            else if(value.canConvert<QUrl>())
+            else if(value.typeId() == qMetaTypeId<QUrl>())
             {
                 character->setAvatar(IOHelper::imageToData(IOHelper::readImageFromURL(value.toUrl())));
             }
@@ -326,7 +330,10 @@ Qt::ItemFlags NonPlayableCharacterModel::flags(const QModelIndex& index) const
     if(!index.isValid())
         return Qt::NoItemFlags;
 
-    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    if(index.column() == NonPlayableCharacterModel::ColAvatar)
+        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    else
+        return Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
 void NonPlayableCharacterModel::append()
