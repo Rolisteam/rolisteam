@@ -36,7 +36,7 @@ bool makeSurePathExist(const QDir& dir)
 
 bool makeDir(const QString& dir)
 {
-    return makeSurePathExist(dir);
+    return makeSurePathExist(QDir(dir));
 }
 
 QString copyFile(const QString& source, const QString& destination)
@@ -64,6 +64,10 @@ bool writeFile(const QString& path, const QByteArray& arry, bool override)
 {
     if(arry.isEmpty())
         return false;
+
+    QFileInfo pathInfo(path);
+    makeDir(pathInfo.absolutePath());
+
     QSaveFile file(path);
     if(file.open(override ? QIODevice::WriteOnly : QIODevice::Append))
     {

@@ -39,13 +39,10 @@ Drawer {
             Switch {
                 id: darkModeSwitch
                 text: qsTr("Night Mode")
-                checked: false
             }
             Switch {
                 id: linkVisible
                 text: qsTr("Link label visible:")
-                checked: false
-                //onCheckedChanged: MainController.linkLabelVisibility = checked
             }
             RowLayout {
                 Layout.fillWidth: true
@@ -54,9 +51,8 @@ Drawer {
                 }
                 ComboBox {
                     id: combo
-                    model: _drawer.mediaCtrl
+                    model: _drawer.mediaCtrl.styleModel
                     currentIndex: 0
-                    //onCurrentIndexChanged: MainController.defaultStyleIndex = currentIndex
 
                     contentItem: Rectangle {
                         radius: 8
@@ -88,8 +84,8 @@ Drawer {
                             border.width: 1
                             border.color: "black"
                             gradient: Gradient {
-                                GradientStop { position: 0.0; color: colorOne }
-                                GradientStop { position: 1.0; color: colorTwo }
+                                GradientStop { position: 0.0; color: model.colorOne }
+                                GradientStop { position: 1.0; color: model.colorTwo }
                             }
                             Label {
                                 anchors.centerIn: parent

@@ -35,6 +35,7 @@ class MINDMAP_EXPORT MindItemModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QRectF contentRect READ contentRect NOTIFY geometryChanged)
+    Q_PROPERTY(int defaultStyleIndex READ defaultStyleIndex WRITE setDefaultStyleIndex NOTIFY defaultStyleIndexChanged FINAL)
 public:
     enum Roles
     {
@@ -70,6 +71,9 @@ public:
 
     void appendItem(const QList<mindmap::MindItem*>& node);
 
+    int defaultStyleIndex() const;
+    void setDefaultStyleIndex(int newDefaultStyleIndex);
+
 public slots:
     std::pair<mindmap::MindItem*, mindmap::LinkController*> addItem(const QString& idparent, MindItem::Type type);
     bool removeItem(const mindmap::MindItem* node);
@@ -82,12 +86,15 @@ signals:
     void geometryChanged();
     void latestInsertedPackage(mindmap::PackageNode* package);
 
+    void defaultStyleIndexChanged();
+
 private:
     std::vector<mindmap::MindItem*> m_links;
     std::vector<mindmap::MindItem*> m_packages;
     std::vector<mindmap::MindItem*> m_nodes;
 
     QPointer<ImageModel> m_imgModel;
+    int m_defaultStyleIndex = 0;
 };
 } // namespace mindmap
 #endif // MINDITEMMODEL_H

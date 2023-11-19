@@ -127,6 +127,8 @@ Pane {
         width: 0.4 * root.width
         height: root.height
         mediaCtrl: root.ctrl
+        linkVisibility: root.ctrl.linkLabelVisibility
+        darkMode: root.darkMode
         onDarkModeChanged: root.darkMode = darkMode
         onLinkVisibilityChanged: root.ctrl.linkLabelVisibility = linkVisibility
         onDefaultStyleChanged: root.ctrl.defaultStyleIndex = defaultStyle

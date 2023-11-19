@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 Button {
     id: root
     property alias source: img.source
-    property string tooltip: root.action?.text
+    property string tooltip: root.action ? root.action.text : ""
     implicitHeight: 32
     implicitWidth: 32
     contentItem: Image {

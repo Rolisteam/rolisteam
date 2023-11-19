@@ -56,6 +56,7 @@ MindMapControllerBase::MindMapControllerBase(bool hasNetwork, const QString& id,
 
     connect(&m_stack, &QUndoStack::canRedoChanged, this, &MindMapControllerBase::canRedoChanged);
     connect(&m_stack, &QUndoStack::canUndoChanged, this, &MindMapControllerBase::canUndoChanged);
+    connect(m_itemModel.get(), &MindItemModel::defaultStyleIndexChanged, this, &MindMapControllerBase::defaultStyleIndexChanged);
 
     connect(m_itemModel.get(), &MindItemModel::latestInsertedPackage, this, &MindMapControllerBase::setCurrentPackage);
     connect(m_itemModel.get(), &MindItemModel::rowsInserted, this,
@@ -167,11 +168,7 @@ void MindMapControllerBase::importFile(const QString& path)
 
 void MindMapControllerBase::setDefaultStyleIndex(int indx)
 {
-    if(indx == m_defaultStyleIndex)
-        return;
-
-    m_defaultStyleIndex= indx;
-    emit defaultStyleIndexChanged();
+    m_itemModel->setDefaultStyleIndex(indx);
 }
 
 NodeStyle* MindMapControllerBase::style(int index) const
@@ -364,7 +361,7 @@ bool MindMapControllerBase::canUndo() const
 
 int MindMapControllerBase::defaultStyleIndex() const
 {
-    return m_defaultStyleIndex;
+    return m_itemModel->defaultStyleIndex();
 }
 
 bool MindMapControllerBase::linkLabelVisibility() const

@@ -120,7 +120,6 @@ QVariant MindItemModel::data(const QModelIndex& index, int role) const
         result= QVariant::fromValue(mindNode);
         break;
     case HasPicture:
-        qDebug() << "haspicture:" << mindNode->type() << MindItem::NodeType << m_imgModel->hasPixmap(mindNode->id());
         result= mindNode->type() == MindItem::NodeType ? m_imgModel->hasPixmap(mindNode->id()) : false;
         break;
     }
@@ -264,6 +263,12 @@ void MindItemModel::appendItem(const QList<MindItem*>& nodes)
             {
                 connect(pItem, &mindmap::PositionedItem::positionChanged, this, &MindItemModel::geometryChanged);
                 connect(pItem, &mindmap::PositionedItem::textChanged, this, &MindItemModel::geometryChanged);
+                connect(pItem, &mindmap::PositionedItem::textChanged, this, [pItem, this](){
+                    auto [vec, offset]= getVector(m_links, m_packages, m_nodes, pItem->type());
+                    auto row= offset + static_cast<int>(vec.size());
+                    auto idx = index(row, 0);
+                    emit dataChanged(idx,idx,{Roles::Label});
+                });
                 connect(pItem, &mindmap::PositionedItem::widthChanged, this, &MindItemModel::geometryChanged);
                 connect(pItem, &mindmap::PositionedItem::heightChanged, this, &MindItemModel::geometryChanged);
             }
@@ -308,6 +313,7 @@ std::pair<MindItem*, LinkController*> MindItemModel::addItem(const QString& idpa
     auto [vec, offset]= getVector(m_links, m_packages, m_nodes, type);
 
     auto row= offset + static_cast<int>(vec.size());
+    Q_UNUSED(row)
 
     std::pair<MindItem*, LinkController*> result;
 
@@ -315,6 +321,7 @@ std::pair<MindItem*, LinkController*> MindItemModel::addItem(const QString& idpa
     {
 
         auto root= new MindNode();
+        root->setStyleIndex(defaultStyleIndex());
         appendItem({root});
 
         if(idparent.isEmpty())
@@ -509,4 +516,18 @@ std::vector<LinkController*> MindItemModel::sublink(const QString& id) const
 
     return vec;
 }
+
+int MindItemModel::defaultStyleIndex() const
+{
+    return m_defaultStyleIndex;
+}
+
+void MindItemModel::setDefaultStyleIndex(int newDefaultStyleIndex)
+{
+    if (m_defaultStyleIndex == newDefaultStyleIndex)
+        return;
+    m_defaultStyleIndex = newDefaultStyleIndex;
+    emit defaultStyleIndexChanged();
+}
+
 } // namespace mindmap

@@ -91,7 +91,7 @@ Pane
                               if(mouse.modifiers & Qt.ControlModifier)
                               {
                                   root.Drag.dragType = Drag.Automatic
-                                  root.Drag.keys = [ "rmindmap/reparenting","text/plain" ]
+                                  root.Drag.keys = [ "rmindmap/reparenting"]
                               }
                               else
                               {
@@ -220,10 +220,10 @@ Pane
                            var hasGif = false
                            for(var i=0; i< drop.keys.length; ++i)
                            {
-
-                                console.log("keys:"+drop.keys[i])
-                                if(drop.keys[i] === "rmindmap/reparenting")
+                                if(drop.keys[i] === "text/plain")
                                     reparenting = true
+                                else if(drop.keys[i] === "rmindmap/reparenting")
+                                   reparenting = true
                                 else if(drop.keys[i] === "text/uri-list")
                                     hasUrl = true
                                 else if(drop.keys[i] === "rolisteam/userlist-item")

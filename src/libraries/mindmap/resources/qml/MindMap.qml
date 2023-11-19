@@ -136,6 +136,10 @@ Flickable {
             source: hasAvatar ? "image://nodeImages/%1".arg(objectItem.id) : ""
             visible: objectItem.visible
             selected: objectItem.selected
+            onTextEdited: {
+                objectItem.text = nodeItem.text
+            }
+
             //color: _flick.styleSheet.linkColor
             buttonColor: _flick.styleSheet.textColor
             onAddChild: {
@@ -143,7 +147,7 @@ Flickable {
                 updateZoom()
             }
             onOpenChanged: _flick.ctrl.itemModel.openItem(objectItem.id, open)
-            onReparenting: _flick.ctrl.reparenting(objectItem,id)
+            onReparenting: (id) => {_flick.ctrl.reparenting(objectItem,id)}
             onAddImage: (img, data)=>{ _flick.ctrl.addImageFor(objectItem.id, img, data)}
             onSelectStyle: {
                 _stylePopup.parent = nodeItem

@@ -94,7 +94,7 @@ NodeStyle* NodeStyleModel::getStyle(int index) const
     auto idx = static_cast<std::size_t>(index);
 
     if(idx >= m_styles.size())
-       index = 0;
+       idx = 0;
 
     return m_styles[idx].get();
 }

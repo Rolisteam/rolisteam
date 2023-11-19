@@ -113,7 +113,6 @@ signals:
     void contentRectChanged();
     void linkLabelVisibilityChanged();
     void hasSelectionChanged();
-
     void zoomLevelChanged();
 
 public slots:
@@ -155,7 +154,6 @@ protected:
     std::unique_ptr<NodeStyleModel> m_styleModel;
     std::unique_ptr<QThread> m_spacing;
     QUndoStack m_stack;
-    int m_defaultStyleIndex= 0;
     QPointer<PositionedItem> m_package;
     QString m_errorMsg;
     bool m_linkLabelVisibility;
