@@ -790,11 +790,11 @@ void MainWindow::setUpNetworkConnection()
 
 void MainWindow::helpOnLine()
 {
-    if(!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
+    if(!QDesktopServices::openUrl(QUrl("http://doc.rolisteam.org/")))
     {
         QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("Help"),
                                              tr("Documentation of %1 can be found online at :<br> <a "
-                                                "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>")
+                                                "href=\"http://doc.rolisteam.org\">http://doc.rolisteam.org/</a>")
                                                  .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
                                              QMessageBox::Ok);
         msgBox->exec();

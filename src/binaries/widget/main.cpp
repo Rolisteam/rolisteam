@@ -69,7 +69,7 @@ Q_LOGGING_CATEGORY(rDice, "rolisteam.dice");
  *
  *
  * @section install_sec Installation
- * To get documentation on how to install rolisteam: http://wiki.rolisteam.org/
+ * To get documentation on how to install rolisteam: http://doc.rolisteam.org/
  *
  * @section How to stay in touch ?
  * Please, visit: https://rolisteam.org/
