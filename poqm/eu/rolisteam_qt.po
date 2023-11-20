@@ -1763,11 +1763,15 @@ msgid "Connection lost"
 msgstr "Konexioa galdu da"
 
 #: src/binaries/widget/mainwindow.cpp:796
-#, qt-format
+#, fuzzy, qt-format
+#| msgctxt "MainWindow|"
+#| msgid ""
+#| "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
+#| "rolisteam.org\">http://wiki.rolisteam.org/</a>"
 msgctxt "MainWindow|"
 msgid ""
-"Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
-"rolisteam.org\">http://wiki.rolisteam.org/</a>"
+"Documentation of %1 can be found online at :<br> <a href=\"http://doc."
+"rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
 "%1(e)(r)(e)n dokumentazioa lerroan hemen aurki daiteke:<br> <a href=\"http://"
 "wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
@@ -2813,13 +2817,13 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:149
+#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:150
 msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Erroa"
 
 #: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:47
-#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
+#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:36
 msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr "Karaktere ezezaguna"
@@ -3367,7 +3371,7 @@ msgctxt "QObject|"
 msgid "Unveil vectorial map"
 msgstr "Estalgabetu"
 
-#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:30
+#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
@@ -3485,7 +3489,7 @@ msgctxt "QObject|"
 msgid "Open %1"
 msgstr "Ireki %1"
 
-#: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:31
+#: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:32
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
@@ -3798,7 +3802,7 @@ msgid "Title"
 msgstr "Titulua"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:31
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:154
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:150
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "Izena"
@@ -3809,43 +3813,43 @@ msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr "Gaueko modua"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:46
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:45
 msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr "Estekaren etiketa ikusgai:"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:53
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:50
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "Estilo lehenetsia"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:74
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:97
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:70
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:93
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "Testua"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:115
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:111
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "Irizpidea"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:123
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:119
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "Eredua"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:161
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:157
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "Deskribapena"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:168
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:164
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "Hautatu"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:179
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:175
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "Etiketak"
@@ -6122,7 +6126,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Gorde"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:524
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:550
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Erakutsi zutabeak"
@@ -6502,12 +6506,12 @@ msgctxt "AntagonistBoard|"
 msgid "Remove Character"
 msgstr "Kendu %1 karakterea"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:75
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:76
 msgctxt "AudioPlayer|"
 msgid "Background Music"
 msgstr "Hondoko musika"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:97
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:98
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"

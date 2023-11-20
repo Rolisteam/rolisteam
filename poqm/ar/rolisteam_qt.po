@@ -1721,8 +1721,8 @@ msgstr "فُقد الاتّصال"
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
-"Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
-"rolisteam.org\">http://wiki.rolisteam.org/</a>"
+"Documentation of %1 can be found online at :<br> <a href=\"http://doc."
+"rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:831
@@ -2725,13 +2725,13 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "مجهول"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:149
+#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:150
 msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "الجذر"
 
 #: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:47
-#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
+#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:36
 msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr ""
@@ -3269,7 +3269,7 @@ msgctxt "QObject|"
 msgid "Unveil vectorial map"
 msgstr ""
 
-#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:30
+#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
@@ -3387,7 +3387,7 @@ msgctxt "QObject|"
 msgid "Open %1"
 msgstr "افتح %1"
 
-#: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:31
+#: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:32
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
@@ -3701,7 +3701,7 @@ msgid "Title"
 msgstr "العنوان"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:31
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:154
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:150
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "الاسم"
@@ -3712,43 +3712,43 @@ msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:46
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:45
 msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:53
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:50
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "النمط المبدئي"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:74
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:97
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:70
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:93
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "النص"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:115
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:111
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "المعايير"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:123
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:119
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "النمط"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:161
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:157
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "الوصف"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:168
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:164
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "اختر"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:179
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:175
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "الوسوم"
@@ -5975,7 +5975,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "احفظ"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:524
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:550
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "اعرض الأعمدة"
@@ -6341,12 +6341,12 @@ msgctxt "AntagonistBoard|"
 msgid "Remove Character"
 msgstr "أزل المحرف %1"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:75
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:76
 msgctxt "AudioPlayer|"
 msgid "Background Music"
 msgstr "خلفيه موسيقية"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:97
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:98
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"

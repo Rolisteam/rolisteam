@@ -1580,11 +1580,15 @@ msgid "Connection lost"
 msgstr "Utracono połączenie"
 
 #: src/binaries/widget/mainwindow.cpp:796
-#, qt-format
+#, fuzzy, qt-format
+#| msgctxt "MainWindow|"
+#| msgid ""
+#| "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
+#| "rolisteam.org\">http://wiki.rolisteam.org/</a>"
 msgctxt "MainWindow|"
 msgid ""
-"Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
-"rolisteam.org\">http://wiki.rolisteam.org/</a>"
+"Documentation of %1 can be found online at :<br> <a href=\"http://doc."
+"rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
 "Dokumentacja %1 znajduje się w sieci na stronie:<br> <a href=\"http://wiki."
 "rolisteam.org\">http://wiki.rolisteam.org/</a>"
@@ -2446,13 +2450,13 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:149
+#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:150
 msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Korzeń"
 
 #: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:47
-#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
+#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:36
 msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr "Nieznana postać"
@@ -2999,7 +3003,7 @@ msgctxt "QObject|"
 msgid "Unveil vectorial map"
 msgstr "Odkryj mapę wektorową"
 
-#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:30
+#: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:28
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
@@ -3117,7 +3121,7 @@ msgctxt "QObject|"
 msgid "Open %1"
 msgstr "Otwórz %1"
 
-#: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:31
+#: src/libraries/core/src/undoCmd/removelocalcharactercommand.cpp:32
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
@@ -3427,7 +3431,7 @@ msgid "Title"
 msgstr "Tytuł"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:31
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:154
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:150
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "Nazwa"
@@ -3438,43 +3442,43 @@ msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr "Tryb nocny"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:46
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:45
 msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr "Etykieta odnośnika widoczna:"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:53
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:50
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "Domyślny wygląd"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:74
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:97
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:70
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:93
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "Tekst"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:115
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:111
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "Warunki"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:123
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:119
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "Wzorzec"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:161
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:157
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "Opis"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:168
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:164
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "Wybierz"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:179
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:175
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "Znaczniki"
@@ -5491,7 +5495,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Zapisz"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:524
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:550
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Pokaż kolumny"
@@ -5766,12 +5770,12 @@ msgctxt "AntagonistBoard|"
 msgid "Remove Character"
 msgstr "Usuń postać"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:75
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:76
 msgctxt "AudioPlayer|"
 msgid "Background Music"
 msgstr "Muzyka w tle"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:97
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:98
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"
