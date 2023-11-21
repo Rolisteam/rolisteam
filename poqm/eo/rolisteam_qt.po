@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2023-11-16 07:39+0100\n"
+"PO-Revision-Date: 2023-11-20 22:34+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1579,18 +1579,14 @@ msgid "Connection lost"
 msgstr "Konekto Perdita"
 
 #: src/binaries/widget/mainwindow.cpp:796
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
-#| "rolisteam.org\">http://wiki.rolisteam.org/</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
 "rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
-"Dokumentado de %1 troveblas interrete ĉe :<br> <a href=\"http://wiki."
-"rolisteam.org\">http://wiki.rolisteam.org/</a>"
+"Dokumentado de %1 troveblas interrete ĉe :<br> <a href=\"http://doc."
+"rolisteam.org\">http://doc.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:831
 msgctxt "MainWindow|"

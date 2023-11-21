@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-16 20:06+0300\n"
+"PO-Revision-Date: 2023-11-20 12:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1574,18 +1574,14 @@ msgid "Connection lost"
 msgstr "Bağlantı kesildi"
 
 #: src/binaries/widget/mainwindow.cpp:796
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
-#| "rolisteam.org\">http://wiki.rolisteam.org/</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
 "rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
-"%1 belgelendirmesi, şurada bulunabilir:<br> <a href=\"http://wiki.rolisteam."
-"org\">http://wiki.rolisteam.org/</a>"
+"%1 belgelendirmesi şurada bulunabilir:<br> <a href=\"http://doc.rolisteam.org"
+"\">http://doc.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:831
 msgctxt "MainWindow|"

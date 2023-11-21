@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2023-11-17 07:28+0100\n"
+"PO-Revision-Date: 2023-11-20 09:15+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1586,18 +1586,14 @@ msgid "Connection lost"
 msgstr "Povezava izgubljena"
 
 #: src/binaries/widget/mainwindow.cpp:796
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
-#| "rolisteam.org\">http://wiki.rolisteam.org/</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
 "rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
-"Dokumentacijo %1 najdete na spletu:<br><a href=\"http://wiki.rolisteam.org"
-"\">http://wiki.rolisteam.org/</a>"
+"Dokumentacijo %1 najdete na spletu:<br> <a href=\"http://doc.rolisteam.org"
+"\">http://doc.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:831
 msgctxt "MainWindow|"
