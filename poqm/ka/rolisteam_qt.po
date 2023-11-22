@@ -1578,18 +1578,14 @@ msgid "Connection lost"
 msgstr "კავშირი დაკარგულია"
 
 #: src/binaries/widget/mainwindow.cpp:796
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
-#| "rolisteam.org\">http://wiki.rolisteam.org/</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
 "rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
-"%1-ის დოკუმენტაცია შეგიძლიათ იპოვოთ ონლან, მისამართზე :<br> <a href=\"http://"
-"wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
+"%1-ის დოკუმენტაცია შეგიძლიათ იპოვოთ ონლაინ, მისამართზე :<br> <a href="
+"\"http://doc.rolisteam.org\">http://doc.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:831
 msgctxt "MainWindow|"
