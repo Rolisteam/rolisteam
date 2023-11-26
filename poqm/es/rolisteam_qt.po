@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2023-11-12 00:33+0100\n"
+"PO-Revision-Date: 2023-11-26 01:16+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -426,7 +426,7 @@ msgstr "Derecha"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:112
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Definition:"
-msgstr ""
+msgstr "Definición de columna:"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
@@ -902,12 +902,9 @@ msgid "Apply on all characters"
 msgstr "Aplicar a todos los personajes"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "MainWindow|"
 msgid "Unknown[*] - Rolisteam Character Sheet Editor"
-msgstr "Hoja de personaje de Rolisteam (*.rcs)"
+msgstr "Desconocido[*] - Editor de hoja de personaje de Rolisteam"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:29
 msgctxt "MainWindow|"
@@ -1216,12 +1213,9 @@ msgstr "Comprobar validez"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
 #: src/binaries/widget/mainwindow.ui:479 src/binaries/widget/mainwindow.ui:546
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Export Rolisteam Theme"
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
-msgstr "Exportar tema de Rolisteam"
+msgstr "Apoyar a Rolisteam"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1118
 msgctxt "MainWindow|"
@@ -1585,18 +1579,14 @@ msgid "Connection lost"
 msgstr "Conexión perdida"
 
 #: src/binaries/widget/mainwindow.cpp:796
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of %1 can be found online at :<br> <a href=\"http://wiki."
-#| "rolisteam.org\">http://wiki.rolisteam.org/</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
 "rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
-"La documentación de %1 se puede encontrar en:<br> <a href=\"http://wiki."
-"rolisteam.org\">http://wiki.rolisteam.org/</a>"
+"La documentación de %1 se puede encontrar en:<br> <a href=\"http://doc."
+"rolisteam.org\">http://doc.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:831
 msgctxt "MainWindow|"
@@ -2419,7 +2409,7 @@ msgstr "Guardar"
 #: src/libraries/common/widgets/logpanel.ui:116
 msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
-msgstr ""
+msgstr "Proporcionar este archivo a los desarrolladores de Rolisteam"
 
 #: src/libraries/core/src/controller/contentcontroller.cpp:359
 msgctxt "ContentController|"
@@ -3727,12 +3717,9 @@ msgid "Characters"
 msgstr "Personajes"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:294
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "New profile"
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
-msgstr "Nuevo perfil"
+msgstr "Guardar perfiles"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"
@@ -4506,7 +4493,7 @@ msgstr "Uso de disco:"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:406
 msgctxt "CampaignProperties|"
 msgid "Theme*:"
-msgstr ""
+msgstr "Tema*:"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -4515,12 +4502,9 @@ msgid "Connection has failed! Connection Retry in %1s."
 msgstr "La conexión ha fallado. Se vuelve a intentar en %1 s."
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Connection lost"
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection Retry"
-msgstr "Conexión perdida"
+msgstr "Reintento de conexión"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:14
 msgctxt "HistoryViewerDialog|"
@@ -4880,12 +4864,9 @@ msgid "Fog Of War:"
 msgstr "Niebla de guerra:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:72
-#, fuzzy
-#| msgctxt "MapWizzardDialog|"
-#| msgid "All Permissions"
 msgctxt "PreferencesDialogBox|"
 msgid "Default Map Permission:"
-msgstr "Todos los permisos"
+msgstr "Permisos de mapas predeterminado:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:99
 msgctxt "PreferencesDialogBox|"
@@ -4893,12 +4874,9 @@ msgid "Opacity Value:"
 msgstr "Valor de opacidad:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:135
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Highlighter"
 msgctxt "PreferencesDialogBox|"
 msgid "Item Highlight Color"
-msgstr "Rotulador"
+msgstr "Color para resaltar elementos"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:166
 msgctxt "PreferencesDialogBox|"
@@ -4918,7 +4896,7 @@ msgstr "Comportamiento"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:196
 msgctxt "PreferencesDialogBox|"
 msgid "Check for Update"
-msgstr ""
+msgstr "Comprobar actualización"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:206
 msgctxt "PreferencesDialogBox|"
@@ -4971,15 +4949,12 @@ msgstr "Longitud máxima:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:326
 msgctxt "PreferencesDialogBox|"
 msgid "Pictures fit their Windows (at the opening)"
-msgstr ""
+msgstr "Las imágenes se ajustan a sus ventanas (al abrirlas)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:339
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Application"
 msgctxt "PreferencesDialogBox|"
 msgid "Application Language*"
-msgstr "Aplicación"
+msgstr "Idioma de la aplicación*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:345
 msgctxt "PreferencesDialogBox|"
@@ -5022,12 +4997,9 @@ msgid "Messaging"
 msgstr "Mensajería"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:465
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Show/Hide"
 msgctxt "PreferencesDialogBox|"
 msgid "Show time"
-msgstr "Mostrar/ocultar"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
 msgctxt "PreferencesDialogBox|"
@@ -5040,9 +5012,6 @@ msgid "Hide Long commands"
 msgstr "Ocultar órdenes largas"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
-#, fuzzy
-#| msgctxt "PreferencesDialogBox|"
-#| msgid "Maximum Lenght :"
 msgctxt "PreferencesDialogBox|"
 msgid "Maximum Length:"
 msgstr "Longitud máxima:"
@@ -5050,25 +5019,22 @@ msgstr "Longitud máxima:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
 msgctxt "PreferencesDialogBox|"
 msgid "* : need restart"
-msgstr ""
+msgstr "*: necesita reiniciar"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:572
 msgctxt "PreferencesDialogBox|"
 msgid "Player Information"
-msgstr ""
+msgstr "Información del jugador"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:593
 msgctxt "PreferencesDialogBox|"
 msgid "Music path"
-msgstr ""
+msgstr "Ruta de la música"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "AudioFile"
 msgctxt "PreferencesDialogBox|"
 msgid "AudioPlayer1:"
-msgstr "Archivo de sonido"
+msgstr "Reproductor de sonido 1:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:628
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:635
@@ -5087,20 +5053,14 @@ msgid "..."
 msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "AudioFile"
 msgctxt "PreferencesDialogBox|"
 msgid "AudioPlayer2:"
-msgstr "Archivo de sonido"
+msgstr "Reproductor de sonido 2:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:732
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "AudioFile"
 msgctxt "PreferencesDialogBox|"
 msgid "AudioPlayer3:"
-msgstr "Archivo de sonido"
+msgstr "Reproductor de sonido 3:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:795
 msgctxt "PreferencesDialogBox|"
@@ -5113,12 +5073,9 @@ msgid "Theme"
 msgstr "Tema"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:811
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Current HP"
 msgctxt "PreferencesDialogBox|"
 msgid "Current Theme*"
-msgstr "Salud actual"
+msgstr "Tema actual*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:818
 msgctxt "PreferencesDialogBox|"
@@ -5154,12 +5111,9 @@ msgid "Edit..."
 msgstr "Editar..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:898
-#, fuzzy
-#| msgctxt "ImageModel|"
-#| msgid "Is Background"
 msgctxt "PreferencesDialogBox|"
 msgid "Background"
-msgstr "Es fondo"
+msgstr "Fondo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:906
 msgctxt "PreferencesDialogBox|"
@@ -5172,12 +5126,9 @@ msgid "Image:"
 msgstr "Imagen:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:951
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "Position columns"
 msgctxt "PreferencesDialogBox|"
 msgid "Positioning:"
-msgstr "Columnas de posición"
+msgstr "Posición:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:959
 msgctxt "PreferencesDialogBox|"
@@ -5235,7 +5186,7 @@ msgstr "Paleta de color"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1050
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
-msgstr ""
+msgstr "*: necesita reiniciar"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1070
 msgctxt "PreferencesDialogBox|"
@@ -5255,12 +5206,12 @@ msgstr "Diagnóstico"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1096
 msgctxt "PreferencesDialogBox|"
 msgid "Enable Data collection"
-msgstr ""
+msgstr "Activar recopilación de datos"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1106
 msgctxt "PreferencesDialogBox|"
 msgid "Data collection"
-msgstr ""
+msgstr "Recopilación de datos"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1112
 msgctxt "PreferencesDialogBox|"
@@ -5282,22 +5233,19 @@ msgid ""
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1127
-#, fuzzy
-#| msgctxt "PageDelegate|"
-#| msgid "All pages"
 msgctxt "PreferencesDialogBox|"
 msgid "All Usages"
-msgstr "Todas las páginas"
+msgstr "Todos los usos"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1147
 msgctxt "PreferencesDialogBox|"
 msgid "May slow down rolisteam"
-msgstr ""
+msgstr "Puede ralentizar Rolisteam"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1150
 msgctxt "PreferencesDialogBox|"
 msgid "Include Debug data*"
-msgstr ""
+msgstr "Incluir datos de depuración*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1184
 msgctxt "PreferencesDialogBox|"
@@ -5333,7 +5281,7 @@ msgstr "Seleccionar directorio"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:14
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Welcome To Rolisteam - Connection Dialog"
-msgstr ""
+msgstr "Bienvenido a Rolisteam - Diálogo de conexión"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
 msgctxt "SelectConnectionProfileDialog|"
@@ -5356,12 +5304,9 @@ msgid "stop"
 msgstr "detener"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:55
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Avatar"
 msgctxt "SelectConnectionProfileDialog|"
 msgid "playerAvatar"
-msgstr "Avatar"
+msgstr "Avatar del jugador"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:64
 msgctxt "SelectConnectionProfileDialog|"
@@ -5398,7 +5343,7 @@ msgstr "Diálogo"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:42
 msgctxt "TipOfDayViewer|"
 msgid "Never show it again !"
-msgstr ""
+msgstr "No volver a mostrar"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -5433,7 +5378,7 @@ msgstr "Todo visible"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:14
 msgctxt "MapWizzardDialog|"
 msgid "Map Wizzard"
-msgstr ""
+msgstr "Asistente de mapas"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:31
 msgctxt "MapWizzardDialog|"
@@ -5451,12 +5396,9 @@ msgid "Visibility Mode:"
 msgstr "Modo de visibilidad:"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:111
-#, fuzzy
-#| msgctxt "VmapTopBar|"
-#| msgid "Permission: PC Move"
 msgctxt "MapWizzardDialog|"
 msgid "Permission Mode:"
-msgstr "Permiso: Movimiento del PJ"
+msgstr "Modo de permisos:"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:123
 msgctxt "MapWizzardDialog|"
@@ -6626,12 +6568,9 @@ msgid "OpenOffice 2.4 file format OASIS "
 msgstr "Formato de archivo OASIS de OpenOffice 2.4"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:14
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "AnnounceDocumentDialog|"
 msgid "Announce Document"
-msgstr "Imprimir documento"
+msgstr "Anunciar documento"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:35
 msgctxt "AnnounceDocumentDialog|"
@@ -6641,7 +6580,7 @@ msgstr "Nombre:"
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:62
 msgctxt "AnnounceDocumentDialog|"
 msgid "Broadcast this document"
-msgstr ""
+msgstr "Emitir este documento"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:94
 msgctxt "AnnounceDocumentDialog|"
@@ -6651,15 +6590,12 @@ msgstr "Usar siempre este nombre"
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:108
 msgctxt "AnnounceDocumentDialog|"
 msgid "You can change this in the preferences dialog."
-msgstr ""
+msgstr "Puede cambiar esto en el diálogo de preferencias."
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:14
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "ConnectToDocument|"
 msgid "Connect to Document"
-msgstr "Imprimir documento"
+msgstr "Conectar al documento"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:52
 msgctxt "ConnectToDocument|"
@@ -6719,12 +6655,12 @@ msgstr ""
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:14
 msgctxt "FindDialog|"
 msgid "Find"
-msgstr ""
+msgstr "Buscar"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:40
 msgctxt "FindDialog|"
 msgid "Find:"
-msgstr ""
+msgstr "Buscar:"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:83
 msgctxt "FindDialog|"
@@ -6924,12 +6860,12 @@ msgstr "Permiso"
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:140
 msgctxt "ParticipantsPane|"
 msgid "Promote"
-msgstr ""
+msgstr "Promover"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:149
 msgctxt "ParticipantsPane|"
 msgid "Demote"
-msgstr ""
+msgstr "Degradar"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:27
 msgctxt "PreferencesDialog|"
@@ -6973,12 +6909,9 @@ msgid "Participants Pane:"
 msgstr "Panel de participantes:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:275
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Sharing Pdf File"
 msgctxt "PreferencesDialog|"
 msgid "Sharing"
-msgstr "Compartir archivo PDF"
+msgstr "Compartir"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:289
 msgctxt "PreferencesDialog|"
@@ -7017,12 +6950,9 @@ msgid "Syntax Highlighting..."
 msgstr "Resaltado de sintaxis..."
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:97
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "WebView"
 msgctxt "SharedNote|"
 msgid "View"
-msgstr "Vista web"
+msgstr "Vista"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:104
 msgctxt "SharedNote|"
@@ -7146,12 +7076,9 @@ msgid "Save All"
 msgstr "Guardar todo"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:283
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "SharedNote|"
 msgid "Announce Document"
-msgstr "Imprimir documento"
+msgstr "Anunciar documento"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:286
 msgctxt "SharedNote|"
@@ -7184,12 +7111,9 @@ msgid "Split"
 msgstr "Dividir"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:320
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "SharedNote|"
 msgid "Resynchronize Document"
-msgstr "Imprimir documento"
+msgstr "Resincronizar documento"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:328
 msgctxt "SharedNote|"
