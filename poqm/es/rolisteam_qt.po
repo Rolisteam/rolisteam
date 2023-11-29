@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2023-11-26 01:16+0100\n"
+"PO-Revision-Date: 2023-11-29 00:13+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -274,6 +274,12 @@ msgid ""
 "CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
 "\">wiki.rolisteam.org</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Editor de hoja de "
+"personaje de Rolisteam</span></p><p><br/></p><p>Este software está dedicado "
+"a crear hojas de personajes para Rolisteam v1.8, entre otras cosas. <br/"
+">Consulte la documentación en: <a href=\"http://wiki.rolisteam.org/index.php/"
+"En:CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
+"\">wiki.rolisteam.org</span></a>.</p></body></html>"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:33
 msgctxt "AboutRcse|"
@@ -507,17 +513,17 @@ msgstr "Escala predeterminada:"
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
-msgstr ""
+msgstr "Importación adicional:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
-msgstr ""
+msgstr "Código de cabecera adicional:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
-msgstr ""
+msgstr "Código final adicional:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146
 msgctxt "SheetProperties|"
@@ -3351,12 +3357,9 @@ msgstr ""
 "%1"
 
 #: src/libraries/mindmap/resources/qml/main.qml:10
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "main|"
 msgid "RMindMap"
-msgstr "Mapa mental"
+msgstr "RMindMap"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:67
 msgctxt "MindMap|"
@@ -4599,12 +4602,9 @@ msgid "Dialog"
 msgstr "Diálogo"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:22
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Source Campaign"
-msgstr "Abrir campaña"
+msgstr "Campaña fuente"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5585,17 +5585,14 @@ msgid "exclude tags:"
 msgstr "excluir etiquetas:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:161
-#, fuzzy
-#| msgctxt "TestCharacterStateModel|"
-#| msgid "Healthy"
 msgctxt "AntagonistBoard|"
 msgid "Health:"
-msgstr "Sano"
+msgstr "Condición:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:171
 msgctxt "AntagonistBoard|"
 msgid "full life"
-msgstr ""
+msgstr "vida completa"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:178
 msgctxt "AntagonistBoard|"
