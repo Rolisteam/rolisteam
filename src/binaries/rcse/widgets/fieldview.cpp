@@ -97,7 +97,7 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
             [this](int i) { this->setColumnHidden(i, !this->isColumnHidden(i)); });
 }
 
-void FieldView::setController(MainController* ctrl)
+void FieldView::setController(rcse::MainController* ctrl)
 {
     m_ctrl= ctrl;
 

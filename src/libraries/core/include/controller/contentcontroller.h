@@ -47,9 +47,7 @@ class MediaContainer;
 class QAbstractItemModel;
 class ResourcesNode;
 class PreferencesManager;
-class MediaManagerBase;
 class NetworkMessageReader;
-class ImageMediaController;
 class NetworkController;
 class MapMediaController;
 class CharacterModel;
@@ -87,7 +85,6 @@ public:
     QFileSystemModel* sessionModel() const;
     ContentModel* contentModel() const;
     history::HistoryModel* historyModel() const;
-    std::vector<MediaManagerBase*> mediaUpdaters() const;
     int contentCount() const;
 
     int maxLengthTabName() const;

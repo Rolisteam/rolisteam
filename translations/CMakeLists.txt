@@ -20,5 +20,9 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release" OR ${GENERATE_TS_FILES})
         PREFIX "/translations"
         FILES ${QM_FILES}
         )
+    qt6_add_resources(tst_models translations
+        PREFIX "/translations"
+        FILES ${QM_FILES}
+        )
     add_dependencies(rolisteam BuildTranslations)
 endif()

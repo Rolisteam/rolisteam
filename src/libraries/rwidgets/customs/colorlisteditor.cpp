@@ -33,7 +33,10 @@ QColor ColorListEditor::color() const
 
 void ColorListEditor::setColor(QColor color)
 {
-    setCurrentIndex(findData(color, int(Qt::DecorationRole)));
+    auto i = findData(color, int(Qt::DecorationRole));
+    if(currentIndex() == i)
+        return;
+    setCurrentIndex(i);
     emit colorChanged();
 }
 

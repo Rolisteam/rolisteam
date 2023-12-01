@@ -56,7 +56,10 @@ QColor CSItem::bgColor() const
 
 void CSItem::setBgColor(const QColor& bgColor)
 {
+    if(bgColor == m_bgColor)
+        return;
     m_bgColor= bgColor;
+    emit bgColorChanged();
 }
 
 QColor CSItem::textColor() const
@@ -66,7 +69,10 @@ QColor CSItem::textColor() const
 
 void CSItem::setTextColor(const QColor& textColor)
 {
+    if(textColor == m_textColor)
+        return;
     m_textColor= textColor;
+    emit textColorChanged();
 }
 
 qreal CSItem::x() const

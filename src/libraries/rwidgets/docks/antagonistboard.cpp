@@ -75,9 +75,15 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     , m_saveTokenAct(new QAction(tr("Save")))
 {
     ui->setupUi(this);
+    setAcceptDrops(true);
 
     ui->m_antogonistView->setModel(m_ctrl->filteredModel());
     ui->m_antogonistView->setDragEnabled(true);
+    ui->m_antogonistView->setAcceptDrops(true);
+    ui->m_antogonistView->setDragDropOverwriteMode(false);
+    ui->m_antogonistView->setDropIndicatorShown(true);
+    ui->m_antogonistView->setDefaultDropAction(Qt::MoveAction);
+    ui->m_antogonistView->setDragDropMode(QAbstractItemView::DragDrop);
     ui->m_antogonistView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->m_antogonistView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->m_antogonistView->setContextMenuPolicy(Qt::CustomContextMenu);

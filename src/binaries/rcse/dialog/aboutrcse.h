@@ -31,13 +31,18 @@ class AboutRcse;
 class AboutRcse : public QDialog
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString version READ version WRITE setVersion NOTIFY versionChanged FINAL)
 public:
-    explicit AboutRcse(QString verison, QWidget *parent);
+    explicit AboutRcse(QString verison, QWidget *parent = nullptr);
     ~AboutRcse();
 
     QString version() const;
+
+public slots:
     void setVersion(const QString &version);
+
+signals:
+    void versionChanged();
 
 private:
     Ui::AboutRcse *ui;

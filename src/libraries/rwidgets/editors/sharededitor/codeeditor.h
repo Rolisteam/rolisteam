@@ -16,8 +16,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef CODEEDITOR_H
-#define CODEEDITOR_H
+#ifndef SHAREDNOTES_CODEEDITOR_H
+#define SHAREDNOTES_CODEEDITOR_H
 
 #include "enu.h"
 #include "rwidgets_global.h"
@@ -32,7 +32,8 @@ class QWidget;
 
 class LineNumberArea;
 class SharedNoteController;
-
+namespace sharedNotes
+{
 class RWIDGET_EXPORT CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
@@ -75,10 +76,11 @@ private:
     QWidget* lineNumberArea;
 };
 
+
 class LineNumberArea : public QWidget
 {
 public:
-    LineNumberArea(CodeEditor* editor) : QWidget(editor) { codeEditor= editor; }
+    LineNumberArea(sharedNotes::CodeEditor* editor) : QWidget(editor) { codeEditor= editor; }
 
     QSize sizeHint() const { return QSize(codeEditor->lineNumberAreaWidth(), 0); }
 
@@ -86,7 +88,7 @@ protected:
     void paintEvent(QPaintEvent* event) { codeEditor->lineNumberAreaPaintEvent(event); }
 
 private:
-    CodeEditor* codeEditor;
+    sharedNotes::CodeEditor* codeEditor;
 };
-
-#endif // CODEEDITOR_H
+}
+#endif // SHAREDNOTES_CODEEDITOR_H

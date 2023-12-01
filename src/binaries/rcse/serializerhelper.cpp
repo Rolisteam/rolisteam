@@ -29,7 +29,7 @@
 namespace SerializerHelper
 {
 
-QByteArray buildData(MainController* ctrl)
+QByteArray buildData(rcse::MainController* ctrl)
 {
     QJsonDocument json;
     QJsonObject obj= saveGeneratorController(ctrl->generatorCtrl());
@@ -81,7 +81,7 @@ void fetchGeneratorController(QmlGeneratorController* ctrl, const QJsonObject& o
     model->load(obj["data"].toObject());
 }
 
-void fetchMainController(MainController* ctrl, const QJsonObject& jsonObj)
+void fetchMainController(rcse::MainController* ctrl, const QJsonObject& jsonObj)
 {
     ctrl->cleanUpData(false);
     QJsonObject data= jsonObj[keys::data].toObject();

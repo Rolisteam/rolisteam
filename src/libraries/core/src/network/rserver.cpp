@@ -7,9 +7,10 @@
 #include "network/upnp/upnpnat.h"
 
 RServer::RServer(const QMap<QString, QVariant>& parameter, bool internal, QObject* parent)
-    : QTcpServer(parent), m_corConnection(new TimeAccepter()), m_data(parameter), m_internal(internal)
+    : QTcpServer(parent), m_corConnection(new TimeAccepter()), m_data(parameter),m_internal(internal)
 {
-    m_threadCount= parameter.value("ThreadCount", m_threadCount).toInt();
+    if(m_data.contains("ThreadCount"))
+        m_threadCount= m_data.value("ThreadCount", m_threadCount).toInt();
     connect(this, &RServer::portChanged, this, &RServer::runUpnpNat);
     runUpnpNat();
 }

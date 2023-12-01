@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
+    <width>682</width>
     <height>893</height>
    </rect>
   </property>
@@ -293,6 +293,12 @@
        </item>
        <item>
         <widget class="DragableTableView" name="m_antogonistView">
+         <property name="dragEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::DragDrop</enum>
+         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>

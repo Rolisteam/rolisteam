@@ -39,7 +39,6 @@ class PdfController;
 class SharedNoteController;
 class CharacterSheetController;
 class ContentController;
-class MediaManagerBase;
 class ContentModel;
 class MindMapController;
 class DiceAlias;

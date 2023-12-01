@@ -28,12 +28,17 @@
 class MediaControllerBase;
 class CORE_EXPORT  SingleContentTypeModel : public QSortFilterProxyModel
 {
+    Q_OBJECT
+    Q_PROPERTY(Core::ContentType type READ type CONSTANT)
+
 public:
     SingleContentTypeModel(Core::ContentType type, QObject* parent = nullptr);
-    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent);
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
 
     Core::ContentType type() const;
+
+public slots:
     bool contains(const QString& uuid) const;
     MediaControllerBase *controller(const QString &uuid) const;
 private:

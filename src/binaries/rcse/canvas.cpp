@@ -25,12 +25,13 @@
 #include <QMimeData>
 #include <QUrl>
 #include <cmath>
+#include <QCryptographicHash>
 
 #include "undo/addfieldcommand.h"
 #include "undo/deletefieldcommand.h"
 #include "undo/movefieldcommand.h"
 #include "undo/setbackgroundimage.h"
-
+#include "utils/iohelper.h"
 #include "controllers/editorcontroller.h"
 #include "controllers/imagecontroller.h"
 
@@ -268,6 +269,11 @@ const QPixmap Canvas::pixmap() const
 }
 void Canvas::setPixmap(const QPixmap& pix)
 {
+    static QString md5;
+    auto key = QCryptographicHash::hash(utils::IOHelper::imageToData(pix.toImage()), QCryptographicHash::Md5);
+
+    if(md5 == key)
+        return;
     m_bg->setPixmap(pix);
     emit pixmapChanged();
 
@@ -278,4 +284,5 @@ void Canvas::setPixmap(const QPixmap& pix)
         addItem(m_bg);
         setSceneRect(m_bg->boundingRect());
     }
+    md5 = key;
 }

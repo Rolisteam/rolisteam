@@ -36,7 +36,7 @@
 #include <memory>
 
 #include "network/networkreceiver.h"
-#include "preferences/preferencesmanager.h"
+#include "core/include/preferences/preferencesmanager.h"
 
 #include "rwidgets/customs/vmap.h"
 #include "rwidgets/docks/vmaptoolbar.h"

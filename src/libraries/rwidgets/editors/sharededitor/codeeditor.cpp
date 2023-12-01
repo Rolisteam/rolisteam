@@ -9,6 +9,8 @@
 #include "enu.h"
 #include "utilities.h"
 
+namespace sharedNotes
+{
 CodeEditor::CodeEditor(SharedNoteController* ctrl, QWidget* parent) : QPlainTextEdit(parent), m_sharedCtrl(ctrl)
 {
     lineNumberArea= new LineNumberArea(this);
@@ -639,4 +641,5 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
         bottom= top + static_cast<int>(blockBoundingRect(block).height());
         ++blockNumber;
     }
+}
 }

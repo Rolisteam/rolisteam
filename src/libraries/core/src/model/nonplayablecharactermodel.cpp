@@ -325,6 +325,33 @@ QString NonPlayableCharacterModel::stateName(const QString& id) const
     return m_states->stateLabelFromId(id);
 }
 
+Qt::DropActions NonPlayableCharacterModel::supportedDropActions() const
+{
+    return Qt::MoveAction | Qt::CopyAction | Qt::TargetMoveAction | Qt::ActionMask ;
+}
+
+bool NonPlayableCharacterModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    if(column != NonPlayableCharacterModel::ColAvatar || action == Qt::IgnoreAction)
+        return false;
+
+    bool added= false;
+
+    if(data->hasImage())
+    {
+        setData(index(row, column), IOHelper::imageToData(data->imageData().value<QImage>()),NonPlayableCharacterModel::RoleAvatar);
+    }
+    else if(data->hasUrls())
+    {
+        auto urls = data->urls();
+        if(urls.size() > 1 || urls.isEmpty())
+            return false;
+        setData(index(row, column), urls[0],NonPlayableCharacterModel::RoleAvatar);
+        setData(index(row, column), urls[0],NonPlayableCharacterModel::RoleAvatarPath);
+    }
+    return added;
+}
+
 Qt::ItemFlags NonPlayableCharacterModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())

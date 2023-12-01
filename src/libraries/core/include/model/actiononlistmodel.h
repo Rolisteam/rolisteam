@@ -52,12 +52,10 @@ public:
 
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
-
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
     bool canValidate() const;
-
     void setAction(int index, int action);
 
     const QList<DataInfo>& dataset() const;

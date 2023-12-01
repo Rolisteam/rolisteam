@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "controller/view_controller/mindmapcontrollerbase.h"
+#include "controller/view_controller/webpagecontroller.h"
 #include "data/player.h"
 #include "data/shortcutmodel.h"
 #include "model/filteredplayermodel.h"
@@ -25,6 +27,11 @@
 #include "model/participantsmodel.h"
 #include "model/playermodel.h"
 #include "model/playerproxymodel.h"
+#include "model/contentmodel.h"
+#include "model/singlecontenttypemodel.h"
+#include "model/languagemodel.h"
+#include "model/actiononlistmodel.h"
+#include "data/shortcutmodel.h"
 #include "rwidgets/customs/shortcutvisitor.h"
 // #include "test_root_path.h"
 // #include "utils/iohelper.h"
@@ -53,6 +60,11 @@ private slots:
 
     void shortcutModel();
     void shortcutVisitor();
+
+    void singleContentTypeModel();
+
+    void languageModel();
+    void actionListModel();
 
 private:
 };
@@ -401,6 +413,57 @@ void ModelTest::shortcutVisitor()
     QCOMPARE(model->rowCount(), 1);
 }
 
+void ModelTest::singleContentTypeModel()
+{
+    auto singleModel = std::make_unique<SingleContentTypeModel>(Core::ContentType::WEBVIEW);
+    auto contentModel = std::make_unique<ContentModel>();
+
+    singleModel->setSourceModel(contentModel.get());
+
+    new QAbstractItemModelTester(singleModel.get());
+    new QAbstractItemModelTester(contentModel.get());
+
+    auto id = Helper::randomString();
+    auto data = new WebpageController(id);
+    contentModel->appendMedia(data);
+    contentModel->appendMedia(new WebpageController());
+    contentModel->appendMedia(new WebpageController());
+    contentModel->appendMedia(new mindmap::MindMapControllerBase(true, Helper::randomString()));
+
+    QCOMPARE(singleModel->rowCount(), 3);
+    QVERIFY(singleModel->contains(id));
+    QVERIFY(!singleModel->contains(Helper::randomString(12)));
+    QCOMPARE(dynamic_cast<WebpageController*>(singleModel->controller(id)), data);
+
+
+}
+void ModelTest::languageModel()
+{
+    Q_INIT_RESOURCE(translations);
+
+    auto langModel = std::make_unique<LanguageModel>();
+
+    new QAbstractItemModelTester(langModel.get());
+    auto syst = QLocale::system();
+
+    if(langModel->rowCount()==0) {
+        qDebug() << "Language model is Empty!!";
+        return;
+    }
+
+    auto idx = langModel->indexSystemLocale(QLocale::languageToCode(syst.language()));
+    qDebug() << "id" << idx << QLocale::languageToCode(syst.language());
+    QVERIFY(idx > -1);
+    QVERIFY(langModel->indexSystemLocale(Helper::randomString()) == -1);
+
+    langModel->pathFromIndex(langModel->index(idx,0));
+}
+
+void ModelTest::actionListModel()
+{
+    auto actModel = std::make_unique<ActionOnListModel>();
+    new QAbstractItemModelTester(actModel.get());
+}
 QTEST_MAIN(ModelTest);
 
 #include "tst_modelstest.moc"

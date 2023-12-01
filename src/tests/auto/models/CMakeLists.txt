@@ -37,5 +37,9 @@ PRIVATE
 
 target_include_directories(tst_models PRIVATE ../../libraries)
 target_include_directories(tst_models  PUBLIC ../helper )
+#qt6_add_resources(tst_models translations
+#    PREFIX "/translations"
+#    FILES ${QM_FILES}
+#    )
 # rwidgets common_core common_widget common_qml  charactersheet_widgets diceparser_qobject qml_views rmindmap
 add_test(NAME tst_models COMMAND tst_models)

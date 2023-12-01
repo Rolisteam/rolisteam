@@ -44,6 +44,7 @@ Drawer {
 
             Button {
                 Layout.columnSpan: 2
+                Layout.alignment: Qt.AlignHCenter
                 text: qsTr("Select Font…")
                 onClicked: {
                     fontDial.open()

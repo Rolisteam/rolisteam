@@ -89,7 +89,8 @@ int LanguageModel::indexSystemLocale(const QString& localeCode)
 
     int index= -1;
     auto it= std::find_if(std::begin(m_languageInfoList), std::end(m_languageInfoList),
-                          [localeCode](const LanguageInfo& info) { return info.code == localeCode; });
+                          [localeCode](const LanguageInfo& info) {
+                              return info.code == localeCode; });
 
     if(it == std::end(m_languageInfoList))
     {
@@ -100,7 +101,7 @@ int LanguageModel::indexSystemLocale(const QString& localeCode)
                                    return info.code.startsWith(lang);
                                });
 
-        if(it != std::end(m_languageInfoList))
+        if(it2 != std::end(m_languageInfoList))
             index= std::distance(std::begin(m_languageInfoList), it2);
     }
     else

@@ -1,4 +1,5 @@
 #include "utils/iohelper.h"
+#include "qbuffer.h"
 #include "utils/networkdownloader.h"
 
 #include <QByteArray>
@@ -169,5 +170,15 @@ QImage dataToImage(const QByteArray& data)
     img.loadFromData(data);
     return img;
 }
+
+QByteArray imageToData(const QImage &pix)
+{
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    buffer.open(QIODevice::WriteOnly);
+    pix.save(&buffer, "PNG");
+    return bytes;
+}
+
 } // namespace IOHelper
 } // namespace utils

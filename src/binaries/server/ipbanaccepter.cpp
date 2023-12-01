@@ -2,25 +2,19 @@
 
 IpBanAccepter::IpBanAccepter() {}
 
-bool IpBanAccepter::isValid(const QMap<QString, QVariant>& data)
+bool IpBanAccepter::isValid(const QMap<QString, QVariant>& data) const
 {
     QList<QVariant> bannedIp= data["bannedIp"].toList();
     QString currentIp= data["clientIp"].toString();
 
     bool result= true;
 
-    for(QVariant ip : bannedIp)
+    for(const QVariant &ip : bannedIp)
     {
         if(currentIp == ip.toString())
         {
             result= false;
         }
     }
-
-    if(nullptr != m_next)
-    {
-        result&= m_next->isValid(data);
-    }
-
     return result;
 }

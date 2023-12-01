@@ -242,10 +242,10 @@ QJsonArray IOHelper::fetchLanguageModel()
 
             QLocale local(iso);
 
-            obj["path"]= paths;
-            obj["code"]= iso;
-            obj["commonName"]= QLocale::languageToString(local.language());
-            obj["langname"]= local.nativeLanguageName();
+            obj[Core::i18n::KEY_PATH]= paths;
+            obj[Core::i18n::KEY_CODE]= iso;
+            obj[Core::i18n::KEY_COMMONNAME]= QLocale::languageToString(local.language());
+            obj[Core::i18n::KEY_LANGNAME]= local.nativeLanguageName();
             array.append(obj);
         }
     }

@@ -28,7 +28,7 @@ SingleContentTypeModel::SingleContentTypeModel(Core::ContentType type, QObject* 
     setFilterRole(ContentModel::ContentTypeRole);
 }
 
-bool SingleContentTypeModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent)
+bool SingleContentTypeModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
 {
     QModelIndex index0= sourceModel()->index(sourceRow, 0, sourceParent);
     return sourceModel()->data(index0, filterRole()).value<Core::ContentType>() == m_type;

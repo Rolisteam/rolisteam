@@ -48,5 +48,8 @@ QString AboutRcse::version() const
 
 void AboutRcse::setVersion(const QString &version)
 {
+    if(version == m_version)
+        return;
     m_version = version;
+    emit versionChanged();
 }

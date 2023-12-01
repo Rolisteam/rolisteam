@@ -131,11 +131,11 @@ void TestNetwork::ipBanAccepterTest()
 
     QMap<QString, QVariant> data= {{"currentIp", currentIp}, {"IpBan", ipBan}};
 
-    QCOMPARE(m_ipBanAccepter->isValid(data), expected);
+    QCOMPARE(m_ipBanAccepter->runAccepter(data), expected);
 
     data.remove("IpBan");
 
-    QCOMPARE(m_ipBanAccepter->isValid(data), true);
+    QCOMPARE(m_ipBanAccepter->runAccepter(data), true);
 }
 
 void TestNetwork::ipBanAccepterTest_data()

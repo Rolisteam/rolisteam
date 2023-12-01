@@ -36,7 +36,6 @@ class QGraphicsItem;
 class CHARACTERSHEET_EXPORT CSItem : public TreeSheetItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(int page READ page WRITE setPage NOTIFY pageChanged)
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
@@ -142,10 +141,9 @@ signals:
     void readOnlyChanged();
     void formulaChanged();
     void labelChanged();
-    void idChanged();
 
 protected:
-    QSize m_rect;
+    QSizeF m_rect;
     QPointF m_pos;
     QColor m_bgColor;
     QColor m_textColor;

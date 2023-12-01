@@ -33,5 +33,4 @@ public:
 public slots:
     void openFile(const QUrl& file);
 };
-
 #endif // MAINCONTROLLER_H

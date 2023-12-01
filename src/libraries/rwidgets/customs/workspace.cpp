@@ -31,14 +31,10 @@
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
-
-#include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
 #include "mediacontainers/pdfviewer.h"
-
 #include "controller/instantmessagingcontroller.h"
 #include "mediacontainers/instantmessagingview.h"
-
 #include "editors/noteeditor/src/notecontainer.h"
 #include "editors/sharededitor/sharednotecontainer.h"
 #include "mediacontainers/charactersheetwindow.h"
@@ -484,7 +480,8 @@ void Workspace::addPdf(PdfController* ctrl)
 
 PreventClosing::PreventClosing(QObject* watched, QObject* parent) : QObject(parent), m_watched(watched)
 {
-    m_watched->installEventFilter(this);
+    if(m_watched)
+        m_watched->installEventFilter(this);
 }
 
 bool PreventClosing::eventFilter(QObject* obj, QEvent* event)

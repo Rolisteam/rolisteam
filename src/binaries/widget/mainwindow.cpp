@@ -915,6 +915,8 @@ void MainWindow::writeSettings()
 }
 void MainWindow::parseCommandLineArguments(const QStringList& list)
 {
+    if(list.isEmpty())
+        return;
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();

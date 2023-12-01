@@ -40,7 +40,7 @@ public:
 
 private:
     Ui::FindToolBar* ui;
-    CodeEditor* codeEditor;
+    sharedNotes::CodeEditor* codeEditor;
 
 private slots:
     void findTriggered(QString string);

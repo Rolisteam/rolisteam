@@ -780,6 +780,14 @@ constexpr auto initCommand{"initCommand"};
 constexpr auto hasInitiative{"hasInitiative"};
 } // namespace person
 
+namespace i18n
+{
+constexpr auto KEY_PATH{"path"};
+constexpr auto KEY_CODE{"code"};
+constexpr auto KEY_COMMONNAME{"commonName"};
+constexpr auto KEY_LANGNAME{"langname"};
+}
+
 } // namespace Core
 
 #endif // MEDIATYPE_H

@@ -120,7 +120,7 @@ private slots:
 private:
     QPointer<SharedNoteController> m_shareCtrl;
     Ui::Document* ui= nullptr;
-    CodeEditor* m_editor= nullptr;
+    sharedNotes::CodeEditor* m_editor= nullptr;
     QTextEdit* m_previewMarkdown= nullptr;
 
     bool startedCollaborating;

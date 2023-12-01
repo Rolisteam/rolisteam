@@ -87,6 +87,8 @@
 #include "controllers/rcseapplicationcontroller.h"
 #include <common_widgets/busyindicatordialog.h>
 
+namespace rcse
+{
 constexpr int minimalColumnSize= 350;
 
 void registerRCSEQmlTypes()
@@ -106,7 +108,7 @@ void registerRCSEQmlTypes()
 }
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), m_mainCtrl(new MainController()), m_counterZoom(0)
+    : QMainWindow(parent), ui(new Ui::MainWindow), m_mainCtrl(new rcse::MainController()), m_counterZoom(0)
 {
     m_preferences= PreferencesManager::getInstance();
     setWindowModified(false);
@@ -384,8 +386,8 @@ MainWindow::MainWindow(QWidget* parent)
     m_mainCtrl->cleanUpData();
 
     ui->m_view->setHandle(ui->m_moveAct->isChecked());
-    connect(m_mainCtrl.get(), &MainController::modifiedChanged, this, &MainWindow::setWindowModified);
-    connect(m_mainCtrl.get(), &MainController::currentFileChanged, this, &MainWindow::updateTitle);
+    connect(m_mainCtrl.get(), &rcse::MainController::modifiedChanged, this, &MainWindow::setWindowModified);
+    connect(m_mainCtrl.get(), &rcse::MainController::currentFileChanged, this, &MainWindow::updateTitle);
 
     updateTitle();
 }
@@ -982,4 +984,5 @@ void MainWindow::setUpActionForCharacterTab()
             ui->m_characterView->setColumnWidth(i, w);
         }
     });
+}
 }

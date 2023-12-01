@@ -19,8 +19,8 @@
  * Free Software Foundation, Inc.,                                          *
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef RCSE_MAINWINDOW_H
+#define RCSE_MAINWINDOW_H
 
 #include <QGraphicsView>
 #include <QHash>
@@ -49,6 +49,8 @@ class MainWindow;
 /**
  * @brief The MainWindow class displays all components to edit and manage the character sheet.
  */
+namespace rcse
+{
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -116,7 +118,7 @@ protected slots:
 
 private:
     Ui::MainWindow* ui;
-    std::unique_ptr<MainController> m_mainCtrl;
+    std::unique_ptr<rcse::MainController> m_mainCtrl;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
     bool m_qmlGeneration;
@@ -150,5 +152,5 @@ private:
 
     PreferencesManager* m_preferences;
 };
-
-#endif // MAINWINDOW_H
+}
+#endif // RCSE_MAINWINDOW_H

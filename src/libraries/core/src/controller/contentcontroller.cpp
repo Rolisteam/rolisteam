@@ -207,6 +207,9 @@ int ContentController::contentCount() const
 
 void ContentController::setMediaRoot(const QString& path)
 {
+    qDebug()<< "PathMedia root:" << path << m_sessionModel->rootPath();
+    if(m_sessionModel->rootPath() == path)
+        return;
     m_sessionModel->setRootPath(path);
     emit mediaRootChanged();
 }

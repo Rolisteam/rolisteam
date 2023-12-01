@@ -50,29 +50,24 @@ set(mindmap_header
 set(mindmap_src
     src/controller/selectioncontroller.cpp
     src/controller/spacingcontroller.cpp
-    #src/controller/sidemenucontroller.cpp
     src/data/linkcontroller.cpp
     src/data/mindnode.cpp
     src/data/minditem.cpp
     src/data/positioneditem.cpp
     src/data/nodestyle.cpp
     src/data/packagenode.cpp
-    #src/model/linkmodel.cpp
     src/model/minditemmodel.cpp
     src/model/imagemodel.cpp
     src/model/nodestylemodel.cpp
     src/model/nodeimageprovider.cpp
     src/command/additemcommand.cpp
     src/command/dragnodecommand.cpp
-    #src/command/addnodecommand.cpp
     src/command/removenodecommand.cpp
     src/command/addimagetonodecommand.cpp
     src/command/removeimagefromnodecommand.cpp
     src/command/reparentingnodecommand.cpp
-    #src/command/addpackagecommand.cpp
     src/geometry/linknode.cpp
     src/qmlItems/linkitem.cpp
-    #src/model/boxmodel.cpp
     src/worker/fileserializer.cpp
   )
 

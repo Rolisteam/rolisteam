@@ -425,7 +425,7 @@ bool FieldController::aliasEnabled() const
 
 void FieldController::setAliasEnabled(bool aliasEnabled)
 {
-    if(isReadOnly())
+    if(isReadOnly() || aliasEnabled == m_aliasEnabled)
         return;
     m_aliasEnabled= aliasEnabled;
     emit aliasEnabledChanged();

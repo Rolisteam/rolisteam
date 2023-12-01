@@ -36,7 +36,9 @@
 #include "charactersheet/imagemodel.h"
 #include "charactersheet/worker/ioworker.h"
 
-#include "mindmap/data/link.h"
+#include "mindmap/data/mindnode.h"
+#include "mindmap/data/minditem.h"
+
 #include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/minditem.h"
 #include "mindmap/data/mindnode.h"
@@ -44,7 +46,6 @@
 #include "mindmap/model/imagemodel.h"
 
 #include "network/networkmessagereader.h"
-#include "utils/iohelper.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 #include "worker/utilshelper.h"

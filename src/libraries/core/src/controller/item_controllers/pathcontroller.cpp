@@ -179,8 +179,11 @@ void PathController::setClosed(bool closed)
     emit closedChanged(m_closed);
 }
 
+
 void PathController::setPoints(const std::vector<QPointF>& points)
 {
+    if(points == m_points)
+        return;
     m_points.clear();
     m_points= points;
     emit pointsChanged();

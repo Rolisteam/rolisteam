@@ -8,6 +8,7 @@ class NETWORK_EXPORT IpBanAccepter : public ConnectionAccepter
 public:
     IpBanAccepter();
 
+protected:
     bool isValid(const QMap<QString, QVariant>& data) const override;
 };
 

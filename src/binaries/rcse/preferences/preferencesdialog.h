@@ -22,8 +22,7 @@ public:
 public slots:
     void selectDir();
 private:
-    Ui::PreferencesDialog *ui;
-//    QString m_generationPath;
+    Ui::PreferencesDialog* ui;
 };
 
 #endif // PREFERENCESDIALOG_H

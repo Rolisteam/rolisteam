@@ -14,7 +14,8 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
 
 PreferencesDialog::~PreferencesDialog()
 {
-    delete ui;
+    //delete ui;
+    qDebug() << "delete preferenceDialgog";
 }
 
 QString PreferencesDialog::generationPath() const

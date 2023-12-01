@@ -10,15 +10,16 @@ class QUndoStack;
 class FieldModel;
 class Canvas;
 class FieldController;
+namespace rcse{
 class MainController;
-
+}
 class FieldView : public QTreeView
 {
     Q_OBJECT
 public:
     FieldView(QWidget* parent= nullptr);
 
-    void setController(MainController* ctrl);
+    void setController(rcse::MainController *ctrl);
 
     void applyValue(QModelIndex& index, bool selection);
     void defineItemCode(QModelIndex& index);
@@ -44,7 +45,7 @@ protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
 
 private:
-    QPointer<MainController> m_ctrl;
+    QPointer<rcse::MainController> m_ctrl;
     QAction* m_lock= nullptr;
     QAction* m_delItem= nullptr;
     QAction* m_applyValueOnSelection= nullptr;

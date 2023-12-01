@@ -40,7 +40,7 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
 
     // Set up the editor
     delete ui->editorFrame;
-    m_editor= new CodeEditor(m_shareCtrl, this);
+    m_editor= new sharedNotes::CodeEditor(m_shareCtrl, this);
 
     if(!m_shareCtrl)
         return;
@@ -66,7 +66,7 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     connect(m_shareCtrl, &SharedNoteController::markdownVisibleChanged, m_previewMarkdown, &QTextEdit::setVisible);
     connect(m_shareCtrl, &SharedNoteController::textChanged, m_previewMarkdown, &QTextEdit::setMarkdown);
 
-    connect(m_editor, &CodeEditor::textChanged, this, &Document::contentChanged);
+    connect(m_editor, &sharedNotes::CodeEditor::textChanged, this, &Document::contentChanged);
 
     m_editor->setReadOnly(m_shareCtrl->permission() == ParticipantModel::Permission::readOnly);
 
@@ -75,13 +75,13 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     ui->editorVerticalLayout->insertWidget(1, findAllToolbar);
     findAllToolbar->hide();
 
-    connect(findAllToolbar, &FindToolBar::findAll, m_editor, &CodeEditor::findAll);
+    connect(findAllToolbar, &FindToolBar::findAll, m_editor, &sharedNotes::CodeEditor::findAll);
     // connect(findAllToolbar, &FindToolBar::findNext, this, &Document::findNext);
     connect(findAllToolbar, &FindToolBar::findPrevious, this, &Document::findPrevious);
 
     // Emit signals to the mainwindow when redoability/undoability changes
-    connect(m_editor, &CodeEditor::undoAvailable, this, &Document::undoAvailable);
-    connect(m_editor, &CodeEditor::redoAvailable, this, &Document::redoAvailable);
+    connect(m_editor, &sharedNotes::CodeEditor::undoAvailable, this, &Document::undoAvailable);
+    connect(m_editor, &sharedNotes::CodeEditor::redoAvailable, this, &Document::redoAvailable);
 
     connect(m_shareCtrl, &SharedNoteController::highligthedSyntaxChanged, this, &Document::updateHighlighter);
 

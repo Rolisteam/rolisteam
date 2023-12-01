@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
         a.installTranslator(cliTranslator);
     }
 
-    MainWindow w;
+    rcse::MainWindow w;
     if(parser.isSet(file))
     {
         w.loadFile(parser.value(file));

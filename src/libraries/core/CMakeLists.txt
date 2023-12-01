@@ -38,6 +38,7 @@ set(Network_HEADER
     ${inc}/network/characterdatamodel.h
     ${inc}/network/clientmanager.h
     ${inc}/network/clientconnection.h
+    ${inc}/network/heartbeatsender.h
     ${inc}/network/timeaccepter.h
     ${inc}/network/channel.h
     ${inc}/network/treeitem.h
@@ -77,6 +78,7 @@ set(Network_SRC
     src/network/networkmessage.cpp
     src/network/networkmessagereader.cpp
     src/network/networkmessagewriter.cpp
+    src/network/heartbeatsender.cpp
     src/network/rserver.cpp
     src/network/messagedispatcher.cpp
     src/network/receiveevent.cpp
@@ -112,8 +114,12 @@ target_include_directories(network
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/src/upnp
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/..
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/upnp>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 

@@ -29,7 +29,6 @@
 #include "media/mediatype.h"
 #include <core_global.h>
 class MediaControllerBase;
-class MediaManagerBase;
 class ContentModel;
 class CORE_EXPORT RemoveMediaControllerCommand : public QUndoCommand
 {

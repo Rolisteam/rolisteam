@@ -27,6 +27,7 @@ UTILS_EXPORT QString readTextFile(const QString& file);
 UTILS_EXPORT QPixmap readPixmapFromURL(const QUrl& url);
 UTILS_EXPORT QPixmap readPixmapFromFile(const QString& url);
 UTILS_EXPORT QImage dataToImage(const QByteArray& data);
+UTILS_EXPORT QByteArray imageToData(const QImage& pix);
 } // namespace IOHelper
 } // namespace utils
 #endif // UTIL_IOHELPER_H

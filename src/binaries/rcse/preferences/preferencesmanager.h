@@ -17,8 +17,8 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#ifndef PREFERENCESMANAGER_H
-#define PREFERENCESMANAGER_H
+#ifndef RCSE_PREFERENCESMANAGER_H
+#define RCSE_PREFERENCESMANAGER_H
 
 #include <QVariant>
 #include <QString>
@@ -40,6 +40,8 @@ class PreferencesListener;
     * @brief Store options and manage access to their value.
     * Save/load values in/from QSetting instance.
     */
+namespace rcse
+{
 class PreferencesManager
 {
 public:
@@ -117,5 +119,5 @@ private:
      */
    // QMap<QString,PreferencesListener*> m_listernerMap;
 };
-
-#endif // PREFERENCESMANAGER_H
+}
+#endif // RCSE_PREFERENCESMANAGER_H

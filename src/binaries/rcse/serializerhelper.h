@@ -24,7 +24,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+namespace rcse
+{
 class MainController;
+}
 class QmlGeneratorController;
 class FieldModel;
 namespace SerializerHelper
@@ -50,8 +53,8 @@ const char* const fonts{"fonts"};
 
 } // namespace keys
 
-QByteArray buildData(MainController* ctrl);
-void fetchMainController(MainController* ctrl, const QJsonObject& jsonObj);
+QByteArray buildData(rcse::MainController *ctrl);
+void fetchMainController(rcse::MainController* ctrl, const QJsonObject& jsonObj);
 
 void fetchGeneratorController(QmlGeneratorController* ctrl, const QJsonObject& obj);
 QJsonObject saveGeneratorController(QmlGeneratorController* ctrl);

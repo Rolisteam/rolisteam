@@ -23,6 +23,8 @@
 #include <QFileInfo>
 #include <QUuid>
 
+#include "controller/contentcontroller.h"
+#include "data/campaign.h"
 #include "data/campaigneditor.h"
 #include "media/mediafactory.h"
 #include "model/contentmodel.h"

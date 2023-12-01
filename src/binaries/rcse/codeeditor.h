@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CODEEDITOR_H
-#define CODEEDITOR_H
+#ifndef RCSE_CODEEDITOR_H
+#define RCSE_CODEEDITOR_H
 
 #include <QObject>
 #include <QPlainTextEdit>
@@ -66,4 +66,4 @@ private:
     CodeEditor* codeEditor;
 };
 
-#endif // CODEEDITOR_H
+#endif // RCSE_CODEEDITOR_H

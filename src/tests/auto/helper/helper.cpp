@@ -583,35 +583,26 @@ std::pair<bool, QStringList> testAllProperties(QObject* obj, bool setAgain)
 
             auto currentval= p.read(obj);
             QSignalSpy spy(obj, p.notifySignal());
+            int countChange = 0;
             for(const auto& v : vs)
             {
                 if(!p.write(obj, v))
                     qDebug() << "write failed for " << p.name() << v;
                 res= true;
+
+                if(setAgain)
+                {
+                    p.write(obj, v);
+                }
             }
 
             spy.wait(10);
 
-            auto count= spy.count();
             if(!QTest::qCompare(spy.count(), vs.size(), "spy.count()", "vs.size()", __FILE__, __LINE__))
             {
-                qDebug() << p.name() << "values:" << vs << "current val:" << currentval;
+                qDebug() << p.name() << "values:" << vs << "current val:" << currentval << "change count:"<< countChange;
             }
 
-            if(setAgain)
-            {
-                for(const auto& v : vs)
-                {
-                    if(!p.write(obj, v))
-                    {
-                        qDebug() << "write failed for " << p.name() << v;
-
-                        spy.wait(10);
-                        QTest::qVerify(count == spy.count(), "Signal emitted when received same value",
-                                       "Signal emitted when received same value", __FILE__, __LINE__);
-                    }
-                }
-            }
             p.write(obj, currentval);
         }
     }

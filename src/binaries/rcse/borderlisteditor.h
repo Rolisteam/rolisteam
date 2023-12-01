@@ -31,7 +31,7 @@ class BorderListEditor : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    BorderListEditor(QObject* widget= 0);
+    BorderListEditor(QObject* widget= nullptr);
     QString displayText(const QVariant& value, const QLocale& locale) const;
 
     QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;

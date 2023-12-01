@@ -18,11 +18,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "mindmap/data/nodestyle.h"
+
+#include <QDebug>
+
 namespace mindmap
 {
 
 NodeStyle::NodeStyle(QObject* parent) : QObject(parent) {}
-
+NodeStyle::~NodeStyle()
+{
+}
 QColor NodeStyle::colorOne() const
 {
     return m_colorOne;

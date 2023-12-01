@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "maincontroller.h"
 
+namespace rcse
+{
 MainController::MainController(QObject* parent)
     : QObject{parent}
     , m_logCtrl{new LogController(true)}
@@ -164,4 +166,5 @@ void MainController::setCurrentFile(const QString& newCurrentFile)
         return;
     m_currentFile= newCurrentFile;
     emit currentFileChanged();
+}
 }

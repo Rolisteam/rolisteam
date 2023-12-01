@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MAINCONTROLLER_H
-#define MAINCONTROLLER_H
+#ifndef RCSE_MAINCONTROLLER_H
+#define RCSE_MAINCONTROLLER_H
 
 #include <QObject>
 #include <QUndoStack>
@@ -29,6 +29,8 @@
 #include "controllers/imagecontroller.h"
 #include "controllers/qmlgeneratorcontroller.h"
 
+namespace rcse
+{
 class MainController : public QObject
 {
     Q_OBJECT
@@ -75,5 +77,5 @@ private:
     bool m_modified;
     QString m_currentFile;
 };
-
-#endif // MAINCONTROLLER_H
+}
+#endif // RCSE_MAINCONTROLLER_H

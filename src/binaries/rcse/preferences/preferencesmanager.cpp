@@ -25,7 +25,8 @@
 #include <QMetaType>
 
 //#include "data/cleveruri.h"
-
+namespace rcse
+{
 PreferencesManager::PreferencesManager()
     : m_optionDictionary(nullptr)
 {
@@ -133,3 +134,5 @@ void PreferencesManager::notifyListener(QString str)
         tmp->preferencesHasChanged(str);
     }
 }*/
+
+}

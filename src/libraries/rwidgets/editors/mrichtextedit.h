@@ -25,29 +25,37 @@
 #define _MRICHTEXTEDIT_H_
 
 #include "rwidgets_global.h"
-#include "ui_mrichtextedit.h"
 #include <QPointer>
+#include <QWidget>
+#include <QTextListFormat>
+#include <QTextList>
+
+namespace Ui
+{
+class MRichTextEdit;
+}
 /**
  * @Brief A simple rich-text editor
  */
-class RWIDGET_EXPORT MRichTextEdit : public QWidget, protected Ui::MRichTextEdit
+class RWIDGET_EXPORT MRichTextEdit : public QWidget
 {
     Q_OBJECT
 public:
     MRichTextEdit(QWidget* parent= 0);
+    ~MRichTextEdit();
 
-    QString toPlainText() const { return f_textedit->toPlainText(); }
+    QString toPlainText() const;
     QString toHtml() const;
-    QTextDocument* document() { return f_textedit->document(); }
-    QTextCursor textCursor() const { return f_textedit->textCursor(); }
-    void setTextCursor(const QTextCursor& cursor) { f_textedit->setTextCursor(cursor); }
+    QTextDocument* document();
+    QTextCursor textCursor() const;
+    void setTextCursor(const QTextCursor& cursor);
 
 public slots:
     void setText(const QString& text);
 
 protected slots:
-    void setPlainText(const QString& text) { f_textedit->setPlainText(text); }
-    void setHtml(const QString& text) { f_textedit->setHtml(text); }
+    void setPlainText(const QString& text);
+    void setHtml(const QString& text);
     void textRemoveFormat();
     void textRemoveAllFormat();
     void textBold();
@@ -95,6 +103,7 @@ protected:
     };
 
     QPointer<QTextList> m_lastBlockList;
+    std::unique_ptr<Ui::MRichTextEdit> m_ui;
 };
 
 #endif
