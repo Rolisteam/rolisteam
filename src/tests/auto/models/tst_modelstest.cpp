@@ -30,12 +30,12 @@
 #include "model/contentmodel.h"
 #include "model/singlecontenttypemodel.h"
 #include "model/languagemodel.h"
+#include "model/colormodel.h"
+#include "model/characterstatemodel.h"
+#include "model/nonplayablecharactermodel.h"
 #include "model/actiononlistmodel.h"
 #include "data/shortcutmodel.h"
 #include "rwidgets/customs/shortcutvisitor.h"
-// #include "test_root_path.h"
-// #include "utils/iohelper.h"
-// #include "worker/iohelper.h"
 #include <QAbstractItemModelTester>
 #include <QClipboard>
 #include <QGuiApplication>
@@ -65,6 +65,7 @@ private slots:
 
     void languageModel();
     void actionListModel();
+    void colorModel();
 
 private:
 };
@@ -461,9 +462,18 @@ void ModelTest::languageModel()
 
 void ModelTest::actionListModel()
 {
-    auto actModel = std::make_unique<ActionOnListModel>();
+    auto actModel = std::make_unique<ActionOnListModel>(QStringList{},QList<ActionInfo>{},QString{});
     new QAbstractItemModelTester(actModel.get());
 }
+
+void ModelTest::colorModel()
+{
+    auto model = std::make_unique<ColorModel>();
+    new QAbstractItemModelTester(model.get());
+    auto src = new campaign::NonPlayableCharacterModel(new CharacterStateModel());
+    model->setSourceModel(src);
+}
+
 QTEST_MAIN(ModelTest);
 
 #include "tst_modelstest.moc"

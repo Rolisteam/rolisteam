@@ -68,7 +68,7 @@ const static QStringList CharacterFields({"CharacterHp", "CharacterMaxHp", "Char
 
 namespace profiles
 {
-constexpr auto const* groupName{"ConnectionPorfiles"};
+constexpr auto const* groupName{"ConnectionProfiles"};
 constexpr auto const* arrayName{"ConnectionProfilesArray"};
 constexpr auto const* address{"address"};
 constexpr auto const* name{"name"};
