@@ -615,7 +615,7 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
     return data;
 }
 
-MediaControllerBase* IOHelper::loadController(const QByteArray& data)
+/*MediaControllerBase* IOHelper::loadController(const QByteArray& data)
 {
     QDataStream input(data);
     Core::ContentType type;
@@ -685,7 +685,7 @@ MediaControllerBase* IOHelper::loadController(const QByteArray& data)
     }
 
     return value;
-}
+}*/
 
 void IOHelper::writePlaylist(const QString& path, const QList<QUrl>& urls)
 {

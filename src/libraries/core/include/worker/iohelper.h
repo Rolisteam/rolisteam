@@ -22,6 +22,7 @@
 
 #include "data/campaign.h"
 #include "media/mediatype.h"
+#include "model/playermodel.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMimeData>
@@ -92,7 +93,7 @@ public:
 
     // Controller Generic method
     static QByteArray saveController(MediaControllerBase* media);
-    static MediaControllerBase* loadController(const QByteArray& data);
+    //static MediaControllerBase* loadController(const QByteArray& data);
     static void saveBase(MediaControllerBase* base, QDataStream& output);
     static void readBase(MediaControllerBase* base, QDataStream& input);
     static void readBaseFromJson(MediaControllerBase* base, const QJsonObject& data);
