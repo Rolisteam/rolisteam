@@ -478,12 +478,11 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::DeletePoint:
             str= QStringLiteral("DeletePoint");
             break;
-
         case NetMsg::AddPoint:
             str= QStringLiteral("AddPoint");
             break;
-        case NetMsg::GeometryViewChanged:
-            str= QStringLiteral("GeometryViewChanged");
+        case NetMsg::CharacterVisionChanged:
+            str= QStringLiteral("CharacterVisionChanged");
             break;
         case NetMsg::CharacterStateChanged:
             str= QStringLiteral("CharacterStateChanged");

@@ -80,6 +80,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
 {
     CharacterSheetController::setCharacterModel(characterModel);
     SharedNoteController::setPlayerModel(playerModel);
+    VectorialMapController::setPlayerModel(playerModel);
     MindMapController::setRemotePlayerModel(new RemotePlayerModel(playerModel));
 
     connect(m_sessionModel.get(), &QFileSystemModel::rootPathChanged, this, &ContentController::mediaRootChanged);

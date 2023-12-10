@@ -35,6 +35,7 @@
 #include "media/mediatype.h"
 #include "mediacontrollerbase.h"
 #include "model/vmapitemmodel.h"
+#include "model/playermodel.h"
 
 namespace vmap
 {
@@ -105,6 +106,8 @@ public:
     vmap::SightController* sightController() const;
     vmap::VisualItemController* itemController(const QString& id) const;
 
+    PlayerModel* playerModel() const;
+
     Core::PermissionMode permission() const;
     int gridSize() const;
     bool gridVisibility() const;
@@ -145,6 +148,7 @@ public:
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
     bool pasteData(const QMimeData& data) override;
     void setDiceParser(DiceRoller* parser);
+    static void setPlayerModel(PlayerModel* model);
 public slots:
     void showTransparentItems();
     void hideOtherLayers(bool b);
@@ -241,6 +245,7 @@ private:
     std::unique_ptr<vmap::VmapItemModel> m_vmapModel;
     std::unique_ptr<vmap::GridController> m_gridController;
     std::unique_ptr<vmap::SightController> m_sightController;
+    static QPointer<PlayerModel> m_playerModel;
 
     bool m_pcNameVisible= true;
     bool m_npcNameVisible= true;

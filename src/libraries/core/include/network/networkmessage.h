@@ -163,7 +163,7 @@ enum Action
     DeletePoint,
     MovePoint,
     SetParentItem,
-    GeometryViewChanged,
+    CharacterVisionChanged,
     CharacterStateChanged,
     CharacterChanged,
     HighLightPosition,

@@ -154,10 +154,13 @@ void SightController::addPolygon(const QPolygonF& poly, bool mask)
 
 void SightController::addCharacterVision(CharacterVision* vision)
 {
-    connect(vision, &CharacterVision::angleChanged, this, &SightController::characterSightChanged);
-    connect(vision, &CharacterVision::radiusChanged, this, &SightController::characterSightChanged);
-    connect(vision, &CharacterVision::positionChanged, this, &SightController::characterSightChanged);
-    connect(vision, &CharacterVision::shapeChanged, this, &SightController::characterSightChanged);
+    connect(vision, &CharacterVision::angleChanged, this, &SightController::requiredUpdate);
+    connect(vision, &CharacterVision::radiusChanged, this, &SightController::requiredUpdate);
+    connect(vision, &CharacterVision::positionChanged, this, &SightController::requiredUpdate);
+    connect(vision, &CharacterVision::shapeChanged, this, &SightController::requiredUpdate);
+    connect(vision, &CharacterVision::rotationChanged, this, &SightController::requiredUpdate);
+    connect(vision, &CharacterVision::sideChanged, this, &SightController::requiredUpdate);
+    connect(vision, &CharacterVision::removedChanged, this, &SightController::requiredUpdate);
     m_visions.push_back(vision);
     emit characterCountChanged();
 }

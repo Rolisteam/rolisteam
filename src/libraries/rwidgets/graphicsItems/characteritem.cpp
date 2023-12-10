@@ -28,17 +28,9 @@
 #include <QStyleOptionGraphicsItem>
 
 #include "data/character.h"
-#include "data/player.h"
 #include "diceparser/dicealias.h"
-#include "model/playermodel.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/visualitemcontroller.h"
-#include "controller/view_controller/vectorialmapcontroller.h"
-#include "customs/vmap.h"
-#include "preferences/preferencesmanager.h"
 
 #define MARGING 1
 #define MINI_VALUE 25
@@ -140,6 +132,7 @@ CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl)
     connect(m_itemCtrl, &vmap::CharacterItemController::stateIdChanged, this, updateLambda);
     connect(m_itemCtrl, &vmap::CharacterItemController::stateImageChanged, this, updateLambda);
     connect(m_itemCtrl, &vmap::CharacterItemController::modifiedChanged, this, updateLambda);
+    connect(m_itemCtrl, &vmap::CharacterItemController::visibleChanged, this, updateLambda);
     connect(m_itemCtrl, &vmap::CharacterItemController::healthStatusVisibleChanged, this, updateLambda);
 
     // createActions();
@@ -170,7 +163,7 @@ QPainterPath CharacterItem::shape() const
     return m_itemCtrl->shape();
 }
 
-void CharacterItem::setNewEnd(const QPointF& p) {}
+void CharacterItem::setNewEnd(const QPointF&) {}
 
 void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -296,143 +289,6 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     */
 }
 
-void CharacterItem::sizeChanged(qreal m_size)
-{
-    // m_diameter= m_size;
-    // m_rect.setRect(0, 0, m_diameter, m_diameter);
-    // generatedThumbnail();
-    // m_resizing= true;
-}
-void CharacterItem::visionChanged()
-{
-    m_visionChanged= true;
-}
-void CharacterItem::setSize(QSizeF size)
-{
-    m_protectGeometryChange= true;
-    sizeChanged(size.width());
-    updateChildPosition();
-    m_protectGeometryChange= false;
-    update();
-}
-/*void CharacterItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
-{
-    VisualItem::setRectSize(x, y, w, h);
-    // m_diameter= m_rect.width();
-    updateChildPosition();
-}*/
-
-void CharacterItem::resizeContents(const QRectF& rect, int pointId, Core::TransformType)
-{
-    /*if(!rect.isValid())
-        return;
-
-    prepareGeometryChange();
-    / * m_rect= rect;
-     m_diameter= qMin(m_rect.width(), m_rect.height());* /
-    sizeChanged(m_diameter);
-    updateChildPosition();*/
-}
-QString CharacterItem::getCharacterId() const
-{
-    /*  if(nullptr != m_character)
-      {
-          return m_character->getUuid();
-      }*/
-    return QString();
-}
-
-QString CharacterItem::getName() const
-{
-    /* if(nullptr == m_character)
-         return {};
-
-     return m_character->name();*/
-    return m_itemCtrl->text();
-}
-int CharacterItem::getNumber() const
-{
-    /*  if(nullptr == m_character)
-          return {};
-
-      return m_character->number();*/
-    return m_itemCtrl->number();
-}
-QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& value)
-{
-    return VisualItem::itemChange(change, value);
-    /*  QVariant newValue= value;
-      m_oldPosition= pos();
-      // if(change != QGraphicsItem::ItemPositionChange || !m_ctrl->collision())
-      //    return VisualItem::itemChange(change, newValue);
-
-      QList<QGraphicsItem*> list; //= collidingItems();
-
-      // list.clear();
-      QPainterPath path;
-      path.addEllipse(shape().boundingRect().center(), 10, 10);
-      path.connectPath(shape().translated(value.toPointF() - pos()));
-
-      QGraphicsScene* currentScene= scene();
-      auto mappedPath= mapToScene(path);
-      auto collisionAtNewPosition= currentScene->items(mappedPath);
-      list.append(collisionAtNewPosition);
-
-      for(QGraphicsItem* item : list)
-      {
-          VisualItem* vItem= dynamic_cast<VisualItem*>(item);
-          if((nullptr != vItem) && (vItem != this))
-          {
-              // if((vItem->getLayer() == Core::Layer::OBJECT))
-              {
-                  newValue= m_oldPosition;
-              }
-          }
-      }
-      QVariant var= VisualItem::itemChange(change, newValue);
-      // m_newPosition= value.toPointF();
-      if(newValue != m_oldPosition)
-      {
-          emit positionChanged();
-      }
-      return var;*/
-}
-int CharacterItem::getChildPointCount() const
-{
-    return m_children.size();
-}
-
-void CharacterItem::initChildPointItemMotion()
-{
-    // int i= 0;
-    /*  for(auto& itemChild : *m_child)
-       {
-           itemChild->setEditableItem(true);
-           switch(i)
-           {
-           case DIRECTION_RADIUS_HANDLE:
-               itemChild->setMotion(ChildPointItem::X_AXIS);
-               break;
-           case ANGLE_HANDLE:
-               itemChild->setMotion(ChildPointItem::Y_AXIS);
-               break;
-           default:
-               itemChild->setMotion(ChildPointItem::ALL);
-               break;
-           }
-           itemChild->setRotationEnable(true);
-       }*/
-}
-
-ChildPointItem* CharacterItem::getRadiusChildWidget() const
-{
-    /*  if(m_child->size() >= 5)
-      {
-          return m_child->value(DIRECTION_RADIUS_HANDLE);
-      }*/
-    return nullptr;
-}
-
 void CharacterItem::updateChildPosition()
 {
     auto rect= m_itemCtrl->thumnailRect(); //(0, 0, m_itemCtrl->side(), m_itemCtrl->side());
@@ -450,18 +306,25 @@ void CharacterItem::updateChildPosition()
     if(m_itemCtrl->playableCharacter())
     {
         auto vision= m_itemCtrl->vision();
-        m_children.value(DIRECTION_RADIUS_HANDLE)
+        if(vision)
+        {
+            m_children.value(DIRECTION_RADIUS_HANDLE)
             ->setPos(vision->radius() + m_itemCtrl->radius()
                          + m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().width(),
                      m_itemCtrl->thumnailRect().height() / 2
                          - m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().height() / 2);
 
-        m_children[ANGLE_HANDLE]->setPos((vision->radius() + m_itemCtrl->radius()) / 2, -vision->angle());
+            m_children[ANGLE_HANDLE]->setPos((vision->radius() + m_itemCtrl->radius()) / 2, -vision->angle());
+        }
     }
     else
     {
         m_children[DIRECTION_RADIUS_HANDLE]->setVisible(false);
         m_children[ANGLE_HANDLE]->setVisible(false);
+    }
+    if(!m_itemCtrl->localIsGM())
+    {
+        setTransformOriginPoint(m_itemCtrl->thumnailRect().center());
     }
     update();
 }
@@ -558,53 +421,9 @@ void CharacterItem::changeCharacter()
     }*/
 }
 
-QString CharacterItem::getParentId() const
-{
-    /*   if(nullptr != m_character)
-        {
-            Person* pers= m_character->parentPerson();
-            if(nullptr != pers)
-            {
-                return pers->getUuid();
-            }
-        }*/
-    return QString();
-}
-
 void CharacterItem::addChildPoint(ChildPointItem* item)
 {
-
-    // item->setPointID(m_child->size());
     m_children.append(item);
-}
-
-void CharacterItem::updateItemFlags()
-{
-    /*    VisualItem::updateItemFlags();
-        if(canBeMoved())
-        {
-
-            initChildPointItemMotion();
-            / *for(auto& itemChild : m_children)
-            {
-                itemChild->setEditableItem(true);
-                itemChild->setMotion(ChildPointItem::ALL);
-                itemChild->setRotationEnable(true);
-            }* /
-
-            setFlag(QGraphicsItem::ItemIsMovable, true);
-            setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-            connect(this, SIGNAL(xChanged()), this, SLOT(posChange()), Qt::UniqueConnection);
-            connect(this, SIGNAL(yChanged()), this, SLOT(posChange()), Qt::UniqueConnection);
-            connect(this, SIGNAL(rotationChanged()), this, SLOT(rotationChange()), Qt::UniqueConnection);
-        }
-        else
-        {
-            setFlag(QGraphicsItem::ItemIsMovable, false);
-            disconnect(this, SIGNAL(xChanged()), this, SLOT(posChange()));
-            disconnect(this, SIGNAL(yChanged()), this, SLOT(posChange()));
-            disconnect(this, SIGNAL(rotationChanged()), this, SLOT(rotationChange()));
-        }*/
 }
 
 void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
@@ -625,16 +444,3 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
             VisualItem::wheelEvent(event);*/
 }
 
-/*void CharacterItem::endOfGeometryChange(ChildPointItem::Change change)
-{
-    if(change == ChildPointItem::Resizing)
-    {
-        auto oldScenePos= scenePos();
-        setTransformOriginPoint(m_itemCtrl->thumnailRect().center());
-        auto newScenePos= scenePos();
-        auto oldPos= pos();
-        m_itemCtrl->setPos(QPointF(oldPos.x() + (oldScenePos.x() - newScenePos.x()),
-                                   oldPos.y() + (oldScenePos.y() - newScenePos.y())));
-    }
-    VisualItem::endOfGeometryChange(change);
-}*/

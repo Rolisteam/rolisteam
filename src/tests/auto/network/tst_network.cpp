@@ -449,7 +449,7 @@ void TestNetwork::messageHeaderTest_data()
         "DeletePoint",
         "MovePoint",
         "SetParentItem",
-        "GeometryViewChanged",
+        "CharcaterVisionChanged",
         "CharacterStateChanged",
         "CharacterChanged",
         "HighLightPosition",

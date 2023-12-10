@@ -23,10 +23,7 @@
 #include "vmapitemcontrollerupdater.h"
 #include <QObject>
 #include <core_global.h>
-namespace vmap
-{
-class CharacterItemController;
-}
+#include "controller/item_controllers/characteritemcontroller.h"
 
 class CORE_EXPORT CharacterItemUpdater : public VMapItemControllerUpdater
 {
@@ -35,8 +32,34 @@ public:
     explicit CharacterItemUpdater(QObject* parent= nullptr);
 
     void addItemController(vmap::VisualItemController* ctrl) override;
-
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
+    bool updateVisionProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl);
+
+    template <typename T>
+    void sendOffVisionChanges(vmap::CharacterItemController* ctrl, const QString& property);
 };
+
+
+template <typename T>
+void CharacterItemUpdater::sendOffVisionChanges(vmap::CharacterItemController* ctrl,  const QString& property)
+{
+    if(nullptr == ctrl || property.isEmpty() || !m_synchronized || (m_updatingFromNetwork && updatingCtrl == ctrl)
+       || !ctrl->initialized())
+        return;
+
+    CharacterVision* vision = ctrl->vision();
+
+    if(!vision)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::CharacterVisionChanged);
+    msg.string8(ctrl->mapUuid());
+    msg.uint8(ctrl->itemType());
+    msg.string8(ctrl->uuid());
+    msg.string16(property);
+    auto val= vision->property(property.toLocal8Bit().data());
+    Helper::variantToType<T>(val.value<T>(), msg);
+    msg.sendToServer();
+}
 
 #endif // CHARACTERITEMUPDATER_H

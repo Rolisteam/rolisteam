@@ -29,11 +29,8 @@
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "network/receiveevent.h"
 #include "utils/iohelper.h"
-#include "worker/iohelper.h"
 
 QLoggingCategory rUser("rolisteam.user");
 
@@ -447,6 +444,11 @@ Person* PlayerModel::personById(const QString& id) const
     if(nullptr != player)
         return player;
 
+    return characterById(id);
+}
+
+Character* PlayerModel::characterById(const QString& id)const
+{
     const auto& it
         = std::find_if(m_players.begin(), m_players.end(),
                        [id](const std::unique_ptr<Player>& player) { return (nullptr != player->characterById(id)); });

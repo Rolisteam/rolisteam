@@ -23,8 +23,8 @@ void SightUpdater::addItemController(vmap::VisualItemController *ctrl)
 
     VMapItemControllerUpdater::addItemController(sightCtrl);
 
-    connect(sightCtrl, &vmap::SightController::characterSightChanged, this,
-            [this, sightCtrl]() { sendOffVMapChanges<bool>(sightCtrl, QStringLiteral("characterSight")); });
+    //connect(sightCtrl, &vmap::SightController::characterSightChanged, this,
+    //        [this, sightCtrl]() { sendOffVMapChanges<bool>(sightCtrl, QStringLiteral("characterSight")); });
     connect(sightCtrl, &vmap::SightController::fowPathChanged, this,
             [this, sightCtrl]() { sendOffVMapChanges<QPainterPath>(sightCtrl, QStringLiteral("fowPath")); });
     connect(sightCtrl, &vmap::SightController::characterCountChanged, this,

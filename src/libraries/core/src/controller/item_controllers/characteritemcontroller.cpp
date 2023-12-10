@@ -33,14 +33,19 @@
 
 namespace vmap
 {
+
+
 CharacterItemController::CharacterItemController(const std::map<QString, QVariant>& params,
                                                  VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(VisualItemController::CHARACTER, params, ctrl, parent)
+    : VisualItemController(VisualItemController::CHARACTER, params, ctrl, parent),
+    m_mapCtrl(ctrl),
+    m_vision(new CharacterVision)
 {
     if(params.end() != params.find(Core::vmapkeys::KEY_TOOL))
         m_tool= params.at(Core::vmapkeys::KEY_TOOL).value<Core::SelectableTool>();
-    else
-        m_tool= Core::SelectableTool::NonPlayableCharacter;
+    else if(params.end() != params.find(Core::vmapkeys::KEY_PLAYABLECHARACTER))
+        m_tool= params.at(Core::vmapkeys::KEY_PLAYABLECHARACTER).toBool() ? Core::SelectableTool::PlayableCharacter : Core::SelectableTool::NonPlayableCharacter;
+
 
     if(params.end() != params.find(Core::vmapkeys::KEY_CHARACTER))
     {
@@ -51,6 +56,13 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
         m_character= new Character();
         VectorialMapMessageHelper::fetchCharacter(params, m_character);
     }
+
+    auto model = m_mapCtrl->playerModel();
+
+    connect(model,&PlayerModel::playerJoin,this, &CharacterItemController::findCharacter);
+    //connect(model,&PlayerModel::playerJoin,this, &CharacterItemController::findCharacter);
+
+    findCharacter();
 
     connect(m_character, &Character::stateIdChanged, this, &CharacterItemController::stateIdChanged);
     connect(m_character, &Character::npcChanged, this, &CharacterItemController::playableCharacterChanged);
@@ -75,11 +87,14 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     connect(ctrl, &VectorialMapController::stateLabelVisibleChanged, this, &CharacterItemController::refreshTextRect);
     connect(ctrl, &VectorialMapController::healthBarVisibleChanged, this,
             &CharacterItemController::healthStatusVisibleChanged);
+    connect(this, &CharacterItemController::sideChanged, this, &CharacterItemController::computeThumbnail);
+    connect(this, &CharacterItemController::sideChanged, this, &CharacterItemController::refreshTextRect);
+    connect(this, &CharacterItemController::thumnailRectChanged, this, &CharacterItemController::computeThumbnail);
+    connect(this, &CharacterItemController::thumnailRectChanged, this, &CharacterItemController::refreshTextRect);
 
     if(!m_character->isNpc())
     {
         m_tool= Core::SelectableTool::PlayableCharacter;
-        m_vision.reset(new CharacterVision());
         VectorialMapMessageHelper::fetchCharacterVision(params, m_vision.get());
         ctrl->addVision(m_vision.get());
 
@@ -98,17 +113,8 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     }
 
     {
-        namespace hu= helper::utils;
-        namespace cv= Core::vmapkeys;
-        using std::placeholders::_1;
 
-        hu::setParamIfAny<qreal>(cv::KEY_SIDE, params, std::bind(&CharacterItemController::setSide, this, _1));
-        hu::setParamIfAny<int>(cv::KEY_NUMBER, params, std::bind(&CharacterItemController::setNumber, this, _1));
-        hu::setParamIfAny<QColor>(cv::KEY_COLOR, params, std::bind(&CharacterItemController::setColor, this, _1));
-        if(m_character)
-            hu::setParamIfAny<QColor>(cv::KEY_COLOR, params, std::bind(&Character::setColor, m_character, _1));
-        hu::setParamIfAny<qreal>(cv::KEY_SIDE, params, std::bind(&CharacterItemController::setSide, this, _1));
-
+        VectorialMapMessageHelper::fetchCharacterItem(params, this);
         m_rect= QRectF(0.0, 0.0, m_side, m_side);
     }
 
@@ -131,6 +137,11 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     connect(this, &CharacterItemController::visionChanged, this, [this] { setModified(); });
     connect(this, &CharacterItemController::radiusChanged, this, [this] { setModified(); });
     connect(this, &CharacterItemController::healthStatusVisibleChanged, this, [this] { setModified(); });
+    connect(this, &CharacterItemController::removedChanged, this, [this]{
+        m_vision->setRemoved(removed());
+    });
+
+    m_vision->setSide(m_side);
 }
 
 void CharacterItemController::aboutToBeRemoved()
@@ -138,7 +149,23 @@ void CharacterItemController::aboutToBeRemoved()
     emit removeItem();
 }
 
-void CharacterItemController::endGeometryChange() {}
+void CharacterItemController::endGeometryChange()
+{
+    VisualItemController::endGeometryChange();
+    if(m_changes & ChangedProperty::RECT)
+        emit rectEditFinished();
+
+    if(m_changes & ChangedProperty::SIDE)
+        emit sideEdited();
+
+    m_changes = ChangedProperty::NONE;
+    m_vision->endOfGeometryChanges();
+}
+
+void CharacterItemController::setThumnailRect(const QRectF& rect)
+{
+    setRect(rect);
+}
 
 void CharacterItemController::setCorner(const QPointF& move, int corner, Core::TransformType tt)
 {
@@ -253,6 +280,26 @@ void CharacterItemController::setRect(const QRectF& rect)
 
     m_rect= rect;
     emit thumnailRectChanged(m_rect);
+    m_changes |= ChangedProperty::RECT;
+}
+
+void CharacterItemController::findCharacter()
+{
+    if(!m_mapCtrl || !m_character)
+        return;
+
+    auto model = m_mapCtrl->playerModel();
+
+    auto p = model->characterById(m_character->uuid());
+
+    if(p != nullptr && p != m_character)
+    {
+        if(m_character)
+            m_character->deleteLater();
+
+        m_character = p;
+        emit characterChanged();
+    }
 }
 
 CharacterVision::SHAPE CharacterItemController::visionShape() const
@@ -373,6 +420,8 @@ void CharacterItemController::setSide(qreal side)
 
     m_side= side;
     emit sideChanged(m_side);
+    m_vision->setSide(m_side);
+    m_changes |= ChangedProperty::SIDE;
 }
 
 void CharacterItemController::setStateColor(QColor stateColor)

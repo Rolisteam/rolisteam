@@ -61,30 +61,15 @@ public:
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
-    void resizeContents(const QRectF& rect, int pointId,
-                        Core::TransformType transformType= Core::TransformType::KeepRatio) override;
     void updateChildPosition() override;
-    QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
     virtual void addActionContextMenu(QMenu&) override;
-    virtual void setSize(QSizeF size) override;
-    // virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
     void setNewEnd(const QPointF& p) override;
 
     // accessors
-    QString getCharacterId() const;
-    QString getParentId() const;
-    const QPointF& getCenter() const;
-    int getChildPointCount() const;
-    ChildPointItem* getRadiusChildWidget() const;
-    Character* getCharacter() const;
-
-    void updateItemFlags() override;
     void addChildPoint(ChildPointItem* item);
     void sendVisionMsg();
     void updateCharacter();
-    QString getName() const;
-    int getNumber() const;
-    const QPainterPath getTokenShape() const;
+
 signals:
     void positionChanged();
     void geometryChangeOnUnkownChild(qreal pointId, QPointF& F);
@@ -92,19 +77,11 @@ signals:
     void ownerChanged(Character* old, CharacterItem*);
     void runDiceCommand(QString cmd, QString uuid);
 
-public slots:
-    void sizeChanged(qreal m_size);
-    // void endOfGeometryChange(ChildPointItem::Change change) override;
-
 protected:
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event) override;
 
 private slots:
     void changeCharacter();
-
-private:
-    void visionChanged();
-    void initChildPointItemMotion();
 
 private:
     QPointer<vmap::CharacterItemController> m_itemCtrl;
@@ -114,9 +91,6 @@ private:
     std::unique_ptr<QAction> m_visionShapeAngle;
     std::unique_ptr<QAction> m_reduceLife;
     std::unique_ptr<QAction> m_increaseLife;
-
-    bool m_protectGeometryChange;
-    bool m_visionChanged;
 };
 
 #endif // CHARACTERITEM_H

@@ -348,6 +348,7 @@ constexpr char const* KEY_TOOL{"tool"};
 constexpr char const* KEY_ITEMTYPE{"itemtype"};
 constexpr char const* KEY_UUID{"uuid"};
 constexpr char const* KEY_VISIBLE{"visible"};
+constexpr char const* KEY_PARENTID{"parentid"};
 
 constexpr char const* KEY_CHARAC_NPC{"chac_npc"};
 constexpr char const* KEY_CHARAC_ID{"chac_uuid"};
@@ -368,6 +369,7 @@ constexpr char const* KEY_VIS_ANGLE{"vis_angle"};
 constexpr char const* KEY_VIS_SHAPE{"vis_shape"};
 constexpr char const* KEY_VIS_VISIBLE{"vis_visible"};
 constexpr char const* KEY_VIS_RADIUS{"vis_radiusv"};
+constexpr char const* KEY_VIS_ROTATION{"vis_rotation"};
 
 constexpr char const* KEY_SIGHT_X{"x"};
 constexpr char const* KEY_SIGHT_Y{"y"};
@@ -506,6 +508,175 @@ constexpr char const* JSON_QML_CONTENT{"qml"};
 constexpr char const* JSON_CHARACTER_CONTENT{"characters"};
 constexpr char const* JSON_IMAGES_CONTENT{"background"};
 } // namespace sheet
+
+namespace vmap
+{
+constexpr auto JSON_NPC_NAME_VISIBLE("NpcNameVisible");
+constexpr auto JSON_PC_NAME_VISIBLE("PcNameVisible");
+constexpr auto JSON_NPC_NUMBER_VISIBLE("NpcNumberVisible");
+constexpr auto JSON_HEALTH_BAR_VISIBLE("HealthBarVisible");
+constexpr auto JSON_INIT_SCORE_VISIBLE("InitScoreVisible");
+constexpr auto JSON_STATE_LABEL_VISIBLE("StateLabelVisible");
+constexpr auto JSON_COLLISION("Collision");
+constexpr auto JSON_CHARACTER_VISION("CharacterVision");
+constexpr auto JSON_GRID_COLOR("GridColor");
+constexpr auto JSON_GRID_SCALE("GridScale");
+constexpr auto JSON_GRID_SIZE("GridSize");
+constexpr auto JSON_GRID_VISIBLE("GridVisible");
+constexpr auto JSON_GRID_ABOVE("GridAbove");
+constexpr auto JSON_SCALE_UNIT("ScaleUnit");
+constexpr auto JSON_NPC_NAME("NpcName");
+constexpr auto JSON_PERMISSION("Permission");
+constexpr auto JSON_GRID_PATTERN("GridPattern");
+constexpr auto JSON_VISIBILITY("Visibility");
+constexpr auto JSON_BACKGROUND_COLOR("BgColor");
+constexpr auto JSON_TOOL_COLOR("ToolColor");
+constexpr auto JSON_PEN_SIZE("PenSize");
+constexpr auto JSON_NPC_NUMBER("NpcNumber");
+constexpr auto JSON_ZOOM_LEVEL("ZoomLevel");
+constexpr auto JSON_Layer("Layer");
+constexpr auto JSON_OPACITY("Opacity");
+constexpr auto JSON_VISUAL_RECT_X("VisualRectX");
+constexpr auto JSON_VISUAL_RECT_Y("VisualRectY");
+constexpr auto JSON_VISUAL_RECT_W("VisualRectW");
+constexpr auto JSON_VISUAL_RECT_H("VisualRectH");
+constexpr auto JSON_IDLE("Idle");
+constexpr auto JSON_Z_INDEX("ZIndex");
+constexpr auto JSON_SIGHT_CTRL("SightCtrl");
+constexpr auto JSON_ITEMS("ITEMS");
+
+namespace vitem
+{
+constexpr auto JSON_ITEM_TYPE("ItemType");
+constexpr auto JSON_SELECTED("Selected");
+constexpr auto JSON_VISIBLE("Visible");
+constexpr auto JSON_OPACITY("Opacity");
+constexpr auto JSON_ROTATION("Rotation");
+constexpr auto JSON_LAYER("Layer");
+constexpr auto JSON_POSITION_X("PositionX");
+constexpr auto JSON_POSITION_Y("PositionY");
+constexpr auto JSON_UUID("Uuid");
+constexpr auto JSON_COLOR("Color");
+constexpr auto JSON_LOCKED("Locked");
+constexpr auto JSON_TOOL("Tool");
+constexpr auto JSON_INITIALIZED("Initialized");
+}
+
+namespace sight
+{
+constexpr auto JSON_CHARACTER_SIHT("CharacterSight");
+constexpr auto JSON_FOW_PATH("FowPath");
+constexpr auto JSON_RECT_X("RectX");
+constexpr auto JSON_RECT_Y("RectY");
+constexpr auto JSON_RECT_W("RectW");
+constexpr auto JSON_RECT_H("RectH");
+constexpr auto JSON_CHARACTER_COUNT("CharacterCount");
+constexpr auto JSON_SINGULARITIES("Singularities");
+constexpr auto JSON_SING_POINTS("SingPoints");
+constexpr auto JSON_SING_ADD("SingAdd");
+}
+
+namespace  rect {
+constexpr auto JSON_RECT_X("RectX");
+constexpr auto JSON_RECT_Y("RectY");
+constexpr auto JSON_RECT_W("RectW");
+constexpr auto JSON_RECT_H("RectH");
+constexpr auto JSON_FILLED("Filled");
+constexpr auto JSON_PEN_WIDTH("PenWidth");
+}
+namespace  ellipse {
+constexpr auto JSON_R_X("RX");
+constexpr auto JSON_R_Y("RectY");
+constexpr auto JSON_FILLED("Filled");
+constexpr auto JSON_PEN_WIDTH("PenWidth");
+}
+namespace image
+{
+constexpr auto JSON_PIXMAP("Pixmap");
+constexpr auto JSON_DATA("Data");
+constexpr auto JSON_RECT_X("RectX");
+constexpr auto JSON_RECT_Y("RectY");
+constexpr auto JSON_RECT_W("RectW");
+constexpr auto JSON_RECT_H("RectH");
+constexpr auto JSON_PATH("Path");
+constexpr auto JSON_RATIO("Ratio");
+}
+namespace line
+{
+constexpr auto JSON_START_X("StartX");
+constexpr auto JSON_START_Y("StartY");
+constexpr auto JSON_END_X("EndX");
+constexpr auto JSON_END_Y("EndY");
+constexpr auto JSON_PEN_WIDTH("PenWidth");
+}
+
+namespace path
+{
+constexpr auto JSON_POINT_X("x");
+constexpr auto JSON_POINT_Y("y");
+constexpr auto JSON_POINTS("Points");
+constexpr auto JSON_FILLED("Filled");
+constexpr auto JSON_CLOSED("Closed");
+constexpr auto JSON_PEN_LINE("PenLine");
+constexpr auto JSON_PEN_WIDTH("PenWidth");
+}
+
+namespace text
+{
+constexpr auto JSON_TEXT("Text");
+constexpr auto JSON_TEXT_RECT_X("TextRectX");
+constexpr auto JSON_TEXT_RECT_Y("TextRectY");
+constexpr auto JSON_TEXT_RECT_W("TextRectW");
+constexpr auto JSON_TEXT_RECT_H("TextRectH");
+constexpr auto JSON_BORDER_RECT_X("BorderRectX");
+constexpr auto JSON_BORDER_RECT_Y("BorderRectY");
+constexpr auto JSON_BORDER_RECT_W("BorderRectW");
+constexpr auto JSON_BORDER_RECT_H("BorderRectH");
+constexpr auto JSON_BORDER("Border");
+constexpr auto JSON_FONT("Font");
+constexpr auto JSON_PEN_WIDTH("PenWidth");
+constexpr auto JSON_POS_X("PosX");
+constexpr auto JSON_POS_Y("PosY");
+}
+
+namespace character
+{
+constexpr auto JSON_SIDE("Side");
+constexpr auto JSON_STATE_COLOR("StateColor");
+constexpr auto JSON_NUMBER("Number");
+constexpr auto JSON_TEXT_RECT_X("TextRectX");
+constexpr auto JSON_TEXT_RECT_Y("TextRectY");
+constexpr auto JSON_TEXT_RECT_W("TextRectW");
+constexpr auto JSON_TEXT_RECT_H("TextRectH");
+
+constexpr auto JSON_FONT("Font");
+constexpr auto JSON_RADIUS("Radius");
+
+constexpr auto JSON_VIS_POS_X("PosX");
+constexpr auto JSON_VIS_POS_Y("PosY");
+constexpr auto JSON_VIS_ANGLE("Angle");
+constexpr auto JSON_VIS_SHAPE("Shape");
+constexpr auto JSON_VIS_ROTATION("Rotation");
+constexpr auto JSON_VIS_RADIUS("Radius");
+constexpr auto JSON_VIS_VISIBLE("Radius");
+constexpr auto JSON_CHARACTER("Character");
+
+
+constexpr auto JSON_CHAR_NPC("Npc");
+constexpr auto JSON_CHAR_ID("Id");
+constexpr auto JSON_CHAR_NAME("Name");
+constexpr auto JSON_CHAR_AVATAR("Avatar");
+constexpr auto JSON_CHAR_HEALT_CURRENT("HpCurrent");
+constexpr auto JSON_CHAR_HEALT_MAX("HpMax");
+constexpr auto JSON_CHAR_HEALT_MIN("HpMin");
+constexpr auto JSON_CHAR_INIT_SCORE("InitScore");
+constexpr auto JSON_CHAR_DISTANCE_TURN("DistanceTurn");
+constexpr auto JSON_CHAR_STATE_ID("StateId");
+constexpr auto JSON_CHAR_LIFE_COLOR("LifeColor");
+constexpr auto JSON_CHAR_INIT_CMD("InitCmd");
+constexpr auto JSON_CHAR_INIT_SCORE_DEFINED("InitScoreDefined");
+}
+}// namespace vmap
 
 namespace Mindmap
 {

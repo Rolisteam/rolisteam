@@ -180,4 +180,28 @@ void CharacterVision::setRotation(qreal newRotation)
     m_changes |= ChangedProperty::ROTATION;
 }
 
+qreal CharacterVision::side() const
+{
+    return m_side;
+}
+
+void CharacterVision::setSide(qreal newSide)
+{
+    if (qFuzzyCompare(m_side, newSide))
+        return;
+    m_side = newSide;
+    emit sideChanged();
+}
+
+bool CharacterVision::removed() const
+{
+    return m_removed;
+}
+
+void CharacterVision::setRemoved(bool newRemoved)
+{
+    if (m_removed == newRemoved)
+        return;
+    m_removed = newRemoved;
+    emit removedChanged();
 }

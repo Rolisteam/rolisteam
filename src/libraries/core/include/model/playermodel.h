@@ -30,10 +30,7 @@
 #include <memory>
 class Character;
 class Player;
-class NetworkMessageReader;
-class NetworkLink;
 class Person;
-class ReceiveEvent;
 /**
  * @brief PlayersList is a model of players and character. List of connected players and theyr characters
  * @note This class is NOT thread-safe.
@@ -75,6 +72,7 @@ public:
 
     Player* playerById(const QString& id) const;
     Person* personById(const QString& id) const;
+    Character* characterById(const QString& id)const;
 
     QModelIndex personToIndex(Person* person) const;
 

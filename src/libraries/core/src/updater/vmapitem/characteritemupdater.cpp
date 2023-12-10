@@ -106,8 +106,14 @@ void CharacterItemUpdater::addItemController(vmap::VisualItemController* ctrl)
 
 bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
 {
+    qDebug() << "update Character Item property";
     if(nullptr == msg || nullptr == ctrl)
         return false;
+
+    if(msg->action() == NetMsg::CharacterVisionChanged)
+    {
+        return updateVisionProperty(msg, ctrl);
+    }
 
     // TODO implement save/restore
     auto datapos= msg->pos();
@@ -123,23 +129,23 @@ bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::V
 
     QVariant var;
 
-    if(property == QStringLiteral("side"))
+    if(property == properties::side)
     {
         var= QVariant::fromValue(msg->real());
     }
-    else if(property == QStringLiteral("stateColor"))
+    else if(property == properties::stateColor)
     {
         var= QVariant::fromValue(QColor(msg->rgb()));
     }
-    else if(property == QStringLiteral("number"))
+    else if(property == properties::number)
     {
         var= QVariant::fromValue(msg->uint64());
     }
-    else if(property == QStringLiteral("playableCharacter"))
+    else if(property == properties::playableCharacter)
     {
         var= QVariant::fromValue(msg->uint8());
     }
-    else if(property == QStringLiteral("thumnailRect"))
+    else if(property == properties::thumnailRect)
     {
         auto x= msg->real();
         auto y= msg->real();
@@ -147,11 +153,11 @@ bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::V
         auto h= msg->real();
         var= QVariant::fromValue(QRectF(x, y, w, h));
     }
-    else if(property == QStringLiteral("visionShape"))
+    else if(property == properties::visionShape)
     {
         var= QVariant::fromValue(static_cast<CharacterVision::SHAPE>(msg->uint8()));
     }
-    else if(property == QStringLiteral("font"))
+    else if(property == properties::font)
     {
         auto str= msg->string8();
         var= QVariant::fromValue(QFont(str));
@@ -163,6 +169,71 @@ bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::V
 
     m_updatingFromNetwork= true;
     auto feedback= ctrl->setProperty(property.toLocal8Bit().data(), var);
+    m_updatingFromNetwork= false;
+    updatingCtrl= nullptr;
+
+    return feedback;
+}
+
+
+bool CharacterItemUpdater::updateVisionProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
+{
+    if(nullptr == msg || nullptr == ctrl)
+        return false;
+
+    auto itemCtrl= dynamic_cast<vmap::CharacterItemController*>(ctrl);
+
+    if(nullptr == itemCtrl)
+        return false;
+
+    auto vision = itemCtrl->vision();
+
+    if(nullptr == vision)
+        return false;
+
+    auto property= msg->string16();
+
+    QVariant var;
+
+    if(property == properties::vision_radius)
+    {
+        var= QVariant::fromValue(msg->real());
+    }
+    else if(property == properties::vision_angle)
+    {
+        var= QVariant::fromValue(msg->real());
+    }
+    else if(property == properties::vision_rotation)
+    {
+        var= QVariant::fromValue(msg->real());
+    }
+    else if(property == properties::vision_position)
+    {
+        auto x = msg->real();
+        auto y = msg->real();
+        var= QVariant::fromValue(QPointF{x,y});
+    }
+    else if(property == properties::vision_removed)
+    {
+        var = QVariant::fromValue(static_cast<bool>(msg->uint8()));
+    }
+    else if(property == properties::vision_path)
+    {
+        auto data= msg->byteArray32();
+        {
+            QDataStream read(&data, QIODevice::ReadOnly);
+            QPainterPath path;
+            read >> path;
+            var = QVariant::fromValue(path);
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    m_updatingFromNetwork= true;
+    auto feedback= vision->setProperty(property.toLocal8Bit().data(), var);
     m_updatingFromNetwork= false;
     updatingCtrl= nullptr;
 

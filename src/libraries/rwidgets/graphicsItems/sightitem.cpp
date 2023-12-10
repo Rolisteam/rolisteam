@@ -52,6 +52,7 @@ SightItem::SightItem(vmap::SightController* ctrl) : VisualItem(ctrl), m_sightCtr
     connect(m_sightCtrl, &vmap::SightController::fowPathChanged, this, updateFunc);
     connect(m_sightCtrl, &vmap::SightController::rectChanged, this, updateFunc);
     connect(m_sightCtrl, &vmap::SightController::characterSightChanged, this, updateFunc);
+    connect(m_sightCtrl, &vmap::SightController::requiredUpdate, this, updateFunc);
     connect(m_sightCtrl, &vmap::SightController::characterCountChanged, this, updateFunc);
 
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
@@ -104,6 +105,9 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
         auto visions= m_sightCtrl->visionData();
         for(auto& vision : visions)
         {
+            if(vision->removed())
+                continue;
+
             QPainterPath subArea;
             subArea.setFillRule(Qt::WindingFill);
             auto itemRadius= vision->radius();
@@ -113,8 +117,11 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
             trans.translate(center.x(), center.y());
             trans.rotate(rot);
 
+            auto side = vision->side()/2;
+            QPainterPath token;
+            token.addRect(QRectF{0,0,side*2,side*2});
             path= path.subtracted(
-                trans.map(vision->path().translated(-itemRadius, -itemRadius))); // always see the user
+                trans.map(token.translated(-side,-side))); // always see the user
             switch(vision->shape())
             {
             case CharacterVision::DISK:

@@ -67,6 +67,7 @@ signals:
     void rectChanged(QRectF r);
     void characterSightChanged();
     void characterCountChanged();
+    void requiredUpdate();
 
 private:
     std::vector<std::pair<QPolygonF, bool>> m_fogSingularityList;
