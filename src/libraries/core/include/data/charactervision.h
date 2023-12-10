@@ -25,12 +25,12 @@
 #include <QPainterPath>
 #include <QPointF>
 
-#include <core_global.h>
+#include <network_global.h>
 
 /**
  * @brief The Vision class
  */
-class CORE_EXPORT CharacterVision : public QObject
+class NETWORK_EXPORT CharacterVision : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
@@ -39,9 +39,10 @@ class CORE_EXPORT CharacterVision : public QObject
     Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(SHAPE shape READ shape WRITE setShape NOTIFY shapeChanged)
     Q_PROPERTY(QPainterPath path READ path WRITE setPath NOTIFY pathChanged)
+    Q_PROPERTY(qreal side READ side WRITE setSide NOTIFY sideChanged FINAL)
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool cornerVisible READ cornerVisible WRITE setCornerVisible NOTIFY cornerVisibleChanged)
-
+    Q_PROPERTY(bool removed READ removed WRITE setRemoved NOTIFY removedChanged FINAL)
 public:
     enum SHAPE
     {
@@ -49,6 +50,18 @@ public:
         ANGLE
     };
     Q_ENUM(SHAPE)
+
+    enum class ChangedProperty {
+        NONE=0x0,
+        ANGLE= 0x1,
+        ROTATION=0x2,
+        POSITION=0x4,
+        RADIUS=0x8,
+        PATH=0xF
+    };
+    Q_DECLARE_FLAGS(Changes, ChangedProperty)
+    Q_FLAG(Changes)
+
     CharacterVision(QObject* parent= nullptr);
     virtual ~CharacterVision();
 
@@ -65,17 +78,22 @@ public:
     bool visible() const;
     bool cornerVisible() const;
 
-    // void setCornerPoint(ChildPointItem*);
-    // ChildPointItem* getCornerPoint();
     QPainterPath path() const;
     void setPath(QPainterPath newPath);
 
     qreal rotation() const;
     void setRotation(qreal newRotation);
 
+    qreal side() const;
+    void setSide(qreal newSide);
+
+    bool removed() const;
+    void setRemoved(bool newRemoved);
+
 public slots:
     void updatePosition();
     void setCornerVisible(bool b);
+    void endOfGeometryChanges();
 
 signals:
     void radiusChanged(qreal);
@@ -84,10 +102,17 @@ signals:
     void shapeChanged(SHAPE);
     void visibleChanged(bool);
     void cornerVisibleChanged(bool);
-
     void pathChanged();
-
     void rotationChanged();
+    void sideChanged();
+    void removedChanged();
+
+    //edited
+    void radiusEdited();
+    void angleEdited();
+    void rotationEdited();
+    void positionEdited();
+    void pathEdited();
 
 private:
     CharacterVision::SHAPE m_shape= ANGLE;
@@ -98,6 +123,9 @@ private:
     qreal m_radius= 50;
     QPainterPath m_path;
     qreal m_rotation= 0.;
+    Changes m_changes{ChangedProperty::NONE};
+    qreal m_side;
+    bool m_removed{false};
 };
 
 #endif // CHARACTERVISION_H

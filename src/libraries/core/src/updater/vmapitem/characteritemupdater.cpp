@@ -24,6 +24,26 @@
 #include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
 
+namespace properties
+{
+constexpr auto side{"side"};
+constexpr auto stateColor{"stateColor"};
+constexpr auto number{"number"};
+constexpr auto playableCharacter{"playableCharacter"};
+constexpr auto thumnailRect{"thumnailRect"};
+constexpr auto visionShape{"visionShape"};
+constexpr auto font{"font"};
+
+constexpr auto vision_radius{"radius"};
+constexpr auto vision_angle{"angle"};
+constexpr auto vision_rotation{"rotation"};
+constexpr auto vision_position{"position"};
+//constexpr auto vision_shape{"shape"};
+constexpr auto vision_path{"path"};
+constexpr auto vision_removed{"removed"};
+
+}
+
 CharacterItemUpdater::CharacterItemUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}
 
 void CharacterItemUpdater::addItemController(vmap::VisualItemController* ctrl)
@@ -38,21 +58,47 @@ void CharacterItemUpdater::addItemController(vmap::VisualItemController* ctrl)
 
     VMapItemControllerUpdater::addItemController(ctrl);
 
-    connect(itemCtrl, &vmap::CharacterItemController::sideChanged, this,
-            [this, itemCtrl]() { sendOffVMapChanges<qreal>(itemCtrl, QStringLiteral("side")); });
+    connect(itemCtrl, &vmap::CharacterItemController::sideEdited, this,
+            [this, itemCtrl]() { sendOffVMapChanges<qreal>(itemCtrl, properties::side); });
     connect(itemCtrl, &vmap::CharacterItemController::stateColorChanged, this,
-            [this, itemCtrl]() { sendOffVMapChanges<QColor>(itemCtrl, QStringLiteral("stateColor")); });
+            [this, itemCtrl]() { sendOffVMapChanges<QColor>(itemCtrl, properties::stateColor); });
     connect(itemCtrl, &vmap::CharacterItemController::numberChanged, this,
-            [this, itemCtrl]() { sendOffVMapChanges<QColor>(itemCtrl, QStringLiteral("number")); });
+            [this, itemCtrl]() { sendOffVMapChanges<QColor>(itemCtrl, properties::number); });
     connect(itemCtrl, &vmap::CharacterItemController::playableCharacterChanged, this,
-            [this, itemCtrl]() { sendOffVMapChanges<bool>(itemCtrl, QStringLiteral("playableCharacter")); });
-    connect(itemCtrl, &vmap::CharacterItemController::thumnailRectChanged, this,
-            [this, itemCtrl]() { sendOffVMapChanges<QRectF>(itemCtrl, QStringLiteral("thumnailRect")); });
+            [this, itemCtrl]() { sendOffVMapChanges<bool>(itemCtrl, properties::playableCharacter); });
     connect(itemCtrl, &vmap::CharacterItemController::visionShapeChanged, this,
             [this, itemCtrl]()
-            { sendOffVMapChanges<CharacterVision::SHAPE>(itemCtrl, QStringLiteral("visionShape")); });
+            { sendOffVMapChanges<CharacterVision::SHAPE>(itemCtrl, properties::visionShape); });
     connect(itemCtrl, &vmap::CharacterItemController::fontChanged, this,
-            [this, itemCtrl]() { sendOffVMapChanges<QFont>(itemCtrl, QStringLiteral("font")); });
+            [this, itemCtrl]() { sendOffVMapChanges<QFont>(itemCtrl, properties::font); });
+    connect(itemCtrl, &vmap::CharacterItemController::rectEditFinished, this,
+            [this, itemCtrl]() { sendOffVMapChanges<QRectF>(itemCtrl, properties::thumnailRect); });
+
+    {//vision
+        auto vision = itemCtrl->vision();
+
+        connect(vision, &CharacterVision::radiusEdited, this, [this, itemCtrl](){
+            sendOffVisionChanges<qreal>(itemCtrl,properties::vision_radius);
+        });
+        connect(vision, &CharacterVision::angleEdited, this, [this, itemCtrl](){
+            sendOffVisionChanges<qreal>(itemCtrl,properties::vision_angle);
+        });
+        connect(vision, &CharacterVision::rotationEdited, this, [this, itemCtrl](){
+            sendOffVisionChanges<qreal>(itemCtrl,properties::vision_rotation);
+        });
+        connect(vision, &CharacterVision::positionEdited, this, [this, itemCtrl](){
+            sendOffVisionChanges<QPointF>(itemCtrl,properties::vision_position);
+        });
+        connect(vision, &CharacterVision::pathEdited, this, [this, itemCtrl](){
+            sendOffVisionChanges<QPainterPath>(itemCtrl,properties::vision_path);
+        });
+        connect(vision, &CharacterVision::removedChanged, this, [this, itemCtrl](){
+            sendOffVisionChanges<bool>(itemCtrl,properties::vision_removed);
+        });
+    }
+
+    connect(itemCtrl, &vmap::CharacterItemController::rectEditFinished, this,
+            [this, itemCtrl]() { sendOffVMapChanges<QRectF>(itemCtrl, properties::thumnailRect); });
 
     if(!ctrl->remote())
         MessageHelper::sendOffCharacter(itemCtrl, ctrl->mapUuid());

@@ -40,14 +40,14 @@ namespace vmap
 class CORE_EXPORT CharacterItemController : public VisualItemController
 {
     Q_OBJECT
-    Q_PROPERTY(Character* character READ character CONSTANT)
+    Q_PROPERTY(Character* character READ character NOTIFY characterChanged)
     Q_PROPERTY(qreal side READ side WRITE setSide NOTIFY sideChanged)
     Q_PROPERTY(QColor stateColor READ stateColor WRITE setStateColor NOTIFY stateColorChanged)
     Q_PROPERTY(QString stateId READ stateId WRITE setStateId NOTIFY stateIdChanged)
     Q_PROPERTY(QImage stateImage READ stateImage NOTIFY stateImageChanged)
     Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
     Q_PROPERTY(bool playableCharacter READ playableCharacter WRITE setPlayableCharacter NOTIFY playableCharacterChanged)
-    Q_PROPERTY(QRectF thumnailRect READ thumnailRect NOTIFY thumnailRectChanged)
+    Q_PROPERTY(QRectF thumnailRect READ thumnailRect WRITE setThumnailRect NOTIFY thumnailRectChanged)
     Q_PROPERTY(CharacterVision::SHAPE visionShape READ visionShape WRITE setVisionShape NOTIFY visionShapeChanged)
     Q_PROPERTY(QRectF textRect READ textRect WRITE setTextRect NOTIFY textRectChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
@@ -66,6 +66,13 @@ public:
         DirectionHandle= 4,
         AngleHandle
     };
+    enum class ChangedProperty {
+        NONE=0x0,
+        SIDE=0x1,
+        RECT=0x2
+    };
+    Q_DECLARE_FLAGS(Changes, ChangedProperty)
+    Q_FLAG(Changes)
     CharacterItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                             QObject* parent= nullptr);
 
@@ -102,6 +109,7 @@ public:
     // accessor to Map properties
     bool healthStatusVisible() const;
 
+
 public slots:
     void setSide(qreal side);
     void setStateColor(QColor stateColor);
@@ -112,6 +120,7 @@ public slots:
     void setFont(const QFont& font);
     void setStateId(const QString& id);
     void setRadius(qreal r);
+    void setThumnailRect(const QRectF& rect);
 
     void runInit();
     void cleanInit();
@@ -136,14 +145,19 @@ signals:
     void stateIdChanged(QString s);
     void stateImageChanged(QString si);
     void healthStatusVisibleChanged(bool);
+    void rectEditFinished();
+    void sideEdited();
+    void characterChanged();
 
 private:
     void refreshTextRect();
     void computeThumbnail();
     void setRect(const QRectF& rect);
+    void findCharacter();
 
 private:
     QPointer<Character> m_character;
+    QPointer<VectorialMapController> m_mapCtrl;
     std::unique_ptr<QImage> m_thumb;
     std::unique_ptr<CharacterVision> m_vision;
     qreal m_side= 64;
@@ -153,6 +167,9 @@ private:
     QFont m_font;
     QRectF m_rect= {0, 0, 64, 64};
     qreal m_radius= 10.0;
+    //bool m_rectEdited= false;
+
+    Changes m_changes{ChangedProperty::NONE};
 };
 } // namespace vmap
 

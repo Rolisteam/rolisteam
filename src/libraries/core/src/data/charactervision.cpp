@@ -30,6 +30,7 @@ void CharacterVision::setAngle(qreal a)
         return;
     m_angle= a;
     emit angleChanged(m_angle);
+    m_changes |= ChangedProperty::ANGLE;
 }
 
 void CharacterVision::setRadius(qreal r)
@@ -38,6 +39,7 @@ void CharacterVision::setRadius(qreal r)
         return;
     m_radius= r;
     emit radiusChanged(m_radius);
+    m_changes |= ChangedProperty::RADIUS;
 }
 
 void CharacterVision::setPosition(const QPointF& p)
@@ -46,6 +48,7 @@ void CharacterVision::setPosition(const QPointF& p)
         return;
     m_pos= p;
     emit positionChanged(m_pos);
+    m_changes |= ChangedProperty::POSITION;
 }
 
 void CharacterVision::setShape(CharacterVision::SHAPE s)
@@ -82,6 +85,22 @@ void CharacterVision::setCornerVisible(bool b)
         return;
     m_cornerVisible= b;
     emit cornerVisibleChanged(m_cornerVisible);
+}
+
+void CharacterVision::endOfGeometryChanges()
+{
+    if(m_changes & ChangedProperty::ANGLE)
+        emit angleEdited();
+    if(m_changes & ChangedProperty::RADIUS)
+        emit radiusEdited();
+    if(m_changes & ChangedProperty::ROTATION)
+        emit rotationEdited();
+    if(m_changes & ChangedProperty::POSITION)
+        emit positionEdited();
+    if(m_changes & ChangedProperty::PATH)
+        emit pathEdited();
+
+    m_changes = ChangedProperty::NONE;
 }
 
 void CharacterVision::updatePosition() {}
@@ -144,6 +163,7 @@ void CharacterVision::setPath(QPainterPath newPath)
         return;
     m_path = newPath;
     emit pathChanged();
+    m_changes |= ChangedProperty::PATH;
 }
 
 qreal CharacterVision::rotation() const
@@ -157,4 +177,7 @@ void CharacterVision::setRotation(qreal newRotation)
         return;
     m_rotation = newRotation;
     emit rotationChanged();
+    m_changes |= ChangedProperty::ROTATION;
+}
+
 }
