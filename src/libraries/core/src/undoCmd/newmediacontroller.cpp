@@ -23,14 +23,9 @@
 #include <QFileInfo>
 #include <QUuid>
 
-#include "controller/contentcontroller.h"
-//#include "controller/media_controller/mediamanagerbase.h"
-#include "data/campaign.h"
 #include "data/campaigneditor.h"
 #include "media/mediafactory.h"
 #include "model/contentmodel.h"
-
-#include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/utilshelper.h"
 

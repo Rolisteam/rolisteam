@@ -49,6 +49,8 @@ void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
 {
     if(!ctrl)
         return;
+    if(ctrl->remote())
+        return;
 
     auto id= ctrl->uuid();
     auto campaign= m_manager->campaign();

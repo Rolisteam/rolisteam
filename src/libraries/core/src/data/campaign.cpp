@@ -53,7 +53,7 @@ Campaign::Campaign(QObject* parent)
 
 QString Campaign::name() const
 {
-    return m_name;
+    return m_name.isEmpty() ? tr("Unknown"): m_name;
 }
 
 Campaign::~Campaign()= default;

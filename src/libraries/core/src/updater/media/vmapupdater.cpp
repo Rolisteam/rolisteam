@@ -141,13 +141,6 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
     connect(ctrl, &VectorialMapController::visualItemControllersRemoved, this,
             [ctrl](const QStringList& list) { VectorialMapMessageHelper::sendOffRemoveItems(list, ctrl->uuid()); });
 
-    connect(ctrl, &VectorialMapController::modifiedChanged, this, [ctrl, this]() {
-        if(ctrl->modified())
-        {
-            saveMediaController(ctrl);
-        }
-    });
-
     auto it = m_updaters.find(vmap::VisualItemController::SIGHT);
     if(it != std::end(m_updaters))
     {
@@ -156,10 +149,18 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
             updater->addItemController(ctrl->sightController());
     }
 
-
-    QTimer::singleShot(1000,ctrl,[ctrl, this](){
-        saveMediaController(ctrl);
-    });
+    if(!ctrl->remote())
+    {
+        connect(ctrl, &VectorialMapController::modifiedChanged, this, [ctrl, this]() {
+            if(ctrl->modified())
+            {
+                saveMediaController(ctrl);
+            }
+        });
+        QTimer::singleShot(1000,ctrl,[ctrl, this](){
+            saveMediaController(ctrl);
+        });
+    }
 }
 
 bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapController* ctrl)
@@ -242,41 +243,31 @@ bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapCont
     return feedback;
 }
 
+
 NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
+    QString vmapId= msg->string8();
+    auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
+    if(nullptr == map){
+        qWarning() << QString("Map with id %1 has not been found").arg(vmapId);
+        return type;
+    }
+
     if(is(msg, NetMsg::MediaCategory, NetMsg::UpdateMediaProperty))
     {
-        QString vmapId= msg->string8();
-        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
         updateVMapProperty(msg, map);
     }
     else if(is(msg, NetMsg::VMapCategory, NetMsg::AddItem))
     {
-        QString vmapId= msg->string8();
-        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
-
-        if(!map)
-        {
-            qWarning() << QString("Map with id %1 has not been found").arg(vmapId);
-            return type;
-        }
-
         auto item= vmap::VmapItemFactory::createRemoteVMapItem(map, msg);
         map->addRemoteItem(item);
     }
-    else if(is(msg, NetMsg::VMapCategory, NetMsg::UpdateItem))
-    {
-        QString vmapId= msg->string8();
+    else if(is(msg, NetMsg::VMapCategory, NetMsg::UpdateItem) || is(msg, NetMsg::VMapCategory, NetMsg::CharacterVisionChanged))
+    {     
         auto itemType= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
         QString itemId= msg->string8();
-        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
-        if(nullptr == map)
-            return type;
-
-
         auto itemCtrl= map->itemController(itemId);
-
         auto it= m_updaters.find(itemType);
         if(it != m_updaters.end())
         {
@@ -285,20 +276,10 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
     }
     else if(is(msg, NetMsg::VMapCategory, NetMsg::HighLightPosition))
     {
-        QString vmapId= msg->string8();
-        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
-        if(nullptr == map)
-            return type;
-
         VectorialMapMessageHelper::readHighLight(map, msg);
     }
     else if(is(msg, NetMsg::VMapCategory, NetMsg::DeleteItem))
     {
-        QString vmapId= msg->string8();
-        auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
-        if(nullptr == map)
-            return type;
-
         auto list= VectorialMapMessageHelper::readRemoveItems(msg);
         QSet<QString> ids{list.begin(), list.end()};
         map->removeItemController(ids, true);

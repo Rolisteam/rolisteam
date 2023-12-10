@@ -90,7 +90,7 @@ constexpr auto const* characterColor{"CharacterColor"};
 void readConnectionProfileModel(ProfileModel* model)
 {
 #ifdef QT_DEBUG
-    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString()), QString("bla_%1").arg(QDate::currentDate().toString()) );
+    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")), QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")) );
 #else
     QSettings settings(rolisteam, rolisteam);
 #endif
@@ -156,7 +156,7 @@ void readConnectionProfileModel(ProfileModel* model)
 void writeConnectionProfileModel(ProfileModel* model)
 {
 #ifdef QT_DEBUG
-    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString()), QString("bla_%1").arg(QDate::currentDate().toString()) );
+    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")), QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")) );
 #else
     QSettings settings(rolisteam, rolisteam);
 #endif

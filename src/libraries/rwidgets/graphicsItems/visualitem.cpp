@@ -386,7 +386,6 @@ void VisualItem::setHighlightWidth(int highlightWidth)
 
 void VisualItem::setSize(QSizeF size)
 {
-    // m_rect.setSize(size);
     updateChildPosition();
     update();
 }

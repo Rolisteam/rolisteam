@@ -21,6 +21,7 @@
 
 #include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "data/campaignmanager.h"
 #include "data/cleveruri.h"
 #include <QMouseEvent>
 #include <controller/contentcontroller.h>
@@ -70,9 +71,9 @@ void ContentControllerTest::init()
 
 void ContentControllerTest::saveLoadImage()
 {
-    /*m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
+    m_ctrl.reset(new ContentController(new campaign::CampaignManager(nullptr),m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
     m_ctrl->setLocalId("localid");
-    connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
+    /*connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
     {
         auto imgParams
             = std::map<QString, QVariant>({{Core::keys::KEY_UUID, "test_unit_vmap"},
@@ -106,9 +107,6 @@ void ContentControllerTest::saveLoadImage()
         QCOMPARE(rectCtrl->pos(), QPointF(500, 200));
     }
     auto path= QStringLiteral("%1/%2").arg(QDir::tempPath()).arg("scenario.sce");
-
-    m_ctrl->setSessionPath(path);
-    m_ctrl->saveSession();
 
     m_ctrl.reset(new ContentController(m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
     m_ctrl->setLocalId("localid");

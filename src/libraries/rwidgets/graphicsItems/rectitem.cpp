@@ -146,16 +146,3 @@ void RectItem::updateChildPosition()
     update();
 }
 
-/*void RectItem::endOfGeometryChange(ChildPointItem::Change change)
-{
-    if(change == ChildPointItem::Resizing)
-    {
-        auto oldScenePos= scenePos();
-        setTransformOriginPoint(m_rectCtrl->rect().center());
-        auto newScenePos= scenePos();
-        auto oldPos= pos();
-        m_rectCtrl->setPos(QPointF(oldPos.x() + (oldScenePos.x() - newScenePos.x()),
-                                   oldPos.y() + (oldScenePos.y() - newScenePos.y())));
-    }
-    VisualItem::endOfGeometryChange(change);
-}*/

@@ -42,7 +42,7 @@ ClientConnection::ClientConnection() : m_socketTcp(new QTcpSocket(this))
     connect(m_socketTcp, &QTcpSocket::connected, this, [this]() { setConnected(true); });
     connect(m_socketTcp, &QTcpSocket::disconnected, this, [this]() { setConnected(false); });
     connect(m_socketTcp, &QTcpSocket::readyRead, this, &ClientConnection::receivingData);
-    connect(m_socketTcp, &QTcpSocket::bytesWritten, this, []() { qDebug() << "byteWrittens"; });
+    connect(m_socketTcp, &QTcpSocket::bytesWritten, this, [](qint64 bytes) { qDebug() << bytes << "byteWrittens"; });
     connect(m_socketTcp, &QTcpSocket::stateChanged, this, [](const QAbstractSocket::SocketState& state) {
         qDebug() << "NetworkLink - state changed" << state;
         /*switch(state)
