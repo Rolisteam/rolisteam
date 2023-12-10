@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
-"PO-Revision-Date: 2023-11-25 02:26\n"
+"PO-Revision-Date: 2023-12-09 09:24\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -1794,7 +1794,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:255
 msgctxt "MainWindow|"
 msgid "About Rolisteam"
-msgstr ""
+msgstr "关于 Rolisteam"
 
 #: src/binaries/widget/mainwindow.ui:264 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
