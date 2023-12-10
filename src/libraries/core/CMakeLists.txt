@@ -56,6 +56,7 @@ set(Network_HEADER
     ${inc}/worker/playermessagehelper.h
     ${inc}/updater/controller/servermanagerupdater.h
     ${inc}/network/upnp/upnpnat.h
+     ${inc}/data/charactervision.h
 )
 
 set(Network_SRC
@@ -88,6 +89,7 @@ set(Network_SRC
     src/worker/playermessagehelper.cpp
     src/updater/controller/servermanagerupdater.cpp
     src/network/upnp/upnpnat.cpp
+    src/data/charactervision.cpp
 )
 message(${Network_SRC} ${Network_HEADER})
 add_library(network SHARED ${Network_SRC} ${Network_HEADER})
@@ -161,7 +163,6 @@ set(HEADERS
   ${inc}/data/campaign.h
   ${inc}/data/campaigneditor.h
   ${inc}/data/campaignmanager.h
-  ${inc}/data/charactervision.h
   ${inc}/data/cleveruri.h
   ${inc}/data/cleverurimimedata.h
   ${inc}/data/diceshortcut.h
@@ -303,7 +304,6 @@ set(SOURCES
   src/data/campaign.cpp
   src/data/campaigneditor.cpp
   src/data/campaignmanager.cpp
-  src/data/charactervision.cpp
   src/data/cleveruri.cpp
   src/data/cleverurimimedata.cpp
   src/data/diceshortcut.cpp
