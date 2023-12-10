@@ -1037,6 +1037,25 @@ const std::map<QString, QVariant> MessageHelper::readPath(NetworkMessageReader* 
     return hash;
 }
 
+void readCharacterVision(NetworkMessageReader* msg,std::map<QString, QVariant>& maps)
+{
+    auto x = msg->real();
+    auto y = msg->real();
+
+    QPointF position(x,y);
+
+    qreal angle = msg->real();
+    CharacterVision::SHAPE visionShapeV = static_cast<CharacterVision::SHAPE>(msg->uint8());
+    bool visible = static_cast<bool>(msg->uint8());
+    qreal radiusV = msg->real();
+
+    maps.insert({Core::vmapkeys::KEY_VIS_POS, position});
+    maps.insert({Core::vmapkeys::KEY_VIS_ANGLE, angle});
+    maps.insert({Core::vmapkeys::KEY_VIS_SHAPE, visionShapeV});
+    maps.insert({Core::vmapkeys::KEY_VIS_VISIBLE, visible});
+    maps.insert({Core::vmapkeys::KEY_VIS_RADIUS, radiusV});
+}
+
 const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageReader* msg)
 {
     auto hash= readVisualItemController(msg);
@@ -1045,40 +1064,34 @@ const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageRea
     auto number= msg->uint32();
     auto playableCharacter= static_cast<bool>(msg->uint8());
 
-    auto x= msg->real();
-    auto y= msg->real();
-    auto w= msg->real();
-    auto h= msg->real();
-    QRectF rect(x, y, w, h);
+    auto tx= msg->real();
+    auto ty= msg->real();
+    auto tw= msg->real();
+    auto th= msg->real();
+    QRectF textRect(tx, ty, tw, th);
 
-    auto text= msg->string32();
-    auto hasAvatar= static_cast<bool>(msg->uint8());
-
-    auto img= msg->byteArray32();
     auto font= QFont(msg->string32());
     auto radius= msg->real();
 
-    auto count= msg->uint64();
-    std::vector<QPointF> points;
-    points.reserve(static_cast<std::size_t>(count));
-    for(unsigned int i= 0; i < count; ++i)
-    {
-        auto x= msg->real();
-        auto y= msg->real();
-        points.push_back(QPointF(x, y));
-    }
+    readCharacterVision(msg,hash);
+
+    auto hasCharacter= static_cast<bool>(msg->uint8());
     hash.insert({Core::vmapkeys::KEY_SIDE, side});
     hash.insert({Core::vmapkeys::KEY_STATECOLOR, stateColor});
     hash.insert({Core::vmapkeys::KEY_NUMBER, number});
     hash.insert({Core::vmapkeys::KEY_PLAYABLECHARACTER, playableCharacter});
-    hash.insert({Core::vmapkeys::KEY_RECT, QVariant::fromValue(rect)});
-    hash.insert({Core::vmapkeys::KEY_TEXT, text});
-    hash.insert({Core::vmapkeys::KEY_HASAVATAR, hasAvatar});
-    hash.insert({Core::vmapkeys::KEY_IMAGE, img});
     hash.insert({Core::vmapkeys::KEY_FONT, font});
     hash.insert({Core::vmapkeys::KEY_RADIUS, radius});
-    hash.insert({Core::vmapkeys::KEY_COUNT, count});
-    hash.insert({Core::vmapkeys::KEY_POINTS, QVariant::fromValue(points)});
+    hash.insert({Core::vmapkeys::KEY_TEXTRECT, textRect});
+    if(hasCharacter)
+    {
+        QString parentId;
+        auto character = PlayerMessageHelper::readCharacter(*msg,parentId);
+        hash.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(character)});
+        if(!character)
+            hash.insert({Core::vmapkeys::KEY_CHARAC_ID, QVariant::fromValue(character->uuid())});
+        hash.insert({Core::vmapkeys::KEY_PARENTID, parentId});
+    }
 
     return hash;
 }
@@ -1093,31 +1106,20 @@ void MessageHelper::addCharacterController(const vmap::CharacterItemController* 
     msg.uint32(static_cast<quint32>(ctrl->number()));
     msg.uint8(ctrl->playableCharacter());
 
-    auto rect= ctrl->thumnailRect();
+
+    auto rect= ctrl->textRect();
     msg.real(rect.x());
     msg.real(rect.y());
     msg.real(rect.width());
     msg.real(rect.height());
-
-    msg.uint8(ctrl->visionShape());
-
-    rect= ctrl->textRect();
-    msg.real(rect.x());
-    msg.real(rect.y());
-    msg.real(rect.width());
-    msg.real(rect.height());
-
-    msg.string32(ctrl->text());
-    msg.uint8(ctrl->hasAvatar());
-
-    auto image= ctrl->avatar();
-    msg.byteArray32(imageToByteArray(*image));
 
     msg.string32(ctrl->font().toString());
     msg.real(ctrl->radius());
 
+    PlayerMessageHelper::writeVisionIntoMessage(msg, ctrl->vision());
+
     auto character= ctrl->character();
-    msg.uint8(nullptr == character);
+    msg.uint8(nullptr != character);
     if(nullptr != character)
     {
         PlayerMessageHelper::writeCharacterIntoMessage(msg, character);
@@ -1323,7 +1325,6 @@ void MessageHelper::sendOffPath(const vmap::PathController* ctrl, const QString&
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    // msg.uint8(ctrl->itemType());
     addPathController(ctrl, msg);
     msg.sendToServer();
 }
@@ -1331,7 +1332,6 @@ void MessageHelper::sendOffImage(const vmap::ImageItemController* ctrl, const QS
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    // msg.uint8(ctrl->itemType());
     addImageController(ctrl, msg);
     msg.sendToServer();
 }
@@ -1339,7 +1339,6 @@ void MessageHelper::sendOffCharacter(const vmap::CharacterItemController* ctrl, 
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(mapId);
-    // msg.uint8(ctrl->itemType());
     addCharacterController(ctrl, msg);
     msg.sendToServer();
 }

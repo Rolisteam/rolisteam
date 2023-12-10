@@ -28,16 +28,18 @@ class NetworkMessageReader;
 class Character;
 class PlayerModel;
 class ClientManager;
+class CharacterVision;
 class NETWORK_EXPORT PlayerMessageHelper
 {
 public:
     static void sendOffConnectionInfo(Player* player, const QByteArray& password);
     static void writePlayerIntoMessage(NetworkMessageWriter& msg, Player* player);
     static void writeCharacterIntoMessage(NetworkMessageWriter& msg, Character* character);
+    static void writeVisionIntoMessage(NetworkMessageWriter& msg, CharacterVision* vision);
     static void sendOffPlayerInformations(Player* player);
 
     static bool readPlayer(NetworkMessageReader& msg, Player* player);
-    static Character* readCharacter(NetworkMessageReader& msg);
+    static Character* readCharacter(NetworkMessageReader& msg, QString& parentId);
 };
 
 #endif // PLAYERMESSAGEHELPER_H

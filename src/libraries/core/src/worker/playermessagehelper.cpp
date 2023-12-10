@@ -25,7 +25,8 @@
 
 #include "data/character.h"
 #include "data/player.h"
-//#include "model/playermodel.h"
+#include "data/charactervision.h"
+
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
@@ -85,6 +86,23 @@ void PlayerMessageHelper::writePlayerIntoMessage(NetworkMessageWriter& msg, Play
     out << player->features();
 
     msg.byteArray32(array);*/
+}
+
+void PlayerMessageHelper::writeVisionIntoMessage(NetworkMessageWriter& msg, CharacterVision* vision)
+{
+    if(nullptr == vision)
+    {
+        qWarning() << "Vision can't be serialized into network message";
+        return;
+    }
+
+    auto pos = vision->position();
+    msg.real(pos.x());
+    msg.real(pos.y());
+    msg.real(vision->angle());
+    msg.uint8(vision->shape());
+    msg.uint8(static_cast<quint8>(vision->visible()));
+    msg.real(vision->radius());
 }
 
 void PlayerMessageHelper::writeCharacterIntoMessage(NetworkMessageWriter& msg, Character* character)
@@ -152,7 +170,8 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
     {
         try
         {
-            Character* child= readCharacter(msg);
+            QString parentId;
+            Character* child= readCharacter(msg,parentId);
             player->addCharacter(child);
         }
         catch(std::bad_alloc&)
@@ -179,13 +198,12 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
     return true;
 }
 
-Character* PlayerMessageHelper::readCharacter(NetworkMessageReader& msg)
+Character* PlayerMessageHelper::readCharacter(NetworkMessageReader& msg, QString& parentId)
 {
     if(!msg.isValid())
         return {};
     auto character= new Character();
-    QString parentId= msg.string8();
-    Q_UNUSED(parentId);
+    parentId= msg.string8();
     character->setUuid(msg.string8());
     character->setName(msg.string16());
     character->setStateId(msg.string16());
