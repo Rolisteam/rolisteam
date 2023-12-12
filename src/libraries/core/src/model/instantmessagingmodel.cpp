@@ -38,8 +38,8 @@ bool isClosable(ChatRoom* chatroom)
             || (chatroom->type() == ChatRoom::GLOBAL && chatroom->uuid() != QStringLiteral("global")));
 }
 } // namespace
-InstantMessagingModel::InstantMessagingModel(PlayerModel* playerModel, QObject* parent)
-    : QAbstractListModel(parent), m_personModel(playerModel)
+InstantMessagingModel::InstantMessagingModel(DiceRoller* diceRoller, PlayerModel* playerModel, QObject* parent)
+    : QAbstractListModel(parent), m_personModel(playerModel), m_diceParser(diceRoller)
 {
 }
 

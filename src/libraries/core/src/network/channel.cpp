@@ -244,12 +244,12 @@ void Channel::updateNewClient(ServerConnection* newComer)
         if(tcpConnection == newComer || !tcpConnection->isFullyDefined())
             continue;
 
-        NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+        NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::UserCategory, NetMsg::PlayerConnectionAction);
         tcpConnection->fill(msg);
         QMetaObject::invokeMethod(newComer, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg),
                                   Q_ARG(bool, true));
 
-        NetworkMessageWriter* msg2= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+        NetworkMessageWriter* msg2= new NetworkMessageWriter(NetMsg::UserCategory, NetMsg::PlayerConnectionAction);
         newComer->fill(msg2);
         QMetaObject::invokeMethod(tcpConnection, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg2),
                                   Q_ARG(bool, true));
@@ -385,7 +385,7 @@ bool Channel::removeClient(ServerConnection* client)
     disconnect(client);
 
     // notify all remaining chan member to remove former player
-    NetworkMessageWriter* message= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+    NetworkMessageWriter* message= new NetworkMessageWriter(NetMsg::UserCategory, NetMsg::DelPlayerAction);
     message->string8(client->playerId());
     sendMessage(message, nullptr, false);
 

@@ -22,15 +22,15 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 
+#include "data/character.h"
 #include "network/ipbanaccepter.h"
 #include "network/iprangeaccepter.h"
 #include "network/messagedispatcher.h"
 #include "network/networkmessagewriter.h"
 #include "network/passwordaccepter.h"
 #include "network/timeaccepter.h"
-#include "worker/playermessagehelper.h"
 #include "worker/messagehelper.h"
-#include "data/character.h"
+#include "worker/playermessagehelper.h"
 
 #include <helper.h>
 
@@ -85,7 +85,7 @@ void TestNetwork::cleanupTestCase() {}
 
 void TestNetwork::init()
 {
-    m_writer.reset(new NetworkMessageWriter(NetMsg::MapCategory, NetMsg::AddEmptyMap));
+    m_writer.reset(new NetworkMessageWriter(NetMsg::MediaCategory, NetMsg::AddMedia));
     m_ipBanAccepter.reset(new IpBanAccepter());
     m_passwordAccepter.reset(new PasswordAccepter());
     m_ipRangeAccepter.reset(new IpRangeAccepter());
@@ -311,12 +311,13 @@ void TestNetwork::messageDispatcherTest()
 
 void TestNetwork::messageWriterTest()
 {
-    NetworkMessageWriter writer(NetMsg::Category::AdministrationCategory,NetMsg::Action::EndConnectionAction,NetworkMessage::All, 0);
+    NetworkMessageWriter writer(NetMsg::Category::AdministrationCategory, NetMsg::Action::EndConnectionAction,
+                                NetworkMessage::All, 0);
 
     QCOMPARE(writer.category(), NetMsg::Category::AdministrationCategory);
     QCOMPARE(writer.action(), NetMsg::Action::EndConnectionAction);
 
-    auto header = writer.buffer();
+    auto header= writer.buffer();
 
     QCOMPARE(header->category, NetMsg::Category::AdministrationCategory);
     QCOMPARE(header->action, NetMsg::Action::EndConnectionAction);
@@ -325,7 +326,7 @@ void TestNetwork::messageWriterTest()
     writer.int16(18);
     writer.int32(200);
 
-    QCOMPARE(writer.currentPos(), sizeof(NetworkMessageHeader)+sizeof(qint32)+sizeof(qint16)+1);
+    QCOMPARE(writer.currentPos(), sizeof(NetworkMessageHeader) + sizeof(qint32) + sizeof(qint16) + 1);
     QCOMPARE(writer.getRecipientList(), QStringList{});
 
     QPixmap pix;
@@ -504,12 +505,10 @@ void TestNetwork::playerMessageHelper()
     player.setName(Helper::randomString());
     player.setUuid(Helper::randomString());
 
-    auto pw = Helper::randomData();
+    auto pw= Helper::randomData();
     PlayerMessageHelper::sendOffConnectionInfo(&player, pw);
 
-
-
-    auto msgData = sender.messageData();
+    auto msgData= sender.messageData();
 
     PlayerMessageHelper::sendOffConnectionInfo(nullptr, pw);
 
@@ -547,7 +546,7 @@ void TestNetwork::playerMessageHelper()
 
     {
 
-        auto character = new Character();
+        auto character= new Character();
         character->setUuid(Helper::randomString());
         character->setName(Helper::randomString());
         character->setColor(Helper::randomColor());
@@ -565,7 +564,6 @@ void TestNetwork::playerMessageHelper()
 
         PlayerMessageHelper::sendOffPlayerInformations(&player);
 
-
         NetworkMessageReader reader;
         reader.setData(sender.messageData());
         Player tempPlayer;
@@ -577,8 +575,8 @@ void TestNetwork::playerMessageHelper()
         QCOMPARE(player.name(), tempPlayer.name());
         QCOMPARE(player.uuid(), tempPlayer.uuid());
 
-        QCOMPARE(tempPlayer.characterCount(),1);
-        auto tempCharacter = tempPlayer.characterById(character->uuid());
+        QCOMPARE(tempPlayer.characterCount(), 1);
+        auto tempCharacter= tempPlayer.characterById(character->uuid());
 
         QCOMPARE(character->name(), tempCharacter->name());
         QCOMPARE(character->getLifeColor(), tempCharacter->getLifeColor());
@@ -603,7 +601,7 @@ void TestNetwork::messageHelperTest()
     }
 
     {
-        auto id = Helper::randomString();
+        auto id= Helper::randomString();
         MessageHelper::closeMedia(id, Core::ContentType::CHARACTERSHEET);
 
         NetworkMessageReader reader;
@@ -615,10 +613,6 @@ void TestNetwork::messageHelperTest()
         QCOMPARE(reader.uint8(), static_cast<int>(Core::ContentType::CHARACTERSHEET));
         QCOMPARE(reader.string8(), id);
     }
-
-
-
-
 }
 
 QTEST_MAIN(TestNetwork);

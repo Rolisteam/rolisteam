@@ -26,6 +26,7 @@
 #include "common_qml/theme.h"
 #include "data/chatroom.h"
 #include "data/player.h"
+#include "diceparser_qobject/diceroller.h"
 #include "instantmessaging/textwritercontroller.h"
 #include "model/chatroomsplittermodel.h"
 #include "model/filterinstantmessagingmodel.h"
@@ -75,12 +76,13 @@ void registerType()
     registered= true;
 }
 
-InstantMessagingController::InstantMessagingController(PlayerModel* model, QObject* parent)
+InstantMessagingController::InstantMessagingController(DiceRoller* diceRoller, PlayerModel* model, QObject* parent)
     : AbstractControllerInterface(parent)
     , m_localPersonModel(new LocalPersonModel)
     , m_updater(new InstantMessaging::InstantMessagingUpdater)
-    , m_model(new InstantMessaging::InstantMessagingModel(model))
+    , m_model(new InstantMessaging::InstantMessagingModel(diceRoller, model))
     , m_players(model)
+    , m_diceParser(diceRoller)
 {
     ReceiveEvent::registerNetworkReceiver(NetMsg::InstantMessageCategory, this);
     registerType();

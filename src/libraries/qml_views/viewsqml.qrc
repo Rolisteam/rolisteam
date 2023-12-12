@@ -35,5 +35,6 @@
         <file>rolistyle/qmldir</file>
         <file>rolistyle/CheckBox.qml</file>
         <file>rolistyle/ToolButton.qml</file>
+        <file>InstantMessaging/AvatarPanel.qml</file>
     </qresource>
 </RCC>

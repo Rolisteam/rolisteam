@@ -49,7 +49,7 @@ public:
         RecipiantCountRole
     };
 
-    explicit InstantMessagingModel(PlayerModel* playerModel, QObject* parent= nullptr);
+    explicit InstantMessagingModel(DiceRoller* diceRoller, PlayerModel* playerModel, QObject* parent= nullptr);
     virtual ~InstantMessagingModel();
 
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;

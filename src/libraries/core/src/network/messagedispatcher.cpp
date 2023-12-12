@@ -35,7 +35,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, Serve
             saveIt= false;
         }
     }
-    else if(msg->category() == NetMsg::PlayerCategory)
+    else if(msg->category() == NetMsg::UserCategory)
     {
         if(msg->action() == NetMsg::PlayerConnectionAction)
         {
@@ -50,15 +50,23 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, Serve
             if(channel != nullptr)
                 channel->removeClient(emitter);
         }
-        else if(msg->action() == NetMsg::ChangePlayerProperty)
-        {
-            auto name= msg->string16();
-            auto uuid= msg->string8();
 
-            if(channel != nullptr)
+    }
+    else if(msg->category() == NetMsg::PlayerCharacterCategory)
+    {
+        if(msg->action() == NetMsg::ChangePlayerPropertyAct)
+        {
+            auto uuid= msg->string8();
+            auto property= msg->string16();
+            if(property == "name")
             {
-                QMetaObject::invokeMethod(channel, "renamePlayer", Qt::QueuedConnection, Q_ARG(QString, uuid),
-                                          Q_ARG(QString, name));
+                auto name= msg->string16();
+
+                if(channel != nullptr)
+                {
+                    QMetaObject::invokeMethod(channel, "renamePlayer", Qt::QueuedConnection, Q_ARG(QString, uuid),
+                                              Q_ARG(QString, name));
+                }
             }
         }
     }
@@ -82,23 +90,14 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
     case NetMsg::AdministrationCategory:
         str= QStringLiteral("AdministrationCategory");
         break;
-    case NetMsg::PlayerCategory:
-        str= QStringLiteral("PlayerCategory");
+    case NetMsg::UserCategory:
+        str= QStringLiteral("UserCategory");
         break;
-    case NetMsg::CharacterPlayerCategory:
-        str= QStringLiteral("CharacterPlayerCategory");
+    case NetMsg::PlayerCharacterCategory:
+        str= QStringLiteral("PlayerCharacterCategory");
         break;
-    case NetMsg::NPCCategory:
-        str= QStringLiteral("NPCCategory");
-        break;
-    case NetMsg::CharacterCategory:
-        str= QStringLiteral("CharacterCategory");
-        break;
-    case NetMsg::DrawCategory:
-        str= QStringLiteral("DrawCategory");
-        break;
-    case NetMsg::MapCategory:
-        str= QStringLiteral("MapCategory");
+    case NetMsg::CharacterSheetCategory:
+        str= QStringLiteral("CharacterSheetCategory");
         break;
     case NetMsg::InstantMessageCategory:
         str= QStringLiteral("InstantMessageCategory");
@@ -226,7 +225,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         }
     }
-    else if(cat == NetMsg::PlayerCategory)
+    else if(cat == NetMsg::UserCategory)
     {
         switch(act)
         {
@@ -236,135 +235,44 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::DelPlayerAction:
             str= QStringLiteral("DelPlayerAction");
             break;
-        case NetMsg::ChangePlayerProperty:
-            str= QStringLiteral("ChangePlayerProperty");
+        default:
+            str= QStringLiteral("Unknown Action");
+            break;
+        }
+    }
+    else if(cat == NetMsg::PlayerCharacterCategory)
+    {
+        switch(act)
+        {
+        case NetMsg::AddCharacterToPlayerAct:
+            str= QStringLiteral("AddCharacterToPlayerAct");
+            break;
+        case NetMsg::RemoveCharacterToPlayerAct:
+            str= QStringLiteral("RemoveCharacterToPlayerAct");
+            break;
+        case NetMsg::ChangePlayerPropertyAct:
+            str= QStringLiteral("ChangePlayerPropertyAct");
+            break;
+        case NetMsg::ChangeCharacterPropertyAct:
+            str= QStringLiteral("ChangeCharacterPropertyAct");
             break;
         default:
             str= QStringLiteral("Unknown Action");
             break;
         }
     }
-    else if(cat == NetMsg::CharacterPlayerCategory)
+    else if(cat == NetMsg::CharacterSheetCategory)
     {
         switch(act)
         {
-        case NetMsg::AddPlayerCharacterAction:
-            str= QStringLiteral("AddPlayerCharacterAction");
-            break;
-        case NetMsg::DelPlayerCharacterAction:
-            str= QStringLiteral("DelPlayerCharacterAction");
-            break;
-        case NetMsg::ToggleViewPlayerCharacterAction:
-            str= QStringLiteral("ToggleViewPlayerCharacterAction");
-            break;
-        case NetMsg::ChangePlayerCharacterSizeAction:
-            str= QStringLiteral("ChangePlayerCharacterSizeAction");
-            break;
-        case NetMsg::ChangePlayerCharacterProperty:
-            str= QStringLiteral("ChangePlayerCharacterProperty");
-            break;
-        default:
-            str= QStringLiteral("Unknown Action");
-            break;
-        }
-    }
-    else if(cat == NetMsg::NPCCategory)
-    {
-        switch(act)
-        {
-        case NetMsg::addNpc:
-            str= QStringLiteral("addNpc");
-            break;
-        case NetMsg::delNpc:
-            str= QStringLiteral("delNpc");
-            break;
-
-        default:
-            str= QStringLiteral("Unknown Action");
-            break;
-        }
-    }
-    else if(cat == NetMsg::CharacterCategory)
-    {
-        switch(act)
-        {
-        case NetMsg::addCharacterList:
+        case NetMsg::addCharacterSheet:
             str= QStringLiteral("addCharacterList");
             break;
-        case NetMsg::moveCharacter:
+        case NetMsg::updateFieldCharacterSheet:
             str= QStringLiteral("moveCharacter");
             break;
-        case NetMsg::changeCharacterState:
-            str= QStringLiteral("changeCharacterState");
-            break;
-        case NetMsg::changeCharacterOrientation:
-            str= QStringLiteral("changeCharacterOrientation");
-            break;
-        case NetMsg::showCharecterOrientation:
-            str= QStringLiteral("showCharecterOrientation");
-            break;
-        case NetMsg::addCharacterSheet:
-            str= QStringLiteral("addCharacterSheet");
-            break;
-        case NetMsg::updateFieldCharacterSheet:
-            str= QStringLiteral("updateFieldCharacterSheet");
-            break;
         case NetMsg::closeCharacterSheet:
-            str= QStringLiteral("closeCharacterSheet");
-            break;
-        default:
-            str= QStringLiteral("Unknown Action");
-            break;
-        }
-    }
-    else if(cat == NetMsg::DrawCategory)
-    {
-        switch(act)
-        {
-        case NetMsg::penPainting:
-            str= QStringLiteral("penPainting");
-            break;
-        case NetMsg::linePainting:
-            str= QStringLiteral("linePainting");
-            break;
-        case NetMsg::emptyRectanglePainting:
-            str= QStringLiteral("emptyRectanglePainting");
-            break;
-        case NetMsg::filledRectanglePainting:
-            str= QStringLiteral("filledRectanglePainting");
-            break;
-        case NetMsg::emptyEllipsePainting:
-            str= QStringLiteral("emptyEllipsePainting");
-            break;
-        case NetMsg::filledEllipsePainting:
-            str= QStringLiteral("filledEllipsePainting");
-            break;
-        case NetMsg::textPainting:
-            str= QStringLiteral("textPainting");
-            break;
-        case NetMsg::handPainting:
-            str= QStringLiteral("handPainting");
-            break;
-        default:
-            str= QStringLiteral("Unknown Action");
-            break;
-        }
-    }
-    else if(cat == NetMsg::MapCategory)
-    {
-        switch(act)
-        {
-        case NetMsg::AddEmptyMap:
-            str= QStringLiteral("AddEmptyMap");
-            break;
-        case NetMsg::LoadMap:
-            str= QStringLiteral("LoadMap");
-            break;
-        case NetMsg::ImportMap:
-            str= QStringLiteral("ImportMap");
-            break;
-        case NetMsg::CloseMap:
-            str= QStringLiteral("CloseMap");
+            str= QStringLiteral("changeCharacterState");
             break;
         default:
             str= QStringLiteral("Unknown Action");

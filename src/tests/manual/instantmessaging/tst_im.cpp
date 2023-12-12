@@ -44,8 +44,8 @@ int main(int argc, char* argv[])
 
     registerTypeTest();
     PlayerModel* model= new PlayerModel;
-    InstantMessagingController ctrl(model);
-    ctrl.setDiceParser(new DiceRoller);
+    InstantMessagingController ctrl(new DiceRoller, model);
+    // ctrl.setDiceParser(new DiceRoller);
 
     QQuickStyle::setStyle("rolistyle");
     QQuickStyle::setFallbackStyle("Fusion");

@@ -84,7 +84,7 @@ void ChatWindowTest::init()
 {
     m_playerModel.reset(new PlayerModel);
     new QAbstractItemModelTester(m_playerModel.get());
-    m_imCtrl.reset(new InstantMessagingController(m_playerModel.get()));
+    m_imCtrl.reset(new InstantMessagingController(nullptr, m_playerModel.get()));
 }
 void ChatWindowTest::errorMessageTest()
 {

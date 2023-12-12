@@ -375,7 +375,6 @@ void QObjectsTest::propertiesTest_data()
     QTest::addColumn<QObject*>("object");
     QTest::addColumn<bool>("setAgain");
 
-
     // clang-format off
     QTest::addRow("CharacterSheet")             << static_cast<QObject*>(new CharacterSheet()) << true;
     QTest::addRow("CharacterSheetModel")        << static_cast<QObject*>(new CharacterSheetModel()) << true;
@@ -426,7 +425,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("AudioPlayerController") << static_cast<QObject*>(new AudioPlayerController(0, "k", nullptr)) << true;
     QTest::addRow("ContentController") << static_cast<QObject*>(     new ContentController(nullptr, nullptr, nullptr, nullptr))                                       << true;
     QTest::addRow("GameController") << static_cast<QObject*>(new GameController("test", "1.2", nullptr)) << true;
-    QTest::addRow("InstantMessagingController")        << static_cast<QObject*>(new InstantMessagingController(nullptr)) << true;
+    QTest::addRow("InstantMessagingController")        << static_cast<QObject*>(new InstantMessagingController(nullptr, nullptr)) << true;
     QTest::addRow("NetworkController") << static_cast<QObject*>(new NetworkController()) << true;
     QTest::addRow("PlayerController") << static_cast<QObject*>(new PlayerController()) << true;
     QTest::addRow("PreferencesController") << static_cast<QObject*>(new PreferencesController()) << false;
@@ -453,7 +452,7 @@ void QObjectsTest::propertiesTest_data()
         << static_cast<QObject*>(new InstantMessaging::FilterInstantMessagingModel()) << true;
     QTest::addRow("GenericModel") << static_cast<QObject*>(new GenericModel({})) << true;
     QTest::addRow("HistoryModel") << static_cast<QObject*>(new history::HistoryModel()) << true;
-    QTest::addRow("InstantMessaging") << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(nullptr))                                      << true;
+    QTest::addRow("InstantMessaging") << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(nullptr, nullptr))                                      << true;
     QTest::addRow("LanguageModel") << static_cast<QObject*>(new LanguageModel()) << true;
     QTest::addRow("MediaFilteredModel") << static_cast<QObject*>(new MediaFilteredModel()) << true;
     QTest::addRow("MediaNode") << static_cast<QObject*>(new campaign::MediaNode(campaign::MediaNode::File, {})) << true;

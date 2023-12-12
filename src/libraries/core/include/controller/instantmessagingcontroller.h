@@ -54,7 +54,7 @@ class CORE_EXPORT InstantMessagingController : public AbstractControllerInterfac
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool unread READ unread NOTIFY unreadChanged)
 public:
-    explicit InstantMessagingController(PlayerModel* player, QObject* parent= nullptr);
+    explicit InstantMessagingController(DiceRoller* diceRoller, PlayerModel* player, QObject* parent= nullptr);
     virtual ~InstantMessagingController();
     InstantMessaging::ChatroomSplitterModel* mainModel() const;
     InstantMessaging::ChatRoom* globalChatroom() const;

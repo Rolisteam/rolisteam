@@ -27,7 +27,7 @@
 #include <memory>
 
 #include "controller/instantmessagingcontroller.h"
-//#include "rwidgets/mediacontainers/instantmessagingview.h"
+// #include "rwidgets/mediacontainers/instantmessagingview.h"
 #include "data/chatroom.h"
 #include "data/player.h"
 #include "diceparser_qobject/diceroller.h"
@@ -103,9 +103,9 @@ void InstantMessagingTest::init()
     m_player2= std::make_unique<Player>(m_name2, Qt::green, false);
 
     m_model.reset(new PlayerModel());
-    m_ctrl.reset(new InstantMessagingController(m_model.get()));
+    m_ctrl.reset(new InstantMessagingController(new DiceRoller(this), m_model.get()));
 
-    m_ctrl->setDiceParser(new DiceRoller(this));
+    // m_ctrl->setDiceParser();
 
     m_model->addPlayer(m_player1.get());
     m_model->addPlayer(m_player2.get());
