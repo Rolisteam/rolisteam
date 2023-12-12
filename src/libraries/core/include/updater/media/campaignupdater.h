@@ -51,6 +51,7 @@ public slots:
     void saveCampaignTo(const QString& dir);
     void save();
     bool createCampaignTemplate(const QString& path);
+    void updateDiceAliases();
 
 signals:
     void localIsGMChanged();

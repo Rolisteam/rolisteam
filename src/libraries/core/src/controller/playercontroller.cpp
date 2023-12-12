@@ -20,35 +20,23 @@
 #include "controller/playercontroller.h"
 
 #include "controller/gamecontroller.h"
-#include "controller/preferencescontroller.h"
-#include "data/character.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
 #include "model/characterstatemodel.h"
 #include "model/playermodel.h"
-#include "network/receiveevent.h"
 #include "undoCmd/addlocalcharactercommand.h"
 #include "undoCmd/removelocalcharactercommand.h"
 #include "worker/characterfinder.h"
-#include "worker/messagehelper.h"
-#include "worker/playermessagehelper.h"
 #include "updater/controller/playerupdater.h"
 #include <QtDebug>
-
-void addPlayerToModel(PlayerModel* model, NetworkMessageReader* msg)
-{
-    Player* player= new Player();
-    PlayerMessageHelper::readPlayer(*msg, player);
-    model->addPlayer(player);
-}
 
 PlayerController::PlayerController(QObject* parent)
     : AbstractControllerInterface(parent)
     , m_model(new PlayerModel)
     , m_characterModel(new CharacterModel)
+    , m_updater(new PlayerUpdater(this))
     , m_localPlayer(new Player)
 {
-    ReceiveEvent::registerNetworkReceiver(NetMsg::PlayerCategory, this);
 
     m_characterModel->setSourceModel(m_model.get());
     CharacterFinder::setPcModel(m_characterModel.get());
@@ -84,40 +72,10 @@ QColor PlayerController::localColor() const
     return (m_localPlayer) ? m_localPlayer->getColor() : QColor(Qt::black);
 }
 
-NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader* msg)
-{
-    NetWorkReceiver::SendType type= NetWorkReceiver::AllExceptSender;
-    switch(msg->action())
-    {
-    case NetMsg::PlayerConnectionAction:
-        addPlayerToModel(m_model.get(), msg);
-        break;
-    case NetMsg::DelPlayerAction:
-        removePlayerById(MessageHelper::readPlayerId(*msg));
-        break;
-    case NetMsg::ChangePlayerProperty:
-        MessageHelper::updatePerson(*msg, m_model.get());
-        break;
-    default:
-        break;
-    }
-    return type;
-}
-
 void PlayerController::setGameController(GameController* gameCtrl)
 {
     m_characterStateModel= gameCtrl->campaign()->stateModel();
-
-    connect(gameCtrl, &GameController::connectedChanged, this,
-        [this](bool b)
-        {
-            if(b)
-                PlayerMessageHelper::sendOffPlayerInformations(localPlayer());
-            else
-                m_model->clear();
-        });
-
-    // m_characterStateModel= prefsCtrl->characterStateModel();
+    m_updater->setGameController(gameCtrl);
     emit characterStateModelChanged();
 }
 
@@ -129,6 +87,11 @@ Player* PlayerController::localPlayer() const
 PlayerModel* PlayerController::model() const
 {
     return m_model.get();
+}
+
+bool PlayerController::localIsGm() const
+{
+    return (localPlayerId() == gameMasterId());
 }
 
 QAbstractItemModel* PlayerController::characterStateModel() const
@@ -149,15 +112,6 @@ void PlayerController::addPlayer(Player* player)
 void PlayerController::removePlayer(Player* player)
 {
     m_model->removePlayer(player);
-}
-
-void PlayerController::removePlayerById(const QString& id)
-{
-    auto player= m_model->playerById(id);
-    if(player == nullptr)
-        return;
-
-    removePlayer(player);
 }
 
 void PlayerController::addLocalCharacter()

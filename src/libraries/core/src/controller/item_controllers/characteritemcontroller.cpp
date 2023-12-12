@@ -57,9 +57,9 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
         VectorialMapMessageHelper::fetchCharacter(params, m_character);
     }
 
-    auto model = m_mapCtrl->playerModel();
 
-    connect(model,&PlayerModel::playerJoin,this, &CharacterItemController::findCharacter);
+    connect(&m_finder,&CharacterFinder::dataChanged,this, &CharacterItemController::findCharacter);
+    m_finder.setUpConnect();
     //connect(model,&PlayerModel::playerJoin,this, &CharacterItemController::findCharacter);
 
     findCharacter();
@@ -288,9 +288,7 @@ void CharacterItemController::findCharacter()
     if(!m_mapCtrl || !m_character)
         return;
 
-    auto model = m_mapCtrl->playerModel();
-
-    auto p = model->characterById(m_character->uuid());
+    auto p = m_finder.find(m_character->uuid());
 
     if(p != nullptr && p != m_character)
     {

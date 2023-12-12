@@ -28,7 +28,6 @@
 #include "controllerinterface.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
-#include "network/networkreceiver.h"
 
 #include <core_global.h>
 class Player;
@@ -41,12 +40,13 @@ class PlayerOnMapModel;
 class CharacterStateModel;
 class CharacterModel;
 class PlayerUpdater;
-class CORE_EXPORT PlayerController : public AbstractControllerInterface, public NetWorkReceiver
+class CORE_EXPORT PlayerController : public AbstractControllerInterface
 {
     Q_OBJECT
     Q_PROPERTY(PlayerModel* model READ model CONSTANT)
     Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel NOTIFY characterStateModelChanged)
     Q_PROPERTY(CharacterModel* characterModel READ characterModel CONSTANT)
+    Q_PROPERTY(bool localIsGm READ localIsGm CONSTANT)
     Q_PROPERTY(Player* localPlayer READ localPlayer CONSTANT)
     Q_PROPERTY(QString gameMasterId READ gameMasterId NOTIFY gameMasterIdChanged)
     Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
@@ -58,6 +58,7 @@ public:
     Player* localPlayer() const;
 
     PlayerModel* model() const;
+    bool localIsGm() const;
     QAbstractItemModel* characterStateModel() const;
     CharacterModel* characterModel() const;
 
@@ -67,8 +68,6 @@ public:
 
     void setGameController(GameController*) override;
     void clear();
-
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
 signals:
     void localPlayerChanged();

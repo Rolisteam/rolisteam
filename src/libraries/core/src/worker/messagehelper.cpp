@@ -238,47 +238,84 @@ QHash<QString, QVariant> MessageHelper::readImageData(NetworkMessageReader* msg)
 void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* playerModel)
 {
     QString uuid= data.string8();
-    auto person= playerModel->playerById(uuid);
+    auto property= data.string16();
+    bool isCharacter= data.action() == NetMsg::ChangeCharacterPropertyAct;
+
+    Person* person{nullptr};
+
+    int role= -1;
+
+    if(isCharacter)
+        person= playerModel->characterById(uuid);
+    else
+        person= playerModel->playerById(uuid);
+
     if(nullptr == person)
         return;
 
-    auto role= data.int32();
-
-    auto property= data.string8();
     QVariant var;
-    if(property.contains(Core::keys::KEY_COLOR))
+    if(property == Core::person::name)
     {
+        role= PlayerModel::NameRole;
+        var= QVariant::fromValue(data.string32());
+    }
+    else if(property == Core::person::color)
+    {
+        role= PlayerModel::ColorRole;
         var= QVariant::fromValue(QColor(data.rgb()));
     }
-    else if(property.contains(Core::keys::KEY_AVATAR))
+    else if(property == Core::person::avatar)
     {
-        auto array= data.byteArray32();
-        QDataStream out(&array, QIODevice::ReadOnly);
-        out.setVersion(QDataStream::Qt_5_7);
-        QImage img;
-        out >> img;
-        var= QVariant::fromValue(img);
+        var= QVariant::fromValue(data.byteArray32());
     }
-    else if(property.contains(Core::keys::KEY_STATE))
+    else if(property == Core::person::stateId)
     {
-        auto label= data.string32();
-        auto state= Character::getStateFromLabel(label);
-        var= QVariant::fromValue(state);
+        var= QVariant::fromValue(data.string32());
+    }
+    else if(property == Core::person::healthPoints)
+    {
+        var= QVariant::fromValue(data.int64());
+    }
+    else if(property == Core::person::isNpc)
+    {
+        var= QVariant::fromValue(static_cast<bool>(data.uint8()));
+    }
+    else if(property == Core::person::maxHP)
+    {
+        var= QVariant::fromValue(data.int64());
+    }
+    else if(property == Core::person::minHP)
+    {
+        var= QVariant::fromValue(data.int64());
+    }
+    else if(property == Core::person::distancePerTurn)
+    {
+        var= QVariant::fromValue(data.int64());
+    }
+    else if(property == Core::person::initCommand)
+    {
+        var= QVariant::fromValue(data.string32());
+    }
+    else if(property == Core::person::initiative)
+    {
+        var= QVariant::fromValue(data.int64());
+    }
+
+    // set value
+    if(role != -1)
+    {
+        auto idx= playerModel->personToIndex(person);
+        playerModel->setData(idx, var, role);
     }
     else
     {
-        auto val= data.string32();
-        var= QVariant::fromValue(val);
+        person->setProperty(property.toLocal8Bit(), var);
     }
-
-    auto idx= playerModel->personToIndex(person);
-
-    playerModel->setData(idx, var, role);
 }
 
 void MessageHelper::stopSharingSheet(const QString& sheetId, const QString& ctrlId, const QString& characterId)
 {
-    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
+    NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::closeCharacterSheet);
     msg.string8(sheetId);
     msg.string8(ctrlId);
     msg.string8(characterId);
@@ -295,7 +332,7 @@ void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* charac
     if(parent == nullptr)
         return;
 
-    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::addCharacterSheet);
+    NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::addCharacterSheet);
     QStringList idList;
     idList << parent->uuid();
     msg.setRecipientList(idList, NetworkMessage::OneOrMany);
@@ -560,13 +597,13 @@ QHash<QString, QVariant> MessageHelper::readMindMap(NetworkMessageReader* msg)
         QHash<QString, QVariant> pack;
         pack["uuid"]= msg->string8();
         pack["title"]= msg->string16();
-        auto childrenCount = msg->uint32();
+        auto childrenCount= msg->uint32();
         QStringList childrenId;
-        for(unsigned int i = 0; i < childrenCount; ++i)
+        for(unsigned int i= 0; i < childrenCount; ++i)
         {
             childrenId.append(msg->string8());
         }
-        pack["children"]=childrenId;
+        pack["children"]= childrenId;
         packages.insert(QString("pack_%1").arg(i), pack);
     }
     hash["packages"]= packages;
@@ -781,14 +818,13 @@ QHash<QString, QVariant> readSightController(NetworkMessageReader* msg)
     hash[Core::vmapkeys::KEY_SIGHT_POSX]= msg->real();
     hash[Core::vmapkeys::KEY_SIGHT_POSY]= msg->real();
 
-    auto data = msg->byteArray32();
+    auto data= msg->byteArray32();
 
     QDataStream read(data);
     QPainterPath path;
     read >> path;
 
-    hash[Core::vmapkeys::KEY_SIGHT_PATH] = QVariant::fromValue(path);
-
+    hash[Core::vmapkeys::KEY_SIGHT_PATH]= QVariant::fromValue(path);
 
     return hash;
 }
@@ -809,7 +845,7 @@ void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
     msg.real(pos.x());
     msg.real(pos.y());
 
-    auto path = ctrl->fowPath();
+    auto path= ctrl->fowPath();
     QByteArray array;
     {
         QDataStream write(&array, QIODevice::WriteOnly);
@@ -1035,17 +1071,17 @@ const std::map<QString, QVariant> MessageHelper::readPath(NetworkMessageReader* 
     return hash;
 }
 
-void readCharacterVision(NetworkMessageReader* msg,std::map<QString, QVariant>& maps)
+void readCharacterVision(NetworkMessageReader* msg, std::map<QString, QVariant>& maps)
 {
-    auto x = msg->real();
-    auto y = msg->real();
+    auto x= msg->real();
+    auto y= msg->real();
 
-    QPointF position(x,y);
+    QPointF position(x, y);
 
-    qreal angle = msg->real();
-    CharacterVision::SHAPE visionShapeV = static_cast<CharacterVision::SHAPE>(msg->uint8());
-    bool visible = static_cast<bool>(msg->uint8());
-    qreal radiusV = msg->real();
+    qreal angle= msg->real();
+    CharacterVision::SHAPE visionShapeV= static_cast<CharacterVision::SHAPE>(msg->uint8());
+    bool visible= static_cast<bool>(msg->uint8());
+    qreal radiusV= msg->real();
 
     maps.insert({Core::vmapkeys::KEY_VIS_POS, position});
     maps.insert({Core::vmapkeys::KEY_VIS_ANGLE, angle});
@@ -1071,7 +1107,7 @@ const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageRea
     auto font= QFont(msg->string32());
     auto radius= msg->real();
 
-    readCharacterVision(msg,hash);
+    readCharacterVision(msg, hash);
 
     auto hasCharacter= static_cast<bool>(msg->uint8());
     hash.insert({Core::vmapkeys::KEY_SIDE, side});
@@ -1084,7 +1120,7 @@ const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageRea
     if(hasCharacter)
     {
         QString parentId;
-        auto character = PlayerMessageHelper::readCharacter(*msg,parentId);
+        auto character= PlayerMessageHelper::readCharacter(*msg, parentId);
         hash.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(character)});
         if(!character)
             hash.insert({Core::vmapkeys::KEY_CHARAC_ID, QVariant::fromValue(character->uuid())});
@@ -1103,7 +1139,6 @@ void MessageHelper::addCharacterController(const vmap::CharacterItemController* 
     msg.rgb(ctrl->stateColor().rgb());
     msg.uint32(static_cast<quint32>(ctrl->number()));
     msg.uint8(ctrl->playableCharacter());
-
 
     auto rect= ctrl->textRect();
     msg.real(rect.x());
@@ -1253,12 +1288,15 @@ void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
     auto model= ctrl->model();
     auto data= model->items();
 
-    auto count = std::accumulate(std::begin(data), std::end(data), 0, [](int i, vmap::VisualItemController* ctrl){
-        qDebug() << ctrl->color().name(QColor::HexArgb);
-        if(ctrl->color().name(QColor::HexArgb) == "#ffff2003")
-            qDebug() << "display values" << ctrl->removed() << ctrl->visible() << ctrl->opacity() << ctrl->remote();
-        return i + (ctrl->removed() ? 0 : 1);
-    });
+    auto count= std::accumulate(std::begin(data), std::end(data), 0,
+                                [](int i, vmap::VisualItemController* ctrl)
+                                {
+                                    qDebug() << ctrl->color().name(QColor::HexArgb);
+                                    if(ctrl->color().name(QColor::HexArgb) == "#ffff2003")
+                                        qDebug() << "display values" << ctrl->removed() << ctrl->visible()
+                                                 << ctrl->opacity() << ctrl->remote();
+                                    return i + (ctrl->removed() ? 0 : 1);
+                                });
 
     qDebug() << "Before sending map: " << count << "vs" << data.size();
 
@@ -1564,8 +1602,6 @@ void MessageHelper::fetchCharacterStatesFromNetwork(NetworkMessageReader* msg, C
     auto size= msg->uint32();
     for(quint32 i= 0; i < size; ++i)
     {
-        msg->uint64();
-
         auto label= msg->string32();
         auto color= msg->rgb();
         auto pixmap= msg->pixmap();

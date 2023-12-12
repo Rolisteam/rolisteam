@@ -560,7 +560,7 @@ constexpr auto JSON_COLOR("Color");
 constexpr auto JSON_LOCKED("Locked");
 constexpr auto JSON_TOOL("Tool");
 constexpr auto JSON_INITIALIZED("Initialized");
-}
+} // namespace vitem
 
 namespace sight
 {
@@ -574,22 +574,24 @@ constexpr auto JSON_CHARACTER_COUNT("CharacterCount");
 constexpr auto JSON_SINGULARITIES("Singularities");
 constexpr auto JSON_SING_POINTS("SingPoints");
 constexpr auto JSON_SING_ADD("SingAdd");
-}
+} // namespace sight
 
-namespace  rect {
+namespace rect
+{
 constexpr auto JSON_RECT_X("RectX");
 constexpr auto JSON_RECT_Y("RectY");
 constexpr auto JSON_RECT_W("RectW");
 constexpr auto JSON_RECT_H("RectH");
 constexpr auto JSON_FILLED("Filled");
 constexpr auto JSON_PEN_WIDTH("PenWidth");
-}
-namespace  ellipse {
+} // namespace rect
+namespace ellipse
+{
 constexpr auto JSON_R_X("RX");
 constexpr auto JSON_R_Y("RectY");
 constexpr auto JSON_FILLED("Filled");
 constexpr auto JSON_PEN_WIDTH("PenWidth");
-}
+} // namespace ellipse
 namespace image
 {
 constexpr auto JSON_PIXMAP("Pixmap");
@@ -600,7 +602,7 @@ constexpr auto JSON_RECT_W("RectW");
 constexpr auto JSON_RECT_H("RectH");
 constexpr auto JSON_PATH("Path");
 constexpr auto JSON_RATIO("Ratio");
-}
+} // namespace image
 namespace line
 {
 constexpr auto JSON_START_X("StartX");
@@ -608,7 +610,7 @@ constexpr auto JSON_START_Y("StartY");
 constexpr auto JSON_END_X("EndX");
 constexpr auto JSON_END_Y("EndY");
 constexpr auto JSON_PEN_WIDTH("PenWidth");
-}
+} // namespace line
 
 namespace path
 {
@@ -619,7 +621,7 @@ constexpr auto JSON_FILLED("Filled");
 constexpr auto JSON_CLOSED("Closed");
 constexpr auto JSON_PEN_LINE("PenLine");
 constexpr auto JSON_PEN_WIDTH("PenWidth");
-}
+} // namespace path
 
 namespace text
 {
@@ -637,7 +639,7 @@ constexpr auto JSON_FONT("Font");
 constexpr auto JSON_PEN_WIDTH("PenWidth");
 constexpr auto JSON_POS_X("PosX");
 constexpr auto JSON_POS_Y("PosY");
-}
+} // namespace text
 
 namespace character
 {
@@ -661,7 +663,6 @@ constexpr auto JSON_VIS_RADIUS("Radius");
 constexpr auto JSON_VIS_VISIBLE("Radius");
 constexpr auto JSON_CHARACTER("Character");
 
-
 constexpr auto JSON_CHAR_NPC("Npc");
 constexpr auto JSON_CHAR_ID("Id");
 constexpr auto JSON_CHAR_NAME("Name");
@@ -675,8 +676,8 @@ constexpr auto JSON_CHAR_STATE_ID("StateId");
 constexpr auto JSON_CHAR_LIFE_COLOR("LifeColor");
 constexpr auto JSON_CHAR_INIT_CMD("InitCmd");
 constexpr auto JSON_CHAR_INIT_SCORE_DEFINED("InitScoreDefined");
-}
-}// namespace vmap
+} // namespace character
+} // namespace vmap
 
 namespace Mindmap
 {
@@ -748,6 +749,23 @@ constexpr char const* KEY_DIRECTORY_AP2{"directories_audio_player2"};
 constexpr char const* KEY_DIRECTORY_AP3{"directories_audio_player3"};
 constexpr char const* KEY_OPEN_DIRECTORY{"default_open_directory"};
 } // namespace preferences
+
+namespace person
+{ // properties names of player and character
+constexpr auto name{"name"};
+constexpr auto avatar{"avatar"};
+constexpr auto color{"color"};
+constexpr auto healthPoints{"healthPoints"};
+constexpr auto maxHP{"maxHP"};
+constexpr auto minHP{"minHP"};
+constexpr auto initiative{"initiative"};
+constexpr auto isNpc{"isNpc"};
+constexpr auto distancePerTurn{"distancePerTurn"};
+constexpr auto stateId{"stateId"};
+constexpr auto lifeColor{"lifeColor"};
+constexpr auto initCommand{"initCommand"};
+constexpr auto hasInitiative{"hasInitiative"};
+} // namespace person
 
 } // namespace Core
 
