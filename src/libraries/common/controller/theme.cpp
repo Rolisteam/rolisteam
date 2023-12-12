@@ -178,9 +178,8 @@ QColor Theme::darkColor(const QColor& color)
         return color;
 
     std::vector<int> c({color.red(), color.green(), color.blue()});
-    auto brighness= [](const QColor& current) {
-        return ((current.red() * 299) + (current.green() * 587) + (current.blue() * 114)) / 1000;
-    };
+    auto brighness= [](const QColor& current)
+    { return ((current.red() * 299) + (current.green() * 587) + (current.blue() * 114)) / 1000; };
     auto avg= std::accumulate(c.begin(), c.end(), 0.0) / static_cast<double>(c.size());
     auto allEqual= std::all_of(c.begin(), c.end(), [color](int tmp) { return color.red() == tmp; });
     QColor result= color;
@@ -222,12 +221,27 @@ QFont Theme::imFont() const
     return m_imFont;
 }
 
-void Theme::setImFont(const QFont &newImFont)
+void Theme::setImFont(const QFont& newImFont)
 {
-    if (m_imFont == newImFont)
+    if(m_imFont == newImFont)
         return;
-    m_imFont = newImFont;
+    m_imFont= newImFont;
     emit imFontChanged();
+}
+
+QFont Theme::imLittleFont() const
+{
+    QFont res= m_imFont;
+    res.setPointSize(res.pointSize() * 0.8);
+    return res;
+}
+
+QFont Theme::imBigFont() const
+{
+    QFont res= m_imFont;
+    res.setPointSize(res.pointSize() * 2);
+    res.setBold(true);
+    return res;
 }
 
 } // namespace customization

@@ -1,14 +1,14 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.12
-import Customization 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Customization
 
 Frame {
     id: frame
     property QtObject message: model.message
     property QtObject styleSheet: Theme.styleSheet("InstantMessaging")
-    property real factor: fontFactor
-    padding: frame.styleSheet.padding
+
+    padding: frame.styleSheet.padding+10
     Layout.minimumWidth: iconPart.implicitWidth + mainText.implicitWidth + details.implicitWidth + 2 * spacing + 50
     ColumnLayout {
         id: layout
@@ -21,33 +21,25 @@ Frame {
         }
         RowLayout {
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(frame.styleSheet.imageSize+2*spacing, mainText.height+2*spacing)
+            Layout.preferredHeight: Math.max(iconPart.implicitHeight,Math.max(frame.styleSheet.imageSize+2*spacing, mainText.height+2*spacing))
             Layout.maximumHeight: layout.showDetails ? Number.POSITIVE_INFINITY : Math.max(frame.styleSheet.imageSize+2*spacing, mainText.height+2*spacing)
 
-            ColumnLayout {
+            AvatarPanel {
                 id: iconPart
-                Image {
-                    source: "image://avatar/%1".arg(model.writerId)
-                    sourceSize.width:  frame.styleSheet.imageSize
-                    sourceSize.height: frame.styleSheet.imageSize
-                    fillMode: Image.PreserveAspectFit
-                }
-                Label {
-                    id: timestamp
-                    text: "%1 - %2".arg(model.time).arg(model.writerName)
-                    font.pixelSize: frame.styleSheet.fontSizeTime*frame.factor
-                    opacity: frame.styleSheet.opacityTime
-                }
+                source:"image://avatar/%1".arg(model.writerId)
+                text: "%1 - %2".arg(model.time).arg(model.writerName)
             }
+
             Label {
                 id: mainText
                 text: frame.message.result
-                font.bold: true
+                font: Theme.imBigFont
+                //font.bold: true
                 Layout.fillWidth: true
                 textFormat: Label.RichText
                 antialiasing: false
                 minimumPixelSize: 10;
-                font.pixelSize: frame.styleSheet.imageSize*frame.factor
+                //font.pixelSize: frame.styleSheet.imageSize*frame.factor
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Label.WordWrap
                 ToolTip.visible: activeFocus

@@ -20,11 +20,11 @@
 #ifndef THEME_H
 #define THEME_H
 
+#include <QFont>
 #include <QObject>
 #include <QQmlPropertyMap>
 #include <common_qml/common_qml_global.h>
 #include <map>
-#include <QFont>
 
 namespace customization
 {
@@ -46,6 +46,8 @@ class COMMON_QML_EXPORT Theme : public QObject
     Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)
     Q_PROPERTY(QString folder READ folder NOTIFY folderChanged)
     Q_PROPERTY(QFont imFont READ imFont WRITE setImFont NOTIFY imFontChanged FINAL)
+    Q_PROPERTY(QFont imLittleFont READ imLittleFont NOTIFY imFontChanged FINAL)
+    Q_PROPERTY(QFont imBigFont READ imBigFont NOTIFY imFontChanged FINAL)
 public:
     explicit Theme(QObject* parent= nullptr);
 
@@ -59,7 +61,10 @@ public:
     static void setPath(const QString& path);
 
     QFont imFont() const;
-    void setImFont(const QFont &newImFont);
+    void setImFont(const QFont& newImFont);
+
+    QFont imLittleFont() const;
+    QFont imBigFont() const;
 
 public slots:
     void setNightMode(bool b);
@@ -67,7 +72,6 @@ public slots:
 signals:
     void nightModeChanged(bool b);
     void folderChanged(QString f);
-
     void imFontChanged();
 
 private:
