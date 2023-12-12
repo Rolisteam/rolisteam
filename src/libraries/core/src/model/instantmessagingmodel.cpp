@@ -155,13 +155,17 @@ void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)
     std::unique_ptr<ChatRoom> chatroom(room);
     connect(this, &InstantMessagingModel::localIdChanged, chatroom.get(), &ChatRoom::setLocalId);
 
-    connect(room, &ChatRoom::unreadMessageChanged, this, [room, this]() {
-        auto it= std::find_if(m_chats.begin(), m_chats.end(),
-                              [room](const std::unique_ptr<ChatRoom>& chatRoom) { return room == chatRoom.get(); });
-        auto idx= static_cast<int>(std::distance(m_chats.begin(), it));
-        emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()), {HasUnreadMessageRole, TitleRole});
-        emit unreadChanged();
-    });
+    connect(room, &ChatRoom::unreadMessageChanged, this,
+            [room, this]()
+            {
+                auto it= std::find_if(m_chats.begin(), m_chats.end(),
+                                      [room](const std::unique_ptr<ChatRoom>& chatRoom)
+                                      { return room == chatRoom.get(); });
+                auto idx= static_cast<int>(std::distance(m_chats.begin(), it));
+                emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()),
+                                 {HasUnreadMessageRole, TitleRole});
+                emit unreadChanged();
+            });
     chatroom->setLocalId(localId());
     chatroom->setDiceParser(m_diceParser);
 
@@ -185,7 +189,8 @@ void InstantMessagingModel::addMessageIntoChatroom(MessageInterface* message, Ch
                                                    const QString& uuid)
 { // from network
     auto it= std::find_if(m_chats.begin(), m_chats.end(),
-                          [type, uuid, message](const std::unique_ptr<ChatRoom>& chatRoom) {
+                          [type, uuid, message](const std::unique_ptr<ChatRoom>& chatRoom)
+                          {
                               bool val= false;
                               if(chatRoom->uuid() == uuid) // global and Extra chatrom
                                   val= true;
@@ -206,9 +211,9 @@ void InstantMessagingModel::addMessageIntoChatroom(MessageInterface* message, Ch
 
 void InstantMessagingModel::removePlayer(const QString& id)
 {
-    auto it= std::find_if(m_chats.begin(), m_chats.end(), [id](const std::unique_ptr<ChatRoom>& chatRoom) {
-        return (chatRoom->uuid() == id && ChatRoom::SINGLEPLAYER && chatRoom->type());
-    });
+    auto it= std::find_if(m_chats.begin(), m_chats.end(),
+                          [id](const std::unique_ptr<ChatRoom>& chatRoom)
+                          { return (chatRoom->uuid() == id && ChatRoom::SINGLEPLAYER && chatRoom->type()); });
 
     if(it == m_chats.end())
         return;

@@ -131,6 +131,16 @@ void DiceAliasModel::appendAlias()
     }
 }*/
 
+QString DiceAliasModel::convert(const QString& str)
+{
+    auto res= str;
+    for(auto const& alias : m_diceAliasList)
+    {
+        alias->resolved(res);
+    }
+    return res;
+}
+
 void DiceAliasModel::appendAlias(DiceAlias&& alias)
 {
     beginInsertRows(QModelIndex(), m_diceAliasList.size(), m_diceAliasList.size());

@@ -110,6 +110,7 @@ public:
 
     void setGM(bool);
     void setModified(bool);
+    QString convert(const QString& str);
 
 signals:
     void aliasAdded(DiceAlias* alias, int i);

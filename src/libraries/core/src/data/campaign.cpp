@@ -273,9 +273,7 @@ void Campaign::deleteAlias(const QModelIndex& index)
 
 QString Campaign::convertAlias(const QString& str)
 {
-    /*m_diceParser->constAliases();
-return m_diceParser->convertAlias(str);*/
-    return str;
+    return m_diceModel->convert(str);
 }
 
 void Campaign::addState()
