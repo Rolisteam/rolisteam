@@ -235,6 +235,7 @@ set(HEADERS
   ${inc}/undoCmd/rollinitcommand.h
   ${inc}/undoCmd/dupplicatevmapitem.h
   ${inc}/updater/controller/audioplayerupdater.h
+  ${inc}/updater/controller/playerupdater.h
   ${inc}/updater/media/campaignupdater.h
   ${inc}/updater/media/charactersheetupdater.h
   ${inc}/updater/media/genericupdater.h
@@ -375,6 +376,7 @@ set(SOURCES
   src/undoCmd/showtransparentitemcommand.cpp
   src/undoCmd/dupplicatevmapitem.cpp
   src/updater/controller/audioplayerupdater.cpp
+  src/updater/controller/playerupdater.cpp
   src/updater/media/campaignupdater.cpp
   src/updater/media/charactersheetupdater.cpp
   src/updater/media/genericupdater.cpp
@@ -404,7 +406,8 @@ set(SOURCES
   src/worker/vectorialmapmessagehelper.cpp
   src/worker/characterfinder.cpp)
 
-add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${QRC_SOURCES})
+add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${QRC_SOURCES}
+)
 set_target_properties(core PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_compile_definitions(core PRIVATE CORE_LIBRARY)
 target_compile_definitions(core PUBLIC _USE_MATH_DEFINES)
