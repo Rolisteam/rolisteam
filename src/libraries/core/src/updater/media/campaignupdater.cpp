@@ -49,34 +49,15 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
 
     // GM player
     auto model= m_campaign->diceAliases();
-    auto updateAlias= [this]()
-    {
-        if(!canForward())
-            return;
-        auto aliases= m_dice->aliases();
-        if(!aliases)
-            return;
-        qDeleteAll(*aliases);
-        aliases->clear();
-        const auto& newAliases= m_campaign->diceAliases()->aliases();
-        std::for_each(std::begin(newAliases), std::end(newAliases),
-                      [aliases](const std::unique_ptr<DiceAlias>& alias)
-                      {
-                          auto p= alias.get();
-                          aliases->append(new DiceAlias(*p));
-                      });
 
-        FileSerializer::writeDiceAliasIntoCampaign(m_campaign->rootDirectory(),
-                                                   FileSerializer::dicesToArray(newAliases));
-        updateDiceModel();
-    };
+    connect(model, &DiceAliasModel::aliasAdded, this, &CampaignUpdater::updateDiceAliases);
+    connect(model, &DiceAliasModel::aliasRemoved, this, &CampaignUpdater::updateDiceAliases);
+    connect(model, &DiceAliasModel::aliasMoved, this, &CampaignUpdater::updateDiceAliases);
+    connect(model, &DiceAliasModel::modelReset, this, &CampaignUpdater::updateDiceAliases);
+    connect(model, &DiceAliasModel::dataChanged, this, &CampaignUpdater::updateDiceAliases);
+    connect(model, &DiceAliasModel::aliasChanged, this, &CampaignUpdater::updateDiceAliases);
 
-    connect(model, &DiceAliasModel::aliasAdded, this, updateAlias);
-    connect(model, &DiceAliasModel::aliasRemoved, this, updateAlias);
-    connect(model, &DiceAliasModel::aliasMoved, this, updateAlias);
-    connect(model, &DiceAliasModel::modelReset, this, updateAlias);
-    connect(model, &DiceAliasModel::dataChanged, this, updateAlias);
-    connect(model, &DiceAliasModel::aliasChanged, this, updateAlias);
+    updateDiceAliases();
 
     // GM player
     auto states= m_campaign->stateModel();
@@ -153,12 +134,14 @@ bool CampaignUpdater::localIsGM()
 
 void CampaignUpdater::updateDiceModel()
 {
-    MessageHelper::sendOffAllDiceAlias(m_campaign->diceAliases());
+    if(localIsGM())
+        MessageHelper::sendOffAllDiceAlias(m_campaign->diceAliases());
 }
 
 void CampaignUpdater::updateStateModel()
 {
-    MessageHelper::sendOffAllCharacterState(m_campaign->stateModel());
+    if(localIsGM())
+        MessageHelper::sendOffAllCharacterState(m_campaign->stateModel());
 }
 
 void CampaignUpdater::saveCampaignTo(const QString& dir)
@@ -226,6 +209,27 @@ bool CampaignUpdater::createCampaignTemplate(const QString& dirPath)
         FileSerializer::createCampaignDirectory(dirPath);
     }
     return true;
+}
+
+void CampaignUpdater::updateDiceAliases()
+{
+    if(!canForward())
+        return;
+    auto aliases= m_dice->aliases();
+    if(!aliases)
+        return;
+    qDeleteAll(*aliases);
+    aliases->clear();
+    const auto& newAliases= m_campaign->diceAliases()->aliases();
+    std::for_each(std::begin(newAliases), std::end(newAliases),
+                  [aliases](const std::unique_ptr<DiceAlias>& alias)
+                  {
+                      auto p= alias.get();
+                      aliases->append(new DiceAlias(*p));
+                  });
+
+    FileSerializer::writeDiceAliasIntoCampaign(m_campaign->rootDirectory(), FileSerializer::dicesToArray(newAliases));
+    updateDiceModel();
 }
 
 void CampaignUpdater::setUpdating(bool b)

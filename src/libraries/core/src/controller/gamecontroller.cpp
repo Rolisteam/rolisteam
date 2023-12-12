@@ -50,7 +50,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
     , m_contentCtrl(new ContentController(m_campaignManager.get(), m_playerController->model(),
                                           m_playerController->characterModel(), clipboard, m_networkCtrl.get()))
     , m_preferences(new PreferencesManager(appname, QString("%1_%2/preferences").arg(appname, version)))
-    , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
+    , m_instantMessagingCtrl(new InstantMessagingController(m_diceParser.get(), m_playerController->model()))
     , m_audioCtrl(new AudioController(m_campaignManager.get(), m_preferences.get()))
     , m_version(version)
     , m_undoStack(new QUndoStack)
@@ -116,13 +116,15 @@ GameController::GameController(const QString& appname, const QString& version, Q
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_audioCtrl.get(), &AudioController::setLocalIsGM);
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, &GameController::dataLoaded);
+    connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, [this](){
+        m_campaignManager->diceparser();
+    });
     // clang-format on
 
     m_contentCtrl->setGameMasterId(m_playerController->gameMasterId());
     m_remoteLogCtrl->setLocalUuid(m_playerController->localPlayerId());
     m_contentCtrl->setLocalId(m_playerController->localPlayerId());
     m_instantMessagingCtrl->setLocalId(m_playerController->localPlayerId());
-    m_instantMessagingCtrl->setDiceParser(m_diceParser.get());
     m_audioCtrl->setLocalIsGM(m_networkCtrl->isGM());
     m_campaignManager->setLocalIsGM(m_networkCtrl->isGM());
 

@@ -310,7 +310,8 @@ void UserListView::addAvatar()
         return;
 
     Person* tmpperso= static_cast<Person*>(index.internalPointer());
-    tmpperso->setAvatar(data);
+    if(tmpperso)
+        tmpperso->setAvatar(data);
 }
 
 void UserListView::deleteAvatar()
@@ -319,7 +320,8 @@ void UserListView::deleteAvatar()
     if(index.isValid())
     {
         Person* tmpperso= static_cast<Person*>(index.internalPointer());
-        tmpperso->setAvatar({});
+        if(tmpperso)
+            tmpperso->setAvatar({});
     }
 }
 void UserListView::editCurrentItemColor()

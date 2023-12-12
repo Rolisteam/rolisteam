@@ -536,6 +536,9 @@ void PlayerModel::setLocalPlayerId(const QString& uuid)
 
 void PlayerModel::removePlayer(Player* player)
 {
+    if(!player)
+        return;
+
     auto itPlayer= std::find_if(m_players.begin(), m_players.end(),
                                 [player](const std::unique_ptr<Player>& person) { return person.get() == player; });
     if(itPlayer == m_players.end())

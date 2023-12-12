@@ -39,8 +39,6 @@
 
 #include "worker/iohelper.h"
 
-QPointer<PlayerModel> VectorialMapController::m_playerModel;
-
 VectorialMapController::VectorialMapController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::VECTORIALMAP, parent)
     , m_vmapModel(new vmap::VmapItemModel)
@@ -76,11 +74,6 @@ vmap::GridController* VectorialMapController::gridController() const
 vmap::SightController* VectorialMapController::sightController() const
 {
     return m_sightController.get();
-}
-
-PlayerModel* VectorialMapController::playerModel() const
-{
-    return m_playerModel.get();
 }
 
 vmap::VisualItemController* VectorialMapController::itemController(const QString& id) const
@@ -665,11 +658,6 @@ void VectorialMapController::rollInit(QList<QPointer<vmap::CharacterItemControll
 void VectorialMapController::setDiceParser(DiceRoller* parser)
 {
     m_diceParser= parser;
-}
-
-void VectorialMapController::setPlayerModel(PlayerModel *model)
-{
-    m_playerModel= model;
 }
 
 void VectorialMapController::cleanUpInit(Core::CharacterScope scope)

@@ -159,7 +159,6 @@ void MessageHelper::sendOffAllCharacterState(CharacterStateModel* model)
         return;
 
     auto const& states= model->statesList();
-    quint64 i= 0;
     NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::CharactereStateModel);
     msg.uint32(static_cast<quint32>(states.size()));
     for(auto const& state : states)
@@ -167,7 +166,6 @@ void MessageHelper::sendOffAllCharacterState(CharacterStateModel* model)
         msg.string32(state->label());
         msg.rgb(state->color().rgb());
         msg.pixmap(state->pixmap());
-        ++i;
     }
     msg.sendToServer();
 }

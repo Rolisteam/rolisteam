@@ -53,7 +53,7 @@ Campaign::Campaign(QObject* parent)
 
 QString Campaign::name() const
 {
-    return m_name.isEmpty() ? tr("Unknown"): m_name;
+    return m_name.isEmpty() ? tr("Unknown") : m_name;
 }
 
 Campaign::~Campaign()= default;
@@ -126,7 +126,6 @@ void Campaign::addMedia(std::unique_ptr<Media>&& media)
 
 void Campaign::renameMedia(const QString& id, const QString& path)
 {
-    qDebug() << "rename media" << id << path;
     auto it= std::find_if(std::begin(m_mediaList), std::end(m_mediaList),
                           [id](const std::unique_ptr<campaign::Media>& p) { return id == p->id(); });
 

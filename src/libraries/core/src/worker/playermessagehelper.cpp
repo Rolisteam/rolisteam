@@ -40,14 +40,11 @@ void PlayerMessageHelper::sendOffConnectionInfo(Player* player, const QByteArray
     msg.string32(player->name());
     msg.string32(player->uuid());
     msg.sendToServer();
-    // setLocalFeatures(*player);
-    // writePlayerIntoMessage(msg, player);
 }
 
 void PlayerMessageHelper::sendOffPlayerInformations(Player* player)
 {
-    NetworkMessageWriter message(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
-    // setLocalFeatures(*player);
+    NetworkMessageWriter message(NetMsg::UserCategory, NetMsg::PlayerConnectionAction);
     writePlayerIntoMessage(message, player);
     message.sendToServer();
 }

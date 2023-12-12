@@ -87,7 +87,7 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
                 if(nullptr == sheet)
                     return;
 
-                NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::updateFieldCharacterSheet);
+                NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet);
                 if(mode != SharingMode::ALL)
                 {
                     msg.setRecipientList(recipients, NetworkMessage::OneOrMany);

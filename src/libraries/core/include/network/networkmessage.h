@@ -40,12 +40,9 @@ namespace NetMsg
 enum Category
 {
     AdministrationCategory,
-    PlayerCategory,
-    CharacterPlayerCategory,
-    NPCCategory,
-    CharacterCategory,
-    DrawCategory,
-    MapCategory,
+    UserCategory,
+    PlayerCharacterCategory,
+    CharacterSheetCategory,
     InstantMessageCategory,
     MusicCategory,
     SetupCategory,
@@ -87,47 +84,20 @@ enum Action
     GMStatus,
     ResetChannel,
 
-    // PlayerCategory
+    // UserCategory
     PlayerConnectionAction= 0,
     DelPlayerAction,
-    ChangePlayerProperty,
 
-    // CharacterPlayerCategory
-    AddPlayerCharacterAction= 0,
-    DelPlayerCharacterAction,
-    ToggleViewPlayerCharacterAction,
-    ChangePlayerCharacterSizeAction,
-    ChangePlayerCharacterProperty,
+    // Player and Character Category
+    AddCharacterToPlayerAct= 0,
+    RemoveCharacterToPlayerAct,
+    ChangePlayerPropertyAct,
+    ChangeCharacterPropertyAct,
 
-    // NPCCategory
-    addNpc= 0,
-    delNpc,
-
-    // CharacterCategory
-    addCharacterList= 0,
-    moveCharacter,
-    changeCharacterState,
-    changeCharacterOrientation,
-    showCharecterOrientation,
+    // CharacterSheetCategory
     addCharacterSheet,
     updateFieldCharacterSheet,
     closeCharacterSheet,
-
-    // Painting
-    penPainting= 0,
-    linePainting,
-    emptyRectanglePainting,
-    filledRectanglePainting,
-    emptyEllipsePainting,
-    filledEllipsePainting,
-    textPainting,
-    handPainting,
-
-    // MapCategory
-    AddEmptyMap= 0,
-    LoadMap,
-    ImportMap,
-    CloseMap,
 
     // InstantMessageCategory
     InstantMessageAction= 0,
