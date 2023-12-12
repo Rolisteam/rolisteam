@@ -40,6 +40,7 @@ class LocalModel;
 class PlayerOnMapModel;
 class CharacterStateModel;
 class CharacterModel;
+class PlayerUpdater;
 class CORE_EXPORT PlayerController : public AbstractControllerInterface, public NetWorkReceiver
 {
     Q_OBJECT
@@ -87,6 +88,7 @@ private:
 private:
     std::unique_ptr<PlayerModel> m_model;
     std::unique_ptr<CharacterModel> m_characterModel;
+    std::unique_ptr<PlayerUpdater> m_updater;
     QPointer<QAbstractItemModel> m_characterStateModel;
     QPointer<Player> m_localPlayer;
     QPointer<QUndoStack> m_stack;

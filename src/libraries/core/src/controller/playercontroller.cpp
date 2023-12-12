@@ -32,7 +32,7 @@
 #include "worker/characterfinder.h"
 #include "worker/messagehelper.h"
 #include "worker/playermessagehelper.h"
-
+#include "updater/controller/playerupdater.h"
 #include <QtDebug>
 
 void addPlayerToModel(PlayerModel* model, NetworkMessageReader* msg)
