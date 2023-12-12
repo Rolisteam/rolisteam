@@ -31,6 +31,7 @@
 #include "data/character.h"
 #include "data/charactervision.h"
 #include "visualitemcontroller.h"
+#include "worker/characterfinder.h"
 #include <core_global.h>
 
 class Character;
@@ -170,6 +171,7 @@ private:
     //bool m_rectEdited= false;
 
     Changes m_changes{ChangedProperty::NONE};
+    CharacterFinder m_finder;
 };
 } // namespace vmap
 

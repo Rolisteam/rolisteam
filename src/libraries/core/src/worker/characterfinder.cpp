@@ -20,15 +20,26 @@
 #include "worker/characterfinder.h"
 
 #include "model/charactermodel.h"
+#include "model/playermodel.h"
 #include "model/nonplayablecharactermodel.h"
 
 QPointer<campaign::NonPlayableCharacterModel> CharacterFinder::m_npcModel
     = QPointer<campaign::NonPlayableCharacterModel>(nullptr);
 QPointer<CharacterModel> CharacterFinder::m_pcModel= QPointer<CharacterModel>(nullptr);
+QPointer<PlayerModel> CharacterFinder::m_playerModel= QPointer<PlayerModel>(nullptr);
 
+
+bool CharacterFinder::setUpConnect()
+{
+    if(!isReady())
+        return false;
+
+    connect(m_playerModel, &PlayerModel::playerJoin, this, &CharacterFinder::dataChanged);
+    return true;
+}
 bool CharacterFinder::isReady()
 {
-    return (m_pcModel && m_npcModel);
+    return (m_pcModel && m_npcModel && m_playerModel);
 }
 void CharacterFinder::setNpcModel(campaign::NonPlayableCharacterModel* model)
 {
@@ -37,6 +48,11 @@ void CharacterFinder::setNpcModel(campaign::NonPlayableCharacterModel* model)
 void CharacterFinder::setPcModel(CharacterModel* model)
 {
     m_pcModel= model;
+}
+
+void CharacterFinder::setPlayerModel(PlayerModel* model)
+{
+    m_playerModel = model;
 }
 
 Character* CharacterFinder::find(const QString& id)

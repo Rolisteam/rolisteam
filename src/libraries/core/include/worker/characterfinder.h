@@ -23,6 +23,7 @@
 #include <core_global.h>
 
 #include <QPointer>
+#include <QObject>
 
 namespace campaign
 {
@@ -30,12 +31,14 @@ class NonPlayableCharacterModel;
 }
 class CharacterModel;
 class Character;
+class PlayerModel;
 
 /**
  * @brief The CharacterFinder class - helper to find a character given its uuid in PC or NPC models.
  */
-class CORE_EXPORT CharacterFinder
+class CORE_EXPORT CharacterFinder : public QObject
 {
+    Q_OBJECT
 public:
     CharacterFinder()= default;
 
@@ -45,10 +48,20 @@ public:
 
     static void setNpcModel(campaign::NonPlayableCharacterModel* model);
     static void setPcModel(CharacterModel* model);
+    static void setPlayerModel(PlayerModel* model);
+
+    bool setUpConnect();
+signals:
+    void dataChanged();
+
+private slots:
+
 
 private:
     static QPointer<campaign::NonPlayableCharacterModel> m_npcModel;
     static QPointer<CharacterModel> m_pcModel;
+    static QPointer<PlayerModel> m_playerModel;
+    bool m_ready{false};
 };
 
 #endif // CHARACTERFINDER_H
