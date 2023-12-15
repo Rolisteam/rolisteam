@@ -26,7 +26,6 @@ MindLink {
             x: root.horizontalOffset - width/2
             y: root.verticalOffset - height/2
             readOnly: !root.editable
-            focusReason: Qt.MouseFocusReason
             onReadOnlyChanged: focus = root.editable
             onEditingFinished: {
               console.log("mindlink: "+label.text)
