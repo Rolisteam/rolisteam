@@ -427,7 +427,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("GameController") << static_cast<QObject*>(new GameController("test", "1.2", nullptr)) << true;
     QTest::addRow("InstantMessagingController")        << static_cast<QObject*>(new InstantMessagingController(nullptr, nullptr)) << true;
     QTest::addRow("NetworkController") << static_cast<QObject*>(new NetworkController()) << true;
-    QTest::addRow("PlayerController") << static_cast<QObject*>(new PlayerController()) << true;
+    QTest::addRow("PlayerController") << static_cast<QObject*>(new PlayerController(nullptr)) << true;
     QTest::addRow("PreferencesController") << static_cast<QObject*>(new PreferencesController()) << false;
     QTest::addRow("Campaign") << static_cast<QObject*>(new campaign::Campaign()) << true;
     QTest::addRow("CampaignEditor") << static_cast<QObject*>(new campaign::CampaignEditor()) << true;

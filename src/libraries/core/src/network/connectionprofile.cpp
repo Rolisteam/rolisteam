@@ -8,8 +8,10 @@ ConnectionProfile::ConnectionProfile()
 {
     // binding
 
-    auto updateValid= [this]() {
-        //qDebug() << "connection info" << m_validConnectionInfo << "player info" << m_validPlayerInfo << "character:" << m_validCharacter << "campaign:"<<m_validCampaign;
+    auto updateValid= [this]()
+    {
+        // qDebug() << "connection info" << m_validConnectionInfo << "player info" << m_validPlayerInfo << "character:"
+        // << m_validCharacter << "campaign:"<<m_validCampaign;
         setValid(m_validConnectionInfo && m_validPlayerInfo && m_validCharacter && m_validCampaign
                  && !m_title.isEmpty());
     };
@@ -297,4 +299,8 @@ bool ConnectionProfile::charactersValid() const
 bool ConnectionProfile::campaignInfoValid() const
 {
     return m_validCampaign;
+}
+void ConnectionProfile::setCharacters(const std::vector<connection::CharacterData>& characters)
+{
+    m_characters= characters;
 }

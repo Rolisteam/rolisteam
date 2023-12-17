@@ -67,33 +67,48 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     connect(m_ctrl.get(), &SelectConnProfileController::saveModels, networkCtrl, &NetworkController::saveData);
     connect(m_ctrl.get(), &SelectConnProfileController::connectionStarted, this,
             [this]() { m_gameCtrl->setDataFromProfile(m_ctrl->currentProfileIndex()); });
-    connect(m_ctrl.get(), &SelectConnProfileController::portChanged, this, [this](){
-        if(!m_gameCtrl)
-            return;
-        auto networkCtrl= m_gameCtrl->networkController();
-        if(!networkCtrl)
-            return;
+    connect(m_ctrl.get(), &SelectConnProfileController::portChanged, this,
+            [this]()
+            {
+                if(!m_gameCtrl)
+                    return;
+                auto networkCtrl= m_gameCtrl->networkController();
+                if(!networkCtrl)
+                    return;
+                auto profile= networkCtrl->currentProfile();
+                if(!profile)
+                    return;
 
-        networkCtrl->setPort(m_ctrl->port());
-    });
-    connect(m_ctrl.get(), &SelectConnProfileController::addressChanged, this, [this](){
-        if(!m_gameCtrl)
-            return;
-        auto networkCtrl= m_gameCtrl->networkController();
-        if(!networkCtrl)
-            return;
+                profile->setPort(m_ctrl->port());
+            });
+    connect(m_ctrl.get(), &SelectConnProfileController::addressChanged, this,
+            [this]()
+            {
+                if(!m_gameCtrl)
+                    return;
+                auto networkCtrl= m_gameCtrl->networkController();
+                if(!networkCtrl)
+                    return;
+                auto profile= networkCtrl->currentProfile();
+                if(!profile)
+                    return;
 
-        networkCtrl->setHost(m_ctrl->address());
-    });
-    connect(m_ctrl.get(), &SelectConnProfileController::passwordChanged, this, [this](){
-        if(!m_gameCtrl)
-            return;
-        auto networkCtrl= m_gameCtrl->networkController();
-        if(!networkCtrl)
-            return;
+                profile->setAddress(m_ctrl->address());
+            });
+    connect(m_ctrl.get(), &SelectConnProfileController::passwordChanged, this,
+            [this]()
+            {
+                if(!m_gameCtrl)
+                    return;
+                auto networkCtrl= m_gameCtrl->networkController();
+                if(!networkCtrl)
+                    return;
+                auto profile= networkCtrl->currentProfile();
+                if(!profile)
+                    return;
 
-        networkCtrl->setServerPassword(m_ctrl->password());
-    });
+                profile->editPassword(m_ctrl->password());
+            });
     connect(m_ctrl.get(), &SelectConnProfileController::rejected, this, &SelectConnectionProfileDialog::reject);
     connect(m_ctrl.get(), &SelectConnProfileController::changeCampaignPath, this,
             [this]()

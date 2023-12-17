@@ -305,7 +305,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         if(!selectedItems.isEmpty())
             rollInit->addAction(m_rollInitOnSelection);
 
-        QMenu* cleanInit= menu.addMenu(tr("Clean Init"));
+        QMenu* cleanInit= menu.addMenu(tr("Clear Init"));
         cleanInit->addAction(m_cleanInitOnAllNpc);
         cleanInit->addAction(m_cleanInitOnAllCharacter);
         if(!selectedItems.isEmpty())
@@ -649,17 +649,17 @@ void RGraphicsView::createAction()
     connect(m_rollInitOnAllCharacter, &QAction::triggered, this, &RGraphicsView::rollInit);
 
     m_cleanInitOnAllNpc= new QAction(tr("All Npcs"), this);
-    m_cleanInitOnAllNpc->setToolTip(tr("Clean Initiative on All Npcs"));
+    m_cleanInitOnAllNpc->setToolTip(tr("Clear Initiative on All Npcs"));
     m_cleanInitOnAllNpc->setData(Core::CharacterScope::AllNPC);
     connect(m_cleanInitOnAllNpc, &QAction::triggered, this, &RGraphicsView::cleanInit);
 
     m_cleanInitOnSelection= new QAction(tr("Selection"), this);
-    m_cleanInitOnSelection->setToolTip(tr("Clean Initiative on Selection"));
+    m_cleanInitOnSelection->setToolTip(tr("Clear Initiative on Selection"));
     m_cleanInitOnSelection->setData(Core::CharacterScope::SelectionOnly);
     connect(m_cleanInitOnSelection, &QAction::triggered, this, &RGraphicsView::cleanInit);
 
     m_cleanInitOnAllCharacter= new QAction(tr("All Characters"), this);
-    m_cleanInitOnAllCharacter->setToolTip(tr("Clean Initiative on All Characters"));
+    m_cleanInitOnAllCharacter->setToolTip(tr("Clear Initiative on All Characters"));
     m_cleanInitOnAllCharacter->setData(Core::CharacterScope::AllCharacter);
     connect(m_cleanInitOnAllCharacter, &QAction::triggered, this, &RGraphicsView::cleanInit);
 }

@@ -13,6 +13,7 @@
 
 struct CharacterInfo
 {
+    QString uuid;
     QString name;
     QColor color;
     QByteArray avatar;
@@ -277,8 +278,8 @@ void ProfileControllerTest::serialization()
 
         for(int j= 0; j < characterCount; ++j)
         {
-            profile->addCharacter(
-                connection::CharacterData({Helper::randomString(), Qt::red, Helper::imageData(avatarSquare), {}}));
+            profile->addCharacter(connection::CharacterData(
+                {Helper::randomString(), Helper::randomString(), Qt::red, Helper::imageData(avatarSquare), {}}));
         }
     }
 
@@ -452,7 +453,7 @@ void ProfileControllerTest::canConnect()
     QList<connection::CharacterData> list;
     std::transform(std::begin(characters), std::end(characters), std::back_inserter(list),
                    [](const CharacterInfo& info) -> connection::CharacterData {
-                       return {info.name, info.color, info.avatar, {}};
+                       return {info.uuid, info.name, info.color, info.avatar, {}};
                    });
 
     for(auto const& data : qAsConst(list))
@@ -518,21 +519,22 @@ void ProfileControllerTest::canConnect_data()
                                << dir.path() << QList<CharacterInfo>() << false;
 
     QTest::addRow("connect11") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << QString() << QList<CharacterInfo>{{QString(), QColor(), QByteArray()}} << false;
+                               << QString() << QList<CharacterInfo>{{QString(), QString(), QColor(), QByteArray()}}
+                               << false;
 
     QTest::addRow("connect12") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << QString() << QList<CharacterInfo>{{QString("Player"), QColor(), QByteArray()}}
-                               << false;
+                               << QString()
+                               << QList<CharacterInfo>{{QString(), QString("Player"), QColor(), QByteArray()}} << false;
 
     QTest::addRow("connect13") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << QString() << QList<CharacterInfo>{{QString(), QColor(Qt::blue), QByteArray()}}
-                               << false;
+                               << QString()
+                               << QList<CharacterInfo>{{QString(), QString(), QColor(Qt::blue), QByteArray()}} << false;
 
     QTest::addRow("connect14") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << QString() << QList<CharacterInfo>{{QString(), QColor(), badImg}} << false;
+                               << QString() << QList<CharacterInfo>{{QString(), QString(), QColor(), badImg}} << false;
 
     QTest::addRow("connect15") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << QString() << QList<CharacterInfo>{{QString(), QColor(), goodImg}} << false;
+                               << QString() << QList<CharacterInfo>{{QString(), QString(), QColor(), goodImg}} << false;
 
     // two valid fields
     QTest::addRow("connect16") << QString("test") << QString("test") << QColor() << QByteArray() << false << false
@@ -562,15 +564,20 @@ void ProfileControllerTest::canConnect_data()
 
     QTest::addRow("connect25") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
                                << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), QByteArray()}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), QByteArray()}}
+                               << false;
     QTest::addRow("connect26") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << dir.path() << QList<CharacterInfo>{{QString(), QColor(Qt::blue), goodImg}} << false;
+                               << dir.path() << QList<CharacterInfo>{{QString(), QString(), QColor(Qt::blue), goodImg}}
+                               << false;
     QTest::addRow("connect27") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << dir.path() << QList<CharacterInfo>{{QString(), QColor(Qt::blue), badImg}} << false;
+                               << dir.path() << QList<CharacterInfo>{{QString(), QString(), QColor(Qt::blue), badImg}}
+                               << false;
     QTest::addRow("connect28") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << dir.path() << QList<CharacterInfo>{{QString("player"), QColor(), goodImg}} << false;
+                               << dir.path() << QList<CharacterInfo>{{QString(), QString("player"), QColor(), goodImg}}
+                               << false;
     QTest::addRow("connect29") << QString() << QString() << QColor() << QByteArray() << false << false << QString() << 0
-                               << dir.path() << QList<CharacterInfo>{{QString("player"), QColor(), badImg}} << false;
+                               << dir.path() << QList<CharacterInfo>{{QString(), QString("player"), QColor(), badImg}}
+                               << false;
 
     // three valid fields
     QTest::addRow("connect30") << QString("test") << QString("test") << QColor(Qt::blue) << QByteArray() << false
@@ -597,10 +604,12 @@ void ProfileControllerTest::canConnect_data()
                                << QString("localhost") << 6660 << dir.path() << QList<CharacterInfo>() << false;
     QTest::addRow("connect40") << QString() << QString() << QColor() << QByteArray() << false << false << QString()
                                << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), badImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), badImg}}
+                               << false;
     QTest::addRow("connect41") << QString() << QString() << QColor() << QByteArray() << false << false << QString()
                                << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
 
     // Four valid fields
     QTest::addRow("connect42") << QString("test") << QString("test") << QColor(Qt::blue) << badImg << false << false
@@ -626,7 +635,8 @@ void ProfileControllerTest::canConnect_data()
                                << QString("localhost") << 6660 << dir.path() << QList<CharacterInfo>() << false;
     QTest::addRow("connect52") << QString() << QString() << QColor() << QByteArray() << false << false
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
 
     // five valid fields
     QTest::addRow("connect53") << QString("test") << QString("test") << QColor(Qt::blue) << badImg << true << false
@@ -649,7 +659,8 @@ void ProfileControllerTest::canConnect_data()
                                << QString("localhost") << 6660 << dir.path() << QList<CharacterInfo>() << false;
     QTest::addRow("connect62") << QString() << QString() << QColor() << QByteArray() << false << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
 
     // six valid fields
     QTest::addRow("connect63") << QString("test") << QString("test") << QColor(Qt::blue) << badImg << true << true
@@ -673,7 +684,8 @@ void ProfileControllerTest::canConnect_data()
 
     QTest::addRow("connect71") << QString() << QString() << QColor() << QByteArray() << true << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
 
     // seven valid fields
     QTest::addRow("connect72") << QString("test") << QString("test") << QColor(Qt::blue) << badImg << true << true
@@ -693,10 +705,12 @@ void ProfileControllerTest::canConnect_data()
 
     QTest::addRow("connect78") << QString() << QString() << QColor() << badImg << true << true << QString("localhost")
                                << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
     QTest::addRow("connect79") << QString() << QString() << QColor() << goodImg << true << true << QString("localhost")
                                << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
 
     // eight valid fields
     QTest::addRow("connect80") << QString("test") << QString("test") << QColor(Qt::blue) << badImg << true << true
@@ -711,10 +725,12 @@ void ProfileControllerTest::canConnect_data()
 
     QTest::addRow("connect84") << QString() << QString() << QColor(Qt::blue) << badImg << true << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
     QTest::addRow("connect85") << QString() << QString() << QColor(Qt::blue) << goodImg << true << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
 
     // nine valid field
     QTest::addRow("connect86") << QString("test") << QString("test") << QColor(Qt::blue) << badImg << true << true
@@ -724,31 +740,36 @@ void ProfileControllerTest::canConnect_data()
 
     QTest::addRow("connect88") << QString() << QString("test") << QColor(Qt::blue) << badImg << true << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
     QTest::addRow("connect89") << QString() << QString("test") << QColor(Qt::blue) << goodImg << true << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
 
     // ten valid field
 
     // bad img
     QTest::addRow("connect90") << QString("test") << QString("test") << QColor(Qt::blue) << badImg << true << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), goodImg}}
+                               << false;
 
     // false
     QTest::addRow("connect91") << QString("test") << QString("test") << QColor(Qt::blue) << goodImg << true << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}}
+                               << QList<CharacterInfo>{{QString("uuid"), QString("player"), QColor(Qt::blue), goodImg}}
                                << true; // no player with game master
 
     QTest::addRow("connect92") << QString("test") << QString("test") << QColor(Qt::blue) << goodImg << false << true
                                << QString("localhost") << 6660 << dir.path()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), badImg}} << false;
+                               << QList<CharacterInfo>{{QString(), QString("player"), QColor(Qt::blue), badImg}}
+                               << false;
 
     QTest::addRow("connect93") << QString("test") << QString("test") << QColor(Qt::blue) << goodImg << false << true
                                << QString("localhost") << 6660 << QString()
-                               << QList<CharacterInfo>{{QString("player"), QColor(Qt::blue), goodImg}} << true;
+                               << QList<CharacterInfo>{{QString("uuid"), QString("player"), QColor(Qt::blue), goodImg}}
+                               << true;
 }
 QTEST_MAIN(ProfileControllerTest);
 #include "tst_profilecontroller.moc"

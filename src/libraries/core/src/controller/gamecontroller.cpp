@@ -44,7 +44,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
     , m_logController(new LogController(true))
     , m_remoteLogCtrl(new RemoteLogController())
     , m_networkCtrl(new NetworkController)
-    , m_playerController(new PlayerController)
+    , m_playerController(new PlayerController(m_networkCtrl.get()))
     , m_preferencesDialogController(new PreferencesController)
     , m_campaignManager(new campaign::CampaignManager(m_diceParser.get()))
     , m_contentCtrl(new ContentController(m_campaignManager.get(), m_playerController->model(),
@@ -221,9 +221,12 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
 
 void GameController::save()
 {
-    ModelHelper::saveSession(m_contentCtrl.get());
+    if(localIsGM())
+    {
+        ModelHelper::saveSession(m_contentCtrl.get());
+        m_campaignManager->saveCampaign();
+    }
     ModelHelper::saveAudioController(m_audioCtrl.get());
-    m_campaignManager->saveCampaign();
 }
 
 void GameController::saveAs(const QString& path)
@@ -400,6 +403,7 @@ DiceRoller* GameController::diceParser() const
 void GameController::setDataFromProfile(int profileIndex)
 {
     auto profile= m_networkCtrl->profileModel()->getProfile(profileIndex);
+    m_networkCtrl->setSelectedProfileIndex(profileIndex);
 
     if(profile == nullptr)
         return;
@@ -414,16 +418,17 @@ void GameController::setDataFromProfile(int profileIndex)
     if(!local->isGM())
     {
         auto characters= profile->characters();
-        std::for_each(characters.begin(), characters.end(),
-                      [local](const connection::CharacterData& data)
-                      { local->addCharacter(data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
+        std::for_each(
+            characters.begin(), characters.end(),
+            [local](const connection::CharacterData& data)
+            { local->addCharacter(data.m_uuid, data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
     }
-    m_networkCtrl->setHost(profile->address());
+    /*m_networkCtrl->setHost(profile->address());
     m_networkCtrl->setPort(profile->port());
     m_networkCtrl->setServerPassword(profile->password());
     m_networkCtrl->setIsGM(profile->isGM());
     m_networkCtrl->setHosting(profile->isServer());
-    m_networkCtrl->setAskForGM(profile->isGM());
+    m_networkCtrl->setAskForGM(profile->isGM());*/
 
     m_playerController->addPlayer(local);
     if(profile->isGM())

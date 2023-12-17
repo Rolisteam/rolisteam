@@ -300,6 +300,14 @@ void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* player
     {
         var= QVariant::fromValue(data.int64());
     }
+    else if(property == Core::person::hasInitiative)
+    {
+        var= QVariant::fromValue(static_cast<bool>(data.uint8()));
+    }
+    else if(property == Core::person::lifeColor)
+    {
+        var= QVariant::fromValue(QColor(data.rgb()));
+    }
 
     // set value
     if(role != -1)

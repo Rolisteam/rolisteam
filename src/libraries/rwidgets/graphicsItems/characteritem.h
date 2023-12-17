@@ -85,6 +85,7 @@ private slots:
 
 private:
     QPointer<vmap::CharacterItemController> m_itemCtrl;
+    QPointer<VectorialMapController> m_mapCtrl;
 
     // QAction
     std::unique_ptr<QAction> m_visionShapeDisk;

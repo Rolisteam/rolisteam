@@ -114,6 +114,13 @@ bool vmap::VmapItemModel::appendItemController(vmap::VisualItemController* item)
 {
     if(!item)
         return false;
+
+    if(std::end(m_items)
+       != std::find_if(std::begin(m_items), std::end(m_items),
+                       [item](const std::unique_ptr<vmap::VisualItemController>& ctrl)
+                       { return item->uuid() == ctrl->uuid(); }))
+        return false;
+
     auto size= static_cast<int>(m_items.size());
     std::unique_ptr<vmap::VisualItemController> ctrl(item);
     beginInsertRows(QModelIndex(), size, size);

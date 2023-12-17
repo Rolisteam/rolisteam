@@ -69,10 +69,9 @@ void DataplayerTest::testGetSet()
 
     QVERIFY(m_player->isFullyDefined());
 
-    auto v = Helper::randomString();
+    auto v= Helper::randomString();
     m_player->setUserVersion(v);
-    QCOMPARE(m_player->getUserVersion(), v);
-
+    QCOMPARE(m_player->userVersion(), v);
 
     Player p2;
     p2.copyPlayer(m_player);
@@ -80,7 +79,7 @@ void DataplayerTest::testGetSet()
     m_player->getVariableDictionnary();
     m_player->removeChild(nullptr);
     m_player->addCharacter(nullptr);
-    auto c = new Character(Helper::randomString(), Helper::randomColor(), true);
+    auto c= new Character(Helper::randomString(), Helper::randomColor(), true);
     m_player->addCharacter(c);
     m_player->addCharacter(c);
     QCOMPARE(c->getParentId(), m_player->uuid());
@@ -89,22 +88,21 @@ void DataplayerTest::testGetSet()
     QCOMPARE(m_player->characterById(c->uuid()), c);
     QCOMPARE(m_player->getCharacterByIndex(0), c);
     QCOMPARE(m_player->getCharacterByIndex(80), nullptr);
-    auto const& children = m_player->children();
+    auto const& children= m_player->children();
     QCOMPARE(children.size(), 1);
-    //QCOMPARE(children[0], c);
+    // QCOMPARE(children[0], c);
 
     m_player->removeChild(c);
 
-    Player p3(Helper::randomString(), Helper::randomString(),Helper::randomColor(), false);
+    Player p3(Helper::randomString(), Helper::randomString(), Helper::randomColor(), false);
 
-    auto nameC = Helper::randomString();
-    auto colorC = Helper::randomColor();
-    auto dataC = Helper::imageData();
+    auto uuid= Helper::randomString();
+    auto nameC= Helper::randomString();
+    auto colorC= Helper::randomColor();
+    auto dataC= Helper::imageData();
 
-
-    m_player->addCharacter(nameC, colorC, dataC, {}, true);
-    m_player->addCharacter(nameC, colorC, dataC, {}, true);
-
+    m_player->addCharacter(uuid, nameC, colorC, dataC, {}, true);
+    m_player->addCharacter(uuid, nameC, colorC, dataC, {}, true);
 }
 void DataplayerTest::testChildrenAddAndRemove()
 {

@@ -19,12 +19,12 @@
  ***************************************************************************/
 
 #include "data/player.h"
+#include "data/shortcutmodel.h"
 #include "model/filteredplayermodel.h"
 #include "model/historymodel.h"
 #include "model/participantsmodel.h"
 #include "model/playermodel.h"
 #include "model/playerproxymodel.h"
-#include "data/shortcutmodel.h"
 #include "rwidgets/customs/shortcutvisitor.h"
 // #include "test_root_path.h"
 // #include "utils/iohelper.h"
@@ -144,7 +144,7 @@ void ModelTest::playerProxyModel()
 
     Player* p2= new Player;
     p2->setGM(false);
-    p2->addCharacter(Helper::randomString(), Helper::randomColor(), {}, {}, false);
+    p2->addCharacter(Helper::randomString(), Helper::randomString(), Helper::randomColor(), {}, {}, false);
     p2->setName("Player");
     p2->setUuid("b");
     player->addPlayer(p2);
@@ -223,7 +223,6 @@ void ModelTest::filteredPlayerModel()
     std::unique_ptr<InstantMessaging::FilteredPlayerModel> model(
         new InstantMessaging::FilteredPlayerModel(QStringList{"b"}, nullptr));
 
-
     model->setSourceModel(player.get());
 
     new QAbstractItemModelTester(player.get());
@@ -237,12 +236,10 @@ void ModelTest::filteredPlayerModel()
 
     Player* p2= new Player;
     p2->setGM(false);
-    p2->addCharacter(Helper::randomString(), Helper::randomColor(), {}, {}, false);
+    p2->addCharacter(Helper::randomString(), Helper::randomString(), Helper::randomColor(), {}, {}, false);
     p2->setName("Player");
     p2->setUuid("b");
     player->addPlayer(p2);
-
-
 
     QCOMPARE(model->rowCount(), 1);
 
@@ -260,7 +257,7 @@ void ModelTest::shortcutModel()
 
     QCOMPARE(model.rowCount(), 0);
 
-    auto cat1 = Helper::randomString();
+    auto cat1= Helper::randomString();
 
     model.insertShortCut(cat1, Helper::randomString(), Helper::randomString());
     model.insertShortCut(cat1, Helper::randomString(), Helper::randomString());
@@ -278,19 +275,18 @@ void ModelTest::shortcutModel()
     model.insertShortCut(cat1, Helper::randomString(), Helper::randomString());
 
     QCOMPARE(model.rowCount(), 1);
-    QCOMPARE(model.rowCount(model.index(0,0, QModelIndex())), 5);
+    QCOMPARE(model.rowCount(model.index(0, 0, QModelIndex())), 5);
 
-
-    auto cat2 = Helper::randomString();
+    auto cat2= Helper::randomString();
     model.addCategory(cat2);
 
-    auto cat3 = Helper::randomString();
+    auto cat3= Helper::randomString();
     model.addCategory(cat3);
 
     model.insertShortCut(cat2, Helper::randomString(), Helper::randomString());
     model.insertShortCut(cat2, Helper::randomString(), Helper::randomString());
     QCOMPARE(model.rowCount(), 3);
-    QCOMPARE(model.rowCount(model.index(1,0, QModelIndex())), 2);
+    QCOMPARE(model.rowCount(model.index(1, 0, QModelIndex())), 2);
 
     model.insertShortCut(cat3, Helper::randomString(), Helper::randomString());
     model.insertShortCut(cat3, Helper::randomString(), Helper::randomString());
@@ -298,15 +294,13 @@ void ModelTest::shortcutModel()
     model.insertShortCut(cat3, Helper::randomString(), Helper::randomString());
 
     QCOMPARE(model.rowCount(), 3);
-    QCOMPARE(model.rowCount(model.index(2,0, QModelIndex())), 4);
-
+    QCOMPARE(model.rowCount(model.index(2, 0, QModelIndex())), 4);
 
     model.removeCategory(cat2);
     model.removeCategory(Helper::randomString());
     QCOMPARE(model.rowCount(), 2);
-    QCOMPARE(model.rowCount(model.index(0,0, QModelIndex())), 5);
-    QCOMPARE(model.rowCount(model.index(1,0, QModelIndex())), 4);
-
+    QCOMPARE(model.rowCount(model.index(0, 0, QModelIndex())), 5);
+    QCOMPARE(model.rowCount(model.index(1, 0, QModelIndex())), 4);
 
     QVERIFY(!model.headerData(0, Qt::Vertical, Qt::EditRole).isValid());
     QVERIFY(!model.headerData(0, Qt::Vertical, Qt::DisplayRole).isValid());
@@ -316,26 +310,24 @@ void ModelTest::shortcutModel()
 
     model.index(-1, -1, QModelIndex());
 
-
-    auto name = Helper::randomString();
+    auto name= Helper::randomString();
 
     Category cat(name);
 
     QCOMPARE(cat.name(), name);
-    name = Helper::randomString();
+    name= Helper::randomString();
     cat.setName(name);
     QCOMPARE(cat.name(), name);
 
-
     {
-        auto seq = Helper::randomString();
-        auto name = Helper::randomString();
+        auto seq= Helper::randomString();
+        auto name= Helper::randomString();
         ShortCut cut(name, seq);
 
         QCOMPARE(cut.getName(), name);
         QCOMPARE(cut.getSequence(), QKeySequence(seq));
         cat.insertShortcut(name, seq);
-        auto shortcut = cat.getShortCut(0);
+        auto shortcut= cat.getShortCut(0);
 
         QVERIFY(cat.hasShortCut(shortcut));
         QCOMPARE(cat.indexOf(shortcut), 0);
@@ -350,29 +342,28 @@ void ModelTest::shortcutVisitor()
     QWidget wid;
     wid.setObjectName(Helper::randomString());
 
-    auto act = new QAction(Helper::randomString());
+    auto act= new QAction(Helper::randomString());
     act->setShortcut(QKeySequence::New);
     wid.addAction(act);
 
-    act = new QAction(Helper::randomString());
+    act= new QAction(Helper::randomString());
     act->setShortcut(QKeySequence::Open);
     wid.addAction(act);
 
-    act = new QAction(Helper::randomString());
+    act= new QAction(Helper::randomString());
     act->setShortcut(QKeySequence("Ctrl+E"));
     wid.addAction(act);
-
 
     ShortcutVisitor visitor;
     QWidget wid2;
 
-    act = new QAction(Helper::randomString());
+    act= new QAction(Helper::randomString());
     act->setShortcut(Helper::randomString(1));
     wid2.addAction(act);
 
     QWidget wid22(&wid2);
 
-    act = new QAction(Helper::randomString());
+    act= new QAction(Helper::randomString());
     act->setShortcut(Helper::randomString(1));
     wid22.addAction(act);
 
@@ -381,11 +372,11 @@ void ModelTest::shortcutVisitor()
     {
         QWidget wid3;
 
-        act = new QAction(Helper::randomString());
+        act= new QAction(Helper::randomString());
         act->setShortcut(Helper::randomString(1));
         wid3.addAction(act);
 
-        act = new QAction(Helper::randomString());
+        act= new QAction(Helper::randomString());
         act->setShortcut(Helper::randomString(1));
         wid3.addAction(act);
 
@@ -395,21 +386,20 @@ void ModelTest::shortcutVisitor()
         visitor.registerWidget(&wid3, Helper::randomString(), true);
         visitor.registerWidget(&wid4, Helper::randomString(), true);
 
-        auto model = visitor.getModel();
+        auto model= visitor.getModel();
 
         QCOMPARE(model->rowCount(), 3);
-        QCOMPARE(model->rowCount(model->index(0,0, QModelIndex())), 3);
-        QCOMPARE(model->rowCount(model->index(1,0, QModelIndex())), 1);
-        QCOMPARE(model->rowCount(model->index(2,0, QModelIndex())), 2);
+        QCOMPARE(model->rowCount(model->index(0, 0, QModelIndex())), 3);
+        QCOMPARE(model->rowCount(model->index(1, 0, QModelIndex())), 1);
+        QCOMPARE(model->rowCount(model->index(2, 0, QModelIndex())), 2);
     }
-    auto model = visitor.getModel();
+    auto model= visitor.getModel();
 
     QCOMPARE(model->rowCount(), 2);
     visitor.unregisterWidget(&wid2);
     visitor.unregisterWidget(&wid2);
     QCOMPARE(model->rowCount(), 1);
 }
-
 
 QTEST_MAIN(ModelTest);
 

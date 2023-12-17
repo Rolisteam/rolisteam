@@ -62,7 +62,7 @@ ContentControllerTest::ContentControllerTest() {}
 
 void ContentControllerTest::init()
 {
-    m_playerCtrl.reset(new PlayerController);
+    m_playerCtrl.reset(new PlayerController(nullptr));
     m_ctrl.reset(new ContentController(nullptr, m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
     connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
 
@@ -71,7 +71,8 @@ void ContentControllerTest::init()
 
 void ContentControllerTest::saveLoadImage()
 {
-    m_ctrl.reset(new ContentController(new campaign::CampaignManager(nullptr),m_playerCtrl->model(), m_playerCtrl->characterModel(), nullptr));
+    m_ctrl.reset(new ContentController(new campaign::CampaignManager(nullptr), m_playerCtrl->model(),
+                                       m_playerCtrl->characterModel(), nullptr));
     m_ctrl->setLocalId("localid");
     /*connect(m_ctrl.get(), &ContentController::performCommand, this, [this](QUndoCommand* cmd) { m_stack.push(cmd); });
     {

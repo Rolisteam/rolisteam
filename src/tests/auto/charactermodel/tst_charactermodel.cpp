@@ -77,7 +77,7 @@ void CharacterModelTest::addTest_data()
     {
         QVector<Player*> players;
         auto player= new Player("name", QColor(Qt::red), true);
-        player->addCharacter("character", QColor(Qt::blue), "", QHash<QString, QVariant>(), false);
+        player->addCharacter("bb", "character", QColor(Qt::blue), "", QHash<QString, QVariant>(), false);
         players.push_back(player);
         QTest::addRow("cmd 3") << 1 << players;
     }
@@ -254,7 +254,7 @@ void CharacterModelTest::localPersonTest_data()
     {
         QVector<Player*> players;
         auto player= new Player("name", QColor(Qt::red), true);
-        player->addCharacter("character", QColor(Qt::blue), "", QHash<QString, QVariant>(), false);
+        player->addCharacter("nn", "character", QColor(Qt::blue), "", QHash<QString, QVariant>(), false);
         players.push_back(player);
         QTest::addRow("cmd 3") << 2 << players;
     }
@@ -262,7 +262,7 @@ void CharacterModelTest::localPersonTest_data()
     {
         QVector<Player*> players;
         auto player= new Player("name", QColor(Qt::red), true);
-        player->addCharacter("character", QColor(Qt::blue), "", QHash<QString, QVariant>(), false);
+        player->addCharacter("aa", "character", QColor(Qt::blue), "", QHash<QString, QVariant>(), false);
         players.push_back(player);
 
         player= new Player("name2", QColor(Qt::red), true);

@@ -27,10 +27,12 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-#include "data/character.h"
-#include "diceparser/dicealias.h"
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/visualitemcontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "data/character.h"
+#include "diceparser/dicealias.h"
+#include "visualitem.h"
 
 #define MARGING 1
 #define MINI_VALUE 25
@@ -95,6 +97,8 @@ CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl)
     if(!m_itemCtrl)
         return;
 
+    m_mapCtrl = m_itemCtrl->mapController();
+
     m_visionShapeDisk->setCheckable(true);
     m_visionShapeAngle->setCheckable(true);
 
@@ -134,6 +138,15 @@ CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl)
     connect(m_itemCtrl, &vmap::CharacterItemController::modifiedChanged, this, updateLambda);
     connect(m_itemCtrl, &vmap::CharacterItemController::visibleChanged, this, updateLambda);
     connect(m_itemCtrl, &vmap::CharacterItemController::healthStatusVisibleChanged, this, updateLambda);
+    connect(m_mapCtrl, &VectorialMapController::initScoreVisibleChanged, this, updateLambda);
+    connect(m_mapCtrl, &VectorialMapController::healthBarVisibleChanged, this, updateLambda);
+    connect(m_mapCtrl, &VectorialMapController::npcNameVisibleChanged, this, updateLambda);
+    connect(m_mapCtrl, &VectorialMapController::npcNameChanged, this, updateLambda);
+    connect(m_mapCtrl, &VectorialMapController::npcNumberVisibleChanged, this, updateLambda);
+    connect(m_mapCtrl, &VectorialMapController::pcNameVisibleChanged, this, updateLambda);
+    connect(m_mapCtrl, &VectorialMapController::stateLabelVisibleChanged, this, updateLambda);
+    connect(m_mapCtrl, &VectorialMapController::characterVisionChanged, this, updateLambda);
+
 
     // createActions();
     for(int i= 0; i <= CharacterItem::SightLenght; ++i)
@@ -218,6 +231,33 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             painter->drawRoundedRect(rect.x(), rect.y(), diam, diam, m_itemCtrl->side() / RADIUS_CORNER,
                                      m_itemCtrl->side() / RADIUS_CORNER);
         }
+
+        if(m_mapCtrl->initScoreVisible() && character->hasInitScore())
+        {
+            painter->save();
+            auto init= QString("%1").arg(character->getInitiativeScore());
+            auto chColor= character->getColor();
+            auto color= ContrastColor(chColor);
+            painter->setPen(color);
+            auto font= painter->font();
+            font.setBold(true);
+            font.setPointSizeF(font.pointSizeF() * 2);
+            painter->setFont(font);
+            auto tl= rect.topLeft().toPoint();
+            auto metric= painter->fontMetrics();
+            auto rect= metric.boundingRect(init);
+            rect.moveCenter(tl);
+            painter->save();
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(QBrush(chColor, Qt::SolidPattern));
+            auto square= makeSquare(rect);
+            square.moveCenter(tl);
+            painter->drawEllipse(square);
+            painter->restore();
+            painter->drawText(rect, Qt::AlignCenter, init);
+            painter->restore();
+        }
+
     }
     if(!textToShow.isEmpty())
     {
@@ -265,28 +305,6 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             painter->restore();
         }
     }
-
-    /// debug collision
-    /*painter->save();
-    QPen pen2= painter->pen();
-    pen2.setColor(Qt::red);
-    pen2.setWidth(1);
-    painter->setPen(pen2);
-    // painter->setBrush(QBrush(Qt::red, Qt::SolidPattern));
-
-    QPainterPath path;
-    path.addEllipse(shape().boundingRect().center(), 10, 10);
-    path.connectPath(shape().translated(m_newPosition - pos()));
-    painter->drawPath(path);
-
-    pen2.setColor(Qt::green);
-    pen2.setWidth(1);
-    painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
-    painter->setPen(pen2);
-
-    painter->drawEllipse(shape().boundingRect().center(), 10, 10);
-    painter->restore();
-    */
 }
 
 void CharacterItem::updateChildPosition()
@@ -309,10 +327,10 @@ void CharacterItem::updateChildPosition()
         if(vision)
         {
             m_children.value(DIRECTION_RADIUS_HANDLE)
-            ->setPos(vision->radius() + m_itemCtrl->radius()
-                         + m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().width(),
-                     m_itemCtrl->thumnailRect().height() / 2
-                         - m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().height() / 2);
+                ->setPos(vision->radius() + m_itemCtrl->radius()
+                             + m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().width(),
+                         m_itemCtrl->thumnailRect().height() / 2
+                             - m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().height() / 2);
 
             m_children[ANGLE_HANDLE]->setPos((vision->radius() + m_itemCtrl->radius()) / 2, -vision->angle());
         }
@@ -443,4 +461,3 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
         else
             VisualItem::wheelEvent(event);*/
 }
-

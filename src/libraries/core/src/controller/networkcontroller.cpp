@@ -62,7 +62,8 @@ NetworkController::NetworkController(QObject* parent)
     ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
 
     connect(m_clientManager.get(), &ClientManager::connectionStateChanged, this,
-            [this](ClientManager::ConnectionState state) {
+            [this](ClientManager::ConnectionState state)
+            {
                 qDebug() << "NETWORKCONTROLLER - ConnectionState" << state;
                 setConnected(state == ClientManager::AUTHENTIFIED);
                 setConnecting(state == ClientManager::CONNECTING);
@@ -83,6 +84,13 @@ NetworkController::NetworkController(QObject* parent)
     // &SelectConnectionProfileDialog::errorOccurs);
     /*connect(m_clientManager.get(), SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
             SLOT(updateWindowTitle()));*/
+
+    connect(this, &NetworkController::selectedProfileIndexChanged, this, [this]() { emit isGMChanged(isGM()); });
+    connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::hostingChanged);
+    connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::askForGMChanged);
+    connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::hostChanged);
+    connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::portChanged);
+    connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::serverPasswordChanged);
 }
 NetworkController::~NetworkController() {}
 
@@ -112,45 +120,13 @@ ChannelModel* NetworkController::channelModel() const
 
 void NetworkController::startConnection()
 {
-    if(hosting())
+    if(hosting() && currentProfile())
     {
-        setHost(QStringLiteral("localhost"));
+        currentProfile()->setAddress(QStringLiteral("localhost"));
         m_countDown->start();
     }
     else
         startClient();
-}
-
-void NetworkController::setIsGM(bool b)
-{
-    if(m_isGM == b)
-        return;
-    m_isGM= b;
-    emit isGMChanged(m_isGM);
-}
-
-void NetworkController::setHosting(bool b)
-{
-    if(m_hosting == b)
-        return;
-    m_hosting= b;
-    emit hostingChanged();
-}
-
-void NetworkController::setPort(int port)
-{
-    if(m_port == port)
-        return;
-    m_port= port;
-    emit portChanged();
-}
-
-void NetworkController::setAskForGM(bool askGM)
-{
-    if(m_askForGM == askGM)
-        return;
-    m_askForGM= askGM;
-    emit askForGMChanged();
 }
 
 void NetworkController::setConnected(bool b)
@@ -169,14 +145,6 @@ void NetworkController::setConnecting(bool b)
     emit connectingChanged(m_connecting);
 }
 
-void NetworkController::setServerPassword(const QByteArray& array)
-{
-    if(m_serverPw == array)
-        return;
-    m_serverPw= array;
-    emit serverPasswordChanged();
-}
-
 void NetworkController::setAdminPassword(const QByteArray& array)
 {
     if(m_admindPw == array)
@@ -192,7 +160,7 @@ void NetworkController::removeProfile(int pos)
 
 void NetworkController::startClient()
 {
-    m_clientManager->connectTo(m_host, m_port);
+    m_clientManager->connectTo(host(), port());
 }
 
 void NetworkController::stopClient()
@@ -210,7 +178,7 @@ void NetworkController::startServer()
         m_serverThread.reset(new QThread);
     }
     m_server->moveToThread(thread());
-    m_server->setPort(m_port);
+    m_server->setPort(port());
 
     connect(m_serverThread.get(), &QThread::started, m_server.get(), &RServer::listen);
     connect(m_serverThread.get(), &QThread::finished, this,
@@ -218,53 +186,32 @@ void NetworkController::startServer()
 
     connect(m_server.get(), &RServer::finished, this, [this]() { emit infoMessage("server has been closed"); });
 
-    connect(m_server.get(), &RServer::stateChanged, this, [this]() {
-        switch(m_server->state())
-        {
-        case RServer::Stopped:
-            m_serverThread->quit();
-            break;
-        case RServer::Listening:
-            m_countDown->stop();
-            emit infoMessage("server is on");
-            startClient();
-            break;
-        case RServer::Error:
-            closeServer();
-            break;
-        }
-    });
-    // connect(m_server.get(), &RServer::eventOccured, this,
-    //        [this](const QString& str, LogController::LogLevel level) {
-    // qDebug() << str << level;
-    // setLastError(str);
-    /*switch(level)
-    {
-    case LogController::Error:
-        m_dialog->errorOccurs(str);
-        m_gameController->addErrorLog(str);
-        break;
-    case LogController::Info:
-        m_gameController->addInfoLog(str);
-        break;
-    case LogController::Warning:
-        m_gameController->addWarningLog(str);
-        break;
-    case LogController::Features:
-        m_gameController->addFeatureLog(str);
-        break;
-    default:
-        break;
-    }*/
-    //    });
-    // connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager,
-    // Qt::QueuedConnection);
+    connect(m_server.get(), &RServer::stateChanged, this,
+            [this]()
+            {
+                switch(m_server->state())
+                {
+                case RServer::Stopped:
+                    m_serverThread->quit();
+                    break;
+                case RServer::Listening:
+                    m_countDown->stop();
+                    emit infoMessage("server is on");
+                    startClient();
+                    break;
+                case RServer::Error:
+                    closeServer();
+                    break;
+                }
+            });
 
     m_ipChecker.reset(new IpChecker());
-    connect(m_ipChecker.get(), &IpChecker::ipAddressChanged, this, [this](const QString& ip) {
-        m_ipv4Address= ip;
-        emit ipv4Changed();
-    });
+    connect(m_ipChecker.get(), &IpChecker::ipAddressChanged, this,
+            [this](const QString& ip)
+            {
+                m_ipv4Address= ip;
+                emit ipv4Changed();
+            });
     m_ipChecker->startCheck();
 
     m_server->moveToThread(m_serverThread.get());
@@ -290,17 +237,6 @@ void NetworkController::stopConnection()
         closeServer();
     }
 }
-
-/*void NetworkController::disconnection()
-{
-    if(!m_connected && !m_connecting)
-        return;
-
-    m_clientManager->disconnectAndClose();
-
-    if(m_serverThread)
-        m_serverThread->terminate();
-}*/
 
 NetWorkReceiver::SendType NetworkController::processMessage(NetworkMessageReader* msg)
 {
@@ -331,22 +267,22 @@ NetWorkReceiver::SendType NetworkController::processMessage(NetworkMessageReader
 
 bool NetworkController::hosting() const
 {
-    return m_hosting;
+    return currentProfile() ? currentProfile()->isServer() : false;
 }
 
 bool NetworkController::askForGM() const
 {
-    return m_askForGM;
+    return currentProfile() ? currentProfile()->isGM() : false;
 }
 
 QString NetworkController::host() const
 {
-    return m_host;
+    return currentProfile() ? currentProfile()->address() : QString();
 }
 
 int NetworkController::port() const
 {
-    return m_server ? m_server->port() : 6660;
+    return currentProfile() ? currentProfile()->port() : 6660;
 }
 
 QString NetworkController::ipv4() const
@@ -361,7 +297,7 @@ QString NetworkController::lastError() const
 
 bool NetworkController::isGM() const
 {
-    return m_isGM;
+    return currentProfile() ? currentProfile()->isGM() : false;
 }
 
 bool NetworkController::connected() const
@@ -376,20 +312,12 @@ bool NetworkController::connecting() const
 
 QByteArray NetworkController::serverPassword() const
 {
-    return m_serverPw;
+    return currentProfile() ? currentProfile()->password() : QByteArray();
 }
 
 QByteArray NetworkController::adminPassword() const
 {
-    return m_serverPw;
-}
-
-void NetworkController::setHost(const QString& host)
-{
-    if(host == m_host)
-        return;
-    m_host= host;
-    emit hostChanged();
+    return m_admindPw;
 }
 
 void NetworkController::setGameController(GameController* game)
@@ -405,7 +333,7 @@ void NetworkController::sendOffConnectionInfo()
     auto playerCtrl= m_gameCtrl->playerController();
     if(nullptr == playerCtrl)
         return;
-    PlayerMessageHelper::sendOffConnectionInfo(playerCtrl->localPlayer(), m_serverPw);
+    PlayerMessageHelper::sendOffConnectionInfo(playerCtrl->localPlayer(), serverPassword());
 }
 
 void NetworkController::setLastError(const QString& error)
@@ -426,4 +354,22 @@ void NetworkController::closeServer()
 void NetworkController::saveData()
 {
     SettingsHelper::writeConnectionProfileModel(m_profileModel.get());
+}
+
+int NetworkController::selectedProfileIndex() const
+{
+    return m_selectedProfileIndex;
+}
+
+void NetworkController::setSelectedProfileIndex(int newSelectedProfileIndex)
+{
+    if(m_selectedProfileIndex == newSelectedProfileIndex)
+        return;
+    m_selectedProfileIndex= newSelectedProfileIndex;
+    emit selectedProfileIndexChanged();
+}
+
+ConnectionProfile* NetworkController::currentProfile() const
+{
+    return m_profileModel->getProfile(m_selectedProfileIndex);
 }

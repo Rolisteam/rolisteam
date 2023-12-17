@@ -1,19 +1,19 @@
 #include <QApplication>
 
+#include <QClipboard>
 #include <QUndoStack>
 #include <QVariant>
-#include <QClipboard>
 
+#include "controller/gamecontroller.h"
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/character.h"
 #include "media/mediatype.h"
-#include "rwidgets/mediacontainers/vmapframe.h"
-#include "utils/iohelper.h"
-#include "test_root_path.h"
+#include "network/connectionprofile.h"
 #include "rolisteamdaemon.h"
-#include "controller/gamecontroller.h"
-
+#include "rwidgets/mediacontainers/vmapframe.h"
+#include "test_root_path.h"
+#include "utils/iohelper.h"
 
 void defineStates()
 {
@@ -47,22 +47,20 @@ int main(int argc, char* argv[])
 
     QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
 
-
-    {// Server/GM
-        auto controller= new GameController("Server","1.0.0",QGuiApplication::clipboard());
-        auto network = controller->networkController();
-        network->setHosting(true);
-        network->setPort(6660);
+    { // Server/GM
+        auto controller= new GameController("Server", "1.0.0", QGuiApplication::clipboard());
+        auto network= controller->networkController();
+        auto pro= network->currentProfile();
+        pro->setServerMode(true);
+        pro->setPort(6660);
         network->startConnection();
 
-        controller->newMedia({{QString(Core::keys::KEY_TYPE),QVariant::fromValue(Core::ContentType::VECTORIALMAP)}});
+        controller->newMedia({{QString(Core::keys::KEY_TYPE), QVariant::fromValue(Core::ContentType::VECTORIALMAP)}});
     }
 
-    //RServer server{{"ServerPassword", "server"}, {"AdminPassword", "admin"},true};
+    // RServer server{{"ServerPassword", "server"}, {"AdminPassword", "admin"},true};
 
-    //server.listen();
-
-
+    // server.listen();
 
     /*QUndoStack undoStack;
 

@@ -29,7 +29,7 @@ void DupplicateVMapItem::redo()
         return;
 
     qDebug() << m_itemData;
-    VectorialMapMessageHelper::fetchModelFromMap(m_itemData, m_ctrl);
+    VectorialMapMessageHelper::fetchModelFromMap(m_itemData, m_ctrl, false);
 }
 
 void DupplicateVMapItem::undo()

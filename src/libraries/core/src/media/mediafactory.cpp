@@ -37,9 +37,9 @@
 #include "charactersheet/worker/ioworker.h"
 
 #include "mindmap/data/link.h"
-#include "mindmap/data/mindnode.h"
-#include "mindmap/data/minditem.h"
 #include "mindmap/data/linkcontroller.h"
+#include "mindmap/data/minditem.h"
+#include "mindmap/data/mindnode.h"
 
 #include "mindmap/model/imagemodel.h"
 
@@ -47,8 +47,8 @@
 #include "utils/iohelper.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
-#include "worker/vectorialmapmessagehelper.h"
 #include "worker/utilshelper.h"
+#include "worker/vectorialmapmessagehelper.h"
 
 namespace Media
 {
@@ -77,33 +77,42 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
 
     std::map<QString, QVariant> mapData;
 
-    for(auto it = std::begin(params); it != std::end(params); ++it)
+    for(auto it= std::begin(params); it != std::end(params); ++it)
     {
         mapData.insert({it.key(), it.value()});
     }
     hu::setParamIfAny<QString>(ck::KEY_NAME, mapData, std::bind(&CharacterSheetController::setName, sheetCtrl, _1));
     hu::setParamIfAny<QString>(ck::KEY_QML, mapData, std::bind(&CharacterSheetController::setQmlCode, sheetCtrl, _1));
-    hu::setParamIfAny<QString>(ck::KEY_GMID, mapData, std::bind(&CharacterSheetController::setGameMasterId, sheetCtrl, _1));
-    hu::setParamIfAny<QByteArray>(ck::KEY_IMAGEDATA, mapData, [sheetCtrl](const QByteArray& array){
-        auto imgModel= sheetCtrl->imageModel();
-        IOWorker::fetchImageModel(imgModel, IOHelper::byteArrayToJsonArray(array));
-    });
-    hu::setParamIfAny<QByteArray>(ck::KEY_ROOTSECTION, mapData, [sheetCtrl](const QByteArray& array){
-        auto sheetModel= sheetCtrl->model();
-        // sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
-    });
-    hu::setParamIfAny<QByteArray>(ck::KEY_DATA, mapData, [sheetCtrl, mapData](const QByteArray& array){
-        hu::setParamIfAny<QString>(ck::KEY_CHARACTERID, mapData, [sheetCtrl, array](const QString& characterId){
-            sheetCtrl->addCharacterSheet(IOHelper::byteArrayToJsonObj(array), characterId);
+    hu::setParamIfAny<QString>(ck::KEY_GMID, mapData,
+                               std::bind(&CharacterSheetController::setGameMasterId, sheetCtrl, _1));
+    hu::setParamIfAny<QByteArray>(ck::KEY_IMAGEDATA, mapData,
+                                  [sheetCtrl](const QByteArray& array)
+                                  {
+                                      auto imgModel= sheetCtrl->imageModel();
+                                      IOWorker::fetchImageModel(imgModel, IOHelper::byteArrayToJsonArray(array));
+                                  });
+    hu::setParamIfAny<QByteArray>(ck::KEY_ROOTSECTION, mapData,
+                                  [sheetCtrl](const QByteArray& array)
+                                  {
+                                      auto sheetModel= sheetCtrl->model();
+                                      // sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
+                                  });
+    hu::setParamIfAny<QByteArray>(
+        ck::KEY_DATA, mapData,
+        [sheetCtrl, mapData](const QByteArray& array)
+        {
+            hu::setParamIfAny<QString>(
+                ck::KEY_CHARACTERID, mapData,
+                [sheetCtrl, array](const QString& characterId)
+                { sheetCtrl->addCharacterSheet(IOHelper::byteArrayToJsonObj(array), characterId); });
         });
-    });
-    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, mapData, [sheetCtrl](const QByteArray& array){
-        IOHelper::readCharacterSheetController(sheetCtrl, array);
-    });
+    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, mapData,
+                                  [sheetCtrl](const QByteArray& array)
+                                  { IOHelper::readCharacterSheetController(sheetCtrl, array); });
     return sheetCtrl;
 }
 
-VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, QVariant>& params)
+VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, QVariant>& params, bool isRemote= false)
 {
     auto vmapCtrl= new VectorialMapController(uuid);
 
@@ -117,7 +126,7 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
 
         std::map<QString, QVariant> mapData;
 
-        for(auto it = std::begin(params); it != std::end(params); ++it)
+        for(auto it= std::begin(params); it != std::end(params); ++it)
         {
             mapData.insert({it.key(), it.value()});
         }
@@ -146,7 +155,7 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
         vmapCtrl->setIdle(true);
 
         auto items= params.value(ck::KEY_ITEMS).toHash();
-        VectorialMapMessageHelper::fetchModelFromMap(items, vmapCtrl);
+        VectorialMapMessageHelper::fetchModelFromMap(items, vmapCtrl, isRemote);
     }
 
     if(!serializedData.isEmpty())
@@ -198,110 +207,109 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
 
     auto mindmapCtrl= new MindMapController(uuid);
 
-     if(map.contains("indexStyle"))
-         mindmapCtrl->setDefaultStyleIndex(map.value("indexStyle").toBool());
+    if(map.contains("indexStyle"))
+        mindmapCtrl->setDefaultStyleIndex(map.value("indexStyle").toBool());
 
-      QHash<QString, mindmap::MindNode*> data;
-     if(map.contains("nodes"))
-     {
-         QHash<QString, QVariant> nodes= map.value("nodes").toHash();
+    QHash<QString, mindmap::MindNode*> data;
+    if(map.contains("nodes"))
+    {
+        QHash<QString, QVariant> nodes= map.value("nodes").toHash();
 
-         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
-         QHash<QString, QString> parentData;
-         QList<mindmap::MindItem*> nodesList;
-         for(const auto& var : nodes)
-         {
-             auto node= new mindmap::MindNode();
-             auto nodeV= var.toHash();
-             node->setId(nodeV["uuid"].toString());
-             node->setText(nodeV["text"].toString());
-             node->setImageUri(nodeV["imageUri"].toString());
-             QPointF pos(nodeV["x"].toReal(), nodeV["y"].toReal());
-             node->setPosition(pos);
-             node->setStyleIndex(nodeV["index"].toInt());
-             nodesList.append(node);
-             data.insert(node->id(), node);
-             parentData.insert(node->id(), nodeV["parentId"].toString());
-         }
-         model->appendItem(nodesList);
+        auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
+        QHash<QString, QString> parentData;
+        QList<mindmap::MindItem*> nodesList;
+        for(const auto& var : nodes)
+        {
+            auto node= new mindmap::MindNode();
+            auto nodeV= var.toHash();
+            node->setId(nodeV["uuid"].toString());
+            node->setText(nodeV["text"].toString());
+            node->setImageUri(nodeV["imageUri"].toString());
+            QPointF pos(nodeV["x"].toReal(), nodeV["y"].toReal());
+            node->setPosition(pos);
+            node->setStyleIndex(nodeV["index"].toInt());
+            nodesList.append(node);
+            data.insert(node->id(), node);
+            parentData.insert(node->id(), nodeV["parentId"].toString());
+        }
+        model->appendItem(nodesList);
 
-         for(const auto& key : data.keys())
-         {
-             auto node= data.value(key);
-             auto parentId= parentData.value(key);
+        for(const auto& key : data.keys())
+        {
+            auto node= data.value(key);
+            auto parentId= parentData.value(key);
 
-             if(!parentId.isEmpty())
-             {
-                 auto parent= data.value(parentId);
-                 if(parent)
-                     node->setParentNode(parent);
-             }
-         }
-     }
+            if(!parentId.isEmpty())
+            {
+                auto parent= data.value(parentId);
+                if(parent)
+                    node->setParentNode(parent);
+            }
+        }
+    }
 
-     if(map.contains("links"))
-     {
-         QHash<QString, QVariant> links= map.value("links").toHash();
+    if(map.contains("links"))
+    {
+        QHash<QString, QVariant> links= map.value("links").toHash();
 
-         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
+        auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
 
-         QList<mindmap::MindItem*> linkList;
-         for(const auto& var : links)
-         {
-             auto link= new mindmap::LinkController();
-             auto linkV= var.toHash();
-             link->setId(linkV["uuid"].toString());
-             link->setText(linkV["text"].toString());
-             link->setDirection(static_cast<mindmap::LinkController::Direction>(linkV["direction"].toInt()));
-             auto startId= linkV["startId"].toString();
-             auto endId= linkV["endId"].toString();
+        QList<mindmap::MindItem*> linkList;
+        for(const auto& var : links)
+        {
+            auto link= new mindmap::LinkController();
+            auto linkV= var.toHash();
+            link->setId(linkV["uuid"].toString());
+            link->setText(linkV["text"].toString());
+            link->setDirection(static_cast<mindmap::LinkController::Direction>(linkV["direction"].toInt()));
+            auto startId= linkV["startId"].toString();
+            auto endId= linkV["endId"].toString();
 
-             Q_ASSERT(data.contains(endId) && data.contains(startId));
+            Q_ASSERT(data.contains(endId) && data.contains(startId));
 
-             link->setStart(data.value(startId));
-             link->setEnd(data.value(endId));
+            link->setStart(data.value(startId));
+            link->setEnd(data.value(endId));
 
-             linkList << link;
-         }
-         model->appendItem(linkList);
-     }
+            linkList << link;
+        }
+        model->appendItem(linkList);
+    }
 
+    if(map.contains("packages"))
+    {
+        QHash<QString, QVariant> links= map.value("links").toHash();
 
-     if(map.contains("packages"))
-     {
-         QHash<QString, QVariant> links= map.value("links").toHash();
+        auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
 
-         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
-
-         QList<mindmap::MindItem*> linkList;
-         for(const auto& var : links)
-         {
-             auto pack= new mindmap::PackageNode();
-             auto packV= var.toHash();
-             pack->setId(packV["uuid"].toString());
-             pack->setTitle(packV["title"].toString());
-             auto childrenId = packV["children"].toStringList();
-             for(auto const& id : childrenId)
-             {
+        QList<mindmap::MindItem*> linkList;
+        for(const auto& var : links)
+        {
+            auto pack= new mindmap::PackageNode();
+            auto packV= var.toHash();
+            pack->setId(packV["uuid"].toString());
+            pack->setTitle(packV["title"].toString());
+            auto childrenId= packV["children"].toStringList();
+            for(auto const& id : childrenId)
+            {
                 pack->addChild(model->positionItem(id));
-             }
-         }
-         model->appendItem(linkList);
-     }
+            }
+        }
+        model->appendItem(linkList);
+    }
 
-     if(map.contains("imageInfoData"))
-     {
-         QHash<QString, QVariant> imgInfos= map.value("imageInfoData").toHash();
-         auto model= mindmapCtrl->imgModel();
-         for(const auto& var : imgInfos)
-         {
-             auto img= var.toHash();
-             auto pix= img["pixmap"].value<QPixmap>();
-             auto id= img["id"].toString();
-             auto url= QUrl(img["url"].toString());
-             model->insertPixmap(id, pix, url);
-         }
-     }
+    if(map.contains("imageInfoData"))
+    {
+        QHash<QString, QVariant> imgInfos= map.value("imageInfoData").toHash();
+        auto model= mindmapCtrl->imgModel();
+        for(const auto& var : imgInfos)
+        {
+            auto img= var.toHash();
+            auto pix= img["pixmap"].value<QPixmap>();
+            auto id= img["id"].toString();
+            auto url= QUrl(img["url"].toString());
+            model->insertPixmap(id, pix, url);
+        }
+    }
 
     if(!name.isEmpty())
         mindmapCtrl->setName(name);
@@ -444,7 +452,7 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     {
         auto data= MessageHelper::readVectorialMapData(msg);
         uuid= data[Core::keys::KEY_UUID].toString();
-        base= vectorialMap(uuid, data);
+        base= vectorialMap(uuid, data, true);
     }
     break;
     case C::PICTURE:

@@ -13,17 +13,17 @@ int main(int argc, char* argv[])
     Q_INIT_RESOURCE(rolisteam);
     Q_INIT_RESOURCE(resources);
 
-    PlayerController ctrl;
+    PlayerController ctrl(nullptr);
 
     PlayerModel* model= ctrl.model();
 
     model->addPlayer(new Player("GM", Qt::blue, true));
 
     auto p= new Player("Player1", Qt::green, false);
-    p->addCharacter("Paul Atreide", Qt::magenta, {}, {}, false);
+    p->addCharacter("bb", "Paul Atreide", Qt::magenta, {}, {}, false);
     model->addPlayer(p);
     auto p1= new Player("Player2", Qt::red, false);
-    p1->addCharacter("Baron Arkonen", Qt::cyan, {}, {}, false);
+    p1->addCharacter("aa", "Baron Arkonen", Qt::cyan, {}, {}, false);
     model->addPlayer(p1);
 
     PlayersPanel view(&ctrl);

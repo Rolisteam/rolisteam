@@ -25,6 +25,7 @@
 
 #include "undoCmd/addfogofwarchangecommand.h"
 #include "undoCmd/addvmapitem.h"
+#include "undoCmd/anchorvmapitemcommand.h"
 #include "undoCmd/changecoloritem.h"
 #include "undoCmd/changesizevmapitem.h"
 #include "undoCmd/deletevmapitem.h"
@@ -32,7 +33,6 @@
 #include "undoCmd/hideotherlayercommand.h"
 #include "undoCmd/rollinitcommand.h"
 #include "undoCmd/showtransparentitemcommand.h"
-#include "undoCmd/anchorvmapitemcommand.h"
 
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/vmapitemfactory.h"
@@ -78,16 +78,16 @@ vmap::SightController* VectorialMapController::sightController() const
 
 vmap::VisualItemController* VectorialMapController::itemController(const QString& id) const
 {
-    auto res = m_vmapModel->item(id);
+    auto res= m_vmapModel->item(id);
     if(!res)
     {
         if(id == m_sightController->uuid())
-            res = sightController();
+            res= sightController();
     }
     return res;
 }
 
-QString VectorialMapController::addItemController(const std::map<QString, QVariant>& params)
+QString VectorialMapController::addItemController(const std::map<QString, QVariant>& params, bool isRemote)
 {
     auto tool= m_tool;
     auto it= params.find(Core::vmapkeys::KEY_TOOL);
@@ -95,6 +95,11 @@ QString VectorialMapController::addItemController(const std::map<QString, QVaria
         tool= static_cast<Core::SelectableTool>(it->second.toInt());
 
     auto item= vmap::VmapItemFactory::createVMapItem(this, tool, params);
+
+    if(!item)
+        return {};
+
+    item->setRemote(isRemote);
     m_vmapModel->appendItemController(item);
     return item->uuid();
 }
@@ -520,9 +525,9 @@ void VectorialMapController::askForColorChange(vmap::VisualItemController* itemC
     emit performCommand(new ChangeColorItemCmd(itemCtrl, toolColor()));
 }
 
-void VectorialMapController::changeFogOfWar(const QPolygonF& poly,vmap::VisualItemController* itemCtrl,  bool mask)
+void VectorialMapController::changeFogOfWar(const QPolygonF& poly, vmap::VisualItemController* itemCtrl, bool mask)
 {
-    emit popCommand();// remove controller of shape
+    emit popCommand(); // remove controller of shape
     emit performCommand(new AddFogOfWarChangeCommand(m_sightController.get(), poly, mask));
 }
 
@@ -568,7 +573,7 @@ void VectorialMapController::setRemote(bool remote)
 {
     MediaControllerBase::setRemote(remote);
     m_sightController->setRemote(remote);
-    //m_gridController->setRemote(remote);
+    // m_gridController->setRemote(remote);
 }
 
 void VectorialMapController::normalizeSize(const QList<vmap::VisualItemController*>& list, Method method,
@@ -597,11 +602,11 @@ bool VectorialMapController::pasteData(const QMimeData& mimeData)
 
 void VectorialMapController::showTransparentItems()
 {
-    auto const& items = m_vmapModel->items();
+    auto const& items= m_vmapModel->items();
     QList<vmap::VisualItemController*> list;
-    std::transform(std::begin(items), std::end(items), std::back_inserter(list), [](vmap::VisualItemController* item){
-        return qFuzzyCompare(item->opacity(), 0.0) ? item : nullptr;
-    });
+    std::transform(std::begin(items), std::end(items), std::back_inserter(list),
+                   [](vmap::VisualItemController* item)
+                   { return qFuzzyCompare(item->opacity(), 0.0) ? item : nullptr; });
     list.removeAll(nullptr);
     emit performCommand(new ShowTransparentItemCommand(list));
 }
@@ -682,7 +687,7 @@ void VectorialMapController::changeZValue(const QList<vmap::VisualItemController
     // emit performCommand(new ChangeStackOrderVMapCommand(this, list, order));
 }
 
-void VectorialMapController::setParent(vmap::VisualItemController *child, vmap::VisualItemController *newParent)
+void VectorialMapController::setParent(vmap::VisualItemController* child, vmap::VisualItemController* newParent)
 {
     if(!child)
         return;

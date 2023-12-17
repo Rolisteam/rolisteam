@@ -62,6 +62,7 @@ void RollInitCommand::redo()
     std::for_each(std::begin(m_data), std::end(m_data),
                   [this](const QPointer<vmap::CharacterItemController>& item)
                   {
+                      qDebug() << "run init for " << item.get();
                       if(!item || !m_diceparser)
                           return;
                       auto diceparser= m_diceparser->parser();
@@ -75,8 +76,9 @@ void RollInitCommand::redo()
                           auto jsonstr= diceparser->resultAsJSon([](const QString& value, const QString&, bool)
                                                                  { return value; });
                           m_diceparser->readErrorAndWarning();
-                          auto json= IOHelper::byteArrayToJsonObj(jsonstr.toLocal8Bit());
-                          character->setInitiativeScore(static_cast<int>(json["scalar"].toDouble()));
+                          auto json= IOHelper::textByteArrayToJsonObj(jsonstr.toLocal8Bit());
+                          qDebug() << "jsonstr" << jsonstr << " value:" << json["scalar"].toString().toInt();
+                          character->setInitiativeScore(static_cast<int>(json["scalar"].toString().toInt()));
                       }
                   });
 }

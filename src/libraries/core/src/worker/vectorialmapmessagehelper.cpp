@@ -21,10 +21,10 @@
 
 #include <QByteArray>
 #include <QDataStream>
-#include <QPointF>
-#include <QRectF>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QPointF>
+#include <QRectF>
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -132,17 +132,19 @@ void saveVisualItemController(const vmap::VisualItemController* ctrl, QJsonObjec
     obj[Core::jsonctrl::vmap::vitem::JSON_INITIALIZED]= ctrl->initialized();
 }
 
-vmap::VisualItemController::ItemType readVisualItemController(std::map<QString, QVariant>& map,
-                              const QJsonObject& obj)
+vmap::VisualItemController::ItemType readVisualItemController(std::map<QString, QVariant>& map, const QJsonObject& obj)
 {
-    auto res = static_cast<vmap::VisualItemController::ItemType>(obj[Core::jsonctrl::vmap::vitem::JSON_ITEM_TYPE].toInt());
+    auto res
+        = static_cast<vmap::VisualItemController::ItemType>(obj[Core::jsonctrl::vmap::vitem::JSON_ITEM_TYPE].toInt());
     map.insert({Core::vmapkeys::KEY_ITEMTYPE, obj[Core::jsonctrl::vmap::vitem::JSON_ITEM_TYPE].toInt()});
     map.insert({Core::vmapkeys::KEY_SELECTED, obj[Core::jsonctrl::vmap::vitem::JSON_SELECTED].toBool()});
     map.insert({Core::vmapkeys::KEY_VISIBLE, obj[Core::jsonctrl::vmap::vitem::JSON_VISIBLE].toBool()});
     map.insert({Core::vmapkeys::KEY_OPACITY, obj[Core::jsonctrl::vmap::vitem::JSON_OPACITY].toDouble()});
     map.insert({Core::vmapkeys::KEY_ROTATION, obj[Core::jsonctrl::vmap::vitem::JSON_ROTATION].toDouble()});
-    map.insert({Core::vmapkeys::KEY_LAYER, QVariant::fromValue(static_cast<Core::Layer>(obj[Core::jsonctrl::vmap::vitem::JSON_LAYER].toInt()))});
-    map.insert({Core::vmapkeys::KEY_POS, QPointF{obj[Core::jsonctrl::vmap::vitem::JSON_POSITION_X].toDouble(),obj[Core::jsonctrl::vmap::vitem::JSON_POSITION_Y].toDouble()}});
+    map.insert({Core::vmapkeys::KEY_LAYER,
+                QVariant::fromValue(static_cast<Core::Layer>(obj[Core::jsonctrl::vmap::vitem::JSON_LAYER].toInt()))});
+    map.insert({Core::vmapkeys::KEY_POS, QPointF{obj[Core::jsonctrl::vmap::vitem::JSON_POSITION_X].toDouble(),
+                                                 obj[Core::jsonctrl::vmap::vitem::JSON_POSITION_Y].toDouble()}});
     map.insert({Core::vmapkeys::KEY_UUID, obj[Core::jsonctrl::vmap::vitem::JSON_UUID].toString()});
     map.insert({Core::vmapkeys::KEY_COLOR, QColor(obj[Core::jsonctrl::vmap::vitem::JSON_COLOR].toString())});
     map.insert({Core::vmapkeys::KEY_LOCKED, obj[Core::jsonctrl::vmap::vitem::JSON_LOCKED].toBool()});
@@ -203,7 +205,7 @@ QJsonObject saveVmapSightController(const vmap::SightController* ctrl)
                       array.append(obj);
                   });
 
-    obj[Core::jsonctrl::vmap::sight::JSON_SINGULARITIES] = array;
+    obj[Core::jsonctrl::vmap::sight::JSON_SINGULARITIES]= array;
     return obj;
 }
 
@@ -215,17 +217,17 @@ QJsonObject saveVMapRectItemController(const vmap::RectController* ctrl)
 
     saveVisualItemController(ctrl, obj);
 
-    obj[Core::jsonctrl::vmap::rect::JSON_RECT_X]=ctrl->rect().x();
-    obj[Core::jsonctrl::vmap::rect::JSON_RECT_Y]=ctrl->rect().y();
-    obj[Core::jsonctrl::vmap::rect::JSON_RECT_W]=ctrl->rect().width();
-    obj[Core::jsonctrl::vmap::rect::JSON_RECT_H]=ctrl->rect().height();
-    obj[Core::jsonctrl::vmap::rect::JSON_FILLED]=ctrl->filled();
-    obj[Core::jsonctrl::vmap::rect::JSON_PEN_WIDTH]=ctrl->penWidth();
+    obj[Core::jsonctrl::vmap::rect::JSON_RECT_X]= ctrl->rect().x();
+    obj[Core::jsonctrl::vmap::rect::JSON_RECT_Y]= ctrl->rect().y();
+    obj[Core::jsonctrl::vmap::rect::JSON_RECT_W]= ctrl->rect().width();
+    obj[Core::jsonctrl::vmap::rect::JSON_RECT_H]= ctrl->rect().height();
+    obj[Core::jsonctrl::vmap::rect::JSON_FILLED]= ctrl->filled();
+    obj[Core::jsonctrl::vmap::rect::JSON_PEN_WIDTH]= ctrl->penWidth();
 
     return obj;
 }
 
-void readRectController(std::map<QString, QVariant>& maps,const QJsonObject& obj)
+void readRectController(std::map<QString, QVariant>& maps, const QJsonObject& obj)
 {
     maps.insert({Core::vmapkeys::KEY_RECT, QRectF{obj[Core::jsonctrl::vmap::rect::JSON_RECT_X].toDouble(),
                                                   obj[Core::jsonctrl::vmap::rect::JSON_RECT_Y].toDouble(),
@@ -243,19 +245,19 @@ QJsonObject saveVMapEllipseItemController(const vmap::EllipseController* ctrl)
 
     saveVisualItemController(ctrl, obj);
 
-    obj[Core::jsonctrl::vmap::ellipse::JSON_R_X]=ctrl->rx();
-    obj[Core::jsonctrl::vmap::ellipse::JSON_R_Y]=ctrl->ry();
-    obj[Core::jsonctrl::vmap::ellipse::JSON_FILLED]=ctrl->filled();
-    obj[Core::jsonctrl::vmap::ellipse::JSON_PEN_WIDTH]=ctrl->penWidth();
-     return obj;
+    obj[Core::jsonctrl::vmap::ellipse::JSON_R_X]= ctrl->rx();
+    obj[Core::jsonctrl::vmap::ellipse::JSON_R_Y]= ctrl->ry();
+    obj[Core::jsonctrl::vmap::ellipse::JSON_FILLED]= ctrl->filled();
+    obj[Core::jsonctrl::vmap::ellipse::JSON_PEN_WIDTH]= ctrl->penWidth();
+    return obj;
 }
 
-void readEllipseController(std::map<QString, QVariant>& maps,const QJsonObject& obj)
+void readEllipseController(std::map<QString, QVariant>& maps, const QJsonObject& obj)
 {
-    maps.insert({Core::vmapkeys::KEY_RX,obj[Core::jsonctrl::vmap::ellipse::JSON_R_X].toDouble()});
-    maps.insert({Core::vmapkeys::KEY_RY,obj[Core::jsonctrl::vmap::ellipse::JSON_R_Y].toDouble()});
-    maps.insert({Core::vmapkeys::KEY_FILLED,obj[Core::jsonctrl::vmap::ellipse::JSON_FILLED].toBool()});
-    maps.insert({Core::vmapkeys::KEY_PENWIDTH,obj[Core::jsonctrl::vmap::ellipse::JSON_PEN_WIDTH].toDouble()});
+    maps.insert({Core::vmapkeys::KEY_RX, obj[Core::jsonctrl::vmap::ellipse::JSON_R_X].toDouble()});
+    maps.insert({Core::vmapkeys::KEY_RY, obj[Core::jsonctrl::vmap::ellipse::JSON_R_Y].toDouble()});
+    maps.insert({Core::vmapkeys::KEY_FILLED, obj[Core::jsonctrl::vmap::ellipse::JSON_FILLED].toBool()});
+    maps.insert({Core::vmapkeys::KEY_PENWIDTH, obj[Core::jsonctrl::vmap::ellipse::JSON_PEN_WIDTH].toDouble()});
 }
 
 QJsonObject saveVMapImageItemController(const vmap::ImageItemController* ctrl)
@@ -266,21 +268,23 @@ QJsonObject saveVMapImageItemController(const vmap::ImageItemController* ctrl)
 
     saveVisualItemController(ctrl, obj);
 
-    obj[Core::jsonctrl::vmap::image::JSON_PIXMAP]=convertToBase64<QPixmap>(ctrl->pixmap());
-    obj[Core::jsonctrl::vmap::image::JSON_DATA]=QString(ctrl->data().toBase64());
-    obj[Core::jsonctrl::vmap::image::JSON_RECT_X]=ctrl->rect().x();
-    obj[Core::jsonctrl::vmap::image::JSON_RECT_Y]=ctrl->rect().y();
-    obj[Core::jsonctrl::vmap::image::JSON_RECT_W]=ctrl->rect().width();
-    obj[Core::jsonctrl::vmap::image::JSON_RECT_H]=ctrl->rect().height();
-    obj[Core::jsonctrl::vmap::image::JSON_PATH]=ctrl->path();
-    obj[Core::jsonctrl::vmap::image::JSON_RATIO]=ctrl->ratio();
+    obj[Core::jsonctrl::vmap::image::JSON_PIXMAP]= convertToBase64<QPixmap>(ctrl->pixmap());
+    obj[Core::jsonctrl::vmap::image::JSON_DATA]= QString(ctrl->data().toBase64());
+    obj[Core::jsonctrl::vmap::image::JSON_RECT_X]= ctrl->rect().x();
+    obj[Core::jsonctrl::vmap::image::JSON_RECT_Y]= ctrl->rect().y();
+    obj[Core::jsonctrl::vmap::image::JSON_RECT_W]= ctrl->rect().width();
+    obj[Core::jsonctrl::vmap::image::JSON_RECT_H]= ctrl->rect().height();
+    obj[Core::jsonctrl::vmap::image::JSON_PATH]= ctrl->path();
+    obj[Core::jsonctrl::vmap::image::JSON_RATIO]= ctrl->ratio();
     return obj;
 }
 
-void readImageController(std::map<QString, QVariant>& maps,const QJsonObject& obj)
+void readImageController(std::map<QString, QVariant>& maps, const QJsonObject& obj)
 {
-    maps.insert({Core::vmapkeys::KEY_PIXMAP, convertFromBase64<QPixmap>(obj[Core::jsonctrl::vmap::image::JSON_PIXMAP].toString())});
-    maps.insert({Core::vmapkeys::KEY_DATA, QByteArray::fromBase64(obj[Core::jsonctrl::vmap::image::JSON_DATA].toString().toLocal8Bit())});
+    maps.insert({Core::vmapkeys::KEY_PIXMAP,
+                 convertFromBase64<QPixmap>(obj[Core::jsonctrl::vmap::image::JSON_PIXMAP].toString())});
+    maps.insert({Core::vmapkeys::KEY_DATA,
+                 QByteArray::fromBase64(obj[Core::jsonctrl::vmap::image::JSON_DATA].toString().toLocal8Bit())});
     maps.insert({Core::vmapkeys::KEY_RECT, QRectF{obj[Core::jsonctrl::vmap::image::JSON_RECT_X].toDouble(),
                                                   obj[Core::jsonctrl::vmap::image::JSON_RECT_Y].toDouble(),
                                                   obj[Core::jsonctrl::vmap::image::JSON_RECT_W].toDouble(),
@@ -298,19 +302,19 @@ QJsonObject saveVMapLineItemController(const vmap::LineController* ctrl)
 
     saveVisualItemController(ctrl, obj);
 
-    obj[Core::jsonctrl::vmap::line::JSON_START_X]=ctrl->startPoint().x();
-    obj[Core::jsonctrl::vmap::line::JSON_START_Y]=ctrl->startPoint().y();
-    obj[Core::jsonctrl::vmap::line::JSON_END_X]=ctrl->endPoint().x();
-    obj[Core::jsonctrl::vmap::line::JSON_END_Y]=ctrl->endPoint().y();
-    obj[Core::jsonctrl::vmap::line::JSON_PEN_WIDTH]=ctrl->penWidth();
+    obj[Core::jsonctrl::vmap::line::JSON_START_X]= ctrl->startPoint().x();
+    obj[Core::jsonctrl::vmap::line::JSON_START_Y]= ctrl->startPoint().y();
+    obj[Core::jsonctrl::vmap::line::JSON_END_X]= ctrl->endPoint().x();
+    obj[Core::jsonctrl::vmap::line::JSON_END_Y]= ctrl->endPoint().y();
+    obj[Core::jsonctrl::vmap::line::JSON_PEN_WIDTH]= ctrl->penWidth();
     return obj;
 }
 
-void readLineController(std::map<QString, QVariant>& maps,const QJsonObject& obj)
+void readLineController(std::map<QString, QVariant>& maps, const QJsonObject& obj)
 {
     maps.insert({Core::vmapkeys::KEY_STARTPOINT, QPointF{obj[Core::jsonctrl::vmap::line::JSON_START_X].toDouble(),
                                                          obj[Core::jsonctrl::vmap::line::JSON_START_Y].toDouble()}});
-    maps.insert({Core::vmapkeys::KEY_ENDPOINT,  QPointF{obj[Core::jsonctrl::vmap::line::JSON_END_X].toDouble(),
+    maps.insert({Core::vmapkeys::KEY_ENDPOINT, QPointF{obj[Core::jsonctrl::vmap::line::JSON_END_X].toDouble(),
                                                        obj[Core::jsonctrl::vmap::line::JSON_END_Y].toDouble()}});
     maps.insert({Core::vmapkeys::KEY_PENWIDTH, obj[Core::jsonctrl::vmap::line::JSON_PEN_WIDTH].toInt()});
 }
@@ -325,33 +329,38 @@ QJsonObject saveVMapPathItemController(const vmap::PathController* ctrl)
     saveVisualItemController(ctrl, obj);
 
     QJsonArray points;
-    auto ps = ctrl->points();
-    std::for_each(ps.begin(), ps.end(), [&points](const QPointF& p) {
-        QJsonObject point;
-        point[Core::jsonctrl::vmap::path::JSON_POINT_X]=p.x();
-        point[Core::jsonctrl::vmap::path::JSON_POINT_Y]=p.y();
-        points.append(point);
-    });
+    auto ps= ctrl->points();
+    std::for_each(ps.begin(), ps.end(),
+                  [&points](const QPointF& p)
+                  {
+                      QJsonObject point;
+                      point[Core::jsonctrl::vmap::path::JSON_POINT_X]= p.x();
+                      point[Core::jsonctrl::vmap::path::JSON_POINT_Y]= p.y();
+                      points.append(point);
+                  });
 
-    obj[Core::jsonctrl::vmap::path::JSON_POINTS]=points;
-    obj[Core::jsonctrl::vmap::path::JSON_PEN_WIDTH]=ctrl->penWidth();
-    obj[Core::jsonctrl::vmap::path::JSON_CLOSED]=ctrl->closed();
-    obj[Core::jsonctrl::vmap::path::JSON_FILLED]=ctrl->filled();
-    obj[Core::jsonctrl::vmap::path::JSON_PEN_LINE]=ctrl->penLine();
+    obj[Core::jsonctrl::vmap::path::JSON_POINTS]= points;
+    obj[Core::jsonctrl::vmap::path::JSON_PEN_WIDTH]= ctrl->penWidth();
+    obj[Core::jsonctrl::vmap::path::JSON_CLOSED]= ctrl->closed();
+    obj[Core::jsonctrl::vmap::path::JSON_FILLED]= ctrl->filled();
+    obj[Core::jsonctrl::vmap::path::JSON_PEN_LINE]= ctrl->penLine();
     return obj;
 }
 
-void readPathController(std::map<QString, QVariant>& maps,const QJsonObject& obj)
+void readPathController(std::map<QString, QVariant>& maps, const QJsonObject& obj)
 {
-    auto points = obj[Core::jsonctrl::vmap::path::JSON_POINTS].toArray();
+    auto points= obj[Core::jsonctrl::vmap::path::JSON_POINTS].toArray();
     maps.insert({Core::vmapkeys::KEY_POINTCOUNT, points.size()});
 
     std::vector<QPointF> vec;
     vec.reserve(static_cast<std::size_t>(points.size()));
-    std::transform(std::begin(points), std::end(points),std::back_inserter(vec),[](const QJsonValue& value){
-        auto obj = value.toObject();
-        return QPointF{obj[Core::jsonctrl::vmap::path::JSON_POINT_X].toDouble(), obj[Core::jsonctrl::vmap::path::JSON_POINT_Y].toDouble()};
-    });
+    std::transform(std::begin(points), std::end(points), std::back_inserter(vec),
+                   [](const QJsonValue& value)
+                   {
+                       auto obj= value.toObject();
+                       return QPointF{obj[Core::jsonctrl::vmap::path::JSON_POINT_X].toDouble(),
+                                      obj[Core::jsonctrl::vmap::path::JSON_POINT_Y].toDouble()};
+                   });
 
     maps.insert({Core::vmapkeys::KEY_POINTS, QVariant::fromValue(vec)});
     maps.insert({Core::vmapkeys::KEY_PENWIDTH, obj[Core::jsonctrl::vmap::path::JSON_PEN_WIDTH].toInt()});
@@ -369,58 +378,62 @@ QJsonObject saveVMapTextItemController(const vmap::TextController* ctrl)
 
     saveVisualItemController(ctrl, obj);
 
-    obj[Core::jsonctrl::vmap::text::JSON_TEXT]=ctrl->text();
+    obj[Core::jsonctrl::vmap::text::JSON_TEXT]= ctrl->text();
 
-    obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_X]=ctrl->textRect().x();
-    obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_Y]=ctrl->textRect().y();
-    obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_W]=ctrl->textRect().width();
-    obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_H]=ctrl->textRect().height();
+    obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_X]= ctrl->textRect().x();
+    obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_Y]= ctrl->textRect().y();
+    obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_W]= ctrl->textRect().width();
+    obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_H]= ctrl->textRect().height();
 
-    obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_X]=ctrl->borderRect().x();
-    obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_Y]=ctrl->borderRect().y();
-    obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_W]=ctrl->borderRect().width();
-    obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_H]=ctrl->borderRect().height();
+    obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_X]= ctrl->borderRect().x();
+    obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_Y]= ctrl->borderRect().y();
+    obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_W]= ctrl->borderRect().width();
+    obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_H]= ctrl->borderRect().height();
 
-    obj[Core::jsonctrl::vmap::text::JSON_BORDER]=ctrl->border();
-    obj[Core::jsonctrl::vmap::text::JSON_FONT]=convertToBase64<QFont>(ctrl->font());
-    obj[Core::jsonctrl::vmap::text::JSON_PEN_WIDTH]=ctrl->penWidth();
+    obj[Core::jsonctrl::vmap::text::JSON_BORDER]= ctrl->border();
+    obj[Core::jsonctrl::vmap::text::JSON_FONT]= convertToBase64<QFont>(ctrl->font());
+    obj[Core::jsonctrl::vmap::text::JSON_PEN_WIDTH]= ctrl->penWidth();
 
-    obj[Core::jsonctrl::vmap::text::JSON_POS_X]=ctrl->textPos().x();
-    obj[Core::jsonctrl::vmap::text::JSON_POS_Y]=ctrl->textPos().y();
+    obj[Core::jsonctrl::vmap::text::JSON_POS_X]= ctrl->textPos().x();
+    obj[Core::jsonctrl::vmap::text::JSON_POS_Y]= ctrl->textPos().y();
     return obj;
 }
 
-void readVmapSightController(vmap::SightController* sight,const QJsonObject& obj)
+void readVmapSightController(vmap::SightController* sight, const QJsonObject& obj)
 {
     sight->setCharacterSight(obj[Core::jsonctrl::vmap::sight::JSON_CHARACTER_SIHT].toBool());
-    sight->setRect(QRectF{     obj[Core::jsonctrl::vmap::sight::JSON_RECT_X].toDouble(),
-                   obj[Core::jsonctrl::vmap::sight::JSON_RECT_Y].toDouble(),
-                   obj[Core::jsonctrl::vmap::sight::JSON_RECT_W].toDouble(),
+    sight->setRect(QRectF{obj[Core::jsonctrl::vmap::sight::JSON_RECT_X].toDouble(),
+                          obj[Core::jsonctrl::vmap::sight::JSON_RECT_Y].toDouble(),
+                          obj[Core::jsonctrl::vmap::sight::JSON_RECT_W].toDouble(),
                           obj[Core::jsonctrl::vmap::sight::JSON_RECT_H].toDouble()});
-    auto sings = obj[Core::jsonctrl::vmap::sight::JSON_SINGULARITIES].toArray();
+    auto sings= obj[Core::jsonctrl::vmap::sight::JSON_SINGULARITIES].toArray();
 
     for(auto const& ref : sings)
     {
-        auto const& obj = ref.toObject();
-        sight->addPolygon(convertFromBase64<QPolygonF>(obj[Core::jsonctrl::vmap::sight::JSON_SING_POINTS].toString().toLocal8Bit()), obj[Core::jsonctrl::vmap::sight::JSON_SING_ADD].toBool());
+        auto const& obj= ref.toObject();
+        sight->addPolygon(
+            convertFromBase64<QPolygonF>(obj[Core::jsonctrl::vmap::sight::JSON_SING_POINTS].toString().toLocal8Bit()),
+            obj[Core::jsonctrl::vmap::sight::JSON_SING_ADD].toBool());
     }
 }
 
-void readTextController(std::map<QString, QVariant>& maps,const QJsonObject& obj)
+void readTextController(std::map<QString, QVariant>& maps, const QJsonObject& obj)
 {
     maps.insert({Core::vmapkeys::KEY_TEXT, obj[Core::jsonctrl::vmap::text::JSON_TEXT].toString()});
     maps.insert({Core::vmapkeys::KEY_TEXTRECT, QRectF{obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_X].toDouble(),
                                                       obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_Y].toDouble(),
                                                       obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_W].toDouble(),
                                                       obj[Core::jsonctrl::vmap::text::JSON_TEXT_RECT_H].toDouble()}});
-    maps.insert({Core::vmapkeys::KEY_BORDERRECT, QRectF{obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_X].toDouble(),
-                                                        obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_Y].toDouble(),
-                                                        obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_W].toDouble(),
-                                                        obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_H].toDouble()}});
+    maps.insert(
+        {Core::vmapkeys::KEY_BORDERRECT, QRectF{obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_X].toDouble(),
+                                                obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_Y].toDouble(),
+                                                obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_W].toDouble(),
+                                                obj[Core::jsonctrl::vmap::text::JSON_BORDER_RECT_H].toDouble()}});
     maps.insert({Core::vmapkeys::KEY_BORDER, obj[Core::jsonctrl::vmap::text::JSON_BORDER].toBool()});
-    maps.insert({Core::vmapkeys::KEY_FONT, convertFromBase64<QFont>(obj[Core::jsonctrl::vmap::text::JSON_FONT].toString())});
+    maps.insert(
+        {Core::vmapkeys::KEY_FONT, convertFromBase64<QFont>(obj[Core::jsonctrl::vmap::text::JSON_FONT].toString())});
     maps.insert({Core::vmapkeys::KEY_TEXTPOS, QPointF{obj[Core::jsonctrl::vmap::text::JSON_POS_X].toDouble(),
-                                                     obj[Core::jsonctrl::vmap::text::JSON_POS_Y].toDouble()}});
+                                                      obj[Core::jsonctrl::vmap::text::JSON_POS_Y].toDouble()}});
     maps.insert({Core::vmapkeys::KEY_PENWIDTH, obj[Core::jsonctrl::vmap::text::JSON_PEN_WIDTH].toInt()});
 }
 
@@ -455,16 +468,25 @@ void readCharacter(std::map<QString, QVariant>& map, const QJsonObject& obj)
     map.insert({Core::vmapkeys::KEY_CHARAC_NPC, obj[Core::jsonctrl::vmap::character::JSON_CHAR_NPC].toBool()});
     map.insert({Core::vmapkeys::KEY_CHARAC_ID, obj[Core::jsonctrl::vmap::character::JSON_CHAR_ID].toString()});
     map.insert({Core::vmapkeys::KEY_CHARAC_NAME, obj[Core::jsonctrl::vmap::character::JSON_CHAR_NAME].toString()});
-    map.insert({Core::vmapkeys::KEY_CHARAC_AVATAR, QByteArray::fromBase64(obj[Core::jsonctrl::vmap::character::JSON_CHAR_AVATAR].toString().toLocal8Bit())});
-    map.insert({Core::vmapkeys::KEY_CHARAC_HPCURRENT, obj[Core::jsonctrl::vmap::character::JSON_CHAR_HEALT_CURRENT].toInt()});
+    map.insert(
+        {Core::vmapkeys::KEY_CHARAC_AVATAR,
+         QByteArray::fromBase64(obj[Core::jsonctrl::vmap::character::JSON_CHAR_AVATAR].toString().toLocal8Bit())});
+    map.insert(
+        {Core::vmapkeys::KEY_CHARAC_HPCURRENT, obj[Core::jsonctrl::vmap::character::JSON_CHAR_HEALT_CURRENT].toInt()});
     map.insert({Core::vmapkeys::KEY_CHARAC_HPMAX, obj[Core::jsonctrl::vmap::character::JSON_CHAR_HEALT_MAX].toInt()});
     map.insert({Core::vmapkeys::KEY_CHARAC_HPMIN, obj[Core::jsonctrl::vmap::character::JSON_CHAR_HEALT_MIN].toInt()});
-    map.insert({Core::vmapkeys::KEY_CHARAC_INITSCORE, obj[Core::jsonctrl::vmap::character::JSON_CHAR_INIT_SCORE].toInt()});
-    map.insert({Core::vmapkeys::KEY_CHARAC_DISTANCEPERTURN, obj[Core::jsonctrl::vmap::character::JSON_CHAR_DISTANCE_TURN].toDouble()});
-    map.insert({Core::vmapkeys::KEY_CHARAC_STATEID, obj[Core::jsonctrl::vmap::character::JSON_CHAR_STATE_ID].toString()});
-    map.insert({Core::vmapkeys::KEY_CHARAC_LIFECOLOR, QColor(obj[Core::jsonctrl::vmap::character::JSON_CHAR_LIFE_COLOR].toString())});
-    map.insert({Core::vmapkeys::KEY_CHARAC_INITCMD, obj[Core::jsonctrl::vmap::character::JSON_CHAR_INIT_CMD].toString()});
-    map.insert({Core::vmapkeys::KEY_CHARAC_HASINIT, obj[Core::jsonctrl::vmap::character::JSON_CHAR_INIT_SCORE_DEFINED].toBool()});
+    map.insert(
+        {Core::vmapkeys::KEY_CHARAC_INITSCORE, obj[Core::jsonctrl::vmap::character::JSON_CHAR_INIT_SCORE].toInt()});
+    map.insert({Core::vmapkeys::KEY_CHARAC_DISTANCEPERTURN,
+                obj[Core::jsonctrl::vmap::character::JSON_CHAR_DISTANCE_TURN].toDouble()});
+    map.insert(
+        {Core::vmapkeys::KEY_CHARAC_STATEID, obj[Core::jsonctrl::vmap::character::JSON_CHAR_STATE_ID].toString()});
+    map.insert({Core::vmapkeys::KEY_CHARAC_LIFECOLOR,
+                QColor(obj[Core::jsonctrl::vmap::character::JSON_CHAR_LIFE_COLOR].toString())});
+    map.insert(
+        {Core::vmapkeys::KEY_CHARAC_INITCMD, obj[Core::jsonctrl::vmap::character::JSON_CHAR_INIT_CMD].toString()});
+    map.insert({Core::vmapkeys::KEY_CHARAC_HASINIT,
+                obj[Core::jsonctrl::vmap::character::JSON_CHAR_INIT_SCORE_DEFINED].toBool()});
 }
 
 void VectorialMapMessageHelper::fetchCharacter(const std::map<QString, QVariant>& params, Character* character)
@@ -501,29 +523,28 @@ QJsonObject saveVMapCharacterItemController(const vmap::CharacterItemController*
     auto c= ctrl->character();
     auto vision= ctrl->vision();
 
-    auto chacObj = saveCharacter(c);
+    auto chacObj= saveCharacter(c);
 
     saveVisualItemController(ctrl, obj);
 
+    obj[Core::jsonctrl::vmap::character::JSON_CHARACTER]= chacObj;
+    obj[Core::jsonctrl::vmap::character::JSON_SIDE]= ctrl->side();
+    obj[Core::jsonctrl::vmap::character::JSON_STATE_COLOR]= ctrl->stateColor().name();
+    obj[Core::jsonctrl::vmap::character::JSON_NUMBER]= ctrl->number();
+    obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_X]= ctrl->textRect().x();
+    obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_Y]= ctrl->textRect().y();
+    obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_W]= ctrl->textRect().width();
+    obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_H]= ctrl->textRect().height();
 
-    obj[Core::jsonctrl::vmap::character::JSON_CHARACTER]=chacObj;
-    obj[Core::jsonctrl::vmap::character::JSON_SIDE]=ctrl->side();
-    obj[Core::jsonctrl::vmap::character::JSON_STATE_COLOR]=ctrl->stateColor().name();
-    obj[Core::jsonctrl::vmap::character::JSON_NUMBER]=ctrl->number();
-    obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_X]=ctrl->textRect().x();
-    obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_Y]=ctrl->textRect().y();
-    obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_W]=ctrl->textRect().width();
-    obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_H]=ctrl->textRect().height();
-
-    obj[Core::jsonctrl::vmap::character::JSON_FONT]=convertToBase64<QFont>(ctrl->font());
-    obj[Core::jsonctrl::vmap::character::JSON_RADIUS]=ctrl->radius();
-    obj[Core::jsonctrl::vmap::character::JSON_VIS_POS_X]=vision->position().x();
-    obj[Core::jsonctrl::vmap::character::JSON_VIS_POS_Y]=vision->position().y();
-    obj[Core::jsonctrl::vmap::character::JSON_VIS_ANGLE]=vision->angle();
-    obj[Core::jsonctrl::vmap::character::JSON_VIS_SHAPE]=vision->shape();
-    obj[Core::jsonctrl::vmap::character::JSON_VIS_ROTATION]=vision->rotation();
-    obj[Core::jsonctrl::vmap::character::JSON_VIS_VISIBLE]=vision->visible();
-    obj[Core::jsonctrl::vmap::character::JSON_VIS_RADIUS]=vision->radius();
+    obj[Core::jsonctrl::vmap::character::JSON_FONT]= convertToBase64<QFont>(ctrl->font());
+    obj[Core::jsonctrl::vmap::character::JSON_RADIUS]= ctrl->radius();
+    obj[Core::jsonctrl::vmap::character::JSON_VIS_POS_X]= vision->position().x();
+    obj[Core::jsonctrl::vmap::character::JSON_VIS_POS_Y]= vision->position().y();
+    obj[Core::jsonctrl::vmap::character::JSON_VIS_ANGLE]= vision->angle();
+    obj[Core::jsonctrl::vmap::character::JSON_VIS_SHAPE]= vision->shape();
+    obj[Core::jsonctrl::vmap::character::JSON_VIS_ROTATION]= vision->rotation();
+    obj[Core::jsonctrl::vmap::character::JSON_VIS_VISIBLE]= vision->visible();
+    obj[Core::jsonctrl::vmap::character::JSON_VIS_RADIUS]= vision->radius();
 
     return obj;
 }
@@ -546,24 +567,29 @@ void VectorialMapMessageHelper::fetchCharacterItem(const std::map<QString, QVari
     // clang-format on
 }
 
-void readCharacterItemController(std::map<QString, QVariant>& maps,const QJsonObject& obj)
+void readCharacterItemController(std::map<QString, QVariant>& maps, const QJsonObject& obj)
 {
     readCharacter(maps, obj[Core::jsonctrl::vmap::character::JSON_CHARACTER].toObject());
 
     maps.insert({Core::vmapkeys::KEY_SIDE, obj[Core::jsonctrl::vmap::character::JSON_SIDE].toDouble()});
-    maps.insert({Core::vmapkeys::KEY_STATECOLOR, QColor(obj[Core::jsonctrl::vmap::character::JSON_STATE_COLOR].toString())});
+    maps.insert(
+        {Core::vmapkeys::KEY_STATECOLOR, QColor(obj[Core::jsonctrl::vmap::character::JSON_STATE_COLOR].toString())});
     maps.insert({Core::vmapkeys::KEY_NUMBER, obj[Core::jsonctrl::vmap::character::JSON_NUMBER].toInt()});
-    maps.insert({Core::vmapkeys::KEY_TEXTRECT, QRectF{  obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_X].toDouble(),
-                                                        obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_Y].toDouble(),
-                                                        obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_W].toDouble(),
-                                                        obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_H].toDouble()}});
+    maps.insert(
+        {Core::vmapkeys::KEY_TEXTRECT, QRectF{obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_X].toDouble(),
+                                              obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_Y].toDouble(),
+                                              obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_W].toDouble(),
+                                              obj[Core::jsonctrl::vmap::character::JSON_TEXT_RECT_H].toDouble()}});
     maps.insert({Core::vmapkeys::KEY_RADIUS, obj[Core::jsonctrl::vmap::character::JSON_RADIUS]});
-    maps.insert({Core::vmapkeys::KEY_FONT, convertFromBase64<QFont>(obj[Core::jsonctrl::vmap::character::JSON_FONT].toString())});
+    maps.insert({Core::vmapkeys::KEY_FONT,
+                 convertFromBase64<QFont>(obj[Core::jsonctrl::vmap::character::JSON_FONT].toString())});
 
-    maps.insert({Core::vmapkeys::KEY_VIS_POS, QPointF{obj[Core::jsonctrl::vmap::character::JSON_VIS_POS_X].toDouble(),
-                                                      obj[Core::jsonctrl::vmap::character::JSON_VIS_POS_Y].toDouble()}});
+    maps.insert(
+        {Core::vmapkeys::KEY_VIS_POS, QPointF{obj[Core::jsonctrl::vmap::character::JSON_VIS_POS_X].toDouble(),
+                                              obj[Core::jsonctrl::vmap::character::JSON_VIS_POS_Y].toDouble()}});
     maps.insert({Core::vmapkeys::KEY_VIS_ANGLE, obj[Core::jsonctrl::vmap::character::JSON_VIS_ANGLE].toDouble()});
-    maps.insert({Core::vmapkeys::KEY_VIS_SHAPE, static_cast<CharacterVision::SHAPE>(obj[Core::jsonctrl::vmap::character::JSON_VIS_SHAPE].toInt())});
+    maps.insert({Core::vmapkeys::KEY_VIS_SHAPE,
+                 static_cast<CharacterVision::SHAPE>(obj[Core::jsonctrl::vmap::character::JSON_VIS_SHAPE].toInt())});
     maps.insert({Core::vmapkeys::KEY_VIS_VISIBLE, obj[Core::jsonctrl::vmap::character::JSON_VIS_VISIBLE].toBool()});
     maps.insert({Core::vmapkeys::KEY_VIS_RADIUS, obj[Core::jsonctrl::vmap::character::JSON_VIS_RADIUS].toDouble()});
     maps.insert({Core::vmapkeys::KEY_VIS_ROTATION, obj[Core::jsonctrl::vmap::character::JSON_VIS_ROTATION].toDouble()});
@@ -598,7 +624,7 @@ std::map<QString, QVariant> readItemController(const QJsonObject& input)
 {
     std::map<QString, QVariant> maps;
 
-    vmap::VisualItemController::ItemType type = readVisualItemController(maps, input);
+    vmap::VisualItemController::ItemType type= readVisualItemController(maps, input);
 
     switch(type)
     {
@@ -649,25 +675,25 @@ QJsonObject saveItemController(vmap::VisualItemController* itemCtrl)
     switch(itemCtrl->itemType())
     {
     case vv::RECT:
-        res = saveVMapRectItemController(dynamic_cast<vmap::RectController*>(itemCtrl));
+        res= saveVMapRectItemController(dynamic_cast<vmap::RectController*>(itemCtrl));
         break;
     case vv::PATH:
-        res = saveVMapPathItemController(dynamic_cast<vmap::PathController*>(itemCtrl));
+        res= saveVMapPathItemController(dynamic_cast<vmap::PathController*>(itemCtrl));
         break;
     case vv::LINE:
-        res = saveVMapLineItemController(dynamic_cast<vmap::LineController*>(itemCtrl));
+        res= saveVMapLineItemController(dynamic_cast<vmap::LineController*>(itemCtrl));
         break;
     case vv::ELLIPSE:
-        res = saveVMapEllipseItemController(dynamic_cast<vmap::EllipseController*>(itemCtrl));
+        res= saveVMapEllipseItemController(dynamic_cast<vmap::EllipseController*>(itemCtrl));
         break;
     case vv::CHARACTER:
-        res = saveVMapCharacterItemController(dynamic_cast<vmap::CharacterItemController*>(itemCtrl));
+        res= saveVMapCharacterItemController(dynamic_cast<vmap::CharacterItemController*>(itemCtrl));
         break;
     case vv::TEXT:
-        res = saveVMapTextItemController(dynamic_cast<vmap::TextController*>(itemCtrl));
+        res= saveVMapTextItemController(dynamic_cast<vmap::TextController*>(itemCtrl));
         break;
     case vv::IMAGE:
-        res = saveVMapImageItemController(dynamic_cast<vmap::ImageItemController*>(itemCtrl));
+        res= saveVMapImageItemController(dynamic_cast<vmap::ImageItemController*>(itemCtrl));
         break;
     case vv::RULE:
     case vv::SIGHT:
@@ -686,7 +712,7 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
         return {};
 
     QJsonObject obj;
-    //QDataStream output(&data, QIODevice::WriteOnly);
+    // QDataStream output(&data, QIODevice::WriteOnly);
     IOHelper::saveMediaBaseIntoJSon(ctrl, obj);
 
     // properties
@@ -715,7 +741,7 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
     obj[Core::jsonctrl::vmap::JSON_ZOOM_LEVEL]= ctrl->zoomLevel();
     obj[Core::jsonctrl::vmap::JSON_Layer]= static_cast<quint8>(ctrl->layer());
     obj[Core::jsonctrl::vmap::JSON_OPACITY]= ctrl->opacity();
-    auto r = ctrl->visualRect();
+    auto r= ctrl->visualRect();
     obj[Core::jsonctrl::vmap::JSON_VISUAL_RECT_X]= r.x();
     obj[Core::jsonctrl::vmap::JSON_VISUAL_RECT_Y]= r.y();
     obj[Core::jsonctrl::vmap::JSON_VISUAL_RECT_W]= r.width();
@@ -727,7 +753,6 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
 
     obj[Core::jsonctrl::vmap::JSON_SIGHT_CTRL]= saveVmapSightController(sight);
 
-
     auto model= ctrl->model();
     auto vec= model->items();
     QJsonArray items;
@@ -735,7 +760,7 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
     {
         if(itemCtrl->removed())
             continue;
-        auto item = saveItemController(itemCtrl);
+        auto item= saveItemController(itemCtrl);
         if(item.isEmpty())
             continue;
 
@@ -750,7 +775,8 @@ QByteArray VectorialMapMessageHelper::saveVectorialMap(VectorialMapController* c
     return doc.toJson();
 }
 
-void VectorialMapMessageHelper::fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl)
+void VectorialMapMessageHelper::fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl,
+                                                  bool isRemote)
 {
     auto s= params.size();
     for(int i= 0; i < s; ++i)
@@ -758,7 +784,7 @@ void VectorialMapMessageHelper::fetchModelFromMap(const QHash<QString, QVariant>
         auto const& item= params.value(QString("Item_%1").arg(i));
         auto const maps= item.toMap().toStdMap();
         if(!maps.empty())
-            ctrl->addItemController(maps);
+            ctrl->addItemController(maps, isRemote);
     }
 }
 
@@ -769,7 +795,7 @@ QHash<QString, QVariant> VectorialMapMessageHelper::itemsToHash(const QList<vmap
     int i= 0;
     for(auto const& ctrl : ctrls)
     {
-        auto item = saveItemController(ctrl);
+        auto item= saveItemController(ctrl);
         items.insert(QString("Item_%1").arg(i), QVariant::fromValue(readItemController(item)));
         ++i;
     }
@@ -777,7 +803,8 @@ QHash<QString, QVariant> VectorialMapMessageHelper::itemsToHash(const QList<vmap
     return items;
 }
 
-void VectorialMapMessageHelper::fetchSightController(vmap::SightController *ctrl, const QHash<QString, QVariant> &params)
+void VectorialMapMessageHelper::fetchSightController(vmap::SightController* ctrl,
+                                                     const QHash<QString, QVariant>& params)
 {
     if(!ctrl)
         return;
@@ -786,21 +813,19 @@ void VectorialMapMessageHelper::fetchSightController(vmap::SightController *ctrl
     namespace hu= helper::utils;
     using std::placeholders::_1;
 
+    auto x= params.value(ck::KEY_SIGHT_X).value<qreal>();
+    auto y= params.value(ck::KEY_SIGHT_Y).value<qreal>();
+    auto w= params.value(ck::KEY_SIGHT_W).value<qreal>();
+    auto h= params.value(ck::KEY_SIGHT_H).value<qreal>();
 
-    auto x = params.value(ck::KEY_SIGHT_X).value<qreal>();
-    auto y = params.value(ck::KEY_SIGHT_Y).value<qreal>();
-    auto w = params.value(ck::KEY_SIGHT_W).value<qreal>();
-    auto h = params.value(ck::KEY_SIGHT_H).value<qreal>();
+    ctrl->setRect(QRectF{x, y, w, h});
 
-    ctrl->setRect(QRectF{x,y,w,h});
-
-    auto posx = params.value(ck::KEY_SIGHT_POSX).value<qreal>();
-    auto posy = params.value(ck::KEY_SIGHT_POSY).value<qreal>();
+    auto posx= params.value(ck::KEY_SIGHT_POSX).value<qreal>();
+    auto posy= params.value(ck::KEY_SIGHT_POSY).value<qreal>();
 
     ctrl->setPos(QPointF{posx, posy});
 
     ctrl->setFowPath(params.value(ck::KEY_SIGHT_PATH).value<QPainterPath>());
-
 }
 
 void VectorialMapMessageHelper::readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array)
@@ -808,13 +833,13 @@ void VectorialMapMessageHelper::readVectorialMapController(VectorialMapControlle
     if(!ctrl)
         return;
 
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc= QJsonDocument::fromJson(array);
 
-    auto obj = doc.object();
+    auto obj= doc.object();
 
     IOHelper::readBaseFromJson(ctrl, obj);
 
-    auto itemArray = obj[Core::jsonctrl::vmap::JSON_ITEMS].toArray();
+    auto itemArray= obj[Core::jsonctrl::vmap::JSON_ITEMS].toArray();
 
     ctrl->setNpcNameVisible(obj[Core::jsonctrl::vmap::JSON_NPC_NAME_VISIBLE].toBool());
     ctrl->setPcNameVisible(obj[Core::jsonctrl::vmap::JSON_PC_NAME_VISIBLE].toBool());
@@ -836,9 +861,9 @@ void VectorialMapMessageHelper::readVectorialMapController(VectorialMapControlle
     ctrl->setVisibility(static_cast<Core::VisibilityMode>(obj[Core::jsonctrl::vmap::JSON_VISIBILITY].toInt()));
     ctrl->setBackgroundColor(QColor(obj[Core::jsonctrl::vmap::JSON_BACKGROUND_COLOR].toString()));
     ctrl->setToolColor(QColor(obj[Core::jsonctrl::vmap::JSON_TOOL_COLOR].toString()));
-    ctrl->setPenSize( obj[Core::jsonctrl::vmap::JSON_PEN_SIZE].toInt());
+    ctrl->setPenSize(obj[Core::jsonctrl::vmap::JSON_PEN_SIZE].toInt());
     ctrl->setNpcNumber(obj[Core::jsonctrl::vmap::JSON_NPC_NUMBER].toInt());
-    ctrl->setZoomLevel( obj[Core::jsonctrl::vmap::JSON_ZOOM_LEVEL].toDouble());
+    ctrl->setZoomLevel(obj[Core::jsonctrl::vmap::JSON_ZOOM_LEVEL].toDouble());
     ctrl->setLayer(static_cast<Core::Layer>(obj[Core::jsonctrl::vmap::JSON_Layer].toInt()));
     ctrl->setOpacity(obj[Core::jsonctrl::vmap::JSON_OPACITY].toDouble());
     ctrl->setVisualRect(QRectF{obj[Core::jsonctrl::vmap::JSON_VISUAL_RECT_X].toDouble(),
