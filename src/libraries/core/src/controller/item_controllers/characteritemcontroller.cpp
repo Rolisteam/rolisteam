@@ -34,18 +34,17 @@
 namespace vmap
 {
 
-
 CharacterItemController::CharacterItemController(const std::map<QString, QVariant>& params,
                                                  VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(VisualItemController::CHARACTER, params, ctrl, parent),
-    m_mapCtrl(ctrl),
-    m_vision(new CharacterVision)
+    : VisualItemController(VisualItemController::CHARACTER, params, ctrl, parent)
+    , m_mapCtrl(ctrl)
+    , m_vision(new CharacterVision)
 {
     if(params.end() != params.find(Core::vmapkeys::KEY_TOOL))
         m_tool= params.at(Core::vmapkeys::KEY_TOOL).value<Core::SelectableTool>();
     else if(params.end() != params.find(Core::vmapkeys::KEY_PLAYABLECHARACTER))
-        m_tool= params.at(Core::vmapkeys::KEY_PLAYABLECHARACTER).toBool() ? Core::SelectableTool::PlayableCharacter : Core::SelectableTool::NonPlayableCharacter;
-
+        m_tool= params.at(Core::vmapkeys::KEY_PLAYABLECHARACTER).toBool() ? Core::SelectableTool::PlayableCharacter :
+                                                                            Core::SelectableTool::NonPlayableCharacter;
 
     if(params.end() != params.find(Core::vmapkeys::KEY_CHARACTER))
     {
@@ -57,10 +56,9 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
         VectorialMapMessageHelper::fetchCharacter(params, m_character);
     }
 
-
-    connect(&m_finder,&CharacterFinder::dataChanged,this, &CharacterItemController::findCharacter);
+    connect(&m_finder, &CharacterFinder::dataChanged, this, &CharacterItemController::findCharacter);
     m_finder.setUpConnect();
-    //connect(model,&PlayerModel::playerJoin,this, &CharacterItemController::findCharacter);
+    // connect(model,&PlayerModel::playerJoin,this, &CharacterItemController::findCharacter);
 
     findCharacter();
 
@@ -91,6 +89,10 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     connect(this, &CharacterItemController::sideChanged, this, &CharacterItemController::refreshTextRect);
     connect(this, &CharacterItemController::thumnailRectChanged, this, &CharacterItemController::computeThumbnail);
     connect(this, &CharacterItemController::thumnailRectChanged, this, &CharacterItemController::refreshTextRect);
+    connect(this, &CharacterItemController::textChanged, this, &CharacterItemController::refreshTextRect);
+    connect(this, &CharacterItemController::radiusChanged, this, &CharacterItemController::refreshTextRect);
+    connect(this, &CharacterItemController::rectEditFinished, this, &CharacterItemController::refreshTextRect);
+    connect(this, &CharacterItemController::fontChanged, this, &CharacterItemController::refreshTextRect);
 
     if(!m_character->isNpc())
     {
@@ -115,7 +117,7 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     {
 
         VectorialMapMessageHelper::fetchCharacterItem(params, this);
-        m_rect= QRectF(0.0, 0.0, m_side, m_side);
+        setRect(QRectF(0.0, 0.0, m_side, m_side));
     }
 
     refreshTextRect();
@@ -137,9 +139,7 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     connect(this, &CharacterItemController::visionChanged, this, [this] { setModified(); });
     connect(this, &CharacterItemController::radiusChanged, this, [this] { setModified(); });
     connect(this, &CharacterItemController::healthStatusVisibleChanged, this, [this] { setModified(); });
-    connect(this, &CharacterItemController::removedChanged, this, [this]{
-        m_vision->setRemoved(removed());
-    });
+    connect(this, &CharacterItemController::removedChanged, this, [this] { m_vision->setRemoved(removed()); });
 
     m_vision->setSide(m_side);
 }
@@ -158,7 +158,7 @@ void CharacterItemController::endGeometryChange()
     if(m_changes & ChangedProperty::SIDE)
         emit sideEdited();
 
-    m_changes = ChangedProperty::NONE;
+    m_changes= ChangedProperty::NONE;
     m_vision->endOfGeometryChanges();
 }
 
@@ -280,7 +280,7 @@ void CharacterItemController::setRect(const QRectF& rect)
 
     m_rect= rect;
     emit thumnailRectChanged(m_rect);
-    m_changes |= ChangedProperty::RECT;
+    m_changes|= ChangedProperty::RECT;
 }
 
 void CharacterItemController::findCharacter()
@@ -288,14 +288,14 @@ void CharacterItemController::findCharacter()
     if(!m_mapCtrl || !m_character)
         return;
 
-    auto p = m_finder.find(m_character->uuid());
+    auto p= m_finder.find(m_character->uuid());
 
     if(p != nullptr && p != m_character)
     {
         if(m_character)
             m_character->deleteLater();
 
-        m_character = p;
+        m_character= p;
         emit characterChanged();
     }
 }
@@ -419,7 +419,7 @@ void CharacterItemController::setSide(qreal side)
     m_side= side;
     emit sideChanged(m_side);
     m_vision->setSide(m_side);
-    m_changes |= ChangedProperty::SIDE;
+    m_changes|= ChangedProperty::SIDE;
 }
 
 void CharacterItemController::setStateColor(QColor stateColor)

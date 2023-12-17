@@ -24,6 +24,8 @@
 #include <QDebug>
 
 #include "data/character.h"
+#include "worker/utilshelper.h"
+
 bool containsCharacter(QString name, QColor color, QByteArray avatar,
                        const std::vector<std::unique_ptr<Character>>& characters)
 {
@@ -56,59 +58,6 @@ Player::Player(const QString& uuid, const QString& nom, const QColor& color, boo
 }
 
 Player::~Player()= default;
-
-/*void Player::readFromMsg(NetworkMessageReader& data)
-{
-    if(!data.isValid())
-    {
-        qWarning() << "Network message OUT OF MEMORY";
-        return;
-    }
-    m_name= data.string16();
-    m_uuid= data.string8();
-
-    m_color= QColor(data.rgb());
-    m_gameMaster= (data.uint8() != 0);
-    setUserVersion(data.string16());
-
-    bool hasAvatar= static_cast<bool>(data.uint8());
-    if(hasAvatar)
-    {
-        auto avatar= QImage::fromData(data.byteArray32());
-        setAvatar(avatar);
-    }
-
-    int childCount= data.int32();
-    for(int i= 0; (i < childCount && data.isValid()); ++i)
-    {
-        try
-        {
-            Character* child= new Character();
-            child->read(data);
-            //            m_characters.append(child);
-            child->setParentPerson(this);
-            data.uint8();
-        }
-        catch(std::bad_alloc&)
-        {
-            qWarning() << "Bad alloc";
-            return;
-        }
-    }
-    if(!data.isValid())
-    {
-        qWarning() << "Network message OUT OF MEMORY";
-        return;
-    }
-    QByteArray array= data.byteArray32();
-    QDataStream in(&array, QIODevice::ReadOnly);
-    in.setVersion(QDataStream::Qt_5_7);
-    in >> m_features;
-
-NetworkLink* Player::link() const
-{
-    return m_link;
-}*/
 
 int Player::characterCount() const
 {
@@ -154,21 +103,42 @@ bool Player::isGM() const
 
 void Player::setGM(bool value)
 {
+    if(value == m_gameMaster)
+        return;
     m_gameMaster= value;
+    emit gmChanged();
 }
 
-void Player::addCharacter(const QString& name, const QColor& color, const QByteArray& data,
+void Player::addCharacter(const QString& uuid, const QString& name, const QColor& color, const QByteArray& data,
                           const QHash<QString, QVariant>& params, bool Npc)
 {
-    Q_UNUSED(params)
     if(containsCharacter(name, color, data, m_characters))
         return;
 
-    auto character= new Character(name, color, m_gameMaster, Npc);
+    using std::placeholders::_1;
+
+    auto character= new Character(uuid, name, color, m_gameMaster, Npc);
+    helper::utils::setParamIfAny<int>(Core::updater::key_char_property_hp, params,
+                                      std::bind(&Character::setHealthPointsCurrent, character, _1));
+    helper::utils::setParamIfAny<int>(Core::updater::key_char_property_maxhp, params,
+                                      std::bind(&Character::setHealthPointsMax, character, _1));
+    helper::utils::setParamIfAny<int>(Core::updater::key_char_property_minhp, params,
+                                      std::bind(&Character::setHealthPointsMin, character, _1));
+    helper::utils::setParamIfAny<int>(Core::updater::key_char_property_dist, params,
+                                      std::bind(&Character::setDistancePerTurn, character, _1));
+    helper::utils::setParamIfAny<QString>(Core::updater::key_char_property_state_id, params,
+                                          std::bind(&Character::setStateId, character, _1));
+    helper::utils::setParamIfAny<QColor>(Core::updater::key_char_property_life_color, params,
+                                         std::bind(&Character::setLifeColor, character, _1));
+    helper::utils::setParamIfAny<bool>(Core::updater::key_char_property_has_init, params,
+                                       std::bind(&Character::setHasInitiative, character, _1));
+    helper::utils::setParamIfAny<QString>(Core::updater::key_char_property_init_cmd, params,
+                                          std::bind(&Character::setInitCommand, character, _1));
+    helper::utils::setParamIfAny<int>(Core::updater::key_char_property_init_score, params,
+                                      std::bind(&Character::setInitiativeScore, character, _1));
+
     character->setAvatar(data);
     addCharacter(character);
-    // params FIXME set value from params.
-    // data->setLifeColor();
 }
 
 void Player::addCharacter(Character* character)
@@ -177,6 +147,19 @@ void Player::addCharacter(Character* character)
         return;
 
     std::unique_ptr<Character> data(character);
+
+    connect(data.get(), &Character::nameChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::colorChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::avatarChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::currentHealthPointsChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::maxHPChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::minHPChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::distancePerTurnChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::hasInitScoreChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::lifeColorChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::initiativeChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::stateIdChanged, this, &Player::characterChanged);
+    connect(data.get(), &Character::initCommandChanged, this, &Player::characterChanged);
 
     data->setParentPerson(this);
     m_characters.push_back(std::move(data));
@@ -189,6 +172,7 @@ void Player::clearCharacterList()
         character->setParentPerson(nullptr);
     }
     m_characters.clear();
+    emit characterCountChanged();
 }
 
 bool Player::removeChild(Character* character)
@@ -200,22 +184,13 @@ bool Player::removeChild(Character* character)
     m_characters.erase(std::remove_if(m_characters.begin(), m_characters.end(),
                                       [id](const std::unique_ptr<Character>& tmp) { return tmp->uuid() == id; }));
 
-    return size != m_characters.size();
-}
-
-bool Player::searchCharacter(Character* character, int& index) const
-{
-    Q_UNUSED(character)
-    Q_UNUSED(index)
-    /* for(int i= 0; i < m_characters.size(); i++)
-     {
-         if(m_characters.at(i) == character)
-         {
-             index= i;
-             return true;
-         }
-     }*/
-    return false;
+    if(size != m_characters.size())
+    {
+        emit characterCountChanged();
+        return true;
+    }
+    else
+        return false;
 }
 
 QHash<QString, QString> Player::getVariableDictionnary()
@@ -228,7 +203,7 @@ bool Player::isLeaf() const
     return false;
 }
 
-QString Player::getUserVersion() const
+QString Player::userVersion() const
 {
     return m_softVersion;
 }
@@ -243,7 +218,7 @@ void Player::copyPlayer(Player* player)
     setColor(player->getColor());
     setGM(player->isGM());
     setName(player->name());
-    setUserVersion(player->getUserVersion());
+    setUserVersion(player->userVersion());
 }
 
 bool Player::isFullyDefined()

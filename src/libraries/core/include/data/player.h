@@ -35,37 +35,45 @@ class NetworkLink;
 class NETWORK_EXPORT Player : public Person
 {
     Q_OBJECT
+    Q_PROPERTY(bool isGM READ isGM WRITE setGM NOTIFY gmChanged FINAL)
+    Q_PROPERTY(QString userVersion READ userVersion WRITE setUserVersion NOTIFY userVersionChanged FINAL)
+    Q_PROPERTY(int characterCount READ characterCount NOTIFY characterCountChanged FINAL)
 public:
     Player();
     Player(const QString& getName, const QColor& getColor, bool master= false);
     Player(const QString& uuid, const QString& getName, const QColor& getColor, bool master= false);
     virtual ~Player() override;
 
-    virtual int characterCount() const;
     Character* getCharacterByIndex(int index) const;
     Character* characterById(const QString& id) const;
     const std::vector<std::unique_ptr<Character>>& children();
 
+    virtual int characterCount() const;
+    QString userVersion() const;
+    bool isGM() const;
+
     // Children
     int indexOf(Character* character) const;
-    void addCharacter(const QString& name, const QColor& color, const QByteArray& data, const QHash<QString, QVariant>&,
-                      bool Npc);
+    void addCharacter(const QString& uuid, const QString& name, const QColor& color, const QByteArray& data,
+                      const QHash<QString, QVariant>&, bool Npc);
     void addCharacter(Character* character);
     virtual bool removeChild(Character*);
     void clearCharacterList();
-    bool searchCharacter(Character* character, int& index) const;
+
     virtual bool isLeaf() const override;
-
-    bool isGM() const;
-    void setGM(bool value);
-
-    QString getUserVersion() const;
-
-    void setUserVersion(QString softV);
-
     virtual QHash<QString, QString> getVariableDictionnary() override;
     bool isFullyDefined();
     void copyPlayer(Player* player);
+
+public slots:
+    void setUserVersion(QString softV);
+    void setGM(bool value);
+
+signals:
+    void gmChanged();
+    void userVersionChanged();
+    void characterCountChanged();
+    void characterChanged();
 
 private:
     std::vector<std::unique_ptr<Character>> m_characters;

@@ -46,19 +46,21 @@ class CountDownObject;
 class CORE_EXPORT NetworkController : public AbstractControllerInterface, public NetWorkReceiver
 {
     Q_OBJECT
-    Q_PROPERTY(bool isGM READ isGM WRITE setIsGM NOTIFY isGMChanged)
+    Q_PROPERTY(bool isGM READ isGM NOTIFY isGMChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(bool connecting READ connecting NOTIFY connectingChanged)
-    Q_PROPERTY(bool hosting READ hosting WRITE setHosting NOTIFY hostingChanged)
-    Q_PROPERTY(bool askForGM READ askForGM WRITE setAskForGM NOTIFY askForGMChanged)
-    Q_PROPERTY(QString host READ host WRITE setHost NOTIFY hostChanged)
-    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
+    Q_PROPERTY(bool hosting READ hosting NOTIFY hostingChanged)
+    Q_PROPERTY(bool askForGM READ askForGM NOTIFY askForGMChanged)
+    Q_PROPERTY(QString host READ host NOTIFY hostChanged)
+    Q_PROPERTY(int port READ port NOTIFY portChanged)
     Q_PROPERTY(QByteArray adminPassword READ adminPassword WRITE setAdminPassword NOTIFY adminPasswordChanged)
-    Q_PROPERTY(QByteArray serverPassword READ serverPassword WRITE setServerPassword NOTIFY serverPasswordChanged)
+    Q_PROPERTY(QByteArray serverPassword READ serverPassword NOTIFY serverPasswordChanged)
     Q_PROPERTY(ProfileModel* profileModel READ profileModel CONSTANT)
     Q_PROPERTY(ChannelModel* channelModel READ channelModel CONSTANT)
     Q_PROPERTY(QString ipv4 READ ipv4 NOTIFY ipv4Changed)
     Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)
+    Q_PROPERTY(int selectedProfileIndex READ selectedProfileIndex WRITE setSelectedProfileIndex NOTIFY
+                   selectedProfileIndexChanged FINAL)
 public:
     explicit NetworkController(QObject* parent= nullptr);
     ~NetworkController() override;
@@ -83,6 +85,10 @@ public:
     void insertNetWortReceiver(NetWorkReceiver*, NetMsg::Category cat);
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
+    int selectedProfileIndex() const;
+    void setSelectedProfileIndex(int newSelectedProfileIndex);
+    ConnectionProfile* currentProfile() const;
+
 signals:
     void isGMChanged(bool);
     void connectedChanged(bool);
@@ -101,18 +107,13 @@ signals:
 
     void authentificationFail();
 
+    void selectedProfileIndexChanged();
+
 public slots:
     // network
     void startConnection();
     void stopConnecting();
     void stopConnection();
-
-    void setIsGM(bool b);
-    void setHosting(bool b);
-    void setAskForGM(bool b);
-    void setHost(const QString& host);
-    void setPort(int port);
-    void setServerPassword(const QByteArray& array);
     void setAdminPassword(const QByteArray& array);
     void setConnected(bool b);
     void setConnecting(bool b);
@@ -145,20 +146,22 @@ private:
 
     QMap<QString, QVariant> m_serverParameters;
 
-    QByteArray m_serverPw;
+    // QByteArray m_serverPw;
     QByteArray m_admindPw;
 
-    QString m_host;
-    int m_port= 6660;
+    // QString m_host;
+    // int m_port= 6660;
     QString m_ipv4Address;
     QString m_lastError;
 
     // Data
-    bool m_isGM= true;
-    bool m_hosting= false;
-    bool m_askForGM= true;
+    // bool m_isGM= true;
+    // bool m_hosting= false;
+    // bool m_askForGM= true;
     bool m_connected= false;
     bool m_connecting= false;
+
+    int m_selectedProfileIndex{0};
 };
 
 #endif // CONNECTIONCONTROLLER_H

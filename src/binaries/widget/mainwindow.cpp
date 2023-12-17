@@ -47,9 +47,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "common/logcategory.h"
 #include "controller/contentcontroller.h"
 #include "controller/playercontroller.h"
-#include "common/logcategory.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "model/historymodel.h"
@@ -840,10 +840,10 @@ void MainWindow::showUpdateNotification()
 void MainWindow::notifyAboutAddedPlayer(Player* player) const
 {
     m_gameController->addFeatureLog(tr("%1 just joins the game.").arg(player->name()), logns::cat::network);
-    if(player->getUserVersion().compare(m_gameController->version()) != 0)
+    if(player->userVersion().compare(m_gameController->version()) != 0)
     {
         m_gameController->addErrorLog(
-            tr("%1 has not the right version: %2.").arg(player->name(), player->getUserVersion()), logns::cat::network);
+            tr("%1 has not the right version: %2.").arg(player->name(), player->userVersion()), logns::cat::network);
     }
 }
 

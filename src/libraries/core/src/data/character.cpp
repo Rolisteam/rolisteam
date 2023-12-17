@@ -349,8 +349,8 @@ void Character::setInitiativeScore(int intiativeScore)
 {
     if(m_initiativeScore == intiativeScore)
         return;
-    m_hasInitScore= true;
     m_initiativeScore= intiativeScore;
+    setHasInitiative(true);
     emit initiativeChanged();
 }
 
