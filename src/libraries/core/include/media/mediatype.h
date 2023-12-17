@@ -408,6 +408,19 @@ constexpr char const* EXT_IMG_SVG{".svg"};
 constexpr char const* EXT_IMG_GIF{".gif"};
 } // namespace extentions
 
+namespace updater
+{
+constexpr auto key_char_property_hp{"CharacterHp"};
+constexpr auto key_char_property_maxhp{"CharacterMaxHp"};
+constexpr auto key_char_property_minhp{"CharacterMinHp"};
+constexpr auto key_char_property_dist{"CharacterDistPerTurn"};
+constexpr auto key_char_property_state_id{"CharacterStateId"};
+constexpr auto key_char_property_life_color{"CharacterLifeColor"};
+constexpr auto key_char_property_init_cmd{"CharacterInitCmd"};
+constexpr auto key_char_property_has_init{"CharacterHasInit"};
+constexpr auto key_char_property_init_score{"CharacterInitScore"};
+} // namespace updater
+
 namespace JsonKey
 {
 constexpr char const* JSON_NAME{"name"};

@@ -41,7 +41,8 @@ public:
         Integer,
         Boolean,
         Real,
-        String
+        String,
+        Color
     };
 
     explicit UserListView(QWidget* parent= nullptr);

@@ -56,6 +56,7 @@ public:
     bool campaignInfoValid() const;
 
     const std::vector<connection::CharacterData>& characters();
+    void setCharacters(const std::vector<connection::CharacterData>& characters);
     connection::CharacterData& character(int i);
     void addCharacter(const connection::CharacterData& data);
     void removeCharacter(int index);

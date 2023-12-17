@@ -63,7 +63,7 @@ constexpr char const* hist_key_bookmark{"bookmark"};
 constexpr char const* hist_key_type{"type"};
 
 const static QStringList CharacterFields({"CharacterHp", "CharacterMaxHp", "CharacterMinHp", "CharacterDistPerTurn",
-                                          "CharacterStateId", "CharacterLifeColor", "CharacterInitCmd",
+                                          "CharacterStateId", "CharacterLifeColor", "CharacterInitCmd","CharacterInit"
                                           "CharacterHasInit"});
 
 namespace profiles
@@ -83,6 +83,7 @@ constexpr auto const* playerColor{"PlayerColor"};
 constexpr auto const* playerAvatar{"playerAvatarData"};
 constexpr auto const* characterCount{"characterCount"};
 constexpr auto const* characterName{"CharacterName"};
+constexpr auto const* characterId{"CharacterId"};
 constexpr auto const* characterData{"CharacterData"};
 constexpr auto const* characterColor{"CharacterColor"};
 } // namespace profiles
@@ -90,7 +91,8 @@ constexpr auto const* characterColor{"CharacterColor"};
 void readConnectionProfileModel(ProfileModel* model)
 {
 #ifdef QT_DEBUG
-    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")), QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")) );
+    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")),
+                       QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")));
 #else
     QSettings settings(rolisteam, rolisteam);
 #endif
@@ -103,7 +105,8 @@ void readConnectionProfileModel(ProfileModel* model)
         profile->setAddress(settings.value(profiles::address).toString());
         profile->setPlayerName(settings.value(profiles::name).toString());
         profile->setProfileTitle(settings.value(profiles::title).toString());
-        profile->setPlayerId(settings.value(profiles::playerId, QUuid::createUuid().toString(QUuid::WithoutBraces)).toString());
+        profile->setPlayerId(
+            settings.value(profiles::playerId, QUuid::createUuid().toString(QUuid::WithoutBraces)).toString());
         profile->setPort(static_cast<quint16>(settings.value(profiles::port).toInt()));
         profile->setServerMode(settings.value(profiles::server).toBool());
         profile->setGm(settings.value(profiles::gm).toBool());
@@ -120,6 +123,7 @@ void readConnectionProfileModel(ProfileModel* model)
         {
             settings.setArrayIndex(j);
 
+            auto uuid= settings.value(profiles::characterId, QUuid::createUuid().toString()).toString();
             auto name= settings.value(profiles::characterName).toString();
             auto path= settings.value(profiles::characterData).toByteArray();
             auto color= settings.value(profiles::characterColor).value<QColor>();
@@ -128,18 +132,19 @@ void readConnectionProfileModel(ProfileModel* model)
             {
                 params.insert(key, settings.value(key));
             }
-            profile->addCharacter(connection::CharacterData({name, color, path, params}));
+            profile->addCharacter(connection::CharacterData({uuid, name, color, path, params}));
         }
         settings.endArray();
 
         if(characterCount == 0 && !profile->isGM())
         {
+            auto uuid= settings.value(profiles::characterId, QUuid::createUuid().toString()).toString();
             auto name= settings.value(profiles::characterName).toString();
             auto path= settings.value(profiles::characterData).toByteArray();
             auto color= settings.value(profiles::characterColor).value<QColor>();
 
             QHash<QString, QVariant> params;
-            profile->addCharacter(connection::CharacterData({name, color, path, params}));
+            profile->addCharacter(connection::CharacterData({uuid, name, color, path, params}));
         }
         model->appendProfile(profile);
     }
@@ -156,7 +161,8 @@ void readConnectionProfileModel(ProfileModel* model)
 void writeConnectionProfileModel(ProfileModel* model)
 {
 #ifdef QT_DEBUG
-    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")), QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")) );
+    QSettings settings(QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")),
+                       QString("bla_%1").arg(QDate::currentDate().toString("MM-YYYY")));
 #else
     QSettings settings(rolisteam, rolisteam);
 #endif
@@ -191,6 +197,7 @@ void writeConnectionProfileModel(ProfileModel* model)
             settings.setArrayIndex(j);
             auto charact= profile->character(j);
 
+            settings.setValue(profiles::characterId, charact.m_uuid);
             settings.setValue(profiles::characterName, charact.m_name);
             settings.setValue(profiles::characterData, charact.m_avatarData);
             settings.setValue(profiles::characterColor, charact.m_color);

@@ -51,7 +51,7 @@ public:
     // read message items
     static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
     static QByteArray saveVectorialMap(VectorialMapController* ctrl);
-    static void fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl);
+    static void fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl, bool isRemote);
     static QHash<QString, QVariant> itemsToHash(const QList<vmap::VisualItemController*>& ctrls);
     static void fetchSightController(vmap::SightController* ctrl,const QHash<QString, QVariant>& params);
 

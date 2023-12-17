@@ -72,6 +72,15 @@ void setParamIfAny(const QString& key, const std::map<QString, QVariant>& params
     }
 }
 
+template <typename T>
+void setParamIfAny(const QString& key, const QHash<QString, QVariant>& params, std::function<void(T)> setter)
+{
+    auto it= params.find(key);
+    if(params.end() != it)
+    {
+        setter(it.value().value<T>());
+    }
+}
 } // namespace utils
 } // namespace helper
 

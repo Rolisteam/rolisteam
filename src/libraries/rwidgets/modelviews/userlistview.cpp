@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "userlistview.h"
+
 #include <QColorDialog>
 #include <QDebug>
 #include <QDrag>
@@ -25,6 +27,7 @@
 #include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
+#include <memory>
 
 #include "controller/view_controller/imageselectorcontroller.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
@@ -60,7 +63,8 @@ UserListView::UserListView(QWidget* parent) : QTreeView(parent)
     std::vector<std::tuple<QString, QString, Type>> propertyList
         = {{"healthPoints", tr("Health Points"), Integer},    {"maxHP", tr("Health Points Maximum"), Integer},
            {"minHP", tr("Health Points Minimum"), Integer},   {"distancePerTurn", tr("Distance per turn"), Real},
-           {"initCommand", tr("Initiative Command"), String}, {"hasInitiative", tr("Has initiative"), Boolean}};
+           {"initCommand", tr("Initiative Command"), String}, {"hasInitiative", tr("Has initiative"), Boolean},
+           {"lifeColor", tr("Life bar color"), Color}};
 
     for(auto propertyName : propertyList)
     {
@@ -112,7 +116,7 @@ void UserListView::setPropertyValue()
     QVariant value= act->data();
     auto pair= value.value<std::pair<QString, Type>>();
     auto person= static_cast<Person*>(index.internalPointer());
-    Person* tmpperso= dynamic_cast<Character*>(person);
+    auto tmpperso= dynamic_cast<Character*>(person);
 
     if(nullptr == tmpperso)
         return;
@@ -138,6 +142,10 @@ void UserListView::setPropertyValue()
     case String:
         var= QInputDialog::getText(this, tr("Get value for %1 property").arg(pair.first), tr("Value:"),
                                    QLineEdit::Normal, formerVal.toString(), &ok);
+        break;
+    case Color:
+        var= QColorDialog::getColor(formerVal.value<QColor>(), this);
+        ok= true;
         break;
     }
 

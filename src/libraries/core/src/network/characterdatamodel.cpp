@@ -21,6 +21,7 @@
 
 #include <QDebug>
 #include <QPixmap>
+#include <QUuid>
 
 #include "network/connectionprofile.h"
 #include "utils/iohelper.h"
@@ -142,7 +143,8 @@ bool CharacterDataModel::insertCharacter()
     if(m_profile.isNull())
         return false;
     beginInsertRows(QModelIndex(), m_profile->characterCount(), m_profile->characterCount());
-    connection::CharacterData data({tr("New Character"), Qt::lightGray, "", QHash<QString, QVariant>()});
+    connection::CharacterData data(
+        {QUuid::createUuid().toString(), tr("New Character"), Qt::lightGray, "", QHash<QString, QVariant>()});
     m_profile->addCharacter(data);
     endInsertRows();
     return true;

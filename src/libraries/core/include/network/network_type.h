@@ -28,6 +28,7 @@ namespace connection
 {
 struct CharacterData
 {
+    QString m_uuid;
     QString m_name;
     QColor m_color;
     QByteArray m_avatarData;
