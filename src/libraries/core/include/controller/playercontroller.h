@@ -40,6 +40,7 @@ class PlayerOnMapModel;
 class CharacterStateModel;
 class CharacterModel;
 class PlayerUpdater;
+class NetworkController;
 class CORE_EXPORT PlayerController : public AbstractControllerInterface
 {
     Q_OBJECT
@@ -52,7 +53,7 @@ class CORE_EXPORT PlayerController : public AbstractControllerInterface
     Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
 
 public:
-    explicit PlayerController(QObject* parent= nullptr);
+    explicit PlayerController(NetworkController* network, QObject* parent= nullptr);
     ~PlayerController() override;
 
     Player* localPlayer() const;

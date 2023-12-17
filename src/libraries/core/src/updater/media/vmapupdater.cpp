@@ -37,9 +37,9 @@
 #include "updater/vmapitem/linecontrollerupdater.h"
 #include "updater/vmapitem/pathcontrollerupdater.h"
 #include "updater/vmapitem/rectcontrollerupdater.h"
+#include "updater/vmapitem/sightupdater.h"
 #include "updater/vmapitem/textcontrollerupdater.h"
 #include "updater/vmapitem/vmapitemcontrollerupdater.h"
-#include "updater/vmapitem/sightupdater.h"
 
 VectorialMapController* findMap(const std::vector<VectorialMapController*>& vmaps, const QString& id)
 {
@@ -69,8 +69,7 @@ VMapUpdater::VMapUpdater(campaign::CampaignManager* manager, FilteredContentMode
         {vmap::VisualItemController::ELLIPSE, std::unique_ptr<EllipseControllerUpdater>(new EllipseControllerUpdater)});
     m_updaters.insert(
         {vmap::VisualItemController::TEXT, std::unique_ptr<TextControllerUpdater>(new TextControllerUpdater)});
-    m_updaters.insert(
-        {vmap::VisualItemController::SIGHT, std::unique_ptr<SightUpdater>(new SightUpdater)});
+    m_updaters.insert({vmap::VisualItemController::SIGHT, std::unique_ptr<SightUpdater>(new SightUpdater)});
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory, this);
 }
@@ -117,14 +116,14 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
             [this, ctrl]() { sendOffChanges<int>(ctrl, QStringLiteral("zIndex")); });
 
     connect(ctrl, &VectorialMapController::sendOffHighLightAt, this,
-            [ctrl](const QPointF& p, const qreal& penSize, const QColor& color) {
-                VectorialMapMessageHelper::sendOffHighLight(p, penSize, color, ctrl->uuid());
-            });
+            [ctrl](const QPointF& p, const qreal& penSize, const QColor& color)
+            { VectorialMapMessageHelper::sendOffHighLight(p, penSize, color, ctrl->uuid()); });
 
     connect(ctrl, &VectorialMapController::visualItemControllerCreated, this,
-            [this](vmap::VisualItemController* itemCtrl) {
+            [this](vmap::VisualItemController* itemCtrl)
+            {
                 auto type= itemCtrl->itemType();
-                auto mapCtrl=itemCtrl->mapController();
+                auto mapCtrl= itemCtrl->mapController();
 
                 if(!mapCtrl)
                     return;
@@ -141,25 +140,45 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
     connect(ctrl, &VectorialMapController::visualItemControllersRemoved, this,
             [ctrl](const QStringList& list) { VectorialMapMessageHelper::sendOffRemoveItems(list, ctrl->uuid()); });
 
-    auto it = m_updaters.find(vmap::VisualItemController::SIGHT);
+    auto it= m_updaters.find(vmap::VisualItemController::SIGHT);
     if(it != std::end(m_updaters))
     {
-        auto updater = it->second.get();
+        auto updater= it->second.get();
         if(updater)
             updater->addItemController(ctrl->sightController());
     }
 
+    auto const& items= ctrl->model()->items();
+    std::for_each(std::begin(items), std::end(items),
+                  [this](vmap::VisualItemController* itemCtrl)
+                  {
+                      auto type= itemCtrl->itemType();
+                      auto mapCtrl= itemCtrl->mapController();
+
+                      if(!mapCtrl)
+                          return;
+
+                      auto it= m_updaters.find(type);
+
+                      if(it == m_updaters.end())
+                          return;
+
+                      auto updater= it->second.get();
+                      if(updater && mapCtrl->editionMode() == Core::EditionMode::Painting)
+                          updater->addItemController(itemCtrl, false);
+                  });
+
     if(!ctrl->remote())
     {
-        connect(ctrl, &VectorialMapController::modifiedChanged, this, [ctrl, this]() {
-            if(ctrl->modified())
-            {
-                saveMediaController(ctrl);
-            }
-        });
-        QTimer::singleShot(1000,ctrl,[ctrl, this](){
-            saveMediaController(ctrl);
-        });
+        connect(ctrl, &VectorialMapController::modifiedChanged, this,
+                [ctrl, this]()
+                {
+                    if(ctrl->modified())
+                    {
+                        saveMediaController(ctrl);
+                    }
+                });
+        QTimer::singleShot(1000, ctrl, [ctrl, this]() { saveMediaController(ctrl); });
     }
 }
 
@@ -243,13 +262,13 @@ bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapCont
     return feedback;
 }
 
-
 NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
     QString vmapId= msg->string8();
     auto map= findMap(m_vmapModel->contentController<VectorialMapController*>(), vmapId);
-    if(nullptr == map){
+    if(nullptr == map)
+    {
         qWarning() << QString("Map with id %1 has not been found").arg(vmapId);
         return type;
     }
@@ -263,8 +282,9 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
         auto item= vmap::VmapItemFactory::createRemoteVMapItem(map, msg);
         map->addRemoteItem(item);
     }
-    else if(is(msg, NetMsg::VMapCategory, NetMsg::UpdateItem) || is(msg, NetMsg::VMapCategory, NetMsg::CharacterVisionChanged))
-    {     
+    else if(is(msg, NetMsg::VMapCategory, NetMsg::UpdateItem)
+            || is(msg, NetMsg::VMapCategory, NetMsg::CharacterVisionChanged))
+    {
         auto itemType= static_cast<vmap::VisualItemController::ItemType>(msg->uint8());
         QString itemId= msg->string8();
         auto itemCtrl= map->itemController(itemId);

@@ -26,15 +26,15 @@
 #include "model/playermodel.h"
 #include "undoCmd/addlocalcharactercommand.h"
 #include "undoCmd/removelocalcharactercommand.h"
-#include "worker/characterfinder.h"
 #include "updater/controller/playerupdater.h"
+#include "worker/characterfinder.h"
 #include <QtDebug>
 
-PlayerController::PlayerController(QObject* parent)
+PlayerController::PlayerController(NetworkController* network, QObject* parent)
     : AbstractControllerInterface(parent)
     , m_model(new PlayerModel)
     , m_characterModel(new CharacterModel)
-    , m_updater(new PlayerUpdater(this))
+    , m_updater(new PlayerUpdater(network, this))
     , m_localPlayer(new Player)
 {
 
