@@ -25,7 +25,7 @@
 
 TextControllerUpdater::TextControllerUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}
 
-void TextControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
+void TextControllerUpdater::addItemController(vmap::VisualItemController* ctrl, bool sendOff)
 {
     if(nullptr == ctrl)
         return;
@@ -45,7 +45,7 @@ void TextControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
             [this, textCtrl]() { sendOffVMapChanges<QFont>(textCtrl, QStringLiteral("font")); });
     connect(textCtrl, &vmap::TextController::textPosChanged, this,
             [this, textCtrl]() { sendOffVMapChanges<QPointF>(textCtrl, QStringLiteral("textPos")); });
-    if(!ctrl->remote())
+    if(!ctrl->remote() && sendOff)
         MessageHelper::sendOffText(textCtrl, ctrl->mapUuid());
 }
 

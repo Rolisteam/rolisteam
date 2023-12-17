@@ -34,7 +34,7 @@ class CORE_EXPORT TextControllerUpdater : public VMapItemControllerUpdater
 public:
     explicit TextControllerUpdater(QObject* parent= nullptr);
 
-    void addItemController(vmap::VisualItemController* ctrl) override;
+    void addItemController(vmap::VisualItemController* ctrl, bool sendOff= true) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };

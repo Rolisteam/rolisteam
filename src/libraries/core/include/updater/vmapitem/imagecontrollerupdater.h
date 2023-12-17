@@ -28,12 +28,12 @@ namespace vmap
 class ImageController;
 }
 
-class CORE_EXPORT  ImageControllerUpdater : public VMapItemControllerUpdater
+class CORE_EXPORT ImageControllerUpdater : public VMapItemControllerUpdater
 {
 public:
     ImageControllerUpdater();
 
-    void addItemController(vmap::VisualItemController* ctrl) override;
+    void addItemController(vmap::VisualItemController* ctrl, bool sendOff= true) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };

@@ -35,7 +35,7 @@ EllipseControllerUpdater::EllipseControllerUpdater(QObject* parent) : VMapItemCo
 
 EllipseControllerUpdater::~EllipseControllerUpdater() {}
 
-void EllipseControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
+void EllipseControllerUpdater::addItemController(vmap::VisualItemController* ctrl, bool sendOff)
 {
     if(nullptr == ctrl)
         return;
@@ -56,7 +56,7 @@ void EllipseControllerUpdater::addItemController(vmap::VisualItemController* ctr
     connect(elliCtrl, &vmap::EllipseController::penWidthChanged, this,
             [this, elliCtrl]() { sendOffVMapChanges<quint16>(elliCtrl, QStringLiteral("penWidth")); });
 
-    if(!ctrl->remote())
+    if(!ctrl->remote() && sendOff)
         connect(elliCtrl, &vmap::EllipseController::initializedChanged, this,
                 [elliCtrl]() { MessageHelper::sendOffEllispe(elliCtrl, elliCtrl->mapUuid()); });
 }

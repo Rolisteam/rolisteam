@@ -31,7 +31,7 @@
 
 LineControllerUpdater::LineControllerUpdater() {}
 
-void LineControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
+void LineControllerUpdater::addItemController(vmap::VisualItemController* ctrl, bool sendOff)
 {
     if(nullptr == ctrl)
         return;
@@ -50,7 +50,7 @@ void LineControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
     connect(lineCrtl, &vmap::LineController::penWidthChanged, this,
             [this, lineCrtl]() { sendOffVMapChanges<quint16>(lineCrtl, QStringLiteral("penWidth")); });
 
-    if(!ctrl->remote())
+    if(!ctrl->remote() && sendOff)
         connect(lineCrtl, &vmap::LineController::initializedChanged, this,
                 [lineCrtl]() { MessageHelper::sendOffLine(lineCrtl, lineCrtl->mapUuid()); });
 }

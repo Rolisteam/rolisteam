@@ -35,7 +35,7 @@ RectControllerUpdater::RectControllerUpdater(QObject* parent) : VMapItemControll
 
 RectControllerUpdater::~RectControllerUpdater() {}
 
-void RectControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
+void RectControllerUpdater::addItemController(vmap::VisualItemController* ctrl, bool sendOff)
 {
     if(nullptr == ctrl)
         return;
@@ -54,7 +54,7 @@ void RectControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
     connect(rectCtrl, &vmap::RectController::penWidthChanged, this,
             [this, rectCtrl]() { sendOffVMapChanges<quint16>(rectCtrl, QStringLiteral("penWidth")); });
 
-    if(!ctrl->remote())
+    if(!ctrl->remote() && sendOff)
         connect(rectCtrl, &vmap::RectController::initializedChanged, this,
                 [rectCtrl]() { MessageHelper::sendOffRect(rectCtrl, rectCtrl->mapUuid()); });
 }

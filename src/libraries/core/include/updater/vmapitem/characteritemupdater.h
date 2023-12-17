@@ -20,10 +20,10 @@
 #ifndef CHARACTERITEMUPDATER_H
 #define CHARACTERITEMUPDATER_H
 
+#include "controller/item_controllers/characteritemcontroller.h"
 #include "vmapitemcontrollerupdater.h"
 #include <QObject>
 #include <core_global.h>
-#include "controller/item_controllers/characteritemcontroller.h"
 
 class CORE_EXPORT CharacterItemUpdater : public VMapItemControllerUpdater
 {
@@ -31,7 +31,7 @@ class CORE_EXPORT CharacterItemUpdater : public VMapItemControllerUpdater
 public:
     explicit CharacterItemUpdater(QObject* parent= nullptr);
 
-    void addItemController(vmap::VisualItemController* ctrl) override;
+    void addItemController(vmap::VisualItemController* ctrl, bool sendOff= true) override;
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
     bool updateVisionProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl);
 
@@ -39,15 +39,14 @@ public:
     void sendOffVisionChanges(vmap::CharacterItemController* ctrl, const QString& property);
 };
 
-
 template <typename T>
-void CharacterItemUpdater::sendOffVisionChanges(vmap::CharacterItemController* ctrl,  const QString& property)
+void CharacterItemUpdater::sendOffVisionChanges(vmap::CharacterItemController* ctrl, const QString& property)
 {
     if(nullptr == ctrl || property.isEmpty() || !m_synchronized || (m_updatingFromNetwork && updatingCtrl == ctrl)
        || !ctrl->initialized())
         return;
 
-    CharacterVision* vision = ctrl->vision();
+    CharacterVision* vision= ctrl->vision();
 
     if(!vision)
         return;

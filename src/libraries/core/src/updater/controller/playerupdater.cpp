@@ -2,6 +2,7 @@
 #include "controller/gamecontroller.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
+#include "network/connectionprofile.h"
 #include "worker/messagehelper.h"
 #include "worker/playermessagehelper.h"
 
@@ -12,7 +13,8 @@ void addPlayerToModel(PlayerModel* model, NetworkMessageReader* msg)
     model->addPlayer(player);
 }
 
-PlayerUpdater::PlayerUpdater(PlayerController* ctrl, QObject* parent) : QObject{parent}, m_ctrl(ctrl)
+PlayerUpdater::PlayerUpdater(NetworkController* network, PlayerController* ctrl, QObject* parent)
+    : QObject{parent}, m_ctrl(ctrl), m_networkCtrl(network)
 {
     ReceiveEvent::registerNetworkReceiver(NetMsg::UserCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::PlayerCharacterCategory, this);
@@ -46,12 +48,14 @@ NetWorkReceiver::SendType PlayerUpdater::processMessage(NetworkMessageReader* ms
         {
 
         case NetMsg::ChangePlayerPropertyAct:
+        case NetMsg::ChangeCharacterPropertyAct:
             MessageHelper::updatePerson(*msg, model);
             break;
         default:
             break;
         }
     }
+
     return type;
 }
 
@@ -61,7 +65,71 @@ void PlayerUpdater::setGameController(GameController* gameCtrl)
             [this](bool b)
             {
                 if(b)
-                    PlayerMessageHelper::sendOffPlayerInformations(m_ctrl->localPlayer());
+                {
+                    auto local= m_ctrl->localPlayer();
+                    PlayerMessageHelper::sendOffPlayerInformations(local);
+
+                    connect(local, &Player::avatarChanged, m_networkCtrl,
+                            [this, local]()
+                            {
+                                auto pro= m_networkCtrl->currentProfile();
+                                if(!pro)
+                                    return;
+                                pro->setPlayerAvatar(local->avatar());
+                            });
+                    connect(local, &Player::nameChanged, m_networkCtrl,
+                            [this, local]()
+                            {
+                                auto pro= m_networkCtrl->currentProfile();
+                                if(!pro)
+                                    return;
+                                pro->setPlayerName(local->name());
+                            });
+                    connect(local, &Player::colorChanged, m_networkCtrl,
+                            [this, local]()
+                            {
+                                auto pro= m_networkCtrl->currentProfile();
+                                if(!pro)
+                                    return;
+                                pro->setPlayerColor(local->getColor());
+                            });
+
+                    auto updateCharacters= [this, local]()
+                    {
+                        auto pro= m_networkCtrl->currentProfile();
+                        if(!pro)
+                            return;
+                        pro->setPlayerColor(local->getColor());
+
+                        auto const& characters= local->children();
+                        std::vector<connection::CharacterData> data;
+                        data.reserve(characters.size());
+
+                        std::transform(
+                            std::begin(characters), std::end(characters), std::back_inserter(data),
+                            [](const std::unique_ptr<Character>& character)
+                            {
+                                QHash<QString, QVariant> params;
+                                params.insert(Core::updater::key_char_property_hp, character->getHealthPointsCurrent());
+                                params.insert(Core::updater::key_char_property_maxhp, character->getHealthPointsMax());
+                                params.insert(Core::updater::key_char_property_minhp, character->getHealthPointsMin());
+                                params.insert(Core::updater::key_char_property_dist, character->getDistancePerTurn());
+                                params.insert(Core::updater::key_char_property_state_id, character->stateId());
+                                params.insert(Core::updater::key_char_property_life_color, character->getLifeColor());
+                                params.insert(Core::updater::key_char_property_init_cmd, character->initCommand());
+                                params.insert(Core::updater::key_char_property_has_init, character->hasInitScore());
+                                params.insert(Core::updater::key_char_property_init_score,
+                                              character->getInitiativeScore());
+                                return connection::CharacterData({character->uuid(), character->name(),
+                                                                  character->getColor(), character->avatar(), params});
+                            });
+
+                        pro->setCharacters(data);
+                    };
+
+                    connect(local, &Player::characterChanged, m_networkCtrl, updateCharacters);
+                    connect(local, &Player::characterCountChanged, m_networkCtrl, updateCharacters);
+                }
                 else
                     m_ctrl->clear();
             });
@@ -100,10 +168,14 @@ void PlayerUpdater::updateNewPlayer(Player* player)
 
         connect(p, &Character::initCommandChanged, this,
                 [this, p]() { sendOffChanges<QString>(p, true, Core::person::initCommand); });
+        connect(p, &Character::hasInitScoreChanged, this,
+                [this, p]() { sendOffChanges<bool>(p, true, Core::person::hasInitiative); });
         connect(p, &Character::initiativeChanged, this,
                 [this, p]() { sendOffChanges<int>(p, true, Core::person::initiative); });
         connect(p, &Character::stateIdChanged, this,
                 [this, p]() { sendOffChanges<QString>(p, true, Core::person::stateId); });
+        connect(p, &Character::lifeColorChanged, this,
+                [this, p]() { sendOffChanges<QColor>(p, true, Core::person::lifeColor); });
     }
 }
 

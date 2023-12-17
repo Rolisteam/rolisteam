@@ -41,7 +41,7 @@ class CORE_EXPORT VMapItemControllerUpdater : public QObject
 public:
     explicit VMapItemControllerUpdater(QObject* parent= nullptr);
 
-    virtual void addItemController(vmap::VisualItemController* ctrl);
+    virtual void addItemController(vmap::VisualItemController* ctrl, bool sendOffData= true);
     virtual bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl);
 
     template <typename T>

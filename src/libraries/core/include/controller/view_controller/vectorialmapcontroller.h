@@ -34,8 +34,8 @@
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "media/mediatype.h"
 #include "mediacontrollerbase.h"
-#include "model/vmapitemmodel.h"
 #include "model/playermodel.h"
+#include "model/vmapitemmodel.h"
 
 namespace vmap
 {
@@ -140,7 +140,7 @@ public:
     void addVision(CharacterVision* vision);
 
     QString layerToText(Core::Layer id);
-    QString addItemController(const std::map<QString, QVariant>& params);
+    QString addItemController(const std::map<QString, QVariant>& params, bool isRemote= false);
     void addRemoteItem(vmap::VisualItemController* ctrl);
     void removeItemController(const QSet<QString>& ids, bool fromNetwork= false);
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
@@ -230,7 +230,7 @@ public slots:
     void setRemote(bool remote) override;
 
     void insertItemAt(const std::map<QString, QVariant>& params);
-    void changeFogOfWar(const QPolygonF& poly, vmap::VisualItemController *itemCtrl, bool mask);
+    void changeFogOfWar(const QPolygonF& poly, vmap::VisualItemController* itemCtrl, bool mask);
 
     void aboutToRemove(const QList<vmap::VisualItemController*>& list);
     void askForColorChange(vmap::VisualItemController* itemCtrl);

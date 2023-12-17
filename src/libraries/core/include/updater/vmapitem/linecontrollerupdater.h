@@ -28,14 +28,14 @@ namespace vmap
 class LineController;
 }
 
-class CORE_EXPORT  LineControllerUpdater : public VMapItemControllerUpdater
+class CORE_EXPORT LineControllerUpdater : public VMapItemControllerUpdater
 {
     Q_OBJECT
 public:
     LineControllerUpdater();
     virtual ~LineControllerUpdater() override= default;
 
-    void addItemController(vmap::VisualItemController* ctrl) override;
+    void addItemController(vmap::VisualItemController* ctrl, bool sendOff= true) override;
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };

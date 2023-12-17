@@ -5,16 +5,14 @@
 
 #include <QDataStream>
 
-SightUpdater::SightUpdater(QObject *parent)
-    : VMapItemControllerUpdater{parent}
-{
+SightUpdater::SightUpdater(QObject* parent) : VMapItemControllerUpdater{parent} {}
 
-}
-
-void SightUpdater::addItemController(vmap::VisualItemController *ctrl)
+void SightUpdater::addItemController(vmap::VisualItemController* ctrl, bool sendOff)
 {
     if(nullptr == ctrl)
         return;
+
+    Q_UNUSED(sendOff)
 
     auto sightCtrl= dynamic_cast<vmap::SightController*>(ctrl);
 
@@ -23,19 +21,19 @@ void SightUpdater::addItemController(vmap::VisualItemController *ctrl)
 
     VMapItemControllerUpdater::addItemController(sightCtrl);
 
-    //connect(sightCtrl, &vmap::SightController::characterSightChanged, this,
-    //        [this, sightCtrl]() { sendOffVMapChanges<bool>(sightCtrl, QStringLiteral("characterSight")); });
+    // connect(sightCtrl, &vmap::SightController::characterSightChanged, this,
+    //         [this, sightCtrl]() { sendOffVMapChanges<bool>(sightCtrl, QStringLiteral("characterSight")); });
     connect(sightCtrl, &vmap::SightController::fowPathChanged, this,
             [this, sightCtrl]() { sendOffVMapChanges<QPainterPath>(sightCtrl, QStringLiteral("fowPath")); });
     connect(sightCtrl, &vmap::SightController::characterCountChanged, this,
             [this, sightCtrl]() { sendOffVMapChanges<int>(sightCtrl, QStringLiteral("characterCount")); });
 
-    /*if(!ctrl->remote())
+    /*if(!ctrl->remote() && sendOff)
         connect(sightCtrl, &vmap::SightController::initializedChanged, this,
                 [sightCtrl]() { MessageHelper::sendOffLine(sightCtrl, sightCtrl->mapUuid()); });*/
 }
 
-bool SightUpdater::updateItemProperty(NetworkMessageReader *msg, vmap::VisualItemController *ctrl)
+bool SightUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
 {
     if(nullptr == msg || nullptr == ctrl)
         return false;
@@ -65,7 +63,7 @@ bool SightUpdater::updateItemProperty(NetworkMessageReader *msg, vmap::VisualIte
             QDataStream read(&data, QIODevice::ReadOnly);
             QPainterPath path;
             read >> path;
-            var = QVariant::fromValue(path);
+            var= QVariant::fromValue(path);
         }
     }
     else if(property == QStringLiteral("characterCount"))

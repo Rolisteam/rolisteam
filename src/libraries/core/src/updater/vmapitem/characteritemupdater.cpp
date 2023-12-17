@@ -38,15 +38,15 @@ constexpr auto vision_radius{"radius"};
 constexpr auto vision_angle{"angle"};
 constexpr auto vision_rotation{"rotation"};
 constexpr auto vision_position{"position"};
-//constexpr auto vision_shape{"shape"};
+// constexpr auto vision_shape{"shape"};
 constexpr auto vision_path{"path"};
 constexpr auto vision_removed{"removed"};
 
-}
+} // namespace properties
 
 CharacterItemUpdater::CharacterItemUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}
 
-void CharacterItemUpdater::addItemController(vmap::VisualItemController* ctrl)
+void CharacterItemUpdater::addItemController(vmap::VisualItemController* ctrl, bool sendOff)
 {
     if(nullptr == ctrl)
         return;
@@ -67,49 +67,43 @@ void CharacterItemUpdater::addItemController(vmap::VisualItemController* ctrl)
     connect(itemCtrl, &vmap::CharacterItemController::playableCharacterChanged, this,
             [this, itemCtrl]() { sendOffVMapChanges<bool>(itemCtrl, properties::playableCharacter); });
     connect(itemCtrl, &vmap::CharacterItemController::visionShapeChanged, this,
-            [this, itemCtrl]()
-            { sendOffVMapChanges<CharacterVision::SHAPE>(itemCtrl, properties::visionShape); });
+            [this, itemCtrl]() { sendOffVMapChanges<CharacterVision::SHAPE>(itemCtrl, properties::visionShape); });
     connect(itemCtrl, &vmap::CharacterItemController::fontChanged, this,
             [this, itemCtrl]() { sendOffVMapChanges<QFont>(itemCtrl, properties::font); });
     connect(itemCtrl, &vmap::CharacterItemController::rectEditFinished, this,
             [this, itemCtrl]() { sendOffVMapChanges<QRectF>(itemCtrl, properties::thumnailRect); });
 
-    {//vision
-        auto vision = itemCtrl->vision();
+    { // vision
+        auto vision= itemCtrl->vision();
 
-        connect(vision, &CharacterVision::radiusEdited, this, [this, itemCtrl](){
-            sendOffVisionChanges<qreal>(itemCtrl,properties::vision_radius);
-        });
-        connect(vision, &CharacterVision::angleEdited, this, [this, itemCtrl](){
-            sendOffVisionChanges<qreal>(itemCtrl,properties::vision_angle);
-        });
-        connect(vision, &CharacterVision::rotationEdited, this, [this, itemCtrl](){
-            sendOffVisionChanges<qreal>(itemCtrl,properties::vision_rotation);
-        });
-        connect(vision, &CharacterVision::positionEdited, this, [this, itemCtrl](){
-            sendOffVisionChanges<QPointF>(itemCtrl,properties::vision_position);
-        });
-        connect(vision, &CharacterVision::pathEdited, this, [this, itemCtrl](){
-            sendOffVisionChanges<QPainterPath>(itemCtrl,properties::vision_path);
-        });
-        connect(vision, &CharacterVision::removedChanged, this, [this, itemCtrl](){
-            sendOffVisionChanges<bool>(itemCtrl,properties::vision_removed);
-        });
+        connect(vision, &CharacterVision::radiusEdited, this,
+                [this, itemCtrl]() { sendOffVisionChanges<qreal>(itemCtrl, properties::vision_radius); });
+        connect(vision, &CharacterVision::angleEdited, this,
+                [this, itemCtrl]() { sendOffVisionChanges<qreal>(itemCtrl, properties::vision_angle); });
+        connect(vision, &CharacterVision::rotationEdited, this,
+                [this, itemCtrl]() { sendOffVisionChanges<qreal>(itemCtrl, properties::vision_rotation); });
+        connect(vision, &CharacterVision::positionEdited, this,
+                [this, itemCtrl]() { sendOffVisionChanges<QPointF>(itemCtrl, properties::vision_position); });
+        connect(vision, &CharacterVision::pathEdited, this,
+                [this, itemCtrl]() { sendOffVisionChanges<QPainterPath>(itemCtrl, properties::vision_path); });
+        connect(vision, &CharacterVision::removedChanged, this,
+                [this, itemCtrl]() { sendOffVisionChanges<bool>(itemCtrl, properties::vision_removed); });
     }
 
     connect(itemCtrl, &vmap::CharacterItemController::rectEditFinished, this,
             [this, itemCtrl]() { sendOffVMapChanges<QRectF>(itemCtrl, properties::thumnailRect); });
 
-    if(!ctrl->remote())
+    if(!ctrl->remote() && sendOff)
         MessageHelper::sendOffCharacter(itemCtrl, ctrl->mapUuid());
 }
 
 bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
 {
-    qDebug() << "update Character Item property";
+
     if(nullptr == msg || nullptr == ctrl)
         return false;
 
+    qDebug() << "update Character Item property" << msg->action();
     if(msg->action() == NetMsg::CharacterVisionChanged)
     {
         return updateVisionProperty(msg, ctrl);
@@ -126,6 +120,8 @@ bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::V
     updatingCtrl= ctrl;
 
     auto property= msg->string16();
+
+    qDebug() << "property" << property;
 
     QVariant var;
 
@@ -175,7 +171,6 @@ bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::V
     return feedback;
 }
 
-
 bool CharacterItemUpdater::updateVisionProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
 {
     if(nullptr == msg || nullptr == ctrl)
@@ -186,7 +181,7 @@ bool CharacterItemUpdater::updateVisionProperty(NetworkMessageReader* msg, vmap:
     if(nullptr == itemCtrl)
         return false;
 
-    auto vision = itemCtrl->vision();
+    auto vision= itemCtrl->vision();
 
     if(nullptr == vision)
         return false;
@@ -209,13 +204,13 @@ bool CharacterItemUpdater::updateVisionProperty(NetworkMessageReader* msg, vmap:
     }
     else if(property == properties::vision_position)
     {
-        auto x = msg->real();
-        auto y = msg->real();
-        var= QVariant::fromValue(QPointF{x,y});
+        auto x= msg->real();
+        auto y= msg->real();
+        var= QVariant::fromValue(QPointF{x, y});
     }
     else if(property == properties::vision_removed)
     {
-        var = QVariant::fromValue(static_cast<bool>(msg->uint8()));
+        var= QVariant::fromValue(static_cast<bool>(msg->uint8()));
     }
     else if(property == properties::vision_path)
     {
@@ -224,7 +219,7 @@ bool CharacterItemUpdater::updateVisionProperty(NetworkMessageReader* msg, vmap:
             QDataStream read(&data, QIODevice::ReadOnly);
             QPainterPath path;
             read >> path;
-            var = QVariant::fromValue(path);
+            var= QVariant::fromValue(path);
         }
     }
     else

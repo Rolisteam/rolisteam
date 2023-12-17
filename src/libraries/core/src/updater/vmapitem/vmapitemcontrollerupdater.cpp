@@ -37,10 +37,12 @@ VMapItemControllerUpdater::VMapItemControllerUpdater(QObject* parent)
     sendOffVMapChanges<CharacterVision::SHAPE>(nullptr, "");*/
 }
 
-void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
+void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ctrl, bool sendOff)
 {
     if(nullptr == ctrl)
         return;
+
+    Q_UNUSED(sendOff)
 
     connect(ctrl, &vmap::VisualItemController::visibleChanged, this,
             [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("visible")); });

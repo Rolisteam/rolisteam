@@ -30,7 +30,7 @@
 
 ImageControllerUpdater::ImageControllerUpdater() {}
 
-void ImageControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
+void ImageControllerUpdater::addItemController(vmap::VisualItemController* ctrl, bool sendOff)
 {
     if(nullptr == ctrl)
         return;
@@ -47,7 +47,7 @@ void ImageControllerUpdater::addItemController(vmap::VisualItemController* ctrl)
     connect(imgCtrl, &vmap::ImageItemController::rectEditFinished, this,
             [this, imgCtrl]() { sendOffVMapChanges<QRectF>(imgCtrl, QStringLiteral("rect")); });
 
-    if(!ctrl->remote())
+    if(!ctrl->remote() && sendOff)
         MessageHelper::sendOffImage(imgCtrl, imgCtrl->mapUuid());
 }
 
