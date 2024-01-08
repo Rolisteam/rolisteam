@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2023-11-20 22:34+0100\n"
+"PO-Revision-Date: 2024-01-07 21:26+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -2405,12 +2405,12 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "Provizi ĉi tiun dosieron al programistoj de Rolisteam"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:359
+#: src/libraries/core/src/controller/contentcontroller.cpp:360
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Kopiita Bildo"
 
-#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:118
+#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:120
 msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Ĉiea"
@@ -2450,59 +2450,67 @@ msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Radiko"
 
-#: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:47
+#: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:45
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:36
 msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr "Nekonata Karaktero"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
 msgstr "Karaktero"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Tero"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
 msgctxt "QObject|"
 msgid "Object"
 msgstr "Objekto"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "GameMaster"
 msgstr "GameMaster"
 
-#: src/libraries/core/src/data/campaign.cpp:267
+#: src/libraries/core/src/data/campaign.cpp:56
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Unknown"
+msgctxt "Campaign|"
+msgid "Unknown"
+msgstr "Nekonata"
+
+#: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
 msgid "Pattern"
 msgstr "Ŝablono"
 
-#: src/libraries/core/src/data/campaign.cpp:267
+#: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
 msgid "Command"
 msgstr "Komando"
 
-#: src/libraries/core/src/data/campaign.cpp:267
+#: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
 msgid "Comment"
 msgstr "Komento"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:56
+#: src/libraries/core/src/data/campaignmanager.cpp:57
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr "Ne eblas krei kampanjan ŝablonon ĉe %1"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:132
+#: src/libraries/core/src/data/campaignmanager.cpp:133
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
@@ -2794,12 +2802,12 @@ msgctxt "PatternModel|"
 msgid "Hexagon"
 msgstr "Seslatero"
 
-#: src/libraries/core/src/model/playermodel.cpp:185
+#: src/libraries/core/src/model/playermodel.cpp:182
 msgctxt "PlayerModel|"
 msgid "Not defined"
 msgstr "Ne difinita"
 
-#: src/libraries/core/src/model/playermodel.cpp:188
+#: src/libraries/core/src/model/playermodel.cpp:185
 #, qt-format
 msgctxt "PlayerModel|"
 msgid ""
@@ -2817,22 +2825,22 @@ msgstr ""
 "Distanco por Turno: %6\n"
 "tipo: %7\n"
 
-#: src/libraries/core/src/model/playermodel.cpp:200
+#: src/libraries/core/src/model/playermodel.cpp:197
 msgctxt "PlayerModel|"
 msgid "NPC"
 msgstr "NPC"
 
-#: src/libraries/core/src/model/playermodel.cpp:200
+#: src/libraries/core/src/model/playermodel.cpp:197
 msgctxt "PlayerModel|"
 msgid "PC"
 msgstr "komputilo"
 
-#: src/libraries/core/src/model/playermodel.cpp:266
+#: src/libraries/core/src/model/playermodel.cpp:263
 msgctxt "PlayerModel|"
 msgid "Players List"
 msgstr "Listo de Ludantoj"
 
-#: src/libraries/core/src/model/playermodel.cpp:471
+#: src/libraries/core/src/model/playermodel.cpp:473
 msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
 msgstr "Duobligita ludanto aŭ uuid"
@@ -2878,12 +2886,12 @@ msgctxt "ChannelModel|"
 msgid "Channel %1 required password:"
 msgstr "Kanalo %1 bezonata pasvorto:"
 
-#: src/libraries/core/src/network/characterdatamodel.cpp:77
+#: src/libraries/core/src/network/characterdatamodel.cpp:78
 msgctxt "CharacterDataModel|"
 msgid "No Avatar"
 msgstr "Neniu avataro"
 
-#: src/libraries/core/src/network/characterdatamodel.cpp:145
+#: src/libraries/core/src/network/characterdatamodel.cpp:147
 msgctxt "CharacterDataModel|"
 msgid "New Character"
 msgstr "Nova Karaktero"
@@ -3104,7 +3112,7 @@ msgctxt "ImportMedia|"
 msgid "Import media: %1"
 msgstr "Importi aŭdvidaĵon: %1"
 
-#: src/libraries/core/src/undoCmd/newmediacontroller.cpp:68
+#: src/libraries/core/src/undoCmd/newmediacontroller.cpp:63
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
@@ -3128,13 +3136,13 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "Fermi %1"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:210
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:193
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "'%1' ne estas malplena"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:219
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:202
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
@@ -3586,18 +3594,18 @@ msgctxt "ChatView|"
 msgid "close"
 msgstr "proksime"
 
-#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:69
+#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:61
 msgctxt "DiceMessageDelegate|"
 msgid "Details"
 msgstr "Detaloj"
 
-#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:76
+#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:68
 #, qt-format
 msgctxt "DiceMessageDelegate|"
 msgid "Details: %1"
 msgstr "Detaloj: %1"
 
-#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:81
+#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:73
 #, qt-format
 msgctxt "DiceMessageDelegate|"
 msgid "Command: %1"
@@ -4020,8 +4028,11 @@ msgid "Roll Init"
 msgstr "Rulo Init"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
+#, fuzzy
+#| msgctxt "RGraphicsView|"
+#| msgid "Clean Init"
 msgctxt "RGraphicsView|"
-msgid "Clean Init"
+msgid "Clear Init"
 msgstr "Pura Init"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
@@ -4207,18 +4218,27 @@ msgid "Roll Initiative on All Characters"
 msgstr "Roll Initiative sur Ĉiuj Karakteroj"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
+#, fuzzy
+#| msgctxt "RGraphicsView|"
+#| msgid "Clean Initiative on All Npcs"
 msgctxt "RGraphicsView|"
-msgid "Clean Initiative on All Npcs"
+msgid "Clear Initiative on All Npcs"
 msgstr "Pura Iniciato sur Ĉiuj Npcs"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
+#, fuzzy
+#| msgctxt "RGraphicsView|"
+#| msgid "Clean Initiative on Selection"
 msgctxt "RGraphicsView|"
-msgid "Clean Initiative on Selection"
+msgid "Clear Initiative on Selection"
 msgstr "Pura Iniciato pri Elekto"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
+#, fuzzy
+#| msgctxt "RGraphicsView|"
+#| msgid "Clean Initiative on All Characters"
 msgctxt "RGraphicsView|"
-msgid "Clean Initiative on All Characters"
+msgid "Clear Initiative on All Characters"
 msgstr "Pura Iniciato pri Ĉiuj Karakteroj"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
@@ -5216,7 +5236,7 @@ msgstr ""
 "butono aŭ ago. Ĝi estas pli profunda reĝimo.<br/>Ĝi povas malrapidigi iom "
 "rolisteamo.</span></p><p><span style=\" font-size:9pt;\">Por scii pli pri "
 "datumkolektado : </span><a href=\"https://rolisteam.org/datacollection.html"
-"\"><span style=\" font-size:9pt; teksto-ornamado: substreko; koloro:#007af4;"
+"\"><span style=\" font-size:9pt; text-decoration: underline; koloro:#007af4;"
 "\" >www.rolistem.org/datacollection.html</span></a></p></body></html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1127
@@ -5260,7 +5280,7 @@ msgctxt "PreferencesDialogBox|"
 msgid "down"
 msgstr "malsupren"
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:102
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:117
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "Elekti dosierujon"
@@ -7489,57 +7509,57 @@ msgctxt "GMTOOL::UnitModel|"
 msgid "New Unit"
 msgstr "Nova Unuo"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:98
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:92
 msgctxt "CharacterItem|"
 msgid "Disk"
 msgstr "Disko"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:99
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:93
 msgctxt "CharacterItem|"
 msgid "Angle"
 msgstr "Angulo"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:100
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:94
 msgctxt "CharacterItem|"
 msgid "Reduce Life"
 msgstr "Redukti Vivon"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:101
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:95
 msgctxt "CharacterItem|"
 msgid "Increase Life"
 msgstr "Pliigi Vivon"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:470
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:351
 msgctxt "CharacterItem|"
 msgid "Change State"
 msgstr "Ŝanĝi Staton"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:496
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:377
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
 msgstr "Vida Formo"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:509
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:390
 msgctxt "CharacterItem|"
 msgid "Actions"
 msgstr "Agoj"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:510
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:391
 msgctxt "CharacterItem|"
 msgid "Initiative"
 msgstr "Iniciato"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:512
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:393
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
 msgstr "Pura Iniciato"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:529
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:410
 msgctxt "CharacterItem|"
 msgid "Shapes"
 msgstr "Formoj"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:536
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:417
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "Pura Formo"
@@ -8202,87 +8222,95 @@ msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
 msgstr "Montri/kaŝi Kolumnon"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:48
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Set Avatar..."
 msgstr "Agordi avataron..."
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:49
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:52
 msgctxt "UserListView|"
 msgid "Remove..."
 msgstr "Forigi..."
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:50
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:53
 msgctxt "UserListView|"
 msgid "Edit name"
 msgstr "Redakti nomon"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:51
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:54
 msgctxt "UserListView|"
 msgid "Change color…"
 msgstr "Ŝanĝi koloron..."
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:61
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:64
 msgctxt "UserListView|"
 msgid "Health Points"
 msgstr "Sanaj Punktoj"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:61
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:64
 msgctxt "UserListView|"
 msgid "Health Points Maximum"
 msgstr "Sanaj Punktoj Maksimumo"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:62
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:65
 msgctxt "UserListView|"
 msgid "Health Points Minimum"
 msgstr "Sanaj Punktoj Minimumo"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:62
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:65
 msgctxt "UserListView|"
 msgid "Distance per turn"
 msgstr "Distanco por turno"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:63
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:66
 msgctxt "UserListView|"
 msgid "Initiative Command"
 msgstr "Iniciata Komando"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:63
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:66
 msgctxt "UserListView|"
 msgid "Has initiative"
 msgstr "Havas iniciaton"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:131
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:67
+#, fuzzy
+#| msgctxt "NonPlayableCharacterModel|"
+#| msgid "Life Color"
+msgctxt "UserListView|"
+msgid "Life bar color"
+msgstr "Viva Koloro"
+
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:143
 #, qt-format
 msgctxt "UserListView|"
 msgid "Get value for %1 property"
 msgstr "Akiri valoron por %1 propreco"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:131
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:143
 msgctxt "UserListView|"
 msgid "Value:"
 msgstr "Valoro:"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:228
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:236
 msgctxt "UserListView|"
 msgid "Set Property"
 msgstr "Agordi Proprecon"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:242
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:250
 msgctxt "UserListView|"
 msgid "State"
 msgstr "Stato"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:261
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:269
 msgctxt "UserListView|"
 msgid "Action"
 msgstr "Ago"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:273
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:281
 msgctxt "UserListView|"
 msgid "Shape"
 msgstr "Formo"

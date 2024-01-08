@@ -2351,12 +2351,12 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "提供這個檔案給 Rolisteam 開發團隊"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:359
+#: src/libraries/core/src/controller/contentcontroller.cpp:360
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr ""
 
-#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:118
+#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:120
 msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr ""
@@ -2396,59 +2396,67 @@ msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr ""
 
-#: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:47
+#: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:45
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:36
 msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr "未知角色"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
 msgstr "角色"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
 msgctxt "QObject|"
 msgid "Ground"
 msgstr ""
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
 msgctxt "QObject|"
 msgid "Object"
 msgstr "物體"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "GameMaster"
 msgstr ""
 
-#: src/libraries/core/src/data/campaign.cpp:267
+#: src/libraries/core/src/data/campaign.cpp:56
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Unknown"
+msgctxt "Campaign|"
+msgid "Unknown"
+msgstr "未知"
+
+#: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
 msgid "Pattern"
 msgstr "樣式"
 
-#: src/libraries/core/src/data/campaign.cpp:267
+#: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
 msgid "Command"
 msgstr "命令"
 
-#: src/libraries/core/src/data/campaign.cpp:267
+#: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
 msgid "Comment"
 msgstr "註解"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:56
+#: src/libraries/core/src/data/campaignmanager.cpp:57
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr ""
 
-#: src/libraries/core/src/data/campaignmanager.cpp:132
+#: src/libraries/core/src/data/campaignmanager.cpp:133
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
@@ -2740,12 +2748,12 @@ msgctxt "PatternModel|"
 msgid "Hexagon"
 msgstr "六角形"
 
-#: src/libraries/core/src/model/playermodel.cpp:185
+#: src/libraries/core/src/model/playermodel.cpp:182
 msgctxt "PlayerModel|"
 msgid "Not defined"
 msgstr "未定義"
 
-#: src/libraries/core/src/model/playermodel.cpp:188
+#: src/libraries/core/src/model/playermodel.cpp:185
 #, qt-format
 msgctxt "PlayerModel|"
 msgid ""
@@ -2757,22 +2765,22 @@ msgid ""
 "type: %7\n"
 msgstr ""
 
-#: src/libraries/core/src/model/playermodel.cpp:200
+#: src/libraries/core/src/model/playermodel.cpp:197
 msgctxt "PlayerModel|"
 msgid "NPC"
 msgstr "NPC"
 
-#: src/libraries/core/src/model/playermodel.cpp:200
+#: src/libraries/core/src/model/playermodel.cpp:197
 msgctxt "PlayerModel|"
 msgid "PC"
 msgstr ""
 
-#: src/libraries/core/src/model/playermodel.cpp:266
+#: src/libraries/core/src/model/playermodel.cpp:263
 msgctxt "PlayerModel|"
 msgid "Players List"
 msgstr "玩家列表"
 
-#: src/libraries/core/src/model/playermodel.cpp:471
+#: src/libraries/core/src/model/playermodel.cpp:473
 msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
 msgstr "重複的玩家或 UUID"
@@ -2818,12 +2826,12 @@ msgctxt "ChannelModel|"
 msgid "Channel %1 required password:"
 msgstr ""
 
-#: src/libraries/core/src/network/characterdatamodel.cpp:77
+#: src/libraries/core/src/network/characterdatamodel.cpp:78
 msgctxt "CharacterDataModel|"
 msgid "No Avatar"
 msgstr ""
 
-#: src/libraries/core/src/network/characterdatamodel.cpp:145
+#: src/libraries/core/src/network/characterdatamodel.cpp:147
 msgctxt "CharacterDataModel|"
 msgid "New Character"
 msgstr "新角色"
@@ -3041,7 +3049,7 @@ msgctxt "ImportMedia|"
 msgid "Import media: %1"
 msgstr "匯入媒體：%1"
 
-#: src/libraries/core/src/undoCmd/newmediacontroller.cpp:68
+#: src/libraries/core/src/undoCmd/newmediacontroller.cpp:63
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
@@ -3065,13 +3073,13 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "關閉 %1"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:210
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:193
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "'%1' 不是空的"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:219
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:202
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
@@ -3521,18 +3529,18 @@ msgctxt "ChatView|"
 msgid "close"
 msgstr "關閉"
 
-#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:69
+#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:61
 msgctxt "DiceMessageDelegate|"
 msgid "Details"
 msgstr "詳細資料"
 
-#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:76
+#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:68
 #, qt-format
 msgctxt "DiceMessageDelegate|"
 msgid "Details: %1"
 msgstr "詳細資料：%1"
 
-#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:81
+#: src/libraries/qml_views/InstantMessaging/DiceMessageDelegate.qml:73
 #, qt-format
 msgctxt "DiceMessageDelegate|"
 msgid "Command: %1"
@@ -3952,7 +3960,7 @@ msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
 msgctxt "RGraphicsView|"
-msgid "Clean Init"
+msgid "Clear Init"
 msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
@@ -4139,17 +4147,17 @@ msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
 msgctxt "RGraphicsView|"
-msgid "Clean Initiative on All Npcs"
+msgid "Clear Initiative on All Npcs"
 msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
 msgctxt "RGraphicsView|"
-msgid "Clean Initiative on Selection"
+msgid "Clear Initiative on Selection"
 msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
 msgctxt "RGraphicsView|"
-msgid "Clean Initiative on All Characters"
+msgid "Clear Initiative on All Characters"
 msgstr ""
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
@@ -5160,7 +5168,7 @@ msgctxt "PreferencesDialogBox|"
 msgid "down"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:102
+#: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:117
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Select directory"
 msgstr "選擇目錄"
@@ -7300,57 +7308,57 @@ msgctxt "GMTOOL::UnitModel|"
 msgid "New Unit"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:98
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:92
 msgctxt "CharacterItem|"
 msgid "Disk"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:99
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:93
 msgctxt "CharacterItem|"
 msgid "Angle"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:100
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:94
 msgctxt "CharacterItem|"
 msgid "Reduce Life"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:101
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:95
 msgctxt "CharacterItem|"
 msgid "Increase Life"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:470
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:351
 msgctxt "CharacterItem|"
 msgid "Change State"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:496
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:377
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:509
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:390
 msgctxt "CharacterItem|"
 msgid "Actions"
 msgstr "動作"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:510
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:391
 msgctxt "CharacterItem|"
 msgid "Initiative"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:512
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:393
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
 msgstr ""
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:529
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:410
 msgctxt "CharacterItem|"
 msgid "Shapes"
 msgstr "形狀"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:536
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:417
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "清理形狀"
@@ -8011,87 +8019,95 @@ msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
 msgstr "顯示/隱藏欄位"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:48
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Set Avatar..."
 msgstr ""
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:49
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:52
 msgctxt "UserListView|"
 msgid "Remove..."
 msgstr "移除…"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:50
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:53
 msgctxt "UserListView|"
 msgid "Edit name"
 msgstr "編輯名稱"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:51
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:54
 msgctxt "UserListView|"
 msgid "Change color…"
 msgstr "變更顏色…"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:61
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:64
 msgctxt "UserListView|"
 msgid "Health Points"
 msgstr ""
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:61
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:64
 msgctxt "UserListView|"
 msgid "Health Points Maximum"
 msgstr ""
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:62
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:65
 msgctxt "UserListView|"
 msgid "Health Points Minimum"
 msgstr ""
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:62
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:65
 msgctxt "UserListView|"
 msgid "Distance per turn"
 msgstr ""
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:63
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:66
 msgctxt "UserListView|"
 msgid "Initiative Command"
 msgstr ""
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:63
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:66
 msgctxt "UserListView|"
 msgid "Has initiative"
 msgstr ""
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:131
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:67
+#, fuzzy
+#| msgctxt "MRichTextEdit|"
+#| msgid "Text background color"
+msgctxt "UserListView|"
+msgid "Life bar color"
+msgstr "文字背景顏色"
+
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:143
 #, qt-format
 msgctxt "UserListView|"
 msgid "Get value for %1 property"
 msgstr "取得 %1 屬性的數值"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:131
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:143
 msgctxt "UserListView|"
 msgid "Value:"
 msgstr "數值："
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:228
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:236
 msgctxt "UserListView|"
 msgid "Set Property"
 msgstr "設定屬性"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:242
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:250
 msgctxt "UserListView|"
 msgid "State"
 msgstr "狀態"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:261
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:269
 msgctxt "UserListView|"
 msgid "Action"
 msgstr "動作"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:273
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:281
 msgctxt "UserListView|"
 msgid "Shape"
 msgstr "形狀"
