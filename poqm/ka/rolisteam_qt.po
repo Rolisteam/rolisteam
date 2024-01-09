@@ -2481,9 +2481,6 @@ msgid "GameMaster"
 msgstr "თამაშის მასტერი"
 
 #: src/libraries/core/src/data/campaign.cpp:56
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "უცნობი"
@@ -4026,9 +4023,6 @@ msgid "Roll Init"
 msgstr "გამოგდების ინიციალიზაცია"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Init"
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
 msgstr "ინიციალიზაციის გასუფთავება"
@@ -4216,25 +4210,16 @@ msgid "Roll Initiative on All Characters"
 msgstr "ინიციატივის გაუქმება ყველა პერსონაჟზე"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Npcs"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
 msgstr "ინიციატივის გასუფთავება ყველა NPC-ზე"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on Selection"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
 msgstr "ინიციატივის გასუფთავება მონიშნულზე"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Characters"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
 msgstr "ინიციატივის გასუფთავება ყველა პერსონაჟზე"
@@ -8273,12 +8258,9 @@ msgid "Has initiative"
 msgstr "აქვს ინიცატივა"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:67
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Life Color"
 msgctxt "UserListView|"
 msgid "Life bar color"
-msgstr "სიცოცხლის ფერი"
+msgstr "სიცოცხლის ზოლის ფერი"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
