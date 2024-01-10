@@ -1,14 +1,14 @@
 # Translation of rolisteam_qt.po to Catalan (Valencian)
-# Copyright (C) 2022-2023 This_file_is_part_of_KDE
+# Copyright (C) 2022-2024 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2022, 2023.
+# Josep M. Ferrer <txemaq@gmail.com>, 2022, 2023, 2024.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2023-11-20 10:00+0100\n"
+"PO-Revision-Date: 2024-01-08 10:00+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2488,9 +2488,6 @@ msgid "GameMaster"
 msgstr "Director de joc"
 
 #: src/libraries/core/src/data/campaign.cpp:56
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "Desconegut"
@@ -4041,9 +4038,6 @@ msgid "Roll Init"
 msgstr "Inicialització de tirada"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Init"
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
 msgstr "Neteja la inicialització"
@@ -4231,25 +4225,16 @@ msgid "Roll Initiative on All Characters"
 msgstr "Iniciativa de tirada de tots els personatges"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Npcs"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
 msgstr "Neteja la iniciativa de tots els PNJ"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on Selection"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
 msgstr "Neteja la iniciativa de la selecció"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Characters"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
 msgstr "Neteja la iniciativa de tots els personatges"
@@ -8293,12 +8278,9 @@ msgid "Has initiative"
 msgstr "Té iniciativa"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:67
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Life Color"
 msgctxt "UserListView|"
 msgid "Life bar color"
-msgstr "Color de vida"
+msgstr "Color de la barra de vida"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139

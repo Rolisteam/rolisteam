@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2024-01-07 21:26+0100\n"
+"PO-Revision-Date: 2024-01-09 19:31+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -2482,9 +2482,6 @@ msgid "GameMaster"
 msgstr "GameMaster"
 
 #: src/libraries/core/src/data/campaign.cpp:56
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "Nekonata"
@@ -4028,9 +4025,6 @@ msgid "Roll Init"
 msgstr "Rulo Init"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Init"
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
 msgstr "Pura Init"
@@ -4218,28 +4212,19 @@ msgid "Roll Initiative on All Characters"
 msgstr "Roll Initiative sur Ĉiuj Karakteroj"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Npcs"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
-msgstr "Pura Iniciato sur Ĉiuj Npcs"
+msgstr "Viŝi Iniciaton je Ĉiuj Npcs"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on Selection"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
-msgstr "Pura Iniciato pri Elekto"
+msgstr "Viŝi Iniciaton je Elekto"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Characters"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
-msgstr "Pura Iniciato pri Ĉiuj Karakteroj"
+msgstr "Viŝi Iniciaton pri Ĉiuj Karakteroj"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
@@ -8273,12 +8258,9 @@ msgid "Has initiative"
 msgstr "Havas iniciaton"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:67
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Life Color"
 msgctxt "UserListView|"
 msgid "Life bar color"
-msgstr "Viva Koloro"
+msgstr "Vivbreta koloro"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
