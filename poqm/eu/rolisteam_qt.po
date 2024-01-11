@@ -1,14 +1,14 @@
 # Translation for rolisteam_qt.po to Euskara/Basque (eu).
-# Copyright (C) 2023 This file is copyright:
+# Copyright (C) 2023-2024 This file is copyright:
 # This file is distributed under the same license as the original file.
-# SPDX-FileCopyrightText: 2023 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2023, 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2023.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-12-08 13:27+0100\n"
+"PO-Revision-Date: 2024-01-10 06:06+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -2485,9 +2485,6 @@ msgid "GameMaster"
 msgstr "Jokoaren maisua"
 
 #: src/libraries/core/src/data/campaign.cpp:56
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "Ezezaguna"
@@ -4032,12 +4029,9 @@ msgid "Roll Init"
 msgstr "Jaurti ekimena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Init"
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
-msgstr "Garbitu ekimena"
+msgstr "Hustu ekimena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
@@ -4222,28 +4216,19 @@ msgid "Roll Initiative on All Characters"
 msgstr "Jaurti ekimena pertsonaia guztietan"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Npcs"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
-msgstr "Garbitu JEP guztien ekimena"
+msgstr "Hustu JEP guztien ekimena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on Selection"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
-msgstr "Garbitu hautapeneko ekimena"
+msgstr "Hustu hautapeneko ekimena"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Characters"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
-msgstr "Garbitu ekimena pertsonaia guztietan"
+msgstr "Hustu ekimena pertsonaia guztietan"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
@@ -8281,12 +8266,9 @@ msgid "Has initiative"
 msgstr "Ekimena du"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:67
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Life Color"
 msgctxt "UserListView|"
 msgid "Life bar color"
-msgstr "Bizitzaren kolorea"
+msgstr "Bizitza-barraren kolorea"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
