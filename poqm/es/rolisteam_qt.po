@@ -1,8 +1,8 @@
-# SPDX-FileCopyrightText: 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2023-12-01 17:53+0100\n"
+"PO-Revision-Date: 2024-01-11 01:56+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -2479,12 +2479,9 @@ msgid "GameMaster"
 msgstr "Director de juego"
 
 #: src/libraries/core/src/data/campaign.cpp:56
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "Campaign|"
 msgid "Unknown"
-msgstr "Desconocido"
+msgstr "Desconocida"
 
 #: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
@@ -4029,9 +4026,6 @@ msgid "Roll Init"
 msgstr "Lanzar la iniciativa"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Init"
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
 msgstr "Borrar la iniciativa"
@@ -4219,25 +4213,16 @@ msgid "Roll Initiative on All Characters"
 msgstr "Lanzar la iniciativa en todos los personajes"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Npcs"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
 msgstr "Borrar la iniciativa de todos los PNJ"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on Selection"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
 msgstr "Borrar iniciativa al seleccionar"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Characters"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
 msgstr "Borrar la iniciativa de todos los personajes"
@@ -8280,12 +8265,9 @@ msgid "Has initiative"
 msgstr "Tiene la iniciativa"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:67
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Life Color"
 msgctxt "UserListView|"
 msgid "Life bar color"
-msgstr "Color de la vida"
+msgstr "Color de la barra de vida"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
