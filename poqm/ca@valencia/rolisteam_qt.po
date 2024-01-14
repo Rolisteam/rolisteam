@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2024-01-08 10:00+0100\n"
+"PO-Revision-Date: 2024-01-12 19:19+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4980,7 +4980,7 @@ msgstr "Full de personatge"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
 msgid "Time between page:"
-msgstr "Temps entre pagines:"
+msgstr "Temps entre pàgines:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:435
 msgctxt "PreferencesDialogBox|"
