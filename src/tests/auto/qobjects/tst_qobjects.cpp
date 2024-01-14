@@ -357,6 +357,7 @@
 #include "visualitemcontroller.h"
 #include "XML_Editor.h"
 
+
 #include <helper.h>
 #include <memory>
 #include <QWidget>
@@ -556,11 +557,11 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("ImageSelectorDialog") << static_cast<QObject*>(new ImageSelectorDialog(new ImageSelectorController())) << true;
     QTest::addRow("ImportDataFromCampaignDialog")    << static_cast<QObject*>(new ImportDataFromCampaignDialog({})) << true;
     QTest::addRow("InstantMessagerManager") << static_cast<QObject*>(new InstantMessagerManager()) << true;
-    QTest::addRow("InstantMessaging") << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(nullptr)) << true;
-    QTest::addRow("InstantMessagingController")        << static_cast<QObject*>(new InstantMessagingController(nullptr)) << true;
-    QTest::addRow("InstantMessagingModel")  << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(new PlayerModel()))<< true ;
+    QTest::addRow("InstantMessaging") << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(nullptr, nullptr)) << true;
+    QTest::addRow("InstantMessagingController")        << static_cast<QObject*>(new InstantMessagingController(nullptr, nullptr)) << true;
+    QTest::addRow("InstantMessagingModel")  << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(new DiceRoller,new PlayerModel()))<< true ;
     QTest::addRow("InstantMessagingUpdater")        << static_cast<QObject*>(new InstantMessaging::InstantMessagingUpdater()) << true;
-    QTest::addRow("InstantMessagingView")  << static_cast<QObject*>(new InstantMessagingView(new InstantMessagingController(new PlayerModel()))) << true ;
+    QTest::addRow("InstantMessagingView")  << static_cast<QObject*>(new InstantMessagingView(new InstantMessagingController(new DiceRoller, new PlayerModel()))) << true ;
     QTest::addRow("IpChecker") << static_cast<QObject*>(new IpChecker()) << true;
     QTest::addRow("ItemEditor")  << static_cast<QObject*>(new ItemEditor())<< true ;
     QTest::addRow("KeyGeneratorDialog") << static_cast<QObject*>(new KeyGeneratorDialog()) << true;
@@ -633,7 +634,8 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("PdfViewer") << static_cast<QObject*>(new PdfViewer(nullptr)) << true;
     QTest::addRow("PersonDialog") << static_cast<QObject*>(new PersonDialog()) << true;
     QTest::addRow("Player") << static_cast<QObject*>(new Player()) << true;
-    QTest::addRow("PlayerController") << static_cast<QObject*>(new PlayerController()) << true;
+    QTest::addRow("PlayerController") << static_cast<QObject*>(new PlayerController(nullptr)) << true;
+    QTest::addRow("PlayerController2") << static_cast<QObject*>(new PlayerController(new NetworkController)) << true;
     QTest::addRow("PlayerModel") << static_cast<QObject*>(new PlayerModel()) << true;
     QTest::addRow("PlayerProxyModel") << static_cast<QObject*>(new PlayerProxyModel()) << true;
     QTest::addRow("PlayerWidget") << static_cast<QObject*>(new PlayerWidget(nullptr)) << true;
