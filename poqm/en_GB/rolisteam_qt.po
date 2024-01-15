@@ -734,33 +734,46 @@ msgctxt "QObject|"
 msgid "open <file>."
 msgstr "open <file>."
 
-#: src/binaries/rcse/mainwindow.cpp:166
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:168
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Log panel"
+msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Log panel"
 
-#: src/binaries/rcse/mainwindow.cpp:194
-#: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:574
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:196
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "&Undo"
+msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "&Undo"
 
-#: src/binaries/rcse/mainwindow.cpp:197
-#: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:573
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:199
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "&Redo"
+msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "&Redo"
 
-#: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:644
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:358
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Support"
+msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Support"
 
-#: src/binaries/rcse/mainwindow.cpp:357
-#, qt-format
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:359
+#, fuzzy, qt-format
+#| msgctxt "MainWindow|"
+#| msgid ""
+#| "The %1 donation page can be found online at :<br> <a href=\"https://"
+#| "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</"
+#| "a>"
+msgctxt "rcse::MainWindow|"
 msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
@@ -768,75 +781,112 @@ msgstr ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:426
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:428
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Untitled"
+msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Untitled"
 
-#: src/binaries/rcse/mainwindow.cpp:463
-#: src/binaries/rcse/mainwindow_rcse.ui:809
-#: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:795
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:465
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Help"
+msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Help"
 
-#: src/binaries/rcse/mainwindow.cpp:464
-#, qt-format
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:466
+#, fuzzy, qt-format
+#| msgctxt "MainWindow|"
+#| msgid ""
+#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+msgctxt "rcse::MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:476
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:478
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "The charactersheet has unsaved changes."
+msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "The charactersheet has unsaved changes."
 
-#: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:717
-#, qt-format
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:485
+#, fuzzy, qt-format
+#| msgctxt "MainWindow|"
+#| msgid "Quit %1 "
+msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Quit %1 "
 
-#: src/binaries/rcse/mainwindow.cpp:538
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:540
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Image Generation"
+msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Image Generation"
 
-#: src/binaries/rcse/mainwindow.cpp:538
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:540
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Image generation in progress"
+msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Image generation in progress"
 
-#: src/binaries/rcse/mainwindow.cpp:557 src/binaries/rcse/mainwindow.cpp:807
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Open Background Image"
+msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Open Background Image"
 
-#: src/binaries/rcse/mainwindow.cpp:568
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:570
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Open Image"
+msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Open Image"
 
-#: src/binaries/rcse/mainwindow.cpp:593 src/binaries/rcse/mainwindow.cpp:638
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Save CharacterSheet"
+msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "Save CharacterSheet"
 
-#: src/binaries/rcse/mainwindow.cpp:594 src/binaries/rcse/mainwindow.cpp:639
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Rolisteam CharacterSheet (*.rcs)"
+msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "Rolisteam CharacterSheet (*.rcs)"
 
-#: src/binaries/rcse/mainwindow.cpp:703
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:705
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Do you want to erase current QML code ?"
+msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "Do you want to erase current QML code ?"
 
-#: src/binaries/rcse/mainwindow.cpp:704
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:706
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid ""
+#| "Generate QML code will override any change you made in the QML.<br/>Do "
+#| "you really want to generate QML code ?"
+msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
@@ -844,73 +894,115 @@ msgstr ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
 
-#: src/binaries/rcse/mainwindow.cpp:790
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:792
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Save CharacterSheet View"
+msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "Save CharacterSheet View"
 
-#: src/binaries/rcse/mainwindow.cpp:791
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:793
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Rolisteam CharacterSheet View (*.qml)"
+msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Rolisteam CharacterSheet View (*.qml)"
 
-#: src/binaries/rcse/mainwindow.cpp:916
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:918
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Copy Path"
+msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Copy Path"
 
-#: src/binaries/rcse/mainwindow.cpp:919
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:921
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Copy Url"
+msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "Copy URL"
 
-#: src/binaries/rcse/mainwindow.cpp:922
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:924
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Replace Image"
+msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Replace Image"
 
-#: src/binaries/rcse/mainwindow.cpp:923
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:925
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Remove Image"
+msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Remove Image"
 
-#: src/binaries/rcse/mainwindow.cpp:924
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:926
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Reload image from file"
+msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Reload image from file"
 
-#: src/binaries/rcse/mainwindow.cpp:931
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:933
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Load Image"
+msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Load Image"
 
-#: src/binaries/rcse/mainwindow.cpp:932
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:934
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
+msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "Supported Image Format (*.jpg *.png *.svg *.gif)"
 
-#: src/binaries/rcse/mainwindow.cpp:945
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:947
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Add character"
+msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Add character"
 
-#: src/binaries/rcse/mainwindow.cpp:946
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:948
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Delete character"
+msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Delete character"
 
-#: src/binaries/rcse/mainwindow.cpp:948
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:950
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Character's Name"
+msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Character's Name"
 
-#: src/binaries/rcse/mainwindow.cpp:950
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:952
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Apply on Selection"
+msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "Apply on Selection"
 
-#: src/binaries/rcse/mainwindow.cpp:951
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:953
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Apply on all characters"
+msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "Apply on all characters"
 
@@ -1147,6 +1239,13 @@ msgctxt "MainWindow|"
 msgid "Edition"
 msgstr "Edit Actions"
 
+#: src/binaries/rcse/mainwindow_rcse.ui:809
+#: src/binaries/rcse/mainwindow_rcse.ui:1012
+#: src/binaries/widget/mainwindow.cpp:795
+msgctxt "MainWindow|"
+msgid "Help"
+msgstr "Help"
+
 #: src/binaries/rcse/mainwindow_rcse.ui:823
 #, fuzzy
 #| msgctxt "campaign::CampaignView|"
@@ -1366,6 +1465,18 @@ msgctxt "MainWindow|"
 msgid "Check Validity"
 msgstr ""
 
+#: src/binaries/rcse/mainwindow_rcse.ui:1099
+#: src/binaries/widget/mainwindow.cpp:574
+msgctxt "MainWindow|"
+msgid "&Undo"
+msgstr "&Undo"
+
+#: src/binaries/rcse/mainwindow_rcse.ui:1104
+#: src/binaries/widget/mainwindow.cpp:573
+msgctxt "MainWindow|"
+msgid "&Redo"
+msgstr "&Redo"
+
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
 #: src/binaries/widget/mainwindow.ui:479 src/binaries/widget/mainwindow.ui:546
 #, fuzzy
@@ -1417,12 +1528,12 @@ msgctxt "MainWindow|"
 msgid "Hidden Field (for intermediate calculations)"
 msgstr ""
 
-#: src/binaries/rcse/preferences/preferencesdialog.cpp:36
+#: src/binaries/rcse/preferences/preferencesdialog.cpp:37
 msgctxt "PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "Folder to save QML file"
 
-#: src/binaries/rcse/preferences/preferencesdialog.cpp:36
+#: src/binaries/rcse/preferences/preferencesdialog.cpp:37
 msgctxt "PreferencesDialog|"
 msgid "Place to save Generated files"
 msgstr "Place to save Generated files"
@@ -1737,6 +1848,11 @@ msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Open Campaign"
 
+#: src/binaries/widget/mainwindow.cpp:644
+msgctxt "MainWindow|"
+msgid "Support"
+msgstr "Support"
+
 #: src/binaries/widget/mainwindow.cpp:645
 #, qt-format
 msgctxt "MainWindow|"
@@ -1754,6 +1870,12 @@ msgstr "Connection has been lost. %1 will be close"
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Connection lost"
+
+#: src/binaries/widget/mainwindow.cpp:717
+#, qt-format
+msgctxt "MainWindow|"
+msgid "Quit %1 "
+msgstr "Quit %1 "
 
 #: src/binaries/widget/mainwindow.cpp:796
 #, fuzzy, qt-format
@@ -1802,94 +1924,94 @@ msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 just leaves the game."
 
-#: src/binaries/widget/mainwindow.cpp:924
+#: src/binaries/widget/mainwindow.cpp:926
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Set rolisteam to use <port> for the connection"
 
-#: src/binaries/widget/mainwindow.cpp:927
+#: src/binaries/widget/mainwindow.cpp:929
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Set rolisteam to connect to <server>."
 
-#: src/binaries/widget/mainwindow.cpp:930
+#: src/binaries/widget/mainwindow.cpp:932
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Define the <role>: gm or pc"
 
-#: src/binaries/widget/mainwindow.cpp:932
+#: src/binaries/widget/mainwindow.cpp:934
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Erase the settings and use the default parameters"
 
-#: src/binaries/widget/mainwindow.cpp:935
+#: src/binaries/widget/mainwindow.cpp:937
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Define the <username>"
 
-#: src/binaries/widget/mainwindow.cpp:938
+#: src/binaries/widget/mainwindow.cpp:940
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Remove limit to PDF file size"
 
-#: src/binaries/widget/mainwindow.cpp:941
+#: src/binaries/widget/mainwindow.cpp:943
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "path to the translation file: <translationfile>"
 
-#: src/binaries/widget/mainwindow.cpp:944
+#: src/binaries/widget/mainwindow.cpp:946
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Define URL to connect to server: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1037
+#: src/binaries/widget/mainwindow.cpp:1039
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Open %1"
 
-#: src/binaries/widget/mainwindow.cpp:1128
+#: src/binaries/widget/mainwindow.cpp:1130
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Connected"
 
-#: src/binaries/widget/mainwindow.cpp:1128
+#: src/binaries/widget/mainwindow.cpp:1130
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Not Connected"
 
-#: src/binaries/widget/mainwindow.cpp:1129
+#: src/binaries/widget/mainwindow.cpp:1131
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: src/binaries/widget/mainwindow.cpp:1129
+#: src/binaries/widget/mainwindow.cpp:1131
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: src/binaries/widget/mainwindow.cpp:1136
+#: src/binaries/widget/mainwindow.cpp:1138
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1142
+#: src/binaries/widget/mainwindow.cpp:1144
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Player"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1173
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Unknown"
 
-#: src/binaries/widget/mainwindow.cpp:1247
+#: src/binaries/widget/mainwindow.cpp:1249
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
 msgstr "Export from %1"
 
-#: src/binaries/widget/mainwindow.cpp:1248
+#: src/binaries/widget/mainwindow.cpp:1250
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "unknown"
@@ -2770,7 +2892,7 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr ""
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:360
+#: src/libraries/core/src/controller/contentcontroller.cpp:363
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Copied Image"
@@ -3286,7 +3408,7 @@ msgctxt "QObject|"
 msgid "Player"
 msgstr "Player"
 
-#: src/libraries/core/src/network/rserver.cpp:40
+#: src/libraries/core/src/network/rserver.cpp:41
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
 msgstr "[Upnp] Port mapping has been done"
@@ -3475,7 +3597,7 @@ msgctxt "ImportMedia|"
 msgid "Import media: %1"
 msgstr "Import media: %1"
 
-#: src/libraries/core/src/undoCmd/newmediacontroller.cpp:63
+#: src/libraries/core/src/undoCmd/newmediacontroller.cpp:65
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
@@ -3890,16 +4012,6 @@ msgctxt "PackageNode|"
 msgid "Package"
 msgstr "Package"
 
-#: src/libraries/mindmap/src/model/boxmodel.cpp:212
-msgctxt "BoxModel|"
-msgid "Root"
-msgstr "Root"
-
-#: src/libraries/mindmap/src/model/boxmodel.cpp:212
-msgctxt "BoxModel|"
-msgid "New Node"
-msgstr "New Node"
-
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:10
 msgctxt "IntegrityPage|"
 msgid "Missing files:"
@@ -4003,7 +4115,7 @@ msgctxt "SideMenu|"
 msgid "Sound Notification"
 msgstr "Sound Notification"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:47
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:48
 #, fuzzy
 #| msgctxt "RGraphicsView|"
 #| msgid "Selection"
@@ -4011,12 +4123,12 @@ msgctxt "SideMenu|"
 msgid "Select Font…"
 msgstr "Selection"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:54
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:55
 msgctxt "SideMenu|"
 msgid "Font Family:"
 msgstr ""
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:60
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:61
 #, fuzzy
 #| msgctxt "SideMenu|"
 #| msgid "Font size"
@@ -6141,7 +6253,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Save"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:550
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:556
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Show Columns"
@@ -6157,21 +6269,21 @@ msgid "Search:"
 msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:39
-#: src/libraries/rwidgets/docks/antagonistboard.ui:327
-#: src/libraries/rwidgets/docks/antagonistboard.ui:347
-#: src/libraries/rwidgets/docks/antagonistboard.ui:784
-#: src/libraries/rwidgets/docks/antagonistboard.ui:791
-#: src/libraries/rwidgets/docks/antagonistboard.ui:877
-#: src/libraries/rwidgets/docks/antagonistboard.ui:884
-#: src/libraries/rwidgets/docks/antagonistboard.ui:952
-#: src/libraries/rwidgets/docks/antagonistboard.ui:959
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1006
+#: src/libraries/rwidgets/docks/antagonistboard.ui:333
+#: src/libraries/rwidgets/docks/antagonistboard.ui:353
+#: src/libraries/rwidgets/docks/antagonistboard.ui:790
+#: src/libraries/rwidgets/docks/antagonistboard.ui:797
+#: src/libraries/rwidgets/docks/antagonistboard.ui:883
+#: src/libraries/rwidgets/docks/antagonistboard.ui:890
+#: src/libraries/rwidgets/docks/antagonistboard.ui:958
+#: src/libraries/rwidgets/docks/antagonistboard.ui:965
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1012
 msgctxt "AntagonistBoard|"
 msgid "..."
 msgstr ""
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1129
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1135
 msgctxt "AntagonistBoard|"
 msgid "Advanced"
 msgstr ""
@@ -6301,7 +6413,7 @@ msgid "Shapes:"
 msgstr "Shapes"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:287
-#: src/libraries/rwidgets/docks/antagonistboard.ui:411
+#: src/libraries/rwidgets/docks/antagonistboard.ui:417
 #, fuzzy
 #| msgctxt "PersonEdit|"
 #| msgid "Color:"
@@ -6309,12 +6421,12 @@ msgctxt "AntagonistBoard|"
 msgid "Color:"
 msgstr "Colour:"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:367
+#: src/libraries/rwidgets/docks/antagonistboard.ui:373
 msgctxt "AntagonistBoard|"
 msgid "Info"
 msgstr ""
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:381
+#: src/libraries/rwidgets/docks/antagonistboard.ui:387
 #, fuzzy
 #| msgctxt "PersonEdit|"
 #| msgid "Name:"
@@ -6322,7 +6434,7 @@ msgctxt "AntagonistBoard|"
 msgid "Name:"
 msgstr "Name:"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:391
+#: src/libraries/rwidgets/docks/antagonistboard.ui:397
 #, fuzzy
 #| msgctxt "UserListView|"
 #| msgid "Initiative Command"
@@ -6330,12 +6442,12 @@ msgctxt "AntagonistBoard|"
 msgid "Initiative Command"
 msgstr "Initiative Command"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:398
+#: src/libraries/rwidgets/docks/antagonistboard.ui:404
 msgctxt "AntagonistBoard|"
 msgid "2d10"
 msgstr ""
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:445
+#: src/libraries/rwidgets/docks/antagonistboard.ui:451
 #, fuzzy
 #| msgctxt "NonPlayableCharacterModel|"
 #| msgid "Initiative"
@@ -6343,7 +6455,7 @@ msgctxt "AntagonistBoard|"
 msgid "Initiative Value:"
 msgstr "Initiative"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:482
+#: src/libraries/rwidgets/docks/antagonistboard.ui:488
 #, fuzzy
 #| msgctxt "MediaModel|"
 #| msgid "Size"
@@ -6351,7 +6463,7 @@ msgctxt "AntagonistBoard|"
 msgid "Size:"
 msgstr "Size"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:521
+#: src/libraries/rwidgets/docks/antagonistboard.ui:527
 #, fuzzy
 #| msgctxt "UserListView|"
 #| msgid "Health Points"
@@ -6359,12 +6471,12 @@ msgctxt "AntagonistBoard|"
 msgid "Health Points"
 msgstr "Health Points"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:542
+#: src/libraries/rwidgets/docks/antagonistboard.ui:548
 msgctxt "AntagonistBoard|"
 msgid "Min:"
 msgstr ""
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:572
+#: src/libraries/rwidgets/docks/antagonistboard.ui:578
 #, fuzzy
 #| msgctxt "NonPlayableCharacterModel|"
 #| msgid "Current HP"
@@ -6372,7 +6484,7 @@ msgctxt "AntagonistBoard|"
 msgid "Current"
 msgstr "Current HP"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:605
+#: src/libraries/rwidgets/docks/antagonistboard.ui:611
 #, fuzzy
 #| msgctxt "RGraphicsView|"
 #| msgid "Map"
@@ -6380,7 +6492,7 @@ msgctxt "AntagonistBoard|"
 msgid "Max"
 msgstr "Map"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:628
+#: src/libraries/rwidgets/docks/antagonistboard.ui:634
 #, fuzzy
 #| msgctxt "NonPlayableCharacterModel|"
 #| msgid "Avatar"
@@ -6388,7 +6500,7 @@ msgctxt "AntagonistBoard|"
 msgid "Avatar"
 msgstr "Avatar"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:704
+#: src/libraries/rwidgets/docks/antagonistboard.ui:710
 #, fuzzy
 #| msgctxt "campaign::AntagonistBoard|"
 #| msgid "Change Image"
@@ -6396,7 +6508,7 @@ msgctxt "AntagonistBoard|"
 msgid "Change"
 msgstr "Change Image"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:730
+#: src/libraries/rwidgets/docks/antagonistboard.ui:736
 #, fuzzy
 #| msgctxt "ShortCutModel|"
 #| msgid "Action"
@@ -6404,7 +6516,7 @@ msgctxt "AntagonistBoard|"
 msgid "Action"
 msgstr "Action"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:751
+#: src/libraries/rwidgets/docks/antagonistboard.ui:757
 #, fuzzy
 #| msgctxt "CharacterItem|"
 #| msgid "Actions"
@@ -6412,7 +6524,7 @@ msgctxt "AntagonistBoard|"
 msgid "Actions"
 msgstr "Actions"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:817
+#: src/libraries/rwidgets/docks/antagonistboard.ui:823
 #, fuzzy
 #| msgctxt "UserListView|"
 #| msgid "Shape"
@@ -6420,7 +6532,7 @@ msgctxt "AntagonistBoard|"
 msgid "Shape"
 msgstr "Shape"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:838
+#: src/libraries/rwidgets/docks/antagonistboard.ui:844
 #, fuzzy
 #| msgctxt "CharacterItem|"
 #| msgid "Shapes"
@@ -6428,7 +6540,7 @@ msgctxt "AntagonistBoard|"
 msgid "Shapes"
 msgstr "Shapes"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:910
+#: src/libraries/rwidgets/docks/antagonistboard.ui:916
 #, fuzzy
 #| msgctxt "UserListView|"
 #| msgid "Set Property"
@@ -6436,7 +6548,7 @@ msgctxt "AntagonistBoard|"
 msgid "Property"
 msgstr "Set Property"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:916
+#: src/libraries/rwidgets/docks/antagonistboard.ui:922
 #, fuzzy
 #| msgctxt "TableCanvasField|"
 #| msgid "Properties"
@@ -6444,7 +6556,7 @@ msgctxt "AntagonistBoard|"
 msgid "Properties"
 msgstr "Properties"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1036
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1042
 #, fuzzy
 #| msgctxt "ShortCutModel|"
 #| msgid "Action"
@@ -6452,7 +6564,7 @@ msgctxt "AntagonistBoard|"
 msgid "Add Action"
 msgstr "Action"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1039
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1045
 #, fuzzy
 #| msgctxt "TextEdit|"
 #| msgid "Edit Actions"
@@ -6460,8 +6572,8 @@ msgctxt "AntagonistBoard|"
 msgid "add action"
 msgstr "Edit Actions"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1048
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1051
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1054
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1057
 #, fuzzy
 #| msgctxt "ButtonGrid|"
 #| msgid "Remove Selection"
@@ -6469,8 +6581,8 @@ msgctxt "AntagonistBoard|"
 msgid "Remove Action"
 msgstr "Remove Selection"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1060
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1063
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1066
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1069
 #, fuzzy
 #| msgctxt "UserListView|"
 #| msgid "Shape"
@@ -6478,8 +6590,8 @@ msgctxt "AntagonistBoard|"
 msgid "Add Shape"
 msgstr "Shape"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1072
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1075
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1078
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1081
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Remove Image"
@@ -6487,8 +6599,8 @@ msgctxt "AntagonistBoard|"
 msgid "Remove Shape"
 msgstr "Remove Image"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1084
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1087
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1090
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1093
 #, fuzzy
 #| msgctxt "UserListView|"
 #| msgid "Set Property"
@@ -6496,8 +6608,8 @@ msgctxt "AntagonistBoard|"
 msgid "Add Property"
 msgstr "Set Property"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1096
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1099
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1102
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1105
 #, fuzzy
 #| msgctxt "UserListView|"
 #| msgid "Set Property"
@@ -6505,7 +6617,7 @@ msgctxt "AntagonistBoard|"
 msgid "Remove Property"
 msgstr "Set Property"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1108
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1114
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Add character"
@@ -6513,7 +6625,7 @@ msgctxt "AntagonistBoard|"
 msgid "Add Character"
 msgstr "Add character"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1117
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1123
 #, fuzzy
 #| msgctxt "QObject|"
 #| msgid "Remove character %1"
@@ -6879,72 +6991,72 @@ msgctxt "VmapTopBar|"
 msgid "px"
 msgstr "px"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Standard"
 msgstr "Standard"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 1"
 msgstr "Heading 1"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 2"
 msgstr "Heading 2"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 3"
 msgstr "Heading 3"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 4"
 msgstr "Heading 4"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:64
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:66
 msgctxt "MRichTextEdit|"
 msgid "Monospace"
 msgstr "Monospace"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:122
 msgctxt "MRichTextEdit|"
 msgid "Remove character formatting"
 msgstr "Remove character formatting"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:125
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:127
 msgctxt "MRichTextEdit|"
 msgid "Remove all formatting"
 msgstr "Remove all formatting"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:129
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:131
 msgctxt "MRichTextEdit|"
 msgid "Edit document source"
 msgstr "Edit document source"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:192
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:198
 msgctxt "MRichTextEdit|"
 msgid "Document source"
 msgstr "Document source"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
 msgctxt "MRichTextEdit|"
 msgid "Create a link"
 msgstr "Create a link"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
 msgstr "Link URL:"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:666
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:682
 msgctxt "MRichTextEdit|"
 msgid "Select an image"
 msgstr "Select an image"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:667
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:683
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
@@ -9501,6 +9613,14 @@ msgstr "Sleeping"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Bewitched"
+
+#~ msgctxt "BoxModel|"
+#~ msgid "Root"
+#~ msgstr "Root"
+
+#~ msgctxt "BoxModel|"
+#~ msgid "New Node"
+#~ msgstr "New Node"
 
 #~ msgctxt "UpnpNat|"
 #~ msgid "Unable to read the beginning of server answer"

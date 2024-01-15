@@ -725,33 +725,46 @@ msgctxt "QObject|"
 msgid "open <file>."
 msgstr "ireki <fitxategia>."
 
-#: src/binaries/rcse/mainwindow.cpp:166
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:168
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Log panel"
+msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Egunkari panela"
 
-#: src/binaries/rcse/mainwindow.cpp:194
-#: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:574
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:196
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "&Undo"
+msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "&Desegin"
 
-#: src/binaries/rcse/mainwindow.cpp:197
-#: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:573
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:199
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "&Redo"
+msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "Be&rregin"
 
-#: src/binaries/rcse/mainwindow.cpp:356 src/binaries/widget/mainwindow.cpp:644
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:358
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Support"
+msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Euskarria"
 
-#: src/binaries/rcse/mainwindow.cpp:357
-#, qt-format
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:359
+#, fuzzy, qt-format
+#| msgctxt "MainWindow|"
+#| msgid ""
+#| "The %1 donation page can be found online at :<br> <a href=\"https://"
+#| "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</"
+#| "a>"
+msgctxt "rcse::MainWindow|"
 msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
@@ -760,75 +773,112 @@ msgstr ""
 "\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/"
 "donate</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:426
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:428
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Untitled"
+msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Izengabea"
 
-#: src/binaries/rcse/mainwindow.cpp:463
-#: src/binaries/rcse/mainwindow_rcse.ui:809
-#: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:795
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:465
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Help"
+msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Laguntza"
 
-#: src/binaries/rcse/mainwindow.cpp:464
-#, qt-format
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:466
+#, fuzzy, qt-format
+#| msgctxt "MainWindow|"
+#| msgid ""
+#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+msgctxt "rcse::MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr ""
 "RCSEren dokumentazioa lerroan hemen aurki daiteke:<br> <a href=\"%1\">%1</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:476
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:478
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "The charactersheet has unsaved changes."
+msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "Pertsonaien-orriak gorde gabeko aldaketak ditu."
 
-#: src/binaries/rcse/mainwindow.cpp:483 src/binaries/widget/mainwindow.cpp:717
-#, qt-format
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:485
+#, fuzzy, qt-format
+#| msgctxt "MainWindow|"
+#| msgid "Quit %1 "
+msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Irten %1-etik"
 
-#: src/binaries/rcse/mainwindow.cpp:538
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:540
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Image Generation"
+msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Irudiak sortzea"
 
-#: src/binaries/rcse/mainwindow.cpp:538
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:540
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Image generation in progress"
+msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Irudi sortzea martxan"
 
-#: src/binaries/rcse/mainwindow.cpp:557 src/binaries/rcse/mainwindow.cpp:807
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Open Background Image"
+msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Ireki atzeko planoko irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:568
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:570
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Open Image"
+msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Ireki irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:593 src/binaries/rcse/mainwindow.cpp:638
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Save CharacterSheet"
+msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "Gorde pertsonaien-orria"
 
-#: src/binaries/rcse/mainwindow.cpp:594 src/binaries/rcse/mainwindow.cpp:639
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Rolisteam CharacterSheet (*.rcs)"
+msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "Rolisteam pertsonaien-orri ikuspegia (*.rcs)"
 
-#: src/binaries/rcse/mainwindow.cpp:703
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:705
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Do you want to erase current QML code ?"
+msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "Uneko QML kodea ezabatu nahi duzu?"
 
-#: src/binaries/rcse/mainwindow.cpp:704
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:706
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid ""
+#| "Generate QML code will override any change you made in the QML.<br/>Do "
+#| "you really want to generate QML code ?"
+msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
@@ -836,73 +886,115 @@ msgstr ""
 "Sortu QML kodea erabiltzean «QML»en egin dituzun aldaketa guztiak "
 "gainidatziko dira.<br/>Benetan sortu nahi duzu QML kodea?"
 
-#: src/binaries/rcse/mainwindow.cpp:790
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:792
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Save CharacterSheet View"
+msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "Gorde pertsonaien-orri ikuspegia"
 
-#: src/binaries/rcse/mainwindow.cpp:791
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:793
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Rolisteam CharacterSheet View (*.qml)"
+msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Rolisteam pertsonaien-orri ikuspegia (*.qml)"
 
-#: src/binaries/rcse/mainwindow.cpp:916
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:918
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Copy Path"
+msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Kopiatu bide-izena"
 
-#: src/binaries/rcse/mainwindow.cpp:919
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:921
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Copy Url"
+msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "Kopiatu URLa"
 
-#: src/binaries/rcse/mainwindow.cpp:922
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:924
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Replace Image"
+msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Ordeztu irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:923
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:925
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Remove Image"
+msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Kendu irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:924
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:926
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Reload image from file"
+msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Birzamatu irudia fitxategitik"
 
-#: src/binaries/rcse/mainwindow.cpp:931
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:933
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Load Image"
+msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Zamatu irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:932
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:934
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
+msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "Onartutako irudi-formatuak (*.jpg *.png *.svg *.gif)"
 
-#: src/binaries/rcse/mainwindow.cpp:945
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:947
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Add character"
+msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Gehitu pertsonaia"
 
-#: src/binaries/rcse/mainwindow.cpp:946
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:948
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Delete character"
+msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Ezabatu pertsonaia"
 
-#: src/binaries/rcse/mainwindow.cpp:948
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:950
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Character's Name"
+msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Pertsonaiaren izena"
 
-#: src/binaries/rcse/mainwindow.cpp:950
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:952
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Apply on Selection"
+msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "Erabili hautapenean"
 
-#: src/binaries/rcse/mainwindow.cpp:951
-msgctxt "MainWindow|"
+#: src/binaries/rcse/mainwindow.cpp:953
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Apply on all characters"
+msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "Erabili pertsonaia guztietan"
 
@@ -1063,6 +1155,13 @@ msgctxt "MainWindow|"
 msgid "Edition"
 msgstr "Editatzea"
 
+#: src/binaries/rcse/mainwindow_rcse.ui:809
+#: src/binaries/rcse/mainwindow_rcse.ui:1012
+#: src/binaries/widget/mainwindow.cpp:795
+msgctxt "MainWindow|"
+msgid "Help"
+msgstr "Laguntza"
+
 #: src/binaries/rcse/mainwindow_rcse.ui:823
 msgctxt "MainWindow|"
 msgid "Open"
@@ -1216,6 +1315,18 @@ msgctxt "MainWindow|"
 msgid "Check Validity"
 msgstr "Egiaztatu baliozkotasuna"
 
+#: src/binaries/rcse/mainwindow_rcse.ui:1099
+#: src/binaries/widget/mainwindow.cpp:574
+msgctxt "MainWindow|"
+msgid "&Undo"
+msgstr "&Desegin"
+
+#: src/binaries/rcse/mainwindow_rcse.ui:1104
+#: src/binaries/widget/mainwindow.cpp:573
+msgctxt "MainWindow|"
+msgid "&Redo"
+msgstr "Be&rregin"
+
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
 #: src/binaries/widget/mainwindow.ui:479 src/binaries/widget/mainwindow.ui:546
 msgctxt "MainWindow|"
@@ -1252,12 +1363,12 @@ msgctxt "MainWindow|"
 msgid "Hidden Field (for intermediate calculations)"
 msgstr "Ezkutatutako eremua (tarteko kalkuluetarako)"
 
-#: src/binaries/rcse/preferences/preferencesdialog.cpp:36
+#: src/binaries/rcse/preferences/preferencesdialog.cpp:37
 msgctxt "PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "QML fitxategia gordetzeko direktorioa"
 
-#: src/binaries/rcse/preferences/preferencesdialog.cpp:36
+#: src/binaries/rcse/preferences/preferencesdialog.cpp:37
 msgctxt "PreferencesDialog|"
 msgid "Place to save Generated files"
 msgstr "Sortutako fitxategiak gordetzeko lekua"
@@ -1563,6 +1674,11 @@ msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Ireki kanpaina bat"
 
+#: src/binaries/widget/mainwindow.cpp:644
+msgctxt "MainWindow|"
+msgid "Support"
+msgstr "Euskarria"
+
 #: src/binaries/widget/mainwindow.cpp:645
 #, qt-format
 msgctxt "MainWindow|"
@@ -1580,6 +1696,12 @@ msgstr "Konexioa galdu da. %1 itxiko da"
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Konexioa galdu da"
+
+#: src/binaries/widget/mainwindow.cpp:717
+#, qt-format
+msgctxt "MainWindow|"
+msgid "Quit %1 "
+msgstr "Irten %1-etik"
 
 #: src/binaries/widget/mainwindow.cpp:796
 #, qt-format
@@ -1624,94 +1746,94 @@ msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 oraintxe jokotik irten da."
 
-#: src/binaries/widget/mainwindow.cpp:924
+#: src/binaries/widget/mainwindow.cpp:926
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Ezarri «rolisteam» konexiorako <ataka> erabiltzeko"
 
-#: src/binaries/widget/mainwindow.cpp:927
+#: src/binaries/widget/mainwindow.cpp:929
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Ezarri «rolisteam» <zerbitzaria>ra konektatzeko."
 
-#: src/binaries/widget/mainwindow.cpp:930
+#: src/binaries/widget/mainwindow.cpp:932
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definitua <eginkizuna>: jm edo jp"
 
-#: src/binaries/widget/mainwindow.cpp:932
+#: src/binaries/widget/mainwindow.cpp:934
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Kendu ezarpenak eta erabili lehenetsitako parametroak"
 
-#: src/binaries/widget/mainwindow.cpp:935
+#: src/binaries/widget/mainwindow.cpp:937
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definitu «erabiltzaile-izena>"
 
-#: src/binaries/widget/mainwindow.cpp:938
+#: src/binaries/widget/mainwindow.cpp:940
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Kendu PDF fitxategi-neurriaren muga"
 
-#: src/binaries/widget/mainwindow.cpp:941
+#: src/binaries/widget/mainwindow.cpp:943
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "itzulpen fitxategirako bide-izena: <itzulpen-fitxategia>"
 
-#: src/binaries/widget/mainwindow.cpp:944
+#: src/binaries/widget/mainwindow.cpp:946
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definitu zerbitzarira konektatzeko URL: <URL>"
 
-#: src/binaries/widget/mainwindow.cpp:1037
+#: src/binaries/widget/mainwindow.cpp:1039
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Ireki %1"
 
-#: src/binaries/widget/mainwindow.cpp:1128
+#: src/binaries/widget/mainwindow.cpp:1130
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Konektatuta"
 
-#: src/binaries/widget/mainwindow.cpp:1128
+#: src/binaries/widget/mainwindow.cpp:1130
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Konektatu gabe"
 
-#: src/binaries/widget/mainwindow.cpp:1129
+#: src/binaries/widget/mainwindow.cpp:1131
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Zerbitzaria"
 
-#: src/binaries/widget/mainwindow.cpp:1129
+#: src/binaries/widget/mainwindow.cpp:1131
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Bezeroa"
 
-#: src/binaries/widget/mainwindow.cpp:1136
+#: src/binaries/widget/mainwindow.cpp:1138
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "JM"
 
-#: src/binaries/widget/mainwindow.cpp:1142
+#: src/binaries/widget/mainwindow.cpp:1144
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Jokalaria"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1173
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: src/binaries/widget/mainwindow.cpp:1247
+#: src/binaries/widget/mainwindow.cpp:1249
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
 msgstr "Esportatu %1(e)tik"
 
-#: src/binaries/widget/mainwindow.cpp:1248
+#: src/binaries/widget/mainwindow.cpp:1250
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "ezezaguna"
@@ -2408,7 +2530,7 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "Hornitu fitxategi hori Rolisteam garatzaileei"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:360
+#: src/libraries/core/src/controller/contentcontroller.cpp:363
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Kopiatutako irudia"
@@ -2921,7 +3043,7 @@ msgctxt "QObject|"
 msgid "Player"
 msgstr "Jokalaria"
 
-#: src/libraries/core/src/network/rserver.cpp:40
+#: src/libraries/core/src/network/rserver.cpp:41
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
 msgstr "[UPnP] Atakak mapatzea egin da"
@@ -3113,7 +3235,7 @@ msgctxt "ImportMedia|"
 msgid "Import media: %1"
 msgstr "Inportatu komunikabidea: %1"
 
-#: src/libraries/core/src/undoCmd/newmediacontroller.cpp:63
+#: src/libraries/core/src/undoCmd/newmediacontroller.cpp:65
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
@@ -3519,16 +3641,6 @@ msgctxt "PackageNode|"
 msgid "Package"
 msgstr "Paketea"
 
-#: src/libraries/mindmap/src/model/boxmodel.cpp:212
-msgctxt "BoxModel|"
-msgid "Root"
-msgstr "Erroa"
-
-#: src/libraries/mindmap/src/model/boxmodel.cpp:212
-msgctxt "BoxModel|"
-msgid "New Node"
-msgstr "Nodo berria"
-
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:10
 msgctxt "IntegrityPage|"
 msgid "Missing files:"
@@ -3632,17 +3744,17 @@ msgctxt "SideMenu|"
 msgid "Sound Notification"
 msgstr "Soinu-jakinarazpena"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:47
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:48
 msgctxt "SideMenu|"
 msgid "Select Font…"
 msgstr "Aukeratu letra-tipoa..."
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:54
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:55
 msgctxt "SideMenu|"
 msgid "Font Family:"
 msgstr "Letra-tipo familia:"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:60
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:61
 msgctxt "SideMenu|"
 msgid "Font size:"
 msgstr "Letra-tipo neurria:"
@@ -5493,7 +5605,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Gorde"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:550
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:556
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Erakutsi zutabeak"
@@ -5509,21 +5621,21 @@ msgid "Search:"
 msgstr "Bilatu:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:39
-#: src/libraries/rwidgets/docks/antagonistboard.ui:327
-#: src/libraries/rwidgets/docks/antagonistboard.ui:347
-#: src/libraries/rwidgets/docks/antagonistboard.ui:784
-#: src/libraries/rwidgets/docks/antagonistboard.ui:791
-#: src/libraries/rwidgets/docks/antagonistboard.ui:877
-#: src/libraries/rwidgets/docks/antagonistboard.ui:884
-#: src/libraries/rwidgets/docks/antagonistboard.ui:952
-#: src/libraries/rwidgets/docks/antagonistboard.ui:959
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1006
+#: src/libraries/rwidgets/docks/antagonistboard.ui:333
+#: src/libraries/rwidgets/docks/antagonistboard.ui:353
+#: src/libraries/rwidgets/docks/antagonistboard.ui:790
+#: src/libraries/rwidgets/docks/antagonistboard.ui:797
+#: src/libraries/rwidgets/docks/antagonistboard.ui:883
+#: src/libraries/rwidgets/docks/antagonistboard.ui:890
+#: src/libraries/rwidgets/docks/antagonistboard.ui:958
+#: src/libraries/rwidgets/docks/antagonistboard.ui:965
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1012
 msgctxt "AntagonistBoard|"
 msgid "..."
 msgstr "..."
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1129
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1135
 msgctxt "AntagonistBoard|"
 msgid "Advanced"
 msgstr "Aurreratua"
@@ -5623,147 +5735,147 @@ msgid "Shapes:"
 msgstr "Formak:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:287
-#: src/libraries/rwidgets/docks/antagonistboard.ui:411
+#: src/libraries/rwidgets/docks/antagonistboard.ui:417
 msgctxt "AntagonistBoard|"
 msgid "Color:"
 msgstr "Kolorea:"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:367
+#: src/libraries/rwidgets/docks/antagonistboard.ui:373
 msgctxt "AntagonistBoard|"
 msgid "Info"
 msgstr "Informazioa"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:381
+#: src/libraries/rwidgets/docks/antagonistboard.ui:387
 msgctxt "AntagonistBoard|"
 msgid "Name:"
 msgstr "Izena:"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:391
+#: src/libraries/rwidgets/docks/antagonistboard.ui:397
 msgctxt "AntagonistBoard|"
 msgid "Initiative Command"
 msgstr "Ekimen-komandoa"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:398
+#: src/libraries/rwidgets/docks/antagonistboard.ui:404
 msgctxt "AntagonistBoard|"
 msgid "2d10"
 msgstr "2d10"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:445
+#: src/libraries/rwidgets/docks/antagonistboard.ui:451
 msgctxt "AntagonistBoard|"
 msgid "Initiative Value:"
 msgstr "Ekimenaren balioa:"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:482
+#: src/libraries/rwidgets/docks/antagonistboard.ui:488
 msgctxt "AntagonistBoard|"
 msgid "Size:"
 msgstr "Neurria:"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:521
+#: src/libraries/rwidgets/docks/antagonistboard.ui:527
 msgctxt "AntagonistBoard|"
 msgid "Health Points"
 msgstr "Osasun-puntuak"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:542
+#: src/libraries/rwidgets/docks/antagonistboard.ui:548
 msgctxt "AntagonistBoard|"
 msgid "Min:"
 msgstr "Min:"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:572
+#: src/libraries/rwidgets/docks/antagonistboard.ui:578
 msgctxt "AntagonistBoard|"
 msgid "Current"
 msgstr "Unekoa"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:605
+#: src/libraries/rwidgets/docks/antagonistboard.ui:611
 msgctxt "AntagonistBoard|"
 msgid "Max"
 msgstr "Max"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:628
+#: src/libraries/rwidgets/docks/antagonistboard.ui:634
 msgctxt "AntagonistBoard|"
 msgid "Avatar"
 msgstr "Abatara"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:704
+#: src/libraries/rwidgets/docks/antagonistboard.ui:710
 msgctxt "AntagonistBoard|"
 msgid "Change"
 msgstr "Aldatu"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:730
+#: src/libraries/rwidgets/docks/antagonistboard.ui:736
 msgctxt "AntagonistBoard|"
 msgid "Action"
 msgstr "Ekintza"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:751
+#: src/libraries/rwidgets/docks/antagonistboard.ui:757
 msgctxt "AntagonistBoard|"
 msgid "Actions"
 msgstr "Ekintzak"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:817
+#: src/libraries/rwidgets/docks/antagonistboard.ui:823
 msgctxt "AntagonistBoard|"
 msgid "Shape"
 msgstr "Forma"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:838
+#: src/libraries/rwidgets/docks/antagonistboard.ui:844
 msgctxt "AntagonistBoard|"
 msgid "Shapes"
 msgstr "Formak"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:910
+#: src/libraries/rwidgets/docks/antagonistboard.ui:916
 msgctxt "AntagonistBoard|"
 msgid "Property"
 msgstr "Propietatea"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:916
+#: src/libraries/rwidgets/docks/antagonistboard.ui:922
 msgctxt "AntagonistBoard|"
 msgid "Properties"
 msgstr "Propietateak"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1036
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1042
 msgctxt "AntagonistBoard|"
 msgid "Add Action"
 msgstr "Gehitu ekintza"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1039
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1045
 msgctxt "AntagonistBoard|"
 msgid "add action"
 msgstr "gehitu ekintza"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1048
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1051
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1054
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1057
 msgctxt "AntagonistBoard|"
 msgid "Remove Action"
 msgstr "Kendu ekintza"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1060
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1063
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1066
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1069
 msgctxt "AntagonistBoard|"
 msgid "Add Shape"
 msgstr "Gehitu forma"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1072
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1075
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1078
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1081
 msgctxt "AntagonistBoard|"
 msgid "Remove Shape"
 msgstr "Kendu forma"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1084
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1087
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1090
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1093
 msgctxt "AntagonistBoard|"
 msgid "Add Property"
 msgstr "Gehitu propietatea"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1096
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1099
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1102
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1105
 msgctxt "AntagonistBoard|"
 msgid "Remove Property"
 msgstr "Kendu propietatea"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1108
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1114
 msgctxt "AntagonistBoard|"
 msgid "Add Character"
 msgstr "Gehitu pertsonaia"
 
-#: src/libraries/rwidgets/docks/antagonistboard.ui:1117
+#: src/libraries/rwidgets/docks/antagonistboard.ui:1123
 msgctxt "AntagonistBoard|"
 msgid "Remove Character"
 msgstr "Kendu pertsonaia"
@@ -6111,72 +6223,72 @@ msgctxt "VmapTopBar|"
 msgid "px"
 msgstr "px"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Standard"
 msgstr "Estandarra"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 1"
 msgstr "Goiburua 1"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 2"
 msgstr "Goiburua 2"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 3"
 msgstr "Goiburua 3"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:63
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 4"
 msgstr "Goiburua 4"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:64
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:66
 msgctxt "MRichTextEdit|"
 msgid "Monospace"
 msgstr "Zabalera-finkoa"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:120
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:122
 msgctxt "MRichTextEdit|"
 msgid "Remove character formatting"
 msgstr "Kendu pertsonaien formatua"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:125
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:127
 msgctxt "MRichTextEdit|"
 msgid "Remove all formatting"
 msgstr "Kendu formatu guztia"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:129
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:131
 msgctxt "MRichTextEdit|"
 msgid "Edit document source"
 msgstr "Editatu dokumentuaren sorburua"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:192
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:198
 msgctxt "MRichTextEdit|"
 msgid "Document source"
 msgstr "Dokumentuaren sorburua"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
 msgctxt "MRichTextEdit|"
 msgid "Create a link"
 msgstr "Sortu esteka bat"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:291
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
 msgstr "Estekaren URL:"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:666
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:682
 msgctxt "MRichTextEdit|"
 msgid "Select an image"
 msgstr "Hautatu irudi bat"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:667
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:683
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Dena (*)"
@@ -8459,3 +8571,11 @@ msgstr "Lotan"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Sorginduta"
+
+#~ msgctxt "BoxModel|"
+#~ msgid "Root"
+#~ msgstr "Erroa"
+
+#~ msgctxt "BoxModel|"
+#~ msgid "New Node"
+#~ msgstr "Nodo berria"
