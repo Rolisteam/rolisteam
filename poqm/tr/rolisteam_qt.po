@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-01-08 21:56+0300\n"
+"PO-Revision-Date: 2024-01-15 10:17+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.01.85\n"
+"X-Generator: Lokalize 24.01.90\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -721,44 +721,27 @@ msgid "open <file>."
 msgstr "<dosya>'yı aç."
 
 #: src/binaries/rcse/mainwindow.cpp:168
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Log panel"
 msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Günlük paneli"
 
 #: src/binaries/rcse/mainwindow.cpp:196
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Undo"
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "&Geri Al"
 
 #: src/binaries/rcse/mainwindow.cpp:199
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Redo"
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "&Yinele"
 
 #: src/binaries/rcse/mainwindow.cpp:358
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Support"
 msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Destek"
 
 #: src/binaries/rcse/mainwindow.cpp:359
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 donation page can be found online at :<br> <a href=\"https://"
-#| "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</"
-#| "a>"
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
@@ -768,109 +751,69 @@ msgstr ""
 "Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:428
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Untitled"
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Başlıksız"
 
 #: src/binaries/rcse/mainwindow.cpp:465
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Help"
 msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Yardım"
 
 #: src/binaries/rcse/mainwindow.cpp:466
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr "Rcse belgelendirmesi, şurada bulunabilir:<br> <a href=\"%1\">%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:478
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "The charactersheet has unsaved changes."
 msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "Karakter sayfasında kaydedilmemiş değişiklikler var."
 
 #: src/binaries/rcse/mainwindow.cpp:485
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid "Quit %1 "
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Çık: %1"
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image Generation"
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Görsel Üretimi"
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image generation in progress"
 msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Görsel üretimi sürüyor"
 
 #: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Background Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Arka Plan Görseli Aç"
 
 #: src/binaries/rcse/mainwindow.cpp:570
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Görsel Aç"
 
 #: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "Karakter Sayfasını Kaydet"
 
 #: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "Rolisteam Karakter Sayfası (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:705
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "Geçerli QML kodunu silmek istiyor musunuz?"
 
 #: src/binaries/rcse/mainwindow.cpp:706
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Generate QML code will override any change you made in the QML.<br/>Do "
-#| "you really want to generate QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
@@ -880,113 +823,71 @@ msgstr ""
 ">Gerçekten QML kodu oluşturmak istiyor musunuz?"
 
 #: src/binaries/rcse/mainwindow.cpp:792
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet View"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "Karakter Sayfası Görünümünü Kaydet"
 
 #: src/binaries/rcse/mainwindow.cpp:793
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet View (*.qml)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Rolisteam Karakter Sayfası Görünümü (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:918
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Path"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Yolu Kopyala"
 
 #: src/binaries/rcse/mainwindow.cpp:921
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Url"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "URL'yi Kopyala"
 
 #: src/binaries/rcse/mainwindow.cpp:924
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Replace Image"
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Görseli Başkasıyla Değiştir"
 
 #: src/binaries/rcse/mainwindow.cpp:925
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Image"
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Görseli Kaldır"
 
 #: src/binaries/rcse/mainwindow.cpp:926
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Reload image from file"
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Görseli Dosyadan Yeniden Yükle"
 
 #: src/binaries/rcse/mainwindow.cpp:933
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Load Image"
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Görseli Yükle"
 
 #: src/binaries/rcse/mainwindow.cpp:934
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "Desteklenen Görsel Biçimi (*.jpg *.png *.svg *.gif)"
 
 #: src/binaries/rcse/mainwindow.cpp:947
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Add character"
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Karakter Ekle"
 
 #: src/binaries/rcse/mainwindow.cpp:948
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Delete character"
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Karakteri Sil"
 
 #: src/binaries/rcse/mainwindow.cpp:950
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Character's Name"
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Karakterin Adı"
 
 #: src/binaries/rcse/mainwindow.cpp:952
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on Selection"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "Seçimde Uygula"
 
 #: src/binaries/rcse/mainwindow.cpp:953
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on all characters"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "Tüm Karakterlerde Uygula"

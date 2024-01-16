@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-01-08 11:57+0100\n"
+"PO-Revision-Date: 2024-01-15 10:14+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -720,44 +720,27 @@ msgid "open <file>."
 msgstr "<file> openen."
 
 #: src/binaries/rcse/mainwindow.cpp:168
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Log panel"
 msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Log-paneel"
 
 #: src/binaries/rcse/mainwindow.cpp:196
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Undo"
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "&Ongedaan maken"
 
 #: src/binaries/rcse/mainwindow.cpp:199
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Redo"
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "Opnie&uw"
 
 #: src/binaries/rcse/mainwindow.cpp:358
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Support"
 msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Ondersteuning"
 
 #: src/binaries/rcse/mainwindow.cpp:359
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 donation page can be found online at :<br> <a href=\"https://"
-#| "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</"
-#| "a>"
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
@@ -767,26 +750,17 @@ msgstr ""
 "com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:428
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Untitled"
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Zonder titel"
 
 #: src/binaries/rcse/mainwindow.cpp:465
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Help"
 msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Help"
 
 #: src/binaries/rcse/mainwindow.cpp:466
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
@@ -794,83 +768,52 @@ msgstr ""
 "De donatiepagina van Rcse is online te vinden op :<br> <a href=\"%1\">%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:478
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "The charactersheet has unsaved changes."
 msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "Het blad met karakters heeft niet opgeslagen wijzigingen."
 
 #: src/binaries/rcse/mainwindow.cpp:485
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid "Quit %1 "
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "%1 afsluiten"
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image Generation"
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Generatie van afbeelding"
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image generation in progress"
 msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Generatie van afbeelding in bezig"
 
 #: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Background Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Achtergrondafbeelding openen"
 
 #: src/binaries/rcse/mainwindow.cpp:570
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Afbeelding openen"
 
 #: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "Blad met karakters opslaan"
 
 #: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "Rolisteam blad met karakters (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:705
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "Wilt u de huidige QML-code wissen?"
 
 #: src/binaries/rcse/mainwindow.cpp:706
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Generate QML code will override any change you made in the QML.<br/>Do "
-#| "you really want to generate QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
@@ -880,113 +823,71 @@ msgstr ""
 "overschrijven.<br/>Wilt u QML-code genereren?"
 
 #: src/binaries/rcse/mainwindow.cpp:792
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet View"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "Weergave van blad met karakters opslaan"
 
 #: src/binaries/rcse/mainwindow.cpp:793
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet View (*.qml)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Weergave Rolisteam blad met karakters (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:918
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Path"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Pad kopiëren"
 
 #: src/binaries/rcse/mainwindow.cpp:921
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Url"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "URL-adres kopiëren"
 
 #: src/binaries/rcse/mainwindow.cpp:924
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Replace Image"
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Afbeelding vervangen"
 
 #: src/binaries/rcse/mainwindow.cpp:925
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Image"
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Afbeelding verwijderen"
 
 #: src/binaries/rcse/mainwindow.cpp:926
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Reload image from file"
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Afbeelding uit bestand opnieuw laden"
 
 #: src/binaries/rcse/mainwindow.cpp:933
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Load Image"
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Afbeelding Inlezen"
 
 #: src/binaries/rcse/mainwindow.cpp:934
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "Ondersteunde afbeeldingsformaten (*.jpg *.png *.svg *.gif)"
 
 #: src/binaries/rcse/mainwindow.cpp:947
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Add character"
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Karakter toevoegen"
 
 #: src/binaries/rcse/mainwindow.cpp:948
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Delete character"
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Karakter verwijderen"
 
 #: src/binaries/rcse/mainwindow.cpp:950
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Character's Name"
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Naam van karakter"
 
 #: src/binaries/rcse/mainwindow.cpp:952
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on Selection"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "Toepassen op selectie"
 
 #: src/binaries/rcse/mainwindow.cpp:953
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on all characters"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "Op alle karakters toepassen"

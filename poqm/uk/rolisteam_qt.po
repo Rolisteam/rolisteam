@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-01-08 10:48+0200\n"
+"PO-Revision-Date: 2024-01-15 09:14+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -722,44 +722,27 @@ msgid "open <file>."
 msgstr "відкрити <файл>."
 
 #: src/binaries/rcse/mainwindow.cpp:168
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Log panel"
 msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Панель журналу"
 
 #: src/binaries/rcse/mainwindow.cpp:196
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Undo"
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "&Вернути"
 
 #: src/binaries/rcse/mainwindow.cpp:199
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Redo"
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "&Повторити"
 
 #: src/binaries/rcse/mainwindow.cpp:358
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Support"
 msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Підтримка"
 
 #: src/binaries/rcse/mainwindow.cpp:359
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 donation page can be found online at :<br> <a href=\"https://"
-#| "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</"
-#| "a>"
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
@@ -770,26 +753,17 @@ msgstr ""
 "Rolisteam/donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:428
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Untitled"
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Без назви"
 
 #: src/binaries/rcse/mainwindow.cpp:465
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Help"
 msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Довідка"
 
 #: src/binaries/rcse/mainwindow.cpp:466
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
@@ -798,83 +772,52 @@ msgstr ""
 "%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:478
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "The charactersheet has unsaved changes."
 msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "На аркуші персонажів є незбережені зміни."
 
 #: src/binaries/rcse/mainwindow.cpp:485
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid "Quit %1 "
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Вийти з %1 "
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image Generation"
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Створення зображення"
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image generation in progress"
 msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Виконуємо створення зображення"
 
 #: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Background Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Відкрити зображення тла"
 
 #: src/binaries/rcse/mainwindow.cpp:570
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Відкрити зображення"
 
 #: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "Зберегти аркуш персонажів"
 
 #: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "аркуш персонажів Rolisteam (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:705
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "Хочете вилучити поточний код QML?"
 
 #: src/binaries/rcse/mainwindow.cpp:706
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Generate QML code will override any change you made in the QML.<br/>Do "
-#| "you really want to generate QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
@@ -884,113 +827,71 @@ msgstr ""
 "справді хочете створити код QML?"
 
 #: src/binaries/rcse/mainwindow.cpp:792
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet View"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "Збереження компонування аркуша персонажів"
 
 #: src/binaries/rcse/mainwindow.cpp:793
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet View (*.qml)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "компонування аркуша персонажів Rolisteam (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:918
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Path"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Копіювати шлях"
 
 #: src/binaries/rcse/mainwindow.cpp:921
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Url"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "Копіювати адресу"
 
 #: src/binaries/rcse/mainwindow.cpp:924
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Replace Image"
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Замінити зображення"
 
 #: src/binaries/rcse/mainwindow.cpp:925
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Image"
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Вилучити зображення"
 
 #: src/binaries/rcse/mainwindow.cpp:926
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Reload image from file"
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Перезавантажити зображення з файла"
 
 #: src/binaries/rcse/mainwindow.cpp:933
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Load Image"
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Завантажити зображення"
 
 #: src/binaries/rcse/mainwindow.cpp:934
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "підтримувані формати зображень (*.jpg *.png *.svg *.gif)"
 
 #: src/binaries/rcse/mainwindow.cpp:947
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Add character"
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Додати персонаж"
 
 #: src/binaries/rcse/mainwindow.cpp:948
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Delete character"
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Вилучити персонаж"
 
 #: src/binaries/rcse/mainwindow.cpp:950
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Character's Name"
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Ім'я персонажа"
 
 #: src/binaries/rcse/mainwindow.cpp:952
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on Selection"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "Застосувати до позначеного"
 
 #: src/binaries/rcse/mainwindow.cpp:953
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on all characters"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "Застосувати до усіх персонажів"
