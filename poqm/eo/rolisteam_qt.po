@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2024-01-09 19:31+0100\n"
+"PO-Revision-Date: 2024-01-17 20:52+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -80,7 +80,7 @@ msgstr "Bildo %1 ne havas la saman grandecon ol la aliaj"
 #, qt-format
 msgctxt "QmlGeneratorController|"
 msgid "The character value %1 has been defined to %2"
-msgstr "La signovaloro %1 estis difinita al %2"
+msgstr "La karakterovaloro %1 estis difinita al %2"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
 msgctxt "RcseApplicationController|"
@@ -111,7 +111,7 @@ msgstr "Mock Data"
 #, qt-format
 msgctxt "CharacterList|"
 msgid "Character %1"
-msgstr "Signo %1"
+msgstr "Karaktero %1"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:11
 msgctxt "MockCharacter|"
@@ -268,7 +268,7 @@ msgstr "Antaŭa Paĝa Butono"
 #: src/binaries/rcse/dialog/aboutrcse.ui:14
 msgctxt "AboutRcse|"
 msgid "Rolisteam Character Sheet Editor"
-msgstr "Rolisteam Signfolio Redaktoro"
+msgstr "Rolisteam Character-Sheet Redaktoro"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:20
 msgctxt "AboutRcse|"
@@ -281,10 +281,10 @@ msgid ""
 "\">wiki.rolisteam.org</span></a></p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Redaktilo de "
-"Signfolio de Rolisteam</span></p><p><br/></p><p>Ĉi tiu programaro estas "
-"dediĉita por krei signon por Rolisteam v1.8 kaj pli. <br/>Bonvolu kontroli "
-"la dokumentadon ĉe: <a href=\"http://wiki.rolisteam.org/index.php/En:"
-"CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
+"Karakterfolio de Rolisteam</span></p><p><br/></p><p>Ĉi tiu programaro estas "
+"dediĉita por krei karakteron por Rolisteam v1.8 kaj pli. <br/>Bonvolu "
+"kontroli la dokumentadon ĉe: <a href=\"http://wiki.rolisteam.org/index.php/"
+"En:CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
 "\">wiki.rolisteam.org</span></a></p></body></html>"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:33
@@ -726,44 +726,27 @@ msgid "open <file>."
 msgstr "malfermi <dosiero>."
 
 #: src/binaries/rcse/mainwindow.cpp:168
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Log panel"
 msgctxt "rcse::MainWindow|"
 msgid "Log panel"
-msgstr "Log panelo"
+msgstr "Protokolpanelo"
 
 #: src/binaries/rcse/mainwindow.cpp:196
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Undo"
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
-msgstr "&Malfari"
+msgstr "Malfar&u"
 
 #: src/binaries/rcse/mainwindow.cpp:199
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Redo"
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
-msgstr "&Refari"
+msgstr "&Refaru"
 
 #: src/binaries/rcse/mainwindow.cpp:358
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Support"
 msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Subteno"
 
 #: src/binaries/rcse/mainwindow.cpp:359
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 donation page can be found online at :<br> <a href=\"https://"
-#| "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</"
-#| "a>"
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
@@ -773,109 +756,69 @@ msgstr ""
 "com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:428
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Untitled"
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Sentitola"
 
 #: src/binaries/rcse/mainwindow.cpp:465
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Help"
 msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Helpo"
 
 #: src/binaries/rcse/mainwindow.cpp:466
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr "Dokumentado de Rcse troveblas interrete ĉe :<br> <a href=\"%1\">%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:478
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "The charactersheet has unsaved changes."
 msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
-msgstr "La signofolio havas nekonservitajn ŝanĝojn."
+msgstr "La karakterofolio havas nekonservitajn ŝanĝojn."
 
 #: src/binaries/rcse/mainwindow.cpp:485
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid "Quit %1 "
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Forlasi %1"
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image Generation"
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
-msgstr "Bilda Generacio"
+msgstr "Bildgenerado"
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image generation in progress"
 msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Bildgenerado en progreso"
 
 #: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Background Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
-msgstr "Malfermi Fonbildon"
+msgstr "Malfermi Fonan Bildon"
 
 #: src/binaries/rcse/mainwindow.cpp:570
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Malfermi Bildon"
 
 #: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
-msgstr "Konservi KarakterFolion"
+msgstr "Konservi CharacterSheet"
 
 #: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
-msgstr "Rolisteam Character Sheet (*.rcs)"
+msgstr "Rolisteam CharacterSheet (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:705
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
-msgstr "Ĉu vi volas forigi nunan QML-kodon?"
+msgstr "Ĉu vi volas forigi aktualan QML-kodon?"
 
 #: src/binaries/rcse/mainwindow.cpp:706
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Generate QML code will override any change you made in the QML.<br/>Do "
-#| "you really want to generate QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
@@ -885,121 +828,79 @@ msgstr ""
 ">Ĉu vi vere volas generi QML-kodon?"
 
 #: src/binaries/rcse/mainwindow.cpp:792
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet View"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
-msgstr "Konservi Karakterfolio-Vidon"
+msgstr "Konservi CharacterSheet-Vidon"
 
 #: src/binaries/rcse/mainwindow.cpp:793
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet View (*.qml)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Rolisteam CharacterSheet View (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:918
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Path"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Kopii Vojon"
 
 #: src/binaries/rcse/mainwindow.cpp:921
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Url"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "Kopii URL"
 
 #: src/binaries/rcse/mainwindow.cpp:924
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Replace Image"
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Anstataŭigi Bildon"
 
 #: src/binaries/rcse/mainwindow.cpp:925
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Image"
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Forigi Bildon"
 
 #: src/binaries/rcse/mainwindow.cpp:926
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Reload image from file"
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Reŝargi bildon el dosiero"
 
 #: src/binaries/rcse/mainwindow.cpp:933
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Load Image"
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Ŝargi Bildon"
 
 #: src/binaries/rcse/mainwindow.cpp:934
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "Subtena Bildformato (*.jpg *.png *.svg *.gif)"
 
 #: src/binaries/rcse/mainwindow.cpp:947
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Add character"
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Aldoni karakteron"
 
 #: src/binaries/rcse/mainwindow.cpp:948
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Delete character"
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Forigi karakteron"
 
 #: src/binaries/rcse/mainwindow.cpp:950
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Character's Name"
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Nomo de Karaktero"
 
 #: src/binaries/rcse/mainwindow.cpp:952
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on Selection"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
-msgstr "Apliki sur Elekto"
+msgstr "Apliki al Elekto"
 
 #: src/binaries/rcse/mainwindow.cpp:953
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on all characters"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
-msgstr "Apliki sur ĉiuj karakteroj"
+msgstr "Apliki al ĉiuj karakteroj"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:14
 msgctxt "MainWindow|"
 msgid "Unknown[*] - Rolisteam Character Sheet Editor"
-msgstr "Nekonata[*] - Rolisteam Redaktilo por Signofolioj"
+msgstr "Nekonata[*] - Rolisteam Redaktilo por Karakterofolioj"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:29
 msgctxt "MainWindow|"
@@ -1136,7 +1037,7 @@ msgstr "Vido"
 #: src/binaries/rcse/mainwindow_rcse.ui:696
 msgctxt "MainWindow|"
 msgid "Characters"
-msgstr "Signoj"
+msgstr "Karakteroj"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:716
 msgctxt "MainWindow|"
@@ -1405,7 +1306,7 @@ msgstr "Propraĵoj"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add Character #%1"
-msgstr "Aldoni Signon #%1"
+msgstr "Aldoni Karakteron #%1"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:56
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:47
@@ -1513,7 +1414,7 @@ msgstr "Aldoni paĝon #%1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete Character #%1"
-msgstr "Forigi Signon #%1"
+msgstr "Forigi Karakteron #%1"
 
 #: src/binaries/rcse/undo/deletefieldcommand.cpp:57
 #, qt-format
@@ -1559,7 +1460,7 @@ msgstr "Agordi la proprecon %1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Set property on all characters: %1"
-msgstr "Agordi proprecon ĉe ĉiuj signoj: %1"
+msgstr "Agordi proprecon ĉe ĉiuj karakteroj: %1"
 
 #: src/binaries/rcse/widgets/codeedit.ui:14
 msgctxt "CodeEdit|"
@@ -2028,7 +1929,7 @@ msgstr "Alt+N"
 #: src/binaries/widget/mainwindow.ui:357
 msgctxt "MainWindow|"
 msgid "Character List"
-msgstr "Listo de Signoj"
+msgstr "Listo de Karakteroj"
 
 #: src/binaries/widget/mainwindow.ui:368
 msgctxt "MainWindow|"
@@ -2073,7 +1974,7 @@ msgstr "Ŝanĝi profilon…"
 #: src/binaries/widget/mainwindow.ui:420
 msgctxt "MainWindow|"
 msgid "Character Sheet"
-msgstr "Signa Folio"
+msgstr "Karaktera Folio"
 
 #: src/binaries/widget/mainwindow.ui:423
 msgctxt "MainWindow|"
@@ -2223,7 +2124,7 @@ msgstr "Dice Kaŝnomo"
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
 msgid "Character States"
-msgstr "Signaj statoj"
+msgstr "Karakteraj statoj"
 
 #: src/binaries/widget/mainwindow.ui:646
 msgctxt "MainWindow|"
@@ -2248,7 +2149,7 @@ msgstr "Konservi Kampanjon Kiel…"
 #: src/binaries/widget/mainwindow.ui:666
 msgctxt "MainWindow|"
 msgid "Non Playable Characters"
-msgstr "Ne Ludeblaj Signoj"
+msgstr "Ne Ludeblaj Karakteroj"
 
 #: src/binaries/widget/mainwindow.ui:671
 msgctxt "MainWindow|"
@@ -3129,7 +3030,7 @@ msgstr "Malkaŝi vektoran mapon"
 #, qt-format
 msgctxt "QObject|"
 msgid "Add character to %1"
-msgstr "Aldoni signon al %1"
+msgstr "Aldoni karakteron al %1"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:34
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
@@ -3247,7 +3148,7 @@ msgstr "Malfermi %1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
-msgstr "Forigi signon %1"
+msgstr "Forigi karakteron %1"
 
 #: src/libraries/core/src/undoCmd/removemediacontrollercommand.cpp:40
 #, qt-format
@@ -4559,7 +4460,7 @@ msgstr "Fundo"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:226
 msgctxt "CampaignProperties|"
 msgid "Character States"
-msgstr "Signaj Statoj"
+msgstr "Karakteraj Statoj"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:348
 msgctxt "CampaignProperties|"
@@ -4762,12 +4663,12 @@ msgstr "Listo de antagonistoj"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:131
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character sheets"
-msgstr "Signaj folioj"
+msgstr "Karakteraj folioj"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:138
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character States"
-msgstr "Signaj Statoj"
+msgstr "Karakteraj Statoj"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:145
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5072,7 +4973,7 @@ msgstr "Tradukdosiero:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:406
 msgctxt "PreferencesDialogBox|"
 msgid "Character Sheet"
-msgstr "Signa Folio"
+msgstr "Karaktera Folio"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
@@ -5390,12 +5291,12 @@ msgstr "Bonvenon Al Rolisteam - Konekta Dialogo"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
 msgctxt "SelectConnectionProfileDialog|"
 msgid "New Character"
-msgstr "Nova Signo"
+msgstr "Nova Karaktero"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:40
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove character"
-msgstr "Forigi signon"
+msgstr "Forigi karakteron"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:45
 msgctxt "SelectConnectionProfileDialog|"
@@ -5867,12 +5768,12 @@ msgstr "Forigi Proprecon"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1114
 msgctxt "AntagonistBoard|"
 msgid "Add Character"
-msgstr "Aldoni Signon"
+msgstr "Aldoni Karakteron"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1123
 msgctxt "AntagonistBoard|"
 msgid "Remove Character"
-msgstr "Forigi Signon"
+msgstr "Forigi Karakteron"
 
 #: src/libraries/rwidgets/docks/audioPlayer.cpp:76
 msgctxt "AudioPlayer|"
@@ -6250,7 +6151,7 @@ msgstr "Monospaco"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:122
 msgctxt "MRichTextEdit|"
 msgid "Remove character formatting"
-msgstr "Forigi signan formatadon"
+msgstr "Forigi karakteran formatadon"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:127
 msgctxt "MRichTextEdit|"
@@ -7775,7 +7676,7 @@ msgstr "Aldoni Linion"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:90
 msgctxt "CharacterSheetWindow|"
 msgid "Add CharacterSheet"
-msgstr "Aldoni Signan Folion"
+msgstr "Aldoni Karakteran Folion"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:95
 msgctxt "CharacterSheetWindow|"
@@ -8563,11 +8464,3 @@ msgstr "Dormanta"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Prisorĉita"
-
-#~ msgctxt "BoxModel|"
-#~ msgid "Root"
-#~ msgstr "Radiko"
-
-#~ msgctxt "BoxModel|"
-#~ msgid "New Node"
-#~ msgstr "Nova Nodo"
