@@ -719,28 +719,19 @@ msgid "Log panel"
 msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:196
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Undo"
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
-msgstr "&Zpět"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:199
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Redo"
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
-msgstr "&Vpřed"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:358
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Support"
 msgctxt "rcse::MainWindow|"
 msgid "Support"
-msgstr "Podpora"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:359
 #, qt-format
@@ -751,20 +742,14 @@ msgid ""
 msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:428
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Untitled"
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
-msgstr "Nepojmenovaný"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:465
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Help"
 msgctxt "rcse::MainWindow|"
 msgid "Help"
-msgstr "Nápověda"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:466
 #, qt-format
@@ -779,20 +764,15 @@ msgid "The charactersheet has unsaved changes."
 msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:485
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid "Quit %1 "
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
-msgstr "Ukončit %1 "
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "NameGeneratorWidget|"
-#| msgid "Name Generator"
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
-msgstr "Generátor jmen"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:540
 msgctxt "rcse::MainWindow|"
@@ -800,28 +780,19 @@ msgid "Image generation in progress"
 msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
-#, fuzzy
-#| msgctxt "PreferencesDialogBox|"
-#| msgid "Background"
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
-msgstr "Pozadí"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:570
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
-msgstr "Otevřít obrázek"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
-#, fuzzy
-#| msgctxt "SelectConnectionProfileDialog|"
-#| msgid "New Character"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
-msgstr "Nová postava"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
 msgctxt "rcse::MainWindow|"
@@ -851,100 +822,64 @@ msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:918
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Path"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
-msgstr "Kopírovat cestu"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:921
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Url"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
-msgstr "Kopírovat URL"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:924
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Replace Image"
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
-msgstr "Nahradit obrázek"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:925
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Image"
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
-msgstr "Odstranit obrázek"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:926
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "Remove profile"
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
-msgstr "Odstranit profil"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:933
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Load Image"
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
-msgstr "Načíst obrázek"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:934
-#, fuzzy
-#| msgctxt "MindMap|"
-#| msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
-msgstr "Obrázky (*.jpg *.png *.jpeg *.gif *.bmp)"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:947
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Add character"
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
-msgstr "Přidat znak"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:948
-#, fuzzy
-#| msgctxt "SelectConnectionProfileDialog|"
-#| msgid "Remove character"
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
-msgstr "Odstranit postavu"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:950
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
-msgstr "Znaky"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:952
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Selection"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
-msgstr "Výběr"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:953
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "All Characters"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
-msgstr "Všechny znaky"
+msgstr ""
 
 #: src/binaries/rcse/mainwindow_rcse.ui:14
 msgctxt "MainWindow|"
@@ -2548,12 +2483,9 @@ msgid "GameMaster"
 msgstr ""
 
 #: src/libraries/core/src/data/campaign.cpp:56
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "Campaign|"
 msgid "Unknown"
-msgstr "Neznámý"
+msgstr ""
 
 #: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
@@ -3757,12 +3689,9 @@ msgid "Characters"
 msgstr "Znaky"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:294
-#, fuzzy
-#| msgctxt "ConnectionForm|"
-#| msgid "New profile"
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
-msgstr "Nový profil"
+msgstr ""
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"
@@ -4074,12 +4003,9 @@ msgid "Roll Init"
 msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Clear"
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
-msgstr "Vyprázdnit"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
@@ -8379,7 +8305,3 @@ msgstr "Spící"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Posedlý"
-
-#~ msgctxt "BoxModel|"
-#~ msgid "Root"
-#~ msgstr "Root"
