@@ -1,8 +1,8 @@
-# SPDX-FileCopyrightText: 2023 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2023, 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-12-24 07:56+0900\n"
+"PO-Revision-Date: 2024-02-09 23:45+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.01.95\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -822,17 +822,11 @@ msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:918
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Path"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "複製路徑"
 
 #: src/binaries/rcse/mainwindow.cpp:921
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Copy Url"
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "複製網址"
@@ -878,41 +872,26 @@ msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "支援的影像格式 (*.jpg *.png *.svg *.gif)"
 
 #: src/binaries/rcse/mainwindow.cpp:947
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Add character"
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "新增角色"
 
 #: src/binaries/rcse/mainwindow.cpp:948
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Delete character"
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "刪除角色"
 
 #: src/binaries/rcse/mainwindow.cpp:950
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Character's Name"
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "角色名稱"
 
 #: src/binaries/rcse/mainwindow.cpp:952
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Application"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
-msgstr "應用程式"
+msgstr "套用在選取上"
 
 #: src/binaries/rcse/mainwindow.cpp:953
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Apply on all characters"
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "套用到所有角色"
@@ -2519,9 +2498,6 @@ msgid "GameMaster"
 msgstr ""
 
 #: src/libraries/core/src/data/campaign.cpp:56
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "未知"
@@ -5984,7 +5960,6 @@ msgid "Permission: GM only"
 msgstr "權限：僅 GM"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:96
-#, fuzzy
 msgctxt "VmapTopBar|"
 msgid "Permission: PC Move"
 msgstr "權限：玩家移動"
@@ -6025,7 +6000,6 @@ msgid "Current Layer: Character"
 msgstr "目前層次：角色"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:180
-#, fuzzy
 msgctxt "VmapTopBar|"
 msgid "Current Layer: GameMaster"
 msgstr "目前層次：GameMaster"
@@ -7175,7 +7149,6 @@ msgid "Chinese Name"
 msgstr "中文名稱"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
-#, fuzzy
 msgctxt "NameGeneratorWidget|"
 msgid "Elve Name"
 msgstr "Elve 名稱"
@@ -8151,12 +8124,9 @@ msgid "Has initiative"
 msgstr ""
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:67
-#, fuzzy
-#| msgctxt "MRichTextEdit|"
-#| msgid "Text background color"
 msgctxt "UserListView|"
 msgid "Life bar color"
-msgstr "文字背景顏色"
+msgstr "生命列顏色"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:135
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:139
