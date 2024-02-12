@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-02-09 23:45+0900\n"
+"PO-Revision-Date: 2024-02-11 23:23+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -84,7 +84,7 @@ msgstr "是"
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
 msgctxt "RcseApplicationController|"
 msgid "No"
-msgstr ""
+msgstr "無"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
 msgctxt "RcseApplicationController|"
@@ -99,7 +99,7 @@ msgstr "全部"
 #: src/binaries/rcse/data/characterlist.cpp:39
 msgctxt "CharacterList|"
 msgid "Mock Data"
-msgstr ""
+msgstr "模擬資料"
 
 #: src/binaries/rcse/data/characterlist.cpp:54
 #, qt-format
@@ -262,7 +262,7 @@ msgstr "上一頁按鈕"
 #: src/binaries/rcse/dialog/aboutrcse.ui:14
 msgctxt "AboutRcse|"
 msgid "Rolisteam Character Sheet Editor"
-msgstr ""
+msgstr "Rolisteam 角色表編輯器"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:20
 msgctxt "AboutRcse|"
@@ -274,6 +274,11 @@ msgid ""
 "CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
 "\">wiki.rolisteam.org</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Rolisteam 角色表編輯"
+"器</span></p><p><br/></p><p>這個軟體用來為 Rolisteam v1.8 以上建立角色表。"
+"<br/>說明文件位於： <a href=\"http://wiki.rolisteam.org/index.php/En:"
+"CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
+"\">wiki.rolisteam.org</span></a></p></body></html>"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:33
 msgctxt "AboutRcse|"
@@ -684,28 +689,19 @@ msgstr "開啟 <檔案>。"
 #: src/binaries/rcse/mainwindow.cpp:168
 msgctxt "rcse::MainWindow|"
 msgid "Log panel"
-msgstr ""
+msgstr "紀錄面板"
 
 #: src/binaries/rcse/mainwindow.cpp:196
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Undo"
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "復原(&U)"
 
 #: src/binaries/rcse/mainwindow.cpp:199
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Redo"
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "重做(&R)"
 
 #: src/binaries/rcse/mainwindow.cpp:358
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Support"
 msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "支援"
@@ -719,17 +715,11 @@ msgid ""
 msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:428
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Untitled"
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "未命名"
 
 #: src/binaries/rcse/mainwindow.cpp:465
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Help"
 msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "說明"
@@ -744,60 +734,43 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:478
 msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
-msgstr ""
+msgstr "角色表有未儲存的變更。"
 
 #: src/binaries/rcse/mainwindow.cpp:485
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid "Quit %1 "
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "離開 %1 "
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image Generation"
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "影像產生"
 
 #: src/binaries/rcse/mainwindow.cpp:540
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image generation in progress"
 msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "正在進行影像產生"
 
 #: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Background Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "開啟背景影像"
 
 #: src/binaries/rcse/mainwindow.cpp:570
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "開啟影像"
 
 #: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
-#, fuzzy
-#| msgctxt "CharacterDataModel|"
-#| msgid "New Character"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
-msgstr "新角色"
+msgstr "儲存角色表"
 
 #: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
-msgstr ""
+msgstr "Rolisteam 角色表 (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:705
 msgctxt "rcse::MainWindow|"
@@ -814,12 +787,12 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:792
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
-msgstr ""
+msgstr "儲存角色表檢視"
 
 #: src/binaries/rcse/mainwindow.cpp:793
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
-msgstr ""
+msgstr "Rolisteam 角色表檢視 (*.qml)"
 
 #: src/binaries/rcse/mainwindow.cpp:918
 msgctxt "rcse::MainWindow|"
@@ -832,25 +805,16 @@ msgid "Copy Url"
 msgstr "複製網址"
 
 #: src/binaries/rcse/mainwindow.cpp:924
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Replace Image"
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "取代影像"
 
 #: src/binaries/rcse/mainwindow.cpp:925
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Image"
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "移除影像"
 
 #: src/binaries/rcse/mainwindow.cpp:926
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Reload image from file"
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "從檔案重新載入影像"
@@ -899,12 +863,12 @@ msgstr "套用到所有角色"
 #: src/binaries/rcse/mainwindow_rcse.ui:14
 msgctxt "MainWindow|"
 msgid "Unknown[*] - Rolisteam Character Sheet Editor"
-msgstr ""
+msgstr "未知[*] — Rolisteam 角色表編輯器"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:29
 msgctxt "MainWindow|"
 msgid "Editor"
-msgstr ""
+msgstr "編輯器"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:47
 msgctxt "MainWindow|"
@@ -1006,7 +970,7 @@ msgstr "工具"
 #: src/binaries/rcse/mainwindow_rcse.ui:882
 msgctxt "MainWindow|"
 msgid "Move Item"
-msgstr ""
+msgstr "移動項目"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:511
 msgctxt "MainWindow|"
@@ -1051,7 +1015,7 @@ msgstr "檔案"
 #: src/binaries/rcse/mainwindow_rcse.ui:794
 msgctxt "MainWindow|"
 msgid "Edition"
-msgstr ""
+msgstr "版本"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
@@ -1433,7 +1397,7 @@ msgstr "刪除頁面 #%1"
 msgctxt "QObject|"
 msgid "Move %n Field(s)"
 msgid_plural "Move %n Field(s)"
-msgstr[0] ""
+msgstr[0] "移動 %n 個欄位"
 
 #: src/binaries/rcse/undo/setbackgroundimage.cpp:51
 #, qt-format
@@ -1817,7 +1781,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:214
 msgctxt "MainWindow|"
 msgid "F2"
-msgstr ""
+msgstr "F2"
 
 #: src/binaries/widget/mainwindow.ui:219
 msgctxt "MainWindow|"
@@ -1857,7 +1821,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:246
 msgctxt "MainWindow|"
 msgid "F1"
-msgstr ""
+msgstr "F1"
 
 #: src/binaries/widget/mainwindow.ui:255
 msgctxt "MainWindow|"
@@ -1932,7 +1896,7 @@ msgstr "工具列"
 #: src/binaries/widget/mainwindow.ui:371
 msgctxt "MainWindow|"
 msgid "F8"
-msgstr ""
+msgstr "F8"
 
 #: src/binaries/widget/mainwindow.ui:380 src/binaries/widget/mainwindow.ui:392
 msgctxt "MainWindow|"
@@ -1957,17 +1921,17 @@ msgstr "顯示健康狀態"
 #: src/binaries/widget/mainwindow.ui:406
 msgctxt "MainWindow|"
 msgid "F6"
-msgstr ""
+msgstr "F6"
 
 #: src/binaries/widget/mainwindow.ui:411
 msgctxt "MainWindow|"
 msgid "Change Profile…"
-msgstr ""
+msgstr "變更設定檔…"
 
 #: src/binaries/widget/mainwindow.ui:420
 msgctxt "MainWindow|"
 msgid "Character Sheet"
-msgstr ""
+msgstr "角色表"
 
 #: src/binaries/widget/mainwindow.ui:423
 msgctxt "MainWindow|"
@@ -1987,7 +1951,7 @@ msgstr "聊天室列表"
 #: src/binaries/widget/mainwindow.ui:446
 msgctxt "MainWindow|"
 msgid "F10"
-msgstr ""
+msgstr "F10"
 
 #: src/binaries/widget/mainwindow.ui:455 src/binaries/widget/mainwindow.ui:467
 msgctxt "MainWindow|"
@@ -2022,7 +1986,7 @@ msgstr "全螢幕"
 #: src/binaries/widget/mainwindow.ui:498
 msgctxt "MainWindow|"
 msgid "F11"
-msgstr ""
+msgstr "F11"
 
 #: src/binaries/widget/mainwindow.ui:507
 msgctxt "MainWindow|"
@@ -2187,7 +2151,7 @@ msgstr ""
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
 msgctxt "ContextualMenu|"
 msgid "Reset Zoom"
-msgstr ""
+msgstr "重設縮放"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
 msgctxt "ContextualMenu|"
@@ -2281,7 +2245,7 @@ msgstr "欄位名稱"
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
-msgstr ""
+msgstr "空白區塊 %1"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:575
 #, qt-format
@@ -2718,7 +2682,7 @@ msgstr ""
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Max HP"
-msgstr ""
+msgstr "最大 HP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
@@ -3030,12 +2994,12 @@ msgstr ""
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:36
 msgctxt "QObject|"
 msgid "Empty Ellipse"
-msgstr ""
+msgstr "空白橢圓"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:37
 msgctxt "QObject|"
 msgid "Empty Rectangle"
-msgstr ""
+msgstr "空白矩形"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:38
 msgctxt "QObject|"
@@ -3066,7 +3030,7 @@ msgstr ""
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:44
 msgctxt "QObject|"
 msgid "Pen"
-msgstr ""
+msgstr "筆"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:45
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
@@ -3162,7 +3126,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
-msgstr ""
+msgstr "角色表檔案 (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:170
 #, qt-format
@@ -3224,7 +3188,7 @@ msgstr ""
 #: src/libraries/core/src/worker/utilshelper.cpp:205
 msgctxt "QObject|"
 msgid "Character Sheet"
-msgstr ""
+msgstr "角色表"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:206
 msgctxt "QObject|"
@@ -3641,22 +3605,22 @@ msgstr "字型大小："
 #: src/libraries/qml_views/views/ConnectionForm.qml:72
 msgctxt "ConnectionForm|"
 msgid "New profile"
-msgstr ""
+msgstr "新設定檔"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:76
 msgctxt "ConnectionForm|"
 msgid "Clone profile"
-msgstr ""
+msgstr "建立設定檔複本"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:82
 msgctxt "ConnectionForm|"
 msgid "Remove profile"
-msgstr ""
+msgstr "移除設定檔"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:100
 msgctxt "ConnectionForm|"
 msgid "Profile Name:"
-msgstr ""
+msgstr "設定檔名稱："
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:112
 msgctxt "ConnectionForm|"
@@ -3671,7 +3635,7 @@ msgstr ""
 #: src/libraries/qml_views/views/ConnectionForm.qml:127
 msgctxt "ConnectionForm|"
 msgid "Port:"
-msgstr ""
+msgstr "連接埠："
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:136
 msgctxt "ConnectionForm|"
@@ -3706,7 +3670,7 @@ msgstr "角色"
 #: src/libraries/qml_views/views/ConnectionForm.qml:294
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
-msgstr ""
+msgstr "儲存設定檔"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:309
 msgctxt "ConnectionForm|"
@@ -3729,7 +3693,7 @@ msgstr ""
 msgctxt "QObject|"
 msgid "Move %n item(s)"
 msgid_plural "Move %n item(s)"
-msgstr[0] ""
+msgstr[0] "移動 %n 個項目"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:154
 #, qt-format
@@ -3807,7 +3771,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.cpp:91
 msgctxt "PlayerWidget|"
 msgid "Play in loop"
-msgstr ""
+msgstr "循環播放"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:96
 msgctxt "PlayerWidget|"
@@ -3901,7 +3865,7 @@ msgstr "開啟播放清單"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:370
 msgctxt "PlayerWidget|"
 msgid "PlayList (*.m3u)"
-msgstr ""
+msgstr "播放清單 (*.m3u)"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:311
 msgctxt "PlayerWidget|"
@@ -4237,7 +4201,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
 msgctxt "AboutRolisteam|"
 msgid "Portuguese"
-msgstr ""
+msgstr "葡萄牙語"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:36
 msgctxt "AboutRolisteam|"
@@ -4627,7 +4591,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:131
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character sheets"
-msgstr ""
+msgstr "角色表"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:138
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4836,7 +4800,7 @@ msgstr "項目突顯顏色"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:166
 msgctxt "PreferencesDialogBox|"
 msgid "Pen Width Highlight:"
-msgstr ""
+msgstr "筆寬度突顯："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:180
 msgctxt "PreferencesDialogBox|"
@@ -4899,7 +4863,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:302
 msgctxt "PreferencesDialogBox|"
 msgid "Max Length:"
-msgstr ""
+msgstr "最大長度："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:326
 msgctxt "PreferencesDialogBox|"
@@ -4934,7 +4898,7 @@ msgstr "翻譯檔："
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:406
 msgctxt "PreferencesDialogBox|"
 msgid "Character Sheet"
-msgstr ""
+msgstr "角色表"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
@@ -4969,7 +4933,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
 msgid "Maximum Length:"
-msgstr ""
+msgstr "最大長度："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
 msgctxt "PreferencesDialogBox|"
@@ -5153,17 +5117,17 @@ msgstr "匯出…"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1090
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
-msgstr ""
+msgstr "診斷"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1096
 msgctxt "PreferencesDialogBox|"
 msgid "Enable Data collection"
-msgstr ""
+msgstr "啟用資料蒐集"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1106
 msgctxt "PreferencesDialogBox|"
 msgid "Data collection"
-msgstr ""
+msgstr "資料蒐集"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1112
 msgctxt "PreferencesDialogBox|"
@@ -5183,16 +5147,28 @@ msgid ""
 "text-decoration: underline; color:#007af4;\">www.rolisteam.org/"
 "datacollection.html</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-size:9pt;\">蒐集的資料是匿名的。"
+"<br/>預設只會蒐集關於 Rolisteam 的資訊，使用了哪些動作。<br/><br/>勾選「</"
+"span><span style=\" font-size:9pt; font-weight:600;\">所有使用</span><span "
+"style=\" font-size:9pt;\">」方塊會讓 Rolisteam 蒐集 Rolisteam 在桌面環境中的"
+"資料。<br/>我們主要嘗試得知 Rolisteam 是否可見、它的大小以及它是否有焦點。"
+"<br/>這對於瞭解人們如何在桌面上使用 Rolisteam 可能有幫助。<br/>大學研究可能會"
+"對這些資料有興趣。<br/><br/>除錯資料會讓 Rolisteam 紀錄每個按鈕或動作的觸發。"
+"這是比較深入的模式。<br/>這也有可能讓 Rolisteam 變慢。</span></p><p><span "
+"style=\" font-size:9pt;\">更多關於資料收集的資訊請見：</span><a href="
+"\"https://rolisteam.org/datacollection.html\"><span style=\" font-size:9pt; "
+"text-decoration: underline; color:#007af4;\">www.rolisteam.org/"
+"datacollection.html</span></a></p></body></html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1127
 msgctxt "PreferencesDialogBox|"
 msgid "All Usages"
-msgstr ""
+msgstr "所有使用"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1147
 msgctxt "PreferencesDialogBox|"
 msgid "May slow down rolisteam"
-msgstr ""
+msgstr "可能會讓 Rolisteam 變慢"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1150
 msgctxt "PreferencesDialogBox|"
@@ -5202,7 +5178,7 @@ msgstr "包含除錯資料*"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1184
 msgctxt "PreferencesDialogBox|"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1228
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1237
@@ -5216,14 +5192,14 @@ msgstr "新增"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1300
 msgctxt "PreferencesDialogBox|"
 msgid "up"
-msgstr ""
+msgstr "上"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1309
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1318
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1327
 msgctxt "PreferencesDialogBox|"
 msgid "down"
-msgstr ""
+msgstr "下"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:117
 msgctxt "SelectConnectionProfileDialog|"
@@ -5248,7 +5224,7 @@ msgstr "移除角色"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:45
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Connect"
-msgstr ""
+msgstr "連線"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:50
 msgctxt "SelectConnectionProfileDialog|"
@@ -5263,7 +5239,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:64
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Clone profile"
-msgstr ""
+msgstr "建立設定檔複本"
 
 #: src/libraries/rwidgets/dialogs/shortcuteditordialog.ui:14
 msgctxt "ShortCutEditorDialog|"
@@ -5295,7 +5271,7 @@ msgstr "對話框"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:42
 msgctxt "TipOfDayViewer|"
 msgid "Never show it again !"
-msgstr ""
+msgstr "不要再顯示它！"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:49
 msgctxt "MapWizzardDialog|"
@@ -5630,7 +5606,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.ui:611
 msgctxt "AntagonistBoard|"
 msgid "Max"
-msgstr ""
+msgstr "最大"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:634
 msgctxt "AntagonistBoard|"
@@ -5751,7 +5727,7 @@ msgstr "音效檔"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:53
 msgctxt "campaign::CampaignDock|"
 msgid "CharacterSheet"
-msgstr ""
+msgstr "角色表"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:54
 msgctxt "campaign::CampaignDock|"
@@ -6093,7 +6069,7 @@ msgstr "標題 4"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:66
 msgctxt "MRichTextEdit|"
 msgid "Monospace"
-msgstr ""
+msgstr "等寬字體"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:122
 msgctxt "MRichTextEdit|"
@@ -6956,7 +6932,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:241
 msgctxt "SharedNote|"
 msgid "Markdown"
-msgstr ""
+msgstr "Markdown"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:246
 msgctxt "SharedNote|"
@@ -7036,7 +7012,7 @@ msgstr "分割"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:320
 msgctxt "SharedNote|"
 msgid "Resynchronize Document"
-msgstr ""
+msgstr "重新同步文件"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:328
 msgctxt "SharedNote|"
@@ -7476,7 +7452,7 @@ msgstr ""
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr ""
+msgstr "%1 — (角色表檢視器)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
@@ -7491,12 +7467,12 @@ msgstr "QML 錯誤"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:616
 msgctxt "CharacterSheetWindow|"
 msgid "Open Character Sheets View"
-msgstr ""
+msgstr "開啟角色表檢視"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:618
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet files (*.qml)"
-msgstr ""
+msgstr "角色表檔案 (*.qml)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
 msgctxt "CharacterSheetWindow|"
@@ -7506,7 +7482,7 @@ msgstr "分享到"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
 msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet Data files (*.rcs)"
-msgstr ""
+msgstr "角色表資料檔案 (*.rcs)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:14
 msgctxt "CharacterSheetWindow|"
@@ -7531,7 +7507,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:90
 msgctxt "CharacterSheetWindow|"
 msgid "Add CharacterSheet"
-msgstr ""
+msgstr "新增角色表"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:95
 msgctxt "CharacterSheetWindow|"
@@ -7660,7 +7636,7 @@ msgstr "Ctrl+l"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:275
 msgctxt "Image|"
 msgid "Normal"
-msgstr ""
+msgstr "一般"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:276
 msgctxt "Image|"
@@ -7707,7 +7683,7 @@ msgstr "新名稱："
 #: src/libraries/rwidgets/mediacontainers/image.cpp:322
 msgctxt "Image|"
 msgid "Play"
-msgstr ""
+msgstr "播放"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:307
 msgctxt "Image|"
@@ -8171,7 +8147,7 @@ msgstr "工具"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:123
 msgctxt "ToolBox|"
 msgid "Pen"
-msgstr ""
+msgstr "筆"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:126
 msgctxt "ToolBox|"
@@ -8181,7 +8157,7 @@ msgstr ""
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:129
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
-msgstr ""
+msgstr "空白矩形"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:132
 msgctxt "ToolBox|"
@@ -8191,7 +8167,7 @@ msgstr ""
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:135
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
-msgstr ""
+msgstr "空白橢圓"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:138
 msgctxt "ToolBox|"
@@ -8266,7 +8242,7 @@ msgstr ""
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:326
 msgctxt "ToolBox|"
 msgid "Normal"
-msgstr ""
+msgstr "一般"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:328
 msgctxt "ToolBox|"
