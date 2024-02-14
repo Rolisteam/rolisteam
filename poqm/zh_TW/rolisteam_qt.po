@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-02-11 23:23+0900\n"
+"PO-Revision-Date: 2024-02-13 20:12+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -415,7 +415,7 @@ msgstr "PDF 路徑"
 #: src/binaries/rcse/dialog/pdfmanager.ui:36
 msgctxt "PdfManager|"
 msgid "Browse"
-msgstr ""
+msgstr "瀏覽"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:49
 msgctxt "PdfManager|"
@@ -2146,7 +2146,7 @@ msgstr ""
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
 msgctxt "ContextualMenu|"
 msgid "Zoom Min"
-msgstr ""
+msgstr "縮到最小"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
 msgctxt "ContextualMenu|"
@@ -2156,7 +2156,7 @@ msgstr "重設縮放"
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
 msgctxt "ContextualMenu|"
 msgid "Zoom Max"
-msgstr ""
+msgstr "放到最大"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
 msgctxt "example|"
@@ -2277,52 +2277,52 @@ msgstr ""
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:87
 msgctxt "QObject|"
 msgid "abs : too many arguments"
-msgstr ""
+msgstr "abs : 太多參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:91
 msgctxt "QObject|"
 msgid "abs : too few arguments"
-msgstr ""
+msgstr "abs : 太少參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:109
 msgctxt "QObject|"
 msgid "ceil : too many arguments"
-msgstr ""
+msgstr "ceil : 太多參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:113
 msgctxt "QObject|"
 msgid "ceil : too few arguments"
-msgstr ""
+msgstr "ceil : 太少參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:130
 msgctxt "QObject|"
 msgid "floor : too many arguments"
-msgstr ""
+msgstr "floor : 太多參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:134
 msgctxt "QObject|"
 msgid "floor : too few arguments"
-msgstr ""
+msgstr "floor : 太少參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:151
 msgctxt "QObject|"
 msgid "concatenate : too few arguments"
-msgstr ""
+msgstr "concatenate : 太少參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:174
 msgctxt "QObject|"
 msgid "min : too few arguments"
-msgstr ""
+msgstr "min : 太少參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:203
 msgctxt "QObject|"
 msgid "max : too few arguments"
-msgstr ""
+msgstr "max : 太少參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:232
 msgctxt "QObject|"
 msgid "avg : too few arguments"
-msgstr ""
+msgstr "avg : 太少參數"
 
 #: src/libraries/charactersheet/src/formula/nodes/scalaroperatorfnode.cpp:74
 msgctxt "QObject|"
@@ -2834,7 +2834,7 @@ msgstr ""
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "Bytes"
-msgstr ""
+msgstr "位元組"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -3680,7 +3680,7 @@ msgstr ""
 #: src/libraries/qml_views/views/ConnectionForm.qml:321
 msgctxt "ConnectionForm|"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: src/libraries/rwidgets/commands/changestackordervmapcommand.cpp:27
 #, qt-format
@@ -4002,17 +4002,17 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:505
 msgctxt "RGraphicsView|"
 msgid "Zoom to Normal"
-msgstr ""
+msgstr "正常縮放"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:506
 msgctxt "RGraphicsView|"
 msgid "Zoom In Max"
-msgstr ""
+msgstr "放到最大"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:507
 msgctxt "RGraphicsView|"
 msgid "Zoom Out Max"
-msgstr ""
+msgstr "縮到最小"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
 msgctxt "RGraphicsView|"
@@ -4236,7 +4236,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:42
 msgctxt "AboutRolisteam|"
 msgid "Catalan"
-msgstr ""
+msgstr "加泰羅尼亞語"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:57
 msgctxt "AboutRolisteam|"
@@ -4273,7 +4273,7 @@ msgstr "官方 Rolisteam 網站"
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
-msgstr ""
+msgstr "缺陷回報及追縱平台"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
@@ -4531,7 +4531,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Browse…"
-msgstr ""
+msgstr "瀏覽…"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:55
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5456,7 +5456,7 @@ msgstr "..."
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1135
 msgctxt "AntagonistBoard|"
 msgid "Advanced"
-msgstr ""
+msgstr "進階"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:60
 msgctxt "AntagonistBoard|"
@@ -5808,7 +5808,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:39
 msgctxt "ChannelListPanel|"
 msgid "Add channel"
-msgstr ""
+msgstr "新增頻道"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:40
 msgctxt "ChannelListPanel|"
@@ -7192,7 +7192,7 @@ msgstr "單位轉換器"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:29
 msgctxt "Convertor|"
 msgid "Category:"
-msgstr ""
+msgstr "分類："
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:37
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:197
@@ -7216,7 +7216,7 @@ msgstr ""
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:212
 msgctxt "Convertor|"
 msgid "Volume"
-msgstr ""
+msgstr "容量"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:57
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:217
@@ -7251,7 +7251,7 @@ msgstr ""
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:189
 msgctxt "Convertor|"
 msgid "Category"
-msgstr ""
+msgstr "分類"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:278
 msgctxt "Convertor|"
@@ -7271,7 +7271,7 @@ msgstr "新增"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:299
 msgctxt "Convertor|"
 msgid "Add Unit"
-msgstr ""
+msgstr "新增單位"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:308
 msgctxt "Convertor|"
@@ -7346,7 +7346,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:93
 msgctxt "CharacterItem|"
 msgid "Angle"
-msgstr ""
+msgstr "角度"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:94
 msgctxt "CharacterItem|"
@@ -7366,7 +7366,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:377
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
-msgstr ""
+msgstr "視覺形狀"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:390
 msgctxt "CharacterItem|"
@@ -7946,7 +7946,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/webview.ui:110
 msgctxt "WebView|"
 msgid "about:blank"
-msgstr ""
+msgstr "about:blank"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:118
 msgctxt "WebView|"
