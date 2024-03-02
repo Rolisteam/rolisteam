@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-01-15 10:17+0300\n"
+"PO-Revision-Date: 2024-03-01 15:47+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.01.90\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -5554,7 +5554,7 @@ msgstr "Avatar:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:84
 msgctxt "AntagonistBoard|"
 msgid "exclude:"
-msgstr "Dışarıda tut:"
+msgstr "Dışla:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:94
 msgctxt "AntagonistBoard|"
@@ -5583,7 +5583,7 @@ msgstr "Şu olmadan"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:148
 msgctxt "AntagonistBoard|"
 msgid "exclude tags:"
-msgstr "Etiketleri dışarıda tut:"
+msgstr "Etiketleri dışla:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:161
 msgctxt "AntagonistBoard|"
