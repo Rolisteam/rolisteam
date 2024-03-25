@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
-"PO-Revision-Date: 2024-03-17 20:42\n"
+"PO-Revision-Date: 2024-03-24 18:59\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -264,7 +264,7 @@ msgstr ""
 #: src/binaries/rcse/dialog/aboutrcse.ui:14
 msgctxt "AboutRcse|"
 msgid "Rolisteam Character Sheet Editor"
-msgstr ""
+msgstr "Rolisteam 字符表编辑器"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:20
 msgctxt "AboutRcse|"
@@ -332,7 +332,7 @@ msgstr ""
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:24
 msgctxt "ColumnDefinitionDialog|"
 msgid "Line Count:"
-msgstr ""
+msgstr "行数："
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:34
 msgctxt "ColumnDefinitionDialog|"
