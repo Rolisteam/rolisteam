@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2024-03-28 11:48+0100\n"
+"PO-Revision-Date: 2024-04-01 10:21+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -261,12 +261,9 @@ msgid "Previous Page Button"
 msgstr "Bouton de page précédente"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "AboutRcse|"
 msgid "Rolisteam Character Sheet Editor"
-msgstr "Fiche de personnages de Rolisteam (*.rcs)"
+msgstr "Éditeur de feuille de caractères Rolisteam (*.rcs)"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:20
 msgctxt "AboutRcse|"
@@ -433,7 +430,7 @@ msgstr "Définition de colonne :"
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
 msgid "Load background from PDF"
-msgstr "Charger un arrière-plan à partir d'un fichier « pdf »"
+msgstr "Charger un arrière-plan à partir d'un fichier « PDF »"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:43
 msgctxt "PdfManager|"
@@ -443,7 +440,7 @@ msgstr "Fichiers PDF (*.pdf)"
 #: src/binaries/rcse/dialog/pdfmanager.ui:14
 msgctxt "PdfManager|"
 msgid "Export PDF background Dialog"
-msgstr ""
+msgstr "Exporter la boîte de dialogue d'arrière-plan « PDF »"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:26
 msgctxt "PdfManager|"
@@ -811,12 +808,9 @@ msgid "Save CharacterSheet"
 msgstr "Enregistrer la feuille de caractères"
 
 #: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
-msgstr "Fiche de personnages de Rolisteam (*.rcs)"
+msgstr "Feuille de caractères Rolisteam (*.rcs)"
 
 #: src/binaries/rcse/mainwindow.cpp:705
 msgctxt "rcse::MainWindow|"
@@ -834,12 +828,9 @@ msgstr ""
 "« QML » ?"
 
 #: src/binaries/rcse/mainwindow.cpp:792
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save CharacterSheet View"
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
-msgstr "Enregistrer une vue pour les fiches de personnages"
+msgstr "Enregistrer une vue de feuille de caractères"
 
 #: src/binaries/rcse/mainwindow.cpp:793
 msgctxt "rcse::MainWindow|"
@@ -947,12 +938,9 @@ msgstr "Zone de texte"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:202
 #: src/binaries/rcse/mainwindow_rcse.ui:945
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "MainWindow|"
 msgid "Dice Button"
-msgstr "Bouton de dés"
+msgstr "Bouton de dé"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:234
 msgctxt "MainWindow|"
@@ -1267,7 +1255,7 @@ msgstr "Texte en lecture seule"
 #: src/binaries/rcse/mainwindow_rcse.ui:1214
 msgctxt "MainWindow|"
 msgid "Import from PDF"
-msgstr "Importer depuis un fichier « pdf »"
+msgstr "Importer depuis un fichier « PDF »"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1241
 msgctxt "MainWindow|"
@@ -1834,7 +1822,7 @@ msgstr "Préférences..."
 #: src/binaries/widget/mainwindow.ui:211
 msgctxt "MainWindow|"
 msgid "Tab"
-msgstr "TAB"
+msgstr "Tab"
 
 #: src/binaries/widget/mainwindow.ui:214
 msgctxt "MainWindow|"
@@ -2132,12 +2120,9 @@ msgid "Properties"
 msgstr "Propriétés"
 
 #: src/binaries/widget/mainwindow.ui:636
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "MainWindow|"
 msgid "Dice Alias"
-msgstr "Alias"
+msgstr "Alias de dé"
 
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
@@ -4248,28 +4233,19 @@ msgid "Roll Initiative on All Characters"
 msgstr "Lancer une initiative sur tous les personnages"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Npcs"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
 msgstr "Supprimer une initiative sur tous les NPC"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on Selection"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
 msgstr "Supprimer une initiative sur la sélection"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
-#, fuzzy
-#| msgctxt "RGraphicsView|"
-#| msgid "Clean Initiative on All Characters"
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
-msgstr "Supprimer une initiative sur tous les personnages"
+msgstr "Supprimer une initiative sur tous les caractères"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
@@ -4424,20 +4400,14 @@ msgid "Dialog"
 msgstr "Boîte de dialogue"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:24
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "CampaignProperties|"
 msgid "Dice Alias"
-msgstr "Alias"
+msgstr "Alias de dé"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:34
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Init Command"
 msgctxt "CampaignProperties|"
 msgid "Dice Command"
-msgstr "Commande d'initialisation"
+msgstr "Commande de dé"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:64
 msgctxt "CampaignProperties|"
@@ -4667,12 +4637,9 @@ msgid "Images"
 msgstr "Images"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:82
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dice Alias"
-msgstr "Alias"
+msgstr "Alias de dé"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:89
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4682,12 +4649,12 @@ msgstr "Thème"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:96
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 2"
-msgstr ""
+msgstr "Liste de lecture pour le lecteur audio 2"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:103
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 3"
-msgstr ""
+msgstr "Liste de lecture pour le lecteur audio 3"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:110
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4697,7 +4664,7 @@ msgstr "Remarques"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:117
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 1"
-msgstr ""
+msgstr "Liste de lecture pour le lecteur audio 1"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:124
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4900,12 +4867,9 @@ msgid "Fog Of War:"
 msgstr "Fog Of War :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:72
-#, fuzzy
-#| msgctxt "MapWizzardDialog|"
-#| msgid "All Permissions"
 msgctxt "PreferencesDialogBox|"
 msgid "Default Map Permission:"
-msgstr "Tous les droits d'accès"
+msgstr "Droits par défaut de la carte :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:99
 msgctxt "PreferencesDialogBox|"
@@ -4920,7 +4884,7 @@ msgstr "Couleur de mise en évidence d'éléments"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:166
 msgctxt "PreferencesDialogBox|"
 msgid "Pen Width Highlight:"
-msgstr ""
+msgstr "Surbrillance de la largeur du stylo :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:180
 msgctxt "PreferencesDialogBox|"
@@ -5216,12 +5180,9 @@ msgid "Repeated"
 msgstr "Répété"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1009
-#, fuzzy
-#| msgctxt "ToolBox|"
-#| msgid "Highlighter"
 msgctxt "PreferencesDialogBox|"
 msgid "Dice Highlight Color"
-msgstr "Surligneur"
+msgstr "Couleur de surlignage du dé"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1038
 msgctxt "PreferencesDialogBox|"
@@ -5288,7 +5249,7 @@ msgstr ""
 "Rolisteam dans un bureau. <br/>Les études universitaires pourraient trouver "
 "ces données intéressantes.<br/><br/>Les données de débogage demande à "
 "Rolisteam de journaliser chaque clic sur chaque bouton ou sur chaque action. "
-"Ceci est le mode de débogage le plus détaillé .<br/>Cela peut ralentir un "
+"Ceci est le mode de débogage le plus détaillé. <br/>Cela peut ralentir un "
 "peu Rolisteam.</span></p><p><span style=\" font-size:9pt;\">Pour en savoir "
 "plus sur la collecte de données : </span><a href=\"https://rolisteam.org/"
 "datacollection.html\"><span style=\" font-size:9pt; text-decoration: "
@@ -5668,12 +5629,9 @@ msgid "Dead"
 msgstr "Mort"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:213
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Initiative"
 msgctxt "AntagonistBoard|"
 msgid "Initiative Score:"
-msgstr "Initiative"
+msgstr "Note de l'initiative :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:251
 msgctxt "AntagonistBoard|"
@@ -5681,12 +5639,9 @@ msgid "Properties:"
 msgstr "Propriétés :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:261
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Initiative Command"
 msgctxt "AntagonistBoard|"
 msgid "Initiative Command:"
-msgstr "Commande pour initiative"
+msgstr "Commande pour initiative :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:274
 msgctxt "AntagonistBoard|"
@@ -5710,9 +5665,6 @@ msgid "Name:"
 msgstr "Nom :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:397
-#, fuzzy
-#| msgctxt "UserListView|"
-#| msgid "Initiative Command"
 msgctxt "AntagonistBoard|"
 msgid "Initiative Command"
 msgstr "Commande pour initiative"
@@ -5723,12 +5675,9 @@ msgid "2d10"
 msgstr "2d10"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:451
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Initiative"
 msgctxt "AntagonistBoard|"
 msgid "Initiative Value:"
-msgstr "Initiative"
+msgstr "Valeur de l'initiative :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:488
 msgctxt "AntagonistBoard|"
@@ -6703,7 +6652,7 @@ msgstr "3000"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:190
 msgctxt "ConnectToDocument|"
 msgid "LAN Cahoots Documents:"
-msgstr ""
+msgstr "Documents LAN Cahoots :"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -7181,7 +7130,7 @@ msgstr "Markdown"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:246
 msgctxt "SharedNote|"
 msgid "Shift Left"
-msgstr ""
+msgstr "Lancer à gauche"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:249
 msgctxt "SharedNote|"
@@ -7189,12 +7138,9 @@ msgid "Ctrl+["
 msgstr "« CTRL » + « [ »"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:254
-#, fuzzy
-#| msgctxt "MapWizzardDialog|"
-#| msgid "No Right"
 msgctxt "SharedNote|"
 msgid "Shift Right"
-msgstr "Aucun droit"
+msgstr "Lancer à droite"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:257
 msgctxt "SharedNote|"
@@ -7364,7 +7310,7 @@ msgstr "Alias"
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.ui:14
 msgctxt "DiceBookMarkWidget|"
 msgid "DiceShortCut"
-msgstr ""
+msgstr "Raccourci de dé"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
@@ -7980,8 +7926,8 @@ msgid ""
 "PDF transfer can be really heavy.\n"
 "Do you want to continue and share the PDF?"
 msgstr ""
-"La conversion au format « pdf » peut consommer vraiment beaucoup de temps.\n"
-"Voulez-vous vraiment continuer et partager le fichier « pdf » ?"
+"La conversion au format « PDF » peut consommer vraiment beaucoup de temps.\n"
+"Voulez-vous vraiment continuer et partager le fichier « PDF » ?"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:293
 #, qt-format
