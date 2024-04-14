@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2024-01-17 20:52+0100\n"
+"PO-Revision-Date: 2024-04-13 10:04+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -218,7 +218,7 @@ msgstr "Elekti"
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "Checkbox"
-msgstr "Markobutono"
+msgstr "Markokesto"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
@@ -928,7 +928,7 @@ msgstr "TekstoKampo"
 #: src/binaries/rcse/mainwindow_rcse.ui:969
 msgctxt "MainWindow|"
 msgid "Checkbox"
-msgstr "Markobutono"
+msgstr "Markokesto"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:167
 #: src/binaries/rcse/mainwindow_rcse.ui:981
@@ -1312,7 +1312,7 @@ msgstr "Aldoni Karakteron #%1"
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:47
 msgctxt "QObject|"
 msgid "checkbox"
-msgstr "markobutono"
+msgstr "markokesto"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:60
 #: src/libraries/core/src/undoCmd/addfieldcommand.cpp:51
