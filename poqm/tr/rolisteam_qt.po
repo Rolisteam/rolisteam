@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-03-08 19:51+0300\n"
+"PO-Revision-Date: 2024-04-23 00:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -243,7 +243,7 @@ msgstr "Web Görünümü"
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Slider"
-msgstr "Kaydırıcı"
+msgstr "Sürgü"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
@@ -952,7 +952,7 @@ msgstr "Tablo"
 #: src/binaries/rcse/mainwindow_rcse.ui:1226
 msgctxt "MainWindow|"
 msgid "Slider"
-msgstr "Kaydırıcı"
+msgstr "Sürgü"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:312
 #: src/binaries/rcse/mainwindow_rcse.ui:1238
@@ -1344,7 +1344,7 @@ msgstr "Görsel"
 #: src/binaries/rcse/undo/addfieldcommand.cpp:85
 msgctxt "QObject|"
 msgid "Slider"
-msgstr "Kaydırıcı"
+msgstr "Sürgü"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
 #: src/libraries/core/src/data/cleveruri.cpp:235
