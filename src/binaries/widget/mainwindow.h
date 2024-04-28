@@ -25,7 +25,6 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include "rwidgets/mediacontainers/mediacontainer.h"
 #include <QAction>
 #include <QMainWindow>
 #include <QMdiSubWindow>
@@ -35,24 +34,23 @@
 #include <QUndoStack>
 #include <memory>
 
+#include "controller/gamecontroller.h"
 #include "core/include/preferences/preferencesmanager.h"
 #include "network/networkreceiver.h"
-
 #include "rwidgets/customs/vmap.h"
+#include "rwidgets/dialogs/selectconnectionprofiledialog.h"
+#include "rwidgets/docks/channellistpanel.h"
+#include "rwidgets/docks/playerspanel.h"
 #include "rwidgets/docks/vmaptoolbar.h"
 #include "rwidgets/mediacontainers/vmapframe.h"
+#include "rwidgets/mediacontainers/mediacontainer.h"
 #include "rwidgets/toolbars/vtoolbar.h"
-
-#include "rwidgets/dialogs/selectconnectionprofiledialog.h"
+#include "version.h"
 
 #ifndef NULL_PLAYER
 #include "rwidgets/docks/audioPlayer.h"
 #endif
 
-#include "rwidgets/docks/channellistpanel.h"
-
-#include "controller/gamecontroller.h"
-#include "rwidgets/docks/playerspanel.h"
 
 namespace Ui
 {
@@ -156,12 +154,6 @@ public slots:
      * @brief postConnection
      */
     void postConnection();
-    /**
-     * @brief openImageAs
-     * @param pix
-     * @param type
-     */
-    void openImageAs(const QPixmap& pix, Core::ContentType type);
     void makeVisible(bool value);
 
 protected:
@@ -202,10 +194,6 @@ private slots:
     void stopReconnection();
     void updateFileHistoryMenu();
     void openFileFromHistory();
-    /**
-     * @brief helpOnLine
-     */
-    void helpOnLine();
     /**
      * @brief notifyAboutAddedPlayer
      * @param player

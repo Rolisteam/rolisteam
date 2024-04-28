@@ -66,7 +66,6 @@
 #include "rwidgets/docks/notificationzone.h"
 #include "rwidgets/docks/playerspanel.h"
 #include "rwidgets/gmtoolbox/gamemastertool.h"
-#include "rwidgets/mediacontainers/mediacontainer.h"
 
 // worker
 #include "utils/networkdownloader.h"
@@ -77,9 +76,6 @@
 #include "data/campaignmanager.h"
 #include "model/actiononlistmodel.h"
 #include "rwidgets/dialogs/campaignproperties.h"
-
-// LOG
-#include "common/logcontroller.h"
 
 // Controller
 #include "controller/applicationcontroller.h"
@@ -205,6 +201,10 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this)});
     m_roomPanel= new ChannelListPanel(m_gameController->networkController(), this);
 
+    connect(m_gameController, &GameController::localIsGMChanged, this, [this](){
+        updateUi();
+        updateWindowTitle();
+    });
     connect(m_gameController, &GameController::updateAvailableChanged, this, &MainWindow::showUpdateNotification);
     connect(m_gameController, &GameController::tipOfDayChanged, this, &MainWindow::showTipChecker);
     connect(m_gameController, &GameController::localPlayerIdChanged, this,
@@ -214,7 +214,6 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 
     m_separatorAction= m_ui->m_fileMenu->insertSeparator(m_ui->m_closeAction);
     m_separatorAction->setVisible(false);
-    // registerQmlTypes();
 
 #ifdef HAVE_WEBVIEW
     auto defaultProfile= QWebEngineProfile::defaultProfile();
@@ -433,8 +432,6 @@ void MainWindow::linkActionToMenu()
         std::map<QString, QVariant> params;
         if(!m_gameController->localIsGM())
         {
-            QUrl dir;
-            QString filter;
             NewFileDialog dial(act->data().value<Core::ContentType>());
             if(QDialog::Rejected == dial.exec())
                 return;
@@ -483,7 +480,9 @@ void MainWindow::linkActionToMenu()
                 params.insert({Core::keys::KEY_PATH, str});
                 m_gameController->newMedia(params);
             });
-    connect(m_ui->m_openCampaignAction, &QAction::triggered, this, &MainWindow::openCampaign);
+    connect(m_ui->m_openCampaignAction, &QAction::triggered, this, [this](){
+        m_gameController->setCampaignRoot(QFileDialog::getExistingDirectory(this, tr("Open Campaign"), m_gameController->campaign()->rootDirectory()));
+    });
     connect(m_ui->m_openNoteAction, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openShareNote, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openPdfAct, &QAction::triggered, this, &MainWindow::openGenericContent);
@@ -624,10 +623,20 @@ void MainWindow::linkActionToMenu()
                 AboutRolisteam diag(m_gameController->version(), this);
                 diag.exec();
             });
-    connect(m_ui->m_onlineHelpAction, &QAction::triggered, this, &MainWindow::helpOnLine);
+    connect(m_ui->m_onlineHelpAction, &QAction::triggered, this, [this](){
+        if(!QDesktopServices::openUrl(QUrl(version::documation_site)))
+        {
+            QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("Help"),
+                                                 tr("Documentation of %1 can be found online at :<br> <a "
+                                                    "href=\"%2\">%2</a>")
+                                                     .arg(m_preferences->value("Application_Name", "rolisteam").toString()).arg(version::documation_site),
+                                                 QMessageBox::Ok);
+            msgBox->exec();
+        }
+    });
 
-    m_ui->m_supportRolisteam->setData(QStringLiteral("https://liberapay.com/Rolisteam/donate"));
-    m_ui->m_patreon->setData(QStringLiteral("https://www.patreon.com/rolisteam"));
+    m_ui->m_supportRolisteam->setData(version::liberapay_site);
+    m_ui->m_patreon->setData(version::patreon_site);
     connect(m_ui->m_supportRolisteam, &QAction::triggered, this, &MainWindow::showSupportPage);
     connect(m_ui->m_patreon, &QAction::triggered, this, &MainWindow::showSupportPage);
 
@@ -648,7 +657,7 @@ void MainWindow::showSupportPage()
         return;
 
     QString url= act->data().toString();
-    if(!QDesktopServices::openUrl(QUrl(url))) //"https://liberapay.com/Rolisteam/donate"
+    if(!QDesktopServices::openUrl(QUrl(url)))
     {
         QMessageBox msgBox(QMessageBox::Information, tr("Support"),
                            tr("The %1 donation page can be found online at :<br> <a "
@@ -689,15 +698,15 @@ void MainWindow::newVMap()
     if(mapWizzard.exec())
     {
         std::map<QString, QVariant> params;
-        params.insert({QStringLiteral("name"), mapWizzard.name()});
-        params.insert({QStringLiteral("permission"), mapWizzard.permission()});
-        params.insert({QStringLiteral("bgcolor"), mapWizzard.backgroundColor()});
-        params.insert({QStringLiteral("gridSize"), mapWizzard.gridSize()});
-        params.insert({QStringLiteral("gridPattern"), QVariant::fromValue(mapWizzard.pattern())});
-        params.insert({QStringLiteral("gridColor"), mapWizzard.gridColor()});
-        params.insert({QStringLiteral("visibility"), mapWizzard.visibility()});
-        params.insert({QStringLiteral("scale"), mapWizzard.scale()});
-        params.insert({QStringLiteral("unit"), mapWizzard.unit()});
+        params.insert({Core::keys::KEY_NAME, mapWizzard.name()});
+        params.insert({Core::keys::KEY_PERMISSION, mapWizzard.permission()});
+        params.insert({Core::keys::KEY_BGCOLOR , mapWizzard.backgroundColor()});
+        params.insert({Core::keys::KEY_GRIDSIZE, mapWizzard.gridSize()});
+        params.insert({Core::keys::KEY_GRIDPATTERN, QVariant::fromValue(mapWizzard.pattern())});
+        params.insert({Core::keys::KEY_GRIDCOLOR, mapWizzard.gridColor()});
+        params.insert({Core::keys::KEY_VISIBILITY, mapWizzard.visibility()});
+        params.insert({Core::keys::KEY_SCALE, mapWizzard.scale()});
+        params.insert({Core::keys::KEY_UNIT, mapWizzard.unit()});
         params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::VECTORIALMAP)});
         m_gameController->newMedia(params);
     }
@@ -706,8 +715,6 @@ void MainWindow::newVMap()
 bool MainWindow::mayBeSaved(bool connectionLoss)
 {
     QMessageBox msgBox(this);
-    QAbstractButton* saveBtn= msgBox.addButton(QMessageBox::Save);
-    QAbstractButton* quitBtn= msgBox.addButton(tr("Quit"), QMessageBox::RejectRole);
     Qt::WindowFlags flags= msgBox.windowFlags();
     msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
@@ -749,18 +756,6 @@ void MainWindow::setUpNetworkConnection()
     connect(networkCtrl, &NetworkController::downloadingData, m_dockLogUtil.get(), &NotificationZone::receiveData);
 }
 
-void MainWindow::helpOnLine()
-{
-    if(!QDesktopServices::openUrl(QUrl("http://doc.rolisteam.org/")))
-    {
-        QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("Help"),
-                                             tr("Documentation of %1 can be found online at :<br> <a "
-                                                "href=\"http://doc.rolisteam.org\">http://doc.rolisteam.org/</a>")
-                                                 .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
-                                             QMessageBox::Ok);
-        msgBox->exec();
-    }
-}
 void MainWindow::updateUi()
 {
     auto isGM= m_gameController->localIsGM();
@@ -803,7 +798,7 @@ void MainWindow::showUpdateNotification()
     QMessageBox::information(this, tr("Update Notification"),
                              tr("The %1 version has been released. "
                                 "Please take a look at <a "
-                                "href=\"http://www.rolisteam.org/download\">Download page</a> for "
+                                "href=\"https://www.rolisteam.org/download\">Download page</a> for "
                                 "more "
                                 "information")
                                  .arg(m_gameController->remoteVersion()));
@@ -1134,7 +1129,7 @@ void MainWindow::dropEvent(QDropEvent* event)
     if(!data->hasUrls() && !data->hasImage())
         return;
 
-    qDebug() << "data has url and image" << data->hasImage() << data->hasUrls();
+    qCDebug(WidgetClient) << "data has url and image" << data->hasImage() << data->hasUrls();
 
     if(data->hasImage())
     {
@@ -1167,8 +1162,7 @@ void MainWindow::dropEvent(QDropEvent* event)
                 Core::ContentType type= helper::utils::extensionToContentType(path);
                 if(type == Core::ContentType::UNKNOWN)
                     continue;
-                qCInfo(WidgetClient)
-                    << QStringLiteral("MainWindow: dropEvent for %1").arg(helper::utils::typeToString(type));
+                qCInfo(WidgetClient) << QStringLiteral("MainWindow: dropEvent for %1").arg(helper::utils::typeToString(type));
                 contentCtrl->openMedia(
                     {{Core::keys::KEY_URL, url},
                      {Core::keys::KEY_TYPE, QVariant::fromValue(type)},
@@ -1215,42 +1209,6 @@ void MainWindow::showShortCutEditor()
     dialog.exec();
 }
 
-void MainWindow::openImageAs(const QPixmap& pix, Core::ContentType type)
-{
-    auto viewer= qobject_cast<MediaContainer*>(sender());
-    QString title(tr("Export from %1"));
-    QString sourceName= tr("unknown");
-    if(nullptr != viewer)
-    {
-        // sourceName= viewer->getUriName();
-    }
-
-    // MediaContainer* destination= nullptr;
-    if(type == Core::ContentType::VECTORIALMAP)
-    {
-        /* auto media= newDocument(type, false);
-         auto vmapFrame= dynamic_cast<VMapFrame*>(media);*/
-        // if(vmapFrame)
-        {
-            /*auto vmap= vmapFrame->getMap();
-            vmap->addImageItem(pix.toImage());
-            destination= media;*/
-        }
-    }
-    else if(type == Core::ContentType::PICTURE)
-    {
-        /* auto img= new Image(m_mdiArea);
-         auto imgPix= pix.toImage();
-         img->setImage(imgPix);
-         destination= img;*/
-    }
-    // if(destination)
-    // destination->setUriName(title.arg(sourceName));
-
-    // destination->setRemote(false);
-    // destination->setCleverUri(new CleverURI(sourceName, "", type));
-    // addMediaToMdiArea(destination, true);
-}
 void MainWindow::focusInEvent(QFocusEvent* event)
 {
     QMainWindow::focusInEvent(event);
