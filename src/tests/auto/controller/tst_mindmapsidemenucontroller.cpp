@@ -57,9 +57,10 @@ void SideMenuControllerTest::init()
 void initModel(mindmap::MindItemModel* model)
 {
     new QAbstractItemModelTester(model);
-    auto l= model->addItem({}, MindItem::NodeType);
+    model->appendItem({}, false);
 
-    l.first->setText("foo");
+
+/*    l.first->setText("foo");
     l.first->setId("toto");
     auto node1= dynamic_cast<MindNode*>(l.first);
     node1->setTags({"tag1", "tag2", "blue", "yellow"});
@@ -81,7 +82,7 @@ void initModel(mindmap::MindItemModel* model)
     l4.first->setText("sentiment");
     auto node4= dynamic_cast<MindNode*>(l4.first);
     node4->setTags({"samourai", "sword", "killer"});
-    node4->setDescription("hello world!");
+    node4->setDescription("hello world!");=*/
 }
 
 void SideMenuControllerTest::criteria()

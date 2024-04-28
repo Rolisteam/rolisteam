@@ -24,12 +24,14 @@
 #include <QObject>
 #include <QRectF>
 #include <QSizeF>
+#include <QQmlEngine>
 
 namespace utils
 {
 class UTILS_EXPORT MappingHelper : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit MappingHelper(QObject* parent= nullptr);
 

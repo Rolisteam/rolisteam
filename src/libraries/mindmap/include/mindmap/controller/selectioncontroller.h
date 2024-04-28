@@ -21,19 +21,23 @@
 #define SELECTIONCONTROLLER_H
 
 #include "mindmap/mindmap_global.h"
+#include "mindmap/data/minditem.h"
+
 #include <QObject>
 #include <QPointF>
 #include <QUndoStack>
 #include <vector>
+#include <QQmlEngine>
 
 namespace mindmap
 {
 
 class MindNode;
-class MindItem;
+
 class MINDMAP_EXPORT SelectionController : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(QString lastSelected READ lastSelected NOTIFY lastSelectedChanged)
     Q_PROPERTY(bool hasSelection READ hasSelection NOTIFY hasSelectionChanged)

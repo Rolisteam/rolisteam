@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import mindmap
 import Customization
 import CustomItems
+import mindmapcpp
 
 Drawer {
     id: _drawer

@@ -33,6 +33,8 @@ class Theme;
 class COMMON_QML_EXPORT StyleSheet : public QQmlPropertyMap
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("Managed by Theme")
 public:
     explicit StyleSheet(Theme* parent);
     void insertOrUpdate(const QString& key, const QVariant& value);
@@ -45,6 +47,7 @@ class COMMON_QML_EXPORT Theme : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
+    QML_SINGLETON
     Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)
     Q_PROPERTY(QString folder READ folder NOTIFY folderChanged)
     Q_PROPERTY(QFont imFont READ imFont WRITE setImFont NOTIFY imFontChanged FINAL)

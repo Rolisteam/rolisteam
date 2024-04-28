@@ -22,6 +22,7 @@
 
 #include <QColor>
 #include <QObject>
+#include <QQmlEngine>
 
 #include "mindmap/mindmap_global.h"
 namespace mindmap
@@ -30,6 +31,7 @@ namespace mindmap
 class MINDMAP_EXPORT NodeStyle : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(QColor colorOne READ colorOne WRITE setColorOne NOTIFY colorOneChanged)
     Q_PROPERTY(QColor colorTwo READ colorTwo WRITE setColorTwo NOTIFY colorTwoChanged)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)

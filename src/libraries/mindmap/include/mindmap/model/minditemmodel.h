@@ -34,8 +34,11 @@ class ImageModel;
 class MINDMAP_EXPORT MindItemModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("Model provided by controller")
     Q_PROPERTY(QRectF contentRect READ contentRect NOTIFY geometryChanged)
-    Q_PROPERTY(int defaultStyleIndex READ defaultStyleIndex WRITE setDefaultStyleIndex NOTIFY defaultStyleIndexChanged FINAL)
+    Q_PROPERTY(
+        int defaultStyleIndex READ defaultStyleIndex WRITE setDefaultStyleIndex NOTIFY defaultStyleIndexChanged FINAL)
 public:
     enum Roles
     {
@@ -68,14 +71,13 @@ public:
     mindmap::MindItem* item(const QString& id) const;
     mindmap::PositionedItem* positionItem(const QString& id) const;
     std::vector<mindmap::LinkController*> sublink(const QString& id) const;
-
-    void appendItem(const QList<mindmap::MindItem*>& node);
-
+    QString idFromIndex(int index) const;
+    void appendItem(const QList<mindmap::MindItem*>& node, bool network= false);
     int defaultStyleIndex() const;
     void setDefaultStyleIndex(int newDefaultStyleIndex);
 
 public slots:
-    std::pair<mindmap::MindItem*, mindmap::LinkController*> addItem(const QString& idparent, MindItem::Type type);
+    mindmap::MindItem* createItem(MindItem::Type type);
     bool removeItem(const mindmap::MindItem* node);
     void openItem(const QString& id, bool status);
     void setImageUriToNode(const QString& id, const QString& url);
@@ -84,9 +86,14 @@ public slots:
 
 signals:
     void geometryChanged();
+    void itemAdded(const QList<mindmap::MindItem*> nodes);
+    void itemRemoved(QStringList ids);
     void latestInsertedPackage(mindmap::PackageNode* package);
 
     void defaultStyleIndexChanged();
+
+private:
+    void removeAllSubItem(const mindmap::PositionedItem* item, QSet<QString>& items);
 
 private:
     std::vector<mindmap::MindItem*> m_links;
@@ -94,7 +101,7 @@ private:
     std::vector<mindmap::MindItem*> m_nodes;
 
     QPointer<ImageModel> m_imgModel;
-    int m_defaultStyleIndex = 0;
+    int m_defaultStyleIndex= 0;
 };
 } // namespace mindmap
 #endif // MINDITEMMODEL_H

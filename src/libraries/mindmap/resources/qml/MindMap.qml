@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Customization
 import mindmap
+import mindmapcpp
 
 Flickable {
     id: _flick

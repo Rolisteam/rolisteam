@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QPointF>
 #include <QVector2D>
+#include <QQmlEngine>
 
 #include "mindmap/mindmap_global.h"
 
@@ -31,6 +32,8 @@ namespace mindmap
 class MINDMAP_EXPORT MindItem : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("Enum only")
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
@@ -41,7 +44,8 @@ public:
     {
         NodeType,
         LinkType,
-        PackageType
+        PackageType,
+        InvalidType
     };
     Q_ENUM(Type)
     explicit MindItem(MindItem::Type type, QObject* parent= nullptr);

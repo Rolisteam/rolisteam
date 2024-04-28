@@ -43,31 +43,23 @@ void registerMindmapType()
 {
     customization::Theme::setPath(":/resources/stylesheet/qml/theme.ini");
     qRegisterMetaType<PlayerModel*>("PlayerModel*");
-    qRegisterMetaType<customization::Theme*>("customization::Theme*");
-    qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");
-
     qmlRegisterAnonymousType<PlayerModel>("PlayerModel", 1);
 
-    qmlRegisterSingletonType<customization::Theme>("Customization", 1, 0, "Theme",
+    /*qmlRegisterSingletonType<customization::Theme>("Customization", 1, 0, "Theme",
                                                    [](QQmlEngine* engine, QJSEngine*) -> QObject*
                                                    {
                                                        auto instead= customization::Theme::instance();
                                                        engine->setObjectOwnership(instead, QQmlEngine::CppOwnership);
                                                        return instead;
-                                                   });
+                                                   });*/
 
-    qmlRegisterType<utils::MappingHelper>("utils", 1, 0, "MappingHelper");
-    qmlRegisterUncreatableType<mindmap::MindMapControllerBase>("mindmap", 1, 0, "MindMapController",
+    qmlRegisterUncreatableType<mindmap::MindMapControllerBase>("mindmapcpp", 1, 0, "MindMapController",
                                                                "MindMapController can't be created in qml");
-    qmlRegisterUncreatableType<mindmap::MindItem>("mindmap", 1, 0, "MindItem", "Enum only");
-    qmlRegisterType<mindmap::SelectionController>("mindmap", 1, 0, "SelectionController");
-    qmlRegisterUncreatableType<RemotePlayerModel>("mindmap", 1, 0, "RemotePlayerModel", "property values");
-    qmlRegisterType<mindmap::LinkItem>("mindmap", 1, 0, "MindLink");
-    qmlRegisterType<mindmap::NodeStyle>("mindmap", 1, 0, "NodeStyle");
-    qmlRegisterUncreatableType<mindmap::PositionedItem>("mindmap", 1, 0, "PositionedItem", "Enum only");
-    qmlRegisterType<mindmap::SideMenuController>("mindmap", 1, 0, "SideMenuController");
-    qmlRegisterUncreatableType<mindmap::MindItemModel>("mindmap", 1, 0, "MindItemModel",
-                                                       "MindItemModel can't be created in qml");
+    qmlRegisterUncreatableType<mindmap::MindItem>("mindmapcpp", 1, 0, "MindItem", "Enum only");
+    qmlRegisterUncreatableType<RemotePlayerModel>("mindmapcpp", 1, 0, "RemotePlayerModel", "property values");
+    qmlRegisterType<mindmap::LinkItem>("mindmapcpp", 1, 0, "MindLink");
+    qmlRegisterType<mindmap::NodeStyle>("mindmapcpp", 1, 0, "NodeStyle");
+    qmlRegisterType<mindmap::SideMenuController>("mindmapcpp", 1, 0, "SideMenuController");
 }
 
 int main(int argc, char** argv)
@@ -75,10 +67,7 @@ int main(int argc, char** argv)
     QGuiApplication app(argc, argv);
 
     Q_INIT_RESOURCE(viewsqml);
-    // Q_INIT_RESOURCE(textedit);
     Q_INIT_RESOURCE(rmindmap);
-    // Q_INIT_RESOURCE(resources);
-    // Q_INIT_RESOURCE(mindmap);
 
     app.setApplicationName(QStringLiteral("RMindMap"));
     app.setOrganizationName(QStringLiteral("Rolisteam"));
@@ -105,12 +94,15 @@ int main(int argc, char** argv)
     qmlRegisterSingletonInstance<MainController>("mindmap", 1, 0, "MindmapManager", &main);
 
     QQmlApplicationEngine qmlEngine;
+    QObject::connect(&qmlEngine, &QQmlApplicationEngine::objectCreated, &qmlEngine, [](QObject* obj, const QUrl& url){
+        qDebug() << "object created: "<<obj->objectName() << obj;
+    });
     qmlEngine.addImportPath(QStringLiteral("qrc:/qml"));
     qmlEngine.addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
     auto provider= new mindmap::NodeImageProvider(main.imgModel());
     qmlEngine.addImageProvider("nodeImages", provider);
 
-    qmlEngine.load(QLatin1String("qrc:/resources/qml/main.qml"));
+    qmlEngine.loadFromModule("mindmapmod", "Main");
 
     return app.exec();
 }

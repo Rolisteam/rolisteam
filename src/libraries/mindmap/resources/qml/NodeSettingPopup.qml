@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Universal
 import mindmap
+import mindmapcpp
 
 Popup {
     id: _root

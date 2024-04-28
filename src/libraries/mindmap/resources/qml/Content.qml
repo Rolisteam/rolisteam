@@ -4,8 +4,9 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import mindmap
+import mindmapcpp
 import Customization
-import utils
+import Utils
 
 Pane {
     id: root

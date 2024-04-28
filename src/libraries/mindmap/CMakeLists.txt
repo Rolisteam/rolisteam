@@ -71,7 +71,13 @@ set(mindmap_src
     src/worker/fileserializer.cpp
   )
 
-set(mindmap_qml
+add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
+qt_add_qml_module(rmindmap
+URI
+    mindmap
+RESOURCE_PREFIX
+    mind
+QML_FILES
     resources/qml/IconButton.qml
     resources/qml/Link.qml
     resources/qml/MindMap.qml
@@ -80,10 +86,21 @@ set(mindmap_qml
     resources/qml/Node.qml
     resources/qml/DrawerMenu.qml
     resources/qml/main.qml
+SOURCES
+    src/data/minditem.cpp
+    ${inc_dir}/data/minditem.h
+    src/controller/selectioncontroller.cpp
+    ${inc_dir}/controller/selectioncontroller.h
+    src/data/nodestyle.cpp
+    ${inc_dir}/data/nodestyle.h
+    src/model/minditemmodel.cpp
+    ${inc_dir}/model/minditemmodel.h
+    src/data/positioneditem.cpp
+    ${inc_dir}/data/positioneditem.h
+    src/qmlItems/linkitem.cpp
+    ${inc_dir}/qmlItems/linkitem.h
 )
 
-
-add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
 target_link_libraries(rmindmap PUBLIC Qt6::Core Qt6::Svg Qt6::Svg Qt6::Qml Qt6::Quick Qt6::QuickControls2 PRIVATE utils)
 
 set_target_properties(rmindmap PROPERTIES VERSION ${PROJECT_VERSION})
@@ -104,6 +121,14 @@ target_include_directories(rmindmap
         ${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/model
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/data>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/command>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/controller>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/qmlItems>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/geometry>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/worker>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mindmap/model>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 

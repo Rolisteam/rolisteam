@@ -34,8 +34,12 @@ class LinkController;
 class MINDMAP_EXPORT PositionedItem : public MindItem
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("Enum only")
     Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QPointF centerPoint READ centerPoint NOTIFY centerPointChanged)
+    Q_PROPERTY(PositionedItem* parentNode READ parentNode WRITE setParentNode NOTIFY parentNodeChanged FINAL)
+    Q_PROPERTY(QString parentId READ parentId NOTIFY parentNodeChanged FINAL)
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
     Q_PROPERTY(bool isDragged READ isDragged WRITE setDragged NOTIFY isDraggedChanged)
@@ -98,6 +102,7 @@ signals:
     void hasLinkChanged();
     void openChanged();
     void lockedChanged();
+    void parentNodeChanged();
 
 protected:
     void updatePosition();

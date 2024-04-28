@@ -80,6 +80,16 @@ set(common_qml_public_header include/common_qml/common_qml_global.h include/comm
 set(common_qml_src controller/theme.cpp)
 
 add_library(common_qml SHARED ${common_qml_public_header} ${common_qml_src})
+qt_add_qml_module(common_qml
+URI
+    Customization
+VERSION
+    1.0
+SOURCES
+    include/common_qml/theme.h
+    controller/theme.cpp
+)
+
 target_compile_definitions(common_qml PRIVATE COMMON_QML_LIBRARY)
 set_target_properties(common_qml PROPERTIES PUBLIC_HEADER "${common_qml_public_header}")
 target_link_libraries(common_qml PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Gui)
@@ -88,6 +98,7 @@ target_include_directories(common_qml
         ${CMAKE_CURRENT_SOURCE_DIR}/controller
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/common_qml>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 

@@ -23,14 +23,17 @@
 #include "controller/view_controller/mindmapcontrollerbase.h"
 #include <QObject>
 #include <QPointer>
+#include <QQmlEngine>
 
 class MainController : public mindmap::MindMapControllerBase
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit MainController(QObject* parent= nullptr);
 
 public slots:
     void openFile(const QUrl& file);
+    void saveFile();
 };
 #endif // MAINCONTROLLER_H

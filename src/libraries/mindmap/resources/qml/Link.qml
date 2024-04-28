@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import mindmap
+import mindmapcpp
 import Customization
 
 MindLink {

@@ -30,6 +30,14 @@ set(qml_files main.qml)
 set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/mindmap/logo/mindmap.rc)
 
 add_executable(mindmapbin WIN32 ${sources} ${headers} ${UI_files} ${ressources} ${RC_FILE})
+qt_add_qml_module(mindmapbin
+URI
+    mindmapmod
+RESOURCE_PREFIX
+    mindmap
+QML_FILES
+    Main.qml
+)
 set_target_properties(mindmapbin  PROPERTIES OUTPUT_NAME mindmap CLEAN_DIRECT_OUTPUT 1)
 set_target_properties(mindmapbin PROPERTIES WIN32_EXECUTABLE on MACOSX_BUNDLE on)
 

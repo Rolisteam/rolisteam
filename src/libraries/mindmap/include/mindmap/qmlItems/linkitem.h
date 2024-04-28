@@ -33,6 +33,7 @@ namespace mindmap
 class MINDMAP_EXPORT LinkItem : public QQuickItem
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(MindLink)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(PointList points READ points WRITE setPoints NOTIFY pointsChanged)
     Q_PROPERTY(qreal horizontalOffset READ horizontalOffset NOTIFY horizontalOffsetChanged)

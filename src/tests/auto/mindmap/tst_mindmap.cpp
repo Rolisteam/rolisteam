@@ -32,9 +32,9 @@
 #include <helper.h>
 #include <memory>
 
-#include <QSignalSpy>
 #include <QAbstractItemModel>
 #include <QAbstractListModel>
+#include <QSignalSpy>
 #include <QTimer>
 
 class MindMapTest : public QObject
@@ -337,8 +337,8 @@ void MindMapTest::remoteAddTest()
     link->setStart(node1);
     link->setEnd(node2);
 
-    NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddMessage);
-    MessageHelper::buildAddItemMessage(msg, {node1, node2}, {link});
+    NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddItem);
+    MessageHelper::buildAddItemMessage(msg, {node1, node2, link});
 
     auto dataMsg= msg.data();
     NetworkMessageReader readMsg;
@@ -517,15 +517,14 @@ void MindMapTest::linkGeometryTest()
 
 void MindMapTest::getAndSetTest()
 {
-    auto space = m_ctrl->spacingCtrl();
+    auto space= m_ctrl->spacingCtrl();
     space->setRunning(false);
     space->setRunning(true);
 
-
-    auto styleModel = dynamic_cast<mindmap::NodeStyleModel*>(m_ctrl->styleModel());
+    auto styleModel= dynamic_cast<mindmap::NodeStyleModel*>(m_ctrl->styleModel());
     new QAbstractItemModelTester(styleModel);
 
-    for(int i = 0; i < styleModel->rowCount(); ++i)
+    for(int i= 0; i < styleModel->rowCount(); ++i)
     {
         qDebug() << i;
         QVERIFY(styleModel->getStyle(i) != nullptr);
@@ -534,19 +533,19 @@ void MindMapTest::getAndSetTest()
     }
 
     QCOMPARE(m_ctrl->errorMsg(), QString());
-    QCOMPARE(m_ctrl->contentRect(), QRectF(0,0,100,20));
+    QCOMPARE(m_ctrl->contentRect(), QRectF(0, 0, 100, 20));
 
     QSignalSpy spy(m_ctrl.get(), &MindMapController::errorMsgChanged);
-    auto msg = Helper::randomString();
+    auto msg= Helper::randomString();
     m_ctrl->setErrorMsg(msg);
     m_ctrl->setErrorMsg(msg);
 
-    QCOMPARE(m_ctrl->errorMsg(),msg);
+    QCOMPARE(m_ctrl->errorMsg(), msg);
     QCOMPARE(spy.count(), 1);
 
     QSignalSpy spy2(m_ctrl.get(), &MindMapController::defaultStyleIndexChanged);
     m_ctrl->setDefaultStyleIndex(8000);
-    auto indexStyle = Helper::generate<int>(0, styleModel->rowCount());
+    auto indexStyle= Helper::generate<int>(0, styleModel->rowCount());
     m_ctrl->setDefaultStyleIndex(indexStyle);
     QCOMPARE(spy.count(), 1);
     QCOMPARE(indexStyle, m_ctrl->defaultStyleIndex());
@@ -559,11 +558,11 @@ void MindMapTest::getAndSetTest()
     m_ctrl->centerItems(200, 300);
     m_ctrl->refresh();
 
-    auto imgModel = m_ctrl->imgModel();
+    auto imgModel= m_ctrl->imgModel();
     new QAbstractItemModelTester(imgModel);
 
-    auto id = Helper::randomString();
-    auto path = QUrl::fromLocalFile(Helper::imagePath());
+    auto id= Helper::randomString();
+    auto path= QUrl::fromLocalFile(Helper::imagePath());
     m_ctrl->openImage(id, path);
 
     m_ctrl->removeImage(id);
@@ -571,7 +570,6 @@ void MindMapTest::getAndSetTest()
 
     m_ctrl->openImage(id, path);
     m_ctrl->removeImageFor(id);
-
 
     m_ctrl->removeLink({Helper::randomString()});
     m_ctrl->removeNode({Helper::randomString()});
@@ -605,7 +603,6 @@ void MindMapTest::getAndSetTest()
     QVERIFY(m_ctrl->linkLabelVisibility());
     QCOMPARE(spy3.count(), 3);
 
-
     m_ctrl->addItemIntoPackage(Helper::randomString(), Helper::randomString());
     m_ctrl->subItem(Helper::randomString(), mindmap::MindItem::LinkType);
 
@@ -615,7 +612,6 @@ void MindMapTest::getAndSetTest()
     spyZoom.wait(10);
     QCOMPARE(spyZoom.count(), 1);
     QCOMPARE(m_ctrl->zoomLevel(), 0.2);
-
 
     m_ctrl->hasNetwork();
 }
