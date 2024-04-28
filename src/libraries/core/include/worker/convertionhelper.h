@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
@@ -24,15 +24,16 @@
 #include <QDataStream>
 #include <QFont>
 #include <QImage>
+#include <QPainterPath>
 #include <QPointF>
 #include <QRectF>
 #include <QSize>
-#include <QPainterPath>
 
 #include "controller/view_controller/sharednotecontroller.h"
 #include "data/charactervision.h"
 #include "media/mediatype.h"
 #include "mindmap/data/mindmaptypes.h"
+#include "mindmap/data/positioneditem.h"
 #include "network/networkmessagewriter.h"
 #include <core_global.h>
 

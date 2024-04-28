@@ -96,6 +96,7 @@ void readConnectionProfileModel(ProfileModel* model)
 #else
     QSettings settings(rolisteam, rolisteam);
 #endif
+    qDebug() << settings.fileName();
     settings.beginGroup(profiles::groupName);
     int size= settings.beginReadArray(profiles::arrayName);
     for(int i= 0; i < size; ++i)

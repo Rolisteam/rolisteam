@@ -150,7 +150,7 @@ void variantToType<mindmap::ArrowDirection>(const mindmap::ArrowDirection& perm,
 }
 
 template <>
-void variantToType(const QPainterPath &val, NetworkMessageWriter &msg)
+void variantToType<QPainterPath>(const QPainterPath& val, NetworkMessageWriter& msg)
 {
     QByteArray data;
     {

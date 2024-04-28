@@ -76,6 +76,7 @@ public:
     static QJsonArray loadJsonFileIntoArray(const QString& filename, bool& ok);
     static QJsonObject loadJsonFileIntoObject(const QString& filename, bool& ok);
     static void writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array);
+    static bool writeByteArrayIntoFile(const QString& destination, const QByteArray& array);
     static void writeJsonObjectIntoFile(const QString& destination, const QJsonObject& obj);
     static void saveMediaBaseIntoJSon(MediaControllerBase* base, QJsonObject& obj);
     static QJsonArray fetchLanguageModel();
