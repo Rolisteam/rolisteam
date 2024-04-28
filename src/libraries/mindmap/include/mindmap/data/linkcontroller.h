@@ -108,6 +108,8 @@ public:
     void setConstraint(bool newConstraint);
     QString toString(bool b) const;
 
+    bool relatedTo(const QString& id) const;
+
 public slots:
     void setStiffness(float stiffness);
     void setDirection(const LinkController::Direction& direction);

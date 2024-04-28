@@ -13,6 +13,7 @@ Drawer {
     property alias linkVisibility: linkVisible.checked
     property alias defaultStyle: combo.currentIndex
     required property MindMapController mediaCtrl
+    signal userChangedLinkVisibility()
 
     SideMenuController {
         id: ctrl
@@ -44,6 +45,7 @@ Drawer {
             Switch {
                 id: linkVisible
                 text: qsTr("Link label visible:")
+                onPressed: userChangedLinkVisibility()
             }
             RowLayout {
                 Layout.fillWidth: true

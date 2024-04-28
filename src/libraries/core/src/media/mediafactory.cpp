@@ -36,8 +36,8 @@
 #include "charactersheet/imagemodel.h"
 #include "charactersheet/worker/ioworker.h"
 
-#include "mindmap/data/mindnode.h"
 #include "mindmap/data/minditem.h"
+#include "mindmap/data/mindnode.h"
 
 #include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/minditem.h"
@@ -222,13 +222,14 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
     if(map.contains("indexStyle"))
         mindmapCtrl->setDefaultStyleIndex(map.value("indexStyle").toBool());
 
-    QHash<QString, mindmap::MindNode*> data;
+    QHash<QString, mindmap::PositionedItem*> data;
+    QHash<QString, QString> parentData;
     if(map.contains("nodes"))
     {
         QHash<QString, QVariant> nodes= map.value("nodes").toHash();
 
         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
-        QHash<QString, QString> parentData;
+
         QList<mindmap::MindItem*> nodesList;
         for(const auto& var : nodes)
         {
@@ -245,18 +246,44 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             parentData.insert(node->id(), nodeV["parentId"].toString());
         }
         model->appendItem(nodesList);
+    }
 
-        for(const auto& key : data.keys())
+    if(map.contains("packages"))
+    {
+        QHash<QString, QVariant> packs= map.value("packages").toHash();
+
+        auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
+
+        QList<mindmap::MindItem*> packList;
+        for(const auto& var : packs)
         {
-            auto node= data.value(key);
-            auto parentId= parentData.value(key);
-
-            if(!parentId.isEmpty())
+            auto pack= new mindmap::PackageNode();
+            auto packV= var.toHash();
+            pack->setId(packV["uuid"].toString());
+            pack->setTitle(packV["title"].toString());
+            auto childrenIds= packV["children"].toStringList();
+            data.insert(pack->id(), pack);
+            for(auto const& id : childrenIds)
             {
-                auto parent= data.value(parentId);
-                if(parent)
-                    node->setParentNode(parent);
+                parentData.insert(id, pack->id());
+                pack->addChild(model->positionItem(id));
             }
+            packList << pack;
+        }
+        model->appendItem(packList);
+    }
+
+    auto const& keys= data.keys();
+    for(const auto& key : keys)
+    {
+        auto node= data.value(key);
+        auto parentId= parentData.value(key);
+
+        if(!parentId.isEmpty())
+        {
+            auto parent= data.value(parentId);
+            if(parent)
+                node->setParentNode(parent);
         }
     }
 
@@ -283,28 +310,6 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             link->setEnd(data.value(endId));
 
             linkList << link;
-        }
-        model->appendItem(linkList);
-    }
-
-    if(map.contains("packages"))
-    {
-        QHash<QString, QVariant> links= map.value("links").toHash();
-
-        auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
-
-        QList<mindmap::MindItem*> linkList;
-        for(const auto& var : links)
-        {
-            auto pack= new mindmap::PackageNode();
-            auto packV= var.toHash();
-            pack->setId(packV["uuid"].toString());
-            pack->setTitle(packV["title"].toString());
-            auto childrenId= packV["children"].toStringList();
-            for(auto const& id : childrenId)
-            {
-                pack->addChild(model->positionItem(id));
-            }
         }
         model->appendItem(linkList);
     }

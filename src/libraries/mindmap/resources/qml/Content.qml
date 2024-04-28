@@ -19,6 +19,8 @@ Pane {
     required property MindMapController ctrl
     property alias actions: _buttonGrid.actions
 
+    signal saveMap()
+
 
 
     onDarkModeChanged: Theme.nightMode = root.darkMode
@@ -61,6 +63,10 @@ Pane {
     MindMenu {
         id: menu
         ctrl: root.ctrl
+        onSaveMap: {
+         console.log("Content save map")
+            root.saveMap()
+        }
     }
 
     FileDialog {
@@ -117,6 +123,10 @@ Pane {
         onOpenDrawer: drawer.open()
         automaticSpacing: root.ctrl.spacing
         onAutomaticSpacingChanged: root.ctrl.spacing = _buttonGrid.automaticSpacing
+        onSaveMap: {
+            root.saveMap()
+        }
+
         onExportScene: {
             screenShotSelector.open()
         }
@@ -131,7 +141,10 @@ Pane {
         linkVisibility: root.ctrl.linkLabelVisibility
         darkMode: root.darkMode
         onDarkModeChanged: root.darkMode = darkMode
-        onLinkVisibilityChanged: root.ctrl.linkLabelVisibility = linkVisibility
+        onUserChangedLinkVisibility: {
+            if(root.ctrl.linkLabelVisibility !== linkVisibility )
+                root.ctrl.linkLabelVisibility = linkVisibility
+        }
         onDefaultStyleChanged: root.ctrl.defaultStyleIndex = defaultStyle
     }
 

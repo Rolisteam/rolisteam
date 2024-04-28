@@ -41,6 +41,34 @@ std::tuple<std::vector<MindItem*>&, int> getVector(std::vector<MindItem*>& links
         return {node, links.size() + package.size()};
 }
 
+MindItem* itemFromIndex(int r, const std::vector<MindItem*>& links, const std::vector<MindItem*>& packages,
+                        const std::vector<MindItem*>& nodes)
+{
+    auto linkCount= static_cast<int>(links.size());
+    auto packageCount= static_cast<int>(packages.size());
+    auto nodeCount= static_cast<int>(nodes.size());
+
+    MindItem* mindNode= nullptr;
+
+    if(r < linkCount)
+    {
+        mindNode= links[r];
+    }
+    else
+    {
+        r-= linkCount;
+        if(r < packageCount)
+            mindNode= packages[r];
+        else
+        {
+            r-= packageCount;
+            if(r < nodeCount)
+                mindNode= nodes[r];
+        }
+    }
+    return mindNode;
+}
+
 MindItemModel::MindItemModel(ImageModel* imgModel, QObject* parent) : QAbstractListModel(parent), m_imgModel(imgModel)
 {
 }
@@ -65,28 +93,7 @@ QVariant MindItemModel::data(const QModelIndex& index, int role) const
     QVariant result;
 
     auto r= index.row();
-    auto linkCount= static_cast<int>(m_links.size());
-    auto packageCount= static_cast<int>(m_packages.size());
-    auto nodeCount= static_cast<int>(m_nodes.size());
-
-    MindItem* mindNode= nullptr;
-
-    if(r < linkCount)
-    {
-        mindNode= m_links[r];
-    }
-    else
-    {
-        r-= linkCount;
-        if(r < packageCount)
-            mindNode= m_packages[r];
-        else
-        {
-            r-= packageCount;
-            if(r < nodeCount)
-                mindNode= m_nodes[r];
-        }
-    }
+    auto mindNode= itemFromIndex(r, m_links, m_packages, m_nodes);
 
     if(!mindNode)
         return {};
@@ -223,7 +230,7 @@ void MindItemModel::clear()
     endResetModel();
 }
 
-void MindItemModel::appendItem(const QList<MindItem*>& nodes)
+void MindItemModel::appendItem(const QList<MindItem*>& nodes, bool network)
 {
     for(auto const& node : nodes)
     {
@@ -263,12 +270,14 @@ void MindItemModel::appendItem(const QList<MindItem*>& nodes)
             {
                 connect(pItem, &mindmap::PositionedItem::positionChanged, this, &MindItemModel::geometryChanged);
                 connect(pItem, &mindmap::PositionedItem::textChanged, this, &MindItemModel::geometryChanged);
-                connect(pItem, &mindmap::PositionedItem::textChanged, this, [pItem, this](){
-                    auto [vec, offset]= getVector(m_links, m_packages, m_nodes, pItem->type());
-                    auto row= offset + static_cast<int>(vec.size());
-                    auto idx = index(row, 0);
-                    emit dataChanged(idx,idx,{Roles::Label});
-                });
+                connect(pItem, &mindmap::PositionedItem::textChanged, this,
+                        [pItem, this]()
+                        {
+                            auto [vec, offset]= getVector(m_links, m_packages, m_nodes, pItem->type());
+                            auto row= offset + static_cast<int>(vec.size());
+                            auto idx= index(row, 0);
+                            emit dataChanged(idx, idx, {Roles::Label});
+                        });
                 connect(pItem, &mindmap::PositionedItem::widthChanged, this, &MindItemModel::geometryChanged);
                 connect(pItem, &mindmap::PositionedItem::heightChanged, this, &MindItemModel::geometryChanged);
             }
@@ -278,6 +287,8 @@ void MindItemModel::appendItem(const QList<MindItem*>& nodes)
         vec.push_back(node);
         endInsertRows();
     }
+    if(!network)
+        emit itemAdded(nodes);
 }
 std::vector<PositionedItem*> MindItemModel::positionnedItems() const
 {
@@ -307,100 +318,121 @@ std::vector<PositionedItem*> MindItemModel::positionnedItems() const
     return vec;
 }
 
-std::pair<MindItem*, LinkController*> MindItemModel::addItem(const QString& idparent, MindItem::Type type)
+MindItem* MindItemModel::createItem(MindItem::Type type)
 {
+    MindItem* result= nullptr;
 
-    auto [vec, offset]= getVector(m_links, m_packages, m_nodes, type);
-
-    auto row= offset + static_cast<int>(vec.size());
-    Q_UNUSED(row)
-
-    std::pair<MindItem*, LinkController*> result;
-
-    if(type == MindItem::NodeType)
+    switch(type)
     {
-
+    case MindItem::NodeType:
+    {
         auto root= new MindNode();
         root->setStyleIndex(defaultStyleIndex());
-        appendItem({root});
-
-        if(idparent.isEmpty())
-            return {root, nullptr};
-
-        auto data= positionnedItems();
-        auto id= std::find_if(data.begin(), data.end(),
-                              [idparent](const PositionedItem* node) { return idparent == node->id(); });
-        if(id == data.end())
-            return {root, nullptr};
-
-        auto rectParent= (*id)->boundingRect();
-        auto pos= rectParent.topLeft() + QPointF(rectParent.width() * 1.5, rectParent.height() * 1.5);
-        root->setPosition(pos);
-
-        auto link= new mindmap::LinkController();
-        link->setStart((*id));
-        link->setEnd(root);
-        root->setParentNode(*id);
-
-        appendItem({link});
-
-        result= std::make_pair(root, link);
+        result= root;
     }
-    else if(type == MindItem::PackageType)
+    break;
+    case MindItem::PackageType:
     {
         auto pack= new PackageNode();
-        appendItem({pack});
         emit latestInsertedPackage(pack);
-        result= std::make_pair(pack, nullptr);
+        result= pack;
     }
-    else if(type == MindItem::LinkType)
+    break;
+    case MindItem::LinkType:
     {
-        auto link= new LinkController();
-        appendItem({link});
-        result= std::make_pair(link, link);
+        result= new LinkController();
+    }
+    break;
+    case mindmap::MindItem::InvalidType:
+        break;
     }
 
     return result;
 }
 
-bool MindItemModel::removeItem(const MindItem* node)
+void MindItemModel::removeAllSubItem(const mindmap::PositionedItem* item, QSet<QString>& items)
 {
-    if(node == nullptr)
+    QList<const mindmap::MindItem*> links{};
+
+    std::for_each(std::begin(m_links), std::end(m_links),
+                  [&links, item, this](const mindmap::MindItem* tmp)
+                  {
+                      auto const link= dynamic_cast<const mindmap::LinkController*>(tmp);
+                      Q_ASSERT(link);
+                      if(link->relatedTo(item->id()))
+                      {
+                          disconnect(link, 0, this, 0);
+                          links << link;
+                      }
+                  });
+
+    std::for_each(std::begin(links), std::end(links),
+                  [this, &items](const mindmap::MindItem* tmp)
+                  {
+                      items << tmp->id();
+                      auto it= std::find(std::begin(m_links), std::end(m_links), tmp);
+
+                      if(it == std::end(m_links))
+                          return;
+
+                      auto idx= std::distance(std::begin(m_links), it);
+                      beginRemoveRows(QModelIndex(), idx, idx);
+                      m_links.erase(it);
+                      endRemoveRows();
+                  });
+
+    std::for_each(std::begin(m_nodes), std::end(m_nodes),
+                  [item](mindmap::MindItem* tmp)
+                  {
+                      auto pItem= dynamic_cast<PositionedItem*>(tmp);
+
+                      if(!pItem)
+                          return;
+
+                      if(pItem->parentId() == item->id())
+                      {
+                          pItem->setParentNode(nullptr); // remove parent
+                      }
+                  });
+}
+
+bool MindItemModel::removeItem(const MindItem* item)
+{
+    if(item == nullptr)
         return false;
 
-    auto [vec, offset]= getVector(m_links, m_packages, m_nodes, node->type());
+    QSet<QString> items{item->id()};
+    auto [vec, offset]= getVector(m_links, m_packages, m_nodes, item->type());
 
-    auto it= std::find(vec.begin(), vec.end(), node);
+    auto it= std::find(vec.begin(), vec.end(), item);
 
     if(it == std::end(m_nodes))
         return false;
 
     auto idx= offset + static_cast<int>(std::distance(vec.begin(), it));
 
-    // qDebug() << "Indexremove item:" << idx << node->type();
-
-    if(node->type() == MindItem::LinkType)
+    if(item->type() == MindItem::LinkType)
     {
-
-        auto const link= dynamic_cast<const mindmap::LinkController*>(node);
+        auto const link= dynamic_cast<const mindmap::LinkController*>(item);
         if(link)
         {
             disconnect(link, 0, this, 0);
-            /*connect(link, &mindmap::LinkController::startPointChanged, this, [this, link]() {
-                QModelIndex parent;
-                auto it= std::find(m_links.begin(), m_links.end(), link);
-                if(it == m_links.end())
-                    return;
-                auto offset= std::distance(m_links.begin(), it);
-                auto idx1= index(offset, 0, parent);
-                emit dataChanged(idx1, idx1, QVector<int>());
-            });*/
         }
+    }
+    else if(item->type() == MindItem::NodeType)
+    {
+        // removeAllSubItem(dynamic_cast<const mindmap::PositionedItem*>(item), items);
+    }
+    else if(item->type() == MindItem::PackageType)
+    {
+        // removeAllSubItem(dynamic_cast<const mindmap::PositionedItem*>(item), items);
     }
 
     beginRemoveRows(QModelIndex(), idx, idx);
     vec.erase(it);
     endRemoveRows();
+
+    emit itemRemoved(items.values());
 
     return true;
 }
@@ -517,6 +549,16 @@ std::vector<LinkController*> MindItemModel::sublink(const QString& id) const
     return vec;
 }
 
+QString MindItemModel::idFromIndex(int index) const
+{
+    auto mindNode= itemFromIndex(index, m_links, m_packages, m_nodes);
+
+    if(!mindNode)
+        return {};
+
+    return mindNode->id();
+}
+
 int MindItemModel::defaultStyleIndex() const
 {
     return m_defaultStyleIndex;
@@ -524,9 +566,9 @@ int MindItemModel::defaultStyleIndex() const
 
 void MindItemModel::setDefaultStyleIndex(int newDefaultStyleIndex)
 {
-    if (m_defaultStyleIndex == newDefaultStyleIndex)
+    if(m_defaultStyleIndex == newDefaultStyleIndex)
         return;
-    m_defaultStyleIndex = newDefaultStyleIndex;
+    m_defaultStyleIndex= newDefaultStyleIndex;
     emit defaultStyleIndexChanged();
 }
 

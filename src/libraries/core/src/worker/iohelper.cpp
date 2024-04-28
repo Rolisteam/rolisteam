@@ -458,7 +458,7 @@ QByteArray saveWebView(WebpageController* ctrl)
     return data;
 }
 
-QByteArray saveMindmap(MindMapController* ctrl)
+QByteArray saveMindmap(mindmap::MindMapControllerBase* ctrl)
 {
     if(!ctrl)
         return {};
@@ -612,7 +612,7 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
         data= saveWebView(dynamic_cast<WebpageController*>(media));
         break;
     case Core::ContentType::MINDMAP:
-        data= saveMindmap(dynamic_cast<MindMapController*>(media));
+        data= saveMindmap(dynamic_cast<mindmap::MindMapControllerBase*>(media));
         break;
     case Core::ContentType::PDF:
         data= savePdfView(dynamic_cast<PdfController*>(media));
@@ -1261,6 +1261,16 @@ QJsonObject IOHelper::themeToObject(const RolisteamTheme* theme)
     }
     json["colors"]= colors;
     return json;
+}
+
+bool IOHelper::writeByteArrayIntoFile(const QString& destination, const QByteArray& array)
+{
+    QSaveFile file(destination);
+    if(!file.open(QIODevice::WriteOnly))
+        return false;
+
+    file.write(array);
+    file.commit();
 }
 
 void IOHelper::writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array)

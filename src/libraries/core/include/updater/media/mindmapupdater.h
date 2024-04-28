@@ -52,8 +52,8 @@ public:
     void addMediaController(MediaControllerBase* base) override;
 
     bool updateSubobjectProperty(NetworkMessageReader* msg, MindMapController* ctrl);
-    void sendOffAddingMessage(const QString& idCtrl, const QList<mindmap::MindNode*>& nodes,
-                              const QList<mindmap::LinkController*>& links);
+    /* sendOffAddingMessage(const QString& idCtrl, const QList<mindmap::MindNode*>& nodes,
+                              const QList<mindmap::LinkController*>& links);*/
     void sendOffRemoveMessage(const QString& idCtrl, const QStringList& nodeids, const QStringList& linksId);
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
@@ -88,7 +88,6 @@ void MindMapUpdater::sendOffChange(const QString& mapId, const QString& property
     msg.string16(property);
     auto val= node->property(property.toLocal8Bit().data());
     Helper::variantToType<T>(val.value<T>(), msg);
-
     msg.sendToServer();
 }
 

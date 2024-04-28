@@ -471,11 +471,11 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
     {
         switch(act)
         {
-        case NetMsg::AddMessage:
-            str= QStringLiteral("AddMessage");
+        case NetMsg::AddNodes:
+            str= QStringLiteral("AddNodes");
             break;
-        case NetMsg::RemoveMessage:
-            str= QStringLiteral("RemoveMessage");
+        case NetMsg::RemoveNode:
+            str= QStringLiteral("RemoveNode");
             break;
         case NetMsg::UpdateNode:
             str= QStringLiteral("UpdateNode");

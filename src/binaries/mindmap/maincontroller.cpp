@@ -36,6 +36,11 @@ QJsonObject openFile(const QUrl& url, MainController* ctrl)
     return IOHelper::textByteArrayToJsonObj(array);
 }
 
+bool writeFile(const QUrl& url, const QByteArray& array)
+{
+    return IOHelper::writeByteArrayIntoFile(url.toLocalFile(), array);
+}
+
 MainController::MainController(QObject* parent) : mindmap::MindMapControllerBase{false, {"mindmap"}, parent} {}
 
 void MainController::openFile(const QUrl& file)
@@ -45,4 +50,11 @@ void MainController::openFile(const QUrl& file)
     helper::utils::setContinuation<QJsonObject>(
         QtConcurrent::run([this, file]() { return ::openFile(file, this); }), this,
         [this](const QJsonObject& obj) { IOHelper::readMindmapControllerBase(this, obj); });
+}
+
+void MainController::saveFile()
+{
+    auto data = IOHelper::saveController(this);
+    auto fileName = url();
+    helper::utils::setContinuation<bool>(QtConcurrent::run([data, fileName]() { return ::writeFile(fileName, data); }), this, [](bool){});
 }

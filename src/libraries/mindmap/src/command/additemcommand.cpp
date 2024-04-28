@@ -35,28 +35,56 @@ AddItemCommand::AddItemCommand(mindmap::MindItemModel* nodeModel, MindItem::Type
 
 void AddItemCommand::undo()
 {
-    m_nodeModel->removeItem(m_mindItem);
-    m_nodeModel->removeItem(m_link);
+    for(auto const& item : m_nodes)
+    {
+        m_nodeModel->removeItem(item);
+    }
 }
 
 void AddItemCommand::redo()
 {
-    if(m_mindItem.isNull())
+    if(m_nodes.isEmpty())
     {
-        auto pair= m_nodeModel->addItem(m_idParent, m_type);
+        auto item= m_nodeModel->createItem(m_type);
+        m_nodes.append(item);
+        switch(m_type)
+        {
+        case MindItem::NodeType:
+        {
+            auto root= dynamic_cast<mindmap::MindNode*>(item);
+            auto data= m_nodeModel->positionnedItems();
+            auto id= std::find_if(data.begin(), data.end(),
+                                  [this](const PositionedItem* node) { return m_idParent == node->id(); });
+            if(id == data.end())
+                return;
+
+            auto rectParent= (*id)->boundingRect();
+            auto pos= rectParent.topLeft() + QPointF(rectParent.width() * 1.5, rectParent.height() * 1.5);
+            root->setPosition(pos);
+
+            auto link= dynamic_cast<mindmap::LinkController*>(m_nodeModel->createItem(mindmap::MindItem::LinkType));
+            link->setStart((*id));
+            link->setEnd(root);
+            root->setParentNode(*id);
+            m_nodes.append(link);
+        }
+        break;
+        case MindItem::PackageType:
+            break;
+        case MindItem::LinkType:
+            break;
+        case mindmap::MindItem::InvalidType:
+            break;
+        }
+
         if(!m_pos.isNull())
         {
-            auto p= dynamic_cast<PositionedItem*>(pair.first);
+            auto p= dynamic_cast<PositionedItem*>(item);
             if(p)
                 p->setPosition(m_pos);
         }
-        m_mindItem= pair.first;
-        m_link= pair.second;
     }
-    else
-    {
-        m_nodeModel->appendItem({m_mindItem.data(), m_link});
-    }
+    m_nodeModel->appendItem(m_nodes);
 }
 
 AddLinkCommand::AddLinkCommand(MindItemModel* nodeModel, const QString& idStart, const QString& idEnd)
@@ -74,15 +102,14 @@ void AddLinkCommand::redo()
 {
     if(m_link.isNull())
     {
-        auto [item, link]= m_nodeModel->addItem({}, MindItem::LinkType);
+        auto link= dynamic_cast<mindmap::LinkController*>(m_nodeModel->createItem(MindItem::LinkType));
         m_link= link;
         m_link->setStart(m_nodeModel->positionItem(m_idStart));
         m_link->setEnd(m_nodeModel->positionItem(m_idEnd));
     }
-    else
-    {
-        m_nodeModel->appendItem({m_link});
-    }
+
+    m_nodeModel->appendItem({m_link});
+
 }
 
 } // namespace mindmap

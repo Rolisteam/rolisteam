@@ -59,6 +59,18 @@ PositionedItem* LinkController::start() const
     return m_start;
 }
 
+bool LinkController::relatedTo(const QString& id) const
+{
+    bool res = false;
+
+    if(!m_start.isNull())
+        res = (m_start->id() == id);
+    else if(!res && !m_end.isNull())
+        res = (m_end->id() == id);
+
+    return res;
+}
+
 void LinkController::computeNormalizedRect()
 {
     if(!m_start)

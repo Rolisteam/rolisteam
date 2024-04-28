@@ -6,6 +6,7 @@ Menu {
     dim: true
     modal: true
     property QtObject ctrl
+    signal saveMap()
     MenuItem {
         text: qsTr("Add Root")
         onTriggered: ctrl.addNode("")
@@ -15,10 +16,8 @@ Menu {
         text: qsTr("Save")
 
         onTriggered: {
-            if(ctrl.filename)
-                ctrl.saveFile();
-            else
-                saveDialog.open()
+            console.log("Item save map")
+            menu.saveMap()
         }
     }
     MenuItem {

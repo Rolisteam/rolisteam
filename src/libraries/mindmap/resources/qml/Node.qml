@@ -67,10 +67,12 @@ Pane
       value: dragMouse.drag.active
       delayed: true
     }
-    Drag.keys: [ "rmindmap/reparenting","text/plain" ]
+    Drag.keys: [ "rmindmap/reparenting" ]
+
     Drag.supportedActions: Qt.MoveAction
     Drag.mimeData: {
-        "text/plain": root.ident
+        "text/x-reparenting": root.ident
+        //"rmindmap/reparenting": root.ident
     }
     Item {
         id: centralItem
@@ -91,12 +93,13 @@ Pane
                               if(mouse.modifiers & Qt.ControlModifier)
                               {
                                   root.Drag.dragType = Drag.Automatic
-                                  root.Drag.keys = [ "rmindmap/reparenting"]
+
+                                  //root.Drag.keys = [ "rmindmap/reparenting"]
                               }
                               else
                               {
                                   root.Drag.dragType = Drag.Internal
-                                  root.Drag.keys = []
+                                  //root.Drag.keys = []
                               }
                               root.Drag.imageSource = result.url
                           })
@@ -208,9 +211,10 @@ Pane
 
         DropArea {
             anchors.fill: dragMouse
-            keys: [ "rmindmap/reparenting","text/plain","text/uri-list", "rolisteam/userlist-item", "image/png","image/jpg","image/jpeg","image/gif" ]
+            keys: [ "rmindmap/reparenting","text/x-reparenting","text/plain","text/uri-list", "rolisteam/userlist-item", "image/png","image/jpg","image/jpeg","image/gif" ]
             onDropped: (drop)=>{
-                           console.log("keys:"+drop.keys)
+                           console.log("keys: "+drop.keys)
+                           console.log("keys: "+drop.keys)
                            var reparenting = false
                            var hasUrl = false
                            var character = false
@@ -220,10 +224,8 @@ Pane
                            var hasGif = false
                            for(var i=0; i< drop.keys.length; ++i)
                            {
-                                if(drop.keys[i] === "text/plain")
+                                if(drop.keys[i] === "text/x-reparenting")
                                     reparenting = true
-                                else if(drop.keys[i] === "rmindmap/reparenting")
-                                   reparenting = true
                                 else if(drop.keys[i] === "text/uri-list")
                                     hasUrl = true
                                 else if(drop.keys[i] === "rolisteam/userlist-item")
@@ -240,8 +242,8 @@ Pane
                            }
                            if(reparenting)
                            {
-                               console.log("reparenting")
-                               root.reparenting(drop.text)
+                               console.log("reparenting: ",drop.text," ",drop.source.ident)
+                               root.reparenting(drop.source.ident)
                            }
                            else if(hasUrl && !character)
                            {
@@ -249,9 +251,9 @@ Pane
                                var url = drop.urls[0]
                                var urlstr = url.toString()
                                console.log(urlstr)
-                               if(urlstr.endsWith(".png") || urlstr.endsWith(".jpg") || urlstr.endsWith(".gif")|| urlstr.endsWith(".jpeg^") || urlstr.startsWith("http"))
+                               if(urlstr.endsWith(".png") || urlstr.endsWith(".jpg") || urlstr.endsWith(".gif")|| urlstr.endsWith(".jpeg") || urlstr.startsWith("http"))
                                {
-                                    var text = hasPng ? "image/png" : hasJpg ? "image/jpg" : hasJpeg ? "image/jpeg" : "image/gif"
+                                    var text = hasPng ? "image/png" : hasJpg ? "image/jpg" : hasJpeg ? "image/jpeg" : "image/gif"
                                     root.addImage(url, drop.getDataAsArrayBuffer(text))
                                }
                            }

@@ -11,6 +11,7 @@ Flickable {
     required property MindMapController ctrl
     property QtObject styleSheet: Theme.styleSheet("mindmapinteral")
     property string selectedNodeId:""
+    onSelectedNodeIdChanged: console.log("selectedIdNode:",selectedNodeId)
     property bool addSubLink: false
     property alias innerItem: inner
     property real marginW: 100
@@ -22,7 +23,7 @@ Flickable {
 
     function updateZoom(){
         var zoomPoint = Qt.point(_flick.width/2 + _flick.contentX,
-                             _flick.height/2 + _flick.contentY);
+                                 _flick.height/2 + _flick.contentY);
         _flick.resizeContent((inner.width * _flick.zoomLevel), (inner.height * _flick.zoomLevel), zoomPoint);
         _flick.returnToBounds();
     }
@@ -97,29 +98,29 @@ Flickable {
                            _flick.ctrl.addItemIntoPackage(itemid, objectItem.id)
                        }
             onClicked: (mouse) => {
-               if(_flick.addSubLink)
-               {
-                   if(_flick.selectedNodeId.length > 0)
-                   {
-                       _flick.ctrl.addLink(_flick.selectedNodeId, objectItem.id)
-                       _flick.selectedNodeId = ""
-                   }
-                   else
-                   _flick.selectedNodeId = objectItem.id
+                           if(_flick.addSubLink)
+                           {
+                               if(_flick.selectedNodeId.length > 0)
+                               {
+                                   _flick.ctrl.addLink(_flick.selectedNodeId, objectItem.id)
+                                   _flick.selectedNodeId = ""
+                               }
+                               else
+                               _flick.selectedNodeId = objectItem.id
 
-               }
-               else if(mouse.modifiers & Qt.ControlModifier) {
-                   if(selected)
-                   _flick.ctrl.selectionCtrl.removeFromSelection(objectItem)
-                   else
-                   _flick.ctrl.selectionCtrl.addToSelection(objectItem)
-               }
-               else if(!selected){
-                   _flick.ctrl.selectionCtrl.clearSelection()
-                   _flick.ctrl.selectionCtrl.addToSelection(objectItem)
-               }
+                           }
+                           else if(mouse.modifiers & Qt.ControlModifier) {
+                               if(selected)
+                               _flick.ctrl.selectionCtrl.removeFromSelection(objectItem)
+                               else
+                               _flick.ctrl.selectionCtrl.addToSelection(objectItem)
+                           }
+                           else if(!selected){
+                               _flick.ctrl.selectionCtrl.clearSelection()
+                               _flick.ctrl.selectionCtrl.addToSelection(objectItem)
+                           }
 
-           }
+                       }
 
         }
     }
@@ -201,16 +202,16 @@ Flickable {
             preventStealing: true
 
             onPressed: (mouse)=>{
-                _flick.pressed(mouse)
-               ctrl.selectionCtrl.clearSelection()
-               _stylePopup.node = null
-            }
+                           _flick.pressed(mouse)
+                           ctrl.selectionCtrl.clearSelection()
+                           _stylePopup.node = null
+                       }
             onPositionChanged: (mouse)=> {
-                _flick.positionChanged(mouse)
-            }
+                                   _flick.positionChanged(mouse)
+                               }
             onReleased: (mouse)=>{
-                _flick.released(mouse)
-            }
+                            _flick.released(mouse)
+                        }
         }
 
         Repeater {

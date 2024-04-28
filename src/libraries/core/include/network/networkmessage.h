@@ -154,8 +154,8 @@ enum Action
     UpdateContent= 0,
 
     // Mindmap
-    AddMessage= 0,
-    RemoveMessage,
+    AddNodes= 0,
+    RemoveNode,
     UpdateNode,
     UpdatePackage,
     UpdateLink,

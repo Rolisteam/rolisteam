@@ -94,6 +94,7 @@ public:
     void createLink(const QString& id, const QString& id2);
     void addLink(const QList<mindmap::LinkController*>& link, bool network= false);
     void addNode(const QList<MindNode*>& nodes, bool network= false);
+    void addItem(mindmap::MindItem* node, bool network = false);
     bool pasteData(const QMimeData& mimeData);
     void setCurrentPackage(mindmap::PositionedItem* item);
 

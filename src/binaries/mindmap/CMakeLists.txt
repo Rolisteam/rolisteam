@@ -20,11 +20,7 @@ set(sources
   maincontroller.h
 )
 
-set(headers
-)
-
-
-set(qml_files main.qml)
+set(qml_files Main.qml)
 
 
 set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/mindmap/logo/mindmap.rc)

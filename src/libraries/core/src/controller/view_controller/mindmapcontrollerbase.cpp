@@ -28,6 +28,7 @@
 #include <QUrl>
 #include <random>
 
+#include "mindmap/command/addimagetonodecommand.h"
 #include "mindmap/command/additemcommand.h"
 #include "mindmap/command/removeimagefromnodecommand.h"
 #include "mindmap/command/removenodecommand.h"
@@ -40,7 +41,6 @@
 #include "mindmap/model/imagemodel.h"
 #include "mindmap/model/nodestylemodel.h"
 #include "mindmap/worker/fileserializer.h"
-#include "mindmap/command/addimagetonodecommand.h"
 
 namespace mindmap
 {
@@ -56,7 +56,8 @@ MindMapControllerBase::MindMapControllerBase(bool hasNetwork, const QString& id,
 
     connect(&m_stack, &QUndoStack::canRedoChanged, this, &MindMapControllerBase::canRedoChanged);
     connect(&m_stack, &QUndoStack::canUndoChanged, this, &MindMapControllerBase::canUndoChanged);
-    connect(m_itemModel.get(), &MindItemModel::defaultStyleIndexChanged, this, &MindMapControllerBase::defaultStyleIndexChanged);
+    connect(m_itemModel.get(), &MindItemModel::defaultStyleIndexChanged, this,
+            &MindMapControllerBase::defaultStyleIndexChanged);
 
     connect(m_itemModel.get(), &MindItemModel::latestInsertedPackage, this, &MindMapControllerBase::setCurrentPackage);
     connect(m_itemModel.get(), &MindItemModel::rowsInserted, this,
@@ -76,10 +77,12 @@ MindMapControllerBase::MindMapControllerBase(bool hasNetwork, const QString& id,
     connect(m_spacing.get(), &QThread::started, m_spacingController.get(), &SpacingController::computeInLoop);
     connect(m_spacingController.get(), &SpacingController::runningChanged, this,
             &MindMapControllerBase::spacingChanged);
-    connect(m_spacingController.get(), &SpacingController::runningChanged, this, [this]() {
-        if(m_spacingController->running())
-            m_spacing->start();
-    });
+    connect(m_spacingController.get(), &SpacingController::runningChanged, this,
+            [this]()
+            {
+                if(m_spacingController->running())
+                    m_spacing->start();
+            });
     connect(m_spacingController.get(), &SpacingController::finished, m_spacing.get(), &QThread::quit);
     m_spacing->start();
     // end Spacing
@@ -99,11 +102,13 @@ MindMapControllerBase::~MindMapControllerBase()
         m_spacing.release()->deleteLater();
     }
 
+    auto styles= m_styleModel.release();
     auto model= m_itemModel.release();
     auto spacingCtrl= m_spacingController.release();
 
     delete spacingCtrl;
     delete model;
+    delete styles;
 }
 
 MindItemModel* MindMapControllerBase::itemModel() const
@@ -271,8 +276,7 @@ void MindMapControllerBase::removeLink(const QStringList& id)
     std::transform(std::begin(id), std::end(id), std::back_inserter(res),
                    [this](const QString& id) { return m_itemModel->item(id); });
 
-    res.erase(std::remove(std::begin(res), std::end(res), nullptr),
-                 std::end(res));
+    res.erase(std::remove(std::begin(res), std::end(res), nullptr), std::end(res));
 
     if(res.empty())
         return;
@@ -287,8 +291,7 @@ void MindMapControllerBase::removeNode(const QStringList& id)
     std::transform(std::begin(id), std::end(id), std::back_inserter(res),
                    [this](const QString& id) { return m_itemModel->item(id); });
 
-    res.erase(std::remove(std::begin(res), std::end(res), nullptr),
-              std::end(res));
+    res.erase(std::remove(std::begin(res), std::end(res), nullptr), std::end(res));
 
     if(res.empty())
         return;
@@ -330,6 +333,11 @@ void MindMapControllerBase::addNode(const QList<MindNode*>& nodes, bool network)
                    [](MindNode* node) -> mindmap::MindItem* { return node; });
 
     m_itemModel->appendItem(items);
+}
+
+void MindMapControllerBase::addItem(mindmap::MindItem* node, bool network)
+{
+    m_itemModel->appendItem({node}, network);
 }
 
 bool MindMapControllerBase::pasteData(const QMimeData& mimeData)

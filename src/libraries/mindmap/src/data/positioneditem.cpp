@@ -197,7 +197,10 @@ void PositionedItem::updatePosition()
 
 void PositionedItem::setParentNode(PositionedItem* parent)
 {
+    if(m_parent == parent)
+        return;
     m_parent= parent;
+    emit parentNodeChanged();
 }
 
 PositionedItem* PositionedItem::parentNode() const

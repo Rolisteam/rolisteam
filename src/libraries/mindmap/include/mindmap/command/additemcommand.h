@@ -59,8 +59,7 @@ public:
     void redo() override;
 
 private:
-    QPointer<MindItem> m_mindItem;
-    QPointer<LinkController> m_link;
+    QList<mindmap::MindItem*> m_nodes;
     QPointer<MindItemModel> m_nodeModel;
     QString m_idParent;
     MindItem::Type m_type;

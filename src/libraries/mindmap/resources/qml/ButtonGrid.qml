@@ -18,6 +18,7 @@ GridLayout{
 
     signal openDrawer()
     signal exportScene()
+    signal saveMap()
 
     IconButton {//undo
         source: _root.styleSheet.undoIcon
@@ -33,7 +34,7 @@ GridLayout{
     }
     IconButton {
         source: _root.styleSheet.saveIcon
-        onClicked: _root.ctrl.modified = true
+        onClicked: _root.saveMap()
         tooltip: qsTr("Save Map")
     }
 
@@ -62,7 +63,7 @@ GridLayout{
         checkable: true
     }
     IconButton {//remove selection
-        tooltip: qsTr("Remove Selection")
+        tooltip: qsTr("Remove selected Items")
         source: _root.styleSheet.trashIcon
         enabled: _root.ctrl.hasSelection
         onClicked: _root.ctrl.removeSelection()

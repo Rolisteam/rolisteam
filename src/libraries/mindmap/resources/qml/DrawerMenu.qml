@@ -87,7 +87,7 @@ Drawer {
         PermissionFrame {
           id: userlist
           Layout.fillWidth: true
-          visible: !ctrl.remote
+          visible: ctrl.hasNetwork
           playerModel: ctrl.remotePlayerModel
           onPermissionToAllChanged: ctrl.setSharingToAll(permissionToAll)
           onPermissionForUserChanged: ctrl.setPermissionForUser(id, permission)
