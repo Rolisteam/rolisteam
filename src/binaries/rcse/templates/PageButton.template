@@ -1,0 +1,11 @@
+{{ indent }}PageButton{// {{ hrName }}
+{{ indent }}    next: {{ next }}
+{{ indent }}    {{ position }}
+{{ indent }}    text: {{ value }}
+{{ indent }}    {{ pageManagement }}
+{{ indent }}    showImage:true
+{{ indent }}    tooltip: "{{ toolTip }}"
+{{ indent }}    onClicked: {
+{{ indent }}        root.page += next ? 1 : -1
+{{ indent }}    }
+{{ indent }}}

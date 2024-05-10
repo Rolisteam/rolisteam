@@ -1,0 +1,16 @@
+{{ indent }}CheckBoxField {// {{ hrName }}
+{{ indent }}    id: {{ id }}
+{{ indent }}    {{ position }}
+{{ indent }}    text: {{ value }}
+{{ indent }}    color:"{{ color }}"
+{{ indent }}    borderColor: "{{ borderColor }}"
+{{ indent }}    {{ pageManagement }}
+{{ indent }}    readOnly: {{ readOnly }}
+{{ indent }}    tooltip: "{{ toolTip }}"
+{{ indent }}    onClicked:{
+{{ indent }}        if(root.tristate)
+{{ indent }}            {{ value }} = checkState == Qt.Unchecked ? "0" : checkState == Qt.PartiallyChecked ? "1" : "2"
+{{ indent }}        else
+{{ indent }}            {{ value }} = checked ? "1" : "0"
+{{ indent }}     }
+{{ indent }}}

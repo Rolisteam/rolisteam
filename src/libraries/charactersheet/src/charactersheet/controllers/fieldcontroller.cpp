@@ -192,7 +192,7 @@ void FieldController::setValueFrom(TreeSheetItem::ColumnId id, const QVariant& v
         }
         break;
     case TYPE:
-        m_fieldType= static_cast<FieldController::TypeField>(var.toInt());
+        setFieldType(static_cast<FieldController::TypeField>(var.toInt()));
         break;
     case FitFont:
         m_fitFont= var.toBool();

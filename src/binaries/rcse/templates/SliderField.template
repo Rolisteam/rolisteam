@@ -1,0 +1,12 @@
+{{ indent }}SliderField {// {{ hrName }}
+{{ indent }}    id: {{ id }}
+{{ indent }}    {{ position }}
+{{ indent }}    value: {{ value }}
+{{ indent }}    {{ pageManagement }}
+{{ indent }}    readOnly: {{ readOnly }}
+{{ indent }}    tooltip: "{{ toolTip }}"
+{{ indent }}    from: {{ from }}
+{{ indent }}    to: {{ to }}
+{{ indent }}    backgroundColor:"{{ bgColor }}"
+{{ indent }}    valueColor: "{{ valueColor }}"
+{{ indent }}}

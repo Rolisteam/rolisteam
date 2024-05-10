@@ -358,7 +358,7 @@ void CharacterSheetModel::checkCharacter(Section* section)
             }
             else if(nullptr == field && id->fieldType() == FieldController::TABLE)
             {
-                TableField* newtablefield= new TableField(false);
+                auto newtablefield= new TableFieldController(false);
                 newtablefield->copyField(id, true);
                 sheet->insertCharacterItem(newtablefield);
                 field= newtablefield;
@@ -403,11 +403,11 @@ void CharacterSheetModel::addSubChildRoot(TreeSheetItem* item)
 
     auto parentItem= m_rootSection->childFromId(item->path());
     auto r= m_rootSection->indexOfChild(parentItem);
-    auto structTable= dynamic_cast<TableField*>(parentItem);
+    auto structTable= dynamic_cast<TableFieldController*>(parentItem);
     if(structTable == nullptr)
         return;
 
-    auto addedFieldCount= structTable->itemPerLine();
+    auto addedFieldCount= structTable->columnCount();
     auto index= createIndex(r, 0, parentItem);
     beginInsertRows(index, parentItem->childrenCount(), parentItem->childrenCount() + addedFieldCount);
     structTable->appendChild(nullptr);
@@ -430,14 +430,14 @@ void CharacterSheetModel::addSubChild(CharacterSheet* sheet, CSItem* item)
 
     auto parentItem= m_rootSection->childFromId(item->path());
     auto r= m_rootSection->indexOfChild(parentItem);
-    auto table= dynamic_cast<TableField*>(item);
-    auto structTable= dynamic_cast<TableField*>(parentItem);
+    auto table= dynamic_cast<TableFieldController*>(item);
+    auto structTable= dynamic_cast<TableFieldController*>(parentItem);
     if(table == nullptr || structTable == nullptr)
         return;
 
-    auto lineCount= table->lineNumber();
-    auto structLineCount= structTable->lineNumber();
-    auto addedFieldCount= table->itemPerLine();
+    auto lineCount= table->rowCount();
+    auto structLineCount= structTable->rowCount();
+    auto addedFieldCount= table->columnCount();
     if(lineCount < 0 || structLineCount < 0 || addedFieldCount < 0)
         return;
 
@@ -693,7 +693,7 @@ void CharacterSheetModel::checkTableItem()
             for(auto const& character : m_characterList)
             {
                 auto childFromCharacter= character->getFieldAt(i);
-                auto table= dynamic_cast<TableField*>(child);
+                auto table= dynamic_cast<TableFieldController*>(child);
                 if(table == nullptr)
                     return;
                 while(childFromCharacter->childrenCount() > child->childrenCount())

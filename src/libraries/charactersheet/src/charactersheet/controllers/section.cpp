@@ -163,8 +163,8 @@ void Section::load(const QJsonObject& json)
         }
         else if(obj["type"] == QStringLiteral("TableField"))
         {
-            TableField* field= new TableField();
-            connect(field, &TableField::lineMustBeAdded, this, &Section::addLineToTableField);
+            TableFieldController* field= new TableFieldController();
+            connect(field, &TableFieldController::lineMustBeAdded, this, &Section::addLineToTableField);
             item= field;
             item->load(obj);
         }

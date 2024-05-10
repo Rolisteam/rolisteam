@@ -35,7 +35,7 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* 
 {
     if(Canvas::ADDTABLE == tool)
     {
-        m_field= new TableField();
+        m_field= new TableFieldController();
     }
     else
     {

@@ -19,7 +19,7 @@ TreeSheetItem* createField(TreeSheetItem::TreeItemType type, bool addCount)
         res= new FieldController(type, addCount);
         break;
     case TreeSheetItem::TableItem:
-        res= new TableField(addCount);
+        res= new TableFieldController(addCount);
         break;
     case TreeSheetItem::SliderItem:
         res= new SliderController(addCount);

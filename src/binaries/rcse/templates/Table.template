@@ -1,0 +1,21 @@
+{{ indent }}Table{// {{ hrName }}
+{{ indent }}    id: {{ id }}
+{{ indent }}    {{ position }}
+{{ indent }}    {{ pageManagement }}
+{{ indent }}    maxRow: {{ maxRow }}
+{{ indent }}    model: {{ model }}
+{{ indent }}    DelegateChooser {
+{{ indent }}        id: {{ idChooser }}
+{{ indent }}        role: "column"
+## for column in Columns
+{{ indent }}        {{ column }}
+## endfor
+{{ indent }}    }
+{{ indent }}    onAddLine:{
+{{ indent }}        {{ value }}.addLine()
+{{ indent }}    }
+{{ indent }}    onRemoveLine:(index)=>{
+{{ indent }}            {{ value }}.removeLine(index)
+{{ indent }}    }
+{{ indent }}    delegate: {{ idChooser }}
+{{ indent }}    }

@@ -569,9 +569,9 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("LanguageModel") << static_cast<QObject*>(new LanguageModel()) << true;
     QTest::addRow("LineController") << static_cast<QObject*>(new vmap::LineController({}, new VectorialMapController())) << true;
     QTest::addRow("LineControllerUpdater") << static_cast<QObject*>(new LineControllerUpdater()) << true;
-    QTest::addRow("LineFieldItem")              << static_cast<QObject*>(new LineFieldItem()) << true;
+    //QTest::addRow("LineFieldItem")              << static_cast<QObject*>(new LineFieldItem()) << true;
     QTest::addRow("LineItem obj") << static_cast<QObject*>(new LineItem(nullptr)) << true;
-    QTest::addRow("LineModel")                  << static_cast<QObject*>(new LineModel()) << true;
+    QTest::addRow("TableModel")                  << static_cast<QObject*>(new TableModel()) << true;
     QTest::addRow("LinkController") << static_cast<QObject*>(new mindmap::LinkController()) << true;
     QTest::addRow("LinkItem") << static_cast<QObject*>(new mindmap::LinkItem()) << true;
     QTest::addRow("LocalPersonModel")  << static_cast<QObject*>(new LocalPersonModel())<< true ;
@@ -701,8 +701,8 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("StateDelegate")  << static_cast<QObject*>(new StateDelegate(new CharacterStateModel()))<< true ;
     QTest::addRow("StateModel")  << static_cast<QObject*>(new StateModel())<< true ;
     QTest::addRow("StyleSheet")                 << static_cast<QObject*>(new customization::StyleSheet(nullptr)) << true;
-    QTest::addRow("TableCanvasField")  << static_cast<QObject*>(new TableCanvasField(new FieldController()))<< true ;
-    QTest::addRow("TableField")                 << static_cast<QObject*>(new TableField()) << true;
+    QTest::addRow("TableCanvasField")  << static_cast<QObject*>(new TableCanvasField(new TableFieldController()))<< true ;
+    QTest::addRow("TableField")                 << static_cast<QObject*>(new TableFieldController()) << true;
     QTest::addRow("TagListDelegate") << static_cast<QObject*>(new TagListDelegate()) << true;
     QTest::addRow("TextController") << static_cast<QObject*>(new vmap::TextController({}, new VectorialMapController()))                                    << true;
     QTest::addRow("TextControllerUpdater") << static_cast<QObject*>(new TextControllerUpdater()) << true;

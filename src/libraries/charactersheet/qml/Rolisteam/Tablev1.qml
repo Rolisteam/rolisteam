@@ -1,17 +1,13 @@
-import QtQuick
-import QtQuick.Controls
-import Rolisteam
+import QtQuick 2.10
+import QtQuick.Controls 2.4
+import Rolisteam 1.0
 
-TableView {
+ListView {
     id: root
-    //property Field field: null
+    property Field field: null
     property int maxRow: 0
     property bool readOnly: false
     property alias actions: contextMenu.contentData
-
-    signal addLine()
-    signal removeLine(int line)
-
     interactive: count>maxRow?true:false
     clip: true
     MouseArea {
@@ -29,18 +25,17 @@ TableView {
             id: contextMenu
             MenuItem {
                 text: qsTr("Add line")
-                onTriggered: root.addLine()//field.addLine()
+                onTriggered: field.addLine()
             }
             MenuItem {
                 text: qsTr("Remove current Line")
                 onTriggered: {
-                    root.removeLine(_id_1list.indexAt(contextMenu.x, contextMenu.y+root.contentY))
-                    //field.removeLine(_id_1list.indexAt(contextMenu.x, contextMenu.y+root.contentY))
+                    field.removeLine(_id_1list.indexAt(contextMenu.x, contextMenu.y+root.contentY))
                 }
             }
             MenuItem {
                 text: qsTr("Remove Last line")
-                onTriggered: root.removeLine(_id_1list.count())//field.removeLastLine()
+                onTriggered: field.removeLastLine()
             }
         }
     }

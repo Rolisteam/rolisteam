@@ -14,6 +14,8 @@ set(documentation README.md)
 
 set(ressources  ${CMAKE_SOURCE_DIR}/resources/rcse/rcse_resources.qrc)
 
+
+
 set(sources  main.cpp
     controllers/charactercontroller.cpp
     controllers/editorcontroller.cpp
@@ -115,6 +117,27 @@ set(UI_files   mainwindow_rcse.ui
 
 set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/rcse/logo/rcse.rc)
 add_executable(rcse WIN32 ${sources} ${headers} ${UI_files} ${ressources} ${RC_FILE})
+
+qt_add_resources(rcse "templates"
+PREFIX
+    "/template"
+FILES
+    "templates/CheckBoxField.template"
+    "templates/DiceButton.template"
+    "templates/ImageField.template"
+    "templates/PageButton.template"
+    "templates/SliderField.template"
+    "templates/SelectField.template"
+    "templates/Table.template"
+    "templates/TextArea.template"
+    "templates/TextInput.template"
+    "templates/TextFieldField.template"
+    "templates/WebView.template"
+    "templates/Label.template"
+    "templates/Hidden.template"
+    "templates/FuncButton.template"
+)
+
 
 set_target_properties(rcse PROPERTIES WIN32_EXECUTABLE on MACOSX_BUNDLE on)
 

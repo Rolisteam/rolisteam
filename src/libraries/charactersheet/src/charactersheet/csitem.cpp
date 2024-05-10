@@ -313,11 +313,14 @@ CSItem::TypeField CSItem::fieldType() const
 
 void CSItem::setFieldType(const CSItem::TypeField& currentType)
 {
+    if(currentType == m_fieldType)
+        return;
     m_fieldType= currentType;
     if(m_fieldType == CSItem::FUNCBUTTON && m_hasDefaultValue)
     {
-        m_value= "";
+        setValue("");
     }
+    emit fieldTypeChanged();
 }
 
 void CSItem::setValueFrom(TreeSheetItem::ColumnId, const QVariant& data) {}

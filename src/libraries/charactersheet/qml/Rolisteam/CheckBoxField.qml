@@ -1,13 +1,12 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.Styles
 import Rolisteam
 
 CheckBox {
     id:root
     text : ""
     property color borderColor: "black"
-    property Field field: null
+    //property Field field: null
     property int hAlign: 0
     property int vAlign: 0
     property bool clippedText: false
@@ -48,12 +47,12 @@ CheckBox {
     contentItem: Item {
     }
 
-    onClicked: {
+    /*onClicked: {
         console.log("toggled")
         if(root.tristate)
             field.value = checkState == Qt.Unchecked ? "0" : checkState == Qt.PartiallyChecked ? "1" : "2"
         else
             field.value = checked ? "1": "0"
-    }
+    }*/
 }
 

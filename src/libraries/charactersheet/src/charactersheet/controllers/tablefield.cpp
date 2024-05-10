@@ -20,403 +20,127 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
 #include "charactersheet/controllers/tablefield.h"
-#include "charactersheet/controllers/fieldcontroller.h"
+
 #include <QDebug>
 #include <QJsonArray>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QUuid>
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(TableFieldCat, "TableField");
 
 #include "charactersheet/controllers/fieldcontroller.h"
+#include "charactersheet/charactersheetitem.h"
 
-void copyModel(LineModel* src, LineModel* dest, TreeSheetItem* parent)
+void copyModel(TableModel* src, TableModel* dest, TreeSheetItem* parent)
 {
-    QJsonArray array;
-    src->saveDataItem(array);
-    dest->loadDataItem(array, parent);
-}
-//////////////////////////////////////////
-/// @brief LineFieldItem::createLineItem
-/// @return
-//////////////////////////////////////////
-
-LineFieldItem::LineFieldItem(QObject* parent) : QObject(parent) {}
-
-LineFieldItem::~LineFieldItem() {}
-
-void LineFieldItem::insertField(FieldController* field)
-{
-    m_fields.append(field);
+    QJsonObject obj;
+    src->save(obj);
+    dest->load(obj, parent);
 }
 
-FieldController* LineFieldItem::getField(int k) const
+TableFieldController::TableFieldController(bool addCount, QObject* parent) : FieldController(TreeSheetItem::TableItem, addCount, parent)
 {
-    if(m_fields.size() > k)
-        return m_fields.at(k);
-    else
-        return nullptr;
 }
 
-QList<FieldController*> LineFieldItem::getFields() const
-{
-    return m_fields;
-}
-
-void LineFieldItem::setFields(const QList<FieldController*>& fields)
-{
-    m_fields= fields;
-}
-int LineFieldItem::getFieldCount() const
-{
-    return m_fields.size();
-}
-FieldController* LineFieldItem::getFieldById(const QString& id)
-{
-    for(auto& field : m_fields)
-    {
-        if(field->id() == id)
-        {
-            return field;
-        }
-    }
-    return nullptr;
-}
-FieldController* LineFieldItem::getFieldByLabel(const QString& label)
-{
-    for(auto& field : m_fields)
-    {
-        if(field->label() == label)
-        {
-            return field;
-        }
-    }
-    return nullptr;
-}
-void LineFieldItem::save(QJsonArray& json)
-{
-    for(auto& field : m_fields)
-    {
-        QJsonObject obj;
-        field->save(obj);
-        json.append(obj);
-    }
-}
-void LineFieldItem::saveDataItem(QJsonArray& json)
-{
-    for(auto& field : m_fields)
-    {
-        QJsonObject obj;
-        field->saveDataItem(obj);
-        json.append(obj);
-    }
-}
-void LineFieldItem::load(QJsonArray& json, TreeSheetItem* parent)
-{
-    for(auto const value : json)
-    {
-        auto field= new FieldController(TreeSheetItem::FieldItem, true);
-        field->setParent(parent);
-        QJsonObject obj= value.toObject();
-        field->load(obj);
-        m_fields.append(field);
-    }
-}
-void LineFieldItem::loadDataItem(QJsonArray& json, TreeSheetItem* parent)
-{
-    for(auto const value : json)
-    {
-        auto field= new FieldController(TreeSheetItem::FieldItem, true);
-        field->setParent(parent);
-        connect(field, &FieldController::characterSheetItemChanged, parent, &TreeSheetItem::characterSheetItemChanged);
-        // connect(field, &FieldController::updateNeeded, parent, &TreeSheetItem::updateNeeded);
-        QJsonObject obj= value.toObject();
-        field->loadDataItem(obj);
-        m_fields.append(field);
-    }
-}
-
-////////////////////////////////////////
-//
-////////////////////////////////////////
-LineModel::LineModel() {}
-int LineModel::rowCount(const QModelIndex& parent) const
-{
-    if(!parent.isValid())
-        return m_lines.size();
-    return 0;
-}
-
-QVariant LineModel::data(const QModelIndex& index, int role) const
-{
-    if(!index.isValid())
-        return QVariant();
-
-    auto item= m_lines.at(index.row());
-
-    if(role == LineRole)
-    {
-        return QVariant::fromValue<LineFieldItem*>(item);
-    }
-    else
-    {
-        int key= role - (LineRole + 1);
-        return QVariant::fromValue<FieldController*>(item->getField(key / 2));
-    }
-    // return QVariant();
-}
-
-QHash<int, QByteArray> LineModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-    roles[LineRole]= "line";
-    int i= 1;
-    auto first= m_lines.first();
-    for(auto& fieldLine : first->getFields())
-    {
-        roles[LineRole + i]= fieldLine->id().toUtf8();
-        i++;
-        roles[LineRole + i]= fieldLine->label().toUtf8();
-        i++;
-    }
-    return roles;
-}
-
-void LineModel::insertLine(LineFieldItem* line)
-{
-    beginInsertRows(QModelIndex(), m_lines.size(), m_lines.size());
-    m_lines.append(line);
-    endInsertRows();
-}
-
-void LineModel::appendLine(TableField* field)
-{
-    if(m_lines.isEmpty())
-        return;
-
-    auto line= m_lines.last();
-    QJsonArray array;
-    line->save(array);
-    auto fieldLine= new LineFieldItem();
-    fieldLine->loadDataItem(array, field);
-    insertLine(fieldLine);
-}
-
-void LineModel::clear()
-{
-    beginResetModel();
-    qDeleteAll(m_lines);
-    m_lines.clear();
-    endResetModel();
-}
-
-int LineModel::childrenCount() const
-{
-    if(!m_lines.isEmpty())
-    {
-        return m_lines.size() * getColumnCount();
-    }
-    return 0;
-}
-
-FieldController* LineModel::getFieldById(const QString& id)
-{
-    for(auto& line : m_lines)
-    {
-        auto item= line->getFieldById(id);
-        if(nullptr != item)
-            return item;
-    }
-    return nullptr;
-}
-
-int LineModel::getColumnCount() const
-{
-    if(!m_lines.isEmpty())
-    {
-        auto line= m_lines.first();
-        return line->getFieldCount();
-    }
-    return -1;
-}
-
-FieldController* LineModel::getField(int line, int col)
-{
-    if(m_lines.size() > line)
-    {
-        return m_lines.at(line)->getField(col);
-    }
-    return nullptr;
-}
-
-void LineModel::save(QJsonArray& json)
-{
-    for(auto& line : m_lines)
-    {
-        QJsonArray lineJson;
-        line->save(lineJson);
-        json.append(lineJson);
-    }
-}
-
-void LineModel::saveDataItem(QJsonArray& json)
-{
-    for(auto& line : m_lines)
-    {
-        QJsonArray lineJson;
-        line->saveDataItem(lineJson);
-        json.append(lineJson);
-    }
-}
-
-void LineModel::load(const QJsonArray& json, TreeSheetItem* parent)
-{
-    beginResetModel();
-    QJsonArray::Iterator it;
-    for(auto const& array : json)
-    {
-        QJsonArray obj= array.toArray();
-        LineFieldItem* line= new LineFieldItem();
-        line->load(obj, parent);
-        m_lines.append(line);
-    }
-    endResetModel();
-}
-
-void LineModel::loadDataItem(const QJsonArray& json, TreeSheetItem* parent)
-{
-    beginResetModel();
-    m_lines.clear();
-    for(auto const& array : json)
-    {
-        QJsonArray obj= array.toArray();
-        LineFieldItem* line= new LineFieldItem();
-        line->loadDataItem(obj, parent);
-        m_lines.append(line);
-    }
-    endResetModel();
-}
-
-void LineModel::setChildFieldData(const QJsonObject& json)
-{
-    for(auto& line : m_lines)
-    {
-        auto field= line->getFieldById(json["id"].toString());
-        if(field)
-        {
-            field->loadDataItem(json);
-            return;
-        }
-    }
-}
-
-void LineModel::setFieldInDictionnary(QHash<QString, QString>& dict, const QString& id, const QString& label) const
-{
-    if(m_lines.isEmpty())
-        return;
-
-    auto line= m_lines.at(0);
-    auto fields= line->getFields();
-    int i= 1; // count as user
-    for(auto field : fields)
-    {
-        auto sum= sumColumn(field->label());
-        QString key= QStringLiteral("%1:sumcol%2").arg(id).arg(i);
-        dict[key]= QString::number(sum);
-        if(!label.isEmpty())
-        {
-            key= QStringLiteral("%1:sumcol%2").arg(label).arg(i);
-            dict[key]= QString::number(sum);
-        }
-        ++i;
-    }
-}
-
-void LineModel::removeLine(int index)
-{
-    if(m_lines.isEmpty())
-        return;
-    if(m_lines.size() <= index)
-        return;
-    if(index < 0)
-        return;
-    beginRemoveRows(QModelIndex(), index, index);
-    m_lines.removeAt(index);
-    endRemoveRows();
-}
-
-bool LineModel::setData(const QModelIndex& index, const QVariant& data, int role)
-{
-    return QAbstractListModel::setData(index, data, role);
-}
-
-int LineModel::sumColumn(const QString& name) const
-{
-    int sum= 0;
-    for(auto line : m_lines)
-    {
-        auto field= line->getFieldByLabel(name);
-        if(nullptr == field)
-        {
-            // should not happen
-            field= line->getFieldById(name);
-        }
-        if(nullptr == field)
-            continue;
-
-        sum+= field->value().toInt();
-    }
-    return sum;
-}
-///////////////////////////////////
-/// \brief TableField::TableField
-/// \param addCount
-/// \param parent
-///////////////////////////////////
-TableField::TableField(bool addCount, QObject* parent) : FieldController(TreeSheetItem::TableItem, addCount, parent)
-{
-    init();
-}
-
-TableField::TableField(QPointF topleft, bool addCount, QObject* parent)
+TableFieldController::TableFieldController(QPointF topleft, bool addCount, QObject* parent)
     : FieldController(TreeSheetItem::TableItem, topleft, addCount, parent)
 {
     Q_UNUSED(topleft);
     m_value= QStringLiteral("value");
-    init();
-}
-TableField::~TableField() {}
 
-LineModel* TableField::getModel() const
+
+}
+TableFieldController::~TableFieldController() {}
+
+TableModel* TableFieldController::model() const
 {
-    return m_model;
+    return m_model.get();
 }
 
-void TableField::removeLine(int index)
+void TableFieldController::removeLine(int index)
 {
+    if(!m_model)
+        return;
     m_model->removeLine(index);
 }
 
-void TableField::removeLastLine()
+void TableFieldController::removeLastLine()
 {
+    if(!m_model)
+        return;
     QModelIndex index;
     m_model->removeLine(m_model->rowCount(index) - 1);
 }
 
-void TableField::addLine()
+void TableFieldController::addLine()
 {
-    emit lineMustBeAdded(this);
+    if(!m_model)
+        return;
+
+    if(m_model->rowCount() == m_displayedRow)
+    {
+        m_model->addRow();
+        setDisplayedRow(m_displayedRow+1);
+    }
+    else if(m_model->rowCount()> m_displayedRow)
+    {
+        setDisplayedRow(m_displayedRow+1);
+    }
+    else if(m_model->rowCount() < m_displayedRow)
+    {
+        m_model->addRow();
+    }
 }
 
-void TableField::appendChild(TreeSheetItem*)
+void TableFieldController::addColumn()
 {
-    m_model->appendLine(this);
+    if(!m_model)
+        return;
+    auto col= new FieldController(TreeSheetItem::FieldItem, true);
+    connect(col, &FieldController::updateNeeded, this, &TableFieldController::updateNeeded);
+    col->setParent(this);
+    col->setValueFrom(TreeSheetItem::X, 0);
+    col->setValueFrom(TreeSheetItem::Y, 0);
+    col->setValueFrom(TreeSheetItem::WIDTH, 0);
+    col->setValueFrom(TreeSheetItem::HEIGHT, 20);
+    m_model->addColumn(col);
+
 }
 
-void TableField::init()
+void TableFieldController::removeColumn(int index)
+{
+    if(!m_model)
+        return;
+    m_model->removeColumn(index);
+}
+
+void TableFieldController::appendChild(TreeSheetItem*)
+{
+    if(!m_model)
+        return;
+    m_model->addRow();
+}
+
+void TableFieldController::init()
 {
     m_id= QStringLiteral("id_%1").arg(m_count);
     m_fieldType= FieldController::TABLE;
-    m_model= new LineModel();
+    m_model= std::make_unique<TableModel>();
+    connect(m_model.get(), &TableModel::columnsInserted, this, [this](const QModelIndex& index, int first, int last){
+        Q_UNUSED(index);
+        Q_UNUSED(last);
+        qDebug() << "columnCount Changed" << first;
+        emit columnCountChanged(true, first);
+    });
+    connect(m_model.get(), &TableModel::columnsRemoved, this, [this](const QModelIndex& index, int first, int last){
+        Q_UNUSED(index);
+        Q_UNUSED(last);
+        qDebug() << "columnCount Changed" << first;
+        emit columnCountChanged(false, first);
+    });
+    addColumn();
 
     m_border= NONE;
     m_textAlign= FieldController::TopLeft;
@@ -425,61 +149,70 @@ void TableField::init()
     m_font= font();
 }
 
-TableField::ControlPosition TableField::getPosition() const
+void TableFieldController::updateColumnSize()
+{
+    auto cols = m_model->columns();
+    if(cols.size()==1)
+    {
+        cols[0]->setWidth(width());
+    }
+}
+
+void TableFieldController::setDisplayedRow(int rCount)
+{
+    if(rCount == m_displayedRow)
+        return;
+    m_displayedRow = rCount;
+    emit rowCountChanged();
+}
+
+TableFieldController::ControlPosition TableFieldController::position() const
 {
     return m_position;
 }
 
-void TableField::setPosition(const ControlPosition& position)
+void TableFieldController::setPosition(const ControlPosition& position)
 {
     m_position= position;
 }
 
-QVariant TableField::valueFrom(TreeSheetItem::ColumnId col, int role) const
+QVariant TableFieldController::valueFrom(TreeSheetItem::ColumnId col, int role) const
 {
-    if(col == TreeSheetItem::VALUE)
+    /*if(col == TreeSheetItem::VALUE)
     {
         return m_model->childrenCount();
-    }
+    }*/
     return FieldController::valueFrom(col, role);
 }
 
-bool TableField::hasChildren()
+bool TableFieldController::hasChildren()
 {
-    return m_model->rowCount(QModelIndex()) > 0;
+    return columnCount() > 0;
 }
 
-int TableField::childrenCount() const
+int TableFieldController::childrenCount() const
 {
-    return m_model->childrenCount();
+    return columnCount();
 }
 
-int TableField::getMaxVisibleRowCount() const
+TreeSheetItem* TableFieldController::childFromId(const QString& id) const
 {
-    return 0;
+    return nullptr; //m_model->getFieldById(id);
 }
 
-TreeSheetItem* TableField::getRoot()
+TreeSheetItem* TableFieldController::childAt(int index) const
 {
-    return nullptr;
+    auto cols = m_model->columns();
+    if(index < 0 || index > cols.size() || cols.isEmpty())
+        return nullptr;
+    else
+        return cols[index];
 }
 
-TreeSheetItem* TableField::childFromId(const QString& id) const
+void TableFieldController::save(QJsonObject& json, bool exp)
 {
-    return m_model->getFieldById(id);
-}
-
-TreeSheetItem* TableField::childAt(int index) const
-{
-    int itemPerLine= m_model->getColumnCount();
-    int line= index / itemPerLine;
-    int col= index - (line * itemPerLine);
-    auto item= m_model->getField(line, col);
-    return item;
-}
-
-void TableField::save(QJsonObject& json, bool exp)
-{
+    if(!m_model)
+        return;
     if(exp)
     {
         json["type"]= "TableField";
@@ -487,9 +220,9 @@ void TableField::save(QJsonObject& json, bool exp)
         json["label"]= m_label;
         json["value"]= m_value;
         json["typefield"]= m_fieldType;
-        QJsonArray childArray;
-        m_model->save(childArray);
-        json["children"]= childArray;
+        QJsonObject data;
+        m_model->save(data);
+        json["data"]= data;
         return;
     }
     json["type"]= "TableField";
@@ -531,17 +264,19 @@ void TableField::save(QJsonObject& json, bool exp)
     valuesArray= QJsonArray::fromStringList(m_availableValue);
     json["values"]= valuesArray;
 
-    QJsonArray childArray;
-    m_model->save(childArray);
-    json["children"]= childArray;
+    QJsonObject data;
+    m_model->save(data);
+    json["data"]= data;
 
     /*QJsonObject obj;
     m_tableCanvasField->save(obj);
     json["canvas"]= obj;*/
 }
 
-void TableField::load(const QJsonObject& json)
+void TableFieldController::load(const QJsonObject& json)
 {
+    if(!m_model)
+        return;
     // TODO dupplicate from Field
     m_id= json["id"].toString();
     m_border= static_cast<BorderLine>(json["border"].toInt());
@@ -595,15 +330,15 @@ void TableField::load(const QJsonObject& json)
     setY(y);
     setWidth(w);
     setHeight(h);
-    QJsonArray childArray= json["children"].toArray();
+    auto data= json["data"].toObject();
 
-    m_model->load(childArray, this);
+    m_model->load(data, this);
 }
 
-void TableField::copyField(TreeSheetItem* oldItem, bool copyData, bool sameId)
+void TableFieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool sameId)
 {
     Q_UNUSED(copyData);
-    auto const oldField= dynamic_cast<TableField*>(oldItem);
+    auto const oldField= dynamic_cast<TableFieldController*>(oldItem);
     if(nullptr != oldField)
     {
         if(sameId)
@@ -618,17 +353,17 @@ void TableField::copyField(TreeSheetItem* oldItem, bool copyData, bool sameId)
         setTextColor(oldField->textColor());
         setLabel(oldField->label());
         setFormula(oldField->formula());
-        copyModel(oldField->getModel(), m_model, this);
+        copyModel(oldField->model(), m_model.get(), this);
         setOrig(oldField);
     }
 }
 
-bool TableField::mayHaveChildren() const
+bool TableFieldController::mayHaveChildren() const
 {
     return true;
 }
 
-int TableField::lineNumber() const
+/*int TableFieldController::lineNumber() const
 {
     if(nullptr == m_model)
         return -1;
@@ -636,22 +371,26 @@ int TableField::lineNumber() const
     return m_model->rowCount(QModelIndex());
 }
 
-int TableField::itemPerLine() const
+int TableFieldController::itemPerLine() const
 {
     if(nullptr == m_model)
         return -1;
 
-    return m_model->getColumnCount();
-}
+    return m_model->columnCount(QModelIndex());
+}*/
 
-void TableField::fillModel()
+void TableFieldController::fillModel()
 {
+    if(!m_model)
+        return;
     m_model->clear();
     // m_tableCanvasField->fillLineModel(m_model, this);
 }
 
-void TableField::loadDataItem(const QJsonObject& json)
+void TableFieldController::loadDataItem(const QJsonObject& json)
 {
+    if(!m_model)
+        return;
     m_id= json["id"].toString();
     setValue(json["value"].toString(), true);
     setLabel(json["label"].toString());
@@ -663,19 +402,25 @@ void TableField::loadDataItem(const QJsonObject& json)
     m_model->loadDataItem(childArray, this);
 }
 
-void TableField::setChildFieldData(const QJsonObject& json)
+void TableFieldController::setChildFieldData(const QJsonObject& json)
 {
+    if(!m_model)
+        return;
     m_model->setChildFieldData(json);
 }
 
-void TableField::setFieldInDictionnary(QHash<QString, QString>& dict) const
+void TableFieldController::setFieldInDictionnary(QHash<QString, QString>& dict) const
 {
+    if(!m_model)
+        return;
     FieldController::setFieldInDictionnary(dict);
     m_model->setFieldInDictionnary(dict, m_id, m_label);
 }
 
-void TableField::saveDataItem(QJsonObject& json)
+void TableFieldController::saveDataItem(QJsonObject& json)
 {
+    if(!m_model)
+        return;
     json["type"]= "TableField";
     json["typefield"]= m_fieldType;
     json["id"]= m_id;
@@ -688,7 +433,24 @@ void TableField::saveDataItem(QJsonObject& json)
     m_model->saveDataItem(childArray);
     json["children"]= childArray;
 }
-int TableField::sumColumn(const QString& name) const
+QList<int> TableFieldController::sumColumn() const
 {
-    return m_model->sumColumn(name);
+    return m_model ?m_model->sumColumn() : QList<int>{};
 }
+
+int TableFieldController::rowCount() const
+{
+    return m_model ? m_model->rowCount(): 0;
+}
+
+int TableFieldController::displayedRow() const
+{
+    return m_displayedRow;
+}
+
+int TableFieldController::columnCount() const
+{
+    return m_model ? m_model->columnCount() : 0;
+}
+
+

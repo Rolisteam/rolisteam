@@ -36,8 +36,7 @@
 #include "controllers/imagecontroller.h"
 
 #include "tablecanvasfield.h"
-
-//#include "charactersheetbutton.h"
+#include "charactersheet/controllers/tablefield.h"
 
 Canvas::Canvas(EditorController* ctrl, QObject* parent)
     : QGraphicsScene(parent), m_ctrl(ctrl), m_bg(new QGraphicsPixmapItem()), m_currentItem(nullptr), m_model(nullptr)
@@ -111,12 +110,19 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
         m_oldPos.clear();
         QPointF mousePos(mouseEvent->buttonDownScenePos(Qt::LeftButton).x(),
                          mouseEvent->buttonDownScenePos(Qt::LeftButton).y());
-        const QList<QGraphicsItem*> itemList= items(mousePos);
-        m_movingItems.append(itemList.isEmpty() ? nullptr : itemList.first());
 
-        if(m_movingItems.first() != nullptr && mouseEvent->button() == Qt::LeftButton)
+        const QList<QGraphicsItem*> itemList= items(mousePos);
+        for(auto item : m_movingItems)
         {
-            m_oldPos.append(m_movingItems.first()->pos());
+            if(item->flags() & QGraphicsItem::ItemIsMovable)
+                m_movingItems.append(item);
+        }
+        if(!m_movingItems.isEmpty())
+        {
+            if(m_movingItems.first() != nullptr && mouseEvent->button() == Qt::LeftButton)
+            {
+                m_oldPos.append(m_movingItems.first()->pos());
+            }
         }
 
         // clearSelection();
@@ -223,7 +229,7 @@ void Canvas::addField(CSItem* itemCtrl)
         cf= new CanvasField(dynamic_cast<FieldController*>(itemCtrl));
         break;
     case TreeSheetItem::TableItem:
-        cf= new TableCanvasField(dynamic_cast<FieldController*>(itemCtrl));
+        cf= new TableCanvasField(dynamic_cast<TableFieldController*>(itemCtrl));
         break;
     default:
         break;

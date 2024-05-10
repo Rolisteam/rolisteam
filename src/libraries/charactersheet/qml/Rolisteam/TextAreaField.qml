@@ -4,22 +4,24 @@ import Rolisteam
 
 ScrollView {
     id: root
-    property alias hAlign: text.horizontalAlignment
-    property alias vAlign: text.verticalAlignment
+    property alias hAlign: textarea.horizontalAlignment
+    property alias vAlign: textarea.verticalAlignment
     property bool clippedText: false
-    property alias text: text.text
     property bool backgroundVisible: true
     property alias backgroundColor: rect.color
-    property alias color: text.color
+    property alias color: textarea.color
     property string tooltip: ""
-    property alias readOnly: text.readOnly
-    property alias wrapMode: text.wrapMode
-    property alias textFormat: text.textFormat
-    property TextArea textArea: text
-    property Field field: null
+    property alias readOnly: textarea.readOnly
+    property alias wrapMode: textarea.wrapMode
+    property alias textFormat: textarea.textFormat
+    property TextArea textArea: textarea
+    property alias contentText: textarea.text
+
+    signal editingFinished(string text)
+
     clip: true
     TextArea {
-        id:text
+        id: textarea
         height: root.height
         width: root.width
         background: Rectangle {
@@ -32,6 +34,6 @@ ScrollView {
         textFormat: TextEdit.RichText
         wrapMode: TextEdit.Wrap
         font: root.font
-        onEditingFinished: field.value = text.text
+        onEditingFinished: root.editingFinished(textarea.text)
     }
 }

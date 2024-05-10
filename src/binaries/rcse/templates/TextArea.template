@@ -1,0 +1,23 @@
+{{ indent }}TextAreaField {// {{ hrName }}
+{{ indent }}    id: {{ id }}
+{{ indent }}    {{ position }}
+{{ indent }}    contentText: {{ value }}
+{{ indent }}    color: "{{ color }}"
+{{ indent }}    backgroundColor: "{{ bgColor }}"
+{{ indent }}    {{ pageManagement }}
+{{ indent }}    readOnly: {{ readOnly }}
+{{ indent }}    tooltip: "{{ toolTip }}"
+{{ indent }}    hAlign: {{ hoAlign }}
+{{ indent }}    vAlign: {{ veAlign }}
+{{ indent }}    font.family:  "{{ fontFamily }}"
+{{ indent }}    font.bold:    {{ fontBold }}
+{{ indent }}    font.italic:  {{ fontItalic }}
+{{ indent }}    font.underline: {{ fontUnderline }}
+{{ indent }}    font.pointSize: {{ fontPointSize }}
+{{ indent }}    font.overline: {{ fontOverLine }}
+{{ indent }}    font.strikeout: {{ fontStrikeOut }}
+{{ indent }}    {{ fitFont }}
+{{ indent }}    onEditingFinished: {
+{{ indent }}      {{ value }} = text
+{{ indent }}    }
+{{ indent }}}

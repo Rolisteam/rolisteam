@@ -29,84 +29,19 @@
 #include <QObject>
 #include <QStandardItemModel>
 #include <QWidget>
-
+#include "charactersheet/controllers/tablemodel.h"
 #include <charactersheet/charactersheet_global.h>
 
-class TableField;
-/**
- * @brief The LineFieldItem class
- */
-class CHARACTERSHEET_EXPORT LineFieldItem : public QObject
-{
-    Q_OBJECT
-public:
-    explicit LineFieldItem(QObject* parent= nullptr);
-    ~LineFieldItem();
-    void insertField(FieldController* field);
-
-    Q_INVOKABLE FieldController* getField(int k) const;
-
-    QList<FieldController*> getFields() const;
-    void setFields(const QList<FieldController*>& fields);
-
-    int getFieldCount() const;
-
-    FieldController* getFieldById(const QString& id);
-    FieldController* getFieldByLabel(const QString& label);
-
-    void save(QJsonArray& json);
-    void load(QJsonArray& json, TreeSheetItem* parent);
-    void saveDataItem(QJsonArray& json);
-    void loadDataItem(QJsonArray& json, TreeSheetItem* parent);
-
-private:
-    QList<FieldController*> m_fields;
-};
-
-/**
- * @brief The LineModel class
- */
-class CHARACTERSHEET_EXPORT LineModel : public QAbstractListModel
-{
-    Q_OBJECT
-public:
-    enum customRole
-    {
-        LineRole= Qt::UserRole + 1
-    };
-    LineModel();
-    int rowCount(const QModelIndex& parent) const;
-    QVariant data(const QModelIndex& index, int role) const;
-    bool setData(const QModelIndex& index, const QVariant& data, int role);
-    QHash<int, QByteArray> roleNames() const;
-    void insertLine(LineFieldItem* line);
-    void appendLine(TableField* field);
-    void clear();
-    int childrenCount() const;
-    int getColumnCount() const;
-    FieldController* getField(int line, int col);
-    FieldController* getFieldById(const QString& id);
-    void removeLine(int index);
-    void save(QJsonArray& json);
-    void load(const QJsonArray& json, TreeSheetItem* parent);
-    void saveDataItem(QJsonArray& json);
-    void loadDataItem(const QJsonArray& json, TreeSheetItem* parent);
-    void setChildFieldData(const QJsonObject& json);
-    int sumColumn(const QString& name) const;
-    void setFieldInDictionnary(QHash<QString, QString>& dict, const QString& id, const QString& label) const;
-
-private:
-    QList<LineFieldItem*> m_lines;
-};
-
+class TableFieldController;
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
-class CHARACTERSHEET_EXPORT TableField : public FieldController
+class CHARACTERSHEET_EXPORT TableFieldController : public FieldController
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* model READ getModel CONSTANT)
-
+    Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
+    Q_PROPERTY(int columnCount READ columnCount NOTIFY columnCountChanged FINAL)
+    Q_PROPERTY(int displayedRow READ displayedRow NOTIFY displayedRowChanged FINAL)
 public:
     enum ControlPosition
     {
@@ -119,14 +54,16 @@ public:
         CtrlRightTop,
         CtrlRightBottom
     };
-    explicit TableField(bool addCount= true, QObject* parent= nullptr);
-    explicit TableField(QPointF topleft, bool addCount= true, QObject* parent= nullptr);
+    explicit TableFieldController(bool addCount= true, QObject* parent= nullptr);
+    explicit TableFieldController(QPointF topleft, bool addCount= true, QObject* parent= nullptr);
     void fillModel();
-    virtual ~TableField();
+    virtual ~TableFieldController();
 
-    LineModel* getModel() const;
+    TableModel* model() const;
 
     virtual bool mayHaveChildren() const override;
+
+    void init();
 
     // virtual void setCanvasField(CanvasField* canvasField) override;
 
@@ -136,43 +73,48 @@ public:
     virtual bool hasChildren() override;
     virtual int childrenCount() const override;
     virtual TreeSheetItem* childFromId(const QString& id) const override;
-    virtual TreeSheetItem* childAt(int) const override;
+    virtual TreeSheetItem *childAt(int) const override;
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json) override;
     virtual void copyField(TreeSheetItem* oldItem, bool copyData, bool sameId= true);
 
-    ControlPosition getPosition() const;
+    ControlPosition position() const;
     void setPosition(const ControlPosition& position);
-
     void saveDataItem(QJsonObject& json) override;
     void loadDataItem(const QJsonObject& json) override;
     void setChildFieldData(const QJsonObject& json);
 
-    int getMaxVisibleRowCount() const;
-
-    TreeSheetItem* getRoot();
     void appendChild(TreeSheetItem*) override;
-    int lineNumber() const;
-    int itemPerLine() const;
 
-    Q_INVOKABLE int sumColumn(const QString& name) const;
+    Q_INVOKABLE QList<int> sumColumn() const;
     void setFieldInDictionnary(QHash<QString, QString>& dict) const override;
+
+    int rowCount() const;
+    int displayedRow() const;
+    int columnCount() const;
 
 public slots:
     void addLine();
+    void addColumn();
+    void removeColumn(int index);
     void removeLine(int line);
     void removeLastLine();
 
 signals:
-    void lineMustBeAdded(TableField* table);
+    void lineMustBeAdded(TableFieldController* table);
+    void rowCountChanged();
+    void columnCountChanged(bool, int);
+    void displayedRowChanged();
 
 protected:
-    void init();
+    void updateColumnSize();
+    void setDisplayedRow(int rCount);
 
 protected:
     ControlPosition m_position;
-    // TableCanvasField* m_tableCanvasField= nullptr;
-    LineModel* m_model= nullptr;
+    std::unique_ptr<TableModel> m_model;
+private:
+    int m_displayedRow{1};
 };
 
 #endif // TABLEFIELD_H

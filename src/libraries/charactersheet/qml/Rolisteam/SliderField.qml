@@ -4,7 +4,7 @@ import Rolisteam
 
 Slider {
     id: _root
-    required property QtObject field
+    //required property QtObject field
     property bool readOnly: false
     property color backgroundColor
     property color valueColor
@@ -41,8 +41,8 @@ Slider {
         color: _root.handleColor
     }
 
-    onMoved: {
+    /*onMoved: {
         if(_root.field)
             _root.field.value = _root.value
-    }
+    }*/
 }

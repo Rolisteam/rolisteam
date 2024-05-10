@@ -1,0 +1,8 @@
+{{ indent }}WebView{// {{ hrName }}
+{{ indent }}    id: {{ id }}
+{{ indent }}    {{ position }}
+{{ indent }}    url: {{ value }}
+{{ indent }}    tooltip: "{{ toolTip }}"
+{{ indent }}    {{ pageManagement }}
+{{ indent }}    readOnly: {{ readOnly }}
+{{ indent }}}

@@ -64,6 +64,7 @@ SET(character_sources
     ${sheet_src_dir}/controllers/fieldcontroller.cpp
     ${sheet_src_dir}/controllers/sheetcontroller.cpp
     ${sheet_src_dir}/controllers/tablefield.cpp
+    ${sheet_src_dir}/controllers/tablemodel.cpp
     ${sheet_src_dir}/controllers/section.cpp
     ${sheet_src_dir}/controllers/slidercontroller.cpp
     ${sheet_src_dir}/csitem.cpp
@@ -82,6 +83,7 @@ SET(character_headers
   ${inc_sheet}/controllers/fieldcontroller.h
   ${inc_sheet}/controllers/section.h
   ${inc_sheet}/controllers/tablefield.h
+  ${inc_sheet}/controllers/tablemodel.h
   ${inc_sheet}/controllers/slidercontroller.h
   ${inc_sheet}/charactersheet.h
   ${inc_sheet}/imagemodel.h

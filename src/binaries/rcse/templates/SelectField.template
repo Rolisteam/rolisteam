@@ -1,0 +1,18 @@
+{{ indent }}SelectField {//%1
+{{ indent }}    id: {{ id }}
+{{ indent }}    {{ position }}
+{{ indent }}    selected: {{ value }}
+{{ indent }}    availableValues: {{ availableValues }}
+{{ indent }}    currentIndex: combo.find(text)
+{{ indent }}    textColor:"{{ textColor }}"
+{{ indent }}    color: "{{ color }}"
+{{ indent }}    {{ pageManagement }}
+{{ indent }}    tooltip: "{{ toolTip }}"
+{{ indent }}    onCurrentIndexChanged:{
+{{ indent }}        if({{ value }} !== currentIndex)
+{{ indent }}        {
+{{ indent }}           {{ value }} = currentIndex
+{{ indent }}        }
+{{ indent }}    }
+{{ indent }}    enabled: !{{ readOnly }}
+{{ indent }}}

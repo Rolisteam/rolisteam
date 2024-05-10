@@ -273,7 +273,7 @@ void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent)
         auto item= m_valuesMap[parent];
         if(nullptr == item)
             return;
-        auto table= dynamic_cast<TableField*>(item);
+        auto table= dynamic_cast<TableFieldController*>(item);
         // TODO Make setChildFieldData part of TreeSheetItem to make this algorithem generic
         if(table)
         {
@@ -312,10 +312,10 @@ void CharacterSheet::load(const QJsonObject& json)
         }
         else if(item["type"] == QStringLiteral("TableField"))
         {
-            auto table= new TableField();
+            auto table= new TableFieldController();
             itemSheet= table;
-            connect(table, &TableField::lineMustBeAdded, this,
-                    [this](TableField* field) { emit addLineToTableField(this, field); });
+            connect(table, &TableFieldController::lineMustBeAdded, this,
+                    [this](TableFieldController* field) { emit addLineToTableField(this, field); });
         }
 
         if(nullptr != itemSheet)

@@ -1,0 +1,8 @@
+{{ indent }}ImageField {// {{ hrName }}
+{{ indent }}    id: {{ id }}
+{{ indent }}    {{ position }}
+{{ indent }}    source: {{ value }}
+{{ indent }}    color: "{{ color }}"
+{{ indent }}    {{ pageManagement }}
+{{ indent }}    readOnly: {{ readOnly }}
+{{ indent }}}

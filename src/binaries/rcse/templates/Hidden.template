@@ -1,0 +1,4 @@
+{{ indent }}QtObject {// {{ hrName }}
+{{ indent }}    id: {{ id }}
+{{ indent }}    property string value: {{ value }}
+{{ indent }}}

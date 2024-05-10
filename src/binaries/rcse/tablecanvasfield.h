@@ -23,6 +23,7 @@
 #define TABLECANVASFIELD_H
 
 #include <QObject>
+#include <QGraphicsProxyWidget>
 #include <memory>
 
 #include "canvasfield.h"
@@ -30,8 +31,8 @@
 #include "dialog/columndefinitiondialog.h"
 
 class TableCanvasField;
-class LineModel;
-class TableField;
+class TableFieldController;
+class TableModel;
 
 class ButtonCanvas : public QGraphicsObject
 {
@@ -60,55 +61,31 @@ class TableCanvasField : public CanvasField
 {
     Q_OBJECT
 public:
-    explicit TableCanvasField(FieldController* field);
+    explicit TableCanvasField(TableFieldController *field);
     virtual ~TableCanvasField();
-
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget* a= nullptr);
-
     bool hasFocusOrChild();
-
-    int colunmCount() const;
-    void setColunmCount(int colunmCount);
-
-    int lineCount() const;
-    void setLineCount(int lineCount);
-
-    int getColumnWidth(int c);
-    int getLineHeight();
-
-    void fillLineModel(LineModel* model, TableField* parent);
-
-    FieldController* generateSubField(int i);
-
-    void generateSubFields(QTextStream& out);
-
     void load(QJsonObject& json);
     void save(QJsonObject& json);
-
-    TreeSheetItem* getRoot();
-
-public slots:
-    void addColumn();
-    void removeColumn();
-    void addLine();
-    void defineColumns();
 
 protected:
     virtual void setMenu(QMenu& menu);
 
+private slots:
+    void addColumn(int index);
+    void removeColumn(int index);
+    void updateColumnSize(int index, qreal pos);
+
 private:
-    int m_colunmCount;
-    int m_lineCount;
-
+    QPointer<TableFieldController> m_ctrl;
+    std::unique_ptr<ButtonCanvas> m_addColumn;
+    std::unique_ptr<ButtonCanvas> m_addLine;
     QList<HandleItem*> m_handles;
+    std::vector<std::unique_ptr<ButtonCanvas>> m_columnSelector;
+    std::vector<std::unique_ptr<ButtonCanvas>> m_columnRemover;
+    QHash<int, QString> m_typeToText;
 
-    ButtonCanvas* m_addColumn= nullptr;
-    ButtonCanvas* m_addLine= nullptr;
-    QAction* m_defineColumns= nullptr;
-
-    std::unique_ptr<ColumnDefinitionDialog> m_dialog;
-    bool m_dataReset;
-    bool m_columnDefined= false;
+    //std::unique_ptr<ColumnDefinitionDialog> m_dialog;
 };
 
 #endif // TABLECANVASFIELD_H

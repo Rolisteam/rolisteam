@@ -21,6 +21,22 @@ ImageField 1.1 ImageField.qml
 WebView 1.1 WebView.qml
 SliderField 1.1 SliderField.qml
 PageButton 1.1 PageButton.qml
-Table 1.1 Table.qml
+Table 1.1 Tablev1.qml
 RLabel 1.1 RLabel.qml
 ContextualMenu 1.1 ContextualMenu.qml
+
+
+# Rolisteam 1.10
+TextInputField 1.2 TextInputField.qml
+SelectField 1.2 SelectField.qml
+TextAreaField 1.2 TextAreaField.qml
+TextFieldField 1.2 TextFieldField.qml
+CheckBoxField 1.2 CheckBoxField.qml
+DiceButton 1.2 DiceButton.qml
+ImageField 1.2 ImageField.qml
+WebView 1.2 WebView.qml
+SliderField 1.2 SliderField.qml
+PageButton 1.2 PageButton.qml
+Table 1.2 Table.qml
+RLabel 1.2 RLabel.qml
+ContextualMenu 1.2 ContextualMenu.qml

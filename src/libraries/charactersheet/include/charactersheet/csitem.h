@@ -47,7 +47,7 @@ class CHARACTERSHEET_EXPORT CSItem : public TreeSheetItem
     Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
     Q_PROPERTY(BorderLine border READ border WRITE setBorder NOTIFY borderChanged)
     Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
-
+    Q_PROPERTY(CSItem::TypeField fieldType READ fieldType WRITE setFieldType NOTIFY fieldTypeChanged)
 public:
     enum BorderLine
     {
@@ -99,7 +99,6 @@ public:
     virtual void setValueFrom(TreeSheetItem::ColumnId, const QVariant& data);
 
     CSItem::TypeField fieldType() const;
-    void setFieldType(const CSItem::TypeField& currentType);
 
     QString getTooltip() const;
     void setTooltip(const QString& tooltip);
@@ -125,6 +124,8 @@ public slots:
     void setLabel(const QString& label);
     void setFormula(const QString& formula);
     void updateLabelFromOrigin();
+    void setFieldType(const CSItem::TypeField& currentType);
+
 
 signals:
     void xChanged();
@@ -141,6 +142,7 @@ signals:
     void readOnlyChanged();
     void formulaChanged();
     void labelChanged();
+    void fieldTypeChanged();
 
 protected:
     QSizeF m_rect;

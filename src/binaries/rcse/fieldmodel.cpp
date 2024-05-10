@@ -324,10 +324,11 @@ Qt::ItemFlags FieldModel::flags(const QModelIndex& index) const
 }
 void FieldModel::generateQML(QTextStream& out, int indentation, bool isTable)
 {
-    QmlGeneratorVisitor visitor(out, m_rootSection.get());
+    QmlGeneratorVisitor visitor(m_rootSection.get());
     visitor.setIndentation(indentation);
     visitor.setIsTable(isTable);
     visitor.generateTreeSheetItem();
+    out << visitor.result();
     // m_rootSection->generateQML(out,TreeSheetItem::FieldSec,0,isTable);
 }
 

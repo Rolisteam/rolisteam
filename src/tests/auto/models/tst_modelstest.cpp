@@ -440,7 +440,7 @@ void ModelTest::singleContentTypeModel()
 }
 void ModelTest::languageModel()
 {
-    Q_INIT_RESOURCE(translations);
+    //Q_INIT_RESOURCE(translations);
 
     auto langModel = std::make_unique<LanguageModel>();
 

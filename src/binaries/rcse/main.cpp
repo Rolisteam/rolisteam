@@ -31,6 +31,8 @@
 #include <QCommandLineParser>
 #include <QQuickStyle>
 
+#include <QTimer>
+
 int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
