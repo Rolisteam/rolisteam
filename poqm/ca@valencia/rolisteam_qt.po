@@ -531,7 +531,7 @@ msgstr "Lletres incrustades:"
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
 msgctxt "SheetProperties|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -979,7 +979,7 @@ msgstr "Imatge"
 #: src/binaries/rcse/mainwindow_rcse.ui:736
 msgctxt "MainWindow|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:380
 #: src/binaries/rcse/mainwindow_rcse.ui:1130
@@ -1087,7 +1087,7 @@ msgstr "Ctrl+S"
 #: src/binaries/rcse/mainwindow_rcse.ui:839
 msgctxt "MainWindow|"
 msgid "Save As..."
-msgstr "Anomena i guarda..."
+msgstr "Anomena i guarda…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:842
 msgctxt "MainWindow|"
@@ -4526,7 +4526,7 @@ msgstr "Diàleg"
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:34
 msgctxt "HistoryViewerDialog|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:71
 msgctxt "HistoryViewerDialog|"
@@ -4567,7 +4567,7 @@ msgstr "baixada"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:79
 msgctxt "ImageSelectorDialog|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
 msgctxt "ImageSelectorDialog|"
@@ -5059,7 +5059,7 @@ msgstr "Reproductor d'àudio 1:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:767
 msgctxt "PreferencesDialogBox|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
 msgctxt "PreferencesDialogBox|"
@@ -5117,7 +5117,7 @@ msgstr "CSS:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:872
 msgctxt "PreferencesDialogBox|"
 msgid "Edit..."
-msgstr "Edita..."
+msgstr "Edita…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:898
 msgctxt "PreferencesDialogBox|"
@@ -5239,19 +5239,19 @@ msgid ""
 msgstr ""
 "<html><head/><body><p><span style=\" font-size:9pt;\">Les dades arreplegades "
 "són anònimes. <br/>De manera predeterminada només s'arrepleguen dades sobre "
-"Rolisteam. Quines accions s'han utilitzat.<br/><br/>Si seleccioneu la "
-"casella </span><span style=\" font-size:9pt; font-weight:600;\">Tots els "
-"usos</span> <span style=\" font-size:9pt;\"> s'activa la recopilació de "
-"dades quant a Rolisteam a l'entorn d'escriptori.<br/>Intentem principalment "
-"saber si Rolisteam és visible, la seua mida o si té el focus. <br/>Pot ser "
-"útil entendre com la gent utilitza Rolisteam a l'escriptori.  <br/>Els "
-"estudis universitaris poden trobar interessants estes dades.<br/><br/>Les "
-"dades de depuració fan que Rolisteam enregistre cada clic en cada botó o "
-"acció. És un mode més profund.<br/>Pot alentir una mica Rolisteam.</span></"
-"p><p><span style=\" font-size:9pt;\">Per a saber més sobre la recopilació de "
-"dades: </span><a href=\"https://rolisteam.org/datacollection.html\"><span "
-"style=\" font-size:9pt; text-decoration: underline; color:#007af4;\">www."
-"rolisteam.org/datacollection.html</span></a></p></body></html>"
+"Rolisteam. Quines accions s'han utilitzat.<br/><br/>Si marqueu la casella </"
+"span><span style=\" font-size:9pt; font-weight:600;\">Tots els usos</span> "
+"<span style=\" font-size:9pt;\"> s'activa la recopilació de dades quant a "
+"Rolisteam a l'entorn d'escriptori.<br/>Intentem principalment saber si "
+"Rolisteam és visible, la seua mida o si té el focus. <br/>Pot ser útil "
+"entendre com la gent utilitza Rolisteam a l'escriptori.  <br/>Els estudis "
+"universitaris poden trobar interessants estes dades.<br/><br/>Les dades de "
+"depuració fan que Rolisteam enregistre cada clic en cada botó o acció. És un "
+"mode més profund.<br/>Pot alentir una mica Rolisteam.</span></p><p><span "
+"style=\" font-size:9pt;\">Per a saber més sobre la recopilació de dades: </"
+"span><a href=\"https://rolisteam.org/datacollection.html\"><span style=\" "
+"font-size:9pt; text-decoration: underline; color:#007af4;\">www.rolisteam."
+"org/datacollection.html</span></a></p></body></html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1127
 msgctxt "PreferencesDialogBox|"
@@ -5543,7 +5543,7 @@ msgstr "Busca:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1012
 msgctxt "AntagonistBoard|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1135
@@ -5991,7 +5991,7 @@ msgstr "Llista de jugadors"
 #: src/libraries/rwidgets/docks/playerspanel.ui:49
 msgctxt "PlayersPanel|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/docks/playerspanel.ui:66
 msgctxt "PlayersPanel|"
@@ -6422,17 +6422,17 @@ msgstr "Fi&txer"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:179
 msgctxt "TextEdit|"
 msgid "&Print..."
-msgstr "Im&primix..."
+msgstr "Im&primix…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:185
 msgctxt "TextEdit|"
 msgid "Print Preview..."
-msgstr "Vista prèvia d'impressió..."
+msgstr "Vista prèvia d'impressió…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
-msgstr "&Exporta cap a PDF..."
+msgstr "&Exporta cap a PDF…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:199
 msgctxt "TextEdit|"
@@ -6518,7 +6518,7 @@ msgstr "&Justifica"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:294
 msgctxt "TextEdit|"
 msgid "&Color..."
-msgstr "&Color..."
+msgstr "&Color…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:368
 msgctxt "TextEdit|"
@@ -6537,7 +6537,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:391
 msgctxt "TextEdit|"
 msgid "Open File..."
-msgstr "Obri un fitxer..."
+msgstr "Obri un fitxer…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:431
 msgctxt "TextEdit|"
@@ -6552,7 +6552,7 @@ msgstr "Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:435
 msgctxt "TextEdit|"
 msgid "Save as..."
-msgstr "Anomena i guarda..."
+msgstr "Anomena i guarda…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:450
 msgctxt "TextEdit|"
@@ -6612,7 +6612,7 @@ msgstr "Connecta al document"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:52
 msgctxt "ConnectToDocument|"
 msgid "New..."
-msgstr "Nou..."
+msgstr "Nou…"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:62
 msgctxt "ConnectToDocument|"
@@ -7004,7 +7004,7 @@ msgstr "Subfinestra de participants:"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:275
 msgctxt "PreferencesDialog|"
 msgid "Sharing"
-msgstr "Compartició"
+msgstr "Compartiu"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:289
 msgctxt "PreferencesDialog|"
@@ -7040,7 +7040,7 @@ msgstr "Edita"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:77
 msgctxt "SharedNote|"
 msgid "Syntax Highlighting..."
-msgstr "Ressaltat de la sintaxi..."
+msgstr "Ressaltat de la sintaxi…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:97
 msgctxt "SharedNote|"
@@ -7105,7 +7105,7 @@ msgstr "Ctrl+V"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:225
 msgctxt "SharedNote|"
 msgid "Find..."
-msgstr "Busca..."
+msgstr "Busca…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:228
 msgctxt "SharedNote|"
@@ -7155,7 +7155,7 @@ msgstr "Ctrl+/"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:270
 msgctxt "SharedNote|"
 msgid "Save A Copy As..."
-msgstr "Anomena i guarda una còpia..."
+msgstr "Anomena i guarda una còpia…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:278
 msgctxt "SharedNote|"
@@ -7185,7 +7185,7 @@ msgstr "Mostra/Oculta el xat"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:304
 msgctxt "SharedNote|"
 msgid "Connect to Document..."
-msgstr "Connecta al document..."
+msgstr "Connecta al document…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:307
 msgctxt "SharedNote|"
@@ -7424,7 +7424,7 @@ msgstr "convertix"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:261
 msgctxt "Convertor|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:97
 msgctxt "Convertor|"
@@ -7914,7 +7914,7 @@ msgstr "%1 - Mapa mental"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
-msgstr "Compartició de fitxer PDF"
+msgstr "Compartiu el fitxer PDF"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:283
 msgctxt "PdfViewer|"
@@ -7948,7 +7948,7 @@ msgstr "Visor de PDF"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:176
 msgctxt "PdfViewer|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
 msgctxt "PdfViewer|"
@@ -8127,7 +8127,7 @@ msgstr "Formulari"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:90
 msgctxt "WebView|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:100
 msgctxt "WebView|"
@@ -8243,12 +8243,12 @@ msgstr "Mostra o oculta la columna"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr "Establix un avatar..."
+msgstr "Establix un avatar…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:52
 msgctxt "UserListView|"
 msgid "Remove..."
-msgstr "Elimina..."
+msgstr "Elimina…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:53
 msgctxt "UserListView|"
