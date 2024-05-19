@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-02-13 20:12+0900\n"
+"PO-Revision-Date: 2024-05-18 18:11+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.01.95\n"
+"X-Generator: Lokalize 24.04.70\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -36,22 +36,22 @@ msgstr "影像檔 (*.png)"
 #: src/binaries/rcse/borderlisteditor.cpp:29
 msgctxt "BorderListEditor|"
 msgid "Up"
-msgstr ""
+msgstr "上"
 
 #: src/binaries/rcse/borderlisteditor.cpp:30
 msgctxt "BorderListEditor|"
 msgid "Left"
-msgstr ""
+msgstr "左"
 
 #: src/binaries/rcse/borderlisteditor.cpp:31
 msgctxt "BorderListEditor|"
 msgid "Down"
-msgstr ""
+msgstr "下"
 
 #: src/binaries/rcse/borderlisteditor.cpp:32
 msgctxt "BorderListEditor|"
 msgid "Right"
-msgstr ""
+msgstr "右"
 
 #: src/binaries/rcse/borderlisteditor.cpp:43
 msgctxt "BorderListEditor|"
@@ -61,7 +61,7 @@ msgstr "全部"
 #: src/binaries/rcse/borderlisteditor.cpp:47
 msgctxt "BorderListEditor|"
 msgid "None"
-msgstr ""
+msgstr "無"
 
 #: src/binaries/rcse/controllers/imagecontroller.cpp:47
 #, qt-format
@@ -131,47 +131,47 @@ msgstr "已新增形狀 [名稱：%1，路徑：%2]"
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopRight"
-msgstr ""
+msgstr "右上"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopMiddle"
-msgstr ""
+msgstr "中上"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "TopLeft"
-msgstr ""
+msgstr "左上"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "CenterRight"
-msgstr ""
+msgstr "中右"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:34
 msgctxt "AlignmentDelegate|"
 msgid "CenterMiddle"
-msgstr ""
+msgstr "中心"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "CenterLeft"
-msgstr ""
+msgstr "中左"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomRight"
-msgstr ""
+msgstr "右下"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomMiddle"
-msgstr ""
+msgstr "中下"
 
 #: src/binaries/rcse/delegate/alignmentdelegate.cpp:35
 msgctxt "AlignmentDelegate|"
 msgid "BottomLeft"
-msgstr ""
+msgstr "左下"
 
 #: src/binaries/rcse/delegate/pagedelegate.cpp:25
 #, qt-format
@@ -212,7 +212,7 @@ msgstr "選取"
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
 msgid "Checkbox"
-msgstr ""
+msgstr "勾選方塊"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:25
 msgctxt "TypeDelegate|"
@@ -335,17 +335,17 @@ msgstr "對話框"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:24
 msgctxt "ColumnDefinitionDialog|"
 msgid "Line Count:"
-msgstr ""
+msgstr "行數："
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:34
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Count:"
-msgstr ""
+msgstr "欄位數量："
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:44
 msgctxt "ColumnDefinitionDialog|"
 msgid "Control Position"
-msgstr ""
+msgstr "控制位置"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:52
 msgctxt "ColumnDefinitionDialog|"
@@ -390,12 +390,12 @@ msgstr ""
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:112
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Definition:"
-msgstr ""
+msgstr "欄位定義："
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
 msgid "Load background from PDF"
-msgstr ""
+msgstr "從 PDF 載入背景"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:43
 msgctxt "PdfManager|"
@@ -497,7 +497,7 @@ msgstr "..."
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -512,7 +512,7 @@ msgstr "數值"
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Possible Values"
-msgstr ""
+msgstr "可用數值"
 
 #: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
@@ -522,12 +522,12 @@ msgstr "類型"
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
@@ -542,7 +542,7 @@ msgstr "高度"
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Font Adaptation"
-msgstr ""
+msgstr "字型適應"
 
 #: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
@@ -627,37 +627,37 @@ msgstr ""
 #: src/binaries/rcse/itemeditor.cpp:58
 msgctxt "ItemEditor|"
 msgid "Fit the view"
-msgstr ""
+msgstr "適合檢視"
 
 #: src/binaries/rcse/itemeditor.cpp:61
 msgctxt "ItemEditor|"
 msgid "Lock item"
-msgstr ""
+msgstr "鎖定項目"
 
 #: src/binaries/rcse/itemeditor.cpp:63
 msgctxt "ItemEditor|"
 msgid "Align on Y"
-msgstr ""
+msgstr "對齊於 Y"
 
 #: src/binaries/rcse/itemeditor.cpp:64
 msgctxt "ItemEditor|"
 msgid "Align on X"
-msgstr ""
+msgstr "對齊於 X"
 
 #: src/binaries/rcse/itemeditor.cpp:65
 msgctxt "ItemEditor|"
 msgid "Same Width"
-msgstr ""
+msgstr "同寬度"
 
 #: src/binaries/rcse/itemeditor.cpp:66
 msgctxt "ItemEditor|"
 msgid "Same Height"
-msgstr ""
+msgstr "同高度"
 
 #: src/binaries/rcse/itemeditor.cpp:67
 msgctxt "ItemEditor|"
 msgid "Dupplicate"
-msgstr ""
+msgstr "重複"
 
 #: src/binaries/rcse/itemeditor.cpp:68
 msgctxt "ItemEditor|"
@@ -674,7 +674,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Load of translation %1 file failed"
-msgstr ""
+msgstr "載入翻譯檔案 %1 失敗"
 
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
@@ -820,17 +820,11 @@ msgid "Reload image from file"
 msgstr "從檔案重新載入影像"
 
 #: src/binaries/rcse/mainwindow.cpp:933
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Load Image"
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "載入影像"
 
 #: src/binaries/rcse/mainwindow.cpp:934
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "支援的影像格式 (*.jpg *.png *.svg *.gif)"
@@ -873,7 +867,7 @@ msgstr "編輯器"
 #: src/binaries/rcse/mainwindow_rcse.ui:47
 msgctxt "MainWindow|"
 msgid "Items"
-msgstr ""
+msgstr "項目"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:59
 #: src/binaries/rcse/mainwindow_rcse.ui:870
@@ -891,7 +885,7 @@ msgstr "文字欄位"
 #: src/binaries/rcse/mainwindow_rcse.ui:969
 msgctxt "MainWindow|"
 msgid "Checkbox"
-msgstr ""
+msgstr "勾選方塊"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:167
 #: src/binaries/rcse/mainwindow_rcse.ui:981
@@ -903,7 +897,7 @@ msgstr "文字區域"
 #: src/binaries/rcse/mainwindow_rcse.ui:945
 msgctxt "MainWindow|"
 msgid "Dice Button"
-msgstr ""
+msgstr "骰子按鈕"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:234
 msgctxt "MainWindow|"
@@ -1097,7 +1091,7 @@ msgstr "儲存檢視"
 #: src/binaries/rcse/mainwindow_rcse.ui:909
 msgctxt "MainWindow|"
 msgid "Load View"
-msgstr ""
+msgstr "載入檢視"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:918
 msgctxt "MainWindow|"
@@ -1160,7 +1154,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:1059
 msgctxt "MainWindow|"
 msgid "Hide/Show icon in Editor"
-msgstr ""
+msgstr "在編輯器中隱藏/顯示圖示"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1068
 msgctxt "MainWindow|"
@@ -1175,7 +1169,7 @@ msgstr "刪除影像"
 #: src/binaries/rcse/mainwindow_rcse.ui:1082
 msgctxt "MainWindow|"
 msgid "Check Validity"
-msgstr ""
+msgstr "檢查有效性"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
 #: src/binaries/widget/mainwindow.cpp:574
@@ -1248,7 +1242,7 @@ msgstr "QML 產生"
 #: src/binaries/rcse/preferences/preferencesdialog.ui:26
 msgctxt "PreferencesDialog|"
 msgid "Custom path"
-msgstr ""
+msgstr "自訂路徑"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:35
 msgctxt "PreferencesDialog|"
@@ -1431,7 +1425,7 @@ msgstr "對話框"
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
 msgid "Lock up Item"
-msgstr ""
+msgstr "鎖定項目"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:26
 msgctxt "FieldView|"
@@ -1441,12 +1435,12 @@ msgstr "刪除項目"
 #: src/binaries/rcse/widgets/fieldview.cpp:27
 msgctxt "FieldView|"
 msgid "Apply on Selection"
-msgstr ""
+msgstr "套用於選取區域"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:28
 msgctxt "FieldView|"
 msgid "Apply on all lines"
-msgstr ""
+msgstr "套用於所有行數"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:29
 msgctxt "FieldView|"
@@ -1461,27 +1455,27 @@ msgstr ""
 #: src/binaries/rcse/widgets/fieldview.cpp:34
 msgctxt "FieldView|"
 msgid "Position columns"
-msgstr ""
+msgstr "位置欄位"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:45
 msgctxt "FieldView|"
 msgid "Aesthetic columns"
-msgstr ""
+msgstr "裝飾欄位"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:57
 msgctxt "FieldView|"
 msgid "Value columns"
-msgstr ""
+msgstr "數值欄位"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:66
 msgctxt "FieldView|"
 msgid "Id columns"
-msgstr ""
+msgstr "ID 欄位"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:73
 msgctxt "FieldView|"
 msgid "All columns"
-msgstr ""
+msgstr "所有欄位"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:140
 msgctxt "FieldView|"
@@ -1491,7 +1485,7 @@ msgstr "顯示"
 #: src/binaries/rcse/widgets/fieldview.cpp:147
 msgctxt "FieldView|"
 msgid "Show/Hide"
-msgstr ""
+msgstr "顯示/隱藏"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:320
 msgctxt "FieldView|"
@@ -1691,7 +1685,7 @@ msgstr "從 %1 匯出"
 #: src/binaries/widget/mainwindow.cpp:1250
 msgctxt "MainWindow|"
 msgid "unknown"
-msgstr ""
+msgstr "未知"
 
 #: src/binaries/widget/mainwindow.ui:14
 msgctxt "MainWindow|"
@@ -1716,12 +1710,12 @@ msgstr "開啟(&O)"
 #: src/binaries/widget/mainwindow.ui:67
 msgctxt "MainWindow|"
 msgid "Sub-&Windows"
-msgstr ""
+msgstr "子視窗(&W)"
 
 #: src/binaries/widget/mainwindow.ui:71
 msgctxt "MainWindow|"
 msgid "Reorganize"
-msgstr ""
+msgstr "重新編排"
 
 #: src/binaries/widget/mainwindow.ui:88
 msgctxt "MainWindow|"
@@ -1806,7 +1800,7 @@ msgstr "Alt+T"
 #: src/binaries/widget/mainwindow.ui:235
 msgctxt "MainWindow|"
 msgid "Disconnection…"
-msgstr ""
+msgstr "斷線…"
 
 #: src/binaries/widget/mainwindow.ui:240
 msgctxt "MainWindow|"
@@ -1816,7 +1810,7 @@ msgstr "Rolisteam 說明"
 #: src/binaries/widget/mainwindow.ui:243
 msgctxt "MainWindow|"
 msgid "online documentation"
-msgstr ""
+msgstr "線上說明文件"
 
 #: src/binaries/widget/mainwindow.ui:246
 msgctxt "MainWindow|"
@@ -2016,12 +2010,12 @@ msgstr "密碼產生器"
 #: src/binaries/widget/mainwindow.ui:537
 msgctxt "MainWindow|"
 msgid "Current Media as…"
-msgstr ""
+msgstr "目前媒體為…"
 
 #: src/binaries/widget/mainwindow.ui:554
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
-msgstr ""
+msgstr "工具列內顯示媒體標題"
 
 #: src/binaries/widget/mainwindow.ui:563 src/binaries/widget/mainwindow.ui:575
 msgctxt "MainWindow|"
@@ -2036,12 +2030,12 @@ msgstr "Ctrl+Shift+O"
 #: src/binaries/widget/mainwindow.ui:590
 msgctxt "MainWindow|"
 msgid "Instant messaging"
-msgstr ""
+msgstr "即時通訊"
 
 #: src/binaries/widget/mainwindow.ui:593
 msgctxt "MainWindow|"
 msgid "Instant Messaging Window"
-msgstr ""
+msgstr "即時通訊視窗"
 
 #: src/binaries/widget/mainwindow.ui:596
 msgctxt "MainWindow|"
@@ -2111,7 +2105,7 @@ msgstr "NPC"
 #: src/binaries/widget/mainwindow.ui:671
 msgctxt "MainWindow|"
 msgid "Manage…"
-msgstr ""
+msgstr "管理…"
 
 #: src/binaries/widget/mainwindow.ui:676
 msgctxt "MainWindow|"
@@ -2121,7 +2115,7 @@ msgstr "移除…"
 #: src/binaries/widget/mainwindow.ui:681
 msgctxt "MainWindow|"
 msgid "Clean"
-msgstr ""
+msgstr "清理"
 
 #: src/binaries/widget/mainwindow.ui:689
 msgctxt "MainWindow|"
@@ -2141,7 +2135,7 @@ msgstr "上一頁"
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:28
 msgctxt "ContextualMenu|"
 msgid "Adapt Width to Window"
-msgstr ""
+msgstr "讓寬度適合視窗"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
 msgctxt "ContextualMenu|"
@@ -2224,17 +2218,17 @@ msgstr ""
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:27
 msgctxt "Table|"
 msgid "Add line"
-msgstr ""
+msgstr "新增行數"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:31
 msgctxt "Table|"
 msgid "Remove current Line"
-msgstr "移除目前的行"
+msgstr "移除目前行數"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Table.qml:37
 msgctxt "Table|"
 msgid "Remove Last line"
-msgstr ""
+msgstr "移除最後一行"
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:530
 msgctxt "CharacterSheetModel|"
@@ -2272,7 +2266,7 @@ msgstr "檔案名稱"
 #: src/libraries/charactersheet/src/charactersheet/imagemodel.cpp:15
 msgctxt "ImageModel|"
 msgid "Is Background"
-msgstr ""
+msgstr "是背景"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:87
 msgctxt "QObject|"
@@ -2327,7 +2321,7 @@ msgstr "avg : 太少參數"
 #: src/libraries/charactersheet/src/formula/nodes/scalaroperatorfnode.cpp:74
 msgctxt "QObject|"
 msgid "Error: division by Zero"
-msgstr ""
+msgstr "錯誤：除以零"
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 msgctxt "LogPanel|"
@@ -2343,27 +2337,27 @@ msgstr "紀錄檔 %1"
 #: src/libraries/common/widgets/logpanel.ui:14
 msgctxt "LogPanel|"
 msgid "Form"
-msgstr ""
+msgstr "表單"
 
 #: src/libraries/common/widgets/logpanel.ui:37
 msgctxt "LogPanel|"
 msgid "Level"
-msgstr ""
+msgstr "關卡"
 
 #: src/libraries/common/widgets/logpanel.ui:45
 msgctxt "LogPanel|"
 msgid "Error"
-msgstr ""
+msgstr "錯誤"
 
 #: src/libraries/common/widgets/logpanel.ui:50
 msgctxt "LogPanel|"
 msgid "warning"
-msgstr ""
+msgstr "警告"
 
 #: src/libraries/common/widgets/logpanel.ui:55
 msgctxt "LogPanel|"
 msgid "Info"
-msgstr ""
+msgstr "資訊"
 
 #: src/libraries/common/widgets/logpanel.ui:60
 msgctxt "LogPanel|"
@@ -2373,7 +2367,7 @@ msgstr "除錯"
 #: src/libraries/common/widgets/logpanel.ui:104
 msgctxt "LogPanel|"
 msgid "Erase All"
-msgstr ""
+msgstr "移除全部"
 
 #: src/libraries/common/widgets/logpanel.ui:113
 msgctxt "LogPanel|"
@@ -2388,12 +2382,12 @@ msgstr "提供這個檔案給 Rolisteam 開發團隊"
 #: src/libraries/core/src/controller/contentcontroller.cpp:363
 msgctxt "ContentController|"
 msgid "Copied Image"
-msgstr ""
+msgstr "已複製影像"
 
 #: src/libraries/core/src/controller/instantmessagingcontroller.cpp:120
 msgctxt "InstantMessagingController|"
 msgid "Global"
-msgstr ""
+msgstr "全域"
 
 #: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
 msgctxt "TextController|"
@@ -2418,7 +2412,7 @@ msgstr ""
 #: src/libraries/core/src/controller/preferencescontroller.cpp:331
 msgctxt "PreferencesController|"
 msgid " (copy)"
-msgstr ""
+msgstr "（複本）"
 
 #: src/libraries/core/src/controller/view_controller/mediacontrollerbase.cpp:23
 msgctxt "MediaControllerBase|"
@@ -2581,22 +2575,22 @@ msgstr "路徑"
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "id"
-msgstr ""
+msgstr "ID"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "type"
-msgstr ""
+msgstr "類型"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "last access"
-msgstr ""
+msgstr "最後存取"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "bookmarked"
-msgstr ""
+msgstr "加入書籤"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
@@ -2616,12 +2610,12 @@ msgstr "類型"
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Date Added"
-msgstr ""
+msgstr "新增日期"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Date Modified"
-msgstr ""
+msgstr "修改日期"
 
 #: src/libraries/core/src/model/mediamodel.cpp:363
 msgctxt "MediaModel|"
@@ -2632,7 +2626,7 @@ msgstr "目錄"
 #: src/libraries/core/src/model/messagemodel.cpp:101
 msgctxt "MessageModel|"
 msgid "Invalid Person"
-msgstr ""
+msgstr "無效任務"
 
 #: src/libraries/core/src/model/musicmodel.cpp:28
 msgctxt "MusicModel|"
@@ -2707,12 +2701,12 @@ msgstr ""
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
 msgid "Init Command"
-msgstr ""
+msgstr "初始化指令"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Role"
-msgstr ""
+msgstr "角色"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
@@ -2824,12 +2818,12 @@ msgstr ""
 #: src/libraries/core/src/model/proxystatemodel.cpp:50
 msgctxt "ProxyStateModel|"
 msgid "Any"
-msgstr ""
+msgstr "任何"
 
 #: src/libraries/core/src/model/statemodel.cpp:44
 msgctxt "StateModel|"
 msgid "Any State"
-msgstr ""
+msgstr "任何狀態"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
@@ -2860,7 +2854,7 @@ msgstr ""
 #: src/libraries/core/src/network/characterdatamodel.cpp:78
 msgctxt "CharacterDataModel|"
 msgid "No Avatar"
-msgstr ""
+msgstr "無大頭貼"
 
 #: src/libraries/core/src/network/characterdatamodel.cpp:147
 msgctxt "CharacterDataModel|"
@@ -2870,22 +2864,22 @@ msgstr "新角色"
 #: src/libraries/core/src/network/clientconnection.cpp:88
 msgctxt "ClientConnection|"
 msgid "Socket is null"
-msgstr ""
+msgstr "socket 是 null"
 
 #: src/libraries/core/src/network/clientconnection.cpp:93
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
-msgstr ""
+msgstr "socket 無法寫入"
 
 #: src/libraries/core/src/network/clientconnection.cpp:116
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
-msgstr ""
+msgstr "傳輸錯誤："
 
 #: src/libraries/core/src/network/clientmanager.cpp:125
 msgctxt "ClientManager|"
 msgid "Connection to the server has been closed."
-msgstr ""
+msgstr "與伺服器的連線已關閉。"
 
 #: src/libraries/core/src/network/connectionprofile.cpp:7
 msgctxt "QObject|"
@@ -2895,7 +2889,7 @@ msgstr "玩家"
 #: src/libraries/core/src/network/rserver.cpp:41
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
-msgstr ""
+msgstr "[Upnp] 連接埠映射已完成"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:247
 #, qt-format
@@ -2919,7 +2913,7 @@ msgstr "使用者已被提出：%2 - %1。"
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:481
 msgctxt "ServerConnectionManager|"
 msgid "New Incoming Connection!"
-msgstr ""
+msgstr "新進來的連線！"
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:535
 #, qt-format
@@ -2952,7 +2946,7 @@ msgstr ""
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
 msgid "Error to read server IP."
-msgstr ""
+msgstr "讀取伺服器 IP 時發生錯誤。"
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
@@ -2984,12 +2978,12 @@ msgstr "新增角色到 %1"
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Line"
-msgstr ""
+msgstr "線段"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:35
 msgctxt "QObject|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "填滿的橢圓"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:36
 msgctxt "QObject|"
@@ -3004,7 +2998,7 @@ msgstr "空白矩形"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:38
 msgctxt "QObject|"
 msgid "Filled Rectangle"
-msgstr ""
+msgstr "填滿的矩形"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:39
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
@@ -3020,12 +3014,12 @@ msgstr "有邊框的文字"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:41
 msgctxt "QObject|"
 msgid "NPC Token"
-msgstr ""
+msgstr "NPC 權杖"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:42
 msgctxt "QObject|"
 msgid "PC Token"
-msgstr ""
+msgstr "玩家角色權杖"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:44
 msgctxt "QObject|"
@@ -3042,7 +3036,7 @@ msgstr "路徑"
 #, qt-format
 msgctxt "QObject|"
 msgid "add %1 item"
-msgstr ""
+msgstr "新增 %1 項目"
 
 #: src/libraries/core/src/undoCmd/changecoloritem.cpp:29
 #, qt-format
@@ -3054,7 +3048,7 @@ msgstr "變更項目顏色為 %1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Change size of %1 item(s)"
-msgstr ""
+msgstr "變更 %1 個項目的大小"
 
 #: src/libraries/core/src/undoCmd/deletevmapitem.cpp:33
 #, qt-format
@@ -3084,7 +3078,7 @@ msgstr "匯入媒體：%1"
 #, qt-format
 msgctxt "QObject|"
 msgid "Create new %1 %2"
-msgstr ""
+msgstr "建立新的 %1 %2"
 
 #: src/libraries/core/src/undoCmd/openmediacontroller.cpp:43
 #, qt-format
@@ -3228,7 +3222,7 @@ msgstr "儲存地圖"
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:41
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
-msgstr ""
+msgstr "開啟抽屜"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:48
 msgctxt "ButtonGrid|"
@@ -3243,12 +3237,12 @@ msgstr ""
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:60
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
-msgstr ""
+msgstr "新增箭頭"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:65
 msgctxt "ButtonGrid|"
 msgid "Remove Selection"
-msgstr ""
+msgstr "移除選取"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:72
 msgctxt "ButtonGrid|"
@@ -3430,7 +3424,7 @@ msgstr "文字"
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:111
 msgctxt "SideMenu|"
 msgid "Criteria"
-msgstr ""
+msgstr "條件"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:119
 msgctxt "SideMenu|"
@@ -3440,7 +3434,7 @@ msgstr "樣式"
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:157
 msgctxt "SideMenu|"
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:164
 msgctxt "SideMenu|"
@@ -3462,7 +3456,7 @@ msgstr "新增 %1 影像"
 #, qt-format
 msgctxt "AddItemCommand|"
 msgid "Add item of type: %1 to mindmap"
-msgstr ""
+msgstr "新增類型為 %1 的項目到心智圖"
 
 #: src/libraries/mindmap/src/command/additemcommand.cpp:65
 msgctxt "AddLinkCommand|"
@@ -3625,12 +3619,12 @@ msgstr "設定檔名稱："
 #: src/libraries/qml_views/views/ConnectionForm.qml:112
 msgctxt "ConnectionForm|"
 msgid "Connection"
-msgstr ""
+msgstr "連線"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:117
 msgctxt "ConnectionForm|"
 msgid "Address:"
-msgstr ""
+msgstr "位址："
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:127
 msgctxt "ConnectionForm|"
@@ -3806,12 +3800,12 @@ msgstr "儲存播放清單"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:115
 msgctxt "PlayerWidget|"
 msgid "Clear"
-msgstr ""
+msgstr "清除"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:119
 msgctxt "PlayerWidget|"
 msgid "Add Songs"
-msgstr ""
+msgstr "新增歌曲"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:122
 msgctxt "PlayerWidget|"
@@ -3821,22 +3815,22 @@ msgstr "開啟串流"
 #: src/libraries/rwidgets/customs/playerwidget.cpp:124
 msgctxt "PlayerWidget|"
 msgid "Remove Song"
-msgstr ""
+msgstr "移除歌曲"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:146
 msgctxt "PlayerWidget|"
 msgid "Add song to the list"
-msgstr ""
+msgstr "將歌曲加入清單"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:147
 msgctxt "PlayerWidget|"
 msgid "Remove selected file"
-msgstr ""
+msgstr "移除選取的檔案"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:280
 msgctxt "PlayerWidget|"
 msgid "Add song"
-msgstr ""
+msgstr "新增歌曲"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:280
 #, qt-format
@@ -3890,7 +3884,7 @@ msgstr "已靜音"
 #: src/libraries/rwidgets/customs/playerwidget.ui:120
 msgctxt "PlayerWidgetUI|"
 msgid "Play"
-msgstr ""
+msgstr "播放"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:142
 msgctxt "PlayerWidgetUI|"
@@ -3905,12 +3899,12 @@ msgstr "停止"
 #: src/libraries/rwidgets/customs/playerwidget.ui:183
 msgctxt "PlayerWidgetUI|"
 msgid "unique Mode"
-msgstr ""
+msgstr "不重複模式"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:199
 msgctxt "PlayerWidgetUI|"
 msgid "repeat"
-msgstr ""
+msgstr "循環"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -3922,7 +3916,7 @@ msgstr[0] "%n 個項目"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:241
 msgctxt "RGraphicsView|"
 msgid "Overlapping"
-msgstr ""
+msgstr "重疊"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:247
 msgctxt "RGraphicsView|"
@@ -4465,7 +4459,7 @@ msgstr "開啟影像"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:23
 msgctxt "ImageSelectorDialog|"
 msgid "Address:"
-msgstr ""
+msgstr "位址："
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:30
 msgctxt "ImageSelectorDialog|"
@@ -4820,7 +4814,7 @@ msgstr "檢查更新"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:206
 msgctxt "PreferencesDialogBox|"
 msgid "Don't show \"Tips of the day\""
-msgstr ""
+msgstr "不要顯示「每日小秘訣」"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:213
 msgctxt "PreferencesDialogBox|"
@@ -4888,7 +4882,7 @@ msgstr "可用的翻譯："
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:382
 msgctxt "PreferencesDialogBox|"
 msgid "Custom translation"
-msgstr ""
+msgstr "自訂翻譯"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:391
 msgctxt "PreferencesDialogBox|"
@@ -5234,7 +5228,7 @@ msgstr "停止"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:55
 msgctxt "SelectConnectionProfileDialog|"
 msgid "playerAvatar"
-msgstr ""
+msgstr "玩家大頭貼"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:64
 msgctxt "SelectConnectionProfileDialog|"
@@ -5356,12 +5350,12 @@ msgstr "縮放："
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:249
 msgctxt "MapWizzardDialog|"
 msgid "m"
-msgstr ""
+msgstr "公尺"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:254
 msgctxt "MapWizzardDialog|"
 msgid "km"
-msgstr ""
+msgstr "公里"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:259
 msgctxt "MapWizzardDialog|"
@@ -5371,7 +5365,7 @@ msgstr "公分"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:264
 msgctxt "MapWizzardDialog|"
 msgid "mile"
-msgstr ""
+msgstr "英哩"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:269
 msgctxt "MapWizzardDialog|"
@@ -5381,12 +5375,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:274
 msgctxt "MapWizzardDialog|"
 msgid "inch"
-msgstr ""
+msgstr "英吋"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:279
 msgctxt "MapWizzardDialog|"
 msgid "foot"
-msgstr ""
+msgstr "英呎"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:284
 msgctxt "MapWizzardDialog|"
@@ -5853,7 +5847,7 @@ msgstr "移動使用者"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
 msgid "Admin Password"
-msgstr ""
+msgstr "管理員密碼"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:305
 msgctxt "ChannelListPanel|"
@@ -5864,7 +5858,7 @@ msgstr "密碼"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 msgctxt "ChannelListPanel|"
 msgid "Channel Password"
-msgstr ""
+msgstr "頻道密碼"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:482
 #, qt-format
@@ -5876,12 +5870,12 @@ msgstr "頻道 %1 的密碼 - 留空指無密碼"
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Channel %1 required password:"
-msgstr ""
+msgstr "頻道 %1 要求密碼："
 
 #: src/libraries/rwidgets/docks/channellistpanel.ui:14
 msgctxt "ChannelListPanel|"
 msgid "Channel List"
-msgstr ""
+msgstr "頻道列表"
 
 #: src/libraries/rwidgets/docks/notificationzone.ui:14
 msgctxt "NotificationZone|"
@@ -6109,7 +6103,7 @@ msgstr "選擇一張影像"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:683
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
-msgstr ""
+msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; 全部 (*)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:56
 msgctxt "MRichTextEdit|"
@@ -7037,17 +7031,17 @@ msgstr "Ctrl+Shift+["
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:350
 msgctxt "SharedNote|"
 msgid "None"
-msgstr ""
+msgstr "無"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:358
 msgctxt "SharedNote|"
 msgid "Remove Split"
-msgstr ""
+msgstr "移除分割"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:363
 msgctxt "SharedNote|"
 msgid "Split Side by Side"
-msgstr ""
+msgstr "並排分割"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:368
 msgctxt "SharedNote|"
@@ -7204,13 +7198,13 @@ msgstr "溫度"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:202
 msgctxt "Convertor|"
 msgid "Distance"
-msgstr ""
+msgstr "距離"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:47
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:207
 msgctxt "Convertor|"
 msgid "Currency"
-msgstr ""
+msgstr "貨幣"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:52
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:212
@@ -7222,7 +7216,7 @@ msgstr "容量"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:217
 msgctxt "Convertor|"
 msgid "Mass"
-msgstr ""
+msgstr "質量"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:65
 msgctxt "Convertor|"
@@ -7241,12 +7235,12 @@ msgstr "..."
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:97
 msgctxt "Convertor|"
 msgid "From:"
-msgstr ""
+msgstr "從："
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:128
 msgctxt "Convertor|"
 msgid "To"
-msgstr ""
+msgstr "到"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:189
 msgctxt "Convertor|"
@@ -7256,7 +7250,7 @@ msgstr "分類"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:278
 msgctxt "Convertor|"
 msgid "Reverse"
-msgstr ""
+msgstr "反轉"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:287
 msgctxt "Convertor|"
@@ -7396,7 +7390,7 @@ msgstr "清理形狀"
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:130
 msgctxt "PathItem|"
 msgid "Close Path"
-msgstr ""
+msgstr "關閉路徑"
 
 #: src/libraries/rwidgets/graphicsItems/pathitem.cpp:134
 msgctxt "PathItem|"
@@ -7421,7 +7415,7 @@ msgstr "編輯文字…"
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:140
 msgctxt "TextItem|"
 msgid "Adapt to content"
-msgstr ""
+msgstr "符合內容"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:191
 msgctxt "TextItem|"
@@ -7641,7 +7635,7 @@ msgstr "一般"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:276
 msgctxt "Image|"
 msgid "No Zoom"
-msgstr ""
+msgstr "不縮放"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|Normal"
@@ -7698,22 +7692,22 @@ msgstr "暫停"
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.cpp:86
 msgctxt "InstantMessagingView|"
 msgid "Instant Messaging"
-msgstr ""
+msgstr "即時通訊"
 
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.ui:14
 msgctxt "InstantMessagingView|"
 msgid "InstantMessaging"
-msgstr ""
+msgstr "即時通訊"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:34
 msgctxt "MediaContainer|"
 msgid "Detach the view"
-msgstr ""
+msgstr "分離檢視"
 
 #: src/libraries/rwidgets/mediacontainers/mediacontainer.cpp:58
 msgctxt "QObject|"
 msgid "Loading error"
-msgstr ""
+msgstr "載入錯誤"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:149
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:151
@@ -7762,12 +7756,12 @@ msgstr "..."
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
 msgctxt "PdfViewer|"
 msgid "Fit width"
-msgstr ""
+msgstr "適應寬度"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:138
 msgctxt "PdfViewer|"
 msgid "Fit in View"
-msgstr ""
+msgstr "適合檢視"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:143
 msgctxt "PdfViewer|"
@@ -7941,7 +7935,7 @@ msgstr "..."
 #: src/libraries/rwidgets/mediacontainers/webview.ui:100
 msgctxt "WebView|"
 msgid "Keep Sharing"
-msgstr ""
+msgstr "繼續分享"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:110
 msgctxt "WebView|"
@@ -7966,7 +7960,7 @@ msgstr "重新載入"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:140
 msgctxt "WebView|"
 msgid "Hide Address"
-msgstr ""
+msgstr "隱藏位址"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:152
 msgctxt "WebView|"
@@ -8002,7 +7996,7 @@ msgstr "開啟"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:156
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
-msgstr ""
+msgstr "開啟為…"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
@@ -8027,12 +8021,12 @@ msgstr "類型"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:35
 msgctxt "campaign::CampaignView|"
 msgid "Date Added"
-msgstr ""
+msgstr "新增日期"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
 msgctxt "campaign::CampaignView|"
 msgid "Date Modified"
-msgstr ""
+msgstr "修改日期"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:120
 msgctxt "campaign::CampaignView|"
@@ -8052,7 +8046,7 @@ msgstr "顯示/隱藏欄位"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr ""
+msgstr "設定大頭貼…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:52
 msgctxt "UserListView|"
@@ -8152,7 +8146,7 @@ msgstr "筆"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:126
 msgctxt "ToolBox|"
 msgid "Line"
-msgstr ""
+msgstr "線段"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:129
 msgctxt "ToolBox|"
@@ -8162,7 +8156,7 @@ msgstr "空白矩形"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:132
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
-msgstr ""
+msgstr "填滿的矩形"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:135
 msgctxt "ToolBox|"
@@ -8172,7 +8166,7 @@ msgstr "空白橢圓"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:138
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
-msgstr ""
+msgstr "填滿的橢圓"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:141
 msgctxt "ToolBox|"
@@ -8252,7 +8246,7 @@ msgstr ""
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:330
 msgctxt "ToolBox|"
 msgid "Unmask"
-msgstr ""
+msgstr "為止"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:360
 msgctxt "ToolBox|"
@@ -8267,27 +8261,27 @@ msgstr "不透明度："
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:83
 msgctxt "TestCharacterStateModel|"
 msgid "Healthy"
-msgstr ""
+msgstr "健康"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:87
 msgctxt "TestCharacterStateModel|"
 msgid "Lightly Wounded"
-msgstr ""
+msgstr "輕傷"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:91
 msgctxt "TestCharacterStateModel|"
 msgid "Seriously injured"
-msgstr ""
+msgstr "重傷"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:95
 msgctxt "TestCharacterStateModel|"
 msgid "Dead"
-msgstr ""
+msgstr "死亡"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:99
 msgctxt "TestCharacterStateModel|"
 msgid "Sleeping"
-msgstr ""
+msgstr "睡眠中"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:103
 msgctxt "TestCharacterStateModel|"
