@@ -1,16 +1,16 @@
-# SPDX-FileCopyrightText: 2023 Vit Pelcak <vit@pelcak.org>
+# SPDX-FileCopyrightText: 2023, 2024 Vit Pelcak <vit@pelcak.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2023-11-08 15:19+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2024-06-11 09:35+0200\n"
+"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.05.0\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/main.qml:23
@@ -721,17 +721,17 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:196
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
-msgstr ""
+msgstr "V&rátit zpět"
 
 #: src/binaries/rcse/mainwindow.cpp:199
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
-msgstr ""
+msgstr "&Vpřed"
 
 #: src/binaries/rcse/mainwindow.cpp:358
 msgctxt "rcse::MainWindow|"
 msgid "Support"
-msgstr ""
+msgstr "Podpora"
 
 #: src/binaries/rcse/mainwindow.cpp:359
 #, qt-format
@@ -744,12 +744,12 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:428
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
-msgstr ""
+msgstr "Nepojmenovaný"
 
 #: src/binaries/rcse/mainwindow.cpp:465
 msgctxt "rcse::MainWindow|"
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #: src/binaries/rcse/mainwindow.cpp:466
 #, qt-format
@@ -767,7 +767,7 @@ msgstr ""
 #, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
-msgstr ""
+msgstr "Ukončit %1 "
 
 #: src/binaries/rcse/mainwindow.cpp:540
 msgctxt "rcse::MainWindow|"
@@ -787,7 +787,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:570
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
-msgstr ""
+msgstr "Otevřít obrázek"
 
 #: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
 msgctxt "rcse::MainWindow|"
@@ -2485,7 +2485,7 @@ msgstr ""
 #: src/libraries/core/src/data/campaign.cpp:56
 msgctxt "Campaign|"
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámý"
 
 #: src/libraries/core/src/data/campaign.cpp:266
 msgctxt "Campaign|"
