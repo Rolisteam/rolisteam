@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-06-11 09:35+0200\n"
+"PO-Revision-Date: 2024-06-12 15:03+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -824,22 +824,22 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:918
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
-msgstr ""
+msgstr "Kopírovat cestu"
 
 #: src/binaries/rcse/mainwindow.cpp:921
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
-msgstr ""
+msgstr "Kopírovat URL"
 
 #: src/binaries/rcse/mainwindow.cpp:924
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
-msgstr ""
+msgstr "Nahradit obrázek"
 
 #: src/binaries/rcse/mainwindow.cpp:925
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
-msgstr ""
+msgstr "Odstranit obrázek"
 
 #: src/binaries/rcse/mainwindow.cpp:926
 msgctxt "rcse::MainWindow|"
@@ -849,7 +849,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:933
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
-msgstr ""
+msgstr "Načíst obrázek"
 
 #: src/binaries/rcse/mainwindow.cpp:934
 msgctxt "rcse::MainWindow|"
@@ -859,12 +859,12 @@ msgstr ""
 #: src/binaries/rcse/mainwindow.cpp:947
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
-msgstr ""
+msgstr "Přidat znak"
 
 #: src/binaries/rcse/mainwindow.cpp:948
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
-msgstr ""
+msgstr "Smazat znak"
 
 #: src/binaries/rcse/mainwindow.cpp:950
 msgctxt "rcse::MainWindow|"
@@ -5047,7 +5047,7 @@ msgstr "Smazat"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:865
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
-msgstr ""
+msgstr "CSS:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:872
 msgctxt "PreferencesDialogBox|"
@@ -5775,7 +5775,7 @@ msgstr "Text"
 #: src/libraries/rwidgets/docks/campaigndock.cpp:60
 msgctxt "campaign::CampaignDock|"
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: src/libraries/rwidgets/docks/campaigndock.cpp:61
 msgctxt "campaign::CampaignDock|"
@@ -6776,7 +6776,7 @@ msgstr "Oprávnění"
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:140
 msgctxt "ParticipantsPane|"
 msgid "Promote"
-msgstr ""
+msgstr "Proměnit"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:149
 msgctxt "ParticipantsPane|"
