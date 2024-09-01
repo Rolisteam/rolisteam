@@ -5,6 +5,7 @@
 #include <QList>
 #include <QSignalMapper>
 #include <QTreeView>
+#include <QPointer>
 
 class QUndoStack;
 class FieldModel;

@@ -25,7 +25,7 @@
 #include "common/logcontroller.h"
 #include "common_widgets/logpanel.h"
 #include "dialog/aboutrcse.h"
-#include "dialog/codeeditordialog.h"
+//#include "dialog/codeeditordialog.h"
 #include "preferences/preferencesdialog.h"
 #include "qmlhighlighter.h"
 #include "serializerhelper.h"
@@ -65,21 +65,21 @@
 #include "controllers/qmlgeneratorcontroller.h"
 
 #include "data/characterlist.h"
-#include "delegate/pagedelegate.h"
+//#include "delegate/pagedelegate.h"
 
 #include "canvasfield.h"
 #include "itemeditor.h"
 
 // Undo
 #include "charactersheet/worker/ioworker.h"
-#include "diceparser_qobject/diceroller.h"
-#include "diceparser_qobject/qmltypesregister.h"
+//#include "diceparser_qobject/diceroller.h"
+//#include "diceparser_qobject/qmltypesregister.h"
 #include "undo/addpagecommand.h"
-#include "undo/deletefieldcommand.h"
+//#include "undo/deletefieldcommand.h"
 #include "undo/deletepagecommand.h"
 #include "undo/setbackgroundimage.h"
-#include "undo/setfieldproperties.h"
-#include "undo/setpropertyonallcharacters.h"
+//#include "undo/setfieldproperties.h"
+//#include "undo/setpropertyonallcharacters.h"
 #include "version.h"
 
 #include "charactersheet/charactersheetmodel.h"
@@ -89,12 +89,14 @@
 
 namespace rcse
 {
-constexpr int minimalColumnSize= 350;
+//constexpr int minimalColumnSize= 350;
 
 void registerRCSEQmlTypes()
 {
-    qmlRegisterSingletonType<RcseApplicationController>("Helper", 1, 0, "AppCtrl",
+    qmlRegisterSingletonType<RcseApplicationController>("Helper", 1, 0, "appCtrl",
                                                         [](QQmlEngine* engine, QJSEngine* scriptEngine) -> QObject* {
+                                                            Q_UNUSED(engine);
+                                                            Q_UNUSED(scriptEngine);
                                                             auto ctrl= new RcseApplicationController();
 
                                                             /*connect(ctrl,
@@ -394,6 +396,8 @@ MainWindow::MainWindow(QWidget* parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    m_mainCtrl->deleteLater();
+    m_mainCtrl.release();
 }
 
 void MainWindow::readSettings()
@@ -434,7 +438,7 @@ void MainWindow::updateTitle()
         m_recentFiles.prepend(filename);
         updateRecentFileAction();
     }
-    setWindowTitle(QStringLiteral("%1[*] - %2").arg(shortName).arg("RCSE"));
+    setWindowTitle(QStringLiteral("%1[*] - %2").arg(shortName, "RCSE"));
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)

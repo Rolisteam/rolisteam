@@ -63,13 +63,12 @@ class TableCanvasField : public CanvasField
 public:
     explicit TableCanvasField(TableFieldController *field);
     virtual ~TableCanvasField();
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget* a= nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget* a= nullptr) override;
     bool hasFocusOrChild();
-    void load(QJsonObject& json);
-    void save(QJsonObject& json);
 
 protected:
-    virtual void setMenu(QMenu& menu);
+    virtual void setMenu(QMenu& menu) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 
 private slots:
     void addColumn(int index);
@@ -84,8 +83,7 @@ private:
     std::vector<std::unique_ptr<ButtonCanvas>> m_columnSelector;
     std::vector<std::unique_ptr<ButtonCanvas>> m_columnRemover;
     QHash<int, QString> m_typeToText;
-
-    //std::unique_ptr<ColumnDefinitionDialog> m_dialog;
+    int m_columnSize{0};
 };
 
 #endif // TABLECANVASFIELD_H

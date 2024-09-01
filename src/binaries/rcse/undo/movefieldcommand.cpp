@@ -47,6 +47,8 @@ void MoveFieldCommand::redo()
     int i = 0;
     for(auto item : m_list)
     {
+        if(i>= m_newPoints.size())
+            return;
         item->setPos(m_newPoints.at(i));
         ++i;
     }

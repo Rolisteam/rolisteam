@@ -96,6 +96,7 @@ void Canvas::deleteItem(QGraphicsItem* item)
 }
 void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
+    qDebug() << "canvas pressed"<< mouseEvent;
     if(mouseEvent->button() == Qt::RightButton)
     {
         mouseEvent->accept();
@@ -112,7 +113,8 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
                          mouseEvent->buttonDownScenePos(Qt::LeftButton).y());
 
         const QList<QGraphicsItem*> itemList= items(mousePos);
-        for(auto item : m_movingItems)
+        qDebug() << "count itemList: "<<itemList.size();// << itemList[0]->boundingRect();
+        for(auto item : itemList)
         {
             if(item->flags() & QGraphicsItem::ItemIsMovable)
                 m_movingItems.append(item);
@@ -126,7 +128,7 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
         }
 
         // clearSelection();
-        QGraphicsScene::mousePressEvent(mouseEvent);
+        //QGraphicsScene::mousePressEvent(mouseEvent);
     }
     if(m_currentTool == Canvas::DELETETOOL)
     {
@@ -159,15 +161,16 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 }
 void Canvas::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-    if(forwardEvent())
+    /*if(forwardEvent())
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
-    else if(m_currentItem != nullptr)
+    else */if(m_currentItem != nullptr)
     {
         m_currentItem->setNewEnd(m_currentItem->mapFromScene(mouseEvent->scenePos()));
         update();
     }
+    QGraphicsScene::mouseMoveEvent(mouseEvent);
 }
 bool Canvas::forwardEvent()
 {
@@ -193,13 +196,13 @@ void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
                 m_oldPos.clear();
             }
         }
-        QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
     else
     {
         adjustNewItem(m_currentItem);
         m_currentItem= nullptr;
     }
+    QGraphicsScene::mouseReleaseEvent(mouseEvent);
 }
 void Canvas::adjustNewItem(CanvasField* field)
 {

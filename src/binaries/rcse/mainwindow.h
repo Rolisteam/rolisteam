@@ -38,7 +38,7 @@
 #include "dialog/sheetproperties.h"
 #include "fieldmodel.h"
 #include "itemeditor.h"
-#include "preferences/preferencesmanager.h"
+#include "preferences/rcsepreferencesmanager.h"
 
 class CodeEditor;
 class LogPanel;
@@ -117,7 +117,7 @@ protected slots:
     void updateTitle();
 
 private:
-    Ui::MainWindow* ui;
+    Ui::MainWindow* ui{nullptr};
     std::unique_ptr<rcse::MainController> m_mainCtrl;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;

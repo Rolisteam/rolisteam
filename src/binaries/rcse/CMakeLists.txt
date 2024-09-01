@@ -7,7 +7,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
-find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Concurrent Quick Pdf QuickWidgets QuickControls2 PdfWidgets WebEngineWidgets PrintSupport WebEngineCore)
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core LinguistTools Widgets Gui Concurrent Quick Pdf QuickWidgets QuickControls2 PdfWidgets WebEngineQuick WebEngineWidgets PrintSupport WebEngineCore)
 
 
 set(documentation README.md)
@@ -37,7 +37,7 @@ set(sources  main.cpp
     dialog/pdfmanager.cpp
     delegate/fontdelegate.cpp
     preferences/preferencesdialog.cpp
-    preferences/preferencesmanager.cpp
+    preferences/rcsepreferencesmanager.cpp
     dialog/sheetproperties.cpp
     itemeditor.cpp
     tablecanvasfield.cpp
@@ -81,7 +81,7 @@ set(headers mainwindow.h
     dialog/pdfmanager.h
     delegate/fontdelegate.h
     preferences/preferencesdialog.h
-    preferences/preferencesmanager.h
+    preferences/rcsepreferencesmanager.h
     dialog/sheetproperties.h
     itemeditor.h
     tablecanvasfield.h
@@ -114,13 +114,12 @@ set(UI_files   mainwindow_rcse.ui
         widgets/codeedit.ui
         dialog/codeeditordialog.ui)
 
-
 set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/rcse/logo/rcse.rc)
 add_executable(rcse WIN32 ${sources} ${headers} ${UI_files} ${ressources} ${RC_FILE})
 
 qt_add_resources(rcse "templates"
 PREFIX
-    "/template"
+    "/"
 FILES
     "templates/CheckBoxField.template"
     "templates/DiceButton.template"
@@ -136,6 +135,9 @@ FILES
     "templates/Label.template"
     "templates/Hidden.template"
     "templates/FuncButton.template"
+    "templates/position.template"
+    "templates/DelegateChoice.template"
+    "templates/Sheet.template"
 )
 
 
@@ -155,6 +157,7 @@ target_link_libraries(rcse
     Qt6::WebEngineCore
     Qt6::Concurrent
     Qt6::QuickControls2
+    Qt6::WebEngineQuick
   PRIVATE
     charactersheet
     charactersheet_formula

@@ -30,11 +30,13 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QQuickStyle>
+#include <QtWebEngineQuick>
 
 #include <QTimer>
 
 int main(int argc, char* argv[])
 {
+    QtWebEngineQuick::initialize();
     QApplication a(argc, argv);
 
     Q_INIT_RESOURCE(charactersheet);
