@@ -322,15 +322,6 @@ Qt::ItemFlags FieldModel::flags(const QModelIndex& index) const
     /*else
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable ;*/
 }
-void FieldModel::generateQML(QTextStream& out, int indentation, bool isTable)
-{
-    QmlGeneratorVisitor visitor(m_rootSection.get());
-    visitor.setIndentation(indentation);
-    visitor.setIsTable(isTable);
-    visitor.generateTreeSheetItem();
-    out << visitor.result();
-    // m_rootSection->generateQML(out,TreeSheetItem::FieldSec,0,isTable);
-}
 
 QString FieldModel::getValue(const QString& key)
 {

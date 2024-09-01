@@ -13,6 +13,7 @@
 #include "charactersheet_formula/formulamanager.h"
 #include "codeeditor.h"
 #include "imagecontroller.h"
+#include "qmlgeneratorvisitor.h"
 
 QmlGeneratorController::QmlGeneratorController(QObject* parent)
     : QObject(parent), m_model(new FieldModel), m_mockCharacter(new MockCharacter)
@@ -188,110 +189,41 @@ void QmlGeneratorController::setUuidCharacter(QString uuidCharacter)
 
 void QmlGeneratorController::generateQML(const ImageController* ctrl)
 {
-    QString data;
-    QTextStream text(&data);
+    QString key= ctrl->uuid();
+    QStringList keyParts= key.split('_');
+    auto rect= m_model->childrenRect();
+
     QSize size= ctrl->backgroundSize();
     bool hasImage= size.isValid();
 
-    auto rect= m_model->childrenRect();
-
-    QString key= ctrl->uuid();
-    QStringList keyParts= key.split('_');
     if(!keyParts.isEmpty())
     {
         key= keyParts[0];
     }
-    text << "import QtQuick\n";
-    text << "import QtQuick.Layouts\n";
-    text << "import QtQuick.Controls\n";
-    text << "import Rolisteam\n";
-    text << "import charactersheet\n";
-    text << "import Helper\n";
+    QmlGeneratorVisitor visitor;
+    visitor.setIndentation(1);
+    visitor.setIsTable(false);
+    auto mainItem = hasImage ? QStringLiteral("Image"): QStringLiteral("Item") ;
+    auto source = hasImage ?
+                     QStringLiteral("source: \"image://rcs/%1_background_%2.jpg\".arg(sheetCtrl.currentPage)")
+                        .arg(key, QString("%1")):
+                     QString("");
+    auto baseWidth = hasImage ? QStringLiteral("sourceSize.width") : QString::number(rect.width());
 
-    if(!m_importCode.isEmpty())
-    {
-        text << "   " << m_importCode << "\n";
-    }
-    text << "\n";
 
-    text << "Flickable {\n";
-    text << "    id:root\n";
-    if(hasImage)
-        text << "    contentWidth: imagebg.width;\n    contentHeight: imagebg.height;\n";
-    text << "    boundsBehavior: Flickable.StopAtBounds;\n";
-
-    if(hasImage)
-    {
-        text << "    property alias realscale: imagebg.realscale\n";
-    }
-    text << "    SheetController {\n";
-    text << "       id: sheetCtrl\n";
-    text << "       appCtrl: AppCtrl\n";
-    text << "       parentWidth: root.width\n";
-    text << "       imageBgWidth: imagebg.baseWidth\n";
-    text << "       pageMax: " << m_lastPageId << "\n";
-    text << "    }\n";
-    text << "    ContextualMenu {\n";
-    text << "       id: _menu\n";
-    text << "       ctrl: sheetCtrl\n";
-    text << "    \n";
-    text << "    }\n";
-
-    text << "    focus: true\n";
-    text << "    property int maxPage: sheetCtrl.pageMax\n";
-    text << "    Keys.onLeftPressed: sheetCtrl.nextPage()\n";
-    text << "    Keys.onRightPressed: sheetCtrl.previousPage()\n";
-    text << "    MouseArea {\n";
-    text << "         anchors.fill:parent\n";
-    text << "         acceptedButtons: Qt.LeftButton | Qt.RightButton \n";
-    text << "         onClicked: (mouse)=>{ \n";
-    text << "         if(mouse.button & Qt.LeftButton) \n";
-    text << "           root.focus = true\n";
-    text << "         else if(mouse.button & Qt.RightButton)\n";
-    text << "         {\n";
-    text << "           _menu.x = mouse.x\n";
-    text << "           _menu.y = mouse.y\n";
-    text << "           _menu.open()\n";
-    text << "         }\n";
-    text << "       }\n";
-    text << "    }\n";
-    if(!m_headCode.isEmpty())
-    {
-        text << "   " << m_headCode << "\n";
-    }
-    if(hasImage)
-    {
-        text << "   Image {\n";
-        text << "       id:imagebg\n";
-        text << "       objectName:\"imagebg\"\n";
-        text << "       property real realscale: sheetCtrl.zoomLevel\n";
-        text << "       property real baseWidth: sourceSize.width\n";
-        text << "       width: baseWidth*realscale\n";
-        text << "       height: sourceSize.height*realscale\n";
-        text << "       source: \"image://rcs/" + key + "_background_%1.jpg\".arg(sheetCtrl.currentPage)\n";
-        m_model->generateQML(text, 1, false);
-        text << "\n";
-        text << "  }\n";
-    }
-    else
-    {
-        text << "   Item {\n";
-        text << "       id: imagebg\n";
-        text << "       property real realscale: sheetCtrl.zoomLevel\n";
-        text << "       property real baseWidth: " << rect.width() << "\n";
-        text << "       width: " << rect.width() << "*realscale\n";
-        text << "       height: " << rect.height() << "*realscale\n";
-        m_model->generateQML(text, 1, false);
-        text << "   }\n";
-    }
-    if(!m_bottomCode.isEmpty())
-    {
-        text << "   " << m_bottomCode << "\n";
-    }
-    text << "}\n";
-    text.flush();
-
-    setQmlCode(data);
+    auto res = visitor.generateSheet(m_importCode,
+                          m_headCode,
+                          m_bottomCode,
+                          m_lastPageId,
+                          mainItem,
+                          source,
+                          rect.width(),
+                          rect.height(),
+                          baseWidth,
+                          true,
+                          m_model->getRootSection()
+                          );
+    setQmlCode(res);
     setTextEdited(false);
 }
 

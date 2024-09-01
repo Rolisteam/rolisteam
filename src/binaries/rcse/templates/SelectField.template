@@ -1,6 +1,6 @@
 {{ indent }}SelectField {//%1
 {{ indent }}    id: {{ id }}
-{{ indent }}    {{ position }}
+{{ position }}
 {{ indent }}    selected: {{ value }}
 {{ indent }}    availableValues: {{ availableValues }}
 {{ indent }}    currentIndex: combo.find(text)

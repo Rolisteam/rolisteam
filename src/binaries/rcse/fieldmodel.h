@@ -98,7 +98,6 @@ public:
     void appendField(CSItem* f);
     void save(QJsonObject& json, bool exp= false);
     void load(const QJsonObject& json);
-    void generateQML(QTextStream& out, int indentation, bool isTable= false);
     Q_INVOKABLE QString getValue(const QString& key);
     QList<TreeSheetItem*> children();
     QList<CSItem*> allChildren() const;

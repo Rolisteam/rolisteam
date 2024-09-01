@@ -10,20 +10,31 @@ class TableFieldController;
 class QmlGeneratorVisitor
 {
 public:
-    QmlGeneratorVisitor(TreeSheetItem* rootItem);
+    QmlGeneratorVisitor();
 
     QByteArray result() const;
 
     bool isTable() const;
     void setIsTable(bool isTable);
 
-    bool generateTreeSheetItem();
-    //bool generateQmlCodeForRoot();
 
     int indentation() const;
     void setIndentation(int indentation);
 
+    QString generateSheet(const QString& imports,
+                          const QString& headCode,
+                          const QString& bottomCode,
+                          int pageMax,
+                          const QString& mainItem,
+                          const QString& source,
+                          int width,
+                          int height,
+                          const QString& baseWidth,
+                          bool pageAdapt,
+                          TreeSheetItem* m_root);
+
 protected:
+    QString generateTreeSheetItem();
     bool generateTextInput(QTextStream& out, FieldController* item, bool isInsideTable);
     bool generateTextArea(QTextStream& out,FieldController* item, bool insideTable);
     bool generateTextField(QTextStream& out,FieldController* item, bool isInsideTable);
@@ -40,7 +51,7 @@ protected:
     bool generateHidden(QTextStream& out,FieldController* item, bool isInsideTable);
 
 
-    QStringList generateTableDelegate(TableFieldController* item);
+    QStringList generateTableDelegate(TableFieldController* item, QStringList &columnWidths);
     //QString generatePosition(FieldController* item);
     //QString generateAlignment(FieldController* item);
     //QString generateFont(const QFont& font, bool fitfont);

@@ -1,6 +1,6 @@
 {{ indent }}SliderField {// {{ hrName }}
 {{ indent }}    id: {{ id }}
-{{ indent }}    {{ position }}
+{{ position }}
 {{ indent }}    value: {{ value }}
 {{ indent }}    {{ pageManagement }}
 {{ indent }}    readOnly: {{ readOnly }}
@@ -9,4 +9,7 @@
 {{ indent }}    to: {{ to }}
 {{ indent }}    backgroundColor:"{{ bgColor }}"
 {{ indent }}    valueColor: "{{ valueColor }}"
+{{ indent }}    onMoved: {
+{{ indent }}        {{ value }} = {{ id }}.value
+{{ indent }}    }
 {{ indent }}}

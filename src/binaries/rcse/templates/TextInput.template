@@ -1,6 +1,6 @@
 {{ indent }}TextInputField {// {{ hrName }}
 {{ indent }}    id: {{ id }}
-{{ indent }}    {{ position }}
+{{ position }}
 {{ indent }}    text: {{ value }}
 {{ indent }}    color:"{{ color }}"
 {{ indent }}    backgroundColor: "{{ bgColor }}"
@@ -16,7 +16,7 @@
 {{ indent }}    font.strikeout: {{ fontStrikeOut }}
 {{ indent }}    hAlign: {{ hoAlign }}
 {{ indent }}    vAlign: {{ veAlign }}
-{{ indent }}    onTextChanged: {
+{{ indent }}    onEditingFinished: {
 {{ indent }}        {{ value }} = text
 {{ indent }}    }
 {{ indent }}}

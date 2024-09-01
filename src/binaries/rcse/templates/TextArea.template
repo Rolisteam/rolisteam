@@ -1,6 +1,6 @@
 {{ indent }}TextAreaField {// {{ hrName }}
 {{ indent }}    id: {{ id }}
-{{ indent }}    {{ position }}
+{{ position }}
 {{ indent }}    contentText: {{ value }}
 {{ indent }}    color: "{{ color }}"
 {{ indent }}    backgroundColor: "{{ bgColor }}"

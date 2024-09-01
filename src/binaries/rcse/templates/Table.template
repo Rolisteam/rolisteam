@@ -1,14 +1,15 @@
 {{ indent }}Table{// {{ hrName }}
 {{ indent }}    id: {{ id }}
-{{ indent }}    {{ position }}
+{{ position }}
 {{ indent }}    {{ pageManagement }}
 {{ indent }}    maxRow: {{ maxRow }}
 {{ indent }}    model: {{ model }}
-{{ indent }}    DelegateChooser {
-{{ indent }}        id: {{ idChooser }}
-{{ indent }}        role: "column"
+{{ indent }}    property var columnWidths: [{{ columnWidths }}]
+{{ indent }}    columnWidthProvider: function (column) { return columnWidths[column] }
+{{ indent }}    rowHeightProvider: function (row) { return height/{{ maxRow }} }
+{{ indent }}    delegate: DelegateChooser {
 ## for column in Columns
-{{ indent }}        {{ column }}
+{{ column }}
 ## endfor
 {{ indent }}    }
 {{ indent }}    onAddLine:{
@@ -17,5 +18,4 @@
 {{ indent }}    onRemoveLine:(index)=>{
 {{ indent }}            {{ value }}.removeLine(index)
 {{ indent }}    }
-{{ indent }}    delegate: {{ idChooser }}
 {{ indent }}    }
