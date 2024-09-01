@@ -48,7 +48,7 @@
 #include "preferences/preferencesmanager.h"
 
 CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidget* parent)
-    : MediaContainer(ctrl, MediaContainer::ContainerType::VMapContainer, parent)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::CharacterSheetContainer, parent)
     , m_sheetCtrl(ctrl)
     , m_ui(new Ui::CharacterSheetWindow)
 {
@@ -60,6 +60,8 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     connect(m_sheetCtrl, &CharacterSheetController::sheetCreated, this, &CharacterSheetWindow::addTabWithSheetView);
     /*connect(&m_model, SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)), this,
             SLOT(addTabWithSheetView(CharacterSheet*)));*/
+
+
 
     setWindowIcon(QIcon::fromTheme("treeview"));
 
