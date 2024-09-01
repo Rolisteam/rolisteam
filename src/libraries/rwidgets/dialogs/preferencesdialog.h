@@ -102,7 +102,7 @@ private slots:
     QModelIndex currentIndexFromCurrentList(int i);
 
 private:
-    PreferencesManager* m_preferences= nullptr;
+    QPointer<PreferencesManager> m_preferences;
     Ui::PreferencesDialogBox* ui;
 
     QPushButton* m_applyBtn;

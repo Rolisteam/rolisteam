@@ -40,12 +40,12 @@
 #include <QStringListModel>
 #include <QStyleFactory>
 #include <QVBoxLayout>
+#include <media/mediatype.h>
 
 #ifdef HAVE_SOUND
 #include <QMediaPlayer>
 #endif
 
-#include "diceparser/diceparser.h"
 #include "media/mediatype.h"
 #include "model/thememodel.h"
 
@@ -75,9 +75,17 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     ui->m_directoriesList2->setModel(m_musicDirectories[1]);
     ui->m_directoriesList3->setModel(m_musicDirectories[2]);
 
-    // TODO Fix this line
-    // ui->m_defaultMapModeCombo->addItems();
-    m_preferences= PreferencesManager::getInstance();
+
+    ui->m_defaultMapModeCombo->addItem(tr("GM Only"), Core::PermissionMode::GM_ONLY);
+    ui->m_defaultMapModeCombo->addItem(tr("PC Move"), Core::PermissionMode::PC_MOVE);
+    ui->m_defaultMapModeCombo->addItem(tr("PC All"), Core::PermissionMode::PC_ALL);
+
+    connect(m_ctrl, &PreferencesController::preferencesChanged, this, [this](){
+        m_preferences= m_ctrl->preferences();
+        load();
+    });
+    m_preferences= m_ctrl->preferences();
+    load();
 
     ui->m_themeComboBox->setModel(m_ctrl->themeModel());
     connect(ui->m_themeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
@@ -112,16 +120,25 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     // set general panel as default.
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->m_highLightPenWidth, QOverload<int>::of(&QSpinBox::valueChanged), this,
-            [=]() { m_preferences->registerValue("VMAP::highlightPenWidth", ui->m_highLightPenWidth->value(), true); });
+            [=]() {
+                if(!m_preferences)
+                    return;
+                m_preferences->registerValue("VMAP::highlightPenWidth", ui->m_highLightPenWidth->value(), true); });
     connect(ui->m_mapItemHighlightColor, &ColorButton::colorChanged, this, [=]() {
+        if(!m_preferences)
+            return;
         m_preferences->registerValue("VMAP::highlightColor", ui->m_mapItemHighlightColor->color(), true);
     });
 
     connect(ui->m_hideTipsOfTheDay, &QCheckBox::clicked, this, [this]() {
+        if(!m_preferences)
+            return;
         m_preferences->registerValue("MainWindow::neverDisplayTips", ui->m_hideTipsOfTheDay->isChecked(), false);
     });
     // Misc
     setSizeGripEnabled(true);
+    if(!m_preferences)
+        return;
     setWindowTitle(
         QString("%1 - %2").arg(m_preferences->value("Application_Name", "rolisteam").toString(), tr("Preferences")));
     setWindowModality(Qt::ApplicationModal);
@@ -243,11 +260,15 @@ PreferencesDialog::~PreferencesDialog() {}
 
 void PreferencesDialog::manageHeartBeat()
 {
+    if(!m_preferences)
+        return;
     m_preferences->registerValue("HeartBeatStatus", ui->m_heartBeat->isChecked());
     m_preferences->registerValue("HbFrequency", ui->m_hbFrequency->value());
 }
 void PreferencesDialog::manageMessagingPref()
 {
+    if(!m_preferences)
+        return;
     m_preferences->registerValue("MessagingShowTime", ui->m_showTimeCheckBox->isChecked());
     m_preferences->registerValue("MessagingColorTime", ui->m_timeColorBtn->color());
     m_preferences->registerValue("maxSizeForCuttingDiceCmd", ui->m_maxLenghtCommand->value());
@@ -280,8 +301,11 @@ void PreferencesDialog::show(PreferenceTab tab)
 }
 void PreferencesDialog::save() const
 {
+    if(!m_preferences)
+        return;
+
     m_preferences->registerValue("MainWindow::MustBeChecked", ui->m_checkUpdate->isChecked());
-    m_preferences->registerValue("defaultPermissionMap", ui->m_defaultMapModeCombo->currentIndex());
+    m_preferences->registerValue("defaultPermissionMap", ui->m_defaultMapModeCombo->currentData().toInt());
 
     // messaging
     m_preferences->registerValue("MessagingShowTime", ui->m_showTimeCheckBox->isChecked());
@@ -318,6 +342,9 @@ void PreferencesDialog::save() const
 }
 void PreferencesDialog::load()
 {
+    if(!m_preferences)
+        return;
+
     // Direcotry PATH
     ui->m_translationFileEdit->setMode(false);
     ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");
@@ -357,7 +384,7 @@ void PreferencesDialog::load()
     ui->m_hideLongCommand->setChecked(m_preferences->value("hideLongCommand", false).toBool());
 
     // Default Permission
-    ui->m_defaultMapModeCombo->setCurrentIndex(m_preferences->value("defaultPermissionMap", 0).toInt());
+    ui->m_defaultMapModeCombo->setCurrentIndex(ui->m_defaultMapModeCombo->findData(m_preferences->value("defaultPermissionMap", 0).toInt()));
     ui->m_pictureAdjust->setChecked(m_preferences->value("PictureAdjust", true).toBool());
 
     // theme
