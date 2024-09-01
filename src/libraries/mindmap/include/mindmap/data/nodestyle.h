@@ -35,7 +35,7 @@ class MINDMAP_EXPORT NodeStyle : public QObject
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
 public:
     explicit NodeStyle(QObject* parent= nullptr);
-    ~NodeStyle();
+    virtual ~NodeStyle();
 
     QColor colorOne() const;
     QColor colorTwo() const;

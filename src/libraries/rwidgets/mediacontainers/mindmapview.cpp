@@ -59,7 +59,7 @@ void registerMindmapType()
     qmlRegisterType<mindmap::SelectionController>("mindmap", 1, 0, "SelectionController");
     qmlRegisterUncreatableType<RemotePlayerModel>("mindmap", 1, 0, "RemotePlayerModel", "property values");
     qmlRegisterType<mindmap::LinkItem>("mindmap", 1, 0, "MindLink");
-    qmlRegisterType<mindmap::NodeStyle>("mindmap", 1, 0, "NodeStyle");
+    qmlRegisterUncreatableType<mindmap::NodeStyle>("mindmap", 1, 0, "NodeStyle", "Can't be created in QML");
     qmlRegisterUncreatableType<mindmap::PositionedItem>("mindmap", 1, 0, "PositionedItem", "Enum only");
     qmlRegisterType<mindmap::SideMenuController>("mindmap", 1, 0, "SideMenuController");
     qmlRegisterUncreatableType<mindmap::MindItemModel>("mindmap", 1, 0, "MindItemModel",
@@ -72,18 +72,6 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     , m_ctrl(ctrl)
 {
     registerMindmapType();
-    // auto format= QSurfaceFormat::defaultFormat();
-    /*auto format= m_qmlViewer->format();
-    if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
-    {
-        format.setVersion(3, 2);
-        format.setProfile(QSurfaceFormat::CoreProfile);
-    }
-    //format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
-    format.setDepthBufferSize(24);
-    format.setStencilBufferSize(8);
-    format.setSamples(8);
-    m_qmlViewer->setFormat(format);*/
 
     setObjectName("mindmap");
     setWindowIcon(QIcon::fromTheme("mindmap"));

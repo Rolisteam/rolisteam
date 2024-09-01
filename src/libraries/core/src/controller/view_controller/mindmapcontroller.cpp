@@ -97,19 +97,7 @@ MindMapController::MindMapController(const QString& id, QObject* parent) : MindM
 
 MindMapController::~MindMapController()
 {
-    if(m_spacing->isRunning())
-    {
-        m_spacingController->setRunning(false);
-        m_spacing->quit();
-        m_spacing->wait();
-        delete m_spacing.release();
-    }
 
-    auto model= m_itemModel.release();
-    auto spacingCtrl= m_spacingController.release();
-
-    delete spacingCtrl;
-    delete model;
 }
 
 RemotePlayerModel* MindMapController::remotePlayerModel() const

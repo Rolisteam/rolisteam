@@ -20,6 +20,7 @@
 #include "mindmap/model/nodestylemodel.h"
 
 #include "mindmap/data/nodestyle.h"
+#include <QJSEngine>
 
 namespace mindmap
 {
@@ -119,6 +120,7 @@ void NodeStyleModel::initStyles()
         style->setColorOne(one);
         style->setColorTwo(color);
         style->setTextColor(text);
+        QJSEngine::setObjectOwnership(style, QJSEngine::CppOwnership);
         return std::unique_ptr<NodeStyle>(style);
     });
 
@@ -131,6 +133,7 @@ void NodeStyleModel::initStyles()
         style->setColorOne(color);
         style->setColorTwo(one);
         style->setTextColor(text);
+        QJSEngine::setObjectOwnership(style, QJSEngine::CppOwnership);
         return std::unique_ptr<NodeStyle>(style);
     });
 
