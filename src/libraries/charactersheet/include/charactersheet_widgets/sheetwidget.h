@@ -6,6 +6,7 @@
 #include <QQuickWidget>
 
 #include "charactersheet/charactersheet.h"
+#include "charactersheet/imagemodel.h"
 #include <charactersheet_widgets/charactersheet_widget_global.h>
 
 class CHARACTERSHEET_WIDGET_EXPORT SheetWidget : public QQuickWidget
@@ -13,7 +14,7 @@ class CHARACTERSHEET_WIDGET_EXPORT SheetWidget : public QQuickWidget
     Q_OBJECT
     Q_PROPERTY(CharacterSheet* sheet READ sheet WRITE setSheet NOTIFY sheetChanged)
 public:
-    SheetWidget(QWidget* parent= nullptr);
+    SheetWidget(CharacterSheet* chSheet, charactersheet::ImageModel* imgModel, QWidget* parent= nullptr);
 
     void setSheet(CharacterSheet* sheet);
     CharacterSheet* sheet() const;

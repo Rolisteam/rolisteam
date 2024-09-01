@@ -49,6 +49,7 @@ void CharacterSheetController::addCharacterSheet(const QJsonObject& data, const 
     }
     character->setSheet(sheet);
     m_model->addCharacterSheet(sheet, m_model->getCharacterSheetCount());
+    m_sheetData.append({sheet, player, character});
     emit sheetCreated(sheet, character);
 }
 
@@ -117,7 +118,21 @@ void CharacterSheetController::shareCharacterSheetToAll(int idx)
         return;
 
     emit share(this, sheet, CharacterSheetUpdater::SharingMode::ALL, nullptr, {});
-    // m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ALL, QStringList());
+}
+
+void CharacterSheetController::stopSharing(int idx)
+{
+    auto sheet = m_model->getCharacterSheet(idx);
+
+    if(!sheet)
+        return;
+    // stop sharing
+    m_sheetData.erase(std::remove_if(std::begin(m_sheetData), std::end(m_sheetData),
+                                     [sheet](const CharacterSheetData& info){
+                                         return info.sheet == sheet;
+                  }));
+
+    emit stopSharing(sheet);
 }
 
 void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int idx)
@@ -159,4 +174,19 @@ void CharacterSheetController::setRootJson(const QJsonObject& newRootJson)
         return;
     m_rootJson= newRootJson;
     emit rootJsonChanged();
+}
+
+const QList<CharacterSheetData> &CharacterSheetController::sheetData() const
+{
+    return m_sheetData;
+}
+
+bool CharacterSheetController::hasCharacterSheet(const QString &id) const
+{
+    return (nullptr != m_model->getCharacterSheetById(id));
+}
+
+CharacterSheet *CharacterSheetController::characterSheetFromId(const QString &id) const
+{
+    return m_model->getCharacterSheetById(id);
 }

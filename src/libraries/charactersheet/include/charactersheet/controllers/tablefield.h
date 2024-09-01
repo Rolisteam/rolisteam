@@ -56,7 +56,6 @@ public:
     };
     explicit TableFieldController(bool addCount= true, QObject* parent= nullptr);
     explicit TableFieldController(QPointF topleft, bool addCount= true, QObject* parent= nullptr);
-    void fillModel();
     virtual ~TableFieldController();
 
     TableModel* model() const;
@@ -105,6 +104,7 @@ signals:
     void rowCountChanged();
     void columnCountChanged(bool, int);
     void displayedRowChanged();
+    void requestUpdate();
 
 protected:
     void updateColumnSize();

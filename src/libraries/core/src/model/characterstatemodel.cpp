@@ -120,7 +120,7 @@ int CharacterStateModel::indexFromId(const QString& id) const
 {
     if(pref == "isPlayer")
     {
-        // m_isGM= !PreferencesManager::getInstance()->value(pref, true).toBool();
+
     }
 }*/
 /*NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageReader* msg)

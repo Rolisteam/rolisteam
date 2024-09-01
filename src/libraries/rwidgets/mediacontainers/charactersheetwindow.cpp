@@ -58,9 +58,14 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
 
     setObjectName("CharacterSheetViewer");
     connect(m_sheetCtrl, &CharacterSheetController::sheetCreated, this, &CharacterSheetWindow::addTabWithSheetView);
-    /*connect(&m_model, SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)), this,
-            SLOT(addTabWithSheetView(CharacterSheet*)));*/
 
+    if(m_sheetCtrl->remote())
+    {
+        auto const& set = m_sheetCtrl->sheetData();
+        std::for_each(std::begin(set), std::end(set), [this](const CharacterSheetData& data){
+            addTabWithSheetView(data.sheet, data.character);
+        });
+    }
 
 
     setWindowIcon(QIcon::fromTheme("treeview"));
@@ -70,7 +75,7 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
 
     resize(m_preferences->value("charactersheetwindows/width", 400).toInt(),
            m_preferences->value("charactersheetwindows/height", 600).toInt());
-    updateTitle();
+
 
     m_ui->m_treeview->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_ui->m_treeview, &QTreeView::customContextMenuRequested, this, &CharacterSheetWindow::displayCustomMenu);
@@ -91,6 +96,8 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     connect(m_sheetCtrl, &CharacterSheetController::cornerEnabledChanged, button, &QToolButton::setEnabled);
     connect(button, &QPushButton::clicked, this,
             [button, this]() { contextMenuForTabs(QPoint(button->pos().x(), 0)); });
+
+    updateTitle();
 }
 CharacterSheetWindow::~CharacterSheetWindow() {}
 void CharacterSheetWindow::addLine()
@@ -284,6 +291,7 @@ bool CharacterSheetWindow::eventFilter(QObject* object, QEvent* event)
 
 void CharacterSheetWindow::stopSharing()
 {
+    m_sheetCtrl->stopSharing(m_ui->m_tabwidget->currentIndex()-1);
     // SheetWidget* wid= dynamic_cast<SheetWidget*>(m_ui->m_tabwidget->currentWidget());
     // if(nullptr != wid)
     {
@@ -402,19 +410,6 @@ void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
          m_sheetToPerson.remove(sheet);
      }*/
 }
-bool CharacterSheetWindow::hasCharacterSheet(QString id)
-{
-    Q_UNUSED(id)
-    /*if(nullptr == m_model.getCharacterSheetById(id))
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }*/
-    return false;
-}
 
 void CharacterSheetWindow::removeConnection(Player* player)
 {
@@ -441,28 +436,18 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet, Characte
     if(chSheet == nullptr || nullptr == character)
         return;
 
-    auto qmlView= new SheetWidget(this);
+    auto qmlView= new SheetWidget(chSheet, m_sheetCtrl->imageModel(), this);
     connect(qmlView, &SheetWidget::customMenuRequested, this, &CharacterSheetWindow::contextMenuForTabs);
-    auto imageProvider= new RolisteamImageProvider(m_sheetCtrl->imageModel());
-    auto engineQml= qmlView->engine();
-
-    engineQml->addImageProvider(QLatin1String("rcs"), imageProvider);
-    engineQml->addImportPath(QStringLiteral("qrc:/charactersheet/qml"));
+    auto engineQml = qmlView->engine();
     engineQml->rootContext()->setContextProperty("_character", character);
 
-    for(int i= 0; i < chSheet->getFieldCount(); ++i)
-    {
-        TreeSheetItem* field= chSheet->getFieldAt(i);
-        if(nullptr != field)
-        {
-            qmlView->engine()->rootContext()->setContextProperty(field->id(), field);
-        }
-    }
-
     QTemporaryFile fileTemp;
-
+#ifdef QT_DEBUG
+    fileTemp.setAutoRemove(false);
+#endif
     if(fileTemp.open()) // QIODevice::WriteOnly
     {
+        qDebug() << "qmlCode: " <<m_sheetCtrl->qmlCode();
         fileTemp.write(m_sheetCtrl->qmlCode().toUtf8());
         fileTemp.close();
     }
@@ -471,13 +456,6 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet, Characte
     qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     readErrorFromQML(qmlView->errors());
     m_errorList.append(qmlView->errors());
-
-    QObject* root= qmlView->rootObject();
-
-    // CONNECTION TO SIGNAL FROM QML CHARACTERSHEET
-    connect(root, SIGNAL(showText(QString)), m_sheetCtrl, SIGNAL(showText(QString)));
-    connect(root, SIGNAL(rollDiceCmd(QString, bool)), m_sheetCtrl, SLOT(rollDice(QString, bool)));
-    connect(root, SIGNAL(rollDiceCmd(QString)), m_sheetCtrl, SLOT(rollDice(QString)));
 
     qmlView->setSheet(chSheet);
     int id= m_ui->m_tabwidget->addTab(qmlView, chSheet->getTitle());
@@ -491,6 +469,7 @@ void CharacterSheetWindow::readErrorFromQML(QList<QQmlError> list)
     for(auto& error : list)
     {
         emit errorOccurs(error.toString());
+        qDebug() << error.toString();
     }
 }
 

@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
     Q_UNUSED(serializedData)
     QUndoStack undoStack;
 
-    CharacterSheetUpdater updater(&campaignManager);
+    CharacterSheetUpdater updater(nullptr ,&campaignManager);
 
     CharacterSheetController ctrl;
     QUrl path(QString("file://%1/manual/charactersheet/campaign/media/tf2.rcs").arg(tests::root_path));

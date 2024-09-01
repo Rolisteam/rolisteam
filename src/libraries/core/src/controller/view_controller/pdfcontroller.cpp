@@ -92,7 +92,8 @@ void PdfController::copyImage(const QPixmap& image)
 
 void PdfController::copyText(const QString& text)
 {
-    // TODO wait to fix it from the view
+    auto clip= QApplication::clipboard();
+    clip->setText(text, QClipboard::Clipboard);
 }
 
 void PdfController::shareAsPdf()

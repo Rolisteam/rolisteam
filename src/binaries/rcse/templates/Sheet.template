@@ -1,0 +1,63 @@
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Rolisteam
+import charactersheet
+import Qt.labs.qmlmodels
+import Helper
+{{ imports }}
+
+Flickable {
+    id: root
+    contentWidth:  {{ width }}
+    contentHeight: {{ height }}
+    boundsBehavior: Flickable.StopAtBounds
+    SheetController {
+        id: sheetCtrl
+        appCtrl: appCtrl
+        parentWidth: root.width
+        imageBgWidth: {{ baseWidth }}
+        currentPage: 0
+        zoomLevel: 1.0
+        adaptWidthToPage: {{ pageAdapt }}
+        pageMax: {{ pageMax }}
+    }
+    ContextualMenu {
+        id: _menu
+        ctrl: sheetCtrl
+    }
+    focus: true
+    Keys.onLeftPressed: sheetCtrl.nextPage()
+    Keys.onRightPressed: sheetCtrl.previousPage()
+    MouseArea {
+        anchors.fill:parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: (mouse)=>{
+            if(mouse.button & Qt.LeftButton)
+                root.focus = true
+            else if(mouse.button & Qt.RightButton)
+            {
+                _menu.x = mouse.x
+                _menu.y = mouse.y
+                _menu.open()
+            }
+        }
+    }
+
+{{ headCode }}
+
+
+    {{ mainItem }} {
+        id: main
+        objectName: "main"
+        width: {{ mainWidth }}
+        height: {{ mainHeight }}
+        {{ mainSource }}
+{{ fields }}
+    }
+
+
+
+{{ bottomCode }}
+
+}

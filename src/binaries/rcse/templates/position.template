@@ -1,0 +1,4 @@
+{{ indent }}    x: {{ x }}
+{{ indent }}    y: {{ y }}
+{{ indent }}    width: {{ width }}
+{{ indent }}    height: {{ height }}

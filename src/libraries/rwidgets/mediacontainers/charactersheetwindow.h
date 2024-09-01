@@ -69,7 +69,6 @@ public:
     virtual ~CharacterSheetWindow();
     QJsonDocument saveFile();
     void addCharacterSheetSlot(CharacterSheet*);
-    bool hasCharacterSheet(QString id);
 signals:
     void addWidgetToMdiArea(QWidget*, QString str);
     void rollDiceCmd(QString str, QString label, bool withAlias);
@@ -108,14 +107,12 @@ private:
     Ui::CharacterSheetWindow* m_ui;
     QString m_qmlUri;
 
-    // QMap<SheetWidget*,CharacterSheet*> m_characterSheetlist;
     CharacterSheet* m_currentCharacterSheet;
     QQmlComponent* m_sheetComponent;
 
     QJsonObject m_data;
     QList<QQmlError> m_errorList;
 
-    // Translation optimisation
     const QString m_shareTo= tr("Share To");
     const QString m_filterString= tr("Character Sheet Data files (*.rcs)");
 };

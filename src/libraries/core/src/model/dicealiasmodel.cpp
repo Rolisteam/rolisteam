@@ -127,7 +127,7 @@ void DiceAliasModel::appendAlias()
 {
     if(pref == "isPlayer")
     {
-        m_isGM= !PreferencesManager::getInstance()->value(pref, true).toBool();
+        m_isGM=
     }
 }*/
 

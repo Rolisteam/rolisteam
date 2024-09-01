@@ -12,7 +12,7 @@ TableView {
     signal addLine()
     signal removeLine(int line)
 
-    interactive: count>maxRow?true:false
+    interactive: rows>maxRow?true:false
     clip: true
     MouseArea {
         id: listmouseid_1

@@ -42,7 +42,7 @@
 #include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/minditem.h"
 #include "mindmap/data/mindnode.h"
-
+#include "utils/iohelper.h"
 #include "mindmap/model/imagemodel.h"
 
 #include "network/networkmessagereader.h"
@@ -76,40 +76,50 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
     namespace hu= helper::utils;
     using std::placeholders::_1;
 
-    std::map<QString, QVariant> mapData;
+    std::map<QString, QVariant> sheetData;
 
     for(auto it= std::begin(params); it != std::end(params); ++it)
     {
-        mapData.insert({it.key(), it.value()});
+        sheetData.insert({it.key(), it.value()});
     }
-    hu::setParamIfAny<QString>(ck::KEY_NAME, mapData, std::bind(&CharacterSheetController::setName, sheetCtrl, _1));
-    hu::setParamIfAny<QString>(ck::KEY_QML, mapData, std::bind(&CharacterSheetController::setQmlCode, sheetCtrl, _1));
-    hu::setParamIfAny<QString>(ck::KEY_GMID, mapData,
+    hu::setParamIfAny<QString>(ck::KEY_NAME, sheetData, std::bind(&CharacterSheetController::setName, sheetCtrl, _1));
+    hu::setParamIfAny<QString>(ck::KEY_QML, sheetData, std::bind(&CharacterSheetController::setQmlCode, sheetCtrl, _1));
+    hu::setParamIfAny<QString>(ck::KEY_GMID, sheetData,
                                std::bind(&CharacterSheetController::setGameMasterId, sheetCtrl, _1));
-    hu::setParamIfAny<QByteArray>(ck::KEY_IMAGEDATA, mapData,
+    hu::setParamIfAny<QString>(ck::KEY_OWNERID, sheetData,
+                               std::bind(&CharacterSheetController::setGameMasterId, sheetCtrl, _1));
+    hu::setParamIfAny<QByteArray>(ck::KEY_IMAGEDATA, sheetData,
                                   [sheetCtrl](const QByteArray& array)
                                   {
                                       auto imgModel= sheetCtrl->imageModel();
                                       IOWorker::fetchImageModel(imgModel, IOHelper::byteArrayToJsonArray(array));
                                   });
-    hu::setParamIfAny<QByteArray>(ck::KEY_ROOTSECTION, mapData,
+    hu::setParamIfAny<QByteArray>(ck::KEY_ROOTSECTION, sheetData,
                                   [sheetCtrl](const QByteArray& array)
                                   {
                                       auto sheetModel= sheetCtrl->model();
                                       // sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
                                   });
     hu::setParamIfAny<QByteArray>(
-        ck::KEY_DATA, mapData,
-        [sheetCtrl, mapData](const QByteArray& array)
+        ck::KEY_CHARACTERDATA, sheetData,
+        [sheetCtrl, sheetData](const QByteArray& array)
         {
             hu::setParamIfAny<QString>(
-                ck::KEY_CHARACTERID, mapData,
+                ck::KEY_CHARACTERID, sheetData,
                 [sheetCtrl, array](const QString& characterId)
-                { sheetCtrl->addCharacterSheet(IOHelper::byteArrayToJsonObj(array), characterId); });
+                {
+                    sheetCtrl->addCharacterSheet(IOHelper::textByteArrayToJsonObj(array), characterId);
+                });
         });
-    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, mapData,
+    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, sheetData,
                                   [sheetCtrl](const QByteArray& array)
                                   { IOHelper::readCharacterSheetController(sheetCtrl, array); });
+    if(!params.contains(ck::KEY_SERIALIZED))
+    {
+        hu::setParamIfAny<QString>(ck::KEY_PATH, sheetData, [sheetCtrl](const QString& path){
+            IOHelper::readCharacterSheetController(sheetCtrl, utils::IOHelper::loadFile(path));
+        });
+    }
     return sheetCtrl;
 }
 

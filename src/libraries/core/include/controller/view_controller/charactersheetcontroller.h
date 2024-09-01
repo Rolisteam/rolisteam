@@ -69,14 +69,16 @@ public:
     bool cornerEnabled() const;
 
     void updateFieldFrom(const QString& sheetId, const QJsonObject& obj, const QString& parentPath);
-
     static void setCharacterModel(CharacterModel* model);
-
     void setRootJson(const QJsonObject& newRootJson);
+    const QList<CharacterSheetData>& sheetData() const;
+    bool hasCharacterSheet(const QString& id) const;
+    CharacterSheet* characterSheetFromId(const QString& id) const;
 
 public slots:
     void shareCharacterSheetTo(const QString& uuid, int idx);
     void shareCharacterSheetToAll(int idx);
+    void stopSharing(int idx);
     void setQmlCode(const QString& qml);
     void addCharacterSheet(const QJsonObject& data, const QString& charId);
     void setGameMasterId(const QString& id);
@@ -87,6 +89,7 @@ signals:
     void sheetCreated(CharacterSheet* sheet, Character* character);
     void gameMasterIdChanged();
     void rootJsonChanged();
+    void stopSharing(CharacterSheet* sheet);
     void share(CharacterSheetController* ctrl, CharacterSheet* sheet, CharacterSheetUpdater::SharingMode mode,
                Character* character, const QStringList& recipients);
 
@@ -94,7 +97,7 @@ private:
     std::unique_ptr<CharacterSheetModel> m_model;
     std::unique_ptr<charactersheet::ImageModel> m_imageModel;
     static QPointer<CharacterModel> m_characterModel;
-    std::set<CharacterSheetData> m_sheetData;
+    QList<CharacterSheetData> m_sheetData;
     QJsonObject m_rootJson;
     QString m_qmlCode;
     QString m_gameMasterId;

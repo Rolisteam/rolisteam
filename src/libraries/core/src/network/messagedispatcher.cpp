@@ -266,13 +266,13 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         switch(act)
         {
         case NetMsg::addCharacterSheet:
-            str= QStringLiteral("addCharacterList");
+            str= QStringLiteral("addCharacterSheet");
             break;
         case NetMsg::updateFieldCharacterSheet:
-            str= QStringLiteral("moveCharacter");
+            str= QStringLiteral("updateFieldCharacterSheet");
             break;
         case NetMsg::closeCharacterSheet:
-            str= QStringLiteral("changeCharacterState");
+            str= QStringLiteral("closeCharacterSheet");
             break;
         default:
             str= QStringLiteral("Unknown Action");

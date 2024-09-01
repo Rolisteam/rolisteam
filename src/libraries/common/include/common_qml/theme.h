@@ -23,6 +23,7 @@
 #include <QFont>
 #include <QObject>
 #include <QQmlPropertyMap>
+#include <QQmlEngine>
 #include <common_qml/common_qml_global.h>
 #include <map>
 
@@ -43,6 +44,7 @@ public:
 class COMMON_QML_EXPORT Theme : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)
     Q_PROPERTY(QString folder READ folder NOTIFY folderChanged)
     Q_PROPERTY(QFont imFont READ imFont WRITE setImFont NOTIFY imFontChanged FINAL)

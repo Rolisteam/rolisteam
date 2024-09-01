@@ -23,6 +23,7 @@
 #include <QFileInfo>
 #include <QStringDecoder>
 #include <QTextDocument>
+#include "utils/iohelper.h"
 
 NoteController::NoteController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::NOTES, parent)
@@ -75,12 +76,7 @@ void NoteController::loadText()
     }
     else
     {
-        // TODO use helper/worker
-        QFile file(url().toLocalFile());
-        if(!file.open(QFile::ReadOnly))
-            return;
-
-        QByteArray data= file.readAll();
+        QByteArray data= utils::IOHelper::loadFile(url().toLocalFile());
         auto encoding= QStringConverter::encodingForHtml(data);
         auto toHtml= QStringDecoder(encoding.value());
         QString str= toHtml.decode(data);

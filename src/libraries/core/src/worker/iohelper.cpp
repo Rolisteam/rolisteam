@@ -182,8 +182,8 @@ QJsonObject IOHelper::textByteArrayToJsonObj(const QByteArray& data)
 
 QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)
 {
-    auto doc= QCborValue(data);
-    return doc.toJsonValue().toArray();
+    QJsonDocument doc= QJsonDocument::fromJson(data);
+    return doc.array();
 }
 
 QByteArray IOHelper::jsonObjectToByteArray(const QJsonObject& obj)
@@ -1015,8 +1015,6 @@ void IOHelper::readMindmapControllerBase(mindmap::MindMapControllerBase* ctrl, c
             static_cast<mindmap::LinkController::Direction>(obj[Core::jsonctrl::Mindmap::JSON_LINK_DIRECTION].toInt()));
         model->appendItem({link});
     }
-
-    // TODO read data to define mindmapcontroller.
 }
 
 bool IOHelper::mergePlayList(const QString& source, const QString& dest)

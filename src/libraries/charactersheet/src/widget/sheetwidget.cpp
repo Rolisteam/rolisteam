@@ -1,9 +1,37 @@
+#include "charactersheet/rolisteamimageprovider.h"
 #include <charactersheet_widgets/sheetwidget.h>
 
-#include <QContextMenuEvent>
 #include <charactersheet/charactersheet.h>
+#include <charactersheet/charactersheetitem.h>
+#include <charactersheet/csitem.h>
 
-SheetWidget::SheetWidget(QWidget* parent) : QQuickWidget(parent) {}
+#include <QContextMenuEvent>
+#include <QQmlEngine>
+#include <QQmlContext>
+
+SheetWidget::SheetWidget(CharacterSheet* chSheet, charactersheet::ImageModel* imgModel, QWidget* parent) : QQuickWidget(parent)
+{
+    auto engineQml = this->engine();
+    auto imageProvider= new RolisteamImageProvider(imgModel);
+
+    engineQml->addImageProvider(QLatin1String("rcs"), imageProvider);
+    engineQml->addImportPath(QStringLiteral("qrc:/charactersheet/qml"));
+    engineQml->addImportPath(QStringLiteral("qrc:/qml"));
+    engineQml->addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
+
+
+    if(chSheet)
+    {
+        for(int i= 0; i < chSheet->getFieldCount(); ++i)
+        {
+            TreeSheetItem* field= chSheet->getFieldAt(i);
+            if(nullptr != field)
+            {
+                engineQml->rootContext()->setContextProperty(field->id(), field);
+            }
+        }
+    }
+}
 
 void SheetWidget::mousePressEvent(QMouseEvent* event)
 {

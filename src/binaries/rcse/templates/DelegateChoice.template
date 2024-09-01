@@ -1,0 +1,4 @@
+{{ indent }}DelegateChoice {
+{{ indent }}    column: {{ value }}
+{{ item }}
+{{ indent }}}

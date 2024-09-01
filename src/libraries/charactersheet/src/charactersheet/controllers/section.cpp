@@ -165,6 +165,7 @@ void Section::load(const QJsonObject& json)
         {
             TableFieldController* field= new TableFieldController();
             connect(field, &TableFieldController::lineMustBeAdded, this, &Section::addLineToTableField);
+            field->init();
             item= field;
             item->load(obj);
         }

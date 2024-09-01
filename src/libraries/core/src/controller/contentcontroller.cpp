@@ -96,13 +96,22 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     auto fModel3= new FilteredContentModel(Core::ContentType::MINDMAP);
     fModel3->setSourceModel(m_contentModel.get());
 
+    auto fModel4= new FilteredContentModel(Core::ContentType::CHARACTERSHEET);
+    fModel4->setSourceModel(m_contentModel.get());
+
     std::unique_ptr<VMapUpdater> vmapUpdater(new VMapUpdater(campaign, fModel));
     std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater(fModel2, campaign));
     std::unique_ptr<WebViewUpdater> webviewUpdater(new WebViewUpdater(campaign));
     std::unique_ptr<MindMapUpdater> mindMapUpdater(new MindMapUpdater(fModel3, campaign));
     std::unique_ptr<GenericUpdater> imageUpdater(new GenericUpdater(campaign));
     std::unique_ptr<GenericUpdater> notesUpdater(new GenericUpdater(campaign));
-    std::unique_ptr<CharacterSheetUpdater> characterSheetUpdater(new CharacterSheetUpdater(campaign));
+    std::unique_ptr<CharacterSheetUpdater> characterSheetUpdater(new CharacterSheetUpdater(fModel4, campaign));
+    connect(characterSheetUpdater.get(), &CharacterSheetUpdater::characterSheetAdded, this,
+            [this](NetworkMessageReader* msg) {
+                auto media= Media::MediaFactory::createRemoteMedia(Core::ContentType::CHARACTERSHEET,
+                                                                   msg, localColor(), localIsGM());
+                m_contentModel->appendMedia(media);
+            });
     std::unique_ptr<GenericUpdater> pdfUpdater(new GenericUpdater(campaign));
     MindMapController::setMindMapUpdater(mindMapUpdater.get());
 

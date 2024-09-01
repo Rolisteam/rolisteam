@@ -470,7 +470,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("CharacterSheet")             << static_cast<QObject*>(new CharacterSheet()) << true;
     QTest::addRow("CharacterSheetController") << static_cast<QObject*>(new CharacterSheetController()) << true;
     QTest::addRow("CharacterSheetModel")        << static_cast<QObject*>(new CharacterSheetModel()) << true;
-    QTest::addRow("CharacterSheetUpdater") << static_cast<QObject*>(new CharacterSheetUpdater({})) << true;
+    QTest::addRow("CharacterSheetUpdater") << static_cast<QObject*>(new CharacterSheetUpdater(nullptr,{})) << true;
     QTest::addRow("CharacterSheetWindow") << static_cast<QObject*>(new CharacterSheetWindow(nullptr)) << true;
     QTest::addRow("CharacterStateModel") << static_cast<QObject*>(new CharacterStateModel()) << true;
     QTest::addRow("CharacterVision") << static_cast<QObject*>(new CharacterVision()) << true;
@@ -685,7 +685,7 @@ void QObjectsTest::propertiesTest_data()
     sheetCtrl->setPageMax(100);
     QTest::addRow("SheetController")  << static_cast<QObject*>(sheetCtrl)<< true ;
     QTest::addRow("SheetProperties")  << static_cast<QObject*>(new SheetProperties(new QmlGeneratorController()))<< true ;
-    QTest::addRow("SheetWidget")                << static_cast<QObject*>(new SheetWidget()) << true;
+    QTest::addRow("SheetWidget")                << static_cast<QObject*>(new SheetWidget(nullptr, nullptr)) << true;
     QTest::addRow("ShortCutEditorDialog") << static_cast<QObject*>(new ShortCutEditorDialog()) << true;
     QTest::addRow("ShortCutModel") << static_cast<QObject*>(new ShortCutModel()) << true;
     QTest::addRow("ShortcutVisitor") << static_cast<QObject*>(new ShortcutVisitor()) << true;

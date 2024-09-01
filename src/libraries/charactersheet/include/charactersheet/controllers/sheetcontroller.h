@@ -81,10 +81,10 @@ signals:
 private:
     QPointer<AbstractApplicationController> m_appCtrl;
     int m_pageMax{0};
-    int m_currentPage= 0;
-    qreal m_parentWidth;
-    qreal m_imageBgWidth;
-    bool m_adaptWidthToPage= true;
+    int m_currentPage{0};
+    qreal m_parentWidth{0};
+    qreal m_imageBgWidth{0};
+    bool m_adaptWidthToPage{true};
 };
 
 #endif // SHEETCONTROLLER_H

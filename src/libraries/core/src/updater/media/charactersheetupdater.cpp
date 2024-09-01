@@ -26,13 +26,36 @@
 #include "charactersheet/csitem.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "data/character.h"
+#include "media/mediafactory.h"
 #include "network/networkmessagewriter.h"
 #include "worker/messagehelper.h"
+#include "worker/iohelper.h"
 
-CharacterSheetUpdater::CharacterSheetUpdater(campaign::CampaignManager* campaign, QObject* parent)
-    : MediaUpdaterInterface(campaign, parent)
+
+namespace {
+
+CharacterSheetController* findController(const QString& mediaId, const QString& sheetId,const QList<QPointer<CharacterSheetController>>& ctrls)
+{
+    auto it = std::find_if(std::begin(ctrls), std::end(ctrls),
+                          [mediaId, sheetId](const QPointer<CharacterSheetController>& ctrl){
+                              return ctrl->uuid() == mediaId && ctrl->hasCharacterSheet(sheetId);
+                          });
+
+    if(it == std::end(ctrls))
+        return nullptr;
+
+    return (*it).get();
+}
+
+}
+
+
+
+CharacterSheetUpdater::CharacterSheetUpdater(FilteredContentModel* model,campaign::CampaignManager* campaign, QObject* parent)
+    : MediaUpdaterInterface(campaign, parent), m_model(model)
 {
     // comment
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterSheetCategory, this);
 }
 
 void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
@@ -52,11 +75,26 @@ void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
             []() {
 
             });
+
+    if(csCtrl->remote())
+    {
+
+        auto const& data = csCtrl->sheetData();
+        qDebug() << "[sheet] Remote connect to all sheets:" << data.size();
+        for(auto const& sheetInfo: data )
+        {
+            m_sharingData.append({csCtrl->uuid(), sheetInfo.sheet->uuid(),
+                                  sheetInfo.character->uuid(),
+                                  CharacterSheetUpdater::SharingMode::ONE,
+                                  sheetInfo.sheet, {csCtrl->ownerId()}});
+            connect(sheetInfo.sheet, &CharacterSheet::updateField, this, &CharacterSheetUpdater::updateField);
+        }
+    }
 }
 
 void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl, CharacterSheet* sheet,
                                                   CharacterSheetUpdater::SharingMode mode, Character* character,
-                                                  const QStringList& recipients, bool gmToPlayer)
+                                                  const QStringList& recipients)
 {
     if(!sheet || (recipients.isEmpty() && mode != SharingMode::ALL))
         return;
@@ -69,7 +107,7 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
         if(it != std::end(m_sharingData))
         {
             auto list= it->recipients;
-            for(auto rec : list)
+            for(auto& rec : list)
             {
                 MessageHelper::stopSharingSheet(it->sheetId, it->ctrlId, rec);
             }
@@ -81,25 +119,65 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
         MessageHelper::shareCharacterSheet(sheet, character, ctrl);
     }
 
-    connect(sheet, &CharacterSheet::updateField, this,
-            [recipients, mode, ctrl](CharacterSheet* sheet, CSItem* itemSheet, const QString& path)
-            {
-                if(nullptr == sheet)
-                    return;
+    connect(sheet, &CharacterSheet::updateField, this, &CharacterSheetUpdater::updateField);
+}
 
-                NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet);
-                if(mode != SharingMode::ALL)
-                {
-                    msg.setRecipientList(recipients, NetworkMessage::OneOrMany);
-                }
-                msg.string8(ctrl->uuid());
-                msg.string8(sheet->uuid());
-                msg.string32(path);
-                QJsonObject object;
-                itemSheet->saveDataItem(object);
-                QJsonDocument doc;
-                doc.setObject(object);
-                msg.byteArray32(doc.toJson());
-                msg.sendToServer();
-            });
+NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageReader *msg)
+{
+    if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::addCharacterSheet))
+    {
+        emit characterSheetAdded(msg);
+    }
+    else if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet))
+    {
+        qDebug() << "[sheet] NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet";
+        auto idMedia = msg->string8();
+        auto idSheet = msg->string8();
+        auto ctrl = findController(idMedia, idSheet, m_ctrls);
+        qDebug() << "[sheet]" << idMedia << idSheet << m_ctrls.size() << ctrl;
+        if(ctrl)
+        {
+            qDebug() << "[sheet] inside if";
+            auto path = msg->string32();
+            auto array = msg->byteArray32();
+            auto sheet = ctrl->characterSheetFromId(idSheet);
+            if(sheet)
+            {
+                qDebug() << "[sheet] inside if sheet";
+                sheet->setFieldData(IOHelper::textByteArrayToJsonObj(array), path);
+            }
+        }
+    }
+
+    return NetWorkReceiver::NONE;
+}
+
+void CharacterSheetUpdater::updateField(CharacterSheet* sheet, CSItem* itemSheet, const QString& path)
+{
+    if(nullptr == sheet)
+        return;
+
+    std::for_each(std::begin(m_sharingData), std::end(m_sharingData), [sheet, itemSheet, path]
+                  (const CSSharingInfo& info){
+
+        if(info.sheet != sheet)
+            return;
+
+
+        NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet);
+        if(info.mode != SharingMode::ALL)
+        {
+            msg.setRecipientList(info.recipients, NetworkMessage::OneOrMany);
+        }
+        msg.string8(info.ctrlId);
+        msg.string8(sheet->uuid());
+        msg.string32(path);
+        QJsonObject object;
+        itemSheet->saveDataItem(object);
+        QJsonDocument doc;
+        doc.setObject(object);
+        msg.byteArray32(doc.toJson());
+        msg.sendToServer();
+
+    });
 }

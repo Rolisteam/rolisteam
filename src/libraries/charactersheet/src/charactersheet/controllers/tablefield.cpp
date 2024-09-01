@@ -92,6 +92,7 @@ void TableFieldController::addLine()
     {
         m_model->addRow();
     }
+    emit requestUpdate();
 }
 
 void TableFieldController::addColumn()
@@ -106,7 +107,7 @@ void TableFieldController::addColumn()
     col->setValueFrom(TreeSheetItem::WIDTH, 0);
     col->setValueFrom(TreeSheetItem::HEIGHT, 20);
     m_model->addColumn(col);
-
+    emit requestUpdate();
 }
 
 void TableFieldController::removeColumn(int index)
@@ -235,6 +236,7 @@ void TableFieldController::save(QJsonObject& json, bool exp)
     json["formula"]= m_formula;
     json["tooltip"]= m_tooltip;
     json["generatedCode"]= m_generatedCode;
+    json["displayedRow"]=m_displayedRow;
 
     json["clippedText"]= m_fitFont;
 
@@ -283,6 +285,7 @@ void TableFieldController::load(const QJsonObject& json)
     m_value= json["value"].toString();
     m_label= json["label"].toString();
     m_tooltip= json["tooltip"].toString();
+    m_displayedRow= json["displayedRow"].toInt();
 
     m_fieldType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
     m_fitFont= json["clippedText"].toBool();
@@ -361,30 +364,6 @@ void TableFieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool
 bool TableFieldController::mayHaveChildren() const
 {
     return true;
-}
-
-/*int TableFieldController::lineNumber() const
-{
-    if(nullptr == m_model)
-        return -1;
-
-    return m_model->rowCount(QModelIndex());
-}
-
-int TableFieldController::itemPerLine() const
-{
-    if(nullptr == m_model)
-        return -1;
-
-    return m_model->columnCount(QModelIndex());
-}*/
-
-void TableFieldController::fillModel()
-{
-    if(!m_model)
-        return;
-    m_model->clear();
-    // m_tableCanvasField->fillLineModel(m_model, this);
 }
 
 void TableFieldController::loadDataItem(const QJsonObject& json)

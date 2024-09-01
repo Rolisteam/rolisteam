@@ -21,8 +21,9 @@
 #define CHARACTERSHEETUPDATER_H
 
 #include <QObject>
+#include <QPointer>
 #include <core_global.h>
-
+#include "model/contentmodel.h"
 #include "mediaupdaterinterface.h"
 
 namespace campaign
@@ -34,6 +35,7 @@ struct CSSharingInfo;
 class CharacterSheetController;
 class CharacterSheet;
 class Character;
+class CSItem;
 class NetworkMessageReader;
 class CORE_EXPORT CharacterSheetUpdater : public MediaUpdaterInterface
 {
@@ -48,15 +50,26 @@ public:
     };
     Q_ENUM(SharingMode)
 
-    CharacterSheetUpdater(campaign::CampaignManager* campaign, QObject* parent= nullptr);
+    CharacterSheetUpdater(FilteredContentModel* model,campaign::CampaignManager* campaign, QObject* parent= nullptr);
     void addMediaController(MediaControllerBase* ctrl) override;
 
     void shareCharacterSheetTo(CharacterSheetController* ctrl, CharacterSheet* sheet,
                                CharacterSheetUpdater::SharingMode mode, Character* character,
-                               const QStringList& recipients, bool gmToPlayer= true);
+                               const QStringList& recipients);
+
+
+
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+private slots:
+    void updateField(CharacterSheet* sheet, CSItem* itemSheet, const QString& path);
+
+
+signals:
+    void characterSheetAdded(NetworkMessageReader* msg);
 
 private:
     QList<QPointer<CharacterSheetController>> m_ctrls;
+    QPointer<FilteredContentModel> m_model;
     QList<CSSharingInfo> m_sharingData;
 };
 

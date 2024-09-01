@@ -213,18 +213,6 @@ QString CampaignEditor::saveAvatar(const QString& id, const QByteArray& array)
     return dest;
 }
 
-/*QString CampaignEditor::addFileIntoCharacters(const QString& src)
-{
-    // TODO create command
-    // IOHelper::copyFile();
-    // IOHelper::writeFile(src, array, true);
-}
-
-bool CampaignEditor::removeFileFromCharacters(const QString& path)
-{
-    // IOHelper::removeFile(path);
-}*/
-
 bool CampaignEditor::addMedia(const QString& id, const QString& dest, const QByteArray& array)
 {
     QFileInfo file(dest);

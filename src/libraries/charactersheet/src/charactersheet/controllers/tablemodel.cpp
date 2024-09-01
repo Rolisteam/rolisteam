@@ -64,7 +64,10 @@ QVariant TableModel::data(const QModelIndex& index, int role) const
 
 QHash<int, QByteArray> TableModel::roleNames() const
 {
-    return {{ValueRole, "value"},{FormulaRole, "formula"}};
+    auto res = QAbstractTableModel::roleNames();
+    res.insert(ValueRole, "value");
+    res.insert(FormulaRole, "formula");
+    return res;
 }
 void TableModel::addRows(int rCount)
 {
@@ -96,7 +99,7 @@ void TableModel::addColumn(FieldController *field)
     m_columns.append(field);
     if(m_data.isEmpty())
         addRow();
-    for(auto r : m_data)
+    for(auto& r : m_data)
     {
         r.append(CellData());
     }
@@ -143,9 +146,15 @@ void TableModel::save(QJsonObject& json) const
 {
 
     QJsonArray columnJson;
+    for(auto& col : m_columns)
+    {
+        QJsonObject column;
+        col->save(column);
+        columnJson.append(column);
+    }
 
            // TODO
-        QJsonArray TableJson;
+    QJsonArray TableJson;
     for(auto& row : m_data)
     {
         QJsonArray rowJson;
@@ -185,7 +194,16 @@ void TableModel::load(const QJsonObject& json, TreeSheetItem* parent)
     auto columns = json[json::columnsDefinitionKey].toArray();
 
     beginResetModel();
-    for(auto const& array : json)
+    m_columns.clear();
+    for(auto const& col : columns)
+    {
+        auto field= new FieldController(TreeSheetItem::FieldItem, true);
+        field->setParent(parent);
+        field->load(col.toObject());
+        m_columns.append(field);
+    }
+    m_data.clear();
+    for(auto const& array : dataJson)
     {
         QList<CellData> rowData;
         QJsonArray row= array.toArray();
@@ -295,10 +313,11 @@ void TableModel::removeColumn(int index)
 
 bool TableModel::setData(const QModelIndex& index, const QVariant& data, int role)
 {
+    qDebug() << "sedData" << index << data<< role;
     if(!index.isValid())
         return false;
 
-    auto cell = m_data[index.row()][index.column()];
+    auto& cell = m_data[index.row()][index.column()];
 
     auto text = data.toString();
 

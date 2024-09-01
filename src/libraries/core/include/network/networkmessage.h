@@ -95,7 +95,7 @@ enum Action
     ChangeCharacterPropertyAct,
 
     // CharacterSheetCategory
-    addCharacterSheet,
+    addCharacterSheet= 0,
     updateFieldCharacterSheet,
     closeCharacterSheet,
 

@@ -259,6 +259,7 @@ namespace keys
 constexpr char const* KEY_AVATAR{"avatar"};
 constexpr char const* KEY_BGCOLOR{"bgcolor"};
 constexpr char const* KEY_CHARACTERID{"characterId"};
+constexpr char const* KEY_CHARACTERDATA{"charaterData"};
 constexpr char const* KEY_CHARACTERVISION{"charactervision"};
 constexpr char const* KEY_COLLISION{"collision"};
 constexpr char const* KEY_COLOR{"color"};

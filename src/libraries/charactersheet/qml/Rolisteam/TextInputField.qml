@@ -17,17 +17,18 @@ TextField {
 
     function computeSizeFont()
     {
-        if(parent.clippedText)
+        if(!root.clippedText)
+            return;
+
+        while((contentWidth>root.width)&&(font.pointSize>1)&&(root.width>0))
         {
-            while((contentWidth>root.width)&&(font.pointSize>1)&&(root.width>0))
-            {
-                font.pointSize-=1
-            }
-            while((contentWidth+2<width)&&(contentHeight+2<height))
-            {
-                font.pointSize+=1
-            }
+            font.pointSize-=1
         }
+        while((contentWidth+2<width)&&(contentHeight+2<height))
+        {
+            font.pointSize+=1
+        }
+
     }
 
     selectByMouse: true

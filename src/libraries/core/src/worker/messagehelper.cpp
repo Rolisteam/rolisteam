@@ -344,10 +344,14 @@ void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* charac
     QStringList idList;
     idList << parent->uuid();
     msg.setRecipientList(idList, NetworkMessage::OneOrMany);
-    // msg.string8(parent->uuid());
 
+    // commun data from all medias
     msg.string8(ctrl->uuid());
-    msg.string8(ctrl->name());
+    msg.string32(ctrl->name());
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
+    msg.string32(ctrl->ownerId());
+
+    // specific data
     msg.string8(character->uuid());
 
     QJsonObject object;
@@ -360,15 +364,14 @@ void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* charac
 
     auto imageModel= ctrl->imageModel();
     QJsonArray array= IOWorker::saveImageModel(imageModel);
-    // imageModel->save(array);
     QJsonDocument doc2;
     doc2.setArray(array);
     msg.byteArray32(doc2.toJson());
 
-    auto model= ctrl->model();
-    QJsonDocument doc3;
-    // doc3.setObject(model->rootSectionData());
-    msg.byteArray32(doc3.toJson());
+    //auto model= ctrl->model();
+    //QJsonDocument doc3;
+    //QJsonArray array= IOWorker::saveCharaterSheetModel(model);
+    //msg.byteArray32(doc3.toJson());
 
     msg.sendToServer();
 }
@@ -379,21 +382,18 @@ QHash<QString, QVariant> MessageHelper::readCharacterSheet(NetworkMessageReader*
         return {};
 
     auto hash= readMediaData(msg);
-    auto id= msg->string8();
-    auto name= msg->string8();
+
     auto characterId= msg->string8();
     auto data= msg->byteArray32();
     auto qml= msg->string32();
     auto imageData= msg->byteArray32();
-    auto rootSection= msg->byteArray32();
+    //auto rootSection= msg->byteArray32();
 
-    hash.insert(Core::keys::KEY_ID, id);
-    hash.insert(Core::keys::KEY_NAME, name);
     hash.insert(Core::keys::KEY_CHARACTERID, characterId);
-    hash.insert(Core::keys::KEY_DATA, data);
+    hash.insert(Core::keys::KEY_CHARACTERDATA, data);
     hash.insert(Core::keys::KEY_QML, qml);
     hash.insert(Core::keys::KEY_IMAGEDATA, imageData);
-    hash.insert(Core::keys::KEY_ROOTSECTION, rootSection);
+    //hash.insert(Core::keys::KEY_ROOTSECTION, rootSection);
 
     return hash;
 }
