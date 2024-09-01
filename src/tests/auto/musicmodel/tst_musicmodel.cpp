@@ -26,6 +26,7 @@
 #include <memory>
 
 #include "model/musicmodel.h"
+#include "preferences/preferencesmanager.h"
 
 class TestMusicModel : public QObject
 {
@@ -50,7 +51,7 @@ TestMusicModel::TestMusicModel() {}
 
 void TestMusicModel::init()
 {
-    m_model.reset(new MusicModel());
+    m_model.reset(new MusicModel(new PreferencesManager("anan","annta")));
     new QAbstractItemModelTester(m_model.get());
 }
 

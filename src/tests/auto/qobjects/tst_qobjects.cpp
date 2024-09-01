@@ -187,7 +187,7 @@
 #include "network/treeitem.h"
 #include "pdfmanager.h"
 #include "preferences/preferenceslistener.h"
-#include "preferences/preferencesmanager.h"
+#include "preferences/rcsepreferencesmanager.h"
 #include "qml_components/avatarprovider.h"
 #include "qml_views/include/qml_views/image_selector.h"
 #include "rcseapplicationcontroller.h"
@@ -334,7 +334,6 @@
 #include "workspace.h"
 #include "upnp/upnpnat.h"
 #include "positioneditem.h"
-#include "preferencesmanager.h"
 #include "proxystatemodel.h"
 #include "rolisteamapplication.h"
 #include "rolisteamdaemon.h"
@@ -605,7 +604,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("MindNode") << static_cast<QObject*>(new mindmap::MindNode()) << true;
     QTest::addRow("MindmapManager") << static_cast<QObject*>(new MindmapManager()) << true;
     QTest::addRow("MockCharacter")  << static_cast<QObject*>(new MockCharacter())<< true ;
-    QTest::addRow("MusicModel") << static_cast<QObject*>(new MusicModel()) << true;
+    QTest::addRow("MusicModel") << static_cast<QObject*>(new MusicModel(new PreferencesManager("aad","blbl"))) << true;
     QTest::addRow("NameGeneratorWidget obj") << static_cast<QObject*>(new NameGeneratorWidget()) << true;
     QTest::addRow("NetworkController") << static_cast<QObject*>(new NetworkController()) << true;
     QTest::addRow("NetworkDownloader") << static_cast<QObject*>(new NetworkDownloader({})) << true;

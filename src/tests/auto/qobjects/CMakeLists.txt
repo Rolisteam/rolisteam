@@ -117,8 +117,8 @@ ${root_dir}/binaries/rcse/mainwindow.cpp
 ${root_dir}/binaries/rcse/mainwindow.h
 ${root_dir}/binaries/rcse/preferences/preferencesdialog.cpp
 ${root_dir}/binaries/rcse/preferences/preferencesdialog.h
-${root_dir}/binaries/rcse/preferences/preferencesmanager.cpp
-${root_dir}/binaries/rcse/preferences/preferencesmanager.h
+${root_dir}/binaries/rcse/preferences/rcsepreferencesmanager.cpp
+${root_dir}/binaries/rcse/preferences/rcsepreferencesmanager.h
 ${root_dir}/binaries/rcse/qmlgeneratorvisitor.cpp
 ${root_dir}/binaries/rcse/qmlgeneratorvisitor.h
 ${root_dir}/binaries/rcse/qmlhighlighter.cpp
@@ -165,6 +165,11 @@ ${root_dir}/binaries/widget/mainwindow.h
 ${root_dir}/binaries/widget/rolisteamapplication.cpp
 ${root_dir}/binaries/widget/rolisteamapplication.h
 ${root_dir}/binaries/widget/uiwatchdog.h
+${root_dir}/libraries/core/include/preferences/preferencesmanager.h
+${root_dir}/libraries/core/src/preferences/preferencesmanager.cpp
+${root_dir}/libraries/core/include/preferences/preferenceslistener.h
+${root_dir}/libraries/core/src/preferences/preferenceslistener.cpp
+#${root_dir}/libraries/core/include/controller/resourcescontroller.h
 #${root_dir}/libraries/charactersheet/include/charactersheet/abstractapplicationcontroller.h
 #${root_dir}/libraries/charactersheet/include/charactersheet/charactersheet.h
 #${root_dir}/libraries/charactersheet/include/charactersheet/charactersheet_global.h
@@ -254,8 +259,6 @@ ${root_dir}/binaries/widget/uiwatchdog.h
 #${root_dir}/libraries/core/include/controller/item_controllers/vmapitemfactory.h
 #${root_dir}/libraries/core/include/controller/networkcontroller.h
 #${root_dir}/libraries/core/include/controller/playercontroller.h
-#${root_dir}/libraries/core/include/controller/preferencescontroller.h
-#${root_dir}/libraries/core/include/controller/resourcescontroller.h
 #${root_dir}/libraries/core/include/controller/view_controller/charactersheetcontroller.h
 #${root_dir}/libraries/core/include/controller/view_controller/imagecontroller.h
 #${root_dir}/libraries/core/include/controller/view_controller/imageselectorcontroller.h
@@ -1058,6 +1061,7 @@ ${root_dir}/libraries/core/include/utils
 ${root_dir}/libraries/common/include/common_widgets
 ${root_dir}/libraries/core/include/updater/controller
 ${root_dir}/libraries/core/include/preferences
+${root_dir}/libraries/core/include
 ${root_dir}/libraries/rwidgets/gmtoolbox/NameGenerator
 ${root_dir}/binaries/rcse/preferences
 ${root_dir}/libraries/rwidgets/gmtoolbox/DiceBookMark
