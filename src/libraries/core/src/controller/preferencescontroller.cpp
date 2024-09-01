@@ -131,11 +131,18 @@ void PreferencesController::setGameController(GameController* game)
 
     if(m_themeModel->rowCount() == 0)
         initializeThemeModel(m_themeModel.get());
+
+    emit preferencesChanged();
 }
 
 QAbstractItemModel* PreferencesController::languageModel() const
 {
     return m_languageModel.get();
+}
+
+PreferencesManager *PreferencesController::preferences() const
+{
+    return m_preferences;
 }
 ThemeModel* PreferencesController::themeModel() const
 {

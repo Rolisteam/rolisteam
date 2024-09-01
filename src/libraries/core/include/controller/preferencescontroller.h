@@ -25,7 +25,7 @@
 #include <QObject>
 #include <core_global.h>
 #include <memory>
-
+#include <QPointer>
 #include <QAbstractItemModel>
 
 class PaletteModel;
@@ -37,7 +37,6 @@ class GameController;
 class CORE_EXPORT PreferencesController : public AbstractControllerInterface
 {
     Q_OBJECT
-    // Q_PROPERTY(QAbstractItemModel* paletteModel READ paletteModel CONSTANT)
     Q_PROPERTY(ThemeModel* themeModel READ themeModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* languageModel READ languageModel CONSTANT)
     Q_PROPERTY(
@@ -47,6 +46,7 @@ class CORE_EXPORT PreferencesController : public AbstractControllerInterface
     Q_PROPERTY(QString customFilePath READ customFilePath WRITE setCustomFile NOTIFY customFileChanged)
     Q_PROPERTY(int currentLangIndex READ currentLangIndex WRITE setCurrentLangIndex NOTIFY currentLangIndexChanged)
     Q_PROPERTY(QStringList currentLangPath READ currentLangPath NOTIFY currentLangIndexChanged)
+    Q_PROPERTY(PreferencesManager preferences READ preferences NOTIFY preferencesChanged)
 
 public:
     explicit PreferencesController(QObject* parent= nullptr);
@@ -54,9 +54,9 @@ public:
 
     void setGameController(GameController*) override;
 
-    // QAbstractItemModel* paletteModel() const;
     ThemeModel* themeModel() const;
     QAbstractItemModel* languageModel() const;
+    PreferencesManager* preferences() const;
 
     // i18n
     int currentLangIndex() const;
@@ -79,6 +79,7 @@ signals:
     void systemLangChanged();
     void hasCustomFileChanged();
     void customFileChanged();
+    void preferencesChanged();
 
 public slots:
     void savePreferences();
@@ -106,7 +107,6 @@ public slots:
     void setCurrentThemeTitle(const QString& title);
 
 private:
-    // std::unique_ptr<PaletteModel> m_paletteModel;
     std::unique_ptr<ThemeModel> m_themeModel;
     std::unique_ptr<LanguageModel> m_languageModel;
 
@@ -116,7 +116,7 @@ private:
     bool m_customFile= false;
     QString m_customFilePath;
 
-    PreferencesManager* m_preferences;
+    QPointer<PreferencesManager> m_preferences;
 };
 
 #endif // PREFERENCESCONTROLLER_H
