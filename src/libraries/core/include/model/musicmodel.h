@@ -22,12 +22,16 @@
 
 #include <QAbstractListModel>
 #include <QUrl>
+#include <QPointer>
 #include <core_global.h>
+
+
+class PreferencesManager;
 
 /**
  * @brief The MusicModel class is the model which stores the playlist. Each audioWidget has one instance of this class.
  */
-class  CORE_EXPORT MusicModel : public QAbstractListModel
+class CORE_EXPORT MusicModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
@@ -37,7 +41,7 @@ public:
         URL,
     };
     Q_ENUM(CustomRole)
-    explicit MusicModel(QObject* parent= nullptr);
+    explicit MusicModel(PreferencesManager* pref, QObject* parent= nullptr);
     QUrl getMediaByModelIndex(const QModelIndex&) const;
 
     virtual int rowCount(const QModelIndex& parent= QModelIndex()) const override;
@@ -65,6 +69,7 @@ private:
     QStringList m_header;
     QList<QUrl> m_data;
     QUrl m_currentSong;
+    QPointer<PreferencesManager> m_ctrl;
 };
 
 #endif // MUSICMODEL_H

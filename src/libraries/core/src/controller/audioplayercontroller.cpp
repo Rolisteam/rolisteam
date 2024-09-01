@@ -48,7 +48,7 @@ int randomSong(int current, int count)
 }
 
 AudioPlayerController::AudioPlayerController(int id, const QString& key, PreferencesManager* pref, QObject* parent)
-    : QObject(parent), m_id(id), m_model(new MusicModel), m_pref(pref), m_prefkey(key)
+    : QObject(parent), m_id(id), m_model(new MusicModel(pref)), m_pref(pref), m_prefkey(key)
 {
     m_player.setAudioOutput(&m_audioOutput);
 

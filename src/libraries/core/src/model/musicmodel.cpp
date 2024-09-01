@@ -25,7 +25,10 @@
 #include <QSet>
 #include <QUrl>
 
-MusicModel::MusicModel(QObject* parent) : QAbstractListModel(parent), m_header({tr("Title")}) {}
+#include "worker/iohelper.h"
+#include "preferences/preferencesmanager.h"
+
+MusicModel::MusicModel(PreferencesManager* pref,QObject* parent) : QAbstractListModel(parent), m_header({tr("Title")}),m_ctrl(pref) {}
 
 int MusicModel::rowCount(const QModelIndex& parent) const
 {
@@ -56,7 +59,7 @@ QFont boldFont()
     return font;
 }
 
-QString normalizeUrl(const QUrl& url)
+/*QString normalizeUrl(const QUrl& url)
 {
     if(url.isLocalFile() || url.host().contains("tabletopaudio.com") == false)
         return url.fileName();
@@ -64,7 +67,7 @@ QString normalizeUrl(const QUrl& url)
     QString str= url.toString();
     str= str.right(str.size() - (str.lastIndexOf("=") + 1));
     return str.replace(".mp3", "").replace("_", " ");
-}
+}*/
 } // namespace
 
 QVariant MusicModel::data(const QModelIndex& index, int role) const
@@ -185,45 +188,38 @@ Qt::DropActions MusicModel::supportedDropActions() const
 bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int, const QModelIndex&)
 {
     // TODO
-    /*if(action == Qt::IgnoreAction)
+    if(action == Qt::IgnoreAction)
         return true;
 
     if(!data->hasUrls())
         return false;
 
-    QList<QUrl> list= data->urls();
-    QStringList filters= PreferencesManager::getInstance()
-                             ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
-                             .toString()
-                             .split(' ');
 
-    if(data->hasUrls())
+    QList<QUrl> list= data->urls();
+    for(auto const& url : list)
     {
-        QList<QUrl> list= data->urls();
-        for(int i= 0; i < list.size(); ++i)
+        QString str= url.toLocalFile();
+        if(str.endsWith(".m3u"))
         {
-            QString str= list[i].toLocalFile();
-            if(str.endsWith(".m3u"))
+            addSong(IOHelper::readM3uPlayList(str));
+        }
+        else
+        {
+            QStringList filters= m_ctrl->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.mpc *.ogg *.flac")
+                                     .toString()
+                                     .split(' ');
+            for(auto filter : filters)
             {
-            }
-            else
-            {
-                QStringList filters= PreferencesManager::getInstance()
-                                         ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
-                                         .toString()
-                                         .split(' ');
-                for(auto filter : filters)
+                filter.replace("*", "");
+                if(str.endsWith(filter))
                 {
-                    filter.replace("*", "");
-                    if(str.endsWith(filter))
-                    {
-                        insertSong(row, str);
-                    }
+                    insertSong(row, str);
                 }
             }
         }
     }
-*/
+
+
     return true;
 }
 Qt::ItemFlags MusicModel::flags(const QModelIndex& index) const

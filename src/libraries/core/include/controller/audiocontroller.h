@@ -23,11 +23,12 @@
 #include <QObject>
 #include <memory>
 
+#include "preferences/preferencesmanager.h"
 #include "audioplayercontroller.h"
 #include "data/campaignmanager.h"
-#include "preferences/preferencesmanager.h"
 #include "updater/controller/audioplayerupdater.h"
 #include <core_global.h>
+
 class CORE_EXPORT AudioController : public QObject
 {
     Q_OBJECT
