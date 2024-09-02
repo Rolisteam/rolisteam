@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2024-05-07 09:37+0200\n"
+"PO-Revision-Date: 2024-09-01 18:10+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -768,8 +768,8 @@ msgctxt "rcse::MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr ""
-"La documentation de Rcse peut être trouvée en ligne à l'adresse :<br> <a "
-"href=\"%1\">%1</a>"
+"La documentation de RCSE est disponible en ligne à l'adresse :<br> <a href="
+"\"%1\">%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:478
 msgctxt "rcse::MainWindow|"
@@ -2947,7 +2947,7 @@ msgstr "Joueur"
 #: src/libraries/core/src/network/rserver.cpp:41
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
-msgstr "[UPNP] Le mappage de ports a été réalisé."
+msgstr "[UPnP] Le mappage de ports a été réalisé."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:247
 #, qt-format
