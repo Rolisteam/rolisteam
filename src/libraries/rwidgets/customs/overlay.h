@@ -55,6 +55,7 @@ private:
     Position m_currentCorner= None;
     QPoint m_lastPosition;
     Ratio m_ratio= Ratio::Ratio_Unconstrained;
+    QRect m_centerRect;
 };
 
 #endif // OVERLAY_H

@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPen>
+#include <QSvgRenderer>
 
 constexpr int k_distance_selection= 10;
 constexpr int k_grey_color_level= 40;
@@ -100,8 +101,20 @@ void Overlay::paintEvent(QPaintEvent*)
                      k_distance_selection, k_distance_selection, Qt::red);
     painter.fillRect(m_selectedRect.bottomRight().x() - offset, m_selectedRect.bottomRight().y() - offset,
                      k_distance_selection, k_distance_selection, Qt::red);
-    painter.fillRect(m_selectedRect.center().x() - offset, m_selectedRect.center().y() - offset, k_distance_selection,
-                     k_distance_selection, Qt::red);
+
+    auto s = m_selectedRect.width()/3;
+
+    m_centerRect = m_selectedRect.adjusted(s,s,-s,-s);
+    painter.fillRect(m_centerRect, QColor(255, 0,0,120));
+
+    QImage arrows(m_centerRect.width(), m_centerRect.height(), QImage::Format_ARGB32);;
+    {
+        QSvgRenderer render(QString(":/resources/rolistheme/4arrows.svg"));
+        arrows.fill(Qt::transparent);
+        QPainter p(&arrows);
+        render.render(&p);
+    }
+    painter.drawImage(m_centerRect, arrows );
 }
 
 QRect Overlay::selectedRect() const
@@ -123,6 +136,7 @@ void Overlay::setSelectedRect(const QRect& rect)
 void Overlay::mousePressEvent(QMouseEvent* event)
 {
     auto pos= event->pos();
+
     if(computeDistance(pos, m_selectedRect.topLeft()) < k_distance_selection)
     {
         m_currentCorner= First;
@@ -139,7 +153,7 @@ void Overlay::mousePressEvent(QMouseEvent* event)
     {
         m_currentCorner= Fourth;
     }
-    else if(computeDistance(pos, m_selectedRect.center()) < k_distance_selection)
+    else if(m_centerRect.contains(pos))
     {
         m_currentCorner= Center;
     }
