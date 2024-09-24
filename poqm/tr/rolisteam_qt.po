@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-04-23 00:25+0300\n"
+"PO-Revision-Date: 2024-09-23 14:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12,17 +12,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.07.70\n"
+"X-Generator: Lokalize 24.11.70\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
 msgid "MindMap (*.rmindmap *.rmap)"
-msgstr "Akıl Haritası (*.rmindmap *.rmap)"
+msgstr "Akıl haritası (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/main.qml:36
 msgctxt "main|"
 msgid "Open MindMap"
-msgstr "Akıl Haritasını Aç"
+msgstr "Akıl Haritası Aç"
 
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
@@ -429,7 +429,7 @@ msgstr "Sütun tanımı:"
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
 msgid "Load background from PDF"
-msgstr "Arka planı PDF'den yükle"
+msgstr "Arka planı PDF’den yükle"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:43
 msgctxt "PdfManager|"
@@ -526,7 +526,7 @@ msgstr "Gömülü yazıtipleri:"
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
 msgctxt "SheetProperties|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -671,12 +671,12 @@ msgstr "Ögeyi Kilitle"
 #: src/binaries/rcse/itemeditor.cpp:63
 msgctxt "ItemEditor|"
 msgid "Align on Y"
-msgstr "Y'ye Hizala"
+msgstr "Y’ye Hizala"
 
 #: src/binaries/rcse/itemeditor.cpp:64
 msgctxt "ItemEditor|"
 msgid "Align on X"
-msgstr "X'e Hizala"
+msgstr "X’e Hizala"
 
 #: src/binaries/rcse/itemeditor.cpp:65
 msgctxt "ItemEditor|"
@@ -713,12 +713,12 @@ msgstr "%1 çeviri dosyası yüklenemedi"
 #: src/binaries/rcse/main.cpp:69
 msgctxt "QObject|"
 msgid "define path to current <translation>"
-msgstr "geçerli <çeviri>'ye olan yolu tanımla"
+msgstr "geçerli <çeviri>’ye olan yolu tanımla"
 
 #: src/binaries/rcse/main.cpp:72
 msgctxt "QObject|"
 msgid "open <file>."
-msgstr "<dosya>'yı aç."
+msgstr "<dosya>’yı aç."
 
 #: src/binaries/rcse/mainwindow.cpp:168
 msgctxt "rcse::MainWindow|"
@@ -747,8 +747,8 @@ msgid ""
 "The %1 donation page can be found online at :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 msgstr ""
-"%1 bağış sayfası, şurada bulunabilir:<br> <a href=\"https://liberapay.com/"
-"Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
+"%1 bağış sayfası çevrimiçi olarak şurada bulunabilir:<br> <a href=\"https://"
+"liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:428
 msgctxt "rcse::MainWindow|"
@@ -765,7 +765,9 @@ msgstr "Yardım"
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
-msgstr "Rcse belgelendirmesi, şurada bulunabilir:<br> <a href=\"%1\">%1</a>"
+msgstr ""
+"Rcse belgelendirmesi çevrimiçi olarak şurada bulunabilir:<br> <a href=\"%1\">"
+"%1</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:478
 msgctxt "rcse::MainWindow|"
@@ -819,7 +821,7 @@ msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
 "really want to generate QML code ?"
 msgstr ""
-"QML kodu üretmek, QML'de yaptığınız tüm değişiklikleri geçersiz kılar.<br/"
+"QML kodu üretmek, QML’de yaptığınız tüm değişiklikleri geçersiz kılar.<br/"
 ">QML kodunu oluşturmayı gerçekten istiyor musunuz?"
 
 #: src/binaries/rcse/mainwindow.cpp:792
@@ -840,7 +842,7 @@ msgstr "Yolu Kopyala"
 #: src/binaries/rcse/mainwindow.cpp:921
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
-msgstr "URL'yi Kopyala"
+msgstr "URL’yi Kopyala"
 
 #: src/binaries/rcse/mainwindow.cpp:924
 msgctxt "rcse::MainWindow|"
@@ -895,7 +897,7 @@ msgstr "Tüm Karakterlerde Uygula"
 #: src/binaries/rcse/mainwindow_rcse.ui:14
 msgctxt "MainWindow|"
 msgid "Unknown[*] - Rolisteam Character Sheet Editor"
-msgstr "Bilinmeyen[*] - Rolisteam Karakter Sayfası Düzenleyicisi"
+msgstr "Bilinmeyen[*] — Rolisteam Karakter Sayfası Düzenleyicisi"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:29
 msgctxt "MainWindow|"
@@ -973,7 +975,7 @@ msgstr "Görsel"
 #: src/binaries/rcse/mainwindow_rcse.ui:736
 msgctxt "MainWindow|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:380
 #: src/binaries/rcse/mainwindow_rcse.ui:1130
@@ -1081,7 +1083,7 @@ msgstr "Kontrol+S"
 #: src/binaries/rcse/mainwindow_rcse.ui:839
 msgctxt "MainWindow|"
 msgid "Save As..."
-msgstr "Farklı Kaydet..."
+msgstr "Farklı Kaydet…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:842
 msgctxt "MainWindow|"
@@ -1119,7 +1121,7 @@ msgstr "Ögeyi Sil"
 #: src/binaries/rcse/mainwindow_rcse.ui:899
 msgctxt "MainWindow|"
 msgid "Export To Rolisteam"
-msgstr "Rolisteam'e Dışa Aktar"
+msgstr "Rolisteam’e Dışa Aktar"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:904
 msgctxt "MainWindow|"
@@ -1225,7 +1227,7 @@ msgstr "&Yinele"
 #: src/binaries/widget/mainwindow.ui:479 src/binaries/widget/mainwindow.ui:546
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
-msgstr "Rolisteam'i Destekle"
+msgstr "Rolisteam’i Destekle"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1118
 msgctxt "MainWindow|"
@@ -1250,7 +1252,7 @@ msgstr "Saltokunur Metin"
 #: src/binaries/rcse/mainwindow_rcse.ui:1214
 msgctxt "MainWindow|"
 msgid "Import from PDF"
-msgstr "PDF'den İçe Aktar"
+msgstr "PDF’den İçe Aktar"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1241
 msgctxt "MainWindow|"
@@ -1540,7 +1542,7 @@ msgstr "Yapılandırma dosyası yolunu ayarlayın [zorunlu]"
 #: src/binaries/server/main.cpp:112
 msgctxt "QObject|"
 msgid "Print a default configuration file into Standard output"
-msgstr "Standart çıktı'ya bir öntanımlı yapılandırma dosyası yazdırın"
+msgstr "Standart çıktıya bir öntanımlı yapılandırma dosyası yazdır"
 
 #: src/binaries/server/main.cpp:115
 msgctxt "QObject|"
@@ -1560,7 +1562,7 @@ msgstr "Web Sayfasını Aç"
 #: src/binaries/widget/mainwindow.cpp:462
 msgctxt "MainWindow|"
 msgid "Webpage url:"
-msgstr "Web sayfası URL'si:"
+msgstr "Web sayfası URL’si:"
 
 #: src/binaries/widget/mainwindow.cpp:515
 #: src/binaries/widget/mainwindow.cpp:725 src/binaries/widget/mainwindow.ui:300
@@ -1577,7 +1579,9 @@ msgstr "Destek"
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
-msgstr "%1 bağış sayfası, şurada bulunabilir:<br> <a href=\"%2\">%2</a>"
+msgstr ""
+"%1 bağış sayfası çevrimiçi olarak şurada bulunabilir:<br> <a href=\"%2\">%2</"
+"a>"
 
 #: src/binaries/widget/mainwindow.cpp:709
 #, qt-format
@@ -1603,8 +1607,8 @@ msgid ""
 "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
 "rolisteam.org\">http://doc.rolisteam.org/</a>"
 msgstr ""
-"%1 belgelendirmesi şurada bulunabilir:<br> <a href=\"http://doc.rolisteam.org"
-"\">http://doc.rolisteam.org/</a>"
+"%1 belgelendirmesi çevrimiçi olarak şurada bulunabilir:<br> <a href=\"http://"
+"doc.rolisteam.org\">http://doc.rolisteam.org/</a>"
 
 #: src/binaries/widget/mainwindow.cpp:831
 msgctxt "MainWindow|"
@@ -1619,7 +1623,7 @@ msgid ""
 "rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
 "%1 sürümü çıktı. Daha fazla bilgi için <a href=\"http://www.rolisteam.org/"
-"download\">İndirme Sayfası</a>'na bakın"
+"download\">İndirme Sayfası</a>’na bakın"
 
 #: src/binaries/widget/mainwindow.cpp:842
 #, qt-format
@@ -1642,12 +1646,12 @@ msgstr "%1, şimdi oyundan çıktı."
 #: src/binaries/widget/mainwindow.cpp:926
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
-msgstr "Rolisteam'i bağlantı için <kapı>'yı kullanacak biçimde ayarla"
+msgstr "Rolisteam’i bağlantı için <kapı>’yı kullanacak biçimde ayarla"
 
 #: src/binaries/widget/mainwindow.cpp:929
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
-msgstr "Rolisteam'i <server> sunucusuna bağlanacak biçimde ayarla"
+msgstr "Rolisteam’i <server> sunucusuna bağlanacak biçimde ayarla"
 
 #: src/binaries/widget/mainwindow.cpp:932
 msgctxt "MainWindow|"
@@ -1677,7 +1681,7 @@ msgstr "çeviri dosyası yolu: <translationfile>"
 #: src/binaries/widget/mainwindow.cpp:946
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
-msgstr "Sunucuya bağlanmak için URL'yi tanımla: <url>"
+msgstr "Sunucuya bağlanmak için URL’yi tanımla: <url>"
 
 #: src/binaries/widget/mainwindow.cpp:1039
 #, qt-format
@@ -2945,7 +2949,7 @@ msgstr "[Upnp] Kapı eşlemleme tamamlandı"
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "Authentification as Admin fails: %2 - %1, Wrong password."
-msgstr "Yönetici olarak kimlik doğrulama başarısız: %2 - %1, hatalı parola."
+msgstr "Yönetici olarak kimlik doğrulama başarısız: %2 — %1, hatalı parola."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:273
 #, qt-format
@@ -2959,7 +2963,7 @@ msgstr ""
 #, qt-format
 msgctxt "ServerConnectionManager|"
 msgid "User has been kick out: %2 - %1."
-msgstr "Kullanıcı kovuldu: %2 - %1."
+msgstr "Kullanıcı kovuldu: %2 — %1."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:481
 msgctxt "ServerConnectionManager|"
@@ -2998,7 +3002,7 @@ msgstr "Kapı eşlemlemesi eklenemedi (%1/%2): Hata:\n"
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
 msgid "Error to read server IP."
-msgstr "Sunucu IP'si okunamadı."
+msgstr "Sunucu IP’si okunamadı."
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
@@ -3154,13 +3158,13 @@ msgstr "Kapat: %1"
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
-msgstr "'%1', boş değil"
+msgstr "“%1” boş değil"
 
 #: src/libraries/core/src/updater/media/campaignupdater.cpp:202
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
-msgstr "'%1' oluşturulamadı"
+msgstr "“%1” oluşturulamadı"
 
 #: src/libraries/core/src/worker/fileserializer.cpp:96
 #, qt-format
@@ -3984,7 +3988,7 @@ msgstr "Döndür"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:248
 msgctxt "RGraphicsView|"
 msgid "To 360"
-msgstr "360'a"
+msgstr "360’a"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:249
 msgctxt "RGraphicsView|"
@@ -3999,7 +4003,7 @@ msgstr "Sol"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:251
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
-msgstr "Açı Ayarla..."
+msgstr "Açı Ayarla…"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
 msgctxt "RGraphicsView|"
@@ -4049,7 +4053,7 @@ msgstr "Döndürme Değeri ?"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:379
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
-msgstr "Lütfen istediğiniz döndürme açısını ayarlayın [0-360]"
+msgstr "Lütfen istediğiniz döndürme açısını ayarlayın [0–360]"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:505
 msgctxt "RGraphicsView|"
@@ -4189,12 +4193,12 @@ msgstr "Savaş Sisi"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:651
 msgctxt "RGraphicsView|"
 msgid "All Npcs"
-msgstr "Tüm OOK'ler"
+msgstr "Tüm OOK’ler"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:637
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
-msgstr "Tüm OOK'lerde atma inisiyatifi"
+msgstr "Tüm OOK’lerdeki atma inisiyatifi"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:641
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:656
@@ -4221,7 +4225,7 @@ msgstr "Tüm Karakterlerde Atma İnisiyatifi"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:652
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
-msgstr "Tüm OOK'lerdeki İnisiyatifi Temizle"
+msgstr "Tüm OOK’lerdeki İnisiyatifi Temizle"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:657
 msgctxt "RGraphicsView|"
@@ -4236,7 +4240,7 @@ msgstr "Tüm Karakterlerdeki İnisiyatifi Temizle"
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:100
 msgctxt "VColorSelector|"
 msgid "Predefine Color 1"
-msgstr "Renk 1'i Öntanımla"
+msgstr "Renk 1’i Öntanımla"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:131
 #, qt-format
@@ -4320,9 +4324,9 @@ msgid ""
 "no warranty for this program."
 msgstr ""
 "Programı, GPL (sürüm 2 veya sonrası) koşulları altında değiştirebilir ve "
-"yeniden dağıtabilirsiniz. Rolisteam'in 'COPYING' dosyası içinde GPL'nin bir "
+"yeniden dağıtabilirsiniz. Rolisteam’in “COPYING” dosyası içinde GPL’nin bir "
 "kopyasını bulabilirsiniz. Rolisteam telif hakları, katkıcılarına aittir. "
-"Katkıcıların tam bir listesini görmek için 'COPYRIGHT' dosyasına bakın. Bu "
+"Katkıcıların tam bir listesini görmek için “COPYRIGHT” dosyasına bakın. Bu "
 "program için bir garanti sunulmaz."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
@@ -4506,7 +4510,7 @@ msgstr "İletişim Kutusu"
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:34
 msgctxt "HistoryViewerDialog|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:71
 msgctxt "HistoryViewerDialog|"
@@ -4547,7 +4551,7 @@ msgstr "İndir"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:79
 msgctxt "ImageSelectorDialog|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
 msgctxt "ImageSelectorDialog|"
@@ -4886,7 +4890,7 @@ msgstr "Güncellemeleri Denetle"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:206
 msgctxt "PreferencesDialogBox|"
 msgid "Don't show \"Tips of the day\""
-msgstr "\"Günün ipucu\"nu gösterme"
+msgstr "“Günün ipucu”nu gösterme"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:213
 msgctxt "PreferencesDialogBox|"
@@ -5039,7 +5043,7 @@ msgstr "Ses çalar 1:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:767
 msgctxt "PreferencesDialogBox|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
 msgctxt "PreferencesDialogBox|"
@@ -5097,7 +5101,7 @@ msgstr "CSS:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:872
 msgctxt "PreferencesDialogBox|"
 msgid "Edit..."
-msgstr "Düzen..."
+msgstr "Düzen…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:898
 msgctxt "PreferencesDialogBox|"
@@ -5226,8 +5230,8 @@ msgstr ""
 "olmadığını, boyutunu veya odağa sahip olup olmadığını bilmeye çalışırız. <br/"
 ">Rolisteam'in masaüstünde nasıl kullanıldığını bilmek yararlı olabilir.<br/"
 ">Üniversitede yapılan çalışmalar genellikle bu tür verileri kullanır.<br/"
-"><br/>Hata ayıklama, Rolisteam'in her bir tıklamayı, eylemi kaydetmesini "
-"sağlar. Daha derin bir kiptir.<br/>Bu, Rolisteam'i biraz yavaşlatabilir.</"
+"><br/>Hata ayıklama, Rolisteam’in her bir tıklamayı, eylemi kaydetmesini "
+"sağlar. Daha derin bir kiptir.<br/>Bu, Rolisteam’i biraz yavaşlatabilir.</"
 "span></p><p><span style=\" font-size:9pt;\">Veri kullanımı hakkında daha "
 "fazla bilgi için: </span><a href=\"https://rolisteam.org/datacollection.html"
 "\"><span style=\" font-size:9pt; text-decoration: underline; color:#007af4;"
@@ -5241,7 +5245,7 @@ msgstr "Tüm Kullanımlar"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1147
 msgctxt "PreferencesDialogBox|"
 msgid "May slow down rolisteam"
-msgstr "Rolisteam'i yavaşlatabilir"
+msgstr "Rolisteam’i yavaşlatabilir"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1150
 msgctxt "PreferencesDialogBox|"
@@ -5282,7 +5286,7 @@ msgstr "Dizin seç"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:14
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Welcome To Rolisteam - Connection Dialog"
-msgstr "Rolisteam'e Hoş Geldiniz - Bağlantı İletişim Kutusu"
+msgstr "Rolisteam’e Hoş Geldiniz — Bağlantı İletişim Kutusu"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
 msgctxt "SelectConnectionProfileDialog|"
@@ -5323,7 +5327,7 @@ msgstr "Kısayol Görüntüleyicisi"
 #, qt-format
 msgctxt "TipOfDayViewer|"
 msgid "%1 - Tip Of The Day"
-msgstr "%1 - Günün İpucu"
+msgstr "%1 — Günün İpucu"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:42
 msgctxt "TipOfDayViewer|"
@@ -5523,7 +5527,7 @@ msgstr "Ara:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1012
 msgctxt "AntagonistBoard|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1135
@@ -5943,7 +5947,7 @@ msgstr "Kanal Parolası"
 #, qt-format
 msgctxt "ChannelListPanel|"
 msgid "Password for channel: %1 - leave empty for no password"
-msgstr "Kanal parolası: %1 - parolayı atlamak için boş bırakın"
+msgstr "Kanal parolası: %1 — parolayı atlamak için boş bırakın"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:511
 #, qt-format
@@ -5971,7 +5975,7 @@ msgstr "Oyuncu Listesi"
 #: src/libraries/rwidgets/docks/playerspanel.ui:49
 msgctxt "PlayersPanel|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/docks/playerspanel.ui:66
 msgctxt "PlayersPanel|"
@@ -6172,7 +6176,7 @@ msgstr "Bir bağlantı oluştur"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
-msgstr "Bağlantı URL7'si:"
+msgstr "Bağlantı URL’si:"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:682
 msgctxt "MRichTextEdit|"
@@ -6278,7 +6282,7 @@ msgstr "Üzeri Çizili"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:332
 msgctxt "MRichTextEdit|"
 msgid "Bullet list (CTRL+-)"
-msgstr "Madde İmleri (Kontrol+-)"
+msgstr "Madde İmleri (Kontrol+−)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:335
 msgctxt "MRichTextEdit|"
@@ -6344,7 +6348,7 @@ msgstr "XML hatası bulundu"
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "Check line %1 column %2 on string \"%3\"!"
-msgstr "%2 sütunundaki \"%3\" dizisinde bulunan %1 satırını denetle!"
+msgstr "%2 sütunundaki “%3” dizisinde bulunan %1 satırını denetle!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
 msgctxt "XMLTextEdit|"
@@ -6375,7 +6379,7 @@ msgstr "Yakınlaştır CTRL/+"
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:90
 msgctxt "XMLTextEdit|"
 msgid "Zoom Out CTRL/-"
-msgstr "Uzaklaştır CTRL/-"
+msgstr "Uzaklaştır CTRL/−"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:91
 msgctxt "XMLTextEdit|"
@@ -6386,7 +6390,7 @@ msgstr "XML Sözdizimini Denetle"
 #, qt-format
 msgctxt "NoteContainer|"
 msgid "%1 - Note"
-msgstr "%1 - Not"
+msgstr "%1 — Not"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:171
 msgctxt "TextEdit|"
@@ -6401,17 +6405,17 @@ msgstr "&Dosya"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:179
 msgctxt "TextEdit|"
 msgid "&Print..."
-msgstr "&Yazdır..."
+msgstr "&Yazdır…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:185
 msgctxt "TextEdit|"
 msgid "Print Preview..."
-msgstr "Yazdırma Önizlemesi..."
+msgstr "Yazdırma Önizlemesi…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
-msgstr "PDF Olarak Dışa A&ktar..."
+msgstr "PDF Olarak Dışa A&ktar…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:199
 msgctxt "TextEdit|"
@@ -6497,7 +6501,7 @@ msgstr "&İki Yana Hizala"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:294
 msgctxt "TextEdit|"
 msgid "&Color..."
-msgstr "&Renk..."
+msgstr "&Renk…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:368
 msgctxt "TextEdit|"
@@ -6516,12 +6520,12 @@ msgstr ""
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:391
 msgctxt "TextEdit|"
 msgid "Open File..."
-msgstr "Dosya Aç..."
+msgstr "Dosya Aç…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:431
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
-msgstr "ODF Dosyaları (*.odt);;HTML-Files (*.htm *.html);;Tüm Dosyalar (*)"
+msgstr "ODF dosyaları (*.odt);;HTML dosyaları (*.htm *.html);;Tüm dosyalar (*)"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:433
 msgctxt "TextEdit|"
@@ -6531,7 +6535,7 @@ msgstr "HTML Dosyaları (*.htm *.html);;Tüm Dosyalar (*)"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:435
 msgctxt "TextEdit|"
 msgid "Save as..."
-msgstr "Farklı Kaydet..."
+msgstr "Farklı Kaydet…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:450
 msgctxt "TextEdit|"
@@ -6549,7 +6553,7 @@ msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
 "providing an example document for you to experiment with."
 msgstr ""
-"Bu örnek, Qt'nin zengin metin düzenleme yeteneklerini, size üzerinde "
+"Bu örnek, Qt’nin zengin metin düzenleme yeteneklerini, size üzerinde "
 "deneyler yapabileceğiniz örnek bir belge sağlayarak gösterir."
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:688
@@ -6590,7 +6594,7 @@ msgstr "Belgeye Bağlan"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:52
 msgctxt "ConnectToDocument|"
 msgid "New..."
-msgstr "Yeni..."
+msgstr "Yeni…"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:62
 msgctxt "ConnectToDocument|"
@@ -6720,7 +6724,7 @@ msgstr "✖"
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:17
 msgctxt "FirstRunDialog|"
 msgid "Welcome to Cahoots"
-msgstr "Cahoots'a Hoş Geldiniz"
+msgstr "Cahoots’a Hoş Geldiniz"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:46
 msgctxt "FirstRunDialog|"
@@ -6798,7 +6802,7 @@ msgstr ""
 "font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"size:28pt; font-weight:600;\">Cahoots'a hoş geldiniz! </span></p>\n"
+"size:28pt; font-weight:600;\">Cahoots’a hoş geldiniz! </span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "size:16pt; font-weight:600;\"></p>\n"
@@ -6883,7 +6887,7 @@ msgstr ""
 "font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"size:28pt; font-weight:600;\">Cahoots'a hoş geldiniz! </span></p>\n"
+"size:28pt; font-weight:600;\">Cahoots’a hoş geldiniz! </span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "size:16pt; font-weight:600;\"></p>\n"
@@ -6998,7 +7002,7 @@ msgstr "Her zaman öntanımlı adı kullan "
 #, qt-format
 msgctxt "SharedNote|"
 msgid "%1 - Shared Note Editor"
-msgstr "%1 - Paylaşılan Not Düzenleyicisi"
+msgstr "%1 — Paylaşılan Not Düzenleyicisi"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:17
 msgctxt "SharedNote|"
@@ -7013,7 +7017,7 @@ msgstr "Düzen"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:77
 msgctxt "SharedNote|"
 msgid "Syntax Highlighting..."
-msgstr "Sözdizim Vurgulaması..."
+msgstr "Sözdizim Vurgulaması…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:97
 msgctxt "SharedNote|"
@@ -7078,7 +7082,7 @@ msgstr "Kontrol+V"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:225
 msgctxt "SharedNote|"
 msgid "Find..."
-msgstr "Bul..."
+msgstr "Bul…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:228
 msgctxt "SharedNote|"
@@ -7128,7 +7132,7 @@ msgstr "Kontrol+/"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:270
 msgctxt "SharedNote|"
 msgid "Save A Copy As..."
-msgstr "Kopyayı Farklı Kaydet..."
+msgstr "Kopyayı Farklı Kaydet…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:278
 msgctxt "SharedNote|"
@@ -7158,7 +7162,7 @@ msgstr "Sohbeti Göster/Gizle"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:304
 msgctxt "SharedNote|"
 msgid "Connect to Document..."
-msgstr "Belgeye Bağlan..."
+msgstr "Belgeye Bağlan…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:307
 msgctxt "SharedNote|"
@@ -7397,7 +7401,7 @@ msgstr "Dönüştür"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:261
 msgctxt "Convertor|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:97
 msgctxt "Convertor|"
@@ -7577,7 +7581,7 @@ msgstr "Metin Boyutunu Azalt"
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:139
 msgctxt "TextItem|"
 msgid "Edit Text…"
-msgstr "Metni Düzenle..."
+msgstr "Metni Düzenle…"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:140
 msgctxt "TextItem|"
@@ -7613,7 +7617,7 @@ msgstr "Kural"
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
-msgstr "%1 - (Karakter Sayfası Görüntüleyicisi)"
+msgstr "%1 — (Karakter Sayfası Görüntüleyicisi)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
 msgctxt "CharacterSheetWindow|"
@@ -7711,13 +7715,13 @@ msgstr "Menü"
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - Image"
-msgstr "%1 - Görsel"
+msgstr "%1 — Görsel"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:207
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture)"
-msgstr "%1 - (Resim)"
+msgstr "%1 — (Resim)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:212
 msgctxt "Image|"
@@ -7747,7 +7751,7 @@ msgstr "Yakınlaştırma düzeyini azalt"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:227
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
-msgstr "Kontrol+-"
+msgstr "Kontrol+−"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:237
 msgctxt "Image|"
@@ -7881,7 +7885,7 @@ msgstr "Yükleme hatası"
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
-msgstr "%1 - Akıl Haritası"
+msgstr "%1 — Akıl Haritası"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
@@ -7895,13 +7899,13 @@ msgid ""
 "Do you want to continue and share the PDF?"
 msgstr ""
 "PDF aktarımı gerçekten ağır olabilir.\n"
-"PDF'yi paylaşmayı sürdürmek istiyor musunuz?"
+"PDF’yi paylaşmayı sürdürmek istiyor musunuz?"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:293
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
-msgstr "%1 - (PDF)"
+msgstr "%1 — (PDF)"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:14
 msgctxt "PdfViewer|"
@@ -7920,7 +7924,7 @@ msgstr "PDF Görüntüleyicisi"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:176
 msgctxt "PdfViewer|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
 msgctxt "PdfViewer|"
@@ -8078,13 +8082,13 @@ msgstr "Katman Yok"
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
-msgstr "%1 - görünürlük: %2 - izin: %3 - katman: %4"
+msgstr "%1 — Görünürlük: %2 — İzin: %3 — Katman: %4"
 
 #: src/libraries/rwidgets/mediacontainers/webview.cpp:118
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
-msgstr "%1 - Web Sayfası"
+msgstr "%1 — Web Sayfası"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:14
 msgctxt "WebView|"
@@ -8099,7 +8103,7 @@ msgstr "Form"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:90
 msgctxt "WebView|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:100
 msgctxt "WebView|"
@@ -8144,7 +8148,7 @@ msgstr "HTML Paylaş"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:25
 msgctxt "campaign::CampaignView|"
 msgid "Add directory…"
-msgstr "Dizin Ekle..."
+msgstr "Dizin Ekle…"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:26
 msgctxt "campaign::CampaignView|"
@@ -8165,7 +8169,7 @@ msgstr "Aç"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:156
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
-msgstr "Farklı Aç..."
+msgstr "Farklı Aç…"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
@@ -8215,12 +8219,12 @@ msgstr "Sütunu Göster/Gizle"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr "Avatar Ayarla..."
+msgstr "Avatar Ayarla…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:52
 msgctxt "UserListView|"
 msgid "Remove..."
-msgstr "Kaldır..."
+msgstr "Kaldır…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:53
 msgctxt "UserListView|"
@@ -8400,7 +8404,7 @@ msgstr "OOK Adı"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:320
 msgctxt "ToolBox|"
 msgid "NPC's number"
-msgstr "OOK'nin Numarası"
+msgstr "OOK’nin Numarası"
 
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:326
 msgctxt "ToolBox|"
