@@ -95,6 +95,15 @@ constexpr auto connected{"connected"};
 constexpr auto disconnected{"disconnected"};
 }
 
+void showResources()
+{
+    QDirIterator it(":", QDirIterator::Subdirectories);
+    while(it.hasNext())
+    {
+        qDebug() << it.next();
+    }
+}
+
 /**
  * @brief main
  * @param argc
@@ -181,6 +190,8 @@ int main(int argc, char* argv[])
         else
             states.submitEvent(disconnected);
     });
+
+    //showResources();
 
     states.start();
     return app.exec();
