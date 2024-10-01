@@ -166,5 +166,9 @@
         <file>resources/rolistheme/edit-paste.svg</file>
         <file>resources/rolistheme/emblem-downloads.svg</file>
         <file>resources/rolistheme/document-open.svg</file>
+        <file>resources/rolistheme/checked.svg</file>
+        <file>resources/rolistheme/close-circle.svg</file>
+        <file>resources/rolistheme/closed.svg</file>
+        <file>resources/rolistheme/4arrows.svg</file>
     </qresource>
 </RCC>

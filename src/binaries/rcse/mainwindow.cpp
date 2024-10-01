@@ -93,7 +93,7 @@ namespace rcse
 
 void registerRCSEQmlTypes()
 {
-    qmlRegisterSingletonType<RcseApplicationController>("Helper", 1, 0, "appCtrl",
+    qmlRegisterSingletonType<RcseApplicationController>("Helper", 1, 0, "AppCtrl",
                                                         [](QQmlEngine* engine, QJSEngine* scriptEngine) -> QObject* {
                                                             Q_UNUSED(engine);
                                                             Q_UNUSED(scriptEngine);
@@ -771,25 +771,6 @@ void MainWindow::showQMLFromCode()
     connect(root, SIGNAL(rollDiceCmd(QString, bool)), this, SLOT(rollDice(QString, bool)));
     connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));*/
 }
-
-/*void MainWindow::saveQML()
-{
-    QString qmlFile= QFileDialog::getOpenFileName(this, tr("Save CharacterSheet View"), QDir::homePath(),
-                                                  tr("CharacterSheet View (*.qml)"));
-    if(!qmlFile.isEmpty())
-    {
-        QString data= ui->m_codeEdit->toPlainText();
-        generateQML(data);
-        ui->m_codeEdit->setPlainText(data);
-
-        QFile file(qmlFile);
-        if(file.open(QIODevice::WriteOnly))
-        {
-            file.write(data.toLatin1());
-            file.close();
-        }
-    }
-}*/
 
 void MainWindow::openQML()
 {
