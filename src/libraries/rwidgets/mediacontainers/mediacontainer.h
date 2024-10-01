@@ -85,6 +85,8 @@ signals:
     void visibleChanged(bool);
     void ownerIdChanged();
     void uriNameChanged();
+    void addWidgetToMdiArea(QWidget*,const QString& str);
+    void errorOccurs(const QString& error);
 
 public slots:
     void setVisible(bool b) override;

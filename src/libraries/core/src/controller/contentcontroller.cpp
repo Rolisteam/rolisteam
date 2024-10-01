@@ -106,11 +106,51 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     std::unique_ptr<GenericUpdater> imageUpdater(new GenericUpdater(campaign));
     std::unique_ptr<GenericUpdater> notesUpdater(new GenericUpdater(campaign));
     std::unique_ptr<CharacterSheetUpdater> characterSheetUpdater(new CharacterSheetUpdater(fModel4, campaign));
+
     connect(characterSheetUpdater.get(), &CharacterSheetUpdater::characterSheetAdded, this,
             [this](NetworkMessageReader* msg) {
                 auto media= Media::MediaFactory::createRemoteMedia(Core::ContentType::CHARACTERSHEET,
                                                                    msg, localColor(), localIsGM());
-                m_contentModel->appendMedia(media);
+
+                auto existingMedia = dynamic_cast<CharacterSheetController*>(m_contentModel->media(media->uuid()));
+                auto sheetCtrl = dynamic_cast<CharacterSheetController*>(media);
+                if(!existingMedia)
+                {
+                    auto sheetUpdater = dynamic_cast<CharacterSheetUpdater*>(m_mediaUpdaters[Core::ContentType::CHARACTERSHEET].get());
+                    sheetUpdater->addRemoteCharacterSheet(sheetCtrl);
+                    m_contentModel->appendMedia(media);
+                }
+                else
+                {
+                    existingMedia->merge(sheetCtrl);
+                }
+            });
+
+    connect(characterSheetUpdater.get(), &CharacterSheetUpdater::characterSheetRemoved, this,
+            [this](const QString& uuid, const QString& ctrlId, const QString& characterId) {
+                Q_UNUSED(characterId)
+                qDebug() << "contentController stop SHaring" << uuid;
+                auto media = m_contentModel->media(ctrlId);
+                auto sheetCtrl = dynamic_cast<CharacterSheetController*>(media);
+
+                if(!sheetCtrl)
+                    return;
+
+                auto model = sheetCtrl->model();
+
+                if(!model)
+                    return;
+
+                if(model->getCharacterSheetCount() == 1 && nullptr != model->getCharacterSheetById(uuid))
+                {
+                    qDebug() << "updater: sheet count == 1";
+                    m_contentModel->removeMedia(ctrlId);
+                }
+                else if (model->getCharacterSheetCount() > 1)
+                {
+                    qDebug() << "updater: sheet count > 1";
+                    model->removeCharacterSheet(model->getCharacterSheetById(uuid));
+                }
             });
     std::unique_ptr<GenericUpdater> pdfUpdater(new GenericUpdater(campaign));
     MindMapController::setMindMapUpdater(mindMapUpdater.get());

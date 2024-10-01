@@ -35,16 +35,15 @@
 
 class Player;
 class Character;
-class CharacterSheet;
+class TreeSheetItem;
 
-struct CORE_EXPORT CharacterSheetData
-{
-    CharacterSheet* sheet;
-    Player* player;
-    Character* character;
+struct CharacterSheetInfo {
+    QString m_sheetId{};
+    QString m_characterId{};
+    bool everyone{false};
+    bool remote{false};
 };
 
-class TreeSheetItem;
 class CORE_EXPORT CharacterSheetController : public MediaControllerBase
 {
     Q_OBJECT
@@ -69,16 +68,22 @@ public:
     bool cornerEnabled() const;
 
     void updateFieldFrom(const QString& sheetId, const QJsonObject& obj, const QString& parentPath);
-    static void setCharacterModel(CharacterModel* model);
     void setRootJson(const QJsonObject& newRootJson);
-    const QList<CharacterSheetData>& sheetData() const;
+    const QList<CharacterSheetInfo>& sheetData() const;
     bool hasCharacterSheet(const QString& id) const;
     CharacterSheet* characterSheetFromId(const QString& id) const;
+    int characterCount() const;
+    bool alreadySharing(const QString& characterId, const QString& charactersheetId) const;
+    bool alreadySharing(const QString& charactersheetId) const;
+    QString characterSheetIdFromIndex(int i) const;
 
+    static void setCharacterModel(CharacterModel* model);
+
+    void merge(CharacterSheetController*);
 public slots:
     void shareCharacterSheetTo(const QString& uuid, int idx);
     void shareCharacterSheetToAll(int idx);
-    void stopSharing(int idx);
+    void stopSharing(const QString& uuid);
     void setQmlCode(const QString& qml);
     void addCharacterSheet(const QJsonObject& data, const QString& charId);
     void setGameMasterId(const QString& id);
@@ -89,7 +94,7 @@ signals:
     void sheetCreated(CharacterSheet* sheet, Character* character);
     void gameMasterIdChanged();
     void rootJsonChanged();
-    void stopSharing(CharacterSheet* sheet);
+    void removedSheet(const QString& characterSheetId, const QString& ctrlId, const QString& characterId);
     void share(CharacterSheetController* ctrl, CharacterSheet* sheet, CharacterSheetUpdater::SharingMode mode,
                Character* character, const QStringList& recipients);
 
@@ -97,7 +102,7 @@ private:
     std::unique_ptr<CharacterSheetModel> m_model;
     std::unique_ptr<charactersheet::ImageModel> m_imageModel;
     static QPointer<CharacterModel> m_characterModel;
-    QList<CharacterSheetData> m_sheetData;
+    QList<CharacterSheetInfo> m_sheetData;
     QJsonObject m_rootJson;
     QString m_qmlCode;
     QString m_gameMasterId;

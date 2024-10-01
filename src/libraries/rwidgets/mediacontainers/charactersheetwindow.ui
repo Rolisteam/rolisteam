@@ -60,10 +60,10 @@
           <bool>true</bool>
          </property>
          <property name="selectionMode">
-          <enum>QAbstractItemView::ExtendedSelection</enum>
+          <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
          </property>
          <property name="selectionBehavior">
-          <enum>QAbstractItemView::SelectItems</enum>
+          <enum>QAbstractItemView::SelectionBehavior::SelectItems</enum>
          </property>
          <property name="uniformRowHeights">
           <bool>true</bool>
@@ -90,19 +90,6 @@
     <string>Add CharacterSheet</string>
    </property>
   </action>
-  <action name="m_loadQml">
-   <property name="text">
-    <string>Load QML</string>
-   </property>
-  </action>
-  <action name="m_detachTab">
-   <property name="text">
-    <string>Detach Tab</string>
-   </property>
-   <property name="toolTip">
-    <string>Detach Tab</string>
-   </property>
-  </action>
   <action name="m_copyTab">
    <property name="text">
     <string>Copy Tab</string>
@@ -125,8 +112,7 @@
   </action>
   <action name="m_menuAct">
    <property name="icon">
-    <iconset theme="://resources/icons/list.svg">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="://resources/icons/list.svg"/>
    </property>
    <property name="text">
     <string>Menu</string>

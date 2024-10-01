@@ -87,11 +87,12 @@ public:
     void setRootSection(Section* rootSection);
     Section* getRootSection() const;
 
-    void addCharacterSheet(CharacterSheet* sheet, int pos);
+    void addCharacterSheet(CharacterSheet* sheet, int pos = -1);
     CharacterSheet* getCharacterSheetById(const QString& id) const;
     int getCharacterSheetCount() const;
     void removeCharacterSheet(int index);
     void removeCharacterSheet(CharacterSheet* sheet);
+    void releaseCharacterSheet(CharacterSheet* sheet);
 
     CharacterSheet* addCharacterSheet();
 public slots:

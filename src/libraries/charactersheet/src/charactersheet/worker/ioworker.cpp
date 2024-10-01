@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "charactersheet/worker/ioworker.h"
 
+#include "charactersheet/include/charactersheet/controllers/section.h"
+
 #include <QBuffer>
 #include <QFile>
 #include <QJsonDocument>
@@ -27,6 +29,25 @@
 
 namespace IOWorker
 {
+
+QJsonObject saveCharaterSheetModel(CharacterSheetModel* model)
+{
+    auto section = model->getRootSection();
+    if(!section)
+        return {};
+
+    QJsonObject res;
+    section->save(res);
+    return res;
+}
+
+void fetchCharacterSheetModel(CharacterSheetModel *model, const QJsonObject &object)
+{
+    auto section = model->getRootSection();
+    if(!section)
+        return;
+    section->load(object);
+}
 
 QJsonArray saveImageModel(charactersheet::ImageModel* model)
 {
@@ -87,5 +108,7 @@ QJsonObject readFileToObject(const QString& filename)
     QJsonDocument json= QJsonDocument::fromJson(file.readAll());
     return json.object();
 }
+
+
 
 } // namespace IOWorker

@@ -14,7 +14,7 @@ Flickable {
     boundsBehavior: Flickable.StopAtBounds
     SheetController {
         id: sheetCtrl
-        appCtrl: appCtrl
+        appCtrl: AppCtrl
         parentWidth: root.width
         imageBgWidth: {{ baseWidth }}
         currentPage: 0
@@ -27,8 +27,8 @@ Flickable {
         ctrl: sheetCtrl
     }
     focus: true
-    Keys.onLeftPressed: sheetCtrl.nextPage()
-    Keys.onRightPressed: sheetCtrl.previousPage()
+    Keys.onLeftPressed: sheetCtrl.previousPage()
+    Keys.onRightPressed: sheetCtrl.nextPage()
     MouseArea {
         anchors.fill:parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton

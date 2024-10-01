@@ -57,6 +57,10 @@ public:
                                CharacterSheetUpdater::SharingMode mode, Character* character,
                                const QStringList& recipients);
 
+    void addRemoteCharacterSheet(CharacterSheetController* ctrl);
+
+    void setUpFieldUpdate(CharacterSheet *sheet) const;
+
 
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
@@ -66,6 +70,7 @@ private slots:
 
 signals:
     void characterSheetAdded(NetworkMessageReader* msg);
+    void characterSheetRemoved(const QString& uuid, const QString& ctrlId, const QString& characterId);
 
 private:
     QList<QPointer<CharacterSheetController>> m_ctrls;

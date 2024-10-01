@@ -52,11 +52,7 @@ protected:
 
 
     QStringList generateTableDelegate(TableFieldController* item, QStringList &columnWidths);
-    //QString generatePosition(FieldController* item);
-    //QString generateAlignment(FieldController* item);
-    //QString generateFont(const QFont& font, bool fitfont);
     QString getId(FieldController* item);
-    //QString getToolTip(FieldController* item);
 
 private:    
     QByteArray m_result;

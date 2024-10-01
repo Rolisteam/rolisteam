@@ -39,6 +39,7 @@
 #include <QSystemTrayIcon>
 #include <QTime>
 #include <QUrl>
+#include <QQmlEngine>
 #include <QUuid>
 #include <QWebEngineProfile>
 #include <QWebEngineSettings>
@@ -85,6 +86,7 @@
 #include "controller/networkcontroller.h"
 #include "controller/preferencescontroller.h"
 #include "controller/view_controller/imageselectorcontroller.h"
+#include "controller/applicationcontroller.h"
 
 // dialogs
 #include "rwidgets/dialogs/aboutrolisteam.h"
@@ -95,6 +97,7 @@
 // GMToolBox
 #include "rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
 #include "rwidgets/gmtoolbox/UnitConvertor/convertor.h"
+
 
 // session
 #include "rwidgets/docks/antagonistboard.h"
@@ -317,6 +320,12 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     connect(m_gameController->contentController(), &ContentController::historyChanged, this,
             &MainWindow::updateFileHistoryMenu);
     updateFileHistoryMenu();
+
+    qmlRegisterSingletonType<ApplicationController>("Helper", 1, 0, "AppCtrl",[this](QQmlEngine* engine, QJSEngine* scriptEngine)-> QObject* {
+                                 Q_UNUSED(engine);
+                                 Q_UNUSED(scriptEngine);
+                                 return new ApplicationController(m_gameController);
+                             });
 }
 
 MainWindow::~MainWindow()= default;
@@ -470,9 +479,17 @@ void MainWindow::linkActionToMenu()
                 m_gameController->newMedia(params);
             });
     connect(m_ui->m_openVectorialMap, &QAction::triggered, this,
-            []()
+            [this]()
             {
-                // TODO open vmap
+                auto str= QFileDialog::getOpenFileName(this, tr("Open Map"), tr("Map:"));
+                if(str.isEmpty())
+                    return;
+                std::map<QString, QVariant> params;
+                params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::VECTORIALMAP)});
+                QUrl url= QUrl::fromUserInput(str);
+                params.insert({Core::keys::KEY_NAME, url.fileName()});
+                params.insert({Core::keys::KEY_PATH, str});
+                m_gameController->newMedia(params);
             });
     connect(m_ui->m_openCampaignAction, &QAction::triggered, this, &MainWindow::openCampaign);
     connect(m_ui->m_openNoteAction, &QAction::triggered, this, &MainWindow::openGenericContent);

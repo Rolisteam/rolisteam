@@ -27,7 +27,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent* event);
 
 private:
-    CharacterSheet* m_characterSheet;
+    QPointer<CharacterSheet> m_characterSheet;
 };
 
 #endif // SHEETWIDGET_H

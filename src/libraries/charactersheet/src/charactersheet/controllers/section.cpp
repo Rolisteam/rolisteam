@@ -104,7 +104,7 @@ void Section::save(QJsonObject& json, bool exp)
         fieldArray.append(itemObject);
     }
     json["items"]= fieldArray;
-    qDebug() << json;
+    //qDebug() << json;
 }
 
 QList<CSItem*> Section::allChildren() const

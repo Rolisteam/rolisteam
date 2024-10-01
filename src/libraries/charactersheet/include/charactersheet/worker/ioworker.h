@@ -22,6 +22,7 @@
 
 #include <charactersheet/charactersheet_global.h>
 #include <charactersheet/imagemodel.h>
+#include <charactersheet/charactersheetmodel.h>
 
 #include <QJsonArray>
 
@@ -33,6 +34,11 @@ CHARACTERSHEET_EXPORT void fetchImageModel(charactersheet::ImageModel* model, co
 
 CHARACTERSHEET_EXPORT void saveFile(const QByteArray& data, const QString& filepath);
 CHARACTERSHEET_EXPORT QJsonObject readFileToObject(const QString& file);
+
+CHARACTERSHEET_EXPORT QJsonObject saveCharaterSheetModel(CharacterSheetModel* model);
+CHARACTERSHEET_EXPORT void fetchCharacterSheetModel(CharacterSheetModel* model, const QJsonObject& object);
+
+
 }; // namespace IOWorker
 
 #endif // IOWORKER_H

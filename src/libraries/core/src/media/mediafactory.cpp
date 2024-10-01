@@ -98,7 +98,7 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
                                   [sheetCtrl](const QByteArray& array)
                                   {
                                       auto sheetModel= sheetCtrl->model();
-                                      // sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
+                                      IOWorker::fetchCharacterSheetModel(sheetModel, IOHelper::textByteArrayToJsonObj(array));
                                   });
     hu::setParamIfAny<QByteArray>(
         ck::KEY_CHARACTERDATA, sheetData,

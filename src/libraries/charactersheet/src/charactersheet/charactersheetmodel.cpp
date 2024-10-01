@@ -349,19 +349,22 @@ void CharacterSheetModel::checkCharacter(Section* section)
                 continue;
 
             auto field= sheet->getFieldFromKey(id->id());
-            if(nullptr == field && id->fieldType() != FieldController::TABLE)
+            if(nullptr == field)
             {
-                FieldController* newField= new FieldController(TreeSheetItem::FieldItem, false);
-                newField->copyField(id, true);
-                sheet->insertCharacterItem(newField);
-                field= newField;
-            }
-            else if(nullptr == field && id->fieldType() == FieldController::TABLE)
-            {
-                auto newtablefield= new TableFieldController(false);
-                newtablefield->copyField(id, true);
-                sheet->insertCharacterItem(newtablefield);
-                field= newtablefield;
+                if(id->fieldType() != FieldController::TABLE)
+                {
+                    FieldController* newField= new FieldController(TreeSheetItem::FieldItem, false);
+                    newField->copyField(id, true);
+                    sheet->insertCharacterItem(newField);
+                    field= newField;
+                }
+                else //if(nullptr == field && id->fieldType() == FieldController::TABLE)
+                {
+                    auto newtablefield= new TableFieldController(false);
+                    newtablefield->copyField(id, true);
+                    sheet->insertCharacterItem(newtablefield);
+                    field= newtablefield;
+                }
             }
             for(int j= 0; j < id->childrenCount(); ++j)
             {
@@ -388,6 +391,8 @@ void CharacterSheetModel::checkCharacter(Section* section)
 }
 void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
 {
+    if(pos < 0)
+        pos = m_characterList.size();
     beginInsertColumns(QModelIndex(), pos + 1, pos + 1);
     std::unique_ptr<CharacterSheet> uSheet(sheet);
     m_characterList.insert(std::begin(m_characterList)+pos, std::move(uSheet));
@@ -466,6 +471,21 @@ void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
         return;
     auto pos = std::distance(std::begin(m_characterList), cit);
     beginRemoveColumns(QModelIndex(), pos + 1, pos + 1);
+    m_characterList.erase(cit);
+    endRemoveColumns();
+}
+
+void CharacterSheetModel::releaseCharacterSheet(CharacterSheet* sheet)
+{
+    auto cit= std::find_if(std::begin(m_characterList), std::end(m_characterList), [sheet](const std::unique_ptr<CharacterSheet>& dataSheet){
+        return dataSheet.get() == sheet;
+    });
+
+    if(cit == std::end(m_characterList))
+        return;
+    auto pos = std::distance(std::begin(m_characterList), cit);
+    beginRemoveColumns(QModelIndex(), pos + 1, pos + 1);
+    cit->release();
     m_characterList.erase(cit);
     endRemoveColumns();
 }

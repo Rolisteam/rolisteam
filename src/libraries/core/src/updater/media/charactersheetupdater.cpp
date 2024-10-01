@@ -76,20 +76,32 @@ void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
 
             });
 
-    if(csCtrl->remote())
-    {
+    connect(csCtrl, &CharacterSheetController::removedSheet, this,
+            [](const QString& uuid, const QString& ctrlId, const QString& characterId) {
+                MessageHelper::stopSharingSheet(uuid, ctrlId, characterId);
+            });
 
-        auto const& data = csCtrl->sheetData();
-        qDebug() << "[sheet] Remote connect to all sheets:" << data.size();
-        for(auto const& sheetInfo: data )
-        {
-            m_sharingData.append({csCtrl->uuid(), sheetInfo.sheet->uuid(),
-                                  sheetInfo.character->uuid(),
-                                  CharacterSheetUpdater::SharingMode::ONE,
-                                  sheetInfo.sheet, {csCtrl->ownerId()}});
-            connect(sheetInfo.sheet, &CharacterSheet::updateField, this, &CharacterSheetUpdater::updateField);
-        }
+}
+
+void CharacterSheetUpdater::addRemoteCharacterSheet(CharacterSheetController* ctrl)
+{
+    if(!ctrl->remote())
+        return;
+
+    auto const& data = ctrl->sheetData();
+    qDebug() << "[sheet] Remote connect to all sheets:" << data.size();
+    for(auto const& sheetInfo: data )
+    {
+        auto sheet = ctrl->characterSheetFromId(sheetInfo.m_sheetId);
+        if(!sheet)
+            continue;
+        m_sharingData.append({ctrl->uuid(), sheetInfo.m_sheetId,
+                              sheetInfo.m_characterId,
+                              CharacterSheetUpdater::SharingMode::ONE,
+                              sheet, {ctrl->gameMasterId()}});
+        setUpFieldUpdate(sheet);
     }
+
 }
 
 void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl, CharacterSheet* sheet,
@@ -101,7 +113,7 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
 
     if(localIsGM())
     {
-        auto it= std::find_if(std::begin(m_sharingData), std::end(m_sharingData),
+        auto const it= std::find_if(std::begin(m_sharingData), std::end(m_sharingData),
                               [sheet](const CSSharingInfo& info) { return sheet->uuid() == info.sheetId; });
 
         if(it != std::end(m_sharingData))
@@ -119,6 +131,11 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
         MessageHelper::shareCharacterSheet(sheet, character, ctrl);
     }
 
+    setUpFieldUpdate(sheet);
+}
+
+void CharacterSheetUpdater::setUpFieldUpdate(CharacterSheet* sheet) const
+{
     connect(sheet, &CharacterSheet::updateField, this, &CharacterSheetUpdater::updateField);
 }
 
@@ -148,6 +165,13 @@ NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageRe
             }
         }
     }
+    else if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::closeCharacterSheet))
+    {
+        auto sheetId = msg->string8();
+        auto ctrlId = msg->string8();
+        auto characterId = msg->string8();
+        emit characterSheetRemoved(sheetId, ctrlId, characterId);
+    }
 
     return NetWorkReceiver::NONE;
 }
@@ -157,6 +181,7 @@ void CharacterSheetUpdater::updateField(CharacterSheet* sheet, CSItem* itemSheet
     if(nullptr == sheet)
         return;
 
+    qDebug() << "[sheet] NetMsg::CharacterSheetCategory count :"<< m_sharingData.size();
     std::for_each(std::begin(m_sharingData), std::end(m_sharingData), [sheet, itemSheet, path]
                   (const CSSharingInfo& info){
 
@@ -180,4 +205,5 @@ void CharacterSheetUpdater::updateField(CharacterSheet* sheet, CSItem* itemSheet
         msg.sendToServer();
 
     });
+
 }

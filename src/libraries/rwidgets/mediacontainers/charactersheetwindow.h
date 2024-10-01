@@ -67,32 +67,17 @@ class RWIDGET_EXPORT CharacterSheetWindow : public MediaContainer
 public:
     CharacterSheetWindow(CharacterSheetController* ctrl, QWidget* parent= nullptr);
     virtual ~CharacterSheetWindow();
-    QJsonDocument saveFile();
-    void addCharacterSheetSlot(CharacterSheet*);
-signals:
-    void addWidgetToMdiArea(QWidget*, QString str);
-    void rollDiceCmd(QString str, QString label, bool withAlias);
-    void showText(QString str);
-    void errorOccurs(QString error);
 
 public slots:
-    void openQML();
     void contextMenuForTabs(const QPoint pos);
-    void detachTab();
-    void rollDice(QString cmd, bool alias= true);
-    void removeConnection(Player*);
     void readErrorFromQML(QList<QQmlError> errors);
     void exportPDF();
+
+
 protected slots:
     void addTabWithSheetView(CharacterSheet* chSheet, Character* character);
-    void addLine();
-    void addSection();
-    void addCharacterSheet();
     void displayCustomMenu(const QPoint& pos);
-    void affectSheetToCharacter(const QString& uuid);
-    void displayError(const QList<QQmlError>& warnings);
     void setReadOnlyOnSelection();
-    void stopSharing();
     virtual void updateTitle();
     void copyTab();
 
@@ -105,16 +90,7 @@ protected:
 private:
     QPointer<CharacterSheetController> m_sheetCtrl;
     Ui::CharacterSheetWindow* m_ui;
-    QString m_qmlUri;
-
-    CharacterSheet* m_currentCharacterSheet;
-    QQmlComponent* m_sheetComponent;
-
-    QJsonObject m_data;
-    QList<QQmlError> m_errorList;
-
-    const QString m_shareTo= tr("Share To");
-    const QString m_filterString= tr("Character Sheet Data files (*.rcs)");
+    QList<QPointer<SheetWidget>> m_tabs;
 };
 
 #endif // CHARACTERSHEETWINDOW_H
