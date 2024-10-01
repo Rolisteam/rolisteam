@@ -1,8 +1,9 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Controls.impl 2.15
-import QtQuick.Templates 2.15 as T
-import Customization 1.0
+import QtQuick
+import QtQuick.Templates as T
+import QtQuick.Controls.impl
+import QtQuick.Controls.Fusion
+import QtQuick.Controls.Fusion.impl
+import Customization
 
 T.Button {
     id: control
@@ -13,14 +14,11 @@ T.Button {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    padding: 6
-    horizontalPadding: padding + 2
+    padding: 4
     spacing: 6
 
-    icon.width: 24
-    icon.height: 24
-    icon.color: control.checked || control.highlighted ? control.style.brightText :
-                control.flat && !control.down ? (control.visualFocus ? control.style.highlight : control.style.windowText) : control.style.buttonText
+    icon.width: 16
+    icon.height: 16
 
     contentItem: IconLabel {
         spacing: control.spacing
@@ -30,18 +28,18 @@ T.Button {
         icon: control.icon
         text: control.text
         font: control.font
-        color: control.checked || control.highlighted ? control.style.brightText :
-               control.flat && !control.down ? (control.visualFocus ? control.style.highlight : control.style.windowText) : control.style.buttonText
+        color: control.style.buttonText
     }
 
-    background: Rectangle {
-        implicitWidth: 100
-        implicitHeight: 40
-        visible: !control.flat || control.down || control.checked || control.highlighted
-        color: Color.blend(control.checked || control.highlighted ? control.style.dark : control.style.button,
-                                                                    control.style.mid, control.down ? 0.5 : 0.0)
-        border.color: control.style.highlight
-        border.width: control.visualFocus ? 2 : 0
+    background: ButtonPanel {
+        implicitWidth: 80
+        implicitHeight: 24
+
+        control: control
+        visible: !control.flat || control.down || control.checked || control.highlighted || control.visualFocus
+            || (enabled && control.hovered)
     }
 }
+
+
 

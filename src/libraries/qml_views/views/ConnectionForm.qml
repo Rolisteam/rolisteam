@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Profile
 import CustomItems
+import Customization
 
 Item {
     id: _root
@@ -65,19 +66,31 @@ Item {
 
                 }
                 ToolButton {
+                    id: addBtn
                     action: _addProfile
                     icon.width: 32
+                    icon.height: 32
                     Layout.columnSpan: 2
                     icon.color: "transparent"
                     ToolTip.text: qsTr("New profile")
+                    flat: true
+                    opacity: addBtn.down ? 0.5 : 1.0
                 }
                 ToolButton {
+                    id: cloneBtn
+                    opacity: cloneBtn.down ? 0.5 : 1.0
                     action: _cloneProfile
+                    icon.width: 32
+                    icon.height: 32
                     ToolTip.text: qsTr("Clone profile")
                 }
                 ToolButton {
+                    id: removeBtn
                     action: _removeProfile
                     Layout.columnSpan: 2
+                    opacity: removeBtn.down ? 0.5 : 1.0
+                    icon.width: 32
+                    icon.height: 32
                     icon.color: "transparent"
                     ToolTip.text: qsTr("Remove profile")
                     enabled: ProfileController.currentProfileIndex >= 0
@@ -294,9 +307,7 @@ Item {
                         text: qsTr("Save profiles")
                         onClicked: ProfileController.saveProfileModels()
                         enabled: true
-                        background: Rectangle {
-                            color: _saveProfiles.down ? "darkgray" : "gray"
-                        }
+
                     }
 
                     Item {
@@ -311,18 +322,21 @@ Item {
                         enabled: ProfileController.canConnect
                         onClicked: ProfileController.startConnection() //startNetworkConnection()
                         opacity: enabled ? 1.0 : 0.4
-                        background: Rectangle {
-                            color: _connectBtn.down ? "darkgreen" : _connectBtn.enabled ? "green" : "darkgray"
-                        }
+                        icon.name: _connectBtn.enabled ? "checked" : "close-circle"
+                        icon.color: _connectBtn.enabled ? "green" : "red"
+                        /*background: Rectangle {
+
+                            color: Theme.nightMode ? _connectBtn.down ? "darkgreen" : _connectBtn.enabled ? "green" : "darkgray"
+                        }*/
                     }
                     Button {
                         id: _cancelBtn
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("Cancel")
                         onClicked: ProfileController.reject()
-                        background: Rectangle {
+                        /*background: Rectangle {
                             color: _cancelBtn.down ? "darkgray" : "gray"
-                        }
+                        }*/
                     }
                 }
             }
