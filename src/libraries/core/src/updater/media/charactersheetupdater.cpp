@@ -20,26 +20,28 @@
 #include "updater/media/charactersheetupdater.h"
 
 #include <QJsonDocument>
+#include <QLoggingCategory>
 
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/csitem.h"
+#include "common/logcategory.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "data/character.h"
 #include "media/mediafactory.h"
 #include "network/networkmessagewriter.h"
-#include "worker/messagehelper.h"
 #include "worker/iohelper.h"
+#include "worker/messagehelper.h"
 
-
-namespace {
-
-CharacterSheetController* findController(const QString& mediaId, const QString& sheetId,const QList<QPointer<CharacterSheetController>>& ctrls)
+namespace
 {
-    auto it = std::find_if(std::begin(ctrls), std::end(ctrls),
-                          [mediaId, sheetId](const QPointer<CharacterSheetController>& ctrl){
-                              return ctrl->uuid() == mediaId && ctrl->hasCharacterSheet(sheetId);
-                          });
+
+CharacterSheetController* findController(const QString& mediaId, const QString& sheetId,
+                                         const QList<QPointer<CharacterSheetController>>& ctrls)
+{
+    auto it= std::find_if(std::begin(ctrls), std::end(ctrls),
+                          [mediaId, sheetId](const QPointer<CharacterSheetController>& ctrl)
+                          { return ctrl->uuid() == mediaId && ctrl->hasCharacterSheet(sheetId); });
 
     if(it == std::end(ctrls))
         return nullptr;
@@ -47,15 +49,33 @@ CharacterSheetController* findController(const QString& mediaId, const QString& 
     return (*it).get();
 }
 
-}
+} // namespace
 
-
-
-CharacterSheetUpdater::CharacterSheetUpdater(FilteredContentModel* model,campaign::CampaignManager* campaign, QObject* parent)
-    : MediaUpdaterInterface(campaign, parent), m_model(model)
+CharacterSheetUpdater::CharacterSheetUpdater(FilteredContentModel* model, campaign::CampaignManager* campaign,
+                                             QObject* parent)
+    : MediaUpdaterInterface(campaign, parent), m_model(model), m_finder{new CharacterFinder()}
 {
+    if(!m_finder->setUpConnect())
+        qCWarning(CharacterSheetCat, "Character Finder is not ready.");
     // comment
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterSheetCategory, this);
+    connect(m_finder.get(), &CharacterFinder::characterAdded, this,
+            [this](const QStringList& list)
+            {
+                std::for_each(std::begin(m_ctrls), std::end(m_ctrls),
+                              [list](const QPointer<CharacterSheetController>& ctrl)
+                              {
+                                  auto sharingData= ctrl->sheetData();
+
+                                  for(auto const& info : sharingData)
+                                  {
+                                      if(list.contains(info.m_characterId))
+                                      {
+                                          ctrl->shareCharacterSheetTo(info);
+                                      }
+                                  }
+                              });
+            });
 }
 
 void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
@@ -72,15 +92,18 @@ void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
             { shareCharacterSheetTo(ctrl, sheet, mode, character, recipients); });
 
     connect(csCtrl, &CharacterSheetController::modifiedChanged, this,
-            []() {
-
+            [this]()
+            {
+                qDebug() << "Modified charactersheet controller";
+                auto ctrl= qobject_cast<CharacterSheetController*>(sender());
+                if(!ctrl)
+                    return;
+                saveMediaController(ctrl);
             });
 
     connect(csCtrl, &CharacterSheetController::removedSheet, this,
-            [](const QString& uuid, const QString& ctrlId, const QString& characterId) {
-                MessageHelper::stopSharingSheet(uuid, ctrlId, characterId);
-            });
-
+            [](const QString& uuid, const QString& ctrlId, const QString& characterId)
+            { MessageHelper::stopSharingSheet(uuid, ctrlId, characterId); });
 }
 
 void CharacterSheetUpdater::addRemoteCharacterSheet(CharacterSheetController* ctrl)
@@ -88,20 +111,21 @@ void CharacterSheetUpdater::addRemoteCharacterSheet(CharacterSheetController* ct
     if(!ctrl->remote())
         return;
 
-    auto const& data = ctrl->sheetData();
+    auto const& data= ctrl->sheetData();
     qDebug() << "[sheet] Remote connect to all sheets:" << data.size();
-    for(auto const& sheetInfo: data )
+    for(auto const& sheetInfo : data)
     {
-        auto sheet = ctrl->characterSheetFromId(sheetInfo.m_sheetId);
+        auto sheet= ctrl->characterSheetFromId(sheetInfo.m_sheetId);
         if(!sheet)
             continue;
-        m_sharingData.append({ctrl->uuid(), sheetInfo.m_sheetId,
+        m_sharingData.append({ctrl->uuid(),
+                              sheetInfo.m_sheetId,
                               sheetInfo.m_characterId,
                               CharacterSheetUpdater::SharingMode::ONE,
-                              sheet, {ctrl->gameMasterId()}});
+                              sheet,
+                              {ctrl->gameMasterId()}});
         setUpFieldUpdate(sheet);
     }
-
 }
 
 void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl, CharacterSheet* sheet,
@@ -114,7 +138,7 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
     if(localIsGM())
     {
         auto const it= std::find_if(std::begin(m_sharingData), std::end(m_sharingData),
-                              [sheet](const CSSharingInfo& info) { return sheet->uuid() == info.sheetId; });
+                                    [sheet](const CSSharingInfo& info) { return sheet->uuid() == info.sheetId; });
 
         if(it != std::end(m_sharingData))
         {
@@ -139,7 +163,7 @@ void CharacterSheetUpdater::setUpFieldUpdate(CharacterSheet* sheet) const
     connect(sheet, &CharacterSheet::updateField, this, &CharacterSheetUpdater::updateField);
 }
 
-NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageReader *msg)
+NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageReader* msg)
 {
     if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::addCharacterSheet))
     {
@@ -148,16 +172,16 @@ NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageRe
     else if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet))
     {
         qDebug() << "[sheet] NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet";
-        auto idMedia = msg->string8();
-        auto idSheet = msg->string8();
-        auto ctrl = findController(idMedia, idSheet, m_ctrls);
+        auto idMedia= msg->string8();
+        auto idSheet= msg->string8();
+        auto ctrl= findController(idMedia, idSheet, m_ctrls);
         qDebug() << "[sheet]" << idMedia << idSheet << m_ctrls.size() << ctrl;
         if(ctrl)
         {
             qDebug() << "[sheet] inside if";
-            auto path = msg->string32();
-            auto array = msg->byteArray32();
-            auto sheet = ctrl->characterSheetFromId(idSheet);
+            auto path= msg->string32();
+            auto array= msg->byteArray32();
+            auto sheet= ctrl->characterSheetFromId(idSheet);
             if(sheet)
             {
                 qDebug() << "[sheet] inside if sheet";
@@ -167,9 +191,9 @@ NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageRe
     }
     else if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::closeCharacterSheet))
     {
-        auto sheetId = msg->string8();
-        auto ctrlId = msg->string8();
-        auto characterId = msg->string8();
+        auto sheetId= msg->string8();
+        auto ctrlId= msg->string8();
+        auto characterId= msg->string8();
         emit characterSheetRemoved(sheetId, ctrlId, characterId);
     }
 
@@ -181,29 +205,26 @@ void CharacterSheetUpdater::updateField(CharacterSheet* sheet, CSItem* itemSheet
     if(nullptr == sheet)
         return;
 
-    qDebug() << "[sheet] NetMsg::CharacterSheetCategory count :"<< m_sharingData.size();
-    std::for_each(std::begin(m_sharingData), std::end(m_sharingData), [sheet, itemSheet, path]
-                  (const CSSharingInfo& info){
+    qDebug() << "[sheet] NetMsg::CharacterSheetCategory count :" << m_sharingData.size();
+    std::for_each(std::begin(m_sharingData), std::end(m_sharingData),
+                  [sheet, itemSheet, path](const CSSharingInfo& info)
+                  {
+                      if(info.sheet != sheet)
+                          return;
 
-        if(info.sheet != sheet)
-            return;
-
-
-        NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet);
-        if(info.mode != SharingMode::ALL)
-        {
-            msg.setRecipientList(info.recipients, NetworkMessage::OneOrMany);
-        }
-        msg.string8(info.ctrlId);
-        msg.string8(sheet->uuid());
-        msg.string32(path);
-        QJsonObject object;
-        itemSheet->saveDataItem(object);
-        QJsonDocument doc;
-        doc.setObject(object);
-        msg.byteArray32(doc.toJson());
-        msg.sendToServer();
-
-    });
-
+                      NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet);
+                      if(info.mode != SharingMode::ALL)
+                      {
+                          msg.setRecipientList(info.recipients, NetworkMessage::OneOrMany);
+                      }
+                      msg.string8(info.ctrlId);
+                      msg.string8(sheet->uuid());
+                      msg.string32(path);
+                      QJsonObject object;
+                      itemSheet->saveDataItem(object);
+                      QJsonDocument doc;
+                      doc.setObject(object);
+                      msg.byteArray32(doc.toJson());
+                      msg.sendToServer();
+                  });
 }

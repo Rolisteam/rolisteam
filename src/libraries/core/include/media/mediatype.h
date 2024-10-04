@@ -23,7 +23,7 @@
 #include <QHash>
 #include <QObject>
 
-#include "network_global.h"
+#include <network_global.h>
 
 namespace Core
 {
@@ -520,7 +520,12 @@ namespace sheet
 {
 constexpr char const* JSON_QML_CONTENT{"qml"};
 constexpr char const* JSON_CHARACTER_CONTENT{"characters"};
+constexpr char const* JSON_CHARACTER_COUNT{"characterCount"};
 constexpr char const* JSON_IMAGES_CONTENT{"background"};
+constexpr auto KEY_SHARING_INFO{"sharingInfo"};
+constexpr auto KEY_SHEETID{"sheetId"};
+constexpr auto KEY_CHARACTERID{"characterId"};
+constexpr auto KEY_EVERYONE{"everyone"};
 } // namespace sheet
 
 namespace vmap
@@ -788,7 +793,6 @@ constexpr auto KEY_CODE{"code"};
 constexpr auto KEY_COMMONNAME{"commonName"};
 constexpr auto KEY_LANGNAME{"langname"};
 }
-
 } // namespace Core
 
 #endif // MEDIATYPE_H

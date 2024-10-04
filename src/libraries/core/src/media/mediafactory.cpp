@@ -114,6 +114,7 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
     hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, sheetData,
                                   [sheetCtrl](const QByteArray& array)
                                   { IOHelper::readCharacterSheetController(sheetCtrl, array); });
+
     if(!params.contains(ck::KEY_SERIALIZED))
     {
         hu::setParamIfAny<QString>(ck::KEY_PATH, sheetData, [sheetCtrl](const QString& path){
@@ -446,6 +447,14 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
     base->setLocalId(m_localId);
     base->setOwnerId(m_localId);
     base->setLocalColor(localColor);
+
+    namespace ck= Core::keys;
+    namespace hu= helper::utils;
+    using std::placeholders::_1;
+    hu::setParamIfAny<QString>(ck::KEY_PATH, map, [base](const QString& path){
+        base->setUrl(QUrl::fromUserInput(path));
+    });
+
     return base;
 }
 

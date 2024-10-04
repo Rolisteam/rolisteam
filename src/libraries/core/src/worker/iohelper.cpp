@@ -384,32 +384,41 @@ QByteArray saveNotes(NoteController* ctrl)
 
 QByteArray saveCharacterSheet(CharacterSheetController* ctrl)
 {
-    QByteArray data;
     if(!ctrl)
-        return data;
-    QDataStream output(&data, QIODevice::WriteOnly);
-    IOHelper::saveBase(ctrl, output);
+        return {};
 
-    QJsonDocument doc;
-    QJsonObject obj; //= //ctrl->rootObject();
+    QFile file(ctrl->url().toLocalFile());
+    if(!file.open(QIODevice::ReadOnly))
+        qDebug() << "error reading file" << ctrl->url().toLocalFile();
+
+    auto jsonData = file.readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+
+    QJsonObject obj = doc.object();
+    IOHelper::saveMediaBaseIntoJSon(ctrl, obj);
     auto model= ctrl->model();
-    QJsonObject dataObj;
-    model->writeModel(dataObj);
-
-    obj["character"]= dataObj;
-
+    model->writeModel(obj);
     auto images= ctrl->imageModel();
-
     auto array= IOWorker::saveImageModel(images);
+    obj[Core::jsonctrl::sheet::JSON_IMAGES_CONTENT]= array;
 
-    obj["images"]= array;
+    auto sharingData = ctrl->sheetData();
+    QJsonArray sharingInfos;
+    for(auto const& info : sharingData)
+    {
+        if(info.remote)
+            continue;
 
+        QJsonObject shareInfo;
+        shareInfo[Core::jsonctrl::sheet::KEY_SHEETID] = info.m_sheetId;
+        shareInfo[Core::jsonctrl::sheet::KEY_CHARACTERID] = info.m_characterId;
+        shareInfo[Core::jsonctrl::sheet::KEY_EVERYONE] = info.everyone;
+        sharingInfos.append(shareInfo);
+    }
+    obj[Core::jsonctrl::sheet::KEY_SHARING_INFO] = sharingInfos;
     doc.setObject(obj);
 
-    QCborValue val(doc.toJson());
-    output << val;
-
-    return data;
+    return doc.toJson();
 }
 
 QByteArray saveSharedNote(SharedNoteController* ctrl)
@@ -615,78 +624,6 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
     return data;
 }
 
-/*MediaControllerBase* IOHelper::loadController(const QByteArray& data)
-{
-    QDataStream input(data);
-    Core::ContentType type;
-    input >> type;
-
-    MediaControllerBase* value= nullptr;
-    switch(type)
-    {
-    case Core::ContentType::VECTORIALMAP:
-    {
-        auto ctrl= new VectorialMapController();
-        value= ctrl;
-        VectorialMapMessageHelper::readVectorialMapController(ctrl, data);
-    }
-    break;
-    case Core::ContentType::PICTURE:
-    {
-        auto ctrl= new ImageController();
-        value= ctrl;
-        readImageController(ctrl, data);
-    }
-    break;
-    case Core::ContentType::NOTES:
-    {
-        auto ctrl= new NoteController();
-        value= ctrl;
-        readNoteController(ctrl, data);
-    }
-    break;
-    case Core::ContentType::CHARACTERSHEET:
-    {
-        auto ctrl= new CharacterSheetController();
-        value= ctrl;
-        readCharacterSheetController(ctrl, data);
-    }
-    break;
-    case Core::ContentType::SHAREDNOTE:
-    {
-        auto ctrl= new SharedNoteController();
-        value= ctrl;
-        readSharedNoteController(ctrl, data);
-    }
-    break;
-    case Core::ContentType::WEBVIEW:
-    {
-        auto ctrl= new WebpageController();
-        value= ctrl;
-        readWebpageController(ctrl, data);
-    }
-    break;
-    case Core::ContentType::MINDMAP:
-    {
-        auto ctrl= new MindMapController({});
-        value= ctrl;
-        readMindmapController(ctrl, data);
-    }
-    case Core::ContentType::PDF:
-    {
-        auto ctrl= new PdfController();
-        value= ctrl;
-        readPdfController(ctrl, data);
-    }
-    break;
-    default:
-        Q_ASSERT(false); // No valid contentType
-        break;
-    }
-
-    return value;
-}*/
-
 void IOHelper::writePlaylist(const QString& path, const QList<QUrl>& urls)
 {
     QByteArray array;
@@ -765,12 +702,9 @@ void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, cons
     if(!ctrl || array.isEmpty())
         return;
 
-    qDebug() << "array" << array.size();
     auto data= IOHelper::textByteArrayToJsonObj(array);
-    qDebug() << "\n\n\n\n\ndata" << data.size();
     IOHelper::readBaseFromJson(ctrl, data);
 
-    // auto charactersData= data[Core::jsonctrl::sheet::JSON_CHARACTER_CONTENT].toArray();
     auto images= data[Core::jsonctrl::sheet::JSON_IMAGES_CONTENT].toArray();
     ctrl->setQmlCode(data[Core::jsonctrl::sheet::JSON_QML_CONTENT].toString());
 
@@ -778,6 +712,16 @@ void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, cons
     model->readModel(data, true);
     auto imagesModel= ctrl->imageModel();
     IOWorker::fetchImageModel(imagesModel, images);
+
+    auto sharing = data[Core::jsonctrl::sheet::KEY_SHARING_INFO].toArray();
+    for(auto const& ref : sharing)
+    {
+        auto info = ref.toObject();
+        auto sheerId = info[Core::jsonctrl::sheet::KEY_SHEETID].toString();
+        auto characterId = info[Core::jsonctrl::sheet::KEY_CHARACTERID].toString();
+        auto everyone = info[Core::jsonctrl::sheet::KEY_EVERYONE].toBool();
+        ctrl->addSheetData({sheerId, characterId, everyone, false});
+    }
 }
 
 QString IOHelper::copyImageFileIntoCampaign(const QString& path, const QString& dest)

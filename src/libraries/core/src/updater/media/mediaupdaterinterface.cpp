@@ -59,7 +59,10 @@ void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
     {
         auto p= campaign->pathFromUuid(id);
         if(!p.isEmpty())
+        {
             path= p;
+            ctrl->setUrl(QUrl::fromUserInput(path));
+        }
     }
     ctrl->setUrl(QUrl::fromLocalFile(path));
 

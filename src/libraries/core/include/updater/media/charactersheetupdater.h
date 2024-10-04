@@ -25,6 +25,8 @@
 #include <core_global.h>
 #include "model/contentmodel.h"
 #include "mediaupdaterinterface.h"
+#include <memory.h>
+#include "worker/characterfinder.h"
 
 namespace campaign
 {
@@ -37,6 +39,7 @@ class CharacterSheet;
 class Character;
 class CSItem;
 class NetworkMessageReader;
+
 class CORE_EXPORT CharacterSheetUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
@@ -67,7 +70,6 @@ public:
 private slots:
     void updateField(CharacterSheet* sheet, CSItem* itemSheet, const QString& path);
 
-
 signals:
     void characterSheetAdded(NetworkMessageReader* msg);
     void characterSheetRemoved(const QString& uuid, const QString& ctrlId, const QString& characterId);
@@ -76,6 +78,7 @@ private:
     QList<QPointer<CharacterSheetController>> m_ctrls;
     QPointer<FilteredContentModel> m_model;
     QList<CSSharingInfo> m_sharingData;
+    std::unique_ptr<CharacterFinder> m_finder;
 };
 
 struct CSSharingInfo

@@ -29,10 +29,20 @@
 namespace SerializerHelper
 {
 
-QByteArray buildData(rcse::MainController* ctrl)
+QByteArray buildData(rcse::MainController* ctrl, const QString& fileName)
 {
+    QFile file(fileName);
+
     QJsonDocument json;
-    QJsonObject obj= saveGeneratorController(ctrl->generatorCtrl());
+    QJsonObject obj;
+
+    if(file.open(QIODevice::ReadOnly))
+    {
+        json = QJsonDocument::fromJson(file.readAll());
+        obj = json.object();
+    }
+
+    obj = saveGeneratorController(obj, ctrl->generatorCtrl());
 
     obj[keys::pageCount]= static_cast<int>(ctrl->editCtrl()->pageCount());
     obj[keys::uuid]= ctrl->imageCtrl()->uuid();
@@ -163,9 +173,8 @@ void fetchMainController(rcse::MainController* ctrl, const QJsonObject& jsonObj)
     }
 }
 
-QJsonObject saveGeneratorController(QmlGeneratorController* ctrl)
+QJsonObject& saveGeneratorController(QJsonObject& obj, QmlGeneratorController* ctrl)
 {
-    QJsonObject obj;
     obj[keys::data]= saveFieldModel(ctrl->fieldModel());
 
     // qml file

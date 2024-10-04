@@ -27,70 +27,75 @@
 #include "worker/utilshelper.h"
 
 bool containsCharacter(QString name, QColor color, QByteArray avatar,
-                       const std::vector<std::unique_ptr<Character>>& characters)
+                       const std::vector<std::unique_ptr<Character>> &characters)
 {
     return (characters.end()
             != std::find_if(characters.begin(), characters.end(),
-                            [name, color, avatar](const std::unique_ptr<Character>& character) {
+                            [name, color, avatar](const std::unique_ptr<Character> &character) {
                                 return character->name() == name && character->getColor() == color
-                                       && character->avatar() == avatar;
+                                        && character->avatar() == avatar;
                             }));
 }
 
-bool containsPointer(Character* character, const std::vector<std::unique_ptr<Character>>& characters)
+bool containsPointer(Character *character,
+                     const std::vector<std::unique_ptr<Character>> &characters)
 {
     return (characters.end()
             != std::find_if(characters.begin(), characters.end(),
-                            [character](const std::unique_ptr<Character>& pointer)
-                            { return character == pointer.get(); }));
+                            [character](const std::unique_ptr<Character> &pointer) {
+                                return character == pointer.get();
+                            }));
 }
 
-Player::Player() {}
+Player::Player() { }
 
-Player::Player(const QString& nom, const QColor& color, bool master)
+Player::Player(const QString &nom, const QColor &color, bool master)
     : Person(nom, color), m_gameMaster(master) //, m_link(link)
 {
 }
 
-Player::Player(const QString& uuid, const QString& nom, const QColor& color, bool master)
+Player::Player(const QString &uuid, const QString &nom, const QColor &color, bool master)
     : Person(nom, color, uuid), m_gameMaster(master) //, m_link(link)
 {
 }
 
-Player::~Player()= default;
+Player::~Player() = default;
 
 int Player::characterCount() const
 {
     return static_cast<int>(m_characters.size());
 }
 
-const std::vector<std::unique_ptr<Character>>& Player::children()
+const std::vector<std::unique_ptr<Character>> &Player::children()
 {
     return m_characters;
 }
 
-Character* Player::getCharacterByIndex(int index) const
+Character *Player::getCharacterByIndex(int index) const
 {
-    if(index < static_cast<int>(m_characters.size()) && index >= 0)
+    if (index < static_cast<int>(m_characters.size()) && index >= 0)
         return m_characters[static_cast<std::size_t>(index)].get();
     return nullptr;
 }
 
-Character* Player::characterById(const QString& id) const
+Character *Player::characterById(const QString &id) const
 {
-    auto it= std::find_if(m_characters.begin(), m_characters.end(),
-                          [id](const std::unique_ptr<Character>& character) { return character->uuid() == id; });
-    if(it == m_characters.end())
+    auto it = std::find_if(
+            m_characters.begin(), m_characters.end(),
+            [id](const std::unique_ptr<Character> &character) { return character->uuid() == id; });
+    if (it == m_characters.end())
         return nullptr;
     return it->get();
 }
 
-int Player::indexOf(Character* character) const
+int Player::indexOf(Character *character) const
 {
-    auto it= std::find_if(m_characters.begin(), m_characters.end(),
-                          [character](const std::unique_ptr<Character>& data) { return character == data.get(); });
+    auto it = std::find_if(m_characters.begin(), m_characters.end(),
+                           [character](const std::unique_ptr<Character> &data) {
+                               return character == data.get();
+                           });
 
-    if(it == m_characters.end())
+    if (it == m_characters.end())
         return -1;
     else
         return static_cast<int>(std::distance(m_characters.begin(), it));
@@ -103,21 +108,21 @@ bool Player::isGM() const
 
 void Player::setGM(bool value)
 {
-    if(value == m_gameMaster)
+    if (value == m_gameMaster)
         return;
-    m_gameMaster= value;
+    m_gameMaster = value;
     emit gmChanged();
 }
 
-void Player::addCharacter(const QString& uuid, const QString& name, const QColor& color, const QByteArray& data,
-                          const QHash<QString, QVariant>& params, bool Npc)
+void Player::addCharacter(const QString &uuid, const QString &name, const QColor &color,
+                          const QByteArray &data, const QHash<QString, QVariant> &params, bool Npc)
 {
-    if(containsCharacter(name, color, data, m_characters))
+    if (containsCharacter(name, color, data, m_characters))
         return;
 
     using std::placeholders::_1;
 
-    auto character= new Character(uuid, name, color, m_gameMaster, Npc);
+    auto character = new Character(uuid, name, color, m_gameMaster, Npc);
     helper::utils::setParamIfAny<int>(Core::updater::key_char_property_hp, params,
                                       std::bind(&Character::setHealthPointsCurrent, character, _1));
     helper::utils::setParamIfAny<int>(Core::updater::key_char_property_maxhp, params,
@@ -141,9 +146,9 @@ void Player::addCharacter(const QString& uuid, const QString& name, const QColor
     addCharacter(character);
 }
 
-void Player::addCharacter(Character* character)
+void Player::addCharacter(Character *character)
 {
-    if(!character || containsPointer(character, m_characters))
+    if (!character || containsPointer(character, m_characters))
         return;
 
     std::unique_ptr<Character> data(character);
@@ -162,34 +167,45 @@ void Player::addCharacter(Character* character)
     connect(data.get(), &Character::initCommandChanged, this, &Player::characterChanged);
 
     data->setParentPerson(this);
+    auto id = data->uuid();
     m_characters.push_back(std::move(data));
+    emit characterCountChanged();
+    emit characterAdded(id, uuid());
+}
+
+QStringList Player::characterIds() const
+{
+    QStringList res;
+
+    std::transform(std::begin(m_characters), std::end(m_characters), std::back_inserter(res),
+                   [](const std::unique_ptr<Character> &character) { return character->uuid(); });
+
+    return res;
 }
 
 void Player::clearCharacterList()
 {
-    for(auto& character : m_characters)
-    {
+    for (auto &character : m_characters) {
         character->setParentPerson(nullptr);
     }
     m_characters.clear();
     emit characterCountChanged();
 }
 
-bool Player::removeChild(Character* character)
+bool Player::removeChild(Character *character)
 {
-    if(nullptr == character)
+    if (nullptr == character)
         return false;
-    auto id= character->uuid();
-    auto size= m_characters.size();
-    m_characters.erase(std::remove_if(m_characters.begin(), m_characters.end(),
-                                      [id](const std::unique_ptr<Character>& tmp) { return tmp->uuid() == id; }));
+    auto id = character->uuid();
+    auto size = m_characters.size();
+    m_characters.erase(std::remove_if(
+            m_characters.begin(), m_characters.end(),
+            [id](const std::unique_ptr<Character> &tmp) { return tmp->uuid() == id; }));
 
-    if(size != m_characters.size())
-    {
+    if (size != m_characters.size()) {
         emit characterCountChanged();
         return true;
-    }
-    else
+    } else
         return false;
 }
 
@@ -210,9 +226,9 @@ QString Player::userVersion() const
 
 void Player::setUserVersion(QString softV)
 {
-    m_softVersion= softV;
+    m_softVersion = softV;
 }
-void Player::copyPlayer(Player* player)
+void Player::copyPlayer(Player *player)
 {
     setAvatar(player->avatar());
     setColor(player->getColor());
@@ -223,9 +239,9 @@ void Player::copyPlayer(Player* player)
 
 bool Player::isFullyDefined()
 {
-    if(m_uuid.isEmpty())
+    if (m_uuid.isEmpty())
         return false;
-    if(m_name.isEmpty())
+    if (m_name.isEmpty())
         return false;
 
     return true;

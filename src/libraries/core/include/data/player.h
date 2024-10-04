@@ -36,34 +36,37 @@ class NETWORK_EXPORT Player : public Person
 {
     Q_OBJECT
     Q_PROPERTY(bool isGM READ isGM WRITE setGM NOTIFY gmChanged FINAL)
-    Q_PROPERTY(QString userVersion READ userVersion WRITE setUserVersion NOTIFY userVersionChanged FINAL)
+    Q_PROPERTY(QString userVersion READ userVersion WRITE setUserVersion NOTIFY userVersionChanged
+                       FINAL)
     Q_PROPERTY(int characterCount READ characterCount NOTIFY characterCountChanged FINAL)
 public:
     Player();
-    Player(const QString& getName, const QColor& getColor, bool master= false);
-    Player(const QString& uuid, const QString& getName, const QColor& getColor, bool master= false);
+    Player(const QString &getName, const QColor &getColor, bool master = false);
+    Player(const QString &uuid, const QString &getName, const QColor &getColor,
+           bool master = false);
     virtual ~Player() override;
 
-    Character* getCharacterByIndex(int index) const;
-    Character* characterById(const QString& id) const;
-    const std::vector<std::unique_ptr<Character>>& children();
+    Character *getCharacterByIndex(int index) const;
+    Character *characterById(const QString &id) const;
+    const std::vector<std::unique_ptr<Character>> &children();
+    QStringList characterIds() const;
 
     virtual int characterCount() const;
     QString userVersion() const;
     bool isGM() const;
 
     // Children
-    int indexOf(Character* character) const;
-    void addCharacter(const QString& uuid, const QString& name, const QColor& color, const QByteArray& data,
-                      const QHash<QString, QVariant>&, bool Npc);
-    void addCharacter(Character* character);
-    virtual bool removeChild(Character*);
+    int indexOf(Character *character) const;
+    void addCharacter(const QString &uuid, const QString &name, const QColor &color,
+                      const QByteArray &data, const QHash<QString, QVariant> &, bool Npc);
+    void addCharacter(Character *character);
+    virtual bool removeChild(Character *);
     void clearCharacterList();
 
     virtual bool isLeaf() const override;
     virtual QHash<QString, QString> getVariableDictionnary() override;
     bool isFullyDefined();
-    void copyPlayer(Player* player);
+    void copyPlayer(Player *player);
 
 public slots:
     void setUserVersion(QString softV);
@@ -73,11 +76,12 @@ signals:
     void gmChanged();
     void userVersionChanged();
     void characterCountChanged();
+    void characterAdded(const QString &id, const QString &playerId);
     void characterChanged();
 
 private:
     std::vector<std::unique_ptr<Character>> m_characters;
-    bool m_gameMaster= false;
+    bool m_gameMaster = false;
     QString m_softVersion;
 };
 

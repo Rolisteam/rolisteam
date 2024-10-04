@@ -153,6 +153,7 @@ target_compile_definitions(charactersheet PRIVATE CHARACTERSHEET_LIBRARY)
 target_include_directories(charactersheet
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
       ${CMAKE_CURRENT_SOURCE_DIR}/src
+      ${CMAKE_SOURCE_DIR}/src/libraries/core/include/
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet>
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/charactersheet/controllers>
     PUBLIC

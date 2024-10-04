@@ -53,11 +53,11 @@ const char* const fonts{"fonts"};
 
 } // namespace keys
 
-QByteArray buildData(rcse::MainController *ctrl);
+QByteArray buildData(rcse::MainController* ctrl, const QString& fileName);
 void fetchMainController(rcse::MainController* ctrl, const QJsonObject& jsonObj);
 
 void fetchGeneratorController(QmlGeneratorController* ctrl, const QJsonObject& obj);
-QJsonObject saveGeneratorController(QmlGeneratorController* ctrl);
+QJsonObject& saveGeneratorController(QJsonObject& obj, QmlGeneratorController* ctrl);
 
 QJsonObject saveFieldModel(FieldModel* model);
 }; // namespace SerializerHelper

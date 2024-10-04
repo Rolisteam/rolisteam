@@ -30,28 +30,11 @@
 #include <QJsonObject>
 
 #include <charactersheet_formula/formulamanager.h>
+#include <core/include/media/mediatype.h>
 
 /////////////////////////////
 /// CharacterSheetModel
 /////////////////////////////
-
-/*Field* fieldFromIndex(const QModelIndex& index, bool& ok)
-{
-    ok= false;
-    TreeSheetItem* childItem= static_cast<TreeSheetItem*>(index.internalPointer());
-    if(childItem == nullptr)
-        return nullptr;
-
-    QString path= childItem->path();
-    CharacterSheet* sheet= m_characterList->at(index.column() - 1);
-    bool isReadOnly= sheet->getValue(path, Qt::BackgroundRole).toBool();
-    if(isReadOnly)
-    {
-        var= QColor(128, 128, 128);
-    }
-
-    return nullptr;
-}*/
 
 CharacterSheetModel::CharacterSheetModel() : m_rootSection(new Section()),m_formulaManager(new Formula::FormulaManager())
 {
@@ -665,7 +648,7 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex& index)
 
 bool CharacterSheetModel::writeModel(QJsonObject& jsonObj)
 {
-    jsonObj["characterCount"]= static_cast<int>(m_characterList.size()); // m_characterCount;
+    jsonObj[Core::jsonctrl::sheet::JSON_CHARACTER_COUNT]= static_cast<int>(m_characterList.size()); // m_characterCount;
 
     QJsonArray characters;
     for(auto const& item : m_characterList)
@@ -674,7 +657,7 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj)
         item->save(charObj);
         characters.append(charObj);
     }
-    jsonObj["characters"]= characters;
+    jsonObj[Core::jsonctrl::sheet::JSON_CHARACTER_CONTENT]= characters;
     return true;
 }
 

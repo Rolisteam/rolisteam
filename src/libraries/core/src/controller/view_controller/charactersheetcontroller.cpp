@@ -1,6 +1,6 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 
-//#include "charactersheet.h"
+// #include "charactersheet.h"
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetitem.h"
 #include "data/character.h"
@@ -17,14 +17,30 @@ CharacterSheetController::CharacterSheetController(const QString& id, const QUrl
     setUrl(path);
 
     connect(m_model.get(), &CharacterSheetModel::characterSheetHasBeenAdded, this, [this] { setModified(); });
+    connect(m_model.get(), &CharacterSheetModel::rowsInserted, this, [this] { setModified(); });
+    connect(m_model.get(), &CharacterSheetModel::rowsRemoved, this, [this] { setModified(); });
+    connect(m_model.get(), &CharacterSheetModel::modelReset, this, [this] { setModified(); });
+    connect(m_model.get(), &CharacterSheetModel::dataChanged, this, [this] { setModified(); });
+    connect(m_model.get(), &CharacterSheetModel::columnsInserted, this, [this] { setModified(); });
+    connect(m_model.get(), &CharacterSheetModel::columnsRemoved, this, [this] { setModified(); });
     connect(m_model.get(), &CharacterSheetModel::dataCharacterChange, this, [this] { setModified(); });
-    connect(m_imageModel.get(), &charactersheet::ImageModel::internalDataChanged, this, [this] { setModified(); });
 
-    connect(this, &CharacterSheetController::share, this, [this](CharacterSheetController* ctrl, CharacterSheet* sheet, CharacterSheetUpdater::SharingMode mode,
-                                                             Character* character, const QStringList&){
-        qDebug() <<"start Share:" <<sheet->uuid() <<"characterId:"<< character->uuid() << "ctrl:"<< ctrl->uuid();
-        m_sheetData.append({sheet->uuid(), character->uuid(), mode == CharacterSheetUpdater::SharingMode::ALL, false});
-    });
+    connect(m_imageModel.get(), &charactersheet::ImageModel::internalDataChanged, this, [this] { setModified(); });
+    connect(m_imageModel.get(), &charactersheet::ImageModel::rowsInserted, this, [this] { setModified(); });
+    connect(m_imageModel.get(), &charactersheet::ImageModel::rowsRemoved, this, [this] { setModified(); });
+    connect(m_imageModel.get(), &charactersheet::ImageModel::modelReset, this, [this] { setModified(); });
+    connect(m_imageModel.get(), &charactersheet::ImageModel::dataChanged, this, [this] { setModified(); });
+
+    connect(this, &CharacterSheetController::share, this,
+            [this](CharacterSheetController* ctrl, CharacterSheet* sheet, CharacterSheetUpdater::SharingMode mode,
+                   Character* character, const QStringList&)
+            {
+                qDebug() << "start Share:" << sheet->uuid() << "characterId:" << character->uuid()
+                         << "ctrl:" << ctrl->uuid();
+                m_sheetData.append(
+                    {sheet->uuid(), character->uuid(), mode == CharacterSheetUpdater::SharingMode::ALL, false});
+                setModified();
+            });
 }
 
 CharacterSheetController::~CharacterSheetController() {}
@@ -55,6 +71,7 @@ void CharacterSheetController::addCharacterSheet(const QJsonObject& data, const 
     character->setSheet(sheet);
     m_model->addCharacterSheet(sheet, m_model->getCharacterSheetCount());
     m_sheetData.append({sheet->uuid(), character->uuid(), false, true});
+    setModified();
     emit sheetCreated(sheet, character);
 }
 
@@ -125,13 +142,11 @@ void CharacterSheetController::shareCharacterSheetToAll(int idx)
     emit share(this, sheet, CharacterSheetUpdater::SharingMode::ALL, nullptr, {});
 }
 
-void CharacterSheetController::stopSharing(const QString &uuid)
+void CharacterSheetController::stopSharing(const QString& uuid)
 {
     qDebug() << "Charactershsett controller: stopSharing" << uuid;
-    auto it = std::find_if(std::begin(m_sheetData), std::end(m_sheetData),
-                     [uuid](const CharacterSheetInfo& info){
-                        return info.m_sheetId == uuid;
-                  });
+    auto it= std::find_if(std::begin(m_sheetData), std::end(m_sheetData),
+                          [uuid](const CharacterSheetInfo& info) { return info.m_sheetId == uuid; });
 
     if(it == std::end(m_sheetData))
         return;
@@ -139,6 +154,25 @@ void CharacterSheetController::stopSharing(const QString &uuid)
     emit removedSheet(it->m_sheetId, this->uuid(), it->m_characterId);
 
     m_sheetData.erase(it);
+    setModified();
+}
+
+void CharacterSheetController::shareCharacterSheetTo(const CharacterSheetInfo& info)
+{
+    if(!m_characterModel)
+        return;
+    auto character= m_characterModel->character(info.m_characterId);
+    auto sheet= m_model->getCharacterSheetById(info.m_sheetId);
+
+    if(!info.everyone)
+    {
+        shareCharacterSheetTo(character, sheet);
+    }
+    else
+    {
+        auto sheet= m_model->getCharacterSheetById(info.m_sheetId);
+        emit share(this, sheet, CharacterSheetUpdater::SharingMode::ALL, nullptr, {});
+    }
 }
 
 void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int idx)
@@ -146,9 +180,13 @@ void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int id
     if(!m_characterModel)
         return;
     auto character= m_characterModel->character(uuid);
-
     auto sheet= m_model->getCharacterSheet(idx);
 
+    shareCharacterSheetTo(character, sheet);
+}
+
+void CharacterSheetController::shareCharacterSheetTo(Character* character, CharacterSheet* sheet)
+{
     if(character == nullptr || sheet == nullptr)
         return;
 
@@ -181,44 +219,49 @@ void CharacterSheetController::setRootJson(const QJsonObject& newRootJson)
     emit rootJsonChanged();
 }
 
-const QList<CharacterSheetInfo> &CharacterSheetController::sheetData() const
+const QList<CharacterSheetInfo>& CharacterSheetController::sheetData() const
 {
     return m_sheetData;
 }
 
+void CharacterSheetController::addSheetData(const CharacterSheetInfo& info)
+{
+    m_sheetData.append(info);
+}
+
 bool CharacterSheetController::alreadySharing(const QString& characterId, const QString& charactersheetId) const
 {
-    auto const& it = std::find_if(std::begin(m_sheetData), std::end(m_sheetData), [characterId, charactersheetId](const CharacterSheetInfo& data) {
-        return (data.m_characterId == characterId && data.m_sheetId == charactersheetId);
-    });
+    auto const& it= std::find_if(std::begin(m_sheetData), std::end(m_sheetData),
+                                 [characterId, charactersheetId](const CharacterSheetInfo& data)
+                                 { return (data.m_characterId == characterId && data.m_sheetId == charactersheetId); });
 
     return it != std::end(m_sheetData);
 }
 
 bool CharacterSheetController::alreadySharing(const QString& charactersheetId) const
 {
-    auto const& it = std::find_if(std::begin(m_sheetData), std::end(m_sheetData), [charactersheetId](const CharacterSheetInfo& data) {
-        return (data.m_characterId == charactersheetId);
-    });
+    auto const& it= std::find_if(std::begin(m_sheetData), std::end(m_sheetData),
+                                 [charactersheetId](const CharacterSheetInfo& data)
+                                 { return (data.m_characterId == charactersheetId); });
 
     return it != std::end(m_sheetData);
 }
 
 QString CharacterSheetController::characterSheetIdFromIndex(int i) const
 {
-    qDebug() << "CharacterSheetId index:" << i ;
-    auto const& sheet = m_model->getCharacterSheet(i);
+    qDebug() << "CharacterSheetId index:" << i;
+    auto const& sheet= m_model->getCharacterSheet(i);
     if(!sheet)
         return {};
     return sheet->uuid();
 }
 
-bool CharacterSheetController::hasCharacterSheet(const QString &id) const
+bool CharacterSheetController::hasCharacterSheet(const QString& id) const
 {
     return (nullptr != m_model->getCharacterSheetById(id));
 }
 
-CharacterSheet *CharacterSheetController::characterSheetFromId(const QString &id) const
+CharacterSheet* CharacterSheetController::characterSheetFromId(const QString& id) const
 {
     return m_model->getCharacterSheetById(id);
 }
@@ -230,14 +273,14 @@ int CharacterSheetController::characterCount() const
 
 void CharacterSheetController::merge(CharacterSheetController* otherCtrl)
 {
-    auto omodel = otherCtrl->model();
+    auto omodel= otherCtrl->model();
 
-    for(int i = 0; i < omodel->getCharacterSheetCount(); ++i)
+    for(int i= 0; i < omodel->getCharacterSheetCount(); ++i)
     {
-        auto sheet = omodel->getCharacterSheet(i);
+        auto sheet= omodel->getCharacterSheet(i);
         omodel->releaseCharacterSheet(sheet);
         m_model->addCharacterSheet(sheet);
     }
-
-    delete otherCtrl;
+    otherCtrl->deleteLater();
+    setModified();
 }

@@ -622,7 +622,7 @@ bool MainWindow::saveFile(const QString& filename)
         return false;
 
     // init Json
-    IOWorker::saveFile(SerializerHelper::buildData(m_mainCtrl.get()), filename);
+    IOWorker::saveFile(SerializerHelper::buildData(m_mainCtrl.get(), filename), filename);
     m_mainCtrl->setCurrentFile(filename);
     m_mainCtrl->setModified(false);
     return true;

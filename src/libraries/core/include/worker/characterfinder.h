@@ -25,8 +25,7 @@
 #include <QPointer>
 #include <QObject>
 
-namespace campaign
-{
+namespace campaign {
 class NonPlayableCharacterModel;
 }
 class CharacterModel;
@@ -40,28 +39,27 @@ class CORE_EXPORT CharacterFinder : public QObject
 {
     Q_OBJECT
 public:
-    CharacterFinder()= default;
+    CharacterFinder() = default;
 
     bool isReady();
 
-    Character* find(const QString& id);
+    Character *find(const QString &id);
 
-    static void setNpcModel(campaign::NonPlayableCharacterModel* model);
-    static void setPcModel(CharacterModel* model);
-    static void setPlayerModel(PlayerModel* model);
+    static void setNpcModel(campaign::NonPlayableCharacterModel *model);
+    static void setPcModel(CharacterModel *model);
+    static void setPlayerModel(PlayerModel *model);
 
     bool setUpConnect();
 signals:
     void dataChanged();
+    void characterAdded(const QStringList &ids);
 
 private slots:
-
 
 private:
     static QPointer<campaign::NonPlayableCharacterModel> m_npcModel;
     static QPointer<CharacterModel> m_pcModel;
     static QPointer<PlayerModel> m_playerModel;
-    bool m_ready{false};
 };
 
 #endif // CHARACTERFINDER_H

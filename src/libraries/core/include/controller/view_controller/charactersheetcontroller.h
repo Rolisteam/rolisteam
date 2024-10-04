@@ -37,7 +37,8 @@ class Player;
 class Character;
 class TreeSheetItem;
 
-struct CharacterSheetInfo {
+struct CharacterSheetInfo
+{
     QString m_sheetId{};
     QString m_characterId{};
     bool everyone{false};
@@ -70,6 +71,7 @@ public:
     void updateFieldFrom(const QString& sheetId, const QJsonObject& obj, const QString& parentPath);
     void setRootJson(const QJsonObject& newRootJson);
     const QList<CharacterSheetInfo>& sheetData() const;
+    void addSheetData(const CharacterSheetInfo& info);
     bool hasCharacterSheet(const QString& id) const;
     CharacterSheet* characterSheetFromId(const QString& id) const;
     int characterCount() const;
@@ -81,7 +83,9 @@ public:
 
     void merge(CharacterSheetController*);
 public slots:
+    void shareCharacterSheetTo(const CharacterSheetInfo& info);
     void shareCharacterSheetTo(const QString& uuid, int idx);
+    void shareCharacterSheetTo(Character* character, CharacterSheet* sheet);
     void shareCharacterSheetToAll(int idx);
     void stopSharing(const QString& uuid);
     void setQmlCode(const QString& qml);
