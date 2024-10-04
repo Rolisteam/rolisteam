@@ -141,32 +141,19 @@ void GameController::clear()
 void GameController::postSettingInit()
 {
     // Log controller
-    auto logDebug= m_preferences->value(QStringLiteral("LogDebug"), false).toBool();
-    // m_logController->setMessageHandler(logDebug);
+    // auto logDebug= m_preferences->value(QStringLiteral("LogDebug"), false).toBool();
+    m_logController->setLogLevel(
+        m_preferences->value(QStringLiteral("LogLevel"), LogController::Error).value<LogController::LogLevel>());
 
-    auto LogResearch= m_preferences->value(QStringLiteral("LogResearch"), false).toBool();
-    auto dataCollection= m_preferences->value(QStringLiteral("dataCollection"), false).toBool();
-    m_logController->setSignalInspection(logDebug && (LogResearch || dataCollection));
+    //    auto LogResearch= m_preferences->value(QStringLiteral("LogResearch"), false).toBool();
+    //    auto dataCollection= m_preferences->value(QStringLiteral("dataCollection"), false).toBool();
+    // m_logController->setSignalInspection(logDebug && (LogResearch || dataCollection));
 
     LogController::StorageModes mode= LogController::Gui | LogController::Console;
 
     if(localIsGM())
         mode|= LogController::File;
 
-    if((LogResearch && dataCollection))
-    {
-        /*      m_logController->listenObjects(this);
-              mode= LogController::Gui | LogController::Network;
-              setFocusPolicy(Qt::StrongFocus);
-              auto clipboard= QGuiApplication::clipboard();
-              connect(clipboard, &QClipboard::dataChanged, this, [clipboard, this]() {
-                  auto text= clipboard->text();
-                  auto mime= clipboard->mimeData();
-                  text.append(QStringLiteral("\n%1").arg(mime->formats().join("|")));
-                  m_logController->manageMessage(QStringLiteral("Clipboard data changed: %1").arg(text),
-                      LogController::Search);
-              });*/
-    }
     m_logController->setCurrentModes(mode);
 }
 
@@ -467,6 +454,7 @@ void GameController::aboutToClose()
     MessageHelper::sendOffGoodBye();
     m_networkCtrl->closeServer();
     m_preferences->writeSettings();
+    m_preferences->registerValue(QStringLiteral("LogLevel"), QVariant::fromValue(m_logController->logLevel()));
     emit closingApp();
 }
 

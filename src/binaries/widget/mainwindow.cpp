@@ -33,13 +33,13 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QProcess>
+#include <QQmlEngine>
 #include <QSettings>
 #include <QStatusBar>
 #include <QStringBuilder>
 #include <QSystemTrayIcon>
 #include <QTime>
 #include <QUrl>
-#include <QQmlEngine>
 #include <QUuid>
 #include <QWebEngineProfile>
 #include <QWebEngineSettings>
@@ -82,11 +82,11 @@
 #include "common/logcontroller.h"
 
 // Controller
+#include "controller/applicationcontroller.h"
 #include "controller/instantmessagingcontroller.h"
 #include "controller/networkcontroller.h"
 #include "controller/preferencescontroller.h"
 #include "controller/view_controller/imageselectorcontroller.h"
-#include "controller/applicationcontroller.h"
 
 // dialogs
 #include "rwidgets/dialogs/aboutrolisteam.h"
@@ -97,7 +97,6 @@
 // GMToolBox
 #include "rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
 #include "rwidgets/gmtoolbox/UnitConvertor/convertor.h"
-
 
 // session
 #include "rwidgets/docks/antagonistboard.h"
@@ -321,11 +320,13 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
             &MainWindow::updateFileHistoryMenu);
     updateFileHistoryMenu();
 
-    qmlRegisterSingletonType<ApplicationController>("Helper", 1, 0, "AppCtrl",[this](QQmlEngine* engine, QJSEngine* scriptEngine)-> QObject* {
-                                 Q_UNUSED(engine);
-                                 Q_UNUSED(scriptEngine);
-                                 return new ApplicationController(m_gameController);
-                             });
+    qmlRegisterSingletonType<ApplicationController>("Helper", 1, 0, "AppCtrl",
+                                                    [this](QQmlEngine* engine, QJSEngine* scriptEngine) -> QObject*
+                                                    {
+                                                        Q_UNUSED(engine);
+                                                        Q_UNUSED(scriptEngine);
+                                                        return new ApplicationController(m_gameController);
+                                                    });
 }
 
 MainWindow::~MainWindow()= default;
@@ -856,17 +857,17 @@ void MainWindow::showUpdateNotification()
 
 void MainWindow::notifyAboutAddedPlayer(Player* player) const
 {
-    m_gameController->addFeatureLog(tr("%1 just joins the game.").arg(player->name()), logns::cat::network);
+    m_gameController->addFeatureLog(tr("%1 just joins the game.").arg(player->name()), logger::network);
     if(player->userVersion().compare(m_gameController->version()) != 0)
     {
         m_gameController->addErrorLog(
-            tr("%1 has not the right version: %2.").arg(player->name(), player->userVersion()), logns::cat::network);
+            tr("%1 has not the right version: %2.").arg(player->name(), player->userVersion()), logger::network);
     }
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player* player) const
 {
-    m_gameController->addFeatureLog(tr("%1 just leaves the game.").arg(player->name()), logns::cat::network);
+    m_gameController->addFeatureLog(tr("%1 just leaves the game.").arg(player->name()), logger::network);
 }
 
 void MainWindow::readSettings()
@@ -1301,7 +1302,7 @@ void MainWindow::focusInEvent(QFocusEvent* event)
     QMainWindow::focusInEvent(event);
     if(m_isOut)
     {
-        m_gameController->addSearchLog(QStringLiteral("Rolisteam gets focus."), logns::cat::usability);
+        m_gameController->addSearchLog(QStringLiteral("Rolisteam gets focus."), logger::usability);
         m_isOut= false;
     }
 }
@@ -1310,7 +1311,7 @@ void MainWindow::focusOutEvent(QFocusEvent* event)
     QMainWindow::focusOutEvent(event);
     if(!isActiveWindow())
     {
-        m_gameController->addSearchLog(QStringLiteral("User gives focus to another windows."), logns::cat::usability);
+        m_gameController->addSearchLog(QStringLiteral("User gives focus to another windows."), logger::usability);
         m_isOut= true;
     }
 }

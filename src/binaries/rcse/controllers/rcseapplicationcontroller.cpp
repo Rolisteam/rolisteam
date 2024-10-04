@@ -18,27 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "rcseapplicationcontroller.h"
-#include <QLoggingCategory>
-
-Q_LOGGING_CATEGORY(AppCtrlCat, "ApplicationController")
+#include "common/logcategory.h"
 
 RcseApplicationController::RcseApplicationController(QObject* parent) : AbstractApplicationController(parent) {}
 
 void RcseApplicationController::msgToGM(const QString& msg)
 {
-    qCInfo(AppCtrlCat) << "Sent message:" << msg << "to GM";
+    qCInfo(RcseCat) << "Sent message:" << msg << "to GM";
 }
 
 void RcseApplicationController::msgToAll(const QString& msg)
 {
-    qCInfo(AppCtrlCat) << "Sent message:" << msg << "to All";
+    qCInfo(RcseCat) << "Sent message:" << msg << "to All";
 }
 
 void RcseApplicationController::rollDice(const QString& cmd, bool withAlias, bool gmOnly)
 {
     auto f= [](bool b, const QString& yes, const QString& no) { return b ? yes : no; };
-    qCInfo(AppCtrlCat) << "Roll dice command:" << cmd << " With Alias:" << f(withAlias, tr("Yes"), tr("No")) << " to "
-                       << f(gmOnly, tr("only the GM"), tr("All"));
+    qCInfo(RcseCat) << "Roll dice command:" << cmd << " With Alias:" << f(withAlias, tr("Yes"), tr("No")) << " to "
+                    << f(gmOnly, tr("only the GM"), tr("All"));
 }
 
 qreal RcseApplicationController::zoomLevel() const
