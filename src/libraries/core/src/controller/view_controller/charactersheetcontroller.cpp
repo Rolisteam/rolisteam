@@ -35,10 +35,9 @@ CharacterSheetController::CharacterSheetController(const QString& id, const QUrl
             [this](CharacterSheetController* ctrl, CharacterSheet* sheet, CharacterSheetUpdater::SharingMode mode,
                    Character* character, const QStringList&)
             {
-                qDebug() << "start Share:" << sheet->uuid() << "characterId:" << character->uuid()
-                         << "ctrl:" << ctrl->uuid();
-                m_sheetData.append(
-                    {sheet->uuid(), character->uuid(), mode == CharacterSheetUpdater::SharingMode::ALL, false});
+                Q_UNUSED(ctrl)
+                m_sheetData.append({sheet->uuid(), character ? character->uuid() : QString{},
+                                    mode == CharacterSheetUpdater::SharingMode::ALL, false});
                 setModified();
             });
 }
@@ -56,21 +55,24 @@ void CharacterSheetController::addCharacterSheet(const QJsonObject& data, const 
         return;
     auto sheet= new CharacterSheet();
     sheet->load(data);
+
     auto character= m_characterModel->character(charId);
-
-    if(!character)
-        return;
-
-    auto player= dynamic_cast<Player*>(character->parentPerson());
-    if(nullptr == player)
+    if(!charId.isEmpty())
     {
-        delete sheet;
-        qWarning() << "No player found, the sheet cannot be added";
-        return;
+        if(!character)
+            return;
+
+        auto player= dynamic_cast<Player*>(character->parentPerson());
+        if(nullptr == player)
+        {
+            delete sheet;
+            qWarning() << "No player found, the sheet cannot be added";
+            return;
+        }
+        character->setSheet(sheet);
     }
-    character->setSheet(sheet);
     m_model->addCharacterSheet(sheet, m_model->getCharacterSheetCount());
-    m_sheetData.append({sheet->uuid(), character->uuid(), false, true});
+    m_sheetData.append({sheet->uuid(), charId, false, true});
     setModified();
     emit sheetCreated(sheet, character);
 }
@@ -140,6 +142,7 @@ void CharacterSheetController::shareCharacterSheetToAll(int idx)
         return;
 
     emit share(this, sheet, CharacterSheetUpdater::SharingMode::ALL, nullptr, {});
+    emit sheetCreated(sheet, nullptr);
 }
 
 void CharacterSheetController::stopSharing(const QString& uuid)

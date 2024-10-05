@@ -152,7 +152,7 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
 
         m_sharingData.append(
             {ctrl->uuid(), sheet->uuid(), character ? character->uuid() : QString(), mode, sheet, recipients});
-        MessageHelper::shareCharacterSheet(sheet, character, ctrl);
+        MessageHelper::shareCharacterSheet(sheet, character, ctrl, mode);
     }
 
     setUpFieldUpdate(sheet);

@@ -27,7 +27,7 @@
 #include <QVBoxLayout>
 #include <memory>
 
-//#include "charactersheetmodel.h"
+// #include "charactersheetmodel.h"
 #include "charactersheet/rolisteamimageprovider.h"
 #include "data/character.h"
 #include "mediacontainers/mediacontainer.h"
@@ -73,7 +73,6 @@ public slots:
     void readErrorFromQML(QList<QQmlError> errors);
     void exportPDF();
 
-
 protected slots:
     void addTabWithSheetView(CharacterSheet* chSheet, Character* character);
     void displayCustomMenu(const QPoint& pos);
@@ -86,6 +85,9 @@ protected:
     void addSharingMenu(QMenu* share, int pos);
     void checkAlreadyShare(CharacterSheet* sheet);
     bool eventFilter(QObject* object, QEvent* event);
+
+private:
+    QString currentSheetId() const;
 
 private:
     QPointer<CharacterSheetController> m_sheetCtrl;

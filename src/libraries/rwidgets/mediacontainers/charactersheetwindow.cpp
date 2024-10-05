@@ -61,15 +61,16 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
 
     if(m_sheetCtrl->remote())
     {
-        auto const& set = m_sheetCtrl->sheetData();
-        std::for_each(std::begin(set), std::end(set), [this](const CharacterSheetInfo& data){
-            auto sheet = m_sheetCtrl->characterSheetFromId(data.m_sheetId);
-            auto characters = m_sheetCtrl->characterModel();
-            auto character = characters->character(data.m_characterId);
-            addTabWithSheetView(sheet, character);
-        });
+        auto const& set= m_sheetCtrl->sheetData();
+        std::for_each(std::begin(set), std::end(set),
+                      [this](const CharacterSheetInfo& data)
+                      {
+                          auto sheet= m_sheetCtrl->characterSheetFromId(data.m_sheetId);
+                          auto characters= m_sheetCtrl->characterModel();
+                          auto character= characters->character(data.m_characterId);
+                          addTabWithSheetView(sheet, character);
+                      });
     }
-
 
     setWindowIcon(QIcon::fromTheme("treeview"));
 
@@ -79,19 +80,20 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     resize(m_preferences->value("charactersheetwindows/width", 400).toInt(),
            m_preferences->value("charactersheetwindows/height", 600).toInt());
 
-
     m_ui->m_treeview->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_ui->m_treeview, &QTreeView::customContextMenuRequested, this, &CharacterSheetWindow::displayCustomMenu);
     connect(m_ui->m_copyTab, &QAction::triggered, this, &CharacterSheetWindow::copyTab);
     connect(m_ui->m_readOnlyAct, &QAction::triggered, this, &CharacterSheetWindow::setReadOnlyOnSelection);
-    //connect(m_ui->m_addLine, &QAction::triggered, this, &CharacterSheetWindow::addLine);
-    //connect(m_ui->m_addSection, &QAction::triggered, this, &CharacterSheetWindow::addSection);
-    //connect(m_ui->m_addCharactersheet, &QAction::triggered, this, &CharacterSheetWindow::addCharacterSheet);
+    // connect(m_ui->m_addLine, &QAction::triggered, this, &CharacterSheetWindow::addLine);
+    // connect(m_ui->m_addSection, &QAction::triggered, this, &CharacterSheetWindow::addSection);
+    // connect(m_ui->m_addCharactersheet, &QAction::triggered, this, &CharacterSheetWindow::addCharacterSheet);
     connect(m_ui->m_printAct, &QAction::triggered, this, &CharacterSheetWindow::exportPDF);
-    connect(m_ui->m_stopSharingTabAct, &QAction::triggered, this, [this](){
-        qDebug() << "Stop Sharing:"<< m_ui->m_stopSharingTabAct->data().toString();
-        m_sheetCtrl->stopSharing(m_ui->m_stopSharingTabAct->data().toString());
-    });
+    connect(m_ui->m_stopSharingTabAct, &QAction::triggered, this,
+            [this]()
+            {
+                qDebug() << "Stop Sharing:" << m_ui->m_stopSharingTabAct->data().toString();
+                m_sheetCtrl->stopSharing(m_ui->m_stopSharingTabAct->data().toString());
+            });
 
     auto button= new QToolButton(this); // tr("Actions")
     button->setDefaultAction(m_ui->m_menuAct);
@@ -101,32 +103,37 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     connect(button, &QPushButton::clicked, this,
             [button, this]() { contextMenuForTabs(QPoint(button->pos().x(), 0)); });
 
-
-    auto updateTitle = [this](){
+    auto updateTitle= [this]()
+    {
         if(m_sheetCtrl)
         {
-            auto name = m_sheetCtrl->name();
+            auto name= m_sheetCtrl->name();
             setWindowTitle(tr("%1 - (CharacterSheet Viewer)").arg(name.isEmpty() ? tr("Unknown") : name));
         }
-
     };
     connect(m_sheetCtrl, &CharacterSheetController::nameChanged, this, updateTitle);
-    connect(m_sheetCtrl, &CharacterSheetController::removedSheet, this, [this](const QString& characterSheetId, const QString& ctrlId, const QString& characterId){
-        auto it = std::find_if(std::begin(m_tabs), std::end(m_tabs), [characterSheetId](const QPointer<SheetWidget>& sheetWid){
-            auto sheet = sheetWid->sheet();
-            if(!sheet)
-                return false;
-            return sheet->uuid() == characterSheetId;
-        });
+    connect(m_sheetCtrl, &CharacterSheetController::removedSheet, this,
+            [this](const QString& characterSheetId, const QString& ctrlId, const QString& characterId)
+            {
+                auto it= std::find_if(std::begin(m_tabs), std::end(m_tabs),
+                                      [characterSheetId](const QPointer<SheetWidget>& sheetWid)
+                                      {
+                                          auto sheet= sheetWid->sheet();
+                                          if(!sheet)
+                                              return false;
+                                          return sheet->uuid() == characterSheetId;
+                                      });
 
-        m_ui->m_tabwidget->removeTab(m_ui->m_tabwidget->indexOf(*it));
-        m_tabs.removeAt(std::distance(std::begin(m_tabs), it));
-        (*it)->deleteLater();
-    });
+                if(it == std::end(m_tabs))
+                    return;
+
+                m_ui->m_tabwidget->removeTab(m_ui->m_tabwidget->indexOf(*it));
+                m_tabs.removeAt(std::distance(std::begin(m_tabs), it));
+                (*it)->deleteLater();
+            });
     connect(m_sheetCtrl, &CharacterSheetController::modifiedChanged, this, updateTitle);
 
     updateTitle();
-
 }
 CharacterSheetWindow::~CharacterSheetWindow() {}
 
@@ -205,7 +212,7 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
 
     QModelIndex index= m_ui->m_treeview->indexAt(pos);
     bool isReadOnly= false;
-    int idx = index.column() - 1;
+    int idx= index.column() - 1;
     if(index.column() > 0 && m_sheetCtrl->characterCount() > 0)
     {
         QMenu* affect= menu.addMenu(tr("Share To"));
@@ -234,11 +241,11 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
 void CharacterSheetWindow::addSharingMenu(QMenu* share, int idx)
 {
     auto characters= m_sheetCtrl->characterModel();
-    auto sheets = m_sheetCtrl->model();
+    auto sheets= m_sheetCtrl->model();
     if(!characters || !sheets)
         return;
 
-    auto sheet = sheets->getCharacterSheet(idx);
+    auto sheet= sheets->getCharacterSheet(idx);
     if(!sheet)
         return;
 
@@ -282,7 +289,7 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint pos)
 
     if(m_sheetCtrl->localGM())
     {
-        m_ui->m_stopSharingTabAct->setData(m_sheetCtrl->characterSheetIdFromIndex(m_ui->m_tabwidget->currentIndex() - 1));
+        m_ui->m_stopSharingTabAct->setData(currentSheetId());
         menu.addAction(m_ui->m_stopSharingTabAct);
     }
     menu.addSeparator();
@@ -292,6 +299,23 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint pos)
 
     menu.exec(quickWid->mapToGlobal(pos));
 }
+
+QString CharacterSheetWindow::currentSheetId() const
+{
+    auto current= m_ui->m_tabwidget->currentIndex() - 1;
+    if(m_tabs.empty() || current >= m_tabs.size())
+        return {};
+
+    auto wid= m_tabs.at(current);
+    if(!wid)
+        return {};
+
+    auto sheet= wid->sheet();
+    if(sheet)
+        return sheet->uuid();
+    return {};
+}
+
 bool CharacterSheetWindow::eventFilter(QObject* object, QEvent* event)
 {
     if(event->type() == QEvent::Hide)
@@ -325,7 +349,6 @@ bool CharacterSheetWindow::eventFilter(QObject* object, QEvent* event)
     return MediaContainer::eventFilter(object, event);
 }
 
-
 void CharacterSheetWindow::copyTab()
 {
     SheetWidget* wid= dynamic_cast<SheetWidget*>(m_ui->m_tabwidget->currentWidget());
@@ -342,14 +365,17 @@ void CharacterSheetWindow::copyTab()
 
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet, Character* character)
 {
-    if(chSheet == nullptr || nullptr == character)
+    if(chSheet == nullptr)
         return;
 
     auto qmlView= new SheetWidget(chSheet, m_sheetCtrl->imageModel(), this);
     connect(qmlView, &SheetWidget::customMenuRequested, this, &CharacterSheetWindow::contextMenuForTabs);
     m_tabs.append(qmlView);
-    auto engineQml = qmlView->engine();
-    engineQml->rootContext()->setContextProperty("_character", character);
+    auto engineQml= qmlView->engine();
+    if(character == nullptr)
+        engineQml->rootContext()->setContextProperty("_character", character);
+    else
+        engineQml->rootContext()->setContextProperty("_character", new Character); // share to all
 
     QTemporaryFile fileTemp;
 #ifdef QT_DEBUG
