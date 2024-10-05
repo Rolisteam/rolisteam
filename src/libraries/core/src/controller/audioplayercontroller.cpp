@@ -48,11 +48,26 @@ int randomSong(int current, int count)
 }
 
 AudioPlayerController::AudioPlayerController(int id, const QString& key, PreferencesManager* pref, QObject* parent)
-    : QObject(parent), m_id(id), m_model(new MusicModel(pref)), m_pref(pref), m_prefkey(key)
+    : QObject(parent)
+    , m_model(new MusicModel(pref))
+    , m_directories(new QStringListModel)
+    , m_id(id)
+    , m_pref(pref)
+    , m_prefkey(key)
 {
     m_player.setAudioOutput(&m_audioOutput);
 
-    // m_player.setAudioRole(QAudio::MusicRole);
+    auto readFromPref= [this]()
+    {
+        auto list= m_pref->value(m_prefkey, {}).toStringList();
+        m_directories->setStringList(list);
+    };
+
+    connect(m_pref, &PreferencesManager::readyChanged, this, readFromPref);
+
+    if(m_pref->ready())
+        readFromPref();
+
     connect(&m_player, &QMediaPlayer::errorOccurred, this,
             [this](QMediaPlayer::Error, const QString& errorStr) { emit errorChanged(errorStr); });
 
@@ -283,18 +298,39 @@ void AudioPlayerController::addMusicModel()
     ModelHelper::fetchMusicModelWithTableTop(m_model.get());
 }
 
-QStringList AudioPlayerController::directoriesList() const
+void AudioPlayerController::addDirectory(const QString& dirPath)
 {
-    if(!m_pref)
-        return {};
-    return m_pref->value(m_prefkey, {}).toStringList();
+    if(m_directories->insertRow(m_directories->rowCount()))
+    {
+        if(m_directories->setItemData(m_directories->index(m_directories->rowCount() - 1, 0),
+                                      QMap<int, QVariant>{{Qt::DisplayRole, QVariant(dirPath)}}))
+            updatePref();
+    }
+}
+
+void AudioPlayerController::removeDirectory(int index)
+{
+    m_directories->removeRows(index, 1);
+    updatePref();
+}
+
+void AudioPlayerController::moveDirectory(int index, bool up)
+{
+    auto movedIdx= up ? index - 1 : index + 2;
+    m_directories->moveRows(QModelIndex(), index, 1, QModelIndex(), movedIdx);
+    updatePref();
+}
+
+void AudioPlayerController::updatePref()
+{
+    m_pref->registerValue(m_prefkey, m_directories->stringList());
 }
 
 void AudioPlayerController::nwNewSong(const QString& name, qint64 time)
 {
     if(localIsGm())
         return;
-    QStringList list= directoriesList();
+    QStringList list= m_directories->stringList();
 
     auto url= IOHelper::findSong(name, list);
 
@@ -303,4 +339,9 @@ void AudioPlayerController::nwNewSong(const QString& name, qint64 time)
     m_player.setPosition(time);
     m_player.play();
     emit textChanged();
+}
+
+QStringListModel* AudioPlayerController::directories() const
+{
+    return m_directories.get();
 }

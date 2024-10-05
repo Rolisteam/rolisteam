@@ -164,6 +164,11 @@ void PlayerWidget::setupUi()
     m_ui->m_repeatMode->setDefaultAction(m_repeatAct);
     m_ui->m_changeDirectory->setDefaultAction(m_changeDirectoryAct);
 
+    m_ui->m_addPathBtn->setDefaultAction(m_ui->m_addPathAct);
+    m_ui->m_removePathBtn->setDefaultAction(m_ui->m_removePathAct);
+    m_ui->m_upPathBtn->setDefaultAction(m_ui->m_moveUpPath);
+    m_ui->m_downPathBtn->setDefaultAction(m_ui->m_moveDownAct);
+
     // **************** CONNECT ********************************
     connect(m_clearList, &QAction::triggered, m_ctrl, &AudioPlayerController::clear);
     connect(m_addAction, &QAction::triggered, this, &PlayerWidget::addFiles);
@@ -171,42 +176,80 @@ void PlayerWidget::setupUi()
     connect(m_addStreamAction, &QAction::triggered, this, &PlayerWidget::openStream);
     connect(m_deleteAction, &QAction::triggered, this,
             [this]() { m_ctrl->removeSong(m_ui->m_songList->selectionModel()->selectedIndexes()); });
-    connect(m_ui->m_songList, &QListView::doubleClicked, m_ctrl, [this](const QModelIndex& index) {
-        m_ctrl->setMedia(index);
-        m_ctrl->play();
-    });
+    connect(m_ui->m_songList, &QListView::doubleClicked, m_ctrl,
+            [this](const QModelIndex& index)
+            {
+                m_ctrl->setMedia(index);
+                m_ctrl->play();
+            });
+
+    connect(m_ui->m_addPathAct, &QAction::triggered, this,
+            [this]()
+            {
+                auto dir= QFileDialog::getExistingDirectory(this, tr("Add new directory"), QDir::homePath());
+
+                if(dir.isEmpty())
+                    return;
+                m_ctrl->addDirectory(dir);
+            });
+    connect(m_ui->m_removePathAct, &QAction::triggered, this,
+            [this]()
+            {
+                auto idx= m_ui->m_songList->currentIndex();
+                if(!idx.isValid())
+                    return;
+                m_ctrl->removeDirectory(idx.row());
+            });
+
+    connect(m_ui->m_moveUpPath, &QAction::triggered, this,
+            [this]()
+            {
+                auto idx= m_ui->m_songList->currentIndex();
+                if(!idx.isValid())
+                    return;
+                m_ctrl->moveDirectory(idx.row(), true);
+            });
+    connect(m_ui->m_moveDownAct, &QAction::triggered, this,
+            [this]()
+            {
+                auto idx= m_ui->m_songList->currentIndex();
+                if(!idx.isValid())
+                    return;
+                m_ctrl->moveDirectory(idx.row(), false);
+            });
 
     updateIcon();
     // connect(&m_player, SIGNAL(durationChanged(qint64)), this, SLOT(setDuration(qint64)));
-    connect(m_playAct, &QAction::triggered, this, [this]() {
-        if(m_ctrl->state() == AudioPlayerController::PausedState)
-            m_ctrl->play();
-        else
-        {
-            auto index= m_ui->m_songList->currentIndex();
-            if(!index.isValid())
-                return;
-            m_ctrl->setMedia(index);
-            m_ctrl->play();
-        }
-    }); //&AudioPlayerController::play
+    connect(m_playAct, &QAction::triggered, this,
+            [this]()
+            {
+                if(m_ctrl->state() == AudioPlayerController::PausedState)
+                    m_ctrl->play();
+                else
+                {
+                    auto index= m_ui->m_songList->currentIndex();
+                    if(!index.isValid())
+                        return;
+                    m_ctrl->setMedia(index);
+                    m_ctrl->play();
+                }
+            }); //&AudioPlayerController::play
     connect(m_stopAct, &QAction::triggered, m_ctrl, &AudioPlayerController::stop);
     connect(m_pauseAct, &QAction::triggered, m_ctrl, &AudioPlayerController::pause);
 
     // time
     connect(m_ctrl, &AudioPlayerController::timeChanged, m_ui->m_timeSlider,
             [this]() { m_ui->m_timeSlider->setValue(m_ctrl->time()); });
-    connect(m_ui->m_timeSlider, &QSlider::sliderMoved, m_ctrl, [this](qint64 time){
+    connect(m_ui->m_timeSlider, &QSlider::sliderMoved, m_ctrl,
+            [this](qint64 time)
+            {
+                if(!m_ui->m_timeSlider || !m_ui->m_timeSlider->isVisible())
+                    return;
 
-        if(!m_ui->m_timeSlider || !m_ui->m_timeSlider->isVisible())
-            return;
-
-        m_ctrl->setTime(time);
-    });
+                m_ctrl->setTime(time);
+            });
 
     // Volume
-    /*connect(m_ctrl, &AudioPlayerController::volumeChanged, m_ui->m_volumeSlider,
-            [this]() { m_ui->m_volumeSlider->setValue(m_ctrl->volume()); });*/
     connect(m_ctrl, &AudioPlayerController::volumeChanged, m_ui->m_volumeSlider, &QSlider::setValue);
     connect(m_ui->m_volumeSlider, &QSlider::sliderMoved, m_ctrl, &AudioPlayerController::setVolume);
     // Mute
@@ -215,55 +258,64 @@ void PlayerWidget::setupUi()
 
     // duration
     connect(m_ctrl, &AudioPlayerController::durationChanged, m_ui->m_timeSlider, &QSlider::setMaximum);
-    connect(m_ctrl, &AudioPlayerController::timeChanged, m_ui->m_timerDisplay, [this](qint64 position) {
-        auto posInSecond= position / 1000;
-        auto min= posInSecond / 60;
-        auto second= posInSecond - (min * 60);
-        if(min > 0)
-            m_ui->m_timerDisplay->setText(
-                QString("%1min%2s").arg(min).arg(second, 2, 10, QLatin1Char('0'))); //, 3, 10, QLatin1Char('0')
-        else
-            m_ui->m_timerDisplay->setText(QString("%1s").arg(second, 2, 10, QLatin1Char('0')));
-    });
+    connect(m_ctrl, &AudioPlayerController::timeChanged, m_ui->m_timerDisplay,
+            [this](qint64 position)
+            {
+                auto posInSecond= position / 1000;
+                auto min= posInSecond / 60;
+                auto second= posInSecond - (min * 60);
+                if(min > 0)
+                    m_ui->m_timerDisplay->setText(
+                        QString("%1min%2s").arg(min).arg(second, 2, 10, QLatin1Char('0'))); //, 3, 10, QLatin1Char('0')
+                else
+                    m_ui->m_timerDisplay->setText(QString("%1s").arg(second, 2, 10, QLatin1Char('0')));
+            });
     // QOverload<int>::of(&QLCDNumber::display));
     connect(m_ctrl, &AudioPlayerController::visibleChanged, this, &PlayerWidget::setVisible);
     setVisible(m_ctrl->visible());
 
-    connect(m_ctrl, &AudioPlayerController::errorChanged, this, [this]() {
-        m_ui->m_label->setStyleSheet("color: red");
-        m_ui->m_label->setEchoMode(QLineEdit::Normal);
-        m_ui->m_label->setText(m_ctrl->error());
-    });
-    connect(m_ctrl, &AudioPlayerController::textChanged, this, [this]() {
-        m_ui->m_label->setStyleSheet("color: black");
-        if(!m_ctrl->localIsGm())
-            m_ui->m_label->setEchoMode(QLineEdit::Password);
-        m_ui->m_label->setText(m_ctrl->text());
-    });
+    connect(m_ctrl, &AudioPlayerController::errorChanged, this,
+            [this]()
+            {
+                m_ui->m_label->setStyleSheet("color: red");
+                m_ui->m_label->setEchoMode(QLineEdit::Normal);
+                m_ui->m_label->setText(m_ctrl->error());
+            });
+    connect(m_ctrl, &AudioPlayerController::textChanged, this,
+            [this]()
+            {
+                m_ui->m_label->setStyleSheet("color: black");
+                if(!m_ctrl->localIsGm())
+                    m_ui->m_label->setEchoMode(QLineEdit::Password);
+                m_ui->m_label->setText(m_ctrl->text());
+            });
 
     connect(m_repeatAct, &QAction::triggered, this,
             [this](bool b) { m_ctrl->setPlayingMode(b ? AudioPlayerController::LOOP : AudioPlayerController::NEXT); });
-    connect(m_uniqueAct, &QAction::triggered, this, [this](bool b) {
-        m_ctrl->setPlayingMode(b ? AudioPlayerController::UNIQUE : AudioPlayerController::NEXT);
-    });
-    connect(m_shuffleAct, &QAction::triggered, this, [this](bool b) {
-        m_ctrl->setPlayingMode(b ? AudioPlayerController::SHUFFLE : AudioPlayerController::NEXT);
-    });
+    connect(m_uniqueAct, &QAction::triggered, this,
+            [this](bool b)
+            { m_ctrl->setPlayingMode(b ? AudioPlayerController::UNIQUE : AudioPlayerController::NEXT); });
+    connect(m_shuffleAct, &QAction::triggered, this,
+            [this](bool b)
+            { m_ctrl->setPlayingMode(b ? AudioPlayerController::SHUFFLE : AudioPlayerController::NEXT); });
 
     connect(m_loadTableTopAudioPlayListAct, &QAction::triggered, this, &PlayerWidget::openPlayList);
     connect(m_savePlayList, &QAction::triggered, this, &PlayerWidget::savePlaylist);
 
-    connect(m_ctrl, &AudioPlayerController::stateChanged, this, [this]() {
-        auto state= m_ctrl->state();
-        m_playAct->setEnabled(state == AudioPlayerController::PausedState
-                              || state == AudioPlayerController::StoppedState);
+    connect(m_ctrl, &AudioPlayerController::stateChanged, this,
+            [this]()
+            {
+                auto state= m_ctrl->state();
+                m_playAct->setEnabled(state == AudioPlayerController::PausedState
+                                      || state == AudioPlayerController::StoppedState);
 
-        m_pauseAct->setEnabled(state == AudioPlayerController::PlayingState
-                               || state == AudioPlayerController::StoppedState);
-        m_stopAct->setEnabled(state == AudioPlayerController::PlayingState);
-    });
+                m_pauseAct->setEnabled(state == AudioPlayerController::PlayingState
+                                       || state == AudioPlayerController::StoppedState);
+                m_stopAct->setEnabled(state == AudioPlayerController::PlayingState);
+            });
 
-    auto updateMode= [this]() {
+    auto updateMode= [this]()
+    {
         auto m= m_ctrl->mode();
         m_uniqueAct->setChecked(m == AudioPlayerController::UNIQUE);
         m_shuffleAct->setChecked(m == AudioPlayerController::SHUFFLE);
@@ -342,6 +394,7 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
 void PlayerWidget::updateUi()
 {
     auto isGM= m_ctrl->localIsGm();
+
     m_ui->m_playButton->setVisible(isGM);
     m_ui->m_stopButton->setVisible(isGM);
     m_ui->m_pauseButton->setVisible(isGM);
@@ -351,11 +404,20 @@ void PlayerWidget::updateUi()
     m_ui->m_timeSlider->setVisible(isGM);
     m_ui->m_addButton->setVisible(isGM);
     m_ui->m_deleteButton->setVisible(isGM);
-    m_ui->m_songList->setVisible(isGM);
+    // m_ui->m_songList->setVisible(isGM);
     m_ui->m_savePlaylist->setVisible(isGM);
     m_ui->m_changeDirectory->setVisible(!isGM);
     m_ui->m_timerDisplay->setVisible(isGM);
     m_ui->m_volumeSlider->setValue(m_ctrl->volume());
+
+    m_ui->m_songList->setModel(isGM ? static_cast<QAbstractItemModel*>(m_ctrl->model()) :
+                                      static_cast<QAbstractItemModel*>(m_ctrl->directories()));
+
+    m_ui->m_addPathBtn->setVisible(!isGM);
+    m_ui->m_removePathBtn->setVisible(!isGM);
+    m_ui->m_upPathBtn->setVisible(!isGM);
+    m_ui->m_downPathBtn->setVisible(!isGM);
+    m_ui->m_pathLabel->setVisible(!isGM);
 }
 
 void PlayerWidget::updateIcon()

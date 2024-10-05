@@ -26,6 +26,7 @@
 #include <QModelIndexList>
 #include <QObject>
 #include <QPointer>
+#include <QStringListModel>
 #include <core_global.h>
 #include <memory>
 
@@ -44,6 +45,7 @@ class CORE_EXPORT AudioPlayerController : public QObject
     Q_PROPERTY(bool muted READ muted NOTIFY mutedChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
     Q_PROPERTY(quint64 time READ time NOTIFY timeChanged)
+    Q_PROPERTY(QStringListModel* directories READ directories CONSTANT)
 public:
     enum PlayingMode
     {
@@ -75,7 +77,8 @@ public:
     QString text() const;
     uint volume() const;
     bool localIsGm() const;
-    QStringList directoriesList() const;
+
+    QStringListModel* directories() const;
 
 public slots:
     void setMedia(const QModelIndex& index);
@@ -96,9 +99,15 @@ public slots:
     void setTime(quint64 time);
     void addMusicModel();
 
+    void addDirectory(const QString& dirPath);
+    void removeDirectory(int index);
+    void moveDirectory(int index, bool up);
+
     // networkfunction
     void nwNewSong(const QString& string, qint64 time);
 
+private:
+    void updatePref();
 signals:
     void modeChanged();
     void volumeChanged(int);
@@ -109,21 +118,22 @@ signals:
     void textChanged();
     void stateChanged(AudioPlayerController::State state);
     void timeChanged(qint64);
+    void positionChanged(qint64);
     void durationChanged(qint64 dura);
     void startPlayingSong(QString name, qint64 time);
 
 private:
+    std::unique_ptr<MusicModel> m_model;
+    std::unique_ptr<QStringListModel> m_directories;
     int m_id;
     PlayingMode m_mode= NEXT;
-    std::unique_ptr<MusicModel> m_model;
-    PreferencesManager* m_pref= nullptr;
+    QPointer<PreferencesManager> m_pref;
     QMediaPlayer m_player;
     QAudioOutput m_audioOutput;
     QString m_text;
     bool m_localIsGM= false;
     bool m_visible= true;
     QString m_prefkey;
-    // int m_volume{0};
 };
 
 #endif // AUDIOPLAYERCONTROLLER_H
