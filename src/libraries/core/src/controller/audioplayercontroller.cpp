@@ -222,6 +222,8 @@ void AudioPlayerController::next()
         auto url= m_player.source();
         emit startPlayingSong(url.isLocalFile() ? url.fileName() : url.toString(), m_player.position());
     }
+    else
+        emit stopPlaying();
 }
 
 void AudioPlayerController::setPlayingMode(PlayingMode mode)

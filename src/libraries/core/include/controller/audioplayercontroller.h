@@ -121,6 +121,7 @@ signals:
     void positionChanged(qint64);
     void durationChanged(qint64 dura);
     void startPlayingSong(QString name, qint64 time);
+    void stopPlaying();
 
 private:
     std::unique_ptr<MusicModel> m_model;

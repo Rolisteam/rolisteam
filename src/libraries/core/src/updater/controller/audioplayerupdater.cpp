@@ -159,6 +159,13 @@ void AudioPlayerUpdater::initSignalForGM()
             [](const QString& song, qint64 time)
             { MessageHelper::sendOffPlaySong(song, time, AudioController::Third); });
 
+    connect(ctrl1, &AudioPlayerController::stopPlaying, this,
+            []() { MessageHelper::sendOffStopPlaying(AudioController::First); });
+    connect(ctrl2, &AudioPlayerController::stopPlaying, this,
+            []() { MessageHelper::sendOffStopPlaying(AudioController::Second); });
+    connect(ctrl2, &AudioPlayerController::stopPlaying, this,
+            []() { MessageHelper::sendOffStopPlaying(AudioController::Third); });
+
     // play/stop/pause
     connect(ctrl1, &AudioPlayerController::stateChanged, this,
             [](AudioPlayerController::State state)
