@@ -164,7 +164,6 @@ void AudioPlayerUpdater::initSignalForGM()
             [](AudioPlayerController::State state)
             {
                 auto netAction= state2Action(state);
-                qDebug() << "first: state change" << state;
                 if(netAction == NetMsg::ChangePositionSong)
                     return;
                 MessageHelper::sendOffMusicPlayerOrder(netAction, AudioController::First);
@@ -173,7 +172,6 @@ void AudioPlayerUpdater::initSignalForGM()
             [](AudioPlayerController::State state)
             {
                 auto netAction= state2Action(state);
-                qDebug() << "second: state change" << state;
                 if(netAction == NetMsg::ChangePositionSong)
                     return;
                 MessageHelper::sendOffMusicPlayerOrder(netAction, AudioController::Second);
@@ -182,29 +180,18 @@ void AudioPlayerUpdater::initSignalForGM()
             [](AudioPlayerController::State state)
             {
                 auto netAction= state2Action(state);
-                qDebug() << "third: state change" << state;
                 if(netAction == NetMsg::ChangePositionSong)
                     return;
                 MessageHelper::sendOffMusicPlayerOrder(netAction, AudioController::Third);
             });
 
     // timer changed
-    connect(ctrl1, &AudioPlayerController::timeChanged, this,
-            [](qint64 time)
-            {
-                MessageHelper::sendOffTime(time, AudioController::First);
-            });
-    connect(ctrl2, &AudioPlayerController::timeChanged, this,
-            [](qint64 time)
-            {
-                MessageHelper::sendOffTime(time, AudioController::Second);
-            });
-    connect(ctrl2, &AudioPlayerController::timeChanged, this,
-            [](qint64 time)
-            {
-                MessageHelper::sendOffTime(time, AudioController::Third);
-            });
-
+    connect(ctrl1, &AudioPlayerController::positionChanged, this,
+            [](qint64 time) { MessageHelper::sendOffTime(time, AudioController::First); });
+    connect(ctrl2, &AudioPlayerController::positionChanged, this,
+            [](qint64 time) { MessageHelper::sendOffTime(time, AudioController::Second); });
+    connect(ctrl2, &AudioPlayerController::positionChanged, this,
+            [](qint64 time) { MessageHelper::sendOffTime(time, AudioController::Third); });
 }
 
 NetWorkReceiver::SendType AudioPlayerUpdater::processMessage(NetworkMessageReader* msg)

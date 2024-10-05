@@ -60,7 +60,7 @@ AudioPlayerController::AudioPlayerController(int id, const QString& key, Prefere
     connect(&m_audioOutput, &QAudioOutput::volumeChanged, this, [this]() { emit volumeChanged(volume()); });
     connect(&m_audioOutput, &QAudioOutput::mutedChanged, this, &AudioPlayerController::mutedChanged);
     connect(&m_player, &QMediaPlayer::durationChanged, this, &AudioPlayerController::durationChanged);
-    //connect(&m_player, &QMediaPlayer::positionChanged, this, &AudioPlayerController::timeChanged);
+    connect(&m_player, &QMediaPlayer::positionChanged, this, &AudioPlayerController::timeChanged);
 
     connect(&m_player, &QMediaPlayer::mediaStatusChanged, this,
             [this](QMediaPlayer::MediaStatus status)
@@ -159,6 +159,8 @@ void AudioPlayerController::setMedia(const QModelIndex& index)
     m_player.setSource(m_model->data(index, MusicModel::URL).toUrl());
     m_model->setCurrentSong(index);
     emit textChanged();
+    emit durationChanged(m_player.duration());
+    emit timeChanged(m_player.position());
 }
 
 void AudioPlayerController::play()
@@ -273,7 +275,7 @@ void AudioPlayerController::setVisible(bool b)
 void AudioPlayerController::setTime(quint64 time)
 {
     m_player.setPosition(static_cast<qint64>(time));
-    emit timeChanged(time);
+    emit positionChanged(time);
 }
 
 void AudioPlayerController::addMusicModel()
