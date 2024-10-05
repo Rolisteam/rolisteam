@@ -36,7 +36,7 @@
 #include "model/palettemodel.h"
 #include "preferences/preferencesmanager.h"
 #include "rwidgets/customs/centeredcheckbox.h"
-//#include "widgets/filedirchooser.h"
+// #include "widgets/filedirchooser.h"
 #include "rwidgets_global.h"
 class PreferencesController;
 
@@ -94,21 +94,12 @@ private slots:
     bool importTheme();
     void deleteTheme();
 
-    void addDirectory();
-    void removeDirectory();
-    void upDirectory();
-    void downDirectory();
-
-    QModelIndex currentIndexFromCurrentList(int i);
-
 private:
     QPointer<PreferencesManager> m_preferences;
     Ui::PreferencesDialogBox* ui;
 
     QPushButton* m_applyBtn;
     QPointer<PreferencesController> m_ctrl;
-    QList<QStringListModel*> m_musicDirectories;
-
     bool m_currentThemeIsEditable;
 };
 
