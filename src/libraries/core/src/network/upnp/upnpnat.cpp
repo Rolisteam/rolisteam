@@ -334,7 +334,8 @@ void UpnpNat::addPortMapping(const QString& description, const QString& destinat
         if(data.indexOf(HTTP_OK) < 0 && status() != NAT_STAT::NAT_ADD)
         {
 
-            setLastError(tr("Fail to add port mapping (%1/%2) : error :\n").arg(description, protocol).arg(data));
+            setLastError(tr("Fail to add port mapping (%1/%2) : error :%3\n")
+                             .arg(description, protocol, QString::fromLatin1(data)));
             emit portMappingEnd(false);
             return;
         }

@@ -5,24 +5,24 @@
 
 namespace logger
 {
+constexpr auto server{"Server"};
+constexpr auto qmlEngine{"QmlEngine"};
+constexpr auto network{"Network"};
+constexpr auto messaging{"Messaging"};
+constexpr auto imageCtrl{"ImageController"};
+constexpr auto map{"Map"};
+constexpr auto mindMap{"Mindmap"};
+constexpr auto characterSheet{"CharacterSheet"};
+constexpr auto pdf{"Pdf"};
+constexpr auto serialization{"Serialization"};
+constexpr auto campaign{"Campaign"};
+constexpr auto usability{"Usability"};
+constexpr auto rcse{"rcse"};
+constexpr auto rolisteam{"rolisteam"};
+constexpr auto dice{"dice"};
+} // namespace logger
 
-    constexpr auto server{"Server"};
-    constexpr auto qmlEngine{"QmlEngine"};
-    constexpr auto network{"Network"};
-    constexpr auto messaging{"Messaging"};
-    constexpr auto imageCtrl{"ImageController"};
-    constexpr auto map{"Map"};
-    constexpr auto mindMap{"Mindmap"};
-    constexpr auto characterSheet{"CharacterSheet"};
-    constexpr auto pdf{"Pdf"};
-    constexpr auto serialization{"Serialization"};
-    constexpr auto campaign{"Campaign"};
-    constexpr auto usability{"Usability"};
-    constexpr auto rcse{"rcse"};
-    constexpr auto rolisteam{"rolisteam"};
-    constexpr auto dice{"dice"};
-}
-
+// clang-format off
 static Q_LOGGING_CATEGORY(ServerLogCat, logger::server)
 static Q_LOGGING_CATEGORY(QmlEngineCat, logger::qmlEngine)
 static Q_LOGGING_CATEGORY(NetworkCat, logger::network)
@@ -38,7 +38,6 @@ static Q_LOGGING_CATEGORY(UsabilityCat, logger::usability)
 static Q_LOGGING_CATEGORY(RcseCat, logger::rcse)
 static Q_LOGGING_CATEGORY(RolisteamCat, logger::rolisteam)
 static Q_LOGGING_CATEGORY(DiceCat, logger::dice)
-
-
+// clang-format on
 
 #endif // LOGCATEGORY_H

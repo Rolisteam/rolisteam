@@ -49,6 +49,7 @@
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 #include "charactersheet/worker/ioworker.h"
+#include "common/logcategory.h"
 #include "data/character.h"
 #include "data/player.h"
 #include "diceparser/dicealias.h"
@@ -330,20 +331,27 @@ void MessageHelper::stopSharingSheet(const QString& sheetId, const QString& ctrl
     msg.sendToServer();
 }
 
-void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* character, CharacterSheetController* ctrl)
+void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* character, CharacterSheetController* ctrl,
+                                        CharacterSheetUpdater::SharingMode mode)
 {
-    if(sheet == nullptr || character == nullptr)
-        return;
 
-    Player* parent= character->getParentPlayer();
-
-    if(parent == nullptr)
+    if(sheet == nullptr || (mode != CharacterSheetUpdater::SharingMode::ALL && character == nullptr))
+    {
+        qCWarning(CharacterSheetCat, "Missing data to share charactersheet: %d", static_cast<int>(mode));
         return;
+    }
 
     NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::addCharacterSheet);
-    QStringList idList;
-    idList << parent->uuid();
-    msg.setRecipientList(idList, NetworkMessage::OneOrMany);
+
+    if(character)
+    {
+        Player* parent= character->getParentPlayer();
+        if(parent == nullptr)
+            return;
+        QStringList idList;
+        idList << parent->uuid();
+        msg.setRecipientList(idList, NetworkMessage::OneOrMany);
+    }
 
     // commun data from all medias
     msg.string8(ctrl->uuid());
@@ -352,7 +360,10 @@ void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* charac
     msg.string32(ctrl->ownerId());
 
     // specific data
-    msg.string8(character->uuid());
+    if(character)
+        msg.string8(character->uuid());
+    else
+        msg.string8(QString());
 
     QJsonObject object;
     sheet->save(object);
@@ -1641,31 +1652,6 @@ void MessageHelper::fetchDiceAliasFromNetwork(NetworkMessageReader* msg, QList<D
     }
 }
 
-/*void MessageHelper::AddCharacterStateFromNetwork(NetworkMessageReader* msg, QList<DiceAlias*>* list)
-{
-    CharacterState state;
-
-    quint64 id= msg->uint64();
-    state.setLabel(msg->string32());
-    state.setColor(msg->rgb());
-    state.setPixmap(msg->pixmap());
-
-    model->appendState(std::move(state));
-}
-void MessageHelper::moveStateFromNetwork(NetworkMessageReader* msg, CharacterStateModel* model)
-{
-    int from= msg->int64();
-    int to= msg->int64();
-
-    model->moveState(from, to);
-}
-void MessageHelper::removeState(NetworkMessageReader* msg, CharacterStateModel* model)
-{
-    int pos= static_cast<int>(msg->int64());
-    model->removeStateAt(pos);
-}
-*/
-
 void MessageHelper::sendOffPlaySong(const QString& songName, qint64 time, int player)
 {
     qDebug() << "sendOffPlaySong: " << songName << player;
@@ -1675,6 +1661,14 @@ void MessageHelper::sendOffPlaySong(const QString& songName, qint64 time, int pl
     msg.int64(time);
     msg.sendToServer();
 }
+
+void MessageHelper::sendOffStopPlaying(int player)
+{
+    NetworkMessageWriter msg(NetMsg::MusicCategory, NetMsg::StopSong);
+    msg.uint8(static_cast<quint8>(player));
+    msg.sendToServer();
+}
+
 void MessageHelper::sendOffMusicPlayerOrder(NetMsg::Action netAction, int player)
 {
     qDebug() << "sendOffMusicPlayerOrder: " << netAction << player;

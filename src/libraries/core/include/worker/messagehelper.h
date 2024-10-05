@@ -28,6 +28,7 @@
 #include "media/mediatype.h"
 #include "mindmap/model/imagemodel.h"
 #include "network/networkmessage.h"
+#include "updater/media/charactersheetupdater.h"
 #include <core_global.h>
 
 namespace vmap
@@ -124,7 +125,8 @@ public:
 
     // charactersheet
     static void stopSharingSheet(const QString& sheetId, const QString& ctrlId, const QString& characterId);
-    static void shareCharacterSheet(CharacterSheet* sheet, Character* character, CharacterSheetController* ctrl);
+    static void shareCharacterSheet(CharacterSheet* sheet, Character* character, CharacterSheetController* ctrl,
+                                    CharacterSheetUpdater::SharingMode mode);
     static QHash<QString, QVariant> readCharacterSheet(NetworkMessageReader* msg);
     static void readUpdateField(CharacterSheetController* ctrl, NetworkMessageReader* msg);
 
@@ -163,16 +165,16 @@ public:
     static void sendOffPlaySong(const QString& songName, qint64 time, int player);
     static void sendOffMusicPlayerOrder(NetMsg::Action netAction, int player);
     static void sendOffTime(qint64 time, int player);
+    static void sendOffStopPlaying(int player);
 
+    static void convertVisualItemCtrlAndAdd(vmap::VisualItemController* ctrl, NetworkMessageWriter& msg);
 
-    static void convertVisualItemCtrlAndAdd(vmap::VisualItemController *ctrl, NetworkMessageWriter &msg);
-
-    static void addCharacterController(const vmap::CharacterItemController *ctrl, NetworkMessageWriter &msg);
-    static void addPathController(const vmap::PathController *ctrl, NetworkMessageWriter &msg);
-    static void addTextController(const vmap::TextController *ctrl, NetworkMessageWriter &msg);
-    static void addImageController(const vmap::ImageItemController *ctrl, NetworkMessageWriter &msg);
-    static void addLineController(const vmap::LineController *ctrl, NetworkMessageWriter &msg);
-    static void addEllipseController(const vmap::EllipseController *ctrl, NetworkMessageWriter &msg);
+    static void addCharacterController(const vmap::CharacterItemController* ctrl, NetworkMessageWriter& msg);
+    static void addPathController(const vmap::PathController* ctrl, NetworkMessageWriter& msg);
+    static void addTextController(const vmap::TextController* ctrl, NetworkMessageWriter& msg);
+    static void addImageController(const vmap::ImageItemController* ctrl, NetworkMessageWriter& msg);
+    static void addLineController(const vmap::LineController* ctrl, NetworkMessageWriter& msg);
+    static void addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWriter& msg);
 };
 
 #endif // MESSAGEHELPER_H

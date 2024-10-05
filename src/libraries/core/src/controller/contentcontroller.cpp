@@ -51,7 +51,6 @@
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
-
 void sendOffMediaController(MediaControllerBase* ctrl)
 {
     if(!ctrl->localIsOwner() || ctrl->remote())
@@ -108,35 +107,39 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     std::unique_ptr<CharacterSheetUpdater> characterSheetUpdater(new CharacterSheetUpdater(fModel4, campaign));
 
     connect(characterSheetUpdater.get(), &CharacterSheetUpdater::characterSheetAdded, this,
-            [this](NetworkMessageReader* msg) {
-                auto media= Media::MediaFactory::createRemoteMedia(Core::ContentType::CHARACTERSHEET,
-                                                                   msg, localColor(), localIsGM());
+            [this](NetworkMessageReader* msg)
+            {
+                auto media= Media::MediaFactory::createRemoteMedia(Core::ContentType::CHARACTERSHEET, msg, localColor(),
+                                                                   localIsGM());
 
-                auto existingMedia = dynamic_cast<CharacterSheetController*>(m_contentModel->media(media->uuid()));
-                auto sheetCtrl = dynamic_cast<CharacterSheetController*>(media);
+                auto existingMedia= dynamic_cast<CharacterSheetController*>(m_contentModel->media(media->uuid()));
+                auto sheetCtrl= dynamic_cast<CharacterSheetController*>(media);
                 if(!existingMedia)
                 {
-                    auto sheetUpdater = dynamic_cast<CharacterSheetUpdater*>(m_mediaUpdaters[Core::ContentType::CHARACTERSHEET].get());
+                    auto sheetUpdater= dynamic_cast<CharacterSheetUpdater*>(
+                        m_mediaUpdaters[Core::ContentType::CHARACTERSHEET].get());
                     sheetUpdater->addRemoteCharacterSheet(sheetCtrl);
                     m_contentModel->appendMedia(media);
                 }
                 else
                 {
+                    qDebug() << "Merge characterSheet @@@@@@@@@@";
                     existingMedia->merge(sheetCtrl);
                 }
             });
 
     connect(characterSheetUpdater.get(), &CharacterSheetUpdater::characterSheetRemoved, this,
-            [this](const QString& uuid, const QString& ctrlId, const QString& characterId) {
+            [this](const QString& uuid, const QString& ctrlId, const QString& characterId)
+            {
                 Q_UNUSED(characterId)
                 qDebug() << "contentController stop SHaring" << uuid;
-                auto media = m_contentModel->media(ctrlId);
-                auto sheetCtrl = dynamic_cast<CharacterSheetController*>(media);
+                auto media= m_contentModel->media(ctrlId);
+                auto sheetCtrl= dynamic_cast<CharacterSheetController*>(media);
 
                 if(!sheetCtrl)
                     return;
 
-                auto model = sheetCtrl->model();
+                auto model= sheetCtrl->model();
 
                 if(!model)
                     return;
@@ -146,7 +149,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
                     qDebug() << "updater: sheet count == 1";
                     m_contentModel->removeMedia(ctrlId);
                 }
-                else if (model->getCharacterSheetCount() > 1)
+                else if(model->getCharacterSheetCount() > 1)
                 {
                     qDebug() << "updater: sheet count > 1";
                     model->removeCharacterSheet(model->getCharacterSheetById(uuid));
@@ -256,7 +259,7 @@ int ContentController::contentCount() const
 
 void ContentController::setMediaRoot(const QString& path)
 {
-    qDebug()<< "PathMedia root:" << path << m_sessionModel->rootPath();
+    qDebug() << "PathMedia root:" << path << m_sessionModel->rootPath();
     if(m_sessionModel->rootPath() == path)
         return;
     m_sessionModel->setRootPath(path);
