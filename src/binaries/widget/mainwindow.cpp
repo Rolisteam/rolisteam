@@ -785,6 +785,17 @@ void MainWindow::updateUi()
     {
         auto act= m_ui->m_campaignMenu->menuAction();
         m_ui->menubar->removeAction(act);
+
+        static QList<int> gmOnlyTab{1, 2, 6};
+        auto acts= m_ui->m_menuSubWindows->actions();
+        for(auto idx : gmOnlyTab)
+        {
+            auto it= std::find_if(std::begin(acts), std::end(acts),
+                                  [idx](QAction* act) { return act->data().toInt() == idx; });
+            if(it != std::end(acts))
+                (*it)->setVisible(false);
+            m_sideTabs->setTabVisible(idx, false);
+        }
     }
 }
 void MainWindow::showUpdateNotification()
