@@ -410,12 +410,6 @@ void GameController::setDataFromProfile(int profileIndex)
             [local](const connection::CharacterData& data)
             { local->addCharacter(data.m_uuid, data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
     }
-    /*m_networkCtrl->setHost(profile->address());
-    m_networkCtrl->setPort(profile->port());
-    m_networkCtrl->setServerPassword(profile->password());
-    m_networkCtrl->setIsGM(profile->isGM());
-    m_networkCtrl->setHosting(profile->isServer());
-    m_networkCtrl->setAskForGM(profile->isGM());*/
 
     m_playerController->addPlayer(local);
     if(profile->isGM())
