@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>NotificationZone</class>
- <widget class="QDockWidget" name="NotificationZone">
+ <widget class="QWidget" name="NotificationZone">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,35 +13,37 @@
   <property name="windowTitle">
    <string>Notification Zone</string>
   </property>
-  <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
-    <property name="spacing">
-     <number>2</number>
-    </property>
-    <property name="leftMargin">
-     <number>2</number>
-    </property>
-    <property name="topMargin">
-     <number>2</number>
-    </property>
-    <property name="rightMargin">
-     <number>2</number>
-    </property>
-    <property name="bottomMargin">
-     <number>2</number>
-    </property>
-    <item>
-     <widget class="LogPanel" name="m_logPanel" native="true"/>
-    </item>
-    <item>
-     <widget class="QProgressBar" name="m_progessBar">
-      <property name="value">
-       <number>24</number>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
+     <property name="spacing">
+      <number>2</number>
+     </property>
+     <property name="leftMargin">
+      <number>2</number>
+     </property>
+     <property name="topMargin">
+      <number>2</number>
+     </property>
+     <property name="rightMargin">
+      <number>2</number>
+     </property>
+     <property name="bottomMargin">
+      <number>2</number>
+     </property>
+     <item>
+      <widget class="LogPanel" name="m_logPanel" native="true"/>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="m_progessBar">
+       <property name="value">
+        <number>24</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <customwidgets>
   <customwidget>

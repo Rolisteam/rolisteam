@@ -49,7 +49,7 @@ class PlayersPanel;
  * pattern as the Controler.
  *
  */
-class RWIDGET_EXPORT PlayersPanel : public QDockWidget
+class RWIDGET_EXPORT PlayersPanel : public QWidget
 {
     Q_OBJECT
 public:

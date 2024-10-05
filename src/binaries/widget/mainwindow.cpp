@@ -113,8 +113,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 #endif
     , m_dockLogUtil(new NotificationZone(game->logController(), this))
     , m_systemTray(new QSystemTrayIcon)
+    , m_sideTabs(new QTabWidget())
     , m_ui(new Ui::MainWindow)
-    , m_roomPanelDockWidget(new QDockWidget(this))
 {
     parseCommandLineArguments(args);
     setAcceptDrops(true);
@@ -200,7 +200,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                 }
             });
 
-    m_antagonistWidget.reset(new campaign::AntagonistBoard(m_gameController->campaignManager()->editor(), this));
+    m_antagonistWidget.reset(new campaign::AntagonistBoard(m_gameController->campaignManager()->editor()));
 
     m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this)});
     m_roomPanel= new ChannelListPanel(m_gameController->networkController(), this);
@@ -266,26 +266,6 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 
     // connect(m_sessionManager, &SessionManager::openResource, this,
     // &MainWindow::openResource);
-
-    /// Create all GM toolbox widget
-    for(auto& gmTool : m_gmToolBoxList)
-    {
-        QWidget* wid= dynamic_cast<QWidget*>(gmTool);
-
-        if(wid == nullptr)
-            continue;
-
-        QDockWidget* widDock= new QDockWidget(this);
-        widDock->setAllowedAreas(Qt::AllDockWidgetAreas);
-        widDock->setWidget(wid);
-        widDock->setWindowTitle(wid->windowTitle());
-        widDock->setObjectName(wid->objectName());
-        addDockWidget(Qt::RightDockWidgetArea, widDock);
-
-        m_ui->m_gmToolBoxMenu->addAction(widDock->toggleViewAction());
-        widDock->setVisible(false);
-    }
-
     connect(m_gameController->instantMessagingController(), &InstantMessagingController::unreadChanged, this,
             [this]()
             {
@@ -295,14 +275,6 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
             });
 
     m_ui->m_pasteAct->setEnabled(m_gameController->contentController()->canPaste());
-
-    // Room List
-    m_roomPanelDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_roomPanelDockWidget->setWidget(m_roomPanel);
-    m_roomPanelDockWidget->setWindowTitle(m_roomPanel->windowTitle());
-    m_roomPanelDockWidget->setObjectName(m_roomPanel->objectName());
-    m_roomPanelDockWidget->setVisible(false);
-    addDockWidget(Qt::RightDockWidgetArea, m_roomPanelDockWidget);
 
     connect(m_ui->m_keyGeneratorAct, &QAction::triggered, this,
             []()
@@ -345,41 +317,19 @@ void MainWindow::setupUi()
     m_mdiArea.reset(new Workspace(m_ui->m_toolBar, contentCtrl, m_gameController->instantMessagingController()));
     setCentralWidget(m_mdiArea.get());
 
-    addDockWidget(Qt::RightDockWidgetArea, m_campaignDock.get());
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct, m_campaignDock->toggleViewAction());
-
-    createNotificationZone();
-    ///////////////////
-    // PlayerList
-    ///////////////////
-    auto playersListWidget= new PlayersPanel(m_gameController->playerController(), this);
-
-    addDockWidget(Qt::RightDockWidgetArea, playersListWidget);
-    auto dock= new QDockWidget();
-    dock->setObjectName("AntagonistTable");
-    dock->setWindowTitle(tr("Antagonist Table"));
-    dock->setWidget(m_antagonistWidget.get());
-    dock->setWindowIcon(QIcon::fromTheme("contact"));
-    addDockWidget(Qt::RightDockWidgetArea, dock);
     setWindowIcon(QIcon::fromTheme("logo"));
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct, playersListWidget->toggleViewAction());
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct, dock->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_characterListAct);
 
     ///////////////////
     // Audio Player
     ///////////////////
 #ifndef NULL_PLAYER
-    // ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory, m_audioPlayer.get());
-    addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer.get());
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct, m_audioPlayer->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
     connect(m_audioPlayer.get(), &AudioPlayer::changePlayerDirectory, this,
             [this]() { m_preferencesDialog->show(PreferencesDialog::PreferenceTab::Player); });
 #endif
 
     m_preferencesDialog= new PreferencesDialog(m_gameController->preferencesController(), this);
     linkActionToMenu();
+    createTabs();
 }
 
 void MainWindow::closeAllMediaContainer()
@@ -416,16 +366,57 @@ void MainWindow::userNatureChange()
     updateWindowTitle();
 }
 
-void MainWindow::createNotificationZone()
+void MainWindow::createTabs()
 {
-    m_dockLogUtil->setObjectName("dockLogUtil");
-    m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable
-                               | QDockWidget::DockWidgetFloatable);
+    QDockWidget* dock= new QDockWidget(this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dock->setWidget(m_sideTabs.get());
+    m_ui->m_menuSubWindows->addSeparator();
+    auto sideTabsAct= dock->toggleViewAction();
+    sideTabsAct->setText(tr("Side Panels"));
+    m_ui->m_menuSubWindows->addAction(sideTabsAct);
+    m_ui->m_menuSubWindows->addSeparator();
 
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_notificationAct, m_dockLogUtil->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_notificationAct);
-    addDockWidget(Qt::RightDockWidgetArea, m_dockLogUtil.get());
+    connect(m_ui->m_roomListAct, &QAction::triggered, dock, &QDockWidget::setVisible);
+
+    m_sideTabs->setIconSize(QSize(32, 32));
+
+    auto playersListWidget= new PlayersPanel(m_gameController->playerController(), this);
+    m_sideTabs->addTab(playersListWidget, QIcon::fromTheme("01_players"), tr("List of Players"));
+    m_sideTabs->addTab(m_campaignDock.get(), QIcon::fromTheme("02_campaign2"), tr("All campaign documents"));
+    m_sideTabs->addTab(m_antagonistWidget.get(), QIcon::fromTheme("03_antagonist"), tr("List of antagonists"));
+    m_sideTabs->addTab(m_audioPlayer.get(), QIcon::fromTheme("04_music"), tr("Music Player"));
+    m_sideTabs->addTab(m_roomPanel, QIcon::fromTheme("05_rooms"), tr("Server Panel"));
+    m_sideTabs->addTab(m_dockLogUtil.get(), QIcon::fromTheme("06_logger"), tr("Notification Zone"));
+
+    QWidget* wid= new QWidget(this);
+    auto vBox= new QVBoxLayout();
+    wid->setLayout(vBox);
+
+    for(auto tool : m_gmToolBoxList)
+    {
+        auto wid= dynamic_cast<QWidget*>(tool);
+        if(!wid)
+            continue;
+        vBox->addWidget(wid);
+    }
+
+    m_sideTabs->addTab(wid, QIcon::fromTheme("07_tools"), tr("GM Tools"));
+
+    for(int i= 0; i < m_sideTabs->count(); ++i)
+    {
+        auto act= new QAction(m_sideTabs->tabIcon(i), m_sideTabs->tabText(i), this);
+        m_sideTabs->setTabToolTip(i, m_sideTabs->tabText(i));
+        m_sideTabs->setTabText(i, {});
+        act->setData(i);
+        act->setCheckable(true);
+        act->setChecked(m_sideTabs->isTabVisible(i));
+        m_ui->m_menuSubWindows->addAction(act);
+        connect(act, &QAction::toggled, this,
+                [i, this]() { m_sideTabs->setTabVisible(i, !m_sideTabs->isTabVisible(i)); });
+    }
+
+    addDockWidget(Qt::RightDockWidgetArea, dock);
 }
 
 void MainWindow::linkActionToMenu()
@@ -625,8 +616,8 @@ void MainWindow::linkActionToMenu()
                                        .arg(networkCtrl->port())
                                        .arg(QString::fromUtf8(networkCtrl->serverPassword().toBase64())));
             });
-    connect(m_ui->m_roomListAct, &QAction::triggered, m_roomPanelDockWidget, &QDockWidget::setVisible);
-    // Help
+
+    //  Help
     connect(m_ui->m_aboutAction, &QAction::triggered, this,
             [this]()
             {
@@ -744,54 +735,6 @@ void MainWindow::openCampaign()
 
     m_gameController->setCampaignRoot(fileName);
 }
-
-bool MainWindow::saveStory(bool saveAs)
-{
-    /*auto contentCtrl= m_gameController->contentController();
-    if(contentCtrl->sessionPath().isEmpty() || saveAs)
-    {
-        QString fileName= QFileDialog::getSaveFileName(
-            this, tr("Save Scenario as"), m_preferences->value("SessionDirectory", QDir::homePath()).toString(),
-            tr("Scenarios (*.sce)"));
-        if(fileName.isNull())
-        {
-            return false;
-        }
-        if(!fileName.endsWith(".sce"))
-        {
-            fileName.append(QStringLiteral(".sce"));
-        }
-        contentCtrl->setSessionPath(fileName);
-    }
-    QFileInfo info(contentCtrl->sessionPath());
-    m_preferences->registerValue("SessionDirectory", info.absolutePath());
-    contentCtrl->saveSession();
-    updateWindowTitle();*/
-    return true;
-}
-////////////////////////////////////////////////////
-// Save data
-////////////////////////////////////////////////////
-/*void MainWindow::saveCurrentMedia()
-{
-
-    auto content= m_gameController->contentController();
-    auto mediaId= content->currentMediaId();
-    auto media= content->media(mediaId);
-
-    if(!media)
-        return;
-
-    QString dest= media->path();
-    QUrl url(dest);
-    if(qobject_cast<QAction*>(sender()) == m_ui->m_saveAsAction || dest.isEmpty() || !url.isLocalFile())
-    {
-        auto type= media->contentType();
-        auto filter= CleverURI::getFilterForType(type);
-        auto key= m_preferences->value(, QDir::homePath()).toString();
-        QFileDialog::getSaveFileName(this, tr("Save %1").arg(media->name()), key, filter);
-    }
-}*/
 
 void MainWindow::stopReconnection()
 {
@@ -1031,11 +974,11 @@ void MainWindow::cleanUpData()
 {
     m_gameController->clear();
 
-    ChannelListPanel* roomPanel= qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
+    /*ChannelListPanel* roomPanel= qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
     if(nullptr != roomPanel)
     {
         roomPanel->cleanUp();
-    }
+    }*/
 }
 
 void MainWindow::postConnection()

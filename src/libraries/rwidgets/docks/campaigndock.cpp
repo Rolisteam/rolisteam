@@ -36,7 +36,7 @@
 namespace campaign
 {
 CampaignDock::CampaignDock(CampaignEditor* ctrl, QWidget* parent)
-    : QDockWidget(parent)
+    : QWidget(parent)
     , m_ui(new Ui::CampaignDock)
     , m_campaignEditor(ctrl)
     , m_model(new MediaModel(ctrl ? ctrl->campaign() : nullptr))

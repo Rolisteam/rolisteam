@@ -29,7 +29,7 @@ namespace Ui
 class NotificationZone;
 }
 
-class  RWIDGET_EXPORT  NotificationZone : public QDockWidget
+class  RWIDGET_EXPORT  NotificationZone : public QWidget
 {
     Q_OBJECT
 public:

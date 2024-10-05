@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1263</width>
     <height>600</height>
    </rect>
   </property>
@@ -14,8 +14,7 @@
    <string>Rolisteam</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="500-symbole">
-    <normaloff>.</normaloff>.</iconset>
+   <iconset theme="500-symbole"/>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -23,7 +22,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1263</width>
      <height>22</height>
     </rect>
    </property>
@@ -64,7 +63,7 @@
    </widget>
    <widget class="QMenu" name="m_menuSubWindows">
     <property name="title">
-     <string>Sub-&amp;Windows</string>
+     <string>&amp;Panels</string>
     </property>
     <widget class="QMenu" name="menuReorganize">
      <property name="title">
@@ -76,12 +75,6 @@
     </widget>
     <addaction name="m_mediaTitleAct"/>
     <addaction name="menuReorganize"/>
-    <addaction name="separator"/>
-    <addaction name="m_showChatAct"/>
-    <addaction name="m_audioPlayerAct"/>
-    <addaction name="m_characterListAct"/>
-    <addaction name="m_notificationAct"/>
-    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuNetwork">
     <property name="title">
@@ -181,8 +174,7 @@
   </action>
   <action name="m_preferencesAction">
    <property name="icon">
-    <iconset theme="settings">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="settings"/>
    </property>
    <property name="text">
     <string>Preferences…</string>
@@ -193,8 +185,7 @@
   </action>
   <action name="m_quitAction">
    <property name="icon">
-    <iconset theme="exit">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="exit"/>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -248,8 +239,7 @@
   </action>
   <action name="m_aboutAction">
    <property name="icon">
-    <iconset theme="1000-symbole">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="1000-symbole"/>
    </property>
    <property name="text">
     <string>About Rolisteam</string>
@@ -257,8 +247,7 @@
   </action>
   <action name="m_newNoteAction">
    <property name="icon">
-    <iconset theme="text-x-generic">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="text-x-generic"/>
    </property>
    <property name="text">
     <string>Note</string>
@@ -269,8 +258,7 @@
   </action>
   <action name="m_openPictureAction">
    <property name="icon">
-    <iconset theme="image-x-generic">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="image-x-generic"/>
    </property>
    <property name="text">
     <string>Picture</string>
@@ -281,8 +269,7 @@
   </action>
   <action name="m_openNoteAction">
    <property name="icon">
-    <iconset theme="text-x-generic">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="text-x-generic"/>
    </property>
    <property name="text">
     <string>Note</string>
@@ -293,8 +280,7 @@
   </action>
   <action name="m_openCampaignAction">
    <property name="icon">
-    <iconset theme="story">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="story"/>
    </property>
    <property name="text">
     <string>Open Campaign</string>
@@ -305,8 +291,7 @@
   </action>
   <action name="m_openOnlinePictureAction">
    <property name="icon">
-    <iconset theme="image-x-generic">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="image-x-generic"/>
    </property>
    <property name="text">
     <string>Online Picture</string>
@@ -315,43 +300,12 @@
     <string>Ctrl+Shift+I</string>
    </property>
   </action>
-  <action name="m_audioPlayerAct">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset theme="multimedia-player">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Audio Player</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+A</string>
-   </property>
-  </action>
-  <action name="m_notificationAct">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset theme="bell">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Notification Zone</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+N</string>
-   </property>
-  </action>
   <action name="m_characterListAct">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="userlisticon">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="userlisticon"/>
    </property>
    <property name="text">
     <string>Character List</string>
@@ -373,8 +327,7 @@
   </action>
   <action name="m_addVectorialMap">
    <property name="icon">
-    <iconset theme="vmap">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="vmap"/>
    </property>
    <property name="text">
     <string>Map</string>
@@ -385,8 +338,7 @@
   </action>
   <action name="m_openVectorialMap">
    <property name="icon">
-    <iconset theme="vmap">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="vmap"/>
    </property>
    <property name="text">
     <string>Map</string>
@@ -413,8 +365,7 @@
   </action>
   <action name="m_openCharacterSheet">
    <property name="icon">
-    <iconset theme="treeview">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="treeview"/>
    </property>
    <property name="text">
     <string>Character Sheet</string>
@@ -425,8 +376,7 @@
   </action>
   <action name="m_saveCampaignAction">
    <property name="icon">
-    <iconset theme="story">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="story"/>
    </property>
    <property name="text">
     <string>Save Campaign</string>
@@ -448,8 +398,7 @@
   </action>
   <action name="m_newSharedNote">
    <property name="icon">
-    <iconset theme="sharedEditor">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="sharedEditor"/>
    </property>
    <property name="text">
     <string>Shared Note</string>
@@ -460,8 +409,7 @@
   </action>
   <action name="m_openShareNote">
    <property name="icon">
-    <iconset theme="sharedEditor">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="sharedEditor"/>
    </property>
    <property name="text">
     <string>Shared Note</string>
@@ -472,8 +420,7 @@
   </action>
   <action name="m_supportRolisteam">
    <property name="icon">
-    <iconset theme="liberapay">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="liberapay"/>
    </property>
    <property name="text">
     <string>Support Rolisteam</string>
@@ -500,8 +447,7 @@
   </action>
   <action name="m_openPdfAct">
    <property name="icon">
-    <iconset theme="pdfLogo">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="pdfLogo"/>
    </property>
    <property name="text">
     <string>PDF File</string>
@@ -517,8 +463,7 @@
   </action>
   <action name="m_openWebViewAct">
    <property name="icon">
-    <iconset theme="text-html">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="text-html"/>
    </property>
    <property name="text">
     <string>WebPage</string>
@@ -598,8 +543,7 @@
   </action>
   <action name="m_copyAct">
    <property name="icon">
-    <iconset theme="edit-copy">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="edit-copy"/>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -613,8 +557,7 @@
   </action>
   <action name="m_pasteAct">
    <property name="icon">
-    <iconset theme="edit-paste">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="edit-paste"/>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -623,7 +566,7 @@
     <string>Ctrl+V</string>
    </property>
    <property name="shortcutContext">
-    <enum>Qt::ApplicationShortcut</enum>
+    <enum>Qt::ShortcutContext::ApplicationShortcut</enum>
    </property>
   </action>
   <action name="m_campaignPropertiesAct">
@@ -691,7 +634,6 @@
   </action>
  </widget>
  <resources>
-  <include location="../../../rolisteam.qrc"/>
   <include location="../../../rolisteam.qrc"/>
   <include location="../../../rolisteam.qrc"/>
  </resources>

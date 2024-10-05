@@ -36,12 +36,10 @@ namespace
 QString musicStatus= QStringLiteral("music_player_%1_status");
 }
 
-AudioPlayer::AudioPlayer(AudioController* ctrl, QWidget* parent) : QDockWidget(parent), m_ctrl(ctrl)
+AudioPlayer::AudioPlayer(AudioController* ctrl, QWidget* parent) : QWidget(parent), m_ctrl(ctrl)
 {
     setObjectName("MusicPlayer");
     setupUi();
-    setWidget(m_mainWidget);
-    m_mainWidget->setVisible(true);
 }
 
 void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
@@ -68,18 +66,18 @@ void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
 }
 AudioPlayer::~AudioPlayer()
 {
-    delete m_mainWidget;
+
 }
 
 void AudioPlayer::setupUi()
 {
     setWindowTitle(tr("Background Music"));
-    setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    //setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    //setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     setMinimumWidth(255);
-    m_mainWidget= new QWidget(this);
 
-    m_mainLayout= new QVBoxLayout();
+
+    m_mainLayout= new QVBoxLayout(this);
     m_mainLayout->setSpacing(0);
     m_mainLayout->setContentsMargins(QMargins());
 
@@ -105,7 +103,7 @@ void AudioPlayer::setupUi()
         }
     }
 
-    m_mainWidget->setLayout(m_mainLayout);
+    setLayout(m_mainLayout);
 }
 
 /**/

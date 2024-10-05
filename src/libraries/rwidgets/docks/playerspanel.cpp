@@ -41,7 +41,7 @@
  ********************/
 
 PlayersPanel::PlayersPanel(PlayerController* ctrl, QWidget* parent)
-    : QDockWidget(parent), m_ui(new Ui::PlayersPanel), m_ctrl(ctrl)
+    : QWidget(parent), m_ui(new Ui::PlayersPanel), m_ctrl(ctrl)
 {
     m_ui->setupUi(this);
     m_ui->m_playerView->setPlayerController(ctrl);
@@ -52,8 +52,8 @@ PlayersPanel::PlayersPanel(PlayerController* ctrl, QWidget* parent)
     m_ui->m_removeBtn->setDefaultAction(m_ui->m_removeLocalCharacter);
     m_ui->m_removeLocalCharacter->setIcon(QIcon::fromTheme("delete"));
 
-    setAllowedAreas(Qt::AllDockWidgetAreas);
-    setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+   // setAllowedAreas(Qt::AllDockWidgetAreas);
+   // setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     setWindowTitle(tr("Player List"));
     setObjectName("PlayersPanel");
 

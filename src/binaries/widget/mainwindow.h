@@ -35,8 +35,8 @@
 #include <QUndoStack>
 #include <memory>
 
-#include "network/networkreceiver.h"
 #include "core/include/preferences/preferencesmanager.h"
+#include "network/networkreceiver.h"
 
 #include "rwidgets/customs/vmap.h"
 #include "rwidgets/docks/vmaptoolbar.h"
@@ -207,10 +207,6 @@ private slots:
      */
     void helpOnLine();
     /**
-     * @brief saveStory - saves all media contener into the current story file.
-     */
-    bool saveStory(bool saveAs);
-    /**
      * @brief notifyAboutAddedPlayer
      * @param player
      */
@@ -222,6 +218,8 @@ private slots:
     void notifyAboutDeletedPlayer(Player* player) const;
     void showShortCutEditor();
     void newVMap();
+
+    void createTabs();
 
 private:
     /**
@@ -250,6 +248,7 @@ private:
     std::unique_ptr<campaign::AntagonistBoard> m_antagonistWidget;
     std::unique_ptr<QSystemTrayIcon> m_systemTray;
     std::unique_ptr<Workspace> m_mdiArea;
+    std::unique_ptr<QTabWidget> m_sideTabs;
 
     // subwindow
     Ui::MainWindow* m_ui;
@@ -264,7 +263,6 @@ private:
     QAction* m_separatorAction;
     std::vector<FileInfo> m_recentFiles;
     QList<GameMasterTool*> m_gmToolBoxList;
-    QDockWidget* m_roomPanelDockWidget;
     ChannelListPanel* m_roomPanel;
 
     bool m_isOut= false;

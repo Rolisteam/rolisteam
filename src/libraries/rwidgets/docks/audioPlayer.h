@@ -49,7 +49,7 @@ class AudioController;
  * @brief This player can be used by the GM to play songs.
  * Regular players can just change the volume level.
  */
-class RWIDGET_EXPORT AudioPlayer : public QDockWidget
+class RWIDGET_EXPORT AudioPlayer : public QWidget
 {
     Q_OBJECT
 
@@ -68,7 +68,6 @@ signals:
 
 private:
     QPointer<AudioController> m_ctrl;
-    QWidget* m_mainWidget; //!< @brief brings together all subwidget
     QVBoxLayout* m_mainLayout;
 
     QList<PlayerWidget*> m_players;

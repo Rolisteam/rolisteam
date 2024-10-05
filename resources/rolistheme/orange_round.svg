@@ -1,3 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" version="1.1">
-<circle cx="64" cy="64" r="64" style="fill: orange;"/>
-</svg>
+<svg height="128" width="128" xmlns="http://www.w3.org/2000/svg"><circle cx="64" cy="64" fill="#ffa500" r="64"/></svg>

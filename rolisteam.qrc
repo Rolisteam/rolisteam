@@ -170,5 +170,17 @@
         <file>resources/rolistheme/close-circle.svg</file>
         <file>resources/rolistheme/closed.svg</file>
         <file>resources/rolistheme/4arrows.svg</file>
+        <file>resources/rolistheme/02_campaign2.svg</file>
+        <file>resources/rolistheme/02_campaign.svg</file>
+        <file>resources/rolistheme/04_music.svg</file>
+        <file>resources/rolistheme/image.svg</file>
+        <file>resources/rolistheme/05_rooms2.svg</file>
+        <file>resources/rolistheme/05_rooms.svg</file>
+        <file>resources/rolistheme/chat.svg</file>
+        <file>resources/rolistheme/06_logger.svg</file>
+        <file>resources/rolistheme/03_antagonist.svg</file>
+        <file>resources/rolistheme/07_tools.svg</file>
+        <file>resources/rolistheme/file-svgrepo-com.svg</file>
+        <file>resources/rolistheme/01_players.svg</file>
     </qresource>
 </RCC>
