@@ -12,11 +12,13 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
     ui->setupUi(this);
     connect(ui->m_categoryCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(categoryHasChanged(int)));
     connect(ui->m_categoryCombo2, SIGNAL(currentIndexChanged(int)), this, SLOT(categoryHasChangedOnSecondPanel(int)));
-    connect(ui->m_reverseAct, &QAction::triggered, this, [=]() {
-        auto from= ui->m_fromCombo->currentIndex();
-        ui->m_fromCombo->setCurrentIndex(ui->m_toCombo->currentIndex());
-        ui->m_toCombo->setCurrentIndex(from);
-    });
+    connect(ui->m_reverseAct, &QAction::triggered, this,
+            [=]()
+            {
+                auto from= ui->m_fromCombo->currentIndex();
+                ui->m_fromCombo->setCurrentIndex(ui->m_toCombo->currentIndex());
+                ui->m_toCombo->setCurrentIndex(from);
+            });
 
     ui->m_addBtn->setDefaultAction(ui->m_addUnitAction);
     ui->m_removeBtn->setDefaultAction(ui->m_removeUnit);
@@ -26,10 +28,12 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
 
     connect(ui->m_customRuleAct, &QAction::triggered, this, [=]() { ui->stackedWidget->setCurrentIndex(1); });
 
-    connect(ui->m_back, &QAction::triggered, this, [=]() {
-        ui->stackedWidget->setCurrentIndex(0);
-        categoryHasChanged(ui->m_categoryCombo->currentIndex());
-    });
+    connect(ui->m_back, &QAction::triggered, this,
+            [=]()
+            {
+                ui->stackedWidget->setCurrentIndex(0);
+                categoryHasChanged(ui->m_categoryCombo->currentIndex());
+            });
     ui->stackedWidget->setCurrentIndex(0);
 
     connect(ui->m_addUnitAction, &QAction::triggered, m_customRulesModel.get(), &CustomRuleModel::insertUnit);
@@ -51,8 +55,8 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
         Unit* hm= m_model->insertData(new Unit(QStringLiteral("hectometer"), QStringLiteral("hm"), Unit::DISTANCE));
         Unit* cm= m_model->insertData(new Unit(QStringLiteral("centimeter"), QStringLiteral("cm"), Unit::DISTANCE));
         Unit* mm= m_model->insertData(new Unit(QStringLiteral("millitimeter"), QStringLiteral("mm"), Unit::DISTANCE));
-        Unit* po= m_model->insertData(new Unit(QStringLiteral("Inch"), QStringLiteral("″"), Unit::DISTANCE));
-        Unit* ft= m_model->insertData(new Unit(QStringLiteral("Foot"), QStringLiteral("′"), Unit::DISTANCE));
+        Unit* po= m_model->insertData(new Unit(QStringLiteral("Inch"), QStringLiteral(u"″"), Unit::DISTANCE));
+        Unit* ft= m_model->insertData(new Unit(QStringLiteral("Foot"), QStringLiteral(u"′"), Unit::DISTANCE));
         Unit* yd= m_model->insertData(new Unit(QStringLiteral("Yard"), QStringLiteral("yd"), Unit::DISTANCE));
         Unit* mile= m_model->insertData(new Unit(QStringLiteral("Mile"), QStringLiteral("mi"), Unit::DISTANCE));
 
@@ -193,10 +197,10 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
         /////////////////////////
 
         Unit* celsius
-            = m_model->insertData(new Unit(QStringLiteral("celsius"), QStringLiteral("°C"), Unit::TEMPERATURE));
-        Unit* kelvin= m_model->insertData(new Unit(QStringLiteral("kelvin"), QStringLiteral("K"), Unit::TEMPERATURE));
+            = m_model->insertData(new Unit(QStringLiteral("celsius"), QStringLiteral(u"°C"), Unit::TEMPERATURE));
+        Unit* kelvin= m_model->insertData(new Unit(QStringLiteral("kelvin"), QStringLiteral(u"°K"), Unit::TEMPERATURE));
         Unit* fahrenheit
-            = m_model->insertData(new Unit(QStringLiteral("fahrenheit"), QStringLiteral("°F"), Unit::TEMPERATURE));
+            = m_model->insertData(new Unit(QStringLiteral("fahrenheit"), QStringLiteral(u"°F"), Unit::TEMPERATURE));
 
         m_convertorTable.insert(QPair<const Unit*, const Unit*>(celsius, kelvin), new ConvertorOperator(1, -273.15));
         m_convertorTable.insert(QPair<const Unit*, const Unit*>(celsius, fahrenheit), new ConvertorOperator(1.8, 32));
@@ -253,9 +257,9 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
         // Volume
         ////////////////////////////
         Unit* cubicMeter
-            = m_model->insertData(new Unit(QStringLiteral("Cubic Meter"), QStringLiteral("m³"), Unit::VOLUME));
+            = m_model->insertData(new Unit(QStringLiteral("Cubic Meter"), QStringLiteral(u"m³"), Unit::VOLUME));
         Unit* cubicFeet
-            = m_model->insertData(new Unit(QStringLiteral("Cubic Feet"), QStringLiteral("ft³"), Unit::VOLUME));
+            = m_model->insertData(new Unit(QStringLiteral("Cubic Feet"), QStringLiteral(u"ft³"), Unit::VOLUME));
 
         m_convertorTable.insert(QPair<const Unit*, const Unit*>(cubicMeter, cubicFeet), new ConvertorOperator(35.3147));
         m_convertorTable.insert(QPair<const Unit*, const Unit*>(cubicFeet, cubicMeter),
