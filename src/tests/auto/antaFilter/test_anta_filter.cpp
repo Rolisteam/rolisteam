@@ -156,7 +156,6 @@ void initModel(campaign::NonPlayableCharacterModel* model)
              ""},
         };
 
-    int i= 0;
     for(auto& character : data)
     {
         auto c= new campaign::NonPlayableCharacter();

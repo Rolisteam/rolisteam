@@ -52,50 +52,7 @@ QList<T> convertToSpecific(QList<CharacterField*> list)
 
     return res;
 }
-/*
-template <typename T>
-bool isNull(const T& value);
 
-template <>
-bool isNull(const QPixmap& value)
-{
-    return value.isNull();
-}
-template <>
-bool isNull(const QString& value)
-{
-    return value.isEmpty();
-}
-
-template <>
-bool isNull(const int& value)
-{
-    return value == 0;
-}
-
-template <>
-bool isNull(const bool& value)
-{
-    return !value;
-}
-
-template <typename T>
-bool isAccepted(FilteredCharacterModel::Definition def, T value)
-{
-    if(def == FilteredCharacterModel::All)
-    {
-        return true;
-    }
-    else if(def == FilteredCharacterModel::With)
-    {
-        return !isNull(value);
-    }
-    else
-    {
-        return isNull(value);
-    }
-}
-*/
 AntagonistBoardController::AntagonistBoardController(campaign::CampaignEditor* editor, QObject* parent)
     : QObject(parent)
     , m_editor(editor)

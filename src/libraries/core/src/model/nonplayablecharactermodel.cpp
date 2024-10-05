@@ -159,8 +159,8 @@ QVariant NonPlayableCharacterModel::data(const QModelIndex& index, int role) con
     switch(customRole)
     {
     case RoleAvatar:
-        if(role == Qt::EditRole)
-            res= QString{};
+        if(role == Qt::EditRole || role == Qt::DisplayRole)
+            res= character->avatarPath();
         else
             res= QVariant::fromValue(IOHelper::dataToPixmap(character->avatar()));
         break;
@@ -327,10 +327,11 @@ QString NonPlayableCharacterModel::stateName(const QString& id) const
 
 Qt::DropActions NonPlayableCharacterModel::supportedDropActions() const
 {
-    return Qt::MoveAction | Qt::CopyAction | Qt::TargetMoveAction | Qt::ActionMask ;
+    return Qt::MoveAction | Qt::CopyAction | Qt::TargetMoveAction | Qt::ActionMask;
 }
 
-bool NonPlayableCharacterModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool NonPlayableCharacterModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+                                             const QModelIndex& parent)
 {
     if(column != NonPlayableCharacterModel::ColAvatar || action == Qt::IgnoreAction)
         return false;
@@ -339,15 +340,16 @@ bool NonPlayableCharacterModel::dropMimeData(const QMimeData *data, Qt::DropActi
 
     if(data->hasImage())
     {
-        setData(index(row, column), IOHelper::imageToData(data->imageData().value<QImage>()),NonPlayableCharacterModel::RoleAvatar);
+        setData(index(row, column), IOHelper::imageToData(data->imageData().value<QImage>()),
+                NonPlayableCharacterModel::RoleAvatar);
     }
     else if(data->hasUrls())
     {
-        auto urls = data->urls();
+        auto urls= data->urls();
         if(urls.size() > 1 || urls.isEmpty())
             return false;
-        setData(index(row, column), urls[0],NonPlayableCharacterModel::RoleAvatar);
-        setData(index(row, column), urls[0],NonPlayableCharacterModel::RoleAvatarPath);
+        setData(index(row, column), urls[0], NonPlayableCharacterModel::RoleAvatar);
+        setData(index(row, column), urls[0], NonPlayableCharacterModel::RoleAvatarPath);
     }
     return added;
 }

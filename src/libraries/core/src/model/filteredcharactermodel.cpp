@@ -63,6 +63,8 @@ FilteredCharacterModel::FilteredCharacterModel()
     connect(this, &FilteredCharacterModel::excludeTagsChanged, this, &FilteredCharacterModel::invalidateFilter);
     connect(this, &FilteredCharacterModel::hlStateChanged, this, &FilteredCharacterModel::invalidateFilter);
     connect(this, &FilteredCharacterModel::characterStateIdChanged, this, &FilteredCharacterModel::invalidateFilter);
+    connect(this, &FilteredCharacterModel::gmdetailsDefChanged, this, &FilteredCharacterModel::invalidateFilter);
+    connect(this, &FilteredCharacterModel::gmdetailsChanged, this, &FilteredCharacterModel::invalidateFilter);
 }
 
 FilteredCharacterModel::Definition FilteredCharacterModel::initiativeCmdDef() const
