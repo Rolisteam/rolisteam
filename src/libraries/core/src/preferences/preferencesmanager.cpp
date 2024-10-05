@@ -99,6 +99,7 @@ void PreferencesManager::readSettings()
     settings.endGroup();
 
     notifyAllListener();
+    setReady(true);
 }
 void PreferencesManager::writeSettings()
 {
@@ -128,12 +129,25 @@ void PreferencesManager::registerLambda(const QString& key, std::function<void(Q
     m_lambdaMap.insert({key, func});
 }
 
+bool PreferencesManager::ready() const
+{
+    return m_ready;
+}
+
 void PreferencesManager::notifyAllListener()
 {
-    for(const auto& key : m_optionDictionary->keys())
+    for(const auto& [key, value] : m_optionDictionary->asKeyValueRange())
     {
-        notifyListener(key, m_optionDictionary->value(key));
+        notifyListener(key, value);
     }
+}
+
+void PreferencesManager::setReady(bool r)
+{
+    if(r == m_ready)
+        return;
+    m_ready= r;
+    emit readyChanged();
 }
 
 void PreferencesManager::notifyListener(const QString& key, const QVariant& value)

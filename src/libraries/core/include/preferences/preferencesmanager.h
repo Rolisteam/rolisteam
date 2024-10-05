@@ -43,9 +43,10 @@ class PreferencesListener;
  * @brief Store options and manage access to their value.
  * Save/load values in/from QSetting instance.
  */
-class  CORE_EXPORT PreferencesManager : public QObject
+class CORE_EXPORT PreferencesManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool ready READ ready NOTIFY readyChanged FINAL)
 public:
     /**
      * @brief Private constructor to make sure there is only one instance of this.
@@ -85,6 +86,8 @@ public:
     void registerListener(const QString&, PreferencesListener*);
     void registerLambda(const QString& key, std::function<void(QVariant)> func);
 
+    bool ready() const;
+
 private:
     /**
      * @brief notifyListener
@@ -92,8 +95,11 @@ private:
     void notifyListener(const QString& key, const QVariant& value);
     void notifyAllListener();
 
+    void setReady(bool r);
+
 signals:
     void dataChanged(const QString& key, const QVariant& value);
+    void readyChanged();
 
 private:
     /**
@@ -116,6 +122,7 @@ private:
     std::map<QString, std::function<void(QVariant)>> m_lambdaMap;
     QString m_applicationName;
     QString m_subname;
+    bool m_ready{false};
 };
 
 #endif // PREFERENCESMANAGER_H
