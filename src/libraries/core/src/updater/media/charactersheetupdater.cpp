@@ -104,6 +104,17 @@ void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
     connect(csCtrl, &CharacterSheetController::removedSheet, this,
             [](const QString& uuid, const QString& ctrlId, const QString& characterId)
             { MessageHelper::stopSharingSheet(uuid, ctrlId, characterId); });
+
+    if(!csCtrl->remote())
+    {
+        auto data= csCtrl->sheetData();
+        for(auto const& sheetInfo : data)
+        {
+            if(sheetInfo.remote)
+                continue;
+            csCtrl->shareCharacterSheetTo(sheetInfo);
+        }
+    }
 }
 
 void CharacterSheetUpdater::addRemoteCharacterSheet(CharacterSheetController* ctrl)

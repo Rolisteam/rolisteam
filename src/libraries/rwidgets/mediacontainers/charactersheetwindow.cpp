@@ -59,19 +59,6 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     setObjectName("CharacterSheetViewer");
     connect(m_sheetCtrl, &CharacterSheetController::sheetCreated, this, &CharacterSheetWindow::addTabWithSheetView);
 
-    if(m_sheetCtrl->remote())
-    {
-        auto const& set= m_sheetCtrl->sheetData();
-        std::for_each(std::begin(set), std::end(set),
-                      [this](const CharacterSheetInfo& data)
-                      {
-                          auto sheet= m_sheetCtrl->characterSheetFromId(data.m_sheetId);
-                          auto characters= m_sheetCtrl->characterModel();
-                          auto character= characters->character(data.m_characterId);
-                          addTabWithSheetView(sheet, character);
-                      });
-    }
-
     setWindowIcon(QIcon::fromTheme("treeview"));
 
     if(m_sheetCtrl)
@@ -115,6 +102,8 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     connect(m_sheetCtrl, &CharacterSheetController::removedSheet, this,
             [this](const QString& characterSheetId, const QString& ctrlId, const QString& characterId)
             {
+                Q_UNUSED(ctrlId)
+                Q_UNUSED(characterId)
                 auto it= std::find_if(std::begin(m_tabs), std::end(m_tabs),
                                       [characterSheetId](const QPointer<SheetWidget>& sheetWid)
                                       {
@@ -134,6 +123,19 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     connect(m_sheetCtrl, &CharacterSheetController::modifiedChanged, this, updateTitle);
 
     updateTitle();
+
+    if(m_sheetCtrl->remote())
+    {
+        auto const& set= m_sheetCtrl->sheetData();
+        std::for_each(std::begin(set), std::end(set),
+                      [this](const CharacterSheetInfo& data)
+                      {
+                          auto sheet= m_sheetCtrl->characterSheetFromId(data.m_sheetId);
+                          auto characters= m_sheetCtrl->characterModel();
+                          auto character= characters->character(data.m_characterId);
+                          addTabWithSheetView(sheet, character);
+                      });
+    }
 }
 CharacterSheetWindow::~CharacterSheetWindow() {}
 
