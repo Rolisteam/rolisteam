@@ -43,7 +43,12 @@ QImage AvatarProvider::requestImage(const QString& id, QSize* size, const QSize&
     auto person= m_playerModel->personById(id);
 
     if(!person)
-        return resize(m_default);
+    {
+        auto idUrl= QUrl::fromPercentEncoding(id.toLatin1());
+        person= m_playerModel->personById(idUrl);
+        if(!person)
+            return resize(m_default);
+    }
 
     auto img= utils::IOHelper::dataToImage(person->avatar());
 
