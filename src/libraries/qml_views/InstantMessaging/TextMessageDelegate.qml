@@ -45,10 +45,11 @@ Column {
                 Label {
                     id: messageId
                     text: root.text
+                    onTextChanged: console.log("@@@@@ Text:",root.text)
                     visible: root.text
                     font: Theme.imFont
                     Layout.preferredWidth: contentWidth > root.parentWidth ? (root.parentWidth - 10) : contentWidth
-
+                    textFormat: Text.StyledText
                     wrapMode: Text.WordWrap
                     onLinkActivated: InstantMessagerManager.ctrl.openLink(link)
                 }
