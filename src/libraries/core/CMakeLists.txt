@@ -272,7 +272,8 @@ set(HEADERS
   ${inc}/worker/utilshelper.h
   ${inc}/worker/vectorialmapmessagehelper.h
   ${inc}/worker/characterfinder.h
-  ${inc}/controller/applicationcontroller.h)
+  ${inc}/controller/applicationcontroller.h
+  ${inc}/worker/mediahelper.h )
 
 
 set(SOURCES
@@ -412,9 +413,11 @@ set(SOURCES
   src/worker/utilshelper.cpp
   src/worker/vectorialmapmessagehelper.cpp
   include/controller/applicationcontroller.cpp
-  src/worker/characterfinder.cpp)
+  src/worker/characterfinder.cpp
+  src/worker/mediahelper.cpp)
 
 add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${QRC_SOURCES}
+
 
 )
 set_target_properties(core PROPERTIES PUBLIC_HEADER "${HEADERS}")

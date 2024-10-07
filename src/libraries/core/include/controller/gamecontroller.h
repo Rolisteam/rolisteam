@@ -148,6 +148,7 @@ public slots:
 
     void save();
     void saveAs(const QString& path);
+    void openPageWeb(const QString& urlText);
 
 private:
     void addCommand(QUndoCommand* cmd);

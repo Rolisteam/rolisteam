@@ -460,12 +460,7 @@ void MainWindow::linkActionToMenu()
                 auto str= QInputDialog::getText(this, tr("Open Webpage"), tr("Webpage url:"));
                 if(str.isEmpty())
                     return;
-                std::map<QString, QVariant> params;
-                params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::WEBVIEW)});
-                QUrl url= QUrl::fromUserInput(str);
-                params.insert({Core::keys::KEY_NAME, url.fileName()});
-                params.insert({Core::keys::KEY_PATH, str});
-                m_gameController->newMedia(params);
+                m_gameController->openPageWeb(str);
             });
     connect(m_ui->m_openVectorialMap, &QAction::triggered, this,
             [this]()

@@ -33,6 +33,7 @@
 #include "services/updatechecker.h"
 #include "worker/autosavecontroller.h"
 #include "worker/iohelper.h"
+#include "worker/mediahelper.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 
@@ -112,6 +113,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
         m_undoStack->setIndex(m_undoStack->index()-1);
     };
     connect(m_contentCtrl.get(), &ContentController::popCommand, this, popCommand);
+    connect(m_instantMessagingCtrl.get(), &InstantMessagingController::openWebPage, this, &GameController::openPageWeb);
 
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_audioCtrl.get(), &AudioController::setLocalIsGM);
@@ -221,6 +223,11 @@ void GameController::saveAs(const QString& path)
     ModelHelper::saveSession(m_contentCtrl.get());
     ModelHelper::saveAudioController(m_audioCtrl.get());
     m_campaignManager->copyCampaign(path);
+}
+
+void GameController::openPageWeb(const QString& urlText)
+{
+    newMedia(MediaHelper::prepareWebView(urlText));
 }
 
 void GameController::setUpdateAvailable(bool available)
