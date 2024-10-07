@@ -70,29 +70,29 @@ msgctxt "ImageController|"
 msgid "Image %1 has not the same size than the others"
 msgstr "%1 görselinin boyutu diğerlerinden ayrımlı"
 
-#: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:21
-#: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:166
+#: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:22
+#: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:167
 #, qt-format
 msgctxt "QmlGeneratorController|"
 msgid "The character value %1 has been defined to %2"
 msgstr "%1 karakter değeri, %2 olarak tanımlandı"
 
-#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
+#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:38
 msgctxt "RcseApplicationController|"
 msgid "Yes"
 msgstr "Evet"
 
-#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:40
+#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:38
 msgctxt "RcseApplicationController|"
 msgid "No"
 msgstr "Hayır"
 
-#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
+#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:39
 msgctxt "RcseApplicationController|"
 msgid "only the GM"
 msgstr "yalnızca oyun görevlisi"
 
-#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:41
+#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:39
 msgctxt "RcseApplicationController|"
 msgid "All"
 msgstr "Tümü"
@@ -703,44 +703,44 @@ msgctxt "ItemEditor|"
 msgid "Horizontal equidistribution"
 msgstr "Yatay Eşit Dağıtım"
 
-#: src/binaries/rcse/main.cpp:54 src/binaries/rcse/main.cpp:60
-#: src/binaries/rcse/main.cpp:82
+#: src/binaries/rcse/main.cpp:58 src/binaries/rcse/main.cpp:64
+#: src/binaries/rcse/main.cpp:86
 #, qt-format
 msgctxt "QObject|"
 msgid "Load of translation %1 file failed"
 msgstr "%1 çeviri dosyası yüklenemedi"
 
-#: src/binaries/rcse/main.cpp:69
+#: src/binaries/rcse/main.cpp:73
 msgctxt "QObject|"
 msgid "define path to current <translation>"
 msgstr "geçerli <çeviri>’ye olan yolu tanımla"
 
-#: src/binaries/rcse/main.cpp:72
+#: src/binaries/rcse/main.cpp:76
 msgctxt "QObject|"
 msgid "open <file>."
 msgstr "<dosya>’yı aç."
 
-#: src/binaries/rcse/mainwindow.cpp:168
+#: src/binaries/rcse/mainwindow.cpp:170
 msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Günlük paneli"
 
-#: src/binaries/rcse/mainwindow.cpp:196
+#: src/binaries/rcse/mainwindow.cpp:198
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "&Geri Al"
 
-#: src/binaries/rcse/mainwindow.cpp:199
+#: src/binaries/rcse/mainwindow.cpp:201
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "&Yinele"
 
-#: src/binaries/rcse/mainwindow.cpp:358
+#: src/binaries/rcse/mainwindow.cpp:360
 msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Destek"
 
-#: src/binaries/rcse/mainwindow.cpp:359
+#: src/binaries/rcse/mainwindow.cpp:361
 #, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
@@ -750,17 +750,17 @@ msgstr ""
 "%1 bağış sayfası çevrimiçi olarak şurada bulunabilir:<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:428
+#: src/binaries/rcse/mainwindow.cpp:432
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Başlıksız"
 
-#: src/binaries/rcse/mainwindow.cpp:465
+#: src/binaries/rcse/mainwindow.cpp:469
 msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Yardım"
 
-#: src/binaries/rcse/mainwindow.cpp:466
+#: src/binaries/rcse/mainwindow.cpp:470
 #, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
@@ -769,53 +769,53 @@ msgstr ""
 "Rcse belgelendirmesi çevrimiçi olarak şurada bulunabilir:<br> <a href=\"%1\">"
 "%1</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:478
+#: src/binaries/rcse/mainwindow.cpp:482
 msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "Karakter sayfasında kaydedilmemiş değişiklikler var."
 
-#: src/binaries/rcse/mainwindow.cpp:485
+#: src/binaries/rcse/mainwindow.cpp:489
 #, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Çık: %1"
 
-#: src/binaries/rcse/mainwindow.cpp:540
+#: src/binaries/rcse/mainwindow.cpp:544
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Görsel Üretimi"
 
-#: src/binaries/rcse/mainwindow.cpp:540
+#: src/binaries/rcse/mainwindow.cpp:544
 msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Görsel üretimi sürüyor"
 
-#: src/binaries/rcse/mainwindow.cpp:559 src/binaries/rcse/mainwindow.cpp:809
+#: src/binaries/rcse/mainwindow.cpp:563 src/binaries/rcse/mainwindow.cpp:794
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Arka Plan Görseli Aç"
 
-#: src/binaries/rcse/mainwindow.cpp:570
+#: src/binaries/rcse/mainwindow.cpp:574
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Görsel Aç"
 
-#: src/binaries/rcse/mainwindow.cpp:595 src/binaries/rcse/mainwindow.cpp:640
+#: src/binaries/rcse/mainwindow.cpp:599 src/binaries/rcse/mainwindow.cpp:644
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "Karakter Sayfasını Kaydet"
 
-#: src/binaries/rcse/mainwindow.cpp:596 src/binaries/rcse/mainwindow.cpp:641
+#: src/binaries/rcse/mainwindow.cpp:600 src/binaries/rcse/mainwindow.cpp:645
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "Rolisteam Karakter Sayfası (*.rcs)"
 
-#: src/binaries/rcse/mainwindow.cpp:705
+#: src/binaries/rcse/mainwindow.cpp:709
 msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "Geçerli QML kodunu silmek istiyor musunuz?"
 
-#: src/binaries/rcse/mainwindow.cpp:706
+#: src/binaries/rcse/mainwindow.cpp:710
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
@@ -824,72 +824,72 @@ msgstr ""
 "QML kodu üretmek, QML’de yaptığınız tüm değişiklikleri geçersiz kılar.<br/"
 ">QML kodunu oluşturmayı gerçekten istiyor musunuz?"
 
-#: src/binaries/rcse/mainwindow.cpp:792
+#: src/binaries/rcse/mainwindow.cpp:777
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "Karakter Sayfası Görünümünü Kaydet"
 
-#: src/binaries/rcse/mainwindow.cpp:793
+#: src/binaries/rcse/mainwindow.cpp:778
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Rolisteam Karakter Sayfası Görünümü (*.qml)"
 
-#: src/binaries/rcse/mainwindow.cpp:918
+#: src/binaries/rcse/mainwindow.cpp:903
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Yolu Kopyala"
 
-#: src/binaries/rcse/mainwindow.cpp:921
+#: src/binaries/rcse/mainwindow.cpp:906
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "URL’yi Kopyala"
 
-#: src/binaries/rcse/mainwindow.cpp:924
+#: src/binaries/rcse/mainwindow.cpp:909
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Görseli Başkasıyla Değiştir"
 
-#: src/binaries/rcse/mainwindow.cpp:925
+#: src/binaries/rcse/mainwindow.cpp:910
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Görseli Kaldır"
 
-#: src/binaries/rcse/mainwindow.cpp:926
+#: src/binaries/rcse/mainwindow.cpp:911
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Görseli Dosyadan Yeniden Yükle"
 
-#: src/binaries/rcse/mainwindow.cpp:933
+#: src/binaries/rcse/mainwindow.cpp:918
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Görseli Yükle"
 
-#: src/binaries/rcse/mainwindow.cpp:934
+#: src/binaries/rcse/mainwindow.cpp:919
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "Desteklenen Görsel Biçimi (*.jpg *.png *.svg *.gif)"
 
-#: src/binaries/rcse/mainwindow.cpp:947
+#: src/binaries/rcse/mainwindow.cpp:932
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Karakter Ekle"
 
-#: src/binaries/rcse/mainwindow.cpp:948
+#: src/binaries/rcse/mainwindow.cpp:933
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Karakteri Sil"
 
-#: src/binaries/rcse/mainwindow.cpp:950
+#: src/binaries/rcse/mainwindow.cpp:935
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Karakterin Adı"
 
-#: src/binaries/rcse/mainwindow.cpp:952
+#: src/binaries/rcse/mainwindow.cpp:937
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "Seçimde Uygula"
 
-#: src/binaries/rcse/mainwindow.cpp:953
+#: src/binaries/rcse/mainwindow.cpp:938
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "Tüm Karakterlerde Uygula"
@@ -1053,7 +1053,7 @@ msgstr "Edisyon"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:795
+#: src/binaries/widget/mainwindow.cpp:756
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Yardım"
@@ -1064,7 +1064,7 @@ msgid "Open"
 msgstr "Aç"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:826
-#: src/binaries/widget/mainwindow.ui:566
+#: src/binaries/widget/mainwindow.ui:511
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
 msgstr "Kontrol+O"
@@ -1075,7 +1075,7 @@ msgid "Save"
 msgstr "Kaydet"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:834
-#: src/binaries/widget/mainwindow.ui:435
+#: src/binaries/widget/mainwindow.ui:385
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
 msgstr "Kontrol+S"
@@ -1096,19 +1096,19 @@ msgid "New"
 msgstr "Yeni"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:850
-#: src/binaries/widget/mainwindow.ui:267
+#: src/binaries/widget/mainwindow.ui:256
 msgctxt "MainWindow|"
 msgid "Ctrl+N"
 msgstr "Kontrol+N"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:855
-#: src/binaries/widget/mainwindow.cpp:701 src/binaries/widget/mainwindow.ui:200
+#: src/binaries/widget/mainwindow.cpp:710 src/binaries/widget/mainwindow.ui:191
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Çık"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:858
-#: src/binaries/widget/mainwindow.ui:203
+#: src/binaries/widget/mainwindow.ui:194
 msgctxt "MainWindow|"
 msgid "Ctrl+Q"
 msgstr "Kontrol+Q"
@@ -1149,7 +1149,7 @@ msgid "Code To Sheet"
 msgstr "Koddan Sayfaya"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
-#: src/binaries/widget/mainwindow.ui:510
+#: src/binaries/widget/mainwindow.ui:456
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
 msgstr "Kontrol+D"
@@ -1176,7 +1176,7 @@ msgstr "Tercihler"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1025
 #: src/binaries/rcse/mainwindow_rcse.ui:1036
-#: src/binaries/widget/mainwindow.ui:191
+#: src/binaries/widget/mainwindow.ui:183
 msgctxt "MainWindow|"
 msgid "Ctrl+P"
 msgstr "Kontrol+P"
@@ -1212,19 +1212,19 @@ msgid "Check Validity"
 msgstr "Geçerliliğini Denetle"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:574
+#: src/binaries/widget/mainwindow.cpp:583
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Geri Al"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:573
+#: src/binaries/widget/mainwindow.cpp:582
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Yinele"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
-#: src/binaries/widget/mainwindow.ui:479 src/binaries/widget/mainwindow.ui:546
+#: src/binaries/widget/mainwindow.ui:426 src/binaries/widget/mainwindow.ui:491
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
 msgstr "Rolisteam’i Destekle"
@@ -1294,10 +1294,106 @@ msgctxt "PreferencesDialog|"
 msgid "Select"
 msgstr "Seç"
 
-#: src/binaries/rcse/tablecanvasfield.cpp:71
+#: src/binaries/rcse/tablecanvasfield.cpp:60
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "TextInput"
 msgctxt "TableCanvasField|"
-msgid "Properties"
-msgstr "Özellikler"
+msgid "TextInput"
+msgstr "MetinGirişi"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:61
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "TextField"
+msgctxt "TableCanvasField|"
+msgid "TextField"
+msgstr "MetinAlanı"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:62
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "TextArea"
+msgctxt "TableCanvasField|"
+msgid "TextArea"
+msgstr "MetinBölgesi"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:63
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "Select"
+msgctxt "TableCanvasField|"
+msgid "Select"
+msgstr "Seç"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:64
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "Checkbox"
+msgctxt "TableCanvasField|"
+msgid "CheckBox"
+msgstr "Onay Kutusu"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:65
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "Image"
+msgctxt "TableCanvasField|"
+msgid "Image"
+msgstr "Görsel"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:66
+#, fuzzy
+#| msgctxt "FieldModel|"
+#| msgid "Label"
+msgctxt "TableCanvasField|"
+msgid "Label"
+msgstr "Etiket"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:67
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "Dice Button"
+msgctxt "TableCanvasField|"
+msgid "Dice Button"
+msgstr "Zarlar Düğmesi"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:68
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "Function Button"
+msgctxt "TableCanvasField|"
+msgid "Function Button"
+msgstr "İşlev Düğmesi"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:69
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Web Page"
+msgctxt "TableCanvasField|"
+msgid "Web page"
+msgstr "Web Sayfası"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:70
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "Slider"
+msgctxt "TableCanvasField|"
+msgid "Slider"
+msgstr "Sürgü"
+
+#: src/binaries/rcse/tablecanvasfield.cpp:323
+msgctxt "TableCanvasField|"
+msgid "Select the column type"
+msgstr ""
+
+#: src/binaries/rcse/tablecanvasfield.cpp:324
+#, fuzzy
+#| msgctxt "TypeDelegate|"
+#| msgid "TextField"
+msgctxt "TableCanvasField|"
+msgid "Type of Field:"
+msgstr "MetinAlanı"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1549,33 +1645,99 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Bir parola sorun ve sağlama anahtarını döndürün."
 
-#: src/binaries/widget/mainwindow.cpp:350
+#: src/binaries/widget/mainwindow.cpp:376
 msgctxt "MainWindow|"
-msgid "Antagonist Table"
-msgstr "Rakip Tablosu"
+msgid "Side Panels"
+msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:462
+#: src/binaries/widget/mainwindow.cpp:385
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Audio Player"
+msgctxt "MainWindow|"
+msgid "List of Players"
+msgstr "Ses Çalar"
+
+#: src/binaries/widget/mainwindow.cpp:386
+#, fuzzy
+#| msgctxt "campaign::CampaignDock|"
+#| msgid "Campaign Content"
+msgctxt "MainWindow|"
+msgid "All campaign documents"
+msgstr "Sefer İçeriği"
+
+#: src/binaries/widget/mainwindow.cpp:387
+msgctxt "MainWindow|"
+msgid "List of antagonists"
+msgstr ""
+
+#: src/binaries/widget/mainwindow.cpp:388
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Audio Player"
+msgctxt "MainWindow|"
+msgid "Music Player"
+msgstr "Ses Çalar"
+
+#: src/binaries/widget/mainwindow.cpp:389
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Server"
+msgctxt "MainWindow|"
+msgid "Server Panel"
+msgstr "Sunucu"
+
+#: src/binaries/widget/mainwindow.cpp:390
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Notification Zone"
+msgctxt "MainWindow|"
+msgid "Notification Zone"
+msgstr "Bildirim Bölgesi"
+
+#: src/binaries/widget/mainwindow.cpp:404
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Tools"
+msgctxt "MainWindow|"
+msgid "GM Tools"
+msgstr "Araçlar"
+
+#: src/binaries/widget/mainwindow.cpp:463
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Web Sayfasını Aç"
 
-#: src/binaries/widget/mainwindow.cpp:462
+#: src/binaries/widget/mainwindow.cpp:463
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "Web sayfası URL’si:"
 
-#: src/binaries/widget/mainwindow.cpp:515
-#: src/binaries/widget/mainwindow.cpp:725 src/binaries/widget/mainwindow.ui:300
+#: src/binaries/widget/mainwindow.cpp:476
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Open Campaign"
+msgctxt "MainWindow|"
+msgid "Open Map"
+msgstr "Sefer Aç"
+
+#: src/binaries/widget/mainwindow.cpp:476
+msgctxt "MainWindow|"
+msgid "Map:"
+msgstr ""
+
+#: src/binaries/widget/mainwindow.cpp:524
+#: src/binaries/widget/mainwindow.cpp:734 src/binaries/widget/mainwindow.ui:286
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Sefer Aç"
 
-#: src/binaries/widget/mainwindow.cpp:644
+#: src/binaries/widget/mainwindow.cpp:653
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Destek"
 
-#: src/binaries/widget/mainwindow.cpp:645
+#: src/binaries/widget/mainwindow.cpp:654
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -1583,24 +1745,24 @@ msgstr ""
 "%1 bağış sayfası çevrimiçi olarak şurada bulunabilir:<br> <a href=\"%2\">%2</"
 "a>"
 
-#: src/binaries/widget/mainwindow.cpp:709
+#: src/binaries/widget/mainwindow.cpp:718
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Bağlantı kesildi. %1 kapatılacak"
 
-#: src/binaries/widget/mainwindow.cpp:711
+#: src/binaries/widget/mainwindow.cpp:720
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Bağlantı kesildi"
 
-#: src/binaries/widget/mainwindow.cpp:717
+#: src/binaries/widget/mainwindow.cpp:726
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Çık: %1"
 
-#: src/binaries/widget/mainwindow.cpp:796
+#: src/binaries/widget/mainwindow.cpp:757
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1610,12 +1772,12 @@ msgstr ""
 "%1 belgelendirmesi çevrimiçi olarak şurada bulunabilir:<br> <a href=\"http://"
 "doc.rolisteam.org\">http://doc.rolisteam.org/</a>"
 
-#: src/binaries/widget/mainwindow.cpp:831
+#: src/binaries/widget/mainwindow.cpp:803
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Güncelleme Bildirimi"
 
-#: src/binaries/widget/mainwindow.cpp:832
+#: src/binaries/widget/mainwindow.cpp:804
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1625,112 +1787,112 @@ msgstr ""
 "%1 sürümü çıktı. Daha fazla bilgi için <a href=\"http://www.rolisteam.org/"
 "download\">İndirme Sayfası</a>’na bakın"
 
-#: src/binaries/widget/mainwindow.cpp:842
+#: src/binaries/widget/mainwindow.cpp:814
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1, şimdi oyuna katıldı."
 
-#: src/binaries/widget/mainwindow.cpp:846
+#: src/binaries/widget/mainwindow.cpp:818
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 kullanıcısında doğru sürüm yok: %2"
 
-#: src/binaries/widget/mainwindow.cpp:852
+#: src/binaries/widget/mainwindow.cpp:824
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1, şimdi oyundan çıktı."
 
-#: src/binaries/widget/mainwindow.cpp:926
+#: src/binaries/widget/mainwindow.cpp:898
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Rolisteam’i bağlantı için <kapı>’yı kullanacak biçimde ayarla"
 
-#: src/binaries/widget/mainwindow.cpp:929
+#: src/binaries/widget/mainwindow.cpp:901
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Rolisteam’i <server> sunucusuna bağlanacak biçimde ayarla"
 
-#: src/binaries/widget/mainwindow.cpp:932
+#: src/binaries/widget/mainwindow.cpp:904
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "<rol> tanımla: og veya ok"
 
-#: src/binaries/widget/mainwindow.cpp:934
+#: src/binaries/widget/mainwindow.cpp:906
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Ayarları silin ve öntanımlı parametreleri kullan"
 
-#: src/binaries/widget/mainwindow.cpp:937
+#: src/binaries/widget/mainwindow.cpp:909
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "<username> tanımlı"
 
-#: src/binaries/widget/mainwindow.cpp:940
+#: src/binaries/widget/mainwindow.cpp:912
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "PDF dosya boyutu sınırını kaldır"
 
-#: src/binaries/widget/mainwindow.cpp:943
+#: src/binaries/widget/mainwindow.cpp:915
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "çeviri dosyası yolu: <translationfile>"
 
-#: src/binaries/widget/mainwindow.cpp:946
+#: src/binaries/widget/mainwindow.cpp:918
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Sunucuya bağlanmak için URL’yi tanımla: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1039
+#: src/binaries/widget/mainwindow.cpp:1011
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Aç: %1"
 
-#: src/binaries/widget/mainwindow.cpp:1130
+#: src/binaries/widget/mainwindow.cpp:1102
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Bağlı"
 
-#: src/binaries/widget/mainwindow.cpp:1130
+#: src/binaries/widget/mainwindow.cpp:1102
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Bağlı Değil"
 
-#: src/binaries/widget/mainwindow.cpp:1131
+#: src/binaries/widget/mainwindow.cpp:1103
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Sunucu"
 
-#: src/binaries/widget/mainwindow.cpp:1131
+#: src/binaries/widget/mainwindow.cpp:1103
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "İstemci"
 
-#: src/binaries/widget/mainwindow.cpp:1138
+#: src/binaries/widget/mainwindow.cpp:1110
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "OG"
 
-#: src/binaries/widget/mainwindow.cpp:1144
+#: src/binaries/widget/mainwindow.cpp:1116
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Oyuncu"
 
-#: src/binaries/widget/mainwindow.cpp:1173
+#: src/binaries/widget/mainwindow.cpp:1145
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
-#: src/binaries/widget/mainwindow.cpp:1249
+#: src/binaries/widget/mainwindow.cpp:1221
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
 msgstr "%1 Konumundan Dışa Aktar"
 
-#: src/binaries/widget/mainwindow.cpp:1250
+#: src/binaries/widget/mainwindow.cpp:1222
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "bilinmiyor"
@@ -1740,432 +1902,412 @@ msgctxt "MainWindow|"
 msgid "Rolisteam"
 msgstr "Rolisteam"
 
-#: src/binaries/widget/mainwindow.ui:32
+#: src/binaries/widget/mainwindow.ui:31
 msgctxt "MainWindow|"
 msgid "&File"
 msgstr "&Dosya"
 
-#: src/binaries/widget/mainwindow.ui:36
+#: src/binaries/widget/mainwindow.ui:35
 msgctxt "MainWindow|"
 msgid "&New"
 msgstr "&Yeni"
 
-#: src/binaries/widget/mainwindow.ui:45
+#: src/binaries/widget/mainwindow.ui:44
 msgctxt "MainWindow|"
 msgid "&Open"
 msgstr "&Aç"
 
-#: src/binaries/widget/mainwindow.ui:67
+#: src/binaries/widget/mainwindow.ui:66
 msgctxt "MainWindow|"
-msgid "Sub-&Windows"
-msgstr "Alt &Pencereler"
+msgid "&Panels"
+msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:71
+#: src/binaries/widget/mainwindow.ui:70
 msgctxt "MainWindow|"
 msgid "Reorganize"
 msgstr "Yeniden Organize Et"
 
-#: src/binaries/widget/mainwindow.ui:88
+#: src/binaries/widget/mainwindow.ui:81
 msgctxt "MainWindow|"
 msgid "&Network"
 msgstr "&Ağ"
 
-#: src/binaries/widget/mainwindow.ui:100
+#: src/binaries/widget/mainwindow.ui:93
 msgctxt "MainWindow|"
 msgid "&Help"
 msgstr "&Yardım"
 
-#: src/binaries/widget/mainwindow.ui:110
+#: src/binaries/widget/mainwindow.ui:103
 msgctxt "MainWindow|"
 msgid "&Edit"
 msgstr "Dü&zen"
 
-#: src/binaries/widget/mainwindow.ui:121
+#: src/binaries/widget/mainwindow.ui:114
 msgctxt "MainWindow|"
 msgid "&GM ToolBoxes"
 msgstr "&OG Araç Takımları"
 
-#: src/binaries/widget/mainwindow.ui:126
+#: src/binaries/widget/mainwindow.ui:119
 msgctxt "MainWindow|"
 msgid "&Campaign"
 msgstr "&Sefer"
 
-#: src/binaries/widget/mainwindow.ui:142
+#: src/binaries/widget/mainwindow.ui:135
 msgctxt "MainWindow|"
 msgid "&History"
 msgstr "&Geçmiş"
 
-#: src/binaries/widget/mainwindow.ui:160
+#: src/binaries/widget/mainwindow.ui:153
 msgctxt "MainWindow|"
 msgid "toolBar"
 msgstr "Araç Çubuğu"
 
-#: src/binaries/widget/mainwindow.ui:176
+#: src/binaries/widget/mainwindow.ui:169
 msgctxt "MainWindow|"
 msgid "Close File"
 msgstr "Dosyayı Kapat"
 
-#: src/binaries/widget/mainwindow.ui:179
+#: src/binaries/widget/mainwindow.ui:172
 msgctxt "MainWindow|"
 msgid "Ctrl+Esc"
 msgstr "Kontrol+Vazgeç"
 
-#: src/binaries/widget/mainwindow.ui:188
+#: src/binaries/widget/mainwindow.ui:180
 msgctxt "MainWindow|"
 msgid "Preferences…"
 msgstr "Tercihler…"
 
-#: src/binaries/widget/mainwindow.ui:211
+#: src/binaries/widget/mainwindow.ui:202
 msgctxt "MainWindow|"
 msgid "Tab"
 msgstr "Sekme"
 
-#: src/binaries/widget/mainwindow.ui:214
+#: src/binaries/widget/mainwindow.ui:205
 msgctxt "MainWindow|"
 msgid "F2"
 msgstr "F2"
 
-#: src/binaries/widget/mainwindow.ui:219
+#: src/binaries/widget/mainwindow.ui:210
 msgctxt "MainWindow|"
 msgid "Cascade"
 msgstr "Basamaklandır"
 
-#: src/binaries/widget/mainwindow.ui:222 src/binaries/widget/mainwindow.ui:360
+#: src/binaries/widget/mainwindow.ui:213 src/binaries/widget/mainwindow.ui:314
 msgctxt "MainWindow|"
 msgid "Alt+C"
 msgstr "Seçenek+C"
 
-#: src/binaries/widget/mainwindow.ui:227
+#: src/binaries/widget/mainwindow.ui:218
 msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Döşe"
 
-#: src/binaries/widget/mainwindow.ui:230
+#: src/binaries/widget/mainwindow.ui:221
 msgctxt "MainWindow|"
 msgid "Alt+T"
 msgstr "Seçenek+T"
 
-#: src/binaries/widget/mainwindow.ui:235
+#: src/binaries/widget/mainwindow.ui:226
 msgctxt "MainWindow|"
 msgid "Disconnection…"
 msgstr "Bağlantı Kesimi…"
 
-#: src/binaries/widget/mainwindow.ui:240
+#: src/binaries/widget/mainwindow.ui:231
 msgctxt "MainWindow|"
 msgid "Rolisteam Help"
 msgstr "Rolisteam Yardımı"
 
-#: src/binaries/widget/mainwindow.ui:243
+#: src/binaries/widget/mainwindow.ui:234
 msgctxt "MainWindow|"
 msgid "online documentation"
 msgstr "Çevrimiçi Belgelendirme"
 
-#: src/binaries/widget/mainwindow.ui:246
+#: src/binaries/widget/mainwindow.ui:237
 msgctxt "MainWindow|"
 msgid "F1"
 msgstr "F1"
 
-#: src/binaries/widget/mainwindow.ui:255
+#: src/binaries/widget/mainwindow.ui:245
 msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Rolisteam Hakkında"
 
-#: src/binaries/widget/mainwindow.ui:264 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.ui:253 src/binaries/widget/mainwindow.ui:275
 msgctxt "MainWindow|"
 msgid "Note"
 msgstr "Not"
 
-#: src/binaries/widget/mainwindow.ui:276
+#: src/binaries/widget/mainwindow.ui:264
 msgctxt "MainWindow|"
 msgid "Picture"
 msgstr "Resim"
 
-#: src/binaries/widget/mainwindow.ui:279
+#: src/binaries/widget/mainwindow.ui:267
 msgctxt "MainWindow|"
 msgid "Ctrl+I"
 msgstr "Kontrol+I"
 
-#: src/binaries/widget/mainwindow.ui:291
+#: src/binaries/widget/mainwindow.ui:278
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+N"
 msgstr "Kontrol+Üst Karakter+N"
 
-#: src/binaries/widget/mainwindow.ui:303
+#: src/binaries/widget/mainwindow.ui:289
 msgctxt "MainWindow|"
 msgid "Ctrl+E"
 msgstr "Kontrol+E"
 
-#: src/binaries/widget/mainwindow.ui:312
+#: src/binaries/widget/mainwindow.ui:297
 msgctxt "MainWindow|"
 msgid "Online Picture"
 msgstr "Çevrimiçi Resim"
 
-#: src/binaries/widget/mainwindow.ui:315
+#: src/binaries/widget/mainwindow.ui:300
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
 msgstr "Kontrol+Üst Karakter+I"
 
-#: src/binaries/widget/mainwindow.ui:327
-msgctxt "MainWindow|"
-msgid "Audio Player"
-msgstr "Ses Çalar"
-
-#: src/binaries/widget/mainwindow.ui:330
-msgctxt "MainWindow|"
-msgid "Alt+A"
-msgstr "Seçenek+A"
-
-#: src/binaries/widget/mainwindow.ui:342
-msgctxt "MainWindow|"
-msgid "Notification Zone"
-msgstr "Bildirim Bölgesi"
-
-#: src/binaries/widget/mainwindow.ui:345
-msgctxt "MainWindow|"
-msgid "Alt+N"
-msgstr "Seçenek+N"
-
-#: src/binaries/widget/mainwindow.ui:357
+#: src/binaries/widget/mainwindow.ui:311
 msgctxt "MainWindow|"
 msgid "Character List"
 msgstr "Karakter Listesi"
 
-#: src/binaries/widget/mainwindow.ui:368
+#: src/binaries/widget/mainwindow.ui:322
 msgctxt "MainWindow|"
 msgid "ToolBar"
 msgstr "Araç Çubuğu"
 
-#: src/binaries/widget/mainwindow.ui:371
+#: src/binaries/widget/mainwindow.ui:325
 msgctxt "MainWindow|"
 msgid "F8"
 msgstr "F8"
 
-#: src/binaries/widget/mainwindow.ui:380 src/binaries/widget/mainwindow.ui:392
+#: src/binaries/widget/mainwindow.ui:333 src/binaries/widget/mainwindow.ui:344
 msgctxt "MainWindow|"
 msgid "Map"
 msgstr "Harita"
 
-#: src/binaries/widget/mainwindow.ui:383
+#: src/binaries/widget/mainwindow.ui:336
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
 msgstr "Kontrol+M"
 
-#: src/binaries/widget/mainwindow.ui:395
+#: src/binaries/widget/mainwindow.ui:347
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+M"
 msgstr "Kontrol+Üst Karakter+M"
 
-#: src/binaries/widget/mainwindow.ui:403
+#: src/binaries/widget/mainwindow.ui:355
 msgctxt "MainWindow|"
 msgid "Show Health State"
 msgstr "Sağlık Durumunu Göster"
 
-#: src/binaries/widget/mainwindow.ui:406
+#: src/binaries/widget/mainwindow.ui:358
 msgctxt "MainWindow|"
 msgid "F6"
 msgstr "F6"
 
-#: src/binaries/widget/mainwindow.ui:411
+#: src/binaries/widget/mainwindow.ui:363
 msgctxt "MainWindow|"
 msgid "Change Profile…"
 msgstr "Profili Değiştir…"
 
-#: src/binaries/widget/mainwindow.ui:420
+#: src/binaries/widget/mainwindow.ui:371
 msgctxt "MainWindow|"
 msgid "Character Sheet"
 msgstr "Karakter Sayfası"
 
-#: src/binaries/widget/mainwindow.ui:423
+#: src/binaries/widget/mainwindow.ui:374
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
 msgstr "Kontrol+U"
 
-#: src/binaries/widget/mainwindow.ui:432
+#: src/binaries/widget/mainwindow.ui:382
 msgctxt "MainWindow|"
 msgid "Save Campaign"
 msgstr "Seferi Kaydet"
 
-#: src/binaries/widget/mainwindow.ui:443
+#: src/binaries/widget/mainwindow.ui:393
 msgctxt "MainWindow|"
 msgid "Room List"
 msgstr "Oda Listesi"
 
-#: src/binaries/widget/mainwindow.ui:446
+#: src/binaries/widget/mainwindow.ui:396
 msgctxt "MainWindow|"
 msgid "F10"
 msgstr "F10"
 
-#: src/binaries/widget/mainwindow.ui:455 src/binaries/widget/mainwindow.ui:467
+#: src/binaries/widget/mainwindow.ui:404 src/binaries/widget/mainwindow.ui:415
 msgctxt "MainWindow|"
 msgid "Shared Note"
 msgstr "Paylaşılan Not"
 
-#: src/binaries/widget/mainwindow.ui:458
+#: src/binaries/widget/mainwindow.ui:407
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
 msgstr "Kontrol+K"
 
-#: src/binaries/widget/mainwindow.ui:470
+#: src/binaries/widget/mainwindow.ui:418
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+K"
 msgstr "Kontrol+Üst Karakter+K"
 
-#: src/binaries/widget/mainwindow.ui:484
+#: src/binaries/widget/mainwindow.ui:431
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
 msgstr "Kısayol Görüntüleyicisi…"
 
-#: src/binaries/widget/mainwindow.ui:487
+#: src/binaries/widget/mainwindow.ui:434
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
 msgstr "Kontrol+F1"
 
-#: src/binaries/widget/mainwindow.ui:495
+#: src/binaries/widget/mainwindow.ui:442
 msgctxt "MainWindow|"
 msgid "Full Screen"
 msgstr "Tam Ekran"
 
-#: src/binaries/widget/mainwindow.ui:498
+#: src/binaries/widget/mainwindow.ui:445
 msgctxt "MainWindow|"
 msgid "F11"
 msgstr "F11"
 
-#: src/binaries/widget/mainwindow.ui:507
+#: src/binaries/widget/mainwindow.ui:453
 msgctxt "MainWindow|"
 msgid "PDF File"
 msgstr "PDF Dosyası"
 
-#: src/binaries/widget/mainwindow.ui:515
+#: src/binaries/widget/mainwindow.ui:461
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
 msgstr "Bağlantı Adresini Kopyala…"
 
-#: src/binaries/widget/mainwindow.ui:524
+#: src/binaries/widget/mainwindow.ui:469
 msgctxt "MainWindow|"
 msgid "WebPage"
 msgstr "Web Sayfası"
 
-#: src/binaries/widget/mainwindow.ui:527
+#: src/binaries/widget/mainwindow.ui:472
 msgctxt "MainWindow|"
 msgid "Ctrl+W"
 msgstr "Kontrol+W"
 
-#: src/binaries/widget/mainwindow.ui:532
+#: src/binaries/widget/mainwindow.ui:477
 msgctxt "MainWindow|"
 msgid "Password Generator"
 msgstr "Parola Üreteci"
 
-#: src/binaries/widget/mainwindow.ui:537
+#: src/binaries/widget/mainwindow.ui:482
 msgctxt "MainWindow|"
 msgid "Current Media as…"
 msgstr "Geçerli Ortamı Farklı…"
 
-#: src/binaries/widget/mainwindow.ui:554
+#: src/binaries/widget/mainwindow.ui:499
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
 msgstr "Ortam başlığı araç çubuğunda"
 
-#: src/binaries/widget/mainwindow.ui:563 src/binaries/widget/mainwindow.ui:575
+#: src/binaries/widget/mainwindow.ui:508 src/binaries/widget/mainwindow.ui:520
 msgctxt "MainWindow|"
 msgid "Mindmap"
 msgstr "Akıl Haritası"
 
-#: src/binaries/widget/mainwindow.ui:578
+#: src/binaries/widget/mainwindow.ui:523
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+O"
 msgstr "Kontrol+Üst Karakter+O"
 
-#: src/binaries/widget/mainwindow.ui:590
+#: src/binaries/widget/mainwindow.ui:535
 msgctxt "MainWindow|"
 msgid "Instant messaging"
 msgstr "Anlık iletileşme"
 
-#: src/binaries/widget/mainwindow.ui:593
+#: src/binaries/widget/mainwindow.ui:538
 msgctxt "MainWindow|"
 msgid "Instant Messaging Window"
 msgstr "Anlık İletileşme Penceresi"
 
-#: src/binaries/widget/mainwindow.ui:596
+#: src/binaries/widget/mainwindow.ui:541
 msgctxt "MainWindow|"
 msgid "Alt+I"
 msgstr "Seçenek+I"
 
-#: src/binaries/widget/mainwindow.ui:605
+#: src/binaries/widget/mainwindow.ui:549
 msgctxt "MainWindow|"
 msgid "Copy"
 msgstr "Kopyala"
 
-#: src/binaries/widget/mainwindow.ui:608
+#: src/binaries/widget/mainwindow.ui:552
 msgctxt "MainWindow|"
 msgid "Ctrl+C"
 msgstr "Kontrol+C"
 
-#: src/binaries/widget/mainwindow.ui:620
+#: src/binaries/widget/mainwindow.ui:563
 msgctxt "MainWindow|"
 msgid "Paste"
 msgstr "Yapıştır"
 
-#: src/binaries/widget/mainwindow.ui:623
+#: src/binaries/widget/mainwindow.ui:566
 msgctxt "MainWindow|"
 msgid "Ctrl+V"
 msgstr "Kontrol+V"
 
-#: src/binaries/widget/mainwindow.ui:631
+#: src/binaries/widget/mainwindow.ui:574
 msgctxt "MainWindow|"
 msgid "Properties"
 msgstr "Özellikler"
 
-#: src/binaries/widget/mainwindow.ui:636
+#: src/binaries/widget/mainwindow.ui:579
 msgctxt "MainWindow|"
 msgid "Dice Alias"
 msgstr "Zarlar Arması"
 
-#: src/binaries/widget/mainwindow.ui:641
+#: src/binaries/widget/mainwindow.ui:584
 msgctxt "MainWindow|"
 msgid "Character States"
 msgstr "Karakter Durumları"
 
-#: src/binaries/widget/mainwindow.ui:646
+#: src/binaries/widget/mainwindow.ui:589
 msgctxt "MainWindow|"
 msgid "Statistics"
 msgstr "İstatistikler"
 
-#: src/binaries/widget/mainwindow.ui:651
+#: src/binaries/widget/mainwindow.ui:594
 msgctxt "MainWindow|"
 msgid "Theme"
 msgstr "Tema"
 
-#: src/binaries/widget/mainwindow.ui:656
+#: src/binaries/widget/mainwindow.ui:599
 msgctxt "MainWindow|"
 msgid "New Campaign"
 msgstr "Yeni Sefer"
 
-#: src/binaries/widget/mainwindow.ui:661
+#: src/binaries/widget/mainwindow.ui:604
 msgctxt "MainWindow|"
 msgid "Save Campaign As…"
 msgstr "Seferi Farklı Kaydet…"
 
-#: src/binaries/widget/mainwindow.ui:666
+#: src/binaries/widget/mainwindow.ui:609
 msgctxt "MainWindow|"
 msgid "Non Playable Characters"
 msgstr "Oynanamaz Karakterler"
 
-#: src/binaries/widget/mainwindow.ui:671
+#: src/binaries/widget/mainwindow.ui:614
 msgctxt "MainWindow|"
 msgid "Manage…"
 msgstr "Yönet…"
 
-#: src/binaries/widget/mainwindow.ui:676
+#: src/binaries/widget/mainwindow.ui:619
 msgctxt "MainWindow|"
 msgid "Remove…"
 msgstr "Kaldır…"
 
-#: src/binaries/widget/mainwindow.ui:681
+#: src/binaries/widget/mainwindow.ui:624
 msgctxt "MainWindow|"
 msgid "Clean"
 msgstr "Temizle"
 
-#: src/binaries/widget/mainwindow.ui:689
+#: src/binaries/widget/mainwindow.ui:632
 msgctxt "MainWindow|"
 msgid "Import from another campaign…"
 msgstr "Başka Seferden İçe Aktar…"
@@ -2263,39 +2405,63 @@ msgctxt "example|"
 msgid "Souvenir 3: %1"
 msgstr "Armağan 3: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/Table.qml:27
+#: src/libraries/charactersheet/qml/Rolisteam/Table.qml:31
 msgctxt "Table|"
 msgid "Add line"
 msgstr "Satır ekle"
 
-#: src/libraries/charactersheet/qml/Rolisteam/Table.qml:31
+#: src/libraries/charactersheet/qml/Rolisteam/Table.qml:35
 msgctxt "Table|"
 msgid "Remove current Line"
 msgstr "Geçerli satırı kaldır"
 
-#: src/libraries/charactersheet/qml/Rolisteam/Table.qml:37
+#: src/libraries/charactersheet/qml/Rolisteam/Table.qml:42
 msgctxt "Table|"
 msgid "Remove Last line"
 msgstr "Son satırı kaldır"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:530
+#: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:27
+#, fuzzy
+#| msgctxt "Table|"
+#| msgid "Add line"
+msgctxt "Tablev1|"
+msgid "Add line"
+msgstr "Satır ekle"
+
+#: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:31
+#, fuzzy
+#| msgctxt "Table|"
+#| msgid "Remove current Line"
+msgctxt "Tablev1|"
+msgid "Remove current Line"
+msgstr "Geçerli satırı kaldır"
+
+#: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:37
+#, fuzzy
+#| msgctxt "Table|"
+#| msgid "Remove Last line"
+msgctxt "Tablev1|"
+msgid "Remove Last line"
+msgstr "Son satırı kaldır"
+
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:533
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Alan adı"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:568
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:571
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Boş Bölüm %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:575
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:578
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Bölüm %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:599
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:602
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2427,7 +2593,7 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "Bu dosyayı Rolisteam geliştiricilerine sağlayın"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:363
+#: src/libraries/core/src/controller/contentcontroller.cpp:415
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Görsel Kopyalandı"
@@ -2457,7 +2623,7 @@ msgctxt "ThemeModel|"
 msgid "darkfusion"
 msgstr "koyufüzyon"
 
-#: src/libraries/core/src/controller/preferencescontroller.cpp:331
+#: src/libraries/core/src/controller/preferencescontroller.cpp:338
 msgctxt "PreferencesController|"
 msgid " (copy)"
 msgstr " (kopya)"
@@ -2676,7 +2842,7 @@ msgctxt "MessageModel|"
 msgid "Invalid Person"
 msgstr "Geçersiz Kişi"
 
-#: src/libraries/core/src/model/musicmodel.cpp:28
+#: src/libraries/core/src/model/musicmodel.cpp:31
 msgctxt "MusicModel|"
 msgid "Title"
 msgstr "Başlık"
@@ -2994,9 +3160,11 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Düzgün hizmet türü alınamadı: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:337
-#, qt-format
+#, fuzzy, qt-format
+#| msgctxt "UpnpNat|"
+#| msgid "Fail to add port mapping (%1/%2) : error :\n"
 msgctxt "UpnpNat|"
-msgid "Fail to add port mapping (%1/%2) : error :\n"
+msgid "Fail to add port mapping (%1/%2) : error :%3\n"
 msgstr "Kapı eşlemlemesi eklenemedi (%1/%2): Hata:\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
@@ -3366,11 +3534,6 @@ msgstr ""
 "Hatalar:\n"
 "%1"
 
-#: src/libraries/mindmap/resources/qml/main.qml:10
-msgctxt "main|"
-msgid "RMindMap"
-msgstr "R Akıl Haritası"
-
 #: src/libraries/mindmap/resources/qml/MindMap.qml:67
 msgctxt "MindMap|"
 msgid "is linked"
@@ -3654,82 +3817,82 @@ msgctxt "SideMenu|"
 msgid "Font size:"
 msgstr "Yazıtipi boyutu:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:72
+#: src/libraries/qml_views/views/ConnectionForm.qml:75
 msgctxt "ConnectionForm|"
 msgid "New profile"
 msgstr "Yeni profil"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:76
+#: src/libraries/qml_views/views/ConnectionForm.qml:85
 msgctxt "ConnectionForm|"
 msgid "Clone profile"
 msgstr "Profili klonla"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:82
+#: src/libraries/qml_views/views/ConnectionForm.qml:95
 msgctxt "ConnectionForm|"
 msgid "Remove profile"
 msgstr "Profili kaldır"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:100
+#: src/libraries/qml_views/views/ConnectionForm.qml:113
 msgctxt "ConnectionForm|"
 msgid "Profile Name:"
 msgstr "Profil Adı:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:112
+#: src/libraries/qml_views/views/ConnectionForm.qml:125
 msgctxt "ConnectionForm|"
 msgid "Connection"
 msgstr "Bağlantı"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:117
+#: src/libraries/qml_views/views/ConnectionForm.qml:130
 msgctxt "ConnectionForm|"
 msgid "Address:"
 msgstr "Adres:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:127
+#: src/libraries/qml_views/views/ConnectionForm.qml:140
 msgctxt "ConnectionForm|"
 msgid "Port:"
 msgstr "Kapı:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:136
+#: src/libraries/qml_views/views/ConnectionForm.qml:149
 msgctxt "ConnectionForm|"
 msgid "Password:"
 msgstr "Parola:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:147
+#: src/libraries/qml_views/views/ConnectionForm.qml:160
 msgctxt "ConnectionForm|"
 msgid "Host the game"
 msgstr "Oyuna ev sahipliği yap"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:157
+#: src/libraries/qml_views/views/ConnectionForm.qml:170
 msgctxt "ConnectionForm|"
 msgid "Player"
 msgstr "Oyuncu"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:172
+#: src/libraries/qml_views/views/ConnectionForm.qml:185
 msgctxt "ConnectionForm|"
 msgid "I'm the Game Master"
 msgstr "Ben, Oyun Görevlisiyim"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:182
+#: src/libraries/qml_views/views/ConnectionForm.qml:195
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
 msgstr "Sefer kökü:"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:207
+#: src/libraries/qml_views/views/ConnectionForm.qml:220
 msgctxt "ConnectionForm|"
 msgid "Characters"
 msgstr "Karakterler"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:294
+#: src/libraries/qml_views/views/ConnectionForm.qml:307
 msgctxt "ConnectionForm|"
 msgid "Save profiles"
 msgstr "Profilleri kaydet"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:309
+#: src/libraries/qml_views/views/ConnectionForm.qml:320
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Bağlan"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:321
+#: src/libraries/qml_views/views/ConnectionForm.qml:335
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "İptal"
@@ -3886,23 +4049,31 @@ msgctxt "PlayerWidget|"
 msgid "Remove selected file"
 msgstr "Seçili dosyayı kaldır"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:280
+#: src/libraries/rwidgets/customs/playerwidget.cpp:189
+#, fuzzy
+#| msgctxt "PreferencesDialog|"
+#| msgid "Add new directory"
+msgctxt "PlayerWidget|"
+msgid "Add new directory"
+msgstr "Yeni dizin ekle"
+
+#: src/libraries/rwidgets/customs/playerwidget.cpp:332
 msgctxt "PlayerWidget|"
 msgid "Add song"
 msgstr "Şarkı ekle"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:280
+#: src/libraries/rwidgets/customs/playerwidget.cpp:332
 #, qt-format
 msgctxt "PlayerWidget|"
 msgid "Audio files (%1)"
 msgstr "Ses dosyaları (%1)"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:292
+#: src/libraries/rwidgets/customs/playerwidget.cpp:344
 msgctxt "PlayerWidget|"
 msgid "Attention!"
 msgstr "Dikkat!"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:293
+#: src/libraries/rwidgets/customs/playerwidget.cpp:345
 msgctxt "PlayerWidget|"
 msgid ""
 "You are about to load an new playlist. All previously load file will be "
@@ -3911,61 +4082,144 @@ msgstr ""
 "Yeni bir çalma listesi yüklemek üzeresiniz. Tüm önceden yüklenen dosyalar "
 "bırakılacaktır."
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:302
+#: src/libraries/rwidgets/customs/playerwidget.cpp:354
 msgctxt "PlayerWidget|"
 msgid "Open Play List"
 msgstr "Çalma Listesi Aç"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:302
-#: src/libraries/rwidgets/customs/playerwidget.cpp:370
+#: src/libraries/rwidgets/customs/playerwidget.cpp:354
+#: src/libraries/rwidgets/customs/playerwidget.cpp:432
 msgctxt "PlayerWidget|"
 msgid "PlayList (*.m3u)"
 msgstr "Çalma Listesi (*.m3u)"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:311
+#: src/libraries/rwidgets/customs/playerwidget.cpp:363
 msgctxt "PlayerWidget|"
 msgid "Open audio Stream"
 msgstr "Ses akışı aç"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:311
+#: src/libraries/rwidgets/customs/playerwidget.cpp:363
 msgctxt "PlayerWidget|"
 msgid "URL"
 msgstr "URL"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:370
+#: src/libraries/rwidgets/customs/playerwidget.cpp:432
 msgctxt "PlayerWidget|"
 msgid "Save Play List"
 msgstr "Çalma Listesini Kaydet"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:57
+#: src/libraries/rwidgets/customs/playerwidget.ui:42
 msgctxt "PlayerWidgetUI|"
 msgid "muted"
 msgstr "Sessize Alındı"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:120
+#: src/libraries/rwidgets/customs/playerwidget.ui:105
 msgctxt "PlayerWidgetUI|"
 msgid "Play"
 msgstr "Çal"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:142
+#: src/libraries/rwidgets/customs/playerwidget.ui:127
 msgctxt "PlayerWidgetUI|"
 msgid "Pause"
 msgstr "Duraklat"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:164
+#: src/libraries/rwidgets/customs/playerwidget.ui:149
 msgctxt "PlayerWidgetUI|"
 msgid "Stop"
 msgstr "Durdur"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:183
+#: src/libraries/rwidgets/customs/playerwidget.ui:168
 msgctxt "PlayerWidgetUI|"
 msgid "unique Mode"
 msgstr "Benzersiz Kip"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:199
+#: src/libraries/rwidgets/customs/playerwidget.ui:184
 msgctxt "PlayerWidgetUI|"
 msgid "repeat"
 msgstr "Yinele"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:237
+#, fuzzy
+#| msgctxt "CampaignProperties|"
+#| msgid "Root Directory:"
+msgctxt "PlayerWidgetUI|"
+msgid "Lookup directories:"
+msgstr "Kök dizin:"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:264
+#: src/libraries/rwidgets/customs/playerwidget.ui:271
+#: src/libraries/rwidgets/customs/playerwidget.ui:278
+#: src/libraries/rwidgets/customs/playerwidget.ui:285
+#, fuzzy
+#| msgctxt "SheetProperties|"
+#| msgid "..."
+msgctxt "PlayerWidgetUI|"
+msgid "..."
+msgstr "…"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:312
+#, fuzzy
+#| msgctxt "campaign::CampaignView|"
+#| msgid "Add directory…"
+msgctxt "PlayerWidgetUI|"
+msgid "add directory"
+msgstr "Dizin Ekle…"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:315
+#, fuzzy
+#| msgctxt "PreferencesDialog|"
+#| msgid "Add new directory"
+msgctxt "PlayerWidgetUI|"
+msgid "Add music directory."
+msgstr "Yeni dizin ekle"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:326
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Remove Page"
+msgctxt "PlayerWidgetUI|"
+msgid "remove Path"
+msgstr "Sayfayı Kaldır"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:329
+#, fuzzy
+#| msgctxt "PlayerWidget|"
+#| msgid "Remove selected file"
+msgctxt "PlayerWidgetUI|"
+msgid "Remove selected directory"
+msgstr "Seçili dosyayı kaldır"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:340
+#, fuzzy
+#| msgctxt "PdfManager|"
+#| msgid "Pdf path"
+msgctxt "PlayerWidgetUI|"
+msgid "Up path"
+msgstr "PDF yolu"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:343
+#, fuzzy
+#| msgctxt "FileDirChooser|"
+#| msgid "Select directory"
+msgctxt "PlayerWidgetUI|"
+msgid "Move up the selected directory"
+msgstr "Dizin seç"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:354
+#, fuzzy
+#| msgctxt "PlayerWidget|"
+#| msgid "Remove Song"
+msgctxt "PlayerWidgetUI|"
+msgid "move down"
+msgstr "Şarkıyı Kaldır"
+
+#: src/libraries/rwidgets/customs/playerwidget.ui:357
+#, fuzzy
+#| msgctxt "FileDirChooser|"
+#| msgid "Select directory"
+msgctxt "PlayerWidgetUI|"
+msgid "Move down selected directory "
+msgstr "Dizin seç"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -4753,84 +5007,100 @@ msgctxt "PersonDialog|"
 msgid "Color:"
 msgstr "Renk:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:126
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
+#, fuzzy
+#| msgctxt "ParticipantModel|"
+#| msgid "Read Only"
+msgctxt "PreferencesDialog|"
+msgid "GM Only"
+msgstr "Yalnızca Okuma"
+
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
+#, fuzzy
+#| msgctxt "VmapToolBar|"
+#| msgid "PC Move"
+msgctxt "PreferencesDialog|"
+msgid "PC Move"
+msgstr "OK Hareketi"
+
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:71
+msgctxt "PreferencesDialog|"
+msgid "PC All"
+msgstr ""
+
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:144
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:14
 msgctxt "PreferencesDialog|"
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:366
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:308
 msgctxt "PreferencesDialog|"
 msgid "Images (*.png *.xpm *.jpg *.gif *.bmp)"
 msgstr "Görseller (*.png *.xpm *.jpg *.gif *.bmp)"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:369
 msgctxt "PreferencesDialog|"
 msgid "Css Editor"
 msgstr "CSS Düzenleyicisi"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:443
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:369
 msgctxt "PreferencesDialog|"
 msgid "Css"
 msgstr "CSS"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:474
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:400
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
 msgstr "<li>Görsel biçimi: %1 değer %2</li>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:475
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:401
 msgctxt "PreferencesDialog|"
 msgid "<h2>Supported Image Formats:</h2><ul>"
 msgstr "<h2>Desteklenen görsel biçimleri:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:482
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:408
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Image Format"
 msgstr "</ul>Görsel biçimi sonu"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:485
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:411
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
 msgstr "<h2>Yazıtipi aileleri:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:492
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:418
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
 msgstr "</ul>Yazıtipi ailelerinin sonu"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:495
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:421
 msgctxt "PreferencesDialog|"
 msgid "<h2>Audio file formats Support:</h2><ul>"
 msgstr "<h2>Ses dosyası biçimleri desteği:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:530
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:456
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Supported Audio file formats"
 msgstr "</ul>Desteklenen ses dosyası biçimleri sonu"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:547
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:473
 msgctxt "PreferencesDialog|"
 msgid "Export Rolisteam Theme"
 msgstr "Rolisteam Teması Dışa Aktar"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:549
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:558
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:475
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:484
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "Rolisteam Theme: %1"
 msgstr "Rolisteam Teması: %1"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:557
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:483
 msgctxt "PreferencesDialog|"
 msgid "Import Rolisteam Theme"
 msgstr "Rolisteam Teması İçe Aktar"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:579
-msgctxt "PreferencesDialog|"
-msgid "Add new directory"
-msgstr "Yeni dizin ekle"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:14
 msgctxt "PreferencesDialogBox|"
@@ -5014,269 +5284,145 @@ msgctxt "PreferencesDialogBox|"
 msgid "* : need restart"
 msgstr "*: Yeniden başlatma gerektirir"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:572
-msgctxt "PreferencesDialogBox|"
-msgid "Player Information"
-msgstr "Oyuncu Bilgisi"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:593
-msgctxt "PreferencesDialogBox|"
-msgid "Music path"
-msgstr "Müzik yolu"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
-msgctxt "PreferencesDialogBox|"
-msgid "AudioPlayer1:"
-msgstr "Ses çalar 1:"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:628
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:635
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:642
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:649
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:687
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:694
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:701
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:708
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:746
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:753
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:760
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:767
-msgctxt "PreferencesDialogBox|"
-msgid "..."
-msgstr "…"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
-msgctxt "PreferencesDialogBox|"
-msgid "AudioPlayer2:"
-msgstr "Ses çalar 2:"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:732
-msgctxt "PreferencesDialogBox|"
-msgid "AudioPlayer3:"
-msgstr "Ses çalar 3:"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:795
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:569
 msgctxt "PreferencesDialogBox|"
 msgid "Themes"
 msgstr "Temalar"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:801
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:575
 msgctxt "PreferencesDialogBox|"
 msgid "Theme"
 msgstr "Tema"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:811
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:585
 msgctxt "PreferencesDialogBox|"
 msgid "Current Theme*"
 msgstr "Geçerli Tema*"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:818
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:592
 msgctxt "PreferencesDialogBox|"
 msgid "Theme name"
 msgstr "Tema adı"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:825
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:599
 msgctxt "PreferencesDialogBox|"
 msgid "Styles:"
 msgstr "Biçemler:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:841
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:615
 msgctxt "PreferencesDialogBox|"
 msgid "Copy"
 msgstr "Kopyala"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:848
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1255
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1264
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1273
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:622
 msgctxt "PreferencesDialogBox|"
 msgid "Delete"
 msgstr "Sil"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:865
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:639
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
 msgstr "CSS:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:872
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:646
 msgctxt "PreferencesDialogBox|"
 msgid "Edit..."
 msgstr "Düzen…"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:898
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:672
 msgctxt "PreferencesDialogBox|"
 msgid "Background"
 msgstr "Arka Plan"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:906
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:680
 msgctxt "PreferencesDialogBox|"
 msgid "Color:"
 msgstr "Renk:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:937
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:711
 msgctxt "PreferencesDialogBox|"
 msgid "Image:"
 msgstr "Görsel:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:951
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:725
 msgctxt "PreferencesDialogBox|"
 msgid "Positioning:"
 msgstr "Konumlandırma:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:959
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:733
 msgctxt "PreferencesDialogBox|"
 msgid "TopLeftCorner"
 msgstr "Sol üst köşe"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:964
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:738
 msgctxt "PreferencesDialogBox|"
 msgid "BottomLeftCorner"
 msgstr "Sol alt köşe"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:969
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:743
 msgctxt "PreferencesDialogBox|"
 msgid "Center"
 msgstr "Orta"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:974
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:748
 msgctxt "PreferencesDialogBox|"
 msgid "TopRightCorner"
 msgstr "Sağ üst köşe"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:979
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:753
 msgctxt "PreferencesDialogBox|"
 msgid "BottomRightCorner"
 msgstr "Sağ alt köşe"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:984
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:758
 msgctxt "PreferencesDialogBox|"
 msgid "Scaled"
 msgstr "Ölçeklendirilmiş"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:989
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:763
 msgctxt "PreferencesDialogBox|"
 msgid "Filled"
 msgstr "Doldurulmuş"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:994
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:768
 msgctxt "PreferencesDialogBox|"
 msgid "Repeated"
 msgstr "Yinelenmiş"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1009
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:783
 msgctxt "PreferencesDialogBox|"
 msgid "Dice Highlight Color"
 msgstr "Zarlar Vurgulama Rengi"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1038
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:812
 msgctxt "PreferencesDialogBox|"
 msgid "Color Palette"
 msgstr "Renk Paleti"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1050
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:824
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
 msgstr "*: Yeniden başlatma gerektirir"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1070
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:844
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
 msgstr "İçe Aktar…"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1077
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:851
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
 msgstr "Dışa Aktar…"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1090
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:864
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
 msgstr "Tanı"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1096
-msgctxt "PreferencesDialogBox|"
-msgid "Enable Data collection"
-msgstr "Veri toplamayı etkinleştir"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1106
-msgctxt "PreferencesDialogBox|"
-msgid "Data collection"
-msgstr "Veri toplama"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1112
-msgctxt "PreferencesDialogBox|"
-msgid ""
-"<html><head/><body><p><span style=\" font-size:9pt;\">Collected data are "
-"anonymous. <br/>By default, only data about rolisteam are collected. Which "
-"actions have been used.<br/><br/>Checking </span><span style=\" font-"
-"size:9pt; font-weight:600;\">All Usages</span><span style=\" font-size:9pt;"
-"\"> box enables the collect of data about rolisteam in desktop environment."
-"<br/>We mainly try to know if Rolisteam is visible, its size or if it has "
-"the focus. <br/>It may be helpful to understand how people use Rolisteam on "
-"Desktop. <br/>University studies may find those data interesting.<br/><br/"
-">Debug data makes rolisteam to log every click on every button or action. It "
-"is a deeper  mode.<br/>It may slow down a bit rolisteam.</span></p><p><span "
-"style=\" font-size:9pt;\">To know more about data collection: </span><a href="
-"\"https://rolisteam.org/datacollection.html\"><span style=\" font-size:9pt; "
-"text-decoration: underline; color:#007af4;\">www.rolisteam.org/"
-"datacollection.html</span></a></p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-size:9pt;\">Toplanan veri "
-"anonimdir.<br/>Öntanımlı olarak, yalnızca Rolisteam içinde kullanılan "
-"eylemler hakkında veri toplanır.<br/><br/></span><span style=\" font-"
-"size:9pt; font-weight:600;\">Tüm Kullanımlar</span><span style=\" font-"
-"size:9pt;\"> onay kutusunu işaretlemek, masaüstü ortamında Rolisteam "
-"hakkında veri toplamayı etkinleştirir.<br/>Genelde Rolisteam'in görünür olup "
-"olmadığını, boyutunu veya odağa sahip olup olmadığını bilmeye çalışırız. <br/"
-">Rolisteam'in masaüstünde nasıl kullanıldığını bilmek yararlı olabilir.<br/"
-">Üniversitede yapılan çalışmalar genellikle bu tür verileri kullanır.<br/"
-"><br/>Hata ayıklama, Rolisteam’in her bir tıklamayı, eylemi kaydetmesini "
-"sağlar. Daha derin bir kiptir.<br/>Bu, Rolisteam’i biraz yavaşlatabilir.</"
-"span></p><p><span style=\" font-size:9pt;\">Veri kullanımı hakkında daha "
-"fazla bilgi için: </span><a href=\"https://rolisteam.org/datacollection.html"
-"\"><span style=\" font-size:9pt; text-decoration: underline; color:#007af4;"
-"\">www.rolisteam.org/datacollection.html</span></a></p></body></html>"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1127
-msgctxt "PreferencesDialogBox|"
-msgid "All Usages"
-msgstr "Tüm Kullanımlar"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1147
-msgctxt "PreferencesDialogBox|"
-msgid "May slow down rolisteam"
-msgstr "Rolisteam’i yavaşlatabilir"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1150
-msgctxt "PreferencesDialogBox|"
-msgid "Include Debug data*"
-msgstr "Hata ayıklama verisini içer"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1184
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:892
 msgctxt "PreferencesDialogBox|"
 msgid "Start"
 msgstr "Başlat"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1228
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1237
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1246
-msgctxt "PreferencesDialogBox|"
-msgid "Add"
-msgstr "Ekle"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1282
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1291
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1300
-msgctxt "PreferencesDialogBox|"
-msgid "up"
-msgstr "Yukarı"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1309
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1318
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1327
-msgctxt "PreferencesDialogBox|"
-msgid "down"
-msgstr "Aşağı"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:117
 msgctxt "SelectConnectionProfileDialog|"
@@ -5775,12 +5921,12 @@ msgctxt "AntagonistBoard|"
 msgid "Remove Character"
 msgstr "Karakteri Kaldır"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:76
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:74
 msgctxt "AudioPlayer|"
 msgid "Background Music"
 msgstr "Arka Plan Müziği"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:98
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:96
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"
@@ -5851,13 +5997,13 @@ msgctxt "CampaignDock|"
 msgid "Campaign Content"
 msgstr "Sefer İçeriği"
 
-#: src/libraries/rwidgets/docks/campaigndock.ui:23
-#: src/libraries/rwidgets/docks/campaigndock.ui:30
+#: src/libraries/rwidgets/docks/campaigndock.ui:24
+#: src/libraries/rwidgets/docks/campaigndock.ui:31
 msgctxt "CampaignDock|"
 msgid "Search"
 msgstr "Ara"
 
-#: src/libraries/rwidgets/docks/campaigndock.ui:50
+#: src/libraries/rwidgets/docks/campaigndock.ui:51
 msgctxt "CampaignDock|"
 msgid "Type:"
 msgstr "Tür:"
@@ -5971,13 +6117,13 @@ msgctxt "PlayersPanel|"
 msgid "Player List"
 msgstr "Oyuncu Listesi"
 
-#: src/libraries/rwidgets/docks/playerspanel.ui:26
-#: src/libraries/rwidgets/docks/playerspanel.ui:49
+#: src/libraries/rwidgets/docks/playerspanel.ui:27
+#: src/libraries/rwidgets/docks/playerspanel.ui:50
 msgctxt "PlayersPanel|"
 msgid "..."
 msgstr "…"
 
-#: src/libraries/rwidgets/docks/playerspanel.ui:66
+#: src/libraries/rwidgets/docks/playerspanel.ui:67
 msgctxt "PlayersPanel|"
 msgid "Add"
 msgstr "Ekle"
@@ -7613,41 +7759,38 @@ msgctxt "QObject|"
 msgid "Rule"
 msgstr "Kural"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:164
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
+#, fuzzy, qt-format
+#| msgctxt "CharacterSheetWindow|"
+#| msgid "%1 - (Character Sheet Viewer)"
+msgctxt "CharacterSheetWindow|"
+msgid "%1 - (CharacterSheet Viewer)"
+msgstr "%1 — (Karakter Sayfası Görüntüleyicisi)"
+
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
+#, fuzzy
+#| msgctxt "QObject|"
+#| msgid "Unknown"
+msgctxt "CharacterSheetWindow|"
+msgid "Unknown"
+msgstr "Bilinmiyor"
+
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:208
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
 msgstr "%1 — (Karakter Sayfası Görüntüleyicisi)"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:222
-msgctxt "CharacterSheetWindow|"
-msgid "To all"
-msgstr "Hepsine"
-
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:542
-msgctxt "CharacterSheetWindow|"
-msgid "QML Errors"
-msgstr "QML Hataları"
-
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:616
-msgctxt "CharacterSheetWindow|"
-msgid "Open Character Sheets View"
-msgstr "Karakter Sayfası Görünümünü Aç"
-
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:618
-msgctxt "CharacterSheetWindow|"
-msgid "Character Sheet files (*.qml)"
-msgstr "Karakter Sayfası Dosyaları (*.qml)"
-
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:119
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:220
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:288
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
 msgstr "Paylaş"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.h:120
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:273
 msgctxt "CharacterSheetWindow|"
-msgid "Character Sheet Data files (*.rcs)"
-msgstr "Karakter Sayfası Veri Dosyası (*.rcs)"
+msgid "To all"
+msgstr "Hepsine"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:14
 msgctxt "CharacterSheetWindow|"
@@ -7676,36 +7819,25 @@ msgstr "Karakter Sayfası Ekle"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:95
 msgctxt "CharacterSheetWindow|"
-msgid "Load QML"
-msgstr "QML Yükle"
-
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:100
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:103
-msgctxt "CharacterSheetWindow|"
-msgid "Detach Tab"
-msgstr "Sekmeyi Ayır"
-
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:108
-msgctxt "CharacterSheetWindow|"
 msgid "Copy Tab"
 msgstr "Sekmeyi Kopyala"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:113
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:100
 msgctxt "CharacterSheetWindow|"
 msgid "Read Only"
 msgstr "Saltokunur"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:105
 msgctxt "CharacterSheetWindow|"
 msgid "Stop Sharing"
 msgstr "Paylaşımı Durdur"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:123
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
 msgctxt "CharacterSheetWindow|"
 msgid "Print Act"
 msgstr "Sahneyi Yazdır"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:132
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
 msgid "Menu"
 msgstr "Menü"
@@ -7880,8 +8012,8 @@ msgctxt "QObject|"
 msgid "Loading error"
 msgstr "Yükleme hatası"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:149
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:151
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:137
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:139
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
@@ -8461,6 +8593,145 @@ msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Efsunlanmış"
 
+#~ msgctxt "TableCanvasField|"
+#~ msgid "Properties"
+#~ msgstr "Özellikler"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Antagonist Table"
+#~ msgstr "Rakip Tablosu"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Sub-&Windows"
+#~ msgstr "Alt &Pencereler"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Alt+A"
+#~ msgstr "Seçenek+A"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Alt+N"
+#~ msgstr "Seçenek+N"
+
+#~ msgctxt "main|"
+#~ msgid "RMindMap"
+#~ msgstr "R Akıl Haritası"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Player Information"
+#~ msgstr "Oyuncu Bilgisi"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Music path"
+#~ msgstr "Müzik yolu"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "AudioPlayer1:"
+#~ msgstr "Ses çalar 1:"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "..."
+#~ msgstr "…"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "AudioPlayer2:"
+#~ msgstr "Ses çalar 2:"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "AudioPlayer3:"
+#~ msgstr "Ses çalar 3:"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Enable Data collection"
+#~ msgstr "Veri toplamayı etkinleştir"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Data collection"
+#~ msgstr "Veri toplama"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid ""
+#~ "<html><head/><body><p><span style=\" font-size:9pt;\">Collected data are "
+#~ "anonymous. <br/>By default, only data about rolisteam are collected. "
+#~ "Which actions have been used.<br/><br/>Checking </span><span style=\" "
+#~ "font-size:9pt; font-weight:600;\">All Usages</span><span style=\" font-"
+#~ "size:9pt;\"> box enables the collect of data about rolisteam in desktop "
+#~ "environment.<br/>We mainly try to know if Rolisteam is visible, its size "
+#~ "or if it has the focus. <br/>It may be helpful to understand how people "
+#~ "use Rolisteam on Desktop. <br/>University studies may find those data "
+#~ "interesting.<br/><br/>Debug data makes rolisteam to log every click on "
+#~ "every button or action. It is a deeper  mode.<br/>It may slow down a bit "
+#~ "rolisteam.</span></p><p><span style=\" font-size:9pt;\">To know more "
+#~ "about data collection: </span><a href=\"https://rolisteam.org/"
+#~ "datacollection.html\"><span style=\" font-size:9pt; text-decoration: "
+#~ "underline; color:#007af4;\">www.rolisteam.org/datacollection.html</span></"
+#~ "a></p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p><span style=\" font-size:9pt;\">Toplanan veri "
+#~ "anonimdir.<br/>Öntanımlı olarak, yalnızca Rolisteam içinde kullanılan "
+#~ "eylemler hakkında veri toplanır.<br/><br/></span><span style=\" font-"
+#~ "size:9pt; font-weight:600;\">Tüm Kullanımlar</span><span style=\" font-"
+#~ "size:9pt;\"> onay kutusunu işaretlemek, masaüstü ortamında Rolisteam "
+#~ "hakkında veri toplamayı etkinleştirir.<br/>Genelde Rolisteam'in görünür "
+#~ "olup olmadığını, boyutunu veya odağa sahip olup olmadığını bilmeye "
+#~ "çalışırız. <br/>Rolisteam'in masaüstünde nasıl kullanıldığını bilmek "
+#~ "yararlı olabilir.<br/>Üniversitede yapılan çalışmalar genellikle bu tür "
+#~ "verileri kullanır.<br/><br/>Hata ayıklama, Rolisteam’in her bir "
+#~ "tıklamayı, eylemi kaydetmesini sağlar. Daha derin bir kiptir.<br/>Bu, "
+#~ "Rolisteam’i biraz yavaşlatabilir.</span></p><p><span style=\" font-"
+#~ "size:9pt;\">Veri kullanımı hakkında daha fazla bilgi için: </span><a href="
+#~ "\"https://rolisteam.org/datacollection.html\"><span style=\" font-"
+#~ "size:9pt; text-decoration: underline; color:#007af4;\">www.rolisteam.org/"
+#~ "datacollection.html</span></a></p></body></html>"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "All Usages"
+#~ msgstr "Tüm Kullanımlar"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "May slow down rolisteam"
+#~ msgstr "Rolisteam’i yavaşlatabilir"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Include Debug data*"
+#~ msgstr "Hata ayıklama verisini içer"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Add"
+#~ msgstr "Ekle"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "up"
+#~ msgstr "Yukarı"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "down"
+#~ msgstr "Aşağı"
+
+#~ msgctxt "CharacterSheetWindow|"
+#~ msgid "QML Errors"
+#~ msgstr "QML Hataları"
+
+#~ msgctxt "CharacterSheetWindow|"
+#~ msgid "Open Character Sheets View"
+#~ msgstr "Karakter Sayfası Görünümünü Aç"
+
+#~ msgctxt "CharacterSheetWindow|"
+#~ msgid "Character Sheet files (*.qml)"
+#~ msgstr "Karakter Sayfası Dosyaları (*.qml)"
+
+#~ msgctxt "CharacterSheetWindow|"
+#~ msgid "Character Sheet Data files (*.rcs)"
+#~ msgstr "Karakter Sayfası Veri Dosyası (*.rcs)"
+
+#~ msgctxt "CharacterSheetWindow|"
+#~ msgid "Load QML"
+#~ msgstr "QML Yükle"
+
+#~ msgctxt "CharacterSheetWindow|"
+#~ msgid "Detach Tab"
+#~ msgstr "Sekmeyi Ayır"
+
 #~ msgctxt "BoxModel|"
 #~ msgid "Root"
 #~ msgstr "Kök"
@@ -8516,10 +8787,6 @@ msgstr "Efsunlanmış"
 #~ msgctxt "VmapToolBar|"
 #~ msgid "GM only"
 #~ msgstr "Yalnızca OG"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "PC Move"
-#~ msgstr "OK Hareketi"
 
 #~ msgctxt "VmapToolBar|"
 #~ msgid "All"
