@@ -375,13 +375,6 @@ bool Channel::removeClient(ServerConnection* client)
     if(!client)
         return false;
 
-    // must be the first line
-    int i= m_child.removeAll(client);
-    if(i == 0)
-    {
-        return false;
-    }
-
     disconnect(client);
 
     // notify all remaining chan member to remove former player
@@ -399,7 +392,7 @@ bool Channel::removeClient(ServerConnection* client)
     }
 
     emit itemChanged();
-    return (0 < i);
+    return true;
 }
 
 void Channel::clearData()
