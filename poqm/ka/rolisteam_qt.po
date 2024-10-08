@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Qt-Contexts: true\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -242,7 +242,7 @@ msgstr "WebView"
 #: src/binaries/rcse/delegate/typedelegate.cpp:26
 msgctxt "TypeDelegate|"
 msgid "Slider"
-msgstr "ცოცია"
+msgstr "ჩოჩია"
 
 #: src/binaries/rcse/delegate/typedelegate.cpp:27
 msgctxt "TypeDelegate|"
@@ -954,7 +954,7 @@ msgstr "ცხრილი"
 #: src/binaries/rcse/mainwindow_rcse.ui:1226
 msgctxt "MainWindow|"
 msgid "Slider"
-msgstr "ცოცია"
+msgstr "ჩოჩია"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:312
 #: src/binaries/rcse/mainwindow_rcse.ui:1238
@@ -1295,105 +1295,69 @@ msgid "Select"
 msgstr "არჩევა"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:60
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextInput"
 msgctxt "TableCanvasField|"
 msgid "TextInput"
 msgstr "TextInput"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:61
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "TextField"
 msgstr "TextField"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:62
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextArea"
 msgctxt "TableCanvasField|"
 msgid "TextArea"
 msgstr "TextArea"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:63
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Select"
 msgctxt "TableCanvasField|"
 msgid "Select"
 msgstr "არჩევა"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:64
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "TableCanvasField|"
 msgid "CheckBox"
 msgstr "ჩასართავი"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:65
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "TableCanvasField|"
 msgid "Image"
 msgstr "გამოსახულება"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:66
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "TableCanvasField|"
 msgid "Label"
 msgstr "ჭდე"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:67
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "TableCanvasField|"
 msgid "Dice Button"
 msgstr "გაგორების ღილაკი"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:68
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "TableCanvasField|"
 msgid "Function Button"
 msgstr "ფუნქციის ღილაკი"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:69
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Web Page"
 msgctxt "TableCanvasField|"
 msgid "Web page"
 msgstr "ვებ გვერდი"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:70
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "TableCanvasField|"
 msgid "Slider"
-msgstr "ცოცია"
+msgstr "ჩოჩია"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:323
 msgctxt "TableCanvasField|"
 msgid "Select the column type"
-msgstr ""
+msgstr "აირჩიეთ სვეტის ტიპი"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:324
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "Type of Field:"
-msgstr "TextField"
+msgstr "ველის ტიპი:"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1442,7 +1406,7 @@ msgstr "გამოსახულება"
 #: src/binaries/rcse/undo/addfieldcommand.cpp:85
 msgctxt "QObject|"
 msgid "Slider"
-msgstr "ცოცია"
+msgstr "ჩოჩია"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
 #: src/libraries/core/src/data/cleveruri.cpp:235
@@ -1648,60 +1612,42 @@ msgstr "პაროლის კითხვა და მისი ჰეშ�
 #: src/binaries/widget/mainwindow.cpp:376
 msgctxt "MainWindow|"
 msgid "Side Panels"
-msgstr ""
+msgstr "გვერდითი პანელები"
 
 #: src/binaries/widget/mainwindow.cpp:385
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "List of Players"
-msgstr "მუსიკის დამკვრელი"
+msgstr "მოთამაშეების სია"
 
 #: src/binaries/widget/mainwindow.cpp:386
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "Campaign Content"
 msgctxt "MainWindow|"
 msgid "All campaign documents"
-msgstr "კამპანიის შემცველობა"
+msgstr "ყველა კამპანიის დოკუმენტი"
 
 #: src/binaries/widget/mainwindow.cpp:387
 msgctxt "MainWindow|"
 msgid "List of antagonists"
-msgstr ""
+msgstr "ანტაგონისტების სია"
 
 #: src/binaries/widget/mainwindow.cpp:388
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "მუსიკის დამკვრელი"
 
 #: src/binaries/widget/mainwindow.cpp:389
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
 msgctxt "MainWindow|"
 msgid "Server Panel"
-msgstr "სერვერი"
+msgstr "სერვერის პანელი"
 
 #: src/binaries/widget/mainwindow.cpp:390
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Notification Zone"
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "გაფრთხილებების ზონა"
 
 #: src/binaries/widget/mainwindow.cpp:404
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "GM Tools"
-msgstr "ხელსაწყოები"
+msgstr "GM ინსტრუმენტები"
 
 #: src/binaries/widget/mainwindow.cpp:463
 msgctxt "MainWindow|"
@@ -1714,17 +1660,14 @@ msgid "Webpage url:"
 msgstr "ვებგვერდის ბმული:"
 
 #: src/binaries/widget/mainwindow.cpp:476
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "Open Map"
-msgstr "კამპანიის გახსნა"
+msgstr "რუკის გახსნა"
 
 #: src/binaries/widget/mainwindow.cpp:476
 msgctxt "MainWindow|"
 msgid "Map:"
-msgstr ""
+msgstr "რუკა:"
 
 #: src/binaries/widget/mainwindow.cpp:524
 #: src/binaries/widget/mainwindow.cpp:734 src/binaries/widget/mainwindow.ui:286
@@ -1920,7 +1863,7 @@ msgstr "&გახსნა"
 #: src/binaries/widget/mainwindow.ui:66
 msgctxt "MainWindow|"
 msgid "&Panels"
-msgstr ""
+msgstr "&პანელები"
 
 #: src/binaries/widget/mainwindow.ui:70
 msgctxt "MainWindow|"
@@ -2421,25 +2364,16 @@ msgid "Remove Last line"
 msgstr "ბოლო ხაზის წაშლა"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:27
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Add line"
 msgctxt "Tablev1|"
 msgid "Add line"
 msgstr "ხაზის დამატება"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:31
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove current Line"
 msgctxt "Tablev1|"
 msgid "Remove current Line"
 msgstr "მიმდინარე ხაზის წაშლა"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:37
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove Last line"
 msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "ბოლო ხაზის წაშლა"
@@ -3160,12 +3094,10 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "სერვისის სწორი ტიპის აღმოჩენის შეცდომა: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:337
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2) : error :\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
-msgstr "პორტის გადამისამართების (%1/%2) დამატება შეუძლებელია: შეცდომა :\n"
+msgstr "პორტის გადამისამართების (%1/%2) დამატება შეუძლებელია: შეცდომა : %3\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -4050,9 +3982,6 @@ msgid "Remove selected file"
 msgstr "მონიშნული ფაილის წაშლა"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:189
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidget|"
 msgid "Add new directory"
 msgstr "ახალი საქაღალდის დამატება"
@@ -4139,87 +4068,57 @@ msgid "repeat"
 msgstr "repeat"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:237
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Root Directory:"
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr "ძირითადი საქაღალდე:"
+msgstr "საქაღალდეების ძებნა:"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
 #: src/libraries/rwidgets/customs/playerwidget.ui:271
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
 #: src/libraries/rwidgets/customs/playerwidget.ui:285
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "..."
 msgctxt "PlayerWidgetUI|"
 msgid "..."
 msgstr "..."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:312
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Add directory…"
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr "საქაღალდის დამატება…"
+msgstr "საქაღალდის დამატება"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:315
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
-msgstr "ახალი საქაღალდის დამატება"
+msgstr "მუსიკის საქაღალდის დამატება."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:326
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Page"
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
-msgstr "გვერდის წაშლა"
+msgstr "ბილიკის წაშლა"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:329
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
-msgstr "მონიშნული ფაილის წაშლა"
+msgstr "მონიშნული საქაღალდის წაშლა"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:340
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Pdf path"
 msgctxt "PlayerWidgetUI|"
 msgid "Up path"
-msgstr "PDF-ის ბილიკი"
+msgstr "ბილიკი ზემოთ"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:343
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
-msgstr "უჯრის ამორჩევა"
+msgstr "მონიშნული საქაღალდის ატანა"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:354
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove Song"
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
-msgstr "სიმღერის წაშლა"
+msgstr "ჩამოწევა"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:357
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
-msgstr "უჯრის ამორჩევა"
+msgstr "მონიშნული საქაღალდის ჩამოტანა "
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -5009,22 +4908,19 @@ msgid "Color:"
 msgstr "ფერი:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "PreferencesDialog|"
 msgid "GM Only"
-msgstr "მხოლოდ კითხვისთვის"
+msgstr "მხოლოდ GM"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
 msgctxt "PreferencesDialog|"
 msgid "PC Move"
-msgstr ""
+msgstr "PC გადაადგილება"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:71
 msgctxt "PreferencesDialog|"
 msgid "PC All"
-msgstr ""
+msgstr "PC ყველა"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:144
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:14
@@ -7760,17 +7656,12 @@ msgid "Rule"
 msgstr "წესი"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy, qt-format
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "%1 - (Character Sheet Viewer)"
+#, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (სიმბოლოების ფურცლის დათვალიერება)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
 msgstr "უცნობი"

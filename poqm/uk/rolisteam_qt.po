@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-01-15 09:14+0200\n"
+"PO-Revision-Date: 2024-10-07 09:56+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,7 +12,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -1297,89 +1297,56 @@ msgid "Select"
 msgstr "Вибрати"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:60
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextInput"
 msgctxt "TableCanvasField|"
 msgid "TextInput"
 msgstr "Введення тексту"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:61
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "TextField"
 msgstr "Текстове поле"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:62
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextArea"
 msgctxt "TableCanvasField|"
 msgid "TextArea"
 msgstr "Текстова область"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:63
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Select"
 msgctxt "TableCanvasField|"
 msgid "Select"
-msgstr "Вибрати"
+msgstr "Вибір"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:64
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "TableCanvasField|"
 msgid "CheckBox"
-msgstr "Позначка"
+msgstr "Кнопка варіанта"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:65
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "TableCanvasField|"
 msgid "Image"
 msgstr "Зображення"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:66
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "TableCanvasField|"
 msgid "Label"
 msgstr "Мітка"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:67
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "TableCanvasField|"
 msgid "Dice Button"
 msgstr "Кнопка кістки"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:68
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "TableCanvasField|"
 msgid "Function Button"
 msgstr "Функціональна кнопка"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:69
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Web Page"
 msgctxt "TableCanvasField|"
 msgid "Web page"
-msgstr "Вебсторінка"
+msgstr "Веб-сторінка"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:70
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "TableCanvasField|"
 msgid "Slider"
 msgstr "Повзунок"
@@ -1387,15 +1354,12 @@ msgstr "Повзунок"
 #: src/binaries/rcse/tablecanvasfield.cpp:323
 msgctxt "TableCanvasField|"
 msgid "Select the column type"
-msgstr ""
+msgstr "Виберіть тип стовпчика"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:324
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "Type of Field:"
-msgstr "Текстове поле"
+msgstr "Тип поля:"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1654,60 +1618,42 @@ msgstr "Запитати пароль і повернути його хешов�
 #: src/binaries/widget/mainwindow.cpp:376
 msgctxt "MainWindow|"
 msgid "Side Panels"
-msgstr ""
+msgstr "Бічні панелі"
 
 #: src/binaries/widget/mainwindow.cpp:385
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "List of Players"
-msgstr "Звуковий програвач"
+msgstr "Список гравців"
 
 #: src/binaries/widget/mainwindow.cpp:386
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "Campaign Content"
 msgctxt "MainWindow|"
 msgid "All campaign documents"
-msgstr "Вміст кампанії"
+msgstr "Усі документи кампанії"
 
 #: src/binaries/widget/mainwindow.cpp:387
 msgctxt "MainWindow|"
 msgid "List of antagonists"
-msgstr ""
+msgstr "Список антагоністів"
 
 #: src/binaries/widget/mainwindow.cpp:388
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "Music Player"
-msgstr "Звуковий програвач"
+msgstr "Програвач музики"
 
 #: src/binaries/widget/mainwindow.cpp:389
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
 msgctxt "MainWindow|"
 msgid "Server Panel"
-msgstr "Сервер"
+msgstr "Панель сервера"
 
 #: src/binaries/widget/mainwindow.cpp:390
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Notification Zone"
 msgctxt "MainWindow|"
 msgid "Notification Zone"
-msgstr "Зона сповіщень"
+msgstr "Зона сповіщень"
 
 #: src/binaries/widget/mainwindow.cpp:404
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "GM Tools"
-msgstr "Інструменти"
+msgstr "Інструменти ВГ"
 
 #: src/binaries/widget/mainwindow.cpp:463
 msgctxt "MainWindow|"
@@ -1720,17 +1666,14 @@ msgid "Webpage url:"
 msgstr "Адреса сторінки:"
 
 #: src/binaries/widget/mainwindow.cpp:476
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "Open Map"
-msgstr "Відкрити шампанське"
+msgstr "Відкрити карту"
 
 #: src/binaries/widget/mainwindow.cpp:476
 msgctxt "MainWindow|"
 msgid "Map:"
-msgstr ""
+msgstr "Карта:"
 
 #: src/binaries/widget/mainwindow.cpp:524
 #: src/binaries/widget/mainwindow.cpp:734 src/binaries/widget/mainwindow.ui:286
@@ -1926,7 +1869,7 @@ msgstr "&Відкрити"
 #: src/binaries/widget/mainwindow.ui:66
 msgctxt "MainWindow|"
 msgid "&Panels"
-msgstr ""
+msgstr "&Панелі"
 
 #: src/binaries/widget/mainwindow.ui:70
 msgctxt "MainWindow|"
@@ -2427,25 +2370,16 @@ msgid "Remove Last line"
 msgstr "Вилучити останній рядок"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:27
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Add line"
 msgctxt "Tablev1|"
 msgid "Add line"
 msgstr "Додати рядок"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:31
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove current Line"
 msgctxt "Tablev1|"
 msgid "Remove current Line"
 msgstr "Вилучити поточний рядок"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:37
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove Last line"
 msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Вилучити останній рядок"
@@ -3168,12 +3102,10 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Не вдалося знайти належний тип служби: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:337
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2) : error :\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
-msgstr "Не вдалося додати прив'язку порту (%1/%2): помилка:\n"
+msgstr "Не вдалося додати прив'язку порту (%1/%2): помилка: %3\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -4060,9 +3992,6 @@ msgid "Remove selected file"
 msgstr "Вилучити позначений файл"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:189
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidget|"
 msgid "Add new directory"
 msgstr "Додати новий каталог"
@@ -4149,87 +4078,57 @@ msgid "repeat"
 msgstr "повторення"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:237
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Root Directory:"
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr "Кореневий каталог:"
+msgstr "Каталоги пошуку:"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
 #: src/libraries/rwidgets/customs/playerwidget.ui:271
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
 #: src/libraries/rwidgets/customs/playerwidget.ui:285
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "..."
 msgctxt "PlayerWidgetUI|"
 msgid "..."
 msgstr "…"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:312
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Add directory…"
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr "Додати каталог…"
+msgstr "додати каталог"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:315
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
-msgstr "Додати новий каталог"
+msgstr "Додати каталог музики."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:326
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Page"
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
-msgstr "Вилучити сторінку"
+msgstr "вилучити шлях"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:329
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
-msgstr "Вилучити позначений файл"
+msgstr "Вилучити позначений каталог"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:340
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Pdf path"
 msgctxt "PlayerWidgetUI|"
 msgid "Up path"
-msgstr "Шлях до PDF"
+msgstr "Вгору по дереву"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:343
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
-msgstr "Виберіть теку"
+msgstr "Пересунути вище позначену теку"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:354
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove Song"
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
-msgstr "Вилучити композицію"
+msgstr "нижче"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:357
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
-msgstr "Виберіть теку"
+msgstr "Пересунути нижче позначений каталог "
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -5022,17 +4921,11 @@ msgid "Color:"
 msgstr "Колір:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "PreferencesDialog|"
 msgid "GM Only"
-msgstr "Лише читання"
+msgstr "Лише ВГ"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "PC Move"
 msgctxt "PreferencesDialog|"
 msgid "PC Move"
 msgstr "Рух ІП"
@@ -5040,7 +4933,7 @@ msgstr "Рух ІП"
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:71
 msgctxt "PreferencesDialog|"
 msgid "PC All"
-msgstr ""
+msgstr "Усе ІП"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:144
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:14
@@ -7781,17 +7674,12 @@ msgid "Rule"
 msgstr "Лінійка"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy, qt-format
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "%1 - (Character Sheet Viewer)"
+#, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 — (перегляд аркуша персонажів)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
 msgstr "Невідомий"
