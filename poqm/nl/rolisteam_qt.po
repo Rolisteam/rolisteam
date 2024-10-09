@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-01-15 10:14+0100\n"
+"PO-Revision-Date: 2024-10-08 10:46+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #: src/binaries/mindmap/main.qml:23
 msgctxt "main|"
@@ -1293,89 +1293,56 @@ msgid "Select"
 msgstr "Selecteren"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:60
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextInput"
 msgctxt "TableCanvasField|"
 msgid "TextInput"
 msgstr "Tekstinvoer"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:61
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "TextField"
 msgstr "Tekstveld"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:62
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextArea"
 msgctxt "TableCanvasField|"
 msgid "TextArea"
 msgstr "Tekstgebied"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:63
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Select"
 msgctxt "TableCanvasField|"
 msgid "Select"
 msgstr "Selecteren"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:64
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "TableCanvasField|"
 msgid "CheckBox"
 msgstr "Keuzevakje"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:65
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "TableCanvasField|"
 msgid "Image"
 msgstr "Afbeelding"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:66
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "TableCanvasField|"
 msgid "Label"
 msgstr "Label"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:67
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "TableCanvasField|"
 msgid "Dice Button"
 msgstr "Dobbelsteenknop"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:68
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "TableCanvasField|"
 msgid "Function Button"
 msgstr "Functieknop"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:69
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Web Page"
 msgctxt "TableCanvasField|"
 msgid "Web page"
 msgstr "Webpagina"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:70
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "TableCanvasField|"
 msgid "Slider"
 msgstr "Schuifregelaar"
@@ -1383,15 +1350,12 @@ msgstr "Schuifregelaar"
 #: src/binaries/rcse/tablecanvasfield.cpp:323
 msgctxt "TableCanvasField|"
 msgid "Select the column type"
-msgstr ""
+msgstr "Het type kolom selecteren"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:324
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "Type of Field:"
-msgstr "Tekstveld"
+msgstr "Type veld:"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1646,60 +1610,42 @@ msgstr "Om wachtwoord vragen en zijn hash-sleutel teruggeven."
 #: src/binaries/widget/mainwindow.cpp:376
 msgctxt "MainWindow|"
 msgid "Side Panels"
-msgstr ""
+msgstr "Zijpanelen"
 
 #: src/binaries/widget/mainwindow.cpp:385
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "List of Players"
-msgstr "Audiospeler"
+msgstr "Lijst met spelers"
 
 #: src/binaries/widget/mainwindow.cpp:386
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "Campaign Content"
 msgctxt "MainWindow|"
 msgid "All campaign documents"
-msgstr "Campagne-inhoud"
+msgstr "Alle campagnedocumenten"
 
 #: src/binaries/widget/mainwindow.cpp:387
 msgctxt "MainWindow|"
 msgid "List of antagonists"
-msgstr ""
+msgstr "Lijst met antagonisten"
 
 #: src/binaries/widget/mainwindow.cpp:388
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "Music Player"
-msgstr "Audiospeler"
+msgstr "Muziekspeler"
 
 #: src/binaries/widget/mainwindow.cpp:389
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
 msgctxt "MainWindow|"
 msgid "Server Panel"
-msgstr "Server"
+msgstr "Serverpaneel"
 
 #: src/binaries/widget/mainwindow.cpp:390
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Notification Zone"
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Meldingenzone"
 
 #: src/binaries/widget/mainwindow.cpp:404
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "GM Tools"
-msgstr "Hulpmiddelen"
+msgstr "GM-hulpmiddelen"
 
 #: src/binaries/widget/mainwindow.cpp:463
 msgctxt "MainWindow|"
@@ -1712,17 +1658,14 @@ msgid "Webpage url:"
 msgstr "URL van webpage:"
 
 #: src/binaries/widget/mainwindow.cpp:476
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "Open Map"
-msgstr "Campagne openen"
+msgstr "Kaart openen"
 
 #: src/binaries/widget/mainwindow.cpp:476
 msgctxt "MainWindow|"
 msgid "Map:"
-msgstr ""
+msgstr "Kaart:"
 
 #: src/binaries/widget/mainwindow.cpp:524
 #: src/binaries/widget/mainwindow.cpp:734 src/binaries/widget/mainwindow.ui:286
@@ -1916,7 +1859,7 @@ msgstr "&Openen"
 #: src/binaries/widget/mainwindow.ui:66
 msgctxt "MainWindow|"
 msgid "&Panels"
-msgstr ""
+msgstr "&Panelen"
 
 #: src/binaries/widget/mainwindow.ui:70
 msgctxt "MainWindow|"
@@ -2417,25 +2360,16 @@ msgid "Remove Last line"
 msgstr "Laatste regel verwijderen"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:27
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Add line"
 msgctxt "Tablev1|"
 msgid "Add line"
 msgstr "Regel toevoegen"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:31
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove current Line"
 msgctxt "Tablev1|"
 msgid "Remove current Line"
 msgstr "Huidige regel verwijderen"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:37
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove Last line"
 msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Laatste regel verwijderen"
@@ -3157,12 +3091,10 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Juiste type service vinden is mislukt: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:337
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2) : error :\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
-msgstr "Port-mapping toevoegen is mislukt (%1/%2) : fout :\n"
+msgstr "Port-mapping toevoegen is mislukt (%1/%2) : fout :%3\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -4047,9 +3979,6 @@ msgid "Remove selected file"
 msgstr "Geselecteerd bestand verwijderen"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:189
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidget|"
 msgid "Add new directory"
 msgstr "Nieuwe map toevoegen"
@@ -4136,87 +4065,57 @@ msgid "repeat"
 msgstr "herhaal"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:237
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Root Directory:"
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr "Hoofdmap:"
+msgstr "Opzoek-directories:"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
 #: src/libraries/rwidgets/customs/playerwidget.ui:271
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
 #: src/libraries/rwidgets/customs/playerwidget.ui:285
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "..."
 msgctxt "PlayerWidgetUI|"
 msgid "..."
 msgstr "..."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:312
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Add directory…"
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr "Map toevoegen…"
+msgstr "directory toevoegen"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:315
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
-msgstr "Nieuwe map toevoegen"
+msgstr "Muziekdirectory toevoegen."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:326
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Page"
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
-msgstr "Pagina verwijderen"
+msgstr "Pad verwijderen"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:329
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
-msgstr "Geselecteerd bestand verwijderen"
+msgstr "Geselecteerde directory verwijderen"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:340
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Pdf path"
 msgctxt "PlayerWidgetUI|"
 msgid "Up path"
-msgstr "PDF-pad"
+msgstr "Pad omhoog"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:343
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
-msgstr "Selecteer map"
+msgstr "In de geselecteerde directory omhoog verplaatsen"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:354
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove Song"
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
-msgstr "Song verwijderen"
+msgstr "omlaag verplaatsen"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:357
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
-msgstr "Selecteer map"
+msgstr "In de geselecteerde directory omlaag verplaatsen "
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -5006,17 +4905,11 @@ msgid "Color:"
 msgstr "Kleur:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "PreferencesDialog|"
 msgid "GM Only"
-msgstr "Alleen-lezen"
+msgstr "Alleen GM"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "PC Move"
 msgctxt "PreferencesDialog|"
 msgid "PC Move"
 msgstr "PC-zet"
@@ -5024,7 +4917,7 @@ msgstr "PC-zet"
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:71
 msgctxt "PreferencesDialog|"
 msgid "PC All"
-msgstr ""
+msgstr "PC Alles"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:144
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:14
@@ -7762,17 +7655,12 @@ msgid "Rule"
 msgstr "Regel"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy, qt-format
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "%1 - (Character Sheet Viewer)"
+#, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (Viewer van blad met karakters)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
 msgstr "Onbekend"
