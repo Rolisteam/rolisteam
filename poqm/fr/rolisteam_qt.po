@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2024-09-01 18:10+0200\n"
+"PO-Revision-Date: 2024-10-08 12:13+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1306,49 +1306,31 @@ msgid "TextInput"
 msgstr "Saisie de texte"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:61
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "TextField"
-msgstr "Champ de texte"
+msgstr "Zone de texte"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:62
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextArea"
 msgctxt "TableCanvasField|"
 msgid "TextArea"
 msgstr "Zone de texte"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:63
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Select"
 msgctxt "TableCanvasField|"
 msgid "Select"
 msgstr "Sélectionner"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:64
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "TableCanvasField|"
 msgid "CheckBox"
 msgstr "Case à cocher"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:65
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "TableCanvasField|"
 msgid "Image"
 msgstr "Image"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:66
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "TableCanvasField|"
 msgid "Label"
 msgstr "Étiquette"
@@ -1362,25 +1344,16 @@ msgid "Dice Button"
 msgstr "Bouton de dés"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:68
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "TableCanvasField|"
 msgid "Function Button"
 msgstr "Bouton de fonction"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:69
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Web Page"
 msgctxt "TableCanvasField|"
 msgid "Web page"
 msgstr "Page Internet"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:70
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "TableCanvasField|"
 msgid "Slider"
 msgstr "Curseur"
@@ -1388,15 +1361,12 @@ msgstr "Curseur"
 #: src/binaries/rcse/tablecanvasfield.cpp:323
 msgctxt "TableCanvasField|"
 msgid "Select the column type"
-msgstr ""
+msgstr "Sélectionnez le type de colonne"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:324
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "Type of Field:"
-msgstr "Champ de texte"
+msgstr "Type de champ :"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1651,15 +1621,12 @@ msgstr "Demandez un mot de passe et retournez sa clé de hachage."
 #: src/binaries/widget/mainwindow.cpp:376
 msgctxt "MainWindow|"
 msgid "Side Panels"
-msgstr ""
+msgstr "Panneaux latéraux"
 
 #: src/binaries/widget/mainwindow.cpp:385
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "List of Players"
-msgstr "Lecteur audio"
+msgstr "Nombre de joueurs"
 
 #: src/binaries/widget/mainwindow.cpp:386
 #, fuzzy
@@ -1672,28 +1639,19 @@ msgstr "Contenu de la campagne"
 #: src/binaries/widget/mainwindow.cpp:387
 msgctxt "MainWindow|"
 msgid "List of antagonists"
-msgstr ""
+msgstr "Liste des antagonistes"
 
 #: src/binaries/widget/mainwindow.cpp:388
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "Music Player"
-msgstr "Lecteur audio"
+msgstr "Lecteur de musique"
 
 #: src/binaries/widget/mainwindow.cpp:389
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
 msgctxt "MainWindow|"
 msgid "Server Panel"
-msgstr "Serveur"
+msgstr "Panneau de serveur"
 
 #: src/binaries/widget/mainwindow.cpp:390
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Notification Zone"
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Zone de notifications"
@@ -1717,17 +1675,14 @@ msgid "Webpage url:"
 msgstr "URL de la page Internet :"
 
 #: src/binaries/widget/mainwindow.cpp:476
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "Open Map"
-msgstr "Ouvrir une campagne"
+msgstr "Ouvrir une carte"
 
 #: src/binaries/widget/mainwindow.cpp:476
 msgctxt "MainWindow|"
 msgid "Map:"
-msgstr ""
+msgstr "Carte :"
 
 #: src/binaries/widget/mainwindow.cpp:524
 #: src/binaries/widget/mainwindow.cpp:734 src/binaries/widget/mainwindow.ui:286
@@ -1924,7 +1879,7 @@ msgstr "&Ouvrir"
 #: src/binaries/widget/mainwindow.ui:66
 msgctxt "MainWindow|"
 msgid "&Panels"
-msgstr ""
+msgstr "&Panneaux"
 
 #: src/binaries/widget/mainwindow.ui:70
 msgctxt "MainWindow|"
@@ -2425,25 +2380,16 @@ msgid "Remove Last line"
 msgstr "Supprimer la dernière ligne"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:27
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Add line"
 msgctxt "Tablev1|"
 msgid "Add line"
 msgstr "Ajouter une ligne"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:31
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove current Line"
 msgctxt "Tablev1|"
 msgid "Remove current Line"
 msgstr "Supprimer la ligne courante"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:37
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove Last line"
 msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Supprimer la dernière ligne"
@@ -3168,12 +3114,12 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Impossible de trouver un type adapté de service : %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:337
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2) : error :\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
-msgstr "Impossible d'ajouter un mappage de ports (%1 / %2) : erreur\n"
+msgstr ""
+"Impossible d'ajouter une table de correspondance de ports (%1 / %2) : erreur "
+"%3\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -4058,12 +4004,9 @@ msgid "Remove selected file"
 msgstr "Supprimer le fichier sélectionné"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:189
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidget|"
 msgid "Add new directory"
-msgstr "Ajouter un nouveau dossier..."
+msgstr "Ajouter un nouveau dossier"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:332
 msgctxt "PlayerWidget|"
@@ -4147,87 +4090,57 @@ msgid "repeat"
 msgstr "répéter"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:237
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Root Directory:"
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr "Dossier racine : "
+msgstr "Dossiers de recherche :"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
 #: src/libraries/rwidgets/customs/playerwidget.ui:271
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
 #: src/libraries/rwidgets/customs/playerwidget.ui:285
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "..."
 msgctxt "PlayerWidgetUI|"
 msgid "..."
 msgstr "..."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:312
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Add directory…"
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr "Ajouter un dossier..."
+msgstr "ajouter un dossier"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:315
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
-msgstr "Ajouter un nouveau dossier..."
+msgstr "Ajouter un dossier de musique."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:326
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Page"
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
-msgstr "Supprimer la page"
+msgstr "Supprimer l'emplacement"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:329
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
-msgstr "Supprimer le fichier sélectionné"
+msgstr "Supprimer le dossier sélectionné"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:340
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Pdf path"
 msgctxt "PlayerWidgetUI|"
 msgid "Up path"
-msgstr "Emplacement « PDF »"
+msgstr "Emplacement supérieur"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:343
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
-msgstr "Sélectionner un dossier"
+msgstr "Déplacer le dossier sélectionné vers le haut"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:354
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove Song"
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
-msgstr "Supprimer une chanson"
+msgstr "Déplacer vers le bas"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:357
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
-msgstr "Sélectionner un dossier"
+msgstr "Déplacer le dossier sélectionné vers le bas"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -7785,17 +7698,12 @@ msgid "Rule"
 msgstr "Règle"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy, qt-format
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "%1 - (Character Sheet Viewer)"
+#, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (Afficheur de fiche de personnage)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
 msgstr "Inconnu"
