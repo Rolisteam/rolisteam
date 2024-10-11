@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2024-10-08 12:13+0200\n"
+"PO-Revision-Date: 2024-10-09 17:05+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1298,12 +1298,9 @@ msgid "Select"
 msgstr "Sélectionner"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:60
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextInput"
 msgctxt "TableCanvasField|"
 msgid "TextInput"
-msgstr "Saisie de texte"
+msgstr "Zone de saisie de texte"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:61
 msgctxt "TableCanvasField|"
@@ -1336,9 +1333,6 @@ msgid "Label"
 msgstr "Étiquette"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:67
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "TableCanvasField|"
 msgid "Dice Button"
 msgstr "Bouton de dés"
@@ -1629,12 +1623,9 @@ msgid "List of Players"
 msgstr "Nombre de joueurs"
 
 #: src/binaries/widget/mainwindow.cpp:386
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "Campaign Content"
 msgctxt "MainWindow|"
 msgid "All campaign documents"
-msgstr "Contenu de la campagne"
+msgstr "Totalité des documents de la partie"
 
 #: src/binaries/widget/mainwindow.cpp:387
 msgctxt "MainWindow|"
@@ -1657,12 +1648,9 @@ msgid "Notification Zone"
 msgstr "Zone de notifications"
 
 #: src/binaries/widget/mainwindow.cpp:404
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "GM Tools"
-msgstr "Outils"
+msgstr "Outils GM"
 
 #: src/binaries/widget/mainwindow.cpp:463
 msgctxt "MainWindow|"
@@ -4935,25 +4923,19 @@ msgid "Color:"
 msgstr "Couleur :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "PreferencesDialog|"
 msgid "GM Only"
-msgstr "Lecture seule"
+msgstr "GM uniquement"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "PC Move"
 msgctxt "PreferencesDialog|"
 msgid "PC Move"
-msgstr "Déplacer un pc"
+msgstr "Déplacement PC"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:71
 msgctxt "PreferencesDialog|"
 msgid "PC All"
-msgstr ""
+msgstr "Totalité des PC"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:144
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:14
