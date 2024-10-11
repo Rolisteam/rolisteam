@@ -145,7 +145,7 @@ Item {
                         property bool isErrorMessage: model.type === MessageInterface.Error
                         property bool mustBeOnTheRight: model.local && (isTextMessage || isCommandMessage)
                         anchors.right: mustBeOnTheRight ? parent.right : undefined
-                        width: (isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
+                        width: parent.width-10 //(isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
                         source: isTextMessage ? "TextMessageDelegate.qml" :
                                 isCommandMessage ? "CommandMessageDelegate.qml" :
                                 isDiceMessage ? "DiceMessageDelegate.qml" : "ErrorMessageDelegate.qml"
