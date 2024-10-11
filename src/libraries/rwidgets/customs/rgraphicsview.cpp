@@ -31,6 +31,7 @@
 #include "mediacontainers/mediacontainer.h"
 #include "rgraphicsview.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
+#include "worker/mediahelper.h"
 
 bool isNormalItem(const vmap::VisualItemController* itemCtrl)
 {
@@ -529,7 +530,7 @@ void RGraphicsView::createAction()
     connect(m_zoomCenterOnItem, SIGNAL(triggered(bool)), this, SLOT(centerOnItem()));
     connect(m_zoomInMax, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
     connect(m_zoomOutMax, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
-    connect(m_importImage, SIGNAL(triggered()), this, SLOT(addImageToMap()));
+    connect(m_importImage, &QAction::triggered, this, &RGraphicsView::addImageToMap);
     connect(m_zoomOut, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
     connect(m_zoomIn, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
 
@@ -790,5 +791,9 @@ void RGraphicsView::addImageToMap()
     if(QDialog::Accepted != dialog.exec())
         return;
 
-    // TODO use the image
+    auto data= ctrl.imageData();
+    auto path= ctrl.address();
+
+    auto params= MediaHelper::addImageIntoController(mapToScene(m_menuPoint), path, data);
+    m_ctrl->insertItemAt(params);
 }
