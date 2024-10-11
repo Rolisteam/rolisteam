@@ -194,7 +194,18 @@ QPixmap ImageModel::pixmapFromKey(QString id)
 
 void ImageModel::reloadImage(const QModelIndex& index)
 {
-    /// TODO
+    if(!index.isValid())
+        return;
+
+    auto const& i= static_cast<std::size_t>(index.row());
+    if(i >= m_data.size())
+        return;
+
+    auto& info= m_data.at(i);
+
+    QPixmap newPix(info.filename);
+    info.pixmap= newPix;
+    emit dataChanged(index, index);
 }
 
 const std::vector<ImageModel::ImageInfo>& ImageModel::imageInfos() const
