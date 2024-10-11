@@ -85,7 +85,7 @@ signals:
     void visibleChanged(bool);
     void ownerIdChanged();
     void uriNameChanged();
-    void addWidgetToMdiArea(QWidget*,const QString& str);
+    void addWidgetToMdiArea(QWidget*, const QString& str);
     void errorOccurs(const QString& error);
 
 public slots:
@@ -95,7 +95,6 @@ public slots:
 protected:
     QPointer<MediaControllerBase> m_lifeCycleCtrl;
     QString m_filter;
-    PreferencesManager* m_preferences;
     QCursor* m_currentCursor= nullptr;
     QAction* m_detachedDialog;
     ContainerType m_containerType;

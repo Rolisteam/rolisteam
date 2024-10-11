@@ -89,8 +89,6 @@ void BackgroundButton::paintEvent(QPaintEvent* event)
 
 VColorSelector::VColorSelector(QWidget* parent) : QWidget(parent)
 {
-    m_options= PreferencesManager::getInstance();
-
     // Creation du layout principale
     QVBoxLayout* selecteurLayout= new QVBoxLayout(this);
 

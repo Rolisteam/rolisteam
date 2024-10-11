@@ -48,7 +48,7 @@ RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
 
     setAcceptDrops(true);
     setAlignment((Qt::AlignLeft | Qt::AlignTop));
-    m_preferences= PreferencesManager::getInstance();
+    m_preferences= m_ctrl->preferences();
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
     // fitInView(sceneRect(),Qt::KeepAspectRatio);
@@ -781,6 +781,8 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
 
 void RGraphicsView::addImageToMap()
 {
+    if(!m_preferences)
+        return;
     ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::AnyShape,
                                  m_preferences->value("ImageDirectory", QDir::homePath()).toString());
     ImageSelectorDialog dialog(&ctrl, this);

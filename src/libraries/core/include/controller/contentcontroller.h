@@ -154,7 +154,7 @@ private:
 
     QPointer<QClipboard> m_clipboard;
 
-    PreferencesManager* m_preferences= nullptr;
+    QPointer<PreferencesManager> m_preferences;
     QString m_gameMasterId;
     QString m_localId;
     QColor m_localColor;

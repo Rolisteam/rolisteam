@@ -24,8 +24,6 @@
 #include <QMetaType>
 #include <QSettings>
 
-PreferencesManager* PreferencesManager::m_singleton= nullptr;
-
 PreferencesManager::PreferencesManager(const QString& applicationName, const QString& subname)
     : m_optionDictionary(nullptr), m_applicationName(applicationName), m_subname(subname)
 {
@@ -39,9 +37,6 @@ PreferencesManager::PreferencesManager(const QString& applicationName, const QSt
     m_optionDictionary->insert("MinutesDirectory", QDir::homePath());
     m_optionDictionary->insert("ChatDirectory", QDir::homePath());
     m_optionDictionary->insert("DataDirectory", QDir::homePath());
-
-    // TODO To remove
-    m_singleton= this;
 }
 
 PreferencesManager::~PreferencesManager()
@@ -49,15 +44,6 @@ PreferencesManager::~PreferencesManager()
     delete m_optionDictionary;
 }
 
-PreferencesManager* PreferencesManager::getInstance()
-{
-    if(m_singleton == nullptr)
-    {
-        m_singleton= new PreferencesManager({}, {});
-    }
-
-    return m_singleton;
-}
 bool PreferencesManager::registerValue(const QString& key, QVariant value, bool overwrite)
 {
     if((overwrite) || (!m_optionDictionary->contains(key)))

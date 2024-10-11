@@ -1,31 +1,23 @@
-#include <QtTest/QtTest>
 #include <QGraphicsObject>
 #include <QStyledItemDelegate>
+#include <QtTest/QtTest>
 
+#include "XML_Editor.h"
 #include "aboutrcse.h"
 #include "alignmentdelegate.h"
 #include "borderlisteditor.h"
 #include "charactercontroller.h"
 #include "characterlist.h"
 #include "charactersheet/charactersheet.h"
-#include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheet_global.h"
 #include "charactersheet/charactersheetbutton.h"
 #include "charactersheet/charactersheetitem.h"
-#include "charactersheet/charactersheetitem.h"
-#include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/controllers/fieldcontroller.h"
-#include "charactersheet/controllers/fieldcontroller.h"
-#include "charactersheet/controllers/section.h"
 #include "charactersheet/controllers/section.h"
 #include "charactersheet/controllers/tablefield.h"
-#include "charactersheet/controllers/tablefield.h"
-#include "charactersheet/csitem.h"
 #include "charactersheet/csitem.h"
 #include "charactersheet/imagemodel.h"
-#include "charactersheet/imagemodel.h"
-#include "charactersheet/rolisteamimageprovider.h"
 #include "charactersheet/rolisteamimageprovider.h"
 #include "charactersheet_formula/formula_global.h"
 #include "charactersheet_formula/formulamanager.h"
@@ -38,7 +30,8 @@
 #include "charactersheet_formula/parsingtoolformula.h"
 #include "charactersheet_widgets/charactersheet_widget_global.h"
 #include "charactersheet_widgets/sheetwidget.h"
-#include "charactersheet_widgets/sheetwidget.h"
+#include "charactersheetitem.h"
+#include "clientmanager.h"
 #include "codeedit.h"
 #include "codeeditor.h"
 #include "codeeditordialog.h"
@@ -58,7 +51,6 @@
 #include "controller/controllerinterface.h"
 #include "controller/gamecontroller.h"
 #include "controller/instantmessagingcontroller.h"
-#include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/item_controllers/ellipsecontroller.h"
 #include "controller/item_controllers/gridcontroller.h"
@@ -82,7 +74,6 @@
 #include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/selectconnprofilecontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
-#include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 #include "controllers/maincontroller.h"
@@ -119,21 +110,26 @@
 #include "instantmessaging/textmessage.h"
 #include "instantmessaging/textwritercontroller.h"
 #include "itemeditor.h"
+#include "maincontroller.h"
+#include "mappinghelper.h"
 #include "media/mediafactory.h"
 #include "media/mediatype.h"
+#include "mediamodel.h"
+#include "minditem.h"
+#include "minditemmodel.h"
 #include "mindmap/controller/selectioncontroller.h"
 #include "mindmap/controller/spacingcontroller.h"
 #include "mindmap/data/mindmaptypes.h"
 #include "mindmap/data/mindnode.h"
 #include "mindmap/data/nodestyle.h"
 #include "mindmap/geometry/linknode.h"
-#include "maincontroller.h"
 #include "mindmap/model/imagemodel.h"
 #include "mindmap/model/minditemmodel.h"
 #include "mindmap/model/nodeimageprovider.h"
 #include "mindmap/model/nodestylemodel.h"
 #include "mindmap/qmlItems/linkitem.h"
 #include "mindmap/worker/fileserializer.h"
+#include "mindmapcontrollerbase.h"
 #include "model/actiononlistmodel.h"
 #include "model/charactermodel.h"
 #include "model/characterstatemodel.h"
@@ -185,12 +181,18 @@
 #include "network/serverconnection.h"
 #include "network/timeaccepter.h"
 #include "network/treeitem.h"
+#include "notecontainer.h"
 #include "pdfmanager.h"
+#include "positioneditem.h"
 #include "preferences/preferenceslistener.h"
 #include "preferences/rcsepreferencesmanager.h"
+#include "proxystatemodel.h"
 #include "qml_components/avatarprovider.h"
 #include "qml_views/include/qml_views/image_selector.h"
+#include "rcse/mainwindow.h"
 #include "rcseapplicationcontroller.h"
+#include "rolisteamapplication.h"
+#include "rolisteamdaemon.h"
 #include "rwidgets/commands/movevmapitem.h"
 #include "rwidgets/customs/centeredcheckbox.h"
 #include "rwidgets/customs/checkedlabel.h"
@@ -295,8 +297,13 @@
 #include "services/tipchecker.h"
 #include "services/updatechecker.h"
 #include "session/sessionitemmodel.h"
+#include "sheetcontroller.h"
+#include "sheetproperties.h"
 #include "sidemenucontroller.h"
+#include "slidercontroller.h"
+#include "statedelegate.h"
 #include "tablecanvasfield.h"
+#include "textedit.h"
 #include "updater/controller/audioplayerupdater.h"
 #include "updater/controller/servermanagerupdater.h"
 #include "updater/media/campaignupdater.h"
@@ -316,10 +323,13 @@
 #include "updater/vmapitem/rectcontrollerupdater.h"
 #include "updater/vmapitem/textcontrollerupdater.h"
 #include "updater/vmapitem/vmapitemcontrollerupdater.h"
+#include "upnp/upnpnat.h"
 #include "utils/countdownobject.h"
 #include "utils/iohelper.h"
 #include "utils/networkdownloader.h"
+#include "visualitemcontroller.h"
 #include "vtoolbar.h"
+#include "widget/mainwindow.h"
 #include "worker/autosavecontroller.h"
 #include "worker/convertionhelper.h"
 #include "worker/fileserializer.h"
@@ -330,36 +340,11 @@
 #include "worker/playermessagehelper.h"
 #include "worker/utilshelper.h"
 #include "worker/vectorialmapmessagehelper.h"
-#include "clientmanager.h"
 #include "workspace.h"
-#include "upnp/upnpnat.h"
-#include "positioneditem.h"
-#include "proxystatemodel.h"
-#include "rolisteamapplication.h"
-#include "rolisteamdaemon.h"
-#include "rcse/mainwindow.h"
-#include "widget/mainwindow.h"
-#include "mappinghelper.h"
-#include "mediamodel.h"
-#include "minditem.h"
-#include "minditemmodel.h"
-#include "mindmapcontrollerbase.h"
-#include "notecontainer.h"
-#include "sheetcontroller.h"
-#include "sheetproperties.h"
-#include "sidemenucontroller.h"
-#include "slidercontroller.h"
-#include "statedelegate.h"
-#include "tablecanvasfield.h"
-#include "textedit.h"
-#include "charactersheetitem.h"
-#include "visualitemcontroller.h"
-#include "XML_Editor.h"
 
-
+#include <QWidget>
 #include <helper.h>
 #include <memory>
-#include <QWidget>
 
 class QObjectsTest : public QObject
 {
@@ -392,8 +377,8 @@ void QObjectsTest::propertiesTest()
     QFETCH(QObject*, object);
     QFETCH(bool, setAgain);
 
-    auto meta = object->metaObject();
-    qDebug() <<"class:" <<meta->className();
+    auto meta= object->metaObject();
+    qDebug() << "class:" << meta->className();
     auto res= Helper::testAllProperties(object, setAgain);
     if(!res.second.isEmpty())
         QVERIFY(res.first);
@@ -409,7 +394,6 @@ void QObjectsTest::propertiesTest_data()
 {
     QTest::addColumn<QObject*>("object");
     QTest::addColumn<bool>("setAgain");
-
 
     auto model= new ProfileModel();
     auto profileCtrl= new SelectConnProfileController(model);
@@ -454,7 +438,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("CategoryModel obj") << static_cast<QObject*>(new GMTOOL::CategoryModel()) << true;
     QTest::addRow("CenteredCheckBox") << static_cast<QObject*>(new CenteredCheckBox()) << true;
     QTest::addRow("Channel") << static_cast<QObject*>(new Channel()) << true;
-    QTest::addRow("ChannelListPanel") << static_cast<QObject*>(new ChannelListPanel(new NetworkController())) << true;
+    QTest::addRow("ChannelListPanel") << static_cast<QObject*>(new ChannelListPanel(nullptr, new NetworkController())) << true;
     QTest::addRow("ChannelModel") << static_cast<QObject*>(new ChannelModel()) << true;
     auto character = new Character();
     character->setHealthPointsMax(std::numeric_limits<int>::max());
@@ -540,7 +524,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("GridItem obj") << static_cast<QObject*>(new GridItem(nullptr)) << true;
     QTest::addRow("HeartBeatSender")  << static_cast<QObject*>(new HeartBeatSender())<< true ;
     QTest::addRow("HiddingButton")  << static_cast<QObject*>(new HiddingButton(nullptr))<< true ;
-    QTest::addRow("HighlighterItem obj") << static_cast<QObject*>(new HighlighterItem({}, 3, Qt::red, nullptr, false))                                         << true;
+    QTest::addRow("HighlighterItem obj") << static_cast<QObject*>(new HighlighterItem(nullptr, {}, 3, Qt::red, nullptr, false))                                         << true;
     QTest::addRow("HistoryModel") << static_cast<QObject*>(new history::HistoryModel()) << true;
     QTest::addRow("HistoryViewerDialog") << static_cast<QObject*>(new HistoryViewerDialog(nullptr)) << true;
     QTest::addRow("Image") << static_cast<QObject*>(new Image(new ImageController())) << true;
@@ -584,7 +568,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("RCSE::MainController")  << static_cast<QObject*>(new rcse::MainController())<< true ;
     QTest::addRow("rcse::MainWindow")  << static_cast<QObject*>(new rcse::MainWindow())<< true ;
     //QTest::addRow("MainWindow")  << static_cast<QObject*>(new MainWindow(new GameController(Helper::randomString(),Helper::randomString(), nullptr), {}))<< true ;
-    QTest::addRow("MapWizzardDialog") << static_cast<QObject*>(new MapWizzardDialog()) << true;
+    QTest::addRow("MapWizzardDialog") << static_cast<QObject*>(new MapWizzardDialog(nullptr)) << true;
     QTest::addRow("MappingHelper")  << static_cast<QObject*>(new utils::MappingHelper())<< true ;
     QTest::addRow("MarkDownHighlighter") << static_cast<QObject*>(new MarkDownHighlighter()) << true;
     QTest::addRow("Media") << static_cast<QObject*>(new campaign::Media({}, {}, {}, Core::MediaType::AudioFile)) << true;
@@ -638,7 +622,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("PlayerModel") << static_cast<QObject*>(new PlayerModel()) << true;
     QTest::addRow("PlayerProxyModel") << static_cast<QObject*>(new PlayerProxyModel()) << true;
     QTest::addRow("PlayerWidget") << static_cast<QObject*>(new PlayerWidget(nullptr)) << true;
-    QTest::addRow("PlayersPanel") << static_cast<QObject*>(new PlayersPanel(nullptr)) << true;
+    QTest::addRow("PlayersPanel") << static_cast<QObject*>(new PlayersPanel(nullptr, nullptr)) << true;
     QTest::addRow("PositionedItem")  << static_cast<QObject*>(new mindmap::PositionedItem(mindmap::MindItem::LinkType))<< true ;
     QTest::addRow("PreferencesController") << static_cast<QObject*>(new PreferencesController()) << false;
     QTest::addRow("PreferencesDialog") << static_cast<QObject*>(new PreferencesDialog(new PreferencesController()))                                       << true;

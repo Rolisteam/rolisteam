@@ -172,6 +172,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
             {
                 if(nullptr == ctrl)
                     return;
+                ctrl->setPreferences(m_preferences);
                 connect(ctrl, &MediaControllerBase::performCommand, this, &ContentController::performCommand);
                 connect(ctrl, &MediaControllerBase::popCommand, this, &ContentController::popCommand);
                 emit mediaControllerCreated(ctrl);

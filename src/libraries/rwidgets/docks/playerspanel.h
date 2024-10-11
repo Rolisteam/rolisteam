@@ -38,6 +38,7 @@ class PersonDialog;
 class Person;
 class PlayerOnMapModel;
 class PlayerController;
+class PreferencesManager;
 
 namespace Ui
 {
@@ -53,7 +54,7 @@ class RWIDGET_EXPORT PlayersPanel : public QWidget
 {
     Q_OBJECT
 public:
-    PlayersPanel(PlayerController* ctrl, QWidget* parent= nullptr);
+    PlayersPanel(PlayerController* ctrl, PreferencesManager* pref, QWidget* parent= nullptr);
     ~PlayersPanel();
 
 private:

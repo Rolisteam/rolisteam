@@ -26,7 +26,7 @@
 #include <QPushButton>
 #include <QWidget>
 
-//#include "types.h"
+// #include "types.h"
 #include "rwidgets/rwidgets_global.h"
 #include "vcolortablechooser.h"
 
@@ -149,10 +149,6 @@ private:
      */
     QColor m_currentColor;
 
-    /**
-     * pointer to the unique instance of preference manager.
-     */
-    PreferencesManager* m_options;
     /**
      * @brief m_colorTableChooser
      */

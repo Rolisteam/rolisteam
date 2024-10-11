@@ -40,11 +40,12 @@
  * PlayersPanel *
  ********************/
 
-PlayersPanel::PlayersPanel(PlayerController* ctrl, QWidget* parent)
+PlayersPanel::PlayersPanel(PlayerController* ctrl, PreferencesManager* pref, QWidget* parent)
     : QWidget(parent), m_ui(new Ui::PlayersPanel), m_ctrl(ctrl)
 {
     m_ui->setupUi(this);
     m_ui->m_playerView->setPlayerController(ctrl);
+    m_ui->m_playerView->setPreferences(pref);
 
     m_ui->m_addBtn->setDefaultAction(m_ui->m_addLocalCharacter);
     m_ui->m_addLocalCharacter->setIcon(QIcon::fromTheme("add_round"));

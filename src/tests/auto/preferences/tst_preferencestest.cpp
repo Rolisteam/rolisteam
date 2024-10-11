@@ -74,14 +74,15 @@ void PreferencesTest::testOverridePreferenceValue()
 }
 void PreferencesTest::initTestCase()
 {
-    m_preferences= PreferencesManager::getInstance();
+    m_preferences= new PreferencesManager("Rolisteam", "tests");
 }
 
 void PreferencesTest::testLambdaFunction()
 {
     m_count= 0;
     m_preferences->registerValue("key", 300);
-    auto func= [this](QVariant value) {
+    auto func= [this](QVariant value)
+    {
         QCOMPARE(value.toInt(), 25);
         m_count++;
     };

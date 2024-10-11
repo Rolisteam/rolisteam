@@ -23,11 +23,14 @@
 #include <QColor>
 #include <QMimeData>
 #include <QObject>
+#include <QPointer>
 #include <QUrl>
 #include <memory>
 
 #include <core_global.h>
 #include <media/mediatype.h>
+#include <preferences/preferencesmanager.h>
+
 class QUndoCommand;
 class CORE_EXPORT MediaControllerBase : public QObject
 {
@@ -43,6 +46,7 @@ class CORE_EXPORT MediaControllerBase : public QObject
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
     Q_PROPERTY(QColor localColor READ localColor WRITE setLocalColor NOTIFY localColorChanged)
     Q_PROPERTY(bool remote READ remote CONSTANT)
+    Q_PROPERTY(PreferencesManager* preferences READ preferences WRITE setPreferences NOTIFY preferencesChanged)
 public:
     MediaControllerBase(const QString& id, Core::ContentType contentType, QObject* parent= nullptr);
     virtual ~MediaControllerBase() override;
@@ -67,6 +71,9 @@ public:
     const QColor& localColor() const;
     void setLocalColor(const QColor& newLocalColor);
 
+    PreferencesManager* preferences() const;
+    void setPreferences(PreferencesManager* newPreference);
+
 signals:
     void nameChanged(QString);
     void uuidChanged(QString);
@@ -81,6 +88,8 @@ signals:
     void urlChanged(QUrl path);
     void closeMe(QString id);
     void localColorChanged();
+
+    void preferencesChanged();
 
 public slots:
     void setName(const QString& name);
@@ -107,6 +116,7 @@ protected:
     QString m_ownerId;
     QString m_localId;
     QColor m_localColor;
+    QPointer<PreferencesManager> m_preferences;
 };
 
 #endif // ABSTRACTMEDIACONTROLLER_H

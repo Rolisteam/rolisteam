@@ -44,7 +44,7 @@ public:
      * @brief constructor
      * @param parent, pointer to the parent widget.
      */
-    MapWizzardDialog(QWidget* parent= nullptr);
+    MapWizzardDialog(PreferencesManager* pref, QWidget* parent= nullptr);
     /**
      * @brief destructor
      */
@@ -82,7 +82,7 @@ private:
     /**
      * @brief pointer to the unique instance of preference manager.
      */
-    PreferencesManager* m_options;
+    QPointer<PreferencesManager> m_options;
 
     /**
      * @brief model gathering all grid patterns.

@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     p1->addCharacter("aa", "Baron Arkonen", Qt::cyan, {}, {}, false);
     model->addPlayer(p1);
 
-    PlayersPanel view(&ctrl);
+    PlayersPanel view(&ctrl, nullptr);
 
     view.show();
     return app.exec();

@@ -13,8 +13,8 @@
 #include "network/serverconnection.h"
 #include "preferences/preferencesmanager.h"
 
-ChannelListPanel::ChannelListPanel(NetworkController* ctrl, QWidget* parent)
-    : QWidget(parent), ui(new Ui::ChannelListPanel), m_ctrl(ctrl), m_currentGroups(VIEWER)
+ChannelListPanel::ChannelListPanel(PreferencesManager* preferences, NetworkController* ctrl, QWidget* parent)
+    : QWidget(parent), ui(new Ui::ChannelListPanel), m_ctrl(ctrl), m_pref(preferences), m_currentGroups(VIEWER)
 {
     ui->setupUi(this);
     ui->m_channelView->setModel(m_ctrl->channelModel());
@@ -296,14 +296,14 @@ void ChannelListPanel::banUser()
 
 void ChannelListPanel::logAsAdmin()
 {
-    PreferencesManager* preferences= PreferencesManager::getInstance();
+    QString pwadmin;
 
-    QString pwadmin= preferences->value(QString("adminPassword_for_%1").arg(m_serverName), QString()).toString();
+    if(m_pref)
+        pwadmin= m_pref->value(QString("adminPassword_for_%1").arg(m_serverName), QString()).toString();
 
     if(pwadmin.isEmpty())
-    {
         pwadmin= QInputDialog::getText(this, tr("Admin Password"), tr("Password"), QLineEdit::Password);
-    }
+
     auto pwA= QCryptographicHash::hash(pwadmin.toUtf8(), QCryptographicHash::Sha3_512);
     sendOffLoginAdmin(pwA);
 }

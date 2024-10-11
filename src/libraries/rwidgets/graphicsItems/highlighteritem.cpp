@@ -27,9 +27,13 @@
 #include <cmath>
 #include <math.h>
 
-HighlighterItem::HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent,
-                                 bool autoDestruction)
-    : QGraphicsObject(parent), m_center(center), m_color(penColor), m_penSize(static_cast<quint16>(penSize))
+HighlighterItem::HighlighterItem(PreferencesManager* pref, const QPointF& center, int penSize, const QColor& penColor,
+                                 QGraphicsItem* parent, bool autoDestruction)
+    : QGraphicsObject(parent)
+    , m_preferences(pref)
+    , m_center(center)
+    , m_color(penColor)
+    , m_penSize(static_cast<quint16>(penSize))
 {
     setZValue(std::numeric_limits<qreal>::max());
     m_center= center;
@@ -43,25 +47,24 @@ HighlighterItem::HighlighterItem(const QPointF& center, int penSize, const QColo
 
 void HighlighterItem::initAnimation(bool autoDestruction)
 {
-    if(autoDestruction)
-    {
-        auto const preferences= PreferencesManager::getInstance();
-        m_animation= new QPropertyAnimation(this, "radius");
-        m_animation->setDuration(preferences->value("Map_Highlighter_time", 1000).toInt());
-        m_animation->setStartValue(0);
-        m_animation->setEndValue(preferences->value("Map_Highlighter_radius", 100).toInt());
-        m_animation->setEasingCurve(QEasingCurve::Linear);
-        m_animation->setLoopCount(preferences->value("Map_Highlighter_loop", 3).toInt());
+    if(!autoDestruction)
+        return;
 
-        connect(m_animation, &QPropertyAnimation::finished, this,
-                [this]()
-                {
-                    // setVisible(false);
-                    // emit itemRemoved(m_id, true, false);
-                    deleteLater();
-                });
-        m_animation->start();
-    }
+    m_animation= new QPropertyAnimation(this, "radius");
+    m_animation->setDuration(m_preferences ? m_preferences->value("Map_Highlighter_time", 1000).toInt() : 1000);
+    m_animation->setStartValue(0);
+    m_animation->setEndValue(m_preferences ? m_preferences->value("Map_Highlighter_radius", 100).toInt() : 100);
+    m_animation->setEasingCurve(QEasingCurve::Linear);
+    m_animation->setLoopCount(m_preferences ? m_preferences->value("Map_Highlighter_loop", 3).toInt() : 3);
+
+    connect(m_animation, &QPropertyAnimation::finished, this,
+            [this]()
+            {
+                // setVisible(false);
+                // emit itemRemoved(m_id, true, false);
+                deleteLater();
+            });
+    m_animation->start();
 }
 QRectF HighlighterItem::boundingRect() const
 {

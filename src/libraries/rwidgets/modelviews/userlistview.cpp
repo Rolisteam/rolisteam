@@ -86,6 +86,11 @@ void UserListView::setPlayerController(PlayerController* ctrl)
     m_ctrl= ctrl;
 }
 
+void UserListView::setPreferences(PreferencesManager* preferences)
+{
+    m_preferences= preferences;
+}
+
 void UserListView::setState()
 {
     auto act= qobject_cast<QAction*>(sender());
@@ -300,13 +305,10 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
 
 void UserListView::addAvatar()
 {
-    /// @TODO: Here! options manager is required to get access to the photo directory
-    PreferencesManager* m_preferencesManager= PreferencesManager::getInstance();
     QString directory(".");
-    if(nullptr != m_preferencesManager)
-    {
-        directory= m_preferencesManager->value("imageDirectory", QDir::homePath()).toString();
-    }
+    if(m_preferences)
+        directory= m_preferences->value("imageDirectory", QDir::homePath()).toString();
+
     ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
     ImageSelectorDialog dialog(&ctrl, this);
     if(QDialog::Accepted != dialog.exec())

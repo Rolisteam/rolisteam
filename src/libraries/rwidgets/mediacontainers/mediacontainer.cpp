@@ -24,11 +24,7 @@
 #include <QMessageBox>
 
 MediaContainer::MediaContainer(MediaControllerBase* ctrl, ContainerType containerType, QWidget* parent)
-    : QMdiSubWindow(parent)
-    , m_lifeCycleCtrl(ctrl)
-    , m_preferences(PreferencesManager::getInstance())
-    , m_currentCursor(nullptr)
-    , m_containerType(containerType)
+    : QMdiSubWindow(parent), m_lifeCycleCtrl(ctrl), m_currentCursor(nullptr), m_containerType(containerType)
 {
     setAttribute(Qt::WA_DeleteOnClose, false);
     m_detachedDialog= new QAction(tr("Detach the view"), this);

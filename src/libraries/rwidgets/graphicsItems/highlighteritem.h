@@ -20,13 +20,14 @@
 #ifndef HIGHLIGHTERITEM_H
 #define HIGHLIGHTERITEM_H
 
-#include "rwidgets_global.h"
 #include <QGraphicsObject>
+#include <QPointer>
+
+#include "rwidgets_global.h"
+
 class QPropertyAnimation;
-namespace vmap
-{
-class VisualItemController;
-}
+
+class PreferencesManager;
 /**
  * @brief displays an ellipse on maps.
  */
@@ -41,8 +42,8 @@ public:
      * @param either the shape is filled or not
      * @param color used for drawing it.
      */
-    HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent= nullptr,
-                    bool autoDestruction= true);
+    HighlighterItem(PreferencesManager* preference, const QPointF& center, int penSize, const QColor& penColor,
+                    QGraphicsItem* parent= nullptr, bool autoDestruction= true);
     /**
      * @brief paint the ellipse at the correct position
      */
@@ -65,6 +66,7 @@ protected:
     void initAnimation(bool autoDestruction);
 
 private:
+    QPointer<PreferencesManager> m_preferences;
     qreal m_radius;
     QPointF m_center;
     QColor m_color;

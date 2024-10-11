@@ -199,7 +199,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     m_antagonistWidget.reset(new campaign::AntagonistBoard(m_gameController->campaignManager()->editor()));
 
     m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this)});
-    m_roomPanel= new ChannelListPanel(m_gameController->networkController(), this);
+    m_roomPanel
+        = new ChannelListPanel(m_gameController->preferencesManager(), m_gameController->networkController(), this);
 
     connect(m_gameController, &GameController::localIsGMChanged, this, [this](){
         updateUi();
@@ -380,7 +381,8 @@ void MainWindow::createTabs()
 
     m_sideTabs->setIconSize(QSize(32, 32));
 
-    auto playersListWidget= new PlayersPanel(m_gameController->playerController(), this);
+    auto playersListWidget
+        = new PlayersPanel(m_gameController->playerController(), m_gameController->preferencesManager(), this);
     m_sideTabs->addTab(playersListWidget, QIcon::fromTheme("01_players"), tr("List of Players"));
     m_sideTabs->addTab(m_campaignDock.get(), QIcon::fromTheme("02_campaign2"), tr("All campaign documents"));
     m_sideTabs->addTab(m_antagonistWidget.get(), QIcon::fromTheme("03_antagonist"), tr("List of antagonists"));
@@ -689,7 +691,7 @@ void MainWindow::makeVisible(bool value)
 
 void MainWindow::newVMap()
 {
-    MapWizzardDialog mapWizzard(m_mdiArea.get());
+    MapWizzardDialog mapWizzard(m_preferences, m_mdiArea.get());
     if(mapWizzard.exec())
     {
         std::map<QString, QVariant> params;

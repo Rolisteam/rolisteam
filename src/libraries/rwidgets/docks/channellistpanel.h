@@ -7,7 +7,7 @@
 #include "controller/networkcontroller.h"
 #include "network/channelmodel.h"
 #include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
+#include "preferences/preferencesmanager.h"
 #include "rwidgets_global.h"
 
 namespace Ui
@@ -28,7 +28,7 @@ public:
     };
     Q_DECLARE_FLAGS(Groups, Group)
 
-    explicit ChannelListPanel(NetworkController* ctrl, QWidget* parent= nullptr);
+    explicit ChannelListPanel(PreferencesManager* preferences, NetworkController* ctrl, QWidget* parent= nullptr);
     virtual ~ChannelListPanel();
 
     void processMessage(NetworkMessageReader* msg);
@@ -76,6 +76,7 @@ protected slots:
 private:
     Ui::ChannelListPanel* ui;
     QPointer<NetworkController> m_ctrl;
+    QPointer<PreferencesManager> m_pref;
 
     QAction* m_edit= nullptr;
     QAction* m_lock= nullptr;

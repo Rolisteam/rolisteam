@@ -53,8 +53,6 @@ public:
      */
     PreferencesManager(const QString& applicationName, const QString& subname);
 
-    [[deprecated]] static PreferencesManager* getInstance();
-
     /**
      * @brief  desturctor
      */
@@ -102,11 +100,6 @@ signals:
     void readyChanged();
 
 private:
-    /**
-     * Static reference, part of the singleton pattern
-     */
-    static PreferencesManager* m_singleton;
-
     /**
      * data structure to store any element.
      * The key is a QString, the value is a QVariant.

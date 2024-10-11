@@ -29,32 +29,28 @@
 #define DEFAULT_VMAP_WIDTH 800
 #define DEFAULT_VMAP_HEIGHT 600
 
-MapWizzardDialog::MapWizzardDialog(QWidget* parent) : QDialog(parent), ui(new Ui::MapWizzardDialog)
+MapWizzardDialog::MapWizzardDialog(PreferencesManager* pref, QWidget* parent)
+    : QDialog(parent), ui(new Ui::MapWizzardDialog), m_options(pref)
 {
     ui->setupUi(this);
     m_model= new PatternModel();
 
     ui->m_gridPattern->setModel(m_model);
 
-    m_options= PreferencesManager::getInstance();
-
-    QColor bgColor= m_options->value(QString("MapWizzard/backgroundcolor"), QColor(255, 255, 255)).value<QColor>();
-
-    //    ui->m_colorButton->setStyleSheet(QString("background-color:
-    //    rgb(%1,%2,%3)").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
-    ui->m_colorButton->setColor(bgColor);
-    // connect(ui->m_colorButton,SIGNAL(clicked()),this,SLOT(clickOnColorButton()));
-    ui->m_gridColorBtn->setColor(QColor(0, 0, 0));
-
     m_permissionData << tr("No Right") << tr("His character") << tr("All Permissions");
     ui->m_permissionComboBox->addItems(m_permissionData);
-    ui->m_permissionComboBox->setCurrentIndex(
-        PreferencesManager::getInstance()->value("defaultPermissionMap", 0).toInt());
 
     m_visibilityData << tr("Hidden") << tr("Fog of War") << tr("All visible");
     ui->m_visibilityComboBox->addItems(m_visibilityData);
-    ui->m_visibilityComboBox->setCurrentIndex(
-        PreferencesManager::getInstance()->value("defaultMapVisibility", 0).toInt());
+    ui->m_gridColorBtn->setColor(QColor(0, 0, 0));
+
+    if(m_options)
+    {
+        QColor bgColor= m_options->value(QString("MapWizzard/backgroundcolor"), QColor(255, 255, 255)).value<QColor>();
+        ui->m_colorButton->setColor(bgColor);
+        ui->m_permissionComboBox->setCurrentIndex(m_options->value("defaultPermissionMap", 0).toInt());
+        ui->m_visibilityComboBox->setCurrentIndex(m_options->value("defaultMapVisibility", 0).toInt());
+    }
 
     // selectedShapeChanged();
 }

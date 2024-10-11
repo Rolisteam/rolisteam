@@ -29,6 +29,7 @@ class UserListDelegate;
 class Person;
 class CharacterAction;
 class PlayerController;
+class PreferencesManager;
 /**
  * @brief custom view to display tree person
  */
@@ -47,6 +48,8 @@ public:
 
     explicit UserListView(QWidget* parent= nullptr);
     void setPlayerController(PlayerController* ctrl);
+    void setPreferences(PreferencesManager* preferences);
+
 public slots:
     void editCurrentItemColor();
 
@@ -65,6 +68,7 @@ protected slots:
 
 private:
     QPointer<PlayerController> m_ctrl;
+    QPointer<PreferencesManager> m_preferences;
     std::unique_ptr<QAction> m_addAvatarAct;
     std::unique_ptr<QAction> m_removeAvatarAct;
     std::unique_ptr<QAction> m_changeName;

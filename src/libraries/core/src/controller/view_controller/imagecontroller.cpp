@@ -32,6 +32,7 @@ ImageController::ImageController(const QString& id, const QString& name, const Q
     : MediaControllerBase(id, Core::ContentType::PICTURE, parent), m_data(data)
 {
     setName(name);
+    setFitWindow(m_preferences ? m_preferences->value("PictureAdjust", true).toBool() : true);
     setUrl(url);
     if(m_data.isEmpty() && !url.isEmpty() && (url.isLocalFile() || url.scheme() == RESOURCE_SCHEME))
     {

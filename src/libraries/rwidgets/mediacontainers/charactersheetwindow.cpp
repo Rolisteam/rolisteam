@@ -64,8 +64,9 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     if(m_sheetCtrl)
         m_ui->m_treeview->setModel(m_sheetCtrl->model());
 
-    resize(m_preferences->value("charactersheetwindows/width", 400).toInt(),
-           m_preferences->value("charactersheetwindows/height", 600).toInt());
+    auto pref= m_sheetCtrl->preferences();
+    resize(pref ? pref->value("charactersheetwindows/width", 400).toInt() : 400,
+           pref ? pref->value("charactersheetwindows/height", 600).toInt() : 600);
 
     m_ui->m_treeview->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_ui->m_treeview, &QTreeView::customContextMenuRequested, this, &CharacterSheetWindow::displayCustomMenu);
@@ -456,7 +457,8 @@ void CharacterSheetWindow::exportPDF()
                 timer.setSingleShot(true);
                 QEventLoop loop;
                 connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
-                timer.start(m_preferences->value("waitingTimeBetweenPage", 300).toInt());
+                auto pref= m_sheetCtrl->preferences();
+                timer.start(pref ? pref->value("waitingTimeBetweenPage", 300).toInt() : 300);
                 loop.exec();
 
                 auto image= qmlView->grabFramebuffer();
