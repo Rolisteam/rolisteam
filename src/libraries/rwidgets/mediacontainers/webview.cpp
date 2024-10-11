@@ -58,12 +58,16 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     connect(m_webCtrl, &WebpageController::pageUrlChanged, this,
             [this]() { m_ui->m_webview->setUrl(m_webCtrl->pageUrl()); });
 
-    connect(m_ui->m_webview, &QWebEngineView::loadFinished, this, [this]() {
-        m_ui->m_webview->page()->toHtml([this](QString html) {
-            if(m_webCtrl)
-                m_webCtrl->setHtml(html);
-        });
-    });
+    connect(m_ui->m_webview, &QWebEngineView::loadFinished, this,
+            [this]()
+            {
+                m_ui->m_webview->page()->toHtml(
+                    [this](QString html)
+                    {
+                        if(m_webCtrl)
+                            m_webCtrl->setHtml(html);
+                    });
+            });
 
     connect(m_ui->m_reloadAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::reload);
     connect(m_ui->m_nextAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::forward);
@@ -74,28 +78,31 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
 
     connect(m_ui->m_shareAct, &QAction::triggered, m_webCtrl, &WebpageController::setUrlSharing);
     connect(m_ui->m_htmlShareAct, &QAction::triggered, m_webCtrl, &WebpageController::setHtmlSharing);
-    connect(m_webCtrl, &WebpageController::sharingModeChanged, [this]() {
-        m_ui->m_shareAct->setChecked(m_webCtrl->urlSharing());
-        m_ui->m_htmlShareAct->setChecked(m_webCtrl->htmlSharing());
-    });
+    connect(m_webCtrl, &WebpageController::sharingModeChanged,
+            [this]()
+            {
+                m_ui->m_shareAct->setChecked(m_webCtrl->urlSharing());
+                m_ui->m_htmlShareAct->setChecked(m_webCtrl->htmlSharing());
+            });
 
     updateTitle();
     setWidget(wid);
 
     if(m_webCtrl)
     {
-        if(m_webCtrl->state() == WebpageController::LocalIsPlayer)
+        if(m_webCtrl->state() != WebpageController::localIsGM)
         {
+            m_ui->m_shareBtn->setVisible(false);
+            m_ui->m_htmlShareBtn->setVisible(false);
             m_ui->m_htmlShareAct->setVisible(false);
             m_ui->m_shareAct->setVisible(false);
             m_ui->m_keepSharing->setVisible(false);
         }
-        else if(m_webCtrl->state() == WebpageController::RemoteView)
+        if(m_webCtrl->state() == WebpageController::RemoteView)
         {
-            m_ui->m_htmlShareAct->setVisible(false);
-            m_ui->m_shareAct->setVisible(false);
-            m_ui->m_keepSharing->setVisible(false);
             m_ui->m_nextAct->setVisible(false);
+            m_ui->m_nextBtn->setVisible(false);
+            m_ui->m_previousBtn->setVisible(false);
             m_ui->m_previousAct->setVisible(false);
             m_ui->m_addressEdit->setReadOnly(true);
         }
