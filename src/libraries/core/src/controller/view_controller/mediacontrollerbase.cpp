@@ -170,18 +170,19 @@ bool MediaControllerBase::pasteData(const QMimeData& mimeData)
     return false;
 }
 
-const QColor &MediaControllerBase::localColor() const
+const QColor& MediaControllerBase::localColor() const
 {
     return m_localColor;
 }
 
-void MediaControllerBase::setLocalColor(const QColor &newLocalColor)
+void MediaControllerBase::setLocalColor(const QColor& newLocalColor)
 {
-    if (m_localColor == newLocalColor)
+    if(m_localColor == newLocalColor)
         return;
-    m_localColor = newLocalColor;
+    m_localColor= newLocalColor;
     emit localColorChanged();
 }
+
 PreferencesManager* MediaControllerBase::preferences() const
 {
     return m_preferences;

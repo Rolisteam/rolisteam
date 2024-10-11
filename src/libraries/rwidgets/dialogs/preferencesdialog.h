@@ -88,7 +88,7 @@ private slots:
     void dupplicateTheme(bool selectNew= true);
     void setTitleAtCurrentTheme();
     void setStyle();
-    void editColor(QModelIndex);
+    void editColor(const QModelIndex &);
     void editCss();
     void exportTheme();
     bool importTheme();

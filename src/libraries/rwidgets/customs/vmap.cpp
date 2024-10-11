@@ -36,20 +36,20 @@
 #include "controller/item_controllers/rectcontroller.h"
 #include "controller/item_controllers/sightcontroller.h"
 #include "controller/item_controllers/textcontroller.h"
+#include "worker/mediahelper.h"
 
 #include "utils/logcategories.h"
 
 void setNewParent(VisualItem* child, VisualItem* parent)
 {
-    auto pos = child->scenePos();
+    auto pos= child->scenePos();
     child->setParentItem(parent);
-    auto ctrl = child->controller();
+    auto ctrl= child->controller();
     if(parent)
         ctrl->setPos(parent->mapFromScene(pos));
     else
         ctrl->setPos(pos);
 }
-
 
 void addCharacterItem(VectorialMapController* ctrl, const QPointF& pos, Character* character)
 {
@@ -102,7 +102,7 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::highLightAt, this,
             [this](const QPointF& p, const qreal& penSize, const QColor& color)
             {
-                auto hitem= new HighlighterItem(p, penSize, color);
+                auto hitem= new HighlighterItem(m_ctrl->preferences(), p, penSize, color);
                 addAndInit(hitem);
                 hitem->setPos(p);
             });
@@ -147,7 +147,7 @@ void VMap::addExistingItems()
     QHash<QString, VisualItem*> needParent;
     for(auto& item : items())
     {
-        auto vItem = getNormalItem(item);
+        auto vItem= getNormalItem(item);
         if(!vItem)
             continue;
 
@@ -157,10 +157,9 @@ void VMap::addExistingItems()
             needParent.insert(needParent);
     }
 
-
     for(auto const& item : std::as_const(needParent))
     {
-        auto parentId =   item->controller()->parentUuid();
+        auto parentId= item->controller()->parentUuid();
         if(hash.contains(parentId))
         {
             item->setParentItem(hash.value(parentId));
@@ -203,33 +202,35 @@ void VMap::addVisualItem(vmap::VisualItemController* ctrl)
     default:
         break;
     }
-    connect(ctrl, &vmap::CharacterItemController::parentUuidChanged, ctrl, [ctrl, this](){
-        auto graphicItems = items();
-        auto parentId = ctrl->parentUuid();
+    connect(ctrl, &vmap::CharacterItemController::parentUuidChanged, ctrl,
+            [ctrl, this]()
+            {
+                auto graphicItems= items();
+                auto parentId= ctrl->parentUuid();
 
-        QPointer<VisualItem> child;
-        QPointer<VisualItem> parent;
-        for(auto &item : graphicItems)
-        {
-            auto vItem = getNormalItem(item);
-            if(!vItem)
-                continue;
+                QPointer<VisualItem> child;
+                QPointer<VisualItem> parent;
+                for(auto& item : graphicItems)
+                {
+                    auto vItem= getNormalItem(item);
+                    if(!vItem)
+                        continue;
 
-            if(vItem->controller() == ctrl)
-                child = vItem;
+                    if(vItem->controller() == ctrl)
+                        child= vItem;
 
-            if(vItem->uuid() == parentId)
-                parent = vItem;
+                    if(vItem->uuid() == parentId)
+                        parent= vItem;
 
-            if((child && parent) || (child && (parentId.isEmpty())))
-                break;
-        }
+                    if((child && parent) || (child && (parentId.isEmpty())))
+                        break;
+                }
 
-        if(!child)
-            return;
+                if(!child)
+                    return;
 
-        setNewParent(child, parent.data());
-    });
+                setNewParent(child, parent.data());
+            });
     update();
 }
 void VMap::addLineItem(vmap::LineController* lineCtrl, bool editing)
@@ -498,14 +499,14 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
         {
             auto poly= m_currentItem->shape().toFillPolygon();
             poly= poly.translated(m_currentItem->pos());
-            auto ctrl = m_currentItem->controller();
+            auto ctrl= m_currentItem->controller();
             m_ctrl->changeFogOfWar(poly, ctrl, (Core::EditionMode::Mask == m_ctrl->editionMode()));
         }
     }
     else if((nullptr != m_currentPath) && (Core::EditionMode::Painting != m_ctrl->editionMode()))
     {
         auto poly= m_currentPath->shape().toFillPolygon();
-        m_ctrl->changeFogOfWar(poly,m_currentPath->controller(), (Core::EditionMode::Mask == m_ctrl->editionMode()));
+        m_ctrl->changeFogOfWar(poly, m_currentPath->controller(), (Core::EditionMode::Mask == m_ctrl->editionMode()));
         update();
     }
     m_ctrl->setIdle(true);
@@ -579,7 +580,7 @@ void VMap::manageAnchor()
         if(!isNormalItem(item))
             continue;
 
-        auto itemChild =  getNormalItem(item);
+        auto itemChild= getNormalItem(item);
         if(itemChild)
             child= itemChild->controller();
     }
@@ -592,7 +593,7 @@ void VMap::manageAnchor()
         if(!isNormalItem(item))
             continue;
 
-        auto parentChild =  getNormalItem(item);
+        auto parentChild= getNormalItem(item);
         if(parentChild)
             parent= parentChild->controller();
     }
@@ -684,7 +685,10 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
 
                 if(media->contentType() == Core::ContentType::PICTURE)
                 {
-                    addImageIntoController(m_ctrl, event->scenePos(), media);
+                    auto path= media->path();
+                    auto data= media->data();
+                    auto params= MediaHelper::addImageIntoController(event->scenePos(), path, data);
+                    m_ctrl->insertItemAt(params);
                 }
             }
             else if(resource->type() == ResourcesNode::Person)
@@ -745,5 +749,3 @@ void VMap::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
         }
     }
 }
-
-

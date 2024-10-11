@@ -210,24 +210,22 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
 
 void GameController::save()
 {
-    if(localIsGM())
-    {
-        ModelHelper::saveSession(m_contentCtrl.get());
-        m_campaignManager->saveCampaign();
-    }
-    ModelHelper::saveAudioController(m_audioCtrl.get());
+    if(!localIsGM())
+        return;
+
+    ModelHelper::saveSession(m_contentCtrl.get());
+    m_campaignManager->saveCampaign();
 }
 
 void GameController::saveAs(const QString& path)
 {
     ModelHelper::saveSession(m_contentCtrl.get());
-    ModelHelper::saveAudioController(m_audioCtrl.get());
     m_campaignManager->copyCampaign(path);
 }
 
 void GameController::openPageWeb(const QString& urlText)
 {
-    newMedia(MediaHelper::prepareWebView(urlText));
+    newMedia(MediaHelper::prepareWebView(urlText, m_playerController->localIsGm()));
 }
 
 void GameController::setUpdateAvailable(bool available)

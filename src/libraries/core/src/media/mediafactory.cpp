@@ -42,8 +42,8 @@
 #include "mindmap/data/linkcontroller.h"
 #include "mindmap/data/minditem.h"
 #include "mindmap/data/mindnode.h"
-#include "utils/iohelper.h"
 #include "mindmap/model/imagemodel.h"
+#include "utils/iohelper.h"
 
 #include "network/networkmessagereader.h"
 #include "worker/iohelper.h"
@@ -98,7 +98,8 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
                                   [sheetCtrl](const QByteArray& array)
                                   {
                                       auto sheetModel= sheetCtrl->model();
-                                      IOWorker::fetchCharacterSheetModel(sheetModel, IOHelper::textByteArrayToJsonObj(array));
+                                      IOWorker::fetchCharacterSheetModel(sheetModel,
+                                                                         IOHelper::textByteArrayToJsonObj(array));
                                   });
     hu::setParamIfAny<QByteArray>(
         ck::KEY_CHARACTERDATA, sheetData,
@@ -107,9 +108,7 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
             hu::setParamIfAny<QString>(
                 ck::KEY_CHARACTERID, sheetData,
                 [sheetCtrl, array](const QString& characterId)
-                {
-                    sheetCtrl->addCharacterSheet(IOHelper::textByteArrayToJsonObj(array), characterId);
-                });
+                { sheetCtrl->addCharacterSheet(IOHelper::textByteArrayToJsonObj(array), characterId); });
         });
     hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, sheetData,
                                   [sheetCtrl](const QByteArray& array)
@@ -117,9 +116,10 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
 
     if(!params.contains(ck::KEY_SERIALIZED))
     {
-        hu::setParamIfAny<QString>(ck::KEY_PATH, sheetData, [sheetCtrl](const QString& path){
-            IOHelper::readCharacterSheetController(sheetCtrl, utils::IOHelper::loadFile(path));
-        });
+        hu::setParamIfAny<QString>(
+            ck::KEY_PATH, sheetData,
+            [sheetCtrl](const QString& path)
+            { IOHelper::readCharacterSheetController(sheetCtrl, utils::IOHelper::loadFile(path)); });
     }
     return sheetCtrl;
 }
@@ -364,6 +364,15 @@ SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVari
 }
 WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& params)
 {
+    namespace ck= Core::keys;
+    namespace hu= helper::utils;
+    using std::placeholders::_1;
+
+    std::map<QString, QVariant> mapData;
+
+    for(auto it= std::begin(params); it != std::end(params); ++it)
+        mapData.insert({it.key(), it.value()});
+
     QByteArray serializedData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
     auto webCtrl= new WebpageController(uuid);
 
@@ -371,36 +380,26 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
         IOHelper::readWebpageController(webCtrl, serializedData);
     else
     {
-        webCtrl->setOwnerId(params.value(Core::keys::KEY_OWNERID).toString());
-
-        if(params.contains(Core::keys::KEY_MODE))
-        {
-            auto mode= static_cast<WebpageController::SharingMode>(params.value(Core::keys::KEY_MODE).toInt());
-            auto data= params.value(Core::keys::KEY_DATA).toString();
-
-            if(mode == WebpageController::Url)
-                webCtrl->setUrl(data);
-            else if(mode == WebpageController::Html)
-                webCtrl->setHtml(data);
-        }
-        if(params.contains(Core::keys::KEY_NAME))
-        {
-            webCtrl->setName(params.value(Core::keys::KEY_NAME).toString());
-        }
-        if(params.contains(Core::keys::KEY_STATE))
-        {
-            webCtrl->setState(static_cast<WebpageController::State>(params.value(Core::keys::KEY_STATE).toInt()));
-        }
-        if(params.contains(Core::keys::KEY_PATH))
-        {
-            auto url= params.value(Core::keys::KEY_PATH).toString();
-            webCtrl->setPageUrl(QUrl::fromUserInput(url));
-        }
-        if(params.contains(Core::keys::KEY_URL))
-        {
-            auto url= params.value(Core::keys::KEY_URL).toString();
-            webCtrl->setUrl(QUrl::fromUserInput(url));
-        }
+        // clang-format off
+        hu::setParamIfAny<QString>(ck::KEY_OWNERID, params, std::bind(&WebpageController::setOwnerId, webCtrl, _1));
+        hu::setParamIfAny<QString>(ck::KEY_NAME, params, std::bind(&WebpageController::setName, webCtrl, _1));
+        hu::setParamIfAny<WebpageController::State>(ck::KEY_STATE, params, std::bind(&WebpageController::setState, webCtrl, _1));
+        hu::setParamIfAny<QString>(ck::KEY_PATH, params, [webCtrl](const QString& value){
+            webCtrl->setPageUrl(QUrl::fromUserInput(value));
+        });
+        hu::setParamIfAny<QString>(ck::KEY_URL, params, [webCtrl](const QString& value){
+            webCtrl->setUrl(QUrl::fromUserInput(value));
+        });
+        hu::setParamIfAny<int>(ck::KEY_MODE, params, [params, webCtrl](int value){
+            auto mode = static_cast<WebpageController::SharingMode>(value);
+            hu::setParamIfAny<QString>(ck::KEY_DATA, params, [mode, webCtrl](const QString& data){
+                if(mode == WebpageController::Url)
+                    webCtrl->setUrl(data);
+                else if(mode == WebpageController::Html)
+                    webCtrl->setHtml(data);
+            });
+        });
+        // clang-format on
     }
 
     return webCtrl;
@@ -456,9 +455,8 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
     namespace ck= Core::keys;
     namespace hu= helper::utils;
     using std::placeholders::_1;
-    hu::setParamIfAny<QString>(ck::KEY_PATH, map, [base](const QString& path){
-        base->setUrl(QUrl::fromUserInput(path));
-    });
+    hu::setParamIfAny<QString>(ck::KEY_PATH, map,
+                               [base](const QString& path) { base->setUrl(QUrl::fromUserInput(path)); });
 
     return base;
 }
@@ -543,4 +541,5 @@ void MediaFactory::setLocalId(const QString& id)
 {
     m_localId= id;
 }
+
 } // namespace Media

@@ -276,22 +276,23 @@ Channel* ChannelListPanel::getChannel(QModelIndex index)
 
 void ChannelListPanel::banUser()
 {
-    if(isAdmin())
-    {
-        if(m_index.isValid())
-        {
-            ServerConnection* item= getClient(m_index); /// static_cast<ServerConnection*>(m_index.internalPointer());
-            QString id= item->uuid();
-            QString idPlayer= item->playerId();
-            if(!id.isEmpty())
-            {
-                NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::BanUser);
-                msg.string8(id);
-                msg.string8(idPlayer);
-                msg.sendToServer();
-            }
-        }
-    }
+    if(!isAdmin() || !m_index.isValid())
+        return;
+
+    ServerConnection* item= getClient(m_index); /// static_cast<ServerConnection*>(m_index.internalPointer());
+    if(!item)
+        return;
+
+    QString id= item->uuid();
+    QString idPlayer= item->playerId();
+
+    if(id.isEmpty())
+        return;
+
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::BanUser);
+    msg.string8(id);
+    msg.string8(idPlayer);
+    msg.sendToServer();
 }
 
 void ChannelListPanel::logAsAdmin()

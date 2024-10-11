@@ -792,7 +792,8 @@ constexpr auto KEY_PATH{"path"};
 constexpr auto KEY_CODE{"code"};
 constexpr auto KEY_COMMONNAME{"commonName"};
 constexpr auto KEY_LANGNAME{"langname"};
-}
+} // namespace i18n
+
 } // namespace Core
 
 #endif // MEDIATYPE_H

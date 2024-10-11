@@ -63,7 +63,8 @@ constexpr char const* hist_key_bookmark{"bookmark"};
 constexpr char const* hist_key_type{"type"};
 
 const static QStringList CharacterFields({"CharacterHp", "CharacterMaxHp", "CharacterMinHp", "CharacterDistPerTurn",
-                                          "CharacterStateId", "CharacterLifeColor", "CharacterInitCmd","CharacterInit"
+                                          "CharacterStateId", "CharacterLifeColor", "CharacterInitCmd",
+                                          "CharacterInit"
                                           "CharacterHasInit"});
 
 namespace profiles
@@ -280,18 +281,6 @@ bool saveSession(const ContentController* ctrl)
         campaign::FileSerializer::writeFileIntoCampaign(ctrl->url().toLocalFile(), IOHelper::saveController(ctrl));
     }
     return true;
-}
-
-bool saveAudioController(const AudioController* ctrl)
-{
-    // TODO
-    return false;
-}
-
-bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model)
-{
-    // TODO ??
-    return false;
 }
 
 bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charactersheet::ImageModel* imgModel,

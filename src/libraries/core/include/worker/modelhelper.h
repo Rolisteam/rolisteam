@@ -56,7 +56,6 @@ CORE_EXPORT void writeHistoryModel(history::HistoryModel* model);
 namespace ModelHelper
 {
 CORE_EXPORT bool saveSession(const ContentController* ctrl);
-CORE_EXPORT bool saveAudioController(const AudioController* ctrl);
 
 CORE_EXPORT bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model);
 CORE_EXPORT bool loadCharacterSheet(const QString& path, CharacterSheetModel* model,

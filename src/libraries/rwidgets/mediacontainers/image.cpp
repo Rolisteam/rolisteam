@@ -28,7 +28,7 @@
 #include "image.h"
 #include "network/clientconnection.h"
 #include "network/networkmessagewriter.h"
-//#include "widgets/onlinepicturedialog.h"
+// #include "widgets/onlinepicturedialog.h"
 
 /********************************************************************/
 /* Constructeur                                                     */
@@ -59,7 +59,7 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     m_imageLabel->setLineWidth(0);
     m_imageLabel->setFrameStyle(QFrame::NoFrame);
     m_widgetArea->setWidget(m_imageLabel);
-    m_fitWindowAct->setChecked(m_preferences->value("PictureAdjust", true).toBool());
+    m_fitWindowAct->setChecked(m_ctrl->fitWindow());
     setWidget(m_widgetArea.get());
     initImage();
     if(m_ctrl)
@@ -118,7 +118,7 @@ void Image::mouseMoveEvent(QMouseEvent* event)
 
 void Image::resizeLabel()
 {
-    if(m_fitWindowAct->isChecked())
+    if(m_ctrl->fitWindow())
     {
         int w= m_widgetArea->viewport()->rect().width();
         int h= m_widgetArea->viewport()->rect().height();
@@ -229,7 +229,8 @@ void Image::createActions()
     connect(m_zoomOutShort, &QShortcut::activated, this, [this] { m_ctrl->zoomOut(); });
     m_actionZoomOut->setShortcut(m_zoomOutShort->key());
 
-    auto fitWorkspace= [this] {
+    auto fitWorkspace= [this]
+    {
         m_imageLabel->resize(parentWidget()->size());
         fitWorkSpace();
     };
@@ -292,37 +293,41 @@ void Image::createActions()
     connect(m_bigShort, &QShortcut::activated, this, zoomBig);
     m_actionBigZoom->setShortcut(m_bigShort->key());
 
-
-    m_rename = new QAction(tr("Rename"), this);
+    m_rename= new QAction(tr("Rename"), this);
     m_rename->setShortcut(Qt::Key_F2);
-    connect(m_rename, &QAction::triggered, this, [this](){
-        auto text = QInputDialog::getText(this, tr("Define the new name"), tr("New name:"),QLineEdit::Normal,m_ctrl->name());
-        if(text.isEmpty())
-            return;
-        m_ctrl->setName(text);
-    });
+    connect(m_rename, &QAction::triggered, this,
+            [this]()
+            {
+                auto text= QInputDialog::getText(this, tr("Define the new name"), tr("New name:"), QLineEdit::Normal,
+                                                 m_ctrl->name());
+                if(text.isEmpty())
+                    return;
+                m_ctrl->setName(text);
+            });
 
     m_playAct= new QAction(tr("Play"), this);
     m_playAct->setShortcut(Qt::Key_Space);
     m_stopAct= new QAction(tr("Stop"), this);
 
-    connect(m_ctrl, &ImageController::statusChanged, this, [this](ImageController::Status status) {
-        switch(status)
-        {
-        case ImageController::Playing:
-            m_playAct->setText(tr("Pause"));
-            m_stopAct->setEnabled(true);
-            break;
-        case ImageController::Paused:
-            m_playAct->setText(tr("Play"));
-            m_stopAct->setEnabled(true);
-            break;
-        case ImageController::Stopped:
-            m_stopAct->setEnabled(false);
-            m_playAct->setText(tr("Play"));
-            break;
-        }
-    });
+    connect(m_ctrl, &ImageController::statusChanged, this,
+            [this](ImageController::Status status)
+            {
+                switch(status)
+                {
+                case ImageController::Playing:
+                    m_playAct->setText(tr("Pause"));
+                    m_stopAct->setEnabled(true);
+                    break;
+                case ImageController::Paused:
+                    m_playAct->setText(tr("Play"));
+                    m_stopAct->setEnabled(true);
+                    break;
+                case ImageController::Stopped:
+                    m_stopAct->setEnabled(false);
+                    m_playAct->setText(tr("Play"));
+                    break;
+                }
+            });
 
     connect(m_playAct, &QAction::triggered, m_ctrl, &ImageController::play);
     connect(m_stopAct, &QAction::triggered, m_ctrl, &ImageController::stop);

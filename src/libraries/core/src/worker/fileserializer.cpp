@@ -176,9 +176,8 @@ QJsonArray FileSerializer::npcToArray(const std::vector<std::unique_ptr<campaign
 {
     QJsonArray array;
     std::transform(std::begin(vec), std::end(vec), std::back_inserter(array),
-                   [destination](const std::unique_ptr<campaign::NonPlayableCharacter>& npc) {
-                       return IOHelper::npcToJsonObject(npc.get(), destination);
-                   });
+                   [destination](const std::unique_ptr<campaign::NonPlayableCharacter>& npc)
+                   { return IOHelper::npcToJsonObject(npc.get(), destination); });
     return array;
 }
 
@@ -187,47 +186,46 @@ QJsonArray FileSerializer::statesToArray(const std::vector<std::unique_ptr<Chara
 {
     QJsonArray array;
     std::transform(std::begin(vec), std::end(vec), std::back_inserter(array),
-                   [destination](const std::unique_ptr<CharacterState>& alias) {
-                       return IOHelper::stateToJSonObject(alias.get(), destination);
-                   });
+                   [destination](const std::unique_ptr<CharacterState>& alias)
+                   { return IOHelper::stateToJSonObject(alias.get(), destination); });
     return array;
 }
 
 QJsonArray FileSerializer::dicesToArray(const std::vector<std::unique_ptr<DiceAlias>>& vec)
 {
     QJsonArray array;
-    std::transform(
-        std::begin(vec), std::end(vec), std::back_inserter(array),
-        [](const std::unique_ptr<DiceAlias>& alias) { return IOHelper::diceAliasToJSonObject(alias.get()); });
+    std::transform(std::begin(vec), std::end(vec), std::back_inserter(array),
+                   [](const std::unique_ptr<DiceAlias>& alias)
+                   { return IOHelper::diceAliasToJSonObject(alias.get()); });
     return array;
 }
 
 void FileSerializer::writeStatesIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    QtConcurrent::run([destination, array]() {
-        IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::STATE_MODEL), array);
-    });
+    QtConcurrent::run(
+        [destination, array]()
+        { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::STATE_MODEL), array); });
 }
 
 void FileSerializer::writeNpcIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    QtConcurrent::run([destination, array]() {
-        IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::CHARACTER_MODEL), array);
-    });
+    QtConcurrent::run(
+        [destination, array]()
+        { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::CHARACTER_MODEL), array); });
 }
 
 void FileSerializer::writeDiceAliasIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    QtConcurrent::run([destination, array]() {
-        IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::DICE_ALIAS_MODEL), array);
-    });
+    QtConcurrent::run(
+        [destination, array]()
+        { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::DICE_ALIAS_MODEL), array); });
 }
 
 void FileSerializer::writeCampaignInfo(const QString& destination, const QJsonObject& object)
 {
-    QtConcurrent::run([destination, object]() {
-        IOHelper::writeJsonObjectIntoFile(QString("%1/%2").arg(destination, campaign::MODEL_FILE), object);
-    });
+    QtConcurrent::run(
+        [destination, object]()
+        { IOHelper::writeJsonObjectIntoFile(QString("%1/%2").arg(destination, campaign::MODEL_FILE), object); });
 }
 
 QFuture<bool> FileSerializer::writeFileIntoCampaign(const QString& destination, const QByteArray& array)
@@ -299,9 +297,9 @@ bool FileSerializer::isValidCampaignDirectory(const QString& path, bool acceptEm
 
     QList<QString> list{campaign::MEDIA_ROOT, campaign::STATE_ROOT, campaign::TRASH_FOLDER, campaign::CHARACTER_ROOT,
                         campaign::MODEL_FILE};
-    return std::all_of(std::begin(list), std::end(list), [path](const QString& subpath) {
-        return QFileInfo::exists(QString("%1/%2").arg(path, subpath));
-    });
+    return std::all_of(std::begin(list), std::end(list),
+                       [path](const QString& subpath)
+                       { return QFileInfo::exists(QString("%1/%2").arg(path, subpath)); });
 }
 
 bool FileSerializer::hasContent(const QString& path, Core::CampaignDataCategory category)
@@ -356,9 +354,9 @@ bool FileSerializer::hasContent(const QString& path, Core::CampaignDataCategory 
         break;
     }
 
-    auto res= std::all_of(std::begin(list), std::end(list), [path](const QString& subpath) {
-        return QFileInfo::exists(QString("%1/%2").arg(path, subpath));
-    });
+    auto res= std::all_of(std::begin(list), std::end(list),
+                          [path](const QString& subpath)
+                          { return QFileInfo::exists(QString("%1/%2").arg(path, subpath)); });
 
     if(res && mediaCategories.contains(category))
     {
@@ -366,59 +364,73 @@ bool FileSerializer::hasContent(const QString& path, Core::CampaignDataCategory 
         auto subentrylist= direct.entryList(QDir::NoDotAndDotDot);
         if(category == Core::CampaignDataCategory::Images)
         {
-            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
-                QSet<QString> imgExt{"png", "jpg", "bmp", "gif", "svg"};
-                return std::any_of(std::begin(imgExt), std::end(imgExt),
-                                   [item](const QString& ext) { return item.endsWith(ext); });
-            });
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
+                              [](const QString& item)
+                              {
+                                  QSet<QString> imgExt{"png", "jpg", "bmp", "gif", "svg"};
+                                  return std::any_of(std::begin(imgExt), std::end(imgExt),
+                                                     [item](const QString& ext) { return item.endsWith(ext); });
+                              });
         }
         else if(category == Core::CampaignDataCategory::Maps)
         {
-            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
-                QSet<QString> mapExt{"vmap"};
-                return std::any_of(std::begin(mapExt), std::end(mapExt),
-                                   [item](const QString& ext) { return item.endsWith(ext); });
-            });
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
+                              [](const QString& item)
+                              {
+                                  QSet<QString> mapExt{"vmap"};
+                                  return std::any_of(std::begin(mapExt), std::end(mapExt),
+                                                     [item](const QString& ext) { return item.endsWith(ext); });
+                              });
         }
         else if(category == Core::CampaignDataCategory::MindMaps)
         {
-            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
-                QSet<QString> mindmapExt{"rmap"};
-                return std::any_of(std::begin(mindmapExt), std::end(mindmapExt),
-                                   [item](const QString& ext) { return item.endsWith(ext); });
-            });
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
+                              [](const QString& item)
+                              {
+                                  QSet<QString> mindmapExt{"rmap"};
+                                  return std::any_of(std::begin(mindmapExt), std::end(mindmapExt),
+                                                     [item](const QString& ext) { return item.endsWith(ext); });
+                              });
         }
         else if(category == Core::CampaignDataCategory::CharacterSheets)
         {
-            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
-                QSet<QString> sheetExt{"rcs"};
-                return std::any_of(std::begin(sheetExt), std::end(sheetExt),
-                                   [item](const QString& ext) { return item.endsWith(ext); });
-            });
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
+                              [](const QString& item)
+                              {
+                                  QSet<QString> sheetExt{"rcs"};
+                                  return std::any_of(std::begin(sheetExt), std::end(sheetExt),
+                                                     [item](const QString& ext) { return item.endsWith(ext); });
+                              });
         }
         else if(category == Core::CampaignDataCategory::Notes)
         {
-            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
-                QSet<QString> noteExt{"txt", "md", "html"};
-                return std::any_of(std::begin(noteExt), std::end(noteExt),
-                                   [item](const QString& ext) { return item.endsWith(ext); });
-            });
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
+                              [](const QString& item)
+                              {
+                                  QSet<QString> noteExt{"txt", "md", "html"};
+                                  return std::any_of(std::begin(noteExt), std::end(noteExt),
+                                                     [item](const QString& ext) { return item.endsWith(ext); });
+                              });
         }
         else if(category == Core::CampaignDataCategory::WebLink)
         {
-            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
-                QSet<QString> noteExt{"txt", "md", "html"};
-                return std::any_of(std::begin(noteExt), std::end(noteExt),
-                                   [item](const QString& ext) { return item.endsWith(ext); });
-            });
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
+                              [](const QString& item)
+                              {
+                                  QSet<QString> noteExt{"txt", "md", "html"};
+                                  return std::any_of(std::begin(noteExt), std::end(noteExt),
+                                                     [item](const QString& ext) { return item.endsWith(ext); });
+                              });
         }
         else if(category == Core::CampaignDataCategory::PDFDoc)
         {
-            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist), [](const QString& item) {
-                QSet<QString> noteExt{"txt", "md", "html"};
-                return std::any_of(std::begin(noteExt), std::end(noteExt),
-                                   [item](const QString& ext) { return item.endsWith(ext); });
-            });
+            res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
+                              [](const QString& item)
+                              {
+                                  QSet<QString> noteExt{"txt", "md", "html"};
+                                  return std::any_of(std::begin(noteExt), std::end(noteExt),
+                                                     [item](const QString& ext) { return item.endsWith(ext); });
+                              });
         }
     }
 

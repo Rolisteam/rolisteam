@@ -29,6 +29,21 @@
 #include <QUrlQuery>
 #include <iostream>
 
+namespace logger
+{
+constexpr auto KEY_UUID{"uuid"};
+constexpr auto KEY_VERSION{"version"};
+constexpr auto KEY_APP{"app"};
+constexpr auto KEY_CONF{"conf"};
+constexpr auto KEY_LEVEL{"level"};
+constexpr auto KEY_LOG{"log"};
+constexpr auto KEY_CATEGORY{"category"};
+constexpr auto KEY_TIME{"timestamp"};
+constexpr auto KEY_LOGS{"logs"};
+constexpr auto KEY_URL{"https://rolisteam.org/php/uploadlog.php"};
+constexpr auto KEY_MIME{"application/x-www-form-urlencoded"};
+} // namespace logger
+
 LogUploader::LogUploader() : QObject(nullptr), m_accessManager(new QNetworkAccessManager(this))
 {
     connect(m_accessManager, &QNetworkAccessManager::finished, this, &LogUploader::finished);
@@ -76,33 +91,33 @@ void LogUploader::setLogs(const std::vector<common::Log>& logs)
 
 void LogUploader::uploadLog()
 {
-    // TODO Put json key into constexpr
     QJsonObject obj;
-    obj["uuid"]= m_uuid;
-    obj["version"]= m_version;
-    obj["app"]= m_appId;
-    obj["conf"]= m_conf;
+
+    obj[logger::KEY_UUID]= m_uuid;
+    obj[logger::KEY_VERSION]= m_version;
+    obj[logger::KEY_APP]= m_appId;
+    obj[logger::KEY_CONF]= m_conf;
 
     QJsonArray array;
     for(auto& log : m_logs)
     {
         QJsonObject logObj;
-        logObj["level"]= log.m_level;
-        logObj["log"]= log.m_message;
-        logObj["category"]= log.m_category;
-        logObj["timestamp"]= log.m_timestamp;
+        logObj[logger::KEY_LEVEL]= log.m_level;
+        logObj[logger::KEY_LOG]= log.m_message;
+        logObj[logger::KEY_CATEGORY]= log.m_category;
+        logObj[logger::KEY_TIME]= log.m_timestamp;
 
         array.append(logObj);
     }
-    obj["logs"]= array;
+    obj[logger::KEY_LOGS]= array;
 
     QJsonDocument doc;
     doc.setObject(obj);
 
-    QUrl url("https://rolisteam.org/php/uploadlog.php");
+    QUrl url(logger::KEY_URL);
     QNetworkRequest request(url);
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, logger::KEY_MIME);
     m_postData.clear();
     m_postData.append("log=");
     m_postData.append(doc.toJson());

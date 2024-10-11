@@ -166,7 +166,7 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_copyThemeButton, SIGNAL(clicked()), this, SLOT(dupplicateTheme()));
     connect(ui->m_themeNameLineEdit, SIGNAL(textEdited(QString)), this, SLOT(setTitleAtCurrentTheme()));
 
-    connect(ui->m_paletteTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editColor(QModelIndex)));
+    connect(ui->m_paletteTableView, &QTableView::doubleClicked, this, &PreferencesDialog::editColor);
 
     connect(ui->m_cssEdit, SIGNAL(clicked()), this, SLOT(editCss()));
     connect(ui->m_exportBtn, SIGNAL(clicked()), this, SLOT(exportTheme()));
@@ -315,18 +315,13 @@ void PreferencesDialog::load()
     updateTheme();
 }
 
-void PreferencesDialog::editColor(QModelIndex index)
+void PreferencesDialog::editColor(const QModelIndex& index)
 {
     QColor color= QColorDialog::getColor(index.data(Qt::DecorationRole).value<QColor>(), this);
     if(!color.isValid())
         return;
 
     m_ctrl->setColorCurrentTheme(color, index.row());
-
-    auto theme= m_ctrl->currentTheme();
-    if(nullptr == theme)
-        return;
-    // TODO
 }
 
 void PreferencesDialog::updateTheme()

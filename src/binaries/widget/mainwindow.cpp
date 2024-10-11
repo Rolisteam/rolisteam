@@ -202,10 +202,12 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     m_roomPanel
         = new ChannelListPanel(m_gameController->preferencesManager(), m_gameController->networkController(), this);
 
-    connect(m_gameController, &GameController::localIsGMChanged, this, [this](){
-        updateUi();
-        updateWindowTitle();
-    });
+    connect(m_gameController, &GameController::localIsGMChanged, this,
+            [this]()
+            {
+                updateUi();
+                updateWindowTitle();
+            });
     connect(m_gameController, &GameController::updateAvailableChanged, this, &MainWindow::showUpdateNotification);
     connect(m_gameController, &GameController::tipOfDayChanged, this, &MainWindow::showTipChecker);
     connect(m_gameController, &GameController::localPlayerIdChanged, this,
@@ -369,6 +371,7 @@ void MainWindow::userNatureChange()
 void MainWindow::createTabs()
 {
     QDockWidget* dock= new QDockWidget(this);
+    dock->setObjectName(tr("SidePanels"));
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     dock->setWidget(m_sideTabs.get());
     m_ui->m_menuSubWindows->addSeparator();
@@ -477,9 +480,12 @@ void MainWindow::linkActionToMenu()
                 params.insert({Core::keys::KEY_PATH, str});
                 m_gameController->newMedia(params);
             });
-    connect(m_ui->m_openCampaignAction, &QAction::triggered, this, [this](){
-        m_gameController->setCampaignRoot(QFileDialog::getExistingDirectory(this, tr("Open Campaign"), m_gameController->campaign()->rootDirectory()));
-    });
+    connect(m_ui->m_openCampaignAction, &QAction::triggered, this,
+            [this]()
+            {
+                m_gameController->setCampaignRoot(QFileDialog::getExistingDirectory(
+                    this, tr("Open Campaign"), m_gameController->campaign()->rootDirectory()));
+            });
     connect(m_ui->m_openNoteAction, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openShareNote, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openPdfAct, &QAction::triggered, this, &MainWindow::openGenericContent);
@@ -620,17 +626,21 @@ void MainWindow::linkActionToMenu()
                 AboutRolisteam diag(m_gameController->version(), this);
                 diag.exec();
             });
-    connect(m_ui->m_onlineHelpAction, &QAction::triggered, this, [this](){
-        if(!QDesktopServices::openUrl(QUrl(version::documation_site)))
-        {
-            QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("Help"),
-                                                 tr("Documentation of %1 can be found online at :<br> <a "
-                                                    "href=\"%2\">%2</a>")
-                                                     .arg(m_preferences->value("Application_Name", "rolisteam").toString()).arg(version::documation_site),
-                                                 QMessageBox::Ok);
-            msgBox->exec();
-        }
-    });
+    connect(m_ui->m_onlineHelpAction, &QAction::triggered, this,
+            [this]()
+            {
+                if(!QDesktopServices::openUrl(QUrl(version::documation_site)))
+                {
+                    QMessageBox* msgBox
+                        = new QMessageBox(QMessageBox::Information, tr("Help"),
+                                          tr("Documentation of %1 can be found online at :<br> <a "
+                                             "href=\"%2\">%2</a>")
+                                              .arg(m_preferences->value("Application_Name", "rolisteam").toString())
+                                              .arg(version::documation_site),
+                                          QMessageBox::Ok);
+                    msgBox->exec();
+                }
+            });
 
     m_ui->m_supportRolisteam->setData(version::liberapay_site);
     m_ui->m_patreon->setData(version::patreon_site);
@@ -697,7 +707,7 @@ void MainWindow::newVMap()
         std::map<QString, QVariant> params;
         params.insert({Core::keys::KEY_NAME, mapWizzard.name()});
         params.insert({Core::keys::KEY_PERMISSION, mapWizzard.permission()});
-        params.insert({Core::keys::KEY_BGCOLOR , mapWizzard.backgroundColor()});
+        params.insert({Core::keys::KEY_BGCOLOR, mapWizzard.backgroundColor()});
         params.insert({Core::keys::KEY_GRIDSIZE, mapWizzard.gridSize()});
         params.insert({Core::keys::KEY_GRIDPATTERN, QVariant::fromValue(mapWizzard.pattern())});
         params.insert({Core::keys::KEY_GRIDCOLOR, mapWizzard.gridColor()});
@@ -1159,7 +1169,8 @@ void MainWindow::dropEvent(QDropEvent* event)
                 Core::ContentType type= helper::utils::extensionToContentType(path);
                 if(type == Core::ContentType::UNKNOWN)
                     continue;
-                qCInfo(WidgetClient) << QStringLiteral("MainWindow: dropEvent for %1").arg(helper::utils::typeToString(type));
+                qCInfo(WidgetClient)
+                    << QStringLiteral("MainWindow: dropEvent for %1").arg(helper::utils::typeToString(type));
                 contentCtrl->openMedia(
                     {{Core::keys::KEY_URL, url},
                      {Core::keys::KEY_TYPE, QVariant::fromValue(type)},

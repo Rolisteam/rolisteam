@@ -167,20 +167,22 @@ void ImageController::checkMovie()
     if((m_movie->isValid()) && (m_movie->frameCount() > 1))
     {
         connect(m_movie.get(), &QMovie::updated, this, [this]() { setPixmap(m_movie->currentPixmap()); });
-        connect(m_movie.get(), &QMovie::stateChanged, this, [this](const QMovie::MovieState& state) {
-            switch(state)
-            {
-            case QMovie::NotRunning:
-                setStatus(ImageController::Stopped);
-                break;
-            case QMovie::Paused:
-                setStatus(ImageController::Paused);
-                break;
-            case QMovie::Running:
-                setStatus(ImageController::Playing);
-                break;
-            }
-        });
+        connect(m_movie.get(), &QMovie::stateChanged, this,
+                [this](const QMovie::MovieState& state)
+                {
+                    switch(state)
+                    {
+                    case QMovie::NotRunning:
+                        setStatus(ImageController::Stopped);
+                        break;
+                    case QMovie::Paused:
+                        setStatus(ImageController::Paused);
+                        break;
+                    case QMovie::Running:
+                        setStatus(ImageController::Playing);
+                        break;
+                    }
+                });
         m_movie->start();
     }
     else

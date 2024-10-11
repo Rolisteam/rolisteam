@@ -137,9 +137,9 @@ bool ImageModel::insertImage(const QPixmap& pix, const QString& key, const QStri
     auto rect= pix.rect();
     if(isBg && !m_data.empty())
     {
-        auto b= std::all_of(m_data.begin(), m_data.end(), [rect](const ImageInfo& info) {
-            return info.isBackground ? rect == info.pixmap.rect() : true;
-        });
+        auto b= std::all_of(m_data.begin(), m_data.end(),
+                            [rect](const ImageInfo& info)
+                            { return info.isBackground ? rect == info.pixmap.rect() : true; });
 
         if(!b)
             return false;
@@ -240,9 +240,9 @@ void ImageModel::setPathFor(const QModelIndex& idx, const QString& path)
 
 void ImageModel::removeImageByKey(const QString& key)
 {
-    auto it= std::find_if(m_data.begin(), m_data.end(), [key](const ImageInfo& info) {
-        return key == info.key;
-    }); // auto index= m_keyList.indexOf(key);
+    auto it
+        = std::find_if(m_data.begin(), m_data.end(),
+                       [key](const ImageInfo& info) { return key == info.key; }); // auto index= m_keyList.indexOf(key);
 
     if(it == m_data.end())
         return; // unfound

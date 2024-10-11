@@ -25,10 +25,13 @@
 #include <QSet>
 #include <QUrl>
 
-#include "worker/iohelper.h"
 #include "preferences/preferencesmanager.h"
+#include "worker/iohelper.h"
 
-MusicModel::MusicModel(PreferencesManager* pref,QObject* parent) : QAbstractListModel(parent), m_header({tr("Title")}),m_ctrl(pref) {}
+MusicModel::MusicModel(PreferencesManager* pref, QObject* parent)
+    : QAbstractListModel(parent), m_header({tr("Title")}), m_ctrl(pref)
+{
+}
 
 int MusicModel::rowCount(const QModelIndex& parent) const
 {
@@ -187,13 +190,11 @@ Qt::DropActions MusicModel::supportedDropActions() const
 }
 bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int, const QModelIndex&)
 {
-    // TODO
     if(action == Qt::IgnoreAction)
         return true;
 
     if(!data->hasUrls())
         return false;
-
 
     QList<QUrl> list= data->urls();
     for(auto const& url : list)
@@ -205,9 +206,8 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         }
         else
         {
-            QStringList filters= m_ctrl->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.mpc *.ogg *.flac")
-                                     .toString()
-                                     .split(' ');
+            QStringList filters
+                = m_ctrl->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.mpc *.ogg *.flac").toString().split(' ');
             for(auto filter : filters)
             {
                 filter.replace("*", "");
@@ -218,7 +218,6 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
             }
         }
     }
-
 
     return true;
 }

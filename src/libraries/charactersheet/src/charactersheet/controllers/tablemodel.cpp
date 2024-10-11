@@ -8,16 +8,14 @@ constexpr auto idSeparator{';'};
 constexpr auto idDataCount{2};
 constexpr auto formulaMark{"="};
 
-
-
-}
+} // namespace constants
 namespace json
 {
 constexpr auto valueKey{"value"};
 constexpr auto formulaKey{"formula"};
 constexpr auto dataTableKey{"dataTable"};
 constexpr auto columnsDefinitionKey{"columns"};
-}
+} // namespace json
 TableModel::TableModel() {}
 int TableModel::rowCount(const QModelIndex& parent) const
 {
@@ -26,7 +24,7 @@ int TableModel::rowCount(const QModelIndex& parent) const
     return m_data.size();
 }
 
-int TableModel::columnCount(const QModelIndex &parent) const
+int TableModel::columnCount(const QModelIndex& parent) const
 {
     if(parent.isValid())
         return 0;
@@ -51,11 +49,11 @@ QVariant TableModel::data(const QModelIndex& index, int role) const
     {
     case Qt::DisplayRole:
     case ValueRole:
-        res = item.value;
+        res= item.value;
         break;
     case Qt::EditRole:
     case FormulaRole:
-        res = item.formula.isEmpty() ? item.value : item.formula;
+        res= item.formula.isEmpty() ? item.value : item.formula;
         break;
     }
 
@@ -64,7 +62,7 @@ QVariant TableModel::data(const QModelIndex& index, int role) const
 
 QHash<int, QByteArray> TableModel::roleNames() const
 {
-    auto res = QAbstractTableModel::roleNames();
+    auto res= QAbstractTableModel::roleNames();
     res.insert(ValueRole, "value");
     res.insert(FormulaRole, "formula");
     return res;
@@ -72,28 +70,24 @@ QHash<int, QByteArray> TableModel::roleNames() const
 void TableModel::addRows(int rCount)
 {
     QList<CellData> cell;
-    std::for_each(std::begin(m_columns), std::end(m_columns), [&cell](FieldController*){
-        cell.append(CellData());
-    });
+    std::for_each(std::begin(m_columns), std::end(m_columns), [&cell](FieldController*) { cell.append(CellData()); });
 
-    beginInsertRows(QModelIndex(), m_data.size(), m_data.size()+rCount);
-    for(int i = 0; i < rCount; ++i)
+    beginInsertRows(QModelIndex(), m_data.size(), m_data.size() + rCount);
+    for(int i= 0; i < rCount; ++i)
         m_data.append(cell);
     endInsertRows();
 }
 void TableModel::addRow()
 {
     QList<CellData> cell;
-    std::for_each(std::begin(m_columns), std::end(m_columns), [&cell](FieldController*){
-        cell.append(CellData());
-    });
+    std::for_each(std::begin(m_columns), std::end(m_columns), [&cell](FieldController*) { cell.append(CellData()); });
 
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
     m_data.append(cell);
     endInsertRows();
 }
 
-void TableModel::addColumn(FieldController *field)
+void TableModel::addColumn(FieldController* field)
 {
     beginInsertColumns(QModelIndex(), m_columns.size(), m_columns.size());
     m_columns.append(field);
@@ -117,17 +111,16 @@ void TableModel::clear()
 
 const CellData* TableModel::cellDataFromId(const QString& id) const
 {
-    auto ids = id.split(constants::idSeparator);
-    if(ids.size()!= constants::idDataCount)
+    auto ids= id.split(constants::idSeparator);
+    if(ids.size() != constants::idDataCount)
         return nullptr;
     bool a;
-    auto r = ids[0].toInt(&a);
+    auto r= ids[0].toInt(&a);
 
     if(!a)
         return nullptr;
 
-
-    auto c = ids[1].toInt(&a);
+    auto c= ids[1].toInt(&a);
     if(!a)
         return nullptr;
 
@@ -136,8 +129,8 @@ const CellData* TableModel::cellDataFromId(const QString& id) const
 
 const CellData* TableModel::cellData(int r, int c) const
 {
-    Q_ASSERT(r<m_data.size() && r >= 0);
-    Q_ASSERT(c<m_columns.size() && c >= 0 ) ;
+    Q_ASSERT(r < m_data.size() && r >= 0);
+    Q_ASSERT(c < m_columns.size() && c >= 0);
 
     return &m_data[r][c];
 }
@@ -153,7 +146,6 @@ void TableModel::save(QJsonObject& json) const
         columnJson.append(column);
     }
 
-           // TODO
     QJsonArray TableJson;
     for(auto& row : m_data)
     {
@@ -161,15 +153,15 @@ void TableModel::save(QJsonObject& json) const
         for(auto& cell : row)
         {
             QJsonObject obj;
-            obj[json::valueKey] = cell.value;
-            obj[json::formulaKey] = cell.formula;
+            obj[json::valueKey]= cell.value;
+            obj[json::formulaKey]= cell.formula;
             rowJson.append(obj);
         }
         TableJson.append(rowJson);
     }
 
-    json[json::dataTableKey] = TableJson;
-    json[json::columnsDefinitionKey] = columnJson;
+    json[json::dataTableKey]= TableJson;
+    json[json::columnsDefinitionKey]= columnJson;
 }
 
 void TableModel::saveDataItem(QJsonArray& json)
@@ -180,8 +172,8 @@ void TableModel::saveDataItem(QJsonArray& json)
         for(auto& cell : row)
         {
             QJsonObject obj;
-            obj[json::valueKey] = cell.value;
-            obj[json::formulaKey] = cell.formula;
+            obj[json::valueKey]= cell.value;
+            obj[json::formulaKey]= cell.formula;
             rowJson.append(obj);
         }
         json.append(rowJson);
@@ -190,8 +182,8 @@ void TableModel::saveDataItem(QJsonArray& json)
 
 void TableModel::load(const QJsonObject& json, TreeSheetItem* parent)
 {
-    auto dataJson = json[json::dataTableKey].toArray();
-    auto columns = json[json::columnsDefinitionKey].toArray();
+    auto dataJson= json[json::dataTableKey].toArray();
+    auto columns= json[json::columnsDefinitionKey].toArray();
 
     beginResetModel();
     m_columns.clear();
@@ -209,9 +201,9 @@ void TableModel::load(const QJsonObject& json, TreeSheetItem* parent)
         QJsonArray row= array.toArray();
         for(auto const& r : row)
         {
-            auto cell = r.toObject();
-            auto v = cell[json::valueKey].toString();
-            auto f = cell[json::formulaKey].toString();
+            auto cell= r.toObject();
+            auto v= cell[json::valueKey].toString();
+            auto f= cell[json::formulaKey].toString();
             CellData data{v, f};
             rowData << data;
         }
@@ -230,9 +222,9 @@ void TableModel::loadDataItem(const QJsonArray& json, TreeSheetItem* parent)
         QJsonArray row= array.toArray();
         for(auto const& r : row)
         {
-            auto cell = r.toObject();
-            auto v = cell[json::valueKey].toString();
-            auto f = cell[json::formulaKey].toString();
+            auto cell= r.toObject();
+            auto v= cell[json::valueKey].toString();
+            auto f= cell[json::formulaKey].toString();
             CellData data{v, f};
             rowData << data;
         }
@@ -254,7 +246,7 @@ void TableModel::setChildFieldData(const QJsonObject& json)
       }*/
 }
 
-const QList<FieldController *> &TableModel::columns() const
+const QList<FieldController*>& TableModel::columns() const
 {
     return m_columns;
 }
@@ -267,12 +259,11 @@ void TableModel::setFieldInDictionnary(QHash<QString, QString>& dict, const QStr
     Q_ASSERT(m_data.size() % m_columns.size() == 0);
     /*QList<std::tuple<int,int>> sum;
     int r = 0;
-    std::transform(std::begin(m_columns), std::end(m_columns), std::back_inserter(sum), [this,&r](const FieldController* ctrl){
-        auto v = sumColumn(ctrl->label());
-        return std::make_tuple(r++,v);
+    std::transform(std::begin(m_columns), std::end(m_columns), std::back_inserter(sum), [this,&r](const FieldController*
+    ctrl){ auto v = sumColumn(ctrl->label()); return std::make_tuple(r++,v);
     }); */
 
-    auto results = sumColumn();
+    auto results= sumColumn();
 
     int i= 1;
     for(auto const& sum : results)
@@ -303,7 +294,7 @@ void TableModel::removeLine(int index)
 
 void TableModel::removeColumn(int index)
 {
-    auto col = m_columns.at(index);
+    auto col= m_columns.at(index);
     beginRemoveColumns(QModelIndex(), index, index);
     m_columns.removeAt(index);
     endRemoveColumns();
@@ -313,15 +304,15 @@ void TableModel::removeColumn(int index)
 
 bool TableModel::setData(const QModelIndex& index, const QVariant& data, int role)
 {
-    qDebug() << "sedData" << index << data<< role;
+    qDebug() << "sedData" << index << data << role;
     if(!index.isValid())
         return false;
 
-    auto& cell = m_data[index.row()][index.column()];
+    auto& cell= m_data[index.row()][index.column()];
 
-    auto text = data.toString();
+    auto text= data.toString();
 
-    text.startsWith(constants::formulaMark)?  cell.formula = text: cell.value = text;
+    text.startsWith(constants::formulaMark) ? cell.formula= text : cell.value= text;
 
     emit dataChanged(index, index, QList<int>{Qt::DisplayRole, Qt::EditRole});
 
@@ -346,7 +337,7 @@ QList<int> TableModel::sumColumn() const
     res.resize(m_columns.size());
     for(auto const& row : m_data)
     {
-        int i = 0;
+        int i= 0;
         for(auto const& cell : row)
         {
             res[i]+= cell.value.toInt();

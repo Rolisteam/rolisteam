@@ -139,12 +139,11 @@ void Channel::sendToAll(NetworkMessage* msg, ServerConnection* tcp, bool deleteM
         {
             bool b= false;
             if(i + 1 == m_child.size())
-                b= deleteMsg; // TODO Copy message
+                b= deleteMsg;
 
             QMetaObject::invokeMethod(other, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg),
                                       Q_ARG(bool, b));
         }
-
         ++i;
     }
 }
@@ -174,16 +173,18 @@ int Channel::addChild(TreeItem* item)
         if(tcp.isNull())
             return result;
 
-        connect(tcp, &ServerConnection::clientSaysGoodBye, this, [this, itemp, tcp](const QString& playerId) {
-            qDebug() << itemp->uuid() << playerId << "say good bye - debug";
-            if(m_child.isEmpty() || itemp.isNull())
-                return;
-            m_child.removeAll(itemp);
-            if(m_child.isEmpty())
-                return;
-            qInfo() << QStringLiteral("Client left from channel");
-            removeClient(tcp);
-        });
+        connect(tcp, &ServerConnection::clientSaysGoodBye, this,
+                [this, itemp, tcp](const QString& playerId)
+                {
+                    qDebug() << itemp->uuid() << playerId << "say good bye - debug";
+                    if(m_child.isEmpty() || itemp.isNull())
+                        return;
+                    m_child.removeAll(itemp);
+                    if(m_child.isEmpty())
+                        return;
+                    qInfo() << QStringLiteral("Client left from channel");
+                    removeClient(tcp);
+                });
 
         // TODO make this connection as oneshot
         connect(tcp, &ServerConnection::playerInfoDefined, this, [this, tcp]() { updateNewClient(tcp); });
@@ -447,17 +448,19 @@ void Channel::sendOffGmStatus(ServerConnection* client)
 }
 void Channel::findNewGM()
 {
-    auto result= std::find_if(m_child.begin(), m_child.end(), [=](QPointer<TreeItem>& item) {
-        auto client= dynamic_cast<ServerConnection*>(item.data());
-        if(nullptr != client)
-        {
-            if(client->isGM())
-            {
-                return true;
-            }
-        }
-        return false;
-    });
+    auto result= std::find_if(m_child.begin(), m_child.end(),
+                              [=](QPointer<TreeItem>& item)
+                              {
+                                  auto client= dynamic_cast<ServerConnection*>(item.data());
+                                  if(nullptr != client)
+                                  {
+                                      if(client->isGM())
+                                      {
+                                          return true;
+                                      }
+                                  }
+                                  return false;
+                              });
 
     if(result == m_child.end())
         setCurrentGM(nullptr);
