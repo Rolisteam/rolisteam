@@ -69,6 +69,7 @@ public:
     LinkInfo idToPath(const QString& id) const;
     void refreshAccess(const QString& id);
     void addLink(const QUrl& path, const QString& displayName, Core::ContentType type);
+    void removeLink(const QModelIndex& index);
 
     int maxCapacity() const;
     void setLinks(const QList<LinkInfo>& links);

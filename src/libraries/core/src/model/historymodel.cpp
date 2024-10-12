@@ -178,9 +178,24 @@ void HistoryModel::refreshAccess(const QString& id)
     }
 }
 
+void HistoryModel::removeLink(const QModelIndex& index)
+{
+    if(!index.isValid())
+        return;
+
+    auto r= index.row();
+
+    beginRemoveRows(QModelIndex(), r, r);
+    m_links.removeAt(r);
+    endRemoveRows();
+}
+
 void HistoryModel::addLink(const QUrl& path, const QString& displayName, Core::ContentType type)
 {
-    if(path.isEmpty())
+    static QSet<Core::ContentType> allowed(
+        {Core::ContentType::WEBVIEW, Core::ContentType::PICTURE, Core::ContentType::NOTES});
+
+    if(path.isEmpty() || !allowed.contains(type))
         return;
 
     auto it= std::find_if(std::begin(m_links), std::end(m_links),

@@ -180,6 +180,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
                 auto it= m_mediaUpdaters.find(ctrl->contentType());
                 if(it != m_mediaUpdaters.end())
                     it->second->addMediaController(ctrl);
+                qDebug() << "ADD CONTROLLER @@@:" << ctrl->url();
                 if(!localIsGM())
                     m_historyModel->addLink(ctrl->url(), ctrl->name(), ctrl->contentType());
             });

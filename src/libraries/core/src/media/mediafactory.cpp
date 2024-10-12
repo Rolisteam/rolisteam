@@ -383,6 +383,9 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
         // clang-format off
         hu::setParamIfAny<QString>(ck::KEY_OWNERID, params, std::bind(&WebpageController::setOwnerId, webCtrl, _1));
         hu::setParamIfAny<QString>(ck::KEY_NAME, params, std::bind(&WebpageController::setName, webCtrl, _1));
+        hu::setParamIfAny<bool>(ck::KEY_LOCALISGM, params, [webCtrl](bool value){
+            webCtrl->setState(value ? WebpageController::State::localIsGM : WebpageController::State::LocalIsPlayer);
+        });
         hu::setParamIfAny<WebpageController::State>(ck::KEY_STATE, params, std::bind(&WebpageController::setState, webCtrl, _1));
         hu::setParamIfAny<QString>(ck::KEY_PATH, params, [webCtrl](const QString& value){
             webCtrl->setPageUrl(QUrl::fromUserInput(value));

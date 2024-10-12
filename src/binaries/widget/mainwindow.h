@@ -42,15 +42,14 @@
 #include "rwidgets/docks/channellistpanel.h"
 #include "rwidgets/docks/playerspanel.h"
 #include "rwidgets/docks/vmaptoolbar.h"
-#include "rwidgets/mediacontainers/vmapframe.h"
 #include "rwidgets/mediacontainers/mediacontainer.h"
+#include "rwidgets/mediacontainers/vmapframe.h"
 #include "rwidgets/toolbars/vtoolbar.h"
 #include "version.h"
 
 #ifndef NULL_PLAYER
 #include "rwidgets/docks/audioPlayer.h"
 #endif
-
 
 namespace Ui
 {
@@ -227,6 +226,7 @@ private:
 
 private:
     QPointer<GameController> m_gameController;
+    std::unique_ptr<QTabWidget> m_sideTabs;
 #ifndef NULL_PLAYER
     std::unique_ptr<AudioPlayer> m_audioPlayer;
 #endif
@@ -236,7 +236,6 @@ private:
     std::unique_ptr<campaign::AntagonistBoard> m_antagonistWidget;
     std::unique_ptr<QSystemTrayIcon> m_systemTray;
     std::unique_ptr<Workspace> m_mdiArea;
-    std::unique_ptr<QTabWidget> m_sideTabs;
 
     // subwindow
     Ui::MainWindow* m_ui;
@@ -254,6 +253,7 @@ private:
     ChannelListPanel* m_roomPanel;
 
     bool m_isOut= false;
+    bool m_ignoreUpdate{false};
 };
 
 #endif

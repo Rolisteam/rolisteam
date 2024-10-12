@@ -29,6 +29,20 @@ HistoryViewerDialog::HistoryViewerDialog(history::HistoryModel* model, QWidget* 
     ui->m_tableview->setModel(m_model);
     auto header= ui->m_tableview->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
+
+    ui->m_addBtn->setDefaultAction(ui->m_addAct);
+    ui->m_removeBtn->setDefaultAction(ui->m_removeAct);
+
+    connect(ui->m_addAct, &QAction::triggered, this,
+            [this]() { m_model->addLink({}, {}, Core::ContentType::WEBVIEW); });
+
+    connect(ui->m_removeAct, &QAction::triggered, this,
+            [this]()
+            {
+                auto const& idx= ui->m_tableview->currentIndex();
+                if(idx.isValid())
+                    m_model->removeLink(idx);
+            });
 }
 
 HistoryViewerDialog::~HistoryViewerDialog()

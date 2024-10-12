@@ -53,7 +53,7 @@ public:
 
     QString name() const;
     QString uuid() const;
-    QUrl url() const;
+    virtual QUrl url() const;
     Core::ContentType contentType() const;
     virtual QString title() const;
     bool isActive() const;

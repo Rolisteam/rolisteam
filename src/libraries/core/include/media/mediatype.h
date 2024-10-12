@@ -300,6 +300,7 @@ constexpr char const* KEY_URL{"URL"};
 constexpr char const* KEY_UUID{"uuid"};
 constexpr char const* KEY_VISIBILITY{"visibility"};
 constexpr char const* KEY_ZINDEX{"zindex"};
+constexpr auto KEY_LOCALISGM{"localIsGm"};
 } // namespace keys
 
 namespace vmapkeys

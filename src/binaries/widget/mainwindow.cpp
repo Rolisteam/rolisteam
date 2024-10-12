@@ -650,9 +650,11 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_manageHistoryAct, &QAction::triggered, this,
             [this]()
             {
+                m_ignoreUpdate= true;
                 auto ctrl= m_gameController->contentController();
                 HistoryViewerDialog dialog(ctrl->historyModel(), this);
                 dialog.exec();
+                m_ignoreUpdate= false;
                 updateFileHistoryMenu();
             });
 }
@@ -1043,6 +1045,8 @@ void MainWindow::openImage()
 
 void MainWindow::updateFileHistoryMenu()
 {
+    if(m_ignoreUpdate)
+        return;
     auto const& ctrl= m_gameController->contentController();
     auto const& model= ctrl->historyModel();
     auto const& data= model->data();
@@ -1071,29 +1075,30 @@ void MainWindow::openFileFromHistory()
     auto const& ctrl= m_gameController->contentController();
     auto const& model= ctrl->historyModel();
     auto info= model->idToPath(id);
-    if(!info.url.isEmpty())
+    if(info.url.isEmpty())
+        return;
+
+    std::map<QString, QVariant> map{{Core::keys::KEY_URL, info.url},
+                                    {Core::keys::KEY_PATH, info.url},
+                                    {Core::keys::KEY_NAME, info.displayName},
+                                    {Core::keys::KEY_TYPE, QVariant::fromValue(info.type)}};
+    if(info.type == Core::ContentType::PICTURE)
     {
-        std::map<QString, QVariant> map{{Core::keys::KEY_URL, info.url},
-                                        {Core::keys::KEY_NAME, info.displayName},
-                                        {Core::keys::KEY_TYPE, QVariant::fromValue(info.type)}};
-        if(info.type == Core::ContentType::PICTURE)
-        {
-            ImageSelectorController* ctrl= new ImageSelectorController(false, ImageSelectorController::All);
-            connect(ctrl, &ImageSelectorController::imageDataChanged, this,
-                    [this, ctrl, map]()
-                    {
-                        std::map<QString, QVariant> map2(map);
-                        auto data= ctrl->finalImageData();
-                        map2.insert({Core::keys::KEY_DATA, data});
-                        m_gameController->openMedia(map2);
-                        ctrl->deleteLater();
-                    });
-            ctrl->downloadImageFrom(info.url);
-        }
-        else
-        {
-            m_gameController->openMedia(map);
-        }
+        ImageSelectorController* ctrl= new ImageSelectorController(false, ImageSelectorController::All);
+        connect(ctrl, &ImageSelectorController::imageDataChanged, this,
+                [this, ctrl, map]()
+                {
+                    std::map<QString, QVariant> map2(map);
+                    auto data= ctrl->finalImageData();
+                    map2.insert({Core::keys::KEY_DATA, data});
+                    m_gameController->openMedia(map2);
+                    ctrl->deleteLater();
+                });
+        ctrl->downloadImageFrom(info.url);
+    }
+    else
+    {
+        m_gameController->openMedia(map);
     }
 }
 

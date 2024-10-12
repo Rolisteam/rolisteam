@@ -205,6 +205,8 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
             other[Core::keys::KEY_PATH]= m_campaignManager->createFileFromData(name, data);
         }
     }
+    other.insert(Core::keys::KEY_LOCALISGM, localIsGM());
+
     m_contentCtrl->openMedia(other.toStdMap());
 }
 

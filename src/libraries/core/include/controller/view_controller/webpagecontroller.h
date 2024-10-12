@@ -25,7 +25,7 @@
 
 #include "mediacontrollerbase.h"
 #include <core_global.h>
-class  CORE_EXPORT WebpageController : public MediaControllerBase
+class CORE_EXPORT WebpageController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(bool hideUrl READ hideUrl WRITE setHideUrl NOTIFY hideUrlChanged)
@@ -62,6 +62,8 @@ public:
     WebpageController::State state() const;
     WebpageController::SharingMode sharingMode() const;
     QUrl pageUrl() const;
+
+    QUrl url() const override;
 
 signals:
     void hideUrlChanged(bool hideUrl);
