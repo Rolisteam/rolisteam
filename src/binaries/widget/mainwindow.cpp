@@ -844,6 +844,8 @@ void MainWindow::readSettings()
     m_antagonistWidget->setFullMode(settings.value(Core::settings::KEY_ANTA_FULLMODE, false).toBool());
     m_antagonistWidget->setMinimalMode(settings.value(Core::settings::KEY_ANTA_MINIMODE, true).toBool());
 
+    m_sideTabs->setCurrentIndex(settings.value(Core::settings::KEY_CURRENT_TAB, 0).toInt());
+
     auto size= settings.beginReadArray(Core::settings::KEY_ANTA_ARRAY);
     auto& acts= m_antagonistWidget->columnsActions();
     for(int i= 0; i < size; ++i)
@@ -869,6 +871,7 @@ void MainWindow::writeSettings()
 
     settings.setValue(Core::settings::KEY_ANTA_MINIMODE, m_antagonistWidget->minimalMode());
     settings.setValue(Core::settings::KEY_ANTA_FULLMODE, m_antagonistWidget->fullMode());
+    settings.setValue(Core::settings::KEY_CURRENT_TAB, m_sideTabs->currentIndex());
 
     settings.beginWriteArray(Core::settings::KEY_ANTA_ARRAY);
     auto& acts= m_antagonistWidget->columnsActions();
