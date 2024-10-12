@@ -431,7 +431,6 @@ void TestNetwork::messageHeaderTest_data()
         "NewSong",
         "ChangePositionSong",
     });
-    actionPerCategorie.append(QStringList{"AddFeatureAction"});
     actionPerCategorie.append({
         "addDiceAlias",
         "moveDiceAlias",

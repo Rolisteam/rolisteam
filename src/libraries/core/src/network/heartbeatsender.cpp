@@ -1,64 +1,74 @@
 #include "network/heartbeatsender.h"
+#include "logcategories.h"
 #include "network/networkmessagewriter.h"
 
-HeartBeatSender::HeartBeatSender(QObject* parent)
-    : QObject(parent)
+HeartBeatSender::HeartBeatSender(QObject* parent) : QObject(parent)
 {
-    connect(&m_timer, &QTimer::timeout, this,  &HeartBeatSender::sendHeartBeatMsg);
-    connect(this, &HeartBeatSender::timeOutChanged, this, &HeartBeatSender::updateTimer);
-    connect(this, &HeartBeatSender::activeChanged, this, &HeartBeatSender::updateTimer);
+    connect(&m_timer, &QTimer::timeout, this,
+            [this]()
+            {
+                qCDebug(logCategory::network) << "Timeout send heartbeatAsk";
+                emit sendOff(new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::HeartbeatAsk));
+                m_awaitingAnswer++;
+                if(m_awaitingAnswer > m_maxMissingAnswer)
+                    emit disconnectionDetected();
+            });
+    connect(this, &HeartBeatSender::intervalChanged, this, &HeartBeatSender::updateTimer);
 }
 
-
-void HeartBeatSender::setIdLocalUser(const QString& str)
-{
-    if(str == m_localId)
-        return;
-    m_localId= str;
-    emit localIdChanged();
-}
-
-QString HeartBeatSender::localId() const
-{
-    return m_localId;
-}
 void HeartBeatSender::updateTimer()
 {
+    qCDebug(logCategory::network) << "UpdateTimer";
+    auto act= active();
     m_timer.stop();
-    if(m_active)
-    {
-        m_timer.start(m_timeOut * 1000);
-    }
-}
-void HeartBeatSender::sendHeartBeatMsg()
-{
-    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::Heartbeat);
-    msg.string8(m_localId);
-    msg.sendToServer();
-}
-
-int HeartBeatSender::timeOut() const
-{
-    return m_timeOut;
-}
-
-void HeartBeatSender::setTimeOut(int newTimeOut)
-{
-    if (m_timeOut == newTimeOut)
-        return;
-    m_timeOut = newTimeOut;
-    emit timeOutChanged();
+    if(act)
+        m_timer.start(m_interval * 1000);
 }
 
 bool HeartBeatSender::active() const
 {
-    return m_active;
+    return m_timer.isActive();
 }
 
-void HeartBeatSender::setActive(bool newActive)
+int HeartBeatSender::maxMissingAnswer() const
 {
-    if (m_active == newActive)
+    return m_maxMissingAnswer;
+}
+
+void HeartBeatSender::setMaxMissingAnswer(int missingAnswerCount)
+{
+    if(m_maxMissingAnswer == missingAnswerCount)
         return;
-    m_active = newActive;
-    emit activeChanged();
+    m_maxMissingAnswer= missingAnswerCount;
+    emit maxMissingAnswerChanged();
+}
+
+int HeartBeatSender::interval() const
+{
+    return m_interval;
+}
+
+void HeartBeatSender::setInterval(int newInterval)
+{
+    if(m_interval == newInterval)
+        return;
+    m_interval= newInterval;
+    emit intervalChanged();
+}
+
+void HeartBeatSender::start()
+{
+    qCDebug(logCategory::network) << "Start Timer";
+    m_timer.start(m_interval * 1000);
+}
+
+void HeartBeatSender::stop()
+{
+    qCDebug(logCategory::network) << "Stop Timer";
+    m_timer.stop();
+}
+
+void HeartBeatSender::receivedAnswer()
+{
+    --m_awaitingAnswer;
 }

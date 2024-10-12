@@ -27,9 +27,11 @@
 #include <QState>
 #include <QStateMachine>
 #include <QTcpSocket>
+#include <QTimer>
 
 #include "network_global.h"
 
+#include "network/heartbeatsender.h"
 #include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -170,12 +172,14 @@ public slots:
 
 protected:
     bool isCurrentState(QState* state);
-    void readAdministrationMessages(NetworkMessageReader& msg);
+    bool readAdministrationMessages(NetworkMessageReader& msg);
     void sendOffChannelChanged();
 
 private:
     QPointer<QTcpSocket> m_socket; // use std::unique_ptr
     NetworkMessageHeader m_header= {0, 0, 0};
+    std::unique_ptr<HeartBeatSender> m_heartBeat;
+
     char* m_buffer= nullptr;
     quint64 m_headerRead;
     quint64 m_remainingData;

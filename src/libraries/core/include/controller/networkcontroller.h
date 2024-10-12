@@ -43,6 +43,9 @@ class GameController;
 class IpChecker;
 class CountDownObject;
 
+/**
+ * @brief The NetworkController class is the controller on client side to use network API
+ */
 class CORE_EXPORT NetworkController : public AbstractControllerInterface, public NetWorkReceiver
 {
     Q_OBJECT
@@ -136,7 +139,6 @@ private:
     std::unique_ptr<ClientManager> m_clientManager;
     std::unique_ptr<RServer> m_server;
     std::unique_ptr<QThread> m_serverThread;
-    std::unique_ptr<HeartBeatSender> m_hbSender;
     std::unique_ptr<ProfileModel> m_profileModel;
     std::unique_ptr<ChannelModel> m_channelModel;
     std::unique_ptr<IpChecker> m_ipChecker;

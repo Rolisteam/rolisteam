@@ -50,7 +50,6 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, Serve
             if(channel != nullptr)
                 channel->removeClient(emitter);
         }
-
     }
     else if(msg->category() == NetMsg::PlayerCharacterCategory)
     {
@@ -69,10 +68,6 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, Serve
                 }
             }
         }
-    }
-    else if(msg->category() == NetMsg::SetupCategory)
-    {
-        saveIt= false;
     }
 
     if((sendToAll) && (nullptr != channel))
@@ -104,9 +99,6 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
         break;
     case NetMsg::MusicCategory:
         str= QStringLiteral("MusicCategory");
-        break;
-    case NetMsg::SetupCategory:
-        str= QStringLiteral("SetupCategory");
         break;
     case NetMsg::CampaignCategory:
         str= QStringLiteral("CampaignCategory");
@@ -145,8 +137,11 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::EndConnectionAction:
             str= QStringLiteral("EndConnectionAction");
             break;
-        case NetMsg::Heartbeat:
-            str= QStringLiteral("Heartbeat");
+        case NetMsg::HeartbeatAsk:
+            str= QStringLiteral("HeartbeatAsk");
+            break;
+        case NetMsg::HeartbeatAnswer:
+            str= QStringLiteral("HeartbeatAnswer");
             break;
         case NetMsg::ConnectionInfo:
             str= QStringLiteral("ConnectionInfo");
@@ -319,19 +314,6 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::ChangePositionSong:
             str= QStringLiteral("ChangePositionSong");
             break;
-        default:
-            str= QStringLiteral("Unknown Action");
-            break;
-        }
-    }
-    else if(cat == NetMsg::SetupCategory)
-    {
-        switch(act)
-        {
-        case NetMsg::AddFeatureAction:
-            str= QStringLiteral("AddFeatureAction");
-            break;
-
         default:
             str= QStringLiteral("Unknown Action");
             break;

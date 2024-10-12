@@ -52,6 +52,7 @@ void readDataAndSetModel(NetworkMessageReader* msg, ChannelModel* model)
 NetworkController::NetworkController(QObject* parent)
     : AbstractControllerInterface(parent)
     , m_clientManager(new ClientManager)
+    //, m_hbSender(new HeartBeatSender)
     , m_profileModel(new ProfileModel)
     , m_channelModel(new ChannelModel)
     , m_countDown(new CountDownObject(5, 10))
@@ -76,21 +77,20 @@ NetworkController::NetworkController(QObject* parent)
     connect(m_clientManager.get(), &ClientManager::moveToAnotherChannel, this, &NetworkController::tableChanged);
     connect(m_countDown.get(), &CountDownObject::triggered, this, &NetworkController::startServer);
 
-    // connect(m_clientManager.get(), SIGNAL(clearData()), this, SLOT(cleanUpData()));
-    // connect(m_clientManager.get(), &ClientManager::notifyUser, m_gameController.get(),
-    // &GameController::addFeatureLog);
-    // connect(m_clientManager.get(), &ClientManager::stopConnectionTry, this, &MainWindow::stopReconnection);
-    // connect(m_clientManager.get(), &ClientManager::errorOccur, m_dialog,
-    // &SelectConnectionProfileDialog::errorOccurs);
-    /*connect(m_clientManager.get(), SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
-            SLOT(updateWindowTitle()));*/
-
     connect(this, &NetworkController::selectedProfileIndexChanged, this, [this]() { emit isGMChanged(isGM()); });
     connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::hostingChanged);
     connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::askForGMChanged);
     connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::hostChanged);
     connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::portChanged);
     connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::serverPasswordChanged);
+
+    /* connect(m_hbSender.get(), &HeartBeatSender::sendOff, this, [](NetworkMessageWriter* msg) { msg->sendToServer();
+     }); connect(m_clientManager.get(), &ClientManager::connectedToServer, this, [this]()
+             {
+                 // TODO add preference reading here.
+                 if(!hosting())
+                     m_hbSender->start();
+             });*/
 }
 NetworkController::~NetworkController() {}
 
@@ -258,6 +258,12 @@ NetWorkReceiver::SendType NetworkController::processMessage(NetworkMessageReader
         qDebug() << "Authentification sucessed";
         m_clientManager->setAuthentificationStatus(true);
         break;
+    case NetMsg::HeartbeatAsk:
+    {
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::HeartbeatAnswer);
+        msg.sendToServer();
+    }
+    break;
     default:
         break;
     }

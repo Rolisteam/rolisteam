@@ -47,6 +47,10 @@ void ServerConnection::resetStateMachine()
     if(nullptr == m_socket)
         return;
 
+    m_heartBeat.reset(new HeartBeatSender);
+    connect(m_heartBeat.get(), &HeartBeatSender::sendOff, this,
+            [this](NetworkMessageWriter* msg) { sendMessage(msg, false); });
+
     m_stateMachine= new QStateMachine();
 
     connect(m_stateMachine, &QStateMachine::started, this, &ServerConnection::isReady);
@@ -72,64 +76,75 @@ void ServerConnection::resetStateMachine()
 
     m_stateMachine->start();
 
-    connect(m_incomingConnection, &QState::activeChanged, this, [=](bool b) {
-        qDebug() << "incomming state" << b;
-        if(b)
-        {
-            m_currentState= m_incomingConnection;
-        }
-    });
-    connect(m_controlConnection, &QState::activeChanged, this, [=](bool b) {
-        qDebug() << "control state" << b;
-        if(b)
-        {
-            m_currentState= m_controlConnection;
-            emit checkServerAcceptClient(this);
-        }
-    });
-
-    connect(m_authentificationServer, &QState::activeChanged, this, [=](bool b) {
-        qDebug() << "authentification state" << b;
-        if(b)
-        {
-            m_currentState= m_authentificationServer;
-            if(m_knownUser)
+    connect(m_incomingConnection, &QState::activeChanged, this,
+            [=](bool b)
             {
-                qDebug() << "checkserver password" << m_knownUser;
-                emit checkServerPassword(this);
-            }
-            else
+                qDebug() << "incomming state" << b;
+                if(b)
+                {
+                    m_currentState= m_incomingConnection;
+                }
+            });
+    connect(m_controlConnection, &QState::activeChanged, this,
+            [=](bool b)
             {
-                qDebug() << "Waiting for data" << m_knownUser;
-                m_waitingData= true;
-            }
-        }
-    });
-    connect(m_wantToGoToChannel, &QState::activeChanged, this, [=](bool b) {
-        if(b)
-        {
-            m_currentState= m_wantToGoToChannel;
-        }
-    });
+                qDebug() << "control state" << b;
+                if(b)
+                {
+                    m_currentState= m_controlConnection;
+                    emit checkServerAcceptClient(this);
+                }
+            });
 
-    connect(m_disconnected, &QState::activeChanged, this, [=](bool b) {
-        if(b)
-        {
-            m_currentState= m_disconnected;
-            m_forwardMessage= false;
-            if(nullptr != m_socket)
+    connect(m_authentificationServer, &QState::activeChanged, this,
+            [=](bool b)
             {
-                m_socket->close();
-            }
-        }
-    });
+                qDebug() << "authentification state" << b;
+                if(b)
+                {
+                    m_currentState= m_authentificationServer;
+                    if(m_knownUser)
+                    {
+                        qDebug() << "checkserver password" << m_knownUser;
+                        emit checkServerPassword(this);
+                    }
+                    else
+                    {
+                        qDebug() << "Waiting for data" << m_knownUser;
+                        m_waitingData= true;
+                    }
+                }
+            });
+    connect(m_wantToGoToChannel, &QState::activeChanged, this,
+            [=](bool b)
+            {
+                if(b)
+                {
+                    m_currentState= m_wantToGoToChannel;
+                }
+            });
 
-    connect(m_connected, &QState::activeChanged, this, [=](bool b) {
-        if(b)
-        {
-            m_forwardMessage= true;
-        }
-    });
+    connect(m_disconnected, &QState::activeChanged, this,
+            [=](bool b)
+            {
+                if(b)
+                {
+                    m_currentState= m_disconnected;
+                    m_forwardMessage= false;
+                    m_heartBeat->stop();
+                    closeConnection();
+                }
+            });
+
+    connect(m_connected, &QState::activeChanged, this,
+            [=](bool b)
+            {
+                if(b)
+                {
+                    m_heartBeat->start();
+                    m_forwardMessage= true;
+                }
+            });
 
     m_incomingConnection->addTransition(this, &ServerConnection::checkSuccess, m_controlConnection);
     m_incomingConnection->addTransition(this, &ServerConnection::checkFail, m_disconnected);
@@ -348,8 +363,8 @@ void ServerConnection::forwardMessage()
         qDebug() << "read admin message";
         NetworkMessageReader msg;
         msg.setData(array);
-        readAdministrationMessages(msg);
-        emit dataReceived(array);
+        if(readAdministrationMessages(msg))
+            emit dataReceived(array);
     }
     else if(!m_forwardMessage)
     {
@@ -446,8 +461,9 @@ void ServerConnection::sendOffChannelChanged()
     NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::MovedIntoChannel);
     sendMessage(&msg, false);
 }
-void ServerConnection::readAdministrationMessages(NetworkMessageReader& msg)
+bool ServerConnection::readAdministrationMessages(NetworkMessageReader& msg)
 {
+    bool res= true;
     qDebug() << "read Admin messages " << msg.action();
     switch(msg.action())
     {
@@ -483,12 +499,27 @@ void ServerConnection::readAdministrationMessages(NetworkMessageReader& msg)
         m_adminPassword= msg.byteArray32();
         emit checkAdminPassword(this);
         break;
+    case NetMsg::HeartbeatAsk:
+    {
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::HeartbeatAnswer);
+        sendMessage(&msg, false);
+        res= false;
+    }
+    break;
+    case NetMsg::HeartbeatAnswer:
+    {
+        m_heartBeat->receivedAnswer();
+        res= false;
+    }
+    break;
     case NetMsg::Goodbye:
         closeConnection();
         break;
     default:
         break;
     }
+
+    return res;
 }
 
 Channel* ServerConnection::getParentChannel() const

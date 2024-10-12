@@ -45,7 +45,6 @@ enum Category
     CharacterSheetCategory,
     InstantMessageCategory,
     MusicCategory,
-    SetupCategory,
     CampaignCategory,
     VMapCategory,
     MediaCategory,
@@ -58,7 +57,8 @@ enum Action
 {
     // AdministrationCategory
     EndConnectionAction= 0,
-    Heartbeat,
+    HeartbeatAsk,
+    HeartbeatAnswer,
     ConnectionInfo,
     Goodbye,
     Kicked,
@@ -111,9 +111,6 @@ enum Action
     PauseSong,
     NewSong,
     ChangePositionSong,
-
-    // SetupCategory
-    AddFeatureAction= 0,
 
     // CampaignCategory
     addDiceAlias= 0,

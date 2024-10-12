@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTimer>
 
+class NetworkMessageWriter;
 /**
  * @brief The heartBeatSender class is dedicated to send off heartbeat messages preventing
  * disconnection for some users.
@@ -11,35 +12,42 @@
 class HeartBeatSender : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int timeOut READ timeOut WRITE setTimeOut NOTIFY timeOutChanged FINAL)
-    Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged FINAL)
-    Q_PROPERTY(QString localId READ localId WRITE setIdLocalUser NOTIFY localIdChanged FINAL)
+    Q_PROPERTY(int interval READ interval WRITE setInterval NOTIFY intervalChanged FINAL)
+    Q_PROPERTY(bool active READ active NOTIFY activeChanged FINAL)
+    Q_PROPERTY(
+        int maxMissingAnswer READ maxMissingAnswer WRITE setMaxMissingAnswer NOTIFY maxMissingAnswerChanged FINAL)
 public:
-    explicit HeartBeatSender( QObject* parent= nullptr);
-
-    void setIdLocalUser(const QString& id);
-    QString localId()const;
-
-    int timeOut() const;
-    void setTimeOut(int newTimeOut);
+    explicit HeartBeatSender(QObject* parent= nullptr);
 
     bool active() const;
     void setActive(bool newActive);
 
+    int maxMissingAnswer() const;
+    void setMaxMissingAnswer(int newMissingAnswerCont);
+
+    int interval() const;
+    void setInterval(int newInterval);
+
 public slots:
-    void sendHeartBeatMsg();
-    void updateTimer();
+    void start();
+    void stop();
+    void receivedAnswer();
 
 signals:
-    void timeOutChanged();
-    void localIdChanged();
+    void sendOff(NetworkMessageWriter* msg);
     void activeChanged();
+    void disconnectionDetected();
+    void maxMissingAnswerChanged();
+    void intervalChanged();
+
+private slots:
+    void updateTimer();
 
 private:
     QTimer m_timer;
-    int m_timeOut{10000};
-    QString m_localId{QStringLiteral("unknown")};
-    bool m_active{false};
+    int m_maxMissingAnswer{3};
+    int m_interval{10};
+    int m_awaitingAnswer{0};
 };
 
 #endif // HEARTBEATSENDER_H
