@@ -1282,60 +1282,39 @@ msgid "Select"
 msgstr "Vybrat"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:60
-#, fuzzy
-#| msgctxt "TextController|"
-#| msgid "Text"
 msgctxt "TableCanvasField|"
 msgid "TextInput"
-msgstr "Text"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:61
-#, fuzzy
-#| msgctxt "TextController|"
-#| msgid "Text"
 msgctxt "TableCanvasField|"
 msgid "TextField"
-msgstr "Text"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:62
-#, fuzzy
-#| msgctxt "TextController|"
-#| msgid "Text"
 msgctxt "TableCanvasField|"
 msgid "TextArea"
-msgstr "Text"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:63
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Select"
 msgctxt "TableCanvasField|"
 msgid "Select"
-msgstr "Vybrat"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:64
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "TableCanvasField|"
 msgid "CheckBox"
-msgstr "Přepínač"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:65
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "TableCanvasField|"
 msgid "Image"
-msgstr "Obrázek"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:66
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "TableCanvasField|"
 msgid "Label"
-msgstr "Popisek"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:67
 msgctxt "TableCanvasField|"
@@ -1343,28 +1322,19 @@ msgid "Dice Button"
 msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:68
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "function"
 msgctxt "TableCanvasField|"
 msgid "Function Button"
-msgstr "funkce"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:69
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Web Page"
 msgctxt "TableCanvasField|"
 msgid "Web page"
-msgstr "Webová stránka"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:70
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "TableCanvasField|"
 msgid "Slider"
-msgstr "Posuvník"
+msgstr ""
 
 #: src/binaries/rcse/tablecanvasfield.cpp:323
 msgctxt "TableCanvasField|"
@@ -1630,20 +1600,14 @@ msgid "Side Panels"
 msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:385
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "List of Players"
-msgstr "Zvukový přehrávač"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:386
-#, fuzzy
-#| msgctxt "FieldView|"
-#| msgid "All columns"
 msgctxt "MainWindow|"
 msgid "All campaign documents"
-msgstr "Všechny sloupce"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:387
 msgctxt "MainWindow|"
@@ -1651,20 +1615,14 @@ msgid "List of antagonists"
 msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:388
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "Music Player"
-msgstr "Zvukový přehrávač"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:389
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
 msgctxt "MainWindow|"
 msgid "Server Panel"
-msgstr "Server"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:390
 msgctxt "MainWindow|"
@@ -1672,12 +1630,9 @@ msgid "Notification Zone"
 msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:404
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "GM Tools"
-msgstr "Nástroje"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:463
 msgctxt "MainWindow|"
@@ -1690,12 +1645,9 @@ msgid "Webpage url:"
 msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:476
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open %1"
 msgctxt "MainWindow|"
 msgid "Open Map"
-msgstr "Otevřít %1"
+msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:476
 msgctxt "MainWindow|"
@@ -2391,28 +2343,19 @@ msgid "Remove Last line"
 msgstr "Odstranit poslední řádek"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:27
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Add line"
 msgctxt "Tablev1|"
 msgid "Add line"
-msgstr "Přidat řádek"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:31
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove current Line"
 msgctxt "Tablev1|"
 msgid "Remove current Line"
-msgstr "Odstranit současný řádek"
+msgstr ""
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:37
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove Last line"
 msgctxt "Tablev1|"
 msgid "Remove Last line"
-msgstr "Odstranit poslední řádek"
+msgstr ""
 
 #: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:533
 msgctxt "CharacterSheetModel|"
@@ -4007,12 +3950,9 @@ msgid "Remove selected file"
 msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:189
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidget|"
 msgid "Add new directory"
-msgstr "Přidat nový adresář"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:332
 msgctxt "PlayerWidget|"
@@ -4094,87 +4034,57 @@ msgid "repeat"
 msgstr "opakování"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:237
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Root Directory:"
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr "Kořenový adresář:"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
 #: src/libraries/rwidgets/customs/playerwidget.ui:271
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
 #: src/libraries/rwidgets/customs/playerwidget.ui:285
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "..."
 msgctxt "PlayerWidgetUI|"
 msgid "..."
-msgstr "..."
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:312
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr "Přidat nový adresář"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:315
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
-msgstr "Přidat nový adresář"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:326
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Page"
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
-msgstr "Odstranit stranu"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:329
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
-msgstr "Vyberte adresář"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:340
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Pdf path"
 msgctxt "PlayerWidgetUI|"
 msgid "Up path"
-msgstr "Cesta k pdf"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:343
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
-msgstr "Vyberte adresář"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:354
-#, fuzzy
-#| msgctxt "AntagonistBoard|"
-#| msgid "Remove Action"
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
-msgstr "Odstranit činnost"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:357
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
-msgstr "Vyberte adresář"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:211
 #, qt-format
@@ -4952,12 +4862,9 @@ msgid "Color:"
 msgstr "Barva:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "PreferencesDialog|"
 msgid "GM Only"
-msgstr "Pouze ke čtení"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
 msgctxt "PreferencesDialog|"
@@ -7614,12 +7521,9 @@ msgid "%1 - (CharacterSheet Viewer)"
 msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
-msgstr "Neznámý"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:208
 #, qt-format
@@ -8436,43 +8340,3 @@ msgstr "Spící"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Posedlý"
-
-#~ msgctxt "TableCanvasField|"
-#~ msgid "Properties"
-#~ msgstr "Vlastnosti"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Alt+A"
-#~ msgstr "Alt+A"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Alt+N"
-#~ msgstr "Alt+N"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Add"
-#~ msgstr "Přidat"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "up"
-#~ msgstr "nahoru"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "down"
-#~ msgstr "dolů"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "QML Errors"
-#~ msgstr "Chyby QML"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Load QML"
-#~ msgstr "Načíst QML"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Detach Tab"
-#~ msgstr "Vytrhnout kartu"
