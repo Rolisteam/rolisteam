@@ -76,7 +76,7 @@ public:
     void renameChannel(const QString& senderId, const QString& id, const QString& value);
     bool moveClient(Channel* origin, const QString& id, Channel* dest);
 
-    const QList<TreeItem*>& modelData();
+    const QList<QPointer<TreeItem> > &modelData();
     void resetData(QList<TreeItem*> data);
 signals:
     void totalSizeChanged(quint64);
@@ -98,7 +98,7 @@ private:
     std::pair<quint64, QString> convert(quint64 size) const;
 
 private:
-    QList<TreeItem*> m_root;
+    QList<QPointer<TreeItem>> m_root;
     std::map<Channel*, quint64> m_sizeMap;
     QString m_defaultChannel;
     QString m_localPlayerId;
