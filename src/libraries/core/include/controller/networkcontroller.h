@@ -64,7 +64,16 @@ class CORE_EXPORT NetworkController : public AbstractControllerInterface, public
     Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)
     Q_PROPERTY(int selectedProfileIndex READ selectedProfileIndex WRITE setSelectedProfileIndex NOTIFY
                    selectedProfileIndexChanged FINAL)
+    Q_PROPERTY(NetworkController::Groups groups READ groups WRITE setGroups NOTIFY groupsChanged FINAL)
 public:
+    enum Group
+    {
+        VIEWER= 0x1,
+        GAMEMASTER= 0x1,
+        ADMIN= 0x2
+    };
+    Q_DECLARE_FLAGS(Groups, Group)
+
     explicit NetworkController(QObject* parent= nullptr);
     ~NetworkController() override;
     bool isGM() const;
@@ -92,6 +101,10 @@ public:
     void setSelectedProfileIndex(int newSelectedProfileIndex);
     ConnectionProfile* currentProfile() const;
 
+    bool isAdmin() const;
+    NetworkController::Groups groups() const;
+    void setGroups(NetworkController::Groups group);
+
 signals:
     void isGMChanged(bool);
     void connectedChanged(bool);
@@ -107,10 +120,9 @@ signals:
     void tableChanged();
     void lastErrorChanged(const QString& error);
     void infoMessage(const QString& msg);
-
     void authentificationFail();
-
     void selectedProfileIndexChanged();
+    void groupsChanged();
 
 public slots:
     // network
@@ -123,6 +135,15 @@ public slots:
     void removeProfile(int pos);
     void closeServer();
     void saveData();
+
+    void sendOffLoginAdmin(const QString& password);
+    void lockChannel(const QString& uuid, NetMsg::Action action);
+    void banUser(const QString& uuid, const QString& playerId);
+    void kickUser(const QString& uuid, const QString& playerId);
+    void addChannel(const QString& parentId);
+    void resetChannel(const QString& channelId);
+    void deleteChannel(const QString& channelId);
+    void definePasswordOnChannel(const QString& channelId, const QByteArray& password);
 
 private slots:
     void sendOffConnectionInfo();
@@ -150,20 +171,17 @@ private:
 
     // QByteArray m_serverPw;
     QByteArray m_admindPw;
-
-    // QString m_host;
-    // int m_port= 6660;
     QString m_ipv4Address;
     QString m_lastError;
 
     // Data
-    // bool m_isGM= true;
-    // bool m_hosting= false;
-    // bool m_askForGM= true;
     bool m_connected= false;
     bool m_connecting= false;
 
     int m_selectedProfileIndex{0};
+    Groups m_currentGroups{Group::VIEWER};
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(NetworkController::Groups)
 
 #endif // CONNECTIONCONTROLLER_H
