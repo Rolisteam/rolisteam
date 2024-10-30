@@ -18,11 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <QObject>
+#include <QStyle>
+#include <QStyleFactory>
 #include <QtTest/QtTest>
 #include <data/rolisteamtheme.h>
 #include <helper.h>
-#include <QStyle>
-#include <QStyleFactory>
 
 class RolisteamThemeTest : public QObject
 {
@@ -43,7 +43,7 @@ RolisteamThemeTest::RolisteamThemeTest() {}
 
 void RolisteamThemeTest::initTestCase()
 {
-    m_theme = new RolisteamTheme();
+    m_theme= new RolisteamTheme();
 }
 
 void RolisteamThemeTest::setAndGetTest()
@@ -51,10 +51,10 @@ void RolisteamThemeTest::setAndGetTest()
     QPalette pal(Qt::blue);
 
     {
-        QList<QPalette::ColorGroup> group{QPalette::ColorGroup::Disabled,QPalette::ColorGroup::Active,QPalette::ColorGroup::Inactive};
-        QList<QPalette::ColorRole> role{QPalette::Highlight, QPalette::HighlightedText,
-                                        QPalette::Link, QPalette::LinkVisited,
-                                        QPalette::NoRole};
+        QList<QPalette::ColorGroup> group{QPalette::ColorGroup::Disabled, QPalette::ColorGroup::Active,
+                                          QPalette::ColorGroup::Inactive};
+        QList<QPalette::ColorRole> role{QPalette::Highlight, QPalette::HighlightedText, QPalette::Link,
+                                        QPalette::LinkVisited, QPalette::NoRole};
         for(auto g : group)
         {
             for(auto r : role)
@@ -65,15 +65,30 @@ void RolisteamThemeTest::setAndGetTest()
     }
     m_theme->setPalette(pal);
 
-    QList<QPalette::ColorGroup> group{QPalette::ColorGroup::Disabled,QPalette::ColorGroup::Active,QPalette::ColorGroup::Inactive};
-    QList<QPalette::ColorRole> role{QPalette::WindowText, QPalette::Button, QPalette::Light, QPalette::Midlight, QPalette::Dark, QPalette::Mid,
-        QPalette::Text, QPalette::BrightText, QPalette::ButtonText, QPalette::Base, QPalette::Window, QPalette::Shadow,
-        QPalette::Highlight, QPalette::HighlightedText,
-        QPalette::Link, QPalette::LinkVisited,
-        QPalette::AlternateBase,
-        QPalette::NoRole,
-        QPalette::ToolTipBase, QPalette::ToolTipText,
-        QPalette::PlaceholderText};
+    QList<QPalette::ColorGroup> group{QPalette::ColorGroup::Disabled, QPalette::ColorGroup::Active,
+                                      QPalette::ColorGroup::Inactive};
+    QList<QPalette::ColorRole> role{QPalette::WindowText,
+                                    QPalette::Button,
+                                    QPalette::Light,
+                                    QPalette::Midlight,
+                                    QPalette::Dark,
+                                    QPalette::Mid,
+                                    QPalette::Text,
+                                    QPalette::BrightText,
+                                    QPalette::ButtonText,
+                                    QPalette::Base,
+                                    QPalette::Window,
+                                    QPalette::Shadow,
+                                    QPalette::Highlight,
+                                    QPalette::HighlightedText,
+                                    QPalette::Link,
+                                    QPalette::LinkVisited,
+                                    QPalette::AlternateBase,
+                                    QPalette::NoRole,
+                                    QPalette::ToolTipBase,
+                                    QPalette::ToolTipText,
+                                    QPalette::PlaceholderText,
+                                    QPalette::Accent};
     for(auto g : group)
     {
         for(auto r : role)
@@ -83,41 +98,39 @@ void RolisteamThemeTest::setAndGetTest()
     }
     QCOMPARE(m_theme->getPalette(), pal);
 
-    auto name = Helper::randomString();
+    auto name= Helper::randomString();
     m_theme->setName(name);
     QCOMPARE(m_theme->getName(), name);
 
-    auto css  = Helper::randomString();
+    auto css= Helper::randomString();
     m_theme->setCss(css);
     QCOMPARE(m_theme->getCss(), css);
-
 
     m_theme->setRemovable(true);
     QVERIFY(m_theme->isRemovable());
     m_theme->setRemovable(false);
     QVERIFY(!m_theme->isRemovable());
 
-    auto style = QStyleFactory::create("fusion");
+    auto style= QStyleFactory::create("fusion");
     m_theme->setStyle(style);
     QCOMPARE(m_theme->getStyle()->objectName(), style->objectName());
     QCOMPARE(m_theme->getStyleName(), "fusion");
 
-    auto imgPath = Helper::randomString();
+    auto imgPath= Helper::randomString();
     m_theme->setBackgroundImage(imgPath);
     QCOMPARE(m_theme->getBackgroundImage(), imgPath);
 
-    auto bgColor = Helper::randomColor();
+    auto bgColor= Helper::randomColor();
     m_theme->setBackgroundColor(bgColor);
     QCOMPARE(m_theme->getBackgroundColor(), bgColor);
 
-    auto position = Helper::generate<int>(0,10);
+    auto position= Helper::generate<int>(0, 10);
     m_theme->setBackgroundPosition(position);
     QCOMPARE(m_theme->getBackgroundPosition(), position);
 
-    auto diceColor = Helper::randomColor();
+    auto diceColor= Helper::randomColor();
     m_theme->setDiceHighlightColor(diceColor);
     QCOMPARE(m_theme->getDiceHighlightColor(), diceColor);
-
 }
 void RolisteamThemeTest::cleanupTestCase()
 {

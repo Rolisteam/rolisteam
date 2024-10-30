@@ -64,9 +64,6 @@ public:
 
     bool ready() const;
 public slots:
-    // void processPlayerMessage(NetworkMessageReader* msg);
-    // void processSetupMessage(NetworkMessageReader* msg);
-
     void connectTo(const QString& host, int port);
     void disconnectAndClose();
     void reset();

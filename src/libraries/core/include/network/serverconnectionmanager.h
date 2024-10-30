@@ -7,7 +7,7 @@
 #include <QTcpSocket>
 #include <QThread>
 
-//#include "networkmessage.h"
+// #include "networkmessage.h"
 #include <common/logcontroller.h>
 
 #include "network_global.h"
@@ -59,12 +59,9 @@ public slots:
     void messageReceived(QByteArray);
     void initClient();
 
-    // void sendOffModel(ServerConnection*);
-    // void sendOffModelToAll();
     void sendOffAdminAuthFail();
     void sendOffAdminAuthSuccessed();
 
-    // Connection proccess tests
     void serverAcceptClient(ServerConnection* client);
     void checkAuthToServer(ServerConnection* client);
     void checkAuthToChannel(ServerConnection* client, QString channelId, QByteArray password);

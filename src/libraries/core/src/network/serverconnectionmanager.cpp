@@ -226,13 +226,12 @@ void ServerConnectionManager::checkAuthToChannel(ServerConnection* client, QStri
 void ServerConnectionManager::sendOffAdminAuthSuccessed()
 {
     ServerConnection* client= qobject_cast<ServerConnection*>(sender());
-    if(nullptr != client)
-    {
-        NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::AdminAuthSucessed);
-        QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
-                                  Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
-        // sendOffModel(client);
-    }
+    if(!client)
+        return;
+
+    NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::AdminAuthSucessed);
+    QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
+                              Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
 }
 void ServerConnectionManager::sendOffAdminAuthFail()
 {
@@ -497,7 +496,8 @@ void ServerConnectionManager::accept(qintptr handle, ServerConnection* connectio
 
     connect(
         connection, &ServerConnection::itemChanged, this,
-        [this]() {
+        [this]()
+        {
             qDebug() << "connection ItemChanged";
             // sendOffModelToAll();
         },

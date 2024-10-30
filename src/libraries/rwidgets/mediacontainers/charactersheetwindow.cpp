@@ -62,11 +62,13 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     setWindowIcon(QIcon::fromTheme("treeview"));
 
     if(m_sheetCtrl)
+    {
         m_ui->m_treeview->setModel(m_sheetCtrl->model());
 
-    auto pref= m_sheetCtrl->preferences();
-    resize(pref ? pref->value("charactersheetwindows/width", 400).toInt() : 400,
-           pref ? pref->value("charactersheetwindows/height", 600).toInt() : 600);
+        auto pref= m_sheetCtrl->preferences();
+        resize(pref ? pref->value("charactersheetwindows/width", 400).toInt() : 400,
+               pref ? pref->value("charactersheetwindows/height", 600).toInt() : 600);
+    }
 
     m_ui->m_treeview->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_ui->m_treeview, &QTreeView::customContextMenuRequested, this, &CharacterSheetWindow::displayCustomMenu);
@@ -125,7 +127,7 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
 
     updateTitle();
 
-    if(m_sheetCtrl->remote())
+    if(m_sheetCtrl && m_sheetCtrl->remote())
     {
         auto const& set= m_sheetCtrl->sheetData();
         std::for_each(std::begin(set), std::end(set),

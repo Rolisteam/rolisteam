@@ -57,32 +57,36 @@ void SideMenuControllerTest::init()
 void initModel(mindmap::MindItemModel* model)
 {
     new QAbstractItemModelTester(model);
-    model->appendItem({}, false);
 
-
-/*    l.first->setText("foo");
-    l.first->setId("toto");
-    auto node1= dynamic_cast<MindNode*>(l.first);
+    // l.first->setText("foo");
+    // l.first->setId("toto");
+    auto node1= new MindNode();
     node1->setTags({"tag1", "tag2", "blue", "yellow"});
     node1->setDescription("Description of node1");
+    node1->setText("foo");
+    node1->setId("toto");
 
-    auto l2= model->addItem(l.first->id(), MindItem::NodeType);
-    l2.first->setText("bar");
-    auto node2= dynamic_cast<MindNode*>(l2.first);
+    auto node2= new MindNode();
+    node2->setText("bar");
+    node2->setId("toto2");
     node2->setTags({"tag1", "yellow", "mouse"});
     node2->setDescription("bla.. bla..");
 
-    auto l3= model->addItem(l2.first->id(), MindItem::NodeType);
-    l3.first->setText("characters");
-    auto node3= dynamic_cast<MindNode*>(l3.first);
+    auto node3= new MindNode();
+    node3->setParentNode(node1);
+    node3->setText("characters");
+    node3->setId("charactersId");
     node3->setTags({"pc", "failure", "coffe"});
     node3->setDescription("The characters");
 
-    auto l4= model->addItem(l.first->id(), MindItem::NodeType);
-    l4.first->setText("sentiment");
-    auto node4= dynamic_cast<MindNode*>(l4.first);
+    auto node4= new MindNode();
+    node4->setParentNode(node1);
+    node4->setText("sentiment");
+    node4->setId("id4");
     node4->setTags({"samourai", "sword", "killer"});
-    node4->setDescription("hello world!");=*/
+    node4->setDescription("hello world!");
+
+    model->appendItem({node1, node2, node3, node4}, false);
 }
 
 void SideMenuControllerTest::criteria()

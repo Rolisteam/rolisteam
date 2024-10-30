@@ -70,7 +70,7 @@ private:
     QByteArray m_msgData;
 };
 
-HELPER_EXPORT std::pair<bool, QStringList> testAllProperties(QObject* obj, bool setAgain= true);
+HELPER_EXPORT std::pair<bool, QStringList> testAllProperties(QObject* obj, QStringList ignoredProperties, bool setAgain= true);
 
 template <typename T>
 T generate(const T& min, const T& max) //=std::numeric_limits<T>::min(),

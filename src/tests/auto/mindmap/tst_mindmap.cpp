@@ -345,21 +345,11 @@ void MindMapTest::remoteAddTest()
     readMsg.setData(dataMsg);
     MessageHelper::readMindMapAddItem(m_ctrl.get(), &readMsg);
 
-    /*  auto dataMsg1= msg1.getData();
-      NetworkMessageReader readMsg1;
-      readMsg1.setData(dataMsg1);
-      MessageHelper::readAddMindMapNode(m_ctrl.get(), &readMsg1);
-
-      auto dataMsgLink= msgLink.getData();
-      NetworkMessageReader readMsgLink;
-      readMsgLink.setData(dataMsgLink);
-      MessageHelper::readMindMapLink(m_ctrl.get(), &readMsgLink);*/
-
-    QCOMPARE(itemModel->rowCount(), 2);
-    QCOMPARE(itemAdded.count(), 2);
+    QCOMPARE(itemModel->rowCount(), 3);
+    QCOMPARE(itemAdded.count(), 3);
 
     auto links= itemModel->items(mindmap::MindItem::LinkType);
-    QCOMPARE(links.size(), 0);
+    QCOMPARE(links.size(), 1);
 
     QTimer timer;
     QSignalSpy spacer(&timer, &QTimer::timeout);
@@ -376,10 +366,6 @@ void MindMapTest::remoteAddTest()
     QCOMPARE(qIsNaN(realNode2->position().x()), false);
     QCOMPARE(qIsNaN(realNode2->position().y()), false);
 
-    // QCOMPARE(node1->position(), realNode1->position());
-    // QCOMPARE(node1->boundingRect(), realNode1->boundingRect());
-    // QCOMPARE(realLink->startPoint(), link->startPoint());
-    // QCOMPARE(realLink->endPoint(), link->endPoint());
     if(realLink)
     {
         QVERIFY(realLink->startPoint() != QPointF());
@@ -414,9 +400,12 @@ void MindMapTest::removeNodeAndLinkTest()
                 if(d == 0)
                 {
                     m_ctrl->addNode(QString());
-                    auto last= nodes[nodes.size() - 1];
+                    if(!nodes.empty())
+                    {
+                        auto last= nodes[nodes.size() - 1];
 
-                    currentLevelIds << last->id();
+                        currentLevelIds << last->id();
+                    }
                 }
                 else
                 {

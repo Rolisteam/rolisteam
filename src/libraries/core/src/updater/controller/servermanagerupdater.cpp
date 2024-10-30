@@ -36,7 +36,8 @@ ServerManagerUpdater::ServerManagerUpdater(ServerConnectionManager* ctrl, bool i
     auto model= m_ctrl->channelModel();
     Q_ASSERT(model);
 
-    auto computeModel= [this]() {
+    auto computeModel= [this]()
+    {
         auto model= m_ctrl->channelModel();
         setChannelData(helper::network::jsonObjectToByteArray(helper::network::channelModelToJSonObject(model)));
 
@@ -53,17 +54,21 @@ ServerManagerUpdater::ServerManagerUpdater(ServerConnectionManager* ctrl, bool i
     connect(model, &ChannelModel::rowsMoved, this, computeModel);
     connect(model, &ChannelModel::rowsRemoved, this, computeModel);
 
-    connect(this, &ServerManagerUpdater::channelsDataChanged, this, [this]() {
-        auto conns= m_ctrl->connections();
-        for(auto conn : conns)
-        {
-            NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
-            msg->byteArray32(m_channelData);
-            QMetaObject::invokeMethod(conn, "sendMessage", Qt::QueuedConnection,
-                                      Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
-        }
-        // delete msg;
-    });
+    connect(this, &ServerManagerUpdater::channelsDataChanged, this,
+            [this]()
+            {
+                qDebug() << "send data channel list";
+                auto conns= m_ctrl->connections();
+                for(auto conn : conns)
+                {
+                    NetworkMessageWriter* msg
+                        = new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
+                    msg->byteArray32(m_channelData);
+                    QMetaObject::invokeMethod(conn, "sendMessage", Qt::QueuedConnection,
+                                              Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)),
+                                              Q_ARG(bool, false));
+                }
+            });
 }
 
 QByteArray ServerManagerUpdater::channelsData()
@@ -73,6 +78,7 @@ QByteArray ServerManagerUpdater::channelsData()
 
 void ServerManagerUpdater::setChannelData(const QByteArray& array)
 {
+    qDebug() << "channel model:" << array;
     if(array == m_channelData)
         return;
     m_channelData= array;

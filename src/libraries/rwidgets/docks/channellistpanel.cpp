@@ -14,7 +14,7 @@
 #include "preferences/preferencesmanager.h"
 
 ChannelListPanel::ChannelListPanel(PreferencesManager* preferences, NetworkController* ctrl, QWidget* parent)
-    : QWidget(parent), ui(new Ui::ChannelListPanel), m_ctrl(ctrl), m_pref(preferences), m_currentGroups(VIEWER)
+    : QWidget(parent), ui(new Ui::ChannelListPanel), m_ctrl(ctrl), m_pref(preferences)
 {
     ui->setupUi(this);
     ui->m_channelView->setModel(m_ctrl->channelModel());
@@ -64,46 +64,6 @@ ChannelListPanel::~ChannelListPanel()
 {
     delete ui;
 }
-void ChannelListPanel::processMessage(NetworkMessageReader* msg)
-{
-    switch(msg->action())
-    {
-    case NetMsg::Goodbye:
-        break;
-    case NetMsg::Kicked:
-        break;
-    case NetMsg::MoveChannel:
-        break;
-    case NetMsg::SetChannelList:
-    {
-        QByteArray channelData= msg->byteArray32();
-        QJsonDocument doc= QJsonDocument::fromJson(channelData);
-        if(!doc.isEmpty())
-        {
-            QJsonObject obj= doc.object();
-            // m_model->readDataJson(obj);
-        }
-    }
-    break;
-    case NetMsg::GMStatus:
-    {
-        auto isGM= msg->uint8();
-        if(isGM && (m_currentGroups == VIEWER))
-        {
-            setCurrentGroups(m_currentGroups | GAMEMASTER);
-        }
-    }
-    break;
-    case NetMsg::AdminAuthFail:
-        setCurrentGroups(VIEWER);
-        break;
-    case NetMsg::AdminAuthSucessed:
-        setCurrentGroups(m_currentGroups | ADMIN);
-        break;
-    default:
-        break;
-    }
-}
 
 void ChannelListPanel::showCustomMenu(QPoint pos)
 {
@@ -148,7 +108,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
                 if(child != nullptr)
                 {
                     isCurrentChannel= true;
-                    if(isGM())
+                    if(m_ctrl->isGM())
                         isGmChannel= true;
                 }
             }
@@ -161,14 +121,14 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
         menu.addSeparator();
     }
 
-    if(isGM() && isGmChannel)
+    if(m_ctrl->isGM() && isGmChannel)
     {
         menu.addAction(m_lock);
         menu.addAction(m_addSubchannel);
         menu.addSeparator();
     }
 
-    if(((isGM() && isGmChannel) || isAdmin()) && (state == OnChannel))
+    if(((m_ctrl->isGM() && isGmChannel) || m_ctrl->isAdmin()) && (state == OnChannel))
     {
         menu.addAction(m_edit);
         menu.addAction(m_resetChannel);
@@ -176,7 +136,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
         menu.addSeparator();
     }
 
-    if(isAdmin())
+    if(m_ctrl->isAdmin())
     {
         if(state == OnChannel)
         {
@@ -197,54 +157,37 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     }
     menu.exec(ui->m_channelView->mapToGlobal(pos));
 }
-bool ChannelListPanel::isAdmin()
-{
-    return (ChannelListPanel::ADMIN & m_currentGroups);
-}
-
-bool ChannelListPanel::isGM()
-{
-    return (ChannelListPanel::GAMEMASTER & m_currentGroups);
-}
 
 void ChannelListPanel::kickUser()
 {
-    if(isAdmin())
-    {
-        if(m_index.isValid())
-        {
-            ServerConnection* item= getClient(m_index);
-            if(item == nullptr)
-                return;
+    if(!m_ctrl->isAdmin())
+        return;
 
-            QString id= item->uuid();
-            QString idPlayer= item->playerId();
-            if(!id.isEmpty())
-            {
-                NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::Kicked);
-                msg.string8(id);
-                msg.string8(idPlayer);
-                msg.sendToServer();
-            }
-        }
-    }
+    if(!m_index.isValid())
+        return;
+
+    ServerConnection* item= getClient(m_index);
+    if(item == nullptr)
+        return;
+
+    QString id= item->uuid();
+    QString idPlayer= item->playerId();
+    m_ctrl->kickUser(id, idPlayer);
 }
 void ChannelListPanel::lockChannel()
 {
-    if(!isGM() || !m_index.isValid())
+    if(!m_ctrl->isGM() || !m_index.isValid())
         return;
 
     Channel* item= getChannel(m_index);
     if(item == nullptr)
         return;
     QString id= item->uuid();
-    if(!id.isEmpty())
-    {
-        auto action= item->locked() ? NetMsg::UnlockChannel : NetMsg::LockChannel;
-        NetworkMessageWriter msg(NetMsg::AdministrationCategory, action);
-        msg.string8(id);
-        msg.sendToServer();
-    }
+    if(id.isEmpty())
+        return;
+
+    auto action= item->locked() ? NetMsg::UnlockChannel : NetMsg::LockChannel;
+    m_ctrl->lockChannel(id, action);
 }
 
 template <typename T>
@@ -276,7 +219,7 @@ Channel* ChannelListPanel::getChannel(QModelIndex index)
 
 void ChannelListPanel::banUser()
 {
-    if(!isAdmin() || !m_index.isValid())
+    if(!m_ctrl->isAdmin() || !m_index.isValid())
         return;
 
     ServerConnection* item= getClient(m_index); /// static_cast<ServerConnection*>(m_index.internalPointer());
@@ -289,10 +232,7 @@ void ChannelListPanel::banUser()
     if(id.isEmpty())
         return;
 
-    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::BanUser);
-    msg.string8(id);
-    msg.string8(idPlayer);
-    msg.sendToServer();
+    m_ctrl->banUser(id, idPlayer);
 }
 
 void ChannelListPanel::logAsAdmin()
@@ -305,20 +245,9 @@ void ChannelListPanel::logAsAdmin()
     if(pwadmin.isEmpty())
         pwadmin= QInputDialog::getText(this, tr("Admin Password"), tr("Password"), QLineEdit::Password);
 
-    auto pwA= QCryptographicHash::hash(pwadmin.toUtf8(), QCryptographicHash::Sha3_512);
-    sendOffLoginAdmin(pwA);
+    m_ctrl->sendOffLoginAdmin(pwadmin);
 }
 
-void ChannelListPanel::sendOffLoginAdmin(QByteArray str)
-{
-    if(!str.isEmpty())
-    {
-        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::AdminPassword);
-        // msg.string8(id);
-        msg.byteArray32(str);
-        msg.sendToServer();
-    }
-}
 void ChannelListPanel::addChannel()
 {
     /*  if(isAdmin())
@@ -375,9 +304,9 @@ void ChannelListPanel::editChannel()
     auto chan= getChannel(m_index);
     if(!chan)
         return;
-    bool rightToEdit= isAdmin();
+    bool rightToEdit= m_ctrl->isGM();
 
-    if(!rightToEdit && isGM())
+    if(!rightToEdit && m_ctrl->isGM())
     {
         if(nullptr != chan->getChildById(m_localPlayerId))
             rightToEdit= true;
@@ -402,7 +331,6 @@ void ChannelListPanel::setServerName(const QString& serverName)
 void ChannelListPanel::setLocalPlayerId(const QString& id)
 {
     m_localPlayerId= id;
-    // m_model->setLocalPlayerId(id);
 }
 
 void ChannelListPanel::resetChannel()
@@ -410,18 +338,16 @@ void ChannelListPanel::resetChannel()
     if(!m_index.isValid())
         return;
 
-    if(isAdmin() || isGM())
-    {
-        Channel* item= getChannel(m_index);
-        if(item == nullptr)
-            return;
+    if(m_ctrl->groups() == NetworkController::VIEWER)
+        return;
 
-        QString id= item->uuid();
+    Channel* item= getChannel(m_index);
+    if(item == nullptr)
+        return;
 
-        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ResetChannel);
-        msg.string8(id);
-        msg.sendToServer();
-    }
+    QString id= item->uuid();
+
+    m_ctrl->resetChannel(id);
 }
 
 void ChannelListPanel::moveUserToCurrent()
@@ -434,7 +360,7 @@ void ChannelListPanel::moveUserToCurrent()
     if(!subject->isLeaf())
         return;
 
-    if(isAdmin() || isGM())
+    // if(isAdmin() || isGM())
     {
         /*    auto local= m_model->getServerConnectionById(m_localPlayerId);
             if(nullptr == local)
@@ -451,27 +377,20 @@ void ChannelListPanel::moveUserToCurrent()
 
 void ChannelListPanel::deleteChannel()
 {
-    if(isAdmin())
-    {
-        if(m_index.isValid())
-        {
-            Channel* item= getChannel(m_index);
-            if(nullptr == item)
-                return;
-            QString id= item->uuid();
-            if(!id.isEmpty())
-            {
-                NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::DeleteChannel);
-                msg.string8(id);
-                msg.sendToServer();
-            }
-        }
-    }
+    if(!m_index.isValid())
+        return;
+
+    Channel* item= getChannel(m_index);
+    if(nullptr == item)
+        return;
+    QString id= item->uuid();
+
+    m_ctrl->deleteChannel(id);
 }
 
 void ChannelListPanel::setPasswordOnChannel()
 {
-    if(!isAdmin() && !m_index.isValid())
+    if(!m_ctrl->isAdmin() && !m_index.isValid())
         return;
 
     Channel* item= getChannel(m_index);
@@ -483,19 +402,8 @@ void ChannelListPanel::setPasswordOnChannel()
                                    tr("Password for channel: %1 - leave empty for no password").arg(item->name()),
                                    QLineEdit::Password, item->password());
 
-    if(pw.isEmpty())
-    {
-        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ResetChannelPassword);
-        msg.string8(item->uuid());
-        msg.sendToServer();
-        return;
-    }
-
-    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ChannelPassword);
-    msg.string8(item->uuid());
-    auto pwA= QCryptographicHash::hash(pw.toUtf8(), QCryptographicHash::Sha3_512);
-    msg.byteArray32(pwA);
-    msg.sendToServer();
+    auto pwA= pw.isEmpty() ? QByteArray() : QCryptographicHash::hash(pw.toUtf8(), QCryptographicHash::Sha3_512);
+    m_ctrl->definePasswordOnChannel(item->uuid(), pwA);
 }
 
 void ChannelListPanel::joinChannel()
@@ -525,15 +433,6 @@ void ChannelListPanel::joinChannel()
     }
 }
 
-ChannelListPanel::Groups ChannelListPanel::currentGroups() const
-{
-    return m_currentGroups;
-}
-
-void ChannelListPanel::setCurrentGroups(const Groups& currentGroups)
-{
-    m_currentGroups= currentGroups;
-}
 void ChannelListPanel::cleanUp()
 {
     /*   if(nullptr != m_model)

@@ -185,7 +185,7 @@ void MediaControllerBase::setLocalColor(const QColor& newLocalColor)
 
 PreferencesManager* MediaControllerBase::preferences() const
 {
-    return m_preferences;
+    return m_preferences.data();
 }
 
 void MediaControllerBase::setPreferences(PreferencesManager* newPreference)

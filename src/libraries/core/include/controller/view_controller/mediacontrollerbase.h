@@ -116,7 +116,7 @@ protected:
     QString m_ownerId;
     QString m_localId;
     QColor m_localColor;
-    QPointer<PreferencesManager> m_preferences;
+    QPointer<PreferencesManager> m_preferences{nullptr};
 };
 
 #endif // ABSTRACTMEDIACONTROLLER_H

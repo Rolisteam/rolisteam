@@ -22,10 +22,10 @@ bool PasswordAccepter::isValid(const QMap<QString, QVariant>& data) const
         pw= data["ChannelPassword"].toString();
     }
     bool result= false;
+    qInfo() << "Password verification" << m_currentLevel << upw.size() << pw.size();
     if(upw == pw)
     { //(QCryptographicHash::hash(upw.toUtf8(),QCryptographicHash::Sha3_512) != pw.toUtf8()))
         result= true;
     }
-    qInfo() << result;
     return result;
 }

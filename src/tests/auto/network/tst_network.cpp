@@ -343,6 +343,8 @@ void TestNetwork::messageHeaderTest()
 
     NetworkMessageHeader header{cat, action, 0};
 
+    if(MessageDispatcher::act2String(&header) != resultAct)
+        qDebug() << resultAct << MessageDispatcher::act2String(&header);
     QCOMPARE(MessageDispatcher::act2String(&header), resultAct);
     QCOMPARE(MessageDispatcher::cat2String(&header), resultCat);
 }
@@ -354,27 +356,16 @@ void TestNetwork::messageHeaderTest_data()
     QTest::addColumn<QString>("resultCat");
     QTest::addColumn<QString>("resultAct");
 
-    QStringList cats{"AdministrationCategory",
-                     "PlayerCategory",
-                     "CharacterPlayerCategory",
-                     "NPCCategory",
-                     "CharacterCategory",
-                     "DrawCategory",
-                     "MapCategory",
-                     "InstantMessageCategory",
-                     "MusicCategory",
-                     "SetupCategory",
-                     "CampaignCategory",
-                     "VMapCategory",
-                     "MediaCategory",
-                     "SharedNoteCategory",
-                     "WebPageCategory",
-                     "MindMapCategory"};
+    QStringList cats{"AdministrationCategory", "UserCategory",           "PlayerCharacterCategory",
+                     "CharacterSheetCategory", "InstantMessageCategory", "MusicCategory",
+                     "CampaignCategory",       "VMapCategory",           "MediaCategory",
+                     "SharedNoteCategory",     "WebPageCategory",        "MindMapCategory"};
 
     QList<QStringList> actionPerCategorie;
 
     actionPerCategorie.append({"EndConnectionAction",
-                               "Heartbeat",
+                               "HeartbeatAsk",
+                               "HeartbeatAnswer",
                                "ConnectionInfo",
                                "Goodbye",
                                "Kicked",
@@ -400,22 +391,12 @@ void TestNetwork::messageHeaderTest_data()
                                "GMStatus",
                                "ResetChannel"});
 
-    actionPerCategorie.append({"PlayerConnectionAction", "DelPlayerAction", "ChangePlayerProperty"});
+    actionPerCategorie.append(QStringList{"PlayerConnectionAction", "DelPlayerAction"});
 
-    actionPerCategorie.append({"AddPlayerCharacterAction", "DelPlayerCharacterAction",
-                               "ToggleViewPlayerCharacterAction", "ChangePlayerCharacterSizeAction",
-                               "ChangePlayerCharacterProperty"});
-
-    actionPerCategorie.append(QStringList{"addNpc", "delNpc"});
-
-    actionPerCategorie.append({"addCharacterList", "moveCharacter", "changeCharacterState",
-                               "changeCharacterOrientation", "showCharecterOrientation", "addCharacterSheet",
-                               "updateFieldCharacterSheet", "closeCharacterSheet"});
-
-    actionPerCategorie.append({"penPainting", "linePainting", "emptyRectanglePainting", "filledRectanglePainting",
-                               "emptyEllipsePainting", "filledEllipsePainting", "textPainting", "handPainting"});
-
-    actionPerCategorie.append({"AddEmptyMap", "LoadMap", "ImportMap", "CloseMap"});
+    actionPerCategorie.append({"AddCharacterToPlayerAct", "RemoveCharacterToPlayerAct", "ChangePlayerPropertyAct",
+                               "ChangeCharacterPropertyAct"});
+    // 3
+    actionPerCategorie.append(QStringList{"addCharacterSheet", "updateFieldCharacterSheet", "closeCharacterSheet"});
 
     actionPerCategorie.append({
         "InstantMessageAction",
@@ -441,6 +422,7 @@ void TestNetwork::messageHeaderTest_data()
         "DiceAliasModel",
         "CharactereStateModel",
     });
+    // 7
     actionPerCategorie.append({
         "AddItem",
         "DeleteItem",
@@ -449,7 +431,7 @@ void TestNetwork::messageHeaderTest_data()
         "DeletePoint",
         "MovePoint",
         "SetParentItem",
-        "CharcaterVisionChanged",
+        "CharacterVisionChanged",
         "CharacterStateChanged",
         "CharacterChanged",
         "HighLightPosition",
@@ -466,9 +448,12 @@ void TestNetwork::messageHeaderTest_data()
         "updateText",
         "updatePermissionOneUser",
     });
+    // 10
     actionPerCategorie.append(QStringList{"UpdateContent"});
+
+    // 11
     actionPerCategorie.append(
-        {"AddMessage", "RemoveMessage", "UpdateNode", "UpdatePackage", "UpdateLink", "UpdateMindMapPermission"});
+        {"AddNodes", "RemoveNode", "UpdateNode", "UpdatePackage", "UpdateLink", "UpdateMindMapPermission"});
 
     QCOMPARE(cats.size(), actionPerCategorie.size());
 

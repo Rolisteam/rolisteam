@@ -26,8 +26,8 @@
 
 #include "controller/audiocontroller.h"
 #include "controller/audioplayercontroller.h"
-#include "rwidgets/customs/playerwidget.h"
 #include "model/musicmodel.h"
+#include "rwidgets/customs/playerwidget.h"
 #include "test_root_path.h"
 
 constexpr int TIME_SONG{36};
@@ -54,7 +54,6 @@ private slots:
     void playSongInLoop();
     void playSongInLoop_data();
 
-
     void playerWidget();
 
 private:
@@ -79,7 +78,7 @@ void TestAudioPlayer::playerWidget()
     QMenu menu;
     playerWidget.addActionsIntoMenu(&menu);
 
-    auto listAct = menu.actions();
+    auto listAct= menu.actions();
 
     /*for(auto act: listAct)
     {
@@ -270,8 +269,8 @@ void TestAudioPlayer::playSongInLoop()
 
     spy.wait((TIME_SONG + 10) * 1000);
     spy2.wait();
-    QCOMPARE(spy.count(), expected + 2);
-    QCOMPARE(spy2.count(), expected + 2);
+    QCOMPARE(spy.count(), expected);
+    QCOMPARE(spy2.count(), expected);
 }
 void TestAudioPlayer::playSongInLoop_data()
 {

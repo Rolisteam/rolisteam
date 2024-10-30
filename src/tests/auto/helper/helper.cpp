@@ -422,8 +422,8 @@ QVariantList values(QMetaType type, QVariant currentValue, QObject* parent= null
         }
         else if(qMetaTypeId<QPainterPath>() == type.id())
         {
-            res= {QVariant::fromValue(QPainterPath(QPointF(1200., 500.))), QVariant::fromValue(QPainterPath(QPointF(200., 100.))),
-                  QVariant::fromValue(QPainterPath())};
+            res= {QVariant::fromValue(QPainterPath(QPointF(1200., 500.))),
+                  QVariant::fromValue(QPainterPath(QPointF(200., 100.))), QVariant::fromValue(QPainterPath())};
         }
         else if(qMetaTypeId<Person*>() == type.id())
         {
@@ -521,7 +521,7 @@ const std::map<QString, QVariant> buildPenController(bool filled, const std::vec
 HELPER_EXPORT const std::map<QString, QVariant> buildTokenController(bool isNpc, const QPointF& pos)
 {
     return {{"isNpc", isNpc},
-            {"tool",isNpc ? Core::SelectableTool::NonPlayableCharacter : Core::SelectableTool::PlayableCharacter },
+            {"tool", isNpc ? Core::SelectableTool::NonPlayableCharacter : Core::SelectableTool::PlayableCharacter},
             {"position", pos}};
 }
 const std::map<QString, QVariant> buildPathController(bool filled, const std::vector<QPointF>& points,
@@ -554,7 +554,7 @@ QByteArray TestMessageSender::messageData() const
     return m_msgData;
 }
 
-std::pair<bool, QStringList> testAllProperties(QObject* obj, bool setAgain)
+std::pair<bool, QStringList> testAllProperties(QObject* obj, QStringList ignoredProperties, bool setAgain)
 {
     if(!obj)
         return {};
@@ -564,6 +564,10 @@ std::pair<bool, QStringList> testAllProperties(QObject* obj, bool setAgain)
     for(int i= meta->propertyOffset(); i < meta->propertyCount(); ++i)
     {
         auto p= meta->property(i);
+
+        if(ignoredProperties.contains(p.name()))
+            continue;
+
         if(p.isConstant())
         {
             p.read(obj);
@@ -583,7 +587,7 @@ std::pair<bool, QStringList> testAllProperties(QObject* obj, bool setAgain)
 
             auto currentval= p.read(obj);
             QSignalSpy spy(obj, p.notifySignal());
-            int countChange = 0;
+            int countChange= 0;
             for(const auto& v : vs)
             {
                 if(!p.write(obj, v))
@@ -600,7 +604,8 @@ std::pair<bool, QStringList> testAllProperties(QObject* obj, bool setAgain)
 
             if(!QTest::qCompare(spy.count(), vs.size(), "spy.count()", "vs.size()", __FILE__, __LINE__))
             {
-                qDebug() << p.name() << "values:" << vs << "current val:" << currentval << "change count:"<< countChange;
+                qDebug() << p.name() << "values:" << vs << "current val:" << currentval
+                         << "change count:" << countChange;
             }
 
             p.write(obj, currentval);
@@ -623,8 +628,9 @@ QString imagePath(bool isSquare)
 
 QUrl imagePathUrl(bool isSquare)
 {
-    QList<QUrl> array{QUrl("qrc:/img/girafe.jpg"), QUrl("qrc:/img/lion.jpg"),  QUrl("qrc:/img/control_life_bar.gif"), QUrl("qrc:/img/girafe3.jpg"),
-                      QUrl("qrc:/img/lion3.jpg"),  QUrl("qrc:/img/white.png"), QUrl("qrc:/img/arbre_500.jpg")};
+    QList<QUrl> array{QUrl("qrc:/img/girafe.jpg"),   QUrl("qrc:/img/lion.jpg"),  QUrl("qrc:/img/control_life_bar.gif"),
+                      QUrl("qrc:/img/girafe3.jpg"),  QUrl("qrc:/img/lion3.jpg"), QUrl("qrc:/img/white.png"),
+                      QUrl("qrc:/img/arbre_500.jpg")};
 
     if(isSquare)
         array= QList<QUrl>{QUrl("qrc:/img/arbre_square_500.jpg")};

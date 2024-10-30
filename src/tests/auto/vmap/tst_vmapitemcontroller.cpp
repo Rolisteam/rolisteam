@@ -30,7 +30,7 @@ void CharacterItemCtrlTest::init()
 }
 void CharacterItemCtrlTest::propertiesTest()
 {
-    auto res= Helper::testAllProperties(m_ctrl.get());
+    auto res= Helper::testAllProperties(m_ctrl.get(), {});
     for(const auto& f : res.second)
     {
         qDebug() << f << "unmanaged";

@@ -54,7 +54,6 @@ bool TextControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::
     if(nullptr == msg || nullptr == ctrl)
         return false;
 
-    // TODO implement save/restore
     auto datapos= msg->pos();
 
     if(VMapItemControllerUpdater::updateItemProperty(msg, ctrl))

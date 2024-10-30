@@ -48,31 +48,41 @@ ClientManager::ClientManager(QObject* parent) : QObject(parent), m_networkLinkTo
     m_error= new QState();
     m_disconnected= new QState();
 
-    connect(m_connected, &QAbstractState::entered, this, [this]() {
-        qDebug() << "client connected state";
-        setConnectionState(CONNECTED);
-        emit connectedToServer();
-    });
-    connect(m_connecting, &QAbstractState::entered, this, [this]() {
-        qDebug() << "client connecting state";
-        setConnectionState(CONNECTING);
-    });
+    connect(m_connected, &QAbstractState::entered, this,
+            [this]()
+            {
+                qDebug() << "client connected state";
+                setConnectionState(CONNECTED);
+                emit connectedToServer();
+            });
+    connect(m_connecting, &QAbstractState::entered, this,
+            [this]()
+            {
+                qDebug() << "client connecting state";
+                setConnectionState(CONNECTING);
+            });
 
-    connect(m_disconnected, &QAbstractState::entered, this, [this]() {
-        qDebug() << "client disconnected state";
-        setConnectionState(DISCONNECTED);
-        m_networkLinkToServer->reset();
-        setReady(true);
-    });
-    connect(m_authentified, &QAbstractState::entered, this, [this]() {
-        qDebug() << "client authentified state";
-        setConnectionState(AUTHENTIFIED);
-    });
+    connect(m_disconnected, &QAbstractState::entered, this,
+            [this]()
+            {
+                qDebug() << "client disconnected state";
+                setConnectionState(DISCONNECTED);
+                m_networkLinkToServer->reset();
+                setReady(true);
+            });
+    connect(m_authentified, &QAbstractState::entered, this,
+            [this]()
+            {
+                qDebug() << "client authentified state";
+                setConnectionState(AUTHENTIFIED);
+            });
 
-    connect(m_error, &QAbstractState::entered, this, [=]() {
-        qDebug() << "Error state";
-        setConnectionState(DISCONNECTED);
-    });
+    connect(m_error, &QAbstractState::entered, this,
+            [=]()
+            {
+                qDebug() << "Error state";
+                setConnectionState(DISCONNECTED);
+            });
 
     m_states.addState(m_connecting);
     m_states.addState(m_connected);
@@ -99,11 +109,6 @@ ClientManager::ClientManager(QObject* parent) : QObject(parent), m_networkLinkTo
 
     connect(m_networkLinkToServer.get(), &ClientConnection::messageReceived, this, &ClientManager::messageReceived);
     connect(m_networkLinkToServer.get(), &ClientConnection::readDataReceived, this, &ClientManager::dataReceived);
-    // connect(m_networkLinkToServer.get(), &NetworkLink::errorChanged, this, &ClientManager::errorOccur);
-    // connect(m_networkLinkToServer, &NetworkLink::clearData, this, &ClientManager::clearData);
-    /*connect(m_networkLinkToServer, &NetworkLink::gameMasterStatusChanged, this,
-            &ClientManager::gameMasterStatusChanged);*/
-    // connect(m_networkLinkToServer, &NetworkLink::moveToAnotherChannel, this, &ClientManager::moveToAnotherChannel);
 
     connect(&m_states, &QStateMachine::started, this, [this]() { setReady(true); });
 
@@ -141,7 +146,6 @@ void ClientManager::setAuthentificationStatus(bool status)
         emit authentificationSuccessed();
     else
         emit authentificationFailed();
-    // m_networkLinkToServer->adminAuthSuccessed();
 }
 
 void ClientManager::setConnectionState(ConnectionState state)
@@ -163,8 +167,5 @@ void ClientManager::setReady(bool ready)
 
 void ClientManager::reset()
 {
-    // auto const connection= new QMetaObject::Connection;
-    // connect(this, &ClientManager::isDisconnected, this, [this]() { emit isReady(); });
-
     m_networkLinkToServer->reset();
 }

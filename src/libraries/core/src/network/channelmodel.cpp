@@ -440,7 +440,7 @@ bool ChannelModel::moveMediaItem(QList<ServerConnection*> items, const QModelInd
 
     QByteArray pw;
 #ifdef QT_WIDGETS_LIB
-    qDebug() << "password:"<<item->password().size() << item->password();
+    qDebug() << "password:" << item->password().size() << item->password();
     if(!item->password().isEmpty())
     {
         pw= QInputDialog::getText(nullptr, tr("Channel Password"),
@@ -460,7 +460,6 @@ bool ChannelModel::moveMediaItem(QList<ServerConnection*> items, const QModelInd
         msg.string8(client->uuid());
         msg.byteArray32(pw);
         msg.sendToServer();
-
     }
     return true;
 }
@@ -474,22 +473,23 @@ bool ChannelModel::dropMimeData(const QMimeData* data, Qt::DropAction action, in
 
     bool added= false;
 
-    if(data->hasFormat("application/rolisteam.networkclient.list"))
-    {
-        const ClientMimeData* clientData= qobject_cast<const ClientMimeData*>(data);
+    if(!data->hasFormat("application/rolisteam.networkclient.list"))
+        return added;
 
-        if(nullptr != clientData)
+    const ClientMimeData* clientData= qobject_cast<const ClientMimeData*>(data);
+
+    if(!clientData)
+        return added;
+
+    QList<ServerConnection*> clientList= clientData->getList().values();
+    QList<QModelIndex> indexList= clientData->getList().keys();
+    {
+        if(action == Qt::MoveAction)
         {
-            QList<ServerConnection*> clientList= clientData->getList().values();
-            QList<QModelIndex> indexList= clientData->getList().keys();
-            {
-                if(action == Qt::MoveAction)
-                {
-                    added= moveMediaItem(clientList, parent, row, indexList);
-                }
-            }
+            added= moveMediaItem(clientList, parent, row, indexList);
         }
     }
+
     return added;
 }
 bool ChannelModel::addConnectionToDefaultChannel(ServerConnection* client)
@@ -516,15 +516,24 @@ bool ChannelModel::addConnectionToDefaultChannel(ServerConnection* client)
 
 bool ChannelModel::addConnectionToChannel(QString chanId, ServerConnection* client)
 {
-    bool found= false;
     for(auto& item : m_root)
     {
-        if(nullptr != item && !found)
-        {
-            found= item->addChildInto(chanId, client);
-        }
+        if(!item)
+            continue;
+
+        auto parent= item->uuid() == chanId ? item.get() : item->getChildById(chanId);
+        if(!parent)
+            continue;
+
+        auto position= parent->rowInParent() < 0 ? m_root.indexOf(parent) : parent->rowInParent();
+        auto idx= createIndex(position, 0, parent);
+        beginInsertRows(idx, parent->childCount(), parent->childCount());
+        parent->addChild(client);
+        endInsertRows();
+
+        return true;
     }
-    return found;
+    return false;
 }
 
 bool ChannelModel::moveClient(Channel* origin, const QString& id, Channel* dest)
@@ -548,7 +557,7 @@ bool ChannelModel::moveClient(Channel* origin, const QString& id, Channel* dest)
     return true;
 }
 
-const QList<TreeItem*>& ChannelModel::modelData()
+const QList<QPointer<TreeItem>>& ChannelModel::modelData()
 {
     return m_root;
 }
@@ -558,7 +567,9 @@ void ChannelModel::resetData(QList<TreeItem*> data)
     qDeleteAll(m_root);
     m_root.clear();
     beginResetModel();
-    m_root= data;
+    std::transform(std::begin(data), std::end(data), std::back_inserter(m_root),
+                   [](TreeItem* item) { return QPointer<TreeItem>(item); });
+    // m_root= data;
     endResetModel();
 }
 
@@ -628,7 +639,7 @@ ServerConnection* ChannelModel::getServerConnectionById(QString id) const
 
         if(!item->isLeaf())
         {
-            auto channel= dynamic_cast<Channel*>(item);
+            auto channel= dynamic_cast<Channel*>(item.get());
             if(nullptr != channel)
             {
                 client= channel->getClientById(id);

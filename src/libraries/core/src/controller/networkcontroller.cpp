@@ -84,13 +84,8 @@ NetworkController::NetworkController(QObject* parent)
     connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::portChanged);
     connect(this, &NetworkController::selectedProfileIndexChanged, this, &NetworkController::serverPasswordChanged);
 
-    /* connect(m_hbSender.get(), &HeartBeatSender::sendOff, this, [](NetworkMessageWriter* msg) { msg->sendToServer();
-     }); connect(m_clientManager.get(), &ClientManager::connectedToServer, this, [this]()
-             {
-                 // TODO add preference reading here.
-                 if(!hosting())
-                     m_hbSender->start();
-             });*/
+    connect(m_clientManager.get(), &ClientManager::authentificationSuccessed, this,
+            [this]() { setGroups(m_currentGroups | Group::ADMIN); });
 }
 NetworkController::~NetworkController() {}
 
@@ -249,6 +244,8 @@ NetWorkReceiver::SendType NetworkController::processMessage(NetworkMessageReader
         readDataAndSetModel(msg, m_channelModel.get());
         break;
     case NetMsg::AdminAuthSucessed:
+        qDebug() << "Authentification fail";
+        setGroups(m_currentGroups | ADMIN);
         break;
     case NetMsg::AuthentificationFail:
         qDebug() << "Authentification fail";
@@ -362,6 +359,71 @@ void NetworkController::saveData()
     SettingsHelper::writeConnectionProfileModel(m_profileModel.get());
 }
 
+void NetworkController::sendOffLoginAdmin(const QString& password)
+{
+    auto pwA= QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha3_512);
+
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::AdminPassword);
+    msg.byteArray32(pwA);
+    msg.sendToServer();
+}
+
+void NetworkController::lockChannel(const QString& uuid, NetMsg::Action action)
+{
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, action);
+    msg.string8(uuid);
+    msg.sendToServer();
+}
+
+void NetworkController::banUser(const QString& uuid, const QString& playerId)
+{
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::BanUser);
+    msg.string8(uuid);
+    msg.string8(playerId);
+    msg.sendToServer();
+}
+
+void NetworkController::kickUser(const QString& uuid, const QString& playerId)
+{
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::Kicked);
+    msg.string8(uuid);
+    msg.string8(playerId);
+    msg.sendToServer();
+}
+
+void NetworkController::addChannel(const QString& parentId) {}
+
+void NetworkController::resetChannel(const QString& channelId)
+{
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ResetChannel);
+    msg.string8(channelId);
+    msg.sendToServer();
+}
+
+void NetworkController::deleteChannel(const QString& channelId)
+{
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::DeleteChannel);
+    msg.string8(channelId);
+    msg.sendToServer();
+}
+
+void NetworkController::definePasswordOnChannel(const QString& channelId, const QByteArray& password)
+{
+    if(password.isEmpty())
+    {
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ResetChannelPassword);
+        msg.string8(channelId);
+        msg.sendToServer();
+        return;
+    }
+
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ChannelPassword);
+    msg.string8(channelId);
+
+    msg.byteArray32(password);
+    msg.sendToServer();
+}
+
 int NetworkController::selectedProfileIndex() const
 {
     return m_selectedProfileIndex;
@@ -378,4 +440,21 @@ void NetworkController::setSelectedProfileIndex(int newSelectedProfileIndex)
 ConnectionProfile* NetworkController::currentProfile() const
 {
     return m_profileModel->getProfile(m_selectedProfileIndex);
+}
+
+bool NetworkController::isAdmin() const
+{
+    return (m_currentGroups & ADMIN);
+}
+
+NetworkController::Groups NetworkController::groups() const
+{
+    return m_currentGroups;
+}
+void NetworkController::setGroups(NetworkController::Groups group)
+{
+    if(m_currentGroups == group)
+        return;
+    m_currentGroups= group;
+    emit groupsChanged();
 }

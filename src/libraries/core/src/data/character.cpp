@@ -466,15 +466,17 @@ void Character::addShape(const QString& name, const QString& path)
     {
 #ifdef HAVE_QT_NETWORK
         QNetworkAccessManager* manager= new QNetworkAccessManager(this);
-        connect(manager, &QNetworkAccessManager::finished, this, [shape, manager](QNetworkReply* reply) {
-            QByteArray data= reply->readAll();
-            QPixmap map;
-            bool ok= map.loadFromData(data);
-            if(ok)
-                shape->setImage(map.toImage());
-            if(manager != nullptr)
-                delete manager;
-        });
+        connect(manager, &QNetworkAccessManager::finished, this,
+                [shape, manager](QNetworkReply* reply)
+                {
+                    QByteArray data= reply->readAll();
+                    QPixmap map;
+                    bool ok= map.loadFromData(data);
+                    if(ok)
+                        shape->setImage(map.toImage());
+                    if(manager != nullptr)
+                        delete manager;
+                });
 
         manager->get(QNetworkRequest(QUrl(path)));
 #endif
@@ -596,11 +598,13 @@ QString Character::currentStateLabel() const
 {
     if(!m_stateList)
         return {};
-    auto it= std::find_if(m_stateList->begin(), m_stateList->end(), [this](const CharacterState* state) {
-        if(nullptr == state)
-            return false;
-        return state->id() == m_stateId;
-    });
+    auto it= std::find_if(m_stateList->begin(), m_stateList->end(),
+                          [this](const CharacterState* state)
+                          {
+                              if(nullptr == state)
+                                  return false;
+                              return state->id() == m_stateId;
+                          });
 
     if(it == m_stateList->end())
         return {};
@@ -612,11 +616,13 @@ QImage Character::currentStateImage() const
     if(!m_stateList)
         return {};
 
-    auto it= std::find_if(m_stateList->begin(), m_stateList->end(), [this](const CharacterState* state) {
-        if(nullptr == state)
-            return false;
-        return state->id() == m_stateId;
-    });
+    auto it= std::find_if(m_stateList->begin(), m_stateList->end(),
+                          [this](const CharacterState* state)
+                          {
+                              if(nullptr == state)
+                                  return false;
+                              return state->id() == m_stateId;
+                          });
     if(it == m_stateList->end())
         return {};
     return QImage((*it)->imagePath());
@@ -739,19 +745,16 @@ void Character::setCurrentShape(CharacterShape* shape)
 void Character::addShape(CharacterShape* shape)
 {
     m_shapeList.append(shape);
-    // TODO emit signal ?
 }
 
 void Character::addAction(CharacterAction* action)
 {
     m_actionList.append(action);
-    // TODO emit signal ?
 }
 
 void Character::addProperty(CharacterProperty* property)
 {
     m_propertyList.append(property);
-    // TODO emit signal ?
 }
 
 QByteArray Character::avatar() const

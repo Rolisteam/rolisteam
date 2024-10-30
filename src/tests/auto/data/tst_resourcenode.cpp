@@ -20,8 +20,8 @@
 
 #include <QtTest>
 
-#include "data/resourcesnode.h"
 #include "data/cleveruri.h"
+#include "data/resourcesnode.h"
 
 #include <helper.h>
 
@@ -35,21 +35,16 @@ public:
 private slots:
     void setAndGetTest();
 
-
 private:
     CleverURI m_node;
 };
 
-ResourceNodeTest::ResourceNodeTest()
-    : m_node(Core::ContentType::NOTES)
-{
-
-}
+ResourceNodeTest::ResourceNodeTest() : m_node(Core::ContentType::NOTES) {}
 
 void ResourceNodeTest::setAndGetTest()
 {
-    ResourcesNode* node = static_cast<ResourcesNode*>(&m_node);
-    Helper::testAllProperties(node, true);
+    ResourcesNode* node= static_cast<ResourcesNode*>(&m_node);
+    Helper::testAllProperties(node, {}, true);
 }
 
 QTEST_MAIN(ResourceNodeTest);

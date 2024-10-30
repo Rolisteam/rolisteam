@@ -23,7 +23,6 @@
 #include "media/mediafactory.h"
 #include "media/mediatype.h"
 #include "model/vmapitemmodel.h"
-#include "worker/iohelper.h"
 #include "network/networkmessagereader.h"
 #include "updater/vmapitem/characteritemupdater.h"
 #include "updater/vmapitem/ellipsecontrollerupdater.h"
@@ -33,8 +32,9 @@
 #include "updater/vmapitem/rectcontrollerupdater.h"
 #include "updater/vmapitem/textcontrollerupdater.h"
 #include "updater/vmapitem/vmapitemcontrollerupdater.h"
-#include "worker/vectorialmapmessagehelper.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
+#include "worker/vectorialmapmessagehelper.h"
 
 #include <QColor>
 #include <QRectF>
@@ -105,11 +105,8 @@ void VectorialMapControllerTest::init()
     connect(m_ctrl.get(), &VectorialMapController::performCommand, m_stack.get(),
             [this](QUndoCommand* cmd) { m_stack->push(cmd); });
 
-
-    m_updaters.insert(
-        {Core::SelectableTool::LINE, std::unique_ptr<LineControllerUpdater>(new LineControllerUpdater)});
-    m_updaters.insert(
-        {Core::SelectableTool::PATH, std::unique_ptr<PathControllerUpdater>(new PathControllerUpdater)});
+    m_updaters.insert({Core::SelectableTool::LINE, std::unique_ptr<LineControllerUpdater>(new LineControllerUpdater)});
+    m_updaters.insert({Core::SelectableTool::PATH, std::unique_ptr<PathControllerUpdater>(new PathControllerUpdater)});
     m_updaters.insert(
         {Core::SelectableTool::FILLRECT, std::unique_ptr<RectControllerUpdater>(new RectControllerUpdater)});
     m_updaters.insert(
@@ -122,8 +119,7 @@ void VectorialMapControllerTest::init()
         {Core::SelectableTool::FILLEDELLIPSE, std::unique_ptr<EllipseControllerUpdater>(new EllipseControllerUpdater)});
     m_updaters.insert(
         {Core::SelectableTool::EMPTYELLIPSE, std::unique_ptr<EllipseControllerUpdater>(new EllipseControllerUpdater)});
-    m_updaters.insert(
-        {Core::SelectableTool::TEXT, std::unique_ptr<TextControllerUpdater>(new TextControllerUpdater)});
+    m_updaters.insert({Core::SelectableTool::TEXT, std::unique_ptr<TextControllerUpdater>(new TextControllerUpdater)});
     m_updaters.insert(
         {Core::SelectableTool::TEXTBORDER, std::unique_ptr<TextControllerUpdater>(new TextControllerUpdater)});
 }
@@ -1176,18 +1172,16 @@ void VectorialMapControllerTest::serialization_network()
     QFETCH(CustomMap, map);
     QFETCH(Core::SelectableTool, tool);
 
-    auto itemCtrl = vmap::VmapItemFactory::createVMapItem(m_ctrl.get(), tool, map);
-
+    auto itemCtrl= vmap::VmapItemFactory::createVMapItem(m_ctrl.get(), tool, map);
 
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
     msg.string8(m_ctrl->uuid());
     MessageHelper::convertVisualItemCtrlAndAdd(itemCtrl, msg);
 
-
     NetworkMessageReader reader;
     reader.setData(msg.data());
 
-    auto itemCtrl2 = vmap::VmapItemFactory::createRemoteVMapItem(m_ctrl.get(), &reader);
+    auto itemCtrl2= vmap::VmapItemFactory::createRemoteVMapItem(m_ctrl.get(), &reader);
 
     QCOMPARE(itemCtrl->uuid(), itemCtrl2->uuid());
     QCOMPARE(itemCtrl->itemType(), itemCtrl2->itemType());
@@ -1206,14 +1200,13 @@ void VectorialMapControllerTest::serialization_network_data()
     QTest::addColumn<CustomMap>("map");
     QTest::addColumn<Core::SelectableTool>("tool");
 
+    std::vector<Core::SelectableTool> data({Core::SelectableTool::FILLRECT, Core::SelectableTool::LINE,
+                                            Core::SelectableTool::EMPTYELLIPSE, Core::SelectableTool::EMPTYRECT,
+                                            Core::SelectableTool::FILLEDELLIPSE, Core::SelectableTool::IMAGE,
+                                            Core::SelectableTool::NonPlayableCharacter, Core::SelectableTool::TEXT,
+                                            Core::SelectableTool::TEXTBORDER, Core::SelectableTool::PATH});
 
-    std::vector<Core::SelectableTool> data(
-        {Core::SelectableTool::FILLRECT, Core::SelectableTool::LINE, Core::SelectableTool::EMPTYELLIPSE,
-         Core::SelectableTool::EMPTYRECT, Core::SelectableTool::FILLEDELLIPSE, Core::SelectableTool::IMAGE,
-         Core::SelectableTool::NonPlayableCharacter,
-         Core::SelectableTool::TEXT, Core::SelectableTool::TEXTBORDER, Core::SelectableTool::PATH});
-
-    int i = 0;
+    int i= 0;
     for(auto tool : data)
     {
         CustomMap map;
@@ -1301,11 +1294,7 @@ void VectorialMapControllerTest::networkMessage()
 
 void VectorialMapControllerTest::propertiesTest()
 {
-    auto res= Helper::testAllProperties(m_ctrl.get());
-    /*for(const auto& f : res.second)
-    {
-        qDebug() << f;
-    }*/
+    auto res= Helper::testAllProperties(m_ctrl.get(), {});
 }
 
 void VectorialMapControllerTest::networkMessage_data()

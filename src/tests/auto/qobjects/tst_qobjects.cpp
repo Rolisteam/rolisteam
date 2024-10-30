@@ -342,9 +342,16 @@
 #include "worker/vectorialmapmessagehelper.h"
 #include "workspace.h"
 
+#include <QStringList>
 #include <QWidget>
 #include <helper.h>
 #include <memory>
+
+struct IgnoredProperty
+{
+    QObject* object;
+    QStringList names;
+};
 
 class QObjectsTest : public QObject
 {
@@ -358,7 +365,8 @@ private slots:
     void propertiesTest();
     void propertiesTest_data();
 
-    // void profilePropertiesTest();
+private:
+    QList<IgnoredProperty> m_ignored;
 };
 
 QObjectsTest::QObjectsTest() {}
@@ -379,7 +387,13 @@ void QObjectsTest::propertiesTest()
 
     auto meta= object->metaObject();
     qDebug() << "class:" << meta->className();
-    auto res= Helper::testAllProperties(object, setAgain);
+    auto it= std::find_if(std::begin(m_ignored), std::end(m_ignored),
+                          [object](const IgnoredProperty& pop) { return pop.object == object; });
+    QStringList ignoredPop;
+    if(it != std::end(m_ignored))
+        ignoredPop= it->names;
+
+    auto res= Helper::testAllProperties(object, ignoredPop, setAgain);
     if(!res.second.isEmpty())
         QVERIFY(res.first);
     for(const auto& f : res.second)
@@ -482,7 +496,10 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("CommandMessage") << static_cast<QObject*>(new InstantMessaging::CommandMessage({}, {}, {})) << true;
     QTest::addRow("ConnectionProfile") << static_cast<QObject*>(new ConnectionProfile()) << true;
     QTest::addRow("ConnectionRetryDialog") << static_cast<QObject*>(new ConnectionRetryDialog()) << true;
-    QTest::addRow("ContentController") << static_cast<QObject*>(     new ContentController(nullptr, nullptr, nullptr, nullptr))                                       << true;
+
+    auto contentCtrl = static_cast<QObject*>(new ContentController(nullptr, nullptr, nullptr, nullptr));
+    m_ignored.append({contentCtrl, {"mediaRoot"}});
+    QTest::addRow("ContentController") <<  contentCtrl  << true;
     QTest::addRow("ContentModel") << static_cast<QObject*>(new ContentModel()) << true;
     QTest::addRow("Convertor obj") << static_cast<QObject*>(new GMTOOL::Convertor()) << true;
     QTest::addRow("CountDownObject") << static_cast<QObject*>(new CountDownObject(20, 1000)) << true;
@@ -633,7 +650,10 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("QmlGeneratorController")  << static_cast<QObject*>(new QmlGeneratorController())<< true ;
     QTest::addRow("QmlHighlighter")  << static_cast<QObject*>(new QmlHighlighter())<< true ;
     QTest::addRow("RGraphicsView") << static_cast<QObject*>(new RGraphicsView(nullptr)) << true;
-    QTest::addRow("RServer") << static_cast<QObject*>(new RServer(params, true)) << true;
+
+    auto server = static_cast<QObject*>(new RServer(params, true));
+    m_ignored.append({server, {"port"}});
+    QTest::addRow("RServer") << server << true;
     QTest::addRow("RcseApplicationController")  << static_cast<QObject*>(new RcseApplicationController())<< true ;
     QTest::addRow("RealSlider") << static_cast<QObject*>(new RealSlider()) << true;
     QTest::addRow("RectController") << static_cast<QObject*>(new vmap::RectController({}, new VectorialMapController()))                                    << true;
@@ -666,7 +686,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("SharedNoteControllerUpdater")        << static_cast<QObject*>(new SharedNoteControllerUpdater(nullptr, nullptr)) << true;
     auto sheetCtrl = new SheetController();
     sheetCtrl->setAppCtrl(new RcseApplicationController());
-    sheetCtrl->setPageMax(100);
+    m_ignored.append({sheetCtrl, {"currentPage"}});
     QTest::addRow("SheetController")  << static_cast<QObject*>(sheetCtrl)<< true ;
     QTest::addRow("SheetProperties")  << static_cast<QObject*>(new SheetProperties(new QmlGeneratorController()))<< true ;
     QTest::addRow("SheetWidget")                << static_cast<QObject*>(new SheetWidget(nullptr, nullptr)) << true;

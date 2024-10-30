@@ -49,7 +49,8 @@ RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
 
     setAcceptDrops(true);
     setAlignment((Qt::AlignLeft | Qt::AlignTop));
-    m_preferences= m_ctrl->preferences();
+    if(m_ctrl)
+        m_preferences= m_ctrl->preferences();
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
     // fitInView(sceneRect(),Qt::KeepAspectRatio);

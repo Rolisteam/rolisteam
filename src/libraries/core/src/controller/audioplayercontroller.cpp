@@ -63,10 +63,13 @@ AudioPlayerController::AudioPlayerController(int id, const QString& key, Prefere
         m_directories->setStringList(list);
     };
 
-    connect(m_pref, &PreferencesManager::readyChanged, this, readFromPref);
+    if(m_pref)
+    {
+        connect(m_pref, &PreferencesManager::readyChanged, this, readFromPref);
 
-    if(m_pref->ready())
-        readFromPref();
+        if(m_pref->ready())
+            readFromPref();
+    }
 
     connect(&m_player, &QMediaPlayer::errorOccurred, this,
             [this](QMediaPlayer::Error, const QString& errorStr) { emit errorChanged(errorStr); });

@@ -270,7 +270,7 @@ void ToolBox::makeTools()
     bucketButton->setAutoRaise(true);
     //   unveilRect->setAutoRaise(true);
 
-    auto pref= m_ctrl->preferences();
+    auto pref= m_ctrl ? m_ctrl->preferences() : nullptr;
     auto iconSideSize= pref ? pref->value(QStringLiteral("IconSize"), 20).toInt() : 20;
     QSize iconSize(iconSideSize, iconSideSize);
     penButton->setIconSize(iconSize);

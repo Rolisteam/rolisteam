@@ -109,7 +109,6 @@ bool CharacterItemUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::V
         return updateVisionProperty(msg, ctrl);
     }
 
-    // TODO implement save/restore
     auto datapos= msg->pos();
 
     if(VMapItemControllerUpdater::updateItemProperty(msg, ctrl))
