@@ -230,7 +230,7 @@ void MindMapControllerBase::centerItems(qreal w, qreal h)
 
     auto items= m_itemModel->positionnedItems();
 
-    for(auto& item : qAsConst(items))
+    for(auto& item : std::as_const(items))
     {
         item->setPosition(item->position() + vec);
     }

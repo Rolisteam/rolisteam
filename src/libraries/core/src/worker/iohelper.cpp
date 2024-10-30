@@ -216,7 +216,7 @@ QJsonArray IOHelper::fetchLanguageModel()
 
     static QRegularExpression reQt(QStringLiteral("%1_(.*)\\.qm").arg(k_qt_pattern));
     QHash<QString, QString> hash;
-    for(const auto& info : qAsConst(list))
+    for(const auto& info : std::as_const(list))
     {
         auto match= reQt.match(info);
         if(match.hasMatch())
@@ -226,7 +226,7 @@ QJsonArray IOHelper::fetchLanguageModel()
     }
 
     static QRegularExpression reRolisteam(QStringLiteral("%1_(.*)\\.qm").arg(k_rolisteam_pattern));
-    for(auto info : qAsConst(list))
+    for(auto info : std::as_const(list))
     {
         auto match= reRolisteam.match(info);
         if(match.hasMatch())

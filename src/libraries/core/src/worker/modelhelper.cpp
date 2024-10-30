@@ -492,7 +492,7 @@ void fetchMusicModelWithTableTop(MusicModel* model)
 
     QList<QUrl> urls;
 
-    for(auto const& song : qAsConst(list))
+    for(auto const& song : std::as_const(list))
     {
         urls.append(QUrl::fromUserInput(url.arg(song)));
     }

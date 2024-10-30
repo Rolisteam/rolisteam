@@ -345,7 +345,7 @@ void MindMapUpdater::sendOffRemoveMessage(const QString& idCtrl, const QStringLi
                                      { sendOffChange<int>(idCtrl, QStringLiteral("styleIndex"), node, true); });
     }
 
-    for(auto link : qAsConst(links))
+    for(auto link : std::as_const(links))
     {
         info->connections << connect(link, &mindmap::LinkController::textChanged, this,
                                      [this, idCtrl, link]()

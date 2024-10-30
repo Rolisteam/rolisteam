@@ -37,7 +37,7 @@ void fetchData(QList<LanguageInfo>& infos)
         info.languageName= lang["langname"].toString();
         QStringList list;
         auto paths= lang["path"].toArray();
-        for(auto const& path : qAsConst(paths))
+        for(auto const& path : std::as_const(paths))
         {
             list << path.toString();
         }

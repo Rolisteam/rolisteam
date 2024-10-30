@@ -119,7 +119,7 @@ void WorkerTest::helperUtilsTest_data()
     {
         for(int j= 10; j <= k_height; ++j)
         {
-            for(auto r : qAsConst(ratios))
+            for(auto r : std::as_const(ratios))
             {
                 QTest::addRow("%s", QString("cmd %1").arg(idx++).toStdString().c_str()) << QRect(0, 0, i, j) << r;
             }

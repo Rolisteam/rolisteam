@@ -49,7 +49,7 @@ void TagListDelegate::paint(QPainter* painter, const QStyleOptionViewItem& optio
     int startx= option.rect.x() + margex;
     int starty= option.rect.y() + margey;
     auto fontmetrics= option.fontMetrics;
-    for(auto const& tag : qAsConst(tags))
+    for(auto const& tag : std::as_const(tags))
     {
         auto rect= fontmetrics.boundingRect(tag);
 

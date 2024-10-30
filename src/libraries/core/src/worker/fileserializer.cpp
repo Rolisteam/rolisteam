@@ -123,7 +123,7 @@ CampaignInfo FileSerializer::readCampaignDirectory(const QString& directory)
     auto array= info.asset[Core::JsonKey::JSON_MEDIAS].toArray();
 
     QSet<QString> managedFiles;
-    for(auto const& item : qAsConst(array))
+    for(auto const& item : std::as_const(array))
     {
         auto asset= item.toObject();
         auto path= asset[Core::JsonKey::JSON_MEDIA_PATH].toString();

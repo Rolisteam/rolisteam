@@ -97,7 +97,7 @@ void LinkNode::update(const QRectF& rect, LinkController::Orientation orient, co
     QVector<QLineF> lines({rect1Bottom, rect1Top, rect1Left, rect1Right});
 
     QPointF intersection1;
-    for(auto const& rectSide : qAsConst(lines))
+    for(auto const& rectSide : std::as_const(lines))
     {
         QPointF point;
         if(line.intersects(rectSide, &point) == QLineF::BoundedIntersection)
@@ -112,7 +112,7 @@ void LinkNode::update(const QRectF& rect, LinkController::Orientation orient, co
     QVector<QLineF> lines2({rect2Bottom, rect2Top, rect2Left, rect2Right});
 
     QPointF intersection2;
-    for(auto const& rectSide : qAsConst(lines2))
+    for(auto const& rectSide : std::as_const(lines2))
     {
         QPointF point;
         if(line.intersects(rectSide, &point) == QLineF::BoundedIntersection)

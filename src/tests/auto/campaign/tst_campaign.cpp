@@ -52,7 +52,7 @@ QFileInfoList fileAndDirRecusive(const QString& path)
 
     auto importedFile= dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
     list << importedFile;
-    for(auto const& res : qAsConst(importedFile))
+    for(auto const& res : std::as_const(importedFile))
     {
         if(res.isDir())
         {

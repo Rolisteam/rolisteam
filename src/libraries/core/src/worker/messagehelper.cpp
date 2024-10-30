@@ -878,7 +878,7 @@ void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
 
     /*auto singularity= ctrl->singularityList();
     msg.uint64(static_cast<quint64>(singularity.size()));
-    for(auto const& pair : qAsConst(singularity))
+    for(auto const& pair : std::as_const(singularity))
     {
         auto points= pair.first;
         msg.uint64(static_cast<quint64>(points.size()));
@@ -1602,7 +1602,7 @@ void readNodeFromMsg(MindMapController* ctrl, NetworkMessageReader* msg)
         parentIdList.append({parentId, id});
     // ctrl->createLink(parentId, id);
 
-    for(const auto& tmp : qAsConst(list))
+    for(const auto& tmp : std::as_const(list))
         parentIdList.append({id, tmp});
     //  ctrl->createLink(id, tmp);*/
 }

@@ -116,7 +116,7 @@ void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject&
     auto packagesArray= json["packages"].toArray();
 
     std::map<QString, PositionedItem*> nodeMap;
-    for(auto const& nodeRef : qAsConst(nodeArray))
+    for(auto const& nodeRef : std::as_const(nodeArray))
     {
         auto obj= nodeRef.toObject();
         auto node= new MindNode();
@@ -140,7 +140,7 @@ void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject&
         nodeMap.insert({node->id(), node});
     }
 
-    for(auto const& packRef : qAsConst(packagesArray))
+    for(auto const& packRef : std::as_const(packagesArray))
     {
         auto obj= packRef.toObject();
         auto node= new PackageNode();
@@ -155,7 +155,7 @@ void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject&
         nodeMap.insert({node->id(), node});
     }
 
-    for(auto const& linkRef : qAsConst(linkArray))
+    for(auto const& linkRef : std::as_const(linkArray))
     {
         auto obj= linkRef.toObject();
         // auto link= new Link();
@@ -183,7 +183,7 @@ void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject&
 void FileSerializer::fetchImageModel(ImageModel* imgModel, const QJsonObject& json)
 {
     auto imgArray= json["imgs"].toArray();
-    for(auto const& imgRef : qAsConst(imgArray))
+    for(auto const& imgRef : std::as_const(imgArray))
     {
         auto img= imgRef.toObject();
         auto id= img["id"].toString();

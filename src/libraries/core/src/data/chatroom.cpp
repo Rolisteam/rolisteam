@@ -204,7 +204,7 @@ bool ChatRoom::runCommand(const QString& command, const QString& personId, const
 {
     QStringList meCommand({"emote ", "me ", "em ", "e "});
     auto text= command;
-    for(auto const& e : qAsConst(meCommand))
+    for(auto const& e : std::as_const(meCommand))
     {
         if(text.startsWith(e))
         {

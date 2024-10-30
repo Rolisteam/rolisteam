@@ -292,7 +292,7 @@ bool VisualItem::hasFocusOrChild()
         return false;
 
     auto result= isSelected();
-    for(auto const& child : qAsConst(m_children))
+    for(auto const& child : std::as_const(m_children))
     {
         if(nullptr == child)
             continue;

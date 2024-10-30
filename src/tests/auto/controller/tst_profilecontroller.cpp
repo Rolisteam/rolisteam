@@ -456,7 +456,7 @@ void ProfileControllerTest::canConnect()
                        return {info.uuid, info.name, info.color, info.avatar, {}};
                    });
 
-    for(auto const& data : qAsConst(list))
+    for(auto const& data : std::as_const(list))
     {
         characterModel->addCharacter(data);
     }

@@ -115,7 +115,7 @@ void fetchMainController(rcse::MainController* ctrl, const QJsonObject& jsonObj)
         return !obj["isBg"].toBool();
     });
 
-    for(auto img : qAsConst(regularImage))
+    for(auto img : std::as_const(regularImage))
     {
         auto oj= img.toObject();
         QPixmap pix;

@@ -113,7 +113,7 @@ void RolisteamApplication::readSettings()
 
 void RolisteamApplication::setTranslator(const QStringList& list)
 {
-    for(auto trans : qAsConst(m_translators))
+    for(auto trans : std::as_const(m_translators))
         removeTranslator(trans);
 
     qDeleteAll(m_translators);
