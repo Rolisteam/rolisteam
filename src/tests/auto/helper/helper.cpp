@@ -680,7 +680,13 @@ QObject* initWebServer(int port)
                           QStringLiteral("%1/resources/img/%2").arg(tests::root_path, url.path()));
                   });
 
-    server->listen(QHostAddress::Any, port);
+    auto tcpserver= new QTcpServer();
+
+    if(!tcpserver->listen(QHostAddress::Any, port) || !server->bind(tcpserver))
+    {
+        delete tcpserver;
+        return nullptr;
+    }
 
     return server;
 }
