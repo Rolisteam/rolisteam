@@ -2,7 +2,7 @@
 #include "ui_preferencesdialog.h"
 
 #include <QFileDialog>
-
+namespace rcse {
 PreferencesDialog::PreferencesDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PreferencesDialog)
@@ -39,4 +39,5 @@ void PreferencesDialog::selectDir()
     {
         ui->m_dirPath->setText(path);
     }
+}
 }

@@ -1,5 +1,5 @@
 set(CPACK_GENERATOR "IFW")
-STRING(REPLACE "\\" "/" CPACK_IFW_ROOT ${IFW_PATH}) # /home/renaud/application/other/Qt/Tools/QtInstallerFramework/4.2
+STRING(REPLACE "\\" "/" CPACK_IFW_ROOT ${IFW_PATH}) # /home/renaud/application/other/Qt/Tools/QtInstallerFramework/4.5
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "Rolisteam")
 set(CPACK_PACKAGE_NAME "Rolisteam")
 set(CPACK_PACKAGE_VENDOR "Rolisteam.org")

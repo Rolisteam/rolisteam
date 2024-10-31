@@ -155,11 +155,6 @@ ${root_dir}/binaries/rcse/widgets/codeedit.cpp
 ${root_dir}/binaries/rcse/widgets/codeedit.h
 ${root_dir}/binaries/rcse/widgets/fieldview.cpp
 ${root_dir}/binaries/rcse/widgets/fieldview.h
-${root_dir}/binaries/server/connectionaccepter.cpp
-${root_dir}/binaries/server/connectionaccepter.h
-${root_dir}/binaries/server/ipbanaccepter.cpp
-${root_dir}/binaries/server/iprangeacctepter.h
-${root_dir}/binaries/server/passwordaccepter.h
 ${root_dir}/binaries/server/rolisteamdaemon.cpp
 ${root_dir}/binaries/server/rolisteamdaemon.h
 ${root_dir}/binaries/widget/mainwindow.cpp

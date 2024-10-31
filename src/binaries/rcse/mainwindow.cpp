@@ -605,7 +605,7 @@ void MainWindow::openImage()
 
 void MainWindow::showPreferences()
 {
-    PreferencesDialog dialog;
+    rcse::PreferencesDialog dialog;
     if(m_preferences->value("hasCustomPath", false).toBool())
     {
         dialog.setGenerationPath(m_preferences->value("GenerationCustomPath", QDir::homePath()).toString());

@@ -6,7 +6,7 @@
 namespace Ui {
 class PreferencesDialog;
 }
-
+namespace rcse {
 class PreferencesDialog : public QDialog
 {
     Q_OBJECT
@@ -24,5 +24,5 @@ public slots:
 private:
     Ui::PreferencesDialog* ui;
 };
-
+}
 #endif // PREFERENCESDIALOG_H

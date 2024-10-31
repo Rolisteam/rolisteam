@@ -25,7 +25,7 @@
 #include <QSettings>
 
 PreferencesManager::PreferencesManager(const QString& applicationName, const QString& subname)
-    : m_optionDictionary(nullptr), m_applicationName(applicationName), m_subname(subname)
+    : m_optionDictionary(nullptr), m_applicationName(applicationName), m_subname(subname), m_ready(false)
 {
     m_optionDictionary= new QMap<QString, QVariant>;
 
