@@ -159,6 +159,15 @@ int main(int argc, char* argv[])
     SelectConnectionProfileDialog connectionDialog(app.gameCtrl());
     MainWindow mainWindow(app.gameCtrl(), app.arguments());
 
+    // config
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::PluginsEnabled, true);
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::DnsPrefetchEnabled, true);
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::ScreenCaptureEnabled, true);
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls,
+                                                                  true);
+    QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls,
+                                                                  true);
     states.connectToState(profilSelection, QScxmlStateMachine::onEntry([&connectionDialog,&mainWindow](){
         qDebug() << "on Select profile";
         connectionDialog.setVisible(true);

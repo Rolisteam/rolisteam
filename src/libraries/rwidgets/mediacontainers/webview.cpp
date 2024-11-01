@@ -24,6 +24,7 @@
 #include "ui_webview.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QWebEnginePage>
 
 WebView::WebView(WebpageController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::WebViewContainer, parent)
@@ -49,6 +50,10 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     m_ui->m_shareBtn->setDefaultAction(m_ui->m_shareAct);
     m_ui->m_htmlShareBtn->setDefaultAction(m_ui->m_htmlShareAct);
 
+    auto page= m_ui->m_webview->page();
+    connect(page, &QWebEnginePage::permissionRequested, this,
+            [](QWebEnginePermission permission) { permission.grant(); });
+
     connect(m_ui->m_keepSharing, &QCheckBox::clicked, m_webCtrl, &WebpageController::setKeepSharing);
     connect(m_webCtrl, &WebpageController::nameChanged, this, &WebView::updateTitle);
     connect(m_ui->m_webview, &QWebEngineView::titleChanged, m_webCtrl, &WebpageController::setName);
@@ -56,7 +61,12 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     connect(m_ui->m_addressEdit, &QLineEdit::editingFinished, this,
             [this]() { m_webCtrl->setPageUrl(QUrl::fromUserInput(m_ui->m_addressEdit->text())); });
     connect(m_webCtrl, &WebpageController::pageUrlChanged, this,
-            [this]() { m_ui->m_webview->setUrl(m_webCtrl->pageUrl()); });
+            [this]()
+            {
+                if(m_ui->m_webview->url() == m_webCtrl->pageUrl())
+                    return;
+                m_ui->m_webview->setUrl(m_webCtrl->pageUrl());
+            });
 
     connect(m_ui->m_webview, &QWebEngineView::loadFinished, this,
             [this]()
