@@ -11,212 +11,218 @@ import Utils
 Pane {
     id: root
 
-    property QtObject styleSheet: Theme.styleSheet("mindmap")
-    property real viewScale: 1
-    property int idx: 0
-    property bool darkMode: false
+    property alias actions: _buttonGrid.actions
     property alias addPackage: _buttonGrid.addPackage
     required property MindMapController ctrl
-    property alias actions: _buttonGrid.actions
+    property bool darkMode: false
+    property int idx: 0
+    property QtObject styleSheet: Theme.styleSheet("mindmap")
+    property real viewScale: 1
 
-    signal saveMap()
-
-
+    signal saveMap
 
     onDarkModeChanged: Theme.nightMode = root.darkMode
 
-    /*Component.onCompleted: {
-        MindmapManager.ctrl.url = "file:///home/renaud/application/mine/renaudg/rolisteam/src/tests/manual/mindmap/campaign/media/test.rmap"
-        //MindmapManager.ctrl.loadFile();
-    }*/
-
     MindMap {
         id: mindMap
+
+        addSubLink: _buttonGrid.addArrow
         anchors.fill: parent
         ctrl: root.ctrl
-        zoomLevel: root.ctrl.zoomLevel
-        addSubLink: _buttonGrid.addArrow
         marginW: _minimized.width
-        onOpenImage: (id)=>{
-          imgSelector.uuid = id
-          imgSelector.open()
+        zoomLevel: root.ctrl.zoomLevel
+
+        onOpenImage: id => {
+            imgSelector.uuid = id;
+            imgSelector.open();
         }
-        onPressed:  (mouse)=> {
-            if(root.addPackage)
-                root.ctrl.addPackage(Qt.point(mouse.x, mouse.y))
+        onPositionChanged: mouse => {
+            if (root.addPackage)
+                root.ctrl.updatePackage(Qt.point(mouse.x, mouse.y));
             else
-                mouse.accepted = false
+                mouse.accepted = false;
         }
-        onPositionChanged: (mouse)=>{
-            if(root.addPackage)
-                root.ctrl.updatePackage(Qt.point(mouse.x, mouse.y))
+        onPressed: mouse => {
+            if (root.addPackage)
+                root.ctrl.addPackage(Qt.point(mouse.x, mouse.y));
             else
-                mouse.accepted = false
+                mouse.accepted = false;
         }
         onReleased: {
-            if(root.addPackage)
-                root.addPackage = false
+            if (root.addPackage)
+                root.addPackage = false;
             else
-                mouse.accepted = false
+                mouse.accepted = false;
         }
     }
     MindMenu {
         id: menu
+
         ctrl: root.ctrl
+
         onSaveMap: {
-         console.log("Content save map")
-            root.saveMap()
+            console.log("Content save map");
+            root.saveMap();
         }
     }
-
     FileDialog {
-      id: imgSelector
-      property string uuid
-      fileMode: FileDialog.OpenFile
-      nameFilters: [qsTr("Images (*.jpg *.png *.jpeg *.gif *.bmp)")]
-      onAccepted: {
-          root.ctrl.openImage(imgSelector.uuid, imgSelector.selectedFile)
-      }
-    }
+        id: imgSelector
 
+        property string uuid
+
+        fileMode: FileDialog.OpenFile
+        nameFilters: [qsTr("Images (*.jpg *.png *.jpeg *.gif *.bmp)")]
+
+        onAccepted: {
+            root.ctrl.openImage(imgSelector.uuid, imgSelector.selectedFile);
+        }
+    }
     FileDialog {
-      id: screenShotSelector
-      property string uuid
-      defaultSuffix: "png"
-      fileMode: FileDialog.SaveFile
-      nameFilters: [qsTr("Images (*.png)")]
-      onAccepted: {
-          mindMap.makeScreenShot(screenShotSelector.selectedFile)
-      }
+        id: screenShotSelector
+
+        property string uuid
+
+        defaultSuffix: "png"
+        fileMode: FileDialog.SaveFile
+        nameFilters: [qsTr("Images (*.png)")]
+
+        onAccepted: {
+            mindMap.makeScreenShot(screenShotSelector.selectedFile);
+        }
     }
-
-
-     RowLayout{
-        anchors.top: parent.top
+    RowLayout {
         anchors.right: parent.right
         anchors.rightMargin: root.styleSheet.margin
+        anchors.top: parent.top
         anchors.topMargin: root.styleSheet.margin
 
-        IconButton {//undo
-            source: root.styleSheet.undoIcon
+        IconButton {
             enabled: root.ctrl.canUndo
+            //undo
+            source: root.styleSheet.undoIcon
+
             onClicked: root.ctrl.undo()
         }
-        IconButton {//redo
-            source: root.styleSheet.redoIcon
+        IconButton {
             enabled: root.ctrl.canRedo
+            //redo
+            source: root.styleSheet.redoIcon
+
             onClicked: root.ctrl.redo()
         }
         IconButton {
             source: root.styleSheet.listIcon
+
             onClicked: drawer.open()
         }
     }
-
     ButtonGrid {
         id: _buttonGrid
-        ctrl: root.ctrl
-        anchors.top: parent.top
+
         anchors.right: parent.right
         anchors.rightMargin: 14
+        anchors.top: parent.top
         anchors.topMargin: 14
-        onOpenDrawer: drawer.open()
         automaticSpacing: root.ctrl.spacing
-        onAutomaticSpacingChanged: root.ctrl.spacing = _buttonGrid.automaticSpacing
-        onSaveMap: {
-            root.saveMap()
-        }
+        ctrl: root.ctrl
 
+        onAutomaticSpacingChanged: root.ctrl.spacing = _buttonGrid.automaticSpacing
         onExportScene: {
-            screenShotSelector.open()
+            screenShotSelector.open();
+        }
+        onOpenDrawer: drawer.open()
+        onSaveMap: {
+            root.saveMap();
         }
     }
-
     SideMenu {
         id: drawer
-        edge: Qt.RightEdge
-        width: 0.4 * root.width
-        height: root.height
-        mediaCtrl: root.ctrl
-        linkVisibility: root.ctrl.linkLabelVisibility
-        darkMode: root.darkMode
-        onDarkModeChanged: root.darkMode = darkMode
-        onUserChangedLinkVisibility: {
-            if(root.ctrl.linkLabelVisibility !== linkVisibility )
-                root.ctrl.linkLabelVisibility = linkVisibility
-        }
-        onDefaultStyleChanged: root.ctrl.defaultStyleIndex = defaultStyle
-    }
 
+        darkMode: root.darkMode
+        edge: Qt.RightEdge
+        height: root.height
+        linkVisibility: root.ctrl.linkLabelVisibility
+        mediaCtrl: root.ctrl
+        width: 0.4 * root.width
+
+        onDarkModeChanged: root.darkMode = darkMode
+        onDefaultStyleChanged: root.ctrl.defaultStyleIndex = defaultStyle
+        onUserChangedLinkVisibility: {
+            if (root.ctrl.linkLabelVisibility !== linkVisibility)
+                root.ctrl.linkLabelVisibility = linkVisibility;
+        }
+    }
     Rectangle {
         anchors.fill: _minimized
         anchors.margins: 2
-        border.width: 2
         border.color: root.styleSheet.borderColor
+        border.width: 2
         color: root.styleSheet.colorMiniMap
         visible: _buttonGrid.showLittleMap
     }
-
     ShaderEffectSource {
         id: _minimized
-        sourceItem: mindMap.innerItem
+
         anchors.bottom: _bottomControl.top
         anchors.right: parent.right
+        height: width / 2
         live: true
+        sourceItem: mindMap.innerItem
+        sourceRect: helper.maxRect(Qt.rect(0, 0, root.width, root.height), Qt.rect(0, 0, mindMap.innerItem.width, mindMap.innerItem.height))
         visible: _buttonGrid.showLittleMap
+        width: _bottomControl.width
+
         MappingHelper {
             id: helper
+
         }
-        width: _bottomControl.width
-        height: width/2
-
-        sourceRect: helper.maxRect(Qt.rect(0,0, root.width, root.height), Qt.rect(0,0, mindMap.innerItem.width, mindMap.innerItem.height))
-
         Rectangle {
-            border.width: 2
             border.color: "blue"
+            border.width: 2
             color: "transparent"
+            height: mindMap.visibleArea.heightRatio * _minimized.height
+            width: mindMap.visibleArea.widthRatio * _minimized.width
             x: mindMap.visibleArea.xPosition * _minimized.width
             y: mindMap.visibleArea.yPosition * _minimized.height
-            width: mindMap.visibleArea.widthRatio * _minimized.width
-            height: mindMap.visibleArea.heightRatio * _minimized.height
         }
     }
     RowLayout {
         id: _bottomControl
+
         anchors.bottom: parent.bottom
         anchors.right: parent.right
+
         Slider {
             id: slider
+
             from: 0.1
             to: 3
             value: root.ctrl.zoomLevel
-            onValueChanged: root.ctrl.zoomLevel = value
 
+            onValueChanged: root.ctrl.zoomLevel = value
         }
         Button {
             text: "reset"
+
             onClicked: slider.value = 1.0
         }
     }
-
     MouseArea {
-        anchors.fill:parent
-        acceptedButtons:Qt.MiddleButton | Qt.RightButton
+        acceptedButtons: Qt.MiddleButton | Qt.RightButton
+        anchors.fill: parent
         propagateComposedEvents: true
-        onClicked:(mouse)=>{
-            menu.x = mouse.x
-            menu.y = mouse.y
-            menu.open()
+
+        onClicked: mouse => {
+            menu.x = mouse.x;
+            menu.y = mouse.y;
+            menu.open();
         }
-        onWheel: (wheel)=>{
-            var step = (wheel.modifiers & Qt.ControlModifier) ? 0.1 : 0.01
-            if(wheel.angleDelta.y>0)
-            {
-                root.viewScale = Math.min(root.viewScale+step,2.0)
-            }
-            else
-                root.viewScale = Math.max(root.viewScale-step,0.2)
+        onWheel: wheel => {
+            var step = (wheel.modifiers & Qt.ControlModifier) ? 0.1 : 0.01;
+            if (wheel.angleDelta.y > 0) {
+                root.viewScale = Math.min(root.viewScale + step, 2.0);
+            } else
+                root.viewScale = Math.max(root.viewScale - step, 0.2);
         }
     }
 }

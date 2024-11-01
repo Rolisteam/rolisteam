@@ -28,13 +28,13 @@
 #include <QQuickStyle>
 
 #include "controller/view_controller/mindmapcontroller.h"
-#include "mindmap/model/nodeimageprovider.h"
-#include "mindmap/data/minditem.h"
-#include <common_qml/theme.h>
-#include "mindmap/data/nodestyle.h"
-#include "utils/mappinghelper.h"
 #include "controller/view_controller/sidemenucontroller.h"
+#include "mindmap/data/minditem.h"
+#include "mindmap/data/nodestyle.h"
+#include "mindmap/model/nodeimageprovider.h"
 #include "mindmap/qmlItems/linkitem.h"
+#include "utils/mappinghelper.h"
+#include <common_qml/theme.h>
 
 void registerMindmapType()
 {
@@ -53,17 +53,13 @@ void registerMindmapType()
                                                    });
 
     qmlRegisterType<utils::MappingHelper>("utils", 1, 0, "MappingHelper");
-    qmlRegisterUncreatableType<mindmap::MindMapControllerBase>("mindmap", 1, 0, "MindMapController",
+    qmlRegisterUncreatableType<mindmap::MindMapControllerBase>("mindmapcpp", 1, 0, "MindMapController",
                                                                "MindMapController can't be created in qml");
-    qmlRegisterUncreatableType<mindmap::MindItem>("mindmap", 1, 0, "MindItem", "Enum only");
-    qmlRegisterType<mindmap::SelectionController>("mindmap", 1, 0, "SelectionController");
-    qmlRegisterUncreatableType<RemotePlayerModel>("mindmap", 1, 0, "RemotePlayerModel", "property values");
-    qmlRegisterType<mindmap::LinkItem>("mindmap", 1, 0, "MindLink");
-    qmlRegisterUncreatableType<mindmap::NodeStyle>("mindmap", 1, 0, "NodeStyle", "Can't be created in QML");
-    qmlRegisterUncreatableType<mindmap::PositionedItem>("mindmap", 1, 0, "PositionedItem", "Enum only");
-    qmlRegisterType<mindmap::SideMenuController>("mindmap", 1, 0, "SideMenuController");
-    qmlRegisterUncreatableType<mindmap::MindItemModel>("mindmap", 1, 0, "MindItemModel",
-                                                       "MindItemModel can't be created in qml");
+    qmlRegisterUncreatableType<mindmap::MindItem>("mindmapcpp", 1, 0, "MindItem", "Enum only");
+    qmlRegisterUncreatableType<RemotePlayerModel>("mindmapcpp", 1, 0, "RemotePlayerModel", "property values");
+    qmlRegisterUncreatableType<mindmap::NodeStyle>("mindmapcpp", 1, 0, "NodeStyle", "Can't be created in QML");
+    qmlRegisterType<mindmap::LinkItem>("mindmapcpp", 1, 0, "MindLink");
+    qmlRegisterType<mindmap::SideMenuController>("mindmapcpp", 1, 0, "SideMenuController");
 }
 
 MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
@@ -79,30 +75,33 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
 
     auto selector= new QQmlFileSelector(engine, this);
     auto instance= customization::Theme::instance();
-    connect(instance, &customization::Theme::folderChanged, this, [instance, selector]() {
-        qDebug() << "change prefix" << instance->folder();
-        selector->setExtraSelectors({instance->folder()});
-    });
+    connect(instance, &customization::Theme::folderChanged, this,
+            [instance, selector]()
+            {
+                qDebug() << "change prefix" << instance->folder();
+                selector->setExtraSelectors({instance->folder()});
+            });
 
     engine->setOutputWarningsToStandardError(true);
 
-    qmlRegisterSingletonType<MindmapManager>(
-        "mindmap", 1, 0, "MindmapManager", [ctrl, engine](QQmlEngine* qmlengine, QJSEngine* scriptEngine) -> QObject* {
-            Q_UNUSED(scriptEngine)
-            if(qmlengine != engine)
-                return {};
-            static QHash<QQmlEngine*, MindmapManager*> hash;
+    qmlRegisterSingletonType<MindmapManager>("mindmap", 1, 0, "MindmapManager",
+                                             [ctrl, engine](QQmlEngine* qmlengine, QJSEngine* scriptEngine) -> QObject*
+                                             {
+                                                 Q_UNUSED(scriptEngine)
+                                                 if(qmlengine != engine)
+                                                     return {};
+                                                 static QHash<QQmlEngine*, MindmapManager*> hash;
 
-            if(!hash.contains(qmlengine))
-            {
-                auto m= new MindmapManager(ctrl);
-                m->setCtrl(ctrl);
-                qmlengine->setObjectOwnership(m, QQmlEngine::CppOwnership);
-                hash.insert(qmlengine, m);
-            }
+                                                 if(!hash.contains(qmlengine))
+                                                 {
+                                                     auto m= new MindmapManager(ctrl);
+                                                     m->setCtrl(ctrl);
+                                                     qmlengine->setObjectOwnership(m, QQmlEngine::CppOwnership);
+                                                     hash.insert(qmlengine, m);
+                                                 }
 
-            return hash.value(qmlengine);
-        });
+                                                 return hash.value(qmlengine);
+                                             });
     if(!m_ctrl)
         return;
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
@@ -110,10 +109,12 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     engine->addImportPath(QStringLiteral("qrc:/qml"));
     engine->addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
 
-    connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& errors) {
-        for(const auto& error : errors)
-            qDebug() << "warnings: " << error;
-    });
+    connect(engine, &QQmlEngine::warnings, this,
+            [](const QList<QQmlError>& errors)
+            {
+                for(const auto& error : errors)
+                    qDebug() << "warnings: " << error;
+            });
     connect(m_qmlViewer.get(), &QQuickWidget::sceneGraphError, this,
             [](QQuickWindow::SceneGraphError error, const QString& message) { qDebug() << message << error; });
 
