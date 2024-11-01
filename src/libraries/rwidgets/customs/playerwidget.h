@@ -75,7 +75,6 @@ private:
     QAction* m_uniqueAct;
     QAction* m_repeatAct;
     QAction* m_shuffleAct;
-    QAction* m_changeDirectoryAct;
     QAction* m_volumeMutedAct;
     QAction* m_loadTableTopAudioPlayListAct;
     QAction* m_addAction; //!< @brief add song action

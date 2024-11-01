@@ -97,9 +97,6 @@ void PlayerWidget::setupUi()
     m_shuffleAct->setCheckable(true);
     m_shuffleAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    m_changeDirectoryAct= new QAction(style()->standardIcon(QStyle::SP_DirIcon), tr("Open Directory"), this);
-    connect(m_changeDirectoryAct, &QAction::triggered, this, &PlayerWidget::changePlayerDirectory);
-
     m_volumeMutedAct= new QAction(tr("Mute Volume"), this);
     m_volumeMutedAct->setCheckable(true);
     m_volumeMutedAct->setShortcut(QKeySequence("Ctrl+M"));
@@ -162,7 +159,6 @@ void PlayerWidget::setupUi()
     m_ui->m_uniqueMode->setDefaultAction(m_uniqueAct);
     m_ui->m_shuffleBtn->setDefaultAction(m_shuffleAct);
     m_ui->m_repeatMode->setDefaultAction(m_repeatAct);
-    m_ui->m_changeDirectory->setDefaultAction(m_changeDirectoryAct);
 
     m_ui->m_addPathBtn->setDefaultAction(m_ui->m_addPathAct);
     m_ui->m_removePathBtn->setDefaultAction(m_ui->m_removePathAct);
@@ -406,7 +402,6 @@ void PlayerWidget::updateUi()
     m_ui->m_deleteButton->setVisible(isGM);
     // m_ui->m_songList->setVisible(isGM);
     m_ui->m_savePlaylist->setVisible(isGM);
-    m_ui->m_changeDirectory->setVisible(!isGM);
     m_ui->m_timerDisplay->setVisible(isGM);
     m_ui->m_volumeSlider->setValue(m_ctrl->volume());
 

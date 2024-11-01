@@ -15,18 +15,11 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0,0">
      <item>
       <widget class="QLineEdit" name="m_label">
        <property name="readOnly">
         <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="m_changeDirectory">
-       <property name="text">
-        <string notr="true">...</string>
        </property>
       </widget>
      </item>
