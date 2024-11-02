@@ -30,6 +30,8 @@
 #include <QResource>
 #include <QTranslator>
 #include <QUuid>
+#include <QWebEngineProfile>
+#include <QWebEngineSettings>
 #include <exception>
 
 #include "common_qml/theme.h"
@@ -86,14 +88,15 @@ Q_LOGGING_CATEGORY(rDice, "rolisteam.dice");
  *
  */
 
-namespace {
+namespace
+{
 constexpr auto profilSelection{"profil_selection"};
 constexpr auto quit{"quit"};
 constexpr auto playing("playing");
 constexpr auto exitState{"exit"};
 constexpr auto connected{"connected"};
 constexpr auto disconnected{"disconnected"};
-}
+} // namespace
 
 void showResources()
 {
@@ -136,7 +139,6 @@ int main(int argc, char* argv[])
 #ifdef Q_OS_WIN
     {
 
-
         QString cmdLine("\"%2\rolisteam.exe\" \"-l %1\"");
         QSettings fooKey("HKEY_CLASSES_ROOT\\rolisteam", QSettings::NativeFormat);
         fooKey.setValue(".", "URL:rolisteam Protocol");
@@ -152,8 +154,8 @@ int main(int argc, char* argv[])
 #endif
 
 #ifndef UNIT_TESTS
-    //UiWatchdog dog;
-    //dog.start();
+    // UiWatchdog dog;
+    // dog.start();
 #endif
     ApplicationState states;
     SelectConnectionProfileDialog connectionDialog(app.gameCtrl());
@@ -168,39 +170,51 @@ int main(int argc, char* argv[])
                                                                   true);
     QWebEngineProfile::defaultProfile()->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls,
                                                                   true);
-    states.connectToState(profilSelection, QScxmlStateMachine::onEntry([&connectionDialog,&mainWindow](){
-        qDebug() << "on Select profile";
-        connectionDialog.setVisible(true);
-        mainWindow.makeVisible(false);
-    }));
-    states.connectToState(playing, QScxmlStateMachine::onEntry([&connectionDialog,&mainWindow](){
-        qDebug() << "on playing";
-        connectionDialog.accept();
-        mainWindow.makeVisible(true);
-        connectionDialog.setVisible(false);
-    }));
-    states.connectToState(exitState, QScxmlStateMachine::onEntry([&states, &connectionDialog,&mainWindow, &app](){
-                              qDebug() << "on exit";
-                              states.stop();
-                              mainWindow.makeVisible(false);
-                              connectionDialog.setVisible(false);
-                              QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
-                          }));
 
-    QObject::connect(&app, &RolisteamApplication::quitApp, &states, [&states](){
-        qDebug() << "on quit app event";
-        states.submitEvent(quit);
-    });
+    states.connectToState(profilSelection, QScxmlStateMachine::onEntry(
+                                               [&connectionDialog, &mainWindow]()
+                                               {
+                                                   qDebug() << "on Select profile";
+                                                   connectionDialog.setVisible(true);
+                                                   mainWindow.makeVisible(false);
+                                               }));
+    states.connectToState(playing, QScxmlStateMachine::onEntry(
+                                       [&connectionDialog, &mainWindow]()
+                                       {
+                                           qDebug() << "on playing";
+                                           connectionDialog.accept();
+                                           mainWindow.makeVisible(true);
+                                           connectionDialog.setVisible(false);
+                                       }));
+    states.connectToState(exitState, QScxmlStateMachine::onEntry(
+                                         [&states, &connectionDialog, &mainWindow, &app]()
+                                         {
+                                             qDebug() << "on exit";
+                                             states.stop();
+                                             mainWindow.makeVisible(false);
+                                             connectionDialog.setVisible(false);
+                                             QMetaObject::invokeMethod(&app, &RolisteamApplication::quit,
+                                                                       Qt::QueuedConnection);
+                                         }));
 
-    QObject::connect(&app, &RolisteamApplication::connectStatusChanged, &states, [&states](bool b){
-        qDebug() << "on status changed" << b;
-        if(b)
-            states.submitEvent(connected);
-        else
-            states.submitEvent(disconnected);
-    });
+    QObject::connect(&app, &RolisteamApplication::quitApp, &states,
+                     [&states]()
+                     {
+                         qDebug() << "on quit app event";
+                         states.submitEvent(quit);
+                     });
 
-    //showResources();
+    QObject::connect(&app, &RolisteamApplication::connectStatusChanged, &states,
+                     [&states](bool b)
+                     {
+                         qDebug() << "on status changed" << b;
+                         if(b)
+                             states.submitEvent(connected);
+                         else
+                             states.submitEvent(disconnected);
+                     });
+
+    // showResources();
 
     states.start();
     return app.exec();
