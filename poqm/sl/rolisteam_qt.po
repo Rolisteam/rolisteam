@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2024-10-11 20:17+0200\n"
+"PO-Revision-Date: 2024-11-01 07:22+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,20 +22,14 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
-msgstr "Miselni vzorec (*.rmindmap *.rmap)"
+msgstr "MindMap (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
-msgstr "Odpri miselni vzorec"
+msgstr "Odpri miselni vzorec"
 
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
@@ -1626,9 +1620,6 @@ msgid "Ask for password and return its hash key."
 msgstr "Prosi za geslo in vrni svoj ključ za kontrolno vsoto."
 
 #: src/binaries/widget/mainwindow.cpp:374
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Stranske plošče"
@@ -1701,14 +1692,11 @@ msgid "Open Campaign"
 msgstr "Odpri bojni pohod"
 
 #: src/binaries/widget/mainwindow.cpp:636
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
-"Dokumentacijo za Rcse lahko najdete na spletu na:<br><a href=\"%1\">%1</a>"
+"Dokumentacijo za %1 lahko najdete na spletu na:<br><a href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:671
 msgctxt "MainWindow|"
@@ -1745,18 +1733,14 @@ msgid "Update Notification"
 msgstr "Obvestilo o posodobitvi"
 
 #: src/binaries/widget/mainwindow.cpp:808
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"Objavljen je izid različice %1. Za podrobnosti si oglejte <a href=\"http://"
-"www.rolisteam.org/download\">stran za prenos</a>"
+"Objavljen je izid različice %1. Oglejte si <a href=\"http://www.rolisteam."
+"org/download\">stran za prenos</a> za več informacij."
 
 #: src/binaries/widget/mainwindow.cpp:818
 #, qt-format
@@ -3413,12 +3397,9 @@ msgid "Add Arrow"
 msgstr "Dodaj puščico"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Odstrani izbrano datoteko"
+msgstr "Odstrani izbrane postavke"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"

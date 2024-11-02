@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2024-10-07 10:22+0200\n"
+"PO-Revision-Date: 2024-11-01 10:14+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -17,23 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "MindMap (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
-msgstr "Obri un Mapa mental"
+msgstr "Open MindMap"
 
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
@@ -1620,9 +1614,6 @@ msgid "Ask for password and return its hash key."
 msgstr "Demana una contrasenya i retorna la seua clau de resum."
 
 #: src/binaries/widget/mainwindow.cpp:374
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Quadros laterals"
@@ -1695,14 +1686,11 @@ msgid "Open Campaign"
 msgstr "Obri una campanya"
 
 #: src/binaries/widget/mainwindow.cpp:636
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
-"La documentació del RCSE es pot trobar en línia a:<br> <a href=\"%1\">%1</a>"
+"La documentació de %1 es pot trobar en línia a:<br> <a href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:671
 msgctxt "MainWindow|"
@@ -1739,17 +1727,13 @@ msgid "Update Notification"
 msgstr "Notificació d'actualització"
 
 #: src/binaries/widget/mainwindow.cpp:808
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"S'ha publicat la versió %1. Doneu una ullada a la <a href=\"http://www."
+"S'ha publicat la versió %1. Doneu una ullada a la <a href=\"https://www."
 "rolisteam.org/download\">pàgina de baixades</a> per a més informació"
 
 #: src/binaries/widget/mainwindow.cpp:818
@@ -3419,12 +3403,9 @@ msgid "Add Arrow"
 msgstr "Afig una fletxa"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Elimina el fitxer seleccionat"
+msgstr "Elimina els elements seleccionats"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"
@@ -8515,23 +8496,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "MainWindow|"
-#~ msgid ""
-#~ "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
-#~ "rolisteam.org\">http://doc.rolisteam.org/</a>"
-#~ msgstr ""
-#~ "La documentació de %1 es pot trobar en línia a:<br> <a href=\"http://doc."
-#~ "rolisteam.org\">http://doc.rolisteam.org/</a>"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Export from %1"
-#~ msgstr "Exporta des de %1"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "unknown"
-#~ msgstr "desconegut"
-
-#~ msgctxt "ButtonGrid|"
-#~ msgid "Remove Selection"
-#~ msgstr "Elimina la selecció"

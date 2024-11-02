@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-10-07 09:56+0300\n"
+"PO-Revision-Date: 2024-11-01 19:19+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -15,17 +15,11 @@ msgstr ""
 "X-Generator: Lokalize 23.04.3\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "карта думок (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
 msgstr "Відкриття карти думок"
@@ -1622,9 +1616,6 @@ msgid "Ask for password and return its hash key."
 msgstr "Запитати пароль і повернути його хешований ключ."
 
 #: src/binaries/widget/mainwindow.cpp:374
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Бічні панелі"
@@ -1697,15 +1688,12 @@ msgid "Open Campaign"
 msgstr "Відкрити шампанське"
 
 #: src/binaries/widget/mainwindow.cpp:636
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
-"Документацію до RCSE можна знайти в інтернеті за адресою:<br> <a href=\"%1\">"
-"%1</a>"
+"Документацію до %1 можна знайти в інтернеті за адресою:<br> <a href=\"%2\">"
+"%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:671
 msgctxt "MainWindow|"
@@ -1743,17 +1731,13 @@ msgid "Update Notification"
 msgstr "Сповіщення щодо оновлення"
 
 #: src/binaries/widget/mainwindow.cpp:808
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"Випущено версію %1. Будь ласка, зазирніть на <a href=\"http://www.rolisteam."
+"Випущено версію %1. Будь ласка, зазирніть на <a href=\"https://www.rolisteam."
 "org/download\">сторінку пакунка</a>, щоб дізнатися більше"
 
 #: src/binaries/widget/mainwindow.cpp:818
@@ -3413,12 +3397,9 @@ msgid "Add Arrow"
 msgstr "Додати стрілку"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Вилучити позначений файл"
+msgstr "Вилучити позначені записи"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-10-18 16:57+0100\n"
+"PO-Revision-Date: 2024-11-01 14:01+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -14,17 +14,11 @@ msgstr ""
 "X-Generator: Lokalize 24.08.2\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "MindMap (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
 msgstr "Open MindMap"
@@ -1614,12 +1608,9 @@ msgid "Ask for password and return its hash key."
 msgstr "Ask for password and return its hash key."
 
 #: src/binaries/widget/mainwindow.cpp:374
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "MainWindow|"
 msgid "SidePanels"
-msgstr "Side Panels"
+msgstr "SidePanels"
 
 #: src/binaries/widget/mainwindow.cpp:379
 msgctxt "MainWindow|"
@@ -1689,14 +1680,10 @@ msgid "Open Campaign"
 msgstr "Open Campaign"
 
 #: src/binaries/widget/mainwindow.cpp:636
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
-msgstr ""
-"Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+msgstr "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:671
 msgctxt "MainWindow|"
@@ -1733,18 +1720,14 @@ msgid "Update Notification"
 msgstr "Update Notification"
 
 #: src/binaries/widget/mainwindow.cpp:808
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"The %1 version has been released. Please take a look at <a href=\"http://www."
-"rolisteam.org/download\">Download page</a> for more information"
+"The %1 version has been released. Please take a look at <a href=\"https://"
+"www.rolisteam.org/download\">Download page</a> for more information"
 
 #: src/binaries/widget/mainwindow.cpp:818
 #, qt-format
@@ -3400,12 +3383,9 @@ msgid "Add Arrow"
 msgstr "Add Arrow"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Remove selected file"
+msgstr "Remove selected Items"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"
