@@ -324,8 +324,8 @@ void PlayerWidget::setupUi()
 
 void PlayerWidget::addFiles()
 {
-    auto fileList
-        = QFileDialog::getOpenFileUrls(this, tr("Add song"), QUrl(), tr("Audio files (%1)").arg("*.mp3 *.flac *.webm"));
+    auto fileList= QFileDialog::getOpenFileUrls(this, tr("Add song"), QUrl(),
+                                                tr("Audio files (%1)").arg("*.mp3 *.flac *.webm *.ogg"));
     if(fileList.isEmpty())
         return;
     m_ctrl->addSong(fileList);
