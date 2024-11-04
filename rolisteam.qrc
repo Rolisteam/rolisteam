@@ -182,5 +182,10 @@
         <file>resources/rolistheme/07_tools.svg</file>
         <file>resources/rolistheme/file-svgrepo-com.svg</file>
         <file>resources/rolistheme/01_players.svg</file>
+        <file>resources/rolistheme/notes.svg</file>
+        <file>resources/rolistheme/textright.svg</file>
+        <file>resources/rolistheme/textleft.svg</file>
+        <file>resources/rolistheme/textcenter.svg</file>
+        <file>resources/rolistheme/textjustify.svg</file>
     </qresource>
 </RCC>
