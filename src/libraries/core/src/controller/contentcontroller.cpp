@@ -239,6 +239,14 @@ void ContentController::openMedia(const std::map<QString, QVariant>& args)
     emit performCommand(new OpenMediaController(m_contentModel.get(), type, args, localColor(), localIsGM()));
 }
 
+void ContentController::renameMedia(const QString& id, const QString& path)
+{
+    auto media= m_contentModel->media(id);
+    if(!media)
+        return;
+    media->setUrl(QUrl::fromLocalFile(path));
+}
+
 QFileSystemModel* ContentController::sessionModel() const
 {
     return m_sessionModel.get();

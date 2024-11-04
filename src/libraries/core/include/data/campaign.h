@@ -160,7 +160,7 @@ signals:
     void nameChanged();
     void errorOccured(QString msg);
     void mediaAdded(campaign::Media* media);
-    void mediaNameChanged();
+    void mediaNameChanged(const QString& id, const QString& path);
     void mediaRemoved(const QString& id);
     void diskUsageChanged();
     void fileCountChanged();

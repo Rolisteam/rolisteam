@@ -139,6 +139,7 @@ public slots:
     void setGameMasterId(const QString& id);
     void setLocalId(const QString& id);
     void setMediaRoot(const QString& path);
+    void renameMedia(const QString& id, const QString& path);
 
     void copyData();
     void pasteData();

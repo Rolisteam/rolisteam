@@ -120,7 +120,6 @@ void Campaign::addMedia(std::unique_ptr<Media>&& media)
 
     auto p= media.get();
     m_mediaList.push_back(std::move(media));
-    connect(p, &Media::pathChanged, this, &Campaign::mediaNameChanged);
     emit mediaAdded(p);
 }
 
@@ -133,7 +132,7 @@ void Campaign::renameMedia(const QString& id, const QString& path)
         return;
 
     (*it)->setPath(path);
-    emit mediaNameChanged();
+    emit mediaNameChanged(id, path);
 }
 void Campaign::removeMedia(const QString& id)
 {
