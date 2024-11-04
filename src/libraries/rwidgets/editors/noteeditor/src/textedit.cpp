@@ -82,8 +82,8 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent)
 
     connect(m_noteCtrl, &NoteController::loadOdt, this, &TextEdit::loadOdt);
     connect(m_noteCtrl, &NoteController::textChanged, this,
-            [this]() {
-
+            [this]()
+            {
                 if(m_noteCtrl->text() == m_textEdit->toPlainText() || m_noteCtrl->text() == m_textEdit->toHtml())
                     return;
 
@@ -102,7 +102,8 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent)
     alignmentChanged(m_textEdit->alignment());
 
     connect(m_textEdit->document(), &QTextDocument::contentsChanged, m_noteCtrl,
-            [this]() {
+            [this]()
+            {
                 qDebug() << "Text change from Note Controller";
                 m_noteCtrl->isHtml() ? m_noteCtrl->setText(m_textEdit->toHtml()) :
                                        m_noteCtrl->setText(m_textEdit->toPlainText());
@@ -134,8 +135,6 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent)
     statusbar= new QStatusBar(this);
     statusbar->setObjectName(QString::fromUtf8("statusbar"));
     setStatusBar(statusbar);
-
-    m_noteCtrl->loadText();
 
     auto p= m_noteCtrl->text();
     if(p.isEmpty() && !m_working)
@@ -186,7 +185,7 @@ void TextEdit::setupFileActions()
     connect(a, SIGNAL(triggered()), this, SLOT(filePrintPreview()));
     menu->addAction(a);
 
-    a= new QAction(QIcon::fromTheme("exportpdf"), tr("&Export PDF..."), this);
+    a= new QAction(QIcon::fromTheme("pdfLogo"), tr("&Export PDF..."), this);
     a->setShortcut(Qt::CTRL + Qt::Key_D);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
     tb->addAction(a);
@@ -203,24 +202,24 @@ void TextEdit::setupEditActions()
     menuBar()->addMenu(menu);
 
     QAction* a;
-    a= actionUndo= new QAction(QIcon::fromTheme("editundo"), tr("&Undo"), this);
+    a= actionUndo= new QAction(QIcon::fromTheme("undo"), tr("&Undo"), this);
     a->setShortcut(QKeySequence::Undo);
     tb->addAction(a);
     menu->addAction(a);
-    a= actionRedo= new QAction(QIcon::fromTheme("editredo"), tr("&Redo"), this);
+    a= actionRedo= new QAction(QIcon::fromTheme("redo"), tr("&Redo"), this);
     a->setShortcut(QKeySequence::Redo);
     tb->addAction(a);
     menu->addAction(a);
     menu->addSeparator();
-    a= actionCut= new QAction(QIcon::fromTheme("editcut"), tr("Cu&t"), this);
+    a= actionCut= new QAction(QIcon::fromTheme("cut"), tr("Cu&t"), this);
     a->setShortcut(QKeySequence::Cut);
     tb->addAction(a);
     menu->addAction(a);
-    a= actionCopy= new QAction(QIcon::fromTheme("editcopy"), tr("&Copy"), this);
+    a= actionCopy= new QAction(QIcon::fromTheme("copy"), tr("&Copy"), this);
     a->setShortcut(QKeySequence::Copy);
     tb->addAction(a);
     menu->addAction(a);
-    a= actionPaste= new QAction(QIcon::fromTheme("editpaste"), tr("&Paste"), this);
+    a= actionPaste= new QAction(QIcon::fromTheme("paste"), tr("&Paste"), this);
     a->setShortcut(QKeySequence::Paste);
     tb->addAction(a);
     menu->addAction(a);
@@ -272,16 +271,16 @@ void TextEdit::setupTextActions()
     connect(grp, SIGNAL(triggered(QAction*)), this, SLOT(textAlign(QAction*)));
 
     actionAlignLeft= new QAction(QIcon::fromTheme("textleft"), tr("&Left"), grp);
-    actionAlignLeft->setShortcut(Qt::CTRL + Qt::Key_L);
+    actionAlignLeft->setShortcut(Qt::CTRL | Qt::Key_L);
     actionAlignLeft->setCheckable(true);
     actionAlignCenter= new QAction(QIcon::fromTheme("textcenter"), tr("C&enter"), grp);
-    actionAlignCenter->setShortcut(Qt::CTRL + Qt::Key_E);
+    actionAlignCenter->setShortcut(Qt::CTRL | Qt::Key_E);
     actionAlignCenter->setCheckable(true);
     actionAlignRight= new QAction(QIcon::fromTheme("textright"), tr("&Right"), grp);
-    actionAlignRight->setShortcut(Qt::CTRL + Qt::Key_R);
+    actionAlignRight->setShortcut(Qt::CTRL | Qt::Key_R);
     actionAlignRight->setCheckable(true);
     actionAlignJustify= new QAction(QIcon::fromTheme("textjustify"), tr("&Justify"), grp);
-    actionAlignJustify->setShortcut(Qt::CTRL + Qt::Key_J);
+    actionAlignJustify->setShortcut(Qt::CTRL | Qt::Key_J);
     actionAlignJustify->setCheckable(true);
 
     tb->addActions(grp->actions());
