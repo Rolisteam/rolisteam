@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-10-07 12:56+0300\n"
+"PO-Revision-Date: 2024-11-02 16:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12,20 +12,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "Akıl haritası (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
 msgstr "Akıl Haritası Aç"
@@ -1616,9 +1610,6 @@ msgid "Ask for password and return its hash key."
 msgstr "Bir parola sorun ve sağlama anahtarını döndürün."
 
 #: src/binaries/widget/mainwindow.cpp:374
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Yan Paneller"
@@ -1691,15 +1682,12 @@ msgid "Open Campaign"
 msgstr "Sefer Aç"
 
 #: src/binaries/widget/mainwindow.cpp:636
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
-"Rcse belgelendirmesi çevrimiçi olarak şurada bulunabilir:<br> <a href=\"%1\">"
-"%1</a>"
+"%1 belgelendirmesi çevrimiçi olarak şurada bulunabilir:<br> <a href=\"%2\">"
+"%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:671
 msgctxt "MainWindow|"
@@ -1737,17 +1725,13 @@ msgid "Update Notification"
 msgstr "Güncelleme Bildirimi"
 
 #: src/binaries/widget/mainwindow.cpp:808
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"%1 sürümü çıktı. Daha fazla bilgi için <a href=\"http://www.rolisteam.org/"
+"%1 sürümü çıktı. Daha fazla bilgi için <a href=\"https://www.rolisteam.org/"
 "download\">İndirme Sayfası</a>’na bakın"
 
 #: src/binaries/widget/mainwindow.cpp:818
@@ -3405,12 +3389,9 @@ msgid "Add Arrow"
 msgstr "Ok Ekle"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Seçili dosyayı kaldır"
+msgstr "Seçili ögeleri kaldır"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"
@@ -8492,258 +8473,3 @@ msgstr "Uyuyor"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Efsunlanmış"
-
-#~ msgctxt "MainWindow|"
-#~ msgid ""
-#~ "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
-#~ "rolisteam.org\">http://doc.rolisteam.org/</a>"
-#~ msgstr ""
-#~ "%1 belgelendirmesi çevrimiçi olarak şurada bulunabilir:<br> <a href="
-#~ "\"http://doc.rolisteam.org\">http://doc.rolisteam.org/</a>"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Export from %1"
-#~ msgstr "%1 Konumundan Dışa Aktar"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "unknown"
-#~ msgstr "bilinmiyor"
-
-#~ msgctxt "ButtonGrid|"
-#~ msgid "Remove Selection"
-#~ msgstr "Seçimi Kaldır"
-
-#~ msgctxt "TableCanvasField|"
-#~ msgid "Properties"
-#~ msgstr "Özellikler"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Antagonist Table"
-#~ msgstr "Rakip Tablosu"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Sub-&Windows"
-#~ msgstr "Alt &Pencereler"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Alt+A"
-#~ msgstr "Seçenek+A"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Alt+N"
-#~ msgstr "Seçenek+N"
-
-#~ msgctxt "main|"
-#~ msgid "RMindMap"
-#~ msgstr "R Akıl Haritası"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Player Information"
-#~ msgstr "Oyuncu Bilgisi"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Music path"
-#~ msgstr "Müzik yolu"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer1:"
-#~ msgstr "Ses çalar 1:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "..."
-#~ msgstr "…"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer2:"
-#~ msgstr "Ses çalar 2:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer3:"
-#~ msgstr "Ses çalar 3:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Enable Data collection"
-#~ msgstr "Veri toplamayı etkinleştir"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Data collection"
-#~ msgstr "Veri toplama"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid ""
-#~ "<html><head/><body><p><span style=\" font-size:9pt;\">Collected data are "
-#~ "anonymous. <br/>By default, only data about rolisteam are collected. "
-#~ "Which actions have been used.<br/><br/>Checking </span><span style=\" "
-#~ "font-size:9pt; font-weight:600;\">All Usages</span><span style=\" font-"
-#~ "size:9pt;\"> box enables the collect of data about rolisteam in desktop "
-#~ "environment.<br/>We mainly try to know if Rolisteam is visible, its size "
-#~ "or if it has the focus. <br/>It may be helpful to understand how people "
-#~ "use Rolisteam on Desktop. <br/>University studies may find those data "
-#~ "interesting.<br/><br/>Debug data makes rolisteam to log every click on "
-#~ "every button or action. It is a deeper  mode.<br/>It may slow down a bit "
-#~ "rolisteam.</span></p><p><span style=\" font-size:9pt;\">To know more "
-#~ "about data collection: </span><a href=\"https://rolisteam.org/"
-#~ "datacollection.html\"><span style=\" font-size:9pt; text-decoration: "
-#~ "underline; color:#007af4;\">www.rolisteam.org/datacollection.html</span></"
-#~ "a></p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p><span style=\" font-size:9pt;\">Toplanan veri "
-#~ "anonimdir.<br/>Öntanımlı olarak, yalnızca Rolisteam içinde kullanılan "
-#~ "eylemler hakkında veri toplanır.<br/><br/></span><span style=\" font-"
-#~ "size:9pt; font-weight:600;\">Tüm Kullanımlar</span><span style=\" font-"
-#~ "size:9pt;\"> onay kutusunu işaretlemek, masaüstü ortamında Rolisteam "
-#~ "hakkında veri toplamayı etkinleştirir.<br/>Genelde Rolisteam'in görünür "
-#~ "olup olmadığını, boyutunu veya odağa sahip olup olmadığını bilmeye "
-#~ "çalışırız. <br/>Rolisteam'in masaüstünde nasıl kullanıldığını bilmek "
-#~ "yararlı olabilir.<br/>Üniversitede yapılan çalışmalar genellikle bu tür "
-#~ "verileri kullanır.<br/><br/>Hata ayıklama, Rolisteam’in her bir "
-#~ "tıklamayı, eylemi kaydetmesini sağlar. Daha derin bir kiptir.<br/>Bu, "
-#~ "Rolisteam’i biraz yavaşlatabilir.</span></p><p><span style=\" font-"
-#~ "size:9pt;\">Veri kullanımı hakkında daha fazla bilgi için: </span><a href="
-#~ "\"https://rolisteam.org/datacollection.html\"><span style=\" font-"
-#~ "size:9pt; text-decoration: underline; color:#007af4;\">www.rolisteam.org/"
-#~ "datacollection.html</span></a></p></body></html>"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "All Usages"
-#~ msgstr "Tüm Kullanımlar"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "May slow down rolisteam"
-#~ msgstr "Rolisteam’i yavaşlatabilir"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Include Debug data*"
-#~ msgstr "Hata ayıklama verisini içer"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Add"
-#~ msgstr "Ekle"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "up"
-#~ msgstr "Yukarı"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "down"
-#~ msgstr "Aşağı"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "QML Errors"
-#~ msgstr "QML Hataları"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Open Character Sheets View"
-#~ msgstr "Karakter Sayfası Görünümünü Aç"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Character Sheet files (*.qml)"
-#~ msgstr "Karakter Sayfası Dosyaları (*.qml)"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Character Sheet Data files (*.rcs)"
-#~ msgstr "Karakter Sayfası Veri Dosyası (*.rcs)"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Load QML"
-#~ msgstr "QML Yükle"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Detach Tab"
-#~ msgstr "Sekmeyi Ayır"
-
-#~ msgctxt "BoxModel|"
-#~ msgid "Root"
-#~ msgstr "Kök"
-
-#~ msgctxt "BoxModel|"
-#~ msgid "New Node"
-#~ msgstr "Yeni Düğüm"
-
-#~ msgctxt "StateModel|"
-#~ msgid "Any color"
-#~ msgstr "Herhangi bir renk"
-
-#~ msgctxt "UpnpNat|"
-#~ msgid "Unable to read the beginning of server answer"
-#~ msgstr "Sunucu yanıtının başı okunamadı"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Pen"
-#~ msgstr "Kalem"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Line"
-#~ msgstr "Çizgi"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Empty Rectangle"
-#~ msgstr "Boş Dörtgen"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Empty Ellipse"
-#~ msgstr "Boş Elips"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Filled Ellipse"
-#~ msgstr "Dolu Elips"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Text"
-#~ msgstr "Metin"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Rule"
-#~ msgstr "Kural"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Path"
-#~ msgstr "Yol"
-
-#~ msgctxt "VToolsBar|"
-#~ msgid "Normal"
-#~ msgstr "Olağan"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "GM only"
-#~ msgstr "Yalnızca OG"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "All"
-#~ msgstr "Tümü"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Hidden"
-#~ msgstr "Gizli"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Fog"
-#~ msgstr "Sis"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Ground"
-#~ msgstr "Zemin"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Object"
-#~ msgstr "Nesne"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "Character"
-#~ msgstr "Karakter"
-
-#~ msgctxt "VmapToolBar|PC = playable character"
-#~ msgid "PC name"
-#~ msgstr "OK adı"
-
-#~ msgctxt "VmapToolBar|NPC = non-playable character"
-#~ msgid "NPC name"
-#~ msgstr "OOK adı"
-
-#~ msgctxt "VmapToolBar|"
-#~ msgid "State"
-#~ msgstr "Durum"
-
-#~ msgctxt "PdfViewer|Current page/ total page"
-#~ msgid "%1/%2"
-#~ msgstr "%1/%2"
