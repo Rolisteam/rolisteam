@@ -108,17 +108,16 @@ QStringList extentionPerType(Core::ContentType type, bool save, bool wildcard)
                           Core::extentions::EXT_IMG_PNG, Core::extentions::EXT_IMG_SVG, Core::extentions::EXT_IMG_GIF};
         break;
     case Core::ContentType::NOTES:
-        exts= save ? QStringList{Core::extentions::EXT_OPEN_DOCUMENT} :
-                     QStringList{Core::extentions::EXT_OPEN_DOCUMENT, Core::extentions::EXT_HTM,
-                                 Core::extentions::EXT_HTML,          Core::extentions::EXT_XHTML,
-                                 Core::extentions::EXT_MARKDOWN,      Core::extentions::EXT_TEXT};
+        exts= save ? QStringList{Core::extentions::EXT_JSON} :
+                     QStringList{Core::extentions::EXT_JSON,  Core::extentions::EXT_OPEN_DOCUMENT,
+                                 Core::extentions::EXT_HTM,   Core::extentions::EXT_HTML,
+                                 Core::extentions::EXT_XHTML, Core::extentions::EXT_MARKDOWN,
+                                 Core::extentions::EXT_TEXT};
 
         break;
     case Core::ContentType::SHAREDNOTE:
         exts= save ? QStringList{Core::extentions::EXT_SHAREDNOTE} :
-                     QStringList{Core::extentions::EXT_SHAREDNOTE, Core::extentions::EXT_HTM,
-                                 Core::extentions::EXT_HTML,       Core::extentions::EXT_XHTML,
-                                 Core::extentions::EXT_MARKDOWN,   Core::extentions::EXT_TEXT};
+                     QStringList{Core::extentions::EXT_SHAREDNOTE, Core::extentions::EXT_MARKDOWN};
 
         break;
     case Core::ContentType::WEBVIEW:
@@ -275,7 +274,7 @@ Core::ContentType extensionToContentType(const QString& filename)
         auto list= extentionPerType(type, false);
         for(const auto& ext : list)
         {
-            if(filename.endsWith(ext,Qt::CaseInsensitive))
+            if(filename.endsWith(ext, Qt::CaseInsensitive))
                 return type;
         }
     }

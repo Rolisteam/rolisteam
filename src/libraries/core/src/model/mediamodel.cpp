@@ -360,7 +360,7 @@ QVariant MediaModel::data(const QModelIndex& index, int role) const
         res= mediaNode->size();
         break;
     case Role_Type:
-        res= (mediaNode->nodeType() == MediaNode::Directory) ? QVariant(tr("Directory")) :
+        res= (mediaNode->nodeType() == MediaNode::Directory) ? QVariant::fromValue(Core::MediaType::Unknown) :
                                                                QVariant::fromValue(media->type());
         break;
     case Role_AddedDate:

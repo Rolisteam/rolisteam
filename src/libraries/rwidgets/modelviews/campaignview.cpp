@@ -26,7 +26,6 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     m_deleteFileAct= new QAction(tr("Delete"), this);
     m_defineAsCurrent= new QAction(tr("Current Directory"), this);
     m_openAct= new QAction(tr("Open"), this);
-    m_openAsAct= new QAction(tr("Open As…"), this);
     m_renameAct= new QAction(tr("Rename Media"), this);
     // columns
     m_nameColsAct= new QAction(tr("Name"), this);
@@ -73,22 +72,8 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
                 {
                     auto path= m_index.data(MediaModel::Role_Path).toString();
                     auto id= m_index.data(MediaModel::Role_Uuid).toString();
+
                     emit openAs(id, path, helper::utils::extensionToContentType(path));
-                }
-            });
-    connect(m_openAsAct, &QAction::triggered, this,
-            [this]()
-            {
-                if(m_index.isValid())
-                {
-                    auto mediaNode= static_cast<MediaNode*>(m_index.internalPointer());
-                    auto path= mediaNode->path();
-                    auto id= mediaNode->uuid();
-                    auto act= qobject_cast<QAction*>(sender());
-                    if(act)
-                    {
-                        emit openAs(id, path, qvariant_cast<Core::ContentType>(act->data()));
-                    }
                 }
             });
 
@@ -122,6 +107,22 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
 
     auto sharedNote= new QAction(tr("Shared Notes"), this);
     sharedNote->setData(QVariant::fromValue(Core::ContentType::SHAREDNOTE));
+
+    auto openAsFunc= [this]()
+    {
+        auto act= qobject_cast<QAction*>(sender());
+        auto index= currentIndex();
+        if(!act || !index.isValid())
+            return;
+
+        auto path= index.data(MediaModel::Role_Path).toString();
+        auto id= index.data(MediaModel::Role_Uuid).toString();
+
+        emit openAs(id, path, qvariant_cast<Core::ContentType>(act->data()));
+    };
+
+    connect(notes, &QAction::triggered, this, openAsFunc);
+    connect(sharedNote, &QAction::triggered, this, openAsFunc);
 
     m_convertionHash.insert(Core::MediaType::TextFile, {notes, sharedNote});
 }

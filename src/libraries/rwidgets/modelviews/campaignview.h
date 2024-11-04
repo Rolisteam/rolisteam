@@ -50,7 +50,6 @@ private:
     QAction* m_deleteFileAct;
     QAction* m_defineAsCurrent;
     QAction* m_openAct;
-    QAction* m_openAsAct;
     QAction* m_renameAct;
 
     QAction* m_nameColsAct;

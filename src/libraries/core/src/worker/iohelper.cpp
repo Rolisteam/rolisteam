@@ -372,14 +372,15 @@ QByteArray saveImage(ImageController* ctrl)
 
 QByteArray saveNotes(NoteController* ctrl)
 {
-    QByteArray data;
     if(!ctrl)
-        return data;
-    QDataStream output(&data, QIODevice::WriteOnly);
-    IOHelper::saveBase(ctrl, output);
+        return {};
 
-    output << ctrl->text();
-    return data;
+    QJsonDocument doc;
+    QJsonObject obj;
+    IOHelper::saveMediaBaseIntoJSon(ctrl, obj);
+    obj[Core::keys::KEY_TEXT]= ctrl->text();
+    doc.setObject(obj);
+    return doc.toJson();
 }
 
 QByteArray saveCharacterSheet(CharacterSheetController* ctrl)
@@ -391,10 +392,10 @@ QByteArray saveCharacterSheet(CharacterSheetController* ctrl)
     if(!file.open(QIODevice::ReadOnly))
         qDebug() << "error reading file" << ctrl->url().toLocalFile();
 
-    auto jsonData = file.readAll();
-    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+    auto jsonData= file.readAll();
+    QJsonDocument doc= QJsonDocument::fromJson(jsonData);
 
-    QJsonObject obj = doc.object();
+    QJsonObject obj= doc.object();
     IOHelper::saveMediaBaseIntoJSon(ctrl, obj);
     auto model= ctrl->model();
     model->writeModel(obj);
@@ -402,7 +403,7 @@ QByteArray saveCharacterSheet(CharacterSheetController* ctrl)
     auto array= IOWorker::saveImageModel(images);
     obj[Core::jsonctrl::sheet::JSON_IMAGES_CONTENT]= array;
 
-    auto sharingData = ctrl->sheetData();
+    auto sharingData= ctrl->sheetData();
     QJsonArray sharingInfos;
     for(auto const& info : sharingData)
     {
@@ -410,12 +411,12 @@ QByteArray saveCharacterSheet(CharacterSheetController* ctrl)
             continue;
 
         QJsonObject shareInfo;
-        shareInfo[Core::jsonctrl::sheet::KEY_SHEETID] = info.m_sheetId;
-        shareInfo[Core::jsonctrl::sheet::KEY_CHARACTERID] = info.m_characterId;
-        shareInfo[Core::jsonctrl::sheet::KEY_EVERYONE] = info.everyone;
+        shareInfo[Core::jsonctrl::sheet::KEY_SHEETID]= info.m_sheetId;
+        shareInfo[Core::jsonctrl::sheet::KEY_CHARACTERID]= info.m_characterId;
+        shareInfo[Core::jsonctrl::sheet::KEY_EVERYONE]= info.everyone;
         sharingInfos.append(shareInfo);
     }
-    obj[Core::jsonctrl::sheet::KEY_SHARING_INFO] = sharingInfos;
+    obj[Core::jsonctrl::sheet::KEY_SHARING_INFO]= sharingInfos;
     doc.setObject(obj);
 
     return doc.toJson();
@@ -423,18 +424,16 @@ QByteArray saveCharacterSheet(CharacterSheetController* ctrl)
 
 QByteArray saveSharedNote(SharedNoteController* ctrl)
 {
-    QByteArray data;
     if(!ctrl)
-        return data;
-    QDataStream output(&data, QIODevice::WriteOnly);
+        return {};
 
-    IOHelper::saveBase(ctrl, output);
+    QJsonObject objCtrl;
+    IOHelper::saveMediaBaseIntoJSon(ctrl, objCtrl);
 
-    // output << ctrl->permission();
-    output << ctrl->text();
-    output << ctrl->highligthedSyntax();
-    output << ctrl->markdownVisible();
-    return data;
+    objCtrl[Core::keys::KEY_TEXT]= ctrl->text();
+    objCtrl[Core::keys::KEY_SYNTAXE]= static_cast<int>(ctrl->highligthedSyntax());
+    objCtrl[Core::keys::KEY_PREVIEW_VISIBLE]= ctrl->markdownVisible();
+    return IOHelper::jsonObjectToByteArray(objCtrl);
 }
 
 QByteArray saveWebView(WebpageController* ctrl)
@@ -713,13 +712,13 @@ void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, cons
     auto imagesModel= ctrl->imageModel();
     IOWorker::fetchImageModel(imagesModel, images);
 
-    auto sharing = data[Core::jsonctrl::sheet::KEY_SHARING_INFO].toArray();
+    auto sharing= data[Core::jsonctrl::sheet::KEY_SHARING_INFO].toArray();
     for(auto const& ref : sharing)
     {
-        auto info = ref.toObject();
-        auto sheerId = info[Core::jsonctrl::sheet::KEY_SHEETID].toString();
-        auto characterId = info[Core::jsonctrl::sheet::KEY_CHARACTERID].toString();
-        auto everyone = info[Core::jsonctrl::sheet::KEY_EVERYONE].toBool();
+        auto info= ref.toObject();
+        auto sheerId= info[Core::jsonctrl::sheet::KEY_SHEETID].toString();
+        auto characterId= info[Core::jsonctrl::sheet::KEY_CHARACTERID].toString();
+        auto everyone= info[Core::jsonctrl::sheet::KEY_EVERYONE].toBool();
         ctrl->addSheetData({sheerId, characterId, everyone, false});
     }
 }
@@ -732,9 +731,9 @@ QString IOHelper::copyImageFileIntoCampaign(const QString& path, const QString& 
         return utils::IOHelper::copyFile(path, dest);
 }
 
-Character* IOHelper::dupplicateCharacter(const Character *obj)
+Character* IOHelper::dupplicateCharacter(const Character* obj)
 {
-    auto res = new Character();
+    auto res= new Character();
 
     res->setHealthPointsCurrent(obj->getHealthPointsCurrent());
     res->setHealthPointsMax(obj->getHealthPointsMax());
@@ -1305,41 +1304,34 @@ void IOHelper::readNoteController(NoteController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
         return;
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
 
-    IOHelper::readBase(ctrl, input);
+    auto obj= IOHelper::textByteArrayToJsonObj(array);
+    IOHelper::readBaseFromJson(ctrl, obj);
 
-    QString text;
-    input >> text;
-    ctrl->setText(text);
+    ctrl->setText(obj[Core::keys::KEY_TEXT].toString());
 }
 
 void IOHelper::readSharedNoteController(SharedNoteController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
         return;
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
 
-    IOHelper::readBase(ctrl, input);
+    auto obj= IOHelper::textByteArrayToJsonObj(array);
+    IOHelper::readBaseFromJson(ctrl, obj);
+    /*
+     QJsonObject objCtrl;
+     IOHelper::saveMediaBaseIntoJSon(ctrl, objCtrl);
 
-    /*ParticipantModel::Permission perm;
-    input >> perm;*/
+      objCtrl[Core::keys::KEY_TEXT]= ctrl->text();
+      objCtrl[Core::keys::KEY_SYNTAXE]= static_cast<int>(ctrl->highligthedSyntax());
+      objCtrl[Core::keys::KEY_PREVIEW_VISIBLE]= ctrl->markdownVisible();
+      return IOHelper::jsonObjectToByteArray(objCtrl);*/
 
-    QString text;
-    input >> text;
+    ctrl->setText(obj[Core::keys::KEY_TEXT].toString());
 
-    SharedNoteController::HighlightedSyntax syntax;
-    input >> syntax;
-
-    bool b;
-    input >> b;
-
-    ctrl->setMarkdownVisible(b);
-    ctrl->setText(text);
-    ctrl->setHighligthedSyntax(syntax);
-    // ctrl->setPermission(perm);
+    ctrl->setMarkdownVisible(obj[Core::keys::KEY_PREVIEW_VISIBLE].toBool());
+    ctrl->setHighligthedSyntax(
+        static_cast<SharedNoteController::HighlightedSyntax>(obj[Core::keys::KEY_SYNTAXE].toInt()));
 }
 
 QUrl IOHelper::findSong(const QString& name, QStringList list)

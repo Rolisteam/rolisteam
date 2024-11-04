@@ -407,7 +407,7 @@ bool FileSerializer::hasContent(const QString& path, Core::CampaignDataCategory 
             res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
                               [](const QString& item)
                               {
-                                  QSet<QString> noteExt{"txt", "md", "html"};
+                                  QSet<QString> noteExt{"json", "txt", "md", "html"};
                                   return std::any_of(std::begin(noteExt), std::end(noteExt),
                                                      [item](const QString& ext) { return item.endsWith(ext); });
                               });
@@ -417,6 +417,7 @@ bool FileSerializer::hasContent(const QString& path, Core::CampaignDataCategory 
             res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
                               [](const QString& item)
                               {
+                                  // TODO check that ?
                                   QSet<QString> noteExt{"txt", "md", "html"};
                                   return std::any_of(std::begin(noteExt), std::end(noteExt),
                                                      [item](const QString& ext) { return item.endsWith(ext); });
@@ -427,7 +428,7 @@ bool FileSerializer::hasContent(const QString& path, Core::CampaignDataCategory 
             res|= std::any_of(std::begin(subentrylist), std::end(subentrylist),
                               [](const QString& item)
                               {
-                                  QSet<QString> noteExt{"txt", "md", "html"};
+                                  QSet<QString> noteExt{"pdf"};
                                   return std::any_of(std::begin(noteExt), std::end(noteExt),
                                                      [item](const QString& ext) { return item.endsWith(ext); });
                               });

@@ -207,6 +207,8 @@ NoteController* note(const QString& uuid, const QHash<QString, QVariant>& map)
     if(!serializedData.isEmpty())
         IOHelper::readNoteController(noteCtrl, serializedData);
 
+    noteCtrl->setUuid(uuid);
+
     return noteCtrl;
 }
 MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& map)
@@ -344,7 +346,8 @@ SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVari
     auto ownerId= params.value(Core::keys::KEY_OWNERID).toString();
     auto b= params.value(Core::keys::KEY_MARKDOWN, false).toBool();
     auto url= params.value(Core::keys::KEY_URL).toUrl();
-    auto text= params.value(Core::keys::KEY_TEXT).toString();
+    auto serializedData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
+
     auto noteCtrl= new SharedNoteController(ownerId, localId, uuid);
 
     if(!url.isEmpty())
@@ -357,8 +360,9 @@ SharedNoteController* sharedNote(const QString& uuid, const QHash<QString, QVari
 
     noteCtrl->setHighligthedSyntax(b ? SharedNoteController::HighlightedSyntax::MarkDown :
                                        SharedNoteController::HighlightedSyntax::None);
-    if(!text.isEmpty())
-        noteCtrl->setText(text);
+
+    if(!serializedData.isEmpty())
+        IOHelper::readSharedNoteController(noteCtrl, serializedData);
 
     return noteCtrl;
 }
@@ -494,11 +498,6 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
         auto data= MessageHelper::readMindMap(msg);
         uuid= data[Core::keys::KEY_UUID].toString();
         base= mindmap(uuid, data);
-    }
-    break;
-    case C::NOTES:
-    {
-        // base= note(uuid, map);
     }
     break;
     case C::CHARACTERSHEET:
