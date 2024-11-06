@@ -87,7 +87,8 @@ vmap::VisualItemController* VectorialMapController::itemController(const QString
     return res;
 }
 
-QString VectorialMapController::addItemController(const std::map<QString, QVariant>& params, bool isRemote)
+QString VectorialMapController::addItemController(const std::map<QString, QVariant>& params, bool initialized,
+                                                  bool isRemote)
 {
     auto tool= m_tool;
     auto it= params.find(Core::vmapkeys::KEY_TOOL);
@@ -99,6 +100,7 @@ QString VectorialMapController::addItemController(const std::map<QString, QVaria
     if(!item)
         return {};
 
+    item->setInitialized(initialized);
     item->setRemote(isRemote);
     m_vmapModel->appendItemController(item);
     return item->uuid();
@@ -160,6 +162,15 @@ QColor VectorialMapController::backgroundColor() const
 
 QColor VectorialMapController::toolColor() const
 {
+    if(m_editionMode == Core::EditionMode::Mask)
+        return Qt::black;
+    else if(m_editionMode == Core::EditionMode::Unmask)
+    {
+        auto color= m_toolColor;
+        color.setAlpha(128);
+        return color;
+    }
+
     return m_toolColor;
 }
 
@@ -430,6 +441,7 @@ void VectorialMapController::setEditionMode(Core::EditionMode mode)
         return;
     m_editionMode= mode;
     emit editionModeChanged(m_editionMode);
+    emit toolColorChanged(toolColor());
 }
 
 void VectorialMapController::setOpacity(qreal opacity)

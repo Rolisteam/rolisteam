@@ -660,7 +660,7 @@ void readModel(VectorialMapController* ctrl, const QJsonArray& items)
 {
     for(auto ref : items)
     {
-        ctrl->addItemController(readItemController(ref.toObject()));
+        ctrl->addItemController(readItemController(ref.toObject()), true, false);
     }
 }
 
@@ -784,7 +784,7 @@ void VectorialMapMessageHelper::fetchModelFromMap(const QHash<QString, QVariant>
         auto const& item= params.value(QString("Item_%1").arg(i));
         auto const maps= item.toMap().toStdMap();
         if(!maps.empty())
-            ctrl->addItemController(maps, isRemote);
+            ctrl->addItemController(maps, true, isRemote);
     }
 }
 

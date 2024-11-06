@@ -140,7 +140,7 @@ public:
     void addVision(CharacterVision* vision);
 
     QString layerToText(Core::Layer id);
-    QString addItemController(const std::map<QString, QVariant>& params, bool isRemote= false);
+    QString addItemController(const std::map<QString, QVariant>& params, bool initialized, bool isRemote= false);
     void addRemoteItem(vmap::VisualItemController* ctrl);
     void removeItemController(const QSet<QString>& ids, bool fromNetwork= false);
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
