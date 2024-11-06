@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-10-12 18:05+0200\n"
+"PO-Revision-Date: 2024-11-05 22:31+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -17,23 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "Gogoeta-mapa (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
-msgstr "Ireki gogoeta-mapa bat"
+msgstr "Ireki gogoeta-mapa"
 
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
@@ -1621,9 +1615,6 @@ msgid "Ask for password and return its hash key."
 msgstr "Galdetu pasahitza eta itzuli bere hash gakoa."
 
 #: src/binaries/widget/mainwindow.cpp:374
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Alboko-panelak"
@@ -1696,14 +1687,12 @@ msgid "Open Campaign"
 msgstr "Ireki kanpaina bat"
 
 #: src/binaries/widget/mainwindow.cpp:636
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
-"RCSEren dokumentazioa lerroan hemen aurki daiteke:<br> <a href=\"%1\">%1</a>"
+"%1(e)ri buruzko dokumentazioa lerroan hemen aurki daiteke:<br> <a href="
+"\"%1\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:671
 msgctxt "MainWindow|"
@@ -1740,17 +1729,13 @@ msgid "Update Notification"
 msgstr "Eguneratze-jakinarazpena"
 
 #: src/binaries/widget/mainwindow.cpp:808
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"%1 bertsioa kaleratu da. Mesedez, begiratu <a href=\"http://www.rolisteam."
+"%1 bertsioa kaleratu da. Mesedez, begiratu <a href=\"https://www.rolisteam."
 "org/download\">Zama-jasiteko orrian</a> informazio gehiago jasotzeko"
 
 #: src/binaries/widget/mainwindow.cpp:818
@@ -3410,12 +3395,9 @@ msgid "Add Arrow"
 msgstr "Gehitu gezia"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Kendu hautatutako fitxategia"
+msgstr "Kendu hautatutako elementuak"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"
