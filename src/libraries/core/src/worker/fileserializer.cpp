@@ -202,30 +202,36 @@ QJsonArray FileSerializer::dicesToArray(const std::vector<std::unique_ptr<DiceAl
 
 void FileSerializer::writeStatesIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    QtConcurrent::run(
+    auto r = QtConcurrent::run(
         [destination, array]()
-        { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::STATE_MODEL), array); });
+        { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::STATE_MODEL), array);
+                    });
+
+    Q_UNUSED(r)
 }
 
 void FileSerializer::writeNpcIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    QtConcurrent::run(
+    auto r =QtConcurrent::run(
         [destination, array]()
         { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::CHARACTER_MODEL), array); });
+    Q_UNUSED(r)
 }
 
 void FileSerializer::writeDiceAliasIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    QtConcurrent::run(
+    auto r = QtConcurrent::run(
         [destination, array]()
         { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::DICE_ALIAS_MODEL), array); });
+    Q_UNUSED(r)
 }
 
 void FileSerializer::writeCampaignInfo(const QString& destination, const QJsonObject& object)
 {
-    QtConcurrent::run(
+    auto r = QtConcurrent::run(
         [destination, object]()
         { IOHelper::writeJsonObjectIntoFile(QString("%1/%2").arg(destination, campaign::MODEL_FILE), object); });
+    Q_UNUSED(r)
 }
 
 QFuture<bool> FileSerializer::writeFileIntoCampaign(const QString& destination, const QByteArray& array)
