@@ -315,7 +315,6 @@ void VMap::addPathItem(vmap::PathController* pathCtrl, bool editing)
 
 void VMap::updateItem(const QPointF& end)
 {
-    qDebug() << "Add point path";
     if(!m_currentPath)
         return;
 
@@ -463,16 +462,14 @@ void VMap::resetCurrentPath()
 
 void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-    if(mouseEvent->button() == Qt::NoButton)
+    if(mouseEvent->buttons() == Qt::NoButton)
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
         return;
     }
 
-    qDebug() << "MOUSE MOVE MAP" << m_currentPath.isNull() << static_cast<int>(m_ctrl->editionMode());
     if(!m_currentItem.isNull())
     {
-        qDebug() << "currentItem";
         m_currentItem->setModifiers(mouseEvent->modifiers());
         mouseEvent->accept();
         m_currentItem->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos()); // mouseEvent->scenePos()
@@ -480,7 +477,6 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if(!m_ruleItem.isNull())
     {
-        qDebug() << "rule";
         mouseEvent->accept();
         m_ruleItem->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos(),
                               mouseEvent->modifiers() & Qt::ControlModifier);
@@ -488,14 +484,12 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if(!m_parentItemAnchor.isNull())
     {
-        qDebug() << "parent";
         mouseEvent->accept();
         m_parentItemAnchor->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos());
         update();
     }
     if((m_ctrl->tool() == Core::HANDLER) || (m_ctrl->tool() == Core::TEXT) || (m_ctrl->tool() == Core::TEXTBORDER))
     {
-        qDebug() << "handler";
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
 }

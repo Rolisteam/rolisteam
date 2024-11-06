@@ -119,7 +119,7 @@ private:
     QPointer<VisualItem> m_currentItem;
     QPointer<AnchorItem> m_parentItemAnchor;
     QPointer<RuleItem> m_ruleItem;
-    QPointer<PathItem> m_currentPath= nullptr;
+    QPointer<PathItem> m_currentPath;
     QList<VisualItem*> m_movingItems;
     QList<QPointF> m_oldPos;
 };
