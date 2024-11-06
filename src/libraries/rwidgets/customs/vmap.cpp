@@ -33,6 +33,7 @@
 #include "controller/item_controllers/ellipsecontroller.h"
 #include "controller/item_controllers/imageitemcontroller.h"
 #include "controller/item_controllers/linecontroller.h"
+#include "controller/item_controllers/pathcontroller.h"
 #include "controller/item_controllers/rectcontroller.h"
 #include "controller/item_controllers/sightcontroller.h"
 #include "controller/item_controllers/textcontroller.h"
@@ -96,7 +97,7 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::toolChanged, this,
             [this]()
             {
-                m_currentPath= nullptr;
+                resetCurrentPath();
                 m_currentItem= nullptr;
             });
     connect(m_ctrl, &VectorialMapController::highLightAt, this,
@@ -314,6 +315,7 @@ void VMap::addPathItem(vmap::PathController* pathCtrl, bool editing)
 
 void VMap::updateItem(const QPointF& end)
 {
+    qDebug() << "Add point path";
     if(!m_currentPath)
         return;
 
@@ -339,6 +341,7 @@ void VMap::insertItem(const QPointF& pos)
     params.insert({Core::vmapkeys::KEY_TOOL, m_ctrl->tool()});
     params.insert({Core::vmapkeys::KEY_NUMBER, m_ctrl->npcNumber()});
     params.insert({Core::vmapkeys::KEY_CHARAC_NAME, m_ctrl->npcName()});
+    params.insert({Core::vmapkeys::KEY_PAINTING, Core::EditionMode::Painting == m_ctrl->editionMode()});
     m_ctrl->insertItemAt(params);
 }
 
@@ -355,6 +358,7 @@ VisualItem* VMap::visualItemUnder(const QPointF& pos)
 
 void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
+    qDebug() << "MOUSE PRESSED MAP" << m_currentPath.isNull() << static_cast<int>(m_ctrl->editionMode());
     auto leftButton= (mouseEvent->button() == Qt::LeftButton);
     if(m_ctrl->tool() == Core::HANDLER && leftButton)
     {
@@ -399,17 +403,13 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     else if(Core::BUCKET == m_ctrl->tool() && leftButton)
     {
         auto item= visualItemUnder(mouseEvent->scenePos());
-        if(nullptr == item)
+        if(nullptr == item || item->getType() == vmap::VisualItemController::ItemType::IMAGE)
         {
-            qCInfo(logCategory::map) << "no item under the bucket";
+            qCInfo(logCategory::map) << "wrong type of item under the bucket or no item at all";
             return;
         }
 
-        if(item->getType() != vmap::VisualItemController::ItemType::IMAGE)
-        {
-            // auto cmd= new ChangeColorItemCmd(item->controller(), m_ctrl->toolColor());
-            m_ctrl->askForColorChange(item->controller());
-        }
+        m_ctrl->askForColorChange(item->controller());
     }
     else if(Core::ANCHOR == m_ctrl->tool() && leftButton)
     {
@@ -436,7 +436,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if(mouseEvent->button() == Qt::RightButton)
     {
-        m_currentPath= nullptr;
+        resetCurrentPath();
         auto item= visualItemUnder(mouseEvent->scenePos());
         if(item)
         {
@@ -447,10 +447,32 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
         }
     }
 }
+
+void VMap::resetCurrentPath()
+{
+    if(!m_currentPath)
+        return;
+    if(Core::EditionMode::Painting != m_ctrl->editionMode())
+    {
+        auto poly= m_currentPath->shape().translated(m_currentPath->pos()).toFillPolygon();
+        m_ctrl->changeFogOfWar(poly, m_currentPath->controller(), (Core::EditionMode::Mask == m_ctrl->editionMode()));
+    }
+    m_currentPath= nullptr;
+    update();
+}
+
 void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
+    if(mouseEvent->button() == Qt::NoButton)
+    {
+        QGraphicsScene::mouseMoveEvent(mouseEvent);
+        return;
+    }
+
+    qDebug() << "MOUSE MOVE MAP" << m_currentPath.isNull() << static_cast<int>(m_ctrl->editionMode());
     if(!m_currentItem.isNull())
     {
+        qDebug() << "currentItem";
         m_currentItem->setModifiers(mouseEvent->modifiers());
         mouseEvent->accept();
         m_currentItem->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos()); // mouseEvent->scenePos()
@@ -458,6 +480,7 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if(!m_ruleItem.isNull())
     {
+        qDebug() << "rule";
         mouseEvent->accept();
         m_ruleItem->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos(),
                               mouseEvent->modifiers() & Qt::ControlModifier);
@@ -465,17 +488,21 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if(!m_parentItemAnchor.isNull())
     {
+        qDebug() << "parent";
         mouseEvent->accept();
         m_parentItemAnchor->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos());
         update();
     }
     if((m_ctrl->tool() == Core::HANDLER) || (m_ctrl->tool() == Core::TEXT) || (m_ctrl->tool() == Core::TEXTBORDER))
     {
+        qDebug() << "handler";
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
 }
 void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
+    auto isPainting= Core::EditionMode::Painting == m_ctrl->editionMode();
+    qDebug() << "MOUSE RELEASE MAP:" << m_currentPath.isNull() << isPainting;
     if(m_parentItemAnchor)
     {
         manageAnchor();
@@ -489,24 +516,25 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
         delete m_ruleItem;
         m_ruleItem.clear();
     }
-    if(!m_currentItem.isNull())
+
+    if(isPainting && !m_currentItem.isNull())
     {
-        if(Core::EditionMode::Painting == m_ctrl->editionMode())
-        {
-            m_currentItem->endOfGeometryChange(ChildPointItem::Resizing);
-        }
-        else
-        {
-            auto poly= m_currentItem->shape().toFillPolygon();
-            poly= poly.translated(m_currentItem->pos());
-            auto ctrl= m_currentItem->controller();
-            m_ctrl->changeFogOfWar(poly, ctrl, (Core::EditionMode::Mask == m_ctrl->editionMode()));
-        }
+        m_currentItem->endOfGeometryChange(ChildPointItem::Resizing);
     }
-    else if((nullptr != m_currentPath) && (Core::EditionMode::Painting != m_ctrl->editionMode()))
+    else if(!isPainting && m_currentPath.isNull() && m_currentItem)
     {
-        auto poly= m_currentPath->shape().toFillPolygon();
-        m_ctrl->changeFogOfWar(poly, m_currentPath->controller(), (Core::EditionMode::Mask == m_ctrl->editionMode()));
+        auto poly= m_currentItem->shape().toFillPolygon();
+        qDebug() << "poly" << poly;
+        poly= poly.translated(m_currentItem->pos());
+        auto ctrl= m_currentItem->controller();
+        m_ctrl->changeFogOfWar(poly, ctrl, (Core::EditionMode::Mask == m_ctrl->editionMode()));
+        update();
+    }
+    else if(!isPainting && m_currentPath)
+    {
+        auto poly= m_currentPath->shape().translated(m_currentPath->pos()).toFillPolygon();
+        m_ctrl->changeFogOfWar(poly, m_currentPath->controller(), (Core::EditionMode::Mask == m_ctrl->editionMode()),
+                               true);
         update();
     }
     m_ctrl->setIdle(true);

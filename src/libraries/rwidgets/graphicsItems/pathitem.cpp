@@ -25,23 +25,31 @@
 #include <QStyleOptionGraphicsItem>
 
 #include "controller/item_controllers/pathcontroller.h"
-#include "controller/item_controllers/visualitemcontroller.h"
-#include "controller/view_controller/vectorialmapcontroller.h"
 
-QPainterPath vectorToFullPath(const std::vector<QPointF>& points, qreal penWidth= 10., bool closeUp= false)
+QPainterPath vectorToFullPath(const std::vector<QPointF>& points, qreal penWidth= 10., bool filled= false,
+                              bool closeUp= false)
 {
     QPainterPath path;
     if(points.size() == 1)
         return path;
 
+    if(filled)
+    {
+        path.moveTo(points[0]);
+        std::for_each(std::begin(points) + 1, std::end(points), [&path](const QPointF& p) { path.lineTo(p); });
+
+        if(closeUp)
+            path.lineTo(points[0]);
+        return path;
+    }
+
     bool first= true;
     std::vector<QPointF> topPoints;
     std::vector<QPointF> bottomPoints;
 
-    int i= 0;
+    unsigned int i= 0;
     for(auto current : points)
     {
-        // QPointF current= points[i];
         QPointF lastPoint;
         QPointF nextPoint;
         if(points.size() > i + 1)
@@ -129,10 +137,12 @@ PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ct
 
     m_closeAct= new QAction(tr("Close Path"), this);
     m_closeAct->setCheckable(true);
+    m_closeAct->setChecked(m_pathCtrl->closed());
     connect(m_closeAct, &QAction::triggered, m_pathCtrl, &vmap::PathController::setClosed);
 
     m_fillAct= new QAction(tr("Fill Path"), this);
     m_fillAct->setCheckable(true);
+    m_fillAct->setChecked(m_pathCtrl->filled());
     connect(m_fillAct, &QAction::triggered, m_pathCtrl, &vmap::PathController::setFilled);
 
     update();
@@ -149,7 +159,7 @@ QPainterPath PathItem::shape() const
 {
     if(!m_pathCtrl)
         return {};
-    return vectorToFullPath(m_pathCtrl->points(), 10);
+    return vectorToFullPath(m_pathCtrl->points(), 10, m_pathCtrl->filled(), m_pathCtrl->closed());
 }
 
 void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -206,17 +216,13 @@ void PathItem::setNewEnd(const QPointF& p)
         m_pathCtrl->setCorner(p, m_pathCtrl->pointCount() - 1);
 }
 
-/*void PathItem::createActions()
-{
-
-}*/
-
 void PathItem::addActionContextMenu(QMenu& menu)
 {
     if(!m_pathCtrl)
         return;
     menu.addAction(m_closeAct);
     menu.addAction(m_fillAct);
+
     VisualItem::addActionContextMenu(menu);
 }
 void PathItem::addPoint(const QPointF& point)

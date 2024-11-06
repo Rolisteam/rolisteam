@@ -230,7 +230,7 @@ public slots:
     void setRemote(bool remote) override;
 
     void insertItemAt(const std::map<QString, QVariant>& params);
-    void changeFogOfWar(const QPolygonF& poly, vmap::VisualItemController* itemCtrl, bool mask);
+    void changeFogOfWar(const QPolygonF& poly, vmap::VisualItemController* itemCtrl, bool mask, bool temp= false);
 
     void aboutToRemove(const QList<vmap::VisualItemController*>& list);
     void askForColorChange(vmap::VisualItemController* itemCtrl);

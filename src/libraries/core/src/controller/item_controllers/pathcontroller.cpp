@@ -44,6 +44,16 @@ PathController::PathController(const std::map<QString, QVariant>& params, Vector
         Core::vmapkeys::KEY_POINTS, params, [this](const std::vector<QPointF>& points) { setPoints(points); });
     helper::utils::setParamIfAny<int>(Core::vmapkeys::KEY_PENWIDTH, params, [this](int b) { m_penWidth= b; });
 
+    helper::utils::setParamIfAny<bool>(Core::vmapkeys::KEY_PAINTING, params,
+                                       [this](bool b)
+                                       {
+                                           if(b)
+                                               return;
+
+                                           setClosed(true);
+                                           setFilled(true);
+                                       });
+
     if(!m_penLine && m_points.empty())
         addPoint(QPointF(0, 0));
 
@@ -178,7 +188,6 @@ void PathController::setClosed(bool closed)
     m_closed= closed;
     emit closedChanged(m_closed);
 }
-
 
 void PathController::setPoints(const std::vector<QPointF>& points)
 {

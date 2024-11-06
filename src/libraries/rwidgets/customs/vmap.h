@@ -75,8 +75,8 @@ public:
 
     void manageAnchor();
     const QString& getLocalUserId() const;
-    bool isNormalItem(const QGraphicsItem* item)  const;
-    VisualItem *getNormalItem(QGraphicsItem *item);
+    bool isNormalItem(const QGraphicsItem* item) const;
+    VisualItem* getNormalItem(QGraphicsItem* item);
 
     GridItem* gridItem() const;
 
@@ -88,14 +88,13 @@ private slots:
     void promoteItemInType(VisualItem*, vmap::VisualItemController::ItemType);
 
 protected:
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event)override;
-    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent* event)override;
-    virtual void dropEvent(QGraphicsSceneDragDropEvent* event)override;
-    virtual void keyPressEvent(QKeyEvent* event)override;
-
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent) override;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent) override;
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent) override;
+    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event) override;
+    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent* event) override;
+    virtual void dropEvent(QGraphicsSceneDragDropEvent* event) override;
+    virtual void keyPressEvent(QKeyEvent* event) override;
 
     void insertItem(const QPointF& end);
     void addAndInit(QGraphicsItem* item);
@@ -111,6 +110,7 @@ protected:
 
 private:
     VisualItem* visualItemUnder(const QPointF& pos);
+    void resetCurrentPath();
 
 private:
     std::unique_ptr<GridItem> m_gridItem;

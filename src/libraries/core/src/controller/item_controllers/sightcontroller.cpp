@@ -22,7 +22,7 @@
 #include <QDebug>
 #include <QPolygonF>
 
-//#include "controller/item_controllers/characteritemcontrollermanager.h"
+// #include "controller/item_controllers/characteritemcontrollermanager.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 
 namespace vmap
@@ -102,11 +102,11 @@ void SightController::setCharacterSight(bool b)
     emit characterSightChanged();
 }
 
-void SightController::setFowPath(const QPainterPath &path)
+void SightController::setFowPath(const QPainterPath& path)
 {
     if(m_remoteFowPath == path)
         return;
-    m_remoteFowPath = path;
+    m_remoteFowPath= path;
     emit fowPathChanged();
 }
 
@@ -116,21 +116,21 @@ QPainterPath SightController::fowPath() const
     if(remote())
     {
         path.addRect(rect());
-        path = path.intersected(m_remoteFowPath);
-        auto bRect = m_remoteFowPath.boundingRect();
-        auto cRect = rect();
+        path= path.intersected(m_remoteFowPath);
+        auto bRect= m_remoteFowPath.boundingRect();
+        auto cRect= rect();
         if(cRect.height() > bRect.height())
         {
             QPainterPath subPoly;
-            subPoly.addRect(QRectF(0,bRect.height(),cRect.width(),cRect.height()-bRect.height()));
-            path = path.united(subPoly);
+            subPoly.addRect(QRectF(0, bRect.height(), cRect.width(), cRect.height() - bRect.height()));
+            path= path.united(subPoly);
         }
 
         if(cRect.width() > bRect.width())
         {
             QPainterPath subPoly;
-            subPoly.addRect(QRectF(bRect.width(),0,cRect.width()-bRect.width(),cRect.height()));
-            path = path.united(subPoly);
+            subPoly.addRect(QRectF(bRect.width(), 0, cRect.width() - bRect.width(), cRect.height()));
+            path= path.united(subPoly);
         }
     }
     else
@@ -142,13 +142,25 @@ QPainterPath SightController::fowPath() const
             subPoly.addPolygon(fogs.first);
             path= fogs.second ? path.united(subPoly) : path.subtracted(subPoly);
         }
+
+        for(auto& fog : m_tempSingularityList)
+        {
+            QPainterPath subPoly;
+            subPoly.addPolygon(fog.first);
+            path= fog.second ? path.united(subPoly) : path.subtracted(subPoly);
+        }
     }
     return path;
 }
 
-void SightController::addPolygon(const QPolygonF& poly, bool mask)
+void SightController::addPolygon(const QPolygonF& poly, bool mask, bool temp)
 {
-    m_fogSingularityList.push_back(std::make_pair(poly, mask));
+    temp ? m_tempSingularityList.push_back(std::make_pair(poly, mask)) :
+           m_fogSingularityList.push_back(std::make_pair(poly, mask));
+
+    if(!temp)
+        m_tempSingularityList.clear();
+
     emit fowPathChanged();
 }
 

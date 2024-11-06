@@ -352,6 +352,7 @@ constexpr auto KEY_ITEMTYPE{"itemtype"};
 constexpr auto KEY_UUID{"uuid"};
 constexpr auto KEY_VISIBLE{"visible"};
 constexpr auto KEY_PARENTID{"parentid"};
+constexpr auto KEY_PAINTING{"painting"};
 
 constexpr auto KEY_CHARAC_NPC{"chac_npc"};
 constexpr auto KEY_CHARAC_ID{"chac_uuid"};

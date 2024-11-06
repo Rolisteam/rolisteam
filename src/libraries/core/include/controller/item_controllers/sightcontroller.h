@@ -55,10 +55,10 @@ public:
     const std::vector<std::pair<QPolygonF, bool>>& singularityList() const;
 
 public slots:
-    void addPolygon(const QPolygonF& poly, bool mask);
+    void addPolygon(const QPolygonF& poly, bool mask, bool temp= false);
     void addCharacterVision(CharacterVision* vision);
     void removeCharacterVision(CharacterVision* vision);
-    void setRect(const QRectF &rect);
+    void setRect(const QRectF& rect);
     void setCharacterSight(bool b);
     void setFowPath(const QPainterPath& path);
 
@@ -71,6 +71,7 @@ signals:
 
 private:
     std::vector<std::pair<QPolygonF, bool>> m_fogSingularityList;
+    std::vector<std::pair<QPolygonF, bool>> m_tempSingularityList;
     QList<QPointer<CharacterVision>> m_visions;
     bool m_characterSight= false;
     CharacterVision::SHAPE m_defaultShape= CharacterVision::ANGLE;

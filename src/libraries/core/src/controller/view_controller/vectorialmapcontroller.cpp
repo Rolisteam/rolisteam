@@ -525,8 +525,18 @@ void VectorialMapController::askForColorChange(vmap::VisualItemController* itemC
     emit performCommand(new ChangeColorItemCmd(itemCtrl, toolColor()));
 }
 
-void VectorialMapController::changeFogOfWar(const QPolygonF& poly, vmap::VisualItemController* itemCtrl, bool mask)
+void VectorialMapController::changeFogOfWar(const QPolygonF& poly, vmap::VisualItemController* itemCtrl, bool mask,
+                                            bool temp)
 {
+    Q_UNUSED(itemCtrl)
+    if(poly.isEmpty())
+        return;
+
+    if(temp)
+    {
+        m_sightController->addPolygon(poly, mask, temp);
+        return;
+    }
     emit popCommand(); // remove controller of shape
     emit performCommand(new AddFogOfWarChangeCommand(m_sightController.get(), poly, mask));
 }
@@ -604,8 +614,7 @@ void VectorialMapController::showTransparentItems()
 {
     auto const& items= m_vmapModel->items();
     QList<vmap::VisualItemController*> list;
-    std::transform(std::begin(items), std::end(items), std::back_inserter(list),
-                   [](vmap::VisualItemController* item)
+    std::transform(std::begin(items), std::end(items), std::back_inserter(list), [](vmap::VisualItemController* item)
                    { return qFuzzyCompare(item->opacity(), 0.0) ? item : nullptr; });
     list.removeAll(nullptr);
     emit performCommand(new ShowTransparentItemCommand(list));
