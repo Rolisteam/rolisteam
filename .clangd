@@ -1,0 +1,7 @@
+#If:
+#  PathMatch: /usr/include/.*
+#Diagnostics:
+#  Suppress: "*"
+CompileFlags:
+  Add: [-Wno-gnu-zero-variadic-macro-arguments]
+  Remove: [-fdiagnostics-urls=always]
