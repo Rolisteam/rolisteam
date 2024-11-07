@@ -135,9 +135,33 @@ const CellData* TableModel::cellData(int r, int c) const
     return &m_data[r][c];
 }
 
+void TableModel::makeSpace(int row, int cols)
+{
+    while(m_columns.count() < cols)
+    {
+        qWarning() << "Wrong number of columns";
+        auto field= new FieldController(TreeSheetItem::FieldItem, true);
+        m_columns.append(field);
+    }
+
+    while(m_data.count() < row)
+    {
+        m_data.append(QList<CellData>());
+    }
+
+    for(auto& rowList : m_data)
+    {
+        while(rowList.size() < cols)
+        {
+            rowList.append(CellData());
+        }
+    }
+
+    // QList<QList<CellData>> m_data;
+}
+
 void TableModel::save(QJsonObject& json) const
 {
-
     QJsonArray columnJson;
     for(auto& col : m_columns)
     {

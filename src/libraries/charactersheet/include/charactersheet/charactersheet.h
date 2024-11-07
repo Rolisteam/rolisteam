@@ -47,7 +47,8 @@ public:
     virtual void save(QJsonObject& json) const;
     virtual void load(const QJsonObject& json);
     const QString getTitle();
-    int getFieldCount();
+    int getFieldCount() const;
+    int indexFromId(const QString& id) const;
     CSItem* getFieldAt(int i) const;
 
     CSItem* getFieldFromKey(QString key) const;
@@ -76,6 +77,7 @@ public slots:
 
 signals:
     void updateField(CharacterSheet*, CSItem*, const QString& path);
+    void fieldValueChanged(CharacterSheet*, const QString& id);
     void addLineToTableField(CharacterSheet*, CSItem*);
     void uuidChanged();
     void nameChanged();

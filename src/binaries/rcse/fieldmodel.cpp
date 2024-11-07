@@ -465,9 +465,9 @@ void FieldModel::removeItem(QModelIndex& index)
 void FieldModel::removeField(FieldController* field)
 {
     // int index = m_rootSection->indexOfChild(field);
+    auto path= field->path();
     QList<TreeSheetItem*> ancestors;
 
-    // ancestors.append(field);
     TreeSheetItem* tmp= field;
     while(tmp != nullptr)
     {
@@ -492,10 +492,9 @@ void FieldModel::removeField(FieldController* field)
     }
 
     beginRemoveRows(parent, parentSection->indexOfChild(field), parentSection->indexOfChild(field));
-
     parentSection->removeChild(field);
-
     endRemoveRows();
+    emit fieldRemoved(path);
     emit modelChanged();
 }
 void FieldModel::clearModel()

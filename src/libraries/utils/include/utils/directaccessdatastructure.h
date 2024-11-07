@@ -31,7 +31,7 @@ template <class T, class Y>
 class DirectAccessDataStructure
 {
 public:
-    DirectAccessDataStructure(){};
+    DirectAccessDataStructure() {};
 
     void reserve(qsizetype size)
     {
@@ -144,6 +144,12 @@ public:
     };
 
     bool isValid() const { return m_keys.size() == m_data.size(); }
+
+    template <typename Functor>
+    void sortKeys(Functor functor)
+    {
+        std::sort(std::begin(m_keys), std::end(m_keys), functor);
+    }
 
 private:
     QList<T> m_keys;

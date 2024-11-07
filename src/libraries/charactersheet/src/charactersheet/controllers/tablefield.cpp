@@ -23,15 +23,15 @@
 
 #include <QDebug>
 #include <QJsonArray>
+#include <QLoggingCategory>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QUuid>
-#include <QLoggingCategory>
 
 Q_LOGGING_CATEGORY(TableFieldCat, "TableField");
 
-#include "charactersheet/controllers/fieldcontroller.h"
 #include "charactersheet/charactersheetitem.h"
+#include "charactersheet/controllers/fieldcontroller.h"
 
 void copyModel(TableModel* src, TableModel* dest, TreeSheetItem* parent)
 {
@@ -40,17 +40,25 @@ void copyModel(TableModel* src, TableModel* dest, TreeSheetItem* parent)
     dest->load(obj, parent);
 }
 
-TableFieldController::TableFieldController(bool addCount, QObject* parent) : FieldController(TreeSheetItem::TableItem, addCount, parent)
+TableFieldController::TableFieldController(TreeItemType type, bool addCount, QObject* parent)
+    : FieldController(type, addCount, parent)
 {
+    Q_ASSERT(type == TreeSheetItem::TableItem);
+    init();
+}
+
+TableFieldController::TableFieldController(bool addCount, QObject* parent)
+    : FieldController(TreeSheetItem::TableItem, addCount, parent)
+{
+    init();
 }
 
 TableFieldController::TableFieldController(QPointF topleft, bool addCount, QObject* parent)
     : FieldController(TreeSheetItem::TableItem, topleft, addCount, parent)
 {
     Q_UNUSED(topleft);
+    init();
     m_value= QStringLiteral("value");
-
-
 }
 TableFieldController::~TableFieldController() {}
 
@@ -82,11 +90,11 @@ void TableFieldController::addLine()
     if(m_model->rowCount() == m_displayedRow)
     {
         m_model->addRow();
-        setDisplayedRow(m_displayedRow+1);
+        setDisplayedRow(m_displayedRow + 1);
     }
-    else if(m_model->rowCount()> m_displayedRow)
+    else if(m_model->rowCount() > m_displayedRow)
     {
-        setDisplayedRow(m_displayedRow+1);
+        setDisplayedRow(m_displayedRow + 1);
     }
     else if(m_model->rowCount() < m_displayedRow)
     {
@@ -129,18 +137,22 @@ void TableFieldController::init()
     m_id= QStringLiteral("id_%1").arg(m_count);
     m_fieldType= FieldController::TABLE;
     m_model= std::make_unique<TableModel>();
-    connect(m_model.get(), &TableModel::columnsInserted, this, [this](const QModelIndex& index, int first, int last){
-        Q_UNUSED(index);
-        Q_UNUSED(last);
-        qDebug() << "columnCount Changed" << first;
-        emit columnCountChanged(true, first);
-    });
-    connect(m_model.get(), &TableModel::columnsRemoved, this, [this](const QModelIndex& index, int first, int last){
-        Q_UNUSED(index);
-        Q_UNUSED(last);
-        qDebug() << "columnCount Changed" << first;
-        emit columnCountChanged(false, first);
-    });
+    connect(m_model.get(), &TableModel::columnsInserted, this,
+            [this](const QModelIndex& index, int first, int last)
+            {
+                Q_UNUSED(index);
+                Q_UNUSED(last);
+                qDebug() << "columnCount Changed" << first;
+                emit columnCountChanged(true, first);
+            });
+    connect(m_model.get(), &TableModel::columnsRemoved, this,
+            [this](const QModelIndex& index, int first, int last)
+            {
+                Q_UNUSED(index);
+                Q_UNUSED(last);
+                qDebug() << "columnCount Changed" << first;
+                emit columnCountChanged(false, first);
+            });
     addColumn();
 
     m_border= NONE;
@@ -152,8 +164,8 @@ void TableFieldController::init()
 
 void TableFieldController::updateColumnSize()
 {
-    auto cols = m_model->columns();
-    if(cols.size()==1)
+    auto cols= m_model->columns();
+    if(cols.size() == 1)
     {
         cols[0]->setWidth(width());
     }
@@ -163,7 +175,7 @@ void TableFieldController::setDisplayedRow(int rCount)
 {
     if(rCount == m_displayedRow)
         return;
-    m_displayedRow = rCount;
+    m_displayedRow= rCount;
     emit rowCountChanged();
 }
 
@@ -198,13 +210,15 @@ int TableFieldController::childrenCount() const
 
 TreeSheetItem* TableFieldController::childFromId(const QString& id) const
 {
-    return nullptr; //m_model->getFieldById(id);
+    return nullptr; // m_model->getFieldById(id);
 }
 
 TreeSheetItem* TableFieldController::childAt(int index) const
 {
-    auto cols = m_model->columns();
-    if(index < 0 || index > cols.size() || cols.isEmpty())
+    if(!m_model)
+        return nullptr;
+    auto cols= m_model->columns();
+    if(index < 0 || index >= cols.size() || cols.isEmpty())
         return nullptr;
     else
         return cols[index];
@@ -221,6 +235,8 @@ void TableFieldController::save(QJsonObject& json, bool exp)
         json["label"]= m_label;
         json["value"]= m_value;
         json["typefield"]= m_fieldType;
+        json["displayedRow"]= m_displayedRow;
+        json["columnCount"]= m_model->columnCount();
         QJsonObject data;
         m_model->save(data);
         json["data"]= data;
@@ -236,7 +252,8 @@ void TableFieldController::save(QJsonObject& json, bool exp)
     json["formula"]= m_formula;
     json["tooltip"]= m_tooltip;
     json["generatedCode"]= m_generatedCode;
-    json["displayedRow"]=m_displayedRow;
+    json["displayedRow"]= m_displayedRow;
+    json["columnCount"]= m_model->columnCount();
 
     json["clippedText"]= m_fitFont;
 
@@ -269,10 +286,6 @@ void TableFieldController::save(QJsonObject& json, bool exp)
     QJsonObject data;
     m_model->save(data);
     json["data"]= data;
-
-    /*QJsonObject obj;
-    m_tableCanvasField->save(obj);
-    json["canvas"]= obj;*/
 }
 
 void TableFieldController::load(const QJsonObject& json)
@@ -286,6 +299,7 @@ void TableFieldController::load(const QJsonObject& json)
     m_label= json["label"].toString();
     m_tooltip= json["tooltip"].toString();
     m_displayedRow= json["displayedRow"].toInt();
+    auto columnCount= json["columnCount"].toInt();
 
     m_fieldType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
     m_fitFont= json["clippedText"].toBool();
@@ -336,6 +350,8 @@ void TableFieldController::load(const QJsonObject& json)
     auto data= json["data"].toObject();
 
     m_model->load(data, this);
+
+    m_model->makeSpace(m_displayedRow, columnCount);
 }
 
 void TableFieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool sameId)
@@ -375,10 +391,15 @@ void TableFieldController::loadDataItem(const QJsonObject& json)
     setLabel(json["label"].toString());
     setFormula(json["formula"].toString());
     setReadOnly(json["readonly"].toBool());
+
+    m_displayedRow= json["displayedRow"].toInt();
+    auto c= json["columnCount"].toInt();
     m_fieldType= static_cast<FieldController::TypeField>(json["typefield"].toInt());
 
     QJsonArray childArray= json["children"].toArray();
     m_model->loadDataItem(childArray, this);
+
+    m_model->makeSpace(m_displayedRow, c);
 }
 
 void TableFieldController::setChildFieldData(const QJsonObject& json)
@@ -407,6 +428,8 @@ void TableFieldController::saveDataItem(QJsonObject& json)
     json["value"]= m_value;
     json["formula"]= m_formula;
     json["readonly"]= m_readOnly;
+    json["displayedRow"]= m_displayedRow;
+    json["columnCount"]= m_model->columnCount();
 
     QJsonArray childArray;
     m_model->saveDataItem(childArray);
@@ -414,12 +437,12 @@ void TableFieldController::saveDataItem(QJsonObject& json)
 }
 QList<int> TableFieldController::sumColumn() const
 {
-    return m_model ?m_model->sumColumn() : QList<int>{};
+    return m_model ? m_model->sumColumn() : QList<int>{};
 }
 
 int TableFieldController::rowCount() const
 {
-    return m_model ? m_model->rowCount(): 0;
+    return m_model ? m_model->rowCount() : 0;
 }
 
 int TableFieldController::displayedRow() const
@@ -431,5 +454,3 @@ int TableFieldController::columnCount() const
 {
     return m_model ? m_model->columnCount() : 0;
 }
-
-

@@ -69,6 +69,8 @@ ${root_dir}/binaries/mindmap/maincontroller.cpp
 ${root_dir}/binaries/mindmap/maincontroller.h
 ${root_dir}/binaries/rcse/borderlisteditor.cpp
 ${root_dir}/binaries/rcse/borderlisteditor.h
+${root_dir}/binaries/rcse/controllers/integritycontroller.h
+${root_dir}/binaries/rcse/controllers/integritycontroller.cpp
 ${root_dir}/binaries/rcse/canvas.cpp
 ${root_dir}/binaries/rcse/canvas.h
 ${root_dir}/binaries/rcse/canvasfield.cpp

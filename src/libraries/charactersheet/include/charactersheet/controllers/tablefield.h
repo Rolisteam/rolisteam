@@ -23,13 +23,13 @@
 #define TABLEFIELD_H
 
 #include "charactersheet/charactersheetitem.h"
+#include "charactersheet/controllers/tablemodel.h"
 #include "fieldcontroller.h"
 #include <QGraphicsItem>
 #include <QLabel>
 #include <QObject>
 #include <QStandardItemModel>
 #include <QWidget>
-#include "charactersheet/controllers/tablemodel.h"
 #include <charactersheet/charactersheet_global.h>
 
 class TableFieldController;
@@ -54,6 +54,7 @@ public:
         CtrlRightTop,
         CtrlRightBottom
     };
+    explicit TableFieldController(TreeSheetItem::TreeItemType type, bool addCount= true, QObject* parent= nullptr);
     explicit TableFieldController(bool addCount= true, QObject* parent= nullptr);
     explicit TableFieldController(QPointF topleft, bool addCount= true, QObject* parent= nullptr);
     virtual ~TableFieldController();
@@ -72,7 +73,7 @@ public:
     virtual bool hasChildren() override;
     virtual int childrenCount() const override;
     virtual TreeSheetItem* childFromId(const QString& id) const override;
-    virtual TreeSheetItem *childAt(int) const override;
+    virtual TreeSheetItem* childAt(int) const override;
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json) override;
     virtual void copyField(TreeSheetItem* oldItem, bool copyData, bool sameId= true);
@@ -113,6 +114,7 @@ protected:
 protected:
     ControlPosition m_position;
     std::unique_ptr<TableModel> m_model;
+
 private:
     int m_displayedRow{1};
 };

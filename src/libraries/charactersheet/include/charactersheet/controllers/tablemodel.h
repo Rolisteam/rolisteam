@@ -1,14 +1,15 @@
 #ifndef TABLEMODEL_H
 #define TABLEMODEL_H
 
-#include <QString>
-#include <QObject>
 #include <QAbstractTableModel>
+#include <QObject>
+#include <QString>
 #include <charactersheet/charactersheet_global.h>
 
 #include "fieldcontroller.h"
 
-struct CellData {
+struct CellData
+{
     QString value;
     QString formula;
 };
@@ -24,15 +25,14 @@ public:
     };
     TableModel();
 
-           // MVC Functinos
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    // MVC Functinos
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     int columnCount(const QModelIndex& parent= QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role) const override;
     bool setData(const QModelIndex& index, const QVariant& data, int role) override;
     QHash<int, QByteArray> roleNames() const override;
 
-
-           // API to add data
+    // API to add data
     void addRow();
     void addRows(int rCount);
     void addColumn(FieldController* field);
@@ -43,8 +43,8 @@ public:
     const CellData* cellData(int line, int col) const;
     const CellData* cellDataFromId(const QString& id) const;
 
-           // serilization
-    void save(QJsonObject &json) const;
+    // serilization
+    void save(QJsonObject& json) const;
     void load(const QJsonObject& json, TreeSheetItem* parent);
     void saveDataItem(QJsonArray& json);
     void loadDataItem(const QJsonArray& json, TreeSheetItem* parent);
@@ -52,7 +52,9 @@ public:
 
     const QList<FieldController*>& columns() const;
 
-           // function
+    void makeSpace(int row, int cols);
+
+    // function
     QList<int> sumColumn() const;
     void setFieldInDictionnary(QHash<QString, QString>& dict, const QString& id, const QString& label) const;
 

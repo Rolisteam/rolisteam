@@ -122,6 +122,7 @@ void TreeSheetItem::setId(const QString& newPath)
 {
     if(m_id == newPath)
         return;
+    auto old= m_id;
     m_id= newPath;
-    emit idChanged();
+    emit idChanged(old, m_id);
 }

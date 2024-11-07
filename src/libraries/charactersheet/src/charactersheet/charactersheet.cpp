@@ -53,9 +53,14 @@ const QString CharacterSheet::getTitle()
     return m_name;
 }
 
-int CharacterSheet::getFieldCount()
+int CharacterSheet::getFieldCount() const
 {
     return m_valuesMap.size();
+}
+
+int CharacterSheet::indexFromId(const QString& id) const
+{
+    return m_valuesMap.keys().indexOf(id);
 }
 
 CSItem* CharacterSheet::getFieldFromIndex(const std::vector<int>& row) const
@@ -144,31 +149,33 @@ const QVariant CharacterSheet::getValueByIndex(const std::vector<int>& row, QStr
 {
     Q_UNUSED(path)
     auto item= getFieldFromIndex(row); // getFieldFromKey(path);
-    if(nullptr != item)
+    if(!item)
+        return {};
+
+    QVariant res;
+    if(role == Qt::DisplayRole)
     {
-        if(role == Qt::DisplayRole)
-        {
-            return item->value();
-        }
-        else if(role == Qt::EditRole)
-        {
-            QString str= item->formula();
-            if(str.isEmpty())
-            {
-                str= item->value();
-            }
-            return str;
-        }
-        else if(role == Qt::UserRole)
-        {
-            return item->formula();
-        }
-        else if(role == Qt::BackgroundRole)
-        {
-            return item->isReadOnly() ? QColor(Qt::red) : QVariant();
-        }
+        res= item->value();
     }
-    return QString();
+    else if(role == Qt::EditRole)
+    {
+        QString str= item->formula();
+        if(str.isEmpty())
+        {
+            str= item->value();
+        }
+        res= str;
+    }
+    else if(role == Qt::UserRole)
+    {
+        res= item->formula();
+    }
+    else if(role == Qt::BackgroundRole)
+    {
+        res= item->isReadOnly() ? QColor(Qt::red) : QVariant();
+    }
+
+    return res;
 }
 
 CSItem* CharacterSheet::setValue(QString key, QString value, QString formula)
@@ -355,6 +362,8 @@ void CharacterSheet::insertField(QString key, CSItem* itemSheet)
 
                 emit updateField(this, itemSheet, path);
             });
+
+    connect(itemSheet, &CSItem::valueChanged, this, [this](const QString& id) { emit fieldValueChanged(this, id); });
 }
 
 QHash<QString, QString> CharacterSheet::getVariableDictionnary()

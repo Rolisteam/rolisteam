@@ -105,7 +105,7 @@ public:
 
 signals:
     void characterSheetItemChanged(TreeSheetItem* item);
-    void idChanged();
+    void idChanged(const QString& old, const QString& newId);
 
 protected:
     TreeSheetItem::TreeItemType m_itemType;

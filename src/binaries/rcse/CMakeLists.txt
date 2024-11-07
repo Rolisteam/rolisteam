@@ -58,7 +58,8 @@ set(sources  main.cpp
     dialog/codeeditordialog.cpp
     widgets/fieldview.cpp
     qmltypesregister.cpp
-  qmlgeneratorvisitor.cpp serializerhelper.cpp)
+  qmlgeneratorvisitor.cpp serializerhelper.cpp
+  controllers/integritycontroller.cpp)
 
 set(headers mainwindow.h
     canvas.h
@@ -102,10 +103,11 @@ set(headers mainwindow.h
     widgets/fieldview.h
     qmltypesregister.h
     qmlgeneratorvisitor.h
-  serializerhelper.h  )
+  serializerhelper.h
+  controllers/integritycontroller.h)
 
 
-set(UI_files   mainwindow_rcse.ui
+set(UI_files mainwindow_rcse.ui
         dialog/aboutrcse.ui
         dialog/pdfmanager.ui
         preferences/preferencesdialog.ui
@@ -115,7 +117,8 @@ set(UI_files   mainwindow_rcse.ui
         dialog/codeeditordialog.ui)
 
 set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/rcse/logo/rcse.rc)
-add_executable(rcse WIN32 ${sources} ${headers} ${UI_files} ${ressources} ${RC_FILE})
+add_executable(rcse WIN32 ${sources} ${headers} ${UI_files} ${ressources} ${RC_FILE}
+     )
 
 qt_add_resources(rcse "templates"
 PREFIX

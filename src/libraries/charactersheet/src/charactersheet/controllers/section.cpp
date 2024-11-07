@@ -104,7 +104,7 @@ void Section::save(QJsonObject& json, bool exp)
         fieldArray.append(itemObject);
     }
     json["items"]= fieldArray;
-    //qDebug() << json;
+    // qDebug() << json;
 }
 
 QList<CSItem*> Section::allChildren() const
@@ -183,6 +183,8 @@ void Section::load(const QJsonObject& json)
         else
             qDebug() << "Dupplicate found" << item->path();
     }
+
+    m_data.sortKeys([](const QString& a, const QString& b) { return a.sliced(3).toInt() < b.sliced(3).toInt(); });
 }
 
 void Section::copySection(Section* oldSection)

@@ -36,11 +36,11 @@
 /// CharacterSheetModel
 /////////////////////////////
 
-CharacterSheetModel::CharacterSheetModel() : m_rootSection(new Section()),m_formulaManager(new Formula::FormulaManager())
+CharacterSheetModel::CharacterSheetModel()
+    : m_rootSection(new Section()), m_formulaManager(new Formula::FormulaManager())
 {
-
 }
-CharacterSheetModel::~CharacterSheetModel() =default;
+CharacterSheetModel::~CharacterSheetModel()= default;
 
 int CharacterSheetModel::rowCount(const QModelIndex& parent) const
 {
@@ -51,14 +51,20 @@ int CharacterSheetModel::rowCount(const QModelIndex& parent) const
         if(tmp->fieldType() == FieldController::TABLE && !m_characterList.empty())
         {
             int max= tmp->childrenCount();
-            auto result= std::max_element(std::begin(m_characterList), std::end(m_characterList),
-                                           [tmp](const std::unique_ptr<CharacterSheet>& a, const std::unique_ptr<CharacterSheet>& b) {
-                                              auto fieldA= a->getFieldFromKey(tmp->id());
-                                              auto fieldB= b->getFieldFromKey(tmp->id());
-                                              return fieldA->childrenCount() < fieldB->childrenCount();
-                                          });
+            auto result= std::max_element(
+                std::begin(m_characterList), std::end(m_characterList),
+                [tmp](const std::unique_ptr<CharacterSheet>& a, const std::unique_ptr<CharacterSheet>& b)
+                {
+                    auto fieldA= a->getFieldFromKey(tmp->id());
+                    auto fieldB= b->getFieldFromKey(tmp->id());
+                    if(!fieldA || !fieldB)
+                        return false;
+                    return fieldA->childrenCount() < fieldB->childrenCount();
+                });
+
             auto maxfield= (*result)->getFieldFromKey(tmp->id());
-            val= std::max(max, maxfield->childrenCount());
+            if(maxfield)
+                val= std::max(max, maxfield->childrenCount());
         }
         else if(tmp)
             val= tmp->childrenCount();
@@ -304,6 +310,23 @@ void CharacterSheetModel::computeFormula(QString path, CharacterSheet* sheet)
         sheet->setValue(item, valueStr, formula);
     }
 }
+
+void CharacterSheetModel::fieldUpdated(CharacterSheet* sheet, const QString& id)
+{
+    auto it
+        = std::find_if(std::begin(m_characterList), std::end(m_characterList),
+                       [sheet](const std::unique_ptr<CharacterSheet>& sheetData) { return sheetData.get() == sheet; });
+
+    if(it == std::end(m_characterList))
+        return;
+
+    auto c= std::distance(std::begin(m_characterList), it) + 1;
+
+    auto r= sheet->indexFromId(id);
+
+    emit dataChanged(index(r, c), index(r, c), {Qt::EditRole, ValueRole});
+}
+
 void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet, CSItem* item, const QString&)
 {
     emit dataCharacterChange();
@@ -341,7 +364,7 @@ void CharacterSheetModel::checkCharacter(Section* section)
                     sheet->insertCharacterItem(newField);
                     field= newField;
                 }
-                else //if(nullptr == field && id->fieldType() == FieldController::TABLE)
+                else // if(nullptr == field && id->fieldType() == FieldController::TABLE)
                 {
                     auto newtablefield= new TableFieldController(false);
                     newtablefield->copyField(id, true);
@@ -375,10 +398,13 @@ void CharacterSheetModel::checkCharacter(Section* section)
 void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
 {
     if(pos < 0)
-        pos = m_characterList.size();
+        pos= m_characterList.size();
+
+    connect(sheet, &CharacterSheet::fieldValueChanged, this, &CharacterSheetModel::fieldUpdated);
+
     beginInsertColumns(QModelIndex(), pos + 1, pos + 1);
     std::unique_ptr<CharacterSheet> uSheet(sheet);
-    m_characterList.insert(std::begin(m_characterList)+pos, std::move(uSheet));
+    m_characterList.insert(std::begin(m_characterList) + pos, std::move(uSheet));
     endInsertColumns();
     emit characterSheetHasBeenAdded(sheet);
     emit dataCharacterChange();
@@ -407,14 +433,14 @@ void CharacterSheetModel::addSubChild(CharacterSheet* sheet, CSItem* item)
     if(!m_rootSection)
         return;
 
-    auto cit= std::find_if(std::begin(m_characterList), std::end(m_characterList), [sheet](const std::unique_ptr<CharacterSheet>& dataSheet){
-        return dataSheet.get() == sheet;
-    });
+    auto cit
+        = std::find_if(std::begin(m_characterList), std::end(m_characterList),
+                       [sheet](const std::unique_ptr<CharacterSheet>& dataSheet) { return dataSheet.get() == sheet; });
 
     if(cit == std::end(m_characterList))
         return;
 
-    auto c = std::distance(std::begin(m_characterList), cit)+1;
+    auto c= std::distance(std::begin(m_characterList), cit) + 1;
 
     auto parentItem= m_rootSection->childFromId(item->path());
     auto r= m_rootSection->indexOfChild(parentItem);
@@ -446,13 +472,13 @@ void CharacterSheetModel::addSubChild(CharacterSheet* sheet, CSItem* item)
 }
 void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
 {
-    auto cit= std::find_if(std::begin(m_characterList), std::end(m_characterList), [sheet](const std::unique_ptr<CharacterSheet>& dataSheet){
-        return dataSheet.get() == sheet;
-    });
+    auto cit
+        = std::find_if(std::begin(m_characterList), std::end(m_characterList),
+                       [sheet](const std::unique_ptr<CharacterSheet>& dataSheet) { return dataSheet.get() == sheet; });
 
     if(cit == std::end(m_characterList))
         return;
-    auto pos = std::distance(std::begin(m_characterList), cit);
+    auto pos= std::distance(std::begin(m_characterList), cit);
     beginRemoveColumns(QModelIndex(), pos + 1, pos + 1);
     m_characterList.erase(cit);
     endRemoveColumns();
@@ -460,13 +486,13 @@ void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
 
 void CharacterSheetModel::releaseCharacterSheet(CharacterSheet* sheet)
 {
-    auto cit= std::find_if(std::begin(m_characterList), std::end(m_characterList), [sheet](const std::unique_ptr<CharacterSheet>& dataSheet){
-        return dataSheet.get() == sheet;
-    });
+    auto cit
+        = std::find_if(std::begin(m_characterList), std::end(m_characterList),
+                       [sheet](const std::unique_ptr<CharacterSheet>& dataSheet) { return dataSheet.get() == sheet; });
 
     if(cit == std::end(m_characterList))
         return;
-    auto pos = std::distance(std::begin(m_characterList), cit);
+    auto pos= std::distance(std::begin(m_characterList), cit);
     beginRemoveColumns(QModelIndex(), pos + 1, pos + 1);
     cit->release();
     m_characterList.erase(cit);
@@ -476,15 +502,14 @@ void CharacterSheetModel::releaseCharacterSheet(CharacterSheet* sheet)
 void CharacterSheetModel::removeCharacterSheet(int index)
 {
     beginRemoveColumns(QModelIndex(), index + 1, index + 1);
-    m_characterList.erase(std::begin(m_characterList)+index);
+    m_characterList.erase(std::begin(m_characterList) + index);
     endRemoveColumns();
 }
 
 CharacterSheet* CharacterSheetModel::getCharacterSheetById(const QString& id) const
 {
-    auto it= std::find_if(std::begin(m_characterList), std::end(m_characterList), [id](const std::unique_ptr<CharacterSheet>& dataSheet){
-        return dataSheet->uuid() == id;
-    });
+    auto it= std::find_if(std::begin(m_characterList), std::end(m_characterList),
+                          [id](const std::unique_ptr<CharacterSheet>& dataSheet) { return dataSheet->uuid() == id; });
 
     if(it == std::end(m_characterList))
         return nullptr;
@@ -508,7 +533,7 @@ void CharacterSheetModel::setRootSection(Section* rootSection)
 
     beginResetModel();
 
-    m_rootSection = rootSection;
+    m_rootSection= rootSection;
 
     if(m_rootSection != previous)
         connect(m_rootSection.get(), &Section::addLineToTableField, this, &CharacterSheetModel::addSubChildRoot);
@@ -674,9 +699,9 @@ void CharacterSheetModel::readModel(const QJsonObject& jsonObj, bool readRootSec
     {
         qDebug() << "read characterfrom json";
         QJsonObject obj= charJson.toObject();
-        //CharacterSheet* sheet= new CharacterSheet();
-        auto sheet = std::make_unique<CharacterSheet>();
-        auto saved = sheet.get();
+        // CharacterSheet* sheet= new CharacterSheet();
+        auto sheet= std::make_unique<CharacterSheet>();
+        auto saved= sheet.get();
         sheet->load(obj);
         sheet->setOrigin(m_rootSection.get());
         m_characterList.push_back(std::move(sheet));
@@ -715,4 +740,12 @@ CharacterSheet* CharacterSheetModel::addCharacterSheet()
     addCharacterSheet(sheet, false);
 
     return sheet;
+}
+
+QList<CharacterSheet*> CharacterSheetModel::sheets() const
+{
+    QList<CharacterSheet*> res;
+    std::transform(std::begin(m_characterList), std::end(m_characterList), std::back_inserter(res),
+                   [](const std::unique_ptr<CharacterSheet>& sheet) { return sheet.get(); });
+    return res;
 }

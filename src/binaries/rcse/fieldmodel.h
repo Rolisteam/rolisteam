@@ -115,6 +115,7 @@ signals:
     void valuesChanged(QString valueKey, QString value);
     void modelChanged();
     void fieldAdded(CSItem* item);
+    void fieldRemoved(const QString& id);
 
 public slots:
     void updateItem(CSItem*);

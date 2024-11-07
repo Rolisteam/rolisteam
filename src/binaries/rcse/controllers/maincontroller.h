@@ -27,6 +27,7 @@
 #include "controllers/charactercontroller.h"
 #include "controllers/editorcontroller.h"
 #include "controllers/imagecontroller.h"
+#include "controllers/integritycontroller.h"
 #include "controllers/qmlgeneratorcontroller.h"
 
 namespace rcse
@@ -72,10 +73,11 @@ private:
     std::unique_ptr<CharacterController> m_characterCtrl;
     std::unique_ptr<EditorController> m_editCtrl;
     std::unique_ptr<QmlGeneratorController> m_generatorCtrl;
+    std::unique_ptr<IntegrityController> m_integrityCtrl;
 
     QUndoStack m_undoStack;
     bool m_modified;
     QString m_currentFile;
 };
-}
+} // namespace rcse
 #endif // RCSE_MAINCONTROLLER_H

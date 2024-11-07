@@ -126,14 +126,13 @@ public slots:
     void updateLabelFromOrigin();
     void setFieldType(const CSItem::TypeField& currentType);
 
-
 signals:
     void xChanged();
     void yChanged();
     void widthChanged();
     void heightChanged();
     void borderChanged();
-    void valueChanged();
+    void valueChanged(const QString& id);
     void textColorChanged();
     void textAlignChanged();
     void bgColorChanged();

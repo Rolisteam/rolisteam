@@ -28,10 +28,11 @@ MainController::MainController(QObject* parent)
     , m_characterCtrl{new CharacterController}
     , m_editCtrl{new EditorController(m_imageCtrl.get())}
     , m_generatorCtrl{new QmlGeneratorController()}
+    , m_integrityCtrl{new IntegrityController()}
 {
-    connect(m_generatorCtrl.get(), &QmlGeneratorController::reportLog, m_logCtrl.get(), [this](const QString& msg,  LogController::LogLevel type){
-        m_logCtrl->manageMessage(msg, QStringLiteral("QMLEngine"), type);
-    });
+    connect(m_generatorCtrl.get(), &QmlGeneratorController::reportLog, m_logCtrl.get(),
+            [this](const QString& msg, LogController::LogLevel type)
+            { m_logCtrl->manageMessage(msg, QStringLiteral("QMLEngine"), type); });
     m_logCtrl->setCurrentModes(LogController::Gui);
 
     connect(m_characterCtrl.get(), &CharacterController::performCommand, this, &MainController::processCommand);
@@ -48,8 +49,8 @@ MainController::MainController(QObject* parent)
     connect(m_editCtrl.get(), &EditorController::canvasBackgroundChanged, m_imageCtrl.get(),
             &ImageController::addBackgroundImage);
 
-    connect(m_imageCtrl.get(), &ImageController::errorOccurs, this,
-            [this](const QString& msg) { m_logCtrl->manageMessage(msg, QStringLiteral("ImageCtrl"), LogController::Error); });
+    connect(m_imageCtrl.get(), &ImageController::errorOccurs, this, [this](const QString& msg)
+            { m_logCtrl->manageMessage(msg, QStringLiteral("ImageCtrl"), LogController::Error); });
 
     connect(m_generatorCtrl.get(), &QmlGeneratorController::errors, this,
             &MainController::displayQmlError); //[this](const QList<QQmlError>& errors) {
@@ -63,6 +64,11 @@ MainController::MainController(QObject* parent)
 
     connect(m_editCtrl.get(), &EditorController::pageCountChanged, this,
             [this]() { m_generatorCtrl->setLastPageId(static_cast<unsigned int>(m_editCtrl->pageCount() - 1)); });
+
+    m_integrityCtrl->setField(m_generatorCtrl->fieldModel());
+    m_integrityCtrl->setSheets(m_characterCtrl->model());
+
+    m_integrityCtrl->checkAll();
 }
 
 CharacterController* MainController::characterCtrl() const
@@ -167,4 +173,4 @@ void MainController::setCurrentFile(const QString& newCurrentFile)
     m_currentFile= newCurrentFile;
     emit currentFileChanged();
 }
-}
+} // namespace rcse

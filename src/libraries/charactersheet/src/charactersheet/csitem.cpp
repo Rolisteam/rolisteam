@@ -31,7 +31,8 @@ CSItem::CSItem(TreeSheetItem::TreeItemType type, QObject* parent, bool addCount)
         ++m_count;
     }
 
-    auto f= [this] {
+    auto f= [this]
+    {
         if(!m_fromNetwork)
             emit characterSheetItemChanged(this);
     };
@@ -181,7 +182,7 @@ void CSItem::setValue(const QString& value, bool fromNetwork)
 
     m_value= value;
     m_fromNetwork= fromNetwork;
-    emit valueChanged();
+    emit valueChanged(id());
     m_fromNetwork= false;
 }
 

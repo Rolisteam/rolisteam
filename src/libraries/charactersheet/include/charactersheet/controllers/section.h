@@ -31,6 +31,7 @@
 class CharacterSheet;
 class EditorController;
 class CSItem;
+
 /**
  * @brief The Section class store data field for charactersheet.
  */

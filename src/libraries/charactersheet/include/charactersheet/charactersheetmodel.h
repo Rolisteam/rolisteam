@@ -25,8 +25,8 @@
 
 #include <QFile>
 #include <QPointF>
-#include <QTextStream>
 #include <QPointer>
+#include <QTextStream>
 
 #include <charactersheet/charactersheet_global.h>
 
@@ -87,7 +87,7 @@ public:
     void setRootSection(Section* rootSection);
     Section* getRootSection() const;
 
-    void addCharacterSheet(CharacterSheet* sheet, int pos = -1);
+    void addCharacterSheet(CharacterSheet* sheet, int pos= -1);
     CharacterSheet* getCharacterSheetById(const QString& id) const;
     int getCharacterSheetCount() const;
     void removeCharacterSheet(int index);
@@ -95,13 +95,15 @@ public:
     void releaseCharacterSheet(CharacterSheet* sheet);
 
     CharacterSheet* addCharacterSheet();
+
+    QList<CharacterSheet*> sheets() const;
 public slots:
     void clearModel();
 
     void checkCharacter(Section* section);
     void addSubChildRoot(TreeSheetItem* item);
     void fieldHasBeenChanged(CharacterSheet* sheet, CSItem* item, const QString&);
-    void addSubChild(CharacterSheet* sheet, CSItem *item);
+    void addSubChild(CharacterSheet* sheet, CSItem* item);
 
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
@@ -109,6 +111,7 @@ signals:
 
 protected:
     void computeFormula(QString path, CharacterSheet* sheet);
+    void fieldUpdated(CharacterSheet* sheet, const QString& id);
 
 private:
     void checkTableItem();
