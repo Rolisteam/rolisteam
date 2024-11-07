@@ -30,7 +30,7 @@ class VMapItemControllerUpdater;
 class NetworkMessageReader;
 class FilteredContentModel;
 class DiceRoller;
-class  CORE_EXPORT VMapUpdater : public MediaUpdaterInterface
+class CORE_EXPORT VMapUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
 public:
@@ -43,7 +43,6 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
 private:
-    bool m_updatingFromNetwork= false;
     VectorialMapController* updatingCtrl= nullptr;
     std::map<vmap::VisualItemController::ItemType, std::unique_ptr<VMapItemControllerUpdater>> m_updaters;
     QPointer<FilteredContentModel> m_vmapModel;
