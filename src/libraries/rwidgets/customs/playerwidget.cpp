@@ -413,6 +413,8 @@ void PlayerWidget::updateUi()
     m_ui->m_upPathBtn->setVisible(!isGM);
     m_ui->m_downPathBtn->setVisible(!isGM);
     m_ui->m_pathLabel->setVisible(!isGM);
+
+    setVisible(m_ctrl->visible());
 }
 
 void PlayerWidget::updateIcon()

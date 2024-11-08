@@ -23,9 +23,9 @@
 #include <QObject>
 #include <memory>
 
-#include "preferences/preferencesmanager.h"
 #include "audioplayercontroller.h"
 #include "data/campaignmanager.h"
+#include "preferences/preferencesmanager.h"
 #include "updater/controller/audioplayerupdater.h"
 #include <core_global.h>
 
@@ -50,6 +50,8 @@ public:
     AudioPlayerController* thirdController() const;
 
     bool localIsGM() const;
+
+    void saveStates() const;
 
 signals:
     void localisGMChanged();

@@ -244,8 +244,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"), func2);
 
-    connect(m_ui->m_mediaTitleAct, &QAction::toggled, this,
-            [this](bool b)
+    connect(m_ui->m_mediaTitleAct, &QAction::toggled, this, [this](bool b)
             { m_ui->m_toolBar->setToolButtonStyle(b ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly); });
 
     connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
@@ -324,10 +323,6 @@ void MainWindow::setupUi()
     ///////////////////
     // Audio Player
     ///////////////////
-#ifndef NULL_PLAYER
-    connect(m_audioPlayer.get(), &AudioPlayer::changePlayerDirectory, this,
-            [this]() { m_preferencesDialog->show(PreferencesDialog::PreferenceTab::Player); });
-#endif
 
     m_preferencesDialog= new PreferencesDialog(m_gameController->preferencesController(), this);
     linkActionToMenu();
@@ -393,6 +388,7 @@ void MainWindow::createTabs()
     m_sideTabs->addTab(m_roomPanel, QIcon::fromTheme("05_rooms"), tr("Server Panel"));
     m_sideTabs->addTab(m_dockLogUtil.get(), QIcon::fromTheme("06_logger"), tr("Notification Zone"));
 
+    m_audioPlayer->setVisible(true);
     QWidget* wid= new QWidget(this);
     auto vBox= new QVBoxLayout();
     wid->setLayout(vBox);
@@ -859,6 +855,8 @@ void MainWindow::readSettings()
     auto ctrl= m_gameController->contentController();
     SettingsHelper::readHistoryModel(ctrl->historyModel());
     m_dockLogUtil->initSetting();
+
+    m_audioPlayer->updateState();
 }
 void MainWindow::writeSettings()
 {

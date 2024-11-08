@@ -64,23 +64,27 @@ void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
     menu.exec(ev->globalPos());
     ev->accept();
 }
-AudioPlayer::~AudioPlayer()
-{
+AudioPlayer::~AudioPlayer() {}
 
+void AudioPlayer::updateState()
+{
+    for(auto p : m_players)
+    {
+        p->updateUi();
+    }
 }
 
 void AudioPlayer::setupUi()
 {
     setWindowTitle(tr("Background Music"));
-    //setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    //setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    // setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    // setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     setMinimumWidth(255);
-
 
     m_mainLayout= new QVBoxLayout(this);
     m_mainLayout->setSpacing(0);
     m_mainLayout->setContentsMargins(QMargins());
-
+    setLayout(m_mainLayout);
     if(m_ctrl)
     {
 

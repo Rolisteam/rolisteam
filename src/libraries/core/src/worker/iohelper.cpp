@@ -655,7 +655,7 @@ QJsonObject IOHelper::saveAudioPlayerController(AudioPlayerController* controlle
 
 void IOHelper::fetchAudioPlayerController(AudioPlayerController* controller, const QJsonObject& obj)
 {
-    if(!controller)
+    if(!controller || obj.isEmpty())
         return;
 
     controller->setVolume(static_cast<uint>(obj[Core::jsonctrl::Audio::JSON_AUDIO_VOLUME].toInt()));

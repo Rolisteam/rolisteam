@@ -43,6 +43,11 @@ public:
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
+    void saveStates();
+
+signals:
+    void savePlayers();
+
 private:
     void initSignalForGM();
 

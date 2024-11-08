@@ -216,12 +216,14 @@ void GameController::save()
         return;
 
     ModelHelper::saveSession(m_contentCtrl.get());
+    m_audioCtrl->saveStates();
     m_campaignManager->saveCampaign();
 }
 
 void GameController::saveAs(const QString& path)
 {
     ModelHelper::saveSession(m_contentCtrl.get());
+    m_audioCtrl->saveStates();
     m_campaignManager->copyCampaign(path);
 }
 
@@ -413,8 +415,7 @@ void GameController::setDataFromProfile(int profileIndex)
     {
         auto characters= profile->characters();
         std::for_each(
-            characters.begin(), characters.end(),
-            [local](const connection::CharacterData& data)
+            characters.begin(), characters.end(), [local](const connection::CharacterData& data)
             { local->addCharacter(data.m_uuid, data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
     }
 

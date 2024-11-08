@@ -47,6 +47,11 @@ bool AudioController::localIsGM() const
     return m_firstCtrl->localIsGm();
 }
 
+void AudioController::saveStates() const
+{
+    m_updater->saveStates();
+}
+
 void AudioController::setLocalIsGM(bool m)
 {
     m_firstCtrl->setLocalIsGm(m);

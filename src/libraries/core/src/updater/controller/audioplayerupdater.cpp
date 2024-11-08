@@ -110,6 +110,7 @@ void AudioPlayerUpdater::initSignalForGM()
     connect(model1, &MusicModel::rowsInserted, this, func1);
     connect(model1, &MusicModel::rowsRemoved, this, func1);
     connect(model1, &MusicModel::modelReset, this, func1);
+    connect(this, &AudioPlayerUpdater::savePlayers, this, func1);
 
     connect(ctrl2, &AudioPlayerController::volumeChanged, this, func2);
     connect(ctrl2, &AudioPlayerController::visibleChanged, this, func2);
@@ -117,6 +118,7 @@ void AudioPlayerUpdater::initSignalForGM()
     connect(model2, &MusicModel::rowsInserted, this, func2);
     connect(model2, &MusicModel::rowsRemoved, this, func2);
     connect(model2, &MusicModel::modelReset, this, func2);
+    connect(this, &AudioPlayerUpdater::savePlayers, this, func2);
 
     connect(ctrl3, &AudioPlayerController::volumeChanged, this, func3);
     connect(ctrl3, &AudioPlayerController::visibleChanged, this, func3);
@@ -124,6 +126,7 @@ void AudioPlayerUpdater::initSignalForGM()
     connect(model3, &MusicModel::rowsInserted, this, func3);
     connect(model3, &MusicModel::rowsRemoved, this, func3);
     connect(model3, &MusicModel::modelReset, this, func3);
+    connect(this, &AudioPlayerUpdater::savePlayers, this, func3);
 
     if(m_campaign)
         connect(m_campaign, &campaign::CampaignManager::campaignLoaded, this,
@@ -149,14 +152,11 @@ void AudioPlayerUpdater::initSignalForGM()
 
     // Network
     // play new song
-    connect(ctrl1, &AudioPlayerController::startPlayingSong, this,
-            [](const QString& song, qint64 time)
+    connect(ctrl1, &AudioPlayerController::startPlayingSong, this, [](const QString& song, qint64 time)
             { MessageHelper::sendOffPlaySong(song, time, AudioController::First); });
-    connect(ctrl2, &AudioPlayerController::startPlayingSong, this,
-            [](const QString& song, qint64 time)
+    connect(ctrl2, &AudioPlayerController::startPlayingSong, this, [](const QString& song, qint64 time)
             { MessageHelper::sendOffPlaySong(song, time, AudioController::Second); });
-    connect(ctrl2, &AudioPlayerController::startPlayingSong, this,
-            [](const QString& song, qint64 time)
+    connect(ctrl2, &AudioPlayerController::startPlayingSong, this, [](const QString& song, qint64 time)
             { MessageHelper::sendOffPlaySong(song, time, AudioController::Third); });
 
     connect(ctrl1, &AudioPlayerController::stopPlaying, this,
@@ -242,4 +242,9 @@ NetWorkReceiver::SendType AudioPlayerUpdater::processMessage(NetworkMessageReade
         break;
     }
     return NetWorkReceiver::AllExceptSender;
+}
+
+void AudioPlayerUpdater::saveStates()
+{
+    emit savePlayers();
 }

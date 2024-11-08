@@ -57,6 +57,8 @@ public:
     AudioPlayer(AudioController* ctrl, QWidget* parent= nullptr);
     ~AudioPlayer();
 
+    void updateState();
+
 protected:
     void contextMenuEvent(QContextMenuEvent* ev);
 
