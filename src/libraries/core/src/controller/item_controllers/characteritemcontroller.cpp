@@ -142,6 +142,8 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     connect(this, &CharacterItemController::removedChanged, this, [this] { m_vision->setRemoved(removed()); });
 
     m_vision->setSide(m_side);
+
+    computeEditable();
 }
 
 void CharacterItemController::aboutToBeRemoved()
@@ -297,6 +299,20 @@ void CharacterItemController::findCharacter()
 
         m_character= p;
         emit characterChanged();
+    }
+}
+
+void CharacterItemController::computeEditable()
+{
+    if(m_ctrl->permission() != Core::PermissionMode::PC_MOVE)
+        VisualItemController::computeEditable();
+    else if(m_character)
+    {
+        auto playerId= m_character->getParentId();
+        auto localCharacter= playerId == m_ctrl->localId();
+        auto editableByPermission= (localIsGM() || localCharacter);
+        auto sameLayer= m_ctrl->layer() == layer();
+        setEditable(!m_locked && sameLayer && editableByPermission);
     }
 }
 

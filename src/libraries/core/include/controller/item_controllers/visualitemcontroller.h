@@ -124,7 +124,7 @@ public:
     void setRemoved(bool newRemoved);
 
     QString parentUuid() const;
-    void setParentUuid(const QString &newParentUuid);
+    void setParentUuid(const QString& newParentUuid);
     QPointer<VectorialMapController> mapController() const;
 
 signals:
@@ -168,7 +168,7 @@ public slots:
     void setModified();
 
 protected:
-    void computeEditable();
+    virtual void computeEditable();
 
 private:
     void initializedVisualItem(const std::map<QString, QVariant>& params);

@@ -67,10 +67,11 @@ public:
         DirectionHandle= 4,
         AngleHandle
     };
-    enum class ChangedProperty {
-        NONE=0x0,
-        SIDE=0x1,
-        RECT=0x2
+    enum class ChangedProperty
+    {
+        NONE= 0x0,
+        SIDE= 0x1,
+        RECT= 0x2
     };
     Q_DECLARE_FLAGS(Changes, ChangedProperty)
     Q_FLAG(Changes)
@@ -109,7 +110,6 @@ public:
 
     // accessor to Map properties
     bool healthStatusVisible() const;
-
 
 public slots:
     void setSide(qreal side);
@@ -155,6 +155,7 @@ private:
     void computeThumbnail();
     void setRect(const QRectF& rect);
     void findCharacter();
+    void computeEditable() override;
 
 private:
     QPointer<Character> m_character;
@@ -168,7 +169,6 @@ private:
     QFont m_font;
     QRectF m_rect= {0, 0, 64, 64};
     qreal m_radius= 10.0;
-    //bool m_rectEdited= false;
 
     Changes m_changes{ChangedProperty::NONE};
     CharacterFinder m_finder;

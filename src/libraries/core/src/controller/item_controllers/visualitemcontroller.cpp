@@ -51,8 +51,6 @@ VisualItemController::VisualItemController(ItemType itemType, const std::map<QSt
 
     initializedVisualItem(params);
 
-    computeEditable();
-
     connect(this, &VisualItemController::colorChanged, this, [this] { setModified(); });
     connect(this, &VisualItemController::opacityChanged, this, [this] { setModified(); });
     connect(this, &VisualItemController::rotationChanged, this, [this] { setModified(); });
@@ -65,6 +63,7 @@ VisualItemController::VisualItemController(ItemType itemType, const std::map<QSt
                 setModified();
             });
     connect(this, &VisualItemController::lockedChanged, this, [this] { setModified(); });
+    computeEditable();
 }
 
 VisualItemController::~VisualItemController() {}
@@ -321,7 +320,8 @@ void VisualItemController::computeEditable()
 {
     if(!m_ctrl)
         return;
-    auto editableByPermission= (localIsGM() || m_ctrl->permission() == Core::PermissionMode::PC_ALL);
+    bool isAll= m_ctrl->permission() == Core::PermissionMode::PC_ALL;
+    auto editableByPermission= (localIsGM() || isAll);
     auto sameLayer= m_ctrl->layer() == layer();
     setEditable(!m_locked && sameLayer && editableByPermission);
 }
@@ -357,11 +357,11 @@ QString VisualItemController::parentUuid() const
     return m_parentUuid;
 }
 
-void VisualItemController::setParentUuid(const QString &newParentUuid)
+void VisualItemController::setParentUuid(const QString& newParentUuid)
 {
-    if (m_parentUuid == newParentUuid)
+    if(m_parentUuid == newParentUuid)
         return;
-    m_parentUuid = newParentUuid;
+    m_parentUuid= newParentUuid;
     emit parentUuidChanged();
 }
 
