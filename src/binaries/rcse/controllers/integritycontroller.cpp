@@ -130,7 +130,7 @@ void IntegrityController::checkIntegrity(CharacterSheet* sheet)
         if(sheetField == sheetFieldPath && sheetFieldPath)
             continue;
 
-        if(sheetField == nullptr && !sheetFieldPath)
+        if(sheetField == nullptr && sheetFieldPath)
             sheetFieldPath->setId(id);
 
         if(sheetFieldPath == nullptr && !sheetField)
