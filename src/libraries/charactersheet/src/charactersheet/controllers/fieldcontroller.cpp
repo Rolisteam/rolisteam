@@ -389,24 +389,6 @@ void FieldController::saveDataItem(QJsonObject& json)
     json["readonly"]= m_readOnly;
 }
 
-/*void FieldController::setCanvasField(CanvasField* canvasField)
-{
-    m_canvasField= canvasField;
-    if(nullptr != m_canvasField)
-    {
-        m_canvasField->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges
-                                | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable
-                                | QGraphicsItem::ItemClipsToShape);
-
-        connect(m_canvasField, &CanvasField::xChanged, [=]() { emit updateNeeded(this); });
-        connect(m_canvasField, &CanvasField::yChanged, [=]() { emit updateNeeded(this); });
-        connect(m_canvasField, &CanvasField::lockedChanged, this, [this]() {
-            m_locked= m_canvasField->locked();
-            emit updateNeeded(this);
-        });
-    }
-}*/
-
 void FieldController::setTextAlign(const FieldController::TextAlign& textAlign)
 {
     if(isReadOnly())
@@ -416,19 +398,6 @@ void FieldController::setTextAlign(const FieldController::TextAlign& textAlign)
 FieldController::TextAlign FieldController::textAlign()
 {
     return m_textAlign;
-}
-
-bool FieldController::aliasEnabled() const
-{
-    return m_aliasEnabled;
-}
-
-void FieldController::setAliasEnabled(bool aliasEnabled)
-{
-    if(isReadOnly() || aliasEnabled == m_aliasEnabled)
-        return;
-    m_aliasEnabled= aliasEnabled;
-    emit aliasEnabledChanged();
 }
 
 QString FieldController::generatedCode() const
@@ -494,7 +463,6 @@ void FieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool same
     setTextAlign(oldField->textAlign());
     setFieldType(oldField->fieldType());
     setGeneratedCode(oldField->generatedCode());
-    setAliasEnabled(oldField->aliasEnabled());
     setAvailableValues(oldField->availableValues());
 
     setX(oldField->x());
@@ -520,4 +488,17 @@ void FieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool same
         }
     }
     setOrig(oldField);
+}
+
+bool FieldController::visible() const
+{
+    return m_visible;
+}
+
+void FieldController::setVisible(bool newVisible)
+{
+    if(m_visible == newVisible)
+        return;
+    m_visible= newVisible;
+    emit visibleChanged();
 }

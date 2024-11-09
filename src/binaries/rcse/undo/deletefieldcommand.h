@@ -41,8 +41,7 @@ private:
 private:
     QList<FieldController*> m_fields;
     QList<Canvas*> m_canvas;
-    QList<QPointF> m_points;
-    FieldModel* m_model;
+    QPointer<FieldModel> m_model;
     QList<int> m_currentPage;
     QList<int> m_posInModel;
     QList<TreeSheetItem*> m_parent;

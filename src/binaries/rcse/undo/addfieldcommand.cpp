@@ -130,6 +130,7 @@ void AddFieldCommand::undo()
     m_canvas->update();
     if(nullptr != m_model)
     {
+        m_field->setVisible(false);
         m_model->removeField(m_field);
     }
     if(nullptr != m_imageModel)
@@ -154,6 +155,7 @@ void AddFieldCommand::redo()
     if(nullptr == m_model)
         return;
 
+    m_field->setVisible(true);
     m_model->appendField(m_field);
 
     if(nullptr == m_imageModel)

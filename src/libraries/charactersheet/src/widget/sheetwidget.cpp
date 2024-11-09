@@ -6,19 +6,19 @@
 #include <charactersheet/csitem.h>
 
 #include <QContextMenuEvent>
-#include <QQmlEngine>
 #include <QQmlContext>
+#include <QQmlEngine>
 
-SheetWidget::SheetWidget(CharacterSheet* chSheet, charactersheet::ImageModel* imgModel, QWidget* parent) : QQuickWidget(parent)
+SheetWidget::SheetWidget(CharacterSheet* chSheet, charactersheet::ImageModel* imgModel, QWidget* parent)
+    : QQuickWidget(parent)
 {
-    auto engineQml = this->engine();
+    auto engineQml= this->engine();
     auto imageProvider= new RolisteamImageProvider(imgModel);
 
     engineQml->addImageProvider(QLatin1String("rcs"), imageProvider);
     engineQml->addImportPath(QStringLiteral("qrc:/charactersheet/qml"));
     engineQml->addImportPath(QStringLiteral("qrc:/qml"));
     engineQml->addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
-
 
     if(chSheet)
     {

@@ -40,8 +40,8 @@ class CHARACTERSHEET_EXPORT FieldController : public CSItem
     Q_PROPERTY(bool fitFont READ fitFont WRITE setFitFont NOTIFY fitFontChanged)
     Q_PROPERTY(FieldController::TextAlign textAlign READ textAlign WRITE setTextAlign NOTIFY textAlignChanged)
     Q_PROPERTY(QString generatedCode READ generatedCode WRITE setGeneratedCode NOTIFY generatedCodeChanged)
-    Q_PROPERTY(bool aliasEnabled READ aliasEnabled WRITE setAliasEnabled NOTIFY aliasEnabledChanged)
     Q_PROPERTY(QStringList availableValues READ availableValues WRITE setAvailableValues NOTIFY availableValuesChanged)
+    Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged FINAL)
 public:
     enum TextAlign
     {
@@ -65,7 +65,6 @@ public:
     bool fitFont() const;
     FieldController::TextAlign textAlign();
     QString generatedCode() const;
-    bool aliasEnabled() const;
     QStringList availableValues() const;
 
     virtual QVariant valueFrom(TreeSheetItem::ColumnId, int role) const override;
@@ -78,10 +77,11 @@ public:
 
     void copyField(TreeSheetItem*, bool copyData, bool sameId= true);
     QPair<QString, QString> getTextAlign();
+    bool visible() const;
+    void setVisible(bool newVisible);
+
 public slots:
-    // void storeQMLCode();
     void setGeneratedCode(const QString& generatedCode);
-    void setAliasEnabled(bool aliasEnabled);
     void setAvailableValues(const QStringList& availableValue);
     void setFitFont(bool clippedText);
     void setFont(const QFont& font);
@@ -94,6 +94,8 @@ signals:
     void aliasEnabledChanged();
     void availableValuesChanged();
 
+    void visibleChanged();
+
 protected:
     void init();
 
@@ -103,7 +105,7 @@ protected:
     QStringList m_availableValue;
     bool m_fitFont= false;
     QString m_generatedCode;
-    bool m_aliasEnabled= true;
+    bool m_visible{true};
 };
 
 #endif // FIELD_H
