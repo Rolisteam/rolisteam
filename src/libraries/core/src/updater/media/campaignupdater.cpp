@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "updater/media/campaignupdater.h"
 
+#include "common/logcategory.h"
 #include "data/campaign.h"
 #include "data/media.h"
 #include "diceparser/dicealias.h"
@@ -26,7 +27,6 @@
 #include "model/characterstatemodel.h"
 #include "model/dicealiasmodel.h"
 #include "model/nonplayablecharactermodel.h"
-#include "utils/logcategories.h"
 #include "worker/fileserializer.h"
 #include "worker/messagehelper.h"
 #include <QDir>
@@ -190,7 +190,7 @@ bool CampaignUpdater::createCampaignTemplate(const QString& dirPath)
 
     if(dir.exists() && !dir.isEmpty())
     {
-        qCInfo(logCategory::campaign) << tr("'%1' is not empty").arg(dirPath);
+        qCInfo(CampaignCat) << tr("'%1' is not empty").arg(dirPath);
         return false;
     }
     else if(!dir.exists())
@@ -199,7 +199,7 @@ bool CampaignUpdater::createCampaignTemplate(const QString& dirPath)
         parentDir.cdUp();
         if(!parentDir.mkdir(dirPath))
         {
-            qCInfo(logCategory::campaign) << tr("Could not create '%1'").arg(dirPath);
+            qCInfo(CampaignCat) << tr("Could not create '%1'").arg(dirPath);
             return false;
         }
         FileSerializer::createCampaignDirectory(dirPath);

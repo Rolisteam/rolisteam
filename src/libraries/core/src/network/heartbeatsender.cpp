@@ -1,5 +1,5 @@
 #include "network/heartbeatsender.h"
-#include "logcategories.h"
+#include "common/logcategory.h"
 #include "network/networkmessagewriter.h"
 
 HeartBeatSender::HeartBeatSender(QObject* parent) : QObject(parent)
@@ -7,7 +7,7 @@ HeartBeatSender::HeartBeatSender(QObject* parent) : QObject(parent)
     connect(&m_timer, &QTimer::timeout, this,
             [this]()
             {
-                qCDebug(logCategory::network) << "Timeout send heartbeatAsk";
+                qCDebug(NetworkCat) << "Timeout send heartbeatAsk";
                 emit sendOff(new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::HeartbeatAsk));
                 m_awaitingAnswer++;
                 if(m_awaitingAnswer > m_maxMissingAnswer)
@@ -18,7 +18,7 @@ HeartBeatSender::HeartBeatSender(QObject* parent) : QObject(parent)
 
 void HeartBeatSender::updateTimer()
 {
-    qCDebug(logCategory::network) << "UpdateTimer";
+    qCDebug(NetworkCat) << "UpdateTimer";
     auto act= active();
     m_timer.stop();
     if(act)
@@ -58,13 +58,13 @@ void HeartBeatSender::setInterval(int newInterval)
 
 void HeartBeatSender::start()
 {
-    qCDebug(logCategory::network) << "Start Timer";
+    qCDebug(NetworkCat) << "Start Timer";
     m_timer.start(m_interval * 1000);
 }
 
 void HeartBeatSender::stop()
 {
-    qCDebug(logCategory::network) << "Stop Timer";
+    qCDebug(NetworkCat) << "Stop Timer";
     m_timer.stop();
 }
 

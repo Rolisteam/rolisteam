@@ -19,9 +19,9 @@
  ***************************************************************************/
 #include "undoCmd/deletevmapitem.h"
 
+#include "common/logcategory.h"
 #include "controller/item_controllers/visualitemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "utils/logcategories.h"
 #include <QDebug>
 
 DeleteVmapItemCommand::DeleteVmapItemCommand(VectorialMapController* ctrl,
@@ -35,7 +35,7 @@ DeleteVmapItemCommand::DeleteVmapItemCommand(VectorialMapController* ctrl,
 
 void DeleteVmapItemCommand::redo()
 {
-    qCInfo(logCategory::map) << QStringLiteral("redo command DeleteVmapItemCommand: %1 ").arg(text());
+    qCInfo(MapCat) << QStringLiteral("redo command DeleteVmapItemCommand: %1 ").arg(text());
 
     std::for_each(std::begin(m_itemCtrls), std::end(m_itemCtrls),
                   [](const QPointer<vmap::VisualItemController>& itemCtrl)
@@ -48,7 +48,7 @@ void DeleteVmapItemCommand::redo()
 
 void DeleteVmapItemCommand::undo()
 {
-    qCInfo(logCategory::map) << QStringLiteral("undo command DeleteVmapItemCommand: %1 ").arg(text());
+    qCInfo(MapCat) << QStringLiteral("undo command DeleteVmapItemCommand: %1 ").arg(text());
 
     std::for_each(std::begin(m_itemCtrls), std::end(m_itemCtrls),
                   [](const QPointer<vmap::VisualItemController>& itemCtrl)

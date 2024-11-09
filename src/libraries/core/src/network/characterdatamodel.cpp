@@ -23,9 +23,9 @@
 #include <QPixmap>
 #include <QUuid>
 
+#include "common/logcategory.h"
 #include "network/connectionprofile.h"
 #include "utils/iohelper.h"
-#include "utils/logcategories.h"
 
 CharacterDataModel::CharacterDataModel(QObject* parent) : QAbstractListModel(parent) {}
 
@@ -180,7 +180,7 @@ void CharacterDataModel::setAvatar(int i, const QByteArray& img)
 {
     if(!m_profile || i < 0 || i >= m_profile->characterCount())
     {
-        qCDebug(logCategory::network) << "no profile in set avatar character data";
+        qCDebug(NetworkCat) << "no profile in set avatar character data";
         return;
     }
 
@@ -194,7 +194,7 @@ void CharacterDataModel::setName(int i, const QString& string)
 {
     if(!m_profile || i < 0 || i >= m_profile->characterCount())
     {
-        qCDebug(logCategory::network) << "no profile in set name character data";
+        qCDebug(NetworkCat) << "no profile in set name character data";
         return;
     }
     auto& character= m_profile->character(i);
@@ -206,7 +206,7 @@ void CharacterDataModel::setColor(int i, const QColor& color)
 {
     if(!m_profile || i < 0 || i >= m_profile->characterCount())
     {
-        qCDebug(logCategory::network) << "no profile in set color character data";
+        qCDebug(NetworkCat) << "no profile in set color character data";
         return;
     }
 

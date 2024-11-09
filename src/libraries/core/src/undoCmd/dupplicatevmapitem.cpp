@@ -1,7 +1,7 @@
 #include "undoCmd/dupplicatevmapitem.h"
 
+#include "common/logcategory.h"
 #include "model/vmapitemmodel.h"
-#include "utils/logcategories.h"
 #include "worker/vectorialmapmessagehelper.h"
 #include <QList>
 #include <QUuid>
@@ -44,7 +44,7 @@ void DupplicateVMapItem::undo()
 
     if(!model->removeItemController(m_ids))
     {
-        qCWarning(logCategory::map)
+        qCWarning(MapCat)
             << QString("Failed to remove item - %1").arg(QStringList{m_ids.begin(), m_ids.end()}.join(", "));
     }
 }

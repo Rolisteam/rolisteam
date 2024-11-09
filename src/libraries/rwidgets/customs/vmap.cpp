@@ -39,7 +39,7 @@
 #include "controller/item_controllers/textcontroller.h"
 #include "worker/mediahelper.h"
 
-#include "utils/logcategories.h"
+#include "common/logcategory.h"
 
 void setNewParent(VisualItem* child, VisualItem* parent)
 {
@@ -382,7 +382,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 
         if(nullptr == item)
         {
-            qCInfo(logCategory::map) << "no item under the pipette";
+            qCInfo(MapCat) << "no item under the pipette";
             return;
         }
 
@@ -404,7 +404,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
         auto item= visualItemUnder(mouseEvent->scenePos());
         if(nullptr == item || item->getType() == vmap::VisualItemController::ItemType::IMAGE)
         {
-            qCInfo(logCategory::map) << "wrong type of item under the bucket or no item at all";
+            qCInfo(MapCat) << "wrong type of item under the bucket or no item at all";
             return;
         }
 
