@@ -78,23 +78,13 @@ void WidgetsTest::realSliderTest()
     QSignalSpy spy(m_realSlider.get(), &RealSlider::valueChanged);
 
     m_realSlider->triggerAction(QAbstractSlider::SliderSingleStepAdd);
-    /*QCOMPARE(spy.count(), 1);
-
-    auto args = spy.takeFirst();
-    QVERIFY(qFuzzyCompare(args.at(0).toReal(),50.01));
-
-    m_realSlider->triggerAction(QAbstractSlider::SliderSingleStepSub);
-    QCOMPARE(spy.count(), 2);
-
-    args = spy.takeFirst();
-    QVERIFY(qFuzzyCompare(args.at(0).toReal(),50.0));*/
 }
 
 void WidgetsTest::fileDirChooserTest()
 {
-    QString path("/home/path/place");
-    m_fileDirChooser->setPath(path);
-    QCOMPARE(m_fileDirChooser->path(), path);
+    QUrl path("/home/path/place");
+    m_fileDirChooser->setUrl(path);
+    QCOMPARE(m_fileDirChooser->url(), path);
 
     QString filter("*.png");
     m_fileDirChooser->setFilter(filter);
@@ -110,14 +100,14 @@ void WidgetsTest::diameterSelectorTest()
 
 void WidgetsTest::imageSelectorTest()
 {
-    auto server = Helper::initWebServer();
+    auto server= Helper::initWebServer();
     ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
     ImageSelectorDialog dialog(&ctrl, nullptr, "http://127.0.0.1:9090/image/Seppun_tashime.jpg");
 
     QSignalSpy spy1(&ctrl, &ImageSelectorController::pixmapChanged);
     dialog.show();
 
-    auto dlAct = dialog.findChild<QAction*>("m_downloadAct");
+    auto dlAct= dialog.findChild<QAction*>("m_downloadAct");
     dlAct->trigger();
     spy1.wait(100);
     QCOMPARE(spy1.count(), 1);

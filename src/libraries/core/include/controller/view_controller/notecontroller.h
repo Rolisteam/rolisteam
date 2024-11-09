@@ -37,9 +37,6 @@ public:
 
     bool isHtml() const;
 
-public slots:
-    void loadText();
-
 signals:
     void textChanged(QString);
     void htmlChanged();

@@ -106,19 +106,16 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
         [sheetCtrl, sheetData](const QByteArray& array)
         {
             hu::setParamIfAny<QString>(
-                ck::KEY_CHARACTERID, sheetData,
-                [sheetCtrl, array](const QString& characterId)
+                ck::KEY_CHARACTERID, sheetData, [sheetCtrl, array](const QString& characterId)
                 { sheetCtrl->addCharacterSheet(IOHelper::textByteArrayToJsonObj(array), characterId); });
         });
-    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, sheetData,
-                                  [sheetCtrl](const QByteArray& array)
+    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, sheetData, [sheetCtrl](const QByteArray& array)
                                   { IOHelper::readCharacterSheetController(sheetCtrl, array); });
 
     if(!params.contains(ck::KEY_SERIALIZED))
     {
         hu::setParamIfAny<QString>(
-            ck::KEY_PATH, sheetData,
-            [sheetCtrl](const QString& path)
+            ck::KEY_PATH, sheetData, [sheetCtrl](const QString& path)
             { IOHelper::readCharacterSheetController(sheetCtrl, utils::IOHelper::loadFile(path)); });
     }
     return sheetCtrl;

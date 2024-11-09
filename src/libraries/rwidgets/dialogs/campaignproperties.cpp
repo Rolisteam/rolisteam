@@ -42,7 +42,7 @@ CampaignProperties::CampaignProperties(campaign::Campaign* capm, ThemeModel* the
     ui->m_stateView->setModel(m_campaign->stateModel());
 
     ui->m_nameEdit->setText(m_campaign->name());
-    ui->m_rootDir->setPath(m_campaign->rootDirectory());
+    ui->m_rootDir->setUrl(QUrl::fromUserInput(m_campaign->rootDirectory()));
     ui->m_rootDir->setEnabled(false);
     // ui->m_currentTheme->setModel();
     // ui->m_currentTheme->setCurrentText();
@@ -75,8 +75,7 @@ CampaignProperties::CampaignProperties(campaign::Campaign* capm, ThemeModel* the
             [this]() { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::DOWN); });
     connect(ui->m_topDiceAliasAct, &QToolButton::clicked, this,
             [this]() { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::TOP); });
-    connect(ui->m_bottomDiceAliasAct, &QToolButton::clicked, this,
-            [this]()
+    connect(ui->m_bottomDiceAliasAct, &QToolButton::clicked, this, [this]()
             { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::BOTTOM); });
     connect(ui->m_testPushButton, &QToolButton::clicked, this,
             [this]

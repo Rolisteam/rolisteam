@@ -108,7 +108,8 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_customTranslation, &QCheckBox::toggled, m_ctrl, &PreferencesController::setHasCustomFile);
     connect(ui->m_translationSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
             &PreferencesController::setCurrentLangIndex);
-    connect(ui->m_translationFileEdit, &FileDirChooser::pathChanged, m_ctrl, &PreferencesController::setCustomFile);
+    connect(ui->m_translationFileEdit, &FileDirChooser::pathChanged, m_ctrl,
+            [this](const QUrl& url) { m_ctrl->setCustomFile(url.toLocalFile()); });
 
     ui->m_translationSelector->setModel(m_ctrl->languageModel());
     // set general panel as default.
@@ -263,7 +264,8 @@ void PreferencesDialog::load()
     ui->m_translationFileEdit->setMode(false);
     ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");
 
-    ui->m_translationFileEdit->setPath(m_preferences->value("currentTranslationFile", "").toString());
+    ui->m_translationFileEdit->setUrl(
+        QUrl::fromUserInput(m_preferences->value("currentTranslationFile", "").toString()));
     ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow::MustBeChecked", true).toBool());
 
     ui->m_hideTipsOfTheDay->setChecked(m_preferences->value("MainWindow::neverDisplayTips", false).toBool());
@@ -283,7 +285,7 @@ void PreferencesDialog::load()
     ui->m_systemTranslation->setChecked(m_ctrl->systemLang());
     ui->m_customTranslation->setChecked(m_ctrl->hasCustomFile());
     ui->m_translationSelector->setCurrentIndex(m_ctrl->currentLangIndex());
-    ui->m_translationFileEdit->setPath(m_ctrl->customFilePath());
+    ui->m_translationFileEdit->setUrl(QUrl::fromUserInput(m_ctrl->customFilePath()));
 
     ////////////////////////
     // MAP
@@ -329,7 +331,7 @@ void PreferencesDialog::updateTheme()
     RolisteamTheme* theme= m_ctrl->currentTheme();
 
     ui->m_themeNameLineEdit->setText(theme->getName());
-    ui->m_backgroundImage->setPath(theme->getBackgroundImage());
+    ui->m_backgroundImage->setUrl(QUrl::fromUserInput(theme->getBackgroundImage()));
 
     ui->m_bgColorPush->blockSignals(true);
     ui->m_bgColorPush->setColor(theme->getBackgroundColor());
@@ -380,8 +382,8 @@ void PreferencesDialog::setTitleAtCurrentTheme()
 }
 void PreferencesDialog::backgroundChanged()
 {
-    m_ctrl->setCurrentThemeBackground(ui->m_backgroundImage->path(), ui->m_positioningComboBox->currentIndex(),
-                                      ui->m_bgColorPush->color());
+    m_ctrl->setCurrentThemeBackground(ui->m_backgroundImage->url().toLocalFile(),
+                                      ui->m_positioningComboBox->currentIndex(), ui->m_bgColorPush->color());
     // applyBackground();setCurrentThemeBackground
 }
 

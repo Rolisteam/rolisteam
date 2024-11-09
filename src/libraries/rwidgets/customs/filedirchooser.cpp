@@ -28,11 +28,13 @@
  * FileDirChooser *
  **************/
 
-FileDirChooser::FileDirChooser(bool isDirectory, QWidget* parent) : QWidget(parent), m_directory(isDirectory)
+FileDirChooser::FileDirChooser(QWidget* parent, const QString& ext, bool isDirectory)
+    : QWidget(parent), m_ext(ext), m_directory(isDirectory)
 {
     // Childrens
     m_lineEdit= new QLineEdit(this);
-    m_lineEdit->setText(QDir::homePath());
+    if(!isDirectory)
+        m_lineEdit->setText(QDir::homePath());
     QPushButton* button= new QPushButton(QStringLiteral("..."), this);
 
     // Layout
@@ -43,7 +45,7 @@ FileDirChooser::FileDirChooser(bool isDirectory, QWidget* parent) : QWidget(pare
 
     // Connections
     connect(button, &QPushButton::clicked, this, &FileDirChooser::browse);
-    connect(m_lineEdit, &QLineEdit::editingFinished, this, [this]() { emit pathChanged(path()); });
+    connect(m_lineEdit, &QLineEdit::editingFinished, this, [this]() { emit pathChanged(url()); });
 
     // Misc
     button->setMaximumWidth(28);
@@ -58,17 +60,31 @@ FileDirChooser::~FileDirChooser()
 void FileDirChooser::setMode(bool isDirectory)
 {
     m_directory= isDirectory;
+
+    if(!m_directory)
+        m_lineEdit->setText(QString());
 }
 
-void FileDirChooser::setPath(const QString& path)
+QUrl FileDirChooser::url() const
 {
-    m_lineEdit->setText(path);
+    return m_url;
 }
 
-QString FileDirChooser::path() const
+bool FileDirChooser::isValid() const
 {
-    return m_lineEdit->text();
+    return m_url.isValid();
 }
+
+void FileDirChooser::setExt(const QString& ext)
+{
+    m_ext= ext;
+}
+
+void FileDirChooser::setUrl(const QUrl& path)
+{
+    m_lineEdit->setText(path.toString());
+}
+
 void FileDirChooser::setFilter(const QString& filter)
 {
     m_filter= filter;
@@ -81,19 +97,23 @@ QString FileDirChooser::getFilter()
 
 void FileDirChooser::browse()
 {
-    QString result;
     if(m_directory)
     {
-        result= QFileDialog::getExistingDirectory(this, tr("Select directory"), m_lineEdit->text(),
-                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+        m_url= QFileDialog::getExistingDirectory(this, tr("Select directory"), m_lineEdit->text(),
+                                                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     }
     else
     {
-        result= QFileDialog::getOpenFileName(this, tr("Open File"), m_lineEdit->text(), m_filter);
+        m_url= QFileDialog::getSaveFileUrl(this, tr("Open File"), m_lineEdit->text(), m_filter);
     }
-    if(!result.isEmpty())
+
+    auto path= m_url.path();
+
+    if(!path.isEmpty())
     {
-        m_lineEdit->setText(result);
-        emit pathChanged(path());
+        if(!path.endsWith(m_ext) && !m_ext.isEmpty())
+            m_url.setPath(path.append(m_ext));
+        m_lineEdit->setText(m_url.toString());
+        emit pathChanged(url());
     }
 }

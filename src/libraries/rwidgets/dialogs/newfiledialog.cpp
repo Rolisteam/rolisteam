@@ -19,24 +19,44 @@
  ***************************************************************************/
 #include "newfiledialog.h"
 #include "ui_newfiledialog.h"
+#include "worker/utilshelper.h"
 
 NewFileDialog::NewFileDialog(Core::ContentType type, QWidget* parent) : QDialog(parent), ui(new Ui::NewFileDialog)
 {
     ui->setupUi(this);
 
-    /*VECTORIALMAP,
-        PICTURE,
-        NOTES,
-        CHARACTERSHEET,
-        SHAREDNOTE,
-        PDF,
-        WEBVIEW,
-        INSTANTMESSAGING,
-        MINDMAP,
-        UNKNOWN*/
+    ui->m_path->setMode(false);
+
+    static QHash<Core::ContentType, QString> type2ext{{Core::ContentType::SHAREDNOTE, Core::extentions::EXT_SHAREDNOTE},
+                                                      {Core::ContentType::NOTES, Core::extentions::EXT_NOTE},
+                                                      {Core::ContentType::MINDMAP, Core::extentions::EXT_MINDMAP}};
+    ui->m_path->setExt(type2ext.value(type));
+
     ui->m_type->addItem(tr("Shared Notes"), QVariant::fromValue(Core::ContentType::SHAREDNOTE));
     ui->m_type->addItem(tr("Notes"), QVariant::fromValue(Core::ContentType::NOTES));
     ui->m_type->addItem(tr("MindMap"), QVariant::fromValue(Core::ContentType::MINDMAP));
+
+    ui->m_path->setFilter(helper::utils::filterForType(type, true));
+
+    ui->m_type->setCurrentIndex(type == Core::ContentType::SHAREDNOTE ? 0 : type == Core::ContentType::NOTES ? 1 : 2);
+
+    auto button= ui->buttonBox->button(QDialogButtonBox::Ok);
+    button->setEnabled(false);
+
+    auto func= [this, type]()
+    {
+        auto nameStr= name();
+        auto urlValue= url();
+        auto typeValue= this->type();
+
+        auto valid= !nameStr.isEmpty() && urlValue.isValid() && typeValue == type;
+        auto button= ui->buttonBox->button(QDialogButtonBox::Ok);
+        button->setEnabled(valid);
+    };
+
+    connect(ui->m_nameEdit, &QLineEdit::textEdited, this, func);
+    connect(ui->m_path, &FileDirChooser::pathChanged, this, func);
+    connect(ui->m_type, &QComboBox::currentIndexChanged, this, func);
 }
 
 NewFileDialog::~NewFileDialog()
@@ -51,7 +71,7 @@ QString NewFileDialog::name() const
 
 QUrl NewFileDialog::url() const
 {
-    return QUrl::fromUserInput(ui->m_path->path());
+    return ui->m_path->url();
 }
 
 Core::ContentType NewFileDialog::type() const

@@ -40,18 +40,14 @@ public:
      * @param isDirectory
      * @param parent
      */
-    FileDirChooser(bool isDirectory= true, QWidget* parent= nullptr);
+    FileDirChooser(QWidget* parent= nullptr, const QString& ext= QString(), bool isDirectory= true);
     ~FileDirChooser();
     /**
      * @brief setPath define the value of the widget. Current selection.
      * @param dirname
      */
-    void setPath(const QString& dirname);
-    /**
-     * @brief path
-     * @return the path selected by the user.
-     */
-    QString path() const;
+    void setUrl(const QUrl& dirname);
+
     /**
      * @brief setFilter defines filter to select the file.
      * @param filter
@@ -68,18 +64,26 @@ public:
      */
     void setMode(bool isDirectory);
 
+    QUrl url() const;
+
+    bool isValid() const;
+
+    void setExt(const QString& ext);
+
 signals:
     /**
      * @brief pathChanged
      */
-    void pathChanged(const QString& path);
+    void pathChanged(const QUrl& path);
 
 public slots:
     void browse();
 
 private:
     QLineEdit* m_lineEdit= nullptr;
+    QUrl m_url;
     QString m_filter;
+    QString m_ext;
     bool m_directory= true;
 };
 

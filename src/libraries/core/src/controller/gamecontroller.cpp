@@ -31,11 +31,13 @@
 #include "preferences/preferencesmanager.h"
 #include "services/tipchecker.h"
 #include "services/updatechecker.h"
+#include "utils/iohelper.h"
 #include "worker/autosavecontroller.h"
 #include "worker/iohelper.h"
 #include "worker/mediahelper.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
+#include "worker/utilshelper.h"
 
 #include "network/connectionprofile.h"
 
@@ -205,7 +207,15 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
             other[Core::keys::KEY_PATH]= m_campaignManager->createFileFromData(name, data);
         }
     }
+
+    namespace hu= helper::utils;
+    namespace cv= Core::keys;
+    using std::placeholders::_1;
     other.insert(Core::keys::KEY_LOCALISGM, localIsGM());
+
+    if(!other.contains(Core::keys::KEY_SERIALIZED))
+        hu::setParamIfAny<QUrl>(cv::KEY_URL, map, [&other](const QUrl& path)
+                                { other.insert(Core::keys::KEY_SERIALIZED, utils::IOHelper::loadFile(path.path())); });
 
     m_contentCtrl->openMedia(other.toStdMap());
 }

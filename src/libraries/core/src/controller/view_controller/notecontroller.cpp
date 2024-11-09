@@ -19,28 +19,17 @@
  ***************************************************************************/
 #include "controller/view_controller/notecontroller.h"
 
+#include "utils/iohelper.h"
 #include <QFile>
 #include <QFileInfo>
 #include <QStringDecoder>
 #include <QTextDocument>
-#include "utils/iohelper.h"
 
 NoteController::NoteController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::NOTES, parent)
 {
-
-    connect(this, &NoteController::urlChanged, this, &NoteController::loadText);
-
-    /*auto future= QtConcurrent::run(IOHelper::loadFile, m_path);
-    auto watcher= new QFutureWatcher<QByteArray>();
-    connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [this, watcher]() {
-        auto result= watcher->result();
-
-        if(!result.isEmpty())
-            setText(QString(result));
-
-        watcher->deleteLater();
-    });*/
+    // connect(this, &NoteController::urlChanged, this, &NoteController::loadText);
+    connect(this, &NoteController::textChanged, this, [this]() { emit modifiedChanged(true); });
 }
 
 QString NoteController::text() const
@@ -61,7 +50,7 @@ bool NoteController::isHtml() const
     return m_html;
 }
 
-void NoteController::loadText()
+/*void NoteController::loadText()
 {
     QFileInfo fi(url().toLocalFile());
     const QString ext= fi.completeSuffix().toLower();
@@ -85,6 +74,7 @@ void NoteController::loadText()
         setText(isHtml() ? str : QString::fromLocal8Bit(QByteArrayView{data}));
     }
 }
+*/
 
 void NoteController::setHtml(bool b)
 {

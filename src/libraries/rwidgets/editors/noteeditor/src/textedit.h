@@ -70,10 +70,6 @@ public:
     TextEdit(NoteController* note, QWidget* parent= 0);
     QString getFilter() const;
 
-public slots:
-    bool fileSave(const QString& fileName);
-    void fileNew();
-
 signals:
     void showed(bool);
     void fileNameChanged(QString);
@@ -91,8 +87,6 @@ private:
     bool maybeSave();
 
 private slots:
-    void fileOpen();
-    bool fileSaveAs();
     void filePrint();
     void filePrintPreview();
     void filePrintPdf();
@@ -111,13 +105,16 @@ private slots:
     void clipboardDataChanged();
     void about();
     void printPreview(QPrinter*);
-    void loadOdt(const QString& f);
+    // void loadOdt(const QString& f);
 
 private:
     void mergeFormatOnWordOrSelection(const QTextCharFormat& format);
     void fontChanged(const QFont& f);
     void colorChanged(const QColor& c);
     void alignmentChanged(Qt::Alignment a);
+
+signals:
+    void saveContent();
 
 private:
     QPointer<NoteController> m_noteCtrl;

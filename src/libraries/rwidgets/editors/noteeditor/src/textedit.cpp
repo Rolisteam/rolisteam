@@ -71,6 +71,7 @@
 #include <optional>
 
 #include "controller/view_controller/notecontroller.h"
+#include "worker/utilshelper.h"
 
 TextEdit::TextEdit(NoteController* note, QWidget* parent)
     : QMainWindow(parent), m_noteCtrl(note), m_textEdit(new QTextEdit(this))
@@ -80,7 +81,7 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent)
     setupEditActions();
     setupTextActions();
 
-    connect(m_noteCtrl, &NoteController::loadOdt, this, &TextEdit::loadOdt);
+    // connect(m_noteCtrl, &NoteController::loadOdt, this, &TextEdit::loadOdt);
     connect(m_noteCtrl, &NoteController::textChanged, this,
             [this]()
             {
@@ -138,7 +139,7 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent)
 
     auto p= m_noteCtrl->text();
     if(p.isEmpty() && !m_working)
-        fileNew();
+        m_noteCtrl->setModified();
     else
         m_textEdit->setHtml(p);
 }
@@ -175,6 +176,15 @@ void TextEdit::setupFileActions()
 
     QAction* a;
 
+    if(!m_noteCtrl->localGM())
+    {
+        a= new QAction(QIcon::fromTheme("save"), tr("&Save"), this);
+        a->setShortcut(QKeySequence::Save);
+        connect(a, &QAction::triggered, this, [this]() { m_noteCtrl->setModified(); });
+        tb->addAction(a);
+        menu->addAction(a);
+    }
+
     a= new QAction(QIcon::fromTheme("fileprint"), tr("&Print..."), this);
     a->setShortcut(QKeySequence::Print);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrint()));
@@ -186,7 +196,7 @@ void TextEdit::setupFileActions()
     menu->addAction(a);
 
     a= new QAction(QIcon::fromTheme("pdfLogo"), tr("&Export PDF..."), this);
-    a->setShortcut(Qt::CTRL + Qt::Key_D);
+    a->setShortcut(Qt::CTRL | Qt::Key_D);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
     tb->addAction(a);
     menu->addAction(a);
@@ -321,8 +331,7 @@ void TextEdit::setupTextActions()
     tb->addWidget(comboSize);
     comboSize->setEditable(true);
 
-    QFontDatabase db;
-    for(int& size : db.standardSizes())
+    for(int& size : QFontDatabase::standardSizes())
         comboSize->addItem(QString::number(size));
 
     connect(comboSize, &QComboBox::currentTextChanged, this, &TextEdit::textSize);
@@ -344,7 +353,7 @@ void TextEdit::drawDoc()
     }
 }
 
-void TextEdit::loadOdt(const QString& f)
+/*void TextEdit::loadOdt(const QString& f)
 {
     m_working= true;
     force= new PushDoc(this);
@@ -354,7 +363,7 @@ void TextEdit::loadOdt(const QString& f)
     connect(force, &PushDoc::finished, this, [this]() { m_working= false; });
     connect(Ooo, SIGNAL(ready()), this, SLOT(drawDoc()));
     force->start();
-}
+}*/
 
 bool TextEdit::maybeSave()
 {
@@ -369,13 +378,16 @@ bool TextEdit::maybeSave()
                                  "Do you want to save your changes?"),
                               QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
     if(ret == QMessageBox::Save)
-        return fileSave(fileName);
+    {
+        m_noteCtrl->setModified();
+        return true;
+    }
     else if(ret == QMessageBox::Cancel)
         return false;
     return true;
 }
 
-void TextEdit::fileNew()
+/*void TextEdit::fileNew()
 {
     if(maybeSave())
     {
@@ -396,48 +408,7 @@ void TextEdit::fileOpen()
         m_noteCtrl->setUrl(QUrl::fromLocalFile(fn));
         m_noteCtrl->loadText();
     }
-}
-
-bool TextEdit::fileSave(const QString& fileName)
-{
-    if(fileName.isEmpty())
-        return fileSaveAs();
-
-    bool canodt= true;
-    const QString ext= QFileInfo(fileName).completeSuffix().toLower();
-    if(ext == "odt" && canodt)
-    {
-        QTextDocumentWriter writer(fileName);
-        return writer.write(m_textEdit->document());
-    }
-    else
-    {
-        QFile file(fileName);
-        if(!file.open(QFile::WriteOnly))
-            return false;
-        QTextStream ts(&file);
-        ts.setEncoding(QStringConverter::Utf8);
-        ts << m_textEdit->document()->toHtml();
-        m_textEdit->document()->setModified(false);
-    }
-    return true;
-}
-
-bool TextEdit::fileSaveAs()
-{
-    QString support;
-#if QT_VERSION >= 0x040500
-    support= tr("ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)");
-#else
-    support= tr("HTML-Files (*.htm *.html);;All Files (*)");
-#endif
-    QString fn= QFileDialog::getSaveFileName(this, tr("Save as..."), QString(), support);
-
-    if(fn.isEmpty())
-        return false;
-
-    return fileSave(fn);
-}
+}*/
 
 void TextEdit::filePrint()
 {
