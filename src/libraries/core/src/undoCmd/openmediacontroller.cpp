@@ -40,7 +40,8 @@ OpenMediaController::OpenMediaController(ContentModel* contentModel, Core::Conte
 
     it= args.find(Core::keys::KEY_NAME);
     if(it != args.end())
-        setText(QObject::tr("Open %1").arg(it->second.toString().first(std::min(it->second.toString().size(),static_cast<qsizetype>(50)))));
+        setText(QObject::tr("Open %1").arg(
+            it->second.toString().first(std::min(it->second.toString().size(), static_cast<qsizetype>(50)))));
 }
 
 void OpenMediaController::redo()

@@ -391,6 +391,7 @@ constexpr auto EXT_TOKEN{".rtok"};
 constexpr auto EXT_MAP{".vmap"};
 constexpr auto EXT_TEXT{".txt"};
 constexpr auto EXT_JSON{".json"};
+constexpr auto EXT_NOTE{".rjn"};
 constexpr auto EXT_SHEET{".rcs"};
 constexpr auto EXT_MINDMAP{".rmap"};
 constexpr auto EXT_PLAYLIST{".m3u"};
