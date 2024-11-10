@@ -24,6 +24,7 @@
 #include <QPointer>
 #include <QQmlEngine>
 
+#include <charactersheet/charactersheet.h>
 #include <charactersheet/charactersheet_global.h>
 
 class AbstractApplicationController;
@@ -37,6 +38,8 @@ class CHARACTERSHEET_EXPORT SheetController : public QObject
     Q_PROPERTY(qreal imageBgWidth READ imageBgWidth WRITE setImageBgWidth NOTIFY imageBgWidthChanged)
     Q_PROPERTY(bool adaptWidthToPage READ adaptWidthToPage WRITE setAdaptWidthToPage NOTIFY adaptWidthToPageChanged)
     Q_PROPERTY(AbstractApplicationController* appCtrl READ appCtrl WRITE setAppCtrl NOTIFY appCtrlChanged REQUIRED)
+    Q_PROPERTY(CharacterSheet* characterSheetCtrl READ characterSheetCtrl WRITE setCharacterSheetCtrl NOTIFY
+                   characterSheetCtrlChanged REQUIRED FINAL)
     QML_ELEMENT
 public:
     explicit SheetController(QObject* parent= nullptr);
@@ -52,7 +55,7 @@ public:
 
     Q_INVOKABLE void msgToGM(const QString& msg);
     Q_INVOKABLE void msgToAll(const QString& msg);
-    Q_INVOKABLE void rollDice(const QString& cmd, bool withAlias, bool gmOnly= false);
+    Q_INVOKABLE void rollDice(const QString& cmd, bool gmOnly= false);
     Q_INVOKABLE void nextPage();
     Q_INVOKABLE void previousPage();
 
@@ -68,6 +71,9 @@ public:
     bool adaptWidthToPage() const;
     void setAdaptWidthToPage(bool newAdaptWidthToPage);
 
+    CharacterSheet* characterSheetCtrl() const;
+    void setCharacterSheetCtrl(CharacterSheet* newSheetCtrl);
+
 signals:
     void pageMaxChanged();
     void currentPageChanged();
@@ -75,8 +81,8 @@ signals:
     void appCtrlChanged();
     void parentWidthChanged();
     void imageBgWidthChanged();
-
     void adaptWidthToPageChanged();
+    void characterSheetCtrlChanged();
 
 private:
     QPointer<AbstractApplicationController> m_appCtrl;
@@ -85,6 +91,7 @@ private:
     qreal m_parentWidth{0};
     qreal m_imageBgWidth{0};
     bool m_adaptWidthToPage{true};
+    QPointer<CharacterSheet> m_sheetCtrl;
 };
 
 #endif // SHEETCONTROLLER_H

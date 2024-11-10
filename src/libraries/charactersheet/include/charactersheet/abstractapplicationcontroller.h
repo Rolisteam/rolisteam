@@ -28,6 +28,7 @@ class CHARACTERSHEET_EXPORT AbstractApplicationController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(qreal zoomLevel READ zoomLevel WRITE setZoomLevel NOTIFY zoomLevelChanged)
+    Q_PROPERTY(QString characterId READ characterId WRITE setCharacterId NOTIFY characterIdChanged FINAL)
     QML_ELEMENT
     QML_UNCREATABLE("Abstract Class")
 public:
@@ -35,11 +36,15 @@ public:
 
     virtual void msgToGM(const QString& msg)= 0;
     virtual void msgToAll(const QString& msg)= 0;
-    virtual void rollDice(const QString& cmd, bool withAlias, bool gmOnly= false)= 0;
+    virtual void rollDice(const QString& cmd, bool gmOnly= false)= 0;
     virtual qreal zoomLevel() const= 0;
     virtual void setZoomLevel(qreal newZoomLevel)= 0;
+    virtual QString characterId() const= 0;
+    virtual void setCharacterId(const QString& newCharacterId)= 0;
+
 signals:
     void zoomLevelChanged();
+    void characterIdChanged();
 };
 
 #endif // ABSTRACTAPPLICATIONCONTROLLER_H

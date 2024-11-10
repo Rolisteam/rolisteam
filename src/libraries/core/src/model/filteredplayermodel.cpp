@@ -27,22 +27,6 @@ FilteredPlayerModel::FilteredPlayerModel(const QStringList& list, QObject* paren
 {
 }
 
-/*int FilteredPlayerModel::rowCount(const QModelIndex& parent) const
-{
-    if(parent.isValid())
-        return 0;
-
-    return std::min<int>(m_participants.size(), sourceModel()->rowCount());
-}
-
-QModelIndex FilteredPlayerModel::index(int row, int col, const QModelIndex &parent) const
-{
-    auto rowC = rowCount();
-    if(row < 0 || row >= rowC || col < 0 || col > 0 || parent.isValid())
-        return QModelIndex();
-    return createIndex(row, col, nullptr);
-}*/
-
 QStringList FilteredPlayerModel::recipiantIds() const
 {
     return m_participants;
@@ -55,7 +39,7 @@ bool FilteredPlayerModel::hasRecipiant(const QString& uuid)
 
 QString FilteredPlayerModel::recipiantName(const QString& uuid)
 {
-    auto source = sourceModel();
+    auto source= sourceModel();
     for(int i= 0; i < source->rowCount(); ++i)
     {
         auto indexModel= source->index(i, 0);

@@ -23,6 +23,7 @@
 #include <QQmlEngine>
 #include <QQuickStyle>
 
+#include "common/logcategory.h"
 #include "common_qml/theme.h"
 #include "data/chatroom.h"
 #include "data/player.h"
@@ -133,6 +134,13 @@ InstantMessaging::ChatRoom* InstantMessagingController::globalChatroom() const
     return m_model->globalChatRoom();
 }
 
+InstantMessaging::ChatRoom* InstantMessagingController::gmChatroom() const
+{
+    if(!m_players)
+        return nullptr;
+    return m_model->oneToOneChatRoom(m_players->gameMasterId());
+}
+
 PlayerModel* InstantMessagingController::playerModel() const
 {
     return m_players;
@@ -165,7 +173,7 @@ bool InstantMessagingController::unread() const
 
 void InstantMessagingController::openLink(const QString& link)
 {
-    qDebug() << "open link" << link;
+    qCDebug(MessagingCat) << "open link" << link;
     emit openWebPage(link);
 }
 
@@ -180,6 +188,47 @@ void InstantMessagingController::setVisible(bool b)
         return;
     m_visible= b;
     emit visibleChanged(m_visible);
+}
+
+void InstantMessagingController::rollDiceCommand(const QString& cmd, bool gmOnly, const QString& characterId)
+{
+    auto chatRoom= gmOnly ? gmChatroom() : globalChatroom();
+    if(!chatRoom)
+    {
+        qCWarning(MessagingCat) << "Error: no " << (gmOnly ? "Gm" : "Global") << " chatroom";
+        return;
+    }
+    chatRoom->rollDice(cmd, characterId);
+}
+
+void InstantMessagingController::sendMessageToGlobal(const QString& msg, const QString& characterId)
+{
+    auto chatRoom= globalChatroom();
+    if(!chatRoom)
+    {
+        qCWarning(MessagingCat) << "Error: no Gm chatroom";
+        return;
+    }
+    auto person= m_players->personById(characterId);
+    QString name;
+    if(person)
+        name= person->name();
+    chatRoom->addMessage(msg, {}, characterId, name);
+}
+
+void InstantMessagingController::sendMessageToGM(const QString& msg, const QString& characterId)
+{
+    auto chatRoom= gmChatroom();
+    if(!chatRoom)
+    {
+        qCWarning(MessagingCat) << "Error: no Gm chatroom";
+        return;
+    }
+    auto person= m_players->personById(characterId);
+    QString name;
+    if(person)
+        name= person->name();
+    chatRoom->addMessage(msg, {}, characterId, name);
 }
 
 void InstantMessagingController::setGameController(GameController*) {}

@@ -1,8 +1,8 @@
 {{ indent }}DiceButton {// {{ hrName }}
 {{ indent }}    id: {{ id }}
 {{ position }}
-{{ indent }}    command: {{ command }}
-{{ indent }}    text: {{ value }}
+{{ indent }}    command: {{ value }}
+{{ indent }}    text: {{ label }}
 {{ indent }}    pressedColor: "{{ pressedColor }}"
 {{ indent }}    color: "{{ color }}"
 {{ indent }}    backgroundColor: "{{ bgColor }}"
@@ -21,6 +21,6 @@
 {{ indent }}    hAlign: {{ hoAlign }}
 {{ indent }}    vAlign: {{ veAlign }}
 {{ indent }}    onClicked: {
-{{ indent }}        sheetCtrl.rollDice( {{ value }}, {{ aliasEnable }}, false)
+{{ indent }}        sheetCtrl.rollDice( {{ id }}.command, false)
 {{ indent }}    }
 {{ indent }}}

@@ -1,7 +1,7 @@
 {{ indent }}CheckBoxField {// {{ hrName }}
 {{ indent }}    id: {{ id }}
 {{ position }}
-{{ indent }}    text: {{ value }}
+{{ indent }}    text: {{ label }}
 {{ indent }}    color:"{{ color }}"
 {{ indent }}    borderColor: "{{ borderColor }}"
 {{ indent }}    {{ pageManagement }}

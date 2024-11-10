@@ -58,6 +58,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     ChatRoom* globalChatRoom() const;
+    ChatRoom* oneToOneChatRoom(const QString& personId) const;
     QString localId() const;
     bool unread() const;
 

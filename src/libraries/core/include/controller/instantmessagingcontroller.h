@@ -58,6 +58,7 @@ public:
     virtual ~InstantMessagingController();
     InstantMessaging::ChatroomSplitterModel* mainModel() const;
     InstantMessaging::ChatRoom* globalChatroom() const;
+    InstantMessaging::ChatRoom* gmChatroom() const;
     PlayerModel* playerModel() const;
     LocalPersonModel* localPersonModel() const;
     QString localId() const;
@@ -79,6 +80,10 @@ public slots:
     void openLink(const QString& link);
     void setDiceParser(DiceRoller* diceParser);
     void setVisible(bool b);
+
+    void rollDiceCommand(const QString& cmd, bool gmOnly, const QString& characterId);
+    void sendMessageToGlobal(const QString& msg, const QString& characterId);
+    void sendMessageToGM(const QString& msg, const QString& characterId);
 
 signals:
     void createdChatWindow(InstantMessaging::FilterInstantMessagingModel* model);

@@ -23,7 +23,8 @@
 
 SheetController::SheetController(QObject* parent) : QObject{parent}
 {
-    auto updateZoomLevel= [this]() {
+    auto updateZoomLevel= [this]()
+    {
         if(m_adaptWidthToPage)
             setZoomLevel(parentWidth() / imageBgWidth());
     };
@@ -80,10 +81,10 @@ void SheetController::msgToAll(const QString& msg)
         m_appCtrl->msgToAll(msg);
 }
 
-void SheetController::rollDice(const QString& cmd, bool withAlias, bool gmOnly)
+void SheetController::rollDice(const QString& cmd, bool gmOnly)
 {
     if(m_appCtrl)
-        m_appCtrl->rollDice(cmd, withAlias, gmOnly);
+        m_appCtrl->rollDice(cmd, gmOnly);
 }
 
 void SheetController::nextPage()
@@ -149,4 +150,20 @@ void SheetController::setAdaptWidthToPage(bool newAdaptWidthToPage)
         return;
     m_adaptWidthToPage= newAdaptWidthToPage;
     emit adaptWidthToPageChanged();
+}
+
+CharacterSheet* SheetController::characterSheetCtrl() const
+{
+    return m_sheetCtrl;
+}
+
+void SheetController::setCharacterSheetCtrl(CharacterSheet* newSheetCtrl)
+{
+    if(m_sheetCtrl == newSheetCtrl)
+        return;
+    m_sheetCtrl= newSheetCtrl;
+
+    if(m_sheetCtrl)
+        m_appCtrl->setCharacterId(m_sheetCtrl->uuid());
+    emit characterSheetCtrlChanged();
 }

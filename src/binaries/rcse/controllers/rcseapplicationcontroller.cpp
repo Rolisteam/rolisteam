@@ -32,11 +32,10 @@ void RcseApplicationController::msgToAll(const QString& msg)
     qCInfo(RcseCat) << "Sent message:" << msg << "to All";
 }
 
-void RcseApplicationController::rollDice(const QString& cmd, bool withAlias, bool gmOnly)
+void RcseApplicationController::rollDice(const QString& cmd, bool gmOnly)
 {
     auto f= [](bool b, const QString& yes, const QString& no) { return b ? yes : no; };
-    qCInfo(RcseCat) << "Roll dice command:" << cmd << " With Alias:" << f(withAlias, tr("Yes"), tr("No")) << " to "
-                    << f(gmOnly, tr("only the GM"), tr("All"));
+    qCInfo(RcseCat) << "Roll dice command:" << cmd << " to " << f(gmOnly, tr("only the GM"), tr("All"));
 }
 
 qreal RcseApplicationController::zoomLevel() const
@@ -50,4 +49,14 @@ void RcseApplicationController::setZoomLevel(qreal newZoomLevel)
         return;
     m_zoomLevel= newZoomLevel;
     emit zoomLevelChanged();
+}
+
+QString RcseApplicationController::characterId() const
+{
+    return "TestPersonId";
+}
+
+void RcseApplicationController::setCharacterId(const QString& newCharacterId)
+{
+    Q_UNUSED(newCharacterId)
 }

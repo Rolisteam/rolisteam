@@ -1,8 +1,7 @@
 {{ indent }}DiceButton {// {{ hrName }}
 {{ indent }}    id: {{ id }}
 {{ position }}
-{{ indent }}    command: {{ command }}
-{{ indent }}    text: {{ value }}
+{{ indent }}    text: {{ label }}
 {{ indent }}    pressedColor: "{{ pressedColor }}"
 {{ indent }}    color: "{{ color }}"
 {{ indent }}    backgroundColor: "{{ bgColor }}"

@@ -77,6 +77,7 @@ public slots:
     void addMessage(const QString& text, const QUrl& url, const QString& personId, const QString& personName);
     void addMessageInterface(MessageInterface* message);
     void setLocalId(const QString& id);
+    bool rollDice(const QString& command, const QString& personId);
 
 signals:
     void unreadMessageChanged(bool);
@@ -87,7 +88,6 @@ signals:
 
 private:
     bool runCommand(const QString& command, const QString& personId, const QString& personName);
-    bool rollDice(const QString& command, const QString& personId);
 
 private:
     std::unique_ptr<FilteredPlayerModel> m_recipiants;
