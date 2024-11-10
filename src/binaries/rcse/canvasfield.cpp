@@ -23,26 +23,41 @@ CanvasField::CanvasField(FieldController* field) : m_ctrl(field)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
 
-    connect(m_ctrl, &FieldController::readOnlyChanged, this, [this]() {
-        setFlags(m_ctrl->isReadOnly() ?
-                     QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable :
-                     QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
-    });
+    connect(m_ctrl, &FieldController::readOnlyChanged, this,
+            [this]()
+            {
+                setFlags(m_ctrl->isReadOnly() ? QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable :
+                                                QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable
+                                                    | QGraphicsItem::ItemIsFocusable);
+            });
 
-    connect(m_ctrl, &FieldController::xChanged, this, [this]() {
-        setPos(m_ctrl->x(), m_ctrl->y());
-        update();
-    });
-    connect(m_ctrl, &FieldController::yChanged, this, [this]() {
-        setPos(m_ctrl->x(), m_ctrl->y());
-        update();
-    });
+    connect(m_ctrl, &FieldController::xChanged, this,
+            [this]()
+            {
+                setPos(m_ctrl->x(), m_ctrl->y());
+                update();
+            });
+    connect(m_ctrl, &FieldController::yChanged, this,
+            [this]()
+            {
+                setPos(m_ctrl->x(), m_ctrl->y());
+                update();
+            });
     connect(m_ctrl, &FieldController::widthChanged, this, [this]() { update(); });
     connect(m_ctrl, &FieldController::heightChanged, this, [this]() { update(); });
     connect(m_ctrl, &FieldController::destroyed, this, &CanvasField::deleteLater);
+    connect(m_ctrl, &FieldController::destroyed, this,
+            []()
+            {
+                qDebug() << "Controller destroyed";
+                qDebug() << "Controller destroyed";
+            });
 
     connect(this, &CanvasField::xChanged, m_ctrl, [this]() { m_ctrl->setX(pos().x()); });
     connect(this, &CanvasField::yChanged, m_ctrl, [this]() { m_ctrl->setY(pos().y()); });
+
+    setVisible(m_ctrl->visible());
+    connect(m_ctrl, &FieldController::visibleChanged, this, [this]() { setVisible(m_ctrl->visible()); });
 }
 void CanvasField::setNewEnd(QPointF nend)
 {
