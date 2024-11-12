@@ -78,20 +78,10 @@ msgstr "De tekenwaarde %1 is gedefinieerd op %2"
 
 #: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:38
 msgctxt "RcseApplicationController|"
-msgid "Yes"
-msgstr "Ja"
-
-#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:38
-msgctxt "RcseApplicationController|"
-msgid "No"
-msgstr "Nee"
-
-#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:39
-msgctxt "RcseApplicationController|"
 msgid "only the GM"
 msgstr "alleen de SM"
 
-#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:39
+#: src/binaries/rcse/controllers/rcseapplicationcontroller.cpp:38
 msgctxt "RcseApplicationController|"
 msgid "All"
 msgstr "Alles"
@@ -1051,7 +1041,7 @@ msgstr "Editie"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:635
+#: src/binaries/widget/mainwindow.cpp:631
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Help"
@@ -1210,13 +1200,13 @@ msgid "Check Validity"
 msgstr "Geldigheid controleren"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:585
+#: src/binaries/widget/mainwindow.cpp:581
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Ongedaan maken"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:584
+#: src/binaries/widget/mainwindow.cpp:580
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "Opnie&uw"
@@ -1471,7 +1461,7 @@ msgctxt "QObject|"
 msgid "Delete Character #%1"
 msgstr "Karakter #%1 verwijderen"
 
-#: src/binaries/rcse/undo/deletefieldcommand.cpp:57
+#: src/binaries/rcse/undo/deletefieldcommand.cpp:45
 #, qt-format
 msgctxt "QObject|"
 msgid "Delete %n Field(s)"
@@ -1607,118 +1597,118 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Om wachtwoord vragen en zijn hash-sleutel teruggeven."
 
-#: src/binaries/widget/mainwindow.cpp:374
+#: src/binaries/widget/mainwindow.cpp:369
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Zijpanelen"
 
-#: src/binaries/widget/mainwindow.cpp:379
+#: src/binaries/widget/mainwindow.cpp:374
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr "Zijpanelen"
 
-#: src/binaries/widget/mainwindow.cpp:389
+#: src/binaries/widget/mainwindow.cpp:384
 msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "Lijst met spelers"
 
-#: src/binaries/widget/mainwindow.cpp:390
+#: src/binaries/widget/mainwindow.cpp:385
 msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "Alle campagnedocumenten"
 
-#: src/binaries/widget/mainwindow.cpp:391
+#: src/binaries/widget/mainwindow.cpp:386
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr "Lijst met antagonisten"
 
-#: src/binaries/widget/mainwindow.cpp:392
+#: src/binaries/widget/mainwindow.cpp:387
 msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "Muziekspeler"
 
-#: src/binaries/widget/mainwindow.cpp:393
+#: src/binaries/widget/mainwindow.cpp:388
 msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "Serverpaneel"
 
-#: src/binaries/widget/mainwindow.cpp:394
+#: src/binaries/widget/mainwindow.cpp:389
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Meldingenzone"
 
-#: src/binaries/widget/mainwindow.cpp:408
+#: src/binaries/widget/mainwindow.cpp:404
 msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "GM-hulpmiddelen"
 
-#: src/binaries/widget/mainwindow.cpp:465
+#: src/binaries/widget/mainwindow.cpp:461
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Webpagina openen"
 
-#: src/binaries/widget/mainwindow.cpp:465
+#: src/binaries/widget/mainwindow.cpp:461
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "URL van webpage:"
 
-#: src/binaries/widget/mainwindow.cpp:473
+#: src/binaries/widget/mainwindow.cpp:469
 msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "Kaart openen"
 
-#: src/binaries/widget/mainwindow.cpp:473
+#: src/binaries/widget/mainwindow.cpp:469
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr "Kaart:"
 
-#: src/binaries/widget/mainwindow.cpp:487
-#: src/binaries/widget/mainwindow.cpp:526
-#: src/binaries/widget/mainwindow.cpp:750 src/binaries/widget/mainwindow.ui:286
+#: src/binaries/widget/mainwindow.cpp:483
+#: src/binaries/widget/mainwindow.cpp:522
+#: src/binaries/widget/mainwindow.cpp:746 src/binaries/widget/mainwindow.ui:286
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Campagne openen"
 
-#: src/binaries/widget/mainwindow.cpp:636
+#: src/binaries/widget/mainwindow.cpp:632
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "Documentatie van %1 is online te vinden op :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:671
+#: src/binaries/widget/mainwindow.cpp:667
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Ondersteuning"
 
-#: src/binaries/widget/mainwindow.cpp:672
+#: src/binaries/widget/mainwindow.cpp:668
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "De donatiepagina %1 is online te vinden op :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:734
+#: src/binaries/widget/mainwindow.cpp:730
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Verbinding is verbroken. %1 zal gesloten worden"
 
-#: src/binaries/widget/mainwindow.cpp:736
+#: src/binaries/widget/mainwindow.cpp:732
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Verbinding verbroken"
 
-#: src/binaries/widget/mainwindow.cpp:742
+#: src/binaries/widget/mainwindow.cpp:738
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "%1 afsluiten"
 
-#: src/binaries/widget/mainwindow.cpp:807
+#: src/binaries/widget/mainwindow.cpp:803
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Melding bijwerken"
 
-#: src/binaries/widget/mainwindow.cpp:808
+#: src/binaries/widget/mainwindow.cpp:804
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1728,101 +1718,101 @@ msgstr ""
 "De versie %1 is vrijgegeven. Neem een kijkje op <a href=\"https://www."
 "rolisteam.org/download\">Downloadpagina</a> voor meer informatie"
 
-#: src/binaries/widget/mainwindow.cpp:818
+#: src/binaries/widget/mainwindow.cpp:814
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 doet nu net mee aan het spel."
 
-#: src/binaries/widget/mainwindow.cpp:822
+#: src/binaries/widget/mainwindow.cpp:818
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 heeft niet de juiste versie: %2."
 
-#: src/binaries/widget/mainwindow.cpp:828
+#: src/binaries/widget/mainwindow.cpp:824
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 heeft nu net het spel verlaten."
 
-#: src/binaries/widget/mainwindow.cpp:905
+#: src/binaries/widget/mainwindow.cpp:903
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Stel rolisteam in om <port> voor de verbinding te gebruiken"
 
-#: src/binaries/widget/mainwindow.cpp:908
+#: src/binaries/widget/mainwindow.cpp:906
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Stel rolisteam in om met <server> te verbinden."
 
-#: src/binaries/widget/mainwindow.cpp:911
+#: src/binaries/widget/mainwindow.cpp:909
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definieer de <role>: sm of pc"
 
-#: src/binaries/widget/mainwindow.cpp:913
+#: src/binaries/widget/mainwindow.cpp:911
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "De instellingen wissen en de standaard parameters gebruiken"
 
-#: src/binaries/widget/mainwindow.cpp:916
+#: src/binaries/widget/mainwindow.cpp:914
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definieer de <username>"
 
-#: src/binaries/widget/mainwindow.cpp:919
+#: src/binaries/widget/mainwindow.cpp:917
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Limiet van PDF-bestandsgrootte verwijderen"
 
-#: src/binaries/widget/mainwindow.cpp:922
+#: src/binaries/widget/mainwindow.cpp:920
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "pad naar het vertaalbestand: <translationfile>"
 
-#: src/binaries/widget/mainwindow.cpp:925
+#: src/binaries/widget/mainwindow.cpp:923
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "URL definiëren om met de server te verbinden: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1018
+#: src/binaries/widget/mainwindow.cpp:1016
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "%1 openen"
 
-#: src/binaries/widget/mainwindow.cpp:1112
+#: src/binaries/widget/mainwindow.cpp:1110
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Verbonden"
 
-#: src/binaries/widget/mainwindow.cpp:1112
+#: src/binaries/widget/mainwindow.cpp:1110
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Niet verbonden"
 
-#: src/binaries/widget/mainwindow.cpp:1113
+#: src/binaries/widget/mainwindow.cpp:1111
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: src/binaries/widget/mainwindow.cpp:1113
+#: src/binaries/widget/mainwindow.cpp:1111
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: src/binaries/widget/mainwindow.cpp:1120
+#: src/binaries/widget/mainwindow.cpp:1118
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "SM"
 
-#: src/binaries/widget/mainwindow.cpp:1126
+#: src/binaries/widget/mainwindow.cpp:1124
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Speler"
 
-#: src/binaries/widget/mainwindow.cpp:1155
+#: src/binaries/widget/mainwindow.cpp:1153
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Onbekend"
@@ -2272,64 +2262,64 @@ msgctxt "ContextualMenu|"
 msgid "Zoom Max"
 msgstr "Maximaal zoomen"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:12
 msgctxt "example|"
 msgid "Nom"
 msgstr "Naam"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:25
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:21
 msgctxt "example|"
 msgid "Prenom"
 msgstr "Voornaam"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:33
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:28
 msgctxt "example|"
 msgid "Couleur des yeux"
 msgstr "Kleur van de ogen"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:41
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:35
 msgctxt "example|"
 msgid "Corpulence"
 msgstr "Corpulentie"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:44
 msgctxt "example|"
 msgid "Courage"
 msgstr "Moed"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:47
 msgctxt "example|"
 msgid "Malice"
 msgstr "Kwaadaardigheid"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:56
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
 msgctxt "example|"
 msgid "Mignon"
 msgstr "Schattig"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:59
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
 msgctxt "example|"
 msgid "Colère"
 msgstr "Woede"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:76
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:65
 msgctxt "example|"
 msgid "Syndrôme"
 msgstr "Syndroom"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:83
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:70
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 1: %1"
 msgstr "Souvenir 1: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:89
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:75
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 2: %1"
 msgstr "Souvenir 2: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:95
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:80
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 3: %1"
@@ -2365,24 +2355,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Laatste regel verwijderen"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:533
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:558
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Veldennaam"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:571
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:596
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Lege sectie %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:578
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:603
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Sectie_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:602
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:627
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2514,12 +2504,12 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "Lever dit bestand aan de ontwikkelaars van Rolisteam"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:414
+#: src/libraries/core/src/controller/contentcontroller.cpp:422
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Gekopieerde afbeelding"
 
-#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:120
+#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:121
 msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Globaal"
@@ -2565,26 +2555,26 @@ msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr "Onbekend karakter"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Character"
 msgstr "Karakter"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Grond"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
 msgctxt "QObject|"
 msgid "Object"
 msgstr "Object"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:263
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "GameMaster"
@@ -2595,17 +2585,17 @@ msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/libraries/core/src/data/campaign.cpp:266
+#: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Pattern"
 msgstr "Patroon"
 
-#: src/libraries/core/src/data/campaign.cpp:266
+#: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Command"
 msgstr "Commando"
 
-#: src/libraries/core/src/data/campaign.cpp:266
+#: src/libraries/core/src/data/campaign.cpp:265
 msgctxt "Campaign|"
 msgid "Comment"
 msgstr "Toelichting"
@@ -2751,11 +2741,6 @@ msgstr "Datum toegevoegd"
 msgctxt "MediaModel|"
 msgid "Date Modified"
 msgstr "Datum gewijzigd"
-
-#: src/libraries/core/src/model/mediamodel.cpp:363
-msgctxt "MediaModel|"
-msgid "Directory"
-msgstr "Map"
 
 #: src/libraries/core/src/model/messagemodel.cpp:95
 #: src/libraries/core/src/model/messagemodel.cpp:101
@@ -3260,90 +3245,90 @@ msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
 msgstr "Fout: %1 bestaat niet of is niet te lezen."
 
-#: src/libraries/core/src/worker/utilshelper.cpp:167
+#: src/libraries/core/src/worker/utilshelper.cpp:166
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
 msgstr "Bestanden met bladen met karakters  (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:170
+#: src/libraries/core/src/worker/utilshelper.cpp:169
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
 msgstr "Ondersteunde afbeeldingsformaten (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:173
+#: src/libraries/core/src/worker/utilshelper.cpp:172
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
 msgstr "Ondersteunde tekstbestanden (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:176
+#: src/libraries/core/src/worker/utilshelper.cpp:175
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
 msgstr "Ondersteunde formaten van gedeelde notities (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:179
+#: src/libraries/core/src/worker/utilshelper.cpp:178
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported WebPage (%1)"
 msgstr "Ondersteunde webpagina (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:182
+#: src/libraries/core/src/worker/utilshelper.cpp:181
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
 msgstr "PDF-bestand (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:185
+#: src/libraries/core/src/worker/utilshelper.cpp:184
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
 msgstr "Vectoriële kaart (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:188
+#: src/libraries/core/src/worker/utilshelper.cpp:187
 #, qt-format
 msgctxt "QObject|"
 msgid "Mindmap (%1)"
 msgstr "Mindmap (%1)"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:202
+#: src/libraries/core/src/worker/utilshelper.cpp:201
 msgctxt "QObject|"
 msgid "Vectorial Map"
 msgstr "Vectoriële kaart"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:203
+#: src/libraries/core/src/worker/utilshelper.cpp:202
 msgctxt "QObject|"
 msgid "Picture"
 msgstr "Afbeelding"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:204
+#: src/libraries/core/src/worker/utilshelper.cpp:203
 msgctxt "QObject|"
 msgid "Minutes"
 msgstr "Minuten"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:205
+#: src/libraries/core/src/worker/utilshelper.cpp:204
 msgctxt "QObject|"
 msgid "Character Sheet"
 msgstr "Blad met karakters"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:206
+#: src/libraries/core/src/worker/utilshelper.cpp:205
 msgctxt "QObject|"
 msgid "Mindmap"
 msgstr "Mindmap"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:207
+#: src/libraries/core/src/worker/utilshelper.cpp:206
 msgctxt "QObject|"
 msgid "Shared Notes"
 msgstr "Gedeelde notities"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:208
+#: src/libraries/core/src/worker/utilshelper.cpp:207
 msgctxt "QObject|"
 msgid "Pdf"
 msgstr "PDF"
 
-#: src/libraries/core/src/worker/utilshelper.cpp:209
+#: src/libraries/core/src/worker/utilshelper.cpp:208
 msgctxt "QObject|"
 msgid "Webview"
 msgstr "Webweergave"
@@ -3413,7 +3398,7 @@ msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr "Automatische spatiëring"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:76
+#: src/libraries/mindmap/resources/qml/Content.qml:74
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Afbeeldingen (*.jpg *.png *.jpeg *.gif *.bmp)"
@@ -3869,12 +3854,12 @@ msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Rood: %1, groen: %2, blauw: %3"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:87
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:102
 msgctxt "FileDirChooser|"
 msgid "Select directory"
 msgstr "Selecteer map"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:92
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:107
 msgctxt "FileDirChooser|"
 msgid "Open File"
 msgstr "Bestand openen"
@@ -3916,81 +3901,76 @@ msgstr "Shuffle-modus"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:100
 msgctxt "PlayerWidget|"
-msgid "Open Directory"
-msgstr "Map openen"
-
-#: src/libraries/rwidgets/customs/playerwidget.cpp:103
-msgctxt "PlayerWidget|"
 msgid "Mute Volume"
 msgstr "Volume dempen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:107
+#: src/libraries/rwidgets/customs/playerwidget.cpp:104
 msgctxt "PlayerWidget|"
 msgid "load TableTopAudio.com playlist"
 msgstr "Afspeellijst TableTopAudio.com laden"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:109
+#: src/libraries/rwidgets/customs/playerwidget.cpp:106
 msgctxt "PlayerWidget|"
 msgid "Open Playlist"
 msgstr "Afspeellijst openen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:112
+#: src/libraries/rwidgets/customs/playerwidget.cpp:109
 msgctxt "PlayerWidget|"
 msgid "Save Playlist"
 msgstr "Afspeellijst opslaan"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:115
+#: src/libraries/rwidgets/customs/playerwidget.cpp:112
 msgctxt "PlayerWidget|"
 msgid "Clear"
 msgstr "Wissen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:119
+#: src/libraries/rwidgets/customs/playerwidget.cpp:116
 msgctxt "PlayerWidget|"
 msgid "Add Songs"
 msgstr "Songs toevoegen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:122
+#: src/libraries/rwidgets/customs/playerwidget.cpp:119
 msgctxt "PlayerWidget|"
 msgid "Open Stream"
 msgstr "Stream openen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:124
+#: src/libraries/rwidgets/customs/playerwidget.cpp:121
 msgctxt "PlayerWidget|"
 msgid "Remove Song"
 msgstr "Song verwijderen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:146
+#: src/libraries/rwidgets/customs/playerwidget.cpp:143
 msgctxt "PlayerWidget|"
 msgid "Add song to the list"
 msgstr "Song aan de lijst toevoegen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:147
+#: src/libraries/rwidgets/customs/playerwidget.cpp:144
 msgctxt "PlayerWidget|"
 msgid "Remove selected file"
 msgstr "Geselecteerd bestand verwijderen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:189
+#: src/libraries/rwidgets/customs/playerwidget.cpp:185
 msgctxt "PlayerWidget|"
 msgid "Add new directory"
 msgstr "Nieuwe map toevoegen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:332
+#: src/libraries/rwidgets/customs/playerwidget.cpp:327
 msgctxt "PlayerWidget|"
 msgid "Add song"
 msgstr "Song toevoegen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:332
+#: src/libraries/rwidgets/customs/playerwidget.cpp:328
 #, qt-format
 msgctxt "PlayerWidget|"
 msgid "Audio files (%1)"
 msgstr "Audio-bestanden (%1)"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:344
+#: src/libraries/rwidgets/customs/playerwidget.cpp:340
 msgctxt "PlayerWidget|"
 msgid "Attention!"
 msgstr "Attentie!"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:345
+#: src/libraries/rwidgets/customs/playerwidget.cpp:341
 msgctxt "PlayerWidget|"
 msgid ""
 "You are about to load an new playlist. All previously load file will be "
@@ -3999,111 +3979,111 @@ msgstr ""
 "U staat op het punt een nieuwe afspeellijst te laden. Alle eerder geladen "
 "bestanden zullen vervallen."
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:354
+#: src/libraries/rwidgets/customs/playerwidget.cpp:350
 msgctxt "PlayerWidget|"
 msgid "Open Play List"
 msgstr "Afspeellijst openen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:354
-#: src/libraries/rwidgets/customs/playerwidget.cpp:432
+#: src/libraries/rwidgets/customs/playerwidget.cpp:350
+#: src/libraries/rwidgets/customs/playerwidget.cpp:429
 msgctxt "PlayerWidget|"
 msgid "PlayList (*.m3u)"
 msgstr "Afspeellijst (*.m3u)"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:363
+#: src/libraries/rwidgets/customs/playerwidget.cpp:359
 msgctxt "PlayerWidget|"
 msgid "Open audio Stream"
 msgstr "Audiostream openen"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:363
+#: src/libraries/rwidgets/customs/playerwidget.cpp:359
 msgctxt "PlayerWidget|"
 msgid "URL"
 msgstr "URL"
 
-#: src/libraries/rwidgets/customs/playerwidget.cpp:432
+#: src/libraries/rwidgets/customs/playerwidget.cpp:429
 msgctxt "PlayerWidget|"
 msgid "Save Play List"
 msgstr "Afspeellijst opslaan"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:42
+#: src/libraries/rwidgets/customs/playerwidget.ui:35
 msgctxt "PlayerWidgetUI|"
 msgid "muted"
 msgstr "gedempt"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:105
+#: src/libraries/rwidgets/customs/playerwidget.ui:98
 msgctxt "PlayerWidgetUI|"
 msgid "Play"
 msgstr "Afspelen"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:127
+#: src/libraries/rwidgets/customs/playerwidget.ui:120
 msgctxt "PlayerWidgetUI|"
 msgid "Pause"
 msgstr "Pauzeren"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:149
+#: src/libraries/rwidgets/customs/playerwidget.ui:142
 msgctxt "PlayerWidgetUI|"
 msgid "Stop"
 msgstr "Stoppen"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:168
+#: src/libraries/rwidgets/customs/playerwidget.ui:161
 msgctxt "PlayerWidgetUI|"
 msgid "unique Mode"
 msgstr "unieke modus"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:184
+#: src/libraries/rwidgets/customs/playerwidget.ui:177
 msgctxt "PlayerWidgetUI|"
 msgid "repeat"
 msgstr "herhaal"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:237
+#: src/libraries/rwidgets/customs/playerwidget.ui:230
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
 msgstr "Opzoek-directories:"
 
+#: src/libraries/rwidgets/customs/playerwidget.ui:257
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
 #: src/libraries/rwidgets/customs/playerwidget.ui:271
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
-#: src/libraries/rwidgets/customs/playerwidget.ui:285
 msgctxt "PlayerWidgetUI|"
 msgid "..."
 msgstr "..."
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:312
+#: src/libraries/rwidgets/customs/playerwidget.ui:305
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
 msgstr "directory toevoegen"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:315
+#: src/libraries/rwidgets/customs/playerwidget.ui:308
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
 msgstr "Muziekdirectory toevoegen."
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:326
+#: src/libraries/rwidgets/customs/playerwidget.ui:319
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
 msgstr "Pad verwijderen"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:329
+#: src/libraries/rwidgets/customs/playerwidget.ui:322
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
 msgstr "Geselecteerde directory verwijderen"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:340
+#: src/libraries/rwidgets/customs/playerwidget.ui:333
 msgctxt "PlayerWidgetUI|"
 msgid "Up path"
 msgstr "Pad omhoog"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:343
+#: src/libraries/rwidgets/customs/playerwidget.ui:336
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
 msgstr "In de geselecteerde directory omhoog verplaatsen"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:354
+#: src/libraries/rwidgets/customs/playerwidget.ui:347
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
 msgstr "omlaag verplaatsen"
 
-#: src/libraries/rwidgets/customs/playerwidget.ui:357
+#: src/libraries/rwidgets/customs/playerwidget.ui:350
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
 msgstr "In de geselecteerde directory omlaag verplaatsen "
@@ -4840,17 +4820,17 @@ msgctxt "KeyGeneratorDialog|"
 msgid "Copy/Paste result into server configuration file."
 msgstr "Resultaat in het configuratiebestand van de server kopiëren/plakken."
 
-#: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
+#: src/libraries/rwidgets/dialogs/newfiledialog.cpp:35
 msgctxt "NewFileDialog|"
 msgid "Shared Notes"
 msgstr "Gedeelde notities"
 
-#: src/libraries/rwidgets/dialogs/newfiledialog.cpp:38
+#: src/libraries/rwidgets/dialogs/newfiledialog.cpp:36
 msgctxt "NewFileDialog|"
 msgid "Notes"
 msgstr "Notities"
 
-#: src/libraries/rwidgets/dialogs/newfiledialog.cpp:39
+#: src/libraries/rwidgets/dialogs/newfiledialog.cpp:37
 msgctxt "NewFileDialog|"
 msgid "MindMap"
 msgstr "MindMap"
@@ -4910,76 +4890,76 @@ msgctxt "PreferencesDialog|"
 msgid "PC All"
 msgstr "PC Alles"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:144
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:145
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:14
 msgctxt "PreferencesDialog|"
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:308
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:310
 msgctxt "PreferencesDialog|"
 msgid "Images (*.png *.xpm *.jpg *.gif *.bmp)"
 msgstr "Afbeeldingen (*.png *.xpm *.jpg *.gif *.bmp)"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:364
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:366
 msgctxt "PreferencesDialog|"
 msgid "Css Editor"
 msgstr "Css-bewerker"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:364
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:366
 msgctxt "PreferencesDialog|"
 msgid "Css"
 msgstr "Css"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:395
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:397
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
 msgstr "<li>Afbeeldingsformaat : %1 waarde %2</li>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:396
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:398
 msgctxt "PreferencesDialog|"
 msgid "<h2>Supported Image Formats:</h2><ul>"
 msgstr "<h2>Ondersteunde afbeeldingsformaten:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:403
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:405
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Image Format"
 msgstr "</ul>Einde van afbeeldingsformaat"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:406
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:408
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
 msgstr "<h2>Lettertypefamilies:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:413
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:415
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
 msgstr "</ul>Einde van lettertypefamilies"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:416
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:418
 msgctxt "PreferencesDialog|"
 msgid "<h2>Audio file formats Support:</h2><ul>"
 msgstr "<h2>Ondersteuning voor audiobestandsformaten:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:451
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:453
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Supported Audio file formats"
 msgstr "</ul>Einde van ondersteunde audiobestandsformaten"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:468
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:470
 msgctxt "PreferencesDialog|"
 msgid "Export Rolisteam Theme"
 msgstr "Rolisteam-thema exporteren"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:470
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:479
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:472
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:481
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "Rolisteam Theme: %1"
 msgstr "Rolisteam-thema: %1"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:478
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:480
 msgctxt "PreferencesDialog|"
 msgid "Import Rolisteam Theme"
 msgstr "Rolisteam-thema importeren"
@@ -5803,12 +5783,12 @@ msgctxt "AntagonistBoard|"
 msgid "Remove Character"
 msgstr "Karakter verwijderen"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:74
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:79
 msgctxt "AudioPlayer|"
 msgid "Background Music"
 msgstr "Achtergrondmuziek"
 
-#: src/libraries/rwidgets/docks/audioPlayer.cpp:96
+#: src/libraries/rwidgets/docks/audioPlayer.cpp:100
 #, qt-format
 msgctxt "AudioPlayer|"
 msgid "Show/hide Player %1"
@@ -6430,113 +6410,121 @@ msgctxt "TextEdit|"
 msgid "&File"
 msgstr "&Bestand"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:179
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Save"
+msgctxt "TextEdit|"
+msgid "&Save"
+msgstr "Opslaan"
+
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
 msgctxt "TextEdit|"
 msgid "&Print..."
 msgstr "Af&drukken..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:185
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:194
 msgctxt "TextEdit|"
 msgid "Print Preview..."
 msgstr "Afdrukvoorbeeld..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:198
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
 msgstr "PDF &exporteren..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:199
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:208
 msgctxt "TextEdit|"
 msgid "Edit Actions"
 msgstr "Acties bewerken"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:202
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:211
 msgctxt "TextEdit|"
 msgid "&Edit"
 msgstr "B&ewerken"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:206
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:215
 msgctxt "TextEdit|"
 msgid "&Undo"
 msgstr "&Ongedaan maken"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:210
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:219
 msgctxt "TextEdit|"
 msgid "&Redo"
 msgstr "Opnie&uw"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:215
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:224
 msgctxt "TextEdit|"
 msgid "Cu&t"
 msgstr "Kni&ppen"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:219
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:228
 msgctxt "TextEdit|"
 msgid "&Copy"
 msgstr "&Kopiëren"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:223
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:232
 msgctxt "TextEdit|"
 msgid "&Paste"
 msgstr "&Plakken"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:233
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:301
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:242
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:310
 msgctxt "TextEdit|"
 msgid "Format Actions"
 msgstr "Opmaakacties"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:236
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:245
 msgctxt "TextEdit|"
 msgid "F&ormat"
 msgstr "F&ormatteren"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:239
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:248
 msgctxt "TextEdit|"
 msgid "&Bold"
 msgstr "&Vet"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:249
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:258
 msgctxt "TextEdit|"
 msgid "&Italic"
 msgstr "&Cursief"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:268
 msgctxt "TextEdit|"
 msgid "&Underline"
 msgstr "Onderstre&pen"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:274
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:283
 msgctxt "TextEdit|"
 msgid "&Left"
 msgstr "&Links"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:277
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:286
 msgctxt "TextEdit|"
 msgid "C&enter"
 msgstr "&Midden"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:280
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:289
 msgctxt "TextEdit|"
 msgid "&Right"
 msgstr "&Rechts"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:283
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:292
 msgctxt "TextEdit|"
 msgid "&Justify"
 msgstr "&Uitvullen"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:294
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:303
 msgctxt "TextEdit|"
 msgid "&Color..."
 msgstr "&Kleur..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:368
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:376
 msgctxt "TextEdit|"
 msgid "Application"
 msgstr "Toepassing"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:369
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:377
 msgctxt "TextEdit|"
 msgid ""
 "The document has been modified.\n"
@@ -6545,37 +6533,17 @@ msgstr ""
 "Het document is gewijzigd.\n"
 "Wilt u de wijzigingen opslaan?"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:391
-msgctxt "TextEdit|"
-msgid "Open File..."
-msgstr "Bestand openen..."
-
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:431
-msgctxt "TextEdit|"
-msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
-msgstr "ODF bestanden (*.odt);;HTML-Files (*.htm *.html);;Alle bestanden (*)"
-
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:433
-msgctxt "TextEdit|"
-msgid "HTML-Files (*.htm *.html);;All Files (*)"
-msgstr "HTML-bestanden (*.htm *.html);;Alle bestanden (*)"
-
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:435
-msgctxt "TextEdit|"
-msgid "Save as..."
-msgstr "Opslaan als..."
-
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:450
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:420
 msgctxt "TextEdit|"
 msgid "Print Document"
 msgstr "Document afdrukken"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:634
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:604
 msgctxt "TextEdit|"
 msgid "About"
 msgstr "Info over"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:635
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:605
 msgctxt "TextEdit|"
 msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
@@ -6584,7 +6552,7 @@ msgstr ""
 "Dit voorbeeld demonstreert de rijke tekstbewerkingsfaciliteiten van Qt in "
 "actie, en levert een voorbeelddocument aan u om mee te experimenteren."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:688
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:658
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
 msgstr "OpenOffice 2.4 bestandsformaat OASIS "
@@ -7590,12 +7558,12 @@ msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "Vorm opschonen"
 
-#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:130
+#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:138
 msgctxt "PathItem|"
 msgid "Close Path"
 msgstr "Pad sluiten"
 
-#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:134
+#: src/libraries/rwidgets/graphicsItems/pathitem.cpp:143
 msgctxt "PathItem|"
 msgid "Fill Path"
 msgstr "Pad invullen"
@@ -7893,8 +7861,8 @@ msgctxt "QObject|"
 msgid "Loading error"
 msgstr "Fout bij laden"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:137
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:139
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:138
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:140
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
@@ -8097,7 +8065,7 @@ msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
 msgstr "%1 - zichtbaarheid: %2 - rechten: %3 - laag: %4"
 
-#: src/libraries/rwidgets/mediacontainers/webview.cpp:125
+#: src/libraries/rwidgets/mediacontainers/webview.cpp:135
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
@@ -8179,52 +8147,51 @@ msgid "Open"
 msgstr "Openen"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:29
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:156
-msgctxt "campaign::CampaignView|"
-msgid "Open As…"
-msgstr "Openen als…"
-
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:30
 msgctxt "campaign::CampaignView|"
 msgid "Rename Media"
 msgstr "Media hernoemen"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:32
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:31
 msgctxt "campaign::CampaignView|"
 msgid "Name"
 msgstr "Naam"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:33
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:32
 msgctxt "campaign::CampaignView|"
 msgid "Size"
 msgstr "Grootte"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:34
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:33
 msgctxt "campaign::CampaignView|"
 msgid "Type"
 msgstr "Type"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:35
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:34
 msgctxt "campaign::CampaignView|"
 msgid "Date Added"
 msgstr "Datum toegevoegd"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:36
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:35
 msgctxt "campaign::CampaignView|"
 msgid "Date Modified"
 msgstr "Datum gewijzigd"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:120
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:105
 msgctxt "campaign::CampaignView|"
 msgid "Notes"
 msgstr "Notities"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:123
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:108
 msgctxt "campaign::CampaignView|"
 msgid "Shared Notes"
 msgstr "Gedeelde notities"
 
-#: src/libraries/rwidgets/modelviews/campaignview.cpp:164
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:157
+msgctxt "campaign::CampaignView|"
+msgid "Open As…"
+msgstr "Openen als…"
+
+#: src/libraries/rwidgets/modelviews/campaignview.cpp:165
 msgctxt "campaign::CampaignView|"
 msgid "Show/hide Column"
 msgstr "Kolom tonen/verbergen"
@@ -8473,6 +8440,39 @@ msgstr "Slaapt"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Behekst"
+
+#~ msgctxt "RcseApplicationController|"
+#~ msgid "Yes"
+#~ msgstr "Ja"
+
+#~ msgctxt "RcseApplicationController|"
+#~ msgid "No"
+#~ msgstr "Nee"
+
+#~ msgctxt "MediaModel|"
+#~ msgid "Directory"
+#~ msgstr "Map"
+
+#~ msgctxt "PlayerWidget|"
+#~ msgid "Open Directory"
+#~ msgstr "Map openen"
+
+#~ msgctxt "TextEdit|"
+#~ msgid "Open File..."
+#~ msgstr "Bestand openen..."
+
+#~ msgctxt "TextEdit|"
+#~ msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
+#~ msgstr ""
+#~ "ODF bestanden (*.odt);;HTML-Files (*.htm *.html);;Alle bestanden (*)"
+
+#~ msgctxt "TextEdit|"
+#~ msgid "HTML-Files (*.htm *.html);;All Files (*)"
+#~ msgstr "HTML-bestanden (*.htm *.html);;Alle bestanden (*)"
+
+#~ msgctxt "TextEdit|"
+#~ msgid "Save as..."
+#~ msgstr "Opslaan als..."
 
 #~ msgctxt "MainWindow|"
 #~ msgid ""
