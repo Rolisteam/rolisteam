@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2024-11-01 07:22+0100\n"
+"PO-Revision-Date: 2024-11-12 07:31+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1730,7 +1730,7 @@ msgid ""
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
 "Objavljen je izid različice %1. Oglejte si <a href=\"http://www.rolisteam."
-"org/download\">stran za prenos</a> za več informacij."
+"org/download\">stran za prenos</a> za več informacij"
 
 #: src/binaries/widget/mainwindow.cpp:814
 #, qt-format
@@ -4066,7 +4066,7 @@ msgstr "..."
 #: src/libraries/rwidgets/customs/playerwidget.ui:305
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr "Dodaj imenik"
+msgstr "dodaj imenik"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:308
 msgctxt "PlayerWidgetUI|"
@@ -6429,12 +6429,9 @@ msgid "&File"
 msgstr "&Datoteka"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save"
 msgctxt "TextEdit|"
 msgid "&Save"
-msgstr "Shrani"
+msgstr "&Shrani"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
 msgctxt "TextEdit|"
