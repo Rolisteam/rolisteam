@@ -7,39 +7,29 @@ import Customization
 
 T.Button {
     id: control
+
     property QtObject style: Theme.styleSheet("Palette")
 
-    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            implicitContentWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding)
-
+    icon.height: 16
+    icon.width: 16
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, implicitContentHeight + topPadding + bottomPadding)
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset, implicitContentWidth + leftPadding + rightPadding)
     padding: 4
     spacing: 6
 
-    icon.width: 16
-    icon.height: 16
-
-    contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
-
-        icon: control.icon
-        text: control.text
-        font: control.font
-        color: control.style.buttonText
-    }
-
     background: ButtonPanel {
-        implicitWidth: 80
-        implicitHeight: 24
-
         control: control
-        visible: !control.flat || control.down || control.checked || control.highlighted || control.visualFocus
-            || (enabled && control.hovered)
+        implicitHeight: 24
+        implicitWidth: 80
+        visible: !control.flat || control.down || control.checked || control.highlighted || control.visualFocus || (enabled && control.hovered)
+    }
+    contentItem: IconLabel {
+        color: control.style.buttonText
+        display: control.display
+        font: control.font
+        icon: control.icon
+        mirrored: control.mirrored
+        spacing: control.spacing
+        text: control.text
     }
 }
-
-
-

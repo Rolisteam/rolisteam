@@ -1,49 +1,45 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.impl 2.12
-import QtQuick.Templates 2.12 as T
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.impl
+import QtQuick.Templates as T
 import Customization
 
 T.TextField {
     id: control
+
     property QtObject style: Theme.styleSheet("Palette")
 
-    implicitWidth: implicitBackgroundWidth + leftInset + rightInset
-                   || Math.max(contentWidth, placeholder.implicitWidth) + leftPadding + rightPadding
-    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             contentHeight + topPadding + bottomPadding,
-                             placeholder.implicitHeight + topPadding + bottomPadding)
-
-    padding: 6
-    leftPadding: padding + 4
-
     color: control.style.text
-    selectionColor: control.style.highlight
-    selectedTextColor: control.style.highlightedText
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, contentHeight + topPadding + bottomPadding, placeholder.implicitHeight + topPadding + bottomPadding)
+    implicitWidth: implicitBackgroundWidth + leftInset + rightInset || Math.max(contentWidth, placeholder.implicitWidth) + leftPadding + rightPadding
+    leftPadding: padding + 4
+    padding: 6
     placeholderTextColor: Color.transparent(control.color, 0.5)
+    selectedTextColor: control.style.highlightedText
+    selectionColor: control.style.highlight
     verticalAlignment: TextInput.AlignVCenter
+
+    background: Rectangle {
+        border.color: control.activeFocus ? control.style.highlight : control.style.mid
+        border.width: control.activeFocus ? 2 : 1
+        color: control.style.base
+        implicitHeight: 40
+        implicitWidth: 200
+    }
 
     PlaceholderText {
         id: placeholder
-        x: control.leftPadding
-        y: control.topPadding
-        width: control.width - (control.leftPadding + control.rightPadding)
-        height: control.height - (control.topPadding + control.bottomPadding)
 
-        text: control.placeholderText
-        font: control.font
         color: control.placeholderTextColor
+        elide: Text.ElideRight
+        font: control.font
+        height: control.height - (control.topPadding + control.bottomPadding)
+        renderType: control.renderType
+        text: control.placeholderText
         verticalAlignment: control.verticalAlignment
         visible: !control.length && !control.preeditText && (!control.activeFocus || control.horizontalAlignment !== Qt.AlignHCenter)
-        elide: Text.ElideRight
-        renderType: control.renderType
-    }
-
-    background: Rectangle {
-        implicitWidth: 200
-        implicitHeight: 40
-        border.width: control.activeFocus ? 2 : 1
-        color: control.style.base
-        border.color: control.activeFocus ? control.style.highlight : control.style.mid
+        width: control.width - (control.leftPadding + control.rightPadding)
+        x: control.leftPadding
+        y: control.topPadding
     }
 }

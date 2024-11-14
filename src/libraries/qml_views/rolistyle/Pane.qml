@@ -1,7 +1,7 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Controls.impl 2.15
-import QtQuick.Templates 2.15 as T
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.impl
+import QtQuick.Templates as T
 import Customization
 
 T.Pane {
@@ -9,15 +9,11 @@ T.Pane {
 
     property QtObject style: Theme.styleSheet("Palette")
 
-    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                                contentWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                                 contentHeight + topPadding + bottomPadding)
-
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, contentHeight + topPadding + bottomPadding)
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset, contentWidth + leftPadding + rightPadding)
     padding: 12
 
     background: Rectangle {
         color: control.style.base
     }
-
 }
