@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
+import QtQuick.Controls.impl
 
 Button {
     id: root
@@ -22,4 +23,13 @@ Button {
     ToolTip.visible: hovered
     ToolTip.text: root.tooltip
     display: AbstractButton.IconOnly
+
+    background: Rectangle {
+        border.color: root.style.highlight
+        border.width: root.visualFocus ? 2 : 0
+        color: Color.blend(root.checked || root.highlighted ? root.style.dark : root.style.button, root.style.mid, root.down ? 0.5 : 0.0)
+        implicitHeight: 24
+        implicitWidth: 80
+        visible: !root.flat || root.down || root.checked || root.highlighted
+    }
 }
