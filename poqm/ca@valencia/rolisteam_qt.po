@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2024-11-01 10:14+0100\n"
+"PO-Revision-Date: 2024-11-12 10:09+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6431,12 +6431,9 @@ msgid "&File"
 msgstr "Fi&txer"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save"
 msgctxt "TextEdit|"
 msgid "&Save"
-msgstr "Guarda"
+msgstr "Guar&da"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
 msgctxt "TextEdit|"
@@ -8463,36 +8460,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "RcseApplicationController|"
-#~ msgid "Yes"
-#~ msgstr "Sí"
-
-#~ msgctxt "RcseApplicationController|"
-#~ msgid "No"
-#~ msgstr "No"
-
-#~ msgctxt "MediaModel|"
-#~ msgid "Directory"
-#~ msgstr "Directori"
-
-#~ msgctxt "PlayerWidget|"
-#~ msgid "Open Directory"
-#~ msgstr "Obri un directori"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "Open File..."
-#~ msgstr "Obri un fitxer…"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
-#~ msgstr ""
-#~ "Fitxers ODF (*.odt);;Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "HTML-Files (*.htm *.html);;All Files (*)"
-#~ msgstr "Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "Save as..."
-#~ msgstr "Anomena i guarda…"

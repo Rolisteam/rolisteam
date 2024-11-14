@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-11-05 22:31+0100\n"
+"PO-Revision-Date: 2024-11-13 16:36+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
 msgctxt "Main|"
@@ -6421,12 +6421,9 @@ msgid "&File"
 msgstr "&Fitxategia"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save"
 msgctxt "TextEdit|"
 msgid "&Save"
-msgstr "Gorde"
+msgstr "&Gorde"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
 msgctxt "TextEdit|"
