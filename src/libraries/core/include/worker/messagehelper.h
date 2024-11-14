@@ -27,6 +27,7 @@
 
 #include "media/mediatype.h"
 #include "mindmap/model/imagemodel.h"
+#include "mindmap/model/minditemmodel.h"
 #include "network/networkmessage.h"
 #include "updater/media/charactersheetupdater.h"
 #include <core_global.h>
@@ -156,7 +157,7 @@ public:
     // ImageModel
     static void sendOffImageInfo(const mindmap::ImageInfo& info, MediaControllerBase* ctrl);
     static void sendOffRemoveImageInfo(const QString& id, MediaControllerBase* ctrl);
-    static void readAddSubImage(mindmap::ImageModel* model, NetworkMessageReader* msg);
+    static void readAddSubImage(mindmap::ImageModel* model, mindmap::MindItemModel* items, NetworkMessageReader* msg);
     static void readRemoveSubImage(mindmap::ImageModel* model, NetworkMessageReader* msg);
 
     // MusicPlayer

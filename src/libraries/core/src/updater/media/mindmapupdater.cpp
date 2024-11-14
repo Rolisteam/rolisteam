@@ -427,7 +427,7 @@ NetWorkReceiver::SendType MindMapUpdater::processMessage(NetworkMessageReader* m
     {
         auto id= msg->string8();
         auto ctrl= findController(id, m_mindmaps);
-        MessageHelper::readAddSubImage(ctrl->imgModel(), msg);
+        MessageHelper::readAddSubImage(ctrl->imgModel(), ctrl->itemModel(), msg);
     }
     else if(msg->action() == NetMsg::RemoveSubImage && msg->category() == NetMsg::MediaCategory)
     {

@@ -1402,7 +1402,7 @@ void MessageHelper::sendOffCharacter(const vmap::CharacterItemController* ctrl, 
     msg.sendToServer();
 }
 
-void MessageHelper::readAddSubImage(mindmap::ImageModel* model, NetworkMessageReader* msg)
+void MessageHelper::readAddSubImage(mindmap::ImageModel* model, mindmap::MindItemModel* items, NetworkMessageReader* msg)
 {
     if(!msg || !model)
         return;
@@ -1412,6 +1412,7 @@ void MessageHelper::readAddSubImage(mindmap::ImageModel* model, NetworkMessageRe
     if(pix.isNull())
         return;
     model->insertPixmap(id, pix, url, true);
+    items->update(id, mindmap::MindItemModel::HasPicture);
 }
 
 void MessageHelper::readRemoveSubImage(mindmap::ImageModel* model, NetworkMessageReader* msg)
