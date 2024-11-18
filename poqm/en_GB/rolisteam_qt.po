@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-11-01 14:01+0000\n"
+"PO-Revision-Date: 2024-11-16 12:58+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -6407,12 +6407,9 @@ msgid "&File"
 msgstr "&File"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save"
 msgctxt "TextEdit|"
 msgid "&Save"
-msgstr "Save"
+msgstr "&Save"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
 msgctxt "TextEdit|"
