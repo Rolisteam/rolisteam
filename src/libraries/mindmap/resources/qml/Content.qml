@@ -17,7 +17,6 @@ Pane {
     property bool darkMode: false
     property int idx: 0
     property QtObject styleSheet: Theme.styleSheet("mindmap")
-    property real viewScale: 1
 
     signal saveMap
 
@@ -220,9 +219,9 @@ Pane {
         onWheel: wheel => {
             var step = (wheel.modifiers & Qt.ControlModifier) ? 0.1 : 0.01;
             if (wheel.angleDelta.y > 0) {
-                root.viewScale = Math.min(root.viewScale + step, 2.0);
+                ctrl.zoomLevel = Math.min(ctrl.zoomLevel + step, 3.0);
             } else
-                root.viewScale = Math.max(root.viewScale - step, 0.2);
+                ctrl.zoomLevel = Math.max(ctrl.zoomLevel - step, 0.1);
         }
     }
 }
