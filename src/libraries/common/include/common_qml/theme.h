@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QQmlPropertyMap>
 #include <QQmlEngine>
+#include <QPalette>
 #include <common_qml/common_qml_global.h>
 #include <map>
 
@@ -70,6 +71,9 @@ public:
 
     QFont imLittleFont() const;
     QFont imBigFont() const;
+
+    Q_INVOKABLE QColor buttonColor(QColor button, QColor highLight, bool isHighlight, bool down, bool hovered) const;
+    Q_INVOKABLE QColor buttonOutline(QColor highLight, QColor window,  bool highlighted, bool enabled) const;
 
 public slots:
     void setNightMode(bool b);

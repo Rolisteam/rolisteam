@@ -95,9 +95,9 @@ void Theme::setNightMode(bool b)
     if(b == m_nightMode)
         return;
     m_nightMode= b;
+    loadData(m_dataPath);
     emit nightModeChanged(m_nightMode);
     emit folderChanged(folder());
-    loadData(m_dataPath);
 }
 
 Theme* Theme::instance()
@@ -242,6 +242,52 @@ QFont Theme::imBigFont() const
     res.setPointSize(res.pointSize() * 2);
     res.setBold(true);
     return res;
+}
+
+QColor mergedColors(const QColor& colorA, const QColor& colorB, int factor)
+{
+    const int maxFactor= 100;
+    const auto rgbColorB= colorB.toRgb();
+    QColor tmp= colorA.toRgb();
+    tmp.setRed((tmp.red() * factor) / maxFactor + (rgbColorB.red() * (maxFactor - factor)) / maxFactor);
+    tmp.setGreen((tmp.green() * factor) / maxFactor + (rgbColorB.green() * (maxFactor - factor)) / maxFactor);
+    tmp.setBlue((tmp.blue() * factor) / maxFactor + (rgbColorB.blue() * (maxFactor - factor)) / maxFactor);
+    return tmp;
+}
+
+QColor highlightedOutline(QColor highLight, bool isDarkMode)
+{
+    QColor highlightedOutline= highLight.darker(isDarkMode ? 75 : 125).toHsv();
+    if(highlightedOutline.value() > 160)
+        highlightedOutline.setHsl(highlightedOutline.hue(), highlightedOutline.saturation(), 160);
+    return highlightedOutline;
+}
+
+QColor Theme::buttonColor(QColor button, QColor highLight, bool isHighlight, bool down, bool hovered) const
+{
+    QColor buttonColor= button;
+    int val= qGray(buttonColor.rgb());
+    auto colorOffset= 100 + ((m_nightMode ? -1 : 1) * qMax(1, (180 - val) / 6));
+
+    buttonColor= buttonColor.lighter(colorOffset);
+    buttonColor= buttonColor.toHsv();
+    buttonColor.setHsv(buttonColor.hue(), int(buttonColor.saturation() * 0.75), buttonColor.value());
+    auto outline= highlightedOutline(highLight, m_nightMode);
+    if(isHighlight)
+        buttonColor= mergedColors(buttonColor, outline.lighter(m_nightMode ? 70 : 130), 90);
+    if(!hovered)
+        buttonColor= buttonColor.darker(m_nightMode ? 96 : 104);
+    if(down)
+        buttonColor= buttonColor.darker(m_nightMode ? 90 : 110);
+
+    return buttonColor;
+}
+
+QColor Theme::buttonOutline(QColor highLight, QColor window, bool highlighted, bool enabled) const
+{
+    QColor darkOutline
+        = enabled && highlighted ? highlightedOutline(highLight, m_nightMode) : window.darker(m_nightMode ? 60 : 140);
+    return !enabled ? darkOutline.lighter(m_nightMode ? 85 : 115) : darkOutline;
 }
 
 } // namespace customization
