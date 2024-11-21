@@ -36,5 +36,6 @@
         <file>rolistyle/CheckBox.qml</file>
         <file>rolistyle/ToolButton.qml</file>
         <file>InstantMessaging/AvatarPanel.qml</file>
+        <file>rolistyle/ButtonPanel.qml</file>
     </qresource>
 </RCC>
