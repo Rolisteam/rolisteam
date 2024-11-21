@@ -1,31 +1,35 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Controls.Universal
 import mindmap
+import CustomItems
 import mindmapcpp
 
 Popup {
     id: _root
     modal: true
-    property QtObject node
+    property MindNode node
     required property MindMapController ctrl
+    property bool hasAvatar : false
+
+    implicitHeight: flickable.contentHeight + 2*_root.padding
+
     ScrollView {
         id: flickable
         anchors.fill: parent
-        contentWidth: mainLyt.implicitWidth+30
+        contentWidth: mainLyt.implicitWidth
         contentHeight: mainLyt.implicitHeight
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
         clip: true
         ColumnLayout {
             id: mainLyt
-            spacing: 0
+            spacing: 2
 
             GridLayout {
                 id: info
                 columns: 1
                 Layout.fillWidth: true
-                Layout.rightMargin: 30
+                Layout.rightMargin: 15
                 Label {
                     text: qsTr("Description: ")
                 }
@@ -55,6 +59,7 @@ Popup {
                     Layout.fillWidth: true
                     Button {
                         text: qsTr("Remove Avatar")
+                        enabled:  _root.hasAvatar
                         onClicked: _root.ctrl.removeImageFor(_root.node.id)
                     }
                 }

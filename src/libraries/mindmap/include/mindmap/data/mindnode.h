@@ -21,6 +21,7 @@
 #define MINDNODE_H
 #include <QObject>
 #include <QPointF>
+#include <QQmlEngine>
 #include <QVector2D>
 
 #include "mindmap/data/positioneditem.h"
@@ -31,6 +32,7 @@ namespace mindmap
 class MINDMAP_EXPORT MindNode : public PositionedItem
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(MindNode)
     Q_PROPERTY(QString imageUri READ imageUri WRITE setImageUri NOTIFY imageUriChanged)
     Q_PROPERTY(int styleIndex READ styleIndex WRITE setStyleIndex NOTIFY styleIndexChanged)
     Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)

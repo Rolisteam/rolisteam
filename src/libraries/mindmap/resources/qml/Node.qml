@@ -28,8 +28,6 @@ Pane
     x: currentNode.position.x
     y: currentNode.position.y
 
-
-
     visible: currentNode.visible
     onWidthChanged: currentNode.width = width
     onHeightChanged: {
@@ -67,12 +65,12 @@ Pane
       value: dragMouse.drag.active
       delayed: true
     }
-    Drag.keys: [ "rmindmap/reparenting" ]
+    Drag.keys: [ "rmindmap/reparenting", "text/x-reparenting"]
 
     Drag.supportedActions: Qt.MoveAction
     Drag.mimeData: {
-        "text/x-reparenting": root.ident
-        //"rmindmap/reparenting": root.ident
+        "text/x-reparenting": root.ident,
+        "rmindmap/reparenting": root.ident
     }
     Item {
         id: centralItem
@@ -88,22 +86,19 @@ Pane
             drag.minimumY: 0
             preventStealing: true
             onPressed:(mouse)=>{
-                          root.clicked(mouse)
-                          root.grabToImage(function(result) {
-                              if(mouse.modifiers & Qt.ControlModifier)
-                              {
-                                  root.Drag.dragType = Drag.Automatic
-
-                                  //root.Drag.keys = [ "rmindmap/reparenting"]
-                              }
-                              else
-                              {
-                                  root.Drag.dragType = Drag.Internal
-                                  //root.Drag.keys = []
-                              }
-                              root.Drag.imageSource = result.url
-                          })
-                      }
+                root.clicked(mouse)
+                root.grabToImage(function(result) {
+                    if(mouse.modifiers & Qt.ControlModifier)
+                    {
+                        root.Drag.dragType = Drag.Automatic
+                    }
+                    else
+                    {
+                        root.Drag.dragType = Drag.Internal
+                    }
+                    root.Drag.imageSource = result.url
+                }, Qt.size(root.width, root.height))
+            }
 
             onDoubleClicked: {
                 root.isEditable = true

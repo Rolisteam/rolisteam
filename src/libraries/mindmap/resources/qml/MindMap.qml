@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import Customization
 import mindmap
 import mindmapcpp
+import rolistyle
 
 Flickable {
     id: _flick
@@ -68,6 +69,9 @@ Flickable {
             visible: objectItem.visible
             text: objectItem.text ?  objectItem.text : qsTr("is linked")
             visibleLabel: _flick.ctrl.linkLabelVisibility
+            onTextEdited: {
+                objectItem.text = linkItem.text
+            }
 
             onSelected: {
                 _flick.ctrl.selectionCtrl.clearSelection()
@@ -89,8 +93,6 @@ Flickable {
         id: packComp
         PackageItem {
             packageItem: objectItem
-            width: objectItem.width
-            height: objectItem.height
             visible: objectItem.visible
             selected: objectItem.selected
             title: objectItem.title
@@ -153,6 +155,13 @@ Flickable {
             onAddImage: (img, data)=>{ _flick.ctrl.addImageFor(objectItem.id, img, data)}
             onSelectStyle: {
                 _stylePopup.parent = nodeItem
+
+                const h = Math.min(_flick.height - nodeItem.y - _flick.contentY, _stylePopup.implicitHeight)
+                _stylePopup.y = h < 300 ? -Math.abs(300 - h)  : 0
+                _stylePopup.x = nodeItem.width
+                _stylePopup.height = Math.max(h, 300)
+                _stylePopup.hasAvatar = hasAvatar
+
                 _stylePopup.node = objectItem
                 _stylePopup.open()
             }

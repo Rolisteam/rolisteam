@@ -70,10 +70,11 @@ const QList<PositionedItem*>& PackageNode::children() const
 
 void PackageNode::performLayout()
 {
+    qDebug() << "Perform Layout";
     if(m_internalChildren.isEmpty())
         return;
 
-    auto const itemCount= m_internalChildren.size();
+    auto const itemCount= static_cast<std::size_t>(m_internalChildren.size());
     auto const w= width();
 
     std::vector<int> vec;
@@ -81,7 +82,7 @@ void PackageNode::performLayout()
                    [](PositionedItem* item) { return item->width(); });
     auto maxWidth= *std::max_element(std::begin(vec), std::end(vec));
 
-    int itemPerLine= 1;
+    std::size_t itemPerLine= 1;
     while(maxWidth < (width() * 0.75) && itemCount > itemPerLine)
     {
         ++itemPerLine;

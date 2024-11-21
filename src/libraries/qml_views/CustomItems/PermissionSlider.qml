@@ -17,8 +17,8 @@ Slider {
 
     from: control.style.startValue
     to: control.style.endValue
-    stepSize: 1.0
-    snapMode: Slider.SnapOnRelease
+    stepSize: control.style.stepSize
+    snapMode: Slider.SnapAlways
 
     background: Rectangle {
             x: control.leftPadding
@@ -33,7 +33,7 @@ Slider {
             Rectangle {
                 width: control.visualPosition * parent.width
                 height: parent.height
-                color: control.value == 1 ? control.style.readOnlyPermColor : control.style.writePermColor
+                color: control.value <= 1 ? control.style.readOnlyPermColor : control.style.writePermColor
                 radius: control.style.radiusSize
             }
         }
