@@ -232,7 +232,7 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
     // end of existing data
 
     connect(nodeModel, &mindmap::MindItemModel::itemAdded, this,
-            [this, ctrl, nodeModel](const QList<mindmap::MindItem*>& items)
+            [this, ctrl](const QList<mindmap::MindItem*>& items)
             {
                 auto idCtrl= ctrl->uuid();
                 auto info= findConnectionInfo(idCtrl);
@@ -268,7 +268,10 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
                         info->connections
                             << connect(link, &mindmap::LinkController::textChanged, this,
                                        [this, idCtrl, link]()
-                                       { sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false); });
+                                       {
+                                           qDebug() << "update text of link:" << link->text();
+                                           sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false);
+                                       });
                         info->connections << connect(link, &mindmap::LinkController::directionChanged, this,
                                                      [this, idCtrl, link]() {
                                                          sendOffChange<mindmap::ArrowDirection>(
@@ -327,40 +330,6 @@ void MindMapUpdater::sendOffRemoveMessage(const QString& idCtrl, const QStringLi
     msg.sendToServer();
 }
 
-/*void MindMapUpdater::sendOffAddingMessage(const QString& idCtrl, const QList<mindmap::MindNode*>& nodes,
-                                          const QList<mindmap::LinkController*>& links)
-{
-    auto info= findConnectionInfo(idCtrl);
-
-    for(auto node : nodes)
-    {
-        info->connections << connect(node, &mindmap::MindNode::textChanged, this,
-                                     [this, idCtrl, node]()
-                                     { sendOffChange<QString>(idCtrl, QStringLiteral("text"), node, true); });
-        info->connections << connect(node, &mindmap::MindNode::imageUriChanged, this,
-                                     [this, idCtrl, node]()
-                                     { sendOffChange<QString>(idCtrl, QStringLiteral("imageUri"), node, true); });
-        info->connections << connect(node, &mindmap::MindNode::styleIndexChanged, this,
-                                     [this, idCtrl, node]()
-                                     { sendOffChange<int>(idCtrl, QStringLiteral("styleIndex"), node, true); });
-    }
-
-    for(auto link : std::as_const(links))
-    {
-        info->connections << connect(link, &mindmap::LinkController::textChanged, this,
-                                     [this, idCtrl, link]()
-                                     { sendOffChange<QString>(idCtrl, QStringLiteral("text"), link, false); });
-        info->connections << connect(
-            link, &mindmap::LinkController::directionChanged, this,
-            [this, idCtrl, link]()
-            { sendOffChange<mindmap::ArrowDirection>(idCtrl, QStringLiteral("direction"), link, false); });
-    }
-    NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddMessage);
-    msg.string8(idCtrl);
-    MessageHelper::buildAddItemMessage(msg, nodes, links);
-    msg.sendToServer();
-}*/
-
 ConnectionInfo* MindMapUpdater::findConnectionInfo(const QString& id)
 {
     auto it= std::find_if(std::begin(m_connections), std::end(m_connections),
@@ -400,15 +369,12 @@ NetWorkReceiver::SendType MindMapUpdater::processMessage(NetworkMessageReader* m
             && msg->category() == NetMsg::MindMapCategory)
     {
         auto id= msg->string8();
-        // auto idnode= msg->string8();
         updateSubobjectProperty(msg, findController(id, m_mindmaps));
     }
     else if(msg->category() == NetMsg::MindMapCategory && msg->action() == NetMsg::RemoveNode)
     {
         auto id= msg->string8();
         MessageHelper::readMindMapRemoveMessage(findController(id, m_mindmaps), msg);
-
-        // ctrl->removeNode(MessageHelper::readIdList(*msg));
     }
     else if(msg->action() == NetMsg::UpdateMindMapPermission && msg->category() == NetMsg::MindMapCategory)
     {
