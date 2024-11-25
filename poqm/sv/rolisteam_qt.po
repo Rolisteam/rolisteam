@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-10-07 16:51+0200\n"
+"PO-Revision-Date: 2024-11-24 18:12+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -11,23 +11,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "Tankekarta (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
-msgstr "Öppna tankekarta"
+msgstr "Öppna tankekarta"
 
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
@@ -1603,9 +1597,6 @@ msgid "Ask for password and return its hash key."
 msgstr "Fråga efter lösenord och returnera dess kondensatnyckel."
 
 #: src/binaries/widget/mainwindow.cpp:369
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Sidopaneler"
@@ -1678,13 +1669,10 @@ msgid "Open Campaign"
 msgstr "Öppna kampanj"
 
 #: src/binaries/widget/mainwindow.cpp:632
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
-msgstr "Dokumentation om Rcse finns på nätet:<br> <a href=\"%1\">%1</a>"
+msgstr "Dokumentation om %1 finns på nätet:<br> <a href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:667
 msgctxt "MainWindow|"
@@ -1720,17 +1708,13 @@ msgid "Update Notification"
 msgstr "Underrättelse om uppdatering"
 
 #: src/binaries/widget/mainwindow.cpp:804
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"Version %1 har givits ut. Kontrollera <a href=\"http://www.rolisteam.org/"
+"Version %1 har givits ut. Kontrollera <a href=\"https://www.rolisteam.org/"
 "download\">Nerladdningssidan</a> för mer information."
 
 #: src/binaries/widget/mainwindow.cpp:814
@@ -3386,12 +3370,9 @@ msgid "Add Arrow"
 msgstr "Lägg till pil"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Ta bort markerad fil"
+msgstr "Ta bort markerade objekt"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"
@@ -6428,12 +6409,9 @@ msgid "&File"
 msgstr "&Arkiv"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save"
 msgctxt "TextEdit|"
 msgid "&Save"
-msgstr "Spara"
+msgstr "&Spara"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
 msgctxt "TextEdit|"
