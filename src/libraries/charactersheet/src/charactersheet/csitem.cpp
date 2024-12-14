@@ -23,7 +23,7 @@
 
 int CSItem::m_count= 0;
 CSItem::CSItem(TreeSheetItem::TreeItemType type, QObject* parent, bool addCount)
-    : TreeSheetItem(type, parent), m_rect(0, 0), m_page(0), m_readOnly(false), m_hasDefaultValue(false)
+    : TreeSheetItem(type, parent), m_rect(0, 0), m_page(0), m_hasDefaultValue(false)
 {
     Q_UNUSED(parent);
     if(addCount)
@@ -279,7 +279,7 @@ void CSItem::setTooltip(const QString& tooltip)
 }
 void CSItem::setSecondPosition(QPointF nend)
 {
-    if(isReadOnly())
+    if(readOnly())
         return;
 
     setWidth(nend.x() /* - x()*/);

@@ -26,9 +26,9 @@ CanvasField::CanvasField(FieldController* field) : m_ctrl(field)
     connect(m_ctrl, &FieldController::readOnlyChanged, this,
             [this]()
             {
-                setFlags(m_ctrl->isReadOnly() ? QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable :
-                                                QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable
-                                                    | QGraphicsItem::ItemIsFocusable);
+                setFlags(m_ctrl->readOnly() ? QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable :
+                                              QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable
+                                                  | QGraphicsItem::ItemIsFocusable);
             });
 
     connect(m_ctrl, &FieldController::xChanged, this,
@@ -94,7 +94,7 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
     painter->fillRect(rect, m_ctrl->bgColor());
 
-    if(m_ctrl->isReadOnly())
+    if(m_ctrl->readOnly())
         painter->setPen(Qt::gray);
     else
         painter->setPen(Qt::black);

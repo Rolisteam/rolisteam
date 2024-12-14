@@ -38,7 +38,6 @@ class CHARACTERSHEET_EXPORT CSItem : public TreeSheetItem
     Q_OBJECT
     Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(int page READ page WRITE setPage NOTIFY pageChanged)
-    Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
     Q_PROPERTY(QString formula READ formula WRITE setFormula NOTIFY formulaChanged)
     Q_PROPERTY(QString label READ label WRITE setLabel NOTIFY labelChanged)
     Q_PROPERTY(qreal x READ x WRITE setX NOTIFY xChanged)
@@ -91,12 +90,9 @@ public:
 
     QString label() const;
     QString value() const;
-    bool isReadOnly() const;
     int page() const;
     QString formula() const;
     virtual void setSecondPosition(QPointF nend);
-    virtual QVariant valueFrom(TreeSheetItem::ColumnId, int role) const;
-    virtual void setValueFrom(TreeSheetItem::ColumnId, const QVariant& data);
 
     CSItem::TypeField fieldType() const;
 
@@ -119,7 +115,6 @@ public slots:
     virtual void setHeight(qreal height);
     void setBorder(const CSItem::BorderLine& border);
     virtual void setValue(const QString& value, bool fromNetwork= false);
-    void setReadOnly(bool readOnly);
     void setPage(int page);
     void setLabel(const QString& label);
     void setFormula(const QString& formula);
@@ -155,7 +150,6 @@ protected:
     QString m_label;
     QString m_tooltip;
     QString m_formula;
-    bool m_readOnly;
     bool m_hasDefaultValue;
     TypeField m_fieldType;
     QPointer<CSItem> m_orig;

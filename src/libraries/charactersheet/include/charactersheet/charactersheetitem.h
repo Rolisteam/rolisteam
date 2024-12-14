@@ -38,6 +38,7 @@ class CHARACTERSHEET_EXPORT TreeSheetItem : public QObject
     Q_OBJECT
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(TreeSheetItem::TreeItemType itemType READ itemType CONSTANT)
+    Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly NOTIFY readOnlyChanged FINAL)
 public:
     enum TreeItemType
     {
@@ -103,14 +104,20 @@ public:
     virtual void saveDataItem(QJsonObject& json) {}
     virtual void loadDataItem(const QJsonObject& json) {}
 
+    bool readOnly() const;
+    void setReadOnly(bool newReadOnly);
+
 signals:
     void characterSheetItemChanged(TreeSheetItem* item);
     void idChanged(const QString& old, const QString& newId);
+
+    void readOnlyChanged();
 
 protected:
     TreeSheetItem::TreeItemType m_itemType;
     TreeSheetItem* m_parent;
     QString m_id;
+    bool m_readOnly{false};
 };
 
 #endif // CHARACTERSHEETITEM_H

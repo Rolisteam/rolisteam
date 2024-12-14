@@ -133,7 +133,7 @@ const QVariant CharacterSheet::getValue(QString path, int role) const
         res= item->formula();
         break;
     case Qt::BackgroundRole:
-        res= item->isReadOnly();
+        res= item->readOnly();
         break;
     }
 
@@ -172,7 +172,7 @@ const QVariant CharacterSheet::getValueByIndex(const std::vector<int>& row, QStr
     }
     else if(role == Qt::BackgroundRole)
     {
-        res= item->isReadOnly() ? QColor(Qt::red) : QVariant();
+        res= item->readOnly() ? QColor(Qt::red) : QVariant();
     }
 
     return res;

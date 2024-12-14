@@ -178,9 +178,9 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
         {
             if(i == 0)
             {
-                firstStatus= csitem->isReadOnly();
+                firstStatus= csitem->readOnly();
             }
-            if(firstStatus != csitem->isReadOnly())
+            if(firstStatus != csitem->readOnly())
             {
                 allTheSame= false;
             }
@@ -226,7 +226,7 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
         auto childItem= dynamic_cast<CSItem*>(static_cast<TreeSheetItem*>(index.internalPointer()));
         if(nullptr != childItem)
         {
-            isReadOnly= childItem->isReadOnly();
+            isReadOnly= childItem->readOnly();
         }
     }
 

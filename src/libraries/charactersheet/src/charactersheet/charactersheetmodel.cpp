@@ -584,7 +584,7 @@ Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex& index) const
     CSItem* childItem= static_cast<CSItem*>(index.internalPointer());
 
     Qt::ItemFlags res;
-    if(nullptr != childItem && childItem->isReadOnly())
+    if(nullptr != childItem && childItem->readOnly())
         res= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     else
         res= Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;

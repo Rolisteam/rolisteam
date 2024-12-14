@@ -126,3 +126,16 @@ void TreeSheetItem::setId(const QString& newPath)
     m_id= newPath;
     emit idChanged(old, m_id);
 }
+
+bool TreeSheetItem::readOnly() const
+{
+    return m_readOnly;
+}
+
+void TreeSheetItem::setReadOnly(bool newReadOnly)
+{
+    if (m_readOnly == newReadOnly)
+        return;
+    m_readOnly = newReadOnly;
+    emit readOnlyChanged();
+}

@@ -141,7 +141,7 @@ QVariant FieldController::valueFrom(TreeSheetItem::ColumnId id, int role) const
 
 void FieldController::setValueFrom(TreeSheetItem::ColumnId id, const QVariant& var)
 {
-    if(isReadOnly())
+    if(readOnly())
         return;
     switch(id)
     {
@@ -217,7 +217,7 @@ QFont FieldController::font() const
 
 void FieldController::setFont(const QFont& font)
 {
-    if(isReadOnly())
+    if(readOnly())
         return;
     m_font= font;
     // drawField();
@@ -230,7 +230,7 @@ bool FieldController::fitFont() const
 
 void FieldController::setFitFont(bool clippedText)
 {
-    if(isReadOnly() || m_fitFont == clippedText)
+    if(readOnly() || m_fitFont == clippedText)
         return;
     m_fitFont= clippedText;
     emit fitFontChanged(m_fitFont);
@@ -243,7 +243,7 @@ QStringList FieldController::availableValues() const
 
 void FieldController::setAvailableValues(const QStringList& availableValue)
 {
-    if(isReadOnly() || m_availableValue == availableValue)
+    if(readOnly() || m_availableValue == availableValue)
         return;
     m_availableValue= availableValue;
     emit availableValuesChanged();
@@ -386,12 +386,12 @@ void FieldController::saveDataItem(QJsonObject& json)
     json["label"]= m_label;
     json["value"]= m_value;
     json["formula"]= m_formula;
-    json["readonly"]= m_readOnly;
+    json["readonly"]= readOnly();
 }
 
 void FieldController::setTextAlign(const FieldController::TextAlign& textAlign)
 {
-    if(isReadOnly())
+    if(readOnly())
         return;
     m_textAlign= textAlign;
 }
@@ -407,7 +407,7 @@ QString FieldController::generatedCode() const
 
 void FieldController::setGeneratedCode(const QString& generatedCode)
 {
-    if(isReadOnly() || m_generatedCode == generatedCode)
+    if(readOnly() || m_generatedCode == generatedCode)
         return;
     m_generatedCode= generatedCode;
     emit generatedCodeChanged();
@@ -474,7 +474,7 @@ void FieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool same
 
     setValue(oldField->value());
     setPage(oldField->page());
-    setReadOnly(oldField->isReadOnly());
+    setReadOnly(oldField->readOnly());
     setFormula(oldField->formula());
     setLabel(oldField->label());
 
