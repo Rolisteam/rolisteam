@@ -8,10 +8,32 @@
 
 #include "fieldcontroller.h"
 
-struct CellData
+class CellData : public TreeSheetItem
 {
-    QString value;
-    QString formula;
+    Q_OBJECT
+    Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged FINAL)
+    Q_PROPERTY(QString formula READ formula WRITE setFormula NOTIFY formulaChanged FINAL)
+public:
+    CellData(QObject* parent= nullptr);
+
+    QString value() const;
+    void setValue(const QString& newValue);
+
+    QString formula() const;
+    void setFormula(const QString& newFormula) override;
+
+    void setFieldInDictionnary(QHash<QString, QString>& dict) const override;
+    void setOrig(TreeSheetItem* origine) override;
+    QVariant valueFrom(TreeSheetItem::ColumnId col, int role) const override;
+    void setValueFrom(TreeSheetItem::ColumnId col, const QVariant& data) override;
+
+signals:
+    void valueChanged();
+    void formulaChanged();
+
+private:
+    QString m_value;
+    QString m_formula;
 };
 
 class CHARACTERSHEET_EXPORT TableModel : public QAbstractTableModel
@@ -23,7 +45,7 @@ public:
         ValueRole= Qt::UserRole + 1,
         FormulaRole,
     };
-    TableModel();
+    TableModel(TreeSheetItem* parent);
 
     // MVC Functinos
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
@@ -40,8 +62,11 @@ public:
     void removeColumn(int index);
 
     void clear();
-    const CellData* cellData(int line, int col) const;
-    const CellData* cellDataFromId(const QString& id) const;
+    CellData* cellData(int line, int col) const;
+    CellData* cellDataFromId(const QString& id) const;
+    FieldController* colField(int col) const;
+    FieldController* colFieldFromId(const QString& id) const;
+    QModelIndex indexFromCell(TreeSheetItem* data) const;
 
     // serilization
     void save(QJsonObject& json) const;
@@ -59,8 +84,13 @@ public:
     void setFieldInDictionnary(QHash<QString, QString>& dict, const QString& id, const QString& label) const;
 
 private:
+    CellData* addCellData();
+
+private:
     QList<FieldController*> m_columns;
-    QList<QList<CellData>> m_data;
+    QList<QList<CellData*>> m_data;
+    QPointer<TreeSheetItem> m_parent;
+    int m_count{0};
 };
 
 #endif // TABLEMODEL_H
