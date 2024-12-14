@@ -136,13 +136,12 @@ void TableFieldController::init()
 {
     m_id= QStringLiteral("id_%1").arg(m_count);
     m_fieldType= FieldController::TABLE;
-    m_model= std::make_unique<TableModel>();
+    m_model= std::make_unique<TableModel>(this);
     connect(m_model.get(), &TableModel::columnsInserted, this,
             [this](const QModelIndex& index, int first, int last)
             {
                 Q_UNUSED(index);
                 Q_UNUSED(last);
-                qDebug() << "columnCount Changed" << first;
                 emit columnCountChanged(true, first);
             });
     connect(m_model.get(), &TableModel::columnsRemoved, this,
@@ -150,8 +149,14 @@ void TableFieldController::init()
             {
                 Q_UNUSED(index);
                 Q_UNUSED(last);
-                qDebug() << "columnCount Changed" << first;
                 emit columnCountChanged(false, first);
+            });
+    connect(m_model.get(), &TableModel::dataChanged, this,
+            [this](const QModelIndex& start, const QModelIndex& end, const QList<int>& roles)
+            {
+                Q_UNUSED(end)
+                auto cell= m_model->cellData(start.row(), start.column());
+                emit cellValueChanged(id(), start.row(), start.column(), cell->id());
             });
     addColumn();
 
@@ -191,37 +196,41 @@ void TableFieldController::setPosition(const ControlPosition& position)
 
 QVariant TableFieldController::valueFrom(TreeSheetItem::ColumnId col, int role) const
 {
-    /*if(col == TreeSheetItem::VALUE)
-    {
-        return m_model->childrenCount();
-    }*/
     return FieldController::valueFrom(col, role);
 }
 
 bool TableFieldController::hasChildren()
 {
-    return columnCount() > 0;
+    return childrenCount() > 0;
 }
 
 int TableFieldController::childrenCount() const
 {
-    return columnCount();
+    return rowCount() * columnCount() + columnCount();
 }
 
 TreeSheetItem* TableFieldController::childFromId(const QString& id) const
 {
-    return nullptr; // m_model->getFieldById(id);
+    return m_model->cellDataFromId(id);
 }
 
 TreeSheetItem* TableFieldController::childAt(int index) const
 {
     if(!m_model)
         return nullptr;
-    auto cols= m_model->columns();
-    if(index < 0 || index >= cols.size() || cols.isEmpty())
-        return nullptr;
+
+    if(index < columnCount())
+        return m_model->columns().at(index);
     else
-        return cols[index];
+        index-= columnCount();
+
+    auto r= index / m_model->columnCount();
+    auto c= index % m_model->columnCount();
+
+    if(c >= m_model->rowCount() || c >= m_model->columnCount())
+        return nullptr;
+
+    return m_model->cellData(r, c);
 }
 
 void TableFieldController::save(QJsonObject& json, bool exp)
@@ -375,11 +384,6 @@ void TableFieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool
         copyModel(oldField->model(), m_model.get(), this);
         setOrig(oldField);
     }
-}
-
-bool TableFieldController::mayHaveChildren() const
-{
-    return true;
 }
 
 void TableFieldController::loadDataItem(const QJsonObject& json)

@@ -44,37 +44,39 @@ CharacterSheetModel::~CharacterSheetModel()= default;
 
 int CharacterSheetModel::rowCount(const QModelIndex& parent) const
 {
+    if(!parent.isValid())
+        return m_rootSection->childrenCount();
+    if(parent.column() > 0)
+        return 0;
     int val= 0;
-    if(parent.isValid())
-    {
-        CSItem* tmp= static_cast<CSItem*>(parent.internalPointer());
-        if(tmp->fieldType() == FieldController::TABLE && !m_characterList.empty())
-        {
-            int max= tmp->childrenCount();
-            auto result= std::max_element(
-                std::begin(m_characterList), std::end(m_characterList),
-                [tmp](const std::unique_ptr<CharacterSheet>& a, const std::unique_ptr<CharacterSheet>& b)
-                {
-                    auto fieldA= a->getFieldFromKey(tmp->id());
-                    auto fieldB= b->getFieldFromKey(tmp->id());
-                    if(!fieldA || !fieldB)
-                        return false;
-                    return fieldA->childrenCount() < fieldB->childrenCount();
-                });
 
-            auto maxfield= (*result)->getFieldFromKey(tmp->id());
-            if(maxfield)
-                val= std::max(max, maxfield->childrenCount());
-        }
-        else if(tmp)
-            val= tmp->childrenCount();
-        else
-            qDebug() << "parent is valid but internal pointer is not";
-    }
-    else
+    TreeSheetItem* tmp= static_cast<TreeSheetItem*>(parent.internalPointer());
+
+    if(tmp->itemType() == TreeSheetItem::TableItem && !m_characterList.empty())
     {
-        val= m_rootSection->childrenCount();
+        int max= tmp->childrenCount();
+        auto result
+            = std::max_element(std::begin(m_characterList), std::end(m_characterList),
+                               [tmp](const std::unique_ptr<CharacterSheet>& a, const std::unique_ptr<CharacterSheet>& b)
+                               {
+                                   auto fieldA= a->getFieldFromKey(tmp->id());
+                                   auto fieldB= b->getFieldFromKey(tmp->id());
+                                   if(!fieldA || !fieldB)
+                                       return false;
+                                   return fieldA->childrenCount() < fieldB->childrenCount();
+                               });
+
+        auto maxfield= (*result)->getFieldFromKey(tmp->id());
+        if(maxfield)
+            val= std::max(max, maxfield->childrenCount());
     }
+    else if(tmp)
+        val= tmp->childrenCount();
+    else
+        qDebug() << "parent is valid but internal pointer is not";
+
+    qDebug() << "result:" << parent << val;
+
     return val;
 }
 CharacterSheet* CharacterSheetModel::getCharacterSheet(int id) const
@@ -157,11 +159,10 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
     if(!roles.contains(role))
         return {};
 
-    auto childItem= static_cast<CSItem*>(index.internalPointer());
+    auto childItem= static_cast<TreeSheetItem*>(index.internalPointer());
     if(nullptr == childItem)
         return {};
 
-    auto parentItem= dynamic_cast<CSItem*>(childItem->parentTreeItem());
     if(role == Qt::BackgroundRole && index.column() != 0)
     {
 
@@ -177,40 +178,22 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
     {
         if(index.column() == 0)
         {
-            var= childItem->label();
+            var= childItem->valueFrom(TreeSheetItem::ColumnId::LABEL, Qt::DisplayRole);
         }
         else
         {
-            if(parentItem && parentItem->fieldType() == FieldController::TABLE)
+            if(childItem->itemType() == TreeSheetItem::CellValue)
             {
-                QString path= parentItem->path();
-                CharacterSheet* sheet= getCharacterSheet(index.column() - 1);
-                auto table= sheet->getFieldFromKey(path);
-                auto child= dynamic_cast<CSItem*>(table->childAt(index.row()));
-                if(child == nullptr)
-                    return var;
-
                 switch(role)
                 {
                 case Qt::DisplayRole:
-                    var= child->value();
-                    break;
                 case Qt::EditRole:
-                {
-                    auto val= child->formula();
-                    if(val.isEmpty())
-                        val= child->value();
-                    var= val;
-                }
-                break;
+                    var= childItem->valueFrom(TreeSheetItem::VALUE, role);
+                    break;
                 case UuidRole:
-                    var= sheet->uuid();
-                    break;
                 case NameRole:
-                    var= sheet->name();
-                    break;
                 case Qt::ToolTipRole:
-                    var= child->id();
+                    var= childItem->valueFrom(TreeSheetItem::ID, role);
                     break;
                 }
             }
@@ -219,9 +202,9 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
                 QString path= childItem->path();
                 CharacterSheet* sheet= getCharacterSheet(index.column() - 1);
                 if(role == UuidRole)
-                    var= sheet->uuid();
+                    var= childItem->valueFrom(TreeSheetItem::ID, role);
                 else if(role == NameRole)
-                    var= sheet->name();
+                    var= childItem->valueFrom(TreeSheetItem::LABEL, role);
                 else
                     var= sheet->getValue(path, static_cast<Qt::ItemDataRole>(role));
             }
@@ -233,65 +216,52 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
 
 bool CharacterSheetModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if(Qt::EditRole == role)
+    if(!index.isValid() || Qt::EditRole != role)
+        return false;
+
+    TreeSheetItem* childItem= static_cast<TreeSheetItem*>(index.internalPointer());
+
+    if(nullptr == childItem)
+        return false;
+
+    auto valueStr= value.toString();
+    QString formula;
+    CharacterSheet* sheet= getCharacterSheet(index.column() - 1);
+    if(valueStr.startsWith('=') && sheet)
     {
-        CSItem* childItem= static_cast<CSItem*>(index.internalPointer());
-
-        if(nullptr != childItem)
-        {
-            if(index.column() == 0)
-            {
-                emit dataCharacterChange();
-                childItem->setLabel(value.toString());
-            }
-            else
-            {
-                CSItem* parentItem= dynamic_cast<CSItem*>(childItem->parentTreeItem());
-                QString formula;
-                auto valueStr= value.toString();
-                if(parentItem && parentItem->fieldType() == FieldController::TABLE)
-                {
-                    QString path= parentItem->path();
-                    CharacterSheet* sheet= getCharacterSheet(index.column() - 1);
-                    auto table= sheet->getFieldFromKey(path);
-                    auto child= dynamic_cast<CSItem*>(table->childAt(index.row()));
-                    if(nullptr == child)
-                        return false;
-                    if(valueStr.startsWith('='))
-                    {
-                        formula= valueStr;
-                        QHash<QString, QString> hash= sheet->getVariableDictionnary();
-                        m_formulaManager->setConstantHash(hash);
-                        valueStr= m_formulaManager->getValue(formula).toString();
-                        child->setFormula(formula);
-                    }
-                    child->setValue(valueStr);
-                }
-                else
-                {
-                    QString path= childItem->path();
-                    CharacterSheet* sheet= getCharacterSheet(index.column() - 1);
-                    if(valueStr.startsWith('='))
-                    {
-                        formula= valueStr;
-                        QHash<QString, QString> hash= sheet->getVariableDictionnary();
-                        m_formulaManager->setConstantHash(hash);
-                        valueStr= m_formulaManager->getValue(formula).toString();
-                    }
-
-                    CSItem* newitem= sheet->setValue(path, valueStr, formula);
-                    if(nullptr != newitem)
-                    {
-                        newitem->setLabel(childItem->label());
-                        newitem->setOrig(childItem);
-                    }
-                    computeFormula(childItem->label(), sheet);
-                }
-                emit dataCharacterChange();
-            }
-            return true;
-        }
+        formula= valueStr;
+        QHash<QString, QString> hash= sheet->getVariableDictionnary();
+        m_formulaManager->setConstantHash(hash);
+        valueStr= m_formulaManager->getValue(formula).toString();
+        childItem->setFormula(formula);
     }
+
+    TreeSheetItem::ColumnId columnId= index.column() == 0 ? TreeSheetItem::LABEL : TreeSheetItem::VALUE;
+
+    if(childItem->itemType() == TreeSheetItem::CellValue && index.column() > 0)
+    {
+        auto parentItem= dynamic_cast<TreeSheetItem*>(childItem->parentTreeItem());
+        auto parent= dynamic_cast<TableFieldController*>(parentItem);
+        Q_ASSERT(parent->itemType() == TreeSheetItem::TableItem);
+        auto model= parent->model();
+        model->setData(model->indexFromCell(childItem), valueStr, role);
+    }
+    else if(index.column() > 0)
+    {
+        QString path= childItem->path();
+
+        CSItem* newitem= sheet->setValue(path, valueStr, formula);
+        if(nullptr != newitem)
+        {
+            newitem->setValueFrom(TreeSheetItem::LABEL, childItem->valueFrom(TreeSheetItem::LABEL, Qt::DisplayRole));
+            newitem->setOrig(childItem);
+        }
+        computeFormula(path, sheet);
+    }
+
+    childItem->setValueFrom(columnId, valueStr);
+    emit dataCharacterChange();
+
     return false;
 }
 void CharacterSheetModel::computeFormula(QString path, CharacterSheet* sheet)
@@ -581,7 +551,7 @@ Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex& index) const
     if(index.column() == 0)
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
 
-    CSItem* childItem= static_cast<CSItem*>(index.internalPointer());
+    auto* childItem= static_cast<TreeSheetItem*>(index.internalPointer());
 
     Qt::ItemFlags res;
     if(nullptr != childItem && childItem->readOnly())

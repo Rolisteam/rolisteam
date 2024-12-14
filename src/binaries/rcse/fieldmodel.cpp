@@ -26,6 +26,7 @@
 #include <QJsonArray>
 
 #include "canvas.h"
+#include "charactersheet/controllers/tablefield.h"
 #include "qmlgeneratorvisitor.h"
 #include <charactersheet_formula/formulamanager.h>
 
@@ -85,66 +86,30 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
     if(nullptr == treeitem)
         return {};
 
-    auto item= dynamic_cast<CSItem*>(treeitem);
+    TreeSheetItem::ColumnId colId= m_colunm[index.column()]->getPos();
 
-    if(nullptr == item)
-    {
-        if(index.column() == 0 && role == Qt::DisplayRole)
-        {
-            return item->id();
-        }
-        else
-            return {};
-    }
-    if((role == Qt::DisplayRole) || (Qt::EditRole == role))
-    {
-        QVariant var;
-        if(TreeSheetItem::VALUE == m_colunm[index.column()]->getPos() && role == Qt::EditRole)
-        {
+    QVariant res;
 
-            auto formula= item->formula();
-            var= formula.isEmpty() ? item->valueFrom(m_colunm[index.column()]->getPos(), role) : formula;
-        }
-        else
-            var= item->valueFrom(m_colunm[index.column()]->getPos(), role);
-        if((index.column() == TreeSheetItem::TEXT_ALIGN) && (Qt::DisplayRole == role))
-        {
-            if((var.toInt() >= 0) && (var.toInt() < m_alignList.size()))
-            {
-                var= m_alignList.at(var.toInt());
-            }
-        }
-        return var;
-    }
-    if((role == Qt::BackgroundRole)
-       && ((index.column() == TreeSheetItem::BGCOLOR) || (index.column() == TreeSheetItem::TEXTCOLOR)))
+    auto valueFromField= treeitem->valueFrom(colId, role);
+    switch(role)
     {
-        QVariant var= item->valueFrom(m_colunm[index.column()]->getPos(), Qt::EditRole);
-        return var;
-    }
-    if(role == Qt::BackgroundRole)
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+    case Qt::BackgroundRole:
+        res= valueFromField;
+        break;
+    case Qt::FontRole:
     {
-        auto field= dynamic_cast<FieldController*>(item);
-        QVariant color;
-        if(field && !field->generatedCode().isEmpty())
+        if(colId == TreeSheetItem::FONT)
         {
-            color= QColor(Qt::green).lighter();
+            QFont font;
+            font.fromString(valueFromField.toString());
+            res= font;
         }
-        if(field && field->isReadOnly() && (index.column() >= TreeSheetItem::X)
-           && (index.column() <= TreeSheetItem::HEIGHT))
-        {
-            color= QColor(Qt::gray);
-        }
-        return color;
     }
-    if((Qt::FontRole == role) && (index.column() == TreeSheetItem::FONT))
-    {
-        QVariant var= item->valueFrom(m_colunm[index.column()]->getPos(), Qt::DisplayRole);
-        QFont font;
-        font.fromString(var.toString());
-        return font;
+    break;
     }
-    return QVariant();
+    return res;
 }
 
 bool FieldModel::setData(const QModelIndex& index, const QVariant& value, int role)
@@ -157,31 +122,28 @@ bool FieldModel::setData(const QModelIndex& index, const QVariant& value, int ro
     if(nullptr == treeitem)
         return false;
 
-    auto item= dynamic_cast<CSItem*>(treeitem);
-
-    if(!item && index.column() == 0 && role == Qt::DisplayRole)
-    {
-        treeitem->setId(value.toString());
-        return true;
-    }
-    if(nullptr == item)
-        return false;
-
     auto valStr= value.toString();
 
     if(TreeSheetItem::VALUE == m_colunm[index.column()]->getPos() && valStr.startsWith("="))
     {
         QHash<QString, QString> hash= buildDicto();
         m_formulaManager->setConstantHash(hash);
-        auto valueAfterComputation= m_formulaManager->getValue(valStr).toString();
-        item->setFormula(valStr);
-        item->setValueFrom(m_colunm[index.column()]->getPos(), valueAfterComputation);
+        treeitem->setFormula(valStr);
+        valStr= m_formulaManager->getValue(valStr).toString();
+    }
+
+    if(treeitem->itemType() == TreeSheetItem::CellValue)
+    {
+        auto parent= dynamic_cast<TableFieldController*>(treeitem->parentTreeItem());
+        Q_ASSERT(parent->itemType() == TreeSheetItem::TableItem);
+        auto model= parent->model();
+        model->setData(model->indexFromCell(treeitem), valStr, role);
     }
     else
-    {
-        item->setValueFrom(m_colunm[index.column()]->getPos(), value);
-    }
-    emit valuesChanged(item->valueFrom(TreeSheetItem::ID, Qt::DisplayRole).toString(), value.toString());
+        treeitem->setValueFrom(m_colunm[index.column()]->getPos(), valStr);
+
+    emit valuesChanged(treeitem->valueFrom(TreeSheetItem::ID, Qt::DisplayRole).toString(), valStr);
+    emit dataChanged(index, index, {role});
     emit modelChanged();
     return true;
 }
@@ -235,7 +197,7 @@ int FieldModel::rowCount(const QModelIndex& parent) const
         return m_rootSection->childrenCount();
 
     TreeSheetItem* childItem= static_cast<TreeSheetItem*>(parent.internalPointer());
-    if(childItem)
+    if(childItem && (parent.column() == 0))
         return childItem->childrenCount();
     else
         return 0;
@@ -300,7 +262,7 @@ void FieldModel::insertField(CSItem* field, TreeSheetItem* parent, int pos)
 Qt::ItemFlags FieldModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
-        return Qt::ItemIsEnabled;
+        return Qt::NoItemFlags;
 
     // TreeSheetItem* childItem = static_cast<TreeSheetItem*>(index.internalPointer());
     if(m_colunm[index.column()]->getPos() == TreeSheetItem::ID)
@@ -315,7 +277,7 @@ Qt::ItemFlags FieldModel::flags(const QModelIndex& index) const
     {
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     }
-    else // if(!childItem->mayHaveChildren())
+    else
     {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
     }

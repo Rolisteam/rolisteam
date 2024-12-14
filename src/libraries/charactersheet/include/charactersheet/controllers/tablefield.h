@@ -61,8 +61,6 @@ public:
 
     TableModel* model() const;
 
-    virtual bool mayHaveChildren() const override;
-
     void init();
 
     // virtual void setCanvasField(CanvasField* canvasField) override;
@@ -76,7 +74,7 @@ public:
     virtual TreeSheetItem* childAt(int) const override;
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json) override;
-    virtual void copyField(TreeSheetItem* oldItem, bool copyData, bool sameId= true);
+    virtual void copyField(TreeSheetItem* oldItem, bool copyData, bool sameId= true) override;
 
     ControlPosition position() const;
     void setPosition(const ControlPosition& position);
@@ -106,6 +104,7 @@ signals:
     void columnCountChanged(bool, int);
     void displayedRowChanged();
     void requestUpdate();
+    void cellValueChanged(const QString& tableId, int r, int c, const QString& id);
 
 protected:
     void updateColumnSize();
