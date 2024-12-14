@@ -488,9 +488,9 @@ bool QmlGeneratorVisitor::generateCheckBox(QTextStream& out, FieldController* it
     data[cj::readOnly]
         = (isInsideTable ? QStringLiteral("readOnly") : QStringLiteral("%1.readOnly").arg(getId(item))).toStdString();
     data[cj::label]
-        = (isInsideTable ? QStringLiteral("display") : QStringLiteral("%1.label").arg(getId(item))).toStdString();
+        = (isInsideTable ? QStringLiteral("model.display") : QStringLiteral("%1.label").arg(getId(item))).toStdString();
     data[cj::value]
-        = (isInsideTable ? QStringLiteral("display") : QStringLiteral("%1.value").arg(getId(item))).toStdString();
+        = (isInsideTable ? QStringLiteral("model.display") : QStringLiteral("%1.value").arg(getId(item))).toStdString();
     pageMangament(data, item->page(), item->fieldType());
     toolTip(data, item->getTooltip());
 

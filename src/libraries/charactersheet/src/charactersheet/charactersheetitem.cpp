@@ -75,6 +75,19 @@ int TreeSheetItem::rowInParent()
 }
 bool TreeSheetItem::mayHaveChildren() const
 {
+    switch(m_itemType)
+    {
+    case TreeItemType::SectionItem:
+    case TreeItemType::TableItem:
+        return true;
+        break;
+    case TreeItemType::FieldItem:
+    case TreeItemType::CellValue:
+    case TreeItemType::SliderItem:
+        return false;
+        break;
+    }
+
     return false;
 }
 TreeSheetItem* TreeSheetItem::childAt(int) const
@@ -86,6 +99,12 @@ QString TreeSheetItem::id() const
 {
     return m_id;
 }
+
+void TreeSheetItem::setFormula(const QString& formula)
+{
+    Q_UNUSED(formula)
+}
+
 QString TreeSheetItem::path() const
 {
     QString path;

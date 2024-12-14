@@ -46,7 +46,6 @@ public:
     TreeSheetItem* childAt(int) const override;
     TreeSheetItem* childFromId(const QString&) const override;
 
-    bool mayHaveChildren() const override;
     void appendChild(TreeSheetItem*) override;
     void insertChild(TreeSheetItem* item, int pos);
     int indexOfChild(TreeSheetItem* itm) override;
@@ -59,8 +58,10 @@ public:
 
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json) override;
-    /*    virtual void saveDataItem(QJsonObject& json) override;
-        virtual void loadDataItem(const QJsonObject& json) override;*/
+
+    QVariant valueFrom(TreeSheetItem::ColumnId col, int role) const override;
+    void setValueFrom(TreeSheetItem::ColumnId col, const QVariant& data) override;
+
     virtual void removeAll();
     void resetAllId(int& i);
     QList<CSItem*> allChildren() const;

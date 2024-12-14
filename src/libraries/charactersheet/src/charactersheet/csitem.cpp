@@ -200,27 +200,6 @@ void CSItem::setLabel(const QString& label)
     emit labelChanged();
 }
 
-QVariant CSItem::valueFrom(TreeSheetItem::ColumnId i, int role) const
-{
-    Q_UNUSED(i);
-    Q_UNUSED(role);
-    return QVariant();
-}
-
-bool CSItem::isReadOnly() const
-{
-    return m_readOnly;
-}
-
-void CSItem::setReadOnly(bool readOnly)
-{
-    if(m_readOnly == readOnly)
-        return;
-
-    m_readOnly= readOnly;
-    emit readOnlyChanged();
-}
-
 int CSItem::page() const
 {
     return m_page;
@@ -323,5 +302,3 @@ void CSItem::setFieldType(const CSItem::TypeField& currentType)
     }
     emit fieldTypeChanged();
 }
-
-void CSItem::setValueFrom(TreeSheetItem::ColumnId, const QVariant& data) {}

@@ -46,6 +46,7 @@ add_subdirectory(services)
 add_subdirectory(noteeditor)
 add_subdirectory(models)
 add_subdirectory(delegate)
+add_subdirectory(sheet)
 
 
 if(CMAKE_COMPILER_IS_GNUCXX AND CODE_COVERAGE)

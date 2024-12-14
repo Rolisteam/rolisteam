@@ -117,7 +117,7 @@ public slots:
     virtual void setValue(const QString& value, bool fromNetwork= false);
     void setPage(int page);
     void setLabel(const QString& label);
-    void setFormula(const QString& formula);
+    void setFormula(const QString& formula) override;
     void updateLabelFromOrigin();
     void setFieldType(const CSItem::TypeField& currentType);
 

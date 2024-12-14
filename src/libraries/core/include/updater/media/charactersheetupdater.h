@@ -23,10 +23,10 @@
 #include <QObject>
 #include <QPointer>
 #include <core_global.h>
-#include "model/contentmodel.h"
+
 #include "mediaupdaterinterface.h"
-#include <memory.h>
 #include "worker/characterfinder.h"
+#include <memory.h>
 
 namespace campaign
 {
@@ -35,6 +35,7 @@ class CampaignManager;
 struct CSSharingInfo;
 
 class CharacterSheetController;
+class FilteredContentModel;
 class CharacterSheet;
 class Character;
 class CSItem;
@@ -53,7 +54,7 @@ public:
     };
     Q_ENUM(SharingMode)
 
-    CharacterSheetUpdater(FilteredContentModel* model,campaign::CampaignManager* campaign, QObject* parent= nullptr);
+    CharacterSheetUpdater(FilteredContentModel* model, campaign::CampaignManager* campaign, QObject* parent= nullptr);
     void addMediaController(MediaControllerBase* ctrl) override;
 
     void shareCharacterSheetTo(CharacterSheetController* ctrl, CharacterSheet* sheet,
@@ -62,11 +63,11 @@ public:
 
     void addRemoteCharacterSheet(CharacterSheetController* ctrl);
 
-    void setUpFieldUpdate(CharacterSheet *sheet) const;
-
-
+    void setUpFieldUpdate(CharacterSheet* sheet) const;
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+public slots:
+    void updateTableFieldCell();
 private slots:
     void updateField(CharacterSheet* sheet, CSItem* itemSheet, const QString& path);
 

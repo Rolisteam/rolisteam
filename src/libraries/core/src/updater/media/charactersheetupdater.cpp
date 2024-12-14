@@ -29,6 +29,7 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "data/character.h"
 #include "media/mediafactory.h"
+#include "model/contentmodel.h"
 #include "network/networkmessagewriter.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
@@ -172,7 +173,10 @@ void CharacterSheetUpdater::shareCharacterSheetTo(CharacterSheetController* ctrl
 void CharacterSheetUpdater::setUpFieldUpdate(CharacterSheet* sheet) const
 {
     connect(sheet, &CharacterSheet::updateField, this, &CharacterSheetUpdater::updateField);
+    connect(sheet, &CharacterSheet::updateTableFieldCellValue, this, &CharacterSheetUpdater::updateTableFieldCell);
 }
+
+void CharacterSheetUpdater::updateTableFieldCell() {}
 
 NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageReader* msg)
 {

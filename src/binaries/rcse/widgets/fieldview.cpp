@@ -32,43 +32,51 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
     connect(m_lock, &QAction::triggered, this, &FieldView::lockItems);
 
     m_showGeometryGroup= new QAction(tr("Position columns"), this);
-    connect(m_showGeometryGroup, &QAction::triggered, this, [=]() {
-        hideAllColumns(true);
-        showColumn(TreeSheetItem::ID);
-        showColumn(TreeSheetItem::LABEL);
-        showColumn(TreeSheetItem::X);
-        showColumn(TreeSheetItem::Y);
-        showColumn(TreeSheetItem::WIDTH);
-        showColumn(TreeSheetItem::HEIGHT);
-        showColumn(TreeSheetItem::PAGE);
-    });
+    connect(m_showGeometryGroup, &QAction::triggered, this,
+            [=]()
+            {
+                hideAllColumns(true);
+                showColumn(TreeSheetItem::ID);
+                showColumn(TreeSheetItem::LABEL);
+                showColumn(TreeSheetItem::X);
+                showColumn(TreeSheetItem::Y);
+                showColumn(TreeSheetItem::WIDTH);
+                showColumn(TreeSheetItem::HEIGHT);
+                showColumn(TreeSheetItem::PAGE);
+            });
     m_showEsteticGroup= new QAction(tr("Aesthetic columns"), this);
-    connect(m_showEsteticGroup, &QAction::triggered, this, [=]() {
-        hideAllColumns(true);
-        showColumn(TreeSheetItem::ID);
-        showColumn(TreeSheetItem::LABEL);
-        showColumn(TreeSheetItem::BGCOLOR);
-        showColumn(TreeSheetItem::BORDER);
-        showColumn(TreeSheetItem::FitFont);
-        showColumn(TreeSheetItem::FONT);
-        showColumn(TreeSheetItem::TEXT_ALIGN);
-        showColumn(TreeSheetItem::TEXTCOLOR);
-    });
+    connect(m_showEsteticGroup, &QAction::triggered, this,
+            [=]()
+            {
+                hideAllColumns(true);
+                showColumn(TreeSheetItem::ID);
+                showColumn(TreeSheetItem::LABEL);
+                showColumn(TreeSheetItem::BGCOLOR);
+                showColumn(TreeSheetItem::BORDER);
+                showColumn(TreeSheetItem::FitFont);
+                showColumn(TreeSheetItem::FONT);
+                showColumn(TreeSheetItem::TEXT_ALIGN);
+                showColumn(TreeSheetItem::TEXTCOLOR);
+            });
     m_showValueGroup= new QAction(tr("Value columns"), this);
-    connect(m_showValueGroup, &QAction::triggered, this, [=]() {
-        hideAllColumns(true);
-        showColumn(TreeSheetItem::ID);
-        showColumn(TreeSheetItem::LABEL);
-        showColumn(TreeSheetItem::VALUE);
-        showColumn(TreeSheetItem::VALUES);
-        showColumn(TreeSheetItem::TYPE);
-    });
+    connect(m_showValueGroup, &QAction::triggered, this,
+            [=]()
+            {
+                hideAllColumns(true);
+                showColumn(TreeSheetItem::ID);
+                showColumn(TreeSheetItem::LABEL);
+                showColumn(TreeSheetItem::VALUE);
+                showColumn(TreeSheetItem::VALUES);
+                showColumn(TreeSheetItem::TYPE);
+            });
     m_showIdGroup= new QAction(tr("Id columns"), this);
-    connect(m_showIdGroup, &QAction::triggered, this, [=]() {
-        hideAllColumns(true);
-        showColumn(TreeSheetItem::ID);
-        showColumn(TreeSheetItem::LABEL);
-    });
+    connect(m_showIdGroup, &QAction::triggered, this,
+            [=]()
+            {
+                hideAllColumns(true);
+                showColumn(TreeSheetItem::ID);
+                showColumn(TreeSheetItem::LABEL);
+            });
 
     m_showAllGroup= new QAction(tr("All columns"), this);
     connect(m_showAllGroup, &QAction::triggered, this, [=]() { hideAllColumns(false); });
@@ -105,10 +113,12 @@ void FieldView::setController(rcse::MainController* ctrl)
     connect(m_ctrl->editCtrl(), &EditorController::pageCountChanged, this,
             [this]() { setCurrentPage(static_cast<int>(m_ctrl->editCtrl()->pageCount())); });
 
-    connect(this, &FieldView::removeField, this, [this](FieldController* field, int currentPage) {
-        m_ctrl->processCommand(new DeleteFieldCommand(field, m_ctrl->editCtrl()->currentCanvas(),
-                                                      m_ctrl->generatorCtrl()->fieldModel(), currentPage));
-    });
+    connect(this, &FieldView::removeField, this,
+            [this](FieldController* field, int currentPage)
+            {
+                m_ctrl->processCommand(new DeleteFieldCommand(field, m_ctrl->editCtrl()->currentCanvas(),
+                                                              m_ctrl->generatorCtrl()->fieldModel(), currentPage));
+            });
 }
 void FieldView::hideAllColumns(bool hidden)
 {
@@ -201,14 +211,16 @@ void FieldView::lockItems()
     if(list.isEmpty())
         return;
 
-    std::for_each(list.begin(), list.end(), [](QModelIndex& index) {
-        if(!index.isValid())
-            return;
+    std::for_each(list.begin(), list.end(),
+                  [](QModelIndex& index)
+                  {
+                      if(!index.isValid())
+                          return;
 
-        auto field= static_cast<FieldController*>(index.internalPointer());
-        auto value= field->isReadOnly();
-        field->setReadOnly(!value);
-    });
+                      auto field= static_cast<FieldController*>(index.internalPointer());
+                      auto value= field->readOnly();
+                      field->setReadOnly(!value);
+                  });
 }
 
 FieldModel* FieldView::getModel() const

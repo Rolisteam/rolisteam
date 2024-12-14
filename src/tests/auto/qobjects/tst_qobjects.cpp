@@ -438,7 +438,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("BorderListEditor")  << static_cast<QObject*>(new BorderListEditor())<< true ;
     QTest::addRow("BusyIndicatorDialog") << static_cast<QObject*>(new BusyIndicatorDialog(Helper::randomString(), Helper::randomString(), Helper::randomString())) << true;
     QTest::addRow("ButtonCanvas")  << static_cast<QObject*>(new ButtonCanvas())<< true ;
-    QTest::addRow("CSItem")  << static_cast<QObject*>(new CSItem(TreeSheetItem::FieldItem))<< true ;
+    //QTest::addRow("CSItem")  << static_cast<QObject*>(new CSItem(TreeSheetItem::FieldItem))<< true ;
     QTest::addRow("Campaign") << static_cast<QObject*>(new campaign::Campaign()) << true;
     QTest::addRow("CampaignDock") << static_cast<QObject*>(new campaign::CampaignDock(new campaign::CampaignEditor()))                  << true;
     QTest::addRow("CampaignEditor") << static_cast<QObject*>(new campaign::CampaignEditor()) << true;
@@ -571,7 +571,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("LineControllerUpdater") << static_cast<QObject*>(new LineControllerUpdater()) << true;
     //QTest::addRow("LineFieldItem")              << static_cast<QObject*>(new LineFieldItem()) << true;
     QTest::addRow("LineItem obj") << static_cast<QObject*>(new LineItem(nullptr)) << true;
-    QTest::addRow("TableModel")                  << static_cast<QObject*>(new TableModel()) << true;
+    QTest::addRow("TableModel")                  << static_cast<QObject*>(new TableModel(nullptr)) << true;
     QTest::addRow("LinkController") << static_cast<QObject*>(new mindmap::LinkController()) << true;
     QTest::addRow("LinkItem") << static_cast<QObject*>(new mindmap::LinkItem()) << true;
     QTest::addRow("LocalPersonModel")  << static_cast<QObject*>(new LocalPersonModel())<< true ;

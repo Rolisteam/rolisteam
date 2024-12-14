@@ -75,7 +75,7 @@ public:
     virtual void saveDataItem(QJsonObject& json) override;
     virtual void loadDataItem(const QJsonObject& json) override;
 
-    void copyField(TreeSheetItem*, bool copyData, bool sameId= true);
+    virtual void copyField(TreeSheetItem*, bool copyData, bool sameId= true);
     QPair<QString, QString> getTextAlign();
     bool visible() const;
     void setVisible(bool newVisible);

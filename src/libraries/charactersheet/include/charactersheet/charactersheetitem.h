@@ -45,7 +45,8 @@ public:
         SectionItem,
         FieldItem,
         TableItem,
-        SliderItem
+        SliderItem,
+        CellValue
     };
     Q_ENUM(TreeItemType)
 
@@ -85,6 +86,9 @@ public:
     virtual QString path() const;
 
     void setId(const QString& id);
+    virtual QVariant valueFrom(TreeSheetItem::ColumnId, int role) const= 0;
+    virtual void setValueFrom(TreeSheetItem::ColumnId, const QVariant& data)= 0;
+    virtual void setFormula(const QString& formula);
 
     TreeSheetItem* parentTreeItem() const;
     void setParent(TreeSheetItem* parent);

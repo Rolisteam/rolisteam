@@ -21,6 +21,7 @@
 
 #include "data/campaign.h"
 #include "data/campaignmanager.h"
+#include "worker/convertionhelper.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/utilshelper.h"
@@ -67,7 +68,9 @@ void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
     ctrl->setUrl(QUrl::fromLocalFile(path));
 
     helper::utils::setContinuation<bool>(
-        campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl)), ctrl, [ctrl](bool b) {
+        campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl)), ctrl,
+        [ctrl](bool b)
+        {
             if(b)
                 ctrl->setModified(false);
         });
@@ -80,8 +83,8 @@ bool MediaUpdaterInterface::localIsGM() const
 
 void MediaUpdaterInterface::setLocalIsGM(bool newLocalIsGM)
 {
-    if (m_localIsGM == newLocalIsGM)
+    if(m_localIsGM == newLocalIsGM)
         return;
-    m_localIsGM = newLocalIsGM;
+    m_localIsGM= newLocalIsGM;
     emit localIsGMChanged();
 }

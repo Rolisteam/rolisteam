@@ -60,11 +60,6 @@ TreeSheetItem* Section::childFromId(const QString& key) const
     return m_data.value(key);
 }
 
-bool Section::mayHaveChildren() const
-{
-    return true;
-}
-
 void Section::appendChild(TreeSheetItem* item)
 {
     if(nullptr == item)
@@ -186,6 +181,23 @@ void Section::load(const QJsonObject& json)
 
     m_data.sortKeys([](const QString& a, const QString& b) { return a.sliced(3).toInt() < b.sliced(3).toInt(); });
 }
+
+QVariant Section::valueFrom(ColumnId col, int role) const
+{
+    Q_UNUSED(role);
+    QVariant res;
+    switch(col)
+    {
+    case TreeSheetItem::ID:
+        res= id();
+        break;
+    default:
+        break;
+    }
+    return res;
+}
+
+void Section::setValueFrom(ColumnId col, const QVariant& data) {}
 
 void Section::copySection(Section* oldSection)
 {

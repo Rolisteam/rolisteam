@@ -38,11 +38,11 @@ QByteArray buildData(rcse::MainController* ctrl, const QString& fileName)
 
     if(file.open(QIODevice::ReadOnly))
     {
-        json = QJsonDocument::fromJson(file.readAll());
-        obj = json.object();
+        json= QJsonDocument::fromJson(file.readAll());
+        obj= json.object();
     }
 
-    obj = saveGeneratorController(obj, ctrl->generatorCtrl());
+    obj= saveGeneratorController(obj, ctrl->generatorCtrl());
 
     obj[keys::pageCount]= static_cast<int>(ctrl->editCtrl()->pageCount());
     obj[keys::uuid]= ctrl->imageCtrl()->uuid();
@@ -104,16 +104,20 @@ void fetchMainController(rcse::MainController* ctrl, const QJsonObject& jsonObj)
     QJsonArray images= jsonObj["background"].toArray();
 
     QJsonArray backGround;
-    std::copy_if(images.begin(), images.end(), std::back_inserter(backGround), [](const QJsonValue& val) {
-        auto obj= val.toObject();
-        return obj["isBg"].toBool();
-    });
+    std::copy_if(images.begin(), images.end(), std::back_inserter(backGround),
+                 [](const QJsonValue& val)
+                 {
+                     auto obj= val.toObject();
+                     return obj["isBg"].toBool();
+                 });
 
     QJsonArray regularImage;
-    std::copy_if(images.begin(), images.end(), std::back_inserter(regularImage), [](const QJsonValue& val) {
-        auto obj= val.toObject();
-        return !obj["isBg"].toBool();
-    });
+    std::copy_if(images.begin(), images.end(), std::back_inserter(regularImage),
+                 [](const QJsonValue& val)
+                 {
+                     auto obj= val.toObject();
+                     return !obj["isBg"].toBool();
+                 });
 
     for(auto img : std::as_const(regularImage))
     {
@@ -167,10 +171,12 @@ void fetchMainController(rcse::MainController* ctrl, const QJsonObject& jsonObj)
 
     auto model= ctrl->generatorCtrl()->fieldModel();
     auto const& allChildren= model->allChildren();
+    ctrl->editCtrl()->setCurrentTool(Canvas::Tool::NONE);
     for(auto child : allChildren)
     {
         ctrl->editCtrl()->addFieldItem(child);
     }
+    ctrl->editCtrl()->setCurrentTool(Canvas::Tool::MOVE);
 }
 
 QJsonObject& saveGeneratorController(QJsonObject& obj, QmlGeneratorController* ctrl)

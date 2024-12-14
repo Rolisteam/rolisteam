@@ -75,6 +75,20 @@ void FieldController::init()
 QVariant FieldController::valueFrom(TreeSheetItem::ColumnId id, int role) const
 {
     QVariant ret;
+
+    static QSet<TreeSheetItem::ColumnId> columnWithBackground{TreeSheetItem::BGCOLOR, TreeSheetItem::TEXTCOLOR};
+
+    if((role == Qt::BackgroundRole) && !columnWithBackground.contains(id))
+    {
+
+        if(!generatedCode().isEmpty())
+            ret= QColor(Qt::green).lighter();
+        if(m_readOnly && id >= TreeSheetItem::X && id <= TreeSheetItem::HEIGHT)
+            ret= QColor(Qt::gray);
+
+        return ret;
+    }
+
     switch(id)
     {
     case ID:
@@ -84,7 +98,7 @@ QVariant FieldController::valueFrom(TreeSheetItem::ColumnId id, int role) const
         ret= m_label;
         break;
     case VALUE:
-        ret= role == Qt::DisplayRole ? m_value.left(50) : m_value;
+        ret= role == Qt::EditRole ? m_formula : role == Qt::DisplayRole ? m_value.left(50) : m_value;
         break;
     case X:
         ret= x();
