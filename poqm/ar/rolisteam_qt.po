@@ -524,132 +524,132 @@ msgctxt "SheetProperties|"
 msgid "..."
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:62
+#: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Id"
 msgstr "المعرّف"
 
-#: src/binaries/rcse/fieldmodel.cpp:62
+#: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Label"
 msgstr "اللصيقة"
 
-#: src/binaries/rcse/fieldmodel.cpp:63
+#: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Value"
 msgstr "القيمة"
 
-#: src/binaries/rcse/fieldmodel.cpp:64
+#: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "Possible Values"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:64
+#: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "Type"
 msgstr "النوع"
 
-#: src/binaries/rcse/fieldmodel.cpp:65
+#: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "x"
 msgstr "س"
 
-#: src/binaries/rcse/fieldmodel.cpp:65
+#: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "y"
 msgstr "ص"
 
-#: src/binaries/rcse/fieldmodel.cpp:66
+#: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Width"
 msgstr "العرض"
 
-#: src/binaries/rcse/fieldmodel.cpp:66
+#: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Height"
 msgstr "الارتفاع"
 
-#: src/binaries/rcse/fieldmodel.cpp:67
+#: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Font Adaptation"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:67
+#: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Font"
 msgstr "الخط"
 
-#: src/binaries/rcse/fieldmodel.cpp:68
+#: src/binaries/rcse/fieldmodel.cpp:69
 msgctxt "FieldModel|"
 msgid "Text-align"
 msgstr "محاذاة النص"
 
-#: src/binaries/rcse/fieldmodel.cpp:69
+#: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Text Color"
 msgstr "لون النّصّ"
 
-#: src/binaries/rcse/fieldmodel.cpp:70
+#: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Bg Color"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:70
+#: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Border"
 msgstr "الحدود"
 
-#: src/binaries/rcse/fieldmodel.cpp:71
+#: src/binaries/rcse/fieldmodel.cpp:72
 msgctxt "FieldModel|"
 msgid "Page"
 msgstr "الصفحة"
 
-#: src/binaries/rcse/fieldmodel.cpp:71
+#: src/binaries/rcse/fieldmodel.cpp:72
 msgctxt "FieldModel|"
 msgid "ToolTip"
 msgstr "التلميحة"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopRight"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopMiddle"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopLeft"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterRight"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterMiddle"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "CenterLeft"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomRight"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomMiddle"
 msgstr ""
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomLeft"
 msgstr ""
@@ -1791,37 +1791,37 @@ msgctxt "FieldView|"
 msgid "Position columns"
 msgstr ""
 
-#: src/binaries/rcse/widgets/fieldview.cpp:45
+#: src/binaries/rcse/widgets/fieldview.cpp:47
 msgctxt "FieldView|"
 msgid "Aesthetic columns"
 msgstr ""
 
-#: src/binaries/rcse/widgets/fieldview.cpp:57
+#: src/binaries/rcse/widgets/fieldview.cpp:61
 msgctxt "FieldView|"
 msgid "Value columns"
 msgstr ""
 
-#: src/binaries/rcse/widgets/fieldview.cpp:66
+#: src/binaries/rcse/widgets/fieldview.cpp:72
 msgctxt "FieldView|"
 msgid "Id columns"
 msgstr ""
 
-#: src/binaries/rcse/widgets/fieldview.cpp:73
+#: src/binaries/rcse/widgets/fieldview.cpp:81
 msgctxt "FieldView|"
 msgid "All columns"
 msgstr ""
 
-#: src/binaries/rcse/widgets/fieldview.cpp:140
+#: src/binaries/rcse/widgets/fieldview.cpp:150
 msgctxt "FieldView|"
 msgid "Show"
 msgstr "أظهر"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:147
+#: src/binaries/rcse/widgets/fieldview.cpp:157
 msgctxt "FieldView|"
 msgid "Show/Hide"
 msgstr "اعرض/ اخفِ"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:320
+#: src/binaries/rcse/widgets/fieldview.cpp:332
 msgctxt "FieldView|"
 msgid "Get Color"
 msgstr ""
@@ -2760,24 +2760,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "لا أفتار"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:558
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:528
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr ""
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:596
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:566
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr ""
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:603
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:573
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr ""
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:627
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:597
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -3806,12 +3806,12 @@ msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/Content.qml:74
+#: src/libraries/mindmap/resources/qml/Content.qml:73
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/Content.qml:87
+#: src/libraries/mindmap/resources/qml/Content.qml:86
 msgctxt "Content|"
 msgid "Images (*.png)"
 msgstr ""
@@ -3845,7 +3845,7 @@ msgid ""
 "%1"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:69
+#: src/libraries/mindmap/resources/qml/MindMap.qml:70
 msgctxt "MindMap|"
 msgid "is linked"
 msgstr ""
@@ -3885,22 +3885,22 @@ msgctxt "MindMenu|"
 msgid "Automatic Spacing"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:30
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:34
 msgctxt "NodeSettingPopup|"
 msgid "Description: "
 msgstr "الوصف: "
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:38
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:42
 msgctxt "NodeSettingPopup|"
 msgid "Description"
 msgstr "الوصف"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:44
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:48
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
 msgstr "الوسوم:"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:52
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
 #, fuzzy
 #| msgctxt "ShortCutModel|"
 #| msgid "Action"
@@ -3908,7 +3908,7 @@ msgctxt "NodeSettingPopup|"
 msgid "Action:"
 msgstr "الإجراء"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:57
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:61
 #, fuzzy
 #| msgctxt "CharacterDataModel|"
 #| msgid "No Avatar"
@@ -3916,20 +3916,15 @@ msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
 msgstr "لا أفتار"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:65
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:70
 msgctxt "NodeSettingPopup|"
 msgid "Node Styles"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:92
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:97
 msgctxt "NodeSettingPopup|"
 msgid "Text"
 msgstr "النص"
-
-#: src/libraries/mindmap/resources/qml/PackageItem.qml:34
-msgctxt "PackageItem|"
-msgid "Title"
-msgstr "العنوان"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:33
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:153
@@ -9426,6 +9421,10 @@ msgstr "نائم"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "بيويتشد"
+
+#~ msgctxt "PackageItem|"
+#~ msgid "Title"
+#~ msgstr "العنوان"
 
 #~ msgctxt "RcseApplicationController|"
 #~ msgid "Yes"

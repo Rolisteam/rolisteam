@@ -479,132 +479,132 @@ msgctxt "SheetProperties|"
 msgid "..."
 msgstr "..."
 
-#: src/binaries/rcse/fieldmodel.cpp:62
+#: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Id"
 msgstr "Id"
 
-#: src/binaries/rcse/fieldmodel.cpp:62
+#: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Label"
 msgstr "Etiquetta"
 
-#: src/binaries/rcse/fieldmodel.cpp:63
+#: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Value"
 msgstr "Valor"
 
-#: src/binaries/rcse/fieldmodel.cpp:64
+#: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "Possible Values"
 msgstr "Valores possibile"
 
-#: src/binaries/rcse/fieldmodel.cpp:64
+#: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "Type"
 msgstr "Typo"
 
-#: src/binaries/rcse/fieldmodel.cpp:65
+#: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "x"
 msgstr "x"
 
-#: src/binaries/rcse/fieldmodel.cpp:65
+#: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "y"
 msgstr "y"
 
-#: src/binaries/rcse/fieldmodel.cpp:66
+#: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Width"
 msgstr "Largessa"
 
-#: src/binaries/rcse/fieldmodel.cpp:66
+#: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Height"
 msgstr "Altessa"
 
-#: src/binaries/rcse/fieldmodel.cpp:67
+#: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Font Adaptation"
 msgstr "Adaptation de Font"
 
-#: src/binaries/rcse/fieldmodel.cpp:67
+#: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Font"
 msgstr "Font"
 
-#: src/binaries/rcse/fieldmodel.cpp:68
+#: src/binaries/rcse/fieldmodel.cpp:69
 msgctxt "FieldModel|"
 msgid "Text-align"
 msgstr "Alinea texto"
 
-#: src/binaries/rcse/fieldmodel.cpp:69
+#: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Text Color"
 msgstr "Color de texto "
 
-#: src/binaries/rcse/fieldmodel.cpp:70
+#: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Bg Color"
 msgstr "Color de Fundo (Bg)"
 
-#: src/binaries/rcse/fieldmodel.cpp:70
+#: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Border"
 msgstr "Bordo"
 
-#: src/binaries/rcse/fieldmodel.cpp:71
+#: src/binaries/rcse/fieldmodel.cpp:72
 msgctxt "FieldModel|"
 msgid "Page"
 msgstr "Pagina"
 
-#: src/binaries/rcse/fieldmodel.cpp:71
+#: src/binaries/rcse/fieldmodel.cpp:72
 msgctxt "FieldModel|"
 msgid "ToolTip"
 msgstr "Consilio"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopRight"
 msgstr "AltoDextera"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopMiddle"
 msgstr "AltoMedie"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopLeft"
 msgstr "AltoSinistra"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterRight"
 msgstr "CentroDextera"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterMiddle"
 msgstr "CentroMedie"
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "CenterLeft"
 msgstr "CentroSinistra"
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomRight"
 msgstr "BassoDextera"
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomMiddle"
 msgstr "BassoMedie"
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomLeft"
 msgstr "BassoSinistra"
@@ -1512,37 +1512,37 @@ msgctxt "FieldView|"
 msgid "Position columns"
 msgstr "Columnas de Position"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:45
+#: src/binaries/rcse/widgets/fieldview.cpp:47
 msgctxt "FieldView|"
 msgid "Aesthetic columns"
 msgstr "Columnas Esthetic"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:57
+#: src/binaries/rcse/widgets/fieldview.cpp:61
 msgctxt "FieldView|"
 msgid "Value columns"
 msgstr "Columnas de Valor"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:66
+#: src/binaries/rcse/widgets/fieldview.cpp:72
 msgctxt "FieldView|"
 msgid "Id columns"
 msgstr "Columnas de id"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:73
+#: src/binaries/rcse/widgets/fieldview.cpp:81
 msgctxt "FieldView|"
 msgid "All columns"
 msgstr "Omne Columnas"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:140
+#: src/binaries/rcse/widgets/fieldview.cpp:150
 msgctxt "FieldView|"
 msgid "Show"
 msgstr "Monstra "
 
-#: src/binaries/rcse/widgets/fieldview.cpp:147
+#: src/binaries/rcse/widgets/fieldview.cpp:157
 msgctxt "FieldView|"
 msgid "Show/Hide"
 msgstr "Monstra/Cela"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:320
+#: src/binaries/rcse/widgets/fieldview.cpp:332
 msgctxt "FieldView|"
 msgid "Get Color"
 msgstr "Obtene Color"
@@ -2323,24 +2323,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Remove ultime rango"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:558
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:528
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Nomine de campos"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:596
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:566
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Vacua Section %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:603
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:573
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Section_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:627
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:597
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -3365,12 +3365,12 @@ msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr "Spatiar Automatic"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:74
+#: src/libraries/mindmap/resources/qml/Content.qml:73
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Imagines (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:87
+#: src/libraries/mindmap/resources/qml/Content.qml:86
 msgctxt "Content|"
 msgid "Images (*.png)"
 msgstr "Imagines (*.png)"
@@ -3406,7 +3406,7 @@ msgstr ""
 "Errores:\n"
 "%1"
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:69
+#: src/libraries/mindmap/resources/qml/MindMap.qml:70
 msgctxt "MindMap|"
 msgid "is linked"
 msgstr "es ligate"
@@ -3446,45 +3446,40 @@ msgctxt "MindMenu|"
 msgid "Automatic Spacing"
 msgstr "Spatiar Automatic"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:30
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:34
 msgctxt "NodeSettingPopup|"
 msgid "Description: "
 msgstr "Description: "
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:38
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:42
 msgctxt "NodeSettingPopup|"
 msgid "Description"
 msgstr "Description"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:44
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:48
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
 msgstr "Etiquettas:"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:52
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
 msgctxt "NodeSettingPopup|"
 msgid "Action:"
 msgstr "Action:"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:57
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:61
 msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
 msgstr "Remove Avatar"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:65
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:70
 msgctxt "NodeSettingPopup|"
 msgid "Node Styles"
 msgstr "Stilos de nodo"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:92
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:97
 msgctxt "NodeSettingPopup|"
 msgid "Text"
 msgstr "Texto"
-
-#: src/libraries/mindmap/resources/qml/PackageItem.qml:34
-msgctxt "PackageItem|"
-msgid "Title"
-msgstr "Titulo"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:33
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:153
@@ -8319,6 +8314,10 @@ msgstr "Dormir"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Fascinate"
+
+#~ msgctxt "PackageItem|"
+#~ msgid "Title"
+#~ msgstr "Titulo"
 
 #~ msgctxt "RcseApplicationController|"
 #~ msgid "Yes"

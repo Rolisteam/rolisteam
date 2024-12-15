@@ -518,132 +518,132 @@ msgctxt "SheetProperties|"
 msgid "..."
 msgstr "…"
 
-#: src/binaries/rcse/fieldmodel.cpp:62
+#: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Id"
 msgstr "Kimlik"
 
-#: src/binaries/rcse/fieldmodel.cpp:62
+#: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
 msgid "Label"
 msgstr "Etiket"
 
-#: src/binaries/rcse/fieldmodel.cpp:63
+#: src/binaries/rcse/fieldmodel.cpp:64
 msgctxt "FieldModel|"
 msgid "Value"
 msgstr "Değer"
 
-#: src/binaries/rcse/fieldmodel.cpp:64
+#: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "Possible Values"
 msgstr "Olası Değerler"
 
-#: src/binaries/rcse/fieldmodel.cpp:64
+#: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
 msgid "Type"
 msgstr "Tür"
 
-#: src/binaries/rcse/fieldmodel.cpp:65
+#: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "x"
 msgstr "x"
 
-#: src/binaries/rcse/fieldmodel.cpp:65
+#: src/binaries/rcse/fieldmodel.cpp:66
 msgctxt "FieldModel|"
 msgid "y"
 msgstr "y"
 
-#: src/binaries/rcse/fieldmodel.cpp:66
+#: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Width"
 msgstr "Genişlik"
 
-#: src/binaries/rcse/fieldmodel.cpp:66
+#: src/binaries/rcse/fieldmodel.cpp:67
 msgctxt "FieldModel|"
 msgid "Height"
 msgstr "Yükseklik"
 
-#: src/binaries/rcse/fieldmodel.cpp:67
+#: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Font Adaptation"
 msgstr "Yazıtipi Adaptasyonu"
 
-#: src/binaries/rcse/fieldmodel.cpp:67
+#: src/binaries/rcse/fieldmodel.cpp:68
 msgctxt "FieldModel|"
 msgid "Font"
 msgstr "Yazıtipi"
 
-#: src/binaries/rcse/fieldmodel.cpp:68
+#: src/binaries/rcse/fieldmodel.cpp:69
 msgctxt "FieldModel|"
 msgid "Text-align"
 msgstr "Metin Hizalama"
 
-#: src/binaries/rcse/fieldmodel.cpp:69
+#: src/binaries/rcse/fieldmodel.cpp:70
 msgctxt "FieldModel|"
 msgid "Text Color"
 msgstr "Metin Rengi"
 
-#: src/binaries/rcse/fieldmodel.cpp:70
+#: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Bg Color"
 msgstr "Arka Plan Rengi"
 
-#: src/binaries/rcse/fieldmodel.cpp:70
+#: src/binaries/rcse/fieldmodel.cpp:71
 msgctxt "FieldModel|"
 msgid "Border"
 msgstr "Kenarlık"
 
-#: src/binaries/rcse/fieldmodel.cpp:71
+#: src/binaries/rcse/fieldmodel.cpp:72
 msgctxt "FieldModel|"
 msgid "Page"
 msgstr "Sayfa"
 
-#: src/binaries/rcse/fieldmodel.cpp:71
+#: src/binaries/rcse/fieldmodel.cpp:72
 msgctxt "FieldModel|"
 msgid "ToolTip"
 msgstr "Araç İpucu"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopRight"
 msgstr "SağÜst"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopMiddle"
 msgstr "OrtaÜst"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "TopLeft"
 msgstr "SolÜst"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterRight"
 msgstr "MerkezSağ"
 
-#: src/binaries/rcse/fieldmodel.cpp:73
+#: src/binaries/rcse/fieldmodel.cpp:74
 msgctxt "FieldModel|"
 msgid "CenterMiddle"
 msgstr "MerkezOrta"
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "CenterLeft"
 msgstr "MerkezSol"
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomRight"
 msgstr "SağAlt"
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomMiddle"
 msgstr "OrtaAlt"
 
-#: src/binaries/rcse/fieldmodel.cpp:74
+#: src/binaries/rcse/fieldmodel.cpp:75
 msgctxt "FieldModel|"
 msgid "BottomLeft"
 msgstr "SolAlt"
@@ -1549,37 +1549,37 @@ msgctxt "FieldView|"
 msgid "Position columns"
 msgstr "Konum sütunları"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:45
+#: src/binaries/rcse/widgets/fieldview.cpp:47
 msgctxt "FieldView|"
 msgid "Aesthetic columns"
 msgstr "Estetik sütunlar"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:57
+#: src/binaries/rcse/widgets/fieldview.cpp:61
 msgctxt "FieldView|"
 msgid "Value columns"
 msgstr "Değer sütunları"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:66
+#: src/binaries/rcse/widgets/fieldview.cpp:72
 msgctxt "FieldView|"
 msgid "Id columns"
 msgstr "Kimlik sütunları"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:73
+#: src/binaries/rcse/widgets/fieldview.cpp:81
 msgctxt "FieldView|"
 msgid "All columns"
 msgstr "Tüm sütunlar"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:140
+#: src/binaries/rcse/widgets/fieldview.cpp:150
 msgctxt "FieldView|"
 msgid "Show"
 msgstr "Göster"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:147
+#: src/binaries/rcse/widgets/fieldview.cpp:157
 msgctxt "FieldView|"
 msgid "Show/Hide"
 msgstr "Göster/Gizle"
 
-#: src/binaries/rcse/widgets/fieldview.cpp:320
+#: src/binaries/rcse/widgets/fieldview.cpp:332
 msgctxt "FieldView|"
 msgid "Get Color"
 msgstr "Renk Al"
@@ -2361,24 +2361,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Son satırı kaldır"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:558
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:528
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Alan adı"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:596
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:566
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Boş Bölüm %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:603
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:573
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Bölüm %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:627
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:597
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -3403,12 +3403,12 @@ msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr "Otomatik Boşluklandırma"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:74
+#: src/libraries/mindmap/resources/qml/Content.qml:73
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Görseller (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:87
+#: src/libraries/mindmap/resources/qml/Content.qml:86
 msgctxt "Content|"
 msgid "Images (*.png)"
 msgstr "Görseller (*.png)"
@@ -3444,7 +3444,7 @@ msgstr ""
 "Hatalar:\n"
 "%1"
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:69
+#: src/libraries/mindmap/resources/qml/MindMap.qml:70
 msgctxt "MindMap|"
 msgid "is linked"
 msgstr "bağlantılı"
@@ -3484,45 +3484,40 @@ msgctxt "MindMenu|"
 msgid "Automatic Spacing"
 msgstr "Otomatik Boşluklandırma"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:30
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:34
 msgctxt "NodeSettingPopup|"
 msgid "Description: "
 msgstr "Açıklama: "
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:38
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:42
 msgctxt "NodeSettingPopup|"
 msgid "Description"
 msgstr "Açıklama"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:44
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:48
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
 msgstr "etiketler:"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:52
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
 msgctxt "NodeSettingPopup|"
 msgid "Action:"
 msgstr "Eylem:"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:57
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:61
 msgctxt "NodeSettingPopup|"
 msgid "Remove Avatar"
 msgstr "Avatarı Kaldır"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:65
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:70
 msgctxt "NodeSettingPopup|"
 msgid "Node Styles"
 msgstr "Düğüm Biçemleri"
 
-#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:92
+#: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:97
 msgctxt "NodeSettingPopup|"
 msgid "Text"
 msgstr "Metin"
-
-#: src/libraries/mindmap/resources/qml/PackageItem.qml:34
-msgctxt "PackageItem|"
-msgid "Title"
-msgstr "Başlık"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:33
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:153
@@ -8437,6 +8432,10 @@ msgstr "Uyuyor"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Efsunlanmış"
+
+#~ msgctxt "PackageItem|"
+#~ msgid "Title"
+#~ msgstr "Başlık"
 
 #~ msgctxt "RcseApplicationController|"
 #~ msgid "Yes"
