@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-17 22:10+0100\n"
+"PO-Revision-Date: 2024-12-19 22:29+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -3972,6 +3972,7 @@ msgctxt "PlayerWidget|"
 msgid "Attention!"
 msgstr "Atención!"
 
+# skip-rule: trasno-remove_reverse
 #: src/libraries/rwidgets/customs/playerwidget.cpp:341
 msgctxt "PlayerWidget|"
 msgid ""
