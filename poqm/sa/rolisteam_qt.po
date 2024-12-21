@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-19 21:41+0530\n"
+"PO-Revision-Date: 2024-12-20 22:01+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -16,7 +16,7 @@ msgstr ""
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
-msgstr "मनः मानचित्र (*.rmindmap *.rmap) २."
+msgstr "मनः मानचित्र (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
 msgctxt "Main|"
@@ -354,12 +354,12 @@ msgstr "संवादः"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:24
 msgctxt "ColumnDefinitionDialog|"
 msgid "Line Count:"
-msgstr "रेखागणना : १."
+msgstr "रेखागणना :"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:34
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Count:"
-msgstr "स्तम्भगणना : १."
+msgstr "स्तम्भगणना :"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:44
 msgctxt "ColumnDefinitionDialog|"
@@ -409,7 +409,7 @@ msgstr "RightBottom इति"
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:112
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Definition:"
-msgstr "स्तम्भ परिभाषा : १."
+msgstr "स्तम्भ परिभाषा :"
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
@@ -485,27 +485,27 @@ msgstr "पत्रगुणाः"
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
 msgid "Default scale:"
-msgstr "पूर्वनिर्धारित स्केल : १."
+msgstr "पूर्वनिर्धारित स्केल :"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
-msgstr "अतिरिक्त आयातः : १."
+msgstr "अतिरिक्त आयातः :"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
-msgstr "अतिरिक्त मुख्यसङ्केतः : १."
+msgstr "अतिरिक्त मुख्यसङ्केतः :"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
-msgstr "अतिरिक्त तल कोड : १."
+msgstr "अतिरिक्त तल कोड :"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146
 msgctxt "SheetProperties|"
 msgid "Embedded Fonts:"
-msgstr "एम्बेडेड् फॉन्ट्स् : १."
+msgstr "एम्बेडेड् फॉन्ट्स् :"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:157
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
@@ -1241,7 +1241,7 @@ msgstr "PDF तः आयातं कुर्वन्तु"
 #: src/binaries/rcse/mainwindow_rcse.ui:1241
 msgctxt "MainWindow|"
 msgid "Hidden Field (for intermediate calculations)"
-msgstr "गुप्तक्षेत्रम् (अन्तरगणनार्थं) २."
+msgstr "गुप्तक्षेत्रम् (अन्तरगणनार्थं)"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
 msgctxt "PreferencesDialog|"
@@ -1341,7 +1341,7 @@ msgstr "स्तम्भप्रकारं चिनोतु"
 #: src/binaries/rcse/tablecanvasfield.cpp:324
 msgctxt "TableCanvasField|"
 msgid "Type of Field:"
-msgstr "क्षेत्रस्य प्रकारः : १."
+msgstr "क्षेत्रस्य प्रकारः :"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1656,7 +1656,7 @@ msgstr "नक्शा उद्घाटयतु"
 #: src/binaries/widget/mainwindow.cpp:469
 msgctxt "MainWindow|"
 msgid "Map:"
-msgstr "मानचित्रम् : १."
+msgstr "मानचित्रम् :"
 
 #: src/binaries/widget/mainwindow.cpp:483
 #: src/binaries/widget/mainwindow.cpp:522
@@ -2534,7 +2534,7 @@ msgstr "अन्धकारसंलयनम्"
 #: src/libraries/core/src/controller/preferencescontroller.cpp:338
 msgctxt "PreferencesController|"
 msgid " (copy)"
-msgstr " (प्रतिलिपि) २."
+msgstr " (प्रतिलिपि)"
 
 #: src/libraries/core/src/controller/view_controller/mediacontrollerbase.cpp:23
 msgctxt "MediaControllerBase|"
@@ -2936,7 +2936,7 @@ msgstr "डुप्लिकेट प्लेयर अथवा uuid"
 #: src/libraries/core/src/model/profilemodel.cpp:113
 msgctxt "ProfileModel|"
 msgid " (clone)"
-msgstr " (क्लोन्) २."
+msgstr " (क्लोन्)"
 
 #: src/libraries/core/src/model/proxystatemodel.cpp:50
 msgctxt "ProxyStateModel|"
@@ -2997,7 +2997,7 @@ msgstr "सॉकेट् लेखनीयं नास्ति"
 #: src/libraries/core/src/network/clientconnection.cpp:116
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
-msgstr "संचरणदोषः : १."
+msgstr "संचरणदोषः :"
 
 #: src/libraries/core/src/network/clientmanager.cpp:130
 msgctxt "ClientManager|"
@@ -3285,7 +3285,7 @@ msgstr "सदिश मानचित्र (%1) ."
 #, qt-format
 msgctxt "QObject|"
 msgid "Mindmap (%1)"
-msgstr "मनः मानचित्र (%1) २."
+msgstr "मनः मानचित्र (%1)"
 
 #: src/libraries/core/src/worker/utilshelper.cpp:201
 msgctxt "QObject|"
@@ -3486,7 +3486,7 @@ msgstr "वर्णनम्‌"
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:48
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
-msgstr "टैग्स् : १."
+msgstr "टैग्स् :"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
 msgctxt "NodeSettingPopup|"
@@ -3523,7 +3523,7 @@ msgstr "रात्रि मोड"
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:47
 msgctxt "SideMenu|"
 msgid "Link label visible:"
-msgstr "लिङ्क् लेबलं दृश्यते : १."
+msgstr "लिङ्क् लेबलं दृश्यते :"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:53
 msgctxt "SideMenu|"
@@ -3596,12 +3596,12 @@ msgstr "सम्पुट"
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:10
 msgctxt "IntegrityPage|"
 msgid "Missing files:"
-msgstr "अनुपलब्धाः सञ्चिकाः : १."
+msgstr "अनुपलब्धाः सञ्चिकाः :"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:58
 msgctxt "IntegrityPage|"
 msgid "Unmanaged files:"
-msgstr "अप्रबन्धितसञ्चिकाः : १."
+msgstr "अप्रबन्धितसञ्चिकाः :"
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
@@ -3704,12 +3704,12 @@ msgstr "Font... इति चयनं कुर्वन्तु..."
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:55
 msgctxt "SideMenu|"
 msgid "Font Family:"
-msgstr "फ़ॉन्ट परिवारः : १."
+msgstr "फ़ॉन्ट परिवारः :"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:61
 msgctxt "SideMenu|"
 msgid "Font size:"
-msgstr "फ़ॉन्ट् आकारः : १."
+msgstr "फ़ॉन्ट् आकारः :"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:75
 msgctxt "ConnectionForm|"
@@ -3729,7 +3729,7 @@ msgstr "प्रोफाइलं निष्कासयन्तु"
 #: src/libraries/qml_views/views/ConnectionForm.qml:113
 msgctxt "ConnectionForm|"
 msgid "Profile Name:"
-msgstr "प्रोफाइल नाम : १."
+msgstr "प्रोफाइल नाम :"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:125
 msgctxt "ConnectionForm|"
@@ -3769,7 +3769,7 @@ msgstr "अहं गेम मास्टरः अस्मि"
 #: src/libraries/qml_views/views/ConnectionForm.qml:195
 msgctxt "ConnectionForm|"
 msgid "Campaign Root:"
-msgstr "अभियानमूलम् : १."
+msgstr "अभियानमूलम् :"
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:220
 msgctxt "ConnectionForm|"
@@ -3824,7 +3824,7 @@ msgstr "गोपनं (GM only) ."
 #: src/libraries/rwidgets/customs/colorselector.cpp:258
 msgctxt "ColorSelector|"
 msgid "Unveil (GM only)"
-msgstr "अनावरणम् (केवल जीएम) २."
+msgstr "अनावरणम् (केवल जीएम)"
 
 #: src/libraries/rwidgets/customs/colorselector.cpp:265
 msgctxt "ColorSelector|"
@@ -3952,7 +3952,7 @@ msgstr "गीतं योजयतु"
 #, qt-format
 msgctxt "PlayerWidget|"
 msgid "Audio files (%1)"
-msgstr "श्रव्यसञ्चिकाः (%1) २."
+msgstr "श्रव्यसञ्चिकाः (%1)"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:340
 msgctxt "PlayerWidget|"
@@ -4027,7 +4027,7 @@ msgstr "परिहरन"
 #: src/libraries/rwidgets/customs/playerwidget.ui:230
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr "निर्देशिकाः पश्यन्तु : १."
+msgstr "निर्देशिकाः पश्यन्तु :"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:257
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
@@ -4441,7 +4441,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
 msgid "Web Sites:"
-msgstr "जालस्थलानि : १."
+msgstr "जालस्थलानि :"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
 msgctxt "AboutRolisteam|"
@@ -4582,17 +4582,17 @@ msgstr "नामः:"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:368
 msgctxt "CampaignProperties|"
 msgid "Root Directory:"
-msgstr "मूलनिर्देशिका : १."
+msgstr "मूलनिर्देशिका :"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:378
 msgctxt "CampaignProperties|"
 msgid "File count:"
-msgstr "सञ्चिकागणना : १."
+msgstr "सञ्चिकागणना :"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:392
 msgctxt "CampaignProperties|"
 msgid "Disk usage:"
-msgstr "डिस्कस्य उपयोगः : १."
+msgstr "डिस्कस्य उपयोगः :"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:406
 msgctxt "CampaignProperties|"
@@ -4969,17 +4969,17 @@ msgstr "मानचित्र"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:41
 msgctxt "PreferencesDialogBox|"
 msgid "Fog Of War:"
-msgstr "युद्धस्य कोहरा : १."
+msgstr "युद्धस्य कोहरा :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:72
 msgctxt "PreferencesDialogBox|"
 msgid "Default Map Permission:"
-msgstr "पूर्वनिर्धारित नक्शा अनुमतिः : १."
+msgstr "पूर्वनिर्धारित नक्शा अनुमतिः :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:99
 msgctxt "PreferencesDialogBox|"
 msgid "Opacity Value:"
-msgstr "अस्पष्टता मूल्यम् : १."
+msgstr "अस्पष्टता मूल्यम् :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:135
 msgctxt "PreferencesDialogBox|"
@@ -4989,7 +4989,7 @@ msgstr "मदः हाइलाइट् रङ्गः"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:166
 msgctxt "PreferencesDialogBox|"
 msgid "Pen Width Highlight:"
-msgstr "पेन चौड़ाई हाइलाइट : १."
+msgstr "पेन चौड़ाई हाइलाइट :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:180
 msgctxt "PreferencesDialogBox|"
@@ -5055,7 +5055,7 @@ msgstr "Tabview इत्यत्र लघुशीर्षकं"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:302
 msgctxt "PreferencesDialogBox|"
 msgid "Max Length:"
-msgstr "अधिकतम लम्बाई : १."
+msgstr "अधिकतम लम्बाई :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:326
 msgctxt "PreferencesDialogBox|"
@@ -5065,7 +5065,7 @@ msgstr "चित्राणि तेषां विण्डोज (उद�
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:339
 msgctxt "PreferencesDialogBox|"
 msgid "Application Language*"
-msgstr "अनुप्रयोग भाषा* ९."
+msgstr "अनुप्रयोग भाषा*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:345
 msgctxt "PreferencesDialogBox|"
@@ -5075,7 +5075,7 @@ msgstr "प्रणालीभाषायाः उपयोगं कुर�
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:357
 msgctxt "PreferencesDialogBox|"
 msgid "Available translations:"
-msgstr "उपलब्धाः अनुवादाः : १."
+msgstr "उपलब्धाः अनुवादाः :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:382
 msgctxt "PreferencesDialogBox|"
@@ -5085,7 +5085,7 @@ msgstr "अनुकूलित अनुवाद"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:391
 msgctxt "PreferencesDialogBox|"
 msgid "Translation File:"
-msgstr "अनुवाद सञ्चिका: १."
+msgstr "अनुवाद सञ्चिका:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:406
 msgctxt "PreferencesDialogBox|"
@@ -5095,7 +5095,7 @@ msgstr "वर्णपत्रम्"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
 msgid "Time between page:"
-msgstr "पृष्ठस्य मध्ये समयः : १."
+msgstr "पृष्ठस्य मध्ये समयः :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:435
 msgctxt "PreferencesDialogBox|"
@@ -5115,7 +5115,7 @@ msgstr "समयं दर्शयतु"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
 msgctxt "PreferencesDialogBox|"
 msgid "Color of Time:"
-msgstr "कालस्य वर्णः : १."
+msgstr "कालस्य वर्णः :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:503
 msgctxt "PreferencesDialogBox|"
@@ -5125,7 +5125,7 @@ msgstr "दीर्घ आदेशान् गोपयन्तु"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
 msgid "Maximum Length:"
-msgstr "अधिकतम लम्बाई : १."
+msgstr "अधिकतम लम्बाई :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
 msgctxt "PreferencesDialogBox|"
@@ -5145,7 +5145,7 @@ msgstr "विषयवस्तु"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:585
 msgctxt "PreferencesDialogBox|"
 msgid "Current Theme*"
-msgstr "वर्तमान विषयः* २."
+msgstr "वर्तमान विषयः*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:592
 msgctxt "PreferencesDialogBox|"
@@ -5155,7 +5155,7 @@ msgstr "विषयनाम"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:599
 msgctxt "PreferencesDialogBox|"
 msgid "Styles:"
-msgstr "शैल्याः : १."
+msgstr "शैल्याः :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:615
 msgctxt "PreferencesDialogBox|"
@@ -5170,7 +5170,7 @@ msgstr "लुप्"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:639
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
-msgstr "Css: १."
+msgstr "Css:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:646
 msgctxt "PreferencesDialogBox|"
@@ -5195,7 +5195,7 @@ msgstr "छवि:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:725
 msgctxt "PreferencesDialogBox|"
 msgid "Positioning:"
-msgstr "स्थितिः : १."
+msgstr "स्थितिः :"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:733
 msgctxt "PreferencesDialogBox|"
@@ -5387,17 +5387,17 @@ msgstr "शीर्षक :"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:51
 msgctxt "MapWizzardDialog|"
 msgid "Background Color :"
-msgstr "पृष्ठभूमि रंग : १."
+msgstr "पृष्ठभूमि रंग :"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:97
 msgctxt "MapWizzardDialog|"
 msgid "Visibility Mode:"
-msgstr "दृश्यताविधिः : १."
+msgstr "दृश्यताविधिः :"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:111
 msgctxt "MapWizzardDialog|"
 msgid "Permission Mode:"
-msgstr "अनुमतिविधिः : १."
+msgstr "अनुमतिविधिः :"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:123
 msgctxt "MapWizzardDialog|"
@@ -5407,7 +5407,7 @@ msgstr "गृध्र"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:149
 msgctxt "MapWizzardDialog|"
 msgid "Grid Pattern:"
-msgstr "जालप्रतिमानः : १."
+msgstr "जालप्रतिमानः :"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:156
 msgctxt "MapWizzardDialog|"
@@ -5547,12 +5547,12 @@ msgstr "सह"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:74
 msgctxt "AntagonistBoard|"
 msgid "Avatar:"
-msgstr "अवतार : १."
+msgstr "अवतार :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:84
 msgctxt "AntagonistBoard|"
 msgid "exclude:"
-msgstr "बहिष्कृतम् : १."
+msgstr "बहिष्कृतम् :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:94
 msgctxt "AntagonistBoard|"
@@ -5562,7 +5562,7 @@ msgstr "टैग्स् : "
 #: src/libraries/rwidgets/docks/antagonistboard.ui:104
 msgctxt "AntagonistBoard|"
 msgid "Actions:"
-msgstr "क्रियाः : १."
+msgstr "क्रियाः :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:117
 msgctxt "AntagonistBoard|"
@@ -5581,7 +5581,7 @@ msgstr "विना"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:148
 msgctxt "AntagonistBoard|"
 msgid "exclude tags:"
-msgstr "टैग्स् बहिष्कृत्य : १."
+msgstr "टैग्स् बहिष्कृत्य :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:161
 msgctxt "AntagonistBoard|"
@@ -5606,7 +5606,7 @@ msgstr "मृत"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:213
 msgctxt "AntagonistBoard|"
 msgid "Initiative Score:"
-msgstr "उपक्रमस्य स्कोरः : १."
+msgstr "उपक्रमस्य स्कोरः :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:251
 msgctxt "AntagonistBoard|"
@@ -5616,12 +5616,12 @@ msgstr "गुणाः:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:261
 msgctxt "AntagonistBoard|"
 msgid "Initiative Command:"
-msgstr "उपक्रम आज्ञा : १."
+msgstr "उपक्रम आज्ञा :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:274
 msgctxt "AntagonistBoard|"
 msgid "Shapes:"
-msgstr "आकृतयः : १."
+msgstr "आकृतयः :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:287
 #: src/libraries/rwidgets/docks/antagonistboard.ui:417
@@ -5652,7 +5652,7 @@ msgstr "२घ१०"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:451
 msgctxt "AntagonistBoard|"
 msgid "Initiative Value:"
-msgstr "उपक्रमस्य मूल्यम् : १."
+msgstr "उपक्रमस्य मूल्यम् :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:488
 msgctxt "AntagonistBoard|"
@@ -5667,7 +5667,7 @@ msgstr "स्वास्थ्य बिन्दु"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:548
 msgctxt "AntagonistBoard|"
 msgid "Min:"
-msgstr "न्यूनतमः : १."
+msgstr "न्यूनतमः :"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:578
 msgctxt "AntagonistBoard|"
@@ -6207,7 +6207,7 @@ msgstr "पुनः करो"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:128
 msgctxt "MRichTextEdit|"
 msgid "Cut (CTRL+X)"
-msgstr "कट (CTRL+X) ९."
+msgstr "कट (CTRL+X)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:131
 msgctxt "MRichTextEdit|"
@@ -6217,7 +6217,7 @@ msgstr "छिन्न"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:151
 msgctxt "MRichTextEdit|"
 msgid "Copy (CTRL+C)"
-msgstr "प्रतिलिपि (CTRL+C) ९."
+msgstr "प्रतिलिपि (CTRL+C)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:154
 msgctxt "MRichTextEdit|"
@@ -6227,7 +6227,7 @@ msgstr "प्रतिलिपि"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:174
 msgctxt "MRichTextEdit|"
 msgid "Paste (CTRL+V)"
-msgstr "पेस्ट (CTRL+V) ९."
+msgstr "पेस्ट (CTRL+V)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:177
 msgctxt "MRichTextEdit|"
@@ -6237,7 +6237,7 @@ msgstr "चिनोतु"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:204
 msgctxt "MRichTextEdit|"
 msgid "Link (CTRL+L)"
-msgstr "लिङ्क (CTRL+L) ९."
+msgstr "लिङ्क (CTRL+L)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:207
 msgctxt "MRichTextEdit|"
@@ -6252,7 +6252,7 @@ msgstr "विक्रान्तः"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:263
 msgctxt "MRichTextEdit|"
 msgid "Italic (CTRL+I)"
-msgstr "इटालिक (CTRL+I) २."
+msgstr "इटालिक (CTRL+I)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:266
 msgctxt "MRichTextEdit|"
@@ -6262,7 +6262,7 @@ msgstr "इटालिक"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:289
 msgctxt "MRichTextEdit|"
 msgid "Underline (CTRL+U)"
-msgstr "रेखांकनम् (CTRL+U) ९."
+msgstr "रेखांकनम् (CTRL+U)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:292
 msgctxt "MRichTextEdit|"
@@ -6277,7 +6277,7 @@ msgstr "Strike Out इति"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:332
 msgctxt "MRichTextEdit|"
 msgid "Bullet list (CTRL+-)"
-msgstr "बुलेट् सूची (CTRL+-) २."
+msgstr "बुलेट् सूची (CTRL+-)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:335
 msgctxt "MRichTextEdit|"
@@ -6287,7 +6287,7 @@ msgstr "बुलेट सूची"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:354
 msgctxt "MRichTextEdit|"
 msgid "Ordered list (CTRL+=)"
-msgstr "क्रमबद्धसूची (CTRL+=) २."
+msgstr "क्रमबद्धसूची (CTRL+=)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:357
 msgctxt "MRichTextEdit|"
@@ -6579,7 +6579,7 @@ msgstr "नूतनम्‌..."
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:62
 msgctxt "ConnectToDocument|"
 msgid "Username:"
-msgstr "उपयोक्तृनाम : १."
+msgstr "उपयोक्तृनाम :"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:88
 msgctxt "ConnectToDocument|"
@@ -6609,7 +6609,7 @@ msgstr "३०००"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:190
 msgctxt "ConnectToDocument|"
 msgid "LAN Cahoots Documents:"
-msgstr "LAN Cahoots दस्तावेजाः : १."
+msgstr "LAN Cahoots दस्तावेजाः :"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -6914,7 +6914,7 @@ msgstr "फॉन्ट्"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:39
 msgctxt "PreferencesDialog|"
 msgid "Code Editor:"
-msgstr "संहिता सम्पादकः : १."
+msgstr "संहिता सम्पादकः :"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:54
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:130
@@ -6940,12 +6940,12 @@ msgstr "मूलभूतम्‌"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:115
 msgctxt "PreferencesDialog|"
 msgid "Chat Pane:"
-msgstr "गपशपफलकम् : १."
+msgstr "गपशपफलकम् :"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:191
 msgctxt "PreferencesDialog|"
 msgid "Participants Pane:"
-msgstr "प्रतिभागिनः फलकम् : १."
+msgstr "प्रतिभागिनः फलकम् :"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:275
 msgctxt "PreferencesDialog|"
@@ -6955,12 +6955,12 @@ msgstr "साझेदारी"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:289
 msgctxt "PreferencesDialog|"
 msgid "Announcing:"
-msgstr "घोषणा करते हुए : १."
+msgstr "घोषणा करते हुए :"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:311
 msgctxt "PreferencesDialog|"
 msgid "Default Name:"
-msgstr "पूर्वनिर्धारित नाम : १."
+msgstr "पूर्वनिर्धारित नाम :"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:338
 msgctxt "PreferencesDialog|"
@@ -7096,7 +7096,7 @@ msgstr "क/टिप्पणी रेखा"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:265
 msgctxt "SharedNote|"
 msgid "Ctrl+/"
-msgstr "Ctrl+/ ९."
+msgstr "Ctrl+/"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:270
 msgctxt "SharedNote|"
@@ -7671,7 +7671,7 @@ msgstr "%1 - चित्रम्"
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture)"
-msgstr "%1 - (चित्रम्) २."
+msgstr "%1 - (चित्रम्)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:212
 msgctxt "Image|"
@@ -7701,7 +7701,7 @@ msgstr "जूम स्तरं न्यूनीकरोतु"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:227
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
-msgstr "Ctrl+- ९."
+msgstr "Ctrl+-"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:238
 msgctxt "Image|"
@@ -7791,7 +7791,7 @@ msgstr "नूतनं नाम परिभाषयतु"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:301
 msgctxt "Image|"
 msgid "New name:"
-msgstr "नवीनं नाम : १."
+msgstr "नवीनं नाम :"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:308
 #: src/libraries/rwidgets/mediacontainers/image.cpp:322
@@ -7889,32 +7889,32 @@ msgstr "Fit in View इति"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:143
 msgctxt "PdfViewer|"
 msgid "25%"
-msgstr "२५% २."
+msgstr "२५%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:148
 msgctxt "PdfViewer|"
 msgid "50%"
-msgstr "५०% २."
+msgstr "५०%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:153
 msgctxt "PdfViewer|"
 msgid "75%"
-msgstr "७५% २."
+msgstr "७५%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:158
 msgctxt "PdfViewer|"
 msgid "100%"
-msgstr "१००% २."
+msgstr "१००%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:163
 msgctxt "PdfViewer|"
 msgid "150%"
-msgstr "१५०% २."
+msgstr "१५०%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:168
 msgctxt "PdfViewer|"
 msgid "200%"
-msgstr "२००% २."
+msgstr "२००%"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:206
 msgctxt "PdfViewer|"
@@ -8378,7 +8378,7 @@ msgstr "लेखनीयाः ऊर्ध्वता"
 #: src/libraries/rwidgets/toolbars/vtoolbar.cpp:372
 msgctxt "ToolBox|"
 msgid "Opacity:"
-msgstr "अस्पष्टता : १."
+msgstr "अस्पष्टता :"
 
 #: src/tests/auto/characterstatemodel/tst_characterstatemodel.cpp:83
 msgctxt "TestCharacterStateModel|"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-11-12 17:09+0100\n"
+"PO-Revision-Date: 2024-12-20 14:56+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -2678,7 +2678,7 @@ msgstr "typo"
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "last access"
-msgstr "ultime accessp"
+msgstr "ultime accesso"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
@@ -6804,7 +6804,7 @@ msgstr "Permission"
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:140
 msgctxt "ParticipantsPane|"
 msgid "Promote"
-msgstr ""
+msgstr "Promove"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:149
 msgctxt "ParticipantsPane|"
