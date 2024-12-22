@@ -20,34 +20,42 @@
  ***************************************************************************/
 #include "workspace.h"
 
+#include <QObject>
 #include <QQmlEngine>
+#include <QWidget>
 #include <QtGui>
 
 #include "controller/contentcontroller.h"
+#include "controller/instantmessagingcontroller.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/notecontroller.h"
+#include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
-#include "controller/view_controller/pdfcontroller.h"
-#include "mediacontainers/pdfviewer.h"
-#include "controller/instantmessagingcontroller.h"
-#include "mediacontainers/instantmessagingview.h"
+#include "dicephysics/controllers/dice3dcontroller.h"
 #include "editors/noteeditor/src/notecontainer.h"
 #include "editors/sharededitor/sharednotecontainer.h"
 #include "mediacontainers/charactersheetwindow.h"
 #include "mediacontainers/image.h"
+#include "mediacontainers/instantmessagingview.h"
 #include "mediacontainers/mindmapview.h"
+#include "mediacontainers/pdfviewer.h"
 #include "mediacontainers/vmapframe.h"
 #include "mediacontainers/webview.h"
 
 #define GRAY_SCALE 191
 
 Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagingController* instantCtrl,
-                     QWidget* parent)
-    : QMdiArea(parent), m_ctrl(ctrl), m_variableSizeBackground(size()), m_toolbar(toolbar)
+                     Dice3DController* diceCtrl, QWidget* parent)
+    : QMdiArea(parent)
+    , m_ctrl(ctrl)
+    , m_diceCtrl(diceCtrl)
+    , m_engine(new QQmlApplicationEngine)
+    , m_variableSizeBackground(size())
+    , m_toolbar(toolbar)
 {
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
@@ -80,6 +88,19 @@ Workspace::Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagin
     if(m_ctrl)
         m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
     updateBackGround();
+
+    auto timer= new QTimer();
+    timer->setInterval(100);
+    connect(m_diceCtrl.get(), &Dice3DController::displayedChanged, this,
+            [this, timer]()
+            {
+                if(m_diceCtrl->displayed())
+                    timer->start();
+            });
+
+    connect(timer, &QTimer::timeout, this, &Workspace::updateDicePanelGeometry);
+
+    connect(m_diceCtrl, &Dice3DController::readyChanged, this, &Workspace::addDicePanel);
 }
 
 Workspace::~Workspace()
@@ -163,6 +184,26 @@ void Workspace::updateBackGround()
     update();
 }
 
+void Workspace::addDicePanel()
+{
+    if(!m_diceCtrl)
+        return;
+    qmlRegisterSingletonInstance("Controllers", 1, 0, "Dice3DCtrl", m_diceCtrl.get());
+
+    QQmlEngine::setObjectOwnership(m_diceCtrl.get(), QQmlEngine::CppOwnership);
+    m_engine->addImportPath(":/DicePhysics");
+    m_engine->addImportPath(QStringLiteral("qrc:/qml"));
+    m_engine->addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
+
+    m_engine->loadFromModule("DicePhysics", "Main");
+}
+
+void Workspace::updateDicePanelGeometry()
+{
+    m_diceCtrl->setPosition(mapToGlobal(QPointF(0, 0)).toPoint());
+    m_diceCtrl->setSize(geometry().size());
+}
+
 void Workspace::resizeEvent(QResizeEvent* event)
 {
     Q_UNUSED(event)
@@ -172,7 +213,7 @@ void Workspace::resizeEvent(QResizeEvent* event)
     }
 
     updateBackGround();
-
+    updateDicePanelGeometry();
     QMdiArea::resizeEvent(event);
 }
 

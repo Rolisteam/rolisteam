@@ -31,6 +31,7 @@
 #include "preferences/preferencesmanager.h"
 #include "services/tipchecker.h"
 #include "services/updatechecker.h"
+#include "updater/controller/dicephysicupdater.h"
 #include "utils/iohelper.h"
 #include "worker/autosavecontroller.h"
 #include "worker/iohelper.h"
@@ -58,7 +59,9 @@ GameController::GameController(const QString& appname, const QString& version, Q
     , m_version(version)
     , m_undoStack(new QUndoStack)
     , m_autoSaveCtrl(new AutoSaveController(m_preferences.get()))
+    , m_dicePhysicController(new Dice3DController)
 {
+    new DicePhysicUpdater(m_dicePhysicController.get(), this);
     m_preferences->readSettings();
     postSettingInit();
 
@@ -116,12 +119,16 @@ GameController::GameController(const QString& appname, const QString& version, Q
     };
     connect(m_contentCtrl.get(), &ContentController::popCommand, this, popCommand);
     connect(m_instantMessagingCtrl.get(), &InstantMessagingController::openWebPage, this, &GameController::openPageWeb);
+    connect(m_dicePhysicController.get(), &Dice3DController::diceRolled, m_instantMessagingCtrl.get(), &InstantMessagingController::translateDiceResult, Qt::QueuedConnection);
 
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_audioCtrl.get(), &AudioController::setLocalIsGM);
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, &GameController::dataLoaded);
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, [this](){
         m_campaignManager->diceparser();
+        ModelHelper::fetchDice3d(m_dicePhysicController.get(),
+                                         utils::IOHelper::loadFile(m_campaignManager->placeDirectory(campaign::Campaign::Place::DICE_3D_FILE)));
+        m_dicePhysicController->setReady(true);
     });
     // clang-format on
 
@@ -144,14 +151,8 @@ void GameController::clear()
 
 void GameController::postSettingInit()
 {
-    // Log controller
-    // auto logDebug= m_preferences->value(QStringLiteral("LogDebug"), false).toBool();
     m_logController->setLogLevel(
         m_preferences->value(QStringLiteral("LogLevel"), LogController::Error).value<LogController::LogLevel>());
-
-    //    auto LogResearch= m_preferences->value(QStringLiteral("LogResearch"), false).toBool();
-    //    auto dataCollection= m_preferences->value(QStringLiteral("dataCollection"), false).toBool();
-    // m_logController->setSignalInspection(logDebug && (LogResearch || dataCollection));
 
     LogController::StorageModes mode= LogController::Gui | LogController::Console;
 
@@ -214,7 +215,8 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
     other.insert(Core::keys::KEY_LOCALISGM, localIsGM());
 
     if(!other.contains(Core::keys::KEY_SERIALIZED))
-        hu::setParamIfAny<QUrl>(cv::KEY_URL, map, [&other](const QUrl& path)
+        hu::setParamIfAny<QUrl>(cv::KEY_URL, map,
+                                [&other](const QUrl& path)
                                 { other.insert(Core::keys::KEY_SERIALIZED, utils::IOHelper::loadFile(path.path())); });
 
     m_contentCtrl->openMedia(other.toStdMap());
@@ -226,6 +228,8 @@ void GameController::save()
         return;
 
     ModelHelper::saveSession(m_contentCtrl.get());
+    ModelHelper::saveDice3d(m_dicePhysicController.get(),
+                            m_campaignManager->placeDirectory(campaign::Campaign::Place::DICE_3D_FILE));
     m_audioCtrl->saveStates();
     m_campaignManager->saveCampaign();
 }
@@ -425,7 +429,8 @@ void GameController::setDataFromProfile(int profileIndex)
     {
         auto characters= profile->characters();
         std::for_each(
-            characters.begin(), characters.end(), [local](const connection::CharacterData& data)
+            characters.begin(), characters.end(),
+            [local](const connection::CharacterData& data)
             { local->addCharacter(data.m_uuid, data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
     }
 
@@ -477,4 +482,9 @@ PreferencesController* GameController::preferencesController() const
 void GameController::addCommand(QUndoCommand* cmd)
 {
     m_undoStack->push(cmd);
+}
+
+Dice3DController* GameController::dicePhysicController() const
+{
+    return m_dicePhysicController.get();
 }

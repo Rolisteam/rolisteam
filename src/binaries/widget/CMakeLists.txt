@@ -43,7 +43,30 @@ target_include_directories(rolisteam PRIVATE ../../libraries ${CMAKE_BINARY_DIR}
 set_target_properties(rolisteam PROPERTIES WIN32_EXECUTABLE on MACOSX_BUNDLE on)
 
 
-target_link_libraries(rolisteam PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets Qt6::MultimediaWidgets Qt6::Multimedia Qt6::Scxml Qt6::Quick3D PRIVATE core rwidgets common_core common_widget common_qml instantmessaging charactersheet_widgets diceparser_qobject utils rmindmap qml_views qml_components network)
+target_link_libraries(rolisteam
+    PUBLIC
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
+        Qt6::MultimediaWidgets
+        Qt6::Multimedia
+        Qt6::Scxml
+        Qt6::Quick3D
+    PRIVATE
+        core
+        rwidgets
+        common_core
+        common_widget
+        common_qml
+        instantmessaging
+        charactersheet_widgets
+        diceparser_qobject
+        utils
+        rmindmap
+        qml_views
+        qml_components
+        network
+        dice3d )
 
 include(install_helper)
 rinstallRT(rolisteam rolisteamComp)

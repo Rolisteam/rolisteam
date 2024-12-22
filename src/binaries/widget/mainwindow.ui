@@ -163,6 +163,7 @@
    <addaction name="m_pasteAct"/>
    <addaction name="m_showChatAct"/>
    <addaction name="separator"/>
+   <addaction name="m_showDice3D"/>
   </widget>
   <action name="m_closeAction">
    <property name="text">
@@ -630,6 +631,17 @@
    </property>
    <property name="text">
     <string>Import from another campaign…</string>
+   </property>
+  </action>
+  <action name="m_showDice3D">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dice3D</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
  </widget>

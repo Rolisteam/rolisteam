@@ -1098,6 +1098,7 @@ target_link_libraries(tst_qobjects
         charactersheet_formula
         charactersheet_widgets
         qml_components
+        dice3d
         qml_views)
 
 target_include_directories(tst_qobjects PUBLIC ../helper)

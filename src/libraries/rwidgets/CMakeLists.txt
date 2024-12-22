@@ -291,6 +291,7 @@ target_link_libraries(rwidgets
         rmindmap
         qml_components
         instantmessaging
+        dice3d
         utils)
 
 

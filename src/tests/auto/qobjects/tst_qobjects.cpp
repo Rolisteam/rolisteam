@@ -738,7 +738,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("WebView") << static_cast<QObject*>(new WebView(nullptr)) << true;
     QTest::addRow("WebViewUpdater") << static_cast<QObject*>(new WebViewUpdater(nullptr)) << true;
     QTest::addRow("WebpageController") << static_cast<QObject*>(new WebpageController()) << true;
-    QTest::addRow("Workspace") << static_cast<QObject*>(new Workspace(nullptr, nullptr, nullptr)) << true;
+    QTest::addRow("Workspace") << static_cast<QObject*>(new Workspace(nullptr, nullptr, nullptr, nullptr)) << true;
     QTest::addRow("XMLTextEdit")  << static_cast<QObject*>(new XMLTextEdit())<< true ;
     //QTest::addRow("RolisteamApplication")  << static_cast<QObject*>(new RolisteamApplication(Helper::randomString(),Helper::randomString(), count, argv))<< true ;
     // clang-format off

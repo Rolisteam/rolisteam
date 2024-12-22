@@ -35,6 +35,7 @@
 #include "data/campaign.h"
 #include "data/campaignmanager.h"
 #include "diceparser_qobject/diceroller.h"
+#include "dicephysics/controllers/dice3dcontroller.h"
 
 struct TipOfDay
 {
@@ -66,6 +67,7 @@ class CORE_EXPORT GameController : public QObject
     Q_PROPERTY(ContentController* contentController READ contentController CONSTANT)
     Q_PROPERTY(AudioController* audioController READ audioController CONSTANT)
     Q_PROPERTY(NetworkController* networkController READ networkController CONSTANT)
+    Q_PROPERTY(Dice3DController* dicePhysicController READ dicePhysicController CONSTANT)
     Q_PROPERTY(QString campaignRoot READ campaignRoot WRITE setCampaignRoot NOTIFY campaignRootChanged)
     Q_PROPERTY(QString version READ version WRITE setVersion NOTIFY versionChanged)
     Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
@@ -108,6 +110,9 @@ public:
 
     void clear();
 
+    Dice3DController* dicePhysicController() const;
+    void setDicePhysicController(Dice3DController* newDicePhysicController);
+
 signals:
     void campaignRootChanged();
     void versionChanged();
@@ -120,6 +125,8 @@ signals:
     void closingApp();
     void campaignChanged();
     void dataLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
+
+    void dicePhysicControllerChanged();
 
 public slots:
     void addErrorLog(const QString& message, const QString& cat);
@@ -165,6 +172,7 @@ private:
     std::unique_ptr<PreferencesManager> m_preferences;
     std::unique_ptr<InstantMessagingController> m_instantMessagingCtrl;
     std::unique_ptr<AudioController> m_audioCtrl;
+    std::unique_ptr<Dice3DController> m_dicePhysicController;
 
     QString m_version;
     QString m_remoteVersion;

@@ -38,18 +38,19 @@ namespace campaign
 {
 class Media;
 class NonPlayableCharacterModel;
-constexpr char const* TRASH_FOLDER{".trash"};
-constexpr char const* MODEL_FILE{"data.json"};
-constexpr char const* THEME_FILE{"theme.json"};
-constexpr char const* FIRST_AUDIO_PLAYER_FILE{"audioplayer1.json"};
-constexpr char const* SECOND_AUDIO_PLAYER_FILE{"audioplayer2.json"};
-constexpr char const* THIRD_AUDIO_PLAYER_FILE{"audioplayer3.json"};
-constexpr char const* DICE_ALIAS_MODEL{"dice_command.json"};
-constexpr char const* STATE_MODEL{"states.json"};
-constexpr char const* MEDIA_ROOT{"media"};
-constexpr char const* STATE_ROOT{"states"};
-constexpr char const* CHARACTER_ROOT{"npcs"};
-constexpr char const* CHARACTER_MODEL{"npc.json"};
+constexpr auto TRASH_FOLDER{".trash"};
+constexpr auto MODEL_FILE{"data.json"};
+constexpr auto THEME_FILE{"theme.json"};
+constexpr auto FIRST_AUDIO_PLAYER_FILE{"audioplayer1.json"};
+constexpr auto SECOND_AUDIO_PLAYER_FILE{"audioplayer2.json"};
+constexpr auto THIRD_AUDIO_PLAYER_FILE{"audioplayer3.json"};
+constexpr auto DICE_ALIAS_MODEL{"dice_command.json"};
+constexpr auto STATE_MODEL{"states.json"};
+constexpr auto MEDIA_ROOT{"media"};
+constexpr auto STATE_ROOT{"states"};
+constexpr auto CHARACTER_ROOT{"npcs"};
+constexpr auto CHARACTER_MODEL{"npc.json"};
+constexpr auto DICE3D_CONTROLLER{"3dDice.json"};
 
 class CORE_EXPORT Campaign : public QObject
 {
@@ -93,6 +94,7 @@ public:
         FIRST_AUDIO_PLAYER_FILE,
         SECOND_AUDIO_PLAYER_FILE,
         THIRD_AUDIO_PLAYER_FILE,
+        DICE_3D_FILE
     };
     Q_ENUM(Place);
 

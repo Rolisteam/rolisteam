@@ -51,6 +51,7 @@ enum Category
     SharedNoteCategory,
     WebPageCategory,
     MindMapCategory,
+    Dice3DCategory
 };
 
 enum Action
@@ -156,7 +157,10 @@ enum Action
     UpdateNode,
     UpdatePackage,
     UpdateLink,
-    UpdateMindMapPermission
+    UpdateMindMapPermission,
+
+    // 3d dice
+    Roll3DAct= 0
 };
 } // namespace NetMsg
 

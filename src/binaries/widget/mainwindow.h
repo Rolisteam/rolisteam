@@ -163,6 +163,8 @@ protected:
     void closeEvent(QCloseEvent* event);
     virtual void focusInEvent(QFocusEvent* event);
     virtual void focusOutEvent(QFocusEvent* event);
+    virtual void moveEvent(QMoveEvent* event);
+    virtual void changeEvent(QEvent* event);
     /**
      * @brief dropEvent
      * @param event

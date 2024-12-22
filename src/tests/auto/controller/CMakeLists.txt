@@ -30,7 +30,7 @@ target_include_directories(tst_vectorialmapcontroller  PUBLIC ../helper ../../li
 add_test(NAME tst_vectorialmapcontroller COMMAND tst_vectorialmapcontroller)
 
 add_executable(tst_profilecontroller tst_profilecontroller.cpp ../assets/resources.qrc)
-target_link_libraries(tst_profilecontroller PUBLIC Qt6::Core Qt6::Test Qt6::StateMachine PRIVATE core instantmessaging common_core common_widget common_qml helper network diceparser_qobject diceparser_shared utils helper)
+target_link_libraries(tst_profilecontroller PUBLIC Qt6::Core Qt6::Test Qt6::StateMachine PRIVATE core instantmessaging common_core common_widget common_qml helper network diceparser_qobject diceparser_shared utils helper dice3d)
 target_include_directories(tst_profilecontroller  PUBLIC ../helper )
 add_test(NAME tst_profilecontroller COMMAND tst_profilecontroller)
 

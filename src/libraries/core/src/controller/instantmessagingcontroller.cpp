@@ -305,3 +305,23 @@ void InstantMessagingController::addChatroomSplitterModel()
     model->addFilterModel(m_model.get());
     m_splitterModels.push_back(std::move(model));
 }
+
+void InstantMessagingController::translateDiceResult(const QHash<int, QList<int>>& rollResult, const QString& rest)
+{
+    if(rollResult.isEmpty())
+        return;
+    QString cmd;
+
+    for(auto [k, v] : rollResult.asKeyValueRange())
+    {
+        QStringList list;
+        std::transform(std::begin(v), std::end(v), std::back_inserter(list), [](int i) { return QString::number(i); });
+
+        cmd+= QString("[%1];").arg(list.join(","));
+    }
+
+    cmd.removeLast();
+    cmd.append(rest);
+
+    rollDiceCommand(cmd, false, localId());
+}

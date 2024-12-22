@@ -81,6 +81,7 @@ public slots:
     void setDiceParser(DiceRoller* diceParser);
     void setVisible(bool b);
 
+    void translateDiceResult(const QHash<int, QList<int>>& rollResult, const QString& rest);
     void rollDiceCommand(const QString& cmd, bool gmOnly, const QString& characterId);
     void sendMessageToGlobal(const QString& msg, const QString& characterId);
     void sendMessageToGM(const QString& msg, const QString& characterId);

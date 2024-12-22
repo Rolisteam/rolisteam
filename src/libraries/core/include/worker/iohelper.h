@@ -73,6 +73,7 @@ public:
     static QJsonObject textByteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
     static QByteArray jsonObjectToByteArray(const QJsonObject& obj);
+    static QByteArray jsonArrayToByteArray(const QJsonArray& obj);
     static QJsonArray loadJsonFileIntoArray(const QString& filename, bool& ok);
     static QJsonObject loadJsonFileIntoObject(const QString& filename, bool& ok);
     static void writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array);
@@ -93,7 +94,7 @@ public:
 
     // Controller Generic method
     static QByteArray saveController(MediaControllerBase* media);
-    //static MediaControllerBase* loadController(const QByteArray& data);
+    // static MediaControllerBase* loadController(const QByteArray& data);
     static void saveBase(MediaControllerBase* base, QDataStream& output);
     static void readBase(MediaControllerBase* base, QDataStream& input);
     static void readBaseFromJson(MediaControllerBase* base, const QJsonObject& data);
@@ -134,7 +135,7 @@ public:
     static QString copyImageFileIntoCampaign(const QString& path, const QString& dest);
 
     // character
-    static Character *dupplicateCharacter(const Character *obj);
+    static Character* dupplicateCharacter(const Character* obj);
 };
 
 #endif // IOHELPER_H

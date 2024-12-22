@@ -244,7 +244,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"), func2);
 
-    connect(m_ui->m_mediaTitleAct, &QAction::toggled, this, [this](bool b)
+    connect(m_ui->m_mediaTitleAct, &QAction::toggled, this,
+            [this](bool b)
             { m_ui->m_toolBar->setToolButtonStyle(b ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly); });
 
     connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
@@ -300,6 +301,24 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                                                         Q_UNUSED(scriptEngine);
                                                         return new ApplicationController(m_gameController);
                                                     });
+
+    m_ui->m_showDice3D->setIcon(QIcon(":/dice3d/icons/dice3d.svg"));
+    connect(m_ui->m_showDice3D, &QAction::triggered, this,
+            [this]()
+            {
+                auto ctrl= m_gameController->dicePhysicController();
+                if(!ctrl)
+                    return;
+                ctrl->setDisplayed(m_ui->m_showDice3D->isChecked());
+            });
+    auto ctrl= m_gameController->dicePhysicController();
+    connect(ctrl, &Dice3DController::displayedChanged, this,
+            [this]()
+            {
+                auto ctrl= m_gameController->dicePhysicController();
+                m_ui->m_showDice3D->setChecked(ctrl->displayed());
+            });
+    m_ui->m_showDice3D->setChecked(ctrl->displayed());
 }
 
 MainWindow::~MainWindow()= default;
@@ -315,7 +334,8 @@ void MainWindow::setupUi()
 
     connect(m_ui->m_pasteAct, &QAction::triggered, contentCtrl, &ContentController::pasteData);
 
-    m_mdiArea.reset(new Workspace(m_ui->m_toolBar, contentCtrl, m_gameController->instantMessagingController()));
+    m_mdiArea.reset(new Workspace(m_ui->m_toolBar, contentCtrl, m_gameController->instantMessagingController(),
+                                  m_gameController->dicePhysicController()));
     setCentralWidget(m_mdiArea.get());
 
     setWindowIcon(QIcon::fromTheme("logo"));
@@ -327,6 +347,33 @@ void MainWindow::setupUi()
     m_preferencesDialog= new PreferencesDialog(m_gameController->preferencesController(), this);
     linkActionToMenu();
     createTabs();
+}
+
+void MainWindow::moveEvent(QMoveEvent* event)
+{
+    QMainWindow::moveEvent(event);
+    m_mdiArea->updateDicePanelGeometry();
+}
+
+void MainWindow::changeEvent(QEvent* event)
+{
+    if(event->type() == QEvent::WindowStateChange)
+    {
+        auto stateEvent= static_cast<QWindowStateChangeEvent*>(event);
+        static bool oldState= true;
+        if(windowState() & Qt::WindowMinimized)
+        {
+            auto diceCtrl= m_gameController->dicePhysicController();
+            oldState= diceCtrl->displayed();
+            if(oldState)
+                diceCtrl->setDisplayed(false);
+        }
+        else if(stateEvent->oldState() & Qt::WindowMinimized)
+        {
+            auto diceCtrl= m_gameController->dicePhysicController();
+            diceCtrl->setDisplayed(oldState);
+        }
+    }
 }
 
 void MainWindow::closeAllMediaContainer()
@@ -796,6 +843,15 @@ void MainWindow::updateUi()
                 (*it)->setVisible(false);
             m_sideTabs->setTabVisible(idx, false);
         }
+
+        QSettings settings(Core::settings::KEY_ROLISTEAM,
+                           QString(Core::settings::KEY_PREF_DIR).arg(m_gameController->version()));
+        auto bytes= settings.value(Core::settings::KEY_PLAYER_DICE3D, QByteArray()).toByteArray();
+
+        auto dice3d= m_gameController->dicePhysicController();
+        if(!bytes.isEmpty())
+            ModelHelper::fetchDice3d(dice3d, bytes);
+        dice3d->setReady(true);
     }
 }
 void MainWindow::showUpdateNotification()
@@ -854,8 +910,8 @@ void MainWindow::readSettings()
     // read recent scenario
     auto ctrl= m_gameController->contentController();
     SettingsHelper::readHistoryModel(ctrl->historyModel());
-    m_dockLogUtil->initSetting();
 
+    m_dockLogUtil->initSetting();
     m_audioPlayer->updateState();
 }
 void MainWindow::writeSettings()
@@ -884,7 +940,11 @@ void MainWindow::writeSettings()
 
     auto ctrl= m_gameController->contentController();
     if(!m_gameController->localIsGM())
+    {
         SettingsHelper::writeHistoryModel(ctrl->historyModel());
+        settings.setValue(Core::settings::KEY_PLAYER_DICE3D,
+                          ModelHelper::buildDice3dData(m_gameController->dicePhysicController()));
+    }
     for(auto& gmtool : m_gmToolBoxList)
     {
         gmtool->writeSettings();

@@ -193,6 +193,13 @@ QByteArray IOHelper::jsonObjectToByteArray(const QJsonObject& obj)
     return doc.toJson(QJsonDocument::Indented);
 }
 
+QByteArray IOHelper::jsonArrayToByteArray(const QJsonArray& obj)
+{
+    QJsonDocument doc;
+    doc.setArray(obj);
+    return doc.toJson(QJsonDocument::Indented);
+}
+
 QJsonObject IOHelper::loadJsonFileIntoObject(const QString& filename, bool& ok)
 {
     QJsonDocument doc= QJsonDocument::fromJson(utils::IOHelper::loadFile(filename));

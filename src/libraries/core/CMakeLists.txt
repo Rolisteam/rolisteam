@@ -259,6 +259,7 @@ set(HEADERS
   ${inc}/updater/vmapitem/rectcontrollerupdater.h
   ${inc}/updater/vmapitem/textcontrollerupdater.h
   ${inc}/updater/vmapitem/vmapitemcontrollerupdater.h
+  ${inc}/updater/controller/dicephysicupdater.h
   ${inc}/updater/vmapitem/sightupdater.h
   ${inc}/utils/insertionsortedmap.h
   ${inc}/utils/countdownobject.h
@@ -384,6 +385,7 @@ set(SOURCES
   src/undoCmd/showtransparentitemcommand.cpp
   src/undoCmd/dupplicatevmapitem.cpp
   src/updater/controller/audioplayerupdater.cpp
+  src/updater/controller/dicephysicupdater.cpp
   src/updater/controller/playerupdater.cpp
   src/updater/media/campaignupdater.cpp
   src/updater/media/charactersheetupdater.cpp
@@ -419,6 +421,7 @@ set(SOURCES
 add_library(core SHARED ${SOURCES} ${HEADERS} ${pdfSource} ${QRC_SOURCES}
 
 
+
 )
 set_target_properties(core PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_compile_definitions(core PRIVATE CORE_LIBRARY)
@@ -439,6 +442,7 @@ target_link_libraries(core
     charactersheet_widgets
     instantmessaging
     utils
+    dice3d
     network)
 
 target_include_directories(core PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src

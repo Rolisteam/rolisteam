@@ -35,6 +35,7 @@
 #include "controller/contentcontroller.h"
 #include "data/campaign.h"
 #include "data/media.h"
+#include "dice3dcontroller.h"
 #include "diceparser/dicealias.h"
 #include "media/mediatype.h"
 #include "model/characterstatemodel.h"
@@ -45,6 +46,7 @@
 #include "model/nonplayablecharactermodel.h"
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
+#include "utils/iohelper.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 
@@ -88,6 +90,23 @@ constexpr auto const* characterId{"CharacterId"};
 constexpr auto const* characterData{"CharacterData"};
 constexpr auto const* characterColor{"CharacterColor"};
 } // namespace profiles
+
+namespace jsonkey3DDice
+{
+constexpr auto colorD4{"colorD4"};
+constexpr auto colorD6{"colorD6"};
+constexpr auto colorD8{"colorD8"};
+constexpr auto colorD10{"colorD10"};
+constexpr auto colorD12{"colorD12"};
+constexpr auto colorD20{"colorD20"};
+constexpr auto colorD100{"colorD100"};
+constexpr auto displayed{"displayed"};
+constexpr auto muted{"muted"};
+constexpr auto commandPart{"commandPart"};
+constexpr auto shared{"sharedOnline"};
+constexpr auto model{"model"};
+constexpr auto factor{"factor"};
+} // namespace jsonkey3DDice
 
 void readConnectionProfileModel(ProfileModel* model)
 {
@@ -279,6 +298,78 @@ bool saveSession(const ContentController* ctrl)
             continue;
 
         campaign::FileSerializer::writeFileIntoCampaign(ctrl->url().toLocalFile(), IOHelper::saveController(ctrl));
+    }
+    return true;
+}
+
+QByteArray buildDice3dData(Dice3DController* ctrl)
+{
+    namespace sj= SettingsHelper::jsonkey3DDice;
+
+    QJsonObject obj;
+
+    obj[sj::colorD4]= ctrl->fourColor().name();
+    obj[sj::colorD6]= ctrl->sixColor().name();
+    obj[sj::colorD8]= ctrl->eightColor().name();
+    obj[sj::colorD10]= ctrl->tenColor().name();
+    obj[sj::colorD12]= ctrl->twelveColor().name();
+    obj[sj::colorD20]= ctrl->twentyColor().name();
+    obj[sj::colorD100]= ctrl->oneHundredColor().name();
+
+    obj[sj::displayed]= ctrl->displayed();
+    obj[sj::factor]= ctrl->factor();
+    obj[sj::muted]= ctrl->muted();
+    obj[sj::commandPart]= ctrl->commandPart();
+    obj[sj::shared]= ctrl->sharedOnline();
+    auto const& model= ctrl->model()->localModel();
+    QList<DiceController*> dices;
+    std::transform(std::begin(model), std::end(model), std::back_inserter(dices),
+                   [](const std::unique_ptr<DiceController>& ctrl) { return ctrl.get(); });
+    auto bytes= DiceModel::diceControllerToData(dices, QSize{2, 2});
+    auto doc= QJsonDocument::fromJson(bytes);
+    obj[sj::model]= doc.array();
+
+    QJsonDocument output;
+    output.setObject(obj);
+    return output.toJson();
+}
+
+bool saveDice3d(Dice3DController* ctrl, const QString& destination)
+{
+    campaign::FileSerializer::writeFileIntoCampaign(destination, buildDice3dData(ctrl));
+    return true;
+}
+
+bool fetchDice3d(Dice3DController* ctrl, const QByteArray& data)
+{
+    if(data.isEmpty())
+        return false;
+
+    auto docu= QJsonDocument::fromJson(data);
+
+    auto obj= docu.object();
+    namespace sj= SettingsHelper::jsonkey3DDice;
+    ctrl->setFourColor(obj[sj::colorD4].toString());
+    ctrl->setSixColor(obj[sj::colorD6].toString());
+    ctrl->setEightColor(obj[sj::colorD8].toString());
+    ctrl->setTenColor(obj[sj::colorD10].toString());
+    ctrl->setTwelveColor(obj[sj::colorD12].toString());
+    ctrl->setTwentyColor(obj[sj::colorD20].toString());
+    ctrl->setOneHundredColor(obj[sj::colorD100].toString());
+    ctrl->setDisplayed(obj[sj::displayed].toBool(false));
+    ctrl->setMuted(obj[sj::muted].toBool(false));
+    ctrl->setCommandPart(obj[sj::commandPart].toString());
+    ctrl->setSharedOnline(obj[sj::shared].toBool(false));
+    ctrl->setFactor(obj[sj::factor].toDouble(32.0));
+
+    auto array= obj[sj::model].toArray();
+    std::vector<std::unique_ptr<DiceController>> temp;
+    DiceModel::fetchModel(IOHelper::jsonArrayToByteArray(array), temp, QSize{2, 2});
+    auto model= ctrl->model();
+
+    for(auto& dice : temp)
+    {
+        model->addDice(dice.release());
     }
     return true;
 }

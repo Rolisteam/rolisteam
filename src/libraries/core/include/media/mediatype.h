@@ -251,6 +251,7 @@ NETWORK_EXPORT Q_ENUM_NS(Layer)
     constexpr auto const* KEY_ANTA_ARRAY{"antagonists"};
     constexpr auto const* KEY_ANTA_COL{"col"};
     constexpr auto const* KEY_CURRENT_TAB{"currentTabIndex"};
+    constexpr auto const* KEY_PLAYER_DICE3D{"PlayerDice3D"};
 }
 
 namespace keys

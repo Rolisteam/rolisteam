@@ -25,6 +25,7 @@
 #include <QMdiArea>
 #include <QPaintEvent>
 #include <QPointer>
+#include <QQmlApplicationEngine>
 #include <QToolBar>
 #include <QWidget>
 
@@ -56,6 +57,7 @@ class SharedNoteController;
 class MapController;
 class PdfController;
 class NoteController;
+class Dice3DController;
 class InstantMessagingController;
 class MindMapController;
 /**
@@ -77,12 +79,13 @@ public:
         Repeated
     };
     Workspace(QToolBar* toolbar, ContentController* ctrl, InstantMessagingController* instantCtrl,
-              QWidget* parent= nullptr);
+              Dice3DController* diceCtrl, QWidget* parent= nullptr);
     ~Workspace();
 
     QString backgroundImagePath() const;
 
     void addContainerMedia(MediaContainer* mediac);
+
     void preferencesHasChanged(const QString&);
     void removeMediaContainer(MediaContainer* mediac);
     QVector<QMdiSubWindow*> getAllSubWindowFromId(const QString& id) const;
@@ -95,6 +98,8 @@ public slots:
     void setTabbedMode(bool);
     void addWidgetToMdi(MediaContainer*, const QString& title);
     void closeActiveSub();
+    void updateDicePanelGeometry();
+    void addDicePanel();
 
 protected slots:
     void addMedia(MediaControllerBase* ctrl);
@@ -120,7 +125,9 @@ private:
 
 private:
     QPointer<ContentController> m_ctrl;
+    QPointer<Dice3DController> m_diceCtrl;
     std::vector<std::unique_ptr<MediaContainer>> m_mediaContainers;
+    std::unique_ptr<QQmlApplicationEngine> m_engine;
     QPixmap m_backgroundPicture;
     QPixmap m_variableSizeBackground;
     QPointer<QToolBar> m_toolbar;

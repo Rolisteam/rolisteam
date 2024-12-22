@@ -123,6 +123,8 @@ int main(int argc, char* argv[])
     Q_INIT_RESOURCE(textedit);
     Q_INIT_RESOURCE(rolisteam);
     Q_INIT_RESOURCE(resources);
+    Q_INIT_RESOURCE(qmake_DicePhysics);
+    Q_INIT_RESOURCE(qml);
 
     // INIT STYLE
     QQuickStyle::setStyle("rolistyle");

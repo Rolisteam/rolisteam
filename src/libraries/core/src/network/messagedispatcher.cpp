@@ -476,5 +476,21 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         }
     }
+    else if(cat == NetMsg::Dice3DCategory)
+    {
+        switch(act)
+        {
+        case NetMsg::Roll3DAct:
+            str= QStringLiteral("Roll 3d Dice");
+            break;
+        default:
+            str= QStringLiteral("Unknown Action");
+            break;
+        }
+    }
+    else
+    {
+        str= QStringLiteral("Unknown Category");
+    }
     return str;
 }

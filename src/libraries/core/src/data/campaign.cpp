@@ -211,6 +211,9 @@ QString Campaign::directory(Place place) const
     case Place::THEME_FILE:
         res= QString("%1/%2").arg(rootDirectory(), THEME_FILE);
         break;
+    case Place::DICE_3D_FILE:
+        res= QString("%1/%2").arg(rootDirectory(), DICE3D_CONTROLLER);
+        break;
     }
     return res;
 }
