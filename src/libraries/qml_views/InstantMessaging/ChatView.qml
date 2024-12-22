@@ -136,7 +136,7 @@ Item {
                         property bool localldr: model.local
                         property string timeldr: model.time
                         property string writerNameldr: model.writerName
-                        property real windowWidthldr: parent.width
+                        property real windowWidthldr: listView.width
                         property url imageLinkldr: model.imageLink ?? ""
 
                         property bool isTextMessage: model.type === MessageInterface.Text
@@ -144,8 +144,8 @@ Item {
                         property bool isCommandMessage: model.type === MessageInterface.Command
                         property bool isErrorMessage: model.type === MessageInterface.Error
                         property bool mustBeOnTheRight: model.local && (isTextMessage || isCommandMessage)
-                        anchors.right: mustBeOnTheRight ? parent.right : undefined
-                        width: parent.width-10 //(isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
+                        anchors.right: mustBeOnTheRight ? listView.right : undefined
+                        width: listView.width-10 //(isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
                         source: isTextMessage ? "TextMessageDelegate.qml" :
                                 isCommandMessage ? "CommandMessageDelegate.qml" :
                                 isDiceMessage ? "DiceMessageDelegate.qml" : "ErrorMessageDelegate.qml"

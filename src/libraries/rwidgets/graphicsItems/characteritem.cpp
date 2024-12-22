@@ -97,7 +97,7 @@ CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl)
     if(!m_itemCtrl)
         return;
 
-    m_mapCtrl = m_itemCtrl->mapController();
+    m_mapCtrl= m_itemCtrl->mapController();
 
     m_visionShapeDisk->setCheckable(true);
     m_visionShapeAngle->setCheckable(true);
@@ -147,7 +147,6 @@ CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl)
     connect(m_mapCtrl, &VectorialMapController::stateLabelVisibleChanged, this, updateLambda);
     connect(m_mapCtrl, &VectorialMapController::characterVisionChanged, this, updateLambda);
 
-
     // createActions();
     for(int i= 0; i <= CharacterItem::SightLenght; ++i)
     {
@@ -186,6 +185,9 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     setChildrenVisible(hasFocusOrChildren);
     emit selectStateChange(hasFocusOrChildren);
     auto rect= m_itemCtrl->rect();
+
+    if(!m_itemCtrl)
+        return;
 
     QString textToShow= m_itemCtrl->text();
 
@@ -257,7 +259,6 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             painter->drawText(rect, Qt::AlignCenter, init);
             painter->restore();
         }
-
     }
     if(!textToShow.isEmpty())
     {

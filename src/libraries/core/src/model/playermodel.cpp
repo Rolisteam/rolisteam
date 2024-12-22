@@ -447,7 +447,7 @@ Person* PlayerModel::personById(const QString& id) const
     return characterById(id);
 }
 
-Character* PlayerModel::characterById(const QString& id)const
+Character* PlayerModel::characterById(const QString& id) const
 {
     const auto& it
         = std::find_if(m_players.begin(), m_players.end(),
@@ -503,9 +503,9 @@ void PlayerModel::addCharacter(const QModelIndex& parent, Character* character, 
 
     character->setNpc(player->isGM());
 
-     beginInsertRows(parent, size, size);
+    beginInsertRows(parent, size, size);
     player->addCharacter(character);
-     endInsertRows();
+    endInsertRows();
 }
 
 void PlayerModel::removeCharacter(Character* character)
@@ -551,7 +551,7 @@ void PlayerModel::removePlayer(Player* player)
         }*/
 
     auto index= static_cast<int>(std::distance(m_players.begin(), itPlayer));
-    qCInfo(rUser) << QString("Player %s left").arg(player->name());
+    qCInfo(rUser) << QString("Player %1 left").arg(player->name());
 
     emit playerLeft(player);
 
