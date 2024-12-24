@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2024-11-12 12:11+0100\n"
+"PO-Revision-Date: 2024-12-23 20:44+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
 msgctxt "Main|"
@@ -3359,30 +3359,24 @@ msgid "Rolisteam 3D dice roller"
 msgstr "Ayuda de Rolisteam"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Size:"
 msgctxt "SideMenu|"
 msgid "Dice Size:"
-msgstr "Tamaño:"
+msgstr "Tamaño de los dados:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:77
 msgctxt "SideMenu|"
 msgid "disable mouseArea"
-msgstr ""
+msgstr "desactivar el área del ratón"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:177
 msgctxt "SideMenu|"
 msgid "Collision sound:"
-msgstr ""
+msgstr "Sonido de colisión:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:189
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Dice Command"
 msgctxt "SideMenu|"
 msgid "Dice Command:"
-msgstr "Orden para dados"
+msgstr "Orden para dados:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
 #, fuzzy
@@ -3395,15 +3389,13 @@ msgstr "Compartir con"
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
 msgid "(Experimental)"
-msgstr ""
+msgstr "(Experimental)"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
-#, fuzzy, qt-format
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Description: "
+#, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
-msgstr "Descripción: "
+msgstr "Duración: %1 s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:221
 msgctxt "SideMenu|"

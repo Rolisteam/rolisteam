@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-19 22:29+0100\n"
+"PO-Revision-Date: 2024-12-23 17:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -2241,7 +2241,7 @@ msgstr "Importar doutra campaña…"
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
 msgid "Dice3D"
-msgstr ""
+msgstr "Dado 2D"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -3349,62 +3349,48 @@ msgstr "Vista web"
 #, qt-format
 msgctxt "DiceModel|"
 msgid "# 3D Roll : Distance %1 - Time %2 - Rotation %3"
-msgstr ""
+msgstr "# Tirada 3D — Distancia: %1; tempo: %2; rotación: %3."
 
 #: src/libraries/dicephysics/qml/Main.qml:30
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam Help"
 msgctxt "Main|"
 msgid "Rolisteam 3D dice roller"
-msgstr "Axuda de Rolisteam"
+msgstr "Tirador de datos 3D de Rolisteam"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Size:"
 msgctxt "SideMenu|"
 msgid "Dice Size:"
-msgstr "Tamaño:"
+msgstr "Tamaño de dado:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:77
 msgctxt "SideMenu|"
 msgid "disable mouseArea"
-msgstr ""
+msgstr "desactivar a zona de rato"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:177
 msgctxt "SideMenu|"
 msgid "Collision sound:"
-msgstr ""
+msgstr "Son de colisión:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:189
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Dice Command"
 msgctxt "SideMenu|"
 msgid "Dice Command:"
-msgstr "Orde de dado"
+msgstr "Orde de dado:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "SideMenu|"
 msgid "Share rolls"
-msgstr "Compartir con"
+msgstr "Compartir as tiradas"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
 msgid "(Experimental)"
-msgstr ""
+msgstr "(experimental)"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
-#, fuzzy, qt-format
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Description: "
+#, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
-msgstr "Descrición: "
+msgstr "Duración: %1 s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:221
 msgctxt "SideMenu|"
@@ -3412,6 +3398,8 @@ msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
 "Then, you'll see your own 3D dice."
 msgstr ""
+"As tiradas de xente remota amosaranse na súa pantalla uns segundos.\n"
+"A continuación verá o seu propio dado 3D."
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
 msgctxt "ButtonGrid|"

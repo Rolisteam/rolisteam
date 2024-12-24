@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2024-11-12 07:31+0100\n"
+"PO-Revision-Date: 2024-12-23 06:38+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2249,7 +2249,7 @@ msgstr "Uvozi iz drugega bojnega pohoda…"
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
 msgid "Dice3D"
-msgstr ""
+msgstr "Kocka3D"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -3355,62 +3355,48 @@ msgstr "Spletni pogled"
 #, qt-format
 msgctxt "DiceModel|"
 msgid "# 3D Roll : Distance %1 - Time %2 - Rotation %3"
-msgstr ""
+msgstr "# 3D Roll : Razdalja %1 - Čas %2 - Vrtenje %3"
 
 #: src/libraries/dicephysics/qml/Main.qml:30
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam Help"
 msgctxt "Main|"
 msgid "Rolisteam 3D dice roller"
-msgstr "Rolisteam pomoč"
+msgstr "Rolisteam 3D kocke"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Size:"
 msgctxt "SideMenu|"
 msgid "Dice Size:"
-msgstr "Velikost:"
+msgstr "Velikost kocke:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:77
 msgctxt "SideMenu|"
 msgid "disable mouseArea"
-msgstr ""
+msgstr "onemogoči področje miške"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:177
 msgctxt "SideMenu|"
 msgid "Collision sound:"
-msgstr ""
+msgstr "Zvok trka:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:189
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Dice Command"
 msgctxt "SideMenu|"
 msgid "Dice Command:"
-msgstr "Ukaz kocke"
+msgstr "Ukaz kocke:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "SideMenu|"
 msgid "Share rolls"
-msgstr "Deli v"
+msgstr "Deli zvitke"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
 msgid "(Experimental)"
-msgstr ""
+msgstr "(Poskusno)"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
-#, fuzzy, qt-format
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Description: "
+#, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
-msgstr "Opis: "
+msgstr "Trajanje: %1s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:221
 msgctxt "SideMenu|"
@@ -3418,6 +3404,9 @@ msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
 "Then, you'll see your own 3D dice."
 msgstr ""
+"Zvitki, ki jih naredil oddaljeni igralec, bodo za nekaj sekund prikazani na "
+"vašem zaslonu.\n"
+"Nato boste videli svoje 3D kocke."
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
 msgctxt "ButtonGrid|"

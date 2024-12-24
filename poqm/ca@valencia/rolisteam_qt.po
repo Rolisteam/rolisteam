@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2024-11-12 10:09+0100\n"
+"PO-Revision-Date: 2024-12-23 10:32+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2245,7 +2245,7 @@ msgstr "Importa des d'una altra campanya…"
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
 msgid "Dice3D"
-msgstr ""
+msgstr "Dice3D"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -3361,62 +3361,48 @@ msgstr "WebView"
 #, qt-format
 msgctxt "DiceModel|"
 msgid "# 3D Roll : Distance %1 - Time %2 - Rotation %3"
-msgstr ""
+msgstr "# 3D Roll : Distància %1 - Temps %2 - Gir %3"
 
 #: src/libraries/dicephysics/qml/Main.qml:30
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam Help"
 msgctxt "Main|"
 msgid "Rolisteam 3D dice roller"
-msgstr "Ajuda de Rolisteam"
+msgstr "Tirador de daus 3D de Rolisteam"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Size:"
 msgctxt "SideMenu|"
 msgid "Dice Size:"
-msgstr "Mida:"
+msgstr "Mida del dau:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:77
 msgctxt "SideMenu|"
 msgid "disable mouseArea"
-msgstr ""
+msgstr "Desactiva l'àrea del ratolí"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:177
 msgctxt "SideMenu|"
 msgid "Collision sound:"
-msgstr ""
+msgstr "So de col·lisió:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:189
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Dice Command"
 msgctxt "SideMenu|"
 msgid "Dice Command:"
-msgstr "Ordre del dau"
+msgstr "Ordre del dau:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "SideMenu|"
 msgid "Share rolls"
-msgstr "Compartix a"
+msgstr "Compartix les tirades"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
 msgid "(Experimental)"
-msgstr ""
+msgstr "(Experimental)"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
-#, fuzzy, qt-format
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Description: "
+#, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
-msgstr "Descripció: "
+msgstr "Duració: %1 s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:221
 msgctxt "SideMenu|"
@@ -3424,6 +3410,9 @@ msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
 "Then, you'll see your own 3D dice."
 msgstr ""
+"Les tirades fetes pel jugador remot es mostraran a la pantalla durant uns "
+"segons.\n"
+"Després, veureu els vostres daus propis en 3D."
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
 msgctxt "ButtonGrid|"
@@ -8528,7 +8517,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "PackageItem|"
-#~ msgid "Title"
-#~ msgstr "Títol"

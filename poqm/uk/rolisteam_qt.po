@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-11-12 15:12+0200\n"
+"PO-Revision-Date: 2024-12-23 09:48+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2247,7 +2247,7 @@ msgstr "Імпортувати з іншої кампанії…"
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
 msgid "Dice3D"
-msgstr ""
+msgstr "Dice3D"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -3355,62 +3355,48 @@ msgstr "Вебперегляд"
 #, qt-format
 msgctxt "DiceModel|"
 msgid "# 3D Roll : Distance %1 - Time %2 - Rotation %3"
-msgstr ""
+msgstr "# Пр. кидання: Відстань %1 - Час %2 - Обертання %3"
 
 #: src/libraries/dicephysics/qml/Main.qml:30
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam Help"
 msgctxt "Main|"
 msgid "Rolisteam 3D dice roller"
-msgstr "Довідка з Rolisteam"
+msgstr "Кидання просторової кістки у Rolisteam"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Size:"
 msgctxt "SideMenu|"
 msgid "Dice Size:"
-msgstr "Розмір:"
+msgstr "Розмір кістки:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:77
 msgctxt "SideMenu|"
 msgid "disable mouseArea"
-msgstr ""
+msgstr "вимкнути mouseArea"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:177
 msgctxt "SideMenu|"
 msgid "Collision sound:"
-msgstr ""
+msgstr "Звук зіткнення:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:189
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Dice Command"
 msgctxt "SideMenu|"
 msgid "Dice Command:"
-msgstr "Команда викидання кістки"
+msgstr "Команда викидання кістки:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "SideMenu|"
 msgid "Share rolls"
-msgstr "Використовувати спільно"
+msgstr "Поділитися киданнями"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
 msgid "(Experimental)"
-msgstr ""
+msgstr "(експериментальне)"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
-#, fuzzy, qt-format
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Description: "
+#, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
-msgstr "Опис: "
+msgstr "Тривалість: %1с"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:221
 msgctxt "SideMenu|"
@@ -3418,6 +3404,9 @@ msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
 "Then, you'll see your own 3D dice."
 msgstr ""
+"Кидання, які виконано віддаленим гравцем, буде показано на вашому екрані за "
+"декілька секунд.\n"
+"Згодом ви побачите вашу власну просторову кістку для кидання."
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
 msgctxt "ButtonGrid|"
