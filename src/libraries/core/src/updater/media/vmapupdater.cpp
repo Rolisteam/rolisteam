@@ -56,6 +56,7 @@ VMapUpdater::VMapUpdater(campaign::CampaignManager* manager, FilteredContentMode
     , m_vmapModel(model)
     , m_diceParser(manager ? manager->diceparser() : nullptr)
 {
+
     m_updaters.insert(
         {vmap::VisualItemController::LINE, std::unique_ptr<LineControllerUpdater>(new LineControllerUpdater)});
     m_updaters.insert(
@@ -85,7 +86,7 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
     if(ctrl == nullptr)
         return;
 
-    ctrl->setDiceParser(m_diceParser);
+    ctrl->setDiceParser(m_diceParser.get());
 
     connect(ctrl, &VectorialMapController::collisionChanged, this,
             [this, ctrl]() { sendOffChanges<bool>(ctrl, QStringLiteral("collision")); });
