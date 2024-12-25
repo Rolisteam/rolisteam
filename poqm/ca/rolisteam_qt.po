@@ -3363,7 +3363,7 @@ msgstr "WebView"
 #, qt-format
 msgctxt "DiceModel|"
 msgid "# 3D Roll : Distance %1 - Time %2 - Rotation %3"
-msgstr "# 3D Roll : Distància %1 - Temps %2 - Gir %3"
+msgstr "# 3D Roll: Distància %1 - Temps %2 - Gir %3"
 
 #: src/libraries/dicephysics/qml/Main.qml:30
 msgctxt "Main|"

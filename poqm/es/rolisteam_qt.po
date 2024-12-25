@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2024-12-23 20:44+0100\n"
+"PO-Revision-Date: 2024-12-24 03:23+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2237,7 +2237,7 @@ msgstr "Importar de otra campaña..."
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
 msgid "Dice3D"
-msgstr ""
+msgstr "Dados 3D"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -3348,15 +3348,12 @@ msgstr "Vista web"
 #, qt-format
 msgctxt "DiceModel|"
 msgid "# 3D Roll : Distance %1 - Time %2 - Rotation %3"
-msgstr ""
+msgstr "# Lanzamiento 3D: Distancia %1 - Tiempo %2 - Rotación %3"
 
 #: src/libraries/dicephysics/qml/Main.qml:30
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam Help"
 msgctxt "Main|"
 msgid "Rolisteam 3D dice roller"
-msgstr "Ayuda de Rolisteam"
+msgstr "Lanzador de dados en 3D de Rolisteam"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
 msgctxt "SideMenu|"
@@ -3379,12 +3376,9 @@ msgid "Dice Command:"
 msgstr "Orden para dados:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "SideMenu|"
 msgid "Share rolls"
-msgstr "Compartir con"
+msgstr "Compartir lanzamientos"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
@@ -3403,6 +3397,9 @@ msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
 "Then, you'll see your own 3D dice."
 msgstr ""
+"Lanzamientos realizados por el jugador remoto se mostrarán en la pantalla "
+"durante unos segundos.\n"
+"Después verá sus propios dados en 3D."
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
 msgctxt "ButtonGrid|"
