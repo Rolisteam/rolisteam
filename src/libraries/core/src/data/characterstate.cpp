@@ -21,18 +21,14 @@
 
 #include <QUuid>
 
-CharacterState::CharacterState() : m_id(QUuid::createUuid().toString(QUuid::WithoutBraces))
-{
-    int a= 10;
-    a= a + 10;
-}
+CharacterState::CharacterState() : m_id(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
 CharacterState::CharacterState(const CharacterState& copy)
 {
     m_id= copy.id();
     m_color= copy.color();
     m_label= copy.label();
-    m_imagePath= copy.imagePath();
     m_pixmap= copy.pixmap();
+    setImagePath(copy.imagePath());
 }
 
 QString CharacterState::id() const
@@ -60,7 +56,8 @@ void CharacterState::setColor(QColor str)
 void CharacterState::setImagePath(const QString& str)
 {
     m_imagePath= str;
-    setPixmap(QPixmap(str));
+    if(m_pixmap.isNull() && !m_imagePath.isEmpty())
+        setPixmap(QPixmap(str));
 }
 
 void CharacterState::setPixmap(const QPixmap& pix)

@@ -97,20 +97,23 @@ void ImagePathEditor::openFile()
 {
     QString fileName= QFileDialog::getOpenFileName(this, tr("Get picture for Character State"), m_root,
                                                    "Images (*.jpg *jpeg *.png *.bmp *.svg)");
-    if(!fileName.isEmpty())
+    if(fileName.isEmpty())
+        return;
+
+    if(!utils::IOHelper::makeDir(m_root))
+        qWarning() << "Cannot create directory:" << m_root;
+
+    if(!fileName.startsWith(m_root))
+        fileName= utils::IOHelper::copyFile(fileName, m_root);
+    QFileInfo info(fileName);
+    if(info.exists())
     {
-        if(!fileName.startsWith(m_root))
-            fileName= utils::IOHelper::copyFile(fileName, m_root);
-        QFileInfo info(fileName);
-        if(info.exists())
-        {
-            setFilename(fileName);
-            readPixmap(fileName);
-        }
-        // readPixmap(m_root);
-        // setFilename(fileName);
-        // readPixmap(fileName);
+        setFilename(fileName);
+        readPixmap(fileName);
     }
+    // readPixmap(m_root);
+    // setFilename(fileName);
+    // readPixmap(fileName);
 }
 void ImagePathEditor::readPixmap(const QString& str)
 {

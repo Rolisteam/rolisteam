@@ -340,6 +340,11 @@ bool PlayerModel::setData(const QModelIndex& index, const QVariant& value, int r
     if(nullptr == childItem)
         return val;
 
+    auto character= dynamic_cast<Character*>(childItem);
+    // auto player= dynamic_cast<Player*>(childItem);
+
+    auto isCharacter= (character != nullptr);
+
     QVector<int> roles;
     switch(role)
     {
@@ -355,6 +360,12 @@ bool PlayerModel::setData(const QModelIndex& index, const QVariant& value, int r
     case CharacterRole:
         break;
     case CharacterStateIdRole:
+        if(isCharacter)
+        {
+            character->setStateId(value.toString());
+            roles << role;
+            val= true;
+        }
         break;
     case NpcRole:
         break;

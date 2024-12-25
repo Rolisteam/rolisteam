@@ -71,7 +71,7 @@ CORE_EXPORT void fetchMedia(const QJsonArray& medias, campaign::Campaign* campai
 CORE_EXPORT void fetchNpcModel(const QJsonArray& npcs, campaign::NonPlayableCharacterModel* model,
                                const QString& rootDir);
 
-CORE_EXPORT void fetchCharacterStateModel(const QJsonArray& states, CharacterStateModel* model);
+CORE_EXPORT void fetchCharacterStateModel(const QJsonArray& states, CharacterStateModel* model, const QString& rootDir);
 CORE_EXPORT QJsonArray saveCharacterStateModel(CharacterStateModel* model);
 
 CORE_EXPORT void fetchMusicModelWithTableTop(MusicModel* model);

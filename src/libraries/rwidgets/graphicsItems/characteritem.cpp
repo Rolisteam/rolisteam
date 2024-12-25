@@ -213,12 +213,8 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     auto character= m_itemCtrl->character();
     if(nullptr != character)
     {
-        auto stateImg= m_itemCtrl->stateImage();
-        if(!stateImg.isNull())
-        {
-            painter->drawImage(rect, stateImg, stateImg.rect());
-        }
-        else if(!character->hasAvatar())
+
+        if(!character->hasAvatar())
         {
             pen.setColor(m_itemCtrl->stateColor());
             painter->setPen(pen);
@@ -232,6 +228,12 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             int diam= static_cast<int>(m_itemCtrl->side());
             painter->drawRoundedRect(rect.x(), rect.y(), diam, diam, m_itemCtrl->side() / RADIUS_CORNER,
                                      m_itemCtrl->side() / RADIUS_CORNER);
+        }
+
+        auto stateImg= m_itemCtrl->stateImage();
+        if(!stateImg.isNull())
+        {
+            painter->drawImage(rect, stateImg, stateImg.rect());
         }
 
         if(m_mapCtrl->initScoreVisible() && character->hasInitScore())

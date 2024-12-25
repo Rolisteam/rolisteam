@@ -687,6 +687,7 @@ constexpr auto JSON_VIS_ROTATION("Rotation");
 constexpr auto JSON_VIS_RADIUS("Radius");
 constexpr auto JSON_VIS_VISIBLE("Radius");
 constexpr auto JSON_CHARACTER("Character");
+constexpr auto JSON_CHARACTER_ID("CharacterId");
 
 constexpr auto JSON_CHAR_NPC("Npc");
 constexpr auto JSON_CHAR_ID("Id");

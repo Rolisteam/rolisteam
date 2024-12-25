@@ -49,7 +49,9 @@ NetWorkReceiver::SendType PlayerUpdater::processMessage(NetworkMessageReader* ms
 
         case NetMsg::ChangePlayerPropertyAct:
         case NetMsg::ChangeCharacterPropertyAct:
+            m_updating= true;
             MessageHelper::updatePerson(*msg, model);
+            m_updating= false;
             break;
         default:
             break;

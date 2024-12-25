@@ -83,6 +83,8 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
     connect(states, &CharacterStateModel::dataChanged, this, updateState);
     connect(states, &CharacterStateModel::stateChanged, this, updateState);
 
+    updateState();
+
     // updateNPCModel
     auto npcModel= m_campaign->npcModel();
     auto updateNpcModel= [this]()
@@ -109,13 +111,13 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
 
 NetWorkReceiver::SendType CampaignUpdater::processMessage(NetworkMessageReader* msg)
 {
-    if(msg->action() == NetMsg::CharactereStateModel && msg->category() == NetMsg::CampaignCategory && !m_localIsGm)
+    if(checkAction(msg, NetMsg::CampaignCategory, NetMsg::CharactereStateModel) && !m_localIsGm)
     {
         setUpdating(true);
         MessageHelper::fetchCharacterStatesFromNetwork(msg, m_campaign->stateModel());
         setUpdating(false);
     }
-    else if(msg->action() == NetMsg::DiceAliasModel && msg->category() == NetMsg::CampaignCategory && !m_localIsGm)
+    else if(checkAction(msg, NetMsg::CampaignCategory, NetMsg::DiceAliasModel) && !m_localIsGm)
     {
         MessageHelper::fetchDiceAliasFromNetwork(msg, m_dice->aliases());
     }
@@ -157,6 +159,8 @@ void CampaignUpdater::save()
 
 void CampaignUpdater::saveDataInto(const QString& path)
 {
+    if(path.isEmpty())
+        return;
     // Dice Aliases
     const auto& newAliases= m_campaign->diceAliases()->aliases();
     FileSerializer::writeDiceAliasIntoCampaign(path, FileSerializer::dicesToArray(newAliases));

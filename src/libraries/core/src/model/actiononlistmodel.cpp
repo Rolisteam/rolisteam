@@ -29,8 +29,7 @@ ActionOnListModel::ActionOnListModel(const QStringList& data, const QList<Action
     std::transform(std::begin(data), std::end(data), std::back_inserter(m_data),
                    [](const QString& path)
                    {
-                       DataInfo info;
-                       info.data= path;
+                       auto info= std::make_unique<DataInfo>(path); // DataInfo info(path);
                        return info;
                    });
 }
@@ -73,6 +72,8 @@ QVariant ActionOnListModel::data(const QModelIndex& index, int role) const
     return res;
 }
 
+bool ActionOnListModel::setData(const QModelIndex& index, const QVariant& value, int role) {}
+
 QHash<int, QByteArray> ActionOnListModel::roleNames() const
 {
     return {{Name, "name"}, {Action, "action"}, {PossibleAction, "actions"}, {PossibleIcon, "icons"}};
@@ -107,4 +108,27 @@ void ActionOnListModel::setAction(int idx, int action)
 const QList<DataInfo>& ActionOnListModel::dataset() const
 {
     return m_data;
+}
+
+DataInfo::DataInfo(const QString& data) {}
+
+QString DataInfo::data() const
+{
+    return m_data;
+}
+
+void DataInfo::setData(const QString& data)
+{
+    if(data == m_data)
+        return;
+    m_data= data;
+    emit dataChanged();
+}
+
+void DataInfo::setAction(ActionChoice act)
+{
+    if(act == m_indexAction)
+        return;
+    m_indexAction= act;
+    emit actionChanged();
 }

@@ -46,38 +46,40 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
         m_tool= params.at(Core::vmapkeys::KEY_PLAYABLECHARACTER).toBool() ? Core::SelectableTool::PlayableCharacter :
                                                                             Core::SelectableTool::NonPlayableCharacter;
 
+    if(params.end() != params.find(Core::vmapkeys::KEY_CHARAC_ID) && playableCharacter())
+    {
+        m_characterId= params.at(Core::vmapkeys::KEY_CHARAC_ID).value<QString>();
+        if(!m_characterId.isEmpty())
+        {
+            setWaitingCharacter(true);
+            m_finder.setUpConnect();
+            findCharacter();
+        }
+    }
+
+    Character* character;
     if(params.end() != params.find(Core::vmapkeys::KEY_CHARACTER))
     {
-        m_character= params.at(Core::vmapkeys::KEY_CHARACTER).value<Character*>();
+        character= params.at(Core::vmapkeys::KEY_CHARACTER).value<Character*>();
+        if(character != m_character)
+            m_characterStored.reset(character);
     }
     else
     {
-        m_character= new Character();
-        VectorialMapMessageHelper::fetchCharacter(params, m_character);
+        character= new Character();
+        VectorialMapMessageHelper::fetchCharacter(params, character);
+        m_characterStored.reset(character);
     }
 
+    if(!m_character)
+    {
+        setCharacter(m_characterStored.get());
+    }
+
+    connect(this, &CharacterItemController::characterChanged, this, &CharacterItemController::updateCharacter);
+    updateCharacter();
+
     connect(&m_finder, &CharacterFinder::dataChanged, this, &CharacterItemController::findCharacter);
-    m_finder.setUpConnect();
-    // connect(model,&PlayerModel::playerJoin,this, &CharacterItemController::findCharacter);
-
-    findCharacter();
-
-    connect(m_character, &Character::stateIdChanged, this, &CharacterItemController::stateIdChanged);
-    connect(m_character, &Character::npcChanged, this, &CharacterItemController::playableCharacterChanged);
-    connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
-    connect(m_character, &Character::colorChanged, this, [this]() { emit colorChanged(m_character->getColor()); });
-    connect(m_character, &Character::avatarChanged, this, &CharacterItemController::computeThumbnail);
-    connect(m_character, &Character::hasInitScoreChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::initCommandChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::initiativeChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::currentHealthPointsChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::maxHPChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::minHPChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::distancePerTurnChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::lifeColorChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::nameChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::colorChanged, this, &CharacterItemController::setModified);
-    connect(m_character, &Character::avatarChanged, this, &CharacterItemController::setModified);
 
     connect(ctrl, &VectorialMapController::npcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
     connect(ctrl, &VectorialMapController::pcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
@@ -93,27 +95,7 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     connect(this, &CharacterItemController::radiusChanged, this, &CharacterItemController::refreshTextRect);
     connect(this, &CharacterItemController::rectEditFinished, this, &CharacterItemController::refreshTextRect);
     connect(this, &CharacterItemController::fontChanged, this, &CharacterItemController::refreshTextRect);
-
-    if(!m_character->isNpc())
-    {
-        m_tool= Core::SelectableTool::PlayableCharacter;
-        VectorialMapMessageHelper::fetchCharacterVision(params, m_vision.get());
-        ctrl->addVision(m_vision.get());
-
-        auto updatePos= [this]()
-        {
-            auto rect= thumnailRect();
-            auto p= pos() + rect.center(); // ;
-
-            m_vision->setPosition(p);
-        };
-
-        connect(this, &CharacterItemController::posChanged, m_vision.get(), updatePos);
-        connect(this, &CharacterItemController::sideChanged, m_vision.get(), updatePos);
-        connect(this, &CharacterItemController::rotationChanged, m_vision.get(), &CharacterVision::setRotation);
-        updatePos();
-    }
-
+    VectorialMapMessageHelper::fetchCharacterVision(params, m_vision.get());
     {
 
         VectorialMapMessageHelper::fetchCharacterItem(params, this);
@@ -169,8 +151,17 @@ void CharacterItemController::setThumnailRect(const QRectF& rect)
     setRect(rect);
 }
 
+void CharacterItemController::setCharacter(Character* charac)
+{
+    if(m_character == charac)
+        return;
+    m_character= charac;
+    emit characterChanged();
+}
+
 void CharacterItemController::setCorner(const QPointF& move, int corner, Core::TransformType tt)
 {
+    Q_UNUSED(tt);
     if(move.isNull())
         return;
 
@@ -265,9 +256,7 @@ int CharacterItemController::number() const
 
 bool CharacterItemController::playableCharacter() const
 {
-    if(!m_character)
-        return false;
-    return !m_character->isNpc();
+    return m_tool == Core::SelectableTool::PlayableCharacter;
 }
 
 QRectF CharacterItemController::thumnailRect() const
@@ -287,18 +276,14 @@ void CharacterItemController::setRect(const QRectF& rect)
 
 void CharacterItemController::findCharacter()
 {
-    if(!m_mapCtrl || !m_character)
+    if(!m_waitingCharacter)
         return;
 
-    auto p= m_finder.find(m_character->uuid());
-
-    if(p != nullptr && p != m_character)
+    auto charac= m_finder.find(m_characterId);
+    if(charac)
     {
-        if(m_character)
-            m_character->deleteLater();
-
-        m_character= p;
-        emit characterChanged();
+        setCharacter(charac);
+        setWaitingCharacter(false);
     }
 }
 
@@ -332,17 +317,17 @@ QString CharacterItemController::text() const
         return {};
 
     QStringList label;
-    auto playableCharacter= !m_character->isNpc();
-    auto name= playableCharacter ? QStringLiteral("PC") : QStringLiteral("NPC");
+    // auto playableCharacter= !m_character->isNpc();
+    auto name= playableCharacter() ? QStringLiteral("PC") : QStringLiteral("NPC");
     if(m_character)
         name= m_character->name();
 
-    if((!playableCharacter && m_ctrl->npcNameVisible()) || (playableCharacter && m_ctrl->pcNameVisible()))
+    if((!playableCharacter() && m_ctrl->npcNameVisible()) || (playableCharacter() && m_ctrl->pcNameVisible()))
         label << name;
 
-    if(m_ctrl->npcNumberVisible() && !playableCharacter)
+    if(m_ctrl->npcNumberVisible() && !playableCharacter())
     {
-        auto number= playableCharacter ? QStringLiteral("") : QString::number(m_number);
+        auto number= playableCharacter() ? QStringLiteral("") : QString::number(m_number);
         label << number;
     }
 
@@ -507,6 +492,8 @@ void CharacterItemController::setRadius(qreal r)
 
 void CharacterItemController::computeThumbnail()
 {
+    if(!m_character)
+        return;
     int diam= static_cast<int>(m_side);
 
     m_thumb.reset(new QImage(diam, diam, QImage::Format_ARGB32));
@@ -586,4 +573,88 @@ void CharacterItemController::runCommand(int index)
     auto cmd= list[index];
     m_ctrl->runDiceCommand({this}, cmd->command());
 }
+
+QString CharacterItemController::characterId() const
+{
+    return playableCharacter() ? m_characterId : QString{};
+}
+
+void CharacterItemController::setCharacterId(const QString& newCharacterId)
+{
+    if(m_characterId == newCharacterId)
+        return;
+    m_characterId= newCharacterId;
+    emit characterIdChanged();
+}
+
+bool CharacterItemController::waitingCharacter() const
+{
+    return m_waitingCharacter;
+}
+
+void CharacterItemController::setWaitingCharacter(bool newWaitingCharacter)
+{
+    if(m_waitingCharacter == newWaitingCharacter)
+        return;
+    m_waitingCharacter= newWaitingCharacter;
+    emit waitingCharacterChanged();
+}
+
+void CharacterItemController::updateCharacter()
+{
+    if(m_character == nullptr)
+        return;
+
+    connect(m_character, &Character::destroyed, this,
+            [this](QObject* obj)
+            {
+                setWaitingCharacter(!m_characterId.isEmpty());
+                if(!m_characterStored || obj == m_characterStored.get())
+                    return;
+                setCharacter(m_characterStored.get());
+            });
+    connect(m_character, &Character::stateIdChanged, this, &CharacterItemController::stateIdChanged);
+    connect(m_character, &Character::npcChanged, this, &CharacterItemController::playableCharacterChanged);
+    connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
+    connect(m_character, &Character::colorChanged, this, [this]() { emit colorChanged(m_character->getColor()); });
+    connect(m_character, &Character::avatarChanged, this, &CharacterItemController::computeThumbnail);
+    connect(m_character, &Character::hasInitScoreChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::initCommandChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::initiativeChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::currentHealthPointsChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::maxHPChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::minHPChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::distancePerTurnChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::lifeColorChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::nameChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::colorChanged, this, &CharacterItemController::setModified);
+    connect(m_character, &Character::avatarChanged, this, &CharacterItemController::setModified);
+    computeThumbnail();
+    setModified();
+    refreshTextRect();
+    emit colorChanged(m_character->getColor());
+    emit playableCharacterChanged();
+    emit stateIdChanged(m_character->stateId());
+
+    if(!m_character->isNpc())
+    {
+        m_tool= Core::SelectableTool::PlayableCharacter;
+
+        m_mapCtrl->addVision(m_vision.get());
+
+        auto updatePos= [this]()
+        {
+            auto rect= thumnailRect();
+            auto p= pos() + rect.center(); // ;
+
+            m_vision->setPosition(p);
+        };
+
+        connect(this, &CharacterItemController::posChanged, m_vision.get(), updatePos);
+        connect(this, &CharacterItemController::sideChanged, m_vision.get(), updatePos);
+        connect(this, &CharacterItemController::rotationChanged, m_vision.get(), &CharacterVision::setRotation);
+        updatePos();
+    }
+}
+
 } // namespace vmap

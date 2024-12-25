@@ -183,7 +183,7 @@ set(HEADERS
   ${inc}/media/mediatype.h
   ${inc}/model/colormodel.h
   ${inc}/model/statemodel.h
-  ${inc}/model/actiononlistmodel.h
+  #${inc}/model/actiononlistmodel.h
   ${inc}/model/charactermodel.h
   ${inc}/model/characterstatemodel.h
   ${inc}/model/historymodel.h
@@ -334,7 +334,7 @@ set(SOURCES
   src/model/chatroomsplittermodel.cpp
   src/model/filteredplayermodel.cpp
   src/model/instantmessagingmodel.cpp
-  src/model/actiononlistmodel.cpp
+ # src/model/actiononlistmodel.cpp
   src/model/charactermodel.cpp
   src/model/characterstatemodel.cpp
   src/model/proxystatemodel.cpp

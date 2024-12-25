@@ -19,60 +19,66 @@
  ***************************************************************************/
 #include "worker/characterfinder.h"
 
+#include "data/player.h"
 #include "model/charactermodel.h"
 #include "model/nonplayablecharactermodel.h"
 #include "model/playermodel.h"
-#include "data/player.h"
 
-QPointer<campaign::NonPlayableCharacterModel> CharacterFinder::m_npcModel =
-        QPointer<campaign::NonPlayableCharacterModel>(nullptr);
-QPointer<CharacterModel> CharacterFinder::m_pcModel = QPointer<CharacterModel>(nullptr);
-QPointer<PlayerModel> CharacterFinder::m_playerModel = QPointer<PlayerModel>(nullptr);
+QPointer<campaign::NonPlayableCharacterModel> CharacterFinder::m_npcModel
+    = QPointer<campaign::NonPlayableCharacterModel>(nullptr);
+QPointer<CharacterModel> CharacterFinder::m_pcModel= QPointer<CharacterModel>(nullptr);
+QPointer<PlayerModel> CharacterFinder::m_playerModel= QPointer<PlayerModel>(nullptr);
 
 bool CharacterFinder::setUpConnect()
 {
-    if (!isReady())
+    if(!isReady())
         return false;
 
     connect(m_playerModel, &PlayerModel::playerJoin, this, &CharacterFinder::dataChanged);
-    connect(m_playerModel, &PlayerModel::playerJoin, this, [this](Player *player) {
-        connect(player, &Player::characterAdded, this,
-                [this](const QString &id, const QString &playerId) {
-                    Q_UNUSED(playerId);
-                    emit characterAdded({ id });
-                });
-        emit characterAdded(player->characterIds());
-    });
+    connect(m_playerModel, &PlayerModel::playerJoin, this,
+            [this](Player* player)
+            {
+                connect(player, &Player::characterAdded, this,
+                        [this](const QString& id, const QString& playerId)
+                        {
+                            Q_UNUSED(playerId);
+                            emit characterAdded({id});
+                        });
+                emit characterAdded(player->characterIds());
+            });
     return true;
 }
 bool CharacterFinder::isReady()
 {
     return (m_pcModel && m_npcModel && m_playerModel);
 }
-void CharacterFinder::setNpcModel(campaign::NonPlayableCharacterModel *model)
+void CharacterFinder::setNpcModel(campaign::NonPlayableCharacterModel* model)
 {
-    m_npcModel = model;
+    m_npcModel= model;
 }
-void CharacterFinder::setPcModel(CharacterModel *model)
+void CharacterFinder::setPcModel(CharacterModel* model)
 {
-    m_pcModel = model;
-}
-
-void CharacterFinder::setPlayerModel(PlayerModel *model)
-{
-    m_playerModel = model;
+    m_pcModel= model;
 }
 
-Character *CharacterFinder::find(const QString &id)
+void CharacterFinder::setPlayerModel(PlayerModel* model)
+{
+    m_playerModel= model;
+}
+
+Character* CharacterFinder::find(const QString& id)
 {
     qDebug() << "character finder" << id;
-    if (!isReady())
+    if(!isReady())
         return nullptr;
 
-    auto res = m_pcModel->character(id);
+    auto res= m_pcModel->character(id);
 
-    if (res == nullptr)
-        res = m_npcModel->characterFromUuid(id);
+    if(res == nullptr)
+        res= m_npcModel->characterFromUuid(id);
+
+    if(res)
+        qDebug() << "VMAP: find isNPc" << res->isNpc();
     qDebug() << "character found:" << res;
     return res;
 }

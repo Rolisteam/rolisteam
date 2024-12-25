@@ -140,7 +140,6 @@ class NETWORK_EXPORT Character : public Person
         int healthPoints READ getHealthPointsCurrent WRITE setHealthPointsCurrent NOTIFY currentHealthPointsChanged)
     Q_PROPERTY(int maxHP READ getHealthPointsMax WRITE setHealthPointsMax NOTIFY maxHPChanged)
     Q_PROPERTY(int minHP READ getHealthPointsMin WRITE setHealthPointsMin NOTIFY minHPChanged)
-    // Q_PROPERTY(QString avatarPath READ getAvatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
     Q_PROPERTY(bool isNpc READ isNpc WRITE setNpc NOTIFY npcChanged)
     Q_PROPERTY(int initiative READ getInitiativeScore WRITE setInitiativeScore NOTIFY initiativeChanged)
     Q_PROPERTY(qreal distancePerTurn READ getDistancePerTurn WRITE setDistancePerTurn NOTIFY distancePerTurnChanged)
@@ -298,11 +297,11 @@ private:
     QList<CharacterAction*> m_actionList;
     QList<CharacterProperty*> m_propertyList;
     QString m_stateId;
-    CharacterSheet* m_sheet= nullptr;
+    QPointer<CharacterSheet> m_sheet;
     int m_healthPointsMax= 100;
     int m_healthPointsMin= 0;
     int m_healthPointsCurrent= 100;
-    RolisteamImageProvider* m_imageProvider= nullptr;
+    QPointer<RolisteamImageProvider> m_imageProvider= nullptr;
     int m_initiativeScore= 0;
     CharacterAction m_initiativeRoll;
     qreal m_distancePerTurn= 0;

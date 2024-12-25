@@ -28,6 +28,7 @@
 #include "controller/item_controllers/vmapitemfactory.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/campaignmanager.h"
+#include "diceparser_qobject/diceroller.h"
 #include "model/contentmodel.h"
 #include "worker/vectorialmapmessagehelper.h"
 

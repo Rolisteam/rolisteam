@@ -421,7 +421,7 @@ bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, charact
     // displayError(m_errorList);
     return true;
 }
-void fetchCharacterStateModel(const QJsonArray& obj, CharacterStateModel* model)
+void fetchCharacterStateModel(const QJsonArray& obj, CharacterStateModel* model, const QString& rootDir)
 {
     for(const auto& stateRef : obj)
     {
@@ -429,13 +429,18 @@ void fetchCharacterStateModel(const QJsonArray& obj, CharacterStateModel* model)
         CharacterState da;
         da.setId(state["id"].toString());
         da.setLabel(state["label"].toString());
-        auto base64= state["image"].toString();
-        da.setImagePath(base64);
-        QColor col;
-        col.setNamedColor(state["color"].toString());
+        auto path= state["image"].toString();
+        da.setImagePath(QString("%2/%1").arg(path).arg(rootDir));
+        QColor col= QColor::fromString(state["color"].toString());
         da.setColor(col);
         model->appendState(std::move(da));
     }
+
+    auto const& states= model->statesList();
+    auto list= new QList<CharacterState*>();
+    std::transform(std::begin(states), std::end(states), std::back_inserter(*list),
+                   [](const std::unique_ptr<CharacterState>& item) { return item.get(); });
+    Character::setListOfCharacterState(list);
 }
 
 QJsonArray saveCharacterStateModel(CharacterStateModel* model)
@@ -445,6 +450,7 @@ QJsonArray saveCharacterStateModel(CharacterStateModel* model)
     for(auto const& stateInfo : statesList)
     {
         QJsonObject stateObj;
+        stateObj["id"]= stateInfo->id();
         stateObj["label"]= stateInfo->label();
         stateObj["color"]= stateInfo->color().name();
         QPixmap pix= stateInfo->imagePath();

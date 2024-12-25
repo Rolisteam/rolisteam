@@ -154,9 +154,9 @@ int CharacterStateModel::indexFromId(const QString& id) const
 
 void CharacterStateModel::appendState(CharacterState&& stateRef)
 {
+    auto id= stateRef.id();
     auto isInside= std::find_if(std::begin(m_stateList), std::end(m_stateList),
-                                [stateRef](const std::unique_ptr<CharacterState>& state)
-                                { return state->id() == stateRef.id(); });
+                                [id](const std::unique_ptr<CharacterState>& state) { return state->id() == id; });
 
     if(isInside != std::end(m_stateList))
         return;
@@ -176,6 +176,7 @@ Qt::ItemFlags CharacterStateModel::flags(const QModelIndex& index) const
 }
 bool CharacterStateModel::setData(const QModelIndex& idx, const QVariant& value, int role)
 {
+    qDebug() << "setData states:" << idx << value << role;
     bool result= false;
     if(!idx.isValid())
         return result;

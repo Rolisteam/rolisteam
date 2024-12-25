@@ -74,7 +74,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
     connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this,
             [this](bool b)
             {
-                if(b)
+                if(b && m_playerController->localIsGm())
                 {
                     m_campaignManager->shareModels();
                 }

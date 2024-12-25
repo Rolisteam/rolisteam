@@ -61,6 +61,9 @@ class CORE_EXPORT CharacterItemController : public VisualItemController
     Q_PROPERTY(QList<CharacterAction*> actions READ actionList CONSTANT)
     Q_PROPERTY(QList<CharacterShape*> shapes READ shapeList CONSTANT)
     Q_PROPERTY(QList<CharacterProperty*> properties READ propertiesList CONSTANT)
+    Q_PROPERTY(QString characterId READ characterId WRITE setCharacterId NOTIFY characterIdChanged FINAL)
+    Q_PROPERTY(
+        bool waitingCharacter READ waitingCharacter WRITE setWaitingCharacter NOTIFY waitingCharacterChanged FINAL)
 public:
     enum AdditionControls
     {
@@ -111,6 +114,14 @@ public:
     // accessor to Map properties
     bool healthStatusVisible() const;
 
+    QString characterId() const;
+    void setCharacterId(const QString& newCharacterId);
+
+    bool waitingCharacter() const;
+    void setWaitingCharacter(bool newWaitingCharacter);
+
+    void updateCharacter();
+
 public slots:
     void setSide(qreal side);
     void setStateColor(QColor stateColor);
@@ -128,6 +139,7 @@ public slots:
     void setShape(int index);
     void cleanShape();
     void runCommand(int index);
+    void findCharacter();
 
 signals:
     void sideChanged(qreal side);
@@ -149,13 +161,15 @@ signals:
     void rectEditFinished();
     void sideEdited();
     void characterChanged();
+    void characterIdChanged();
+    void waitingCharacterChanged();
 
 private:
     void refreshTextRect();
     void computeThumbnail();
     void setRect(const QRectF& rect);
-    void findCharacter();
     void computeEditable() override;
+    void setCharacter(Character* charac);
 
 private:
     QPointer<Character> m_character;
@@ -172,6 +186,9 @@ private:
 
     Changes m_changes{ChangedProperty::NONE};
     CharacterFinder m_finder;
+    QString m_characterId;
+    bool m_waitingCharacter{false};
+    std::unique_ptr<Character> m_characterStored;
 };
 } // namespace vmap
 

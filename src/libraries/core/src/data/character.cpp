@@ -38,6 +38,7 @@
 #ifndef UNIT_TEST
 #include "charactersheet.h"
 #endif
+#include "charactersheet/charactersheet.h"
 #include "data/player.h"
 
 //  Begin character field
@@ -625,7 +626,7 @@ QImage Character::currentStateImage() const
                           });
     if(it == m_stateList->end())
         return {};
-    return QImage((*it)->imagePath());
+    return (*it)->pixmap().toImage();
 }
 
 bool Character::hasInitScore() const

@@ -69,6 +69,7 @@
 
 #include "worker/iohelper.h"
 #include "worker/playermessagehelper.h"
+#include "worker/utilshelper.h"
 
 Q_LOGGING_CATEGORY(MsgHelper, "MessageHelper")
 
@@ -167,6 +168,7 @@ void MessageHelper::sendOffAllCharacterState(CharacterStateModel* model)
     msg.uint32(static_cast<quint32>(states.size()));
     for(auto const& state : states)
     {
+        msg.string8(state->id());
         msg.string32(state->label());
         msg.rgb(state->color().rgb());
         msg.pixmap(state->pixmap());
@@ -181,6 +183,7 @@ void MessageHelper::sendOffOneCharacterState(const CharacterState* state, int ro
 
     NetworkMessageWriter msg(NetMsg::CampaignCategory, NetMsg::addCharacterState);
     msg.int64(row);
+    msg.string8(state->id());
     msg.string32(state->label());
     msg.rgb(state->color().rgb());
     msg.pixmap(state->pixmap());
@@ -1120,6 +1123,7 @@ const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageRea
     auto stateColor= QColor(msg->rgb());
     auto number= msg->uint32();
     auto playableCharacter= static_cast<bool>(msg->uint8());
+    auto characterId= msg->string8();
 
     auto tx= msg->real();
     auto ty= msg->real();
@@ -1140,16 +1144,34 @@ const std::map<QString, QVariant> MessageHelper::readCharacter(NetworkMessageRea
     hash.insert({Core::vmapkeys::KEY_FONT, font});
     hash.insert({Core::vmapkeys::KEY_RADIUS, radius});
     hash.insert({Core::vmapkeys::KEY_TEXTRECT, textRect});
-    if(hasCharacter)
+
+    if(!hasCharacter)
+        return hash;
+
+    bool characterDefined= false;
+    if(playableCharacter)
     {
-        QString parentId;
-        auto character= PlayerMessageHelper::readCharacter(*msg, parentId);
-        hash.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(character)});
-        if(!character)
-            hash.insert({Core::vmapkeys::KEY_CHARAC_ID, QVariant::fromValue(character->uuid())});
-        hash.insert({Core::vmapkeys::KEY_PARENTID, parentId});
+        CharacterFinder finder;
+        auto storedCharacter= finder.find(characterId);
+        if(storedCharacter)
+        {
+            hash.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(storedCharacter)});
+            hash.insert({Core::vmapkeys::KEY_CHARAC_ID, QVariant::fromValue(storedCharacter->uuid())});
+            characterDefined= true;
+        }
     }
 
+    if(!characterDefined && !playableCharacter)
+    {
+        QString parentId;
+        qDebug() << "VMAP: read Character";
+        auto character= PlayerMessageHelper::readCharacter(*msg, parentId);
+        if(character)
+        {
+            hash.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(character)});
+            hash.insert({Core::vmapkeys::KEY_PARENTID, parentId});
+        }
+    }
     return hash;
 }
 
@@ -1162,6 +1184,7 @@ void MessageHelper::addCharacterController(const vmap::CharacterItemController* 
     msg.rgb(ctrl->stateColor().rgb());
     msg.uint32(static_cast<quint32>(ctrl->number()));
     msg.uint8(ctrl->playableCharacter());
+    msg.string8(ctrl->characterId());
 
     auto rect= ctrl->textRect();
     msg.real(rect.x());
@@ -1176,8 +1199,10 @@ void MessageHelper::addCharacterController(const vmap::CharacterItemController* 
 
     auto character= ctrl->character();
     msg.uint8(nullptr != character);
-    if(nullptr != character)
+
+    if(nullptr != character && character->isNpc())
     {
+        qDebug() << "VMAP: write Character" << character->isNpc();
         PlayerMessageHelper::writeCharacterIntoMessage(msg, character);
     }
 }
@@ -1233,8 +1258,10 @@ QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReade
             map= readEllipse(msg);
             break;
         case vmap::VisualItemController::CHARACTER:
+        {
             map= readCharacter(msg);
-            break;
+        }
+        break;
         case vmap::VisualItemController::IMAGE:
             map= readImage(msg);
             break;
@@ -1402,7 +1429,8 @@ void MessageHelper::sendOffCharacter(const vmap::CharacterItemController* ctrl, 
     msg.sendToServer();
 }
 
-void MessageHelper::readAddSubImage(mindmap::ImageModel* model, mindmap::MindItemModel* items, NetworkMessageReader* msg)
+void MessageHelper::readAddSubImage(mindmap::ImageModel* model, mindmap::MindItemModel* items,
+                                    NetworkMessageReader* msg)
 {
     if(!msg || !model)
         return;
@@ -1704,15 +1732,22 @@ void MessageHelper::fetchCharacterStatesFromNetwork(NetworkMessageReader* msg, C
     auto size= msg->uint32();
     for(quint32 i= 0; i < size; ++i)
     {
+        auto id= msg->string8();
         auto label= msg->string32();
         auto color= msg->rgb();
         auto pixmap= msg->pixmap();
         CharacterState state;
+        state.setId(id);
         state.setLabel(label);
         state.setColor(color);
         state.setPixmap(pixmap);
         model->appendState(std::move(state));
     }
+    auto const& states= model->statesList();
+    auto list= new QList<CharacterState*>();
+    std::transform(std::begin(states), std::end(states), std::back_inserter(*list),
+                   [](const std::unique_ptr<CharacterState>& item) { return item.get(); });
+    Character::setListOfCharacterState(list);
 }
 
 void MessageHelper::fetchDiceAliasFromNetwork(NetworkMessageReader* msg, QList<DiceAlias*>* list)

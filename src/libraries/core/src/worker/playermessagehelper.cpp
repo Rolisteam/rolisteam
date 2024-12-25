@@ -24,8 +24,8 @@
 #include <QDebug>
 
 #include "data/character.h"
-#include "data/player.h"
 #include "data/charactervision.h"
+#include "data/player.h"
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -93,7 +93,7 @@ void PlayerMessageHelper::writeVisionIntoMessage(NetworkMessageWriter& msg, Char
         return;
     }
 
-    auto pos = vision->position();
+    auto pos= vision->position();
     msg.real(pos.x());
     msg.real(pos.y());
     msg.real(vision->angle());
@@ -116,7 +116,7 @@ void PlayerMessageHelper::writeCharacterIntoMessage(NetworkMessageWriter& msg, C
     msg.int32(character->number());
     auto color= character->getColor();
     msg.rgb(color.rgb());
-    auto lifeColor = character->getLifeColor();
+    auto lifeColor= character->getLifeColor();
     msg.rgb(lifeColor.rgb());
     msg.int32(character->getHealthPointsCurrent());
     msg.int32(character->getHealthPointsMin());
@@ -168,7 +168,7 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
         try
         {
             QString parentId;
-            Character* child= readCharacter(msg,parentId);
+            Character* child= readCharacter(msg, parentId);
             player->addCharacter(child);
         }
         catch(std::bad_alloc&)

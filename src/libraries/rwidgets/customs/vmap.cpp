@@ -59,6 +59,7 @@ void addCharacterItem(VectorialMapController* ctrl, const QPointF& pos, Characte
 
     std::map<QString, QVariant> params;
     params.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(character)});
+    params.insert({Core::vmapkeys::KEY_CHARAC_ID, character->uuid()});
     params.insert({Core::vmapkeys::KEY_POS, pos});
     params.insert({Core::vmapkeys::KEY_TOOL, character->isNpc() ? Core::SelectableTool::NonPlayableCharacter :
                                                                   Core::SelectableTool::PlayableCharacter});

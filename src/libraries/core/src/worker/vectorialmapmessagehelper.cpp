@@ -522,12 +522,12 @@ QJsonObject saveVMapCharacterItemController(const vmap::CharacterItemController*
 
     auto c= ctrl->character();
     auto vision= ctrl->vision();
-
     auto chacObj= saveCharacter(c);
 
     saveVisualItemController(ctrl, obj);
 
     obj[Core::jsonctrl::vmap::character::JSON_CHARACTER]= chacObj;
+    obj[Core::jsonctrl::vmap::character::JSON_CHARACTER_ID]= ctrl->characterId();
     obj[Core::jsonctrl::vmap::character::JSON_SIDE]= ctrl->side();
     obj[Core::jsonctrl::vmap::character::JSON_STATE_COLOR]= ctrl->stateColor().name();
     obj[Core::jsonctrl::vmap::character::JSON_NUMBER]= ctrl->number();
@@ -570,7 +570,7 @@ void VectorialMapMessageHelper::fetchCharacterItem(const std::map<QString, QVari
 void readCharacterItemController(std::map<QString, QVariant>& maps, const QJsonObject& obj)
 {
     readCharacter(maps, obj[Core::jsonctrl::vmap::character::JSON_CHARACTER].toObject());
-
+    maps.insert({Core::vmapkeys::KEY_CHARAC_ID, obj[Core::jsonctrl::vmap::character::JSON_CHARACTER_ID].toString()});
     maps.insert({Core::vmapkeys::KEY_SIDE, obj[Core::jsonctrl::vmap::character::JSON_SIDE].toDouble()});
     maps.insert(
         {Core::vmapkeys::KEY_STATECOLOR, QColor(obj[Core::jsonctrl::vmap::character::JSON_STATE_COLOR].toString())});
@@ -593,16 +593,6 @@ void readCharacterItemController(std::map<QString, QVariant>& maps, const QJsonO
     maps.insert({Core::vmapkeys::KEY_VIS_VISIBLE, obj[Core::jsonctrl::vmap::character::JSON_VIS_VISIBLE].toBool()});
     maps.insert({Core::vmapkeys::KEY_VIS_RADIUS, obj[Core::jsonctrl::vmap::character::JSON_VIS_RADIUS].toDouble()});
     maps.insert({Core::vmapkeys::KEY_VIS_ROTATION, obj[Core::jsonctrl::vmap::character::JSON_VIS_ROTATION].toDouble()});
-
-    if(maps.end() != maps.find(Core::vmapkeys::KEY_CHARAC_ID))
-    {
-        CharacterFinder finder;
-        auto c= finder.find(maps.at(Core::vmapkeys::KEY_CHARAC_ID).value<QString>());
-        if(c)
-        {
-            maps.insert({Core::vmapkeys::KEY_CHARACTER, QVariant::fromValue(c)});
-        }
-    }
 }
 
 void VectorialMapMessageHelper::fetchCharacterVision(const std::map<QString, QVariant>& params, CharacterVision* vision)

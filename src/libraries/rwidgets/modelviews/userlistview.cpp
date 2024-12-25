@@ -255,10 +255,12 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
             auto stateMenu= popMenu.addMenu(tr("State"));
             for(int i= 0; i < stateModel->rowCount(); ++i)
             {
-                auto label= stateModel->index(i, 0).data(CharacterStateModel::LABEL).toString();
-                auto id= stateModel->index(i, 0).data(CharacterStateModel::ID).toString();
+                auto const label= stateModel->index(i, 0).data(CharacterStateModel::LABEL).toString();
+                auto const id= stateModel->index(i, 0).data(CharacterStateModel::ID).toString();
+                auto const pixmap= stateModel->index(i, 0).data(CharacterStateModel::PICTURE).value<QPixmap>();
 
                 auto act= stateMenu->addAction(label);
+                act->setIcon(QIcon(pixmap));
                 act->setCheckable(true);
                 auto stateIdPerson= charact->stateId();
                 act->setChecked(id == stateIdPerson);
