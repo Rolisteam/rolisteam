@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Integrity
 
 Item {
   id: root
@@ -15,7 +16,7 @@ Item {
         id: view
         clip: true
         anchors.fill: parent
-        model: _missingFilesModel
+        model: Controller.missingFiles
         delegate: Pane {
           width: view.width
           height: lyt.implicitHeight
@@ -28,26 +29,23 @@ Item {
             anchors.fill: parent
             Label {
               id: lbl1
-              text: model.name
+              text: modelData
               Layout.fillWidth: true
               elide: Text.ElideRight
             }
             ToolButton {
               id: act1Btn
-             ToolTip.text: model.actions[0]
-             checkable: true
-             icon.name: model.icons[0]
+             ToolTip.text: qsTr("Remove file from campaign history")
+             icon.name: "edit-delete"
              icon.color: "transparent"
-             onClicked: _dialog.setAction(0, model.index, 0)
-             checked: model.action === 0
+             onClicked: Controller.performAction(modelData, Controller.RemoveFromCampaign)
             }
             ToolButton {
-             ToolTip.text: model.actions[1]
+             ToolTip.text: qsTr("Create blank document")
              checkable: true
-             icon.name: model.icons[1]
+             icon.name: "document-new"
              icon.color: "transparent"
-             onClicked: _dialog.setAction(0, model.index, 1)
-             checked: model.action === 1
+             onClicked: Controller.performAction(modelData, Controller.CreateBlank)
             }
           }
         }
@@ -62,7 +60,7 @@ Item {
         id: view2
         anchors.fill: parent
         clip: true
-        model: _unmanagedFilesModel
+        model: Controller.unmanagedFile
         delegate: Pane {
           width: view2.width
           height: lyt2.implicitHeight
@@ -75,26 +73,22 @@ Item {
             anchors.fill: parent
             Label {
               id: lbl2
-              text: model.name
+              text: modelData
               Layout.fillWidth: true
               elide: Text.ElideRight
             }
             ToolButton {
              id: act2Btn
-             ToolTip.text: model.actions[0]
-             icon.name: model.icons[0]
+             ToolTip.text: qsTr("Add file into project")
+             icon.name: "list-add"
              icon.color: "transparent"
-             checkable: true
-  //           checked: model.action === 0
-             onClicked: _dialog.setAction(1, model.index, checked ? 0 : -1)
+             onClicked: Controller.performAction(modelData, Controller.AddToCampaign)
             }
             ToolButton {
-             ToolTip.text: model.actions[1]
-             icon.name: model.icons[1]
+             ToolTip.text: qsTr("Delete file from Disk")
+             icon.name: "list-remove"
              icon.color: "transparent"
-             checkable: true
-//             checked: model.action === 1
-             onClicked: _dialog.setAction(1, model.index, checked ? 1 : -1)
+             onClicked: Controller.performAction(modelData, Controller.RemoveFromDisk)
             }
           }
         }
@@ -107,14 +101,8 @@ Item {
       Button {
         icon.name: "apply"
         icon.color: "transparent"
-        enabled: _dialog ? _dialog.canValidate : false
-        opacity: enabled ? 1.0 : 0.4
-        onClicked: _dialog.validate()
-      }
-      Button {
-        icon.name: "cancel"
-        icon.color: "transparent"
-        onClicked: _dialog.refuse()
+        enabled: true
+        onClicked: Controller.accept()
       }
     }
   }

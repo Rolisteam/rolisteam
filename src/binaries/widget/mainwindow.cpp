@@ -150,7 +150,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                 m_gameController->newMedia(params);
             });
 
-    connect(m_gameController->campaignManager(), &campaign::CampaignManager::createBlankFile, this,
+    /*connect(m_gameController->campaignManager(), &campaign::CampaignManager::createBlankFile, this,
             [this](const QString& path, Core::MediaType mediaType)
             {
                 std::map<QString, QVariant> params;
@@ -158,17 +158,18 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                 params.insert({Core::keys::KEY_TYPE, QVariant::fromValue(mediaType)});
                 params.insert({Core::keys::KEY_PATH, path});
                 m_gameController->newMedia(params);
-            });
+            });*/
 
     connect(m_gameController, &GameController::dataLoaded, this,
-            [this](const QStringList missignFiles, const QStringList unmanagedFile)
+            [this](const QStringList missingFiles, const QStringList unmanagedFile)
             {
-                if(missignFiles.isEmpty() && unmanagedFile.isEmpty())
+                if(missingFiles.isEmpty() && unmanagedFile.isEmpty())
                     return;
-                campaign::CampaignIntegrityDialog dialog(missignFiles, unmanagedFile, m_gameController->campaignRoot(),
-                                                         this);
-                auto val= dialog.exec();
-                if(val == QDialog::Accepted)
+                auto ctrl= new campaign::CampaignIntegrityController(missingFiles, unmanagedFile,
+                                                                     m_gameController->campaignManager());
+                campaign::CampaignIntegrityDialog dialog(ctrl, this);
+                dialog.exec();
+                /*if(val == QDialog::Accepted)
                 {
                     auto const& missingActions= dialog.missingFileActions();
                     auto const& unmanagedActions= dialog.unmanagedFileActions();
@@ -193,7 +194,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                                                                                Core::CampaignAction::DeleteAction});
                                    });
                     ctrl->performAction(list2);
-                }
+                }*/
             });
 
     m_antagonistWidget.reset(new campaign::AntagonistBoard(m_gameController->campaignManager()->editor()));

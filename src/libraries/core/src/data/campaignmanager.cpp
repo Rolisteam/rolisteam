@@ -251,35 +251,32 @@ void CampaignManager::importDataFrom(const QString& source, const QVector<Core::
     }
 }
 
-void CampaignManager::performAction(const QList<QPair<QString, Core::CampaignAction>>& actions)
+bool CampaignManager::performAction(const QString& path, Core::CampaignAction action)
 {
-    std::for_each(std::begin(actions), std::end(actions),
-                  [this](const QPair<QString, Core::CampaignAction>& pair)
-                  {
-                      // action == 0 => forget file
-                      auto path= pair.first;
-                      auto abPath= m_editor->mediaFullPath(path);
+    bool res= false;
+    // action == 0 => forget file
+    auto abPath= m_editor->mediaFullPath(path);
 
-                      switch(pair.second)
-                      {
-                      case Core::CampaignAction::NoneAction:
-                          break;
-                      case Core::CampaignAction::ForgetAction:
-                          m_editor->removeMedia(abPath);
-                          break;
-                      case Core::CampaignAction::DeleteAction:
-                          m_editor->removeFile(path);
-                          break;
-                      case Core::CampaignAction::CreateAction:
-                          emit createBlankFile(path, FileSerializer::typeFromExtention(path));
-                          break;
-                      case Core::CampaignAction::ManageAction:
-                          m_editor->addMedia(QUuid::createUuid().toString(QUuid::WithoutBraces), path, {});
-                          break;
-                      }
-
-                      // action == 1 => create document
-                  });
+    switch(action)
+    {
+    case Core::CampaignAction::NoneAction:
+        break;
+    case Core::CampaignAction::ForgetAction:
+        res= m_editor->removeMedia(abPath);
+        break;
+    case Core::CampaignAction::DeleteAction:
+        res= m_editor->removeFile(path);
+        break;
+    case Core::CampaignAction::CreateAction:
+        emit createBlankFile(path, FileSerializer::typeFromExtention(path));
+        res= true;
+        break;
+    case Core::CampaignAction::ManageAction:
+        res= m_editor->addMedia(QUuid::createUuid().toString(QUuid::WithoutBraces), path, {});
+        break;
+    }
+    // action == 1 => create document
+    return res;
 }
 
 } // namespace campaign

@@ -28,10 +28,31 @@ struct CORE_EXPORT ActionInfo
     QString icon;
 };
 
-struct CORE_EXPORT DataInfo
+class CORE_EXPORT DataInfo : public QObject
 {
-    QString data;
-    int indexAction= -1;
+    Q_OBJECT
+public:
+    enum ActionChoice
+    {
+        NothingAct= 0,
+        AddToCampaign,
+        UpdatePath,
+        RemoveFromCampaign,
+        RemoveFromDisk
+    };
+    Q_ENUM(ActionChoice)
+    DataInfo(const QString& data);
+    QString data() const;
+    void setData(const QString& data);
+    void setAction(ActionChoice act);
+
+signals:
+    void dataChanged();
+    void actionChanged();
+
+private:
+    QString m_data;
+    ActionChoice m_indexAction= NothingAct;
 };
 
 class CORE_EXPORT ActionOnListModel : public QAbstractListModel
@@ -53,6 +74,7 @@ public:
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
+    bool setData(const QModelIndex& index, const QVariant& value, int role) override;
     QHash<int, QByteArray> roleNames() const override;
 
     bool canValidate() const;
@@ -62,7 +84,7 @@ public:
 
 private:
     QList<DataInfo> m_data;
-    QList<ActionInfo> m_actions;
+    std::vector<std::unique_ptr<ActionInfo>> m_actions;
     QString m_root;
 };
 

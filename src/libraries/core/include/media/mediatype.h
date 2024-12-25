@@ -75,7 +75,7 @@ NETWORK_EXPORT Q_ENUM_NS(MediaType)
 
 enum class CampaignAction : quint8
 {
-    NoneAction,
+    NoneAction= 0,
     ForgetAction,
     CreateAction,
     ManageAction,

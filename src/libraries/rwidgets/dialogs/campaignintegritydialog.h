@@ -20,48 +20,73 @@
 #ifndef CAMPAIGN_CAMPAIGNINTEGRITYDIALOG_H
 #define CAMPAIGN_CAMPAIGNINTEGRITYDIALOG_H
 
+#include "data/campaignmanager.h"
 #include <QDialog>
+#include <QPointer>
+#include <QQmlEngine>
 #include <memory>
 
-#include "model/actiononlistmodel.h"
 #include "rwidgets_global.h"
 namespace Ui
 {
 class CampaignIntegrityDialog;
 }
-class ActionOnListModel;
 namespace campaign
 {
+
+class RWIDGET_EXPORT CampaignIntegrityController : public QObject
+{
+    Q_OBJECT
+    QML_ELEMENT
+    Q_PROPERTY(QStringList missingFiles READ missingFiles NOTIFY missingFilesChanged FINAL)
+    Q_PROPERTY(QStringList unmanagedFile READ unmanagedFile NOTIFY unmanagedFileChanged FINAL)
+public:
+    enum FileAction
+    {
+        NothingAct= 0,
+        RemoveFromCampaign,
+        CreateBlank,
+        AddToCampaign,
+        RemoveFromDisk
+    };
+    Q_ENUM(FileAction)
+    explicit CampaignIntegrityController(QStringList missingFiles, QStringList unmanagedFile, CampaignManager* manager,
+                                         QWidget* parent= nullptr);
+
+    QStringList missingFiles() const;
+    void setMissingFiles(const QStringList& newMissingFiles);
+
+    QStringList unmanagedFile() const;
+    void setUnmanagedFile(const QStringList& newUnmanagedFile);
+
+public slots:
+    void performAction(const QString& path, FileAction action);
+    void accept();
+
+signals:
+    void missingFilesChanged();
+    void unmanagedFileChanged();
+    void accepted();
+
+private:
+    QStringList m_missingFiles;
+    QStringList m_unmanagedFile;
+    QPointer<CampaignManager> m_manager;
+};
 
 class RWIDGET_EXPORT CampaignIntegrityDialog : public QDialog
 {
     Q_OBJECT
-    Q_PROPERTY(bool canValidate READ canValidate NOTIFY canValidateChanged)
 public:
-    explicit CampaignIntegrityDialog(QStringList missingFiles, QStringList unmanagedFile, const QString& root,
-                                     QWidget* parent= nullptr);
+    explicit CampaignIntegrityDialog(CampaignIntegrityController* ctrl, QWidget *parent= nullptr);
     ~CampaignIntegrityDialog();
-
-    bool canValidate() const;
-
-    const QList<DataInfo>& missingFileActions() const;
-    const QList<DataInfo>& unmanagedFileActions() const;
-
-public slots:
-    void validate();
-    void refuse();
-    void setAction(int modelId, int index, int actionId);
 
 protected:
     void changeEvent(QEvent* e);
 
-signals:
-    void canValidateChanged();
-
 private:
     Ui::CampaignIntegrityDialog* ui;
-    std::unique_ptr<ActionOnListModel> m_missingFileModel;
-    std::unique_ptr<ActionOnListModel> m_unmanagedFileModel;
+    QPointer<CampaignIntegrityController> m_ctrl;
 };
 
 } // namespace campaign

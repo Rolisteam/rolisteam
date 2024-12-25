@@ -62,7 +62,7 @@ public:
     QString campaignDir() const;
     QString placeDirectory(campaign::Campaign::Place place) const;
 
-    void performAction(const QList<QPair<QString, Core::CampaignAction>>& actions);
+    bool performAction(const QString& path, Core::CampaignAction action);
 
 public slots:
     void shareModels();

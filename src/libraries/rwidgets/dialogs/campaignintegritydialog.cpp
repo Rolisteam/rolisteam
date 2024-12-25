@@ -20,74 +20,39 @@
 #include "campaignintegritydialog.h"
 #include "ui_campaignintegritydialog.h"
 
-#include "delegates/actiondelegate.h"
-#include "model/actiononlistmodel.h"
+// #include "delegates/actiondelegate.h"
+//  #include "model/actiononlistmodel.h"
 
 #include <QQmlContext>
 #include <QQmlEngine>
 
 namespace campaign
 {
-CampaignIntegrityDialog::CampaignIntegrityDialog(QStringList missingFiles, QStringList unmanagedFile,
-                                                 const QString& root, QWidget* parent)
-    : QDialog(parent)
-    , ui(new Ui::CampaignIntegrityDialog)
-    , m_missingFileModel(
-          new ActionOnListModel(missingFiles, {{"Forget", "edit-delete"}, {"Create", "document-new"}}, root))
-    , m_unmanagedFileModel(
-          new ActionOnListModel(unmanagedFile, {{"Add into project", "list-add"}, {"Delete", "list-remove"}}, root))
+CampaignIntegrityDialog::CampaignIntegrityDialog(CampaignIntegrityController* ctrl, QWidget* parent)
+    : QDialog(parent), ui(new Ui::CampaignIntegrityDialog), m_ctrl(ctrl)
+
 {
     ui->setupUi(this);
+    qmlRegisterSingletonInstance<CampaignIntegrityController>("Integrity", 1, 0, "Controller", m_ctrl);
+    QQmlEngine::setObjectOwnership(m_ctrl, QQmlEngine::CppOwnership);
+
+    connect(m_ctrl, &CampaignIntegrityController::accepted, this, &CampaignIntegrityDialog::accept);
+
     auto engine= ui->quickWidget->engine();
     engine->addImportPath(QStringLiteral("qrc:/qml"));
     engine->addImportPath(QStringLiteral("qrc:/qml/rolistyle"));
-    engine->rootContext()->setContextProperty("_dialog", this);
-    engine->rootContext()->setContextProperty("_missingFilesModel", m_missingFileModel.get());
-    engine->rootContext()->setContextProperty("_unmanagedFilesModel", m_unmanagedFileModel.get());
     ui->quickWidget->setSource(QUrl("qrc:/qml/Campaign/IntegrityPage.qml"));
-    connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& warnings)
-    {
-        for(auto const& w : warnings)
-            qDebug() << w.toString();
-    });
+    connect(engine, &QQmlEngine::warnings, this,
+            [](const QList<QQmlError>& warnings)
+            {
+                for(auto const& w : warnings)
+                    qDebug() << w.toString();
+            });
 }
 
 CampaignIntegrityDialog::~CampaignIntegrityDialog()
 {
     delete ui;
-}
-
-bool CampaignIntegrityDialog::canValidate() const
-{
-    return m_missingFileModel->canValidate() && m_unmanagedFileModel->canValidate();
-}
-
-const QList<DataInfo>& CampaignIntegrityDialog::missingFileActions() const
-{
-    return m_missingFileModel->dataset();
-}
-
-const QList<DataInfo>& CampaignIntegrityDialog::unmanagedFileActions() const
-{
-    return m_unmanagedFileModel->dataset();
-}
-
-void CampaignIntegrityDialog::validate()
-{
-    accept();
-}
-
-void CampaignIntegrityDialog::refuse()
-{
-    reject();
-}
-
-void CampaignIntegrityDialog::setAction(int modelId, int index, int actionId)
-{
-    auto model= (modelId == 0) ? m_missingFileModel.get() : m_unmanagedFileModel.get();
-
-    model->setAction(index, actionId);
-    emit canValidateChanged();
 }
 
 void CampaignIntegrityDialog::changeEvent(QEvent* e)
@@ -102,4 +67,68 @@ void CampaignIntegrityDialog::changeEvent(QEvent* e)
         break;
     }
 }
+
+////////////////////////////////
+/// \brief CampaignIntegrityController::CampaignIntegrityController
+/// \param missingFiles
+/// \param unmanagedFile
+/// \param root
+/// \param parent
+/////////////////////////////////
+
+CampaignIntegrityController::CampaignIntegrityController(QStringList missingFiles, QStringList unmanagedFile,
+                                                         CampaignManager* manager, QWidget* parent)
+    : QObject(parent), m_missingFiles(missingFiles), m_unmanagedFile(unmanagedFile), m_manager(manager)
+{
+    /*, m_missingFileModel(
+          new ActionOnListModel(missingFiles, {{"Forget", "edit-delete"}, {"Create", "document-new"}}, root))
+    , m_unmanagedFileModel(
+        new ActionOnListModel(unmanagedFile, {{"Add into project", "list-add"}, {"Delete", "list-remove"}}, root))*/
+}
+
+QStringList CampaignIntegrityController::missingFiles() const
+{
+    return m_missingFiles;
+}
+
+void CampaignIntegrityController::setMissingFiles(const QStringList& newMissingFiles)
+{
+    if(m_missingFiles == newMissingFiles)
+        return;
+    m_missingFiles= newMissingFiles;
+    emit missingFilesChanged();
+}
+
+QStringList CampaignIntegrityController::unmanagedFile() const
+{
+    return m_unmanagedFile;
+}
+
+void CampaignIntegrityController::setUnmanagedFile(const QStringList& newUnmanagedFile)
+{
+    if(m_unmanagedFile == newUnmanagedFile)
+        return;
+    m_unmanagedFile= newUnmanagedFile;
+    emit unmanagedFileChanged();
+}
+
+void CampaignIntegrityController::performAction(const QString& path, FileAction action)
+{
+    bool res= m_manager->performAction(path, static_cast<Core::CampaignAction>(action));
+
+    if(!res)
+        return;
+
+    if(m_unmanagedFile.removeOne(path))
+        emit unmanagedFileChanged();
+
+    if(m_missingFiles.removeOne(path))
+        emit missingFilesChanged();
+}
+
+void CampaignIntegrityController::accept()
+{
+    emit accepted();
+}
+
 } // namespace campaign
