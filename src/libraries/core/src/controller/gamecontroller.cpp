@@ -128,7 +128,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
         m_campaignManager->diceparser();
         ModelHelper::fetchDice3d(m_dicePhysicController.get(),
                                          utils::IOHelper::loadFile(m_campaignManager->placeDirectory(campaign::Campaign::Place::DICE_3D_FILE)));
-        m_dicePhysicController->setReady(true);
+        //m_dicePhysicController->setReady(true);
     });
     // clang-format on
 

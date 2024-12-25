@@ -24,6 +24,7 @@
 #include "mediaupdaterinterface.h"
 
 #include <QObject>
+#include <QPointer>
 #include <core_global.h>
 class VectorialMapController;
 class VMapItemControllerUpdater;
@@ -46,7 +47,7 @@ private:
     VectorialMapController* updatingCtrl= nullptr;
     std::map<vmap::VisualItemController::ItemType, std::unique_ptr<VMapItemControllerUpdater>> m_updaters;
     QPointer<FilteredContentModel> m_vmapModel;
-    DiceRoller* m_diceParser;
+    QPointer<DiceRoller> m_diceParser;
 };
 
 #endif // VMAPUPDATER_H

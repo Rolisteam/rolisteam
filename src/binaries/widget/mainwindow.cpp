@@ -824,6 +824,9 @@ void MainWindow::updateUi()
     m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
 
+    auto dice3d= m_gameController->dicePhysicController();
+    dice3d->setReady(true);
+
     if(isGM)
     {
         auto act= m_ui->m_historyMenu->menuAction();
@@ -849,10 +852,8 @@ void MainWindow::updateUi()
                            QString(Core::settings::KEY_PREF_DIR).arg(m_gameController->version()));
         auto bytes= settings.value(Core::settings::KEY_PLAYER_DICE3D, QByteArray()).toByteArray();
 
-        auto dice3d= m_gameController->dicePhysicController();
         if(!bytes.isEmpty())
             ModelHelper::fetchDice3d(dice3d, bytes);
-        dice3d->setReady(true);
     }
 }
 void MainWindow::showUpdateNotification()
