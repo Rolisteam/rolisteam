@@ -12,13 +12,14 @@
  */
 class CHARACTERSHEET_EXPORT RolisteamImageProvider : public QQuickImageProvider
 {
+    Q_OBJECT
 public:
     RolisteamImageProvider(charactersheet::ImageModel* model);
     virtual ~RolisteamImageProvider();
     virtual QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize);
 
 private:
-    charactersheet::ImageModel* m_model;
+    QPointer<charactersheet::ImageModel> m_model;
 };
 
 #endif // ROLISTEAMIMAGEPROVIDER_H

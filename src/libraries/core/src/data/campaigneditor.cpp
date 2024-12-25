@@ -23,9 +23,9 @@
 #include "data/character.h"
 #include "data/media.h"
 #include "data/rolisteamtheme.h"
-#include "utils/iohelper.h"
 #include "model/characterstatemodel.h"
 #include "model/nonplayablecharactermodel.h"
+#include "utils/iohelper.h"
 #include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/modelhelper.h"
@@ -44,7 +44,7 @@ void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
     if(!info.status || !manager)
         return;
     ModelHelper::fetchDiceModel(info.dices, manager->diceAliases());
-    ModelHelper::fetchCharacterStateModel(info.states, manager->stateModel());
+    ModelHelper::fetchCharacterStateModel(info.states, manager->stateModel(), manager->rootDirectory());
     ModelHelper::fetchNpcModel(info.npcs, manager->npcModel(), manager->rootDirectory());
     auto assets= info.asset;
     ModelHelper::fetchMedia(assets[Core::JsonKey::JSON_MEDIAS].toArray(), manager);
@@ -52,11 +52,11 @@ void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
     manager->setCurrentChapter(assets[Core::JsonKey::JSON_CURRENT_CHAPTER].toString());
     manager->setCurrentTheme(IOHelper::jsonToTheme(info.theme));
 
-    auto const& states= manager->stateModel()->statesList();
+    /*auto const& states= manager->stateModel()->statesList();
     auto list= new QList<CharacterState*>();
     std::transform(std::begin(states), std::end(states), std::back_inserter(*list),
                    [](const std::unique_ptr<CharacterState>& item) { return item.get(); });
-    Character::setListOfCharacterState(list);
+    Character::setListOfCharacterState(list);*/
 }
 } // namespace
 CampaignEditor::CampaignEditor(QObject* parent) : QObject(parent), m_campaign(new Campaign)
@@ -148,7 +148,8 @@ bool CampaignEditor::loadStates(const QString& source, const QString& srcDir, co
         return false;
 
     bool ok;
-    ModelHelper::fetchCharacterStateModel(IOHelper::loadJsonFileIntoArray(source, ok), m_campaign->stateModel());
+    ModelHelper::fetchCharacterStateModel(IOHelper::loadJsonFileIntoArray(source, ok), m_campaign->stateModel(),
+                                          m_campaign->rootDirectory());
     auto const& list= m_campaign->stateModel()->statesList();
 
     std::for_each(std::begin(list), std::end(list),
