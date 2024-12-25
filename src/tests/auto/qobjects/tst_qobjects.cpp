@@ -130,7 +130,7 @@
 #include "mindmap/qmlItems/linkitem.h"
 #include "mindmap/worker/fileserializer.h"
 #include "mindmapcontrollerbase.h"
-#include "model/actiononlistmodel.h"
+// #include "model/actiononlistmodel.h"
 #include "model/charactermodel.h"
 #include "model/characterstatemodel.h"
 #include "model/chatroomsplittermodel.h"
@@ -422,7 +422,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("AboutRcse")  << static_cast<QObject*>(new AboutRcse(Helper::randomString()))<< true ;
     QTest::addRow("AboutRolisteam") << static_cast<QObject*>(new AboutRolisteam({})) << true;
     QTest::addRow("ActionDelegate") << static_cast<QObject*>(new ActionDelegate()) << true;
-    QTest::addRow("ActionOnListModel") << static_cast<QObject*>(new ActionOnListModel({}, {}, {})) << true;
+    //QTest::addRow("ActionOnListModel") << static_cast<QObject*>(new ActionOnListModel({}, {}, {})) << true;
     QTest::addRow("AlignmentDelegate")  << static_cast<QObject*>(new AlignmentDelegate())<< true ;
     QTest::addRow("AnchorItem obj") << static_cast<QObject*>(new AnchorItem()) << true;
     QTest::addRow("AntagonistBoard") << static_cast<QObject*>(new campaign::AntagonistBoard(nullptr)) << true; // 200
@@ -442,7 +442,8 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("Campaign") << static_cast<QObject*>(new campaign::Campaign()) << true;
     QTest::addRow("CampaignDock") << static_cast<QObject*>(new campaign::CampaignDock(new campaign::CampaignEditor()))                  << true;
     QTest::addRow("CampaignEditor") << static_cast<QObject*>(new campaign::CampaignEditor()) << true;
-    QTest::addRow("CampaignIntegrityDialog") << static_cast<QObject*>(new campaign::CampaignIntegrityDialog({}, {}, {})) << true;
+    QTest::addRow("CampaignIntegrityController") << static_cast<QObject*>(new campaign::CampaignIntegrityController({}, {}, {})) << true;
+    QTest::addRow("CampaignIntegrityDialog") << static_cast<QObject*>(new campaign::CampaignIntegrityDialog(new campaign::CampaignIntegrityController({}, {}, {}))) << true;
     QTest::addRow("CampaignManager") << static_cast<QObject*>(new campaign::CampaignManager(nullptr)) << true;
     QTest::addRow("CampaignProperties") << static_cast<QObject*>(new CampaignProperties(new campaign::Campaign(), nullptr))                                        << true;
     QTest::addRow("CampaignUpdater") << static_cast<QObject*>(new campaign::CampaignUpdater(nullptr, new campaign::Campaign()))                                     << true; // 100

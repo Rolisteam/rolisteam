@@ -298,11 +298,11 @@ void CampaignTest::copyCampaign()
         create(path);
     }
 
-    auto campaign= m_manager -> campaign();
-    auto edit= m_manager -> editor();
-    auto stateModel= campaign -> stateModel();
-    auto diceModel= campaign -> diceAliases();
-    auto npcModel= campaign -> npcModel();
+    auto campaign= m_manager->campaign();
+    auto edit= m_manager->editor();
+    auto stateModel= campaign->stateModel();
+    auto diceModel= campaign->diceAliases();
+    auto npcModel= campaign->npcModel();
 
     // add states
     for(auto const& t : states)
@@ -382,8 +382,8 @@ void CampaignTest::copyCampaign_data()
     QTest::addColumn<TupleNPC>("npcs");
 
     QTest::addRow("cmd1") << TupleMedia{} << TupleDice{} << TupleState{} << TupleNPC{};
-    QTest::addRow("cmd2") << TupleMedia{{"girafe1", "girafe1", utils::IOHelper::loadFile(":/img/girafe.jpg")}} << TupleDice{}
-                          << TupleState{} << TupleNPC{};
+    QTest::addRow("cmd2") << TupleMedia{{"girafe1", "girafe1", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
+                          << TupleDice{} << TupleState{} << TupleNPC{};
 
     QTest::addRow("cmd3") << TupleMedia{{"girafe1", "girafe1", utils::IOHelper::loadFile(":/img/girafe.jpg")}}
                           << TupleDice{{"pattern", "dicecommand", false}} << TupleState{} << TupleNPC{};
@@ -397,7 +397,6 @@ void CampaignTest::copyCampaign_data()
                           << TupleState{{"state1", "state1", QColor(Qt::blue)}}
                           << TupleNPC{{"character1", "character1", "character1", QColor(Qt::blue)}};
 }
-
 
 void CampaignTest::importFromAnotherCampaign()
 {
@@ -593,40 +592,34 @@ void CampaignTest::importFromAnotherCampaign_data()
 
 void CampaignTest::editorCampaign()
 {
-    auto editor = m_manager->editor();
+    auto editor= m_manager->editor();
 
-    editor->mergeAudioFile(Helper::randomString(),Helper::randomString());
+    editor->mergeAudioFile(Helper::randomString(), Helper::randomString());
 
-    QVERIFY(!editor->copyTheme(Helper::randomString(),Helper::randomString()));
-    QVERIFY(!editor->mergeJsonArrayFile(Helper::randomString(),Helper::randomString()));
+    QVERIFY(!editor->copyTheme(Helper::randomString(), Helper::randomString()));
+    QVERIFY(!editor->mergeJsonArrayFile(Helper::randomString(), Helper::randomString()));
     QVERIFY(!editor->removeFile(Helper::randomString()));
     QVERIFY(!editor->removeMedia(Helper::randomString()));
     QVERIFY(!editor->mediaFullPath(Helper::randomString()).isEmpty());
     QCOMPARE(editor->currentDir(), QString());
-    //QVERIFY(!editor->currentDir().isEmpty());
-    QVERIFY(!editor->mediaFullPathWithExtension(Helper::randomString(),
-                                                Helper::randomFromList<Core::ContentType>(
-                                                    {
-                                                     Core::ContentType::CHARACTERSHEET,
-                                                     Core::ContentType::INSTANTMESSAGING,
-                                                     Core::ContentType::MINDMAP,
-                                                     Core::ContentType::NOTES,
-                                                     Core::ContentType::PDF,
-                                                     Core::ContentType::PICTURE,
-                                                     Core::ContentType::SHAREDNOTE,
-                                                     Core::ContentType::VECTORIALMAP,
-                                                     Core::ContentType::WEBVIEW
-                                                    })
-                                                ).isEmpty());
+    // QVERIFY(!editor->currentDir().isEmpty());
+    QVERIFY(!editor
+                 ->mediaFullPathWithExtension(
+                     Helper::randomString(),
+                     Helper::randomFromList<Core::ContentType>(
+                         {Core::ContentType::CHARACTERSHEET, Core::ContentType::INSTANTMESSAGING,
+                          Core::ContentType::MINDMAP, Core::ContentType::NOTES, Core::ContentType::PDF,
+                          Core::ContentType::PICTURE, Core::ContentType::SHAREDNOTE, Core::ContentType::VECTORIALMAP,
+                          Core::ContentType::WEBVIEW}))
+                 .isEmpty());
 
-    editor->saveAvatar(Helper::randomString(),{});
+    editor->saveAvatar(Helper::randomString(), {});
     editor->doCommand(nullptr);
-
 }
 
 void CampaignTest::campaignTest()
 {
-    auto camp = m_manager->campaign();
+    auto camp= m_manager->campaign();
 
     QVERIFY(!camp->currentStorePath().isEmpty());
     camp->renameMedia(Helper::randomString(), Helper::randomString());
@@ -649,32 +642,29 @@ void CampaignTest::campaignTest()
     for(auto type : places)
         QVERIFY(!camp->directory(type).isEmpty());
 
-
     camp->postError(Helper::randomString());
 
     camp->addAlias();
     camp->deleteAlias(QModelIndex());
-    auto model = camp->diceAliases();
-    camp->deleteAlias(model->index(0,0,QModelIndex()));
+    auto model= camp->diceAliases();
+    camp->deleteAlias(model->index(0, 0, QModelIndex()));
 
     camp->convertAlias(Helper::randomString());
 
     camp->addState();
     camp->deleteState(QModelIndex());
 
-    auto states = camp->stateModel();
-    camp->deleteState(states->index(0,0,QModelIndex()));
+    auto states= camp->stateModel();
+    camp->deleteState(states->index(0, 0, QModelIndex()));
 
-
-    QList<campaign::Campaign::Move> moves{campaign::Campaign::Move::UP, campaign::Campaign::Move::TOP, campaign::Campaign::Move::DOWN, campaign::Campaign::Move::BOTTOM};
-
-    for(auto m : moves)
-        camp->moveState(states->index(0,0,QModelIndex()),m);
-
+    QList<campaign::Campaign::Move> moves{campaign::Campaign::Move::UP, campaign::Campaign::Move::TOP,
+                                          campaign::Campaign::Move::DOWN, campaign::Campaign::Move::BOTTOM};
 
     for(auto m : moves)
-        camp->moveAlias(model->index(0,0,QModelIndex()),m);
+        camp->moveState(states->index(0, 0, QModelIndex()), m);
 
+    for(auto m : moves)
+        camp->moveAlias(model->index(0, 0, QModelIndex()), m);
 
     camp->addCharacter();
     camp->removeCharacter(Helper::randomString());
@@ -683,7 +673,7 @@ void CampaignTest::campaignTest()
 void CampaignTest::campaignManagerTest()
 {
     m_manager->importFile(Helper::randomUrl());
-    auto file = Helper::randomString();
+    auto file= Helper::randomString();
     m_manager->createFileFromData(file, Helper::imageData());
 
     m_manager->removeFile(file);
@@ -692,32 +682,24 @@ void CampaignTest::campaignManagerTest()
     m_manager->openCampaign(Helper::randomUrl());
     m_manager->shareModels();
 
-    QList<QPair<QString, Core::CampaignAction>> actions{{Helper::randomString(),Core::CampaignAction::ForgetAction},
-        {Helper::randomString(),Core::CampaignAction::CreateAction},
-        {Helper::randomString(),Core::CampaignAction::ManageAction},
-        {Helper::randomString(),Core::CampaignAction::DeleteAction}};
+    QList<QPair<QString, Core::CampaignAction>> actions{{Helper::randomString(), Core::CampaignAction::ForgetAction},
+                                                        {Helper::randomString(), Core::CampaignAction::CreateAction},
+                                                        {Helper::randomString(), Core::CampaignAction::ManageAction},
+                                                        {Helper::randomString(), Core::CampaignAction::DeleteAction}};
 
+    for(auto pair : actions)
+    {
+        m_manager->performAction(pair.first, pair.second);
+    }
 
-
-    m_manager->performAction(actions);
-
-    m_manager->importDataFrom(Helper::randomString(), {Core::CampaignDataCategory::AudioPlayer1,
-                                                       Core::CampaignDataCategory::AudioPlayer2,
-                                                       Core::CampaignDataCategory::AudioPlayer3,
-                                                       Core::CampaignDataCategory::Images,
-                                                       Core::CampaignDataCategory::Maps,
-                                                       Core::CampaignDataCategory::MindMaps,
-                                                       Core::CampaignDataCategory::Notes,
-                                                       Core::CampaignDataCategory::WebLink,
-                                                       Core::CampaignDataCategory::PDFDoc,
-                                                       Core::CampaignDataCategory::DiceAlias,
-                                                       Core::CampaignDataCategory::CharacterStates,
-                                                       Core::CampaignDataCategory::Themes,
-                                                       Core::CampaignDataCategory::CharacterSheets,
-                                                       Core::CampaignDataCategory::AntagonistList});
-
-
-
+    m_manager->importDataFrom(
+        Helper::randomString(),
+        {Core::CampaignDataCategory::AudioPlayer1, Core::CampaignDataCategory::AudioPlayer2,
+         Core::CampaignDataCategory::AudioPlayer3, Core::CampaignDataCategory::Images, Core::CampaignDataCategory::Maps,
+         Core::CampaignDataCategory::MindMaps, Core::CampaignDataCategory::Notes, Core::CampaignDataCategory::WebLink,
+         Core::CampaignDataCategory::PDFDoc, Core::CampaignDataCategory::DiceAlias,
+         Core::CampaignDataCategory::CharacterStates, Core::CampaignDataCategory::Themes,
+         Core::CampaignDataCategory::CharacterSheets, Core::CampaignDataCategory::AntagonistList});
 }
 
 QTEST_MAIN(CampaignTest)

@@ -225,7 +225,7 @@ void TestCharacterStateModel::saveModelTest()
     // campaign::FileSerializer::writeStatesIntoCampaign(file.fileName(), );
 
     CharacterStateModel model;
-    ModelHelper::fetchCharacterStateModel(array, &model);
+    ModelHelper::fetchCharacterStateModel(array, &model, "");
 
     QCOMPARE(model.rowCount(), 6);
     auto const& list= model.statesList();
