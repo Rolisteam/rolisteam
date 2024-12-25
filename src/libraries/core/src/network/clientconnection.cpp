@@ -25,7 +25,6 @@
 #include <QCoreApplication>
 #include <QTcpSocket>
 
-
 #include <QDebug>
 
 QByteArray dataToArray(const NetworkMessageHeader& header, const char* buffer)
@@ -42,31 +41,35 @@ ClientConnection::ClientConnection() : m_socketTcp(new QTcpSocket(this))
     connect(m_socketTcp, &QTcpSocket::connected, this, [this]() { setConnected(true); });
     connect(m_socketTcp, &QTcpSocket::disconnected, this, [this]() { setConnected(false); });
     connect(m_socketTcp, &QTcpSocket::readyRead, this, &ClientConnection::receivingData);
-    connect(m_socketTcp, &QTcpSocket::bytesWritten, this, [](qint64 bytes) { qDebug() << bytes << "byteWrittens"; });
-    connect(m_socketTcp, &QTcpSocket::stateChanged, this, [](const QAbstractSocket::SocketState& state) {
-        qDebug() << "NetworkLink - state changed" << state;
-        /*switch(state)
-        {
-        case QAbstractSocket::ClosingState:
-        case QAbstractSocket::UnconnectedState:
-        case QAbstractSocket::HostLookupState:
-        case QAbstractSocket::ConnectingState:
-        case QAbstractSocket::BoundState:
-            break;
-        case QAbstractSocket::ConnectedState:
-            qDebug() << "socket state Connected";
-            break;
-        default:
-            break;
-        }*/
-    });
+    // connect(m_socketTcp, &QTcpSocket::bytesWritten, this, [](qint64 bytes) { qDebug() << bytes << "byteWrittens"; });
+    connect(m_socketTcp, &QTcpSocket::stateChanged, this,
+            [](const QAbstractSocket::SocketState& state)
+            {
+                qDebug() << "NetworkLink - state changed" << state;
+                /*switch(state)
+                {
+                case QAbstractSocket::ClosingState:
+                case QAbstractSocket::UnconnectedState:
+                case QAbstractSocket::HostLookupState:
+                case QAbstractSocket::ConnectingState:
+                case QAbstractSocket::BoundState:
+                    break;
+                case QAbstractSocket::ConnectedState:
+                    qDebug() << "socket state Connected";
+                    break;
+                default:
+                    break;
+                }*/
+            });
 
-    connect(m_socketTcp, &QTcpSocket::errorOccurred, this, [this](const QAbstractSocket::SocketError& error) {
-        qDebug() << "NetworkLink - state changed" << error << m_socketTcp->errorString();
-        if(m_socketTcp.isNull())
-            return;
-        emit errorOccured(m_socketTcp->errorString());
-    });
+    connect(m_socketTcp, &QTcpSocket::errorOccurred, this,
+            [this](const QAbstractSocket::SocketError& error)
+            {
+                qDebug() << "NetworkLink - state changed" << error << m_socketTcp->errorString();
+                if(m_socketTcp.isNull())
+                    return;
+                emit errorOccured(m_socketTcp->errorString());
+            });
 
     m_receivingData= false;
     m_headerRead= 0;
@@ -108,7 +111,7 @@ void ClientConnection::sendData(char* data, qint64 size)
              << "this thread" << thread();
 #endif
 
-    qDebug() << size;
+    // qDebug() << "received data:"<<size;
     auto t= m_socketTcp->write(data, size);
 
     if(t < 0)

@@ -162,6 +162,7 @@ void NetworkMessageWriter::byteArray32(const QByteArray& data)
 #ifdef QT_GUI_LIB
 bool NetworkMessageWriter::pixmap(const QPixmap& pix)
 {
+    qDebug() << "network writterpixmap" << pix.size();
     QByteArray baImage;
     QBuffer bufImage(&baImage);
     bool res= false;

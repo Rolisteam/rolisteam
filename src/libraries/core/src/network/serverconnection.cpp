@@ -352,7 +352,6 @@ QString ServerConnection::getServerPassword() const
 }
 void ServerConnection::forwardMessage()
 {
-    qDebug() << "forward message";
     QByteArray array(reinterpret_cast<char*>(&m_header), sizeof(NetworkMessageHeader));
     array.append(m_buffer, static_cast<int>(m_header.dataSize));
     if(isCurrentState(m_disconnected))
@@ -360,7 +359,6 @@ void ServerConnection::forwardMessage()
 
     if(m_header.category == NetMsg::AdministrationCategory)
     {
-        qDebug() << "read admin message";
         NetworkMessageReader msg;
         msg.setData(array);
         if(readAdministrationMessages(msg))
@@ -464,7 +462,7 @@ void ServerConnection::sendOffChannelChanged()
 bool ServerConnection::readAdministrationMessages(NetworkMessageReader& msg)
 {
     bool res= true;
-    qDebug() << "read Admin messages " << msg.action();
+    // qDebug() << "read Admin messages " << msg.action();
     switch(msg.action())
     {
     case NetMsg::ConnectionInfo:
@@ -472,7 +470,7 @@ bool ServerConnection::readAdministrationMessages(NetworkMessageReader& msg)
         setName(msg.string32());
         setUuid(msg.string32());
 
-        qDebug() << name() << uuid() << " << user";
+        //  qDebug() << name() << uuid() << " << user";
         m_knownUser= true;
         if(m_waitingData)
         {
