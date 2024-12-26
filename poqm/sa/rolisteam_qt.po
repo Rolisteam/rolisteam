@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-24 20:02+0530\n"
+"PO-Revision-Date: 2024-12-25 19:37+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -1028,7 +1028,7 @@ msgstr "संगृहीताः चित्राणि"
 #: src/binaries/rcse/mainwindow_rcse.ui:774
 msgctxt "MainWindow|"
 msgid "File"
-msgstr "संचिका"
+msgstr "सञ्चिका"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:794
 msgctxt "MainWindow|"
