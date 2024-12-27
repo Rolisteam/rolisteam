@@ -1,31 +1,26 @@
 # SPDX-FileCopyrightText: 2022, 2023 Vincenzo Reale <smart2128vr@gmail.com>
 # SPDX-FileCopyrightText: 2023, 2024 Paolo Zamponi <feus73@gmail.com>
+# SPDX-FileCopyrightText: 2024 Valter Mura <valtermura@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-05-14 16:07+0200\n"
-"Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
+"PO-Revision-Date: 2024-12-16 19:35+0100\n"
+"Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "Mappa mentale (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
 msgstr "Apri Mappa mentale"
@@ -765,9 +760,6 @@ msgid "Save CharacterSheet"
 msgstr "Salva scheda dei personaggi"
 
 #: src/binaries/rcse/mainwindow.cpp:600 src/binaries/rcse/mainwindow.cpp:645
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "Scheda dei personaggi di Rolisteam (*.rcs)"
@@ -778,11 +770,6 @@ msgid "Do you want to erase current QML code ?"
 msgstr "Vuoi cancellare il codice QML attuale?"
 
 #: src/binaries/rcse/mainwindow.cpp:710
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "Generate QML code will override any change you made in the QML.<br/>Do "
-#| "you really want to generate QML code ?"
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
@@ -797,9 +784,6 @@ msgid "Save CharacterSheet View"
 msgstr "Salva vista scheda dei personaggi"
 
 #: src/binaries/rcse/mainwindow.cpp:778
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet View (*.qml)"
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Vista scheda dei personaggi di Rolisteam (*.qml)"
@@ -865,12 +849,9 @@ msgid "Apply on all characters"
 msgstr "Applica a tutti i personaggi"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam CharacterSheet (*.rcs)"
 msgctxt "MainWindow|"
 msgid "Unknown[*] - Rolisteam Character Sheet Editor"
-msgstr "Scheda dei personaggi di Rolisteam (*.rcs)"
+msgstr "Sconosciuto[*] - Editor delle schede dei personaggi di Rolisteam"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:29
 msgctxt "MainWindow|"
@@ -1268,89 +1249,56 @@ msgid "Select"
 msgstr "Seleziona"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:60
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextInput"
 msgctxt "TableCanvasField|"
 msgid "TextInput"
 msgstr "Inserimento testo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:61
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "TextField"
 msgstr "Campo di testo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:62
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextArea"
 msgctxt "TableCanvasField|"
 msgid "TextArea"
 msgstr "Area di testo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:63
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Select"
 msgctxt "TableCanvasField|"
 msgid "Select"
 msgstr "Seleziona"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:64
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "TableCanvasField|"
 msgid "CheckBox"
 msgstr "Casella di selezione"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:65
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "TableCanvasField|"
 msgid "Image"
 msgstr "Immagine"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:66
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "TableCanvasField|"
 msgid "Label"
 msgstr "Etichetta"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:67
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "TableCanvasField|"
 msgid "Dice Button"
 msgstr "Pulsante dadi"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:68
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "TableCanvasField|"
 msgid "Function Button"
 msgstr "Pulsante funzione"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:69
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Web Page"
 msgctxt "TableCanvasField|"
 msgid "Web page"
 msgstr "Pagina web"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:70
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "TableCanvasField|"
 msgid "Slider"
 msgstr "Cursore"
@@ -1358,15 +1306,12 @@ msgstr "Cursore"
 #: src/binaries/rcse/tablecanvasfield.cpp:323
 msgctxt "TableCanvasField|"
 msgid "Select the column type"
-msgstr ""
+msgstr "Seleziona il tipo di colonna"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:324
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "Type of Field:"
-msgstr "Campo di testo"
+msgstr "Tipo di campo:"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1619,70 +1564,49 @@ msgid "Ask for password and return its hash key."
 msgstr "Richiedi la password e restituisci il suo hash."
 
 #: src/binaries/widget/mainwindow.cpp:416
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
 msgctxt "MainWindow|"
 msgid "SidePanels"
-msgstr "Server"
+msgstr "PannelliLaterali"
 
 #: src/binaries/widget/mainwindow.cpp:421
 msgctxt "MainWindow|"
 msgid "Side Panels"
-msgstr ""
+msgstr "Pannelli laterali"
 
 #: src/binaries/widget/mainwindow.cpp:431
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "List of Players"
-msgstr "Lettore audio"
+msgstr "Elenco dei giocatori"
 
 #: src/binaries/widget/mainwindow.cpp:432
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "Campaign Content"
 msgctxt "MainWindow|"
 msgid "All campaign documents"
-msgstr "Contenuto della campagna"
+msgstr "Tutti i documenti della campagna"
 
 #: src/binaries/widget/mainwindow.cpp:433
 msgctxt "MainWindow|"
 msgid "List of antagonists"
-msgstr ""
+msgstr "Elenco degli avversari"
 
 #: src/binaries/widget/mainwindow.cpp:434
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
 msgid "Music Player"
-msgstr "Lettore audio"
+msgstr "Lettore musicale"
 
 #: src/binaries/widget/mainwindow.cpp:435
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
 msgctxt "MainWindow|"
 msgid "Server Panel"
-msgstr "Server"
+msgstr "Pannello del server"
 
 #: src/binaries/widget/mainwindow.cpp:436
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Notification Zone"
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Zona di notifica"
 
 #: src/binaries/widget/mainwindow.cpp:451
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Tools"
 msgctxt "MainWindow|"
 msgid "GM Tools"
-msgstr "Strumenti"
+msgstr "Strumenti GM"
 
 #: src/binaries/widget/mainwindow.cpp:508
 msgctxt "MainWindow|"
@@ -1695,17 +1619,14 @@ msgid "Webpage url:"
 msgstr "URL della pagina web:"
 
 #: src/binaries/widget/mainwindow.cpp:516
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "MainWindow|"
 msgid "Open Map"
-msgstr "Apri campagna"
+msgstr "Apri mappa"
 
 #: src/binaries/widget/mainwindow.cpp:516
 msgctxt "MainWindow|"
 msgid "Map:"
-msgstr ""
+msgstr "Mappa:"
 
 #: src/binaries/widget/mainwindow.cpp:530
 #: src/binaries/widget/mainwindow.cpp:569
@@ -1715,15 +1636,12 @@ msgid "Open Campaign"
 msgstr "Apri campagna"
 
 #: src/binaries/widget/mainwindow.cpp:679
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
-"La documentazione di Rcse è disponibile in linea all'indirizzo :<br> <a href="
-"\"%1\">%1</a>"
+"La documentazione di %1 è disponibile in linea all'indirizzo :<br> <a href="
+"\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:714
 msgctxt "MainWindow|"
@@ -1761,18 +1679,14 @@ msgid "Update Notification"
 msgstr "Notifica di aggiornamento"
 
 #: src/binaries/widget/mainwindow.cpp:860
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"La versione %1 è stata rilasciata. Per ulteriori informazioni, dai "
-"un'occhiata alla <a href=\"http://www.rolisteam.org/download\">Pagina "
+"È stata rilasciata la versione %1. Per ulteriori informazioni, dai "
+"un'occhiata alla <a href=\"https://www.rolisteam.org/download\">Pagina "
 "Download</a>"
 
 #: src/binaries/widget/mainwindow.cpp:870
@@ -1897,7 +1811,7 @@ msgstr "&Apri"
 #: src/binaries/widget/mainwindow.ui:66
 msgctxt "MainWindow|"
 msgid "&Panels"
-msgstr ""
+msgstr "&Pannelli"
 
 #: src/binaries/widget/mainwindow.ui:70
 msgctxt "MainWindow|"
@@ -2406,25 +2320,16 @@ msgid "Remove Last line"
 msgstr "Rimuovi ultima riga"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:27
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Add line"
 msgctxt "Tablev1|"
 msgid "Add line"
 msgstr "Aggiungi riga"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:31
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove current Line"
 msgctxt "Tablev1|"
 msgid "Remove current Line"
 msgstr "Rimuovi riga attuale"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:37
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove Last line"
 msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Rimuovi ultima riga"
@@ -3141,12 +3046,10 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Impossibile trovare il tipo di servizio corretto: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:337
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2) : error :\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
-msgstr "Impossibile aggiungere la mappatura delle porte (%1/%2) : errore :\n"
+msgstr "Impossibile aggiungere la mappatura delle porte (%1/%2) : errore :%3\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -3513,12 +3416,9 @@ msgid "Add Arrow"
 msgstr "Aggiungi freccia"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Rimuovi il file selezionato"
+msgstr "Rimuovi gli elementi selezionati"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"
@@ -4092,9 +3992,6 @@ msgid "Remove selected file"
 msgstr "Rimuovi il file selezionato"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:185
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidget|"
 msgid "Add new directory"
 msgstr "Aggiungi nuova cartella"
@@ -4192,20 +4089,14 @@ msgstr "Cartella radice:"
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
 #: src/libraries/rwidgets/customs/playerwidget.ui:271
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "..."
 msgctxt "PlayerWidgetUI|"
 msgid "..."
 msgstr "..."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:305
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Add directory…"
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr "Aggiungi cartella…"
+msgstr "aggiungi cartella"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:308
 #, fuzzy
@@ -4216,20 +4107,14 @@ msgid "Add music directory."
 msgstr "Aggiungi nuova cartella"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:319
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Page"
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
-msgstr "Rimuovi pagina"
+msgstr "rimuovi percorso"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:322
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
-msgstr "Rimuovi il file selezionato"
+msgstr "Rimuovi cartella selezionata"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:333
 #, fuzzy
@@ -4240,28 +4125,19 @@ msgid "Up path"
 msgstr "Percorso pdf"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:336
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
-msgstr "Seleziona una cartella"
+msgstr "Sposta in alto la cartella selezionata"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:347
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove Song"
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
-msgstr "Rimuovi brano"
+msgstr "sposta giù"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:350
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
-msgstr "Seleziona una cartella"
+msgstr "Sposta in basso la cartella selezionata"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:213
 #, qt-format
@@ -4605,7 +4481,7 @@ msgstr ""
 "remoti. Fornisce molte funzioni per condividere mappe, immagini e include "
 "anche uno strumento per comunicare con i tuoi amici/giocatori. L'obiettivo è "
 "rendere i giochi di ruolo gestiti da Rolisteam buoni come i giochi di ruolo "
-"intorno al tuo tavolo. Per raggiungere questo obiettivo, stiamo lavorando "
+"attorno al tuo tavolo. Per raggiungere questo obiettivo, stiamo lavorando "
 "duramente per fornirti sempre più funzionalità. Funzionalità esistenti: "
 "condivisione di mappe (con gestione dei permessi), condivisione di immagini, "
 "musica di sottofondo, lancio di dadi e così via. Rolisteam è scritto in Qt5"
@@ -4681,7 +4557,7 @@ msgstr[1] "%n file"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:14
 msgctxt "CampaignProperties|"
 msgid "Dialog"
-msgstr "Finestra"
+msgstr "Finestra di dialogo"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:24
 #, fuzzy
@@ -4692,12 +4568,9 @@ msgid "Dice Alias"
 msgstr "Alias"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:34
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Init Command"
 msgctxt "CampaignProperties|"
 msgid "Dice Command"
-msgstr "Comando di inizializzazione"
+msgstr "Comando dei dadi"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:64
 msgctxt "CampaignProperties|"
@@ -4799,12 +4672,9 @@ msgid "Connection has failed! Connection Retry in %1s."
 msgstr "Connessione non riuscita! Nuovo tentativo di connessione tra %1s."
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.ui:14
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Connection lost"
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection Retry"
-msgstr "Connessione persa"
+msgstr "Ritenta la connessione"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:14
 msgctxt "HistoryViewerDialog|"
@@ -4896,7 +4766,7 @@ msgstr "Apri file dal tuo disco rigido"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:14
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dialog"
-msgstr "Finestra"
+msgstr "Finestra di dialogo"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:22
 #, fuzzy
@@ -5047,7 +4917,7 @@ msgstr "Tipo"
 #: src/libraries/rwidgets/dialogs/persondialog.ui:14
 msgctxt "PersonDialog|"
 msgid "Dialog"
-msgstr "Finestra"
+msgstr "Finestra di dialogo"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:40
 msgctxt "PersonDialog|"
@@ -5065,17 +4935,11 @@ msgid "Color:"
 msgstr "Colore:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "PreferencesDialog|"
 msgid "GM Only"
-msgstr "Sola lettura"
+msgstr "Solo GM"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
-#, fuzzy
-#| msgctxt "VmapToolBar|"
-#| msgid "PC Move"
 msgctxt "PreferencesDialog|"
 msgid "PC Move"
 msgstr "Mossa PC"
@@ -5233,12 +5097,9 @@ msgid ""
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:225
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Connection lost"
 msgctxt "PreferencesDialogBox|"
 msgid "Keep connection alive"
-msgstr "Connessione persa"
+msgstr "Mantieni attiva la connessione"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:247
 msgctxt "PreferencesDialogBox|"
@@ -6607,12 +6468,9 @@ msgid "&File"
 msgstr "&File"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save"
 msgctxt "TextEdit|"
 msgid "&Save"
-msgstr "Salva"
+msgstr "&Salva"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
 msgctxt "TextEdit|"
@@ -6754,12 +6612,9 @@ msgid "OpenOffice 2.4 file format OASIS "
 msgstr "OASIS in formato file OpenOffice 2.4"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:14
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "AnnounceDocumentDialog|"
 msgid "Announce Document"
-msgstr "Stampa documento"
+msgstr "Annuncia documento"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:35
 msgctxt "AnnounceDocumentDialog|"
@@ -7259,12 +7114,9 @@ msgid "Save All"
 msgstr "Salva tutto"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:283
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "SharedNote|"
 msgid "Announce Document"
-msgstr "Stampa documento"
+msgstr "Annuncia documento"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:286
 msgctxt "SharedNote|"
@@ -7736,20 +7588,15 @@ msgid "Rule"
 msgstr "Regola"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
-#, fuzzy, qt-format
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "%1 - (Character Sheet Viewer)"
+#, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (Visore schede dei personaggi)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
-msgstr "Sconosciuto"
+msgstr "Sconosciuta"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:211
 #, qt-format
