@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2024-04-13 10:04+0100\n"
+"PO-Revision-Date: 2024-12-28 20:45+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -20,17 +20,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "MindMap (*.mindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
 msgstr "Malfermi MindMap"
@@ -1052,7 +1046,7 @@ msgstr "Eldono"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:678
+#: src/binaries/widget/mainwindow.cpp:679
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Helpo"
@@ -1211,13 +1205,13 @@ msgid "Check Validity"
 msgstr "Kontroli Validecon"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:628
+#: src/binaries/widget/mainwindow.cpp:629
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Malfari"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:627
+#: src/binaries/widget/mainwindow.cpp:628
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Refari"
@@ -1294,89 +1288,56 @@ msgid "Select"
 msgstr "Elekti"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:60
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextInput"
 msgctxt "TableCanvasField|"
 msgid "TextInput"
 msgstr "TekstoEnigo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:61
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "TextField"
 msgstr "Teksta Kampo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:62
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextArea"
 msgctxt "TableCanvasField|"
 msgid "TextArea"
 msgstr "Teksta Areo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:63
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Select"
 msgctxt "TableCanvasField|"
 msgid "Select"
 msgstr "Elekti"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:64
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Checkbox"
 msgctxt "TableCanvasField|"
 msgid "CheckBox"
-msgstr "Markokesto"
+msgstr "MarkoKesto"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:65
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Image"
 msgctxt "TableCanvasField|"
 msgid "Image"
 msgstr "Bildo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:66
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "TableCanvasField|"
 msgid "Label"
 msgstr "Etikedo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:67
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Dice Button"
 msgctxt "TableCanvasField|"
 msgid "Dice Button"
 msgstr "Ĵetkubo-Butono"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:68
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Function Button"
 msgctxt "TableCanvasField|"
 msgid "Function Button"
 msgstr "Funkcia Butono"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:69
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Web Page"
 msgctxt "TableCanvasField|"
 msgid "Web page"
 msgstr "Retpaĝo"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:70
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "Slider"
 msgctxt "TableCanvasField|"
 msgid "Slider"
 msgstr "Glitilo"
@@ -1384,15 +1345,12 @@ msgstr "Glitilo"
 #: src/binaries/rcse/tablecanvasfield.cpp:323
 msgctxt "TableCanvasField|"
 msgid "Select the column type"
-msgstr ""
+msgstr "Elektu la kolumnotipon"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:324
-#, fuzzy
-#| msgctxt "TypeDelegate|"
-#| msgid "TextField"
 msgctxt "TableCanvasField|"
 msgid "Type of Field:"
-msgstr "Teksta Kampo"
+msgstr "Kampotipo:"
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1644,145 +1602,118 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Peti pasvorton kaj resendi ĝian haket-ŝlosilon."
 
-#: src/binaries/widget/mainwindow.cpp:416
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
+#: src/binaries/widget/mainwindow.cpp:417
 msgctxt "MainWindow|"
 msgid "SidePanels"
-msgstr "Servilo"
+msgstr "FlankPaneloj"
 
-#: src/binaries/widget/mainwindow.cpp:421
+#: src/binaries/widget/mainwindow.cpp:422
 msgctxt "MainWindow|"
 msgid "Side Panels"
-msgstr ""
-
-#: src/binaries/widget/mainwindow.cpp:431
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
-msgctxt "MainWindow|"
-msgid "List of Players"
-msgstr "Audio Player"
+msgstr "Flankaj Paneloj"
 
 #: src/binaries/widget/mainwindow.cpp:432
-#, fuzzy
-#| msgctxt "campaign::CampaignDock|"
-#| msgid "Campaign Content"
 msgctxt "MainWindow|"
-msgid "All campaign documents"
-msgstr "Enhavo de Kampanjo"
+msgid "List of Players"
+msgstr "Listo de Ludantoj"
 
 #: src/binaries/widget/mainwindow.cpp:433
 msgctxt "MainWindow|"
-msgid "List of antagonists"
-msgstr ""
+msgid "All campaign documents"
+msgstr "Ĉiuj dokumentoj de kampanjo"
 
 #: src/binaries/widget/mainwindow.cpp:434
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Audio Player"
 msgctxt "MainWindow|"
-msgid "Music Player"
-msgstr "Audio Player"
+msgid "List of antagonists"
+msgstr "Listo de antagonistoj"
 
 #: src/binaries/widget/mainwindow.cpp:435
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Server"
 msgctxt "MainWindow|"
-msgid "Server Panel"
-msgstr "Servilo"
+msgid "Music Player"
+msgstr "Muzikludilo"
 
 #: src/binaries/widget/mainwindow.cpp:436
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Notification Zone"
+msgctxt "MainWindow|"
+msgid "Server Panel"
+msgstr "Servila Panelo"
+
+#: src/binaries/widget/mainwindow.cpp:437
 msgctxt "MainWindow|"
 msgid "Notification Zone"
-msgstr "Sciiga Zono"
+msgstr "Sciiga Regiono"
 
-#: src/binaries/widget/mainwindow.cpp:451
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Tools"
+#: src/binaries/widget/mainwindow.cpp:452
 msgctxt "MainWindow|"
 msgid "GM Tools"
-msgstr "Iloj"
+msgstr "GM-Iloj"
 
-#: src/binaries/widget/mainwindow.cpp:508
+#: src/binaries/widget/mainwindow.cpp:509
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Malfermi Retpaĝon"
 
-#: src/binaries/widget/mainwindow.cpp:508
+#: src/binaries/widget/mainwindow.cpp:509
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "Retpaĝa URL:"
 
-#: src/binaries/widget/mainwindow.cpp:516
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Open Map"
-msgstr "Malferma Kampanjo"
+msgstr "Malfermi Mapon"
 
-#: src/binaries/widget/mainwindow.cpp:516
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Map:"
-msgstr ""
+msgstr "Mapo:"
 
-#: src/binaries/widget/mainwindow.cpp:530
-#: src/binaries/widget/mainwindow.cpp:569
-#: src/binaries/widget/mainwindow.cpp:793 src/binaries/widget/mainwindow.ui:287
+#: src/binaries/widget/mainwindow.cpp:531
+#: src/binaries/widget/mainwindow.cpp:570
+#: src/binaries/widget/mainwindow.cpp:794 src/binaries/widget/mainwindow.ui:287
 msgctxt "MainWindow|"
 msgid "Open Campaign"
-msgstr "Malferma Kampanjo"
+msgstr "Malfermi Kampanjon"
 
-#: src/binaries/widget/mainwindow.cpp:679
-#, fuzzy, qt-format
-#| msgctxt "rcse::MainWindow|"
-#| msgid ""
-#| "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
+#: src/binaries/widget/mainwindow.cpp:680
+#, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
-msgstr "Dokumentado de Rcse troveblas interrete ĉe :<br> <a href=\"%1\">%1</a>"
+msgstr "Dokumentado de %1 troveblas interrete ĉe :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:714
+#: src/binaries/widget/mainwindow.cpp:715
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Subteno"
 
-#: src/binaries/widget/mainwindow.cpp:715
+#: src/binaries/widget/mainwindow.cpp:716
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "La %1 donacpaĝo troveblas interrete ĉe :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:777
+#: src/binaries/widget/mainwindow.cpp:778
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Konekto estas perdita. %1 estos proksima"
 
-#: src/binaries/widget/mainwindow.cpp:779
+#: src/binaries/widget/mainwindow.cpp:780
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Konekto Perdita"
 
-#: src/binaries/widget/mainwindow.cpp:785
+#: src/binaries/widget/mainwindow.cpp:786
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Forlasi %1"
 
-#: src/binaries/widget/mainwindow.cpp:859
+#: src/binaries/widget/mainwindow.cpp:861
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Ĝisdatigi Sciigon"
 
-#: src/binaries/widget/mainwindow.cpp:860
+#: src/binaries/widget/mainwindow.cpp:862
 #, fuzzy, qt-format
 #| msgctxt "MainWindow|"
 #| msgid ""
@@ -1796,101 +1727,101 @@ msgstr ""
 "La versio %1 estis publikigita. Bonvolu rigardi <a href=\"http://www."
 "rolistam.org/download\">Elŝutu paĝon</a> por pliaj informoj"
 
-#: src/binaries/widget/mainwindow.cpp:870
+#: src/binaries/widget/mainwindow.cpp:872
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 ĵus aliĝas al la ludo."
 
-#: src/binaries/widget/mainwindow.cpp:874
+#: src/binaries/widget/mainwindow.cpp:876
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 ne havas la ĝustan version: %2."
 
-#: src/binaries/widget/mainwindow.cpp:880
+#: src/binaries/widget/mainwindow.cpp:882
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 ĵus forlasas la ludon."
 
-#: src/binaries/widget/mainwindow.cpp:963
+#: src/binaries/widget/mainwindow.cpp:965
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Agordi rolisteam por uzi <port> por la konekto"
 
-#: src/binaries/widget/mainwindow.cpp:966
+#: src/binaries/widget/mainwindow.cpp:968
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Agordi rolisteam por konekti al <servilo>."
 
-#: src/binaries/widget/mainwindow.cpp:969
+#: src/binaries/widget/mainwindow.cpp:971
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Difini la <rolon>: gm aŭ pc"
 
-#: src/binaries/widget/mainwindow.cpp:971
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Forigi la agordojn kaj uzi la defaŭltajn parametrojn"
 
-#: src/binaries/widget/mainwindow.cpp:974
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Difini la <uzantnomo>"
 
-#: src/binaries/widget/mainwindow.cpp:977
+#: src/binaries/widget/mainwindow.cpp:979
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Forigi limon al PDF-dosiergrandeco"
 
-#: src/binaries/widget/mainwindow.cpp:980
+#: src/binaries/widget/mainwindow.cpp:982
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "vojo al la tradukdosiero: <tradukdosiero>"
 
-#: src/binaries/widget/mainwindow.cpp:983
+#: src/binaries/widget/mainwindow.cpp:985
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Difini URL por konekti al servilo: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1076
+#: src/binaries/widget/mainwindow.cpp:1078
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Malfermi %1"
 
-#: src/binaries/widget/mainwindow.cpp:1170
+#: src/binaries/widget/mainwindow.cpp:1172
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Konektis"
 
-#: src/binaries/widget/mainwindow.cpp:1170
+#: src/binaries/widget/mainwindow.cpp:1172
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Ne Konektita"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1173
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Servilo"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1173
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Kliento"
 
-#: src/binaries/widget/mainwindow.cpp:1178
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1184
+#: src/binaries/widget/mainwindow.cpp:1186
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Ludanto"
 
-#: src/binaries/widget/mainwindow.cpp:1213
+#: src/binaries/widget/mainwindow.cpp:1215
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Nekonata"
@@ -2424,25 +2355,16 @@ msgid "Remove Last line"
 msgstr "Forigi Lastan linion"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:27
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Add line"
 msgctxt "Tablev1|"
 msgid "Add line"
 msgstr "Aldoni linion"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:31
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove current Line"
 msgctxt "Tablev1|"
 msgid "Remove current Line"
 msgstr "Forigi nunan Linio"
 
 #: src/libraries/charactersheet/qml/Rolisteam/Tablev1.qml:37
-#, fuzzy
-#| msgctxt "Table|"
-#| msgid "Remove Last line"
 msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Forigi Lastan linion"
@@ -3023,7 +2945,7 @@ msgctxt "PlayerModel|"
 msgid "Players List"
 msgstr "Listo de Ludantoj"
 
-#: src/libraries/core/src/model/playermodel.cpp:473
+#: src/libraries/core/src/model/playermodel.cpp:484
 msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
 msgstr "Duobligita ludanto aŭ uuid"
@@ -3079,17 +3001,17 @@ msgctxt "CharacterDataModel|"
 msgid "New Character"
 msgstr "Nova Karaktero"
 
-#: src/libraries/core/src/network/clientconnection.cpp:88
+#: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
 msgid "Socket is null"
 msgstr "Socket estas nula"
 
-#: src/libraries/core/src/network/clientconnection.cpp:93
+#: src/libraries/core/src/network/clientconnection.cpp:96
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
 msgstr "Socket ne estas skribebla"
 
-#: src/libraries/core/src/network/clientconnection.cpp:116
+#: src/libraries/core/src/network/clientconnection.cpp:119
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
 msgstr "Eraro de transdono:"
@@ -3321,13 +3243,13 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "Fermi %1"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:193
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:197
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "'%1' ne estas malplena"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:202
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:206
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
@@ -3764,15 +3686,35 @@ msgctxt "PackageNode|"
 msgid "Package"
 msgstr "Pako"
 
-#: src/libraries/qml_views/Campaign/IntegrityPage.qml:10
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:11
 msgctxt "IntegrityPage|"
 msgid "Missing files:"
 msgstr "Mankas dosieroj:"
 
-#: src/libraries/qml_views/Campaign/IntegrityPage.qml:58
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:38
+msgctxt "IntegrityPage|"
+msgid "Remove file from campaign history"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:44
+msgctxt "IntegrityPage|"
+msgid "Create blank document"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:56
 msgctxt "IntegrityPage|"
 msgid "Unmanaged files:"
 msgstr "Neadministrataj dosieroj:"
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:82
+msgctxt "IntegrityPage|"
+msgid "Add file into project"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:88
+msgctxt "IntegrityPage|"
+msgid "Delete file from Disk"
+msgstr ""
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
@@ -4110,9 +4052,6 @@ msgid "Remove selected file"
 msgstr "Forigi elektitan dosieron"
 
 #: src/libraries/rwidgets/customs/playerwidget.cpp:185
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidget|"
 msgid "Add new directory"
 msgstr "Aldoni novan dosierujon"
@@ -4210,9 +4149,6 @@ msgstr "Radika Dosierujo:"
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
 #: src/libraries/rwidgets/customs/playerwidget.ui:271
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
-#, fuzzy
-#| msgctxt "SheetProperties|"
-#| msgid "..."
 msgctxt "PlayerWidgetUI|"
 msgid "..."
 msgstr "..."
@@ -7717,37 +7653,37 @@ msgctxt "CharacterItem|"
 msgid "Increase Life"
 msgstr "Pliigi Vivon"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:352
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:354
 msgctxt "CharacterItem|"
 msgid "Change State"
 msgstr "Ŝanĝi Staton"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:378
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:380
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
 msgstr "Vida Formo"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:391
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:393
 msgctxt "CharacterItem|"
 msgid "Actions"
 msgstr "Agoj"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:392
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:394
 msgctxt "CharacterItem|"
 msgid "Initiative"
 msgstr "Iniciato"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:394
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:396
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
 msgstr "Pura Iniciato"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:411
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:413
 msgctxt "CharacterItem|"
 msgid "Shapes"
 msgstr "Formoj"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:418
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:420
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "Pura Formo"
@@ -7816,9 +7752,6 @@ msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (Vidilo de Karakterfolio)"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Unknown"
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
 msgstr "Nekonata"
@@ -8475,12 +8408,12 @@ msgctxt "UserListView|"
 msgid "State"
 msgstr "Stato"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:274
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:276
 msgctxt "UserListView|"
 msgid "Action"
 msgstr "Ago"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:286
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:288
 msgctxt "UserListView|"
 msgid "Shape"
 msgstr "Formo"
@@ -8639,198 +8572,3 @@ msgstr "Dormanta"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Prisorĉita"
-
-#~ msgctxt "PackageItem|"
-#~ msgid "Title"
-#~ msgstr "Titolo"
-
-#~ msgctxt "RcseApplicationController|"
-#~ msgid "Yes"
-#~ msgstr "Jes"
-
-#~ msgctxt "RcseApplicationController|"
-#~ msgid "No"
-#~ msgstr "Ne"
-
-#~ msgctxt "MediaModel|"
-#~ msgid "Directory"
-#~ msgstr "Dosierujo"
-
-#~ msgctxt "PlayerWidget|"
-#~ msgid "Open Directory"
-#~ msgstr "Malfermi Dosierujon"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "Open File..."
-#~ msgstr "Malfermi Dosieron..."
-
-#~ msgctxt "TextEdit|"
-#~ msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
-#~ msgstr ""
-#~ "ODF-dosieroj (*.odt);;HTML-dosieroj (*.htm *.html);;Ĉiuj dosieroj (*)"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "HTML-Files (*.htm *.html);;All Files (*)"
-#~ msgstr "HTML-Dosieroj (*.htm *.html);;Ĉiuj Dosieroj (*)"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "Save as..."
-#~ msgstr "Konservi kiel..."
-
-#~ msgctxt "MainWindow|"
-#~ msgid ""
-#~ "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
-#~ "rolisteam.org\">http://doc.rolisteam.org/</a>"
-#~ msgstr ""
-#~ "Dokumentado de %1 troveblas interrete ĉe :<br> <a href=\"http://doc."
-#~ "rolisteam.org\">http://doc.rolisteam.org/</a>"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Export from %1"
-#~ msgstr "Eksporti el %1"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "unknown"
-#~ msgstr "nekonata"
-
-#~ msgctxt "ButtonGrid|"
-#~ msgid "Remove Selection"
-#~ msgstr "Forigi Elekton"
-
-#~ msgctxt "TableCanvasField|"
-#~ msgid "Properties"
-#~ msgstr "Propraĵoj"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Antagonist Table"
-#~ msgstr "Tablo de antagonistoj"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Sub-&Windows"
-#~ msgstr "Sub-&Fenestroj"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Alt+A"
-#~ msgstr "Alt+A"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Alt+N"
-#~ msgstr "Alt+N"
-
-#~ msgctxt "main|"
-#~ msgid "RMindMap"
-#~ msgstr "RMindMap"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Player Information"
-#~ msgstr "Ludanto Informo"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Music path"
-#~ msgstr "Muzika vojo"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer1:"
-#~ msgstr "AudioPlayer1:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer2:"
-#~ msgstr "AudioPlayer2:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer3:"
-#~ msgstr "AudioPlayer3:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Enable Data collection"
-#~ msgstr "Ebligi Datenkolekton"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Data collection"
-#~ msgstr "Kolekto de datumoj"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid ""
-#~ "<html><head/><body><p><span style=\" font-size:9pt;\">Collected data are "
-#~ "anonymous. <br/>By default, only data about rolisteam are collected. "
-#~ "Which actions have been used.<br/><br/>Checking </span><span style=\" "
-#~ "font-size:9pt; font-weight:600;\">All Usages</span><span style=\" font-"
-#~ "size:9pt;\"> box enables the collect of data about rolisteam in desktop "
-#~ "environment.<br/>We mainly try to know if Rolisteam is visible, its size "
-#~ "or if it has the focus. <br/>It may be helpful to understand how people "
-#~ "use Rolisteam on Desktop. <br/>University studies may find those data "
-#~ "interesting.<br/><br/>Debug data makes rolisteam to log every click on "
-#~ "every button or action. It is a deeper  mode.<br/>It may slow down a bit "
-#~ "rolisteam.</span></p><p><span style=\" font-size:9pt;\">To know more "
-#~ "about data collection: </span><a href=\"https://rolisteam.org/"
-#~ "datacollection.html\"><span style=\" font-size:9pt; text-decoration: "
-#~ "underline; color:#007af4;\">www.rolisteam.org/datacollection.html</span></"
-#~ "a></p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p><span style=\" font-size:9pt;\">Kolektitaj datumoj "
-#~ "estas anonimaj. <br/>Defaŭlte, nur datumoj pri rolisteam estas "
-#~ "kolektitaj. Kiuj agoj estis uzataj.<br/><br/>Kontrolado </span><span "
-#~ "style=\" font-size:9pt; font-weight:600;\">Ĉiuj Uzoj</span><span style= "
-#~ "\" font-size:9pt;\"> skatolo ebligas kolekti datumojn pri rolisteam en "
-#~ "labortabla medio.<br/>Ni ĉefe provas scii ĉu Rolisteam estas videbla, ĝia "
-#~ "grandeco aŭ ĉu ĝi havas la fokuson. <br/>Povas esti helpe kompreni kiel "
-#~ "homoj uzas Rolisteam sur Labortablo. <br/>Universitataj studoj povas "
-#~ "trovi tiujn datumojn interesaj.<br/><br/>Elpurigi datumojn igas rolisteam "
-#~ "ensaluti ĉiun klakon sur ĉiu butono aŭ ago. Ĝi estas pli profunda reĝimo."
-#~ "<br/>Ĝi povas malrapidigi iom rolisteamo.</span></p><p><span style=\" "
-#~ "font-size:9pt;\">Por scii pli pri datumkolektado : </span><a href="
-#~ "\"https://rolisteam.org/datacollection.html\"><span style=\" font-"
-#~ "size:9pt; text-decoration: underline; koloro:#007af4;\" >www.rolistem.org/"
-#~ "datacollection.html</span></a></p></body></html>"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "All Usages"
-#~ msgstr "Ĉiuj Uzoj"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "May slow down rolisteam"
-#~ msgstr "Povas malrapidigi rolisteam"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Include Debug data*"
-#~ msgstr "Inkluzivi Sencimigajn datumojn*"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Add"
-#~ msgstr "Aldoni"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "up"
-#~ msgstr "supren"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "down"
-#~ msgstr "malsupren"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "QML Errors"
-#~ msgstr "QML-eraroj"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Open Character Sheets View"
-#~ msgstr "Malfermi Vidon de Karakteraj Folioj"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Character Sheet files (*.qml)"
-#~ msgstr "Dosieroj de Karakterfolio (*.qml)"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Character Sheet Data files (*.rcs)"
-#~ msgstr "Dosieroj de Datumoj de Karaktero (*.rcs)"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Load QML"
-#~ msgstr "Ŝargi QML"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Detach Tab"
-#~ msgstr "Malligi Langeton"

@@ -1041,7 +1041,7 @@ msgstr "Editie"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:678
+#: src/binaries/widget/mainwindow.cpp:679
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Help"
@@ -1200,13 +1200,13 @@ msgid "Check Validity"
 msgstr "Geldigheid controleren"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:628
+#: src/binaries/widget/mainwindow.cpp:629
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Ongedaan maken"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:627
+#: src/binaries/widget/mainwindow.cpp:628
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "Opnie&uw"
@@ -1597,118 +1597,118 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Om wachtwoord vragen en zijn hash-sleutel teruggeven."
 
-#: src/binaries/widget/mainwindow.cpp:416
+#: src/binaries/widget/mainwindow.cpp:417
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Zijpanelen"
 
-#: src/binaries/widget/mainwindow.cpp:421
+#: src/binaries/widget/mainwindow.cpp:422
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr "Zijpanelen"
 
-#: src/binaries/widget/mainwindow.cpp:431
+#: src/binaries/widget/mainwindow.cpp:432
 msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "Lijst met spelers"
 
-#: src/binaries/widget/mainwindow.cpp:432
+#: src/binaries/widget/mainwindow.cpp:433
 msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "Alle campagnedocumenten"
 
-#: src/binaries/widget/mainwindow.cpp:433
+#: src/binaries/widget/mainwindow.cpp:434
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr "Lijst met antagonisten"
 
-#: src/binaries/widget/mainwindow.cpp:434
+#: src/binaries/widget/mainwindow.cpp:435
 msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "Muziekspeler"
 
-#: src/binaries/widget/mainwindow.cpp:435
+#: src/binaries/widget/mainwindow.cpp:436
 msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "Serverpaneel"
 
-#: src/binaries/widget/mainwindow.cpp:436
+#: src/binaries/widget/mainwindow.cpp:437
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Meldingenzone"
 
-#: src/binaries/widget/mainwindow.cpp:451
+#: src/binaries/widget/mainwindow.cpp:452
 msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "GM-hulpmiddelen"
 
-#: src/binaries/widget/mainwindow.cpp:508
+#: src/binaries/widget/mainwindow.cpp:509
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Webpagina openen"
 
-#: src/binaries/widget/mainwindow.cpp:508
+#: src/binaries/widget/mainwindow.cpp:509
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "URL van webpage:"
 
-#: src/binaries/widget/mainwindow.cpp:516
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "Kaart openen"
 
-#: src/binaries/widget/mainwindow.cpp:516
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr "Kaart:"
 
-#: src/binaries/widget/mainwindow.cpp:530
-#: src/binaries/widget/mainwindow.cpp:569
-#: src/binaries/widget/mainwindow.cpp:793 src/binaries/widget/mainwindow.ui:287
+#: src/binaries/widget/mainwindow.cpp:531
+#: src/binaries/widget/mainwindow.cpp:570
+#: src/binaries/widget/mainwindow.cpp:794 src/binaries/widget/mainwindow.ui:287
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Campagne openen"
 
-#: src/binaries/widget/mainwindow.cpp:679
+#: src/binaries/widget/mainwindow.cpp:680
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "Documentatie van %1 is online te vinden op :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:714
+#: src/binaries/widget/mainwindow.cpp:715
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Ondersteuning"
 
-#: src/binaries/widget/mainwindow.cpp:715
+#: src/binaries/widget/mainwindow.cpp:716
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "De donatiepagina %1 is online te vinden op :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:777
+#: src/binaries/widget/mainwindow.cpp:778
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Verbinding is verbroken. %1 zal gesloten worden"
 
-#: src/binaries/widget/mainwindow.cpp:779
+#: src/binaries/widget/mainwindow.cpp:780
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Verbinding verbroken"
 
-#: src/binaries/widget/mainwindow.cpp:785
+#: src/binaries/widget/mainwindow.cpp:786
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "%1 afsluiten"
 
-#: src/binaries/widget/mainwindow.cpp:859
+#: src/binaries/widget/mainwindow.cpp:861
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Melding bijwerken"
 
-#: src/binaries/widget/mainwindow.cpp:860
+#: src/binaries/widget/mainwindow.cpp:862
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1718,101 +1718,101 @@ msgstr ""
 "De versie %1 is vrijgegeven. Neem een kijkje op <a href=\"https://www."
 "rolisteam.org/download\">Downloadpagina</a> voor meer informatie"
 
-#: src/binaries/widget/mainwindow.cpp:870
+#: src/binaries/widget/mainwindow.cpp:872
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 doet nu net mee aan het spel."
 
-#: src/binaries/widget/mainwindow.cpp:874
+#: src/binaries/widget/mainwindow.cpp:876
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 heeft niet de juiste versie: %2."
 
-#: src/binaries/widget/mainwindow.cpp:880
+#: src/binaries/widget/mainwindow.cpp:882
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 heeft nu net het spel verlaten."
 
-#: src/binaries/widget/mainwindow.cpp:963
+#: src/binaries/widget/mainwindow.cpp:965
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Stel rolisteam in om <port> voor de verbinding te gebruiken"
 
-#: src/binaries/widget/mainwindow.cpp:966
+#: src/binaries/widget/mainwindow.cpp:968
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Stel rolisteam in om met <server> te verbinden."
 
-#: src/binaries/widget/mainwindow.cpp:969
+#: src/binaries/widget/mainwindow.cpp:971
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definieer de <role>: sm of pc"
 
-#: src/binaries/widget/mainwindow.cpp:971
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "De instellingen wissen en de standaard parameters gebruiken"
 
-#: src/binaries/widget/mainwindow.cpp:974
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definieer de <username>"
 
-#: src/binaries/widget/mainwindow.cpp:977
+#: src/binaries/widget/mainwindow.cpp:979
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Limiet van PDF-bestandsgrootte verwijderen"
 
-#: src/binaries/widget/mainwindow.cpp:980
+#: src/binaries/widget/mainwindow.cpp:982
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "pad naar het vertaalbestand: <translationfile>"
 
-#: src/binaries/widget/mainwindow.cpp:983
+#: src/binaries/widget/mainwindow.cpp:985
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "URL definiëren om met de server te verbinden: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1076
+#: src/binaries/widget/mainwindow.cpp:1078
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "%1 openen"
 
-#: src/binaries/widget/mainwindow.cpp:1170
+#: src/binaries/widget/mainwindow.cpp:1172
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Verbonden"
 
-#: src/binaries/widget/mainwindow.cpp:1170
+#: src/binaries/widget/mainwindow.cpp:1172
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Niet verbonden"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1173
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1173
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: src/binaries/widget/mainwindow.cpp:1178
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "SM"
 
-#: src/binaries/widget/mainwindow.cpp:1184
+#: src/binaries/widget/mainwindow.cpp:1186
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Speler"
 
-#: src/binaries/widget/mainwindow.cpp:1213
+#: src/binaries/widget/mainwindow.cpp:1215
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Onbekend"
@@ -2936,7 +2936,7 @@ msgctxt "PlayerModel|"
 msgid "Players List"
 msgstr "Lijst met spelers"
 
-#: src/libraries/core/src/model/playermodel.cpp:473
+#: src/libraries/core/src/model/playermodel.cpp:484
 msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
 msgstr "Gedupliceerde speler of uuid"
@@ -2992,17 +2992,17 @@ msgctxt "CharacterDataModel|"
 msgid "New Character"
 msgstr "Nieuw karakter"
 
-#: src/libraries/core/src/network/clientconnection.cpp:88
+#: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
 msgid "Socket is null"
 msgstr "Socket is nul"
 
-#: src/libraries/core/src/network/clientconnection.cpp:93
+#: src/libraries/core/src/network/clientconnection.cpp:96
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
 msgstr "Socket is niet beschrijfbaar"
 
-#: src/libraries/core/src/network/clientconnection.cpp:116
+#: src/libraries/core/src/network/clientconnection.cpp:119
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
 msgstr "Transmissiefout :"
@@ -3232,13 +3232,13 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "%1 sluiten"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:193
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:197
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "'%1' is niet leeg"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:202
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:206
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
@@ -3661,15 +3661,35 @@ msgctxt "PackageNode|"
 msgid "Package"
 msgstr "Pakket"
 
-#: src/libraries/qml_views/Campaign/IntegrityPage.qml:10
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:11
 msgctxt "IntegrityPage|"
 msgid "Missing files:"
 msgstr "Ontbrekende bestanden:"
 
-#: src/libraries/qml_views/Campaign/IntegrityPage.qml:58
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:38
+msgctxt "IntegrityPage|"
+msgid "Remove file from campaign history"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:44
+msgctxt "IntegrityPage|"
+msgid "Create blank document"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:56
 msgctxt "IntegrityPage|"
 msgid "Unmanaged files:"
 msgstr "Niet-beheerde bestanden:"
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:82
+msgctxt "IntegrityPage|"
+msgid "Add file into project"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:88
+msgctxt "IntegrityPage|"
+msgid "Delete file from Disk"
+msgstr ""
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
@@ -7577,37 +7597,37 @@ msgctxt "CharacterItem|"
 msgid "Increase Life"
 msgstr "Levensduur verhogen"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:352
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:354
 msgctxt "CharacterItem|"
 msgid "Change State"
 msgstr "Status wijzigen"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:378
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:380
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
 msgstr "Visievorm"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:391
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:393
 msgctxt "CharacterItem|"
 msgid "Actions"
 msgstr "Acties"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:392
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:394
 msgctxt "CharacterItem|"
 msgid "Initiative"
 msgstr "Initiatief"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:394
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:396
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
 msgstr "Initiatief opschonen"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:411
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:413
 msgctxt "CharacterItem|"
 msgid "Shapes"
 msgstr "Vormen"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:418
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:420
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "Vorm opschonen"
@@ -8330,12 +8350,12 @@ msgctxt "UserListView|"
 msgid "State"
 msgstr "Staat/provincie"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:274
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:276
 msgctxt "UserListView|"
 msgid "Action"
 msgstr "Actie"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:286
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:288
 msgctxt "UserListView|"
 msgid "Shape"
 msgstr "Vorm"

@@ -1043,7 +1043,7 @@ msgstr "გამოცემა"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:678
+#: src/binaries/widget/mainwindow.cpp:679
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "დახმარება"
@@ -1202,13 +1202,13 @@ msgid "Check Validity"
 msgstr "სისწორის შემოწმება"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:628
+#: src/binaries/widget/mainwindow.cpp:629
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&დაბრუნება"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:627
+#: src/binaries/widget/mainwindow.cpp:628
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&გამეორება"
@@ -1599,79 +1599,79 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "პაროლის კითხვა და მისი ჰეშის გასაღების დაბრუნება."
 
-#: src/binaries/widget/mainwindow.cpp:416
+#: src/binaries/widget/mainwindow.cpp:417
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "გვერდითი პანელები"
 
-#: src/binaries/widget/mainwindow.cpp:421
+#: src/binaries/widget/mainwindow.cpp:422
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr "გვერდითი პანელები"
 
-#: src/binaries/widget/mainwindow.cpp:431
+#: src/binaries/widget/mainwindow.cpp:432
 msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "მოთამაშეების სია"
 
-#: src/binaries/widget/mainwindow.cpp:432
+#: src/binaries/widget/mainwindow.cpp:433
 msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "ყველა კამპანიის დოკუმენტი"
 
-#: src/binaries/widget/mainwindow.cpp:433
+#: src/binaries/widget/mainwindow.cpp:434
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr "ანტაგონისტების სია"
 
-#: src/binaries/widget/mainwindow.cpp:434
+#: src/binaries/widget/mainwindow.cpp:435
 msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "მუსიკის დამკვრელი"
 
-#: src/binaries/widget/mainwindow.cpp:435
+#: src/binaries/widget/mainwindow.cpp:436
 msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "სერვერის პანელი"
 
-#: src/binaries/widget/mainwindow.cpp:436
+#: src/binaries/widget/mainwindow.cpp:437
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "გაფრთხილებების ზონა"
 
-#: src/binaries/widget/mainwindow.cpp:451
+#: src/binaries/widget/mainwindow.cpp:452
 msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "GM ინსტრუმენტები"
 
-#: src/binaries/widget/mainwindow.cpp:508
+#: src/binaries/widget/mainwindow.cpp:509
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "ვებგვერდი გახსნა"
 
-#: src/binaries/widget/mainwindow.cpp:508
+#: src/binaries/widget/mainwindow.cpp:509
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "ვებგვერდის ბმული:"
 
-#: src/binaries/widget/mainwindow.cpp:516
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "რუკის გახსნა"
 
-#: src/binaries/widget/mainwindow.cpp:516
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr "რუკა:"
 
-#: src/binaries/widget/mainwindow.cpp:530
-#: src/binaries/widget/mainwindow.cpp:569
-#: src/binaries/widget/mainwindow.cpp:793 src/binaries/widget/mainwindow.ui:287
+#: src/binaries/widget/mainwindow.cpp:531
+#: src/binaries/widget/mainwindow.cpp:570
+#: src/binaries/widget/mainwindow.cpp:794 src/binaries/widget/mainwindow.ui:287
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "კამპანიის გახსნა"
 
-#: src/binaries/widget/mainwindow.cpp:679
+#: src/binaries/widget/mainwindow.cpp:680
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -1679,12 +1679,12 @@ msgstr ""
 "%1-ის დოკუმენტაცია, შეგიძლიათ, იპოვოთ ონლაინ, მისამართზე :<br> <a href="
 "\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:714
+#: src/binaries/widget/mainwindow.cpp:715
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "მხარდაჭერა"
 
-#: src/binaries/widget/mainwindow.cpp:715
+#: src/binaries/widget/mainwindow.cpp:716
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -1692,29 +1692,29 @@ msgstr ""
 "%1-სთვის შეწირვის გვერდი შეგიძლიათ იპოვოთ ონლაინ, მისამართზე :<br> <a href="
 "\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:777
+#: src/binaries/widget/mainwindow.cpp:778
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "მიერთება შეწყდა. %1 დაიხურება"
 
-#: src/binaries/widget/mainwindow.cpp:779
+#: src/binaries/widget/mainwindow.cpp:780
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "კავშირი დაკარგულია"
 
-#: src/binaries/widget/mainwindow.cpp:785
+#: src/binaries/widget/mainwindow.cpp:786
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "%1-დან გასვლა "
 
-#: src/binaries/widget/mainwindow.cpp:859
+#: src/binaries/widget/mainwindow.cpp:861
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "შეტყობინების განახლება"
 
-#: src/binaries/widget/mainwindow.cpp:860
+#: src/binaries/widget/mainwindow.cpp:862
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1724,101 +1724,101 @@ msgstr ""
 "გამოსულია ვერსია %1. მეტი ინფორმაციისთვის იხილეთ <a href=\"http://www."
 "rolisteam.org/download\">გადმოწერის გვერდი</a>"
 
-#: src/binaries/widget/mainwindow.cpp:870
+#: src/binaries/widget/mainwindow.cpp:872
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 შემოუერთდა თამაშს."
 
-#: src/binaries/widget/mainwindow.cpp:874
+#: src/binaries/widget/mainwindow.cpp:876
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1-ის ვერსია სწორი არაა: %2."
 
-#: src/binaries/widget/mainwindow.cpp:880
+#: src/binaries/widget/mainwindow.cpp:882
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 თამაშიდან გავიდა."
 
-#: src/binaries/widget/mainwindow.cpp:963
+#: src/binaries/widget/mainwindow.cpp:965
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Rolisteam-ის მიერთებისთვის <port>-ის დაყენება"
 
-#: src/binaries/widget/mainwindow.cpp:966
+#: src/binaries/widget/mainwindow.cpp:968
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Rolisteam-ის მიერთებისთვის <server>-ის დაყენება."
 
-#: src/binaries/widget/mainwindow.cpp:969
+#: src/binaries/widget/mainwindow.cpp:971
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "განსაზღვრეთ <role>: gm ან pc</role>"
 
-#: src/binaries/widget/mainwindow.cpp:971
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "პარამეტრების წაშლა და ნაგულისხმევი მნიშვნელობების გამოყენება"
 
-#: src/binaries/widget/mainwindow.cpp:974
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "<მომხმარებლის სახელის> აღწერა"
 
-#: src/binaries/widget/mainwindow.cpp:977
+#: src/binaries/widget/mainwindow.cpp:979
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "PDF ფაილის ზომის შეზღუდვის მოხნა"
 
-#: src/binaries/widget/mainwindow.cpp:980
+#: src/binaries/widget/mainwindow.cpp:982
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "ბილიკი თარგმანის ფაილამდე: <თარგმანისფაილი>"
 
-#: src/binaries/widget/mainwindow.cpp:983
+#: src/binaries/widget/mainwindow.cpp:985
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "აღწერეთ სერვერთან მისაერთებელი ბმული: <ბმული>"
 
-#: src/binaries/widget/mainwindow.cpp:1076
+#: src/binaries/widget/mainwindow.cpp:1078
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "%1-ის გახსნა"
 
-#: src/binaries/widget/mainwindow.cpp:1170
+#: src/binaries/widget/mainwindow.cpp:1172
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "დაკავშირებულია"
 
-#: src/binaries/widget/mainwindow.cpp:1170
+#: src/binaries/widget/mainwindow.cpp:1172
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "დაკავშირებული არაა"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1173
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "სერვერი"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1173
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "კლიენტი"
 
-#: src/binaries/widget/mainwindow.cpp:1178
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "გმ"
 
-#: src/binaries/widget/mainwindow.cpp:1184
+#: src/binaries/widget/mainwindow.cpp:1186
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "დამკვრელი"
 
-#: src/binaries/widget/mainwindow.cpp:1213
+#: src/binaries/widget/mainwindow.cpp:1215
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "უცნობი"
@@ -2942,7 +2942,7 @@ msgctxt "PlayerModel|"
 msgid "Players List"
 msgstr "მოთამაშეების სია"
 
-#: src/libraries/core/src/model/playermodel.cpp:473
+#: src/libraries/core/src/model/playermodel.cpp:484
 msgctxt "PlayerModel|"
 msgid "Duplicated player or uuid"
 msgstr "მოთამაშე ან UUID დუბლირდება"
@@ -2998,17 +2998,17 @@ msgctxt "CharacterDataModel|"
 msgid "New Character"
 msgstr "ახალი სიმბოლო"
 
-#: src/libraries/core/src/network/clientconnection.cpp:88
+#: src/libraries/core/src/network/clientconnection.cpp:91
 msgctxt "ClientConnection|"
 msgid "Socket is null"
 msgstr "სოკეტი ნულოვანია"
 
-#: src/libraries/core/src/network/clientconnection.cpp:93
+#: src/libraries/core/src/network/clientconnection.cpp:96
 msgctxt "ClientConnection|"
 msgid "Socket is not writable"
 msgstr "სოკეტი ჩაწერადი არაა"
 
-#: src/libraries/core/src/network/clientconnection.cpp:116
+#: src/libraries/core/src/network/clientconnection.cpp:119
 msgctxt "ClientConnection|"
 msgid "Transmission error :"
 msgstr "გადაცემის შეცდომა :"
@@ -3237,13 +3237,13 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "%1-ის დახურვა"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:193
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:197
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "'%1' ცარიელი არაა"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:202
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:206
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
@@ -3666,15 +3666,35 @@ msgctxt "PackageNode|"
 msgid "Package"
 msgstr "პაკეტი"
 
-#: src/libraries/qml_views/Campaign/IntegrityPage.qml:10
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:11
 msgctxt "IntegrityPage|"
 msgid "Missing files:"
 msgstr "აკლია ფაილები:"
 
-#: src/libraries/qml_views/Campaign/IntegrityPage.qml:58
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:38
+msgctxt "IntegrityPage|"
+msgid "Remove file from campaign history"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:44
+msgctxt "IntegrityPage|"
+msgid "Create blank document"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:56
 msgctxt "IntegrityPage|"
 msgid "Unmanaged files:"
 msgstr "უმართავი ფაილები:"
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:82
+msgctxt "IntegrityPage|"
+msgid "Add file into project"
+msgstr ""
+
+#: src/libraries/qml_views/Campaign/IntegrityPage.qml:88
+msgctxt "IntegrityPage|"
+msgid "Delete file from Disk"
+msgstr ""
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
@@ -7580,37 +7600,37 @@ msgctxt "CharacterItem|"
 msgid "Increase Life"
 msgstr "სიცოცხლის გაზრდა"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:352
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:354
 msgctxt "CharacterItem|"
 msgid "Change State"
 msgstr "მდგომარეობის შეცვლა"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:378
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:380
 msgctxt "CharacterItem|"
 msgid "Vision Shape"
 msgstr "ხილვადობის ფორმა"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:391
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:393
 msgctxt "CharacterItem|"
 msgid "Actions"
 msgstr "მოქმედებები"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:392
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:394
 msgctxt "CharacterItem|"
 msgid "Initiative"
 msgstr "ინიციატივა"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:394
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:396
 msgctxt "CharacterItem|"
 msgid "Clean Initiative"
 msgstr "ინიციატივის გასუფთავება"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:411
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:413
 msgctxt "CharacterItem|"
 msgid "Shapes"
 msgstr "მოყვანილობები"
 
-#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:418
+#: src/libraries/rwidgets/graphicsItems/characteritem.cpp:420
 msgctxt "CharacterItem|"
 msgid "Clean Shape"
 msgstr "ფორმის გასუფთავება"
@@ -8333,12 +8353,12 @@ msgctxt "UserListView|"
 msgid "State"
 msgstr "State"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:274
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:276
 msgctxt "UserListView|"
 msgid "Action"
 msgstr "ქმედება"
 
-#: src/libraries/rwidgets/modelviews/userlistview.cpp:286
+#: src/libraries/rwidgets/modelviews/userlistview.cpp:288
 msgctxt "UserListView|"
 msgid "Shape"
 msgstr "მოხაზულობა"
