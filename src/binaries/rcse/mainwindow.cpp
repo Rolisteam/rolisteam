@@ -25,7 +25,7 @@
 #include "common/logcontroller.h"
 #include "common_widgets/logpanel.h"
 #include "dialog/aboutrcse.h"
-//#include "dialog/codeeditordialog.h"
+// #include "dialog/codeeditordialog.h"
 #include "preferences/preferencesdialog.h"
 #include "qmlhighlighter.h"
 #include "serializerhelper.h"
@@ -65,21 +65,21 @@
 #include "controllers/qmlgeneratorcontroller.h"
 
 #include "data/characterlist.h"
-//#include "delegate/pagedelegate.h"
+// #include "delegate/pagedelegate.h"
 
 #include "canvasfield.h"
 #include "itemeditor.h"
 
 // Undo
 #include "charactersheet/worker/ioworker.h"
-//#include "diceparser_qobject/diceroller.h"
-//#include "diceparser_qobject/qmltypesregister.h"
+// #include "diceparser_qobject/diceroller.h"
+// #include "diceparser_qobject/qmltypesregister.h"
 #include "undo/addpagecommand.h"
-//#include "undo/deletefieldcommand.h"
+// #include "undo/deletefieldcommand.h"
 #include "undo/deletepagecommand.h"
 #include "undo/setbackgroundimage.h"
-//#include "undo/setfieldproperties.h"
-//#include "undo/setpropertyonallcharacters.h"
+// #include "undo/setfieldproperties.h"
+// #include "undo/setpropertyonallcharacters.h"
 #include "version.h"
 
 #include "charactersheet/charactersheetmodel.h"
@@ -89,12 +89,13 @@
 
 namespace rcse
 {
-//constexpr int minimalColumnSize= 350;
+// constexpr int minimalColumnSize= 350;
 
 void registerRCSEQmlTypes()
 {
     qmlRegisterSingletonType<RcseApplicationController>("Helper", 1, 0, "AppCtrl",
-                                                        [](QQmlEngine* engine, QJSEngine* scriptEngine) -> QObject* {
+                                                        [](QQmlEngine* engine, QJSEngine* scriptEngine) -> QObject*
+                                                        {
                                                             Q_UNUSED(engine);
                                                             Q_UNUSED(scriptEngine);
                                                             auto ctrl= new RcseApplicationController();
@@ -132,17 +133,21 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->m_codeEdit, &CodeEditor::textChanged, this,
             [this]() { m_mainCtrl->generatorCtrl()->setQmlCode(ui->m_codeEdit->toPlainText()); });
-    connect(m_mainCtrl->generatorCtrl(), &QmlGeneratorController::qmlCodeChanged, this, [this]() {
-        if(ui->m_codeEdit->toPlainText() != m_mainCtrl->generatorCtrl()->qmlCode())
-            ui->m_codeEdit->setPlainText(m_mainCtrl->generatorCtrl()->qmlCode());
-    });
+    connect(m_mainCtrl->generatorCtrl(), &QmlGeneratorController::qmlCodeChanged, this,
+            [this]()
+            {
+                if(ui->m_codeEdit->toPlainText() != m_mainCtrl->generatorCtrl()->qmlCode())
+                    ui->m_codeEdit->setPlainText(m_mainCtrl->generatorCtrl()->qmlCode());
+            });
 
     connect(ui->m_quickview->engine(), &QQmlEngine::warnings, m_mainCtrl->generatorCtrl(),
             &QmlGeneratorController::errors);
-    connect(ui->m_quickview, &QQuickWidget::statusChanged, this, [this](QQuickWidget::Status status) {
-        if(status == QQuickWidget::Error)
-            m_mainCtrl->displayQmlError(ui->m_quickview->errors());
-    });
+    connect(ui->m_quickview, &QQuickWidget::statusChanged, this,
+            [this](QQuickWidget::Status status)
+            {
+                if(status == QQuickWidget::Error)
+                    m_mainCtrl->displayQmlError(ui->m_quickview->errors());
+            });
 
     ui->m_imageList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->m_imageList, &QTableView::customContextMenuRequested, this, &MainWindow::showContextMenuForImageTab);
@@ -158,9 +163,9 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_mainCtrl->characterCtrl()->characters(), &CharacterList::dataChanged, this,
             [this]() { ui->m_characterSelectBox->setCurrentIndex(0); });
 
-    connect(ui->m_characterSelectBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() {
-        m_mainCtrl->generatorCtrl()->setUuidCharacter(ui->m_characterSelectBox->currentData().toString());
-    });
+    connect(ui->m_characterSelectBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+            [this]()
+            { m_mainCtrl->generatorCtrl()->setUuidCharacter(ui->m_characterSelectBox->currentData().toString()); });
 
     ui->m_characterSelectBox->setCurrentIndex(0);
 
@@ -185,12 +190,14 @@ MainWindow::MainWindow(QWidget* parent)
     // end of QAction for view
     //////////////////////////////////////
     /// TODO better management of scene options
-    connect(ui->m_showItemIcon, &QAction::triggered, [=](bool triggered) {
-        CanvasField::setShowImageField(triggered);
-        QList<QRectF> list;
-        list << ui->m_view->sceneRect();
-        ui->m_view->updateScene(list);
-    });
+    connect(ui->m_showItemIcon, &QAction::triggered,
+            [=](bool triggered)
+            {
+                CanvasField::setShowImageField(triggered);
+                QList<QRectF> list;
+                list << ui->m_view->sceneRect();
+                ui->m_view->updateScene(list);
+            });
 
     ////////////////////
     // undo / redo
@@ -246,12 +253,14 @@ MainWindow::MainWindow(QWidget* parent)
 
     auto notifyDataChanged= [this]() { m_mainCtrl->setModified(true); };
 
-    connect(m_mainCtrl->editCtrl(), &EditorController::pageAdded, this, [this, notifyDataChanged](Canvas* canvas) {
-        canvas->setModel(m_mainCtrl->generatorCtrl()->fieldModel());
+    connect(m_mainCtrl->editCtrl(), &EditorController::pageAdded, this,
+            [this, notifyDataChanged](Canvas* canvas)
+            {
+                canvas->setModel(m_mainCtrl->generatorCtrl()->fieldModel());
 
-        connect(canvas, &Canvas::pixmapChanged, this, notifyDataChanged);
-        connect(canvas, &Canvas::pageIdChanged, this, notifyDataChanged);
-    });
+                connect(canvas, &Canvas::pixmapChanged, this, notifyDataChanged);
+                connect(canvas, &Canvas::pageIdChanged, this, notifyDataChanged);
+            });
 
     // m_editorCtrl->addPage();
 
@@ -282,14 +291,17 @@ MainWindow::MainWindow(QWidget* parent)
     QmlHighlighter* highlighter= new QmlHighlighter(ui->m_codeEdit->document());
     highlighter->setObjectName("HighLighterForQML");
 
-    connect(ui->m_sheetProperties, &QAction::triggered, [=](bool) {
-        SheetProperties sheetProperties(m_mainCtrl->generatorCtrl(), this);
-        sheetProperties.exec();
-    });
+    connect(ui->m_sheetProperties, &QAction::triggered,
+            [=](bool)
+            {
+                SheetProperties sheetProperties(m_mainCtrl->generatorCtrl(), this);
+                sheetProperties.exec();
+            });
 
     connect(ui->m_quitAction, &QAction::triggered, this, &MainWindow::close);
 
-    auto setCurrentTool= [this]() {
+    auto setCurrentTool= [this]()
+    {
         QAction* action= dynamic_cast<QAction*>(sender());
         auto tool= static_cast<Canvas::Tool>(action->data().toInt());
         m_mainCtrl->editCtrl()->setCurrentTool(tool);
@@ -324,9 +336,10 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->m_saveAct, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
     connect(ui->m_openAct, &QAction::triggered, this, &MainWindow::open);
-    connect(ui->m_checkValidityAct, &QAction::triggered, this, [this]() {
-        m_mainCtrl->characterCtrl()->checkCharacter(m_mainCtrl->generatorCtrl()->fieldModel()->getRootSection());
-    });
+    connect(
+        ui->m_checkValidityAct, &QAction::triggered, this,
+        [this]()
+        { m_mainCtrl->characterCtrl()->checkCharacter(m_mainCtrl->generatorCtrl()->fieldModel()->getRootSection()); });
     connect(ui->m_addPage, &QPushButton::clicked, this,
             [this]() { m_mainCtrl->processCommand(new AddPageCommand(m_mainCtrl->editCtrl())); });
 
@@ -345,42 +358,50 @@ MainWindow::MainWindow(QWidget* parent)
     header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     header->setMinimumSectionSize(300);
 
-    connect(ui->m_scaleSlider, &QSlider::valueChanged, this, [this](int val) {
-        qreal scale= val / 100.0;
-        QTransform transform(scale, 0, 0, scale, 0, 0);
-        ui->m_view->setTransform(transform);
-    });
+    connect(ui->m_scaleSlider, &QSlider::valueChanged, this,
+            [this](int val)
+            {
+                qreal scale= val / 100.0;
+                QTransform transform(scale, 0, 0, scale, 0, 0);
+                ui->m_view->setTransform(transform);
+            });
 
     connect(ui->m_newAct, &QAction::triggered, m_mainCtrl.get(), [this]() { m_mainCtrl->cleanUpData(true); });
 
-    connect(ui->m_openLiberapay, &QAction::triggered, this, [this] {
-        if(!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
-        {
-            QMessageBox* msgBox= new QMessageBox(
-                QMessageBox::Information, tr("Support"),
-                tr("The %1 donation page can be found online at :<br> <a "
-                   "href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>")
-                    .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
-                QMessageBox::Ok);
-            msgBox->exec();
-        }
-    });
+    connect(ui->m_openLiberapay, &QAction::triggered, this,
+            [this]
+            {
+                if(!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
+                {
+                    QMessageBox* msgBox= new QMessageBox(
+                        QMessageBox::Information, tr("Support"),
+                        tr("The %1 donation page can be found online at :<br> <a "
+                           "href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>")
+                            .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
+                        QMessageBox::Ok);
+                    msgBox->exec();
+                }
+            });
 
     // Help Menu
-    connect(ui->m_aboutRcseAct, &QAction::triggered, this, [this]() {
-        AboutRcse dialog(version::version, this);
-        dialog.exec();
-    });
+    connect(ui->m_aboutRcseAct, &QAction::triggered, this,
+            [this]()
+            {
+                AboutRcse dialog(version::version, this);
+                dialog.exec();
+            });
     connect(ui->m_onlineHelpAct, &QAction::triggered, this, &MainWindow::helpOnLine);
 
     ui->m_addImageBtn->setDefaultAction(ui->m_addImageAct);
     ui->m_removeImgBtn->setDefaultAction(ui->m_deleteImageAct);
 
     connect(ui->m_addImageAct, &QAction::triggered, this, &MainWindow::openImage);
-    connect(ui->m_deleteImageAct, &QAction::triggered, this, [this]() {
-        auto index= ui->m_imageList->currentIndex();
-        m_mainCtrl->imageCtrl()->removeImage(index.row());
-    });
+    connect(ui->m_deleteImageAct, &QAction::triggered, this,
+            [this]()
+            {
+                auto index= ui->m_imageList->currentIndex();
+                m_mainCtrl->imageCtrl()->removeImage(index.row());
+            });
 
     readSettings();
     m_logPanel->initSetting();
@@ -544,13 +565,15 @@ void MainWindow::openPDF()
         BusyIndicatorDialog dialog(tr("Image Generation"), tr("Image generation in progress"),
                                    ":/rcstyle/busy_movie.gif", this);
 
-        auto fvoid= QtConcurrent::run([pdf, this, &dialog]() {
-            auto imgs= pdf->images();
-            m_mainCtrl->editCtrl()->loadImages(imgs);
-            pdf->deleteLater();
-            dialog.accept();
-            dialog.deleteLater();
-        });
+        auto fvoid= QtConcurrent::run(
+            [pdf, this, &dialog]()
+            {
+                auto imgs= pdf->images();
+                m_mainCtrl->editCtrl()->loadImages(imgs);
+                pdf->deleteLater();
+                dialog.accept();
+                dialog.deleteLater();
+            });
 
         dialog.exec();
     }
@@ -762,6 +785,7 @@ void MainWindow::showQMLFromCode()
 
     ui->m_quickview->engine()->rootContext()->setContextProperty("_character",
                                                                  m_mainCtrl->generatorCtrl()->mockCharacter());
+    ui->m_quickview->engine()->rootContext()->setContextProperty("_characterSheet", charactersheet);
 
     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     m_mainCtrl->displayQmlError(ui->m_quickview->errors());
@@ -914,13 +938,15 @@ void MainWindow::setUpActionForImageTab()
             [this]() { m_mainCtrl->imageCtrl()->copyPath(ui->m_imageList->currentIndex()); });
     connect(m_copyUrl, &QAction::triggered, this,
             [this]() { m_mainCtrl->imageCtrl()->copyUrl(ui->m_imageList->currentIndex()); });
-    connect(m_replaceImage, &QAction::triggered, this, [this]() {
-        auto filepath= QFileDialog::getOpenFileName(this, tr("Load Image"), QDir::homePath(),
-                                                    tr("Supported Image Format (*.jpg *.png *.svg *.gif)"));
-        if(filepath.isEmpty())
-            return;
-        m_mainCtrl->imageCtrl()->replaceImage(ui->m_imageList->currentIndex(), filepath);
-    });
+    connect(m_replaceImage, &QAction::triggered, this,
+            [this]()
+            {
+                auto filepath= QFileDialog::getOpenFileName(this, tr("Load Image"), QDir::homePath(),
+                                                            tr("Supported Image Format (*.jpg *.png *.svg *.gif)"));
+                if(filepath.isEmpty())
+                    return;
+                m_mainCtrl->imageCtrl()->replaceImage(ui->m_imageList->currentIndex(), filepath);
+            });
     connect(m_removeImage, &QAction::triggered, this,
             [this]() { m_mainCtrl->imageCtrl()->removeImage(ui->m_imageList->currentIndex().row()); });
     connect(m_reloadImageFromFile, &QAction::triggered, this,
@@ -945,29 +971,35 @@ void MainWindow::setUpActionForCharacterTab()
     connect(m_applyValueOnAllCharacters, &QAction::triggered, this,
             [this]() { m_mainCtrl->characterCtrl()->applyOnAllCharacter(ui->m_characterView->currentIndex()); });
 
-    connect(m_applyValueOnSelectedCharacterLines, &QAction::triggered, this, [this]() {
-        m_mainCtrl->characterCtrl()->applyOnSelection(ui->m_characterView->currentIndex(),
-                                                      ui->m_characterView->selectionModel()->selectedIndexes());
-    });
+    connect(m_applyValueOnSelectedCharacterLines, &QAction::triggered, this,
+            [this]()
+            {
+                m_mainCtrl->characterCtrl()->applyOnSelection(ui->m_characterView->currentIndex(),
+                                                              ui->m_characterView->selectionModel()->selectedIndexes());
+            });
 
-    connect(m_defineAsTabName, &QAction::triggered, this, [this]() {
-        auto index= ui->m_characterView->currentIndex();
-        auto name= index.data().toString();
-        if(name.isEmpty())
-            return;
-        CharacterSheet* sheet= m_mainCtrl->characterCtrl()->model()->getCharacterSheet(index.column() - 1);
-        sheet->setName(name);
-        // emit dataChanged();
-    });
-    connect(m_mainCtrl->characterCtrl()->model(), &CharacterSheetModel::columnsInserted, this, [this]() {
-        auto count= m_mainCtrl->characterCtrl()->model()->columnCount();
-        if(count < 2)
-            return;
-        auto w= ui->m_characterView->geometry().width() / count;
-        for(int i= 0; i < count; ++i)
-        {
-            ui->m_characterView->setColumnWidth(i, w);
-        }
-    });
+    connect(m_defineAsTabName, &QAction::triggered, this,
+            [this]()
+            {
+                auto index= ui->m_characterView->currentIndex();
+                auto name= index.data().toString();
+                if(name.isEmpty())
+                    return;
+                CharacterSheet* sheet= m_mainCtrl->characterCtrl()->model()->getCharacterSheet(index.column() - 1);
+                sheet->setName(name);
+                // emit dataChanged();
+            });
+    connect(m_mainCtrl->characterCtrl()->model(), &CharacterSheetModel::columnsInserted, this,
+            [this]()
+            {
+                auto count= m_mainCtrl->characterCtrl()->model()->columnCount();
+                if(count < 2)
+                    return;
+                auto w= ui->m_characterView->geometry().width() / count;
+                for(int i= 0; i < count; ++i)
+                {
+                    ui->m_characterView->setColumnWidth(i, w);
+                }
+            });
 }
-}
+} // namespace rcse

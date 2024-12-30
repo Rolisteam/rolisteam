@@ -21,7 +21,7 @@ Flickable {
         zoomLevel: 1.0
         adaptWidthToPage: {{ pageAdapt }}
         pageMax: {{ pageMax }}
-        characterSheetCtrl: _character
+        characterSheetCtrl: _characterSheet
     }
     ContextualMenu {
         id: _menu
