@@ -152,6 +152,7 @@ public slots:
 
     void newMedia(const std::map<QString, QVariant>& map);
     void openMedia(const std::map<QString, QVariant>& map);
+    void openInternalResources(const QString& id, const QString& path, Core::ContentType type);
 
     void save();
     void saveAs(const QString& path);

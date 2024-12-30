@@ -55,6 +55,7 @@ public slots:
 
 signals:
     void localIsGMChanged();
+    void dataSaved();
 
 private:
     void setUpdating(bool b);

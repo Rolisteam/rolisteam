@@ -22,6 +22,7 @@
 #include "data/campaign.h"
 #include "data/campaignmanager.h"
 #include "data/media.h"
+#include "model/contentmodel.h"
 #include "model/dicealiasmodel.h"
 #include "model/nonplayablecharactermodel.h"
 #include "utils/iohelper.h"
@@ -104,7 +105,8 @@ CampaignInfo FileSerializer::readCampaignDirectory(const QString& directory)
 
     // read model: data.json
     bool ok;
-    info.asset= IOHelper::loadJsonFileIntoObject(QStringLiteral("%1/%2").arg(directory, campaign::MODEL_FILE), ok);
+    info.data= IOHelper::loadJsonFileIntoObject(QStringLiteral("%1/%2").arg(directory, campaign::MODEL_FILE), ok);
+    info.assets= info.data[Core::JsonKey::JSON_MEDIAS].toArray();
 
     // read themes.json
     info.theme= IOHelper::loadJsonFileIntoObject(QStringLiteral("%1/%2").arg(directory, campaign::THEME_FILE), ok);
@@ -118,9 +120,12 @@ CampaignInfo FileSerializer::readCampaignDirectory(const QString& directory)
     // read npcs.json
     info.npcs= IOHelper::loadJsonFileIntoArray(QStringLiteral("%1/%2").arg(directory, campaign::CHARACTER_MODEL), ok);
 
+    // openDocuments
+    info.openDocuments= readContentModel(QStringLiteral("%1/%2").arg(directory, campaign::CONTENTS_FILE));
+
     // read
     auto assetRoot= QString("%1/%2").arg(directory, campaign::MEDIA_ROOT);
-    auto array= info.asset[Core::JsonKey::JSON_MEDIAS].toArray();
+    auto array= info.assets;
 
     QSet<QString> managedFiles;
     for(auto const& item : std::as_const(array))
@@ -168,6 +173,7 @@ QJsonObject FileSerializer::campaignToObject(Campaign* campaign)
     }
     root[Core::JsonKey::JSON_MEDIAS]= array;
     root[Core::JsonKey::JSON_NAME]= campaign->name();
+    root[Core::JsonKey::JSON_SESSION]= campaign->loadSession();
     return root;
 }
 
@@ -202,17 +208,16 @@ QJsonArray FileSerializer::dicesToArray(const std::vector<std::unique_ptr<DiceAl
 
 void FileSerializer::writeStatesIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    auto r = QtConcurrent::run(
+    auto r= QtConcurrent::run(
         [destination, array]()
-        { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::STATE_MODEL), array);
-                    });
+        { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::STATE_MODEL), array); });
 
     Q_UNUSED(r)
 }
 
 void FileSerializer::writeNpcIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    auto r =QtConcurrent::run(
+    auto r= QtConcurrent::run(
         [destination, array]()
         { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::CHARACTER_MODEL), array); });
     Q_UNUSED(r)
@@ -220,7 +225,7 @@ void FileSerializer::writeNpcIntoCampaign(const QString& destination, const QJso
 
 void FileSerializer::writeDiceAliasIntoCampaign(const QString& destination, const QJsonArray& array)
 {
-    auto r = QtConcurrent::run(
+    auto r= QtConcurrent::run(
         [destination, array]()
         { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::DICE_ALIAS_MODEL), array); });
     Q_UNUSED(r)
@@ -228,7 +233,7 @@ void FileSerializer::writeDiceAliasIntoCampaign(const QString& destination, cons
 
 void FileSerializer::writeCampaignInfo(const QString& destination, const QJsonObject& object)
 {
-    auto r = QtConcurrent::run(
+    auto r= QtConcurrent::run(
         [destination, object]()
         { IOHelper::writeJsonObjectIntoFile(QString("%1/%2").arg(destination, campaign::MODEL_FILE), object); });
     Q_UNUSED(r)
@@ -441,6 +446,28 @@ bool FileSerializer::hasContent(const QString& path, Core::CampaignDataCategory 
         }
     }
 
+    return res;
+}
+
+bool FileSerializer::writeContentModel(const QString& destination, ContentModel* model)
+{
+    QJsonArray list;
+    auto const& ctrls= model->controllers();
+
+    for(auto const& ctrl : ctrls)
+    {
+        list << ctrl->uuid();
+    }
+
+    return utils::IOHelper::writeFile(destination, IOHelper::jsonArrayToByteArray(list));
+}
+
+QStringList FileSerializer::readContentModel(const QString& source)
+{
+    QStringList res;
+    auto array= IOHelper::byteArrayToJsonArray(utils::IOHelper::loadFile(source));
+    std::transform(std::begin(array), std::end(array), std::back_inserter(res),
+                   [](const QJsonValueRef& ref) { return ref.toString(); });
     return res;
 }
 } // namespace campaign

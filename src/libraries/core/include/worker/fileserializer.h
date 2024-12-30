@@ -33,15 +33,14 @@
 #include <core_global.h>
 class DiceAlias;
 class CharacterState;
+class ContentModel;
 namespace campaign
 {
-class CampaignManager;
-class Campaign;
-class NonPlayableCharacter;
 struct CORE_EXPORT CampaignInfo
 {
     bool status;
-    QJsonObject asset;
+    QJsonObject data;
+    QJsonArray assets;
     QJsonObject theme;
     QJsonArray dices;
     QJsonArray states;
@@ -49,7 +48,11 @@ struct CORE_EXPORT CampaignInfo
     QStringList errors;
     QStringList unmanagedFiles;
     QStringList missingFiles;
+    QStringList openDocuments;
 };
+class CampaignManager;
+class Campaign;
+class NonPlayableCharacter;
 
 class CORE_EXPORT FileSerializer
 {
@@ -78,6 +81,9 @@ public:
 
     static bool isValidCampaignDirectory(const QString& path, bool acceptEmpty= true);
     static bool hasContent(const QString& path, Core::CampaignDataCategory category);
+
+    static bool writeContentModel(const QString& destination, ContentModel* model);
+    static QStringList readContentModel(const QString& source);
 };
 } // namespace campaign
 

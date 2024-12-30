@@ -26,6 +26,7 @@
 
 #include "data/campaign.h"
 #include "media/mediatype.h"
+#include "worker/fileserializer.h"
 #include <core_global.h>
 
 class DiceRoller;
@@ -71,11 +72,11 @@ public slots:
 
 signals:
     void campaignChanged(const QString& str);
-    void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
+    void campaignLoaded(campaign::CampaignInfo info);
     void fileImported(campaign::Media* path);
     void errorOccured(const QString& error);
     void createBlankFile(const QString& path, Core::MediaType mediaType);
-
+    void autoSavedNeeded();
     void antagonistCtrlChanged();
 
 private:

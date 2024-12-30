@@ -436,6 +436,7 @@ constexpr auto JSON_CURRENT_CHAPTER{"chapter"};
 constexpr auto JSON_MEDIA_PATH{"path"};
 constexpr auto JSON_MEDIA_CREATIONTIME{"ctime"};
 constexpr auto JSON_MEDIA_ID{"uuid"};
+constexpr auto JSON_SESSION{"session"};
 
 constexpr auto JSON_NPC_ID{"uuid"};
 constexpr auto JSON_NPC_NAME{"name"};

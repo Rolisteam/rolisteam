@@ -51,6 +51,7 @@ constexpr auto STATE_ROOT{"states"};
 constexpr auto CHARACTER_ROOT{"npcs"};
 constexpr auto CHARACTER_MODEL{"npc.json"};
 constexpr auto DICE3D_CONTROLLER{"3dDice.json"};
+constexpr auto CONTENTS_FILE{"content.json"};
 
 class CORE_EXPORT Campaign : public QObject
 {
@@ -65,6 +66,7 @@ class CORE_EXPORT Campaign : public QObject
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
     Q_PROPERTY(qint64 diskUsage READ diskUsage NOTIFY diskUsageChanged)
     Q_PROPERTY(int fileCount READ fileCount NOTIFY fileCountChanged)
+    Q_PROPERTY(bool loadSession READ loadSession WRITE setLoadSession NOTIFY loadSessionChanged FINAL)
 public:
     explicit Campaign(QObject* parent= nullptr);
     enum class State : quint8
@@ -84,6 +86,7 @@ public:
     enum class Place : quint8
     {
         MEDIA_ROOT,
+        CONTENT_ROOT,
         STATE_ROOT,
         STATE_MODEL,
         TRASH_ROOT,
@@ -121,6 +124,9 @@ public:
     QString pathFromUuid(const QString& uuid) const;
 
     QString directory(Place place) const;
+
+    bool loadSession() const;
+    void setLoadSession(bool newLoadSession);
 
 public slots:
     void setRootDirectory(const QString& root);
@@ -167,6 +173,8 @@ signals:
     void diskUsageChanged();
     void fileCountChanged();
 
+    void loadSessionChanged();
+
 private:
     std::vector<std::unique_ptr<campaign::Media>> m_mediaList;
     std::unique_ptr<DiceAliasModel> m_diceModel;
@@ -177,6 +185,7 @@ private:
     QString m_currentChapter;
     std::unique_ptr<RolisteamTheme> m_theme;
     State m_state= State::None;
+    bool m_loadSession{false};
 };
 } // namespace campaign
 #endif // CAMPAIGN_H

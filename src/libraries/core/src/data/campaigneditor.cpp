@@ -46,17 +46,12 @@ void readCampaignInfo(const CampaignInfo& info, Campaign* manager)
     ModelHelper::fetchDiceModel(info.dices, manager->diceAliases());
     ModelHelper::fetchCharacterStateModel(info.states, manager->stateModel(), manager->rootDirectory());
     ModelHelper::fetchNpcModel(info.npcs, manager->npcModel(), manager->rootDirectory());
-    auto assets= info.asset;
-    ModelHelper::fetchMedia(assets[Core::JsonKey::JSON_MEDIAS].toArray(), manager);
-    manager->setName(assets[Core::JsonKey::JSON_NAME].toString());
-    manager->setCurrentChapter(assets[Core::JsonKey::JSON_CURRENT_CHAPTER].toString());
-    manager->setCurrentTheme(IOHelper::jsonToTheme(info.theme));
+    ModelHelper::fetchMedia(info.assets, manager);
 
-    /*auto const& states= manager->stateModel()->statesList();
-    auto list= new QList<CharacterState*>();
-    std::transform(std::begin(states), std::end(states), std::back_inserter(*list),
-                   [](const std::unique_ptr<CharacterState>& item) { return item.get(); });
-    Character::setListOfCharacterState(list);*/
+    manager->setName(info.data[Core::JsonKey::JSON_NAME].toString());
+    manager->setLoadSession(info.data[Core::JsonKey::JSON_SESSION].toBool());
+    manager->setCurrentChapter(info.data[Core::JsonKey::JSON_CURRENT_CHAPTER].toString());
+    manager->setCurrentTheme(IOHelper::jsonToTheme(info.theme));
 }
 } // namespace
 CampaignEditor::CampaignEditor(QObject* parent) : QObject(parent), m_campaign(new Campaign)
@@ -77,7 +72,7 @@ bool CampaignEditor::open(const QString& from)
         [this](const CampaignInfo& info)
         {
             readCampaignInfo(info, m_campaign.get());
-            emit campaignLoaded(info.missingFiles, info.unmanagedFiles);
+            emit campaignLoaded(info); // info.missingFiles, info.unmanagedFiles);
         });
     return true;
 }

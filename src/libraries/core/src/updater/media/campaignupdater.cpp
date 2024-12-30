@@ -178,6 +178,8 @@ void CampaignUpdater::saveDataInto(const QString& path)
 
     // Campaign Info
     FileSerializer::writeCampaignInfo(path, FileSerializer::campaignToObject(m_campaign));
+
+    emit dataSaved();
 }
 
 void CampaignUpdater::setLocalIsGM(bool b)

@@ -115,6 +115,8 @@ public:
     const QColor& localColor() const;
     void setLocalColor(const QColor& newLocalColor);
 
+    QStringList readData() const;
+
 signals:
     void workspaceFilenameChanged();
     void workspaceColorChanged();
@@ -146,14 +148,15 @@ public slots:
 
 private:
     void readMimeData(const QMimeData& data);
+    void saveOpenContent();
 
 private:
     std::unique_ptr<QFileSystemModel> m_sessionModel;
     std::map<Core::ContentType, std::unique_ptr<MediaUpdaterInterface>> m_mediaUpdaters;
     std::unique_ptr<ContentModel> m_contentModel;
     std::unique_ptr<history::HistoryModel> m_historyModel;
-
     QPointer<QClipboard> m_clipboard;
+    QPointer<campaign::CampaignManager> m_campaign;
 
     QPointer<PreferencesManager> m_preferences;
     QString m_gameMasterId;

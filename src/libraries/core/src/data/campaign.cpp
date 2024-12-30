@@ -214,6 +214,9 @@ QString Campaign::directory(Place place) const
     case Place::DICE_3D_FILE:
         res= QString("%1/%2").arg(rootDirectory(), DICE3D_CONTROLLER);
         break;
+    case Place::CONTENT_ROOT:
+        res= QString("%1/%2").arg(rootDirectory(), CONTENTS_FILE);
+        break;
     }
     return res;
 }
@@ -337,4 +340,18 @@ void Campaign::removeCharacter(const QString& id)
     // TODO command
     m_npcModel->removeNpc(id);
 }
+
+bool Campaign::loadSession() const
+{
+    return m_loadSession;
+}
+
+void Campaign::setLoadSession(bool newLoadSession)
+{
+    if (m_loadSession == newLoadSession)
+        return;
+    m_loadSession = newLoadSession;
+    emit loadSessionChanged();
+}
+
 } // namespace campaign

@@ -65,6 +65,12 @@ CampaignProperties::CampaignProperties(campaign::Campaign* capm, ThemeModel* the
     }
     ui->m_diskUsageLbl->setText(QLocale::system().formattedDataSize(m_campaign->diskUsage()));
     ui->m_fileCountLbl->setText(tr("%n file(s)", "", m_campaign->fileCount()));
+    ui->m_loadSessionCb->setChecked(m_campaign->loadSession());
+
+    connect(m_campaign, &campaign::Campaign::loadSessionChanged, this,
+            [this]() { ui->m_loadSessionCb->setChecked(m_campaign->loadSession()); });
+    connect(ui->m_loadSessionCb, &QCheckBox::checkStateChanged, this,
+            [this]() { m_campaign->setLoadSession(ui->m_loadSessionCb->isChecked()); });
 
     connect(ui->m_addDiceAliasAct, &QToolButton::clicked, m_campaign, &campaign::Campaign::addAlias);
     connect(ui->m_delDiceAliasAct, &QToolButton::clicked, this,
@@ -75,7 +81,8 @@ CampaignProperties::CampaignProperties(campaign::Campaign* capm, ThemeModel* the
             [this]() { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::DOWN); });
     connect(ui->m_topDiceAliasAct, &QToolButton::clicked, this,
             [this]() { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::TOP); });
-    connect(ui->m_bottomDiceAliasAct, &QToolButton::clicked, this, [this]()
+    connect(ui->m_bottomDiceAliasAct, &QToolButton::clicked, this,
+            [this]()
             { m_campaign->moveAlias(ui->m_tableViewAlias->currentIndex(), campaign::Campaign::Move::BOTTOM); });
     connect(ui->m_testPushButton, &QToolButton::clicked, this,
             [this]

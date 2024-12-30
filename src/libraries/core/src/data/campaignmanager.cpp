@@ -45,6 +45,7 @@ CampaignManager::CampaignManager(DiceRoller* diceparser, QObject* parent)
     connect(m_editor.get(), &CampaignEditor::importedFile, this, &CampaignManager::fileImported);
     connect(m_editor.get(), &CampaignEditor::campaignLoaded, this, &CampaignManager::campaignLoaded);
     connect(this, &CampaignManager::campaignLoaded, m_campaignUpdater.get(), &CampaignUpdater::updateDiceAliases);
+    connect(m_campaignUpdater.get(), &CampaignUpdater::dataSaved, this, &CampaignManager::autoSavedNeeded);
 }
 
 CampaignManager::~CampaignManager()= default;

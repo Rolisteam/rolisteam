@@ -26,6 +26,7 @@
 #include <memory>
 
 #include "media/mediatype.h"
+#include "worker/fileserializer.h"
 #include <core_global.h>
 
 namespace campaign
@@ -71,7 +72,7 @@ public:
                      const QString& destDir); // import
 
 signals:
-    void campaignLoaded(const QStringList missingFiles, const QStringList unmanagedFiles);
+    void campaignLoaded(campaign::CampaignInfo info);
     void performCommand(QUndoCommand* command);
     void importedFile(campaign::Media* media);
 

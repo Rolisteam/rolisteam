@@ -289,7 +289,8 @@ void IOHelper::readBaseFromJson(MediaControllerBase* base, const QJsonObject& da
     if(!base)
         return;
 
-    base->setUuid(data[Core::jsonctrl::base::JSON_UUID].toString());
+    if(base->uuid().isEmpty())
+        base->setUuid(data[Core::jsonctrl::base::JSON_UUID].toString());
     base->setUrl(QUrl::fromUserInput(data[Core::jsonctrl::base::JSON_PATH].toString()));
     base->setName(data[Core::jsonctrl::base::JSON_NAME].toString());
     base->setOwnerId(data[Core::jsonctrl::base::JSON_OWNERID].toString());
@@ -1277,6 +1278,7 @@ bool IOHelper::writeByteArrayIntoFile(const QString& destination, const QByteArr
 
     file.write(array);
     file.commit();
+    return true;
 }
 
 void IOHelper::writeJsonArrayIntoFile(const QString& destination, const QJsonArray& array)
@@ -1286,10 +1288,11 @@ void IOHelper::writeJsonArrayIntoFile(const QString& destination, const QJsonArr
     QJsonDocument doc;
     doc.setArray(array);
 
-    QFile file(destination);
+    QSaveFile file(destination);
     if(file.open(QIODevice::WriteOnly))
     {
         file.write(doc.toJson(QJsonDocument::Indented));
+        file.commit();
     }
 }
 
@@ -1300,10 +1303,11 @@ void IOHelper::writeJsonObjectIntoFile(const QString& destination, const QJsonOb
     QJsonDocument doc;
     doc.setObject(obj);
 
-    QFile file(destination);
+    QSaveFile file(destination);
     if(file.open(QIODevice::WriteOnly))
     {
         file.write(doc.toJson(QJsonDocument::Indented));
+        file.commit();
     }
 }
 

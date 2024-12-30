@@ -123,12 +123,25 @@ GameController::GameController(const QString& appname, const QString& version, Q
 
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_audioCtrl.get(), &AudioController::setLocalIsGM);
-    connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, &GameController::dataLoaded);
-    connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, [this](){
+    connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, [this](campaign::CampaignInfo info){
+        emit dataLoaded(info.missingFiles, info.unmanagedFiles);
         m_campaignManager->diceparser();
         ModelHelper::fetchDice3d(m_dicePhysicController.get(),
                                          utils::IOHelper::loadFile(m_campaignManager->placeDirectory(campaign::Campaign::Place::DICE_3D_FILE)));
-        //m_dicePhysicController->setReady(true);
+
+        auto c = m_campaignManager->campaign();
+        if(!c || !c->loadSession())
+            return;
+        auto list = info.openDocuments;
+        auto assets = info.assets;
+        std::for_each(std::begin(assets), std::end(assets),[this, list](const QJsonValue& ref){
+                auto obj = ref.toObject();
+                auto root = m_campaignManager->placeDirectory(campaign::Campaign::Place::MEDIA_ROOT);
+                auto path = QString("%1/%2").arg(root,obj[Core::keys::KEY_PATH].toString());
+                auto uuid = obj[Core::keys::KEY_UUID].toString();
+                if(list.contains(uuid))
+                    openInternalResources(uuid, path, helper::utils::extensionToContentType(path));
+        });
     });
     // clang-format on
 
@@ -222,6 +235,20 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
     m_contentCtrl->openMedia(other.toStdMap());
 }
 
+void GameController::openInternalResources(const QString& id, const QString& path, Core::ContentType type)
+{
+    std::map<QString, QVariant> vec;
+    vec.insert({Core::keys::KEY_PATH, path});
+    vec.insert({Core::keys::KEY_UUID, id});
+    vec.insert({Core::keys::KEY_TYPE, QVariant::fromValue(type)});
+    vec.insert({Core::keys::KEY_SERIALIZED, utils::IOHelper::loadFile(path)});
+    vec.insert({Core::keys::KEY_INTERNAL, true});
+    auto localId= localPlayerId();
+    vec.insert({Core::keys::KEY_OWNERID, localId});
+    vec.insert({Core::keys::KEY_LOCALID, localId});
+    openMedia(vec);
+}
+
 void GameController::save()
 {
     if(!localIsGM())
@@ -236,6 +263,9 @@ void GameController::save()
 
 void GameController::saveAs(const QString& path)
 {
+    if(!localIsGM())
+        return;
+
     ModelHelper::saveSession(m_contentCtrl.get());
     m_audioCtrl->saveStates();
     m_campaignManager->copyCampaign(path);

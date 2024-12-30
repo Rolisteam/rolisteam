@@ -48,6 +48,7 @@
 #include "preferences/preferencesmanager.h"
 #include "undoCmd/newmediacontroller.h"
 #include "undoCmd/openmediacontroller.h"
+#include "worker/fileserializer.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
@@ -76,6 +77,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     , m_contentModel(new ContentModel)
     , m_historyModel(new history::HistoryModel)
     , m_clipboard(clipboard)
+    , m_campaign(campaign)
 {
     CharacterSheetController::setCharacterModel(characterModel);
     SharedNoteController::setPlayerModel(playerModel);
@@ -155,6 +157,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
                     model->removeCharacterSheet(model->getCharacterSheetById(uuid));
                 }
             });
+
     std::unique_ptr<GenericUpdater> pdfUpdater(new GenericUpdater(campaign));
     MindMapController::setMindMapUpdater(mindMapUpdater.get());
 
@@ -185,6 +188,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
                     m_historyModel->addLink(ctrl->url(), ctrl->name(), ctrl->contentType());
             });
 
+    connect(campaign, &campaign::CampaignManager::autoSavedNeeded, this, &ContentController::saveOpenContent);
     connect(m_clipboard, &QClipboard::dataChanged, this, [this]() { emit canPasteChanged(canPaste()); });
 
     connect(m_historyModel.get(), &history::HistoryModel::modelReset, this, &ContentController::historyChanged);
@@ -449,6 +453,12 @@ void ContentController::readMimeData(const QMimeData& data)
     }
 }
 
+void ContentController::saveOpenContent()
+{
+    campaign::FileSerializer::writeContentModel(m_campaign->placeDirectory(campaign::Campaign::Place::CONTENT_ROOT),
+                                                m_contentModel.get());
+}
+
 bool ContentController::canPaste() const
 {
     bool res= false;
@@ -493,4 +503,10 @@ void ContentController::setLocalColor(const QColor& newLocalColor)
         return;
     m_localColor= newLocalColor;
     emit localColorChanged();
+}
+
+QStringList ContentController::readData() const
+{
+    return campaign::FileSerializer::readContentModel(
+        m_campaign->placeDirectory(campaign::Campaign::Place::CONTENT_ROOT));
 }
