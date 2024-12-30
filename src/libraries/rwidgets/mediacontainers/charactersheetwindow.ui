@@ -107,7 +107,7 @@
   </action>
   <action name="m_printAct">
    <property name="text">
-    <string>Print Act</string>
+    <string>Print Sheet</string>
    </property>
   </action>
   <action name="m_menuAct">
