@@ -53,3 +53,16 @@ CharacterSheet* SheetWidget::sheet() const
 {
     return m_characterSheet;
 }
+
+QString SheetWidget::characterId() const
+{
+    return m_characterId;
+}
+
+void SheetWidget::setCharacterId(const QString& characterId)
+{
+    if(m_characterId == characterId)
+        return;
+    m_characterId= characterId;
+    emit characterIdChanged();
+}

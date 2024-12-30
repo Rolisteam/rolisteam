@@ -74,9 +74,6 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     connect(m_ui->m_treeview, &QTreeView::customContextMenuRequested, this, &CharacterSheetWindow::displayCustomMenu);
     connect(m_ui->m_copyTab, &QAction::triggered, this, &CharacterSheetWindow::copyTab);
     connect(m_ui->m_readOnlyAct, &QAction::triggered, this, &CharacterSheetWindow::setReadOnlyOnSelection);
-    // connect(m_ui->m_addLine, &QAction::triggered, this, &CharacterSheetWindow::addLine);
-    // connect(m_ui->m_addSection, &QAction::triggered, this, &CharacterSheetWindow::addSection);
-    // connect(m_ui->m_addCharactersheet, &QAction::triggered, this, &CharacterSheetWindow::addCharacterSheet);
     connect(m_ui->m_printAct, &QAction::triggered, this, &CharacterSheetWindow::exportPDF);
     connect(m_ui->m_stopSharingTabAct, &QAction::triggered, this,
             [this]()
@@ -373,10 +370,29 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet, Characte
     if(chSheet == nullptr)
         return;
 
+    auto it= std::find_if(std::begin(m_tabs), std::end(m_tabs),
+                          [chSheet, character](const QPointer<SheetWidget>& tab)
+                          {
+                              bool goodCharacter= false;
+                              if(!character)
+                                  goodCharacter= true;
+                              else
+                                  goodCharacter= character->uuid() == tab->characterId();
+
+                              return tab->sheet() == chSheet && goodCharacter;
+                          });
+
+    if(it != std::end(m_tabs))
+        return;
+
     auto qmlView= new SheetWidget(chSheet, m_sheetCtrl->imageModel(), this);
+    if(character)
+        qmlView->setCharacterId(character->uuid());
+
     connect(qmlView, &SheetWidget::customMenuRequested, this, &CharacterSheetWindow::contextMenuForTabs);
     m_tabs.append(qmlView);
     auto engineQml= qmlView->engine();
+    engineQml->rootContext()->setContextProperty("_characterSheet", chSheet);
     if(character == nullptr)
         engineQml->rootContext()->setContextProperty("_character", character);
     else

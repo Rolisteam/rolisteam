@@ -95,7 +95,6 @@ void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
     connect(csCtrl, &CharacterSheetController::modifiedChanged, this,
             [this]()
             {
-                qDebug() << "Modified charactersheet controller";
                 auto ctrl= qobject_cast<CharacterSheetController*>(sender());
                 if(!ctrl)
                     return;

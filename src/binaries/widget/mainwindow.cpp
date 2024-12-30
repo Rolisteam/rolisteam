@@ -119,20 +119,9 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 
     // ALLOCATIONS
     m_campaignDock.reset(new campaign::CampaignDock(m_gameController->campaignManager()->editor()));
-    connect(m_campaignDock.get(), &campaign::CampaignDock::openResource, this,
-            [this](const QString& id, const QString& path, Core::ContentType type)
-            {
-                std::map<QString, QVariant> vec;
-                vec.insert({Core::keys::KEY_PATH, path});
-                vec.insert({Core::keys::KEY_UUID, id});
-                vec.insert({Core::keys::KEY_TYPE, QVariant::fromValue(type)});
-                vec.insert({Core::keys::KEY_SERIALIZED, utils::IOHelper::loadFile(path)});
-                vec.insert({Core::keys::KEY_INTERNAL, true});
-                auto localId= m_gameController->localPlayerId();
-                vec.insert({Core::keys::KEY_OWNERID, localId});
-                vec.insert({Core::keys::KEY_LOCALID, localId});
-                m_gameController->openMedia(vec);
-            });
+    connect(m_campaignDock.get(), &campaign::CampaignDock::openResource, m_gameController,
+            &GameController::openInternalResources);
+
     connect(m_campaignDock.get(), &campaign::CampaignDock::removeFile, this,
             [this](const QString& path)
             {
@@ -176,22 +165,24 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                     auto ctrl= m_gameController->campaignManager();
 
                     QList<QPair<QString, Core::CampaignAction>> list;
-                    std::transform(std::begin(missingActions), std::end(missingActions), std::back_inserter(list),
+                    std::transform(std::begin(missingActions), std::end(missingActions),
+                std::back_inserter(list),
                                    [](const DataInfo& info)
                                    {
                                        return QPair<QString, Core::CampaignAction>(
-                                           {info.data, info.indexAction == 0 ? Core::CampaignAction::ForgetAction :
-                                                                               Core::CampaignAction::CreateAction});
+                                           {info.data, info.indexAction == 0 ?
+                Core::CampaignAction::ForgetAction : Core::CampaignAction::CreateAction});
                                    });
                     ctrl->performAction(list);
 
                     QList<QPair<QString, Core::CampaignAction>> list2;
-                    std::transform(std::begin(unmanagedActions), std::end(unmanagedActions), std::back_inserter(list2),
+                    std::transform(std::begin(unmanagedActions), std::end(unmanagedActions),
+                std::back_inserter(list2),
                                    [](const DataInfo& info)
                                    {
                                        return QPair<QString, Core::CampaignAction>(
-                                           {info.data, info.indexAction == 0 ? Core::CampaignAction::ManageAction :
-                                                                               Core::CampaignAction::DeleteAction});
+                                           {info.data, info.indexAction == 0 ?
+                Core::CampaignAction::ManageAction : Core::CampaignAction::DeleteAction});
                                    });
                     ctrl->performAction(list2);
                 }*/

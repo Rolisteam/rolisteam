@@ -9,6 +9,17 @@
 
 QPointer<CharacterModel> CharacterSheetController::m_characterModel;
 
+bool alreadyInside(const CharacterSheetInfo& info, const QList<CharacterSheetInfo>& infos)
+{
+    auto it= std::find_if(std::begin(infos), std::end(infos),
+                          [info](const CharacterSheetInfo& sheet)
+                          {
+                              return info.m_characterId == sheet.m_characterId && info.everyone == sheet.everyone
+                                     && info.m_sheetId == sheet.m_sheetId;
+                          });
+    return it != std::end(infos);
+}
+
 CharacterSheetController::CharacterSheetController(const QString& id, const QUrl& path, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::CHARACTERSHEET, parent)
     , m_model(new CharacterSheetModel)
@@ -36,8 +47,13 @@ CharacterSheetController::CharacterSheetController(const QString& id, const QUrl
                    Character* character, const QStringList&)
             {
                 Q_UNUSED(ctrl)
-                m_sheetData.append({sheet->uuid(), character ? character->uuid() : QString{},
-                                    mode == CharacterSheetUpdater::SharingMode::ALL, false});
+                auto everyOne= mode == CharacterSheetUpdater::SharingMode::ALL;
+                CharacterSheetInfo info{sheet->uuid(), character ? character->uuid() : QString{}, everyOne, false};
+
+                if(alreadyInside(info, m_sheetData))
+                    return;
+
+                m_sheetData.append(info);
                 setModified();
             });
 }
@@ -199,6 +215,11 @@ void CharacterSheetController::shareCharacterSheetTo(Character* character, Chara
         return;
     auto dest= player->uuid();
 
+    bool hasSheet= (character->getSheet() == sheet);
+    bool alreadyShared= alreadySharing(character->uuid(), sheet->uuid());
+
+    qDebug() << "already shared:" << hasSheet << alreadyShared;
+
     sheet->setName(character->name());
     character->setSheet(sheet);
     emit sheetCreated(sheet, character);
@@ -229,6 +250,8 @@ const QList<CharacterSheetInfo>& CharacterSheetController::sheetData() const
 
 void CharacterSheetController::addSheetData(const CharacterSheetInfo& info)
 {
+    if(alreadyInside(info, m_sheetData))
+        return;
     m_sheetData.append(info);
 }
 
