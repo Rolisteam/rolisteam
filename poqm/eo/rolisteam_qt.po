@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2024-12-28 20:45+0100\n"
+"PO-Revision-Date: 2024-12-29 19:43+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1714,18 +1714,14 @@ msgid "Update Notification"
 msgstr "Ĝisdatigi Sciigon"
 
 #: src/binaries/widget/mainwindow.cpp:862
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid ""
-#| "The %1 version has been released. Please take a look at <a href=\"http://"
-#| "www.rolisteam.org/download\">Download page</a> for more information"
+#, qt-format
 msgctxt "MainWindow|"
 msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
-"La versio %1 estis publikigita. Bonvolu rigardi <a href=\"http://www."
-"rolistam.org/download\">Elŝutu paĝon</a> por pliaj informoj"
+"La versio %1 estis publikigita. Bonvolu rigardi <a href=\"https://www."
+"rolistam.org/download\">Elŝutan paĝon</a> por pliaj informoj"
 
 #: src/binaries/widget/mainwindow.cpp:872
 #, qt-format
@@ -1849,7 +1845,7 @@ msgstr "&Malfermi"
 #: src/binaries/widget/mainwindow.ui:66
 msgctxt "MainWindow|"
 msgid "&Panels"
-msgstr ""
+msgstr "&Paneloj"
 
 #: src/binaries/widget/mainwindow.ui:70
 msgctxt "MainWindow|"
@@ -2244,7 +2240,7 @@ msgstr "Importi el alia kampanjo…"
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
 msgid "Dice3D"
-msgstr ""
+msgstr "Dice3D"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -3081,12 +3077,10 @@ msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Malsukcesas trovi taŭgan servotipo: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:337
-#, fuzzy, qt-format
-#| msgctxt "UpnpNat|"
-#| msgid "Fail to add port mapping (%1/%2) : error :\n"
+#, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
-msgstr "Malsukcesas aldoni pordomapadon (%1/%2): eraro :\n"
+msgstr "Malsukcesas aldoni pordomapadon (%1/%2): eraro :%3\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
@@ -3353,62 +3347,48 @@ msgstr "Retejo"
 #, qt-format
 msgctxt "DiceModel|"
 msgid "# 3D Roll : Distance %1 - Time %2 - Rotation %3"
-msgstr ""
+msgstr "# 3D-Rulo : Distanco %1 - Tempo %2 - Rotacio %3"
 
 #: src/libraries/dicephysics/qml/Main.qml:30
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam Help"
 msgctxt "Main|"
 msgid "Rolisteam 3D dice roller"
-msgstr "Rolisteam Helpo"
+msgstr "Rolisteam 3D-a ĵetkub-rulilo"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Size:"
 msgctxt "SideMenu|"
 msgid "Dice Size:"
-msgstr "Grandeco:"
+msgstr "Kuba Grandeco:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:77
 msgctxt "SideMenu|"
 msgid "disable mouseArea"
-msgstr ""
+msgstr "malebligi mouseArea"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:177
 msgctxt "SideMenu|"
 msgid "Collision sound:"
-msgstr ""
+msgstr "Kolizia sono:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:189
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Dice Command"
 msgctxt "SideMenu|"
 msgid "Dice Command:"
-msgstr "Ĵetkubo-Komando"
+msgstr "Ĵetkuba Komando:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "SideMenu|"
 msgid "Share rolls"
-msgstr "Kunhavigi Al"
+msgstr "Kunhavigi rulojn"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
 msgid "(Experimental)"
-msgstr ""
+msgstr "(Eksperimenta)"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
-#, fuzzy, qt-format
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Description: "
+#, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
-msgstr "Priskribo:"
+msgstr "Daŭro: %1s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:221
 msgctxt "SideMenu|"
@@ -3416,6 +3396,8 @@ msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
 "Then, you'll see your own 3D dice."
 msgstr ""
+"Ruloj faritaj de fora ludanto montriĝos sur via ekrano dum kelkaj sekundoj.\n"
+"Sekve, vi vidos viajn proprajn 3D-ĵetkubojn."
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
 msgctxt "ButtonGrid|"
@@ -3453,12 +3435,9 @@ msgid "Add Arrow"
 msgstr "Aldoni Sagon"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Forigi elektitan dosieron"
+msgstr "Forigi elektitajn erojn"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
 msgctxt "ButtonGrid|"
@@ -3694,12 +3673,12 @@ msgstr "Mankas dosieroj:"
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:38
 msgctxt "IntegrityPage|"
 msgid "Remove file from campaign history"
-msgstr ""
+msgstr "Forigi dosieron el kampnja historio"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:44
 msgctxt "IntegrityPage|"
 msgid "Create blank document"
-msgstr ""
+msgstr "Krei malplenan dokumenton"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:56
 msgctxt "IntegrityPage|"
@@ -3709,12 +3688,12 @@ msgstr "Neadministrataj dosieroj:"
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:82
 msgctxt "IntegrityPage|"
 msgid "Add file into project"
-msgstr ""
+msgstr "Aldoni dosieron en projekton"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:88
 msgctxt "IntegrityPage|"
 msgid "Delete file from Disk"
-msgstr ""
+msgstr "Forigi dosieron el disko"
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
@@ -4138,12 +4117,9 @@ msgid "repeat"
 msgstr "ripeti"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:230
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Root Directory:"
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr "Radika Dosierujo:"
+msgstr "Priserĉataj dosierujoj:"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:257
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
@@ -4154,68 +4130,44 @@ msgid "..."
 msgstr "..."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:305
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Add directory…"
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr "Aldoni dosierujon…"
+msgstr "aldoni dosierujon"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:308
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
-msgstr "Aldoni novan dosierujon"
+msgstr "Aldoni muzikdosierujon."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:319
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Remove Page"
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
-msgstr "Forigi Paĝon"
+msgstr "forigi vojon"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:322
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove selected file"
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
-msgstr "Forigi elektitan dosieron"
+msgstr "Forigi elektitan dosierujon"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:333
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Pdf path"
 msgctxt "PlayerWidgetUI|"
 msgid "Up path"
-msgstr "Pdf vojo"
+msgstr "Suprenigi vojon"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:336
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
-msgstr "Elekti dosierujon"
+msgstr "Movi supren la elektitan dosierujon"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:347
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Remove Song"
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
-msgstr "Forigi Kanton"
+msgstr "Malsuprenigi vojon"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:350
-#, fuzzy
-#| msgctxt "FileDirChooser|"
-#| msgid "Select directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
-msgstr "Elekti dosierujon"
+msgstr "Movi malsupren la elektitan dosierujon"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:213
 #, qt-format
@@ -5004,22 +4956,19 @@ msgid "Color:"
 msgstr "Koloro:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "PreferencesDialog|"
 msgid "GM Only"
-msgstr "Nurlegebla"
+msgstr "Nur GM"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
 msgctxt "PreferencesDialog|"
 msgid "PC Move"
-msgstr ""
+msgstr "PC-Movo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:71
 msgctxt "PreferencesDialog|"
 msgid "PC All"
-msgstr ""
+msgstr "PC Ĉio"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:145
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:14
@@ -6541,12 +6490,9 @@ msgid "&File"
 msgstr "&Dosiero"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save"
 msgctxt "TextEdit|"
 msgid "&Save"
-msgstr "Konservi"
+msgstr "Kon&servi"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
 msgctxt "TextEdit|"
@@ -7744,9 +7690,7 @@ msgid "Rule"
 msgstr "Regulo"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
-#, fuzzy, qt-format
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "%1 - (Character Sheet Viewer)"
+#, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (Vidilo de Karakterfolio)"
