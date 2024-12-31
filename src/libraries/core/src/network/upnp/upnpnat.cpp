@@ -26,12 +26,12 @@ std::tuple<QString, int, QString> parseUrl(const QString& urlData)
 #define HTTPMU_HOST_ADDRESS "239.255.255.250"
 #define HTTPMU_HOST_ADDRESS_V6 "FF02::1"
 #define HTTPMU_HOST_PORT 1900
-#define SEARCH_REQUEST_STRING "M-SEARCH * HTTP/1.1\r\n"            \
-                              "ST:UPnP:rootdevice\r\n"             \
-                                                            "MX: 3\r\n"                          \
-                                                            "Man:\"ssdp:discover\"\r\n"          \
-                              "HOST: 239.255.255.250:1900\r\n"     \
-                                                            "\r\n"
+#define SEARCH_REQUEST_STRING "M-SEARCH * HTTP/1.1\n"            \
+                              "ST:UPnP:rootdevice\n"             \
+                              "MX: 3\n"                          \
+                              "Man:\"ssdp:discover\"\n"          \
+                              "HOST: 239.255.255.250:1900\n"     \
+                                                            "\n"
 #define HTTP_OK "200 OK"
 #define DEFAULT_HTTP_PORT 80
 
@@ -149,7 +149,7 @@ void UpnpNat::discovery()
     // m_udpSocketV6->bind(QHostAddress(QHostAddress::AnyIPv6), m_udpSocketV4->localPort());
     QByteArray datagram(SEARCH_REQUEST_STRING);
 
-    connect(m_udpSocketV4, &QTcpSocket::readyRead, this,
+    connect(m_udpSocketV4, &QUdpSocket::readyRead, this,
             [this]()
             {
                 QByteArray datagram;
@@ -211,6 +211,11 @@ void UpnpNat::readDescription()
         {
             setStatus(NAT_STAT::NAT_DESCRIPTION_FOUND);
             emit discoveryEnd(parseDescription());
+        }
+        else
+        {
+            qDebug() << "end of discovery no match";
+            emit discoveryEnd(false);
         }
     };
     tcpConnect(host, port, connected, readAll);
