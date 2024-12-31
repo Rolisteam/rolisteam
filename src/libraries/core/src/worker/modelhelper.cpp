@@ -430,7 +430,11 @@ void fetchCharacterStateModel(const QJsonArray& obj, CharacterStateModel* model,
         da.setId(state["id"].toString());
         da.setLabel(state["label"].toString());
         auto path= state["image"].toString();
-        da.setImagePath(QString("%2/%1").arg(path).arg(rootDir));
+        if(!path.isEmpty())
+            da.setImagePath(QString("%2/%1").arg(path).arg(rootDir));
+        else
+            da.setImagePath(QString());
+
         QColor col= QColor::fromString(state["color"].toString());
         da.setColor(col);
         model->appendState(std::move(da));

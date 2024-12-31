@@ -11,6 +11,8 @@ RolisteamImageProvider::~RolisteamImageProvider() {}
 
 QPixmap RolisteamImageProvider::requestPixmap(const QString& id, QSize* size, const QSize& requestedSize)
 {
+    if(!m_model)
+        return {};
     Q_UNUSED(requestedSize);
     QString idTranslate= id;
     idTranslate= idTranslate.replace("%7B", "{").replace("%7D", "}");

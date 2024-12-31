@@ -791,6 +791,7 @@ void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMess
     msg.uint8(ctrl->itemType());
     msg.uint8(ctrl->visible());
     msg.uint8(ctrl->initialized());
+    msg.uint8(ctrl->tool());
     msg.real(ctrl->opacity());
     msg.real(ctrl->rotation());
     msg.uint8(static_cast<quint8>(ctrl->layer()));
@@ -807,6 +808,7 @@ const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader*
     auto itemtype= msg->uint8();
     auto visible= msg->uint8();
     auto initialized= msg->uint8();
+    auto tool= static_cast<Core::SelectableTool>(msg->uint8());
     auto opacity= msg->real();
     auto rotation= msg->real();
     auto layer= msg->uint8();
@@ -820,6 +822,7 @@ const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader*
     return std::map<QString, QVariant>({{Core::vmapkeys::KEY_VISIBLE, visible},
                                         {Core::vmapkeys::KEY_INITIALIZED, initialized},
                                         {Core::vmapkeys::KEY_OPACITY, opacity},
+                                        {Core::vmapkeys::KEY_TOOL, tool},
                                         {Core::vmapkeys::KEY_ROTATION, rotation},
                                         {Core::vmapkeys::KEY_LAYER, layer},
                                         {Core::vmapkeys::KEY_POS, pos},

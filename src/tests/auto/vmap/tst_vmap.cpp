@@ -2,33 +2,31 @@
 #include <QtCore/QCoreApplication>
 #include <QtTest/QtTest>
 
-#include "controller/item_controllers/visualitemcontroller.h"
-#include "controller/view_controller/vectorialmapcontroller.h"
-#include "rwidgets/customs/vmap.h"
-#include "model/vmapitemmodel.h"
-#include "rwidgets/graphicsItems/lineitem.h"
 #include "controller/item_controllers/linecontroller.h"
+#include "controller/item_controllers/visualitemcontroller.h"
+#include "controller/item_controllers/vmapitemfactory.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "model/vmapitemmodel.h"
+#include "rwidgets/customs/vmap.h"
+#include "rwidgets/graphicsItems/lineitem.h"
 #include "rwidgets/mediacontainers/vmapframe.h"
 #include "undoCmd/addvmapitem.h"
-#include "controller/item_controllers/vmapitemfactory.h"
 // #include "test_root_path.h"
 #include "helper.h"
 
 constexpr int shortTime{5};
 using ParamMap= QList<std::map<QString, QVariant>>;
 
-
 class FakeItem : public vmap::VisualItemController
 {
 public:
-    FakeItem(VisualItemController::ItemType itemType,VectorialMapController* ctrl) : VisualItemController(itemType, {}, ctrl) {};
-    void aboutToBeRemoved() {};
+    FakeItem(VisualItemController::ItemType itemType, VectorialMapController* ctrl)
+        : VisualItemController(itemType, {}, ctrl){};
+    void aboutToBeRemoved(){};
     void setCorner(const QPointF& move, int corner,
-        Core::TransformType transformType= Core::TransformType::NoTransform)
-        {};
-    QRectF rect() const {return {};};
+                   Core::TransformType transformType= Core::TransformType::NoTransform){};
+    QRectF rect() const { return {}; };
 };
-
 
 class VMapTest : public QObject
 {
@@ -85,35 +83,32 @@ void VMapTest::init()
     connect(m_ctrl.get(), &VectorialMapController::performCommand, this,
             [this](QUndoCommand* cmd) { m_stack->push(cmd); });
 
-    connect(m_ctrl.get(), &VectorialMapController::destroyed, this, []() { qDebug() << "ctrl destroyed"; });
-    connect(m_media.get(), &VMapFrame::destroyed, this, []() { qDebug() << "VMapFrame destroyed"; });
+    // connect(m_ctrl.get(), &VectorialMapController::destroyed, this, []() { qDebug() << "ctrl destroyed"; });
+    // connect(m_media.get(), &VMapFrame::destroyed, this, []() { qDebug() << "VMapFrame destroyed"; });
 }
 void VMapTest::cleanup() {}
 
 void VMapTest::addNullItems()
 {
     auto map= m_media->map();
-    auto model = m_ctrl->model();
+    auto model= m_ctrl->model();
 
     model->appendItemController(nullptr);
 
-    QList<vmap::VisualItemController::ItemType> types{vmap::VisualItemController::PATH,
-                                                      vmap::VisualItemController::LINE,
-                                                      vmap::VisualItemController::ELLIPSE,
-                                                      vmap::VisualItemController::CHARACTER,
-                                                      vmap::VisualItemController::TEXT,
-                                                      vmap::VisualItemController::RECT,
-                                                      vmap::VisualItemController::RULE,
-                                                      vmap::VisualItemController::IMAGE,
-                                                      vmap::VisualItemController::SIGHT,
-                                                      vmap::VisualItemController::ANCHOR,
-                                                      vmap::VisualItemController::GRID,
-                                                      vmap::VisualItemController::HIGHLIGHTER};
+    QList<vmap::VisualItemController::ItemType> types{
+        vmap::VisualItemController::PATH,    vmap::VisualItemController::LINE,
+        vmap::VisualItemController::ELLIPSE, vmap::VisualItemController::CHARACTER,
+        vmap::VisualItemController::TEXT,    vmap::VisualItemController::RECT,
+        vmap::VisualItemController::RULE,    vmap::VisualItemController::IMAGE,
+        vmap::VisualItemController::SIGHT,   vmap::VisualItemController::ANCHOR,
+        vmap::VisualItemController::GRID,    vmap::VisualItemController::HIGHLIGHTER};
 
     for(auto type : types)
         model->appendItemController(new FakeItem(type, m_ctrl.get()));
 
-    auto line= vmap::VmapItemFactory::createVMapItem(m_ctrl.get(), Core::SelectableTool::LINE, Helper::buildLineController(Helper::randomPoint(), Helper::randomPoint(), Helper::randomPoint()));
+    auto line= vmap::VmapItemFactory::createVMapItem(
+        m_ctrl.get(), Core::SelectableTool::LINE,
+        Helper::buildLineController(Helper::randomPoint(), Helper::randomPoint(), Helper::randomPoint()));
     model->appendItemController(line);
 
     m_ctrl->showTransparentItems();
@@ -487,8 +482,8 @@ void VMapTest::addItems()
         m_stack->undo();
     }
 
-    if(!params.isEmpty())
-        qDebug() << params[0]["tool"].value<Core::SelectableTool>();
+    // if(!params.isEmpty())
+    //        qDebug() << params[0]["tool"].value<Core::SelectableTool>();
 
     QCOMPARE(map->items().count(), expected);
 }
@@ -499,11 +494,11 @@ void VMapTest::addItems_data()
     QTest::addColumn<int>("expected");
 
     QTest::addRow("empty") << ParamMap{} << 2;
-    std::vector<Core::SelectableTool> data({Core::SelectableTool::FILLRECT, Core::SelectableTool::LINE,
-                                            Core::SelectableTool::EMPTYELLIPSE, Core::SelectableTool::EMPTYRECT,
-                                            Core::SelectableTool::FILLEDELLIPSE, Core::SelectableTool::IMAGE,
-                                            Core::SelectableTool::TEXT, Core::SelectableTool::TEXTBORDER,
-                                            Core::SelectableTool::PEN, Core::SelectableTool::PATH, Core::SelectableTool::NonPlayableCharacter});
+    std::vector<Core::SelectableTool> data(
+        {Core::SelectableTool::FILLRECT, Core::SelectableTool::LINE, Core::SelectableTool::EMPTYELLIPSE,
+         Core::SelectableTool::EMPTYRECT, Core::SelectableTool::FILLEDELLIPSE, Core::SelectableTool::IMAGE,
+         Core::SelectableTool::TEXT, Core::SelectableTool::TEXTBORDER, Core::SelectableTool::PEN,
+         Core::SelectableTool::PATH, Core::SelectableTool::NonPlayableCharacter});
     ParamMap list;
     int index= 0;
     for(unsigned int i= 0; i < data.size(); ++i)

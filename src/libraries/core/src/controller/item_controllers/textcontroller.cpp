@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "controller/item_controllers/textcontroller.h"
 
+#include "worker/utilshelper.h"
 #include <QFontMetrics>
 
 #define MARGIN 6
@@ -33,34 +34,25 @@ namespace vmap
 TextController::TextController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::TEXT, params, ctrl, parent)
 {
+    namespace hu= helper::utils;
+    namespace cv= Core::vmapkeys;
+    using std::placeholders::_1;
+
     if(params.end() != params.find("color"))
         setColor(params.at(QStringLiteral("color")).value<QColor>());
 
-    if(params.end() != params.find("tool"))
-    {
-        m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
-        m_border= (m_tool == Core::SelectableTool::TEXTBORDER);
-    }
-    else if(params.end() != params.find("border"))
-    {
-        m_border= params.at(QStringLiteral("border")).toBool();
-        m_tool= m_border ? Core::SelectableTool::TEXTBORDER : Core::SelectableTool::TEXT;
-    }
+    hu::setParamIfAny<Core::SelectableTool>(cv::KEY_TOOL, params, [this](Core::SelectableTool tool) { m_tool= tool; });
 
-    if(params.end() != params.find("text"))
-        setText(params.at(QStringLiteral("text")).toString());
+    hu::setParamIfAny<bool>(cv::KEY_BORDER, params, [this](bool hasBorder) { m_border= hasBorder; });
 
-    if(params.end() != params.find("textPos"))
-        setTextPos(params.at(QStringLiteral("textPos")).toPointF());
+    if(m_border && (m_tool == Core::SelectableTool::TEXTBORDER))
+        qWarning() << "wrong data about border on text item.";
 
-    if(params.end() != params.find("textRect"))
-        setTextRect(params.at(QStringLiteral("textRect")).toRectF());
-
-    if(params.end() != params.find("rect"))
-        setBorderRect(params.at(QStringLiteral("rect")).toRectF());
-
-    if(params.end() != params.find("penWidth"))
-        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+    hu::setParamIfAny<QString>(cv::KEY_TEXT, params, std::bind(&TextController::setText, this, _1));
+    hu::setParamIfAny<QPointF>(cv::KEY_TEXTPOS, params, std::bind(&TextController::setTextPos, this, _1));
+    hu::setParamIfAny<QRectF>(cv::KEY_TEXTRECT, params, std::bind(&TextController::setTextRect, this, _1));
+    hu::setParamIfAny<QRectF>(cv::KEY_BORDERRECT, params, std::bind(&TextController::setBorderRect, this, _1));
+    hu::setParamIfAny<quint16>(cv::KEY_PENWIDTH, params, [this](quint16 pen) { m_penWidth= pen; });
 
     if(m_text.isEmpty())
         setText(tr("Text"));
@@ -168,14 +160,6 @@ void TextController::endGeometryChange()
         m_editingBorderRect= false;
         emit borderRectEditFinished();
     }
-    /* auto rect= m_rect;
-     auto pos= m_pos;
-     qreal w= rect.width();
-     qreal h= rect.height();
-     rect.setCoords(-w / 2, -h / 2, w, h);
-     pos+= QPointF(w / 2, h / 2);
-     setRect(rect);
-     setPos(pos);*/
 }
 
 QRectF TextController::rect() const
@@ -206,9 +190,9 @@ void TextController::updateTextPosition()
     setTextPos(QPointF(m_borderRect.x(), m_borderRect.center().y() - textRect().height() / 2));
 }
 
-void TextController::setCorner(const QPointF& move, int corner,
-                               Core::TransformType tt)
+void TextController::setCorner(const QPointF& move, int corner, Core::TransformType tt)
 {
+    Q_UNUSED(tt)
     if(move.isNull())
         return;
 

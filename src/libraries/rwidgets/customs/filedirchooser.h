@@ -81,7 +81,6 @@ public slots:
 
 private:
     QLineEdit* m_lineEdit= nullptr;
-    QUrl m_url;
     QString m_filter;
     QString m_ext;
     bool m_directory= true;

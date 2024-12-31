@@ -67,8 +67,9 @@ void CampaignUpdater::setCampaign(Campaign* campaign)
         if(!canForward())
             return;
         auto const& states= m_campaign->stateModel()->statesList();
-        FileSerializer::writeStatesIntoCampaign(m_campaign->rootDirectory(),
-                                                FileSerializer::statesToArray(states, m_campaign->rootDirectory()));
+        if(!states.empty())
+            FileSerializer::writeStatesIntoCampaign(m_campaign->rootDirectory(),
+                                                    FileSerializer::statesToArray(states, m_campaign->rootDirectory()));
         updateStateModel();
         auto list= new QList<CharacterState*>();
         std::transform(std::begin(states), std::end(states), std::back_inserter(*list),
@@ -171,7 +172,6 @@ void CampaignUpdater::saveDataInto(const QString& path)
         FileSerializer::writeStatesIntoCampaign(path, FileSerializer::statesToArray(states, path));
 
     // NPC
-
     auto const& npcs= m_campaign->npcModel()->npcList();
     if(!npcs.empty())
         FileSerializer::writeNpcIntoCampaign(path, FileSerializer::npcToArray(npcs, m_campaign->rootDirectory()));

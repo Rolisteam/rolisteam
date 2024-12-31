@@ -180,18 +180,12 @@ void ModelTest::historyModel()
 
     model.addLink(Helper::randomUrl(), Helper::randomString(),
                   Helper::randomFromList<Core::ContentType>(
-                      {Core::ContentType::VECTORIALMAP, Core::ContentType::PICTURE, Core::ContentType::NOTES,
-                       Core::ContentType::CHARACTERSHEET, Core::ContentType::SHAREDNOTE, Core::ContentType::PDF,
-                       Core::ContentType::WEBVIEW, Core::ContentType::INSTANTMESSAGING, Core::ContentType::MINDMAP,
-                       Core::ContentType::UNKNOWN}));
+                      {Core::ContentType::WEBVIEW, Core::ContentType::PICTURE, Core::ContentType::NOTES}));
 
     QCOMPARE(model.rowCount(), 1);
     model.addLink(Helper::randomUrl(), Helper::randomString(),
                   Helper::randomFromList<Core::ContentType>(
-                      {Core::ContentType::VECTORIALMAP, Core::ContentType::PICTURE, Core::ContentType::NOTES,
-                       Core::ContentType::CHARACTERSHEET, Core::ContentType::SHAREDNOTE, Core::ContentType::PDF,
-                       Core::ContentType::WEBVIEW, Core::ContentType::INSTANTMESSAGING, Core::ContentType::MINDMAP,
-                       Core::ContentType::UNKNOWN}));
+                      {Core::ContentType::WEBVIEW, Core::ContentType::PICTURE, Core::ContentType::NOTES}));
 
     QCOMPARE(model.rowCount(), 2);
 

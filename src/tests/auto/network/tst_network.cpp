@@ -359,7 +359,8 @@ void TestNetwork::messageHeaderTest_data()
     QStringList cats{"AdministrationCategory", "UserCategory",           "PlayerCharacterCategory",
                      "CharacterSheetCategory", "InstantMessageCategory", "MusicCategory",
                      "CampaignCategory",       "VMapCategory",           "MediaCategory",
-                     "SharedNoteCategory",     "WebPageCategory",        "MindMapCategory"};
+                     "SharedNoteCategory",     "WebPageCategory",        "MindMapCategory",
+                     "Dice3DCategory"};
 
     QList<QStringList> actionPerCategorie;
 
@@ -455,9 +456,12 @@ void TestNetwork::messageHeaderTest_data()
     actionPerCategorie.append(
         {"AddNodes", "RemoveNode", "UpdateNode", "UpdatePackage", "UpdateLink", "UpdateMindMapPermission"});
 
+    // 12
+    actionPerCategorie.append({"Roll3DAct"});
+
     QCOMPARE(cats.size(), actionPerCategorie.size());
 
-    for(quint8 i= 0; i < std::numeric_limits<quint8>::max(); ++i)
+    for(quint8 i= 0; i < cats.size() + 1 /*std::numeric_limits<quint8>::max()*/; ++i)
     {
         QString cat("UnknownCategory");
         QStringList actionList;
@@ -467,7 +471,7 @@ void TestNetwork::messageHeaderTest_data()
             cat= cats[i];
         }
 
-        for(quint8 j= 0; j < std::numeric_limits<quint8>::max(); ++j)
+        for(quint8 j= 0; j < actionList.size() + 1 /*std::numeric_limits<quint8>::max()*/; ++j)
         {
             QString act("Unknown Action");
             if(j < actionList.size())

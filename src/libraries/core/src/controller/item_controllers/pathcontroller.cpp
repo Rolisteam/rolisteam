@@ -66,7 +66,7 @@ PathController::PathController(const std::map<QString, QVariant>& params, Vector
 
 PathController::~PathController()
 {
-    qDebug() << "destruction path controller";
+    // qDebug() << "destruction path controller";
 }
 
 bool PathController::filled() const

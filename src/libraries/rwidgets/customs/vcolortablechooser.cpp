@@ -194,7 +194,7 @@ ColorTableChooser::ColorTableChooser(QWidget* parent) : QWidget(parent)
 }
 ColorTableChooser::~ColorTableChooser()
 {
-    qDebug() << "destructor Table Chooser";
+    // qDebug() << "destructor Table Chooser";
 }
 void ColorTableChooser::resizeEvent(QResizeEvent* event)
 {

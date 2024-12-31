@@ -489,10 +489,10 @@ const std::map<QString, QVariant> buildTextController(bool border, const QString
                                                       const QPointF& pos)
 {
     return {{"border", border},
-            {"rect", rect},
+            {"borderRect", rect},
             {"position", pos},
             {"text", text},
-            {"tool", border ? Core::SelectableTool::TEXT : Core::SelectableTool::TEXTBORDER}};
+            {"tool", border ? Core::SelectableTool::TEXTBORDER : Core::SelectableTool::TEXT}};
 }
 
 const std::map<QString, QVariant> buildEllipseController(bool filled, qreal rx, qreal ry, const QPointF& pos)

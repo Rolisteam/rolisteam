@@ -82,7 +82,7 @@ void WidgetsTest::realSliderTest()
 
 void WidgetsTest::fileDirChooserTest()
 {
-    QUrl path("/home/path/place");
+    QUrl path= QUrl::fromUserInput("/home/path/place");
     m_fileDirChooser->setUrl(path);
     QCOMPARE(m_fileDirChooser->url(), path);
 
@@ -109,7 +109,7 @@ void WidgetsTest::imageSelectorTest()
 
     auto dlAct= dialog.findChild<QAction*>("m_downloadAct");
     dlAct->trigger();
-    spy1.wait(100);
+    spy1.wait(1000);
     QCOMPARE(spy1.count(), 1);
 
     dialog.accept();

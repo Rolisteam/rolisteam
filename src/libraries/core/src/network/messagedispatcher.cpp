@@ -118,6 +118,9 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
     case NetMsg::MindMapCategory:
         str= QStringLiteral("MindMapCategory");
         break;
+    case NetMsg::Dice3DCategory:
+        str= QStringLiteral("Dice3DCategory");
+        break;
     default:
         str= QStringLiteral("UnknownCategory");
         break;
@@ -481,7 +484,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         switch(act)
         {
         case NetMsg::Roll3DAct:
-            str= QStringLiteral("Roll 3d Dice");
+            str= QStringLiteral("Roll3DAct");
             break;
         default:
             str= QStringLiteral("Unknown Action");
@@ -490,7 +493,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
     }
     else
     {
-        str= QStringLiteral("Unknown Category");
+        str= QStringLiteral("Unknown Action");
     }
     return str;
 }

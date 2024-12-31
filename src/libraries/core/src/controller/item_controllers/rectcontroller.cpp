@@ -81,6 +81,7 @@ void RectController::setPenWidth(qreal w)
 
 void RectController::setCorner(const QPointF& move, int corner, Core::TransformType tt)
 {
+    Q_UNUSED(tt)
     if(move.isNull())
         return;
 

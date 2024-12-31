@@ -336,7 +336,7 @@ void CampaignTest::copyCampaign()
     }
     m_manager->saveCampaign();
 
-    // QTest::qWait(2000);
+    QTest::qWait(2000);
 
     QTemporaryDir dir;
     if(dir.isValid())
@@ -346,13 +346,12 @@ void CampaignTest::copyCampaign()
         QTest::qWait(2000);
 
         QDir copyDir(path);
-        QDir sourceDir(campaign->rootDirectory());
 
         auto copyListFile= copyDir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+        QDir sourceDir(campaign->rootDirectory());
         auto sourceListFile= sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
-
-        if(copyListFile.size() != sourceListFile.size())
-            qDebug() << copyListFile << sourceListFile;
+        // if(copyListFile.size() != sourceListFile.size())
+        //     qDebug() << copyListFile << sourceListFile << states.size();
 
         QCOMPARE(copyListFile.size(), sourceListFile.size());
 
@@ -471,10 +470,12 @@ void CampaignTest::importFromAnotherCampaign()
         auto importedFile= fileAndDirRecusive(path);
         auto sourceListFile= fileAndDirRecusive(root1.path());
 
-        // qDebug() << importedFile << sourceListFile;
-
         if(expectedEguality)
+        {
+            // if(importedFile.size() != sourceListFile.size())
+            //                qDebug() << importedFile << sourceListFile;
             QCOMPARE(importedFile.size(), sourceListFile.size());
+        }
 
         if(expectedEguality)
         {
@@ -485,8 +486,8 @@ void CampaignTest::importFromAnotherCampaign()
                 if(copy.absoluteFilePath().endsWith(campaign::MODEL_FILE))
                     continue;
 
-                if(copy.size() != source.size())
-                    qDebug() << "size issue" << copy.size() << source.size();
+                // if(copy.size() != source.size())
+                //                    qDebug() << "size issue" << copy.size() << source.size();
                 QVERIFY2(copy.size() == source.size(), copy.absoluteFilePath().toStdString().c_str());
 
                 QFile copyFile(copy.absoluteFilePath());

@@ -21,9 +21,10 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 
+#include <charactersheet/charactersheet.h>
+#include <charactersheet/rolisteamimageprovider.h>
 #include <data/character.h>
 #include <data/characterstate.h>
-#include <charactersheet/charactersheet.h>
 
 #include "worker/iohelper.h"
 #include <helper.h>
@@ -32,21 +33,21 @@
 
 CharacterAction* buildAction()
 {
-    auto res = new CharacterAction;
+    auto res= new CharacterAction;
     res->setCommand(Helper::randomString());
     res->setName(Helper::randomString());
     return res;
 }
 CharacterProperty* buildProperty()
 {
-    auto res = new CharacterProperty;
+    auto res= new CharacterProperty;
     res->setValue(Helper::randomString());
     res->setName(Helper::randomString());
     return res;
 }
 CharacterShape* buildShape()
 {
-    auto res = new CharacterShape;
+    auto res= new CharacterShape;
     res->setSize(Helper::generate<int>(1, 12));
     res->setImage(QImage(Helper::imagePath()));
     res->setUri(Helper::imagePath());
@@ -82,9 +83,7 @@ void DataCharacterTest::initTestCase()
     m_character.reset(new Character());
 }
 
-void DataCharacterTest::cleanupTestCase()
-{
-}
+void DataCharacterTest::cleanupTestCase() {}
 void DataCharacterTest::testSetAndGet()
 {
     m_character->setName("Name");
@@ -105,26 +104,24 @@ void DataCharacterTest::testSetAndGet()
     m_character->setNumber(10);
     QVERIFY(m_character->number() == 10);
 
-
-    Character cart2(Helper::randomString(),Helper::randomString(),Helper::randomColor(), false, 0);
+    Character cart2(Helper::randomString(), Helper::randomString(), Helper::randomColor(), false, 0);
 
     QList<CharacterAction*> actions;
-    for(int i = Helper::generate<int>(1,10); i >= 0; --i)
+    for(int i= Helper::generate<int>(1, 10); i >= 0; --i)
     {
         actions << buildAction();
     }
     m_character->defineActionList(actions);
 
     QList<CharacterProperty*> properties;
-    for(int i = Helper::generate<int>(1,10); i >= 0; --i)
+    for(int i= Helper::generate<int>(1, 10); i >= 0; --i)
     {
         properties << buildProperty();
     }
     m_character->definePropertiesList(properties);
 
-
     QList<CharacterShape*> shapes;
-    for(int i = Helper::generate<int>(1,10); i >= 0; --i)
+    for(int i= Helper::generate<int>(1, 10); i >= 0; --i)
     {
         shapes << buildShape();
     }
@@ -133,8 +130,7 @@ void DataCharacterTest::testSetAndGet()
     m_character->setImageProvider(nullptr);
     QCOMPARE(m_character->getImageProvider(), nullptr);
 
-
-    auto p = reinterpret_cast<RolisteamImageProvider*>(Helper::generate<int>(1,10));
+    auto p= new RolisteamImageProvider(nullptr);
     m_character->setImageProvider(p);
     QCOMPARE(m_character->getImageProvider(), p);
 
@@ -143,15 +139,14 @@ void DataCharacterTest::testSetAndGet()
 
     QCOMPARE(m_character->getParentId(), QString());
 
-
-    auto vs = m_character->getVariableDictionnary();
+    auto vs= m_character->getVariableDictionnary();
     QCOMPARE(vs.size(), properties.size());
 
     auto sheet= m_character->getSheet();
     QVERIFY(sheet == nullptr);
 
     m_character->setSheet(new CharacterSheet());
-    auto vs2 = m_character->getVariableDictionnary();
+    auto vs2= m_character->getVariableDictionnary();
     QCOMPARE(vs2.size(), 0);
 
     m_character->setSheet(sheet);
@@ -168,7 +163,7 @@ void DataCharacterTest::testSetAndGet()
     m_character->setCurrentShape(nullptr);
     m_character->setCurrentShape(nullptr);
     QCOMPARE(m_character->currentShape(), nullptr);
-    auto s = buildShape();
+    auto s= buildShape();
 
     m_character->addShape(s);
     m_character->setCurrentShape(s);
@@ -201,8 +196,7 @@ void DataCharacterTest::testProperty()
     m_character->setInitiativeScore(24);
     QVERIFY(spyInit.count() == 1);
 
-    //auto state2= new CharacterState();
-
+    // auto state2= new CharacterState();
 
     /*m_character->setState(state2);
     QSignalSpy spyState(m_character, &Character::stateChanged);
@@ -337,12 +331,12 @@ void DataCharacterTest::propertiesTest()
 {
     {
         CharacterShape shape;
-        auto movie = Helper::randomMovie();
+        auto movie= Helper::randomMovie();
         shape.setMovie(movie);
 
         QCOMPARE(shape.movie().fileName(), movie.fileName());
 
-        auto uri = Helper::randomString();
+        auto uri= Helper::randomString();
         shape.setUri(uri);
         shape.setUri(uri);
 

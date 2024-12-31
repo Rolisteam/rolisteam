@@ -208,6 +208,8 @@ QJsonArray FileSerializer::dicesToArray(const std::vector<std::unique_ptr<DiceAl
 
 void FileSerializer::writeStatesIntoCampaign(const QString& destination, const QJsonArray& array)
 {
+    if(array.isEmpty())
+        return;
     auto r= QtConcurrent::run(
         [destination, array]()
         { IOHelper::writeJsonArrayIntoFile(QString("%1/%2").arg(destination, campaign::STATE_MODEL), array); });
