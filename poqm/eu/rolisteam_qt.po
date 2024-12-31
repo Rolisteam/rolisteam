@@ -715,27 +715,27 @@ msgctxt "QObject|"
 msgid "open <file>."
 msgstr "ireki <fitxategia>."
 
-#: src/binaries/rcse/mainwindow.cpp:170
+#: src/binaries/rcse/mainwindow.cpp:175
 msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Egunkari panela"
 
-#: src/binaries/rcse/mainwindow.cpp:198
+#: src/binaries/rcse/mainwindow.cpp:205
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "&Desegin"
 
-#: src/binaries/rcse/mainwindow.cpp:201
+#: src/binaries/rcse/mainwindow.cpp:208
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "Be&rregin"
 
-#: src/binaries/rcse/mainwindow.cpp:360
+#: src/binaries/rcse/mainwindow.cpp:377
 msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Euskarria"
 
-#: src/binaries/rcse/mainwindow.cpp:361
+#: src/binaries/rcse/mainwindow.cpp:378
 #, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
@@ -746,17 +746,17 @@ msgstr ""
 "\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/"
 "donate</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:432
+#: src/binaries/rcse/mainwindow.cpp:453
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Izengabea"
 
-#: src/binaries/rcse/mainwindow.cpp:469
+#: src/binaries/rcse/mainwindow.cpp:490
 msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Laguntza"
 
-#: src/binaries/rcse/mainwindow.cpp:470
+#: src/binaries/rcse/mainwindow.cpp:491
 #, qt-format
 msgctxt "rcse::MainWindow|"
 msgid ""
@@ -764,53 +764,53 @@ msgid ""
 msgstr ""
 "RCSEren dokumentazioa lerroan hemen aurki daiteke:<br> <a href=\"%1\">%1</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:482
+#: src/binaries/rcse/mainwindow.cpp:503
 msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "Pertsonaien-orriak gorde gabeko aldaketak ditu."
 
-#: src/binaries/rcse/mainwindow.cpp:489
+#: src/binaries/rcse/mainwindow.cpp:510
 #, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Irten %1-etik"
 
-#: src/binaries/rcse/mainwindow.cpp:544
+#: src/binaries/rcse/mainwindow.cpp:565
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Irudiak sortzea"
 
-#: src/binaries/rcse/mainwindow.cpp:544
+#: src/binaries/rcse/mainwindow.cpp:565
 msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Irudi sortzea martxan"
 
-#: src/binaries/rcse/mainwindow.cpp:563 src/binaries/rcse/mainwindow.cpp:794
+#: src/binaries/rcse/mainwindow.cpp:586 src/binaries/rcse/mainwindow.cpp:818
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Ireki atzeko planoko irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:574
+#: src/binaries/rcse/mainwindow.cpp:597
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Ireki irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:599 src/binaries/rcse/mainwindow.cpp:644
+#: src/binaries/rcse/mainwindow.cpp:622 src/binaries/rcse/mainwindow.cpp:667
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "Gorde pertsonaien-orria"
 
-#: src/binaries/rcse/mainwindow.cpp:600 src/binaries/rcse/mainwindow.cpp:645
+#: src/binaries/rcse/mainwindow.cpp:623 src/binaries/rcse/mainwindow.cpp:668
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "Rolisteam pertsonaien-orri ikuspegia (*.rcs)"
 
-#: src/binaries/rcse/mainwindow.cpp:709
+#: src/binaries/rcse/mainwindow.cpp:732
 msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "Uneko QML kodea ezabatu nahi duzu?"
 
-#: src/binaries/rcse/mainwindow.cpp:710
+#: src/binaries/rcse/mainwindow.cpp:733
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
@@ -819,72 +819,72 @@ msgstr ""
 "Sortu QML kodea erabiltzean «QML»en egin dituzun aldaketa guztiak "
 "gainidatziko dira.<br/>Benetan sortu nahi duzu QML kodea?"
 
-#: src/binaries/rcse/mainwindow.cpp:777
+#: src/binaries/rcse/mainwindow.cpp:801
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "Gorde pertsonaien-orri ikuspegia"
 
-#: src/binaries/rcse/mainwindow.cpp:778
+#: src/binaries/rcse/mainwindow.cpp:802
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Rolisteam pertsonaien-orri ikuspegia (*.qml)"
 
-#: src/binaries/rcse/mainwindow.cpp:903
+#: src/binaries/rcse/mainwindow.cpp:927
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Kopiatu bide-izena"
 
-#: src/binaries/rcse/mainwindow.cpp:906
+#: src/binaries/rcse/mainwindow.cpp:930
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "Kopiatu URLa"
 
-#: src/binaries/rcse/mainwindow.cpp:909
+#: src/binaries/rcse/mainwindow.cpp:933
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Ordeztu irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:910
+#: src/binaries/rcse/mainwindow.cpp:934
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Kendu irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:911
+#: src/binaries/rcse/mainwindow.cpp:935
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Birzamatu irudia fitxategitik"
 
-#: src/binaries/rcse/mainwindow.cpp:918
+#: src/binaries/rcse/mainwindow.cpp:944
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Zamatu irudia"
 
-#: src/binaries/rcse/mainwindow.cpp:919
+#: src/binaries/rcse/mainwindow.cpp:945
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "Onartutako irudi-formatuak (*.jpg *.png *.svg *.gif)"
 
-#: src/binaries/rcse/mainwindow.cpp:932
+#: src/binaries/rcse/mainwindow.cpp:958
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Gehitu pertsonaia"
 
-#: src/binaries/rcse/mainwindow.cpp:933
+#: src/binaries/rcse/mainwindow.cpp:959
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Ezabatu pertsonaia"
 
-#: src/binaries/rcse/mainwindow.cpp:935
+#: src/binaries/rcse/mainwindow.cpp:961
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Pertsonaiaren izena"
 
-#: src/binaries/rcse/mainwindow.cpp:937
+#: src/binaries/rcse/mainwindow.cpp:963
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "Erabili hautapenean"
 
-#: src/binaries/rcse/mainwindow.cpp:938
+#: src/binaries/rcse/mainwindow.cpp:964
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "Erabili pertsonaia guztietan"
@@ -1048,7 +1048,7 @@ msgstr "Editatzea"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:679
+#: src/binaries/widget/mainwindow.cpp:670
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Laguntza"
@@ -1207,13 +1207,13 @@ msgid "Check Validity"
 msgstr "Egiaztatu baliozkotasuna"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:629
+#: src/binaries/widget/mainwindow.cpp:620
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Desegin"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:628
+#: src/binaries/widget/mainwindow.cpp:619
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "Be&rregin"
@@ -1604,79 +1604,79 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Galdetu pasahitza eta itzuli bere hash gakoa."
 
-#: src/binaries/widget/mainwindow.cpp:417
+#: src/binaries/widget/mainwindow.cpp:408
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Alboko-panelak"
 
-#: src/binaries/widget/mainwindow.cpp:422
+#: src/binaries/widget/mainwindow.cpp:413
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr "Alboko-panelak"
 
-#: src/binaries/widget/mainwindow.cpp:432
+#: src/binaries/widget/mainwindow.cpp:423
 msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "Jokalari-zerrenda"
 
-#: src/binaries/widget/mainwindow.cpp:433
+#: src/binaries/widget/mainwindow.cpp:424
 msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "Kanpainaren dokumentu guztiak"
 
-#: src/binaries/widget/mainwindow.cpp:434
+#: src/binaries/widget/mainwindow.cpp:425
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr "Aurkari-zerrenda"
 
-#: src/binaries/widget/mainwindow.cpp:435
+#: src/binaries/widget/mainwindow.cpp:426
 msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "Musika jotzailea"
 
-#: src/binaries/widget/mainwindow.cpp:436
+#: src/binaries/widget/mainwindow.cpp:427
 msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "Zerbitzariaren panela"
 
-#: src/binaries/widget/mainwindow.cpp:437
+#: src/binaries/widget/mainwindow.cpp:428
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Jakinarazpen eremua"
 
-#: src/binaries/widget/mainwindow.cpp:452
+#: src/binaries/widget/mainwindow.cpp:443
 msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "JM Tresnak"
 
-#: src/binaries/widget/mainwindow.cpp:509
+#: src/binaries/widget/mainwindow.cpp:500
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Ireki web-orria"
 
-#: src/binaries/widget/mainwindow.cpp:509
+#: src/binaries/widget/mainwindow.cpp:500
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "Web-orriaren URL:"
 
-#: src/binaries/widget/mainwindow.cpp:517
+#: src/binaries/widget/mainwindow.cpp:508
 msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "Ireki mapa"
 
-#: src/binaries/widget/mainwindow.cpp:517
+#: src/binaries/widget/mainwindow.cpp:508
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr "Mapa:"
 
-#: src/binaries/widget/mainwindow.cpp:531
-#: src/binaries/widget/mainwindow.cpp:570
-#: src/binaries/widget/mainwindow.cpp:794 src/binaries/widget/mainwindow.ui:287
+#: src/binaries/widget/mainwindow.cpp:522
+#: src/binaries/widget/mainwindow.cpp:561
+#: src/binaries/widget/mainwindow.cpp:785 src/binaries/widget/mainwindow.ui:287
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Ireki kanpaina bat"
 
-#: src/binaries/widget/mainwindow.cpp:680
+#: src/binaries/widget/mainwindow.cpp:671
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -1684,41 +1684,41 @@ msgstr ""
 "%1(e)ri buruzko dokumentazioa lerroan hemen aurki daiteke:<br> <a href="
 "\"%1\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:715
+#: src/binaries/widget/mainwindow.cpp:706
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Euskarria"
 
-#: src/binaries/widget/mainwindow.cpp:716
+#: src/binaries/widget/mainwindow.cpp:707
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
 "%1 dohaintza orria lerroan hemen aurki daiteke:<br><a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:778
+#: src/binaries/widget/mainwindow.cpp:769
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Konexioa galdu da. %1 itxiko da"
 
-#: src/binaries/widget/mainwindow.cpp:780
+#: src/binaries/widget/mainwindow.cpp:771
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Konexioa galdu da"
 
-#: src/binaries/widget/mainwindow.cpp:786
+#: src/binaries/widget/mainwindow.cpp:777
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Irten %1-etik"
 
-#: src/binaries/widget/mainwindow.cpp:861
+#: src/binaries/widget/mainwindow.cpp:852
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Eguneratze-jakinarazpena"
 
-#: src/binaries/widget/mainwindow.cpp:862
+#: src/binaries/widget/mainwindow.cpp:853
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1728,101 +1728,101 @@ msgstr ""
 "%1 bertsioa kaleratu da. Mesedez, begiratu <a href=\"https://www.rolisteam."
 "org/download\">Zama-jasiteko orrian</a> informazio gehiago jasotzeko"
 
-#: src/binaries/widget/mainwindow.cpp:872
+#: src/binaries/widget/mainwindow.cpp:863
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 oraintxe jokora batu da."
 
-#: src/binaries/widget/mainwindow.cpp:876
+#: src/binaries/widget/mainwindow.cpp:867
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1(e)k ez du bertsio zuzena: %2."
 
-#: src/binaries/widget/mainwindow.cpp:882
+#: src/binaries/widget/mainwindow.cpp:873
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 oraintxe jokotik irten da."
 
-#: src/binaries/widget/mainwindow.cpp:965
+#: src/binaries/widget/mainwindow.cpp:956
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Ezarri «rolisteam» konexiorako <ataka> erabiltzeko"
 
-#: src/binaries/widget/mainwindow.cpp:968
+#: src/binaries/widget/mainwindow.cpp:959
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Ezarri «rolisteam» <zerbitzaria>ra konektatzeko."
 
-#: src/binaries/widget/mainwindow.cpp:971
+#: src/binaries/widget/mainwindow.cpp:962
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definitua <eginkizuna>: jm edo jp"
 
-#: src/binaries/widget/mainwindow.cpp:973
+#: src/binaries/widget/mainwindow.cpp:964
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Kendu ezarpenak eta erabili lehenetsitako parametroak"
 
-#: src/binaries/widget/mainwindow.cpp:976
+#: src/binaries/widget/mainwindow.cpp:967
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definitu «erabiltzaile-izena>"
 
-#: src/binaries/widget/mainwindow.cpp:979
+#: src/binaries/widget/mainwindow.cpp:970
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Kendu PDF fitxategi-neurriaren muga"
 
-#: src/binaries/widget/mainwindow.cpp:982
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "itzulpen fitxategirako bide-izena: <itzulpen-fitxategia>"
 
-#: src/binaries/widget/mainwindow.cpp:985
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definitu zerbitzarira konektatzeko URL: <URL>"
 
-#: src/binaries/widget/mainwindow.cpp:1078
+#: src/binaries/widget/mainwindow.cpp:1069
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Ireki %1"
 
-#: src/binaries/widget/mainwindow.cpp:1172
+#: src/binaries/widget/mainwindow.cpp:1163
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Konektatuta"
 
-#: src/binaries/widget/mainwindow.cpp:1172
+#: src/binaries/widget/mainwindow.cpp:1163
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Konektatu gabe"
 
-#: src/binaries/widget/mainwindow.cpp:1173
+#: src/binaries/widget/mainwindow.cpp:1164
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Zerbitzaria"
 
-#: src/binaries/widget/mainwindow.cpp:1173
+#: src/binaries/widget/mainwindow.cpp:1164
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Bezeroa"
 
-#: src/binaries/widget/mainwindow.cpp:1180
+#: src/binaries/widget/mainwindow.cpp:1171
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "JM"
 
-#: src/binaries/widget/mainwindow.cpp:1186
+#: src/binaries/widget/mainwindow.cpp:1177
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Jokalaria"
 
-#: src/binaries/widget/mainwindow.cpp:1215
+#: src/binaries/widget/mainwindow.cpp:1206
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Ezezaguna"
@@ -2519,7 +2519,7 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "Hornitu fitxategi hori Rolisteam garatzaileei"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:422
+#: src/libraries/core/src/controller/contentcontroller.cpp:426
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Kopiatutako irudia"
@@ -2600,28 +2600,28 @@ msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: src/libraries/core/src/data/campaign.cpp:268
+#: src/libraries/core/src/data/campaign.cpp:271
 msgctxt "Campaign|"
 msgid "Pattern"
 msgstr "Eredua"
 
-#: src/libraries/core/src/data/campaign.cpp:268
+#: src/libraries/core/src/data/campaign.cpp:271
 msgctxt "Campaign|"
 msgid "Command"
 msgstr "Komandoa"
 
-#: src/libraries/core/src/data/campaign.cpp:268
+#: src/libraries/core/src/data/campaign.cpp:271
 msgctxt "Campaign|"
 msgid "Comment"
 msgstr "Iruzkina"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:57
+#: src/libraries/core/src/data/campaignmanager.cpp:58
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr "Ezinezkoa da %1(e)n kanpaina-txantiloia sortzea"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:133
+#: src/libraries/core/src/data/campaignmanager.cpp:134
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
@@ -3243,19 +3243,19 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "Itxi %1"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:197
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:199
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "'%1' ez dago hutsik"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:206
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:208
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
 msgstr "Ezin izan du '%1' sortu"
 
-#: src/libraries/core/src/worker/fileserializer.cpp:96
+#: src/libraries/core/src/worker/fileserializer.cpp:97
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
@@ -4618,86 +4618,96 @@ msgstr "Bihurtuta"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:124
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:127
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:246
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:249
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:240
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:243
 msgctxt "CampaignProperties|"
 msgid "Add"
 msgstr "Gehitu"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:138
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:141
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:260
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:263
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:137
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:140
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:253
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:256
 msgctxt "CampaignProperties|"
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:152
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:155
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:274
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:277
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:150
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:153
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:266
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:269
 msgctxt "CampaignProperties|"
 msgid "Top"
 msgstr "Goian"
 
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:163
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:166
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:169
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:288
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:291
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:279
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:282
 msgctxt "CampaignProperties|"
 msgid "Up"
 msgstr "Gora"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:180
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:183
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:302
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:305
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:176
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:179
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:292
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:295
 msgctxt "CampaignProperties|"
 msgid "Down"
 msgstr "Behera"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:194
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:197
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:316
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:319
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:189
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:192
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:305
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:308
 msgctxt "CampaignProperties|"
 msgid "Bottom"
 msgstr "Behean"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:226
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:220
 msgctxt "CampaignProperties|"
 msgid "Character States"
 msgstr "Pertsonaien egoerak"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:348
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:336
 msgctxt "CampaignProperties|"
 msgid "Properties"
 msgstr "Propietateak"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:358
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:344
 msgctxt "CampaignProperties|"
 msgid "Name:"
 msgstr "Izena:"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:368
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:354
 msgctxt "CampaignProperties|"
 msgid "Root Directory:"
 msgstr "Erro direktorioa:"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:378
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:364
+msgctxt "CampaignProperties|"
+msgid "Theme*:"
+msgstr "Gaia*:"
+
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:374
 msgctxt "CampaignProperties|"
 msgid "File count:"
 msgstr "Fitxategi kopurua:"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:392
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:388
 msgctxt "CampaignProperties|"
 msgid "Disk usage:"
 msgstr "Diskoaren erabilera:"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:406
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:402
 msgctxt "CampaignProperties|"
-msgid "Theme*:"
-msgstr "Gaia*:"
+msgid "Load all open documents from last session."
+msgstr ""
+
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:405
+msgctxt "CampaignProperties|"
+msgid "Restore session at startup"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -7697,30 +7707,30 @@ msgctxt "QObject|"
 msgid "Rule"
 msgstr "Erregela"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (Pertsonaia-orri erakuslea)"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:211
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:208
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
 msgstr "%1 - (Pertsonaia-orri erakuslea)"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:223
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:291
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:220
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:288
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
 msgstr "Partekatu honekin"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:276
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:273
 msgctxt "CharacterSheetWindow|"
 msgid "To all"
 msgstr "Denei"
@@ -7766,8 +7776,11 @@ msgid "Stop Sharing"
 msgstr "Utzi partekatzeari"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
+#, fuzzy
+#| msgctxt "CharacterSheetWindow|"
+#| msgid "Print Act"
 msgctxt "CharacterSheetWindow|"
-msgid "Print Act"
+msgid "Print Sheet"
 msgstr "Inprimatu akta"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118

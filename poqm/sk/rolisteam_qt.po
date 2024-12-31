@@ -734,7 +734,7 @@ msgctxt "QObject|"
 msgid "open <file>."
 msgstr "otvoriť <súbor>."
 
-#: src/binaries/rcse/mainwindow.cpp:170
+#: src/binaries/rcse/mainwindow.cpp:175
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Log panel"
@@ -742,7 +742,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Panel záznamov"
 
-#: src/binaries/rcse/mainwindow.cpp:198
+#: src/binaries/rcse/mainwindow.cpp:205
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "&Undo"
@@ -750,7 +750,7 @@ msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "&Späť"
 
-#: src/binaries/rcse/mainwindow.cpp:201
+#: src/binaries/rcse/mainwindow.cpp:208
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "&Redo"
@@ -758,7 +758,7 @@ msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "&Znova"
 
-#: src/binaries/rcse/mainwindow.cpp:360
+#: src/binaries/rcse/mainwindow.cpp:377
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Support"
@@ -766,7 +766,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Support"
 msgstr "Podpora"
 
-#: src/binaries/rcse/mainwindow.cpp:361
+#: src/binaries/rcse/mainwindow.cpp:378
 #, fuzzy, qt-format
 #| msgctxt "MainWindow|"
 #| msgid ""
@@ -781,7 +781,7 @@ msgstr ""
 "Stránka %1 pre darcov je k dispozícii online na :<br> <a href=\"https://"
 "liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:432
+#: src/binaries/rcse/mainwindow.cpp:453
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Untitled"
@@ -789,7 +789,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Bez názvu"
 
-#: src/binaries/rcse/mainwindow.cpp:469
+#: src/binaries/rcse/mainwindow.cpp:490
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Help"
@@ -797,7 +797,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Pomocník"
 
-#: src/binaries/rcse/mainwindow.cpp:470
+#: src/binaries/rcse/mainwindow.cpp:491
 #, fuzzy, qt-format
 #| msgctxt "MainWindow|"
 #| msgid ""
@@ -807,7 +807,7 @@ msgid ""
 "Documentation of Rcse can be found online at :<br> <a href=\"%1\">%1</a>"
 msgstr "Dokumentáciu k Rcse nájdete online na :<br> <a href=\"%1\">%1</a>"
 
-#: src/binaries/rcse/mainwindow.cpp:482
+#: src/binaries/rcse/mainwindow.cpp:503
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "The charactersheet has unsaved changes."
@@ -815,7 +815,7 @@ msgctxt "rcse::MainWindow|"
 msgid "The charactersheet has unsaved changes."
 msgstr "Karta postavy má neuložené zmeny."
 
-#: src/binaries/rcse/mainwindow.cpp:489
+#: src/binaries/rcse/mainwindow.cpp:510
 #, fuzzy, qt-format
 #| msgctxt "MainWindow|"
 #| msgid "Quit %1 "
@@ -823,7 +823,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Ukončiť %1 "
 
-#: src/binaries/rcse/mainwindow.cpp:544
+#: src/binaries/rcse/mainwindow.cpp:565
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Image Generation"
@@ -831,7 +831,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Generovanie obrázka"
 
-#: src/binaries/rcse/mainwindow.cpp:544
+#: src/binaries/rcse/mainwindow.cpp:565
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Image generation in progress"
@@ -839,7 +839,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "Prebieha generovanie obrázka"
 
-#: src/binaries/rcse/mainwindow.cpp:563 src/binaries/rcse/mainwindow.cpp:794
+#: src/binaries/rcse/mainwindow.cpp:586 src/binaries/rcse/mainwindow.cpp:818
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Open Background Image"
@@ -847,7 +847,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Otvoriť obrázok pozadia"
 
-#: src/binaries/rcse/mainwindow.cpp:574
+#: src/binaries/rcse/mainwindow.cpp:597
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Open Image"
@@ -855,7 +855,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Otvoriť obrázok"
 
-#: src/binaries/rcse/mainwindow.cpp:599 src/binaries/rcse/mainwindow.cpp:644
+#: src/binaries/rcse/mainwindow.cpp:622 src/binaries/rcse/mainwindow.cpp:667
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Save CharacterSheet"
@@ -863,7 +863,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "Uložiť kartu postavy"
 
-#: src/binaries/rcse/mainwindow.cpp:600 src/binaries/rcse/mainwindow.cpp:645
+#: src/binaries/rcse/mainwindow.cpp:623 src/binaries/rcse/mainwindow.cpp:668
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Rolisteam CharacterSheet (*.rcs)"
@@ -871,7 +871,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "Karta postavy Rolisteam (*.rcs)"
 
-#: src/binaries/rcse/mainwindow.cpp:709
+#: src/binaries/rcse/mainwindow.cpp:732
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Do you want to erase current QML code ?"
@@ -879,7 +879,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "Chcete vymazať aktuálny kód QML ?"
 
-#: src/binaries/rcse/mainwindow.cpp:710
+#: src/binaries/rcse/mainwindow.cpp:733
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid ""
@@ -893,7 +893,7 @@ msgstr ""
 "Generovanie kódu QML prepíše všetky zmeny vykonané v QML.<br/>Naozaj chcete "
 "generovať kód QML ?"
 
-#: src/binaries/rcse/mainwindow.cpp:777
+#: src/binaries/rcse/mainwindow.cpp:801
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Save CharacterSheet View"
@@ -901,7 +901,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "Uložiť zobrazenie karty postavy"
 
-#: src/binaries/rcse/mainwindow.cpp:778
+#: src/binaries/rcse/mainwindow.cpp:802
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Rolisteam CharacterSheet View (*.qml)"
@@ -909,7 +909,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "Zobrazenie karty postavy Rolisteam (*.qml)"
 
-#: src/binaries/rcse/mainwindow.cpp:903
+#: src/binaries/rcse/mainwindow.cpp:927
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Copy Path"
@@ -917,7 +917,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "Kopírovať cestu"
 
-#: src/binaries/rcse/mainwindow.cpp:906
+#: src/binaries/rcse/mainwindow.cpp:930
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Copy Url"
@@ -925,7 +925,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "Kopírovať Url"
 
-#: src/binaries/rcse/mainwindow.cpp:909
+#: src/binaries/rcse/mainwindow.cpp:933
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Replace Image"
@@ -933,7 +933,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "Nahradiť obrázok"
 
-#: src/binaries/rcse/mainwindow.cpp:910
+#: src/binaries/rcse/mainwindow.cpp:934
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Remove Image"
@@ -941,7 +941,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "Odstrániť obrázok"
 
-#: src/binaries/rcse/mainwindow.cpp:911
+#: src/binaries/rcse/mainwindow.cpp:935
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Reload image from file"
@@ -949,7 +949,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "Znovu načítať obrázok zo súboru"
 
-#: src/binaries/rcse/mainwindow.cpp:918
+#: src/binaries/rcse/mainwindow.cpp:944
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Load Image"
@@ -957,7 +957,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "Načítať obrázok"
 
-#: src/binaries/rcse/mainwindow.cpp:919
+#: src/binaries/rcse/mainwindow.cpp:945
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
@@ -965,7 +965,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "Podporovaný formát obrázkov (*.jpg *.png *.svg *.gif)"
 
-#: src/binaries/rcse/mainwindow.cpp:932
+#: src/binaries/rcse/mainwindow.cpp:958
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Add character"
@@ -973,7 +973,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "Pridať postavu"
 
-#: src/binaries/rcse/mainwindow.cpp:933
+#: src/binaries/rcse/mainwindow.cpp:959
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Delete character"
@@ -981,7 +981,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "Vymazať postavu"
 
-#: src/binaries/rcse/mainwindow.cpp:935
+#: src/binaries/rcse/mainwindow.cpp:961
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Character's Name"
@@ -989,7 +989,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "Meno postavy"
 
-#: src/binaries/rcse/mainwindow.cpp:937
+#: src/binaries/rcse/mainwindow.cpp:963
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Apply on Selection"
@@ -997,7 +997,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "Použiť na na výber"
 
-#: src/binaries/rcse/mainwindow.cpp:938
+#: src/binaries/rcse/mainwindow.cpp:964
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Apply on all characters"
@@ -1240,7 +1240,7 @@ msgstr "Upraviť akcie"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:679
+#: src/binaries/widget/mainwindow.cpp:670
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Pomocník"
@@ -1465,13 +1465,13 @@ msgid "Check Validity"
 msgstr ""
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:629
+#: src/binaries/widget/mainwindow.cpp:620
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Späť"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:628
+#: src/binaries/widget/mainwindow.cpp:619
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Znova"
@@ -1924,7 +1924,7 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Požiadať o heslo a vrátiť jeho hash kľúč."
 
-#: src/binaries/widget/mainwindow.cpp:417
+#: src/binaries/widget/mainwindow.cpp:408
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Server"
@@ -1932,12 +1932,12 @@ msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Server"
 
-#: src/binaries/widget/mainwindow.cpp:422
+#: src/binaries/widget/mainwindow.cpp:413
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:432
+#: src/binaries/widget/mainwindow.cpp:423
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Player"
@@ -1945,7 +1945,7 @@ msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "Hráč"
 
-#: src/binaries/widget/mainwindow.cpp:433
+#: src/binaries/widget/mainwindow.cpp:424
 #, fuzzy
 #| msgctxt "campaign::CampaignDock|"
 #| msgid "Campaign Content"
@@ -1953,12 +1953,12 @@ msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "Obsah kampane"
 
-#: src/binaries/widget/mainwindow.cpp:434
+#: src/binaries/widget/mainwindow.cpp:425
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:435
+#: src/binaries/widget/mainwindow.cpp:426
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Player"
@@ -1966,7 +1966,7 @@ msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "Hráč"
 
-#: src/binaries/widget/mainwindow.cpp:436
+#: src/binaries/widget/mainwindow.cpp:427
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Server"
@@ -1974,7 +1974,7 @@ msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "Server"
 
-#: src/binaries/widget/mainwindow.cpp:437
+#: src/binaries/widget/mainwindow.cpp:428
 #, fuzzy
 #| msgctxt "SideMenu|"
 #| msgid "Sound Notification"
@@ -1982,7 +1982,7 @@ msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Zvukové upozornenie"
 
-#: src/binaries/widget/mainwindow.cpp:452
+#: src/binaries/widget/mainwindow.cpp:443
 #, fuzzy
 #| msgctxt "ToolBox|"
 #| msgid "Tools"
@@ -1990,17 +1990,17 @@ msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "Nástroje"
 
-#: src/binaries/widget/mainwindow.cpp:509
+#: src/binaries/widget/mainwindow.cpp:500
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Otvoriť webovú stránku"
 
-#: src/binaries/widget/mainwindow.cpp:509
+#: src/binaries/widget/mainwindow.cpp:500
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "Url webovej stránky:"
 
-#: src/binaries/widget/mainwindow.cpp:517
+#: src/binaries/widget/mainwindow.cpp:508
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Open Campaign"
@@ -2008,19 +2008,19 @@ msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "Otvoriť kampaň"
 
-#: src/binaries/widget/mainwindow.cpp:517
+#: src/binaries/widget/mainwindow.cpp:508
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:531
-#: src/binaries/widget/mainwindow.cpp:570
-#: src/binaries/widget/mainwindow.cpp:794 src/binaries/widget/mainwindow.ui:287
+#: src/binaries/widget/mainwindow.cpp:522
+#: src/binaries/widget/mainwindow.cpp:561
+#: src/binaries/widget/mainwindow.cpp:785 src/binaries/widget/mainwindow.ui:287
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Otvoriť kampaň"
 
-#: src/binaries/widget/mainwindow.cpp:680
+#: src/binaries/widget/mainwindow.cpp:671
 #, fuzzy, qt-format
 #| msgctxt "MainWindow|"
 #| msgid ""
@@ -2029,41 +2029,41 @@ msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "Dokumentáciu k Rcse nájdete online na :<br> <a href=\"%1\">%1</a>"
 
-#: src/binaries/widget/mainwindow.cpp:715
+#: src/binaries/widget/mainwindow.cpp:706
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Podpora"
 
-#: src/binaries/widget/mainwindow.cpp:716
+#: src/binaries/widget/mainwindow.cpp:707
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
 "Stránka %1 pre darcov je k dispozícii online na :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:778
+#: src/binaries/widget/mainwindow.cpp:769
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Spojenie sa stratilo. %1 bude zatvorené"
 
-#: src/binaries/widget/mainwindow.cpp:780
+#: src/binaries/widget/mainwindow.cpp:771
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Spojenie stratené"
 
-#: src/binaries/widget/mainwindow.cpp:786
+#: src/binaries/widget/mainwindow.cpp:777
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Ukončiť %1 "
 
-#: src/binaries/widget/mainwindow.cpp:861
+#: src/binaries/widget/mainwindow.cpp:852
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Upozornenie na aktualizáciu"
 
-#: src/binaries/widget/mainwindow.cpp:862
+#: src/binaries/widget/mainwindow.cpp:853
 #, fuzzy, qt-format
 #| msgctxt "MainWindow|"
 #| msgid ""
@@ -2077,101 +2077,101 @@ msgstr ""
 "Bola vydaná verzia %1. Viac informácií nájdete na <a href=\"http://www."
 "rolisteam.org/download\">Stránke na stiahnutie</a>"
 
-#: src/binaries/widget/mainwindow.cpp:872
+#: src/binaries/widget/mainwindow.cpp:863
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 sa práve pripája do hry."
 
-#: src/binaries/widget/mainwindow.cpp:876
+#: src/binaries/widget/mainwindow.cpp:867
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 nemá správnu verziu: %2."
 
-#: src/binaries/widget/mainwindow.cpp:882
+#: src/binaries/widget/mainwindow.cpp:873
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 práve opúšťa hru."
 
-#: src/binaries/widget/mainwindow.cpp:965
+#: src/binaries/widget/mainwindow.cpp:956
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Nastaviť rolesteam na použitie <portu> pre pripojenie"
 
-#: src/binaries/widget/mainwindow.cpp:968
+#: src/binaries/widget/mainwindow.cpp:959
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Nastaviť rolesteam na pripojenie k <serveru>."
 
-#: src/binaries/widget/mainwindow.cpp:971
+#: src/binaries/widget/mainwindow.cpp:962
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definovať <rolu>: gm alebo pc"
 
-#: src/binaries/widget/mainwindow.cpp:973
+#: src/binaries/widget/mainwindow.cpp:964
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Vymazať nastavenia a použiť predvolené parametre"
 
-#: src/binaries/widget/mainwindow.cpp:976
+#: src/binaries/widget/mainwindow.cpp:967
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definovať <používateľské meno>"
 
-#: src/binaries/widget/mainwindow.cpp:979
+#: src/binaries/widget/mainwindow.cpp:970
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Odstrániť obmedzenie veľkosti súboru PDF"
 
-#: src/binaries/widget/mainwindow.cpp:982
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "cesta k súboru prekladu: <súbor_prekladu>"
 
-#: src/binaries/widget/mainwindow.cpp:985
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definovať URL na pripojenie k serveru: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1078
+#: src/binaries/widget/mainwindow.cpp:1069
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Otvoriť %1"
 
-#: src/binaries/widget/mainwindow.cpp:1172
+#: src/binaries/widget/mainwindow.cpp:1163
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Pripojené"
 
-#: src/binaries/widget/mainwindow.cpp:1172
+#: src/binaries/widget/mainwindow.cpp:1163
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Nepripojené"
 
-#: src/binaries/widget/mainwindow.cpp:1173
+#: src/binaries/widget/mainwindow.cpp:1164
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: src/binaries/widget/mainwindow.cpp:1173
+#: src/binaries/widget/mainwindow.cpp:1164
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Klient"
 
-#: src/binaries/widget/mainwindow.cpp:1180
+#: src/binaries/widget/mainwindow.cpp:1171
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1186
+#: src/binaries/widget/mainwindow.cpp:1177
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Hráč"
 
-#: src/binaries/widget/mainwindow.cpp:1215
+#: src/binaries/widget/mainwindow.cpp:1206
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Neznáme"
@@ -3055,7 +3055,7 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr ""
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:422
+#: src/libraries/core/src/controller/contentcontroller.cpp:426
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Skopírovaný obrázok"
@@ -3139,28 +3139,28 @@ msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "Neznáme"
 
-#: src/libraries/core/src/data/campaign.cpp:268
+#: src/libraries/core/src/data/campaign.cpp:271
 msgctxt "Campaign|"
 msgid "Pattern"
 msgstr "Vzor"
 
-#: src/libraries/core/src/data/campaign.cpp:268
+#: src/libraries/core/src/data/campaign.cpp:271
 msgctxt "Campaign|"
 msgid "Command"
 msgstr "Príkaz"
 
-#: src/libraries/core/src/data/campaign.cpp:268
+#: src/libraries/core/src/data/campaign.cpp:271
 msgctxt "Campaign|"
 msgid "Comment"
 msgstr "Komentár"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:57
+#: src/libraries/core/src/data/campaignmanager.cpp:58
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr "Nie je možné vytvoriť šablónu kampane na %1"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:133
+#: src/libraries/core/src/data/campaignmanager.cpp:134
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
@@ -3782,19 +3782,19 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "Zavrieť %1"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:197
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:199
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "'%1' nie je prázdne"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:206
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:208
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
 msgstr "Nepodarilo sa vytvoriť '%1'"
 
-#: src/libraries/core/src/worker/fileserializer.cpp:96
+#: src/libraries/core/src/worker/fileserializer.cpp:97
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
@@ -5247,16 +5247,16 @@ msgstr ""
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:124
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:127
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:246
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:249
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:240
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:243
 msgctxt "CampaignProperties|"
 msgid "Add"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:138
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:141
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:260
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:263
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:137
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:140
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:253
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:256
 #, fuzzy
 #| msgctxt "campaign::CampaignView|"
 #| msgid "Delete"
@@ -5264,18 +5264,18 @@ msgctxt "CampaignProperties|"
 msgid "Delete"
 msgstr "Vymazať"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:152
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:155
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:274
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:277
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:150
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:153
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:266
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:269
 msgctxt "CampaignProperties|"
 msgid "Top"
 msgstr ""
 
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:163
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:166
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:169
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:288
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:291
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:279
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:282
 #, fuzzy
 #| msgctxt "BorderListEditor|"
 #| msgid "Up"
@@ -5283,10 +5283,10 @@ msgctxt "CampaignProperties|"
 msgid "Up"
 msgstr "Hore"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:180
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:183
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:302
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:305
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:176
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:179
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:292
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:295
 #, fuzzy
 #| msgctxt "BorderListEditor|"
 #| msgid "Down"
@@ -5294,10 +5294,10 @@ msgctxt "CampaignProperties|"
 msgid "Down"
 msgstr "Dolu"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:194
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:197
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:316
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:319
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:189
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:192
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:305
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:308
 #, fuzzy
 #| msgctxt "AlignmentDelegate|"
 #| msgid "BottomLeft"
@@ -5305,7 +5305,7 @@ msgctxt "CampaignProperties|"
 msgid "Bottom"
 msgstr "Dole vľavo"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:226
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:220
 #, fuzzy
 #| msgctxt "QObject|"
 #| msgid "Character Sheet"
@@ -5313,7 +5313,7 @@ msgctxt "CampaignProperties|"
 msgid "Character States"
 msgstr "Karta postavy"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:348
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:336
 #, fuzzy
 #| msgctxt "TableCanvasField|"
 #| msgid "Properties"
@@ -5321,7 +5321,7 @@ msgctxt "CampaignProperties|"
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:358
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:344
 #, fuzzy
 #| msgctxt "PersonEdit|"
 #| msgid "Name:"
@@ -5329,7 +5329,7 @@ msgctxt "CampaignProperties|"
 msgid "Name:"
 msgstr "Názov:"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:368
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:354
 #, fuzzy
 #| msgctxt "MediaModel|"
 #| msgid "Directory"
@@ -5337,7 +5337,12 @@ msgctxt "CampaignProperties|"
 msgid "Root Directory:"
 msgstr "Adresár"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:378
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:364
+msgctxt "CampaignProperties|"
+msgid "Theme*:"
+msgstr ""
+
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:374
 #, fuzzy
 #| msgctxt "TextEdit|"
 #| msgid "File Actions"
@@ -5345,14 +5350,19 @@ msgctxt "CampaignProperties|"
 msgid "File count:"
 msgstr "Akcie súborov"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:392
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:388
 msgctxt "CampaignProperties|"
 msgid "Disk usage:"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.ui:406
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:402
 msgctxt "CampaignProperties|"
-msgid "Theme*:"
+msgid "Load all open documents from last session."
+msgstr ""
+
+#: src/libraries/rwidgets/dialogs/campaignproperties.ui:405
+msgctxt "CampaignProperties|"
+msgid "Restore session at startup"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
@@ -8868,7 +8878,7 @@ msgctxt "QObject|"
 msgid "Rule"
 msgstr "Pravidlo"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
 #, fuzzy, qt-format
 #| msgctxt "CharacterSheetWindow|"
 #| msgid "%1 - (Character Sheet Viewer)"
@@ -8876,7 +8886,7 @@ msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (Prehliadač kariet postáv)"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
 #, fuzzy
 #| msgctxt "QObject|"
 #| msgid "Unknown"
@@ -8884,19 +8894,19 @@ msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
 msgstr "Neznáme"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:211
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:208
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
 msgstr "%1 - (Prehliadač kariet postáv)"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:223
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:291
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:220
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:288
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
 msgstr "Zdieľať do"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:276
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:273
 msgctxt "CharacterSheetWindow|"
 msgid "To all"
 msgstr "Na všetko"
@@ -8964,7 +8974,7 @@ msgstr ""
 #| msgctxt "TextEdit|"
 #| msgid "Print Document"
 msgctxt "CharacterSheetWindow|"
-msgid "Print Act"
+msgid "Print Sheet"
 msgstr "Tlačiť dokument"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
