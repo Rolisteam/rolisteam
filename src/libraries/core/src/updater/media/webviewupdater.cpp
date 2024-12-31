@@ -37,7 +37,8 @@ void WebViewUpdater::addMediaController(MediaControllerBase* ctrl)
 
     if(webCtrl->state() != WebpageController::RemoteView)
     {
-        auto shareWebPage= [webCtrl](bool b) {
+        auto shareWebPage= [webCtrl](bool b)
+        {
             if(b)
                 MessageHelper::shareWebpage(webCtrl);
             else if(webCtrl->sharingMode() == WebpageController::None)
@@ -47,7 +48,11 @@ void WebViewUpdater::addMediaController(MediaControllerBase* ctrl)
         connect(webCtrl, &WebpageController::urlSharingChanged, this, shareWebPage);
         connect(webCtrl, &WebpageController::htmlSharingChanged, this, shareWebPage);
 
-        auto updateWebPage= [webCtrl]() {
+        if(webCtrl->sharingMode() != WebpageController::None)
+            shareWebPage(true);
+
+        auto updateWebPage= [webCtrl]()
+        {
             if(webCtrl->sharingMode() == WebpageController::None || !webCtrl->keepSharing())
                 return;
             MessageHelper::updateWebpage(webCtrl);
@@ -55,18 +60,21 @@ void WebViewUpdater::addMediaController(MediaControllerBase* ctrl)
 
         connect(webCtrl, &WebpageController::htmlChanged, this, updateWebPage);
         connect(webCtrl, &WebpageController::urlChanged, this, updateWebPage);
+        updateWebPage();
     }
     else
     {
         m_webPages.insert(webCtrl->uuid(), webCtrl);
     }
 
-    connect(webCtrl, &WebpageController::modifiedChanged, this, [webCtrl, this]() {
-        if(webCtrl->modified())
-        {
-            saveMediaController(webCtrl);
-        }
-    });
+    connect(webCtrl, &WebpageController::modifiedChanged, this,
+            [webCtrl, this]()
+            {
+                if(webCtrl->modified())
+                {
+                    saveMediaController(webCtrl);
+                }
+            });
 }
 
 NetWorkReceiver::SendType WebViewUpdater::processMessage(NetworkMessageReader* msg)

@@ -774,6 +774,19 @@ namespace notes
 constexpr auto JSON_NOTE_CONTENT{"content"};
 }
 
+namespace webview
+{
+constexpr auto JSON_HIDE_URL{"hideUrl"};
+constexpr auto JSON_KEEP_SHARING{"keepSharing"};
+constexpr auto JSON_HTML_SHARING{"htmlSharing"};
+constexpr auto JSON_URL_SHARING{"urlSharing"};
+constexpr auto JSON_HTML_CODE{"htmlContent"};
+constexpr auto JSON_URL{"URL"};
+constexpr auto JSON_PAGE_URL{"pageUrl"};
+constexpr auto JSON_STATE{"state"};
+constexpr auto JSON_SHARING_MODE{"sharingMode"};
+} // namespace webview
+
 namespace preferences
 {
 constexpr auto KEY_DIRECTORY_AP1{"directories_audio_player1"};

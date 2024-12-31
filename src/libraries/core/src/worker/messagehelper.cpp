@@ -723,7 +723,7 @@ void MessageHelper::shareWebpage(WebpageController* ctrl)
     if(mode == WebpageController::Html)
         msg.string32(ctrl->html());
     else if(mode == WebpageController::Url)
-        msg.string32(ctrl->url().toString());
+        msg.string32(ctrl->pageUrl().toString());
     msg.sendToServer();
 }
 
@@ -742,7 +742,7 @@ void MessageHelper::updateWebpage(WebpageController* ctrl)
     if(mode == WebpageController::Html)
         msg.string32(ctrl->html());
     else if(mode == WebpageController::Url)
-        msg.string32(ctrl->url().toString());
+        msg.string32(ctrl->pageUrl().toString());
 
     msg.sendToServer();
 }
@@ -759,7 +759,7 @@ void MessageHelper::readUpdateWebpage(WebpageController* ctrl, NetworkMessageRea
     if(mode == WebpageController::Html)
         ctrl->setHtml(data);
     else if(mode == WebpageController::Url)
-        ctrl->setUrl(QUrl::fromUserInput(data));
+        ctrl->setPageUrl(QUrl::fromUserInput(data));
 }
 // end - Webpage
 

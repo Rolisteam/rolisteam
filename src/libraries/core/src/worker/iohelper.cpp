@@ -446,14 +446,19 @@ QByteArray saveSharedNote(SharedNoteController* ctrl)
 
 QByteArray saveWebView(WebpageController* ctrl)
 {
-    QByteArray data;
     if(!ctrl)
-        return data;
-    QDataStream output(&data, QIODevice::WriteOnly);
+        return {};
+    QJsonObject objCtrl;
+    IOHelper::saveMediaBaseIntoJSon(ctrl, objCtrl);
 
-    IOHelper::saveBase(ctrl, output);
+    objCtrl[Core::webview::JSON_HIDE_URL]= ctrl->hideUrl();
+    objCtrl[Core::webview::JSON_KEEP_SHARING]= ctrl->keepSharing();
+    objCtrl[Core::webview::JSON_HTML_CODE]= ctrl->html();
+    objCtrl[Core::webview::JSON_PAGE_URL]= ctrl->pageUrl().toDisplayString();
+    objCtrl[Core::webview::JSON_STATE]= ctrl->state();
+    objCtrl[Core::webview::JSON_SHARING_MODE]= ctrl->sharingMode();
 
-    output << ctrl->hideUrl();
+    /*output << ctrl->hideUrl();
     output << ctrl->keepSharing();
     output << ctrl->htmlSharing();
     output << ctrl->urlSharing();
@@ -461,8 +466,8 @@ QByteArray saveWebView(WebpageController* ctrl)
     output << ctrl->url();
     output << ctrl->pageUrl();
     output << ctrl->state();
-    output << ctrl->sharingMode();
-    return data;
+    output << ctrl->sharingMode();*/
+    return IOHelper::jsonObjectToByteArray(objCtrl);
 }
 
 QByteArray saveMindmap(mindmap::MindMapControllerBase* ctrl)
@@ -810,46 +815,16 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
 {
     if(!ctrl || array.isEmpty())
         return;
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
 
-    IOHelper::readBase(ctrl, input);
+    auto objCtrl= IOHelper::textByteArrayToJsonObj(array);
 
-    bool hide;
-    input >> hide;
-
-    bool keepSharing;
-    input >> keepSharing;
-
-    bool htmlSharing;
-    input >> htmlSharing;
-
-    bool urlSharing;
-    input >> urlSharing;
-
-    QString html;
-    input >> html;
-
-    QUrl url;
-    input >> url;
-
-    QUrl pageUrl;
-    input >> pageUrl;
-
-    WebpageController::State state;
-    input >> state;
-
-    WebpageController::SharingMode mode;
-    input >> mode;
-
-    ctrl->setHideUrl(hide);
-    ctrl->setKeepSharing(keepSharing);
-    ctrl->setHtmlSharing(htmlSharing);
-    ctrl->setUrlSharing(urlSharing);
-    ctrl->setState(state);
-    ctrl->setSharingMode(mode);
-    ctrl->setPageUrl(pageUrl);
-    ctrl->setUrl(url);
+    ctrl->setHideUrl(objCtrl[Core::webview::JSON_HIDE_URL].toBool());
+    ctrl->setKeepSharing(objCtrl[Core::webview::JSON_KEEP_SHARING].toBool());
+    ctrl->setHtml(objCtrl[Core::webview::JSON_HTML_CODE].toString());
+    ctrl->setPageUrl(QUrl::fromUserInput(objCtrl[Core::webview::JSON_PAGE_URL].toString()));
+    ctrl->setState(static_cast<WebpageController::State>(objCtrl[Core::webview::JSON_STATE].toInt()));
+    ctrl->setSharingMode(
+        static_cast<WebpageController::SharingMode>(objCtrl[Core::webview::JSON_SHARING_MODE].toInt()));
 }
 QJsonObject IOHelper::readMindmapController(MindMapController* ctrl, const QByteArray& array)
 {

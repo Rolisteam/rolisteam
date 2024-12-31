@@ -98,33 +98,38 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     updateTitle();
     setWidget(wid);
 
-    if(m_webCtrl)
+    if(!m_webCtrl)
+        return;
+
+    if(m_webCtrl->state() != WebpageController::localIsGM)
     {
-        if(m_webCtrl->state() != WebpageController::localIsGM)
-        {
-            m_ui->m_shareBtn->setVisible(false);
-            m_ui->m_htmlShareBtn->setVisible(false);
-            m_ui->m_htmlShareAct->setVisible(false);
-            m_ui->m_shareAct->setVisible(false);
-            m_ui->m_keepSharing->setVisible(false);
-        }
-        if(m_webCtrl->state() == WebpageController::RemoteView)
-        {
-            m_ui->m_nextAct->setVisible(false);
-            m_ui->m_nextBtn->setVisible(false);
-            m_ui->m_previousBtn->setVisible(false);
-            m_ui->m_previousAct->setVisible(false);
-            m_ui->m_addressEdit->setReadOnly(true);
-        }
-
-        m_ui->m_webview->setHtml(m_webCtrl->html());
-        m_ui->m_webview->setUrl(m_webCtrl->pageUrl());
-        m_ui->m_addressEdit->setText(m_webCtrl->pageUrl().toString());
-        m_ui->m_hideAddressAct->setChecked(m_webCtrl->hideUrl());
-        m_ui->m_addressEdit->setEchoMode(m_webCtrl->hideUrl() ? QLineEdit::Password : QLineEdit::Normal);
-
-        qDebug() << "webview " << m_webCtrl->pageUrl() << m_webCtrl->html();
+        m_ui->m_shareBtn->setVisible(false);
+        m_ui->m_htmlShareBtn->setVisible(false);
+        m_ui->m_htmlShareAct->setVisible(false);
+        m_ui->m_shareAct->setVisible(false);
+        m_ui->m_keepSharing->setVisible(false);
     }
+    if(m_webCtrl->state() == WebpageController::RemoteView)
+    {
+        m_ui->m_nextAct->setVisible(false);
+        m_ui->m_nextBtn->setVisible(false);
+        m_ui->m_previousBtn->setVisible(false);
+        m_ui->m_previousAct->setVisible(false);
+        m_ui->m_addressEdit->setReadOnly(true);
+    }
+
+    m_ui->m_webview->setHtml(m_webCtrl->html());
+    m_ui->m_webview->setUrl(m_webCtrl->pageUrl());
+    m_ui->m_keepSharing->setChecked(m_webCtrl->keepSharing());
+    m_ui->m_shareAct->setChecked(m_webCtrl->sharingMode() != WebpageController::None);
+    m_ui->m_htmlShareAct->setChecked(m_webCtrl->htmlSharing());
+    m_ui->m_shareAct->setChecked(m_webCtrl->urlSharing());
+
+    m_ui->m_addressEdit->setText(m_webCtrl->pageUrl().toString());
+    m_ui->m_hideAddressAct->setChecked(m_webCtrl->hideUrl());
+    m_ui->m_addressEdit->setEchoMode(m_webCtrl->hideUrl() ? QLineEdit::Password : QLineEdit::Normal);
+
+    qDebug() << "webview " << m_webCtrl->pageUrl() << m_webCtrl->html();
 }
 
 WebView::~WebView() {}

@@ -106,16 +106,19 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
         [sheetCtrl, sheetData](const QByteArray& array)
         {
             hu::setParamIfAny<QString>(
-                ck::KEY_CHARACTERID, sheetData, [sheetCtrl, array](const QString& characterId)
+                ck::KEY_CHARACTERID, sheetData,
+                [sheetCtrl, array](const QString& characterId)
                 { sheetCtrl->addCharacterSheet(IOHelper::textByteArrayToJsonObj(array), characterId); });
         });
-    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, sheetData, [sheetCtrl](const QByteArray& array)
+    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, sheetData,
+                                  [sheetCtrl](const QByteArray& array)
                                   { IOHelper::readCharacterSheetController(sheetCtrl, array); });
 
     if(!params.contains(ck::KEY_SERIALIZED))
     {
         hu::setParamIfAny<QString>(
-            ck::KEY_PATH, sheetData, [sheetCtrl](const QString& path)
+            ck::KEY_PATH, sheetData,
+            [sheetCtrl](const QString& path)
             { IOHelper::readCharacterSheetController(sheetCtrl, utils::IOHelper::loadFile(path)); });
     }
     return sheetCtrl;
@@ -389,7 +392,7 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
         });
         hu::setParamIfAny<WebpageController::State>(ck::KEY_STATE, params, std::bind(&WebpageController::setState, webCtrl, _1));
         hu::setParamIfAny<QString>(ck::KEY_PATH, params, [webCtrl](const QString& value){
-            webCtrl->setPageUrl(QUrl::fromUserInput(value));
+            webCtrl->setUrl(QUrl::fromUserInput(value));
         });
         hu::setParamIfAny<QString>(ck::KEY_URL, params, [webCtrl](const QString& value){
             webCtrl->setUrl(QUrl::fromUserInput(value));
@@ -398,7 +401,7 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
             auto mode = static_cast<WebpageController::SharingMode>(value);
             hu::setParamIfAny<QString>(ck::KEY_DATA, params, [mode, webCtrl](const QString& data){
                 if(mode == WebpageController::Url)
-                    webCtrl->setUrl(data);
+                    webCtrl->setPageUrl(data);
                 else if(mode == WebpageController::Html)
                     webCtrl->setHtml(data);
             });
