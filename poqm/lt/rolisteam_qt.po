@@ -2474,7 +2474,7 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr ""
 
-#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
+#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:58
 msgctxt "TextController|"
 msgid "Text"
 msgstr ""
@@ -3006,18 +3006,18 @@ msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
 msgstr ""
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:276
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:281
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:284
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:289
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr ""
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:337
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:342
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
@@ -3873,12 +3873,12 @@ msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:102
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:103
 msgctxt "FileDirChooser|"
 msgid "Select directory"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:107
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:108
 msgctxt "FileDirChooser|"
 msgid "Open File"
 msgstr ""
@@ -7977,7 +7977,7 @@ msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/webview.cpp:135
+#: src/libraries/rwidgets/mediacontainers/webview.cpp:140
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"

@@ -2518,7 +2518,7 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Global"
 
-#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
+#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:58
 msgctxt "TextController|"
 msgid "Text"
 msgstr "Text"
@@ -3060,19 +3060,19 @@ msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
 msgstr "Kan inte läsa webbadressen i serverns svar"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:276
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:281
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
 "Misslyckades hämta base_URL från XMLNode \"URLBase\" eller describe_url.\n"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:284
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:289
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Misslyckades hitta rätt servicetyp: %1 %2 %3"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:337
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:342
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
@@ -3943,12 +3943,12 @@ msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Röd: %1, Grön: %2, Blå: %3"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:102
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:103
 msgctxt "FileDirChooser|"
 msgid "Select directory"
 msgstr "Välj katalog"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:107
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:108
 msgctxt "FileDirChooser|"
 msgid "Open File"
 msgstr "Öppna fil"
@@ -8161,7 +8161,7 @@ msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
 msgstr "%1 - synlighet: %2 - rättighet: %3 - lager: %4"
 
-#: src/libraries/rwidgets/mediacontainers/webview.cpp:135
+#: src/libraries/rwidgets/mediacontainers/webview.cpp:140
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-29 09:52+0100\n"
+"PO-Revision-Date: 2024-12-31 19:25+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -2529,7 +2529,7 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Orokorra"
 
-#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
+#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:58
 msgctxt "TextController|"
 msgid "Text"
 msgstr "Testua"
@@ -3069,20 +3069,20 @@ msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
 msgstr "Zerbitzariaren erantzunean ezin du URLa irakurri"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:276
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:281
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
 "«base_URL» eskuratzea huts egin du, \"URLBase\" «XMLNode»tik edo "
 "«describe_url».\n"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:284
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:289
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Zerbitzu mota egokia aurkitzea huts egin du: %1 %2 %3"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:337
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:342
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
@@ -3942,12 +3942,12 @@ msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Gorria. %1, Berdea: %2, Urdina: %3"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:102
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:103
 msgctxt "FileDirChooser|"
 msgid "Select directory"
 msgstr "Hautatu direktorioa"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:107
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:108
 msgctxt "FileDirChooser|"
 msgid "Open File"
 msgstr "Ireki fitxategia"
@@ -4702,12 +4702,12 @@ msgstr "Diskoaren erabilera:"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:402
 msgctxt "CampaignProperties|"
 msgid "Load all open documents from last session."
-msgstr ""
+msgstr "Zamatu azken saioan irekitako dokumentu denak."
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:405
 msgctxt "CampaignProperties|"
 msgid "Restore session at startup"
-msgstr ""
+msgstr "Lehengoratu saioa abioan"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -7776,12 +7776,9 @@ msgid "Stop Sharing"
 msgstr "Utzi partekatzeari"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Print Act"
 msgctxt "CharacterSheetWindow|"
 msgid "Print Sheet"
-msgstr "Inprimatu akta"
+msgstr "Inprimatu orria"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
@@ -8162,7 +8159,7 @@ msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
 msgstr "%1 - ikusgaitasuna: %2 - baimena: %3 - geruza: %4"
 
-#: src/libraries/rwidgets/mediacontainers/webview.cpp:135
+#: src/libraries/rwidgets/mediacontainers/webview.cpp:140
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"

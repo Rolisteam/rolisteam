@@ -2493,7 +2493,7 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Globale"
 
-#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
+#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:58
 msgctxt "TextController|"
 msgid "Text"
 msgstr "Testo"
@@ -3034,18 +3034,18 @@ msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
 msgstr "Impossibile leggere l'URL della risposta del server"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:276
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:281
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr "Impossibile ottenere base_URL da XMLNode \"URLBase\" o describe_url.\n"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:284
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:289
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Impossibile trovare il tipo di servizio corretto: %1 %2 %3"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:337
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:342
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
@@ -3916,12 +3916,12 @@ msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Rosso: %1, verde: %2, blu: %3"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:102
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:103
 msgctxt "FileDirChooser|"
 msgid "Select directory"
 msgstr "Seleziona una cartella"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:107
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:108
 msgctxt "FileDirChooser|"
 msgid "Open File"
 msgstr "Apri file"
@@ -8073,7 +8073,7 @@ msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
 msgstr "%1 - visibilità: %2 - permesso: %3 - livello: %4"
 
-#: src/libraries/rwidgets/mediacontainers/webview.cpp:135
+#: src/libraries/rwidgets/mediacontainers/webview.cpp:140
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"

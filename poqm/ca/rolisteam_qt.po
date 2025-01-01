@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2024-12-29 10:42+0100\n"
+"PO-Revision-Date: 2024-12-31 09:03+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
 msgctxt "Main|"
@@ -2532,7 +2532,7 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Global"
 
-#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
+#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:58
 msgctxt "TextController|"
 msgid "Text"
 msgstr "Text"
@@ -3079,20 +3079,20 @@ msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
 msgstr "No s'ha pogut llegir l'URL en la resposta del servidor"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:276
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:281
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
 "Ha fallat en obtenir «base_URL» a partir de «URLBase» o «describe_url» de "
 "l'XMLNode.\n"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:284
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:289
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Ha fallat en trobar el tipus de servei adequat: %1 %2 %3"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:337
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:342
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
@@ -3952,12 +3952,12 @@ msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Vermell: %1, verd: %2, blau: %3"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:102
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:103
 msgctxt "FileDirChooser|"
 msgid "Select directory"
 msgstr "Selecció de directori"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:107
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:108
 msgctxt "FileDirChooser|"
 msgid "Open File"
 msgstr "Obre un fitxer"
@@ -4713,12 +4713,12 @@ msgstr "Ús del disc:"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:402
 msgctxt "CampaignProperties|"
 msgid "Load all open documents from last session."
-msgstr ""
+msgstr "Carrega tots els documents oberts de l'última sessió."
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:405
 msgctxt "CampaignProperties|"
 msgid "Restore session at startup"
-msgstr ""
+msgstr "Restaura la sessió en iniciar"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -7790,12 +7790,9 @@ msgid "Stop Sharing"
 msgstr "Atura la compartició"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Print Act"
 msgctxt "CharacterSheetWindow|"
 msgid "Print Sheet"
-msgstr "Impressió de l'acta"
+msgstr "Imprimeix el full"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
@@ -8177,7 +8174,7 @@ msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
 msgstr "%1 - visibilitat: %2 - permisos: %3 - capa: %4"
 
-#: src/libraries/rwidgets/mediacontainers/webview.cpp:135
+#: src/libraries/rwidgets/mediacontainers/webview.cpp:140
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"

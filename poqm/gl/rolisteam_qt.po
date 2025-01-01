@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-23 17:21+0100\n"
+"PO-Revision-Date: 2024-12-31 09:35+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -2525,7 +2525,7 @@ msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Global"
 
-#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:66
+#: src/libraries/core/src/controller/item_controllers/textcontroller.cpp:58
 msgctxt "TextController|"
 msgid "Text"
 msgstr "Texto"
@@ -3066,19 +3066,19 @@ msgctxt "UpnpNat|"
 msgid "Unable to read the URL in server answer"
 msgstr "Non é posíbel ler o URL na resposta do servidor."
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:276
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:281
 msgctxt "UpnpNat|"
 msgid "Fail to get base_URL from XMLNode \"URLBase\" or describe_url.\n"
 msgstr ""
 "Non é posíbel obter o URL base do nodo XML «URLBase» ou de «describe_url».\n"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:284
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:289
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
 msgstr "Non é posíbel atopar o tipo de servizo correcto: %1 %2 %3"
 
-#: src/libraries/core/src/network/upnp/upnpnat.cpp:337
+#: src/libraries/core/src/network/upnp/upnpnat.cpp:342
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
@@ -3675,12 +3675,12 @@ msgstr "Ficheiros que faltan:"
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:38
 msgctxt "IntegrityPage|"
 msgid "Remove file from campaign history"
-msgstr ""
+msgstr "Retirar o ficheiro do historial da campaña"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:44
 msgctxt "IntegrityPage|"
 msgid "Create blank document"
-msgstr ""
+msgstr "Crear un documento baleiro"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:56
 msgctxt "IntegrityPage|"
@@ -3690,12 +3690,12 @@ msgstr "Ficheiros non xestionados:"
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:82
 msgctxt "IntegrityPage|"
 msgid "Add file into project"
-msgstr ""
+msgstr "Engadir un ficheiro ao proxecto"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:88
 msgctxt "IntegrityPage|"
 msgid "Delete file from Disk"
-msgstr ""
+msgstr "Eliminar o ficheiro do disco"
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
@@ -3937,12 +3937,12 @@ msgctxt "ColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Vermello: %1; verde: %2; azul: %3"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:102
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:103
 msgctxt "FileDirChooser|"
 msgid "Select directory"
 msgstr "Seleccionar un cartafol"
 
-#: src/libraries/rwidgets/customs/filedirchooser.cpp:107
+#: src/libraries/rwidgets/customs/filedirchooser.cpp:108
 msgctxt "FileDirChooser|"
 msgid "Open File"
 msgstr "Abrir un ficheiro"
@@ -8162,7 +8162,7 @@ msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
 msgstr "%1 — Visibilidade: %2; permisos: %3; capa: %4."
 
-#: src/libraries/rwidgets/mediacontainers/webview.cpp:135
+#: src/libraries/rwidgets/mediacontainers/webview.cpp:140
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
