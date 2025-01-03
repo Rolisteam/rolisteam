@@ -1,9 +1,9 @@
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Xavier Besnard <xavier.besnard@kde.org>
 # Xavier Besnard <xavier.besnard@kde.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2024-12-30 10:16+0100\n"
+"PO-Revision-Date: 2025-01-01 10:05+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -4710,12 +4710,12 @@ msgstr "Utilisation du disque :"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:402
 msgctxt "CampaignProperties|"
 msgid "Load all open documents from last session."
-msgstr ""
+msgstr "Charger tous les documents ouverts de la dernière session."
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:405
 msgctxt "CampaignProperties|"
 msgid "Restore session at startup"
-msgstr ""
+msgstr "Restaurer la session au démarrage"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -7791,12 +7791,9 @@ msgid "Stop Sharing"
 msgstr "Arrêter le partage"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Print Act"
 msgctxt "CharacterSheetWindow|"
 msgid "Print Sheet"
-msgstr "Imprimer une action"
+msgstr "Imprimer une feuille"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
