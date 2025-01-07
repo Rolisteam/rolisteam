@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-01-04 15:10+0100\n"
+"PO-Revision-Date: 2025-01-06 21:07+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -6004,6 +6004,7 @@ msgctxt "ChannelListPanel|"
 msgid "Set Default"
 msgstr "Pór como predeterminado"
 
+# skip-rule: trasno-login1_reverse
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:43
 msgctxt "ChannelListPanel|"
 msgid "Log as admin"
@@ -6017,7 +6018,7 @@ msgstr "Expulsar"
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:45
 msgctxt "ChannelListPanel|"
 msgid "Ban User"
-msgstr "Prohibir o acceso"
+msgstr "Expulsar"
 
 #: src/libraries/rwidgets/docks/channellistpanel.cpp:46
 msgctxt "ChannelListPanel|"
