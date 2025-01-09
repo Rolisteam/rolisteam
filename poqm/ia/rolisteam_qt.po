@@ -1,8 +1,8 @@
-# SPDX-FileCopyrightText: 2023, 2024 giovanni <g.sora@tiscali.it>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 giovanni <g.sora@tiscali.it>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-23 17:18+0100\n"
+"PO-Revision-Date: 2025-01-08 15:43+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -7645,12 +7645,9 @@ msgid "Stop Sharing"
 msgstr "Stoppa Compartir "
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Print Act"
 msgctxt "CharacterSheetWindow|"
 msgid "Print Sheet"
-msgstr "Imprime Acto"
+msgstr "Imprime folio"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
