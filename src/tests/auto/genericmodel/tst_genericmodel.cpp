@@ -2,7 +2,7 @@
 #include "data/character.h"
 #include "model/genericmodel.h"
 #include <QAbstractItemModelTester>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <memory>
 
 class TestField : public CharacterField

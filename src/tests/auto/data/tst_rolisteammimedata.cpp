@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtTest>
+#include <QTest>
 #include "data/rolisteammimedata.h"
 #include "media/mediatype.h"
 #include <helper.h>

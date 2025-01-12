@@ -1,4 +1,4 @@
-#include <QtTest/QtTest>
+#include <QTest>
 
 #include "controller/item_controllers/characteritemcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"

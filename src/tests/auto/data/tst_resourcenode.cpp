@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtTest>
+#include <QTest>
 
 #include "data/cleveruri.h"
 #include "data/resourcesnode.h"

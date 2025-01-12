@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include <QObject>
 #include <QtCore/QString>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <chrono>
 #include <data/resourcesnode.h>
 

@@ -20,7 +20,7 @@
 
 #include <QDir>
 #include <QString>
-#include <QtTest>
+#include <QTest>
 #include <data/cleveruri.h>
 #include <data/cleverurimimedata.h>
 #include <helper.h>

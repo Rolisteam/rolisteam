@@ -20,7 +20,7 @@
 #include <QAbstractItemModelTester>
 #include <QObject>
 #include <QString>
-#include <QtTest>
+#include <QTest>
 
 #include "controller/antagonistboardcontroller.h"
 #include "model/nonplayablecharactermodel.h"

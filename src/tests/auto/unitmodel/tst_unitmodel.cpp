@@ -22,7 +22,7 @@
 #include <QModelIndex>
 #include <QModelIndexList>
 #include <QtCore/QString>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <memory>
 
 #include "rwidgets/gmtoolbox/UnitConvertor/unit.h"

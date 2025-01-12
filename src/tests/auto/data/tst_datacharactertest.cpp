@@ -19,7 +19,8 @@
  ***************************************************************************/
 
 #include <QtCore/QString>
-#include <QtTest/QtTest>
+#include <QTest>
+#include <QSignalSpy>
 
 #include <charactersheet/charactersheet.h>
 #include <charactersheet/rolisteamimageprovider.h>

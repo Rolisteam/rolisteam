@@ -1,7 +1,5 @@
 #include <QTest>
 
-#include <QSignalSpy>
-
 #include "rwidgets/delegates/delegate.h"
 #include <QAbstractItemModelTester>
 #include <helper.h>

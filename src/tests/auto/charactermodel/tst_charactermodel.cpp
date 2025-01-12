@@ -5,7 +5,7 @@
 #include "model/charactermodel.h"
 #include "model/playermodel.h"
 #include <QAbstractItemModelTester>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <memory>
 
 class CharacterModelTest : public QObject

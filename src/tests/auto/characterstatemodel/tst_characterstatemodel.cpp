@@ -23,7 +23,7 @@
 #include <QModelIndexList>
 #include <QTemporaryFile>
 #include <QtCore/QString>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <memory>
 
 #include "data/character.h"

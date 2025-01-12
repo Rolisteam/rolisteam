@@ -38,7 +38,7 @@
 #include <QAbstractItemModelTester>
 #include <QClipboard>
 #include <QGuiApplication>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <helper.h>
 #include <memory>
 

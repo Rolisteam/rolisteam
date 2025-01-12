@@ -20,7 +20,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QString>
-#include <QtTest/QtTest>
+#include <QTest>
 
 #include "charactersheet.h"
 #include "field.h"

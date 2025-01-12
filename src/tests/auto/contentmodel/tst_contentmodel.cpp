@@ -21,7 +21,7 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "model/contentmodel.h"
 #include <QAbstractItemModelTester>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <memory>
 
 class ContentModelTest : public QObject

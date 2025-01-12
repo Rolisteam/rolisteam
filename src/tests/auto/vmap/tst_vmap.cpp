@@ -1,6 +1,7 @@
 #include <QObject>
 #include <QtCore/QCoreApplication>
-#include <QtTest/QtTest>
+#include <QTest>
+#include <QSignalSpy>
 
 #include "controller/item_controllers/linecontroller.h"
 #include "controller/item_controllers/visualitemcontroller.h"

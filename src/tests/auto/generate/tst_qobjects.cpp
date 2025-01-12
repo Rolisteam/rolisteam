@@ -1,4 +1,4 @@
-#include <QtTest/QtTest>
+#include <QTest>
 #include <QObject>
 #include <QVariant>
 #include <QMetaType>

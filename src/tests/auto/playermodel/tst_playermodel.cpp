@@ -4,7 +4,7 @@
 #include "model/participantmodel.h"
 #include "model/playermodel.h"
 #include <QAbstractItemModelTester>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <memory>
 
 class PlayerModelTest : public QObject

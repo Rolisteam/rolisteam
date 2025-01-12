@@ -22,7 +22,7 @@
 #include <QModelIndexList>
 #include <QString>
 #include <QVector>
-#include <QtTest>
+#include <QTest>
 #include <memory>
 
 #include "charactersheetitem.h"

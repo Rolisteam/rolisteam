@@ -1,6 +1,5 @@
 #include <QTest>
 
-#include <QSignalSpy>
 #include "rwidgets/delegates/statedelegate.h"
 #include "model/characterstatemodel.h"
 #include <helper.h>

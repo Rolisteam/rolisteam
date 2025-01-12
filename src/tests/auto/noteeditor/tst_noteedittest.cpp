@@ -25,7 +25,7 @@
 #include "worker/iohelper.h"
 #include <QClipboard>
 #include <QGuiApplication>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <helper.h>
 #include <memory>
 

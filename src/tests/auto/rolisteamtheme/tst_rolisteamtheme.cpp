@@ -20,7 +20,7 @@
 #include <QObject>
 #include <QStyle>
 #include <QStyleFactory>
-#include <QtTest/QtTest>
+#include <QTest>
 #include <data/rolisteamtheme.h>
 #include <helper.h>
 

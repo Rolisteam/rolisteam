@@ -1,6 +1,6 @@
 #include <QGraphicsObject>
 #include <QStyledItemDelegate>
-#include <QtTest/QtTest>
+#include <QTest>
 
 #include "XML_Editor.h"
 #include "aboutrcse.h"

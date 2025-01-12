@@ -21,9 +21,11 @@
 #include "test_root_path.h"
 #include "utils/iohelper.h"
 #include "worker/iohelper.h"
-#include <QClipboard>>
+#include <QClipboard>
 #include <QGuiApplication>
-#include <QtTest/QtTest>
+#include <QTest>
+#include <QSignalSpy>
+#include <QTemporaryFile>
 #include <helper.h>
 #include <memory>
 
