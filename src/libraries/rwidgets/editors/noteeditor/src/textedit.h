@@ -46,6 +46,7 @@
 
 #include <QMainWindow>
 #include <QMap>
+#include <QSettings>
 #include <QPointer>
 #include <QtPrintSupport/QPrinter>
 

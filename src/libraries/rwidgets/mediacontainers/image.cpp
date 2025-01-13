@@ -20,9 +20,10 @@
  ***************************************************************************/
 
 #include <QDebug>
+#include <QInputDialog>
+#include <QMenu>
 #include <QScrollBar>
 #include <QShortcut>
-#include <QtGui>
 
 #include "controller/view_controller/imagecontroller.h"
 #include "image.h"

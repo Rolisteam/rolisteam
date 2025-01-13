@@ -10,8 +10,7 @@
 #include <QTextCharFormat>
 #include <QTextEdit>
 #include <QWidget>
-#include <QtCore>
-#include <QtGui>
+
 class RWIDGET_EXPORT XmlHighlighter : public QSyntaxHighlighter
 {
 public:

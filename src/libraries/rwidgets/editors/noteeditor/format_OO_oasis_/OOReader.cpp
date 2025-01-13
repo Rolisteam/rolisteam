@@ -8,8 +8,13 @@
 #include "GZipReader.h"
 #include "GZipWriter.h"
 
+#include <QFileInfo>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QRegularExpression>
+#include <QTextDocumentFragment>
+#include <QTextList>
+#include <QTextTable>
 
 /*                    file name and path , his data */
 QMap<QString, QByteArray> unzipstream(const QString file)

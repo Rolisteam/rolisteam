@@ -19,9 +19,9 @@
  ***************************************************************************/
 #include "codeeditor.h"
 
-#include <QtWidgets>
-
 #include <QFontDatabase>
+#include <QPainter>
+#include <QTextBlock>
 
 CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
 {

@@ -24,7 +24,6 @@
 #include "rwidgets/rwidgets_global.h"
 #include <QColor>
 #include <QWidget>
-#include <QtWidgets>
 
 class QVBoxLayout;
 /**

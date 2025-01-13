@@ -18,13 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "textitem.h"
+#include <QApplication>
 #include <QDebug>
+#include <QDialogButtonBox>
 #include <QFont>
+#include <QLayout>
 #include <QLineEdit>
 #include <QMenu>
 #include <QObject>
 #include <QPainter>
 #include <QStyle>
+#include <QVBoxLayout>
 
 #include <QGraphicsSceneWheelEvent>
 #include <QStyleOptionGraphicsItem>

@@ -3,13 +3,14 @@
 #include "FoColorName.h"
 #include "rwidgets_global.h"
 #include <QApplication>
+#include <QBuffer>
 #include <QColor>
 #include <QCryptographicHash>
 #include <QDebug>
 #include <QDomDocument>
+#include <QFile>
 #include <QTextDocument>
 #include <QTextTableFormat>
-#include <QtCore>
 
 static const int InterSpace= 15; /* distance from page 1 to 2 */
 static const int SliderTopHeight= 28;

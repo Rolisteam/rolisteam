@@ -25,6 +25,7 @@
 #include <QCommandLineParser>
 #include <QDateTime>
 #include <QDebug>
+#include <QDirIterator>
 #include <QLoggingCategory>
 #include <QQuickStyle>
 #include <QResource>

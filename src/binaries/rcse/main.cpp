@@ -30,7 +30,7 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QQuickStyle>
-#include <QtWebEngineQuick>
+#include <QtWebEngineQuick/qtwebenginequickglobal.h>
 
 #include <QTimer>
 

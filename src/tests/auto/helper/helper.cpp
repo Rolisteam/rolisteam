@@ -21,6 +21,7 @@
 #include <QDate>
 #include <QFont>
 #include <QFontDatabase>
+#include <QHttpServer>
 #include <QIcon>
 #include <QLine>
 #include <QMetaObject>
@@ -34,10 +35,10 @@
 #include <QRectF>
 #include <QRegularExpression>
 #include <QSignalSpy>
+#include <QTcpServer>
 #include <QTest>
 #include <QUuid>
 #include <QVariant>
-#include <QtHttpServer>
 #include <limits>
 
 namespace Helper

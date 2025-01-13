@@ -1,6 +1,7 @@
 
 
 #include "FoColorName.h"
+#include <QCryptographicHash>
 #include <QDomDocument>
 #include <QTextDocument>
 #include <QTextTableFormat>

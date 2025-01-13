@@ -1,6 +1,7 @@
 #include <QApplication>
 
 #include <QJSEngine>
+#include <QOpenGLContext>
 #include <QQmlEngine>
 #include <QQuickStyle>
 #include <QUndoStack>

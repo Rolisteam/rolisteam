@@ -26,6 +26,7 @@
 #include <QQmlEngine>
 #include <QQmlFileSelector>
 #include <QQuickStyle>
+#include <QVBoxLayout>
 
 #include "controller/view_controller/mindmapcontroller.h"
 #include "controller/view_controller/sidemenucontroller.h"

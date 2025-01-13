@@ -1,6 +1,7 @@
-#include <QtGui>
 
+#include <QPainter>
 #include <QRegularExpression>
+#include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
 

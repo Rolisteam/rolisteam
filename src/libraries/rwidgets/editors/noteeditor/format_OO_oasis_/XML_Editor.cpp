@@ -1,6 +1,9 @@
 #include "XML_Editor.h"
 #include <QMenu>
 #include <QMessageBox>
+#include <QPainter>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 #include <QScrollBar>
 
 XMLTextEdit::XMLTextEdit(QWidget* parent) : QTextEdit(parent)

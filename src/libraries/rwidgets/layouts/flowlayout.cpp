@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtWidgets>
+#include <QWidget>
 
 #include "flowlayout.h"
 FlowLayout::FlowLayout(QWidget* parent, int margin, int hSpacing, int vSpacing)

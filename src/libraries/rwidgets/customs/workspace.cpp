@@ -23,7 +23,6 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QWidget>
-#include <QtGui>
 
 #include "controller/contentcontroller.h"
 #include "controller/instantmessagingcontroller.h"

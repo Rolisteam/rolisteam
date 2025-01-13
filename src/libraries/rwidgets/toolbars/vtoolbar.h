@@ -23,11 +23,16 @@
 #define TOOLS_BAR_H
 
 #include <QAction>
+#include <QActionGroup>
+#include <QComboBox>
 #include <QDockWidget>
+#include <QDoubleSpinBox>
+#include <QLabel>
 #include <QLCDNumber>
 #include <QLineEdit>
 #include <QPointer>
 #include <QResizeEvent>
+#include <QToolButton>
 
 #include "media/mediatype.h"
 #include "rwidgets/customs/diameterselector.h"

@@ -2,13 +2,14 @@
 #define OOREADER_H
 #include <QDebug>
 #include <QNetworkAccessManager>
-#include <QtCore>
-#include <QtGui>
 #include <iostream>
 #include <stdio.h>
 
 #include <QDomDocument>
 #include <QTextTableFormat>
+#include <QThread>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 #include "editors/noteeditor/format_OO_oasis_/FoColorName.h"
 #include "editors/noteeditor/format_OO_oasis_/OOFormat.h"

@@ -24,6 +24,7 @@
 #include <QAction>
 #include <QFile>
 #include <QLabel>
+#include <QLoggingCategory>
 #include <QMenu>
 #include <QPointer>
 #include <QString>

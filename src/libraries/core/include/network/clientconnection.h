@@ -24,7 +24,6 @@
 
 #include <QPointer>
 #include <QTcpSocket>
-#include <QtNetwork>
 
 #include "connectionprofile.h"
 #include "network/networkmessage.h"

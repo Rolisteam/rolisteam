@@ -28,7 +28,6 @@
 #include <QPdfView>
 #include <QScrollBar>
 #include <QShortcut>
-#include <QtGui>
 #include <type_traits>
 
 #include "controller/view_controller/pdfcontroller.h"

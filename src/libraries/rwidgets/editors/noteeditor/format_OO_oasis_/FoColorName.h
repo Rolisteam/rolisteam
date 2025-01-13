@@ -12,7 +12,6 @@
 #include <QTextFrame>
 #include <QTextFrameFormat>
 #include <QTextTableFormat>
-#include <QtCore>
 
 #define POINT_TO_CM(cm) ((cm) / 28.3465058)
 #define POINT_TO_MM(mm) ((mm) / 2.83465058) ////////  0.352777778

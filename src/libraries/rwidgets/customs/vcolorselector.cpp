@@ -19,7 +19,10 @@
  ***************************************************************************/
 
 #include <QButtonGroup>
-#include <QtWidgets>
+#include <QColor>
+#include <QColorDialog>
+#include <QPainter>
+#include <QVBoxLayout>
 
 #include "vcolorselector.h"
 

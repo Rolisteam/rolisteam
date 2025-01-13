@@ -29,6 +29,7 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QInputDialog>
 #include <QLoggingCategory>
 #include <QMenuBar>
 #include <QMessageBox>

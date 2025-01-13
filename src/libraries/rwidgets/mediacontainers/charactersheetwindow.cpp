@@ -28,12 +28,15 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMenu>
+#include <QPainter>
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QQmlComponent>
 #include <QQmlContext>
 #include <QQmlProperty>
 #include <QQuickItem>
+#include <QTemporaryFile>
+#include <QTimer>
 #include <QToolButton>
 
 #include "charactersheet/charactersheet.h"
