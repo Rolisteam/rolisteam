@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: 2022, 2023 Vincenzo Reale <smart2128vr@gmail.com>
 # SPDX-FileCopyrightText: 2023, 2024 Paolo Zamponi <feus73@gmail.com>
-# SPDX-FileCopyrightText: 2024 Valter Mura <valtermura@gmail.com>
+# SPDX-FileCopyrightText: 2024, 2025 Valter Mura <valtermura@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-16 19:35+0100\n"
+"PO-Revision-Date: 2025-01-08 18:21+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
@@ -266,6 +266,12 @@ msgid ""
 "CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
 "\">wiki.rolisteam.org</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Editor di schede dei "
+"personaggi Rolisteam</span></p><p><br/></p><p>Questo software crea le schede "
+"dei personaggi per Rolisteam v1.8 e successive. <br/>Controlla la "
+"documentazione all'indirizzo: <a href=\"http://wiki.rolisteam.org/index.php/"
+"En:CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
+"\">wiki.rolisteam.org</span></a></p></body></html>"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:33
 msgctxt "AboutRcse|"
@@ -303,6 +309,42 @@ msgid ""
 "family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec (english and "
 "french)</span></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">Autore:</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">Traduttori:</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec (inglese e "
+"francese)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Paolo Zamponi, Valter Mura "
+"(italiano)</span></p></body></html>"
 
 #: src/binaries/rcse/dialog/codeeditordialog.ui:14
 msgctxt "CodeEditorDialog|"
@@ -392,7 +434,7 @@ msgstr "File PDF (*.pdf)"
 #: src/binaries/rcse/dialog/pdfmanager.ui:14
 msgctxt "PdfManager|"
 msgid "Export PDF background Dialog"
-msgstr ""
+msgstr "Esportazione PDF Finestra di dialogo per lo sfondo"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:26
 msgctxt "PdfManager|"
@@ -1090,7 +1132,7 @@ msgstr "Carica vista"
 #: src/binaries/rcse/mainwindow_rcse.ui:918
 msgctxt "MainWindow|"
 msgid "Generate Code and Sheet"
-msgstr ""
+msgstr "Genera codice e scheda"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:921
 msgctxt "MainWindow|"
@@ -1100,7 +1142,7 @@ msgstr "Ctrl+R"
 #: src/binaries/rcse/mainwindow_rcse.ui:930
 msgctxt "MainWindow|"
 msgid "Code To Sheet"
-msgstr ""
+msgstr "Codice alla scheda"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
 #: src/binaries/widget/mainwindow.ui:457
@@ -1138,7 +1180,7 @@ msgstr "Ctrl+P"
 #: src/binaries/rcse/mainwindow_rcse.ui:1033
 msgctxt "MainWindow|"
 msgid "Sheet Properties…"
-msgstr "Proprietà del foglio…"
+msgstr "Proprietà scheda..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1048
 msgctxt "MainWindow|"
@@ -1476,7 +1518,7 @@ msgstr "Imposta la proprietà su tutti i personaggi: %1"
 #: src/binaries/rcse/widgets/codeedit.ui:14
 msgctxt "CodeEdit|"
 msgid "Dialog"
-msgstr "Finestra"
+msgstr "Finestra di dialogo"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
@@ -2149,12 +2191,9 @@ msgid "Properties"
 msgstr "Proprietà"
 
 #: src/binaries/widget/mainwindow.ui:580
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "MainWindow|"
 msgid "Dice Alias"
-msgstr "Alias"
+msgstr "Alias dei dadi"
 
 #: src/binaries/widget/mainwindow.ui:585
 msgctxt "MainWindow|"
@@ -2209,7 +2248,7 @@ msgstr "Importa da un'altra campagna..."
 #: src/binaries/widget/mainwindow.ui:641
 msgctxt "MainWindow|"
 msgid "Dice3D"
-msgstr ""
+msgstr "Dice3D"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
 msgctxt "ContextualMenu|"
@@ -3316,23 +3355,17 @@ msgstr "Vista web"
 #, qt-format
 msgctxt "DiceModel|"
 msgid "# 3D Roll : Distance %1 - Time %2 - Rotation %3"
-msgstr ""
+msgstr "# Lancio in 3D: distanza %1 - tempo %2 - rotazione %3"
 
 #: src/libraries/dicephysics/qml/Main.qml:30
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Rolisteam Help"
 msgctxt "Main|"
 msgid "Rolisteam 3D dice roller"
-msgstr "Guida di Rolisteam"
+msgstr "Lanciatore di dadi in 3D Rolisteam"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Size:"
 msgctxt "SideMenu|"
 msgid "Dice Size:"
-msgstr "Dimensione:"
+msgstr "Dimensione dei dadi:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:77
 msgctxt "SideMenu|"
@@ -3342,36 +3375,28 @@ msgstr ""
 #: src/libraries/dicephysics/qml/SideMenu.qml:177
 msgctxt "SideMenu|"
 msgid "Collision sound:"
-msgstr ""
+msgstr "Suono dell'urto:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:189
-#, fuzzy
-#| msgctxt "NonPlayableCharacterModel|"
-#| msgid "Init Command"
 msgctxt "SideMenu|"
 msgid "Dice Command:"
-msgstr "Comando di inizializzazione"
+msgstr "Comando dei dadi:"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "SideMenu|"
 msgid "Share rolls"
-msgstr "Condividi con"
+msgstr "Condividi i lanci"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
 msgid "(Experimental)"
-msgstr ""
+msgstr "(Sperimentale)"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
-#, fuzzy, qt-format
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Description: "
+#, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
-msgstr "Descrizione: "
+msgstr "Durata: %1s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:221
 msgctxt "SideMenu|"
@@ -3379,6 +3404,9 @@ msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
 "Then, you'll see your own 3D dice."
 msgstr ""
+"I lanci fatti dal giocatore remoto saranno mostrati sul tuo schermo per "
+"alcuni secondi.\n"
+"Vedrai, quindi, il tuo dado 3D."
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
 msgctxt "ButtonGrid|"
@@ -3654,12 +3682,12 @@ msgstr "File mancanti:"
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:38
 msgctxt "IntegrityPage|"
 msgid "Remove file from campaign history"
-msgstr ""
+msgstr "Rimuovi file dalla cronologia della campagna"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:44
 msgctxt "IntegrityPage|"
 msgid "Create blank document"
-msgstr ""
+msgstr "Crea documento vuoto"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:56
 msgctxt "IntegrityPage|"
@@ -3669,12 +3697,12 @@ msgstr "File non gestiti:"
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:82
 msgctxt "IntegrityPage|"
 msgid "Add file into project"
-msgstr ""
+msgstr "Aggiungi file nel progetto"
 
 #: src/libraries/qml_views/Campaign/IntegrityPage.qml:88
 msgctxt "IntegrityPage|"
 msgid "Delete file from Disk"
-msgstr ""
+msgstr "Elimina file dal disco"
 
 #: src/libraries/qml_views/CustomItems/PermissionFrame.qml:8
 msgctxt "PermissionFrame|"
@@ -4098,12 +4126,9 @@ msgid "repeat"
 msgstr "ripeti"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:230
-#, fuzzy
-#| msgctxt "CampaignProperties|"
-#| msgid "Root Directory:"
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr "Cartella radice:"
+msgstr "Cartelle di ricerca:"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:257
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
@@ -4119,12 +4144,9 @@ msgid "add directory"
 msgstr "aggiungi cartella"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:308
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Add new directory"
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
-msgstr "Aggiungi nuova cartella"
+msgstr "Aggiungi cartella musicale."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:319
 msgctxt "PlayerWidgetUI|"
@@ -4580,12 +4602,9 @@ msgid "Dialog"
 msgstr "Finestra di dialogo"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:24
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "CampaignProperties|"
 msgid "Dice Alias"
-msgstr "Alias"
+msgstr "Alias dei dadi"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:34
 msgctxt "CampaignProperties|"
@@ -4688,12 +4707,12 @@ msgstr "Uso del disco:"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:402
 msgctxt "CampaignProperties|"
 msgid "Load all open documents from last session."
-msgstr ""
+msgstr "Carica tutti i documenti dall'ultima sessione."
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:405
 msgctxt "CampaignProperties|"
 msgid "Restore session at startup"
-msgstr ""
+msgstr "Ripristina sessione all'avvio"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -4799,12 +4818,9 @@ msgid "Dialog"
 msgstr "Finestra di dialogo"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:22
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Campaign"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Source Campaign"
-msgstr "Apri campagna"
+msgstr "Campagna di origine"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4832,12 +4848,9 @@ msgid "Images"
 msgstr "Immagini"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:82
-#, fuzzy
-#| msgctxt "DiceBookMarkModel|"
-#| msgid "Alias"
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dice Alias"
-msgstr "Alias"
+msgstr "Alias dei dadi"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:89
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5125,6 +5138,9 @@ msgid ""
 "don't send or receive any message. </p><p>This feature is sending heartbeat "
 "message to prevent that behaviour.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Alcuni utenti hanno riscontrato disconnessioni "
+"nonostante non inviino o ricevano messaggi. </p><p>Questa funzionalità invia "
+"un messaggio di prova per impedire tale comportamento.</p></body></html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:225
 msgctxt "PreferencesDialogBox|"
@@ -5161,7 +5177,7 @@ msgstr "Lunghezza massima:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:326
 msgctxt "PreferencesDialogBox|"
 msgid "Pictures fit their Windows (at the opening)"
-msgstr ""
+msgstr "Le immagini si adattano alle loro finestre (all'apertura)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:339
 msgctxt "PreferencesDialogBox|"
@@ -5221,7 +5237,7 @@ msgstr "Colore del tempo:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:503
 msgctxt "PreferencesDialogBox|"
 msgid "Hide Long commands"
-msgstr ""
+msgstr "Nascondi comandi estesi"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
@@ -5478,7 +5494,7 @@ msgstr "Tutti i visibili"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:14
 msgctxt "MapWizzardDialog|"
 msgid "Map Wizzard"
-msgstr ""
+msgstr "Procedura guidata mappa"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:31
 msgctxt "MapWizzardDialog|"
@@ -5603,7 +5619,7 @@ msgstr "Mostra colonne"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:14
 msgctxt "AntagonistBoard|"
 msgid "NpcMaker"
-msgstr ""
+msgstr "NpcMaker"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:29
 msgctxt "AntagonistBoard|"
@@ -5692,7 +5708,7 @@ msgstr "Salute:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:171
 msgctxt "AntagonistBoard|"
 msgid "full life"
-msgstr ""
+msgstr "vita intera"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:178
 msgctxt "AntagonistBoard|"
@@ -6221,22 +6237,22 @@ msgstr "Standard"
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 1"
-msgstr "Intestazione 1"
+msgstr "Titolo 1"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 2"
-msgstr "Intestazione 2"
+msgstr "Titolo 2"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 3"
-msgstr "Intestazione 3"
+msgstr "Titolo 3"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:65
 msgctxt "MRichTextEdit|"
 msgid "Heading 4"
-msgstr "Intestazione 4"
+msgstr "Titolo 4"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.cpp:66
 msgctxt "MRichTextEdit|"
@@ -6709,7 +6725,7 @@ msgstr "3000"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:190
 msgctxt "ConnectToDocument|"
 msgid "LAN Cahoots Documents:"
-msgstr ""
+msgstr "LAN Documenti Cahoots:"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
@@ -6873,6 +6889,44 @@ msgid ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\">- Chris, Anandi, and "
 "David</p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Lucida Grande'; font-size:13pt; "
+"font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:28pt; font-weight:600;\">Benvenuta/o in Cahoots! </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:16pt; font-weight:600;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Cahoots è un editor di "
+"testo collaborativo multipiattaforma, open source, come il progetto "
+"Pepperdine Computer Science 2010 Senior Capstone.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Nel menu <span style=\" "
+"font-weight:600;\">Strumenti</span> sono disponibili l'annuncio e il "
+"collegamento a documenti relativi alla collaborazione.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Cahoots è liberamente "
+"disponibile sotto licenza LGPL <a href=\"http://code.google.com/p/"
+"cahootseditor/\"><span style=\" text-decoration: underline; color:#0000ff;"
+"\">qui</span></a>.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Chris, Anandi e David</"
+"p></body></html>"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:106
 msgctxt "FirstRunDialog|"
@@ -6920,6 +6974,48 @@ msgid ""
 "size:10pt; font-weight:400;\">- Chris, Anandi, and David</span></p></body></"
 "html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:28pt; "
+"font-weight:600; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:20pt;\">Benvenuta/o in Cahoots! </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Cahoots è un editor di testo collaborativo "
+"multipiattaforma, open source, come il progetto Pepperdine Computer Science "
+"2010 Senior Capstone.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Nel menu Strumenti sono disponibili l'annuncio "
+"e il collegamento a documenti relativi alla collaborazione.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">Cahoots è liberamente disponibile sotto "
+"licenza LGPL </span><a href=\"http://code.google.com/p/cahootseditor/"
+"\"><span style=\" font-size:10pt; font-weight:400; text-decoration: "
+"underline; color:#0000ff;\">qui</span></a><span style=\" font-size:10pt; "
+"font-weight:400;\">.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"size:10pt; font-weight:400;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"size:10pt; font-weight:400;\">- Chris, Anandi e David</span></p></body></"
+"html>"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:26
 msgctxt "ParticipantsPane|"
@@ -6939,7 +7035,7 @@ msgstr "Promozione"
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:149
 msgctxt "ParticipantsPane|"
 msgid "Demote"
-msgstr ""
+msgstr "Abbassa livello"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:27
 msgctxt "PreferencesDialog|"
@@ -7286,7 +7382,7 @@ msgstr "Alias"
 #: src/libraries/rwidgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.ui:14
 msgctxt "DiceBookMarkWidget|"
 msgid "DiceShortCut"
-msgstr ""
+msgstr "ScorciatoiaDadi"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp:44
 msgctxt "NameGeneratorWidget|"
@@ -7686,12 +7782,9 @@ msgid "Stop Sharing"
 msgstr "Ferma la condivisione"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "CharacterSheetWindow|"
 msgid "Print Sheet"
-msgstr "Stampa documento"
+msgstr "Stampa scheda"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
