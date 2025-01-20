@@ -266,6 +266,11 @@ msgid ""
 "CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
 "\">wiki.rolisteam.org</span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Rolisteam 字符集编辑"
+"器</span></p><p><br/></p><p>这款软件旨在为Rolisteam v1.8及更高版本创建角色表"
+"单。 <br/>请查看文档： <a href=\"http://wiki.rolisteam.org/index.php/En:"
+"CharacterSheet\"><span style=\" text-decoration: underline; color:#007af4;"
+"\">wiki.rolisteam.org</span></a></p></body></html>"
 
 #: src/binaries/rcse/dialog/aboutrcse.ui:33
 msgctxt "AboutRcse|"
@@ -303,11 +308,43 @@ msgid ""
 "family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec (english and "
 "french)</span></p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">作者：</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">译者：</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"family:'Sans Serif'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"family:'Sans Serif'; font-size:9pt;\">-Renaud Guezennec (英语和法语) </"
+"span></p></body></html>"
 
 #: src/binaries/rcse/dialog/codeeditordialog.ui:14
 msgctxt "CodeEditorDialog|"
 msgid "Edit item code"
-msgstr ""
+msgstr "编辑物品代码"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.cpp:121
 msgctxt "ColumnDefinitionDialog|"
@@ -317,7 +354,7 @@ msgstr ""
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:14
 msgctxt "ColumnDefinitionDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:24
 msgctxt "ColumnDefinitionDialog|"
@@ -327,22 +364,22 @@ msgstr "行数："
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:34
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Count:"
-msgstr ""
+msgstr "列数："
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:44
 msgctxt "ColumnDefinitionDialog|"
 msgid "Control Position"
-msgstr ""
+msgstr "控件位置"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:52
 msgctxt "ColumnDefinitionDialog|"
 msgid "LeftTop"
-msgstr ""
+msgstr "左上"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:57
 msgctxt "ColumnDefinitionDialog|"
 msgid "LeftBottom"
-msgstr ""
+msgstr "左下"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:62
 msgctxt "ColumnDefinitionDialog|"
@@ -367,17 +404,17 @@ msgstr ""
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:82
 msgctxt "ColumnDefinitionDialog|"
 msgid "RightTop"
-msgstr ""
+msgstr "右上"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:87
 msgctxt "ColumnDefinitionDialog|"
 msgid "RightBottom"
-msgstr ""
+msgstr "右下"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:112
 msgctxt "ColumnDefinitionDialog|"
 msgid "Column Definition:"
-msgstr ""
+msgstr "列定义："
 
 #: src/binaries/rcse/dialog/pdfmanager.cpp:42
 msgctxt "PdfManager|"
@@ -392,43 +429,43 @@ msgstr ""
 #: src/binaries/rcse/dialog/pdfmanager.ui:14
 msgctxt "PdfManager|"
 msgid "Export PDF background Dialog"
-msgstr ""
+msgstr "导出 PDF 背景对话框"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:26
 msgctxt "PdfManager|"
 msgid "Pdf path"
-msgstr ""
+msgstr "PDF 路径"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:36
 msgctxt "PdfManager|"
 msgid "Browse"
-msgstr ""
+msgstr "浏览"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:49
 msgctxt "PdfManager|"
 msgid "Size:"
-msgstr ""
+msgstr "大小:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:60
 msgctxt "PdfManager|"
 msgid "Width:"
-msgstr ""
+msgstr "宽："
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:84
 msgctxt "PdfManager|"
 msgid "Height: "
-msgstr ""
+msgstr "高："
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:109
 msgctxt "PdfManager|"
 msgid "Grayscale"
-msgstr ""
+msgstr "灰阶"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:118
 #: src/binaries/rcse/dialog/pdfmanager.ui:130
 msgctxt "PdfManager|"
 msgid "Pages"
-msgstr ""
+msgstr "页数"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:143
 msgctxt "PdfManager|"
@@ -438,7 +475,7 @@ msgstr ""
 #: src/binaries/rcse/dialog/pdfmanager.ui:156
 msgctxt "PdfManager|"
 msgid "Current page"
-msgstr ""
+msgstr "当前页"
 
 #: src/binaries/rcse/dialog/sheetproperties.cpp:17
 msgctxt "SheetProperties|"
@@ -448,38 +485,38 @@ msgstr ""
 #: src/binaries/rcse/dialog/sheetproperties.ui:14
 msgctxt "SheetProperties|"
 msgid "Sheet Properties"
-msgstr ""
+msgstr "工作表属性"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
 msgid "Default scale:"
-msgstr ""
+msgstr "默认缩放比例："
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
-msgstr ""
+msgstr "额外导入："
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:94
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
-msgstr ""
+msgstr "额外头部代码："
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:121
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
-msgstr ""
+msgstr "额外底部代码："
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:146
 msgctxt "SheetProperties|"
 msgid "Embedded Fonts:"
-msgstr ""
+msgstr "嵌入的字体："
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:157
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
 msgctxt "SheetProperties|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/fieldmodel.cpp:63
 msgctxt "FieldModel|"
@@ -661,7 +698,7 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Load of translation %1 file failed"
-msgstr ""
+msgstr "加载编号为 %1 的翻译文件失败"
 
 #: src/binaries/rcse/main.cpp:73
 msgctxt "QObject|"
@@ -844,17 +881,17 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:14
 msgctxt "MainWindow|"
 msgid "Unknown[*] - Rolisteam Character Sheet Editor"
-msgstr ""
+msgstr "未知[*] - Rolisteam 字符表编辑器"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:29
 msgctxt "MainWindow|"
 msgid "Editor"
-msgstr ""
+msgstr "编辑器"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:47
 msgctxt "MainWindow|"
 msgid "Items"
-msgstr ""
+msgstr "项目"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:59
 #: src/binaries/rcse/mainwindow_rcse.ui:870
@@ -889,7 +926,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:234
 msgctxt "MainWindow|"
 msgid "Function btn"
-msgstr ""
+msgstr "函数 btn"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:263
 #: src/binaries/rcse/mainwindow_rcse.ui:1094
@@ -907,7 +944,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:1238
 msgctxt "MainWindow|"
 msgid "Hidden Field"
-msgstr ""
+msgstr "隐藏字段"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:335
 #: src/binaries/rcse/mainwindow_rcse.ui:998
@@ -922,7 +959,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:736
 msgctxt "MainWindow|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:380
 #: src/binaries/rcse/mainwindow_rcse.ui:1130
@@ -951,7 +988,7 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:882
 msgctxt "MainWindow|"
 msgid "Move Item"
-msgstr ""
+msgstr "移动项目"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:511
 msgctxt "MainWindow|"
@@ -961,22 +998,22 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:556
 msgctxt "MainWindow|"
 msgid "Add Page"
-msgstr ""
+msgstr "添加页面"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:563
 msgctxt "MainWindow|"
 msgid "Remove Page"
-msgstr ""
+msgstr "删除页面"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:570
 msgctxt "MainWindow|"
 msgid "Scale:"
-msgstr ""
+msgstr "缩放："
 
 #: src/binaries/rcse/mainwindow_rcse.ui:617
 msgctxt "MainWindow|"
 msgid "View"
-msgstr ""
+msgstr "视图模式"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:696
 msgctxt "MainWindow|"
@@ -986,17 +1023,17 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:716
 msgctxt "MainWindow|"
 msgid "Stored Images"
-msgstr ""
+msgstr "保存的图像"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:774
 msgctxt "MainWindow|"
 msgid "File"
-msgstr ""
+msgstr "文件"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:794
 msgctxt "MainWindow|"
 msgid "Edition"
-msgstr ""
+msgstr "版本"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
@@ -1014,7 +1051,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:512
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
-msgstr ""
+msgstr "Ctrl+O"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:831
 msgctxt "MainWindow|"
@@ -1025,28 +1062,28 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:386
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
-msgstr ""
+msgstr "Ctrl+S"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:839
 msgctxt "MainWindow|"
 msgid "Save As..."
-msgstr ""
+msgstr "另存为..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:842
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+S"
-msgstr ""
+msgstr "Ctrl+Shift+S"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:847
 msgctxt "MainWindow|"
 msgid "New"
-msgstr ""
+msgstr "新建"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:850
 #: src/binaries/widget/mainwindow.ui:257
 msgctxt "MainWindow|"
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:855
 #: src/binaries/widget/mainwindow.ui:192
@@ -1058,7 +1095,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:195
 msgctxt "MainWindow|"
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:894
 msgctxt "MainWindow|"
@@ -1068,53 +1105,53 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:899
 msgctxt "MainWindow|"
 msgid "Export To Rolisteam"
-msgstr ""
+msgstr "导出到 Rolisteam"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:904
 msgctxt "MainWindow|"
 msgid "Save View"
-msgstr ""
+msgstr "保存视图"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:909
 msgctxt "MainWindow|"
 msgid "Load View"
-msgstr ""
+msgstr "加载视图"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:918
 msgctxt "MainWindow|"
 msgid "Generate Code and Sheet"
-msgstr ""
+msgstr "生成代码和表格"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:921
 msgctxt "MainWindow|"
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:930
 msgctxt "MainWindow|"
 msgid "Code To Sheet"
-msgstr ""
+msgstr "代码到表格"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
 #: src/binaries/widget/mainwindow.ui:457
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
-msgstr ""
+msgstr "Ctrl+D"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:986
 msgctxt "MainWindow|"
 msgid "Set image background…"
-msgstr ""
+msgstr "设置图像背景..."
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1007
 msgctxt "MainWindow|"
 msgid "About RCSE"
-msgstr ""
+msgstr "关于 RCSE"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1017
 msgctxt "MainWindow|"
 msgid "Reset Ids"
-msgstr ""
+msgstr "重置 ID"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1022
 msgctxt "MainWindow|"
@@ -1126,12 +1163,12 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:184
 msgctxt "MainWindow|"
 msgid "Ctrl+P"
-msgstr ""
+msgstr "Ctrl+P"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1033
 msgctxt "MainWindow|"
 msgid "Sheet Properties…"
-msgstr ""
+msgstr "表格属性"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1048
 msgctxt "MainWindow|"
@@ -1141,22 +1178,22 @@ msgstr ""
 #: src/binaries/rcse/mainwindow_rcse.ui:1059
 msgctxt "MainWindow|"
 msgid "Hide/Show icon in Editor"
-msgstr ""
+msgstr "在编辑器中隐藏/显示图标"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1068
 msgctxt "MainWindow|"
 msgid "Add Image"
-msgstr ""
+msgstr "添加图像"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1077
 msgctxt "MainWindow|"
 msgid "Delete Image"
-msgstr ""
+msgstr "删除图像"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1082
 msgctxt "MainWindow|"
 msgid "Check Validity"
-msgstr ""
+msgstr "检查有效性"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
 #: src/binaries/widget/mainwindow.cpp:620
@@ -1174,37 +1211,37 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:427 src/binaries/widget/mainwindow.ui:492
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
-msgstr ""
+msgstr "支持 Rolisteam"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1118
 msgctxt "MainWindow|"
 msgid "Export as PDF"
-msgstr ""
+msgstr "导出为 PDF"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1159
 msgctxt "MainWindow|"
 msgid "Recent file 1"
-msgstr ""
+msgstr "最近文件 1"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1206
 msgctxt "MainWindow|"
 msgid "Label field"
-msgstr ""
+msgstr "字段标签"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1209
 msgctxt "MainWindow|"
 msgid "Read-only Text"
-msgstr ""
+msgstr "只读文本"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1214
 msgctxt "MainWindow|"
 msgid "Import from PDF"
-msgstr ""
+msgstr "从 PDF 导入"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1241
 msgctxt "MainWindow|"
 msgid "Hidden Field (for intermediate calculations)"
-msgstr ""
+msgstr "隐藏字段 (用于中间计算) "
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
 msgctxt "PreferencesDialog|"
@@ -1219,22 +1256,22 @@ msgstr ""
 #: src/binaries/rcse/preferences/preferencesdialog.ui:14
 msgctxt "PreferencesDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:20
 msgctxt "PreferencesDialog|"
 msgid "QML Generation"
-msgstr ""
+msgstr "QML 生成"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:26
 msgctxt "PreferencesDialog|"
 msgid "Custom path"
-msgstr ""
+msgstr "自定义路径"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:35
 msgctxt "PreferencesDialog|"
 msgid "Generation Path"
-msgstr ""
+msgstr "生成路径"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:52
 msgctxt "PreferencesDialog|"
@@ -1264,7 +1301,7 @@ msgstr ""
 #: src/binaries/rcse/tablecanvasfield.cpp:64
 msgctxt "TableCanvasField|"
 msgid "CheckBox"
-msgstr ""
+msgstr "复选框"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:65
 msgctxt "TableCanvasField|"
@@ -1289,7 +1326,7 @@ msgstr ""
 #: src/binaries/rcse/tablecanvasfield.cpp:69
 msgctxt "TableCanvasField|"
 msgid "Web page"
-msgstr ""
+msgstr "网页"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:70
 msgctxt "TableCanvasField|"
@@ -1299,12 +1336,12 @@ msgstr ""
 #: src/binaries/rcse/tablecanvasfield.cpp:323
 msgctxt "TableCanvasField|"
 msgid "Select the column type"
-msgstr ""
+msgstr "选择列类型"
 
 #: src/binaries/rcse/tablecanvasfield.cpp:324
 msgctxt "TableCanvasField|"
 msgid "Type of Field:"
-msgstr ""
+msgstr "字段类型："
 
 #: src/binaries/rcse/undo/addcharactercommand.cpp:27
 #, qt-format
@@ -1467,7 +1504,7 @@ msgstr ""
 #: src/binaries/rcse/widgets/codeedit.ui:14
 msgctxt "CodeEdit|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/binaries/rcse/widgets/fieldview.cpp:25
 msgctxt "FieldView|"
@@ -1557,47 +1594,47 @@ msgstr ""
 #: src/binaries/widget/mainwindow.cpp:408
 msgctxt "MainWindow|"
 msgid "SidePanels"
-msgstr ""
+msgstr "侧边栏"
 
 #: src/binaries/widget/mainwindow.cpp:413
 msgctxt "MainWindow|"
 msgid "Side Panels"
-msgstr ""
+msgstr "侧边栏"
 
 #: src/binaries/widget/mainwindow.cpp:423
 msgctxt "MainWindow|"
 msgid "List of Players"
-msgstr ""
+msgstr "玩家列表"
 
 #: src/binaries/widget/mainwindow.cpp:424
 msgctxt "MainWindow|"
 msgid "All campaign documents"
-msgstr ""
+msgstr "所有对战文件"
 
 #: src/binaries/widget/mainwindow.cpp:425
 msgctxt "MainWindow|"
 msgid "List of antagonists"
-msgstr ""
+msgstr "对手列表"
 
 #: src/binaries/widget/mainwindow.cpp:426
 msgctxt "MainWindow|"
 msgid "Music Player"
-msgstr ""
+msgstr "音乐播放器"
 
 #: src/binaries/widget/mainwindow.cpp:427
 msgctxt "MainWindow|"
 msgid "Server Panel"
-msgstr ""
+msgstr "服务器面板"
 
 #: src/binaries/widget/mainwindow.cpp:428
 msgctxt "MainWindow|"
 msgid "Notification Zone"
-msgstr ""
+msgstr "通知区域"
 
 #: src/binaries/widget/mainwindow.cpp:443
 msgctxt "MainWindow|"
 msgid "GM Tools"
-msgstr ""
+msgstr "GM 工具"
 
 #: src/binaries/widget/mainwindow.cpp:500
 msgctxt "MainWindow|"
@@ -1612,12 +1649,12 @@ msgstr ""
 #: src/binaries/widget/mainwindow.cpp:508
 msgctxt "MainWindow|"
 msgid "Open Map"
-msgstr ""
+msgstr "打开地图"
 
 #: src/binaries/widget/mainwindow.cpp:508
 msgctxt "MainWindow|"
 msgid "Map:"
-msgstr ""
+msgstr "地图："
 
 #: src/binaries/widget/mainwindow.cpp:522
 #: src/binaries/widget/mainwindow.cpp:561
@@ -1630,7 +1667,7 @@ msgstr ""
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
-msgstr ""
+msgstr " %1 的文档可以在以下网址获取：<br><a href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:706
 msgctxt "MainWindow|"
@@ -1672,6 +1709,8 @@ msgid ""
 "The %1 version has been released. Please take a look at <a href=\"https://"
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
+"%1 版本已发布。如需了解更多信息，请查看 <a href=\"https://www.rolisteam.org/"
+"download\">下载页面</a> 。"
 
 #: src/binaries/widget/mainwindow.cpp:863
 #, qt-format
@@ -1775,7 +1814,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:14
 msgctxt "MainWindow|"
 msgid "Rolisteam"
-msgstr ""
+msgstr "Rolisteam"
 
 #: src/binaries/widget/mainwindow.ui:31
 msgctxt "MainWindow|"
@@ -1785,32 +1824,32 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:35
 msgctxt "MainWindow|"
 msgid "&New"
-msgstr ""
+msgstr "新建(&N)"
 
 #: src/binaries/widget/mainwindow.ui:44
 msgctxt "MainWindow|"
 msgid "&Open"
-msgstr ""
+msgstr "打开(&O)"
 
 #: src/binaries/widget/mainwindow.ui:66
 msgctxt "MainWindow|"
 msgid "&Panels"
-msgstr ""
+msgstr "面板(&P)"
 
 #: src/binaries/widget/mainwindow.ui:70
 msgctxt "MainWindow|"
 msgid "Reorganize"
-msgstr ""
+msgstr "重新排序"
 
 #: src/binaries/widget/mainwindow.ui:81
 msgctxt "MainWindow|"
 msgid "&Network"
-msgstr ""
+msgstr "网络(&N)"
 
 #: src/binaries/widget/mainwindow.ui:93
 msgctxt "MainWindow|"
 msgid "&Help"
-msgstr ""
+msgstr "帮助 (&H)"
 
 #: src/binaries/widget/mainwindow.ui:103
 msgctxt "MainWindow|"
@@ -1820,87 +1859,87 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:114
 msgctxt "MainWindow|"
 msgid "&GM ToolBoxes"
-msgstr ""
+msgstr "GM 工具箱 (&G) "
 
 #: src/binaries/widget/mainwindow.ui:119
 msgctxt "MainWindow|"
 msgid "&Campaign"
-msgstr ""
+msgstr "战役 (&C)"
 
 #: src/binaries/widget/mainwindow.ui:135
 msgctxt "MainWindow|"
 msgid "&History"
-msgstr ""
+msgstr "历史记录 (&H) "
 
 #: src/binaries/widget/mainwindow.ui:153
 msgctxt "MainWindow|"
 msgid "toolBar"
-msgstr ""
+msgstr "工具栏"
 
 #: src/binaries/widget/mainwindow.ui:170
 msgctxt "MainWindow|"
 msgid "Close File"
-msgstr ""
+msgstr "关闭文件"
 
 #: src/binaries/widget/mainwindow.ui:173
 msgctxt "MainWindow|"
 msgid "Ctrl+Esc"
-msgstr ""
+msgstr "Ctrl+Esc"
 
 #: src/binaries/widget/mainwindow.ui:181
 msgctxt "MainWindow|"
 msgid "Preferences…"
-msgstr ""
+msgstr "首选项…"
 
 #: src/binaries/widget/mainwindow.ui:203
 msgctxt "MainWindow|"
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 #: src/binaries/widget/mainwindow.ui:206
 msgctxt "MainWindow|"
 msgid "F2"
-msgstr ""
+msgstr "F2"
 
 #: src/binaries/widget/mainwindow.ui:211
 msgctxt "MainWindow|"
 msgid "Cascade"
-msgstr ""
+msgstr "Cascade 飞瀑"
 
 #: src/binaries/widget/mainwindow.ui:214 src/binaries/widget/mainwindow.ui:315
 msgctxt "MainWindow|"
 msgid "Alt+C"
-msgstr ""
+msgstr "Alt+C"
 
 #: src/binaries/widget/mainwindow.ui:219
 msgctxt "MainWindow|"
 msgid "Tile"
-msgstr ""
+msgstr "平铺"
 
 #: src/binaries/widget/mainwindow.ui:222
 msgctxt "MainWindow|"
 msgid "Alt+T"
-msgstr ""
+msgstr "Alt+T"
 
 #: src/binaries/widget/mainwindow.ui:227
 msgctxt "MainWindow|"
 msgid "Disconnection…"
-msgstr ""
+msgstr "断开连接..."
 
 #: src/binaries/widget/mainwindow.ui:232
 msgctxt "MainWindow|"
 msgid "Rolisteam Help"
-msgstr ""
+msgstr "Rolisteam 帮助"
 
 #: src/binaries/widget/mainwindow.ui:235
 msgctxt "MainWindow|"
 msgid "online documentation"
-msgstr ""
+msgstr "在线文档"
 
 #: src/binaries/widget/mainwindow.ui:238
 msgctxt "MainWindow|"
 msgid "F1"
-msgstr ""
+msgstr "F1"
 
 #: src/binaries/widget/mainwindow.ui:246
 msgctxt "MainWindow|"
@@ -1910,7 +1949,7 @@ msgstr "关于 Rolisteam"
 #: src/binaries/widget/mainwindow.ui:254 src/binaries/widget/mainwindow.ui:276
 msgctxt "MainWindow|"
 msgid "Note"
-msgstr ""
+msgstr "提示"
 
 #: src/binaries/widget/mainwindow.ui:265
 msgctxt "MainWindow|"
@@ -1920,42 +1959,42 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:268
 msgctxt "MainWindow|"
 msgid "Ctrl+I"
-msgstr ""
+msgstr "Ctrl+I"
 
 #: src/binaries/widget/mainwindow.ui:279
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+N"
-msgstr ""
+msgstr "Ctrl+Shift+N"
 
 #: src/binaries/widget/mainwindow.ui:290
 msgctxt "MainWindow|"
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: src/binaries/widget/mainwindow.ui:298
 msgctxt "MainWindow|"
 msgid "Online Picture"
-msgstr ""
+msgstr "在线图片"
 
 #: src/binaries/widget/mainwindow.ui:301
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
-msgstr ""
+msgstr "Ctrl+Shift+I"
 
 #: src/binaries/widget/mainwindow.ui:312
 msgctxt "MainWindow|"
 msgid "Character List"
-msgstr ""
+msgstr "角色列表"
 
 #: src/binaries/widget/mainwindow.ui:323
 msgctxt "MainWindow|"
 msgid "ToolBar"
-msgstr ""
+msgstr "工具栏"
 
 #: src/binaries/widget/mainwindow.ui:326
 msgctxt "MainWindow|"
 msgid "F8"
-msgstr ""
+msgstr "F8"
 
 #: src/binaries/widget/mainwindow.ui:334 src/binaries/widget/mainwindow.ui:345
 msgctxt "MainWindow|"
@@ -1965,27 +2004,27 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:337
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
-msgstr ""
+msgstr "Ctrl+M"
 
 #: src/binaries/widget/mainwindow.ui:348
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+M"
-msgstr ""
+msgstr "Ctrl+Shift+M"
 
 #: src/binaries/widget/mainwindow.ui:356
 msgctxt "MainWindow|"
 msgid "Show Health State"
-msgstr ""
+msgstr "显示健康状态"
 
 #: src/binaries/widget/mainwindow.ui:359
 msgctxt "MainWindow|"
 msgid "F6"
-msgstr ""
+msgstr "F6"
 
 #: src/binaries/widget/mainwindow.ui:364
 msgctxt "MainWindow|"
 msgid "Change Profile…"
-msgstr ""
+msgstr "更改配置文件..."
 
 #: src/binaries/widget/mainwindow.ui:372
 msgctxt "MainWindow|"
@@ -1995,67 +2034,67 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:375
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
-msgstr ""
+msgstr "Ctrl+U"
 
 #: src/binaries/widget/mainwindow.ui:383
 msgctxt "MainWindow|"
 msgid "Save Campaign"
-msgstr ""
+msgstr "保存战役"
 
 #: src/binaries/widget/mainwindow.ui:394
 msgctxt "MainWindow|"
 msgid "Room List"
-msgstr ""
+msgstr "房间列表"
 
 #: src/binaries/widget/mainwindow.ui:397
 msgctxt "MainWindow|"
 msgid "F10"
-msgstr ""
+msgstr "F10"
 
 #: src/binaries/widget/mainwindow.ui:405 src/binaries/widget/mainwindow.ui:416
 msgctxt "MainWindow|"
 msgid "Shared Note"
-msgstr ""
+msgstr "共享的笔记"
 
 #: src/binaries/widget/mainwindow.ui:408
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
-msgstr ""
+msgstr "Ctrl+K"
 
 #: src/binaries/widget/mainwindow.ui:419
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+K"
-msgstr ""
+msgstr "Ctrl+Shift+K"
 
 #: src/binaries/widget/mainwindow.ui:432
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
-msgstr ""
+msgstr "快捷键查看器…"
 
 #: src/binaries/widget/mainwindow.ui:435
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
-msgstr ""
+msgstr "Ctrl+F1"
 
 #: src/binaries/widget/mainwindow.ui:443
 msgctxt "MainWindow|"
 msgid "Full Screen"
-msgstr ""
+msgstr "全屏显示"
 
 #: src/binaries/widget/mainwindow.ui:446
 msgctxt "MainWindow|"
 msgid "F11"
-msgstr ""
+msgstr "F11"
 
 #: src/binaries/widget/mainwindow.ui:454
 msgctxt "MainWindow|"
 msgid "PDF File"
-msgstr ""
+msgstr "PDF 文件"
 
 #: src/binaries/widget/mainwindow.ui:462
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
-msgstr ""
+msgstr "复制连接链接..."
 
 #: src/binaries/widget/mainwindow.ui:470
 msgctxt "MainWindow|"
@@ -2065,22 +2104,22 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:473
 msgctxt "MainWindow|"
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: src/binaries/widget/mainwindow.ui:478
 msgctxt "MainWindow|"
 msgid "Password Generator"
-msgstr ""
+msgstr "密码生成器"
 
 #: src/binaries/widget/mainwindow.ui:483
 msgctxt "MainWindow|"
 msgid "Current Media as…"
-msgstr ""
+msgstr "当前媒体作为..."
 
 #: src/binaries/widget/mainwindow.ui:500
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
-msgstr ""
+msgstr "工具栏中的媒体标题"
 
 #: src/binaries/widget/mainwindow.ui:509 src/binaries/widget/mainwindow.ui:521
 msgctxt "MainWindow|"
@@ -2090,7 +2129,7 @@ msgstr ""
 #: src/binaries/widget/mainwindow.ui:524
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+O"
-msgstr ""
+msgstr "Ctrl+Shift+O"
 
 #: src/binaries/widget/mainwindow.ui:536
 msgctxt "MainWindow|"
@@ -4023,7 +4062,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.ui:35
 msgctxt "PlayerWidgetUI|"
 msgid "muted"
-msgstr ""
+msgstr "已静音"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:98
 msgctxt "PlayerWidgetUI|"
@@ -4043,17 +4082,17 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.ui:161
 msgctxt "PlayerWidgetUI|"
 msgid "unique Mode"
-msgstr ""
+msgstr "唯一模式"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:177
 msgctxt "PlayerWidgetUI|"
 msgid "repeat"
-msgstr ""
+msgstr "循环"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:230
 msgctxt "PlayerWidgetUI|"
 msgid "Lookup directories:"
-msgstr ""
+msgstr "查找目录："
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:257
 #: src/libraries/rwidgets/customs/playerwidget.ui:264
@@ -4061,47 +4100,47 @@ msgstr ""
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
 msgctxt "PlayerWidgetUI|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:305
 msgctxt "PlayerWidgetUI|"
 msgid "add directory"
-msgstr ""
+msgstr "添加目录"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:308
 msgctxt "PlayerWidgetUI|"
 msgid "Add music directory."
-msgstr ""
+msgstr "添加音乐目录。"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:319
 msgctxt "PlayerWidgetUI|"
 msgid "remove Path"
-msgstr ""
+msgstr "移除路径"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:322
 msgctxt "PlayerWidgetUI|"
 msgid "Remove selected directory"
-msgstr ""
+msgstr "移除选定的目录"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:333
 msgctxt "PlayerWidgetUI|"
 msgid "Up path"
-msgstr ""
+msgstr "上一级路径"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:336
 msgctxt "PlayerWidgetUI|"
 msgid "Move up the selected directory"
-msgstr ""
+msgstr "向上移动所选目录"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:347
 msgctxt "PlayerWidgetUI|"
 msgid "move down"
-msgstr ""
+msgstr "下移"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:350
 msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
-msgstr ""
+msgstr "向下移动所选目录 "
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:213
 #, qt-format
@@ -4173,7 +4212,7 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:310
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
-msgstr ""
+msgstr "重置先攻顺序"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:316
 msgctxt "RGraphicsView|"
@@ -4360,17 +4399,17 @@ msgstr ""
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:654
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
-msgstr ""
+msgstr "重置所有 NPC 的先攻顺序"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:659
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
-msgstr ""
+msgstr "重置选中人物的先攻顺序"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:664
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
-msgstr ""
+msgstr "重置所有人物的先攻顺序"
 
 #: src/libraries/rwidgets/customs/vcolorselector.cpp:98
 msgctxt "VColorSelector|"
@@ -4484,12 +4523,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"
 msgid "About Rolisteam"
-msgstr ""
+msgstr "关于 Rolisteam"
 
 #: src/libraries/rwidgets/dialogs/campaignintegritydialog.ui:17
 msgctxt "CampaignIntegrityDialog|"
 msgid "Integrity Check"
-msgstr ""
+msgstr "完整性检验"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:39
 msgctxt "CampaignProperties|"
@@ -4506,27 +4545,27 @@ msgstr[0] ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:14
 msgctxt "CampaignProperties|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:24
 msgctxt "CampaignProperties|"
 msgid "Dice Alias"
-msgstr ""
+msgstr "骰子别名"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:34
 msgctxt "CampaignProperties|"
 msgid "Dice Command"
-msgstr ""
+msgstr "骰子命令"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:64
 msgctxt "CampaignProperties|"
 msgid "Test"
-msgstr ""
+msgstr "测试"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:75
 msgctxt "CampaignProperties|"
 msgid "Converted"
-msgstr ""
+msgstr "已转换"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:124
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:127
@@ -4534,7 +4573,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:243
 msgctxt "CampaignProperties|"
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:137
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:140
@@ -4550,7 +4589,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:269
 msgctxt "CampaignProperties|"
 msgid "Top"
-msgstr ""
+msgstr "顶部"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:163
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:166
@@ -4574,12 +4613,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:308
 msgctxt "CampaignProperties|"
 msgid "Bottom"
-msgstr ""
+msgstr "底部"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:220
 msgctxt "CampaignProperties|"
 msgid "Character States"
-msgstr ""
+msgstr "角色状态"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:336
 msgctxt "CampaignProperties|"
@@ -4594,32 +4633,32 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:354
 msgctxt "CampaignProperties|"
 msgid "Root Directory:"
-msgstr ""
+msgstr "根目录："
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:364
 msgctxt "CampaignProperties|"
 msgid "Theme*:"
-msgstr ""
+msgstr "主题*："
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:374
 msgctxt "CampaignProperties|"
 msgid "File count:"
-msgstr ""
+msgstr "文件数量："
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:388
 msgctxt "CampaignProperties|"
 msgid "Disk usage:"
-msgstr ""
+msgstr "磁盘使用率："
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:402
 msgctxt "CampaignProperties|"
 msgid "Load all open documents from last session."
-msgstr ""
+msgstr "从上次会话中加载所有打开的文件。"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:405
 msgctxt "CampaignProperties|"
 msgid "Restore session at startup"
-msgstr ""
+msgstr "启动时恢复会话"
 
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.cpp:34
 #, qt-format
@@ -4630,28 +4669,28 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/connectionretrydialog.ui:14
 msgctxt "ConnectionRetryDialog|"
 msgid "Connection Retry"
-msgstr ""
+msgstr "重试连接"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:14
 msgctxt "HistoryViewerDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:27
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:34
 msgctxt "HistoryViewerDialog|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:71
 msgctxt "HistoryViewerDialog|"
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:79
 msgctxt "HistoryViewerDialog|"
 msgid "remove"
-msgstr ""
+msgstr "移除"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.cpp:154
 msgctxt "ImageSelectorDialog|"
@@ -4671,108 +4710,108 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:30
 msgctxt "ImageSelectorDialog|"
 msgid "http://… https://… c:\\… /home/…"
-msgstr ""
+msgstr "http://... https://... c:\\... /home/..."
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:45
 msgctxt "ImageSelectorDialog|"
 msgid "download"
-msgstr ""
+msgstr "下载"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:62
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:79
 msgctxt "ImageSelectorDialog|"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
 msgctxt "ImageSelectorDialog|"
 msgid "Title:"
-msgstr ""
+msgstr "标题："
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:169
 msgctxt "ImageSelectorDialog|"
 msgid "Download"
-msgstr ""
+msgstr "下载"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:181
 msgctxt "ImageSelectorDialog|"
 msgid "Paste"
-msgstr ""
+msgstr "粘贴"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:184
 msgctxt "ImageSelectorDialog|"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "从剪贴板中粘贴"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:187
 msgctxt "ImageSelectorDialog|"
 msgid "Ctrl+V"
-msgstr ""
+msgstr "Ctrl+V"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:199
 msgctxt "ImageSelectorDialog|"
 msgid "OpenFile"
-msgstr ""
+msgstr "打开文件"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:202
 msgctxt "ImageSelectorDialog|"
 msgid "Open file from your hard drive"
-msgstr ""
+msgstr "从硬盘打开文件"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:14
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:22
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Source Campaign"
-msgstr ""
+msgstr "战役源"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Browse…"
-msgstr ""
+msgstr "浏览..."
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:55
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Data to Import"
-msgstr ""
+msgstr "待导入的数据"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:61
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Mindmaps"
-msgstr ""
+msgstr "思维导图"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:68
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Maps"
-msgstr ""
+msgstr "地图"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:75
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Images"
-msgstr ""
+msgstr "图像"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:82
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dice Alias"
-msgstr ""
+msgstr "骰子别名"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:89
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Theme"
-msgstr ""
+msgstr "主题"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:96
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 2"
-msgstr ""
+msgstr "播放列表 音频播放器 2"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:103
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 3"
-msgstr ""
+msgstr "播放列表 音频播放器 3"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:110
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4782,37 +4821,37 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:117
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Playlist audioplayer 1"
-msgstr ""
+msgstr "播放列表 音频播放器 1"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:124
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Antagonist list"
-msgstr ""
+msgstr "对手列表"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:131
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character sheets"
-msgstr ""
+msgstr "角色表"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:138
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Character States"
-msgstr ""
+msgstr "角色状态"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:145
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Pdf documents"
-msgstr ""
+msgstr "PDF 文档"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:152
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Web links"
-msgstr ""
+msgstr "网页链接"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:14
 msgctxt "KeyGeneratorDialog|"
 msgid "Password Generator"
-msgstr ""
+msgstr "密码生成器"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:29
 msgctxt "KeyGeneratorDialog|"
@@ -4822,12 +4861,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:36
 msgctxt "KeyGeneratorDialog|"
 msgid "Generate"
-msgstr ""
+msgstr "生成"
 
 #: src/libraries/rwidgets/dialogs/keygeneratordialog.ui:51
 msgctxt "KeyGeneratorDialog|"
 msgid "Copy/Paste result into server configuration file."
-msgstr ""
+msgstr "复制/粘贴结果到服务器配置文件。"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.cpp:35
 msgctxt "NewFileDialog|"
@@ -4847,7 +4886,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:14
 msgctxt "NewFileDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:22
 msgctxt "NewFileDialog|"
@@ -4867,12 +4906,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/persondialog.ui:14
 msgctxt "PersonDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:40
 msgctxt "PersonDialog|"
 msgid "Avatar…"
-msgstr ""
+msgstr "头像..."
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:55
 msgctxt "PersonDialog|"
@@ -4887,17 +4926,17 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:69
 msgctxt "PreferencesDialog|"
 msgid "GM Only"
-msgstr ""
+msgstr "仅 GM"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:70
 msgctxt "PreferencesDialog|"
 msgid "PC Move"
-msgstr ""
+msgstr "移动 PC"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:71
 msgctxt "PreferencesDialog|"
 msgid "PC All"
-msgstr ""
+msgstr "全部 PC"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:145
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:14
@@ -4976,12 +5015,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:14
 msgctxt "PreferencesDialogBox|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:27
 msgctxt "PreferencesDialogBox|"
 msgid "General"
-msgstr ""
+msgstr "概况"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:33
 msgctxt "PreferencesDialogBox|"
@@ -4991,52 +5030,52 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:41
 msgctxt "PreferencesDialogBox|"
 msgid "Fog Of War:"
-msgstr ""
+msgstr "战争迷雾："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:72
 msgctxt "PreferencesDialogBox|"
 msgid "Default Map Permission:"
-msgstr ""
+msgstr "默认地图权限："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:99
 msgctxt "PreferencesDialogBox|"
 msgid "Opacity Value:"
-msgstr ""
+msgstr "不透明度:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:135
 msgctxt "PreferencesDialogBox|"
 msgid "Item Highlight Color"
-msgstr ""
+msgstr "物品高亮颜色"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:166
 msgctxt "PreferencesDialogBox|"
 msgid "Pen Width Highlight:"
-msgstr ""
+msgstr "画笔宽度突出显示："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:180
 msgctxt "PreferencesDialogBox|"
 msgid "Only apply on future maps."
-msgstr ""
+msgstr "仅适用于未来的地图。"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:190
 msgctxt "PreferencesDialogBox|"
 msgid "Behaviour"
-msgstr ""
+msgstr "行为"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:196
 msgctxt "PreferencesDialogBox|"
 msgid "Check for Update"
-msgstr ""
+msgstr "检查更新"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:206
 msgctxt "PreferencesDialogBox|"
 msgid "Don't show \"Tips of the day\""
-msgstr ""
+msgstr "不显示“每日提示”"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:213
 msgctxt "PreferencesDialogBox|"
 msgid "Full Screen at launch"
-msgstr ""
+msgstr "启动时全屏"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:222
 msgctxt "PreferencesDialogBox|"
@@ -5045,66 +5084,68 @@ msgid ""
 "don't send or receive any message. </p><p>This feature is sending heartbeat "
 "message to prevent that behaviour.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>一些用户在不发送或接收任何消息时遇到了掉线情况。</p><p>"
+"此功能通过发送类似心跳的消息来避免这种情况发生。</p></body></html>"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:225
 msgctxt "PreferencesDialogBox|"
 msgid "Keep connection alive"
-msgstr ""
+msgstr "保持连接"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:247
 msgctxt "PreferencesDialogBox|"
 msgid "Every "
-msgstr ""
+msgstr "每 "
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:264
 msgctxt "PreferencesDialogBox|"
 msgid "s"
-msgstr ""
+msgstr " 秒"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:277
 msgctxt "PreferencesDialogBox|"
 msgid "All subwindows will have a short title (making tab shorter)"
-msgstr ""
+msgstr "所有子窗口都将有一个简短的标题 (使选项卡更短) "
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:280
 msgctxt "PreferencesDialogBox|"
 msgid "Short title in Tabview"
-msgstr ""
+msgstr "Tabview 中的短标题"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:302
 msgctxt "PreferencesDialogBox|"
 msgid "Max Length:"
-msgstr ""
+msgstr "最大长度："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:326
 msgctxt "PreferencesDialogBox|"
 msgid "Pictures fit their Windows (at the opening)"
-msgstr ""
+msgstr "图片在（窗口打开时）适配其所在的窗口"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:339
 msgctxt "PreferencesDialogBox|"
 msgid "Application Language*"
-msgstr ""
+msgstr "应用程序语言*"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:345
 msgctxt "PreferencesDialogBox|"
 msgid "Use system language"
-msgstr ""
+msgstr "使用系统默认语言"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:357
 msgctxt "PreferencesDialogBox|"
 msgid "Available translations:"
-msgstr ""
+msgstr "可用翻译："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:382
 msgctxt "PreferencesDialogBox|"
 msgid "Custom translation"
-msgstr ""
+msgstr "自定义翻译"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:391
 msgctxt "PreferencesDialogBox|"
 msgid "Translation File:"
-msgstr ""
+msgstr "翻译文件："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:406
 msgctxt "PreferencesDialogBox|"
@@ -5114,72 +5155,72 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
 msgid "Time between page:"
-msgstr ""
+msgstr "页面之间的时间间隔："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:435
 msgctxt "PreferencesDialogBox|"
 msgid "ms"
-msgstr ""
+msgstr " 毫秒"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:457
 msgctxt "PreferencesDialogBox|"
 msgid "Messaging"
-msgstr ""
+msgstr "消息"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:465
 msgctxt "PreferencesDialogBox|"
 msgid "Show time"
-msgstr ""
+msgstr "显示时间"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
 msgctxt "PreferencesDialogBox|"
 msgid "Color of Time:"
-msgstr ""
+msgstr "时间颜色："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:503
 msgctxt "PreferencesDialogBox|"
 msgid "Hide Long commands"
-msgstr ""
+msgstr "隐藏长命令"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
 msgid "Maximum Length:"
-msgstr ""
+msgstr "最大长度："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
 msgctxt "PreferencesDialogBox|"
 msgid "* : need restart"
-msgstr ""
+msgstr "* ：需要重启"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:569
 msgctxt "PreferencesDialogBox|"
 msgid "Themes"
-msgstr ""
+msgstr "主题"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:575
 msgctxt "PreferencesDialogBox|"
 msgid "Theme"
-msgstr ""
+msgstr "主题"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:585
 msgctxt "PreferencesDialogBox|"
 msgid "Current Theme*"
-msgstr ""
+msgstr "当前主题 *"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:592
 msgctxt "PreferencesDialogBox|"
 msgid "Theme name"
-msgstr ""
+msgstr "主题名称"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:599
 msgctxt "PreferencesDialogBox|"
 msgid "Styles:"
-msgstr ""
+msgstr "界面样式："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:615
 msgctxt "PreferencesDialogBox|"
 msgid "Copy"
-msgstr ""
+msgstr "复制"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:622
 msgctxt "PreferencesDialogBox|"
@@ -5189,17 +5230,17 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:639
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
-msgstr ""
+msgstr "CSS："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:646
 msgctxt "PreferencesDialogBox|"
 msgid "Edit..."
-msgstr ""
+msgstr "编辑..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:672
 msgctxt "PreferencesDialogBox|"
 msgid "Background"
-msgstr ""
+msgstr "背景"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:680
 msgctxt "PreferencesDialogBox|"
@@ -5209,22 +5250,22 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:711
 msgctxt "PreferencesDialogBox|"
 msgid "Image:"
-msgstr ""
+msgstr "图像："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:725
 msgctxt "PreferencesDialogBox|"
 msgid "Positioning:"
-msgstr ""
+msgstr "位置："
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:733
 msgctxt "PreferencesDialogBox|"
 msgid "TopLeftCorner"
-msgstr ""
+msgstr "左上角"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:738
 msgctxt "PreferencesDialogBox|"
 msgid "BottomLeftCorner"
-msgstr ""
+msgstr "左下角"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:743
 msgctxt "PreferencesDialogBox|"
@@ -5234,62 +5275,62 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:748
 msgctxt "PreferencesDialogBox|"
 msgid "TopRightCorner"
-msgstr ""
+msgstr "右上角"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:753
 msgctxt "PreferencesDialogBox|"
 msgid "BottomRightCorner"
-msgstr ""
+msgstr "右下角"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:758
 msgctxt "PreferencesDialogBox|"
 msgid "Scaled"
-msgstr ""
+msgstr "缩放"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:763
 msgctxt "PreferencesDialogBox|"
 msgid "Filled"
-msgstr ""
+msgstr "填充"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:768
 msgctxt "PreferencesDialogBox|"
 msgid "Repeated"
-msgstr ""
+msgstr "重复"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:783
 msgctxt "PreferencesDialogBox|"
 msgid "Dice Highlight Color"
-msgstr ""
+msgstr "骰子高亮颜色"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:812
 msgctxt "PreferencesDialogBox|"
 msgid "Color Palette"
-msgstr ""
+msgstr "调色板"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:824
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
-msgstr ""
+msgstr "* ：需要重启"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:844
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
-msgstr ""
+msgstr "导入..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:851
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
-msgstr ""
+msgstr "导出..."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:864
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
-msgstr ""
+msgstr "诊断"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:892
 msgctxt "PreferencesDialogBox|"
 msgid "Start"
-msgstr ""
+msgstr "开始"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:117
 msgctxt "SelectConnectionProfileDialog|"
@@ -5299,7 +5340,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:14
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Welcome To Rolisteam - Connection Dialog"
-msgstr ""
+msgstr "欢迎来到 Rolisteam - 连接对话框"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
 msgctxt "SelectConnectionProfileDialog|"
@@ -5309,7 +5350,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:40
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove character"
-msgstr ""
+msgstr "删除角色"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:45
 msgctxt "SelectConnectionProfileDialog|"
@@ -5319,12 +5360,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:50
 msgctxt "SelectConnectionProfileDialog|"
 msgid "stop"
-msgstr ""
+msgstr "停止"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:55
 msgctxt "SelectConnectionProfileDialog|"
 msgid "playerAvatar"
-msgstr ""
+msgstr "玩家头像"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:64
 msgctxt "SelectConnectionProfileDialog|"
@@ -5334,7 +5375,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/shortcuteditordialog.ui:14
 msgctxt "ShortCutEditorDialog|"
 msgid "Shortcut Viewer"
-msgstr ""
+msgstr "快捷键查看器"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:30
 #, qt-format
@@ -5356,12 +5397,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:14
 msgctxt "TipOfDayViewer|"
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:42
 msgctxt "TipOfDayViewer|"
 msgid "Never show it again !"
-msgstr ""
+msgstr "不再显示！"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:40
 msgctxt "MapWizzardDialog|"
@@ -5396,12 +5437,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:14
 msgctxt "MapWizzardDialog|"
 msgid "Map Wizzard"
-msgstr ""
+msgstr "地图向导"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:31
 msgctxt "MapWizzardDialog|"
 msgid "Title :"
-msgstr ""
+msgstr "标题："
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:51
 msgctxt "MapWizzardDialog|"
