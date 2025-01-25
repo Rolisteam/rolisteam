@@ -243,6 +243,8 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             QPointF pos(nodeV["x"].toReal(), nodeV["y"].toReal());
             node->setPosition(pos);
             node->setStyleIndex(nodeV["index"].toInt());
+            node->setDescription(nodeV["description"].toString());
+            node->setTagsText(nodeV["tagstext"].toString());
             nodesList.append(node);
             data.insert(node->id(), node);
             parentData.insert(node->id(), nodeV["parentId"].toString());
@@ -263,6 +265,9 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             auto packV= var.toHash();
             pack->setId(packV["uuid"].toString());
             pack->setTitle(packV["title"].toString());
+            pack->setPosition({packV["x"].toDouble(), packV["y"].toDouble()});
+            pack->setWidth(packV["width"].toDouble());
+            pack->setHeight(packV["height"].toDouble());
             auto childrenIds= packV["children"].toStringList();
             data.insert(pack->id(), pack);
             for(auto const& id : childrenIds)

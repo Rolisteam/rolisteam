@@ -355,6 +355,7 @@ void MindMapControllerBase::removeSelection()
     auto nodes= m_selectionController->selectedNodes();
     auto cmd= new mindmap::RemoveNodeCommand(uuid(), nodes, m_itemModel.get());
     m_stack.push(cmd);
+    m_selectionController->clearSelection();
 }
 
 void MindMapControllerBase::setCurrentPackage(PositionedItem* item)
@@ -395,7 +396,10 @@ mindmap::MindNode* MindMapControllerBase::nodeFromId(const QString& id) const
     return dynamic_cast<mindmap::MindNode*>(m_itemModel->item(id));
 }
 
-void MindMapControllerBase::addLink(const QList<LinkController*>& link, bool network) {}
+void MindMapControllerBase::addLinks(const QList<LinkController*>& link, bool network)
+{
+    qDebug() << "Add link" << link.size() << network;
+}
 
 void MindMapControllerBase::addItemIntoPackage(const QString& idNode, const QString& idPack)
 {
@@ -441,6 +445,34 @@ void MindMapControllerBase::setZoomLevel(qreal newZoomLevel)
 bool MindMapControllerBase::hasNetwork() const
 {
     return m_hasNetwork;
+}
+
+MindMapControllerBase::MindMapTool MindMapControllerBase::tool() const
+{
+    return m_tool;
+}
+
+void MindMapControllerBase::setTool(MindMapControllerBase::MindMapTool newTool)
+{
+    if(m_tool == newTool)
+        return;
+    m_tool= newTool;
+    emit toolChanged();
+}
+
+bool MindMapControllerBase::isPackage() const
+{
+    return m_tool == MindMapControllerBase::Package;
+}
+
+bool MindMapControllerBase::isArrow() const
+{
+    return m_tool == MindMapControllerBase::Arrow;
+}
+
+bool MindMapControllerBase::readWrite() const
+{
+    return true;
 }
 
 } // namespace mindmap

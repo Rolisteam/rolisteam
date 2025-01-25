@@ -8,7 +8,6 @@ MindLink {
     id: root
     property QtObject style: Theme.styleSheet("Controls")
     property alias text: label.text
-    property bool editable: false
     property alias visibleLabel: label.visible
     property alias opacityLabel: label.opacity
     property color colorBorder: root.style.borderColor
@@ -18,6 +17,12 @@ MindLink {
     signal textEdited(var text)
 
     color: root.style.textColor
+    onEditingChanged: {
+        label.readOnly = false
+        label.enabled = true
+        focusScope.focus = true
+        label.focus = true
+    }
 
     FocusScope {
         id: focusScope
@@ -26,11 +31,13 @@ MindLink {
             id: label
             x: root.horizontalOffset - width/2
             y: root.verticalOffset - height/2
-            readOnly: !root.editable
-            onReadOnlyChanged: focus = root.editable
+            readOnly: !root.editing
+            enabled: root.writable
+            focus: root.editing
             onEditingFinished: {
               console.log("mindlink: "+label.text)
-              root.editable = false
+              root.editing = false
+              label.readOnly = true
               root.textEdited(label.text)
             }
             color: root.color
@@ -38,23 +45,31 @@ MindLink {
             background: Rectangle {
                 border.width: root.borderWidth
                 border.color: root.colorBorder
-                color: label.readOnly ? Qt.darker(root.backgroundLabel) : root.backgroundLabel
+                color: root.editing ? root.backgroundLabel : Qt.darker(root.backgroundLabel)
                 radius: root.radius
                 opacity: root.opacityLabel
 
             }
-            MouseArea {
+            onPressed: (mouse)=>{
+                console.log("on pressed link")
+                if(root.writable)
+                    root.editing = true
+                //mouse.accepted = false
+            }
+
+            /*MouseArea {
                 id: mouse
                 anchors.fill: parent
-                acceptedButtons: label.readOnly ? Qt.LeftButton : Qt.NoButton
-                enabled: label.readOnly
+                acceptedButtons: label.editing ? Qt.NoButton : Qt.LeftButton
+                enabled: root.editable
                 propagateComposedEvents: true
                 onDoubleClicked: {
-                    root.editable = true
+                    label.readOnly = false
+                    label.enabled = true
                     focusScope.focus = true
                     label.focus = true
                 }
-            }
+            }*/
         }
     }
 }

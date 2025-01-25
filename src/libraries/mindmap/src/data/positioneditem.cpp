@@ -241,11 +241,13 @@ int PositionedItem::subNodeCount(QSet<LinkController*>& alreadySeen) const
 
                                  int res= 0;
                                  if(!alreadySeen.contains(link))
+                                 {
+                                     alreadySeen.insert(link);
                                      res= a + 1 + end->subNodeCount(alreadySeen);
-                                 else
-                                     res= a + end->subNodeCount(alreadySeen);
+                                 }
+                                 // else
+                                 //    res= a + end->subNodeCount(alreadySeen);
 
-                                 alreadySeen.insert(link);
                                  return res;
                              });
     return sum;

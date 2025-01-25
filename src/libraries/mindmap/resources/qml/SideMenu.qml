@@ -13,7 +13,6 @@ Drawer {
     property alias linkVisibility: linkVisible.checked
     property alias defaultStyle: combo.currentIndex
     required property MindMapController mediaCtrl
-    signal userChangedLinkVisibility()
 
     SideMenuController {
         id: ctrl
@@ -45,7 +44,10 @@ Drawer {
             Switch {
                 id: linkVisible
                 text: qsTr("Link label visible:")
-                onPressed: userChangedLinkVisibility()
+                checked: _drawer.mediaCtrl.linkLabelVisibility
+                onCheckedChanged:  {
+                    _drawer.mediaCtrl.linkLabelVisibility = linkVisible.checked
+                }
             }
             RowLayout {
                 Layout.fillWidth: true
@@ -138,12 +140,13 @@ Drawer {
                     width:  _list.width
 
                     property QtObject item:  object
+                    enabled: mediaCtrl.readWrite
                     Image {
                         Layout.column: 0
                         source: hasPicture ? "image://nodeImages/%1".arg(item.id) : ""
                         sourceSize.width: 100
                         sourceSize.height: 100
-                        Layout.preferredWidth: 100
+                        Layout.preferredWidth: Math.min(_drawer.width/4, 100)
                         fillMode: Image.PreserveAspectFit
                         Layout.rowSpan: 2
                     }
@@ -153,18 +156,25 @@ Drawer {
                         placeholderText: qsTr("Name")
                         onEditingFinished: item.text = text
                         Layout.fillWidth: true
+                        enabled: mediaCtrl.readWrite
                     }
-                    TextArea {
+                    ScrollView {
                         Layout.column: 2
-                        text: item.description
-                        placeholderText: qsTr("Description")
-                        onEditingFinished: item.description = text
                         Layout.rowSpan: 2
                         Layout.fillHeight: true
-                        Layout.fillWidth: true
+                        Layout.preferredWidth: _drawer.width/4
+                        Layout.maximumWidth: _drawer.width/4
+                        clip: true
+                        TextArea {
+                            text: item.description
+                            placeholderText: qsTr("Description")
+                            onEditingFinished: item.description = text
+                            enabled: mediaCtrl.readWrite
+                        }
                     }
                     CheckBox {
                         text: qsTr("Select")
+                        enabled: mediaCtrl.readWrite
                         Layout.column: 3
                         onCheckedChanged:{
                             if(checked)
@@ -176,6 +186,7 @@ Drawer {
                     TextField {
                         text: item.tagsText
                         placeholderText: qsTr("Tags")
+                        enabled: mediaCtrl.readWrite
                         onEditingFinished: item.tagsText = text
                         Layout.fillWidth: true
                         Layout.column: 1
@@ -185,6 +196,7 @@ Drawer {
                     Button {
                         text: "apply to all"
                         Layout.column: 3
+                        enabled: mediaCtrl.readWrite
                         Layout.row :1
                     }
                     Rectangle {

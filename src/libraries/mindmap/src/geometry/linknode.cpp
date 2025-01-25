@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "mindmap/geometry/linknode.h"
 
-#define PenWidth 4
+#define PenWidth 1
 
 #include <QDebug>
 #include <QLineF>

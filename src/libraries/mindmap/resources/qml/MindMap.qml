@@ -35,6 +35,7 @@ Flickable {
     signal released(var mouse)
 
     function makeScreenShot(path){
+        console.log("MakeScreenShot")
         inner.grabToImage(function(result){
             result.saveToFile(path)
         });
@@ -68,6 +69,7 @@ Flickable {
             controller: objectItem
             visible: objectItem.visible
             text: objectItem.text ?  objectItem.text : qsTr("is linked")
+            writable: root.ctrl.readWrite
             visibleLabel: _flick.ctrl.linkLabelVisibility
             onTextEdited: {
                 objectItem.text = linkItem.text
@@ -96,6 +98,7 @@ Flickable {
             visible: objectItem.visible
             selected: objectItem.selected
             title: objectItem.title
+            editable: root.ctrl.readWrite
             onAddItem: (itemid)=>{
                            _flick.ctrl.addItemIntoPackage(itemid, objectItem.id)
                        }
@@ -134,7 +137,7 @@ Flickable {
             id: nodeItem
             currentNode: objectItem
             nodeStyle: _flick.ctrl.style(objectItem.styleIndex)
-            readWrite: _flick.ctrl.hasNetwork ? _flick.ctrl.readWrite : true
+            readWrite: _flick.ctrl.readWrite
             focus: true
             text : objectItem.text ? objectItem.text : "new node"
             source: hasAvatar ? "image://nodeImages/%1".arg(objectItem.id) : ""
@@ -164,6 +167,12 @@ Flickable {
 
                 _stylePopup.node = objectItem
                 _stylePopup.open()
+            }
+
+            onAddCharacter: (text, imgUrl, color) => {
+                console.log("imgUrl",text," ",imgUrl)
+                objectItem.imageUri = imgUrl.toString()
+                objectItem.text = text
             }
 
             onClicked: (mouse) => {
@@ -200,17 +209,30 @@ Flickable {
 
     Item {
         id: inner
-        width: _flick.ctrl.contentRect.width+_flick.marginW
-        height: _flick.ctrl.contentRect.height
+        width: Math.max(_flick.ctrl.contentRect.width+_flick.marginW, _flick.width-_flick.marginW)
+        height: Math.max(_flick.ctrl.contentRect.height, _flick.height-_flick.marginW)
         anchors.centerIn: parent
         scale: _flick.zoomLevel
 
-        MouseArea {
-            anchors.fill:parent
+        /*Timer {
+            running: true
+            repeat: true
+            onTriggered: console.log("Mindmap - w:",_flick.width," h:",_flick.height," i:",_flick.ctrl.contentRect.width)
+        }*/
+
+
+        // MouseAreau
+        /*MouseArea {
+            anchors.fill: parent
             acceptedButtons:Qt.LeftButton
             preventStealing: true
 
+            onClicked: {
+                console.log("is clicked!")
+            }
+
             onPressed: (mouse)=>{
+                           console.log("On pressed")
                            _flick.pressed(mouse)
                            ctrl.selectionCtrl.clearSelection()
                            _stylePopup.node = null
@@ -221,7 +243,13 @@ Flickable {
             onReleased: (mouse)=>{
                             _flick.released(mouse)
                         }
-        }
+
+            Rectangle {
+                color: "red"
+                opacity: 0.2
+                anchors.fill: parent
+            }
+        }*/
 
         Repeater {
             id: itemLoop

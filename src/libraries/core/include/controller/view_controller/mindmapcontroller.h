@@ -52,16 +52,14 @@ class CORE_EXPORT MindMapController : public mindmap::MindMapControllerBase
     Q_OBJECT
     Q_PROPERTY(RemotePlayerModel* remotePlayerModel READ remotePlayerModel CONSTANT)
     Q_PROPERTY(PlayerModel* playerModel READ playerModel CONSTANT)
-    Q_PROPERTY(bool readWrite READ readWrite NOTIFY sharingToAllChanged)
     Q_PROPERTY(Core::SharingPermission sharingToAll READ sharingToAll NOTIFY sharingToAllChanged)
-
 public:
     explicit MindMapController(const QString& id, QObject* parent= nullptr);
     ~MindMapController();
 
     RemotePlayerModel* remotePlayerModel() const;
     PlayerModel* playerModel() const;
-    bool readWrite() const;
+    bool readWrite() const override;
     Core::SharingPermission sharingToAll() const;
 
     static void setRemotePlayerModel(RemotePlayerModel* model);

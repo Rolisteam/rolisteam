@@ -76,6 +76,8 @@ CORE_EXPORT void variantToType<QByteArray>(const QByteArray& val, NetworkMessage
 template <>
 CORE_EXPORT void variantToType<QFont>(const QFont& val, NetworkMessageWriter& msg);
 template <>
+CORE_EXPORT void variantToType<QStringList>(const QStringList& val, NetworkMessageWriter& msg);
+template <>
 CORE_EXPORT void variantToType<std::vector<QPointF>>(const std::vector<QPointF>& val, NetworkMessageWriter& msg);
 template <>
 CORE_EXPORT void variantToType<CharacterVision::SHAPE>(const CharacterVision::SHAPE& shape, NetworkMessageWriter& msg);

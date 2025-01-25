@@ -460,6 +460,8 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
         msg.real(node->position().x());
         msg.real(node->position().y());
         msg.string16(node->imageUri());
+        msg.string32(node->tagsText());
+        msg.string32(node->description());
     }
 
     auto const& links= nodeModel->items(mindmap::MindItem::Type::LinkType);
@@ -490,6 +492,10 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
 
         msg.string8(pack->id());
         msg.string16(pack->title());
+        msg.real(pack->position().x());
+        msg.real(pack->position().y());
+        msg.real(pack->width());
+        msg.real(pack->height());
         auto const& children= pack->children();
         msg.uint32(children.size());
         for(auto const& c : children)
@@ -594,6 +600,8 @@ QHash<QString, QVariant> MessageHelper::readMindMap(NetworkMessageReader* msg)
         node["x"]= msg->real();
         node["y"]= msg->real();
         node["imageUri"]= msg->string16();
+        node["tagstext"]= msg->string32();
+        node["description"]= msg->string32();
 
         nodes.insert(QString("node_%1").arg(i), node);
     }
@@ -623,6 +631,10 @@ QHash<QString, QVariant> MessageHelper::readMindMap(NetworkMessageReader* msg)
         QHash<QString, QVariant> pack;
         pack["uuid"]= msg->string8();
         pack["title"]= msg->string16();
+        pack["x"]= msg->real();
+        pack["y"]= msg->real();
+        pack["width"]= msg->real();
+        pack["height"]= msg->real();
         auto childrenCount= msg->uint32();
         QStringList childrenId;
         for(unsigned int i= 0; i < childrenCount; ++i)
@@ -1562,6 +1574,7 @@ void readPackageFromMsg(MindMapController* ctrl, NetworkMessageReader* msg)
     p->setId(id);
     p->setText(text);
     p->setTitle(title);
+    qDebug() << "Package read from network" << wi << he << x << y;
     p->setWidth(wi);
     p->setHeight(he);
     p->setPosition(QPointF{x, y});
@@ -1640,6 +1653,8 @@ void readNodeFromMsg(MindMapController* ctrl, NetworkMessageReader* msg)
 }
 void MessageHelper::readMindMapAddItem(MindMapController* ctrl, NetworkMessageReader* msg)
 {
+    if(!ctrl)
+        return;
     // readAddMindMapNode(ctrl, msg);
     // readMindMapLink(ctrl, msg);
 
@@ -1708,6 +1723,9 @@ void MessageHelper::buildRemoveItemMessage(NetworkMessageWriter& msg, const QStr
 
 void MessageHelper::readMindMapRemoveMessage(MindMapController* ctrl, NetworkMessageReader* msg)
 {
+    if(!ctrl)
+        return;
+
     auto nodes= readIdList(*msg);
     auto links= readIdList(*msg);
 

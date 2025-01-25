@@ -65,7 +65,18 @@ class CORE_EXPORT MindMapControllerBase : public MediaControllerBase
     Q_PROPERTY(mindmap::SpacingController* spacingCtrl READ spacingCtrl CONSTANT)
     Q_PROPERTY(qreal zoomLevel READ zoomLevel WRITE setZoomLevel NOTIFY zoomLevelChanged)
     Q_PROPERTY(bool hasNetwork READ hasNetwork CONSTANT)
+    Q_PROPERTY(mindmap::MindMapControllerBase::MindMapTool tool READ tool WRITE setTool NOTIFY toolChanged FINAL)
+    Q_PROPERTY(bool isPackage READ isPackage NOTIFY toolChanged FINAL)
+    Q_PROPERTY(bool isArrow READ isArrow NOTIFY toolChanged FINAL)
+    Q_PROPERTY(bool readWrite READ readWrite NOTIFY readWriteChanged)
 public:
+    enum MindMapTool
+    {
+        Handler,
+        Package,
+        Arrow
+    };
+    Q_ENUM(MindMapTool)
     explicit MindMapControllerBase(bool hasNetwork, const QString& id, QObject* parent= nullptr);
     virtual ~MindMapControllerBase();
 
@@ -86,24 +97,28 @@ public:
 
     bool linkLabelVisibility() const;
     void setLinkLabelVisibility(bool newLinkLabelVisibility);
-
     bool hasSelection() const;
 
     mindmap::LinkController* linkFromId(const QString& id) const;
     mindmap::MindNode* nodeFromId(const QString& id) const;
     void createLink(const QString& id, const QString& id2);
-    void addLink(const QList<mindmap::LinkController*>& link, bool network= false);
+    void addLinks(const QList<mindmap::LinkController*>& link, bool network= false);
     void addNode(const QList<MindNode*>& nodes, bool network= false);
-    void addItem(mindmap::MindItem* node, bool network = false);
+    void addItem(mindmap::MindItem* node, bool network= false);
     bool pasteData(const QMimeData& mimeData);
     void setCurrentPackage(mindmap::PositionedItem* item);
-
     QObject* subItem(const QString& id, mindmap::MindItem::Type type) const;
 
     qreal zoomLevel() const;
     void setZoomLevel(qreal newZoomLevel);
-
     bool hasNetwork() const;
+
+    MindMapControllerBase::MindMapTool tool() const;
+    void setTool(mindmap::MindMapControllerBase::MindMapTool newTool);
+    bool isPackage() const;
+    bool isArrow() const;
+
+    virtual bool readWrite() const;
 
 signals:
     void spacingChanged();
@@ -115,6 +130,8 @@ signals:
     void linkLabelVisibilityChanged();
     void hasSelectionChanged();
     void zoomLevelChanged();
+    void toolChanged();
+    void readWriteChanged();
 
 public slots:
     void resetData();
@@ -157,10 +174,15 @@ protected:
     QUndoStack m_stack;
     QPointer<PositionedItem> m_package;
     QString m_errorMsg;
-    bool m_linkLabelVisibility;
+    bool m_linkLabelVisibility{true};
     QRectF m_contentRect;
     qreal m_zoomLevel= 1.0;
     bool m_hasNetwork;
+
+private:
+    MindMapTool m_tool;
+    bool m_isPackage;
+    bool m_isArrow;
 };
 } // namespace mindmap
 #endif // MINDMAPCONTROLLERBASE_H

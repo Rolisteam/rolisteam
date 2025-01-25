@@ -1101,6 +1101,9 @@ void MainWindow::updateFileHistoryMenu()
 {
     if(m_ignoreUpdate)
         return;
+    if(m_gameController->localIsGM())
+        return;
+
     auto const& ctrl= m_gameController->contentController();
     auto const& model= ctrl->historyModel();
     auto const& data= model->data();

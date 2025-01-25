@@ -60,10 +60,15 @@ Pane
     signal addImage(var img, var data)
     signal addCharacter(var name, var source, var color)
     signal textEdited(var text)
+    Drag.onActiveChanged: {
+        root.grabToImage(function(result) {
+            root.Drag.imageSource = result.url
+        }, Qt.size(root.width, root.height))
+    }
 
     Binding on Drag.active {
-      value: dragMouse.drag.active
-      delayed: true
+        value: dragMouse.drag.active
+        delayed: true
     }
     Drag.keys: [ "rmindmap/reparenting", "text/x-reparenting"]
 
@@ -86,57 +91,51 @@ Pane
             drag.minimumY: 0
             preventStealing: true
             onPressed:(mouse)=>{
-                root.clicked(mouse)
-                root.grabToImage(function(result) {
-                    if(mouse.modifiers & Qt.ControlModifier)
-                    {
-                        root.Drag.dragType = Drag.Automatic
-                    }
-                    else
-                    {
-                        root.Drag.dragType = Drag.Internal
-                    }
-                    root.Drag.imageSource = result.url
-                }, Qt.size(root.width, root.height))
-            }
+                          root.clicked(mouse)
+                          console.log("Node Mouse: ",root.width, root.height," ",root.Drag.active)
+                          if(mouse.modifiers & Qt.ControlModifier)
+                          {
+                              root.Drag.dragType = Drag.Automatic
+                          }
+                          else
+                          {
+                              root.Drag.dragType = Drag.Internal
+                          }
+                      }
 
             onDoubleClicked: {
                 root.isEditable = true
             }
-            drag.onActiveChanged: root.isDragged = drag.active
+            drag.onActiveChanged: currentNode.isDragged = drag.active
         }
-            ColumnLayout {
-                id: lyt
-                anchors.fill: parent
-                Image {
-                    id: img
-                    visible: source
-                    fillMode: Image.PreserveAspectFit
-                    sourceSize.height: root.style.imageSize
-                    sourceSize.width: root.style.imageSize
-                    Layout.alignment: Qt.AlignHCenter
-                }
-
-
-                TextInput{
-                    id: _textlbl
-                    text: root.currentNode.text
-                    enabled: root.readWrite && root.isEditable
-                    color: root.nodeStyle.textColor
-                    Layout.alignment: Qt.AlignHCenter
-                    onEnabledChanged: focus = enabled
-                    focus: true
-                    onEditingFinished: {
-                        root.isEditable = false
-                        root.textEdited(text)
-                    }
-
-                }
+        ColumnLayout {
+            id: lyt
+            anchors.fill: parent
+            Image {
+                id: img
+                visible: source
+                fillMode: Image.PreserveAspectFit
+                sourceSize.height: root.style.imageSize
+                sourceSize.width: root.style.imageSize
+                Layout.alignment: Qt.AlignHCenter
             }
 
 
+            TextInput{
+                id: _textlbl
+                text: root.currentNode.text
+                enabled: root.readWrite && root.isEditable
+                color: root.nodeStyle.textColor
+                Layout.alignment: Qt.AlignHCenter
+                onEnabledChanged: focus = enabled
+                focus: true
+                onEditingFinished: {
+                    root.isEditable = false
+                    root.textEdited(text)
+                }
 
-
+            }
+        }
 
         AbstractButton {
             id: control
@@ -147,7 +146,7 @@ Pane
             width: implicitWidth //root.style.childrenButtonSize
             height: implicitHeight //root.style.childrenButtonSize
             anchors.verticalCenter: dragMouse.bottom
-            anchors.horizontalCenter: dragMouse.horizontalCenter 
+            anchors.horizontalCenter: dragMouse.horizontalCenter
             topPadding: 0
             padding: 0
             contentItem: Text {
@@ -181,6 +180,7 @@ Pane
             width: root.expandButtonSize
             height: root.expandButtonSize
             onClicked: selectStyle()
+            visible: root.readWrite
             anchors.verticalCenter: dragMouse.top
             anchors.horizontalCenter: dragMouse.right
             text: "▼"
@@ -206,35 +206,50 @@ Pane
 
         DropArea {
             anchors.fill: dragMouse
-            keys: [ "rmindmap/reparenting","text/x-reparenting","text/plain","text/uri-list", "rolisteam/userlist-item", "image/png","image/jpg","image/jpeg","image/gif" ]
+            keys: [ "rmindmap/reparenting","text/x-reparenting","text/plain","text/uri-list","rolisteam/non-playable-character-uuid", "rolisteam/userlist-item","application/x-qt-image", "image/png","image/jpg","image/jpeg","image/gif" ]
             onDropped: (drop)=>{
-                           console.log("keys: "+drop.keys)
                            console.log("keys: "+drop.keys)
                            var reparenting = false
                            var hasUrl = false
                            var character = false
+                           let npc = false
                            var hasPng = false
                            var hasJpg = false
                            var hasJpeg = false
                            var hasGif = false
+                           let hasQtImage = false
                            for(var i=0; i< drop.keys.length; ++i)
                            {
-                                if(drop.keys[i] === "text/x-reparenting")
-                                    reparenting = true
-                                else if(drop.keys[i] === "text/uri-list")
-                                    hasUrl = true
-                                else if(drop.keys[i] === "rolisteam/userlist-item")
-                                    character= true
+                               if(drop.keys[i] === "text/x-reparenting")
+                               reparenting = true
+                               else if(drop.keys[i] === "text/uri-list")
+                               hasUrl = true
+                               else if(drop.keys[i] === "rolisteam/userlist-item")
+                               character= true
+                               else if(drop.keys[i] === "rolisteam/non-playable-character-uuid")
+                               npc= true
                                else if(drop.keys[i] === "image/png")
-                                   hasPng= true
+                               hasPng= true
                                else if(drop.keys[i] === "image/jpg")
-                                   hasJpg= true
+                               hasJpg= true
                                else if(drop.keys[i] === "image/jpeg")
-                                   hasJpeg= true
+                               hasJpeg= true
                                else if(drop.keys[i] === "image/gif")
-                                   hasGif= true
+                               hasGif= true
+                               else if(drop.keys[i] === "application/x-qt-image")
+                               hasQtImage = true
 
                            }
+
+                           if(hasUrl) {
+                               for(let i = 0; i < drop.urls.length ; ++i)
+                               {
+                                   console.log("Url::", drop.urls[i])
+                               }
+                           }
+
+                           var text = hasPng ? "image/png" : hasJpg ? "image/jpg" : hasJpeg ? "image/jpeg" : hasQtImage ? "application/x-qt-image" : "image/gif"
+
                            if(reparenting)
                            {
                                console.log("reparenting: ",drop.text," ",drop.source.ident)
@@ -246,17 +261,23 @@ Pane
                                var url = drop.urls[0]
                                var urlstr = url.toString()
                                console.log(urlstr)
-                               if(urlstr.endsWith(".png") || urlstr.endsWith(".jpg") || urlstr.endsWith(".gif")|| urlstr.endsWith(".jpeg") || urlstr.startsWith("http"))
+                               if(urlstr.endsWith(".png") || urlstr.endsWith(".jpg") || urlstr.endsWith(".gif")|| urlstr.endsWith(".jpeg") || urlstr.startsWith("http") || urlstr.startsWith("image://"))
                                {
-                                    var text = hasPng ? "image/png" : hasJpg ? "image/jpg" : hasJpeg ? "image/jpeg" : "image/gif"
-                                    root.addImage(url, drop.getDataAsArrayBuffer(text))
+                                   root.addImage(url, drop.getDataAsArrayBuffer(text))
                                }
                            }
-                           else if(character)
+                           else if(character && !npc)
                            {
                                console.log("add character")
                                root.addCharacter(drop.text, drop.urls[0], drop.colorData)
                            }
+                           else if(npc)
+                           {
+                               console.log("add NPC character: ",text)
+                               root.addImage(drop.urls[0], drop.getDataAsArrayBuffer(text))
+                               root.addCharacter(drop.text, drop.urls[0], drop.colorData)
+                           }
+
                            root.dropOver = false
                        }
             onEntered: (drag)=>{

@@ -2,8 +2,13 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import Customization 1.0
 
+
+
+
+
 Slider {
     id: control
+    live: false
     property QtObject style: Theme.styleSheet("PermissionSlider")
     enum Permission {
         NoPermission,
@@ -36,6 +41,41 @@ Slider {
                 color: control.value <= 1 ? control.style.readOnlyPermColor : control.style.writePermColor
                 radius: control.style.radiusSize
             }
-        }
 
+            Rectangle {
+                radius: control.height / 2
+                height: control.height
+                width: control.height
+                color: control.style.roundColor
+                border.color: control.style.borderColor
+                border.width: control.style.borderWidth
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Rectangle {
+                radius: control.height / 2
+                height: control.height
+                width: control.height
+                color: control.style.roundColor
+                border.color: control.style.borderColor
+                border.width: control.style.borderWidth
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Rectangle {
+                radius: control.height / 2
+                height: control.height
+                width: control.height
+                color: control.style.roundColor
+                border.color: control.style.borderColor
+                border.width: control.style.borderWidth
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+
+
+        }
 }

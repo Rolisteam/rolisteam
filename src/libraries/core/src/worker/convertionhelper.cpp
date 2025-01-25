@@ -20,6 +20,8 @@
 #include "worker/convertionhelper.h"
 
 #include <QIODevice>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 namespace Helper
 {
@@ -158,6 +160,20 @@ void variantToType<QPainterPath>(const QPainterPath& val, NetworkMessageWriter& 
         writer << val;
     }
     msg.byteArray32(data);
+}
+
+template <>
+void variantToType<QStringList>(const QStringList& val, NetworkMessageWriter& msg)
+{
+    QJsonArray array;
+
+    for(auto str : val)
+        array.append(str);
+
+    QJsonDocument doc;
+    doc.setArray(array);
+
+    msg.byteArray32(doc.toJson());
 }
 
 } // namespace Helper

@@ -107,15 +107,17 @@ bool ImageModel::hasPixmap(const QString& id) const
 QPixmap ImageModel::pixmapFromId(const QString& id) const
 {
 
-    auto it
-        = std::find_if(std::begin(m_data), std::end(m_data), [id](const ImageInfo& info) {
-              qDebug() << info.m_id << id;
-              return id == info.m_id; });
+    auto it= std::find_if(std::begin(m_data), std::end(m_data),
+                          [id](const ImageInfo& info)
+                          {
+                              // qDebug() << info.m_id << id;
+                              return id == info.m_id;
+                          });
 
     if(it == std::end(m_data))
         return {};
 
-    qDebug() << "has image" << it->m_pixmap.isNull();
+    // qDebug() << "has image" << it->m_pixmap.isNull();
     return it->m_pixmap;
 }
 

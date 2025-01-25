@@ -36,12 +36,7 @@ RemoveNodeCommand::RemoveNodeCommand(const QString& idmap, const std::vector<Min
                   [this](MindItem* node)
                   {
                       auto sublinks= m_nodeModel->sublink(node->id());
-                      qDebug() << sublinks.size() << "sublink size";
                       std::copy(sublinks.begin(), sublinks.end(), std::back_inserter(m_links));
-                      /*std::copy_if(sublinks.begin(), sublinks.end(), std::back_inserter(m_links),
-                                   []() {
-
-                                   });*/
                   });
 }
 
@@ -49,19 +44,11 @@ void RemoveNodeCommand::undo()
 {
     std::for_each(m_selection.begin(), m_selection.end(), [this](MindItem* node) { m_nodeModel->appendItem({node}); });
     std::for_each(m_links.begin(), m_links.end(), [this](LinkController* link) { m_nodeModel->appendItem({link}); });
-    /*if(m_updater)
-    {
-        m_updater->sendOffAddingMessage(m_idmap, nodes, links);
-    }*/
 }
 
 void RemoveNodeCommand::redo()
 {
     std::for_each(m_selection.begin(), m_selection.end(), [this](MindItem* node) { m_nodeModel->removeItem(node); });
     std::for_each(m_links.begin(), m_links.end(), [this](LinkController* link) { m_nodeModel->removeItem(link); });
-    /*if(m_updater)
-    {
-        m_updater->sendOffRemoveMessage(m_idmap, allBoxToRemove, allLinkToRemove);
-    }*/
 }
 } // namespace mindmap

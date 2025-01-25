@@ -12,7 +12,6 @@ Pane {
     id: root
 
     property alias actions: _buttonGrid.actions
-    property alias addPackage: _buttonGrid.addPackage
     required property MindMapController ctrl
     property bool darkMode: false
     property int idx: 0
@@ -35,24 +34,69 @@ Pane {
             imgSelector.uuid = id;
             imgSelector.open();
         }
-        onPositionChanged: mouse => {
-            if (root.addPackage)
+        /*onPositionChanged: mouse => {
+            console.log("Mouse postion changed:",mouse.x, mouse.y)
+            if (root.ctrl.isPackage)
                 root.ctrl.updatePackage(Qt.point(mouse.x, mouse.y));
             else
                 mouse.accepted = false;
         }
         onPressed: mouse => {
-            if (root.addPackage)
+            console.log("Mouse on pressed:",mouse.x, mouse.y)
+            if (root.ctrl.isPackage)
                 root.ctrl.addPackage(Qt.point(mouse.x, mouse.y));
             else
                 mouse.accepted = false;
         }
         onReleased: {
-            if (root.addPackage)
-                root.addPackage = false;
+            if (root.ctrl.isPackage)
+                root.ctrl.tool = MindMapController.Handler;
             else
                 mouse.accepted = false;
+        }*/
+    }
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons:Qt.LeftButton
+        //preventStealing: true
+
+        onClicked: {
+            console.log("is clicked!")
         }
+
+        onPressed: (mouse)=>{
+                       console.log("content: On pressed ",root.ctrl.isPackage)
+                       ctrl.selectionCtrl.clearSelection()
+                       if (root.ctrl.isPackage)
+                           root.ctrl.addPackage(Qt.point(mouse.x, mouse.y));
+                       else
+                           mouse.accepted = false;
+                   }
+        onPositionChanged: (mouse)=> {
+                               console.log("On position changed")
+                               //_flick.positionChanged(mouse)
+                               if (root.ctrl.isPackage)
+                                   root.ctrl.updatePackage(Qt.point(mouse.x, mouse.y));
+                               else
+                                   mouse.accepted = false;
+                           }
+        onReleased: (mouse)=>{
+                        console.log("On released")
+                        //_flick.released(mouse)
+                        if (root.ctrl.isPackage)
+                            root.ctrl.tool = MindMapController.Handler;
+                        else
+                            mouse.accepted = false;
+                    }
+
+        /*Rectangle {
+            color: "red"
+            opacity: 0.2
+            anchors.fill: parent
+        }*/
+    }
+    Keys.onDeletePressed: {
+        root.ctrl.removeSelection();
     }
     MindMenu {
         id: menu
@@ -146,10 +190,6 @@ Pane {
 
         onDarkModeChanged: root.darkMode = darkMode
         onDefaultStyleChanged: root.ctrl.defaultStyleIndex = defaultStyle
-        onUserChangedLinkVisibility: {
-            if (root.ctrl.linkLabelVisibility !== linkVisibility)
-                root.ctrl.linkLabelVisibility = linkVisibility;
-        }
     }
     Rectangle {
         anchors.fill: _minimized

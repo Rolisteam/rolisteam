@@ -26,7 +26,7 @@ namespace mindmap
 LinkItem::LinkItem()
 {
     setFlag(QQuickItem::ItemHasContents, true);
-    //setFlag(QQuickItem::Ite)
+    // setFlag(QQuickItem::Ite)
     setAntialiasing(true);
     setAcceptedMouseButtons(Qt::LeftButton);
     setWidth(280);
@@ -66,6 +66,18 @@ void LinkItem::mousePressEvent(QMouseEvent* event)
     if(event->button() & Qt::LeftButton)
     {
         emit selected(true);
+        event->accept();
+    }
+}
+
+void LinkItem::mouseDoubleClickEvent(QMouseEvent* event)
+{
+    if(!writable())
+        return;
+
+    if(event->button() & Qt::LeftButton)
+    {
+        setEditing(true);
         event->accept();
     }
 }
@@ -127,7 +139,8 @@ void LinkItem::setController(LinkController* newController)
     m_controller= newController;
     emit controllerChanged();
 
-    auto updateOffset= [this]() {
+    auto updateOffset= [this]()
+    {
         auto endBox= m_controller->endBox();
         auto startBox= m_controller->startBox();
 
@@ -213,6 +226,32 @@ void LinkItem::setController(LinkController* newController)
     connect(m_controller, &LinkController::endBoxChanged, this, updateOffset);
     connect(m_controller, &LinkController::startChanged, this, updateOffset);
     connect(m_controller, &LinkController::endChanged, this, updateOffset);
+}
+
+bool LinkItem::editing() const
+{
+    return m_editing;
+}
+
+void LinkItem::setEditing(bool newEditing)
+{
+    if(m_editing == newEditing)
+        return;
+    m_editing= newEditing;
+    emit editingChanged();
+}
+
+bool LinkItem::writable() const
+{
+    return m_writable;
+}
+
+void LinkItem::setWritable(bool newWritable)
+{
+    if(m_writable == newWritable)
+        return;
+    m_writable= newWritable;
+    emit writableChanged();
 }
 
 } // namespace mindmap

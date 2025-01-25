@@ -40,6 +40,8 @@ MindMapController::MindMapController(const QString& id, QObject* parent) : MindM
 {
     m_selectionController->setUndoStack(&m_stack);
 
+    connect(this, &MindMapController::sharingToAllChanged, this, &MindMapController::readWriteChanged);
+
     MediaControllerBase::connect(m_itemModel.get(), &mindmap::MindItemModel::rowsInserted,
                                  static_cast<MediaControllerBase*>(this),
                                  [this]
@@ -95,10 +97,7 @@ MindMapController::MindMapController(const QString& id, QObject* parent) : MindM
     clearData();
 }
 
-MindMapController::~MindMapController()
-{
-
-}
+MindMapController::~MindMapController() {}
 
 RemotePlayerModel* MindMapController::remotePlayerModel() const
 {

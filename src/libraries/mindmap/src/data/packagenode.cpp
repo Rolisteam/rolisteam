@@ -24,21 +24,27 @@ namespace mindmap
 {
 PackageNode::PackageNode(QObject* parent) : PositionedItem{MindItem::PackageType, parent}, m_title{tr("Package")}
 {
-    connect(this, &PackageNode::itemDragged, this, [this](const QPointF& motion) {
-        std::for_each(std::begin(m_internalChildren), std::end(m_internalChildren), [motion](PositionedItem* item) {
-            if(!item)
-                return;
-            auto pos= item->position();
-            item->setPosition({pos.x() - motion.x(), pos.y() - motion.y()});
-        });
-    });
+    connect(this, &PackageNode::itemDragged, this,
+            [this](const QPointF& motion)
+            {
+                std::for_each(std::begin(m_internalChildren), std::end(m_internalChildren),
+                              [motion](PositionedItem* item)
+                              {
+                                  if(!item)
+                                      return;
+                                  auto pos= item->position();
+                                  item->setPosition({pos.x() - motion.x(), pos.y() - motion.y()});
+                              });
+            });
 
     connect(this, &PackageNode::widthChanged, this, &PackageNode::performLayout);
     connect(this, &PackageNode::heightChanged, this, &PackageNode::performLayout);
-    connect(this, &PackageNode::visibleChanged, this, [this](bool visible) {
-        std::for_each(std::begin(m_internalChildren), std::end(m_internalChildren),
-                      [visible](PositionedItem* item) { item->setVisible(visible); });
-    });
+    connect(this, &PackageNode::visibleChanged, this,
+            [this](bool visible)
+            {
+                std::for_each(std::begin(m_internalChildren), std::end(m_internalChildren),
+                              [visible](PositionedItem* item) { item->setVisible(visible); });
+            });
 }
 
 const QString& PackageNode::title() const
@@ -70,9 +76,9 @@ const QList<PositionedItem*>& PackageNode::children() const
 
 void PackageNode::performLayout()
 {
-    qDebug() << "Perform Layout";
     if(m_internalChildren.isEmpty())
         return;
+    // qDebug() << "Perform Layout";
 
     auto const itemCount= static_cast<std::size_t>(m_internalChildren.size());
     auto const w= width();

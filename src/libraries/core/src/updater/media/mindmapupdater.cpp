@@ -26,9 +26,11 @@
 #include "mindmap/model/minditemmodel.h"
 #include "model/contentmodel.h"
 #include "network/networkmessagewriter.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
 #include <QDebug>
+#include <QJsonArray>
 #include <QTimer>
 
 constexpr int timeout{1000 * 5};
@@ -62,8 +64,13 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
             });
 
     connect(ctrl, &MindMapController::sharingToAllChanged, this,
-            [ctrl](Core::SharingPermission perm, Core::SharingPermission old)
+            [this](Core::SharingPermission perm, Core::SharingPermission old)
             {
+                auto ctrl= qobject_cast<MindMapController*>(sender());
+                if(!ctrl)
+                    return;
+                if(!ctrl->localIsOwner() || ctrl->remote())
+                    return;
                 if(old == Core::SharingPermission::None)
                 {
                     MessageHelper::sendOffMindmapToAll(ctrl);
@@ -85,12 +92,24 @@ void MindMapUpdater::addMediaController(MediaControllerBase* base)
             [ctrl](const QString& id) { MessageHelper::closeMindmapTo(ctrl, id); });
 
     connect(ctrl, &MindMapController::permissionChangedForUser, this,
-            [ctrl](const QString& id, Core::SharingPermission perm)
-            { MessageHelper::sendOffMindmapPermissionUpdateTo(perm, ctrl, id); });
+            [this](const QString& id, Core::SharingPermission perm)
+            {
+                auto ctrl= qobject_cast<MindMapController*>(sender());
+                if(!ctrl)
+                    return;
+                if(!ctrl->localIsOwner() || ctrl->remote())
+                    return;
+                MessageHelper::sendOffMindmapPermissionUpdateTo(perm, ctrl, id);
+            });
 
     connect(ctrl, &MindMapController::modifiedChanged, this,
-            [this, ctrl, timer]()
+            [this, timer]()
             {
+                auto ctrl= qobject_cast<MindMapController*>(sender());
+                if(!ctrl)
+                    return;
+                if(!ctrl->localIsOwner() || ctrl->remote())
+                    return;
                 if(ctrl->modified())
                 {
                     timer->start(timeout);
@@ -135,6 +154,16 @@ bool MindMapUpdater::updateSubobjectProperty(NetworkMessageReader* msg, MindMapC
     else if(property == QStringLiteral("styleIndex"))
     {
         var= msg->int64();
+    }
+    else if(property == QStringLiteral("tags"))
+    {
+        auto dataTags= msg->byteArray32();
+        var= IOHelper::jsonArrayToStringList(IOHelper::byteArrayToJsonArray(dataTags));
+        // utils::IOHelper::
+    }
+    else if(property == QStringLiteral("description"))
+    {
+        var= msg->string32();
     }
     else if(property == QStringLiteral("direction"))
     {
@@ -197,6 +226,12 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
         info.connections << connect(n, &mindmap::MindNode::styleIndexChanged, this,
                                     [this, idCtrl, n]()
                                     { sendOffChange<int>(idCtrl, QStringLiteral("styleIndex"), n, true); });
+        info.connections << connect(n, &mindmap::MindNode::tagsChanged, this,
+                                    [this, idCtrl, n]()
+                                    { sendOffChange<QStringList>(idCtrl, QStringLiteral("tags"), n, true); });
+        info.connections << connect(n, &mindmap::MindNode::descriptionChanged, this,
+                                    [this, idCtrl, n]()
+                                    { sendOffChange<QString>(idCtrl, QStringLiteral("description"), n, true); });
     }
 
     auto links= nodeModel->items(mindmap::MindItem::LinkType);
@@ -249,6 +284,14 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
                             << connect(node, &mindmap::MindNode::textChanged, this,
                                        [this, idCtrl, node]()
                                        { sendOffChange<QString>(idCtrl, QStringLiteral("text"), node, true); });
+                        info->connections
+                            << connect(node, &mindmap::MindNode::tagsChanged, this,
+                                       [this, idCtrl, node]()
+                                       { sendOffChange<QStringList>(idCtrl, QStringLiteral("tags"), node, true); });
+                        info->connections
+                            << connect(node, &mindmap::MindNode::descriptionChanged, this,
+                                       [this, idCtrl, node]()
+                                       { sendOffChange<QString>(idCtrl, QStringLiteral("description"), node, true); });
                         info->connections
                             << connect(node, &mindmap::MindNode::imageUriChanged, this,
                                        [this, idCtrl, node]()
@@ -360,46 +403,43 @@ void MindMapUpdater::disconnectController(MindMapController* media)
 
 NetWorkReceiver::SendType MindMapUpdater::processMessage(NetworkMessageReader* msg)
 {
-    if(msg->action() == NetMsg::AddNodes && msg->category() == NetMsg::MindMapCategory)
-    {
-        auto id= msg->string8();
-        MessageHelper::readMindMapAddItem(findController(id, m_mindmaps), msg);
-    }
-    else if((msg->action() == NetMsg::UpdateNode || msg->action() == NetMsg::UpdateLink)
-            && msg->category() == NetMsg::MindMapCategory)
-    {
-        auto id= msg->string8();
-        updateSubobjectProperty(msg, findController(id, m_mindmaps));
-    }
-    else if(msg->category() == NetMsg::MindMapCategory && msg->action() == NetMsg::RemoveNode)
-    {
-        auto id= msg->string8();
-        MessageHelper::readMindMapRemoveMessage(findController(id, m_mindmaps), msg);
-    }
-    else if(msg->action() == NetMsg::UpdateMindMapPermission && msg->category() == NetMsg::MindMapCategory)
-    {
-        auto id= msg->string8();
-        auto ctrl= findController(id, m_mindmaps);
-        if(ctrl)
-        {
-            bool readWrite= static_cast<bool>(msg->uint8());
+    auto res= NetWorkReceiver::NONE;
+    if(!msg)
+        return res;
 
-            ctrl->setSharingToAll(readWrite ? static_cast<int>(Core::SharingPermission::ReadWrite) :
-                                              static_cast<int>(Core::SharingPermission::ReadOnly));
-            readWrite ? setConnection(ctrl) : disconnectController(ctrl);
-        }
-    }
-    else if(msg->action() == NetMsg::AddSubImage && msg->category() == NetMsg::MediaCategory)
+    auto id= msg->string8();
+    auto ctrl= findController(id, m_mindmaps);
+    if(!ctrl)
+        return res;
+
+    if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::AddNodes))
     {
-        auto id= msg->string8();
-        auto ctrl= findController(id, m_mindmaps);
+        MessageHelper::readMindMapAddItem(ctrl, msg);
+    }
+    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::UpdateNode)
+            || checkAction(msg, NetMsg::MindMapCategory, NetMsg::UpdateLink))
+    {
+        updateSubobjectProperty(msg, ctrl);
+    }
+    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::RemoveNode))
+    {
+        MessageHelper::readMindMapRemoveMessage(ctrl, msg);
+    }
+    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::UpdateMindMapPermission))
+    {
+        bool readWrite= static_cast<bool>(msg->uint8());
+
+        ctrl->setSharingToAll(readWrite ? static_cast<int>(Core::SharingPermission::ReadWrite) :
+                                          static_cast<int>(Core::SharingPermission::ReadOnly));
+        readWrite ? setConnection(ctrl) : disconnectController(ctrl);
+    }
+    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::AddSubImage))
+    {
         MessageHelper::readAddSubImage(ctrl->imgModel(), ctrl->itemModel(), msg);
     }
-    else if(msg->action() == NetMsg::RemoveSubImage && msg->category() == NetMsg::MediaCategory)
+    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::RemoveSubImage))
     {
-        auto id= msg->string8();
-        auto ctrl= findController(id, m_mindmaps);
         MessageHelper::readRemoveSubImage(ctrl->imgModel(), msg);
     }
-    return NetWorkReceiver::NONE;
+    return res;
 }

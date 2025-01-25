@@ -26,6 +26,25 @@ bool RolisteamMimeData::hasFormat(const QString& mimeType) const
     return QMimeData::hasFormat(mimeType);
 }
 
+QStringList RolisteamMimeData::formats() const
+{
+    QStringList res= QMimeData::formats();
+
+    if(m_person)
+        res << Core::mimedata::MIME_KEY_PERSON_DATA;
+
+    if(!m_alias.text().isEmpty())
+        res << Core::mimedata::MIME_KEY_DICE_ALIAS_DATA;
+
+    if(!m_mediaUuid.isEmpty())
+        res << Core::mimedata::MIME_KEY_MEDIA_UUID;
+
+    if(!m_npcUuid.isEmpty())
+        res << Core::mimedata::MIME_KEY_NPC_ID;
+
+    return res;
+}
+
 void RolisteamMimeData::setPerson(Person* data)
 {
     if(data == m_person)
@@ -41,15 +60,8 @@ void RolisteamMimeData::setPerson(Person* data)
     urls << QUrl(QString("image://avatar/%1").arg(data->uuid()));
     setUrls(urls);
     setColorData(data->getColor());
+    setImageData(data->avatar());
 }
-
-/*void RolisteamMimeData::setImageData(const QByteArray& data)
-{
-    if(m_imageData == data)
-        return;
-    m_imageData= data;
-    emit imageDataChanged();
-}*/
 
 void RolisteamMimeData::setNpcUuid(const QString& str)
 {
@@ -86,10 +98,6 @@ QString RolisteamMimeData::mediaUuid() const
     return m_mediaUuid;
 }
 
-/*QByteArray RolisteamMimeData::imageData() const
-{
-    return m_imageData;
-}*/
 void RolisteamMimeData::setAlias(QString key, QString command, bool usedAlias)
 {
     m_alias.setText(key);

@@ -425,7 +425,7 @@ bool MindItemModel::removeItem(const MindItem* item)
     }
     else if(item->type() == MindItem::PackageType)
     {
-        // removeAllSubItem(dynamic_cast<const mindmap::PositionedItem*>(item), items);
+        removeAllSubItem(dynamic_cast<const mindmap::PositionedItem*>(item), items);
     }
 
     beginRemoveRows(QModelIndex(), idx, idx);

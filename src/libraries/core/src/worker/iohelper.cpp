@@ -186,6 +186,16 @@ QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)
     return doc.array();
 }
 
+QStringList IOHelper::jsonArrayToStringList(const QJsonArray& data)
+{
+    QStringList res;
+    for(auto valref : data)
+    {
+        res << valref.toString();
+    }
+    return res;
+}
+
 QByteArray IOHelper::jsonObjectToByteArray(const QJsonObject& obj)
 {
     QJsonDocument doc;

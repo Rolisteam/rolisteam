@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import mindmap
+import mindmapcpp
 import Customization
 
 GridLayout{
@@ -54,6 +55,8 @@ GridLayout{
         source: _root.styleSheet.editIcon
         checkable: true
         tooltip: qsTr("Add Package")
+        checked: _root.ctrl.tool === MindMapController.Package
+        onClicked: _root.ctrl.tool = MindMapController.Package
     }
 
     IconButton {//Add gray arrow
@@ -61,6 +64,8 @@ GridLayout{
         tooltip: qsTr("Add Arrow")
         source: _root.styleSheet.addGrayArrow
         checkable: true
+        checked: _root.ctrl.tool === MindMapController.Arrow
+        onClicked: _root.ctrl.tool = MindMapController.Arrow
     }
     IconButton {//remove selection
         tooltip: qsTr("Remove selected Items")

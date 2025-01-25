@@ -39,6 +39,8 @@ class MINDMAP_EXPORT LinkItem : public QQuickItem
     Q_PROPERTY(qreal horizontalOffset READ horizontalOffset NOTIFY horizontalOffsetChanged)
     Q_PROPERTY(qreal verticalOffset READ verticalOffset NOTIFY verticalOffsetChanged)
     Q_PROPERTY(LinkController* controller READ controller WRITE setController NOTIFY controllerChanged)
+    Q_PROPERTY(bool editing READ editing WRITE setEditing NOTIFY editingChanged FINAL)
+    Q_PROPERTY(bool writable READ writable WRITE setWritable NOTIFY writableChanged FINAL REQUIRED)
 public:
     LinkItem();
 
@@ -49,6 +51,12 @@ public:
 
     LinkController* controller() const;
     void setController(LinkController* newController);
+
+    bool editing() const;
+    void setEditing(bool newEditing);
+
+    bool writable() const;
+    void setWritable(bool newWritable);
 
 public slots:
     void setPoints(const PointList& list);
@@ -61,10 +69,13 @@ signals:
     void selected(bool b);
     void verticalOffsetChanged();
     void controllerChanged();
+    void editingChanged();
+    void writableChanged();
 
 protected:
     QSGNode* updatePaintNode(QSGNode*, UpdatePaintNodeData*) override;
     virtual void mousePressEvent(QMouseEvent* event) override;
+    virtual void mouseDoubleClickEvent(QMouseEvent* evenv) override;
 
 protected slots:
     void setHorizontalOffset(qreal r);
@@ -77,6 +88,8 @@ private:
     bool m_colorChanged= false;
     qreal m_horizontalOffset;
     qreal m_verticalOffset;
+    bool m_editing{false};
+    bool m_writable{false};
 };
 } // namespace mindmap
 #endif // LINKITEM_H
