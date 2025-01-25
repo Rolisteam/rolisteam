@@ -66,6 +66,7 @@ campaign::FilteredCharacterModel::Definition checkDefinition(QCheckBox* with, QC
 AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::AntagonistBoard)
+    , m_editor(editor)
     , m_ctrl(new AntagonistBoardController(editor))
     , m_createTokenAct(new QAction(tr("Edit Token")))
     , m_cloneCharacterAct(new QAction(tr("Clone Character")))
@@ -228,18 +229,26 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
                 auto uuid= index.data(NonPlayableCharacterModel::RoleUuid).toString();
                 auto name= index.data(NonPlayableCharacterModel::RoleName).toString();
                 auto img= index.data(NonPlayableCharacterModel::RoleAvatar);
-                auto pix = img.value<QPixmap>();
+                auto pix= img.value<QPixmap>();
 
-                if(pix.isNull() || img.isNull())
-                    return;
                 QDrag* drag= new QDrag(this);
                 RolisteamMimeData* mimeData= new RolisteamMimeData();
-
                 mimeData->setNpcUuid(uuid);
-                mimeData->setImageData(img);
+                mimeData->setImageData(pix.toImage());
                 mimeData->setText(name);
                 drag->setMimeData(mimeData);
                 drag->setPixmap(helper::utils::roundCornerImage(pix));
+
+                auto camp= m_editor->campaign();
+                if(camp)
+                {
+                    auto model= camp->npcModel();
+                    if(model)
+                    {
+                        auto person= model->characterFromUuid(uuid);
+                        mimeData->setPerson(person);
+                    }
+                }
                 drag->exec();
             });
 
@@ -251,7 +260,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
                 m_ctrl->editCharacter(m_currentItemId);
             });
 
-    auto changeImageFunc = [this](const QString& itemId)
+    auto changeImageFunc= [this](const QString& itemId)
     {
         ImageSelectorController ctrl(false, ImageSelectorController::All, ImageSelectorController::Square);
         ImageSelectorDialog dialog(&ctrl, this);
@@ -262,10 +271,7 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
     };
 
     connect(m_changeImageAct.get(), &QAction::triggered, m_ctrl.get(),
-            [this, changeImageFunc]()
-            {
-                changeImageFunc(m_currentItemId);
-            });
+            [this, changeImageFunc]() { changeImageFunc(m_currentItemId); });
 
     connect(m_ctrl.get(), &AntagonistBoardController::characterChanged, this,
             [this]()
@@ -329,26 +335,26 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
         m_ctrl->removeData(index, mode);
     };
 
-    connect(ui->m_antogonistView, &QTableView::doubleClicked, this, [changeImageFunc](const QModelIndex& index){
-        if(!index.isValid())
-            return;
+    connect(ui->m_antogonistView, &QTableView::doubleClicked, this,
+            [changeImageFunc](const QModelIndex& index)
+            {
+                if(!index.isValid())
+                    return;
 
-        auto itemId = index.data(NonPlayableCharacterModel::RoleUuid).toString();
+                auto itemId= index.data(NonPlayableCharacterModel::RoleUuid).toString();
 
-        if(itemId.isEmpty())
-            return;
+                if(itemId.isEmpty())
+                    return;
 
-        switch(index.column())
-        {
-        case NonPlayableCharacterModel::ColAvatar:
-            changeImageFunc(itemId);
-            break;
-        default:
-            break;
-        }
-
-
-    });
+                switch(index.column())
+                {
+                case NonPlayableCharacterModel::ColAvatar:
+                    changeImageFunc(itemId);
+                    break;
+                default:
+                    break;
+                }
+            });
     connect(ui->m_removeActionAct, &QAction::triggered, this, remove);
     connect(ui->m_removePropertyAct, &QAction::triggered, this, remove);
     connect(ui->m_removeShapeAct, &QAction::triggered, this, remove);

@@ -193,12 +193,16 @@ TextItem::TextItem(vmap::TextController* ctrl)
 
 QRectF TextItem::boundingRect() const
 {
+    if(!m_textCtrl)
+        return {};
     return m_textCtrl->borderRect();
 }
 void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+    if(!m_textCtrl)
+        return;
     setChildrenVisible(hasFocusOrChild());
     if(m_textCtrl->border())
     {
@@ -241,6 +245,9 @@ void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 }
 void TextItem::wheelEvent(QGraphicsSceneWheelEvent* event)
 {
+    if(!m_textCtrl)
+        return;
+
     if(!event->modifiers() & Qt::ControlModifier)
         VisualItem::wheelEvent(event);
 

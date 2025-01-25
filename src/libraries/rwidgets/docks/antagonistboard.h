@@ -2,8 +2,10 @@
 #define CAMPAIGN_ANTAGONIST_BOARD_H
 
 #include "rwidgets_global.h"
+#include <QPointer>
 #include <QWidget>
 #include <memory>
+
 namespace Ui
 {
 class AntagonistBoard;
@@ -45,6 +47,7 @@ protected slots:
 
 private:
     Ui::AntagonistBoard* ui;
+    QPointer<campaign::CampaignEditor> m_editor;
     std::unique_ptr<AntagonistBoardController> m_ctrl;
 
     std::unique_ptr<QAction> m_createTokenAct;

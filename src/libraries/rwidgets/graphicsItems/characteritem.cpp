@@ -343,10 +343,10 @@ void CharacterItem::updateChildPosition()
         m_children[DIRECTION_RADIUS_HANDLE]->setVisible(false);
         m_children[ANGLE_HANDLE]->setVisible(false);
     }
-    if(!m_itemCtrl->localIsGM())
-    {
-        setTransformOriginPoint(m_itemCtrl->thumnailRect().center());
-    }
+    // if(!m_itemCtrl->localIsGM())
+    //{
+    setTransformOriginPoint(m_itemCtrl->thumnailRect().center());
+    // }
     update();
 }
 void CharacterItem::addActionContextMenu(QMenu& menu)

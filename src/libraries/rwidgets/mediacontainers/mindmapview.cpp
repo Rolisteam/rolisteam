@@ -56,6 +56,7 @@ void registerMindmapType()
     qmlRegisterUncreatableType<mindmap::MindMapControllerBase>("mindmapcpp", 1, 0, "MindMapController",
                                                                "MindMapController can't be created in qml");
     qmlRegisterUncreatableType<mindmap::MindItem>("mindmapcpp", 1, 0, "MindItem", "Enum only");
+    qmlRegisterUncreatableType<mindmap::MindNode>("mindmapcpp", 1, 0, "MindNode", "property only");
     qmlRegisterUncreatableType<RemotePlayerModel>("mindmapcpp", 1, 0, "RemotePlayerModel", "property values");
     qmlRegisterUncreatableType<mindmap::NodeStyle>("mindmapcpp", 1, 0, "NodeStyle", "Can't be created in QML");
     qmlRegisterType<mindmap::LinkItem>("mindmapcpp", 1, 0, "MindLink");
@@ -68,6 +69,16 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     , m_ctrl(ctrl)
 {
     registerMindmapType();
+
+    auto format= QSurfaceFormat::defaultFormat();
+    if(QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
+    {
+        format.setVersion(3, 2);
+        format.setProfile(QSurfaceFormat::CoreProfile);
+    }
+    format.setDepthBufferSize(24);
+    format.setStencilBufferSize(8);
+    format.setSamples(8);
 
     setObjectName("mindmap");
     setWindowIcon(QIcon::fromTheme("mindmap"));
@@ -118,13 +129,12 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
     connect(m_qmlViewer.get(), &QQuickWidget::sceneGraphError, this,
             [](QQuickWindow::SceneGraphError error, const QString& message) { qDebug() << message << error; });
 
+    m_qmlViewer->setFormat(format);
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_qmlViewer->setSource(QUrl("qrc:/resources/qml/main.qml"));
 
     auto const& errors= m_qmlViewer->errors();
     std::for_each(std::begin(errors), std::end(errors), [](const QQmlError& error) { qDebug() << error; });
-
-    // m_qmlViewer.
 
     auto wid= new QWidget(this);
 
@@ -134,10 +144,20 @@ MindMapView::MindMapView(MindMapController* ctrl, QWidget* parent)
 
     layout->addWidget(m_qmlViewer.get());
 
-    connect(ctrl, &MindMapController::nameChanged, this,
-            [this]() { setWindowTitle(tr("%1 - Mindmap").arg(m_ctrl->name())); });
+    auto updateTitle= [this]()
+    {
+        auto isGM= m_ctrl->localGM();
+        if(isGM)
+            setWindowTitle(tr("%1 - Mindmap").arg(m_ctrl->name()));
+        else
+            setWindowTitle(tr("%1 [%2] - Mindmap")
+                               .arg(m_ctrl->name())
+                               .arg(m_ctrl->readWrite() ? tr("ReadWrite") : tr("ReadOnly")));
+    };
+    connect(ctrl, &MindMapController::nameChanged, this, updateTitle);
+    connect(ctrl, &MindMapController::sharingToAllChanged, this, updateTitle);
 
-    setWindowTitle(tr("%1 - Mindmap").arg(m_ctrl->name()));
+    updateTitle();
 
     setWidget(wid);
 }
