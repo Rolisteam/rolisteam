@@ -15,17 +15,17 @@
 
 #include "controller/view_controller/sidemenucontroller.h"
 #include "model/playermodel.h"
-//#include "utils/iohelper.h"
+// #include "utils/iohelper.h"
 #include "mindmap/data/nodestyle.h"
 #include "mindmap/qmlItems/linkitem.h"
+#include "test_root_path.h"
 #include "updater/media/mindmapupdater.h"
 #include "worker/iohelper.h"
-#include "test_root_path.h"
 
 void registerMindmapType()
 {
     customization::Theme::setPath(QString("%1/../../resources/stylesheet/qml/theme.ini").arg(tests::root_path));
-    qRegisterMetaType<PlayerModel*>("PlayerModel*");
+    /*qRegisterMetaType<PlayerModel*>("PlayerModel*");
     qRegisterMetaType<customization::Theme*>("customization::Theme*");
     qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");
 
@@ -49,7 +49,20 @@ void registerMindmapType()
     qmlRegisterUncreatableType<mindmap::PositionedItem>("mindmap", 1, 0, "PositionedItem", "Enum only");
     qmlRegisterType<mindmap::SideMenuController>("mindmap", 1, 0, "SideMenuController");
     qmlRegisterUncreatableType<mindmap::MindItemModel>("mindmap", 1, 0, "MindItemModel",
-                                                       "MindItemModel can't be created in qml");
+                                                       "MindItemModel can't be created in qml");*/
+
+    customization::Theme::setPath(":/resources/stylesheet/qml/theme.ini");
+    qRegisterMetaType<PlayerModel*>("PlayerModel*");
+    qmlRegisterAnonymousType<PlayerModel>("PlayerModel", 1);
+
+    qmlRegisterUncreatableType<mindmap::MindMapControllerBase>("mindmapcpp", 1, 0, "MindMapController",
+                                                               "MindMapController can't be created in qml");
+    qmlRegisterUncreatableType<mindmap::MindItem>("mindmapcpp", 1, 0, "MindItem", "Enum only");
+    qmlRegisterUncreatableType<RemotePlayerModel>("mindmapcpp", 1, 0, "RemotePlayerModel", "property values");
+    qmlRegisterType<mindmap::LinkItem>("mindmapcpp", 1, 0, "MindLink");
+    qmlRegisterType<mindmap::NodeStyle>("mindmapcpp", 1, 0, "NodeStyle");
+    qmlRegisterType<mindmap::MindNode>("mindmapcpp", 1, 0, "MindNode");
+    qmlRegisterType<mindmap::SideMenuController>("mindmapcpp", 1, 0, "SideMenuController");
 }
 
 int main(int argc, char* argv[])
@@ -80,11 +93,11 @@ int main(int argc, char* argv[])
     auto model= new RemotePlayerModel(pmodel);
 
     campaign::CampaignManager campaignManager(nullptr);
-    campaignManager.openCampaign(
-        QUrl(QString("file://%1/manual/mindmap/campaign").arg(tests::root_path)));
+    campaignManager.openCampaign(QUrl(QString("file://%1/manual/mindmap/campaign").arg(tests::root_path)));
 
     MindMapUpdater updater(nullptr, &campaignManager);
-    auto serializedData= utils::IOHelper::loadFile(QString("file://%1/manual/mindmap/campaign/media/test.rmap").arg(tests::root_path));
+    auto serializedData
+        = utils::IOHelper::loadFile(QString("file://%1/manual/mindmap/campaign/media/test.rmap").arg(tests::root_path));
 
     QUndoStack undoStack;
     MindMapController::setRemotePlayerModel(model);
