@@ -144,9 +144,10 @@ public:
                                                  const QString& id);
     static QHash<QString, QVariant> readMindMap(NetworkMessageReader* msg);
     static void readMindMapAddItem(MindMapController* ctrl, NetworkMessageReader* msg);
-    static void buildAddItemMessage(NetworkMessageWriter& msg, const QList<mindmap::MindItem*> &nodes);
+    static void buildAddItemMessage(NetworkMessageWriter& msg, const QList<mindmap::MindItem*>& nodes);
     static void buildRemoveItemMessage(NetworkMessageWriter& msg, const QStringList& nodes, const QStringList& links);
     static void readMindMapRemoveMessage(MindMapController* ctrl, NetworkMessageReader* msg);
+    static void readChildPackageAction(bool add, NetworkMessageReader* msg, MindMapController* ctrl);
 
     // data
     static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);

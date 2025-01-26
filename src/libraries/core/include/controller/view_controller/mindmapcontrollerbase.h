@@ -153,7 +153,8 @@ public slots:
     void centerItems(qreal w, qreal h);
     void addImageFor(const QString& idNode, const QString& path, const QByteArray& data);
     void removeImageFor(const QString& nodeId);
-    void addItemIntoPackage(const QString& idNode, const QString& idPack);
+    void addItemIntoPackage(const QString& idNode, const QString& idPack, bool network= false);
+    void removeItemFromPackage(const QString& idNode, const QString& idPack, bool network= false);
     void refresh();
     void openImage(const QString& id, const QUrl& path);
     void removeImage(const QString& id);

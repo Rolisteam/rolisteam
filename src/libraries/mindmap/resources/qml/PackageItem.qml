@@ -15,7 +15,9 @@ Rectangle {
     property alias editable: textEdit.enabled
 
     signal addItem(var itemid)
+    signal removeItem(var itemId)
     signal clicked(var mouse)
+    signal menu()
 
     x: packageItem.position.x
     y: packageItem.position.y
@@ -49,7 +51,10 @@ Rectangle {
         preventStealing: true
         onPressed: (mouse) => {
            console.log("click on me")
-           _root.clicked(mouse)
+            if(mouse.button === Qt.LeftButton)
+                _root.clicked(mouse)
+            else if(mouse.button === Qt.RightButton)
+                contextMenu.popup()
         }
     }
 
@@ -111,6 +116,19 @@ Rectangle {
         color: "transparent"
         visible: _root.selected
         anchors.fill: parent
+    }
+
+    ToolButton {
+        anchors.right: parent.right
+        anchors.top: parent.top
+        visible: _root.editable
+        property QtObject style: Theme.styleSheet("mindmap")
+
+        //anchors.centerIn: parent
+        icon.source: style.listIcon
+        width: 32
+        height: 32
+        onClicked: _root.menu()
     }
 }
 

@@ -263,6 +263,26 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
         info.connections << connect(pack, &mindmap::PackageNode::minimumMarginChanged, this,
                                     [this, idCtrl, pack]()
                                     { sendOffChange<int>(idCtrl, QStringLiteral("minimumMargin"), pack, false); });
+
+        info.connections << connect(pack, &mindmap::PackageNode::childAdded, this,
+                                    [idCtrl, pack](const QString& childId)
+                                    {
+                                        NetworkMessageWriter msg(NetMsg::MindMapCategory, NetMsg::AddChildToPackage);
+                                        msg.string8(idCtrl);
+                                        msg.string8(pack->id());
+                                        msg.string8(childId);
+                                        msg.sendToServer();
+                                    });
+        info.connections << connect(pack, &mindmap::PackageNode::childRemoved, this,
+                                    [idCtrl, pack](const QString& childId)
+                                    {
+                                        NetworkMessageWriter msg(NetMsg::MindMapCategory,
+                                                                 NetMsg::RemoveChildFromPackage);
+                                        msg.string8(idCtrl);
+                                        msg.string8(pack->id());
+                                        msg.string8(childId);
+                                        msg.sendToServer();
+                                    });
     }
     // end of existing data
 
@@ -440,6 +460,14 @@ NetWorkReceiver::SendType MindMapUpdater::processMessage(NetworkMessageReader* m
     else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::RemoveSubImage))
     {
         MessageHelper::readRemoveSubImage(ctrl->imgModel(), msg);
+    }
+    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::AddChildToPackage))
+    {
+        MessageHelper::readChildPackageAction(true, msg, ctrl);
+    }
+    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::RemoveChildFromPackage))
+    {
+        MessageHelper::readChildPackageAction(false, msg, ctrl);
     }
     return res;
 }

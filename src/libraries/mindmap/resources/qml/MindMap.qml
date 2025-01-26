@@ -5,6 +5,7 @@ import Customization
 import mindmap
 import mindmapcpp
 import rolistyle
+import QtQml.Models
 
 Flickable {
     id: _flick
@@ -94,6 +95,7 @@ Flickable {
     Component {
         id: packComp
         PackageItem {
+            id: item
             packageItem: objectItem
             visible: objectItem.visible
             selected: objectItem.selected
@@ -102,6 +104,15 @@ Flickable {
             onAddItem: (itemid)=>{
                            _flick.ctrl.addItemIntoPackage(itemid, objectItem.id)
                        }
+
+            onMenu: {
+                contextMenu.packageItem = packageItem
+                contextMenu.subnodes = packageItem.model
+                contextMenu.parent =item
+                contextMenu.x = item.width - contextMenu.width
+                contextMenu.open()
+            }
+
             onClicked: (mouse) => {
                            if(_flick.addSubLink)
                            {
@@ -139,7 +150,7 @@ Flickable {
             nodeStyle: _flick.ctrl.style(objectItem.styleIndex)
             readWrite: _flick.ctrl.readWrite
             focus: true
-            text : objectItem.text ? objectItem.text : "new node"
+            text : objectItem.text
             source: hasAvatar ? "image://nodeImages/%1".arg(objectItem.id) : ""
             visible: objectItem.visible
             selected: objectItem.selected
@@ -207,6 +218,33 @@ Flickable {
         ctrl: _flick.ctrl
     }
 
+    Menu {
+        id: contextMenu
+        title: qsTr("Detach")
+        property QtObject packageItem
+        property alias subnodes: repeater.model
+
+        onClosed: {
+            contextMenu.subnodes = null
+        }
+
+        Instantiator {
+            id: repeater
+
+             MenuItem {
+                 text: model.text
+                 onTriggered: {
+                     contextMenu.packageItem.removeChild(model.childId)
+                 }
+             }
+
+            onObjectAdded: (index, object)=>contextMenu.insertItem(index, object)
+            onObjectRemoved: (index, object)=>contextMenu.removeItem(object)
+        }
+    }
+
+
+
     Item {
         id: inner
         width: Math.max(_flick.ctrl.contentRect.width+_flick.marginW, _flick.width-_flick.marginW)
@@ -254,18 +292,13 @@ Flickable {
         Repeater {
             id: itemLoop
             anchors.fill: parent
-
             model: _flick.ctrl.itemModel
-
-
             delegate: Loader {
                 property string text: label
                 property QtObject objectItem:  object
                 property bool isSelected: selected
                 property bool isVisible: visible
                 property bool hasAvatar: hasPicture
-
-
                 sourceComponent: type == MindItem.PackageType ? packComp : type == MindItem.LinkType ? linkComp : nodeComp
             }
         }

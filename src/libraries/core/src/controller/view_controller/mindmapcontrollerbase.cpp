@@ -401,7 +401,7 @@ void MindMapControllerBase::addLinks(const QList<LinkController*>& link, bool ne
     qDebug() << "Add link" << link.size() << network;
 }
 
-void MindMapControllerBase::addItemIntoPackage(const QString& idNode, const QString& idPack)
+void MindMapControllerBase::addItemIntoPackage(const QString& idNode, const QString& idPack, bool network)
 {
     auto node= dynamic_cast<PositionedItem*>(m_itemModel->item(idNode));
     auto pack= dynamic_cast<PackageNode*>(m_itemModel->item(idPack));
@@ -409,8 +409,20 @@ void MindMapControllerBase::addItemIntoPackage(const QString& idNode, const QStr
     if(!node || !pack)
         return;
 
-    pack->addChild(node);
+    pack->addChild(node, network);
     node->setLocked(true);
+}
+
+void MindMapControllerBase::removeItemFromPackage(const QString& idNode, const QString& idPack, bool network)
+{
+    auto node= dynamic_cast<PositionedItem*>(m_itemModel->item(idNode));
+    auto pack= dynamic_cast<PackageNode*>(m_itemModel->item(idPack));
+
+    if(!node || !pack)
+        return;
+
+    pack->removeChild(idNode, network);
+    node->setLocked(false);
 }
 
 QObject* MindMapControllerBase::subItem(const QString& id, mindmap::MindItem::Type type) const

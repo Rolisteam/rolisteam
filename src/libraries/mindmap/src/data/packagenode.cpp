@@ -22,12 +22,74 @@
 #include <QDebug>
 namespace mindmap
 {
-PackageNode::PackageNode(QObject* parent) : PositionedItem{MindItem::PackageType, parent}, m_title{tr("Package")}
+
+ChildrenModel::ChildrenModel(QObject* parent) : QAbstractListModel(parent) {}
+
+int ChildrenModel::rowCount(const QModelIndex& parent) const
+{
+    if(parent.isValid())
+        return 0;
+
+    return m_internalChildren.size();
+}
+
+QVariant ChildrenModel::data(const QModelIndex& index, int role) const
+{
+    if(!index.isValid())
+        return QVariant();
+
+    auto r= m_internalChildren.at(index.row());
+    QVariant res;
+    switch(role)
+    {
+    case IdRole:
+        res= r->id();
+        break;
+    case NameRole:
+        res= r->text();
+        break;
+    }
+    return res;
+}
+
+QHash<int, QByteArray> ChildrenModel::roleNames() const
+{
+    return {{IdRole, "childId"}, {NameRole, "text"}};
+}
+
+const QList<PositionedItem*>& ChildrenModel::children() const
+{
+    return m_internalChildren;
+}
+
+bool ChildrenModel::addChild(PositionedItem* item)
+{
+    if(m_internalChildren.contains(item) || item == nullptr)
+        return false;
+    beginInsertRows(QModelIndex(), m_internalChildren.size(), m_internalChildren.size());
+    m_internalChildren.append(item);
+    endInsertRows();
+    return true;
+}
+
+bool ChildrenModel::removeChild(const QString& id)
+{
+    beginResetModel();
+    bool res= 0 < erase_if(m_internalChildren, [id](PositionedItem* item) { return id == item->id(); });
+    endResetModel();
+    return res;
+}
+
+// Package
+
+PackageNode::PackageNode(QObject* parent)
+    : PositionedItem{MindItem::PackageType, parent}, m_title{tr("Package")}, m_children(new ChildrenModel)
 {
     connect(this, &PackageNode::itemDragged, this,
             [this](const QPointF& motion)
             {
-                std::for_each(std::begin(m_internalChildren), std::end(m_internalChildren),
+                auto list= m_children->children();
+                std::for_each(std::begin(list), std::end(list),
                               [motion](PositionedItem* item)
                               {
                                   if(!item)
@@ -42,7 +104,8 @@ PackageNode::PackageNode(QObject* parent) : PositionedItem{MindItem::PackageType
     connect(this, &PackageNode::visibleChanged, this,
             [this](bool visible)
             {
-                std::for_each(std::begin(m_internalChildren), std::end(m_internalChildren),
+                auto list= m_children->children();
+                std::for_each(std::begin(list), std::end(list),
                               [visible](PositionedItem* item) { item->setVisible(visible); });
             });
 }
@@ -60,31 +123,41 @@ void PackageNode::setTitle(const QString& newTitle)
     emit titleChanged();
 }
 
-void PackageNode::addChild(PositionedItem* item)
+void PackageNode::addChild(PositionedItem* item, bool isNetwork)
 {
-    if(m_internalChildren.contains(item) || item == this || item == nullptr)
+    if(item == this)
         return;
-    m_internalChildren.append(item);
-    performLayout();
-    emit childAdded(item->id());
+
+    if(m_children->addChild(item))
+    {
+        performLayout();
+        if(!isNetwork)
+            emit childAdded(item->id());
+    }
+}
+
+void PackageNode::removeChild(const QString& id, bool network)
+{
+    if(m_children->removeChild(id) && !network)
+        emit childRemoved(id);
 }
 
 const QList<PositionedItem*>& PackageNode::children() const
 {
-    return m_internalChildren;
+    return m_children->children();
 }
 
 void PackageNode::performLayout()
 {
-    if(m_internalChildren.isEmpty())
+    auto children= m_children->children();
+    if(children.isEmpty())
         return;
-    // qDebug() << "Perform Layout";
 
-    auto const itemCount= static_cast<std::size_t>(m_internalChildren.size());
+    auto const itemCount= static_cast<std::size_t>(children.size());
     auto const w= width();
 
     std::vector<int> vec;
-    std::transform(std::begin(m_internalChildren), std::end(m_internalChildren), std::back_inserter(vec),
+    std::transform(std::begin(children), std::end(children), std::back_inserter(vec),
                    [](PositionedItem* item) { return item->width(); });
     auto maxWidth= *std::max_element(std::begin(vec), std::end(vec));
 
@@ -127,7 +200,7 @@ void PackageNode::performLayout()
 
     int i= 0;
     qreal maxH= 0.;
-    for(auto item : m_internalChildren)
+    for(auto item : children)
     {
         auto p= position();
         QPointF a{currentX + p.x(), currentY + p.y()};
@@ -161,12 +234,21 @@ void PackageNode::setMinimumMargin(int newMinimumMargin)
 
 QStringList PackageNode::childrenId() const
 {
+    auto children= m_children->children();
+    if(children.isEmpty())
+        return {};
+
     QStringList res;
 
-    std::transform(std::begin(m_internalChildren), std::end(m_internalChildren), std::back_inserter(res),
+    std::transform(std::begin(children), std::end(children), std::back_inserter(res),
                    [](PositionedItem* item) { return item->id(); });
 
     return res;
+}
+
+ChildrenModel* PackageNode::model() const
+{
+    return m_children.get();
 }
 
 } // namespace mindmap

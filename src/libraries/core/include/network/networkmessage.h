@@ -158,6 +158,8 @@ enum Action
     UpdatePackage,
     UpdateLink,
     UpdateMindMapPermission,
+    AddChildToPackage,
+    RemoveChildFromPackage,
 
     // 3d dice
     Roll3DAct= 0

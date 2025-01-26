@@ -1465,6 +1465,20 @@ void MessageHelper::readRemoveSubImage(mindmap::ImageModel* model, NetworkMessag
     model->removePixmap(msg->string8());
 }
 
+void MessageHelper::readChildPackageAction(bool add, NetworkMessageReader* msg, MindMapController* ctrl)
+{
+    if(!msg)
+        return;
+
+    auto pack= msg->string8();
+    auto node= msg->string8();
+
+    if(add)
+        ctrl->addItemIntoPackage(node, pack);
+    else
+        ctrl->removeItemFromPackage(node, pack);
+}
+
 void MessageHelper::sendOffImageInfo(const mindmap::ImageInfo& info, MediaControllerBase* ctrl)
 {
     if(!ctrl || info.m_pixmap.isNull())

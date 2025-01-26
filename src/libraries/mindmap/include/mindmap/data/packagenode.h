@@ -23,16 +23,44 @@
 #include "mindmap/data/minditem.h"
 #include "mindmap/data/positioneditem.h"
 #include "mindmap/mindmap_global.h"
+#include <QAbstractListModel>
 #include <QObject>
 #include <QString>
 
 namespace mindmap
 {
+
+class ChildrenModel : public QAbstractListModel
+{
+    Q_OBJECT
+
+public:
+    enum Role
+    {
+        IdRole,
+        NameRole
+    };
+    explicit ChildrenModel(QObject* parent= nullptr);
+
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
+
+    QHash<int, QByteArray> roleNames() const override;
+
+    const QList<PositionedItem*>& children() const;
+    bool addChild(mindmap::PositionedItem* item);
+    bool removeChild(const QString& id);
+
+private:
+    QList<mindmap::PositionedItem*> m_internalChildren;
+};
+
 class MINDMAP_EXPORT PackageNode : public PositionedItem
 {
     Q_OBJECT
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(int minimumMargin READ minimumMargin WRITE setMinimumMargin NOTIFY minimumMarginChanged)
+    Q_PROPERTY(ChildrenModel* model READ model CONSTANT FINAL)
 public:
     explicit PackageNode(QObject* parent= nullptr);
     const QString& title() const;
@@ -43,20 +71,27 @@ public:
     int minimumMargin() const;
     void setMinimumMargin(int newMinimumMargin);
 
+    ChildrenModel* model() const;
+
 public slots:
-    void addChild(mindmap::PositionedItem* item);
+    void addChild(mindmap::PositionedItem* item, bool network= false);
+    void removeChild(const QString& id, bool network= false);
 
 signals:
     void titleChanged();
     void minimumMarginChanged();
     void childAdded(const QString& id);
+    void childRemoved(const QString& id);
+    void childrenChanged();
+
 private slots:
     void performLayout();
 
 private:
     QString m_title;
-    QList<PositionedItem*> m_internalChildren;
+    // QList<PositionedItem*> m_internalChildren;
     qreal m_minimumMargin{25.};
+    std::unique_ptr<ChildrenModel> m_children;
 };
 } // namespace mindmap
 #endif // PACKAGENODE_H

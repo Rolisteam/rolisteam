@@ -28,7 +28,10 @@
 namespace mindmap
 {
 
-MindNode::MindNode(QObject* parent) : PositionedItem(MindItem::NodeType, parent) {}
+MindNode::MindNode(QObject* parent) : PositionedItem(MindItem::NodeType, parent)
+{
+    setText(tr("New node"));
+}
 MindNode::~MindNode()= default;
 
 int MindNode::styleIndex() const
