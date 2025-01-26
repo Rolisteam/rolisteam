@@ -298,6 +298,7 @@ constexpr auto KEY_TOOL{"tool"};
 constexpr auto KEY_TYPE{"type"};
 constexpr auto KEY_UNIT{"unit"};
 constexpr auto KEY_URL{"URL"};
+constexpr auto KEY_PAGE_URL{"pageUrl"};
 constexpr auto KEY_UUID{"uuid"};
 constexpr auto KEY_VISIBILITY{"visibility"};
 constexpr auto KEY_ZINDEX{"zindex"};

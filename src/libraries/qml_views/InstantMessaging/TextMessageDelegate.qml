@@ -58,7 +58,7 @@ ColumnLayout {
                 font: Theme.imFont
                 textFormat: Text.StyledText
                 wrapMode: Text.WordWrap
-                onLinkActivated: InstantMessagerManager.ctrl.openLink(link)
+                onLinkActivated:(link) => InstantMessagerManager.ctrl.openLink(link)
                 background: Rectangle {
                     id: bubble
                     color: root.local ? root.styleSheet.localMsgColor : root.styleSheet.RemoteMsgColor

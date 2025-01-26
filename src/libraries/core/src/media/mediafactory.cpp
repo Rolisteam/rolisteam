@@ -399,8 +399,8 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
         hu::setParamIfAny<QString>(ck::KEY_PATH, params, [webCtrl](const QString& value){
             webCtrl->setUrl(QUrl::fromUserInput(value));
         });
-        hu::setParamIfAny<QString>(ck::KEY_URL, params, [webCtrl](const QString& value){
-            webCtrl->setUrl(QUrl::fromUserInput(value));
+        hu::setParamIfAny<QString>(ck::KEY_PAGE_URL, params, [webCtrl](const QString& value){
+            webCtrl->setPageUrl(QUrl::fromUserInput(value));
         });
         hu::setParamIfAny<int>(ck::KEY_MODE, params, [params, webCtrl](int value){
             auto mode = static_cast<WebpageController::SharingMode>(value);
