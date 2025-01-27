@@ -63,10 +63,11 @@ public:
 
     void clear();
     CellData* cellData(int line, int col) const;
-    CellData* cellDataFromId(const QString& id) const;
+    TreeSheetItem* childDataFromId(const QString& id) const;
     FieldController* colField(int col) const;
     FieldController* colFieldFromId(const QString& id) const;
     QModelIndex indexFromCell(TreeSheetItem* data) const;
+    int indexOf(TreeSheetItem* item) const;
 
     // serilization
     void save(QJsonObject& json) const;

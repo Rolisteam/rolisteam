@@ -51,7 +51,7 @@ public:
     int indexFromId(const QString& id) const;
     CSItem* getFieldAt(int i) const;
 
-    CSItem* getFieldFromKey(QString key) const;
+    TreeSheetItem *getFieldFromKey(QString key) const;
     QHash<QString, QString> getVariableDictionnary();
 
     void insertCharacterItem(CSItem* item);

@@ -75,6 +75,7 @@ public:
     virtual void save(QJsonObject& json, bool exp= false) override;
     virtual void load(const QJsonObject& json) override;
     virtual void copyField(TreeSheetItem* oldItem, bool copyData, bool sameId= true) override;
+    virtual int indexOfChild(TreeSheetItem* itm) override;
 
     ControlPosition position() const;
     void setPosition(const ControlPosition& position);

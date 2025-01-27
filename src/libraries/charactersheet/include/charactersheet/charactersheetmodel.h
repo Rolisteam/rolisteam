@@ -115,6 +115,7 @@ protected:
 
 private:
     void checkTableItem();
+    TreeSheetItem* getProperItem(int row, int column, TreeSheetItem* field) const;
 
 private:
     std::vector<std::unique_ptr<CharacterSheet>> m_characterList;

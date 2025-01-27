@@ -601,6 +601,7 @@ QStringList QmlGeneratorVisitor::generateTableDelegate(TableFieldController* ite
         QTextStream lineOut(&line);
         auto indentationOld= m_indentation;
         setIndentation(m_indentation + 3);
+        col->setPage(item->page());
         columnWidths.append(QString::number(col->width()));
         switch(col->fieldType())
         {

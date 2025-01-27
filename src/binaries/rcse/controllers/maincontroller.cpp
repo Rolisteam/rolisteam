@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "maincontroller.h"
+#include "charactersheet/worker/ioworker.h"
+#include "serializerhelper.h"
 
 namespace rcse
 {
@@ -49,7 +51,8 @@ MainController::MainController(QObject* parent)
     connect(m_editCtrl.get(), &EditorController::canvasBackgroundChanged, m_imageCtrl.get(),
             &ImageController::addBackgroundImage);
 
-    connect(m_imageCtrl.get(), &ImageController::errorOccurs, this, [this](const QString& msg)
+    connect(m_imageCtrl.get(), &ImageController::errorOccurs, this,
+            [this](const QString& msg)
             { m_logCtrl->manageMessage(msg, QStringLiteral("ImageCtrl"), LogController::Error); });
 
     connect(m_generatorCtrl.get(), &QmlGeneratorController::errors, this,
@@ -69,6 +72,14 @@ MainController::MainController(QObject* parent)
     m_integrityCtrl->setSheets(m_characterCtrl->model());
 
     m_integrityCtrl->checkAll();
+}
+
+void MainController::loadFile(const QString& fileName)
+{
+    SerializerHelper::fetchMainController(this, IOWorker::readFileToObject(fileName));
+    setCurrentFile(fileName);
+    m_integrityCtrl->checkAll();
+    setModified(false);
 }
 
 CharacterController* MainController::characterCtrl() const

@@ -31,7 +31,7 @@ template <class T, class Y>
 class DirectAccessDataStructure
 {
 public:
-    DirectAccessDataStructure() {};
+    DirectAccessDataStructure(){};
 
     void reserve(qsizetype size)
     {
@@ -116,7 +116,12 @@ public:
     typename QList<T>::iterator orderedEnd() { return m_keys.end(); }
     typename QList<T>::const_iterator orderedConstEnd() const { return m_keys.cend(); }
 
-    qsizetype index(const T& key) const { return m_keys.indexOf(key); }
+    qsizetype index(const T& key, const Y& expected) const
+    {
+        auto i= m_keys.indexOf(key);
+        auto val= value(key);
+        return val == expected ? i : -1;
+    }
 
     template <typename Container, std::enable_if_t<std::is_same_v<QList<T>, Container>, bool> = true>
     Container keys() const

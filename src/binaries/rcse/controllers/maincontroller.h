@@ -62,6 +62,7 @@ public slots:
     void setModified(bool newModified);
     void cleanUpData(bool addPage= true);
     void displayQmlError(const QList<QQmlError>& errors);
+    void loadFile(const QString& fileName);
 
 signals:
     void modifiedChanged(bool modified);

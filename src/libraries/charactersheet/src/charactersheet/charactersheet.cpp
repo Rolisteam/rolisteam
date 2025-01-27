@@ -90,13 +90,13 @@ CSItem* CharacterSheet::getFieldAt(int i) const
     return nullptr;
 }
 
-CSItem* CharacterSheet::getFieldFromKey(QString key) const
+TreeSheetItem* CharacterSheet::getFieldFromKey(QString key) const
 {
     QStringList keyList= key.split('.');
     if(keyList.size() > 1)
     {
         CSItem* field= m_valuesMap[keyList.takeFirst()];
-        return dynamic_cast<CSItem*>(field->childFromId(keyList.takeFirst()));
+        return field->childFromId(keyList.takeFirst());
     }
     else if(m_valuesMap.contains(key))
     {
@@ -107,21 +107,21 @@ CSItem* CharacterSheet::getFieldFromKey(QString key) const
 
 const QVariant CharacterSheet::getValue(QString path, int role) const
 {
-    CSItem* item= getFieldFromKey(path);
+    auto item= getFieldFromKey(path);
     if(nullptr == item)
         return {};
     QVariant res;
     switch(role)
     {
     case Qt::DisplayRole:
-        res= item->value();
+        res= item->valueFrom(TreeSheetItem::VALUE, role);
         break;
     case Qt::EditRole:
     {
-        QString str= item->formula();
+        QString str= item->valueFrom(TreeSheetItem::VALUE, role).toString();
         if(str.isEmpty())
         {
-            str= item->value();
+            str= item->valueFrom(TreeSheetItem::VALUE, Qt::DisplayRole).toString();
         }
         res= str;
     }
@@ -130,7 +130,7 @@ const QVariant CharacterSheet::getValue(QString path, int role) const
         res= item->id();
         break;
     case CharacterSheetModel::FormulaRole:
-        res= item->formula();
+        res= item->valueFrom(TreeSheetItem::VALUE, Qt::DisplayRole).toString();
         break;
     case Qt::BackgroundRole:
         res= item->readOnly();
@@ -187,7 +187,7 @@ CSItem* CharacterSheet::setValue(QString key, QString value, QString formula)
     if(item != nullptr)
     {
         item->setFormula(formula);
-        item->setValue(value);
+        item->setValueFrom(TreeSheetItem::VALUE, value);
         result= nullptr;
     }
     else

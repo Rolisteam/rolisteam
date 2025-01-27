@@ -143,6 +143,33 @@ void IntegrityController::checkIntegrity(CharacterSheet* sheet)
                 sheet->insertCharacterItem(copyField<FieldController>(field));
         }
     }
+
+    for(auto field : children)
+    {
+        if(field->fieldType() != FieldController::TABLE)
+            continue;
+        auto id= field->id();
+        auto sheetField= sheet->getFieldFromKey(id);
+        qDebug() << field->childrenCount() << sheetField->childrenCount();
+        if(!sheetField)
+        {
+            qDebug() << "No valid Table field";
+            continue;
+        }
+
+        auto sameCount= field->childrenCount() <= sheetField->childrenCount();
+        if(sameCount)
+            continue;
+        auto table= dynamic_cast<TableFieldController*>(sheetField);
+        auto origin= dynamic_cast<TableFieldController*>(field);
+        if(!table || !origin)
+            continue;
+        auto originModel= origin->model();
+        auto model= table->model();
+        QJsonObject obj;
+        originModel->save(obj);
+        model->load(obj, table);
+    }
 }
 
 void IntegrityController::checkField() {}

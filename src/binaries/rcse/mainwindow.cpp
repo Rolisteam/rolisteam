@@ -655,9 +655,7 @@ bool MainWindow::loadFile(const QString& filename)
     if(filename.isEmpty())
         return false;
 
-    SerializerHelper::fetchMainController(m_mainCtrl.get(), IOWorker::readFileToObject(filename));
-    m_mainCtrl->setCurrentFile(filename);
-    m_mainCtrl->setModified(false);
+    m_mainCtrl->loadFile(filename);
     return true;
 }
 void MainWindow::open()

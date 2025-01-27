@@ -73,9 +73,7 @@ int CharacterSheetModel::rowCount(const QModelIndex& parent) const
     else if(tmp)
         val= tmp->childrenCount();
     else
-        qDebug() << "parent is valid but internal pointer is not";
-
-    qDebug() << "result:" << parent << val;
+        qDebug() << "rowCount parent is valid but internal pointer is not";
 
     return val;
 }
@@ -90,9 +88,7 @@ CharacterSheet* CharacterSheetModel::getCharacterSheet(int id) const
 
 int CharacterSheetModel::columnCount(const QModelIndex& parent) const
 {
-    if(parent.isValid())
-        return 0;
-
+    Q_UNUSED(parent);
     return m_characterList.size() + 1;
 }
 QModelIndex CharacterSheetModel::index(int row, int column, const QModelIndex& parent) const
@@ -122,6 +118,20 @@ QModelIndex CharacterSheetModel::index(int row, int column, const QModelIndex& p
         if(parentItem)
             childItem= parentItem->childAt(row);
     }
+    /*else if(column > 0) // column of charactersheet
+    {
+        auto parentItem= static_cast<TreeSheetItem*>(parent.internalPointer());
+        if(!parentItem)
+            return {};
+        auto item= parentItem->childAt(row);
+        auto sheet= getCharacterSheet(column - 1);
+        if(item && sheet)
+        {
+            auto path= item->path();
+            childItem= sheet->getFieldFromKey(path);
+        }
+    }*/
+
     return childItem ? createIndex(row, column, childItem) : QModelIndex();
 }
 QModelIndex CharacterSheetModel::parent(const QModelIndex& index) const
@@ -134,7 +144,35 @@ QModelIndex CharacterSheetModel::parent(const QModelIndex& index) const
     if(nullptr == childItem)
         return QModelIndex();
 
+    /*auto idx= m_rootSection->indexOfChild(childItem);
+
+    // qDebug() << "index SubSection idx:" << idx << index;
+    if(idx >= 0)
+        return QModelIndex();*/
+
     TreeSheetItem* parentItem= childItem->parentTreeItem();
+
+    /*idx= m_rootSection->indexOfChild(parentItem);
+    // qDebug() << "index SubSection index:" << idx;
+    if(idx >= 0)
+        return QModelIndex();
+
+    // qDebug() << "parentSheet parent: " << parentItem << "childItem:" << childItem << index;
+
+    auto it= std::find_if(std::begin(m_characterList), std::end(m_characterList),
+                          [parentItem](const std::unique_ptr<CharacterSheet>& sheet)
+                          {
+                              auto field= sheet->getFieldFromKey(parentItem->path());
+                              // qDebug() << "parentSheet sheet" << field << parentItem << parentItem->path();
+                              return field == static_cast<CSItem*>(parentItem);
+                          });
+
+    int c= 0;
+    if(it != std::end(m_characterList))
+    {
+        // qDebug() << "parentSheet Parent: find c" << c;
+        c= std::distance(std::begin(m_characterList), it);
+    }*/
 
     if(parentItem == m_rootSection.get() || parentItem == nullptr)
     {
@@ -142,6 +180,24 @@ QModelIndex CharacterSheetModel::parent(const QModelIndex& index) const
     }
 
     return createIndex(parentItem->rowInParent(), 0, parentItem);
+}
+
+TreeSheetItem* CharacterSheetModel::getProperItem(int row, int column, TreeSheetItem* field) const
+{
+    CharacterSheet* sheet= getCharacterSheet(column - 1);
+    if(!sheet)
+        return {};
+
+    if(field->parentTreeItem() == nullptr)
+        return sheet->getFieldAt(row);
+
+    auto parent= field->parentTreeItem();
+
+    QString parentPath= parent->path();
+
+    auto parentItem= sheet->getFieldFromKey(parentPath);
+
+    return parentItem->childAt(row);
 }
 
 QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
@@ -182,31 +238,34 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
         }
         else
         {
-            if(childItem->itemType() == TreeSheetItem::CellValue)
+            auto targetItem= getProperItem(index.row(), index.column(), childItem);
+            if(targetItem->itemType() == TreeSheetItem::CellValue)
             {
                 switch(role)
                 {
                 case Qt::DisplayRole:
                 case Qt::EditRole:
-                    var= childItem->valueFrom(TreeSheetItem::VALUE, role);
+                    var= targetItem->valueFrom(TreeSheetItem::VALUE, role);
                     break;
                 case UuidRole:
                 case NameRole:
                 case Qt::ToolTipRole:
-                    var= childItem->valueFrom(TreeSheetItem::ID, role);
+                    var= targetItem->valueFrom(TreeSheetItem::ID, role);
                     break;
                 }
             }
             else
             {
-                QString path= childItem->path();
-                CharacterSheet* sheet= getCharacterSheet(index.column() - 1);
                 if(role == UuidRole)
-                    var= childItem->valueFrom(TreeSheetItem::ID, role);
+                    var= targetItem->valueFrom(TreeSheetItem::ID, role);
                 else if(role == NameRole)
-                    var= childItem->valueFrom(TreeSheetItem::LABEL, role);
+                    var= targetItem->valueFrom(TreeSheetItem::LABEL, role);
                 else
-                    var= sheet->getValue(path, static_cast<Qt::ItemDataRole>(role));
+                {
+                    CharacterSheet* sheet= getCharacterSheet(index.column() - 1);
+                    if(sheet)
+                        var= sheet->getValue(childItem->path(), static_cast<Qt::ItemDataRole>(role));
+                }
             }
         }
     }
@@ -238,13 +297,17 @@ bool CharacterSheetModel::setData(const QModelIndex& index, const QVariant& valu
 
     TreeSheetItem::ColumnId columnId= index.column() == 0 ? TreeSheetItem::LABEL : TreeSheetItem::VALUE;
 
+    auto targetItem= getProperItem(index.row(), index.column(), childItem);
+
     if(childItem->itemType() == TreeSheetItem::CellValue && index.column() > 0)
     {
-        auto parentItem= dynamic_cast<TreeSheetItem*>(childItem->parentTreeItem());
-        auto parent= dynamic_cast<TableFieldController*>(parentItem);
-        Q_ASSERT(parent->itemType() == TreeSheetItem::TableItem);
-        auto model= parent->model();
-        model->setData(model->indexFromCell(childItem), valueStr, role);
+        if(!targetItem)
+            return false;
+
+        auto parentTarget= dynamic_cast<TableFieldController*>(targetItem->parentTreeItem());
+        Q_ASSERT(parentTarget->itemType() == TreeSheetItem::TableItem);
+        auto model= parentTarget->model();
+        model->setData(model->indexFromCell(targetItem), valueStr, role);
     }
     else if(index.column() > 0)
     {
@@ -316,6 +379,7 @@ void CharacterSheetModel::clearModel()
 
 void CharacterSheetModel::checkCharacter(Section* section)
 {
+    // TODO replace by integrity check
     for(auto const& sheet : m_characterList)
     {
         for(int i= 0; i < section->childrenCount(); ++i)
@@ -324,7 +388,7 @@ void CharacterSheetModel::checkCharacter(Section* section)
             if(!id)
                 continue;
 
-            auto field= sheet->getFieldFromKey(id->id());
+            auto field= dynamic_cast<CSItem*>(sheet->getFieldFromKey(id->id()));
             if(nullptr == field)
             {
                 if(id->fieldType() != FieldController::TABLE)
@@ -686,18 +750,24 @@ void CharacterSheetModel::checkTableItem()
     for(int i= 0; i < m_rootSection->childrenCount(); ++i)
     {
         auto child= m_rootSection->childAt(i);
-        if(TreeSheetItem::TableItem == child->itemType())
+        if(TreeSheetItem::TableItem != child->itemType())
+            continue;
+
+        for(auto const& character : m_characterList)
         {
-            for(auto const& character : m_characterList)
+            auto childFromCharacter= character->getFieldFromKey(child->path());
+            auto table= dynamic_cast<TableFieldController*>(child);
+
+            if(table == nullptr)
+                continue;
+            while(childFromCharacter->childrenCount() > child->childrenCount())
             {
-                auto childFromCharacter= character->getFieldAt(i);
-                auto table= dynamic_cast<TableFieldController*>(child);
-                if(table == nullptr)
-                    return;
-                while(childFromCharacter->childrenCount() > child->childrenCount())
-                {
-                    table->appendChild(nullptr);
-                }
+                table->appendChild(nullptr);
+            }
+            auto tableFromCharacter= dynamic_cast<TableFieldController*>(childFromCharacter);
+            while(childFromCharacter->childrenCount() < child->childrenCount())
+            {
+                tableFromCharacter->appendChild(nullptr);
             }
         }
     }

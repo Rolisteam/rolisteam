@@ -18,19 +18,23 @@
 QmlGeneratorController::QmlGeneratorController(QObject* parent)
     : QObject(parent), m_model(new FieldModel), m_mockCharacter(new MockCharacter)
 {
-    connect(m_mockCharacter.get(), &MockCharacter::dataChanged, this, [this](const QString& name) {
-        emit reportLog(tr("The character value %1 has been defined to %2")
-                           .arg(name)
-                           .arg(m_mockCharacter->property(name.toStdString().c_str()).toString()),
-                       LogController::Features);
-    });
+    connect(m_mockCharacter.get(), &MockCharacter::dataChanged, this,
+            [this](const QString& name)
+            {
+                emit reportLog(tr("The character value %1 has been defined to %2")
+                                   .arg(name)
+                                   .arg(m_mockCharacter->property(name.toStdString().c_str()).toString()),
+                               LogController::Features);
+            });
     connect(m_mockCharacter.get(), &MockCharacter::log, this,
             [this](const QString& log) { emit reportLog(log, LogController::Features); });
 
-    connect(m_model.get(), &FieldModel::modelChanged, this, [this]() {
-        emit sectionChanged(m_model->getRootSection());
-        emit dataChanged();
-    });
+    connect(m_model.get(), &FieldModel::modelChanged, this,
+            [this]()
+            {
+                emit sectionChanged(m_model->getRootSection());
+                emit dataChanged();
+            });
 }
 
 QString QmlGeneratorController::headCode() const
@@ -163,12 +167,14 @@ void QmlGeneratorController::clearData()
     m_model->clearModel();
 
     m_mockCharacter.reset(new MockCharacter);
-    connect(m_mockCharacter.get(), &MockCharacter::dataChanged, this, [this](const QString& name) {
-        emit reportLog(tr("The character value %1 has been defined to %2")
-                           .arg(name)
-                           .arg(m_mockCharacter->property(name.toStdString().c_str()).toString()),
-                       LogController::Features);
-    });
+    connect(m_mockCharacter.get(), &MockCharacter::dataChanged, this,
+            [this](const QString& name)
+            {
+                emit reportLog(tr("The character value %1 has been defined to %2")
+                                   .arg(name)
+                                   .arg(m_mockCharacter->property(name.toStdString().c_str()).toString()),
+                               LogController::Features);
+            });
     connect(m_mockCharacter.get(), &MockCharacter::log, this,
             [this](const QString& log) { emit reportLog(log, LogController::Features); });
 }
@@ -203,26 +209,14 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl)
     QmlGeneratorVisitor visitor;
     visitor.setIndentation(1);
     visitor.setIsTable(false);
-    auto mainItem = hasImage ? QStringLiteral("Image"): QStringLiteral("Item") ;
-    auto source = hasImage ?
-                     QStringLiteral("source: \"image://rcs/%1_background_%2.jpg\".arg(sheetCtrl.currentPage)")
-                        .arg(key, QString("%1")):
-                     QString("");
-    auto baseWidth = hasImage ? QStringLiteral("sourceSize.width") : QString::number(rect.width());
+    auto mainItem= hasImage ? QStringLiteral("Image") : QStringLiteral("Item");
+    auto source= hasImage ? QStringLiteral("source: \"image://rcs/%1_background_%2.jpg\".arg(sheetCtrl.currentPage)")
+                                .arg(key, QString("%1")) :
+                            QString("");
+    auto baseWidth= hasImage ? QStringLiteral("main.width") : QString::number(rect.width());
 
-
-    auto res = visitor.generateSheet(m_importCode,
-                          m_headCode,
-                          m_bottomCode,
-                          m_lastPageId,
-                          mainItem,
-                          source,
-                          rect.width(),
-                          rect.height(),
-                          baseWidth,
-                          true,
-                          m_model->getRootSection()
-                          );
+    auto res= visitor.generateSheet(m_importCode, m_headCode, m_bottomCode, m_lastPageId, mainItem, source,
+                                    rect.width(), rect.height(), baseWidth, true, m_model->getRootSection());
     setQmlCode(res);
     setTextEdited(false);
 }

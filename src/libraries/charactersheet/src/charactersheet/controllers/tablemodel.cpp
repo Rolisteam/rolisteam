@@ -219,8 +219,43 @@ QModelIndex TableModel::indexFromCell(TreeSheetItem* data) const
     return QModelIndex();
 }
 
-CellData* TableModel::cellDataFromId(const QString& id) const
+int TableModel::indexOf(TreeSheetItem* item) const
 {
+
+    int res= m_columns.indexOf(item);
+
+    if(res >= 0)
+        return res;
+
+    //    QList<QList<CellData*>> m_data;
+    res= m_columns.size();
+    for(auto line : m_data)
+    {
+        auto idx= line.indexOf(item);
+
+        if(idx >= 0)
+        {
+            res+= idx;
+            break;
+        }
+        else
+            res+= line.size();
+    }
+
+    if(res < (m_columns.size() + m_data.size() * m_columns.size()))
+        return res;
+    else
+        return -1;
+}
+
+TreeSheetItem* TableModel::childDataFromId(const QString& id) const
+{
+    for(auto const& col : m_columns)
+    {
+        if(col->id() == id)
+            return col;
+    }
+
     for(auto const& r : m_data)
     {
         for(auto c : r)
@@ -246,7 +281,9 @@ void TableModel::makeSpace(int row, int cols)
     {
         qWarning() << "Wrong number of columns";
         auto field= new FieldController(TreeSheetItem::FieldItem, true);
+        beginInsertColumns(QModelIndex(), m_columns.size(), m_columns.size());
         m_columns.append(field);
+        endInsertColumns();
     }
 
     while(m_data.count() < row)
@@ -439,7 +476,6 @@ void TableModel::removeColumn(int index)
 
 bool TableModel::setData(const QModelIndex& index, const QVariant& data, int role)
 {
-    qDebug() << "setData" << index << data << role;
     if(!index.isValid())
         return false;
 

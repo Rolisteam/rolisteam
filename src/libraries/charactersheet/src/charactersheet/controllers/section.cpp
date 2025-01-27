@@ -80,7 +80,7 @@ int Section::indexOfChild(TreeSheetItem* item)
     if(nullptr == item)
         return -1;
 
-    return m_data.index(item->path());
+    return m_data.index(item->path(), item);
 }
 
 void Section::save(QJsonObject& json, bool exp)

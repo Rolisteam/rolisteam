@@ -206,12 +206,13 @@ bool TableFieldController::hasChildren()
 
 int TableFieldController::childrenCount() const
 {
+    // qDebug() << "childrenCount" << rowCount() * columnCount() + columnCount();
     return rowCount() * columnCount() + columnCount();
 }
 
 TreeSheetItem* TableFieldController::childFromId(const QString& id) const
 {
-    return m_model->cellDataFromId(id);
+    return m_model->childDataFromId(id);
 }
 
 TreeSheetItem* TableFieldController::childAt(int index) const
@@ -384,6 +385,11 @@ void TableFieldController::copyField(TreeSheetItem* oldItem, bool copyData, bool
         copyModel(oldField->model(), m_model.get(), this);
         setOrig(oldField);
     }
+}
+
+int TableFieldController::indexOfChild(TreeSheetItem* itm)
+{
+    return m_model->indexOf(itm);
 }
 
 void TableFieldController::loadDataItem(const QJsonObject& json)

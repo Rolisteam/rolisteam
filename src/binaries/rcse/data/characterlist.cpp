@@ -1,5 +1,6 @@
 #include "characterlist.h"
 
+#include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
 
 #include <QDebug>
@@ -23,6 +24,7 @@ QHash<int, QByteArray> CharacterList::roleNames() const
 
 Qt::ItemFlags CharacterList::flags(const QModelIndex& index) const
 {
+    Q_UNUSED(index)
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
@@ -39,21 +41,19 @@ QVariant CharacterList::data(const QModelIndex& index, int role) const
         return (role == Qt::DisplayRole) ? tr("Mock Data") : "";
     }
 
-    auto idx= m_source->index(0, r);
+    auto sheet= m_source->getCharacterSheet(r - 1);
 
-    if(roles.contains(role))
+    QVariant res;
+
+    switch(role)
     {
-        int realRole= NameRole;
-
-        if(role == UuidRole)
-            realRole= role;
-        auto var
-            = idx.data(realRole == NameRole ? CharacterSheetModel::NameRole : CharacterSheetModel::UuidRole).toString();
-
-        if(var.isEmpty())
-            var= tr("Character %1").arg(r);
-        return var;
+    case NameRole:
+    case Qt::EditRole:
+        res= sheet->name();
+        break;
+    case UuidRole:
+        res= sheet->uuid();
+        break;
     }
-    else
-        return QVariant();
+    return res;
 }
