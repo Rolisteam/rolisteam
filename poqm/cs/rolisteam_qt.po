@@ -1770,37 +1770,37 @@ msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Otevřít %1"
 
-#: src/binaries/widget/mainwindow.cpp:1163
+#: src/binaries/widget/mainwindow.cpp:1166
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Připojen"
 
-#: src/binaries/widget/mainwindow.cpp:1163
+#: src/binaries/widget/mainwindow.cpp:1166
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Nepřipojen"
 
-#: src/binaries/widget/mainwindow.cpp:1164
+#: src/binaries/widget/mainwindow.cpp:1167
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: src/binaries/widget/mainwindow.cpp:1164
+#: src/binaries/widget/mainwindow.cpp:1167
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Klient"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1174
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1177
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Hráč"
 
-#: src/binaries/widget/mainwindow.cpp:1206
+#: src/binaries/widget/mainwindow.cpp:1209
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Neznámý"
@@ -3382,42 +3382,42 @@ msgid ""
 "Then, you'll see your own 3D dice."
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:28
 msgctxt "ButtonGrid|"
 msgid "Undo"
 msgstr "Zpět"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:33
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:34
 msgctxt "ButtonGrid|"
 msgid "Redo"
 msgstr "Znovu"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:38
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
 msgctxt "ButtonGrid|"
 msgid "Save Map"
 msgstr "Uložit mapu"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:42
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:43
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
 msgstr "Otevřít šuplík"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:49
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:50
 msgctxt "ButtonGrid|"
 msgid "Add Root"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:56
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:57
 msgctxt "ButtonGrid|"
 msgid "Add Package"
 msgstr "Přidat balíček"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:61
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:64
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
 msgstr "Přidat šipku"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:71
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Delete Item"
@@ -3425,37 +3425,37 @@ msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
 msgstr "Smazat položku"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
 msgctxt "ButtonGrid|"
 msgid "Refresh"
 msgstr "Obnovit"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
 msgctxt "ButtonGrid|"
 msgid "Show small map"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:89
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:94
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/Content.qml:73
+#: src/libraries/mindmap/resources/qml/Content.qml:117
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Obrázky (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:86
+#: src/libraries/mindmap/resources/qml/Content.qml:130
 msgctxt "Content|"
 msgid "Images (*.png)"
 msgstr "Obrázky (*.png)"
@@ -3489,10 +3489,18 @@ msgid ""
 "%1"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:70
+#: src/libraries/mindmap/resources/qml/MindMap.qml:72
 msgctxt "MindMap|"
 msgid "is linked"
 msgstr ""
+
+#: src/libraries/mindmap/resources/qml/MindMap.qml:223
+#, fuzzy
+#| msgctxt "ChatView|"
+#| msgid "Detach"
+msgctxt "MindMap|"
+msgid "Detach"
+msgstr "Odpojit"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:11
 msgctxt "MindMenu|"
@@ -3564,55 +3572,55 @@ msgctxt "NodeSettingPopup|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:33
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:153
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:32
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:156
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "Název"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:43
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:42
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:28
 msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:47
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:46
 msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:53
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:55
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:73
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:96
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:75
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:98
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:114
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:116
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "Kritéria"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:122
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:124
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "Vzorek"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:160
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:170
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "Popis"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:167
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:176
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "Vybrat"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:178
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:188
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "Značky"
@@ -3644,7 +3652,15 @@ msgctxt "Link|"
 msgid "is linked"
 msgstr ""
 
-#: src/libraries/mindmap/src/data/packagenode.cpp:25
+#: src/libraries/mindmap/src/data/mindnode.cpp:33
+#, fuzzy
+#| msgctxt "Image|"
+#| msgid "New name:"
+msgctxt "MindNode|"
+msgid "New node"
+msgstr "Nový název:"
+
+#: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
 msgid "Package"
 msgstr "Balíček"
@@ -5534,37 +5550,37 @@ msgctxt "MapWizzardDialog|"
 msgid "px"
 msgstr "px"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:70
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:71
 msgctxt "campaign::AntagonistBoard|"
 msgid "Edit Token"
 msgstr ""
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:71
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:72
 msgctxt "campaign::AntagonistBoard|"
 msgid "Clone Character"
 msgstr "Klonovat postavu"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:72
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:73
 msgctxt "campaign::AntagonistBoard|"
 msgid "Change Image"
 msgstr "Změnit obrázek"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:73
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:74
 msgctxt "campaign::AntagonistBoard|"
 msgid "Main columns"
 msgstr ""
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:74
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:75
 msgctxt "campaign::AntagonistBoard|"
 msgid "Minimal Columns"
 msgstr ""
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:75
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:76
 msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Uložit"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:556
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:562
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Zobrazit sloupce"
@@ -7556,7 +7572,7 @@ msgctxt "TextItem|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:298
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:305
 msgctxt "TextItem|"
 msgid "Font Size"
 msgstr "Velikost písma"
@@ -7827,12 +7843,33 @@ msgctxt "QObject|"
 msgid "Loading error"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:138
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:140
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:151
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
 msgstr ""
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
+#, qt-format
+msgctxt "MindMapView|"
+msgid "%1 [%2] - Mindmap"
+msgstr ""
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
+#, fuzzy
+#| msgctxt "ParticipantModel|"
+#| msgid "Read Write"
+msgctxt "MindMapView|"
+msgid "ReadWrite"
+msgstr "Čtení a zápis"
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
+#, fuzzy
+#| msgctxt "ParticipantModel|"
+#| msgid "Read Only"
+msgctxt "MindMapView|"
+msgid "ReadOnly"
+msgstr "Pouze ke čtení"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"

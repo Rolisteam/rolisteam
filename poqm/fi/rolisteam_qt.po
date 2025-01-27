@@ -2122,37 +2122,37 @@ msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Avaa %1"
 
-#: src/binaries/widget/mainwindow.cpp:1163
+#: src/binaries/widget/mainwindow.cpp:1166
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Yhdistetty"
 
-#: src/binaries/widget/mainwindow.cpp:1163
+#: src/binaries/widget/mainwindow.cpp:1166
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Ei yhteyttä"
 
-#: src/binaries/widget/mainwindow.cpp:1164
+#: src/binaries/widget/mainwindow.cpp:1167
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Palvelin"
 
-#: src/binaries/widget/mainwindow.cpp:1164
+#: src/binaries/widget/mainwindow.cpp:1167
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Asiakas"
 
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1174
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1177
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Pelaaja"
 
-#: src/binaries/widget/mainwindow.cpp:1206
+#: src/binaries/widget/mainwindow.cpp:1209
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Tuntematon"
@@ -3924,42 +3924,42 @@ msgid ""
 "Then, you'll see your own 3D dice."
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:28
 msgctxt "ButtonGrid|"
 msgid "Undo"
 msgstr "Kumoa"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:33
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:34
 msgctxt "ButtonGrid|"
 msgid "Redo"
 msgstr "Tee uudelleen"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:38
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
 msgctxt "ButtonGrid|"
 msgid "Save Map"
 msgstr "Tallenna kartta"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:42
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:43
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
 msgstr "Avaa hylly"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:49
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:50
 msgctxt "ButtonGrid|"
 msgid "Add Root"
 msgstr "Lisää juuri"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:56
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:57
 msgctxt "ButtonGrid|"
 msgid "Add Package"
 msgstr "Lisää paketti"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:61
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:64
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
 msgstr "Lisää nuoli"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:71
 #, fuzzy
 #| msgctxt "PlayerWidget|"
 #| msgid "Remove selected file"
@@ -3967,37 +3967,37 @@ msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
 msgstr "Poista valittu tiedosto"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
 msgctxt "ButtonGrid|"
 msgid "Refresh"
 msgstr "Virkistä"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
 msgstr "Vie PNG:ksi"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
 msgstr "Piilota pieni kartta"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
 msgctxt "ButtonGrid|"
 msgid "Show small map"
 msgstr "Näytä pieni kartta"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:89
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:94
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr "Automaattivälistys"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:73
+#: src/libraries/mindmap/resources/qml/Content.qml:117
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Kuvat (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:86
+#: src/libraries/mindmap/resources/qml/Content.qml:130
 msgctxt "Content|"
 msgid "Images (*.png)"
 msgstr "Kuvat (*.png)"
@@ -4033,10 +4033,18 @@ msgstr ""
 "Virheet:\n"
 "%1"
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:70
+#: src/libraries/mindmap/resources/qml/MindMap.qml:72
 msgctxt "MindMap|"
 msgid "is linked"
 msgstr "on linkitetty"
+
+#: src/libraries/mindmap/resources/qml/MindMap.qml:223
+#, fuzzy
+#| msgctxt "ChatView|"
+#| msgid "Detach"
+msgctxt "MindMap|"
+msgid "Detach"
+msgstr "Irrota"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:11
 msgctxt "MindMenu|"
@@ -4114,55 +4122,55 @@ msgctxt "NodeSettingPopup|"
 msgid "Text"
 msgstr "Teksti"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:33
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:153
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:32
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:156
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "Nimi"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:43
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:42
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:28
 msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr "Yötila"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:47
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:46
 msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:53
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:55
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "Oletustyyli"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:73
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:96
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:75
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:98
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "Teksti"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:114
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:116
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "Ehdot"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:122
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:124
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:160
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:170
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "Kuvaus"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:167
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:176
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "Valitse"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:178
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:188
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr ""
@@ -4194,7 +4202,15 @@ msgctxt "Link|"
 msgid "is linked"
 msgstr "on linkitetty"
 
-#: src/libraries/mindmap/src/data/packagenode.cpp:25
+#: src/libraries/mindmap/src/data/mindnode.cpp:33
+#, fuzzy
+#| msgctxt "BoxModel|"
+#| msgid "New Node"
+msgctxt "MindNode|"
+msgid "New node"
+msgstr "Uusi solmu"
+
+#: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
 msgid "Package"
 msgstr "Paketti"
@@ -6389,27 +6405,27 @@ msgctxt "MapWizzardDialog|"
 msgid "px"
 msgstr "px"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:70
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:71
 msgctxt "campaign::AntagonistBoard|"
 msgid "Edit Token"
 msgstr ""
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:71
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:72
 msgctxt "campaign::AntagonistBoard|"
 msgid "Clone Character"
 msgstr "Monista hahmo"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:72
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:73
 msgctxt "campaign::AntagonistBoard|"
 msgid "Change Image"
 msgstr "Vaihda kuva"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:73
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:74
 msgctxt "campaign::AntagonistBoard|"
 msgid "Main columns"
 msgstr "Pääsarakkeet"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:74
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:75
 #, fuzzy
 #| msgctxt "campaign::AntagonistBoard|"
 #| msgid "Main columns"
@@ -6417,12 +6433,12 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Minimal Columns"
 msgstr "Pääsarakkeet"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:75
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:76
 msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Tallenna"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:556
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:562
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Näytä sarakkeet"
@@ -8832,7 +8848,7 @@ msgctxt "TextItem|"
 msgid "Text"
 msgstr "Teksti"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:298
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:305
 msgctxt "TextItem|"
 msgid "Font Size"
 msgstr "Fonttikoko"
@@ -9132,12 +9148,32 @@ msgctxt "QObject|"
 msgid "Loading error"
 msgstr "Latausvirhe"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:138
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:140
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:151
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
 msgstr "%1 – miellekartta"
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
+#, fuzzy, qt-format
+#| msgctxt "MindMapView|"
+#| msgid "%1 - Mindmap"
+msgctxt "MindMapView|"
+msgid "%1 [%2] - Mindmap"
+msgstr "%1 – miellekartta"
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
+msgctxt "MindMapView|"
+msgid "ReadWrite"
+msgstr ""
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
+#, fuzzy
+#| msgctxt "ParticipantModel|"
+#| msgid "Read Only"
+msgctxt "MindMapView|"
+msgid "ReadOnly"
+msgstr "Vain luku"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
@@ -9902,10 +9938,6 @@ msgstr "Noiduttu"
 #~ msgctxt "BoxModel|"
 #~ msgid "Root"
 #~ msgstr "Juuri"
-
-#~ msgctxt "BoxModel|"
-#~ msgid "New Node"
-#~ msgstr "Uusi solmu"
 
 #~ msgctxt "VToolsBar|"
 #~ msgid "Text"

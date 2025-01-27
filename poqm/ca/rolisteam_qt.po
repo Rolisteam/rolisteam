@@ -1791,38 +1791,38 @@ msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Obre %1"
 
-#: src/binaries/widget/mainwindow.cpp:1163
+#: src/binaries/widget/mainwindow.cpp:1166
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Connectat"
 
-#: src/binaries/widget/mainwindow.cpp:1163
+#: src/binaries/widget/mainwindow.cpp:1166
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "No connectat"
 
-#: src/binaries/widget/mainwindow.cpp:1164
+#: src/binaries/widget/mainwindow.cpp:1167
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Servidor"
 
-#: src/binaries/widget/mainwindow.cpp:1164
+#: src/binaries/widget/mainwindow.cpp:1167
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
 # Traducció GM (Game Master) = DJ (Director de joc)
-#: src/binaries/widget/mainwindow.cpp:1171
+#: src/binaries/widget/mainwindow.cpp:1174
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "DJ"
 
-#: src/binaries/widget/mainwindow.cpp:1177
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Jugador"
 
-#: src/binaries/widget/mainwindow.cpp:1206
+#: src/binaries/widget/mainwindow.cpp:1209
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Desconegut"
@@ -3416,77 +3416,77 @@ msgstr ""
 "segons.\n"
 "Després, veureu els vostres daus propis en 3D."
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:27
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:28
 msgctxt "ButtonGrid|"
 msgid "Undo"
 msgstr "Desfés"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:33
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:34
 msgctxt "ButtonGrid|"
 msgid "Redo"
 msgstr "Refés"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:38
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
 msgctxt "ButtonGrid|"
 msgid "Save Map"
 msgstr "Desa el mapa"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:42
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:43
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
 msgstr "Obre el calaix"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:49
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:50
 msgctxt "ButtonGrid|"
 msgid "Add Root"
 msgstr "Afegeix una arrel"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:56
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:57
 msgctxt "ButtonGrid|"
 msgid "Add Package"
 msgstr "Afegeix un paquet"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:61
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:64
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
 msgstr "Afegeix una fletxa"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:66
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:71
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
 msgstr "Elimina els elements seleccionats"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:73
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
 msgctxt "ButtonGrid|"
 msgid "Refresh"
 msgstr "Actualitza"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
 msgstr "Exporta com a PNG"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
 msgstr "Oculta el mapa petit"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
 msgctxt "ButtonGrid|"
 msgid "Show small map"
 msgstr "Mostra el mapa petit"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:89
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:94
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr "Espaiat automàtic"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:73
+#: src/libraries/mindmap/resources/qml/Content.qml:117
 msgctxt "Content|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Imatges (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/libraries/mindmap/resources/qml/Content.qml:86
+#: src/libraries/mindmap/resources/qml/Content.qml:130
 msgctxt "Content|"
 msgid "Images (*.png)"
 msgstr "Imatges (*.png)"
@@ -3522,10 +3522,18 @@ msgstr ""
 "Errors:\n"
 "%1"
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:70
+#: src/libraries/mindmap/resources/qml/MindMap.qml:72
 msgctxt "MindMap|"
 msgid "is linked"
 msgstr "està enllaçat"
+
+#: src/libraries/mindmap/resources/qml/MindMap.qml:223
+#, fuzzy
+#| msgctxt "ChatView|"
+#| msgid "Detach"
+msgctxt "MindMap|"
+msgid "Detach"
+msgstr "Separa"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:11
 msgctxt "MindMenu|"
@@ -3597,55 +3605,55 @@ msgctxt "NodeSettingPopup|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:33
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:153
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:32
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:156
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "Nom"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:43
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:42
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:28
 msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr "Mode nocturn"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:47
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:46
 msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr "Etiqueta visible de l'enllaç:"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:53
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:55
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "Estil predeterminat"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:73
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:96
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:75
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:98
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:114
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:116
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "Criteri"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:122
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:124
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "Patró"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:160
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:170
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "Descripció"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:167
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:176
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "Selecciona"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:178
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:188
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "Etiquetes"
@@ -3677,7 +3685,15 @@ msgctxt "Link|"
 msgid "is linked"
 msgstr "està enllaçat"
 
-#: src/libraries/mindmap/src/data/packagenode.cpp:25
+#: src/libraries/mindmap/src/data/mindnode.cpp:33
+#, fuzzy
+#| msgctxt "Image|"
+#| msgid "New name:"
+msgctxt "MindNode|"
+msgid "New node"
+msgstr "Nom nou:"
+
+#: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
 msgid "Package"
 msgstr "Paquet"
@@ -5586,37 +5602,37 @@ msgctxt "MapWizzardDialog|"
 msgid "px"
 msgstr "px"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:70
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:71
 msgctxt "campaign::AntagonistBoard|"
 msgid "Edit Token"
 msgstr "Edició de testimoni"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:71
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:72
 msgctxt "campaign::AntagonistBoard|"
 msgid "Clone Character"
 msgstr "Clona el personatge"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:72
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:73
 msgctxt "campaign::AntagonistBoard|"
 msgid "Change Image"
 msgstr "Canvia la imatge"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:73
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:74
 msgctxt "campaign::AntagonistBoard|"
 msgid "Main columns"
 msgstr "Columnes principals"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:74
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:75
 msgctxt "campaign::AntagonistBoard|"
 msgid "Minimal Columns"
 msgstr "Columnes mínimes"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:75
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:76
 msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Desa"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:556
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:562
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Mostra les columnes"
@@ -7701,7 +7717,7 @@ msgctxt "TextItem|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:298
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:305
 msgctxt "TextItem|"
 msgid "Font Size"
 msgstr "Mida de la lletra"
@@ -7970,12 +7986,35 @@ msgctxt "QObject|"
 msgid "Loading error"
 msgstr "Error en carregar"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:138
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:140
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:151
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
 msgstr "%1 - Mapa mental"
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
+#, fuzzy, qt-format
+#| msgctxt "MindMapView|"
+#| msgid "%1 - Mindmap"
+msgctxt "MindMapView|"
+msgid "%1 [%2] - Mindmap"
+msgstr "%1 - Mapa mental"
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
+#, fuzzy
+#| msgctxt "ParticipantModel|"
+#| msgid "Read Write"
+msgctxt "MindMapView|"
+msgid "ReadWrite"
+msgstr "Lectura escriptura"
+
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
+#, fuzzy
+#| msgctxt "ParticipantModel|"
+#| msgid "Read Only"
+msgctxt "MindMapView|"
+msgid "ReadOnly"
+msgstr "Només lectura"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
