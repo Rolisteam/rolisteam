@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-01-06 21:07+0100\n"
+"PO-Revision-Date: 2025-01-27 09:44+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
@@ -3513,9 +3513,6 @@ msgid "is linked"
 msgstr "ligouse"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:223
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "MindMap|"
 msgid "Detach"
 msgstr "Desprender"
@@ -3671,12 +3668,9 @@ msgid "is linked"
 msgstr "ligouse"
 
 #: src/libraries/mindmap/src/data/mindnode.cpp:33
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "New name:"
 msgctxt "MindNode|"
 msgid "New node"
-msgstr "Novo nome:"
+msgstr "Novo nodo"
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
@@ -7979,25 +7973,17 @@ msgid "%1 - Mindmap"
 msgstr "%1 — Mapa mental"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
-#, fuzzy, qt-format
-#| msgctxt "MindMapView|"
-#| msgid "%1 - Mindmap"
+#, qt-format
 msgctxt "MindMapView|"
 msgid "%1 [%2] - Mindmap"
-msgstr "%1 — Mapa mental"
+msgstr "%1 (%2) — Mapa mental"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Write"
 msgctxt "MindMapView|"
 msgid "ReadWrite"
 msgstr "Lectura e escritura"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "Só lectura"

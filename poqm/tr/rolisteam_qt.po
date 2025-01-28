@@ -1,9 +1,9 @@
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 # Emir SARI <emir_sari@icloud.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-31 11:44+0300\n"
+"PO-Revision-Date: 2025-01-27 16:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3512,9 +3512,6 @@ msgid "is linked"
 msgstr "bağlantılı"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:223
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "MindMap|"
 msgid "Detach"
 msgstr "Ayır"
@@ -3670,12 +3667,9 @@ msgid "is linked"
 msgstr "bağlantılı"
 
 #: src/libraries/mindmap/src/data/mindnode.cpp:33
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "New name:"
 msgctxt "MindNode|"
 msgid "New node"
-msgstr "Yeni ad:"
+msgstr "Yeni düğüm"
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
@@ -7968,25 +7962,17 @@ msgid "%1 - Mindmap"
 msgstr "%1 — Akıl Haritası"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
-#, fuzzy, qt-format
-#| msgctxt "MindMapView|"
-#| msgid "%1 - Mindmap"
+#, qt-format
 msgctxt "MindMapView|"
 msgid "%1 [%2] - Mindmap"
-msgstr "%1 — Akıl Haritası"
+msgstr "%1 [%2] — Akıl Haritası"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Write"
 msgctxt "MindMapView|"
 msgid "ReadWrite"
-msgstr "Okuma Yazma"
+msgstr "Okuma–Yazma"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "Yalnızca Okuma"

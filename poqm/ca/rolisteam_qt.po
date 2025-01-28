@@ -1,14 +1,14 @@
 # Translation of rolisteam_qt.po to Catalan
-# Copyright (C) 2022-2024 This_file_is_part_of_KDE
+# Copyright (C) 2022-2025 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2024-12-31 09:03+0100\n"
+"PO-Revision-Date: 2025-01-27 09:43+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
 msgctxt "Main|"
@@ -3528,9 +3528,6 @@ msgid "is linked"
 msgstr "està enllaçat"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:223
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "MindMap|"
 msgid "Detach"
 msgstr "Separa"
@@ -3686,12 +3683,9 @@ msgid "is linked"
 msgstr "està enllaçat"
 
 #: src/libraries/mindmap/src/data/mindnode.cpp:33
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "New name:"
 msgctxt "MindNode|"
 msgid "New node"
-msgstr "Nom nou:"
+msgstr "Node nou"
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
@@ -7993,28 +7987,20 @@ msgid "%1 - Mindmap"
 msgstr "%1 - Mapa mental"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
-#, fuzzy, qt-format
-#| msgctxt "MindMapView|"
-#| msgid "%1 - Mindmap"
+#, qt-format
 msgctxt "MindMapView|"
 msgid "%1 [%2] - Mindmap"
-msgstr "%1 - Mapa mental"
+msgstr "%1 [%2] - Mapa mental"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Write"
 msgctxt "MindMapView|"
 msgid "ReadWrite"
-msgstr "Lectura escriptura"
+msgstr "LecturaEscriptura"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
-msgstr "Només lectura"
+msgstr "NomésLectura"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
@@ -8588,199 +8574,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "PackageItem|"
-#~ msgid "Title"
-#~ msgstr "Títol"
-
-#~ msgctxt "RcseApplicationController|"
-#~ msgid "Yes"
-#~ msgstr "Sí"
-
-#~ msgctxt "RcseApplicationController|"
-#~ msgid "No"
-#~ msgstr "No"
-
-#~ msgctxt "MediaModel|"
-#~ msgid "Directory"
-#~ msgstr "Directori"
-
-#~ msgctxt "PlayerWidget|"
-#~ msgid "Open Directory"
-#~ msgstr "Obre un directori"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "Open File..."
-#~ msgstr "Obre un fitxer..."
-
-#~ msgctxt "TextEdit|"
-#~ msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
-#~ msgstr ""
-#~ "Fitxers ODF (*.odt);;Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "HTML-Files (*.htm *.html);;All Files (*)"
-#~ msgstr "Fitxers HTML-(*.htm *.html);;Tots els fitxers (*)"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "Save as..."
-#~ msgstr "Desa com a..."
-
-#~ msgctxt "MainWindow|"
-#~ msgid ""
-#~ "Documentation of %1 can be found online at :<br> <a href=\"http://doc."
-#~ "rolisteam.org\">http://doc.rolisteam.org/</a>"
-#~ msgstr ""
-#~ "La documentació del %1 es pot trobar en línia a:<br> <a href=\"http://doc."
-#~ "rolisteam.org\">http://doc.rolisteam.org/</a>"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Export from %1"
-#~ msgstr "Exporta des de %1"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "unknown"
-#~ msgstr "desconegut"
-
-#~ msgctxt "ButtonGrid|"
-#~ msgid "Remove Selection"
-#~ msgstr "Elimina la selecció"
-
-#~ msgctxt "TableCanvasField|"
-#~ msgid "Properties"
-#~ msgstr "Propietats"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Antagonist Table"
-#~ msgstr "Taula d'antagonistes"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Sub-&Windows"
-#~ msgstr "Sub&finestres"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Alt+A"
-#~ msgstr "Alt+A"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Alt+N"
-#~ msgstr "Alt+N"
-
-#~ msgctxt "main|"
-#~ msgid "RMindMap"
-#~ msgstr "RMindMap"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Player Information"
-#~ msgstr "Informació del reproductor"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Music path"
-#~ msgstr "Camí de la música"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer1:"
-#~ msgstr "Reproductor d'àudio 1:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer2:"
-#~ msgstr "Reproductor d'àudio 2:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "AudioPlayer3:"
-#~ msgstr "Reproductor d'àudio 3:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Enable Data collection"
-#~ msgstr "Activa la recopilació de dades"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Data collection"
-#~ msgstr "Recopilació de dades"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid ""
-#~ "<html><head/><body><p><span style=\" font-size:9pt;\">Collected data are "
-#~ "anonymous. <br/>By default, only data about rolisteam are collected. "
-#~ "Which actions have been used.<br/><br/>Checking </span><span style=\" "
-#~ "font-size:9pt; font-weight:600;\">All Usages</span><span style=\" font-"
-#~ "size:9pt;\"> box enables the collect of data about rolisteam in desktop "
-#~ "environment.<br/>We mainly try to know if Rolisteam is visible, its size "
-#~ "or if it has the focus. <br/>It may be helpful to understand how people "
-#~ "use Rolisteam on Desktop. <br/>University studies may find those data "
-#~ "interesting.<br/><br/>Debug data makes rolisteam to log every click on "
-#~ "every button or action. It is a deeper  mode.<br/>It may slow down a bit "
-#~ "rolisteam.</span></p><p><span style=\" font-size:9pt;\">To know more "
-#~ "about data collection: </span><a href=\"https://rolisteam.org/"
-#~ "datacollection.html\"><span style=\" font-size:9pt; text-decoration: "
-#~ "underline; color:#007af4;\">www.rolisteam.org/datacollection.html</span></"
-#~ "a></p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p><span style=\" font-size:9pt;\">Les dades "
-#~ "recollides són anònimes. <br/>De manera predeterminada només es recullen "
-#~ "dades sobre el Rolisteam. Quines accions s'han utilitzat.<br/><br/>Si "
-#~ "marqueu la casella </span><span style=\" font-size:9pt; font-weight:600;"
-#~ "\">Tots els usos</span> <span style=\" font-size:9pt;\"> s'activa la "
-#~ "recopilació de dades quant al Rolisteam a l'entorn d'escriptori.<br/"
-#~ ">Intentem principalment saber si el Rolisteam és visible, la seva mida o "
-#~ "si té el focus. <br/>Pot ser útil entendre com la gent utilitza el "
-#~ "Rolisteam a l'escriptori.  <br/>Els estudis universitaris poden trobar "
-#~ "interessants aquestes dades.<br/><br/>Les dades de depuració fan que el "
-#~ "Rolisteam enregistri cada clic en cada botó o acció. És un mode més "
-#~ "profund.<br/>Pot alentir una mica el Rolisteam.</span></p><p><span style="
-#~ "\" font-size:9pt;\">Per a saber més sobre la recopilació de dades: </"
-#~ "span><a href=\"https://rolisteam.org/datacollection.html\"><span style=\" "
-#~ "font-size:9pt; text-decoration: underline; color:#007af4;\">www.rolisteam."
-#~ "org/datacollection.html</span></a></p></body></html>"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "All Usages"
-#~ msgstr "Tots els usos"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "May slow down rolisteam"
-#~ msgstr "Pot alentir el Rolisteam"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Include Debug data*"
-#~ msgstr "Inclou les dades de depuració*"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Add"
-#~ msgstr "Afegeix"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "up"
-#~ msgstr "amunt"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "down"
-#~ msgstr "avall"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "QML Errors"
-#~ msgstr "Errors del QML"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Open Character Sheets View"
-#~ msgstr "Obre el visualitzador de full de personatge"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Character Sheet files (*.qml)"
-#~ msgstr "Fitxers de full de personatge (*.qml)"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Character Sheet Data files (*.rcs)"
-#~ msgstr "Fitxers de dades de full de personatge (*.rcs)"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Load QML"
-#~ msgstr "Carrega un QML"
-
-#~ msgctxt "CharacterSheetWindow|"
-#~ msgid "Detach Tab"
-#~ msgstr "Separa la pestanya"

@@ -1,8 +1,8 @@
-# Yuri Chornoivan <yurchor@ukr.net>, 2022, 2023, 2024.
+# Yuri Chornoivan <yurchor@ukr.net>, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-31 17:00+0200\n"
+"PO-Revision-Date: 2025-01-27 10:14+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3520,9 +3520,6 @@ msgid "is linked"
 msgstr "є пов'язаним"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:223
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "MindMap|"
 msgid "Detach"
 msgstr "Відокремити"
@@ -3678,9 +3675,6 @@ msgid "is linked"
 msgstr "є пов'язаним"
 
 #: src/libraries/mindmap/src/data/mindnode.cpp:33
-#, fuzzy
-#| msgctxt "BoxModel|"
-#| msgid "New Node"
 msgctxt "MindNode|"
 msgid "New node"
 msgstr "Новий вузол"
@@ -7989,25 +7983,17 @@ msgid "%1 - Mindmap"
 msgstr "%1 – карта думок"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
-#, fuzzy, qt-format
-#| msgctxt "MindMapView|"
-#| msgid "%1 - Mindmap"
+#, qt-format
 msgctxt "MindMapView|"
 msgid "%1 [%2] - Mindmap"
-msgstr "%1 – карта думок"
+msgstr "%1 [%2] – карта думок"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Write"
 msgctxt "MindMapView|"
 msgid "ReadWrite"
 msgstr "Читання-запис"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "Лише читання"
