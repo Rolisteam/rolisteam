@@ -1,14 +1,14 @@
 # Translation of rolisteam_qt.po to Catalan (Valencian)
-# Copyright (C) 2022-2024 This_file_is_part_of_KDE
+# Copyright (C) 2022-2025 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2024-12-31 09:03+0100\n"
+"PO-Revision-Date: 2025-01-27 09:43+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
 msgctxt "Main|"
@@ -3526,9 +3526,6 @@ msgid "is linked"
 msgstr "està enllaçat"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:223
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "MindMap|"
 msgid "Detach"
 msgstr "Separa"
@@ -3684,12 +3681,9 @@ msgid "is linked"
 msgstr "està enllaçat"
 
 #: src/libraries/mindmap/src/data/mindnode.cpp:33
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "New name:"
 msgctxt "MindNode|"
 msgid "New node"
-msgstr "Nom nou:"
+msgstr "Node nou"
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
@@ -7991,28 +7985,20 @@ msgid "%1 - Mindmap"
 msgstr "%1 - Mapa mental"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
-#, fuzzy, qt-format
-#| msgctxt "MindMapView|"
-#| msgid "%1 - Mindmap"
+#, qt-format
 msgctxt "MindMapView|"
 msgid "%1 [%2] - Mindmap"
-msgstr "%1 - Mapa mental"
+msgstr "%1 [%2] - Mapa mental"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Write"
 msgctxt "MindMapView|"
 msgid "ReadWrite"
-msgstr "Lectura escriptura"
+msgstr "LecturaEscriptura"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
-msgstr "Només lectura"
+msgstr "NomésLectura"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
