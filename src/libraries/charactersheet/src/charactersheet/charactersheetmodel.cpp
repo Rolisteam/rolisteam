@@ -747,7 +747,8 @@ void CharacterSheetModel::readModel(const QJsonObject& jsonObj, bool readRootSec
 
 void CharacterSheetModel::checkTableItem()
 {
-    for(int i= 0; i < m_rootSection->childrenCount(); ++i)
+    emit checkIntegrity();
+    /*for(int i= 0; i < m_rootSection->childrenCount(); ++i)
     {
         auto child= m_rootSection->childAt(i);
         if(TreeSheetItem::TableItem != child->itemType())
@@ -770,7 +771,7 @@ void CharacterSheetModel::checkTableItem()
                 tableFromCharacter->appendChild(nullptr);
             }
         }
-    }
+    }*/
 }
 
 CharacterSheet* CharacterSheetModel::addCharacterSheet()

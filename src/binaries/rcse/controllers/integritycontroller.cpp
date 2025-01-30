@@ -50,6 +50,7 @@ void IntegrityController::setSheets(CharacterSheetModel* newSheets)
 
     m_sheets= newSheets;
     connect(m_sheets, &CharacterSheetModel::characterSheetHasBeenAdded, this, &IntegrityController::checkIntegrity);
+    connect(m_sheets, &CharacterSheetModel::checkIntegrity, this, &IntegrityController::checkAll);
     emit sheetsChanged();
 }
 

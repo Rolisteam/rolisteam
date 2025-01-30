@@ -108,6 +108,7 @@ public slots:
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
     void dataCharacterChange();
+    void checkIntegrity();
 
 protected:
     void computeFormula(QString path, CharacterSheet* sheet);
