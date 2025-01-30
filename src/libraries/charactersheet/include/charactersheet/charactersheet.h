@@ -51,7 +51,7 @@ public:
     int indexFromId(const QString& id) const;
     CSItem* getFieldAt(int i) const;
 
-    TreeSheetItem *getFieldFromKey(QString key) const;
+    TreeSheetItem* getFieldFromKey(QString key) const;
     QHash<QString, QString> getVariableDictionnary();
 
     void insertCharacterItem(CSItem* item);
@@ -61,7 +61,7 @@ public:
     QString name() const;
     void setName(const QString& name);
 
-    virtual void setFieldData(const QJsonObject& obj, const QString& parent);
+    virtual void setFieldData(const QJsonObject& obj, const QString& parent, bool network= false);
     void setOrigin(Section*);
 
     QList<QString> getAllDependancy(QString key);

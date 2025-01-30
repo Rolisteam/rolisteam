@@ -43,14 +43,14 @@ T.AbstractButton {
 
     function computeSizeFont()
     {
-            while((contentWidth>root.width)&&(font.pointSize>1)&&(root.width>0))
-            {
-                font.pointSize-=1
-            }
-            while((contentWidth+2<width)&&(contentHeight+2<height))
-            {
-                font.pointSize+=1
-            }
+        while((contentWidth>root.width)&&(font.pointSize>1)&&(root.width>0))
+        {
+            font.pointSize-=1
+        }
+        while((contentWidth+2<width)&&(contentHeight+2<height))
+        {
+            font.pointSize+=1
+        }
     }
 
     MouseArea {
