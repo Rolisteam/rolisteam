@@ -86,6 +86,7 @@ public:
 
 private:
     CellData* addCellData();
+    void addRowData(QList<CellData*> cell);
 
 private:
     QList<FieldController*> m_columns;

@@ -62,12 +62,10 @@ public:
                                const QStringList& recipients);
 
     void addRemoteCharacterSheet(CharacterSheetController* ctrl);
-
     void setUpFieldUpdate(CharacterSheet* sheet) const;
-
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 public slots:
-    void updateTableFieldCell();
+    void updateTableFieldCell(CharacterSheet*, const QString& path, int r, int c);
 private slots:
     void updateField(CharacterSheet* sheet, CSItem* itemSheet, const QString& path);
 

@@ -80,12 +80,11 @@ QVariant CellData::valueFrom(TreeSheetItem::ColumnId col, int role) const
 
 void CellData::setValueFrom(TreeSheetItem::ColumnId col, const QVariant& data)
 {
-    if(col != TreeSheetItem::VALUE)
+    if(col != TreeSheetItem::VALUE && col != TreeSheetItem::FORMULA)
         return;
-
     auto text= data.toString();
 
-    if(text.startsWith("="))
+    if(text.startsWith("=") || col == TreeSheetItem::FORMULA)
         setFormula(text);
     else
         setValue(text);
@@ -154,7 +153,7 @@ void TableModel::addRows(int rCount)
 
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size() + rCount);
     for(int i= 0; i < rCount; ++i)
-        m_data.append(cell);
+        addRowData(cell);
     endInsertRows();
 }
 void TableModel::addRow()
@@ -164,7 +163,7 @@ void TableModel::addRow()
                   [this, &cell](FieldController*) { cell.append(addCellData()); });
 
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
-    m_data.append(cell);
+    addRowData(cell);
     endInsertRows();
 }
 
@@ -288,7 +287,7 @@ void TableModel::makeSpace(int row, int cols)
 
     while(m_data.count() < row)
     {
-        m_data.append(QList<CellData*>());
+        addRowData(QList<CellData*>());
     }
 
     for(auto& rowList : m_data)
@@ -297,6 +296,7 @@ void TableModel::makeSpace(int row, int cols)
         {
             rowList.append(addCellData());
         }
+        addRowData(rowList);
     }
 }
 
@@ -382,7 +382,7 @@ void TableModel::load(const QJsonObject& json, TreeSheetItem* parent)
             data->setFormula(f);
             rowData << data;
         }
-        m_data.append(rowData);
+        addRowData(rowData);
     }
     endResetModel();
 }
@@ -405,7 +405,7 @@ void TableModel::loadDataItem(const QJsonArray& json, TreeSheetItem* parent)
             data->setFormula(f);
             rowData << data;
         }
-        m_data.append(rowData);
+        addRowData(rowData);
     }
     endResetModel();
 }
@@ -476,6 +476,7 @@ void TableModel::removeColumn(int index)
 
 bool TableModel::setData(const QModelIndex& index, const QVariant& data, int role)
 {
+    Q_UNUSED(role)
     if(!index.isValid())
         return false;
 
@@ -504,4 +505,24 @@ QList<int> TableModel::sumColumn() const
         }
     }
     return res;
+}
+
+void TableModel::addRowData(QList<CellData*> cell)
+{
+    auto v= [this]()
+    {
+        auto cellData= qobject_cast<CellData*>(sender());
+        if(!cellData)
+            return;
+        auto idx= indexFromCell(cellData);
+        emit dataChanged(idx, idx, {Qt::DisplayRole, Qt::EditRole, ValueRole, FormulaRole});
+    };
+
+    m_data.append(cell);
+    for(auto data : cell)
+    {
+        disconnect(data, nullptr, this, nullptr);
+        connect(data, &CellData::formulaChanged, this, v);
+        connect(data, &CellData::valueChanged, this, v);
+    }
 }

@@ -39,6 +39,8 @@ class CHARACTERSHEET_EXPORT TreeSheetItem : public QObject
     Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(TreeSheetItem::TreeItemType itemType READ itemType CONSTANT)
     Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly NOTIFY readOnlyChanged FINAL)
+    Q_PROPERTY(
+        bool updateFromNetwork READ updateFromNetwork WRITE setUpdateFromNetwork NOTIFY updateFromNetworkChanged FINAL)
 public:
     enum TreeItemType
     {
@@ -55,6 +57,7 @@ public:
         ID,
         LABEL,
         VALUE,
+        FORMULA,
         VALUES,
         TYPE,
         X,
@@ -110,17 +113,25 @@ public:
     bool readOnly() const;
     void setReadOnly(bool newReadOnly);
 
+    bool updateFromNetwork() const;
+    void setUpdateFromNetwork(bool newUpdateFromNetwork);
+
 signals:
     void characterSheetItemChanged(TreeSheetItem* item);
     void idChanged(const QString& old, const QString& newId);
 
     void readOnlyChanged();
 
+    void updateFromNetworkChanged();
+
 protected:
     TreeSheetItem::TreeItemType m_itemType;
     TreeSheetItem* m_parent;
     QString m_id;
     bool m_readOnly{false};
+
+private:
+    bool m_updateFromNetwork;
 };
 
 #endif // CHARACTERSHEETITEM_H

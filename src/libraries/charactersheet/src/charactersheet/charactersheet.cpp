@@ -267,13 +267,16 @@ void CharacterSheet::setName(const QString& name)
     emit nameChanged();
 }
 
-void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent)
+void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent, bool network)
 {
     QString id= obj["id"].toString();
     TreeSheetItem* value= m_valuesMap.value(id);
     if(nullptr != value)
     {
+        if(network)
+            value->setUpdateFromNetwork(network);
         value->loadDataItem(obj);
+        value->setUpdateFromNetwork(false);
     }
     else
     {
@@ -284,7 +287,10 @@ void CharacterSheet::setFieldData(const QJsonObject& obj, const QString& parent)
         // TODO Make setChildFieldData part of TreeSheetItem to make this algorithem generic
         if(table)
         {
+            if(network)
+                table->setUpdateFromNetwork(network);
             table->setChildFieldData(obj);
+            table->setUpdateFromNetwork(false);
         }
     }
 }
@@ -364,6 +370,13 @@ void CharacterSheet::insertField(QString key, CSItem* itemSheet)
             });
 
     connect(itemSheet, &CSItem::valueChanged, this, [this](const QString& id) { emit fieldValueChanged(this, id); });
+
+    auto tableField= dynamic_cast<TableFieldController*>(itemSheet);
+    if(!tableField)
+        return;
+    connect(tableField, &TableFieldController::cellValueChanged, this,
+            [this](const QString& tableId, int r, int c, const QString& id)
+            { emit updateTableFieldCellValue(this, QString("%1.%2").arg(tableId, id), r, c); });
 }
 
 QHash<QString, QString> CharacterSheet::getVariableDictionnary()

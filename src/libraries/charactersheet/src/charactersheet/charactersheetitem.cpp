@@ -129,8 +129,6 @@ TreeSheetItem* TreeSheetItem::parentTreeItem() const
 
 void TreeSheetItem::setParent(TreeSheetItem* parent)
 {
-    if(m_itemType == TreeSheetItem::CellValue)
-        qDebug() << "CellValue setParent" << this << "newParent" << parent;
     m_parent= parent;
 }
 int TreeSheetItem::indexOfChild(TreeSheetItem* itm)
@@ -159,4 +157,17 @@ void TreeSheetItem::setReadOnly(bool newReadOnly)
         return;
     m_readOnly= newReadOnly;
     emit readOnlyChanged();
+}
+
+bool TreeSheetItem::updateFromNetwork() const
+{
+    return m_updateFromNetwork;
+}
+
+void TreeSheetItem::setUpdateFromNetwork(bool newUpdateFromNetwork)
+{
+    if(m_updateFromNetwork == newUpdateFromNetwork)
+        return;
+    m_updateFromNetwork= newUpdateFromNetwork;
+    emit updateFromNetworkChanged();
 }

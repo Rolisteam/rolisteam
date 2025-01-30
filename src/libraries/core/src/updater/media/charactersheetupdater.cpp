@@ -123,7 +123,7 @@ void CharacterSheetUpdater::addRemoteCharacterSheet(CharacterSheetController* ct
         return;
 
     auto const& data= ctrl->sheetData();
-    qDebug() << "[sheet] Remote connect to all sheets:" << data.size();
+    qCInfo(CharacterSheetCat) << "[sheet] Remote connect to all sheets:" << data.size();
     for(auto const& sheetInfo : data)
     {
         auto sheet= ctrl->characterSheetFromId(sheetInfo.m_sheetId);
@@ -175,7 +175,38 @@ void CharacterSheetUpdater::setUpFieldUpdate(CharacterSheet* sheet) const
     connect(sheet, &CharacterSheet::updateTableFieldCellValue, this, &CharacterSheetUpdater::updateTableFieldCell);
 }
 
-void CharacterSheetUpdater::updateTableFieldCell() {}
+void CharacterSheetUpdater::updateTableFieldCell(CharacterSheet* sheet, const QString& path, int r, int c)
+{
+    if(nullptr == sheet)
+        return;
+
+    auto item= sheet->getFieldFromKey(path);
+
+    if(nullptr == item)
+        return;
+
+    if(item->updateFromNetwork())
+        return;
+
+    std::for_each(std::begin(m_sharingData), std::end(m_sharingData),
+                  [sheet, item, path](const CSSharingInfo& info)
+                  {
+                      if(info.sheet != sheet)
+                          return;
+
+                      NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::updateCellSheet);
+                      if(info.mode != SharingMode::ALL)
+                      {
+                          msg.setRecipientList(info.recipients, NetworkMessage::OneOrMany);
+                      }
+                      msg.string8(info.ctrlId);
+                      msg.string8(sheet->uuid());
+                      msg.string32(path);
+                      msg.string32(item->valueFrom(TreeSheetItem::VALUE, Qt::DisplayRole).toString());
+                      msg.string32(item->valueFrom(TreeSheetItem::VALUE, Qt::EditRole).toString());
+                      msg.sendToServer();
+                  });
+}
 
 NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageReader* msg)
 {
@@ -185,21 +216,40 @@ NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageRe
     }
     else if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet))
     {
-        qDebug() << "[sheet] NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet";
+        qCInfo(CharacterSheetCat) << "[sheet] NetMsg::CharacterSheetCategory, NetMsg::updateFieldCharacterSheet";
         auto idMedia= msg->string8();
         auto idSheet= msg->string8();
         auto ctrl= findController(idMedia, idSheet, m_ctrls);
-        qDebug() << "[sheet]" << idMedia << idSheet << m_ctrls.size() << ctrl;
         if(ctrl)
         {
-            qDebug() << "[sheet] inside if";
             auto path= msg->string32();
             auto array= msg->byteArray32();
             auto sheet= ctrl->characterSheetFromId(idSheet);
             if(sheet)
             {
-                qDebug() << "[sheet] inside if sheet";
-                sheet->setFieldData(IOHelper::textByteArrayToJsonObj(array), path);
+                sheet->setFieldData(IOHelper::textByteArrayToJsonObj(array), path, true);
+            }
+        }
+    }
+    else if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::updateCellSheet))
+    {
+        qCInfo(CharacterSheetCat) << "[sheet] NetMsg::CharacterSheetCategory, NetMsg::updateCellSheet";
+        auto idMedia= msg->string8();
+        auto idSheet= msg->string8();
+        auto ctrl= findController(idMedia, idSheet, m_ctrls);
+        if(ctrl)
+        {
+            auto path= msg->string32();
+            auto value= msg->string32();
+            auto formula= msg->string32();
+            auto sheet= ctrl->characterSheetFromId(idSheet);
+            if(sheet)
+            {
+                auto cell= sheet->getFieldFromKey(path);
+                cell->setUpdateFromNetwork(true);
+                cell->setValueFrom(TreeSheetItem::VALUE, value);
+                cell->setValueFrom(TreeSheetItem::FORMULA, formula);
+                cell->setUpdateFromNetwork(false);
             }
         }
     }
@@ -216,10 +266,13 @@ NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageRe
 
 void CharacterSheetUpdater::updateField(CharacterSheet* sheet, CSItem* itemSheet, const QString& path)
 {
-    if(nullptr == sheet)
+    if(nullptr == sheet || itemSheet == nullptr)
         return;
 
-    qDebug() << "[sheet] NetMsg::CharacterSheetCategory count :" << m_sharingData.size();
+    if(itemSheet->updateFromNetwork())
+        return;
+
+    qCInfo(CharacterSheetCat) << "[sheet] NetMsg::CharacterSheetCategory count :" << m_sharingData.size();
     std::for_each(std::begin(m_sharingData), std::end(m_sharingData),
                   [sheet, itemSheet, path](const CSSharingInfo& info)
                   {

@@ -98,6 +98,7 @@ enum Action
     // CharacterSheetCategory
     addCharacterSheet= 0,
     updateFieldCharacterSheet,
+    updateCellSheet,
     closeCharacterSheet,
 
     // InstantMessageCategory

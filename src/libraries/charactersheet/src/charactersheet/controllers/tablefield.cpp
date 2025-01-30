@@ -155,6 +155,7 @@ void TableFieldController::init()
             [this](const QModelIndex& start, const QModelIndex& end, const QList<int>& roles)
             {
                 Q_UNUSED(end)
+                Q_UNUSED(roles)
                 auto cell= m_model->cellData(start.row(), start.column());
                 emit cellValueChanged(id(), start.row(), start.column(), cell->id());
             });
