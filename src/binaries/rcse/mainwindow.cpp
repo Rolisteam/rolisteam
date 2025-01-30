@@ -784,14 +784,11 @@ void MainWindow::showQMLFromCode()
     ui->m_quickview->engine()->rootContext()->setContextProperty("_character",
                                                                  m_mainCtrl->generatorCtrl()->mockCharacter());
     ui->m_quickview->engine()->rootContext()->setContextProperty("_characterSheet", charactersheet);
+    ui->m_quickview->engine()->rootContext()->setContextProperty("_characterId", "mockId");
 
     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     m_mainCtrl->displayQmlError(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    // QObject* root= ui->m_quickview->rootObject();
-    /*connect(root, SIGNAL(showText(QString)), this, SIGNAL(reportLog(QString)));
-    connect(root, SIGNAL(rollDiceCmd(QString, bool)), this, SLOT(rollDice(QString, bool)));
-    connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));*/
 }
 
 void MainWindow::openQML()

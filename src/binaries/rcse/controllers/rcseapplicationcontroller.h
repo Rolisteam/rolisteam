@@ -29,9 +29,9 @@ class RcseApplicationController : public AbstractApplicationController
 public:
     RcseApplicationController(QObject* parent= nullptr);
 
-    void msgToGM(const QString& msg) override;
-    void msgToAll(const QString& msg) override;
-    void rollDice(const QString& cmd, bool gmOnly= false) override;
+    void msgToGM(const QString& msg, const QString& characterId) override;
+    void msgToAll(const QString& msg, const QString& characterId) override;
+    void rollDice(const QString& cmd, const QString& characterId, bool gmOnly= false) override;
     qreal zoomLevel() const override;
     void setZoomLevel(qreal newZoomLevel) override;
     QString characterId() const;

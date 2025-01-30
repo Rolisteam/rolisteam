@@ -72,19 +72,19 @@ void SheetController::setZoomLevel(qreal newZoomLevel)
 void SheetController::msgToGM(const QString& msg)
 {
     if(m_appCtrl)
-        m_appCtrl->msgToGM(msg);
+        m_appCtrl->msgToGM(msg, m_characterId);
 }
 
 void SheetController::msgToAll(const QString& msg)
 {
     if(m_appCtrl)
-        m_appCtrl->msgToAll(msg);
+        m_appCtrl->msgToAll(msg, m_characterId);
 }
 
 void SheetController::rollDice(const QString& cmd, bool gmOnly)
 {
     if(m_appCtrl)
-        m_appCtrl->rollDice(cmd, gmOnly);
+        m_appCtrl->rollDice(cmd, m_characterId, gmOnly);
 }
 
 void SheetController::nextPage()
@@ -162,8 +162,18 @@ void SheetController::setCharacterSheetCtrl(CharacterSheet* newSheetCtrl)
     if(m_sheetCtrl == newSheetCtrl)
         return;
     m_sheetCtrl= newSheetCtrl;
-
-    if(m_sheetCtrl)
-        m_appCtrl->setCharacterId(m_sheetCtrl->uuid());
     emit characterSheetCtrlChanged();
+}
+
+QString SheetController::characterId() const
+{
+    return m_characterId;
+}
+
+void SheetController::setCharacterId(const QString& newCharacterId)
+{
+    if(m_characterId == newCharacterId)
+        return;
+    m_characterId= newCharacterId;
+    emit characterIdChanged();
 }

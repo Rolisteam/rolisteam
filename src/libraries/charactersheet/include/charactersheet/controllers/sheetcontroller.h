@@ -40,6 +40,7 @@ class CHARACTERSHEET_EXPORT SheetController : public QObject
     Q_PROPERTY(AbstractApplicationController* appCtrl READ appCtrl WRITE setAppCtrl NOTIFY appCtrlChanged REQUIRED)
     Q_PROPERTY(CharacterSheet* characterSheetCtrl READ characterSheetCtrl WRITE setCharacterSheetCtrl NOTIFY
                    characterSheetCtrlChanged REQUIRED FINAL)
+    Q_PROPERTY(QString characterId READ characterId WRITE setCharacterId NOTIFY characterIdChanged FINAL)
     QML_ELEMENT
 public:
     explicit SheetController(QObject* parent= nullptr);
@@ -74,6 +75,9 @@ public:
     CharacterSheet* characterSheetCtrl() const;
     void setCharacterSheetCtrl(CharacterSheet* newSheetCtrl);
 
+    QString characterId() const;
+    void setCharacterId(const QString& newCharacterId);
+
 signals:
     void pageMaxChanged();
     void currentPageChanged();
@@ -84,6 +88,8 @@ signals:
     void adaptWidthToPageChanged();
     void characterSheetCtrlChanged();
 
+    void characterIdChanged();
+
 private:
     QPointer<AbstractApplicationController> m_appCtrl;
     int m_pageMax{0};
@@ -92,6 +98,7 @@ private:
     qreal m_imageBgWidth{0};
     bool m_adaptWidthToPage{true};
     QPointer<CharacterSheet> m_sheetCtrl;
+    QString m_characterId;
 };
 
 #endif // SHEETCONTROLLER_H

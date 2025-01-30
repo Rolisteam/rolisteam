@@ -22,20 +22,20 @@
 
 RcseApplicationController::RcseApplicationController(QObject* parent) : AbstractApplicationController(parent) {}
 
-void RcseApplicationController::msgToGM(const QString& msg)
+void RcseApplicationController::msgToGM(const QString& msg, const QString& characterId)
 {
-    qCInfo(RcseCat) << "Sent message:" << msg << "to GM";
+    qCInfo(RcseCat) << "Sent message:" << msg << "to GM" << characterId;
 }
 
-void RcseApplicationController::msgToAll(const QString& msg)
+void RcseApplicationController::msgToAll(const QString& msg, const QString& characterId)
 {
-    qCInfo(RcseCat) << "Sent message:" << msg << "to All";
+    qCInfo(RcseCat) << "Sent message:" << msg << "to All" << characterId;
 }
 
-void RcseApplicationController::rollDice(const QString& cmd, bool gmOnly)
+void RcseApplicationController::rollDice(const QString& cmd, const QString& characterId, bool gmOnly)
 {
     auto f= [](bool b, const QString& yes, const QString& no) { return b ? yes : no; };
-    qCInfo(RcseCat) << "Roll dice command:" << cmd << " to " << f(gmOnly, tr("only the GM"), tr("All"));
+    qCInfo(RcseCat) << "Roll dice command:" << cmd << " to " << f(gmOnly, tr("only the GM"), tr("All")) << characterId;
 }
 
 qreal RcseApplicationController::zoomLevel() const

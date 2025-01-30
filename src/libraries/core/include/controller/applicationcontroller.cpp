@@ -8,7 +8,7 @@ ApplicationController::ApplicationController(GameController* ctrl, QObject* pare
 {
 }
 
-void ApplicationController::msgToGM(const QString& msg)
+void ApplicationController::msgToGM(const QString& msg, const QString& characterId)
 {
     auto im= m_gameCtrl->instantMessagingController();
     if(!im)
@@ -16,10 +16,10 @@ void ApplicationController::msgToGM(const QString& msg)
         qCWarning(MessagingCat) << "Invalid Instant Messaging Controller";
         return;
     }
-    im->sendMessageToGlobal(msg, m_characterId);
+    im->sendMessageToGlobal(msg, characterId);
 }
 
-void ApplicationController::msgToAll(const QString& msg)
+void ApplicationController::msgToAll(const QString& msg, const QString& characterId)
 {
     auto im= m_gameCtrl->instantMessagingController();
     if(!im)
@@ -27,10 +27,10 @@ void ApplicationController::msgToAll(const QString& msg)
         qCWarning(MessagingCat) << "Invalid Instant Messaging Controller";
         return;
     }
-    im->sendMessageToGlobal(msg, m_characterId);
+    im->sendMessageToGlobal(msg, characterId);
 }
 
-void ApplicationController::rollDice(const QString& cmd, bool gmOnly)
+void ApplicationController::rollDice(const QString& cmd, const QString& characterId, bool gmOnly)
 {
     auto im= m_gameCtrl->instantMessagingController();
     if(!im)
@@ -38,7 +38,7 @@ void ApplicationController::rollDice(const QString& cmd, bool gmOnly)
         qCWarning(MessagingCat) << "Invalid Instant Messaging Controller";
         return;
     }
-    im->rollDiceCommand(cmd, gmOnly, m_characterId);
+    im->rollDiceCommand(cmd, gmOnly, characterId);
 }
 
 qreal ApplicationController::zoomLevel() const
@@ -52,17 +52,4 @@ void ApplicationController::setZoomLevel(qreal newZoomLevel)
         return;
     m_zoomLevel= newZoomLevel;
     emit zoomLevelChanged();
-}
-
-QString ApplicationController::characterId() const
-{
-    return m_characterId;
-}
-
-void ApplicationController::setCharacterId(const QString& newCharacterId)
-{
-    if(newCharacterId == m_characterId)
-        return;
-    m_characterId= newCharacterId;
-    emit characterIdChanged();
 }

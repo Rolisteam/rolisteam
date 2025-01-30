@@ -22,6 +22,7 @@ Flickable {
         adaptWidthToPage: {{ pageAdapt }}
         pageMax: {{ pageMax }}
         characterSheetCtrl: _characterSheet
+        characterId: _characterId
     }
     ContextualMenu {
         id: _menu

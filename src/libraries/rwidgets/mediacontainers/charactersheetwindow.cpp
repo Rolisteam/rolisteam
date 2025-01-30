@@ -396,10 +396,12 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet, Characte
     m_tabs.append(qmlView);
     auto engineQml= qmlView->engine();
     engineQml->rootContext()->setContextProperty("_characterSheet", chSheet);
+
     if(character == nullptr)
-        engineQml->rootContext()->setContextProperty("_character", character);
-    else
-        engineQml->rootContext()->setContextProperty("_character", new Character); // share to all
+        character= new Character(); // share to all
+
+    engineQml->rootContext()->setContextProperty("_character", character);
+    engineQml->rootContext()->setContextProperty("_characterId", character->uuid());
 
     QTemporaryFile fileTemp;
 #ifdef QT_DEBUG
