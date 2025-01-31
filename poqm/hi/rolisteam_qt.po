@@ -70,8 +70,8 @@ msgctxt "ImageController|"
 msgid "Image %1 has not the same size than the others"
 msgstr "छवि %1 का आकार अन्य छवियों से समान नहीं है"
 
-#: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:22
-#: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:167
+#: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:24
+#: src/binaries/rcse/controllers/qmlgeneratorcontroller.cpp:173
 #, qt-format
 msgctxt "QmlGeneratorController|"
 msgid "The character value %1 has been defined to %2"
@@ -87,16 +87,10 @@ msgctxt "RcseApplicationController|"
 msgid "All"
 msgstr "सभी"
 
-#: src/binaries/rcse/data/characterlist.cpp:39
+#: src/binaries/rcse/data/characterlist.cpp:41
 msgctxt "CharacterList|"
 msgid "Mock Data"
 msgstr "नकली डेटा"
-
-#: src/binaries/rcse/data/characterlist.cpp:54
-#, qt-format
-msgctxt "CharacterList|"
-msgid "Character %1"
-msgstr "वर्ण %1"
 
 #: src/binaries/rcse/data/mockcharacter.cpp:11
 msgctxt "MockCharacter|"
@@ -774,7 +768,7 @@ msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
 msgstr "छवि निर्माण प्रगति पर है"
 
-#: src/binaries/rcse/mainwindow.cpp:586 src/binaries/rcse/mainwindow.cpp:818
+#: src/binaries/rcse/mainwindow.cpp:586 src/binaries/rcse/mainwindow.cpp:813
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "पृष्ठभूमि छवि खोलें"
@@ -784,22 +778,22 @@ msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "छवि खोलें"
 
-#: src/binaries/rcse/mainwindow.cpp:622 src/binaries/rcse/mainwindow.cpp:667
+#: src/binaries/rcse/mainwindow.cpp:622 src/binaries/rcse/mainwindow.cpp:665
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet"
 msgstr "कैरेक्टरशीट सहेजें"
 
-#: src/binaries/rcse/mainwindow.cpp:623 src/binaries/rcse/mainwindow.cpp:668
+#: src/binaries/rcse/mainwindow.cpp:623 src/binaries/rcse/mainwindow.cpp:666
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet (*.rcs)"
 msgstr "रोलिस्टीम कैरेक्टरशीट (*.rcs)"
 
-#: src/binaries/rcse/mainwindow.cpp:732
+#: src/binaries/rcse/mainwindow.cpp:730
 msgctxt "rcse::MainWindow|"
 msgid "Do you want to erase current QML code ?"
 msgstr "क्या आप वर्तमान QML कोड मिटाना चाहते हैं?"
 
-#: src/binaries/rcse/mainwindow.cpp:733
+#: src/binaries/rcse/mainwindow.cpp:731
 msgctxt "rcse::MainWindow|"
 msgid ""
 "Generate QML code will override any change you made in the QML.<br/>Do you "
@@ -808,72 +802,72 @@ msgstr ""
 "QML कोड उत्पन्न करने से QML में आपके द्वारा किए गए किसी भी परिवर्तन को ओवरराइड कर "
 "दिया जाएगा।<br/> क्या आप वास्तव में QML कोड उत्पन्न करना चाहते हैं?"
 
-#: src/binaries/rcse/mainwindow.cpp:801
+#: src/binaries/rcse/mainwindow.cpp:796
 msgctxt "rcse::MainWindow|"
 msgid "Save CharacterSheet View"
 msgstr "कैरेक्टरशीट दृश्य सहेजें"
 
-#: src/binaries/rcse/mainwindow.cpp:802
+#: src/binaries/rcse/mainwindow.cpp:797
 msgctxt "rcse::MainWindow|"
 msgid "Rolisteam CharacterSheet View (*.qml)"
 msgstr "रोलिस्टीम कैरेक्टरशीट दृश्य (*.qml)"
 
-#: src/binaries/rcse/mainwindow.cpp:927
+#: src/binaries/rcse/mainwindow.cpp:922
 msgctxt "rcse::MainWindow|"
 msgid "Copy Path"
 msgstr "पथ कॉपी करें"
 
-#: src/binaries/rcse/mainwindow.cpp:930
+#: src/binaries/rcse/mainwindow.cpp:925
 msgctxt "rcse::MainWindow|"
 msgid "Copy Url"
 msgstr "यूआरएल कॉपी करें"
 
-#: src/binaries/rcse/mainwindow.cpp:933
+#: src/binaries/rcse/mainwindow.cpp:928
 msgctxt "rcse::MainWindow|"
 msgid "Replace Image"
 msgstr "छवि बदलें"
 
-#: src/binaries/rcse/mainwindow.cpp:934
+#: src/binaries/rcse/mainwindow.cpp:929
 msgctxt "rcse::MainWindow|"
 msgid "Remove Image"
 msgstr "छवि हटाएँ"
 
-#: src/binaries/rcse/mainwindow.cpp:935
+#: src/binaries/rcse/mainwindow.cpp:930
 msgctxt "rcse::MainWindow|"
 msgid "Reload image from file"
 msgstr "फ़ाइल से छवि पुनः लोड करें"
 
-#: src/binaries/rcse/mainwindow.cpp:944
+#: src/binaries/rcse/mainwindow.cpp:939
 msgctxt "rcse::MainWindow|"
 msgid "Load Image"
 msgstr "छवि लोड करें"
 
-#: src/binaries/rcse/mainwindow.cpp:945
+#: src/binaries/rcse/mainwindow.cpp:940
 msgctxt "rcse::MainWindow|"
 msgid "Supported Image Format (*.jpg *.png *.svg *.gif)"
 msgstr "समर्थित छवि प्रारूप (*.jpg *.png *.svg *.gif)"
 
-#: src/binaries/rcse/mainwindow.cpp:958
+#: src/binaries/rcse/mainwindow.cpp:953
 msgctxt "rcse::MainWindow|"
 msgid "Add character"
 msgstr "चरित्र जोड़ें"
 
-#: src/binaries/rcse/mainwindow.cpp:959
+#: src/binaries/rcse/mainwindow.cpp:954
 msgctxt "rcse::MainWindow|"
 msgid "Delete character"
 msgstr "वर्ण हटाएं"
 
-#: src/binaries/rcse/mainwindow.cpp:961
+#: src/binaries/rcse/mainwindow.cpp:956
 msgctxt "rcse::MainWindow|"
 msgid "Character's Name"
 msgstr "चरित्र का नाम"
 
-#: src/binaries/rcse/mainwindow.cpp:963
+#: src/binaries/rcse/mainwindow.cpp:958
 msgctxt "rcse::MainWindow|"
 msgid "Apply on Selection"
 msgstr "चयन होने पर आवेदन करें"
 
-#: src/binaries/rcse/mainwindow.cpp:964
+#: src/binaries/rcse/mainwindow.cpp:959
 msgctxt "rcse::MainWindow|"
 msgid "Apply on all characters"
 msgstr "सभी वर्णों पर लागू करें"
@@ -1037,7 +1031,7 @@ msgstr "संस्करण"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:670
+#: src/binaries/widget/mainwindow.cpp:671
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "मदद"
@@ -1196,13 +1190,13 @@ msgid "Check Validity"
 msgstr "वैधता जांचें"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:620
+#: src/binaries/widget/mainwindow.cpp:621
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&पूर्ववत करें"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:619
+#: src/binaries/widget/mainwindow.cpp:620
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&फिर से करें"
@@ -1394,7 +1388,7 @@ msgstr "स्लाइडर"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
 #: src/libraries/core/src/data/cleveruri.cpp:235
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Hidden"
 msgstr "छिपा हुआ"
@@ -1593,118 +1587,118 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "पासवर्ड पूछें और उसकी हैश कुंजी लौटाएं।"
 
-#: src/binaries/widget/mainwindow.cpp:408
+#: src/binaries/widget/mainwindow.cpp:409
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "साइड पैनल"
 
-#: src/binaries/widget/mainwindow.cpp:413
+#: src/binaries/widget/mainwindow.cpp:414
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr "साइड पैनल"
 
-#: src/binaries/widget/mainwindow.cpp:423
+#: src/binaries/widget/mainwindow.cpp:424
 msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "खिलाड़ियों की सूची"
 
-#: src/binaries/widget/mainwindow.cpp:424
+#: src/binaries/widget/mainwindow.cpp:425
 msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "सभी अभियान दस्तावेज़"
 
-#: src/binaries/widget/mainwindow.cpp:425
+#: src/binaries/widget/mainwindow.cpp:426
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr "प्रतिपक्षियों की सूची"
 
-#: src/binaries/widget/mainwindow.cpp:426
+#: src/binaries/widget/mainwindow.cpp:427
 msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "संगीत बजाने वाला"
 
-#: src/binaries/widget/mainwindow.cpp:427
+#: src/binaries/widget/mainwindow.cpp:428
 msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "सर्वर पैनल"
 
-#: src/binaries/widget/mainwindow.cpp:428
+#: src/binaries/widget/mainwindow.cpp:429
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "अधिसूचना क्षेत्र"
 
-#: src/binaries/widget/mainwindow.cpp:443
+#: src/binaries/widget/mainwindow.cpp:444
 msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "जीएम उपकरण"
 
-#: src/binaries/widget/mainwindow.cpp:500
+#: src/binaries/widget/mainwindow.cpp:501
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "वेबपेज खोलें"
 
-#: src/binaries/widget/mainwindow.cpp:500
+#: src/binaries/widget/mainwindow.cpp:501
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "वेबपेज यूआरएल:"
 
-#: src/binaries/widget/mainwindow.cpp:508
+#: src/binaries/widget/mainwindow.cpp:509
 msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "मानचित्र खोलें"
 
-#: src/binaries/widget/mainwindow.cpp:508
+#: src/binaries/widget/mainwindow.cpp:509
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr "मानचित्र:"
 
-#: src/binaries/widget/mainwindow.cpp:522
-#: src/binaries/widget/mainwindow.cpp:561
-#: src/binaries/widget/mainwindow.cpp:785 src/binaries/widget/mainwindow.ui:287
+#: src/binaries/widget/mainwindow.cpp:523
+#: src/binaries/widget/mainwindow.cpp:562
+#: src/binaries/widget/mainwindow.cpp:786 src/binaries/widget/mainwindow.ui:287
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "खुला अभियान"
 
-#: src/binaries/widget/mainwindow.cpp:671
+#: src/binaries/widget/mainwindow.cpp:672
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "%1 का दस्तावेज़ीकरण ऑनलाइन यहां पाया जा सकता है:<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:706
+#: src/binaries/widget/mainwindow.cpp:707
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "सहायता"
 
-#: src/binaries/widget/mainwindow.cpp:707
+#: src/binaries/widget/mainwindow.cpp:708
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "%1 दान पृष्ठ ऑनलाइन यहां पाया जा सकता है:<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:769
+#: src/binaries/widget/mainwindow.cpp:770
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "कनेक्शन टूट गया है. %1 बंद हो जाएगा"
 
-#: src/binaries/widget/mainwindow.cpp:771
+#: src/binaries/widget/mainwindow.cpp:772
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "कनेक्शन टूट गया"
 
-#: src/binaries/widget/mainwindow.cpp:777
+#: src/binaries/widget/mainwindow.cpp:778
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "%1छोड़ो"
 
-#: src/binaries/widget/mainwindow.cpp:852
+#: src/binaries/widget/mainwindow.cpp:853
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "अद्यतन अधिसूचना"
 
-#: src/binaries/widget/mainwindow.cpp:853
+#: src/binaries/widget/mainwindow.cpp:854
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1714,101 +1708,101 @@ msgstr ""
 "%1 संस्करण जारी कर दिया गया है। कृपया अधिक जानकारी के लिए <a href=\"https://www."
 "rolisteam.org/download\">डाउनलोड पृष्ठ</a> देखें"
 
-#: src/binaries/widget/mainwindow.cpp:863
+#: src/binaries/widget/mainwindow.cpp:864
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 अभी खेल में शामिल हुआ है."
 
-#: src/binaries/widget/mainwindow.cpp:867
+#: src/binaries/widget/mainwindow.cpp:868
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 का सही संस्करण नहीं है: %2."
 
-#: src/binaries/widget/mainwindow.cpp:873
+#: src/binaries/widget/mainwindow.cpp:874
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 बस खेल छोड़ देता है."
 
-#: src/binaries/widget/mainwindow.cpp:956
+#: src/binaries/widget/mainwindow.cpp:957
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "कनेक्शन के लिए <port> का उपयोग करने के लिए rolisteam सेट करें"
 
-#: src/binaries/widget/mainwindow.cpp:959
+#: src/binaries/widget/mainwindow.cpp:960
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "rolisteam को <server> से कनेक्ट करने के लिए सेट करें."
 
-#: src/binaries/widget/mainwindow.cpp:962
+#: src/binaries/widget/mainwindow.cpp:963
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "<भूमिका> परिभाषित करें: gm या pc"
 
-#: src/binaries/widget/mainwindow.cpp:964
+#: src/binaries/widget/mainwindow.cpp:965
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "सेटिंग्स मिटाएँ और डिफ़ॉल्ट पैरामीटर का उपयोग करें"
 
-#: src/binaries/widget/mainwindow.cpp:967
+#: src/binaries/widget/mainwindow.cpp:968
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "<उपयोगकर्ता नाम> परिभाषित करें"
 
-#: src/binaries/widget/mainwindow.cpp:970
+#: src/binaries/widget/mainwindow.cpp:971
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "पीडीएफ फाइल आकार की सीमा हटाएँ"
 
-#: src/binaries/widget/mainwindow.cpp:973
+#: src/binaries/widget/mainwindow.cpp:974
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "अनुवाद फ़ाइल का पथ: <translationfile>"
 
-#: src/binaries/widget/mainwindow.cpp:976
+#: src/binaries/widget/mainwindow.cpp:977
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "सर्वर से कनेक्ट करने के लिए URL निर्धारित करें: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1069
+#: src/binaries/widget/mainwindow.cpp:1070
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "%1खोलें"
 
-#: src/binaries/widget/mainwindow.cpp:1166
+#: src/binaries/widget/mainwindow.cpp:1167
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "जुड़े हुए"
 
-#: src/binaries/widget/mainwindow.cpp:1166
+#: src/binaries/widget/mainwindow.cpp:1167
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "जुड़े नहीं हैं"
 
-#: src/binaries/widget/mainwindow.cpp:1167
+#: src/binaries/widget/mainwindow.cpp:1168
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "सर्वर"
 
-#: src/binaries/widget/mainwindow.cpp:1167
+#: src/binaries/widget/mainwindow.cpp:1168
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "ग्राहक"
 
-#: src/binaries/widget/mainwindow.cpp:1174
+#: src/binaries/widget/mainwindow.cpp:1175
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "जीएम"
 
-#: src/binaries/widget/mainwindow.cpp:1180
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "खिलाड़ी"
 
-#: src/binaries/widget/mainwindow.cpp:1209
+#: src/binaries/widget/mainwindow.cpp:1210
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "अज्ञात"
@@ -2356,24 +2350,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "अंतिम पंक्ति हटाएं"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:528
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:592
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "फ़ील्ड का नाम"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:566
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:630
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "खाली अनुभाग %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:573
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:637
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "खंड %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:597
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:661
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2558,25 +2552,25 @@ msgstr "अज्ञात चरित्र"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:56
 msgctxt "QObject|"
 msgid "Character"
 msgstr "चरित्र"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:52
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "मैदान"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:53
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "Object"
 msgstr "वस्तु"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:57
 msgctxt "QObject|"
 msgid "GameMaster"
 msgstr "खेल मास्टर"
@@ -4453,12 +4447,12 @@ msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
 msgstr "सभी वर्णों पर स्पष्ट पहल"
 
-#: src/libraries/rwidgets/customs/vcolorselector.cpp:98
+#: src/libraries/rwidgets/customs/vcolorselector.cpp:101
 msgctxt "VColorSelector|"
 msgid "Predefine Color 1"
 msgstr "रंग पूर्वनिर्धारित करें 1"
 
-#: src/libraries/rwidgets/customs/vcolorselector.cpp:129
+#: src/libraries/rwidgets/customs/vcolorselector.cpp:132
 #, qt-format
 msgctxt "VColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
@@ -6443,54 +6437,54 @@ msgctxt "MRichTextEdit|"
 msgid "Font size"
 msgstr "फ़ॉन्ट आकार"
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:267
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:272
 msgctxt "OOReader|"
 msgid "Unable to convert document body!"
 msgstr "दस्तावेज़ मुख्य भाग परिवर्तित करने में असमर्थ!"
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:62
 msgctxt "XMLTextEdit|"
 msgid "Found xml error"
 msgstr "xml त्रुटि पाई गई"
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:60
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:63
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "Check line %1 column %2 on string \"%3\"!"
 msgstr "स्ट्रिंग \"%3\" पर पंक्ति %1 कॉलम %2 की जाँच करें!"
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:71
 msgctxt "XMLTextEdit|"
 msgid "XML valid."
 msgstr "XML मान्य है."
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:68
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:71
 #, qt-format
 msgctxt "XMLTextEdit|"
 msgid "All tag are valid size %1."
 msgstr "सभी टैग वैध आकार %1 हैं."
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:77
 msgctxt "XMLTextEdit|"
 msgid "XML not found!"
 msgstr "XML नहीं मिला!"
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:74
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:77
 msgctxt "XMLTextEdit|"
 msgid "Null size xml document!"
 msgstr "शून्य आकार xml दस्तावेज़!"
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:89
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:92
 msgctxt "XMLTextEdit|"
 msgid "Zoom In CTRL/+"
 msgstr "ज़ूम इन करें CTRL/+"
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:90
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:93
 msgctxt "XMLTextEdit|"
 msgid "Zoom Out CTRL/-"
 msgstr "ज़ूम आउट CTRL/-"
 
-#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:91
+#: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:94
 msgctxt "XMLTextEdit|"
 msgid "Check xml syntax"
 msgstr "xml सिंटैक्स की जाँच करें"
@@ -6501,145 +6495,145 @@ msgctxt "NoteContainer|"
 msgid "%1 - Note"
 msgstr "%1 - नोट"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:171
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:172
 msgctxt "TextEdit|"
 msgid "File Actions"
 msgstr "फ़ाइल क्रियाएँ"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:174
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:175
 msgctxt "TextEdit|"
 msgid "&File"
 msgstr "&फ़ाइल"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:181
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:182
 msgctxt "TextEdit|"
 msgid "&Save"
 msgstr "&बचाना"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:188
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
 msgctxt "TextEdit|"
 msgid "&Print..."
 msgstr "&प्रिंट..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:194
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:195
 msgctxt "TextEdit|"
 msgid "Print Preview..."
 msgstr "मुद्रण पूर्वावलोकन..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:198
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:199
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
 msgstr "&पीडीएफ निर्यात करें..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:208
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:209
 msgctxt "TextEdit|"
 msgid "Edit Actions"
 msgstr "क्रियाएँ संपादित करें"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:211
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:212
 msgctxt "TextEdit|"
 msgid "&Edit"
 msgstr "&संपादन करना"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:215
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:216
 msgctxt "TextEdit|"
 msgid "&Undo"
 msgstr "&पूर्ववत करें"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:219
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:220
 msgctxt "TextEdit|"
 msgid "&Redo"
 msgstr "&फिर से करें"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:224
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:225
 msgctxt "TextEdit|"
 msgid "Cu&t"
 msgstr "साथ&टी"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:228
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:229
 msgctxt "TextEdit|"
 msgid "&Copy"
 msgstr "&कॉपी करें"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:232
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:233
 msgctxt "TextEdit|"
 msgid "&Paste"
 msgstr "&पेस्ट करें"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:242
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:310
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:243
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:311
 msgctxt "TextEdit|"
 msgid "Format Actions"
 msgstr "प्रारूप क्रियाएँ"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:245
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:246
 msgctxt "TextEdit|"
 msgid "F&ormat"
 msgstr "बनाया"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:248
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:249
 msgctxt "TextEdit|"
 msgid "&Bold"
 msgstr "&बोल्ड"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:258
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:259
 msgctxt "TextEdit|"
 msgid "&Italic"
 msgstr "&इटैलिक"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:268
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:269
 msgctxt "TextEdit|"
 msgid "&Underline"
 msgstr "&रेखांकित करें"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:283
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:284
 msgctxt "TextEdit|"
 msgid "&Left"
 msgstr "&बाएं"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:286
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:287
 msgctxt "TextEdit|"
 msgid "C&enter"
 msgstr "केंद्र"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:289
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:290
 msgctxt "TextEdit|"
 msgid "&Right"
 msgstr "&सही"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:292
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:293
 msgctxt "TextEdit|"
 msgid "&Justify"
 msgstr "&औचित्य"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:303
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:304
 msgctxt "TextEdit|"
 msgid "&Color..."
 msgstr "&रंग..."
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:376
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:377
 msgctxt "TextEdit|"
 msgid "Application"
 msgstr "आवेदन"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:377
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:378
 msgctxt "TextEdit|"
 msgid ""
 "The document has been modified.\n"
 "Do you want to save your changes?"
 msgstr "दस्तावेज़ को संशोधित कर दिया गया है। क्या आप अपने परिवर्तन सहेजना चाहते हैं?"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:420
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:421
 msgctxt "TextEdit|"
 msgid "Print Document"
 msgstr "दस्तावेज़ प्रिंट करें"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:604
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:605
 msgctxt "TextEdit|"
 msgid "About"
 msgstr "के बारे में"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:605
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:606
 msgctxt "TextEdit|"
 msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
@@ -6648,7 +6642,7 @@ msgstr ""
 "यह उदाहरण Qt की समृद्ध पाठ संपादन सुविधाओं को क्रियान्वित करता है, तथा आपके लिए प्रयोग "
 "करने हेतु एक उदाहरण दस्तावेज़ प्रदान करता है।"
 
-#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:658
+#: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:659
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
 msgstr "OpenOffice 2.4 फ़ाइल स्वरूप OASIS"
@@ -7649,32 +7643,32 @@ msgctxt "PathItem|"
 msgid "Fill Path"
 msgstr "पथ भरें"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:137
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:141
 msgctxt "TextItem|"
 msgid "Increase Text Size"
 msgstr "पाठ का आकार बढ़ाएँ"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:138
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:142
 msgctxt "TextItem|"
 msgid "Decrease Text Size"
 msgstr "पाठ का आकार घटाएँ"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:139
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:143
 msgctxt "TextItem|"
 msgid "Edit Text…"
 msgstr "संमपादित पाठ…"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:140
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:144
 msgctxt "TextItem|"
 msgid "Adapt to content"
 msgstr "सामग्री के अनुकूल बनें"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:191
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:195
 msgctxt "TextItem|"
 msgid "Text"
 msgstr "मूलपाठ"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:305
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:309
 msgctxt "TextItem|"
 msgid "Font Size"
 msgstr "फ़ॉन्ट आकार"
@@ -7694,30 +7688,30 @@ msgctxt "QObject|"
 msgid "Rule"
 msgstr "नियम"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (CharacterSheet Viewer)"
 msgstr "%1 - (कैरेक्टरशीट व्यूअर)"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:98
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:101
 msgctxt "CharacterSheetWindow|"
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:208
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:211
 #, qt-format
 msgctxt "CharacterSheetWindow|"
 msgid "%1 - (Character Sheet Viewer)"
 msgstr "%1 - (वर्ण पत्रक दर्शक)"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:220
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:288
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:223
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:291
 msgctxt "CharacterSheetWindow|"
 msgid "Share To"
 msgstr "साझा करें"
 
-#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:273
+#: src/libraries/rwidgets/mediacontainers/charactersheetwindow.cpp:276
 msgctxt "CharacterSheetWindow|"
 msgid "To all"
 msgstr "सेवा में, सभी ग्"
@@ -7775,152 +7769,152 @@ msgctxt "CharacterSheetWindow|"
 msgid "Menu"
 msgstr "मेनू"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:56
-#: src/libraries/rwidgets/mediacontainers/image.cpp:66
+#: src/libraries/rwidgets/mediacontainers/image.cpp:57
+#: src/libraries/rwidgets/mediacontainers/image.cpp:67
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - Image"
 msgstr "%1 - छवि"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:207
+#: src/libraries/rwidgets/mediacontainers/image.cpp:208
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture)"
 msgstr "%1 - (चित्र)"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:212
+#: src/libraries/rwidgets/mediacontainers/image.cpp:213
 msgctxt "Image|"
 msgid "Zoom In"
 msgstr "ज़ूम इन"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:213
+#: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
 msgid "increase zoom level"
 msgstr "ज़ूम स्तर बढ़ाएँ"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:217
+#: src/libraries/rwidgets/mediacontainers/image.cpp:218
 msgctxt "Image|Zoom In"
 msgid "Ctrl++"
 msgstr "Ctrl++"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:222
+#: src/libraries/rwidgets/mediacontainers/image.cpp:223
 msgctxt "Image|"
 msgid "Zoom out"
 msgstr "ज़ूम आउट"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:224
+#: src/libraries/rwidgets/mediacontainers/image.cpp:225
 msgctxt "Image|"
 msgid "Reduce zoom level"
 msgstr "ज़ूम स्तर कम करें"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:227
+#: src/libraries/rwidgets/mediacontainers/image.cpp:228
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
 msgstr "Ctrl+-"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:238
+#: src/libraries/rwidgets/mediacontainers/image.cpp:239
 msgctxt "Image|"
 msgid "Fit the workspace"
 msgstr "कार्यस्थल को फिट करें"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:240
+#: src/libraries/rwidgets/mediacontainers/image.cpp:241
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
 msgstr "विंडो और छवि कार्यस्थान में फिट होती है"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:243
+#: src/libraries/rwidgets/mediacontainers/image.cpp:244
 msgctxt "Image|Fit the workspace"
 msgid "Ctrl+m"
 msgstr "Ctrl+एम"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:250
+#: src/libraries/rwidgets/mediacontainers/image.cpp:251
 msgctxt "Image|"
 msgid "Fit Window"
 msgstr "फ़िट विंडो"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:255
+#: src/libraries/rwidgets/mediacontainers/image.cpp:256
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
 msgstr "छवि विंडो में फिट होने के लिए सर्वोत्तम आयाम लेगी।"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:258
+#: src/libraries/rwidgets/mediacontainers/image.cpp:259
 msgctxt "Image|Fit the window"
 msgid "Ctrl+f"
 msgstr "Ctrl+एफ"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:265
+#: src/libraries/rwidgets/mediacontainers/image.cpp:266
 msgctxt "Image|"
 msgid "Little"
 msgstr "थोड़ा"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:266
+#: src/libraries/rwidgets/mediacontainers/image.cpp:267
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
 msgstr "ज़ूम स्तर 20% पर सेट करें"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:269
+#: src/libraries/rwidgets/mediacontainers/image.cpp:270
 msgctxt "Image|Set the zoom level at 20%"
 msgid "Ctrl+l"
 msgstr "Ctrl+एल"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:276
+#: src/libraries/rwidgets/mediacontainers/image.cpp:277
 msgctxt "Image|"
 msgid "Normal"
 msgstr "सामान्य"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:277
+#: src/libraries/rwidgets/mediacontainers/image.cpp:278
 msgctxt "Image|"
 msgid "No Zoom"
 msgstr "कोई ज़ूम नहीं"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:280
+#: src/libraries/rwidgets/mediacontainers/image.cpp:281
 msgctxt "Image|Normal"
 msgid "Ctrl+n"
 msgstr "Ctrl+एन"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:287
+#: src/libraries/rwidgets/mediacontainers/image.cpp:288
 msgctxt "Image|"
 msgid "Big"
 msgstr "बड़ा"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:288
+#: src/libraries/rwidgets/mediacontainers/image.cpp:289
 msgctxt "Image|"
 msgid "Set the zoom level at 400%"
 msgstr "ज़ूम स्तर 400% पर सेट करें"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:291
+#: src/libraries/rwidgets/mediacontainers/image.cpp:292
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
 msgstr "Ctrl+बी"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:296
+#: src/libraries/rwidgets/mediacontainers/image.cpp:297
 msgctxt "Image|"
 msgid "Rename"
 msgstr "नाम बदलें"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:301
+#: src/libraries/rwidgets/mediacontainers/image.cpp:302
 msgctxt "Image|"
 msgid "Define the new name"
 msgstr "नया नाम परिभाषित करें"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:301
+#: src/libraries/rwidgets/mediacontainers/image.cpp:302
 msgctxt "Image|"
 msgid "New name:"
 msgstr "नया नाम:"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:308
-#: src/libraries/rwidgets/mediacontainers/image.cpp:322
-#: src/libraries/rwidgets/mediacontainers/image.cpp:327
+#: src/libraries/rwidgets/mediacontainers/image.cpp:309
+#: src/libraries/rwidgets/mediacontainers/image.cpp:323
+#: src/libraries/rwidgets/mediacontainers/image.cpp:328
 msgctxt "Image|"
 msgid "Play"
 msgstr "खेल"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:310
+#: src/libraries/rwidgets/mediacontainers/image.cpp:311
 msgctxt "Image|"
 msgid "Stop"
 msgstr "रुकना"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:318
+#: src/libraries/rwidgets/mediacontainers/image.cpp:319
 msgctxt "Image|"
 msgid "Pause"
 msgstr "विराम"
@@ -7945,13 +7939,13 @@ msgctxt "QObject|"
 msgid "Loading error"
 msgstr "लोडिंग त्रुटि"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:151
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:152
 #, qt-format
 msgctxt "MindMapView|"
 msgid "%1 - Mindmap"
 msgstr "%1 - माइंड मैप"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:153
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:154
 #, fuzzy, qt-format
 #| msgctxt "MindMapView|"
 #| msgid "%1 - Mindmap"
@@ -7959,7 +7953,7 @@ msgctxt "MindMapView|"
 msgid "%1 [%2] - Mindmap"
 msgstr "%1 - माइंड मैप"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:156
 #, fuzzy
 #| msgctxt "ParticipantModel|"
 #| msgid "Read Write"
@@ -7967,7 +7961,7 @@ msgctxt "MindMapView|"
 msgid "ReadWrite"
 msgstr "पढ़ें लिखें"
 
-#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
+#: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:156
 #, fuzzy
 #| msgctxt "ParticipantModel|"
 #| msgid "Read Only"
@@ -7975,12 +7969,12 @@ msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "केवल पढ़ने के लिए"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:281
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "पीडीएफ फाइल साझा करना"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:283
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfer can be really heavy.\n"
@@ -7989,7 +7983,7 @@ msgstr ""
 "पीडीएफ ट्रांसफर करना वाकई बहुत मुश्किल हो सकता है। क्या आप पीडीएफ को जारी रखना और "
 "शेयर करना चाहते हैं?"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:293
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:292
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -8125,48 +8119,48 @@ msgctxt "PdfViewer|"
 msgid "Text"
 msgstr "मूलपाठ"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Fog Of War"
 msgstr "युद्ध के कोहरे"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:34
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "All visible"
 msgstr "सभी दृश्यमान"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "No Right"
 msgstr "कोई अधिकार नहीं"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "His character"
 msgstr "उनका चरित्र"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:46
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "All Permissions"
 msgstr "सभी अनुमतियाँ"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:56
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:58
 msgctxt "QObject|"
 msgid "Fog Layer"
 msgstr "कोहरे की परत"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:57
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:59
 msgctxt "QObject|"
 msgid "Grid Layer"
 msgstr "ग्रिड परत"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:58
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:62
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:60
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:64
 msgctxt "QObject|"
 msgid "No Layer"
 msgstr "कोई परत नहीं"
 
-#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:83
+#: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:85
 #, qt-format
 msgctxt "VMapFrame|"
 msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
@@ -8393,127 +8387,127 @@ msgctxt "UserListView|"
 msgid "Shape"
 msgstr "आकार"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:40
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:38
 msgctxt "ToolBox|"
 msgid "Tools"
 msgstr "औजार"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:123
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:121
 msgctxt "ToolBox|"
 msgid "Pen"
 msgstr "कलम"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:126
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:124
 msgctxt "ToolBox|"
 msgid "Line"
 msgstr "रेखा"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:129
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:127
 msgctxt "ToolBox|"
 msgid "Empty Rectangle"
 msgstr "खाली आयत"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:132
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:130
 msgctxt "ToolBox|"
 msgid "filled Rectangle"
 msgstr "भरा हुआ आयत"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:135
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:133
 msgctxt "ToolBox|"
 msgid "Empty Ellipse"
 msgstr "खाली दीर्घवृत्त"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:138
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:136
 msgctxt "ToolBox|"
 msgid "Filled Ellipse"
 msgstr "भरा हुआ दीर्घवृत्त"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:141
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:139
 msgctxt "ToolBox|"
 msgid "Text"
 msgstr "मूलपाठ"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:144
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:142
 msgctxt "ToolBox|"
 msgid "Hand"
 msgstr "हाथ"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:148
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:146
 msgctxt "ToolBox|"
 msgid "Add NPC"
 msgstr "एनपीसी जोड़ें"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:151
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:149
 msgctxt "ToolBox|"
 msgid "Rule"
 msgstr "नियम"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:152
 msgctxt "ToolBox|"
 msgid "Path"
 msgstr "पथ"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:156
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:154
 msgctxt "ToolBox|"
 msgid "Anchor"
 msgstr "लंगर"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:159
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:157
 msgctxt "ToolBox|"
 msgid "Pipette"
 msgstr "विंदुक"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:162
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:160
 msgctxt "ToolBox|"
 msgid "Highlighter"
 msgstr "हाइलाइटर"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:165
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:163
 msgctxt "ToolBox|"
 msgid "Paint Bucket"
 msgstr "पेंट बाल्टी"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:168
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:166
 msgctxt "ToolBox|"
 msgid "Text With Border"
 msgstr "बॉर्डर वाला पाठ"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:171
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:169
 msgctxt "ToolBox|"
 msgid "Reset NPC counter"
 msgstr "एनपीसी काउंटर रीसेट करें"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:315
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:313
 msgctxt "ToolBox|"
 msgid "NPC Name"
 msgstr "एनपीसी नाम"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:320
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:318
 msgctxt "ToolBox|"
 msgid "NPC's number"
 msgstr "एनपीसी की संख्या"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:326
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:324
 msgctxt "ToolBox|"
 msgid "Normal"
 msgstr "सामान्य"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:328
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:326
 msgctxt "ToolBox|"
 msgid "Mask"
 msgstr "नकाब"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:330
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:328
 msgctxt "ToolBox|"
 msgid "Unmask"
 msgstr "पोल खोलना"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:360
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:358
 msgctxt "ToolBox|"
 msgid "height of the pen"
 msgstr "कलम की ऊंचाई"
 
-#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:372
+#: src/libraries/rwidgets/toolbars/vtoolbar.cpp:370
 msgctxt "ToolBox|"
 msgid "Opacity:"
 msgstr "अपारदर्शिता:"
@@ -8547,3 +8541,7 @@ msgstr "सोना"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "मोहित"
+
+#~ msgctxt "CharacterList|"
+#~ msgid "Character %1"
+#~ msgstr "वर्ण %1"
