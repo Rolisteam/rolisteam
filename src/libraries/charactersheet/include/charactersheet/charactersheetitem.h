@@ -129,9 +129,7 @@ protected:
     TreeSheetItem* m_parent;
     QString m_id;
     bool m_readOnly{false};
-
-private:
-    bool m_updateFromNetwork;
+    bool m_updateFromNetwork{false};
 };
 
 #endif // CHARACTERSHEETITEM_H

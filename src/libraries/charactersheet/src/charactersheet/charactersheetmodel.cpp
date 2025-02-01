@@ -239,6 +239,8 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
         else
         {
             auto targetItem= getProperItem(index.row(), index.column(), childItem);
+            if(!targetItem)
+                return {};
             if(targetItem->itemType() == TreeSheetItem::CellValue)
             {
                 switch(role)

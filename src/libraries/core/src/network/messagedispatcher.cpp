@@ -269,6 +269,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::updateFieldCharacterSheet:
             str= QStringLiteral("updateFieldCharacterSheet");
             break;
+        case NetMsg::updateCellSheet:
+            str= QStringLiteral("updateCellSheet");
+            break;
         case NetMsg::closeCharacterSheet:
             str= QStringLiteral("closeCharacterSheet");
             break;

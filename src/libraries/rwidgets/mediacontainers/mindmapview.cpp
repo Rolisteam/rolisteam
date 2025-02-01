@@ -22,6 +22,7 @@
 #include "qml_components/avatarprovider.h"
 
 #include <QJSValue>
+#include <QOpenGLContext>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQmlFileSelector>

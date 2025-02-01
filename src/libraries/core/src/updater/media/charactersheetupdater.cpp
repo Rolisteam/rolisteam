@@ -42,12 +42,28 @@ CharacterSheetController* findController(const QString& mediaId, const QString& 
 {
     auto it= std::find_if(std::begin(ctrls), std::end(ctrls),
                           [mediaId, sheetId](const QPointer<CharacterSheetController>& ctrl)
-                          { return ctrl->uuid() == mediaId && ctrl->hasCharacterSheet(sheetId); });
+                          {
+                              if(!ctrl)
+                                  return false;
+                              return ctrl->uuid() == mediaId && ctrl->hasCharacterSheet(sheetId);
+                          });
 
     if(it == std::end(ctrls))
         return nullptr;
 
     return (*it).get();
+}
+
+CharacterSheet* findSheet(const QString& mediaId, const QString& sheetId, const QList<CSSharingInfo>& info)
+{
+    auto it= std::find_if(std::begin(info), std::end(info),
+                          [mediaId, sheetId](const CSSharingInfo& info)
+                          { return info.ctrlId == mediaId && info.sheetId == sheetId; });
+
+    if(it == std::end(info))
+        return nullptr;
+
+    return (*it).sheet;
 }
 
 } // namespace
@@ -102,8 +118,13 @@ void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
             });
 
     connect(csCtrl, &CharacterSheetController::removedSheet, this,
-            [](const QString& uuid, const QString& ctrlId, const QString& characterId)
-            { MessageHelper::stopSharingSheet(uuid, ctrlId, characterId); });
+            [this](const QString& uuid, const QString& ctrlId, const QString& characterId)
+            {
+                auto sheet= findSheet(ctrlId, uuid, m_sharingData);
+                if(sheet)
+                    disconnect(sheet, nullptr, this, nullptr);
+                MessageHelper::stopSharingSheet(uuid, ctrlId, characterId);
+            });
 
     if(!csCtrl->remote())
     {

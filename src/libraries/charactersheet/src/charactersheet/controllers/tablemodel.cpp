@@ -296,7 +296,6 @@ void TableModel::makeSpace(int row, int cols)
         {
             rowList.append(addCellData());
         }
-        addRowData(rowList);
     }
 }
 
