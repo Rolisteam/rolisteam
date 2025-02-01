@@ -440,7 +440,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("ButtonCanvas")  << static_cast<QObject*>(new ButtonCanvas())<< true ;
     //QTest::addRow("CSItem")  << static_cast<QObject*>(new CSItem(TreeSheetItem::FieldItem))<< true ;
     QTest::addRow("Campaign") << static_cast<QObject*>(new campaign::Campaign()) << true;
-    QTest::addRow("CampaignDock") << static_cast<QObject*>(new campaign::CampaignDock(new campaign::CampaignEditor()))                  << true;
+    QTest::addRow("CampaignDock") << static_cast<QObject*>(new campaign::CampaignDock(new campaign::CampaignEditor(), nullptr))                  << true;
     QTest::addRow("CampaignEditor") << static_cast<QObject*>(new campaign::CampaignEditor()) << true;
     QTest::addRow("CampaignIntegrityController") << static_cast<QObject*>(new campaign::CampaignIntegrityController({}, {}, {})) << true;
     QTest::addRow("CampaignIntegrityDialog") << static_cast<QObject*>(new campaign::CampaignIntegrityDialog(new campaign::CampaignIntegrityController({}, {}, {}))) << true;

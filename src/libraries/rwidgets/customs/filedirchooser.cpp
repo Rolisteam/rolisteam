@@ -70,6 +70,11 @@ QUrl FileDirChooser::url() const
     return QUrl::fromUserInput(m_lineEdit->text());
 }
 
+QString FileDirChooser::localFile() const
+{
+    return url().toLocalFile();
+}
+
 bool FileDirChooser::isValid() const
 {
     return url().isValid();

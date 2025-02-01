@@ -119,7 +119,8 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
     m_systemTray->show();
 
     // ALLOCATIONS
-    m_campaignDock.reset(new campaign::CampaignDock(m_gameController->campaignManager()->editor()));
+    m_campaignDock.reset(new campaign::CampaignDock(m_gameController->campaignManager()->editor(),
+                                                    m_gameController->preferencesController()));
     connect(m_campaignDock.get(), &campaign::CampaignDock::openResource, m_gameController,
             &GameController::openInternalResources);
 

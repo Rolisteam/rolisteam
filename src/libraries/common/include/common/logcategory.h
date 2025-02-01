@@ -1,6 +1,7 @@
 #ifndef LOGCATEGORY_H
 #define LOGCATEGORY_H
 
+#include <QDebug>
 #include <QLoggingCategory>
 
 namespace logger

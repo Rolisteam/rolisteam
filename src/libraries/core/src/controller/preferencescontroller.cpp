@@ -133,6 +133,7 @@ void PreferencesController::setGameController(GameController* game)
         initializeThemeModel(m_themeModel.get());
 
     emit preferencesChanged();
+    emit externalToolChanged();
 }
 
 QAbstractItemModel* PreferencesController::languageModel() const
@@ -140,7 +141,7 @@ QAbstractItemModel* PreferencesController::languageModel() const
     return m_languageModel.get();
 }
 
-PreferencesManager *PreferencesController::preferences() const
+PreferencesManager* PreferencesController::preferences() const
 {
     return m_preferences;
 }
@@ -211,6 +212,16 @@ void PreferencesController::loadPreferences()
         m_themeModel->addTheme(tmp);
         // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
     }
+
+    auto func= [this](const QVariant& value)
+    {
+        Q_UNUSED(value);
+        emit externalToolChanged();
+    };
+
+    preferences->registerLambda("RcsePath", func);
+    preferences->registerLambda("MindmapPath", func);
+    preferences->registerLambda("textEditorPath", func);
 
     setCurrentThemeIndex(static_cast<std::size_t>(preferences->value("currentThemeIndex", 0).toInt()));
 }
@@ -405,6 +416,50 @@ RolisteamTheme* PreferencesController::currentEditableTheme()
     }
 
     return theme;
+}
+
+QString PreferencesController::externalEditorFor(Core::MediaType type)
+{
+    QString path;
+    switch(type)
+    {
+    case Core::MediaType::CharacterSheetFile:
+        path= m_preferences->value("RcsePath", path).toString();
+        break;
+    case Core::MediaType::MindmapFile:
+        path= m_preferences->value("MindmapPath", path).toString();
+        break;
+    case Core::MediaType::TextFile:
+    case Core::MediaType::MarkdownFile:
+        path= m_preferences->value("textEditorPath", path).toString();
+        break;
+    default:
+        break;
+    }
+
+    return path;
+}
+
+QString PreferencesController::paramsFor(Core::MediaType type)
+{
+    QString path;
+    switch(type)
+    {
+    case Core::MediaType::CharacterSheetFile:
+        path= m_preferences->value("RcseParam", path).toString();
+        break;
+    case Core::MediaType::MindmapFile:
+        path= m_preferences->value("MindmapParam", path).toString();
+        break;
+    case Core::MediaType::TextFile:
+    case Core::MediaType::MarkdownFile:
+        path= m_preferences->value("textEditorParam", path).toString();
+        break;
+    default:
+        break;
+    }
+
+    return path;
 }
 
 void PreferencesController::setCurrentThemeStyle(QStyle* style)

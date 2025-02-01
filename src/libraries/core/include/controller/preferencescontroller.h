@@ -21,12 +21,13 @@
 #define PREFERENCESCONTROLLER_H
 
 #include "controllerinterface.h"
+#include "media/mediatype.h"
 #include "model/thememodel.h"
+#include <QAbstractItemModel>
 #include <QObject>
+#include <QPointer>
 #include <core_global.h>
 #include <memory>
-#include <QPointer>
-#include <QAbstractItemModel>
 
 class PaletteModel;
 class RolisteamTheme;
@@ -71,8 +72,11 @@ public:
     std::size_t currentThemeIndex() const;
     RolisteamTheme* currentEditableTheme();
 
+    QString externalEditorFor(Core::MediaType type);
+
     void setDiceHighLightColor(const QColor& color);
 
+    QString paramsFor(Core::MediaType type);
 signals:
     void currentThemeIndexChanged();
     void currentLangIndexChanged();
@@ -80,6 +84,7 @@ signals:
     void hasCustomFileChanged();
     void customFileChanged();
     void preferencesChanged();
+    void externalToolChanged();
 
 public slots:
     void savePreferences();

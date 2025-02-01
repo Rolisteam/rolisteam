@@ -20,6 +20,7 @@
 #ifndef RWIDGET_CAMPAIGN_DOCK_H
 #define RWIDGET_CAMPAIGN_DOCK_H
 
+#include "controller/preferencescontroller.h"
 #include "media/mediatype.h"
 #include "model/mediafilteredmodel.h"
 #include "model/mediamodel.h"
@@ -47,11 +48,13 @@ class RWIDGET_EXPORT CampaignDock : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CampaignDock(CampaignEditor* campaign, QWidget* parent= nullptr);
+    explicit CampaignDock(CampaignEditor* campaign, PreferencesController* prefs, QWidget* parent= nullptr);
     virtual ~CampaignDock();
 
 public slots:
     void setCampaign(CampaignEditor* campaign);
+    void openExternally(const QString& id, const QString& path, Core::ContentType type);
+
 signals:
     void campaignChanged();
     void openResource(const QString& id, const QString& path, Core::ContentType type);
@@ -63,6 +66,7 @@ protected:
 private:
     Ui::CampaignDock* m_ui;
     QPointer<CampaignEditor> m_campaignEditor;
+    QPointer<PreferencesController> m_preferences;
     std::unique_ptr<MediaModel> m_model;
     std::unique_ptr<MediaFilteredModel> m_filteredModel;
 };

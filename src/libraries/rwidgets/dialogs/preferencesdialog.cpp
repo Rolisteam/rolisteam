@@ -97,7 +97,7 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
         horizontalHeader->setSectionResizeMode(0, QHeaderView::Stretch);
     }
 
-    connect(this, &PreferencesDialog::accepted, m_ctrl, &PreferencesController::savePreferences);
+    connect(this, &PreferencesDialog::accepted, this, &PreferencesDialog::save);
 
     connect(ui->m_startDiag, &QPushButton::clicked, this, &PreferencesDialog::performDiag);
     // i18n
@@ -253,6 +253,15 @@ void PreferencesDialog::save() const
     // theme
     m_preferences->registerValue("currentTheme", ui->m_themeComboBox->currentText());
 
+    // external tools
+    m_preferences->registerValue("RcsePath", ui->m_rcsePath->localFile());
+    m_preferences->registerValue("MindmapPath", ui->m_mindmapPath->localFile());
+    m_preferences->registerValue("textEditorPath", ui->m_textEditorPath->localFile());
+
+    m_preferences->registerValue("RcseParam", ui->m_rcseParams->text());
+    m_preferences->registerValue("MindmapParam", ui->m_mindmapParam->text());
+    m_preferences->registerValue("textEditorParam", ui->m_textEditorParam->text());
+
     m_ctrl->savePreferences();
 }
 void PreferencesDialog::load()
@@ -315,6 +324,27 @@ void PreferencesDialog::load()
 
     // m_ctrl->loadPreferences();
     updateTheme();
+
+    QString pExt;
+#if Q_OS_WIN
+    pExt= ".exe";
+#endif
+
+    QString path= QString("%1/rcse%2").arg(QCoreApplication::applicationDirPath(), pExt);
+    if(!QFileInfo::exists(path))
+        path= QString();
+    ui->m_rcsePath->setUrl(m_preferences->value("RcsePath", path).toString());
+    ui->m_rcseParams->setText(m_preferences->value("RcseParam", "%1").toString());
+
+    path= QString("%1/mindmapbin%2").arg(QCoreApplication::applicationDirPath(), pExt);
+    if(!QFileInfo::exists(path))
+        path= QString();
+    ui->m_mindmapPath->setUrl(m_preferences->value("MindmapPath", path).toString());
+    ui->m_mindmapParam->setText(m_preferences->value("MindmapParam", "%1").toString());
+
+    path= QString();
+    ui->m_textEditorPath->setUrl(m_preferences->value("textEditorPath", path).toString());
+    ui->m_textEditorParam->setText(m_preferences->value("textEditorParam", "%1").toString());
 }
 
 void PreferencesDialog::editColor(const QModelIndex& index)

@@ -33,6 +33,7 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     m_typeColsAct= new QAction(tr("Type"), this);
     m_addedColsAct= new QAction(tr("Date Added"), this);
     m_modifiedColsAct= new QAction(tr("Date Modified"), this);
+    m_editExternallyAct= new QAction(tr("Open Externally"), this);
 
     m_nameColsAct->setCheckable(true);
     m_sizeColsAct->setCheckable(true);
@@ -68,13 +69,25 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     connect(m_openAct, &QAction::triggered, this,
             [this]()
             {
-                if(m_index.isValid())
-                {
-                    auto path= m_index.data(MediaModel::Role_Path).toString();
-                    auto id= m_index.data(MediaModel::Role_Uuid).toString();
+                if(!m_index.isValid())
+                    return;
 
-                    emit openAs(id, path, helper::utils::extensionToContentType(path));
-                }
+                auto path= m_index.data(MediaModel::Role_Path).toString();
+                auto id= m_index.data(MediaModel::Role_Uuid).toString();
+
+                emit openAs(id, path, helper::utils::extensionToContentType(path));
+            });
+
+    connect(m_editExternallyAct, &QAction::triggered, this,
+            [this]()
+            {
+                if(!m_index.isValid())
+                    return;
+
+                auto path= m_index.data(MediaModel::Role_Path).toString();
+                auto id= m_index.data(MediaModel::Role_Uuid).toString();
+
+                emit openExternally(id, path, helper::utils::extensionToContentType(path));
             });
 
     connect(m_renameAct, &QAction::triggered, this,
@@ -101,7 +114,6 @@ CampaignView::CampaignView(QWidget* parent) : QTreeView(parent)
     setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     // Init hash
-
     auto notes= new QAction(tr("Notes"), this);
     notes->setData(QVariant::fromValue(Core::ContentType::NOTES));
 
@@ -153,10 +165,28 @@ void CampaignView::contextMenuEvent(QContextMenuEvent* event)
 
     QMenu popMenu(this);
 
+    QSet<Core::MediaType> allowed;
+
+    if(m_mindmapAvailable)
+        allowed.insert({Core::MediaType::MindmapFile});
+
+    if(m_rcseAvailable)
+        allowed.insert({Core::MediaType::CharacterSheetFile});
+
+    if(m_textEditorAvailable)
+    {
+        allowed.insert({Core::MediaType::TextFile});
+        allowed.insert({Core::MediaType::MarkdownFile});
+    }
+
     popMenu.addAction(m_openAct);
     auto openAs= popMenu.addMenu(tr("Open As…"));
     if(!isDir)
         addOpenAsActs(openAs, nodeType);
+    if(!isDir && allowed.contains(nodeType))
+    {
+        popMenu.addAction(m_editExternallyAct);
+    }
     popMenu.addSeparator();
     popMenu.addAction(m_addDirectoryAct);
     popMenu.addAction(m_deleteFileAct);
@@ -234,4 +264,44 @@ void CampaignView::addOpenAsActs(QMenu* menu, Core::MediaType type)
         menu->addAction(val);
     }
 }
+
+bool CampaignView::textEditorAvailable() const
+{
+    return m_textEditorAvailable;
+}
+
+void CampaignView::setTextEditorAvailable(bool newTextEditorAvailable)
+{
+    if(m_textEditorAvailable == newTextEditorAvailable)
+        return;
+    m_textEditorAvailable= newTextEditorAvailable;
+    emit textEditorAvailableChanged();
+}
+
+bool CampaignView::mindmapAvailable() const
+{
+    return m_mindmapAvailable;
+}
+
+void CampaignView::setMindmapAvailable(bool newMindmapAvailable)
+{
+    if(m_mindmapAvailable == newMindmapAvailable)
+        return;
+    m_mindmapAvailable= newMindmapAvailable;
+    emit mindmapAvailableChanged();
+}
+
+bool CampaignView::rcseAvailable() const
+{
+    return m_rcseAvailable;
+}
+
+void CampaignView::setRcseAvailable(bool newRcseAvailable)
+{
+    if(m_rcseAvailable == newRcseAvailable)
+        return;
+    m_rcseAvailable= newRcseAvailable;
+    emit rcseAvailableChanged();
+}
+
 } // namespace campaign

@@ -214,6 +214,7 @@ Core::ContentType mediaTypeToContentType(Core::MediaType type)
 {
     auto res= Core::ContentType::UNKNOWN;
 
+    qDebug() << "type:" << type;
     switch(type)
     {
     case Core::MediaType::Unknown:
@@ -243,6 +244,9 @@ Core::ContentType mediaTypeToContentType(Core::MediaType type)
     case Core::MediaType::MindmapFile:
         res= Core::ContentType::MINDMAP;
         break;
+    case Core::MediaType::MarkdownFile:
+        res= Core::ContentType::MINDMAP;
+        break;
     }
 
     return res;
@@ -250,6 +254,7 @@ Core::ContentType mediaTypeToContentType(Core::MediaType type)
 
 QString typeToIconPath(Core::ContentType type)
 {
+    qDebug() << "utils helper typeToIconPath:" << type;
     auto hash= QHash<Core::ContentType, QString>({
         {Core::ContentType::VECTORIALMAP, "vmap"},
         {Core::ContentType::PICTURE, "photo"},
@@ -265,6 +270,7 @@ QString typeToIconPath(Core::ContentType type)
 
 Core::ContentType extensionToContentType(const QString& filename)
 {
+    qDebug() << "Filename:" << filename;
     QSet<Core::ContentType> types{Core::ContentType::VECTORIALMAP, Core::ContentType::PICTURE,
                                   Core::ContentType::NOTES,        Core::ContentType::MINDMAP,
                                   Core::ContentType::SHAREDNOTE,   Core::ContentType::PDF,
@@ -274,6 +280,7 @@ Core::ContentType extensionToContentType(const QString& filename)
         auto list= extentionPerType(type, false);
         for(const auto& ext : list)
         {
+            qDebug() << "ext" << ext << "filename:" << filename << filename.endsWith(ext, Qt::CaseInsensitive);
             if(filename.endsWith(ext, Qt::CaseInsensitive))
                 return type;
         }

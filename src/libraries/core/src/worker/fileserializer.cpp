@@ -62,14 +62,20 @@ Core::MediaType FileSerializer::typeFromExtention(const QString& filename)
     static QSet<QString> html{"rweb"};
     static QSet<QString> token{"rtok"};
     static QSet<QString> playlist{"m3u"};
+    static QSet<QString> charactersheet{"rcs"};
     static QSet<QString> audio{"mp3", "ogg", "mpc", "wav"};
 
-    QHash<Core::MediaType, QSet<QString>> hash{
-        {Core::MediaType::ImageFile, image},     {Core::MediaType::PdfFile, pdf},
-        {Core::MediaType::MindmapFile, mindmap}, {Core::MediaType::MapFile, vmap},
-        {Core::MediaType::TextFile, text},       {Core::MediaType::WebpageFile, html},
-        {Core::MediaType::TokenFile, token},     {Core::MediaType::PlayListFile, playlist},
-        {Core::MediaType::AudioFile, audio}};
+    QHash<Core::MediaType, QSet<QString>> hash{{Core::MediaType::ImageFile, image},
+                                               {Core::MediaType::PdfFile, pdf},
+                                               {Core::MediaType::MindmapFile, mindmap},
+                                               {Core::MediaType::MapFile, vmap},
+                                               {Core::MediaType::TextFile, text},
+                                               {Core::MediaType::MarkdownFile, text},
+                                               {Core::MediaType::WebpageFile, html},
+                                               {Core::MediaType::TokenFile, token},
+                                               {Core::MediaType::PlayListFile, playlist},
+                                               {Core::MediaType::AudioFile, audio},
+                                               {Core::MediaType::CharacterSheetFile, charactersheet}};
 
     QFileInfo info(filename);
     auto ext= info.suffix();

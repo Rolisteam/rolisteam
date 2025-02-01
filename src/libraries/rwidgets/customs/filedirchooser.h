@@ -65,6 +65,7 @@ public:
     void setMode(bool isDirectory);
 
     QUrl url() const;
+    QString localFile() const;
 
     bool isValid() const;
 

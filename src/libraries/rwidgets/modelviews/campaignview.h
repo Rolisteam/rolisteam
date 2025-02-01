@@ -17,11 +17,25 @@ class RWIDGET_EXPORT CampaignView : public QTreeView
 {
     Q_OBJECT
     Q_PROPERTY(QString currentChapter READ currentChapter NOTIFY currentChapterChanged)
+    Q_PROPERTY(bool rcseAvailable READ rcseAvailable WRITE setRcseAvailable NOTIFY rcseAvailableChanged FINAL)
+    Q_PROPERTY(
+        bool mindmapAvailable READ mindmapAvailable WRITE setMindmapAvailable NOTIFY mindmapAvailableChanged FINAL)
+    Q_PROPERTY(bool textEditorAvailable READ textEditorAvailable WRITE setTextEditorAvailable NOTIFY
+                   textEditorAvailableChanged FINAL)
 public:
     explicit CampaignView(QWidget* parent= nullptr);
     QModelIndexList getSelection() const;
 
     QString currentChapter() const;
+
+    bool textEditorAvailable() const;
+    void setTextEditorAvailable(bool newTextEditorAvailable);
+
+    bool mindmapAvailable() const;
+    void setMindmapAvailable(bool newMindmapAvailable);
+
+    bool rcseAvailable() const;
+    void setRcseAvailable(bool newRcseAvailable);
 
 public slots:
     void setCampaign(Campaign* campaign);
@@ -35,7 +49,14 @@ signals:
     void addDirectory(QModelIndex&);
     void removeSelection(const QString& uuid);
     void openAs(const QString& id, const QString& path, Core::ContentType type);
+    void openExternally(const QString& id, const QString& path, Core::ContentType type);
     void currentChapterChanged();
+
+    void textEditorAvailableChanged();
+
+    void mindmapAvailableChanged();
+
+    void rcseAvailableChanged();
 
 private slots:
     void setCurrentChapter(const QString& chapter);
@@ -58,8 +79,13 @@ private:
     QAction* m_addedColsAct;
     QAction* m_modifiedColsAct;
 
+    QAction* m_editExternallyAct;
+
     QHash<Core::MediaType, QList<QAction*>> m_convertionHash;
     QModelIndex m_index;
+    bool m_textEditorAvailable{false};
+    bool m_mindmapAvailable{false};
+    bool m_rcseAvailable{false};
 };
 } // namespace campaign
 #endif // SESSIONVIEW_H

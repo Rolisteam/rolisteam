@@ -25,8 +25,10 @@
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLineEdit>
+#include <QProcess>
 #include <QTreeView>
 
+#include "common/logcategory.h"
 #include "data/campaign.h"
 #include "data/campaigneditor.h"
 #include "model/mediamodel.h"
@@ -35,10 +37,11 @@
 
 namespace campaign
 {
-CampaignDock::CampaignDock(CampaignEditor* ctrl, QWidget* parent)
+CampaignDock::CampaignDock(CampaignEditor* ctrl, PreferencesController* prefs, QWidget* parent)
     : QWidget(parent)
     , m_ui(new Ui::CampaignDock)
     , m_campaignEditor(ctrl)
+    , m_preferences(prefs)
     , m_model(new MediaModel(ctrl ? ctrl->campaign() : nullptr))
     , m_filteredModel(new MediaFilteredModel)
 {
@@ -63,6 +66,7 @@ CampaignDock::CampaignDock(CampaignEditor* ctrl, QWidget* parent)
     connect(this, &CampaignDock::campaignChanged, this,
             [this]() { m_model->setCampaign(m_campaignEditor->campaign()); });
     connect(m_ui->m_view, &CampaignView::openAs, this, &CampaignDock::openResource);
+    connect(m_ui->m_view, &CampaignView::openExternally, this, &CampaignDock::openExternally);
     connect(m_ui->m_view, &CampaignView::removeSelection, this, &CampaignDock::removeFile);
 
     m_filteredModel->setSourceModel(m_model.get());
@@ -76,12 +80,24 @@ CampaignDock::CampaignDock(CampaignEditor* ctrl, QWidget* parent)
 
     connect(m_model.get(), &MediaModel::performCommand, m_campaignEditor, &CampaignEditor::doCommand);
 
+    auto func= [this]()
+    {
+        m_ui->m_view->setRcseAvailable(
+            QFileInfo::exists(m_preferences->externalEditorFor(Core::MediaType::CharacterSheetFile)));
+        m_ui->m_view->setMindmapAvailable(
+            QFileInfo::exists(m_preferences->externalEditorFor(Core::MediaType::MindmapFile)));
+        m_ui->m_view->setTextEditorAvailable(
+            QFileInfo::exists(m_preferences->externalEditorFor(Core::MediaType::TextFile)));
+    };
+    connect(m_preferences, &PreferencesController::externalToolChanged, this, func);
+
     m_ui->m_view->setDragEnabled(true);
     m_ui->m_view->setAcceptDrops(true);
     m_ui->m_view->setDropIndicatorShown(true);
     m_ui->m_view->setDefaultDropAction(Qt::MoveAction);
     m_ui->m_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_ui->m_view->setAlternatingRowColors(true);
+    func();
 }
 CampaignDock::~CampaignDock() {}
 
@@ -91,6 +107,42 @@ void CampaignDock::setCampaign(CampaignEditor* campaign)
         return;
     m_campaignEditor= campaign;
     emit campaignChanged();
+}
+
+void CampaignDock::openExternally(const QString& id, const QString& path, Core::ContentType type)
+{
+    if(!m_preferences)
+        return;
+    Q_UNUSED(id)
+    auto mediaType= Core::MediaType::Unknown;
+
+    switch(type)
+    {
+    case Core::ContentType::NOTES:
+        mediaType= Core::MediaType::TextFile;
+        break;
+    case Core::ContentType::CHARACTERSHEET:
+        mediaType= Core::MediaType::CharacterSheetFile;
+        break;
+    case Core::ContentType::SHAREDNOTE:
+        mediaType= Core::MediaType::MarkdownFile;
+        break;
+    case Core::ContentType::MINDMAP:
+        mediaType= Core::MediaType::MindmapFile;
+        break;
+    default:
+        break;
+    }
+    if(mediaType == Core::MediaType::Unknown)
+        return;
+
+    auto toolPath= m_preferences->externalEditorFor(mediaType);
+    auto params= m_preferences->paramsFor(mediaType);
+
+    params.replace("%1", path);
+    auto paramarray= params.split(" ");
+    qCInfo(CampaignCat) << "run: " << toolPath << "params:" << params;
+    QProcess::startDetached(toolPath, paramarray);
 }
 void CampaignDock::closeEvent(QCloseEvent* event)
 {
