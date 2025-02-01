@@ -270,7 +270,7 @@ void PreferencesDialog::load()
         return;
 
     // Direcotry PATH
-    ui->m_translationFileEdit->setMode(false);
+    ui->m_translationFileEdit->setMode(FileDirChooser::OpenExistingFile);
     ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");
 
     ui->m_translationFileEdit->setUrl(
@@ -315,7 +315,7 @@ void PreferencesDialog::load()
 
     // theme
     // initializeStyle();
-    ui->m_backgroundImage->setMode(false);
+    ui->m_backgroundImage->setMode(FileDirChooser::OpenExistingFile);
     ui->m_backgroundImage->setFilter(tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
 
     // Messaging
@@ -334,16 +334,19 @@ void PreferencesDialog::load()
     if(!QFileInfo::exists(path))
         path= QString();
     ui->m_rcsePath->setUrl(m_preferences->value("RcsePath", path).toString());
-    ui->m_rcseParams->setText(m_preferences->value("RcseParam", "%1").toString());
+    ui->m_rcsePath->setMode(FileDirChooser::OpenExistingFile);
+    ui->m_rcseParams->setText(m_preferences->value("RcseParam", "-f %1").toString());
 
     path= QString("%1/mindmapbin%2").arg(QCoreApplication::applicationDirPath(), pExt);
     if(!QFileInfo::exists(path))
         path= QString();
     ui->m_mindmapPath->setUrl(m_preferences->value("MindmapPath", path).toString());
-    ui->m_mindmapParam->setText(m_preferences->value("MindmapParam", "%1").toString());
+    ui->m_mindmapPath->setMode(FileDirChooser::OpenExistingFile);
+    ui->m_mindmapParam->setText(m_preferences->value("MindmapParam", "-f %1").toString());
 
     path= QString();
     ui->m_textEditorPath->setUrl(m_preferences->value("textEditorPath", path).toString());
+    ui->m_textEditorPath->setMode(FileDirChooser::OpenExistingFile);
     ui->m_textEditorParam->setText(m_preferences->value("textEditorParam", "%1").toString());
 }
 

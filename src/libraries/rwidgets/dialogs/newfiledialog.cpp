@@ -25,7 +25,7 @@ NewFileDialog::NewFileDialog(Core::ContentType type, QWidget* parent) : QDialog(
 {
     ui->setupUi(this);
 
-    ui->m_path->setMode(false);
+    ui->m_path->setMode(FileDirChooser::SaveExistingFile);
 
     static QHash<Core::ContentType, QString> type2ext{{Core::ContentType::SHAREDNOTE, Core::extentions::EXT_SHAREDNOTE},
                                                       {Core::ContentType::NOTES, Core::extentions::EXT_NOTE},

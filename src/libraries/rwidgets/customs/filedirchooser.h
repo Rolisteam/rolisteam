@@ -35,12 +35,19 @@ class RWIDGET_EXPORT FileDirChooser : public QWidget
 {
     Q_OBJECT
 public:
+    enum Mode
+    {
+        Directory,
+        SaveExistingFile,
+        OpenExistingFile
+    };
+    Q_ENUM(Mode);
     /**
      * @brief FileDirChooser
      * @param isDirectory
      * @param parent
      */
-    FileDirChooser(QWidget* parent= nullptr, const QString& ext= QString(), bool isDirectory= true);
+    FileDirChooser(QWidget* parent= nullptr, const QString& ext= QString(), Mode mode= Directory);
     ~FileDirChooser();
     /**
      * @brief setPath define the value of the widget. Current selection.
@@ -62,7 +69,7 @@ public:
      * @brief setMode
      * @param isDirectory
      */
-    void setMode(bool isDirectory);
+    void setMode(Mode isDirectory);
 
     QUrl url() const;
     QString localFile() const;
@@ -84,7 +91,7 @@ private:
     QLineEdit* m_lineEdit= nullptr;
     QString m_filter;
     QString m_ext;
-    bool m_directory= true;
+    Mode m_directory= Directory;
 };
 
 #endif // DIRCHOOSER_H

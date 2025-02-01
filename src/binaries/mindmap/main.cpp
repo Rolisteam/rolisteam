@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include <QAbstractItemModel>
+#include <QCommandLineOption>
+#include <QCommandLineParser>
 #include <QGuiApplication>
 #include <QOpenGLContext>
 #include <QQmlApplicationEngine>
@@ -82,6 +84,17 @@ int main(int argc, char** argv)
     QQuickStyle::setFallbackStyle("Fusion");
     customization::Theme::setPath(":/resources/stylesheet/qml/theme.ini");
 
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption file(QStringList() << "f"
+                                          << "file",
+                            QObject::tr("open <file>."), "file");
+
+    parser.addOption(file);
+    parser.process(app.arguments());
+
     MainController main;
 
     registerMindmapType();
@@ -96,6 +109,11 @@ int main(int argc, char** argv)
     qmlEngine.addImageProvider("nodeImages", provider);
 
     qmlEngine.loadFromModule("mindmapmod", "Main");
+
+    if(parser.isSet(file))
+    {
+        main.openFile(QUrl::fromUserInput(parser.value(file)));
+    }
 
     return app.exec();
 }

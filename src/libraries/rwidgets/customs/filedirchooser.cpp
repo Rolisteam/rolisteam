@@ -28,12 +28,12 @@
  * FileDirChooser *
  **************/
 
-FileDirChooser::FileDirChooser(QWidget* parent, const QString& ext, bool isDirectory)
-    : QWidget(parent), m_ext(ext), m_directory(isDirectory)
+FileDirChooser::FileDirChooser(QWidget* parent, const QString& ext, Mode mode)
+    : QWidget(parent), m_ext(ext), m_directory(mode)
 {
     // Childrens
     m_lineEdit= new QLineEdit(this);
-    if(!isDirectory)
+    if(m_directory == SaveExistingFile)
         m_lineEdit->setText(QDir::homePath());
     QPushButton* button= new QPushButton(QStringLiteral("..."), this);
 
@@ -57,7 +57,7 @@ FileDirChooser::~FileDirChooser()
 {
     // QObject should do it right for us already.
 }
-void FileDirChooser::setMode(bool isDirectory)
+void FileDirChooser::setMode(Mode isDirectory)
 {
     m_directory= isDirectory;
 
@@ -103,14 +103,18 @@ QString FileDirChooser::getFilter()
 void FileDirChooser::browse()
 {
     QUrl urlTmp;
-    if(m_directory)
+    if(m_directory == Directory)
     {
         urlTmp= QFileDialog::getExistingDirectoryUrl(this, tr("Select directory"), m_lineEdit->text(),
                                                      QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     }
-    else
+    else if(m_directory == OpenExistingFile)
     {
-        urlTmp= QFileDialog::getSaveFileUrl(this, tr("Open File"), m_lineEdit->text(), m_filter);
+        urlTmp= QFileDialog::getOpenFileUrl(this, tr("Open File"), m_lineEdit->text(), m_filter);
+    }
+    else if(m_directory == SaveExistingFile)
+    {
+        urlTmp= QFileDialog::getSaveFileUrl(this, tr("Save File"), m_lineEdit->text(), m_filter);
     }
 
     auto path= urlTmp.path();
