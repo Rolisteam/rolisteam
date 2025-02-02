@@ -100,6 +100,9 @@ QVariant FieldController::valueFrom(TreeSheetItem::ColumnId id, int role) const
     case VALUE:
         ret= role == Qt::EditRole ? m_formula : role == Qt::DisplayRole ? m_value.left(50) : m_value;
         break;
+    case FORMULA:
+        ret= m_formula;
+        break;
     case X:
         ret= x();
         break;

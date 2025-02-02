@@ -57,8 +57,8 @@ public:
         ID,
         LABEL,
         VALUE,
-        FORMULA,
         VALUES,
+        FORMULA,
         TYPE,
         X,
         Y,
@@ -71,7 +71,7 @@ public:
         BGCOLOR,
         BORDER,
         PAGE,
-        TOOLTIP
+        TOOLTIP,
     };
     Q_ENUM(ColumnId)
 

@@ -7,6 +7,7 @@ T.AbstractButton {
     property color color: "#ff0000"
     property color pressedColor: "#990000"
     property color backgroundColor
+    property color secondaryColor: "#00000000"// transparent
     property color textColor: text.color
     property alias hAlign: text.horizontalAlignment
     property alias wrapMode: text.wrapMode
@@ -15,6 +16,7 @@ T.AbstractButton {
     property bool readOnly: false
     property bool hasAlias: true
     property string tooltip: ""
+    property alias radius: background.radius
     down: mouseZone.pressed
 
     background: Rectangle {
@@ -22,7 +24,12 @@ T.AbstractButton {
         opacity: enabled ? 1 : 0.3
         border.color: root.down ? root.pressedColor : root.textColor
         border.width: 1
-        color: root.down ? root.color : root.backgroundColor
+        //color: root.down ? root.color : root.backgroundColor
+        radius: 15
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: root.down ? root.secondaryColor : root.backgroundColor }
+            GradientStop { position: 1.0; color: root.down ? root.backgroundColor : root.secondaryColor }
+        }
     }
 
     contentItem: Text {

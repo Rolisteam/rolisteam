@@ -25,7 +25,6 @@
 #include <QGraphicsScene>
 #include <QJsonArray>
 
-#include "canvas.h"
 #include "charactersheet/controllers/tablefield.h"
 #include "qmlgeneratorvisitor.h"
 #include <charactersheet_formula/formulamanager.h>
@@ -62,7 +61,8 @@ FieldModel::FieldModel(QObject* parent)
 {
     m_colunm << new Column(tr("Id"), TreeSheetItem::ID) << new Column(tr("Label"), TreeSheetItem::LABEL)
              << new Column(tr("Value"), TreeSheetItem::VALUE)
-             << new Column(tr("Possible Values"), TreeSheetItem::VALUES) << new Column(tr("Type"), TreeSheetItem::TYPE)
+             << new Column(tr("Possible Values"), TreeSheetItem::VALUES)
+             << new Column(tr("Formula"), TreeSheetItem::FORMULA) << new Column(tr("Type"), TreeSheetItem::TYPE)
              << new Column(tr("x"), TreeSheetItem::X) << new Column(tr("y"), TreeSheetItem::Y)
              << new Column(tr("Width"), TreeSheetItem::WIDTH) << new Column(tr("Height"), TreeSheetItem::HEIGHT)
              << new Column(tr("Font Adaptation"), TreeSheetItem::FitFont) << new Column(tr("Font"), TreeSheetItem::FONT)

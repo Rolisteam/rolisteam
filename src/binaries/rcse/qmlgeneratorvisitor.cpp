@@ -539,7 +539,7 @@ bool QmlGeneratorVisitor::generateDiceButton(QTextStream& out, FieldController* 
     data[cj::indent]= m_indenSpace.toStdString();
     data[cj::hrName]= item->label().toStdString();
     data[cj::label]
-        = (isInsideTable ? QStringLiteral("display") : QStringLiteral("%1.label").arg(getId(item))).toStdString();
+        = (isInsideTable ? QStringLiteral("model.display") : QStringLiteral("%1.label").arg(getId(item))).toStdString();
     data[cj::hrName]= item->label().toStdString();
     data[cj::id]= QString("_%1").arg(getId(item)).toStdString();
     position(data, item->x(), item->y(), item->width(), item->height(), isInsideTable);
@@ -551,7 +551,7 @@ bool QmlGeneratorVisitor::generateDiceButton(QTextStream& out, FieldController* 
     data[cj::readOnly]
         = (isInsideTable ? QStringLiteral("readOnly") : QStringLiteral("%1.readOnly").arg(getId(item))).toStdString();
     data[cj::value]
-        = (isInsideTable ? QStringLiteral("formula") : QStringLiteral("%1.value").arg(getId(item))).toStdString();
+        = (isInsideTable ? QStringLiteral("model.formula") : QStringLiteral("%1.value").arg(getId(item))).toStdString();
 
     font(data, item->font());
     data[cj::fitFont]= std::string();
