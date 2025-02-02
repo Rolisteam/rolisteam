@@ -52,7 +52,7 @@ class CORE_EXPORT CharacterSheetController : public MediaControllerBase
     Q_PROPERTY(charactersheet::ImageModel* imageModel READ imageModel CONSTANT)
     Q_PROPERTY(CharacterModel* characterModel READ characterModel CONSTANT)
     Q_PROPERTY(QString qmlCode READ qmlCode CONSTANT)
-    Q_PROPERTY(bool cornerEnabled READ cornerEnabled NOTIFY cornerEnabledChanged)
+    Q_PROPERTY(bool cornerEnabled READ cornerEnabled WRITE setCornerEnabled NOTIFY cornerEnabledChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
     Q_PROPERTY(QJsonObject rootJson READ rootJson WRITE setRootJson NOTIFY rootJsonChanged)
 public:
@@ -82,6 +82,8 @@ public:
     static void setCharacterModel(CharacterModel* model);
 
     void merge(CharacterSheetController*);
+    void setCornerEnabled(bool newCornerEnabled);
+
 public slots:
     void shareCharacterSheetTo(const CharacterSheetInfo& info);
     void shareCharacterSheetTo(const QString& uuid, int idx);
@@ -110,6 +112,7 @@ private:
     QJsonObject m_rootJson;
     QString m_qmlCode;
     QString m_gameMasterId;
+    bool m_cornerEnabled{false};
 };
 
 #endif // CHARACTERSHEETCONTROLLER_H

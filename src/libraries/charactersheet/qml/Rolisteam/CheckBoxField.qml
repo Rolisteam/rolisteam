@@ -20,10 +20,10 @@ CheckBox {
     spacing: 0
     bottomPadding:0
     checkState: (root.text === "0") ? Qt.Unchecked : (root.text === "1" && root.tristate) ? Qt.PartiallyChecked : Qt.Checked
-    onCheckStateChanged: console.log("state:"+checkState)
+    //onCheckStateChanged: console.log("state:"+checkState)
     enabled: !root.readOnly
     checked: root.checkState === Qt.Checked  ? true :false
-    onCheckedChanged: console.log("checked:"+checked)
+    //onCheckedChanged: console.log("checked:"+checked)
     ToolTip.text: root.tooltip
     ToolTip.visible: root.tooltip.length >0 && checkbox.pressed
 

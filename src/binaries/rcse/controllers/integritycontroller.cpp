@@ -163,6 +163,7 @@ void IntegrityController::checkIntegrity(CharacterSheet* sheet)
             continue;
         auto table= dynamic_cast<TableFieldController*>(sheetField);
         auto origin= dynamic_cast<TableFieldController*>(field);
+        table->setDisplayedRow(origin->displayedRow());
         if(!table || !origin)
             continue;
         auto originModel= origin->model();

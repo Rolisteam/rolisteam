@@ -17,8 +17,9 @@ TableView {
     MouseArea {
         id: listmouseid_1
         anchors.fill: parent
-        acceptedButtons: contextMenu.visible ? Qt.LeftButton : Qt.RightButton
-        onClicked: {
+        acceptedButtons:Qt.LeftButton | Qt.RightButton
+        preventStealing: true
+        onClicked: (mouse)=>{
             mouse.accepted = false
             if(mouse.button === Qt.RightButton)
                 contextMenu.popup()
@@ -34,7 +35,8 @@ TableView {
             MenuItem {
                 text: qsTr("Remove current Line")
                 onTriggered: {
-                    root.removeLine(_id_1list.indexAt(contextMenu.x, contextMenu.y+root.contentY))
+                    let cell = root.cellAtPosition(Qt.point(contextMenu.x,contextMenu.y+root.contentY), true)
+                    root.removeLine(root.modelIndex(cell).row)
                     //field.removeLine(_id_1list.indexAt(contextMenu.x, contextMenu.y+root.contentY))
                 }
             }

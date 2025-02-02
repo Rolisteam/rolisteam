@@ -41,7 +41,8 @@ class CHARACTERSHEET_EXPORT TableFieldController : public FieldController
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
     Q_PROPERTY(int columnCount READ columnCount NOTIFY columnCountChanged FINAL)
-    Q_PROPERTY(int displayedRow READ displayedRow NOTIFY displayedRowChanged FINAL)
+    Q_PROPERTY(int rowCount READ rowCount NOTIFY rowCountChanged FINAL)
+    Q_PROPERTY(int displayedRow READ displayedRow WRITE setDisplayedRow NOTIFY displayedRowChanged FINAL)
 public:
     enum ControlPosition
     {
@@ -91,9 +92,10 @@ public:
     int rowCount() const;
     int displayedRow() const;
     int columnCount() const;
+    void setDisplayedRow(int rCount);
 
 public slots:
-    void addLine();
+    void addLine(bool inGame= false);
     void addColumn();
     void removeColumn(int index);
     void removeLine(int line);
@@ -101,7 +103,7 @@ public slots:
 
 signals:
     void lineMustBeAdded(TableFieldController* table);
-    void rowCountChanged();
+    void rowCountChanged(bool add, int index);
     void columnCountChanged(bool, int);
     void displayedRowChanged();
     void requestUpdate();
@@ -109,7 +111,6 @@ signals:
 
 protected:
     void updateColumnSize();
-    void setDisplayedRow(int rCount);
 
 protected:
     ControlPosition m_position;

@@ -36,7 +36,7 @@ SheetWidget::SheetWidget(CharacterSheet* chSheet, charactersheet::ImageModel* im
 void SheetWidget::mousePressEvent(QMouseEvent* event)
 {
     QQuickWidget::mousePressEvent(event);
-    if(!event->isAccepted() && event->button() == Qt::RightButton)
+    if(!event->isAccepted() && event->button() == Qt::RightButton && (event->modifiers() & Qt::ControlModifier))
     {
         emit customMenuRequested(event->pos());
     }

@@ -13,7 +13,7 @@
 ## endfor
 {{ indent }}    }
 {{ indent }}    onAddLine:{
-{{ indent }}        {{ value }}.addLine()
+{{ indent }}        {{ value }}.addLine(true)
 {{ indent }}    }
 {{ indent }}    onRemoveLine:(index)=>{
 {{ indent }}            {{ value }}.removeLine(index)

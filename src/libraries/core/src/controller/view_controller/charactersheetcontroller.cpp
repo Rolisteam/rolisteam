@@ -133,7 +133,7 @@ QString CharacterSheetController::gameMasterId() const
 
 bool CharacterSheetController::cornerEnabled() const
 {
-    return false;
+    return m_cornerEnabled;
 }
 
 void CharacterSheetController::updateFieldFrom(const QString& sheetId, const QJsonObject& obj,
@@ -309,4 +309,12 @@ void CharacterSheetController::merge(CharacterSheetController* otherCtrl)
     }
     otherCtrl->deleteLater();
     setModified();
+}
+
+void CharacterSheetController::setCornerEnabled(bool newCornerEnabled)
+{
+    if(m_cornerEnabled == newCornerEnabled)
+        return;
+    m_cornerEnabled= newCornerEnabled;
+    emit cornerEnabledChanged(m_cornerEnabled);
 }

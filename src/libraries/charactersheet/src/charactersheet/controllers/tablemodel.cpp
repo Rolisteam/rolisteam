@@ -133,6 +133,9 @@ QVariant TableModel::data(const QModelIndex& index, int role) const
     case FormulaRole:
         res= item->formula().isEmpty() ? item->value() : item->formula();
         break;
+    case IdRole:
+        res= item->id();
+        break;
     }
 
     return res;
@@ -143,6 +146,7 @@ QHash<int, QByteArray> TableModel::roleNames() const
     auto res= QAbstractTableModel::roleNames();
     res.insert(ValueRole, "value");
     res.insert(FormulaRole, "formula");
+    res.insert(IdRole, "cellId");
     return res;
 }
 void TableModel::addRows(int rCount)

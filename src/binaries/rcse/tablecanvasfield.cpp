@@ -20,15 +20,15 @@
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
  ***************************************************************************/
 #include "tablecanvasfield.h"
+#include <QComboBox>
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
+#include <QInputDialog>
 #include <QJsonArray>
-#include <QComboBox>
+#include <QMetaEnum>
 #include <QPainter>
 #include <QStyle>
-#include <QMetaEnum>
 #include <QStyleOptionGraphicsItem>
-#include <QInputDialog>
 
 #include "charactersheet/controllers/fieldcontroller.h"
 #include "charactersheet/controllers/tablefield.h"
@@ -41,7 +41,7 @@ bool compareHandles(HandleItem* first, HandleItem* two)
 
 bool isValid(int listSize, int index)
 {
-    if(listSize == 0 || index < 0 || index >= listSize )
+    if(listSize == 0 || index < 0 || index >= listSize)
     {
         qWarning() << "Number of columns does not fit the index:" << index << listSize;
         return false;
@@ -50,26 +50,21 @@ bool isValid(int listSize, int index)
 }
 
 TableCanvasField::TableCanvasField(TableFieldController* field)
-    : CanvasField(field),m_ctrl(field),m_addColumn{new ButtonCanvas},m_addLine{new ButtonCanvas}
+    : CanvasField(field), m_ctrl(field), m_addColumn{new ButtonCanvas}, m_addLine{new ButtonCanvas}
 {
 
     m_addColumn->setParentItem(this);
     m_addLine->setParentItem(this);
-    using cs = CSItem::TypeField;
+    using cs= CSItem::TypeField;
 
-    m_typeToText = { {  cs::TEXTINPUT,tr("TextInput")},
-                   {   cs::TEXTFIELD,tr("TextField")},
-                   {   cs::TEXTAREA,tr("TextArea")},
-                   {   cs::SELECT,tr("Select")},
-                   {   cs::CHECKBOX,tr("CheckBox")},
-                   {   cs::IMAGE,tr("Image")},
-                   {   cs::RLABEL,tr("Label")},
-                   {   cs::DICEBUTTON,tr("Dice Button")},
-                   {   cs::FUNCBUTTON,tr("Function Button")},
-                   {   cs::WEBPAGE,tr("Web page")},
-                   {  cs::SLIDER,tr("Slider")}};
+    m_typeToText= {
+        {cs::TEXTINPUT, tr("TextInput")}, {cs::TEXTFIELD, tr("TextField")},    {cs::TEXTAREA, tr("TextArea")},
+        {cs::SELECT, tr("Select")},       {cs::CHECKBOX, tr("CheckBox")},      {cs::IMAGE, tr("Image")},
+        {cs::RLABEL, tr("Label")},        {cs::DICEBUTTON, tr("Dice Button")}, {cs::FUNCBUTTON, tr("Function Button")},
+        {cs::WEBPAGE, tr("Web page")},    {cs::SLIDER, tr("Slider")}};
 
-    auto func = [this](bool add, int index){
+    auto func= [this](bool add, int index)
+    {
         if(add)
             addColumn(index);
         else
@@ -77,32 +72,30 @@ TableCanvasField::TableCanvasField(TableFieldController* field)
     };
     connect(m_ctrl, &TableFieldController::columnCountChanged, this, func);
 
-    for(int i = 0; i < m_ctrl->columnCount(); ++i)
+    for(int i= 0; i < m_ctrl->columnCount(); ++i)
     {
         func(true, i);
     }
 
-
-    auto updateColGeometry = [this](){
-
-        auto model = m_ctrl->model();
+    auto updateColGeometry= [this]()
+    {
+        auto model= m_ctrl->model();
         if(!model)
             return;
-        auto cols = model->columns();
-        if(m_columnSelector.size()<=0)
+        auto cols= model->columns();
+        if(m_columnSelector.size() <= 0)
             return;
-        bool add = m_columnSize <= cols.size();
-        auto wCols = std::accumulate(std::begin(cols), std::end(cols), 0., [](qreal b, FieldController* col){
-            return b + col->width();
-        });
+        bool add= m_columnSize <= cols.size();
+        auto wCols= std::accumulate(std::begin(cols), std::end(cols), 0.,
+                                    [](qreal b, FieldController* col) { return b + col->width(); });
 
         if(add)
         {
-            qreal wStep = 1./cols.size();
-            auto offsetX=0;
-            for(auto & col : cols)
+            qreal wStep= 1. / cols.size();
+            auto offsetX= 0;
+            for(auto& col : cols)
             {
-                //qDebug() << "table canvas set width in for loop" << col->width();
+                // qDebug() << "table canvas set width in for loop" << col->width();
                 if(qFuzzyCompare(col->width(), 0.))
                 {
                     col->setWidth(m_ctrl->width() * wStep);
@@ -110,37 +103,35 @@ TableCanvasField::TableCanvasField(TableFieldController* field)
                 else
                 {
 
-                    col->setWidth(col->width() * (1.-wStep));
+                    col->setWidth(col->width() * (1. - wStep));
                 }
                 col->setHeight(20);
                 col->setX(offsetX);
-                offsetX = col->x() + col->width();
+                offsetX= col->x() + col->width();
                 col->setY(0);
             }
         }
         else if(m_ctrl->width() > 0)
         {
 
-            auto space = m_ctrl->width() - wCols;
-            auto offset = 0;
+            auto space= m_ctrl->width() - wCols;
+            auto offset= 0;
             for(auto& col : cols)
             {
-                auto x = col->width()/wCols;
-                col->setWidth(col->width()+x*space);
+                auto x= col->width() / wCols;
+                col->setWidth(col->width() + x * space);
                 col->setX(offset);
                 offset+= col->width();
             }
         }
-        m_columnSize=cols.size();
+        m_columnSize= cols.size();
     };
 
     connect(m_ctrl, &TableFieldController::widthChanged, this, updateColGeometry);
     connect(m_ctrl, &TableFieldController::columnCountChanged, this, updateColGeometry);
-    connect(m_ctrl, &TableFieldController::displayedRowChanged, this, [this](){
-        update();
-    });
+    connect(m_ctrl, &TableFieldController::displayedRowChanged, this, [this]() { update(); });
 
-    auto m = m_ctrl->model();
+    auto m= m_ctrl->model();
     if(m && m->columns().isEmpty())
         updateColGeometry();
 
@@ -148,18 +139,17 @@ TableCanvasField::TableCanvasField(TableFieldController* field)
     m_addColumn->setMsg("+");
 
     connect(m_addColumn.get(), &ButtonCanvas::clicked, m_ctrl, &TableFieldController::addColumn);
-    connect(m_addLine.get(), &ButtonCanvas::clicked, m_ctrl, &TableFieldController::addLine);
-    connect(m_ctrl.get(), &TableFieldController::requestUpdate, this, [this](){update();});
+    connect(m_addLine.get(), &ButtonCanvas::clicked, m_ctrl, [this]() { m_ctrl->addLine(); });
+    connect(m_ctrl.get(), &TableFieldController::requestUpdate, this, [this]() { update(); });
 
     if(nullptr == m_ctrl->model())
         m_ctrl->init();
 }
 TableCanvasField::~TableCanvasField() {}
 
-
 void TableCanvasField::setMenu(QMenu& menu)
 {
-  //menu.addAction(m_defineColumns);
+    // menu.addAction(m_defineColumns);
 }
 
 void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
@@ -174,7 +164,8 @@ void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*,
     painter->drawRect(rect);
 
     m_addLine->setPos(-m_addLine->boundingRect().width(), boundingRect().height() / 2);
-    m_addColumn->setPos((boundingRect().width()-m_addColumn->boundingRect().width()) / 2, -m_addColumn->boundingRect().height());
+    m_addColumn->setPos((boundingRect().width() - m_addColumn->boundingRect().width()) / 2,
+                        -m_addColumn->boundingRect().height());
 
     if(hasFocusOrChild())
     {
@@ -188,36 +179,37 @@ void TableCanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem*,
     }
 
     auto yStep= boundingRect().height() / (m_ctrl->rowCount());
-    auto model = m_ctrl->model();
-    auto cols = model->columns();
+    auto model= m_ctrl->model();
+    auto cols= model->columns();
 
-    int i = 0;
+    int i= 0;
     for(auto const& col : cols)
     {
-        auto const& widget = m_columnSelector[i];
-        auto const& remove = m_columnRemover[i];
-        auto const& handle = m_handles[i];
+        auto const& widget= m_columnSelector[i];
+        auto const& remove= m_columnRemover[i];
+        auto const& handle= m_handles[i];
 
-        //qDebug() << "Field parents: " <<widget->parentItem() << remove->parentItem() << handle->parentItem();
+        // qDebug() << "Field parents: " <<widget->parentItem() << remove->parentItem() << handle->parentItem();
 
-        auto w = col->width();
+        auto w= col->width();
         if(qFuzzyCompare(w, 0))
         {
-            w = m_ctrl->width()/cols.size();
+            w= m_ctrl->width() / cols.size();
         }
-        widget->setRect({-w/2, col->height()/2, w, col->height()});
-        widget->setPos(col->x()+w/2, 20);
+        widget->setRect({-w / 2, col->height() / 2, w, col->height()});
+        widget->setPos(col->x() + w / 2, 20);
         widget->setOpacity(0.6);
         widget->setVisible(true);
 
-        remove->setVisible(cols.size()>1);
-        remove->setPos(col->x()+w/2-remove->boundingRect().width()/2, m_ctrl->height()-remove->boundingRect().height());
+        remove->setVisible(cols.size() > 1);
+        remove->setPos(col->x() + w / 2 - remove->boundingRect().width() / 2,
+                       m_ctrl->height() - remove->boundingRect().height());
 
-        handle->setVisible(i!=0 && hasFocusOrChild());
-        handle->setPos(col->x(), m_ctrl->height()/2-handle->boundingRect().height()/2);
+        handle->setVisible(i != 0 && hasFocusOrChild());
+        handle->setPos(col->x(), m_ctrl->height() / 2 - handle->boundingRect().height() / 2);
 
         if(i > 0)
-            painter->drawLine(col->x(), 0, col->x(), boundingRect().height() );
+            painter->drawLine(col->x(), 0, col->x(), boundingRect().height());
 
         ++i;
     }
@@ -261,94 +253,98 @@ void TableCanvasField::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void TableCanvasField::addColumn(int index)
 {
-    using cs = CSItem::TypeField;
-    auto const& model = m_ctrl->model();
-    auto const& cols = model->columns();
+    using cs= CSItem::TypeField;
+    auto const& model= m_ctrl->model();
+    auto const& cols= model->columns();
 
     if(!isValid(cols.size(), index))
         return;
 
-    auto const& col = cols[index];
-    auto type = col->fieldType();
-    auto key=  m_typeToText.value(type);
+    auto const& col= cols[index];
+    auto type= col->fieldType();
+    auto key= m_typeToText.value(type);
 
-    auto wid = new ButtonCanvas();
-    auto remover = new ButtonCanvas();
-    auto handler = new HandleItem();
+    auto wid= new ButtonCanvas();
+    auto remover= new ButtonCanvas();
+    auto handler= new HandleItem();
 
-    connect(col, &CSItem::fieldTypeChanged, this, [this](){
-        auto field = qobject_cast<FieldController*>(sender());
+    connect(col, &CSItem::fieldTypeChanged, this,
+            [this]()
+            {
+                auto field= qobject_cast<FieldController*>(sender());
 
-        if(!field)
-            return;
+                if(!field)
+                    return;
 
-        auto m = m_ctrl->model();
-        auto const& cols = m->columns();
-        auto index = cols.indexOf(field);
-        auto const& selector = m_columnSelector[index];
+                auto m= m_ctrl->model();
+                auto const& cols= m->columns();
+                auto index= cols.indexOf(field);
+                auto const& selector= m_columnSelector[index];
 
-        selector->setMsg(m_typeToText.value(field->fieldType()));
-    });
-
+                selector->setMsg(m_typeToText.value(field->fieldType()));
+            });
 
     handler->setParentItem(this);
     m_handles.append(handler);
-    connect(handler, &HandleItem::xChanged,col, [this, handler](){
-        auto index = m_handles.indexOf(handler);;
-        updateColumnSize(index, handler->x());
-    });
+    connect(handler, &HandleItem::xChanged, col,
+            [this, handler]()
+            {
+                auto index= m_handles.indexOf(handler);
+                ;
+                updateColumnSize(index, handler->x());
+            });
 
     remover->setMsg("-");
     remover->setParentItem(this);
 
-    connect(remover, &ButtonCanvas::clicked, this, [this](){
-        auto remover = qobject_cast<ButtonCanvas*>(sender());
-        auto it = std::find_if(std::begin(m_columnRemover), std::end(m_columnRemover), [remover](const std::unique_ptr<ButtonCanvas>& ptr)
-                              {
-                                  return remover == ptr.get();
-                              });
-        if(it == std::end(m_columnRemover))
-            return;
+    connect(remover, &ButtonCanvas::clicked, this,
+            [this]()
+            {
+                auto remover= qobject_cast<ButtonCanvas*>(sender());
+                auto it= std::find_if(std::begin(m_columnRemover), std::end(m_columnRemover),
+                                      [remover](const std::unique_ptr<ButtonCanvas>& ptr)
+                                      { return remover == ptr.get(); });
+                if(it == std::end(m_columnRemover))
+                    return;
 
-        m_ctrl->removeColumn(std::distance(std::begin(m_columnRemover), it));
-    });
+                m_ctrl->removeColumn(std::distance(std::begin(m_columnRemover), it));
+            });
 
-    connect(wid, &ButtonCanvas::clicked, this, [this](){
-        auto wid = qobject_cast<ButtonCanvas*>(sender());
+    connect(wid, &ButtonCanvas::clicked, this,
+            [this]()
+            {
+                auto wid= qobject_cast<ButtonCanvas*>(sender());
 
-        bool ok;
-        auto vals = m_typeToText.values();
-        vals.sort();
-        qDebug() << vals << wid->msg() << vals.indexOf(wid->msg());
-        QString item = QInputDialog::getItem(nullptr, tr("Select the column type"),
-                                            tr("Type of Field:"),vals , vals.indexOf(wid->msg()), false, &ok);
+                bool ok;
+                auto vals= m_typeToText.values();
+                vals.sort();
+                qDebug() << vals << wid->msg() << vals.indexOf(wid->msg());
+                QString item= QInputDialog::getItem(nullptr, tr("Select the column type"), tr("Type of Field:"), vals,
+                                                    vals.indexOf(wid->msg()), false, &ok);
 
-        if(!ok)
-            return;
+                if(!ok)
+                    return;
 
-        auto const& model = m_ctrl->model();
-        auto const& cols = model->columns();
+                auto const& model= m_ctrl->model();
+                auto const& cols= model->columns();
 
-        auto it = std::find_if(std::begin(m_columnSelector), std::end(m_columnSelector), [wid](const std::unique_ptr<ButtonCanvas>& ptr)
-                              {
-                                  return wid == ptr.get();
-                              });
+                auto it= std::find_if(std::begin(m_columnSelector), std::end(m_columnSelector),
+                                      [wid](const std::unique_ptr<ButtonCanvas>& ptr) { return wid == ptr.get(); });
 
-        if(it == std::end(m_columnSelector))
-            return;
+                if(it == std::end(m_columnSelector))
+                    return;
 
-        auto index = std::distance(std::begin(m_columnSelector), it);
+                auto index= std::distance(std::begin(m_columnSelector), it);
 
-        if(!isValid(cols.size(), index))
-            return;
+                if(!isValid(cols.size(), index))
+                    return;
 
-        auto const& col = cols[index];
+                auto const& col= cols[index];
 
-
-        auto typeval = m_typeToText.key(item);
-        col->setFieldType(static_cast<cs>(typeval));
-        wid->setMsg(item);
-    });
+                auto typeval= m_typeToText.key(item);
+                col->setFieldType(static_cast<cs>(typeval));
+                wid->setMsg(item);
+            });
     wid->setMsg(key);
     wid->setParentItem(this);
     wid->setVisible(false);
@@ -358,32 +354,29 @@ void TableCanvasField::addColumn(int index)
 }
 void TableCanvasField::removeColumn(int index)
 {
-    m_columnSelector.erase(std::begin(m_columnSelector)+index);
-    m_columnRemover.erase(std::begin(m_columnRemover)+index);
-    auto h = m_handles.at(index);
+    m_columnSelector.erase(std::begin(m_columnSelector) + index);
+    m_columnRemover.erase(std::begin(m_columnRemover) + index);
+    auto h= m_handles.at(index);
     m_handles.removeAt(index);
     h->deleteLater();
 }
 
-
 void TableCanvasField::updateColumnSize(int index, qreal pos)
 {
-    auto const& model = m_ctrl->model();
-    auto const& cols = model->columns();
-    if(!isValid(cols.size(), index) || !isValid(cols.size(), index-1))
+    auto const& model= m_ctrl->model();
+    auto const& cols= model->columns();
+    if(!isValid(cols.size(), index) || !isValid(cols.size(), index - 1))
         return;
 
-    auto col = cols.at(index);
-    auto pcol = cols.at(index-1);
-    auto handler = m_handles.at(index);
+    auto col= cols.at(index);
+    auto pcol= cols.at(index - 1);
+    auto handler= m_handles.at(index);
 
-    auto change = pos-col->x();
+    auto change= pos - col->x();
     col->setX(handler->x());
-    col->setWidth(col->width()-change);
-    pcol->setWidth(pcol->width()+change);
-
+    col->setWidth(col->width() - change);
+    pcol->setWidth(pcol->width() + change);
 }
-
 
 ButtonCanvas::ButtonCanvas() : m_rect(QRectF(-SQUARE_SIZE, -SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 {
@@ -401,7 +394,7 @@ void ButtonCanvas::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWi
     painter->save();
     painter->fillRect(boundingRect(), Qt::cyan);
     painter->save();
-    auto p = painter->pen();
+    auto p= painter->pen();
     p.setColor(hasFocus() ? Qt::red : Qt::black);
     p.setWidth(2);
     painter->setPen(p);
@@ -434,13 +427,14 @@ void ButtonCanvas::mousePressEvent(QGraphicsSceneMouseEvent* event)
         return;
     }
 
-    auto p = parentItem();
+    auto p= parentItem();
     qDebug() << "button pressed1" << m_msg << event->scenePos() << pos() << boundingRect() << this << p << hasFocus();
     if(!p || p->boundingRect().isEmpty())
         return;
 
-    qDebug() << "button pressed2" << m_msg << event->isAccepted() << boundingRect() << parentItem()->boundingRect() << event->buttons();
-    if(event->buttons() & Qt::LeftButton )//&& event->isAccepted()
+    qDebug() << "button pressed2" << m_msg << event->isAccepted() << boundingRect() << parentItem()->boundingRect()
+             << event->buttons();
+    if(event->buttons() & Qt::LeftButton) //&& event->isAccepted()
     {
         qDebug() << "button pressed5 inside" << event->pos();
         if(boundingRect().contains(event->pos()))

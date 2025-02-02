@@ -88,10 +88,15 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     auto button= new QToolButton(this); // tr("Actions")
     button->setDefaultAction(m_ui->m_menuAct);
     m_ui->m_tabwidget->setCornerWidget(button);
-    button->setEnabled(false);
+    button->setEnabled(m_sheetCtrl->cornerEnabled());
     connect(m_sheetCtrl, &CharacterSheetController::cornerEnabledChanged, button, &QToolButton::setEnabled);
-    connect(button, &QPushButton::clicked, this,
-            [button, this]() { contextMenuForTabs(QPoint(button->pos().x(), 0)); });
+    connect(button, &QToolButton::clicked, this,
+            [button, this]()
+            {
+                if(m_ui->m_tabwidget->count() < 2)
+                    return;
+                contextMenuForTabs(QPoint(button->pos().x(), 0));
+            });
 
     auto updateTitle= [this]()
     {
@@ -101,6 +106,8 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
             setWindowTitle(tr("%1 - (CharacterSheet Viewer)").arg(name.isEmpty() ? tr("Unknown") : name));
         }
     };
+    connect(m_ui->m_tabwidget, &QTabWidget::currentChanged, this,
+            [this](int idx) { m_sheetCtrl->setCornerEnabled(idx != 0); });
     connect(m_sheetCtrl, &CharacterSheetController::nameChanged, this, updateTitle);
     connect(m_sheetCtrl, &CharacterSheetController::removedSheet, this,
             [this](const QString& characterSheetId, const QString& ctrlId, const QString& characterId)
@@ -286,11 +293,14 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint pos)
     QWidget* wid= m_ui->m_tabwidget->currentWidget();
     SheetWidget* quickWid= dynamic_cast<SheetWidget*>(wid);
 
+    if(!quickWid)
+        return;
+
     if(m_sheetCtrl->localGM())
     {
         addSharingMenu(menu.addMenu(tr("Share To")), m_ui->m_tabwidget->currentIndex() - 1);
     }
-    menu.addAction(m_ui->m_copyTab);
+    // menu.addAction(m_ui->m_copyTab);
 
     if(m_sheetCtrl->localGM())
     {

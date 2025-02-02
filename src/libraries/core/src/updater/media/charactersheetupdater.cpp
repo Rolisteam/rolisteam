@@ -24,6 +24,7 @@
 
 #include "charactersheet/charactersheet.h"
 #include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/controllers/tablefield.h"
 #include "charactersheet/csitem.h"
 #include "common/logcategory.h"
 #include "controller/view_controller/charactersheetcontroller.h"
@@ -194,6 +195,7 @@ void CharacterSheetUpdater::setUpFieldUpdate(CharacterSheet* sheet) const
 {
     connect(sheet, &CharacterSheet::updateField, this, &CharacterSheetUpdater::updateField);
     connect(sheet, &CharacterSheet::updateTableFieldCellValue, this, &CharacterSheetUpdater::updateTableFieldCell);
+    connect(sheet, &CharacterSheet::tableRowCountChanged, this, &CharacterSheetUpdater::updateTableRowCount);
 }
 
 void CharacterSheetUpdater::updateTableFieldCell(CharacterSheet* sheet, const QString& path, int r, int c)
@@ -267,10 +269,42 @@ NetWorkReceiver::SendType CharacterSheetUpdater::processMessage(NetworkMessageRe
             if(sheet)
             {
                 auto cell= sheet->getFieldFromKey(path);
-                cell->setUpdateFromNetwork(true);
-                cell->setValueFrom(TreeSheetItem::VALUE, value);
-                cell->setValueFrom(TreeSheetItem::FORMULA, formula);
-                cell->setUpdateFromNetwork(false);
+                if(cell)
+                {
+                    cell->setUpdateFromNetwork(true);
+                    cell->setValueFrom(TreeSheetItem::VALUE, value);
+                    cell->setValueFrom(TreeSheetItem::FORMULA, formula);
+                    cell->setUpdateFromNetwork(false);
+                }
+            }
+        }
+    }
+    else if(checkAction(msg, NetMsg::CharacterSheetCategory, NetMsg::updateTableRowCount))
+    {
+        qCInfo(CharacterSheetCat) << "[sheet] NetMsg::CharacterSheetCategory, NetMsg::updateTableRowCount";
+        auto idMedia= msg->string8();
+        auto idSheet= msg->string8();
+        auto ctrl= findController(idMedia, idSheet, m_ctrls);
+        if(ctrl)
+        {
+            auto path= msg->string32();
+            auto add= msg->uint8();
+            auto index= msg->uint32();
+
+            auto sheet= ctrl->characterSheetFromId(idSheet);
+            if(sheet)
+            {
+                auto table= dynamic_cast<TableFieldController*>(sheet->getFieldFromKey(path));
+
+                if(table)
+                {
+                    table->setUpdateFromNetwork(true);
+                    if(add)
+                        table->addLine(true);
+                    else
+                        table->removeLine(index);
+                    table->setUpdateFromNetwork(false);
+                }
             }
         }
     }
@@ -313,6 +347,37 @@ void CharacterSheetUpdater::updateField(CharacterSheet* sheet, CSItem* itemSheet
                       QJsonDocument doc;
                       doc.setObject(object);
                       msg.byteArray32(doc.toJson());
+                      msg.sendToServer();
+                  });
+}
+
+void CharacterSheetUpdater::updateTableRowCount(bool add, CharacterSheet* sheet, CSItem* itemSheet, const QString& path,
+                                                int index)
+{
+    if(nullptr == sheet || itemSheet == nullptr)
+        return;
+
+    if(itemSheet->updateFromNetwork())
+        return;
+
+    qCInfo(CharacterSheetCat) << "[sheet] NetMsg::CharacterSheetCategory count :" << m_sharingData.size();
+    std::for_each(std::begin(m_sharingData), std::end(m_sharingData),
+                  [sheet, path, add, index](const CSSharingInfo& info)
+                  {
+                      if(info.sheet != sheet)
+                          return;
+
+                      NetworkMessageWriter msg(NetMsg::CharacterSheetCategory, NetMsg::updateTableRowCount);
+                      if(info.mode != SharingMode::ALL)
+                      {
+                          msg.setRecipientList(info.recipients, NetworkMessage::OneOrMany);
+                      }
+                      msg.string8(info.ctrlId);
+                      msg.string8(sheet->uuid());
+                      msg.string32(path);
+                      msg.uint8(add);
+                      msg.uint32(index);
+
                       msg.sendToServer();
                   });
 }

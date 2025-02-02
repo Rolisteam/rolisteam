@@ -77,6 +77,7 @@ public slots:
 
 signals:
     void updateField(CharacterSheet*, CSItem*, const QString& path);
+    void tableRowCountChanged(bool, CharacterSheet*, CSItem*, const QString& path, int index);
     void updateTableFieldCellValue(CharacterSheet*, const QString& path, int r, int c);
     void fieldValueChanged(CharacterSheet*, const QString& id);
     void addLineToTableField(CharacterSheet*, CSItem*);

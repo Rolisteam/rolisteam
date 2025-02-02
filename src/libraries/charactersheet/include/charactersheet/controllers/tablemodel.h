@@ -44,6 +44,7 @@ public:
     {
         ValueRole= Qt::UserRole + 1,
         FormulaRole,
+        IdRole
     };
     TableModel(TreeSheetItem* parent);
 

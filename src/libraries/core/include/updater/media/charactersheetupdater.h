@@ -68,6 +68,7 @@ public slots:
     void updateTableFieldCell(CharacterSheet*, const QString& path, int r, int c);
 private slots:
     void updateField(CharacterSheet* sheet, CSItem* itemSheet, const QString& path);
+    void updateTableRowCount(bool add, CharacterSheet* sheet, CSItem* itemSheet, const QString& path, int index);
 
 signals:
     void characterSheetAdded(NetworkMessageReader* msg);

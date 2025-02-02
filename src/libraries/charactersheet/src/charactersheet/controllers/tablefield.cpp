@@ -82,10 +82,16 @@ void TableFieldController::removeLastLine()
     m_model->removeLine(m_model->rowCount(index) - 1);
 }
 
-void TableFieldController::addLine()
+void TableFieldController::addLine(bool inGame)
 {
     if(!m_model)
         return;
+
+    if(inGame)
+    {
+        m_model->addRow();
+        return;
+    }
 
     if(m_model->rowCount() == m_displayedRow)
     {
@@ -159,6 +165,20 @@ void TableFieldController::init()
                 auto cell= m_model->cellData(start.row(), start.column());
                 emit cellValueChanged(id(), start.row(), start.column(), cell->id());
             });
+    connect(m_model.get(), &TableModel::rowsInserted, this,
+            [this](const QModelIndex& index, int first, int last)
+            {
+                Q_UNUSED(index)
+                Q_UNUSED(last)
+                emit rowCountChanged(true, first);
+            });
+    connect(m_model.get(), &TableModel::rowsRemoved, this,
+            [this](const QModelIndex& index, int first, int last)
+            {
+                Q_UNUSED(index)
+                Q_UNUSED(last)
+                emit rowCountChanged(false, first);
+            });
     addColumn();
 
     m_border= NONE;
@@ -182,7 +202,7 @@ void TableFieldController::setDisplayedRow(int rCount)
     if(rCount == m_displayedRow)
         return;
     m_displayedRow= rCount;
-    emit rowCountChanged();
+    emit displayedRowChanged();
 }
 
 TableFieldController::ControlPosition TableFieldController::position() const

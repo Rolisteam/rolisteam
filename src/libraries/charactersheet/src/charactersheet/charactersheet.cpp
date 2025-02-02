@@ -374,6 +374,15 @@ void CharacterSheet::insertField(QString key, CSItem* itemSheet)
     auto tableField= dynamic_cast<TableFieldController*>(itemSheet);
     if(!tableField)
         return;
+    connect(tableField, &TableFieldController::rowCountChanged, this,
+            [this](bool add, int index)
+            {
+                auto s= qobject_cast<CSItem*>(sender());
+                if(!s)
+                    return;
+
+                emit tableRowCountChanged(add, this, s, s->path(), index);
+            });
     connect(tableField, &TableFieldController::cellValueChanged, this,
             [this](const QString& tableId, int r, int c, const QString& id)
             { emit updateTableFieldCellValue(this, QString("%1.%2").arg(tableId, id), r, c); });
