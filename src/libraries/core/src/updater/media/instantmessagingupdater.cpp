@@ -30,11 +30,32 @@
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "network/receiveevent.h"
+#include "utils/iohelper.h"
 #include "worker/convertionhelper.h"
+#include "worker/iohelper.h"
+#include "worker/modelhelper.h"
 
 namespace InstantMessaging
 {
-InstantMessagingUpdater::InstantMessagingUpdater(QObject* parent) : QObject(parent) {}
+InstantMessagingUpdater::InstantMessagingUpdater(InstantMessagingController* ctrl, QObject* parent)
+    : QObject(parent), m_imCtrl(ctrl)
+{
+    ReceiveEvent::registerNetworkReceiver(NetMsg::InstantMessageCategory, this);
+
+    connect(m_imCtrl, &InstantMessagingController::chatRoomCreated, this,
+            [this](InstantMessaging::ChatRoom* room, bool remote) { addChatRoom(room, remote); });
+
+    auto model= ctrl->model();
+    if(!model)
+        return;
+
+    auto const& rooms= model->rooms();
+    for(auto const& t : rooms)
+    {
+        addChatRoom(t.get(), false);
+    }
+}
 
 void InstantMessagingUpdater::openChat(InstantMessaging::ChatRoom* chat)
 {
@@ -95,36 +116,38 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room, bool
             [this, room]() { sendOffChatRoomChanges<QString>(room, QStringLiteral("title")); });
 
     auto model= room->messageModel();
-    connect(model, &InstantMessaging::MessageModel::messageAdded, this, [room](MessageInterface* message) {
-        if(!message)
-            return;
-        if(message->type() == InstantMessaging::MessageInterface::Error)
-            return;
-        auto type= room->type();
-        NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::InstantMessageAction);
-        if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("global"))
-        {
-            auto model= room->recipiants();
-            if(!model)
-                return;
+    connect(model, &InstantMessaging::MessageModel::messageAdded, this,
+            [room](MessageInterface* message)
+            {
+                if(!message)
+                    return;
+                if(message->type() == InstantMessaging::MessageInterface::Error)
+                    return;
+                auto type= room->type();
+                NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::InstantMessageAction);
+                if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("global"))
+                {
+                    auto model= room->recipiants();
+                    if(!model)
+                        return;
 
-            auto recipiants= model->recipiantIds();
-            if(type == ChatRoom::SINGLEPLAYER)
-                recipiants.append(room->uuid());
+                    auto recipiants= model->recipiantIds();
+                    if(type == ChatRoom::SINGLEPLAYER)
+                        recipiants.append(room->uuid());
 
-            msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-        }
-        msg.uint8(type);
-        msg.string8(room->uuid());
-        msg.uint8(message->type());
-        msg.string16(message->owner());
-        msg.string16(message->writer());
-        msg.string32(message->text());
-        msg.dateTime(message->dateTime());
-        msg.string32(message->imageLink().toString());
+                    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+                }
+                msg.uint8(type);
+                msg.string8(room->uuid());
+                msg.uint8(message->type());
+                msg.string16(message->owner());
+                msg.string16(message->writer());
+                msg.string32(message->text());
+                msg.dateTime(message->dateTime());
+                msg.string32(message->imageLink().toString());
 
-        msg.sendToServer();
-    });
+                msg.sendToServer();
+            });
 }
 
 void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagingModel* model,
@@ -166,6 +189,90 @@ void InstantMessagingUpdater::sendOffChatRoomChanges(ChatRoom* chatRoom, const Q
     auto val= chatRoom->property(property.toLocal8Bit().data());
     Helper::variantToType<T>(val.value<T>(), msg);
     msg.sendToServer();
+}
+
+NetWorkReceiver::SendType InstantMessagingUpdater::processMessage(NetworkMessageReader* msg)
+{
+    if(!m_imCtrl)
+        return NetWorkReceiver::NONE;
+
+    NetWorkReceiver::SendType type= NetWorkReceiver::AllExceptSender;
+    switch(msg->action())
+    {
+    case NetMsg::InstantMessageAction:
+        addMessageToModel(m_imCtrl->model(), msg);
+        break;
+    case NetMsg::AddChatroomAction:
+        readChatroomToModel(m_imCtrl->model(), msg);
+        break;
+    default:
+        break;
+    }
+    return type;
+}
+
+namespace keys
+{
+constexpr auto modelData{"rooms"};
+constexpr auto font{"font"};
+constexpr auto nightMode{"nightMode"};
+constexpr auto sound{"sound"};
+} // namespace keys
+
+void InstantMessagingUpdater::save(const QString& path)
+{
+    if(!m_imCtrl)
+        return;
+
+    QJsonObject rootObj;
+
+    auto model= m_imCtrl->model();
+
+    QJsonObject obj;
+    if(m_saveChatrooms)
+        obj= ModelHelper::saveInstantMessageModel(model);
+
+    rootObj[keys::modelData]= obj;
+    rootObj[keys::nightMode]= m_imCtrl->nightMode();
+    rootObj[keys::sound]= m_imCtrl->sound();
+    rootObj[keys::font]= m_imCtrl->font().toString();
+
+    QJsonDocument doc;
+    doc.setObject(rootObj);
+
+    utils::IOHelper::writeFile(path, doc.toJson(), true);
+}
+
+void InstantMessagingUpdater::load(const QString& path)
+{
+    if(!m_imCtrl)
+        return;
+    auto model= m_imCtrl->model();
+
+    bool ok;
+    auto data= IOHelper::loadJsonFileIntoObject(path, ok);
+
+    auto modelData= data[keys::modelData].toObject();
+    m_imCtrl->setSound(data[keys::sound].toBool());
+    QFont f;
+    f.fromString(data[keys::font].toString());
+    m_imCtrl->setFont(f);
+    m_imCtrl->setNightMode(data[keys::nightMode].toInt());
+    if(ok && !data.isEmpty() && m_saveChatrooms)
+        ModelHelper::fetchInstantMessageModel(modelData, model);
+}
+
+bool InstantMessagingUpdater::saveChatrooms() const
+{
+    return m_saveChatrooms;
+}
+
+void InstantMessagingUpdater::setSaveChatrooms(bool newSaveChatrooms)
+{
+    if(m_saveChatrooms == newSaveChatrooms)
+        return;
+    m_saveChatrooms= newSaveChatrooms;
+    emit saveChatroomsChanged();
 }
 
 } // namespace InstantMessaging

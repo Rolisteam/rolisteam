@@ -193,6 +193,9 @@ QString Campaign::directory(Place place) const
     case Place::TRASH_ROOT:
         res= QString("%1/%2").arg(rootDirectory(), TRASH_FOLDER);
         break;
+    case Place::IM_FILE:
+        res= QString("%1/%2").arg(rootDirectory(), IM_DATA);
+        break;
     case Place::NPC_ROOT:
         res= QString("%1/%2").arg(rootDirectory(), CHARACTER_ROOT);
         break;
@@ -348,9 +351,9 @@ bool Campaign::loadSession() const
 
 void Campaign::setLoadSession(bool newLoadSession)
 {
-    if (m_loadSession == newLoadSession)
+    if(m_loadSession == newLoadSession)
         return;
-    m_loadSession = newLoadSession;
+    m_loadSession= newLoadSession;
     emit loadSessionChanged();
 }
 

@@ -21,18 +21,23 @@
 #define INSTANTMESSAGINGUPDATER_H
 
 #include <QObject>
+#include <QPointer>
+
+#include "controller/instantmessagingcontroller.h"
+#include "network/networkreceiver.h"
+#include <core_global.h>
 
 class NetworkMessageReader;
-#include <core_global.h>
 namespace InstantMessaging
 {
 class ChatRoom;
 class InstantMessagingModel;
-class  CORE_EXPORT InstantMessagingUpdater : public QObject
+class CORE_EXPORT InstantMessagingUpdater : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
+    Q_PROPERTY(bool saveChatrooms READ saveChatrooms WRITE setSaveChatrooms NOTIFY saveChatroomsChanged FINAL)
 public:
-    explicit InstantMessagingUpdater(QObject* parent= nullptr);
+    explicit InstantMessagingUpdater(InstantMessagingController* ctrl, QObject* parent= nullptr);
 
     void addChatRoom(InstantMessaging::ChatRoom* chat, bool remote= false);
     static void sendMessage();
@@ -43,6 +48,20 @@ public:
     template <typename T>
     void sendOffChatRoomChanges(InstantMessaging::ChatRoom* chatRoom, const QString& property);
     void addMessageToModel(InstantMessaging::InstantMessagingModel* model, NetworkMessageReader* msg);
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+
+    void save(const QString& path);
+    void load(const QString& path);
+
+    bool saveChatrooms() const;
+    void setSaveChatrooms(bool newSaveChatrooms);
+
+signals:
+    void saveChatroomsChanged();
+
+private:
+    QPointer<InstantMessagingController> m_imCtrl;
+    bool m_saveChatrooms{false};
 };
 
 } // namespace InstantMessaging

@@ -47,6 +47,7 @@ constexpr auto THIRD_AUDIO_PLAYER_FILE{"audioplayer3.json"};
 constexpr auto DICE_ALIAS_MODEL{"dice_command.json"};
 constexpr auto STATE_MODEL{"states.json"};
 constexpr auto MEDIA_ROOT{"media"};
+constexpr auto IM_DATA{"chatrooms.json"};
 constexpr auto STATE_ROOT{"states"};
 constexpr auto CHARACTER_ROOT{"npcs"};
 constexpr auto CHARACTER_MODEL{"npc.json"};
@@ -93,6 +94,7 @@ public:
         NPC_ROOT,
         NPC_MODEL,
         THEME_FILE,
+        IM_FILE,
         DICE_MODEL,
         FIRST_AUDIO_PLAYER_FILE,
         SECOND_AUDIO_PLAYER_FILE,

@@ -55,11 +55,12 @@ GameController::GameController(const QString& appname, const QString& version, Q
                                           m_playerController->characterModel(), clipboard, m_networkCtrl.get()))
     , m_preferences(new PreferencesManager(appname, QString("%1_%2/preferences").arg(appname, version)))
     , m_instantMessagingCtrl(new InstantMessagingController(m_diceParser.get(), m_playerController->model()))
+    , m_imUpdater(new InstantMessaging::InstantMessagingUpdater(m_instantMessagingCtrl.get()))
     , m_audioCtrl(new AudioController(m_campaignManager.get(), m_preferences.get()))
+    , m_dicePhysicController(new Dice3DController)
     , m_version(version)
     , m_undoStack(new QUndoStack)
     , m_autoSaveCtrl(new AutoSaveController(m_preferences.get()))
-    , m_dicePhysicController(new Dice3DController)
 {
     new DicePhysicUpdater(m_dicePhysicController.get(), this);
     m_preferences->readSettings();
@@ -128,6 +129,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
         m_campaignManager->diceparser();
         ModelHelper::fetchDice3d(m_dicePhysicController.get(),
                                          utils::IOHelper::loadFile(m_campaignManager->placeDirectory(campaign::Campaign::Place::DICE_3D_FILE)));
+        m_imUpdater->load(m_campaignManager->placeDirectory(campaign::Campaign::Place::IM_FILE));
 
         auto c = m_campaignManager->campaign();
         if(!c || !c->loadSession())
@@ -144,6 +146,9 @@ GameController::GameController(const QString& appname, const QString& version, Q
         });
     });
     // clang-format on
+
+    m_preferences->registerLambda("Messaging::SaveChatrooms",
+                                  [this](const QVariant& var) { m_imUpdater->setSaveChatrooms(var.toBool()); });
 
     m_contentCtrl->setGameMasterId(m_playerController->gameMasterId());
     m_remoteLogCtrl->setLocalUuid(m_playerController->localPlayerId());
@@ -258,7 +263,9 @@ void GameController::save()
     ModelHelper::saveDice3d(m_dicePhysicController.get(),
                             m_campaignManager->placeDirectory(campaign::Campaign::Place::DICE_3D_FILE));
     m_audioCtrl->saveStates();
+
     m_campaignManager->saveCampaign();
+    m_imUpdater->save(m_campaignManager->placeDirectory(campaign::Campaign::Place::IM_FILE));
 }
 
 void GameController::saveAs(const QString& path)
@@ -266,9 +273,12 @@ void GameController::saveAs(const QString& path)
     if(!localIsGM())
         return;
 
-    ModelHelper::saveSession(m_contentCtrl.get());
-    m_audioCtrl->saveStates();
     m_campaignManager->copyCampaign(path);
+    save();
+    /*ModelHelper::saveSession(m_contentCtrl.get());
+    m_audioCtrl->saveStates();
+    ModelHelper::saveDice3d(m_dicePhysicController.get(),
+                            m_campaignManager->placeDirectory(campaign::Campaign::Place::DICE_3D_FILE));*/
 }
 
 void GameController::openPageWeb(const QString& urlText)

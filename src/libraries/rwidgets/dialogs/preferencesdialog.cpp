@@ -150,10 +150,7 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     connect(ui->m_displayTimePage, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
             [=](int val) { m_preferences->registerValue("waitingTimeBetweenPage", val, true); });
     // Messaging
-    connect(ui->m_showTimeCheckBox, SIGNAL(clicked(bool)), this, SLOT(manageMessagingPref()));
-    connect(ui->m_timeColorBtn, SIGNAL(clicked(bool)), this, SLOT(manageMessagingPref()));
-    connect(ui->m_maxLenghtCommand, SIGNAL(valueChanged(int)), this, SLOT(manageMessagingPref()));
-    connect(ui->m_hideLongCommand, SIGNAL(toggled(bool)), this, SLOT(manageMessagingPref()));
+    connect(ui->m_saveChatRoomCB, &QCheckBox::toggled, this, &PreferencesDialog::manageMessagingPref);
 
     // background
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(backgroundChanged()));
@@ -193,10 +190,7 @@ void PreferencesDialog::manageMessagingPref()
 {
     if(!m_preferences)
         return;
-    m_preferences->registerValue("MessagingShowTime", ui->m_showTimeCheckBox->isChecked());
-    m_preferences->registerValue("MessagingColorTime", ui->m_timeColorBtn->color());
-    m_preferences->registerValue("maxSizeForCuttingDiceCmd", ui->m_maxLenghtCommand->value());
-    m_preferences->registerValue("hideLongCommand", ui->m_hideLongCommand->isChecked());
+    m_preferences->registerValue("Messaging::SaveChatrooms", ui->m_saveChatRoomCB->isChecked());
 }
 
 void PreferencesDialog::updateTranslationPref()
@@ -228,12 +222,8 @@ void PreferencesDialog::save() const
     if(!m_preferences)
         return;
 
-    m_preferences->registerValue("MainWindow::MustBeChecked", ui->m_checkUpdate->isChecked());
-    m_preferences->registerValue("defaultPermissionMap", ui->m_defaultMapModeCombo->currentData().toInt());
-
     // messaging
-    m_preferences->registerValue("MessagingShowTime", ui->m_showTimeCheckBox->isChecked());
-    m_preferences->registerValue("MessagingColorTime", ui->m_timeColorBtn->color());
+    m_preferences->registerValue("Messaging::SaveChatrooms", ui->m_saveChatRoomCB->isChecked());
 
     // General
     QColor color;
@@ -243,8 +233,6 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("Mask_color", ui->m_fogColor->color());
     m_preferences->registerValue("PictureAdjust", ui->m_pictureAdjust->isChecked());
     m_preferences->registerValue("FullScreenAtStarting", ui->m_fullScreenCheckbox->isChecked());
-    m_preferences->registerValue("maxSizeForCuttingDiceCmd", ui->m_maxLenghtCommand->value());
-    m_preferences->registerValue("hideLongCommand", ui->m_hideLongCommand->isChecked());
     m_preferences->registerValue("shortNameInTabMode", ui->m_shortNameCb->isChecked());
     m_preferences->registerValue("MaxLengthTabName", ui->m_tabTitleLength->value());
 
@@ -305,8 +293,6 @@ void PreferencesDialog::load()
     ui->m_opacitySpin->setValue(m_preferences->value("Fog_opacity", fog.red()).toInt());
     ui->m_fogColor->setColor(m_preferences->value("Mask_color", QColor(Qt::darkMagenta)).value<QColor>());
     ui->m_fullScreenCheckbox->setChecked(m_preferences->value("FullScreenAtStarting", true).toBool());
-    ui->m_maxLenghtCommand->setValue(m_preferences->value("maxSizeForCuttingDiceCmd", 100).toInt());
-    ui->m_hideLongCommand->setChecked(m_preferences->value("hideLongCommand", false).toBool());
 
     // Default Permission
     ui->m_defaultMapModeCombo->setCurrentIndex(
@@ -318,9 +304,7 @@ void PreferencesDialog::load()
     ui->m_backgroundImage->setMode(FileDirChooser::OpenExistingFile);
     ui->m_backgroundImage->setFilter(tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
 
-    // Messaging
-    ui->m_showTimeCheckBox->setChecked(m_preferences->value("MessagingShowTime", false).toBool());
-    ui->m_timeColorBtn->setColor(m_preferences->value("MessagingColorTime", QColor(Qt::darkGreen)).value<QColor>());
+    ui->m_saveChatRoomCB->setChecked(m_preferences->value("Messaging::SaveChatrooms", false).toBool());
 
     // m_ctrl->loadPreferences();
     updateTheme();

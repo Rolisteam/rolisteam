@@ -113,6 +113,7 @@ void PreferencesManager::registerListener(const QString& str, PreferencesListene
 void PreferencesManager::registerLambda(const QString& key, std::function<void(QVariant)> func)
 {
     m_lambdaMap.insert({key, func});
+    func(value(key, QVariant()));
 }
 
 bool PreferencesManager::ready() const

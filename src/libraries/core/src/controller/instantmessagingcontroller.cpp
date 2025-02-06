@@ -33,7 +33,8 @@
 #include "model/filterinstantmessagingmodel.h"
 #include "model/instantmessagingmodel.h"
 #include "model/messagemodel.h"
-#include "network/receiveevent.h"
+#include <QFont>
+
 #include "updater/media/instantmessagingupdater.h"
 
 void registerType()
@@ -80,12 +81,11 @@ void registerType()
 InstantMessagingController::InstantMessagingController(DiceRoller* diceRoller, PlayerModel* model, QObject* parent)
     : AbstractControllerInterface(parent)
     , m_localPersonModel(new LocalPersonModel)
-    , m_updater(new InstantMessaging::InstantMessagingUpdater)
     , m_model(new InstantMessaging::InstantMessagingModel(diceRoller, model))
     , m_players(model)
     , m_diceParser(diceRoller)
+    , m_font(QFont().toString())
 {
-    ReceiveEvent::registerNetworkReceiver(NetMsg::InstantMessageCategory, this);
     registerType();
     addChatroomSplitterModel();
 
@@ -93,9 +93,8 @@ InstantMessagingController::InstantMessagingController(DiceRoller* diceRoller, P
 
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::unreadChanged, this,
             &InstantMessagingController::unreadChanged);
-
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::chatRoomCreated, this,
-            [this](InstantMessaging::ChatRoom* room, bool remote) { m_updater->addChatRoom(room, remote); });
+            &InstantMessagingController::chatRoomCreated);
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::localIdChanged, this,
             &InstantMessagingController::localIdChanged);
     connect(m_players, &PlayerModel::playerJoin, this,
@@ -104,6 +103,9 @@ InstantMessagingController::InstantMessagingController(DiceRoller* diceRoller, P
                 if(nullptr == player)
                     return;
                 if(player->uuid() == localId())
+                    return;
+
+                if(m_model->hasInvidualChatroom({player->uuid(), localId()}))
                     return;
 
                 m_model->insertIndividualChatroom(player->uuid(), player->name());
@@ -233,23 +235,6 @@ void InstantMessagingController::sendMessageToGM(const QString& msg, const QStri
 
 void InstantMessagingController::setGameController(GameController*) {}
 
-NetWorkReceiver::SendType InstantMessagingController::processMessage(NetworkMessageReader* msg)
-{
-    NetWorkReceiver::SendType type= NetWorkReceiver::AllExceptSender;
-    switch(msg->action())
-    {
-    case NetMsg::InstantMessageAction:
-        m_updater->addMessageToModel(m_model.get(), msg);
-        break;
-    case NetMsg::AddChatroomAction:
-        m_updater->readChatroomToModel(m_model.get(), msg);
-        break;
-    default:
-        break;
-    }
-    return type;
-}
-
 void InstantMessagingController::detach(const QString& id, int index)
 {
     Q_UNUSED(index);
@@ -324,4 +309,35 @@ void InstantMessagingController::translateDiceResult(const QHash<int, QList<int>
     cmd.append(rest);
 
     rollDiceCommand(cmd, false, localId());
+}
+
+InstantMessaging::InstantMessagingModel* InstantMessagingController::model() const
+{
+    return m_model.get();
+}
+
+bool InstantMessagingController::sound() const
+{
+    return m_sound;
+}
+
+void InstantMessagingController::setSound(bool newSound)
+{
+    if(m_sound == newSound)
+        return;
+    m_sound= newSound;
+    emit soundChanged();
+}
+
+QFont InstantMessagingController::font() const
+{
+    return m_font;
+}
+
+void InstantMessagingController::setFont(const QFont& newFont)
+{
+    if(m_font == newFont)
+        return;
+    m_font= newFont;
+    emit fontChanged();
 }

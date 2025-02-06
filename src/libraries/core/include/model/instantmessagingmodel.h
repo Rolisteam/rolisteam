@@ -58,9 +58,15 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     ChatRoom* globalChatRoom() const;
+    ChatRoom* chatRoomFromId(const QString& uuid) const;
     ChatRoom* oneToOneChatRoom(const QString& personId) const;
     QString localId() const;
     bool unread() const;
+
+    const std::vector<std::unique_ptr<ChatRoom>>& rooms() const;
+    void clear();
+
+    bool hasInvidualChatroom(const QStringList& recipiants) const;
 
 public slots:
     void insertGlobalChatroom(const QString& title, const QString& uuid= QString());

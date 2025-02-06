@@ -13,11 +13,19 @@ Pane {
 
     padding: 0
 
+    Connections {
+        target: InstantMessagerManager.ctrl
+        function onNightModeChanged() {
+            Theme.nightMode= InstantMessagerManager.ctrl.nightMode
+        }
+    }
+
+    Component.onCompleted: Theme.nightMode= InstantMessagerManager.ctrl.nightMode
+
     SideMenu {
         id: sideMenu
         height: parent.height
         edge: Qt.RightEdge
-        onNightModeChanged: Theme.nightMode = sideMenu.nightMode
     }
 
     AddChatRoomDialog {

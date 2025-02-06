@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import QtMultimedia
 import InstantMessaging
 import Customization
+import org.rolisteam.InstantMessaging
 
 Item {
     id: root
@@ -22,7 +23,7 @@ Item {
     SoundEffect {
         id: effect
         source: "qrc:/resources/sounds/Doorbell.wav"
-        muted: !sideMenu.sound
+        muted: !InstantMessagerManager.ctrl.sound
         volume: 1.0
     }
 
@@ -144,7 +145,7 @@ Item {
                         property bool isCommandMessage: model.type === MessageInterface.Command
                         property bool isErrorMessage: model.type === MessageInterface.Error
                         property bool mustBeOnTheRight: model.local && (isTextMessage || isCommandMessage)
-                        anchors.right: mustBeOnTheRight ? listView.right : undefined
+                        anchors.right: mustBeOnTheRight ? parent.right : undefined
                         width: listView.width-10 //(isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
                         source: isTextMessage ? "TextMessageDelegate.qml" :
                                 isCommandMessage ? "CommandMessageDelegate.qml" :

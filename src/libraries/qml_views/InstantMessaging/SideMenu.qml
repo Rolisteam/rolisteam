@@ -3,20 +3,19 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import Customization
+import org.rolisteam.InstantMessaging
 
 Drawer {
     id: control
     width: pane.implicitWidth
     height: pane.implicitHeight
     interactive: control.opened
-    property alias nightMode: nightSwitch.checked
-    property alias sound: sound.checked
 
     FontDialog{
         id: fontDial
-        currentFont: Theme.imFont
+        currentFont: InstantMessagerManager.ctrl.font //Theme.imFont
         onAccepted: {
-            Theme.imFont = fontDial.selectedFont
+            InstantMessagerManager.ctrl.font= fontDial.selectedFont //Theme.imFont
         }
     }
 
@@ -29,9 +28,12 @@ Drawer {
                 }
                 Switch {
                     id: nightSwitch
+                    checked: InstantMessagerManager.ctrl.nightMode
+                    onCheckedChanged: {
+                        InstantMessagerManager.ctrl.nightMode = nightSwitch.checked
+                        //Theme.nightMode = nightSwitch.checked
+                    }
                 }
-
-
 
                 Label {
                     text: qsTr("Sound Notification")
@@ -39,6 +41,9 @@ Drawer {
                 Switch {
                     id: sound
                     checked: true
+                    onCheckedChanged: {
+                        InstantMessagerManager.ctrl.sound = sound.checked
+                    }
                 }
 
 
@@ -55,7 +60,7 @@ Drawer {
                 text: qsTr("Font Family:")
             }
             Label {
-                text: Theme.imFont.family
+                text: InstantMessagerManager.ctrl.font.family
             }
             Label {
                 text: qsTr("Font size:")
@@ -63,11 +68,11 @@ Drawer {
             SpinBox {
                 id: sizeId
                 from: 0
-                value: Theme.imFont.pixelSize
+                value: InstantMessagerManager.ctrl.font.pixelSize
                 to: 200.0
                 onValueChanged: {
-                    if(Theme.imFont.pixelSize !== sizeId.value)
-                        Theme.imFont.pixelSize = sizeId.value
+                    if(InstantMessagerManager.ctrl.font.pixelSize !== sizeId.value)
+                        InstantMessagerManager.ctrl.font.pixelSize = sizeId.value
                 }
             }
         }

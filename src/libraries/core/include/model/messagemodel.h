@@ -42,6 +42,7 @@ public:
         MessageTypeRole= Qt::UserRole + 1,
         TextRole,
         TimeRole,
+        FullTimeRole,
         MessageRole,
         LocalRole,
         WriterRole,
@@ -66,8 +67,8 @@ public:
 
 public slots:
     void setLocalId(const QString& localid);
-    void addMessage(const QString& text, const QUrl &url, const QDateTime& time, const QString& owner, const QString& writerId,
-                    InstantMessaging::MessageInterface::MessageType type);
+    void addMessage(const QString& text, const QUrl& url, const QDateTime& time, const QString& owner,
+                    const QString& writerId, InstantMessaging::MessageInterface::MessageType type);
     void addMessageInterface(MessageInterface* msg);
 
 signals:

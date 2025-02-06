@@ -42,6 +42,7 @@
 #include "model/contentmodel.h"
 #include "model/dicealiasmodel.h"
 #include "model/historymodel.h"
+#include "model/instantmessagingmodel.h"
 #include "model/musicmodel.h"
 #include "model/nonplayablecharactermodel.h"
 #include "model/profilemodel.h"
@@ -599,6 +600,134 @@ void fetchMusicModelWithTableTop(MusicModel* model)
     }
 
     model->addSong(urls);
+}
+
+namespace sim
+{
+constexpr auto type{"type"};
+constexpr auto title{"title"};
+constexpr auto localId{"localId"};
+constexpr auto id{"id"};
+constexpr auto recipiants{"recipiants"};
+constexpr auto messages{"messages"};
+constexpr auto rooms{"rooms"};
+
+constexpr auto msgType{"type"};
+constexpr auto msgText{"text"};
+constexpr auto msgTime{"fullTime"};
+constexpr auto msgOwner{"ownerId"};
+constexpr auto msgWriter{"writerId"};
+constexpr auto msgLink{"imageLink"};
+
+} // namespace sim
+
+void fetchInstantMessageModel(const QJsonObject& obj, InstantMessaging::InstantMessagingModel* model)
+{
+    model->clear();
+    auto localId= obj[sim::localId].toString();
+    model->setLocalId(localId);
+    auto array= obj[sim::rooms].toArray();
+    for(auto room : array)
+    {
+        auto roomJson= room.toObject();
+        auto type= static_cast<InstantMessaging::ChatRoom::ChatRoomType>(roomJson[sim::type].toInt());
+        auto title= roomJson[sim::title].toString();
+
+        auto localId= roomJson[sim::localId].toString();
+        Q_UNUSED(localId)
+        auto id= roomJson[sim::id].toString();
+        auto list= roomJson[sim::recipiants].toArray();
+        QStringList recipiants;
+        std::transform(std::begin(recipiants), std::end(recipiants), std::back_inserter(recipiants),
+                       [](const QJsonValue& val) { return val.toString(); });
+
+        switch(type)
+        {
+        case InstantMessaging::ChatRoom::GLOBAL:
+            model->insertGlobalChatroom(title, id);
+            break;
+        case InstantMessaging::ChatRoom::SINGLEPLAYER:
+            model->insertIndividualChatroom(id, title);
+            break;
+        case InstantMessaging::ChatRoom::EXTRA:
+            model->insertExtraChatroom(title, recipiants, false, id);
+            break;
+        }
+
+        auto chat= model->chatRoomFromId(id);
+
+        if(!chat)
+            continue;
+        auto msgModel= chat->messageModel();
+
+        auto roles= msgModel->roleNames();
+        auto messages= roomJson[sim::messages].toArray();
+        QJsonArray msgArray;
+        for(auto msgRef : messages)
+        {
+            auto msg= msgRef.toObject();
+
+            auto link= QUrl::fromUserInput(msg[sim::msgLink].toString());
+            auto text= msg[sim::msgText].toString();
+            auto date= QDateTime::fromSecsSinceEpoch(msg[sim::msgTime].toInteger());
+            auto owner= msg[sim::msgOwner].toString();
+            auto writerId= msg[sim::msgWriter].toString();
+            auto type= static_cast<InstantMessaging::MessageInterface::MessageType>(msg[sim::msgType].toInt());
+
+            msgModel->addMessage(text, link, date, owner, writerId, type);
+        }
+        roomJson[sim::messages]= msgArray;
+    }
+}
+
+QJsonObject saveInstantMessageModel(InstantMessaging::InstantMessagingModel* model)
+{
+    if(!model)
+        return {};
+    QJsonObject obj;
+
+    auto const& rooms= model->rooms();
+    QJsonArray roomArray;
+    static QSet<QString> allowed{sim::msgType, sim::msgText, sim::msgTime, sim::msgOwner, sim::msgWriter, sim::msgLink};
+
+    for(auto const& room : rooms)
+    {
+        QJsonObject roomJson;
+        auto recipiants= room->recipiants();
+        auto messages= room->messageModel();
+        roomJson[sim::type]= static_cast<int>(room->type());
+        roomJson[sim::title]= room->title();
+        roomJson[sim::localId]= room->localId();
+        roomJson[sim::id]= room->uuid();
+
+        QStringList ids;
+        if(recipiants)
+            ids= recipiants->recipiantIds();
+
+        roomJson[sim::recipiants]= QJsonArray::fromStringList(ids);
+
+        auto roles= messages->roleNames();
+        QJsonArray msgArray;
+        for(auto i= 0; i < messages->rowCount(); ++i)
+        {
+            auto idx= messages->index(i, 0);
+            QJsonObject message;
+            for(auto [k, v] : roles.asKeyValueRange())
+            {
+                if(allowed.contains(v))
+                    message[v]= messages->data(idx, k).toJsonValue();
+            }
+            msgArray.append(message);
+        }
+        roomJson[sim::messages]= msgArray;
+
+        roomArray.append(roomJson);
+    }
+
+    obj[sim::rooms]= roomArray;
+    obj[sim::localId]= model->localId();
+
+    return obj;
 }
 
 } // namespace ModelHelper

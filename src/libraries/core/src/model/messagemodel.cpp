@@ -53,8 +53,8 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
     if(role == Qt::DisplayRole)
         item= TextRole;
 
-    std::set<int> map({MessageTypeRole, TextRole, TimeRole, OwnerRole, LocalRole, MessageRole, WriterRole,
-                       OwnerNameRole, OwnerColorRole, WriterNameRole, WriterColorRole, ImageLinkRole});
+    static std::set<int> map({MessageTypeRole, TextRole, TimeRole, OwnerRole, LocalRole, MessageRole, WriterRole,
+                              OwnerNameRole, OwnerColorRole, WriterNameRole, WriterColorRole, ImageLinkRole});
 
     if(map.find(item) == map.end())
         return {};
@@ -81,6 +81,9 @@ QVariant MessageModel::data(const QModelIndex& index, int role) const
         break;
     case TimeRole:
         var= message->dateTime().toString("hh:mm");
+        break;
+    case FullTimeRole:
+        var= message->dateTime().toSecsSinceEpoch();
         break;
     case LocalRole:
         var= (m_localId == message->owner());
@@ -115,6 +118,7 @@ QHash<int, QByteArray> MessageModel::roleNames() const
     return QHash<int, QByteArray>({{MessageTypeRole, "type"},
                                    {TextRole, "text"},
                                    {TimeRole, "time"},
+                                   {FullTimeRole, "fullTime"},
                                    {OwnerRole, "ownerId"},
                                    {OwnerNameRole, "ownerName"},
                                    {OwnerColorRole, "ownerColor"},
@@ -168,14 +172,18 @@ void MessageModel::addMessageInterface(MessageInterface* msg)
     m_messages.insert(m_messages.begin(), std::move(interface));
     endInsertRows();
 
-    connect(msg, &MessageInterface::imageLinkChanged, this, [this, msg]() {
-        auto idx= indexFromData(msg);
-        emit dataChanged(idx, idx, {ImageLinkRole});
-    });
-    connect(msg, &MessageInterface::textChanged, this, [this, msg]() {
-        auto idx= indexFromData(msg);
-        emit dataChanged(idx, idx, {TextRole});
-    });
+    connect(msg, &MessageInterface::imageLinkChanged, this,
+            [this, msg]()
+            {
+                auto idx= indexFromData(msg);
+                emit dataChanged(idx, idx, {ImageLinkRole});
+            });
+    connect(msg, &MessageInterface::textChanged, this,
+            [this, msg]()
+            {
+                auto idx= indexFromData(msg);
+                emit dataChanged(idx, idx, {TextRole});
+            });
 
     if(msg->owner() != localId())
         emit unreadMessageChanged();

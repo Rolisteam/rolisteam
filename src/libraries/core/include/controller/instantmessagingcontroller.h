@@ -20,6 +20,7 @@
 #ifndef TEXTMESSAGINGCONTROLLER_H
 #define TEXTMESSAGINGCONTROLLER_H
 
+#include <QFont>
 #include <QObject>
 #include <QPointer>
 #include <memory>
@@ -30,19 +31,19 @@
 #include "data/localpersonmodel.h"
 #include "model/chatroomsplittermodel.h"
 #include "model/filterinstantmessagingmodel.h"
+#include "model/instantmessagingmodel.h"
 #include "model/playermodel.h"
-#include "network/networkreceiver.h"
+
 #include <core_global.h>
 
 class DiceRoller;
 
 namespace InstantMessaging
 {
-class InstantMessagingModel;
 class InstantMessagingUpdater;
 } // namespace InstantMessaging
 
-class CORE_EXPORT InstantMessagingController : public AbstractControllerInterface, public NetWorkReceiver
+class CORE_EXPORT InstantMessagingController : public AbstractControllerInterface
 {
     Q_OBJECT
     Q_PROPERTY(InstantMessaging::ChatroomSplitterModel* mainModel READ mainModel CONSTANT)
@@ -51,8 +52,11 @@ class CORE_EXPORT InstantMessagingController : public AbstractControllerInterfac
     Q_PROPERTY(LocalPersonModel* localPersonModel READ localPersonModel CONSTANT)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
     Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)
+    Q_PROPERTY(bool sound READ sound WRITE setSound NOTIFY soundChanged FINAL)
     Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(bool unread READ unread NOTIFY unreadChanged)
+    Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged FINAL)
+    Q_PROPERTY(InstantMessaging::InstantMessagingModel* model READ model CONSTANT)
 public:
     explicit InstantMessagingController(DiceRoller* diceRoller, PlayerModel* player, QObject* parent= nullptr);
     virtual ~InstantMessagingController();
@@ -67,7 +71,14 @@ public:
     bool unread() const;
 
     void setGameController(GameController*) override;
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+
+    InstantMessaging::InstantMessagingModel* model() const;
+
+    bool sound() const;
+    void setSound(bool newSound);
+
+    QFont font() const;
+    void setFont(const QFont& newFont);
 
 public slots:
     void addChatroomSplitterModel();
@@ -93,10 +104,14 @@ signals:
     void openWebPage(QString);
     void visibleChanged(bool);
     void unreadChanged();
+    void chatRoomCreated(InstantMessaging::ChatRoom* room, bool remote);
+
+    void soundChanged();
+
+    void fontChanged();
 
 private:
     std::unique_ptr<LocalPersonModel> m_localPersonModel;
-    std::unique_ptr<InstantMessaging::InstantMessagingUpdater> m_updater;
     std::vector<std::unique_ptr<InstantMessaging::ChatroomSplitterModel>> m_splitterModels;
     std::unique_ptr<InstantMessaging::InstantMessagingModel> m_model;
     QPointer<PlayerModel> m_players;
@@ -104,6 +119,8 @@ private:
     int m_fontSizeFactor= false;
     QPointer<DiceRoller> m_diceParser;
     bool m_visible= false;
+    bool m_sound{true};
+    QFont m_font;
 };
 
 #endif // TEXTMESSAGINGCONTROLLER_H

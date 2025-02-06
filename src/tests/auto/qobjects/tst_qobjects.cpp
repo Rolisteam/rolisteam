@@ -561,7 +561,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("InstantMessaging") << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(nullptr, nullptr)) << true;
     QTest::addRow("InstantMessagingController")        << static_cast<QObject*>(new InstantMessagingController(nullptr, nullptr)) << true;
     QTest::addRow("InstantMessagingModel")  << static_cast<QObject*>(new InstantMessaging::InstantMessagingModel(new DiceRoller,new PlayerModel()))<< true ;
-    QTest::addRow("InstantMessagingUpdater")        << static_cast<QObject*>(new InstantMessaging::InstantMessagingUpdater()) << true;
+    QTest::addRow("InstantMessagingUpdater") << static_cast<QObject*>(new InstantMessaging::InstantMessagingUpdater(new InstantMessagingController(new DiceRoller, new PlayerModel()))) << true;
     QTest::addRow("InstantMessagingView")  << static_cast<QObject*>(new InstantMessagingView(new InstantMessagingController(new DiceRoller, new PlayerModel()))) << true ;
     QTest::addRow("IpChecker") << static_cast<QObject*>(new IpChecker()) << true;
     QTest::addRow("ItemEditor")  << static_cast<QObject*>(new ItemEditor())<< true ;

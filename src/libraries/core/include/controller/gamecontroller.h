@@ -36,6 +36,7 @@
 #include "data/campaignmanager.h"
 #include "diceparser_qobject/diceroller.h"
 #include "dicephysics/controllers/dice3dcontroller.h"
+#include "updater/media/instantmessagingupdater.h"
 
 struct TipOfDay
 {
@@ -172,6 +173,7 @@ private:
     std::unique_ptr<ContentController> m_contentCtrl;
     std::unique_ptr<PreferencesManager> m_preferences;
     std::unique_ptr<InstantMessagingController> m_instantMessagingCtrl;
+    std::unique_ptr<InstantMessaging::InstantMessagingUpdater> m_imUpdater;
     std::unique_ptr<AudioController> m_audioCtrl;
     std::unique_ptr<Dice3DController> m_dicePhysicController;
 

@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -458,86 +458,11 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_16">
-            <item>
-             <widget class="QCheckBox" name="m_showTimeCheckBox">
-              <property name="text">
-               <string>Show time</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_18">
-              <property name="text">
-               <string>Color of Time:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="ColorButton" name="m_timeColorBtn">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_19">
-            <item>
-             <widget class="QCheckBox" name="m_hideLongCommand">
-              <property name="text">
-               <string>Hide Long commands</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_9">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_25">
-              <property name="text">
-               <string>Maximum Length:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="m_maxLenghtCommand">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="maximum">
-               <number>10000</number>
-              </property>
-              <property name="value">
-               <number>100</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QCheckBox" name="m_saveChatRoomCB">
+            <property name="text">
+             <string>Save chatrooms data</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1098,22 +1023,6 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_hideLongCommand</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>m_maxLenghtCommand</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>203</x>
-     <y>807</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>536</x>
-     <y>809</y>
     </hint>
    </hints>
   </connection>

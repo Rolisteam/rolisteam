@@ -35,6 +35,10 @@ namespace campaign
 class Campaign;
 class NonPlayableCharacterModel;
 } // namespace campaign
+namespace InstantMessaging
+{
+class InstantMessagingModel;
+}
 namespace charactersheet
 {
 class ImageModel;
@@ -75,6 +79,9 @@ CORE_EXPORT void fetchCharacterStateModel(const QJsonArray& states, CharacterSta
 CORE_EXPORT QJsonArray saveCharacterStateModel(CharacterStateModel* model);
 
 CORE_EXPORT void fetchMusicModelWithTableTop(MusicModel* model);
+
+CORE_EXPORT void fetchInstantMessageModel(const QJsonObject& obj, InstantMessaging::InstantMessagingModel* model);
+CORE_EXPORT QJsonObject saveInstantMessageModel(InstantMessaging::InstantMessagingModel* model);
 
 // CORE_EXPORT QJsonObject saveCampaign();
 

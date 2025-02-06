@@ -108,6 +108,17 @@ QHash<int, QByteArray> InstantMessagingModel::roleNames() const
                                    {RecipiantCountRole, "recipiantCount"}});
 }
 
+ChatRoom* InstantMessagingModel::chatRoomFromId(const QString& uuid) const
+{
+    auto it= std::find_if(std::begin(m_chats), std::end(m_chats),
+                          [uuid](const std::unique_ptr<ChatRoom>& room) { return room->uuid() == uuid; });
+
+    if(it == std::end(m_chats))
+        return nullptr;
+
+    return it->get();
+}
+
 InstantMessaging::ChatRoom* InstantMessagingModel::globalChatRoom() const
 {
     Q_ASSERT(m_chats.size() > 0);
@@ -134,6 +145,38 @@ bool InstantMessagingModel::unread() const
 {
     return std::any_of(std::begin(m_chats), std::end(m_chats),
                        [](const std::unique_ptr<ChatRoom>& room) { return room->unreadMessage(); });
+}
+
+const std::vector<std::unique_ptr<ChatRoom>>& InstantMessagingModel::rooms() const
+{
+    return m_chats;
+}
+
+void InstantMessagingModel::clear()
+{
+    beginResetModel();
+    m_chats.clear();
+    endResetModel();
+}
+
+bool InstantMessagingModel::hasInvidualChatroom(const QStringList& recipiants) const
+{
+    auto sorted= recipiants;
+    std::sort(std::begin(sorted), std::end(sorted));
+    return std::any_of(std::begin(m_chats), std::end(m_chats),
+                       [sorted](const std::unique_ptr<ChatRoom>& room)
+                       {
+                           if(room->type() != InstantMessaging::ChatRoom::SINGLEPLAYER)
+                               return false;
+
+                           auto r= room->recipiants()->recipiantIds();
+                           if(r.size() != sorted.size())
+                               return false;
+
+                           auto rSorted= r;
+                           std::sort(std::begin(rSorted), std::end(rSorted));
+                           return rSorted == sorted;
+                       });
 }
 
 void InstantMessagingModel::insertGlobalChatroom(const QString& title, const QString& uuid)
@@ -169,7 +212,8 @@ void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)
     connect(room, &ChatRoom::unreadMessageChanged, this,
             [room, this]()
             {
-                auto it= std::find_if(m_chats.begin(), m_chats.end(), [room](const std::unique_ptr<ChatRoom>& chatRoom)
+                auto it= std::find_if(m_chats.begin(), m_chats.end(),
+                                      [room](const std::unique_ptr<ChatRoom>& chatRoom)
                                       { return room == chatRoom.get(); });
                 auto idx= static_cast<int>(std::distance(m_chats.begin(), it));
                 emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()),
@@ -221,7 +265,8 @@ void InstantMessagingModel::addMessageIntoChatroom(MessageInterface* message, Ch
 
 void InstantMessagingModel::removePlayer(const QString& id)
 {
-    auto it= std::find_if(m_chats.begin(), m_chats.end(), [id](const std::unique_ptr<ChatRoom>& chatRoom)
+    auto it= std::find_if(m_chats.begin(), m_chats.end(),
+                          [id](const std::unique_ptr<ChatRoom>& chatRoom)
                           { return (chatRoom->uuid() == id && ChatRoom::SINGLEPLAYER && chatRoom->type()); });
 
     if(it == m_chats.end())
