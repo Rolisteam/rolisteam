@@ -27,7 +27,6 @@ Item {
         volume: 1.0
     }
 
-
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -100,6 +99,9 @@ Item {
                                 text: "X"
                                 ToolTip.text: qsTr("close")
                                 ToolTip.visible: down
+                                onClicked: {
+                                    InstantMessagerManager.ctrl.closeChatroom(model.id, false)
+                                }
                             }
                         }
                         Connections {
@@ -151,6 +153,18 @@ Item {
                                 isCommandMessage ? "CommandMessageDelegate.qml" :
                                 isDiceMessage ? "DiceMessageDelegate.qml" : "ErrorMessageDelegate.qml"
                     }
+                }
+
+                Button {
+                    id: roomSettings
+                    onClicked: {
+
+                    }
+
+                    Menu {
+
+                    }
+
                 }
             }
 

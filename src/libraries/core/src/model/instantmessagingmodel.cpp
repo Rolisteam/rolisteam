@@ -179,6 +179,23 @@ bool InstantMessagingModel::hasInvidualChatroom(const QStringList& recipiants) c
                        });
 }
 
+void InstantMessagingModel::removeChatroom(const QString& id, bool remote)
+{
+    auto it= std::find_if(std::begin(m_chats), std::end(m_chats),
+                          [id](const std::unique_ptr<ChatRoom>& room) { return id == room->uuid(); });
+
+    if(it == std::end(m_chats))
+        return;
+
+    auto idx= std::distance(std::begin(m_chats), it);
+
+    beginRemoveRows(QModelIndex(), idx, idx);
+    m_chats.erase(it);
+    endRemoveRows();
+
+    emit chatRoomDeleted(id, remote);
+}
+
 void InstantMessagingModel::insertGlobalChatroom(const QString& title, const QString& uuid)
 {
     addChatRoom(ChatRoomFactory::createChatRoom(title, QStringList(), uuid, InstantMessaging::ChatRoom::GLOBAL,

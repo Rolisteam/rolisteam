@@ -82,6 +82,7 @@ public:
 
 public slots:
     void addChatroomSplitterModel();
+    void closeChatroom(const QString& id, bool network);
     void detach(const QString& id, int index);
     void reattach(const QString& id, int index);
     void splitScreen(const QString& id, int index);
@@ -105,9 +106,8 @@ signals:
     void visibleChanged(bool);
     void unreadChanged();
     void chatRoomCreated(InstantMessaging::ChatRoom* room, bool remote);
-
+    void chatRoomRemoved(const QString& id, bool remote);
     void soundChanged();
-
     void fontChanged();
 
 private:

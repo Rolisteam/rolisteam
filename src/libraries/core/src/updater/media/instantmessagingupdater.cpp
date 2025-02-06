@@ -46,6 +46,9 @@ InstantMessagingUpdater::InstantMessagingUpdater(InstantMessagingController* ctr
     connect(m_imCtrl, &InstantMessagingController::chatRoomCreated, this,
             [this](InstantMessaging::ChatRoom* room, bool remote) { addChatRoom(room, remote); });
 
+    connect(m_imCtrl, &InstantMessagingController::chatRoomRemoved, this,
+            [this](InstantMessaging::ChatRoom* room, bool remote) { addChatRoom(room, remote); });
+
     auto model= ctrl->model();
     if(!model)
         return;
@@ -100,6 +103,15 @@ void InstantMessagingUpdater::readChatroomToModel(InstantMessaging::InstantMessa
         model->insertExtraChatroom(title, ids, true, uuid);
     else
         model->insertGlobalChatroom(title, uuid);
+}
+
+void InstantMessagingUpdater::removeChatRoom(const QString& id, bool remote)
+{
+    if(remote)
+        return;
+    NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::RemoveChatroomAction);
+    msg.string32(id);
+    msg.sendToServer();
 }
 
 void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room, bool remote)
@@ -204,6 +216,9 @@ NetWorkReceiver::SendType InstantMessagingUpdater::processMessage(NetworkMessage
         break;
     case NetMsg::AddChatroomAction:
         readChatroomToModel(m_imCtrl->model(), msg);
+        break;
+    case NetMsg::RemoveChatroomAction:
+        m_imCtrl->closeChatroom(msg->string32(), true);
         break;
     default:
         break;

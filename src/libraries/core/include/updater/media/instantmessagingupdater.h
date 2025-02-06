@@ -56,6 +56,8 @@ public:
     bool saveChatrooms() const;
     void setSaveChatrooms(bool newSaveChatrooms);
 
+public slots:
+    void removeChatRoom(const QString &id, bool remote);
 signals:
     void saveChatroomsChanged();
 

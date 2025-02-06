@@ -95,6 +95,8 @@ InstantMessagingController::InstantMessagingController(DiceRoller* diceRoller, P
             &InstantMessagingController::unreadChanged);
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::chatRoomCreated, this,
             &InstantMessagingController::chatRoomCreated);
+    connect(m_model.get(), &InstantMessaging::InstantMessagingModel::chatRoomDeleted, this,
+            &InstantMessagingController::chatRoomRemoved);
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::localIdChanged, this,
             &InstantMessagingController::localIdChanged);
     connect(m_players, &PlayerModel::playerJoin, this,
@@ -234,6 +236,11 @@ void InstantMessagingController::sendMessageToGM(const QString& msg, const QStri
 }
 
 void InstantMessagingController::setGameController(GameController*) {}
+
+void InstantMessagingController::closeChatroom(const QString& id, bool network)
+{
+    m_model->removeChatroom(id, network);
+}
 
 void InstantMessagingController::detach(const QString& id, int index)
 {

@@ -77,9 +77,11 @@ public slots:
     void addMessageIntoChatroom(InstantMessaging::MessageInterface*, ChatRoom::ChatRoomType type, const QString& uuid);
     void removePlayer(const QString& id);
     void setDiceParser(DiceRoller* diceParser);
+    void removeChatroom(const QString& id, bool remote= false);
 
 signals:
     void chatRoomCreated(InstantMessaging::ChatRoom*, bool remote= false);
+    void chatRoomDeleted(const QString& id, bool remote);
     void localIdChanged(QString);
     void unreadChanged();
 
