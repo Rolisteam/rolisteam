@@ -20,20 +20,20 @@
 #ifndef FILTEREDPLAYERMODEL_H
 #define FILTEREDPLAYERMODEL_H
 
+#include <QQmlEngine>
 #include <QSortFilterProxyModel>
 #include <core_global.h>
+
 namespace InstantMessaging
 {
 class CORE_EXPORT FilteredPlayerModel : public QSortFilterProxyModel
 {
     Q_OBJECT
-
+    QML_ELEMENT
+    Q_PROPERTY(bool allow READ allow WRITE setAllow NOTIFY allowChanged FINAL)
+    Q_PROPERTY(QStringList recipiants READ recipiantIds WRITE setRecipiants NOTIFY recipiantsChanged FINAL)
 public:
-    explicit FilteredPlayerModel(const QStringList& list, QObject* parent= nullptr);
-
-    // Basic functionality:
-    //int rowCount(const QModelIndex& parent= QModelIndex()) const override;
-    //QModelIndex index(int row, int col, const QModelIndex& parent) const override;
+    explicit FilteredPlayerModel(const QStringList& list= QStringList(), QObject* parent= nullptr);
 
     QStringList recipiantIds() const;
 
@@ -42,8 +42,23 @@ public:
 
     bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
+    bool allow() const;
+    void setAllow(bool newAllow);
+    void setRecipiants(const QStringList& list);
+
+public slots:
+    void addRecipiants(const QString& id);
+    void removeRecipiants(const QString& id);
+
+signals:
+    void allowChanged();
+    void recipiantsChanged();
+    void recipiantAdded(const QString& id);
+    void recipiantRemoved(const QString& id);
+
 private:
     QStringList m_participants;
+    bool m_allow{true};
 };
 } // namespace InstantMessaging
 #endif // FILTEREDPLAYERMODEL_H

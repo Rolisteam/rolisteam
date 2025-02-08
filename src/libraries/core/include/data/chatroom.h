@@ -29,9 +29,9 @@
 
 #include "model/filteredplayermodel.h"
 #include "model/messagemodel.h"
+#include "model/playermodel.h"
 
 class DiceRoller;
-class PlayerModel;
 namespace InstantMessaging
 {
 class MessageInterface;
@@ -46,6 +46,7 @@ class CORE_EXPORT ChatRoom : public QObject
     Q_PROPERTY(int recipiantCount READ recipiantCount NOTIFY recipiantCountChanged)
     Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(PlayerModel* players READ players CONSTANT)
 public:
     enum ChatRoomType
     {
@@ -53,6 +54,7 @@ public:
         SINGLEPLAYER,
         EXTRA
     };
+    Q_ENUM(ChatRoomType)
     explicit ChatRoom(PlayerModel* model, ChatRoomType type, const QStringList& recipiants= QStringList(),
                       const QString& id= QUuid::createUuid().toString(QUuid::WithoutBraces), QObject* parent= nullptr);
     virtual ~ChatRoom();
@@ -66,6 +68,7 @@ public:
     bool unreadMessage() const;
     QString uuid() const;
     QString localId() const;
+    PlayerModel* players() const;
 
     bool hasRecipiant(const QString& id);
     void setDiceParser(DiceRoller* diceParser);
@@ -97,6 +100,7 @@ private:
     QString m_uuid;
     bool m_unreadMessage= false;
     QPointer<DiceRoller> m_diceParser;
+    QPointer<PlayerModel> m_players;
 };
 } // namespace InstantMessaging
 #endif // CHATROOM_H

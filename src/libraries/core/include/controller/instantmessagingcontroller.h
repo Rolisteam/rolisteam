@@ -80,6 +80,9 @@ public:
     QFont font() const;
     void setFont(const QFont& newFont);
 
+    int currentTab() const;
+    void setCurrentTab(int newCurrentTab);
+
 public slots:
     void addChatroomSplitterModel();
     void closeChatroom(const QString& id, bool network);
@@ -109,6 +112,8 @@ signals:
     void chatRoomRemoved(const QString& id, bool remote);
     void soundChanged();
     void fontChanged();
+    void playerArrived(const QString& id);
+    void currentTabChanged();
 
 private:
     std::unique_ptr<LocalPersonModel> m_localPersonModel;
@@ -121,6 +126,7 @@ private:
     bool m_visible= false;
     bool m_sound{true};
     QFont m_font;
+    int m_currentTab;
 };
 
 #endif // TEXTMESSAGINGCONTROLLER_H

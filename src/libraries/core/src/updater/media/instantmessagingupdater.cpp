@@ -47,7 +47,24 @@ InstantMessagingUpdater::InstantMessagingUpdater(InstantMessagingController* ctr
             [this](InstantMessaging::ChatRoom* room, bool remote) { addChatRoom(room, remote); });
 
     connect(m_imCtrl, &InstantMessagingController::chatRoomRemoved, this,
-            [this](InstantMessaging::ChatRoom* room, bool remote) { addChatRoom(room, remote); });
+            [this](const QString& id, bool remote) { removeChatRoom(id, {}, remote); });
+
+    connect(m_imCtrl, &InstantMessagingController::playerArrived, this,
+            [this](const QString& id)
+            {
+                auto model= m_imCtrl->model();
+                if(!model)
+                    return;
+
+                auto const& rooms= model->rooms();
+                for(auto const& t : rooms)
+                {
+                    if(t->type() != InstantMessaging::ChatRoom::EXTRA)
+                        continue;
+                    if(t->hasRecipiant(id))
+                        openChat(t.get(), id);
+                }
+            });
 
     auto model= ctrl->model();
     if(!model)
@@ -60,7 +77,7 @@ InstantMessagingUpdater::InstantMessagingUpdater(InstantMessagingController* ctr
     }
 }
 
-void InstantMessagingUpdater::openChat(InstantMessaging::ChatRoom* chat)
+void InstantMessagingUpdater::openChat(InstantMessaging::ChatRoom* chat, const QString& id)
 {
     if(!chat)
         return;
@@ -69,7 +86,10 @@ void InstantMessagingUpdater::openChat(InstantMessaging::ChatRoom* chat)
     auto ids= chat->recipiants()->recipiantIds();
     if(chat->type() == ChatRoom::EXTRA)
     {
-        msg.setRecipientList(ids, NetworkMessage::OneOrMany);
+        if(id.isEmpty())
+            msg.setRecipientList(ids, NetworkMessage::OneOrMany);
+        else
+            msg.setRecipientList(QStringList{id}, NetworkMessage::OneOrMany);
     }
     msg.uint8(chat->type());
     msg.string8(chat->uuid());
@@ -105,11 +125,15 @@ void InstantMessagingUpdater::readChatroomToModel(InstantMessaging::InstantMessa
         model->insertGlobalChatroom(title, uuid);
 }
 
-void InstantMessagingUpdater::removeChatRoom(const QString& id, bool remote)
+void InstantMessagingUpdater::removeChatRoom(const QString& id, const QString& recipiant, bool remote)
 {
     if(remote)
         return;
     NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::RemoveChatroomAction);
+    if(recipiant.isEmpty())
+    {
+        msg.setRecipientList({recipiant}, NetworkMessage::OneOrMany);
+    }
     msg.string32(id);
     msg.sendToServer();
 }
@@ -160,6 +184,12 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room, bool
 
                 msg.sendToServer();
             });
+
+    auto recipiants= room->recipiants();
+    connect(recipiants, &InstantMessaging::FilteredPlayerModel::recipiantAdded, this,
+            [this, room](const QString& id) { this->openChat(room, id); });
+    connect(recipiants, &InstantMessaging::FilteredPlayerModel::recipiantRemoved, this,
+            [this, room](const QString& id) { removeChatRoom(room->uuid(), id, false); });
 }
 
 void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagingModel* model,

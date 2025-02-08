@@ -48,7 +48,9 @@ ChatRoom::ChatRoom(PlayerModel* model, ChatRoomType type, const QStringList& rec
     , m_messageModel(new MessageModel(model))
     , m_type(type)
     , m_uuid(id)
+    , m_players(model)
 {
+    m_recipiants->setSourceModel(model);
     connect(m_messageModel.get(), &MessageModel::localIdChanged, this, &ChatRoom::localIdChanged);
     connect(m_messageModel.get(), &MessageModel::unreadMessageChanged, this, [this]() { setUnreadMessage(true); });
 }
@@ -73,6 +75,11 @@ QString ChatRoom::uuid() const
 QString ChatRoom::localId() const
 {
     return m_messageModel->localId();
+}
+
+PlayerModel* ChatRoom::players() const
+{
+    return m_players.get();
 }
 
 FilteredPlayerModel* ChatRoom::recipiants() const

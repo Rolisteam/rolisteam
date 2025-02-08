@@ -638,7 +638,7 @@ void fetchInstantMessageModel(const QJsonObject& obj, InstantMessaging::InstantM
         auto id= roomJson[sim::id].toString();
         auto list= roomJson[sim::recipiants].toArray();
         QStringList recipiants;
-        std::transform(std::begin(recipiants), std::end(recipiants), std::back_inserter(recipiants),
+        std::transform(std::begin(list), std::end(list), std::back_inserter(recipiants),
                        [](const QJsonValue& val) { return val.toString(); });
 
         switch(type)

@@ -71,6 +71,7 @@ Item {
     }
 
     ColumnLayout {
+        id: mainLyt
         anchors.fill: parent
         RowLayout {
             Layout.fillWidth: true
@@ -117,54 +118,57 @@ Item {
         }
 
         SplitView {
+            id: mainView
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.leftMargin: root.styleSheet.sideMargin
             Layout.rightMargin: root.styleSheet.sideMargin
             orientation: Qt.Vertical
 
-            ListView {
-                id: listView
+            SplitView {
+
+                orientation: Qt.Horizontal
                 SplitView.fillWidth: true
                 SplitView.fillHeight: true
-                model: root.chatRoom.messageModel
-                clip: true
-                spacing: 5
-                verticalLayoutDirection: ListView.BottomToTop
-                delegate: Component {
-                    id: delegateComponent
-                    Loader {
-                        property string writerIdldr: model.writerId
-                        property string messageTextldr: model.text
-                        property bool localldr: model.local
-                        property string timeldr: model.time
-                        property string writerNameldr: model.writerName
-                        property real windowWidthldr: listView.width
-                        property url imageLinkldr: model.imageLink ?? ""
 
-                        property bool isTextMessage: model.type === MessageInterface.Text
-                        property bool isDiceMessage: model.type === MessageInterface.Dice
-                        property bool isCommandMessage: model.type === MessageInterface.Command
-                        property bool isErrorMessage: model.type === MessageInterface.Error
-                        property bool mustBeOnTheRight: model.local && (isTextMessage || isCommandMessage)
-                        anchors.right: mustBeOnTheRight ? parent.right : undefined
-                        width: listView.width-10 //(isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
-                        source: isTextMessage ? "TextMessageDelegate.qml" :
-                                isCommandMessage ? "CommandMessageDelegate.qml" :
-                                isDiceMessage ? "DiceMessageDelegate.qml" : "ErrorMessageDelegate.qml"
+                ListView {
+                    id: listView
+                    SplitView.fillWidth: true
+                    SplitView.fillHeight: true
+                    model: root.chatRoom ? root.chatRoom.messageModel: 0
+                    clip: true
+                    spacing: 5
+                    verticalLayoutDirection: ListView.BottomToTop
+                    delegate: Component {
+                        id: delegateComponent
+                        Loader {
+                            property string writerIdldr: model.writerId
+                            property string messageTextldr: model.text
+                            property bool localldr: model.local
+                            property string timeldr: model.time
+                            property string writerNameldr: model.writerName
+                            property real windowWidthldr: listView.width
+                            property url imageLinkldr: model.imageLink ?? ""
+
+                            property bool isTextMessage: model.type === MessageInterface.Text
+                            property bool isDiceMessage: model.type === MessageInterface.Dice
+                            property bool isCommandMessage: model.type === MessageInterface.Command
+                            property bool isErrorMessage: model.type === MessageInterface.Error
+                            property bool mustBeOnTheRight: model.local && (isTextMessage || isCommandMessage)
+                            anchors.right: mustBeOnTheRight ? parent.right : undefined
+                            width: listView.width-10 //(isDiceMessage || isErrorMessage) ?  parent.width-10 : undefined
+                            source: isTextMessage ? "TextMessageDelegate.qml" :
+                                    isCommandMessage ? "CommandMessageDelegate.qml" :
+                                    isDiceMessage ? "DiceMessageDelegate.qml" : "ErrorMessageDelegate.qml"
+                        }
                     }
                 }
-
-                Button {
-                    id: roomSettings
-                    onClicked: {
-
-                    }
-
-                    Menu {
-
-                    }
-
+                RecipiantsView {
+                    id: recipiantsView
+                    visible: false
+                    chatRoom: root.chatRoom
+                    SplitView.fillHeight: true
+                    SplitView.minimumWidth: visible ? 100 : 0
                 }
             }
 
@@ -182,6 +186,25 @@ Item {
                 onFocusGained: updateUnread()
             }
 
+        }
+    }
+
+    ToolButton {
+        id: roomSettings
+        anchors.top: mainLyt.top
+        anchors.right: mainLyt.right
+        anchors.topMargin: 12 + tabHeader.height
+        anchors.rightMargin: 12
+        checked: recipiantsView.visible
+        checkable: true
+        icon.source: "qrc:/resources/rolistheme/05_rooms2.svg"
+        icon.color: checked ?  "transparent" : "#80808080"
+        icon.height: 24
+        icon.width: 24
+        onClicked: {
+            recipiantsView.visible = !recipiantsView.visible
+
+            recipiantsView.width = recipiantsView.visible ? 100 : 0
         }
     }
 }

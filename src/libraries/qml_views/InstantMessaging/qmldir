@@ -9,3 +9,4 @@ InstantMessagingEditText 1.0 InstantMessagingEditText.qml
 InstantMessagingMain.qml 1.0 InstantMessagingMain.qml
 SideMenu 1.0 SideMenu.qml
 TextMessageDelegate 1.0 TextMessageDelegate.qml
+RecipiantsView 1.0 RecipiantsView.qml

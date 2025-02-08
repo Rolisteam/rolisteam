@@ -41,7 +41,7 @@ public:
 
     void addChatRoom(InstantMessaging::ChatRoom* chat, bool remote= false);
     static void sendMessage();
-    static void openChat(InstantMessaging::ChatRoom* chat);
+    static void openChat(InstantMessaging::ChatRoom* chat, const QString& id= QString());
     static void closeChat();
     static void readChatroomToModel(InstantMessaging::InstantMessagingModel* model, NetworkMessageReader* msg);
 
@@ -57,7 +57,7 @@ public:
     void setSaveChatrooms(bool newSaveChatrooms);
 
 public slots:
-    void removeChatRoom(const QString &id, bool remote);
+    void removeChatRoom(const QString& id, const QString &recipiant, bool remote);
 signals:
     void saveChatroomsChanged();
 

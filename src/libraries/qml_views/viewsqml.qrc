@@ -37,5 +37,6 @@
         <file>rolistyle/ToolButton.qml</file>
         <file>InstantMessaging/AvatarPanel.qml</file>
         <file>rolistyle/ButtonPanel.qml</file>
+        <file>InstantMessaging/RecipiantsView.qml</file>
     </qresource>
 </RCC>

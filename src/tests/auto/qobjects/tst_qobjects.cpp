@@ -529,7 +529,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("FilteredCharacterModel") << static_cast<QObject*>(new campaign::FilteredCharacterModel()) << true;
     QTest::addRow("FilteredContentModel")        << static_cast<QObject*>(new FilteredContentModel(Core::ContentType::UNKNOWN)) << true;
     QTest::addRow("FilteredModel")  << static_cast<QObject*>(new mindmap::FilteredModel())<< true ;
-    QTest::addRow("FilteredPlayerModel") << static_cast<QObject*>(new InstantMessaging::FilteredPlayerModel({}))   << true;
+    QTest::addRow("FilteredPlayerModel") << static_cast<QObject*>(new InstantMessaging::FilteredPlayerModel())   << true;
     QTest::addRow("FindDialog") << static_cast<QObject*>(new FindDialog()) << true;
     QTest::addRow("FindToolBar") << static_cast<QObject*>(new FindToolBar()) << true;
     QTest::addRow("FlowLayout") << static_cast<QObject*>(new FlowLayout(nullptr)) << true;

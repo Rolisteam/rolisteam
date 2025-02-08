@@ -48,6 +48,7 @@ void registerType()
     qDebug() << "registerType 2";
     qRegisterMetaType<InstantMessaging::FilterInstantMessagingModel*>("FilterInstantMessagingModel*");
     qRegisterMetaType<InstantMessaging::MessageModel*>("MessageModel*");
+    qRegisterMetaType<InstantMessaging::FilteredPlayerModel*>("FilteredPlayerModel*");
     qRegisterMetaType<LocalPersonModel*>("LocalPersonModel*");
     qRegisterMetaType<PlayerModel*>("PlayerModel*");
     qRegisterMetaType<InstantMessaging::ChatRoom*>("ChatRoom*");
@@ -57,6 +58,7 @@ void registerType()
 
     qmlRegisterAnonymousType<InstantMessagingController>("InstantMessagingController", 1);
     qmlRegisterAnonymousType<InstantMessaging::FilterInstantMessagingModel>("FilterInstantMessagingModel", 1);
+    qmlRegisterType<InstantMessaging::FilteredPlayerModel>("IMModels", 1, 0, "FilteredPlayerModel");
     qmlRegisterAnonymousType<InstantMessaging::MessageModel>("MessageModel", 1);
     qmlRegisterAnonymousType<LocalPersonModel>("LocalPersonModel", 1);
     qmlRegisterAnonymousType<PlayerModel>("PlayerModel", 1);
@@ -106,6 +108,8 @@ InstantMessagingController::InstantMessagingController(DiceRoller* diceRoller, P
                     return;
                 if(player->uuid() == localId())
                     return;
+
+                emit playerArrived(player->uuid());
 
                 if(m_model->hasInvidualChatroom({player->uuid(), localId()}))
                     return;
@@ -347,4 +351,17 @@ void InstantMessagingController::setFont(const QFont& newFont)
         return;
     m_font= newFont;
     emit fontChanged();
+}
+
+int InstantMessagingController::currentTab() const
+{
+    return m_currentTab;
+}
+
+void InstantMessagingController::setCurrentTab(int newCurrentTab)
+{
+    if(m_currentTab == newCurrentTab)
+        return;
+    m_currentTab= newCurrentTab;
+    emit currentTabChanged();
 }
