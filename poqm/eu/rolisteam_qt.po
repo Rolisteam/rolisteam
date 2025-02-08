@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-01-28 18:31+0100\n"
+"PO-Revision-Date: 2025-02-08 01:08+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -543,12 +543,9 @@ msgid "Possible Values"
 msgstr "Balio posibleak"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
-#, fuzzy
-#| msgctxt "LogPanel|"
-#| msgid "Form"
 msgctxt "FieldModel|"
 msgid "Formula"
-msgstr "Inprimakia"
+msgstr "Formula"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
@@ -3965,12 +3962,9 @@ msgid "Open File"
 msgstr "Ireki fitxategia"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:117
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save View"
 msgctxt "FileDirChooser|"
 msgid "Save File"
-msgstr "Gorde ikuspegia"
+msgstr "Gorde fitxategia"
 
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
@@ -5266,28 +5260,22 @@ msgstr "*: berrabiatu beharra"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:569
 msgctxt "PreferencesDialogBox|"
 msgid "External Editors"
-msgstr ""
+msgstr "Kanpoko editoreak"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:575
 msgctxt "PreferencesDialogBox|"
 msgid "RCSE"
-msgstr ""
+msgstr "RCSE"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:581
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path:"
-msgstr "Bide-izena"
+msgstr "Bide-izena:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:591
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters:"
-msgstr "Pertsonaiak"
+msgstr "Parametroak:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:598
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:631
@@ -5295,54 +5283,39 @@ msgstr "Pertsonaiak"
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:608
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "PreferencesDialogBox|"
 msgid "MindMap"
 msgstr "Gogoeta-mapa"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path"
 msgstr "Bide-izena"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:624
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:657
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters"
-msgstr "Pertsonaiak"
+msgstr "Parametroak"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Editor"
 msgctxt "PreferencesDialogBox|"
 msgid "Text Editor"
-msgstr "Editorea"
+msgstr "Testu-editorea"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:647
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "PreferencesDialogBox|"
 msgid "TextLabel"
-msgstr "Etiketa"
+msgstr "TestuEtiketa"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:687
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1 is a placeholder for the filename of the file."
-msgstr ""
+msgstr "%1 fitxategiaren fitxategi-izenaren leku-marka bat da."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:695
 msgctxt "PreferencesDialogBox|"
@@ -8387,12 +8360,9 @@ msgid "Date Modified"
 msgstr "Data aldatu da"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Open Stream"
 msgctxt "campaign::CampaignView|"
 msgid "Open Externally"
-msgstr "Ireki korrontea"
+msgstr "Ireki kanpotik"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:117
 msgctxt "campaign::CampaignView|"
