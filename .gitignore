@@ -10,3 +10,5 @@ build*
 .hidden
 translations/*.ts
 translations/*.qm
+po/*
+poqm/*/*.mo
