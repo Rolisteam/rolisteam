@@ -80,10 +80,6 @@ CampaignIntegrityController::CampaignIntegrityController(QStringList missingFile
                                                          CampaignManager* manager, QWidget* parent)
     : QObject(parent), m_missingFiles(missingFiles), m_unmanagedFile(unmanagedFile), m_manager(manager)
 {
-    /*, m_missingFileModel(
-          new ActionOnListModel(missingFiles, {{"Forget", "edit-delete"}, {"Create", "document-new"}}, root))
-    , m_unmanagedFileModel(
-        new ActionOnListModel(unmanagedFile, {{"Add into project", "list-add"}, {"Delete", "list-remove"}}, root))*/
 }
 
 QStringList CampaignIntegrityController::missingFiles() const

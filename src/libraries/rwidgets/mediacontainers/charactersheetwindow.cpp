@@ -62,7 +62,7 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     setObjectName("CharacterSheetViewer");
     connect(m_sheetCtrl, &CharacterSheetController::sheetCreated, this, &CharacterSheetWindow::addTabWithSheetView);
 
-    setWindowIcon(QIcon::fromTheme("treeview"));
+    setWindowIcon(QIcon::fromTheme("sheet"));
 
     if(m_sheetCtrl)
     {

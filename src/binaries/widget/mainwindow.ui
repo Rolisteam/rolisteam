@@ -14,7 +14,8 @@
    <string>Rolisteam</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="500-symbole"/>
+   <iconset resource="../../../resources/rolisteam/logo/logo.qrc">
+    <normaloff>:/resources/rolisteam/logo/500-symbole.png</normaloff>:/resources/rolisteam/logo/500-symbole.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -647,6 +648,8 @@
  </widget>
  <resources>
   <include location="../../../rolisteam.qrc"/>
+  <include location="../../../resources/rolisteam/logo/logo.qrc"/>
+  <include location="../../../resources/rolisteam/logo/logo.qrc"/>
   <include location="../../../rolisteam.qrc"/>
  </resources>
  <connections>

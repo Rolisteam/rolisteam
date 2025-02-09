@@ -18,9 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "rwidgets/toolbars/vtoolbar.h"
 #include "rwidgets/customs/diameterselector.h"
 #include "rwidgets/layouts/flowlayout.h"
-#include "rwidgets/toolbars/vtoolbar.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "preferences/preferencesmanager.h"
@@ -136,7 +136,7 @@ void ToolBox::createActions()
     m_elipseFillAct= new QAction(QIcon::fromTheme("filledellipse"), tr("Filled Ellipse"), m_toolsGroup);
     m_elipseFillAct->setData(Core::FILLEDELLIPSE);
 
-    m_textAct= new QAction(QIcon::fromTheme("text"), tr("Text"), m_toolsGroup);
+    m_textAct= new QAction(QIcon::fromTheme("textIcon"), tr("Text"), m_toolsGroup);
     m_textAct->setData(Core::TEXT);
 
     m_handAct= new QAction(QIcon::fromTheme("hand"), tr("Hand"), m_toolsGroup);
@@ -154,16 +154,16 @@ void ToolBox::createActions()
     m_anchorAct= new QAction(QIcon::fromTheme("insert-link-2"), tr("Anchor"), m_toolsGroup);
     m_anchorAct->setData(Core::ANCHOR);
 
-    m_pipette= new QAction(QIcon::fromTheme("pipettecursor"), tr("Pipette"), m_toolsGroup);
+    m_pipette= new QAction(QIcon::fromTheme("pipette"), tr("Pipette"), m_toolsGroup);
     m_pipette->setData(Core::PIPETTE);
 
     m_highlighterAct= new QAction(QIcon::fromTheme("marker-512"), tr("Highlighter"), m_toolsGroup);
     m_highlighterAct->setData(Core::HIGHLIGHTER);
 
-    m_bucketAct= new QAction(QIcon::fromTheme("000000-paint-bucket-512"), tr("Paint Bucket"), m_toolsGroup);
+    m_bucketAct= new QAction(QIcon::fromTheme("paint-bucket"), tr("Paint Bucket"), m_toolsGroup);
     m_bucketAct->setData(Core::BUCKET);
 
-    m_textWithBorderAct= new QAction(QIcon::fromTheme("textwithBorder"), tr("Text With Border"), m_toolsGroup);
+    m_textWithBorderAct= new QAction(QIcon::fromTheme("textwithborder"), tr("Text With Border"), m_toolsGroup);
     m_textWithBorderAct->setData(Core::TEXTBORDER);
 
     m_resetCountAct= new QAction(QIcon::fromTheme("view-refresh"), tr("Reset NPC counter"), this);

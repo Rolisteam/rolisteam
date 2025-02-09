@@ -36,7 +36,7 @@ Item {
             ToolButton {
               id: act1Btn
              ToolTip.text: qsTr("Remove file from campaign history")
-             icon.name: "edit-delete"
+             icon.name: "delete"
              icon.color: "transparent"
              onClicked: Controller.performAction(modelData, Controller.RemoveFromCampaign)
             }

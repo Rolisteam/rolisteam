@@ -31,17 +31,17 @@ RolisteamApplication::RolisteamApplication(const QString& appName, const QString
     : QApplication(argn, argv), m_game(GameController(appName, version, clipboard()))
 {
     setAttribute(Qt::AA_DontUseNativeMenuBar, true);
-    connect(&m_game, &GameController::closingApp, this, [this]() {
-        emit quitApp();
-    });
-    connect(m_game.networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
-        qDebug() << "app connection status changed" << connected;
-        emit connectStatusChanged(connected);
-    });
-    #ifdef Q_OS_WIN
-        QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << ":/resources");
-        QIcon::setThemeName("rolistheme");
-    #endif
+    connect(&m_game, &GameController::closingApp, this, [this]() { emit quitApp(); });
+    connect(m_game.networkController(), &NetworkController::connectedChanged, this,
+            [this](bool connected)
+            {
+                qDebug() << "app connection status changed" << connected;
+                emit connectStatusChanged(connected);
+            });
+#ifdef Q_OS_WIN
+    QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << ":/resources");
+    QIcon::setThemeName("rolistheme");
+#endif
 
     qDebug() << QIcon::themeSearchPaths() << QIcon::themeName();
 
@@ -49,7 +49,7 @@ RolisteamApplication::RolisteamApplication(const QString& appName, const QString
 
     setApplicationName(appName);
     setOrganizationName(appName);
-    setWindowIcon(QIcon::fromTheme("500-symbole"));
+    setWindowIcon(QIcon(":/resources/rolisteam/logo/500-symbole.png")); // QIcon::fromTheme("500-symbole"));
 
     setApplicationVersion(version);
     readSettings();

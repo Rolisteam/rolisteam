@@ -12,7 +12,7 @@ Item {
 
     Action {
         id: _addProfile
-        icon.name: "add_round"
+        icon.name: "add-round"
         onTriggered: ProfileController.addProfile()
     }
 

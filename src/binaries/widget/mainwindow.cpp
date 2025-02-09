@@ -115,7 +115,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
 {
     parseCommandLineArguments(args);
     setAcceptDrops(true);
-    m_systemTray->setIcon(QIcon::fromTheme("500-symbole"));
+    m_systemTray->setIcon(QIcon(":/resources/rolisteam/logo/500-symbole.png"));
     m_systemTray->show();
 
     // ALLOCATIONS
@@ -332,7 +332,7 @@ void MainWindow::setupUi()
                                   m_gameController->dicePhysicController()));
     setCentralWidget(m_mdiArea.get());
 
-    setWindowIcon(QIcon::fromTheme("logo"));
+    setWindowIcon(QIcon(":/resources/rolisteam/logo/500-symbole.png"));
 
     ///////////////////
     // Audio Player
@@ -1182,7 +1182,7 @@ void MainWindow::updateWindowTitle()
                                 m_gameController->version(), connectionStatus, networkStatus, tr("Player")));
     }
 
-    setWindowIcon(QIcon::fromTheme("500-symbole"));
+    setWindowIcon(QIcon(":/resources/rolisteam/logo/500-symbole.png"));
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent* event)

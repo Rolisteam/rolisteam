@@ -29,11 +29,6 @@
 #include "preferences/preferencesmanager.h"
 #include "worker/utilshelper.h"
 
-/////////////////
-// CleverUri       {Core::SONG, ":/resources/images/audiofile.svg"},{Core::CHAT,
-// ":/resources/images/scenario.png"},{CleverURI::SONGLIST, ":/resources/images/playlist.svg"}
-/////////////////
-
 QStringList CleverURI::m_typeToPreferenceDirectory
     = QStringList() << QString("SessionDirectory") << QString("MapDirectory") << QString("ChatDirectory")
                     << QString("ImageDirectory") << QString("ImageDirectory") << QString("MinutesDirectory")

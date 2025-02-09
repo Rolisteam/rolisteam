@@ -44,16 +44,16 @@ QIcon IconFromMedia(Media* media)
         {Core::MediaType::Unknown, "unknown"},
         {Core::MediaType::TokenFile, "contact"},
         {Core::MediaType::ImageFile, "image-x-generic"},
-        {Core::MediaType::MapFile, "vmap"},
+        {Core::MediaType::MapFile, "maplogo"},
         {Core::MediaType::TextFile, "text-x-generic"},
         {Core::MediaType::MindmapFile, "mindmap"},
-        {Core::MediaType::CharacterSheetFile, "treeview"},
+        {Core::MediaType::CharacterSheetFile, "sheet"},
         {Core::MediaType::WebpageFile, "text-html"},
         {Core::MediaType::PdfFile, "pdfLogo"},
         {Core::MediaType::AudioFile, "audio-x-generic"},
         {Core::MediaType::PlayListFile, "playlist"},
     });
-
+    // qDebug() << "[icons]media:" << media->type() << "value" << hash.value(media->type());
     return QIcon::fromTheme(hash.value(media->type()));
 }
 

@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/resources/rolisteam/logo">
+        <file>128.ico</file>
+        <file>250-rolisteam.png</file>
+        <file>250-symbole.png</file>
+        <file>256.jpg</file>
+        <file>256-icone.png</file>
+        <file>500-rolisteam.jpg</file>
+        <file>500-rolisteam.png</file>
+        <file>500-symbole.png</file>
+        <file>1000-fond.png</file>
+        <file>1000-fond_big.png</file>
+        <file>1000-rolisteam.png</file>
+        <file>1000-symbole.png</file>
+        <file>1500-rolisteam.jpg</file>
+        <file>1500-rolisteam.png</file>
+        <file>ifwbanner.png</file>
+        <file>logo.qrc</file>
+        <file>rolisteam.icns</file>
+        <file>rolisteam.ico</file>
+        <file>rolisteam.rc</file>
+        <file>rolisteam.svg</file>
+        <file>Rolisteam_big.svg</file>
+        <file>Rolisteam-fond.svg</file>
+        <file>square48x48.png</file>
+    </qresource>
+</RCC>

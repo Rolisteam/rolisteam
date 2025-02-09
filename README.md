@@ -1,4 +1,4 @@
-<p align='center'><img src="resources/rolistheme/1000-rolisteam.png"/></p>
+<p align='center'><img src="resources/logo/1000-rolisteam.png"/></p>
 
 ---
 

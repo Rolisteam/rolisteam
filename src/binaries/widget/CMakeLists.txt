@@ -31,7 +31,7 @@ set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/rolisteam/logo/rolisteam.rc)
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Quick3D LinguistTools Scxml MultimediaWidgets Multimedia)
 
-set(RESOURCE_FILES ${CMAKE_SOURCE_DIR}/rolisteam.qrc)
+set(RESOURCE_FILES ${CMAKE_SOURCE_DIR}/rolisteam.qrc  ${CMAKE_SOURCE_DIR}/resources/rolisteam/logo/logo.qrc)
 
 if("${CAMKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/rolisteam_autogen/mocs_compilation.cpp" PROPERTIES COMPILE_FLAGS "-Wno-undefined-reinterpret-cast -Wno-useless-cast")

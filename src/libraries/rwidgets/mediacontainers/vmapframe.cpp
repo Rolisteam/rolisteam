@@ -77,7 +77,7 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     setupUi();
 
     setObjectName("VMapFrame");
-    setWindowIcon(QIcon::fromTheme("vmap"));
+    setWindowIcon(QIcon::fromTheme("maplogo"));
     m_graphicView->setScene(m_vmap.get());
 
     auto func= [this]()

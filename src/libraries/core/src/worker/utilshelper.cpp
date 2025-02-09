@@ -256,11 +256,11 @@ QString typeToIconPath(Core::ContentType type)
 {
     qDebug() << "utils helper typeToIconPath:" << type;
     auto hash= QHash<Core::ContentType, QString>({
-        {Core::ContentType::VECTORIALMAP, "vmap"},
+        {Core::ContentType::VECTORIALMAP, "mapLogo"},
         {Core::ContentType::PICTURE, "photo"},
         //{Core::ContentType::ONLINEPICTURE, "photo"},
         {Core::ContentType::NOTES, "notes"},
-        {Core::ContentType::CHARACTERSHEET, "treeview"},
+        {Core::ContentType::CHARACTERSHEET, "sheet"},
         {Core::ContentType::SHAREDNOTE, "sharedEditor"},
         {Core::ContentType::WEBVIEW, "webPage"},
         {Core::ContentType::PDF, "pdfLogo"},
