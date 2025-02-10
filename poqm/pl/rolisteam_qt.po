@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-01-25 12:13+0100\n"
+"PO-Revision-Date: 2025-02-09 08:33+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -538,12 +538,9 @@ msgid "Possible Values"
 msgstr "Możliwe wartości"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
-#, fuzzy
-#| msgctxt "LogPanel|"
-#| msgid "Form"
 msgctxt "FieldModel|"
 msgid "Formula"
-msgstr "Formularz"
+msgstr "Wzór"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
@@ -3516,9 +3513,6 @@ msgid "is linked"
 msgstr "jest dowiązany"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:223
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "MindMap|"
 msgid "Detach"
 msgstr "Odłącz"
@@ -3674,9 +3668,6 @@ msgid "is linked"
 msgstr "jest dowiązany"
 
 #: src/libraries/mindmap/src/data/mindnode.cpp:33
-#, fuzzy
-#| msgctxt "BoxModel|"
-#| msgid "New Node"
 msgctxt "MindNode|"
 msgid "New node"
 msgstr "Nowy węzeł"
@@ -3968,12 +3959,9 @@ msgid "Open File"
 msgstr "Otwórz plik"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:117
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save View"
 msgctxt "FileDirChooser|"
 msgid "Save File"
-msgstr "Zapisz widok"
+msgstr "Zapisz plik"
 
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
@@ -5270,28 +5258,22 @@ msgstr "* : wymaga ponownego uruchomienia"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:569
 msgctxt "PreferencesDialogBox|"
 msgid "External Editors"
-msgstr ""
+msgstr "Edytory zewnętrzne"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:575
 msgctxt "PreferencesDialogBox|"
 msgid "RCSE"
-msgstr ""
+msgstr "RCSE"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:581
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path:"
-msgstr "Ścieżka"
+msgstr "Ścieżka:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:591
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters:"
-msgstr "Postacie"
+msgstr "Parametry:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:598
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:631
@@ -5299,54 +5281,39 @@ msgstr "Postacie"
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:608
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "PreferencesDialogBox|"
 msgid "MindMap"
 msgstr "Mapa myśli"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path"
 msgstr "Ścieżka"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:624
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:657
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters"
-msgstr "Postacie"
+msgstr "Parametry"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Editor"
 msgctxt "PreferencesDialogBox|"
 msgid "Text Editor"
-msgstr "Edytor"
+msgstr "Edytor tekstu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:647
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "PreferencesDialogBox|"
 msgid "TextLabel"
-msgstr "Etykieta"
+msgstr "EtykietaTekstowa"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:687
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1 is a placeholder for the filename of the file."
-msgstr ""
+msgstr "%1 jest polem zastępczym na nazwę pliku."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:695
 msgctxt "PreferencesDialogBox|"
@@ -8066,28 +8033,20 @@ msgid "%1 - Mindmap"
 msgstr "%1 - Mapa myśli"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy, qt-format
-#| msgctxt "MindMapView|"
-#| msgid "%1 - Mindmap"
+#, qt-format
 msgctxt "MindMapView|"
 msgid "%1 [%2] - Mindmap"
-msgstr "%1 - Mapa myśli"
+msgstr "%1 [%2] - Mapa myśli"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:157
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Write"
 msgctxt "MindMapView|"
 msgid "ReadWrite"
-msgstr "Odczyt/zapis"
+msgstr "OdczytZapis"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:157
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
-msgstr "Tylko do odczytu"
+msgstr "Tylko-do-odczytu"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:281
 msgctxt "PdfViewer|"
@@ -8398,12 +8357,9 @@ msgid "Date Modified"
 msgstr "Data zmiany"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Open Stream"
 msgctxt "campaign::CampaignView|"
 msgid "Open Externally"
-msgstr "Otwórz strumień"
+msgstr "Otwórz zewnętrznie"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:117
 msgctxt "campaign::CampaignView|"
