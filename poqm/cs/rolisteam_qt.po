@@ -24,12 +24,9 @@ msgid "MindMap (*.rmindmap *.rmap)"
 msgstr ""
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "Open MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
-msgstr "Otevřít myšlenkovou mapu"
+msgstr ""
 
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
@@ -534,12 +531,9 @@ msgid "Possible Values"
 msgstr ""
 
 #: src/binaries/rcse/fieldmodel.cpp:65
-#, fuzzy
-#| msgctxt "LogPanel|"
-#| msgid "Form"
 msgctxt "FieldModel|"
 msgid "Formula"
-msgstr "Formulář"
+msgstr ""
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
@@ -3331,12 +3325,9 @@ msgid "Rolisteam 3D dice roller"
 msgstr ""
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
-#, fuzzy
-#| msgctxt "PdfManager|"
-#| msgid "Size:"
 msgctxt "SideMenu|"
 msgid "Dice Size:"
-msgstr "Velikost:"
+msgstr ""
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:77
 msgctxt "SideMenu|"
@@ -3349,20 +3340,14 @@ msgid "Collision sound:"
 msgstr ""
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:189
-#, fuzzy
-#| msgctxt "Campaign|"
-#| msgid "Command"
 msgctxt "SideMenu|"
 msgid "Dice Command:"
-msgstr "Příkaz"
+msgstr ""
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:208
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Share To"
 msgctxt "SideMenu|"
 msgid "Share rolls"
-msgstr "Sdílet s"
+msgstr ""
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
@@ -3370,12 +3355,10 @@ msgid "(Experimental)"
 msgstr ""
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
-#, fuzzy, qt-format
-#| msgctxt "NodeSettingPopup|"
-#| msgid "Description: "
+#, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
-msgstr "Popis: "
+msgstr ""
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:221
 msgctxt "SideMenu|"
@@ -3420,12 +3403,9 @@ msgid "Add Arrow"
 msgstr "Přidat šipku"
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:71
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Delete Item"
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
-msgstr "Smazat položku"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
 msgctxt "ButtonGrid|"
@@ -3497,12 +3477,9 @@ msgid "is linked"
 msgstr ""
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:223
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "MindMap|"
 msgid "Detach"
-msgstr "Odpojit"
+msgstr ""
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:11
 msgctxt "MindMenu|"
@@ -3655,12 +3632,9 @@ msgid "is linked"
 msgstr ""
 
 #: src/libraries/mindmap/src/data/mindnode.cpp:33
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "New name:"
 msgctxt "MindNode|"
 msgid "New node"
-msgstr "Nový název:"
+msgstr ""
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
@@ -3947,12 +3921,9 @@ msgid "Open File"
 msgstr "Otevřít soubor"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:117
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save View"
 msgctxt "FileDirChooser|"
 msgid "Save File"
-msgstr " Uložit pohled"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
@@ -5239,20 +5210,14 @@ msgid "RCSE"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:581
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path:"
-msgstr "Cesta"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:591
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters:"
-msgstr "Znaky"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:598
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:631
@@ -5263,45 +5228,30 @@ msgid "%1"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:608
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "PreferencesDialogBox|"
 msgid "MindMap"
-msgstr "Myšlenková mapa"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path"
-msgstr "Cesta"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:624
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:657
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters"
-msgstr "Znaky"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Editor"
 msgctxt "PreferencesDialogBox|"
 msgid "Text Editor"
-msgstr "Editor"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:647
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "PreferencesDialogBox|"
 msgid "TextLabel"
-msgstr "Popisek"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:687
 #, qt-format
@@ -6574,12 +6524,9 @@ msgid "&File"
 msgstr "&Soubor"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:182
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save"
 msgctxt "TextEdit|"
 msgid "&Save"
-msgstr "Uložit"
+msgstr ""
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
 msgctxt "TextEdit|"
@@ -7752,12 +7699,9 @@ msgid "Stop Sharing"
 msgstr "Zastavit sdílení"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
-#, fuzzy
-#| msgctxt "TextEdit|"
-#| msgid "Print Document"
 msgctxt "CharacterSheetWindow|"
 msgid "Print Sheet"
-msgstr "Vytisknout dokument"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
@@ -7947,20 +7891,14 @@ msgid "%1 [%2] - Mindmap"
 msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:157
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Write"
 msgctxt "MindMapView|"
 msgid "ReadWrite"
-msgstr "Čtení a zápis"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:157
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
-msgstr "Pouze ke čtení"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:281
 msgctxt "PdfViewer|"
@@ -8269,12 +8207,9 @@ msgid "Date Modified"
 msgstr "Datum změny"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
-#, fuzzy
-#| msgctxt "QObject|"
-#| msgid "Internal"
 msgctxt "campaign::CampaignView|"
 msgid "Open Externally"
-msgstr "Vnitřní"
+msgstr ""
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:117
 msgctxt "campaign::CampaignView|"
@@ -8540,43 +8475,3 @@ msgstr "Spící"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Posedlý"
-
-#~ msgctxt "CharacterList|"
-#~ msgid "Character %1"
-#~ msgstr "Znak %1"
-
-#~ msgctxt "PackageItem|"
-#~ msgid "Title"
-#~ msgstr "Název"
-
-#~ msgctxt "RcseApplicationController|"
-#~ msgid "Yes"
-#~ msgstr "Ano"
-
-#~ msgctxt "RcseApplicationController|"
-#~ msgid "No"
-#~ msgstr "Ne"
-
-#~ msgctxt "MediaModel|"
-#~ msgid "Directory"
-#~ msgstr "Adresář"
-
-#~ msgctxt "PlayerWidget|"
-#~ msgid "Open Directory"
-#~ msgstr "Otevřít adresář"
-
-#~ msgctxt "TextEdit|"
-#~ msgid "Open File..."
-#~ msgstr "Otevřít soubor..."
-
-#~ msgctxt "TextEdit|"
-#~ msgid "Save as..."
-#~ msgstr "Uložit jako..."
-
-#~ msgctxt "MainWindow|"
-#~ msgid "Export from %1"
-#~ msgstr "Exportovat z %1"
-
-#~ msgctxt "MainWindow|"
-#~ msgid "unknown"
-#~ msgstr "neznámý"
