@@ -3930,12 +3930,9 @@ msgid "Open File"
 msgstr ""
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:117
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save View"
 msgctxt "FileDirChooser|"
 msgid "Save File"
-msgstr "保存视图"
+msgstr ""
 
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
@@ -5238,12 +5235,9 @@ msgid "%1"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:608
-#, fuzzy
-#| msgctxt "ImportDataFromCampaignDialog|"
-#| msgid "Mindmaps"
 msgctxt "PreferencesDialogBox|"
 msgid "MindMap"
-msgstr "思维导图"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
 msgctxt "PreferencesDialogBox|"
@@ -5257,12 +5251,9 @@ msgid "Parameters"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Editor"
 msgctxt "PreferencesDialogBox|"
 msgid "Text Editor"
-msgstr "编辑器"
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:647
 msgctxt "PreferencesDialogBox|"
@@ -7911,12 +7902,9 @@ msgid "ReadWrite"
 msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:157
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Read-only Text"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
-msgstr "只读文本"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:281
 msgctxt "PdfViewer|"
