@@ -1,8 +1,8 @@
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Tommi Nieminen <translator@legisign.org>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Tommi Nieminen <translator@legisign.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2024-12-17 16:40+0200\n"
+"PO-Revision-Date: 2025-02-08 10:53+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -19,20 +19,14 @@ msgid "open <file>."
 msgstr "avaa <tiedosto>."
 
 #: src/binaries/mindmap/Main.qml:23 src/binaries/mindmap/Main.qml:31
-#, fuzzy
-#| msgctxt "main|"
-#| msgid "MindMap (*.rmindmap *.rmap)"
 msgctxt "Main|"
 msgid "MindMap (*.rmindmap *.rmap)"
 msgstr "Miellekartta (*.rmindmap *.rmap)"
 
 #: src/binaries/mindmap/Main.qml:59
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "Main|"
 msgid "Open MindMap"
-msgstr "Miellekartta"
+msgstr "Avaa miellekartta"
 
 #: src/binaries/mindmap/MindMap.qml:69
 msgctxt "MindMap|"
@@ -341,12 +335,9 @@ msgid "Control Position"
 msgstr "Hallitse sijaintia"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:52
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Left"
 msgctxt "ColumnDefinitionDialog|"
 msgid "LeftTop"
-msgstr "Vasemmalle"
+msgstr "Ylävasen"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:57
 msgctxt "ColumnDefinitionDialog|"
@@ -354,52 +345,34 @@ msgid "LeftBottom"
 msgstr "Alavasen"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:62
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "TopLeft"
 msgctxt "ColumnDefinitionDialog|"
 msgid "TopLeft"
 msgstr "Ylävasen"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:67
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "TopRight"
 msgctxt "ColumnDefinitionDialog|"
 msgid "TopRight"
 msgstr "Yläoikea"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:72
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "BottomLeft"
 msgctxt "ColumnDefinitionDialog|"
 msgid "BottomLeft"
 msgstr "Alavasen"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:77
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "BottomRight"
 msgctxt "ColumnDefinitionDialog|"
 msgid "BottomRight"
 msgstr "Alaoikea"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:82
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Right"
 msgctxt "ColumnDefinitionDialog|"
 msgid "RightTop"
-msgstr "Oikealle"
+msgstr "Yläoikea"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:87
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "Right"
 msgctxt "ColumnDefinitionDialog|"
 msgid "RightBottom"
-msgstr "Oikealle"
+msgstr "Alaoikea"
 
 #: src/binaries/rcse/dialog/columndefinitiondialog.ui:112
 msgctxt "ColumnDefinitionDialog|"
@@ -432,28 +405,19 @@ msgid "Browse"
 msgstr "Selaa"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:49
-#, fuzzy
-#| msgctxt "campaign::CampaignView|"
-#| msgid "Size"
 msgctxt "PdfManager|"
 msgid "Size:"
-msgstr "Koko"
+msgstr "Koko:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:60
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Width"
 msgctxt "PdfManager|"
 msgid "Width:"
-msgstr "Leveys"
+msgstr "Leveys:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:84
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Height"
 msgctxt "PdfManager|"
 msgid "Height: "
-msgstr "Korkeus"
+msgstr "Korkeus:"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:109
 msgctxt "PdfManager|"
@@ -462,28 +426,19 @@ msgstr "Harmaasävy"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:118
 #: src/binaries/rcse/dialog/pdfmanager.ui:130
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Page"
 msgctxt "PdfManager|"
 msgid "Pages"
-msgstr "Sivu"
+msgstr "Sivut"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:143
-#, fuzzy
-#| msgctxt "PageDelegate|"
-#| msgid "All pages"
 msgctxt "PdfManager|"
 msgid "All pages"
 msgstr "Kaikki sivut"
 
 #: src/binaries/rcse/dialog/pdfmanager.ui:156
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid "Current developers"
 msgctxt "PdfManager|"
 msgid "Current page"
-msgstr "Nykyiset kehittäjät"
+msgstr "Nykyinen sivu"
 
 #: src/binaries/rcse/dialog/sheetproperties.cpp:17
 msgctxt "SheetProperties|"
@@ -499,12 +454,9 @@ msgid "Sheet Properties"
 msgstr "Aseta ominaisuus"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
-#, fuzzy
-#| msgctxt "DrawerMenu|"
-#| msgid "Default Style"
 msgctxt "SheetProperties|"
 msgid "Default scale:"
-msgstr "Oletustyyli"
+msgstr "Oletusmittakaava:"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:60
 msgctxt "SheetProperties|"
@@ -725,25 +677,16 @@ msgid "define path to current <translation>"
 msgstr "määritä nykyisen <käännöksen> sijainti"
 
 #: src/binaries/rcse/mainwindow.cpp:175
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Log panel"
 msgctxt "rcse::MainWindow|"
 msgid "Log panel"
 msgstr "Lokipaneeli"
 
 #: src/binaries/rcse/mainwindow.cpp:205
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Undo"
 msgctxt "rcse::MainWindow|"
 msgid "&Undo"
 msgstr "K&umoa"
 
 #: src/binaries/rcse/mainwindow.cpp:208
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "&Redo"
 msgctxt "rcse::MainWindow|"
 msgid "&Redo"
 msgstr "T&ee uudelleen"
@@ -772,17 +715,11 @@ msgstr ""
 "com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
 #: src/binaries/rcse/mainwindow.cpp:453
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Untitled"
 msgctxt "rcse::MainWindow|"
 msgid "Untitled"
 msgstr "Nimetön"
 
 #: src/binaries/rcse/mainwindow.cpp:490
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Help"
 msgctxt "rcse::MainWindow|"
 msgid "Help"
 msgstr "Ohje"
@@ -807,41 +744,27 @@ msgid "The charactersheet has unsaved changes."
 msgstr ""
 
 #: src/binaries/rcse/mainwindow.cpp:510
-#, fuzzy, qt-format
-#| msgctxt "MainWindow|"
-#| msgid "Quit %1 "
+#, qt-format
 msgctxt "rcse::MainWindow|"
 msgid "Quit %1 "
 msgstr "Lopeta %1"
 
 #: src/binaries/rcse/mainwindow.cpp:565
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image Generation"
 msgctxt "rcse::MainWindow|"
 msgid "Image Generation"
 msgstr "Kuvan luonti"
 
 #: src/binaries/rcse/mainwindow.cpp:565
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Image generation in progress"
 msgctxt "rcse::MainWindow|"
 msgid "Image generation in progress"
-msgstr "Kuvan luonti meneillään"
+msgstr "Kuvan luominen meneillään"
 
 #: src/binaries/rcse/mainwindow.cpp:586 src/binaries/rcse/mainwindow.cpp:813
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Background Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Background Image"
 msgstr "Avaa taustakuva"
 
 #: src/binaries/rcse/mainwindow.cpp:597
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Open Image"
 msgctxt "rcse::MainWindow|"
 msgid "Open Image"
 msgstr "Avaa kuva"
@@ -2234,7 +2157,7 @@ msgstr "&Historia"
 #: src/binaries/widget/mainwindow.ui:153
 msgctxt "MainWindow|"
 msgid "toolBar"
-msgstr ""
+msgstr "työkalurivi"
 
 #: src/binaries/widget/mainwindow.ui:170
 #, fuzzy
@@ -2573,7 +2496,7 @@ msgstr "Salasana"
 #: src/binaries/widget/mainwindow.ui:483
 msgctxt "MainWindow|"
 msgid "Current Media as…"
-msgstr ""
+msgstr "Nykyinen media nimellä…"
 
 #: src/binaries/widget/mainwindow.ui:500
 msgctxt "MainWindow|"
@@ -2750,7 +2673,7 @@ msgstr "Sovita leveys ikkunaan"
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
 msgctxt "ContextualMenu|"
 msgid "Zoom Min"
-msgstr ""
+msgstr "Pienin lähennys"
 
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
 msgctxt "ContextualMenu|"
@@ -2760,27 +2683,27 @@ msgstr "Nollaa lähennys"
 #: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
 msgctxt "ContextualMenu|"
 msgid "Zoom Max"
-msgstr ""
+msgstr "Enin lähennys"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:12
 msgctxt "example|"
 msgid "Nom"
-msgstr ""
+msgstr "Nom"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:21
 msgctxt "example|"
 msgid "Prenom"
-msgstr ""
+msgstr "Prenom"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:28
 msgctxt "example|"
 msgid "Couleur des yeux"
-msgstr ""
+msgstr "Couleur des yeux"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:35
 msgctxt "example|"
 msgid "Corpulence"
-msgstr ""
+msgstr "Corpulence"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:44
 msgctxt "example|"
@@ -2790,17 +2713,17 @@ msgstr "Rohkeus"
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:47
 msgctxt "example|"
 msgid "Malice"
-msgstr ""
+msgstr "Malice"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
 msgctxt "example|"
 msgid "Mignon"
-msgstr ""
+msgstr "Mignon"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
 msgctxt "example|"
 msgid "Colère"
-msgstr ""
+msgstr "Colère"
 
 #: src/libraries/charactersheet/qml/Rolisteam/example.qml:65
 msgctxt "example|"
@@ -2905,62 +2828,62 @@ msgstr "on tausta"
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:87
 msgctxt "QObject|"
 msgid "abs : too many arguments"
-msgstr ""
+msgstr "abs: liikaa parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:91
 msgctxt "QObject|"
 msgid "abs : too few arguments"
-msgstr ""
+msgstr "abs: liian vähän parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:109
 msgctxt "QObject|"
 msgid "ceil : too many arguments"
-msgstr ""
+msgstr "ceil: liikaa parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:113
 msgctxt "QObject|"
 msgid "ceil : too few arguments"
-msgstr ""
+msgstr "ceil: liian vähän parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:130
 msgctxt "QObject|"
 msgid "floor : too many arguments"
-msgstr ""
+msgstr "floor: liikaa parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:134
 msgctxt "QObject|"
 msgid "floor : too few arguments"
-msgstr ""
+msgstr "floor: liian vähän parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:151
 msgctxt "QObject|"
 msgid "concatenate : too few arguments"
-msgstr ""
+msgstr "concatenate: liian vähän parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:174
 msgctxt "QObject|"
 msgid "min : too few arguments"
-msgstr ""
+msgstr "min: liian vähän parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:203
 msgctxt "QObject|"
 msgid "max : too few arguments"
-msgstr ""
+msgstr "max: liikaa parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/operator.cpp:232
 msgctxt "QObject|"
 msgid "avg : too few arguments"
-msgstr ""
+msgstr "avg: liian vähän parametreja"
 
 #: src/libraries/charactersheet/src/formula/nodes/scalaroperatorfnode.cpp:74
 msgctxt "QObject|"
 msgid "Error: division by Zero"
-msgstr ""
+msgstr "Virhe: jako nollalla"
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 msgctxt "LogPanel|"
 msgid "Saving logs"
-msgstr ""
+msgstr "Tallennetaan lokeja"
 
 #: src/libraries/common/widgets/logpanel.cpp:85
 #, qt-format
@@ -2976,7 +2899,7 @@ msgstr ""
 #: src/libraries/common/widgets/logpanel.ui:37
 msgctxt "LogPanel|"
 msgid "Level"
-msgstr ""
+msgstr "Taso"
 
 #: src/libraries/common/widgets/logpanel.ui:45
 #, fuzzy
@@ -2993,17 +2916,17 @@ msgstr ""
 #: src/libraries/common/widgets/logpanel.ui:50
 msgctxt "LogPanel|"
 msgid "warning"
-msgstr ""
+msgstr "varoitus"
 
 #: src/libraries/common/widgets/logpanel.ui:55
 msgctxt "LogPanel|"
 msgid "Info"
-msgstr ""
+msgstr "Tietoa"
 
 #: src/libraries/common/widgets/logpanel.ui:60
 msgctxt "LogPanel|"
 msgid "Debug"
-msgstr ""
+msgstr "Virheenpaikannus"
 
 #: src/libraries/common/widgets/logpanel.ui:104
 #, fuzzy
@@ -3024,7 +2947,7 @@ msgstr "Tallenna"
 #: src/libraries/common/widgets/logpanel.ui:116
 msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
-msgstr ""
+msgstr "Tarjoa tämä tiedosto Rolisteamin kehittäjille"
 
 #: src/libraries/core/src/controller/contentcontroller.cpp:426
 msgctxt "ContentController|"
@@ -3082,7 +3005,7 @@ msgstr "Tuntematon hahmo"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:56
 msgctxt "QObject|"
 msgid "Character"
-msgstr ""
+msgstr "Hahmo"
 
 #: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
@@ -3150,12 +3073,12 @@ msgstr "Sisäinen"
 #: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Linked"
-msgstr ""
+msgstr "Linkitetty"
 
 #: src/libraries/core/src/data/cleveruri.cpp:235
 msgctxt "QObject|"
 msgid "Closed"
-msgstr ""
+msgstr "Suljettu"
 
 #: src/libraries/core/src/data/cleveruri.cpp:235
 msgctxt "QObject|"
@@ -3165,7 +3088,7 @@ msgstr "Näytetty"
 #: src/libraries/core/src/data/shortcutmodel.cpp:105
 msgctxt "ShortCutModel|"
 msgid "Action"
-msgstr ""
+msgstr "Toiminta"
 
 #: src/libraries/core/src/data/shortcutmodel.cpp:107
 msgctxt "ShortCutModel|"
@@ -3175,17 +3098,17 @@ msgstr ""
 #: src/libraries/core/src/model/characterstatemodel.cpp:30
 msgctxt "CharacterStateModel|"
 msgid "Label"
-msgstr ""
+msgstr "Selite"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:30
 msgctxt "CharacterStateModel|"
 msgid "Color"
-msgstr ""
+msgstr "Väri"
 
 #: src/libraries/core/src/model/characterstatemodel.cpp:30
 msgctxt "CharacterStateModel|"
 msgid "Image"
-msgstr ""
+msgstr "Kuva"
 
 #: src/libraries/core/src/model/colormodel.cpp:44
 msgctxt "ColorModel|"
@@ -3195,7 +3118,7 @@ msgstr "Mikä tahansa väri"
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
 msgid "Pattern"
-msgstr ""
+msgstr "Kuvio"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
@@ -3205,12 +3128,12 @@ msgstr "Arvo"
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
 msgid "Regular Expression"
-msgstr ""
+msgstr "Säännöllinen lauseke"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
 msgid "Disable"
-msgstr ""
+msgstr "Poista käytöstä"
 
 #: src/libraries/core/src/model/dicealiasmodel.cpp:31
 msgctxt "DiceAliasModel|"
@@ -3220,7 +3143,7 @@ msgstr "Kommentit"
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "Path"
-msgstr ""
+msgstr "Sijainti"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
@@ -3235,27 +3158,27 @@ msgstr "tyyppi"
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "last access"
-msgstr ""
+msgstr "viimeksi käytetty"
 
 #: src/libraries/core/src/model/historymodel.cpp:36
 msgctxt "HistoryModel|"
 msgid "bookmarked"
-msgstr ""
+msgstr "kirjanmerkitty"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Size"
-msgstr ""
+msgstr "Koko"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
 msgid "Type"
-msgstr ""
+msgstr "Tyyppi"
 
 #: src/libraries/core/src/model/mediamodel.cpp:235
 msgctxt "MediaModel|"
@@ -3276,7 +3199,7 @@ msgstr "Väärä henkilö"
 #: src/libraries/core/src/model/musicmodel.cpp:32
 msgctxt "MusicModel|"
 msgid "Title"
-msgstr ""
+msgstr "Otsikko"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
@@ -3286,7 +3209,7 @@ msgstr "Avatar"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
@@ -3304,27 +3227,27 @@ msgstr "Tiedot"
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Tags"
-msgstr ""
+msgstr "Luokitukset"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:84
 msgctxt "NonPlayableCharacterModel|"
 msgid "Color"
-msgstr ""
+msgstr "Väri"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Min HP"
-msgstr ""
+msgstr "Vähimmäis-HP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Current HP"
-msgstr ""
+msgstr "Nykyinen HP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
 msgid "Max HP"
-msgstr ""
+msgstr "Enimmäis-HP"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:85
 msgctxt "NonPlayableCharacterModel|"
@@ -3339,7 +3262,7 @@ msgstr ""
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
 msgid "State"
-msgstr ""
+msgstr "Tila"
 
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
@@ -3349,27 +3272,27 @@ msgstr ""
 #: src/libraries/core/src/model/nonplayablecharactermodel.cpp:86
 msgctxt "NonPlayableCharacterModel|"
 msgid "Init Command"
-msgstr ""
+msgstr "Alustuskomento"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Role"
-msgstr ""
+msgstr "Rooli"
 
 #: src/libraries/core/src/model/palettemodel.cpp:76
 msgctxt "PaletteModel|"
 msgid "Group"
-msgstr ""
+msgstr "Ryhmä"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Active"
-msgstr ""
+msgstr "Aktiivinen"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
 msgid "Disable"
-msgstr ""
+msgstr "Poista käytöstä"
 
 #: src/libraries/core/src/model/palettemodel.cpp:77
 msgctxt "PaletteModel|"
@@ -3379,7 +3302,7 @@ msgstr "Passiivinen"
 #: src/libraries/core/src/model/participantmodel.cpp:126
 msgctxt "ParticipantModel|"
 msgid "Read Write"
-msgstr ""
+msgstr "Luku ja kirjoitus"
 
 #: src/libraries/core/src/model/participantmodel.cpp:127
 msgctxt "ParticipantModel|"
@@ -3389,12 +3312,12 @@ msgstr "Vain luku"
 #: src/libraries/core/src/model/participantmodel.cpp:128
 msgctxt "ParticipantModel|"
 msgid "Hidden"
-msgstr ""
+msgstr "Piilotettu"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Read Write"
-msgstr ""
+msgstr "Luku ja kirjoitus"
 
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
@@ -3404,7 +3327,7 @@ msgstr "Vain luku"
 #: src/libraries/core/src/model/participantsmodel.cpp:33
 msgctxt "ParticipantsModel|"
 msgid "Hidden"
-msgstr ""
+msgstr "Piilotettu"
 
 #: src/libraries/core/src/model/patternmodel.cpp:34
 msgctxt "PatternModel|"
@@ -3461,12 +3384,12 @@ msgstr "Toistuva pelaaja tai UUID"
 #: src/libraries/core/src/model/profilemodel.cpp:113
 msgctxt "ProfileModel|"
 msgid " (clone)"
-msgstr ""
+msgstr " (kopio)"
 
 #: src/libraries/core/src/model/proxystatemodel.cpp:50
 msgctxt "ProxyStateModel|"
 msgid "Any"
-msgstr ""
+msgstr "Mikä tahansa"
 
 #: src/libraries/core/src/model/statemodel.cpp:44
 #, fuzzy
@@ -3479,17 +3402,17 @@ msgstr "Tila"
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "Bytes"
-msgstr ""
+msgstr "tavua"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: src/libraries/core/src/network/channelmodel.cpp:107
 msgctxt "ChannelModel|"
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: src/libraries/core/src/network/channelmodel.cpp:446
 msgctxt "ChannelModel|"
@@ -3554,6 +3477,7 @@ msgctxt "ServerConnectionManager|"
 msgid ""
 "Authentification fails: %1 try to connect to the server with wrong password."
 msgstr ""
+"Todennus epäonnistui: %1 yritystä yhdistää palvelimeen väärällä salasanalla."
 
 #: src/libraries/core/src/network/serverconnectionmanager.cpp:290
 #, qt-format
@@ -3586,28 +3510,28 @@ msgstr ""
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to find proper service type: %1 %2 %3"
-msgstr ""
+msgstr "Oikean palvelutyypin haku epäonnistui: %1 %2 %3"
 
 #: src/libraries/core/src/network/upnp/upnpnat.cpp:342
 #, qt-format
 msgctxt "UpnpNat|"
 msgid "Fail to add port mapping (%1/%2) : error :%3\n"
-msgstr ""
+msgstr "Portinohjauksen (%1/%2) lisääminen epäonnistui: virhe: %3\n"
 
 #: src/libraries/core/src/services/ipchecker.cpp:37
 msgctxt "IpChecker|"
 msgid "Error to read server IP."
-msgstr ""
+msgstr "Virhe luettaessa palvelimen IP:tä."
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: src/libraries/core/src/session/sessionitemmodel.cpp:34
 msgctxt "SessionItemModel|"
 msgid "Path"
-msgstr ""
+msgstr "Sijainti"
 
 #: src/libraries/core/src/undoCmd/addfogofwarchangecommand.cpp:28
 msgctxt "QObject|"
@@ -3629,7 +3553,7 @@ msgstr ""
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Line"
-msgstr ""
+msgstr "Viiva"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:35
 msgctxt "QObject|"
@@ -3649,18 +3573,18 @@ msgstr "Tyhjä nelikulmio"
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:38
 msgctxt "QObject|"
 msgid "Filled Rectangle"
-msgstr ""
+msgstr "Täytetty nelikulmio"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:39
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:42
 msgctxt "QObject|"
 msgid "Text"
-msgstr ""
+msgstr "Teksti"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:40
 msgctxt "QObject|"
 msgid "Text with border"
-msgstr ""
+msgstr "Reunallinen teksti"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:41
 msgctxt "QObject|"
@@ -3681,7 +3605,7 @@ msgstr "Kynä"
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 msgctxt "QObject|"
 msgid "Path"
-msgstr ""
+msgstr "Sijainti"
 
 #: src/libraries/core/src/undoCmd/addvmapitem.cpp:48
 #, qt-format
@@ -3906,7 +3830,7 @@ msgstr "Jaetut muistiinpanot"
 #: src/libraries/dicephysics/qml/SideMenu.qml:209
 msgctxt "SideMenu|"
 msgid "(Experimental)"
-msgstr ""
+msgstr "(Kokeellinen)"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:220
 #, fuzzy, qt-format
@@ -4093,7 +4017,7 @@ msgstr "Kuvaus"
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:48
 msgctxt "NodeSettingPopup|"
 msgid "tags:"
-msgstr ""
+msgstr "luokitukset:"
 
 #: src/libraries/mindmap/resources/qml/NodeSettingPopup.qml:56
 #, fuzzy
@@ -4157,7 +4081,7 @@ msgstr "Ehdot"
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:124
 msgctxt "SideMenu|"
 msgid "Pattern"
-msgstr ""
+msgstr "Kuvio"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:170
 msgctxt "SideMenu|"
@@ -4656,7 +4580,7 @@ msgstr "Tallenna soittolista"
 #: src/libraries/rwidgets/customs/playerwidget.ui:35
 msgctxt "PlayerWidgetUI|"
 msgid "muted"
-msgstr ""
+msgstr "vaimennettu"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:98
 #, fuzzy
@@ -4693,7 +4617,7 @@ msgstr "Sekoitustila"
 #: src/libraries/rwidgets/customs/playerwidget.ui:177
 msgctxt "PlayerWidgetUI|"
 msgid "repeat"
-msgstr ""
+msgstr "toista"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:230
 #, fuzzy
@@ -4709,7 +4633,7 @@ msgstr "Kansio"
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
 msgctxt "PlayerWidgetUI|"
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:305
 #, fuzzy
@@ -4866,7 +4790,7 @@ msgstr "Aseta haluamasi kiertokulma [0–360]"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:507
 msgctxt "RGraphicsView|"
 msgid "Zoom to Normal"
-msgstr ""
+msgstr "Palauta lähennys"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
 msgctxt "RGraphicsView|"
@@ -4906,7 +4830,7 @@ msgstr "Tuo kuva"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:538
 msgctxt "RGraphicsView|"
 msgid "Back"
-msgstr ""
+msgstr "Takaisin"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:542
 msgctxt "RGraphicsView|"
@@ -5165,7 +5089,7 @@ msgstr "Vie Rolisteam-teema"
 #: src/libraries/rwidgets/dialogs/campaignintegritydialog.ui:17
 msgctxt "CampaignIntegrityDialog|"
 msgid "Integrity Check"
-msgstr ""
+msgstr "Eheystarkistus"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.cpp:39
 msgctxt "CampaignProperties|"
@@ -5217,7 +5141,7 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:243
 msgctxt "CampaignProperties|"
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:137
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:140
@@ -5319,12 +5243,12 @@ msgstr "Tiedostotoiminnot"
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:388
 msgctxt "CampaignProperties|"
 msgid "Disk usage:"
-msgstr ""
+msgstr "Levynkäyttö:"
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:402
 msgctxt "CampaignProperties|"
 msgid "Load all open documents from last session."
-msgstr ""
+msgstr "Lataa kaikki viime istunnossa avoimet tiedostot."
 
 #: src/libraries/rwidgets/dialogs/campaignproperties.ui:405
 msgctxt "CampaignProperties|"
@@ -5354,12 +5278,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:34
 msgctxt "HistoryViewerDialog|"
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:71
 msgctxt "HistoryViewerDialog|"
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:79
 #, fuzzy
@@ -5393,18 +5317,18 @@ msgstr "Osoite:"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:30
 msgctxt "ImageSelectorDialog|"
 msgid "http://… https://… c:\\… /home/…"
-msgstr ""
+msgstr "http://… https://… c:\\… /home/…"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:45
 msgctxt "ImageSelectorDialog|"
 msgid "download"
-msgstr ""
+msgstr "lataa"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:62
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:79
 msgctxt "ImageSelectorDialog|"
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
 #, fuzzy
@@ -5433,7 +5357,7 @@ msgstr "L&iitä"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:184
 msgctxt "ImageSelectorDialog|"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Liitä leikepöydältä"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:187
 #, fuzzy
@@ -5454,12 +5378,12 @@ msgstr "Avaa tiedosto"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:202
 msgctxt "ImageSelectorDialog|"
 msgid "Open file from your hard drive"
-msgstr ""
+msgstr "Avaa tiedosto kiintolevyltä"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:14
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Kyselyikkuna"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:22
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5469,12 +5393,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Browse…"
-msgstr ""
+msgstr "Selaa…"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:55
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Data to Import"
-msgstr ""
+msgstr "Tuotavat tiedot"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:61
 #, fuzzy
@@ -5487,7 +5411,7 @@ msgstr "Miellekartta"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:68
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Maps"
-msgstr ""
+msgstr "Kartat"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:75
 #, fuzzy
@@ -5508,7 +5432,7 @@ msgstr "Alias"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:89
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Theme"
-msgstr ""
+msgstr "Teema"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:96
 msgctxt "ImportDataFromCampaignDialog|"
@@ -5620,7 +5544,7 @@ msgstr "Miellekartta"
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:14
 msgctxt "NewFileDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Kyselyikkuna"
 
 #: src/libraries/rwidgets/dialogs/newfiledialog.ui:22
 #, fuzzy
@@ -5649,7 +5573,7 @@ msgstr "Tyyppi"
 #: src/libraries/rwidgets/dialogs/persondialog.ui:14
 msgctxt "PersonDialog|"
 msgid "Dialog"
-msgstr ""
+msgstr "Kyselyikkuna"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:40
 #, fuzzy
@@ -5773,12 +5697,12 @@ msgstr "Tuo Rolisteam-teema"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:14
 msgctxt "PreferencesDialogBox|"
 msgid "Dialog"
-msgstr ""
+msgstr "Kyselyikkuna"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:27
 msgctxt "PreferencesDialogBox|"
 msgid "General"
-msgstr ""
+msgstr "Perusasetukset"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:33
 #, fuzzy
@@ -5833,22 +5757,22 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:190
 msgctxt "PreferencesDialogBox|"
 msgid "Behaviour"
-msgstr ""
+msgstr "Toiminta"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:196
 msgctxt "PreferencesDialogBox|"
 msgid "Check for Update"
-msgstr ""
+msgstr "Tarkista päivitykset"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:206
 msgctxt "PreferencesDialogBox|"
 msgid "Don't show \"Tips of the day\""
-msgstr ""
+msgstr "Älä näytä ”päivän vinkkejä”"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:213
 msgctxt "PreferencesDialogBox|"
 msgid "Full Screen at launch"
-msgstr ""
+msgstr "Käynnistä koko näytölle"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:222
 msgctxt "PreferencesDialogBox|"
@@ -5877,27 +5801,27 @@ msgstr "Kaikki"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:264
 msgctxt "PreferencesDialogBox|"
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:277
 msgctxt "PreferencesDialogBox|"
 msgid "All subwindows will have a short title (making tab shorter)"
-msgstr ""
+msgstr "Lyhyt otsikko kaikissa ali-ikkunoissa (lyhentää välilehtiä)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:280
 msgctxt "PreferencesDialogBox|"
 msgid "Short title in Tabview"
-msgstr ""
+msgstr "Lyhyt otsikko välilehtinäkymässä"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:302
 msgctxt "PreferencesDialogBox|"
 msgid "Max Length:"
-msgstr ""
+msgstr "Enimmäispituus:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:326
 msgctxt "PreferencesDialogBox|"
 msgid "Pictures fit their Windows (at the opening)"
-msgstr ""
+msgstr "Sovita kuvat ikkunoihinsa (avattaessa)"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:339
 #, fuzzy
@@ -5910,17 +5834,17 @@ msgstr "Sovellus"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:345
 msgctxt "PreferencesDialogBox|"
 msgid "Use system language"
-msgstr ""
+msgstr "Käytä järjestelmän kieltä"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:357
 msgctxt "PreferencesDialogBox|"
 msgid "Available translations:"
-msgstr ""
+msgstr "Käytettävissä olevat käännökset:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:382
 msgctxt "PreferencesDialogBox|"
 msgid "Custom translation"
-msgstr ""
+msgstr "Mukautettu käännös"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:391
 #, fuzzy
@@ -5941,12 +5865,12 @@ msgstr "Hahmo"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:412
 msgctxt "PreferencesDialogBox|"
 msgid "Time between page:"
-msgstr ""
+msgstr "Aika sivujen välillä:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:435
 msgctxt "PreferencesDialogBox|"
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:457
 #, fuzzy
@@ -5967,22 +5891,22 @@ msgstr "Näytä tai piilota"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
 msgctxt "PreferencesDialogBox|"
 msgid "Color of Time:"
-msgstr ""
+msgstr "Ajan väri:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:503
 msgctxt "PreferencesDialogBox|"
 msgid "Hide Long commands"
-msgstr ""
+msgstr "Piilota pitkät komennot"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 msgctxt "PreferencesDialogBox|"
 msgid "Maximum Length:"
-msgstr ""
+msgstr "Enimmäispituus:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
 msgctxt "PreferencesDialogBox|"
 msgid "* : need restart"
-msgstr ""
+msgstr "*: tarvitaan uudelleenkäynnistys"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:569
 msgctxt "PreferencesDialogBox|"
@@ -6068,12 +5992,12 @@ msgstr ""
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:695
 msgctxt "PreferencesDialogBox|"
 msgid "Themes"
-msgstr ""
+msgstr "Teemat"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:701
 msgctxt "PreferencesDialogBox|"
 msgid "Theme"
-msgstr ""
+msgstr "Teema"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:711
 #, fuzzy
@@ -6118,7 +6042,7 @@ msgstr "Poista"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:765
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
-msgstr ""
+msgstr "CSS:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:772
 #, fuzzy
@@ -6203,17 +6127,17 @@ msgstr "Alaoikea"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:884
 msgctxt "PreferencesDialogBox|"
 msgid "Scaled"
-msgstr ""
+msgstr "Skaalattu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:889
 msgctxt "PreferencesDialogBox|"
 msgid "Filled"
-msgstr ""
+msgstr "Täytetty"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:894
 msgctxt "PreferencesDialogBox|"
 msgid "Repeated"
-msgstr ""
+msgstr "Toistettu"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:909
 #, fuzzy
@@ -6226,32 +6150,32 @@ msgstr "Korostuskynä"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:938
 msgctxt "PreferencesDialogBox|"
 msgid "Color Palette"
-msgstr ""
+msgstr "Väripaletti"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:950
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
-msgstr ""
+msgstr "*: tarvitaan uudelleenkäynnistys"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:970
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
-msgstr ""
+msgstr "Tuo…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:977
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
-msgstr ""
+msgstr "Vie…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:990
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
-msgstr ""
+msgstr "Diagnostiikka"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1018
 msgctxt "PreferencesDialogBox|"
 msgid "Start"
-msgstr ""
+msgstr "Käynnistä"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.cpp:117
 msgctxt "SelectConnectionProfileDialog|"
@@ -6261,7 +6185,7 @@ msgstr "Valitse kansio"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:14
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Welcome To Rolisteam - Connection Dialog"
-msgstr ""
+msgstr "Tervetuloa Rolisteamiin – yhteysikkuna"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:31
 #, fuzzy
@@ -6290,7 +6214,7 @@ msgstr "Yhdistä"
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:50
 msgctxt "SelectConnectionProfileDialog|"
 msgid "stop"
-msgstr ""
+msgstr "pysäytä"
 
 #: src/libraries/rwidgets/dialogs/selectconnectionprofiledialog.ui:55
 #, fuzzy
@@ -6311,7 +6235,7 @@ msgstr "Monista profiili"
 #: src/libraries/rwidgets/dialogs/shortcuteditordialog.ui:14
 msgctxt "ShortCutEditorDialog|"
 msgid "Shortcut Viewer"
-msgstr ""
+msgstr "Pikanäppäinkatselin"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:30
 #, qt-format
@@ -6322,7 +6246,7 @@ msgstr "%1 – päivän vihje"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:42
 msgctxt "TipOfDayViewer|"
 msgid "No Service to open links"
-msgstr ""
+msgstr "Ei linkkejä avaavaa palvelua"
 
 # ID:ssä on ilmeisesti jokin virhe?
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.cpp:43
@@ -6336,12 +6260,12 @@ msgstr "Etsi tyyppi täältä: <a href=\"%1\"</a>"
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:14
 msgctxt "TipOfDayViewer|"
 msgid "Dialog"
-msgstr ""
+msgstr "Kyselyikkuna"
 
 #: src/libraries/rwidgets/dialogs/tipofdayviewer.ui:42
 msgctxt "TipOfDayViewer|"
 msgid "Never show it again !"
-msgstr ""
+msgstr "Älä näytä enää koskaan!"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.cpp:40
 msgctxt "MapWizzardDialog|"
@@ -6413,7 +6337,7 @@ msgstr "Käyttöoikeus"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:123
 msgctxt "MapWizzardDialog|"
 msgid "Grid"
-msgstr ""
+msgstr "Ruudukko"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:149
 #, fuzzy
@@ -6442,32 +6366,32 @@ msgstr "Koko"
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:182
 msgctxt "MapWizzardDialog|"
 msgid "Scale:"
-msgstr ""
+msgstr "Mittakaava:"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:249
 msgctxt "MapWizzardDialog|"
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:254
 msgctxt "MapWizzardDialog|"
 msgid "km"
-msgstr ""
+msgstr "km"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:259
 msgctxt "MapWizzardDialog|"
 msgid "cm"
-msgstr ""
+msgstr "cm"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:264
 msgctxt "MapWizzardDialog|"
 msgid "mile"
-msgstr ""
+msgstr "mailit"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:269
 msgctxt "MapWizzardDialog|"
 msgid "yard"
-msgstr ""
+msgstr "jaardit"
 
 #: src/libraries/rwidgets/dialogs/vmapwizzarddialog.ui:274
 #, fuzzy
@@ -6539,7 +6463,7 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.ui:29
 msgctxt "AntagonistBoard|"
 msgid "Search:"
-msgstr ""
+msgstr "Etsi:"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:39
 #: src/libraries/rwidgets/docks/antagonistboard.ui:333
@@ -6553,13 +6477,13 @@ msgstr ""
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1012
 msgctxt "AntagonistBoard|"
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1135
 msgctxt "AntagonistBoard|"
 msgid "Advanced"
-msgstr ""
+msgstr "Lisäasetukset"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:60
 msgctxt "AntagonistBoard|"
@@ -7387,7 +7311,7 @@ msgstr "Poista merkkimuotoilut"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:79
 msgctxt "MRichTextEdit|"
 msgid "Undo (CTRL+Z)"
-msgstr ""
+msgstr "Kumoa (Ctrl+Z)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:82
 #, fuzzy
@@ -7409,7 +7333,7 @@ msgstr "Tee uudelleen"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:128
 msgctxt "MRichTextEdit|"
 msgid "Cut (CTRL+X)"
-msgstr ""
+msgstr "Leikkaa (Ctrl+X)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:131
 #, fuzzy
@@ -7422,7 +7346,7 @@ msgstr "&Leikkaa"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:151
 msgctxt "MRichTextEdit|"
 msgid "Copy (CTRL+C)"
-msgstr ""
+msgstr "Kopioi (Ctrl+C)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:154
 #, fuzzy
@@ -7435,7 +7359,7 @@ msgstr "&Kopioi"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:174
 msgctxt "MRichTextEdit|"
 msgid "Paste (CTRL+V)"
-msgstr ""
+msgstr "Liitä (Ctrl+V)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:177
 #, fuzzy
@@ -7472,7 +7396,7 @@ msgstr "&Lihavointi"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:263
 msgctxt "MRichTextEdit|"
 msgid "Italic (CTRL+I)"
-msgstr ""
+msgstr "Kursivoi (Ctrl+I)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:266
 #, fuzzy
@@ -7501,32 +7425,32 @@ msgstr "Alle&viivaus"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:312
 msgctxt "MRichTextEdit|"
 msgid "Strike Out"
-msgstr ""
+msgstr "Yliviivaa"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:332
 msgctxt "MRichTextEdit|"
 msgid "Bullet list (CTRL+-)"
-msgstr ""
+msgstr "Luetelma (Ctrl+-)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:335
 msgctxt "MRichTextEdit|"
 msgid "Bullet list"
-msgstr ""
+msgstr "Luetelma"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:354
 msgctxt "MRichTextEdit|"
 msgid "Ordered list (CTRL+=)"
-msgstr ""
+msgstr "Järjestetty luettelo (Ctrl+=)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:357
 msgctxt "MRichTextEdit|"
 msgid "Ordered list"
-msgstr ""
+msgstr "Järjestetty luettelo"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:376
 msgctxt "MRichTextEdit|"
 msgid "Decrease indentation (CTRL+,)"
-msgstr ""
+msgstr "Vähennä sisennystä (Ctrl+,)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:379
 #, fuzzy
@@ -7539,7 +7463,7 @@ msgstr "Pienennä tekstikokoa"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:399
 msgctxt "MRichTextEdit|"
 msgid "Increase indentation (CTRL+.)"
-msgstr ""
+msgstr "Lisää sisennystä (Ctrl+.)"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:402
 #, fuzzy
@@ -7552,7 +7476,7 @@ msgstr "Suurenna tekstikokoa"
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:441
 msgctxt "MRichTextEdit|"
 msgid "Text foreground color"
-msgstr ""
+msgstr "Tekstin edustaväri"
 
 #: src/libraries/rwidgets/editors/mrichtextedit.ui:472
 #, fuzzy
@@ -7573,7 +7497,7 @@ msgstr "Fonttikoko"
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/OOReader.cpp:272
 msgctxt "OOReader|"
 msgid "Unable to convert document body!"
-msgstr ""
+msgstr "Tiedoston runkoa ei voitu muuntaa!"
 
 #: src/libraries/rwidgets/editors/noteeditor/format_OO_oasis_/XML_Editor.cpp:62
 msgctxt "XMLTextEdit|"
@@ -7807,12 +7731,12 @@ msgstr ""
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:94
 msgctxt "AnnounceDocumentDialog|"
 msgid "Always use this name"
-msgstr ""
+msgstr "Käytä aina tätä nimeä"
 
 #: src/libraries/rwidgets/editors/sharededitor/announcedocumentdialog.ui:108
 msgctxt "AnnounceDocumentDialog|"
 msgid "You can change this in the preferences dialog."
-msgstr ""
+msgstr "Tätä voi muuttaa asetusikkunasta."
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:14
 #, fuzzy
@@ -7825,7 +7749,7 @@ msgstr "Tulosta tiedosto"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:52
 msgctxt "ConnectToDocument|"
 msgid "New..."
-msgstr ""
+msgstr "Uusi…"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:62
 #, fuzzy
@@ -7854,7 +7778,7 @@ msgstr "Osoite:"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:127
 msgctxt "ConnectToDocument|"
 msgid "127.0.0.1"
-msgstr ""
+msgstr "127.0.0.1"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:137
 #, fuzzy
@@ -7867,7 +7791,7 @@ msgstr "Portti:"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:166
 msgctxt "ConnectToDocument|"
 msgid "3000"
-msgstr ""
+msgstr "3000"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:190
 msgctxt "ConnectToDocument|"
@@ -7877,12 +7801,12 @@ msgstr ""
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "Cahoots"
-msgstr ""
+msgstr "Cahoots"
 
 #: src/libraries/rwidgets/editors/sharededitor/document.cpp:295
 msgctxt "Document|"
 msgid "The string was not found."
-msgstr ""
+msgstr "Merkkijonoa ei löytynyt."
 
 #: src/libraries/rwidgets/editors/sharededitor/document.ui:14
 msgctxt "Document|"
@@ -7892,22 +7816,22 @@ msgstr ""
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:14
 msgctxt "FindDialog|"
 msgid "Find"
-msgstr ""
+msgstr "Etsi"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:40
 msgctxt "FindDialog|"
 msgid "Find:"
-msgstr ""
+msgstr "Etsi:"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:83
 msgctxt "FindDialog|"
 msgid "Replace With:"
-msgstr ""
+msgstr "Korvaa:"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:110
 msgctxt "FindDialog|"
 msgid "Ignore Case"
-msgstr ""
+msgstr "Sivuuta kirjainkoko"
 
 #: src/libraries/rwidgets/editors/sharededitor/finddialog.ui:120
 msgctxt "FindDialog|"
@@ -7973,7 +7897,7 @@ msgstr ""
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:17
 msgctxt "FirstRunDialog|"
 msgid "Welcome to Cahoots"
-msgstr ""
+msgstr "Tervetuloa Cahootsiin"
 
 #: src/libraries/rwidgets/editors/sharededitor/firstrundialog.ui:46
 msgctxt "FirstRunDialog|"
@@ -8096,12 +8020,12 @@ msgstr "Käyttöoikeus"
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:140
 msgctxt "ParticipantsPane|"
 msgid "Promote"
-msgstr ""
+msgstr "Ylennä"
 
 #: src/libraries/rwidgets/editors/sharededitor/participantspane.ui:149
 msgctxt "ParticipantsPane|"
 msgid "Demote"
-msgstr ""
+msgstr "Alenna"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:27
 #, fuzzy
@@ -8124,7 +8048,7 @@ msgstr "CSS-muokkain"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:206
 msgctxt "PreferencesDialog|"
 msgid "Courier 12"
-msgstr ""
+msgstr "Courier 12"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:82
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:158
@@ -8149,12 +8073,12 @@ msgstr "oletus"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:115
 msgctxt "PreferencesDialog|"
 msgid "Chat Pane:"
-msgstr ""
+msgstr "Keskustelupaneeli:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:191
 msgctxt "PreferencesDialog|"
 msgid "Participants Pane:"
-msgstr ""
+msgstr "Osallistujapaneeli:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:275
 #, fuzzy
@@ -8167,7 +8091,7 @@ msgstr "Jaetaan PDF-tiedostoa"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:289
 msgctxt "PreferencesDialog|"
 msgid "Announcing:"
-msgstr ""
+msgstr "Tiedottaminen:"
 
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:311
 #, fuzzy
@@ -8180,7 +8104,7 @@ msgstr "Oletustyyli"
 #: src/libraries/rwidgets/editors/sharededitor/preferencesdialog.ui:338
 msgctxt "PreferencesDialog|"
 msgid "Always use default name "
-msgstr ""
+msgstr "Käytä aina oletusnimeä"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.cpp:54
 #, qt-format
@@ -8207,7 +8131,7 @@ msgstr "&Muokkaa"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:77
 msgctxt "SharedNote|"
 msgid "Syntax Highlighting..."
-msgstr ""
+msgstr "Syntaksikorostus…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:97
 #, fuzzy
@@ -8308,7 +8232,7 @@ msgstr "Ctrl++"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:225
 msgctxt "SharedNote|"
 msgid "Find..."
-msgstr ""
+msgstr "Etsi…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:228
 #, fuzzy
@@ -8329,7 +8253,7 @@ msgstr "Viiva"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:241
 msgctxt "SharedNote|"
 msgid "Markdown"
-msgstr ""
+msgstr "Markdown"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:246
 msgctxt "SharedNote|"
@@ -8507,7 +8431,7 @@ msgstr "Poista valinta"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:363
 msgctxt "SharedNote|"
 msgid "Split Side by Side"
-msgstr ""
+msgstr "Jaa vierekkäin"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:368
 #, fuzzy
@@ -8520,7 +8444,7 @@ msgstr "Asetukset"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:373
 msgctxt "SharedNote|"
 msgid "Find All"
-msgstr ""
+msgstr "Etsi kaikki"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:376
 #, fuzzy
@@ -8533,7 +8457,7 @@ msgstr "Ctrl++"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:381
 msgctxt "SharedNote|"
 msgid "About Cahoots"
-msgstr ""
+msgstr "Tietoa Cahootsista"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:386
 #, fuzzy
@@ -8646,17 +8570,17 @@ msgstr "Kuvan luonti"
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:31
 msgctxt "NameGeneratorWidget|"
 msgid "Male"
-msgstr ""
+msgstr "Miespuolinen"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:44
 msgctxt "NameGeneratorWidget|"
 msgid "Female"
-msgstr ""
+msgstr "Naispuolinen"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:68
 msgctxt "NameGeneratorWidget|"
 msgid "How many ?"
-msgstr ""
+msgstr "Montako?"
 
 #: src/libraries/rwidgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui:82
 msgctxt "NameGeneratorWidget|"
@@ -8674,12 +8598,12 @@ msgstr "Lämpötila"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:14
 msgctxt "Convertor|"
 msgid "Unit Convertor"
-msgstr ""
+msgstr "Yksikkömuunnin"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:29
 msgctxt "Convertor|"
 msgid "Category:"
-msgstr ""
+msgstr "Luokka:"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:37
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:197
@@ -8721,12 +8645,12 @@ msgstr "Vaimenna ääni"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:217
 msgctxt "Convertor|"
 msgid "Mass"
-msgstr ""
+msgstr "Massa"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:65
 msgctxt "Convertor|"
 msgid "convert"
-msgstr ""
+msgstr "muunna"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:72
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:79
@@ -8735,37 +8659,37 @@ msgstr ""
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:261
 msgctxt "Convertor|"
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:97
 msgctxt "Convertor|"
 msgid "From:"
-msgstr ""
+msgstr "Mistä:"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:128
 msgctxt "Convertor|"
 msgid "To"
-msgstr ""
+msgstr "Mihin"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:189
 msgctxt "Convertor|"
 msgid "Category"
-msgstr ""
+msgstr "Luokka"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:278
 msgctxt "Convertor|"
 msgid "Reverse"
-msgstr ""
+msgstr "Käännä"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:287
 msgctxt "Convertor|"
 msgid "Custom Rule"
-msgstr ""
+msgstr "Mukautettu sääntö"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:296
 msgctxt "Convertor|"
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:299
 #, fuzzy
@@ -8794,12 +8718,12 @@ msgstr "Poista kappale"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:320
 msgctxt "Convertor|"
 msgid "Return"
-msgstr ""
+msgstr "Palaa"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:323
 msgctxt "Convertor|"
 msgid "Return to convertor page"
-msgstr ""
+msgstr "Palaa muunninsivulle"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:34
 msgctxt "GMTOOL::CustomRuleModel|"
@@ -8809,7 +8733,7 @@ msgstr "Yksikkö"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:36
 msgctxt "GMTOOL::CustomRuleModel|"
 msgid "Symbol"
-msgstr ""
+msgstr "Symboli"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/customrulemodel.cpp:268
 msgctxt "GMTOOL::CustomRuleModel|"
@@ -8834,12 +8758,12 @@ msgstr "Lämpötila"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:10
 msgctxt "QObject|"
 msgid "MASS"
-msgstr ""
+msgstr "MASSA"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:11
 msgctxt "QObject|"
 msgid "OTHER"
-msgstr ""
+msgstr "MUU"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/unitmodel.cpp:162
 msgctxt "GMTOOL::UnitModel|"
@@ -8849,7 +8773,7 @@ msgstr "Uusi yksikkö"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:92
 msgctxt "CharacterItem|"
 msgid "Disk"
-msgstr ""
+msgstr "Levy"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:93
 msgctxt "CharacterItem|"
@@ -8859,17 +8783,17 @@ msgstr "Kulma"
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:94
 msgctxt "CharacterItem|"
 msgid "Reduce Life"
-msgstr ""
+msgstr "Vähennä elämää"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:95
 msgctxt "CharacterItem|"
 msgid "Increase Life"
-msgstr ""
+msgstr "Lisää elämää"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:354
 msgctxt "CharacterItem|"
 msgid "Change State"
-msgstr ""
+msgstr "Muuta tilaa"
 
 #: src/libraries/rwidgets/graphicsItems/characteritem.cpp:380
 msgctxt "CharacterItem|"
@@ -8997,7 +8921,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:39
 msgctxt "CharacterSheetWindow|"
 msgid "Data"
-msgstr ""
+msgstr "Tiedot"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:80
 #, fuzzy
@@ -9042,7 +8966,7 @@ msgstr "Vain luku"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:105
 msgctxt "CharacterSheetWindow|"
 msgid "Stop Sharing"
-msgstr ""
+msgstr "Lopeta jakaminen"
 
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:110
 #, fuzzy
@@ -9055,7 +8979,7 @@ msgstr "Tulosta tiedosto"
 #: src/libraries/rwidgets/mediacontainers/charactersheetwindow.ui:118
 msgctxt "CharacterSheetWindow|"
 msgid "Menu"
-msgstr ""
+msgstr "Valikko"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:57
 #: src/libraries/rwidgets/mediacontainers/image.cpp:67
@@ -9186,7 +9110,7 @@ msgstr "Tiedostonimi"
 #: src/libraries/rwidgets/mediacontainers/image.cpp:302
 msgctxt "Image|"
 msgid "Define the new name"
-msgstr ""
+msgstr "Määritä uusi nimi"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:302
 #, fuzzy
@@ -9286,7 +9210,7 @@ msgstr "%1 – (PDF)"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:14
 msgctxt "PdfViewer|"
 msgid "PdfViewer"
-msgstr ""
+msgstr "PDF-katselin"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:26
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:36
@@ -9300,7 +9224,7 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:176
 msgctxt "PdfViewer|"
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
 #, fuzzy
@@ -9321,42 +9245,42 @@ msgstr "Sovita ikkunaan"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:143
 msgctxt "PdfViewer|"
 msgid "25%"
-msgstr ""
+msgstr "25 %"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:148
 msgctxt "PdfViewer|"
 msgid "50%"
-msgstr ""
+msgstr "50 %"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:153
 msgctxt "PdfViewer|"
 msgid "75%"
-msgstr ""
+msgstr "75 %"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:158
 msgctxt "PdfViewer|"
 msgid "100%"
-msgstr ""
+msgstr "100 %"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:163
 msgctxt "PdfViewer|"
 msgid "150%"
-msgstr ""
+msgstr "150 %"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:168
 msgctxt "PdfViewer|"
 msgid "200%"
-msgstr ""
+msgstr "200 %"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:206
 msgctxt "PdfViewer|"
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:235
 msgctxt "PdfViewer|"
 msgid "Bookmarks"
-msgstr ""
+msgstr "Kirjanmerkit"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:270
 #, fuzzy
@@ -9369,12 +9293,12 @@ msgstr "Sivu"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:287
 msgctxt "PdfViewer|"
 msgid "Crop View"
-msgstr ""
+msgstr "Rajaa näkymää"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:299
 msgctxt "PdfViewer|"
 msgid "Share"
-msgstr ""
+msgstr "Jaa"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:304
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:307
@@ -9462,7 +9386,7 @@ msgstr "Kaikki näkyvissä"
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
 msgid "No Right"
-msgstr ""
+msgstr "Ei oikeutta"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:48
 msgctxt "QObject|"
@@ -9500,7 +9424,7 @@ msgstr "%1 – näkyvyys: %2 – käyttöoikeus: %3 – kerros: %4"
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
-msgstr ""
+msgstr "%1 – verkkosivu"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:14
 msgctxt "WebView|"
@@ -9515,12 +9439,12 @@ msgstr ""
 #: src/libraries/rwidgets/mediacontainers/webview.ui:90
 msgctxt "WebView|"
 msgid "..."
-msgstr ""
+msgstr "…"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:100
 msgctxt "WebView|"
 msgid "Keep Sharing"
-msgstr ""
+msgstr "Jatka jakamista"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:110
 msgctxt "WebView|"
@@ -9546,7 +9470,7 @@ msgstr "Seuraava sivu"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:128
 msgctxt "WebView|"
 msgid "Reload"
-msgstr ""
+msgstr "Lataa uudelleen"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:140
 #, fuzzy
@@ -9559,7 +9483,7 @@ msgstr "Osoite:"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:152
 msgctxt "WebView|"
 msgid "Share"
-msgstr ""
+msgstr "Jaa"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:160
 #, fuzzy
@@ -9640,7 +9564,7 @@ msgstr "Jaetut muistiinpanot"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:183
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
-msgstr ""
+msgstr "Avaa nimellä…"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:195
 msgctxt "campaign::CampaignView|"
@@ -9668,7 +9592,7 @@ msgstr "Muokkaa kerrosta"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:54
 msgctxt "UserListView|"
 msgid "Change color…"
-msgstr ""
+msgstr "Vaihda väri…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:64
 msgctxt "UserListView|"
