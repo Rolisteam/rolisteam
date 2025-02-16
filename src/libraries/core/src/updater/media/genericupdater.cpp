@@ -31,4 +31,20 @@ void GenericUpdater::addMediaController(MediaControllerBase* ctrl)
                     saveMediaController(ctrl);
                 }
             });
+
+    connect(ctrl, &MediaControllerBase::sharingChanged, this,
+            [this]()
+            {
+                auto ctrl= qobject_cast<MediaControllerBase*>(sender());
+
+                if(!ctrl)
+                    return;
+
+                if(ctrl->sharing())
+                    emit shareMedia(ctrl);
+                else
+                    emit stopSharingMedia(ctrl);
+            });
+
+    saveMediaController(ctrl);
 }

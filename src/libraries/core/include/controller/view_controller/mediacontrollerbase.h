@@ -47,6 +47,9 @@ class CORE_EXPORT MediaControllerBase : public QObject
     Q_PROPERTY(QColor localColor READ localColor WRITE setLocalColor NOTIFY localColorChanged)
     Q_PROPERTY(bool remote READ remote CONSTANT)
     Q_PROPERTY(PreferencesManager* preferences READ preferences WRITE setPreferences NOTIFY preferencesChanged)
+    Q_PROPERTY(Core::DataType dataType READ dataType WRITE setDataType NOTIFY dataTypeChanged FINAL)
+    Q_PROPERTY(QUrl staticData READ staticData WRITE setStaticData NOTIFY staticDataChanged FINAL)
+    Q_PROPERTY(bool sharing READ sharing WRITE setSharing NOTIFY sharingChanged FINAL)
 public:
     MediaControllerBase(const QString& id, Core::ContentType contentType, QObject* parent= nullptr);
     virtual ~MediaControllerBase() override;
@@ -74,6 +77,15 @@ public:
     PreferencesManager* preferences() const;
     void setPreferences(PreferencesManager* newPreference);
 
+    Core::DataType dataType() const;
+    void setDataType(const Core::DataType& newDataType);
+
+    QUrl staticData() const;
+    void setStaticData(const QUrl& newStaticData);
+
+    bool sharing() const;
+    void setSharing(bool newSharing);
+
 signals:
     void nameChanged(QString);
     void uuidChanged(QString);
@@ -88,8 +100,10 @@ signals:
     void urlChanged(QUrl path);
     void closeMe(QString id);
     void localColorChanged();
-
     void preferencesChanged();
+    void dataTypeChanged();
+    void staticDataChanged();
+    void sharingChanged();
 
 public slots:
     void setName(const QString& name);
@@ -117,6 +131,9 @@ protected:
     QString m_localId;
     QColor m_localColor;
     QPointer<PreferencesManager> m_preferences{nullptr};
+    Core::DataType m_dataType{Core::DataType::DynamicData};
+    QUrl m_staticData;
+    bool m_sharing{true};
 };
 
 #endif // ABSTRACTMEDIACONTROLLER_H

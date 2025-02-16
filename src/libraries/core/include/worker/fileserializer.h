@@ -34,6 +34,7 @@
 class DiceAlias;
 class CharacterState;
 class ContentModel;
+class MediaControllerBase;
 namespace campaign
 {
 struct CORE_EXPORT CampaignInfo
@@ -75,6 +76,8 @@ public:
     static void writeNpcIntoCampaign(const QString& destination, const QJsonArray& array);
     static bool createCampaignDirectory(const QString& path);
     static QFuture<bool> writeFileIntoCampaign(const QString& destination, const QByteArray& array);
+    static bool writeJsonIntoMedias(const QString& destination, const QJsonObject& objet, const QString& ctrlId);
+    static QFuture<bool> saveMediaController(MediaControllerBase* ctrl, const QString& id, const QString& destination);
 
     static QString contentTypeToDefaultExtension(Core::ContentType type);
     static QString addExtention(const QString& name, Core::ContentType);
@@ -84,6 +87,7 @@ public:
 
     static bool writeContentModel(const QString& destination, ContentModel* model);
     static QStringList readContentModel(const QString& source);
+    static bool isStaticMedia(const QString& filename);
 };
 } // namespace campaign
 

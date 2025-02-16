@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <QTest>
 #include <QSignalSpy>
+#include <QTest>
 
 #include <QDir>
 #include <QFileInfo>
@@ -674,7 +674,7 @@ void CampaignTest::campaignTest()
 
 void CampaignTest::campaignManagerTest()
 {
-    m_manager->importFile(Helper::randomUrl());
+    m_manager->importFile(Helper::randomUrl(), "uuid");
     auto file= Helper::randomString();
     m_manager->createFileFromData(file, Helper::imageData());
 

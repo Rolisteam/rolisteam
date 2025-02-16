@@ -36,6 +36,7 @@ class CORE_EXPORT MediaNode : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
+    Q_PROPERTY(QString parentId READ parentId WRITE setParentId NOTIFY parentIdChanged FINAL)
 public:
     enum NodeType
     {
@@ -58,8 +59,12 @@ public:
 
     const std::vector<std::unique_ptr<MediaNode>>& children() const;
     void addChild(std::unique_ptr<MediaNode> node);
+    QString parentId() const;
+    void setParentId(const QString& newParentId);
+
 signals:
     void pathChanged();
+    void parentIdChanged();
 
 public slots:
     void setPath(const QString& path);
@@ -70,6 +75,7 @@ private:
     QFileInfo m_info;
     QString m_uuid;
     std::vector<std::unique_ptr<MediaNode>> m_children;
+    QString m_parentId;
 };
 
 class Campaign;

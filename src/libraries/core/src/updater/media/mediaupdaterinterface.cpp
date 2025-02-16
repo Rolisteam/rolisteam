@@ -53,10 +53,11 @@ void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
     if(ctrl->remote())
         return;
 
+    // make sure the path is correct before saving.
     auto id= ctrl->uuid();
     auto campaign= m_manager->campaign();
     auto path= ctrl->url().toLocalFile();
-    if(campaign)
+    if(campaign && path.isEmpty())
     {
         auto p= campaign->pathFromUuid(id);
         if(!p.isEmpty())
@@ -67,8 +68,9 @@ void MediaUpdaterInterface::saveMediaController(MediaControllerBase* ctrl)
     }
     ctrl->setUrl(QUrl::fromLocalFile(path));
 
+    // Saving controller to data
     helper::utils::setContinuation<bool>(
-        campaign::FileSerializer::writeFileIntoCampaign(path, IOHelper::saveController(ctrl)), ctrl,
+        campaign::FileSerializer::saveMediaController(ctrl, id, ctrl->url().toLocalFile()), ctrl,
         [ctrl](bool b)
         {
             if(b)

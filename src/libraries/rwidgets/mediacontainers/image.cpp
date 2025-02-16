@@ -205,7 +205,8 @@ void Image::paintEvent(QPaintEvent* event)
 
 void Image::updateTitle()
 {
-    setWindowTitle(tr("%1 - (Picture)").arg(m_ctrl->name()));
+    setWindowTitle(
+        tr("%1 - (Picture : %2)").arg(m_ctrl->name()).arg(m_ctrl->sharing() ? tr("Shared") : tr("Unshared")));
 }
 
 void Image::createActions()
@@ -330,8 +331,24 @@ void Image::createActions()
                 }
             });
 
+    m_share.reset(new QAction(tr("Share")));
+    m_share->setCheckable(true);
+    m_share->setChecked(true);
+
     connect(m_playAct, &QAction::triggered, m_ctrl, &ImageController::play);
     connect(m_stopAct, &QAction::triggered, m_ctrl, &ImageController::stop);
+    connect(m_share.get(), &QAction::triggered, m_ctrl, &ImageController::setSharing);
+
+    connect(m_ctrl, &ImageController::sharingChanged, m_share.get(),
+            [this]()
+            {
+                if(m_ctrl->sharing())
+                    m_share->setText(tr("Stop Sharing"));
+                else
+                    m_share->setText(tr("Share"));
+
+                updateTitle();
+            });
 }
 void Image::contextMenuEvent(QContextMenuEvent* event)
 {
@@ -345,6 +362,7 @@ void Image::contextMenuEvent(QContextMenuEvent* event)
     }
 
     menu.addAction(m_rename);
+    menu.addAction(m_share.get());
     menu.addSeparator();
     menu.addAction(m_actionZoomIn);
     menu.addAction(m_actionZoomOut);

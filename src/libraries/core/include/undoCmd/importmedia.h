@@ -32,7 +32,8 @@ class CORE_EXPORT ImportMedia : public QUndoCommand
 {
     Q_DECLARE_TR_FUNCTIONS(commands::ImportMedia)
 public:
-    ImportMedia(campaign::Campaign* campaign, const QString& name, const QString& sourcePath, const QString& destPath);
+    ImportMedia(campaign::Campaign* campaign, const QString& name, const QString& sourcePath, const QString& destPath,
+                const QString& copyDest, const QString& uuid);
 
     void redo() override;
     void undo() override;
@@ -45,6 +46,7 @@ private:
     QString m_name;
     QString m_tmpPath;
     QString m_destPath;
+    QString m_copyPath;
 };
 } // namespace commands
 #endif // IMPORTMEDIA_H

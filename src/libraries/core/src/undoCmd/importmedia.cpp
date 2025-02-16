@@ -30,17 +30,20 @@
 namespace commands
 {
 ImportMedia::ImportMedia(campaign::Campaign* campaign, const QString& name, const QString& sourcePath,
-                         const QString& destPath)
+                         const QString& destPath, const QString& copyDest, const QString& uuid)
     : m_campaign(campaign)
-    , m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
+    , m_uuid(uuid)
     , m_name(name)
     , m_tmpPath(QString("%1/%2/%3").arg(campaign->rootDirectory(), campaign::TRASH_FOLDER, m_uuid))
     , m_destPath(destPath)
+    , m_copyPath(copyDest)
 {
+
     QFileInfo info(sourcePath);
     setText(tr("Import media: %1").arg(info.fileName()));
-    utils::IOHelper::makeDir(m_destPath);
+    utils::IOHelper::makeDir(m_copyPath);
     m_destPath= QString("%1/%2").arg(m_destPath, info.fileName());
+    m_copyPath= QString("%1/%2").arg(m_copyPath, info.fileName());
     utils::IOHelper::copyFile(sourcePath, m_tmpPath);
 }
 
@@ -48,13 +51,13 @@ void ImportMedia::redo()
 {
     auto it= std::unique_ptr<campaign::Media>(
         new campaign::Media(m_uuid, m_name, m_destPath, campaign::FileSerializer::typeFromExtention(m_destPath)));
-    utils::IOHelper::moveFile(m_tmpPath, m_destPath);
+    utils::IOHelper::moveFile(m_tmpPath, m_copyPath);
     m_campaign->addMedia(std::move(it));
 }
 
 void ImportMedia::undo()
 {
-    utils::IOHelper::moveFile(m_destPath, m_tmpPath);
+    utils::IOHelper::moveFile(m_copyPath, m_tmpPath);
     m_campaign->removeMedia(m_uuid);
 }
 

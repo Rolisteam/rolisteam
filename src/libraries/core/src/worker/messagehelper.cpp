@@ -795,7 +795,7 @@ QHash<QString, QVariant> MessageHelper::readPdfData(NetworkMessageReader* msg)
     auto id= msg->string8();
     auto data= msg->byteArray32();
 
-    return QHash<QString, QVariant>({{Core::keys::KEY_ID, id}, {Core::keys::KEY_DATA, data}});
+    return QHash<QString, QVariant>({{Core::keys::KEY_UUID, id}, {Core::keys::KEY_DATA, data}});
 }
 
 void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)

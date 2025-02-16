@@ -83,7 +83,7 @@ Frame {
         opacity: 0.5
 
         Image {
-            source: "qrc:/resources/rolistheme/1000-symbole.png"
+            source: "qrc:/resources/rolisteam/logo/1000-symbole.png"
             anchors.fill: parent
             sourceSize.width: layout.implicitWidth
             sourceSize.height: layout.implicitHeight

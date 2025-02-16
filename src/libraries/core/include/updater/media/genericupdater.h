@@ -29,9 +29,11 @@ class CORE_EXPORT GenericUpdater : public MediaUpdaterInterface
 public:
     GenericUpdater(campaign::CampaignManager* campaign);
 
-
     void addMediaController(MediaControllerBase* ctrl) override;
+
+signals:
+    void shareMedia(MediaControllerBase* ctrl);
+    void stopSharingMedia(MediaControllerBase* ctrl);
 };
 
 #endif // GENERICUPDATER_H
-

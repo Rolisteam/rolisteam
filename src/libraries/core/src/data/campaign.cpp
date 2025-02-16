@@ -220,6 +220,9 @@ QString Campaign::directory(Place place) const
     case Place::CONTENT_ROOT:
         res= QString("%1/%2").arg(rootDirectory(), CONTENTS_FILE);
         break;
+    case Place::STATIC_ROOT:
+        res= QString("%1/%2").arg(rootDirectory(), STATIC_ROOT);
+        break;
     }
     return res;
 }

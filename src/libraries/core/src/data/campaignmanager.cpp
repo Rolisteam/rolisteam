@@ -19,9 +19,6 @@
  ***************************************************************************/
 #include "data/campaignmanager.h"
 
-#include "data/media.h"
-#include "model/characterstatemodel.h"
-#include "model/dicealiasmodel.h"
 #include "undoCmd/importdatamedia.h"
 #include "undoCmd/importmedia.h"
 #include "worker/fileserializer.h"
@@ -68,21 +65,33 @@ bool CampaignManager::createCampaign(const QUrl& dirUrl)
     return true;
 }
 
-QString CampaignManager::importFile(const QUrl& urlPath)
+QStringList CampaignManager::importFile(const QUrl& urlPath, const QString& uuid)
 {
     if(!m_editor)
         return {};
 
     auto path= urlPath.toLocalFile();
     auto const name= QFileInfo(path).baseName();
+    auto const fileName= QFileInfo(path).fileName();
     auto campaign= m_editor->campaign();
 
+    auto staticMedia= FileSerializer::isStaticMedia(path);
+
+    auto dataPath= QString("%1/%2").arg(campaign->directory(Campaign::Place::STATIC_ROOT), m_editor->currentDir());
     auto destPath= QString("%1/%2").arg(campaign->directory(Campaign::Place::MEDIA_ROOT), m_editor->currentDir());
 
-    auto cmd= new commands::ImportMedia(m_editor->campaign(), name, path, destPath);
+    auto cmd= new commands::ImportMedia(m_editor->campaign(), name, path, destPath, staticMedia ? dataPath : destPath,
+                                        uuid);
     auto res= cmd->destination();
     m_editor->doCommand(cmd);
-    return res;
+
+    dataPath= QString("%1/%2").arg(dataPath, fileName);
+    destPath= QString("%1/%2").arg(destPath, fileName);
+
+    dataPath= dataPath.replace("//", "/");
+    destPath= destPath.replace("//", "/");
+
+    return staticMedia ? QStringList{destPath, dataPath} : QStringList{destPath};
 }
 
 QString CampaignManager::createFileFromData(const QString& name, const QByteArray& data)
@@ -234,7 +243,6 @@ void CampaignManager::importDataFrom(const QString& source, const QVector<Core::
         case Core::CampaignDataCategory::DiceAlias:
         {
             // auto dest= placeDirectory(Campaign::Place::DICE_MODEL);
-
             m_editor->loadDiceAlias(makeSource(DICE_ALIAS_MODEL));
         }
         break;

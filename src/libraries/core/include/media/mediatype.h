@@ -116,11 +116,18 @@ NETWORK_EXPORT inline uint qHash(Core::CampaignDataCategory type, uint seed)
     return ::qHash(static_cast<uint>(type), seed);
 }
 
-enum class LoadingMode
+enum class DataType
 {
-    Internal,
-    Linked
+    StaticData,
+    DynamicData
 };
+
+NETWORK_EXPORT Q_ENUM_NS(DataType)
+
+    enum class LoadingMode {
+        Internal,
+        Linked
+    };
 NETWORK_EXPORT Q_ENUM_NS(LoadingMode)
 
     enum State {
@@ -273,6 +280,7 @@ constexpr auto KEY_GRIDSIZE{"gridSize"};
 constexpr auto KEY_GRIDVISIBILITY{"GridVisibility"};
 constexpr auto KEY_ID{"id"};
 constexpr auto KEY_IMAGEDATA{"imageData"};
+constexpr auto KEY_STATICDATA{"StaticData"};
 constexpr auto KEY_INTERNAL{"internal"};
 constexpr auto KEY_ITEMS{"items"};
 constexpr auto KEY_LAYER{"layer"};
@@ -284,6 +292,7 @@ constexpr auto KEY_OWNERID{"ownerId"};
 constexpr auto KEY_PATH{"path"};
 constexpr auto KEY_PERMISSION{"permission"};
 constexpr auto KEY_POSITION{"position"};
+constexpr auto KEY_ZOOMLEVEL{"zoomlevel"};
 constexpr auto KEY_QML{"qml"};
 constexpr auto KEY_RECT{"rect"};
 constexpr auto KEY_ROOTSECTION{"rootSection"};
@@ -437,6 +446,7 @@ constexpr auto JSON_CURRENT_CHAPTER{"chapter"};
 constexpr auto JSON_MEDIA_PATH{"path"};
 constexpr auto JSON_MEDIA_CREATIONTIME{"ctime"};
 constexpr auto JSON_MEDIA_ID{"uuid"};
+constexpr auto JSON_MEDIA_DATA{"mediaData"};
 constexpr auto JSON_SESSION{"session"};
 
 constexpr auto JSON_NPC_ID{"uuid"};
@@ -522,6 +532,7 @@ constexpr auto JSON_UUID{"uuid"};
 constexpr auto JSON_PATH{"path"};
 constexpr auto JSON_NAME{"name"};
 constexpr auto JSON_OWNERID{"ownerid"};
+constexpr auto JSON_STATIC{"staticfile"};
 } // namespace base
 
 namespace sheet
@@ -812,6 +823,19 @@ constexpr auto lifeColor{"lifeColor"};
 constexpr auto initCommand{"initCommand"};
 constexpr auto hasInitiative{"hasInitiative"};
 } // namespace person
+
+namespace imageMedia
+{
+constexpr auto zoomLevel{"zoomlevel"};
+constexpr auto fitwindow{"fitwindow"};
+constexpr auto data{"data"};
+constexpr auto sharing{"sharing"};
+} // namespace imageMedia
+
+namespace pdfMedia
+{
+constexpr auto zoomFactor{"zoomfactor"};
+} // namespace pdfMedia
 
 namespace i18n
 {

@@ -29,18 +29,27 @@
 constexpr char const* RESOURCE_SCHEME{"qrc"};
 ImageController::ImageController(const QString& id, const QString& name, const QUrl& url, const QByteArray& data,
                                  QObject* parent)
-    : MediaControllerBase(id, Core::ContentType::PICTURE, parent), m_data(data)
+    : MediaControllerBase(id, Core::ContentType::PICTURE, parent)
 {
+    setDataType(Core::DataType::StaticData);
     setName(name);
     setFitWindow(m_preferences ? m_preferences->value("PictureAdjust", true).toBool() : true);
     setUrl(url);
-    if(m_data.isEmpty() && !url.isEmpty() && (url.isLocalFile() || url.scheme() == RESOURCE_SCHEME))
+
+    auto updateModify= [this]() { setModified(true); };
+    connect(this, &ImageController::fitWindowChanged, this, updateModify);
+    connect(this, &ImageController::sharingChanged, this, updateModify);
+    connect(this, &ImageController::zoomLevelChanged, this, updateModify);
+    if(!url.isEmpty() && (url.isLocalFile() || url.scheme() == RESOURCE_SCHEME))
     {
         QString path
             = url.isLocalFile() ? url.toLocalFile() : QString(":%1").arg(url.toDisplayString(QUrl::RemoveScheme));
-
         m_data= utils::IOHelper::loadFile(path);
     }
+
+    if(!data.isEmpty() && m_data.isEmpty())
+        setData(data);
+
     checkMovie();
 }
 
@@ -160,6 +169,9 @@ void ImageController::setPixmap(const QPixmap& pix)
 
 void ImageController::checkMovie()
 {
+    if(m_data.isEmpty())
+        return;
+
     auto buf= new QBuffer(&m_data);
     buf->open(QIODevice::ReadOnly);
 
@@ -194,7 +206,7 @@ void ImageController::checkMovie()
     }
 }
 
-void ImageController::setData(QByteArray& array)
+void ImageController::setData(const QByteArray& array)
 {
     if(m_data == array)
         return;

@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "worker/fileserializer.h"
 
+#include "common/logcategory.h"
+#include "controller/view_controller/mediacontrollerbase.h"
 #include "data/campaign.h"
 #include "data/campaignmanager.h"
 #include "data/media.h"
@@ -48,6 +50,11 @@ bool FileSerializer::createCampaignDirectory(const QString& campaign)
     res&= dir.mkdir(campaign::STATE_ROOT);
     res&= dir.mkdir(campaign::TRASH_FOLDER);
     res&= dir.mkdir(campaign::CHARACTER_ROOT);
+    res&= dir.mkdir(campaign::STATIC_ROOT);
+
+    return res;
+}
+
 
     return res;
 }
@@ -63,7 +70,7 @@ Core::MediaType FileSerializer::typeFromExtention(const QString& filename)
     static QSet<QString> token{"rtok"};
     static QSet<QString> playlist{"m3u"};
     static QSet<QString> charactersheet{"rcs"};
-    static QSet<QString> audio{"mp3", "ogg", "mpc", "wav"};
+    static QSet<QString> audio{"mp3", "ogg", "mpc", "wav", "flac"};
 
     QHash<Core::MediaType, QSet<QString>> hash{{Core::MediaType::ImageFile, image},
                                                {Core::MediaType::PdfFile, pdf},
@@ -251,6 +258,51 @@ QFuture<bool> FileSerializer::writeFileIntoCampaign(const QString& destination, 
 {
     qDebug() << "fileserializer" << array.size();
     return QtConcurrent::run([destination, array]() -> bool { return utils::IOHelper::writeFile(destination, array); });
+}
+
+QFuture<bool> FileSerializer::saveMediaController(MediaControllerBase* ctrl, const QString& id,
+                                                  const QString& destination)
+{
+    return campaign::FileSerializer::writeFileIntoCampaign(destination, IOHelper::saveController(ctrl));
+}
+
+bool FileSerializer::writeJsonIntoMedias(const QString& directory, const QJsonObject& objet, const QString& ctrlId)
+{
+    bool ok;
+
+    auto destination= QStringLiteral("%1/%2").arg(directory, campaign::MODEL_FILE);
+
+    auto mediaRoot= IOHelper::loadJsonFileIntoObject(destination, ok);
+
+    if(!ok)
+    {
+        qCWarning(SerializationCat) << "FileSerializer: no data in file:" << destination;
+        return false;
+    }
+    bool res= false;
+    auto medias= mediaRoot[Core::JsonKey::JSON_MEDIAS].toArray();
+
+    for(int i= 0; (i < medias.count() && !res); ++i)
+    {
+        auto media= medias[i].toObject();
+        auto medId= media[Core::JsonKey::JSON_MEDIA_ID].toString();
+        if(medId != ctrlId)
+            continue;
+
+        media[Core::JsonKey::JSON_MEDIA_DATA]= objet;
+        medias[i]= media;
+        res= true;
+    }
+
+    if(!res)
+        return res;
+
+    mediaRoot[Core::JsonKey::JSON_MEDIAS]= medias;
+    auto data= IOHelper::jsonObjectToByteArray(mediaRoot);
+
+    res= utils::IOHelper::writeFile(destination, data);
+
+    return res;
 }
 
 QString FileSerializer::contentTypeToDefaultExtension(Core::ContentType type)

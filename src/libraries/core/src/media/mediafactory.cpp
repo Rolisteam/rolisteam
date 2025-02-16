@@ -56,14 +56,38 @@ namespace Media
 
 namespace
 {
+void copyHashIntoMap(const QHash<QString, QVariant>& source, std::map<QString, QVariant>& destination)
+{
+    for(auto it= std::begin(source); it != std::end(source); ++it)
+    {
+        destination.insert({it.key(), it.value()});
+    }
+}
+
 ImageController* image(const QString& uuid, const QHash<QString, QVariant>& map)
 {
-    QByteArray serializedData= map.value(Core::keys::KEY_SERIALIZED).toByteArray();
-    QByteArray pix= map.value(Core::keys::KEY_DATA).toByteArray();
-    QUrl url= map.value(Core::keys::KEY_URL).toUrl();
-    QString name= map.value(Core::keys::KEY_NAME).toString();
+    namespace ck= Core::keys;
+    namespace hu= helper::utils;
+    using std::placeholders::_1;
 
-    return new ImageController(uuid, name, url, pix);
+    std::map<QString, QVariant> imageData;
+
+    copyHashIntoMap(map, imageData);
+
+    auto ctrl= new ImageController(uuid);
+
+    hu::setParamIfAny<QString>(ck::KEY_NAME, imageData, std::bind(&ImageController::setName, ctrl, _1));
+    hu::setParamIfAny<QString>(ck::KEY_OWNERID, imageData, std::bind(&ImageController::setOwnerId, ctrl, _1));
+    hu::setParamIfAny<QUrl>(ck::KEY_URL, imageData, std::bind(&ImageController::setUrl, ctrl, _1));
+    hu::setParamIfAny<QString>(ck::KEY_ID, imageData, std::bind(&ImageController::setUuid, ctrl, _1));
+    hu::setParamIfAny<qreal>(ck::KEY_ZOOMLEVEL, imageData, std::bind(&ImageController::setZoomLevel, ctrl, _1));
+    hu::setParamIfAny<QByteArray>(ck::KEY_DATA, imageData, std::bind(&ImageController::setData, ctrl, _1));
+    hu::setParamIfAny<QUrl>(ck::KEY_STATICDATA, imageData, std::bind(&ImageController::setStaticData, ctrl, _1));
+
+    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, imageData,
+                                  [ctrl](const QByteArray& array) { IOHelper::readImageController(ctrl, array); });
+
+    return ctrl;
 }
 
 CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QVariant>& params)
@@ -78,10 +102,8 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
 
     std::map<QString, QVariant> sheetData;
 
-    for(auto it= std::begin(params); it != std::end(params); ++it)
-    {
-        sheetData.insert({it.key(), it.value()});
-    }
+    copyHashIntoMap(params, sheetData);
+
     hu::setParamIfAny<QString>(ck::KEY_NAME, sheetData, std::bind(&CharacterSheetController::setName, sheetCtrl, _1));
     hu::setParamIfAny<QString>(ck::KEY_QML, sheetData, std::bind(&CharacterSheetController::setQmlCode, sheetCtrl, _1));
     hu::setParamIfAny<QString>(ck::KEY_GMID, sheetData,
@@ -138,10 +160,7 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
 
         std::map<QString, QVariant> mapData;
 
-        for(auto it= std::begin(params); it != std::end(params); ++it)
-        {
-            mapData.insert({it.key(), it.value()});
-        }
+        copyHashIntoMap(params, mapData);
 
         // clang-format off
         hu::setParamIfAny<QString>(ck::KEY_NAME, mapData, std::bind(&VectorialMapController::setName, vmapCtrl, _1));
@@ -379,8 +398,7 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
 
     std::map<QString, QVariant> mapData;
 
-    for(auto it= std::begin(params); it != std::end(params); ++it)
-        mapData.insert({it.key(), it.value()});
+    copyHashIntoMap(params, mapData);
 
     QByteArray serializedData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
     auto webCtrl= new WebpageController(uuid);
@@ -434,7 +452,6 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
         base= vectorialMap(uuid, params);
         break;
     case C::PICTURE:
-        // case C::ONLINEPICTURE:
         base= image(uuid, params);
         break;
     case C::NOTES:
@@ -491,13 +508,12 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     }
     break;
     case C::PICTURE:
-        // case C::ONLINEPICTURE:
-        {
-            auto data= MessageHelper::readImageData(msg);
-            uuid= data[Core::keys::KEY_UUID].toString();
-            base= image(uuid, data);
-        }
-        break;
+    {
+        auto data= MessageHelper::readImageData(msg);
+        uuid= data[Core::keys::KEY_UUID].toString();
+        base= image(uuid, data);
+    }
+    break;
     case C::MINDMAP:
     {
         auto data= MessageHelper::readMindMap(msg);

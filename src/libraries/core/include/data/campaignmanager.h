@@ -30,6 +30,7 @@
 #include <core_global.h>
 
 class DiceRoller;
+class ContentController;
 namespace campaign
 {
 class Media;
@@ -46,7 +47,7 @@ public:
     virtual ~CampaignManager();
 
     bool createCampaign(const QUrl& dir);
-    QString importFile(const QUrl& dir);
+    QStringList importFile(const QUrl& dir, const QString& uuid);
     QString createFileFromData(const QString& name, const QByteArray& data);
     void removeFile(const QString& file);
     void reload();

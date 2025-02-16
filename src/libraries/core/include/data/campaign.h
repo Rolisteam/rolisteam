@@ -49,6 +49,7 @@ constexpr auto STATE_MODEL{"states.json"};
 constexpr auto MEDIA_ROOT{"media"};
 constexpr auto IM_DATA{"chatrooms.json"};
 constexpr auto STATE_ROOT{"states"};
+constexpr auto STATIC_ROOT{"static"};
 constexpr auto CHARACTER_ROOT{"npcs"};
 constexpr auto CHARACTER_MODEL{"npc.json"};
 constexpr auto DICE3D_CONTROLLER{"3dDice.json"};
@@ -87,6 +88,7 @@ public:
     enum class Place : quint8
     {
         MEDIA_ROOT,
+        STATIC_ROOT,
         CONTENT_ROOT,
         STATE_ROOT,
         STATE_MODEL,

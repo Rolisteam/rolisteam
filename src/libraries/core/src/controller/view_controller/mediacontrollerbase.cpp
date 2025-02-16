@@ -195,3 +195,42 @@ void MediaControllerBase::setPreferences(PreferencesManager* newPreference)
     m_preferences= newPreference;
     emit preferencesChanged();
 }
+
+Core::DataType MediaControllerBase::dataType() const
+{
+    return m_dataType;
+}
+
+void MediaControllerBase::setDataType(const Core::DataType& newDataType)
+{
+    if(m_dataType == newDataType)
+        return;
+    m_dataType= newDataType;
+    emit dataTypeChanged();
+}
+
+QUrl MediaControllerBase::staticData() const
+{
+    return m_staticData;
+}
+
+void MediaControllerBase::setStaticData(const QUrl &newStaticData)
+{
+    if (m_staticData == newStaticData)
+        return;
+    m_staticData = newStaticData;
+    emit staticDataChanged();
+}
+
+bool MediaControllerBase::sharing() const
+{
+    return m_sharing;
+}
+
+void MediaControllerBase::setSharing(bool newSharing)
+{
+    if (m_sharing == newSharing)
+        return;
+    m_sharing = newSharing;
+    emit sharingChanged();
+}

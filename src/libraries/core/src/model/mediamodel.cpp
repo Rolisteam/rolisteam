@@ -167,6 +167,7 @@ void MediaNode::setPath(const QString& path)
 
 void MediaNode::addChild(std::unique_ptr<MediaNode> node)
 {
+    node->setParentId(m_uuid);
     m_children.push_back(std::move(node));
 }
 
@@ -429,7 +430,7 @@ void MediaModel::removeMediaNode(const QString& id)
     if(!node)
         return;
 
-    auto parentNode= findNode(node->parentPath(), m_root.get());
+    auto parentNode= findNodeFromId(node->parentId(), m_root.get());
     int i= findIndexOf(parentNode, node);
 
     if(i < 0)
@@ -520,6 +521,19 @@ void MediaModel::initDataFromCampaign()
     std::for_each(std::begin(list), std::end(list),
                   [this](const std::unique_ptr<campaign::Media>& media) { addMediaNode(media.get()); });
     endResetModel();
+}
+
+QString MediaNode::parentId() const
+{
+    return m_parentId;
+}
+
+void MediaNode::setParentId(const QString& newParentId)
+{
+    if(m_parentId == newParentId)
+        return;
+    m_parentId= newParentId;
+    emit parentIdChanged();
 }
 
 } // namespace campaign

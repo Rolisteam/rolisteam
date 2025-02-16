@@ -105,6 +105,17 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     std::unique_ptr<WebViewUpdater> webviewUpdater(new WebViewUpdater(campaign));
     std::unique_ptr<MindMapUpdater> mindMapUpdater(new MindMapUpdater(fModel3, campaign));
     std::unique_ptr<GenericUpdater> imageUpdater(new GenericUpdater(campaign));
+
+    connect(imageUpdater.get(), &GenericUpdater::shareMedia, this,
+            [](MediaControllerBase* ctrl) { MessageHelper::sendOffImage(dynamic_cast<ImageController*>(ctrl)); });
+    connect(imageUpdater.get(), &GenericUpdater::stopSharingMedia, this,
+            [](MediaControllerBase* ctrl)
+            {
+                if(!ctrl)
+                    return;
+                MessageHelper::closeMedia(ctrl->uuid(), ctrl->contentType());
+            });
+
     std::unique_ptr<GenericUpdater> notesUpdater(new GenericUpdater(campaign));
     std::unique_ptr<CharacterSheetUpdater> characterSheetUpdater(new CharacterSheetUpdater(fModel4, campaign));
 
@@ -125,7 +136,6 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
                 }
                 else
                 {
-                    qDebug() << "Merge characterSheet @@@@@@@@@@";
                     existingMedia->merge(sheetCtrl);
                 }
             });

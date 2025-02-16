@@ -66,4 +66,5 @@ void Media::setName(const QString& name)
     m_name= name;
     emit nameChanged();
 }
+
 } // namespace campaign

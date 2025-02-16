@@ -212,12 +212,27 @@ void GameController::newMedia(const std::map<QString, QVariant>& map)
 void GameController::openMedia(const std::map<QString, QVariant>& map)
 {
     QMap<QString, QVariant> other(map);
+
+    namespace hu= helper::utils;
+    namespace cv= Core::keys;
+    using std::placeholders::_1;
+    other.insert(Core::keys::KEY_LOCALISGM, localIsGM());
+    if(!other.contains(Core::keys::KEY_UUID))
+        other.insert(Core::keys::KEY_UUID, QUuid::createUuid().toString(QUuid::WithoutBraces));
+
+    auto uuid= other.value(Core::keys::KEY_UUID).toString();
+
     if(localIsGM())
     {
         if(other.contains(Core::keys::KEY_URL) && !other.contains(Core::keys::KEY_INTERNAL))
         {
             auto path= other.value(Core::keys::KEY_URL).toUrl().toLocalFile();
-            other[Core::keys::KEY_PATH]= m_campaignManager->importFile(QUrl::fromLocalFile(path));
+
+            auto list= m_campaignManager->importFile(QUrl::fromLocalFile(path), uuid);
+            other[Core::keys::KEY_PATH]= list[0];
+
+            if(list.size() == 2)
+                other[Core::keys::KEY_STATICDATA]= list[1];
         }
         else if(other.contains(Core::keys::KEY_DATA))
         {
@@ -227,15 +242,13 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
         }
     }
 
-    namespace hu= helper::utils;
-    namespace cv= Core::keys;
-    using std::placeholders::_1;
-    other.insert(Core::keys::KEY_LOCALISGM, localIsGM());
-
-    if(!other.contains(Core::keys::KEY_SERIALIZED))
+    if(!other.contains(Core::keys::KEY_DATA))
         hu::setParamIfAny<QUrl>(cv::KEY_URL, map,
                                 [&other](const QUrl& path)
-                                { other.insert(Core::keys::KEY_SERIALIZED, utils::IOHelper::loadFile(path.path())); });
+                                {
+                                    auto data= utils::IOHelper::loadFile(path.path());
+                                    other.insert(Core::keys::KEY_DATA, data);
+                                });
 
     m_contentCtrl->openMedia(other.toStdMap());
 }
@@ -256,6 +269,8 @@ void GameController::openInternalResources(const QString& id, const QString& pat
 
 void GameController::save()
 {
+    m_networkCtrl->saveData();
+
     if(!localIsGM())
         return;
 
@@ -505,7 +520,6 @@ void GameController::aboutToClose()
 {
     save();
     // save data
-    m_networkCtrl->saveData();
 
     // close connection
     MessageHelper::sendOffGoodBye();

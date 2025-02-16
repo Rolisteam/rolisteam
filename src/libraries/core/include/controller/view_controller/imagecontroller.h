@@ -80,7 +80,7 @@ public slots:
     void setFitWindow(bool b);
     void zoomIn(qreal step= 0.2);
     void zoomOut(qreal step= 0.2);
-    void setData(QByteArray& array);
+    void setData(const QByteArray& array);
 
     void play();
     void stop();

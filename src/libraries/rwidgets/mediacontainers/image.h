@@ -135,6 +135,7 @@ private:
     QAction* m_playAct;
     QAction* m_stopAct;
     QAction* m_rename;
+    std::unique_ptr<QAction> m_share;
 
     QShortcut* m_fitWindowShort;
 

@@ -292,6 +292,7 @@ void IOHelper::saveMediaBaseIntoJSon(MediaControllerBase* base, QJsonObject& obj
     obj[Core::jsonctrl::base::JSON_PATH]= base->url().toString();
     obj[Core::jsonctrl::base::JSON_NAME]= base->name();
     obj[Core::jsonctrl::base::JSON_OWNERID]= base->ownerId();
+    obj[Core::jsonctrl::base::JSON_STATIC]= base->staticData().toString();
 }
 
 void IOHelper::readBaseFromJson(MediaControllerBase* base, const QJsonObject& data)
@@ -304,6 +305,7 @@ void IOHelper::readBaseFromJson(MediaControllerBase* base, const QJsonObject& da
     base->setUrl(QUrl::fromUserInput(data[Core::jsonctrl::base::JSON_PATH].toString()));
     base->setName(data[Core::jsonctrl::base::JSON_NAME].toString());
     base->setOwnerId(data[Core::jsonctrl::base::JSON_OWNERID].toString());
+    base->setStaticData(QUrl::fromUserInput(data[Core::jsonctrl::base::JSON_STATIC].toString()));
 }
 
 QByteArray IOHelper::pixmapToData(const QPixmap& pix)
@@ -373,19 +375,18 @@ QPixmap IOHelper::dataToPixmap(const QByteArray& data)
 
 QByteArray saveImage(ImageController* ctrl)
 {
-    QByteArray data;
     if(!ctrl)
-        return data;
+        return {};
 
-    QDataStream output(&data, QIODevice::WriteOnly);
+    QJsonDocument doc;
+    QJsonObject obj;
 
-    IOHelper::saveBase(ctrl, output);
-
-    output << ctrl->fitWindow();
-    output << ctrl->data();
-    output << ctrl->zoomLevel();
-
-    return data;
+    IOHelper::saveMediaBaseIntoJSon(ctrl, obj);
+    obj[Core::imageMedia::zoomLevel]= ctrl->zoomLevel();
+    obj[Core::imageMedia::fitwindow]= ctrl->fitWindow();
+    obj[Core::imageMedia::sharing]= ctrl->sharing();
+    doc.setObject(obj);
+    return doc.toJson();
 }
 
 QByteArray saveNotes(NoteController* ctrl)
@@ -802,23 +803,19 @@ void IOHelper::readImageController(ImageController* ctrl, const QByteArray& arra
     if(!ctrl || array.isEmpty())
         return;
 
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
+    if(!array.isEmpty())
+        ctrl->setData(array);
 
-    IOHelper::readBase(ctrl, input);
+    auto objCtrl= IOHelper::textByteArrayToJsonObj(array);
 
-    bool b;
-    input >> b;
-
-    QByteArray dataByte;
-    input >> dataByte;
-
-    qreal zoom;
-    input >> zoom;
-
-    ctrl->setFitWindow(b);
-    ctrl->setData(dataByte);
-    ctrl->setZoomLevel(zoom);
+    IOHelper::readBaseFromJson(ctrl, objCtrl);
+    ctrl->setZoomLevel(objCtrl[Core::imageMedia::zoomLevel].toDouble());
+    ctrl->setFitWindow(objCtrl[Core::imageMedia::fitwindow].toBool());
+    // ctrl->setData(QByteArray::fromBase64(objCtrl[Core::imageMedia::data].toString().toUtf8()));
+    ctrl->setSharing(objCtrl[Core::imageMedia::sharing].toBool());
+    auto url= ctrl->staticData();
+    auto data= utils::IOHelper::loadFile(url.toLocalFile());
+    ctrl->setData(data);
 }
 
 void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& array)
@@ -827,6 +824,8 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
         return;
 
     auto objCtrl= IOHelper::textByteArrayToJsonObj(array);
+
+    IOHelper::readBaseFromJson(ctrl, objCtrl);
 
     ctrl->setHideUrl(objCtrl[Core::webview::JSON_HIDE_URL].toBool());
     ctrl->setKeepSharing(objCtrl[Core::webview::JSON_KEEP_SHARING].toBool());
