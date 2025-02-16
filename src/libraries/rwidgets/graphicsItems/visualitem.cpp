@@ -50,7 +50,7 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
     connect(m_ctrl, &vmap::VisualItemController::removeItem, this,
             [this]()
             {
-                auto sceneP = scene();
+                auto sceneP= scene();
                 if(sceneP)
                     sceneP->removeItem(this);
                 deleteLater();
@@ -58,7 +58,7 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
     connect(m_ctrl, &vmap::VisualItemController::destroyed, this,
             [this]()
             {
-                auto sceneP = scene();
+                auto sceneP= scene();
                 if(sceneP)
                     sceneP->removeItem(this);
                 deleteLater();
@@ -179,16 +179,32 @@ void VisualItem::setColor(QColor color)
 
 void VisualItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+
+    if(event->modifiers() & Qt::ShiftModifier)
+    {
+        event->ignore();
+        return;
+    }
     QGraphicsItem::mousePressEvent(event);
     update();
 }
 void VisualItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
+    if(event->modifiers() & Qt::ShiftModifier)
+    {
+        event->ignore();
+        return;
+    }
     QGraphicsItem::mouseMoveEvent(event);
     update();
 }
 void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
+    if(event->modifiers() & Qt::ShiftModifier)
+    {
+        event->ignore();
+        return;
+    }
     QGraphicsItem::mouseReleaseEvent(event);
     update();
     endOfGeometryChange(ChildPointItem::Moving);

@@ -21,7 +21,9 @@
 #define MEDIA_H
 
 #include <QDateTime>
+#include <QHash>
 #include <QObject>
+#include <QVariant>
 
 #include "media/mediatype.h"
 #include <core_global.h>

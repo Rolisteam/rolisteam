@@ -162,16 +162,21 @@ QColor VectorialMapController::backgroundColor() const
 
 QColor VectorialMapController::toolColor() const
 {
-    if(m_editionMode == Core::EditionMode::Mask)
-        return Qt::black;
-    else if(m_editionMode == Core::EditionMode::Unmask)
+    auto color= m_toolColor;
+    switch(m_editionMode)
     {
-        auto color= m_toolColor;
+    case Core::EditionMode::Mask:
+        color= Qt::black;
+        break;
+    case Core::EditionMode::Painting:
+        color.setAlpha(255);
+        break;
+    case Core::EditionMode::Unmask:
         color.setAlpha(128);
-        return color;
+        break;
     }
 
-    return m_toolColor;
+    return color;
 }
 
 QColor VectorialMapController::gridColor() const
@@ -626,7 +631,8 @@ void VectorialMapController::showTransparentItems()
 {
     auto const& items= m_vmapModel->items();
     QList<vmap::VisualItemController*> list;
-    std::transform(std::begin(items), std::end(items), std::back_inserter(list), [](vmap::VisualItemController* item)
+    std::transform(std::begin(items), std::end(items), std::back_inserter(list),
+                   [](vmap::VisualItemController* item)
                    { return qFuzzyCompare(item->opacity(), 0.0) ? item : nullptr; });
     list.removeAll(nullptr);
     emit performCommand(new ShowTransparentItemCommand(list));

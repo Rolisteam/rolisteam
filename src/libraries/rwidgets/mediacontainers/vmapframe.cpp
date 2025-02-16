@@ -98,19 +98,19 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     {
         if(!m_ctrl)
             return;
-        auto w= std::min(m_toolbox->width() - 10, 100);
-        auto sw= m_vmap->width() * m_ctrl->zoomLevel();
-        auto sh= m_vmap->height() * m_ctrl->zoomLevel();
-        auto h= static_cast<int>(w * sh / sw);
+        int w= std::min(m_toolbox->width() - 10, 100);
+        auto sceneRect= m_vmap->sceneRect();
+        qreal sw= sceneRect.width();
+        qreal sh= sceneRect.height();
+        int h= static_cast<int>(w * sh / sw);
 
         QPixmap map{QSize{w, h}};
-        auto visible= m_graphicView->viewport()->rect();
+        auto viewPort= m_graphicView->viewport()->rect().toRectF();
+        auto poly= m_graphicView->mapToScene(viewPort.toRect());
+        QRectF visible= poly.boundingRect();
 
-        visible.translate({static_cast<int>(m_graphicView->horizontalScrollBar()->value() - m_vmap->sceneRect().x()),
-                           static_cast<int>(m_graphicView->verticalScrollBar()->value() - m_vmap->sceneRect().y())});
-
-        auto ratioX= w / sw;
-        auto ratioY= h / sh;
+        qreal ratioX= static_cast<qreal>(w) / sw;
+        qreal ratioY= static_cast<qreal>(h) / sh;
 
         {
             QPainter painter(&map);
@@ -135,7 +135,9 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
         m_ctrl->setVisualRect(rect.united(poly));
     };
     connect(m_vmap.get(), &VMap::sceneRectChanged, m_ctrl, updateFrame);
+
     connect(m_graphicView.get(), &RGraphicsView::updateVisualZone, m_ctrl, updateFrame);
+    connect(m_graphicView.get(), &RGraphicsView::updateVisualZone, m_ctrl, updateSmallImage);
 
     connect(m_graphicView->horizontalScrollBar(), &QScrollBar::valueChanged, this, updateSmallImage);
     connect(m_graphicView->verticalScrollBar(), &QScrollBar::valueChanged, this, updateSmallImage);

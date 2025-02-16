@@ -95,12 +95,9 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::gridVisibilityChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::gridColorChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::backgroundColorChanged, this, &VMap::computePattern);
-    connect(m_ctrl, &VectorialMapController::toolChanged, this,
-            [this]()
-            {
-                resetCurrentPath();
-                m_currentItem= nullptr;
-            });
+    connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() { resetCurrentPath(); });
+    connect(m_ctrl, &VectorialMapController::toolColorChanged, this, [this]() { resetCurrentPath(); });
+    connect(m_ctrl, &VectorialMapController::editionModeChanged, this, [this]() { resetCurrentPath(); });
     connect(m_ctrl, &VectorialMapController::highLightAt, this,
             [this](const QPointF& p, const qreal& penSize, const QColor& color)
             {
@@ -360,7 +357,13 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
     qDebug() << "MOUSE PRESSED MAP" << m_currentPath.isNull() << static_cast<int>(m_ctrl->editionMode());
     auto leftButton= (mouseEvent->button() == Qt::LeftButton);
-    if(m_ctrl->tool() == Core::HANDLER && leftButton)
+    auto hasShift= (mouseEvent->modifiers() & Qt::ShiftModifier);
+
+    if(m_ctrl->tool() == Core::HANDLER && leftButton && hasShift)
+    {
+        QGraphicsScene::mousePressEvent(mouseEvent);
+    }
+    else if(m_ctrl->tool() == Core::HANDLER && leftButton)
     {
         const QList<QGraphicsItem*> itemList= selectedItems();
         for(auto item : itemList)
@@ -440,7 +443,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
         auto item= visualItemUnder(mouseEvent->scenePos());
         if(item)
         {
-            if(!(mouseEvent->modifiers() & Qt::CTRL) && !item->isSelected())
+            if(!(mouseEvent->modifiers() & Qt::ShiftModifier) && !item->isSelected())
                 clearSelection();
             item->setSelected(true);
             QGraphicsScene::mousePressEvent(mouseEvent);
@@ -456,8 +459,10 @@ void VMap::resetCurrentPath()
     {
         auto poly= m_currentPath->shape().translated(m_currentPath->pos()).toFillPolygon();
         m_ctrl->changeFogOfWar(poly, m_currentPath->controller(), (Core::EditionMode::Mask == m_ctrl->editionMode()));
+        removeItem(m_currentPath);
     }
     m_currentPath= nullptr;
+    m_currentItem= nullptr;
     update();
 }
 
@@ -519,10 +524,10 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
     else if(!isPainting && m_currentPath.isNull() && m_currentItem)
     {
         auto poly= m_currentItem->shape().toFillPolygon();
-        qDebug() << "poly" << poly;
         poly= poly.translated(m_currentItem->pos());
         auto ctrl= m_currentItem->controller();
         m_ctrl->changeFogOfWar(poly, ctrl, (Core::EditionMode::Mask == m_ctrl->editionMode()));
+        removeItem(m_currentItem);
         update();
     }
     else if(!isPainting && m_currentPath)
