@@ -55,6 +55,20 @@ bool FileSerializer::createCampaignDirectory(const QString& campaign)
     return res;
 }
 
+bool FileSerializer::isStaticMedia(const QString& filename)
+{
+    auto type= typeFromExtention(filename);
+
+    bool res= false;
+    switch(type)
+    {
+    case Core::MediaType::ImageFile:
+    case Core::MediaType::PdfFile:
+        res= true;
+        break;
+    default:
+        break;
+    }
 
     return res;
 }
@@ -256,7 +270,7 @@ void FileSerializer::writeCampaignInfo(const QString& destination, const QJsonOb
 
 QFuture<bool> FileSerializer::writeFileIntoCampaign(const QString& destination, const QByteArray& array)
 {
-    qDebug() << "fileserializer" << array.size();
+    qCDebug(SerializationCat) << "fileserializer" << array.size();
     return QtConcurrent::run([destination, array]() -> bool { return utils::IOHelper::writeFile(destination, array); });
 }
 
