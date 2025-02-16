@@ -329,7 +329,8 @@
   </action>
   <action name="m_addVectorialMap">
    <property name="icon">
-    <iconset theme="vmap"/>
+    <iconset theme="vmap" resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/maplogo.svg</normaloff>:/resources/rolistheme/maplogo.svg</iconset>
    </property>
    <property name="text">
     <string>Map</string>
@@ -340,7 +341,8 @@
   </action>
   <action name="m_openVectorialMap">
    <property name="icon">
-    <iconset theme="vmap"/>
+    <iconset theme="vmap" resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/maplogo.svg</normaloff>:/resources/rolistheme/maplogo.svg</iconset>
    </property>
    <property name="text">
     <string>Map</string>
@@ -367,7 +369,8 @@
   </action>
   <action name="m_openCharacterSheet">
    <property name="icon">
-    <iconset theme="treeview"/>
+    <iconset theme="treeview" resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/sheet.svg</normaloff>:/resources/rolistheme/sheet.svg</iconset>
    </property>
    <property name="text">
     <string>Character Sheet</string>
@@ -400,7 +403,8 @@
   </action>
   <action name="m_newSharedNote">
    <property name="icon">
-    <iconset theme="sharedEditor"/>
+    <iconset theme="sharedEditor" resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/text-x-generic.svg</normaloff>:/resources/rolistheme/text-x-generic.svg</iconset>
    </property>
    <property name="text">
     <string>Shared Note</string>
@@ -411,7 +415,8 @@
   </action>
   <action name="m_openShareNote">
    <property name="icon">
-    <iconset theme="sharedEditor"/>
+    <iconset theme="sharedEditor" resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/text-x-generic.svg</normaloff>:/resources/rolistheme/text-x-generic.svg</iconset>
    </property>
    <property name="text">
     <string>Shared Note</string>
@@ -449,7 +454,8 @@
   </action>
   <action name="m_openPdfAct">
    <property name="icon">
-    <iconset theme="pdfLogo"/>
+    <iconset theme="pdfLogo" resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/pdfLogo.svg</normaloff>:/resources/rolistheme/pdfLogo.svg</iconset>
    </property>
    <property name="text">
     <string>PDF File</string>
@@ -530,8 +536,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="chaticon">
-     <normaloff>:/resources/rolistheme/chatIcon.png</normaloff>:/resources/rolistheme/chatIcon.png</iconset>
+    <iconset theme="chaticon" resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/rolistheme/chaticon.svg</normaloff>:/resources/rolistheme/chaticon.svg</iconset>
    </property>
    <property name="text">
     <string>Instant messaging</string>
@@ -638,6 +644,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../../../build/Desktop_Qt_6_8_1-Debug/src/libraries/dicephysics/.qt/rcc/qml.qrc">
+     <normaloff>:/dice3d/icons/dice3d.svg</normaloff>:/dice3d/icons/dice3d.svg</iconset>
+   </property>
    <property name="text">
     <string>Dice3D</string>
    </property>
@@ -650,6 +660,7 @@
   <include location="../../../rolisteam.qrc"/>
   <include location="../../../resources/rolisteam/logo/logo.qrc"/>
   <include location="../../../resources/rolisteam/logo/logo.qrc"/>
+  <include location="../../../build/Desktop_Qt_6_8_1-Debug/src/libraries/dicephysics/.qt/rcc/qml.qrc"/>
   <include location="../../../rolisteam.qrc"/>
  </resources>
  <connections>
