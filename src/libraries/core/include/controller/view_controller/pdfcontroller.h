@@ -31,8 +31,7 @@ class CORE_EXPORT PdfController : public MediaControllerBase
     Q_PROPERTY(QByteArray data READ data NOTIFY dataChanged)
     Q_PROPERTY(qreal zoomFactor READ zoomFactor WRITE setZoomFactor NOTIFY zoomFactorChanged)
 public:
-    explicit PdfController(const QString& id= QString(), const QUrl& path= QUrl(), const QByteArray& data= QByteArray(),
-                           QObject* parent= nullptr);
+    explicit PdfController(const QString& id= QString(), QObject* parent= nullptr);
     ~PdfController() override;
 
     QByteArray data() const;
@@ -47,11 +46,9 @@ public slots:
     void zoomOut();
     void copyImage(const QPixmap& image);
     void copyText(const QString& text);
-    void shareAsPdf();
 
 signals:
     void dataChanged(QByteArray data);
-    void sharePdf(QString id);
     void zoomFactorChanged(qreal r);
 
 private:

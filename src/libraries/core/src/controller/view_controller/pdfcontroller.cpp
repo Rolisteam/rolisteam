@@ -25,17 +25,22 @@
 #include <QBuffer>
 #include <QClipboard>
 
-PdfController::PdfController(const QString& id, const QUrl& path, const QByteArray& data, QObject* parent)
+PdfController::PdfController(const QString& id, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::PDF, parent)
 {
-    if(!path.isEmpty())
+    setSharing(false);
+    setDataType(Core::DataType::StaticData);
+    /*if(!path.isEmpty())
     {
         setData(utils::IOHelper::loadFile(path.toLocalFile()));
     }
     else if(!data.isEmpty())
     {
         setData(data);
-    }
+    }*/
+
+    connect(this, &PdfController::staticDataChanged, this,
+            [this]() { setData(utils::IOHelper::loadFile(m_staticData.toLocalFile())); });
 }
 
 PdfController::~PdfController()= default;
@@ -94,10 +99,4 @@ void PdfController::copyText(const QString& text)
 {
     auto clip= QApplication::clipboard();
     clip->setText(text, QClipboard::Clipboard);
-}
-
-void PdfController::shareAsPdf()
-{
-    if(!m_data.isEmpty())
-        emit sharePdf(m_uuid);
 }

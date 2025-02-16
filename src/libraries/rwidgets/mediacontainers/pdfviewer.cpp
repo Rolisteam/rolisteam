@@ -28,7 +28,6 @@
 #include <QPdfView>
 #include <QScrollBar>
 #include <QShortcut>
-#include <type_traits>
 
 #include "controller/view_controller/pdfcontroller.h"
 #include "customs/overlay.h"
@@ -58,17 +57,26 @@ PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
     bookmarkModel->setDocument(m_document.get());
 
     makeConnections();
-    if(m_pdfCtrl)
+    if(!m_pdfCtrl)
+        return;
+
+    qDebug() << "static data:" << m_pdfCtrl->staticData().toLocalFile();
+    if(!m_pdfCtrl->remote())
+        m_document->load(m_pdfCtrl->staticData().toLocalFile());
+    else
     {
-        if(!m_pdfCtrl->data().isEmpty())
-        {
-            auto buf= m_pdfCtrl->buffer();
-            if(buf->open(QIODevice::ReadOnly))
-                m_document->load(buf);
-        }
-        else
-            m_document->load(m_pdfCtrl->url().toLocalFile());
+        auto buf= m_pdfCtrl->buffer();
+        if(buf->open(QIODevice::ReadOnly))
+            m_document->load(buf);
     }
+
+    connect(m_pdfCtrl, &PdfController::dataChanged, this,
+            [this]()
+            {
+                auto buf= m_pdfCtrl->buffer();
+                if(buf->open(QIODevice::ReadOnly))
+                    m_document->load(buf);
+            });
 }
 
 PdfViewer::~PdfViewer() {}
@@ -101,6 +109,15 @@ void PdfViewer::makeConnections()
     m_ui->m_exportToImage->setEnabled(false);
     m_ui->m_exportToMapAct->setEnabled(false);
     m_ui->m_extractTextAct->setEnabled(false);
+
+    m_ui->m_showHideSidePanelBtn->setDefaultAction(m_ui->m_showSidePanelAct);
+
+    connect(m_ui->m_showSidePanelAct, &QAction::toggled, this,
+            [this]() { m_ui->tabWidget->setVisible(m_ui->m_showSidePanelAct->isChecked()); });
+
+    m_ui->m_showSidePanelAct->setChecked(true);
+
+    connect(m_ui->m_shareAct, &QAction::toggled, m_pdfCtrl, &PdfController::setSharing);
 
     connect(m_ui->m_zoomLevel, &QComboBox::currentIndexChanged, this,
             [this]()
@@ -204,6 +221,9 @@ void PdfViewer::makeConnections()
                 m_ui->m_extractTextAct->setEnabled(m_ui->m_cropViewAct->isChecked());
             });
     connect(m_ui->m_cropViewAct, &QAction::triggered, this, &PdfViewer::showOverLay);
+
+    m_ui->m_splitter->setCollapsible(0, true);
+    m_ui->m_splitter->setCollapsible(1, false);
 }
 
 bool PdfViewer::eventFilter(QObject* obj, QEvent* event)
@@ -283,7 +303,7 @@ void PdfViewer::sharePdfTo()
                                 QMessageBox::Yes | QMessageBox::Cancel);
     if(answer == QMessageBox::Yes)
     {
-        m_pdfCtrl->shareAsPdf();
+        m_pdfCtrl->setSharing(true);
     }
 }
 

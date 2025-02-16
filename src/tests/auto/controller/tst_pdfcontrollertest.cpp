@@ -19,9 +19,9 @@
  ***************************************************************************/
 #include <QTest>
 
+#include <QClipboard>
 #include <QSignalSpy>
 #include <QUrl>
-#include <QClipboard>
 
 #include "controller/view_controller/pdfcontroller.h"
 #include "test_root_path.h"
@@ -69,7 +69,9 @@ void PdfControllorTest::create()
 
     QString id("idtest");
 
-    m_ctrl.reset(new PdfController(id, QUrl::fromUserInput(path), data));
+    m_ctrl.reset(new PdfController(id));
+    m_ctrl->setData(data);
+    m_ctrl->setStaticData(QUrl::fromUserInput(path));
 
     QCOMPARE(m_ctrl->data(), expected);
 
@@ -84,9 +86,9 @@ void PdfControllorTest::create_data()
     QTest::addColumn<QByteArray>("expected");
 
     QString path("%1/resources/menu_restaurant.pdf");
-    path = path.arg(tests::root_path);
+    path= path.arg(tests::root_path);
 
-    auto data = utils::IOHelper::loadFile(path);
+    auto data= utils::IOHelper::loadFile(path);
 
     QTest::addRow("with path") << path << QByteArray() << data;
     QTest::addRow("with data") << QString() << data << data;
@@ -94,13 +96,13 @@ void PdfControllorTest::create_data()
 }
 void PdfControllorTest::zoomTest()
 {
-    QFETCH(QStringList,actions);
+    QFETCH(QStringList, actions);
     QFETCH(qreal, expected);
     QFETCH(int, expectedCount);
 
     QSignalSpy spy(m_ctrl.get(), &PdfController::zoomFactorChanged);
 
-    for(const auto &action : actions)
+    for(const auto& action : actions)
     {
         if(action == "+")
         {
@@ -110,7 +112,8 @@ void PdfControllorTest::zoomTest()
         {
             m_ctrl->zoomOut();
         }
-        else {
+        else
+        {
             m_ctrl->setZoomFactor(action.toDouble());
         }
     }
@@ -125,27 +128,26 @@ void PdfControllorTest::zoomTest_data()
     QTest::addColumn<qreal>("expected");
     QTest::addColumn<int>("expectedCount");
 
-    QTest::addRow("zoomin") << QStringList{"+","+","+","+","+"} << (1.1) << 5;
-    QTest::addRow("zoomout") << QStringList{"-","-","-","-","-"} << (0.9) << 5;
-    QTest::addRow("zommInAndOut") << QStringList{"-","-","+","+","1.5","1.5"} << (1.5) << 5;
+    QTest::addRow("zoomin") << QStringList{"+", "+", "+", "+", "+"} << (1.1) << 5;
+    QTest::addRow("zoomout") << QStringList{"-", "-", "-", "-", "-"} << (0.9) << 5;
+    QTest::addRow("zommInAndOut") << QStringList{"-", "-", "+", "+", "1.5", "1.5"} << (1.5) << 5;
 }
 
 void PdfControllorTest::shareAsPdf()
 {
-    QSignalSpy spy(m_ctrl.get(), &PdfController::sharePdf);
+    QSignalSpy spy(m_ctrl.get(), &PdfController::sharingChanged);
 
-    m_ctrl->shareAsPdf();
+    m_ctrl->setSharing(true);
 
-    QCOMPARE(spy.count(),0);
+    QCOMPARE(spy.count(), 0);
 
     QString path("%1/resources/menu_restaurant.pdf");
-    path = path.arg(tests::root_path);
+    path= path.arg(tests::root_path);
     m_ctrl->setData(utils::IOHelper::loadFile(path));
 
-    m_ctrl->shareAsPdf();
+    m_ctrl->setSharing(false);
 
-    QCOMPARE(spy.count(),1);
-
+    QCOMPARE(spy.count(), 1);
 }
 void PdfControllorTest::copyImage()
 {

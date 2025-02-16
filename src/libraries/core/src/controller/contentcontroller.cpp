@@ -24,6 +24,7 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mindmapcontroller.h"
+#include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 
@@ -171,6 +172,17 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     std::unique_ptr<GenericUpdater> pdfUpdater(new GenericUpdater(campaign));
     MindMapController::setMindMapUpdater(mindMapUpdater.get());
 
+    connect(pdfUpdater.get(), &GenericUpdater::shareMedia, this,
+            [](MediaControllerBase* ctrl) { MessageHelper::sendOffPdfFile(dynamic_cast<PdfController*>(ctrl)); });
+
+    connect(pdfUpdater.get(), &GenericUpdater::stopSharingMedia, this,
+            [](MediaControllerBase* ctrl)
+            {
+                if(!ctrl)
+                    return;
+                MessageHelper::closeMedia(ctrl->uuid(), ctrl->contentType());
+            });
+
     m_mediaUpdaters.insert({Core::ContentType::VECTORIALMAP, std::move(vmapUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::SHAREDNOTE, std::move(sharedNoteUpdater)});
     m_mediaUpdaters.insert({Core::ContentType::WEBVIEW, std::move(webviewUpdater)});
@@ -193,7 +205,7 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
                 auto it= m_mediaUpdaters.find(ctrl->contentType());
                 if(it != m_mediaUpdaters.end())
                     it->second->addMediaController(ctrl);
-                qDebug() << "ADD CONTROLLER @@@:" << ctrl->url();
+
                 if(!localIsGM())
                     m_historyModel->addLink(ctrl->url(), ctrl->name(), ctrl->contentType());
             });

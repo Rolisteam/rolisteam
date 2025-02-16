@@ -595,15 +595,14 @@ QByteArray saveMindmap(mindmap::MindMapControllerBase* ctrl)
 
 QByteArray savePdfView(PdfController* ctrl)
 {
-    QByteArray data;
     if(!ctrl)
-        return data;
-    QDataStream output(&data, QIODevice::WriteOnly);
+        return {};
+    QJsonObject objCtrl;
+    IOHelper::saveMediaBaseIntoJSon(ctrl, objCtrl);
 
-    IOHelper::saveBase(ctrl, output);
+    objCtrl[Core::pdfMedia::zoomFactor]= ctrl->zoomFactor();
 
-    output << ctrl->data();
-    return data;
+    return IOHelper::jsonObjectToByteArray(objCtrl);
 }
 
 QByteArray IOHelper::saveController(MediaControllerBase* media)
@@ -787,15 +786,11 @@ void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
         return;
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
 
-    IOHelper::readBase(ctrl, input);
+    auto objCtrl= IOHelper::textByteArrayToJsonObj(array);
 
-    QByteArray pdfData;
-    input >> pdfData;
-    if(!pdfData.isEmpty())
-        ctrl->setData(pdfData);
+    IOHelper::readBaseFromJson(ctrl, objCtrl);
+    ctrl->setZoomFactor(objCtrl[Core::pdfMedia::zoomFactor].toDouble());
 }
 
 void IOHelper::readImageController(ImageController* ctrl, const QByteArray& array)

@@ -32,7 +32,6 @@
 #include <memory>
 
 #include "customs/workspace.h"
-#include "preferences/preferencesmanager.h"
 
 #include "rwidgets/mediacontainers/mediacontainer.h"
 Q_DECLARE_LOGGING_CATEGORY(MediaContainerPDF)

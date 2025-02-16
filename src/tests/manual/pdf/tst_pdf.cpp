@@ -32,13 +32,12 @@ int main(int argc, char* argv[])
     // auto model= new RemotePlayerModel(pmodel);
 
     campaign::CampaignManager campaignManager(nullptr);
-    campaignManager.openCampaign(
-        QUrl(QString("file://%1/manual/pdf/campaign").arg(tests::root_path)));
+    campaignManager.openCampaign(QUrl(QString("file://%1/manual/pdf/campaign").arg(tests::root_path)));
 
     QUndoStack undoStack;
 
-    PdfController ctrl(
-        "uuid1",
+    PdfController ctrl("uuid1");
+    ctrl.setStaticData(
         QUrl::fromUserInput(QString("file://%1/manual/pdf/campaign/media/example.pdf").arg(tests::root_path)));
     // IOHelper::readPdfController(&ctrl, serializedData);
     // updater.addMediaController(&ctrl);

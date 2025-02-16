@@ -197,14 +197,25 @@ VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, Q
 
 PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& params)
 {
-    auto ownerid= params.value(Core::keys::KEY_OWNERID).toString();
-    auto array= params.value(Core::keys::KEY_DATA).toByteArray();
-    auto path= QUrl::fromUserInput(params.value(Core::keys::KEY_PATH).toString());
-    auto seriaziledData= params.value(Core::keys::KEY_SERIALIZED).toByteArray();
-    auto pdfCtrl= new PdfController(uuid, path, array.isEmpty() ? seriaziledData : array);
-    pdfCtrl->setOwnerId(ownerid);
-    if(!seriaziledData.isEmpty())
-        IOHelper::readPdfController(pdfCtrl, seriaziledData);
+    namespace ck= Core::keys;
+    namespace hu= helper::utils;
+    using std::placeholders::_1;
+    std::map<QString, QVariant> pdfData;
+
+    copyHashIntoMap(params, pdfData);
+
+    auto pdfCtrl= new PdfController(uuid);
+
+    hu::setParamIfAny<QString>(ck::KEY_NAME, pdfData, std::bind(&PdfController::setName, pdfCtrl, _1));
+    hu::setParamIfAny<QByteArray>(ck::KEY_DATA, pdfData, std::bind(&PdfController::setData, pdfCtrl, _1));
+    hu::setParamIfAny<QUrl>(ck::KEY_STATICDATA, pdfData, std::bind(&PdfController::setStaticData, pdfCtrl, _1));
+    hu::setParamIfAny<qreal>(Core::pdfMedia::zoomFactor, pdfData,
+                             std::bind(&PdfController::setZoomFactor, pdfCtrl, _1));
+    hu::setParamIfAny<QString>(ck::KEY_OWNERID, pdfData, std::bind(&PdfController::setOwnerId, pdfCtrl, _1));
+
+    hu::setParamIfAny<QByteArray>(ck::KEY_SERIALIZED, pdfData,
+                                  [pdfCtrl](const QByteArray& array) { IOHelper::readPdfController(pdfCtrl, array); });
+
     return pdfCtrl;
 }
 
