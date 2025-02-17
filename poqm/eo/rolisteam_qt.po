@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2024-12-31 11:42+0100\n"
+"PO-Revision-Date: 2025-02-16 17:10+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -543,12 +543,9 @@ msgid "Possible Values"
 msgstr "Eblaj Valoroj"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
-#, fuzzy
-#| msgctxt "LogPanel|"
-#| msgid "Form"
 msgctxt "FieldModel|"
 msgid "Formula"
-msgstr "Formo"
+msgstr "Formulo"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
@@ -3513,12 +3510,9 @@ msgid "is linked"
 msgstr "estas ligita"
 
 #: src/libraries/mindmap/resources/qml/MindMap.qml:223
-#, fuzzy
-#| msgctxt "ChatView|"
-#| msgid "Detach"
 msgctxt "MindMap|"
 msgid "Detach"
-msgstr "Forigi"
+msgstr "Malligi"
 
 #: src/libraries/mindmap/resources/qml/MindMenu.qml:11
 msgctxt "MindMenu|"
@@ -3671,12 +3665,9 @@ msgid "is linked"
 msgstr "estas ligita"
 
 #: src/libraries/mindmap/src/data/mindnode.cpp:33
-#, fuzzy
-#| msgctxt "Image|"
-#| msgid "New name:"
 msgctxt "MindNode|"
 msgid "New node"
-msgstr "Nova nomo:"
+msgstr "Nova nodo"
 
 #: src/libraries/mindmap/src/data/packagenode.cpp:86
 msgctxt "PackageNode|"
@@ -3964,12 +3955,9 @@ msgid "Open File"
 msgstr "Malfermi Dosieron"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:117
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save View"
 msgctxt "FileDirChooser|"
 msgid "Save File"
-msgstr "Konservi Vidon"
+msgstr "Konservi Dosieron"
 
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
@@ -5272,20 +5260,14 @@ msgid "RCSE"
 msgstr ""
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:581
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path:"
-msgstr "Vojo"
+msgstr "Vojo:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:591
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters:"
-msgstr "Karakteroj"
+msgstr "Parametroj:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:598
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:631
@@ -5293,54 +5275,39 @@ msgstr "Karakteroj"
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:608
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "PreferencesDialogBox|"
 msgid "MindMap"
-msgstr "Mensmapo"
+msgstr "MensMapo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path"
 msgstr "Vojo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:624
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:657
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters"
-msgstr "Karakteroj"
+msgstr "Parametroj"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:641
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Editor"
 msgctxt "PreferencesDialogBox|"
 msgid "Text Editor"
-msgstr "Redaktilo"
+msgstr "Tekstredaktilo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:647
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "PreferencesDialogBox|"
 msgid "TextLabel"
-msgstr "Etikedo"
+msgstr "TekstEtikedo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:687
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1 is a placeholder for the filename of the file."
-msgstr ""
+msgstr "%1 estas lokokupilo por la nomo de la dosiero."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:695
 msgctxt "PreferencesDialogBox|"
@@ -8061,28 +8028,20 @@ msgid "%1 - Mindmap"
 msgstr "%1 - Mensmapo"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:155
-#, fuzzy, qt-format
-#| msgctxt "MindMapView|"
-#| msgid "%1 - Mindmap"
+#, qt-format
 msgctxt "MindMapView|"
 msgid "%1 [%2] - Mindmap"
-msgstr "%1 - Mensmapo"
+msgstr "%1 [%2] - Mensmapo"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:157
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Write"
 msgctxt "MindMapView|"
 msgid "ReadWrite"
-msgstr "Legi Skribi"
+msgstr "LegSkribebla"
 
 #: src/libraries/rwidgets/mediacontainers/mindmapview.cpp:157
-#, fuzzy
-#| msgctxt "ParticipantModel|"
-#| msgid "Read Only"
 msgctxt "MindMapView|"
 msgid "ReadOnly"
-msgstr "Nurlegebla"
+msgstr "NurLegebla"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:281
 msgctxt "PdfViewer|"
@@ -8393,12 +8352,9 @@ msgid "Date Modified"
 msgstr "Dato Modifita"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Open Stream"
 msgctxt "campaign::CampaignView|"
 msgid "Open Externally"
-msgstr "Malfermi Fluon"
+msgstr "Malfermi Ekstere"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:117
 msgctxt "campaign::CampaignView|"
@@ -8664,7 +8620,3 @@ msgstr "Dormanta"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Prisorĉita"
-
-#~ msgctxt "CharacterList|"
-#~ msgid "Character %1"
-#~ msgstr "Karaktero %1"
