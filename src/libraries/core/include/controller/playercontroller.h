@@ -84,6 +84,7 @@ public slots:
 
 private:
     void removePlayerById(const QString& id);
+    void resetLocalPlayer();
 
 private:
     std::unique_ptr<PlayerModel> m_model;

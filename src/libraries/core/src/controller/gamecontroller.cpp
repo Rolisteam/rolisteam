@@ -467,6 +467,7 @@ DiceRoller* GameController::diceParser() const
 
 void GameController::setDataFromProfile(int profileIndex)
 {
+    m_playerController->clear();
     auto profile= m_networkCtrl->profileModel()->getProfile(profileIndex);
     m_networkCtrl->setSelectedProfileIndex(profileIndex);
 
@@ -488,6 +489,8 @@ void GameController::setDataFromProfile(int profileIndex)
             [local](const connection::CharacterData& data)
             { local->addCharacter(data.m_uuid, data.m_name, data.m_color, data.m_avatarData, data.m_params, false); });
     }
+    else
+        local->clearCharacterList();
 
     m_playerController->addPlayer(local);
     if(profile->isGM())

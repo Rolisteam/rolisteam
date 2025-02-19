@@ -35,17 +35,13 @@ PlayerController::PlayerController(NetworkController* network, QObject* parent)
     , m_model(new PlayerModel)
     , m_characterModel(new CharacterModel)
     , m_updater(new PlayerUpdater(network, this))
-    , m_localPlayer(new Player)
 {
 
     m_characterModel->setSourceModel(m_model.get());
     CharacterFinder::setPcModel(m_characterModel.get());
+    resetLocalPlayer();
 
     connect(m_model.get(), &PlayerModel::gameMasterIdChanged, this, &PlayerController::gameMasterIdChanged);
-    connect(m_localPlayer, &Player::uuidChanged, this, &PlayerController::localPlayerIdChanged);
-    connect(m_localPlayer, &Player::uuidChanged, m_model.get(), &PlayerModel::setLocalPlayerId);
-
-    m_model->setLocalPlayerId(m_localPlayer->uuid());
 }
 
 PlayerController::~PlayerController()= default;
@@ -53,6 +49,20 @@ PlayerController::~PlayerController()= default;
 void PlayerController::clear()
 {
     m_model->clear();
+    resetLocalPlayer();
+}
+
+void PlayerController::resetLocalPlayer()
+{
+    if(m_localPlayer)
+        return;
+
+    m_localPlayer= new Player();
+    connect(m_localPlayer, &Player::uuidChanged, this, &PlayerController::localPlayerIdChanged);
+    connect(m_localPlayer, &Player::uuidChanged, m_model.get(), &PlayerModel::setLocalPlayerId);
+
+    m_model->setLocalPlayerId(m_localPlayer->uuid());
+    emit localPlayerIdChanged(m_localPlayer->uuid());
 }
 
 QString PlayerController::gameMasterId() const
