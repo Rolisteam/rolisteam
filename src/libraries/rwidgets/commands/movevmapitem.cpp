@@ -44,6 +44,7 @@ void MoveItemCommand::redo()
     for(auto& item : m_selection)
     {
         item->setPos(m_newPoints.at(i));
+        item->endOfGeometryChange(ChildPointItem::Moving);
         ++i;
     }
 }
@@ -57,6 +58,7 @@ void MoveItemCommand::undo()
     for(auto& item : m_selection)
     {
         item->setPos(m_oldPoints.at(i));
+        item->endOfGeometryChange(ChildPointItem::Moving);
         ++i;
     }
 }
