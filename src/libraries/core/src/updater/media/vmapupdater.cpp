@@ -116,6 +116,13 @@ void VMapUpdater::addMediaController(MediaControllerBase* base)
             [this, ctrl]() { sendOffChanges<Core::Layer>(ctrl, QStringLiteral("layer")); });
     connect(ctrl, &VectorialMapController::zIndexChanged, this,
             [this, ctrl]() { sendOffChanges<int>(ctrl, QStringLiteral("zIndex")); });
+    connect(ctrl, &VectorialMapController::itemHasBeenStacked, this,
+            [ctrl](const QStringList& first, const QStringList& second, bool network)
+            {
+                if(network)
+                    return;
+                VectorialMapMessageHelper::sendOffStackItems(first, second, ctrl->uuid());
+            });
 
     connect(ctrl, &VectorialMapController::sendOffHighLightAt, this,
             [ctrl](const QPointF& p, const qreal& penSize, const QColor& color)
@@ -305,6 +312,12 @@ NetWorkReceiver::SendType VMapUpdater::processMessage(NetworkMessageReader* msg)
         auto list= VectorialMapMessageHelper::readRemoveItems(msg);
         QSet<QString> ids{list.begin(), list.end()};
         map->removeItemController(ids, true);
+    }
+    else if(is(msg, NetMsg::VMapCategory, NetMsg::StackItems))
+    {
+        auto first= msg->stringList8();
+        auto second= msg->stringList8();
+        map->stackBefore(first, second, true);
     }
     return type;
 }

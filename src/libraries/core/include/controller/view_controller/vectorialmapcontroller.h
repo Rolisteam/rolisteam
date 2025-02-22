@@ -156,6 +156,7 @@ public slots:
     void runDiceCommand(QList<QPointer<vmap::CharacterItemController>> list, QString cmd);
     void changeZValue(const QList<vmap::VisualItemController*>& list, VectorialMapController::StackOrder order);
     void setParent(vmap::VisualItemController* child, vmap::VisualItemController* newParent);
+    void stackBefore(const QStringList& first, const QStringList& second, bool fromNetwork= false);
 
 signals:
     void permissionChanged(Core::PermissionMode mode);
@@ -190,6 +191,7 @@ signals:
     void visualRectChanged(QRectF visualRect);
     void visualItemControllerCreated(vmap::VisualItemController* ctrl);
     void visualItemControllersRemoved(const QStringList& ids);
+    void itemHasBeenStacked(const QStringList& first, const QStringList& second, bool network);
 
     void sendOffHighLightAt(const QPointF& p, const qreal& penSize, const QColor& color);
     void highLightAt(const QPointF& p, const qreal& penSize, const QColor& color);

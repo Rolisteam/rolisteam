@@ -137,6 +137,7 @@ enum Action
     CharacterStateChanged,
     CharacterChanged,
     HighLightPosition,
+    StackItems,
 
     // mediacategory
     AddMedia= 0,

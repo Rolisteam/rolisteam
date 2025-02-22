@@ -25,10 +25,20 @@ ChangeStackOrderVMapCommand::ChangeStackOrderVMapCommand(VectorialMapController*
     : m_vmapCtrl(vmapCtrl), m_first(first), m_second(second)
 {
     setText(tr("Change stack order of %1 item(s)").arg(first.size()));
+    auto getId= [](const ItemToControllerInfo& info) -> QString
+    {
+        if(!info.ctrl)
+            return {};
+        return info.ctrl->uuid();
+    };
+
+    std::transform(std::begin(m_first), std::end(m_first), std::back_inserter(m_firstIds), getId);
+    std::transform(std::begin(m_second), std::end(m_second), std::back_inserter(m_secondIds), getId);
 }
 
 void ChangeStackOrderVMapCommand::undo()
 {
+
     for(auto info : m_second)
     {
         for(auto data : m_first)
@@ -36,6 +46,7 @@ void ChangeStackOrderVMapCommand::undo()
             info.item->stackBefore(data.item);
         }
     }
+    m_vmapCtrl->stackBefore(m_firstIds, m_secondIds);
 }
 
 void ChangeStackOrderVMapCommand::redo()
@@ -47,4 +58,5 @@ void ChangeStackOrderVMapCommand::redo()
             info.item->stackBefore(data.item);
         }
     }
+    m_vmapCtrl->stackBefore(m_secondIds, m_firstIds);
 }

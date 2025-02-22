@@ -46,6 +46,7 @@ public:
     static void sendOffHighLight(const QPointF& p, const qreal& penSize, const QColor& color, const QString& mapId);
     static void readHighLight(VectorialMapController* ctrl, NetworkMessageReader* msg);
     static void sendOffRemoveItems(const QStringList ids, const QString& mapId);
+    static void sendOffStackItems(const QStringList& first, const QStringList& second, const QString& mapId);
     static QStringList readRemoveItems(NetworkMessageReader* msg);
 
     // read message items
@@ -53,7 +54,7 @@ public:
     static QByteArray saveVectorialMap(VectorialMapController* ctrl);
     static void fetchModelFromMap(const QHash<QString, QVariant>& params, VectorialMapController* ctrl, bool isRemote);
     static QHash<QString, QVariant> itemsToHash(const QList<vmap::VisualItemController*>& ctrls);
-    static void fetchSightController(vmap::SightController* ctrl,const QHash<QString, QVariant>& params);
+    static void fetchSightController(vmap::SightController* ctrl, const QHash<QString, QVariant>& params);
 
     // CharaterItem controller
     static void fetchCharacterItem(const std::map<QString, QVariant>& params, vmap::CharacterItemController* ctrl);

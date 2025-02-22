@@ -721,6 +721,11 @@ void VectorialMapController::setParent(vmap::VisualItemController* child, vmap::
     addCommand(new AnchorVMapItemCommand(child, newParent));
 }
 
+void VectorialMapController::stackBefore(const QStringList& first, const QStringList& second, bool fromNetwork)
+{
+    emit itemHasBeenStacked(first, second, fromNetwork);
+}
+
 void VectorialMapController::removeItemController(const QSet<QString>& ids, bool fromNetwork)
 {
     m_vmapModel->removeItemController(ids, fromNetwork);

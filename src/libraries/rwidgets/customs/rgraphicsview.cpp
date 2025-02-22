@@ -31,6 +31,7 @@
 #include "mediacontainers/mediacontainer.h"
 #include "rgraphicsview.h"
 #include "rwidgets/dialogs/imageselectordialog.h"
+#include "rwidgets/graphicsItems/visualitem.h"
 #include "worker/mediahelper.h"
 
 bool isNormalItem(const vmap::VisualItemController* itemCtrl)
@@ -81,7 +82,10 @@ void RGraphicsView::mousePressEvent(QMouseEvent* event)
 
         list.erase(std::remove_if(list.begin(), list.end(),
                                   [](const QGraphicsItem* item)
-                                  { return !isNormalItem(dynamic_cast<const vmap::VisualItemController*>(item)); }),
+                                  {
+                                      auto const& vItem= dynamic_cast<const VisualItem*>(item);
+                                      return vItem ? !isNormalItem(vItem->controller()) : true;
+                                  }),
                    list.end());
         if(!list.isEmpty() && event->modifiers() == Qt::NoModifier)
         {
@@ -535,6 +539,38 @@ void RGraphicsView::createAction()
     connect(m_zoomOut, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
     connect(m_zoomIn, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
 
+    connect(m_ctrl, &VectorialMapController::itemHasBeenStacked, this,
+            [this](const QStringList& first, const QStringList& second, bool network)
+            {
+                if(!network)
+                    return;
+
+                auto children= items();
+
+                QHash<QString, VisualItem*> hash;
+                std::for_each(std::begin(children), std::end(children),
+                              [&hash](QGraphicsItem* item)
+                              {
+                                  auto vItem= dynamic_cast<VisualItem*>(item);
+                                  if(vItem)
+                                      hash.insert(vItem->uuid(), vItem);
+                              });
+
+                for(auto info : first)
+                {
+                    for(auto data : second)
+                    {
+                        auto firstItem= hash.value(info);
+                        auto secondItem= hash.value(data);
+                        if(!firstItem || !secondItem)
+                            continue;
+                        secondItem->stackBefore(firstItem);
+                    }
+                }
+
+                scene()->update();
+            });
+
     m_backOrderAction= new QAction(tr("Back"));
     m_backOrderAction->setIcon(QIcon::fromTheme("order_back"));
     m_backOrderAction->setData(VectorialMapController::BACK);
@@ -762,9 +798,6 @@ void RGraphicsView::currentToolChanged(Core::SelectableTool selectedtool)
 void RGraphicsView::updateSizeToController()
 {
     emit updateVisualZone();
-    // auto rect= frameRect();
-    // auto poly= mapToScene(rect);
-    // m_ctrl->setVisualRect(poly.boundingRect());
 }
 
 void RGraphicsView::stackBefore(const QList<ItemToControllerInfo>& first, const QList<ItemToControllerInfo>& second)

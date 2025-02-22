@@ -49,6 +49,8 @@ private:
     QPointer<VectorialMapController> m_vmapCtrl;
     QList<ItemToControllerInfo> m_first;
     QList<ItemToControllerInfo> m_second;
+    QStringList m_firstIds;
+    QStringList m_secondIds;
 };
 
 #endif // CHANGESTACKORDERVMAPCOMMAND_H

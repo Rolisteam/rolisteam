@@ -89,6 +89,16 @@ void VectorialMapMessageHelper::sendOffRemoveItems(const QStringList ids, const 
     msg.sendToServer();
 }
 
+void VectorialMapMessageHelper::sendOffStackItems(const QStringList& first, const QStringList& second,
+                                                  const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::StackItems);
+    msg.string8(mapId);
+    msg.stringList8(first);
+    msg.stringList8(second);
+    msg.sendToServer();
+}
+
 QStringList VectorialMapMessageHelper::readRemoveItems(NetworkMessageReader* msg)
 {
     auto size= msg->uint64();
