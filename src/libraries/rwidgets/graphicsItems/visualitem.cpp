@@ -212,7 +212,7 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if(change == ItemPositionChange)
+    if(change == QGraphicsItem::ItemPositionChange)
     {
         QPointF newPos= computeClosePoint(value.toPointF());
         if(newPos != value.toPointF())

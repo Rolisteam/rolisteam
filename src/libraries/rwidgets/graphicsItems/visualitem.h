@@ -39,6 +39,8 @@ class NetworkMessageReader;
 class RWIDGET_EXPORT VisualItem : public QGraphicsObject
 {
     Q_OBJECT
+    Q_PROPERTY(vmap::VisualItemController* controller READ controller CONSTANT)
+    Q_PROPERTY(QString uuid READ uuid CONSTANT)
 public:
     VisualItem(vmap::VisualItemController* ctrl);
     virtual ~VisualItem();
@@ -61,7 +63,7 @@ public:
     quint16 getPenWidth() const;
     void setPenWidth(const quint16& penWidth);
 
-    QString uuid()const;
+    QString uuid() const;
 
     QColor color() const;
     virtual bool canBeMoved() const;
