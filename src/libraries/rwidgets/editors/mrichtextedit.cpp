@@ -162,7 +162,7 @@ MRichTextEdit::MRichTextEdit(QWidget* parent) : QWidget(parent), m_ui(new Ui::MR
     for(int& size : db.standardSizes())
         m_ui->f_fontsize->addItem(QString::number(size));
 
-    connect(m_ui->f_fontsize, SIGNAL(activated(QString)), this, SLOT(textSize(QString)));
+    connect(m_ui->f_fontsize, &QComboBox::activated, this, [this](int) { textSize(m_ui->f_fontsize->currentText()); });
     m_ui->f_fontsize->setCurrentIndex(m_ui->f_fontsize->findText(QString::number(QApplication::font().pointSize())));
 
     // text foreground color
@@ -184,9 +184,12 @@ MRichTextEdit::MRichTextEdit(QWidget* parent) : QWidget(parent), m_ui(new Ui::MR
     connect(m_ui->f_image, SIGNAL(clicked()), this, SLOT(insertImage()));
 }
 
-MRichTextEdit::~MRichTextEdit() = default;
+MRichTextEdit::~MRichTextEdit()= default;
 
-QString MRichTextEdit::toPlainText() const { return m_ui->f_textedit->toPlainText(); }
+QString MRichTextEdit::toPlainText() const
+{
+    return m_ui->f_textedit->toPlainText();
+}
 
 void MRichTextEdit::textSource()
 {
@@ -624,11 +627,20 @@ QString MRichTextEdit::toHtml() const
     return s;
 }
 
-QTextDocument *MRichTextEdit::document() { return m_ui->f_textedit->document(); }
+QTextDocument* MRichTextEdit::document()
+{
+    return m_ui->f_textedit->document();
+}
 
-QTextCursor MRichTextEdit::textCursor() const { return m_ui->f_textedit->textCursor(); }
+QTextCursor MRichTextEdit::textCursor() const
+{
+    return m_ui->f_textedit->textCursor();
+}
 
-void MRichTextEdit::setTextCursor(const QTextCursor &cursor) { m_ui->f_textedit->setTextCursor(cursor); }
+void MRichTextEdit::setTextCursor(const QTextCursor& cursor)
+{
+    m_ui->f_textedit->setTextCursor(cursor);
+}
 
 void MRichTextEdit::increaseIndentation()
 {
@@ -671,9 +683,15 @@ void MRichTextEdit::setText(const QString& text)
     }
 }
 
-void MRichTextEdit::setPlainText(const QString &text) { m_ui->f_textedit->setPlainText(text); }
+void MRichTextEdit::setPlainText(const QString& text)
+{
+    m_ui->f_textedit->setPlainText(text);
+}
 
-void MRichTextEdit::setHtml(const QString &text) { m_ui->f_textedit->setHtml(text); }
+void MRichTextEdit::setHtml(const QString& text)
+{
+    m_ui->f_textedit->setHtml(text);
+}
 
 void MRichTextEdit::insertImage()
 {
