@@ -278,10 +278,15 @@ bool CustomRuleModel::insertUnit()
 
 bool CustomRuleModel::removeUnit(const QModelIndex& index)
 {
-    beginRemoveRows(QModelIndex(), rowCount(), rowCount());
-    beginRemoveColumns(QModelIndex(), rowCount() + PERMANENT_COL_COUNT, rowCount() + PERMANENT_COL_COUNT);
+    /*beginRemoveRows(QModelIndex(), index.row(), index.row());
+    beginRemoveColumns(QModelIndex(), index.row() + PERMANENT_COL_COUNT, index.row() + PERMANENT_COL_COUNT);*/
 
-    const auto unit= data(index, UnitModel::UnitRole).value<Unit*>();
+    beginResetModel();
+
+    // auto sourceIndex= mapToSource(index);
+
+    auto unitModel= dynamic_cast<UnitModel*>(sourceModel());
+    auto unit= unitModel->getUnitFromIndex(index, m_currentCatId);
     const auto& keys= m_convertionRules->keys();
     for(auto key : keys)
     {
@@ -291,9 +296,12 @@ bool CustomRuleModel::removeUnit(const QModelIndex& index)
                 m_convertionRules->remove(key);
         }
     }
-
-    endRemoveColumns();
-    endRemoveRows();
+    unitModel->removeUnit(unit);
+    invalidateFilter();
+    setFilterFixedString(m_currentCategory);
+    endResetModel();
+    //  endRemoveColumns();
+    //  endRemoveRows();
     return true;
 }
 

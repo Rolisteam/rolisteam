@@ -57,7 +57,7 @@ public:
     bool insertUnit(Unit::Category cat);
 
     // Remove data:
-    bool removeUnit(const QModelIndex& index);
+    bool removeUnit(Unit* unit);
 
 signals:
     void modelChanged();

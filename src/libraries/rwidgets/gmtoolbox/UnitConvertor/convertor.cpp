@@ -37,6 +37,8 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
     ui->stackedWidget->setCurrentIndex(0);
 
     connect(ui->m_addUnitAction, &QAction::triggered, m_customRulesModel.get(), &CustomRuleModel::insertUnit);
+    connect(ui->m_removeUnit, &QAction::triggered, m_customRulesModel.get(),
+            [this]() { m_customRulesModel->removeUnit(ui->m_tableView->currentIndex()); });
 
     m_model.reset(new UnitModel());
     connect(m_model.get(), &UnitModel::modelChanged, this, &Convertor::writeSettings);

@@ -167,6 +167,43 @@ bool UnitModel::insertUnit(Unit::Category cat)
     return true;
 }
 
+bool UnitModel::removeUnit(Unit* unit)
+{
+    if(!unit)
+        return false;
+
+    int sum= 0;
+
+    auto keys= m_data.keys();
+    auto it= std::find_if(std::begin(keys), std::end(keys),
+                          [this, unit](const Unit::Category& cat)
+                          {
+                              auto list= m_data[cat];
+                              return list.contains(unit);
+                          });
+
+    if(it == std::end(keys))
+        return false;
+    Unit::Category cat= (*it);
+
+    for(auto& key : keys)
+    {
+        const auto& list= m_data[key];
+        if(key <= cat)
+        {
+            sum+= list.size();
+        }
+    }
+    auto& list= m_data[cat];
+
+    beginRemoveRows(QModelIndex(), sum, sum);
+    list.removeAll(unit);
+    endRemoveRows();
+    emit modelChanged();
+
+    return true;
+}
+
 int UnitModel::getIndex(Unit* unit)
 {
     int i= 0;
