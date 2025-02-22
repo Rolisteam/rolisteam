@@ -59,6 +59,7 @@ public:
     QString string8();
     QString string16();
     QString string32();
+    QStringList stringList8();
 
     QByteArray byteArray32();
 

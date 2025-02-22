@@ -55,6 +55,7 @@ public:
     void string8(const QString& data);
     void string16(const QString& data);
     void string32(const QString& data);
+    void stringList8(const QStringList& list);
 
     void dateTime(const QDateTime& time);
 

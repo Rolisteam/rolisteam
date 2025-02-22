@@ -241,6 +241,19 @@ QString NetworkMessageReader::string32()
     return string(uint32());
 }
 
+QStringList NetworkMessageReader::stringList8()
+{
+    QStringList res;
+    auto count= uint64();
+
+    for(unsigned int i= 0; i < count; ++i)
+    {
+        res << string8();
+    }
+
+    return res;
+}
+
 QString NetworkMessageReader::string(quint64 sizeQChar)
 {
     size_t sizeBytes= sizeQChar * sizeof(QChar);

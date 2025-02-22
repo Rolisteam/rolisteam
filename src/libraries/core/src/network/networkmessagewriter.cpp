@@ -120,6 +120,15 @@ void NetworkMessageWriter::uint64(quint64 data)
     m_currentPos+= size;
 }
 
+void NetworkMessageWriter::stringList8(const QStringList& list)
+{
+    uint64(list.size());
+    for(auto const& id : list)
+    {
+        string8(id);
+    }
+}
+
 void NetworkMessageWriter::string8(const QString& data)
 {
     quint8 sizeQChar= static_cast<quint8>(data.size());
