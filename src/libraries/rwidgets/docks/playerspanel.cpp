@@ -20,20 +20,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
+#include "modelviews/userlistview.h"
 #include <QDebug>
 #include <QMenu>
 #include <QVBoxLayout>
 
-#include "modelviews/userlistview.h"
-#include "playerspanel.h"
-
 #include "controller/playercontroller.h"
-#include "data/character.h"
-#include "data/person.h"
-#include "data/player.h"
-#include "delegates/delegate.h"
-#include "dialogs/persondialog.h"
 #include "model/playermodel.h"
+#include "playerspanel.h"
 #include "ui_playerspanel.h"
 
 /********************
@@ -46,12 +40,6 @@ PlayersPanel::PlayersPanel(PlayerController* ctrl, PreferencesManager* pref, QWi
     m_ui->setupUi(this);
     m_ui->m_playerView->setPlayerController(ctrl);
     m_ui->m_playerView->setPreferences(pref);
-
-    m_ui->m_addBtn->setDefaultAction(m_ui->m_addLocalCharacter);
-    m_ui->m_addLocalCharacter->setIcon(QIcon::fromTheme("add-round"));
-
-    m_ui->m_removeBtn->setDefaultAction(m_ui->m_removeLocalCharacter);
-    m_ui->m_removeLocalCharacter->setIcon(QIcon::fromTheme("delete"));
 
     setWindowTitle(tr("Player List"));
     setObjectName("PlayersPanel");
@@ -70,19 +58,4 @@ void PlayersPanel::setConnection()
     m_ui->m_playerView->setModel(m_ctrl->model());
     m_selectionModel= m_ui->m_playerView->selectionModel();
     m_ui->m_playerView->setHeaderHidden(true);
-
-    // Actions
-    connect(m_selectionModel, &QItemSelectionModel::currentChanged, this, &PlayersPanel::selectAnotherPerson);
-    connect(m_ui->m_addLocalCharacter, &QAction::triggered, m_ctrl, &PlayerController::addLocalCharacter);
-    connect(m_ui->m_removeLocalCharacter, &QAction::triggered, this,
-            [this]() { m_ctrl->removeLocalCharacter(m_ui->m_playerView->currentIndex()); });
-
-    selectAnotherPerson(m_ui->m_playerView->currentIndex(), {});
-}
-
-void PlayersPanel::selectAnotherPerson(const QModelIndex& current, const QModelIndex& previous)
-{
-    Q_UNUSED(previous)
-    m_ui->m_removeLocalCharacter->setEnabled(current.isValid() && current.parent().isValid()
-                                             && current.data(PlayerModel::LocalRole).toBool());
 }

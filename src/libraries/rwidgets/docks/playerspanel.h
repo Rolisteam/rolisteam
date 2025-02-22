@@ -60,8 +60,6 @@ public:
 private:
     void setConnection();
 
-private slots:
-    void selectAnotherPerson(const QModelIndex& current, const QModelIndex& previous);
 signals:
     void runDiceForCharacter(const QString& dice, const QString& uuid);
 
