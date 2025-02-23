@@ -1022,7 +1022,7 @@ msgid "Open"
 msgstr "開啟"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:826
-#: src/binaries/widget/mainwindow.ui:512
+#: src/binaries/widget/mainwindow.ui:519
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
@@ -1033,7 +1033,7 @@ msgid "Save"
 msgstr "儲存"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:834
-#: src/binaries/widget/mainwindow.ui:386
+#: src/binaries/widget/mainwindow.ui:390
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
@@ -1054,19 +1054,19 @@ msgid "New"
 msgstr "新增"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:850
-#: src/binaries/widget/mainwindow.ui:257
+#: src/binaries/widget/mainwindow.ui:258
 msgctxt "MainWindow|"
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:855
-#: src/binaries/widget/mainwindow.ui:192
+#: src/binaries/widget/mainwindow.ui:193
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "離開"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:858
-#: src/binaries/widget/mainwindow.ui:195
+#: src/binaries/widget/mainwindow.ui:196
 msgctxt "MainWindow|"
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
@@ -1107,7 +1107,7 @@ msgid "Code To Sheet"
 msgstr ""
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
-#: src/binaries/widget/mainwindow.ui:457
+#: src/binaries/widget/mainwindow.ui:464
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
@@ -1134,7 +1134,7 @@ msgstr "偏好設定"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1025
 #: src/binaries/rcse/mainwindow_rcse.ui:1036
-#: src/binaries/widget/mainwindow.ui:184
+#: src/binaries/widget/mainwindow.ui:185
 msgctxt "MainWindow|"
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
@@ -1182,7 +1182,7 @@ msgid "&Redo"
 msgstr "重做(&R)"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
-#: src/binaries/widget/mainwindow.ui:427 src/binaries/widget/mainwindow.ui:492
+#: src/binaries/widget/mainwindow.ui:433 src/binaries/widget/mainwindow.ui:499
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
 msgstr "支援 Rolisteam"
@@ -1397,7 +1397,7 @@ msgid "Slider"
 msgstr ""
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
-#: src/libraries/core/src/data/cleveruri.cpp:235
+#: src/libraries/core/src/data/cleveruri.cpp:230
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Hidden"
@@ -1686,7 +1686,7 @@ msgstr ""
 
 #: src/binaries/widget/mainwindow.cpp:524
 #: src/binaries/widget/mainwindow.cpp:563
-#: src/binaries/widget/mainwindow.cpp:787 src/binaries/widget/mainwindow.ui:287
+#: src/binaries/widget/mainwindow.cpp:787 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr ""
@@ -1842,417 +1842,417 @@ msgctxt "MainWindow|"
 msgid "Rolisteam"
 msgstr "Rolisteam"
 
-#: src/binaries/widget/mainwindow.ui:31
+#: src/binaries/widget/mainwindow.ui:32
 msgctxt "MainWindow|"
 msgid "&File"
 msgstr "檔案(&F)"
 
-#: src/binaries/widget/mainwindow.ui:35
+#: src/binaries/widget/mainwindow.ui:36
 msgctxt "MainWindow|"
 msgid "&New"
 msgstr "新增(&N)"
 
-#: src/binaries/widget/mainwindow.ui:44
+#: src/binaries/widget/mainwindow.ui:45
 msgctxt "MainWindow|"
 msgid "&Open"
 msgstr "開啟(&O)"
 
-#: src/binaries/widget/mainwindow.ui:66
+#: src/binaries/widget/mainwindow.ui:67
 msgctxt "MainWindow|"
 msgid "&Panels"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:70
+#: src/binaries/widget/mainwindow.ui:71
 msgctxt "MainWindow|"
 msgid "Reorganize"
 msgstr "重新編排"
 
-#: src/binaries/widget/mainwindow.ui:81
+#: src/binaries/widget/mainwindow.ui:82
 msgctxt "MainWindow|"
 msgid "&Network"
 msgstr "網路(&N)"
 
-#: src/binaries/widget/mainwindow.ui:93
+#: src/binaries/widget/mainwindow.ui:94
 msgctxt "MainWindow|"
 msgid "&Help"
 msgstr "說明(&H)"
 
-#: src/binaries/widget/mainwindow.ui:103
+#: src/binaries/widget/mainwindow.ui:104
 msgctxt "MainWindow|"
 msgid "&Edit"
 msgstr "編輯(&E)"
 
-#: src/binaries/widget/mainwindow.ui:114
+#: src/binaries/widget/mainwindow.ui:115
 msgctxt "MainWindow|"
 msgid "&GM ToolBoxes"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:119
+#: src/binaries/widget/mainwindow.ui:120
 msgctxt "MainWindow|"
 msgid "&Campaign"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:135
+#: src/binaries/widget/mainwindow.ui:136
 msgctxt "MainWindow|"
 msgid "&History"
 msgstr "歷史(&H)"
 
-#: src/binaries/widget/mainwindow.ui:153
+#: src/binaries/widget/mainwindow.ui:154
 msgctxt "MainWindow|"
 msgid "toolBar"
 msgstr "工具列"
 
-#: src/binaries/widget/mainwindow.ui:170
+#: src/binaries/widget/mainwindow.ui:171
 msgctxt "MainWindow|"
 msgid "Close File"
 msgstr "關閉檔案"
 
-#: src/binaries/widget/mainwindow.ui:173
+#: src/binaries/widget/mainwindow.ui:174
 msgctxt "MainWindow|"
 msgid "Ctrl+Esc"
 msgstr "Ctrl+Esc"
 
-#: src/binaries/widget/mainwindow.ui:181
+#: src/binaries/widget/mainwindow.ui:182
 msgctxt "MainWindow|"
 msgid "Preferences…"
 msgstr "偏好設定…"
 
-#: src/binaries/widget/mainwindow.ui:203
+#: src/binaries/widget/mainwindow.ui:204
 msgctxt "MainWindow|"
 msgid "Tab"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:206
+#: src/binaries/widget/mainwindow.ui:207
 msgctxt "MainWindow|"
 msgid "F2"
 msgstr "F2"
 
-#: src/binaries/widget/mainwindow.ui:211
+#: src/binaries/widget/mainwindow.ui:212
 msgctxt "MainWindow|"
 msgid "Cascade"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:214 src/binaries/widget/mainwindow.ui:315
+#: src/binaries/widget/mainwindow.ui:215 src/binaries/widget/mainwindow.ui:316
 msgctxt "MainWindow|"
 msgid "Alt+C"
 msgstr "Alt+C"
 
-#: src/binaries/widget/mainwindow.ui:219
+#: src/binaries/widget/mainwindow.ui:220
 msgctxt "MainWindow|"
 msgid "Tile"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:222
+#: src/binaries/widget/mainwindow.ui:223
 msgctxt "MainWindow|"
 msgid "Alt+T"
 msgstr "Alt+T"
 
-#: src/binaries/widget/mainwindow.ui:227
+#: src/binaries/widget/mainwindow.ui:228
 msgctxt "MainWindow|"
 msgid "Disconnection…"
 msgstr "斷線…"
 
-#: src/binaries/widget/mainwindow.ui:232
+#: src/binaries/widget/mainwindow.ui:233
 msgctxt "MainWindow|"
 msgid "Rolisteam Help"
 msgstr "Rolisteam 說明"
 
-#: src/binaries/widget/mainwindow.ui:235
+#: src/binaries/widget/mainwindow.ui:236
 msgctxt "MainWindow|"
 msgid "online documentation"
 msgstr "線上說明文件"
 
-#: src/binaries/widget/mainwindow.ui:238
+#: src/binaries/widget/mainwindow.ui:239
 msgctxt "MainWindow|"
 msgid "F1"
 msgstr "F1"
 
-#: src/binaries/widget/mainwindow.ui:246
+#: src/binaries/widget/mainwindow.ui:247
 msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "關於 Rolisteam"
 
-#: src/binaries/widget/mainwindow.ui:254 src/binaries/widget/mainwindow.ui:276
+#: src/binaries/widget/mainwindow.ui:255 src/binaries/widget/mainwindow.ui:277
 msgctxt "MainWindow|"
 msgid "Note"
 msgstr "筆記"
 
-#: src/binaries/widget/mainwindow.ui:265
+#: src/binaries/widget/mainwindow.ui:266
 msgctxt "MainWindow|"
 msgid "Picture"
 msgstr "圖片"
 
-#: src/binaries/widget/mainwindow.ui:268
+#: src/binaries/widget/mainwindow.ui:269
 msgctxt "MainWindow|"
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
-#: src/binaries/widget/mainwindow.ui:279
+#: src/binaries/widget/mainwindow.ui:280
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+N"
 msgstr "Ctrl+Shift+N"
 
-#: src/binaries/widget/mainwindow.ui:290
+#: src/binaries/widget/mainwindow.ui:291
 msgctxt "MainWindow|"
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: src/binaries/widget/mainwindow.ui:298
+#: src/binaries/widget/mainwindow.ui:299
 msgctxt "MainWindow|"
 msgid "Online Picture"
 msgstr "線上圖片"
 
-#: src/binaries/widget/mainwindow.ui:301
+#: src/binaries/widget/mainwindow.ui:302
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
 msgstr "Ctrl+Shift+I"
 
-#: src/binaries/widget/mainwindow.ui:312
+#: src/binaries/widget/mainwindow.ui:313
 msgctxt "MainWindow|"
 msgid "Character List"
 msgstr "角色列表"
 
-#: src/binaries/widget/mainwindow.ui:323
+#: src/binaries/widget/mainwindow.ui:324
 msgctxt "MainWindow|"
 msgid "ToolBar"
 msgstr "工具列"
 
-#: src/binaries/widget/mainwindow.ui:326
+#: src/binaries/widget/mainwindow.ui:327
 msgctxt "MainWindow|"
 msgid "F8"
 msgstr "F8"
 
-#: src/binaries/widget/mainwindow.ui:334 src/binaries/widget/mainwindow.ui:345
+#: src/binaries/widget/mainwindow.ui:336 src/binaries/widget/mainwindow.ui:348
 msgctxt "MainWindow|"
 msgid "Map"
 msgstr "地圖"
 
-#: src/binaries/widget/mainwindow.ui:337
+#: src/binaries/widget/mainwindow.ui:339
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: src/binaries/widget/mainwindow.ui:348
+#: src/binaries/widget/mainwindow.ui:351
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+M"
 msgstr "Ctrl+Shift+M"
 
-#: src/binaries/widget/mainwindow.ui:356
+#: src/binaries/widget/mainwindow.ui:359
 msgctxt "MainWindow|"
 msgid "Show Health State"
 msgstr "顯示健康狀態"
 
-#: src/binaries/widget/mainwindow.ui:359
+#: src/binaries/widget/mainwindow.ui:362
 msgctxt "MainWindow|"
 msgid "F6"
 msgstr "F6"
 
-#: src/binaries/widget/mainwindow.ui:364
+#: src/binaries/widget/mainwindow.ui:367
 msgctxt "MainWindow|"
 msgid "Change Profile…"
 msgstr "變更設定檔…"
 
-#: src/binaries/widget/mainwindow.ui:372
+#: src/binaries/widget/mainwindow.ui:376
 msgctxt "MainWindow|"
 msgid "Character Sheet"
 msgstr "角色表"
 
-#: src/binaries/widget/mainwindow.ui:375
+#: src/binaries/widget/mainwindow.ui:379
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
-#: src/binaries/widget/mainwindow.ui:383
+#: src/binaries/widget/mainwindow.ui:387
 msgctxt "MainWindow|"
 msgid "Save Campaign"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:394
+#: src/binaries/widget/mainwindow.ui:398
 msgctxt "MainWindow|"
 msgid "Room List"
 msgstr "聊天室列表"
 
-#: src/binaries/widget/mainwindow.ui:397
+#: src/binaries/widget/mainwindow.ui:401
 msgctxt "MainWindow|"
 msgid "F10"
 msgstr "F10"
 
-#: src/binaries/widget/mainwindow.ui:405 src/binaries/widget/mainwindow.ui:416
+#: src/binaries/widget/mainwindow.ui:410 src/binaries/widget/mainwindow.ui:422
 msgctxt "MainWindow|"
 msgid "Shared Note"
 msgstr "共享筆記"
 
-#: src/binaries/widget/mainwindow.ui:408
+#: src/binaries/widget/mainwindow.ui:413
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: src/binaries/widget/mainwindow.ui:419
+#: src/binaries/widget/mainwindow.ui:425
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+K"
 msgstr "Ctrl+Shift+K"
 
-#: src/binaries/widget/mainwindow.ui:432
+#: src/binaries/widget/mainwindow.ui:438
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:435
+#: src/binaries/widget/mainwindow.ui:441
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
 msgstr "Ctrl+F1"
 
-#: src/binaries/widget/mainwindow.ui:443
+#: src/binaries/widget/mainwindow.ui:449
 msgctxt "MainWindow|"
 msgid "Full Screen"
 msgstr "全螢幕"
 
-#: src/binaries/widget/mainwindow.ui:446
+#: src/binaries/widget/mainwindow.ui:452
 msgctxt "MainWindow|"
 msgid "F11"
 msgstr "F11"
 
-#: src/binaries/widget/mainwindow.ui:454
+#: src/binaries/widget/mainwindow.ui:461
 msgctxt "MainWindow|"
 msgid "PDF File"
 msgstr "PDF 檔案"
 
-#: src/binaries/widget/mainwindow.ui:462
+#: src/binaries/widget/mainwindow.ui:469
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
 msgstr "複製連線連結…"
 
-#: src/binaries/widget/mainwindow.ui:470
+#: src/binaries/widget/mainwindow.ui:477
 msgctxt "MainWindow|"
 msgid "WebPage"
 msgstr "網頁"
 
-#: src/binaries/widget/mainwindow.ui:473
+#: src/binaries/widget/mainwindow.ui:480
 msgctxt "MainWindow|"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/binaries/widget/mainwindow.ui:478
+#: src/binaries/widget/mainwindow.ui:485
 msgctxt "MainWindow|"
 msgid "Password Generator"
 msgstr "密碼產生器"
 
-#: src/binaries/widget/mainwindow.ui:483
+#: src/binaries/widget/mainwindow.ui:490
 msgctxt "MainWindow|"
 msgid "Current Media as…"
 msgstr "目前媒體為…"
 
-#: src/binaries/widget/mainwindow.ui:500
+#: src/binaries/widget/mainwindow.ui:507
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
 msgstr "工具列內顯示媒體標題"
 
-#: src/binaries/widget/mainwindow.ui:509 src/binaries/widget/mainwindow.ui:521
+#: src/binaries/widget/mainwindow.ui:516 src/binaries/widget/mainwindow.ui:528
 msgctxt "MainWindow|"
 msgid "Mindmap"
 msgstr "心智圖"
 
-#: src/binaries/widget/mainwindow.ui:524
+#: src/binaries/widget/mainwindow.ui:531
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Shift+O"
 
-#: src/binaries/widget/mainwindow.ui:536
+#: src/binaries/widget/mainwindow.ui:543
 msgctxt "MainWindow|"
 msgid "Instant messaging"
 msgstr "即時通訊"
 
-#: src/binaries/widget/mainwindow.ui:539
+#: src/binaries/widget/mainwindow.ui:546
 msgctxt "MainWindow|"
 msgid "Instant Messaging Window"
 msgstr "即時通訊視窗"
 
-#: src/binaries/widget/mainwindow.ui:542
+#: src/binaries/widget/mainwindow.ui:549
 msgctxt "MainWindow|"
 msgid "Alt+I"
 msgstr "Alt+I"
 
-#: src/binaries/widget/mainwindow.ui:550
+#: src/binaries/widget/mainwindow.ui:557
 msgctxt "MainWindow|"
 msgid "Copy"
 msgstr "複製"
 
-#: src/binaries/widget/mainwindow.ui:553
+#: src/binaries/widget/mainwindow.ui:560
 msgctxt "MainWindow|"
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/binaries/widget/mainwindow.ui:564
+#: src/binaries/widget/mainwindow.ui:571
 msgctxt "MainWindow|"
 msgid "Paste"
 msgstr "貼上"
 
-#: src/binaries/widget/mainwindow.ui:567
+#: src/binaries/widget/mainwindow.ui:574
 msgctxt "MainWindow|"
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/binaries/widget/mainwindow.ui:575
+#: src/binaries/widget/mainwindow.ui:582
 msgctxt "MainWindow|"
 msgid "Properties"
 msgstr "屬性"
 
-#: src/binaries/widget/mainwindow.ui:580
+#: src/binaries/widget/mainwindow.ui:587
 msgctxt "MainWindow|"
 msgid "Dice Alias"
 msgstr "骰子別名"
 
-#: src/binaries/widget/mainwindow.ui:585
+#: src/binaries/widget/mainwindow.ui:592
 msgctxt "MainWindow|"
 msgid "Character States"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:590
+#: src/binaries/widget/mainwindow.ui:597
 msgctxt "MainWindow|"
 msgid "Statistics"
 msgstr "統計資料"
 
-#: src/binaries/widget/mainwindow.ui:595
+#: src/binaries/widget/mainwindow.ui:602
 msgctxt "MainWindow|"
 msgid "Theme"
 msgstr "主題"
 
-#: src/binaries/widget/mainwindow.ui:600
+#: src/binaries/widget/mainwindow.ui:607
 msgctxt "MainWindow|"
 msgid "New Campaign"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:605
+#: src/binaries/widget/mainwindow.ui:612
 msgctxt "MainWindow|"
 msgid "Save Campaign As…"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:610
+#: src/binaries/widget/mainwindow.ui:617
 msgctxt "MainWindow|"
 msgid "Non Playable Characters"
 msgstr "NPC"
 
-#: src/binaries/widget/mainwindow.ui:615
+#: src/binaries/widget/mainwindow.ui:622
 msgctxt "MainWindow|"
 msgid "Manage…"
 msgstr "管理…"
 
-#: src/binaries/widget/mainwindow.ui:620
+#: src/binaries/widget/mainwindow.ui:627
 msgctxt "MainWindow|"
 msgid "Remove…"
 msgstr "移除…"
 
-#: src/binaries/widget/mainwindow.ui:625
+#: src/binaries/widget/mainwindow.ui:632
 msgctxt "MainWindow|"
 msgid "Clean"
 msgstr "清理"
 
-#: src/binaries/widget/mainwindow.ui:633
+#: src/binaries/widget/mainwindow.ui:640
 msgctxt "MainWindow|"
 msgid "Import from another campaign…"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.ui:641
+#: src/binaries/widget/mainwindow.ui:652
 msgctxt "MainWindow|"
 msgid "Dice3D"
 msgstr ""
@@ -2538,12 +2538,12 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "提供這個檔案給 Rolisteam 開發團隊"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:426
+#: src/libraries/core/src/controller/contentcontroller.cpp:448
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "已複製影像"
 
-#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:121
+#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:129
 msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "全域"
@@ -2589,26 +2589,26 @@ msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr "未知角色"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:279
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:56
 msgctxt "QObject|"
 msgid "Character"
 msgstr "角色"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:279
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Ground"
 msgstr ""
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:279
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "Object"
 msgstr "物體"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:279
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:57
 msgctxt "QObject|"
 msgid "GameMaster"
@@ -2619,54 +2619,54 @@ msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "未知"
 
-#: src/libraries/core/src/data/campaign.cpp:271
+#: src/libraries/core/src/data/campaign.cpp:277
 msgctxt "Campaign|"
 msgid "Pattern"
 msgstr "樣式"
 
-#: src/libraries/core/src/data/campaign.cpp:271
+#: src/libraries/core/src/data/campaign.cpp:277
 msgctxt "Campaign|"
 msgid "Command"
 msgstr "命令"
 
-#: src/libraries/core/src/data/campaign.cpp:271
+#: src/libraries/core/src/data/campaign.cpp:277
 msgctxt "Campaign|"
 msgid "Comment"
 msgstr "註解"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:58
+#: src/libraries/core/src/data/campaignmanager.cpp:55
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr ""
 
-#: src/libraries/core/src/data/campaignmanager.cpp:134
+#: src/libraries/core/src/data/campaignmanager.cpp:143
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
 msgstr ""
 
-#: src/libraries/core/src/data/chatroom.cpp:155
+#: src/libraries/core/src/data/chatroom.cpp:162
 msgctxt "ChatRoom|"
 msgid "No Diceparser Object"
 msgstr ""
 
-#: src/libraries/core/src/data/cleveruri.cpp:230
+#: src/libraries/core/src/data/cleveruri.cpp:225
 msgctxt "QObject|"
 msgid "Internal"
 msgstr ""
 
-#: src/libraries/core/src/data/cleveruri.cpp:230
+#: src/libraries/core/src/data/cleveruri.cpp:225
 msgctxt "QObject|"
 msgid "Linked"
 msgstr ""
 
-#: src/libraries/core/src/data/cleveruri.cpp:235
+#: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Closed"
 msgstr ""
 
-#: src/libraries/core/src/data/cleveruri.cpp:235
+#: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Displayed"
 msgstr ""
@@ -2751,33 +2751,33 @@ msgctxt "HistoryModel|"
 msgid "bookmarked"
 msgstr "加入書籤"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Name"
 msgstr "名稱"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Size"
 msgstr "大小"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Type"
 msgstr "類型"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Date Added"
 msgstr "新增日期"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Date Modified"
 msgstr "修改日期"
 
-#: src/libraries/core/src/model/messagemodel.cpp:95
-#: src/libraries/core/src/model/messagemodel.cpp:101
+#: src/libraries/core/src/model/messagemodel.cpp:98
+#: src/libraries/core/src/model/messagemodel.cpp:104
 msgctxt "MessageModel|"
 msgid "Invalid Person"
 msgstr "無效任務"
@@ -3222,7 +3222,7 @@ msgctxt "ImportImageState|"
 msgid "Import media: %1"
 msgstr "匯入媒體：%1"
 
-#: src/libraries/core/src/undoCmd/importmedia.cpp:41
+#: src/libraries/core/src/undoCmd/importmedia.cpp:43
 #, qt-format
 msgctxt "ImportMedia|"
 msgid "Import media: %1"
@@ -3264,7 +3264,7 @@ msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
 msgstr ""
 
-#: src/libraries/core/src/worker/fileserializer.cpp:103
+#: src/libraries/core/src/worker/fileserializer.cpp:124
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
@@ -3621,7 +3621,7 @@ msgid "Name"
 msgstr "名稱"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:42
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:28
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:27
 msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr "夜間模式"
@@ -3788,7 +3788,7 @@ msgctxt "ChatView|"
 msgid "Reatach"
 msgstr ""
 
-#: src/libraries/qml_views/InstantMessaging/ChatView.qml:100
+#: src/libraries/qml_views/InstantMessaging/ChatView.qml:101
 msgctxt "ChatView|"
 msgid "close"
 msgstr "關閉"
@@ -3815,32 +3815,56 @@ msgctxt "InstantMessagingEditText|"
 msgid "send"
 msgstr ""
 
-#: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:35
+#: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:43
 msgctxt "InstantMessagingMain|"
 msgid "Settings"
 msgstr "設定"
 
-#: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:39
+#: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:47
 msgctxt "InstantMessagingMain|"
 msgid "Add chatroom"
 msgstr "新增聊天室"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:37
+#: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Player"
+msgctxt "RecipiantsView|"
+msgid "Players:"
+msgstr "玩家"
+
+#: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
+#, fuzzy
+#| msgctxt "BorderListEditor|"
+#| msgid "All"
+msgctxt "RecipiantsView|"
+msgid "All"
+msgstr "全部"
+
+#: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
+#, fuzzy
+#| msgctxt "ChannelListPanel|"
+#| msgid "Ban User"
+msgctxt "RecipiantsView|"
+msgid "Add User"
+msgstr "封鎖使用者"
+
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
 msgid "Sound Notification"
 msgstr "音效通知"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:48
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:53
 msgctxt "SideMenu|"
 msgid "Select Font…"
 msgstr "選擇字型…"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:55
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:60
 msgctxt "SideMenu|"
 msgid "Font Family:"
 msgstr "字型家族："
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:61
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:66
 msgctxt "SideMenu|"
 msgid "Font size:"
 msgstr "字型大小："
@@ -4249,271 +4273,271 @@ msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
 msgstr "選擇目錄"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:213
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:217
 #, qt-format
 msgctxt "RGraphicsView|"
 msgid "%n item(s)"
 msgid_plural "%n item(s)"
 msgstr[0] "%n 個項目"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:243
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:247
 msgctxt "RGraphicsView|"
 msgid "Overlapping"
 msgstr "重疊"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:249
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
 msgctxt "RGraphicsView|"
 msgid "Rotate"
 msgstr "旋轉"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:250
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:254
 msgctxt "RGraphicsView|"
 msgid "To 360"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:251
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:255
 msgctxt "RGraphicsView|"
 msgid "Right"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:252
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:256
 msgctxt "RGraphicsView|"
 msgid "Left"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:257
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:255
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:259
 msgctxt "RGraphicsView|"
 msgid "Set Layer"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:265
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:269
 msgctxt "RGraphicsView|"
 msgid "Normalize Size"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:275
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:279
 msgctxt "RGraphicsView|"
 msgid "Map"
 msgstr "地圖"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:293
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:297
 msgctxt "RGraphicsView|"
 msgid "Edit Layer"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:299
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:303
 msgctxt "RGraphicsView|"
 msgid "Change Visibility"
 msgstr "變更可見度"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:304
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:310
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:316
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:320
 msgctxt "RGraphicsView|"
 msgid "Zoom"
 msgstr "縮放"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:380
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:384
 msgctxt "RGraphicsView|"
 msgid "Rotation Value ?"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:381
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:385
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:507
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:511
 msgctxt "RGraphicsView|"
 msgid "Zoom to Normal"
 msgstr "正常縮放"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:512
 msgctxt "RGraphicsView|"
 msgid "Zoom In Max"
 msgstr "放到最大"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:509
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:513
 msgctxt "RGraphicsView|"
 msgid "Zoom Out Max"
 msgstr "縮到最小"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:510
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:514
 msgctxt "RGraphicsView|"
 msgid "Center on Item"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:512
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:516
 msgctxt "RGraphicsView|"
 msgid "Zoom In"
 msgstr "放大"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:515
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:519
 msgctxt "RGraphicsView|"
 msgid "Zoom Out"
 msgstr "縮小"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:518
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:522
 msgctxt "RGraphicsView|"
 msgid "Remove"
 msgstr "移除"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:528
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:532
 msgctxt "RGraphicsView|"
 msgid "Import Image"
 msgstr "匯入影像"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:538
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:574
 msgctxt "RGraphicsView|"
 msgid "Back"
 msgstr "返回"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:542
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:578
 msgctxt "RGraphicsView|"
 msgid "Front"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:546
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:582
 msgctxt "RGraphicsView|"
 msgid "Lower"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:550
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:586
 msgctxt "RGraphicsView|"
 msgid "Raise"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:554
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:590
 msgctxt "RGraphicsView|"
 msgid "Average"
 msgstr "平均"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:557
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:593
 msgctxt "RGraphicsView|"
 msgid "As undermouse item"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:560
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:596
 msgctxt "RGraphicsView|"
 msgid "As the Bigger"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:563
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:599
 msgctxt "RGraphicsView|"
 msgid "As the Smaller"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:566
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:602
 msgctxt "RGraphicsView|"
 msgid "Lock/Unlock Item Geometry"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:567
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:603
 msgctxt "RGraphicsView|"
 msgid "Duplicate Item"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:577
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:613
 msgctxt "RGraphicsView|"
 msgid "Properties"
 msgstr "屬性"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:582
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:600
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:618
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:636
 msgctxt "RGraphicsView|"
 msgid "Ground"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:585
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:603
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:621
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:639
 msgctxt "RGraphicsView|"
 msgid "Object"
 msgstr "物體"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:588
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:606
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:624
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:642
 msgctxt "RGraphicsView|"
 msgid "Character"
 msgstr "角色"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:591
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:609
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:627
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:645
 msgctxt "RGraphicsView|"
 msgid "GameMaster"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:619
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:655
 msgctxt "RGraphicsView|"
 msgid "All"
 msgstr "全部"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:622
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:658
 msgctxt "RGraphicsView|"
 msgid "Hidden"
 msgstr "隱藏"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:626
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
 msgctxt "RGraphicsView|"
 msgid "Fog Of War"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:638
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:653
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:674
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:689
 msgctxt "RGraphicsView|"
 msgid "All Npcs"
 msgstr "所有 NPC"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:639
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:675
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:643
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:658
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:679
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:694
 msgctxt "RGraphicsView|"
 msgid "Selection"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:644
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:680
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on Selection"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:648
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:663
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:684
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:699
 msgctxt "RGraphicsView|"
 msgid "All Characters"
 msgstr "所有角色"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:649
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:685
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:654
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:690
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:659
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:695
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
 msgstr ""
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:664
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:700
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
 msgstr ""
@@ -5054,70 +5078,70 @@ msgctxt "PreferencesDialog|"
 msgid "Preferences"
 msgstr "偏好設定"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:319
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:305
 msgctxt "PreferencesDialog|"
 msgid "Images (*.png *.xpm *.jpg *.gif *.bmp)"
 msgstr "影像檔 (*.png *.xpm *.jpg *.gif *.bmp)"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:399
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:383
 msgctxt "PreferencesDialog|"
 msgid "Css Editor"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:399
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:383
 msgctxt "PreferencesDialog|"
 msgid "Css"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:430
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:414
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
 msgstr "<li>影像格式：%1 數值 %2</li>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:431
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:415
 msgctxt "PreferencesDialog|"
 msgid "<h2>Supported Image Formats:</h2><ul>"
 msgstr "<h2>支援的影像格式：</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:438
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:422
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Image Format"
 msgstr "</ul>影像格式結尾"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:441
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:425
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
 msgstr "<h2>字型家族：</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:448
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:432
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
 msgstr "</ul>字型家族結尾"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:451
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:435
 msgctxt "PreferencesDialog|"
 msgid "<h2>Audio file formats Support:</h2><ul>"
 msgstr "<h2>音效檔案格式支援：</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:486
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:470
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Supported Audio file formats"
 msgstr "</ul>音效檔案格式支援結尾"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:503
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:487
 msgctxt "PreferencesDialog|"
 msgid "Export Rolisteam Theme"
 msgstr "匯出 Rolisteam 主題"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:505
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:514
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:489
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:498
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "Rolisteam Theme: %1"
 msgstr "Rolisteam 主題：%1"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:513
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:497
 msgctxt "PreferencesDialog|"
 msgid "Import Rolisteam Theme"
 msgstr "匯入 Rolisteam 主題"
@@ -5275,42 +5299,27 @@ msgctxt "PreferencesDialogBox|"
 msgid "Messaging"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:465
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:463
 msgctxt "PreferencesDialogBox|"
-msgid "Show time"
-msgstr "顯示時間"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
-msgctxt "PreferencesDialogBox|"
-msgid "Color of Time:"
-msgstr "時間顏色："
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:503
-msgctxt "PreferencesDialogBox|"
-msgid "Hide Long commands"
+msgid "Save chatrooms data"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
-msgctxt "PreferencesDialogBox|"
-msgid "Maximum Length:"
-msgstr "最大長度："
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:486
 msgctxt "PreferencesDialogBox|"
 msgid "* : need restart"
 msgstr "*：需要重新啟動"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:569
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:494
 msgctxt "PreferencesDialogBox|"
 msgid "External Editors"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:575
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:500
 msgctxt "PreferencesDialogBox|"
 msgid "RCSE"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:581
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:506
 #, fuzzy
 #| msgctxt "HistoryModel|"
 #| msgid "Path"
@@ -5318,7 +5327,7 @@ msgctxt "PreferencesDialogBox|"
 msgid "Path:"
 msgstr "路徑"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:591
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:516
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Characters"
@@ -5326,15 +5335,15 @@ msgctxt "PreferencesDialogBox|"
 msgid "Parameters:"
 msgstr "角色"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:598
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:631
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:664
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:556
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:589
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:608
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:533
 #, fuzzy
 #| msgctxt "NewFileDialog|"
 #| msgid "MindMap"
@@ -5342,7 +5351,7 @@ msgctxt "PreferencesDialogBox|"
 msgid "MindMap"
 msgstr "心智圖"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:539
 #, fuzzy
 #| msgctxt "HistoryModel|"
 #| msgid "Path"
@@ -5350,8 +5359,8 @@ msgctxt "PreferencesDialogBox|"
 msgid "Path"
 msgstr "路徑"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:624
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:657
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:549
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:582
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Characters"
@@ -5359,7 +5368,7 @@ msgctxt "PreferencesDialogBox|"
 msgid "Parameters"
 msgstr "角色"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:641
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:566
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Editor"
@@ -5367,7 +5376,7 @@ msgctxt "PreferencesDialogBox|"
 msgid "Text Editor"
 msgstr "編輯器"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:647
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:572
 #, fuzzy
 #| msgctxt "TypeDelegate|"
 #| msgid "TextField"
@@ -5375,148 +5384,148 @@ msgctxt "PreferencesDialogBox|"
 msgid "TextLabel"
 msgstr "文字欄位"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:687
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:612
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1 is a placeholder for the filename of the file."
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:695
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:620
 msgctxt "PreferencesDialogBox|"
 msgid "Themes"
 msgstr "主題"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:701
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:626
 msgctxt "PreferencesDialogBox|"
 msgid "Theme"
 msgstr "主題"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:711
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:636
 msgctxt "PreferencesDialogBox|"
 msgid "Current Theme*"
 msgstr "目前主題"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:718
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:643
 msgctxt "PreferencesDialogBox|"
 msgid "Theme name"
 msgstr "主題名稱"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:725
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:650
 msgctxt "PreferencesDialogBox|"
 msgid "Styles:"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:741
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:666
 msgctxt "PreferencesDialogBox|"
 msgid "Copy"
 msgstr "複製"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:748
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
 msgctxt "PreferencesDialogBox|"
 msgid "Delete"
 msgstr "刪除"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:765
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:690
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:772
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:697
 msgctxt "PreferencesDialogBox|"
 msgid "Edit..."
 msgstr "編輯..."
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:798
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:723
 msgctxt "PreferencesDialogBox|"
 msgid "Background"
 msgstr "背景"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:806
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:731
 msgctxt "PreferencesDialogBox|"
 msgid "Color:"
 msgstr "顏色："
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:837
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:762
 msgctxt "PreferencesDialogBox|"
 msgid "Image:"
 msgstr "影像："
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:851
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:776
 msgctxt "PreferencesDialogBox|"
 msgid "Positioning:"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:859
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:784
 msgctxt "PreferencesDialogBox|"
 msgid "TopLeftCorner"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:864
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:789
 msgctxt "PreferencesDialogBox|"
 msgid "BottomLeftCorner"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:869
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:794
 msgctxt "PreferencesDialogBox|"
 msgid "Center"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:874
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:799
 msgctxt "PreferencesDialogBox|"
 msgid "TopRightCorner"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:879
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:804
 msgctxt "PreferencesDialogBox|"
 msgid "BottomRightCorner"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:884
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:809
 msgctxt "PreferencesDialogBox|"
 msgid "Scaled"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:889
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:814
 msgctxt "PreferencesDialogBox|"
 msgid "Filled"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:894
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:819
 msgctxt "PreferencesDialogBox|"
 msgid "Repeated"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:909
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:834
 msgctxt "PreferencesDialogBox|"
 msgid "Dice Highlight Color"
 msgstr "骰子突顯顏色"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:938
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:863
 msgctxt "PreferencesDialogBox|"
 msgid "Color Palette"
 msgstr "調色板"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:950
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:875
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
 msgstr "*：需要重新啟動"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:970
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:895
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
 msgstr "匯入…"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:977
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:902
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
 msgstr "匯出…"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:990
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:915
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
 msgstr "診斷"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1018
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:943
 msgctxt "PreferencesDialogBox|"
 msgid "Start"
 msgstr "開始"
@@ -6208,27 +6217,11 @@ msgctxt "NotificationZone|"
 msgid "Notification Zone"
 msgstr "通知區域"
 
-#: src/libraries/rwidgets/docks/playerspanel.cpp:56
+#: src/libraries/rwidgets/docks/playerspanel.cpp:44
 #: src/libraries/rwidgets/docks/playerspanel.ui:14
 msgctxt "PlayersPanel|"
 msgid "Player List"
 msgstr "玩家列表"
-
-#: src/libraries/rwidgets/docks/playerspanel.ui:27
-#: src/libraries/rwidgets/docks/playerspanel.ui:50
-msgctxt "PlayersPanel|"
-msgid "..."
-msgstr "..."
-
-#: src/libraries/rwidgets/docks/playerspanel.ui:67
-msgctxt "PlayersPanel|"
-msgid "Add"
-msgstr "新增"
-
-#: src/libraries/rwidgets/docks/playerspanel.ui:75
-msgctxt "PlayersPanel|"
-msgid "remove"
-msgstr "移除"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
 msgctxt "VmapTopBar|"
@@ -6406,27 +6399,27 @@ msgctxt "MRichTextEdit|"
 msgid "Edit document source"
 msgstr ""
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:198
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:201
 msgctxt "MRichTextEdit|"
 msgid "Document source"
 msgstr ""
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:300
 msgctxt "MRichTextEdit|"
 msgid "Create a link"
 msgstr "建立連結"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:300
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
 msgstr "連結網址："
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:682
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:700
 msgctxt "MRichTextEdit|"
 msgid "Select an image"
 msgstr "選擇一張影像"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:683
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:701
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; 全部 (*)"
@@ -7849,148 +7842,183 @@ msgctxt "Image|"
 msgid "%1 - Image"
 msgstr "%1 - 影像"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:208
-#, qt-format
+#: src/libraries/rwidgets/mediacontainers/image.cpp:209
+#, fuzzy, qt-format
+#| msgctxt "Image|"
+#| msgid "%1 - (Picture)"
 msgctxt "Image|"
-msgid "%1 - (Picture)"
+msgid "%1 - (Picture : %2)"
 msgstr "%1 - (圖片)"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:213
+#: src/libraries/rwidgets/mediacontainers/image.cpp:209
+#, fuzzy
+#| msgctxt "PdfViewer|"
+#| msgid "Share"
+msgctxt "Image|"
+msgid "Shared"
+msgstr "分享"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:209
+#, fuzzy
+#| msgctxt "PdfViewer|"
+#| msgid "Share"
+msgctxt "Image|"
+msgid "Unshared"
+msgstr "分享"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
 msgid "Zoom In"
 msgstr "放大"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:214
+#: src/libraries/rwidgets/mediacontainers/image.cpp:215
 msgctxt "Image|"
 msgid "increase zoom level"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:218
+#: src/libraries/rwidgets/mediacontainers/image.cpp:219
 msgctxt "Image|Zoom In"
 msgid "Ctrl++"
 msgstr "Ctrl++"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:223
+#: src/libraries/rwidgets/mediacontainers/image.cpp:224
 msgctxt "Image|"
 msgid "Zoom out"
 msgstr "縮小"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:225
+#: src/libraries/rwidgets/mediacontainers/image.cpp:226
 msgctxt "Image|"
 msgid "Reduce zoom level"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:228
+#: src/libraries/rwidgets/mediacontainers/image.cpp:229
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
 msgstr "Ctrl+-"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:239
+#: src/libraries/rwidgets/mediacontainers/image.cpp:240
 msgctxt "Image|"
 msgid "Fit the workspace"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:241
+#: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:244
+#: src/libraries/rwidgets/mediacontainers/image.cpp:245
 msgctxt "Image|Fit the workspace"
 msgid "Ctrl+m"
 msgstr "Ctrl+m"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:251
+#: src/libraries/rwidgets/mediacontainers/image.cpp:252
 msgctxt "Image|"
 msgid "Fit Window"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:256
+#: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:259
+#: src/libraries/rwidgets/mediacontainers/image.cpp:260
 msgctxt "Image|Fit the window"
 msgid "Ctrl+f"
 msgstr "Ctrl+f"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:266
+#: src/libraries/rwidgets/mediacontainers/image.cpp:267
 msgctxt "Image|"
 msgid "Little"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:267
+#: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:270
+#: src/libraries/rwidgets/mediacontainers/image.cpp:271
 msgctxt "Image|Set the zoom level at 20%"
 msgid "Ctrl+l"
 msgstr "Ctrl+l"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:277
+#: src/libraries/rwidgets/mediacontainers/image.cpp:278
 msgctxt "Image|"
 msgid "Normal"
 msgstr "一般"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:278
+#: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|"
 msgid "No Zoom"
 msgstr "不縮放"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:281
+#: src/libraries/rwidgets/mediacontainers/image.cpp:282
 msgctxt "Image|Normal"
 msgid "Ctrl+n"
 msgstr "Ctrl+n"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:288
+#: src/libraries/rwidgets/mediacontainers/image.cpp:289
 msgctxt "Image|"
 msgid "Big"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:289
+#: src/libraries/rwidgets/mediacontainers/image.cpp:290
 msgctxt "Image|"
 msgid "Set the zoom level at 400%"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:292
+#: src/libraries/rwidgets/mediacontainers/image.cpp:293
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
 msgstr "Ctrl+b"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:297
+#: src/libraries/rwidgets/mediacontainers/image.cpp:298
 msgctxt "Image|"
 msgid "Rename"
 msgstr "重新命名"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:302
+#: src/libraries/rwidgets/mediacontainers/image.cpp:303
 msgctxt "Image|"
 msgid "Define the new name"
 msgstr "定義新名稱"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:302
+#: src/libraries/rwidgets/mediacontainers/image.cpp:303
 msgctxt "Image|"
 msgid "New name:"
 msgstr "新名稱："
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:309
-#: src/libraries/rwidgets/mediacontainers/image.cpp:323
-#: src/libraries/rwidgets/mediacontainers/image.cpp:328
+#: src/libraries/rwidgets/mediacontainers/image.cpp:310
+#: src/libraries/rwidgets/mediacontainers/image.cpp:324
+#: src/libraries/rwidgets/mediacontainers/image.cpp:329
 msgctxt "Image|"
 msgid "Play"
 msgstr "播放"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:311
+#: src/libraries/rwidgets/mediacontainers/image.cpp:312
 msgctxt "Image|"
 msgid "Stop"
 msgstr "停止"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:319
+#: src/libraries/rwidgets/mediacontainers/image.cpp:320
 msgctxt "Image|"
 msgid "Pause"
 msgstr "暫停"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:334
+#: src/libraries/rwidgets/mediacontainers/image.cpp:348
+#, fuzzy
+#| msgctxt "PdfViewer|"
+#| msgid "Share"
+msgctxt "Image|"
+msgid "Share"
+msgstr "分享"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:346
+#, fuzzy
+#| msgctxt "CharacterSheetWindow|"
+#| msgid "Stop Sharing"
+msgctxt "Image|"
+msgid "Stop Sharing"
+msgstr "停止分享"
 
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.cpp:86
 msgctxt "InstantMessagingView|"
@@ -8042,19 +8070,19 @@ msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "唯讀"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:281
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:301
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "正在分享 PDF 檔案"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:302
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfer can be really heavy.\n"
 "Do you want to continue and share the PDF?"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:292
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:312
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -8065,117 +8093,118 @@ msgctxt "PdfViewer|"
 msgid "PdfViewer"
 msgstr "PDF 檢視器"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:26
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:36
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:46
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:56
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:66
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:76
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:86
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:96
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:119
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:176
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:25
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:35
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:45
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:55
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:65
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:75
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:85
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:95
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:105
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:125
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:182
 msgctxt "PdfViewer|"
 msgid "..."
 msgstr "..."
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:139
 msgctxt "PdfViewer|"
 msgid "Fit width"
 msgstr "適應寬度"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:138
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:144
 msgctxt "PdfViewer|"
 msgid "Fit in View"
 msgstr "適合檢視"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:143
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:149
 msgctxt "PdfViewer|"
 msgid "25%"
 msgstr "25%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:148
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:154
 msgctxt "PdfViewer|"
 msgid "50%"
 msgstr "50%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:153
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:159
 msgctxt "PdfViewer|"
 msgid "75%"
 msgstr "75%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:158
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:164
 msgctxt "PdfViewer|"
 msgid "100%"
 msgstr "100%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:163
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:169
 msgctxt "PdfViewer|"
 msgid "150%"
 msgstr "150%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:168
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:174
 msgctxt "PdfViewer|"
 msgid "200%"
 msgstr "200%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:206
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:212
 msgctxt "PdfViewer|"
 msgid "/"
 msgstr "/"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:235
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:241
 msgctxt "PdfViewer|"
 msgid "Bookmarks"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:270
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:276
 msgctxt "PdfViewer|"
 msgid "Pages"
 msgstr "頁面"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:287
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:292
 msgctxt "PdfViewer|"
 msgid "Crop View"
 msgstr "裁切檢視"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:299
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:303
 msgctxt "PdfViewer|"
 msgid "Share"
 msgstr "分享"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:304
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:307
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:308
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:311
 msgctxt "PdfViewer|"
 msgid "Copy"
 msgstr "複製"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:310
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:314
 msgctxt "PdfViewer|"
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:315
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:319
 msgctxt "PdfViewer|"
 msgid "Image"
 msgstr "影像"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:323
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:327
 msgctxt "PdfViewer|"
 msgid "Continuous"
 msgstr ""
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:332
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:335
 msgctxt "PdfViewer|"
 msgid "Zoom In"
 msgstr "放大"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:341
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:343
 msgctxt "PdfViewer|"
 msgid "Zoom Out"
 msgstr "縮小"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:350
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:351
 msgctxt "PdfViewer|"
 msgid "Previous Page"
 msgstr "上一頁"
@@ -8189,6 +8218,14 @@ msgstr "下一頁"
 msgctxt "PdfViewer|"
 msgid "Text"
 msgstr "文字"
+
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Server"
+msgctxt "PdfViewer|"
+msgid "Hide Side Panel"
+msgstr "伺服器"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
@@ -8620,6 +8657,30 @@ msgstr "睡眠中"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr ""
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Show time"
+#~ msgstr "顯示時間"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Color of Time:"
+#~ msgstr "時間顏色："
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Maximum Length:"
+#~ msgstr "最大長度："
+
+#~ msgctxt "PlayersPanel|"
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgctxt "PlayersPanel|"
+#~ msgid "Add"
+#~ msgstr "新增"
+
+#~ msgctxt "PlayersPanel|"
+#~ msgid "remove"
+#~ msgstr "移除"
 
 #~ msgctxt "CharacterList|"
 #~ msgid "Character %1"

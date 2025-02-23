@@ -1057,7 +1057,7 @@ msgid "Open"
 msgstr "Obre"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:826
-#: src/binaries/widget/mainwindow.ui:512
+#: src/binaries/widget/mainwindow.ui:519
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
@@ -1068,7 +1068,7 @@ msgid "Save"
 msgstr "Desa"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:834
-#: src/binaries/widget/mainwindow.ui:386
+#: src/binaries/widget/mainwindow.ui:390
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
@@ -1089,19 +1089,19 @@ msgid "New"
 msgstr "Nou"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:850
-#: src/binaries/widget/mainwindow.ui:257
+#: src/binaries/widget/mainwindow.ui:258
 msgctxt "MainWindow|"
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:855
-#: src/binaries/widget/mainwindow.ui:192
+#: src/binaries/widget/mainwindow.ui:193
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Surt"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:858
-#: src/binaries/widget/mainwindow.ui:195
+#: src/binaries/widget/mainwindow.ui:196
 msgctxt "MainWindow|"
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
@@ -1142,7 +1142,7 @@ msgid "Code To Sheet"
 msgstr "Codi al full"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
-#: src/binaries/widget/mainwindow.ui:457
+#: src/binaries/widget/mainwindow.ui:464
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
@@ -1169,7 +1169,7 @@ msgstr "Preferències"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1025
 #: src/binaries/rcse/mainwindow_rcse.ui:1036
-#: src/binaries/widget/mainwindow.ui:184
+#: src/binaries/widget/mainwindow.ui:185
 msgctxt "MainWindow|"
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
@@ -1217,7 +1217,7 @@ msgid "&Redo"
 msgstr "&Refés"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
-#: src/binaries/widget/mainwindow.ui:427 src/binaries/widget/mainwindow.ui:492
+#: src/binaries/widget/mainwindow.ui:433 src/binaries/widget/mainwindow.ui:499
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
 msgstr "Assistència del Rolisteam"
@@ -1402,7 +1402,7 @@ msgid "Slider"
 msgstr "Control lliscant"
 
 #: src/binaries/rcse/undo/addfieldcommand.cpp:89
-#: src/libraries/core/src/data/cleveruri.cpp:235
+#: src/libraries/core/src/data/cleveruri.cpp:230
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Hidden"
@@ -1670,7 +1670,7 @@ msgstr "Mapa:"
 
 #: src/binaries/widget/mainwindow.cpp:524
 #: src/binaries/widget/mainwindow.cpp:563
-#: src/binaries/widget/mainwindow.cpp:787 src/binaries/widget/mainwindow.ui:287
+#: src/binaries/widget/mainwindow.cpp:787 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Obre una campanya"
@@ -1831,418 +1831,418 @@ msgctxt "MainWindow|"
 msgid "Rolisteam"
 msgstr "Rolisteam"
 
-#: src/binaries/widget/mainwindow.ui:31
+#: src/binaries/widget/mainwindow.ui:32
 msgctxt "MainWindow|"
 msgid "&File"
 msgstr "&Fitxer"
 
-#: src/binaries/widget/mainwindow.ui:35
+#: src/binaries/widget/mainwindow.ui:36
 msgctxt "MainWindow|"
 msgid "&New"
 msgstr "&Nou"
 
-#: src/binaries/widget/mainwindow.ui:44
+#: src/binaries/widget/mainwindow.ui:45
 msgctxt "MainWindow|"
 msgid "&Open"
 msgstr "&Obre"
 
-#: src/binaries/widget/mainwindow.ui:66
+#: src/binaries/widget/mainwindow.ui:67
 msgctxt "MainWindow|"
 msgid "&Panels"
 msgstr "&Plafons"
 
-#: src/binaries/widget/mainwindow.ui:70
+#: src/binaries/widget/mainwindow.ui:71
 msgctxt "MainWindow|"
 msgid "Reorganize"
 msgstr "Reorganitza"
 
-#: src/binaries/widget/mainwindow.ui:81
+#: src/binaries/widget/mainwindow.ui:82
 msgctxt "MainWindow|"
 msgid "&Network"
 msgstr "&Xarxa"
 
-#: src/binaries/widget/mainwindow.ui:93
+#: src/binaries/widget/mainwindow.ui:94
 msgctxt "MainWindow|"
 msgid "&Help"
 msgstr "A&juda"
 
-#: src/binaries/widget/mainwindow.ui:103
+#: src/binaries/widget/mainwindow.ui:104
 msgctxt "MainWindow|"
 msgid "&Edit"
 msgstr "&Edita"
 
-#: src/binaries/widget/mainwindow.ui:114
+#: src/binaries/widget/mainwindow.ui:115
 msgctxt "MainWindow|"
 msgid "&GM ToolBoxes"
 msgstr "Quadres d'eines del &DJ"
 
-#: src/binaries/widget/mainwindow.ui:119
+#: src/binaries/widget/mainwindow.ui:120
 msgctxt "MainWindow|"
 msgid "&Campaign"
 msgstr "&Campanya"
 
-#: src/binaries/widget/mainwindow.ui:135
+#: src/binaries/widget/mainwindow.ui:136
 msgctxt "MainWindow|"
 msgid "&History"
 msgstr "&Historial"
 
-#: src/binaries/widget/mainwindow.ui:153
+#: src/binaries/widget/mainwindow.ui:154
 msgctxt "MainWindow|"
 msgid "toolBar"
 msgstr "Barra d'eines"
 
-#: src/binaries/widget/mainwindow.ui:170
+#: src/binaries/widget/mainwindow.ui:171
 msgctxt "MainWindow|"
 msgid "Close File"
 msgstr "Tanca el fitxer"
 
-#: src/binaries/widget/mainwindow.ui:173
+#: src/binaries/widget/mainwindow.ui:174
 msgctxt "MainWindow|"
 msgid "Ctrl+Esc"
 msgstr "Ctrl+Esc"
 
-#: src/binaries/widget/mainwindow.ui:181
+#: src/binaries/widget/mainwindow.ui:182
 msgctxt "MainWindow|"
 msgid "Preferences…"
 msgstr "Preferències…"
 
 # skip-rule: kct-tab
-#: src/binaries/widget/mainwindow.ui:203
+#: src/binaries/widget/mainwindow.ui:204
 msgctxt "MainWindow|"
 msgid "Tab"
 msgstr "Tab"
 
-#: src/binaries/widget/mainwindow.ui:206
+#: src/binaries/widget/mainwindow.ui:207
 msgctxt "MainWindow|"
 msgid "F2"
 msgstr "F2"
 
-#: src/binaries/widget/mainwindow.ui:211
+#: src/binaries/widget/mainwindow.ui:212
 msgctxt "MainWindow|"
 msgid "Cascade"
 msgstr "Cascada"
 
-#: src/binaries/widget/mainwindow.ui:214 src/binaries/widget/mainwindow.ui:315
+#: src/binaries/widget/mainwindow.ui:215 src/binaries/widget/mainwindow.ui:316
 msgctxt "MainWindow|"
 msgid "Alt+C"
 msgstr "Alt+C"
 
-#: src/binaries/widget/mainwindow.ui:219
+#: src/binaries/widget/mainwindow.ui:220
 msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Mosaic"
 
-#: src/binaries/widget/mainwindow.ui:222
+#: src/binaries/widget/mainwindow.ui:223
 msgctxt "MainWindow|"
 msgid "Alt+T"
 msgstr "Alt+T"
 
-#: src/binaries/widget/mainwindow.ui:227
+#: src/binaries/widget/mainwindow.ui:228
 msgctxt "MainWindow|"
 msgid "Disconnection…"
 msgstr "Desconnexió…"
 
-#: src/binaries/widget/mainwindow.ui:232
+#: src/binaries/widget/mainwindow.ui:233
 msgctxt "MainWindow|"
 msgid "Rolisteam Help"
 msgstr "Ajuda del Rolisteam"
 
-#: src/binaries/widget/mainwindow.ui:235
+#: src/binaries/widget/mainwindow.ui:236
 msgctxt "MainWindow|"
 msgid "online documentation"
 msgstr "documentació en línia"
 
-#: src/binaries/widget/mainwindow.ui:238
+#: src/binaries/widget/mainwindow.ui:239
 msgctxt "MainWindow|"
 msgid "F1"
 msgstr "F1"
 
-#: src/binaries/widget/mainwindow.ui:246
+#: src/binaries/widget/mainwindow.ui:247
 msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Quant al Rolisteam"
 
-#: src/binaries/widget/mainwindow.ui:254 src/binaries/widget/mainwindow.ui:276
+#: src/binaries/widget/mainwindow.ui:255 src/binaries/widget/mainwindow.ui:277
 msgctxt "MainWindow|"
 msgid "Note"
 msgstr "Nota"
 
-#: src/binaries/widget/mainwindow.ui:265
+#: src/binaries/widget/mainwindow.ui:266
 msgctxt "MainWindow|"
 msgid "Picture"
 msgstr "Imatge"
 
-#: src/binaries/widget/mainwindow.ui:268
+#: src/binaries/widget/mainwindow.ui:269
 msgctxt "MainWindow|"
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
-#: src/binaries/widget/mainwindow.ui:279
+#: src/binaries/widget/mainwindow.ui:280
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+N"
 msgstr "Ctrl+Maj+N"
 
-#: src/binaries/widget/mainwindow.ui:290
+#: src/binaries/widget/mainwindow.ui:291
 msgctxt "MainWindow|"
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: src/binaries/widget/mainwindow.ui:298
+#: src/binaries/widget/mainwindow.ui:299
 msgctxt "MainWindow|"
 msgid "Online Picture"
 msgstr "Imatge en línia"
 
-#: src/binaries/widget/mainwindow.ui:301
+#: src/binaries/widget/mainwindow.ui:302
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
 msgstr "Ctrl+Maj+I"
 
-#: src/binaries/widget/mainwindow.ui:312
+#: src/binaries/widget/mainwindow.ui:313
 msgctxt "MainWindow|"
 msgid "Character List"
 msgstr "Llista de personatges"
 
-#: src/binaries/widget/mainwindow.ui:323
+#: src/binaries/widget/mainwindow.ui:324
 msgctxt "MainWindow|"
 msgid "ToolBar"
 msgstr "Barra d'eines"
 
-#: src/binaries/widget/mainwindow.ui:326
+#: src/binaries/widget/mainwindow.ui:327
 msgctxt "MainWindow|"
 msgid "F8"
 msgstr "F8"
 
-#: src/binaries/widget/mainwindow.ui:334 src/binaries/widget/mainwindow.ui:345
+#: src/binaries/widget/mainwindow.ui:336 src/binaries/widget/mainwindow.ui:348
 msgctxt "MainWindow|"
 msgid "Map"
 msgstr "Mapa"
 
-#: src/binaries/widget/mainwindow.ui:337
+#: src/binaries/widget/mainwindow.ui:339
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: src/binaries/widget/mainwindow.ui:348
+#: src/binaries/widget/mainwindow.ui:351
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+M"
 msgstr "Ctrl+Maj+M"
 
-#: src/binaries/widget/mainwindow.ui:356
+#: src/binaries/widget/mainwindow.ui:359
 msgctxt "MainWindow|"
 msgid "Show Health State"
 msgstr "Mostra l'estat de salut"
 
-#: src/binaries/widget/mainwindow.ui:359
+#: src/binaries/widget/mainwindow.ui:362
 msgctxt "MainWindow|"
 msgid "F6"
 msgstr "F6"
 
-#: src/binaries/widget/mainwindow.ui:364
+#: src/binaries/widget/mainwindow.ui:367
 msgctxt "MainWindow|"
 msgid "Change Profile…"
 msgstr "Canvia el perfil…"
 
-#: src/binaries/widget/mainwindow.ui:372
+#: src/binaries/widget/mainwindow.ui:376
 msgctxt "MainWindow|"
 msgid "Character Sheet"
 msgstr "Full de personatge"
 
-#: src/binaries/widget/mainwindow.ui:375
+#: src/binaries/widget/mainwindow.ui:379
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
-#: src/binaries/widget/mainwindow.ui:383
+#: src/binaries/widget/mainwindow.ui:387
 msgctxt "MainWindow|"
 msgid "Save Campaign"
 msgstr "Desa la campanya"
 
-#: src/binaries/widget/mainwindow.ui:394
+#: src/binaries/widget/mainwindow.ui:398
 msgctxt "MainWindow|"
 msgid "Room List"
 msgstr "Llista de sales"
 
-#: src/binaries/widget/mainwindow.ui:397
+#: src/binaries/widget/mainwindow.ui:401
 msgctxt "MainWindow|"
 msgid "F10"
 msgstr "F10"
 
-#: src/binaries/widget/mainwindow.ui:405 src/binaries/widget/mainwindow.ui:416
+#: src/binaries/widget/mainwindow.ui:410 src/binaries/widget/mainwindow.ui:422
 msgctxt "MainWindow|"
 msgid "Shared Note"
 msgstr "Nota compartida"
 
-#: src/binaries/widget/mainwindow.ui:408
+#: src/binaries/widget/mainwindow.ui:413
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: src/binaries/widget/mainwindow.ui:419
+#: src/binaries/widget/mainwindow.ui:425
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+K"
 msgstr "Ctrl+Maj+K"
 
-#: src/binaries/widget/mainwindow.ui:432
+#: src/binaries/widget/mainwindow.ui:438
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
 msgstr "Visualitzador de dreceres…"
 
-#: src/binaries/widget/mainwindow.ui:435
+#: src/binaries/widget/mainwindow.ui:441
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
 msgstr "Ctrl+F1"
 
-#: src/binaries/widget/mainwindow.ui:443
+#: src/binaries/widget/mainwindow.ui:449
 msgctxt "MainWindow|"
 msgid "Full Screen"
 msgstr "Pantalla completa"
 
-#: src/binaries/widget/mainwindow.ui:446
+#: src/binaries/widget/mainwindow.ui:452
 msgctxt "MainWindow|"
 msgid "F11"
 msgstr "F11"
 
-#: src/binaries/widget/mainwindow.ui:454
+#: src/binaries/widget/mainwindow.ui:461
 msgctxt "MainWindow|"
 msgid "PDF File"
 msgstr "Fitxer PDF"
 
-#: src/binaries/widget/mainwindow.ui:462
+#: src/binaries/widget/mainwindow.ui:469
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
 msgstr "Copia l'enllaç de connexió…"
 
-#: src/binaries/widget/mainwindow.ui:470
+#: src/binaries/widget/mainwindow.ui:477
 msgctxt "MainWindow|"
 msgid "WebPage"
 msgstr "Pàgina web"
 
-#: src/binaries/widget/mainwindow.ui:473
+#: src/binaries/widget/mainwindow.ui:480
 msgctxt "MainWindow|"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/binaries/widget/mainwindow.ui:478
+#: src/binaries/widget/mainwindow.ui:485
 msgctxt "MainWindow|"
 msgid "Password Generator"
 msgstr "Generador de contrasenyes"
 
-#: src/binaries/widget/mainwindow.ui:483
+#: src/binaries/widget/mainwindow.ui:490
 msgctxt "MainWindow|"
 msgid "Current Media as…"
 msgstr "Fitxer multimèdia actual com a…"
 
-#: src/binaries/widget/mainwindow.ui:500
+#: src/binaries/widget/mainwindow.ui:507
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
 msgstr "Títol del fitxer multimèdia a la barra d'eines"
 
-#: src/binaries/widget/mainwindow.ui:509 src/binaries/widget/mainwindow.ui:521
+#: src/binaries/widget/mainwindow.ui:516 src/binaries/widget/mainwindow.ui:528
 msgctxt "MainWindow|"
 msgid "Mindmap"
 msgstr "Mapa mental"
 
-#: src/binaries/widget/mainwindow.ui:524
+#: src/binaries/widget/mainwindow.ui:531
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Maj+O"
 
-#: src/binaries/widget/mainwindow.ui:536
+#: src/binaries/widget/mainwindow.ui:543
 msgctxt "MainWindow|"
 msgid "Instant messaging"
 msgstr "Missatgeria instantània"
 
-#: src/binaries/widget/mainwindow.ui:539
+#: src/binaries/widget/mainwindow.ui:546
 msgctxt "MainWindow|"
 msgid "Instant Messaging Window"
 msgstr "Finestra de missatgeria instantània"
 
-#: src/binaries/widget/mainwindow.ui:542
+#: src/binaries/widget/mainwindow.ui:549
 msgctxt "MainWindow|"
 msgid "Alt+I"
 msgstr "Alt+I"
 
-#: src/binaries/widget/mainwindow.ui:550
+#: src/binaries/widget/mainwindow.ui:557
 msgctxt "MainWindow|"
 msgid "Copy"
 msgstr "Copia"
 
-#: src/binaries/widget/mainwindow.ui:553
+#: src/binaries/widget/mainwindow.ui:560
 msgctxt "MainWindow|"
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/binaries/widget/mainwindow.ui:564
+#: src/binaries/widget/mainwindow.ui:571
 msgctxt "MainWindow|"
 msgid "Paste"
 msgstr "Enganxa"
 
-#: src/binaries/widget/mainwindow.ui:567
+#: src/binaries/widget/mainwindow.ui:574
 msgctxt "MainWindow|"
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/binaries/widget/mainwindow.ui:575
+#: src/binaries/widget/mainwindow.ui:582
 msgctxt "MainWindow|"
 msgid "Properties"
 msgstr "Propietats"
 
-#: src/binaries/widget/mainwindow.ui:580
+#: src/binaries/widget/mainwindow.ui:587
 msgctxt "MainWindow|"
 msgid "Dice Alias"
 msgstr "Àlies del dau"
 
-#: src/binaries/widget/mainwindow.ui:585
+#: src/binaries/widget/mainwindow.ui:592
 msgctxt "MainWindow|"
 msgid "Character States"
 msgstr "Estats dels personatges"
 
-#: src/binaries/widget/mainwindow.ui:590
+#: src/binaries/widget/mainwindow.ui:597
 msgctxt "MainWindow|"
 msgid "Statistics"
 msgstr "Estadístiques"
 
-#: src/binaries/widget/mainwindow.ui:595
+#: src/binaries/widget/mainwindow.ui:602
 msgctxt "MainWindow|"
 msgid "Theme"
 msgstr "Tema"
 
-#: src/binaries/widget/mainwindow.ui:600
+#: src/binaries/widget/mainwindow.ui:607
 msgctxt "MainWindow|"
 msgid "New Campaign"
 msgstr "Campanya nova"
 
-#: src/binaries/widget/mainwindow.ui:605
+#: src/binaries/widget/mainwindow.ui:612
 msgctxt "MainWindow|"
 msgid "Save Campaign As…"
 msgstr "Desa la campanya com a…"
 
-#: src/binaries/widget/mainwindow.ui:610
+#: src/binaries/widget/mainwindow.ui:617
 msgctxt "MainWindow|"
 msgid "Non Playable Characters"
 msgstr "Personatges que no poden jugar"
 
-#: src/binaries/widget/mainwindow.ui:615
+#: src/binaries/widget/mainwindow.ui:622
 msgctxt "MainWindow|"
 msgid "Manage…"
 msgstr "Gestiona…"
 
-#: src/binaries/widget/mainwindow.ui:620
+#: src/binaries/widget/mainwindow.ui:627
 msgctxt "MainWindow|"
 msgid "Remove…"
 msgstr "Elimina…"
 
-#: src/binaries/widget/mainwindow.ui:625
+#: src/binaries/widget/mainwindow.ui:632
 msgctxt "MainWindow|"
 msgid "Clean"
 msgstr "Neteja"
 
-#: src/binaries/widget/mainwindow.ui:633
+#: src/binaries/widget/mainwindow.ui:640
 msgctxt "MainWindow|"
 msgid "Import from another campaign…"
 msgstr "Importa des d'una altra campanya…"
 
-#: src/binaries/widget/mainwindow.ui:641
+#: src/binaries/widget/mainwindow.ui:652
 msgctxt "MainWindow|"
 msgid "Dice3D"
 msgstr "Dice3D"
@@ -2521,12 +2521,12 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "Proporcioneu aquest fitxer als desenvolupadors del Rolisteam"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:426
+#: src/libraries/core/src/controller/contentcontroller.cpp:448
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Imatge copiada"
 
-#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:121
+#: src/libraries/core/src/controller/instantmessagingcontroller.cpp:129
 msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Global"
@@ -2572,26 +2572,26 @@ msgctxt "QObject|"
 msgid "Unknown Character"
 msgstr "Personatge desconegut"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:279
 #: src/libraries/rwidgets/graphicsItems/visualitem.cpp:41
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:56
 msgctxt "QObject|"
 msgid "Character"
 msgstr "Personatge"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:279
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:54
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Terreny"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:279
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:55
 msgctxt "QObject|"
 msgid "Object"
 msgstr "Objecte"
 
-#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:274
+#: src/libraries/core/src/controller/view_controller/vectorialmapcontroller.cpp:279
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:57
 msgctxt "QObject|"
 msgid "GameMaster"
@@ -2602,55 +2602,55 @@ msgctxt "Campaign|"
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: src/libraries/core/src/data/campaign.cpp:271
+#: src/libraries/core/src/data/campaign.cpp:277
 msgctxt "Campaign|"
 msgid "Pattern"
 msgstr "Patró"
 
-#: src/libraries/core/src/data/campaign.cpp:271
+#: src/libraries/core/src/data/campaign.cpp:277
 msgctxt "Campaign|"
 msgid "Command"
 msgstr "Ordre"
 
-#: src/libraries/core/src/data/campaign.cpp:271
+#: src/libraries/core/src/data/campaign.cpp:277
 msgctxt "Campaign|"
 msgid "Comment"
 msgstr "Comentari"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:58
+#: src/libraries/core/src/data/campaignmanager.cpp:55
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr "No és possible crear una plantilla de campanya a %1"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:134
+#: src/libraries/core/src/data/campaignmanager.cpp:143
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
 msgstr ""
 "Ha fallat la creació de la plantilla de campanya en aquesta ubicació: %1"
 
-#: src/libraries/core/src/data/chatroom.cpp:155
+#: src/libraries/core/src/data/chatroom.cpp:162
 msgctxt "ChatRoom|"
 msgid "No Diceparser Object"
 msgstr "No hi ha cap objecte Diceparser"
 
-#: src/libraries/core/src/data/cleveruri.cpp:230
+#: src/libraries/core/src/data/cleveruri.cpp:225
 msgctxt "QObject|"
 msgid "Internal"
 msgstr "Intern"
 
-#: src/libraries/core/src/data/cleveruri.cpp:230
+#: src/libraries/core/src/data/cleveruri.cpp:225
 msgctxt "QObject|"
 msgid "Linked"
 msgstr "Enllaçat"
 
-#: src/libraries/core/src/data/cleveruri.cpp:235
+#: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Closed"
 msgstr "Tancat"
 
-#: src/libraries/core/src/data/cleveruri.cpp:235
+#: src/libraries/core/src/data/cleveruri.cpp:230
 msgctxt "QObject|"
 msgid "Displayed"
 msgstr "Visualitzat"
@@ -2735,33 +2735,33 @@ msgctxt "HistoryModel|"
 msgid "bookmarked"
 msgstr "afegida a les adreces d'interès"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Name"
 msgstr "Nom"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Size"
 msgstr "Mida"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Type"
 msgstr "Tipus"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Date Added"
 msgstr "Data d'alta"
 
-#: src/libraries/core/src/model/mediamodel.cpp:235
+#: src/libraries/core/src/model/mediamodel.cpp:236
 msgctxt "MediaModel|"
 msgid "Date Modified"
 msgstr "Data de modificació"
 
-#: src/libraries/core/src/model/messagemodel.cpp:95
-#: src/libraries/core/src/model/messagemodel.cpp:101
+#: src/libraries/core/src/model/messagemodel.cpp:98
+#: src/libraries/core/src/model/messagemodel.cpp:104
 msgctxt "MessageModel|"
 msgid "Invalid Person"
 msgstr "Persona no vàlida"
@@ -3222,7 +3222,7 @@ msgctxt "ImportImageState|"
 msgid "Import media: %1"
 msgstr "Importa fitxers multimèdia: %1"
 
-#: src/libraries/core/src/undoCmd/importmedia.cpp:41
+#: src/libraries/core/src/undoCmd/importmedia.cpp:43
 #, qt-format
 msgctxt "ImportMedia|"
 msgid "Import media: %1"
@@ -3264,7 +3264,7 @@ msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
 msgstr "No s'ha pogut crear «%1»"
 
-#: src/libraries/core/src/worker/fileserializer.cpp:103
+#: src/libraries/core/src/worker/fileserializer.cpp:124
 #, qt-format
 msgctxt "QObject|"
 msgid "Error: %1 does not exist or it is not readable."
@@ -3608,7 +3608,7 @@ msgid "Name"
 msgstr "Nom"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:42
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:28
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:27
 msgctxt "SideMenu|"
 msgid "Night Mode"
 msgstr "Mode nocturn"
@@ -3772,7 +3772,7 @@ msgctxt "ChatView|"
 msgid "Reatach"
 msgstr "Torna a unir"
 
-#: src/libraries/qml_views/InstantMessaging/ChatView.qml:100
+#: src/libraries/qml_views/InstantMessaging/ChatView.qml:101
 msgctxt "ChatView|"
 msgid "close"
 msgstr "Tanca"
@@ -3799,32 +3799,56 @@ msgctxt "InstantMessagingEditText|"
 msgid "send"
 msgstr "Envia"
 
-#: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:35
+#: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:43
 msgctxt "InstantMessagingMain|"
 msgid "Settings"
 msgstr "Configuració"
 
-#: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:39
+#: src/libraries/qml_views/InstantMessaging/InstantMessagingMain.qml:47
 msgctxt "InstantMessagingMain|"
 msgid "Add chatroom"
 msgstr "Afegeix una sala de xat"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:37
+#: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Player"
+msgctxt "RecipiantsView|"
+msgid "Players:"
+msgstr "Jugador"
+
+#: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
+#, fuzzy
+#| msgctxt "BorderListEditor|"
+#| msgid "All"
+msgctxt "RecipiantsView|"
+msgid "All"
+msgstr "Tot"
+
+#: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
+#, fuzzy
+#| msgctxt "ChannelListPanel|"
+#| msgid "Ban User"
+msgctxt "RecipiantsView|"
+msgid "Add User"
+msgstr "Veta l'usuari"
+
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
 msgid "Sound Notification"
 msgstr "Notificació de so"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:48
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:53
 msgctxt "SideMenu|"
 msgid "Select Font…"
 msgstr "Selecció de la lletra…"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:55
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:60
 msgctxt "SideMenu|"
 msgid "Font Family:"
 msgstr "Família de la lletra:"
 
-#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:61
+#: src/libraries/qml_views/InstantMessaging/SideMenu.qml:66
 msgctxt "SideMenu|"
 msgid "Font size:"
 msgstr "Mida de la lletra:"
@@ -4200,7 +4224,7 @@ msgctxt "PlayerWidgetUI|"
 msgid "Move down selected directory "
 msgstr "Mou avall el directori seleccionat "
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:213
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:217
 #, qt-format
 msgctxt "RGraphicsView|"
 msgid "%n item(s)"
@@ -4208,264 +4232,264 @@ msgid_plural "%n item(s)"
 msgstr[0] "%n element"
 msgstr[1] "%n elements"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:243
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:247
 msgctxt "RGraphicsView|"
 msgid "Overlapping"
 msgstr "Superposa"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:249
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
 msgctxt "RGraphicsView|"
 msgid "Rotate"
 msgstr "Gira"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:250
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:254
 msgctxt "RGraphicsView|"
 msgid "To 360"
 msgstr "A 360"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:251
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:255
 msgctxt "RGraphicsView|"
 msgid "Right"
 msgstr "Dreta"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:252
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:256
 msgctxt "RGraphicsView|"
 msgid "Left"
 msgstr "Esquerra"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:253
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:257
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
 msgstr "Estableix l'angle…"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:255
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:259
 msgctxt "RGraphicsView|"
 msgid "Set Layer"
 msgstr "Estableix la capa"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:265
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:269
 msgctxt "RGraphicsView|"
 msgid "Normalize Size"
 msgstr "Normalitza la mida"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:275
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:279
 msgctxt "RGraphicsView|"
 msgid "Map"
 msgstr "Mapa"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:293
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:297
 msgctxt "RGraphicsView|"
 msgid "Edit Layer"
 msgstr "Editar la capa"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:299
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:303
 msgctxt "RGraphicsView|"
 msgid "Change Visibility"
 msgstr "Canvia la visibilitat"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:304
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:308
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
 msgstr "Inicialització de tirada"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:310
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
 msgid "Clear Init"
 msgstr "Neteja la inicialització"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:316
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:320
 msgctxt "RGraphicsView|"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:380
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:384
 msgctxt "RGraphicsView|"
 msgid "Rotation Value ?"
 msgstr "Valor del gir?"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:381
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:385
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
 msgstr "Establiu l'angle del gir que desitgeu [0-360]"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:507
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:511
 msgctxt "RGraphicsView|"
 msgid "Zoom to Normal"
 msgstr "Zoom normal"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:508
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:512
 msgctxt "RGraphicsView|"
 msgid "Zoom In Max"
 msgstr "Apropament màxim"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:509
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:513
 msgctxt "RGraphicsView|"
 msgid "Zoom Out Max"
 msgstr "Allunyament màxim"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:510
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:514
 msgctxt "RGraphicsView|"
 msgid "Center on Item"
 msgstr "Centra en l'element"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:512
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:516
 msgctxt "RGraphicsView|"
 msgid "Zoom In"
 msgstr "Apropa"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:515
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:519
 msgctxt "RGraphicsView|"
 msgid "Zoom Out"
 msgstr "Allunya"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:518
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:522
 msgctxt "RGraphicsView|"
 msgid "Remove"
 msgstr "Elimina"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:528
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:532
 msgctxt "RGraphicsView|"
 msgid "Import Image"
 msgstr "Importa una imatge"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:538
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:574
 msgctxt "RGraphicsView|"
 msgid "Back"
 msgstr "Part posterior"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:542
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:578
 msgctxt "RGraphicsView|"
 msgid "Front"
 msgstr "Part davantera"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:546
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:582
 msgctxt "RGraphicsView|"
 msgid "Lower"
 msgstr "Baixa"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:550
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:586
 msgctxt "RGraphicsView|"
 msgid "Raise"
 msgstr "Eleva"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:554
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:590
 msgctxt "RGraphicsView|"
 msgid "Average"
 msgstr "Mitjana"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:557
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:593
 msgctxt "RGraphicsView|"
 msgid "As undermouse item"
 msgstr "Com a element sota el ratolí"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:560
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:596
 msgctxt "RGraphicsView|"
 msgid "As the Bigger"
 msgstr "Com el més gran"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:563
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:599
 msgctxt "RGraphicsView|"
 msgid "As the Smaller"
 msgstr "Com el més petit"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:566
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:602
 msgctxt "RGraphicsView|"
 msgid "Lock/Unlock Item Geometry"
 msgstr "Bloqueja o desbloqueja la geometria de l'element"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:567
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:603
 msgctxt "RGraphicsView|"
 msgid "Duplicate Item"
 msgstr "Duplica l'element"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:577
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:613
 msgctxt "RGraphicsView|"
 msgid "Properties"
 msgstr "Propietats"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:582
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:600
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:618
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:636
 msgctxt "RGraphicsView|"
 msgid "Ground"
 msgstr "Terreny"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:585
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:603
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:621
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:639
 msgctxt "RGraphicsView|"
 msgid "Object"
 msgstr "Objecte"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:588
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:606
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:624
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:642
 msgctxt "RGraphicsView|"
 msgid "Character"
 msgstr "Personatge"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:591
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:609
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:627
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:645
 msgctxt "RGraphicsView|"
 msgid "GameMaster"
 msgstr "Director de joc"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:619
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:655
 msgctxt "RGraphicsView|"
 msgid "All"
 msgstr "Tot"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:622
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:658
 msgctxt "RGraphicsView|"
 msgid "Hidden"
 msgstr "Ocult"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:626
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:662
 msgctxt "RGraphicsView|"
 msgid "Fog Of War"
 msgstr "Boira de guerra"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:638
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:653
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:674
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:689
 msgctxt "RGraphicsView|"
 msgid "All Npcs"
 msgstr "Tots els PNJ"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:639
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:675
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
 msgstr "Iniciativa de tirada de tots els PNJ"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:643
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:658
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:679
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:694
 msgctxt "RGraphicsView|"
 msgid "Selection"
 msgstr "Selecció"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:644
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:680
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on Selection"
 msgstr "Iniciativa de tirada de la selecció"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:648
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:663
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:684
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:699
 msgctxt "RGraphicsView|"
 msgid "All Characters"
 msgstr "Tots els personatges"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:649
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:685
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
 msgstr "Iniciativa de tirada de tots els personatges"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:654
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:690
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Npcs"
 msgstr "Neteja la iniciativa de tots els PNJ"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:659
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:695
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on Selection"
 msgstr "Neteja la iniciativa de la selecció"
 
-#: src/libraries/rwidgets/customs/rgraphicsview.cpp:664
+#: src/libraries/rwidgets/customs/rgraphicsview.cpp:700
 msgctxt "RGraphicsView|"
 msgid "Clear Initiative on All Characters"
 msgstr "Neteja la iniciativa de tots els personatges"
@@ -5018,70 +5042,70 @@ msgctxt "PreferencesDialog|"
 msgid "Preferences"
 msgstr "Preferències"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:319
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:305
 msgctxt "PreferencesDialog|"
 msgid "Images (*.png *.xpm *.jpg *.gif *.bmp)"
 msgstr "Imatges (*.png *.xpm *.jpg *.gif *.bmp)"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:399
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:383
 msgctxt "PreferencesDialog|"
 msgid "Css Editor"
 msgstr "Editor de CSS"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:399
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:383
 msgctxt "PreferencesDialog|"
 msgid "Css"
 msgstr "CSS"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:430
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:414
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "<li>Image Format : %1 value %2</li>"
 msgstr "<li>Format d'imatge: %1 valor %2</li>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:431
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:415
 msgctxt "PreferencesDialog|"
 msgid "<h2>Supported Image Formats:</h2><ul>"
 msgstr "<h2>Formats d'imatge admesos:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:438
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:422
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Image Format"
 msgstr "</ul>Final de format d'imatge"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:441
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:425
 msgctxt "PreferencesDialog|"
 msgid "<h2>Font families:</h2><ul>"
 msgstr "<h2>Famílies de lletres:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:448
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:432
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Font families"
 msgstr "</ul>Final de famílies de lletres"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:451
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:435
 msgctxt "PreferencesDialog|"
 msgid "<h2>Audio file formats Support:</h2><ul>"
 msgstr "<h2>Formats de fitxer d'àudio admesos:</h2><ul>"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:486
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:470
 msgctxt "PreferencesDialog|"
 msgid "</ul>End of Supported Audio file formats"
 msgstr "</ul>Formats de fitxer d'àudio admesos"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:503
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:487
 msgctxt "PreferencesDialog|"
 msgid "Export Rolisteam Theme"
 msgstr "Exporta un tema del Rolisteam"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:505
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:514
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:489
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:498
 #, qt-format
 msgctxt "PreferencesDialog|"
 msgid "Rolisteam Theme: %1"
 msgstr "Tema del Rolisteam: %1"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:513
+#: src/libraries/rwidgets/dialogs/preferencesdialog.cpp:497
 msgctxt "PreferencesDialog|"
 msgid "Import Rolisteam Theme"
 msgstr "Importa un tema del Rolisteam"
@@ -5243,227 +5267,212 @@ msgctxt "PreferencesDialogBox|"
 msgid "Messaging"
 msgstr "Missatgeria"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:465
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:463
 msgctxt "PreferencesDialogBox|"
-msgid "Show time"
-msgstr "Mostra l'hora"
+msgid "Save chatrooms data"
+msgstr ""
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:485
-msgctxt "PreferencesDialogBox|"
-msgid "Color of Time:"
-msgstr "Color de l'hora:"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:503
-msgctxt "PreferencesDialogBox|"
-msgid "Hide Long commands"
-msgstr "Oculta les ordres llargues"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
-msgctxt "PreferencesDialogBox|"
-msgid "Maximum Length:"
-msgstr "Longitud màxima:"
-
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:561
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:486
 msgctxt "PreferencesDialogBox|"
 msgid "* : need restart"
 msgstr "*: cal reiniciar"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:569
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:494
 msgctxt "PreferencesDialogBox|"
 msgid "External Editors"
 msgstr "Editors externs"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:575
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:500
 msgctxt "PreferencesDialogBox|"
 msgid "RCSE"
 msgstr "RCSE"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:581
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:506
 msgctxt "PreferencesDialogBox|"
 msgid "Path:"
 msgstr "Camí:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:591
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:516
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters:"
 msgstr "Paràmetres:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:598
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:631
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:664
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:556
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:589
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1"
 msgstr "%1"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:608
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:533
 msgctxt "PreferencesDialogBox|"
 msgid "MindMap"
 msgstr "Mapa mental"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:614
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:539
 msgctxt "PreferencesDialogBox|"
 msgid "Path"
 msgstr "Camí"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:624
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:657
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:549
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:582
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters"
 msgstr "Paràmetres"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:641
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:566
 msgctxt "PreferencesDialogBox|"
 msgid "Text Editor"
 msgstr "Editor de text"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:647
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:572
 msgctxt "PreferencesDialogBox|"
 msgid "TextLabel"
 msgstr "EtiquetaDeText"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:687
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:612
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1 is a placeholder for the filename of the file."
 msgstr "%1 és un marcador de posició per al nom de fitxer del fitxer."
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:695
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:620
 msgctxt "PreferencesDialogBox|"
 msgid "Themes"
 msgstr "Temes"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:701
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:626
 msgctxt "PreferencesDialogBox|"
 msgid "Theme"
 msgstr "Tema"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:711
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:636
 msgctxt "PreferencesDialogBox|"
 msgid "Current Theme*"
 msgstr "Tema actual*"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:718
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:643
 msgctxt "PreferencesDialogBox|"
 msgid "Theme name"
 msgstr "Nom del tema"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:725
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:650
 msgctxt "PreferencesDialogBox|"
 msgid "Styles:"
 msgstr "Estils:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:741
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:666
 msgctxt "PreferencesDialogBox|"
 msgid "Copy"
 msgstr "Copia"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:748
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:673
 msgctxt "PreferencesDialogBox|"
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:765
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:690
 msgctxt "PreferencesDialogBox|"
 msgid "Css:"
 msgstr "CSS:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:772
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:697
 msgctxt "PreferencesDialogBox|"
 msgid "Edit..."
 msgstr "Edita..."
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:798
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:723
 msgctxt "PreferencesDialogBox|"
 msgid "Background"
 msgstr "Fons"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:806
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:731
 msgctxt "PreferencesDialogBox|"
 msgid "Color:"
 msgstr "Color:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:837
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:762
 msgctxt "PreferencesDialogBox|"
 msgid "Image:"
 msgstr "Imatge:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:851
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:776
 msgctxt "PreferencesDialogBox|"
 msgid "Positioning:"
 msgstr "Posicionament:"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:859
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:784
 msgctxt "PreferencesDialogBox|"
 msgid "TopLeftCorner"
 msgstr "Cantonada esquerra superior"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:864
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:789
 msgctxt "PreferencesDialogBox|"
 msgid "BottomLeftCorner"
 msgstr "Cantonada esquerra inferior"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:869
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:794
 msgctxt "PreferencesDialogBox|"
 msgid "Center"
 msgstr "Centre"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:874
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:799
 msgctxt "PreferencesDialogBox|"
 msgid "TopRightCorner"
 msgstr "Cantonada dreta superior"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:879
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:804
 msgctxt "PreferencesDialogBox|"
 msgid "BottomRightCorner"
 msgstr "Cantonada dreta inferior"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:884
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:809
 msgctxt "PreferencesDialogBox|"
 msgid "Scaled"
 msgstr "Escalat"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:889
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:814
 msgctxt "PreferencesDialogBox|"
 msgid "Filled"
 msgstr "Farcit"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:894
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:819
 msgctxt "PreferencesDialogBox|"
 msgid "Repeated"
 msgstr "Repetit"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:909
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:834
 msgctxt "PreferencesDialogBox|"
 msgid "Dice Highlight Color"
 msgstr "Color de ressaltat del dau"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:938
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:863
 msgctxt "PreferencesDialogBox|"
 msgid "Color Palette"
 msgstr "Paleta de colors"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:950
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:875
 msgctxt "PreferencesDialogBox|"
 msgid "*: need restart"
 msgstr "*: need restart"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:970
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:895
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
 msgstr "Importa…"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:977
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:902
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
 msgstr "Exporta…"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:990
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:915
 msgctxt "PreferencesDialogBox|"
 msgid "Diagnostic"
 msgstr "Diagnòstic"
 
-#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:1018
+#: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:943
 msgctxt "PreferencesDialogBox|"
 msgid "Start"
 msgstr "Inici"
@@ -6155,27 +6164,11 @@ msgctxt "NotificationZone|"
 msgid "Notification Zone"
 msgstr "Zona de notificacions"
 
-#: src/libraries/rwidgets/docks/playerspanel.cpp:56
+#: src/libraries/rwidgets/docks/playerspanel.cpp:44
 #: src/libraries/rwidgets/docks/playerspanel.ui:14
 msgctxt "PlayersPanel|"
 msgid "Player List"
 msgstr "Llista de jugadors"
-
-#: src/libraries/rwidgets/docks/playerspanel.ui:27
-#: src/libraries/rwidgets/docks/playerspanel.ui:50
-msgctxt "PlayersPanel|"
-msgid "..."
-msgstr "..."
-
-#: src/libraries/rwidgets/docks/playerspanel.ui:67
-msgctxt "PlayersPanel|"
-msgid "Add"
-msgstr "Afegeix"
-
-#: src/libraries/rwidgets/docks/playerspanel.ui:75
-msgctxt "PlayersPanel|"
-msgid "remove"
-msgstr "elimina"
 
 #: src/libraries/rwidgets/docks/vmaptoolbar.cpp:33
 msgctxt "VmapTopBar|"
@@ -6353,27 +6346,27 @@ msgctxt "MRichTextEdit|"
 msgid "Edit document source"
 msgstr "Edita el codi font del document"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:198
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:201
 msgctxt "MRichTextEdit|"
 msgid "Document source"
 msgstr "Codi font del document"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:300
 msgctxt "MRichTextEdit|"
 msgid "Create a link"
 msgstr "Crea un enllaç"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:297
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:300
 msgctxt "MRichTextEdit|"
 msgid "Link URL:"
 msgstr "URL de l'enllaç:"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:682
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:700
 msgctxt "MRichTextEdit|"
 msgid "Select an image"
 msgstr "Seleccioneu una imatge"
 
-#: src/libraries/rwidgets/editors/mrichtextedit.cpp:683
+#: src/libraries/rwidgets/editors/mrichtextedit.cpp:701
 msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Tot (*)"
@@ -7880,149 +7873,184 @@ msgctxt "Image|"
 msgid "%1 - Image"
 msgstr "%1 - Imatge"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:208
-#, qt-format
+#: src/libraries/rwidgets/mediacontainers/image.cpp:209
+#, fuzzy, qt-format
+#| msgctxt "Image|"
+#| msgid "%1 - (Picture)"
 msgctxt "Image|"
-msgid "%1 - (Picture)"
+msgid "%1 - (Picture : %2)"
 msgstr "%1 - (Imatge)"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:213
+#: src/libraries/rwidgets/mediacontainers/image.cpp:209
+#, fuzzy
+#| msgctxt "PdfViewer|"
+#| msgid "Share"
+msgctxt "Image|"
+msgid "Shared"
+msgstr "Comparteix"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:209
+#, fuzzy
+#| msgctxt "PdfViewer|"
+#| msgid "Share"
+msgctxt "Image|"
+msgid "Unshared"
+msgstr "Comparteix"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
 msgid "Zoom In"
 msgstr "Apropa"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:214
+#: src/libraries/rwidgets/mediacontainers/image.cpp:215
 msgctxt "Image|"
 msgid "increase zoom level"
 msgstr "incrementa el nivell de zoom"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:218
+#: src/libraries/rwidgets/mediacontainers/image.cpp:219
 msgctxt "Image|Zoom In"
 msgid "Ctrl++"
 msgstr "Ctrl++"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:223
+#: src/libraries/rwidgets/mediacontainers/image.cpp:224
 msgctxt "Image|"
 msgid "Zoom out"
 msgstr "Allunya"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:225
+#: src/libraries/rwidgets/mediacontainers/image.cpp:226
 msgctxt "Image|"
 msgid "Reduce zoom level"
 msgstr "Redueix el nivell de zoom"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:228
+#: src/libraries/rwidgets/mediacontainers/image.cpp:229
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
 msgstr "Ctrl+-"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:239
+#: src/libraries/rwidgets/mediacontainers/image.cpp:240
 msgctxt "Image|"
 msgid "Fit the workspace"
 msgstr "Ajusta a l'espai de treball"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:241
+#: src/libraries/rwidgets/mediacontainers/image.cpp:242
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
 msgstr "La finestra i la imatge s'ajusten a l'espai de treball"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:244
+#: src/libraries/rwidgets/mediacontainers/image.cpp:245
 msgctxt "Image|Fit the workspace"
 msgid "Ctrl+m"
 msgstr "Ctrl+m"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:251
+#: src/libraries/rwidgets/mediacontainers/image.cpp:252
 msgctxt "Image|"
 msgid "Fit Window"
 msgstr "Ajusta a la finestra"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:256
+#: src/libraries/rwidgets/mediacontainers/image.cpp:257
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
 msgstr ""
 "La imatge prendrà les dimensions millors per a ajustar-se a la finestra."
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:259
+#: src/libraries/rwidgets/mediacontainers/image.cpp:260
 msgctxt "Image|Fit the window"
 msgid "Ctrl+f"
 msgstr "Ctrl+f"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:266
+#: src/libraries/rwidgets/mediacontainers/image.cpp:267
 msgctxt "Image|"
 msgid "Little"
 msgstr "Petita"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:267
+#: src/libraries/rwidgets/mediacontainers/image.cpp:268
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
 msgstr "Estableix el nivell de zoom al 20%"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:270
+#: src/libraries/rwidgets/mediacontainers/image.cpp:271
 msgctxt "Image|Set the zoom level at 20%"
 msgid "Ctrl+l"
 msgstr "Ctrl+l"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:277
+#: src/libraries/rwidgets/mediacontainers/image.cpp:278
 msgctxt "Image|"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:278
+#: src/libraries/rwidgets/mediacontainers/image.cpp:279
 msgctxt "Image|"
 msgid "No Zoom"
 msgstr "Sense zoom"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:281
+#: src/libraries/rwidgets/mediacontainers/image.cpp:282
 msgctxt "Image|Normal"
 msgid "Ctrl+n"
 msgstr "Ctrl+n"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:288
+#: src/libraries/rwidgets/mediacontainers/image.cpp:289
 msgctxt "Image|"
 msgid "Big"
 msgstr "Gran"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:289
+#: src/libraries/rwidgets/mediacontainers/image.cpp:290
 msgctxt "Image|"
 msgid "Set the zoom level at 400%"
 msgstr "Estableix el nivell de zoom al 400%"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:292
+#: src/libraries/rwidgets/mediacontainers/image.cpp:293
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
 msgstr "Ctrl+b"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:297
+#: src/libraries/rwidgets/mediacontainers/image.cpp:298
 msgctxt "Image|"
 msgid "Rename"
 msgstr "Reanomena"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:302
+#: src/libraries/rwidgets/mediacontainers/image.cpp:303
 msgctxt "Image|"
 msgid "Define the new name"
 msgstr "Defineix el nom nou"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:302
+#: src/libraries/rwidgets/mediacontainers/image.cpp:303
 msgctxt "Image|"
 msgid "New name:"
 msgstr "Nom nou:"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:309
-#: src/libraries/rwidgets/mediacontainers/image.cpp:323
-#: src/libraries/rwidgets/mediacontainers/image.cpp:328
+#: src/libraries/rwidgets/mediacontainers/image.cpp:310
+#: src/libraries/rwidgets/mediacontainers/image.cpp:324
+#: src/libraries/rwidgets/mediacontainers/image.cpp:329
 msgctxt "Image|"
 msgid "Play"
 msgstr "Reprodueix"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:311
+#: src/libraries/rwidgets/mediacontainers/image.cpp:312
 msgctxt "Image|"
 msgid "Stop"
 msgstr "Atura"
 
-#: src/libraries/rwidgets/mediacontainers/image.cpp:319
+#: src/libraries/rwidgets/mediacontainers/image.cpp:320
 msgctxt "Image|"
 msgid "Pause"
 msgstr "Pausa"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:334
+#: src/libraries/rwidgets/mediacontainers/image.cpp:348
+#, fuzzy
+#| msgctxt "PdfViewer|"
+#| msgid "Share"
+msgctxt "Image|"
+msgid "Share"
+msgstr "Comparteix"
+
+#: src/libraries/rwidgets/mediacontainers/image.cpp:346
+#, fuzzy
+#| msgctxt "CharacterSheetWindow|"
+#| msgid "Stop Sharing"
+msgctxt "Image|"
+msgid "Stop Sharing"
+msgstr "Atura la compartició"
 
 #: src/libraries/rwidgets/mediacontainers/instantmessagingview.cpp:86
 msgctxt "InstantMessagingView|"
@@ -8066,12 +8094,12 @@ msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "NomésLectura"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:281
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:301
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "Compartició de fitxer PDF"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:282
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:302
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfer can be really heavy.\n"
@@ -8080,7 +8108,7 @@ msgstr ""
 "La transferència del PDF pot ser molt pesada.\n"
 "Voleu continuar i compartir el PDF?"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:292
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:312
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -8091,117 +8119,118 @@ msgctxt "PdfViewer|"
 msgid "PdfViewer"
 msgstr "Visualitzador de PDF"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:26
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:36
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:46
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:56
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:66
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:76
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:86
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:96
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:119
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:176
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:25
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:35
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:45
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:55
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:65
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:75
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:85
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:95
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:105
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:125
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:182
 msgctxt "PdfViewer|"
 msgid "..."
 msgstr "..."
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:133
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:139
 msgctxt "PdfViewer|"
 msgid "Fit width"
 msgstr "Ajusta a l'amplada"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:138
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:144
 msgctxt "PdfViewer|"
 msgid "Fit in View"
 msgstr "Ajusta a la vista"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:143
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:149
 msgctxt "PdfViewer|"
 msgid "25%"
 msgstr "25%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:148
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:154
 msgctxt "PdfViewer|"
 msgid "50%"
 msgstr "50%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:153
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:159
 msgctxt "PdfViewer|"
 msgid "75%"
 msgstr "75%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:158
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:164
 msgctxt "PdfViewer|"
 msgid "100%"
 msgstr "100%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:163
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:169
 msgctxt "PdfViewer|"
 msgid "150%"
 msgstr "150%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:168
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:174
 msgctxt "PdfViewer|"
 msgid "200%"
 msgstr "200%"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:206
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:212
 msgctxt "PdfViewer|"
 msgid "/"
 msgstr "/"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:235
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:241
 msgctxt "PdfViewer|"
 msgid "Bookmarks"
 msgstr "Adreces d'interès"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:270
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:276
 msgctxt "PdfViewer|"
 msgid "Pages"
 msgstr "Pàgines"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:287
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:292
 msgctxt "PdfViewer|"
 msgid "Crop View"
 msgstr "Retalla la vista"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:299
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:303
 msgctxt "PdfViewer|"
 msgid "Share"
 msgstr "Comparteix"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:304
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:307
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:308
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:311
 msgctxt "PdfViewer|"
 msgid "Copy"
 msgstr "Copia"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:310
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:314
 msgctxt "PdfViewer|"
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:315
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:319
 msgctxt "PdfViewer|"
 msgid "Image"
 msgstr "Imatge"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:323
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:327
 msgctxt "PdfViewer|"
 msgid "Continuous"
 msgstr "Continu"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:332
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:335
 msgctxt "PdfViewer|"
 msgid "Zoom In"
 msgstr "Apropa"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:341
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:343
 msgctxt "PdfViewer|"
 msgid "Zoom Out"
 msgstr "Allunya"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:350
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:351
 msgctxt "PdfViewer|"
 msgid "Previous Page"
 msgstr "Pàgina anterior"
@@ -8215,6 +8244,14 @@ msgstr "Pàgina següent"
 msgctxt "PdfViewer|"
 msgid "Text"
 msgstr "Text"
+
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Side Panels"
+msgctxt "PdfViewer|"
+msgid "Hide Side Panel"
+msgstr "Plafons laterals"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
@@ -8643,6 +8680,34 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Show time"
+#~ msgstr "Mostra l'hora"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Color of Time:"
+#~ msgstr "Color de l'hora:"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Hide Long commands"
+#~ msgstr "Oculta les ordres llargues"
+
+#~ msgctxt "PreferencesDialogBox|"
+#~ msgid "Maximum Length:"
+#~ msgstr "Longitud màxima:"
+
+#~ msgctxt "PlayersPanel|"
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgctxt "PlayersPanel|"
+#~ msgid "Add"
+#~ msgstr "Afegeix"
+
+#~ msgctxt "PlayersPanel|"
+#~ msgid "remove"
+#~ msgstr "elimina"
 
 #~ msgctxt "CharacterList|"
 #~ msgid "Character %1"
