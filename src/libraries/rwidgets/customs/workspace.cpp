@@ -380,9 +380,8 @@ void Workspace::updateActiveMediaContainer(QMdiSubWindow* window)
     if(nullptr != activeMediaContainer)
     {
         auto ctrl= activeMediaContainer->ctrl();
-        ctrl->setActive(true);
-        if(activeMediaContainer->getContainerType() == MediaContainer::ContainerType::VMapContainer)
-            emit vmapActive();
+        if(ctrl)
+            ctrl->setActive(true);
     }
 
     m_activeMediaContainer= activeMediaContainer;

@@ -92,7 +92,6 @@ public:
     bool closeAllSubs();
 signals:
     void removedAction(QAction*);
-    void vmapActive();
 
 public slots:
     void setTabbedMode(bool);
