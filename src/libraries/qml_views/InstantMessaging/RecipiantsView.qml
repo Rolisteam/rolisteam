@@ -20,8 +20,8 @@ Pane {
         }
     }
 
-    property bool isGlobal: root.chatRoom.type === ChatRoom.GLOBAL ?? false
-    property bool isExtra: root.chatRoom.type === ChatRoom.EXTRA ?? false
+    property bool isGlobal: root.chatRoom ? root.chatRoom.type === ChatRoom.GLOBAL : false
+    property bool isExtra: root.chatRoom ? root.chatRoom.type === ChatRoom.EXTRA : false
 
     FilteredPlayerModel {
         id: rest
