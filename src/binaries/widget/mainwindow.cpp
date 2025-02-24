@@ -387,14 +387,27 @@ void MainWindow::showTipChecker()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-    if(mayBeSaved())
-    {
+    qDebug() << "closeEvent";
+    auto i= mayBeSaved();
+    if(QMessageBox::Save == i)
+    { // GM
+        qDebug() << "inside if closeEvent";
         m_gameController->aboutToClose();
         writeSettings();
         event->accept();
     }
+    else if(QMessageBox::Yes == i)
+    { // Player
+        writeSettings();
+        event->accept();
+    }
+    else if(QMessageBox::Discard == i)
+    { // GM
+        event->accept();
+    }
     else
-    {
+    { // GM and Player
+        qDebug() << "inside else closeEvent";
         event->ignore();
     }
 }
@@ -758,27 +771,24 @@ void MainWindow::newVMap()
     }
 }
 
-bool MainWindow::mayBeSaved(bool connectionLoss)
+int MainWindow::mayBeSaved()
 {
     QMessageBox msgBox(this);
     Qt::WindowFlags flags= msgBox.windowFlags();
     msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
+    msgBox.setModal(true);
 
-    QString message;
     QString msg= m_preferences->value("Application_Name", "rolisteam").toString();
-    if(connectionLoss)
-    {
-        message= tr("Connection has been lost. %1 will be close").arg(msg);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle(tr("Connection lost"));
-    }
-    else
-    {
-        msgBox.setIcon(QMessageBox::Information);
-        msgBox.addButton(QMessageBox::Cancel);
-        msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
-    }
-    return true;
+    auto isGM= m_gameController->localIsGM();
+    msgBox.setText(isGM ? tr("Do you want to save the campaign ?") : tr("Do you really want to quit Rolisteam ?"));
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.addButton(0 ? QMessageBox::Save : QMessageBox::Yes);
+    if(isGM)
+        msgBox.addButton(QMessageBox::Discard);
+    msgBox.addButton(isGM ? QMessageBox::Cancel : QMessageBox::No);
+    msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
+
+    return msgBox.exec();
 }
 
 void MainWindow::openCampaign()

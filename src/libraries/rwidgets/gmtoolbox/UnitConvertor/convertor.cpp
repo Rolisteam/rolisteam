@@ -286,6 +286,14 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
     connect(ui->m_toCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(convert()));
 
     categoryHasChanged(0);
+
+    auto func= [this]() { setModified(true); };
+    connect(m_model.get(), &UnitModel::rowsInserted, this, func);
+    connect(m_model.get(), &UnitModel::columnsInserted, this, func);
+    connect(m_model.get(), &UnitModel::modelReset, this, func);
+    connect(m_customRulesModel.get(), &CustomRuleModel::rowsInserted, this, func);
+    connect(m_customRulesModel.get(), &CustomRuleModel::columnsInserted, this, func);
+    connect(m_customRulesModel.get(), &CustomRuleModel::modelReset, this, func);
 }
 
 Convertor::~Convertor()
@@ -340,6 +348,8 @@ void Convertor::readSettings()
 
 void Convertor::writeSettings()
 {
+    if(!modified())
+        return;
     QSettings setting("rolisteam", "rolisteam");
     setting.beginGroup("UnitModel");
 
@@ -383,6 +393,8 @@ void Convertor::writeSettings()
     }
     setting.endArray();
     setting.endGroup();
+
+    setModified(false);
 }
 
 void Convertor::categoryHasChanged(int i)
@@ -415,4 +427,18 @@ void Convertor::convert()
         ui->m_toLine->setText(QStringLiteral("%1").arg(d));
     }
 }
+
+bool Convertor::modified() const
+{
+    return m_modified;
+}
+
+void Convertor::setModified(bool newModified)
+{
+    if(m_modified == newModified)
+        return;
+    m_modified= newModified;
+    emit modifiedChanged();
+}
+
 } // namespace GMTOOL

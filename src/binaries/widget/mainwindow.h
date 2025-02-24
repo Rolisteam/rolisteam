@@ -136,7 +136,7 @@ public slots:
      * @brief
      * @param
      */
-    bool mayBeSaved(bool connectionLost= false);
+    int mayBeSaved();
     /**
      * @brief updateUi
      */
