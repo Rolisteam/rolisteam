@@ -292,6 +292,7 @@ target_link_libraries(rwidgets
         qml_components
         instantmessaging
         dice3d
+        inja
         utils)
 
 

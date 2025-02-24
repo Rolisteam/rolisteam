@@ -1,3 +1,4 @@
+add_subdirectory(inja)
 add_subdirectory(utils)
 #add_subdirectory(data)
 add_subdirectory(qml_views)
@@ -10,3 +11,4 @@ add_subdirectory(rwidgets)
 add_subdirectory(instantmessaging)
 add_subdirectory(charactersheet)
 add_subdirectory(dicephysics)
+
