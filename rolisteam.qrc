@@ -149,5 +149,6 @@
         <file>resources/stylesheet/client/darkorange/images/handle.png</file>
         <file>resources/stylesheet/qml/theme.ini</file>
         <file>resources/rolistheme/pipette.svg</file>
+        <file>resources/rolisteam/templates/about.template</file>
     </qresource>
 </RCC>

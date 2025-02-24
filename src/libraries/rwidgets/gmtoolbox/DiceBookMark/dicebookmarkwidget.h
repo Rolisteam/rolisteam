@@ -3,7 +3,6 @@
 
 #include "data/diceshortcut.h"
 #include "dicebookmarkmodel.h"
-#include "rwidgets/gmtoolbox/gamemastertool.h"
 #include "rwidgets_global.h"
 #include <QDialog>
 #include <QSettings>

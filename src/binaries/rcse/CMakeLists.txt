@@ -169,6 +169,7 @@ target_link_libraries(rcse
     common_core
     common_widget
     utils
+    inja
     )
 
 

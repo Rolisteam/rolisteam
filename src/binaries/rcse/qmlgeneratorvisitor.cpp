@@ -6,8 +6,8 @@
 #include "charactersheet/controllers/fieldcontroller.h"
 #include "charactersheet/controllers/tablefield.h"
 #include "common/logcategory.h"
-#include "include/inja.hpp"
-#include "include/json.hpp"
+#include <inja.hpp>
+#include <json.hpp>
 
 namespace constants
 {

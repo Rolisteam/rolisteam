@@ -1,0 +1,17 @@
+<html>
+<head>
+    <meta name="qrichtext" content="1"/>
+</head>
+<body>
+<p>{{ description }}</p>
+<p>{{ description2 }}</p>
+<p>{{ websites }}</p>
+<ul>
+    <li><a href="https://rolisteam.org/">{{ official }}</a></li>
+    <li><a href="https://github.com/Rolisteam/rolisteam/issues">{{ bugtracker }}</a></li>
+    <li><a href="https://discord.gg/MrMrQwX">Discord</a></li>
+    <li><a href="https://liberapay.com/Rolisteam/donate">Liberapay</a></li>
+    <li><a href="">{{ bugtracker }}</a></li>
+</ul>
+</body>
+</html>
