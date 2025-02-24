@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2025-02-03 07:30+0100\n"
+"PO-Revision-Date: 2025-02-23 08:16+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3802,28 +3802,19 @@ msgid "Add chatroom"
 msgstr "Dodaj klepetalnico"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Player"
 msgctxt "RecipiantsView|"
 msgid "Players:"
-msgstr "Igralec"
+msgstr "Igralci:"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "All"
 msgctxt "RecipiantsView|"
 msgid "All"
-msgstr "Vse"
+msgstr "Vsi"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Ban User"
 msgctxt "RecipiantsView|"
 msgid "Add User"
-msgstr "Prepovej uporabnika"
+msgstr "Dodaj uporabnika"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
@@ -5267,7 +5258,7 @@ msgstr "Sporočanje"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:463
 msgctxt "PreferencesDialogBox|"
 msgid "Save chatrooms data"
-msgstr ""
+msgstr "Shrani podatke klepetalnic"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:486
 msgctxt "PreferencesDialogBox|"
@@ -7867,28 +7858,20 @@ msgid "%1 - Image"
 msgstr "%1 - slika"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy, qt-format
-#| msgctxt "Image|"
-#| msgid "%1 - (Picture)"
+#, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture : %2)"
-msgstr "%1 - (slika)"
+msgstr "%1 - (Slika : %2)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Shared"
-msgstr "Deli"
+msgstr "Deljena"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Unshared"
-msgstr "Deli"
+msgstr "Ne-deljena"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
@@ -8029,17 +8012,11 @@ msgstr "Premor"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:334
 #: src/libraries/rwidgets/mediacontainers/image.cpp:348
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Share"
 msgstr "Deli"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:346
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Stop Sharing"
 msgctxt "Image|"
 msgid "Stop Sharing"
 msgstr "Prenehaj deliti"
@@ -8238,12 +8215,9 @@ msgid "Text"
 msgstr "Besedilo"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "PdfViewer|"
 msgid "Hide Side Panel"
-msgstr "Stranske plošče"
+msgstr "Skrij stransko ploščo"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"

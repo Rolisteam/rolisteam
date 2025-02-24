@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-02-03 15:48+0100\n"
+"PO-Revision-Date: 2025-02-23 09:04+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -3789,28 +3789,19 @@ msgid "Add chatroom"
 msgstr "Lägg till chattrum"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Player"
 msgctxt "RecipiantsView|"
 msgid "Players:"
-msgstr "Spelare"
+msgstr "Spelare:"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "All"
 msgctxt "RecipiantsView|"
 msgid "All"
 msgstr "Alla"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Ban User"
 msgctxt "RecipiantsView|"
 msgid "Add User"
-msgstr "Bannlys användare"
+msgstr "Lägg till användare"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
@@ -5246,7 +5237,7 @@ msgstr "Direktmeddelanden"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:463
 msgctxt "PreferencesDialogBox|"
 msgid "Save chatrooms data"
-msgstr ""
+msgstr "Spara chattrummets data"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:486
 msgctxt "PreferencesDialogBox|"
@@ -7847,28 +7838,20 @@ msgid "%1 - Image"
 msgstr "%1 - Bild"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy, qt-format
-#| msgctxt "Image|"
-#| msgid "%1 - (Picture)"
+#, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture : %2)"
-msgstr "%1 - (Foto)"
+msgstr "%1 - (Foto: %2)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Shared"
-msgstr "Dela"
+msgstr "Delad"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Unshared"
-msgstr "Dela"
+msgstr "Inte delad"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
@@ -8009,17 +7992,11 @@ msgstr "Paus"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:334
 #: src/libraries/rwidgets/mediacontainers/image.cpp:348
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Share"
 msgstr "Dela"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:346
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Stop Sharing"
 msgctxt "Image|"
 msgid "Stop Sharing"
 msgstr "Sluta dela"
@@ -8218,12 +8195,9 @@ msgid "Text"
 msgstr "Text"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "PdfViewer|"
 msgid "Hide Side Panel"
-msgstr "Sidopaneler"
+msgstr "Dölj sidopanel"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"

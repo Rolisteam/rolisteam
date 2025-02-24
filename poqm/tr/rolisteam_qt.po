@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-02-17 19:23+0300\n"
+"PO-Revision-Date: 2025-02-23 12:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3794,28 +3794,19 @@ msgid "Add chatroom"
 msgstr "Sohbet Odası Ekle"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Player"
 msgctxt "RecipiantsView|"
 msgid "Players:"
-msgstr "Oyuncu"
+msgstr "Oyuncular:"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "All"
 msgctxt "RecipiantsView|"
 msgid "All"
 msgstr "Tümü"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Ban User"
 msgctxt "RecipiantsView|"
 msgid "Add User"
-msgstr "Kullanıcıyı Yasakla"
+msgstr "Kullanıcı Ekle"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
@@ -5253,7 +5244,7 @@ msgstr "İletileşme"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:463
 msgctxt "PreferencesDialogBox|"
 msgid "Save chatrooms data"
-msgstr ""
+msgstr "Sohbet odaları verisini kaydet"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:486
 msgctxt "PreferencesDialogBox|"
@@ -7850,28 +7841,20 @@ msgid "%1 - Image"
 msgstr "%1 — Görsel"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy, qt-format
-#| msgctxt "Image|"
-#| msgid "%1 - (Picture)"
+#, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture : %2)"
-msgstr "%1 — (Resim)"
+msgstr "%1 — (Resim: %2)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Shared"
-msgstr "Paylaş"
+msgstr "Paylaşılan"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Unshared"
-msgstr "Paylaş"
+msgstr "Paylaşılmayan"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
@@ -8012,17 +7995,11 @@ msgstr "Duraklat"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:334
 #: src/libraries/rwidgets/mediacontainers/image.cpp:348
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Share"
 msgstr "Paylaş"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:346
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Stop Sharing"
 msgctxt "Image|"
 msgid "Stop Sharing"
 msgstr "Paylaşımı Durdur"
@@ -8221,12 +8198,9 @@ msgid "Text"
 msgstr "Metin"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "PdfViewer|"
 msgid "Hide Side Panel"
-msgstr "Yan Paneller"
+msgstr "Yan Paneli Gizle"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"

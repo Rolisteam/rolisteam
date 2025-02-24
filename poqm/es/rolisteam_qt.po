@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"PO-Revision-Date: 2025-02-03 12:01+0100\n"
+"PO-Revision-Date: 2025-02-23 02:33+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #: src/binaries/mindmap/main.cpp:93 src/binaries/rcse/main.cpp:76
 msgctxt "QObject|"
@@ -517,7 +517,7 @@ msgstr "Tipos de letra integrados:"
 #: src/binaries/rcse/dialog/sheetproperties.ui:168
 msgctxt "SheetProperties|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/binaries/rcse/fieldmodel.cpp:62
 msgctxt "FieldModel|"
@@ -964,7 +964,7 @@ msgstr "Imagen"
 #: src/binaries/rcse/mainwindow_rcse.ui:736
 msgctxt "MainWindow|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:380
 #: src/binaries/rcse/mainwindow_rcse.ui:1130
@@ -1072,7 +1072,7 @@ msgstr "Ctrl+S"
 #: src/binaries/rcse/mainwindow_rcse.ui:839
 msgctxt "MainWindow|"
 msgid "Save As..."
-msgstr "Guardar como..."
+msgstr "Guardar como…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:842
 msgctxt "MainWindow|"
@@ -1146,7 +1146,7 @@ msgstr "Ctrl+D"
 #: src/binaries/rcse/mainwindow_rcse.ui:986
 msgctxt "MainWindow|"
 msgid "Set image background…"
-msgstr "Definir imagen del fondo..."
+msgstr "Definir imagen del fondo…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1007
 msgctxt "MainWindow|"
@@ -1173,7 +1173,7 @@ msgstr "Ctrl+P"
 #: src/binaries/rcse/mainwindow_rcse.ui:1033
 msgctxt "MainWindow|"
 msgid "Sheet Properties…"
-msgstr "Propiedades de la hoja..."
+msgstr "Propiedades de la hoja…"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1048
 msgctxt "MainWindow|"
@@ -1899,7 +1899,7 @@ msgstr "Ctrl+Esc"
 #: src/binaries/widget/mainwindow.ui:182
 msgctxt "MainWindow|"
 msgid "Preferences…"
-msgstr "Preferencias..."
+msgstr "Preferencias…"
 
 #: src/binaries/widget/mainwindow.ui:204
 msgctxt "MainWindow|"
@@ -1934,7 +1934,7 @@ msgstr "Alt+T"
 #: src/binaries/widget/mainwindow.ui:228
 msgctxt "MainWindow|"
 msgid "Disconnection…"
-msgstr "Desconexión..."
+msgstr "Desconexión…"
 
 #: src/binaries/widget/mainwindow.ui:233
 msgctxt "MainWindow|"
@@ -2034,7 +2034,7 @@ msgstr "F6"
 #: src/binaries/widget/mainwindow.ui:367
 msgctxt "MainWindow|"
 msgid "Change Profile…"
-msgstr "Cambiar perfil..."
+msgstr "Cambiar perfil…"
 
 #: src/binaries/widget/mainwindow.ui:376
 msgctxt "MainWindow|"
@@ -2079,7 +2079,7 @@ msgstr "Ctrl+Mayúsculas+K"
 #: src/binaries/widget/mainwindow.ui:438
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
-msgstr "Visor de atajos de teclado..."
+msgstr "Visor de atajos de teclado…"
 
 #: src/binaries/widget/mainwindow.ui:441
 msgctxt "MainWindow|"
@@ -2104,7 +2104,7 @@ msgstr "Archivo PDF"
 #: src/binaries/widget/mainwindow.ui:469
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
-msgstr "Copiar enlace de la conexión..."
+msgstr "Copiar enlace de la conexión…"
 
 #: src/binaries/widget/mainwindow.ui:477
 msgctxt "MainWindow|"
@@ -2124,7 +2124,7 @@ msgstr "Generador de contraseñas"
 #: src/binaries/widget/mainwindow.ui:490
 msgctxt "MainWindow|"
 msgid "Current Media as…"
-msgstr "Medios actuales como..."
+msgstr "Medios actuales como…"
 
 #: src/binaries/widget/mainwindow.ui:507
 msgctxt "MainWindow|"
@@ -2209,7 +2209,7 @@ msgstr "Nueva campaña"
 #: src/binaries/widget/mainwindow.ui:612
 msgctxt "MainWindow|"
 msgid "Save Campaign As…"
-msgstr "Guardar campaña como..."
+msgstr "Guardar campaña como…"
 
 #: src/binaries/widget/mainwindow.ui:617
 msgctxt "MainWindow|"
@@ -2219,12 +2219,12 @@ msgstr "Personajes no jugables"
 #: src/binaries/widget/mainwindow.ui:622
 msgctxt "MainWindow|"
 msgid "Manage…"
-msgstr "Gestión..."
+msgstr "Gestión…"
 
 #: src/binaries/widget/mainwindow.ui:627
 msgctxt "MainWindow|"
 msgid "Remove…"
-msgstr "Eliminar..."
+msgstr "Eliminar…"
 
 #: src/binaries/widget/mainwindow.ui:632
 msgctxt "MainWindow|"
@@ -2234,7 +2234,7 @@ msgstr "Borrar todo"
 #: src/binaries/widget/mainwindow.ui:640
 msgctxt "MainWindow|"
 msgid "Import from another campaign…"
-msgstr "Importar de otra campaña..."
+msgstr "Importar de otra campaña…"
 
 #: src/binaries/widget/mainwindow.ui:652
 msgctxt "MainWindow|"
@@ -3798,28 +3798,19 @@ msgid "Add chatroom"
 msgstr "Añadir sala de chat"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Player"
 msgctxt "RecipiantsView|"
 msgid "Players:"
-msgstr "Jugador"
+msgstr "Jugadores:"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "All"
 msgctxt "RecipiantsView|"
 msgid "All"
 msgstr "Todos"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Ban User"
 msgctxt "RecipiantsView|"
 msgid "Add User"
-msgstr "Prohibir usuario"
+msgstr "Añadir usuario"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
@@ -3829,7 +3820,7 @@ msgstr "Notificación de sonido"
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:53
 msgctxt "SideMenu|"
 msgid "Select Font…"
-msgstr "Seleccionar tipo de letra..."
+msgstr "Seleccionar tipo de letra…"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:60
 msgctxt "SideMenu|"
@@ -4170,7 +4161,7 @@ msgstr "Directorios de búsqueda:"
 #: src/libraries/rwidgets/customs/playerwidget.ui:278
 msgctxt "PlayerWidgetUI|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/customs/playerwidget.ui:305
 msgctxt "PlayerWidgetUI|"
@@ -4248,7 +4239,7 @@ msgstr "A la izquierda"
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:257
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
-msgstr "Definir ángulo..."
+msgstr "Definir ángulo…"
 
 #: src/libraries/rwidgets/customs/rgraphicsview.cpp:259
 msgctxt "RGraphicsView|"
@@ -4767,7 +4758,7 @@ msgstr "Diálogo"
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:34
 msgctxt "HistoryViewerDialog|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/historyviewerdialog.ui:71
 msgctxt "HistoryViewerDialog|"
@@ -4808,7 +4799,7 @@ msgstr "descargar"
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:79
 msgctxt "ImageSelectorDialog|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/dialogs/imageselectordialog.ui:113
 msgctxt "ImageSelectorDialog|"
@@ -4858,7 +4849,7 @@ msgstr "Campaña fuente"
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:32
 msgctxt "ImportDataFromCampaignDialog|"
 msgid "Browse…"
-msgstr "Explorar..."
+msgstr "Explorar…"
 
 #: src/libraries/rwidgets/dialogs/importdatafromcampaigndialog.ui:55
 msgctxt "ImportDataFromCampaignDialog|"
@@ -4998,7 +4989,7 @@ msgstr "Diálogo"
 #: src/libraries/rwidgets/dialogs/persondialog.ui:40
 msgctxt "PersonDialog|"
 msgid "Avatar…"
-msgstr "Avatar..."
+msgstr "Avatar…"
 
 #: src/libraries/rwidgets/dialogs/persondialog.ui:55
 msgctxt "PersonDialog|"
@@ -5258,7 +5249,7 @@ msgstr "Mensajería"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:463
 msgctxt "PreferencesDialogBox|"
 msgid "Save chatrooms data"
-msgstr ""
+msgstr "Guardar datos de salas de chat"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:486
 msgctxt "PreferencesDialogBox|"
@@ -5368,7 +5359,7 @@ msgstr "CSS:"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:697
 msgctxt "PreferencesDialogBox|"
 msgid "Edit..."
-msgstr "Editar..."
+msgstr "Editar…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:723
 msgctxt "PreferencesDialogBox|"
@@ -5448,12 +5439,12 @@ msgstr "*: necesita reiniciar"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:895
 msgctxt "PreferencesDialogBox|"
 msgid "Import…"
-msgstr "Importar..."
+msgstr "Importar…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:902
 msgctxt "PreferencesDialogBox|"
 msgid "Export…"
-msgstr "Exportar..."
+msgstr "Exportar…"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:915
 msgctxt "PreferencesDialogBox|"
@@ -5714,7 +5705,7 @@ msgstr "Buscar:"
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1012
 msgctxt "AntagonistBoard|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/docks/antagonistboard.ui:54
 #: src/libraries/rwidgets/docks/antagonistboard.ui:1135
@@ -6581,17 +6572,17 @@ msgstr "&Guardar"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:189
 msgctxt "TextEdit|"
 msgid "&Print..."
-msgstr "&Imprimir..."
+msgstr "&Imprimir…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:195
 msgctxt "TextEdit|"
 msgid "Print Preview..."
-msgstr "Vista previa de la impresión..."
+msgstr "Vista previa de la impresión…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:199
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
-msgstr "&Exportar PDF..."
+msgstr "&Exportar PDF…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:209
 msgctxt "TextEdit|"
@@ -6677,7 +6668,7 @@ msgstr "&Justificar"
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:304
 msgctxt "TextEdit|"
 msgid "&Color..."
-msgstr "&Color..."
+msgstr "&Color…"
 
 #: src/libraries/rwidgets/editors/noteeditor/src/textedit.cpp:377
 msgctxt "TextEdit|"
@@ -6751,7 +6742,7 @@ msgstr "Conectar al documento"
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:52
 msgctxt "ConnectToDocument|"
 msgid "New..."
-msgstr "Nuevo..."
+msgstr "Nuevo…"
 
 #: src/libraries/rwidgets/editors/sharededitor/connecttodocument.ui:62
 msgctxt "ConnectToDocument|"
@@ -7178,7 +7169,7 @@ msgstr "Editar"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:77
 msgctxt "SharedNote|"
 msgid "Syntax Highlighting..."
-msgstr "Resaltado de sintaxis..."
+msgstr "Resaltado de sintaxis…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:97
 msgctxt "SharedNote|"
@@ -7243,7 +7234,7 @@ msgstr "Ctrl+V"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:225
 msgctxt "SharedNote|"
 msgid "Find..."
-msgstr "Buscar..."
+msgstr "Buscar…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:228
 msgctxt "SharedNote|"
@@ -7293,7 +7284,7 @@ msgstr "Ctrl+/"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:270
 msgctxt "SharedNote|"
 msgid "Save A Copy As..."
-msgstr "Guardar una copia como..."
+msgstr "Guardar una copia como…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:278
 msgctxt "SharedNote|"
@@ -7323,7 +7314,7 @@ msgstr "Mostrar/ocultar charla"
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:304
 msgctxt "SharedNote|"
 msgid "Connect to Document..."
-msgstr "Conectar al documento..."
+msgstr "Conectar al documento…"
 
 #: src/libraries/rwidgets/editors/sharededitor/sharednote.ui:307
 msgctxt "SharedNote|"
@@ -7562,7 +7553,7 @@ msgstr "convertir"
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:261
 msgctxt "Convertor|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/gmtoolbox/UnitConvertor/convertor.ui:97
 msgctxt "Convertor|"
@@ -7742,7 +7733,7 @@ msgstr "Reducir tamaño del texto"
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:143
 msgctxt "TextItem|"
 msgid "Edit Text…"
-msgstr "Editar texto..."
+msgstr "Editar texto…"
 
 #: src/libraries/rwidgets/graphicsItems/textitem.cpp:144
 msgctxt "TextItem|"
@@ -7860,28 +7851,20 @@ msgid "%1 - Image"
 msgstr "%1 - Imagen"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy, qt-format
-#| msgctxt "Image|"
-#| msgid "%1 - (Picture)"
+#, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture : %2)"
-msgstr "%1 - (Imagen)"
+msgstr "%1 - (Imagen: %2)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Shared"
-msgstr "Compartir"
+msgstr "Compartida"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Unshared"
-msgstr "Compartir"
+msgstr "No compartida"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
@@ -8022,17 +8005,11 @@ msgstr "Pausar"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:334
 #: src/libraries/rwidgets/mediacontainers/image.cpp:348
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Share"
 msgstr "Compartir"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:346
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Stop Sharing"
 msgctxt "Image|"
 msgid "Stop Sharing"
 msgstr "Dejar de compartir"
@@ -8117,7 +8094,7 @@ msgstr "Visor PDF"
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:182
 msgctxt "PdfViewer|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:139
 msgctxt "PdfViewer|"
@@ -8231,12 +8208,9 @@ msgid "Text"
 msgstr "Texto"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "PdfViewer|"
 msgid "Hide Side Panel"
-msgstr "Paneles laterales"
+msgstr "Ocultar panel lateral"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
@@ -8304,7 +8278,7 @@ msgstr "Formulario"
 #: src/libraries/rwidgets/mediacontainers/webview.ui:90
 msgctxt "WebView|"
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #: src/libraries/rwidgets/mediacontainers/webview.ui:100
 msgctxt "WebView|"
@@ -8349,7 +8323,7 @@ msgstr "Compartir HTML"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:25
 msgctxt "campaign::CampaignView|"
 msgid "Add directory…"
-msgstr "Añadir directorio..."
+msgstr "Añadir directorio…"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:26
 msgctxt "campaign::CampaignView|"
@@ -8414,7 +8388,7 @@ msgstr "Notas compartidas"
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:183
 msgctxt "campaign::CampaignView|"
 msgid "Open As…"
-msgstr "Abrir como..."
+msgstr "Abrir como…"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:195
 msgctxt "campaign::CampaignView|"
@@ -8424,12 +8398,12 @@ msgstr "Mostrar/ocultar columna"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:51
 msgctxt "UserListView|"
 msgid "Set Avatar..."
-msgstr "Definir avatar..."
+msgstr "Definir avatar…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:52
 msgctxt "UserListView|"
 msgid "Remove..."
-msgstr "Eliminar..."
+msgstr "Eliminar…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:53
 msgctxt "UserListView|"
@@ -8439,7 +8413,7 @@ msgstr "Editar nombre"
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:54
 msgctxt "UserListView|"
 msgid "Change color…"
-msgstr "Cambiar color..."
+msgstr "Cambiar color…"
 
 #: src/libraries/rwidgets/modelviews/userlistview.cpp:64
 msgctxt "UserListView|"

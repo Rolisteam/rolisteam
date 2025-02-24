@@ -3769,12 +3769,9 @@ msgid "Add chatroom"
 msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "List of Players"
 msgctxt "RecipiantsView|"
 msgid "Players:"
-msgstr "玩家列表"
+msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
 msgctxt "RecipiantsView|"
@@ -3782,12 +3779,9 @@ msgid "All"
 msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Add Page"
 msgctxt "RecipiantsView|"
 msgid "Add User"
-msgstr "添加页面"
+msgstr ""
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
@@ -7718,12 +7712,9 @@ msgid "%1 - (Picture : %2)"
 msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Shared Note"
 msgctxt "Image|"
 msgid "Shared"
-msgstr "共享的笔记"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
 msgctxt "Image|"
@@ -7869,12 +7860,9 @@ msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:334
 #: src/libraries/rwidgets/mediacontainers/image.cpp:348
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Shared Note"
 msgctxt "Image|"
 msgid "Share"
-msgstr "共享的笔记"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:346
 msgctxt "Image|"
@@ -8073,12 +8061,9 @@ msgid "Text"
 msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "PdfViewer|"
 msgid "Hide Side Panel"
-msgstr "侧边栏"
+msgstr ""
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
@@ -8507,19 +8492,3 @@ msgstr ""
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr ""
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Show time"
-#~ msgstr "显示时间"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Color of Time:"
-#~ msgstr "时间颜色："
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Hide Long commands"
-#~ msgstr "隐藏长命令"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Maximum Length:"
-#~ msgstr "最大长度："

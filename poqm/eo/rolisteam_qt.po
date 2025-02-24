@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rolisteam\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-02 04:08+0200\n"
-"PO-Revision-Date: 2025-02-16 17:10+0100\n"
+"PO-Revision-Date: 2025-02-23 13:36+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3793,28 +3793,19 @@ msgid "Add chatroom"
 msgstr "Aldoni babilejon"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Player"
 msgctxt "RecipiantsView|"
 msgid "Players:"
-msgstr "Ludanto"
+msgstr "Ludantoj:"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "All"
 msgctxt "RecipiantsView|"
 msgid "All"
 msgstr "Ĉiuj"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Ban User"
 msgctxt "RecipiantsView|"
 msgid "Add User"
-msgstr "Malpermesi Uzanton"
+msgstr "Aldoni Uzanton"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
@@ -5251,7 +5242,7 @@ msgstr "Mesaĝado"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:463
 msgctxt "PreferencesDialogBox|"
 msgid "Save chatrooms data"
-msgstr ""
+msgstr "Konservi babilejajn datumojn"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:486
 msgctxt "PreferencesDialogBox|"
@@ -5261,12 +5252,12 @@ msgstr "* : necesas rekomenci"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:494
 msgctxt "PreferencesDialogBox|"
 msgid "External Editors"
-msgstr ""
+msgstr "Eksteraj Redaktiloj"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:500
 msgctxt "PreferencesDialogBox|"
 msgid "RCSE"
-msgstr ""
+msgstr "RCSE"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:506
 msgctxt "PreferencesDialogBox|"
@@ -7852,28 +7843,20 @@ msgid "%1 - Image"
 msgstr "%1 - Bildo"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy, qt-format
-#| msgctxt "Image|"
-#| msgid "%1 - (Picture)"
+#, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture : %2)"
-msgstr "%1 - (Bildo)"
+msgstr "%1 - (Bildo : %2)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Shared"
-msgstr "Kunhavigi"
+msgstr "Kundividita"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Unshared"
-msgstr "Kunhavigi"
+msgstr "Nekundividita"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
@@ -8014,17 +7997,11 @@ msgstr "Paŭzo"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:334
 #: src/libraries/rwidgets/mediacontainers/image.cpp:348
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Share"
 msgstr "Kunhavigi"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:346
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Stop Sharing"
 msgctxt "Image|"
 msgid "Stop Sharing"
 msgstr "Ĉesi Kunhavigi"
@@ -8223,12 +8200,9 @@ msgid "Text"
 msgstr "Teksto"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "PdfViewer|"
 msgid "Hide Side Panel"
-msgstr "Flankaj Paneloj"
+msgstr "Kaŝi Flankan Panelon"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
@@ -8657,31 +8631,3 @@ msgstr "Dormanta"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Prisorĉita"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Show time"
-#~ msgstr "Montri tempon"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Color of Time:"
-#~ msgstr "Koloro de Tempo:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Hide Long commands"
-#~ msgstr "Kaŝi Longajn komandojn"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Maximum Length:"
-#~ msgstr "Maksimuma Longo:"
-
-#~ msgctxt "PlayersPanel|"
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgctxt "PlayersPanel|"
-#~ msgid "Add"
-#~ msgstr "Aldoni"
-
-#~ msgctxt "PlayersPanel|"
-#~ msgid "remove"
-#~ msgstr "forigi"
