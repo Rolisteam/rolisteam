@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-02-02 11:53+0100\n"
+"PO-Revision-Date: 2025-02-05 00:17+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -543,12 +543,9 @@ msgid "Possible Values"
 msgstr "Valori possibili"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
-#, fuzzy
-#| msgctxt "LogPanel|"
-#| msgid "Form"
 msgctxt "FieldModel|"
 msgid "Formula"
-msgstr "Modulo"
+msgstr "Formula"
 
 #: src/binaries/rcse/fieldmodel.cpp:65
 msgctxt "FieldModel|"
@@ -3991,12 +3988,9 @@ msgid "Open File"
 msgstr "Apri file"
 
 #: src/libraries/rwidgets/customs/filedirchooser.cpp:117
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Save View"
 msgctxt "FileDirChooser|"
 msgid "Save File"
-msgstr "Salva vista"
+msgstr "Salva file"
 
 #: src/libraries/rwidgets/customs/imagepatheditor.cpp:98
 msgctxt "rwidgets::ImagePathEditor|"
@@ -5278,28 +5272,22 @@ msgstr "* : necessita riavvio"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:494
 msgctxt "PreferencesDialogBox|"
 msgid "External Editors"
-msgstr ""
+msgstr "Editor esterni"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:500
 msgctxt "PreferencesDialogBox|"
 msgid "RCSE"
-msgstr ""
+msgstr "RCSE"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:506
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path:"
-msgstr "Percorso"
+msgstr "Percorso:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:516
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters:"
-msgstr "Personaggi"
+msgstr "Parametri:"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:523
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:556
@@ -5307,54 +5295,39 @@ msgstr "Personaggi"
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:533
-#, fuzzy
-#| msgctxt "NewFileDialog|"
-#| msgid "MindMap"
 msgctxt "PreferencesDialogBox|"
 msgid "MindMap"
 msgstr "Mappa mentale"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:539
-#, fuzzy
-#| msgctxt "HistoryModel|"
-#| msgid "Path"
 msgctxt "PreferencesDialogBox|"
 msgid "Path"
 msgstr "Percorso"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:549
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:582
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Characters"
 msgctxt "PreferencesDialogBox|"
 msgid "Parameters"
-msgstr "Personaggi"
+msgstr "Parametri"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:566
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Editor"
 msgctxt "PreferencesDialogBox|"
 msgid "Text Editor"
-msgstr "Editor"
+msgstr "Editor di testo"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:572
-#, fuzzy
-#| msgctxt "FieldModel|"
-#| msgid "Label"
 msgctxt "PreferencesDialogBox|"
 msgid "TextLabel"
-msgstr "Etichetta"
+msgstr "EtichettaDiTesto"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:612
 #, qt-format
 msgctxt "PreferencesDialogBox|"
 msgid "%1 is a placeholder for the filename of the file."
-msgstr ""
+msgstr "%1 è un segnaposoto per il nome file del file."
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:620
 msgctxt "PreferencesDialogBox|"
@@ -8429,12 +8402,9 @@ msgid "Date Modified"
 msgstr "Data modifica"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:36
-#, fuzzy
-#| msgctxt "PlayerWidget|"
-#| msgid "Open Stream"
 msgctxt "campaign::CampaignView|"
 msgid "Open Externally"
-msgstr "Apri flusso"
+msgstr "Apri esternamente"
 
 #: src/libraries/rwidgets/modelviews/campaignview.cpp:117
 msgctxt "campaign::CampaignView|"
