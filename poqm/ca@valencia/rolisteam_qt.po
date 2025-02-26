@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2025-02-03 10:01+0100\n"
+"PO-Revision-Date: 2025-02-23 08:34+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3808,28 +3808,19 @@ msgid "Add chatroom"
 msgstr "Afig una sala de xat"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:35
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Player"
 msgctxt "RecipiantsView|"
 msgid "Players:"
-msgstr "Jugador"
+msgstr "Jugadors:"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:38
-#, fuzzy
-#| msgctxt "BorderListEditor|"
-#| msgid "All"
 msgctxt "RecipiantsView|"
 msgid "All"
-msgstr "Tot"
+msgstr "Tots"
 
 #: src/libraries/qml_views/InstantMessaging/RecipiantsView.qml:75
-#, fuzzy
-#| msgctxt "ChannelListPanel|"
-#| msgid "Ban User"
 msgctxt "RecipiantsView|"
 msgid "Add User"
-msgstr "Veta l'usuari"
+msgstr "Afig un usuari"
 
 #: src/libraries/qml_views/InstantMessaging/SideMenu.qml:39
 msgctxt "SideMenu|"
@@ -5268,7 +5259,7 @@ msgstr "Missatgeria"
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:463
 msgctxt "PreferencesDialogBox|"
 msgid "Save chatrooms data"
-msgstr ""
+msgstr "Guarda les dades de les sales de xat"
 
 #: src/libraries/rwidgets/dialogs/preferencesdialogbox.ui:486
 msgctxt "PreferencesDialogBox|"
@@ -7872,28 +7863,20 @@ msgid "%1 - Image"
 msgstr "%1 - Imatge"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy, qt-format
-#| msgctxt "Image|"
-#| msgid "%1 - (Picture)"
+#, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture : %2)"
-msgstr "%1 - (Imatge)"
+msgstr "%1 - (Imatge: %2)"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Shared"
-msgstr "Compartix"
+msgstr "Compartida"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:209
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Unshared"
-msgstr "Compartix"
+msgstr "No compartida"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:214
 msgctxt "Image|"
@@ -8035,17 +8018,11 @@ msgstr "Pausa"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:334
 #: src/libraries/rwidgets/mediacontainers/image.cpp:348
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Share"
 msgctxt "Image|"
 msgid "Share"
 msgstr "Compartix"
 
 #: src/libraries/rwidgets/mediacontainers/image.cpp:346
-#, fuzzy
-#| msgctxt "CharacterSheetWindow|"
-#| msgid "Stop Sharing"
 msgctxt "Image|"
 msgid "Stop Sharing"
 msgstr "Para la compartició"
@@ -8244,12 +8221,9 @@ msgid "Text"
 msgstr "Text"
 
 #: src/libraries/rwidgets/mediacontainers/pdfviewer.ui:376
-#, fuzzy
-#| msgctxt "MainWindow|"
-#| msgid "Side Panels"
 msgctxt "PdfViewer|"
 msgid "Hide Side Panel"
-msgstr "Quadros laterals"
+msgstr "Oculta el quadro lateral"
 
 #: src/libraries/rwidgets/mediacontainers/vmapframe.cpp:36
 msgctxt "QObject|"
@@ -8678,31 +8652,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Show time"
-#~ msgstr "Mostra l'hora"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Color of Time:"
-#~ msgstr "Color de l'hora:"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Hide Long commands"
-#~ msgstr "Oculta les ordres llargues"
-
-#~ msgctxt "PreferencesDialogBox|"
-#~ msgid "Maximum Length:"
-#~ msgstr "Duració màxima:"
-
-#~ msgctxt "PlayersPanel|"
-#~ msgid "..."
-#~ msgstr "…"
-
-#~ msgctxt "PlayersPanel|"
-#~ msgid "Add"
-#~ msgstr "Afig"
-
-#~ msgctxt "PlayersPanel|"
-#~ msgid "remove"
-#~ msgstr "elimina"
