@@ -487,4 +487,17 @@ bool MindMapControllerBase::readWrite() const
     return true;
 }
 
+bool MindMapControllerBase::hideEmptyLabel() const
+{
+    return m_hideEmptyLabel;
+}
+
+void MindMapControllerBase::setHideEmptyLabel(bool newHideEmptyLabel)
+{
+    if(m_hideEmptyLabel == newHideEmptyLabel)
+        return;
+    m_hideEmptyLabel= newHideEmptyLabel;
+    emit hideEmptyLabelChanged();
+}
+
 } // namespace mindmap

@@ -14,6 +14,8 @@ T.Switch {
     padding: 6
     spacing: 6
 
+    opacity: control.enabled ? 1.0 : 0.5
+
     contentItem: CheckLabel {
         color: control.style.text
         font: control.font

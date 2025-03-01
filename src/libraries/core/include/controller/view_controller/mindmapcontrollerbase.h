@@ -69,6 +69,7 @@ class CORE_EXPORT MindMapControllerBase : public MediaControllerBase
     Q_PROPERTY(bool isPackage READ isPackage NOTIFY toolChanged FINAL)
     Q_PROPERTY(bool isArrow READ isArrow NOTIFY toolChanged FINAL)
     Q_PROPERTY(bool readWrite READ readWrite NOTIFY readWriteChanged)
+    Q_PROPERTY(bool hideEmptyLabel READ hideEmptyLabel WRITE setHideEmptyLabel NOTIFY hideEmptyLabelChanged FINAL)
 public:
     enum MindMapTool
     {
@@ -120,6 +121,9 @@ public:
 
     virtual bool readWrite() const;
 
+    bool hideEmptyLabel() const;
+    void setHideEmptyLabel(bool newHideEmptyLabel);
+
 signals:
     void spacingChanged();
     void canRedoChanged();
@@ -133,6 +137,7 @@ signals:
     void toolChanged();
     void readWriteChanged();
 
+    void hideEmptyLabelChanged();
 public slots:
     void resetData();
     void setSpacing(bool b);
@@ -184,6 +189,7 @@ private:
     MindMapTool m_tool;
     bool m_isPackage;
     bool m_isArrow;
+    bool m_hideEmptyLabel{false};
 };
 } // namespace mindmap
 #endif // MINDMAPCONTROLLERBASE_H

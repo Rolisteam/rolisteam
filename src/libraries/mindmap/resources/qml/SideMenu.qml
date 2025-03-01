@@ -49,6 +49,15 @@ Drawer {
                     _drawer.mediaCtrl.linkLabelVisibility = linkVisible.checked
                 }
             }
+            Switch {
+                id: emptyLabel
+                text: qsTr("Hide empty label")
+                enabled:  _drawer.mediaCtrl.linkLabelVisibility
+                checked: _drawer.mediaCtrl.hideEmptyLabel
+                onCheckedChanged:  {
+                    _drawer.mediaCtrl.hideEmptyLabel = emptyLabel.checked
+                }
+            }
             RowLayout {
                 Layout.fillWidth: true
                 Label {

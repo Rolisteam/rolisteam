@@ -70,8 +70,9 @@ Flickable {
             controller: objectItem
             visible: objectItem.visible
             text: objectItem.text ?  objectItem.text : qsTr("is linked")
+            property bool hasValidText: _flick.ctrl.hideEmptyLabel ? objectItem.text.length > 0 : true
             writable: root.ctrl.readWrite
-            visibleLabel: _flick.ctrl.linkLabelVisibility
+            visibleLabel: hasValidText ? _flick.ctrl.linkLabelVisibility : false
             onTextEdited: {
                 objectItem.text = linkItem.text
             }
