@@ -61,7 +61,10 @@ ImageSelectorController::ImageSelectorController(bool askPath, Sources sources, 
 
                 m_thumbnail= imgs.second;
 
-                m_factor= static_cast<qreal>(m_pixmap.width()) / static_cast<qreal>(m_thumbnail.width());
+                auto factorw= static_cast<qreal>(m_pixmap.width()) / static_cast<qreal>(m_thumbnail.width());
+                auto factorh= static_cast<qreal>(m_pixmap.height()) / static_cast<qreal>(m_thumbnail.height());
+
+                m_factor= std::min(factorw, factorh);
                 emit pixmapChanged();
             });
     };
@@ -173,7 +176,9 @@ QSize ImageSelectorController::visualSize() const
 
 bool ImageSelectorController::rectInShape() const
 {
-    bool res= computeDataGeometry().contains(QRect(m_rect.x()*m_factor,m_rect.y()*m_factor,m_rect.width()*m_factor,m_rect.height()*m_factor));
+    QRect rect(m_rect.x() * m_factor, m_rect.y() * m_factor, m_rect.width() * m_factor, m_rect.height() * m_factor);
+    bool res= computeDataGeometry().contains(rect);
+
     if(m_shape == Square)
         res&= (m_rect.height() == m_rect.width());
     return res;
