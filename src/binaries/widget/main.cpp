@@ -189,15 +189,15 @@ int main(int argc, char* argv[])
                                            mainWindow.makeVisible(true);
                                            connectionDialog.setVisible(false);
                                        }));
-    /*states.connectToState(exitState, QScxmlStateMachine::onEntry(
-                                         [&states, &app]()
+    states.connectToState(exitState, QScxmlStateMachine::onEntry(
+                                         [/*&states,*/ &app]()
                                          {
                                              qDebug() << "on exit";
-
-                                         }));*/
+                                             app.quit();
+                                         }));
 
     QObject::connect(&app, &RolisteamApplication::quitApp, &states,
-                     [&states, &connectionDialog, &mainWindow, &app]()
+                     [&states, &connectionDialog, &mainWindow /*, &app*/]()
                      {
                          qDebug() << "on quit app event";
                          states.stop();
@@ -206,7 +206,7 @@ int main(int argc, char* argv[])
                          mainWindow.makeVisible(false);
                          connectionDialog.setVisible(false);
                          qDebug() << "end of on quit app event";
-                         app.quit();
+
                          // QMetaObject::invokeMethod(&app, &RolisteamApplication::quit, Qt::QueuedConnection);
                      });
 

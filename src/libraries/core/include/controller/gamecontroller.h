@@ -148,7 +148,7 @@ public slots:
     void startConnection();
     void stopConnection();
     void postConnection();
-    void aboutToClose();
+    void aboutToClose(bool save);
     void setLocalPlayerId(const QString& id);
 
     void newMedia(const std::map<QString, QVariant>& map);

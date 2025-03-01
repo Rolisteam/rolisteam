@@ -519,9 +519,10 @@ void GameController::postConnection()
     m_networkCtrl->saveData();
 }
 
-void GameController::aboutToClose()
+void GameController::aboutToClose(bool saveData)
 {
-    save();
+    if(saveData)
+        save();
     // save data
 
     // close connection

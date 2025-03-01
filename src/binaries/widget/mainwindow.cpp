@@ -392,7 +392,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     if(QMessageBox::Save == i)
     { // GM
         qDebug() << "inside if closeEvent";
-        m_gameController->aboutToClose();
+        m_gameController->aboutToClose(true);
         writeSettings();
         event->accept();
     }
@@ -403,6 +403,8 @@ void MainWindow::closeEvent(QCloseEvent* event)
     }
     else if(QMessageBox::Discard == i)
     { // GM
+        qDebug() << "inside else closeEvent Discard";
+        m_gameController->aboutToClose(false);
         event->accept();
     }
     else
@@ -782,7 +784,7 @@ int MainWindow::mayBeSaved()
     auto isGM= m_gameController->localIsGM();
     msgBox.setText(isGM ? tr("Do you want to save the campaign ?") : tr("Do you really want to quit Rolisteam ?"));
     msgBox.setIcon(QMessageBox::Question);
-    msgBox.addButton(0 ? QMessageBox::Save : QMessageBox::Yes);
+    msgBox.addButton(isGM ? QMessageBox::Save : QMessageBox::Yes);
     if(isGM)
         msgBox.addButton(QMessageBox::Discard);
     msgBox.addButton(isGM ? QMessageBox::Cancel : QMessageBox::No);
@@ -1224,11 +1226,14 @@ void MainWindow::dropEvent(QDropEvent* event)
             name= data->text();
         }
 
-        contentCtrl->openMedia(
-            {{Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::PICTURE)},
-             {Core::keys::KEY_DATA, IOHelper::imageToData(img)},
-             {Core::keys::KEY_NAME, name},
-             {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
+        if(!img.isNull())
+        {
+            contentCtrl->openMedia(
+                {{Core::keys::KEY_TYPE, QVariant::fromValue(Core::ContentType::PICTURE)},
+                 {Core::keys::KEY_DATA, IOHelper::imageToData(img)},
+                 {Core::keys::KEY_NAME, name},
+                 {Core::keys::KEY_OWNERID, m_gameController->playerController()->localPlayer()->uuid()}});
+        }
     }
     else if(data->hasUrls())
     {
