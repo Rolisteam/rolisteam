@@ -97,7 +97,7 @@ bool FileSerializer::readTextFile(MindItemModel* nodeModel, const QString& filep
     return true;
 }
 
-void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject& json)
+/*void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject& json)
 {
     /* QFile file(filepath);
      if(!file.open(QFile::ReadOnly))
@@ -107,7 +107,7 @@ void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject&
      auto data= file.readAll();
      QJsonDocument doc= QJsonDocument::fromJson(data);
 
-     auto json= doc.object();*/
+     auto json= doc.object();* /
 
     // auto nodeModel= dynamic_cast<MindItemModel*>(controller->itemModel());
 
@@ -125,7 +125,6 @@ void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject&
         auto y= obj["y"].toDouble();
         node->setPosition(QPointF(x, y));
         node->setText(obj["text"].toString());
-        node->setImageUri(obj["image"].toString());
         node->setVisible(obj["visible"].toBool());
         node->setOpen(obj["open"].toBool());
         node->setStyleIndex(obj["styleIndex"].toInt());
@@ -178,9 +177,9 @@ void FileSerializer::fetchItemModel(MindItemModel* nodeModel, const QJsonObject&
         link->setDirection(static_cast<LinkController::Direction>(obj["Direction"].toInt()));
         nodeModel->appendItem({link});
     }
-}
+}*/
 
-void FileSerializer::fetchImageModel(ImageModel* imgModel, const QJsonObject& json)
+/*void FileSerializer::fetchImageModel(ImageModel* imgModel, const QJsonObject& json)
 {
     auto imgArray= json["imgs"].toArray();
     for(auto const& imgRef : std::as_const(imgArray))
@@ -193,7 +192,7 @@ void FileSerializer::fetchImageModel(ImageModel* imgModel, const QJsonObject& js
         if(map.loadFromData(data))
             imgModel->insertPixmap(id, map, url);
     }
-}
+}*/
 
 QJsonObject FileSerializer::writeItemModel(MindItemModel* nodeModel, QJsonObject& json)
 {
@@ -211,7 +210,6 @@ QJsonObject FileSerializer::writeItemModel(MindItemModel* nodeModel, QJsonObject
         obj["x"]= node->position().x();
         obj["y"]= node->position().y();
         obj["text"]= node->text();
-        obj["image"]= node->imageUri();
         obj["visible"]= node->isVisible();
         obj["open"]= node->open();
         obj["styleIndex"]= node->styleIndex();

@@ -61,12 +61,12 @@ PositionedItem* LinkController::start() const
 
 bool LinkController::relatedTo(const QString& id) const
 {
-    bool res = false;
+    bool res= false;
 
     if(!m_start.isNull())
-        res = (m_start->id() == id);
+        res= (m_start->id() == id);
     else if(!res && !m_end.isNull())
-        res = (m_end->id() == id);
+        res= (m_end->id() == id);
 
     return res;
 }
@@ -114,7 +114,8 @@ void LinkController::setStart(PositionedItem* start)
         connect(m_start, &MindNode::positionChanged, this, &LinkController::startBoxChanged);
         connect(m_start, &MindNode::widthChanged, this, &LinkController::startBoxChanged);
         connect(m_start, &MindNode::heightChanged, this, &LinkController::startBoxChanged);
-        connect(m_start, &MindNode::visibleChanged, this, &LinkController::setVisible);
+        connect(m_start, &MindNode::visibleChanged, this,
+                [this](bool isVisible) { setVisible(isVisible && m_start->open()); });
         connect(m_start, &MindNode::textChanged, this,
                 [this]()
                 {

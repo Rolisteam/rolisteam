@@ -173,7 +173,7 @@ void MindItemModel::update(const QString& id, int role)
     emit dataChanged(index(row, 0), index(row, 0), {role});
 }
 
-void MindItemModel::setImageUriToNode(const QString& id, const QString& url)
+void MindItemModel::setImageUriToNode(const QString& id)
 {
     auto it= std::find_if(m_nodes.begin(), m_nodes.end(), [id](const MindItem* node) { return node->id() == id; });
     if(it == m_nodes.end())
@@ -184,7 +184,6 @@ void MindItemModel::setImageUriToNode(const QString& id, const QString& url)
     if(!node)
         return;
 
-    node->setImageUri(url);
     auto idx= index(dis, 0, QModelIndex());
     emit dataChanged(idx, idx, QVector<int>());
 }
@@ -200,11 +199,11 @@ Qt::ItemFlags MindItemModel::flags(const QModelIndex& index) const
 QHash<int, QByteArray> MindItemModel::roleNames() const
 {
     static QHash<int, QByteArray> roles= {{MindItemModel::Label, "label"},
-                                          {MindItemModel::Visible, "visible"},
-                                          {MindItemModel::Selected, "selected"},
+                                          {MindItemModel::Visible, "isVisible"},
+                                          {MindItemModel::Selected, "isSelected"},
                                           {MindItemModel::Type, "type"},
                                           {MindItemModel::Uuid, "id"},
-                                          {MindItemModel::Object, "object"},
+                                          {MindItemModel::Object, "objectItem"},
                                           {MindItemModel::HasPicture, "hasPicture"}};
     return roles;
 }

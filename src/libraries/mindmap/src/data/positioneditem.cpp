@@ -265,7 +265,7 @@ void PositionedItem::removeLink(LinkController* link)
 
 void PositionedItem::setLinkVisibility()
 {
-    bool visiblility= isVisible() & m_open;
+    bool visiblility= (isVisible() && m_open);
     std::for_each(m_subNodelinks.begin(), m_subNodelinks.end(),
                   [visiblility](LinkController* link)
                   {

@@ -128,7 +128,6 @@
 #include "mindmap/model/nodeimageprovider.h"
 #include "mindmap/model/nodestylemodel.h"
 #include "mindmap/qmlItems/linkitem.h"
-#include "mindmap/worker/fileserializer.h"
 #include "mindmapcontrollerbase.h"
 // #include "model/actiononlistmodel.h"
 #include "model/charactermodel.h"
@@ -524,7 +523,7 @@ void QObjectsTest::propertiesTest_data()
     QTest::addRow("FieldModel")  << static_cast<QObject*>(new FieldModel())<< true ;
     QTest::addRow("FieldView")  << static_cast<QObject*>(new FieldView())<< true ;
     QTest::addRow("FileDirChooser") << static_cast<QObject*>(new FileDirChooser()) << true;
-    QTest::addRow("FileSerializer") << static_cast<QObject*>(new mindmap::FileSerializer()) << true;
+    //QTest::addRow("FileSerializer") << static_cast<QObject*>(new mindmap::FileSerializer()) << true;
     QTest::addRow("FilterInstantMessagingModel")  << static_cast<QObject*>(new InstantMessaging::FilterInstantMessagingModel()) << true;
     QTest::addRow("FilteredCharacterModel") << static_cast<QObject*>(new campaign::FilteredCharacterModel()) << true;
     QTest::addRow("FilteredContentModel")        << static_cast<QObject*>(new FilteredContentModel(Core::ContentType::UNKNOWN)) << true;

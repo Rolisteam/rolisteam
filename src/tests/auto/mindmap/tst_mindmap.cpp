@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <QTest>
 #include <QAbstractItemModelTester>
+#include <QTest>
 
 #include "controller/view_controller/mindmapcontroller.h"
 #include "mindmap/controller/selectioncontroller.h"
@@ -553,12 +553,12 @@ void MindMapTest::getAndSetTest()
 
     auto id= Helper::randomString();
     auto path= QUrl::fromLocalFile(Helper::imagePath());
-    m_ctrl->openImage(id, path);
+    m_ctrl->addImageFor(id, path.toLocalFile(), {});
 
     m_ctrl->removeImage(id);
     m_ctrl->removeImage(Helper::randomString());
 
-    m_ctrl->openImage(id, path);
+    m_ctrl->addImageFor(id, path.toLocalFile(), {});
     m_ctrl->removeImageFor(id);
 
     m_ctrl->removeLink({Helper::randomString()});

@@ -214,11 +214,11 @@ QUrl MediaControllerBase::staticData() const
     return m_staticData;
 }
 
-void MediaControllerBase::setStaticData(const QUrl &newStaticData)
+void MediaControllerBase::setStaticData(const QUrl& newStaticData)
 {
-    if (m_staticData == newStaticData)
+    if(m_staticData == newStaticData)
         return;
-    m_staticData = newStaticData;
+    m_staticData= newStaticData;
     emit staticDataChanged();
 }
 
@@ -229,8 +229,8 @@ bool MediaControllerBase::sharing() const
 
 void MediaControllerBase::setSharing(bool newSharing)
 {
-    if (m_sharing == newSharing)
+    if(m_sharing == newSharing)
         return;
-    m_sharing = newSharing;
+    m_sharing= newSharing;
     emit sharingChanged();
 }

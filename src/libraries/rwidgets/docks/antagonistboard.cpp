@@ -234,10 +234,12 @@ AntagonistBoard::AntagonistBoard(campaign::CampaignEditor* editor, QWidget* pare
                 QDrag* drag= new QDrag(this);
                 RolisteamMimeData* mimeData= new RolisteamMimeData();
                 mimeData->setNpcUuid(uuid);
-                mimeData->setImageData(pix.toImage());
+                if(!pix.isNull())
+                    mimeData->setImageData(pix.toImage());
                 mimeData->setText(name);
                 drag->setMimeData(mimeData);
-                drag->setPixmap(helper::utils::roundCornerImage(pix));
+                if(!pix.isNull())
+                    drag->setPixmap(helper::utils::roundCornerImage(pix));
 
                 auto camp= m_editor->campaign();
                 if(camp)

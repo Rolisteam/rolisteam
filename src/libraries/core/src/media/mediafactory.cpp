@@ -263,13 +263,13 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
 
         QList<mindmap::MindItem*> nodesList;
-        for(const auto& var : nodes)
+        for(const auto& var : std::as_const(nodes))
         {
             auto node= new mindmap::MindNode();
             auto nodeV= var.toHash();
             node->setId(nodeV["uuid"].toString());
             node->setText(nodeV["text"].toString());
-            node->setImageUri(nodeV["imageUri"].toString());
+            // node->setAvatarUrl(nodeV["imageUri"].toString());
             QPointF pos(nodeV["x"].toReal(), nodeV["y"].toReal());
             node->setPosition(pos);
             node->setStyleIndex(nodeV["index"].toInt());
@@ -289,7 +289,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
 
         QList<mindmap::MindItem*> packList;
-        for(const auto& var : packs)
+        for(const auto& var : std::as_const(packs))
         {
             auto pack= new mindmap::PackageNode();
             auto packV= var.toHash();
@@ -300,7 +300,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
             pack->setHeight(packV["height"].toDouble());
             auto childrenIds= packV["children"].toStringList();
             data.insert(pack->id(), pack);
-            for(auto const& id : childrenIds)
+            for(auto const& id : std::as_const(childrenIds))
             {
                 parentData.insert(id, pack->id());
                 pack->addChild(model->positionItem(id));
@@ -331,7 +331,7 @@ MindMapController* mindmap(const QString& uuid, const QHash<QString, QVariant>& 
         auto model= dynamic_cast<mindmap::MindItemModel*>(mindmapCtrl->itemModel());
 
         QList<mindmap::MindItem*> linkList;
-        for(const auto& var : links)
+        for(const auto& var : std::as_const(links))
         {
             auto link= new mindmap::LinkController();
             auto linkV= var.toHash();

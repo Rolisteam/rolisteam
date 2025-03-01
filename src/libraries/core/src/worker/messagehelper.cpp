@@ -459,7 +459,7 @@ void fillUpMessageWithMindmap(NetworkMessageWriter& msg, MindMapController* ctrl
         msg.uint64(node->styleIndex());
         msg.real(node->position().x());
         msg.real(node->position().y());
-        msg.string16(node->imageUri());
+        // msg.string16(node->avatarUrl().toString()); // TODO
         msg.string32(node->tagsText());
         msg.string32(node->description());
     }
@@ -599,7 +599,7 @@ QHash<QString, QVariant> MessageHelper::readMindMap(NetworkMessageReader* msg)
         node["index"]= msg->uint64();
         node["x"]= msg->real();
         node["y"]= msg->real();
-        node["imageUri"]= msg->string16();
+        // node["imageUri"]= msg->string16();
         node["tagstext"]= msg->string32();
         node["description"]= msg->string32();
 
@@ -1498,7 +1498,7 @@ void MessageHelper::sendOffRemoveImageInfo(const QString& id, MediaControllerBas
     if(!ctrl)
         return;
 
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddSubImage);
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::RemoveSubImage);
     msg.int8(static_cast<int>(ctrl->contentType()));
     msg.string8(ctrl->uuid());
     msg.string8(id);
@@ -1557,7 +1557,7 @@ void addNodeToMsg(NetworkMessageWriter& msg, mindmap::MindNode* node)
     msg.real(f.x());
     msg.real(f.y());
     msg.string32(node->text());
-    msg.string8(node->imageUri());
+    // msg.string8(node->avatarUrl().toString());
     msg.string8(node->parentId());
     msg.uint64(node->styleIndex());
 
@@ -1648,7 +1648,7 @@ void readNodeFromMsg(MindMapController* ctrl, NetworkMessageReader* msg)
     node->setPosition(QPointF(x, y));
     node->setText(text);
     node->setId(id);
-    node->setImageUri(uri);
+    // node->setAvatarUrl(QUrl(uri));
     if(!parentId.isEmpty())
     {
         auto parent= ctrl->nodeFromId(parentId);

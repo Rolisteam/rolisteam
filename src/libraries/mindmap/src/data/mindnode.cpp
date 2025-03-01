@@ -52,19 +52,6 @@ void MindNode::setStyleIndex(int idx)
     emit styleIndexChanged();
 }
 
-QString MindNode::imageUri() const
-{
-    return m_imageUri;
-}
-
-void MindNode::setImageUri(const QString& uri)
-{
-    if(uri == m_imageUri)
-        return;
-    m_imageUri= uri;
-    emit imageUriChanged();
-}
-
 void MindNode::setDescription(const QString& newDescription)
 {
     if(m_description == newDescription)

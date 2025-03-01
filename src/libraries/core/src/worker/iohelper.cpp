@@ -529,7 +529,7 @@ QByteArray saveMindmap(mindmap::MindMapControllerBase* ctrl)
             continue;
         QJsonObject obj;
         updatePositionItem(obj, node);
-        obj[Core::jsonctrl::Mindmap::JSON_NODE_IMAGE]= node->imageUri();
+        // obj[Core::jsonctrl::Mindmap::JSON_NODE_IMAGE]= node->avatarUrl().toString();
         obj[Core::jsonctrl::Mindmap::JSON_NODE_STYLE]= node->styleIndex();
         obj[Core::jsonctrl::Mindmap::JSON_NODE_DESC]= node->description();
         obj[Core::jsonctrl::Mindmap::JSON_NODE_TAGS]= QJsonArray::fromStringList(node->tags());
@@ -551,7 +551,6 @@ QByteArray saveMindmap(mindmap::MindMapControllerBase* ctrl)
         updatePositionItem(obj, pack);
         obj[Core::jsonctrl::Mindmap::JSON_PACK_TITLE]= pack->title();
         obj[Core::jsonctrl::Mindmap::JSON_PACK_MINMARGE]= pack->minimumMargin();
-
         obj[Core::jsonctrl::Mindmap::JSON_PACK_INTERNAL_CHILDREN]= QJsonArray::fromStringList(pack->childrenId());
         packagesArray.append(obj);
     }
@@ -584,7 +583,6 @@ QByteArray saveMindmap(mindmap::MindMapControllerBase* ctrl)
     {
         QJsonObject obj;
         obj[Core::jsonctrl::Mindmap::JSON_IMG_ID]= img.m_id;
-        obj[Core::jsonctrl::Mindmap::JSON_IMG_DATA]= QString::fromUtf8(IOHelper::pixmapToData(img.m_pixmap).toBase64());
         obj[Core::jsonctrl::Mindmap::JSON_IMG_URL]= img.m_url.toString();
         imgArray.append(obj);
     }
@@ -751,7 +749,7 @@ QString IOHelper::copyImageFileIntoCampaign(const QString& path, const QString& 
     if(path.startsWith(dest))
         return path;
     else
-        return utils::IOHelper::copyFile(path, dest);
+        return utils::IOHelper::copyFile(path, dest, true);
 }
 
 Character* IOHelper::dupplicateCharacter(const Character* obj)
@@ -854,14 +852,13 @@ void IOHelper::readMindmapControllerBase(mindmap::MindMapControllerBase* ctrl, c
 
     auto imgs= objCtrl[Core::jsonctrl::Mindmap::JSON_IMGS].toArray();
     auto imgModel= ctrl->imgModel();
-    for(auto const& imgRef : imgs)
+    for(auto const& imgRef : std::as_const(imgs))
     {
         auto img= imgRef.toObject();
-        auto pixmap= IOHelper::dataToPixmap(
-            QByteArray::fromBase64(img[Core::jsonctrl::Mindmap::JSON_IMG_DATA].toString().toUtf8()));
         auto id= img[Core::jsonctrl::Mindmap::JSON_IMG_ID].toString();
-        auto url= QUrl::fromUserInput(img[Core::jsonctrl::Mindmap::JSON_IMG_URL].toString());
-        imgModel->insertPixmap(id, pixmap, url);
+        auto url= QUrl(img[Core::jsonctrl::Mindmap::JSON_IMG_URL].toString());
+        QPixmap map= utils::IOHelper::readPixmapFromURL(url);
+        imgModel->insertPixmap(id, map, url);
     }
 
     auto updateMindItem= [](const QJsonObject& obj, mindmap::MindItem* item)
@@ -898,7 +895,7 @@ void IOHelper::readMindmapControllerBase(mindmap::MindMapControllerBase* ctrl, c
         auto node= new mindmap::MindNode();
         updatePositionItem(nodeJson, node);
 
-        node->setImageUri(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_IMAGE].toString());
+        // node->setAvatarUrl(QUrl(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_IMAGE].toString()));
         node->setStyleIndex(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_STYLE].toInt());
         node->setDescription(nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_DESC].toString());
         auto tagArray= nodeJson[Core::jsonctrl::Mindmap::JSON_NODE_TAGS].toArray();
@@ -957,7 +954,7 @@ bool IOHelper::mergePlayList(const QString& source, const QString& dest)
 
     if(!ok)
     {
-        utils::IOHelper::copyFile(source, dest);
+        utils::IOHelper::copyFile(source, dest, true);
         return true;
     }
 
@@ -989,7 +986,7 @@ bool IOHelper::copyArrayModelAndFile(const QString& source, const QString& sourc
 
     if(!ok)
     {
-        utils::IOHelper::copyFile(source, dest);
+        utils::IOHelper::copyFile(source, dest, true);
     }
 
     destJson.append(sourceJson);
@@ -998,9 +995,9 @@ bool IOHelper::copyArrayModelAndFile(const QString& source, const QString& sourc
     // Copy npcs files
     QDir dir(sourceDir);
     auto fileList= dir.entryList(QDir::Files | QDir::Readable);
-    for(auto const& file : fileList)
+    for(auto const& file : std::as_const(fileList))
     {
-        utils::IOHelper::copyFile(QString("%1/%2").arg(sourceDir, file), QString("%1/%2").arg(destDir, file));
+        utils::IOHelper::copyFile(QString("%1/%2").arg(sourceDir, file), QString("%1/%2").arg(destDir, file), true);
     }
     return true;
 }

@@ -22,8 +22,8 @@
 
 #include <QObject>
 #include <QPointF>
-#include <QVector2D>
 #include <QQmlEngine>
+#include <QVector2D>
 
 #include "mindmap/mindmap_global.h"
 

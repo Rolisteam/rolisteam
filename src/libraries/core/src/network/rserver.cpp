@@ -7,7 +7,7 @@
 #include "network/upnp/upnpnat.h"
 
 RServer::RServer(const QMap<QString, QVariant>& parameter, bool internal, QObject* parent)
-    : QTcpServer(parent), m_corConnection(new TimeAccepter()), m_data(parameter),m_internal(internal)
+    : QTcpServer(parent), m_corConnection(new TimeAccepter()), m_data(parameter), m_internal(internal)
 {
     if(m_data.contains("ThreadCount"))
         m_threadCount= m_data.value("ThreadCount", m_threadCount).toInt();
@@ -29,19 +29,22 @@ void RServer::runUpnpNat()
 {
     auto nat= new UpnpNat(this);
     nat->init(5, 10);
-    connect(nat, &UpnpNat::discoveryEnd, this, [this, nat](bool b) {
-
-        qDebug() << "discover ends" << nat;
-        if(b)
-           nat->addPortMapping("Roliserver", nat->localIp(), m_port, m_port, "TCP");
-    });
-    connect(nat, &UpnpNat::statusChanged, this, [this, nat]() {
-        if(nat->status() == UpnpNat::NAT_STAT::NAT_ADD)
-        {
-            emit eventOccured(tr("[Upnp] Port mapping has been done"), LogController::LogLevel::Features);
-            nat->deleteLater();
-        }
-    });
+    connect(nat, &UpnpNat::discoveryEnd, this,
+            [this, nat](bool b)
+            {
+                qDebug() << "discover ends" << nat;
+                if(b)
+                    nat->addPortMapping("Roliserver", nat->localIp(), m_port, m_port, "TCP");
+            });
+    connect(nat, &UpnpNat::statusChanged, this,
+            [this, nat]()
+            {
+                if(nat->status() == UpnpNat::NAT_STAT::NAT_ADD)
+                {
+                    emit eventOccured(tr("[Upnp] Port mapping has been done"), LogController::LogLevel::Features);
+                    nat->deleteLater();
+                }
+            });
 
     connect(nat, &UpnpNat::lastErrorChanged, this,
             [this, nat]() { emit eventOccured(nat->lastError(), LogController::LogLevel::Error); });
@@ -138,9 +141,9 @@ void RServer::accept(qintptr descriptor, ServerConnection* connection)
         return;
     }
 
-    auto it= std::min_element(
-        std::begin(m_threadPool), std::end(m_threadPool),
-        [](const ThreadInfo& a, const ThreadInfo& b) { return a.m_connectionCount < b.m_connectionCount; });
+    auto it= std::min_element(std::begin(m_threadPool), std::end(m_threadPool),
+                              [](const ThreadInfo& a, const ThreadInfo& b)
+                              { return a.m_connectionCount < b.m_connectionCount; });
 
     if(it == std::end(m_threadPool))
     {

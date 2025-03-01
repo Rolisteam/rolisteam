@@ -270,7 +270,6 @@ QString typeToIconPath(Core::ContentType type)
 
 Core::ContentType extensionToContentType(const QString& filename)
 {
-    qDebug() << "Filename:" << filename;
     QSet<Core::ContentType> types{Core::ContentType::VECTORIALMAP, Core::ContentType::PICTURE,
                                   Core::ContentType::NOTES,        Core::ContentType::MINDMAP,
                                   Core::ContentType::SHAREDNOTE,   Core::ContentType::PDF,
@@ -278,9 +277,8 @@ Core::ContentType extensionToContentType(const QString& filename)
     for(auto type : types)
     {
         auto list= extentionPerType(type, false);
-        for(const auto& ext : list)
+        for(const auto& ext : std::as_const(list))
         {
-            qDebug() << "ext" << ext << "filename:" << filename << filename.endsWith(ext, Qt::CaseInsensitive);
             if(filename.endsWith(ext, Qt::CaseInsensitive))
                 return type;
         }

@@ -43,7 +43,7 @@ set(mindmap_header
     ${inc_dir}/command/removeimagefromnodecommand.h
     ${inc_dir}/command/additemcommand.h
     ${inc_dir}/command/commandhelper.h
-    ${inc_dir}/worker/fileserializer.h
+    #${inc_dir}/worker/fileserializer.h
   )
 
  # main.cpp
@@ -68,7 +68,7 @@ set(mindmap_src
     src/command/reparentingnodecommand.cpp
     src/geometry/linknode.cpp
     src/qmlItems/linkitem.cpp
-    src/worker/fileserializer.cpp
+    #src/worker/fileserializer.cpp
   )
 
 add_library(rmindmap SHARED ${mindmap_header} ${mindmap_src} ${mindmap_qml} rmindmap.qrc)
