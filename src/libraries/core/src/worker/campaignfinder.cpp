@@ -25,3 +25,10 @@ QString CampaignFinder::campaignRoot()
 {
     return m_manager ? m_manager->campaignDir() : QString();
 }
+
+QString CampaignFinder::staticContentRoot()
+{
+    if(!m_manager)
+        return {};
+    return m_manager->placeDirectory(campaign::Campaign::Place::STATIC_ROOT);
+}

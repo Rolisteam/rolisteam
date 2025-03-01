@@ -38,6 +38,7 @@ public:
     static bool pathIsInCampaign(const QString& path);
     static void setManager(campaign::CampaignManager* manager);
     static QString campaignRoot();
+    static QString staticContentRoot();
 
 private:
     static QPointer<campaign::CampaignManager> m_manager;
