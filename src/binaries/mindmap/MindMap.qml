@@ -68,7 +68,8 @@ Pane {
       fileMode: FileDialog.OpenFile
       nameFilters: [qsTr("Images (*.jpg *.png *.jpeg *.gif *.bmp)")]
       onAccepted: {
-          root.ctrl.openImage(imgSelector.uuid, imgSelector.selectedFile)
+          const data;
+          root.ctrl.addImageFor(imgSelector.uuid, imgSelector.selectedFile, data)
       }
     }
 

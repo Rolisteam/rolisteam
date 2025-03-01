@@ -80,7 +80,7 @@ public slots:
     mindmap::MindItem* createItem(MindItem::Type type);
     bool removeItem(const mindmap::MindItem* node);
     void openItem(const QString& id, bool status);
-    void setImageUriToNode(const QString& id, const QString& url);
+    void setImageUriToNode(const QString& id);
     void update(const QString& id, int role);
     void clear();
 
@@ -92,6 +92,8 @@ signals:
 
     void defaultStyleIndexChanged();
 
+    void baseUrlChanged();
+
 private:
     void removeAllSubItem(const mindmap::PositionedItem* item, QSet<QString>& items);
 
@@ -99,7 +101,6 @@ private:
     std::vector<mindmap::MindItem*> m_links;
     std::vector<mindmap::MindItem*> m_packages;
     std::vector<mindmap::MindItem*> m_nodes;
-
     QPointer<ImageModel> m_imgModel;
     int m_defaultStyleIndex= 0;
 };

@@ -105,10 +105,12 @@ void SpacingController::computeInLoop()
 
 void SpacingController::applyCoulombsLaw(PositionedItem* node, std::vector<PositionedItem*> nodeList)
 {
+    if(!node->isVisible())
+        return;
     auto globalRepulsionForce= QVector2D();
     for(auto const& otherNode : nodeList)
     {
-        if(node == otherNode)
+        if(node == otherNode || !otherNode->isVisible())
             continue;
 
         auto vect= QVector2D(node->position() - otherNode->position());
@@ -130,6 +132,9 @@ void SpacingController::applyHookesLaw(LinkController* link)
     auto node2= link->end();
 
     if(node1 == nullptr || node2 == nullptr)
+        return;
+
+    if(!node1->isVisible() || !node2->isVisible())
         return;
 
     auto p1= node1->position();

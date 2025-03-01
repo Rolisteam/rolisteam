@@ -148,7 +148,7 @@ Drawer {
                     columns: 4
                     width:  _list.width
 
-                    property QtObject item:  object
+                    property QtObject item:  objectItem
                     enabled: mediaCtrl.readWrite
                     Image {
                         Layout.column: 0

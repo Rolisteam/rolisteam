@@ -138,6 +138,8 @@ signals:
     void readWriteChanged();
 
     void hideEmptyLabelChanged();
+    void copyImageFileTo(const QPixmap& img, const QString dest);
+
 public slots:
     void resetData();
     void setSpacing(bool b);
@@ -161,7 +163,7 @@ public slots:
     void addItemIntoPackage(const QString& idNode, const QString& idPack, bool network= false);
     void removeItemFromPackage(const QString& idNode, const QString& idPack, bool network= false);
     void refresh();
-    void openImage(const QString& id, const QUrl& path);
+    // void openImage(const QString& id, const QUrl& path);
     void removeImage(const QString& id);
     void removeLink(const QStringList& id);
     void removeNode(const QStringList& id);

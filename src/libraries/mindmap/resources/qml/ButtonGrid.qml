@@ -36,6 +36,7 @@ GridLayout{
     IconButton {
         source: _root.styleSheet.saveIcon
         onClicked: _root.saveMap()
+        enabled: _root.ctrl.readWrite
         tooltip: qsTr("Save Map")
     }
 
@@ -47,6 +48,7 @@ GridLayout{
     IconButton {//add node
         id: _addRoot
         source: _root.styleSheet.addIcon
+        enabled: _root.ctrl.readWrite
         tooltip: qsTr("Add Root")
         onClicked: _root.ctrl.addNode("")
     }
@@ -54,6 +56,7 @@ GridLayout{
         id: _pack
         source: _root.styleSheet.editIcon
         checkable: true
+        enabled: _root.ctrl.readWrite
         tooltip: qsTr("Add Package")
         checked: _root.ctrl.tool === MindMapController.Package
         onClicked: _root.ctrl.tool = MindMapController.Package
@@ -64,13 +67,14 @@ GridLayout{
         tooltip: qsTr("Add Arrow")
         source: _root.styleSheet.addGrayArrow
         checkable: true
+        enabled: _root.ctrl.readWrite
         checked: _root.ctrl.tool === MindMapController.Arrow
         onClicked: _root.ctrl.tool = MindMapController.Arrow
     }
     IconButton {//remove selection
         tooltip: qsTr("Remove selected Items")
         source: _root.styleSheet.trashIcon
-        enabled: _root.ctrl.hasSelection
+        enabled: _root.ctrl.hasSelection && _root.ctrl.readWrite
         onClicked: _root.ctrl.removeSelection()
     }
 

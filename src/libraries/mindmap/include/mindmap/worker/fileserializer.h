@@ -34,8 +34,8 @@ public:
 
     static bool readTextFile(MindItemModel* nodeModel, const QString& filepath);
 
-    static void fetchItemModel(MindItemModel* model, const QJsonObject& json);
-    static void fetchImageModel(mindmap::ImageModel* model, const QJsonObject& json);
+    // static void fetchItemModel(MindItemModel* model, const QJsonObject& json);
+    //  static void fetchImageModel(mindmap::ImageModel* model, const QJsonObject& json);
 
     static QJsonObject writeItemModel(MindItemModel* model, QJsonObject& json);
     static QJsonObject writeImageModel(mindmap::ImageModel* model, QJsonObject& json);

@@ -147,10 +147,6 @@ bool MindMapUpdater::updateSubobjectProperty(NetworkMessageReader* msg, MindMapC
     {
         var= msg->string32();
     }
-    else if(property == QStringLiteral("imageUri"))
-    {
-        var= msg->string32();
-    }
     else if(property == QStringLiteral("styleIndex"))
     {
         var= msg->int64();
@@ -220,9 +216,9 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
         info.connections << connect(n, &mindmap::MindNode::textChanged, this,
                                     [this, idCtrl, n]()
                                     { sendOffChange<QString>(idCtrl, QStringLiteral("text"), n, true); });
-        info.connections << connect(n, &mindmap::MindNode::imageUriChanged, this,
+        /*info.connections << connect(n, &mindmap::MindNode::imageUriChanged, this,
                                     [this, idCtrl, n]()
-                                    { sendOffChange<QString>(idCtrl, QStringLiteral("imageUri"), n, true); });
+                                    { sendOffChange<QString>(idCtrl, QStringLiteral("imageUri"), n, true); });*/
         info.connections << connect(n, &mindmap::MindNode::styleIndexChanged, this,
                                     [this, idCtrl, n]()
                                     { sendOffChange<int>(idCtrl, QStringLiteral("styleIndex"), n, true); });
@@ -312,10 +308,10 @@ void MindMapUpdater::setConnection(MindMapController* ctrl)
                             << connect(node, &mindmap::MindNode::descriptionChanged, this,
                                        [this, idCtrl, node]()
                                        { sendOffChange<QString>(idCtrl, QStringLiteral("description"), node, true); });
-                        info->connections
-                            << connect(node, &mindmap::MindNode::imageUriChanged, this,
-                                       [this, idCtrl, node]()
-                                       { sendOffChange<QString>(idCtrl, QStringLiteral("imageUri"), node, true); });
+                        /* info->connections
+                             << connect(node, &mindmap::MindNode::imageUriChanged, this,
+                                        [this, idCtrl, node]()
+                                        { sendOffChange<QString>(idCtrl, QStringLiteral("imageUri"), node, true); });*/
                         info->connections
                             << connect(node, &mindmap::MindNode::styleIndexChanged, this,
                                        [this, idCtrl, node]()
@@ -453,11 +449,11 @@ NetWorkReceiver::SendType MindMapUpdater::processMessage(NetworkMessageReader* m
                                           static_cast<int>(Core::SharingPermission::ReadOnly));
         readWrite ? setConnection(ctrl) : disconnectController(ctrl);
     }
-    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::AddSubImage))
+    else if(checkAction(msg, NetMsg::MediaCategory, NetMsg::AddSubImage))
     {
         MessageHelper::readAddSubImage(ctrl->imgModel(), ctrl->itemModel(), msg);
     }
-    else if(checkAction(msg, NetMsg::MindMapCategory, NetMsg::RemoveSubImage))
+    else if(checkAction(msg, NetMsg::MediaCategory, NetMsg::RemoveSubImage))
     {
         MessageHelper::readRemoveSubImage(ctrl->imgModel(), msg);
     }

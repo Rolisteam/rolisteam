@@ -23,25 +23,40 @@
 
 #include "mindmap/model/imagemodel.h"
 #include "mindmap/model/minditemmodel.h"
-
 #include "utils/iohelper.h"
-
 
 namespace mindmap
 {
 AddImageToNodeCommand::AddImageToNodeCommand(MindItemModel* nodeModel, ImageModel* imgModel, const QString& id,
-                                             const QString& url, const QByteArray& imageData)
+                                             const QString& url, const QByteArray& imageData,
+                                             const QString& campaignRoot, const QString& destinationRoot)
     : m_nodeModel(nodeModel), m_id(id), m_imgModel(imgModel)
 {
-    auto urlObj = QUrl::fromUserInput(url);
+    m_url= QUrl::fromUserInput(url);
+    qDebug() << "AddImageNode: mindmap:" << imageData.isEmpty() << m_url << url;
 
-    if(imageData.isNull())
-        m_pixmap= utils::IOHelper::readPixmapFromURL(urlObj);
+    if(imageData.isEmpty())
+        m_pixmap= utils::IOHelper::readPixmapFromURL(m_url);
     else
         m_pixmap= QPixmap::fromImage(utils::IOHelper::dataToImage(imageData));
 
+    if(!m_url.isLocalFile())
+    {
+        QUrl newUrl= QUrl(QString("file://%1/%3_%2").arg(destinationRoot, m_url.fileName(), id));
+        if(utils::IOHelper::savePixmapInto(m_pixmap, newUrl))
+            m_url= newUrl;
+    }
+    else if(!m_url.toString().contains(campaignRoot))
+    {
+        QUrl newUrl= QUrl(QString("file://%1/%3_%2").arg(destinationRoot, m_url.fileName(), id));
+        auto pathText= utils::IOHelper::copyFile(m_url.toLocalFile(), newUrl.toLocalFile(), true);
+        if(!pathText.isEmpty())
+            m_url= newUrl;
+    }
 
-    setText(QObject::tr("Add %1 image").arg(url));
+    qDebug() << "AddImageNode: mindmap: 2" << imageData.isEmpty() << m_url << url;
+
+    setText(QObject::tr("Add %1 image").arg(m_url.toString()));
 }
 
 void mindmap::AddImageToNodeCommand::undo()
@@ -52,7 +67,7 @@ void mindmap::AddImageToNodeCommand::undo()
 
 void mindmap::AddImageToNodeCommand::redo()
 {
-    m_imgModel->insertPixmap(m_id, m_pixmap);
+    m_imgModel->insertPixmap(m_id, m_pixmap, m_url);
     m_nodeModel->update(m_id, MindItemModel::HasPicture);
 }
 } // namespace mindmap

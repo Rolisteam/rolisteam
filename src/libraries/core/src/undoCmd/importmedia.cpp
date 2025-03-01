@@ -44,7 +44,7 @@ ImportMedia::ImportMedia(campaign::Campaign* campaign, const QString& name, cons
     utils::IOHelper::makeDir(m_copyPath);
     m_destPath= QString("%1/%2").arg(m_destPath, info.fileName());
     m_copyPath= QString("%1/%2").arg(m_copyPath, info.fileName());
-    utils::IOHelper::copyFile(sourcePath, m_tmpPath);
+    utils::IOHelper::copyFile(sourcePath, m_tmpPath, true);
 }
 
 void ImportMedia::redo()

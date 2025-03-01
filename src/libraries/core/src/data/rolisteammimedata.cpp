@@ -60,7 +60,8 @@ void RolisteamMimeData::setPerson(Person* data)
     urls << QUrl(QString("image://avatar/%1").arg(data->uuid()));
     setUrls(urls);
     setColorData(data->getColor());
-    setImageData(data->avatar());
+    if(data->hasAvatar())
+        setImageData(data->avatar());
 }
 
 void RolisteamMimeData::setNpcUuid(const QString& str)

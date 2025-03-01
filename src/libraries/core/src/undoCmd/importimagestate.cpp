@@ -35,7 +35,7 @@ ImportImageState::ImportImageState(campaign::Campaign* campaign, const QString& 
     , m_destPath(destPath)
 {
     setText(tr("Import media: %1").arg(destPath));
-    utils::IOHelper::copyFile(sourcePath, m_tmpPath);
+    utils::IOHelper::copyFile(sourcePath, m_tmpPath, true);
 }
 
 void ImportImageState::redo()
@@ -43,13 +43,13 @@ void ImportImageState::redo()
     auto it= std::unique_ptr<campaign::Media>(
         new campaign::Media(m_uuid, m_name, m_destPath, campaign::FileSerializer::typeFromExtention(m_destPath)));
     m_campaign->addMedia(std::move(it));
-    utils::IOHelper::copyFile(m_tmpPath, m_destPath);
+    utils::IOHelper::copyFile(m_tmpPath, m_destPath, true);
 }
 
 void ImportImageState::undo()
 {
     m_campaign->removeMedia(m_uuid);
-    utils::IOHelper::copyFile(m_destPath, m_tmpPath);
+    utils::IOHelper::copyFile(m_destPath, m_tmpPath, true);
 }
 
 } // namespace commands

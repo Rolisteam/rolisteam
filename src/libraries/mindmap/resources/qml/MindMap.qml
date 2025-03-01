@@ -152,7 +152,7 @@ Flickable {
             readWrite: _flick.ctrl.readWrite
             focus: true
             text : objectItem.text
-            source: hasAvatar ? "image://nodeImages/%1".arg(objectItem.id) : ""
+            source: hasPicture ? "image://nodeImages/%1".arg(objectItem.id) : ""
             visible: objectItem.visible
             selected: objectItem.selected
             onTextEdited: {
@@ -175,7 +175,7 @@ Flickable {
                 _stylePopup.y = h < 300 ? -Math.abs(300 - h)  : 0
                 _stylePopup.x = nodeItem.width
                 _stylePopup.height = Math.max(h, 300)
-                _stylePopup.hasAvatar = hasAvatar
+                _stylePopup.hasAvatar = hasPicture
 
                 _stylePopup.node = objectItem
                 _stylePopup.open()
@@ -295,11 +295,12 @@ Flickable {
             anchors.fill: parent
             model: _flick.ctrl.itemModel
             delegate: Loader {
-                property string text: label
-                property QtObject objectItem:  object
-                property bool isSelected: selected
-                property bool isVisible: visible
-                property bool hasAvatar: hasPicture
+                required property string label
+                required property QtObject objectItem
+                required property bool isSelected
+                required property bool isVisible
+                required property bool hasPicture
+                required property int type
                 sourceComponent: type == MindItem.PackageType ? packComp : type == MindItem.LinkType ? linkComp : nodeComp
             }
         }

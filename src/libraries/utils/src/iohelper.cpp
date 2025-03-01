@@ -6,9 +6,8 @@
 #include <QDir>
 #include <QFile>
 #include <QSaveFile>
-#include <QTextStream>
 #include <QSignalSpy>
-
+#include <QTextStream>
 
 namespace utils
 {
@@ -40,7 +39,7 @@ bool makeDir(const QString& dir)
     return makeSurePathExist(QDir(dir));
 }
 
-QString copyFile(const QString& source, const QString& destination)
+QString copyFile(const QString& source, const QString& destination, bool overwrite)
 {
     QFile src(source);
     QFileInfo srcInfo(source);
@@ -50,6 +49,9 @@ QString copyFile(const QString& source, const QString& destination)
 
     if(makeSurePathExist(dest.dir()))
     {
+        if(overwrite)
+            QFile::remove(dest.absoluteFilePath());
+
         if(src.copy(dest.absoluteFilePath()))
             return dest.absoluteFilePath();
     }
@@ -123,9 +125,9 @@ QPixmap readPixmapFromWeb(const QUrl& url)
         return {};
     else
     {
-        auto first = spy.takeFirst();
-        auto hasImage = first.at(1).toBool();
-        auto imageData = first.at(0).toByteArray();
+        auto first= spy.takeFirst();
+        auto hasImage= first.at(1).toBool();
+        auto imageData= first.at(0).toByteArray();
         if(hasImage)
             return QPixmap::fromImage(dataToImage(imageData));
     }
@@ -145,15 +147,23 @@ QPixmap readPixmapFromURL(const QUrl& url)
     }
     else if(url.scheme().startsWith(QStringLiteral("http")))
     {
-        map = readPixmapFromWeb(url);
+        map= readPixmapFromWeb(url);
     }
     return map;
 }
+
 QString shortNameFromPath(const QString& path)
 {
     QFileInfo info(path);
     return info.baseName();
 }
+
+QString fileNameFromPath(const QString& path)
+{
+    QFileInfo info(path);
+    return info.fileName();
+}
+
 QString absoluteToRelative(const QString& absolute, const QString& root)
 {
     QDir dir(root);
@@ -171,13 +181,19 @@ QImage dataToImage(const QByteArray& data)
     return img;
 }
 
-QByteArray imageToData(const QImage &pix)
+QByteArray imageToData(const QImage& pix)
 {
     QByteArray bytes;
     QBuffer buffer(&bytes);
     buffer.open(QIODevice::WriteOnly);
     pix.save(&buffer, "PNG");
     return bytes;
+}
+
+bool savePixmapInto(const QPixmap& map, const QUrl& destination)
+{
+    Q_ASSERT(destination.isLocalFile());
+    return map.save(destination.toLocalFile(), "PNG");
 }
 
 } // namespace IOHelper

@@ -103,7 +103,7 @@ bool CampaignEditor::copyMedia(const QString& source, const QString& dest, Core:
 
 bool CampaignEditor::copyTheme(const QString& source, const QString& dest)
 {
-    auto res= utils::IOHelper::copyFile(source, dest);
+    auto res= utils::IOHelper::copyFile(source, dest, true);
     return !res.isEmpty();
 }
 
@@ -117,7 +117,7 @@ bool CampaignEditor::mergeJsonArrayFile(const QString& source, const QString& de
 
     if(!ok)
     {
-        utils::IOHelper::copyFile(source, dest);
+        utils::IOHelper::copyFile(source, dest, true);
         return true;
     }
 
@@ -153,8 +153,8 @@ bool CampaignEditor::loadStates(const QString& source, const QString& srcDir, co
                       auto path= state->imagePath();
                       if(path.isEmpty())
                           return;
-                      utils::IOHelper::copyFile(QString("%1/%2").arg(srcDir, path),
-                                                QString("%1/%2").arg(destDir, path));
+                      utils::IOHelper::copyFile(QString("%1/%2").arg(srcDir, path), QString("%1/%2").arg(destDir, path),
+                                                true);
                   });
     // todo manage images from states
     return ok;
@@ -176,8 +176,8 @@ bool CampaignEditor::loadNpcData(const QString& source, const QString& srcDir, c
                       auto path= npc->avatarPath();
                       if(path.isEmpty())
                           return;
-                      utils::IOHelper::copyFile(QString("%1/%2").arg(srcDir, path),
-                                                QString("%1/%2").arg(destDir, path));
+                      utils::IOHelper::copyFile(QString("%1/%2").arg(srcDir, path), QString("%1/%2").arg(destDir, path),
+                                                true);
                   });
     // todo manage images from states
     return ok;

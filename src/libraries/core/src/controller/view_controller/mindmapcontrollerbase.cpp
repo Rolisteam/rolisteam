@@ -21,12 +21,13 @@
 
 #include <QDebug>
 #include <QFile>
+#include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QThread>
 #include <QUrl>
-#include <random>
+// #include <random>
 
 #include "mindmap/command/addimagetonodecommand.h"
 #include "mindmap/command/additemcommand.h"
@@ -41,6 +42,8 @@
 #include "mindmap/model/imagemodel.h"
 #include "mindmap/model/nodestylemodel.h"
 #include "mindmap/worker/fileserializer.h"
+#include "utils/iohelper.h"
+#include "worker/campaignfinder.h"
 
 namespace mindmap
 {
@@ -241,7 +244,9 @@ void MindMapControllerBase::centerItems(qreal w, qreal h)
 
 void MindMapControllerBase::addImageFor(const QString& idNode, const QString& path, const QByteArray& data)
 {
-    m_stack.push(new mindmap::AddImageToNodeCommand(m_itemModel.get(), m_imgModel.get(), idNode, path, data));
+    m_stack.push(new mindmap::AddImageToNodeCommand(m_itemModel.get(), m_imgModel.get(), idNode, path, data,
+                                                    CampaignFinder::campaignRoot(),
+                                                    CampaignFinder::staticContentRoot()));
 }
 
 void MindMapControllerBase::removeImageFor(const QString& nodeId)
@@ -254,16 +259,27 @@ void MindMapControllerBase::refresh()
     emit contentRectChanged();
 }
 
-void MindMapControllerBase::openImage(const QString& id, const QUrl& path)
+/*void MindMapControllerBase::openImage(const QString& id, const QUrl& path)
 {
-    QPixmap map(path.toLocalFile());
+    auto map= utils::IOHelper::readPixmapFromURL(path);
+    // QPixmap map(path.toLocalFile());
 
     if(map.isNull())
         return;
 
-    m_imgModel->insertPixmap(id, map, path);
+    // if gm copy image to campaign
+
+    auto realUrl= path;
+    if(localGM() && path.isLocalFile())
+    {
+        realUrl= QUrl::fromLocalFile(QString("%1/%2_%3").arg(staticDir(), uuid(), path.fileName()));
+        utils::IOHelper::savePixmapInto(map, realUrl);
+    }
+    // else change nothing
+
+    m_imgModel->insertPixmap(id, map, realUrl);
     m_itemModel->update(id, MindItemModel::HasPicture);
-}
+}*/
 
 void MindMapControllerBase::removeImage(const QString& id)
 {
