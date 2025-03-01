@@ -34,6 +34,7 @@
 #include "updater/controller/dicephysicupdater.h"
 #include "utils/iohelper.h"
 #include "worker/autosavecontroller.h"
+#include "worker/campaignfinder.h"
 #include "worker/iohelper.h"
 #include "worker/mediahelper.h"
 #include "worker/messagehelper.h"
@@ -63,6 +64,7 @@ GameController::GameController(const QString& appname, const QString& version, Q
     , m_autoSaveCtrl(new AutoSaveController(m_preferences.get()))
 {
     new DicePhysicUpdater(m_dicePhysicController.get(), this);
+    CampaignFinder::setManager(m_campaignManager.get());
     m_preferences->readSettings();
     postSettingInit();
 
