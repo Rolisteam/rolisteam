@@ -104,6 +104,8 @@ public slots:
     void addSubChildRoot(TreeSheetItem* item);
     void fieldHasBeenChanged(CharacterSheet* sheet, CSItem* item, const QString&);
     void addSubChild(CharacterSheet* sheet, CSItem* item);
+    void aboutToReset();
+    void resetModel();
 
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);

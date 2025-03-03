@@ -506,6 +506,18 @@ void CharacterSheetModel::addSubChild(CharacterSheet* sheet, CSItem* item)
     checkTableItem();
     endInsertRows();
 }
+
+void CharacterSheetModel::aboutToReset()
+{
+    beginResetModel();
+}
+
+void CharacterSheetModel::resetModel()
+{
+
+    checkTableItem();
+    endResetModel();
+}
 void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
 {
     auto cit
@@ -664,17 +676,18 @@ void CharacterSheetModel::addLine(const QModelIndex& index)
 }
 void CharacterSheetModel::addLine(TreeSheetItem* parentItem, QString name, const QModelIndex& parent)
 {
-    if(parentItem->mayHaveChildren())
-    {
-        beginInsertRows(parent, parentItem->childrenCount(), parentItem->childrenCount());
-        Section* section= static_cast<Section*>(parentItem);
-        FieldController* field= new FieldController(TreeSheetItem::FieldItem, true);
-        field->setId(name.replace(' ', '_'));
-        field->setLabel(name);
-        section->appendChild(field);
-        endInsertRows();
-        emit dataCharacterChange();
-    }
+    if(!parentItem->mayHaveChildren())
+        return;
+
+    beginInsertRows(parent, parentItem->childrenCount(), parentItem->childrenCount());
+    Section* section= static_cast<Section*>(parentItem);
+    FieldController* field= new FieldController(TreeSheetItem::FieldItem, true);
+    field->setId(name.replace(' ', '_'));
+    field->setLabel(name);
+    section->appendChild(field);
+    checkTableItem();
+    endInsertRows();
+    emit dataCharacterChange();
 }
 bool CharacterSheetModel::hasChildren(const QModelIndex& parent) const
 {

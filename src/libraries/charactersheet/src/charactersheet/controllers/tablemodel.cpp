@@ -305,7 +305,7 @@ void TableModel::makeSpace(int row, int cols)
 
 CellData* TableModel::addCellData()
 {
-    auto data= new CellData();
+    auto data= new CellData(this);
     data->setId(QString("cell_%1").arg(++m_count));
     data->setParent(m_parent);
     return data;
@@ -363,7 +363,7 @@ void TableModel::load(const QJsonObject& json, TreeSheetItem* parent)
 
     beginResetModel();
     m_columns.clear();
-    for(auto const& col : columns)
+    for(auto const& col : std::as_const(columns))
     {
         auto field= new FieldController(TreeSheetItem::FieldItem, true);
         field->setParent(parent);
@@ -371,11 +371,11 @@ void TableModel::load(const QJsonObject& json, TreeSheetItem* parent)
         m_columns.append(field);
     }
     m_data.clear();
-    for(auto const& array : dataJson)
+    for(auto const& array : std::as_const(dataJson))
     {
         QList<CellData*> rowData;
         QJsonArray row= array.toArray();
-        for(auto const& r : row)
+        for(auto const& r : std::as_const(row))
         {
             auto cell= r.toObject();
             auto v= cell[json::valueKey].toString();
@@ -392,13 +392,15 @@ void TableModel::load(const QJsonObject& json, TreeSheetItem* parent)
 
 void TableModel::loadDataItem(const QJsonArray& json, TreeSheetItem* parent)
 {
+    Q_UNUSED(parent)
     beginResetModel();
-    m_data.clear();
+    // m_data.clear();
+    QList<QList<CellData*>> newData;
     for(auto const& array : json)
     {
         QList<CellData*> rowData;
         QJsonArray row= array.toArray();
-        for(auto const& r : row)
+        for(auto const& r : std::as_const(row))
         {
             auto cell= r.toObject();
             auto v= cell[json::valueKey].toString();
@@ -408,8 +410,33 @@ void TableModel::loadDataItem(const QJsonArray& json, TreeSheetItem* parent)
             data->setFormula(f);
             rowData << data;
         }
-        addRowData(rowData);
+        newData << rowData;
+        // addRowData(rowData);
     }
+
+    int i= 0;
+    for(auto& line : newData)
+    {
+        if(m_data.size() <= i)
+            addRowData(line);
+        else
+        {
+            auto lineData= m_data.at(i);
+
+            if(line.size() > lineData.size())
+            {
+                for(int j= lineData.size(); j < line.size(); ++j)
+                {
+                    auto cell= line.at(j);
+                    line.replace(i, nullptr);
+                    setupCell(cell);
+                    lineData.append(cell);
+                }
+            }
+        }
+        ++i;
+    }
+
     endResetModel();
 }
 
@@ -512,6 +539,16 @@ QList<int> TableModel::sumColumn() const
 
 void TableModel::addRowData(QList<CellData*> cell)
 {
+
+    m_data.append(cell);
+    for(auto data : std::as_const(cell))
+    {
+        setupCell(data);
+    }
+}
+
+void TableModel::setupCell(CellData* cell)
+{
     auto v= [this]()
     {
         auto cellData= qobject_cast<CellData*>(sender());
@@ -521,11 +558,7 @@ void TableModel::addRowData(QList<CellData*> cell)
         emit dataChanged(idx, idx, {Qt::DisplayRole, Qt::EditRole, ValueRole, FormulaRole});
     };
 
-    m_data.append(cell);
-    for(auto data : cell)
-    {
-        disconnect(data, nullptr, this, nullptr);
-        connect(data, &CellData::formulaChanged, this, v);
-        connect(data, &CellData::valueChanged, this, v);
-    }
+    disconnect(cell, nullptr, this, nullptr);
+    connect(cell, &CellData::formulaChanged, this, v);
+    connect(cell, &CellData::valueChanged, this, v);
 }

@@ -225,7 +225,7 @@ void FieldModel::appendField(CSItem* f)
 {
     beginInsertRows(QModelIndex(), m_rootSection->childrenCount(), m_rootSection->childrenCount());
     m_rootSection->appendChild(f);
-    auto func= [this, f]() { emit updateItem(f); };
+    auto func= [this, f]() { updateItem(f); };
     connect(f, &CSItem::characterSheetItemChanged, this, func);
     connect(f, &CSItem::xChanged, this, func);
     connect(f, &CSItem::yChanged, this, func);

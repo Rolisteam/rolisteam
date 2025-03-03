@@ -339,6 +339,8 @@ void Section::buildDataInto(CharacterSheet* character)
             }
         }
         break;
+        case TreeSheetItem::CellValue:
+            break;
         }
     }
 

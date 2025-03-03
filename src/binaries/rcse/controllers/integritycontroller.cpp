@@ -31,6 +31,7 @@ void IntegrityController::setField(FieldModel* newField)
     connect(m_field, &FieldModel::dataChanged, this, &IntegrityController::checkField);
     connect(m_field, &FieldModel::valuesChanged, this, &IntegrityController::checkField);
     connect(m_field, &FieldModel::fieldAdded, this, &IntegrityController::checkAll);
+    connect(m_field, &FieldModel::fieldAdded, this, &IntegrityController::fieldAdded);
     connect(m_field, &FieldModel::fieldRemoved, this, &IntegrityController::checkAll);
     emit fieldChanged();
 }
@@ -71,37 +72,41 @@ void IntegrityController::fieldAdded(CSItem* item)
         sheet->insertCharacterItem(item);
     }
 
-    if(item->fieldType() == CSItem::TypeField::TABLE)
+    if(item->fieldType() != CSItem::TypeField::TABLE)
+        return;
+
+    auto table= dynamic_cast<TableFieldController*>(item);
+    if(!table)
+        return;
+
+    auto updateField= [this]()
     {
-        auto table= dynamic_cast<TableFieldController*>(item);
+        auto table= qobject_cast<TableFieldController*>(sender());
+
         if(!table)
             return;
 
-        auto updateField= [this]()
+        auto id= table->id();
+
+        QJsonObject obj;
+        table->saveDataItem(obj);
+
+        m_sheets->aboutToReset();
+        auto const& list= m_sheets->sheets();
+        for(auto sheet : list)
         {
-            auto table= qobject_cast<TableFieldController*>(sender());
-
-            if(!table)
-                return;
-
-            auto id= table->id();
-
-            QJsonObject obj;
-            table->saveDataItem(obj);
-
-            auto const& list= m_sheets->sheets();
-            for(auto sheet : list)
-            {
-                auto field= sheet->getFieldFromKey(id);
-                auto tableField= dynamic_cast<TableFieldController*>(field);
-                if(!tableField)
-                    continue;
-                tableField->loadDataItem(obj);
-            }
-        };
-        connect(table, &TableFieldController::displayedRowChanged, this, updateField);
-        connect(table, &TableFieldController::columnCountChanged, this, updateField);
-    }
+            auto field= sheet->getFieldFromKey(id);
+            auto tableField= dynamic_cast<TableFieldController*>(field);
+            if(!tableField)
+                continue;
+            tableField->loadDataItem(obj);
+        }
+        m_sheets->resetModel();
+    };
+    connect(table, &TableFieldController::displayedRowChanged, this, updateField);
+    connect(table, &TableFieldController::columnCountChanged, this, updateField);
+    connect(table, &TableFieldController::rowCountChanged, this, updateField);
+    // connect(table, &TableFieldController::, this, updateField);
 }
 
 void IntegrityController::checkAll()
@@ -118,7 +123,7 @@ void IntegrityController::checkIntegrity(CharacterSheet* sheet)
     QSet<QString> validFieldIds;
 
     auto children= m_field->allChildren();
-    for(auto field : children)
+    for(auto field : std::as_const(children))
     {
         auto path= field->path();
         auto id= field->id();
@@ -145,7 +150,7 @@ void IntegrityController::checkIntegrity(CharacterSheet* sheet)
         }
     }
 
-    for(auto field : children)
+    for(auto field : std::as_const(children))
     {
         if(field->fieldType() != FieldController::TABLE)
             continue;

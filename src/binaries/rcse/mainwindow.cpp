@@ -593,7 +593,7 @@ void MainWindow::openBackgroundImage()
 
 void MainWindow::openImage()
 {
-    QString supportedFormat("Supported files (*.jpg *.png);;All Files (*.*)");
+    QString supportedFormat("Supported files (*.jpg *.png *.svg *.gif *.bmp *.jpeg);;All Files (*.*)");
     QString img= QFileDialog::getOpenFileName(this, tr("Open Image"), QDir::homePath(), supportedFormat);
 
     if(img.isEmpty())
