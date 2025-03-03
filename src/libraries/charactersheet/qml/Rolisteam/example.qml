@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import QtWebEngine
 import QtQuick.Templates
 import Qt.labs.qmlmodels
+import QtCore
 
 Item {
     ColumnLayout {
