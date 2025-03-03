@@ -4,11 +4,12 @@
 #include <QObject>
 #include <QPointer>
 #include <QQmlEngine>
+#include <core_global.h>
 
 #include "dicephysics/controllers/dice3dcontroller.h"
 #include "network/networkreceiver.h"
 
-class DicePhysicUpdater : public QObject, public NetWorkReceiver
+class CORE_EXPORT DicePhysicUpdater : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
 public:

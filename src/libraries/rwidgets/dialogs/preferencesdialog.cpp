@@ -310,7 +310,7 @@ void PreferencesDialog::load()
     updateTheme();
 
     QString pExt;
-#if Q_OS_WIN
+#if defined(Q_OS_WIN)
     pExt= ".exe";
 #endif
 

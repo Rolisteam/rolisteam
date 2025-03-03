@@ -4,12 +4,13 @@ project(dice3d VERSION 1.10.0 DESCRIPTION "Dice in 3D with Physics")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+set(CMAKE_SUPPORT_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Quick3D Quick3DPhysics Multimedia Svg)
 
-set(headers controllers/dice3dcontroller.h controllers/dicecontroller.h data/dicemodel.h data/dicehelper.h)
+set(headers controllers/dice3dcontroller.h controllers/dicecontroller.h data/dicemodel.h data/dicehelper.h controllers/dice3d_global.h)
 
 add_library(${PROJECT_NAME}
     SHARED
@@ -28,6 +29,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     Qt::Svg
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${headers}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE DICE3D_LIBRARY)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/data
     ${CMAKE_CURRENT_SOURCE_DIR}/controllers
     PUBLIC
@@ -98,7 +100,7 @@ qt6_add_qml_module(${PROJECT_NAME}
     data/dicemodel.cpp
     controllers/dicecontroller.h
     controllers/dicecontroller.cpp
-  VERSION 1.0
+  VERSION 1.0 
 )
 
 qt_add_resources(${PROJECT_NAME} "qml"

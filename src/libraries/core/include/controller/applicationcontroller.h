@@ -20,8 +20,8 @@ public:
     qreal zoomLevel() const override;
     void setZoomLevel(qreal newZoomLevel) override;
 
-    QString characterId() const override;
-    void setCharacterId(const QString& newCharacterId) override;
+   // QString characterId() const override;
+    //void setCharacterId(const QString& newCharacterId) override;
 
 signals:
     void zoomLevelChanged();

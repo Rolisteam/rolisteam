@@ -23,8 +23,9 @@
 #include "dicemodel.h"
 #include <QObject>
 #include <memory>
+#include "dice3d_global.h"
 
-class Dice3DController : public QObject
+class DICE3D_EXPORTS Dice3DController : public QObject
 {
     Q_OBJECT
     QML_ELEMENT

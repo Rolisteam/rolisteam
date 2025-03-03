@@ -9,8 +9,9 @@
 #include <QVector3D>
 #include <memory>
 #include <tuple>
+#include "dice3d_global.h"
 
-class DiceController : public QObject
+class DICE3D_EXPORTS DiceController : public QObject
 {
     Q_OBJECT
     QML_ELEMENT

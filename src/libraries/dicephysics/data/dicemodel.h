@@ -24,10 +24,11 @@
 #include <QColor>
 #include <QQmlEngine>
 #include <utility>
+#include "dice3d_global.h"
 
 #include "dicecontroller.h"
 
-class DiceModel : public QAbstractListModel
+class DICE3D_EXPORTS DiceModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT

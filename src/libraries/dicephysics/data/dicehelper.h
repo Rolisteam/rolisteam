@@ -6,6 +6,7 @@
 #include <QVector3D>
 #include <QtMinMax>
 
+
 namespace DiceHelper
 {
 
