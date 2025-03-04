@@ -370,33 +370,9 @@ void TableModel::load(const QJsonObject& json, TreeSheetItem* parent)
         field->load(col.toObject());
         m_columns.append(field);
     }
-    m_data.clear();
-    for(auto const& array : std::as_const(dataJson))
-    {
-        QList<CellData*> rowData;
-        QJsonArray row= array.toArray();
-        for(auto const& r : std::as_const(row))
-        {
-            auto cell= r.toObject();
-            auto v= cell[json::valueKey].toString();
-            auto f= cell[json::formulaKey].toString();
-            auto data= addCellData();
-            data->setValue(v);
-            data->setFormula(f);
-            rowData << data;
-        }
-        addRowData(rowData);
-    }
-    endResetModel();
-}
 
-void TableModel::loadDataItem(const QJsonArray& json, TreeSheetItem* parent)
-{
-    Q_UNUSED(parent)
-    beginResetModel();
-    // m_data.clear();
     QList<QList<CellData*>> newData;
-    for(auto const& array : json)
+    for(auto const& array : std::as_const(dataJson))
     {
         QList<CellData*> rowData;
         QJsonArray row= array.toArray();
@@ -414,29 +390,60 @@ void TableModel::loadDataItem(const QJsonArray& json, TreeSheetItem* parent)
         // addRowData(rowData);
     }
 
-    int i= 0;
-    for(auto& line : newData)
+    auto inBound= [newData](int i, int j)
     {
-        if(m_data.size() <= i)
-            addRowData(line);
-        else
+        if(newData.size() >= 0 && i < newData.size())
         {
-            auto lineData= m_data.at(i);
-
-            if(line.size() > lineData.size())
-            {
-                for(int j= lineData.size(); j < line.size(); ++j)
-                {
-                    auto cell= line.at(j);
-                    line.replace(i, nullptr);
-                    setupCell(cell);
-                    lineData.append(cell);
-                }
-            }
+            auto line= newData[i];
+            return (line.size() >= 0 && j < line.size());
         }
-        ++i;
+        return false;
+    };
+
+    for(int i= 0; i < m_data.size(); ++i)
+    {
+        auto line= m_data[i];
+        for(int j= 0; j < line.size(); ++j)
+        {
+            auto cell= line[j];
+            if(!inBound(i, j))
+                continue;
+
+            if(!cell->value().isEmpty())
+                newData[i][j]->setValue(cell->value());
+
+            if(!cell->formula().isEmpty())
+                newData[i][j]->setFormula(cell->formula());
+        }
     }
 
+    m_data= newData;
+
+    endResetModel();
+}
+
+void TableModel::loadDataItem(const QJsonArray& json, TreeSheetItem* parent)
+{
+    Q_UNUSED(parent)
+    beginResetModel();
+    m_data.clear();
+    QList<QList<CellData*>> newData;
+    for(auto const& array : json)
+    {
+        QList<CellData*> rowData;
+        QJsonArray row= array.toArray();
+        for(auto const& r : std::as_const(row))
+        {
+            auto cell= r.toObject();
+            auto v= cell[json::valueKey].toString();
+            auto f= cell[json::formulaKey].toString();
+            auto data= addCellData();
+            data->setValue(v);
+            data->setFormula(f);
+            rowData << data;
+        }
+        addRowData(rowData);
+    }
     endResetModel();
 }
 

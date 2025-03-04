@@ -173,9 +173,12 @@ void IntegrityController::checkIntegrity(CharacterSheet* sheet)
             continue;
         auto originModel= origin->model();
         auto model= table->model();
-        QJsonObject obj;
-        originModel->save(obj);
-        model->load(obj, table);
+        if(model->rowCount() < originModel->rowCount() || model->columnCount() < originModel->columnCount())
+        {
+            QJsonObject obj;
+            originModel->save(obj);
+            model->load(obj, table);
+        }
     }
 }
 
