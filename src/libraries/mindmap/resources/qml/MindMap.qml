@@ -171,7 +171,7 @@ Flickable {
             onSelectStyle: {
                 _stylePopup.parent = nodeItem
 
-                const h = Math.min(_flick.height - nodeItem.y - _flick.contentY, _stylePopup.implicitHeight)
+                const h = Math.min(_flick.height - (nodeItem.y - _flick.contentY), _stylePopup.implicitHeight)
                 _stylePopup.y = h < 300 ? -Math.abs(300 - h)  : 0
                 _stylePopup.x = nodeItem.width
                 _stylePopup.height = Math.max(h, 300)
