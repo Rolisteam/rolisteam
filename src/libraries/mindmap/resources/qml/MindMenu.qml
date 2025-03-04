@@ -9,12 +9,13 @@ Menu {
     signal saveMap()
     MenuItem {
         text: qsTr("Add Root")
+        enabled: menu.ctrl.readWrite
         onTriggered: ctrl.addNode("")
     }
     MenuSeparator { }
     MenuItem {
         text: qsTr("Save")
-
+        enabled: menu.ctrl.readWrite
         onTriggered: {
             console.log("Item save map")
             menu.saveMap()
@@ -22,7 +23,7 @@ Menu {
     }
     MenuItem {
         text: qsTr("Remove Selection")
-        enabled: ctrl.hasSelection
+        enabled: ctrl.hasSelection &&menu.ctrl.readWrite
         onTriggered: {
             ctrl.removeSelection();
         }
@@ -45,6 +46,7 @@ Menu {
     MenuSeparator { }
     MenuItem {
         text: qsTr("Center")
+        enabled: false//TODO Fix it
         onTriggered: {
             ctrl.centerItems(menu.mindMapWidth, menu.mindMapHeight)
         }

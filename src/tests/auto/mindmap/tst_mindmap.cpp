@@ -555,14 +555,14 @@ void MindMapTest::getAndSetTest()
     auto path= QUrl::fromLocalFile(Helper::imagePath());
     m_ctrl->addImageFor(id, path.toLocalFile(), {});
 
-    m_ctrl->removeImage(id);
-    m_ctrl->removeImage(Helper::randomString());
+    m_ctrl->removeImage(id, false);
+    m_ctrl->removeImage(Helper::randomString(), false);
 
     m_ctrl->addImageFor(id, path.toLocalFile(), {});
     m_ctrl->removeImageFor(id);
 
-    m_ctrl->removeLink({Helper::randomString()});
-    m_ctrl->removeNode({Helper::randomString()});
+    m_ctrl->removeLink({Helper::randomString()}, false);
+    m_ctrl->removeNode({Helper::randomString()}, false);
 
     m_ctrl->updatePackage(Helper::randomPoint());
     m_ctrl->addPackage(Helper::randomPoint());

@@ -1743,8 +1743,8 @@ void MessageHelper::readMindMapRemoveMessage(MindMapController* ctrl, NetworkMes
     auto nodes= readIdList(*msg);
     auto links= readIdList(*msg);
 
-    ctrl->removeNode(nodes);
-    ctrl->removeLink(links);
+    ctrl->removeNode(nodes, true);
+    ctrl->removeLink(links, true);
 }
 
 QStringList MessageHelper::readIdList(NetworkMessageReader& data)

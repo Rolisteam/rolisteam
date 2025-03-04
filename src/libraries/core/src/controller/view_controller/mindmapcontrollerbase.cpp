@@ -154,9 +154,9 @@ void MindMapControllerBase::resetData()
 {
     clearData();
 
-    auto root= new MindNode();
+    /*auto root= new MindNode();
     root->setText(tr("Root"));
-    m_itemModel->appendItem({root});
+    m_itemModel->appendItem({root});*/
 }
 
 void MindMapControllerBase::setErrorMsg(const QString& msg)
@@ -211,11 +211,13 @@ SelectionController* MindMapControllerBase::selectionController() const
 
 bool MindMapControllerBase::canRedo() const
 {
-    return m_stack.canRedo();
+    return readWrite() && m_stack.canRedo();
 }
 
 void MindMapControllerBase::addNode(const QString& idparent)
 {
+    if(!readWrite())
+        return;
     auto cmd= new mindmap::AddItemCommand(m_itemModel.get(), MindItem::NodeType, idparent);
     m_stack.push(cmd);
 }
@@ -244,6 +246,8 @@ void MindMapControllerBase::centerItems(qreal w, qreal h)
 
 void MindMapControllerBase::addImageFor(const QString& idNode, const QString& path, const QByteArray& data)
 {
+    if(!readWrite())
+        return;
     m_stack.push(new mindmap::AddImageToNodeCommand(m_itemModel.get(), m_imgModel.get(), idNode, path, data,
                                                     CampaignFinder::campaignRoot(),
                                                     CampaignFinder::staticContentRoot()));
@@ -251,6 +255,8 @@ void MindMapControllerBase::addImageFor(const QString& idNode, const QString& pa
 
 void MindMapControllerBase::removeImageFor(const QString& nodeId)
 {
+    if(!readWrite())
+        return;
     m_stack.push(new mindmap::RemoveImageFromNodeCommand(m_itemModel.get(), m_imgModel.get(), nodeId));
 }
 
@@ -281,13 +287,17 @@ void MindMapControllerBase::refresh()
     m_itemModel->update(id, MindItemModel::HasPicture);
 }*/
 
-void MindMapControllerBase::removeImage(const QString& id)
+void MindMapControllerBase::removeImage(const QString& id, bool network)
 {
+    if(!readWrite() && !network)
+        return;
     m_imgModel->removePixmap(id);
 }
 
-void MindMapControllerBase::removeLink(const QStringList& id)
+void MindMapControllerBase::removeLink(const QStringList& id, bool network)
 {
+    if(!readWrite() && !network)
+        return;
     std::vector<MindItem*> res;
     std::transform(std::begin(id), std::end(id), std::back_inserter(res),
                    [this](const QString& id) { return m_itemModel->item(id); });
@@ -301,8 +311,10 @@ void MindMapControllerBase::removeLink(const QStringList& id)
     m_stack.push(cmd);
 }
 
-void MindMapControllerBase::removeNode(const QStringList& id)
+void MindMapControllerBase::removeNode(const QStringList& id, bool network)
 {
+    if(!readWrite() && !network)
+        return;
     std::vector<MindItem*> res;
     std::transform(std::begin(id), std::end(id), std::back_inserter(res),
                    [this](const QString& id) { return m_itemModel->item(id); });
@@ -318,6 +330,8 @@ void MindMapControllerBase::removeNode(const QStringList& id)
 
 void MindMapControllerBase::addPackage(const QPointF& pos)
 {
+    if(!readWrite())
+        return;
     auto cmd= new mindmap::AddItemCommand(m_itemModel.get(), MindItem::PackageType, {}, pos);
     m_stack.push(cmd);
 }
@@ -334,7 +348,7 @@ void MindMapControllerBase::updatePackage(const QPointF& pos)
 
 void MindMapControllerBase::addLink(const QString& start, const QString& id)
 {
-    if(start == id || start.isEmpty() || id.isEmpty())
+    if(start == id || start.isEmpty() || id.isEmpty() || !readWrite())
         return;
 
     auto cmd= new mindmap::AddLinkCommand(m_itemModel.get(), start, id);
@@ -343,6 +357,8 @@ void MindMapControllerBase::addLink(const QString& start, const QString& id)
 
 void MindMapControllerBase::addNode(const QList<MindNode*>& nodes, bool network)
 {
+    if(!readWrite() && !network)
+        return;
     QList<mindmap::MindItem*> items;
 
     std::transform(std::begin(nodes), std::end(nodes), std::back_inserter(items),
@@ -353,7 +369,8 @@ void MindMapControllerBase::addNode(const QList<MindNode*>& nodes, bool network)
 
 void MindMapControllerBase::addItem(mindmap::MindItem* node, bool network)
 {
-    m_itemModel->appendItem({node}, network);
+    if(network || readWrite())
+        m_itemModel->appendItem({node}, network);
 }
 
 bool MindMapControllerBase::pasteData(const QMimeData& mimeData)
@@ -381,7 +398,7 @@ void MindMapControllerBase::setCurrentPackage(PositionedItem* item)
 
 bool MindMapControllerBase::canUndo() const
 {
-    return m_stack.canUndo();
+    return readWrite() && m_stack.canUndo();
 }
 
 int MindMapControllerBase::defaultStyleIndex() const
@@ -419,10 +436,11 @@ void MindMapControllerBase::addLinks(const QList<LinkController*>& link, bool ne
 
 void MindMapControllerBase::addItemIntoPackage(const QString& idNode, const QString& idPack, bool network)
 {
+
     auto node= dynamic_cast<PositionedItem*>(m_itemModel->item(idNode));
     auto pack= dynamic_cast<PackageNode*>(m_itemModel->item(idPack));
 
-    if(!node || !pack)
+    if(!node || !pack || !readWrite())
         return;
 
     pack->addChild(node, network);
@@ -434,7 +452,7 @@ void MindMapControllerBase::removeItemFromPackage(const QString& idNode, const Q
     auto node= dynamic_cast<PositionedItem*>(m_itemModel->item(idNode));
     auto pack= dynamic_cast<PackageNode*>(m_itemModel->item(idPack));
 
-    if(!node || !pack)
+    if(!node || !pack || !readWrite())
         return;
 
     pack->removeChild(idNode, network);
