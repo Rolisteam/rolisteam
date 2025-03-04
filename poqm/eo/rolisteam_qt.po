@@ -39,7 +39,7 @@ msgctxt "MindMap|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Bildoj (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/binaries/mindmap/MindMap.qml:80
+#: src/binaries/mindmap/MindMap.qml:81
 msgctxt "MindMap|"
 msgid "Images (*.png)"
 msgstr "Bildoj (*.png)"
@@ -1045,7 +1045,7 @@ msgstr "Eldono"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:672
+#: src/binaries/widget/mainwindow.cpp:687
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Helpo"
@@ -1204,13 +1204,13 @@ msgid "Check Validity"
 msgstr "Kontroli Validecon"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:622
+#: src/binaries/widget/mainwindow.cpp:637
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Malfari"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:621
+#: src/binaries/widget/mainwindow.cpp:636
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Refari"
@@ -1601,118 +1601,120 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Peti pasvorton kaj resendi ĝian haket-ŝlosilon."
 
-#: src/binaries/widget/mainwindow.cpp:410
+#: src/binaries/widget/mainwindow.cpp:425
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "FlankPaneloj"
 
-#: src/binaries/widget/mainwindow.cpp:415
+#: src/binaries/widget/mainwindow.cpp:430
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr "Flankaj Paneloj"
 
-#: src/binaries/widget/mainwindow.cpp:425
+#: src/binaries/widget/mainwindow.cpp:440
 msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "Listo de Ludantoj"
 
-#: src/binaries/widget/mainwindow.cpp:426
+#: src/binaries/widget/mainwindow.cpp:441
 msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "Ĉiuj dokumentoj de kampanjo"
 
-#: src/binaries/widget/mainwindow.cpp:427
+#: src/binaries/widget/mainwindow.cpp:442
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr "Listo de antagonistoj"
 
-#: src/binaries/widget/mainwindow.cpp:428
+#: src/binaries/widget/mainwindow.cpp:443
 msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "Muzikludilo"
 
-#: src/binaries/widget/mainwindow.cpp:429
+#: src/binaries/widget/mainwindow.cpp:444
 msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "Servila Panelo"
 
-#: src/binaries/widget/mainwindow.cpp:430
+#: src/binaries/widget/mainwindow.cpp:445
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Sciiga Regiono"
 
-#: src/binaries/widget/mainwindow.cpp:445
+#: src/binaries/widget/mainwindow.cpp:460
 msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "GM-Iloj"
 
-#: src/binaries/widget/mainwindow.cpp:502
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Malfermi Retpaĝon"
 
-#: src/binaries/widget/mainwindow.cpp:502
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "Retpaĝa URL:"
 
-#: src/binaries/widget/mainwindow.cpp:510
+#: src/binaries/widget/mainwindow.cpp:525
 msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "Malfermi Mapon"
 
-#: src/binaries/widget/mainwindow.cpp:510
+#: src/binaries/widget/mainwindow.cpp:525
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr "Mapo:"
 
-#: src/binaries/widget/mainwindow.cpp:524
-#: src/binaries/widget/mainwindow.cpp:563
-#: src/binaries/widget/mainwindow.cpp:787 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.cpp:539
+#: src/binaries/widget/mainwindow.cpp:578
+#: src/binaries/widget/mainwindow.cpp:799 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Malfermi Kampanjon"
 
-#: src/binaries/widget/mainwindow.cpp:673
+#: src/binaries/widget/mainwindow.cpp:688
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "Dokumentado de %1 troveblas interrete ĉe :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:708
+#: src/binaries/widget/mainwindow.cpp:723
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Subteno"
 
-#: src/binaries/widget/mainwindow.cpp:709
+#: src/binaries/widget/mainwindow.cpp:724
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "La %1 donacpaĝo troveblas interrete ĉe :<br> <a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:771
-#, qt-format
+#: src/binaries/widget/mainwindow.cpp:785
+#, fuzzy
+#| msgctxt "rcse::MainWindow|"
+#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
-msgid "Connection has been lost. %1 will be close"
-msgstr "Konekto estas perdita. %1 estos proksima"
+msgid "Do you want to save the campaign ?"
+msgstr "Ĉu vi volas forigi aktualan QML-kodon?"
 
-#: src/binaries/widget/mainwindow.cpp:773
+#: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
-msgid "Connection lost"
-msgstr "Konekto Perdita"
+msgid "Do you really want to quit Rolisteam ?"
+msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:779
+#: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Forlasi %1"
 
-#: src/binaries/widget/mainwindow.cpp:854
+#: src/binaries/widget/mainwindow.cpp:866
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Ĝisdatigi Sciigon"
 
-#: src/binaries/widget/mainwindow.cpp:855
+#: src/binaries/widget/mainwindow.cpp:867
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1722,101 +1724,101 @@ msgstr ""
 "La versio %1 estis publikigita. Bonvolu rigardi <a href=\"https://www."
 "rolistam.org/download\">Elŝutan paĝon</a> por pliaj informoj"
 
-#: src/binaries/widget/mainwindow.cpp:865
+#: src/binaries/widget/mainwindow.cpp:877
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 ĵus aliĝas al la ludo."
 
-#: src/binaries/widget/mainwindow.cpp:869
+#: src/binaries/widget/mainwindow.cpp:881
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 ne havas la ĝustan version: %2."
 
-#: src/binaries/widget/mainwindow.cpp:875
+#: src/binaries/widget/mainwindow.cpp:887
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 ĵus forlasas la ludon."
 
-#: src/binaries/widget/mainwindow.cpp:958
+#: src/binaries/widget/mainwindow.cpp:970
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Agordi rolisteam por uzi <port> por la konekto"
 
-#: src/binaries/widget/mainwindow.cpp:961
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Agordi rolisteam por konekti al <servilo>."
 
-#: src/binaries/widget/mainwindow.cpp:964
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Difini la <rolon>: gm aŭ pc"
 
-#: src/binaries/widget/mainwindow.cpp:966
+#: src/binaries/widget/mainwindow.cpp:978
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Forigi la agordojn kaj uzi la defaŭltajn parametrojn"
 
-#: src/binaries/widget/mainwindow.cpp:969
+#: src/binaries/widget/mainwindow.cpp:981
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Difini la <uzantnomo>"
 
-#: src/binaries/widget/mainwindow.cpp:972
+#: src/binaries/widget/mainwindow.cpp:984
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Forigi limon al PDF-dosiergrandeco"
 
-#: src/binaries/widget/mainwindow.cpp:975
+#: src/binaries/widget/mainwindow.cpp:987
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "vojo al la tradukdosiero: <tradukdosiero>"
 
-#: src/binaries/widget/mainwindow.cpp:978
+#: src/binaries/widget/mainwindow.cpp:990
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Difini URL por konekti al servilo: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1071
+#: src/binaries/widget/mainwindow.cpp:1083
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Malfermi %1"
 
-#: src/binaries/widget/mainwindow.cpp:1168
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Konektis"
 
-#: src/binaries/widget/mainwindow.cpp:1168
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Ne Konektita"
 
-#: src/binaries/widget/mainwindow.cpp:1169
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Servilo"
 
-#: src/binaries/widget/mainwindow.cpp:1169
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Kliento"
 
-#: src/binaries/widget/mainwindow.cpp:1176
+#: src/binaries/widget/mainwindow.cpp:1188
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1182
+#: src/binaries/widget/mainwindow.cpp:1194
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Ludanto"
 
-#: src/binaries/widget/mainwindow.cpp:1211
+#: src/binaries/widget/mainwindow.cpp:1223
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Nekonata"
@@ -2364,24 +2366,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Forigi Lastan linion"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:594
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:606
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Nomo de kampoj"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:632
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:644
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Malplena Sekcio %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:639
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:651
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Sekcio_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:663
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:675
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2553,7 +2555,7 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Nekonata"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:155
+#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:158
 msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Radiko"
@@ -3021,7 +3023,7 @@ msgctxt "QObject|"
 msgid "Player"
 msgstr "Ludanto"
 
-#: src/libraries/core/src/network/rserver.cpp:41
+#: src/libraries/core/src/network/rserver.cpp:44
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
 msgstr "[Upnp] Portmapado estas farita"
@@ -3408,57 +3410,57 @@ msgctxt "ButtonGrid|"
 msgid "Redo"
 msgstr "Refari"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:40
 msgctxt "ButtonGrid|"
 msgid "Save Map"
 msgstr "Konservi Mapon"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:43
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:44
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
 msgstr "Malfermi Keston"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:50
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:52
 msgctxt "ButtonGrid|"
 msgid "Add Root"
 msgstr "Aldoni Radikon"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:57
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:60
 msgctxt "ButtonGrid|"
 msgid "Add Package"
 msgstr "Aldoni Pakon"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:64
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:67
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
 msgstr "Aldoni Sagon"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:71
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:75
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
 msgstr "Forigi elektitajn erojn"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:82
 msgctxt "ButtonGrid|"
 msgid "Refresh"
 msgstr "Refreŝigi"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:87
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
 msgstr "Eksporti Kiel PNG"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:92
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
 msgstr "Kaŝi malgrandan mapon"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:92
 msgctxt "ButtonGrid|"
 msgid "Show small map"
 msgstr "Montri malgrandan mapon"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:94
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:98
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr "Aŭtomata interspaco"
@@ -3509,7 +3511,7 @@ msgctxt "MindMap|"
 msgid "is linked"
 msgstr "estas ligita"
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:223
+#: src/libraries/mindmap/resources/qml/MindMap.qml:224
 msgctxt "MindMap|"
 msgid "Detach"
 msgstr "Malligi"
@@ -3585,7 +3587,7 @@ msgid "Text"
 msgstr "Teksto"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:32
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:156
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:165
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "Nomo"
@@ -3601,43 +3603,51 @@ msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr "Ligetikedo videbla:"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:55
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:54
+#, fuzzy
+#| msgctxt "PdfViewer|"
+#| msgid "Hide Side Panel"
+msgctxt "SideMenu|"
+msgid "Hide empty label"
+msgstr "Kaŝi Flankan Panelon"
+
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "Defaŭlta Stilo"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:75
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:98
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:84
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:107
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "Teksto"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:116
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:125
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "Kriterioj"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:124
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:133
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "Ŝablono"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:170
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:179
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "Priskribo"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:176
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:185
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "Elekti"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:188
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:197
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "Etikedoj"
 
-#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:44
+#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:59
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
@@ -4479,53 +4489,18 @@ msgctxt "VColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Ruĝa: %1, Verda: %2, Blua: %3"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:31
-msgctxt "AboutRolisteam|"
-msgid "English & French"
-msgstr "angla & franca"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:33
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
-msgctxt "AboutRolisteam|"
-msgid "Portuguese"
-msgstr "portugala"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:36
-msgctxt "AboutRolisteam|"
-msgid "Hungarian"
-msgstr "hungara"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:37
-msgctxt "AboutRolisteam|"
-msgid "Turkish"
-msgstr "Turka"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:38
-msgctxt "AboutRolisteam|"
-msgid "French & German"
-msgstr "franca & germana"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:39
-msgctxt "AboutRolisteam|"
-msgid "Romanian"
-msgstr "rumana"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:40
-msgctxt "AboutRolisteam|"
-msgid "Spanish"
-msgstr "hispana"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:41
-msgctxt "AboutRolisteam|"
-msgid "Dutch"
-msgstr "nederlanda"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:42
-msgctxt "AboutRolisteam|"
-msgid "Catalan"
-msgstr "kataluna"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:57
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
+#, fuzzy
+#| msgctxt "AboutRolisteam|"
+#| msgid ""
+#| "Rolisteam helps you to manage a tabletop role playing game with remote "
+#| "friends/players. It provides many features to share maps, pictures and it "
+#| "also includes tool to communicate with your friends/players. The goal is "
+#| "to make Rolisteam-managed RPG games as good as RPG games around your "
+#| "table. To achieve it, we are working hard to provide you more and more "
+#| "features. Existing features : Map sharing (with permission management), "
+#| "Image sharing, background music, dice roll and so on. Rolisteam is "
+#| "written in Qt5"
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4534,7 +4509,7 @@ msgid ""
 "make Rolisteam-managed RPG games as good as RPG games around your table. To "
 "achieve it, we are working hard to provide you more and more features. "
 "Existing features : Map sharing (with permission management), Image sharing, "
-"background music, dice roll and so on. Rolisteam is written in Qt5"
+"background music, dice roll and so on. Rolisteam is written with Qt"
 msgstr ""
 "Rolisteam helpas vin administri tabloludon kun foraj amikoj/ludantoj. Ĝi "
 "provizas multajn funkciojn por kunhavigi mapojn, bildojn kaj ankaŭ "
@@ -4545,7 +4520,7 @@ msgstr ""
 "administrado), kundivido de bildoj, fona muziko, rulo de ĵetkuboj ktp. "
 "Rolisteam estas skribita en Qt5"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
 msgid ""
 "You may modify and redistribute the program under the terms of the GPL "
@@ -4560,35 +4535,28 @@ msgstr ""
 "kontribuantoj. Vidu la dosieron 'KOPYRIGHT' por la kompleta listo de "
 "kontribuantoj. Ni donas neniun garantion por ĉi tiu programo."
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
-msgctxt "AboutRolisteam|"
-msgid "Web Sites:"
-msgstr "TTT-ejoj:"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:59
 msgctxt "AboutRolisteam|"
 msgid "Official Rolisteam Site"
 msgstr "Oficiala Rolisteam-retejo"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:60
+msgctxt "AboutRolisteam|"
+msgid "Web Sites:"
+msgstr "TTT-ejoj:"
+
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:61
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
 msgstr "Cimo-Spurilo"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
+#, fuzzy
+#| msgctxt "CampaignManager|"
+#| msgid "Impossible to create campaign template at %1"
 msgctxt "AboutRolisteam|"
-msgid "Current developers"
-msgstr "Nunaj programistoj"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
-msgctxt "AboutRolisteam|"
-msgid "Contributors"
-msgstr "Kontribuantoj"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
-msgctxt "AboutRolisteam|"
-msgid "Translators"
-msgstr "Tradukistoj"
+msgid "Impossible to read the template."
+msgstr "Ne eblas krei kampanjan ŝablonon ĉe %1"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"
@@ -5671,7 +5639,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Konservi"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:562
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:564
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Montri Kolumnojn"
@@ -8631,3 +8599,59 @@ msgstr "Dormanta"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Prisorĉita"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Connection has been lost. %1 will be close"
+#~ msgstr "Konekto estas perdita. %1 estos proksima"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Connection lost"
+#~ msgstr "Konekto Perdita"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "English & French"
+#~ msgstr "angla & franca"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Portuguese"
+#~ msgstr "portugala"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Hungarian"
+#~ msgstr "hungara"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Turkish"
+#~ msgstr "Turka"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "French & German"
+#~ msgstr "franca & germana"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Romanian"
+#~ msgstr "rumana"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Spanish"
+#~ msgstr "hispana"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Dutch"
+#~ msgstr "nederlanda"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Catalan"
+#~ msgstr "kataluna"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Current developers"
+#~ msgstr "Nunaj programistoj"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Contributors"
+#~ msgstr "Kontribuantoj"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Translators"
+#~ msgstr "Tradukistoj"

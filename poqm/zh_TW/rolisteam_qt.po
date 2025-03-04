@@ -39,7 +39,7 @@ msgctxt "MindMap|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "影像檔 (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/binaries/mindmap/MindMap.qml:80
+#: src/binaries/mindmap/MindMap.qml:81
 msgctxt "MindMap|"
 msgid "Images (*.png)"
 msgstr "影像檔 (*.png)"
@@ -1011,7 +1011,7 @@ msgstr "版本"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:672
+#: src/binaries/widget/mainwindow.cpp:687
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "說明"
@@ -1170,13 +1170,13 @@ msgid "Check Validity"
 msgstr "檢查有效性"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:622
+#: src/binaries/widget/mainwindow.cpp:637
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "復原(&U)"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:621
+#: src/binaries/widget/mainwindow.cpp:636
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "重做(&R)"
@@ -1595,7 +1595,7 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:410
+#: src/binaries/widget/mainwindow.cpp:425
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Server"
@@ -1603,12 +1603,12 @@ msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "伺服器"
 
-#: src/binaries/widget/mainwindow.cpp:415
+#: src/binaries/widget/mainwindow.cpp:430
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:425
+#: src/binaries/widget/mainwindow.cpp:440
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Audio Player"
@@ -1616,7 +1616,7 @@ msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "音樂播放器"
 
-#: src/binaries/widget/mainwindow.cpp:426
+#: src/binaries/widget/mainwindow.cpp:441
 #, fuzzy
 #| msgctxt "FieldView|"
 #| msgid "All columns"
@@ -1624,12 +1624,12 @@ msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "所有欄位"
 
-#: src/binaries/widget/mainwindow.cpp:427
+#: src/binaries/widget/mainwindow.cpp:442
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:428
+#: src/binaries/widget/mainwindow.cpp:443
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Audio Player"
@@ -1637,7 +1637,7 @@ msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "音樂播放器"
 
-#: src/binaries/widget/mainwindow.cpp:429
+#: src/binaries/widget/mainwindow.cpp:444
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Server"
@@ -1645,7 +1645,7 @@ msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "伺服器"
 
-#: src/binaries/widget/mainwindow.cpp:430
+#: src/binaries/widget/mainwindow.cpp:445
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Notification Zone"
@@ -1653,7 +1653,7 @@ msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "通知區域"
 
-#: src/binaries/widget/mainwindow.cpp:445
+#: src/binaries/widget/mainwindow.cpp:460
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Tools"
@@ -1661,17 +1661,17 @@ msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "工具"
 
-#: src/binaries/widget/mainwindow.cpp:502
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "開啟網頁"
 
-#: src/binaries/widget/mainwindow.cpp:502
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "網頁網址："
 
-#: src/binaries/widget/mainwindow.cpp:510
+#: src/binaries/widget/mainwindow.cpp:525
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Open %1"
@@ -1679,58 +1679,57 @@ msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "開啟 %1"
 
-#: src/binaries/widget/mainwindow.cpp:510
+#: src/binaries/widget/mainwindow.cpp:525
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:524
-#: src/binaries/widget/mainwindow.cpp:563
-#: src/binaries/widget/mainwindow.cpp:787 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.cpp:539
+#: src/binaries/widget/mainwindow.cpp:578
+#: src/binaries/widget/mainwindow.cpp:799 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:673
+#: src/binaries/widget/mainwindow.cpp:688
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:708
+#: src/binaries/widget/mainwindow.cpp:723
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "支援"
 
-#: src/binaries/widget/mainwindow.cpp:709
+#: src/binaries/widget/mainwindow.cpp:724
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:771
-#, qt-format
+#: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
-msgid "Connection has been lost. %1 will be close"
+msgid "Do you want to save the campaign ?"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:773
+#: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
-msgid "Connection lost"
+msgid "Do you really want to quit Rolisteam ?"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:779
+#: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "離開 %1 "
 
-#: src/binaries/widget/mainwindow.cpp:854
+#: src/binaries/widget/mainwindow.cpp:866
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "更新通知"
 
-#: src/binaries/widget/mainwindow.cpp:855
+#: src/binaries/widget/mainwindow.cpp:867
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1738,101 +1737,101 @@ msgid ""
 "www.rolisteam.org/download\">Download page</a> for more information"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:865
+#: src/binaries/widget/mainwindow.cpp:877
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 剛加入遊戲。"
 
-#: src/binaries/widget/mainwindow.cpp:869
+#: src/binaries/widget/mainwindow.cpp:881
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 的版本不對：%2。"
 
-#: src/binaries/widget/mainwindow.cpp:875
+#: src/binaries/widget/mainwindow.cpp:887
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 剛退出遊戲。"
 
-#: src/binaries/widget/mainwindow.cpp:958
+#: src/binaries/widget/mainwindow.cpp:970
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:961
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:964
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:966
+#: src/binaries/widget/mainwindow.cpp:978
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "清除設定並使用預設參數"
 
-#: src/binaries/widget/mainwindow.cpp:969
+#: src/binaries/widget/mainwindow.cpp:981
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:972
+#: src/binaries/widget/mainwindow.cpp:984
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "移除 PDF 檔案大小限制"
 
-#: src/binaries/widget/mainwindow.cpp:975
+#: src/binaries/widget/mainwindow.cpp:987
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "翻譯檔案的路徑：<翻譯檔>"
 
-#: src/binaries/widget/mainwindow.cpp:978
+#: src/binaries/widget/mainwindow.cpp:990
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1071
+#: src/binaries/widget/mainwindow.cpp:1083
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "開啟 %1"
 
-#: src/binaries/widget/mainwindow.cpp:1168
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1168
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1169
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "伺服器"
 
-#: src/binaries/widget/mainwindow.cpp:1169
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1176
+#: src/binaries/widget/mainwindow.cpp:1188
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:1182
+#: src/binaries/widget/mainwindow.cpp:1194
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "玩家"
 
-#: src/binaries/widget/mainwindow.cpp:1211
+#: src/binaries/widget/mainwindow.cpp:1223
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "未知"
@@ -2389,24 +2388,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "移除最後一行"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:594
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:606
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "欄位名稱"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:632
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:644
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "空白區塊 %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:639
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:651
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr ""
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:663
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:675
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2578,7 +2577,7 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "未知"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:155
+#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:158
 msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr ""
@@ -3040,7 +3039,7 @@ msgctxt "QObject|"
 msgid "Player"
 msgstr "玩家"
 
-#: src/libraries/core/src/network/rserver.cpp:41
+#: src/libraries/core/src/network/rserver.cpp:44
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
 msgstr "[Upnp] 連接埠映射已完成"
@@ -3434,32 +3433,32 @@ msgctxt "ButtonGrid|"
 msgid "Redo"
 msgstr "重做"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:40
 msgctxt "ButtonGrid|"
 msgid "Save Map"
 msgstr "儲存地圖"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:43
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:44
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
 msgstr "開啟抽屜"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:50
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:52
 msgctxt "ButtonGrid|"
 msgid "Add Root"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:57
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:60
 msgctxt "ButtonGrid|"
 msgid "Add Package"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:64
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:67
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
 msgstr "新增箭頭"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:71
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:75
 #, fuzzy
 #| msgctxt "PlayerWidget|"
 #| msgid "Remove selected file"
@@ -3467,27 +3466,27 @@ msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
 msgstr "移除選取的檔案"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:82
 msgctxt "ButtonGrid|"
 msgid "Refresh"
 msgstr "重新整理"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:87
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
 msgstr "匯出為 PNG"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:92
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:92
 msgctxt "ButtonGrid|"
 msgid "Show small map"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:94
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:98
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr ""
@@ -3536,7 +3535,7 @@ msgctxt "MindMap|"
 msgid "is linked"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:223
+#: src/libraries/mindmap/resources/qml/MindMap.qml:224
 #, fuzzy
 #| msgctxt "DiceMessageDelegate|"
 #| msgid "Details"
@@ -3615,7 +3614,7 @@ msgid "Text"
 msgstr "文字"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:32
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:156
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:165
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "名稱"
@@ -3631,43 +3630,51 @@ msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:55
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:54
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Server"
+msgctxt "SideMenu|"
+msgid "Hide empty label"
+msgstr "伺服器"
+
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "預設風格"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:75
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:98
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:84
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:107
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "文字"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:116
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:125
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "條件"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:124
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:133
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "樣式"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:170
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:179
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "描述"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:176
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:185
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "選取"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:188
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:197
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "標籤"
 
-#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:44
+#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:59
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
@@ -4553,53 +4560,7 @@ msgctxt "VColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "紅：%1，綠：%2，藍：%3"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:31
-msgctxt "AboutRolisteam|"
-msgid "English & French"
-msgstr ""
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:33
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
-msgctxt "AboutRolisteam|"
-msgid "Portuguese"
-msgstr "葡萄牙語"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:36
-msgctxt "AboutRolisteam|"
-msgid "Hungarian"
-msgstr ""
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:37
-msgctxt "AboutRolisteam|"
-msgid "Turkish"
-msgstr "土耳其語"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:38
-msgctxt "AboutRolisteam|"
-msgid "French & German"
-msgstr ""
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:39
-msgctxt "AboutRolisteam|"
-msgid "Romanian"
-msgstr "羅馬尼亞語"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:40
-msgctxt "AboutRolisteam|"
-msgid "Spanish"
-msgstr ""
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:41
-msgctxt "AboutRolisteam|"
-msgid "Dutch"
-msgstr ""
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:42
-msgctxt "AboutRolisteam|"
-msgid "Catalan"
-msgstr "加泰羅尼亞語"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:57
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4608,10 +4569,10 @@ msgid ""
 "make Rolisteam-managed RPG games as good as RPG games around your table. To "
 "achieve it, we are working hard to provide you more and more features. "
 "Existing features : Map sharing (with permission management), Image sharing, "
-"background music, dice roll and so on. Rolisteam is written in Qt5"
+"background music, dice roll and so on. Rolisteam is written with Qt"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
 msgid ""
 "You may modify and redistribute the program under the terms of the GPL "
@@ -4621,35 +4582,25 @@ msgid ""
 "no warranty for this program."
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
-msgctxt "AboutRolisteam|"
-msgid "Web Sites:"
-msgstr "網站："
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:59
 msgctxt "AboutRolisteam|"
 msgid "Official Rolisteam Site"
 msgstr "官方 Rolisteam 網站"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:60
+msgctxt "AboutRolisteam|"
+msgid "Web Sites:"
+msgstr "網站："
+
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:61
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
 msgstr "缺陷回報及追縱平台"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
 msgctxt "AboutRolisteam|"
-msgid "Current developers"
+msgid "Impossible to read the template."
 msgstr ""
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
-msgctxt "AboutRolisteam|"
-msgid "Contributors"
-msgstr ""
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
-msgctxt "AboutRolisteam|"
-msgid "Translators"
-msgstr "翻譯者"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"
@@ -5752,7 +5703,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "儲存"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:562
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:564
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "顯示欄位"
@@ -8657,6 +8608,26 @@ msgstr "睡眠中"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr ""
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Portuguese"
+#~ msgstr "葡萄牙語"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Turkish"
+#~ msgstr "土耳其語"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Romanian"
+#~ msgstr "羅馬尼亞語"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Catalan"
+#~ msgstr "加泰羅尼亞語"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Translators"
+#~ msgstr "翻譯者"
 
 #~ msgctxt "PreferencesDialogBox|"
 #~ msgid "Show time"

@@ -35,7 +35,7 @@ msgctxt "MindMap|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Immagini (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/binaries/mindmap/MindMap.qml:80
+#: src/binaries/mindmap/MindMap.qml:81
 msgctxt "MindMap|"
 msgid "Images (*.png)"
 msgstr "Immagini (*.png)"
@@ -1048,7 +1048,7 @@ msgstr "Edizione"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:672
+#: src/binaries/widget/mainwindow.cpp:687
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Aiuto"
@@ -1207,13 +1207,13 @@ msgid "Check Validity"
 msgstr "Controlla la validità"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:622
+#: src/binaries/widget/mainwindow.cpp:637
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "Ann&ulla"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:621
+#: src/binaries/widget/mainwindow.cpp:636
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Rifai"
@@ -1604,79 +1604,79 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Richiedi la password e restituisci il suo hash."
 
-#: src/binaries/widget/mainwindow.cpp:410
+#: src/binaries/widget/mainwindow.cpp:425
 msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "PannelliLaterali"
 
-#: src/binaries/widget/mainwindow.cpp:415
+#: src/binaries/widget/mainwindow.cpp:430
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr "Pannelli laterali"
 
-#: src/binaries/widget/mainwindow.cpp:425
+#: src/binaries/widget/mainwindow.cpp:440
 msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "Elenco dei giocatori"
 
-#: src/binaries/widget/mainwindow.cpp:426
+#: src/binaries/widget/mainwindow.cpp:441
 msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "Tutti i documenti della campagna"
 
-#: src/binaries/widget/mainwindow.cpp:427
+#: src/binaries/widget/mainwindow.cpp:442
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr "Elenco degli avversari"
 
-#: src/binaries/widget/mainwindow.cpp:428
+#: src/binaries/widget/mainwindow.cpp:443
 msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "Lettore musicale"
 
-#: src/binaries/widget/mainwindow.cpp:429
+#: src/binaries/widget/mainwindow.cpp:444
 msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "Pannello del server"
 
-#: src/binaries/widget/mainwindow.cpp:430
+#: src/binaries/widget/mainwindow.cpp:445
 msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Zona di notifica"
 
-#: src/binaries/widget/mainwindow.cpp:445
+#: src/binaries/widget/mainwindow.cpp:460
 msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "Strumenti GM"
 
-#: src/binaries/widget/mainwindow.cpp:502
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Apri pagina web"
 
-#: src/binaries/widget/mainwindow.cpp:502
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "URL della pagina web:"
 
-#: src/binaries/widget/mainwindow.cpp:510
+#: src/binaries/widget/mainwindow.cpp:525
 msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "Apri mappa"
 
-#: src/binaries/widget/mainwindow.cpp:510
+#: src/binaries/widget/mainwindow.cpp:525
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr "Mappa:"
 
-#: src/binaries/widget/mainwindow.cpp:524
-#: src/binaries/widget/mainwindow.cpp:563
-#: src/binaries/widget/mainwindow.cpp:787 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.cpp:539
+#: src/binaries/widget/mainwindow.cpp:578
+#: src/binaries/widget/mainwindow.cpp:799 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Apri campagna"
 
-#: src/binaries/widget/mainwindow.cpp:673
+#: src/binaries/widget/mainwindow.cpp:688
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Documentation of %1 can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -1684,12 +1684,12 @@ msgstr ""
 "La documentazione di %1 è disponibile in linea all'indirizzo :<br> <a href="
 "\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:708
+#: src/binaries/widget/mainwindow.cpp:723
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Supporto"
 
-#: src/binaries/widget/mainwindow.cpp:709
+#: src/binaries/widget/mainwindow.cpp:724
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -1697,29 +1697,31 @@ msgstr ""
 "La pagina delle donazioni di %1 è disponibile in linea all'indirizzo :<br> "
 "<a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:771
-#, qt-format
+#: src/binaries/widget/mainwindow.cpp:785
+#, fuzzy
+#| msgctxt "rcse::MainWindow|"
+#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
-msgid "Connection has been lost. %1 will be close"
-msgstr "La connessione è stata persa. %1 sarà chiuso"
+msgid "Do you want to save the campaign ?"
+msgstr "Vuoi cancellare il codice QML attuale?"
 
-#: src/binaries/widget/mainwindow.cpp:773
+#: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
-msgid "Connection lost"
-msgstr "Connessione persa"
+msgid "Do you really want to quit Rolisteam ?"
+msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:779
+#: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Esci da %1"
 
-#: src/binaries/widget/mainwindow.cpp:854
+#: src/binaries/widget/mainwindow.cpp:866
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Notifica di aggiornamento"
 
-#: src/binaries/widget/mainwindow.cpp:855
+#: src/binaries/widget/mainwindow.cpp:867
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1730,101 +1732,101 @@ msgstr ""
 "un'occhiata alla <a href=\"https://www.rolisteam.org/download\">Pagina "
 "Download</a>"
 
-#: src/binaries/widget/mainwindow.cpp:865
+#: src/binaries/widget/mainwindow.cpp:877
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 si è appena unito al gioco."
 
-#: src/binaries/widget/mainwindow.cpp:869
+#: src/binaries/widget/mainwindow.cpp:881
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 non ha la versione corretta: %2."
 
-#: src/binaries/widget/mainwindow.cpp:875
+#: src/binaries/widget/mainwindow.cpp:887
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 lascia il gioco."
 
-#: src/binaries/widget/mainwindow.cpp:958
+#: src/binaries/widget/mainwindow.cpp:970
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Imposta rolisteam per utilizzare <porta> per la connessione"
 
-#: src/binaries/widget/mainwindow.cpp:961
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Imposta rolisteam per la connessione a <server>."
 
-#: src/binaries/widget/mainwindow.cpp:964
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definisci il <ruolo>: gm o pc"
 
-#: src/binaries/widget/mainwindow.cpp:966
+#: src/binaries/widget/mainwindow.cpp:978
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Cancella le impostazioni e utilizza i parametri predefiniti"
 
-#: src/binaries/widget/mainwindow.cpp:969
+#: src/binaries/widget/mainwindow.cpp:981
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definisci il <nomeutente>"
 
-#: src/binaries/widget/mainwindow.cpp:972
+#: src/binaries/widget/mainwindow.cpp:984
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Rimuovi il limite alla dimensione del file PDF"
 
-#: src/binaries/widget/mainwindow.cpp:975
+#: src/binaries/widget/mainwindow.cpp:987
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "percorso del file di traduzione: <filetraduzione>"
 
-#: src/binaries/widget/mainwindow.cpp:978
+#: src/binaries/widget/mainwindow.cpp:990
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definisci l'URL per la connessione al server: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1071
+#: src/binaries/widget/mainwindow.cpp:1083
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Apri %1"
 
-#: src/binaries/widget/mainwindow.cpp:1168
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Connesso"
 
-#: src/binaries/widget/mainwindow.cpp:1168
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Non connesso"
 
-#: src/binaries/widget/mainwindow.cpp:1169
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: src/binaries/widget/mainwindow.cpp:1169
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: src/binaries/widget/mainwindow.cpp:1176
+#: src/binaries/widget/mainwindow.cpp:1188
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1182
+#: src/binaries/widget/mainwindow.cpp:1194
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Giocatore"
 
-#: src/binaries/widget/mainwindow.cpp:1211
+#: src/binaries/widget/mainwindow.cpp:1223
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Sconosciuto"
@@ -2372,24 +2374,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Rimuovi ultima riga"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:594
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:606
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Nome dei campi"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:632
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:644
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Sezione vuota %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:639
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:651
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Sezione_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:663
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:675
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2561,7 +2563,7 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:155
+#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:158
 msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Radice"
@@ -3029,7 +3031,7 @@ msgctxt "QObject|"
 msgid "Player"
 msgstr "Giocatore"
 
-#: src/libraries/core/src/network/rserver.cpp:41
+#: src/libraries/core/src/network/rserver.cpp:44
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
 msgstr "[Upnp] La mappatura delle porte è stata eseguita"
@@ -3417,57 +3419,57 @@ msgctxt "ButtonGrid|"
 msgid "Redo"
 msgstr "Rifai"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:40
 msgctxt "ButtonGrid|"
 msgid "Save Map"
 msgstr "Salva mappa"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:43
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:44
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
 msgstr "Apri cassetto"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:50
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:52
 msgctxt "ButtonGrid|"
 msgid "Add Root"
 msgstr "Aggiungi radice"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:57
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:60
 msgctxt "ButtonGrid|"
 msgid "Add Package"
 msgstr "Aggiungi pacchetto"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:64
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:67
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
 msgstr "Aggiungi freccia"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:71
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:75
 msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
 msgstr "Rimuovi gli elementi selezionati"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:82
 msgctxt "ButtonGrid|"
 msgid "Refresh"
 msgstr "Aggiorna"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:87
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
 msgstr "Esporta come"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:92
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
 msgstr "Nascondi mappa piccola"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:92
 msgctxt "ButtonGrid|"
 msgid "Show small map"
 msgstr "Mostra mappa piccola"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:94
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:98
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr "Spaziatura automatica"
@@ -3518,7 +3520,7 @@ msgctxt "MindMap|"
 msgid "is linked"
 msgstr "è collegato"
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:223
+#: src/libraries/mindmap/resources/qml/MindMap.qml:224
 msgctxt "MindMap|"
 msgid "Detach"
 msgstr "Sgancia"
@@ -3594,7 +3596,7 @@ msgid "Text"
 msgstr "Testo"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:32
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:156
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:165
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "Nome"
@@ -3610,43 +3612,51 @@ msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr "Etichetta del collegamento visibile:"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:55
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:54
+#, fuzzy
+#| msgctxt "PdfViewer|"
+#| msgid "Hide Side Panel"
+msgctxt "SideMenu|"
+msgid "Hide empty label"
+msgstr "Nascondi pannello laterale"
+
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "Stile predefinito"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:75
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:98
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:84
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:107
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "Testo"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:116
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:125
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "Criteri"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:124
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:133
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "Motivo"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:170
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:179
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "Descrizione"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:176
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:185
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "Seleziona"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:188
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:197
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr "Etichette"
 
-#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:44
+#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:59
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
@@ -4488,53 +4498,18 @@ msgctxt "VColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Rosso: %1, verde: %2, blu: %3"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:31
-msgctxt "AboutRolisteam|"
-msgid "English & French"
-msgstr "Inglese e francese"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:33
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
-msgctxt "AboutRolisteam|"
-msgid "Portuguese"
-msgstr "Portoghese"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:36
-msgctxt "AboutRolisteam|"
-msgid "Hungarian"
-msgstr "Ungherese"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:37
-msgctxt "AboutRolisteam|"
-msgid "Turkish"
-msgstr "Turco"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:38
-msgctxt "AboutRolisteam|"
-msgid "French & German"
-msgstr "Francese e tedesco"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:39
-msgctxt "AboutRolisteam|"
-msgid "Romanian"
-msgstr "Rumeno"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:40
-msgctxt "AboutRolisteam|"
-msgid "Spanish"
-msgstr "Spagnolo"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:41
-msgctxt "AboutRolisteam|"
-msgid "Dutch"
-msgstr "Olandese"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:42
-msgctxt "AboutRolisteam|"
-msgid "Catalan"
-msgstr "Catalano"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:57
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
+#, fuzzy
+#| msgctxt "AboutRolisteam|"
+#| msgid ""
+#| "Rolisteam helps you to manage a tabletop role playing game with remote "
+#| "friends/players. It provides many features to share maps, pictures and it "
+#| "also includes tool to communicate with your friends/players. The goal is "
+#| "to make Rolisteam-managed RPG games as good as RPG games around your "
+#| "table. To achieve it, we are working hard to provide you more and more "
+#| "features. Existing features : Map sharing (with permission management), "
+#| "Image sharing, background music, dice roll and so on. Rolisteam is "
+#| "written in Qt5"
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4543,7 +4518,7 @@ msgid ""
 "make Rolisteam-managed RPG games as good as RPG games around your table. To "
 "achieve it, we are working hard to provide you more and more features. "
 "Existing features : Map sharing (with permission management), Image sharing, "
-"background music, dice roll and so on. Rolisteam is written in Qt5"
+"background music, dice roll and so on. Rolisteam is written with Qt"
 msgstr ""
 "Rolisteam ti aiuta a gestire un gioco di ruolo da tavolo con amici/giocatori "
 "remoti. Fornisce molte funzioni per condividere mappe, immagini e include "
@@ -4554,7 +4529,7 @@ msgstr ""
 "condivisione di mappe (con gestione dei permessi), condivisione di immagini, "
 "musica di sottofondo, lancio di dadi e così via. Rolisteam è scritto in Qt5"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
 msgid ""
 "You may modify and redistribute the program under the terms of the GPL "
@@ -4569,35 +4544,28 @@ msgstr ""
 "suoi contributori. Vedi il file 'COPYRIGHT' per l'elenco completo dei "
 "contributori. Non forniamo alcuna garanzia per questo programma."
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
-msgctxt "AboutRolisteam|"
-msgid "Web Sites:"
-msgstr "Siti web:"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:59
 msgctxt "AboutRolisteam|"
 msgid "Official Rolisteam Site"
 msgstr "Sito ufficiale di Rolisteam"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:60
+msgctxt "AboutRolisteam|"
+msgid "Web Sites:"
+msgstr "Siti web:"
+
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:61
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
 msgstr "Tracciamento dei bug"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
+#, fuzzy
+#| msgctxt "CampaignManager|"
+#| msgid "Impossible to create campaign template at %1"
 msgctxt "AboutRolisteam|"
-msgid "Current developers"
-msgstr "Sviluppatori attuali"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
-msgctxt "AboutRolisteam|"
-msgid "Contributors"
-msgstr "Hanno contribuito"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
-msgctxt "AboutRolisteam|"
-msgid "Translators"
-msgstr "Traduttori"
+msgid "Impossible to read the template."
+msgstr "Impossibile creare un modello di campagna in %1"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"
@@ -5682,7 +5650,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Salva"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:562
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:564
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Mostra colonne"
@@ -8644,6 +8612,62 @@ msgstr "Addormentato"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Stregato"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Connection has been lost. %1 will be close"
+#~ msgstr "La connessione è stata persa. %1 sarà chiuso"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Connection lost"
+#~ msgstr "Connessione persa"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "English & French"
+#~ msgstr "Inglese e francese"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Portuguese"
+#~ msgstr "Portoghese"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Hungarian"
+#~ msgstr "Ungherese"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Turkish"
+#~ msgstr "Turco"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "French & German"
+#~ msgstr "Francese e tedesco"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Romanian"
+#~ msgstr "Rumeno"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Spanish"
+#~ msgstr "Spagnolo"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Dutch"
+#~ msgstr "Olandese"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Catalan"
+#~ msgstr "Catalano"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Current developers"
+#~ msgstr "Sviluppatori attuali"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Contributors"
+#~ msgstr "Hanno contribuito"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Translators"
+#~ msgstr "Traduttori"
 
 #~ msgctxt "PreferencesDialogBox|"
 #~ msgid "Show time"

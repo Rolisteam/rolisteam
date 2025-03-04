@@ -33,7 +33,7 @@ msgctxt "MindMap|"
 msgid "Images (*.jpg *.png *.jpeg *.gif *.bmp)"
 msgstr "Kuvat (*.jpg *.png *.jpeg *.gif *.bmp)"
 
-#: src/binaries/mindmap/MindMap.qml:80
+#: src/binaries/mindmap/MindMap.qml:81
 msgctxt "MindMap|"
 msgid "Images (*.png)"
 msgstr "Kuvat (*.png)"
@@ -1145,7 +1145,7 @@ msgstr "Muokkaustoiminnot"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:809
 #: src/binaries/rcse/mainwindow_rcse.ui:1012
-#: src/binaries/widget/mainwindow.cpp:672
+#: src/binaries/widget/mainwindow.cpp:687
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Ohje"
@@ -1370,13 +1370,13 @@ msgid "Check Validity"
 msgstr "Tarkista kelpoisuus"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1099
-#: src/binaries/widget/mainwindow.cpp:622
+#: src/binaries/widget/mainwindow.cpp:637
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "K&umoa"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1104
-#: src/binaries/widget/mainwindow.cpp:621
+#: src/binaries/widget/mainwindow.cpp:636
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "T&ee uudelleen"
@@ -1824,7 +1824,7 @@ msgctxt "QObject|"
 msgid "Ask for password and return its hash key."
 msgstr "Kysy salasana ja palauta sen tiivisteavain."
 
-#: src/binaries/widget/mainwindow.cpp:410
+#: src/binaries/widget/mainwindow.cpp:425
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Server"
@@ -1832,12 +1832,12 @@ msgctxt "MainWindow|"
 msgid "SidePanels"
 msgstr "Palvelin"
 
-#: src/binaries/widget/mainwindow.cpp:415
+#: src/binaries/widget/mainwindow.cpp:430
 msgctxt "MainWindow|"
 msgid "Side Panels"
 msgstr "Sivupaneelit"
 
-#: src/binaries/widget/mainwindow.cpp:425
+#: src/binaries/widget/mainwindow.cpp:440
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Player"
@@ -1845,7 +1845,7 @@ msgctxt "MainWindow|"
 msgid "List of Players"
 msgstr "Pelaaja"
 
-#: src/binaries/widget/mainwindow.cpp:426
+#: src/binaries/widget/mainwindow.cpp:441
 #, fuzzy
 #| msgctxt "FieldView|"
 #| msgid "All columns"
@@ -1853,12 +1853,12 @@ msgctxt "MainWindow|"
 msgid "All campaign documents"
 msgstr "Kaikki sarakkeet"
 
-#: src/binaries/widget/mainwindow.cpp:427
+#: src/binaries/widget/mainwindow.cpp:442
 msgctxt "MainWindow|"
 msgid "List of antagonists"
 msgstr "Vastustajaluettelo"
 
-#: src/binaries/widget/mainwindow.cpp:428
+#: src/binaries/widget/mainwindow.cpp:443
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Player"
@@ -1866,7 +1866,7 @@ msgctxt "MainWindow|"
 msgid "Music Player"
 msgstr "Pelaaja"
 
-#: src/binaries/widget/mainwindow.cpp:429
+#: src/binaries/widget/mainwindow.cpp:444
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Server"
@@ -1874,7 +1874,7 @@ msgctxt "MainWindow|"
 msgid "Server Panel"
 msgstr "Palvelin"
 
-#: src/binaries/widget/mainwindow.cpp:430
+#: src/binaries/widget/mainwindow.cpp:445
 #, fuzzy
 #| msgctxt "SideMenu|"
 #| msgid "Sound Notification"
@@ -1882,7 +1882,7 @@ msgctxt "MainWindow|"
 msgid "Notification Zone"
 msgstr "Ääni-ilmoitus"
 
-#: src/binaries/widget/mainwindow.cpp:445
+#: src/binaries/widget/mainwindow.cpp:460
 #, fuzzy
 #| msgctxt "ToolBox|"
 #| msgid "Tools"
@@ -1890,17 +1890,17 @@ msgctxt "MainWindow|"
 msgid "GM Tools"
 msgstr "Työkalut"
 
-#: src/binaries/widget/mainwindow.cpp:502
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Open Webpage"
 msgstr "Avaa verkkosivu"
 
-#: src/binaries/widget/mainwindow.cpp:502
+#: src/binaries/widget/mainwindow.cpp:517
 msgctxt "MainWindow|"
 msgid "Webpage url:"
 msgstr "Verkkosivun osoite:"
 
-#: src/binaries/widget/mainwindow.cpp:510
+#: src/binaries/widget/mainwindow.cpp:525
 #, fuzzy
 #| msgctxt "MainWindow|"
 #| msgid "Open %1"
@@ -1908,19 +1908,19 @@ msgctxt "MainWindow|"
 msgid "Open Map"
 msgstr "Avaa %1"
 
-#: src/binaries/widget/mainwindow.cpp:510
+#: src/binaries/widget/mainwindow.cpp:525
 msgctxt "MainWindow|"
 msgid "Map:"
 msgstr "Kartta:"
 
-#: src/binaries/widget/mainwindow.cpp:524
-#: src/binaries/widget/mainwindow.cpp:563
-#: src/binaries/widget/mainwindow.cpp:787 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.cpp:539
+#: src/binaries/widget/mainwindow.cpp:578
+#: src/binaries/widget/mainwindow.cpp:799 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Avaa kampanja"
 
-#: src/binaries/widget/mainwindow.cpp:673
+#: src/binaries/widget/mainwindow.cpp:688
 #, fuzzy, qt-format
 #| msgctxt "MainWindow|"
 #| msgid ""
@@ -1933,40 +1933,42 @@ msgstr ""
 "%1-lahjoitussivu löytyy verkosta osoitteesta:<br><a href=\"https://liberapay."
 "com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>"
 
-#: src/binaries/widget/mainwindow.cpp:708
+#: src/binaries/widget/mainwindow.cpp:723
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Tuki"
 
-#: src/binaries/widget/mainwindow.cpp:709
+#: src/binaries/widget/mainwindow.cpp:724
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
 msgstr "%1-lahjoitussivu löytyy verkosta osoitteesta:<br><a href=\"%2\">%2</a>"
 
-#: src/binaries/widget/mainwindow.cpp:771
-#, qt-format
+#: src/binaries/widget/mainwindow.cpp:785
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
-msgid "Connection has been lost. %1 will be close"
-msgstr "Yhteys katkesi. %1 sulkeutuu"
+msgid "Do you want to save the campaign ?"
+msgstr "Haluatko tyhjentää nykyisen QML-koodin?"
 
-#: src/binaries/widget/mainwindow.cpp:773
+#: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
-msgid "Connection lost"
-msgstr "Yhteys katkesi"
+msgid "Do you really want to quit Rolisteam ?"
+msgstr ""
 
-#: src/binaries/widget/mainwindow.cpp:779
+#: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Lopeta %1"
 
-#: src/binaries/widget/mainwindow.cpp:854
+#: src/binaries/widget/mainwindow.cpp:866
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Päivitysilmoitus"
 
-#: src/binaries/widget/mainwindow.cpp:855
+#: src/binaries/widget/mainwindow.cpp:867
 #, fuzzy, qt-format
 #| msgctxt "MainWindow|"
 #| msgid ""
@@ -1980,101 +1982,101 @@ msgstr ""
 "Versio %1 on julkaista. Lisätietoa löytyy <a href=\"http://www.rolisteam.org/"
 "download\">lataussivulta</a>."
 
-#: src/binaries/widget/mainwindow.cpp:865
+#: src/binaries/widget/mainwindow.cpp:877
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 liittyi juuri peliin."
 
-#: src/binaries/widget/mainwindow.cpp:869
+#: src/binaries/widget/mainwindow.cpp:881
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 ei ole oikeaa versiota: %2"
 
-#: src/binaries/widget/mainwindow.cpp:875
+#: src/binaries/widget/mainwindow.cpp:887
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 poistui juuri pelistä."
 
-#: src/binaries/widget/mainwindow.cpp:958
+#: src/binaries/widget/mainwindow.cpp:970
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Aseta rolisteam käyttämään yhteyteen <porttia>"
 
-#: src/binaries/widget/mainwindow.cpp:961
+#: src/binaries/widget/mainwindow.cpp:973
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Aseta rolisteam yhdistämään <palvelimeen>."
 
-#: src/binaries/widget/mainwindow.cpp:964
+#: src/binaries/widget/mainwindow.cpp:976
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Määritä <rooli>: gm tai pc"
 
-#: src/binaries/widget/mainwindow.cpp:966
+#: src/binaries/widget/mainwindow.cpp:978
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Tyhjennä asetukset ja käytä oletusparametreja"
 
-#: src/binaries/widget/mainwindow.cpp:969
+#: src/binaries/widget/mainwindow.cpp:981
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Määritä <käyttäjätunnus>"
 
-#: src/binaries/widget/mainwindow.cpp:972
+#: src/binaries/widget/mainwindow.cpp:984
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Poista PDF-tiedoston kokorajoitus"
 
-#: src/binaries/widget/mainwindow.cpp:975
+#: src/binaries/widget/mainwindow.cpp:987
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "käännöstiedoston sijainti: <käännöstiedosto>"
 
-#: src/binaries/widget/mainwindow.cpp:978
+#: src/binaries/widget/mainwindow.cpp:990
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Määritä palvelinyhteyden verkko-osoite: <verkko-osoite>"
 
-#: src/binaries/widget/mainwindow.cpp:1071
+#: src/binaries/widget/mainwindow.cpp:1083
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Avaa %1"
 
-#: src/binaries/widget/mainwindow.cpp:1168
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Yhdistetty"
 
-#: src/binaries/widget/mainwindow.cpp:1168
+#: src/binaries/widget/mainwindow.cpp:1180
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Ei yhteyttä"
 
-#: src/binaries/widget/mainwindow.cpp:1169
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Palvelin"
 
-#: src/binaries/widget/mainwindow.cpp:1169
+#: src/binaries/widget/mainwindow.cpp:1181
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Asiakas"
 
-#: src/binaries/widget/mainwindow.cpp:1176
+#: src/binaries/widget/mainwindow.cpp:1188
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1182
+#: src/binaries/widget/mainwindow.cpp:1194
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Pelaaja"
 
-#: src/binaries/widget/mainwindow.cpp:1211
+#: src/binaries/widget/mainwindow.cpp:1223
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Tuntematon"
@@ -2787,24 +2789,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Poista viimeinen rivi"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:594
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:606
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Kentän nimi"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:632
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:644
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Tyhjä osio %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:639
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:651
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Osio_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:663
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:675
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2989,7 +2991,7 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:155
+#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:158
 msgctxt "MindMapControllerBase|"
 msgid "Root"
 msgstr "Juuri"
@@ -3460,7 +3462,7 @@ msgctxt "QObject|"
 msgid "Player"
 msgstr "Pelaaja"
 
-#: src/libraries/core/src/network/rserver.cpp:41
+#: src/libraries/core/src/network/rserver.cpp:44
 msgctxt "RServer|"
 msgid "[Upnp] Port mapping has been done"
 msgstr "[UPNP] Portinohjaus on tehty"
@@ -3857,32 +3859,32 @@ msgctxt "ButtonGrid|"
 msgid "Redo"
 msgstr "Tee uudelleen"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:39
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:40
 msgctxt "ButtonGrid|"
 msgid "Save Map"
 msgstr "Tallenna kartta"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:43
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:44
 msgctxt "ButtonGrid|"
 msgid "Open Drawer"
 msgstr "Avaa hylly"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:50
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:52
 msgctxt "ButtonGrid|"
 msgid "Add Root"
 msgstr "Lisää juuri"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:57
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:60
 msgctxt "ButtonGrid|"
 msgid "Add Package"
 msgstr "Lisää paketti"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:64
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:67
 msgctxt "ButtonGrid|"
 msgid "Add Arrow"
 msgstr "Lisää nuoli"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:71
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:75
 #, fuzzy
 #| msgctxt "PlayerWidget|"
 #| msgid "Remove selected file"
@@ -3890,27 +3892,27 @@ msgctxt "ButtonGrid|"
 msgid "Remove selected Items"
 msgstr "Poista valittu tiedosto"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:78
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:82
 msgctxt "ButtonGrid|"
 msgid "Refresh"
 msgstr "Virkistä"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:83
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:87
 msgctxt "ButtonGrid|"
 msgid "Export As PNG"
 msgstr "Vie PNG:ksi"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:92
 msgctxt "ButtonGrid|"
 msgid "Hide small map"
 msgstr "Piilota pieni kartta"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:88
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:92
 msgctxt "ButtonGrid|"
 msgid "Show small map"
 msgstr "Näytä pieni kartta"
 
-#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:94
+#: src/libraries/mindmap/resources/qml/ButtonGrid.qml:98
 msgctxt "ButtonGrid|"
 msgid "Automatic Spacing"
 msgstr "Automaattivälistys"
@@ -3961,7 +3963,7 @@ msgctxt "MindMap|"
 msgid "is linked"
 msgstr "on linkitetty"
 
-#: src/libraries/mindmap/resources/qml/MindMap.qml:223
+#: src/libraries/mindmap/resources/qml/MindMap.qml:224
 #, fuzzy
 #| msgctxt "ChatView|"
 #| msgid "Detach"
@@ -4046,7 +4048,7 @@ msgid "Text"
 msgstr "Teksti"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:32
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:156
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:165
 msgctxt "SideMenu|"
 msgid "Name"
 msgstr "Nimi"
@@ -4062,43 +4064,51 @@ msgctxt "SideMenu|"
 msgid "Link label visible:"
 msgstr ""
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:55
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:54
+#, fuzzy
+#| msgctxt "MainWindow|"
+#| msgid "Side Panels"
+msgctxt "SideMenu|"
+msgid "Hide empty label"
+msgstr "Sivupaneelit"
+
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
 msgid "Default Style"
 msgstr "Oletustyyli"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:75
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:98
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:84
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:107
 msgctxt "SideMenu|"
 msgid "Text"
 msgstr "Teksti"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:116
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:125
 msgctxt "SideMenu|"
 msgid "Criteria"
 msgstr "Ehdot"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:124
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:133
 msgctxt "SideMenu|"
 msgid "Pattern"
 msgstr "Kuvio"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:170
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:179
 msgctxt "SideMenu|"
 msgid "Description"
 msgstr "Kuvaus"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:176
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:185
 msgctxt "SideMenu|"
 msgid "Select"
 msgstr "Valitse"
 
-#: src/libraries/mindmap/resources/qml/SideMenu.qml:188
+#: src/libraries/mindmap/resources/qml/SideMenu.qml:197
 msgctxt "SideMenu|"
 msgid "Tags"
 msgstr ""
 
-#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:44
+#: src/libraries/mindmap/src/command/addimagetonodecommand.cpp:59
 #, qt-format
 msgctxt "QObject|"
 msgid "Add %1 image"
@@ -5004,53 +5014,7 @@ msgctxt "VColorSelector|"
 msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Punainen: %1, vihreä: %2, sininen: %3"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:31
-msgctxt "AboutRolisteam|"
-msgid "English & French"
-msgstr "Englanti ja ranska"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:33
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:35
-msgctxt "AboutRolisteam|"
-msgid "Portuguese"
-msgstr "Portugali"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:36
-msgctxt "AboutRolisteam|"
-msgid "Hungarian"
-msgstr "Unkari"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:37
-msgctxt "AboutRolisteam|"
-msgid "Turkish"
-msgstr "Turkki"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:38
-msgctxt "AboutRolisteam|"
-msgid "French & German"
-msgstr "Ranska ja saksa"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:39
-msgctxt "AboutRolisteam|"
-msgid "Romanian"
-msgstr "Romania"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:40
-msgctxt "AboutRolisteam|"
-msgid "Spanish"
-msgstr "Espanja"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:41
-msgctxt "AboutRolisteam|"
-msgid "Dutch"
-msgstr "Hollanti"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:42
-msgctxt "AboutRolisteam|"
-msgid "Catalan"
-msgstr "Katalaani"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:57
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -5059,10 +5023,10 @@ msgid ""
 "make Rolisteam-managed RPG games as good as RPG games around your table. To "
 "achieve it, we are working hard to provide you more and more features. "
 "Existing features : Map sharing (with permission management), Image sharing, "
-"background music, dice roll and so on. Rolisteam is written in Qt5"
+"background music, dice roll and so on. Rolisteam is written with Qt"
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:63
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
 msgid ""
 "You may modify and redistribute the program under the terms of the GPL "
@@ -5072,35 +5036,25 @@ msgid ""
 "no warranty for this program."
 msgstr ""
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
-msgctxt "AboutRolisteam|"
-msgid "Web Sites:"
-msgstr "Sivustot:"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:59
 msgctxt "AboutRolisteam|"
 msgid "Official Rolisteam Site"
 msgstr "Virallinen Rolisteam-sivusto"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:60
+msgctxt "AboutRolisteam|"
+msgid "Web Sites:"
+msgstr "Sivustot:"
+
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:61
 msgctxt "AboutRolisteam|"
 msgid "Bug Tracker"
 msgstr "Virhejäljitin"
 
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:67
+#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
 msgctxt "AboutRolisteam|"
-msgid "Current developers"
-msgstr "Nykyiset kehittäjät"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
-msgctxt "AboutRolisteam|"
-msgid "Contributors"
-msgstr "Avustajat"
-
-#: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:68
-msgctxt "AboutRolisteam|"
-msgid "Translators"
-msgstr "Kääntäjät"
+msgid "Impossible to read the template."
+msgstr ""
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 #, fuzzy
@@ -6456,7 +6410,7 @@ msgctxt "campaign::AntagonistBoard|"
 msgid "Save"
 msgstr "Tallenna"
 
-#: src/libraries/rwidgets/docks/antagonistboard.cpp:562
+#: src/libraries/rwidgets/docks/antagonistboard.cpp:564
 msgctxt "campaign::AntagonistBoard|"
 msgid "Show Columns"
 msgstr "Näytä sarakkeet"
@@ -9879,6 +9833,62 @@ msgstr "Unessa"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Noiduttu"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Connection has been lost. %1 will be close"
+#~ msgstr "Yhteys katkesi. %1 sulkeutuu"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "Connection lost"
+#~ msgstr "Yhteys katkesi"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "English & French"
+#~ msgstr "Englanti ja ranska"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Portuguese"
+#~ msgstr "Portugali"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Hungarian"
+#~ msgstr "Unkari"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Turkish"
+#~ msgstr "Turkki"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "French & German"
+#~ msgstr "Ranska ja saksa"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Romanian"
+#~ msgstr "Romania"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Spanish"
+#~ msgstr "Espanja"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Dutch"
+#~ msgstr "Hollanti"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Catalan"
+#~ msgstr "Katalaani"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Current developers"
+#~ msgstr "Nykyiset kehittäjät"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Contributors"
+#~ msgstr "Avustajat"
+
+#~ msgctxt "AboutRolisteam|"
+#~ msgid "Translators"
+#~ msgstr "Kääntäjät"
 
 #, fuzzy
 #~| msgctxt "FieldView|"
