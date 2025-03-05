@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2025-02-23 08:16+0100\n"
+"PO-Revision-Date: 2025-03-04 07:49+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1700,17 +1700,14 @@ msgstr ""
 "Stran za donacije %1 je na voljo na spletni strani:<br><a href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:785
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
 msgid "Do you want to save the campaign ?"
-msgstr "Ali želite izbrisati trenutno kodo QML?"
+msgstr "Ali želite shraniti akcijo?"
 
 #: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
 msgid "Do you really want to quit Rolisteam ?"
-msgstr ""
+msgstr "Ali res želite zapustiti Rolisteam?"
 
 #: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
@@ -3613,12 +3610,9 @@ msgid "Link label visible:"
 msgstr "Oznaka povezave je vidna:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Hide Side Panel"
 msgctxt "SideMenu|"
 msgid "Hide empty label"
-msgstr "Skrij stransko ploščo"
+msgstr "Skrij prazno oznako"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
@@ -4503,17 +4497,6 @@ msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Rdeča: %1, zelena: %2, modra: %3"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid ""
-#| "Rolisteam helps you to manage a tabletop role playing game with remote "
-#| "friends/players. It provides many features to share maps, pictures and it "
-#| "also includes tool to communicate with your friends/players. The goal is "
-#| "to make Rolisteam-managed RPG games as good as RPG games around your "
-#| "table. To achieve it, we are working hard to provide you more and more "
-#| "features. Existing features : Map sharing (with permission management), "
-#| "Image sharing, background music, dice roll and so on. Rolisteam is "
-#| "written in Qt5"
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4525,13 +4508,13 @@ msgid ""
 "background music, dice roll and so on. Rolisteam is written with Qt"
 msgstr ""
 "Rolisteam vam pomaga pri upravljanju namizne igre z vlogami z oddaljenimi "
-"prijatelji/soigralci. Ponuja številne funkcije za skupno rabo zemljevidov, "
+"prijatelji/soigralci. Ponuja številne zmožnosti za skupno rabo zemljevidov, "
 "slik in vključuje tudi orodje za komuniciranje s prijatelji/soigralci. Cilj "
 "je, da Rolisteam upravlja igre RPG tako dobro kot igre RPG na vaši mizi. Da "
-"bi to dosegli, se trudimo, da bi vam zagotovili vse več funkcij. Obstoječe "
-"funkcije: skupna raba zemljevidov (z upravljanjem dovoljenj), skupna raba "
-"slik, glasba v ozadju, metanje kocke in tako naprej. Rolisteam je napisan v "
-"Qt5"
+"bi to dosegli, se trudimo, da bi vam zagotovili vse več zmožnosti. Obstoječe "
+"zmožnosti: skupna raba zemljevidov (z upravljanjem dovoljenj), skupna raba "
+"slik, glasba v ozadju, metanje kocke in tako naprej. Rolisteam je napisan z "
+"orodjem Qt"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
@@ -4564,12 +4547,9 @@ msgid "Bug Tracker"
 msgstr "Sledilnik hroščev"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
-#, fuzzy
-#| msgctxt "CampaignManager|"
-#| msgid "Impossible to create campaign template at %1"
 msgctxt "AboutRolisteam|"
 msgid "Impossible to read the template."
-msgstr "Ni mogoče ustvariti predloge bojnega pohoda na %1"
+msgstr "Ni mogoče prebrati predloge."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"

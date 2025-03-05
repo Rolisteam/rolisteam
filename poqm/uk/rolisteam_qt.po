@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-02-23 08:42+0200\n"
+"PO-Revision-Date: 2025-03-04 08:50+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1698,17 +1698,14 @@ msgstr ""
 "href=\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:785
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
 msgid "Do you want to save the campaign ?"
-msgstr "Хочете вилучити поточний код QML?"
+msgstr "Хочете зберегти кампанію?"
 
 #: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
 msgid "Do you really want to quit Rolisteam ?"
-msgstr ""
+msgstr "Ви справді хочете вийти з Rolisteam?"
 
 #: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
@@ -3613,12 +3610,9 @@ msgid "Link label visible:"
 msgstr "Видимість зв'язку мітки:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Hide Side Panel"
 msgctxt "SideMenu|"
 msgid "Hide empty label"
-msgstr "Приховати бічну панель"
+msgstr "Приховати порожню мітку"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
@@ -4503,17 +4497,6 @@ msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Червоний: %1, Зелений: %2, Синій: %3"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid ""
-#| "Rolisteam helps you to manage a tabletop role playing game with remote "
-#| "friends/players. It provides many features to share maps, pictures and it "
-#| "also includes tool to communicate with your friends/players. The goal is "
-#| "to make Rolisteam-managed RPG games as good as RPG games around your "
-#| "table. To achieve it, we are working hard to provide you more and more "
-#| "features. Existing features : Map sharing (with permission management), "
-#| "Image sharing, background music, dice roll and so on. Rolisteam is "
-#| "written in Qt5"
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4531,7 +4514,7 @@ msgstr ""
 "вашим столом. Для цього розробники невпинно працюють над розширенням спектра "
 "можливостей. Наявні можливості: оприлюднення карт (із керуванням правами "
 "доступу), оприлюднення зображень, фонова музика, кидання кістки тощо. "
-"Rolisteam написано на основі Qt5"
+"Rolisteam написано на основі Qt"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
@@ -4564,12 +4547,9 @@ msgid "Bug Tracker"
 msgstr "Система стеження за вадами"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
-#, fuzzy
-#| msgctxt "CampaignManager|"
-#| msgid "Impossible to create campaign template at %1"
 msgctxt "AboutRolisteam|"
 msgid "Impossible to read the template."
-msgstr "Неможливо створити шаблон кампанії у %1"
+msgstr "Не вдалося прочитати шаблон."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"

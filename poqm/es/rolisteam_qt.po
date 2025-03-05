@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"PO-Revision-Date: 2025-02-23 02:33+0100\n"
+"PO-Revision-Date: 2025-03-04 17:53+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1691,17 +1691,14 @@ msgstr ""
 "a>"
 
 #: src/binaries/widget/mainwindow.cpp:785
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
 msgid "Do you want to save the campaign ?"
-msgstr "¿Desea borrar el código QML actual?"
+msgstr "¿Desea guardar la campaña?"
 
 #: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
 msgid "Do you really want to quit Rolisteam ?"
-msgstr ""
+msgstr "¿Realmente quiere salir de Rolisteam?"
 
 #: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
@@ -3609,12 +3606,9 @@ msgid "Link label visible:"
 msgstr "Etiqueta de enlace visible:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Hide Side Panel"
 msgctxt "SideMenu|"
 msgid "Hide empty label"
-msgstr "Ocultar panel lateral"
+msgstr "Ocultar etiqueta vacía"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
@@ -4495,17 +4489,6 @@ msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Rojo: %1, Verde: %2, Azul: %3"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid ""
-#| "Rolisteam helps you to manage a tabletop role playing game with remote "
-#| "friends/players. It provides many features to share maps, pictures and it "
-#| "also includes tool to communicate with your friends/players. The goal is "
-#| "to make Rolisteam-managed RPG games as good as RPG games around your "
-#| "table. To achieve it, we are working hard to provide you more and more "
-#| "features. Existing features : Map sharing (with permission management), "
-#| "Image sharing, background music, dice roll and so on. Rolisteam is "
-#| "written in Qt5"
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4524,7 +4507,7 @@ msgstr ""
 "estamos trabajando arduamente para ofrecerle cada vez más funciones. "
 "Funciones existentes: compartir mapas (con gestión de permisos), compartir "
 "imágenes, música de fondo, lanzamiento de dados, etc. Rolisteam está escrito "
-"en Qt5."
+"con Qt."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
@@ -4558,12 +4541,9 @@ msgid "Bug Tracker"
 msgstr "Sistema de seguimiento de fallos"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
-#, fuzzy
-#| msgctxt "CampaignManager|"
-#| msgid "Impossible to create campaign template at %1"
 msgctxt "AboutRolisteam|"
 msgid "Impossible to read the template."
-msgstr "No se ha podido crear una plantilla de campaña en %1"
+msgstr "No se ha podido leer la plantilla."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"

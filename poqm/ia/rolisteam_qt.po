@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-02-24 16:28+0100\n"
+"PO-Revision-Date: 2025-03-04 15:29+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -1654,12 +1654,9 @@ msgstr ""
 "%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:785
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
 msgid "Do you want to save the campaign ?"
-msgstr "Tu vole rader le codice QML currente?"
+msgstr "Tu vole salveguardr le campania ?"
 
 #: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
@@ -3564,12 +3561,9 @@ msgid "Link label visible:"
 msgstr "Liga etiquetta visibile:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Hide Side Panel"
 msgctxt "SideMenu|"
 msgid "Hide empty label"
-msgstr "Cela Pannello Lateral"
+msgstr "Cela Etiquetta vacue"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
@@ -4450,17 +4444,6 @@ msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Rubie: %1, Verde: %2, Blau: %3 "
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid ""
-#| "Rolisteam helps you to manage a tabletop role playing game with remote "
-#| "friends/players. It provides many features to share maps, pictures and it "
-#| "also includes tool to communicate with your friends/players. The goal is "
-#| "to make Rolisteam-managed RPG games as good as RPG games around your "
-#| "table. To achieve it, we are working hard to provide you more and more "
-#| "features. Existing features : Map sharing (with permission management), "
-#| "Image sharing, background music, dice roll and so on. Rolisteam is "
-#| "written in Qt5"
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4471,14 +4454,14 @@ msgid ""
 "Existing features : Map sharing (with permission management), Image sharing, "
 "background music, dice roll and so on. Rolisteam is written with Qt"
 msgstr ""
-"Rolisteam de adjuta a gerer un joco de rolo de tabula con jocatores/amicos "
+"Rolisteam te adjuta a gerer un joco de rolo de tabula con jocatores/amicos "
 "remote. Illo forni multe characteristicas per compartir mappas, imagines e "
 "anque include instrumentos per communicar con tu amicos/jocatores. Le "
 "objectivo es facer jocos RPG gerite per Rolisteam bon como jocos RPG ubique "
 "tu tabula. Per obtener illo, nos travalia multo pro fornir te plus e plus "
 "functiones. Functiones existente:Compartir de Mappa (con gestion de "
 "permission), compatir de imagines, musica de fundo, rolar de dato et cetera. "
-"Rolisteam es scribite in Qt6"
+"Rolisteam es scribite in Qt"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
@@ -4511,12 +4494,9 @@ msgid "Bug Tracker"
 msgstr "Traciator de Falta (bug)"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
-#, fuzzy
-#| msgctxt "CampaignManager|"
-#| msgid "Impossible to create campaign template at %1"
 msgctxt "AboutRolisteam|"
 msgid "Impossible to read the template."
-msgstr "Impossibile crear patrono de campania a %1"
+msgstr "Impossibile leger le patrono."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"

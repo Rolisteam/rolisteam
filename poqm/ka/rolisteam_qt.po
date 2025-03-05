@@ -1692,17 +1692,14 @@ msgstr ""
 "\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:785
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
 msgid "Do you want to save the campaign ?"
-msgstr "გნებავთ, წაშალოთ მიმდინარე QML კოდი?"
+msgstr "მართლა გნებავთ კამპანიის შენახვა?"
 
 #: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
 msgid "Do you really want to quit Rolisteam ?"
-msgstr ""
+msgstr "მართლა გნებავთ Rolistream-დან გასვლა?"
 
 #: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
@@ -2616,7 +2613,7 @@ msgstr "კომენტარი"
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
-msgstr "%1-ზე კომპანიის ნიმუშის შექმნა შეუძლებელია"
+msgstr "%1-ზე კამპანიის ნიმუშის შექმნა შეუძლებელია"
 
 #: src/libraries/core/src/data/campaignmanager.cpp:143
 #, qt-format
@@ -3605,12 +3602,9 @@ msgid "Link label visible:"
 msgstr "ბმულის ჭდე ხილულია:"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Hide Side Panel"
 msgctxt "SideMenu|"
 msgid "Hide empty label"
-msgstr "გვერდითი პანელის დამალვა"
+msgstr "ცარიელი ჭდის დამალვა"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
@@ -4491,17 +4485,6 @@ msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "წითელი: %1, მწვანე: %2, ლურჯი: %3"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid ""
-#| "Rolisteam helps you to manage a tabletop role playing game with remote "
-#| "friends/players. It provides many features to share maps, pictures and it "
-#| "also includes tool to communicate with your friends/players. The goal is "
-#| "to make Rolisteam-managed RPG games as good as RPG games around your "
-#| "table. To achieve it, we are working hard to provide you more and more "
-#| "features. Existing features : Map sharing (with permission management), "
-#| "Image sharing, background music, dice roll and so on. Rolisteam is "
-#| "written in Qt5"
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4520,7 +4503,7 @@ msgstr ""
 "მისაღწევად, ჩვენ ბევრს ვმუშაობთ, რომ უფრო და უფრო მეტი ფუნქცია მოგაწოდოთ. "
 "არსებული მახასიათებლები: რუკის გაზიარება (ნებართვის მენეჯმენტით), სურათის "
 "გაზიარება, მუსიკის ფონური მუსიკა, კამათლების როლი და ა.შ. Rolisteam იწერება "
-"Qt5- ში"
+"Qt- ში"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
@@ -4553,12 +4536,9 @@ msgid "Bug Tracker"
 msgstr "შეცდომების სია"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
-#, fuzzy
-#| msgctxt "CampaignManager|"
-#| msgid "Impossible to create campaign template at %1"
 msgctxt "AboutRolisteam|"
 msgid "Impossible to read the template."
-msgstr "%1-ზე კომპანიის ნიმუშის შექმნა შეუძლებელია"
+msgstr "ნიმუშის წაკითხვა შეუძლებელია."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"
