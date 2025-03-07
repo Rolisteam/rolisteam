@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2025-02-24 09:28+0100\n"
+"PO-Revision-Date: 2025-03-05 09:57+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1695,17 +1695,14 @@ msgstr ""
 "\"%2\">%2</a>"
 
 #: src/binaries/widget/mainwindow.cpp:785
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Do you want to erase current QML code ?"
 msgctxt "MainWindow|"
 msgid "Do you want to save the campaign ?"
-msgstr "Voulez-vous vraiment supprimer le code « QML » courant ?"
+msgstr "Voulez-vous enregistrer la session ?"
 
 #: src/binaries/widget/mainwindow.cpp:785
 msgctxt "MainWindow|"
 msgid "Do you really want to quit Rolisteam ?"
-msgstr ""
+msgstr "Voulez-vous vraiment quitter Rolisteam ?"
 
 #: src/binaries/widget/mainwindow.cpp:791
 #, qt-format
@@ -3615,12 +3612,9 @@ msgid "Link label visible:"
 msgstr "Étiquette visible de lien :"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:54
-#, fuzzy
-#| msgctxt "PdfViewer|"
-#| msgid "Hide Side Panel"
 msgctxt "SideMenu|"
 msgid "Hide empty label"
-msgstr "Masquer le panneau latéral"
+msgstr "Masquer l'étiquette vide"
 
 #: src/libraries/mindmap/resources/qml/SideMenu.qml:64
 msgctxt "SideMenu|"
@@ -4503,17 +4497,6 @@ msgid "Red: %1, Green: %2, Blue: %3"
 msgstr "Rouge : %1, Vert : %2, Bleu : %3"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:46
-#, fuzzy
-#| msgctxt "AboutRolisteam|"
-#| msgid ""
-#| "Rolisteam helps you to manage a tabletop role playing game with remote "
-#| "friends/players. It provides many features to share maps, pictures and it "
-#| "also includes tool to communicate with your friends/players. The goal is "
-#| "to make Rolisteam-managed RPG games as good as RPG games around your "
-#| "table. To achieve it, we are working hard to provide you more and more "
-#| "features. Existing features : Map sharing (with permission management), "
-#| "Image sharing, background music, dice roll and so on. Rolisteam is "
-#| "written in Qt5"
 msgctxt "AboutRolisteam|"
 msgid ""
 "Rolisteam helps you to manage a tabletop role playing game with remote "
@@ -4524,15 +4507,16 @@ msgid ""
 "Existing features : Map sharing (with permission management), Image sharing, "
 "background music, dice roll and so on. Rolisteam is written with Qt"
 msgstr ""
-"Le logiciel Rolisteam vous aide à gérer un jeu de rôle sur table avec des "
-"ami(e)s/joueurs et joueuses distants. Il offre de nombreuses fonctionnalités "
-"pour partager des cartes, des images. Il intègre également un outil pour "
-"communiquer avec ami(e)s/joueurs et joueuses. Son objectif est de rendre les "
-"jeux de rôles (RPG) gérés par Rolisteam aussi bons que les jeux de rôles sur "
-"table. Pour y parvenir, l'équipe de Rolisteam travaille dur pour vous "
-"fournir de plus en plus de fonctionnalités. Fonctions existantes : Partage "
-"de cartes (avec gestion des autorisations), partage d'images, musique de "
-"fond, lancer de dés et ainsi de suite. Rolisteam est écrit en Qt5."
+"L'application Rolisteam vous aide à gérer un jeu de rôle sur table avec des "
+"ami(e)s / joueurs et joueuses distants. Il offre de nombreuses "
+"fonctionnalités pour partager des cartes, des images. Il intègre également "
+"un outil pour communiquer avec les personnes participants au jeu. Son "
+"objectif est de rendre les jeux de rôles (RPG) gérés par Rolisteam aussi "
+"bons que les jeux de rôles sur table. Pour y parvenir, l'équipe de Rolisteam "
+"travaille dur pour vous fournir de plus en plus de fonctionnalités. "
+"Fonctionnalités existantes : partage de cartes (Avec gestion des "
+"autorisations), partage d'images, musique de fond, lancement de dés et ainsi "
+"de suite. Rolisteam est écrit en Qt."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:54
 msgctxt "AboutRolisteam|"
@@ -4566,12 +4550,9 @@ msgid "Bug Tracker"
 msgstr "Gestionnaire de bogues"
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.cpp:65
-#, fuzzy
-#| msgctxt "CampaignManager|"
-#| msgid "Impossible to create campaign template at %1"
 msgctxt "AboutRolisteam|"
 msgid "Impossible to read the template."
-msgstr "Impossible de créer un modèle de campagne à %1"
+msgstr "Impossible de lire le modèle."
 
 #: src/libraries/rwidgets/dialogs/aboutrolisteam.ui:17
 msgctxt "AboutRolisteam|"
