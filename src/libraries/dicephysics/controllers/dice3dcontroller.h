@@ -20,10 +20,10 @@
 #ifndef DICE3DCONTROLLER_H
 #define DICE3DCONTROLLER_H
 
+#include "dice3d_global.h"
 #include "dicemodel.h"
 #include <QObject>
 #include <memory>
-#include "dice3d_global.h"
 
 class DICE3D_EXPORTS Dice3DController : public QObject
 {
@@ -158,7 +158,7 @@ private:
     bool m_muted{false};
     QString m_commandPart;
     bool m_sharedOnline;
-    qreal m_factor;
+    qreal m_factor{45.0};
     bool m_ready{false};
     bool m_expectRoll;
 };

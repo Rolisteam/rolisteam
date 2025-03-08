@@ -237,7 +237,7 @@ void DiceModel::fetchModel(const QByteArray& data, std::vector<std::unique_ptr<D
     QJsonDocument doc= QJsonDocument::fromJson(data);
     auto array= doc.array();
 
-    for(auto objRef : array)
+    for(auto objRef : std::as_const(array))
     {
         auto obj= objRef.toObject();
 
@@ -261,7 +261,7 @@ QHash<int, QList<int>> DiceModel::resultFromBytes(const QByteArray& data, QStrin
     auto array= doc.array();
     QHash<int, QList<int>> res;
 
-    for(auto ref : array)
+    for(auto ref : std::as_const(array))
     {
         auto obj= ref.toObject();
 

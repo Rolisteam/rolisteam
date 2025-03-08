@@ -21,13 +21,13 @@
 
 Dice3DController::Dice3DController(QObject* parent) : QObject{parent}, m_model(new DiceModel())
 {
-    m_colors[DiceController::DiceType::FOURSIDE]= Qt::black;
-    m_colors[DiceController::DiceType::SIXSIDE]= Qt::black;
-    m_colors[DiceController::DiceType::OCTOSIDE]= Qt::black;
-    m_colors[DiceController::DiceType::TENSIDE]= Qt::black;
-    m_colors[DiceController::DiceType::TWELVESIDE]= Qt::black;
-    m_colors[DiceController::DiceType::TWENTYSIDE]= Qt::black;
-    m_colors[DiceController::DiceType::ONEHUNDREDSIDE]= Qt::black;
+    m_colors[DiceController::DiceType::FOURSIDE]= QColor(255, 0, 0);
+    m_colors[DiceController::DiceType::SIXSIDE]= QColor(255, 127, 0);
+    m_colors[DiceController::DiceType::OCTOSIDE]= QColor(255, 255, 0);
+    m_colors[DiceController::DiceType::TENSIDE]= QColor(0, 255, 0);
+    m_colors[DiceController::DiceType::TWELVESIDE]= QColor(0, 0, 255);
+    m_colors[DiceController::DiceType::TWENTYSIDE]= QColor(75, 0, 130);
+    m_colors[DiceController::DiceType::ONEHUNDREDSIDE]= QColor(148, 0, 211);
 
     connect(this, &Dice3DController::fourColorChanged, this, &Dice3DController::colorChanged);
     connect(this, &Dice3DController::sixColorChanged, this, &Dice3DController::colorChanged);
