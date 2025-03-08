@@ -30,17 +30,12 @@ PdfController::PdfController(const QString& id, QObject* parent)
 {
     setSharing(false);
     setDataType(Core::DataType::StaticData);
-    /*if(!path.isEmpty())
-    {
-        setData(utils::IOHelper::loadFile(path.toLocalFile()));
-    }
-    else if(!data.isEmpty())
-    {
-        setData(data);
-    }*/
-
     connect(this, &PdfController::staticDataChanged, this,
-            [this]() { setData(utils::IOHelper::loadFile(m_staticData.toLocalFile())); });
+            [this]()
+            {
+                qDebug() << "PDF static url" << m_staticData;
+                setData(utils::IOHelper::loadFile(m_staticData.toLocalFile()));
+            });
 }
 
 PdfController::~PdfController()= default;

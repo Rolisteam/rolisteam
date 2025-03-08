@@ -234,7 +234,7 @@ void GameController::openMedia(const std::map<QString, QVariant>& map)
             other[Core::keys::KEY_PATH]= list[0];
 
             if(list.size() == 2)
-                other[Core::keys::KEY_STATICDATA]= list[1];
+                other[Core::keys::KEY_STATICDATA]= QUrl::fromLocalFile(list[1]);
         }
         else if(other.contains(Core::keys::KEY_DATA))
         {

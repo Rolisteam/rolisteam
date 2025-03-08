@@ -60,15 +60,19 @@ PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
     if(!m_pdfCtrl)
         return;
 
-    qDebug() << "static data:" << m_pdfCtrl->staticData().toLocalFile();
     if(!m_pdfCtrl->remote())
+    {
         m_document->load(m_pdfCtrl->staticData().toLocalFile());
+    }
     else
     {
         auto buf= m_pdfCtrl->buffer();
         if(buf->open(QIODevice::ReadOnly))
             m_document->load(buf);
     }
+
+    connect(m_pdfCtrl, &PdfController::staticDataChanged, this,
+            [this]() { m_document->load(m_pdfCtrl->staticData().toLocalFile()); });
 
     connect(m_pdfCtrl, &PdfController::dataChanged, this,
             [this]()

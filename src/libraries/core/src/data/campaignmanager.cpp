@@ -82,7 +82,6 @@ QStringList CampaignManager::importFile(const QUrl& urlPath, const QString& uuid
 
     auto cmd= new commands::ImportMedia(m_editor->campaign(), name, path, destPath, staticMedia ? dataPath : destPath,
                                         uuid);
-    auto res= cmd->destination();
     m_editor->doCommand(cmd);
 
     dataPath= QString("%1/%2").arg(dataPath, fileName);
