@@ -78,7 +78,7 @@ void Dice3DController::computeResult(const QByteArray& doc)
         QString comment;
         auto result= DiceModel::resultFromBytes(doc, comment);
 
-        emit diceRolled(result, QString("%1 %2").arg(m_commandPart).arg(comment));
+        emit diceRolled(result, QString("%1 %2").arg(m_commandPart, comment));
         setExpectRoll(false);
     }
 }

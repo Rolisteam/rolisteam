@@ -233,7 +233,7 @@ ApplicationWindow {
             MouseArea {
                 id: ma
                 anchors.fill: parent
-                enabled: !menu.mouseEnabled
+                enabled: !menu.mouseEnabled && !Dice3DCtrl.expectRoll
                 property list<DynamicRigidBody> selection
                 property real xvelocity: 0.0
                 property real zvelocity: 0.0
