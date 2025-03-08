@@ -33,8 +33,7 @@
 
 namespace campaign
 {
-CampaignUpdater::CampaignUpdater(DiceRoller* dice, Campaign* manager, QObject* parent)
-    : QObject(parent), m_campaign(manager), m_dice(dice)
+CampaignUpdater::CampaignUpdater(DiceRoller* dice, Campaign* manager, QObject* parent) : QObject(parent), m_dice(dice)
 {
     setCampaign(manager);
 
