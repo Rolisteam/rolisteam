@@ -105,6 +105,7 @@ constexpr auto displayed{"displayed"};
 constexpr auto muted{"muted"};
 constexpr auto commandPart{"commandPart"};
 constexpr auto shared{"sharedOnline"};
+constexpr auto hideTime{"hideTime"};
 constexpr auto model{"model"};
 constexpr auto factor{"factor"};
 } // namespace jsonkey3DDice
@@ -322,6 +323,7 @@ QByteArray buildDice3dData(Dice3DController* ctrl)
     obj[sj::muted]= ctrl->muted();
     obj[sj::commandPart]= ctrl->commandPart();
     obj[sj::shared]= ctrl->sharedOnline();
+    obj[sj::hideTime]= ctrl->hideTime();
     auto const& model= ctrl->model()->localModel();
     QList<DiceController*> dices;
     std::transform(std::begin(model), std::end(model), std::back_inserter(dices),
@@ -362,6 +364,7 @@ bool fetchDice3d(Dice3DController* ctrl, const QByteArray& data)
     ctrl->setCommandPart(obj[sj::commandPart].toString());
     ctrl->setSharedOnline(obj[sj::shared].toBool(false));
     ctrl->setFactor(obj[sj::factor].toDouble(32.0));
+    ctrl->setHideTime(obj[sj::hideTime].toInt());
 
     auto array= obj[sj::model].toArray();
     std::vector<std::unique_ptr<DiceController>> temp;

@@ -200,6 +200,25 @@ Drawer {
                 }
             }
 
+            ColumnLayout {
+                Label {
+                    text: qsTr("Hide 3D Dice after: %1s").arg(hideTime.value)
+                    ToolTip.text: qsTr("3D Dice panel disappear after a time.")
+                }
+                Slider {
+                    id: hideTime
+                    from: 10
+                    to: 120
+                    stepSize: 1
+                    value: Dice3DCtrl.hideTime
+                    onMoved:  {
+                        Dice3DCtrl.hideTime = hideTime.value;
+                    }
+
+                    Layout.fillWidth: true
+                }
+            }
+
             GroupBox {
                 Layout.fillWidth: true
                 label: CheckBox {

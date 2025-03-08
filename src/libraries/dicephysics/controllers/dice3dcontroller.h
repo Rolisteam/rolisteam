@@ -52,6 +52,7 @@ class DICE3D_EXPORTS Dice3DController : public QObject
     Q_PROPERTY(bool ready READ ready WRITE setReady NOTIFY readyChanged FINAL)
     Q_PROPERTY(bool expectRoll READ expectRoll WRITE setExpectRoll NOTIFY expectRollChanged FINAL)
     Q_PROPERTY(int animationTime READ animationTime WRITE setAnimationTime NOTIFY animationTimeChanged FINAL)
+    Q_PROPERTY(int hideTime READ hideTime WRITE setHideTime NOTIFY hideTimeChanged FINAL)
 public:
     explicit Dice3DController(QObject* parent= nullptr);
 
@@ -125,6 +126,9 @@ public:
     int animationTime() const;
     void setAnimationTime(int newAnimationTime);
 
+    int hideTime() const;
+    void setHideTime(int newHideTime);
+
 signals:
     void fourColorChanged();
     void sixColorChanged();
@@ -145,10 +149,9 @@ signals:
     void factorChanged();
     void readyChanged();
     void diceRolled(QHash<int, QList<int>> results, const QString& rest);
-
     void expectRollChanged();
-
     void animationTimeChanged();
+    void hideTimeChanged(int time);
 
 private:
     std::unique_ptr<DiceModel> m_model;
@@ -161,6 +164,8 @@ private:
     qreal m_factor{45.0};
     bool m_ready{false};
     bool m_expectRoll;
+    int m_hideTime{30};
+    QTimer m_timer;
 };
 
 #endif // DICE3DCONTROLLER_H

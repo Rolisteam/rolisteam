@@ -44,8 +44,6 @@ CampaignProperties::CampaignProperties(campaign::Campaign* capm, ThemeModel* the
     ui->m_nameEdit->setText(m_campaign->name());
     ui->m_rootDir->setUrl(QUrl::fromUserInput(m_campaign->rootDirectory()));
     ui->m_rootDir->setEnabled(false);
-    // ui->m_currentTheme->setModel();
-    // ui->m_currentTheme->setCurrentText();
 
     QHeaderView* horizontalHeader= ui->m_tableViewAlias->horizontalHeader();
     horizontalHeader->setSectionResizeMode(DiceAliasModel::PATTERN, QHeaderView::ResizeToContents);

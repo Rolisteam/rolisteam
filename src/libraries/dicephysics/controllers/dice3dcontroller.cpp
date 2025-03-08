@@ -42,6 +42,37 @@ Dice3DController::Dice3DController(QObject* parent) : QObject{parent}, m_model(n
     connect(m_model.get(), &DiceModel::diceCountChanged, this, &Dice3DController::countChanged);
     connect(m_model.get(), &DiceModel::diceRollChanged, this, &Dice3DController::computeResult);
     connect(m_model.get(), &DiceModel::animationTimeChanged, this, &Dice3DController::animationTimeChanged);
+
+    connect(this, &Dice3DController::hideTimeChanged, &m_timer,
+            [this](int value) { m_timer.setInterval(value * 1000); });
+
+    m_timer.setInterval(30 * 1000);
+
+    auto restart= [this]() { m_timer.start(); };
+    connect(this, &Dice3DController::colorChanged, this, restart);
+    connect(this, &Dice3DController::dicePartChanged, this, restart);
+    connect(this, &Dice3DController::sizeChanged, this, restart);
+    connect(this, &Dice3DController::countChanged, this, restart);
+    connect(this, &Dice3DController::expectRollChanged, this, restart);
+    connect(this, &Dice3DController::animationTimeChanged, this, restart);
+    connect(this, &Dice3DController::factorChanged, this, restart);
+    connect(this, &Dice3DController::diceRolled, this, restart);
+    connect(this, &Dice3DController::readyChanged, this, restart);
+    connect(this, &Dice3DController::sharedOnlineChanged, this, restart);
+    connect(this, &Dice3DController::hideTimeChanged, this, restart);
+    connect(this, &Dice3DController::dicePartChanged, this, restart);
+    connect(this, &Dice3DController::mutedChanged, this, restart);
+
+    connect(this, &Dice3DController::displayedChanged, this,
+            [this, restart]()
+            {
+                if(m_displayed)
+                    restart();
+                else
+                    m_timer.stop();
+            });
+
+    connect(&m_timer, &QTimer::timeout, this, [this]() { setDisplayed(false); });
 }
 
 DiceModel* Dice3DController::model() const
@@ -347,4 +378,17 @@ int Dice3DController::animationTime() const
 void Dice3DController::setAnimationTime(int newAnimationTime)
 {
     m_model->setAnimationTime(newAnimationTime);
+}
+
+int Dice3DController::hideTime() const
+{
+    return m_hideTime;
+}
+
+void Dice3DController::setHideTime(int newHideTime)
+{
+    if(m_hideTime == newHideTime)
+        return;
+    m_hideTime= newHideTime;
+    emit hideTimeChanged(m_hideTime);
 }
