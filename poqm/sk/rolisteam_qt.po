@@ -1527,12 +1527,18 @@ msgid "Hidden Field (for intermediate calculations)"
 msgstr ""
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-msgctxt "PreferencesDialog|"
+#, fuzzy
+#| msgctxt "PreferencesDialog|"
+#| msgid "Directory to save QML file"
+msgctxt "rcse::PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "Adresár na uloženie súboru QML"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-msgctxt "PreferencesDialog|"
+#, fuzzy
+#| msgctxt "PreferencesDialog|"
+#| msgid "Place to save Generated files"
+msgctxt "rcse::PreferencesDialog|"
 msgid "Place to save Generated files"
 msgstr "Miesto na uloženie generovaných súborov"
 
@@ -2792,64 +2798,64 @@ msgctxt "ContextualMenu|"
 msgid "Zoom Max"
 msgstr "Priblížiť maximálne"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:12
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
 msgctxt "example|"
 msgid "Nom"
 msgstr "Názov"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:21
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:22
 msgctxt "example|"
 msgid "Prenom"
 msgstr "Meno"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:28
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:29
 msgctxt "example|"
 msgid "Couleur des yeux"
 msgstr "Farba očí"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:35
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:36
 msgctxt "example|"
 msgid "Corpulence"
 msgstr "Korpulentnosť"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:44
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:45
 msgctxt "example|"
 msgid "Courage"
 msgstr " Odvaha"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:47
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:48
 msgctxt "example|"
 msgid "Malice"
 msgstr "Zlomyseľnosť"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:51
 msgctxt "example|"
 msgid "Mignon"
 msgstr "Nežnosť"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:54
 msgctxt "example|"
 msgid "Colère"
 msgstr "Hnev"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:65
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:66
 msgctxt "example|"
 msgid "Syndrôme"
 msgstr "Syndróm"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:70
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:71
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 1: %1"
 msgstr "Suvenír 1: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:75
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:76
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 2: %1"
 msgstr "Suvenír 2: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:80
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:81
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 3: %1"
@@ -3096,11 +3102,6 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Neznáme"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:158
-msgctxt "MindMapControllerBase|"
-msgid "Root"
-msgstr "Koreň"
-
 #: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:45
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:36
 msgctxt "QObject|"
@@ -3161,7 +3162,7 @@ msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr "Nie je možné vytvoriť šablónu kampane na %1"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:143
+#: src/libraries/core/src/data/campaignmanager.cpp:142
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
@@ -4084,32 +4085,32 @@ msgctxt "MindMenu|"
 msgid "Add Root"
 msgstr "Pridať koreň"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:16
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:17
 msgctxt "MindMenu|"
 msgid "Save"
 msgstr "Uložiť"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:24
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:25
 msgctxt "MindMenu|"
 msgid "Remove Selection"
 msgstr "Odstrániť výber"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:32
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:33
 msgctxt "MindMenu|"
 msgid "Undo"
 msgstr "Späť"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:39
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:40
 msgctxt "MindMenu|"
 msgid "Redo"
 msgstr "Znovu"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:47
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:48
 msgctxt "MindMenu|"
 msgid "Center"
 msgstr "Vycentrovať"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:55
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:57
 msgctxt "MindMenu|"
 msgid "Automatic Spacing"
 msgstr "Automatické rozmiestnenie"
@@ -9288,12 +9289,12 @@ msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "Iba na čítanie"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:301
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:305
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "Zdieľanie súboru Pdf"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:302
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:306
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfer can be really heavy.\n"
@@ -9302,7 +9303,7 @@ msgstr ""
 "Prenos PDF môže byť naozaj náročný.\n"
 "Chcete pokračovať a zdieľať súbor PDF?"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:312
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:316
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -9937,6 +9938,10 @@ msgstr "Spiaci"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Očarený"
+
+#~ msgctxt "MindMapControllerBase|"
+#~ msgid "Root"
+#~ msgstr "Koreň"
 
 #~ msgctxt "MainWindow|"
 #~ msgid "Connection has been lost. %1 will be close"

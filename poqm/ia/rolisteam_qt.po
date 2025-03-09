@@ -1212,12 +1212,18 @@ msgid "Hidden Field (for intermediate calculations)"
 msgstr ""
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-msgctxt "PreferencesDialog|"
+#, fuzzy
+#| msgctxt "PreferencesDialog|"
+#| msgid "Directory to save QML file"
+msgctxt "rcse::PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "Directorio ubi salveguardar file QML"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-msgctxt "PreferencesDialog|"
+#, fuzzy
+#| msgctxt "PreferencesDialog|"
+#| msgid "Place to save Generated files"
+msgctxt "rcse::PreferencesDialog|"
 msgid "Place to save Generated files"
 msgstr "Loco ubi salveguardar files Generate"
 
@@ -2233,64 +2239,64 @@ msgctxt "ContextualMenu|"
 msgid "Zoom Max"
 msgstr "Zoom Max"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:12
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
 msgctxt "example|"
 msgid "Nom"
 msgstr "Nom"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:21
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:22
 msgctxt "example|"
 msgid "Prenom"
 msgstr "Prenom"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:28
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:29
 msgctxt "example|"
 msgid "Couleur des yeux"
 msgstr "Couleur des yeux (Colores del oculos)"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:35
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:36
 msgctxt "example|"
 msgid "Corpulence"
 msgstr "Corpulentia"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:44
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:45
 msgctxt "example|"
 msgid "Courage"
 msgstr "Corage"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:47
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:48
 msgctxt "example|"
 msgid "Malice"
 msgstr "Malitia"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:51
 msgctxt "example|"
 msgid "Mignon"
 msgstr "Mignon"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:54
 msgctxt "example|"
 msgid "Colère"
 msgstr "Colère (Ira)"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:65
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:66
 msgctxt "example|"
 msgid "Syndrôme"
 msgstr "Syndrôme (Sindrome)"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:70
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:71
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 1: %1"
 msgstr "Souvenir 1: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:75
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:76
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 2: %1"
 msgstr "Souvenir 2: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:80
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:81
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 3: %1"
@@ -2515,11 +2521,6 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "Incognite"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:158
-msgctxt "MindMapControllerBase|"
-msgid "Root"
-msgstr "Radice"
-
 #: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:45
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:36
 msgctxt "QObject|"
@@ -2577,7 +2578,7 @@ msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr "Impossibile crear patrono de campania a %1"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:143
+#: src/libraries/core/src/data/campaignmanager.cpp:142
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
@@ -3478,32 +3479,32 @@ msgctxt "MindMenu|"
 msgid "Add Root"
 msgstr "Adde Radce (root)"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:16
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:17
 msgctxt "MindMenu|"
 msgid "Save"
 msgstr "Salveguarda"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:24
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:25
 msgctxt "MindMenu|"
 msgid "Remove Selection"
 msgstr "Remove Selection"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:32
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:33
 msgctxt "MindMenu|"
 msgid "Undo"
 msgstr "Annulla"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:39
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:40
 msgctxt "MindMenu|"
 msgid "Redo"
 msgstr "Reface"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:47
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:48
 msgctxt "MindMenu|"
 msgid "Center"
 msgstr "Centro"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:55
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:57
 msgctxt "MindMenu|"
 msgid "Automatic Spacing"
 msgstr "Spatiar Automatic"
@@ -7873,12 +7874,12 @@ msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "Solmente de lectura"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:301
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:305
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "Compartir file PDF"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:302
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:306
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfer can be really heavy.\n"
@@ -7887,7 +7888,7 @@ msgstr ""
 "Transferentia de PDF pote esser realment epesante.\n"
 "Tu vole continuar e compartir le PDF?"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:312
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:316
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -8456,6 +8457,10 @@ msgstr "Dormir"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Fascinate"
+
+#~ msgctxt "MindMapControllerBase|"
+#~ msgid "Root"
+#~ msgstr "Radice"
 
 #~ msgctxt "MainWindow|"
 #~ msgid "Connection has been lost. %1 will be close"

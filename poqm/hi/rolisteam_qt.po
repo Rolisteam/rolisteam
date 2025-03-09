@@ -1246,12 +1246,18 @@ msgid "Hidden Field (for intermediate calculations)"
 msgstr "छिपा हुआ क्षेत्र (मध्यवर्ती गणनाओं के लिए)"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-msgctxt "PreferencesDialog|"
+#, fuzzy
+#| msgctxt "PreferencesDialog|"
+#| msgid "Directory to save QML file"
+msgctxt "rcse::PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "QML फ़ाइल को सहेजने के लिए निर्देशिका"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-msgctxt "PreferencesDialog|"
+#, fuzzy
+#| msgctxt "PreferencesDialog|"
+#| msgid "Place to save Generated files"
+msgctxt "rcse::PreferencesDialog|"
 msgid "Place to save Generated files"
 msgstr "उत्पन्न फ़ाइलों को सहेजने का स्थान"
 
@@ -2267,64 +2273,64 @@ msgctxt "ContextualMenu|"
 msgid "Zoom Max"
 msgstr "ज़ूम मैक्स"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:12
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:13
 msgctxt "example|"
 msgid "Nom"
 msgstr "नाम"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:21
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:22
 msgctxt "example|"
 msgid "Prenom"
 msgstr "पहला नाम"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:28
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:29
 msgctxt "example|"
 msgid "Couleur des yeux"
 msgstr "आँखों का रंग"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:35
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:36
 msgctxt "example|"
 msgid "Corpulence"
 msgstr "स्थूलता"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:44
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:45
 msgctxt "example|"
 msgid "Courage"
 msgstr "साहस"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:47
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:48
 msgctxt "example|"
 msgid "Malice"
 msgstr "द्वेष"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:50
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:51
 msgctxt "example|"
 msgid "Mignon"
 msgstr "मिग्नॉन"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:53
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:54
 msgctxt "example|"
 msgid "Colère"
 msgstr "गुस्सा"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:65
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:66
 msgctxt "example|"
 msgid "Syndrôme"
 msgstr "सिंड्रोम"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:70
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:71
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 1: %1"
 msgstr "स्मारिका 1: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:75
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:76
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 2: %1"
 msgstr "स्मारिका 2: %1"
 
-#: src/libraries/charactersheet/qml/Rolisteam/example.qml:80
+#: src/libraries/charactersheet/qml/Rolisteam/example.qml:81
 #, qt-format
 msgctxt "example|"
 msgid "Souvenir 3: %1"
@@ -2549,11 +2555,6 @@ msgctxt "MediaControllerBase|"
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: src/libraries/core/src/controller/view_controller/mindmapcontrollerbase.cpp:158
-msgctxt "MindMapControllerBase|"
-msgid "Root"
-msgstr "जड़"
-
 #: src/libraries/core/src/controller/view_controller/selectconnprofilecontroller.cpp:45
 #: src/libraries/core/src/undoCmd/addlocalcharactercommand.cpp:36
 msgctxt "QObject|"
@@ -2611,7 +2612,7 @@ msgctxt "CampaignManager|"
 msgid "Impossible to create campaign template at %1"
 msgstr "%1 पर अभियान टेम्पलेट बनाना असंभव है"
 
-#: src/libraries/core/src/data/campaignmanager.cpp:143
+#: src/libraries/core/src/data/campaignmanager.cpp:142
 #, qt-format
 msgctxt "CampaignManager|"
 msgid "Campaign Template creation failed on this location: %1"
@@ -3527,32 +3528,32 @@ msgctxt "MindMenu|"
 msgid "Add Root"
 msgstr "रूट जोड़ें"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:16
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:17
 msgctxt "MindMenu|"
 msgid "Save"
 msgstr "बचाना"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:24
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:25
 msgctxt "MindMenu|"
 msgid "Remove Selection"
 msgstr "चयन हटाएं"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:32
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:33
 msgctxt "MindMenu|"
 msgid "Undo"
 msgstr "पूर्ववत"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:39
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:40
 msgctxt "MindMenu|"
 msgid "Redo"
 msgstr "फिर से करना"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:47
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:48
 msgctxt "MindMenu|"
 msgid "Center"
 msgstr "केंद्र"
 
-#: src/libraries/mindmap/resources/qml/MindMenu.qml:55
+#: src/libraries/mindmap/resources/qml/MindMenu.qml:57
 msgctxt "MindMenu|"
 msgid "Automatic Spacing"
 msgstr "स्वचालित रिक्ति"
@@ -8062,12 +8063,12 @@ msgctxt "MindMapView|"
 msgid "ReadOnly"
 msgstr "केवल पढ़ने के लिए"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:301
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:305
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "पीडीएफ फाइल साझा करना"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:302
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:306
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfer can be really heavy.\n"
@@ -8076,7 +8077,7 @@ msgstr ""
 "पीडीएफ ट्रांसफर करना वाकई बहुत मुश्किल हो सकता है। क्या आप पीडीएफ को जारी रखना और "
 "शेयर करना चाहते हैं?"
 
-#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:312
+#: src/libraries/rwidgets/mediacontainers/pdfviewer.cpp:316
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -8651,6 +8652,10 @@ msgstr "सोना"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "मोहित"
+
+#~ msgctxt "MindMapControllerBase|"
+#~ msgid "Root"
+#~ msgstr "जड़"
 
 #~ msgctxt "MainWindow|"
 #~ msgid "Connection has been lost. %1 will be close"
