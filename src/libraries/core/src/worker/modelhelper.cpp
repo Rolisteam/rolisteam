@@ -364,7 +364,7 @@ bool fetchDice3d(Dice3DController* ctrl, const QByteArray& data)
     ctrl->setCommandPart(obj[sj::commandPart].toString());
     ctrl->setSharedOnline(obj[sj::shared].toBool(false));
     ctrl->setFactor(obj[sj::factor].toDouble(32.0));
-    ctrl->setHideTime(obj[sj::hideTime].toInt());
+    ctrl->setHideTime(obj[sj::hideTime].toInt(30));
 
     auto array= obj[sj::model].toArray();
     std::vector<std::unique_ptr<DiceController>> temp;

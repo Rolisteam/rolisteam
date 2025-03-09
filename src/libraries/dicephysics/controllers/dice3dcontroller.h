@@ -55,6 +55,7 @@ class DICE3D_EXPORTS Dice3DController : public QObject
     Q_PROPERTY(int hideTime READ hideTime WRITE setHideTime NOTIFY hideTimeChanged FINAL)
 public:
     explicit Dice3DController(QObject* parent= nullptr);
+    virtual ~Dice3DController();
 
     DiceModel* model() const;
 
@@ -163,7 +164,7 @@ private:
     bool m_sharedOnline;
     qreal m_factor{45.0};
     bool m_ready{false};
-    bool m_expectRoll;
+    bool m_expectRoll{false};
     int m_hideTime{30};
     QTimer m_timer;
 };

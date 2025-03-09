@@ -227,7 +227,8 @@ Drawer {
                     text: qsTr("Share rolls")
                     ToolTip.text: qsTr("(Experimental)")
                     onCheckedChanged: {
-                        Dice3DCtrl.sharedOnline = checked
+                        if(Dice3DCtrl.sharedOnline !== checked)
+                            Dice3DCtrl.sharedOnline = checked
                     }
                 }
 

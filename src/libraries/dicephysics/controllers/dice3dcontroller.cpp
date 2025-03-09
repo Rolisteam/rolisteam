@@ -44,9 +44,10 @@ Dice3DController::Dice3DController(QObject* parent) : QObject{parent}, m_model(n
     connect(m_model.get(), &DiceModel::animationTimeChanged, this, &Dice3DController::animationTimeChanged);
 
     connect(this, &Dice3DController::hideTimeChanged, &m_timer,
-            [this](int value) { m_timer.setInterval(value * 1000); });
+            [this]() {
+m_timer.setInterval(m_hideTime * 1000); });
 
-    m_timer.setInterval(30 * 1000);
+    m_timer.setInterval(m_hideTime * 1000);
 
     auto restart= [this]() { m_timer.start(); };
     connect(this, &Dice3DController::colorChanged, this, restart);
@@ -72,7 +73,14 @@ Dice3DController::Dice3DController(QObject* parent) : QObject{parent}, m_model(n
                     m_timer.stop();
             });
 
-    connect(&m_timer, &QTimer::timeout, this, [this]() { setDisplayed(false); });
+    connect(&m_timer, &QTimer::timeout, this, [this]() {
+        setDisplayed(false);
+    });
+}
+
+Dice3DController::~Dice3DController()
+{
+    qDebug() << "Destructor dice3D";
 }
 
 DiceModel* Dice3DController::model() const
@@ -387,7 +395,7 @@ int Dice3DController::hideTime() const
 
 void Dice3DController::setHideTime(int newHideTime)
 {
-    if(m_hideTime == newHideTime)
+    if(m_hideTime == newHideTime || newHideTime < 10)
         return;
     m_hideTime= newHideTime;
     emit hideTimeChanged(m_hideTime);

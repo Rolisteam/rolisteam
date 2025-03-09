@@ -1194,11 +1194,10 @@ RolisteamTheme* IOHelper::jsonToTheme(const QJsonObject& json)
     theme->setCss(json["css"].toString());
     theme->setBackgroundPosition(json["position"].toInt());
     QString bgColorName= json["bgColor"].toString();
-    QColor color;
-    color.setNamedColor(bgColorName);
+    QColor color = QColor::fromString(bgColorName);
     theme->setBackgroundColor(color);
 
-    theme->setBackgroundImage(json["bgPath"].toString());
+    theme->setBackgroundImage(json["bgPath"].toString(":/resources/rolistheme/workspacebackground.jpg"));
     theme->setStyle(QStyleFactory::create(json["stylename"].toString()));
     QColor diceColor;
     diceColor.setNamedColor(json["diceHighlight"].toString());
