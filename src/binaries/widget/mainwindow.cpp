@@ -297,7 +297,7 @@ MainWindow::MainWindow(GameController* game, const QStringList& args)
                                                     });
 
     m_ui->m_showDice3D->setIcon(QIcon(":/dice3d/icons/dice3d.svg"));
-    connect(m_ui->m_showDice3D, &QAction::triggered, this,
+    connect(m_ui->m_showDice3D, &QAction::toggled, this,
             [this]()
             {
                 auto ctrl= m_gameController->dicePhysicController();
@@ -789,6 +789,8 @@ int MainWindow::mayBeSaved()
         msgBox.addButton(QMessageBox::Discard);
     msgBox.addButton(isGM ? QMessageBox::Cancel : QMessageBox::No);
     msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
+
+    m_ui->m_showDice3D->setChecked(false);
 
     return msgBox.exec();
 }
