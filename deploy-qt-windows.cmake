@@ -1,13 +1,11 @@
-#set(WINDEPLOYQT "C:/Qt/6.8.0/msvc2022_64/bin/windeployqt.exe")
-
-#WINDEPLOYQT_EXECUTABLE
+set(WINDEPLOYQT "D:/Qt/6.8.2/msvc2022_64/bin/windeployqt.exe")
 
 set(COMPONENT_NAME_MAIN "rolisteamComp")
 set(package_install "")
-set(CMAKE_INSTALL_PREFIX "C:/Users/renau/Documents/GitHub/kde/rolisteam/build/install")
+set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/rolisteam")
 set(CMAKE_CURRENT_SOURCE_DIR "C:/Users/renau/Documents/GitHub/kde/rolisteam")
-set(CMAKE_BINARY_DIR "C:/Users/renau/Documents/GitHub/kde/rolisteam/build/Desktop_Qt_6_8_0_MSVC2022_64bit-Release")
-set(PROJECT_BINARY_DIR "C:/Users/renau/Documents/GitHub/kde/rolisteam/build/Desktop_Qt_6_8_0_MSVC2022_64bit-Release")
+set(CMAKE_BINARY_DIR "C:/Users/renau/Documents/GitHub/kde/rolisteam/build/Desktop_Qt_6_8_2_MSVC2022_64bit-Debug")
+set(PROJECT_BINARY_DIR "C:/Users/renau/Documents/GitHub/kde/rolisteam/build/Desktop_Qt_6_8_2_MSVC2022_64bit-Debug")
 set(CMAKE_CURRENT_BINARY_DIR "ON")
 set(PROJECT_SOURCE_DIR "C:/Users/renau/Documents/GitHub/kde/rolisteam")
 
@@ -17,7 +15,7 @@ file(GLOB BinaryFile LIST_DIRECTORY false RELATIVE ${CMAKE_INSTALL_PREFIX} "${CM
 
 while(BinaryFile)
     list(GET BinaryFile 0 _binary)
-    execute_process(COMMAND ${WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_CURRENT_SOURCE_DIR} --dir ${CPACK_TEMPORARY_INSTALL_DIRECTORY}/packages/${COMPONENT_NAME_MAIN}/data/${_dest} ${CMAKE_INSTALL_PREFIX}/${_binary}) #OUTPUT_VARIABLE _output OUTPUT_STRIP_TRAILING_WHITESPACE
+    execute_process(COMMAND ${WINDEPLOYQT} --qmldir ${CMAKE_CURRENT_SOURCE_DIR} --dir ${CPACK_TEMPORARY_INSTALL_DIRECTORY}/packages/${COMPONENT_NAME_MAIN}/data/${_dest} ${CMAKE_INSTALL_PREFIX}/${_binary}) #OUTPUT_VARIABLE _output OUTPUT_STRIP_TRAILING_WHITESPACE
     if(${_binary} MATCHES ".*\\.exe$" )
         STRING(REPLACE ".exe" "" name ${_binary})
         set(StartMenuDir "@StartMenuDir@")
