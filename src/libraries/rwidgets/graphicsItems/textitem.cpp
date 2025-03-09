@@ -165,6 +165,9 @@ TextItem::TextItem(vmap::TextController* ctrl)
     connect(m_textCtrl, &vmap::TextController::textPosChanged, this,
             [this](const QPointF& pos) { m_textItem->setPos(pos); });
 
+    connect(m_textCtrl, &vmap::TextController::editableChanged, this,
+            [this]() { m_textItem->setEnabled(m_textCtrl->editable()); });
+
     connect(m_textCtrl, &vmap::TextController::textChanged, m_doc.get(), &QTextDocument::setPlainText);
     connect(m_doc.get(), &QTextDocument::contentsChanged, this,
             [this]()
@@ -190,6 +193,7 @@ TextItem::TextItem(vmap::TextController* ctrl)
     m_textItem->setPos(QPointF(0, 0));
     m_textItem->setTextWidth(100);
     m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+    m_textItem->setEnabled(m_textCtrl->editable());
     if(m_textCtrl)
         m_textItem->setDefaultTextColor(m_textCtrl->color());
     m_doc->setPlainText(tr("Text"));
@@ -282,7 +286,6 @@ void TextItem::editText()
     if(QDialog::Accepted == m_dialog->exec())
     {
         m_textItem->setHtml(m_dialog->getText());
-        // updateTextPosition();
         emit itemGeometryChanged(this);
     }
 }
