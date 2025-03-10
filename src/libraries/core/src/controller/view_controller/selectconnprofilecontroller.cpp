@@ -52,6 +52,7 @@ SelectConnProfileController::SelectConnProfileController(ProfileModel* model, QO
         { prof->setCharactersValid(helper::utils::hasValidCharacter(prof->characters(), prof->isGM())); };
         connect(prof, &ConnectionProfile::characterCountChanged, this, updateCharacters);
         connect(prof, &ConnectionProfile::characterChanged, this, updateCharacters);
+        connect(prof, &ConnectionProfile::gmChanged, this, updateCharacters);
 
         auto updatePlayerInfo= [prof]()
         {
