@@ -1675,7 +1675,7 @@ msgstr "Mapa:"
 
 #: src/binaries/widget/mainwindow.cpp:539
 #: src/binaries/widget/mainwindow.cpp:578
-#: src/binaries/widget/mainwindow.cpp:799 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.cpp:801 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Obri una campanya"
@@ -1715,12 +1715,12 @@ msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Ix de %1 "
 
-#: src/binaries/widget/mainwindow.cpp:866
+#: src/binaries/widget/mainwindow.cpp:868
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Notificació d'actualització"
 
-#: src/binaries/widget/mainwindow.cpp:867
+#: src/binaries/widget/mainwindow.cpp:869
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1730,102 +1730,102 @@ msgstr ""
 "S'ha publicat la versió %1. Doneu una ullada a la <a href=\"https://www."
 "rolisteam.org/download\">pàgina de baixades</a> per a més informació"
 
-#: src/binaries/widget/mainwindow.cpp:877
+#: src/binaries/widget/mainwindow.cpp:879
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 acaba d'unir-se al joc."
 
-#: src/binaries/widget/mainwindow.cpp:881
+#: src/binaries/widget/mainwindow.cpp:883
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 no té la versió correcta: %2."
 
-#: src/binaries/widget/mainwindow.cpp:887
+#: src/binaries/widget/mainwindow.cpp:889
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 acaba d'eixir del joc."
 
-#: src/binaries/widget/mainwindow.cpp:970
+#: src/binaries/widget/mainwindow.cpp:972
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Establix que Rolisteam utilitze <port> per a la connexió"
 
-#: src/binaries/widget/mainwindow.cpp:973
+#: src/binaries/widget/mainwindow.cpp:975
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Establix que Rolisteam es connecte a <servidor>."
 
-#: src/binaries/widget/mainwindow.cpp:976
+#: src/binaries/widget/mainwindow.cpp:978
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Establix el <rol>: dj o pj"
 
-#: src/binaries/widget/mainwindow.cpp:978
+#: src/binaries/widget/mainwindow.cpp:980
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Esborra la configuració i utilitza els paràmetres predeterminats"
 
-#: src/binaries/widget/mainwindow.cpp:981
+#: src/binaries/widget/mainwindow.cpp:983
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definix el <nom_usuari>"
 
-#: src/binaries/widget/mainwindow.cpp:984
+#: src/binaries/widget/mainwindow.cpp:986
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Elimina el límit de la mida del fitxer PDF"
 
-#: src/binaries/widget/mainwindow.cpp:987
+#: src/binaries/widget/mainwindow.cpp:989
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "camí cap al fitxer de traducció: <fitxer_traducció>"
 
-#: src/binaries/widget/mainwindow.cpp:990
+#: src/binaries/widget/mainwindow.cpp:992
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definix un URL per a connectar amb el servidor: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1083
+#: src/binaries/widget/mainwindow.cpp:1085
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Obri %1"
 
-#: src/binaries/widget/mainwindow.cpp:1180
+#: src/binaries/widget/mainwindow.cpp:1182
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Connectat"
 
-#: src/binaries/widget/mainwindow.cpp:1180
+#: src/binaries/widget/mainwindow.cpp:1182
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "No connectat"
 
-#: src/binaries/widget/mainwindow.cpp:1181
+#: src/binaries/widget/mainwindow.cpp:1183
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Servidor"
 
-#: src/binaries/widget/mainwindow.cpp:1181
+#: src/binaries/widget/mainwindow.cpp:1183
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
 # Traducció GM (Game Master) = DJ (Director de joc)
-#: src/binaries/widget/mainwindow.cpp:1188
+#: src/binaries/widget/mainwindow.cpp:1190
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "DJ"
 
-#: src/binaries/widget/mainwindow.cpp:1194
+#: src/binaries/widget/mainwindow.cpp:1196
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Jugador"
 
-#: src/binaries/widget/mainwindow.cpp:1223
+#: src/binaries/widget/mainwindow.cpp:1225
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Desconegut"
@@ -3250,13 +3250,13 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "Tanca %1"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:199
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:198
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "«%1» no està buida"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:208
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:207
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
@@ -3387,23 +3387,34 @@ msgctxt "SideMenu|"
 msgid "Dice Command:"
 msgstr "Ordre del dau:"
 
-#: src/libraries/dicephysics/qml/SideMenu.qml:208
+#: src/libraries/dicephysics/qml/SideMenu.qml:205
+#, qt-format
+msgctxt "SideMenu|"
+msgid "Hide 3D Dice after: %1s"
+msgstr ""
+
+#: src/libraries/dicephysics/qml/SideMenu.qml:206
+msgctxt "SideMenu|"
+msgid "3D Dice panel disappear after a time."
+msgstr ""
+
+#: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
 msgid "Share rolls"
 msgstr "Compartix les tirades"
 
-#: src/libraries/dicephysics/qml/SideMenu.qml:209
+#: src/libraries/dicephysics/qml/SideMenu.qml:228
 msgctxt "SideMenu|"
 msgid "(Experimental)"
 msgstr "(Experimental)"
 
-#: src/libraries/dicephysics/qml/SideMenu.qml:220
+#: src/libraries/dicephysics/qml/SideMenu.qml:240
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
 msgstr "Duració: %1 s"
 
-#: src/libraries/dicephysics/qml/SideMenu.qml:221
+#: src/libraries/dicephysics/qml/SideMenu.qml:241
 msgctxt "SideMenu|"
 msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
@@ -4570,7 +4581,7 @@ msgctxt "CampaignProperties|"
 msgid "Campaign Properties"
 msgstr "Propietats de la campanya"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.cpp:67
+#: src/libraries/rwidgets/dialogs/campaignproperties.cpp:65
 #, qt-format
 msgctxt "CampaignProperties|"
 msgid "%n file(s)"
@@ -7701,12 +7712,12 @@ msgctxt "TextItem|"
 msgid "Adapt to content"
 msgstr "Adapta al contingut"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:195
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:199
 msgctxt "TextItem|"
 msgid "Text"
 msgstr "Text"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:309
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:312
 msgctxt "TextItem|"
 msgid "Font Size"
 msgstr "Mida de la lletra"

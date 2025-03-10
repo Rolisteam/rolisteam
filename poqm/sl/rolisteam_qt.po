@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2025-03-04 07:49+0100\n"
+"PO-Revision-Date: 2025-03-09 09:01+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1255,20 +1255,14 @@ msgid "Hidden Field (for intermediate calculations)"
 msgstr "Skrito polje (za vmesne izračune)"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Directory to save QML file"
 msgctxt "rcse::PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "Imenik za shranjevanje datoteke QML"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Place to save Generated files"
 msgctxt "rcse::PreferencesDialog|"
 msgid "Place to save Generated files"
-msgstr "Mesto za shranjevanje ustvarjenih datotek"
+msgstr "Mesto za shranjevanje generiranih datotek"
 
 #: src/binaries/rcse/preferences/preferencesdialog.ui:14
 msgctxt "PreferencesDialog|"
@@ -1681,7 +1675,7 @@ msgstr "Mapa:"
 
 #: src/binaries/widget/mainwindow.cpp:539
 #: src/binaries/widget/mainwindow.cpp:578
-#: src/binaries/widget/mainwindow.cpp:799 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.cpp:801 src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Odpri bojni pohod"
@@ -1721,12 +1715,12 @@ msgctxt "MainWindow|"
 msgid "Quit %1 "
 msgstr "Zapusti %1 "
 
-#: src/binaries/widget/mainwindow.cpp:866
+#: src/binaries/widget/mainwindow.cpp:868
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Obvestilo o posodobitvi"
 
-#: src/binaries/widget/mainwindow.cpp:867
+#: src/binaries/widget/mainwindow.cpp:869
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -1736,101 +1730,101 @@ msgstr ""
 "Objavljen je izid različice %1. Oglejte si <a href=\"http://www.rolisteam."
 "org/download\">stran za prenos</a> za več informacij"
 
-#: src/binaries/widget/mainwindow.cpp:877
+#: src/binaries/widget/mainwindow.cpp:879
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 se pravkar pridružuje igri."
 
-#: src/binaries/widget/mainwindow.cpp:881
+#: src/binaries/widget/mainwindow.cpp:883
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 nima prave različice: %2."
 
-#: src/binaries/widget/mainwindow.cpp:887
+#: src/binaries/widget/mainwindow.cpp:889
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
 msgstr "%1 pravkar zapušča igro."
 
-#: src/binaries/widget/mainwindow.cpp:970
+#: src/binaries/widget/mainwindow.cpp:972
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Nastavite rolisteam, da za povezavo uporabi vrata <port>"
 
-#: src/binaries/widget/mainwindow.cpp:973
+#: src/binaries/widget/mainwindow.cpp:975
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Nastavi rolisteam, da se poveže s strežnikom <server>."
 
-#: src/binaries/widget/mainwindow.cpp:976
+#: src/binaries/widget/mainwindow.cpp:978
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Določi vlogo <role>: gm ali pc"
 
-#: src/binaries/widget/mainwindow.cpp:978
+#: src/binaries/widget/mainwindow.cpp:980
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Pobriši nastavitve in uporabi privzete parametre"
 
-#: src/binaries/widget/mainwindow.cpp:981
+#: src/binaries/widget/mainwindow.cpp:983
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Določi uporabniško ime <username>"
 
-#: src/binaries/widget/mainwindow.cpp:984
+#: src/binaries/widget/mainwindow.cpp:986
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Odstrani omejitev velikosti datoteke PDF"
 
-#: src/binaries/widget/mainwindow.cpp:987
+#: src/binaries/widget/mainwindow.cpp:989
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "pot do prevajalske datoteke: <translationfile>"
 
-#: src/binaries/widget/mainwindow.cpp:990
+#: src/binaries/widget/mainwindow.cpp:992
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Določite URL, če želite vzpostaviti povezavo s strežnikom: <url>"
 
-#: src/binaries/widget/mainwindow.cpp:1083
+#: src/binaries/widget/mainwindow.cpp:1085
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Odpri %1"
 
-#: src/binaries/widget/mainwindow.cpp:1180
+#: src/binaries/widget/mainwindow.cpp:1182
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Povezano"
 
-#: src/binaries/widget/mainwindow.cpp:1180
+#: src/binaries/widget/mainwindow.cpp:1182
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Nepovezano"
 
-#: src/binaries/widget/mainwindow.cpp:1181
+#: src/binaries/widget/mainwindow.cpp:1183
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Strežnik"
 
-#: src/binaries/widget/mainwindow.cpp:1181
+#: src/binaries/widget/mainwindow.cpp:1183
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Odjemalec"
 
-#: src/binaries/widget/mainwindow.cpp:1188
+#: src/binaries/widget/mainwindow.cpp:1190
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: src/binaries/widget/mainwindow.cpp:1194
+#: src/binaries/widget/mainwindow.cpp:1196
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Igralec"
 
-#: src/binaries/widget/mainwindow.cpp:1223
+#: src/binaries/widget/mainwindow.cpp:1225
 msgctxt "MainWindow|"
 msgid "Unknown"
 msgstr "Neznano"
@@ -3244,13 +3238,13 @@ msgctxt "QObject|"
 msgid "Close %1"
 msgstr "Zapri %1"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:199
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:198
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "'%1' is not empty"
 msgstr "»%1« ni prazna"
 
-#: src/libraries/core/src/updater/media/campaignupdater.cpp:208
+#: src/libraries/core/src/updater/media/campaignupdater.cpp:207
 #, qt-format
 msgctxt "CampaignUpdater|"
 msgid "Could not create '%1'"
@@ -3381,23 +3375,34 @@ msgctxt "SideMenu|"
 msgid "Dice Command:"
 msgstr "Ukaz kocke:"
 
-#: src/libraries/dicephysics/qml/SideMenu.qml:208
+#: src/libraries/dicephysics/qml/SideMenu.qml:205
+#, qt-format
+msgctxt "SideMenu|"
+msgid "Hide 3D Dice after: %1s"
+msgstr ""
+
+#: src/libraries/dicephysics/qml/SideMenu.qml:206
+msgctxt "SideMenu|"
+msgid "3D Dice panel disappear after a time."
+msgstr ""
+
+#: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
 msgid "Share rolls"
 msgstr "Deli zvitke"
 
-#: src/libraries/dicephysics/qml/SideMenu.qml:209
+#: src/libraries/dicephysics/qml/SideMenu.qml:228
 msgctxt "SideMenu|"
 msgid "(Experimental)"
 msgstr "(Poskusno)"
 
-#: src/libraries/dicephysics/qml/SideMenu.qml:220
+#: src/libraries/dicephysics/qml/SideMenu.qml:240
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Duration: %1s"
 msgstr "Trajanje: %1s"
 
-#: src/libraries/dicephysics/qml/SideMenu.qml:221
+#: src/libraries/dicephysics/qml/SideMenu.qml:241
 msgctxt "SideMenu|"
 msgid ""
 "Rolls made by remote player will been shown on your screen for few seconds.\n"
@@ -4567,7 +4572,7 @@ msgctxt "CampaignProperties|"
 msgid "Campaign Properties"
 msgstr "Lastnosti bojnega pohoda"
 
-#: src/libraries/rwidgets/dialogs/campaignproperties.cpp:67
+#: src/libraries/rwidgets/dialogs/campaignproperties.cpp:65
 #, qt-format
 msgctxt "CampaignProperties|"
 msgid "%n file(s)"
@@ -7696,12 +7701,12 @@ msgctxt "TextItem|"
 msgid "Adapt to content"
 msgstr "Prilagodi vsebini"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:195
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:199
 msgctxt "TextItem|"
 msgid "Text"
 msgstr "Besedilo"
 
-#: src/libraries/rwidgets/graphicsItems/textitem.cpp:309
+#: src/libraries/rwidgets/graphicsItems/textitem.cpp:312
 msgctxt "TextItem|"
 msgid "Font Size"
 msgstr "Velikost pisave"
