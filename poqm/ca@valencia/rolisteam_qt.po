@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2025-03-04 10:12+0100\n"
+"PO-Revision-Date: 2025-03-10 09:41+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1253,17 +1253,11 @@ msgid "Hidden Field (for intermediate calculations)"
 msgstr "Camp ocult (per a càlculs intermedis)"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Directory to save QML file"
 msgctxt "rcse::PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "Directori a on s'ha de guardar el fitxer en QML"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Place to save Generated files"
 msgctxt "rcse::PreferencesDialog|"
 msgid "Place to save Generated files"
 msgstr "Lloc a on s'han de guardar els fitxers generats"
@@ -3391,12 +3385,12 @@ msgstr "Ordre del dau:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "Oculta el dau en 3D després de: %1 s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "El quadro del dau en 3D desapareixerà després d'un temps."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
@@ -8612,7 +8606,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "MindMapControllerBase|"
-#~ msgid "Root"
-#~ msgstr "Arrel"

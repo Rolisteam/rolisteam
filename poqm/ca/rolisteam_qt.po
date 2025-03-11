@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam\n"
-"PO-Revision-Date: 2025-03-09 11:31+0100\n"
+"PO-Revision-Date: 2025-03-10 09:41+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3387,12 +3387,12 @@ msgstr "Ordre del dau:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "Oculta el dau 3D després de: %1 s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "El plafó del dau 3D desapareixerà després d'un temps."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
@@ -8608,7 +8608,3 @@ msgstr "Adormit"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embruixat"
-
-#~ msgctxt "MindMapControllerBase|"
-#~ msgid "Root"
-#~ msgstr "Arrel"

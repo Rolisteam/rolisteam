@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2025-03-09 09:01+0100\n"
+"PO-Revision-Date: 2025-03-10 07:30+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3379,12 +3379,12 @@ msgstr "Ukaz kocke:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "Skrij 3D kocko po: %1s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "Plošča 3D kocke izgine čez nekaj časa."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"

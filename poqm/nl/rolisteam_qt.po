@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-03-09 23:27+0100\n"
+"PO-Revision-Date: 2025-03-10 12:21+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3366,12 +3366,12 @@ msgstr "Dobbelsteencommando:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "3D-dobbelsteen verbergen na: %1s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "3D-dobbelsteen verdwijnt na een tijdje."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-03-09 13:40+0300\n"
+"PO-Revision-Date: 2025-03-10 12:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.03.70\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #: src/binaries/mindmap/main.cpp:93 src/binaries/rcse/main.cpp:76
 msgctxt "QObject|"
@@ -3371,12 +3371,12 @@ msgstr "Zarlar komutu:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "3B zarı gizleme süresi: %1 sn"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "3B zarlar paneli, bir süre sonra kaybolur."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"

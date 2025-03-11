@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"PO-Revision-Date: 2025-03-09 12:40+0100\n"
+"PO-Revision-Date: 2025-03-10 12:44+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #: src/binaries/mindmap/main.cpp:93 src/binaries/rcse/main.cpp:76
 msgctxt "QObject|"
@@ -3375,12 +3375,12 @@ msgstr "Orden para dados:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "Ocultar los dados 3D tras: %1 s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "El panel de dados 3D desaparece tras un intervalo de tiempo."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
