@@ -3371,12 +3371,12 @@ msgstr "კამათლის ბრძანება:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "3D კამათლის დამალვის დრო: %1წმ"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "3D კამათლის პანელი რაღაც დროის შემდეგ გაქრება."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
