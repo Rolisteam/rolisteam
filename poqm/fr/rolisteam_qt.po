@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rolisteam_qt\n"
-"PO-Revision-Date: 2025-03-10 08:46+0100\n"
+"PO-Revision-Date: 2025-03-11 08:44+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -3381,12 +3381,12 @@ msgstr "Commande de dé :"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "Masquer le dé 3D après : %1 s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "Le panneau du dé 3D disparaît après un certain temps."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
