@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-03-07 22:40+0100\n"
+"PO-Revision-Date: 2025-03-16 11:15+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/main.cpp:93 src/binaries/rcse/main.cpp:76
@@ -1255,17 +1255,11 @@ msgid "Hidden Field (for intermediate calculations)"
 msgstr "Campo nascosto (per i calcoli intermedi)"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Directory to save QML file"
 msgctxt "rcse::PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "Cartella in cui salvare il file QML"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Place to save Generated files"
 msgctxt "rcse::PreferencesDialog|"
 msgid "Place to save Generated files"
 msgstr "Posizione per salvare i file generati"
@@ -3385,12 +3379,12 @@ msgstr "Comando dei dadi:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "Nascondi il dado in 3D dopo: %1s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "Il pannello del dado in 3D scompare dopo un determinato tempo."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
