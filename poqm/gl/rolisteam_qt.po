@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-03-05 07:03+0100\n"
+"PO-Revision-Date: 2025-03-20 07:55+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 "X-Qt-Contexts: true\n"
 
 #: src/binaries/mindmap/main.cpp:93 src/binaries/rcse/main.cpp:76
@@ -1248,17 +1248,11 @@ msgid "Hidden Field (for intermediate calculations)"
 msgstr "Campo agochado (para cálculos intermedios)"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Directory to save QML file"
 msgctxt "rcse::PreferencesDialog|"
 msgid "Directory to save QML file"
 msgstr "Cartafol no que gardar o ficheiro QML"
 
 #: src/binaries/rcse/preferences/preferencesdialog.cpp:37
-#, fuzzy
-#| msgctxt "PreferencesDialog|"
-#| msgid "Place to save Generated files"
 msgctxt "rcse::PreferencesDialog|"
 msgid "Place to save Generated files"
 msgstr "Lugar onde gardar os ficheiros xerados"
@@ -3353,7 +3347,7 @@ msgstr "# Tirada 3D — Distancia: %1; tempo: %2; rotación: %3."
 #: src/libraries/dicephysics/qml/Main.qml:30
 msgctxt "Main|"
 msgid "Rolisteam 3D dice roller"
-msgstr "Tirador de datos 3D de Rolisteam"
+msgstr "Tirador de dados 3D de Rolisteam"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:59
 msgctxt "SideMenu|"
@@ -3379,12 +3373,12 @@ msgstr "Orde de dado:"
 #, qt-format
 msgctxt "SideMenu|"
 msgid "Hide 3D Dice after: %1s"
-msgstr ""
+msgstr "Agochar o dado 3D tras: %1 s"
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:206
 msgctxt "SideMenu|"
 msgid "3D Dice panel disappear after a time."
-msgstr ""
+msgstr "O panel do dado 3D desaparece tras un tempo."
 
 #: src/libraries/dicephysics/qml/SideMenu.qml:227
 msgctxt "SideMenu|"
