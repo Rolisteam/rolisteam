@@ -29,7 +29,7 @@ set(UIS mainwindow.ui)
 
 set(RC_FILE ${PROJECT_SOURCE_DIR}/resources/rolisteam/logo/rolisteam.rc)
 
-find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Quick3D LinguistTools Scxml MultimediaWidgets Multimedia)
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Quick3D LinguistTools Scxml MultimediaWidgets Multimedia RemoteObjects)
 
 set(RESOURCE_FILES ${CMAKE_SOURCE_DIR}/rolisteam.qrc  ${CMAKE_SOURCE_DIR}/resources/rolisteam/logo/logo.qrc)
 
@@ -39,9 +39,12 @@ endif()
 add_executable(rolisteam WIN32 ${SOURCES} ${HEADERS} ${UIS} ${RESOURCE_FILES} ${RC_FILE})
 
 qt6_add_statecharts(rolisteam applicationstate.scxml)
-target_include_directories(rolisteam PRIVATE ../../libraries ${CMAKE_BINARY_DIR})
+target_include_directories(rolisteam PRIVATE ../../libraries ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 set_target_properties(rolisteam PROPERTIES WIN32_EXECUTABLE on MACOSX_BUNDLE on)
 
+qt_add_repc_replicas(rolisteam
+    maincontrollersource.rep
+)
 
 target_link_libraries(rolisteam
     PUBLIC
@@ -52,6 +55,7 @@ target_link_libraries(rolisteam
         Qt6::Multimedia
         Qt6::Scxml
         Qt6::Quick3D
+        Qt6::RemoteObjects
     PRIVATE
         core
         rwidgets

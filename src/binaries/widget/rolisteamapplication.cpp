@@ -21,11 +21,106 @@
 
 #include <QDebug>
 #include <QIcon>
+#include <QKeyEvent>
 #include <QSettings>
 #include <QTranslator>
 #include <iostream>
 
 #include "controller/networkcontroller.h"
+#include "rep_maincontrollersource_replica.h"
+
+QString eventToText(QKeyEvent* event)
+{
+    auto mod= event->modifiers();
+    auto key= event->text();
+
+    static QHash<int, QString> data{
+        {Qt::Key_Escape, "Escape"},
+        {Qt::Key_Space, "Space"},
+        {Qt::Key_Plus, "Plus"},
+        {Qt::Key_Comma, ","},
+        {Qt::Key_Minus, "Minus"},
+        {Qt::Key_Period, "."},
+        {Qt::Key_nobreakspace, "Space"},
+        {Qt::Key_Slash, "/"},
+        {Qt::ShiftModifier, "Shift"},
+        {Qt::ControlModifier, "Ctrl"},
+        {Qt::AltModifier, "Alt"},
+        {Qt::MetaModifier, "Meta"},
+        {Qt::KeypadModifier, "KeyPad"},
+        {Qt::Key_Tab, "Tab"},
+        {Qt::Key_Backtab, "Backtab"},
+        {Qt::Key_Backspace, "Backspace"},
+        {Qt::Key_Return, "Return"},
+        {Qt::Key_Enter, "Enter"},
+        {Qt::Key_Delete, "Delete"},
+        {Qt::Key_Insert, "Insert"},
+        {Qt::Key_Pause, "Pause"},
+        {Qt::Key_Print, "Print"},
+        {Qt::Key_Clear, "Clear"},
+        {Qt::Key_Home, "Home"},
+        {Qt::Key_End, "End"},
+        {Qt::Key_Left, "Left"},
+        {Qt::Key_Up, "Up"},
+        {Qt::Key_Right, "Right"},
+        {Qt::Key_Down, "Down"},
+        {Qt::Key_PageUp, "PageUp"},
+        {Qt::Key_PageDown, "PageDown"},
+        {Qt::Key_CapsLock, "CapsLock"},
+        {Qt::Key_NumLock, "NumLock"},
+        {Qt::Key_ScrollLock, "ScrollLock"},
+        {Qt::Key_F1, "F1"},
+        {Qt::Key_F2, "F2"},
+        {Qt::Key_F3, "F3"},
+        {Qt::Key_F4, "F4"},
+        {Qt::Key_F5, "F5"},
+        {Qt::Key_F6, "F6"},
+        {Qt::Key_F7, "F7"},
+        {Qt::Key_F8, "F8"},
+        {Qt::Key_F9, "F9"},
+        {Qt::Key_F10, "F10"},
+        {Qt::Key_F11, "F11"},
+        {Qt::Key_F12, "F12"},
+        {Qt::Key_F13, "F13"},
+        {Qt::Key_F14, "F14"},
+        {Qt::Key_F15, "F15"},
+        {Qt::Key_F16, "F16"},
+        {Qt::Key_F17, "F17"},
+        {Qt::Key_F18, "F18"},
+        {Qt::Key_F19, "F19"},
+        {Qt::Key_F20, "F20"},
+        {Qt::Key_F21, "F21"},
+        {Qt::Key_F22, "F22"},
+        {Qt::Key_F23, "F23"},
+        {Qt::Key_F24, "F24"},
+        {Qt::Key_F25, "F25"},
+        {Qt::Key_F26, "F26"},
+        {Qt::Key_F27, "F27"},
+        {Qt::Key_F28, "F28"},
+        {Qt::Key_F29, "F29"},
+        {Qt::Key_F30, "F30"},
+        {Qt::Key_F31, "F31"},
+        {Qt::Key_F32, "F32"},
+        {Qt::Key_F33, "F33"},
+        {Qt::Key_F34, "F34"},
+        {Qt::Key_F35, "F35"},
+    };
+
+    QStringList result;
+    for(auto m : {Qt::ShiftModifier, Qt::ControlModifier, Qt::AltModifier, Qt::MetaModifier, Qt::KeypadModifier})
+        if(mod & m)
+            result+= data.value(m);
+
+    if(key.isEmpty() || data.contains(event->key()))
+        result+= data.value(event->key());
+    else
+        result+= key;
+
+    if(result.size() <= 1)
+        return {};
+
+    return result.join("+");
+}
 
 RolisteamApplication::RolisteamApplication(const QString& appName, const QString& version, int& argn, char* argv[])
     : QApplication(argn, argv), m_game(GameController(appName, version, clipboard()))
@@ -53,12 +148,22 @@ RolisteamApplication::RolisteamApplication(const QString& appName, const QString
 
     setApplicationVersion(version);
     readSettings();
+#ifdef QT_DEBUG
+    // create remote object node
+    m_repNode.connectToNode(QUrl(QStringLiteral("local:replica"))); // connect with remote host node
+
+    m_replica.reset(m_repNode.acquire<MainControllerSourceReplica>());
+#endif
 }
 
 bool RolisteamApplication::notify(QObject* receiver, QEvent* e)
 {
     try
     {
+#ifdef QT_DEBUG
+        if(m_replica)
+            keyEventFilter(e);
+#endif
         return QApplication::notify(receiver, e);
     }
     catch(...)
@@ -122,8 +227,7 @@ void RolisteamApplication::setTranslator(const QStringList& list)
     for(const auto& info : list)
     {
         QTranslator* trans= new QTranslator(this);
-        trans->load(info);
-        if(trans->isEmpty())
+        if(trans->load(info))
         {
             delete trans;
             continue;
@@ -138,3 +242,17 @@ void RolisteamApplication::configureEnginePostLoad(QQmlApplicationEngine* engine
     Q_UNUSED(engine)
     // engine->addstuff
 }
+#ifdef QT_DEBUG
+void RolisteamApplication::keyEventFilter(QEvent* e)
+{
+    if(e->type() != QEvent::KeyPress)
+        return;
+    auto ke= dynamic_cast<QKeyEvent*>(e);
+    if(!ke)
+        return;
+    auto l= eventToText(ke);
+    if(l.isEmpty())
+        return;
+    m_replica->pushHotKey(l);
+}
+#endif

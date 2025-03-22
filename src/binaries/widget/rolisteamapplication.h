@@ -25,6 +25,10 @@
 #include "controller/gamecontroller.h"
 
 class QQmlApplicationEngine;
+#ifdef QT_DEBUG
+class MainControllerSourceReplica;
+#include <QRemoteObjectNode>
+#endif
 class RolisteamApplication : public QApplication
 {
     Q_OBJECT
@@ -45,10 +49,17 @@ signals:
 
 protected:
     void configureEnginePostLoad(QQmlApplicationEngine* engine);
+#ifdef QT_DEBUG
+    void keyEventFilter(QEvent* e);
+#endif
 
 private:
     QList<QTranslator*> m_translators;
     GameController m_game;
+#ifdef QT_DEBUG
+    QRemoteObjectNode m_repNode;
+    QSharedPointer<MainControllerSourceReplica> m_replica;
+#endif
 };
 
 #endif // ROLISTEAMAPPLICATION_H
