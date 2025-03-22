@@ -88,12 +88,12 @@ Item {
                     id: removeBtn
                     action: _removeProfile
                     Layout.columnSpan: 2
-                    opacity: removeBtn.down ? 0.5 : 1.0
+                    opacity: !enabled || removeBtn.down ? 0.5 : 1.0
                     icon.width: 32
                     icon.height: 32
                     icon.color: "transparent"
                     ToolTip.text: qsTr("Remove profile")
-                    enabled: ProfileController.currentProfileIndex >= 0
+                    enabled: _list.count > 1 && ProfileController.currentProfileIndex >= 0
                 }
             }
         }
@@ -310,8 +310,10 @@ Item {
 
                     }
 
-                    Item {
+                    Label {
                         Layout.fillWidth: true
+                        text: ProfileController.canConnect ? "" : qsTr("Please, set data where you see red borders.")
+                        horizontalAlignment: Text.AlignHCenter
                     }
 
                     Button {

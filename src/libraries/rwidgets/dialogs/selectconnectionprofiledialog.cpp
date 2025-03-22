@@ -95,7 +95,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
 
                 profile->setAddress(m_ctrl->address());
             });
-    connect(m_ctrl.get(), &SelectConnProfileController::passwordChanged, this,
+    /*connect(m_ctrl.get(), &SelectConnProfileController::passwordChanged, this,
             [this]()
             {
                 if(!m_gameCtrl)
@@ -108,7 +108,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
                     return;
 
                 profile->editPassword(m_ctrl->password());
-            });
+            });*/
     connect(m_ctrl.get(), &SelectConnProfileController::rejected, this, &SelectConnectionProfileDialog::reject);
     connect(m_ctrl.get(), &SelectConnProfileController::changeCampaignPath, this,
             [this]()

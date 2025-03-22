@@ -35,19 +35,23 @@ class QMLVIEWS_EXPORT ImageSelector : public QQuickPaintedItem
     Q_OBJECT
     Q_PROPERTY(QByteArray imageData READ imageData WRITE setImageData NOTIFY imageDataChanged)
     Q_PROPERTY(bool isSquare READ isSquare NOTIFY imageDataChanged)
+    Q_PROPERTY(bool hasImage READ hasImage NOTIFY imageDataChanged FINAL)
     QML_ELEMENT
 public:
     ImageSelector();
 
     const QByteArray& imageData() const;
     void setImageData(const QByteArray& newImageData);
-
     void paint(QPainter* painter);
-
     bool isSquare() const;
+    bool hasImage() const;
+    void setHasImage(bool newHasImage);
+
 signals:
     void imageDataChanged();
     void mouseClicked();
+
+    void hasImageChanged();
 
 protected:
     void mousePressEvent(QMouseEvent* event);

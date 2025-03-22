@@ -69,7 +69,7 @@ void ImageSelector::paint(QPainter* painter)
 
 bool ImageSelector::isSquare() const
 {
-    return m_pixmap.width() == m_pixmap.height();
+    return m_pixmap.width() == m_pixmap.height() && hasImage();
 }
 
 void ImageSelector::mousePressEvent(QMouseEvent* event)
@@ -82,3 +82,7 @@ void ImageSelector::mousePressEvent(QMouseEvent* event)
     QQuickPaintedItem::mousePressEvent(event);
 }
 
+bool ImageSelector::hasImage() const
+{
+    return !m_pixmap.isNull();
+}
