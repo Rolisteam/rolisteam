@@ -134,7 +134,7 @@ void MediaControllerBase::askToClose()
 
 void MediaControllerBase::aboutToClose()
 {
-    emit closeContainer();
+    emit closeContainer(uuid());
 }
 
 void MediaControllerBase::setActive(bool b)

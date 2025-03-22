@@ -89,7 +89,7 @@ public:
 signals:
     void nameChanged(QString);
     void uuidChanged(QString);
-    void closeContainer();
+    void closeContainer(QString);
     void activeChanged();
     void localGMChanged(bool b);
     void performCommand(QUndoCommand* cmd);

@@ -126,6 +126,8 @@ GameController::GameController(const QString& appname, const QString& version, Q
 
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_campaignManager.get(), &campaign::CampaignManager::setLocalIsGM);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, m_audioCtrl.get(), &AudioController::setLocalIsGM);
+
+
     connect(m_campaignManager.get(), &campaign::CampaignManager::campaignLoaded, this, [this](campaign::CampaignInfo info){
         emit dataLoaded(info.missingFiles, info.unmanagedFiles);
         m_campaignManager->diceparser();

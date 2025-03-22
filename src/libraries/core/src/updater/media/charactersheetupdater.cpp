@@ -83,6 +83,9 @@ CharacterSheetUpdater::CharacterSheetUpdater(FilteredContentModel* model, campai
                 std::for_each(std::begin(m_ctrls), std::end(m_ctrls),
                               [list](const QPointer<CharacterSheetController>& ctrl)
                               {
+                                  if(!ctrl)
+                                      return;
+
                                   auto sharingData= ctrl->sheetData();
 
                                   for(auto const& info : sharingData)
@@ -108,6 +111,22 @@ void CharacterSheetUpdater::addMediaController(MediaControllerBase* ctrl)
             [this](CharacterSheetController* ctrl, CharacterSheet* sheet, CharacterSheetUpdater::SharingMode mode,
                    Character* character, const QStringList& recipients)
             { shareCharacterSheetTo(ctrl, sheet, mode, character, recipients); });
+
+    connect(csCtrl, &CharacterSheetController::closeContainer, this,
+            [this](const QString& id)
+            {
+                auto it= std::find_if(std::begin(m_ctrls), std::end(m_ctrls),
+                                      [id](const QPointer<CharacterSheetController>& ctrl)
+                                      {
+                                          if(!ctrl)
+                                              return false;
+                                          return id == ctrl->uuid();
+                                      });
+                if(it == std::end(m_ctrls))
+                    return;
+
+                m_ctrls.erase(it);
+            });
 
     connect(csCtrl, &CharacterSheetController::modifiedChanged, this,
             [this]()

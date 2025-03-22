@@ -60,7 +60,7 @@ signals:
 protected:
     bool m_updatingFromNetwork= false;
     QPointer<campaign::CampaignManager> m_manager;
-    bool m_localIsGM;
+    bool m_localIsGM{false};
 };
 
 template <typename T>

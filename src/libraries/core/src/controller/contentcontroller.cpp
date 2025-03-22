@@ -216,6 +216,18 @@ ContentController::ContentController(campaign::CampaignManager* campaign, Player
     connect(m_historyModel.get(), &history::HistoryModel::modelReset, this, &ContentController::historyChanged);
     connect(m_historyModel.get(), &history::HistoryModel::rowsInserted, this, &ContentController::historyChanged);
     connect(m_historyModel.get(), &history::HistoryModel::rowsRemoved, this, &ContentController::historyChanged);
+
+    auto updateGM= [this]()
+    {
+        for(auto const& updater : m_mediaUpdaters)
+        {
+            updater.second->setLocalIsGM(localIsGM());
+        }
+    };
+    connect(this, &ContentController::localIdChanged, this, updateGM);
+    connect(this, &ContentController::gameMasterIdChanged, this, updateGM);
+
+    updateGM();
 }
 
 ContentController::~ContentController()= default;
