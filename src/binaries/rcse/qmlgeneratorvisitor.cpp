@@ -66,6 +66,7 @@ constexpr auto x{"x"};
 constexpr auto y{"y"};
 constexpr auto width{"width"};
 constexpr auto height{"height"};
+constexpr auto zoomLevel{"defaultZoomLevel"};
 } // namespace json
 namespace templates
 {
@@ -193,7 +194,8 @@ void QmlGeneratorVisitor::setIsTable(bool isTable)
 
 QString QmlGeneratorVisitor::generateSheet(const QString& imports, const QString& headCode, const QString& bottomCode,
                                            int maxPage, const QString& mainItem, const QString& source, int width,
-                                           int height, const QString& baseWidth, bool pageAdapt, TreeSheetItem* root)
+                                           int height, const QString& baseWidth, bool pageAdapt, qreal zoomLevel,
+                                           TreeSheetItem* root)
 {
     m_root= root;
     inja::json data;
@@ -211,6 +213,7 @@ QString QmlGeneratorVisitor::generateSheet(const QString& imports, const QString
     data[cj::baseWidth]= baseWidth.toStdString();
     data[cj::width]= width;
     data[cj::height]= height;
+    data[cj::zoomLevel]= zoomLevel;
     data[cj::mainItem]= mainItem.toStdString();
 
     return evaluateTemplate(ct::Sheet, data);

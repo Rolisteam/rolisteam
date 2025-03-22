@@ -40,16 +40,3 @@ void ApplicationController::rollDice(const QString& cmd, const QString& characte
     }
     im->rollDiceCommand(cmd, gmOnly, characterId);
 }
-
-qreal ApplicationController::zoomLevel() const
-{
-    return m_zoomLevel;
-}
-
-void ApplicationController::setZoomLevel(qreal newZoomLevel)
-{
-    if(qFuzzyCompare(newZoomLevel, m_zoomLevel))
-        return;
-    m_zoomLevel= newZoomLevel;
-    emit zoomLevelChanged();
-}

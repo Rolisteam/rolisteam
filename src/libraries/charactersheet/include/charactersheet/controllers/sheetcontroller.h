@@ -99,6 +99,7 @@ private:
     bool m_adaptWidthToPage{true};
     QPointer<CharacterSheet> m_sheetCtrl;
     QString m_characterId;
+    qreal m_zoomLevel{-1};
 };
 
 #endif // SHEETCONTROLLER_H

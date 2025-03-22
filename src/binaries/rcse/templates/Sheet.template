@@ -7,18 +7,16 @@ import Qt.labs.qmlmodels
 import Helper
 {{ imports }}
 
-Flickable {
+Item {
     id: root
-    contentWidth:  {{ width }}
-    contentHeight: {{ height }}
-    boundsBehavior: Flickable.StopAtBounds
+
     SheetController {
         id: sheetCtrl
         appCtrl: AppCtrl
         parentWidth: root.width
         imageBgWidth: {{ baseWidth }}
         currentPage: 0
-        zoomLevel: 1.0
+        zoomLevel: {{ defaultZoomLevel }}
         adaptWidthToPage: {{ pageAdapt }}
         pageMax: {{ pageMax }}
         characterSheetCtrl: _characterSheet
@@ -27,10 +25,12 @@ Flickable {
     ContextualMenu {
         id: _menu
         ctrl: sheetCtrl
+        defaultZoom: {{ defaultZoomLevel }}
     }
-    focus: true
+
     Keys.onLeftPressed: sheetCtrl.previousPage()
     Keys.onRightPressed: sheetCtrl.nextPage()
+
     MouseArea {
         anchors.fill:parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -46,18 +46,31 @@ Flickable {
         }
     }
 
-{{ headCode }}
+    Flickable {
+        id: flickable
+        contentWidth:  sheet.width * sheetCtrl.zoomLevel
+        contentHeight: sheet.height * sheetCtrl.zoomLevel
+        boundsBehavior: Flickable.StopAtBounds
+        anchors.fill: parent
+        focus: true
+        scale: sheetCtrl.zoomLevel
+        transformOrigin: Item.TopLeft
+        Item {
+            id: sheet
+            width: {{ width }}
+            height:  {{ height }}
+            {{ headCode }}
 
+            {{ mainItem }} {
+                id: main
+                objectName: "main"
+                anchors.fill: parent
+                {{ mainSource }}
+                {{ fields }}
+            }
+        }
 
-    {{ mainItem }} {
-        id: main
-        objectName: "main"
-        width: {{ mainWidth }}
-        height: {{ mainHeight }}
-        {{ mainSource }}
-{{ fields }}
     }
-
 
 
 {{ bottomCode }}

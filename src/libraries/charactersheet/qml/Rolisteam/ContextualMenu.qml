@@ -7,6 +7,7 @@ Menu {
     id: _root
 
     property SheetController ctrl
+    property real defaultZoom
 
 
     MenuItem {
@@ -42,7 +43,7 @@ Menu {
     MenuItem {
         id: zoomReset
         text: qsTr("Reset Zoom")
-        onClicked: _root.ctrl.zoomLevel = 1.0
+        onClicked: _root.ctrl.zoomLevel = defaultZoom
     }
 
     MenuItem {

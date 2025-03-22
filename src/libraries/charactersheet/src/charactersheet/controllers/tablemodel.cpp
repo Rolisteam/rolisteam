@@ -470,12 +470,22 @@ void TableModel::setFieldInDictionnary(QHash<QString, QString>& dict, const QStr
     if(m_data.isEmpty())
         return;
 
-    Q_ASSERT(m_data.size() % m_columns.size() == 0);
+    // Q_ASSERT(m_data.size() % m_columns.size() == 0);
 
     auto results= sumColumn();
 
+    for(const auto& line : m_data)
+    {
+        for(const CellData* cell : line)
+        {
+            auto realId= QString("%1.%2").arg(id, cell->id());
+            qDebug() << "realId" << realId;
+            dict[realId]= cell->value();
+        }
+    }
+
     int i= 1;
-    for(auto const& sum : results)
+    for(auto const& sum : std::as_const(results))
     {
         QString key= QStringLiteral("%1:sumcol%2").arg(id).arg(i);
         dict[key]= QString::number(sum);

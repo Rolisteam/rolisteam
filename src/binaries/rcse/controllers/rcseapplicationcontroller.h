@@ -32,13 +32,8 @@ public:
     void msgToGM(const QString& msg, const QString& characterId) override;
     void msgToAll(const QString& msg, const QString& characterId) override;
     void rollDice(const QString& cmd, const QString& characterId, bool gmOnly= false) override;
-    qreal zoomLevel() const override;
-    void setZoomLevel(qreal newZoomLevel) override;
     QString characterId() const;
     void setCharacterId(const QString& newCharacterId);
-
-private:
-    qreal m_zoomLevel= 1.0;
 
     // AbstractApplicationController interface
 };

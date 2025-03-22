@@ -108,7 +108,7 @@ void QmlGeneratorController::setImportCode(QString importCode)
 
 void QmlGeneratorController::setFixedScale(qreal fixedScale)
 {
-    qWarning("Floating point comparison needs context sanity check");
+    // qWarning("Floating point comparison needs context sanity check");
     if(qFuzzyCompare(m_fixedScale, fixedScale))
         return;
 
@@ -159,7 +159,7 @@ void QmlGeneratorController::clearData()
 {
     m_headCode= "";
     m_importCode= "";
-    m_fixedScaleSheet= 1.0;
+    m_fixedScale= 1.0;
     m_bottomCode= "";
     // m_flickableSheet= false;
     m_fonts.clear();
@@ -197,10 +197,12 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl)
 {
     QString key= ctrl->uuid();
     QStringList keyParts= key.split('_');
-    auto rect= m_model->childrenRect();
+    auto rect= m_model->childrenRect().size();
 
     QSize size= ctrl->backgroundSize();
     bool hasImage= size.isValid();
+    if(hasImage)
+        rect= size;
 
     if(!keyParts.isEmpty())
     {
@@ -215,8 +217,9 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl)
                             QString("");
     auto baseWidth= hasImage ? QStringLiteral("main.width") : QString::number(rect.width());
 
-    auto res= visitor.generateSheet(m_importCode, m_headCode, m_bottomCode, m_lastPageId, mainItem, source,
-                                    rect.width(), rect.height(), baseWidth, true, m_model->getRootSection());
+    auto res
+        = visitor.generateSheet(m_importCode, m_headCode, m_bottomCode, m_lastPageId, mainItem, source, rect.width(),
+                                rect.height(), baseWidth, m_fillWidth, m_fixedScale, m_model->getRootSection());
     setQmlCode(res);
     setTextEdited(false);
 }
@@ -233,4 +236,17 @@ void QmlGeneratorController::setQmlCode(const QString& newQmlCode)
     m_qmlCode= newQmlCode;
     emit qmlCodeChanged();
     setTextEdited(true);
+}
+
+bool QmlGeneratorController::fillWidth() const
+{
+    return m_fillWidth;
+}
+
+void QmlGeneratorController::setFillWidth(bool newFillWidth)
+{
+    if(m_fillWidth == newFillWidth)
+        return;
+    m_fillWidth= newFillWidth;
+    emit fillWidthChanged();
 }

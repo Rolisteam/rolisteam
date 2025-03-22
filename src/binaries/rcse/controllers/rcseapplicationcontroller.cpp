@@ -38,19 +38,6 @@ void RcseApplicationController::rollDice(const QString& cmd, const QString& char
     qCInfo(RcseCat) << "Roll dice command:" << cmd << " to " << f(gmOnly, tr("only the GM"), tr("All")) << characterId;
 }
 
-qreal RcseApplicationController::zoomLevel() const
-{
-    return m_zoomLevel;
-}
-
-void RcseApplicationController::setZoomLevel(qreal newZoomLevel)
-{
-    if(qFuzzyCompare(newZoomLevel, m_zoomLevel))
-        return;
-    m_zoomLevel= newZoomLevel;
-    emit zoomLevelChanged();
-}
-
 QString RcseApplicationController::characterId() const
 {
     return "TestPersonId";

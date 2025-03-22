@@ -60,13 +60,15 @@ void SheetController::setCurrentPage(int newCurrentPage)
 
 qreal SheetController::zoomLevel() const
 {
-    return m_appCtrl ? m_appCtrl->zoomLevel() : 1.0;
+    return m_zoomLevel;
 }
 
 void SheetController::setZoomLevel(qreal newZoomLevel)
 {
-    if(m_appCtrl)
-        m_appCtrl->setZoomLevel(newZoomLevel);
+    if(qFuzzyCompare(newZoomLevel, m_zoomLevel))
+        return;
+    m_zoomLevel= newZoomLevel;
+    emit zoomLevelChanged();
 }
 
 void SheetController::msgToGM(const QString& msg)
@@ -108,9 +110,6 @@ void SheetController::setAppCtrl(AbstractApplicationController* newAppCtrl)
         return;
     m_appCtrl= newAppCtrl;
     emit appCtrlChanged();
-
-    if(m_appCtrl)
-        connect(m_appCtrl, &AbstractApplicationController::zoomLevelChanged, this, &SheetController::zoomLevelChanged);
 }
 
 qreal SheetController::parentWidth() const

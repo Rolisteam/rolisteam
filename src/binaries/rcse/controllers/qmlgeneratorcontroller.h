@@ -23,6 +23,7 @@ class QmlGeneratorController : public QObject
     Q_PROPERTY(QString bottomCode READ bottomCode WRITE setBottomCode NOTIFY bottomCodeChanged)
     Q_PROPERTY(QString importCode READ importCode WRITE setImportCode NOTIFY importCodeChanged)
     Q_PROPERTY(qreal fixedScale READ fixedScale WRITE setFixedScale NOTIFY fixedScaleChanged)
+    Q_PROPERTY(bool fillWidth READ fillWidth WRITE setFillWidth NOTIFY fillWidthChanged FINAL)
     Q_PROPERTY(QStringList fonts READ fonts WRITE setFonts NOTIFY fontsChanged)
     Q_PROPERTY(bool textEdited READ textEdited NOTIFY textEditedChanged)
     Q_PROPERTY(QString uuidCharacter READ uuidCharacter WRITE setUuidCharacter NOTIFY uuidCharacterChanged)
@@ -53,6 +54,9 @@ public:
     const QString& qmlCode() const;
     void setQmlCode(const QString& newQmlCode);
 
+    bool fillWidth() const;
+    void setFillWidth(bool newFillWidth);
+
 signals:
     void dataChanged();
     void headCodeChanged(QString headCode);
@@ -66,6 +70,8 @@ signals:
     void reportLog(const QString& log, LogController::LogLevel level= LogController::Features);
     void uuidCharacterChanged(QString uuidCharacter);
     void qmlCodeChanged();
+
+    void fillWidthChanged();
 
 public slots:
     void setHeadCode(QString headCode);
@@ -83,13 +89,13 @@ private:
     QString m_headCode;
     QString m_bottomCode;
     QString m_importCode;
-    qreal m_fixedScaleSheet= 1.0;
     qreal m_fixedScale= 1.0;
     QStringList m_fonts;
     unsigned int m_lastPageId= 0;
     mutable bool m_textEdited= false;
     QString m_uuidCharacter;
     QString m_qmlCode;
+    bool m_fillWidth;
 };
 
 #endif // QMLGENERATORCONTROLLER_H

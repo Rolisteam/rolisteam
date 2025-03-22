@@ -12,28 +12,32 @@ SheetProperties::SheetProperties(QmlGeneratorController* ctrl, QWidget* parent)
     ui->setupUi(this);
     ui->listView->setModel(&m_model);
 
-    connect(ui->m_addFontBtn, &QToolButton::clicked, this, [=] {
-        QStringList files
-            = QFileDialog::getOpenFileNames(this, tr("Add Font file"), QDir::homePath(), "font (*.ttf *.otf)");
-        if(!files.isEmpty())
-        {
-            m_fontUri.append(files);
-            m_model.setStringList(m_fontUri);
-            for(auto uri : m_fontUri)
+    connect(ui->m_addFontBtn, &QToolButton::clicked, this,
+            [=]
             {
-                QFontDatabase::addApplicationFont(uri);
-            }
-        }
-    });
+                QStringList files
+                    = QFileDialog::getOpenFileNames(this, tr("Add Font file"), QDir::homePath(), "font (*.ttf *.otf)");
+                if(!files.isEmpty())
+                {
+                    m_fontUri.append(files);
+                    m_model.setStringList(m_fontUri);
+                    for(const auto& uri : std::as_const(m_fontUri))
+                    {
+                        QFontDatabase::addApplicationFont(uri);
+                    }
+                }
+            });
 
-    connect(ui->m_removeFontBtn, &QToolButton::clicked, this, [=] {
-        auto index= ui->listView->currentIndex();
-        if(index.isValid())
-        {
-            m_fontUri.removeAt(index.row());
-            m_model.setStringList(m_fontUri);
-        }
-    });
+    connect(ui->m_removeFontBtn, &QToolButton::clicked, this,
+            [=]
+            {
+                auto index= ui->listView->currentIndex();
+                if(index.isValid())
+                {
+                    m_fontUri.removeAt(index.row());
+                    m_model.setStringList(m_fontUri);
+                }
+            });
 
     init();
 }
@@ -49,6 +53,7 @@ void SheetProperties::init()
     ui->m_additionnalBottomCode->document()->setPlainText(m_ctrl->bottomCode());
     ui->m_additionnalImport->setPlainText(m_ctrl->importCode());
     ui->m_fixedScale->setValue(m_ctrl->fixedScale());
+    ui->m_fillWidth->setChecked(m_ctrl->fillWidth());
 
     m_fontUri= m_ctrl->fonts();
     m_model.setStringList(m_fontUri);
@@ -61,6 +66,7 @@ void SheetProperties::accept()
     m_ctrl->setImportCode(ui->m_additionnalImport->document()->toPlainText());
     m_ctrl->setFixedScale(ui->m_fixedScale->value());
     m_ctrl->setFonts(m_fontUri);
+    m_ctrl->setFillWidth(ui->m_fillWidth->isChecked());
 
     QDialog::accept();
 }

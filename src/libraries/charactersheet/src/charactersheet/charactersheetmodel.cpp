@@ -23,6 +23,7 @@
 #include "charactersheet/controllers/fieldcontroller.h"
 #include "charactersheet/controllers/section.h"
 #include "charactersheet/controllers/tablefield.h"
+#include "charactersheet/csitem.h"
 
 #include <QDebug>
 #include <QJsonArray>
@@ -185,10 +186,17 @@ QModelIndex CharacterSheetModel::parent(const QModelIndex& index) const
 TreeSheetItem* CharacterSheetModel::getProperItem(int row, int column, TreeSheetItem* field) const
 {
     CharacterSheet* sheet= getCharacterSheet(column - 1);
-    if(!sheet)
+    if(!sheet || !field)
         return {};
 
-    if(field->parentTreeItem() == nullptr)
+    TreeSheetItem* res= sheet->getFieldFromKey(field->path());
+
+    if(!res)
+    {
+        res= sheet->setValue(field->path(), QString(), QString());
+    }
+
+    /*if(field->parentTreeItem() == nullptr)
         return sheet->getFieldAt(row);
 
     auto parent= field->parentTreeItem();
@@ -197,7 +205,12 @@ TreeSheetItem* CharacterSheetModel::getProperItem(int row, int column, TreeSheet
 
     auto parentItem= sheet->getFieldFromKey(parentPath);
 
-    return parentItem->childAt(row);
+    if(!parentItem)
+        return nullptr;
+
+    return parentItem->childAt(row);*/
+
+    return res;
 }
 
 QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
