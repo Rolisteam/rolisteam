@@ -176,8 +176,7 @@ int Channel::addChild(TreeItem* item)
         connect(tcp, &ServerConnection::clientSaysGoodBye, this,
                 [this, itemp, tcp](const QString& playerId)
                 {
-                    if(itemp)
-                        qDebug() << itemp->uuid() << playerId << "say good bye - debug";
+                    Q_UNUSED(playerId);
                     if(m_child.isEmpty() || itemp.isNull())
                         return;
                     m_child.removeAll(itemp);

@@ -22,6 +22,10 @@
 
 #include <QApplication>
 
+#include <QList>
+#include <QPair>
+#include <QString>
+
 #include "controller/gamecontroller.h"
 
 class QQmlApplicationEngine;
@@ -41,7 +45,7 @@ public:
 
     void readSettings();
 
-    void setTranslator(const QStringList& list);
+    void setTranslator(const QList<QPair<QString, bool>>& list);
 
 signals:
     void quitApp();

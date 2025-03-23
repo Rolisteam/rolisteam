@@ -201,22 +201,28 @@ void RolisteamApplication::readSettings()
     auto hasCustomfile= optionDictionary.value("i18n_hasCustomfile").toBool();
     auto customFile= optionDictionary.value("i18n_customfile").toString();
 
+    QList<QPair<QString, bool>> params;
+
     if(hasCustomfile && !system)
     {
-        setTranslator({customFile});
+        params= {{customFile, false}};
     }
-    else if(!system)
+    else if(!system && !paths.isEmpty())
     {
-        setTranslator(paths);
+        std::transform(std::begin(paths), std::end(paths), std::back_inserter(params),
+                       [](const QString& val) -> QPair<QString, bool> {
+                           return {val, false};
+                       });
     }
     else
     {
-        QLocale locale;
-        setTranslator({":/translations/rolisteam_" + locale.name(), ":/translations/qt_" + locale.name()});
+        params= {{"rolisteam", true}};
     }
+
+    setTranslator(params);
 }
 
-void RolisteamApplication::setTranslator(const QStringList& list)
+void RolisteamApplication::setTranslator(const QList<QPair<QString, bool>>& list)
 {
     for(auto trans : std::as_const(m_translators))
         removeTranslator(trans);
@@ -224,11 +230,18 @@ void RolisteamApplication::setTranslator(const QStringList& list)
     qDeleteAll(m_translators);
     m_translators.clear();
 
-    for(const auto& info : list)
+    for(const auto& pair : list)
     {
         QTranslator* trans= new QTranslator(this);
-        if(trans->load(info))
+        bool success= false;
+        if(pair.second)
+            success= trans->load(QLocale(), pair.first, "_", ":/translations", ".qm");
+        else
+            success= trans->load(pair.first); // direct file
+
+        if(!success)
         {
+            qDebug() << "error loading translator:" << pair.first;
             delete trans;
             continue;
         }
