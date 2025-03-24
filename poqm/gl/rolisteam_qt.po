@@ -475,7 +475,7 @@ msgctxt "PdfManager|"
 msgid "Current page"
 msgstr "Páxina actual"
 
-#: src/binaries/rcse/dialog/sheetproperties.cpp:17
+#: src/binaries/rcse/dialog/sheetproperties.cpp:19
 msgctxt "SheetProperties|"
 msgid "Add Font file"
 msgstr "Engadir un ficheiro de fonte"
@@ -487,31 +487,36 @@ msgstr "Propiedades da folla"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
+msgid "Fill width by default"
+msgstr ""
+
+#: src/binaries/rcse/dialog/sheetproperties.ui:36
+msgctxt "SheetProperties|"
 msgid "Default scale:"
 msgstr "Escala predeterminada:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:60
+#: src/binaries/rcse/dialog/sheetproperties.ui:85
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
 msgstr "Importación adicional:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:94
+#: src/binaries/rcse/dialog/sheetproperties.ui:119
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
 msgstr "Código de cabeceira adicional:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:121
+#: src/binaries/rcse/dialog/sheetproperties.ui:146
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
 msgstr "Código de pé adicional:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:146
+#: src/binaries/rcse/dialog/sheetproperties.ui:171
 msgctxt "SheetProperties|"
 msgid "Embedded Fonts:"
 msgstr "Fontes incrustadas:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:157
-#: src/binaries/rcse/dialog/sheetproperties.ui:168
+#: src/binaries/rcse/dialog/sheetproperties.ui:182
+#: src/binaries/rcse/dialog/sheetproperties.ui:193
 msgctxt "SheetProperties|"
 msgid "..."
 msgstr "…"
@@ -1052,7 +1057,7 @@ msgid "Open"
 msgstr "Abrir"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:826
-#: src/binaries/widget/mainwindow.ui:519
+#: src/binaries/widget/mainwindow.ui:516
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
@@ -1063,7 +1068,7 @@ msgid "Save"
 msgstr "Gardar"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:834
-#: src/binaries/widget/mainwindow.ui:390
+#: src/binaries/widget/mainwindow.ui:387
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
@@ -1084,19 +1089,19 @@ msgid "New"
 msgstr "Nova"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:850
-#: src/binaries/widget/mainwindow.ui:258
+#: src/binaries/widget/mainwindow.ui:255
 msgctxt "MainWindow|"
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:855
-#: src/binaries/widget/mainwindow.ui:193
+#: src/binaries/widget/mainwindow.ui:190
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Saír"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:858
-#: src/binaries/widget/mainwindow.ui:196
+#: src/binaries/widget/mainwindow.ui:193
 msgctxt "MainWindow|"
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
@@ -1137,7 +1142,7 @@ msgid "Code To Sheet"
 msgstr "De código a folla"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
-#: src/binaries/widget/mainwindow.ui:464
+#: src/binaries/widget/mainwindow.ui:461
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
@@ -1164,7 +1169,7 @@ msgstr "Configuración"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1025
 #: src/binaries/rcse/mainwindow_rcse.ui:1036
-#: src/binaries/widget/mainwindow.ui:185
+#: src/binaries/widget/mainwindow.ui:182
 msgctxt "MainWindow|"
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
@@ -1212,7 +1217,7 @@ msgid "&Redo"
 msgstr "&Refacer"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
-#: src/binaries/widget/mainwindow.ui:433 src/binaries/widget/mainwindow.ui:499
+#: src/binaries/widget/mainwindow.ui:430 src/binaries/widget/mainwindow.ui:496
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
 msgstr "Apoiar Rolisteam"
@@ -1664,7 +1669,7 @@ msgstr "Mapa:"
 
 #: src/binaries/widget/mainwindow.cpp:539
 #: src/binaries/widget/mainwindow.cpp:578
-#: src/binaries/widget/mainwindow.cpp:801 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.cpp:801 src/binaries/widget/mainwindow.ui:285
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Abrir a campaña"
@@ -1867,406 +1872,401 @@ msgstr "&Editar"
 
 #: src/binaries/widget/mainwindow.ui:115
 msgctxt "MainWindow|"
-msgid "&GM ToolBoxes"
-msgstr "Caixa de ferramentas de &dirección"
-
-#: src/binaries/widget/mainwindow.ui:120
-msgctxt "MainWindow|"
 msgid "&Campaign"
 msgstr "&Campaña"
 
-#: src/binaries/widget/mainwindow.ui:136
+#: src/binaries/widget/mainwindow.ui:131
 msgctxt "MainWindow|"
 msgid "&History"
 msgstr "&Historial"
 
-#: src/binaries/widget/mainwindow.ui:154
+#: src/binaries/widget/mainwindow.ui:148
 msgctxt "MainWindow|"
 msgid "toolBar"
 msgstr "barraDeFerramentas"
 
-#: src/binaries/widget/mainwindow.ui:171
+#: src/binaries/widget/mainwindow.ui:168
 msgctxt "MainWindow|"
 msgid "Close File"
 msgstr "Pechar o ficheiro"
 
-#: src/binaries/widget/mainwindow.ui:174
+#: src/binaries/widget/mainwindow.ui:171
 msgctxt "MainWindow|"
 msgid "Ctrl+Esc"
 msgstr "Ctrl+Esc"
 
-#: src/binaries/widget/mainwindow.ui:182
+#: src/binaries/widget/mainwindow.ui:179
 msgctxt "MainWindow|"
 msgid "Preferences…"
 msgstr "Configuración…"
 
-#: src/binaries/widget/mainwindow.ui:204
+#: src/binaries/widget/mainwindow.ui:201
 msgctxt "MainWindow|"
 msgid "Tab"
 msgstr "Tab"
 
-#: src/binaries/widget/mainwindow.ui:207
+#: src/binaries/widget/mainwindow.ui:204
 msgctxt "MainWindow|"
 msgid "F2"
 msgstr "F2"
 
-#: src/binaries/widget/mainwindow.ui:212
+#: src/binaries/widget/mainwindow.ui:209
 msgctxt "MainWindow|"
 msgid "Cascade"
 msgstr "Fervenza"
 
-#: src/binaries/widget/mainwindow.ui:215 src/binaries/widget/mainwindow.ui:316
+#: src/binaries/widget/mainwindow.ui:212 src/binaries/widget/mainwindow.ui:313
 msgctxt "MainWindow|"
 msgid "Alt+C"
 msgstr "Alt+C"
 
-#: src/binaries/widget/mainwindow.ui:220
+#: src/binaries/widget/mainwindow.ui:217
 msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Tesela"
 
-#: src/binaries/widget/mainwindow.ui:223
+#: src/binaries/widget/mainwindow.ui:220
 msgctxt "MainWindow|"
 msgid "Alt+T"
 msgstr "Alt+T"
 
-#: src/binaries/widget/mainwindow.ui:228
+#: src/binaries/widget/mainwindow.ui:225
 msgctxt "MainWindow|"
 msgid "Disconnection…"
 msgstr "Desconexión…"
 
-#: src/binaries/widget/mainwindow.ui:233
+#: src/binaries/widget/mainwindow.ui:230
 msgctxt "MainWindow|"
 msgid "Rolisteam Help"
 msgstr "Axuda de Rolisteam"
 
-#: src/binaries/widget/mainwindow.ui:236
+#: src/binaries/widget/mainwindow.ui:233
 msgctxt "MainWindow|"
 msgid "online documentation"
 msgstr "Documentación por Internet"
 
-#: src/binaries/widget/mainwindow.ui:239
+#: src/binaries/widget/mainwindow.ui:236
 msgctxt "MainWindow|"
 msgid "F1"
 msgstr "F1"
 
-#: src/binaries/widget/mainwindow.ui:247
+#: src/binaries/widget/mainwindow.ui:244
 msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Sobre Rolisteam"
 
-#: src/binaries/widget/mainwindow.ui:255 src/binaries/widget/mainwindow.ui:277
+#: src/binaries/widget/mainwindow.ui:252 src/binaries/widget/mainwindow.ui:274
 msgctxt "MainWindow|"
 msgid "Note"
 msgstr "Nota"
 
-#: src/binaries/widget/mainwindow.ui:266
+#: src/binaries/widget/mainwindow.ui:263
 msgctxt "MainWindow|"
 msgid "Picture"
 msgstr "Imaxe"
 
-#: src/binaries/widget/mainwindow.ui:269
+#: src/binaries/widget/mainwindow.ui:266
 msgctxt "MainWindow|"
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
-#: src/binaries/widget/mainwindow.ui:280
+#: src/binaries/widget/mainwindow.ui:277
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+N"
 msgstr "Ctrl+Maiús+N"
 
-#: src/binaries/widget/mainwindow.ui:291
+#: src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: src/binaries/widget/mainwindow.ui:299
+#: src/binaries/widget/mainwindow.ui:296
 msgctxt "MainWindow|"
 msgid "Online Picture"
 msgstr "Imaxe de Internet"
 
-#: src/binaries/widget/mainwindow.ui:302
+#: src/binaries/widget/mainwindow.ui:299
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
 msgstr "Ctrl+Maiús+I"
 
-#: src/binaries/widget/mainwindow.ui:313
+#: src/binaries/widget/mainwindow.ui:310
 msgctxt "MainWindow|"
 msgid "Character List"
 msgstr "Lista de personaxes"
 
-#: src/binaries/widget/mainwindow.ui:324
+#: src/binaries/widget/mainwindow.ui:321
 msgctxt "MainWindow|"
 msgid "ToolBar"
 msgstr "Barra de ferramentas"
 
-#: src/binaries/widget/mainwindow.ui:327
+#: src/binaries/widget/mainwindow.ui:324
 msgctxt "MainWindow|"
 msgid "F8"
 msgstr "F8"
 
-#: src/binaries/widget/mainwindow.ui:336 src/binaries/widget/mainwindow.ui:348
+#: src/binaries/widget/mainwindow.ui:333 src/binaries/widget/mainwindow.ui:345
 msgctxt "MainWindow|"
 msgid "Map"
 msgstr "Mapa"
 
-#: src/binaries/widget/mainwindow.ui:339
+#: src/binaries/widget/mainwindow.ui:336
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: src/binaries/widget/mainwindow.ui:351
+#: src/binaries/widget/mainwindow.ui:348
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+M"
 msgstr "Ctrl+Maiús+M"
 
-#: src/binaries/widget/mainwindow.ui:359
+#: src/binaries/widget/mainwindow.ui:356
 msgctxt "MainWindow|"
 msgid "Show Health State"
 msgstr "Amosar o estado de saúde"
 
-#: src/binaries/widget/mainwindow.ui:362
+#: src/binaries/widget/mainwindow.ui:359
 msgctxt "MainWindow|"
 msgid "F6"
 msgstr "F6"
 
-#: src/binaries/widget/mainwindow.ui:367
+#: src/binaries/widget/mainwindow.ui:364
 msgctxt "MainWindow|"
 msgid "Change Profile…"
 msgstr "Cambiar o perfil…"
 
-#: src/binaries/widget/mainwindow.ui:376
+#: src/binaries/widget/mainwindow.ui:373
 msgctxt "MainWindow|"
 msgid "Character Sheet"
 msgstr "Folla de personaxe"
 
-#: src/binaries/widget/mainwindow.ui:379
+#: src/binaries/widget/mainwindow.ui:376
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
-#: src/binaries/widget/mainwindow.ui:387
+#: src/binaries/widget/mainwindow.ui:384
 msgctxt "MainWindow|"
 msgid "Save Campaign"
 msgstr "Gardar a campaña"
 
-#: src/binaries/widget/mainwindow.ui:398
+#: src/binaries/widget/mainwindow.ui:395
 msgctxt "MainWindow|"
 msgid "Room List"
 msgstr "Lista de salas"
 
-#: src/binaries/widget/mainwindow.ui:401
+#: src/binaries/widget/mainwindow.ui:398
 msgctxt "MainWindow|"
 msgid "F10"
 msgstr "F10"
 
-#: src/binaries/widget/mainwindow.ui:410 src/binaries/widget/mainwindow.ui:422
+#: src/binaries/widget/mainwindow.ui:407 src/binaries/widget/mainwindow.ui:419
 msgctxt "MainWindow|"
 msgid "Shared Note"
 msgstr "Nota compartida"
 
-#: src/binaries/widget/mainwindow.ui:413
+#: src/binaries/widget/mainwindow.ui:410
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
 msgstr "Ctrl+K"
 
-#: src/binaries/widget/mainwindow.ui:425
+#: src/binaries/widget/mainwindow.ui:422
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+K"
 msgstr "Ctrl+Maiús+K"
 
-#: src/binaries/widget/mainwindow.ui:438
+#: src/binaries/widget/mainwindow.ui:435
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
 msgstr "Visor de atallos…"
 
-#: src/binaries/widget/mainwindow.ui:441
+#: src/binaries/widget/mainwindow.ui:438
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
 msgstr "Ctrl+F1"
 
-#: src/binaries/widget/mainwindow.ui:449
+#: src/binaries/widget/mainwindow.ui:446
 msgctxt "MainWindow|"
 msgid "Full Screen"
 msgstr "Pantalla completa"
 
-#: src/binaries/widget/mainwindow.ui:452
+#: src/binaries/widget/mainwindow.ui:449
 msgctxt "MainWindow|"
 msgid "F11"
 msgstr "F11"
 
-#: src/binaries/widget/mainwindow.ui:461
+#: src/binaries/widget/mainwindow.ui:458
 msgctxt "MainWindow|"
 msgid "PDF File"
 msgstr "Ficheiro PDF"
 
-#: src/binaries/widget/mainwindow.ui:469
+#: src/binaries/widget/mainwindow.ui:466
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
 msgstr "Copiar a ligazón da conexión…"
 
-#: src/binaries/widget/mainwindow.ui:477
+#: src/binaries/widget/mainwindow.ui:474
 msgctxt "MainWindow|"
 msgid "WebPage"
 msgstr "Páxina web"
 
-#: src/binaries/widget/mainwindow.ui:480
+#: src/binaries/widget/mainwindow.ui:477
 msgctxt "MainWindow|"
 msgid "Ctrl+W"
 msgstr "Ctrl+R"
 
-#: src/binaries/widget/mainwindow.ui:485
+#: src/binaries/widget/mainwindow.ui:482
 msgctxt "MainWindow|"
 msgid "Password Generator"
 msgstr "Xerador de contrasinais"
 
-#: src/binaries/widget/mainwindow.ui:490
+#: src/binaries/widget/mainwindow.ui:487
 msgctxt "MainWindow|"
 msgid "Current Media as…"
 msgstr "Contido actual como…"
 
-#: src/binaries/widget/mainwindow.ui:507
+#: src/binaries/widget/mainwindow.ui:504
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
 msgstr "Título do contido na barra de ferramentas"
 
-#: src/binaries/widget/mainwindow.ui:516 src/binaries/widget/mainwindow.ui:528
+#: src/binaries/widget/mainwindow.ui:513 src/binaries/widget/mainwindow.ui:525
 msgctxt "MainWindow|"
 msgid "Mindmap"
 msgstr "Mapa mental"
 
-#: src/binaries/widget/mainwindow.ui:531
+#: src/binaries/widget/mainwindow.ui:528
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+O"
 msgstr "Ctrl+Maiús+O"
 
-#: src/binaries/widget/mainwindow.ui:543
+#: src/binaries/widget/mainwindow.ui:540
 msgctxt "MainWindow|"
 msgid "Instant messaging"
 msgstr "Mensaxaría instantánea"
 
-#: src/binaries/widget/mainwindow.ui:546
+#: src/binaries/widget/mainwindow.ui:543
 msgctxt "MainWindow|"
 msgid "Instant Messaging Window"
 msgstr "Xanela de mensaxaría instantánea"
 
-#: src/binaries/widget/mainwindow.ui:549
+#: src/binaries/widget/mainwindow.ui:546
 msgctxt "MainWindow|"
 msgid "Alt+I"
 msgstr "Alt+I"
 
-#: src/binaries/widget/mainwindow.ui:557
+#: src/binaries/widget/mainwindow.ui:554
 msgctxt "MainWindow|"
 msgid "Copy"
 msgstr "Copiar"
 
-#: src/binaries/widget/mainwindow.ui:560
+#: src/binaries/widget/mainwindow.ui:557
 msgctxt "MainWindow|"
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/binaries/widget/mainwindow.ui:571
+#: src/binaries/widget/mainwindow.ui:568
 msgctxt "MainWindow|"
 msgid "Paste"
 msgstr "Pegar"
 
-#: src/binaries/widget/mainwindow.ui:574
+#: src/binaries/widget/mainwindow.ui:571
 msgctxt "MainWindow|"
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/binaries/widget/mainwindow.ui:582
+#: src/binaries/widget/mainwindow.ui:579
 msgctxt "MainWindow|"
 msgid "Properties"
 msgstr "Propiedades"
 
-#: src/binaries/widget/mainwindow.ui:587
+#: src/binaries/widget/mainwindow.ui:584
 msgctxt "MainWindow|"
 msgid "Dice Alias"
 msgstr "Alias de dado"
 
-#: src/binaries/widget/mainwindow.ui:592
+#: src/binaries/widget/mainwindow.ui:589
 msgctxt "MainWindow|"
 msgid "Character States"
 msgstr "Estados de personaxe"
 
-#: src/binaries/widget/mainwindow.ui:597
+#: src/binaries/widget/mainwindow.ui:594
 msgctxt "MainWindow|"
 msgid "Statistics"
 msgstr "Estatísticas"
 
-#: src/binaries/widget/mainwindow.ui:602
+#: src/binaries/widget/mainwindow.ui:599
 msgctxt "MainWindow|"
 msgid "Theme"
 msgstr "Tema"
 
-#: src/binaries/widget/mainwindow.ui:607
+#: src/binaries/widget/mainwindow.ui:604
 msgctxt "MainWindow|"
 msgid "New Campaign"
 msgstr "Nova campaña"
 
-#: src/binaries/widget/mainwindow.ui:612
+#: src/binaries/widget/mainwindow.ui:609
 msgctxt "MainWindow|"
 msgid "Save Campaign As…"
 msgstr "Gardar a campaña como…"
 
-#: src/binaries/widget/mainwindow.ui:617
+#: src/binaries/widget/mainwindow.ui:614
 msgctxt "MainWindow|"
 msgid "Non Playable Characters"
 msgstr "Personaxes non xogábeis"
 
-#: src/binaries/widget/mainwindow.ui:622
+#: src/binaries/widget/mainwindow.ui:619
 msgctxt "MainWindow|"
 msgid "Manage…"
 msgstr "Xestionar…"
 
-#: src/binaries/widget/mainwindow.ui:627
+#: src/binaries/widget/mainwindow.ui:624
 msgctxt "MainWindow|"
 msgid "Remove…"
 msgstr "Retirar…"
 
 # skip-rule: trasno-clean
-#: src/binaries/widget/mainwindow.ui:632
+#: src/binaries/widget/mainwindow.ui:629
 msgctxt "MainWindow|"
 msgid "Clean"
 msgstr "Baleirar"
 
-#: src/binaries/widget/mainwindow.ui:640
+#: src/binaries/widget/mainwindow.ui:637
 msgctxt "MainWindow|"
 msgid "Import from another campaign…"
 msgstr "Importar doutra campaña…"
 
-#: src/binaries/widget/mainwindow.ui:652
+#: src/binaries/widget/mainwindow.ui:649
 msgctxt "MainWindow|"
 msgid "Dice3D"
 msgstr "Dado 2D"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:14
 msgctxt "ContextualMenu|"
 msgid "Next Page"
 msgstr "Seguinte páxina"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:19
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:20
 msgctxt "ContextualMenu|"
 msgid "Previous Page"
 msgstr "Páxina anterior"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:28
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:29
 msgctxt "ContextualMenu|"
 msgid "Adapt Width to Window"
 msgstr "Adaptar a anchura á xanela"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:37
 msgctxt "ContextualMenu|"
 msgid "Zoom Min"
 msgstr "Ampliación mínima"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:45
 msgctxt "ContextualMenu|"
 msgid "Reset Zoom"
 msgstr "Restaurar a ampliación"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:51
 msgctxt "ContextualMenu|"
 msgid "Zoom Max"
 msgstr "Ampliación máxima"
@@ -2364,24 +2364,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Retirar a última liña"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:606
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:619
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Nome dos campos"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:644
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:657
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Sección baleira %1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:651
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:664
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Sección_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:675
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:688
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2513,7 +2513,7 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "Fornecer o ficheiro ao equipo desenvolvedor de Rolisteam."
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:448
+#: src/libraries/core/src/controller/contentcontroller.cpp:460
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Copiouse a imaxe"
@@ -3726,12 +3726,20 @@ msgctxt "PermissionFrame|"
 msgid "All"
 msgstr "Todos"
 
-#: src/libraries/qml_views/CustomItems/PersonEdit.qml:30
+#: src/libraries/qml_views/CustomItems/PersonEdit.qml:46
+#, fuzzy
+#| msgctxt "rcse::MainWindow|"
+#| msgid "Load Image"
+msgctxt "PersonEdit|"
+msgid "No Image"
+msgstr "Cargar unha imaxe"
+
+#: src/libraries/qml_views/CustomItems/PersonEdit.qml:56
 msgctxt "PersonEdit|"
 msgid "Name:"
 msgstr "Nome:"
 
-#: src/libraries/qml_views/CustomItems/PersonEdit.qml:38
+#: src/libraries/qml_views/CustomItems/PersonEdit.qml:64
 msgctxt "PersonEdit|"
 msgid "Color:"
 msgstr "Cor:"
@@ -3909,12 +3917,17 @@ msgctxt "ConnectionForm|"
 msgid "Save profiles"
 msgstr "Gardar os perfís"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:320
+#: src/libraries/qml_views/views/ConnectionForm.qml:315
+msgctxt "ConnectionForm|"
+msgid "Please, set data where you see red borders."
+msgstr ""
+
+#: src/libraries/qml_views/views/ConnectionForm.qml:322
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Conectar"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:335
+#: src/libraries/qml_views/views/ConnectionForm.qml:337
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Cancelar"
@@ -8594,6 +8607,10 @@ msgstr "Durmindo"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Cun meigallo"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "&GM ToolBoxes"
+#~ msgstr "Caixa de ferramentas de &dirección"
 
 #~ msgctxt "MindMapControllerBase|"
 #~ msgid "Root"

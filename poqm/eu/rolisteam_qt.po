@@ -481,7 +481,7 @@ msgctxt "PdfManager|"
 msgid "Current page"
 msgstr "Uneko orrialdea"
 
-#: src/binaries/rcse/dialog/sheetproperties.cpp:17
+#: src/binaries/rcse/dialog/sheetproperties.cpp:19
 msgctxt "SheetProperties|"
 msgid "Add Font file"
 msgstr "Gehitu letra-tipo fitxategia"
@@ -493,31 +493,36 @@ msgstr "Orriaren propietatea"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
+msgid "Fill width by default"
+msgstr ""
+
+#: src/binaries/rcse/dialog/sheetproperties.ui:36
+msgctxt "SheetProperties|"
 msgid "Default scale:"
 msgstr "Eskala lehenetsia:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:60
+#: src/binaries/rcse/dialog/sheetproperties.ui:85
 msgctxt "SheetProperties|"
 msgid "Additional Import:"
 msgstr "Inportatze osagarria:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:94
+#: src/binaries/rcse/dialog/sheetproperties.ui:119
 msgctxt "SheetProperties|"
 msgid "Additional Head Code:"
 msgstr "Buruko kode osagarria:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:121
+#: src/binaries/rcse/dialog/sheetproperties.ui:146
 msgctxt "SheetProperties|"
 msgid "Additional Bottom Code:"
 msgstr "Beheko kode osagarria:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:146
+#: src/binaries/rcse/dialog/sheetproperties.ui:171
 msgctxt "SheetProperties|"
 msgid "Embedded Fonts:"
 msgstr "Txertatutako letra-tipoak:"
 
-#: src/binaries/rcse/dialog/sheetproperties.ui:157
-#: src/binaries/rcse/dialog/sheetproperties.ui:168
+#: src/binaries/rcse/dialog/sheetproperties.ui:182
+#: src/binaries/rcse/dialog/sheetproperties.ui:193
 msgctxt "SheetProperties|"
 msgid "..."
 msgstr "..."
@@ -1058,7 +1063,7 @@ msgid "Open"
 msgstr "Ireki"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:826
-#: src/binaries/widget/mainwindow.ui:519
+#: src/binaries/widget/mainwindow.ui:516
 msgctxt "MainWindow|"
 msgid "Ctrl+O"
 msgstr "Ktrl+O"
@@ -1069,7 +1074,7 @@ msgid "Save"
 msgstr "Gorde"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:834
-#: src/binaries/widget/mainwindow.ui:390
+#: src/binaries/widget/mainwindow.ui:387
 msgctxt "MainWindow|"
 msgid "Ctrl+S"
 msgstr "Ktrl+S"
@@ -1090,19 +1095,19 @@ msgid "New"
 msgstr "Berria"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:850
-#: src/binaries/widget/mainwindow.ui:258
+#: src/binaries/widget/mainwindow.ui:255
 msgctxt "MainWindow|"
 msgid "Ctrl+N"
 msgstr "Ktrl+N"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:855
-#: src/binaries/widget/mainwindow.ui:193
+#: src/binaries/widget/mainwindow.ui:190
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Irten"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:858
-#: src/binaries/widget/mainwindow.ui:196
+#: src/binaries/widget/mainwindow.ui:193
 msgctxt "MainWindow|"
 msgid "Ctrl+Q"
 msgstr "Ktrl+Q"
@@ -1143,7 +1148,7 @@ msgid "Code To Sheet"
 msgstr "Kodea orrira"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:933
-#: src/binaries/widget/mainwindow.ui:464
+#: src/binaries/widget/mainwindow.ui:461
 msgctxt "MainWindow|"
 msgid "Ctrl+D"
 msgstr "Ktrl+D"
@@ -1170,7 +1175,7 @@ msgstr "Hobespenak"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1025
 #: src/binaries/rcse/mainwindow_rcse.ui:1036
-#: src/binaries/widget/mainwindow.ui:185
+#: src/binaries/widget/mainwindow.ui:182
 msgctxt "MainWindow|"
 msgid "Ctrl+P"
 msgstr "Ktrl+P"
@@ -1218,7 +1223,7 @@ msgid "&Redo"
 msgstr "Be&rregin"
 
 #: src/binaries/rcse/mainwindow_rcse.ui:1113
-#: src/binaries/widget/mainwindow.ui:433 src/binaries/widget/mainwindow.ui:499
+#: src/binaries/widget/mainwindow.ui:430 src/binaries/widget/mainwindow.ui:496
 msgctxt "MainWindow|"
 msgid "Support Rolisteam"
 msgstr "Sostengatu «Rolisteam»"
@@ -1676,7 +1681,7 @@ msgstr "Mapa:"
 
 #: src/binaries/widget/mainwindow.cpp:539
 #: src/binaries/widget/mainwindow.cpp:578
-#: src/binaries/widget/mainwindow.cpp:801 src/binaries/widget/mainwindow.ui:288
+#: src/binaries/widget/mainwindow.cpp:801 src/binaries/widget/mainwindow.ui:285
 msgctxt "MainWindow|"
 msgid "Open Campaign"
 msgstr "Ireki kanpaina bat"
@@ -1881,405 +1886,400 @@ msgstr "&Editatu"
 
 #: src/binaries/widget/mainwindow.ui:115
 msgctxt "MainWindow|"
-msgid "&GM ToolBoxes"
-msgstr "&JM tresna-kutxak"
-
-#: src/binaries/widget/mainwindow.ui:120
-msgctxt "MainWindow|"
 msgid "&Campaign"
 msgstr "&Kanpaina"
 
-#: src/binaries/widget/mainwindow.ui:136
+#: src/binaries/widget/mainwindow.ui:131
 msgctxt "MainWindow|"
 msgid "&History"
 msgstr "&Historia"
 
-#: src/binaries/widget/mainwindow.ui:154
+#: src/binaries/widget/mainwindow.ui:148
 msgctxt "MainWindow|"
 msgid "toolBar"
 msgstr "Tresna-barra"
 
-#: src/binaries/widget/mainwindow.ui:171
+#: src/binaries/widget/mainwindow.ui:168
 msgctxt "MainWindow|"
 msgid "Close File"
 msgstr "Itxi fitxategia"
 
-#: src/binaries/widget/mainwindow.ui:174
+#: src/binaries/widget/mainwindow.ui:171
 msgctxt "MainWindow|"
 msgid "Ctrl+Esc"
 msgstr "Ktrl+Ihes"
 
-#: src/binaries/widget/mainwindow.ui:182
+#: src/binaries/widget/mainwindow.ui:179
 msgctxt "MainWindow|"
 msgid "Preferences…"
 msgstr "Hobespenak..."
 
-#: src/binaries/widget/mainwindow.ui:204
+#: src/binaries/widget/mainwindow.ui:201
 msgctxt "MainWindow|"
 msgid "Tab"
 msgstr "Fitxa"
 
-#: src/binaries/widget/mainwindow.ui:207
+#: src/binaries/widget/mainwindow.ui:204
 msgctxt "MainWindow|"
 msgid "F2"
 msgstr "F2"
 
-#: src/binaries/widget/mainwindow.ui:212
+#: src/binaries/widget/mainwindow.ui:209
 msgctxt "MainWindow|"
 msgid "Cascade"
 msgstr "Turrusta"
 
-#: src/binaries/widget/mainwindow.ui:215 src/binaries/widget/mainwindow.ui:316
+#: src/binaries/widget/mainwindow.ui:212 src/binaries/widget/mainwindow.ui:313
 msgctxt "MainWindow|"
 msgid "Alt+C"
 msgstr "Alt+C"
 
-#: src/binaries/widget/mainwindow.ui:220
+#: src/binaries/widget/mainwindow.ui:217
 msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Lauza"
 
-#: src/binaries/widget/mainwindow.ui:223
+#: src/binaries/widget/mainwindow.ui:220
 msgctxt "MainWindow|"
 msgid "Alt+T"
 msgstr "Alt+T"
 
-#: src/binaries/widget/mainwindow.ui:228
+#: src/binaries/widget/mainwindow.ui:225
 msgctxt "MainWindow|"
 msgid "Disconnection…"
 msgstr "Deskonexioa..."
 
-#: src/binaries/widget/mainwindow.ui:233
+#: src/binaries/widget/mainwindow.ui:230
 msgctxt "MainWindow|"
 msgid "Rolisteam Help"
 msgstr "«Rolisteam»en Laguntza"
 
-#: src/binaries/widget/mainwindow.ui:236
+#: src/binaries/widget/mainwindow.ui:233
 msgctxt "MainWindow|"
 msgid "online documentation"
 msgstr "lerroko dokumentazioa"
 
-#: src/binaries/widget/mainwindow.ui:239
+#: src/binaries/widget/mainwindow.ui:236
 msgctxt "MainWindow|"
 msgid "F1"
 msgstr "F1"
 
-#: src/binaries/widget/mainwindow.ui:247
+#: src/binaries/widget/mainwindow.ui:244
 msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "«Rolisteam»eri buruz"
 
-#: src/binaries/widget/mainwindow.ui:255 src/binaries/widget/mainwindow.ui:277
+#: src/binaries/widget/mainwindow.ui:252 src/binaries/widget/mainwindow.ui:274
 msgctxt "MainWindow|"
 msgid "Note"
 msgstr "Oharra"
 
-#: src/binaries/widget/mainwindow.ui:266
+#: src/binaries/widget/mainwindow.ui:263
 msgctxt "MainWindow|"
 msgid "Picture"
 msgstr "Argazkia"
 
-#: src/binaries/widget/mainwindow.ui:269
+#: src/binaries/widget/mainwindow.ui:266
 msgctxt "MainWindow|"
 msgid "Ctrl+I"
 msgstr "Ktrl+I"
 
-#: src/binaries/widget/mainwindow.ui:280
+#: src/binaries/widget/mainwindow.ui:277
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+N"
 msgstr "Ktrl+Maius+N"
 
-#: src/binaries/widget/mainwindow.ui:291
+#: src/binaries/widget/mainwindow.ui:288
 msgctxt "MainWindow|"
 msgid "Ctrl+E"
 msgstr "Ktrl+E"
 
-#: src/binaries/widget/mainwindow.ui:299
+#: src/binaries/widget/mainwindow.ui:296
 msgctxt "MainWindow|"
 msgid "Online Picture"
 msgstr "Lerroko irudia"
 
-#: src/binaries/widget/mainwindow.ui:302
+#: src/binaries/widget/mainwindow.ui:299
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+I"
 msgstr "Ktrl+Maius+I"
 
-#: src/binaries/widget/mainwindow.ui:313
+#: src/binaries/widget/mainwindow.ui:310
 msgctxt "MainWindow|"
 msgid "Character List"
 msgstr "Pertsonaia-zerrenda"
 
-#: src/binaries/widget/mainwindow.ui:324
+#: src/binaries/widget/mainwindow.ui:321
 msgctxt "MainWindow|"
 msgid "ToolBar"
 msgstr "Tresna-barra"
 
-#: src/binaries/widget/mainwindow.ui:327
+#: src/binaries/widget/mainwindow.ui:324
 msgctxt "MainWindow|"
 msgid "F8"
 msgstr "F8"
 
-#: src/binaries/widget/mainwindow.ui:336 src/binaries/widget/mainwindow.ui:348
+#: src/binaries/widget/mainwindow.ui:333 src/binaries/widget/mainwindow.ui:345
 msgctxt "MainWindow|"
 msgid "Map"
 msgstr "Mapa"
 
-#: src/binaries/widget/mainwindow.ui:339
+#: src/binaries/widget/mainwindow.ui:336
 msgctxt "MainWindow|"
 msgid "Ctrl+M"
 msgstr "Ktrl+M"
 
-#: src/binaries/widget/mainwindow.ui:351
+#: src/binaries/widget/mainwindow.ui:348
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+M"
 msgstr "Ktrl+Maius+M"
 
-#: src/binaries/widget/mainwindow.ui:359
+#: src/binaries/widget/mainwindow.ui:356
 msgctxt "MainWindow|"
 msgid "Show Health State"
 msgstr "Erakutsi osasun egoera"
 
-#: src/binaries/widget/mainwindow.ui:362
+#: src/binaries/widget/mainwindow.ui:359
 msgctxt "MainWindow|"
 msgid "F6"
 msgstr "F6"
 
-#: src/binaries/widget/mainwindow.ui:367
+#: src/binaries/widget/mainwindow.ui:364
 msgctxt "MainWindow|"
 msgid "Change Profile…"
 msgstr "Aldatu profila..."
 
-#: src/binaries/widget/mainwindow.ui:376
+#: src/binaries/widget/mainwindow.ui:373
 msgctxt "MainWindow|"
 msgid "Character Sheet"
 msgstr "Pertsonaiaren orria"
 
-#: src/binaries/widget/mainwindow.ui:379
+#: src/binaries/widget/mainwindow.ui:376
 msgctxt "MainWindow|"
 msgid "Ctrl+U"
 msgstr "Ktrl+U"
 
-#: src/binaries/widget/mainwindow.ui:387
+#: src/binaries/widget/mainwindow.ui:384
 msgctxt "MainWindow|"
 msgid "Save Campaign"
 msgstr "Gorde kanpaina"
 
-#: src/binaries/widget/mainwindow.ui:398
+#: src/binaries/widget/mainwindow.ui:395
 msgctxt "MainWindow|"
 msgid "Room List"
 msgstr "Gela-zerrenda"
 
-#: src/binaries/widget/mainwindow.ui:401
+#: src/binaries/widget/mainwindow.ui:398
 msgctxt "MainWindow|"
 msgid "F10"
 msgstr "F10"
 
-#: src/binaries/widget/mainwindow.ui:410 src/binaries/widget/mainwindow.ui:422
+#: src/binaries/widget/mainwindow.ui:407 src/binaries/widget/mainwindow.ui:419
 msgctxt "MainWindow|"
 msgid "Shared Note"
 msgstr "Ohar-partekatua"
 
-#: src/binaries/widget/mainwindow.ui:413
+#: src/binaries/widget/mainwindow.ui:410
 msgctxt "MainWindow|"
 msgid "Ctrl+K"
 msgstr "Ktrl+K"
 
-#: src/binaries/widget/mainwindow.ui:425
+#: src/binaries/widget/mainwindow.ui:422
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+K"
 msgstr "Ktrl+Maius+K"
 
-#: src/binaries/widget/mainwindow.ui:438
+#: src/binaries/widget/mainwindow.ui:435
 msgctxt "MainWindow|"
 msgid "Shortcut Viewer…"
 msgstr "Laster-bide erakuslea..."
 
-#: src/binaries/widget/mainwindow.ui:441
+#: src/binaries/widget/mainwindow.ui:438
 msgctxt "MainWindow|"
 msgid "Ctrl+F1"
 msgstr "Ktrl+F1"
 
-#: src/binaries/widget/mainwindow.ui:449
+#: src/binaries/widget/mainwindow.ui:446
 msgctxt "MainWindow|"
 msgid "Full Screen"
 msgstr "Pantaila-betea"
 
-#: src/binaries/widget/mainwindow.ui:452
+#: src/binaries/widget/mainwindow.ui:449
 msgctxt "MainWindow|"
 msgid "F11"
 msgstr "F11"
 
-#: src/binaries/widget/mainwindow.ui:461
+#: src/binaries/widget/mainwindow.ui:458
 msgctxt "MainWindow|"
 msgid "PDF File"
 msgstr "PDF fitxategia"
 
-#: src/binaries/widget/mainwindow.ui:469
+#: src/binaries/widget/mainwindow.ui:466
 msgctxt "MainWindow|"
 msgid "Copy Connection Link…"
 msgstr "Kopiatu konexio esteka..."
 
-#: src/binaries/widget/mainwindow.ui:477
+#: src/binaries/widget/mainwindow.ui:474
 msgctxt "MainWindow|"
 msgid "WebPage"
 msgstr "Web-orria"
 
-#: src/binaries/widget/mainwindow.ui:480
+#: src/binaries/widget/mainwindow.ui:477
 msgctxt "MainWindow|"
 msgid "Ctrl+W"
 msgstr "Ktrl+W"
 
-#: src/binaries/widget/mainwindow.ui:485
+#: src/binaries/widget/mainwindow.ui:482
 msgctxt "MainWindow|"
 msgid "Password Generator"
 msgstr "Pasahitz sortzailea"
 
-#: src/binaries/widget/mainwindow.ui:490
+#: src/binaries/widget/mainwindow.ui:487
 msgctxt "MainWindow|"
 msgid "Current Media as…"
 msgstr "Uneko hedabidea ... gisa"
 
-#: src/binaries/widget/mainwindow.ui:507
+#: src/binaries/widget/mainwindow.ui:504
 msgctxt "MainWindow|"
 msgid "Media title in toolbar"
 msgstr "Hedabidearen titulua tresna-barran"
 
-#: src/binaries/widget/mainwindow.ui:516 src/binaries/widget/mainwindow.ui:528
+#: src/binaries/widget/mainwindow.ui:513 src/binaries/widget/mainwindow.ui:525
 msgctxt "MainWindow|"
 msgid "Mindmap"
 msgstr "Gogoeta-mapa"
 
-#: src/binaries/widget/mainwindow.ui:531
+#: src/binaries/widget/mainwindow.ui:528
 msgctxt "MainWindow|"
 msgid "Ctrl+Shift+O"
 msgstr "Ktrl+Maius+O"
 
-#: src/binaries/widget/mainwindow.ui:543
+#: src/binaries/widget/mainwindow.ui:540
 msgctxt "MainWindow|"
 msgid "Instant messaging"
 msgstr "Bat-bateko mezularitza"
 
-#: src/binaries/widget/mainwindow.ui:546
+#: src/binaries/widget/mainwindow.ui:543
 msgctxt "MainWindow|"
 msgid "Instant Messaging Window"
 msgstr "Bat-bateko mezularitza leihoa"
 
-#: src/binaries/widget/mainwindow.ui:549
+#: src/binaries/widget/mainwindow.ui:546
 msgctxt "MainWindow|"
 msgid "Alt+I"
 msgstr "Alt+I"
 
-#: src/binaries/widget/mainwindow.ui:557
+#: src/binaries/widget/mainwindow.ui:554
 msgctxt "MainWindow|"
 msgid "Copy"
 msgstr "Kopiatu"
 
-#: src/binaries/widget/mainwindow.ui:560
+#: src/binaries/widget/mainwindow.ui:557
 msgctxt "MainWindow|"
 msgid "Ctrl+C"
 msgstr "Ktrl+C"
 
-#: src/binaries/widget/mainwindow.ui:571
+#: src/binaries/widget/mainwindow.ui:568
 msgctxt "MainWindow|"
 msgid "Paste"
 msgstr "Itsatsi"
 
-#: src/binaries/widget/mainwindow.ui:574
+#: src/binaries/widget/mainwindow.ui:571
 msgctxt "MainWindow|"
 msgid "Ctrl+V"
 msgstr "Ktrl+V"
 
-#: src/binaries/widget/mainwindow.ui:582
+#: src/binaries/widget/mainwindow.ui:579
 msgctxt "MainWindow|"
 msgid "Properties"
 msgstr "Propietateak"
 
-#: src/binaries/widget/mainwindow.ui:587
+#: src/binaries/widget/mainwindow.ui:584
 msgctxt "MainWindow|"
 msgid "Dice Alias"
 msgstr "Dadoaren goitizena"
 
-#: src/binaries/widget/mainwindow.ui:592
+#: src/binaries/widget/mainwindow.ui:589
 msgctxt "MainWindow|"
 msgid "Character States"
 msgstr "Pertsonaiaren egoera"
 
-#: src/binaries/widget/mainwindow.ui:597
+#: src/binaries/widget/mainwindow.ui:594
 msgctxt "MainWindow|"
 msgid "Statistics"
 msgstr "Estatistikak"
 
-#: src/binaries/widget/mainwindow.ui:602
+#: src/binaries/widget/mainwindow.ui:599
 msgctxt "MainWindow|"
 msgid "Theme"
 msgstr "Gaia"
 
-#: src/binaries/widget/mainwindow.ui:607
+#: src/binaries/widget/mainwindow.ui:604
 msgctxt "MainWindow|"
 msgid "New Campaign"
 msgstr "Kanpaina berria"
 
-#: src/binaries/widget/mainwindow.ui:612
+#: src/binaries/widget/mainwindow.ui:609
 msgctxt "MainWindow|"
 msgid "Save Campaign As…"
 msgstr "Gorde kanpaina honela..."
 
-#: src/binaries/widget/mainwindow.ui:617
+#: src/binaries/widget/mainwindow.ui:614
 msgctxt "MainWindow|"
 msgid "Non Playable Characters"
 msgstr "Pertsonaia ez jokagarria"
 
-#: src/binaries/widget/mainwindow.ui:622
+#: src/binaries/widget/mainwindow.ui:619
 msgctxt "MainWindow|"
 msgid "Manage…"
 msgstr "Kudeatu..."
 
-#: src/binaries/widget/mainwindow.ui:627
+#: src/binaries/widget/mainwindow.ui:624
 msgctxt "MainWindow|"
 msgid "Remove…"
 msgstr "Kendu..."
 
-#: src/binaries/widget/mainwindow.ui:632
+#: src/binaries/widget/mainwindow.ui:629
 msgctxt "MainWindow|"
 msgid "Clean"
 msgstr "Hustu"
 
-#: src/binaries/widget/mainwindow.ui:640
+#: src/binaries/widget/mainwindow.ui:637
 msgctxt "MainWindow|"
 msgid "Import from another campaign…"
 msgstr "Inportatu beste kanpaina batetik..."
 
-#: src/binaries/widget/mainwindow.ui:652
+#: src/binaries/widget/mainwindow.ui:649
 msgctxt "MainWindow|"
 msgid "Dice3D"
 msgstr "Dice3D"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:13
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:14
 msgctxt "ContextualMenu|"
 msgid "Next Page"
 msgstr "Hurrengo orrialdea"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:19
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:20
 msgctxt "ContextualMenu|"
 msgid "Previous Page"
 msgstr "Aurreko orrialdea"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:28
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:29
 msgctxt "ContextualMenu|"
 msgid "Adapt Width to Window"
 msgstr "Egokitu zabalera leihora"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:36
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:37
 msgctxt "ContextualMenu|"
 msgid "Zoom Min"
 msgstr "Zoom min"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:44
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:45
 msgctxt "ContextualMenu|"
 msgid "Reset Zoom"
 msgstr "Berrezarri zooma"
 
-#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:50
+#: src/libraries/charactersheet/qml/Rolisteam/ContextualMenu.qml:51
 msgctxt "ContextualMenu|"
 msgid "Zoom Max"
 msgstr "Zoom max"
@@ -2377,24 +2377,24 @@ msgctxt "Tablev1|"
 msgid "Remove Last line"
 msgstr "Kendu azken lerroa"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:606
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:619
 msgctxt "CharacterSheetModel|"
 msgid "Fields name"
 msgstr "Eremuen izena"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:644
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:657
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Empty Section %1"
 msgstr "Hustu %1 atala"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:651
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:664
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Section_%1"
 msgstr "Atala_%1"
 
-#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:675
+#: src/libraries/charactersheet/src/charactersheet/charactersheetmodel.cpp:688
 #, qt-format
 msgctxt "CharacterSheetModel|"
 msgid "Field %1"
@@ -2526,7 +2526,7 @@ msgctxt "LogPanel|"
 msgid "Provide this file to Rolisteam developers"
 msgstr "Hornitu fitxategi hori Rolisteam garatzaileei"
 
-#: src/libraries/core/src/controller/contentcontroller.cpp:448
+#: src/libraries/core/src/controller/contentcontroller.cpp:460
 msgctxt "ContentController|"
 msgid "Copied Image"
 msgstr "Kopiatutako irudia"
@@ -3743,12 +3743,20 @@ msgctxt "PermissionFrame|"
 msgid "All"
 msgstr "Dena"
 
-#: src/libraries/qml_views/CustomItems/PersonEdit.qml:30
+#: src/libraries/qml_views/CustomItems/PersonEdit.qml:46
+#, fuzzy
+#| msgctxt "rcse::MainWindow|"
+#| msgid "Load Image"
+msgctxt "PersonEdit|"
+msgid "No Image"
+msgstr "Zamatu irudia"
+
+#: src/libraries/qml_views/CustomItems/PersonEdit.qml:56
 msgctxt "PersonEdit|"
 msgid "Name:"
 msgstr "Izena:"
 
-#: src/libraries/qml_views/CustomItems/PersonEdit.qml:38
+#: src/libraries/qml_views/CustomItems/PersonEdit.qml:64
 msgctxt "PersonEdit|"
 msgid "Color:"
 msgstr "Kolorea."
@@ -3935,12 +3943,17 @@ msgctxt "ConnectionForm|"
 msgid "Save profiles"
 msgstr "Gorde profilak"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:320
+#: src/libraries/qml_views/views/ConnectionForm.qml:315
+msgctxt "ConnectionForm|"
+msgid "Please, set data where you see red borders."
+msgstr ""
+
+#: src/libraries/qml_views/views/ConnectionForm.qml:322
 msgctxt "ConnectionForm|"
 msgid "Connect"
 msgstr "Konektatu"
 
-#: src/libraries/qml_views/views/ConnectionForm.qml:335
+#: src/libraries/qml_views/views/ConnectionForm.qml:337
 msgctxt "ConnectionForm|"
 msgid "Cancel"
 msgstr "Utzi"
@@ -8645,6 +8658,10 @@ msgstr "Lotan"
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Sorginduta"
+
+#~ msgctxt "MainWindow|"
+#~ msgid "&GM ToolBoxes"
+#~ msgstr "&JM tresna-kutxak"
 
 #~ msgctxt "MindMapControllerBase|"
 #~ msgid "Root"
