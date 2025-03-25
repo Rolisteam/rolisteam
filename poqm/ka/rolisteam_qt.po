@@ -488,7 +488,7 @@ msgstr "გვერდის თვისებები"
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
 msgid "Fill width by default"
-msgstr ""
+msgstr "სიგანის შევსება ნაგულისხმევად"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:36
 msgctxt "SheetProperties|"
@@ -3726,12 +3726,9 @@ msgid "All"
 msgstr "ყველა"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:46
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Load Image"
 msgctxt "PersonEdit|"
 msgid "No Image"
-msgstr "გამოსახულების ჩატვირთვა"
+msgstr "გამოსახულების გარეშე"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:56
 msgctxt "PersonEdit|"
@@ -3919,7 +3916,7 @@ msgstr "პროფილების შენახვა"
 #: src/libraries/qml_views/views/ConnectionForm.qml:315
 msgctxt "ConnectionForm|"
 msgid "Please, set data where you see red borders."
-msgstr ""
+msgstr "დააყენეთ მონაცემები, სადაც წითელ საზღვრებს ნახავთ."
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:322
 msgctxt "ConnectionForm|"

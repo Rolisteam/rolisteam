@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Rolisteam\n"
 "POT-Creation-Date: 2022-08-03 00:45+0000\n"
-"PO-Revision-Date: 2025-03-10 07:30+0100\n"
+"PO-Revision-Date: 2025-03-24 07:30+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -496,7 +496,7 @@ msgstr "Lastnost lista"
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
 msgid "Fill width by default"
-msgstr ""
+msgstr "Privzeta širina polnila"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:36
 msgctxt "SheetProperties|"
@@ -3734,12 +3734,9 @@ msgid "All"
 msgstr "Vse"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:46
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Load Image"
 msgctxt "PersonEdit|"
 msgid "No Image"
-msgstr "Naloži sliko"
+msgstr "Ni slike"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:56
 msgctxt "PersonEdit|"
@@ -3927,7 +3924,7 @@ msgstr "Shrani profile"
 #: src/libraries/qml_views/views/ConnectionForm.qml:315
 msgctxt "ConnectionForm|"
 msgid "Please, set data where you see red borders."
-msgstr ""
+msgstr "Nastavite podatke tam, kjer vidite rdeče obrobe."
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:322
 msgctxt "ConnectionForm|"

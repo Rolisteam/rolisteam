@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-03-10 12:35+0300\n"
+"PO-Revision-Date: 2025-03-24 22:37+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #: src/binaries/mindmap/main.cpp:93 src/binaries/rcse/main.cpp:76
 msgctxt "QObject|"
@@ -489,7 +489,7 @@ msgstr "Sayfa Özellikleri"
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
 msgid "Fill width by default"
-msgstr ""
+msgstr "Genişliği öntanımlı olarak doldur"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:36
 msgctxt "SheetProperties|"
@@ -3726,12 +3726,9 @@ msgid "All"
 msgstr "Tümü"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:46
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Load Image"
 msgctxt "PersonEdit|"
 msgid "No Image"
-msgstr "Görseli Yükle"
+msgstr "Görsel Yok"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:56
 msgctxt "PersonEdit|"
@@ -3919,7 +3916,7 @@ msgstr "Profilleri kaydet"
 #: src/libraries/qml_views/views/ConnectionForm.qml:315
 msgctxt "ConnectionForm|"
 msgid "Please, set data where you see red borders."
-msgstr ""
+msgstr "Kırmızı kenarlık gördüğünüz yerlerde veriyi ayarlayın."
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:322
 msgctxt "ConnectionForm|"

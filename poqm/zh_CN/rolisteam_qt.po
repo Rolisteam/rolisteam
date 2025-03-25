@@ -3701,12 +3701,9 @@ msgid "All"
 msgstr ""
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:46
-#, fuzzy
-#| msgctxt "ImportDataFromCampaignDialog|"
-#| msgid "Images"
 msgctxt "PersonEdit|"
 msgid "No Image"
-msgstr "图像"
+msgstr ""
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:56
 msgctxt "PersonEdit|"
@@ -8459,7 +8456,3 @@ msgstr ""
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr ""
-
-#~ msgctxt "MainWindow|"
-#~ msgid "&GM ToolBoxes"
-#~ msgstr "GM 工具箱 (&G) "

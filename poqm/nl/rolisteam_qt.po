@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-03-10 12:21+0100\n"
+"PO-Revision-Date: 2025-03-24 11:54+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -488,7 +488,7 @@ msgstr "Werkbladeigenschappen"
 #: src/binaries/rcse/dialog/sheetproperties.ui:26
 msgctxt "SheetProperties|"
 msgid "Fill width by default"
-msgstr ""
+msgstr "Breedte standaard vullen"
 
 #: src/binaries/rcse/dialog/sheetproperties.ui:36
 msgctxt "SheetProperties|"
@@ -3721,12 +3721,9 @@ msgid "All"
 msgstr "Alles"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:46
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Load Image"
 msgctxt "PersonEdit|"
 msgid "No Image"
-msgstr "Afbeelding Inlezen"
+msgstr "Geen afbeelding"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:56
 msgctxt "PersonEdit|"
@@ -3914,7 +3911,7 @@ msgstr "Profielen opslaan"
 #: src/libraries/qml_views/views/ConnectionForm.qml:315
 msgctxt "ConnectionForm|"
 msgid "Please, set data where you see red borders."
-msgstr ""
+msgstr "Stel gegevens in waar u rode randen ziet."
 
 #: src/libraries/qml_views/views/ConnectionForm.qml:322
 msgctxt "ConnectionForm|"
