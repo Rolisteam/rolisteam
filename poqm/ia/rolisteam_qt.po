@@ -1,8 +1,9 @@
 # SPDX-FileCopyrightText: 2023, 2024, 2025 giovanni <g.sora@tiscali.it>
+# giovanni <g.sora@tiscali.it>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"PO-Revision-Date: 2025-03-11 10:44+0100\n"
+"PO-Revision-Date: 2025-03-25 12:35+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -11,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: src/binaries/mindmap/main.cpp:93 src/binaries/rcse/main.cpp:76
 msgctxt "QObject|"
@@ -3685,12 +3686,9 @@ msgid "All"
 msgstr "Toto"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:46
-#, fuzzy
-#| msgctxt "rcse::MainWindow|"
-#| msgid "Load Image"
 msgctxt "PersonEdit|"
 msgid "No Image"
-msgstr "Carga image"
+msgstr "Necun image"
 
 #: src/libraries/qml_views/CustomItems/PersonEdit.qml:56
 msgctxt "PersonEdit|"
